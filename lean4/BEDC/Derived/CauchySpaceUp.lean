@@ -171,20 +171,126 @@ theorem CauchySpaceCarrier_precompletion_nonescape_obligation
     ⟨rUnary, qUnary, tUnary, handoffUnary, consumerUnary, handoffRoute, consumerRoute,
       transportRow⟩
 
-theorem CauchySpaceCarrier_regular_name_handoff_obligation {F U R Q T H C P N consumer : BHist} :
+theorem CauchySpaceCarrier_regular_name_handoff_obligation
+    {F U R Q T H C P N handoff named : BHist} :
     CauchySpaceCarrier F U R Q T H C P N ->
-      Cont R Q consumer ->
-        UnaryHistory F ∧ UnaryHistory U ∧ UnaryHistory R ∧ UnaryHistory Q ∧
-          UnaryHistory consumer ∧ Cont F U R ∧ Cont R Q consumer ∧
-            hsame H (append F U) := by
+      Cont R Q handoff ->
+        Cont handoff N named ->
+          UnaryHistory R ∧ UnaryHistory Q ∧ UnaryHistory N ∧ UnaryHistory handoff ∧
+            UnaryHistory named ∧ Cont R Q handoff ∧ Cont handoff N named ∧
+              hsame H (append F U) := by
   -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
-  intro carrier consumerRoute
-  obtain ⟨fUnary, uUnary, rUnary, qUnary, _tUnary, _hUnary, _cUnary, _pUnary, _nUnary,
-    transportRow, filterRoute, _nameRoute⟩ := carrier
-  have consumerUnary : UnaryHistory consumer :=
-    unary_cont_closed rUnary qUnary consumerRoute
+  intro carrier handoffRoute namedRoute
+  obtain ⟨_fUnary, _uUnary, rUnary, qUnary, _tUnary, _hUnary, _cUnary, _pUnary,
+    nUnary, transportRow, _filterRoute, _nameRoute⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed rUnary qUnary handoffRoute
+  have namedUnary : UnaryHistory named :=
+    unary_cont_closed handoffUnary nUnary namedRoute
   exact
-    ⟨fUnary, uUnary, rUnary, qUnary, consumerUnary, filterRoute, consumerRoute,
+    ⟨rUnary, qUnary, nUnary, handoffUnary, namedUnary, handoffRoute, namedRoute,
       transportRow⟩
+
+theorem CauchySpaceCarrier_filter_uniform_completion_nonescape
+    {F0 F1 U0 R0 T0 H0 C0 P0 N0 replay consumer named : BHist} :
+    CauchySpaceCarrier F0 U0 R0 F1 T0 H0 C0 P0 N0 ->
+      Cont F0 U0 replay ->
+        Cont replay T0 consumer ->
+          Cont consumer P0 named ->
+            UnaryHistory F0 ∧ UnaryHistory U0 ∧ UnaryHistory R0 ∧ UnaryHistory T0 ∧
+              UnaryHistory replay ∧ UnaryHistory consumer ∧ UnaryHistory named ∧
+                hsame replay R0 ∧ hsame H0 (append F0 U0) ∧ Cont F0 U0 replay ∧
+                  Cont replay T0 consumer ∧ Cont consumer P0 named := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier replayRoute consumerRoute namedRoute
+  have interface :=
+    CauchySpaceCarrier_uniform_regseq_interface
+      (F := F0) (U := U0) (R := R0) (Q := F1) (T := T0) (H := H0)
+      (C := C0) (P := P0) (N := N0) (replay := replay) carrier replayRoute
+  obtain ⟨fUnary, uUnary, rUnary, replayUnary, replaySame, transportRow⟩ := interface
+  obtain ⟨_fUnary, _uUnary, _rUnary, _qUnary, tUnary, _hUnary, _cUnary, pUnary,
+    _nUnary, _transportRow, _filterRoute, _nameRoute⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed replayUnary tUnary consumerRoute
+  have namedUnary : UnaryHistory named :=
+    unary_cont_closed consumerUnary pUnary namedRoute
+  exact
+    ⟨fUnary, uUnary, rUnary, tUnary, replayUnary, consumerUnary, namedUnary,
+      replaySame, transportRow, replayRoute, consumerRoute, namedRoute⟩
+
+theorem CauchySpaceCarrier_namecert_ledger {F0 F1 U0 R0 T0 H0 C0 P0 N0 ledger : BHist} :
+    CauchySpaceCarrier F0 U0 R0 F1 T0 H0 C0 P0 N0 ->
+      Cont F0 U0 R0 ->
+        Cont R0 T0 ledger ->
+          Cont ledger P0 N0 ->
+            UnaryHistory F0 ∧ UnaryHistory U0 ∧ UnaryHistory R0 ∧ UnaryHistory T0 ∧
+              UnaryHistory ledger ∧ UnaryHistory P0 ∧ UnaryHistory N0 ∧
+                hsame H0 (append F0 U0) ∧ Cont F0 U0 R0 ∧ Cont R0 T0 ledger ∧
+                  Cont ledger P0 N0 := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier filterRoute ledgerRoute nameRoute
+  obtain ⟨fUnary, uUnary, rUnary, _qUnary, tUnary, _hUnary, _cUnary, pUnary,
+    _nUnary, transportRow, _carrierFilterRoute, _carrierNameRoute⟩ := carrier
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed rUnary tUnary ledgerRoute
+  have namedUnary : UnaryHistory N0 :=
+    unary_cont_closed ledgerUnary pUnary nameRoute
+  exact
+    ⟨fUnary, uUnary, rUnary, tUnary, ledgerUnary, pUnary, namedUnary,
+      transportRow, filterRoute, ledgerRoute, nameRoute⟩
+
+theorem CauchySpaceCarrier_obligation_coverage_route
+    {F0 F1 U0 R0 T0 H0 C0 P0 N0 regular completion ledger : BHist} :
+    CauchySpaceCarrier F0 U0 R0 F1 T0 H0 C0 P0 N0 ->
+      Cont F0 U0 R0 ->
+        Cont R0 F1 regular ->
+          Cont R0 T0 completion ->
+            Cont completion P0 ledger ->
+              UnaryHistory F0 ∧ UnaryHistory F1 ∧ UnaryHistory U0 ∧
+                UnaryHistory R0 ∧ UnaryHistory T0 ∧ UnaryHistory regular ∧
+                  UnaryHistory completion ∧ UnaryHistory ledger ∧ UnaryHistory P0 ∧
+                    UnaryHistory N0 ∧ hsame H0 (append F0 U0) ∧ Cont F0 U0 R0 ∧
+                      Cont R0 F1 regular ∧ Cont R0 T0 completion ∧
+                        Cont completion P0 ledger := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier filterRoute regularRoute completionRoute ledgerRoute
+  obtain ⟨fUnary, uUnary, rUnary, f1Unary, tUnary, _hUnary, _cUnary, pUnary, nUnary,
+    transportRow, _carrierFilterRoute, _carrierNameRoute⟩ := carrier
+  have regularUnary : UnaryHistory regular :=
+    unary_cont_closed rUnary f1Unary regularRoute
+  have completionUnary : UnaryHistory completion :=
+    unary_cont_closed rUnary tUnary completionRoute
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed completionUnary pUnary ledgerRoute
+  exact
+    ⟨fUnary, f1Unary, uUnary, rUnary, tUnary, regularUnary, completionUnary,
+      ledgerUnary, pUnary, nUnary, transportRow, filterRoute, regularRoute,
+      completionRoute, ledgerRoute⟩
+
+def CauchySpaceLocalFilterCarrier (F0 F1 U0 R0 T0 H0 C0 P0 N0 : BHist) : Prop :=
+  CauchySpaceCarrier F0 U0 R0 F1 T0 H0 C0 P0 N0 ∧ Cont R0 T0 H0
+
+theorem CauchySpaceLocalFilterCarrier_precompletion_factorization
+    {F0 F1 U0 R0 T0 H0 C0 P0 N0 completion named : BHist} :
+    CauchySpaceLocalFilterCarrier F0 F1 U0 R0 T0 H0 C0 P0 N0 ->
+      Cont F0 U0 R0 ->
+        Cont R0 T0 completion ->
+          Cont completion P0 named ->
+            UnaryHistory F0 ∧ UnaryHistory U0 ∧ UnaryHistory R0 ∧ UnaryHistory T0 ∧
+              UnaryHistory H0 ∧ UnaryHistory completion ∧ UnaryHistory named ∧
+                hsame H0 (append F0 U0) ∧ Cont F0 U0 R0 ∧ Cont R0 T0 H0 ∧
+                  Cont R0 T0 completion ∧ Cont completion P0 named := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro localCarrier filterRoute completionRoute namedRoute
+  obtain ⟨carrier, localPrecompletionRoute⟩ := localCarrier
+  obtain ⟨fUnary, uUnary, rUnary, _f1Unary, tUnary, hUnary, _cUnary, pUnary, _nUnary,
+    transportRow, _carrierFilterRoute, _nameRoute⟩ := carrier
+  have completionUnary : UnaryHistory completion :=
+    unary_cont_closed rUnary tUnary completionRoute
+  have namedUnary : UnaryHistory named :=
+    unary_cont_closed completionUnary pUnary namedRoute
+  exact
+    ⟨fUnary, uUnary, rUnary, tUnary, hUnary, completionUnary, namedUnary, transportRow,
+      filterRoute, localPrecompletionRoute, completionRoute, namedRoute⟩
 
 end BEDC.Derived.CauchySpaceUp

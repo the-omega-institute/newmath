@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BaireUltrametricUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -181,5 +183,24 @@ theorem BaireUltrametricTasteGate_single_carrier_alignment :
       ⟨baireUltrametricNontrivial⟩,
       BaireUltrametricTasteGate_single_carrier_alignment_decode,
       BaireUltrametricTasteGate_single_carrier_alignment_round_trip⟩
+
+theorem BaireUltrametricCarrier_prefix_stability
+    {B M V S H C P N B' M' V' S' H' C' P' N' : BHist}
+    (hB : hsame B B') (hM : hsame M M') (hV : hsame V V') (hS : hsame S S')
+    (hH : hsame H H') (hC : hsame C C') (hP : hsame P P') (hN : hsame N N') :
+    baireUltrametricToEventFlow (BaireUltrametricUp.mk B M V S H C P N) =
+        baireUltrametricToEventFlow (BaireUltrametricUp.mk B' M' V' S' H' C' P' N') ∧
+      Cont B M (append B M) ∧
+      Cont S C (append S C) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases hB
+  cases hM
+  cases hV
+  cases hS
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  exact ⟨rfl, rfl, rfl⟩
 
 end BEDC.Derived.BaireUltrametricUp

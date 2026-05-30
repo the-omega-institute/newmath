@@ -92,17 +92,30 @@ Thus an accepted export must pass through $I$ before being read as observer-inva
 
 \independenceWitness{realityconstrainedtowerpacket, realityconstrainedapproximationtower, observationreflectionpacket, physicalmodelaudit, realityconstrainedopenfit: each sibling supplies part of fit, signature, tower, handoff, audit, or refutation data, while none contains the full source, signature, classifier, tower, descent, invariant, ledger, failure-surface, transport, replay, provenance, and local NameCert truth-certificate packet.}
 
-The Lean follow-up must provide \texttt{Nontrivial CertifiedPhysicalTruthUp} and \texttt{FieldFaithful CertifiedPhysicalTruthUp} instances in \texttt{lean4/BEDC/Derived/CertifiedPhysicalTruthUp/TasteGate.lean}.
+The Lean TasteGate row provides \texttt{Nontrivial CertifiedPhysicalTruthUp} and \texttt{FieldFaithful CertifiedPhysicalTruthUp} instances in \texttt{lean4/BEDC/Derived/CertifiedPhysicalTruthUp/TasteGate.lean}.
+\leanchecked{BEDC.Derived.CertifiedPhysicalTruthUp.taste\_gate}
 
-\closureat{CertifiedPhysicalTruthUp}{seedStr}
+\begin{theorem}[CertifiedPhysicalTruth scoped transport coverage]
+\label{thm:certified-physical-truth-scoped-transport-coverage}
+For every accepted $\CertifiedPhysicalTruthUp$ packet, the rows $S,G,K,A,D,I,L,F,H,C,P,N$ cover every scoped transport and consumer read admitted by the chapter. Source, signature, classifier, approximation, descent, invariance, ledger, and failure reads are transported only through $H$; replay and provenance reads are exposed only through $C$ and $P$; and the local certificate is named only by $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:certified-physical-truth-carrier}. The packet contains exactly the source row $S$, signature row $G$, classifier row $K$, approximation row $A$, descent row $D$, invariance row $I$, ledger row $L$, failure row $F$, transport row $H$, replay row $C$, provenance row $P$, and local name $N$.
+
+Apply \autoref{def:certified-physical-truth-obligation-surface}. Its eight obligation rows are precisely the source, signature, classifier, approximation, descent, invariance, ledger, and failure surfaces; none is stored outside the displayed carrier.
+
+Finally use \autoref{thm:certified-physical-truth-reality-fit}, \autoref{thm:certified-physical-truth-failure-surface}, and \autoref{thm:certified-physical-truth-observer-invariance}. These theorems force truth, refutation, and invariance consumers through the same displayed rows, with $H,C,P,N$ supplying transport, replay, provenance, and local naming. Hence the scoped transport and consumer surface is exhausted by $S,G,K,A,D,I,L,F,H,C,P,N$.
+\end{proof}
+
+\closureat{CertifiedPhysicalTruthUp}{scopedStr}
 
 \begin{closurestatus}{\CertifiedPhysicalTruthUp}
   \constructivestory{A $\CertifiedPhysicalTruthUp$ packet is generated from finite source observations, a reality-facing signature, classifier, approximation tower, descent certificate, observer-invariance certificate, ledger, failure surface, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:certified-physical-truth-carrier}, \autoref{def:certified-physical-truth-obligation-surface}, \autoref{thm:certified-physical-truth-reality-fit}, \autoref{thm:certified-physical-truth-failure-surface}, and \autoref{thm:certified-physical-truth-observer-invariance} bind certified physical truth to finite fit, stability, descent, observer invariance, ledger, and failure-surface rows.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:certified-physical-truth-carrier}, \autoref{def:certified-physical-truth-obligation-surface}, \autoref{thm:certified-physical-truth-reality-fit}, \autoref{thm:certified-physical-truth-failure-surface}, \autoref{thm:certified-physical-truth-observer-invariance}, and \autoref{thm:certified-physical-truth-scoped-transport-coverage} bind certified physical truth to finite fit, stability, descent, observer invariance, ledger, failure-surface rows, and scoped transport coverage.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CertifiedPhysicalTruthUp.taste\_gate}
   \bridgestatus{none}
-  \origin{ai}
-  \notclaimed{This chapter does not assert model--reality identity, host-level truth, final physical fit, unbounded observation, Lean verification, or bridge checking for $\CertifiedPhysicalTruthUp$.}
-  \upgradepath{Obligation closure requires Lean encoding of the carrier, NameCert obligation surface, reality-fit theorem, failure-surface theorem, observer-invariance theorem, TasteGate nontriviality, and field faithfulness for $S,G,K,A,D,I,L,F,H,C,P,N$.}
+  \notclaimed{This chapter does not assert model--reality identity, host-level truth, final physical fit, unbounded observation, or bridge checking for $\CertifiedPhysicalTruthUp$.}
+  \upgradepath{Public closure requires a public-object surface beyond the scoped $S,G,K,A,D,I,L,F,H,C,P,N$ transport and consumer rows.}
 \end{closurestatus}

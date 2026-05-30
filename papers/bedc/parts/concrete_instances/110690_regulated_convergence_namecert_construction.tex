@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedConvergenceUp$}
+\label{ch:concrete-instances-regulated-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regulated functions and uniform convergence, the $\RegulatedConvergenceUp$ packet records the finite route by which a displayed sequence of regulated real functions converges uniformly to a regulated endpoint. It sits after the regulated-function carrier of \autoref{ch:concrete-instances-regulated-function-namecert}, the regulated-integral consumer boundary of \autoref{ch:concrete-instances-regulatedintegral-namecert}, the uniform-convergence ledger of \autoref{ch:concrete-instances-uniform-convergence-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite convergence-and-handoff surface; it does not import measure completion, quotient equality of functions, selected host limits, open-cover compactness, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Regulated convergence carrier]
+\label{def:regulated-convergence-carrier}
+A $\RegulatedConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+G=(F,U,W,R,E,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the source row naming the regulated-function family through $\RegulatedFunctionUp$ data, including the displayed interval, step-window, endpoint, and oscillation ledgers available to each inspected member.
+\item $U$ is the $\UniformConvergenceUp$ tail row, recording one shared tolerance schedule for the whole regulated family rather than pointwise schedules chosen separately at each argument.
+\item $W$ is the finite window row exposing exactly the function indices, domain windows, and endpoint reads used by the shared tail schedule.
+\item $R$ is the $\RegSeqRatUp$ readback row for the real-valued observations in those windows.
+\item $E$ is the terminal $\RealUp$ endpoint seal reached only after $F,U,W,R$ have been displayed.
+\item $I$ is the $\RegulatedIntegralUp$ handoff row; it records that integral-facing consumers may read the regulated endpoint only through the same finite regulated-function, uniform-tail, window, readback, and Real-seal route.
+\item $H$ records componentwise $\hsame$ transport for $F,U,W,R,E,I$ and for the structural rows.
+\item $C$ records displayed $\Cont$ replay for regulated-function reads, uniform-tail requests, finite window reads, regular rational readback, Real-seal requests, and integral handoff requests.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedConvergenceUp$, $\RegulatedFunctionUp$, $\RegulatedIntegralUp$, $\UniformConvergenceUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedConvergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $F,U,W,R,E,I,H,C,P,N$. It has no coordinate for a host function quotient, selected limiting function, measure completion, pointwise-only convergence, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regulated convergence NameCert obligations]
+\label{thm:regulated-convergence-namecert-obligations}
+For every accepted $\RegulatedConvergenceUp$ carrier
+$$
+G=(F,U,W,R,E,I,H,C,P,N),
+$$
+the local $\NameCert_{\RegulatedConvergenceUp}$ surface consists exactly of carrier admission for the regulated-function family row $F$, uniform-convergence tail row $U$, finite window row $W$, regular rational readback row $R$, terminal Real seal $E$, regulated-integral handoff row $I$, componentwise transport row $H$, displayed replay row $C$, package provenance row $P$, and local naming row $N$. Every endpoint-facing or integral-facing consumer must read these rows in the displayed route and cannot replace them by pointwise convergence, a selected host limit, quotient equality of functions, measure completion, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regulated-convergence-carrier}. The only analytic rows are the regulated-function family $F$, the shared uniform tail ledger $U$, the finite window row $W$, the regular rational readback $R$, the terminal Real seal $E$, and the integral handoff $I$.
+
+The convergence route is uniform. A consumer must read the single tail schedule $U$ before it can inspect the windows $W$ and the regular readback $R$, so pointwise-only schedules and externally selected host limits are not part of the packet.
+
+The endpoint and integral rows are downstream. The seal $E$ is exposed only after $F,U,W,R$, and the integral-facing row $I$ reads that same route rather than a separate measure-completion or function-quotient object.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no excluded row occurs in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regulated convergence integral handoff]
+\label{thm:regulated-convergence-integral-handoff}
+Let
+$$
+G=(F,U,W,R,E,I,H,C,P,N)
+$$
+be an accepted $\RegulatedConvergenceUp$ carrier. Every $\RegulatedIntegralUp$ consumer read of the limiting regulated function factors through the finite route
+$$
+\RegulatedFunctionUp(F),\ \UniformConvergenceUp(U),\ W,\ \RegSeqRatUp(R),\ \RealUp(E),\ \RegulatedIntegralUp(I).
+$$
+Thus the handoff to integration uses the same regulated-family rows, shared uniform-tail ledger, finite windows, regular rational readback, and Real seal as the convergence certificate. It supplies no measure completion, quotient function equality, selected limiting function, open-cover compactness, or ambient real-completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an integral-facing request. By the carrier definition, the only integral row is $I$, and its replay route in $C$ passes through the same regulated-family and convergence rows used by endpoint-facing consumers.
+
+Read the regulated source through $F$ and the uniform tail through $U$. The finite windows $W$ then expose the inspected function indices and domain reads, and the regular rational row $R$ records the real-valued observations visible at those windows.
+
+Only after this route is displayed can the terminal seal $E$ be consumed and handed to $I$. Componentwise transport in $H$ and replay in $C$ preserve the same rows, while $P$ and $N$ record their provenance and local naming.
+
+The carrier has no coordinate for measure completion, quotient function equality, selected limits, open-cover compactness, or ambient real completeness. Therefore every regulated-integral handoff is confined to the finite route displayed in the statement.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegulatedConvergenceUp$ consumer that reaches a $\RegulatedIntegralUp$ handoff without first reading $F,U,W,R,E,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{regulated-function, regulated-integral, uniform-convergence, regseqrat, real: none is bijective to $\RegulatedConvergenceUp$ because this packet jointly binds a regulated-function family, a shared uniform tail ledger, finite windows, regular rational readback, terminal Real seal, integral handoff, transport, replay, provenance, and local naming.}
+
+\closureat{RegulatedConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedConvergenceUp}
+  \constructivestory{A $\RegulatedConvergenceUp$ packet is generated from a regulated-function family row, UniformConvergence tail row, finite window row, RegSeqRat readback, terminal Real seal, RegulatedIntegral handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-convergence-carrier}, \autoref{thm:regulated-convergence-namecert-obligations}, and \autoref{thm:regulated-convergence-integral-handoff} seed the finite regulated-convergence route over regulated functions, uniform convergence, regular rational readback, Real seals, and regulated-integral consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure completion, quotient function equality, selected host limits, pointwise-only convergence, open-cover compactness, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regulated-family visibility, uniform-tail exactness, finite window readback, Real-seal nonescape, regulated-integral handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegulatedConvergenceUp.}
+\end{closurestatus}

@@ -1,0 +1,473 @@
+{
+  "version": "bio-reality-claims-v1",
+  "claims": [
+    {
+      "claim_id": "h0.R.cardinality.13",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "|R| = 13 (the set of codons reassigned in at least one alternative genetic code is exactly 13)",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "compute_R",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:15+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "5d4a3459997d",
+          "checks": {
+            "total": 2,
+            "passed": 2,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
+    },
+    {
+      "claim_id": "h0.R.motif.compression",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "R = CUN ∪ AGR ∪ UNA ∪ WWA ∪ UAR exactly",
+      "depends_on": [
+        "h0.R.cardinality.13"
+      ],
+      "status": "passed",
+      "experiment_id": "check_motif_compression",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:15+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "338799579a87",
+          "checks": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "orf_eligibility.seed.boundary"
+    },
+    {
+      "claim_id": "h0.R.punctured.cube",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "R = (WNA \\ ACA) ∪ CUN ∪ {UAG, AGG}; f-vector (13,16,4)",
+      "depends_on": [
+        "h0.R.cardinality.13"
+      ],
+      "status": "passed",
+      "experiment_id": "check_punctured_cube",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:16+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "e19917012c60",
+          "checks": {
+            "total": 2,
+            "passed": 2,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
+    },
+    {
+      "claim_id": "h0.M.equals.WNR.CUN",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Med(R) = WNR ∪ CUN, |M| = 20",
+      "depends_on": [
+        "h0.R.cardinality.13"
+      ],
+      "status": "passed",
+      "experiment_id": "check_M_equals_WNR_CUN",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:16+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "a53ef0f36703",
+          "checks": {
+            "total": 2,
+            "passed": 2,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "orf_eligibility.seed.boundary"
+    },
+    {
+      "claim_id": "h0.f3.saturation",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "∂_f3(M) = 0 (third-position wobble saturation)",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "passed",
+      "experiment_id": "check_f3_saturation",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:16+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "f4eee68dd2c3",
+          "checks": {
+            "total": 3,
+            "passed": 3,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "orf_eligibility.seed.boundary"
+    },
+    {
+      "claim_id": "h0.quotient.geometry",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "M = π(M) × Q1_f3 with π(M) = WNR^♭ ∪ CU{Y,R}",
+      "depends_on": [
+        "h0.f3.saturation"
+      ],
+      "status": "passed",
+      "experiment_id": "check_quotient_geometry",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:16+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "fd0a506a0881",
+          "checks": {
+            "total": 4,
+            "passed": 4,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "orf_eligibility.seed.boundary"
+    },
+    {
+      "claim_id": "h0.spectrum",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "λ(M) ≈ 0.675248 satisfies μ^6 - 12μ^4 + 26μ^2 - 9 = 0",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "passed",
+      "experiment_id": "compute_spectrum",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:16+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "1026324eff41",
+          "checks": {
+            "total": 2,
+            "passed": 2,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
+    },
+    {
+      "claim_id": "h0.null.model.significance",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "|Med(S)| = 20 is significant vs uniform random 13-codon support",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "failed",
+      "experiment_id": "null_model_uniform",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:24+00:00",
+          "status": "failed",
+          "reason": "experiment result",
+          "experiment_run_id": "4b511a5c2d7a",
+          "checks": {
+            "total": 3,
+            "passed": 1,
+            "failed": 2
+          }
+        },
+        {
+          "ts": "2026-05-25T10:18:55+00:00",
+          "status": "needs_rerun",
+          "reason": "experiment script or acceptance changed since last run"
+        },
+        {
+          "ts": "2026-05-25T10:19:40+00:00",
+          "status": "failed",
+          "reason": "experiment result",
+          "experiment_run_id": "8b1ba864cfd4",
+          "checks": {
+            "total": 2,
+            "passed": 1,
+            "failed": 1
+          }
+        },
+        {
+          "ts": "2026-05-25T17:21:45+00:00",
+          "status": "needs_rerun",
+          "reason": "experiment script or acceptance changed since last run"
+        },
+        {
+          "ts": "2026-05-25T17:22:28+00:00",
+          "status": "failed",
+          "reason": "experiment result",
+          "experiment_run_id": "f4f95769bf15",
+          "checks": {
+            "total": 2,
+            "passed": 1,
+            "failed": 1
+          }
+        },
+        {
+          "ts": "2026-05-25T17:33:59+00:00",
+          "status": "needs_rerun",
+          "reason": "experiment script or acceptance changed since last run"
+        },
+        {
+          "ts": "2026-05-25T17:34:30+00:00",
+          "status": "failed",
+          "reason": "experiment result",
+          "experiment_run_id": "6f66c1abe71a",
+          "checks": {
+            "total": 2,
+            "passed": 1,
+            "failed": 1
+          }
+        }
+      ]
+    },
+    {
+      "claim_id": "h1.leave.one.code.out",
+      "hypothesis_level": "H1",
+      "phase": 1,
+      "statement": "Leave-one-code-out: removed reassignment codons fall in M_-T or its 1-boundary",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "passed",
+      "experiment_id": "leave_one_code_out",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:25+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "429e6e2c4eb4",
+          "checks": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
+    },
+    {
+      "claim_id": "h1.leave.one.codon.out",
+      "hypothesis_level": "H1",
+      "phase": 1,
+      "statement": "Leave-one-codon-out: structural anchors identified",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "passed",
+      "experiment_id": "leave_one_codon_out",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:25+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "e9e1a6e41633",
+          "checks": {
+            "total": 2,
+            "passed": 2,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
+    },
+    {
+      "claim_id": "h0.M.shape.significance",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Med(R) = WNR union CUN as a precise shape is rare under position-preserving null on 13-codon support",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "passed",
+      "experiment_id": "null_model_shape",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:27+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "0b267c88f8e4",
+          "checks": {
+            "total": 2,
+            "passed": 2,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
+    },
+    {
+      "claim_id": "self.claim",
+      "hypothesis_level": "meta",
+      "phase": 0,
+      "statement": "BioReality pipeline self-tests (deepening_gates, bio_reality_loop, agent_bus) pass end-to-end",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "self_experiment",
+      "history": [
+        {
+          "ts": "2026-05-25T08:25:28+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "0f47d2f0cf41",
+          "checks": {
+            "total": 4,
+            "passed": 4,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "orf_eligibility.seed.boundary"
+    },
+    {
+      "claim_id": "h0.null.model.aa_class_preserving",
+      "hypothesis_level": "H0",
+      "phase": 2,
+      "statement": "M = WNR union CUN shape and size are rare under amino-acid-class-preserving null on 13-codon support",
+      "depends_on": [
+        "h0.M.equals.WNR.CUN"
+      ],
+      "status": "passed",
+      "experiment_id": "null_model_aa_class_preserving",
+      "history": [
+        {
+          "ts": "2026-05-25T17:22:30+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "e8d5de747a0c",
+          "checks": {
+            "total": 2,
+            "passed": 2,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
+    },
+    {
+      "claim_id": "h1.leave_one_code_out.by_family",
+      "hypothesis_level": "H1",
+      "phase": 2,
+      "statement": "Leave-one-family-out hit rate stays above 0.5 for every NCBI family group",
+      "depends_on": [
+        "h1.leave.one.code.out"
+      ],
+      "status": "passed",
+      "experiment_id": "leave_one_code_out_by_family",
+      "history": [
+        {
+          "ts": "2026-05-25T17:22:30+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "7dda978c6c97",
+          "checks": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
+    },
+    {
+      "claim_id": "h1.leave_one_codon_out.module_classification",
+      "hypothesis_level": "H1",
+      "phase": 2,
+      "statement": "All 13 codons in R classify into predictable / boundary / anchor under leave-one-codon-out; each codon module has at least one predictable or boundary member",
+      "depends_on": [
+        "h1.leave.one.codon.out"
+      ],
+      "status": "passed",
+      "experiment_id": "leave_one_codon_out_module",
+      "history": [
+        {
+          "ts": "2026-05-25T17:22:30+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "bbe8a4d0455b",
+          "checks": {
+            "total": 2,
+            "passed": 2,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
+    },
+    {
+      "claim_id": "h2.orf.start_stop.window_eligibility",
+      "hypothesis_level": "H2",
+      "phase": 3,
+      "claimed_layer": "orf_eligibility",
+      "statement": "Externally supplied nucleotide windows can be classified for ORF eligibility by explicit start/stop codon enumeration under named NCBI genetic-code tables",
+      "bedc_five_tuple": {
+        "carrier": "finite records (window_id, genetic_code_table_id, nucleotide_sequence, frame_offset) supplied by external curated ORF-window data",
+        "distinctions": [
+          "window_id",
+          "genetic_code_table_id",
+          "frame_offset",
+          "start_codon_hit",
+          "in_frame_stop_hit",
+          "terminal_stop_hit",
+          "ambiguous_base_flag"
+        ],
+        "readback": "For each externally supplied window, read codon triples in the declared frame under the named NCBI code table and report ORF eligibility as a finite start/stop enumeration result.",
+        "internal_structure": [
+          "codon_stream_partition",
+          "named_code_table_readback",
+          "start_stop_event_table",
+          "finite_eligibility_classifier"
+        ],
+        "forbidden_claims": [
+          "Does not assert ribosome-mediated translation.",
+          "Does not assert protein structure, physical admissibility, biological function, or universal mechanism.",
+          "Does not infer ORF eligibility from codon/window geometry alone without external window data.",
+          "Does not classify windows outside the supplied external dataset."
+        ]
+      },
+      "depends_on": [
+        "h0.null.model.aa_class_preserving",
+        "h1.leave_one_code_out.by_family",
+        "h1.leave_one_codon_out.module_classification"
+      ],
+      "status": "needs_data",
+      "experiment_id": "orf_start_stop_window_eligibility",
+      "history": [
+        {
+          "ts": "2026-05-25T17:34:30+00:00",
+          "status": "needs_data",
+          "reason": "missing required_data",
+          "missing_data": [
+            "tools/bio_reality/data/orf_window_dataset.json"
+          ]
+        }
+      ],
+      "linked_conjecture_id": "orf_eligibility.seed.boundary"
+    }
+  ]
+}

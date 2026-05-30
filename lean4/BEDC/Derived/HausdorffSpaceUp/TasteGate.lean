@@ -251,6 +251,29 @@ theorem HausdorffSpaceCarrier_metric_separation_handoff [AskSetup] [PackageSetup
         metricRoute,
       metricRoute⟩
 
+theorem HausdorffSpaceCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
+    {T x y U V D M E H C P N metricRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffSpaceCarrier T x y U V D M E H C P N bundle pkg ->
+      Cont M E metricRead ->
+        Cont metricRead D realRead ->
+          UnaryHistory T ∧ UnaryHistory U ∧ UnaryHistory V ∧ UnaryHistory D ∧
+            UnaryHistory M ∧ UnaryHistory E ∧ UnaryHistory metricRead ∧
+              UnaryHistory realRead ∧ Cont M E metricRead ∧
+                Cont metricRead D realRead ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier metricRoute realRoute
+  obtain ⟨tUnary, _xUnary, _yUnary, uUnary, vUnary, dUnary, mUnary, eUnary, _hUnary,
+    _cUnary, _pUnary, _nUnary, _pointRoute, _pointClassifier, _separationRoute,
+    _metricCarrierRoute, pkgRow⟩ := carrier
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed mUnary eUnary metricRoute
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed metricReadUnary dUnary realRoute
+  exact
+    ⟨tUnary, uUnary, vUnary, dUnary, mUnary, eUnary, metricReadUnary, realReadUnary,
+      metricRoute, realRoute, pkgRow⟩
+
 theorem HausdorffSpaceNameCert_obligations
     {T x y U V D M E H C P N separation metricRoute realSealRoute : BHist}
     (openRoute : Cont T U C) (disjointRoute : Cont V D separation)

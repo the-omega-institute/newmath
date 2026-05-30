@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCompletionFunctorUp$}
+\label{ch:concrete-instances-regular-cauchy-completion-functor-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy completion, the $\RegularCauchyCompletionFunctorUp$ packet records the functorial route from metric source data to regular Cauchy real seals. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, the finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, the metric-completion surface of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the completion action of \autoref{ch:concrete-instances-cauchycompletionfunctor-namecert}. The packet names the source-map and composition ledgers needed by completion consumers; it does not select representatives, quotient regular Cauchy names, identify host real objects, or import ambient completeness.
+
+\begin{definition}[RegularCauchyCompletionFunctor carrier]
+\label{def:regular-cauchy-completion-functor-carrier}
+A $\RegularCauchyCompletionFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,U,W,Q,R,E,I,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row, carrying the source and target metric naming certificates and their distance ledgers.
+\item $U$ is the uniformly continuous map row between the displayed metric sources, with modulus and graph rows readable before completion is inspected.
+\item $W$ is the $\StreamNameUp$ finite-window row recording the source windows requested by a regular Cauchy input name.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance row attached to the same finite windows.
+\item $R$ is the $\RegSeqRatUp$ completion-name row obtained from $W$ and $Q$.
+\item $E$ is the $\RealUp$ seal row reached only after the metric, map, finite-window, tolerance, and regular-rational rows have been displayed.
+\item $I$ is the identity ledger, saying that the identity uniformly continuous map replays the same windows, tolerances, readback rows, and real seal.
+\item $A$ is the composition ledger, saying that two displayed uniformly continuous map rows compose by replaying the source windows through the intermediate and target completion rows in order.
+\item $H$ records componentwise $\hsame$ transport for $M,U,W,Q,R,E,I,A$ and for the structural rows below.
+\item $C$ records displayed $\Cont$ replay from metric source rows and uniformly continuous map rows through StreamName windows, DyadicRatCore tolerances, RegSeqRat completion names, RealUp seals, identity ledgers, and composition ledgers.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCompletionFunctorUp$, $\MetricUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricCompletionUp$, $\CauchyCompletionFunctorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCompletionFunctorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,U,W,Q,R,E,I,A,H,C,P,N$. There is no coordinate for a selected limit, quotient-name equality, host equality of real objects, global completeness, or an external functor object detached from the displayed rows.
+\end{definition}
+
+\begin{theorem}[RegularCauchyCompletionFunctor NameCert obligations]
+\label{thm:regular-cauchy-completion-functor-namecert-obligations}
+For every accepted $\RegularCauchyCompletionFunctorUp$ carrier
+$$
+F=(M,U,W,Q,R,E,I,A,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyCompletionFunctorUp}$ surface consists exactly of metric source admission through $M$; uniformly continuous map admission through $U$; finite-window exposure through $W$; dyadic tolerance exactness through $Q$; regular Cauchy completion-name readback through $R$; RealUp seal handoff through $E$; identity and composition functor ledgers through $I$ and $A$; and structural transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-completion-functor-carrier}. Its accepted rows display exactly the metric source row, uniformly continuous map row, finite-window row, dyadic tolerance row, regular-rational readback row, real seal, identity ledger, composition ledger, and structural rows.
+
+The source side is exhausted by $M,U,W,Q$. The metric row supplies the distance ledgers, the uniformly continuous map row supplies the graph and modulus data, and the finite-window and dyadic-tolerance rows record the only observations a regular Cauchy input can expose.
+
+The target side is exhausted by $R,E$. The RegSeqRat row is read after the requested windows and tolerances, and the RealUp seal remains downstream from that completion-name readback.
+
+The functorial rows add no hidden semantic object. The identity ledger $I$ and composition ledger $A$ record replay of the displayed route, while $H,C,P,N$ transport, continue, source, and name the same finite packet. Hence the listed rows are the complete local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyCompletionFunctor composition law]
+\label{thm:regular-cauchy-completion-functor-composition-law}
+Let $F_f$ and $F_g$ be accepted $\RegularCauchyCompletionFunctorUp$ packets for displayed uniformly continuous maps $f \colon X \to Y$ and $g \colon Y \to Z$. Every completion-facing consumer of the composite read factors through the finite route
+$$
+\MetricUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+for $f$, then through the same displayed route for $g$, with the composition ledger $A$ preserving the intermediate windows, tolerance rows, regular-rational readbacks, RealUp seals, $\hsame$ transports, $\Cont$ replays, $\Pkg$ provenance rows, and local NameCert rows. The identity ledger $I$ gives the same statement when one of the two map rows is the displayed identity.
+\end{theorem}
+\begin{proof}
+Begin with the accepted packets for $f$ and $g$. By \autoref{thm:regular-cauchy-completion-functor-namecert-obligations}, each packet exposes the metric source, uniformly continuous map, finite-window, dyadic-tolerance, regular-rational readback, real-seal, and structural rows before any completion-facing consumer can read its output.
+
+For the composite request, read the first packet through $M,U,W,Q,R,E$. This produces only the displayed regular Cauchy completion-name row and its RealUp seal; it does not export a selected representative or a host equality of completed points.
+
+Feed that displayed seal route to the second packet. The second packet repeats the same finite-window and tolerance discipline over its own metric and map rows. The ledger $A$ records that this two-stage replay is the composite route, and $I$ records that the identity map leaves the displayed windows, tolerances, readbacks, and seal unchanged.
+
+Finally apply the structural rows. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the two-stage route, while $\Pkg$ provenance and the local NameCert rows keep the consumer inside $\RegularCauchyCompletionFunctorUp$, $\MetricCompletionUp$, and $\CauchyCompletionFunctorUp$ data. Thus the composition law is a certificate route over displayed rows, not an external equality of functors.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyCompletionFunctorUp$ read is refuted if a completion-facing RealUp seal is reached without displaying the MetricUp source row, uniformly continuous map row, StreamName window row, DyadicRatCore tolerance row, RegSeqRat readback row, identity ledger, composition ledger, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{metric, streamname, regseqrat, real, metriccompletion, and cauchycompletionfunctor: none is bijective to the functor packet because only $\RegularCauchyCompletionFunctorUp$ records uniformly continuous source action together with identity and composition ledgers for regular Cauchy completion names.}
+
+\closureat{RegularCauchyCompletionFunctorUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCompletionFunctorUp}
+  \constructivestory{A $\RegularCauchyCompletionFunctorUp$ packet is generated from MetricUp source rows, uniformly continuous map rows, StreamName finite windows, DyadicRatCore tolerance rows, RegSeqRat completion-name rows, RealUp seal rows, identity and composition ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-completion-functor-carrier}, \autoref{thm:regular-cauchy-completion-functor-namecert-obligations}, and \autoref{thm:regular-cauchy-completion-functor-composition-law} seed the finite functorial route from MetricUp and uniformly continuous map rows through StreamName windows, DyadicRatCore tolerances, RegSeqRat completion names, and RealUp seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient regular Cauchy names, selected representatives, host equality of real objects, global completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric source exposure, uniformly continuous map exposure, window and tolerance routing, RegSeqRat readback, RealUp seal handoff, identity and composition ledgers, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyCompletionFunctorUp.}
+\end{closurestatus}

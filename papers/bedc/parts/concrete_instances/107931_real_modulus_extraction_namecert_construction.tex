@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\RealModulusExtractionUp$}
+\label{ch:concrete-instances-real-modulus-extraction-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers by regular Cauchy data, the $\RealModulusExtractionUp$ packet records the finite BEDC surface by which an explicit regular Cauchy modulus is exposed before a $\RealUp$ seal is read. It sits on the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names modulus extraction as displayed finite NameCert data; it does not import quotient stream equality, selected representatives, countable choice, host real equality, or ambient completeness of $\RealUp$.
+
+\begin{definition}[RealModulusExtraction carrier]
+\label{def:real-modulus-extraction-carrier}
+A $\RealModulusExtractionUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,S,R,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic radius, denominator budget, and comparison ledger for each requested precision.
+\item $S$ is the $\StreamNameUp$ schedule row, recording the finite windows inspected before a modulus answer is emitted.
+\item $R$ is the $\RegSeqRatUp$ witness row, recording regular rational Cauchy data exposed by the scheduled windows.
+\item $E$ is the $\RealUp$ seal row reached only after $D,S,R$ have been displayed.
+\item $T$ records componentwise $\hsame$ transport for the dyadic tolerance, schedule, regularity, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $D$, then through $S,R$, and finally to the seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\RealModulusExtractionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealModulusExtractionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an implicit analytic modulus, quotient stream equality, selected limit, countable-choice schedule, host real equality, or ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[RealModulusExtraction NameCert obligations]
+\label{thm:real-modulus-extraction-namecert-obligations}
+For every accepted $\RealModulusExtractionUp$ carrier $M=(D,S,R,E,T,C,P,N)$, the local $\NameCert_{\RealModulusExtractionUp}$ surface consists exactly of dyadic tolerance exposure through $D$, finite schedule exposure through $S$, regular Cauchy witness exposure through $R$, terminal Real sealing through $E$, componentwise transport through $T$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The dyadic tolerance row $D$, schedule row $S$, regular witness row $R$, and seal row $E$ are the analytic-facing rows of the packet.
+
+The structural rows do not add analytic assumptions. Transport through $T$ is componentwise, replay through $C$ follows the displayed precision route, provenance through $P$ records the sibling chapters named above, and $N$ supplies the local NameCert row. Since no further coordinate is present, the listed rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[RealModulusExtraction regular Cauchy handoff]
+\label{thm:real-modulus-extraction-regular-cauchy-handoff}
+Every regular Cauchy handoff exported by an accepted $\RealModulusExtractionUp$ carrier factors through the finite route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The extracted modulus is therefore read as dyadic tolerance data, finite schedule data, and regular rational witness data before the Real seal is available.
+\end{theorem}
+\begin{proof}
+Begin with a precision request. The carrier first exposes the dyadic tolerance row $D$, so the requested radius and denominator budget are displayed before any stream window is inspected.
+
+The schedule row $S$ then supplies the finite windows, and the regular witness row $R$ reads the rational Cauchy data inside those windows. Only after this displayed route has been replayed by $C$ does the seal row $E$ become available to a $\RealUp$ consumer.
+
+Thus the handoff is the finite sibling route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, not an implicit analytic assumption.
+\end{proof}
+
+\begin{theorem}[RealModulusExtraction Real seal nonescape]
+\label{thm:real-modulus-extraction-real-seal-nonescape}
+Every $\RealUp$-facing read of an accepted $\RealModulusExtractionUp$ carrier is exhausted by the rows $D,S,R,E,T,C,P,N$. In particular, the read exports no quotient stream equality, selected representative, countable-choice schedule, host real equality, implicit analytic modulus, or ambient completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:real-modulus-extraction-namecert-obligations}. A Real-facing consumer can inspect only the dyadic tolerance, finite schedule, regular witness, seal, transport, replay, provenance, and local naming rows.
+
+The nonescape claim follows from the carrier boundary. None of the excluded objects appears as a coordinate of $M$, and the replay row $C$ only preserves the displayed precision route through $D,S,R,E$. Hence every Real seal read remains inside the finite NameCert packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealModulusExtractionUp$ read exposes dyadic tolerance, finite schedule, regular Cauchy witness, Real seal, transport, replay, provenance, and local NameCert rows before any modulus answer is exported.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\RealModulusExtractionUp$ is not bijective to any listed sibling because it carries the dyadic tolerance row, schedule row, regular witness row, terminal seal row, componentwise transport, displayed replay, provenance, and local naming in one packet.}
+
+\closureat{RealModulusExtractionUp}{seedStr}
+
+\begin{closurestatus}{\RealModulusExtractionUp}
+  \constructivestory{A $\RealModulusExtractionUp$ packet is generated from a DyadicRatCore tolerance row, StreamName schedule row, RegSeqRat regular witness row, RealUp seal row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-modulus-extraction-carrier}, \autoref{thm:real-modulus-extraction-namecert-obligations}, \autoref{thm:real-modulus-extraction-regular-cauchy-handoff}, and \autoref{thm:real-modulus-extraction-real-seal-nonescape} seed the finite modulus-extraction route from regular Cauchy data to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, countable choice, host real equality, ambient completeness of $\RealUp$, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic schedule coverage, regular Cauchy handoff, Real seal nonescape, and a Lean carrier formalization for BEDC.Derived.RealModulusExtractionUp.}
+\end{closurestatus}

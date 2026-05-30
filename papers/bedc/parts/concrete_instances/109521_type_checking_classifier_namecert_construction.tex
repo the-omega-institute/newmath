@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\TypeCheckingClassifierUp$}
+\label{ch:concrete-instances-type-checking-classifier-namecert}
+\origin{human}
+
+The $\TypeCheckingClassifierUp$ packet realizes the type-checking-as-$\Ext$-membership vision of \autoref{ch:visions-type-checking-as-classifier-membership} as one finite NameCert carrier. It sits beside the classifier-membership packet of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, the typing-classifier route of \autoref{ch:concrete-instances-classifiertyping-namecert}, the subject-reduction surface of \autoref{ch:concrete-instances-subjectreduction-namecert}, the derivation-trace packet of \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and the proof-erasure route of \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. The packet records type checking as finite membership data: it does not export a host conversion oracle, semantic equality of terms, normalization theorem, hidden proof object, quotient syntax, or ambient metatheory.
+
+\begin{definition}[TypeCheckingClassifier carrier]
+\label{def:type-checking-classifier-carrier}
+A $\TypeCheckingClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,J,E,D,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite term row. It names the inspected term histories and their syntactic classifier.
+\item $J$ is the typing-ledger row. It records the finite judgment entries used by the checker.
+\item $E$ is the $\Ext$-membership row, identifying accepted typed terms as classifier members.
+\item $D$ is the derivation-trace row linking each accepted membership read to a displayed typing derivation.
+\item $S$ is the subject-reduction row, routing accepted $\Ext$ membership through displayed $\Cont$ steps.
+\item $R$ is the erasure row, separating proof-term content from the erased computational term while preserving the displayed membership route.
+\item $H$ records componentwise $\hsame$ transport for term, typing-ledger, $\Ext$-membership, derivation-trace, subject-reduction, erasure, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a type-checking request through membership, derivation, subject-reduction, and erasure rows.
+\item $P$ is the $\Pkg$ provenance over $\TypeCheckingClassifierUp$, $\TypeClassifierMembershipUp$, $\ClassifierTypingUp$, $\SubjectReductionUp$, $\TypeCheckingDerivationTraceUp$, $\ProofTermErasureTraceUp$, $\BHist$, $\Ext$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TypeCheckingClassifierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host conversion, semantic equality of terms, an ambient normalization theorem, hidden proof objects, quotient syntax, or external metatheoretic consistency.
+\end{definition}
+
+\begin{theorem}[TypeCheckingClassifier NameCert obligations]
+\label{thm:type-checking-classifier-namecert-obligations}
+For every accepted $\TypeCheckingClassifierUp$ carrier $Q=(T,J,E,D,S,R,H,C,P,N)$, the local $\NameCert_{\TypeCheckingClassifierUp}$ surface consists exactly of carrier admission for the term row, typing ledger, $\Ext$-membership row, derivation trace, subject-reduction row, erasure row, componentwise transport, continuation replay, provenance, and local naming. Every accepted type-checking read must expose membership through $E$, derivation through $D$, subject reduction through $S$, and erasure separation through $R$ before $H,C,P,N$ package the row. No obligation is stored in host conversion, semantic equality of terms, normalization, quotient syntax, hidden proof objects, or ambient metatheory.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:type-checking-classifier-carrier}. The tuple lists exactly the term, judgment, membership, derivation, subject-reduction, erasure, transport, replay, provenance, and local naming rows.
+
+Replay the continuation row $C$. A type-checking request first reads the finite term row $T$ and typing ledger $J$, then the $\Ext$-membership row $E$ and derivation trace $D$. Subject reduction is read from $S$, and proof-term erasure is kept in the displayed row $R$.
+
+Transport by $H$ is componentwise over those rows. The provenance and naming rows $P,N$ therefore package only the finite classifier route, leaving no coordinate from which a host oracle, quotient syntax, hidden proof object, or ambient metatheorem could be exported.
+\end{proof}
+
+\begin{theorem}[TypeCheckingClassifier membership soundness]
+\label{thm:type-checking-classifier-membership-soundness}
+Let $Q=(T,J,E,D,S,R,H,C,P,N)$ be an accepted $\TypeCheckingClassifierUp$ packet. Every successful type-checking answer exported by $Q$ is an $\Ext$-membership read supported by the displayed typing ledger and derivation trace:
+$$
+T,J \longmapsto E,D \longmapsto S,R,H,C,P,N .
+$$
+The subject-reduction row preserves the membership read along displayed $\Cont$ replay, and the erasure row separates proof-term evidence from erased computational content. The handoff preserves $T,J,E,D,S,R,H,C,P,N$ and exports no host conversion oracle, semantic term equality, normalization theorem, hidden proof object, quotient syntax, or ambient consistency principle.
+\end{theorem}
+\begin{proof}
+Begin with a successful type-checking answer. By carrier admission, the answer can only be read through the rows of \autoref{def:type-checking-classifier-carrier}.
+
+The finite term row $T$ and typing ledger $J$ provide the displayed input to the classifier. The $\Ext$ row $E$ records membership, and the derivation trace $D$ records the finite route witnessing the accepted judgment.
+
+Subject reduction is then read as the displayed row $S$ along $\Cont$ replay, while $R$ keeps proof-term erasure separate from the erased computational term. Componentwise transport, provenance, and naming preserve this route through $H,C,P,N$ without adding the excluded host-level principles.
+\end{proof}
+
+\closureat{TypeCheckingClassifierUp}{seedStr}
+
+\begin{closurestatus}{\TypeCheckingClassifierUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:type-checking-classifier-carrier}, \autoref{thm:type-checking-classifier-namecert-obligations}, and \autoref{thm:type-checking-classifier-membership-soundness} seed the finite term, typing-ledger, Ext-membership, derivation-trace, subject-reduction, erasure, transport, replay, provenance, and naming route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host conversion, semantic equality of terms, normalization, hidden proof objects, quotient syntax, ambient metatheoretic consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Ext-membership soundness, derivation-trace support, subject-reduction replay, erasure separation, and structural nonescape for BEDC.Derived.TypeCheckingClassifierUp.}
+  \constructivestory{A $\TypeCheckingClassifierUp$ packet is generated from term rows, a finite typing ledger, Ext-membership data, derivation traces, subject-reduction replay, erasure separation, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

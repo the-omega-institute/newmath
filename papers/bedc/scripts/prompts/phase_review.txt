@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.42 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.53 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## EMISSION RULE (read this BEFORE candidate_pool / target selection)
 
@@ -22,7 +22,7 @@ Allocate your 5 review targets approximately matching these weights:
 - 0.10 weight = ≈0-1 target (only if supply > 0 and HARD GATE allows)
 
 Source meanings:
-- top: `critical_path.top[0..N]` (existing primary)
+- top: `critical_path.top[0..N]` where N = `critical_path.dispatch_window.paper` (existing primary)
 - top_root_unblocks: `critical_path.top_root_unblocks` (root chapters needing theorem support)
 - closure_mark: closurestatus/token work from `critical_path.drift_chapters`, `bridge_sync_pending`, and `top_transitions`
 - carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket in `carrier_isomorphism`
@@ -39,7 +39,7 @@ Phase Review output 的 priority/score 字段已 reflect 这些权重, 但请明
 The capstone chapter to draft follows the hub + subdir convention:
 - Hub: `papers/bedc/parts/concrete_instances/<NNNN>_<suggested_paper_slug>_namecert_construction.tex`
 - Subdir spine: `papers/bedc/parts/concrete_instances/<suggested_paper_slug>/namecert_construction.tex`
-- The `<NNNN>` is the next available number — pick one not yet used after checking `ls papers/bedc/parts/concrete_instances/ | grep -oE '^[0-9]+' | sort -un | tail -3`
+- HARD: allocate `<NNNN>` by running `python3 papers/bedc/scripts/allocate_concrete_instance_id.py` exactly once when creating the chapter. This script uses a cross-process lock and shared counter, so concurrent workers do not reuse the same number. Do NOT infer `<NNNN>` from local snapshots with `ls | sort | tail`, `awk`, random offsets, or similar commands; that stale-snapshot inference caused the `110934` same-number collision.
 - Include preamble macro `\newcommand{\<SuggestedLeanName>}{\mathsf{<...>}^{\uparrow}}` and the `main.tex` include
 - Treat it as a regular concrete-instance chapter. The top-level hub only contains structural input lines; the subdir spine holds the chapter heading, label, origin, intro, seed-level `closurestatus`, and `\leanstmt{BEDC.Derived.<suggested_lean_name>}` pointing at the lean-side draft if it exists
 - DO NOT modify the bucket member chapters this round (instance migration is a separate human-reviewed step)
@@ -66,10 +66,12 @@ This phase emits **between min(5, available) and 5 targets per round**, NEVER ju
 1. `critical_path.bridge_sync_pending[*]` — every entry is a valid candidate (1-3 line edits).
 2. `critical_path.drift_chapters[0..9]` — every entry with non-empty `objective_formal_grade > formal_grade_token` is a candidate.
 3. `critical_path.top_transitions.*` — each rotation transition has 5+ candidates.
-4. `critical_path.top_root_unblocks[0..4]` — root chapters needing theorems.
-5. `critical_path.top[0..9]` — open horizon chapters.
+4. `critical_path.top_root_unblocks[0..dispatch_window.paper)` — root chapters needing theorems.
+5. `critical_path.top[0..dispatch_window.paper)` — open horizon chapters.
 6. Theory_extension on any chapter file — paper labels without companion theorems.
-7. **Vision concretization** (`kind = "vision_concretization"`) — **PREFERRED DISCOVERY CHANNEL, ALWAYS-ON HARD GATE**. As long as there exists ANY chapter under `papers/bedc/parts/visions/` with `\concretizedIn` count strictly below the number of concretizable directions the vision actually spans (use 0-concretizedIn chapters as the default frontier), the candidate_pool MUST include at least one `vision_concretization` proposal with `selection_rank = 1`. Cap one vision_concretization per round so Phase Revise is not flooded, but the round MAY NOT skip this slot just because closure_mark / drift / bridge work is more "obvious"; that's the trap this gate prevents. Scan `parts/visions/*.tex` and pick a chapter that (a) has NO `\concretizedIn` marker yet, OR has 0-1 markers when the vision spans multiple concretizable directions, AND (b) names a concrete mathematical object/construction NOT already covered by an existing `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. Prefer visions whose underlying BEDC kernel infrastructure is ready (BHist / NameCert / hsame / kernel inductives exist); when a vision lacks kernel support, prefer the closest-supported vision rather than skipping the slot entirely (you may register a `notes` entry naming the kernel infra blocker so the operator sees what to build). **Mechanically: follow the same flow as the `human_chapter_extension` HARD GATE below** — `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble_chapter_macros.tex"]`, propose new chapter file path under `parts/concrete_instances/`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro (appended to `preamble_chapter_macros.tex`), AND additionally append `\concretizedIn{ch:concrete-instances-<slug>-namecert}{<one-line>}` to the source vision chapter in the same diff. The standard NameCert + TasteGate + axiom-purity + Phase D shallow-growth / no-touchpoint / parameter-echo gates automatically apply to the resulting chapter — no additional taste filter is needed in Phase Review beyond verifying the candidate slug is novel and the anchoring vision chapter is real. Genuinely-saturated exemption: only when EVERY vision chapter under `parts/visions/` already has at least one `\concretizedIn` marker AND the operator's recorded vision-coverage target is met (current visions inventory: 16 narrative chapters; treat coverage as saturated only when ≥ 14 have markers) — at that point the slot becomes opt-in again. Until saturation, expect every P-round to ship a vision_concretization Target 1.
+7. **Vision concretization** (`kind = "vision_concretization"`) — **PREFERRED DISCOVERY CHANNEL, ALWAYS-ON HARD GATE**. As long as there exists ANY chapter under `papers/bedc/parts/visions/` with `\concretizedIn` count strictly below the number of concretizable directions the vision actually spans (use 0-concretizedIn chapters as the default frontier), the candidate_pool MUST include at least one `vision_concretization` proposal with `selection_rank = 1`. Cap one vision_concretization per round so Phase Revise is not flooded, but the round MAY NOT skip this slot just because closure_mark / drift / bridge work is more "obvious"; that's the trap this gate prevents. Scan `parts/visions/*.tex` and pick a chapter that (a) has NO `\concretizedIn` marker yet, OR has 0-1 markers when the vision spans multiple concretizable directions, AND (b) names a concrete mathematical object/construction NOT already covered by an existing `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. Prefer visions whose underlying BEDC kernel infrastructure is ready (BHist / NameCert / hsame / kernel inductives exist); when a vision lacks kernel support, prefer the closest-supported vision rather than skipping the slot entirely (you may register a `notes` entry naming the kernel infra blocker so the operator sees what to build). **Mechanically: follow the same flow as the `human_chapter_extension` HARD GATE below** — `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble_chapter_macros.tex"]`, propose new chapter file path under `parts/concrete_instances/` using `allocate_concrete_instance_id.py` for `<NN>`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro (appended to `preamble_chapter_macros.tex`), AND additionally append `\concretizedIn{ch:concrete-instances-<slug>-namecert}{<one-line>}` to the source vision chapter in the same diff. The standard NameCert + TasteGate + axiom-purity + Phase D shallow-growth / no-touchpoint / parameter-echo gates automatically apply to the resulting chapter — no additional taste filter is needed in Phase Review beyond verifying the candidate slug is novel and the anchoring vision chapter is real. Genuinely-saturated exemption: only when EVERY vision chapter under `parts/visions/` already has at least one `\concretizedIn` marker AND the operator's recorded vision-coverage target is met (current visions inventory: 16 narrative chapters; treat coverage as saturated only when ≥ 14 have markers) — at that point the slot becomes opt-in again. Until saturation, expect every P-round to ship a vision_concretization Target 1.
+
+The `top` and `top_root_unblocks` sampling windows follow `.pipeline_parallel.json`'s `paper` concurrency value via `critical_path.dispatch_window.paper`, so concurrent paper rounds spread across more horizon fronts while the candidate_pool still enumerates at least 5 feasible candidates.
 
 7b. **Human chapter extension** (`kind = "human_chapter_extension"`) — **ALWAYS-ON UNCONDITIONAL HARD GATE (v4.37+, STRONGER COMPLIANCE v4.38)**. To bias overall corpus toward traditional-math NameCert reconstructions. **MECHANICAL RULE — NO INTERPRETIVE LATITUDE**:
 
@@ -77,7 +79,7 @@ This phase emits **between min(5, available) and 5 targets per round**, NEVER ju
 2. **`targets[0]` MUST be that human_chapter_extension entry.** This is the FIRST target, not an optional second. closure_mark / drift / bridge / theory_extension candidates ALL go to `targets[1+]` as additional targets.
 3. **NO "out of current phase" reasoning** — the gate fires regardless of which open phase the project is in. Current focus phase informs choice of WHICH human chapter, not WHETHER to emit one. If the current phase is "L10 Real and Completion", pick a human-known one-step neighbour from that phase (e.g. Heine-Borel, Bolzano-Weierstrass on RealUp). If the current phase is algebra, pick `ModuleUp` / `RingUp` / `IdealUp` neighbours. Always a relevant human-known mathematical object exists.
 4. **Result chapter MUST have `\origin{human}`** + ground-cite "Following <author>, ..." in orienting paragraph.
-5. **Mechanically**: `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble_chapter_macros.tex"]`, propose `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro (appended to `preamble_chapter_macros.tex`).
+5. **Mechanically**: `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble_chapter_macros.tex"]`, propose `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex` with `<NN>` from `allocate_concrete_instance_id.py`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro (appended to `preamble_chapter_macros.tex`).
 
 This is **rank 1** every round, no exception. Other candidates compete for ranks 2+. Goal: bring corpus split from ~50/50 to ~60/40 (human/ai) over the next ~200 rounds. Violation of this rule (failing to emit human_chapter_extension as `targets[0]`) will be detected and the round will be REJECTED at the orchestrator review gate in a follow-up commit.
 
@@ -99,7 +101,7 @@ Constraints when emitting >1 target:
 
 - **No file overlap**: do not emit two targets whose `paper_files[0]` are the same file. The Phase Revise loop applies them sequentially in one git tree; identical-file edits overwrite each other and produce wasted work.
 - **No chapter overlap on closure_mark**: do not emit two `closure_mark` targets touching the same `<X>Up` chapter, even if their files differ. Pick another chapter.
-- **HARD GATE composition still holds**: the bridge_sync_pending / drift_chapters / rotation / top[0..2] / root_unblock gates apply to the AT-LEAST-ONE-OF-N rule independently. A 5-target round can satisfy: 1 bridge_sync + 1 drift_sync + 1 critical_path top + 1 root_unblock + 1 transition. If a gate has fewer than 1 valid candidate, that gate is no-op for the round.
+- **HARD GATE composition still holds**: the bridge_sync_pending / drift_chapters / rotation / top[0..dispatch_window.paper) / root_unblock gates apply to the AT-LEAST-ONE-OF-N rule independently. A 5-target round can satisfy: 1 bridge_sync + 1 drift_sync + 1 critical_path top + 1 root_unblock + 1 transition. If a gate has fewer than 1 valid candidate, that gate is no-op for the round.
 - **Mixed difficulty allowed**: a 5-target round may mix 3 quick `closure_mark` (drift / bridge sync / token) targets and 2 substantive `theory_extension` / `missing_companion` targets — the quick targets sync token, the substantive ones grow the theory. Mixed rounds maximize per-round leverage.
 
 If `candidate_pool` has fewer than 5 feasible candidates, emit only as many as exist (1, 2, 3, 4, or 5). Empty round (`{"targets": []}`) is still allowed when no feasible candidate survives.
@@ -187,7 +189,7 @@ The lean side is already done; this round records the upgrade on the paper side.
 
 **HARD GATE — bridge sync priority**: If `bridge_sync_pending_total >= 1`, AT LEAST 1 of the proposed N targets MUST be `kind = "closure_mark"` drawn from `bridge_sync_pending[0..2]`. The target's `paper_files[0]` is the entry's `file_paper`. The diff is exactly the 2-3 lines above. Verify the `<X>Up_StdBridge` theorem exists in the lean tree before committing — `bedc_ci.py audit` rejects if not.
 
-This gate composes with all other gates. A 3-target round can satisfy: 1 bridge_sync + 1 drift_sync + 1 critical_path top-3 / root_unblock / transition.
+This gate composes with all other gates. A 3-target round can satisfy: 1 bridge_sync + 1 drift_sync + 1 critical_path top-window / root_unblock / transition.
 
 bridge_sync_pending targets do NOT need to be drawn from `top` / `top_root_unblocks` / `top_transitions`; bridge_sync_pending is its own independent source.
 
@@ -328,7 +330,8 @@ extraordinarily high: the union of visions (21) + automath (3427+
 theorems) + human-known mathematics (entire textbook corpus) leaves
 "nothing concretizable" essentially impossible. Mechanically, vision and
 human-known discovery flows may produce a new
-`parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. Automath
+`parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`, with
+`<NN>` allocated by `allocate_concrete_instance_id.py`. Automath
 intake does so only after `landing_kind = "new_chapter"` and a non-empty
 `chapter_worthiness` justification pass the gate above; otherwise it lands
 as an existing-chapter lemma, obligation, ledger row, or is rejected. Every
@@ -459,7 +462,7 @@ does NOT yet exist. Examples (illustrative, not exhaustive):
 - formal language theory (regular / context-free / context-sensitive
   hierarchy, pumping lemma)
 
-When `critical_path.top[0..2]` is full of low/medium-priority
+When `critical_path.top[0..dispatch_window.paper)` is full of low/medium-priority
 closure_marks AND `closed_horizons / open_horizons > 1.5` (the
 horizon is saturated and the remaining open chapters are slow-burn),
 you MAY propose a `kind = "theory_extension"` with `notes.flavor =
@@ -482,16 +485,12 @@ you MAY propose a `kind = "theory_extension"` with `notes.flavor =
    anchors (so it does NOT land as an isolated island).
 4. `paper_files[0]` is a NEW chapter file
    `papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`
-   where `<NN>` is a random integer in `[current_max+1, current_max+100]`
-   (NOT just `current_max+1`). Run
-   `ls papers/bedc/parts/concrete_instances/ | awk -F_ '{print $1+0}' | sort -n | tail -1`
-   to find current_max, then pick a random offset 1-100 above it
-   (e.g. python `random.randint(current_max+1, current_max+100)`).
-   This spreads concurrent saturation rounds across the NN range so
-   two workers proposing different new chapters at the same time
-   don't both land on `271_*` and create cosmetic numbering
-   collisions. The serial numbers are purely cosmetic — filenames
-   are unique by slug; the LaTeX build doesn't care about gaps.
+   where `<NN>` is allocated by running
+   `python3 papers/bedc/scripts/allocate_concrete_instance_id.py`.
+   Do NOT infer the number from local `ls` output, `sort`, `tail`,
+   `awk`, or random offsets; use the allocator once and put the returned
+   number in the filename. The serial numbers are purely cosmetic and
+   may have gaps, but they must be unique across concurrent workers.
 5. `proposed_change` MUST contain: chapter title, carrier sketch
    (one paragraph in BEDC vocabulary: BHist, hsame, Cont, Pkg,
    source, classifier, ledger, transport, NameCert), dependency
@@ -739,9 +738,9 @@ with the mapping `0→to_seed, 1→to_obligation, 2→to_scoped, 3→to_public, 
 
 If the primary transition list is empty (e.g. round 5 looking for `to_mature` but no chapter is at `bridgedClosure` yet), fall back to `(primary + 1) % 6`, repeat until a non-empty transition is found. Skip the rotation gate ONLY when ALL 6 transitions are empty — extremely rare.
 
-This guarantees over a 6-round window each transition gets at least 1 paper attempt, AND lets the to_seed backlog drain faster when it's the bottleneck. Existing HARD GATEs (`top[0..2]` critical-path + `top_root_unblocks[0..2]` root-unblock) still apply for the OTHER N-1 targets in the round.
+This guarantees over a 6-round window each transition gets at least 1 paper attempt, AND lets the to_seed backlog drain faster when it's the bottleneck. Existing HARD GATEs (`top[0..dispatch_window.paper)` critical-path + `top_root_unblocks[0..dispatch_window.paper)` root-unblock) still apply for the OTHER N-1 targets in the round.
 
-`closure_mark` from rotation can co-exist with the existing closure_mark proposals on top-3 retired-eligible chapters; both are valid `closure_mark` instances. Difference: rotation forces breadth across grades; existing closure_mark logic forces depth on critical-path top.
+`closure_mark` from rotation can co-exist with the existing closure_mark proposals on top-window retired-eligible chapters; both are valid `closure_mark` instances. Difference: rotation forces breadth across grades; existing closure_mark logic forces depth on critical-path top.
 
 ### Skip rule (narrow — applies only when both grades are non-null)
 
@@ -763,7 +762,7 @@ Run before target selection:
 python3 "$(dirname "$(git rev-parse --git-common-dir)")/lean4/scripts/critical_path.py"
 ```
 
-The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker) after excluding nodes that carry a closurestatus block whose theoryclosure is scopedClosure-or-above and whose formalstatus is theoremCheckedV-or-above, or whose dependencies are not yet ready. **At least 1 candidate's `paper_files[0]` MUST correspond to a chapter from `top[0..2]`** of that JSON output (e.g. `top[0].file_paper` → `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`). Prefer `kind="theory_extension"` or `kind="missing_companion"` in those chapters — those are the kinds that grow the chapter.
+The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker) after excluding nodes that carry a closurestatus block whose theoryclosure is scopedClosure-or-above and whose formalstatus is theoremCheckedV-or-above, or whose dependencies are not yet ready. **At least 1 candidate's `paper_files[0]` MUST correspond to a chapter from `top[0..dispatch_window.paper)`** of that JSON output (e.g. `top[0].file_paper` → `papers/bedc/parts/concrete_instances/13_real_namecert_construction.tex`). Prefer `kind="theory_extension"` or `kind="missing_companion"` in those chapters — those are the kinds that grow the chapter.
 
 **Closure proposals (`kind = "closure_mark"`)**. If a horizon `<X>Up` chapter has every NameCert clause (carrier / classifier / stability / exactness / ledger / standard bridge if applicable) with a `\leanchecked` to a Lean target that resolves under `lean4/BEDC/`, AND the chapter does NOT yet carry a closurestatus block whose theoryclosure is scopedClosure-or-above and whose formalstatus is theoremCheckedV-or-above, propose a `closure_mark` target. The proposal MUST specify both axes explicitly, plus scope / not-claimed / upgrade-path text, and MUST NOT make either axis a function of the other. The block template is:
 
@@ -779,7 +778,7 @@ The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (
 
 Pick `<theorem>` from the chapter's already-`\leanchecked` set, in priority order: (1) `*semanticNameCert` / `*_semantic_name_certificate`, (2) `*_name_certificate`, (3) `*_stability_certificate_fields`, (4) `*_laws`. `bedc_ci.py audit` rejects a `closure_mark` whose `\leantarget` doesn't resolve to a real Lean declaration. Closure proposals always rank ahead of new theory_extensions for the same chapter — adding the closurestatus block retires the chapter from `critical_path.top` and frees Phase B to attack new fronts. To detect closure-eligible chapters: from the critical_path output, check chapters with `thms >= 10` that are still in `top`; their NameCert is likely complete and just needs the explicit closurestatus block.
 
-If a top-3 chapter is technically blocked (its schema explicitly notes infrastructure not yet in BEDC), record the blocker in `evidence` and use `top[3..]` instead. Do NOT silently fall back to depth-refinement of saturated horizons (Bool / Option / Sum / Prod / List / Rat / Tagged Option / Framed List).
+If a top-window chapter is technically blocked (its schema explicitly notes infrastructure not yet in BEDC), record the blocker in `evidence` and use the next available top entry outside `dispatch_window.paper` instead. Do NOT silently fall back to depth-refinement of saturated horizons (Bool / Option / Sum / Prod / List / Rat / Tagged Option / Framed List).
 
 ## Root-of-tree unblock priority (HARD GATE)
 
@@ -797,11 +796,11 @@ If a top-3 chapter is technically blocked (its schema explicitly notes infrastru
 
 These are typically root-of-tree paper stubs (5-10 lines, no `\input`, no `\label`) that external commits referenced as dependencies but never gave obligation theorem blocks. Without obligation content, lean cannot register `\leanchecked` markers → downstream chapters stay `deps_ready=False` → `critical_path.top` stays starved (currently ~12 sibling fronts vs 200+ open horizons). Attacking root stubs has 5-10x fan-out leverage compared to depth-refining already-rich chapters.
 
-**HARD GATE**: if `top_root_unblocks` is non-empty AND its first entry has `unblock_count >= 1`, AT LEAST 1 of the proposed targets MUST be `kind = "theory_extension"` on a chapter from `top_root_unblocks[0..2]`. The target's `paper_files[0]` is the entry's `file_paper`. The diff must add at least 3 `\begin{theorem}` / `\begin{definition}` blocks with `\label{thm:<chapter>-...}` so the chapter's `thms` crosses `deps_ready_threshold`. Theorem statements should mention BEDC kernel constructs (`BHist`, `Cont`, `hsame`, `NameCert`, `UnaryHistory`) and articulate the chapter's NameCert obligations as the schema would have demanded had the chapter been written by hand.
+**HARD GATE**: if `top_root_unblocks` is non-empty AND its first entry has `unblock_count >= 1`, AT LEAST 1 of the proposed targets MUST be `kind = "theory_extension"` on a chapter from `top_root_unblocks[0..dispatch_window.paper)`. The target's `paper_files[0]` is the entry's `file_paper`. The diff must add at least 3 `\begin{theorem}` / `\begin{definition}` blocks with `\label{thm:<chapter>-...}` so the chapter's `thms` crosses `deps_ready_threshold`. Theorem statements should mention BEDC kernel constructs (`BHist`, `Cont`, `hsame`, `NameCert`, `UnaryHistory`) and articulate the chapter's NameCert obligations as the schema would have demanded had the chapter been written by hand.
 
 Why threshold `>= 1` (was `>= 3` before v4.3): in mutual-blocker dep tree (typical when `top` collapses to 0 — multiple `thms=0` peers blocking the same downstream), every root has `unblock_count=1` because no root is a SINGLE-blocker. Skipping the GATE because `unblock_count < 3` is the bug that produced the 4-day stall on 2026-05-08 (top: 0, top_root_unblocks: 10 entries × unblock_count=1, paper rounds did 240+ closure-axis bookkeeping commits without opening any new front).
 
-`closure_mark` targets do NOT satisfy this gate — they bump closurestatus axis, not `thms`. The two HARD GATES (top[0..2] and top_root_unblocks[0..2]) compose: a 3-target round can satisfy both with 1 top-3 target + 1 root-unblock target + 1 free slot.
+`closure_mark` targets do NOT satisfy this gate — they bump closurestatus axis, not `thms`. The two HARD GATES (top[0..dispatch_window.paper) and top_root_unblocks[0..dispatch_window.paper)) compose: a 3-target round can satisfy both with 1 top-window target + 1 root-unblock target + 1 free slot.
 
 If `top_root_unblocks` is empty (every dep tree root is already at `thms >= threshold`), this gate is vacuous and may be skipped.
 
@@ -827,7 +826,7 @@ If `top_root_unblocks` is empty (every dep tree root is already at `thms >= thre
 
 This gate composes with bridge_sync_pending / drift_chapters / transition rotation gates: a 3-target round can satisfy 1 empty-root + 1 drift-sync + 1 transition closure_mark. The empty-root target counts as the round's `theory_extension` contribution for the rolling-window `theory_extension` requirement.
 
-If `len(top) >= 1`, this gate is vacuous (the existing `top[0..2]` HARD GATE handles new-front opening). If `top_empty_roots_total == 0`, this gate is also vacuous.
+If `len(top) >= 1`, this gate is vacuous (the existing `top[0..dispatch_window.paper)` HARD GATE handles new-front opening). If `top_empty_roots_total == 0`, this gate is also vacuous.
 
 Why this gate exists (added in v4.3): on 2026-05-08 the dep tree's bottom layer became fully mutual-blocked: `top: 0`, `top_root_unblocks` had 10 entries all with `unblock_count=1`, so the existing `unblock_count >= 3` GATE never fired. Paper rounds spent ~3000 commits in 24h on closure-axis bookkeeping while 94 empty-stub chapters sat un-attacked. The `top_empty_roots` GATE forces paper to open new fronts whenever `top` is starved.
 
@@ -840,7 +839,7 @@ theme = stem(paper_files[0]) before "_namecert"
 e.g. "08_option" → option,  "11_list" → list,  "10_sum" → sum
 ```
 
-Run `git log --oneline -20 -- papers/bedc/parts/` and count how many of the last 20 paper-side commits touched a chapter sharing this theme. If `theme_count >= 6`, the candidate is INVALID **unless** the theme corresponds to a `top[0..2]` node from the critical-path JSON AND `theme_count < 12`. The library has already received six rounds of attention on that theme; even for a top-3 critical-path node, going past 12 commits in a 20-commit window means the chapter is saturated relative to the rest of the library and the marginal value of a 13th hit is below opening a fresh chapter (especially the recently-added paper-only stubs under `papers/bedc/parts/concrete_instances/` like `16_group_namecert_construction.tex`, `56_magma…`, `57_semigroup…`, `58_subgroup…`, `60_quotientgroup…`, etc.). Pick a chapter from those instead.
+Run `git log --oneline -20 -- papers/bedc/parts/` and count how many of the last 20 paper-side commits touched a chapter sharing this theme. If `theme_count >= 6`, the candidate is INVALID **unless** the theme corresponds to a `top[0..dispatch_window.paper)` node from the critical-path JSON AND `theme_count < 12`. The library has already received six rounds of attention on that theme; even for a critical-path window node, going past 12 commits in a 20-commit window means the chapter is saturated relative to the rest of the library and the marginal value of a 13th hit is below opening a fresh chapter (especially the recently-added paper-only stubs under `papers/bedc/parts/concrete_instances/` like `16_group_namecert_construction.tex`, `56_magma…`, `57_semigroup…`, `58_subgroup…`, `60_quotientgroup…`, etc.). Pick a chapter from those instead.
 
 ### Hot-anchor avoidance (within a file)
 
@@ -884,7 +883,7 @@ Once such a paper block lands, the chapter exits `SCHEMA_ONLY_HORIZONS` (we upda
 
 ## Cross-chapter extension (HARD GATE — high priority)
 
-When the candidate pool is otherwise weak (no top-3 critical-path target with a clear theorem, no schema-unlock backlog), prefer a cross-chapter theorem that **combines `\leanchecked` results from ≥ 3 different concrete-instance chapters** into a single conclusion stated about concrete BEDC kernel objects. Vision chapters may supply inspiration for the target, but the proposed write target is a concrete-instance chapter.
+When the candidate pool is otherwise weak (no top-window critical-path target with a clear theorem, no schema-unlock backlog), prefer a cross-chapter theorem that **combines `\leanchecked` results from ≥ 3 different concrete-instance chapters** into a single conclusion stated about concrete BEDC kernel objects. Vision chapters may supply inspiration for the target, but the proposed write target is a concrete-instance chapter.
 
 A cross-chapter target MUST satisfy ALL of:
 

@@ -1,0 +1,17 @@
+\begin{theorem}[Covering dimension metric dependency]
+\label{thm:covering-dimension-metric-dependency}
+Every $\CoveringDimensionUp$ cover-refinement read enters through the compact metric source row and the metric ball observation surface before it records the refinement and order ledgers. Concretely, for an accepted carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N),
+$$
+the row $K$ is read as a $\CompactMetricUp$ finite-net source, its pointwise cover tests are inspected through $\MetricUp$ ball observations, and only then may the consumer read the finite cover row $C$, refinement row $R$, order-bound row $O$, compact Lebesgue ledger $L$, transport row $H$, replay row $T$, provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:covering-dimension-carrier}. The first row $K$ is the compact metric source, and the carrier description already binds it to finite-net and Lebesgue-ledger rows rather than to an arbitrary open-cover principle.
+
+The cover row $C$ is inspected pointwise. Each such inspection uses metric ball observations from the metric source before a refined member can be assigned to a parent cover member by $R$.
+
+After those metric reads, the order-bound row $O$ counts only displayed refined members, while $L$ records the compact finite-radius ledger for the same cover route. The structural rows $H,T,P,N$ transport and name that route without adding a second dependency surface.
+
+Thus every cover-refinement read reaches the dimension ledger through $\CompactMetricUp$ and $\MetricUp$ first. A consumer that skips those rows is not reading the displayed $\CoveringDimensionUp$ carrier.
+\end{proof}

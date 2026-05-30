@@ -86,6 +86,24 @@ Apply the nonescape theorem \autoref{thm:metacic-redex-choice-frontier-nonescape
 The refused global objects have no carrier coordinate. Thus the boundary is exhausted at the candidate-mediated finite rows and remains separate from global normalization, global confluence, unrestricted redex selection, quotient syntax, host evaluator soundness, and completed MetaCIC semantics.
 \end{proof}
 
+\begin{theorem}[MetaCIC redex-choice candidate-normalization handoff]
+\label{thm:metacic-redex-choice-frontier-candidate-normalization-handoff}
+Every exported redex choice from an accepted $\MetacicRedexChoiceFrontierUp$ packet consumed by a normalization-window or confluence-audit reader must pass through
+$$
+A,N,F,D,C \longmapsto B,H,K,L,P,Q .
+$$
+The row $N$ supplies only displayed candidate-normalization evidence, the row $F$ supplies only local fork information, and the row $D$ preserves undecided boundary rows. The packet refuses global normalization, Church--Rosser, subject reduction for all terms, quotient syntax, host evaluator soundness, and a completed MetaCIC semantics.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:metacic-redex-choice-frontier-namecert-obligations}. Redex-choice classification forces $C$ to inspect only redexs in $A$ and boundary outcomes in $D$, while normalization-frontier and confluence-audit compatibility tie exported candidates to the displayed $N$ and $F$ rows.
+
+The normalization-window reader therefore receives only candidate-normalization evidence from $N$. The confluence-audit reader receives only local fork information from $F$, and undecided rows remain recorded by $D$ rather than being converted into global decisions.
+
+Apply \autoref{thm:metacic-redex-choice-frontier-candidate-boundary-exhaustion}. Each exported candidate is already exhausted by $A,N,F,D,C$ before replay, transport, continuation, provenance, TasteGate preparation, and local naming are read through $B,H,K,L,P,Q$.
+
+Finally use \autoref{thm:metacic-redex-choice-frontier-nonescape}. The refused global principles and host-side objects have no carrier coordinate, so the handoff cannot assert global normalization, Church--Rosser, subject reduction for all terms, quotient syntax, host evaluator soundness, or a completed MetaCIC semantics.
+\end{proof}
+
 \falsifiablePrediction{A $\MetacicRedexChoiceFrontierUp$ reducer-facing read factors through displayed MetaCIC redex rows, normalization-frontier traces, confluence-audit fork rows, decidable-boundary classifiers, candidate-choice rows, BHist replay, hsame transport, Cont replay, Pkg provenance, TasteGate boundary rows, and local NameCert data.}
 
 \independenceWitness{metacic-redex, metacic-normalization-frontier, metacic-confluence-audit, metacic-decidable-boundary: $\MetacicRedexChoiceFrontierUp$ is not bijective to any listed anchor because it jointly carries candidate-choice classification, shared redex-boundary routing, Nontrivial and FieldFaithful TasteGate boundaries, replay, transport, provenance, and local naming.}

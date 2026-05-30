@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\CofinalSequenceSelectorUp$}
+\label{ch:concrete-instances-cofinal-sequence-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy sequences and Kelley on directed tails, the $\CofinalSequenceSelectorUp$ packet records the finite monotone index-window selector used before a completion-facing consumer reads a cofinal subsequence, a Cauchy-filter tail, or a terminal real seal. It sits after the cofinal sequence surface of \autoref{ch:concrete-instances-cofinal-sequence-namecert}, the cofinal tail map of \autoref{ch:concrete-instances-cofinal-tail-map-namecert}, the Cauchy-filter packet of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the regular Cauchy subsequence surface of \autoref{ch:concrete-instances-regular-cauchy-subsequence-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite selector schedule; it does not choose an infinite subsequence by countable choice, quotient streams, ambient directed-set cofinality, host real equality, or an external completeness principle.
+
+\begin{definition}[Cofinal sequence selector carrier]
+\label{def:cofinal-sequence-selector-carrier}
+A $\CofinalSequenceSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,W,M,Q,F,U,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\NatUp$ index row, displaying the finite source interval and the terminal lower bound requested by the consumer.
+\item $W$ is the $\StreamNameUp$ window row, listing every inspected source index and selector output.
+\item $M$ is the monotonicity ledger, recording that the displayed selector outputs are nondecreasing on the finite window.
+\item $Q$ is the cofinal-window ledger, recording that every displayed lower-bound request is met inside the same finite selector window.
+\item $F$ is the $\CauchyFilterUp$ tail-filter row reached from $I,W,M,Q$.
+\item $U$ is the $\RegularCauchySubsequenceUp$ handoff row, recording the selected regular-Cauchy subsequence readback.
+\item $R$ is the $\RegSeqRatUp$ and $\RealUp$ seal row available only after the window, filter, and subsequence handoffs have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $I,W,M,Q,F,U,R$ and for the continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite lower-bound request through the selector window, monotonicity ledger, cofinal ledger, Cauchy-filter tail, regular-Cauchy subsequence handoff, and terminal real seal.
+\item $P$ is the $\Pkg$ provenance over $\CofinalSequenceSelectorUp$, $\NatUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyFilterUp$, $\RegularCauchySubsequenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofinalSequenceSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $I,W,M,Q,F,U,R,H,C,P,N$. It has no coordinate for a choice-selected infinite subsequence, quotient stream equality, host order on all natural-number functions, ambient filter convergence, global completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cofinal sequence selector NameCert obligations]
+\label{thm:cofinal-sequence-selector-namecert-obligations}
+For every accepted $\CofinalSequenceSelectorUp$ carrier $S=(I,W,M,Q,F,U,R,H,C,P,N)$, the local $\NameCert_{\CofinalSequenceSelectorUp}$ surface consists exactly of finite $\NatUp$ index admission, $\StreamNameUp$ window exposure, finite monotonicity exposure, finite cofinal-window exposure, $\CauchyFilterUp$ tail-filter handoff, $\RegularCauchySubsequenceUp$ selected-subsequence handoff, $\RegSeqRatUp$ and $\RealUp$ seal readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-sequence-selector-carrier}. The rows $I,W,M,Q$ expose the finite selector schedule: the inspected index window, the output window, the monotonicity ledger, and the cofinal lower-bound ledger.
+
+The analytic handoff is read through $F,U,R$. The filter row reads the displayed tail request, the subsequence row reads the same selected window as regular-Cauchy data, and the terminal row seals the resulting regular rational and real-facing output.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no coordinate for countable choice, quotient stream equality, ambient filter convergence, host real equality, or global completeness, the listed rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[Cofinal sequence selector tail-filter handoff]
+\label{thm:cofinal-sequence-selector-tail-filter-handoff}
+Every completion-facing consumer of an accepted $\CofinalSequenceSelectorUp$ carrier reaches the terminal read through the finite route
+$$
+\NatUp
+\longmapsto
+\StreamNameUp
+\longmapsto
+\CauchyFilterUp
+\longmapsto
+\RegularCauchySubsequenceUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The route first displays the finite monotone cofinal index window, then reads the Cauchy-filter tail, then hands the selected regular-Cauchy subsequence to the regular rational and real-name seals. It exports no selected infinite subsequence, quotient stream equality, countable-choice schedule, host filter limit, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the finite selector rows $I,W,M,Q$. They provide only a displayed natural-number window, the selected outputs in that window, and the finite proof rows that the displayed outputs are monotone and cofinal for the displayed lower-bound requests.
+
+Next read $F$ and $U$. The Cauchy-filter row consumes the same tail window, while the regular-Cauchy subsequence row consumes the selected outputs as the finite subsequence surface already used by \autoref{ch:concrete-instances-regular-cauchy-subsequence-namecert}.
+
+Finally pass through $R,H,C,P,N$. The regular rational and real seal rows are downstream of the filter and subsequence handoffs, and the transport, replay, provenance, and naming rows keep the route inside the accepted packet. Thus a completion-facing consumer receives the finite selector handoff and no additional choice, quotient, host-limit, or ambient-completeness coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CofinalSequenceSelectorUp$ consumer must expose finite $\NatUp$ index rows, $\StreamNameUp$ selector windows, monotonicity and cofinal-window ledgers, a $\CauchyFilterUp$ tail row, a $\RegularCauchySubsequenceUp$ handoff row, $\RegSeqRatUp$ and $\RealUp$ seal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before the selected tail is available.}
+
+\independenceWitness{Nearest siblings: cofinal sequence, cofinal tail map, CauchyFilter, RegularCauchySubsequence, RegSeqRat, StreamName, Nat, and Real. The packet is not identical to any sibling because it jointly binds finite monotone selector windows, finite cofinal lower-bound ledgers, tail-filter handoff, regular-Cauchy subsequence handoff, and the terminal regular-rational and real seals.}
+
+\closureat{CofinalSequenceSelectorUp}{seedStr}
+
+\begin{closurestatus}{\CofinalSequenceSelectorUp}
+  \constructivestory{A $\CofinalSequenceSelectorUp$ packet is generated from finite NatUp index rows, StreamNameUp selector windows, monotonicity ledgers, cofinal-window ledgers, CauchyFilterUp tail handoffs, RegularCauchySubsequenceUp handoffs, RegSeqRatUp and RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-sequence-selector-carrier}, \autoref{thm:cofinal-sequence-selector-namecert-obligations}, and \autoref{thm:cofinal-sequence-selector-tail-filter-handoff} seed the finite monotone cofinal selector surface for completion-facing tail consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite subsequences, quotient stream equality, countable choice, ambient filter convergence, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite index admission, selector-window exposure, monotonicity and cofinal-window ledgers, CauchyFilterUp tail handoff, RegularCauchySubsequenceUp handoff, RegSeqRatUp and RealUp seal readback, transport, replay, provenance, and local naming for BEDC.Derived.CofinalSequenceSelectorUp.}
+\end{closurestatus}

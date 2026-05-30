@@ -1,0 +1,44 @@
+\begin{definition}[RegularCauchyName carrier]
+\label{def:regular-cauchy-name-carrier}
+A $\RegularCauchyNameUp$ carrier is a finite source-row packet
+$$
+R=(W,A,T,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window schedule that exposes only certified observation windows.
+\item $A$ is the $\RegSeqRatUp$ readback row produced from the scheduled observations.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance ledger that records the radius requested at each displayed window.
+\item $L$ is the regularity ledger tying $W,A,T$ to one finite Cauchy-name surface.
+\item $E$ is the $\RealUp$ seal row consumed only after the window, readback, and tolerance rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the schedule, readback, tolerance, regularity ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the scheduled window through the dyadic tolerance and regular rational readback into the seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyNameUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyRepresentationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyNameUp}$ row.
+\end{enumerate}
+The carrier is the source-row face of the regular Cauchy name route used by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-cauchy-representation-namecert}. It exports no quotient stream, host sequence equality, selected limit, independent completed real, or ambient completeness witness.
+\end{definition}
+
+\begin{theorem}[RegularCauchyName NameCert obligations]
+\label{thm:regular-cauchy-name-namecert-obligations}
+For an accepted $\RegularCauchyNameUp$ carrier $R=(W,A,T,L,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyNameUp}$ obligation surface consists exactly of carrier admission, finite $\StreamNameUp$ schedule exposure, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance accounting, regularity-ledger exactness, $\RealUp$ seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:regular-cauchy-name-carrier}. The schedule, readback, tolerance ledger, regularity ledger, seal, transport, replay, provenance, and naming rows are the only coordinates available to a consumer.
+
+The window route is already the route of \autoref{thm:regularcauchyname-streamname-handoff}; the dyadic-radius route is the route of \autoref{thm:regularcauchyname-dyadic-radius-obligations}; and the seal route is the route of \autoref{thm:regularcauchyname-realup-seal-boundary}. These rows force every consumer read through the displayed finite schedule before any regular rational readback or Real seal is consumed.
+
+Transport and replay are exhausted by $H$ and $C$, while $P$ and $N$ source and name the same packet. Since no coordinate stores a quotient stream, host sequence, selected limit, independent completed real, or ambient completeness witness, the listed rows are exactly the local naming obligations.
+\end{proof}
+
+\begin{theorem}[RegularCauchyName StreamName-RegSeqRat handoff]
+\label{thm:regular-cauchy-name-streamname-regseqrat-handoff}
+Every consumer read of an accepted $\RegularCauchyNameUp$ carrier $R=(W,A,T,L,E,H,C,P,N)$ reaches the $\RegSeqRatUp$ row only through the finite $\StreamNameUp$ schedule $W$ and the $\DyadicRatCoreUp$ tolerance ledger $T$. The handoff is the forward source-row dependency from finite windows to regular rational readback before the $\RealUp$ seal is exposed.
+\end{theorem}
+\begin{proof}
+Begin with a consumer precision request. By \autoref{thm:regularcauchyname-streamname-handoff}, the request first enters a displayed $\StreamNameUp$ window rather than a host sequence.
+
+The tolerance row is then read through $\DyadicRatCoreUp$. The dyadic-radius obligation theorem keeps that tolerance on the same scheduled window, so the regular rational readback in $A$ is attached to $W$ and $T$ before any seal-facing row is available.
+
+Finally apply the Real seal boundary and the finite-window readback exactness results already recorded in this chapter. They place $E$ downstream of $W,A,T,L$ and keep the handoff inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, with no quotient stream or selected limit added.
+\end{proof}

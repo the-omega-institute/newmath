@@ -1,5 +1,6 @@
 \chapter{Theory Stability and the TasteGate Framework}
 \label{ch:visions-theory-stability-taste-gate}
+\origin{human}
 
 The 280-plus concrete-instance chapters of \texttt{papers/bedc/parts/}
 formalise objects whose mathematical-consensus credit was earned by the
@@ -9,13 +10,13 @@ chapter inherits this credit; the BEDC formalisation does not need to
 re-test whether $\GroupUp$ is a `real theory', because the question was
 settled outside the system.
 
-A new mode opens when codex itself proposes a chapter. An AI-proposed
-chapter has no mathematical-consensus credit. It might be combinatorial
-padding (a trivial cartesian-product object); it might be a synonym of
-an existing chapter under a new name; it might cross the BEDC zero-axiom
-boundary; it might be locally self-consistent yet break stability of
-the existing horizon when admitted. The taste gate of this chapter
-records the discipline by which AI-proposed chapters earn admission.
+A separate admission mode applies when codex itself proposes a chapter. An
+AI-proposed chapter has no mathematical-consensus credit. It might be
+combinatorial padding, a synonym of an existing chapter under another name, a
+carrier that crosses the BEDC zero-axiom boundary, or a locally self-consistent
+surface that breaks stability of the existing horizon when admitted. The taste
+gate of this chapter records the discipline by which AI-proposed chapters earn
+admission.
 
 The discipline reuses the conservativity, no-hidden-input, round-trip,
 and source-channel-separation theorems already established in the
@@ -26,76 +27,108 @@ ground compiler chapters
  \autoref{ch:ground-compiler-main-theorems-cannot-claims}). It elevates
 those compiler-internal invariants into a chapter-level taste gate.
 
-\section{Four obligations}
+\section{Carrier display obligations}
 \label{sec:taste-gate-four-obligations}
 
-A candidate chapter $X$ earns admission to the AI-proposed track when
-its taste-gate package supplies four propositional obligations together
-with discharging proofs.
+A candidate chapter $X$ earns admission to the AI-proposed track by first
+committing to a concrete carrier display. The Lean class
+\texttt{BHistCarrier X} supplies
+$$
+\mathsf{toEventFlow}:X\to\EventFlow,
+\qquad
+\mathsf{fromEventFlow}:\EventFlow\to\mathsf{Option}(X).
+$$
+The chapter-specific gate then asks for only the two obligations that genuinely
+depend on $X$.
 
 \begin{definition}[Conservativity obligation]
 \label{def:taste-gate-conservativity}
-The conservativity obligation for $X$ asserts that no formula already
-provable from the BEDC baseline becomes unprovable when $X$ is admitted,
-and no formula previously unprovable becomes provable except via formulas
-that explicitly mention $X$.
+Conservativity is not a field supplied by the chapter. It is the theorem that
+every mark occurring in the display of an admitted token is one of the two BEDC
+ground marks $\bzero$ or $\bone$, derived from GroundCompiler event-flow
+conservativity.
 \end{definition}
 
 \begin{definition}[No-hidden-input obligation]
 \label{def:taste-gate-no-hidden-input}
-The no-hidden-input obligation for $X$ asserts that every $X$-token is
-the recognised image of a finite event flow displayed from $\bzero,\bone$
-in the sense of \autoref{ch:ground-compiler-event-flow}. No external
-universe, no infinite parameter set, no oracle witness, and no
-representation-only metadata enters as a primitive carrier row.
+No-hidden-input is not a field supplied by the chapter. It is the theorem that
+every token $x:X$ has a visible event-flow witness $e$ with
+$$
+\mathsf{fromEventFlow}(e)=\mathsf{some}(x),
+$$
+obtained by taking $e=\mathsf{toEventFlow}(x)$ and applying the round-trip
+obligation.
 \end{definition}
 
 \begin{definition}[Round-trip obligation]
 \label{def:taste-gate-round-trip}
-The round-trip obligation for $X$ asserts that the chapter's display
-readback composed with reconstruction is the identity on tokens, in the
-sense of \autoref{ch:ground-compiler-zeckendorf-safe-channel-encoding}'s
-\texttt{flow\_level\_round\_trip}. Display does not lose information.
+The round-trip obligation for $X$ asserts
+$$
+\forall x:X,\quad
+\mathsf{fromEventFlow}(\mathsf{toEventFlow}(x))=\mathsf{some}(x).
+$$
+Every admitted token must be the readback of its own displayed event flow.
 \end{definition}
 
 \begin{definition}[Layer-separation obligation]
 \label{def:taste-gate-layer-separation}
-The layer-separation obligation for $X$ asserts that the chapter's
-source role, channel role, and display role do not collapse into one
-another, in the sense of
-\autoref{ch:ground-compiler-source-channel-layer-separation}'s
-\texttt{source\_channel\_separation}. The chapter does not paper over
-the source/channel/display distinction by treating one as a renaming of
-another.
+The layer-separation obligation for $X$ asserts
+$$
+\forall x,y:X,\quad
+x\neq y\Rightarrow
+\mathsf{toEventFlow}(x)\neq \mathsf{toEventFlow}(y).
+$$
+Distinct carrier tokens therefore have distinct displayed event flows.
 \end{definition}
 
 \section{Lean interface}
 \label{sec:taste-gate-lean-interface}
 
-The four obligations live in a single Lean structure:
+The Lean interface separates carrier data from gate data:
 
 \begin{verbatim}
-structure ChapterTasteGate (X : Type) where
-  conservativity_holds : Prop
-  conservativity_proof : conservativity_holds
-  no_hidden_input_holds : Prop
-  no_hidden_input_proof : no_hidden_input_holds
-  round_trip_holds : Prop
-  round_trip_proof : round_trip_holds
-  layer_separation_holds : Prop
-  layer_separation_proof : layer_separation_holds
-\end{verbatim}
-\leandef{BEDC.Meta.TasteGate.ChapterTasteGate}
+class BHistCarrier (X : Type) where
+  toEventFlow : X -> EventFlow
+  fromEventFlow : EventFlow -> Option X
 
-The reference instance witnesses that the ground compiler's own
-no-hidden-input compiler state already satisfies the four obligations,
-using \texttt{event\_flow\_conservativity}, \texttt{no\_hidden\_input},
-and \texttt{flow\_level\_round\_trip} as discharging proofs. The
-layer-separation field is currently a \texttt{True} placeholder; the
-\texttt{source\_channel\_separation} witness is wired in once the
-ground-compiler prototype layer chapters complete.
+class ChapterTasteGate (X : Type) [BHistCarrier X] where
+  round_trip :
+    forall x : X,
+      BHistCarrier.fromEventFlow
+        (BHistCarrier.toEventFlow x) = some x
+  layer_separation :
+    forall x y : X, x <> y ->
+      BHistCarrier.toEventFlow x <>
+        BHistCarrier.toEventFlow y
+\end{verbatim}
+\leandef{BEDC.Meta.TasteGate.BHistCarrier}
+\leandef{BEDC.Meta.TasteGate.ChapterTasteGate}
+\leanchecked{BEDC.Meta.TasteGate.ChapterTasteGate.conservativity}
+\leanchecked{BEDC.Meta.TasteGate.ChapterTasteGate.no\_hidden\_input}
+
+The reference instance witnesses that the ground compiler's own event-flow
+carrier satisfies the gate by identity display and identity readback. The
+conservativity and no-hidden-input readings are obtained from the derived
+theorems above, not from chapter-filled fields.
 
 \leanchecked{BEDC.Meta.TasteGate.groundCompilerSelfTasteGate}
+
+\section{Field faithfulness and nontriviality}
+\label{sec:taste-gate-field-faithful-nontrivial}
+
+The current Lean surface also records two opt-in strengthening gates.
+\texttt{FieldFaithful} requires a chapter to list its $\BHist$ fields and prove
+that equal field lists determine equal carrier tokens. \texttt{Nontrivial}
+requires a displayed pair of distinct inhabitants, excluding one-token carriers
+whose layer-separation proof would be vacuous.
+
+\leandef{BEDC.Meta.TasteGate.FieldFaithful}
+\leandef{BEDC.Meta.TasteGate.Nontrivial}
+
+These gates do not replace \texttt{ChapterTasteGate}. They refine it: the
+chapter must first be displayable and readable, and may then expose additional
+evidence that the display reflects every declared field and that the carrier is
+not a vacuous singleton.
 
 \section{Relationship to the NameCert obligations}
 \label{sec:taste-gate-versus-namecert}
@@ -109,7 +142,7 @@ ground compilation layer. The two are orthogonal:
 \begin{itemize}
 \item A chapter satisfying $\NameCert$ alone is internally consistent
       but not necessarily stable when admitted to the global horizon.
-\item A chapter satisfying TasteGate alone has cross-horizon stability
+\item A chapter satisfying TasteGate alone has display/readback stability
       but is not yet a usable BEDC carrier.
 \item Human-curated chapters supply $\NameCert$ and inherit TasteGate
       credit from mathematical consensus.
@@ -134,10 +167,10 @@ mathematics in some absolute sense; it rules the candidate out of
 not claim that human-curated chapters whose four obligations have not
 been mechanically checked are incorrect; it claims only that they
 inherit consensus credit and need not be re-checked at admission time.
-The chapter does not claim a conservativity proof for arbitrary chapter
-$X$ relative to arbitrary BEDC baseline; the
-\texttt{conservativity\_holds} field is per-chapter and the discharging
-proof is supplied by the chapter itself.
+The chapter does not claim a semantic conservativity theorem for arbitrary
+chapter $X$ relative to an arbitrary BEDC baseline. It claims the narrower
+ground-display conservativity supplied by the GroundCompiler event-flow theorem
+for the displayed event flows of any admitted carrier.
 
 \concretizedIn{ch:concrete-instances-policy-namecert}{Policy packets realize the TasteGate discipline as finite BHist action-selection certificates with explicit ground-compiler witness rows.}
 \concretizedIn{ch:concrete-instances-tastegateadmission-namecert}{TasteGateAdmission packets realize AI-origin chapter admission as finite BHist rows carrying ChapterTasteGate, ground-compiler witness, audit-gate, hsame, Cont, Pkg, GAP, and NameCert data.}

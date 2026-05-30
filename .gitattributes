@@ -3,3 +3,11 @@
 *.tex linguist-detectable=true
 *.md linguist-documentation
 lean4/BEDC.lean merge=bedc-lean-regen
+
+# Append-only 清单文件: 并发 round 各自往尾部追加唯一 \input / 幂等 \providecommand,
+# 用 git 内置 union 驱动让两侧新增行都保留, 消除单写者分支上的 merge 惊群.
+# 仅限已验证为纯清单的文件 (non-list=0); 结构文件 main.tex / preamble.tex /
+# preamble_chapter_macros.tex 主 hub / 代码文件 TasteGate.lean 一律不挂.
+papers/bedc/parts/concrete_instances/*concrete_instance_inputs*.tex merge=union
+papers/bedc/parts/preamble_chapter_macro_definitions*.tex merge=union
+papers/bedc/preamble_chapter_macros_*tail*.tex merge=union

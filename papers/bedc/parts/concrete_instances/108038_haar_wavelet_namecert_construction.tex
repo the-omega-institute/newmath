@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\HaarWaveletUp$}
+\label{ch:concrete-instances-haar-wavelet-namecert}
+\origin{human}
+
+Starting from the classical Haar 1910 orthonormal system and its constructive dyadic approximation surface, the $\HaarWaveletUp$ packet records finite dyadic-window wavelet data as BEDC NameCert rows. It sits over the Schauder-basis coordinate route of \autoref{ch:concrete-instances-schauder-basis-namecert}, the dyadic partition surface of \autoref{ch:concrete-instances-dyadic-partition-namecert}, the finite step-function interface of \autoref{ch:concrete-instances-step-function-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies a finite wavelet coefficient window without importing Haar measure, quotient function spaces, ambient Hilbert-space completeness, or a selected infinite expansion.
+
+\begin{definition}[Haar wavelet carrier]
+\label{def:haar-wavelet-carrier}
+A $\HaarWaveletUp$ carrier is a finite $\BHist$ packet
+$$
+W=(K,I,L,V,A,B,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the dyadic scale row, naming the inspected level and the finite family of cells at that level.
+\item $I$ is the parent-interval row, read through the $\DyadicPartitionUp$ packet of \autoref{ch:concrete-instances-dyadic-partition-namecert}.
+\item $L$ records the left and right child split of each inspected parent interval together with the sign assignment $+1,-1$.
+\item $V$ is the $\StepFunctionUp$ value row, so each inspected wavelet is a signed dyadic step function over the displayed children.
+\item $A$ is the finite coefficient-window row, listing exactly the inspected scale-position coefficients and their local dyadic tolerances.
+\item $B$ is the $\SchauderBasisUp$ coordinate handoff row, consuming the finite coefficient window as a basis-coordinate projection.
+\item $R$ is the $\RegSeqRatUp$ readback row for the coefficient values and sampled step-function values.
+\item $E$ is the terminal $\RealUp$ seal row for every coefficient and sampled value exported by the packet.
+\item $H$ records componentwise $\hsame$ transport for the scale, interval, split, value, coefficient, Schauder handoff, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a wavelet-window read through $K,I,L,V,A,B,R,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\HaarWaveletUp$, $\DyadicPartitionUp$, $\StepFunctionUp$, $\SchauderBasisUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HaarWaveletUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for Haar measure, an $L^2$ quotient class, a host orthogonality theorem, a selected infinite coefficient stream, or ambient Hilbert-space completeness.
+\end{definition}
+
+\begin{theorem}[Haar wavelet NameCert obligations]
+\label{thm:haar-wavelet-namecert-obligations}
+For every accepted $\HaarWaveletUp$ carrier $W=(K,I,L,V,A,B,R,E,H,C,P,N)$, the local $\NameCert_{\HaarWaveletUp}$ surface consists exactly of carrier admission, dyadic scale exposure, parent-interval exposure, left/right sign-split exposure, step-function value exposure, finite coefficient-window exposure, Schauder-basis coordinate handoff, regular rational readback, Real seal exposure, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:haar-wavelet-carrier}. The rows $K,I,L,V$ display the finite dyadic scale, the parent interval, the signed child split, and the induced step-function value row before any coefficient consumer can read a wavelet.
+
+The coefficient route is finite. The row $A$ lists only the inspected scale-position coefficients, $B$ hands that finite list to the $\SchauderBasisUp$ coordinate route, and $R,E$ provide the regular rational readback and terminal Real seal for the same displayed values.
+
+The structural rows preserve that route. Since $H,C,P,N$ add only transport, replay, provenance, and local naming, and since the carrier has no coordinate for Haar measure, quotient function classes, host orthogonality, selected infinite streams, or Hilbert-space completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Haar wavelet dyadic-step handoff]
+\label{thm:haar-wavelet-dyadic-step-handoff}
+Every $\StepFunctionUp$ or $\SchauderBasisUp$ consumer of an accepted $\HaarWaveletUp$ carrier reads the wavelet only through
+$$
+\DyadicPartitionUp \longmapsto \StepFunctionUp \longmapsto \SchauderBasisUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+together with the displayed scale, split, transport, replay, provenance, and local naming rows. The handoff exports finite dyadic step functions and finite coefficient windows, not Haar integration, quotient function equality, an infinite expansion selector, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the dyadic data. The scale row $K$ and parent-interval row $I$ determine the inspected dyadic cells, and the split row $L$ records the left/right signed child cells over that finite partition.
+
+Next use the step-function value row. The row $V$ turns the signed child data into a $\StepFunctionUp$ read, so a step-function consumer receives only the displayed finite cell values and not an ambient function object.
+
+Finally read the coefficient and seal rows. The finite coefficient window $A$ feeds the $\SchauderBasisUp$ coordinate handoff $B$, and the rows $R,E$ provide regular rational readback and terminal Real seals for the same displayed coefficients. The structural rows $H,C,P,N$ transport and name this route, so no Haar-measure row, quotient equality, infinite expansion selector, or ambient completeness coordinate is exported.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HaarWaveletUp$ coefficient read is refuted if its $\SchauderBasisUp$ coordinate handoff is preserved while the displayed $\DyadicPartitionUp$ parent interval, left/right sign split, $\StepFunctionUp$ value row, $\RegSeqRatUp$ readback, and $\RealUp$ seal are removed.}
+
+\independenceWitness{dyadic-partition, step-function, schauder-basis, regseqrat, real: none is bijective with $\HaarWaveletUp$ because the packet jointly carries scale rows, parent intervals, signed child splits, step-function values, finite coefficient windows, coordinate handoff, regular readback, terminal seals, transport, replay, provenance, and local naming.}
+
+\closureat{HaarWaveletUp}{seedStr}
+
+\begin{closurestatus}{\HaarWaveletUp}
+  \constructivestory{A $\HaarWaveletUp$ packet is generated from dyadic scale rows, parent interval rows, left/right sign splits, StepFunctionUp values, finite coefficient windows, SchauderBasisUp coordinate handoff, RegSeqRatUp readback, RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:haar-wavelet-carrier}, \autoref{thm:haar-wavelet-namecert-obligations}, and \autoref{thm:haar-wavelet-dyadic-step-handoff} seed the finite dyadic-window wavelet packet over partition, step-function, coordinate, readback, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Haar measure, host orthogonality, quotient function spaces, selected infinite expansions, Hilbert-space completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, dyadic scale exposure, parent-interval exposure, sign-split exactness, StepFunctionUp handoff, SchauderBasisUp coordinate routing, RegSeqRatUp readback, RealUp seal exposure, and structural transport for BEDC.Derived.HaarWaveletUp.}
+\end{closurestatus}

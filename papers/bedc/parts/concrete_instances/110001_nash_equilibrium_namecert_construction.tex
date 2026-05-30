@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\NashEquilibriumUp$}
+\label{ch:concrete-instances-nash-equilibrium-namecert}
+\origin{human}
+
+Following Nash's equilibrium theorem, the $\NashEquilibriumUp$ packet records the finite best-response surface for a displayed finite normal-form game before any mixed strategy, payoff comparison, or equilibrium witness is treated as a host object. It sits after the compact metric and convex strategy-simplex surfaces of \autoref{ch:concrete-instances-compactmetric-namecert} and \autoref{ch:concrete-instances-convexset-namecert}, the real payoff rows of \autoref{ch:concrete-instances-real-namecert}, and the fixed-point anchors of \autoref{ch:concrete-instances-brouwer-fixed-point-namecert} and \autoref{ch:concrete-instances-kakutani-fixed-point-namecert}. The chapter names the finite BEDC carrier needed by later game-theoretic consumers without exporting a host simplex, selected optimizer, quotient mixed-strategy equality, semantic continuity, or an ambient fixed-point theorem.
+
+\begin{definition}[Nash equilibrium carrier]
+\label{def:nash-equilibrium-carrier}
+A $\NashEquilibriumUp$ carrier is a finite $\BHist$ packet
+$$
+G=(P,S,A,U,B,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite player ledger. It records the inspected player names, their classifier rows, and the finite dependency order in which player-indexed strategy and payoff rows are read.
+\item $S$ is the finite strategy-simplex ledger. For each player it displays the finitely generated mixed-strategy simplex through compact metric and convex-set rows, together with the finite coordinate windows consumed by the game packet.
+\item $A$ is the action-window ledger. It records, for each player, the finite pure-action windows that underlie the displayed simplex coordinates and the finite product windows inspected by payoff and best-response consumers.
+\item $U$ is the payoff-row ledger. It reads payoff comparisons only through displayed $\RealUp$ rows attached to finite action profiles and finite mixed-strategy windows.
+\item $B$ is the best-response ledger. It records the finite argmax or best-response correspondence rows as displayed comparison data over $P,S,A,U$, without selecting a host optimizer.
+\item $E$ is the equilibrium row. It states that the displayed mixed-strategy profile is read through $B$ as a fixed point of the best-response ledger, with the fixed-point route exposed only through the cited Brouwer or Kakutani packet.
+\item $H$ records componentwise $\hsame$ transport for player ledgers, simplex rows, action windows, payoff rows, best-response rows, equilibrium rows, replay routes, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ continuation from a finite game request through the player, simplex, action, payoff, best-response, fixed-point, transport, provenance, and local naming rows.
+\item $Q$ is the $\Pkg$ provenance over $\NashEquilibriumUp$, $\CompactMetricUp$, $\ConvexSetUp$, $\RealUp$, $\BrouwerFixedPointUp$, $\KakutaniFixedPointUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\NashEquilibriumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by these displayed rows. It stores no host mixed-strategy simplex, no selected maximizer, no quotient equality of strategies, no semantic payoff continuity, no countable choice, and no ambient fixed-point principle.
+\end{definition}
+
+\begin{theorem}[Nash equilibrium NameCert obligations]
+\label{thm:nash-equilibrium-namecert-obligations}
+For every accepted $\NashEquilibriumUp$ carrier
+$$
+G=(P,S,A,U,B,E,H,C,Q,N),
+$$
+the local $\NameCert_{\NashEquilibriumUp}$ surface consists exactly of finite player admission, finite strategy-simplex exposure, action-window exposure, payoff-row readability, best-response ledger exposure, equilibrium-row fixed-point routing, componentwise $\hsame$ transport, displayed $\Cont$ continuation, $\Pkg$ provenance, and local naming. No NameCert obligation is stored outside the rows of \autoref{def:nash-equilibrium-carrier}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The player, strategy, action, payoff, best-response, and equilibrium data are precisely the rows $P,S,A,U,B,E$.
+
+The finite game surface is read first. The player ledger $P$ indexes the displayed strategy-simplex rows $S$, while the action-window ledger $A$ supplies the finite product windows inspected by payoff and best-response consumers.
+
+The payoff and best-response obligations are then read through $U$ and $B$. Payoff comparisons consume only the displayed $\RealUp$ rows, and the best-response ledger records comparison and correspondence data without adding a selected host optimizer.
+
+Finally the equilibrium row $E$ is consumed through the displayed fixed-point route, and the structural rows $H,C,Q,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate beyond these rows, the listed surface exhausts the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Nash equilibrium best-response coverage]
+\label{thm:nash-equilibrium-best-response-coverage}
+Let
+$$
+G=(P,S,A,U,B,E,H,C,Q,N)
+$$
+be an accepted $\NashEquilibriumUp$ carrier. Every equilibrium-facing read of $E$ must first expose the player ledger $P$, the finite strategy-simplex rows $S$, the action windows $A$, the payoff rows $U$, and the best-response ledger $B$. The read may cite $\CompactMetricUp$, $\ConvexSetUp$, $\RealUp$, $\BrouwerFixedPointUp$, and $\KakutaniFixedPointUp$ only through those displayed rows and the structural rows $H,C,Q,N$; it exports no host simplex, selected best response, quotient strategy equality, semantic continuity, countable choice, or ambient fixed-point theorem.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition. The equilibrium row $E$ is downstream of $P,S,A,U,B$, so no equilibrium-facing consumer can inspect $E$ before the finite player, strategy, action, payoff, and best-response ledgers have been displayed.
+
+The compact and convex rows enter only through $S$, and the real payoff comparisons enter only through $U$. The fixed-point route is recorded by the best-response and equilibrium rows rather than by a separate host theorem coordinate.
+
+Apply the NameCert obligation theorem. It makes transport, continuation, provenance, and local naming part of the same displayed route, so any consumer of $E$ receives only the finite best-response certificate.
+
+The excluded host simplex, selected optimizer, quotient equality, semantic continuity, choice, and ambient fixed-point objects are absent from the carrier inventory. Thus the best-response coverage route is exhausted by the displayed rows.
+\end{proof}
+
+\closureat{NashEquilibriumUp}{seedStr}
+
+\begin{closurestatus}{\NashEquilibriumUp}
+  \constructivestory{A $\NashEquilibriumUp$ packet is generated from a finite player ledger, finite strategy-simplex rows, action windows, payoff Real rows, best-response ledger, equilibrium fixed-point row, componentwise hsame transport, displayed Cont continuation, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nash-equilibrium-carrier}, \autoref{thm:nash-equilibrium-namecert-obligations}, and \autoref{thm:nash-equilibrium-best-response-coverage} seed the finite best-response certificate surface over player, simplex, action, payoff, best-response, equilibrium, transport, continuation, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host mixed-strategy simplices, selected optimizers, quotient strategy equality, semantic payoff continuity, countable choice, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite simplex exposure, action-window coverage, payoff-row readability, best-response ledger exactness, equilibrium-row nonescape, transport stability, continuation stability, provenance stability, and local naming for BEDC.Derived.NashEquilibriumUp.}
+\end{closurestatus}

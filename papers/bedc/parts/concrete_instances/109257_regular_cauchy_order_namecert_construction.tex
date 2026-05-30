@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyOrderUp$}
+\label{ch:concrete-instances-regular-cauchy-order-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyOrderUp$ packet records the constructive order surface for regular Cauchy real names as finite BEDC NameCert data. It sits over the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the algebraic order boundary of \autoref{ch:concrete-instances-real-alg-order-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives RealAlgOrder and Real consumers a displayed comparison route on regular names, without trichotomy, quotient stream equality, selected limits, host real equality, or countable choice.
+
+\begin{definition}[Regular-Cauchy order carrier]
+\label{def:regular-cauchy-order-carrier}
+A $\RegularCauchyOrderUp$ carrier is a finite $\BHist$ packet
+$$
+O=(X,Y,S,D,R,L,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ regular Cauchy source rows whose finite rational windows are compared.
+\item $S$ is the shared $\StreamNameUp$ schedule naming every inspected precision window for both sources.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic radius, slack, sign budget, and comparison threshold for each inspected window.
+\item $R$ is the regular-rational readback row that records the finite rational observations obtained from $X$ and $Y$ through $S$ and $D$.
+\item $L$ is the order-comparison ledger; it stores only located finite evidence that the displayed readbacks meet, fall below, or remain unresolved at the current dyadic tolerance.
+\item $A$ is the downstream $\RealAlgOrderUp$ handoff row, available only after $X,Y,S,D,R,L$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the regular sources, stream schedule, dyadic ledger, readback row, order ledger, RealAlgOrder handoff, and local certificate rows.
+\item $C$ records the displayed $\Cont$ replay from an order request to the stream windows, dyadic tolerance comparison, regular-rational readback, order ledger, and RealAlgOrder handoff.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyOrderUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealAlgOrderUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyOrderUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,S,D,R,L,A,H,C,P,N$. It has no coordinate for trichotomy, quotient equality of streams, selected limits, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyOrderUp.RegularCauchyOrderTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular-Cauchy order NameCert obligations]
+\label{thm:regular-cauchy-order-namecert-obligations}
+For every accepted $\RegularCauchyOrderUp$ carrier $O=(X,Y,S,D,R,L,A,H,C,P,N)$, the local $\NameCert_{\RegularCauchyOrderUp}$ surface consists exactly of carrier admission for the two $\RegSeqRatUp$ source rows, shared $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance comparisons, regular-rational readback, order-comparison ledger, downstream $\RealAlgOrderUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No NameCert obligation may replace these rows by trichotomy, quotient stream equality, selected limits, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-order-carrier}. The rows $X,Y,S,D,R,L,A,H,C,P,N$ are the only displayed coordinates available to the local certificate.
+
+The two regular Cauchy sources are compared through the same stream schedule $S$ and dyadic tolerance ledger $D$. The readback row $R$ and order ledger $L$ therefore record finite tolerance evidence, not equality of completed streams or a global trichotomy.
+
+The RealAlgOrder handoff $A$ is downstream of that finite route. Transport, replay, provenance, and local naming are supplied by $H,C,P,N$, and the carrier has no additional coordinate from which a selector, host equality, choice principle, or ambient completeness theorem could be projected.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy order RealAlgOrder handoff]
+\label{thm:regular-cauchy-order-realalgorder-handoff}
+Every $\RealAlgOrderUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyOrderUp$ packet reads the constructive order surface only through the displayed route
+$$
+X,Y,S,D,R,L,A,H,C,P,N .
+$$
+The handoff exports finite stream windows, dyadic tolerance comparisons, regular-rational readback, an order-comparison ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. It does not export trichotomy, quotient stream equality, selected limits, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the order surface. The carrier displays $X$ and $Y$ only together with the shared stream schedule $S$, dyadic tolerance ledger $D$, and finite readback row $R$.
+
+The order ledger $L$ can be read only after those windows and tolerances have been displayed. If an algebraic-order or Real-facing consumer is present, the downstream row $A$ is available only after the same finite comparison route has been consumed.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-order-namecert-obligations}. The support rows $H,C,P,N$ preserve, replay, source, and name this finite route, so the handoff exports no trichotomy, quotient stream equality, selected limit, host real equality, choice principle, or ambient completeness theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyOrderUp$ consumer that reaches a $\RealAlgOrderUp$ or $\RealUp$ order read without first reading two RegSeqRat source rows, a shared StreamName schedule, a DyadicRatCore tolerance ledger, regular-rational readback, an order-comparison ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row refutes the carrier surface.}
+
+\independenceWitness{regseqrat, dyadicratcore, streamname, realalgorder, real: $\RegularCauchyOrderUp$ is not bijective to any listed sibling because it binds two regular Cauchy source rows to one constructive order ledger and downstream RealAlgOrder handoff.}
+
+\closureat{RegularCauchyOrderUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyOrderUp}
+  \constructivestory{A $\RegularCauchyOrderUp$ packet is generated from two RegSeqRat source rows, a shared StreamName schedule, a DyadicRatCore tolerance ledger, regular-rational readback, an order-comparison ledger, a RealAlgOrder handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-order-carrier}, \autoref{thm:regular-cauchy-order-namecert-obligations}, and \autoref{thm:regular-cauchy-order-realalgorder-handoff} seed the finite constructive order route for regular Cauchy real names through RegSeqRat, DyadicRatCore, StreamName, RealAlgOrder, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, quotient stream equality, selected limits, host real equality, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove the finite NameCert obligation surface and RealAlgOrder handoff theorem.}
+\end{closurestatus}

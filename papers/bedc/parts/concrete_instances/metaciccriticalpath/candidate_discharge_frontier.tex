@@ -1,0 +1,143 @@
+\begin{theorem}[MetaCIC critical-path candidate-discharge frontier]
+\label{thm:metacic-critical-path-candidate-discharge-frontier}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Candidate-mediated strong-normalization rows, confluence rows, and bounded-decidability rows may be consumed by the root-unblock route only while the subject-reduction obstruction row $O$ and the discharge socket $D$ remain visible through the same packet. These candidate rows do not fill $D$ unless a separate subject-reduction certificate row is displayed.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateDischargeFrontier}
+\begin{proof}
+Begin with the consistency handoff of \autoref{thm:metacic-critical-path-consistency-handoff}. It permits the positive read from the strong-normalization row $S$ to the normal-form row $N$ only through the displayed route, transport, provenance, and local naming rows.
+
+Next keep the blocked side visible. The obstruction boundary \autoref{thm:metacic-critical-path-obstruction-boundary}, the NameCert obligation surface \autoref{thm:metacic-critical-path-namecert-obligation-surface}, and discharge-socket nonescape \autoref{thm:metacic-critical-path-discharge-socket-nonescape} keep $O$ and $D$ as separate rows of the same accepted packet.
+
+Now consume the candidate evidence. The candidate-mediated SN frontier \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}, the candidate-mediated SN obligation surface \autoref{thm:metacic-confluence-candidate-mediated-sn-obligation-surface}, and the candidate-mediated subject-reduction boundary \autoref{thm:metacic-critical-path-candidate-mediated-sn-subject-reduction-boundary} allow strong-normalization, confluence-facing, and bounded-decidability consumers to inspect the finite candidate rows, but only with $O$ and $D$ still exposed.
+
+Finally apply discharge-socket coverage, \autoref{thm:metacic-critical-path-discharge-socket-coverage}. A downstream socket read remains inside $S,N,O,U,D,H,C,P,L$ unless a separate subject-reduction input is displayed. Hence candidate-mediated SN, confluence, and bounded-decidability rows sharpen the frontier but do not discharge the socket by themselves.
+\end{proof}
+
+This candidate-discharge frontier consumes the residual-budget and diamond-premise rows of \autoref{ch:concrete-instances-metacic-diamond-residual-budget-namecert}. The dependency keeps those sibling budget rows separate from the subject-reduction discharge socket, so a lattice read may use them as confluence-facing route data without treating them as the missing subject-reduction certificate.
+
+\begin{theorem}[MetaCIC candidate frontier L10 discharge boundary]
+\label{thm:metaciccriticalpath-candidate-frontier-l10-discharge-boundary}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Candidate-mediated strong-normalization and confluence rows may consume the displayed L10 readiness rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as source evidence for the current Phase Real and Completion route. Those four rows do not fill the subject-reduction discharge socket $D$ unless a separate subject-reduction certificate is displayed in the same packet route.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateFrontierL10DischargeBoundary}
+\begin{proof}
+Start with the candidate-discharge frontier, \autoref{thm:metacic-critical-path-candidate-discharge-frontier}. It keeps candidate-mediated strong-normalization, confluence-facing, and bounded-decidability rows downstream of the visible obstruction row $O$ and discharge socket $D$.
+
+Read the candidate-mediated SN surface next. Theorems~\ref{thm:metacic-critical-path-candidate-mediated-sn-frontier} and~\ref{thm:metacic-confluence-candidate-mediated-sn-obligation-surface} allow the candidate rows to support normalization and confluence consumers, but only as displayed rows inside the accepted packet.
+
+Now attach the L10 four-object route. Theorem~\ref{thm:metacic-critical-path-l10-four-object-exit-certificate} and the source-obligation surface of Theorem~\ref{thm:metacic-critical-path-phase-real-source-obligations} make $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ available as readiness rows for the Phase Real and Completion route.
+
+Finally apply discharge-socket coverage, \autoref{thm:metacic-critical-path-discharge-socket-coverage}. The four L10 rows supply source readiness, not a subject-reduction certificate. Therefore the socket $D$ remains open until the separate certificate is displayed, and no Real or Completion readiness row can be read as a hidden discharge.
+\end{proof}
+
+\begin{theorem}[MetaCIC bounded-conversion candidate boundary]
+\label{thm:metaciccriticalpath-bounded-conversion-candidate-boundary}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Bounded conversion rows, confluence rows, and strong-normalization candidate rows may be read by the packet only while the subject-reduction obstruction row $O$ and the discharge socket $D$ remain displayed through the same route. None of those candidate rows closes subject reduction unless an explicit subject-reduction certificate row is present in the packet.
+\end{theorem}
+\begin{proof}
+Start with the candidate-discharge frontier, \autoref{thm:metacic-critical-path-candidate-discharge-frontier}. It permits candidate-mediated strong-normalization, confluence-facing, and bounded-decidability evidence only with $O$ and $D$ still visible.
+
+Next apply the L10 discharge boundary, \autoref{thm:metaciccriticalpath-candidate-frontier-l10-discharge-boundary}. That theorem lets the packet consume the displayed source-readiness rows without treating any Real or Completion readiness row as the missing subject-reduction certificate.
+
+Finally use discharge-socket coverage, \autoref{thm:metacic-critical-path-discharge-socket-coverage}. A bounded-conversion row can support decidability and confluence inspection, but the socket $D$ is filled only by a displayed subject-reduction certificate row. Hence candidate evidence remains separate from subject-reduction discharge.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathBoundedConversionCandidateBoundary}
+
+\begin{theorem}[MetaCIC candidate-discharge frontier coverage]
+\label{thm:metaciccriticalpath-candidate-discharge-frontier-coverage}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. The candidate-discharge frontier covers every permitted strong-normalization, confluence, bounded-conversion, and L10 source-readiness read only through the displayed rows $S,N,O,U,D,H,C,P,L$ and the four visible faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The coverage keeps the subject-reduction obstruction row $O$ and discharge socket $D$ visible throughout and does not claim that subject reduction has been supplied.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_candidate\_discharge\_frontier\_coverage}
+\begin{proof}
+Start with \autoref{thm:metacic-critical-path-candidate-discharge-frontier}. It keeps candidate-mediated normalization, confluence-facing, and bounded-decidability rows downstream of the visible obstruction and socket rows.
+
+Add the L10 boundary from \autoref{thm:metaciccriticalpath-candidate-frontier-l10-discharge-boundary}. That result permits the four source-readiness faces to support the Phase Real and Completion route while refusing to read them as a subject-reduction certificate.
+
+Finally apply \autoref{thm:metaciccriticalpath-bounded-conversion-candidate-boundary} and \autoref{thm:metacic-critical-path-discharge-socket-coverage}. Together they force bounded conversion and every downstream socket read to preserve $O$ and $D$ unless a separate subject-reduction row is displayed.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateFrontierDischargeCoverage}
+
+\begin{theorem}[MetaCIC Real root budget lock]
+\label{thm:metaciccriticalpath-real-root-budget-lock}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Any Real-facing or Completion-facing root budget consumed by the candidate frontier is locked to the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ readiness rows, carried through the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route as $K$. The lock supplies L10 source budget only; it does not close subject reduction, quotient stream equality, selected host limits, host real equality, trichotomy, open-cover compactness, or completed-real closure.
+\end{theorem}
+\begin{proof}
+Read the L10 source side through \autoref{thm:metacic-critical-path-l10-four-object-exit-certificate}. It displays exactly the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows before the Phase Real and Completion exit can be consumed.
+
+Use \autoref{thm:metacic-critical-path-phase-real-source-obligations}. The four faces are carried as finite source obligations through the same packet route, so the Real-facing budget cannot be replaced by an aggregate host object.
+
+Now apply \autoref{thm:metaciccriticalpath-candidate-discharge-frontier-coverage}. The candidate frontier may consume this source budget only while the obstruction row and discharge socket remain visible. Therefore the root budget is locked as readiness evidence and cannot discharge subject reduction or add any excluded completion principle.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathRealRootBudgetLock}
+
+\begin{theorem}[MetaCIC substitution boundary routing]
+\label{thm:metaciccriticalpath-substitution-boundary-routing}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Substitution-facing reads that pass through the bounded-conversion or confluence side of the candidate frontier must route through the displayed handoff row $U$, the obstruction row $O$, the discharge socket $D$, and the structural rows $H,C,P,L$ before they may consume the L10 readiness rows. Such reads may support bounded conversion and candidate checking, but they do not supply the missing subject-reduction certificate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-critical-path-substitution-handoff-visibility}. It keeps substitution-facing reads visible through the handoff route and prevents the handoff row from becoming a detached theorem export.
+
+Next use \autoref{thm:metaciccriticalpath-bounded-conversion-candidate-boundary}. Bounded conversion, confluence, and candidate rows remain attached to the same packet and keep the obstruction and discharge rows visible.
+
+Finally apply \autoref{thm:metaciccriticalpath-real-root-budget-lock}. The L10 faces may be consumed only as source-readiness rows behind the visible socket route. Hence substitution-boundary routing can serve bounded conversion and candidate checking, while subject reduction remains open until a separate certificate row is displayed.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCarrier\_substitution\_boundary\_routing}
+
+\begin{theorem}[MetaCIC candidate discharge budget route]
+\label{thm:metacic-critical-path-candidate-discharge-budget-route}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Bounded conversion, candidate-mediated strong normalization, confluence, and the L10 readiness faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ form a finite budget route inside $K$. The subject-reduction discharge socket $D$ remains open until a separate subject-reduction certificate row is displayed, so bounded-conversion evidence and L10 readiness cannot be read as a hidden subject-reduction discharge.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-critical-path-candidate-discharge-frontier}. It displays the candidate-mediated frontier and keeps the obstruction row and discharge socket visible inside the same packet.
+
+Use \autoref{thm:metaciccriticalpath-bounded-conversion-candidate-boundary}. Bounded conversion, confluence, and candidate rows are budget evidence attached to $K$, not a detached proof of the missing discharge.
+
+Now apply \autoref{thm:metaciccriticalpath-real-root-budget-lock} and \autoref{thm:metaciccriticalpath-substitution-boundary-routing}. The L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are consumed only as readiness rows behind the visible handoff and socket route.
+
+Finally invoke \autoref{thm:metacic-critical-path-discharge-socket-coverage}. The socket $D$ is still the named subject-reduction boundary. Since no certificate row for subject reduction is displayed, the finite budget route supports bounded conversion and candidate checking while leaving the subject-reduction socket open.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateDischargeBudgetRoute}
+
+\begin{theorem}[MetaCIC discharge socket case split]
+\label{thm:metacic-critical-path-discharge-socket-case-split}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet whose candidate-discharge budget route is displayed. Then every candidate-discharge read of $K$ falls into exactly one of three finite cases: a filled discharge case, where a displayed subject-reduction certificate row fills $D$; a visible obstruction case, where $O$ remains the exposed subject-reduction obstruction; or a residual socket case, where candidate evidence is present but $D$ is still an unfilled discharge socket. None of the three cases exports closed subject reduction, full closed consistency, quotient proof equality, or a detached normalization theorem.
+\end{theorem}
+\begin{proof}
+Use the candidate frontier coverage to restrict the read to the rows $S,N,O,U,D,H,C,P,L$ and the visible L10 readiness faces. No case may inspect a row outside that finite packet.
+
+Next apply the candidate-discharge budget route. It separates bounded conversion, candidate-mediated strong normalization, confluence-facing data, and Real-readiness budget from the subject-reduction discharge socket.
+
+The displayed socket row $D$ is therefore either filled by an explicit subject-reduction certificate row, blocked by the still-visible obstruction row $O$, or carried forward as the residual socket. These alternatives exhaust the finite socket coordinates, and the nonescape theorems prevent any branch from exporting closed subject reduction or full closed consistency.
+\end{proof}

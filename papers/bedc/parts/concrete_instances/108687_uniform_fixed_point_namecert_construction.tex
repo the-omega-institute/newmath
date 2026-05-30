@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\UniformFixedPointUp$}
+\label{ch:concrete-instances-uniform-fixed-point-namecert}
+\origin{human}
+
+Following Banach, Picard, and Bishop--Bridges constructive analysis, the $\UniformFixedPointUp$ packet records the endpoint-modulus surface obtained when a displayed contraction, a finite Picard orbit, and a complete metric handoff are assembled as one L10 NameCert route. It sits after the complete metric carrier of \autoref{ch:concrete-instances-completemetric-namecert}, the contractive map surface of \autoref{ch:concrete-instances-contractive-map-namecert}, the Picard iteration packet of \autoref{ch:concrete-instances-picard-iteration-namecert}, the fixed-point iteration packet of \autoref{ch:concrete-instances-fixed-point-iteration-namecert}, the located real modulus of \autoref{ch:concrete-instances-located-real-modulus-namecert}, and the Banach contraction principle of \autoref{ch:concrete-instances-banach-contraction-principle-namecert}. The packet exposes a uniform endpoint modulus for downstream fixed-point consumers; it does not introduce choice-selected endpoints, quotient equality, open-cover compactness, or ambient completeness outside the displayed rows.
+
+\begin{definition}[Uniform fixed-point carrier]
+\label{def:uniform-fixed-point-carrier}
+A $\UniformFixedPointUp$ carrier is a finite $\BHist$ packet
+$$
+U=(M,F,I,Q,U_0,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\CompleteMetricUp$ row, naming the metric carrier, convergence service, and endpoint limit surface available to the packet;
+\item $F$ is the $\ContractiveMapUp$ row, recording the self-map graph, contraction ledger, and metric compatibility used by the endpoint construction;
+\item $I$ is the $\PicardIterationUp/\FixedPointIterationUp$ row, exposing the initial point, finite iterate windows, residual budget, and Picard replay route;
+\item $Q$ is the Cauchy or located modulus row, read through $\LocatedRealModulusUp$ or the displayed Cauchy-modulus surface attached to the iteration;
+\item $U_0$ is the uniform endpoint-modulus row, translating a requested endpoint tolerance into the finite Picard window and contraction budget required by $M,F,I,Q$;
+\item $E$ is the endpoint seal row, recording the $\BanachContractionPrincipleUp$ fixed-point endpoint only after the uniform modulus and complete-metric handoff have been read;
+\item $H$ records componentwise $\hsame$ transports for $M,F,I,Q,U_0,E$ together with the replay, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ replay route by which the Picard window, contraction ledger, located modulus, endpoint modulus, and endpoint seal are inspected;
+\item $P$ is the $\Pkg$ provenance over $\UniformFixedPointUp$, $\CompleteMetricUp$, $\ContractiveMapUp$, $\PicardIterationUp$, $\FixedPointIterationUp$, $\LocatedRealModulusUp$, $\BanachContractionPrincipleUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\UniformFixedPointUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets with these ten rows. It has no coordinate for an endpoint chosen outside the Picard route, a quotient fixed-point equality, a hidden contraction constant, or a completeness witness detached from $M$.
+\end{definition}
+
+\begin{theorem}[Uniform fixed-point NameCert obligations]
+\label{thm:uniform-fixed-point-namecert-obligations}
+For the carrier of \autoref{def:uniform-fixed-point-carrier}, the local $\NameCert_{\UniformFixedPointUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for $U=(M,F,I,Q,U_0,E,H,C,P,N)$;
+\item contractive-map admission, requiring every endpoint read to expose the $\ContractiveMapUp$ row $F$ against the complete metric row $M$;
+\item Picard and fixed-point iteration admission, requiring $I$ to display the finite orbit rows before any Cauchy or endpoint row is inspected;
+\item Cauchy or located-modulus handoff, requiring $Q$ to route tolerance requests through $\LocatedRealModulusUp$ or the displayed Cauchy-modulus surface;
+\item uniform endpoint-modulus exactness, requiring $U_0$ to translate endpoint tolerances only through $M,F,I,Q$;
+\item endpoint seal nonescape, requiring $E,H,C,P,N$ to keep the $\BanachContractionPrincipleUp$ endpoint inside the same packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-fixed-point-carrier}. The rows $M,F,I,Q,U_0,E,H,C,P,N$ are the only local NameCert coordinates, so carrier admission is exactly the displayed packet.
+
+Read the contraction and iteration rows next. The $\ContractiveMapUp$ row supplies only the finite shrink ledger, while the $\PicardIterationUp$ and $\FixedPointIterationUp$ rows supply the finite orbit and residual budget before any endpoint is available.
+
+Use the modulus rows $Q$ and $U_0$. The located or Cauchy modulus answers tolerance requests by naming a finite Picard window, and the uniform endpoint modulus converts that window into the endpoint tolerance without adding a selected limit or quotient equality.
+
+Finally read the endpoint seal through $E,H,C,P,N$. The $\BanachContractionPrincipleUp$ endpoint is exposed only after the complete-metric, contraction, iteration, and modulus rows have been replayed, so no off-packet fixed point or ambient completeness coordinate is exported.
+\end{proof}
+
+\begin{theorem}[Uniform fixed-point modulus handoff]
+\label{thm:uniform-fixed-point-modulus-handoff}
+Every $\BanachContractionPrincipleUp$ or fixed-point endpoint consumer of an accepted $\UniformFixedPointUp$ packet receives the endpoint only through the finite route
+$$
+\CompleteMetricUp,\ \ContractiveMapUp,\ \PicardIterationUp,\ \FixedPointIterationUp,\ \LocatedRealModulusUp,\ U_0,\ \BanachContractionPrincipleUp,\ H,C,P,N .
+$$
+The row $U_0$ is a uniform endpoint-modulus handoff: it turns each endpoint tolerance into a displayed Picard window and contraction budget before the endpoint seal $E$ is read. The handoff exports no arbitrary fixed-point choice, no quotient equality of endpoints, no open-cover compactness, and no ambient completeness beyond the complete metric row $M$.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations. They force every consumer to expose $M,F,I,Q,U_0$ before reading $E$.
+
+Apply the sibling Picard and fixed-point iteration routes. The finite orbit row $I$ supplies the iterate windows and residual budgets, while $F$ supplies the contraction ledger over the metric carrier named by $M$.
+
+Use the located modulus handoff through $Q$. A requested endpoint tolerance is converted into finite dyadic or Cauchy data and then into the Picard window named by $U_0$.
+
+Finally pass to the Banach contraction endpoint seal. Since $E$ is downstream of the complete-metric service, contraction ledger, Picard route, and uniform modulus, the endpoint consumer receives only the displayed finite route and none of the refused host-level principles.
+\end{proof}
+
+\closureat{UniformFixedPointUp}{seedStr}
+
+\begin{closurestatus}{\UniformFixedPointUp}
+  \constructivestory{A $\UniformFixedPointUp$ packet is generated from a complete metric row, a contractive map row, a Picard or fixed-point iteration row, a Cauchy or located modulus row, a uniform endpoint-modulus row, an endpoint seal, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-fixed-point-carrier}, \autoref{thm:uniform-fixed-point-namecert-obligations}, and \autoref{thm:uniform-fixed-point-modulus-handoff} seed the endpoint-modulus route over $\CompleteMetricUp$, $\ContractiveMapUp$, $\PicardIterationUp$, $\FixedPointIterationUp$, $\LocatedRealModulusUp$, and $\BanachContractionPrincipleUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, choice-selected fixed points, quotient endpoint equality, open-cover compactness, or completeness outside the displayed complete metric row.}
+  \upgradepath{A formal route can encode the finite carrier, NameCert obligations, endpoint-modulus exactness, and endpoint-seal handoff for BEDC.Derived.UniformFixedPointUp.}
+\end{closurestatus}

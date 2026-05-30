@@ -1183,6 +1183,40 @@ def cubical_complex_summary(vertices: set[str]) -> dict[str, object]:
     }
 
 
+def simplicial_reduced_betti(face_masks: set[int], vertex_count: int) -> dict[int, int]:
+    if not face_masks:
+        return {-1: 1}
+    faces_by_dim: dict[int, list[int]] = {}
+    for mask in face_masks:
+        dimension = mask.bit_count() - 1
+        faces_by_dim.setdefault(dimension, []).append(mask)
+    max_dimension = max(faces_by_dim)
+    boundary_ranks: dict[int, int] = {}
+    for dimension in range(1, max_dimension + 1):
+        domain_faces = sorted(faces_by_dim.get(dimension, []))
+        row_faces = {face: index for index, face in enumerate(sorted(faces_by_dim.get(dimension - 1, [])))}
+        columns = []
+        for face in domain_faces:
+            column = 0
+            for vertex in range(vertex_count):
+                if face & (1 << vertex):
+                    boundary_face = face ^ (1 << vertex)
+                    column ^= 1 << row_faces[boundary_face]
+            columns.append(column)
+        boundary_ranks[dimension] = gf2_rank(columns)
+    reduced: dict[int, int] = {}
+    for dimension in range(max_dimension + 1):
+        chain_count = len(faces_by_dim.get(dimension, []))
+        boundary_rank = boundary_ranks.get(dimension, 0)
+        coboundary_rank = boundary_ranks.get(dimension + 1, 0)
+        betti = chain_count - boundary_rank - coboundary_rank
+        if dimension == 0:
+            betti -= 1
+        if betti:
+            reduced[dimension] = betti
+    return reduced
+
+
 def edge_isoperimetric_max_edges(dimension: int, size: int) -> int:
     memo: dict[tuple[int, int], int] = {}
 
@@ -3172,6 +3206,9 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         )
     y_external_codons = sorted(full_cube_set - mstar_set)
 
+    def rna_label(codon: str) -> str:
+        return codon.replace("T", "U")
+
     def anchor_support(codon: str) -> frozenset[int]:
         return frozenset(
             index
@@ -3239,6 +3276,66 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         <= external_closure_sets[left | right]
         for left in support_patterns
         for right in support_patterns
+    )
+    bedc_stop_square = ("TAA", "TAG", "TGA", "TGG")
+    bedc_rank_deficiency_rows = []
+    for codon in bedc_stop_square:
+        word = bits(codon)
+        suffix_bits = word[3] + word[5]
+        local_support = tuple(
+            coordinate
+            for bit, coordinate in zip(suffix_bits, ("f2", "f3"))
+            if bit == "1"
+        )
+        bedc_rank_deficiency_rows.append(
+            {
+                "codon": rna_label(codon),
+                "suffix": suffix_bits,
+                "support": local_support,
+                "rank": len(local_support),
+                "bedc_legal": len(local_support) < 2,
+                "standard_role": "Stop" if standard[codon] == "*" else "Trp",
+                "in_reassignment_support": codon in support,
+                "in_median_closure": codon in median_set,
+            }
+        )
+    bedc_closure_tower_rows = (
+        {
+            "level": "two_axis_alphabet",
+            "object": "U=00,C=01,A=10,G=11",
+        },
+        {
+            "level": "local_legality",
+            "object": "proper support in {f2,f3}",
+            "n": 2,
+            "lift_count": 1,
+            "blocker_homotopy": "S^0",
+        },
+        {
+            "level": "stop_l_shape",
+            "object": tuple(
+                row["codon"] for row in bedc_rank_deficiency_rows if row["bedc_legal"]
+            ),
+        },
+        {
+            "level": "reassignment_support_seed",
+            "object": tuple(
+                row["codon"]
+                for row in bedc_rank_deficiency_rows
+                if row["in_reassignment_support"]
+            ),
+        },
+        {
+            "level": "median_completion",
+            "object": tuple(rna_label(codon) for codon in bedc_stop_square),
+        },
+        {
+            "level": "terminal_trigger_algebra",
+            "object": "proper support in {s1,f1,s2,f2}",
+            "n": 4,
+            "lift_count": 2,
+            "blocker_homotopy": "S^2",
+        },
     )
     span_size_rows = [
         {
@@ -3839,8 +3936,331 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     )
 
     nonempty_support_patterns = tuple(pattern for pattern in support_patterns if pattern)
+    hochster_diagonal_coefficients = {-1: [0 for _degree in range(31)], 0: [0 for _degree in range(31)], 1: [0 for _degree in range(31)], 2: [0 for _degree in range(31)]}
+    support_level_betti_coefficients = {-1: [0 for _degree in range(16)], 0: [0 for _degree in range(16)], 1: [0 for _degree in range(16)], 2: [0 for _degree in range(16)]}
+    support_nerve_signature_counts: collections.Counter[tuple[int, int, int, int]] = collections.Counter()
+    boundary_face_masks = tuple(range(15))
+
+    def is_boundary_subcomplex(face_family: set[int]) -> bool:
+        for face in face_family:
+            subface = face
+            while True:
+                if subface not in face_family:
+                    return False
+                if subface == 0:
+                    break
+                subface = (subface - 1) & face
+        return True
+
+    def maximal_faces(face_family: set[int]) -> set[int]:
+        return {
+            face
+            for face in face_family
+            if not any(face != other and (face & ~other) == 0 for other in face_family)
+        }
+
+    support_to_nerve_subcomplex_signature_counts: collections.Counter[tuple[int, int, int, int]] = collections.Counter()
+    support_to_nerve_fiber_total = 0
+    support_to_nerve_h2_subcomplex_count = 0
+    for subcomplex_bits in range(1 << len(boundary_face_masks)):
+        subcomplex_faces = {
+            face
+            for face_index, face in enumerate(boundary_face_masks)
+            if (subcomplex_bits >> face_index) & 1
+        }
+        if not is_boundary_subcomplex(subcomplex_faces):
+            continue
+        subcomplex_nonempty_faces = {face for face in subcomplex_faces if face}
+        reduced_betti = simplicial_reduced_betti(subcomplex_nonempty_faces, 4)
+        signature = tuple(reduced_betti.get(homology_degree, 0) for homology_degree in (-1, 0, 1, 2))
+        subcomplex_facets = maximal_faces(subcomplex_faces)
+        support_to_nerve_subcomplex_signature_counts[signature] += 1
+        support_to_nerve_fiber_total += 2 ** (len(subcomplex_faces) - len(subcomplex_facets))
+        if signature == (0, 0, 0, 1):
+            support_to_nerve_h2_subcomplex_count += 1
+    for support_type_size in range(len(nonempty_support_patterns) + 1):
+        lift_coefficients = [
+            math.comb(support_type_size, double_lift_count) * (2 ** (support_type_size - double_lift_count))
+            for double_lift_count in range(support_type_size + 1)
+        ]
+        for support_type_subset in itertools.combinations(nonempty_support_patterns, support_type_size):
+            nerve_faces: set[int] = set()
+            for face_size in range(1, 5):
+                for coordinate_subset in itertools.combinations(range(4), face_size):
+                    coordinate_mask = sum(1 << coordinate for coordinate in coordinate_subset)
+                    if any(support.isdisjoint(coordinate_subset) for support in support_type_subset):
+                        nerve_faces.add(coordinate_mask)
+            reduced_betti = simplicial_reduced_betti(nerve_faces, 4)
+            signature = tuple(reduced_betti.get(homology_degree, 0) for homology_degree in (-1, 0, 1, 2))
+            support_nerve_signature_counts[signature] += 1
+            for homology_degree, betti_value in reduced_betti.items():
+                support_level_betti_coefficients[homology_degree][support_type_size] += betti_value
+                for double_lift_count, coefficient in enumerate(lift_coefficients):
+                    total_degree = support_type_size + double_lift_count
+                    hochster_diagonal_coefficients[homology_degree][total_degree] += betti_value * coefficient
+    support_nerve_signature_rows = [
+        {
+            "signature": signature,
+            "support_family_count": count,
+        }
+        for signature, count in sorted(support_nerve_signature_counts.items())
+    ]
+    support_nerve_census_total = sum(support_nerve_signature_counts.values())
+    support_nerve_contractible_count = support_nerve_signature_counts[(0, 0, 0, 0)]
+    support_nerve_h2_count = support_nerve_signature_counts[(0, 0, 0, 1)]
+    support_to_nerve_subcomplex_signature_rows = [
+        {
+            "signature": signature,
+            "subcomplex_count": count,
+        }
+        for signature, count in sorted(support_to_nerve_subcomplex_signature_counts.items())
+    ]
+    support_to_nerve_subcomplex_total = sum(support_to_nerve_subcomplex_signature_counts.values())
+    support_level_betti_rows = [
+        {
+            "homology_degree": homology_degree,
+            "coefficients": tuple(coefficients),
+            "nonzero_count": sum(1 for coefficient in coefficients if coefficient),
+            "total_support_mass": sum(coefficients),
+        }
+        for homology_degree, coefficients in sorted(support_level_betti_coefficients.items())
+    ]
+    hochster_diagonal_rows = [
+        {
+            "homology_degree": homology_degree,
+            "diagonal": homology_degree + 1,
+            "coefficients": tuple(coefficients),
+            "nonzero_count": sum(1 for coefficient in coefficients if coefficient),
+            "total_betti_mass": sum(coefficients),
+        }
+        for homology_degree, coefficients in sorted(hochster_diagonal_coefficients.items())
+    ]
+    hochster_diagonal_generating_functions = {
+        -1: "(1+x)^2",
+        0: "x^2(x+1)^2(x+2)^2P0(x)",
+        1: "x^3(x+1)^10(x+2)^3P1(x)",
+        2: "x^4(x+1)^22(x+2)^4",
+    }
+    support_level_betti_generating_functions = {
+        -1: "1+z",
+        0: "z^2(1+z)(4z^6+28z^5+87z^4+152z^3+157z^2+92z+25)",
+        1: "z^3(1+z)^5(6z^5+38z^4+99z^3+132z^2+89z+22)",
+        2: "z^4(1+z)^11",
+    }
+    support_lift_substitution = "z=(1+x)^2-1=2x+x^2"
+    hochster_p0_coefficients_desc = (4, 48, 268, 920, 2167, 3704, 4736, 4592, 3373, 1844, 720, 184, 25)
+    hochster_p1_coefficients_desc = (6, 60, 278, 784, 1491, 2002, 1928, 1320, 617, 178, 22)
     quotient_minimal_trigger_counts: collections.Counter[int] = collections.Counter()
     quotient_minimal_trigger_type_counts: collections.Counter[tuple[int, ...]] = collections.Counter()
+
+    def private_coordinate_count(trigger_coordinate_count: int, trigger_size: int) -> int:
+        ordered_count = sum(
+            ((-1) ** missing_singletons)
+            * math.comb(trigger_size, missing_singletons)
+            * ((2 ** trigger_size) - 1 - missing_singletons) ** trigger_coordinate_count
+            for missing_singletons in range(trigger_size + 1)
+        )
+        return ordered_count // math.factorial(trigger_size)
+
+    def multiply_polynomials(left: dict[int, int], right: dict[int, int]) -> dict[int, int]:
+        product: dict[int, int] = collections.Counter()
+        for left_degree, left_coefficient in left.items():
+            for right_degree, right_coefficient in right.items():
+                product[left_degree + right_degree] += left_coefficient * right_coefficient
+        return dict(product)
+
+    def polynomial_power(base: dict[int, int], exponent: int) -> dict[int, int]:
+        result = {0: 1}
+        for _ in range(exponent):
+            result = multiply_polynomials(result, base)
+        return result
+
+    def private_coordinate_energy_counts(trigger_coordinate_count: int, trigger_size: int) -> dict[int, int]:
+        ordered_energy_counts: dict[int, int] = collections.Counter()
+        for missing_singletons in range(trigger_size + 1):
+            base = {
+                pattern_size: math.comb(trigger_size, pattern_size)
+                for pattern_size in range(1, trigger_size + 1)
+            }
+            base[1] -= missing_singletons
+            power = polynomial_power(base, trigger_coordinate_count)
+            sign = (-1) ** missing_singletons
+            scale = sign * math.comb(trigger_size, missing_singletons)
+            for energy, coefficient in power.items():
+                ordered_energy_counts[energy] += scale * coefficient
+        divisor = math.factorial(trigger_size)
+        return {
+            energy: coefficient // divisor
+            for energy, coefficient in sorted(ordered_energy_counts.items())
+            if coefficient
+        }
+
+    def stirling_second_kind(item_count: int, block_count: int) -> int:
+        if item_count == 0 and block_count == 0:
+            return 1
+        if item_count == 0 or block_count == 0 or block_count > item_count:
+            return 0
+        return sum(
+            ((-1) ** (block_count - selected))
+            * math.comb(block_count, selected)
+            * (selected ** item_count)
+            for selected in range(block_count + 1)
+        ) // math.factorial(block_count)
+
+    def decoration_count(trigger_coordinate_count: int, trigger_size: int) -> int:
+        shared_choices = (2 ** trigger_size) - trigger_size - 1
+        return sum(
+            math.comb(trigger_coordinate_count, shared_count)
+            * stirling_second_kind(trigger_coordinate_count - shared_count, trigger_size)
+            * (shared_choices ** shared_count)
+            for shared_count in range(trigger_coordinate_count - trigger_size + 1)
+        )
+
+    def shared_defect_atom(trigger_size: int) -> dict[int, int]:
+        return {
+            row_size - 1: math.comb(trigger_size, row_size)
+            for row_size in range(2, trigger_size + 1)
+        }
+
+    def decoration_defect_counts(trigger_coordinate_count: int, trigger_size: int) -> dict[int, int]:
+        atom = shared_defect_atom(trigger_size)
+        counts: dict[int, int] = collections.Counter()
+        for shared_count in range(trigger_coordinate_count - trigger_size + 1):
+            atom_power = polynomial_power(atom, shared_count)
+            scale = math.comb(trigger_coordinate_count, shared_count) * stirling_second_kind(trigger_coordinate_count - shared_count, trigger_size)
+            for defect, coefficient in atom_power.items():
+                counts[defect] += scale * coefficient
+        return dict(sorted(counts.items()))
+
+    def support_family_representation(family: tuple[frozenset[int], ...], permutation: tuple[int, ...]) -> str:
+        support_labels = []
+        for support in family:
+            relabeled = sorted(permutation[coordinate] + 1 for coordinate in support)
+            support_labels.append("".join(str(label) for label in relabeled))
+        return "{" + ",".join(sorted(support_labels, key=lambda item: (len(item), item))) + "}"
+
+    def parse_support_family(normal_form: str) -> tuple[frozenset[int], ...]:
+        body = normal_form.strip("{}")
+        if not body:
+            return ()
+        return tuple(
+            frozenset(int(label) - 1 for label in support_label)
+            for support_label in body.split(",")
+        )
+
+    def canonical_support_family(family: tuple[frozenset[int], ...]) -> str:
+        return min(
+            support_family_representation(family, permutation)
+            for permutation in itertools.permutations(range(len(coordinate_universe)))
+        )
+
+    def stabilizer_row_permutations(normal_form: str) -> tuple[tuple[int, ...], ...]:
+        supports = parse_support_family(normal_form)
+        support_index = {support: index for index, support in enumerate(supports)}
+        row_permutations = set()
+        for coordinate_permutation in itertools.permutations(range(len(coordinate_universe))):
+            image_indices = []
+            for support in supports:
+                image = frozenset(coordinate_permutation[coordinate] for coordinate in support)
+                if image not in support_index:
+                    break
+                image_indices.append(support_index[image])
+            else:
+                row_permutations.add(tuple(image_indices))
+        return tuple(sorted(row_permutations))
+
+    def apply_row_permutation(bits: tuple[int, ...], row_permutation: tuple[int, ...]) -> tuple[int, ...]:
+        image = [0] * len(bits)
+        for source_index, target_index in enumerate(row_permutation):
+            image[target_index] = bits[source_index]
+        return tuple(image)
+
+    def complement_bits(bits: tuple[int, ...]) -> tuple[int, ...]:
+        return tuple(1 - bit for bit in bits)
+
+    def lift_coloring_orbits(normal_form: str) -> list[tuple[tuple[int, ...], ...]]:
+        supports = parse_support_family(normal_form)
+        row_permutations = stabilizer_row_permutations(normal_form)
+        remaining = set(itertools.product((0, 1), repeat=len(supports)))
+        orbits = []
+        while remaining:
+            start = min(remaining)
+            orbit = set()
+            for row_permutation in row_permutations:
+                row_image = apply_row_permutation(start, row_permutation)
+                orbit.add(row_image)
+                orbit.add(complement_bits(row_image))
+            changed = True
+            while changed:
+                changed = False
+                for bits in tuple(orbit):
+                    for row_permutation in row_permutations:
+                        row_image = apply_row_permutation(bits, row_permutation)
+                        for image in (row_image, complement_bits(row_image)):
+                            if image not in orbit:
+                                orbit.add(image)
+                                changed = True
+            orbits.append(tuple(sorted(orbit)))
+            remaining -= orbit
+        return sorted(orbits, key=lambda orbit: (min(min(sum(bits) for bits in orbit), len(supports) - max(sum(bits) for bits in orbit)), len(orbit), orbit))
+
+    def bit_string(bits: tuple[int, ...]) -> str:
+        return "".join(str(bit) for bit in bits)
+
+    def lift_pattern_label(normal_form: str, orbit: tuple[tuple[int, ...], ...]) -> str:
+        supports = parse_support_family(normal_form)
+        trigger_size = len(supports)
+        weights = sorted(set(sum(bits) for bits in orbit))
+        if trigger_size == 1:
+            return "0/1"
+        if trigger_size == 2:
+            return "same" if weights == [0, 2] else "opposite"
+        if normal_form == "{1,2,34}":
+            if weights == [0, 3]:
+                return "all same"
+            if all(bits[0] == bits[1] for bits in orbit):
+                return "pair same, block opposite"
+            return "singleton split"
+        if normal_form == "{1,24,34}":
+            if weights == [0, 3]:
+                return "all same"
+            if all(bits[1] == bits[2] for bits in orbit):
+                return "shared-pair same, singleton opposite"
+            return "shared-pair split"
+        if normal_form == "{14,24,34}":
+            return "all same" if weights == [0, 3] else "mixed"
+        if normal_form == "{1,2,3,4}":
+            if weights == [0, 4]:
+                return "all same"
+            if weights == [1, 3]:
+                return "one-vs-three"
+            return "two-vs-two"
+        return "lift pattern"
+
+    chosen_orbit_representatives = {
+        "{1234}": "{1234}",
+        "{1,234}": "{1,234}",
+        "{12,34}": "{12,34}",
+        "{12,134}": "{12,234}",
+        "{123,124}": "{123,124}",
+        "{1,2,34}": "{1,2,34}",
+        "{1,23,24}": "{1,24,34}",
+        "{12,13,14}": "{14,24,34}",
+        "{1,2,3,4}": "{1,2,3,4}",
+    }
+    orbit_order = (
+        "{1234}",
+        "{1,234}",
+        "{12,34}",
+        "{12,234}",
+        "{123,124}",
+        "{1,2,34}",
+        "{1,24,34}",
+        "{14,24,34}",
+        "{1,2,3,4}",
+    )
+    quotient_minimal_trigger_orbit_counts: collections.Counter[str] = collections.Counter()
+    quotient_minimal_trigger_families_by_size: dict[int, list[tuple[frozenset[int], ...]]] = {trigger_size: [] for trigger_size in range(1, 5)}
     for trigger_size in range(1, 5):
         for family in itertools.combinations(nonempty_support_patterns, trigger_size):
             union_support = frozenset().union(*family)
@@ -3855,6 +4275,9 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                 quotient_minimal_trigger_counts[trigger_size] += 1
                 support_size_type = tuple(sorted(len(support) for support in family))
                 quotient_minimal_trigger_type_counts[support_size_type] += 1
+                canonical_orbit = canonical_support_family(family)
+                quotient_minimal_trigger_orbit_counts[chosen_orbit_representatives[canonical_orbit]] += 1
+                quotient_minimal_trigger_families_by_size[trigger_size].append(family)
     minimal_trigger_rows = [
         {
             "trigger_size": trigger_size,
@@ -3922,6 +4345,788 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         (row["trigger_size"], row["codon_count"])
         for row in minimal_trigger_rows
     )
+    minimal_trigger_homology_core_rows = [
+        {
+            "trigger_size": row["trigger_size"],
+            "homology_degree": row["trigger_size"] - 2,
+            "sphere": f"S^{row['trigger_size'] - 2}",
+            "quotient_count": row["quotient_count"],
+            "codon_count": row["codon_count"],
+        }
+        for row in minimal_trigger_rows
+    ]
+    private_coordinate_formula_rows = [
+        {
+            "trigger_size": trigger_size,
+            "quotient_count": private_coordinate_count(len(coordinate_universe), trigger_size),
+            "codon_count": (2 ** trigger_size) * private_coordinate_count(len(coordinate_universe), trigger_size),
+            "energy_terms": tuple(
+                (energy, quotient_count, quotient_count * (2 ** trigger_size))
+                for energy, quotient_count in private_coordinate_energy_counts(len(coordinate_universe), trigger_size).items()
+            ),
+        }
+        for trigger_size in range(1, 5)
+    ]
+    minimal_trigger_orbit_rows = [
+        {
+            "normal_form": normal_form,
+            "trigger_size": normal_form.count(",") + 1,
+            "energy": sum(len(support) for support in normal_form.strip("{}").split(",")),
+            "defect": sum(len(support) for support in normal_form.strip("{}").split(",")) - len(coordinate_universe),
+            "quotient_count": quotient_minimal_trigger_orbit_counts[normal_form],
+            "codon_count": quotient_minimal_trigger_orbit_counts[normal_form] * (2 ** (normal_form.count(",") + 1)),
+        }
+        for normal_form in orbit_order
+    ]
+    minimal_trigger_orbit_defect_by_normal_form = {
+        row["normal_form"]: row["defect"]
+        for row in minimal_trigger_orbit_rows
+    }
+    minimal_trigger_defect_rows = [
+        {
+            "defect": defect,
+            "quotient_count": sum(row["quotient_count"] for row in minimal_trigger_orbit_rows if row["defect"] == defect),
+            "codon_count": sum(row["codon_count"] for row in minimal_trigger_orbit_rows if row["defect"] == defect),
+        }
+        for defect in range(3)
+    ]
+    minimal_trigger_lift_bundle_rows = [
+        {
+            "trigger_size": row["trigger_size"],
+            "quotient_count": row["quotient_count"],
+            "fiber": f"Q_{row['trigger_size']}",
+            "codon_count": row["codon_count"],
+            "lift_flip_edges_per_fiber": row["trigger_size"] * (2 ** (row["trigger_size"] - 1)),
+            "lift_flip_edges": row["quotient_count"] * row["trigger_size"] * (2 ** (row["trigger_size"] - 1)),
+        }
+        for row in minimal_trigger_rows
+    ]
+    minimal_trigger_lift_flip_edge_total = sum(row["lift_flip_edges"] for row in minimal_trigger_lift_bundle_rows)
+    private_shared_decoration_rows = [
+        {
+            "trigger_size": trigger_size,
+            "decoration_count": decoration_count(len(coordinate_universe), trigger_size),
+            "defect_terms": tuple(
+                (defect, quotient_count, quotient_count * (2 ** trigger_size))
+                for defect, quotient_count in decoration_defect_counts(len(coordinate_universe), trigger_size).items()
+            ),
+        }
+        for trigger_size in range(1, 5)
+    ]
+    private_shared_orbit_rows = [
+        {
+            "normal_form": "{1234}",
+            "private_blocks": ("{1,2,3,4}",),
+            "shared_coordinates": (),
+        },
+        {
+            "normal_form": "{1,234}",
+            "private_blocks": ("{1}", "{2,3,4}"),
+            "shared_coordinates": (),
+        },
+        {
+            "normal_form": "{12,34}",
+            "private_blocks": ("{1,2}", "{3,4}"),
+            "shared_coordinates": (),
+        },
+        {
+            "normal_form": "{12,234}",
+            "private_blocks": ("{1}", "{3,4}"),
+            "shared_coordinates": ("2:{1,2}",),
+        },
+        {
+            "normal_form": "{123,124}",
+            "private_blocks": ("{3}", "{4}"),
+            "shared_coordinates": ("1:{1,2}", "2:{1,2}"),
+        },
+        {
+            "normal_form": "{1,2,34}",
+            "private_blocks": ("{1}", "{2}", "{3,4}"),
+            "shared_coordinates": (),
+        },
+        {
+            "normal_form": "{1,24,34}",
+            "private_blocks": ("{1}", "{2}", "{3}"),
+            "shared_coordinates": ("4:{2,3}",),
+        },
+        {
+            "normal_form": "{14,24,34}",
+            "private_blocks": ("{1}", "{2}", "{3}"),
+            "shared_coordinates": ("4:{1,2,3}",),
+        },
+        {
+            "normal_form": "{1,2,3,4}",
+            "private_blocks": ("{1}", "{2}", "{3}", "{4}"),
+            "shared_coordinates": (),
+        },
+    ]
+    private_shared_orbit_by_normal_form = {
+        row["normal_form"]: row
+        for row in private_shared_orbit_rows
+    }
+    defect_flow_orbit_rows = []
+    for orbit_row in minimal_trigger_orbit_rows:
+        normal_form = orbit_row["normal_form"]
+        shared_coordinates = private_shared_orbit_by_normal_form[normal_form]["shared_coordinates"]
+        shared_row_sizes = tuple(
+            shared_coordinate.split(":", 1)[1].count(",") + 1
+            for shared_coordinate in shared_coordinates
+        )
+        quotient_outdegree = sum(row_size for row_size in shared_row_sizes)
+        partition_core_count = math.prod(shared_row_sizes) if shared_row_sizes else 1
+        defect_flow_orbit_rows.append(
+            {
+                "normal_form": normal_form,
+                "trigger_size": orbit_row["trigger_size"],
+                "defect": orbit_row["defect"],
+                "quotient_count": orbit_row["quotient_count"],
+                "codon_count": orbit_row["codon_count"],
+                "quotient_outdegree": quotient_outdegree,
+                "codon_outdegree": quotient_outdegree,
+                "partition_core_count": partition_core_count,
+                "quotient_edge_contribution": orbit_row["quotient_count"] * quotient_outdegree,
+                "codon_edge_contribution": orbit_row["codon_count"] * quotient_outdegree,
+                "quotient_core_incidence": orbit_row["quotient_count"] * partition_core_count,
+                "codon_core_incidence": orbit_row["codon_count"] * partition_core_count,
+            }
+        )
+    defect_flow_edge_rows = [
+        {
+            "source_defect": defect,
+            "target_defect": defect - 1,
+            "quotient_edges": sum(row["quotient_edge_contribution"] for row in defect_flow_orbit_rows if row["defect"] == defect),
+            "codon_edges": sum(row["codon_edge_contribution"] for row in defect_flow_orbit_rows if row["defect"] == defect),
+        }
+        for defect in range(1, 3)
+    ]
+    defect_flow_summary = {
+        "quotient_vertices": sum(row["quotient_count"] for row in minimal_trigger_orbit_rows),
+        "codon_vertices": sum(row["codon_count"] for row in minimal_trigger_orbit_rows),
+        "quotient_edges": sum(row["quotient_edge_contribution"] for row in defect_flow_orbit_rows),
+        "codon_edges": sum(row["codon_edge_contribution"] for row in defect_flow_orbit_rows),
+        "quotient_sinks": sum(row["quotient_count"] for row in defect_flow_orbit_rows if row["defect"] == 0),
+        "codon_sinks": sum(row["codon_count"] for row in defect_flow_orbit_rows if row["defect"] == 0),
+        "quotient_core_incidence": sum(row["quotient_core_incidence"] for row in defect_flow_orbit_rows),
+        "codon_core_incidence": sum(row["codon_core_incidence"] for row in defect_flow_orbit_rows),
+    }
+    partition_type_rows = [
+        {"partition_type": "4", "block_sizes": (4,), "trigger_size": 1, "quotient_partitions": 1},
+        {"partition_type": "3+1", "block_sizes": (3, 1), "trigger_size": 2, "quotient_partitions": 4},
+        {"partition_type": "2+2", "block_sizes": (2, 2), "trigger_size": 2, "quotient_partitions": 3},
+        {"partition_type": "2+1+1", "block_sizes": (2, 1, 1), "trigger_size": 3, "quotient_partitions": 6},
+        {"partition_type": "1+1+1+1", "block_sizes": (1, 1, 1, 1), "trigger_size": 4, "quotient_partitions": 1},
+    ]
+
+    def polynomial_add(left: dict[int, int], right: dict[int, int]) -> dict[int, int]:
+        result: collections.Counter[int] = collections.Counter(left)
+        for exponent, coefficient in right.items():
+            result[exponent] += coefficient
+        return dict(sorted((exponent, coefficient) for exponent, coefficient in result.items() if coefficient))
+
+    def polynomial_mul(left: dict[int, int], right: dict[int, int]) -> dict[int, int]:
+        result: collections.Counter[int] = collections.Counter()
+        for left_exponent, left_coefficient in left.items():
+            for right_exponent, right_coefficient in right.items():
+                result[left_exponent + right_exponent] += left_coefficient * right_coefficient
+        return dict(sorted((exponent, coefficient) for exponent, coefficient in result.items() if coefficient))
+
+    def polynomial_scale(polynomial: dict[int, int], scale: int) -> dict[int, int]:
+        return {exponent: coefficient * scale for exponent, coefficient in polynomial.items() if coefficient * scale}
+
+    def basin_defect_polynomial(block_sizes: tuple[int, ...]) -> dict[int, int]:
+        trigger_size = len(block_sizes)
+        polynomial = {0: 1}
+        for block_size in block_sizes:
+            block_polynomial: collections.Counter[int] = collections.Counter()
+            for choices in itertools.product(range(trigger_size), repeat=block_size):
+                if 0 not in choices:
+                    continue
+                block_polynomial[sum(choices)] += math.prod(
+                    math.comb(trigger_size - 1, extra_rows)
+                    for extra_rows in choices
+                )
+            polynomial = polynomial_mul(polynomial, dict(block_polynomial))
+        return polynomial
+
+    def polynomial_terms(polynomial: dict[int, int]) -> tuple[tuple[int, int], ...]:
+        return tuple(sorted(polynomial.items()))
+
+    partition_basin_rows = []
+    quotient_incidence_polynomial: dict[int, int] = {}
+    codon_incidence_polynomial: dict[int, int] = {}
+    for row in partition_type_rows:
+        trigger_size = row["trigger_size"]
+        defect_polynomial = basin_defect_polynomial(row["block_sizes"])
+        basin_per_core = math.prod(
+            (2 ** (trigger_size - 1)) ** block_size - (2 ** (trigger_size - 1) - 1) ** block_size
+            for block_size in row["block_sizes"]
+        )
+        assert basin_per_core == sum(defect_polynomial.values())
+        codon_cores = row["quotient_partitions"] * (2 ** trigger_size)
+        quotient_incidence_polynomial = polynomial_add(
+            quotient_incidence_polynomial,
+            polynomial_scale(defect_polynomial, row["quotient_partitions"]),
+        )
+        codon_incidence_polynomial = polynomial_add(
+            codon_incidence_polynomial,
+            polynomial_scale(defect_polynomial, codon_cores),
+        )
+        partition_basin_rows.append(
+            {
+                **row,
+                "basin_defect_terms": polynomial_terms(defect_polynomial),
+                "basin_per_core": basin_per_core,
+                "codon_cores": codon_cores,
+                "quotient_incidence": row["quotient_partitions"] * basin_per_core,
+                "codon_incidence": codon_cores * basin_per_core,
+            }
+        )
+    quotient_path_polynomial = {
+        defect: coefficient * math.factorial(defect)
+        for defect, coefficient in quotient_incidence_polynomial.items()
+    }
+    codon_path_polynomial = {
+        defect: coefficient * math.factorial(defect)
+        for defect, coefficient in codon_incidence_polynomial.items()
+    }
+    partition_basin_summary = {
+        "quotient_incidence": sum(row["quotient_incidence"] for row in partition_basin_rows),
+        "codon_incidence": sum(row["codon_incidence"] for row in partition_basin_rows),
+        "max_basin_partition_type": max(partition_basin_rows, key=lambda row: row["basin_per_core"])["partition_type"],
+        "max_basin_per_core": max(row["basin_per_core"] for row in partition_basin_rows),
+        "quotient_incidence_terms": polynomial_terms(quotient_incidence_polynomial),
+        "codon_incidence_terms": polynomial_terms(codon_incidence_polynomial),
+        "quotient_path_terms": polynomial_terms(quotient_path_polynomial),
+        "codon_path_terms": polynomial_terms(codon_path_polynomial),
+    }
+
+    def coordinate_block_label(block: frozenset[int]) -> str:
+        return "".join(str(index + 1) for index in sorted(block))
+
+    def partition_core_label(partition: tuple[frozenset[int], ...]) -> str:
+        return "|".join(coordinate_block_label(block) for block in partition)
+
+    partition_cores_by_size: dict[int, tuple[tuple[frozenset[int], ...], ...]] = {
+        1: ((frozenset((0, 1, 2, 3)),),),
+        2: (
+            (frozenset((0,)), frozenset((1, 2, 3))),
+            (frozenset((1,)), frozenset((0, 2, 3))),
+            (frozenset((2,)), frozenset((0, 1, 3))),
+            (frozenset((3,)), frozenset((0, 1, 2))),
+            (frozenset((0, 1)), frozenset((2, 3))),
+            (frozenset((0, 2)), frozenset((1, 3))),
+            (frozenset((0, 3)), frozenset((1, 2))),
+        ),
+        3: (
+            (frozenset((0, 1)), frozenset((2,)), frozenset((3,))),
+            (frozenset((0, 2)), frozenset((1,)), frozenset((3,))),
+            (frozenset((0, 3)), frozenset((1,)), frozenset((2,))),
+            (frozenset((1, 2)), frozenset((0,)), frozenset((3,))),
+            (frozenset((1, 3)), frozenset((0,)), frozenset((2,))),
+            (frozenset((2, 3)), frozenset((0,)), frozenset((1,))),
+        ),
+        4: ((frozenset((0,)), frozenset((1,)), frozenset((2,)), frozenset((3,))),),
+    }
+
+    def partition_core_type(partition: tuple[frozenset[int], ...]) -> str:
+        return "+".join(str(size) for size in sorted((len(block) for block in partition), reverse=True))
+
+    def partition_core_is_below_trigger(partition: tuple[frozenset[int], ...], family: tuple[frozenset[int], ...]) -> bool:
+        return any(
+            all(block <= support for block, support in zip(partition, support_order))
+            for support_order in itertools.permutations(family)
+        )
+
+    def integer_matrix_rank(matrix: list[list[int]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        rows = [[fractions.Fraction(value) for value in row] for row in matrix]
+        row_count = len(rows)
+        column_count = len(rows[0])
+        rank = 0
+        for column in range(column_count):
+            pivot = next((row for row in range(rank, row_count) if rows[row][column]), None)
+            if pivot is None:
+                continue
+            rows[rank], rows[pivot] = rows[pivot], rows[rank]
+            pivot_value = rows[rank][column]
+            rows[rank] = [value / pivot_value for value in rows[rank]]
+            for row in range(row_count):
+                if row != rank and rows[row][column]:
+                    factor = rows[row][column]
+                    rows[row] = [
+                        value - factor * pivot_entry
+                        for value, pivot_entry in zip(rows[row], rows[rank])
+                    ]
+            rank += 1
+            if rank == row_count:
+                break
+        return rank
+
+    def spectrum_is_verified(gram_matrix: list[list[int]], spectrum: tuple[int, ...]) -> bool:
+        size = len(gram_matrix)
+        if len(spectrum) != size:
+            return False
+        multiplicities = collections.Counter(spectrum)
+        for eigenvalue, multiplicity in multiplicities.items():
+            shifted = [
+                [
+                    gram_matrix[row][column] - (eigenvalue if row == column else 0)
+                    for column in range(size)
+                ]
+                for row in range(size)
+            ]
+            if size - integer_matrix_rank(shifted) != multiplicity:
+                return False
+        return True
+
+    def bipartite_graph_metrics(left_count: int, right_count: int, edges: list[tuple[int, int]]) -> tuple[int, int]:
+        adjacency = {index: set() for index in range(left_count + right_count)}
+        for left, right in edges:
+            adjacency[left].add(left_count + right)
+            adjacency[left_count + right].add(left)
+        seen: set[int] = set()
+        component_count = 0
+        diameter = 0
+        for start in range(left_count + right_count):
+            if start in seen:
+                continue
+            component_count += 1
+            queue = collections.deque([start])
+            seen.add(start)
+            component_vertices = []
+            while queue:
+                vertex = queue.popleft()
+                component_vertices.append(vertex)
+                for neighbor in adjacency[vertex]:
+                    if neighbor not in seen:
+                        seen.add(neighbor)
+                        queue.append(neighbor)
+            for source in component_vertices:
+                distances = {source: 0}
+                queue = collections.deque([source])
+                while queue:
+                    vertex = queue.popleft()
+                    for neighbor in adjacency[vertex]:
+                        if neighbor not in distances:
+                            distances[neighbor] = distances[vertex] + 1
+                            queue.append(neighbor)
+                diameter = max(diameter, max(distances.values(), default=0))
+        return component_count, diameter
+
+    partition_core_kernel_expected_spectra = {
+        1: (1,),
+        2: (22, 7, 7, 6, 6, 6, 1),
+        3: (15, 7, 7, 7, 3, 3),
+        4: (1,),
+    }
+    partition_core_kernel_rows = []
+    for trigger_size in range(1, 5):
+        cores = partition_cores_by_size[trigger_size]
+        families = quotient_minimal_trigger_families_by_size[trigger_size]
+        incidence_matrix = [
+            [
+                1 if partition_core_is_below_trigger(core, family) else 0
+                for family in families
+            ]
+            for core in cores
+        ]
+        gram_matrix = [
+            [
+                sum(left_value * right_value for left_value, right_value in zip(left_row, right_row))
+                for right_row in incidence_matrix
+            ]
+            for left_row in incidence_matrix
+        ]
+        edge_indices = [
+            (core_index, trigger_index)
+            for core_index, row in enumerate(incidence_matrix)
+            for trigger_index, value in enumerate(row)
+            if value
+        ]
+        component_count, diameter = bipartite_graph_metrics(len(cores), len(families), edge_indices)
+        expected_spectrum = partition_core_kernel_expected_spectra[trigger_size]
+        partition_core_kernel_rows.append(
+            {
+                "trigger_size": trigger_size,
+                "partition_core_labels": tuple(partition_core_label(core) for core in cores),
+                "partition_core_types": tuple(partition_core_type(core) for core in cores),
+                "partition_core_count": len(cores),
+                "quotient_trigger_count": len(families),
+                "quotient_incidence_edges": sum(sum(row) for row in incidence_matrix),
+                "codon_incidence_edges": (2 ** trigger_size) * sum(sum(row) for row in incidence_matrix),
+                "gram_matrix": tuple(tuple(row) for row in gram_matrix),
+                "spectrum": expected_spectrum,
+                "spectrum_verified": spectrum_is_verified(gram_matrix, expected_spectrum),
+                "connected_components": component_count,
+                "diameter": diameter,
+            }
+        )
+    partition_core_kernel_summary = {
+        "quotient_incidence_edges": tuple(row["quotient_incidence_edges"] for row in partition_core_kernel_rows),
+        "codon_incidence_edges": tuple(row["codon_incidence_edges"] for row in partition_core_kernel_rows),
+        "quotient_incidence_total": sum(row["quotient_incidence_edges"] for row in partition_core_kernel_rows),
+        "codon_incidence_total": sum(row["codon_incidence_edges"] for row in partition_core_kernel_rows),
+        "nontrivial_spectra": {
+            row["trigger_size"]: row["spectrum"]
+            for row in partition_core_kernel_rows
+            if row["trigger_size"] in (2, 3)
+        },
+        "m2_perron_weight_ratio_2_plus_2_to_3_plus_1": "4/3",
+        "m3_perron_mode": "uniform",
+        "all_spectra_verified": all(row["spectrum_verified"] for row in partition_core_kernel_rows),
+    }
+
+    def permutation_cycle_type(permutation: tuple[int, ...]) -> tuple[int, ...]:
+        seen: set[int] = set()
+        cycle_lengths = []
+        for start in range(len(permutation)):
+            if start in seen:
+                continue
+            current = start
+            length = 0
+            while current not in seen:
+                seen.add(current)
+                length += 1
+                current = permutation[current]
+            cycle_lengths.append(length)
+        return tuple(sorted(cycle_lengths, reverse=True))
+
+    s4_character_table = {
+        "trivial": {(1, 1, 1, 1): 1, (2, 1, 1): 1, (2, 2): 1, (3, 1): 1, (4,): 1},
+        "sign": {(1, 1, 1, 1): 1, (2, 1, 1): -1, (2, 2): 1, (3, 1): 1, (4,): -1},
+        "standard": {(1, 1, 1, 1): 3, (2, 1, 1): 1, (2, 2): -1, (3, 1): 0, (4,): -1},
+        "sign_standard": {(1, 1, 1, 1): 3, (2, 1, 1): -1, (2, 2): -1, (3, 1): 0, (4,): 1},
+        "two_dimensional": {(1, 1, 1, 1): 2, (2, 1, 1): 0, (2, 2): 2, (3, 1): -1, (4,): 0},
+    }
+    s4_irrep_dimensions = {
+        "trivial": 1,
+        "sign": 1,
+        "standard": 3,
+        "sign_standard": 3,
+        "two_dimensional": 2,
+    }
+    s4_conjugacy_sizes = collections.Counter(
+        permutation_cycle_type(permutation)
+        for permutation in itertools.permutations(range(4))
+    )
+
+    def relabel_support(support: frozenset[int], permutation: tuple[int, ...]) -> frozenset[int]:
+        return frozenset(permutation[index] for index in support)
+
+    def relabel_family(family: tuple[frozenset[int], ...], permutation: tuple[int, ...]) -> frozenset[frozenset[int]]:
+        return frozenset(relabel_support(support, permutation) for support in family)
+
+    def relabel_partition(partition: tuple[frozenset[int], ...], permutation: tuple[int, ...]) -> frozenset[frozenset[int]]:
+        return frozenset(relabel_support(block, permutation) for block in partition)
+
+    def permutation_character(objects: tuple[object, ...], action) -> dict[tuple[int, ...], int]:
+        character: dict[tuple[int, ...], int] = collections.Counter()
+        for permutation in itertools.permutations(range(4)):
+            cycle_type = permutation_cycle_type(permutation)
+            fixed = sum(1 for item in objects if action(item, permutation) == item)
+            character[cycle_type] += fixed
+        return {
+            cycle_type: character[cycle_type] // s4_conjugacy_sizes[cycle_type]
+            for cycle_type in sorted(s4_conjugacy_sizes)
+        }
+
+    def character_multiplicities(character: dict[tuple[int, ...], int]) -> dict[str, int]:
+        multiplicities = {}
+        for irrep_name, irrep_character in s4_character_table.items():
+            inner_product = sum(
+                s4_conjugacy_sizes[cycle_type] * character[cycle_type] * irrep_character[cycle_type]
+                for cycle_type in s4_conjugacy_sizes
+            )
+            multiplicities[irrep_name] = inner_product // 24
+        return multiplicities
+
+    def representation_dimension(multiplicities: dict[str, int]) -> int:
+        return sum(
+            multiplicity * s4_irrep_dimensions[irrep_name]
+            for irrep_name, multiplicity in multiplicities.items()
+        )
+
+    def character_terms(character: dict[tuple[int, ...], int]) -> tuple[tuple[str, int], ...]:
+        return tuple(
+            ("+".join(str(length) for length in cycle_type), value)
+            for cycle_type, value in sorted(character.items())
+        )
+
+    partition_representation_rows = []
+    trigger_representation_rows = []
+    kernel_representation_rows = []
+    for trigger_size in range(1, 5):
+        partition_objects = tuple(frozenset(core) for core in partition_cores_by_size[trigger_size])
+        trigger_objects = tuple(frozenset(family) for family in quotient_minimal_trigger_families_by_size[trigger_size])
+        partition_character = permutation_character(partition_objects, relabel_partition)
+        trigger_character = permutation_character(trigger_objects, relabel_family)
+        partition_multiplicities = character_multiplicities(partition_character)
+        trigger_multiplicities = character_multiplicities(trigger_character)
+        kernel_multiplicities = {
+            irrep_name: trigger_multiplicities[irrep_name] - partition_multiplicities[irrep_name]
+            for irrep_name in s4_character_table
+        }
+        partition_representation_rows.append(
+            {
+                "trigger_size": trigger_size,
+                "dimension": len(partition_objects),
+                "character_terms": character_terms(partition_character),
+                "multiplicities": partition_multiplicities,
+                "dimension_verified": representation_dimension(partition_multiplicities) == len(partition_objects),
+            }
+        )
+        trigger_representation_rows.append(
+            {
+                "trigger_size": trigger_size,
+                "dimension": len(trigger_objects),
+                "character_terms": character_terms(trigger_character),
+                "multiplicities": trigger_multiplicities,
+                "dimension_verified": representation_dimension(trigger_multiplicities) == len(trigger_objects),
+            }
+        )
+        kernel_representation_rows.append(
+            {
+                "trigger_size": trigger_size,
+                "dimension": len(trigger_objects) - len(partition_objects),
+                "multiplicities": kernel_multiplicities,
+                "dimension_verified": representation_dimension(kernel_multiplicities) == len(trigger_objects) - len(partition_objects),
+            }
+        )
+
+    def add_multiplicities(rows: list[dict[str, object]]) -> dict[str, int]:
+        total: collections.Counter[str] = collections.Counter()
+        for row in rows:
+            total.update(row["multiplicities"])
+        return dict(total)
+
+    partition_representation_total = add_multiplicities(partition_representation_rows)
+    trigger_representation_total = add_multiplicities(trigger_representation_rows)
+    kernel_representation_total = add_multiplicities(kernel_representation_rows)
+    partition_core_representation_summary = {
+        "partition_total_multiplicities": partition_representation_total,
+        "trigger_total_multiplicities": trigger_representation_total,
+        "kernel_total_multiplicities": kernel_representation_total,
+        "partition_total_dimension": representation_dimension(partition_representation_total),
+        "trigger_total_dimension": representation_dimension(trigger_representation_total),
+        "kernel_total_dimension": representation_dimension(kernel_representation_total),
+        "sign_standard_invisible": (
+            partition_representation_total["sign_standard"] == 0
+            and trigger_representation_total["sign_standard"] == kernel_representation_total["sign_standard"]
+        ),
+        "m2_gram_eigen_irreps": (
+            ("22,1", "trivial_mixture"),
+            ("7", "two_dimensional"),
+            ("6", "standard"),
+        ),
+        "m3_gram_eigen_irreps": (
+            ("15", "trivial"),
+            ("7", "standard"),
+            ("3", "two_dimensional"),
+        ),
+    }
+    descending_path_orbit_rows = []
+    for row in defect_flow_orbit_rows:
+        paths_per_trigger = math.factorial(row["defect"]) * row["partition_core_count"]
+        descending_path_orbit_rows.append(
+            {
+                "normal_form": row["normal_form"],
+                "defect": row["defect"],
+                "quotient_count": row["quotient_count"],
+                "codon_count": row["codon_count"],
+                "paths_per_trigger": paths_per_trigger,
+                "quotient_path_contribution": row["quotient_count"] * paths_per_trigger,
+                "codon_path_contribution": row["codon_count"] * paths_per_trigger,
+            }
+        )
+    descending_path_summary = {
+        "quotient_paths": sum(row["quotient_path_contribution"] for row in descending_path_orbit_rows),
+        "codon_paths": sum(row["codon_path_contribution"] for row in descending_path_orbit_rows),
+    }
+    codon_level_lift_orbit_rows = []
+    for normal_form in orbit_order:
+        quotient_count = quotient_minimal_trigger_orbit_counts[normal_form]
+        orbit_sizes = []
+        for lift_orbit in lift_coloring_orbits(normal_form):
+            lift_pattern = lift_pattern_label(normal_form, lift_orbit)
+            lift_orbit_size = len(lift_orbit)
+            codon_orbit_size = quotient_count * lift_orbit_size
+            orbit_sizes.append(codon_orbit_size)
+            codon_level_lift_orbit_rows.append(
+                {
+                    "normal_form": normal_form,
+                    "trigger_size": normal_form.count(",") + 1,
+                    "defect": minimal_trigger_orbit_defect_by_normal_form[normal_form],
+                    "quotient_count": quotient_count,
+                    "lift_pattern": lift_pattern,
+                    "pattern_representatives": tuple(bit_string(bits) for bits in lift_orbit),
+                    "lift_orbit_size": lift_orbit_size,
+                    "codon_orbit_size": codon_orbit_size,
+                    "lift_imbalance": min(sum(lift_orbit[0]), len(lift_orbit[0]) - sum(lift_orbit[0])),
+                }
+            )
+        assert sum(orbit_sizes) == quotient_count * (2 ** (normal_form.count(",") + 1))
+    codon_level_lift_orbit_count_rows = [
+        {
+            "normal_form": normal_form,
+            "quotient_count": quotient_minimal_trigger_orbit_counts[normal_form],
+            "lift_orbit_count": sum(1 for row in codon_level_lift_orbit_rows if row["normal_form"] == normal_form),
+        }
+        for normal_form in orbit_order
+    ]
+    codon_level_lift_orbit_total = sum(row["lift_orbit_count"] for row in codon_level_lift_orbit_count_rows)
+    codon_level_lift_orbit_size_total = sum(row["codon_orbit_size"] for row in codon_level_lift_orbit_rows)
+    orbit_inventory_terms: collections.Counter[tuple[int, int, int]] = collections.Counter()
+    codon_inventory_terms: collections.Counter[tuple[int, int, int]] = collections.Counter()
+    for row in codon_level_lift_orbit_rows:
+        key = (row["trigger_size"], row["defect"], row["lift_imbalance"])
+        orbit_inventory_terms[key] += 1
+        codon_inventory_terms[key] += row["codon_orbit_size"]
+    orbit_inventory_term_rows = [
+        {
+            "trigger_size": trigger_size,
+            "defect": defect,
+            "lift_imbalance": lift_imbalance,
+            "orbit_count": orbit_inventory_terms[(trigger_size, defect, lift_imbalance)],
+            "codon_count": codon_inventory_terms[(trigger_size, defect, lift_imbalance)],
+        }
+        for trigger_size, defect, lift_imbalance in sorted(orbit_inventory_terms)
+    ]
+    inventory_size_defect_rows = [
+        {
+            "trigger_size": trigger_size,
+            "defect_counts": {
+                defect: sum(count for (size, term_defect, _), count in codon_inventory_terms.items() if size == trigger_size and term_defect == defect)
+                for defect in range(3)
+            },
+        }
+        for trigger_size in range(1, 5)
+    ]
+    inventory_defect_lift_rows = [
+        {
+            "defect": defect,
+            "lift_imbalance_counts": {
+                lift_imbalance: sum(count for (_, term_defect, imbalance), count in codon_inventory_terms.items() if term_defect == defect and imbalance == lift_imbalance)
+                for lift_imbalance in range(3)
+            },
+        }
+        for defect in range(3)
+    ]
+    inventory_size_lift_rows = [
+        {
+            "trigger_size": trigger_size,
+            "lift_imbalance_counts": {
+                lift_imbalance: sum(count for (size, _, imbalance), count in codon_inventory_terms.items() if size == trigger_size and imbalance == lift_imbalance)
+                for lift_imbalance in range(3)
+            },
+        }
+        for trigger_size in range(1, 5)
+    ]
+    inventory_size_marginal = {
+        trigger_size: sum(count for (size, _, _), count in codon_inventory_terms.items() if size == trigger_size)
+        for trigger_size in range(1, 5)
+    }
+    inventory_defect_marginal = {
+        defect: sum(count for (_, term_defect, _), count in codon_inventory_terms.items() if term_defect == defect)
+        for defect in range(3)
+    }
+    inventory_lift_imbalance_marginal = {
+        lift_imbalance: sum(count for (_, _, imbalance), count in codon_inventory_terms.items() if imbalance == lift_imbalance)
+        for lift_imbalance in range(3)
+    }
+    inventory_expectation_rows = [
+        {
+            "statistic": "size",
+            "numerator": sum(size * count for (size, _, _), count in codon_inventory_terms.items()),
+            "denominator": codon_level_lift_orbit_size_total,
+        },
+        {
+            "statistic": "defect",
+            "numerator": sum(defect * count for (_, defect, _), count in codon_inventory_terms.items()),
+            "denominator": codon_level_lift_orbit_size_total,
+        },
+        {
+            "statistic": "energy",
+            "numerator": sum((4 + defect) * count for (_, defect, _), count in codon_inventory_terms.items()),
+            "denominator": codon_level_lift_orbit_size_total,
+        },
+        {
+            "statistic": "lift_imbalance",
+            "numerator": sum(imbalance * count for (_, _, imbalance), count in codon_inventory_terms.items()),
+            "denominator": codon_level_lift_orbit_size_total,
+        },
+    ]
+    inventory_max_orbit_rows = [
+        row
+        for row in codon_level_lift_orbit_rows
+        if row["codon_orbit_size"] == max(item["codon_orbit_size"] for item in codon_level_lift_orbit_rows)
+    ]
+
+    def graph_metrics(vertices: list[tuple[frozenset[int], ...]], edges: set[tuple[int, int]]) -> tuple[int, int]:
+        adjacency = {index: set() for index in range(len(vertices))}
+        for left, right in edges:
+            adjacency[left].add(right)
+            adjacency[right].add(left)
+        seen: set[int] = set()
+        components = 0
+        diameter = 0
+        for start in range(len(vertices)):
+            if start in seen:
+                continue
+            components += 1
+            queue = collections.deque([start])
+            seen.add(start)
+            component_vertices = []
+            while queue:
+                vertex = queue.popleft()
+                component_vertices.append(vertex)
+                for neighbor in adjacency[vertex]:
+                    if neighbor not in seen:
+                        seen.add(neighbor)
+                        queue.append(neighbor)
+            for source in component_vertices:
+                distances = {source: 0}
+                queue = collections.deque([source])
+                while queue:
+                    vertex = queue.popleft()
+                    for neighbor in adjacency[vertex]:
+                        if neighbor not in distances:
+                            distances[neighbor] = distances[vertex] + 1
+                            queue.append(neighbor)
+                diameter = max(diameter, max(distances.values(), default=0))
+        return components, diameter
+
+    quotient_flip_graph_rows = []
+    quotient_flip_orbit_edge_rows = []
+    for trigger_size, families in quotient_minimal_trigger_families_by_size.items():
+        family_sets = [frozenset(family) for family in families]
+        edge_indices: set[tuple[int, int]] = set()
+        orbit_edge_counts: collections.Counter[tuple[str, str]] = collections.Counter()
+        for left_index, right_index in itertools.combinations(range(len(family_sets)), 2):
+            if len(family_sets[left_index] ^ family_sets[right_index]) == 2:
+                edge_indices.add((left_index, right_index))
+                left_orbit = chosen_orbit_representatives[canonical_support_family(families[left_index])]
+                right_orbit = chosen_orbit_representatives[canonical_support_family(families[right_index])]
+                orbit_edge_counts[tuple(sorted((left_orbit, right_orbit), key=orbit_order.index))] += 1
+        component_count, diameter = graph_metrics(families, edge_indices)
+        quotient_flip_graph_rows.append(
+            {
+                "trigger_size": trigger_size,
+                "vertices": len(families),
+                "edges": len(edge_indices),
+                "connected_components": component_count,
+                "diameter": diameter,
+            }
+        )
+        for (left_orbit, right_orbit), edge_count in sorted(orbit_edge_counts.items(), key=lambda item: (trigger_size, orbit_order.index(item[0][0]), orbit_order.index(item[0][1]))):
+            quotient_flip_orbit_edge_rows.append(
+                {
+                    "trigger_size": trigger_size,
+                    "left_orbit": left_orbit,
+                    "right_orbit": right_orbit,
+                    "edge_count": edge_count,
+                }
+            )
     rank_enumerator_rows = [
         {
             "added_size": added_size,
@@ -4333,6 +5538,18 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "mstar_retention_float": shell_filling_rows[0]["retention_float"],
         "full_cube_spectral_radius": shell_filling_rows[-1]["spectral_radius"],
         "full_cube_retention_float": shell_filling_rows[-1]["retention_float"],
+        "bedc_rank_deficiency_rows": bedc_rank_deficiency_rows,
+        "bedc_rank_deficiency_legal_codons": tuple(
+            row["codon"] for row in bedc_rank_deficiency_rows if row["bedc_legal"]
+        ),
+        "bedc_rank_deficiency_full_corner": "UGG",
+        "bedc_rank_deficiency_local_dimension": 2,
+        "bedc_rank_deficiency_terminal_dimension": 4,
+        "bedc_rank_deficiency_median_completion": tuple(rna_label(codon) for codon in bedc_stop_square),
+        "bedc_rank_deficiency_principle": "proper support",
+        "bedc_closure_tower_rows": bedc_closure_tower_rows,
+        "bedc_closure_tower_endpoint_pairs": ((2, 1), (4, 2)),
+        "bedc_closure_tower_blocker_homotopies": ("S^0", "S^2"),
         "anchor_subcube_formula_verified": all(row["matches_formula"] for row in support_pattern_verification_rows),
         "span_size_rows": span_size_rows,
         "single_span_rows": single_span_rows,
@@ -4396,6 +5613,21 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "top_betti_strand_generating_function": top_betti_strand_generating_function,
         "top_betti_strand_rows": top_betti_strand_rows,
         "betti_table_diagonal_rows": betti_table_diagonal_rows,
+        "hochster_diagonal_rows": hochster_diagonal_rows,
+        "hochster_diagonal_generating_functions": hochster_diagonal_generating_functions,
+        "support_level_betti_rows": support_level_betti_rows,
+        "support_level_betti_generating_functions": support_level_betti_generating_functions,
+        "support_lift_substitution": support_lift_substitution,
+        "support_nerve_signature_rows": support_nerve_signature_rows,
+        "support_nerve_census_total": support_nerve_census_total,
+        "support_nerve_contractible_count": support_nerve_contractible_count,
+        "support_nerve_h2_count": support_nerve_h2_count,
+        "support_to_nerve_subcomplex_signature_rows": support_to_nerve_subcomplex_signature_rows,
+        "support_to_nerve_subcomplex_total": support_to_nerve_subcomplex_total,
+        "support_to_nerve_fiber_total": support_to_nerve_fiber_total,
+        "support_to_nerve_h2_subcomplex_count": support_to_nerve_h2_subcomplex_count,
+        "hochster_p0_coefficients_desc": hochster_p0_coefficients_desc,
+        "hochster_p1_coefficients_desc": hochster_p1_coefficients_desc,
         "blocker_euler_characteristic": blocker_euler_characteristic,
         "blocker_probability_tail_rows": blocker_probability_tail_rows,
         "alexander_dual_generator_count": len(alexander_dual_generator_rows),
@@ -4411,6 +5643,57 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "minimal_trigger_codon_total": sum(row["codon_count"] for row in minimal_trigger_rows),
         "minimal_trigger_polynomial_quotient": minimal_trigger_polynomial_quotient,
         "minimal_trigger_polynomial_codon": minimal_trigger_polynomial_codon,
+        "minimal_trigger_homology_core_rows": minimal_trigger_homology_core_rows,
+        "private_coordinate_minimal_trigger_formula": "1/m! sum_j (-1)^j binom(m,j) (2^m-1-j)^n",
+        "private_coordinate_energy_refined_formula": "1/m! sum_j (-1)^j binom(m,j) ((1+y)^m-1-jy)^n",
+        "private_coordinate_formula_rows": private_coordinate_formula_rows,
+        "minimal_trigger_orbit_rows": minimal_trigger_orbit_rows,
+        "minimal_trigger_defect_rows": minimal_trigger_defect_rows,
+        "minimal_trigger_lift_bundle_rows": minimal_trigger_lift_bundle_rows,
+        "minimal_trigger_lift_flip_edge_total": minimal_trigger_lift_flip_edge_total,
+        "private_shared_decoration_formula": "sum_h binom(n,h) S(n-h,m) (2^m-m-1)^h",
+        "private_shared_defect_formula": "sum_h binom(n,h) S(n-h,m) (sum_{r=2}^m binom(m,r) y^(r-1))^h",
+        "private_shared_decoration_rows": private_shared_decoration_rows,
+        "private_shared_orbit_rows": private_shared_orbit_rows,
+        "defect_flow_move": "delete one shared-coordinate incidence while preserving at least one incidence",
+        "defect_flow_orbit_rows": defect_flow_orbit_rows,
+        "defect_flow_edge_rows": defect_flow_edge_rows,
+        "defect_flow_summary": defect_flow_summary,
+        "partition_basin_formula": "prod_i ((2^(m-1))^s_i - (2^(m-1)-1)^s_i)",
+        "partition_basin_defect_polynomial_formula": "prod_i ((1+q)^((m-1)s_i) - ((1+q)^(m-1)-1)^s_i)",
+        "partition_basin_quotient_incidence_polynomial": "15 + 48q + 36q^2",
+        "partition_basin_codon_incidence_polynomial": "94 + 288q + 192q^2",
+        "partition_basin_quotient_path_polynomial": "15 + 48q + 72q^2",
+        "partition_basin_codon_path_polynomial": "94 + 288q + 384q^2",
+        "partition_basin_rows": partition_basin_rows,
+        "partition_basin_summary": partition_basin_summary,
+        "partition_core_kernel_rows": partition_core_kernel_rows,
+        "partition_core_kernel_summary": partition_core_kernel_summary,
+        "partition_core_representation_rows": partition_representation_rows,
+        "minimal_trigger_representation_rows": trigger_representation_rows,
+        "partition_core_incidence_kernel_representation_rows": kernel_representation_rows,
+        "partition_core_representation_summary": partition_core_representation_summary,
+        "descending_path_formula": "delta! prod_a |R_a|",
+        "descending_path_orbit_rows": descending_path_orbit_rows,
+        "descending_path_summary": descending_path_summary,
+        "codon_level_lift_orbit_group": "S_4 x C_2^(f_3)",
+        "codon_level_lift_orbit_count_rows": codon_level_lift_orbit_count_rows,
+        "codon_level_lift_orbit_rows": codon_level_lift_orbit_rows,
+        "codon_level_lift_orbit_total": codon_level_lift_orbit_total,
+        "codon_level_lift_orbit_size_total": codon_level_lift_orbit_size_total,
+        "orbit_inventory_orbit_polynomial": "u + u^2((2+2w)+v(1+w)+v^2(1+w)) + u^3((1+2w)+v(1+2w)+v^2(1+w)) + u^4(1+w+w^2)",
+        "orbit_inventory_codon_polynomial": "2u + u^2(1+w)(14+24v+12v^2) + u^3((12+36w)+v(24+72w)+v^2(8+24w)) + u^4(2+8w+6w^2)",
+        "orbit_inventory_term_rows": orbit_inventory_term_rows,
+        "orbit_inventory_size_defect_rows": inventory_size_defect_rows,
+        "orbit_inventory_defect_lift_rows": inventory_defect_lift_rows,
+        "orbit_inventory_size_lift_rows": inventory_size_lift_rows,
+        "orbit_inventory_size_marginal": inventory_size_marginal,
+        "orbit_inventory_defect_marginal": inventory_defect_marginal,
+        "orbit_inventory_lift_imbalance_marginal": inventory_lift_imbalance_marginal,
+        "orbit_inventory_expectation_rows": inventory_expectation_rows,
+        "orbit_inventory_max_orbit_rows": inventory_max_orbit_rows,
+        "quotient_flip_graph_rows": quotient_flip_graph_rows,
+        "quotient_flip_orbit_edge_rows": quotient_flip_orbit_edge_rows,
         "minimal_trigger_type_rows": minimal_trigger_type_rows,
         "trigger_energy_minimum": trigger_energy_minimum,
         "trigger_energy_minimum_condition": "support partition of Omega",
@@ -7440,6 +8723,51 @@ def assert_expected(summary: dict[str, object]) -> None:
         ("S3", 62, "+H3", 0.978349, 0.973118),
         ("S4", 64, "+H4", 1.0, 1.0),
     ]
+    assert [
+        (
+            row["codon"],
+            row["suffix"],
+            row["support"],
+            row["rank"],
+            row["bedc_legal"],
+            row["standard_role"],
+            row["in_reassignment_support"],
+            row["in_median_closure"],
+        )
+        for row in antipodal["bedc_rank_deficiency_rows"]
+    ] == [
+        ("UAA", "00", (), 0, True, "Stop", True, True),
+        ("UAG", "01", ("f3",), 1, True, "Stop", True, True),
+        ("UGA", "10", ("f2",), 1, True, "Stop", True, True),
+        ("UGG", "11", ("f2", "f3"), 2, False, "Trp", False, True),
+    ]
+    assert antipodal["bedc_rank_deficiency_legal_codons"] == ("UAA", "UAG", "UGA")
+    assert antipodal["bedc_rank_deficiency_full_corner"] == "UGG"
+    assert antipodal["bedc_rank_deficiency_local_dimension"] == 2
+    assert antipodal["bedc_rank_deficiency_terminal_dimension"] == 4
+    assert antipodal["bedc_rank_deficiency_median_completion"] == ("UAA", "UAG", "UGA", "UGG")
+    assert antipodal["bedc_rank_deficiency_principle"] == "proper support"
+    assert [
+        (row["level"], row["object"])
+        for row in antipodal["bedc_closure_tower_rows"]
+    ] == [
+        ("two_axis_alphabet", "U=00,C=01,A=10,G=11"),
+        ("local_legality", "proper support in {f2,f3}"),
+        ("stop_l_shape", ("UAA", "UAG", "UGA")),
+        ("reassignment_support_seed", ("UAA", "UAG", "UGA")),
+        ("median_completion", ("UAA", "UAG", "UGA", "UGG")),
+        ("terminal_trigger_algebra", "proper support in {s1,f1,s2,f2}"),
+    ]
+    assert [
+        (row.get("n"), row.get("lift_count"), row.get("blocker_homotopy"))
+        for row in antipodal["bedc_closure_tower_rows"]
+        if "n" in row
+    ] == [
+        (2, 1, "S^0"),
+        (4, 2, "S^2"),
+    ]
+    assert antipodal["bedc_closure_tower_endpoint_pairs"] == ((2, 1), (4, 2))
+    assert antipodal["bedc_closure_tower_blocker_homotopies"] == ("S^0", "S^2")
     assert antipodal["anchor_subcube_formula_verified"] is True
     assert [
         (row["span_dimension"], row["closure_size"])
@@ -7858,6 +9186,250 @@ def assert_expected(summary: dict[str, object]) -> None:
         (2, 1, 24),
         (3, 2, 27),
     ]
+    assert antipodal["hochster_diagonal_generating_functions"] == {
+        -1: "(1+x)^2",
+        0: "x^2(x+1)^2(x+2)^2P0(x)",
+        1: "x^3(x+1)^10(x+2)^3P1(x)",
+        2: "x^4(x+1)^22(x+2)^4",
+    }
+    assert antipodal["support_lift_substitution"] == "z=(1+x)^2-1=2x+x^2"
+    assert antipodal["support_level_betti_generating_functions"] == {
+        -1: "1+z",
+        0: "z^2(1+z)(4z^6+28z^5+87z^4+152z^3+157z^2+92z+25)",
+        1: "z^3(1+z)^5(6z^5+38z^4+99z^3+132z^2+89z+22)",
+        2: "z^4(1+z)^11",
+    }
+    assert [
+        (
+            row["homology_degree"],
+            tuple((degree, coefficient) for degree, coefficient in enumerate(row["coefficients"]) if coefficient),
+            row["nonzero_count"],
+            row["total_support_mass"],
+        )
+        for row in antipodal["support_level_betti_rows"]
+    ] == [
+        (-1, ((0, 1), (1, 1)), 2, 2),
+        (
+            0,
+            (
+                (2, 25),
+                (3, 117),
+                (4, 249),
+                (5, 309),
+                (6, 239),
+                (7, 115),
+                (8, 32),
+                (9, 4),
+            ),
+            8,
+            1090,
+        ),
+        (
+            1,
+            (
+                (3, 22),
+                (4, 199),
+                (5, 797),
+                (6, 1869),
+                (7, 2853),
+                (8, 2973),
+                (9, 2149),
+                (10, 1067),
+                (11, 349),
+                (12, 68),
+                (13, 6),
+            ),
+            11,
+            12352,
+        ),
+        (
+            2,
+            (
+                (4, 1),
+                (5, 11),
+                (6, 55),
+                (7, 165),
+                (8, 330),
+                (9, 462),
+                (10, 462),
+                (11, 330),
+                (12, 165),
+                (13, 55),
+                (14, 11),
+                (15, 1),
+            ),
+            12,
+            2048,
+        ),
+    ]
+    assert antipodal["support_nerve_census_total"] == 32768
+    assert antipodal["support_nerve_contractible_count"] == 18680
+    assert antipodal["support_nerve_h2_count"] == 2048
+    assert [
+        (row["signature"], row["support_family_count"])
+        for row in antipodal["support_nerve_signature_rows"]
+    ] == [
+        ((0, 0, 0, 0), 18680),
+        ((0, 0, 0, 1), 2048),
+        ((0, 0, 1, 0), 9760),
+        ((0, 0, 2, 0), 1216),
+        ((0, 0, 3, 0), 32),
+        ((0, 1, 0, 0), 908),
+        ((0, 1, 1, 0), 64),
+        ((0, 2, 0, 0), 56),
+        ((0, 3, 0, 0), 2),
+        ((1, 0, 0, 0), 2),
+    ]
+    assert antipodal["support_to_nerve_subcomplex_total"] == 167
+    assert antipodal["support_to_nerve_fiber_total"] == 32768
+    assert antipodal["support_to_nerve_h2_subcomplex_count"] == 1
+    assert [
+        (row["signature"], row["subcomplex_count"])
+        for row in antipodal["support_to_nerve_subcomplex_signature_rows"]
+    ] == [
+        ((0, 0, 0, 0), 64),
+        ((0, 0, 0, 1), 1),
+        ((0, 0, 1, 0), 37),
+        ((0, 0, 2, 0), 10),
+        ((0, 0, 3, 0), 1),
+        ((0, 1, 0, 0), 37),
+        ((0, 1, 1, 0), 4),
+        ((0, 2, 0, 0), 10),
+        ((0, 3, 0, 0), 1),
+        ((1, 0, 0, 0), 2),
+    ]
+    assert antipodal["hochster_p0_coefficients_desc"] == (
+        4,
+        48,
+        268,
+        920,
+        2167,
+        3704,
+        4736,
+        4592,
+        3373,
+        1844,
+        720,
+        184,
+        25,
+    )
+    assert antipodal["hochster_p1_coefficients_desc"] == (
+        6,
+        60,
+        278,
+        784,
+        1491,
+        2002,
+        1928,
+        1320,
+        617,
+        178,
+        22,
+    )
+    assert [
+        (
+            row["homology_degree"],
+            row["diagonal"],
+            tuple((degree, coefficient) for degree, coefficient in enumerate(row["coefficients"]) if coefficient),
+            row["nonzero_count"],
+            row["total_betti_mass"],
+        )
+        for row in antipodal["hochster_diagonal_rows"]
+    ] == [
+        (-1, 0, ((0, 1), (1, 2), (2, 1)), 3, 4),
+        (
+            0,
+            1,
+            (
+                (2, 100),
+                (3, 1036),
+                (4, 5413),
+                (5, 18558),
+                (6, 46109),
+                (7, 87320),
+                (8, 129681),
+                (9, 153426),
+                (10, 145609),
+                (11, 110844),
+                (12, 67243),
+                (13, 32074),
+                (14, 11763),
+                (15, 3200),
+                (16, 608),
+                (17, 72),
+                (18, 4),
+            ),
+            17,
+            813060,
+        ),
+        (
+            1,
+            2,
+            (
+                (3, 176),
+                (4, 3448),
+                (5, 32004),
+                (6, 188174),
+                (7, 789384),
+                (8, 2519871),
+                (9, 6368866),
+                (10, 13082137),
+                (11, 22229268),
+                (12, 31625809),
+                (13, 37973894),
+                (14, 38665653),
+                (15, 33455728),
+                (16, 24590925),
+                (17, 15312666),
+                (18, 8035009),
+                (19, 3523300),
+                (20, 1275351),
+                (21, 374462),
+                (22, 86941),
+                (23, 15360),
+                (24, 1940),
+                (25, 156),
+                (26, 6),
+            ),
+            24,
+            240150528,
+        ),
+        (
+            2,
+            3,
+            (
+                (4, 16),
+                (5, 384),
+                (6, 4424),
+                (7, 32568),
+                (8, 172041),
+                (9, 694254),
+                (10, 2224607),
+                (11, 5808396),
+                (12, 12582427),
+                (13, 22907654),
+                (14, 35377221),
+                (15, 46646368),
+                (16, 52738794),
+                (17, 51252348),
+                (18, 42843366),
+                (19, 30778024),
+                (20, 18951702),
+                (21, 9957596),
+                (22, 4434562),
+                (23, 1658184),
+                (24, 513821),
+                (25, 129558),
+                (26, 25899),
+                (27, 3948),
+                (28, 431),
+                (29, 30),
+                (30, 1),
+            ),
+            27,
+            339738624,
+        ),
+    ]
     assert antipodal["blocker_euler_characteristic"] == 2
     assert [
         (row["added_size"], row["blocker_count"], round(row["full_trigger_probability"], 4))
@@ -7934,6 +9506,444 @@ def assert_expected(summary: dict[str, object]) -> None:
         (3, 176),
         (4, 16),
     )
+    assert [
+        (
+            row["trigger_size"],
+            row["homology_degree"],
+            row["sphere"],
+            row["quotient_count"],
+            row["codon_count"],
+        )
+        for row in antipodal["minimal_trigger_homology_core_rows"]
+    ] == [
+        (1, -1, "S^-1", 1, 2),
+        (2, 0, "S^0", 25, 100),
+        (3, 1, "S^1", 22, 176),
+        (4, 2, "S^2", 1, 16),
+    ]
+    assert antipodal["private_coordinate_minimal_trigger_formula"] == "1/m! sum_j (-1)^j binom(m,j) (2^m-1-j)^n"
+    assert antipodal["private_coordinate_energy_refined_formula"] == "1/m! sum_j (-1)^j binom(m,j) ((1+y)^m-1-jy)^n"
+    assert [
+        (
+            row["trigger_size"],
+            row["quotient_count"],
+            row["codon_count"],
+            row["energy_terms"],
+        )
+        for row in antipodal["private_coordinate_formula_rows"]
+    ] == [
+        (1, 1, 2, ((4, 1, 2),)),
+        (2, 25, 100, ((4, 7, 28), (5, 12, 48), (6, 6, 24))),
+        (3, 22, 176, ((4, 6, 48), (5, 12, 96), (6, 4, 32))),
+        (4, 1, 16, ((4, 1, 16),)),
+    ]
+    assert [
+        (
+            row["normal_form"],
+            row["trigger_size"],
+            row["energy"],
+            row["defect"],
+            row["quotient_count"],
+            row["codon_count"],
+        )
+        for row in antipodal["minimal_trigger_orbit_rows"]
+    ] == [
+        ("{1234}", 1, 4, 0, 1, 2),
+        ("{1,234}", 2, 4, 0, 4, 16),
+        ("{12,34}", 2, 4, 0, 3, 12),
+        ("{12,234}", 2, 5, 1, 12, 48),
+        ("{123,124}", 2, 6, 2, 6, 24),
+        ("{1,2,34}", 3, 4, 0, 6, 48),
+        ("{1,24,34}", 3, 5, 1, 12, 96),
+        ("{14,24,34}", 3, 6, 2, 4, 32),
+        ("{1,2,3,4}", 4, 4, 0, 1, 16),
+    ]
+    assert [
+        (row["defect"], row["quotient_count"], row["codon_count"])
+        for row in antipodal["minimal_trigger_defect_rows"]
+    ] == [
+        (0, 15, 94),
+        (1, 24, 144),
+        (2, 10, 56),
+    ]
+    assert [
+        (
+            row["trigger_size"],
+            row["quotient_count"],
+            row["fiber"],
+            row["codon_count"],
+            row["lift_flip_edges_per_fiber"],
+            row["lift_flip_edges"],
+        )
+        for row in antipodal["minimal_trigger_lift_bundle_rows"]
+    ] == [
+        (1, 1, "Q_1", 2, 1, 1),
+        (2, 25, "Q_2", 100, 4, 100),
+        (3, 22, "Q_3", 176, 12, 264),
+        (4, 1, "Q_4", 16, 32, 32),
+    ]
+    assert antipodal["minimal_trigger_lift_flip_edge_total"] == 397
+    assert antipodal["private_shared_decoration_formula"] == "sum_h binom(n,h) S(n-h,m) (2^m-m-1)^h"
+    assert antipodal["private_shared_defect_formula"] == "sum_h binom(n,h) S(n-h,m) (sum_{r=2}^m binom(m,r) y^(r-1))^h"
+    assert [
+        (row["trigger_size"], row["decoration_count"], row["defect_terms"])
+        for row in antipodal["private_shared_decoration_rows"]
+    ] == [
+        (1, 1, ((0, 1, 2),)),
+        (2, 25, ((0, 7, 28), (1, 12, 48), (2, 6, 24))),
+        (3, 22, ((0, 6, 48), (1, 12, 96), (2, 4, 32))),
+        (4, 1, ((0, 1, 16),)),
+    ]
+    assert [
+        (row["normal_form"], row["private_blocks"], row["shared_coordinates"])
+        for row in antipodal["private_shared_orbit_rows"]
+    ] == [
+        ("{1234}", ("{1,2,3,4}",), ()),
+        ("{1,234}", ("{1}", "{2,3,4}"), ()),
+        ("{12,34}", ("{1,2}", "{3,4}"), ()),
+        ("{12,234}", ("{1}", "{3,4}"), ("2:{1,2}",)),
+        ("{123,124}", ("{3}", "{4}"), ("1:{1,2}", "2:{1,2}")),
+        ("{1,2,34}", ("{1}", "{2}", "{3,4}"), ()),
+        ("{1,24,34}", ("{1}", "{2}", "{3}"), ("4:{2,3}",)),
+        ("{14,24,34}", ("{1}", "{2}", "{3}"), ("4:{1,2,3}",)),
+        ("{1,2,3,4}", ("{1}", "{2}", "{3}", "{4}"), ()),
+    ]
+    assert antipodal["defect_flow_move"] == "delete one shared-coordinate incidence while preserving at least one incidence"
+    assert [
+        (
+            row["normal_form"],
+            row["defect"],
+            row["quotient_count"],
+            row["codon_count"],
+            row["quotient_outdegree"],
+            row["partition_core_count"],
+            row["quotient_edge_contribution"],
+            row["codon_edge_contribution"],
+            row["quotient_core_incidence"],
+            row["codon_core_incidence"],
+        )
+        for row in antipodal["defect_flow_orbit_rows"]
+    ] == [
+        ("{1234}", 0, 1, 2, 0, 1, 0, 0, 1, 2),
+        ("{1,234}", 0, 4, 16, 0, 1, 0, 0, 4, 16),
+        ("{12,34}", 0, 3, 12, 0, 1, 0, 0, 3, 12),
+        ("{12,234}", 1, 12, 48, 2, 2, 24, 96, 24, 96),
+        ("{123,124}", 2, 6, 24, 4, 4, 24, 96, 24, 96),
+        ("{1,2,34}", 0, 6, 48, 0, 1, 0, 0, 6, 48),
+        ("{1,24,34}", 1, 12, 96, 2, 2, 24, 192, 24, 192),
+        ("{14,24,34}", 2, 4, 32, 3, 3, 12, 96, 12, 96),
+        ("{1,2,3,4}", 0, 1, 16, 0, 1, 0, 0, 1, 16),
+    ]
+    assert [
+        (row["source_defect"], row["target_defect"], row["quotient_edges"], row["codon_edges"])
+        for row in antipodal["defect_flow_edge_rows"]
+    ] == [
+        (1, 0, 48, 288),
+        (2, 1, 36, 192),
+    ]
+    assert antipodal["defect_flow_summary"] == {
+        "quotient_vertices": 49,
+        "codon_vertices": 294,
+        "quotient_edges": 84,
+        "codon_edges": 480,
+        "quotient_sinks": 15,
+        "codon_sinks": 94,
+        "quotient_core_incidence": 99,
+        "codon_core_incidence": 574,
+    }
+    assert antipodal["partition_basin_formula"] == "prod_i ((2^(m-1))^s_i - (2^(m-1)-1)^s_i)"
+    assert antipodal["partition_basin_defect_polynomial_formula"] == "prod_i ((1+q)^((m-1)s_i) - ((1+q)^(m-1)-1)^s_i)"
+    assert antipodal["partition_basin_quotient_incidence_polynomial"] == "15 + 48q + 36q^2"
+    assert antipodal["partition_basin_codon_incidence_polynomial"] == "94 + 288q + 192q^2"
+    assert antipodal["partition_basin_quotient_path_polynomial"] == "15 + 48q + 72q^2"
+    assert antipodal["partition_basin_codon_path_polynomial"] == "94 + 288q + 384q^2"
+    assert [
+        (
+            row["partition_type"],
+            row["block_sizes"],
+            row["trigger_size"],
+            row["quotient_partitions"],
+            row["basin_defect_terms"],
+            row["basin_per_core"],
+            row["codon_cores"],
+            row["quotient_incidence"],
+            row["codon_incidence"],
+        )
+        for row in antipodal["partition_basin_rows"]
+    ] == [
+        ("4", (4,), 1, 1, ((0, 1),), 1, 2, 1, 2),
+        ("3+1", (3, 1), 2, 4, ((0, 1), (1, 3), (2, 3)), 7, 16, 28, 112),
+        ("2+2", (2, 2), 2, 3, ((0, 1), (1, 4), (2, 4)), 9, 12, 27, 108),
+        ("2+1+1", (2, 1, 1), 3, 6, ((0, 1), (1, 4), (2, 2)), 7, 48, 42, 336),
+        ("1+1+1+1", (1, 1, 1, 1), 4, 1, ((0, 1),), 1, 16, 1, 16),
+    ]
+    assert antipodal["partition_basin_summary"] == {
+        "quotient_incidence": 99,
+        "codon_incidence": 574,
+        "max_basin_partition_type": "2+2",
+        "max_basin_per_core": 9,
+        "quotient_incidence_terms": ((0, 15), (1, 48), (2, 36)),
+        "codon_incidence_terms": ((0, 94), (1, 288), (2, 192)),
+        "quotient_path_terms": ((0, 15), (1, 48), (2, 72)),
+        "codon_path_terms": ((0, 94), (1, 288), (2, 384)),
+    }
+    assert [
+        (
+            row["trigger_size"],
+            row["partition_core_count"],
+            row["quotient_trigger_count"],
+            row["quotient_incidence_edges"],
+            row["codon_incidence_edges"],
+            row["spectrum"],
+            row["spectrum_verified"],
+            row["connected_components"],
+            row["diameter"],
+        )
+        for row in antipodal["partition_core_kernel_rows"]
+    ] == [
+        (1, 1, 1, 1, 2, (1,), True, 1, 1),
+        (2, 7, 25, 55, 220, (22, 7, 7, 6, 6, 6, 1), True, 1, 4),
+        (3, 6, 22, 42, 336, (15, 7, 7, 7, 3, 3), True, 1, 6),
+        (4, 1, 1, 1, 16, (1,), True, 1, 1),
+    ]
+    assert antipodal["partition_core_kernel_rows"][1]["partition_core_labels"] == (
+        "1|234", "2|134", "3|124", "4|123", "12|34", "13|24", "14|23",
+    )
+    assert antipodal["partition_core_kernel_rows"][1]["gram_matrix"] == (
+        (7, 1, 1, 1, 3, 3, 3),
+        (1, 7, 1, 1, 3, 3, 3),
+        (1, 1, 7, 1, 3, 3, 3),
+        (1, 1, 1, 7, 3, 3, 3),
+        (3, 3, 3, 3, 9, 2, 2),
+        (3, 3, 3, 3, 2, 9, 2),
+        (3, 3, 3, 3, 2, 2, 9),
+    )
+    assert antipodal["partition_core_kernel_rows"][2]["partition_core_labels"] == (
+        "12|3|4", "13|2|4", "14|2|3", "23|1|4", "24|1|3", "34|1|2",
+    )
+    assert antipodal["partition_core_kernel_rows"][2]["gram_matrix"] == (
+        (7, 2, 2, 2, 2, 0),
+        (2, 7, 2, 2, 0, 2),
+        (2, 2, 7, 0, 2, 2),
+        (2, 2, 0, 7, 2, 2),
+        (2, 0, 2, 2, 7, 2),
+        (0, 2, 2, 2, 2, 7),
+    )
+    assert antipodal["partition_core_kernel_summary"] == {
+        "quotient_incidence_edges": (1, 55, 42, 1),
+        "codon_incidence_edges": (2, 220, 336, 16),
+        "quotient_incidence_total": 99,
+        "codon_incidence_total": 574,
+        "nontrivial_spectra": {2: (22, 7, 7, 6, 6, 6, 1), 3: (15, 7, 7, 7, 3, 3)},
+        "m2_perron_weight_ratio_2_plus_2_to_3_plus_1": "4/3",
+        "m3_perron_mode": "uniform",
+        "all_spectra_verified": True,
+    }
+    assert [
+        (row["trigger_size"], row["dimension"], row["multiplicities"], row["dimension_verified"])
+        for row in antipodal["partition_core_representation_rows"]
+    ] == [
+        (1, 1, {"trivial": 1, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+        (2, 7, {"trivial": 2, "sign": 0, "standard": 1, "sign_standard": 0, "two_dimensional": 1}, True),
+        (3, 6, {"trivial": 1, "sign": 0, "standard": 1, "sign_standard": 0, "two_dimensional": 1}, True),
+        (4, 1, {"trivial": 1, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+    ]
+    assert [
+        (row["trigger_size"], row["dimension"], row["multiplicities"], row["dimension_verified"])
+        for row in antipodal["minimal_trigger_representation_rows"]
+    ] == [
+        (1, 1, {"trivial": 1, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+        (2, 25, {"trivial": 4, "sign": 0, "standard": 4, "sign_standard": 1, "two_dimensional": 3}, True),
+        (3, 22, {"trivial": 3, "sign": 0, "standard": 4, "sign_standard": 1, "two_dimensional": 2}, True),
+        (4, 1, {"trivial": 1, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+    ]
+    assert [
+        (row["trigger_size"], row["dimension"], row["multiplicities"], row["dimension_verified"])
+        for row in antipodal["partition_core_incidence_kernel_representation_rows"]
+    ] == [
+        (1, 0, {"trivial": 0, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+        (2, 18, {"trivial": 2, "sign": 0, "standard": 3, "sign_standard": 1, "two_dimensional": 2}, True),
+        (3, 16, {"trivial": 2, "sign": 0, "standard": 3, "sign_standard": 1, "two_dimensional": 1}, True),
+        (4, 0, {"trivial": 0, "sign": 0, "standard": 0, "sign_standard": 0, "two_dimensional": 0}, True),
+    ]
+    assert antipodal["partition_core_representation_summary"] == {
+        "partition_total_multiplicities": {"trivial": 5, "sign": 0, "standard": 2, "sign_standard": 0, "two_dimensional": 2},
+        "trigger_total_multiplicities": {"trivial": 9, "sign": 0, "standard": 8, "sign_standard": 2, "two_dimensional": 5},
+        "kernel_total_multiplicities": {"trivial": 4, "sign": 0, "standard": 6, "sign_standard": 2, "two_dimensional": 3},
+        "partition_total_dimension": 15,
+        "trigger_total_dimension": 49,
+        "kernel_total_dimension": 34,
+        "sign_standard_invisible": True,
+        "m2_gram_eigen_irreps": (("22,1", "trivial_mixture"), ("7", "two_dimensional"), ("6", "standard")),
+        "m3_gram_eigen_irreps": (("15", "trivial"), ("7", "standard"), ("3", "two_dimensional")),
+    }
+    assert antipodal["descending_path_formula"] == "delta! prod_a |R_a|"
+    assert [
+        (
+            row["normal_form"],
+            row["defect"],
+            row["quotient_count"],
+            row["codon_count"],
+            row["paths_per_trigger"],
+            row["quotient_path_contribution"],
+            row["codon_path_contribution"],
+        )
+        for row in antipodal["descending_path_orbit_rows"]
+    ] == [
+        ("{1234}", 0, 1, 2, 1, 1, 2),
+        ("{1,234}", 0, 4, 16, 1, 4, 16),
+        ("{12,34}", 0, 3, 12, 1, 3, 12),
+        ("{12,234}", 1, 12, 48, 2, 24, 96),
+        ("{123,124}", 2, 6, 24, 8, 48, 192),
+        ("{1,2,34}", 0, 6, 48, 1, 6, 48),
+        ("{1,24,34}", 1, 12, 96, 2, 24, 192),
+        ("{14,24,34}", 2, 4, 32, 6, 24, 192),
+        ("{1,2,3,4}", 0, 1, 16, 1, 1, 16),
+    ]
+    assert antipodal["descending_path_summary"] == {
+        "quotient_paths": 135,
+        "codon_paths": 766,
+    }
+    assert antipodal["codon_level_lift_orbit_group"] == "S_4 x C_2^(f_3)"
+    assert [
+        (row["normal_form"], row["quotient_count"], row["lift_orbit_count"])
+        for row in antipodal["codon_level_lift_orbit_count_rows"]
+    ] == [
+        ("{1234}", 1, 1),
+        ("{1,234}", 4, 2),
+        ("{12,34}", 3, 2),
+        ("{12,234}", 12, 2),
+        ("{123,124}", 6, 2),
+        ("{1,2,34}", 6, 3),
+        ("{1,24,34}", 12, 3),
+        ("{14,24,34}", 4, 2),
+        ("{1,2,3,4}", 1, 3),
+    ]
+    assert [
+        (
+            row["normal_form"],
+            row["defect"],
+            row["lift_pattern"],
+            row["pattern_representatives"],
+            row["lift_orbit_size"],
+            row["codon_orbit_size"],
+            row["lift_imbalance"],
+        )
+        for row in antipodal["codon_level_lift_orbit_rows"]
+    ] == [
+        ("{1234}", 0, "0/1", ("0", "1"), 2, 2, 0),
+        ("{1,234}", 0, "same", ("00", "11"), 2, 8, 0),
+        ("{1,234}", 0, "opposite", ("01", "10"), 2, 8, 1),
+        ("{12,34}", 0, "same", ("00", "11"), 2, 6, 0),
+        ("{12,34}", 0, "opposite", ("01", "10"), 2, 6, 1),
+        ("{12,234}", 1, "same", ("00", "11"), 2, 24, 0),
+        ("{12,234}", 1, "opposite", ("01", "10"), 2, 24, 1),
+        ("{123,124}", 2, "same", ("00", "11"), 2, 12, 0),
+        ("{123,124}", 2, "opposite", ("01", "10"), 2, 12, 1),
+        ("{1,2,34}", 0, "all same", ("000", "111"), 2, 12, 0),
+        ("{1,2,34}", 0, "pair same, block opposite", ("001", "110"), 2, 12, 1),
+        ("{1,2,34}", 0, "singleton split", ("010", "011", "100", "101"), 4, 24, 1),
+        ("{1,24,34}", 1, "all same", ("000", "111"), 2, 24, 0),
+        ("{1,24,34}", 1, "shared-pair same, singleton opposite", ("011", "100"), 2, 24, 1),
+        ("{1,24,34}", 1, "shared-pair split", ("001", "010", "101", "110"), 4, 48, 1),
+        ("{14,24,34}", 2, "all same", ("000", "111"), 2, 8, 0),
+        ("{14,24,34}", 2, "mixed", ("001", "010", "011", "100", "101", "110"), 6, 24, 1),
+        ("{1,2,3,4}", 0, "all same", ("0000", "1111"), 2, 2, 0),
+        ("{1,2,3,4}", 0, "one-vs-three", ("0001", "0010", "0100", "0111", "1000", "1011", "1101", "1110"), 8, 8, 1),
+        ("{1,2,3,4}", 0, "two-vs-two", ("0011", "0101", "0110", "1001", "1010", "1100"), 6, 6, 2),
+    ]
+    assert antipodal["codon_level_lift_orbit_total"] == 20
+    assert antipodal["codon_level_lift_orbit_size_total"] == 294
+    assert antipodal["orbit_inventory_orbit_polynomial"] == "u + u^2((2+2w)+v(1+w)+v^2(1+w)) + u^3((1+2w)+v(1+2w)+v^2(1+w)) + u^4(1+w+w^2)"
+    assert antipodal["orbit_inventory_codon_polynomial"] == "2u + u^2(1+w)(14+24v+12v^2) + u^3((12+36w)+v(24+72w)+v^2(8+24w)) + u^4(2+8w+6w^2)"
+    assert [
+        (row["trigger_size"], row["defect"], row["lift_imbalance"], row["orbit_count"], row["codon_count"])
+        for row in antipodal["orbit_inventory_term_rows"]
+    ] == [
+        (1, 0, 0, 1, 2),
+        (2, 0, 0, 2, 14),
+        (2, 0, 1, 2, 14),
+        (2, 1, 0, 1, 24),
+        (2, 1, 1, 1, 24),
+        (2, 2, 0, 1, 12),
+        (2, 2, 1, 1, 12),
+        (3, 0, 0, 1, 12),
+        (3, 0, 1, 2, 36),
+        (3, 1, 0, 1, 24),
+        (3, 1, 1, 2, 72),
+        (3, 2, 0, 1, 8),
+        (3, 2, 1, 1, 24),
+        (4, 0, 0, 1, 2),
+        (4, 0, 1, 1, 8),
+        (4, 0, 2, 1, 6),
+    ]
+    assert antipodal["orbit_inventory_size_marginal"] == {1: 2, 2: 100, 3: 176, 4: 16}
+    assert antipodal["orbit_inventory_defect_marginal"] == {0: 94, 1: 144, 2: 56}
+    assert antipodal["orbit_inventory_lift_imbalance_marginal"] == {0: 98, 1: 190, 2: 6}
+    assert [
+        (row["trigger_size"], row["defect_counts"])
+        for row in antipodal["orbit_inventory_size_defect_rows"]
+    ] == [
+        (1, {0: 2, 1: 0, 2: 0}),
+        (2, {0: 28, 1: 48, 2: 24}),
+        (3, {0: 48, 1: 96, 2: 32}),
+        (4, {0: 16, 1: 0, 2: 0}),
+    ]
+    assert [
+        (row["defect"], row["lift_imbalance_counts"])
+        for row in antipodal["orbit_inventory_defect_lift_rows"]
+    ] == [
+        (0, {0: 30, 1: 58, 2: 6}),
+        (1, {0: 48, 1: 96, 2: 0}),
+        (2, {0: 20, 1: 36, 2: 0}),
+    ]
+    assert [
+        (row["trigger_size"], row["lift_imbalance_counts"])
+        for row in antipodal["orbit_inventory_size_lift_rows"]
+    ] == [
+        (1, {0: 2, 1: 0, 2: 0}),
+        (2, {0: 50, 1: 50, 2: 0}),
+        (3, {0: 44, 1: 132, 2: 0}),
+        (4, {0: 2, 1: 8, 2: 6}),
+    ]
+    assert [
+        (row["statistic"], row["numerator"], row["denominator"])
+        for row in antipodal["orbit_inventory_expectation_rows"]
+    ] == [
+        ("size", 794, 294),
+        ("defect", 256, 294),
+        ("energy", 1432, 294),
+        ("lift_imbalance", 202, 294),
+    ]
+    assert [
+        (row["normal_form"], row["lift_pattern"], row["codon_orbit_size"], row["trigger_size"], row["defect"], row["lift_imbalance"])
+        for row in antipodal["orbit_inventory_max_orbit_rows"]
+    ] == [
+        ("{1,24,34}", "shared-pair split", 48, 3, 1, 1),
+    ]
+    assert [
+        (row["trigger_size"], row["vertices"], row["edges"], row["connected_components"], row["diameter"])
+        for row in antipodal["quotient_flip_graph_rows"]
+    ] == [
+        (1, 1, 0, 1, 0),
+        (2, 25, 102, 1, 3),
+        (3, 22, 48, 1, 4),
+        (4, 1, 0, 1, 0),
+    ]
+    assert [
+        (row["trigger_size"], row["left_orbit"], row["right_orbit"], row["edge_count"])
+        for row in antipodal["quotient_flip_orbit_edge_rows"]
+    ] == [
+        (2, "{1,234}", "{12,234}", 12),
+        (2, "{1,234}", "{123,124}", 12),
+        (2, "{12,34}", "{12,234}", 12),
+        (2, "{12,234}", "{12,234}", 18),
+        (2, "{12,234}", "{123,124}", 36),
+        (2, "{123,124}", "{123,124}", 12),
+        (3, "{1,2,34}", "{1,24,34}", 24),
+        (3, "{1,24,34}", "{1,24,34}", 12),
+        (3, "{1,24,34}", "{14,24,34}", 12),
+    ]
     assert antipodal["rank_enumerator_formula"] == "sum_d binom(4,d) u^d sum_k (-1)^(d-k) binom(d,k) (1+t)^(2(2^k-1))"
     assert [
         (row["added_size"], row["rank_counts"], row["counts_sum_to_candidate_count"])

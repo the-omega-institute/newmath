@@ -65,6 +65,22 @@ If those evidence rows are absent from the displayed route, the obstruction row 
 The frontier row $F$ then hands the branch to the four downstream consumers, while $H,C,P,N$ preserve the finite route. Since neither branch contains a host normalization oracle or quotient reduction equality, the handoff records an auditable socket rather than a global theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical path normal audit socket handoff]
+\label{thm:metacic-critical-path-normal-audit-socket-handoff}
+Every $\MetaCICCriticalPathUp$ consumer that uses the $\MetaCICNormalAuditSocketUp$ boundary must preserve the closed typed term row $T$, the Candidate row $K$, the ClosedCandidate row $L$, the CandidateSet row $S$, the obstruction row $O$, the frontier row $F$, the transport row $H$, the replay row $C$, the provenance row $P$, and the local $\NameCert$ row $N$ before any closed-normal consistency read is admitted.
+
+Thus a closed-normal consistency consumer can read the socket only as a candidate-mediated branch or as an explicit obstruction branch. It cannot erase Candidate, ClosedCandidate, CandidateSet, obstruction, frontier, transport, replay, provenance, or naming data into an evidence-free normalization theorem.
+\end{theorem}
+\begin{proof}
+Begin with the frontier handoff of \autoref{thm:metacic-normal-audit-socket-frontier-handoff}. It is already the only displayed route from the socket to $\MetaCICCriticalPathUp$.
+
+On the positive side, preserve $K,L,S$ together with $T$. A critical-path read that later reaches a closed-normal consistency boundary must still be able to identify which candidate row supported the route.
+
+On the obstructed side, preserve $O$ together with $F$. This keeps the missing-evidence branch visible at the critical-path boundary rather than converting it into a hidden normalization claim.
+
+Finally carry $H,C,P,N$ along both branches. These rows are the transport, replay, provenance, and naming coordinates that make the socket auditable before any consistency read is consumed.
+\end{proof}
+
 \falsifiablePrediction{Deleting Candidate, ClosedCandidate, and CandidateSet evidence from the carrier blocks the public strong-normalization route at the obstruction row $O$.}
 
 \independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, normalformconsistencyseal, metacicdecidableboundary: the socket carries the closed typed term, three candidate-evidence rows, obstruction row, frontier row, transport, replay, provenance, and local NameCert rows, so no listed sibling is row-bijective with it.}

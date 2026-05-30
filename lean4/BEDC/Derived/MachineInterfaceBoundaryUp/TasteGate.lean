@@ -221,4 +221,33 @@ theorem MachineInterfaceBoundary_obligation_surface :
         cases h
       · exact ⟨machineInterfaceBoundaryChapterTasteGate⟩
 
+theorem MachineInterfaceBoundary_export_control {R E F A S H C P N : BHist}
+    (hEF : E ≠ F) :
+    MachineInterfaceBoundaryUp.packet R E F A S H C P N ≠
+        MachineInterfaceBoundaryUp.packet R F F A S H C P N ∧
+      machineInterfaceBoundaryFields (MachineInterfaceBoundaryUp.packet R E F A S H C P N) =
+        [R, E, F, A, S, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro h
+    cases h
+    exact hEF rfl
+  · rfl
+
+theorem MachineInterfaceBoundary_tastegate_handoff :
+    Nonempty (BHistCarrier MachineInterfaceBoundaryUp) ∧
+      Nonempty (ChapterTasteGate MachineInterfaceBoundaryUp) ∧
+        Nonempty (FieldFaithful MachineInterfaceBoundaryUp) ∧
+          Nonempty (Nontrivial MachineInterfaceBoundaryUp) ∧
+            machineInterfaceBoundaryFields
+                (MachineInterfaceBoundaryUp.packet BHist.Empty (BHist.e0 BHist.Empty)
+                  (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty) =
+              [BHist.Empty, BHist.e0 BHist.Empty, BHist.e1 BHist.Empty, BHist.Empty,
+                BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨⟨machineInterfaceBoundaryBHistCarrier⟩, ⟨machineInterfaceBoundaryChapterTasteGate⟩,
+      ⟨machineInterfaceBoundaryFieldFaithful⟩, ⟨machineInterfaceBoundaryNontrivial⟩, rfl⟩
+
 end BEDC.Derived.MachineInterfaceBoundaryUp

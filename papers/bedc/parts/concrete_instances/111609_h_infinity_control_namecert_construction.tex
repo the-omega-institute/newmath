@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\HInfinityControlUp$}
+\label{ch:concrete-instances-h-infinity-control-namecert}
+\origin{human}
+
+Following Zames and the bounded-real robust-control development of Doyle, Glover, Khargonekar, and Francis, the $\HInfinityControlUp$ packet records the finite bounded-gain certificate surface used by robust-control consumers. It sits after the state-space carrier of \autoref{ch:concrete-instances-statespacemodel-namecert}, matrix rows of \autoref{ch:concrete-instances-matrix-namecert}, vector-space rows of \autoref{ch:concrete-instances-vecspace-namecert}, real gain rows of \autoref{ch:concrete-instances-real-namecert}, Riccati rows of \autoref{ch:concrete-instances-riccati-namecert}, finite-horizon control rows of \autoref{ch:concrete-instances-lqr-namecert}, and finite prediction ledgers of \autoref{ch:concrete-instances-modelpredictivecontrol-namecert}. The packet names a finite robust-control ledger for disturbance-to-performance gain reads; it is not an analytic infinite-horizon optimality theorem.
+
+\begin{definition}[HInfinityControl carrier]
+\label{def:h-infinity-control-carrier}
+An $\HInfinityControlUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,D,Y,U,G,F,R,L,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StateSpaceModelUp$ row carrying the finite state-space presentation.
+\item $D$ is the disturbance-input row, recorded as a finite $\VecSpaceUp$ and $\MatrixUp$ interface into the state update.
+\item $Y$ is the performance-output row, again read through finite $\VecSpaceUp$, $\MatrixUp$, and $\RealUp$ coordinates.
+\item $U$ is the controller row, exposing the finite controller state, input, and output ledgers.
+\item $G$ is the $\RealUp$ gain-bound row naming the candidate bounded-gain level.
+\item $F$ is the finite rollout ledger comparing disturbance energy and performance energy over displayed time windows.
+\item $R$ is the Riccati dependency row, readable only as a finite $\RiccatiUp$ certificate surface.
+\item $L$ is the $\LQRUp$ dependency row for the quadratic-cost and dynamic-programming ledger used by the controller comparison.
+\item $M$ is the $\ModelPredictiveControlUp$ dependency row for finite rollout and constraint-window replay.
+\item $H$ records componentwise $\hsame$ transport for $S,D,Y,U,G,F,R,L,M$.
+\item $C$ records displayed $\Cont$ replay from the state-space rows through disturbance, performance, controller, gain, rollout, and dependency rows.
+\item $P$ is the $\Pkg$ provenance over $\HInfinityControlUp$, $\StateSpaceModelUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\RiccatiUp$, $\LQRUp$, $\ModelPredictiveControlUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HInfinityControlUp}$ row.
+\end{enumerate}
+The carrier stores no host trajectory space, no spectral factorization object, no infinite-horizon optimizer, no external robust-stability theorem, and no analytic transfer-function norm.
+\end{definition}
+\leanchecked{BEDC.Derived.HInfinityControlUp.HInfinityControlTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[HInfinityControl NameCert obligations]
+\label{thm:h-infinity-control-namecert-obligations}
+For every accepted $\HInfinityControlUp$ carrier $K=(S,D,Y,U,G,F,R,L,M,H,C,P,N)$, the local $\NameCert_{\HInfinityControlUp}$ surface consists exactly of carrier admission, state-space exposure, disturbance-input exposure, performance-output exposure, controller exposure, gain-bound exposure, finite rollout comparison, Riccati dependency, LQR dependency, model-predictive-control dependency, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Any consumer that replaces one of these rows by a host trajectory space, spectral factorization theorem, external standard bridge, infinite-horizon optimality principle, or full robust-stability theorem leaves the accepted carrier.
+\end{theorem}
+
+\begin{proof}
+Project the carrier of \autoref{def:h-infinity-control-carrier}. The displayed coordinates list the state-space, disturbance, performance, controller, gain, rollout, and dependency rows before the structural transport, replay, provenance, and naming rows.
+
+The dependency surface is finite. Riccati, LQR, and model-predictive-control rows are read only through $R,L,M$, so no analytic solver or external robust-control theorem is available inside the packet.
+
+The rows $H,C,P,N$ preserve and name the same inventory. Since the carrier has no coordinate for a host trajectory space, spectral factorization, transfer-function norm, infinite-horizon optimizer, or robust-stability theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[HInfinityControl bounded-gain route]
+\label{thm:h-infinity-control-bounded-gain-route}
+Let $K=(S,D,Y,U,G,F,R,L,M,H,C,P,N)$ be an accepted $\HInfinityControlUp$ packet. Every bounded-gain read factors through the finite route
+$$
+S \longrightarrow D,Y,U \longrightarrow G,F \longrightarrow R,L,M \longrightarrow H,C,P,N .
+$$
+The read first displays the state-space row, then the disturbance-input, performance-output, and controller rows, then the real gain-bound and finite rollout ledger, and only then the Riccati, LQR, and model-predictive-control dependency rows. No host trajectory space, spectral factorization, external standard bridge, analytic infinite-horizon optimality theorem, or full robust-stability theorem can factor the same accepted read.
+\end{theorem}
+
+\begin{proof}
+Start with the state-space row $S$. The disturbance, performance, and controller rows $D,Y,U$ are meaningful only relative to that displayed finite state-space presentation.
+
+The gain read is then bounded by the $\RealUp$ row $G$ and the finite rollout ledger $F$. These rows compare displayed finite histories; they do not introduce a transfer-function norm or an ambient trajectory space.
+
+Finally the dependency rows $R,L,M$ explain how the local control ledger is replayed against Riccati, LQR, and model-predictive-control packets, while $H,C,P,N$ transport, replay, source, and name the same finite route. Coordinate exhaustion rules out any hidden spectral factorization, infinite-horizon optimizer, standard bridge, or robust-stability theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HInfinityControlUp$ read is refuted if a bounded-gain conclusion is reached without displaying the StateSpaceModelUp row, disturbance-input row, performance-output row, controller row, RealUp gain-bound row, finite rollout ledger, RiccatiUp row, LQRUp row, ModelPredictiveControlUp row, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{statespacemodel, riccati, lqr, modelpredictivecontrol, matrix, vecspace, and real: none is bijective to the bounded-gain robust-control packet because only $\HInfinityControlUp$ simultaneously records disturbance input, performance output, controller, real gain bound, finite rollout ledger, control dependencies, transport, replay, provenance, and local NameCert naming.}
+
+\closureat{HInfinityControlUp}{seedStr}
+
+\begin{closurestatus}{\HInfinityControlUp}
+  \constructivestory{An $\HInfinityControlUp$ packet is generated from a StateSpaceModelUp row, disturbance-input row, performance-output row, controller row, RealUp gain-bound row, finite rollout ledger, RiccatiUp dependency row, LQRUp dependency row, ModelPredictiveControlUp dependency row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:h-infinity-control-carrier}, \autoref{thm:h-infinity-control-namecert-obligations}, and \autoref{thm:h-infinity-control-bounded-gain-route} seed the finite bounded-gain robust-control route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim analytic infinite-horizon optimality, host trajectory spaces, spectral factorization, an external standard bridge, full robust-stability theorem, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-gain route determinacy, dependency-row exposure, non-escape for analytic robust-control primitives, transport, replay, provenance, and local naming for BEDC.Derived.HInfinityControlUp.}
+\end{closurestatus}

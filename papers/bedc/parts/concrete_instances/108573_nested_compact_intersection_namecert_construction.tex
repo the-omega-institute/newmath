@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\NestedCompactIntersectionUp$}
+\label{ch:concrete-instances-nested-compact-intersection-namecert}
+\origin{human}
+
+Following Bishop--Bridges and Kelley compactness-completion practice, the $\NestedCompactIntersectionUp$ packet records the finite route by which a nested family of nonempty compact metric carriers can be read by later completion-facing consumers without asserting an open-cover compactness theorem or selecting a point of the total intersection. It sits after the compact metric carrier of \autoref{ch:concrete-instances-compactmetric-namecert}, the completion reuse boundary of \autoref{ch:concrete-instances-completion-idempotence-namecert}, the separated regular-Cauchy handoff of \autoref{ch:concrete-instances-regular-cauchy-completion-separated-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite L10 compactness/completion surface: retained nested windows, finite-intersection witnesses, separated-completion readback, and a terminal Real seal, but no choice-selected intersection element and no ambient Real completeness principle.
+
+\begin{definition}[Nested compact intersection carrier]
+\label{def:nested-compact-intersection-carrier}
+A $\NestedCompactIntersectionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(C,J,W,F,S,R,E,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\CompactMetricUp$ source row for each compact stage of the nested family.
+\item $J$ is the finite nesting-order ledger, recording displayed inclusions between later and earlier compact stages.
+\item $W$ is the $\StreamNameUp$ retained-window row used to inspect only finitely many stages at any requested tolerance.
+\item $F$ is the finite-intersection witness row, showing that each retained finite prefix has a displayed nonempty witness inside the visible compact stages.
+\item $S$ is the $\RegularCauchyCompletionSeparatedUp$ handoff row that consumes the retained windows only after compact-stage and finite-prefix data have been displayed.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the separated completion handoff.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $C,J,W,F,S,R$ have been read.
+\item $H$ records componentwise $\hsame$ transport for compact stages, nesting ledgers, windows, finite-prefix witnesses, separated-completion rows, readbacks, the Real seal, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\NestedCompactIntersectionUp$, $\CompactMetricUp$, $\CompletionIdempotenceUp$, $\RegularCauchyCompletionSeparatedUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NestedCompactIntersectionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, selected intersection points, quotient stream equality, countable choice, host set equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[NestedCompactIntersection NameCert obligations]
+\label{thm:nested-compact-intersection-namecert-obligations}
+For every accepted $\NestedCompactIntersectionUp$ carrier $K=(C,J,W,F,S,R,E,H,P,N)$, the local $\NameCert_{\NestedCompactIntersectionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for compact metric stages, the nesting-order ledger, retained StreamName windows, finite-intersection witnesses, separated-completion handoff, regular rational readback, terminal Real seal, transport, provenance, and local naming;
+\item nested-family exactness, requiring each later compact-stage read to be justified by the displayed nesting ledger $J$ before it is used by a retained window;
+\item finite-intersection witness stability, requiring every retained finite prefix to expose its witness through $F$ and to transport through the same compact-stage and window rows;
+\item separated-completion handoff, requiring every completion-facing read to pass through $S$ and $R$ after $C,J,W,F$ have been projected;
+\item Real seal nonescape, requiring $E$ to remain downstream of the separated-completion and regular-readback rows, with no open-cover compactness, selected point, quotient equality, countable choice, host set equality, or ambient completeness coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:nested-compact-intersection-carrier}. The displayed tuple exposes compact metric stages, nesting ledgers, finite windows, prefix witnesses, separated-completion rows, readback, Real seal, transport, provenance, and local naming.
+
+Nested-family exactness is the route $C,J,W$. A consumer may inspect a later compact stage through a retained window only after the relevant inclusion row in $J$ has been displayed, so the nesting relation is part of the packet rather than an ambient set-theoretic assumption.
+
+Finite-intersection witness stability is the route $C,J,W,F,H$. The witness row $F$ is attached to a retained finite prefix, and the transport row $H$ moves the compact-stage, nesting, window, and witness data componentwise without adding selected points beyond the displayed prefix witness.
+
+The completion-facing part is last. The separated-completion row $S$ and regular readback row $R$ consume the compact and finite-prefix rows before the terminal Real seal $E$ is available.
+
+Since the carrier has no open-cover compactness object, global intersection selector, quotient stream equality, countable-choice schedule, host set equality, or ambient $\RealUp$ completeness coordinate, none of those objects can be exported by the local NameCert surface.
+\end{proof}
+
+\begin{closurestatus}{\NestedCompactIntersectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nested-compact-intersection-carrier} and \autoref{thm:nested-compact-intersection-namecert-obligations} seed the finite nested compact intersection route over CompactMetric stages, nesting ledgers, retained StreamName windows, finite-prefix witnesses, separated-completion handoff, RegSeqRat readback, RealUp seal, hsame transport, Pkg provenance, and local NameCert data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected intersection points, quotient stream equality, countable choice, host set equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nested-family exactness, finite-intersection witness stability, separated-completion handoff, and RealUp seal nonescape for BEDC.Derived.NestedCompactIntersectionUp.}
+  \constructivestory{A $\NestedCompactIntersectionUp$ packet is generated from CompactMetric stage rows, a finite nesting-order ledger, retained StreamName windows, finite-intersection witnesses, a RegularCauchyCompletionSeparated handoff, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

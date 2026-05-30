@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyLimitUniquenessUp$}
+\label{ch:concrete-instances-regular-cauchy-limit-uniqueness-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyLimitUniquenessUp$ packet records the finite witness surface by which two regular Cauchy reads with the same displayed tail data are forced to have the same terminal Real-facing seal. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}; the packet stores only paired tail windows, dyadic witnesses, regular readbacks, seal comparisons, transport, replay, provenance, and local naming.
+
+\begin{definition}[Regular Cauchy limit uniqueness carrier]
+\label{def:regular-cauchy-limit-uniqueness-carrier}
+A $\RegularCauchyLimitUniquenessUp$ carrier is a finite $\BHist$ packet
+$$
+U=(L,R,D,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the two regular Cauchy source rows whose finite tails are being compared.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger witnessing the common scale at which the two source rows are inspected.
+\item $W$ is the paired $\StreamNameUp$ window naming the finite tail entries used in the comparison.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the two inspected tails.
+\item $E$ is the paired terminal $\RealUp$ seal row exposed only after the dyadic, stream-window, and regular-rational rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source rows, dyadic tolerance, finite windows, regular readbacks, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for any finite uniqueness request through $L,R,D,W,Q,E$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyLimitUniquenessUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyLimitUniquenessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,R,D,W,Q,E,H,C,P,N$. The carrier has no coordinate for quotient stream equality, selected limits, host real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy limit uniqueness NameCert obligations]
+\label{thm:regular-cauchy-limit-uniqueness-namecert-obligations}
+For every accepted $\RegularCauchyLimitUniquenessUp$ carrier $U=(L,R,D,W,Q,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyLimitUniquenessUp}$ surface consists exactly of carrier admission for the paired regular Cauchy source rows, dyadic witness ledger, finite stream windows, regular rational readbacks, terminal Real seal comparison, componentwise transport, displayed replay, provenance, and local naming. No uniqueness obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:regular-cauchy-limit-uniqueness-carrier}. The analytic rows are exactly the two source rows $L,R$, the dyadic witness $D$, the finite stream window $W$, the regular rational readback $Q$, and the terminal seal comparison $E$.
+
+The structural rows are $H,C,P,N$. They transport, replay, source, and name the same finite packet, so the NameCert surface cannot add a quotient equality, selected limit, host real equality, choice selector, trichotomy, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit uniqueness dyadic witness determinacy]
+\label{thm:regular-cauchy-limit-uniqueness-dyadic-witness-determinacy}
+For every accepted $\RegularCauchyLimitUniquenessUp$ carrier $U=(L,R,D,W,Q,E,H,C,P,N)$, the dyadic witness row $D$ determines the displayed comparison scale used by the paired stream window $W$ and regular rational readback $Q$. Any accepted uniqueness read must therefore inspect the same finite dyadic tolerance before the terminal seal row $E$ is available.
+\end{theorem}
+\begin{proof}
+Begin with the dyadic tolerance ledger. The row $D$ is the only coordinate whose classifier names the comparison scale, and the window row $W$ is admitted only as a finite inspection at that displayed scale.
+
+The regular rational readback $Q$ consumes the same finite window. Hence the terminal seal row $E$ is downstream from the dyadic witness and cannot be read from an independent scale, selected subsequence, quotient stream, or host equality witness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit uniqueness Real seal nonescape]
+\label{thm:regular-cauchy-limit-uniqueness-real-seal-nonescape}
+For every accepted $\RegularCauchyLimitUniquenessUp$ carrier $U=(L,R,D,W,Q,E,H,C,P,N)$, every terminal $\RealUp$ seal comparison factors through the route
+$$
+L,R \to D \to W \to Q \to E \to H,C,P,N .
+$$
+The exported uniqueness surface contains no quotient stream equality, no host real equality, no selected limit, no countable-choice schedule, no trichotomy, and no ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start from a terminal seal comparison. The carrier exposes the two source rows only through $L,R$, and the comparison scale is fixed by $D$ before any finite stream entries can be inspected.
+
+The window and readback rows $W,Q$ then force the comparison through displayed finite tails and regular rational data. The Real-facing endpoint $E$ is therefore a seal row for that already displayed finite route, not an independent completed real.
+
+Finally $H,C,P,N$ preserve and name the same packet. Since the carrier has no coordinate for quotient stream equality, host equality, selected limits, choice, trichotomy, or completeness, the terminal seal comparison cannot escape the listed route.
+\end{proof}
+
+\closureat{RegularCauchyLimitUniquenessUp}{seedStr}
+\begin{closurestatus}{\RegularCauchyLimitUniquenessUp}
+  \constructivestory{A $\RegularCauchyLimitUniquenessUp$ packet is generated from paired regular Cauchy source rows, a shared dyadic tolerance ledger, finite StreamName windows, RegSeqRat readbacks, a paired RealUp seal row, componentwise transport, displayed continuation replay, package provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-uniqueness-carrier}, \autoref{thm:regular-cauchy-limit-uniqueness-namecert-obligations}, \autoref{thm:regular-cauchy-limit-uniqueness-dyadic-witness-determinacy}, and \autoref{thm:regular-cauchy-limit-uniqueness-real-seal-nonescape} seed the finite-window uniqueness surface for regular Cauchy limit reads over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, selected limits, countable choice, trichotomy, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic witness determinacy, Real-seal nonescape, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}

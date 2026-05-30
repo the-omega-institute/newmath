@@ -3,6 +3,7 @@
 \origin{human}
 
 Following Stone and Birkhoff, the $\BooleanAlgebraUp$ packet records the finite algebraic endpoint where complemented distributive lattice operations meet two-element truth rows. It sits beside the order carrier of \autoref{ch:concrete-instances-poset-namecert}, the meet--join interface of \autoref{ch:concrete-instances-lattice-namecert}, and the endpoint discriminator of \autoref{ch:concrete-instances-bool-namecert}; it supplies a finite order-algebra neighbour for later Stone-duality and topology bridges without assuming a host Boolean algebra.
+The packet consumes the finite meet/join order rows of \autoref{ch:concrete-instances-lattice-namecert} and the endpoint discriminator of \autoref{ch:concrete-instances-bool-namecert} before the Stone-duality handoff of \autoref{ch:concrete-instances-stoneduality-namecert}.
 The finite complemented distributive-lattice rows are the algebraic input later consumed by \autoref{ch:concrete-instances-stoneduality-namecert}, while this chapter itself does not construct the Stone space, ultrafilters, or topology.
 
 \begin{definition}[BooleanAlgebra BHist carrier]
@@ -39,6 +40,18 @@ Apply the sibling order surfaces. The poset row supplies the comparison route, w
 The complement row is checked against the displayed endpoints. The meet-with-complement route lands at $Z$, the join-with-complement route lands at $O$, and both reads are transported only by $H$ and replayed only by $C$.
 
 Since no row names a powerset algebra, ultrafilter space, locale carrier, quotient lattice, or ambient topology, coordinate exhaustion gives the stated non-escape boundary for the local naming certificate.
+\end{proof}
+
+\begin{theorem}[BooleanAlgebra Stone-duality forward route]
+\label{thm:booleanalgebra-stone-duality-forward-route}
+Every $\StoneDualityUp$-facing consumer of an accepted $\BooleanAlgebraUp$ packet must read the finite join row $J$, meet row $M$, complement row $K$, zero row $Z$, one row $O$, order row $R$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$ before any Stone-space, ultrafilter, clopen-ledger, or topology bridge is public. Thus the Stone-duality source of \autoref{ch:concrete-instances-stoneduality-namecert} starts from the displayed Boolean-algebra rows rather than from a host Boolean algebra or ambient Stone representation theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted Boolean-algebra carrier. The rows $J,M,K,Z,O,R,H,C,P,N$ are the complete operation, endpoint, order, transport, replay, provenance, and naming inventory.
+
+Apply the NameCert obligation surface. It requires the join, meet, complement, zero, one, and order rows to be displayed and transported before any downstream consumer can treat the packet as a Boolean-algebra source.
+
+The Stone-duality chapter consumes exactly such a source row before it constructs clopen or topology-facing ledgers. Since the Boolean-algebra carrier contains no powerset algebra, ultrafilter space, locale carrier, quotient lattice, or ambient topology coordinate, no Stone-space or topology bridge can be public before these displayed rows are read.
 \end{proof}
 
 \begin{closurestatus}{\BooleanAlgebraUp}

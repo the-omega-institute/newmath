@@ -1,0 +1,269 @@
+\chapter{Channel Termination and the Halting Boundary}
+\label{ch:visions-channel-termination-vs-halting-boundary}
+\origin{ai}
+
+This vision chapter records the boundary exposed by the active channel
+compiler: the Zeckendorf-safe channel solves the local problem of where a
+finite event ends, but it does not solve the global problem of whether an
+arbitrary certificate computation halts. The two uses of ``termination''
+therefore live at different strata. Channel termination belongs to the
+compiled display layer of
+\autoref{ch:ground-compiler-zeckendorf-safe-channel-encoding} and
+\autoref{ch:ground-compiler-source-channel-layer-separation}; halting belongs
+to the certificate stratum of
+\autoref{ch:visions-halting-as-form-of-distinction-limit}.
+
+\section{Local channel termination}
+\label{sec:visions-channel-local-termination}
+
+\begin{definition}[Source event and channel event]
+\label{def:visions-source-event-channel-event}
+Let $\Sigma=\{0,1\}$. A \emph{source event} is any finite word
+$w\in\Sigma^{*}$. The source layer therefore admits $11$, $011$, and
+$0011$ as ordinary raw events. The active channel layer uses the
+Zeckendorf-safe body encoding
+$$
+\zeta(\epsilon)=\epsilon,
+\qquad
+\zeta(0w)=0\zeta(w),
+\qquad
+\zeta(1w)=10\zeta(w),
+$$
+and the channel event associated to $w$ is
+$$
+\mathsf{Ev}(w)=\zeta(w)\,11.
+$$
+The final displayed $11$ is a channel-level terminator, not a
+source-level substring judgment.
+\end{definition}
+
+\begin{definition}[Legal channel event and legal channel stream]
+\label{def:visions-legal-channel-event-stream}
+The legal single-event language is
+$$
+\mathsf{LegalEvent}:=(0\mid 10)^{*}\,11,
+$$
+and the legal channel-stream language is
+$$
+\mathsf{LegalZStream}:=((0\mid 10)^{*}\,11)^{*}.
+$$
+A legal stream is thus a finite concatenation of self-delimiting channel
+events.
+\end{definition}
+
+\begin{theorem}[Channel bodies contain no terminator pattern]
+\label{thm:visions-channel-body-no-terminator-pattern}
+For every source event $w\in\Sigma^{*}$, the body $\zeta(w)$ contains no
+adjacent substring $11$.
+\end{theorem}
+
+\begin{proof}
+By construction, $\zeta(w)$ is a finite concatenation of fragments from
+$\{0,10\}$. Neither fragment contains $11$. The only possible fragment
+junctions are $0|0$, $0|10$, $10|0$, and $10|10$, producing the local
+strings $00$, $010$, $100$, and $1010$. None contains adjacent $11$.
+Hence no adjacent $11$ occurs inside the encoded body.
+\end{proof}
+
+\begin{corollary}[The first $11$ is the event terminator]
+\label{cor:visions-first-11-is-event-terminator}
+For every source event $w$, the first adjacent occurrence of $11$ in
+$\mathsf{Ev}(w)=\zeta(w)11$ is the appended channel terminator.
+\end{corollary}
+
+\begin{proof}
+The body contains no adjacent $11$ by
+\autoref{thm:visions-channel-body-no-terminator-pattern}. The appended
+suffix is $11$. Therefore the first adjacent $11$ seen by a
+left-to-right decoder is precisely the terminator.
+\end{proof}
+
+\begin{theorem}[The source event $11$ is encodable]
+\label{thm:visions-source-event-11-encodable}
+The raw source event $11$ is not forbidden. Its channel encoding is
+$$
+\mathsf{Ev}(11)=101011.
+$$
+The last two glyphs are the channel terminator; the two source glyphs
+$1,1$ are represented by the body $10\,10$.
+\end{theorem}
+
+\begin{proof}
+The body rule sends each source glyph $1$ to the channel fragment $10$.
+Thus
+$$
+\zeta(11)=10\,10=1010.
+$$
+Appending the event terminator gives
+$$
+\mathsf{Ev}(11)=\zeta(11)11=101011.
+$$
+A decoder reads $10$ as the first source $1$, reads the next $10$ as the
+second source $1$, and stops only at the final $11$.
+\end{proof}
+
+\begin{corollary}[Layer separation for the glyph pair $11$]
+\label{cor:visions-layer-separation-11}
+The displayed pair $11$ has two distinct readings:
+$$
+\text{source-level }11=\text{two raw source glyphs},
+\qquad
+\text{channel-level }11=\text{event terminator}.
+$$
+The readings are selected by layer and must not be silently interchanged.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:visions-source-event-11-encodable} shows that source-level
+$11$ is preserved as body $1010$ followed by the terminator. By
+\autoref{cor:visions-first-11-is-event-terminator}, any channel-level
+first occurrence of adjacent $11$ in a generated event is the boundary
+marker. Hence the same displayed glyph pair cannot be assigned both
+readings in the same judgment.
+\end{proof}
+
+\section{Bare bitstreams and self-delimitation}
+\label{sec:visions-bare-bitstreams-self-delimitation}
+
+\begin{definition}[Bare bitstream encoding]
+\label{def:visions-bare-bitstream-encoding}
+A bare bitstream encoding writes each source event $w$ as the same word
+$w$ and writes an event flow $(w_0,\ldots,w_{n-1})$ as the concatenation
+$w_0\cdots w_{n-1}$, without an event terminator, length table, schema,
+manifest, host parser, or prefix discipline.
+\end{definition}
+
+\begin{theorem}[Bare bitstream encoding is not self-delimiting]
+\label{thm:visions-bare-bitstream-not-self-delimiting}
+Bare bitstream encoding cannot recover event boundaries from the
+resulting glyph string alone.
+\end{theorem}
+
+\begin{proof}
+The displayed glyph string $011$ admits several source-flow readings:
+$$
+(011),
+\qquad
+(0,11),
+\qquad
+(0,1,1).
+$$
+All produce the same bare concatenation. Without extra boundary data,
+there is no intrinsic rule selecting one decomposition. Thus the bare
+bitstream carries content glyphs but not self-delimiting event
+boundaries.
+\end{proof}
+
+\begin{theorem}[Zeckendorf-safe channel termination]
+\label{thm:visions-zeckendorf-safe-channel-termination}
+Every legal channel event has a streaming-decoded endpoint: scanning
+left-to-right, the first adjacent $11$ ends the current event, and the
+body before it decodes uniquely to a source event.
+\end{theorem}
+
+\begin{proof}
+A legal event has the form $(0\mid 10)^{*}11$. Each body fragment is
+read locally: $0$ emits source $0$, and $10$ emits source $1$. By
+\autoref{thm:visions-channel-body-no-terminator-pattern}, the body
+contains no adjacent $11$. Hence the first adjacent $11$ cannot be body
+data and must be the terminator. The decoder therefore stops after a
+finite scan and recovers the unique source event encoded by the body.
+\end{proof}
+
+\begin{corollary}[Constraint-minimal reading]
+\label{cor:visions-constraint-minimal-channel-reading}
+Under the constraints of a binary alphabet, no third glyph, no external
+length table, no schema or manifest, streaming decoding, and reserved
+terminator $11$, the rule
+$$
+0\mapsto 0,
+\qquad
+1\mapsto 10,
+\qquad
+\mathrm{End}=11
+$$
+provides the minimal active BEDC channel discipline: it internalizes
+finite event boundaries without adding an additional kernel mark.
+\end{corollary}
+
+\begin{proof}
+The body fragment for source $0$ is already the one-glyph fragment $0$.
+The source glyph $1$ cannot be represented by $1$, because a following
+$1$ would collide with the terminator $11$; it cannot be represented by
+$11$, because $11$ is reserved as End. The shortest remaining safe
+fragment is $10$. The fragment set $\{0,10\}$ is exactly the body
+language used in
+\autoref{thm:visions-zeckendorf-safe-channel-termination}, so the
+resulting discipline is streaming, binary, and self-delimiting. This is
+a structural minimality claim under the displayed constraints, not a
+Shannon- or Huffman-optimality claim for an arbitrary probability
+distribution.
+\end{proof}
+
+\section{The halting boundary}
+\label{sec:visions-channel-halting-boundary}
+
+\begin{definition}[Local event termination versus certificate halting]
+\label{def:visions-local-termination-vs-certificate-halting}
+\emph{Local event termination} asks where the current compiled channel
+event ends. It is answered by the first channel-level terminator $11$.
+
+\emph{Certificate halting} asks whether, for an arbitrary naming
+certificate $\NameCert_{P}$ and history $h$, the $\Cont_{P}$-chain from
+$h$ terminates in the sense of \autoref{def:halting-termination}.
+\end{definition}
+
+\begin{theorem}[Channel termination does not decide halting]
+\label{thm:visions-channel-termination-not-halting-decision}
+The Zeckendorf-safe channel gives a decision procedure for local event
+boundaries in $\mathsf{LegalZStream}$, but it does not provide a BEDC
+internal total classifier deciding certificate-level halting for all
+pairs $(\NameCert_{P},h)$.
+\end{theorem}
+
+\begin{proof}
+The local channel claim follows from
+\autoref{thm:visions-zeckendorf-safe-channel-termination}: a legal event
+is a finite word in $(0\mid10)^{*}11$, and its first $11$ is a boundary.
+The question is syntactic and channel-local.
+
+A halting classifier would instead live over the carrier
+$\mathcal C\times\Hist$ of certificates and histories and would decide,
+for each pair $(\NameCert_{P},h)$, whether the $\Cont_{P}$-chain
+terminates. By
+\autoref{thm:halting-predicate-iff-meta-loop-certificate-stratum}, such
+a predicate is exactly a certificate-level decision procedure at the
+certificate stratum, and by \autoref{thm:halting-meta-loop-closure} that
+assumption closes the open meta loop. The diagonal obstruction of
+\autoref{thm:halting-as-form-of-distinction-fixed-point} is not affected
+by knowing where a finite channel event ends. Therefore channel
+termination and global halting live at different strata.
+\end{proof}
+
+\begin{corollary}[Stop codon versus meta-stop]
+\label{cor:visions-stop-codon-versus-meta-stop}
+The channel-level terminator $11$ is a local stop marker for event
+parsing. The halting problem is the refusal of a global meta-stop: no
+internal total classifier may close the certificate stratum by deciding
+termination of every possible $\Cont$-chain.
+\end{corollary}
+
+\begin{proof}
+The first sentence is exactly
+\autoref{cor:visions-first-11-is-event-terminator}. The second follows
+from \autoref{thm:visions-channel-termination-not-halting-decision}: a
+local parser boundary does not supply the certificate-of-certificates
+classifier whose existence is equivalent to meta-loop closure.
+\end{proof}
+
+\begin{remark}[Compressed reading]
+\label{rem:visions-channel-halting-compressed-reading}
+The compressed reading is therefore: $11$ is the channel layer's stop
+codon; the halting theorem is the certificate layer's refusal of a
+universal meta-stop. The first is engineered by excluding $11$ from
+encoded bodies. The second is blocked by the diagonal fixed-point
+obstruction that appears when the open meta loop is treated as closed.
+\end{remark}
+
+\concretizedIn{ch:concrete-instances-channel-termination-halting-boundary-namecert}{The local channel boundary is realized as a finite NameCert packet separating event termination from certificate-level halting.}
+\concretizedIn{ch:concrete-instances-terminationrefusalboundary-namecert}{Termination refusal boundaries realize the local-channel-termination versus global-halting boundary as finite refusal, visibility, and NameCert rows.}

@@ -67,4 +67,34 @@ theorem ProperMetricCarrier_closed_ball_compactness [AskSetup] [PackageSetup]
     unary_cont_closed BUnary KUnary compactRoute
   exact ⟨XUnary, BUnary, KUnary, compactReadUnary, metricBallRoute, compactRoute, pkgSig⟩
 
+theorem ProperMetricCarrier_complete_located_handoff [AskSetup] [PackageSetup]
+    {X B K L T H C Q N locatedRead completeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProperMetricCarrier X B K L T H C Q N bundle pkg ->
+      Cont K L locatedRead ->
+        Cont L T completeRead ->
+          UnaryHistory X ∧ UnaryHistory B ∧ UnaryHistory K ∧ UnaryHistory L ∧
+            UnaryHistory T ∧ UnaryHistory locatedRead ∧ UnaryHistory completeRead ∧
+              Cont X B K ∧ Cont K L locatedRead ∧ Cont L T completeRead ∧
+                hsame locatedRead (append K L) ∧ hsame completeRead (append L T) ∧
+                  PkgSig bundle Q pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame append
+  intro carrier locatedRoute completeRoute
+  obtain ⟨XUnary, BUnary, KUnary, LUnary, TUnary, _HUnary, _CUnary, _QUnary, _NUnary,
+    metricBallRoute, _locatedStoredRoute, _completeStoredRoute, pkgSig⟩ := carrier
+  have locatedReadUnary : UnaryHistory locatedRead :=
+    unary_cont_closed KUnary LUnary locatedRoute
+  have completeReadUnary : UnaryHistory completeRead :=
+    unary_cont_closed LUnary TUnary completeRoute
+  have locatedReadExact : hsame locatedRead (append K L) := by
+    cases locatedRoute
+    exact hsame_refl _
+  have completeReadExact : hsame completeRead (append L T) := by
+    cases completeRoute
+    exact hsame_refl _
+  exact
+    ⟨XUnary, BUnary, KUnary, LUnary, TUnary, locatedReadUnary, completeReadUnary,
+      metricBallRoute, locatedRoute, completeRoute, locatedReadExact, completeReadExact,
+      pkgSig⟩
+
 end BEDC.Derived.ProperMetricUp

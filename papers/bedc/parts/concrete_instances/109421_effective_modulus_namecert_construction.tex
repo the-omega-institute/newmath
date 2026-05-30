@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\EffectiveModulusUp$}
+\label{ch:concrete-instances-effective-modulus-namecert}
+\origin{human}
+
+Following Bishop-style effective convergence, the $\EffectiveModulusUp$ packet records the finite threshold data by which a regular rational Cauchy name answers a dyadic tolerance request before any $\RealUp$ or completion-facing consumer reads the terminal seal. It sits over the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}. The packet exposes a finite effective-modulus row, not a host function from tolerances to thresholds.
+
+\begin{definition}[EffectiveModulus carrier]
+\label{def:effective-modulus-carrier}
+An $\EffectiveModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(R,S,D,u,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row whose rational observations are being controlled.
+\item $S$ is the finite $\StreamNameUp$ observation-window family through which $R$ is inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row carrying the requested dyadic precision, comparison cells, and halving ledger.
+\item $u$ is the unary tolerance-index row naming the finite precision request inside the same history.
+\item $L$ is the modulus witness ledger. It records a threshold row saying that all inspected tails of $R$ beyond $u$ remain inside the tolerance read from $D$.
+\item $H$ records componentwise $\hsame$ transport for the regular source, stream windows, dyadic tolerance, unary index, witness ledger, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a dyadic tolerance request through $S$ and $R$ to the witness ledger $L$.
+\item $P$ is the $\Pkg$ provenance over $\EffectiveModulusUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\EffectiveModulusUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for quotient equality of real names, selected limits, countable choice, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[EffectiveModulus NameCert obligations]
+\label{thm:effective-modulus-namecert-obligations}
+For every accepted $\EffectiveModulusUp$ carrier
+$$
+M=(R,S,D,u,L,H,C,P,N),
+$$
+the local $\NameCert_{\EffectiveModulusUp}$ surface consists exactly of carrier admission, source-window exposure, dyadic tolerance accounting, unary tolerance-index admission, modulus witness readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every accepted read must display the route
+$$
+\RegSeqRatUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \CauchyModulusUp \longmapsto \RealUp
+$$
+through the rows $R,S,D,u,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:effective-modulus-carrier}. Its public rows are exactly the regular rational source, stream-window family, dyadic tolerance, unary index, modulus witness ledger, transport, replay, provenance, and local name.
+
+The source-window exposure and tolerance clauses are read through $S$ and $D$. A tolerance request cannot reach the witness ledger until the same finite observation windows and dyadic comparison cells have been displayed.
+
+The unary index row $u$ supplies the finite threshold coordinate, while $L$ records the corresponding tail-control witness for $R$. Transport through $H$ and replay through $C$ preserve that source route without adding a second threshold selector.
+
+Finally $P$ and $N$ source and name only the displayed packet. Since the carrier has no quotient, selected-limit, choice, host-equality, or completeness coordinate, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[EffectiveModulus regular Cauchy handoff]
+\label{thm:effective-modulus-regular-cauchy-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\EffectiveModulusUp$ packet reads the modulus witness ledger only after the regular source row $R$, stream-window family $S$, dyadic tolerance ledger $D$, and unary tolerance index $u$ have been exposed. The handoff supplies the displayed $\CauchyModulusUp$-compatible threshold row $L$ together with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structural rows, and it supplies no quotient real equality, selected representative, countable-choice functional, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $M=(R,S,D,u,L,H,C,P,N)$. The regular rational readback is the row $R$, and all admissible observations of it pass through the finite windows $S$.
+
+Read the dyadic request next. The tolerance row $D$ fixes the comparison scale, and the unary row $u$ names the finite threshold request attached to that scale.
+
+The witness ledger $L$ is then the only modulus-facing handoff row. It is transported through $H$ and replayed through $C$, while $P$ and $N$ preserve the same provenance and local name.
+
+Thus any regular-Cauchy or real-seal consumer receives a finite threshold surface over $R,S,D,u,L,H,C,P,N$. The excluded quotient, representative-selection, choice, host-equality, and completeness objects are absent from the packet, so they cannot enter the handoff.
+\end{proof}
+
+\closureat{EffectiveModulusUp}{seedStr}
+
+\begin{closurestatus}{\EffectiveModulusUp}
+  \constructivestory{An $\EffectiveModulusUp$ packet is generated from a RegSeqRat source row, finite StreamName observation windows, a DyadicRatCore tolerance row, a unary tolerance index, a modulus witness ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:effective-modulus-carrier}, \autoref{thm:effective-modulus-namecert-obligations}, and \autoref{thm:effective-modulus-regular-cauchy-handoff} seed the finite effective-modulus route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real equality, selected representatives, countable choice, host real equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source-window exposure, dyadic tolerance accounting, unary threshold admission, modulus witness readback, regular-Cauchy handoff stability, and RealUp seal non-escape for BEDC.Derived.EffectiveModulusUp.}
+\end{closurestatus}

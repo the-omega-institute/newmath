@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization round R<ROUND_NUM>.
 
 ## Prompts version
-v5.41 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.51 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Source priority weights (critical_path dispatch_weights)
 
@@ -14,7 +14,7 @@ Allocate your 3 targets approximately matching these weights:
 - 0.10 weight = ≈0-1 target (only if supply > 0 and HARD GATE allows)
 
 Source meanings:
-- top: `critical_path.top[0..N]` (existing primary)
+- top: `critical_path.top[0..N]` where N = `critical_path.dispatch_window.lean` (existing primary)
 - formal_axis_top: `critical_path.formal_axis_top` (theory-grade-high + formal-grade-low)
 - unformalized_top: `critical_path.unformalized_top` (theorem-level unformalized)
 - carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket from `carrier_isomorphism` field
@@ -37,17 +37,18 @@ then you MUST include exactly 1 capstone target (the pre-picked one) as 1 of you
 
 If the HARD FLOOR doesn't fire, soft weight allocation continues (capstone gets ~0.10 share, picked only if codex naturally would).
 
-The existing HARD GATEs (1 of 3 from `top[0..2]`, root_unblocks gate) STILL APPLY. Source weights are SOFT guidance for filling remaining slots after HARD GATEs are met.
+The existing HARD GATEs (1 of 3 from `top[0..critical_path.dispatch_window.lean)`, root_unblocks gate) STILL APPLY. Source weights are SOFT guidance for filling remaining slots after HARD GATEs are met.
+The mandatory top window follows `.pipeline_parallel.json`'s `lean` concurrency value via `critical_path.dispatch_window.lean`, preventing high-concurrency workers from being forced onto the same one or two hot chapters when a 71-line single-file chapter has no sibling surface to disperse claims.
 
 ## TOP-LEVEL HARD GATE — never emit empty targets; formal_axis_top is the safety net
 
-If you find yourself emitting `{"targets": []}`, STOP. Empty targets at lean rounds is almost always an error: it means you gave up before reading `critical_path.py`'s `formal_axis_top` and `bridge_candidates` lists. These lists exist precisely for the case when `top[0..2]` chapters have `labels=0` (all labels already marked) — they surface chapters where the paper IS ahead of lean.
+If you find yourself emitting `{"targets": []}`, STOP. Empty targets at lean rounds is almost always an error: it means you gave up before reading `critical_path.py`'s `formal_axis_top` and `bridge_candidates` lists. These lists exist precisely for the case when `top[0..dispatch_window.lean)` chapters have `labels=0` (all labels already marked) — they surface chapters where the paper IS ahead of lean.
 
 **Mandatory selection waterfall** (try each step until you have ≥1 valid target):
 
-1. **`top[0..2]` with `labels > 0`**: pick paper labels in those chapters that grep shows have NO `\leanchecked{X}` marker. This is the original gate.
-2. **If `top[0..2]` all have `labels = 0`**: skip them — those chapters are saturated, lean already wrote everything. Move to step 3.
-3. **`unformalized_top[0..9]` (HIGH PRIORITY when present)**: `critical_path.py` emits a JSON field `unformalized_top` listing the top-50 unwritten paper theorems/definitions ranked by `score = downstream_refs × zone_weight`. Each entry already carries: `chapter`, `file` (paper path), `line`, `label`, `kind` ('theorem' / 'definition' / 'lemma' / 'corollary' / 'proposition'), and **`anchor_suggested`** (the full Lean target name like `BEDC.Derived.FieldUp.RatupFieldupConcreteExitObject`). Pick entries with `has_kernel_object=true` and `zone='horizon'` first — these are paper theorems already phrased in BEDC kernel vocabulary that just lack a Lean witness. The `target_file` is derived from `anchor_suggested` by splitting at the last namespace dot: `BEDC.Derived.FieldUp.<X>` → `lean4/BEDC/Derived/FieldUp/<X>.lean` (or `lean4/BEDC/Derived/FieldUp.lean` if the parent module is preferred and not size-blocked by the 800-line cap). After your Phase C implementation, the paper gets a `\leanchecked{<anchor_suggested>}` marker pointing at the new theorem. Score=162 entries trump score=1 closure_mark fluff every round — emit at least one `unformalized_top` target whenever the list is non-empty AND no `top[0..2]` candidate has a higher real-throughput score. Skip entries where `zone` starts with `narrative.` (those are intentional motivational text, not Lean-bound).
+1. **`top[0..dispatch_window.lean)` with `labels > 0`**: pick paper labels in those chapters that grep shows have NO `\leanchecked{X}` marker. This is the original gate scaled to the active lean concurrency. Concurrent rounds should choose DISTINCT entries inside this window: cooldown rotates sorting on each call, and the wider window exposes enough different fronts so N workers do not collide on the same 1-2 chapters.
+2. **If `top[0..dispatch_window.lean)` all have `labels = 0`**: skip them — those chapters are saturated, lean already wrote everything. Move to step 3.
+3. **`unformalized_top[0..9]` (HIGH PRIORITY when present)**: `critical_path.py` emits a JSON field `unformalized_top` listing the top-50 unwritten paper theorems/definitions ranked by `score = downstream_refs × zone_weight`. Each entry already carries: `chapter`, `file` (paper path), `line`, `label`, `kind` ('theorem' / 'definition' / 'lemma' / 'corollary' / 'proposition'), and **`anchor_suggested`** (the full Lean target name like `BEDC.Derived.FieldUp.RatupFieldupConcreteExitObject`). Pick entries with `has_kernel_object=true` and `zone='horizon'` first — these are paper theorems already phrased in BEDC kernel vocabulary that just lack a Lean witness. The `target_file` is derived from `anchor_suggested` by splitting at the last namespace dot: `BEDC.Derived.FieldUp.<X>` → `lean4/BEDC/Derived/FieldUp/<X>.lean` (or `lean4/BEDC/Derived/FieldUp.lean` if the parent module is preferred and not size-blocked by the 800-line cap). After your Phase C implementation, the paper gets a `\leanchecked{<anchor_suggested>}` marker pointing at the new theorem. Score=162 entries trump score=1 closure_mark fluff every round — emit at least one `unformalized_top` target whenever the list is non-empty AND no `top[0..dispatch_window.lean)` candidate has a higher real-throughput score. Skip entries where `zone` starts with `narrative.` (those are intentional motivational text, not Lean-bound).
 4. **`bridge_candidates[0..2]`**: write `<X>Up_StdBridge` theorem for one of these chapters. Use kernel constructs (`BHist`, `NameCert.transport`, `hsame`); no Classical.choice / Quot.sound / propext. Commit subject: `R<N>: bridge <X>Up to schema (axiomClean->bridgeCheck)`.
 5. **`formal_axis_top[0..4]`**: these are chapters where the paper has a `closurestatus` block (theory_grade non-null) but `formal_grade < theoremCheckedV`. Each entry has a `labels` count of unmarked paper theorems waiting for lean. Open `entry.file_paper`, find any `\begin{theorem}` block without a preceding `\leanchecked{...}`, and add a `\leanchecked{<X>}` marker pointing to a NEW Lean theorem in `lean4/BEDC/Derived/<X>Up.lean` (create the file if missing). The new Lean theorem's body uses BEDC kernel; restating the paper theorem with kernel-anchored proof is fine.
 6. **Last resort — any unmarked paper label anywhere under `papers/bedc/parts/concrete_instances/`**: scan the namecert files for `\label{thm:...}` blocks lacking `\leanchecked{...}`. There are typically 1500-2000 such labels at any time; pick 3 from chapters NOT already in another worktree's in-flight diff.
@@ -72,11 +73,11 @@ If after the full waterfall you genuinely have ZERO valid candidates (extremely 
 
 1. **`bridge_candidates[0..2]`**: highest leverage. The chapter has done all the lower-grade work; the bridge theorem is the last upgrade. The target's `target_file` is the entry's `file_lean`; the new declaration name should be `<X>Up_StdBridge` or `<X>Up_concrete_to_schema` (verify via grep + LSP that the name is unused). The theorem's statement should be `<existing concrete proposition> ↔ <abstract schema predicate applied to the witness>` or a constructive `<concrete> → <abstract>` map. Use existing kernel theorems (`NameCert.transport`, `BHist`, `hsame`) — no Classical.choice / Quot.sound / propext. After commit, paper P-round will detect the bridge and advance `\bridgestatus{none}` to `\bridgestatus{bridgeChecked}` + `\formalstatus{\bridgeCheckedV}`.
 
-2. **`formal_axis_top[0..2]`**: chapters where lean is behind paper. Use the formal-axis transition table below to pick the right marker shape (typically `\leandef{X}` for `(unformalizedV → formalTargetV → encodedDefV)` or `\leanchecked{X}` for `(encodedDefV → scaffoldChecked → theoremChecked)`).
+2. **first three `formal_axis_top` entries**: chapters where lean is behind paper. Use the formal-axis transition table below to pick the right marker shape (typically `\leandef{X}` for `(unformalizedV → formalTargetV → encodedDefV)` or `\leanchecked{X}` for `(encodedDefV → scaffoldChecked → theoremChecked)`).
 
 3. If both lists are empty (rare), the gate is satisfied by ANY target whose `grade_transition` field corresponds to a real formal-grade advance.
 
-This gate composes with the existing critical_path top[0..2] HARD GATE: a 3-target round can satisfy both with 1 formal-axis target + 1 top[0..2] target + 1 free slot.
+This gate composes with the existing critical_path top[0..dispatch_window.lean) HARD GATE: a 3-target round can satisfy both with 1 formal-axis target + 1 top-window target + 1 free slot.
 
 A bridge_candidates round commit message subject MUST be: `R<ROUND_NUM>: bridge <X>Up to schema (axiomClean->bridgeCheck)`. A formal_axis_top round MUST quote the actual transition (e.g. `unformalizedV->formalTargetV`) in its commit subject. These subjects let downstream paper P-rounds detect the bridge work and sync the paper-side closurestatus.
 
@@ -330,7 +331,7 @@ The skip rule is for chapters that already HAVE a `closurestatus` block (`theory
 - If `next_axis == "theory_closure"` AND `formal_grade` is non-null, the chapter's formal axis is already ahead of its theory axis — paper P-rounds need to catch up first. Skip and pick a chapter where `next_axis == "formal_status"`, OR a chapter where both grades are null (those are always lean-eligible per the `(none) → formal work` row above).
 - If `formal_grade` is null but `theory_grade` is non-null (rare — paper wrote a closurestatus block without any lean marker yet), this counts as `next_axis == "formal_status"`; treat as `unformalizedV → formalTargetV` or `formalTargetV → encodedDefV` per the table.
 
-Empty-targets escape `{"targets": []}` is for the genuine corner case where every accessible chapter has both grades non-null AND every accessible front is theory-bottlenecked. This is exceedingly rare today (most chapters are still `(none, none)`). DO NOT emit empty targets just because top[0..2] have null grades — null grades are normal lean work.
+Empty-targets escape `{"targets": []}` is for the genuine corner case where every accessible chapter has both grades non-null AND every accessible front is theory-bottlenecked. This is exceedingly rare today (most chapters are still `(none, none)`). DO NOT emit empty targets just because top[0..dispatch_window.lean) have null grades — null grades are normal lean work.
 
 Each target's JSON MUST include a `grade_transition` field that quotes the chapter's `next_grade_transition` from critical_path output. Phase D will not enforce this currently but Phase C uses it to pick the right marker family (`\leandef` for encodedDefV, `\leanchecked` for theoremCheckedV, etc). For null-grade chapters, set `grade_transition` to `"(no block) -> formalTargetV"` or `"(no block) -> encodedDefV"` depending on whether the round adds `\leanstmt`/`\leanchecked` or `\leandef`.
 
@@ -344,9 +345,9 @@ python3 "$(dirname "$(git rev-parse --git-common-dir)")/lean4/scripts/critical_p
 
 The script ranks every OPEN horizon `<X>Up` chapter by `transitive_downstream` (with `1/(1+thms)` as tiebreaker), excluding chapters that carry a `closurestatus` block whose theoryclosure is scopedClosure-or-above and whose formalstatus is theoremCheckedV-or-above, or whose declared dependencies are not yet ready (`deps_thms < deps_ready_threshold`, default 5, tunable via `.pipeline_parallel.json` key `deps_ready_threshold`; auto-relaxes 5→1 if strict yields empty top). The output's `top` array is the next set of fronts the library should attack. Each entry's `closed: false` (always, since retired chapters are filtered out before ranking) and `closed_at: null` for open chapters; the JSON also reports `closed_horizons` and `open_horizons` aggregates so phase_review on the paper side can see closurestatus progress.
 
-**At least 1 of your 3 selected targets SHOULD belong to `top[0..2]`** of that JSON output, IF top[0..2] contains paper labels with `exists_without_marker` status (i.e. paper has the theorem block but no `\leanchecked` registered). The target's `target_file` should be the listed `file_lean` (creating it if it does not exist), and the paper site should be a missing-marker location in the listed `file_paper`.
+**At least 1 of your 3 selected targets SHOULD belong to `top[0..dispatch_window.lean)`** of that JSON output, IF top[0..dispatch_window.lean) contains paper labels with `exists_without_marker` status (i.e. paper has the theorem block but no `\leanchecked` registered). The target's `target_file` should be the listed `file_lean` (creating it if it does not exist), and the paper site should be a missing-marker location in the listed `file_paper`.
 
-**Fallback (HARD): if NO `top[0..2]` chapter contains an unmarked paper label that's not already claimed by another in-flight round**, drop the top-3 constraint entirely and pick from ANY chapter under `papers/bedc/parts/concrete_instances/` that has unmarked labels. There are typically ~1500-2000 unmarked labels across all chapters at any time; the round still produces useful formalization. Use:
+**Fallback (HARD): if NO `top[0..dispatch_window.lean)` chapter contains an unmarked paper label that's not already claimed by another in-flight round**, drop the top-window constraint entirely and pick from ANY chapter under `papers/bedc/parts/concrete_instances/` that has unmarked labels. There are typically ~1500-2000 unmarked labels across all chapters at any time; the round still produces useful formalization. Use:
 
 ```bash
 # Quick scan for chapters with unmarked labels
@@ -355,7 +356,7 @@ git grep -lE '\\label\{(thm|def|lem|prop|cor):' papers/bedc/parts/concrete_insta
   | head -10
 ```
 
-The earlier "empty round preferred" rule applies ONLY when top[0..2] is unworkable AND no other chapter has good unmarked labels — that is rare. Three consecutive empty rounds → cooldown → wasted dispatch budget. Default to filling 3 slots from the broader pool when top[0..2] is starved.
+The earlier "empty round preferred" rule applies ONLY when top[0..dispatch_window.lean) is unworkable AND no other chapter has good unmarked labels — that is rare. Three consecutive empty rounds → cooldown → wasted dispatch budget. Default to filling 3 slots from the broader pool when top[0..dispatch_window.lean) is starved.
 
 ### Sibling-file granularity (`granularity: "sibling"`)
 
@@ -368,7 +369,7 @@ Each `top[i]` entry is now a **single sibling file** within a chapter, not the c
 
 ### Top-1 magnet rule (HARD GATE)
 
-When `top[0].downstream` dominates the rest by a wide margin, "1 of 3 from top[0..2]" lets codex pick top[1] or top[2] (which may carry only 1 or 0 downstream horizons) and ignore the actual bottleneck. Compute:
+When `top[0].downstream` dominates the rest by a wide margin, "1 of 3 from top[0..dispatch_window.lean)" lets codex pick top[1] or top[2] (which may carry only 1 or 0 downstream horizons) and ignore the actual bottleneck. Compute:
 
 ```
 top0_dwn  = top[0].downstream
@@ -378,9 +379,9 @@ magnet    = top0_dwn >= max(5, 5 * top1_dwn)
 
 If `magnet == True`, **at least 2 of 3 selected targets MUST come from `top[0]`'s chapter** (i.e. `target_file` matches `top[0].file_lean`, OR the target is in the same `BEDC.Derived.<X>Up` namespace as `top[0].name`). The remaining one slot may be from `top[1..2]` or any other valid front. Trigger observed (R2347-R2358 window): `top[0]=continuousmap dwn=71` vs `top[1]=homology dwn=1` (71x), and zero of the last ten rounds attacked continuousmap — exactly the failure mode this gate fixes.
 
-If `magnet == False` (no chapter dominates), the original "1 of 3 from top[0..2]" rule applies unchanged.
+If `magnet == False` (no chapter dominates), the original "1 of 3 from top[0..dispatch_window.lean)" rule applies unchanged.
 
-The "blocked" three-condition test still applies: if `top[0]` itself is genuinely blocked (all three conditions in §"Mechanical blocker definition" hold), fall back to "1 of 3 from top[0..2]" without the magnet enforcement, and the round may emit `{"targets": []}` if all three top entries are blocked.
+The "blocked" three-condition test still applies: if `top[0]` itself is genuinely blocked (all three conditions in §"Mechanical blocker definition" hold), fall back to "1 of 3 from top[0..dispatch_window.lean)" without the magnet enforcement, and the round may emit `{"targets": []}` if all three top entries are blocked.
 
 ### Schema-only horizons HARD BAN
 
@@ -392,7 +393,7 @@ totalorder, preorder, poset
 
 (The original ban list also covered `abgroup / group / monoid / ring / commring / field / module / vecspace / linearmap / matrix / polynomial / fps / lattice`. Paper rounds P699-P811 added concrete singleton-history instances pinning the abstract symbols to specific BHist functions — those thirteen chapters are now safe to attack and can produce BHist-anchored proofs about the concrete instance. For module, vecspace, linearmap the singleton instance defines `smul := emp` on the `A_emp` carrier with the singleton ring as scalar; for matrix, polynomial, fps the operations are unary-history-anchored similarly; for lattice, meet/join are pinned via the singleton prefix order. Target proofs about those instances, not abstract operators.)
 
-If your `paper_target_chapter` path matches `papers/bedc/parts/concrete_instances/*_<still-banned>_*.tex`, **DROP that target** and pick from a non-banned chapter (concrete_instances/category, concrete_instances/functor, concrete_instances/nattrans, concrete_instances/metric, concrete_instances/compact, concrete_instances/continuous, concrete_instances/option, concrete_instances/s1, plus the now-unlocked algebra chapters above, etc.). Adding a single hsame-quantified `forall` hypothesis from a banned chapter does NOT count as a top-3 hit even if the paper file is referenced.
+If your `paper_target_chapter` path matches `papers/bedc/parts/concrete_instances/*_<still-banned>_*.tex`, **DROP that target** and pick from a non-banned chapter (concrete_instances/category, concrete_instances/functor, concrete_instances/nattrans, concrete_instances/metric, concrete_instances/compact, concrete_instances/continuous, concrete_instances/option, concrete_instances/s1, plus the now-unlocked algebra chapters above, etc.). Adding a single hsame-quantified `forall` hypothesis from a banned chapter does NOT count as a top-window hit even if the paper file is referenced.
 
 When attacking a now-unlocked algebra chapter, target the *concrete instance* the paper just defined — e.g. for monoid, prove a theorem about `Cont` viewed as the monoid `mul` on `UnaryHistory` carrier with `BHist.Empty` as unit. The conclusion must reference `Cont` / `BHist.Empty` / `UnaryHistory` directly, not a forall-bound abstract `mul`.
 
@@ -456,7 +457,7 @@ If `BHIST-ANCHOR REJECT`, rewrite the target to mention `Cont` / `Empty` / `cons
 
 ### Mechanical blocker definition (no soft fallback)
 
-The previous prompt allowed "if technically blocked, use `top[3..]`" — which was wide enough that codex took it on every round and produced a 0/7 hit rate. A top-3 node counts as "blocked" only when **ALL THREE** of the following are true:
+The previous prompt allowed "if technically blocked, use `top[3..]`" — which was wide enough that codex took it on every round and produced a 0/7 hit rate. A top-window node counts as "blocked" only when **ALL THREE** of the following are true:
 
 1. The chapter file `top[i].file_paper` contains fewer than 3 `\begin{definition}` blocks (the paper has not yet specified the carrier sufficiently to formalize). Verify with:
    ```bash
@@ -465,19 +466,19 @@ The previous prompt allowed "if technically blocked, use `top[3..]`" — which w
 2. The implementation would require a Lean inductive type or `import` that does not currently exist anywhere under `lean4/BEDC/`. Verify with `grep -rE '(inductive|import) <name>' lean4/BEDC/`.
 3. The `critical_path.py` JSON shows `depsReady = false` for this node. By construction the script already excludes deps-not-ready nodes from `top`, so this condition is always false for any node IN `top`.
 
-If condition 3 fails alone (or any single condition fails), the node is NOT blocked. Pick a different top-3 node where all three conditions are absent. The previous 0/7 round-misses were all rationalised through the soft "blocked" escape; a single-condition rationalisation is invalid.
+If condition 3 fails alone (or any single condition fails), the node is NOT blocked. Pick a different top-window node where all three conditions are absent. The previous 0/7 round-misses were all rationalised through the soft "blocked" escape; a single-condition rationalisation is invalid.
 
-**If ALL of `top[0..2]` claim blocked** under the three-condition test above, output `{"targets": []}` and let the gate skip this round. Do NOT silently fall back to depth-refinement of saturated domains. Empty rounds are preferred over silent fallback.
+**If ALL of `top[0..dispatch_window.lean)` claim blocked** under the three-condition test above, output `{"targets": []}` and let the gate skip this round. Do NOT silently fall back to depth-refinement of saturated domains. Empty rounds are preferred over silent fallback.
 
 ### Self-check before emitting JSON
 
 Before returning your JSON output, compute:
 
 ```
-hit = any(t.target_file matches one of top[0..2].file_lean for t in targets)
+hit = any(t.target_file matches one of top[0..dispatch_window.lean).file_lean for t in targets)
 ```
 
-If `hit == false` AND no genuine three-condition blocker exists for all of `top[0..2]`, replace your `targets` list with `[]` and emit an empty round. Do not silently emit non-top-3 candidates with a hand-waved blocker.
+If `hit == false` AND no genuine three-condition blocker exists for all of `top[0..dispatch_window.lean)`, replace your `targets` list with `[]` and emit an empty round. Do not silently emit non-top-window candidates with a hand-waved blocker.
 
 This rule is what stops codex from re-saturating Bool / Option / Sum / Prod / List / Rat. Once those nodes are over the saturation threshold, they exit the `top` list automatically and depth refinement on them is no longer required.
 
@@ -568,7 +569,7 @@ Steps:
    git -C <path> diff codex-auto-dev -- lean4/BEDC/ | grep -E '^\+(theorem|lemma|def) [A-Za-z_]+ ' | sed -E 's/^\+(theorem|lemma|def) ([A-Za-z_]+).*/\2/' | sort -u
    ```
 
-   Collect the union of these names — they are *in-flight*. Any candidate whose `lean_name` (after the namespace prefix is stripped) appears in this set is INVALID. Replace it with a different candidate before emitting. If after this filter you cannot fill 3 slots from `critical_path top[0..2]`, prefer 2 valid `top` targets over 3 candidates that include in-flight collisions — the round will reach Phase C with 2 targets and a soft warning, which is strictly better than aborting on `All targets duplicated by other rounds`.
+   Collect the union of these names — they are *in-flight*. Any candidate whose `lean_name` (after the namespace prefix is stripped) appears in this set is INVALID. Replace it with a different candidate before emitting. If after this filter you cannot fill 3 slots from `critical_path top[0..dispatch_window.lean)`, prefer 2 valid `top` targets over 3 candidates that include in-flight collisions — the round will reach Phase C with 2 targets and a soft warning, which is strictly better than aborting on `All targets duplicated by other rounds`.
 
    Newly-unlocked horizons (post schema-only unlock: e.g. CommRingUp, FieldUp, ModuleUp) are common in-flight targets across 7 parallel workers; this check is mandatory there.
 
@@ -581,7 +582,7 @@ Steps:
    ```
    First grep must return ≥1 hit; second must return 0. If first returns 0 (paper hasn't captured the claim yet), DROP that target and pick a different one whose paper site exists.
 
-   If after applying this filter you cannot fill 3 slots from `critical_path top[0..2]`, emit `{"targets": []}` — empty round is preferred over creating-from-scratch on the paper side. Paper rounds will catch up; the next dispatched lean round will find more `exists_without_marker` candidates.
+   If after applying this filter you cannot fill 3 slots from `critical_path top[0..dispatch_window.lean)`, emit `{"targets": []}` — empty round is preferred over creating-from-scratch on the paper side. Paper rounds will catch up; the next dispatched lean round will find more `exists_without_marker` candidates.
 
    This eliminates the R-round vs P-round label-collision race at its source: only the paper pipeline ever introduces new labels.
 

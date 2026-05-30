@@ -432,6 +432,58 @@ theorem BoundedVariationPartitionLedger_refinement_additivity_scope [AskSetup] [
     ⟨sameVariation, edgeUnary', variationUnary', blockSumUnary, variationTransportBlock,
       provenancePkg, blockPkg⟩
 
+theorem BoundedVariationPartitionLedger_refinement_scope_semantic_name_certificate
+    [AskSetup] [PackageSetup]
+    {interval partition edge endpoint dyadic variation refinement transport route provenance
+      nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedVariationPartitionLedger interval partition edge endpoint dyadic variation refinement
+        transport route provenance nameCert bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          BoundedVariationPartitionLedger interval partition edge endpoint dyadic variation
+            refinement transport route provenance nameCert bundle pkg ∧ hsame row refinement)
+        (fun row : BHist => hsame row refinement ∧ Cont edge refinement variation)
+        (fun row : BHist => hsame row refinement ∧ PkgSig bundle provenance pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont SemanticNameCert
+  intro ledger
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro refinement ⟨ledger, hsame_refl refinement⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      obtain
+        ⟨_intervalUnary, _partitionUnary, _edgeUnary, _endpointUnary, _dyadicUnary,
+          _variationUnary, _refinementUnary, _transportUnary, _routeUnary,
+          _provenanceUnary, _nameCertUnary, _intervalPartitionEndpoint,
+          _endpointDyadicEdge, edgeRefinementVariation, _variationTransportRoute,
+          _routeProvenanceNameCert, _variationSameAppend, _provenancePkg⟩ := source.left
+      exact ⟨source.right, edgeRefinementVariation⟩
+    ledger_sound := by
+      intro _row source
+      obtain
+        ⟨_intervalUnary, _partitionUnary, _edgeUnary, _endpointUnary, _dyadicUnary,
+          _variationUnary, _refinementUnary, _transportUnary, _routeUnary,
+          _provenanceUnary, _nameCertUnary, _intervalPartitionEndpoint,
+          _endpointDyadicEdge, _edgeRefinementVariation, _variationTransportRoute,
+          _routeProvenanceNameCert, _variationSameAppend, provenancePkg⟩ := source.left
+      exact ⟨source.right, provenancePkg⟩
+  }
+
 theorem BoundedVariationCarrier_cauchy_consumer_boundary [AskSetup] [PackageSetup]
     {interval partition endpoint dyadic variation refinement transport route provenance nameCert
       edgeRead cauchyRead : BHist}
@@ -461,5 +513,39 @@ theorem BoundedVariationCarrier_cauchy_consumer_boundary [AskSetup] [PackageSetu
     ⟨endpointUnary, dyadicUnary, variationUnary, edgeReadUnary, cauchyReadUnary,
       endpointDyadicEdgeRead, variationRefinementCauchy, variationSame, provenancePkg,
       cauchyPkg⟩
+
+theorem BoundedVariationPartitionLedger_regular_cauchy_filter_handoff [AskSetup]
+    [PackageSetup]
+    {interval partition edge endpoint dyadic variation refinement transport route provenance
+      nameCert filterMeet regularRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedVariationPartitionLedger interval partition edge endpoint dyadic variation refinement
+        transport route provenance nameCert bundle pkg ->
+      Cont endpoint transport filterMeet ->
+        Cont filterMeet route regularRead ->
+          Cont regularRead nameCert sealRead ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory endpoint ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+                UnaryHistory filterMeet ∧ UnaryHistory regularRead ∧ UnaryHistory sealRead ∧
+                  Cont endpoint transport filterMeet ∧ Cont filterMeet route regularRead ∧
+                    Cont regularRead nameCert sealRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro ledger endpointTransportFilter filterRouteRegular regularNameCertSeal sealPkg
+  obtain ⟨_intervalUnary, _partitionUnary, _edgeUnary, endpointUnary, _dyadicUnary,
+    _variationUnary, _refinementUnary, transportUnary, routeUnary, _provenanceUnary,
+    nameCertUnary, _intervalPartitionEndpoint, _endpointDyadicEdge, _edgeRefinementVariation,
+    _variationTransportRoute, _routeProvenanceNameCert, _variationSameAppend,
+    provenancePkg⟩ := ledger
+  have filterMeetUnary : UnaryHistory filterMeet :=
+    unary_cont_closed endpointUnary transportUnary endpointTransportFilter
+  have regularReadUnary : UnaryHistory regularRead :=
+    unary_cont_closed filterMeetUnary routeUnary filterRouteRegular
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularReadUnary nameCertUnary regularNameCertSeal
+  exact
+    ⟨endpointUnary, transportUnary, routeUnary, filterMeetUnary, regularReadUnary,
+      sealReadUnary, endpointTransportFilter, filterRouteRegular, regularNameCertSeal,
+      provenancePkg, sealPkg⟩
 
 end BEDC.Derived.BoundedVariationUp

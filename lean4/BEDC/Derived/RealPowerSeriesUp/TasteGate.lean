@@ -193,6 +193,20 @@ def taste_gate : ChapterTasteGate RealPowerSeriesUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realPowerSeriesChapterTasteGate
 
+theorem RealPowerSeriesCarrier_majorant_radius_obligation
+    {A Z X R W S M E H C P N A' Z' X' R' W' S' M' E' H' C' P' N' : BHist} :
+    realPowerSeriesToEventFlow (RealPowerSeriesUp.mk A Z X R W S M E H C P N) =
+      realPowerSeriesToEventFlow (RealPowerSeriesUp.mk A' Z' X' R' W' S' M' E' H' C' P' N') →
+        R = R' ∧ S = S' ∧ M = M' ∧ E = E' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hmk :
+      RealPowerSeriesUp.mk A Z X R W S M E H C P N =
+        RealPowerSeriesUp.mk A' Z' X' R' W' S' M' E' H' C' P' N' :=
+    RealPowerSeriesUpTasteGate_single_carrier_alignment_toEventFlow_injective heq
+  injection hmk with _ _ _ hR _ hS hM hE _ _ _ _
+  exact ⟨hR, hS, hM, hE⟩
+
 theorem RealPowerSeriesUpTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate RealPowerSeriesUp) ∧
       Nonempty (FieldFaithful RealPowerSeriesUp) ∧

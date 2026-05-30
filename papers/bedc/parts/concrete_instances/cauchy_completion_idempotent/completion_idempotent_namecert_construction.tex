@@ -65,12 +65,56 @@ The classifier $E$ compares the two public reads only after that route has been 
 No further field exists in $I$. Hence every $\RealCauchyCompletionUp$, $\UniformCompletionUp$, and $\RealUp$ consumer receives exactly the displayed L10 route and cannot obtain quotient completion data, a selected representative, ambient completeness, host real equality, countable choice, or bridge-axis evidence.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionIdempotent reflector comparison]
+\label{thm:cauchy-completion-idempotent-reflector-comparison}
+Let $I=(C_0,C_1,U,V,A,E,H,R,P,N)$ be an accepted $\CauchyCompletionIdempotentUp$ carrier. The first and second completion seals $C_0$ and $C_1$ are compared only through the displayed $\CauchyCompletionUnitUp$, $\CauchyCompletionCounitUp$, $\CauchyCompletionAdjunctionUp$, $\CauchyCompletionMonadUp$, $\RealCauchyCompletionUp$, $\UniformCompletionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the carrier. No external reflector equality or ambient completion object is part of the comparison.
+\end{theorem}
+\begin{proof}
+Project the visible rows of $I$ from \autoref{def:cauchy-completion-idempotent-carrier}. The only completion seals available to the packet are $C_0$ and $C_1$, and the only rows that relate them to a completion-facing consumer are $U,V,A,E,H,R,P,N$.
+
+The handoff theorem then fixes the consumer route through
+$$
+C_0,C_1\longmapsto U,V,A\longmapsto E\longmapsto(H,R,P,N).
+$$
+Thus any reflector comparison must pass through the displayed unit, counit, adjunction, monad-facing, Real completion, uniform completion, dyadic rational, stream-name, regular-sequence, real-seal, history, transport, continuity, package, and NameCert rows already present in the carrier.
+
+Since the carrier has no coordinate outside these rows, there is no second reflector equality, host completion object, or external comparison surface from which a different comparison could be read.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionIdempotent unit-counit loop]
+\label{thm:cauchy-completion-idempotent-unit-counit-loop}
+Let $I=(C_0,C_1,U,V,A,E,H,R,P,N)$ be an accepted $\CauchyCompletionIdempotentUp$ carrier. The repeated-completion route
+$$
+C_0,C_1\longmapsto U,V,A\longmapsto E\longmapsto(H,R,P,N)
+$$
+returns every public read of the first and second completion seals to the same terminal $\RealUp$ seal. It does not construct or expose a second completion object beyond the displayed seal $C_1$.
+\end{theorem}
+\begin{proof}
+The unit row $U$ records the admission of the first completion seal into the completion-facing surface, and the counit row $V$ records the return of an already displayed completion-facing read to the terminal real-seal route. The adjunction row $A$ is the only universal-property row in the packet.
+
+Apply \autoref{thm:cauchy-completion-idempotent-real-completion-handoff}. Every $\RealCauchyCompletionUp$, $\UniformCompletionUp$, or $\RealUp$ consumer factors through $U,V,A$, then through $E$, and finally through $H,R,P,N$.
+
+Therefore the loop begins with the two displayed seals and returns through the same terminal $\RealUp$ seal route. Because $I$ exposes only $C_0$ and $C_1$ as completion seals, the loop has no row that could allocate, select, or export another completion object.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionIdempotent ledger non-escape]
+\label{thm:cauchy-completion-idempotent-ledger-nonescape}
+Let $I=(C_0,C_1,U,V,A,E,H,R,P,N)$ be an accepted $\CauchyCompletionIdempotentUp$ carrier. Quotient completions, selected representatives, host completed metric spaces, host real equality, countable choice, ambient completeness, and bridge-axis evidence have no coordinate in the packet and cannot be exported by any public read of $I$.
+\end{theorem}
+\begin{proof}
+The carrier definition exhausts the packet by the ten rows $C_0,C_1,U,V,A,E,H,R,P,N$. Each row is accounted for as a completion seal, unit row, counit row, adjunction row, same-route classifier, componentwise transport, displayed replay, provenance, or local NameCert row.
+
+The Real completion handoff shows that every public consumer receives only the displayed route through these rows. Thus the consumer cannot bypass the carrier ledger to inspect data not listed by the packet.
+
+The excluded objects are precisely the objects absent from the carrier: quotient completions, selected representatives, host completed metric spaces, host real equality, countable choice, ambient completeness, and bridge-axis evidence. Since no coordinate stores them, no public read of $I$ can export them.
+\end{proof}
+
 \begin{closurestatus}{\CauchyCompletionIdempotentUp}
   \constructivestory{A $\CauchyCompletionIdempotentUp$ packet is generated from first and second completion seals, CauchyCompletionUnit and CauchyCompletionCounit rows, a CauchyCompletionAdjunction universal-property row, a same-route classifier, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-completion-idempotent-carrier}, \autoref{thm:cauchy-completion-idempotent-namecert-obligations}, and \autoref{thm:cauchy-completion-idempotent-real-completion-handoff} seed the finite reflective-idempotence surface for repeated L10 completion reads.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-idempotent-carrier}, \autoref{thm:cauchy-completion-idempotent-namecert-obligations}, \autoref{thm:cauchy-completion-idempotent-real-completion-handoff}, \autoref{thm:cauchy-completion-idempotent-reflector-comparison}, \autoref{thm:cauchy-completion-idempotent-unit-counit-loop}, and \autoref{thm:cauchy-completion-idempotent-ledger-nonescape} close the finite reflective-idempotence obligation surface for repeated L10 completion reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion equality, selected representatives, ambient completeness, host real equality, countable choice, public bridge evidence, or completeness of $\RealUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, unit/counit visibility, double-completion route comparison, classifier transport, Real-and-Completion handoff, and ledger non-escape for the same packet.}
+  \upgradepath{Scoped closure requires Lean targets for carrier admission, unit/counit visibility, double-completion route comparison, classifier transport, Real-and-Completion handoff, and ledger non-escape for the same packet.}
 \end{closurestatus}

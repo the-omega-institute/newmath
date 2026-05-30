@@ -216,15 +216,69 @@ Finally invoke real-distance route determinacy. \autoref{thm:isometric-embedding
 \end{proof}
 \leanchecked{BEDC.Derived.IsometricEmbeddingUp.IsometricEmbeddingCarrier\_distance\_route\_reflection\_lock}
 
-\closureat{IsometricEmbeddingUp}{seedStr}
+\begin{theorem}[IsometricEmbedding obligation-closure surface]
+\label{thm:isometric-embedding-obligation-closure-surface}
+The obligation surface for $\IsometricEmbeddingUp$ is exhausted by the local
+carrier admission, classifier transport, distance-preservation obligation,
+separated consumer route, completion-reflection handoff, Hausdorff separation
+boundary, and real-distance route determinacy. Equivalently, every accepted
+packet can be consumed only through the displayed rows
+$X,Y,F,D_X,D_Y,R,T,Q,P,N$ and not through host function equality, quotient
+maps, selected representatives, ambient completion existence, or external
+Hausdorff separation principles.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and classifier transport. Apply
+\autoref{thm:isometric-embedding-carrier-admission} and
+\autoref{thm:isometric-embedding-classifier-transport} to fix the displayed
+packet rows and keep comparisons componentwise.
+
+Use the distance-preservation obligation next. By
+\autoref{thm:isometric-embedding-distance-preservation-obligation}, the
+source-to-target comparison is the route from $D_X$ through $F$ to $D_Y$ and
+then to the $\RealUp$ reflection row $R$.
+
+Now bind the downstream consumers. The separated route of
+\autoref{thm:isometric-embedding-separated-consumer-route}, the
+completion-reflection handoff of
+\autoref{thm:isometric-embedding-completion-reflection-handoff}, and the
+Hausdorff boundary of
+\autoref{thm:isometric-embedding-hausdorff-separation-boundary} leave no
+additional completion-facing row.
+
+Finally apply \autoref{thm:isometric-embedding-real-distance-route-determinacy}
+and \autoref{thm:isometric-embedding-distance-route-reflection-lock}. These
+results identify the same finite route as the only real-distance and
+completion-facing surface, so the listed local theorems exhaust the
+obligation-closure surface.
+\end{proof}
+\leanchecked{BEDC.Derived.IsometricEmbeddingUp.IsometricEmbeddingCarrier\_obligation\_closure\_surface}
+
+\begin{theorem}[IsometricEmbedding scoped kernel route]
+\label{thm:isometric-embedding-scoped-kernel-route}
+Let $I=(X,Y,F,D_X,D_Y,R,T,Q,P,N)$ be an accepted $\IsometricEmbeddingUp$ packet. Every distance-preservation read from $I$ is scoped by the $\MetricSpaceUp$ endpoint rows $X,Y$, the source and target distance rows $D_X,D_Y$, the $\RealUp$ distance-reflection row $R$, componentwise $\hsame$ transport through $T$, displayed $\Cont$ replay through $Q$, $\Pkg$ provenance through $P$, and the local $\NameCert$ row $N$. The route is the displayed kernel surface fixed by the carrier, classifier, distance reflection, real-distance route determinacy, and completion-facing sibling lattice; it exports no host function equality, quotient map, selected representative, ambient completion theorem, or external Hausdorff separation principle.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission and classifier transport. \autoref{thm:isometric-embedding-carrier-admission} exposes exactly $X,Y,F,D_X,D_Y,R,T,Q,P,N$, and \autoref{thm:isometric-embedding-classifier-transport} keeps those rows componentwise under the displayed transport and replay data.
+
+Use distance reflection and distance preservation. \autoref{thm:isometric-embedding-distance-reflection} and \autoref{thm:isometric-embedding-distance-preservation-obligation} force every distance-preservation read from the source metric row through $F$, $D_Y$, and the $\RealUp$ reflection row $R$.
+
+Apply \autoref{thm:isometric-embedding-real-distance-route-determinacy} and the sibling lattice route of \autoref{thm:isometric-embedding-sibling-completion-lattice}. Together they identify the same finite route as the completion-facing kernel surface available to separated and completion consumers.
+
+The local $\NameCert$ row and $\Pkg$ provenance then bind the scope. Since no carrier coordinate stores a host isometry, quotient map, selected representative, ambient completion theorem, or external Hausdorff principle, the listed rows are the full scoped kernel route.
+\end{proof}
+\leanchecked{BEDC.Derived.IsometricEmbeddingUp.IsometricEmbeddingCarrier\_scoped\_kernel\_route}
+
+\closureat{IsometricEmbeddingUp}{bridgedStr}
+\closureat{IsometricEmbeddingUp}{matureStr}
 
 \begin{closurestatus}{\IsometricEmbeddingUp}
   \constructivestory{An $\IsometricEmbeddingUp$ packet is generated from source and target $\MetricSpaceUp$ rows, a displayed graph row, source and target $\mathsf{MetricDistanceWitness}$ rows, a $\RealUp$ distance-reflection row, componentwise transport, continuation, package provenance, and local naming data.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite carrier, componentwise classifier, five-row naming-certificate surface, distance reflection, and completion-facing non-escape boundary for displayed isometric embeddings.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public export is the displayed isometric-embedding consumer route over $\MetricSpaceUp$, $\RealUp$ distance rows, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, with carrier, distance-preservation, classifier transport, and completion-facing bridge rows exposed for downstream use.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close host-level isometry theorems, quotient maps, selected representatives, ambient completion existence, extension uniqueness, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, distance preservation, separated completion-facing reflection, and non-escape for the same packet.}
+  \upgradepath{The next closure grade requires mature examples and downstream comparison for completion-facing consumers; bridge checking remains a separate formal-axis obligation.}
 \end{closurestatus}

@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\ControlRiccatiUp$}
+\label{ch:concrete-instances-control-riccati-namecert}
+\origin{human}
+
+Following Kalman and Anderson--Moore, the $\ControlRiccatiUp$ packet records the control-facing Riccati certificate surface that sits between finite Riccati ledgers and regulator or estimator consumers. It reads the displayed Riccati recursion of \autoref{ch:concrete-instances-riccati-namecert}, the finite regulator packet of \autoref{ch:concrete-instances-lqr-namecert}, the estimator packet of \autoref{ch:concrete-instances-kalman-filter-namecert}, the observability and controllability rows of \autoref{ch:concrete-instances-controlobservability-namecert} and \autoref{ch:concrete-instances-controlcontrollability-namecert}, the finite matrix rows of \autoref{ch:concrete-instances-matrix-namecert}, and the normed-state boundary of \autoref{ch:concrete-instances-normedspace-namecert}. The packet names a finite stabilizing residual and gain-readback route; it is not an ambient algebraic Riccati solver.
+
+\begin{definition}[ControlRiccati carrier]
+\label{def:control-riccati-carrier}
+A $\ControlRiccatiUp$ carrier is a finite $\BHist$ packet
+$$
+C=(R,A,B,Q,S,G,L,O,K,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the source $\RiccatiUp$ value-ledger row.
+\item $A,B$ are the displayed state-transition and control-input matrix rows read through $\MatrixUp$ and the finite state/control carrier.
+\item $Q,S$ are the displayed state-cost and control-cost matrix rows, including the symmetry and positivity ledgers needed by the control read.
+\item $G$ is the finite gain-readback row naming the feedback matrix computed from the displayed Riccati ledger.
+\item $L$ is the $\LQRUp$ handoff row saying the regulator consumer reads the same Riccati value and gain rows.
+\item $O$ is the $\ControlObservabilityUp$ row and $K$ is the $\ControlControllabilityUp$ row used to keep the residual and gain checks inside the displayed control surface.
+\item $H$ is the residual-stability row: under the displayed normed-state and matrix rows, the Riccati residual remains inside the finite tolerance ledger exported by $\NormedSpaceUp$ and $\MatrixUp$.
+\item $T$ is componentwise $\hsame$ transport for the Riccati value, matrix, cost, gain, observability, controllability, and residual rows.
+\item $P$ is $\Pkg$ provenance over $\RiccatiUp$, $\LQRUp$, $\KalmanFilterUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\MatrixUp$, and $\NormedSpaceUp$.
+\item $N$ is the local $\NameCert_{\ControlRiccatiUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host matrix equation, a selected stabilizing solution, an infinite-horizon limit, a spectral separation oracle, or an unlogged controller.
+\end{definition}
+
+\begin{theorem}[ControlRiccati NameCert obligations]
+\label{thm:control-riccati-namecert-obligations}
+For the carrier of \autoref{def:control-riccati-carrier}, the local $\NameCert_{\ControlRiccatiUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $C=(R,A,B,Q,S,G,L,O,K,H,T,P,N)$;
+\item Riccati residual stability through the displayed $\MatrixUp$ and $\NormedSpaceUp$ rows;
+\item gain-readback exactness, saying the feedback row $G$ is read only from the displayed Riccati, transition, input, and cost rows;
+\item LQR handoff, saying the $\LQRUp$ consumer receives the same value and gain rows through $L$;
+\item no-host-matrix nonescape, saying no accepted consumer can project an algebraic Riccati equation, selected stabilizing solution, spectral oracle, or unbounded controller from the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:control-riccati-carrier}. The rows $R,A,B,Q,S,G,L,O,K,H,T,P,N$ are the only visible Riccati value, matrix, cost, gain, regulator, observability, controllability, residual, transport, provenance, and local naming rows.
+
+The residual-stability obligation reads the finite residual row $H$ together with the matrix and normed-state rows. Since the residual is compared inside the displayed $\MatrixUp$ and $\NormedSpaceUp$ ledgers, the check cannot call on a host spectral or convergence theorem.
+
+The gain-readback obligation then reads $G$ from the same Riccati value, transition, input, and cost rows. The $\LQRUp$ handoff row $L$ exports exactly this finite value-and-gain surface to the regulator packet, while the $\KalmanFilterUp$ dependency is only the neighboring estimator use of Riccati-style covariance ledgers.
+
+Finally inspect the excluded coordinates. A host matrix equation, selected stabilizing solution, infinite-horizon limit, spectral separation oracle, and unlogged controller would require rows not present in $C$. Therefore every accepted $\ControlRiccatiUp$ read remains inside the displayed NameCert surface.
+\end{proof}
+
+\begin{closurestatus}{\ControlRiccatiUp}
+  \constructivestory{A $\ControlRiccatiUp$ packet is generated from a Riccati value ledger, displayed transition and input matrices, cost matrices, gain readback, LQR handoff, observability and controllability rows, residual stability, componentwise transport, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:control-riccati-carrier} and \autoref{thm:control-riccati-namecert-obligations} seed the finite control-Riccati carrier and its five NameCert obligation rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close algebraic Riccati existence, stabilizing uniqueness, infinite-horizon convergence, spectral separation, host matrix equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual stability, gain-readback exactness, LQR handoff, and no-host-matrix nonescape for BEDC.Derived.ControlRiccatiUp.}
+\end{closurestatus}

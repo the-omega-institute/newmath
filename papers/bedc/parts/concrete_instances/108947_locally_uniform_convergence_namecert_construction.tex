@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\LocallyUniformConvergenceUp$}
+\label{ch:concrete-instances-locally-uniform-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive analysis, Kelley on compactly generated uniform control, and Bourbaki on local uniform convergence over compacta, the $\LocallyUniformConvergenceUp$ packet records the standard compact-window reading of locally uniform convergence as finite NameCert data. It sits after the uniform-tail certificate of \autoref{ch:concrete-instances-uniform-convergence-namecert}, the continuity rows of \autoref{ch:concrete-instances-continuous-function-namecert}, and the compact metric completion boundary of \autoref{ch:concrete-instances-compact-metric-completion-namecert}. The packet names compact-window rows, uniform-modulus rows, continuous-function rows, $\RegSeqRatUp$ and $\RealUp$ handoff rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows; it does not assert open-cover compactness, selected limiting functions, quotient function-space equality, countable choice, or ambient completeness.
+
+\begin{definition}[LocallyUniformConvergence carrier]
+\label{def:locally-uniform-convergence-carrier}
+A $\LocallyUniformConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(K,U,F,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact-window row, listing each retained compact metric window and its finite inspection addresses.
+\item $U$ is the uniform-modulus row, assigning to every displayed compact window a shared tail modulus for the family on that window.
+\item $F$ is the continuous-function row, naming the approximating function data and the endpoint continuity data read on the same windows.
+\item $Q$ is the $\RegSeqRatUp$ handoff row for all rational tail and distance comparisons used by the window.
+\item $E$ is the $\RealUp$ handoff row reached only after the compact-window, uniform-modulus, continuous-function, and regular-rational rows have been read.
+\item $H$ records componentwise $\hsame$ transport for compact windows, moduli, continuous-function rows, rational readbacks, real seals, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a local compact-window request through $K,U,F,Q,E$.
+\item $P$ is the $\Pkg$ provenance over $\LocallyUniformConvergenceUp$, $\UniformConvergenceUp$, $\ContinuousFunctionUp$, $\CompactMetricCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocallyUniformConvergenceUp}$ row.
+\end{enumerate}
+The carrier exports only this compact-window route. It has no coordinate for open-cover compactness, a selected global limit function, quotient equality of functions, or a host supremum norm outside the displayed windows.
+\end{definition}
+
+\begin{theorem}[LocallyUniformConvergence NameCert obligations]
+\label{thm:locally-uniform-convergence-namecert-obligations}
+For every accepted $\LocallyUniformConvergenceUp$ carrier $L=(K,U,F,Q,E,H,C,P,N)$, the local $\NameCert_{\LocallyUniformConvergenceUp}$ surface consists exactly of compact-window admission through $K$, shared uniform-modulus admission through $U$, continuous-function row compatibility through $F$, $\RegSeqRatUp$ readback through $Q$, terminal $\RealUp$ handoff through $E$, and structural transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:locally-uniform-convergence-carrier}. The displayed rows are exactly $K,U,F,Q,E,H,C,P,N$, and each consumer-facing request begins with one of the compact windows named by $K$.
+
+The convergence side is exhausted by $U,Q,E$. A uniform tail claim on a retained compact window must first read the shared modulus row $U$, then the regular-rational comparison row $Q$, and only then the terminal real handoff $E$.
+
+The continuity side is exhausted by $F$ together with the same compact-window route. The continuous-function rows are consumed on the windows already displayed by $K$, so endpoint continuity is replayed locally rather than by selecting a host function-space limit.
+
+Transport, continuation, provenance, and local naming preserve this finite route. Since no carrier coordinate stores open-cover compactness, quotient equality of functions, countable choice, an ambient supremum norm, or an external limiting function selector, no local NameCert obligation may use such data.
+\end{proof}
+
+\begin{theorem}[LocallyUniformConvergence compact route]
+\label{thm:locally-uniform-convergence-compact-route}
+Every accepted local convergence read from a $\LocallyUniformConvergenceUp$ carrier factors through the compact-window route
+$$
+K \longmapsto U,F \longmapsto Q \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the route consumes the existing $\UniformConvergenceUp$, $\ContinuousFunctionUp$, and $\CompactMetricCompletionUp$ packets only through displayed finite rows, not through open-cover compactness, quotient function-space equality, selected limits, countable choice, or ambient completion.
+\end{theorem}
+\begin{proof}
+Begin with a local convergence request. The request must name a compact metric window in $K$, so the carrier first fixes the finite portion of the domain on which convergence is being inspected.
+
+Read the uniform and continuity rows on that same window. The uniform-modulus row $U$ supplies the shared tail data, while the continuous-function row $F$ records the approximating and endpoint continuity data that can be replayed on the retained window.
+
+The comparison then passes through $Q$ and $E$. The $\RegSeqRatUp$ row carries the rational tolerance comparisons, and the $\RealUp$ row is reached only after those comparisons and the compact-window data have been displayed.
+
+Finally use $H,C,P,N$ to transport, replay, source, and name the same route. The cited sibling packets provide the uniform-convergence, continuous-function, and compact-metric-completion rows consumed by the carrier, but none of those reads adds open-cover compactness, a selected global limit, quotient function equality, countable choice, or ambient completion.
+\end{proof}
+
+\falsifiablePrediction{Deleting the compact-window row $K$ prevents any accepted $\LocallyUniformConvergenceUp$ local convergence read, even when uniform-modulus, continuous-function, regular-rational, real-handoff, transport, replay, provenance, and local naming rows remain displayed.}
+
+\independenceWitness{uniform-convergence, continuous-function, compact-metric-completion: none is bijective to the locally uniform convergence packet because only $\LocallyUniformConvergenceUp$ binds compact-window rows, uniform-modulus rows, continuous-function rows, $\RegSeqRatUp$ readback, $\RealUp$ handoff, transport, replay, provenance, and local naming into one accepted local convergence route.}
+
+\closureat{LocallyUniformConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\LocallyUniformConvergenceUp}
+  \constructivestory{A $\LocallyUniformConvergenceUp$ packet is generated from compact-window rows, uniform-modulus rows, continuous-function rows, RegSeqRat readback, Real handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:locally-uniform-convergence-carrier}, \autoref{thm:locally-uniform-convergence-namecert-obligations}, and \autoref{thm:locally-uniform-convergence-compact-route} seed the finite compact-window route for locally uniform convergence over displayed uniform, continuity, completion, regular-rational, and real-handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, quotient function-space equality, selected global limits, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-window admission, uniform-modulus exactness, continuous-function compatibility, RegSeqRat readback, Real handoff, transport, replay, provenance, and local naming for BEDC.Derived.LocallyUniformConvergenceUp.}
+\end{closurestatus}

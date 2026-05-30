@@ -1,0 +1,153 @@
+\begin{theorem}[Polish-space complete-separable synthesis]
+\label{thm:polish-space-root-complete-separable-synthesis}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ packet. Its
+root complete-separable route exposes the $\CompleteMetricUp$ row $K$ and
+the $\SeparableMetricUp$ row $D$ only over the same $\MetricSpaceUp$ carrier
+$M$, with $\StreamNameUp$ windows $S$, $\RegSeqRatUp$ readback $R$,
+observation ledger $W$, componentwise $\hsame$ transport $H$, displayed
+$\Cont$ replay $C$, $\Pkg$ provenance $G$, and local $\NameCert$ rows $N$.
+Consequently every complete-separable consumer of $P$ reads one common route
+$$
+M \longmapsto (K,D) \longmapsto (S,R,W) \longmapsto (H,C,G,N),
+$$
+and no choice-selected dense sequence, external completion coordinate,
+separate host metric, or quotient-completion equality is exported.
+\end{theorem}
+\begin{proof}
+Project $P$ by \autoref{def:polish-space-carrier}. The carrier exposes
+$M,K,D,S,R,W,H,C,G,N$ as displayed rows of one finite $\BHist$ packet.
+
+Apply \autoref{thm:polish-space-namecert-obligations}. Carrier admission
+places the complete-metric handoff $K$ and the separable-metric schedule $D$
+inside the same local $\NameCert_{\PolishSpaceUp}$ surface, while classifier
+transport uses $H$ to compare both rows only after transport to the common
+metric source $M$.
+
+Use \autoref{thm:polishspace-root-density-obligations} and
+\autoref{thm:polishspace-root-completion-obligations}. The density obligation
+forces $D$ to be read through $S,R,W$ over $M$, and the completion obligation
+forces $K$ to use the same metric source and the same finite observation
+route.
+
+It remains to package the shared readback. The rows $C,G,N$ replay, source,
+and name the route already fixed by $M,K,D,S,R,W,H$. Because the carrier has
+no coordinate for the excluded dense selector, external completion, separate
+host metric, or quotient-completion equality, the displayed route is the only
+complete-separable synthesis exported by an accepted Polish-space packet.
+\end{proof}
+\leanchecked{BEDC.Derived.PolishspaceUp.PolishSpaceRootCompleteSeparableSynthesis}
+
+\begin{theorem}[Polish-space complete-separable shared-source route]
+\label{thm:polish-space-complete-separable-shared-source-route}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ packet. Every complete-separable consumer must read the complete row $K$ and the separable row $D$ over the same $\MetricSpaceUp$ row $M$, then pass through the finite route
+$$
+M \longmapsto (K,D) \longmapsto (S,R,W) \longmapsto (H,C,G,N).
+$$
+It cannot split completion and separability across different host metrics, separate quotient-completion coordinates, selected dense sequences, or unscheduled readback windows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:polish-space-root-complete-separable-synthesis}. It already displays $K$ and $D$ as rows of one accepted packet over the same metric source $M$.
+
+Next use \autoref{thm:polishspace-root-density-obligations}. The dense schedule $D$ is read through the shared stream and regular rational windows $S,R$ together with the observation ledger $W$, so it cannot be detached from the metric row that supplies its distances.
+
+Use \autoref{thm:polishspace-root-completion-obligations} for the complete side. The completion row $K$ is transported and replayed through the same $H,C,G,N$ route as $D$.
+
+The carrier has no coordinate for a second host metric, separate quotient completion, selected dense sequence, or unscheduled readback window. Thus the complete-separable route is a shared-source route through $M,K,D,S,R,W,H,C,G,N$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolishspaceUp.PolishSpaceCompleteSeparableSharedSourceRoute}
+
+\begin{definition}[Polish-space root unblock surface]
+\label{def:polish-space-root-unblock-surface}
+The root unblock surface of an accepted $\PolishSpaceUp$ packet is the
+displayed finite packet
+$$
+(M,K,D,S,R,W,H,C,G,N)
+$$
+viewed simultaneously as the $\MetricSpaceUp$ carrier row $M$, the
+$\CompleteMetricUp$ handoff $K$, the $\SeparableMetricUp$ dense schedule $D$,
+the $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ readback row $R$, the
+observation ledger $W$, componentwise $\hsame$ transport $H$, displayed
+$\Cont$ replay $C$, $\Pkg$ provenance $G$, and local
+$\NameCert_{\PolishSpaceUp}$ row $N$.
+
+A downstream root consumer may read complete-separable data only through this
+single surface. It receives no separate metric carrier, selected dense point,
+quotient completion equality, unscheduled name oracle, or ambient
+$\RealUp$ completeness datum.
+\end{definition}
+
+\begin{theorem}[Polish-space complete-separable unblock package]
+\label{thm:polish-space-complete-separable-unblock-package}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ packet. The
+complete row $K$ and the separable row $D$ are consumed over one metric carrier
+$M$: every complete-separable root read first exposes $M$, then reads both
+$K$ and $D$ through the same $S,R,W$ observation surface, and finally replays
+the common packet through $H,C,G,N$.
+
+Consequently the complete side cannot be sourced from one carrier while the
+separable side is sourced from another, and neither side can bypass the
+finite StreamName and RegSeqRat windows.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:polish-space-root-unblock-surface}. The displayed
+packet has a single metric coordinate $M$, and both $K$ and $D$ are rows of
+that same packet.
+
+Use the complete-separable synthesis of
+\autoref{thm:polish-space-root-complete-separable-synthesis}. It already
+routes every complete-separable consumer through
+$$
+M \longmapsto (K,D) \longmapsto (S,R,W) \longmapsto (H,C,G,N).
+$$
+
+It remains to rule out split consumption. The observation ledger $W$ and the
+componentwise transport row $H$ move $K$ and $D$ only together with $M,S,R,C,G,N$.
+Thus a consumer has no coordinate from which to read a second carrier, an
+unscheduled complete row, or a dense schedule outside the displayed finite
+windows.
+\end{proof}
+\leanchecked{BEDC.Derived.PolishspaceUp.PolishSpaceCompleteSeparableUnblockPackage}
+
+\begin{theorem}[Polish-space RegSeqRat window unblock]
+\label{thm:polish-space-regseqrat-window-unblock}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ packet. Every
+downstream Polish-space read that reaches a $\RealUp$-facing consumer passes
+first through the $\StreamNameUp$ row $S$ and the $\RegSeqRatUp$ row $R$ of
+\autoref{def:polish-space-root-unblock-surface}. The read may then use the
+complete row $K$, the separable row $D$, and any Real-facing seal already
+exposed by the packet, but it cannot replace $S,R$ by a selected dense point,
+a quotient-completion representative, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Expose the root unblock surface. The only rows that schedule names and regular
+rational observations are $S$ and $R$, and the local NameCert row names them
+as part of the same finite packet as $M,K,D,W,H,C,G$.
+
+The Real-facing boundary is downstream of those observations. A consumer can
+reach Real-facing data only after the stream windows have supplied finite
+requests and the regular rational readback has supplied the corresponding
+observations.
+
+Finally apply the nonescape clauses of the complete-separable synthesis. Since
+the packet has no row for selected dense points, quotient-completion
+representatives, host equality, or ambient completeness, every downstream
+read passes through the StreamName and RegSeqRat windows before any
+Real-facing consumer is available.
+\end{proof}
+\leanchecked{BEDC.Derived.PolishspaceUp.PolishSpaceRegSeqRatWindowUnblock}
+
+\begin{theorem}[Polish-space RegSeqRat--Real handoff]
+\label{thm:polishspace-complete-separable-regseqrat-real-handoff}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ packet whose complete-separable route is read through the root unblock surface of \autoref{def:polish-space-root-unblock-surface}. Any $\RealUp$-facing consumer of that route can be reached only after the $\StreamNameUp$ row $S$ and the $\RegSeqRatUp$ row $R$ expose their finite windows over the same $\MetricSpaceUp$ row $M$ that supports the $\CompleteMetricUp$ row $K$ and the $\SeparableMetricUp$ row $D$. The handoff exports no selected dense point, quotient completion representative, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the root unblock surface. The rows $M,K,D,S,R,W,H,C,G,N$ are displayed as one finite packet, so the stream and regular-rational windows are already tied to the same metric row as the complete and separable data.
+
+Apply \autoref{thm:polish-space-complete-separable-unblock-package}. It forces both $K$ and $D$ to be consumed over $M$ and through the common $S,R,W$ observation surface before the packet can be replayed by $H,C,G,N$.
+
+Now use \autoref{thm:polish-space-regseqrat-window-unblock}. Every downstream read that reaches a Real-facing consumer must pass through $S$ and $R$ first. Combining the two routes gives the required top-window handoff from complete separability to the finite RegSeqRat readback.
+
+The excluded dense selector, quotient completion representative, host equality, and ambient completeness rows are absent from the carrier. Therefore the Real-facing consumer receives only the displayed route over $M$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolishspaceUp.PolishSpaceCompleteSeparableRegSeqRatRealHandoff}
+\leanvariant{BEDC.Derived.PolishspaceUp.PolishSpaceRegSeqRatRealHandoff}

@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\RealArithmeticProgressionUp$}
+\label{ch:concrete-instances-real-arithmetic-progression-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealArithmeticProgressionUp$ packet records the textbook arithmetic progression route $a,a+d,a+2d,\ldots$ as finite BEDC data before any completed real-analysis theorem is read. It sits over the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the finite dyadic arithmetic ledgers of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet supplies a constructive L10 sequence object for later finite-window sequence and series arguments; it is not a host function, not an infinite completed sum, not a quotient-real equality, not trichotomy, and not an ambient completeness principle.
+
+\begin{definition}[Real arithmetic progression carrier]
+\label{def:real-arithmetic-progression-carrier}
+A $\RealArithmeticProgressionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(a,d,S,R,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $a$ is the initial $\RealUp$ row, read through its displayed regular-rational name rather than through a host real value;
+\item $d$ is the common-difference $\RealUp$ row, read through the same real-name boundary;
+\item $S$ is the $\StreamNameUp$ finite-window schedule listing the indices currently requested from the progression;
+\item $R$ is the $\RegSeqRatUp$ readback row whose $n$th window is obtained by the displayed finite arithmetic route for $a+n d$;
+\item $D$ is the finite dyadic arithmetic ledger recording the repeated addition budget, tolerance scale, and endpoint readbacks used by the requested windows;
+\item $H$ records componentwise $\hsame$ transport for the initial real row, common-difference row, schedule, regular-rational readback, dyadic ledger, continuation, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from a finite index request through $S$, then through the dyadic ledger $D$, the regular-rational readback $R$, and the endpoint real rows $a,d$;
+\item $P$ is the $\Pkg$ provenance over $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RealArithmeticProgressionUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a host function $\mathbb N\to\mathbb R$, quotient equality of real representatives, selected limits, infinite sums, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real arithmetic progression NameCert obligations]
+\label{thm:real-arithmetic-progression-namecert-obligations}
+For every accepted $\RealArithmeticProgressionUp$ carrier $A=(a,d,S,R,D,H,C,P,N)$, the local $\NameCert_{\RealArithmeticProgressionUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the initial real row $a$, common-difference row $d$, finite schedule $S$, regular-rational readback $R$, dyadic arithmetic ledger $D$, transport, continuation, provenance, and local naming row;
+\item finite-window exactness, requiring each inspected index to be replayed through $S$ before the arithmetic readback $R$ is exposed;
+\item arithmetic-ledger exactness, requiring the displayed row $D$ to account for the finite repeated-addition route from $a$ and $d$ to every requested readback;
+\item real-name routing, requiring every downstream $\RealUp$ or sequence-facing consumer to reach the progression through the displayed $\RegSeqRatUp$ and $\StreamNameUp$ rows;
+\item transport stability, requiring componentwise $\hsame$ transport to preserve the same initial row, common-difference row, schedule, readback, and dyadic ledger;
+\item ledger refusal, excluding host functions, completed infinite sums, quotient-real equality, trichotomy, selected limits, and ambient completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-arithmetic-progression-carrier}. This exposes exactly the rows $a,d,S,R,D,H,C,P,N$ and no detached operation row.
+
+Replay the continuation $C$ at a finite index request. The request first passes through the $\StreamNameUp$ schedule $S$, then reads the repeated-addition ledger $D$, and only then exposes the $\RegSeqRatUp$ readback $R$ tied to the endpoint rows $a$ and $d$.
+
+Transport by $H$ is componentwise, so changing representative histories preserves the same initial real row, common-difference row, finite schedule, arithmetic ledger, readback, replay route, provenance, and local naming row. The provenance row $P$ cites only the displayed Real, regular-rational, stream, dyadic, and kernel surfaces.
+
+Since the tuple has no coordinate for a host sequence function, quotient-real equality, infinite sum, trichotomy decision, selected limit, or ambient completeness theorem, those exits cannot be read as local $\NameCert_{\RealArithmeticProgressionUp}$ obligations.
+\end{proof}
+
+\closureat{RealArithmeticProgressionUp}{seedStr}
+
+\begin{closurestatus}{\RealArithmeticProgressionUp}
+  \constructivestory{A $\RealArithmeticProgressionUp$ packet is generated from an initial Real row, a common-difference Real row, a finite StreamName schedule, a RegSeqRat readback, a DyadicRatCore repeated-addition ledger, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-arithmetic-progression-carrier} and \autoref{thm:real-arithmetic-progression-namecert-obligations} seed the finite arithmetic-progression route from $\RealUp$ endpoints through $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completeness of $\RealUp$, trichotomy, quotient-real equality, host functions $\mathbb N\to\mathbb R$, selected limits, infinite sums, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exactness, arithmetic-ledger exactness, real-name routing, transport stability, and ledger refusal for the same packet.}
+\end{closurestatus}

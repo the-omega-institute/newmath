@@ -1,0 +1,66 @@
+\chapter{Finite Cauchy Diagonal NameCert Construction}
+\label{ch:concrete-instances-finite-cauchy-diagonal-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\FiniteCauchyDiagonalUp$ packet records the finite diagonal selector needed when a displayed Cauchy family is read through regular rational windows and then sealed as a real name. It sits between the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational route of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet supplies only a finite selector surface for completion and Real consumers; it does not choose an infinite subsequence, a quotient representative, or a host limit.
+
+\begin{definition}[Finite Cauchy diagonal carrier]
+\label{def:finite-cauchy-diagonal-carrier}
+A $\FiniteCauchyDiagonalUp$ carrier is a finite $\BHist$ packet
+$$
+D=(F,W,K,S,R,Y,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $F$ is the finite family row, naming the displayed Cauchy sources whose diagonal window is requested.
+\item $W$ is the selected-window classifier row, recording the finite window chosen for each displayed precision request and each displayed source row.
+\item $K$ is the classifier-stability row, comparing selected windows only by the same $\hsame$ and $\Cont$ routes used by the source family.
+\item $S$ is the $\StreamNameUp$ observation schedule exposed by the selected windows.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $S$.
+\item $Y$ is the $\DyadicRatCoreUp$ tolerance ledger that bounds the diagonal comparisons.
+\item $E$ is the terminal $\RealUp$ seal handoff, available only after $F,W,K,S,R,Y$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the family, window, stability, stream, readback, tolerance, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for diagonal-selection requests through $F,W,K,S,R,Y,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteCauchyDiagonalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteCauchyDiagonalUp}$ row.
+\end{enumerate}
+The classifier reads only $F,W,K,S,R,Y,E,H,C,P,N$. There is no coordinate for countable choice, a selected infinite diagonal sequence, quotient stream equality, host sequence equality, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite Cauchy diagonal NameCert obligations]
+\label{thm:finite-cauchy-diagonal-namecert-obligations}
+For every accepted $\FiniteCauchyDiagonalUp$ carrier $D=(F,W,K,S,R,Y,E,H,C,P,N)$, the local $\NameCert_{\FiniteCauchyDiagonalUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item finite diagonal carrier admission through the displayed family row $F$;
+\item selected-window classifier admission through $W$, with one displayed finite window for each displayed precision request and source row;
+\item classifier stability through $K,H,C$, preserving the selected windows under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item diagonal extraction ledger admission through $S,R,Y$, requiring every extracted read to pass through the same $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows;
+\item $\RealUp$ seal handoff through $E$, requiring the finite family, selected-window classifier, stability row, stream schedule, readback row, dyadic ledger, transport, replay, provenance, and local naming to remain visible to the terminal real-name consumer.
+\end{enumerate}
+No obligation row certifies countable choice, a selected infinite diagonal sequence, quotient stream equality, host sequence equality, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-cauchy-diagonal-carrier}. The visible rows are exactly $F,W,K,S,R,Y,E,H,C,P,N$, so the finite family and selected-window classifier are the only routes by which a diagonal request enters the packet.
+
+The stability row is read before any terminal seal. Transport by $H$ and replay by $C$ preserve the same family row, selected-window row, and classifier-stability row, so a replayed request cannot replace the finite selector by an infinite choice schedule or by host sequence equality.
+
+The extraction ledger is then read through $S,R,Y$. The stream schedule supplies finite observations, the regular rational row repacks those observations, and the dyadic row records the tolerance budget for the same displayed windows.
+
+Finally the Real handoff is downstream from the ledger. Since $E$ is available only after $F,W,K,S,R,Y,H,C,P,N$ have been displayed, every $\RealUp$ or completion-facing consumer receives a finite diagonal selector surface rather than a hidden limit or quotient representative.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteCauchyDiagonalUp$ read is refuted if the Real-facing diagonal handoff reaches $\RealUp$ without displaying the finite family row, selected-window classifier, classifier-stability row, StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: $\FiniteCauchyDiagonalUp$ is not bijective to any listed sibling because it jointly carries finite family admission, selected-window classification, classifier stability, diagonal extraction, Real seal handoff, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{FiniteCauchyDiagonalUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCauchyDiagonalUp}
+  \constructivestory{A $\FiniteCauchyDiagonalUp$ packet is generated from a displayed finite Cauchy family, selected finite windows, classifier-stability rows, StreamName observations, RegSeqRat readback, a DyadicRatCore tolerance ledger, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cauchy-diagonal-carrier} and \autoref{thm:finite-cauchy-diagonal-namecert-obligations} seed the finite diagonal selector route over family, selected-window, stability, StreamName, RegSeqRat, DyadicRatCore, RealUp seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim countable choice, a selected infinite diagonal sequence, quotient stream equality, host sequence equality, selected limits, Lean verification, bridge checking, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, selected-window classifier admission, classifier stability, diagonal extraction, RealUp seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteCauchyDiagonalUp.}
+\end{closurestatus}

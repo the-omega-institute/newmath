@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\CalculusUp$}
+\label{ch:concrete-instances-calculus-namecert}
+\origin{human}
+
+Following Cartan's local differential calculus and the Bishop--Bridges constructive treatment of limits, derivatives, and integrals, the $\CalculusUp$ packet records the finite analysis root used by later derivative and integration chapters. It sits beside the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the generic limit route of \autoref{ch:concrete-instances-limit-namecert}, the continuous-map surface used throughout the analysis region, the derivative carrier of \autoref{ch:concrete-instances-derivative-namecert}, the integral carrier, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names the common calculus substrate without importing a host function space, a global limit operator, quotient equality of functions, or an ambient completeness theorem.
+
+\begin{definition}[Calculus carrier]
+\label{def:calculus-carrier}
+A $\CalculusUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,L,C,D,I,Q,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealUp$ scalar boundary used by all endpoint values, tolerances, finite sums, and error estimates.
+\item $L$ is the $\LimitUp$ route for displayed convergence windows and downstream real seals.
+\item $C$ is the $\ContinuousMapUp$ row naming the finite graph, pointwise continuity, and replay windows available to calculus consumers.
+\item $D$ is the $\DerivativeUp$ local difference-quotient row, including the source point, target read, and remainder ledger.
+\item $I$ is the $\IntegralUp$ finite-sum row, exposing the partition, tagged-read, and endpoint handoff data used by integration consumers.
+\item $Q$ is the $\RegSeqRatUp$ readback row shared by the limit, derivative, and integral ledgers.
+\item $H$ records componentwise $\hsame$ transport for real, limit, continuous-map, derivative, integral, regular-rational, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from real reads to limits, from limits to continuous maps, from finite difference quotients to derivative reads, and from finite sums to integral handoffs.
+\item $P$ is the $\Pkg$ provenance over $\CalculusUp$, $\RealUp$, $\LimitUp$, $\ContinuousMapUp$, $\DerivativeUp$, $\IntegralUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CalculusUp}$ row.
+\end{enumerate}
+The classifier reads only $R,L,C,D,I,Q,H,T,P,N$. It has no coordinate for a host function space, a selected global derivative operator, an unbounded integration functional, quotient equality of functions, an open-cover compactness principle, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Calculus NameCert obligations]
+\label{thm:calculus-namecert-obligations}
+For every accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, the local $\NameCert_{\CalculusUp}$ surface consists exactly of carrier admission, real-boundary exposure, limit-window readback, continuous-map replay, local-linear approximation routing, finite difference quotient readback, integral finite-sum handoff, regular-rational readback, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:calculus-carrier}. The rows $R,L,C,D,I,Q,H,T,P,N$ are the full finite inventory available to a calculus consumer.
+
+The local-linear approximation route is carried by $D$ and is read only after the real boundary $R$, limit route $L$, continuous-map row $C$, and regular-rational readback $Q$ have supplied the displayed point, tolerance, and remainder data. Thus a derivative-facing consumer sees a finite difference quotient route rather than a hidden global derivative operator.
+
+The integral handoff is carried by $I$. Its partition, finite-sum, and endpoint rows are exposed before any real-facing value is consumed, and the same $Q$ row supplies the rational readback needed to compare finite sums with limit and derivative windows.
+
+Finally $H,T,P,N$ transport, replay, source, and name exactly the displayed rows. Since no coordinate contains host function-space equality, ambient completeness, a selected derivative operator, or an unbounded integral functional, every accepted read remains inside the finite calculus packet.
+\end{proof}
+
+\closureat{CalculusUp}{seedStr}
+
+\begin{closurestatus}{\CalculusUp}
+  \constructivestory{A $\CalculusUp$ packet is generated from Real, Limit, ContinuousMap, Derivative, Integral, RegSeqRat, componentwise hsame, displayed Cont, Pkg, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:calculus-carrier} and \autoref{thm:calculus-namecert-obligations} seed the finite calculus root over real, limit, continuous-map, derivative, integral, regular-rational, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a host function space, global differentiability, an ambient integration operator, quotient function equality, or real completeness beyond the displayed Real row.}
+  \upgradepath{Obligation closure requires checked carrier admission, limit readback, continuous-map replay, derivative quotient routing, integral finite-sum handoff, regular-rational readback, transport, replay, provenance, and local naming for BEDC.Derived.CalculusUp.}
+\end{closurestatus}

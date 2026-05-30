@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DecimalExpansionUp.TasteGate
@@ -135,3 +136,129 @@ theorem DecimalExpansionTasteGate_single_carrier_alignment :
   exact ⟨(fun _ _ _ _ _ _ _ _ _ _ => rfl), rfl⟩
 
 end BEDC.Derived.DecimalExpansionUp.TasteGate
+
+namespace BEDC.Derived.DecimalExpansionUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+
+theorem DecimalExpansionDigitLedgerInjection {D W V Q route : BHist} :
+    UnaryHistory D ->
+      UnaryHistory W ->
+        UnaryHistory Q ->
+          Cont D W V -> Cont V Q route -> UnaryHistory V ∧ UnaryHistory route := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro dUnary wUnary qUnary digitWindow placeComparison
+  have placeUnary : UnaryHistory V :=
+    unary_cont_closed dUnary wUnary digitWindow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed placeUnary qUnary placeComparison
+  exact ⟨placeUnary, routeUnary⟩
+
+theorem DecimalExpansionEndpointNormalizationHandoff
+    {D W V Q R E «prefix» comparison handoff «seal» : BHist} :
+    UnaryHistory D ->
+      UnaryHistory W ->
+        UnaryHistory V ->
+          UnaryHistory Q ->
+            UnaryHistory R ->
+              Cont D W «prefix» ->
+                Cont «prefix» V comparison ->
+                  Cont comparison Q handoff ->
+                    Cont handoff R «seal» ->
+                      UnaryHistory «prefix» ∧
+                        UnaryHistory comparison ∧ UnaryHistory handoff ∧ UnaryHistory «seal» := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro dUnary wUnary vUnary qUnary rUnary digitWindow prefixPlace comparisonDyadic handoffRat
+  have prefixUnary : UnaryHistory «prefix» :=
+    unary_cont_closed dUnary wUnary digitWindow
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed prefixUnary vUnary prefixPlace
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed comparisonUnary qUnary comparisonDyadic
+  have sealUnary : UnaryHistory «seal» :=
+    unary_cont_closed handoffUnary rUnary handoffRat
+  exact ⟨prefixUnary, comparisonUnary, handoffUnary, sealUnary⟩
+
+theorem DecimalExpansionEndpointCauchySchedule
+    {D W V Q R E endpointRead cauchyRead sealRead : BHist} :
+    UnaryHistory D →
+      UnaryHistory W →
+        UnaryHistory V →
+          UnaryHistory Q →
+            UnaryHistory R →
+              UnaryHistory E →
+                Cont D W endpointRead →
+                  Cont endpointRead Q cauchyRead →
+                    Cont cauchyRead R sealRead →
+                      UnaryHistory endpointRead ∧
+                        UnaryHistory cauchyRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro dUnary wUnary _vUnary qUnary rUnary _eUnary endpointStep cauchyStep sealStep
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed dUnary wUnary endpointStep
+  have cauchyUnary : UnaryHistory cauchyRead :=
+    unary_cont_closed endpointUnary qUnary cauchyStep
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed cauchyUnary rUnary sealStep
+  exact ⟨endpointUnary, cauchyUnary, sealUnary⟩
+
+theorem DecimalExpansionDigitWindowObligations
+    {D W V Q R E H C P N digitWindow placeValue dyadic regseq realSeal transport replay
+      provenance nameRoute : BHist} :
+    UnaryHistory D ->
+      UnaryHistory W ->
+        UnaryHistory V ->
+          UnaryHistory Q ->
+            UnaryHistory R ->
+              UnaryHistory E ->
+                UnaryHistory H ->
+                  UnaryHistory C ->
+                    UnaryHistory P ->
+                      UnaryHistory N ->
+                        Cont D W digitWindow ->
+                          Cont digitWindow V placeValue ->
+                            Cont placeValue Q dyadic ->
+                              Cont dyadic R regseq ->
+                                Cont regseq E realSeal ->
+                                  Cont realSeal H transport ->
+                                    Cont transport C replay ->
+                                      Cont replay P provenance ->
+                                        Cont provenance N nameRoute ->
+                                          UnaryHistory digitWindow ∧
+                                            UnaryHistory placeValue ∧
+                                              UnaryHistory dyadic ∧
+                                                UnaryHistory regseq ∧
+                                                  UnaryHistory realSeal ∧
+                                                    UnaryHistory transport ∧
+                                                      UnaryHistory replay ∧
+                                                        UnaryHistory provenance ∧
+                                                          UnaryHistory nameRoute := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro digitUnary windowUnary valueUnary dyadicUnary regseqUnary realUnary transportUnary
+    replayUnary provenanceUnary nameUnary digitWindowCont placeValueCont dyadicCont
+    regseqCont realSealCont transportCont replayCont provenanceCont nameCont
+  have digitWindowUnary : UnaryHistory digitWindow :=
+    unary_cont_closed digitUnary windowUnary digitWindowCont
+  have placeValueUnary : UnaryHistory placeValue :=
+    unary_cont_closed digitWindowUnary valueUnary placeValueCont
+  have dyadicClosed : UnaryHistory dyadic :=
+    unary_cont_closed placeValueUnary dyadicUnary dyadicCont
+  have regseqClosed : UnaryHistory regseq :=
+    unary_cont_closed dyadicClosed regseqUnary regseqCont
+  have realSealClosed : UnaryHistory realSeal :=
+    unary_cont_closed regseqClosed realUnary realSealCont
+  have transportClosed : UnaryHistory transport :=
+    unary_cont_closed realSealClosed transportUnary transportCont
+  have replayClosed : UnaryHistory replay :=
+    unary_cont_closed transportClosed replayUnary replayCont
+  have provenanceClosed : UnaryHistory provenance :=
+    unary_cont_closed replayClosed provenanceUnary provenanceCont
+  have nameClosed : UnaryHistory nameRoute :=
+    unary_cont_closed provenanceClosed nameUnary nameCont
+  exact
+    ⟨digitWindowUnary, placeValueUnary, dyadicClosed, regseqClosed, realSealClosed,
+      transportClosed, replayClosed, provenanceClosed, nameClosed⟩
+
+end BEDC.Derived.DecimalExpansionUp

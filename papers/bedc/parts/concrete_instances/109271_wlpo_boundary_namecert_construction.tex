@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\WLPOBoundaryUp$}
+\label{ch:concrete-instances-wlpo-boundary-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Troelstra--van Dalen on weak limited omniscience, the $\WLPOBoundaryUp$ packet records the Real and Completion boundary at which binary zerohood evidence may be inspected only through finite windows. It sits beside the Specker obstruction of \autoref{ch:concrete-instances-speckersequence-namecert}, the LLPO refusal surface of \autoref{ch:concrete-instances-llpo-boundary-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Phase Real and Completion consumers a named refusal route: inspected finite binary data may be cited, but no selected limit, quotient stream equality, trichotomy, countable choice, or $\RealUp$ completeness travels across the boundary.
+
+\begin{definition}[WLPO boundary carrier]
+\label{def:wlpo-boundary-carrier}
+A $\WLPOBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+W=(B,S,R,E,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the finite binary-window ledger. It records the inspected prefix of a binary stream or real-name zerohood test, not a global all-zero decision.
+\item $S$ is the $\StreamNameUp$ schedule row exposing the inspected window and its finite replay budget.
+\item $R$ is the $\RegSeqRatUp$ readback row reached only after the binary window and stream schedule have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row for Real-facing consumers.
+\item $Q$ is the refusal row recording that the accepted packet exports finite binary-window evidence but no WLPO decision rule.
+\item $H$ records componentwise $\hsame$ transport for the binary window, schedule, readback, Real seal, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion request through $B,S,R,E,Q$.
+\item $P$ records $\Pkg$ provenance over $\WLPOBoundaryUp$, $\SpeckerSequenceUp$, $\LLPOBoundaryUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WLPOBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected limit, quotient stream equality, trichotomy, countable choice, a global WLPO rule, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[WLPO boundary NameCert obligations]
+\label{thm:wlpo-boundary-namecert-obligations}
+For every accepted $\WLPOBoundaryUp$ carrier $W=(B,S,R,E,Q,H,C,P,N)$, the local $\NameCert_{\WLPOBoundaryUp}$ surface consists exactly of carrier admission, finite binary-window inspection, stream-window replay, regular-rational readback, Real-seal handoff, and refusal nonescape. These obligations are discharged through
+$$
+B\longmapsto S\longmapsto R\longmapsto E\longmapsto Q
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:wlpo-boundary-carrier}. The projection exposes a finite binary window, a stream schedule, a regular rational readback, a Real seal, a refusal row, and the structural transport, replay, provenance, and naming rows.
+
+The binary-window obligation reads only $B$ and the displayed replay budget in $S$. It can certify which finite prefix was inspected, but it cannot decide whether every future binary entry is zero.
+
+The Real-facing route then passes through $R$ and $E$. These rows expose regular-rational readback and the terminal Real seal only after the finite window has already been named.
+
+Finally the refusal row $Q$ is transported by $H$ and replayed by $C$ with the same provenance $P$ and local name $N$. Since the packet has no coordinate for a selected limit, quotient stream equality, trichotomy, countable choice, global WLPO, or ambient completeness, no NameCert obligation can export any of those principles.
+\end{proof}
+
+\begin{theorem}[WLPO boundary Real and Completion refusal]
+\label{thm:wlpo-boundary-real-completion-refusal}
+Every Phase Real or Completion consumer of an accepted $\WLPOBoundaryUp$ packet receives only the displayed finite binary-window ledger $B$, stream schedule $S$, regular-rational readback $R$, Real seal $E$, refusal row $Q$, componentwise transport $H$, continuation replay $C$, provenance $P$, and local NameCert row $N$. In particular, finite binary-window evidence cannot export a selected limit, quotient stream equality, trichotomy, countable choice, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a Real or Completion request. By \autoref{def:wlpo-boundary-carrier}, the request reaches the packet only through the finite route $B,S,R,E,Q,H,C,P,N$.
+
+Use \autoref{thm:wlpo-boundary-namecert-obligations}. It places binary-window inspection before stream replay, regular-rational readback, Real-seal handoff, and refusal nonescape, so a consumer cannot bypass the finite window and ask for a completed all-zero decision.
+
+The refusal row is the terminal boundary datum. Transport and replay preserve the same finite route, while provenance and local naming add no host-level coordinate. Therefore the accepted packet may witness an inspected prefix, but it cannot produce a selected limit, identify quotient streams, decide trichotomy, invoke countable choice, or complete $\RealUp$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\WLPOBoundaryUp$ Real or Completion read factors through finite binary-window evidence, stream replay, regular-rational readback, the $\RealUp$ seal, and the refusal row before the consumer may cite the boundary.}
+
+\independenceWitness{speckersequence, llpo-boundary, streamname, regseqrat, real: $\WLPOBoundaryUp$ is not bijective to any listed sibling because it simultaneously carries a finite binary-window ledger, stream schedule, regular-rational readback, Real seal, explicit WLPO refusal row, transport, replay, provenance, and local naming.}
+
+\closureat{WLPOBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\WLPOBoundaryUp}
+  \constructivestory{A $\WLPOBoundaryUp$ packet is generated from finite binary-window evidence, StreamName replay, RegSeqRat readback, a RealUp seal, a refusal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:wlpo-boundary-carrier}, \autoref{thm:wlpo-boundary-namecert-obligations}, and \autoref{thm:wlpo-boundary-real-completion-refusal} seed the finite WLPO boundary for Phase Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim WLPO as a global principle, selected limits, quotient stream equality, trichotomy, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite binary-window inspection, stream replay, regular-rational readback, Real-seal handoff, and refusal nonescape for BEDC.Derived.WLPOBoundaryUp.}
+\end{closurestatus}

@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\CandidateSetClosedRouteUp$}
+\label{ch:concrete-instances-candidate-set-closed-route-namecert}
+\origin{ai}
+
+The $\CandidateSetClosedRouteUp$ packet realizes the candidate-set branch of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It records the route by which closed typed MetaCIC terms inherit strong normalization from candidate-set membership while preserving the candidate evidence as an explicit row. The route consumes the positive closed-normal consistency surface of \autoref{ch:concrete-instances-closed-normal-consistency-namecert} only as an obstruction-facing boundary: before the obstruction row $O$ can refuse unconditional consistency, the closed-normal packet has already fixed the normal-fragment node that is not being promoted to full closed consistency. The packet is a normalization-audit surface, not a blanket theorem that every closed typed term is strongly normalizing without candidate-mediated evidence.
+
+The route consumes the sibling candidate-set normalization surface of \autoref{ch:concrete-instances-metacic-candidate-set-normalization-namecert} and the MetaCIC normalization frontier route of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert} before it exports closed typed term strong-normalization reads. $\CandidateSetClosedRouteUp$ isolates the closed-term endpoint, while $\CandidateSetNormalizationUp$ supplies the candidate-set evidence and filter route that make the endpoint readable.
+
+\begin{definition}[Candidate-set closed route carrier]
+\label{def:candidate-set-closed-route-carrier}
+A $\CandidateSetClosedRouteUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,M,S,A,B,NF,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed term row, including the empty-context typing and closedness data consumed by the MetaCIC closed-term projection.
+\item $M$ is the candidate-set membership row, storing the displayed membership witness rather than erasing it into an unconditional endpoint.
+\item $S$ is the candidate-set soundness row, exposing the route from membership to strong normalization.
+\item $A$ is the application and Pi adequacy row, recording the candidate-mediated handoff used by function and argument reads.
+\item $B$ is the beta-closure row, keeping the candidate-set evidence stable under the displayed one-step reduction route.
+\item $NF$ is the no-infinite-reduction projection row downstream of the same strong-normalization evidence.
+\item $O$ is the obstruction row naming closed-normal consistency, substitution-audit, confluence-audit, and subject-reduction boundaries that remain outside this packet.
+\item $H$ records componentwise $\hsame$ transport for closed typed terms, candidate-set membership, soundness, adequacy, beta closure, no-infinite-reduction projection, obstruction, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from candidate-set membership through closed typed term strong normalization and no-infinite-reduction reads.
+\item $P$ is the $\Pkg$ provenance over $\CandidateSetClosedRouteUp$, the MetaCIC normalization audit map, closed-normal consistency, substitution-audit map, confluence-audit map, subject-reduction obstruction, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CandidateSetClosedRouteUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,M,S,A,B,NF,O,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Candidate-set closed route NameCert obligations]
+\label{thm:candidate-set-closed-route-namecert-obligations}
+For every accepted $\CandidateSetClosedRouteUp$ carrier
+$$
+R=(T,M,S,A,B,NF,O,H,C,P,N),
+$$
+the local $\NameCert_{\CandidateSetClosedRouteUp}$ surface consists exactly of closed typed term admission through $T$, candidate-set membership through $M$, candidate-set soundness through $S$, application and Pi adequacy through $A$, beta-closure stability through $B$, no-infinite-reduction projection through $NF$, obstruction visibility through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:candidate-set-closed-route-carrier}. The closed typed term row, candidate-set membership row, soundness row, adequacy row, beta-closure row, no-infinite-reduction row, obstruction row, and structural rows are the only exposed coordinates.
+
+The membership row $M$ is not optional evidence. It is the datum consumed by $S$ to route the closed typed term in $T$ to strong normalization, and the adequacy row $A$ keeps application and Pi reads inside the same candidate-mediated interface.
+
+Rows $B$ and $NF$ preserve the endpoint discipline. Beta closure stays attached to the candidate set, while no-infinite-reduction is projected downstream of the same strong-normalization route.
+
+Finally $O,H,C,P,N$ record the boundary, transport, replay, source, and local name. Since no unconditional closed-term strong-normalization coordinate is present, the listed obligations exhaust the packet.
+\end{proof}
+
+\begin{theorem}[Candidate-set closed strong-normalization route]
+\label{thm:candidate-set-closed-route-sn}
+Every $\CandidateSetClosedRouteUp$ strong-normalization read factors through candidate-set membership evidence before it reaches the closed typed term endpoint. The route preserves the candidate-set soundness row, beta-closure row, application and Pi adequacy row, no-infinite-reduction projection, obstruction ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:candidate-set-closed-route-namecert-obligations}. The closed typed term row $T$ supplies the endpoint shape, but it does not itself supply strong normalization.
+
+The route obtains strong normalization only after projecting the membership row $M$ and soundness row $S$. Application and Pi reads remain governed by $A$, and beta steps remain governed by $B$.
+
+The no-infinite-reduction projection $NF$ is downstream of the same evidence. The obstruction and structural rows preserve the conditional reading, so the exported endpoint remains candidate-mediated rather than unconditional.
+\end{proof}
+
+\begin{theorem}[Candidate-set route TasteGate obligation]
+\label{thm:candidate-set-closed-route-tastegate-obligation}
+Future Lean support for $\CandidateSetClosedRouteUp$ must keep the candidate-set membership route nontrivial and field-faithful. A $\mathsf{Nontrivial}\ \CandidateSetClosedRouteUp$ instance must distinguish an accepted packet with displayed candidate-set membership from a closed typed term row without that membership evidence, and a $\mathsf{FieldFaithful}\ \CandidateSetClosedRouteUp$ instance must preserve the row order
+$$
+T \longmapsto M \longmapsto S \longmapsto A \longmapsto B \longmapsto NF \longmapsto O \longmapsto H,C,P,N
+$$
+before any TasteGate carrier-alignment theorem can serve as a checked realization.
+\end{theorem}
+\begin{proof}
+Nontriviality is forced by the carrier boundary: a closed typed term row without $M$ cannot export the same strong-normalization read as an accepted packet with candidate-set membership evidence.
+
+Field faithfulness is the row-order requirement. If a gate projection permutes or erases $M,S,A,B,NF,O,H,C,P,N$, the candidate-mediated route is replaced by a detached endpoint claim, which is not the packet named by \autoref{def:candidate-set-closed-route-carrier}.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CandidateSetClosedRouteUp$ strong-normalization read names the candidate-set-to-closed-SN route: closed typed term data first, candidate-set membership evidence second, candidate-set soundness third, application and Pi adequacy fourth, beta closure fifth, no-infinite-reduction projection sixth, and obstruction, transport, replay, provenance, and local naming rows thereafter.}
+
+\independenceWitness{metacic-normalization-audit-map, closed-normal-consistency, substitution-audit-map, confluence-audit-map, subject-reduction-obstruction: $\CandidateSetClosedRouteUp$ is not bijective to any listed map because it isolates the candidate-set membership route from closed typed terms to strong normalization without erasing the membership evidence or closing the subject-reduction, substitution, and confluence boundaries.}
+
+\closureat{CandidateSetClosedRouteUp}{seedStr}
+
+\begin{closurestatus}{\CandidateSetClosedRouteUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:candidate-set-closed-route-carrier}, \autoref{thm:candidate-set-closed-route-namecert-obligations}, \autoref{thm:candidate-set-closed-route-sn}, and \autoref{thm:candidate-set-closed-route-tastegate-obligation} seed the candidate-set-mediated closed typed term strong-normalization route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unconditional strong normalization for every closed typed MetaCIC term, subject reduction, arbitrary substitution preservation, global confluence, closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-set membership visibility, candidate-set soundness, application and Pi adequacy routing, beta-closure stability, no-infinite-reduction projection, obstruction visibility, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.CandidateSetClosedRouteUp.}
+  \constructivestory{A $\CandidateSetClosedRouteUp$ packet is generated from closed typed term data, candidate-set membership evidence, candidate-set soundness, application and Pi adequacy rows, beta closure, no-infinite-reduction projection, obstruction rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

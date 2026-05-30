@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\SpectralRadiusFormulaUp$}
+\label{ch:concrete-instances-spectral-radius-formula-namecert}
+\origin{human}
+
+Following Gelfand's spectral-radius formula for Banach algebras, the $\SpectralRadiusFormulaUp$ packet records the finite norm-power route by which displayed operator-algebra data can be read as a spectral-radius comparison without importing a host spectrum or an ambient limit theorem. It sits after the spectral-radius boundary of \autoref{ch:concrete-instances-spectral-radius-namecert}, the bounded-operator carrier of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the norm carrier of \autoref{ch:concrete-instances-norm-namecert}, the Banach source of \autoref{ch:concrete-instances-banach-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Spectral-radius formula carrier]
+\label{def:spectral-radius-formula-carrier}
+A $\SpectralRadiusFormulaUp$ carrier is a finite $\BHist$ packet
+$$
+F=(A,T,N,P,W,D,R,E,H,C,Q,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\BanachUp$ or Banach-algebra row carrying the complete normed algebra surface from which powers are read.
+\item $T$ is the $\BoundedLinearOperatorUp$ row for the operator or algebra element whose powers are inspected.
+\item $N$ is the $\NormUp$ norm-power row, recording each displayed norm endpoint for $T^n$ in the requested window.
+\item $P$ is the power-iteration ledger, exposing only the finite multiplication and composition rows needed to form the displayed powers.
+\item $W$ is the finite window of requested exponents.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used when the comparison is requested at finite rational precision.
+\item $R$ is the $\RegSeqRatUp$ readback row assembled from the displayed norm-power window and dyadic tolerance.
+\item $E$ is the terminal $\RealUp$ spectral-radius seal reached only after $W,D,R$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for $A,T,N,P,W,D,R,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\BanachUp,\BoundedLinearOperatorUp,\NormUp,\DyadicRatCoreUp,\RegSeqRatUp
+\longmapsto E
+\longmapsto \SpectralRadiusFormulaUp .
+$$
+\item $Q$ is the $\Pkg$ provenance over $\SpectralRadiusFormulaUp$, $\SpectralRadiusUp$, $\BoundedLinearOperatorUp$, $\NormUp$, $\BanachUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\SpectralRadiusFormulaUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these rows. Its classifier compares accepted packets only through $A,T,N,P,W,D,R,E,H,C,Q,L$ and has no coordinate for a host spectrum equality, quotient completion, selected limits, Classical choice, an ambient spectral theorem, or a completed all-powers limit.
+\end{definition}
+\leanchecked{BEDC.Derived.SpectralRadiusFormulaUp.SpectralRadiusFormulaTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Spectral-radius formula NameCert obligations]
+\label{thm:spectral-radius-formula-namecert-obligations}
+For every accepted $\SpectralRadiusFormulaUp$ carrier
+$$
+F=(A,T,N,P,W,D,R,E,H,C,Q,L),
+$$
+the local $\NameCert_{\SpectralRadiusFormulaUp}$ surface consists exactly of carrier admission, norm-power window stability, spectral-radius comparison against the displayed $\SpectralRadiusUp$ row, $\RegSeqRatUp$ and $\RealUp$ seal handoff, componentwise transport, continuation replay, provenance, and local naming. Any downstream operator-algebra consumer reading the formula must pass through the finite window $W$, the norm-power row $N$, the power ledger $P$, the dyadic tolerance $D$, and the readback rows $R,E$ before a spectral-radius comparison is public.
+
+The certificate exports no host spectrum equality, no quotient completion, no selected limit over all powers, no Classical-choice selector, and no ambient spectral theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectral-radius-formula-carrier}. The rows $A,T,N,P,W,D,R,E,H,C,Q,L$ are the whole accepted surface, so every formula read begins with the displayed Banach source, bounded-operator row, norm row, and finite power ledger.
+
+Norm-power window stability is finite. The exponent window $W$ names the inspected powers, $P$ records how those powers are assembled, and $N$ records only their displayed norm endpoints. Componentwise transport through $H$ preserves those rows before replay through $C$ exposes any real-facing readback.
+
+The spectral-radius comparison is then routed through the sibling $\SpectralRadiusUp$ boundary. The comparison consumes the same finite norm-power data and the same dyadic tolerance $D$; it does not replace the packet by a completed spectrum or an all-powers limit.
+
+Finally $R$ and $E$ perform the regular-rational and real-name handoff. Since no carrier coordinate stores host spectrum equality, quotient completion, selected limits, Classical choice, or an ambient spectral theorem, the local $\NameCert_{\SpectralRadiusFormulaUp}$ names exactly the finite Gelfand formula route stated above.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SpectralRadiusFormulaUp$ consumer exposes the Banach source row, bounded-operator row, norm-power row, power-iteration ledger, finite exponent window, dyadic tolerance, regular-rational readback, RealUp seal, componentwise transport, replay, provenance, and local naming before reading a spectral-radius formula comparison.}
+
+\independenceWitness{spectralradius, boundedlinearoperator, norm, banach, real: SpectralRadiusUp supplies the radius boundary without the finite norm-power formula ledger; BoundedLinearOperatorUp supplies action and norm-bound data without the Gelfand formula readback; NormUp supplies norm endpoints without power-window replay; BanachUp supplies the complete normed source without the formula carrier; RealUp seals readbacks without naming the operator-power route.}
+
+\closureat{SpectralRadiusFormulaUp}{seedStr}
+
+\begin{closurestatus}{\SpectralRadiusFormulaUp}
+  \constructivestory{A $\SpectralRadiusFormulaUp$ packet is generated from a Banach source row, a bounded-operator row, a norm-power row, a power-iteration ledger, a finite exponent window, a DyadicRatCore tolerance row, a RegSeqRat readback row, a RealUp spectral-radius seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:spectral-radius-formula-carrier}, \autoref{thm:spectral-radius-formula-namecert-obligations}, the falsifiable prediction, and the independence witness seed the finite Gelfand spectral-radius formula route over SpectralRadiusUp, BoundedLinearOperatorUp, NormUp, BanachUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host spectrum equality, quotient completion, selected limits, Classical choice, an ambient spectral theorem, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, norm-power window stability, spectral-radius comparison, regular-rational and Real seal handoff, classifier transport, and consumer non-escape for BEDC.Derived.SpectralRadiusFormulaUp.}
+\end{closurestatus}

@@ -164,3 +164,42 @@ coordinates. The excluded quotient, host-real, selected-limit, completion,
 aggregate-status, bridge, and completeness objects therefore cannot repair the
 failed read; the obstruction is localized on the stated finite rows.
 \end{proof}
+
+\begin{theorem}[RegSeqRat scope unblock]
+\label{thm:regseqrat-scope-unblock}
+The $\RegSeqRatUp$ face of the current L10 route is unblocked exactly by the
+$\StreamNameUp$ schedule row, the $\DyadicRatCoreUp$ endpoint, radius,
+distance, and tail-budget rows, the $\RegSeqRatUp$ classifier and readback
+rows, the terminal $\RealUp$ seal row, and the displayed support
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+When those rows are present, the RegSeqRat consumer-facing route is public;
+when any one is missing, no quotient stream, host real equality, selected
+limit, metric-completion object, aggregate formalstatus row, bridge row, or
+$\RealUp$ completeness datum repairs the route.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regseqrat-streamname-real-scope-triad}. It places
+every public RealUp-facing read behind the StreamName schedule, the dyadic
+endpoint, radius, distance, and tail-budget rows, the RegSeqRat classifier
+surface, and the terminal RealUp seal.
+
+Next apply \autoref{thm:regseqrat-dyadic-tail-budget-totality}. This makes the
+completion-facing comparison total over the displayed dyadic budget and
+support rows, so the RegSeqRat face has no earlier source outside that finite
+ledger.
+
+For sufficiency, use \autoref{thm:regseqrat-consumer-seal-unblock-surface}.
+The theorem packages the scope triad and the dyadic budget totality as the
+consumer-facing unblock surface, including classifier, readback, seal,
+transport, continuation, package, and local naming rows.
+
+For necessity, apply \autoref{thm:regseqrat-consumer-seal-defect-localization}.
+If the route does not read through the unblock surface, the defect is visible
+on one of the displayed schedule, dyadic, classifier, readback, seal, or
+support rows. The same theorem and \autoref{thm:real-l10-face-axis-independence}
+exclude quotient streams, host equality, selected limits, metric completion,
+aggregate status, bridge rows, and ambient $\RealUp$ completeness as repair
+coordinates.
+\end{proof}

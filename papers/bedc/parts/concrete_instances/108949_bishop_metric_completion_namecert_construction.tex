@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\BishopMetricCompletionUp$}
+\label{ch:concrete-instances-bishop-metric-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopMetricCompletionUp$ packet records constructive metric completion by finite regular Cauchy data rather than by quotient completion objects. It is a sibling of \autoref{ch:concrete-instances-metriccompletion-namecert}, \autoref{ch:concrete-instances-located-metric-completion-namecert}, and \autoref{ch:concrete-instances-separatedcompletion-namecert}, and it routes its numerical names through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed metric source, dense embedding, regular Cauchy windows, separated comparison, transport, replay, provenance, and local NameCert rows.
+
+\begin{definition}[Bishop metric completion carrier]
+\label{def:bishop-metric-completion-carrier}
+A $\BishopMetricCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,E,Q,W,S,R,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the constructive metric source row, naming the source points, distance-read windows, and metric comparison ledger used by the completion request.
+\item $E$ is the dense embedding row from source names into the completion-facing name surface.
+\item $Q$ is the regular Cauchy family row, displayed as finitely inspectable $\RegSeqRatUp$ readbacks rather than as a quotient class.
+\item $W$ is the finite-window schedule, reading the required prefixes through $\StreamNameUp$.
+\item $S$ is the separated comparison row, available only after two regular Cauchy windows and their tolerance rows have been displayed.
+\item $R$ is the $\RealUp$ seal row for distances and terminal comparison readbacks produced by the regular Cauchy family.
+\item $T$ is the transport row from source-window reads to completion-window reads.
+\item $H$ records componentwise $\hsame$ transport for the metric source, dense embedding, regular family, windows, separated comparison, Real seal, transport, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for source inspection, dense embedding, regular-window readback, separated comparison, Real sealing, and transport.
+\item $P$ is the $\Pkg$ provenance over $\BishopMetricCompletionUp$, $\MetricCompletionUp$, $\LocatedMetricCompletionUp$, $\SeparatedCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopMetricCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,E,Q,W,S,R,T,H,C,P,N$. It has no coordinate for quotient completions, selected representatives, countable-choice schedules, host equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop metric completion NameCert obligations]
+\label{thm:bishop-metric-completion-namecert-obligations}
+For an accepted $\BishopMetricCompletionUp$ packet $B=(M,E,Q,W,S,R,T,H,C,P,N)$, the local NameCert surface consists of carrier admission, dense-embedding exposure, regular Cauchy family admission, finite-window inspection, separated comparison, Real-seal handoff, source-to-completion transport, componentwise $\hsame$ stability, displayed $\Cont$ replay, provenance, and ledger non-escape. Every obligation is discharged through the displayed route
+$$
+M\longmapsto E\longmapsto Q\longmapsto W\longmapsto S\longmapsto R\longmapsto T
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-metric-completion-carrier}. The source metric row $M$ and dense embedding row $E$ must be visible before any regular Cauchy family $Q$ is inspected.
+
+The finite-window row $W$ reads the regular family through $\StreamNameUp$ and $\RegSeqRatUp$. The separated comparison row $S$ can then compare only displayed regular windows at the requested tolerance, and the $\RealUp$ seal row $R$ records the resulting distance or comparison readback.
+
+The transport row $T$ keeps the source and completion windows on the same route. Componentwise transport through $H$ and replay through $C$ preserve those rows, while $P$ and $N$ source and name the packet.
+
+Since quotient completions, selected representatives, countable-choice schedules, host equality, and ambient completeness are absent from the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bishop metric completion finite-window handoff]
+\label{thm:bishop-metric-completion-finite-window-handoff}
+Every completion-facing consumer of an accepted $\BishopMetricCompletionUp$ packet factors through the source metric row, dense embedding row, regular Cauchy family row, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, separated comparison row, $\RealUp$ seal, transport, replay, provenance, and local NameCert rows displayed by $B$. The handoff exports a finite constructive completion surface, not a quotient completion, selected representative, countable-choice schedule, host equality principle, or ambient Real-completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:bishop-metric-completion-namecert-obligations}. It places every accepted read on the route $M,E,Q,W,S,R,T,H,C,P,N$.
+
+Use the sibling completion chapters only through their visible rows. The metric-completion, located-metric-completion, and separated-completion surfaces supply completion vocabulary, located source comparison, and separated zero-distance comparison, but the Bishop packet receives them through $M,E,Q,W,S,R,T$ and the structural rows.
+
+The finite windows $W$ and readbacks $Q$ are the only access points to the regular Cauchy family. Therefore a downstream completion consumer can inspect a finite prefix and the corresponding separated comparison, but it cannot select a representative or collapse names by host equality.
+
+The $\RealUp$ row $R$, transport row $T$, replay row $C$, provenance row $P$, and local name $N$ close the handoff. No excluded object is a carrier coordinate, so the finite-window route is the whole exported completion surface.
+\end{proof}
+
+\begin{closurestatus}{\BishopMetricCompletionUp}
+  \constructivestory{A $\BishopMetricCompletionUp$ packet is generated from a constructive metric source row, dense embedding row, regular Cauchy family row, finite StreamName windows, RegSeqRat readbacks, separated comparison row, RealUp seal, source-to-completion transport, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-metric-completion-carrier}, \autoref{thm:bishop-metric-completion-namecert-obligations}, and \autoref{thm:bishop-metric-completion-finite-window-handoff} seed the constructive metric-completion carrier, NameCert obligation surface, and finite-window handoff over MetricCompletion, LocatedMetricCompletion, SeparatedCompletion, StreamName, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected representatives, countable choice, host equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, dense-embedding exposure, regular Cauchy window admission, separated comparison, Real sealing, transport, replay, provenance, and local NameCert non-escape for $\BishopMetricCompletionUp$.}
+\end{closurestatus}

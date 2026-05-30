@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RationalBracketingUp$}
+\label{ch:concrete-instances-rational-bracketing-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RationalBracketingUp$ packet records the finite rational lower-and-upper bracket surface used before a real-name consumer reads an approximation. It sits after the rational density surface of \autoref{ch:concrete-instances-rational-density-real-namecert}, the Archimedean bound surface of \autoref{ch:concrete-instances-real-archimedean-property-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed bracket endpoints, tolerance rows, finite observation windows, nesting ledger, and downstream regular-Cauchy handoff; it is not a trichotomy principle, quotient real equality theorem, limit selector, or ambient completeness assertion.
+
+\begin{definition}[Rational bracketing carrier]
+\label{def:rational-bracketing-carrier}
+A $\RationalBracketingUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,U,D,S,R,E,N,H,C,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the rational lower-endpoint row supplied through the $\RationalDensityRealUp$ surface.
+\item $U$ is the rational upper-endpoint row supplied through the same rational-density surface.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger comparing the displayed bracket width with the requested precision.
+\item $S$ is the $\StreamNameUp$ finite-window row naming the observations used to inspect $L$, $U$, and $D$.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row exported by the bracket window.
+\item $E$ is the $\RealUp$ seal row reached only after $L,U,D,S,R$ have been displayed.
+\item $N$ is the nesting ledger recording that later bracket windows refine earlier ones by moving the lower row upward, moving the upper row downward, or preserving an endpoint already inside the requested tolerance.
+\item $H$ records componentwise $\hsame$ transport for lower endpoint, upper endpoint, dyadic tolerance, stream window, regular readback, real seal, nesting, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bracketing request through $L,U,D,S,R,E,N,H,P,A$.
+\item $P$ is the $\Pkg$ provenance over $\RationalBracketingUp$, $\RationalDensityRealUp$, $\RealArchimedeanPropertyUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $A$ is the local $\NameCert_{\RationalBracketingUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $L,U,D,S,R,E,N,H,C,P,A$. It has no coordinate for trichotomy, quotient real equality, selected limits, hidden real representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Rational bracketing NameCert obligations]
+\label{thm:rational-bracketing-namecert-obligations}
+For every accepted $\RationalBracketingUp$ carrier $B=(L,U,D,S,R,E,N,H,C,P,A)$, the local $\NameCert_{\RationalBracketingUp}$ surface consists exactly of lower-endpoint exposure through $L$, upper-endpoint exposure through $U$, dyadic width and tolerance exactness through $D$, finite-window exposure through $S$, regular rational readback through $R$, terminal real-name sealing through $E$, nesting-ledger visibility through $N$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $A$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rational-bracketing-carrier}. Its visible approximation data are exactly the endpoint rows $L,U$, the tolerance row $D$, the finite-window row $S$, the readback row $R$, and the real seal row $E$.
+
+The endpoint and tolerance rows are separate. The rational-density surface supplies $L$ and $U$, while the Archimedean and dyadic rows supply the bounded comparison budget used to certify that the bracket width is below the requested tolerance.
+
+The nesting ledger is downstream of those rows. It records refinement between displayed windows, but it does not add a new real representative, a trichotomy split, or a selected limiting endpoint.
+
+Finally $H,C,P,A$ transport, replay, source, and name the same finite surface. Since the carrier has no other coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Rational bracketing window nesting]
+\label{thm:rational-bracketing-window-nesting}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RationalBracketingUp$ packet factors through a finite nested-bracket route
+$$
+\RationalDensityRealUp \longmapsto \RealArchimedeanPropertyUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+For any later accepted window, the consumer must read the same lower endpoint, upper endpoint, dyadic tolerance, stream observation, regular readback, real seal, nesting, transport, replay, provenance, and local naming rows before using the narrowed bracket. The route exports nested rational brackets, not trichotomy, quotient real equality, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $B=(L,U,D,S,R,E,N,H,C,P,A)$. A bracketing request first reads the rational lower and upper endpoint rows $L,U$ together with the Archimedean bound information named in the provenance row.
+
+Next the request reads $D$ and $S$. The dyadic ledger specifies the precision budget, while the stream row records the finite observations used to inspect the current bracket.
+
+The regular rational readback $R$ and real seal $E$ are available only after those rows have been displayed. A later window can be consumed only through the nesting ledger $N$, which compares the later endpoints with the earlier displayed endpoints under the same dyadic budget discipline.
+
+Thus every downstream read remains inside the finite route named in the theorem. No step introduces trichotomy, quotient real equality, a selected limiting endpoint, countable choice, hidden real representatives, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RationalBracketingUp$ consumer that reaches a $\RegSeqRatUp$ readback or $\RealUp$ seal without first reading rational lower and upper endpoint rows, a $\DyadicRatCoreUp$ tolerance ledger, a $\StreamNameUp$ finite window, nesting evidence, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence is outside the packet.}
+
+\independenceWitness{rational-density-real, real-archimedean-property, dyadicratcore, streamname, regseqrat, real: $\RationalBracketingUp$ is not bijective to any listed sibling because it jointly carries rational lower and upper endpoint rows, dyadic width budgets, finite observation windows, regular readback, terminal Real sealing, nesting, transport, replay, provenance, and local naming.}
+
+\closureat{RationalBracketingUp}{seedStr}
+
+\begin{closurestatus}{\RationalBracketingUp}
+  \constructivestory{A $\RationalBracketingUp$ packet is generated from rational lower and upper endpoint rows, an Archimedean boundedness context, a DyadicRatCore tolerance ledger, StreamName finite windows, a RegSeqRat readback row, a RealUp seal, a nesting ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-bracketing-carrier}, \autoref{thm:rational-bracketing-namecert-obligations}, and \autoref{thm:rational-bracketing-window-nesting} seed the finite rational-bracket route from density and Archimedean rows to regular rational readback and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, trichotomy, quotient real equality, selected limits, hidden real representatives, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked lower and upper endpoint exposure, dyadic width exactness, finite-window exposure, nesting stability, regular readback, Real seal confinement, transport, replay, provenance, and local naming for BEDC.Derived.RationalBracketingUp.}
+\end{closurestatus}

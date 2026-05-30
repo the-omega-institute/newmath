@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\FourierTransformUp$}
+\label{ch:concrete-instances-fourier-transform-namecert}
+\origin{human}
+
+Following Fourier and Stein--Shakarchi on the transform side of harmonic analysis, the $\FourierTransformUp$ packet records the finite transform-specific read that consumes the finite-observation $\FourierUp$ surface of \autoref{ch:concrete-instances-fourier-namecert}, the integral witness rows of \autoref{ch:concrete-instances-integral-namecert}, the inner-product probe rows of \autoref{ch:concrete-instances-innerproduct-namecert}, the real seal rows of \autoref{ch:concrete-instances-real-namecert}, and the product-tail handoff of \autoref{ch:concrete-instances-cauchyconvolution-namecert}. It names transform-sample windows, kernel probes, integral witnesses, real seals, convolution handoff data, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming as finite BEDC rows. The chapter does not assert Plancherel, inversion, convergence closure, quotient equality of functions, or a selected ambient transform.
+
+\begin{definition}[FourierTransform carrier]\label{def:fourier-transform-carrier}
+A $\FourierTransformUp$ carrier is a finite $\BHist$ packet
+$$
+T=(W,K,I,R,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the transform-sample window row, listing the finite source windows, frequency addresses, and retained sample requests read from the $\FourierUp$ finite-observation surface.
+\item $K$ is the kernel/probe row, recording the displayed oscillatory kernel tags, inner-product probes, and source-domain probes used by the retained transform samples.
+\item $I$ is the integral-witness row, requiring each retained sample to name its $\IntegralUp$ witness and the finite approximation ledger used by that witness.
+\item $R$ is the real-seal row, reached only after the transform-sample window, kernel/probe row, and integral-witness row have been replayed.
+\item $V$ is the convolution handoff row, reading $\CauchyConvolutionUp$ only through the finite product-tail packet needed by convolution-facing transform consumers.
+\item $H$ records componentwise $\hsame$ transport for transform windows, kernel/probe rows, integral witnesses, real seals, convolution handoff rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a finite transform request through $W,K,I,R,V$.
+\item $P$ is the $\Pkg$ provenance over $\FourierTransformUp$, $\FourierUp$, $\IntegralUp$, $\InnerProductUp$, $\RealUp$, $\CauchyConvolutionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FourierTransformUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the component rows $W,K,I,R,V,H,C,P,N$. It has no coordinate for equality of host transforms, inversion, Plancherel, convergence closure, selected limiting integrals, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[FourierTransform NameCert obligations]\label{thm:fourier-transform-namecert-obligations}
+For every accepted $\FourierTransformUp$ carrier $T=(W,K,I,R,V,H,C,P,N)$, the local $\NameCert_{\FourierTransformUp}$ surface consists exactly of transform-sample window admission through $W$, kernel and probe admission through $K$, integral-witness readback through $I$, terminal $\RealUp$ seal admission through $R$, convolution handoff through $V$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fourier-transform-carrier}. Its public rows are exactly $W,K,I,R,V,H,C,P,N$, so every local naming duty begins with a finite transform-sample window rather than with a host transform.
+
+The analytic source rows are then read in order. The row $K$ exposes the kernel/probe data and inner-product probes, while $I$ attaches each retained sample to an integral witness. The real seal row $R$ is reached only after those rows have been displayed.
+
+The convolution-facing part is confined to $V$. It imports only the finite product-tail handoff already named by $\CauchyConvolutionUp$, and it does not add an inversion theorem, Plancherel identity, convergence closure, or quotient equality of functions.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no carrier coordinate stores a selected ambient transform or a stronger analytic theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[FourierTransform convolution handoff]\label{thm:fourier-transform-convolution-handoff}
+Every convolution-facing read from an accepted $\FourierTransformUp$ carrier factors through
+$$
+W,K,I \longmapsto R \longmapsto V \longmapsto H,C,P,N .
+$$
+The read may consume $\FourierUp$ finite observations, $\IntegralUp$ witnesses, $\InnerProductUp$ probes, $\RealUp$ seals, and the $\CauchyConvolutionUp$ product-tail handoff, but it exports only the finite transform-sample route displayed by the carrier.
+\end{theorem}
+\begin{proof}
+Start with the transform sample. The window row $W$ fixes the retained source and frequency addresses, and the kernel/probe row $K$ records the oscillatory kernel tags and inner-product probes used at those addresses.
+
+Attach the integral and real rows next. The integral-witness row $I$ supplies the finite approximation ledger for the retained sample, and the real-seal row $R$ records the terminal real read obtained from that ledger.
+
+Only after this route is displayed can the convolution row $V$ be consumed. Its source is the finite product-tail handoff of $\CauchyConvolutionUp$, so convolution-facing consumers receive a named handoff row rather than a host multiplication theorem or an equality of transforms.
+
+The structural rows $H,C,P,N$ preserve the same factorization under componentwise transport, replay, provenance, and local naming. Therefore the handoff exports the displayed transform-sample route only, with Plancherel, inversion, convergence closure, quotient function equality, and selected ambient transforms outside the packet.
+\end{proof}
+
+\falsifiablePrediction{Deleting the transform-sample window row $W$ prevents any accepted $\FourierTransformUp$ sample read, even when kernel/probe, integral-witness, real-seal, convolution handoff, transport, replay, provenance, and local naming rows remain displayed.}
+
+\independenceWitness{Fourier finite observations, integral witnesses, inner-product probes, real seals, and Cauchy convolution handoffs are not interchangeable with the $\FourierTransformUp$ packet because only $\FourierTransformUp$ binds transform-sample windows, kernel/probe rows, integral witnesses, real seals, convolution handoff, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ into one accepted transform route.}
+
+\closureat{FourierTransformUp}{seedStr}
+
+\begin{closurestatus}{\FourierTransformUp}
+  \constructivestory{A $\FourierTransformUp$ packet is generated from transform-sample windows, kernel/probe rows, integral witnesses, real seals, a convolution handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fourier-transform-carrier}, \autoref{thm:fourier-transform-namecert-obligations}, and \autoref{thm:fourier-transform-convolution-handoff} seed the finite transform-sample route over Fourier finite observations, integral witnesses, inner-product probes, real seals, and convolution handoff data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Plancherel, inversion, convergence closure, quotient function equality, selected ambient transforms, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, transform-window admission, kernel/probe exactness, integral-witness readback, real-seal handoff, convolution handoff, transport, replay, provenance, and local naming for BEDC.Derived.FourierTransformUp.}
+\end{closurestatus}

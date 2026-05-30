@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\SpreadSpaceUp$}
+\label{ch:concrete-instances-spreadspace-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen on spreads and choice sequences, the $\SpreadSpaceUp$ packet records a finite-prefix space of admissible choice-sequence names rather than an ambient set of completed infinite branches. It sits between the Baire carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the finite stream-name consumer of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. Its spread-side input is supplied by the Brouwer spread packet of \autoref{ch:concrete-instances-brouwer-spread-namecert}, the local law packet of \autoref{ch:concrete-instances-spread-law-namecert}, and the choice-sequence packet of \autoref{ch:concrete-instances-choice-sequence-namecert}.
+
+\begin{definition}[SpreadSpace carrier]
+\label{def:spreadspace-carrier}
+A $\SpreadSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(B,L,Q,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BaireSpaceUp$ finite-prefix row, recording the finite natural-number windows on which the packet may be inspected.
+\item $L$ is the $\SpreadLawUp$ admission row, deciding whether each displayed prefix is permitted by the spread law.
+\item $Q$ is the $\ChoiceSequenceUp$ branch-prefix row, exposing only those choice-sequence observations whose prefixes pass $L$.
+\item $W$ is the $\StreamNameUp$ finite-window row opened by downstream name consumers.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the accepted branch prefixes and stream windows.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $B,L,Q,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the prefix, law, branch, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a spread-space query through $B,L,Q,W,R,E$.
+\item $P$ is the $\Pkg$ provenance over $\SpreadSpaceUp$, $\BrouwerSpreadUp$, $\SpreadLawUp$, $\ChoiceSequenceUp$, $\BaireSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SpreadSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,L,Q,W,R,E,H,C,P,N$. It has no coordinate for a completed infinite branch, host equality of functions, countable choice, selected real values, bar induction outside the displayed prefix bar, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[SpreadSpace prefix-bar stability]
+\label{thm:spreadspace-prefix-bar-stability}
+For every accepted $\SpreadSpaceUp$ carrier
+$$
+S=(B,L,Q,W,R,E,H,C,P,N),
+$$
+any downstream read that reaches a $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ row must first pass through the same finite $\BaireSpaceUp$ prefix row $B$, the same $\SpreadLawUp$ admission row $L$, and the same $\ChoiceSequenceUp$ branch-prefix row $Q$. If two accepted reads are componentwise related by the displayed $\hsame$ row $H$ and replayed by $\Cont$ through $C$, then their prefix-bar boundary is transported without adding an infinite branch, host function equality, countable choice, selected real value, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:spreadspace-carrier}. The only entrance to a downstream name read is the displayed prefix route $B,L,Q$.
+
+The stream and rational rows are downstream of that entrance. A $\StreamNameUp$ window $W$ and a $\RegSeqRatUp$ readback $R$ are available only after the finite Baire prefix has been admitted by the spread law and attached to a choice-sequence prefix.
+
+Transport preserves that order. The row $H$ relates the listed coordinates componentwise, while $C$ replays the same route through the finite packet. Since the carrier contains no infinite branch, host function equality, choice schedule, selected real value, or ambient completeness coordinate, the prefix-bar boundary is stable under the displayed transport and replay rows.
+\end{proof}
+
+\begin{theorem}[SpreadSpace NameCert obligations]
+\label{thm:spreadspace-namecert-obligations}
+For every accepted $\SpreadSpaceUp$ carrier $S=(B,L,Q,W,R,E,H,C,P,N)$, the local $\NameCert_{\SpreadSpaceUp}$ surface consists exactly of the finite obligations for carrier admission, spread-law prefix acceptance, choice-sequence prefix compatibility, StreamName window replay, RegSeqRat readback, Real seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. These obligations are rows in $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$; they do not assert completed branch existence, host equality of functions, countable choice, selected representatives, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the tuple displayed in \autoref{def:spreadspace-carrier}. Each coordinate has a single obligation role: prefix carrier, law admission, branch-prefix compatibility, finite stream window, regular rational readback, terminal real seal, transport, replay, provenance, or local naming.
+
+The first three rows determine the spread-space boundary. The rows $W,R,E$ then expose the L10-facing naming route only after that boundary has been displayed.
+
+The structural rows $H,C,P,N$ do not add mathematical objects beyond the listed surface. They transport, replay, source, and name the same finite route, so every local certificate obligation is exhausted by $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{proof}
+
+\begin{theorem}[SpreadSpace StreamName--Real handoff]
+\label{thm:spreadspace-streamname-real-handoff}
+Every $\RealUp$-facing consumer of an accepted $\SpreadSpaceUp$ carrier receives the finite route
+$$
+\SpreadSpaceUp \longmapsto \BrouwerSpreadUp \longmapsto \SpreadLawUp \longmapsto \ChoiceSequenceUp \longmapsto \BaireSpaceUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+together with the displayed $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the packet. The handoff exports no completed spread branch, no host function equality, no countable-choice schedule, no selected real representative, no quotient stream equality, and no ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from prefix-bar stability, \autoref{thm:spreadspace-prefix-bar-stability}. It forces every downstream name read through the finite prefix route $B,L,Q$ before a StreamName window can be opened.
+
+Apply the obligation inventory of \autoref{thm:spreadspace-namecert-obligations}. The rows $W,R,E$ are the only StreamName, RegSeqRat, and Real-facing coordinates of the local packet, and the rows $H,C,P,N$ only preserve and name that route.
+
+The displayed chain is therefore the whole handoff available to a Real-facing consumer. None of the excluded objects is a coordinate of the carrier, so the handoff remains a finite NameCert route rather than a completed branch or ambient Real-completeness assertion.
+\end{proof}
+
+\closureat{SpreadSpaceUp}{seedStr}
+
+\begin{closurestatus}{\SpreadSpaceUp}
+  \constructivestory{A $\SpreadSpaceUp$ packet is generated from a BaireSpace finite-prefix row, a SpreadLaw admission row, a ChoiceSequence branch-prefix row, StreamName windows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:spreadspace-carrier}, \autoref{thm:spreadspace-prefix-bar-stability}, \autoref{thm:spreadspace-namecert-obligations}, and \autoref{thm:spreadspace-streamname-real-handoff} seed the finite spread-space route from Brouwer spread prefixes to StreamName and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim completed infinite branch existence, host equality of functions, countable choice, selected real representatives, quotient stream equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, spread-law prefix acceptance, choice-sequence compatibility, StreamName window replay, RegSeqRat readback, Real seal handoff, transport replay, provenance, and non-escape for BEDC.Derived.SpreadSpaceUp.}
+\end{closurestatus}

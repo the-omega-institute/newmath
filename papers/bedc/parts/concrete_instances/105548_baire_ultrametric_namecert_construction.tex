@@ -4,6 +4,8 @@
 
 Following Brouwer's spread semantics and the prefix-space practice of Troelstra--van Dalen and Bishop--Bridges, the $\BaireUltrametricUp$ packet names the common-prefix ultrametric surface on Baire streams. It sits between the finite prefix carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the prefix metric route of \autoref{ch:concrete-instances-bairemetric-namecert}, the general ultrametric discipline of \autoref{ch:concrete-instances-ultrametricspace-namecert}, the finite-window readback of \autoref{ch:concrete-instances-streamname-namecert}, and the completion-facing packet of \autoref{ch:concrete-instances-complete-baire-space-namecert}. The chapter names the finite common-prefix distance interface; it is not host stream equality, quotient equality of streams, countable choice, a selected branch principle, or ambient $\RealUp$ completeness.
 
+The finite prefix route consumes the $\StreamNameUp$ window discipline of \autoref{ch:concrete-instances-streamname-namecert} and the strong-triangle comparison surface of \autoref{ch:concrete-instances-ultrametricspace-namecert}; the present packet only binds those sibling rows to the Baire prefix classifier.
+
 \begin{definition}[Baire ultrametric carrier]
 \label{def:baire-ultrametric-carrier}
 A $\BaireUltrametricUp$ carrier is a finite $\BHist$ packet
@@ -53,6 +55,7 @@ The listed rows contain no selector for an infinite branch, no quotient equality
 \label{thm:baire-ultrametric-prefix-stability}
 Let $U=(B,M,V,S,H,C,P,N)$ and $U'=(B',M',V',S',H',C',P',N')$ be accepted $\BaireUltrametricUp$ carriers. If the displayed $\BaireSpaceUp$ prefix rows, $\BaireMetricUp$ common-prefix distance rows, $\UltrametricSpaceUp$ comparison rows, and $\StreamNameUp$ finite-window rows transport componentwise under $\hsame$ and replay through displayed $\Cont$ routes, then $U$ and $U'$ determine the same finite-cylinder classifier value and the same common-prefix ultrametric route.
 \end{theorem}
+\leanchecked{BEDC.Derived.BaireUltrametricUp.BaireUltrametricCarrier\_prefix\_stability}
 \begin{proof}
 Project both carriers through \autoref{def:baire-ultrametric-carrier}. The only analytic rows available for comparison are the prefix rows $B,B'$, the metric rows $M,M'$, the ultrametric rows $V,V'$, and the window rows $S,S'$.
 
@@ -63,6 +66,22 @@ Apply \autoref{thm:baire-ultrametric-namecert-obligations}. Common-prefix distan
 The structural rows $P,N$ and $P',N'$ provide provenance and local naming only for the already transported route. Since no excluded branch, quotient, choice, host equality, or ambient Real-completeness coordinate is present, both carriers determine the same finite common-prefix ultrametric surface.
 \end{proof}
 
+\begin{theorem}[Baire ultrametric finite-cylinder separation]
+\label{thm:baire-ultrametric-finite-cylinder-separation}
+Let $U=(B,M,V,S,H,C,P,N)$ and $U'=(B',M',V',S',H',C',P',N')$ be accepted $\BaireUltrametricUp$ packets. Suppose their displayed $\BaireSpaceUp$ prefix rows expose a first-disagreement window before length $k$, and suppose the $\StreamNameUp$ rows $S,S'$ list every coordinate inspected up to that window. Then the $\BaireMetricUp$ rows $M,M'$ display a positive dyadic common-prefix distance for the two inspected names, and the packets determine disjoint finite cylinders before any $\CompleteBaireSpaceUp$ consumer reads a limit row.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:baire-ultrametric-carrier}. The only rows capable of naming the disagreement are the $\BaireSpaceUp$ prefix rows $B,B'$, the $\BaireMetricUp$ distance rows $M,M'$, and the finite $\StreamNameUp$ windows $S,S'$.
+
+Use the displayed first-disagreement window in $B,B'$. It identifies a least inspected coordinate at which the two finite prefixes differ, while $S,S'$ certify that the coordinate is part of the finite window actually read by the packets.
+
+The positive distance is then read from $M,M'$. By \autoref{thm:baire-ultrametric-namecert-obligations}, common-prefix distance exactness assigns the dyadic value named by that first displayed disagreement, so the two packets cannot be assigned the zero-distance window for the inspected prefixes.
+
+The finite cylinders are the two prefix cylinders ending at the displayed disagreement window. Any stream extending the first prefix must keep the first value at the disagreement coordinate, and any stream extending the second prefix must keep the second value there; the two finite-cylinder rows are therefore disjoint without consulting a completed limit.
+
+Finally, $V,V'$ are used only for the strong-triangle boundary. They preserve the finite-cylinder separation when a later consumer compares a third prefix, but they do not introduce an infinite branch, selected limit, quotient equality, or host stream equality. Thus a $\CompleteBaireSpaceUp$ consumer receives the positive dyadic separation before any completion-facing limit row is read.
+\end{proof}
+
 \falsifiablePrediction{Every $\BaireUltrametricUp$ read factors through a displayed $\BaireSpaceUp$ prefix row, a $\BaireMetricUp$ common-prefix distance row, a finite $\StreamNameUp$ window row, an $\UltrametricSpaceUp$ strong-triangle comparison row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
 \independenceWitness{bairespace, bairemetric, ultrametricspace, streamname, complete-baire-space: $\BaireUltrametricUp$ is not bijective to any listed sibling because it jointly carries finite Baire prefixes, common-prefix dyadic distances, ultrametric comparisons, finite stream windows, transport, replay, provenance, and local naming as one packet.}
@@ -71,10 +90,10 @@ The structural rows $P,N$ and $P',N'$ provide provenance and local naming only f
 
 \begin{closurestatus}{\BaireUltrametricUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:baire-ultrametric-carrier}, \autoref{thm:baire-ultrametric-namecert-obligations}, and \autoref{thm:baire-ultrametric-prefix-stability} seed the common-prefix ultrametric route from Baire prefixes through prefix distances, finite StreamName windows, ultrametric comparison rows, transport, replay, provenance, and local naming.}
+  \scopeclosed{\autoref{def:baire-ultrametric-carrier}, \autoref{thm:baire-ultrametric-namecert-obligations}, \autoref{thm:baire-ultrametric-prefix-stability}, and \autoref{thm:baire-ultrametric-finite-cylinder-separation} seed the common-prefix ultrametric route from Baire prefixes through prefix distances, finite StreamName windows, finite-cylinder separation, ultrametric comparison rows, transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host stream equality, quotient stream equality, selected branches, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, common-prefix distance exactness, finite-cylinder classifier stability, StreamName readback, prefix stability, and nonescape for BEDC.Derived.BaireUltrametricUp.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-prefix distance exactness, finite-cylinder classifier stability, finite-cylinder separation, StreamName readback, prefix stability, and nonescape for BEDC.Derived.BaireUltrametricUp.}
   \constructivestory{A $\BaireUltrametricUp$ packet is generated from finite Baire prefix rows, BaireMetric common-prefix distance rows, UltrametricSpace comparison rows, StreamName finite windows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
 \end{closurestatus}

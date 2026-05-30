@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionKleisliCategoryUp$}
+\label{ch:concrete-instances-cauchy-completion-kleisli-category-namecert}
+\origin{human}
+
+Following Mac Lane's Kleisli-category formulation, the $\CauchyCompletionKleisliCategoryUp$ packet records the finite category-level surface of the L10 completion monad. It sits after the completion monad of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the Kleisli-arrow packet of \autoref{ch:concrete-instances-cauchy-completion-kleisli-namecert}, the universal-property surface of \autoref{ch:concrete-instances-completionuniversalproperty-namecert}, and the finite real-name route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The chapter names a category of completion consumers through displayed finite rows; it is not a quotient completion, not a selected limit, not host equality of completed objects, and not ambient $\RealUp$ completeness.
+
+\begin{definition}[CauchyCompletionKleisliCategory carrier]
+\label{def:cauchy-completion-kleisli-category-carrier}
+A $\CauchyCompletionKleisliCategoryUp$ carrier is a finite $\BHist$ packet
+$$
+K=(O,U,A,B,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the object row, reading each completion-facing object through $\CauchyCompletionMonadUp$ and the regular rational name surface.
+\item $U$ is the unit-arrow row, recording the monad unit route from displayed source rows into the completion packet.
+\item $A$ is the Kleisli-arrow row, whose arrows are completion-valued maps exposed by $\CauchyCompletionKleisliUp$.
+\item $B$ is the bind-composition row, recording composition only through the monad bind schedule and the displayed Kleisli route.
+\item $E$ is the identity and associativity ledger, comparing unit and bind composites as finite BEDC routes rather than as host function equalities.
+\item $R$ is the real-completion handoff row, routing completion consumers through $\CompletionUniversalPropertyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ seals.
+\item $H$ records componentwise $\hsame$ transport for object, unit, arrow, bind, ledger, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for unit-arrow reads, bind composition, completion consumers, and terminal $\RealUp$ seal requests.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionKleisliCategoryUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionKleisliUp$, $\CompletionUniversalPropertyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionKleisliCategoryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completions, selected representatives, selected limits, host equality of arrows, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionKleisliCategory NameCert obligations]
+\label{thm:cauchy-completion-kleisli-category-namecert-obligations}
+For every accepted $\CauchyCompletionKleisliCategoryUp$ carrier $K=(O,U,A,B,E,R,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionKleisliCategoryUp}$ surface consists exactly of object exposure, unit-arrow exposure, Kleisli-arrow exposure, bind-composition exposure, identity and associativity ledger exposure, real-completion handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-kleisli-category-carrier}. The object, unit, arrow, bind, ledger, and real-completion handoff rows are precisely $O,U,A,B,E,R$.
+
+The unit-arrow row is read through $\CauchyCompletionMonadUp$, while the arrow and bind rows are read through $\CauchyCompletionKleisliUp$. The ledger $E$ compares the category identities and associative composites only after those rows have been displayed.
+
+The real-facing handoff $R$ routes every completion consumer through $\CompletionUniversalPropertyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ seals. Thus a consumer cannot read a terminal real-completion claim before the finite Cauchy-name and dyadic rows are visible.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same finite packet. Since no quotient completion, selected representative, selected limit, host equality, or ambient completeness coordinate occurs in the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionKleisliCategory real-completion handoff]
+\label{thm:cauchy-completion-kleisli-category-real-completion-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\CauchyCompletionKleisliCategoryUp$ packet factors through the ordered route
+$$
+\CauchyCompletionMonadUp,\ \CauchyCompletionKleisliUp,\ \CompletionUniversalPropertyUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp .
+$$
+The route may use unit arrows and bind composition inside the Kleisli category, but it exports no quotient completion, selected limit, host equality of arrows, selected representative, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+First read the monad and Kleisli rows. The unit arrows come from $U$, and the composition row $B$ uses the bind schedule attached to the displayed Kleisli-arrow row $A$.
+
+Next read the category ledger. The row $E$ records the identity and associativity comparisons as finite route comparisons over $O,U,A,B$, so the categorical equations are consumed as BEDC ledger data rather than as host equality of functions.
+
+Finally pass to real-completion consumers through $R$. The handoff row requires the universal-property surface and the finite name route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ before any terminal seal is available.
+
+The structural rows $H,C,P,N$ keep this route inside the displayed packet. There is no carrier coordinate that could supply a quotient completion, selected limit, host arrow equality, selected representative, or ambient completeness theorem.
+\end{proof}
+
+\falsifiablePrediction{A $\CauchyCompletionKleisliCategoryUp$ completion consumer that reads a $\RealUp$ seal without first exposing the monad, Kleisli-arrow, universal-property, stream-window, regular-rational, dyadic-tolerance, transport, replay, provenance, and local NameCert rows refutes the packet.}
+
+\independenceWitness{cauchycompletionmonad, cauchycompletionkleisli, completionuniversalproperty, streamname, regseqrat, dyadicratcore, real: none is bijective to $\CauchyCompletionKleisliCategoryUp$ because the category packet jointly carries objects, unit arrows, Kleisli arrows, bind composition, categorical ledgers, completion handoff, transport, replay, provenance, and local naming in one finite carrier.}
+
+Lean follow-up requires a finite carrier namespace at \texttt{BEDC.Derived.CauchyCompletionKleisliCategoryUp} with the displayed object, unit, Kleisli-arrow, bind-composition, ledger, handoff, transport, replay, provenance, and naming rows.
+
+\closureat{CauchyCompletionKleisliCategoryUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionKleisliCategoryUp}
+  \constructivestory{A $\CauchyCompletionKleisliCategoryUp$ packet is generated from completion-object rows, unit-arrow rows, Kleisli-arrow rows, bind-composition rows, identity and associativity ledgers, real-completion handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-kleisli-category-carrier}, \autoref{thm:cauchy-completion-kleisli-category-namecert-obligations}, and \autoref{thm:cauchy-completion-kleisli-category-real-completion-handoff} seed the finite Kleisli-category completion packet for L10 consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected limits, host equality of arrows, selected representatives, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, unit-arrow exposure, Kleisli-arrow exposure, bind-composition exposure, categorical ledger exactness, real-completion handoff, transport stability, replay stability, provenance exhaustion, and non-escape for BEDC.Derived.CauchyCompletionKleisliCategoryUp.}
+\end{closurestatus}

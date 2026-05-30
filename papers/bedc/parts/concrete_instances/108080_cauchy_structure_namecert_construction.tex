@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\CauchyStructureUp$}
+\label{ch:concrete-instances-cauchy-structure-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on Cauchy structures and Bishop--Bridges on constructive completion, the $\CauchyStructureUp$ packet names the finite criterion surface where Cauchy filters and Cauchy nets are read through stream windows, regular rational readback, dyadic tolerances, and a terminal real seal. It is grounded in the StreamName route of \autoref{ch:concrete-instances-streamname-namecert}, the regular sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, the Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the Cauchy-net surface of \autoref{ch:concrete-instances-cauchynet-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+\begin{definition}[Cauchy structure carrier]
+\label{def:cauchy-structure-carrier}
+A $\CauchyStructureUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,G,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the filter-base request row naming the finite family of Cauchy-filter requests accepted from \autoref{ch:concrete-instances-cauchyfilter-namecert};
+\item $G$ is the net-directed request row naming the finite family of directed Cauchy-net requests accepted from \autoref{ch:concrete-instances-cauchynet-namecert};
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by both filter-base and net-directed requests;
+\item $S$ is the finite $\StreamNameUp$ window inspected by every request before regular readback;
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the stream window and dyadic ledger;
+\item $E$ is the terminal $\RealUp$ seal reached by the displayed readback route;
+\item $H$ is componentwise $\hsame$ transport across $F,G,D,S,R,E$;
+\item $C$ is displayed $\Cont$ replay from each filter-base or net-directed request through $D,S,R,E$;
+\item $P$ is $\Pkg$ provenance over $\CauchyFilterUp$, $\CauchyNetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CauchyStructureUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filters, selected limits, countable choice, trichotomy, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Cauchy structure NameCert obligations]
+\label{thm:cauchy-structure-namecert-obligations}
+For the carrier of \autoref{def:cauchy-structure-carrier}, the local $\NameCert_{\CauchyStructureUp}$ surface consists exactly of carrier admission for $K=(F,G,D,S,R,E,H,C,P,N)$, filter-base request exposure through $F$, net-directed request exposure through $G$, dyadic tolerance exposure through $D$, finite StreamName window exposure through $S$, RegSeqRat readback through $R$, Real seal handoff through $E$, transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier row by row. The filter-base and net-directed requests are the two input faces, and both are read only through the same dyadic tolerance ledger, StreamName window, regular rational readback, and Real seal route.
+
+Transport and replay are structural rows. The transport row compares the displayed request, tolerance, window, readback, and seal coordinates componentwise; the replay row orders every request through $D,S,R,E$ before a consumer may read the result.
+
+The package provenance and local NameCert row name exactly this finite packet. Since the carrier contains no other coordinate, the listed rows are precisely the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy structure filter-net criterion]
+\label{thm:cauchy-structure-filter-net-criterion}
+Every accepted $\CauchyStructureUp$ route orders filter-base and net-directed Cauchy reads through the same finite criterion sequence
+$$
+F,G \longmapsto D \longmapsto S \longmapsto R \longmapsto E.
+$$
+A filter-facing consumer and a net-facing consumer therefore meet at the displayed dyadic tolerance ledger, StreamName window, RegSeqRat readback, and Real seal; neither route may replace that finite sequence by quotient filters, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the filter direction, project the $F$ row and follow its replay row. The replay first opens the dyadic tolerance ledger $D$, then the finite StreamName window $S$, then the RegSeqRat readback $R$, and only then the Real seal $E$.
+
+For the net direction, project the $G$ row and use the same replay ordering. Directed requests may change the source face, but they do not introduce a new tolerance, window, readback, or seal coordinate outside $D,S,R,E$.
+
+The componentwise transport row $H$ identifies admissible changes only along the displayed coordinates, while $P$ and $N$ record provenance and local naming. Thus the common filter-net criterion is the finite route above, with no quotient, choice, trichotomy, selected-limit, or ambient-completeness bypass.
+\end{proof}
+
+\closureat{CauchyStructureUp}{seedStr}
+
+\begin{closurestatus}{\CauchyStructureUp}
+  \constructivestory{A $\CauchyStructureUp$ packet is generated from filter-base requests, net-directed requests, dyadic tolerance rows, finite StreamName windows, RegSeqRat readback, a RealUp seal, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-structure-carrier}, \autoref{thm:cauchy-structure-namecert-obligations}, and \autoref{thm:cauchy-structure-filter-net-criterion} bind the finite L10 criterion surface connecting Cauchy filters and Cauchy nets to StreamName, RegSeqRat, DyadicRatCore, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, request exposure, finite route ordering, and consumer nonescape for BEDC.Derived.CauchyStructureUp.}
+\end{closurestatus}

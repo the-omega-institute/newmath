@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\StokesTheoremUp$}
+\label{ch:concrete-instances-stokes-theorem-namecert}
+\origin{human}
+
+Following Cartan and de Rham, the $\StokesTheoremUp$ packet names the finite BEDC surface on which exterior differentiation, oriented boundary, and integration over a carried chain can be consumed as one certificate. It reads differential forms from \autoref{ch:concrete-instances-diffform-namecert}, the cochain boundary route from \autoref{ch:concrete-instances-derham-namecert}, the charted domain surface from \autoref{ch:concrete-instances-manifold-namecert}, and the scalar integral handoff from \autoref{ch:concrete-instances-riemannintegral-namecert}. The packet is only a naming certificate for the displayed Stokes boundary route; it does not supply a host smooth manifold, a selected triangulation, a quotient de Rham class, a measure completion, or an ambient real-completeness theorem.
+
+\begin{definition}[Stokes theorem carrier]\label{def:stokes-theorem-carrier}
+A $\StokesTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,F,B,E,I,H,C,P,N)
+$$
+whose rows have the following BEDC-facing meaning.
+\begin{itemize}
+\item $M$ is the carried $\ManifoldUp$ chart-and-orientation source row for the integration domain.
+\item $F$ is the carried $\DiffFormUp$ form row together with the exterior-derivative row consumed by the Stokes boundary read.
+\item $B$ is the oriented boundary-chain row whose source and target faces are read through the same displayed manifold surface.
+\item $E$ is the $\DeRhamUp$ boundary route identifying the exterior derivative and boundary pairing as one chain-complex comparison.
+\item $I$ is the $\RiemannIntegralUp$ scalar-integration handoff for the displayed domain, boundary, form, and derivative rows.
+\item $H$ records componentwise $\hsame$ transport for $M,F,B,E,I$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route from manifold charts through form rows, boundary-chain rows, de Rham boundary data, and integration handoff.
+\item $P$ is the $\Pkg$ provenance over $\ManifoldUp$, $\DiffFormUp$, $\DeRhamUp$, $\RiemannIntegralUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StokesTheoremUp}$ row.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Stokes theorem NameCert obligations]\label{thm:stokes-theorem-namecert-obligations}
+For every accepted $\StokesTheoremUp$ carrier $K=(M,F,B,E,I,H,C,P,N)$, the local $\NameCert_{\StokesTheoremUp}$ surface is exhausted by carrier admission for $M,F,B,E,I$, boundary-chain compatibility between $B$ and $E$, integral-handoff compatibility between $E$ and $I$, componentwise $\hsame$ transport in $H$, displayed $\Cont$ replay in $C$, provenance in $P$, and local naming in $N$. The certificate exports no host smooth map, no selected chain representative, no quotient de Rham class, no measure-completion object, and no ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stokes-theorem-carrier}. The analytic rows are exactly the manifold row $M$, differential-form row $F$, boundary-chain row $B$, de Rham boundary row $E$, and integration handoff row $I$.
+
+The boundary compatibility is local: $B$ supplies the displayed oriented boundary route, while $E$ supplies the de Rham chain-complex comparison over the same form data. The integration compatibility is also local: $I$ is read only after those rows have been displayed.
+
+Finally attach $H,C,P,N$. These rows transport, replay, source, and name the same finite route. Since the carrier has no coordinate for the excluded host objects, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Stokes boundary-chain route]\label{thm:stokes-theorem-boundary-chain-route}
+Let $K=(M,F,B,E,I,H,C,P,N)$ be an accepted $\StokesTheoremUp$ carrier. Any consumer of the Stokes boundary comparison must first read the manifold row $M$, the differential-form row $F$, and the oriented boundary-chain row $B$ before it can consume the de Rham boundary row $E$ or the integration handoff $I$. The comparison is therefore a finite BEDC route through $M,F,B,E,I,H,C,P,N$, not an appeal to a host boundary operator or an unlogged smooth-chain equality.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory. The row $B$ is the only boundary-chain coordinate, and it is stated over the manifold and form rows $M,F$.
+
+Apply \autoref{thm:stokes-theorem-namecert-obligations}. Boundary-chain compatibility places $B$ before the de Rham row $E$, and integral-handoff compatibility places $I$ downstream from the same displayed route.
+
+The structural rows $H,C,P,N$ preserve and name this route without adding a second boundary source. Hence no consumer can bypass $M,F,B$ when reading the Stokes comparison.
+\end{proof}
+
+\begin{theorem}[Stokes closed-form nonescape]\label{thm:stokes-theorem-closed-form-nonescape}
+Let $K=(M,F,B,E,I,H,C,P,N)$ be an accepted $\StokesTheoremUp$ carrier whose displayed $\DiffFormUp$ row $F$ is read as closed along the de Rham route $E$. Then every zero-boundary integral read exported by the packet remains inside $M,F,B,E,I,H,C,P,N$. It may use the carried closed-form row, the boundary-chain route, the de Rham boundary comparison, and the Riemann-integral handoff, but it cannot introduce a quotient cohomology representative, a host Stokes theorem, a measure-completion argument, selected charts outside $M$, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the closed-form read inside $F$ and $E$. The form row supplies the exterior data, and the de Rham row supplies the boundary comparison over the same displayed form.
+
+The zero-boundary integral is then read through $B$ and $I$. The boundary row supplies the oriented chain surface, and the integral row supplies only the scalar handoff already tied to $M,F,B,E$.
+
+Transport and replay are confined to $H$ and $C$, while $P$ and $N$ attach provenance and local naming. None of these rows contains a quotient representative, host theorem, measure-completion carrier, external chart selector, or ambient completeness coordinate, so the closed-form read cannot escape the packet.
+\end{proof}
+
+\closureat{StokesTheoremUp}{seedStr}
+
+\begin{closurestatus}{\StokesTheoremUp}
+  \constructivestory{A $\StokesTheoremUp$ packet records a displayed manifold-and-orientation row, carried differential-form row, oriented boundary-chain row, de Rham boundary route, Riemann-integral handoff, componentwise transport, continuation replay, provenance, and local naming. The packet names the Stokes boundary comparison only through these finite rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope covers the displayed $\ManifoldUp$, $\DiffFormUp$, $\DeRhamUp$, $\RiemannIntegralUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows of \autoref{def:stokes-theorem-carrier}.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close a public Stokes bridge, a host smooth-chain theorem, quotient cohomology, measure completion, selected triangulations, or ambient real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary-chain compatibility, integral-handoff compatibility, transport, replay, provenance, and ledger non-escape for BEDC.Derived.StokesTheoremUp.}
+\end{closurestatus}

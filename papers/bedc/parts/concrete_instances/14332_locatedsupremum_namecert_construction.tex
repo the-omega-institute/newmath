@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The accepted carrier stores no quotient cut, no selected supremum element, no trichotomy oracle, no host real equality test, and no ambient order-completeness coordinate.
 \end{definition}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_semantic\_name\_certificate}
 
 \begin{theorem}[LocatedSupremum NameCert obligations]
 \label{thm:located-supremum-namecert-obligations}
@@ -208,6 +209,21 @@ Use \autoref{thm:located-supremum-lower-approximation-cofinality} and \autoref{t
 Finally replay the route through $H,C,P,N$. Componentwise transport and continuation replay preserve the displayed rows but cannot add an ambient completeness coordinate, selected supremum, trichotomy row, quotient cut, host sequence equality, or countable-choice selector.
 \end{proof}
 \leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_monotone\_sequence\_handoff}
+
+\begin{theorem}[LocatedSupremum monotone convergence consumer envelope]
+\label{thm:located-supremum-monotone-convergence-consumer-envelope}
+Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. Any monotone-convergence or completion-facing consumer that reads the upper/lower window of $S$ as stable $\RealUp$ data must first read the $\RegSeqRatUp$ handoff and terminal $\RealUp$ seal through the Cauchy-equivalence classifier boundary of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}. The consumer receives a classifier-mediated regular-rational route, not a quotient real equality, host sequence equality, selected supremum, countable-choice selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the monotone sequence handoff. By \autoref{thm:located-supremum-monotone-sequence-handoff}, a monotone bounded real-sequence consumer must pass through the displayed upper-bound ledger, lower-approximation ledger, shared window, regular-rational handoff, dyadic tolerance surface, terminal seal, and structural rows.
+
+Use the StreamName cut scope of \autoref{thm:locatedsupremum-streamname-cut-scope}. The cut-facing read is already confined to the finite window $W$, the $\RegSeqRatUp$ readback $R$, the dyadic tolerance surface, and the terminal $\RealUp$ seal $E$.
+
+Now insert the Cauchy-equivalence classifier boundary. The regular-rational readback can be treated as a stable Real-facing route only after the comparison surface of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert} has classified equivalent Cauchy windows on the same displayed path.
+
+Finally apply \autoref{thm:locatedsupremum-real-seal-nonescape}. Since the carrier has no selected supremum, quotient cut, host sequence equality, countable-choice selector, or completeness coordinate, the monotone-convergence consumer receives only the classifier-mediated route through $L,U,A,W,R,E,H,C,P,N$.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_monotone\_convergence\_consumer\_envelope}
 
 \begin{theorem}[LocatedSupremum window transport refusal]
 \label{thm:located-supremum-window-transport}

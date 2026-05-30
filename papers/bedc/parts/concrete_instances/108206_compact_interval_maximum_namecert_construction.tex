@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\CompactIntervalMaximumUp$}
+\label{ch:concrete-instances-compact-interval-maximum-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CompactIntervalMaximumUp$ packet records the finite witness surface for a continuous real-valued map on a closed bounded interval to expose a maximum candidate. It consumes the endpoint and containment route of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the finite interval-net surface of $\HeineBorelFiniteNetUp$, the graph and continuity rows of \autoref{ch:concrete-instances-continuousmap-namecert}, and the $\RegSeqRatUp/\RealUp$ readback route. The packet names only finite BEDC evidence for a maximum witness; it does not import host extrema, open-cover compactness, selected subcovers, Real completeness, quotient equality, Lean verification, or bridge checking.
+
+\begin{definition}[Compact interval maximum carrier]
+\label{def:compact-interval-maximum-carrier}
+A $\CompactIntervalMaximumUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,F,G,N,S,R,E,W,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalUp$ source row, exposing endpoint order, rational containment, dyadic containment, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and $\RealUp$ sealing.
+\item $F$ is the $\ContinuousMapUp$ graph row for the displayed interval source, including finite graph reads and pointwise continuity data.
+\item $G$ is the $\HeineBorelFiniteNetUp$ finite-cell row, listing the interval cells, centers, radius ledgers, and coverage reads used by the witness search.
+\item $N$ is the finite value-comparison row selecting a displayed cell and center whose readback is no smaller than the other displayed net values at the admitted precision.
+\item $S$ is the $\StreamNameUp$ schedule row for endpoint, graph, and value observations.
+\item $R$ is the $\RegSeqRatUp$ readback row for the selected value and comparison witnesses.
+\item $E$ is the $\RealUp$ seal row for the selected maximum-witness value after $I,F,G,N,S,R$ have been displayed.
+\item $W$ is the witness-locality row saying that the selected center is read through a cell of $G$ whose containment is certified by $I$.
+\item $H$ records componentwise $\hsame$ transport for $I,F,G,N,S,R,E,W$ and the local packet shape.
+\item $C$ records displayed $\Cont$ replay from interval source and graph reads through finite cells, value comparison, witness locality, readback, Real sealing, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\CompactIntervalMaximumUp$, $\ClosedBoundedIntervalUp$, $\ContinuousMapUp$, $\HeineBorelFiniteNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\CompactIntervalMaximumUp}$ row.
+\end{enumerate}
+The carrier exports no host maximum operator, open-cover compactness theorem, selected subcover, ambient Real completeness principle, quotient equality of real names, or global choice row.
+\end{definition}
+
+\begin{theorem}[Compact interval maximum finite witness obligations]
+\label{thm:compact-interval-maximum-finite-witness-obligations}
+For the carrier of \autoref{def:compact-interval-maximum-carrier}, every accepted maximum-witness read factors through the closed bounded interval row $I$, the continuous-map graph row $F$, the finite-net cell row $G$, the finite value-comparison row $N$, the $\StreamNameUp/\RegSeqRatUp/\RealUp$ readback route $S,R,E$, the witness-locality row $W$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local naming $L$. These rows are the local $\NameCert_{\CompactIntervalMaximumUp}$ obligation surface.
+\end{theorem}
+\begin{proof}
+Project the carrier. The interval source, graph, finite-cell, comparison, schedule, readback, seal, witness-locality, transport, replay, provenance, and local naming rows are the only coordinates of the accepted packet.
+
+The closed bounded interval row $I$ supplies endpoint order and containment ledgers before any cell is inspected. The finite-net row $G$ supplies the displayed cells and centers, while $F$ supplies the graph reads whose values are compared by $N$.
+
+The readback route is downstream of those finite rows. The schedule $S$, regular rational readback $R$, and Real seal $E$ expose the selected witness value only through the displayed observations, and $W$ keeps the selected center inside a certified cell of the interval net.
+
+Finally $H,C,P,L$ transport, replay, package, and name the same finite surface. Since the packet has no coordinate for host extrema, open covers, selected subcovers, ambient completeness, quotient equality, or global choice, every accepted maximum-witness read remains on the displayed NameCert rows.
+\end{proof}
+
+\falsifiablePrediction{A compact-interval maximum consumer that omits the finite cell row, graph row, or value-comparison row cannot claim a $\CompactIntervalMaximumUp$ witness.}
+
+\independenceWitness{closedboundedinterval, continuousmap, heineborel-finite-net, regseqrat, real: $\CompactIntervalMaximumUp$ is not bijective to any listed sibling because it jointly carries interval containment, graph reads, finite cells, value comparison, selected witness locality, readback, sealing, transport, replay, provenance, and local naming rows.}
+
+The Lean TasteGate site for $\CompactIntervalMaximumUp$ is expected at \texttt{BEDC.Derived.CompactIntervalMaximumUp}. It should preserve the finite maximum-witness surface as carrier data before any downstream extreme-value consumer can inspect it.
+
+\closureat{CompactIntervalMaximumUp}{seedStr}
+
+\begin{closurestatus}{\CompactIntervalMaximumUp}
+  \constructivestory{A $\CompactIntervalMaximumUp$ packet is generated from a closed bounded interval row, a continuous-map graph row, a finite interval-net row, a finite value-comparison witness, StreamName schedules, RegSeqRat readbacks, a Real seal, witness locality, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-interval-maximum-carrier} and \autoref{thm:compact-interval-maximum-finite-witness-obligations} seed the finite maximum-witness carrier for continuous maps on closed bounded intervals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host extrema, open-cover compactness, selected subcovers, Real completeness, quotient equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-cell coverage, graph readback, value comparison, witness locality, transport, replay, provenance, and local naming for BEDC.Derived.CompactIntervalMaximumUp.}
+\end{closurestatus}
