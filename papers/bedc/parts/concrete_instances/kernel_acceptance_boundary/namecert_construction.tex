@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\KernelAcceptanceBoundaryUp$}
+\label{ch:concrete-instances-kernel-acceptance-boundary-namecert}
+\origin{human}
+
+The $\KernelAcceptanceBoundaryUp$ packet records the finite audit boundary inherited from the Lean kernel acceptance tradition: a generated candidate is either accepted as a declaration in an environment or refused before it becomes a BEDC theorem row. The packet concretizes \autoref{ch:visions-kernel-acceptance-as-audit-witness} as displayed NameCert data over generated candidates, kernel classifier stamps, environment ledger rows, accepted declarations, axiom-query refusal, replay, provenance, and local naming. It is a finite audit boundary for formal content, not a proof of the kernel implementation, not a semantic interpretation of a theorem name, and not an additional logical axiom.
+
+\begin{definition}[Kernel acceptance boundary carrier]
+\label{def:kernel-acceptance-boundary-carrier}
+A $\KernelAcceptanceBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(G,K,A,E,L,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the generated candidate row: a proposed declaration name, type, and proof term or inductive signature.
+\item $K$ is the kernel classifier stamp recording acceptance or refusal at the boundary.
+\item $A$ is the accepted declaration row, present only when the kernel classifier admits the candidate.
+\item $E$ is the environment ledger row containing the finite imported declarations and namespace context read by the classifier.
+\item $L$ is the ledger row for build replay, source location, and command provenance.
+\item $F$ is the axiom-query refusal row: forbidden ancestry, unresolved marker targets, and non-kernel semantic claims are refused as coordinates of the accepted declaration.
+\item $H$ records componentwise $\hsame$ transport for generated candidate, classifier, declaration, environment, ledger, and refusal rows.
+\item $C$ records displayed $\Cont$ replay from candidate generation to kernel classification, environment lookup, accepted declaration exposure, axiom query, and refusal boundary.
+\item $P$ is the $\Pkg$ provenance over $\KernelAcceptanceBoundaryUp$, generated candidates, accepted declarations, environment ledgers, axiom-query refusal, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KernelAcceptanceBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,K,A,E,L,F,H,C,P,N$. It has no coordinate for kernel self-correctness, compiler correctness, hardware trust, semantic adequacy of theorem names, or paper-side closure status.
+\end{definition}
+
+\begin{theorem}[Kernel acceptance boundary NameCert obligations]
+\label{thm:kernel-acceptance-boundary-namecert-obligations}
+For every accepted $\KernelAcceptanceBoundaryUp$ carrier
+$$
+Q=(G,K,A,E,L,F,H,C,P,N),
+$$
+the local $\NameCert_{\KernelAcceptanceBoundaryUp}$ surface consists exactly of candidate exposure, kernel classifier stamping, accepted declaration exposure, environment ledger display, replay ledger display, axiom-query refusal, componentwise transport, continuation replay, provenance, and local naming. A BEDC audit consumer may cite the boundary only through those finite rows, and it may not replace them by a claim of kernel self-verification, semantic adequacy, compiler correctness, or hardware correctness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:kernel-acceptance-boundary-carrier}. The generated candidate, classifier stamp, accepted declaration, environment ledger, replay ledger, and refusal row are all displayed coordinates of the same finite packet.
+
+The kernel-facing obligation is the boundary row $K$ together with $A$ and $E$. Acceptance of a declaration is visible only as the classifier stamp read in the displayed environment; refusal is likewise visible as a boundary stamp rather than as a semantic explanation of the candidate.
+
+The audit-facing obligation is $F$. It records that forbidden ancestry, unresolved marker targets, and non-kernel semantic claims are not accepted-declaration coordinates, so a downstream BEDC audit cannot turn kernel acceptance into unlimited certification.
+
+Finally $H$, $C$, $P$, and $N$ replay and name the finite route. Since no row stores kernel self-correctness, compiler correctness, hardware trust, or paper-side closure status, the local NameCert obligations stop exactly at the accepted-declaration and axiom-query boundary.
+\end{proof}
+
+\closureat{KernelAcceptanceBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\KernelAcceptanceBoundaryUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kernel-acceptance-boundary-carrier} and \autoref{thm:kernel-acceptance-boundary-namecert-obligations} seed the finite kernel-acceptance audit boundary for generated formal content.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close kernel self-correctness, compiler correctness, hardware trust, semantic adequacy of theorem names, paper-side closure status, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, accepted-declaration exposure, environment-ledger exactness, axiom-query refusal, replay transport, and audit-boundary nonescape proofs for BEDC.Derived.KernelAcceptanceBoundaryUp.}
+  \constructivestory{A $\KernelAcceptanceBoundaryUp$ packet is generated from a candidate declaration, kernel classifier stamp, accepted declaration row, environment ledger, replay ledger, axiom-query refusal row, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+\end{closurestatus}
