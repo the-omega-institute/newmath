@@ -2766,6 +2766,7 @@ import BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
 import BEDC.Derived.DecimalExpansionUp.DyadicRationalReadback
 import BEDC.Derived.DecimalExpansionUp.FinitePrefixCompleteness
 import BEDC.Derived.DecimalExpansionUp.NameCertObligations
+import BEDC.Derived.DecimalExpansionUp.PrefixStability
 import BEDC.Derived.DecimalExpansionUp.RatRealHandoff
 import BEDC.Derived.DecimalExpansionUp.RealWindowExhaustionAuditRoute
 import BEDC.Derived.DecimalExpansionUp.TailDigitStability
@@ -4856,6 +4857,7 @@ import BEDC.Derived.MetricClosedBallUp.CenterTransportScope
 import BEDC.Derived.MetricClosedBallUp.TasteGate
 import BEDC.Derived.MetricClosureUp.TasteGate
 import BEDC.Derived.MetricCofinalCompletionUp.TasteGate
+import BEDC.Derived.MetricCompletionDenseEmbeddingUp.TasteGate
 import BEDC.Derived.MetricCompletionFunctorUp
 import BEDC.Derived.MetricCompletionFunctorUp.TasteGate
 import BEDC.Derived.MetricCompletionKleisliUp.TasteGate
