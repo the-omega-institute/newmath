@@ -10,15 +10,23 @@ open BEDC.Meta.TasteGate
 
 structure CertifiedClassifierState
     (SourceSpec PatternSpec LedgerPolicy : BHist -> Prop)
-    (ClassifierSpec : BHist -> BHist -> Prop) : Prop where
+    (ClassifierSpec : BHist -> BHist -> Prop) where
   semantic_namecert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec
 
-structure NameCertFiveRows where
+structure NameCertFiveRows
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    (state : CertifiedClassifierState SourceSpec PatternSpec LedgerPolicy ClassifierSpec) where
   source : BHist
   pattern : BHist
   classifier : BHist
   stability : BHist
   ledger : BHist
+  source_member : SourceSpec source
+  pattern_member : SourceSpec pattern
+  classifier_member : SourceSpec classifier
+  stability_member : SourceSpec stability
+  ledger_member : SourceSpec ledger
 
 def ClassifierEquivalentOn
     (Scope : BHist -> Prop)
@@ -27,18 +35,30 @@ def ClassifierEquivalentOn
     (ClassifierA h k -> ClassifierB h k) ∧
       (ClassifierB h k -> ClassifierA h k)
 
-def ClassifierDisagreement
+structure ClassifierDisagreement
     (Scope : BHist -> Prop)
-    (ClassifierA ClassifierB : BHist -> BHist -> Prop) : Prop :=
-  exists left right : BHist,
-    Scope left ∧ Scope right ∧
-      ClassifierA left right ∧ (ClassifierB left right -> False)
+    (SourceA SourceB : BHist -> Prop)
+    (ClassifierA ClassifierB : BHist -> BHist -> Prop) where
+  (left right : BHist)
+  (left_scope : Scope left)
+  (right_scope : Scope right)
+  (left_source_a : SourceA left)
+  (right_source_a : SourceA right)
+  (left_source_b : SourceB left)
+  (right_source_b : SourceB right)
+  (positive : ClassifierA left right)
+  (negative : ClassifierB left right -> False)
 
-def ClassifierNonEquivalent
+inductive ClassifierNonEquivalent
     (Scope : BHist -> Prop)
-    (ClassifierA ClassifierB : BHist -> BHist -> Prop) : Prop :=
-  ClassifierDisagreement Scope ClassifierA ClassifierB ∨
-    ClassifierDisagreement Scope ClassifierB ClassifierA
+    (SourceA SourceB : BHist -> Prop)
+    (ClassifierA ClassifierB : BHist -> BHist -> Prop) : Prop where
+  | left :
+      ClassifierDisagreement Scope SourceA SourceB ClassifierA ClassifierB ->
+      ClassifierNonEquivalent Scope SourceA SourceB ClassifierA ClassifierB
+  | right :
+      ClassifierDisagreement Scope SourceB SourceA ClassifierB ClassifierA ->
+      ClassifierNonEquivalent Scope SourceA SourceB ClassifierA ClassifierB
 
 structure ScopeSeal where
   carrier : BHist -> Prop
@@ -46,14 +66,25 @@ structure ScopeSeal where
   anchored : carrier anchor
 
 structure DiscoveryCost where
-  amount : Nat
-  positive : amount > 0
+  benefit : Nat
+  cost : Nat
+  debt : Nat
+  scopeSeal : Nat
+  positive_margin : cost + debt + scopeSeal < benefit
 
-theorem costPositive (cost : DiscoveryCost) : cost.amount > 0 := by
-  exact cost.positive
+theorem costPositive (cost : DiscoveryCost) :
+    cost.cost + cost.debt + cost.scopeSeal < cost.benefit := by
+  exact cost.positive_margin
 
-structure PositiveCostProtocol where
-  cost : DiscoveryCost
+theorem discoveryCost_benefit_positive (cost : DiscoveryCost) : cost.benefit > 0 := by
+  cases cost with
+  | mk benefit cost debt scopeSeal positive_margin =>
+  cases benefit with
+  | zero =>
+      have impossible : cost + debt + scopeSeal < 0 := positive_margin
+      cases impossible
+  | succ n =>
+      exact Nat.zero_lt_succ n
 
 structure StructuralDiscovery
     (BeforeSource BeforePattern BeforeLedger : BHist -> Prop)
@@ -64,11 +95,11 @@ structure StructuralDiscovery
     CertifiedClassifierState BeforeSource BeforePattern BeforeLedger BeforeClassifier
   after_state :
     CertifiedClassifierState AfterSource AfterPattern AfterLedger AfterClassifier
-  before_rows : NameCertFiveRows
-  after_rows : NameCertFiveRows
+  before_rows : NameCertFiveRows before_state
+  after_rows : NameCertFiveRows after_state
   scope : BHist -> Prop
   classifier_shift :
-    ClassifierNonEquivalent scope BeforeClassifier AfterClassifier
+    ClassifierNonEquivalent scope BeforeSource AfterSource BeforeClassifier AfterClassifier
 
 structure PositiveDiscovery
     (BeforeSource BeforePattern BeforeLedger : BHist -> Prop)
@@ -82,6 +113,8 @@ structure PositiveDiscovery
   cost : DiscoveryCost
   debt : BHist
   scope_seal : ScopeSeal
+  debt_in_after_ledger : AfterLedger debt
+  scope_seal_in_discovery_scope : benefit.scope scope_seal.anchor
 
 structure DiscoveryTasteGate
     (X : Type)
@@ -119,7 +152,8 @@ theorem structuralDiscovery_classifier_shift
       StructuralDiscovery
         BeforeSource BeforePattern BeforeLedger BeforeClassifier
         AfterSource AfterPattern AfterLedger AfterClassifier) :
-    ClassifierNonEquivalent discovery.scope BeforeClassifier AfterClassifier := by
+    ClassifierNonEquivalent discovery.scope BeforeSource AfterSource
+      BeforeClassifier AfterClassifier := by
   exact discovery.classifier_shift
 
 theorem structuralDiscovery_after_rows
@@ -131,8 +165,26 @@ theorem structuralDiscovery_after_rows
       StructuralDiscovery
         BeforeSource BeforePattern BeforeLedger BeforeClassifier
         AfterSource AfterPattern AfterLedger AfterClassifier) :
-    exists rows : NameCertFiveRows, rows = discovery.after_rows := by
+    exists rows : NameCertFiveRows discovery.after_state, rows = discovery.after_rows := by
   exact Exists.intro discovery.after_rows rfl
+
+theorem nameCertFiveRows_classifier_self
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    {state : CertifiedClassifierState SourceSpec PatternSpec LedgerPolicy ClassifierSpec}
+    (rows : NameCertFiveRows state) :
+    ClassifierSpec rows.classifier rows.classifier := by
+  exact state.semantic_namecert.core.equiv_refl rows.classifier_member
+
+theorem nameCertFiveRows_pattern_ledger
+    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    {state : CertifiedClassifierState SourceSpec PatternSpec LedgerPolicy ClassifierSpec}
+    (rows : NameCertFiveRows state) :
+    PatternSpec rows.source ∧ LedgerPolicy rows.source := by
+  exact And.intro
+    (state.semantic_namecert.pattern_sound rows.source_member)
+    (state.semantic_namecert.ledger_sound rows.source_member)
 
 theorem positiveDiscovery_structural
     {BeforeSource BeforePattern BeforeLedger : BHist -> Prop}
@@ -159,8 +211,8 @@ theorem positiveDiscovery_positive_cost
       PositiveDiscovery
         BeforeSource BeforePattern BeforeLedger BeforeClassifier
         AfterSource AfterPattern AfterLedger AfterClassifier) :
-    discovery.cost.amount > 0 := by
-  exact costPositive discovery.cost
+    discovery.cost.benefit > 0 := by
+  exact discoveryCost_benefit_positive discovery.cost
 
 theorem positiveDiscovery_classifier_shift
     {BeforeSource BeforePattern BeforeLedger : BHist -> Prop}
@@ -171,7 +223,8 @@ theorem positiveDiscovery_classifier_shift
       PositiveDiscovery
         BeforeSource BeforePattern BeforeLedger BeforeClassifier
         AfterSource AfterPattern AfterLedger AfterClassifier) :
-    ClassifierNonEquivalent discovery.benefit.scope BeforeClassifier AfterClassifier := by
+    ClassifierNonEquivalent discovery.benefit.scope BeforeSource AfterSource
+      BeforeClassifier AfterClassifier := by
   exact structuralDiscovery_classifier_shift discovery.benefit
 
 theorem discoveryTasteGate_positive

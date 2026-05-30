@@ -881,7 +881,6 @@ Your task: rewrite the offending theorem (or its dependencies) so the proof uses
    - `ChapterTasteGate.round_trip` / `.layer_separation`
    - `FieldFaithful.field_faithful` / `.fields` (newly added 2026-05-13)
    - `Nontrivial.witness_pair` (newly added 2026-05-13)
-   - `StructurallyAtomic.nearest_siblings`
 
 3. Replace each typeclass projection with a CONCRETE `def` or `theorem` reference. The chapter usually already has a `private` or top-level non-typeclass version of the same fact — e.g., `cauchySealBudgetSynchronizer_round_trip` exists as a non-typeclass theorem, and `ChapterTasteGate.round_trip` typeclass field is `:= cauchySealBudgetSynchronizer_round_trip` internally. Use the concrete name in the proof body, not the typeclass projection.
 
