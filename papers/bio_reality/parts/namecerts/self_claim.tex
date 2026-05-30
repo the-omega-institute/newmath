@@ -1,40 +1,53 @@
-\subsection{Start--Stop Enumeration as an ORF-Eligibility Boundary Record}\label{sec:biorality-orf-eligibility-boundary}
+\subsection{Boundary status of start--stop window eligibility}
+\label{subsec:bioreality-self-claim-orf-eligibility-boundary}
 \origin{ai}
 
-\paragraph{Finite packet.}
-This record concerns the biological object ``open-reading-frame eligibility from start/stop codon enumeration'' at the layer named $\mathrm{orf\_eligibility}$.  Its present carrier is not an observed biological interval; it is an explicit waiting state for a later contact with sequence, transcript, or curated interval annotation.  The packet therefore does not assert that any molecule is translated, folded, physically admissible, functional, mechanistic, or universal.  It records only the finite conditions under which such an assertion would have to be tested.  The self-check row, verified at $2026$-$05$-$30$ $09{:}44{:}38+00{:}00$ in experiment run $0\mathrm{f}47\mathrm{d}2\mathrm{f}0\mathrm{cf}41$, says that no codon geometry is carried across biological layers; the same row reports $3$ checked gates.
+\paragraph{Object and local status.}
+This record concerns open-reading-frame eligibility as obtained only from enumeration of start and stop codon windows. Its biological object is not an observed translated product, not a folded molecule, and not a functional genomic annotation. The packet is a boundary-level record for the layer $\mathrm{orf\_eligibility}$: it says what a finite start--stop-window test would have to respect, while withholding the biological assertion until a separate curated sequence, transcript, or interval annotation is attached. The local self-check records $3$ checked gates and states that no codon geometry is promoted across biological layers. Thus the present section treats the finite codon data as admissible combinatorial input, but not as evidence that an open reading frame has been realized in a biological system.
 
-\paragraph{Codon-level finite rows.}
-The finite codon rows used by the packet are explicit.  The motif-compression row gives
+\paragraph{Finite codon sets used by the record.}
+The row uses the verified motif set
 $$
 \begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\},
+R=\{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
+&UAA, UAG, UCA, UGA, UUA\}.
 \end{aligned}
 $$
-with no missing and no extra elements relative to the recorded motif union.  The $M$ row has cardinality $20$ and is exactly
+The medium set $M$ has cardinality $20$ and is verified as the union $\mathrm{WNR}\cup\mathrm{CUN}$:
 $$
 \begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
+&CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-The saturation row records $\mathrm{Sat}_{f3}(R)$ as the $18$-element set $M\setminus\{\mathrm{ACA},\mathrm{ACG}\}$ and records the $f3$ boundary as the empty list.  It also records $M=\mathrm{Med}(R)\cup\{\mathrm{ACA}\}$ at the row level, with the displayed list again equal to the $20$ elements of $M$ above.  These are finite combinatorial facts about codon rows; in this chapter they are not biological interval observations.
-
-\paragraph{Quotient geometry.}
-The quotient row supplies a compact geometry for the same finite codon data.  The row for $M$ has face vector $(20,38,26,8,1)$, while the quotient has face vector $(10,14,6,1)$ and quotient size $10$.  The quotient representatives are recorded as the ten binary rows
+The compression check for $R$ reports no missing codons and no extra codons, so the finite motif row is exactly the displayed set. The saturation check reports
 $$
 \begin{aligned}
-&(0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\ (0,1,0,0,0),\\
-&(0,1,0,0,1),\ (1,0,0,0,1),\ (1,0,0,1,1),\ (1,0,1,0,1),\ (1,0,1,1,1).
+\operatorname{Sat}_{f3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},
 \end{aligned}
 $$
-The same verified row marks the product-decomposition check by an empty exception list.  Thus the geometry is internally finite and audited, but the chapter uses it only to delimit what has been enumerated.  A quotient cell, face count, or saturation row is not a ribosome, a transcript, a coding interval, a protein product, a fold, or a phenotype.
+with empty $f3$ boundary. The same row records
+$$
+\begin{aligned}
+M=\operatorname{Med}(R)\cup\{ACA,ACG\},
+\end{aligned}
+$$
+so $ACA$ and $ACG$ are the two additional codons separating the saturated row from the full $20$-element medium set in this finite calculation.
 
-\paragraph{Window enumeration contact.}
-The only ORF-layer row presently attached to the packet is the start/stop-window enumeration row from experiment run $\mathrm{c}26\mathrm{a}0\mathrm{d}6656\mathrm{f}7$.  It reports that an outside curated nucleotide-window manifest was loaded, with snapshot date $2026$-$05$-$25$ and window count $1$.  The same row reports that all input windows were classified by start/stop enumeration: $1$ classified window out of $1$ input window.  Its declared scope is external-window start/stop enumeration only, and its layer result is $\mathrm{orf\_eligibility\_only}$.  Consequently, the finite datum is a one-row start/stop classification over a curated manifest, not a claim that translation occurs or that a protein exists.
+\paragraph{Quotient geometry and enumeration count.}
+The quotient calculation supplies a finite geometric summary, not a biological promotion. For $M$, the reported face vector is $(20,38,26,8,1)$. The quotient image has size $10$, with quotient face vector $(10,14,6,1)$, and the verified quotient rows are
+$$
+\begin{aligned}
+\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
+&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,1,1),\\
+&(1,0,1,0,1),(1,0,1,1,1)\}.
+\end{aligned}
+$$
+The start--stop-window experiment is deliberately smaller in biological scope than these codon-set computations. It loads one external nucleotide-window manifest, counts $1$ input window, and classifies $1$ window by start--stop enumeration. Its stated scope is external window start--stop enumeration only, with snapshot date $2026$-$05$-$25$. The row also records the local classification as $\mathrm{orf\_eligibility\_only}$, which is a scope delimiter: the window is enumerated under the eligibility test, but no assertion is made that translation occurs.
 
-\paragraph{Boundary probes.}
-Two probes determine the admissible reading of the packet.  The first requires a curated ORF interval annotation before an ORF-eligibility assertion can be made; it is broken if the pipeline asserts ORF eligibility, translation, folding, physical admissibility, or function from start/stop-window enumeration alone.  The second checks the gap left by the absence of sequence-database, transcript, or curated-annotation contact; it is broken if the packet records an ORF-eligibility claim without such a testable interval contact.  Both probes therefore place the present chapter at boundary status: the finite rows say what has been enumerated and what would have to be checked next, while withholding the biological conclusion.
+\paragraph{Boundary test.}
+The support condition for the first probe is that the packet remains only a boundary test until a sequence, transcript, or curated-annotation contact supplies the observed interval. Its failure condition would be an assertion of ORF eligibility, translation realization, folded structure, physical admissibility, or biological function from start--stop enumeration alone. The second probe checks the same gap from the annotation side: it fails if the packet records an ORF eligibility claim while no sequence database, transcript evidence, or curated interval annotation can test the proposed interval. Since the contact list is empty, both probes keep the record below the claim threshold.
 
-\paragraph{Local conclusion.}
-The verified data justify the following restricted statement.  A single curated nucleotide-window manifest row has been classified by start/stop enumeration, and the surrounding codon rows $R$, $M$, $\mathrm{Sat}_{f3}(R)$, and the $10$-row quotient geometry are finite and explicitly recorded.  No mismatch row is present, and no separate sequence, transcript, or curated ORF interval contact is attached in the contact list.  Therefore this packet is a boundary record for $\mathrm{orf\_eligibility}$ only.  It does not establish translation realization, folded structure, physical possibility in a cell, biological function, mechanism, or cross-organism generality.  Any future assertion at those layers must be supplied by an additional contact that directly tests the proposed interval rather than by the codon geometry itself.
+\paragraph{Local non-promotion rule.}
+The only ready conclusion is a finite bookkeeping conclusion: the row coherently records the codon sets $R$ and $M$, the $18$-element $f3$ saturation of $R$, the $20$-element medium set, the $10$-row quotient image, and the one-window start--stop enumeration under an eligibility-only label. None of these data imply translation, folding, physical admissibility, biological function, mechanism, or universality. Those stronger biological layers would require a separate contact able to test the relevant biological interval or molecule. In the absence of such a contact, the record is an admissible boundary packet for what must be checked later, not an observed ORF claim.
