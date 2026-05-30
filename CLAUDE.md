@@ -544,3 +544,16 @@ Key routing rules:
 - 反馈优先级: skill 行为不通用 / 写死了 host 假设(如默认 `dotnet build` 或固定 `auto-refact-dev` 分支名) > 文档与代码冲突 > prompt 模糊 > 拼写/格式.
 - skill 内部假设(`$BUILD_CMD` / `$INTEGRATION_BRANCH` / `$REVIEW_BASE_BRANCH` / `$PROJECT_RULES` 等)通过 `$REPO_ROOT/.refactor-loop/host.env` 注入. newmath 的 host.env 是真值, 不要改 skill 去迁就 newmath; 是 skill 该可参数化时, 改 skill.
 - 已知泛化方向(见上游 README): 抽出 `solve → consensus → implement → verify` 引擎脊柱, 让 audit seed 可替换; 去除"refactor"语义壳. 在 newmath 上发现的具体卡点是这条路线的输入.
+
+
+<!-- consensus-rnd:foundational-invariants:start version=1 sha256=13d0114304cfd560482c8546c10990671e17b13695cc9cfb83fb45495e6df807 -->
+## 共识研发不动点（由 consensus-rnd 管理）
+
+- FI-001 AI 产物默认不可信；进入主线前必须经过独立检查，至少包含共识、review 或自动验证中的适用组合。
+- FI-002 Host 事实必须由 host 配置或 host 规则注入；通用 skill / engine 不硬编码具体项目、组织、路径、分支或人员事实。
+- FI-003 稳定核心保持小而可审计；高频变化留在 host 规则、prompt、脚本或扩展层，不下沉为核心不变量。
+- FI-004 跨进程、跨 turn 或跨节点的事实必须有权威记录；进程内记忆、cache、临时变量不能冒充事实源。
+- FI-005 边界优先于便利；职责、层级、协议和状态所有权必须清楚，禁止用中间层快捷方式绕过主链路。
+- FI-006 变更必须可验证且基于 evidence；失败、缺口和越界承诺要显式暴露，禁止用静默假设或禁用测试换取通过。
+- FI-007 删除优先；废弃路径直接移除，除非 host 规则明确要求迁移期兼容。
+<!-- consensus-rnd:foundational-invariants:end -->
