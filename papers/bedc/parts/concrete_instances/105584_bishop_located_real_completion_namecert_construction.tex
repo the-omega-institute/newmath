@@ -64,6 +64,18 @@ The locatedness row is then forced to share the same finite windows. Since $L$ i
 Finally the Real seal is reached through $E$ and preserved by $H,C,P,N$. The handoff is therefore the finite BEDC route through \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-located-real-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
 \end{proof}
 
+\begin{theorem}[Located-real completion Cauchy representation]
+\label{thm:located-real-completion-cauchy-representation}
+Every accepted $\BishopLocatedRealCompletionUp$ packet exposes its regular Cauchy representation only through the shared rows $D,S,R,L$ before the terminal $E$ seal. Thus $\RealUp$ consumers can read DyadicRatCore tolerances, StreamName finite windows, RegSeqRat readback, and LocatedReal locatedness evidence, but they cannot read quotient-stream representatives, selected limits, host equality, countable choice, trichotomy, or ambient Real completeness from the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-real-completion-carrier}. The rows $D,S,R,L$ are the only analytic coordinates available before the terminal $\RealUp$ seal $E$.
+
+Apply \autoref{thm:bishop-located-real-completion-namecert-obligations} and \autoref{thm:bishop-located-real-completion-tolerance-window-exactness}. These results force the representation route to pass through the displayed tolerance ledger, finite window, regular rational readback, and locatedness row on the same window.
+
+Now apply \autoref{thm:bishop-located-real-completion-located-cauchy-handoff} and \autoref{thm:bishop-located-real-completion-real-seal-nonescape}. The handoff identifies the regular Cauchy representation consumed by located-real clients, and the seal nonescape theorem excludes quotient-stream representatives, selected limits, host equality, choice, trichotomy, and ambient completeness from the exported $\RealUp$ surface.
+\end{proof}
+
 \begin{theorem}[Bishop located-real completion Real seal nonescape]
 \label{thm:bishop-located-real-completion-real-seal-nonescape}
 Every $\RealUp$ seal exported by an accepted $\BishopLocatedRealCompletionUp$ packet factors through the displayed rows $D,S,R,L,E,H,C,P,N$. The seal exports no quotient-real equality, selected host limit, host real equality test, countable-choice selector, trichotomy split, open-cover compactness witness, or ambient completeness theorem.
