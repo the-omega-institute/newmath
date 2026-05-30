@@ -16,6 +16,9 @@
 % The block is parsed by lean4/scripts/bedc_ci.py audit and consumed by
 % lean4/scripts/critical_path.py to decide whether a chapter is retired
 % from the horizon work queue. Both axes are mandatory.
+% Refactor (iter/issue-253):
+%   Old pattern: closurestatus 是固定字段协议;要承载更多审计属性会倾向引入版本号(\closureprofileversion{N}),但 3510 个 \begin{closurestatus} block 强制迁移不现实,也违反 CLAUDE.md 禁版本号。
+%   New principle: 开放可扩展审计记录:字段存在性决定能力,声明强度决定严格程度。共识=A-inline now(inline 宏 + bedc_ci 能力检测)+ 文档化 extraction trigger,不建首版 record 模块。
 \NewDocumentEnvironment{closurestatus}{m}{%
   \par\smallskip\noindent%
   \begingroup%
@@ -30,6 +33,14 @@
     \def\notclaimed##1{\textbf{Not claimed:} ##1\par}%
     \def\upgradepath##1{\textbf{Upgrade path:} ##1\par}%
     \def\origin##1{\textbf{Origin:} ##1\par}%
+    \def\closureclaimkind##1{\textbf{Claim kind:} ##1\par}%
+    \def\closureclassifierincrement##1{\textbf{Classifier increment:} ##1\par}%
+    \def\closurenamecert##1{\textbf{NameCert evidence:} ##1\par}%
+    \def\closureledger##1{\textbf{Ledger evidence:} ##1\par}%
+    \def\closuregate##1{\textbf{Gate evidence:} ##1\par}%
+    \def\closureweightprofile##1{\textbf{Weight profile:} ##1\par}%
+    \def\closureparents##1{\textbf{Parent evidence:} ##1\par}%
+    \def\closurelineage##1{\textbf{Lineage evidence:} ##1\par}%
 }{%
   \par\endgroup\smallskip
 }
