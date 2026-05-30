@@ -476,4 +476,40 @@ theorem NormalFormConsistencySealObligations
     ⟨cert, typedFalseUnary, normalTheoremUnary, boundaryReadUnary, replayReadUnary,
       namedReadUnary⟩
 
+theorem NormalFormConsistencySealNonescape
+    {T F N K X H C P L boundaryRead transportRead replayRead provenanceRead
+      namedRead : BHist} :
+    UnaryHistory K ->
+      UnaryHistory X ->
+        UnaryHistory H ->
+          UnaryHistory C ->
+            UnaryHistory P ->
+              UnaryHistory L ->
+                Cont K X boundaryRead ->
+                  Cont boundaryRead H transportRead ->
+                    Cont transportRead C replayRead ->
+                      Cont replayRead P provenanceRead ->
+                        Cont provenanceRead L namedRead ->
+                          UnaryHistory boundaryRead ∧
+                            UnaryHistory transportRead ∧
+                              UnaryHistory replayRead ∧
+                                UnaryHistory provenanceRead ∧
+                                  UnaryHistory namedRead ∧ hsame K K ∧ hsame X X := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro theoremUnary boundaryUnary transportUnary replayUnary provenanceUnary nameUnary
+    boundaryRoute transportRoute replayRoute provenanceRoute nameRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed theoremUnary boundaryUnary boundaryRoute
+  have transportReadUnary : UnaryHistory transportRead :=
+    unary_cont_closed boundaryReadUnary transportUnary transportRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportReadUnary replayUnary replayRoute
+  have provenanceReadUnary : UnaryHistory provenanceRead :=
+    unary_cont_closed replayReadUnary provenanceUnary provenanceRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed provenanceReadUnary nameUnary nameRoute
+  exact
+    ⟨boundaryReadUnary, transportReadUnary, replayReadUnary, provenanceReadUnary,
+      namedReadUnary, hsame_refl K, hsame_refl X⟩
+
 end BEDC.Derived.NormalFormConsistencySealUp
