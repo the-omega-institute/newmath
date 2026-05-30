@@ -169,6 +169,18 @@ Apply \autoref{thm:metacic-confluence-critical-pair-common-reduct-boundary}. It 
 The rows $S$ and $U$ record the non-claim separation. They keep subject-reduction discharge, arbitrary closed-term Church--Rosser, full parallel diamond, and residual-substitution compatibility outside the local critical-pair packet, while $H,C,P,N$ only transport, replay, source, and name the displayed finite route.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-pair local-join coverage]
+\label{thm:metacic-critical-pair-local-join-coverage}
+Let $B=(R,K,J,E,D,S,U,H,C,P,N)$ be an accepted $\MetaCICConfluenceCriticalPairBoundaryUp$ carrier. Every critical-pair row accepted in $K$ and consumed as locally joinable has its corresponding join candidate displayed in $J$. Verification of that candidate factors through either the bounded normal-equality row $E$ or the closed-normal fragment row $D$ before the subject-reduction separation row $S$ can be read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-critical-pair-boundary-carrier}. The projection separates the critical-pair table $K$, the common-reduct table $J$, the bounded normal-equality checker $E$, the closed-normal fragment $D$, and the subject-reduction separation row $S$.
+
+Apply \autoref{thm:metacic-confluence-critical-pair-boundary-obligations} and \autoref{thm:metacic-confluence-critical-pair-common-reduct-boundary}. The obligations attach critical-pair display to $K$ and common-reduct display to $J$, while the common-reduct boundary forces the verification route through $E$ or $D$ before any downstream boundary row is consumed.
+
+Finally apply \autoref{thm:metacic-critical-pair-subject-reduction-separation} and \autoref{thm:metacic-confluence-critical-pair-local-join}. Local joinability is therefore a finite $K,J,E,D$ coverage claim, with $S$ read only as the later subject-reduction boundary and not as a hidden proof of global confluence.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence critical-pair field-faithful prediction]
 \label{thm:metacic-confluence-critical-pair-fieldfaithful-prediction}
 Let $B=(R,K,J,E,D,S,U,H,C,P,N)$ and $B'=(R',K',J',E',D',S',U',H',C',P',N')$ be accepted $\MetaCICConfluenceCriticalPairBoundaryUp$ carriers. If their displayed field projections agree componentwise on $R,K,J,E,D,S,U,H,C,P,N$, then they expose the same critical-pair and common-reduct boundary route. In particular, the critical-pair table $K$ and common-reduct table $J$ cannot be erased or replaced by aliases of $R,E,D,S,U,H,C,P,N$ without changing the public packet classifier.

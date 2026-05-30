@@ -45,6 +45,38 @@ theorem CauchyCompletionLeftExactnessNameCertObligations
     unary_cont_closed extensionUnary' extensionUnary replayRoute
   exact ⟨sourceUnitUnary, denseKernelUnary, extensionUnary', routeUnary⟩
 
+def CauchyCompletionLeftExactnessCarrier (S U D K E H C P N : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist UnaryHistory
+  UnaryHistory S ∧ UnaryHistory U ∧ UnaryHistory D ∧ UnaryHistory K ∧
+    UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N
+
+theorem CauchyCompletionLeftExactnessUnitDensityRoute [AskSetup] [PackageSetup]
+    {S U D K E H C P N sourceUnit denseKernel extension route : BHist} :
+    CauchyCompletionLeftExactnessCarrier S U D K E H C P N ->
+      Cont S U sourceUnit ->
+        Cont D K denseKernel ->
+          Cont sourceUnit denseKernel extension ->
+            Cont extension E route ->
+              UnaryHistory sourceUnit ∧ UnaryHistory denseKernel ∧
+                UnaryHistory extension ∧ UnaryHistory route ∧ Cont S U sourceUnit ∧
+                  Cont D K denseKernel ∧ Cont sourceUnit denseKernel extension ∧
+                    Cont extension E route := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory AskSetup PackageSetup
+  intro carrier sourceUnitRoute denseKernelRoute extensionRoute replayRoute
+  obtain ⟨sUnary, uUnary, dUnary, kUnary, eUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary⟩ := carrier
+  have sourceUnitUnary : UnaryHistory sourceUnit :=
+    unary_cont_closed sUnary uUnary sourceUnitRoute
+  have denseKernelUnary : UnaryHistory denseKernel :=
+    unary_cont_closed dUnary kUnary denseKernelRoute
+  have extensionUnary : UnaryHistory extension :=
+    unary_cont_closed sourceUnitUnary denseKernelUnary extensionRoute
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed extensionUnary eUnary replayRoute
+  exact
+    ⟨sourceUnitUnary, denseKernelUnary, extensionUnary, routeUnary, sourceUnitRoute,
+      denseKernelRoute, extensionRoute, replayRoute⟩
+
 theorem CauchyModulusSpaceFiniteRoute [AskSetup] [PackageSetup]
     {index schedule stream dyadic readback realSeal transport replay provenance localName
       route : BHist}
