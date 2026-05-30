@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HyperspaceUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -200,5 +212,78 @@ theorem HyperspaceTasteGate_single_carrier_alignment :
         · constructor
           · exact hyperspace_round_trip
           · rfl
+
+def HyperspaceCarrier [AskSetup] [PackageSetup]
+    (X K0 K1 N0 N1 D0 D1 R Hs C P M : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory X ∧ UnaryHistory K0 ∧ UnaryHistory K1 ∧ UnaryHistory N0 ∧
+    UnaryHistory N1 ∧ UnaryHistory D0 ∧ UnaryHistory D1 ∧ UnaryHistory R ∧
+      UnaryHistory Hs ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory M ∧
+        PkgSig bundle P pkg
+
+theorem Hyperspace_hausdorff_distance_stability [AskSetup] [PackageSetup]
+    {X K0 K1 N0 N1 D0 D1 R Hs C P M distanceRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HyperspaceCarrier X K0 K1 N0 N1 D0 D1 R Hs C P M bundle pkg →
+      Cont D0 D1 distanceRead →
+        Cont distanceRead R publicRead →
+          PkgSig bundle publicRead pkg →
+            UnaryHistory distanceRead ∧ UnaryHistory publicRead ∧
+              hsame distanceRead (append D0 D1) ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row X ∨ hsame row D0 ∨ hsame row D1 ∨ hsame row R ∨
+                      hsame row distanceRead ∨ hsame row publicRead)
+                  (fun row : BHist =>
+                    hsame row publicRead ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle publicRead pkg)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier distanceRoute publicRoute publicPkg
+  obtain ⟨_xUnary, _k0Unary, _k1Unary, _n0Unary, _n1Unary, d0Unary, d1Unary,
+    rUnary, _hsUnary, _cUnary, pUnary, _mUnary, provenancePkg⟩ := carrier
+  have distanceUnary : UnaryHistory distanceRead :=
+    unary_cont_closed d0Unary d1Unary distanceRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed distanceUnary rUnary publicRoute
+  have distanceExact : hsame distanceRead (append D0 D1) := distanceRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row X ∨ hsame row D0 ∨ hsame row D1 ∨ hsame row R ∨
+            hsame row distanceRead ∨ hsame row publicRead)
+        (fun row : BHist =>
+          hsame row publicRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle publicRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead (And.intro (hsame_refl publicRead) publicUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        have samePublic : hsame row' publicRead :=
+          hsame_trans (hsame_symm sameRows) source.left
+        have rowUnary : UnaryHistory row' :=
+          unary_transport source.right sameRows
+        exact And.intro samePublic rowUnary
+    }
+    pattern_sound := by
+      intro row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro row source
+      exact And.intro source.left (And.intro provenancePkg publicPkg)
+  }
+  exact ⟨distanceUnary, publicUnary, distanceExact, cert⟩
 
 end BEDC.Derived.HyperspaceUp
