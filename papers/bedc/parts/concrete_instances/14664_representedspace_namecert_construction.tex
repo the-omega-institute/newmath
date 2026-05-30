@@ -159,7 +159,7 @@ $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. Since the carrier has
 no coordinate for quotient names, selected representatives, host real equality,
 completeness, or choice, no such route can be read by a consumer.
 \end{proof}
-\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_streamname\_real\_handoff}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceStreamnameRealHandoff}
 
 \begin{theorem}[RepresentedSpace schedule representation exactness]
 \label{thm:representedspace-schedule-representation-exactness}
@@ -412,6 +412,38 @@ Apply the NameCert obligations and name-schedule coverage, \autoref{thm:represen
 The Cauchy-name content is then read through the existing target route. Theorems~\ref{thm:representedspace-streamname-representation-source}, \ref{thm:representedspace-realization-exactness}, and \ref{thm:representedspace-target-seal-ledger-package} place $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ data behind the representation relation and the target-seal ledger attached to $X$.
 
 Finally use the scoped package theorem \autoref{thm:representedspace-scoped-package}. It keeps transport, replay, provenance, and local naming inside $H,C,P,N$ and does not add an equivalence between source names. Since the excluded objects are not carrier coordinates, the Cauchy-name read remains scoped by the displayed representation rows.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace realizer scope]
+\label{thm:represented-space-realizer-scope}
+For every accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$, each realizer read is scoped by the displayed rows $S,W,\rho,X,T,H,C,P,N$. The read must open the finite $\StreamNameUp$ schedule in $W$ before it consumes the representation relation $\rho$ or the target row $X$, and it cannot bypass the schedule by using an implicit name oracle, quotient representation, selected realizer, host equality, countable choice, or ambient completion datum.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:representedspace-carrier}. The only realizer-facing source rows are the name carrier $S$, the finite schedule $W$, the representation relation $\rho$, and the target row $X$, with $T,H,C,P,N$ preserving and naming the same route.
+
+Apply the schedule obligation of \autoref{thm:representedspace-name-schedule-obligation} and the source theorem \autoref{thm:representedspace-streamname-representation-source}. They force every target-facing realizer read to expose the finite $\StreamNameUp$ windows before $\rho$ or $X$ can be inspected.
+
+Use representation exactness and target nonescape, \autoref{thm:representedspace-realization-exactness} and \autoref{thm:representedspace-target-handoff-nonescape}. The realized target is read through the displayed relation and cannot be replaced by an implicit oracle or host equality.
+
+Finally apply \autoref{thm:representedspace-scoped-package}. Componentwise transport, replay, provenance, and local naming remain inside $T,H,C,P,N$, so the excluded quotient, selected-realizer, choice, and completion objects have no carrier coordinate from which a bypass could be read.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace admissible Cauchy handoff]
+\label{thm:represented-space-admissible-cauchy-handoff}
+Let an accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$ be consumed by an admissible Cauchy-facing represented-space consumer. Before any target row is sealed for that consumer, the read factors through the finite route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+The handoff is mediated by the displayed schedule $W$, representation relation $\rho$, target row $X$, componentwise $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local name $N$. It exports no quotient Cauchy names, selected representatives, host real equality, countable choice, ambient real completeness, or separate admissibility oracle.
+\end{theorem}
+\begin{proof}
+Begin with the Cauchy-name scope package \autoref{thm:represented-space-cauchy-name-scope-package}. It places Cauchy-facing reads behind the displayed schedule, representation relation, target row, classifier transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:representedspace-streamname-real-handoff} and \autoref{thm:representedspace-target-seal-ledger-package}. They route the real-facing target through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the terminal $\RealUp$ seal before a target consumer can read the sealed object.
+
+Apply admissible finality from \autoref{thm:representedspace-admissible-finality}. The admissible consumer receives the same finite route rather than a separate oracle over names.
+
+The scoped package theorem \autoref{thm:representedspace-scoped-package} then replays $T,H,C,P,N$ around that route. Since quotient Cauchy names, selected representatives, host equality, choice, and ambient completeness are absent from \autoref{def:representedspace-carrier}, the displayed handoff is the whole admissible Cauchy interface.
 \end{proof}
 
 \closureat{RepresentedSpaceUp}{obligationStr}
