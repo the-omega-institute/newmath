@@ -1758,7 +1758,6 @@ import BEDC.Derived.CauchyfiltercompletionUp.RootLimitExistence
 import BEDC.Derived.CauchyfiltercompletionUp.RootRealSealHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.RootSiblingDependencyRoute
 import BEDC.Derived.CauchyfiltercompletionUp.RootUnblock
-import BEDC.Derived.CauchyfiltercompletionUp.RootUniformFilterReadback
 import BEDC.Derived.CauchyfiltercompletionUp.SealFactorizationObligation
 import BEDC.Derived.CauchyfiltercompletionUp.TasteGate
 import BEDC.Derived.CauchyfiltercompletionUp.UniformCompletionUniversalProperty
@@ -1897,7 +1896,6 @@ import BEDC.Derived.ClosedBoundedIntervalUp.ConsumerNonescapeObligations
 import BEDC.Derived.ClosedBoundedIntervalUp.ContainmentLedgerObligations
 import BEDC.Derived.ClosedBoundedIntervalUp.DownstreamCoverageSurface
 import BEDC.Derived.ClosedBoundedIntervalUp.DyadicContainmentTotality
-import BEDC.Derived.ClosedBoundedIntervalUp.EndpointClassifierStability
 import BEDC.Derived.ClosedBoundedIntervalUp.EndpointOrderTransport
 import BEDC.Derived.ClosedBoundedIntervalUp.FiniteCoverNonescape
 import BEDC.Derived.ClosedBoundedIntervalUp.FiniteWindowTransportObligations
