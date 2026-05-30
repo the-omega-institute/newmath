@@ -54,6 +54,9 @@ def should_stop() -> bool:
 def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_dispatch: int = 1) -> NestedLoopRunner:
     store = BioRealityStore(paths)
 
+    def oracle_server_ensure() -> dict[str, object]:
+        return lanes.run_oracle_server_lane(store)
+
     def sync_auto_dev() -> dict[str, object]:
         return lanes.run_sync_lane(store)
 
@@ -62,6 +65,9 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
 
     def vision_intake() -> dict[str, object]:
         return lanes.run_vision_lane(store)
+
+    def consume_server_oracle_responses() -> dict[str, object]:
+        return lanes._oracle_session_backfill_lane(store)
 
     def gate_and_plan() -> dict[str, object]:
         return lanes.run_gate_lane(store)
@@ -81,6 +87,9 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
     def writeback_paper() -> dict[str, object]:
         return lanes.run_writeback_lane(store)
 
+    def heal_writeback() -> dict[str, object]:
+        return lanes.run_writeback_heal_lane(store)
+
     def bedc_writeback() -> dict[str, object]:
         return lanes.run_bedc_writeback_lane(store)
 
@@ -93,21 +102,28 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
     def keep_and_push() -> dict[str, object]:
         return lanes.run_keep_lane(store)
 
+    def merge_back_to_upstream() -> dict[str, object]:
+        return lanes.run_merge_back_lane(store)
+
     return NestedLoopRunner(
         [
+            LoopUnit("bio_O_oracle_server_ensure", oracle_server_ensure),
             LoopUnit("bio_S_sync_auto_dev", sync_auto_dev),
             LoopUnit("bio_P_packet_targets", packet_targets),
             LoopUnit("bio_V_vision_intake", vision_intake),
+            LoopUnit("bio_C_consume_server_oracle", consume_server_oracle_responses),
             LoopUnit("bio_G_gate_and_plan", gate_and_plan),
             LoopUnit("bio_X_execute_experiments", execute_experiments),
             LoopUnit("bio_N_namecert_decomposition", namecert_decomposition),
             LoopUnit("bio_Plan_phase_and_stuck", plan_phase_and_stuck),
             LoopUnit("bio_R_agent_dispatch", agent_dispatch),
             LoopUnit("bio_W_writeback_paper", writeback_paper),
+            LoopUnit("bio_H_heal_writeback", heal_writeback),
             LoopUnit("bio_B_bedc_writeback", bedc_writeback),
             LoopUnit("bio_Q_quality_hardening", quality_hardening),
             LoopUnit("bio_A_assimilate_signals", assimilate_signals),
             LoopUnit("bio_K_keep_and_push", keep_and_push),
+            LoopUnit("bio_M_merge_back_to_upstream", merge_back_to_upstream),
         ],
         LoopState(STATE_DIR / "loop_state.json"),
     )

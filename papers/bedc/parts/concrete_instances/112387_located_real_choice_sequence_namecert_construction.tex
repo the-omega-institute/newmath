@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealChoiceSequenceUp$}
+\label{ch:concrete-instances-located-real-choice-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedRealChoiceSequenceUp$ packet records the finite choice-sequence surface by which located real observations are read as scheduled rational windows rather than as selected completed representatives. It sits downstream of the located-real carrier of \autoref{ch:concrete-instances-locatedreal-namecert}, the finite schedule discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the comparison boundary of \autoref{ch:concrete-instances-bishoprealcomparison-namecert}. The packet names a finite L10 choice-sequence interface only; it does not import countable choice, quotient streams, selected representatives, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[LocatedRealChoiceSequence carrier]
+\label{def:located-real-choice-sequence-carrier}
+A $\LocatedRealChoiceSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(L,S,D,R,E,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedRealUp$ source row, naming the located real endpoint or local located-real family inspected by the choice-sequence request.
+\item $S$ is the $\StreamNameUp$ schedule row, listing the finite indices, stages, and observation windows read before the request is accepted.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, carrying the dyadic radii and residue checks attached to the windows in $S$.
+\item $R$ is the $\RegSeqRatUp$ readback row, packaging the scheduled rational observations as regular Cauchy data with the displayed tolerance schedule.
+\item $E$ is the $\RealUp$ seal row reached only after $L,S,D,R$ have been displayed.
+\item $B$ is the $\BishopRealComparisonUp$ boundary row, recording any finite comparison or overlap evidence used to keep the located-real windows compatible with the regular rational readback.
+\item $H$ records componentwise $\hsame$ transport for located-real rows, schedules, dyadic tolerances, regular readbacks, Real seals, comparison rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a choice-sequence request through $L,S,D,R,E,B,H$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealChoiceSequenceUp$, $\LocatedRealUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BishopRealComparisonUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedRealChoiceSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a countable choice functional, quotient stream equality, a selected representative of a real, trichotomy of located real comparisons, or an ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[LocatedRealChoiceSequence NameCert obligations]
+\label{thm:located-real-choice-sequence-namecert-obligations}
+For every accepted $\LocatedRealChoiceSequenceUp$ carrier
+$$
+Q=(L,S,D,R,E,B,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedRealChoiceSequenceUp}$ surface consists exactly of carrier admission for the located-real source $L$, finite $\StreamNameUp$ schedule exposure through $S$, dyadic tolerance access through $D$, regular rational readback through $R$, terminal $\RealUp$ seal admission through $E$, Bishop comparison-boundary access through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-real-choice-sequence-carrier}. The located source is $L$, and the only schedule available to a consumer is the finite $\StreamNameUp$ row $S$.
+
+The rational data are downstream of that schedule. The dyadic tolerance ledger $D$ attaches radii and residue checks to the same inspected windows, and $R$ repacks those scheduled observations as a $\RegSeqRatUp$ readback.
+
+The real-facing and comparison rows are then forced. The seal $E$ is reached only after $L,S,D,R$ have been displayed, while $B$ records the finite $\BishopRealComparisonUp$ boundary data used to compare or overlap the displayed windows.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly the same finite packet. Since the carrier has no row for countable choice, quotient streams, selected representatives, trichotomy, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[LocatedRealChoiceSequence regular-window handoff]
+\label{thm:located-real-choice-sequence-regseqrat-window-handoff}
+Every $\RegSeqRatUp$ read exported by an accepted $\LocatedRealChoiceSequenceUp$ carrier factors through the finite route
+$$
+\LocatedRealUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp,\ \BishopRealComparisonUp .
+$$
+Thus a downstream real or comparison consumer receives only the displayed located-real row, the finite schedule windows, the dyadic tolerance ledger, the regular rational readback, the Real seal, the Bishop comparison boundary, and the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the source and schedule rows first. The located-real row $L$ supplies the inspected endpoint or local family, and the finite schedule row $S$ names exactly the stages and windows available to the request.
+
+The regular readback cannot bypass the tolerance ledger. The row $D$ stores the dyadic budgets attached to those windows, and $R$ is the only $\RegSeqRatUp$ row in the carrier, so every regular rational read factors through $D$ and then through $R$.
+
+The downstream rows preserve this order. The $\RealUp$ seal $E$ and the $\BishopRealComparisonUp$ boundary $B$ are listed after the scheduled readback, and the structural rows $H,C,P,N$ transport, replay, source, and name that same route. No refused object is a coordinate of the carrier, so no consumer can read a quotient stream, selected representative, trichotomy row, countable-choice functional, or ambient completeness witness through this handoff.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LocatedRealChoiceSequenceUp$ consumer that reads a regular rational or Real-facing choice-sequence row without first displaying the located-real source, finite stream schedule, dyadic tolerance ledger, regular readback, Real seal, Bishop comparison boundary, transport, replay, provenance, and local naming refutes the carrier surface.}
+
+\independenceWitness{located-real, streamname, regseqrat, dyadicratcore, real, bishop-real-comparison: $\LocatedRealChoiceSequenceUp$ is not bijective to any listed sibling because it jointly carries a located-real source, finite StreamName schedule rows, DyadicRatCore tolerance rows, RegSeqRat readbacks, Real seals, Bishop comparison boundaries, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+
+\closureat{LocatedRealChoiceSequenceUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealChoiceSequenceUp}
+  \constructivestory{A $\LocatedRealChoiceSequenceUp$ packet is generated from a located-real source, finite StreamName schedule rows, DyadicRatCore tolerance rows, RegSeqRat readbacks, RealUp seal rows, BishopRealComparison boundary rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-choice-sequence-carrier}, \autoref{thm:located-real-choice-sequence-namecert-obligations}, and \autoref{thm:located-real-choice-sequence-regseqrat-window-handoff} seed the finite located-real choice-sequence route over schedules, tolerances, regular readbacks, Real seals, comparison boundaries, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim countable choice, quotient streams, selected representatives, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, schedule exposure, dyadic tolerance exactness, RegSeqRat readback handoff, Real seal nonescape, Bishop comparison-boundary stability, and structural transport for BEDC.Derived.LocatedRealChoiceSequenceUp.}
+\end{closurestatus}
