@@ -21,6 +21,8 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  DOSSIER_RENDER_IMAGE: ghcr.io/xu-cheng/texlive-full@sha256:8b4a00b6a17ebe6b96dee107d82f0cb3eb40daf322f1e23809a9be26486963dd
+  DOSSIER_RUNTIME_SMOKE: .github/images/dossier-render/smoke.sh
 
 jobs:
   render_check:
@@ -28,6 +30,8 @@ jobs:
     if: ${{ inputs.upload_pages_artifact == false }}
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    container:
+      image: ghcr.io/xu-cheng/texlive-full@sha256:8b4a00b6a17ebe6b96dee107d82f0cb3eb40daf322f1e23809a9be26486963dd
     steps:
       - name: Check out repository
         run: |
@@ -39,17 +43,24 @@ jobs:
           git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=2 origin "${{ inputs.checkout_ref }}"
           git -C "$GITHUB_WORKSPACE" checkout --force FETCH_HEAD
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          version: "1.9.37"
+      - name: Install pinned runtime fallback
+        run: |
+          set -euo pipefail
+          QV=1.9.37
+          NV=22.22.3
+          curl -fsSL -o /tmp/quarto.tar.gz "https://github.com/quarto-dev/quarto-cli/releases/download/v${QV}/quarto-${QV}-linux-amd64.tar.gz"
+          echo "78fcd90e983e3e7dbe3f0d1921cc10253c1eca7b92c20dd4bc2a3c1bca0a9af5  /tmp/quarto.tar.gz" | sha256sum -c -
+          mkdir -p /opt/quarto
+          tar -xzf /tmp/quarto.tar.gz -C /opt/quarto --strip-components=1
+          curl -fsSL -o /tmp/node.tar.xz "https://unofficial-builds.nodejs.org/download/release/v${NV}/node-v${NV}-linux-x64-musl.tar.xz"
+          echo "fc04ab27123cb34d2bca3416493e86ced2f81e1ab9b51e532721ed27a1ef677d  /tmp/node.tar.xz" | sha256sum -c -
+          mkdir -p /opt/node
+          tar -xJf /tmp/node.tar.xz -C /opt/node --strip-components=1
+          echo "/opt/quarto/bin" >> "$GITHUB_PATH"
+          echo "/opt/node/bin" >> "$GITHUB_PATH"
 
-      - name: Set up Node.js (for dagre layout bake)
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: tools/dagre_layout/package-lock.json
+      - name: Smoke dossier render runtime
+        run: bash "$DOSSIER_RUNTIME_SMOKE"
 
       - name: Install dagre layout deps
         run: npm ci
@@ -82,16 +93,6 @@ jobs:
 
       - name: Build dossier visualization data
         run: python3 tools/build_dossier_status.py
-
-      - name: Install make4ht dependencies
-        run: |
-          set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            texlive-extra-utils texlive-latex-recommended texlive-latex-extra \
-            texlive-plain-generic texlive-luatex \
-            texlive-fonts-recommended texlive-fonts-extra dvisvgm
-          make4ht --version || (echo "make4ht not found after install" && exit 1)
 
       - name: Build sampled NameCert HTML pages
         run: |
@@ -130,7 +131,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 150
     container:
-      image: ghcr.io/xu-cheng/texlive-full:latest
+      image: ghcr.io/xu-cheng/texlive-full@sha256:8b4a00b6a17ebe6b96dee107d82f0cb3eb40daf322f1e23809a9be26486963dd
     steps:
       - name: Check out repository
         run: |
@@ -142,22 +143,24 @@ jobs:
           git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=2 origin "${{ inputs.checkout_ref }}"
           git -C "$GITHUB_WORKSPACE" checkout --force FETCH_HEAD
 
-      - name: Install Quarto (容器内直装,texlive-full 无 sudo)
+      - name: Install pinned runtime fallback
         run: |
           set -euo pipefail
           QV=1.9.37
+          NV=22.22.3
           curl -fsSL -o /tmp/quarto.tar.gz "https://github.com/quarto-dev/quarto-cli/releases/download/v${QV}/quarto-${QV}-linux-amd64.tar.gz"
+          echo "78fcd90e983e3e7dbe3f0d1921cc10253c1eca7b92c20dd4bc2a3c1bca0a9af5  /tmp/quarto.tar.gz" | sha256sum -c -
           mkdir -p /opt/quarto
           tar -xzf /tmp/quarto.tar.gz -C /opt/quarto --strip-components=1
           echo "/opt/quarto/bin" >> "$GITHUB_PATH"
-          /opt/quarto/bin/quarto --version
+          curl -fsSL -o /tmp/node.tar.xz "https://unofficial-builds.nodejs.org/download/release/v${NV}/node-v${NV}-linux-x64-musl.tar.xz"
+          echo "fc04ab27123cb34d2bca3416493e86ced2f81e1ab9b51e532721ed27a1ef677d  /tmp/node.tar.xz" | sha256sum -c -
+          mkdir -p /opt/node
+          tar -xJf /tmp/node.tar.xz -C /opt/node --strip-components=1
+          echo "/opt/node/bin" >> "$GITHUB_PATH"
 
-      - name: Set up Node.js (for dagre layout bake)
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: tools/dagre_layout/package-lock.json
+      - name: Smoke dossier render runtime
+        run: bash "$DOSSIER_RUNTIME_SMOKE"
 
       - name: Install dagre layout deps
         run: npm ci
@@ -202,9 +205,6 @@ jobs:
           key: dossier-html-${{ hashFiles('papers/bedc/**/*.tex', 'papers/bedc/make4ht-dossier.cfg', 'tools/build_namecert_html.py') }}
           restore-keys: |
             dossier-html-
-
-      - name: Check full TeXLive make4ht
-        run: make4ht --version || (echo "make4ht not found in full TeXLive image" && exit 1)
 
       - name: Build all NameCert HTML pages
         run: |
