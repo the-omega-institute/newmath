@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\ClassifierShiftDiscoveryGateUp$}
+\label{ch:concrete-instances-classifier-shift-discovery-gate-namecert}
+\origin{ai}
+
+The $\ClassifierShiftDiscoveryGateUp$ packet realizes the classifier-change boundary of \autoref{ch:automated-theory-discovery-pipeline-calculus} as a finite NameCert surface. It sits beside the discovery-pipeline calculus of \autoref{ch:concrete-instances-discovery-pipeline-calculus-namecert} and the GroundCompiler audit map of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}: those siblings expose pipeline rows and compiler audit rows, while this packet isolates the gate that separates true classifier shift from raw generated-record growth.
+
+\begin{definition}[Classifier-shift discovery gate carrier]
+\label{def:classifier-shift-discovery-gate-carrier}
+A $\ClassifierShiftDiscoveryGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,A,Q,L,K,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite theory-state row, recording the source classifier, accepted claim kind, and semantic NameCert boundary.
+\item $A$ is the automation-record row, listing generated records without treating record count as discovery evidence.
+\item $Q$ is the classifier-shift row, displaying the before-and-after classifier data and the finite witness that they differ at the gate boundary.
+\item $L$ is the lineage row, recording the parent claim, child claim, transition kind, and audit route for the shift.
+\item $K$ is the gate row, admitting discovery only when $Q$ and $L$ are both visible and compatible with the state row $S$.
+\item $R$ is the refusal row, demoting raw record growth, score-only compression, unledgered recombination, and classifier-change claims without semantic naming.
+\item $H$ records componentwise $\hsame$ transport for state, automation, classifier-shift, lineage, gate, refusal, replay, provenance, and the local name.
+\item $C$ records displayed $\Cont$ replay from a proposed discovery claim through $S,A,Q,L,K,R$ and back to the local gate rows.
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:concrete-instances-discovery-pipeline-calculus-namecert}, \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ClassifierShiftDiscoveryGateUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for admitting discovery from generated-record volume, hidden scoring weights, unledgered classifier claims, host compiler authority, or prose novelty without a displayed classifier-shift row.
+\end{definition}
+
+\begin{theorem}[Classifier-shift discovery gate NameCert obligations]
+\label{thm:classifier-shift-discovery-gate-namecert-obligations}
+For every accepted $\ClassifierShiftDiscoveryGateUp$ carrier $G=(S,A,Q,L,K,R,H,C,P,N)$, the local $\NameCert_{\ClassifierShiftDiscoveryGateUp}$ surface consists exactly of finite theory-state exposure through $S$, automation-record exposure through $A$, classifier-shift evidence through $Q$, lineage accountability through $L$, gate admission through $K$, refusal through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. In particular, $K$ cannot admit discovery unless $Q$ records classifier change and $L$ records the finite lineage route for that change.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:classifier-shift-discovery-gate-carrier}. The state row $S$ fixes the classifier being tested, and $A$ records generated material without making it a discovery witness.
+
+The classifier-shift row $Q$ is the first row that can change the gate verdict. The lineage row $L$ records how the shifted claim descends from the source claim, so a classifier-change assertion cannot enter as an untracked external label.
+
+The gate row $K$ consumes $S,Q,L$ before admitting discovery, while $R$ records the rejected cases. The structural rows $H,C,P,N$ transport, replay, cite, and name the same finite route.
+
+Therefore the NameCert surface is exactly the listed row surface, and raw generated-record growth alone cannot pass the classifier-shift discovery gate.
+\end{proof}
+
+Future Lean $\mathsf{TasteGate.lean}$ must provide $\mathsf{Nontrivial}\ \ClassifierShiftDiscoveryGateUp$ and $\mathsf{FieldFaithful}\ \ClassifierShiftDiscoveryGateUp$ instances for the displayed packet.
+
+\falsifiablePrediction{A $\ClassifierShiftDiscoveryGateUp$ packet that admits discovery from automation-record growth while its classifier-shift row $Q$ is absent or unchanged refutes the gate of \autoref{def:classifier-shift-discovery-gate-carrier}.}
+
+\independenceWitness{discovery_pipeline_calculus, groundcompilerauditmap, groundcompilerrecognition, audit_map_concrete_inventory: $\ClassifierShiftDiscoveryGateUp$ is not bijective to any sibling because it isolates state, genome-facing automation records, score-facing admission data, lineage, classifier-shift evidence, gate, refusal, transport, replay, provenance, and local NameCert rows as the finite boundary for discovery admission.}
+
+\closureat{ClassifierShiftDiscoveryGateUp}{seedStr}
+
+\begin{closurestatus}{\ClassifierShiftDiscoveryGateUp}
+  \constructivestory{A $\ClassifierShiftDiscoveryGateUp$ packet is generated from finite theory state, automation records, classifier-shift evidence, lineage, gate admission, refusal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:classifier-shift-discovery-gate-carrier} and \autoref{thm:classifier-shift-discovery-gate-namecert-obligations} seed the finite classifier-shift gate separating discovery admission from raw generated-record growth.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, a standard bridge, automated theorem proving, self-certified discovery, host compiler authority, hidden scoring, or unledgered classifier change.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier-shift exactness, lineage compatibility, refusal exactness, gate soundness, and TasteGate compatibility for BEDC.Derived.ClassifierShiftDiscoveryGateUp.}
+\end{closurestatus}
