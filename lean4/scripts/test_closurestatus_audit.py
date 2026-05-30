@@ -11,12 +11,14 @@ sys.path.insert(0, str(Path(__file__).parent))
 from bedc_ci import (  # type: ignore[import-not-found]
     CLOSURESTATUS_BEGIN_RE,
     CLOSURESTATUS_FIELD_RE,
+    _discovery_candidate_blocks,
     audit_payload,
     cmd_discovery_audit,
     collect_closurestatus_blocks,
     diagnose_closurestatus_block,
     diagnose_closurestatus_open_fields,
     discovery_audit_payload,
+    parser as bedc_parser,
 )
 
 
@@ -219,6 +221,11 @@ class DiscoveryAuditTests(unittest.TestCase):
         base.update(overrides)
         return base
 
+    def test_discovery_audit_subcommand_dispatches_to_command(self) -> None:
+        args = bedc_parser().parse_args(["discovery-audit", "--json"])
+        self.assertIs(args.func, cmd_discovery_audit)
+        self.assertTrue(args.json)
+
     def test_discovery_audit_reports_ledger_gaps(self) -> None:
         payload = discovery_audit_payload([self._block()])
         kinds = {item["kind"] for item in payload["ledger_gaps"]}
@@ -268,6 +275,43 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertIn("missing_backend_ledger_cue", kinds)
         self.assertIn("missing_trust_ledger_cue", kinds)
         self.assertIn("missing_dependency_ledger_cue", kinds)
+
+    def test_discovery_candidate_scope_excludes_non_candidate_blocks(self) -> None:
+        cases = {
+            "human_origin": self._block(origin="human"),
+            "seed_closure": self._block(theory_closure="seedClosure"),
+            "missing_theory_closure": self._block(theory_closure=None),
+            "parser_error": self._block(error="unterminated closurestatus block"),
+        }
+        for name, block in cases.items():
+            with self.subTest(name=name):
+                self.assertEqual(_discovery_candidate_blocks([block]), [])
+                payload = discovery_audit_payload([block])
+                self.assertEqual(payload["candidate_count"], 0)
+                self.assertEqual(payload["ledger_gap_count"], 0)
+                self.assertEqual(payload["scope_global_risk_count"], 0)
+                self.assertEqual(payload["verification_ledger_gap_count"], 0)
+                self.assertEqual(payload["ledger_gaps"], [])
+                self.assertEqual(payload["scope_global_risks"], [])
+                self.assertEqual(payload["verification_ledger_gaps"], [])
+
+    def test_discovery_audit_reports_unknown_ledger_kind(self) -> None:
+        payload = discovery_audit_payload([
+            self._block(
+                open_fields={
+                    "closureclaimkind": "discovery",
+                    "closurenamecert": "NameCert row",
+                    "closureledger": "opaque packet row",
+                    "closureclassifierincrement": "1",
+                }
+            )
+        ])
+        matches = [
+            item for item in payload["ledger_gaps"]
+            if item["kind"] == "kind_unknown"
+        ]
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(matches[0]["evidence"], "opaque packet row")
 
     def test_discovery_audit_command_never_fails(self) -> None:
         args = type("Args", (), {"json": True, "verbose": False})()
