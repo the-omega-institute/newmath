@@ -2772,6 +2772,7 @@ import BEDC.Derived.DecimalExpansionUp.RatRealHandoff
 import BEDC.Derived.DecimalExpansionUp.RealWindowExhaustionAuditRoute
 import BEDC.Derived.DecimalExpansionUp.TailDigitStability
 import BEDC.Derived.DecimalExpansionUp.TasteGate
+import BEDC.Derived.DecimalExpansionUp.WindowNormalizationObligation
 import BEDC.Derived.DecimalIntervalRealUp
 import BEDC.Derived.DecimalNormalityUp.TasteGate
 import BEDC.Derived.DecimalRealUp.TasteGate
@@ -3360,6 +3361,7 @@ import BEDC.Derived.FanContinuityPrincipleUp.TasteGate
 import BEDC.Derived.FanSpaceUp.TasteGate
 import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
+import BEDC.Derived.FareySequenceUp.ApproximationWindowFactorization
 import BEDC.Derived.FareySequenceUp.DenominatorBoundWindow
 import BEDC.Derived.FareySequenceUp.DenominatorRefinement
 import BEDC.Derived.FareySequenceUp.DenominatorRefinementInduction
@@ -7263,6 +7265,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionMonadUp
 import BEDC.Derived.UniformCompletionMonadUp.TasteGate
 import BEDC.Derived.UniformCompletionSeparationKernelUp
+import BEDC.Derived.UniformCompletionSeparationKernelUp.TasteGate
 import BEDC.Derived.UniformCompletionUp.DirectedNetWitnessCertificate
 import BEDC.Derived.UniformCompletionUp.PublicFactorization
 import BEDC.Derived.UniformCompletionUp.TasteGate
