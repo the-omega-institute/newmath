@@ -948,6 +948,7 @@ import BEDC.Derived.BoundedRealSequenceUp.LocatedBoundHandoff
 import BEDC.Derived.BoundedRealSequenceUp.NameCertObligations
 import BEDC.Derived.BoundedRealSequenceUp.TasteGate
 import BEDC.Derived.BoundedRealUpperCutUp.TasteGate
+import BEDC.Derived.BoundedRealVariationUp.TasteGate
 import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
@@ -2772,6 +2773,7 @@ import BEDC.Derived.DecimalExpansionUp.RatRealHandoff
 import BEDC.Derived.DecimalExpansionUp.RealWindowExhaustionAuditRoute
 import BEDC.Derived.DecimalExpansionUp.TailDigitStability
 import BEDC.Derived.DecimalExpansionUp.TasteGate
+import BEDC.Derived.DecimalExpansionUp.WindowNormalizationObligation
 import BEDC.Derived.DecimalIntervalRealUp
 import BEDC.Derived.DecimalNormalityUp.TasteGate
 import BEDC.Derived.DecimalRealUp.TasteGate
@@ -3360,6 +3362,7 @@ import BEDC.Derived.FanContinuityPrincipleUp.TasteGate
 import BEDC.Derived.FanSpaceUp.TasteGate
 import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
+import BEDC.Derived.FareySequenceUp.ApproximationWindowFactorization
 import BEDC.Derived.FareySequenceUp.DenominatorBoundWindow
 import BEDC.Derived.FareySequenceUp.DenominatorRefinement
 import BEDC.Derived.FareySequenceUp.DenominatorRefinementInduction
@@ -4203,6 +4206,7 @@ import BEDC.Derived.InverseFunctionUp.TasteGate
 import BEDC.Derived.InverseLimitMetricUp.TasteGate
 import BEDC.Derived.InverseMappingTheoremUp.TasteGate
 import BEDC.Derived.IrrationalWitnessUp.TasteGate
+import BEDC.Derived.IsbellTightSpanUp.TasteGate
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.BranchStability
 import BEDC.Derived.IshiharaTrickUp.TasteGate
@@ -4720,7 +4724,9 @@ import BEDC.Derived.MetaCICCriticalPathUp.SocketRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketAuditBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionBoundaryRouting
 import BEDC.Derived.MetaCICCriticalPathUp.TransportRowStability
+import BEDC.Derived.MetaCICDecidableBoundaryUp.ClassifierStability
 import BEDC.Derived.MetaCICDecidableBoundaryUp.RefusalExactness
+import BEDC.Derived.MetaCICDecidableBoundaryUp.SubstitutionWindow
 import BEDC.Derived.MetaCICDecidableBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICDecidableBoundaryUp.WindowTotality
 import BEDC.Derived.MetaCICDischargeObligationLedgerUp.TasteGate
@@ -5564,11 +5570,13 @@ import BEDC.Derived.PseudometricUp.ClassifierTransportObligation
 import BEDC.Derived.PseudometricUp.CompletionNonescapeObligation
 import BEDC.Derived.PseudometricUp.DependencyReadyPackage
 import BEDC.Derived.PseudometricUp.DistanceReadbackObligation
+import BEDC.Derived.PseudometricUp.FiniteWindowDistanceRoute
 import BEDC.Derived.PseudometricUp.LedgerNonescapeObligation
 import BEDC.Derived.PseudometricUp.LocatedMetricSourceExhaustion
 import BEDC.Derived.PseudometricUp.TasteGate
 import BEDC.Derived.PseudometricUp.TriangleLedgerObligation
 import BEDC.Derived.PseudometricUp.ZeroDistanceCompletionRoute
+import BEDC.Derived.PseudometricUp.ZeroDistanceSourceReflection
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.QuadratureUp
@@ -7263,6 +7271,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionMonadUp
 import BEDC.Derived.UniformCompletionMonadUp.TasteGate
 import BEDC.Derived.UniformCompletionSeparationKernelUp
+import BEDC.Derived.UniformCompletionSeparationKernelUp.TasteGate
 import BEDC.Derived.UniformCompletionUp.DirectedNetWitnessCertificate
 import BEDC.Derived.UniformCompletionUp.PublicFactorization
 import BEDC.Derived.UniformCompletionUp.TasteGate
@@ -7367,6 +7376,7 @@ import BEDC.Derived.WritingItemAuditPacketUp.TasteGate
 import BEDC.Derived.WritingItemAuditUp.TasteGate
 import BEDC.Derived.YonedaCompletionUp.TasteGate
 import BEDC.Derived.YonedaUp
+import BEDC.Derived.YoungInequalityUp.TasteGate
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZeckendorfCarryNormalizationUp
