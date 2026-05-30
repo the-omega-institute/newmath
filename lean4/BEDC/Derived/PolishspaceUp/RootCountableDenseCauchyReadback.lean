@@ -33,7 +33,8 @@ theorem PolishspaceRootCountableDenseCauchyReadback [AskSetup] [PackageSetup]
   intro carrier readbackAlignmentCauchy localNamePkg
   obtain ⟨metricUnary, _completeUnary, _separableUnary, streamUnary, readbackUnary,
     _ledgerUnary, alignmentUnary, _transportUnary, _localNameUnary, _metricCompleteAlignment,
-    _alignmentStreamReadback, _ledgerTransportRoute, provenancePkg⟩ := carrier
+    _alignmentStreamReadback, routeAndProvenance⟩ := carrier
+  obtain ⟨_ledgerTransportRouteWitness, provenancePkg⟩ := routeAndProvenance
   have cauchyUnary : UnaryHistory cauchyRead :=
     unary_cont_closed readbackUnary alignmentUnary readbackAlignmentCauchy
   have sourceCauchy :
