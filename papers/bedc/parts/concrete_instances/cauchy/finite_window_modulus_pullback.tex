@@ -15,3 +15,20 @@ Now use \autoref{thm:cauchy-modulus-readback-route}. A precision request first r
 
 Finally apply \autoref{thm:cauchy-core-regseqrat-real-seal}. The terminal Real seal is reached only after the $\RegSeqRatUp$ readback has been displayed. Thus every accepted modulus read pulls back to the same four L10 sibling rows before a consumer sees a Cauchy value, and none of the excluded quotient, selected-limit, choice, order, compactness, or completeness coordinates can be inserted.
 \end{proof}
+
+\begin{theorem}[Regular-Cauchy modulus pullback]\label{thm:regular-cauchy-modulus-pullback}
+Every $\RegSeqRatUp$-facing consumer of the $\CauchyUp$ finite-window modulus route obtains a dyadic tolerance schedule that is cofinal with the route displayed in \autoref{thm:cauchy-finite-window-modulus-pullback}. In the notation of \autoref{def:cauchy-carrier}, the consumer may read
+$$
+S,D,M,Q \longmapsto R \longmapsto E
+$$
+only as a regular-rational handoff: the $\RealUp$ seal is reached after the $\RegSeqRatUp$ readback row $R$, not before it. The route exports no quotient stream equality, selected limit, host real equality, choice principle, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-finite-window-modulus-pullback}. It fixes the finite route from the StreamName window $S$, dyadic tolerance row $D$, modulus row $M$, and compatibility row $Q$ into the regular-rational readback $R$, and only then into the terminal Real seal $E$.
+
+Project the route at the $\RegSeqRatUp$ boundary. A RegSeqRat-facing consumer reads the dyadic tolerance row $D$ through the same finite windows $S$ and compatibility row $Q$, so its tolerance requests are bounded by a cofinal schedule already displayed by the Cauchy modulus route.
+
+Transport the schedule through the regular-rational classifier row. The readback row $R$ is the first row that presents the schedule as regular-rational data, and the Real seal $E$ is reachable only after that readback has been displayed.
+
+Thus the pullback is cofinal at the RegSeqRat surface and terminal at the Real seal. Since the carrier has no coordinate for quotient stream equality, selected limits, host equality, choice, trichotomy, or Real completeness, none of those principles can be inserted into the consumer route.
+\end{proof}
