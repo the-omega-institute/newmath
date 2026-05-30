@@ -404,6 +404,85 @@ theorem NormedSpaceCarrier_completion_facing_nonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, completionUnary, replayUnary, provenancePkg⟩
 
+theorem NormedSpaceCarrier_banach_completion_nonescape [AskSetup] [PackageSetup]
+    {V R N M Q H T P C normRead metricRead completionRead banachRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormedSpaceCarrier V R N M Q H T P C bundle pkg ->
+      Cont V R normRead ->
+        Cont normRead M metricRead ->
+          Cont metricRead Q completionRead ->
+            Cont completionRead T banachRead ->
+              PkgSig bundle banachRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row banachRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row V ∨ hsame row R ∨ hsame row N ∨ hsame row M ∨
+                        hsame row Q ∨ hsame row T ∨ hsame row normRead ∨
+                          hsame row metricRead ∨ hsame row completionRead ∨
+                            hsame row banachRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont metricRead Q completionRead ∧
+                        Cont completionRead T banachRead ∧ PkgSig bundle banachRead pkg)
+                    hsame ∧
+                  UnaryHistory normRead ∧ UnaryHistory metricRead ∧
+                    UnaryHistory completionRead ∧ UnaryHistory banachRead ∧
+                      PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier normRoute metricRoute completionRoute banachRoute banachPkg
+  obtain ⟨vUnary, rUnary, _nUnary, mUnary, qUnary, _hUnary, tUnary, _pUnary,
+    _cUnary, _vectorNormRoute, _completionFacingRoute, _replayRoute, provenancePkg,
+    _localPkg⟩ := carrier
+  have normReadUnary : UnaryHistory normRead :=
+    unary_cont_closed vUnary rUnary normRoute
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed normReadUnary mUnary metricRoute
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed metricReadUnary qUnary completionRoute
+  have banachReadUnary : UnaryHistory banachRead :=
+    unary_cont_closed completionReadUnary tUnary banachRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row banachRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row V ∨ hsame row R ∨ hsame row N ∨ hsame row M ∨
+              hsame row Q ∨ hsame row T ∨ hsame row normRead ∨
+                hsame row metricRead ∨ hsame row completionRead ∨
+                  hsame row banachRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont metricRead Q completionRead ∧
+              Cont completionRead T banachRead ∧ PkgSig bundle banachRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro banachRead ⟨hsame_refl banachRead, banachReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          (Or.inr (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, completionRoute, banachRoute, banachPkg⟩
+  }
+  exact
+    ⟨cert, normReadUnary, metricReadUnary, completionReadUnary, banachReadUnary,
+      provenancePkg⟩
+
 theorem NormedSpaceCarrier_vector_transport_obligation [AskSetup] [PackageSetup]
     {V R N M Q H T P C vectorRead transportedRead namedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
