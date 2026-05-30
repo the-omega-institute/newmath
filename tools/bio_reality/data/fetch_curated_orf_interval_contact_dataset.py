@@ -110,10 +110,14 @@ def write_manifest(
     missing = sorted(field for field in REQUIRED_MANIFEST_FIELDS if not manifest.get(field))
     if missing:
         raise ValueError(f"manifest {basename} is missing required provenance fields: {missing}")
-    (MANIFEST_DIR / f"{basename}.json").write_text(
+    manifest_path = MANIFEST_DIR / f"{basename}.json"
+    manifest_path.write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
+    stored = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if stored["byte_size"] != len(payload) or stored["sha256"] != hashlib.sha256(payload).hexdigest():
+        raise RuntimeError(f"manifest payload digest mismatch for {basename}")
 
 
 def save_raw_payload(url: str, payload: bytes, content_type: str) -> Path:
