@@ -2612,16 +2612,66 @@ def run_merge_back_lane(store: BioRealityStore) -> dict[str, Any]:
         return {"lane": "bio-M", "skipped": f"rev_list_error: {exc}"}
     if feat_only == 0:
         return {"lane": "bio-M", "skipped": "feat_not_ahead", "upstream_only": upstream_only}
+    inline_sync_summary: dict[str, Any] = {}
     if upstream_only > 0:
-        # Upstream has commits not in feat — bio-S handles that direction. Skip
-        # this push to avoid creating a non-fast-forward; merge will succeed
-        # next cycle once bio-S syncs.
-        return {"lane": "bio-M", "skipped": "feat_behind_upstream", "upstream_only": upstream_only, "feat_only": feat_only}
+        # Race: between bio-S running and bio-M running, auto-dev advanced.
+        # Do an inline sync attempt (same codex_resolve mechanism bio-S uses)
+        # to catch up before push. If still behind after that, skip and let
+        # bio-S handle next cycle.
+        sync_cfg = config.get("merge_back_sync") if isinstance(config.get("merge_back_sync"), dict) else {}
+        try:
+            from . import lanes as _self  # noqa: F401
+        except Exception:
+            pass
+        try:
+            mb_fetch = _run_command(repo_root, ["git", "fetch", remote, upstream], timeout=60.0)
+            if mb_fetch.returncode != 0:
+                return {"lane": "bio-M", "skipped": "inline_fetch_failed", "stderr": (mb_fetch.stderr or "")[-300:], "upstream_only": upstream_only, "feat_only": feat_only}
+            up_sha = _run_command(repo_root, ["git", "rev-parse", f"{remote}/{upstream}"], timeout=30.0)
+            upstream_sha = up_sha.stdout.strip() if up_sha.returncode == 0 else ""
+            merge = _run_command(repo_root, ["git", "merge", "--no-ff", "--no-edit", f"{remote}/{upstream}"], timeout=120.0)
+            inline_sync_summary["merge_returncode"] = merge.returncode
+            if merge.returncode != 0:
+                # Conflict — try codex_resolve with sync_lane's config
+                cdx_cfg = {}
+                try:
+                    raw_cfg = json.loads((store.paths.root / "pipeline_config.json").read_text(encoding="utf-8"))
+                    sl = raw_cfg.get("sync_lane", {}) if isinstance(raw_cfg, dict) else {}
+                    cdx_cfg = sl.get("codex_resolve", {}) if isinstance(sl, dict) else {}
+                except (OSError, json.JSONDecodeError):
+                    cdx_cfg = {}
+                if cdx_cfg.get("enabled"):
+                    resolved, resolve_summary = _bios_codex_resolve_merge(repo_root, store, upstream_sha, f"{remote}/{upstream}", cdx_cfg)
+                    inline_sync_summary["codex_resolve"] = resolve_summary
+                    if not resolved:
+                        try:
+                            _run_command(repo_root, ["git", "merge", "--abort"], timeout=30.0)
+                        except (OSError, subprocess.TimeoutExpired):
+                            pass
+                        return {"lane": "bio-M", "skipped": "inline_sync_unresolved", "upstream_only": upstream_only, "feat_only": feat_only, "inline_sync": inline_sync_summary}
+                else:
+                    try:
+                        _run_command(repo_root, ["git", "merge", "--abort"], timeout=30.0)
+                    except (OSError, subprocess.TimeoutExpired):
+                        pass
+                    return {"lane": "bio-M", "skipped": "inline_sync_disabled", "upstream_only": upstream_only, "feat_only": feat_only}
+            # Re-check after sync attempt
+            ab2 = _run_command(repo_root, ["git", "rev-list", "--left-right", "--count", f"{remote}/{upstream}...HEAD"], timeout=60.0)
+            if ab2.returncode == 0:
+                p2 = ab2.stdout.strip().split()
+                if len(p2) == 2:
+                    upstream_only, feat_only = int(p2[0]), int(p2[1])
+                    inline_sync_summary["post_sync_upstream_only"] = upstream_only
+                    inline_sync_summary["post_sync_feat_only"] = feat_only
+            if upstream_only > 0:
+                return {"lane": "bio-M", "skipped": "still_behind_after_inline_sync", "upstream_only": upstream_only, "feat_only": feat_only, "inline_sync": inline_sync_summary}
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            return {"lane": "bio-M", "skipped": f"inline_sync_error: {exc}", "upstream_only": upstream_only, "feat_only": feat_only}
     # Fast-forward push of feat HEAD to upstream branch.
     try:
         push = _run_command(repo_root, ["git", "push", remote, f"HEAD:{upstream}"], timeout=120.0)
     except (OSError, subprocess.TimeoutExpired) as exc:
-        return {"lane": "bio-M", "error": f"push_error: {exc}", "feat_only": feat_only}
+        return {"lane": "bio-M", "error": f"push_error: {exc}", "feat_only": feat_only, "inline_sync": inline_sync_summary}
     if push.returncode != 0:
         return {"lane": "bio-M", "error": "push_failed", "stderr": (push.stderr or "")[-500:], "feat_only": feat_only}
     try:
