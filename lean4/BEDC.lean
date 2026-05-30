@@ -5149,6 +5149,7 @@ import BEDC.Derived.NormalSpaceUp.TopologyConsumerBoundary
 import BEDC.Derived.NormalSpaceUp.UrysohnCozeroLocalization
 import BEDC.Derived.NormalSpaceUp.UrysohnLemmaConsumerExactness
 import BEDC.Derived.NormedSpaceUp
+import BEDC.Derived.NormedSpaceUp.BanachConsumerNonescape
 import BEDC.Derived.NormedSpaceUp.TasteGate
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.NullSequenceUp
@@ -6379,6 +6380,7 @@ import BEDC.Derived.RegularSequenceLimitUp.TasteGate
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RegularityModulusUp.CarrierSurface
 import BEDC.Derived.RegularityModulusUp.ObligationCompleteness
+import BEDC.Derived.RegulatedCauchyIntegralUp.TasteGate
 import BEDC.Derived.RegulatedCauchyModulusUp
 import BEDC.Derived.RegulatedFunctionUp.TasteGate
 import BEDC.Derived.RegulatedIntegralUp.DarbouxRiemannCompatibility
@@ -6844,6 +6846,7 @@ import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
 import BEDC.Derived.StreamNameUp.TailWindowRealUpBoundary
 import BEDC.Derived.StronglyExtensionalRealMapUp.TasteGate
 import BEDC.Derived.StructuralAdjacencyUp.TasteGate
+import BEDC.Derived.SturmComparisonUp.TasteGate
 import BEDC.Derived.SturmRootIsolationUp.TasteGate
 import BEDC.Derived.SturmSequenceUp.TasteGate
 import BEDC.Derived.SubgroupUp
