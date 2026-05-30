@@ -104,6 +104,7 @@ Finally apply the L10 finite-source gate of \autoref{thm:real-uniform-structure-
 \label{thm:real-uniform-structure-cauchy-filter-basis}
 Every accepted $\RealUniformStructureUp$ packet exports a $\CauchyFilterUp$ basis only through the $\RealUp$ endpoint and seal rows, $\MetricUp$ distance witnesses, positive $\DyadicRatCoreUp$ radii, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The Cauchy-filter row is downstream of the metric-ball entourage row, and it cannot export quotient equality, selected limits, or $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealUniformStructureUp.RealUniformStructureCarrier\_cauchy\_filter\_basis}
 \begin{proof}
 Project the carrier of \autoref{def:real-uniform-structure-carrier}. The available coordinates are exactly $R,M,U,F,D,S,Q,H,C,P,N$, so a Cauchy-filter basis read starts from displayed Real endpoints, metric distance data, positive dyadic radii, stream windows, and regular rational readback.
 
@@ -118,6 +119,7 @@ Since quotient equality, selected limits, and $\RealUp$ completeness are not row
 \label{thm:real-uniform-structure-filter-refinement-compatibility}
 Suppose an accepted $\RealUniformStructureUp$ packet supplies its $\CauchyFilterUp$ route through a metric-ball entourage basis, and suppose an accepted $\FilterRefinementUp$ packet replaces that displayed basis by a cofinal refinement. Then every completion-facing Real-uniform consumer still reads through the same $\RealUp$ endpoint row, $\MetricUp$ distance row, positive $\DyadicRatCoreUp$ radius ledger, $\CauchyFilterUp$ row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The refined route does not export quotient real equality, selected limits, countable choice, quotient filters, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealUniformStructureUp.RealUniformStructureCarrier\_filter\_refinement\_compatibility}
 \begin{proof}
 Start with the Cauchy-filter basis of \autoref{thm:real-uniform-structure-cauchy-filter-basis}. It forces the Real-uniform route to expose the endpoint row $R$, metric row $M$, positive-radius ledger $D$, generated entourage row $U$, Cauchy-filter row $F$, finite windows, regular readbacks, and structural rows before any completion-facing consumer reads the basis.
 
@@ -126,6 +128,18 @@ Apply the Cauchy-preservation theorem for $\FilterRefinementUp$, \autoref{thm:fi
 Next use the completion route of \autoref{thm:filter-refinement-completion-route}. A completion-facing consumer receives only the refined finite base row, the cofinal refinement row, optional reverse comparison data when needed, and the transport, replay, provenance, and local naming rows.
 
 Composing the two routes leaves the Real-uniform endpoint and metric data unchanged. The refinement acts on the displayed Cauchy-filter basis, so the consumer still reaches the same $R,M,D,F,H,C,P,N$ surface and gains no coordinate for quotient real equality, selected limits, choice, quotient filters, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Real uniform-structure completion entourage basis]
+\label{thm:real-uniform-structure-completion-entourage-basis}
+Every completion-facing consumer of an accepted $\RealUniformStructureUp$ packet reads an entourage basis only through the $\RealUp$ endpoint row, the $\MetricUp$ distance row, the positive $\DyadicRatCoreUp$ radius ledger, the generated $\UniformSpaceUp$ entourage row, the $\CauchyFilterUp$ row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, and the structural rows $H,C,P,N$. The exported basis does not supply quotient real equality, selected limits, quotient filters, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:real-uniform-structure-namecert-obligations}. They admit exactly the rows $R,M,U,F,D,S,Q,H,C,P,N$, with every entourage request generated from Real endpoints, metric distance data, and a positive dyadic radius.
+
+Apply the Cauchy-filter basis theorem \autoref{thm:real-uniform-structure-cauchy-filter-basis}. It places the $\CauchyFilterUp$ row downstream of the generated metric-ball entourage row and keeps the StreamName and RegSeqRat readbacks downstream of that same basis.
+
+Finally use the cofinal-refinement compatibility of \autoref{thm:real-uniform-structure-filter-refinement-compatibility}. A completion-facing consumer may replace a displayed basis by a cofinal finite refinement, but the route still reads through $R,M,D,U,F,S,Q,H,C,P,N$ and gains no coordinate for quotient real equality, selected limits, quotient filters, choice, open-cover compactness, or ambient Real completeness.
 \end{proof}
 
 \begin{closurestatus}{\RealUniformStructureUp}

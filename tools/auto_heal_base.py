@@ -1773,9 +1773,18 @@ def classify_cooldown_cause(cooldown: dict) -> tuple[str, dict]:
         }
 
     # 5. CODEX_API_FAILURE
-    if re.search(r"Codex exec completed in \d+(?:\.\d+)?s \(rc=1\)", text):
-        if re.search(r"at capacity|Selected model is at capacity|stdout/stderr empty|empty stdout|empty stderr",
-                     text, re.IGNORECASE):
+    api_durs = re.findall(r"Codex exec completed in (\d+(?:\.\d+)?)s \(rc=1\)", text)
+    if api_durs:
+        explicit = re.search(
+            r"at capacity|Selected model is at capacity|stdout/stderr empty|empty stdout|empty stderr",
+            text, re.IGNORECASE)
+        # A fast rc=1 (far below any productive Phase B/C run, which take
+        # minutes to ~an hour) with no fixable signature matched in steps 1-4
+        # is the upstream API-transient signature (rate limit / capacity /
+        # quota) even when codex did not print the explicit capacity message —
+        # the common case is a silent fast rc=1. Threshold 120s << real runs.
+        fast_fail = any(float(d) < 120.0 for d in api_durs)
+        if explicit or fast_fail:
             return "CODEX_API_FAILURE", {
                 "snippet": "\n".join(snippets[-3:]) or text[-1200:],
                 "preceding_fails": failures,
@@ -2052,6 +2061,12 @@ def run_cooldown_self_test() -> int:
                           "Codex exec completed in 42s (rc=1): Selected model is at capacity"}],
             "context": [],
         }),
+        ("CODEX_API_FAILURE", {
+            "line": "[cooldown] 3 failures",
+            "failures": [{"round_id": "R12002", "snippet":
+                          "[recovery] Codex exec completed in 26.5s (rc=1)"}],
+            "context": [],
+        }),
         ("UNKNOWN", {
             "line": "[cooldown] 3 failures",
             "failures": [{"round_id": "R7", "snippet": "[ERROR] unclassified failure"}],
@@ -2141,11 +2156,64 @@ def push_to_origin() -> bool:
     return True
 
 
+INDEX_LOCK_STALE_SECONDS = 600  # 10 min >> any real git index op
+
+
+def heal_stale_index_lock() -> bool:
+    """Remove a stale `.git/index.lock` left by a crashed git process.
+
+    Such a lock makes the orchestrators' `_sync_local_with_origin` checkout
+    of the BASE branch fail on EVERY round's merge step ("cannot checkout
+    codex-auto-dev ... remove the file manually"), freezing BASE for hours:
+    finished rounds + recovery all abort "unrecoverable", and this cycle's
+    own fetch/ff also blocks. Only removes when the lock is older than
+    INDEX_LOCK_STALE_SECONDS — far beyond any real index-mutating op — so a
+    live commit/checkout is never disturbed. Returns True iff removed.
+    (2026-05-30: a 5h-old index.lock froze BASE for 4h until manual rm.)
+    """
+    try:
+        gitdir_out = git("rev-parse", "--git-dir", capture=True).stdout.strip()
+    except Exception:
+        return False
+    gitdir = Path(gitdir_out)
+    if not gitdir.is_absolute():
+        gitdir = (REPO_ROOT / gitdir).resolve()
+    lock = gitdir / "index.lock"
+    try:
+        age = time.time() - lock.stat().st_mtime
+    except FileNotFoundError:
+        return False
+    except Exception:
+        return False
+    if age < INDEX_LOCK_STALE_SECONDS:
+        return False
+    try:
+        lock.unlink()
+    except FileNotFoundError:
+        return False
+    except Exception as exc:
+        print(f"[heal] could not remove stale index.lock: {exc}",
+              file=sys.stderr)
+        return False
+    print(f"[heal] removed stale {lock} (age={int(age)}s) — was blocking "
+          f"orchestrator merge checkout", flush=True)
+    return True
+
+
 def cycle() -> None:
     """One healing cycle: fetch, audit, heal if needed, push."""
     _reset_act_verify_cache()
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
     print(f"[heal] {ts} tick", flush=True)
+    # A stale `.git/index.lock` from a crashed git process blocks every
+    # orchestrator merge (_sync_local_with_origin checkout of codex-auto-dev)
+    # AND can leave the main checkout stuck off codex-auto-dev — so sweep it
+    # BEFORE the branch check, else this cycle would skip and never reach it.
+    # Unlinking a >600s-old lock is safe on any branch.
+    try:
+        heal_stale_index_lock()
+    except Exception as exc:
+        print(f"[heal] heal_stale_index_lock crashed: {exc}", file=sys.stderr)
     # Always work on codex-auto-dev (or skip if not).
     try:
         cur = git("rev-parse", "--abbrev-ref", "HEAD", capture=True).stdout.strip()
@@ -2156,6 +2224,13 @@ def cycle() -> None:
         print(f"[heal] not on {BASE_BRANCH} (on {cur}); skipping cycle",
               file=sys.stderr)
         return
+    # A stale `.git/index.lock` from a crashed git process blocks every
+    # orchestrator merge (_sync_local_with_origin checkout) and this cycle's
+    # own fetch/ff — sweep it before anything else.
+    try:
+        heal_stale_index_lock()
+    except Exception as exc:
+        print(f"[heal] heal_stale_index_lock crashed: {exc}", file=sys.stderr)
     # Cooldown cause analysis runs FIRST, observation-only / alert-only.
     # Previously this was at end of cycle but never reached because
     # every prior heal phase (dup labels / CI / propext / gate-storm)
