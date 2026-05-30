@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICCandidateStrongNormalizationUp$}
+\label{ch:concrete-instances-metacic-candidate-strong-normalization-namecert}
+\origin{ai}
+
+The $\MetaCICCandidateStrongNormalizationUp$ packet realizes the candidate-mediated boundary of \autoref{ch:visions-strong-normalization-vs-turing-completeness} as finite MetaCIC evidence. It sits beside the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the decidability boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, the closed-term substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, the authorized-generator recursor of \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert}, and the normalization audit packet of \autoref{ch:concrete-instances-metacicnormalizationaudit-namecert}. The packet keeps candidate data, fuel, normal-form endpoints, refusal rows, transport, replay, provenance, and local naming visible before any strong-normalization read is accepted.
+
+\begin{definition}[MetaCIC candidate strong-normalization carrier]
+\label{def:metacic-candidate-strong-normalization-carrier}
+A $\MetaCICCandidateStrongNormalizationUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,K,F,E,R,A,H,C,P,N,G)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed MetaCIC term row, recording the term, context boundary, and closedness data consumed by the candidate route.
+\item $K$ is the candidate row, naming the reducibility candidate, closed-candidate wrapper, or candidate-set membership evidence used by the strong-normalization read.
+\item $F$ is the fuel row, displaying the finite reduction budget or staged descent ledger attached to the candidate read.
+\item $E$ is the normal-form endpoint row, recording the normal endpoint reached by the fuel-and-candidate route.
+\item $R$ is the refusal row, rejecting evidence-free strong normalization, missing-fuel endpoints, subject-reduction erasure, substitution erasure, global confluence, and closed-consistency shortcuts.
+\item $A$ is the audit-boundary row, reading $\MetaCICNormalizationFrontierUp$, $\MetaCICDecidableBoundaryUp$, $\ClosedTermSubstitutionBoundaryUp$, $\AuthorizedGeneratorRecursorUp$, and $\MetaCICNormalizationAuditUp$ as sibling sources.
+\item $H$ records componentwise $\hsame$ transport for term, candidate, fuel, endpoint, refusal, audit-boundary, replay, provenance, TasteGate, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the strong-normalization request through $T,K,F,E,R,A,H,P,N,G$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICCandidateStrongNormalizationUp$, the five sibling anchors, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICCandidateStrongNormalizationUp}$ row.
+\item $G$ is the TasteGate obligation row requiring Lean support in \texttt{TasteGate.lean} for $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances of the carrier.
+\end{enumerate}
+The classifier compares accepted packets only through $T,K,F,E,R,A,H,C,P,N,G$. It has no coordinate for evidence-free strong normalization, an endpoint without fuel, hidden subject reduction, global confluence, quotient syntax equality, host evaluator soundness, or completed closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC candidate strong-normalization NameCert obligations]
+\label{thm:metacic-candidate-strong-normalization-namecert-obligations}
+For every accepted $\MetaCICCandidateStrongNormalizationUp$ carrier
+$$
+S=(T,K,F,E,R,A,H,C,P,N,G),
+$$
+the local $\NameCert_{\MetaCICCandidateStrongNormalizationUp}$ surface consists exactly of closed typed term admission through $T$, candidate evidence through $K$, fuel visibility through $F$, normal-form endpoint readback through $E$, refusal exactness through $R$, sibling audit-boundary anchoring through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, local naming through $N$, and TasteGate nontriviality and field faithfulness through $G$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-strong-normalization-carrier}. The accepted packet displays the closed typed term, candidate evidence, fuel, endpoint, refusal, audit-boundary, transport, replay, provenance, local naming, and TasteGate rows.
+
+The positive route begins with $T,K,F,E$. A strong-normalization read reaches a normal-form endpoint only after candidate evidence and a fuel ledger have both been displayed.
+
+The refusal and audit rows are part of the same surface. The row $R$ rejects missing-candidate, missing-fuel, and endpoint-only reads, while $A$ preserves the normalization frontier, decidability boundary, closed-term substitution boundary, authorized-generator recursor, and normalization audit packet as named sibling sources.
+
+Finally $H,C,P,N,G$ transport, replay, source, name, and guard the carrier. Because $G$ requires $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances, a Lean realization must distinguish evidence-bearing packets from endpoint-only packets and preserve the displayed field order.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate strong-normalization endpoint refusal]
+\label{thm:metacic-candidate-strong-normalization-endpoint-refusal}
+Every strong-normalization read exported by an accepted $\MetaCICCandidateStrongNormalizationUp$ packet must display both a fuel row and a refusal row before the normal-form endpoint row can be consumed. Any claimed candidate strong-normalization read that omits fuel endpoint evidence or omits the refusal boundary is outside the carrier.
+\end{theorem}
+\begin{proof}
+Read the positive route through \autoref{thm:metacic-candidate-strong-normalization-namecert-obligations}. The endpoint row $E$ is downstream of the closed typed term, candidate, and fuel rows $T,K,F$.
+
+Now read the negative route. The refusal row $R$ remains visible alongside the endpoint row and rejects any route that bypasses candidate evidence, fuel, subject-reduction boundaries, substitution boundaries, confluence boundaries, or closed-consistency boundaries.
+
+Transport and replay do not alter the route. The rows $H,C,P,N,G$ preserve the same ordered packet, so a consumer cannot turn the endpoint into an evidence-free theorem or a fuel-free normal-form claim.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate strong-normalization TasteGate boundary]
+\label{thm:metacic-candidate-strong-normalization-tastegate-boundary}
+Lean support for $\MetaCICCandidateStrongNormalizationUp$ must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{TasteGate.lean}. Nontriviality distinguishes a carrier with candidate, fuel, endpoint, and refusal rows from a closed-term endpoint without those rows; field faithfulness preserves the field order
+$$
+T \longmapsto K \longmapsto F \longmapsto E \longmapsto R \longmapsto A \longmapsto H,C,P,N,G
+$$
+before any carrier-alignment theorem can count as the Lean realization.
+\end{theorem}
+\begin{proof}
+Nontriviality is forced by the carrier boundary: deleting $K$, $F$, or $R$ leaves a closed typed term and an endpoint-like read, but not an accepted candidate strong-normalization packet.
+
+Field faithfulness is the route-preservation condition. If a projection erases or permutes $K,F,E,R,A,H,C,P,N,G$, the displayed carrier no longer records the candidate-mediated strong-normalization boundary of \autoref{def:metacic-candidate-strong-normalization-carrier}.
+\end{proof}
+
+\falsifiablePrediction{Any claimed $\MetaCICCandidateStrongNormalizationUp$ read that reaches a normal-form endpoint without both the fuel row and the refusal row refutes the carrier.}
+
+\independenceWitness{metacicnormalizationfrontier, metacicdecidableboundary, closedtermsubstitutionboundary, authorizedgeneratorrecursor, metacicnormalizationaudit: $\MetaCICCandidateStrongNormalizationUp$ is not bijective to any listed sibling because it jointly carries candidate evidence, fuel, normal-form endpoint, refusal, sibling audit route, transport, replay, provenance, TasteGate, and local $\NameCert$ rows.}
+
+\closureat{MetaCICCandidateStrongNormalizationUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICCandidateStrongNormalizationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-candidate-strong-normalization-carrier}, \autoref{thm:metacic-candidate-strong-normalization-namecert-obligations}, \autoref{thm:metacic-candidate-strong-normalization-endpoint-refusal}, and \autoref{thm:metacic-candidate-strong-normalization-tastegate-boundary} seed the candidate-mediated finite strong-normalization boundary over term, candidate, fuel, endpoint, refusal, audit, transport, replay, provenance, TasteGate, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unconditional strong normalization for all closed MetaCIC terms, unrestricted subject reduction, arbitrary substitution preservation, global confluence, closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate visibility, fuel endpoint exactness, refusal exactness, sibling audit anchoring, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICCandidateStrongNormalizationUp.}
+  \constructivestory{A $\MetaCICCandidateStrongNormalizationUp$ packet is generated from a closed typed term row, candidate evidence, fuel row, normal-form endpoint row, refusal row, sibling audit-boundary rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, TasteGate obligations, and a local NameCert row.}
+\end{closurestatus}
