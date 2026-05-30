@@ -1,0 +1,58 @@
+\chapter{Dyadic Interval Net NameCert Construction}
+\label{ch:concrete-instances-dyadic-interval-net-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicIntervalNetUp$ packet records finite dyadic interval nets as the displayed cover primitive used by Real and Completion arguments before any consumer may invoke compactness language. It sits after the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives compact-interval, completion, and uniform-modulus consumers a finite cover surface; it does not assert open-cover compactness, selected subcovers, quotient stream equality, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic interval net carrier]\label{def:dyadic-interval-net-carrier}
+A $\DyadicIntervalNetUp$ carrier is a finite $\BHist$ packet
+$$
+I=(D,J,E,S,R,Q,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint row. It lists the dyadic endpoints, midpoint and radius arithmetic, and successor comparisons used by the net cells.
+\item $J$ is the finite interval-cell row. It records a finite list of closed dyadic cells, each with displayed left and right endpoints and a cell radius.
+\item $E$ is the endpoint-incidence row. It records that adjacent cells overlap or touch at displayed dyadic endpoints and that the first and last cells bracket the named interval endpoints.
+\item $S$ is the $\StreamNameUp$ window row exposed when an interval endpoint or cell endpoint is read.
+\item $R$ is the $\RegSeqRatUp$ readback row for the dyadic endpoints and the tolerance schedule induced by the cell radii.
+\item $Q$ is the terminal $\RealUp$ seal row reached only after the displayed StreamName and RegSeqRat rows have been inspected.
+\item $H$ records componentwise $\hsame$ transport for $D,J,E,S,R,Q$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+D,J,E \longmapsto S,R \longmapsto Q,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalNetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DyadicIntervalNetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,J,E,S,R,Q,H,C,P,N$. It has no coordinate for an arbitrary open cover, a selected finite subcover, quotient stream equality, a chosen limit point, countable choice, trichotomy, or completed real compactness.
+\end{definition}
+
+\begin{theorem}[Dyadic interval net cover refinement]\label{thm:dyadic-interval-net-cover-refinement}
+For every accepted $\DyadicIntervalNetUp$ carrier $I=(D,J,E,S,R,Q,H,C,P,N)$, every Real and Completion consumer that reads a finite dyadic cover through $I$ factors through the finite route
+$$
+D,J,E \longmapsto S,R \longmapsto Q .
+$$
+The interval-cell row $J$ and endpoint-incidence row $E$ refine any displayed dyadic cover request into listed dyadic cells whose endpoints and radii are checked in $D$, whose inspected name coordinates are exposed in $S$, whose tolerance schedule is read in $R$, and whose Real boundary is sealed in $Q$. No open-cover compactness, selected subcover, quotient stream equality, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness is available along this route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:dyadic-interval-net-carrier}. The rows $D,J,E$ are the only cover-facing data: $D$ supplies dyadic endpoint arithmetic, $J$ supplies the finite list of cells, and $E$ supplies endpoint incidence and bracketing.
+
+The refinement is therefore a finite list operation. A displayed cover request is answered by reading the listed cells in $J$, checking their dyadic radii and endpoint comparisons in $D$, and using $E$ to verify that adjacent cells cover the named interval without opening a host compactness argument.
+
+The Real-facing portion is delayed. The inspected endpoint names pass through $S$, the induced tolerance schedule passes through $R$, and the terminal real-name boundary is exposed only by $Q$.
+
+Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve exactly the same finite route, so the consumer cannot replace the dyadic net by a selected subcover, quotient stream equality, choice, trichotomy, host equality, or ambient completeness principle.
+\end{proof}
+
+\closureat{DyadicIntervalNetUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalNetUp}
+  \constructivestory{A $\DyadicIntervalNetUp$ packet is generated from dyadic endpoint arithmetic, finite interval cells, endpoint incidence, StreamName windows, RegSeqRat readback, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-net-carrier} and \autoref{thm:dyadic-interval-net-cover-refinement} seed the finite dyadic interval-net carrier over dyadic endpoint arithmetic, listed interval cells, endpoint incidence, StreamName windows, RegSeqRat readback, Real seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected subcovers, quotient stream equality, countable choice, trichotomy, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic cell coverage, endpoint-incidence refinement, StreamName and RegSeqRat readback routing, Real seal ordering, provenance, and local naming for BEDC.Derived.DyadicIntervalNetUp.}
+\end{closurestatus}
