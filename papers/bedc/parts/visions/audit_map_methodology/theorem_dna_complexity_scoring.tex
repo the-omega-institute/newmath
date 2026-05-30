@@ -1,0 +1,360 @@
+\chapter{Theorem-DNA and Theorem Complexity Scoring}
+\label{ch:theorem-dna-complexity-scoring}
+\origin{ai}
+
+The GroundCompiler theorem recognizer does not treat a theorem as a single
+statement string. In \texttt{TheoremGenerated.lean}, theorem recognition is
+role-complete: the recognized flow must expose statement, dependencies, proof,
+certificates, ledger, status, canonical site, and closing seal. This chapter
+packages that role-complete reading as theorem-DNA. The word DNA names a typed
+locus profile over event flows; it does not import biological structure.
+
+\section{Role-complete theorem flows}
+\label{sec:theorem-dna-role-complete-flows}
+
+\begin{definition}[Theorem candidate and recognizer]
+\label{def:theorem-dna-candidate-recognizer}
+A theorem candidate is an event flow $T:\EventFlow$. A generated theorem
+recognizer is a generated recognizer flow $R$, and its recognition relation is
+written
+$$
+\mathsf{RecognizesThm}(R,T).
+$$
+\end{definition}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.TheoremCandidateFlow}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.GeneratedTheoremRecognizer}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.TheoremRecognitionRelation}
+
+\begin{definition}[Theorem role loci]
+\label{def:theorem-dna-role-loci}
+The theorem role profile is the eight-locus family
+$$
+\mathcal R_{\Theta}=
+\{\mathsf{statement},\mathsf{dependencies},\mathsf{proof},
+\mathsf{certificates},\mathsf{ledger},\mathsf{status},
+\mathsf{canonicalSite},\mathsf{closingSeal}\}.
+$$
+For a theorem candidate $T$, a recognizer $R$, a subflow $G$, and a role
+$\rho\in\mathcal R_{\Theta}$, write
+$$
+\mathsf{Role}_{R}(T,G,\rho)
+$$
+for the role-subflow predicate assigning $G$ to the role $\rho$ inside the
+recognized theorem flow.
+\end{definition}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.TheoremRole}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.TheoremRoleSubflow}
+
+\begin{definition}[Weak theorem-DNA]
+\label{def:weak-theorem-dna}
+For a recognizer $R$ and theorem candidate $T$, a weak theorem-DNA is an
+eight-tuple
+$$
+D_R(T)=
+(G_{\mathsf{statement}},G_{\mathsf{dependencies}},G_{\mathsf{proof}},
+G_{\mathsf{certificates}},G_{\mathsf{ledger}},G_{\mathsf{status}},
+G_{\mathsf{canonicalSite}},G_{\mathsf{closingSeal}})
+$$
+such that each component is assigned to its matching role:
+$$
+\mathsf{Role}_{R}(T,G_{\rho},\rho)
+\qquad
+\text{for every }\rho\in\mathcal R_{\Theta}.
+$$
+The family of such profiles is denoted $\mathsf{DNA}_{\mathsf{weak}}(R,T)$.
+\end{definition}
+
+\begin{definition}[Anchored and sound theorem-DNA]
+\label{def:anchored-sound-theorem-dna}
+A weak theorem-DNA is anchored when every role subflow is also a source
+subflow of $T$. It is sound when the recognizer participates in a sound
+theorem-flow recognition of $T$.
+\end{definition}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.TheoremSourceSubflow}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.SoundTheoremFlow}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.AcceptedTheoremFlow}
+
+\begin{theorem}[Accepted theorem flows have theorem-DNA]
+\label{thm:accepted-theorem-flows-have-dna}
+If $T$ is an accepted theorem flow, then there are a generated theorem
+recognizer $R$ and a weak theorem-DNA $D_R(T)$.
+\end{theorem}
+\begin{proof}
+Accepted theorem flow means that some recognizer $R$ satisfies
+$\mathsf{SoundTheoremFlow}(R,T)$. Sound theorem flow contains complete theorem
+flow recognition. Complete recognition unfolds to the existence of the eight
+role subflows for statement, dependencies, proof, certificates, ledger,
+status, canonical site, and closing seal. These eight witnesses form the
+required theorem-DNA tuple.
+\end{proof}
+
+\begin{corollary}[A theorem is not a single-locus object]
+\label{cor:theorem-not-single-locus-object}
+An accepted theorem flow is not determined by the statement locus alone at the
+recognition layer. The complete profile has eight role loci.
+\end{corollary}
+\begin{proof}
+The existence theorem supplies all eight loci, and complete theorem-flow
+recognition requires all of them.
+\end{proof}
+
+\section{Statement, code, and quotient boundaries}
+\label{sec:theorem-dna-boundaries}
+
+\begin{theorem}[Statement alone is not theorem-DNA]
+\label{thm:statement-alone-is-not-theorem-dna}
+A statement role subflow without a proof role subflow does not establish
+theoremhood.
+\end{theorem}
+\begin{proof}
+The checked theorem \texttt{statement\_alone\_not\_theorem} states that a
+candidate with a statement role, but with no proof role for every recognizer
+recognizing that candidate, is not a theorem flow. Thus the statement locus is
+only one role in the theorem-DNA profile.
+\end{proof}
+\leanvariant{BEDC.GroundCompiler.TheoremGenerated.statement\_alone\_not\_theorem}
+
+\begin{theorem}[Shared statement does not determine theorem flow]
+\label{thm:shared-statement-does-not-determine-theorem-flow}
+The same statement subflow can occur as the statement role of two distinct
+theorem candidate flows.
+\end{theorem}
+\begin{proof}
+This is exactly the content of the checked witness
+\texttt{same\_statement\_multiple\_flows}. The theorem-DNA profile therefore
+cannot be collapsed to proposition text.
+\end{proof}
+\leanvariant{BEDC.GroundCompiler.TheoremGenerated.same\_statement\_multiple\_flows}
+
+\begin{definition}[Theorem code]
+\label{def:theorem-dna-code}
+The code of a theorem candidate $T$ is its GroundCompiler flow encoding:
+$$
+\mathsf{Code}(T)=\mathsf{FlowEncoding}(T).
+$$
+\end{definition}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.TheoremCode}
+
+\begin{theorem}[Theorem code is injective but not proof]
+\label{thm:theorem-code-injective-not-proof}
+Theorem code equality refines theorem-flow equality, but legal theorem code
+does not by itself supply proof-sound theorem recognition.
+\end{theorem}
+\begin{proof}
+The injectivity part is the checked theorem \texttt{theorem\_code\_injective}.
+The non-proof part is the checked theorem \texttt{theorem\_code\_is\_not\_proof},
+which exhibits legal theorem code decoding to a candidate with no proof-sound
+theorem recognition. Code is therefore a lossless flow address, not the
+complete theorem-DNA profile.
+\end{proof}
+\leanvariant{BEDC.GroundCompiler.TheoremGenerated.theorem\_code\_injective}
+\leanvariant{BEDC.GroundCompiler.TheoremGenerated.theorem\_code\_is\_not\_proof}
+
+\begin{definition}[Theorem phenotype]
+\label{def:theorem-dna-phenotype}
+Given a theorem classifier relation $Q$ on theorem candidate flows, two
+theorem flows have the same phenotype when $Q(T,U)$ holds. The phenotype class
+of $T$ is
+$$
+[T]_Q=\{U\mid Q(T,U)\}.
+$$
+The concrete theorem-DNA profile is the genotype layer; the classifier class is
+the phenotype layer.
+\end{definition}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.TheoremClassifierRelation}
+\leandef{BEDC.GroundCompiler.TheoremGenerated.TheoremClassifierQuotient}
+
+\begin{theorem}[Phenotype can fold distinct code]
+\label{thm:phenotype-can-fold-distinct-code}
+If a theorem classifier relates two distinct theorem flows, it can identify
+flows with distinct theorem code.
+\end{theorem}
+\begin{proof}
+The checked theorem
+\texttt{classified\_theorem\_objects\_not\_code\_bijective} states that a
+classifier quotient relating distinct theorem flows collapses distinct theorem
+code. Thus genotype and phenotype are different audit layers.
+\end{proof}
+\leanvariant{BEDC.GroundCompiler.TheoremGenerated.classified\_theorem\_objects\_not\_code\_bijective}
+
+\section{Mass vectors and weighted score}
+\label{sec:theorem-dna-mass-score}
+
+\begin{definition}[Event-flow mass]
+\label{def:theorem-dna-event-flow-mass}
+For a raw event $w$, let $|w|_{\mathsf{raw}}$ be its mark count. For an event
+flow
+$$
+S=(w_0,\ldots,w_{n-1}),
+$$
+define
+$$
+|S|_{\mathsf{flow}}=
+n+\sum_{i=0}^{n-1}|w_i|_{\mathsf{raw}}.
+$$
+The summand $n$ records event boundaries. Boundary erasure is not a lossless
+operation at the event-flow layer.
+\end{definition}
+
+\begin{definition}[DNA mass vector]
+\label{def:theorem-dna-mass-vector}
+For a theorem-DNA profile $D_R(T)$, define its mass vector by
+$$
+\mathbf m(D_R(T))=
+(m_{\mathsf{statement}},m_{\mathsf{dependencies}},m_{\mathsf{proof}},
+m_{\mathsf{certificates}},m_{\mathsf{ledger}},m_{\mathsf{status}},
+m_{\mathsf{canonicalSite}},m_{\mathsf{closingSeal}}),
+$$
+where $m_{\rho}=|G_{\rho}|_{\mathsf{flow}}$.
+\end{definition}
+
+\begin{definition}[Complexity vector]
+\label{def:theorem-dna-complexity-vector}
+The recognizer overhead is $\omega(R)=|R|_{\mathsf{flow}}$. The theorem-DNA
+complexity vector is
+$$
+\mathsf{ComplexVec}(R,D_R(T))=
+(m_{\mathsf{statement}},m_{\mathsf{dependencies}},m_{\mathsf{proof}},
+m_{\mathsf{certificates}},m_{\mathsf{ledger}},m_{\mathsf{status}},
+m_{\mathsf{canonicalSite}},m_{\mathsf{closingSeal}},\omega(R))
+\in\mathbb N^{9}.
+$$
+\end{definition}
+
+\begin{definition}[Weight profile and score]
+\label{def:theorem-dna-weight-score}
+A weight profile is a vector
+$$
+\mathbf w=
+(w_{\mathsf{statement}},w_{\mathsf{dependencies}},w_{\mathsf{proof}},
+w_{\mathsf{certificates}},w_{\mathsf{ledger}},w_{\mathsf{status}},
+w_{\mathsf{canonicalSite}},w_{\mathsf{closingSeal}},w_R)
+\in\mathbb N^{9}.
+$$
+The theorem-DNA score is the dot product
+$$
+\mathsf{Score}_{\mathbf w}(R,D)=
+\mathbf w\cdot\mathsf{ComplexVec}(R,D).
+$$
+\end{definition}
+
+\begin{definition}[Accepted theorem complexity]
+\label{def:accepted-theorem-dna-complexity}
+For an accepted theorem flow $T$, define
+$$
+\mathsf{TC}_{\mathbf w}(T)=
+\min\{
+\mathsf{Score}_{\mathbf w}(R,D)
+\mid
+D\in\mathsf{DNA}_{\mathsf{weak}}(R,T)
+\text{ and }
+\mathsf{SoundTheoremFlow}(R,T)
+\}.
+$$
+\end{definition}
+
+\begin{theorem}[Accepted theorem complexity is defined]
+\label{thm:accepted-theorem-complexity-defined}
+For every accepted theorem flow $T$ and every weight profile $\mathbf w$,
+$\mathsf{TC}_{\mathbf w}(T)$ is defined as a natural number.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:accepted-theorem-flows-have-dna}, the minimizing set contains
+at least one sound theorem-DNA profile. Every score in the set is a natural
+number. A non-empty subset of $\mathbb N$ has a least element.
+\end{proof}
+
+\begin{theorem}[Score monotonicity]
+\label{thm:theorem-dna-score-monotonicity}
+If two theorem-DNA complexity vectors satisfy componentwise
+$$
+\mathsf{ComplexVec}(R,D)\leq\mathsf{ComplexVec}(R',D'),
+$$
+then for every weight profile $\mathbf w$,
+$$
+\mathsf{Score}_{\mathbf w}(R,D)
+\leq
+\mathsf{Score}_{\mathbf w}(R',D').
+$$
+\end{theorem}
+\begin{proof}
+Write the two complexity vectors as $(a_1,\ldots,a_9)$ and
+$(b_1,\ldots,b_9)$ with $a_i\leq b_i$ for every $i$. Since every weight
+$w_i$ is a natural number, $w_i a_i\leq w_i b_i$. Summing the nine
+inequalities gives the score inequality.
+\end{proof}
+
+\begin{theorem}[Scalar complexity requires a declared profile]
+\label{thm:scalar-complexity-requires-weight-profile}
+Without a declared weight profile, theorem-DNA complexity has vector meaning
+but no unique scalar order.
+\end{theorem}
+\begin{proof}
+Take two vectors that trade off statement and dependency mass:
+$(10,1,1,1,1,1,1,1,1)$ and $(1,10,1,1,1,1,1,1,1)$. A weight profile
+concentrated on the first coordinate orders them one way; a profile
+concentrated on the second coordinate orders them the other way. Therefore a
+published scalar score is auditable only together with its weight profile.
+\end{proof}
+
+\section{Mutation and classifier-level information}
+\label{sec:theorem-dna-mutation}
+
+\begin{definition}[Theorem-DNA mutation]
+\label{def:theorem-dna-mutation}
+A theorem-DNA mutation is a passage
+$$
+D_R(T)\leadsto D'_{R'}(T)
+$$
+between two theorem-DNA profiles for the same theorem candidate. It is
+single-locus when exactly one role component changes.
+\end{definition}
+
+\begin{definition}[Complexity-reducing and discovery mutations]
+\label{def:theorem-dna-mutation-types}
+A mutation is complexity-reducing for $\mathbf w$ when
+$$
+\mathsf{Score}_{\mathbf w}(R',D')<
+\mathsf{Score}_{\mathbf w}(R,D).
+$$
+It is a discovery mutation only when it changes the theorem classifier
+phenotype through a certified classifier-state shift with a naming certificate
+and a ledger witness.
+\end{definition}
+
+\begin{theorem}[Proof shortening need not be discovery]
+\label{thm:proof-shortening-need-not-be-discovery}
+A mutation that only changes the proof locus, while leaving statement,
+dependencies, certificates, ledger, status, canonical site, closing seal, and
+phenotype fixed, need not be a discovery mutation.
+\end{theorem}
+\begin{proof}
+The mutation may reduce the proof mass and hence the weighted score. However,
+the certificate, ledger, and theorem phenotype are unchanged, so no
+classifier-state shift has been supplied. It is a proof-level optimization,
+not a theorem-classifier discovery.
+\end{proof}
+
+\begin{theorem}[Complexity reduction and classifier discovery are independent]
+\label{thm:complexity-reduction-classifier-discovery-independent}
+Theorem-DNA complexity reduction and classifier-level discovery are independent
+coordinates.
+\end{theorem}
+\begin{proof}
+A proof-locus shortening with fixed phenotype can reduce score while keeping
+the classifier unchanged. Conversely, a mutation that introduces a new
+certificate, ledger, or classifier phenotype can increase certificate and
+ledger mass while changing the classifier. Thus score decrease does not imply
+discovery, and discovery need not immediately decrease score.
+\end{proof}
+
+\begin{principle}[Theorem-DNA representation]
+\label{prin:theorem-dna-representation}
+A theorem is not merely a statement; it is a role-complete event-flow profile.
+Theorem complexity is not code length; it is weighted locus complexity. A
+shorter proof can reduce score, while a new theory changes the classifier
+phenotype.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-theorem-flow-recognition-namecert}{Theorem-flow recognition packets realize the eight-role theorem-DNA profile as finite GroundCompiler NameCert data.}
+\concretizedIn{ch:concrete-instances-groundcompiler-audit-packet-namecert}{GroundCompiler audit packets provide the event-flow, recognizer, code, proof-boundary, classifier, and ledger rows consumed by theorem-DNA scoring.}
