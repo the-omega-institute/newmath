@@ -1,0 +1,434 @@
+\chapter{Classifier-Level Information: Computation, Unfolding, and Discovery}
+\label{ch:visions-classifier-level-information}
+\origin{ai}
+
+\autoref{ch:visions-computation-as-continuation} reads computation through
+$\Cont$-generated continuation traces, while
+\autoref{ch:visions-type-checking-as-classifier-membership} reads checking
+through certificate-governed classifier membership. The present chapter
+separates two measurements that are often conflated: growth of the displayed
+record and change of the certified classifier by which that record is read. In
+BEDC, a computation may extend a trace without changing its governing
+\NameCert{}, whereas discovery requires a certificate-governed classifier
+shift with an exposed ledger.
+
+\section{Certified classifier states}
+\label{sec:classifier-level-information-states}
+
+\begin{definition}[Certified classifier state]
+\label{def:certified-classifier-state}
+A certified classifier state is a tuple
+$$
+\mathcal T=(S_{\mathcal T},P_{\mathcal T},L_{\mathcal T},C_{\mathcal T},N_{\mathcal T})
+$$
+where
+$$
+S_{\mathcal T},P_{\mathcal T},L_{\mathcal T}:\Hist\to\mathsf{Prop},
+\qquad
+C_{\mathcal T}:\Hist\to\Hist\to\mathsf{Prop},
+$$
+and
+$$
+N_{\mathcal T}:
+\SemanticNameCert(S_{\mathcal T},P_{\mathcal T},L_{\mathcal T},C_{\mathcal T}).
+$$
+The fields are respectively the source specification, pattern specification,
+ledger policy, classifier specification, and semantic naming certificate.
+\end{definition}
+
+\begin{definition}[Record and configuration]
+\label{def:classifier-level-record-configuration}
+Relative to a certified classifier state $\mathcal T$, a record is a finite
+family $R$ of histories. An epistemic configuration is a pair
+$(\mathcal T,R)$.
+\end{definition}
+
+\begin{definition}[External record size]
+\label{def:classifier-level-record-size}
+Let the external display length of histories be defined by
+$$
+|\emp|=0,\qquad
+|\Ezero(h)|=|h|+1,\qquad
+|\Eone(h)|=|h|+1.
+$$
+For a finite record $R$, set
+$$
+|R|=\sum_{h\in R}|h|.
+$$
+This size is a metalanguage audit measure. It is not a primitive object of the
+finite kernel.
+\end{definition}
+
+\section{Computation as record growth}
+\label{sec:classifier-level-information-computation}
+
+\begin{definition}[Unfolding]
+\label{def:classifier-level-unfolding}
+An unfolding step from $(\mathcal T,R)$ to $(\mathcal T,R')$ is a transition
+for which there are histories $h,k,r$ such that $h\in R$, $\ContR(h,k,r)$, and
+$R'$ is obtained from $R$ by adjoining $r$. It is written
+$$
+(\mathcal T,R)\leadsto_{\mathsf{unf}}(\mathcal T,R').
+$$
+\end{definition}
+
+\begin{definition}[Mechanical computation]
+\label{def:classifier-level-mechanical-computation}
+A transition
+$$
+(\mathcal T,R)\longrightarrow(\mathcal T',R')
+$$
+is a mechanical computation when $\mathcal T'=\mathcal T$ and every history in
+$R'$ not already displayed in $R$ is generated from histories of $R$ by finitely
+many $\ExtR$ or $\ContR$ steps. It is written
+$$
+(\mathcal T,R)\leadsto_{\mathsf{comp}}(\mathcal T,R').
+$$
+\end{definition}
+
+\begin{definition}[Classifier equivalence]
+\label{def:classifier-level-classifier-equivalence}
+Certified classifier states
+$$
+\mathcal T=(S,P,L,C,N),
+\qquad
+\mathcal T'=(S',P',L',C',N')
+$$
+are classifier-equivalent on their common source scope when
+$$
+\forall h,k:\Hist,\;
+S(h)\land S(k)\land S'(h)\land S'(k)
+\Rightarrow
+\bigl(C(h,k)\leftrightarrow C'(h,k)\bigr).
+$$
+This relation is written $\mathcal T\equiv_{\mathsf{cls}}\mathcal T'$.
+\end{definition}
+
+\begin{definition}[Classifier shift]
+\label{def:classifier-level-classifier-shift}
+The classifier-shift value of a transition is the boolean audit quantity
+$$
+\Delta_{\mathsf{cls}}
+\bigl((\mathcal T,R),(\mathcal T',R')\bigr)=0
+$$
+exactly when $\mathcal T\equiv_{\mathsf{cls}}\mathcal T'$, and is $1$
+exactly when this equivalence fails.
+\end{definition}
+
+\begin{theorem}[Record growth does not force classifier shift]
+\label{thm:record-growth-does-not-force-classifier-shift}
+If
+$$
+(\mathcal T,R)\leadsto_{\mathsf{unf}}(\mathcal T,R')
+$$
+and $R'\neq R$, then the record has grown while
+$$
+\Delta_{\mathsf{cls}}\bigl((\mathcal T,R),(\mathcal T,R')\bigr)=0.
+$$
+\end{theorem}
+\begin{proof}
+The unfolding relation keeps the certified classifier state fixed. Hence
+$\mathcal T\equiv_{\mathsf{cls}}\mathcal T$ by reflexivity of the displayed
+classifier on the common source scope. The definition of
+$\Delta_{\mathsf{cls}}$ gives value $0$. The condition $R'\neq R$ records
+displayed growth only; it adds no source specification, classifier
+specification, ledger policy, or naming certificate.
+\end{proof}
+
+\begin{theorem}[Mechanical computation is not discovery]
+\label{thm:mechanical-computation-is-not-discovery}
+No mechanical computation whose target state is the same certified classifier
+state can be a structural discovery transition in the sense of
+\autoref{def:classifier-level-structural-discovery}.
+\end{theorem}
+\begin{proof}
+Mechanical computation has $\mathcal T'=\mathcal T$, so
+$\Delta_{\mathsf{cls}}=0$. Structural discovery requires
+$\Delta_{\mathsf{cls}}=1$. These requirements are incompatible.
+\end{proof}
+
+\begin{theorem}[Finite mechanical chains preserve the classifier]
+\label{thm:finite-mechanical-chains-preserve-classifier}
+For a finite chain
+$$
+(\mathcal T_0,R_0),
+(\mathcal T_1,R_1),
+\ldots,
+(\mathcal T_n,R_n)
+$$
+with
+$$
+(\mathcal T_i,R_i)\leadsto_{\mathsf{comp}}(\mathcal T_{i+1},R_{i+1})
+\quad\text{for every }i<n,
+$$
+one has $\mathcal T_n=\mathcal T_0$ and
+$$
+\Delta_{\mathsf{cls}}
+\bigl((\mathcal T_0,R_0),(\mathcal T_n,R_n)\bigr)=0.
+$$
+\end{theorem}
+\begin{proof}
+Induct on the length of the chain. The empty chain is immediate. In the
+successor case, the induction hypothesis gives $\mathcal T_n=\mathcal T_0$,
+and the last mechanical computation gives $\mathcal T_{n+1}=\mathcal T_n$.
+Therefore $\mathcal T_{n+1}=\mathcal T_0$, and the classifier-shift value is
+$0$ by \autoref{def:classifier-level-classifier-shift}.
+\end{proof}
+
+\begin{corollary}[Output novelty is not classifier discovery]
+\label{cor:output-novelty-is-not-classifier-discovery}
+The fact that a displayed history $r$ belongs to $R'$ but not to $R$ does not
+by itself imply discovery.
+\end{corollary}
+\begin{proof}
+If the transition is mechanical, the classifier state is unchanged by
+\autoref{thm:finite-mechanical-chains-preserve-classifier}. The novelty of
+$r$ is record novelty, not classifier-level novelty.
+\end{proof}
+
+\section{Discovery as classifier shift}
+\label{sec:classifier-level-information-discovery}
+
+\begin{definition}[Structural discovery transition]
+\label{def:classifier-level-structural-discovery}
+A transition
+$$
+(\mathcal T,R)\longrightarrow(\mathcal T',R')
+$$
+is a structural discovery transition when all of the following hold:
+$$
+\begin{gathered}
+\mathcal T' \text{ is a certified classifier state},\\
+\Delta_{\mathsf{cls}}\bigl((\mathcal T,R),(\mathcal T',R')\bigr)=1,\\
+\exists h:\Hist,\;L_{\mathcal T'}(h),\\
+\exists h\in R',\;S_{\mathcal T'}(h)
+\quad\text{or}\quad
+\exists h,k\in R',\;C_{\mathcal T'}(h,k).
+\end{gathered}
+$$
+It is written
+$$
+(\mathcal T,R)\leadsto_{\mathsf{disc}}(\mathcal T',R').
+$$
+\end{definition}
+
+\begin{theorem}[Discovery carries a naming certificate]
+\label{thm:classifier-level-discovery-carries-namecert}
+If
+$$
+(\mathcal T,R)\leadsto_{\mathsf{disc}}(\mathcal T',R')
+$$
+and
+$$
+\mathcal T'=(S',P',L',C',N'),
+$$
+then
+$$
+N':\SemanticNameCert(S',P',L',C').
+$$
+\end{theorem}
+\begin{proof}
+Structural discovery requires $\mathcal T'$ to be a certified classifier
+state. The fifth field of such a state is precisely the displayed semantic
+naming certificate.
+\end{proof}
+
+\begin{theorem}[Certified classifier states carry ledger witnesses]
+\label{thm:certified-classifier-state-carries-ledger-witness}
+For every certified classifier state
+$$
+\mathcal T=(S,P,L,C,N),
+$$
+there exists a history $h$ with $L(h)$.
+\end{theorem}
+\begin{proof}
+The semantic naming certificate contains a core $\NameCert(S,C)$. The core
+certificate supplies a source witness $h$ with $S(h)$. Applying the ledger
+soundness field of $N$ to this source witness gives $L(h)$.
+\end{proof}
+
+\begin{corollary}[Unledgered compression is not discovery]
+\label{cor:unledgered-compression-is-not-discovery}
+A transition that claims compression but exposes no witness
+$$
+\exists h:\Hist,\;L_{\mathcal T'}(h)
+$$
+is not a structural discovery transition.
+\end{corollary}
+\begin{proof}
+This is the contrapositive of
+\autoref{thm:certified-classifier-state-carries-ledger-witness} applied to the
+target classifier state required by
+\autoref{def:classifier-level-structural-discovery}.
+\end{proof}
+
+\begin{definition}[Cost observer and positive discovery]
+\label{def:classifier-level-positive-discovery}
+Let $(Q,\leq,+,0)$ be an ordered commutative monoid. A cost observer assigns to
+each certified classifier state $\mathcal T$ a map
+$$
+\mu_{\mathcal T}:\mathcal P_{\mathsf{fin}}(\Hist)\to Q
+$$
+and assigns to each state transition a certificate cost
+$$
+\kappa(\mathcal T\to\mathcal T')\in Q.
+$$
+A structural discovery transition is positive for a finite family
+$X\subseteq R'$ when
+$$
+\mu_{\mathcal T'}(X)+\kappa(\mathcal T\to\mathcal T')
+<
+\mu_{\mathcal T}(X).
+$$
+\end{definition}
+
+\begin{theorem}[Positive discovery implies structural discovery]
+\label{thm:positive-discovery-implies-structural-discovery}
+Every positive discovery is a structural discovery transition.
+\end{theorem}
+\begin{proof}
+Positivity is defined only after the structural discovery clauses have been
+met; the displayed inequality adds a cost comparison and does not replace the
+classifier-shift, certificate, or ledger requirements.
+\end{proof}
+
+\begin{corollary}[Faster unfolding is not automatically discovery]
+\label{cor:faster-unfolding-is-not-automatically-discovery}
+A shorter, faster, or more direct continuation route under the same certified
+classifier state is not automatically a discovery.
+\end{corollary}
+\begin{proof}
+Such a route changes the external method or the displayed record. Unless it
+changes the certified classifier state up to
+\autoref{def:classifier-level-classifier-equivalence}, its classifier-shift
+value is $0$.
+\end{proof}
+
+\section{Generators and presentation changes}
+\label{sec:classifier-level-information-generators}
+
+\begin{definition}[Certified generator]
+\label{def:classifier-level-certified-generator}
+Within a certified classifier state $\mathcal T$, a certified generator is an
+externally indexed family $G:I\to\Hist$ whose use is authorized by
+$N_{\mathcal T}$ and for which every $G(i)$ is obtained from a certified seed by
+a finite $\ContR$ tail.
+\end{definition}
+
+\begin{theorem}[Fixed generator theorem]
+\label{thm:classifier-level-fixed-generator}
+Let $G:I\to\Hist$ be a certified generator in $\mathcal T$. If the transition
+from $R$ to $R'$ only adjoins an output of $G$ and keeps the certified
+classifier state equal to $\mathcal T$, then
+$$
+\Delta_{\mathsf{cls}}\bigl((\mathcal T,R),(\mathcal T,R')\bigr)=0.
+$$
+\end{theorem}
+\begin{proof}
+The generator output is already licensed by $N_{\mathcal T}$. Since the
+transition keeps $\mathcal T$ fixed, it is a record extension under the same
+certificate. The classifier-shift value is therefore $0$.
+\end{proof}
+
+\begin{corollary}[Digit extension is unfolding]
+\label{cor:digit-extension-is-unfolding}
+If a digit-prefix generator for a constant has already been authorized in a
+certified classifier state, producing a longer prefix by the same generator is
+unfolding rather than classifier discovery.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:classifier-level-fixed-generator} to the prefix generator.
+The visible prefix changes, but the governing classifier state does not.
+\end{proof}
+
+\begin{definition}[Presentation weakening]
+\label{def:classifier-level-presentation-weakening}
+Let
+$$
+\mathcal T=(S,P,L,C,N),
+\qquad
+\mathcal T'=(S,P',L',C,N')
+$$
+have the same source specification and classifier specification. If
+$$
+\forall h:\Hist,\;P(h)\to P'(h),
+\qquad
+\forall h:\Hist,\;L(h)\to L'(h),
+$$
+then $\mathcal T'$ is a presentation weakening of $\mathcal T$.
+\end{definition}
+
+\begin{theorem}[Presentation weakening has zero classifier shift]
+\label{thm:presentation-weakening-zero-classifier-shift}
+If $\mathcal T'$ is a presentation weakening of $\mathcal T$, then for any
+records $R,R'$,
+$$
+\Delta_{\mathsf{cls}}\bigl((\mathcal T,R),(\mathcal T',R')\bigr)=0.
+$$
+\end{theorem}
+\begin{proof}
+The source and classifier specifications are unchanged. Hence on the common
+source scope the two classifier predicates are literally the same predicate,
+so $\mathcal T\equiv_{\mathsf{cls}}\mathcal T'$.
+\end{proof}
+
+\begin{corollary}[Renaming is not classifier discovery]
+\label{cor:renaming-is-not-classifier-discovery}
+Changing notation, weakening a pattern presentation, or relaxing a ledger
+presentation is not classifier discovery when the source and classifier
+specifications are unchanged.
+\end{corollary}
+\begin{proof}
+This is \autoref{thm:presentation-weakening-zero-classifier-shift}.
+\end{proof}
+
+\section{Separation principle}
+\label{sec:classifier-level-information-separation}
+
+\begin{definition}[Classifier-level information]
+\label{def:classifier-level-information}
+For a transition
+$$
+(\mathcal T,R)\longrightarrow(\mathcal T',R'),
+$$
+its classifier-level information audit is the pair
+$$
+\mathsf{CLI}\bigl((\mathcal T,R),(\mathcal T',R')\bigr)
+=
+\bigl(\Delta_{\mathsf{rec}},\Delta_{\mathsf{cls}}\bigr),
+$$
+where
+$$
+\Delta_{\mathsf{rec}}=|R'|-|R|
+$$
+is external record growth, and $\Delta_{\mathsf{cls}}$ is the
+classifier-shift value.
+\end{definition}
+
+\begin{theorem}[Record growth and classifier shift are independent dimensions]
+\label{thm:record-growth-classifier-shift-independent}
+There are transitions with $\Delta_{\mathsf{rec}}>0$ and
+$\Delta_{\mathsf{cls}}=0$. There are also certified-state transitions with
+$\Delta_{\mathsf{rec}}=0$ and $\Delta_{\mathsf{cls}}=1$ whenever the displayed
+states are not classifier-equivalent on their common source scope.
+\end{theorem}
+\begin{proof}
+For the first case, take any unfolding step that adjoins a non-empty
+continuation result and apply
+\autoref{thm:record-growth-does-not-force-classifier-shift}. For the second
+case, keep the record fixed and replace $\mathcal T$ by a certified classifier
+state $\mathcal T'$ with
+$\neg(\mathcal T\equiv_{\mathsf{cls}}\mathcal T')$. The record size is
+unchanged, while \autoref{def:classifier-level-classifier-shift} gives
+$\Delta_{\mathsf{cls}}=1$.
+\end{proof}
+
+\begin{principle}[Computation extends records; discovery changes classifiers]
+\label{prin:computation-extends-records-discovery-changes-classifiers}
+Continuation grows a trace; \NameCert{} licenses a classifier. Thus output
+length and classifier-level information are distinct audit coordinates. A
+discovery is a ledgered classifier shift, not a longer continuation trace.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-continuationtrace-namecert}{Continuation trace packets realize the record-growth side of the classifier-level information separation.}
+\concretizedIn{ch:concrete-instances-classifiermorphism-namecert}{Classifier morphism packets realize the certificate-preserving side of classifier comparison and presentation change.}

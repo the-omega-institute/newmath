@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 import build_namecert_html
@@ -162,6 +163,64 @@ class NamecertHtmlTests(unittest.TestCase):
         self.assertEqual(rows[1]["part"], "Beta")
         self.assertEqual(rows[1]["chapter"], "Inline Chapter")
 
+    def test_scan_paper_sources_skips_structural_hub_only_file(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            paper_dir = root / "papers" / "bedc"
+            (paper_dir / "parts" / "topic").mkdir(parents=True)
+            main = paper_dir / "main.tex"
+            hub = paper_dir / "parts" / "topic.tex"
+            child = paper_dir / "parts" / "topic" / "body.tex"
+            main.write_text("\\part{Alpha}\n\\input{parts/topic.tex}\n", encoding="utf-8")
+            hub.write_text(
+                "\\chapter{Topic}\n"
+                "\\label{ch:topic}\n"
+                "This chapter orients the construction.\n"
+                "\\input{parts/topic/body.tex}\n"
+                "\\closureat{\\FooUp}{\\scopedClosure}\n",
+                encoding="utf-8",
+            )
+            child.write_text("\\section{Body}\n\\begin{theorem}Body theorem.\\end{theorem}\n", encoding="utf-8")
+
+            old_root = build_namecert_html.ROOT
+            old_paper = build_namecert_html.PAPER_DIR
+            build_namecert_html.ROOT = root
+            build_namecert_html.PAPER_DIR = paper_dir
+            try:
+                rows = build_namecert_html.scan_paper_sources(main, [])
+            finally:
+                build_namecert_html.ROOT = old_root
+                build_namecert_html.PAPER_DIR = old_paper
+
+        self.assertEqual([row["source"] for row in rows], ["papers/bedc/parts/topic/body.tex"])
+
+    def test_scan_paper_sources_keeps_body_file_even_when_it_inputs_children(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            paper_dir = root / "papers" / "bedc"
+            (paper_dir / "parts").mkdir(parents=True)
+            main = paper_dir / "main.tex"
+            body = paper_dir / "parts" / "body.tex"
+            child = paper_dir / "parts" / "child.tex"
+            main.write_text("\\input{parts/body.tex}\n", encoding="utf-8")
+            body.write_text("\\begin{definition}A body.\\end{definition}\n\\input{parts/child.tex}\n", encoding="utf-8")
+            child.write_text("Child text.\n", encoding="utf-8")
+
+            old_root = build_namecert_html.ROOT
+            old_paper = build_namecert_html.PAPER_DIR
+            build_namecert_html.ROOT = root
+            build_namecert_html.PAPER_DIR = paper_dir
+            try:
+                rows = build_namecert_html.scan_paper_sources(main, [])
+            finally:
+                build_namecert_html.ROOT = old_root
+                build_namecert_html.PAPER_DIR = old_paper
+
+        self.assertEqual([row["source"] for row in rows], [
+            "papers/bedc/parts/body.tex",
+            "papers/bedc/parts/child.tex",
+        ])
+
     def test_scan_paper_sources_reuses_namecert_urls(self) -> None:
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -230,7 +289,37 @@ class NamecertHtmlTests(unittest.TestCase):
 
         self.assertIn("\\providecommand{\\Foo}{Foo}", prelude)
         self.assertIn("\\providecommand{\\Bar}{Bar}", prelude)
-        self.assertIn("\\def\\Baz#1{#1}", prelude)
+        self.assertIn("\\providecommand{\\Baz}[1]{#1}", prelude)
+
+    def test_macro_prelude_collects_recursive_declaration_families(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            tex = root / "a.tex"
+            child = root / "b.tex"
+            tex.write_text(
+                "\\input{b.tex}\n"
+                "\\renewcommand{\\Foo}[1]{%\n"
+                "  \\textbf{#1}%\n"
+                "}\n"
+                "\\let\\Alias=\\Foo\n",
+                encoding="utf-8",
+            )
+            child.write_text(
+                "\\DeclareMathOperator{\\rank}{rank}\n"
+                "\\NewDocumentCommand{\\Pair}{mm}{(#1,#2)}\n",
+                encoding="utf-8",
+            )
+            old_root = build_namecert_html.ROOT
+            build_namecert_html.ROOT = root
+            try:
+                prelude = build_namecert_html.collect_macro_prelude([{"source": "a.tex"}])
+            finally:
+                build_namecert_html.ROOT = old_root
+
+        self.assertIn("\\providecommand{\\Foo}[1]{", prelude)
+        self.assertIn("\\providecommand{\\Alias}{\\Foo}", prelude)
+        self.assertIn("\\providecommand{\\rank}{\\operatorname{rank}}", prelude)
+        self.assertIn("\\providecommand{\\Pair}[2]{#1#2}", prelude)
 
     def test_fingerprint_changes_with_macro_prelude_and_recursive_input(self) -> None:
         with tempfile.TemporaryDirectory() as td:
@@ -345,6 +434,53 @@ class NamecertHtmlTests(unittest.TestCase):
         rows = build_namecert_html.limited_manifest_rows(manifest_rows, selected)
 
         self.assertEqual([row["slug"] for row in rows], ["foo", "bar"])
+
+    def test_run_make4ht_timeout_marks_page_failed_without_stamp(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            paper = root / "papers" / "bedc"
+            paper.mkdir(parents=True)
+            (paper / "source.tex").write_text("\\chapter{Slow}\n", encoding="utf-8")
+            (paper / "preamble.tex").write_text("", encoding="utf-8")
+            (paper / "make4ht-dossier.cfg").write_text("", encoding="utf-8")
+            row = {
+                "scope": "paper",
+                "slug": "slow",
+                "region": "slow",
+                "source": "papers/bedc/source.tex",
+                "html_url": "paper/slow/",
+            }
+
+            old_root = build_namecert_html.ROOT
+            old_paper = build_namecert_html.PAPER_DIR
+            build_namecert_html.ROOT = root
+            build_namecert_html.PAPER_DIR = paper
+            try:
+                with mock.patch(
+                    "build_namecert_html.subprocess.run",
+                    side_effect=build_namecert_html.subprocess.TimeoutExpired(["make4ht"], 3),
+                ):
+                    result = build_namecert_html.run_make4ht(
+                        row,
+                        {"slow": row},
+                        {},
+                        {},
+                        "",
+                        False,
+                        False,
+                        False,
+                        "",
+                        3,
+                    )
+                stamp_exists = (root / "docs" / "dossier" / "paper" / "slow" / ".paper-stamp").exists()
+            finally:
+                build_namecert_html.ROOT = old_root
+                build_namecert_html.PAPER_DIR = old_paper
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["returncode"], 124)
+        self.assertIn("make4ht timeout after 3s", result["error"])
+        self.assertFalse(stamp_exists)
 
 
 if __name__ == "__main__":

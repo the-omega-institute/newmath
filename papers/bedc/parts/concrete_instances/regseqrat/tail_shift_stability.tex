@@ -108,4 +108,42 @@ diagonal budget rows are transported componentwise along the same finite
 window, so the Real seal consumes the preserved dyadic tolerance budget rather
 than an ambient limit or completeness coordinate.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-shift synchronized readback]
+\label{thm:regseqrat-tail-shift-synchronized-readback}
+Let $P$ and $Q$ be accepted $\RegSeqRatUp$ packets whose displayed tail-shift
+schedules share the same finite $\StreamNameUp$ window and the same dyadic
+tail budget. If both schedules expose accepted endpoint rows, regularity
+ledgers, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$
+provenance, and local $\NameCert$ rows on that shared window, then both
+schedules read back through one RegSeqRat row before any $\RealUp$ seal is
+exposed.
+
+The synchronized readback exports only the shared finite StreamName window,
+the dyadic tail budget, the regular rational classifier row, and the displayed
+transport, replay, provenance, and naming rows. It does not expose quotient
+stream equality, selected limits, countable choice, metric-completeness data,
+completion points, or ambient Real-completeness coordinates.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-shift-stability} to each displayed schedule.
+Each accepted tail shift transports the original finite source surface through
+the shared StreamName window and preserves the classifier rows allowed by the
+RegSeqRat packet.
+
+Use \autoref{thm:regseqrat-tail-shift-common-refinement}. The two schedules
+already share the finite StreamName window and dyadic tail budget, so their
+common refinement has the same endpoint rows, regularity ledgers, transport
+rows, replay rows, provenance, and local naming.
+
+Apply \autoref{thm:regseqrat-tail-shift-window-stability} on that common
+window and then \autoref{thm:regseqrat-tail-shift-diagonal-budget}. The
+classifier read and the diagonal dyadic budget are synchronized on one finite
+RegSeqRat row before the downstream Real seal route is opened.
+
+Since the proof has used only displayed finite rows, no quotient stream,
+selected limit, choice schedule, metric-completeness datum, completion point,
+or ambient Real-completeness coordinate remains available to distinguish the
+two readbacks.
+\end{proof}
 \closureat{RegSeqRatUp}{seedStr}
