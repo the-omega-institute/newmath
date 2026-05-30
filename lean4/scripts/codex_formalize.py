@@ -25,6 +25,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import fcntl
 import json
 import logging
 import os
@@ -77,6 +78,26 @@ HARD_MAX_PARALLEL = 50
 FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
 FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "placeholder", "demo"}
 MAX_LEAN_FILE_LINES = 800
+
+
+def _resolve_git_common_file(filename: str, fallback: Path) -> Path:
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "--git-common-dir"],
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=5,
+        ).stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
+        return fallback
+    if not out:
+        return fallback
+    common = Path(out)
+    if not common.is_absolute():
+        common = (REPO_ROOT / common).resolve()
+    return common / filename
 
 
 def _read_pipeline_pid(pid_file: Path = PID_FILE) -> int | None:
@@ -133,22 +154,97 @@ _round_lock = threading.Lock()
 # Lock serializing .lake/build merges back to the main repo
 _lake_merge_lock = threading.Lock()
 
-# Single-slot build request for the background builder (multi-producer,
-# single-consumer, collapsing). Each worker that merges a round calls
-# `request_build(sha)`. The builder consumes only the latest SHA — if
-# multiple commits land while the builder is busy, only the newest tip
-# is built; intermediate SHAs are skipped.
 _build_cv = threading.Condition()
-_build_request: Optional[str] = None
 _builder_stop = threading.Event()
+PENDING_BUILD_FILE = _resolve_git_common_file(
+    "bedc-codex-formalize-pending-build.json",
+    LOG_DIR / "pending_build.json",
+)
+PENDING_BUILD_LOCK_FILE = PENDING_BUILD_FILE.with_suffix(PENDING_BUILD_FILE.suffix + ".lock")
+
+
+def _atomic_write_json(path: Path, data: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(
+        "w",
+        encoding="utf-8",
+        dir=str(path.parent),
+        prefix=f".{path.name}.",
+        suffix=".tmp",
+        delete=False,
+    ) as f:
+        tmp = Path(f.name)
+        json.dump(data, f, indent=2)
+        f.write("\n")
+        f.flush()
+        os.fsync(f.fileno())
+    try:
+        os.replace(tmp, path)
+    finally:
+        if tmp.exists():
+            try:
+                tmp.unlink()
+            except OSError:
+                pass
+
+
+def _read_json_file(path: Path) -> dict:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        return {}
+    except json.JSONDecodeError:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _read_pending_build() -> Optional[str]:
+    fd = _open_locked_json_file(PENDING_BUILD_LOCK_FILE)
+    try:
+        data = _read_json_file(PENDING_BUILD_FILE)
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
+    sha = data.get("sha")
+    return sha.strip() if isinstance(sha, str) and sha.strip() else None
+
+
+def _clear_pending_build_if_current(sha: str) -> None:
+    fd = _open_locked_json_file(PENDING_BUILD_LOCK_FILE)
+    try:
+        data = _read_json_file(PENDING_BUILD_FILE)
+        current = data.get("sha")
+        if isinstance(current, str) and current.strip() == sha:
+            try:
+                PENDING_BUILD_FILE.unlink()
+            except FileNotFoundError:
+                pass
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
 
 
 def request_build(sha: str) -> None:
-    """Producer: signal that `sha` is a new build candidate. Overwrites
-    any pending (unbuild) request — the builder will pick the latest."""
-    global _build_request
+    """Producer: signal that `sha` is a new build candidate."""
+    payload = {
+        "sha": sha,
+        "requested_at": datetime.utcnow().isoformat() + "Z",
+        "producer_pid": os.getpid(),
+    }
+    fd = _open_locked_json_file(PENDING_BUILD_LOCK_FILE)
+    try:
+        _atomic_write_json(PENDING_BUILD_FILE, payload)
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
     with _build_cv:
-        _build_request = sha
         _build_cv.notify()
 
 
@@ -195,16 +291,11 @@ def request_recovery(wt: "WorktreeInfo") -> None:
     except Exception as exc:
         logger.error(f"[recovery] failed to queue ticket for {wt.branch}: {exc}")
 
-# In-memory dedup of in-flight target IDs across parallel rounds.
-# Phase B selects targets concurrently and can pick the same paper (same
-# lean_name / paper_label) in two worktrees; the second one wastes a Phase C
-# and produces a merge conflict. We register each round's target IDs after
-# Phase B and drop any that overlap with another live round; if too few
-# remain we fail the round before Phase C. Entries are removed in
-# `run_round_in_worktree`'s finally block, so the set only ever holds IDs
-# of rounds currently in flight (~= --parallel size).
-_active_targets_lock = threading.Lock()
-_active_targets: dict[int, set[str]] = {}
+TARGET_CLAIMS_FILE = _resolve_git_common_file(
+    "bedc-codex-formalize-target-claims.json",
+    LOG_DIR / "target_claims.json",
+)
+TARGET_CLAIM_TTL_SECONDS = 1800
 
 
 def _target_id(t: dict) -> str:
@@ -212,15 +303,47 @@ def _target_id(t: dict) -> str:
     return (t.get("lean_name") or t.get("paper_label") or "").strip()
 
 
+def _open_locked_json_file(path: Path) -> int:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd = os.open(path, os.O_RDWR | os.O_CREAT, 0o644)
+    fcntl.flock(fd, fcntl.LOCK_EX)
+    return fd
+
+
+def _read_json_from_fd(fd: int) -> dict:
+    os.lseek(fd, 0, 0)
+    raw = os.read(fd, 1 << 20).decode("utf-8") or "{}"
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _write_json_to_fd(fd: int, data: dict) -> None:
+    os.lseek(fd, 0, 0)
+    os.ftruncate(fd, 0)
+    os.write(fd, json.dumps(data, indent=2).encode("utf-8"))
+    os.write(fd, b"\n")
+    os.fsync(fd)
+
+
+def _expire_target_claims(state: dict, now: float) -> dict:
+    return {
+        k: v for k, v in state.items()
+        if isinstance(v, dict) and float(v.get("expires_at", 0)) > now
+    }
+
+
 def claim_targets(round_num: int, targets: list[dict]) -> tuple[list[dict], list[str]]:
-    """Filter `targets` against in-flight target IDs from other rounds.
-    Returns (kept, dropped_ids). Registers the kept IDs under `round_num`."""
+    """Filter `targets` against target IDs claimed by other rounds."""
+    owner = str(round_num)
     kept: list[dict] = []
     dropped: list[str] = []
-    with _active_targets_lock:
-        taken: set[str] = set()
-        for s in _active_targets.values():
-            taken |= s
+    fd = _open_locked_json_file(TARGET_CLAIMS_FILE)
+    try:
+        now = time.time()
+        state = _expire_target_claims(_read_json_from_fd(fd), now)
         keep_ids: set[str] = set()
         for t in targets:
             tid = _target_id(t)
@@ -228,19 +351,47 @@ def claim_targets(round_num: int, targets: list[dict]) -> tuple[list[dict], list
                 # Unkeyable target — keep but don't register; can't dedup.
                 kept.append(t)
                 continue
-            if tid in taken or tid in keep_ids:
+            holder = state.get(tid)
+            if (
+                tid in keep_ids
+                or (isinstance(holder, dict) and holder.get("owner") != owner)
+            ):
                 dropped.append(tid)
                 continue
             keep_ids.add(tid)
             kept.append(t)
-        if keep_ids:
-            _active_targets[round_num] = keep_ids
+        for tid in keep_ids:
+            state[tid] = {
+                "owner": owner,
+                "round_num": round_num,
+                "claimed_at": datetime.utcnow().isoformat() + "Z",
+                "expires_at": now + TARGET_CLAIM_TTL_SECONDS,
+                "pid": os.getpid(),
+            }
+        _write_json_to_fd(fd, state)
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
     return kept, dropped
 
 
 def release_targets(round_num: int) -> None:
-    with _active_targets_lock:
-        _active_targets.pop(round_num, None)
+    owner = str(round_num)
+    fd = _open_locked_json_file(TARGET_CLAIMS_FILE)
+    try:
+        state = _read_json_from_fd(fd)
+        for tid in list(state.keys()):
+            holder = state.get(tid)
+            if isinstance(holder, dict) and holder.get("owner") == owner:
+                del state[tid]
+        _write_json_to_fd(fd, state)
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -2184,16 +2335,13 @@ def detect_new_leanvariant_markers(wt: WorktreeInfo) -> list[str]:
 
 def detect_markers_not_backed_by_new_decls(wt: WorktreeInfo) -> list[str]:
     new_decls = set(collect_added_lean_declarations(wt))
-    existing_decls = _collect_all_lean_declarations(wt)
     violations: list[str] = []
     for rel, kind, name in _added_marker_lines(wt):
         if kind not in {"leanchecked", "leanstmt", "leandef"}:
             continue
         if name in new_decls:
             continue
-        if name in existing_decls:
-            continue
-        violations.append(f"{rel}: {kind} marker {name} does not reference an existing Lean declaration")
+        violations.append(f"{rel}: {kind} marker {name} does not reference a Lean declaration added by this round")
     return violations
 
 
@@ -2732,6 +2880,27 @@ def run_round_in_worktree(
 STATE_FILE = LOG_DIR / "formalize_state.json"
 
 
+def _quarantine_state_file(path: Optional[Path] = None) -> Optional[Path]:
+    path = path or STATE_FILE
+    if not path.exists():
+        return None
+    ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    dst = path.with_name(f"{path.name}.quarantine.{ts}.{os.getpid()}")
+    try:
+        os.replace(path, dst)
+        return dst
+    except OSError:
+        return None
+
+
+def _state_from_git() -> RoundState:
+    return RoundState(
+        round_number=latest_committed_round(),
+        total_theorems=count_lean_theorems(),
+        recent_commits=git_log_oneline(5),
+    )
+
+
 def load_state() -> RoundState:
     latest_round = latest_committed_round()
     if STATE_FILE.exists():
@@ -2745,25 +2914,26 @@ def load_state() -> RoundState:
                 )
                 state.round_number = latest_round
             return state
-        except Exception:
-            logger.warning("Failed to load state, rebuilding from IMPLEMENTATION_PLAN")
-    plan_text = read_impl_plan_header(30)
-    return RoundState(
-        round_number=max(parse_round_from_plan(plan_text), latest_round),
-        total_theorems=count_lean_theorems(),
-        recent_commits=git_log_oneline(5),
-    )
+        except json.JSONDecodeError as exc:
+            quarantine = _quarantine_state_file()
+            detail = f" quarantined at {quarantine}" if quarantine else ""
+            logger.warning(f"State file is corrupt; deriving state from git.{detail} {exc}")
+        except Exception as exc:
+            logger.warning(f"Failed to load state; deriving state from git. {exc}")
+    return _state_from_git()
 
 
 def save_state(state: RoundState) -> None:
-    with open(STATE_FILE, "w", encoding="utf-8") as f:
-        json.dump({
+    _atomic_write_json(
+        STATE_FILE,
+        {
             "round_number": state.round_number,
             "coverage_pct": state.coverage_pct,
             "total_theorems": state.total_theorems,
             "recent_commits": state.recent_commits[:10],
             "consecutive_failures": state.consecutive_failures,
-        }, f, indent=2)
+        },
+    )
 
 
 def _save_round_log(
@@ -2901,7 +3071,7 @@ def run_round_serial(
 
 
 # ---------------------------------------------------------------------------
-# Background builder (single consumer for the _build_request slot)
+# Background builder
 # ---------------------------------------------------------------------------
 
 BUILDER_LOG_DIR = LOG_DIR / "builder"
@@ -3175,6 +3345,11 @@ def _builder_attempt_fix(sha: str, build_log: Path, max_attempts: int) -> bool:
     return False
 
 
+def _finish_builder_candidate(sha: str, *, built: bool) -> None:
+    if built:
+        _clear_pending_build_if_current(sha)
+
+
 def _force_remove_worktree(wt_path: Path) -> None:
     """Best-effort: remove a git worktree + its directory. Used by the
     recovery consumer after a ticket is dispositioned (recovered or dead).
@@ -3336,13 +3511,12 @@ def _recovery_loop(poll_seconds: float = 30.0,
 
 
 def _builder_loop(poll_seconds: float, max_fix_attempts: int) -> None:
-    """Single-consumer loop. Blocks on `_build_cv` for a new SHA request,
+    """Single-consumer loop. Blocks on `_build_cv` for a pending SHA,
     runs `lake build` in BUILDER_WORKTREE (separate from REPO_ROOT so that
     worker merges don't ff the builder's working tree mid-build), and on
     success syncs the fresh BEDC .oleans back to REPO_ROOT/.lake/build
     for round worker worktrees to COW. On failure spawns a codex fix. When
     multiple SHAs queue up during a build, only the latest is processed."""
-    global _build_request
     logger.info(f"[builder] started (poll={poll_seconds}s, max_fix={max_fix_attempts})")
     BUILDER_LOG_DIR.mkdir(parents=True, exist_ok=True)
     try:
@@ -3353,17 +3527,19 @@ def _builder_loop(poll_seconds: float, max_fix_attempts: int) -> None:
     last_built: Optional[str] = None
     while not _builder_stop.is_set():
         with _build_cv:
-            while _build_request is None and not _builder_stop.is_set():
+            while _read_pending_build() is None and not _builder_stop.is_set():
                 _build_cv.wait(timeout=poll_seconds)
             if _builder_stop.is_set():
                 break
-            sha = _build_request
-            _build_request = None
+            sha = _read_pending_build()
         if sha is None or sha == last_built:
+            if sha is not None:
+                _clear_pending_build_if_current(sha)
             continue
         if sha in _read_broken_shas():
             logger.info(f"[builder] {sha[:8]} already recorded broken; skipping")
             last_built = sha
+            _clear_pending_build_if_current(sha)
             continue
         logger.info(f"[builder] building {sha[:8]} in builder worktree")
         try:
@@ -3381,15 +3557,18 @@ def _builder_loop(poll_seconds: float, max_fix_attempts: int) -> None:
             except Exception as exc:
                 logger.warning(f"[builder] cache sync failed: {exc}")
             last_built = sha
+            _finish_builder_candidate(sha, built=True)
             continue
         logger.error(f"[builder] FAIL {sha[:8]} (log={build_log.name})")
         for ln in tail.splitlines()[-10:]:
             logger.error(f"  {ln}")
         if _builder_attempt_fix(sha, build_log, max_fix_attempts):
+            _clear_pending_build_if_current(sha)
             last_built = None     # fix pushed new tip; next loop picks it up
         else:
             _record_broken_sha(sha, build_log.name)
             last_built = sha
+            _clear_pending_build_if_current(sha)
     logger.info("[builder] stopped")
 
 

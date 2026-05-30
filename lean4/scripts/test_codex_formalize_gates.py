@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import subprocess
 import sys
 import tempfile
@@ -24,6 +25,102 @@ def load_codex_formalize():
 
 
 cf = load_codex_formalize()
+
+
+class CoordinationPersistenceTests(unittest.TestCase):
+    def test_pending_build_file_survives_reload_and_collapses_to_newest_sha(self):
+        with tempfile.TemporaryDirectory() as td:
+            pending = Path(td) / "pending.json"
+            lock = Path(td) / "pending.json.lock"
+            original_pending = cf.PENDING_BUILD_FILE
+            original_lock = cf.PENDING_BUILD_LOCK_FILE
+            try:
+                cf.PENDING_BUILD_FILE = pending
+                cf.PENDING_BUILD_LOCK_FILE = lock
+
+                cf.request_build("1111111")
+                cf.request_build("2222222")
+
+                self.assertEqual(cf._read_pending_build(), "2222222")
+                data = json.loads(pending.read_text(encoding="utf-8"))
+                self.assertEqual(data["sha"], "2222222")
+                cf._clear_pending_build_if_current("1111111")
+                self.assertTrue(pending.exists())
+                self.assertEqual(cf._read_pending_build(), "2222222")
+                cf._clear_pending_build_if_current("2222222")
+                self.assertFalse(pending.exists())
+            finally:
+                cf.PENDING_BUILD_FILE = original_pending
+                cf.PENDING_BUILD_LOCK_FILE = original_lock
+
+    def test_target_claim_overlap_rejection_release_and_reclaim(self):
+        with tempfile.TemporaryDirectory() as td:
+            claims = Path(td) / "target_claims.json"
+            original_claims = cf.TARGET_CLAIMS_FILE
+            try:
+                cf.TARGET_CLAIMS_FILE = claims
+
+                kept, dropped = cf.claim_targets(
+                    1,
+                    [
+                        {"lean_name": "BEDC.alpha"},
+                        {"paper_label": "thm:beta"},
+                    ],
+                )
+                self.assertEqual([cf._target_id(t) for t in kept], ["BEDC.alpha", "thm:beta"])
+                self.assertEqual(dropped, [])
+
+                kept, dropped = cf.claim_targets(
+                    2,
+                    [
+                        {"lean_name": "BEDC.alpha"},
+                        {"lean_name": "BEDC.gamma"},
+                    ],
+                )
+                self.assertEqual([cf._target_id(t) for t in kept], ["BEDC.gamma"])
+                self.assertEqual(dropped, ["BEDC.alpha"])
+
+                cf.release_targets(1)
+                kept, dropped = cf.claim_targets(2, [{"lean_name": "BEDC.alpha"}])
+
+                self.assertEqual([cf._target_id(t) for t in kept], ["BEDC.alpha"])
+                self.assertEqual(dropped, [])
+            finally:
+                cf.TARGET_CLAIMS_FILE = original_claims
+
+    def test_corrupt_state_is_quarantined_and_recovered_without_plan_header(self):
+        with tempfile.TemporaryDirectory() as td:
+            state_file = Path(td) / "formalize_state.json"
+            state_file.write_text("{bad json", encoding="utf-8")
+            original_state = cf.STATE_FILE
+            original_latest = cf.latest_committed_round
+            original_count = cf.count_lean_theorems
+            original_log = cf.git_log_oneline
+            original_plan = cf.read_impl_plan_header
+            try:
+                cf.STATE_FILE = state_file
+                cf.latest_committed_round = lambda *, cwd=None: 42
+                cf.count_lean_theorems = lambda bedc_root=None: 7
+                cf.git_log_oneline = lambda n=5, *, cwd=None: ["abc subject"]
+
+                def fail_plan(*args, **kwargs):
+                    raise AssertionError("read_impl_plan_header must not be called")
+
+                cf.read_impl_plan_header = fail_plan
+
+                state = cf.load_state()
+
+                self.assertEqual(state.round_number, 42)
+                self.assertEqual(state.total_theorems, 7)
+                self.assertEqual(state.recent_commits, ["abc subject"])
+                self.assertFalse(state_file.exists())
+                self.assertEqual(len(list(Path(td).glob("formalize_state.json.quarantine.*"))), 1)
+            finally:
+                cf.STATE_FILE = original_state
+                cf.latest_committed_round = original_latest
+                cf.count_lean_theorems = original_count
+                cf.git_log_oneline = original_log
+                cf.read_impl_plan_header = original_plan
 
 
 class QualityGateTests(unittest.TestCase):
