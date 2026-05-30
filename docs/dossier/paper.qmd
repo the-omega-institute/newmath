@@ -1,0 +1,133 @@
+---
+title: "Full Paper"
+description: "A source-order browser for the BEDC paper HTML export."
+format:
+  html:
+    toc: false
+---
+
+```{=html}
+<style>
+  .paper-browser {
+    display: grid;
+    gap: 1rem;
+    margin: 1.2rem 0 2rem;
+  }
+  .paper-part {
+    border-top: 1px solid #e2e2e2;
+    padding-top: 1rem;
+  }
+  .paper-part h2 {
+    margin: 0 0 0.7rem;
+    font-size: 1.25rem;
+  }
+  .paper-chapter {
+    margin: 0.85rem 0;
+  }
+  .paper-chapter h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1rem;
+    color: #444;
+  }
+  .paper-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.35rem;
+  }
+  .paper-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0.35rem 0;
+  }
+  .paper-list a {
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .paper-source {
+    color: #777;
+    font: 0.82rem/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    overflow-wrap: anywhere;
+  }
+  .paper-status {
+    color: #666;
+    font-size: 0.9rem;
+  }
+</style>
+<div id="paper-browser" class="paper-browser">
+  <p class="paper-status">Loading paper sources...</p>
+</div>
+<script>
+const root = document.getElementById("paper-browser");
+
+function groupBy(items, key) {
+  const groups = new Map();
+  for (const item of items) {
+    const value = item[key] || "Unsorted";
+    if (!groups.has(value)) groups.set(value, []);
+    groups.get(value).push(item);
+  }
+  return groups;
+}
+
+function makeRow(row) {
+  const li = document.createElement("li");
+  const link = document.createElement("a");
+  link.href = row.html_url || "#";
+  link.textContent = row.title || row.slug || row.source;
+  const source = document.createElement("span");
+  source.className = "paper-source";
+  source.textContent = row.source || "";
+  li.append(link, source);
+  return li;
+}
+
+function render(rows) {
+  root.replaceChildren();
+  const byPart = groupBy(rows, "part");
+  for (const [part, partRows] of byPart) {
+    const section = document.createElement("section");
+    section.className = "paper-part";
+    const h2 = document.createElement("h2");
+    h2.textContent = part;
+    section.appendChild(h2);
+    const byChapter = groupBy(partRows, "chapter");
+    for (const [chapter, chapterRows] of byChapter) {
+      const chapterEl = document.createElement("div");
+      chapterEl.className = "paper-chapter";
+      if (chapter && chapter !== "Unsorted") {
+        const h3 = document.createElement("h3");
+        h3.textContent = chapter;
+        chapterEl.appendChild(h3);
+      }
+      const ul = document.createElement("ul");
+      ul.className = "paper-list";
+      chapterRows
+        .slice()
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
+        .forEach(row => ul.appendChild(makeRow(row)));
+      chapterEl.appendChild(ul);
+      section.appendChild(chapterEl);
+    }
+    root.appendChild(section);
+  }
+}
+
+fetch("data/paper_sources.json")
+  .then(response => {
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  })
+  .then(rows => render(Array.isArray(rows) ? rows : []))
+  .catch(error => {
+    root.innerHTML = "";
+    const p = document.createElement("p");
+    p.className = "paper-status";
+    p.textContent = `Unable to load paper_sources.json: ${error.message}`;
+    root.appendChild(p);
+  });
+</script>
+```
