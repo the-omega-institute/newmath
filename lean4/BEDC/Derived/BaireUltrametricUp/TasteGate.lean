@@ -203,4 +203,15 @@ theorem BaireUltrametricCarrier_prefix_stability
   cases hN
   exact ⟨rfl, rfl, rfl⟩
 
+theorem BaireUltrametricCarrier_finite_cylinder_separation
+    {B M V S H C P N B' M' V' S' H' C' P' N' : BHist} :
+    baireUltrametricToEventFlow (BaireUltrametricUp.mk (BHist.e0 B) M V S H C P N) =
+        baireUltrametricToEventFlow (BaireUltrametricUp.mk (BHist.e1 B') M' V' S' H' C' P' N') ->
+      False := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro flowEq
+  injection flowEq with _ prefixEq
+  injection prefixEq with markEq _
+  cases markEq
+
 end BEDC.Derived.BaireUltrametricUp
