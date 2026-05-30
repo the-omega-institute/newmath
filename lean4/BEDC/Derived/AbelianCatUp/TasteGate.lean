@@ -43,20 +43,25 @@ def abelianCatToEventFlow : AbelianCatUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (abelianCatFields x).map abelianCatEncodeBHist
 
-def abelianCatFromEventFlow : EventFlow → Option AbelianCatUp
+private def abelianCatEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | C :: H :: Z :: B :: G :: K :: Q :: F :: [] =>
-      some
-        (AbelianCatUp.mk
-          (abelianCatDecodeBHist C)
-          (abelianCatDecodeBHist H)
-          (abelianCatDecodeBHist Z)
-          (abelianCatDecodeBHist B)
-          (abelianCatDecodeBHist G)
-          (abelianCatDecodeBHist K)
-          (abelianCatDecodeBHist Q)
-          (abelianCatDecodeBHist F))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => abelianCatEventAtDefault index rest
+
+def abelianCatFromEventFlow (ef : EventFlow) : Option AbelianCatUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (AbelianCatUp.mk
+      (abelianCatDecodeBHist (abelianCatEventAtDefault 0 ef))
+      (abelianCatDecodeBHist (abelianCatEventAtDefault 1 ef))
+      (abelianCatDecodeBHist (abelianCatEventAtDefault 2 ef))
+      (abelianCatDecodeBHist (abelianCatEventAtDefault 3 ef))
+      (abelianCatDecodeBHist (abelianCatEventAtDefault 4 ef))
+      (abelianCatDecodeBHist (abelianCatEventAtDefault 5 ef))
+      (abelianCatDecodeBHist (abelianCatEventAtDefault 6 ef))
+      (abelianCatDecodeBHist (abelianCatEventAtDefault 7 ef)))
 
 private theorem AbelianCatTasteGate_single_carrier_alignment_round_trip
     (x : AbelianCatUp) :
@@ -146,29 +151,23 @@ def AbelianCatTasteGate_single_carrier_alignment_taste_gate :
   abelianCatChapterTasteGate
 
 theorem AbelianCatTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate AbelianCatUp) ∧
-      Nonempty (FieldFaithful AbelianCatUp) ∧
-        Nonempty (Nontrivial AbelianCatUp) ∧
-          (∀ h : BHist, abelianCatDecodeBHist (abelianCatEncodeBHist h) = h) ∧
-            (∀ x : AbelianCatUp,
-              abelianCatFromEventFlow (abelianCatToEventFlow x) = some x) ∧
-              (∀ x y : AbelianCatUp,
-                abelianCatToEventFlow x = abelianCatToEventFlow y → x = y) ∧
-                abelianCatEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    (∀ h : BHist, abelianCatDecodeBHist (abelianCatEncodeBHist h) = h) ∧
+      (∀ x : AbelianCatUp,
+        abelianCatFromEventFlow (abelianCatToEventFlow x) = some x) ∧
+        (∀ x y : AbelianCatUp,
+          abelianCatToEventFlow x = abelianCatToEventFlow y → x = y) ∧
+          (∀ x y : AbelianCatUp, abelianCatFields x = abelianCatFields y → x = y) ∧
+            abelianCatEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   constructor
-  · exact ⟨abelianCatChapterTasteGate⟩
+  · exact AbelianCatTasteGate_single_carrier_alignment_decode_encode
   · constructor
-    · exact ⟨abelianCatFieldFaithful⟩
+    · exact AbelianCatTasteGate_single_carrier_alignment_round_trip
     · constructor
-      · exact ⟨abelianCatNontrivial⟩
+      · intro x y heq
+        exact AbelianCatTasteGate_single_carrier_alignment_toEventFlow_injective heq
       · constructor
-        · exact AbelianCatTasteGate_single_carrier_alignment_decode_encode
-        · constructor
-          · exact AbelianCatTasteGate_single_carrier_alignment_round_trip
-          · constructor
-            · intro x y heq
-              exact AbelianCatTasteGate_single_carrier_alignment_toEventFlow_injective heq
-            · rfl
+        · exact AbelianCatTasteGate_single_carrier_alignment_fields_faithful
+        · rfl
 
 end BEDC.Derived.AbelianCatUp

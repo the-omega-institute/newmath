@@ -46,28 +46,33 @@ def absolutelyContinuousFunctionToEventFlow : AbsolutelyContinuousFunctionUp →
   -- BEDC touchpoint anchor: BHist BMark
   | x => (absolutelyContinuousFunctionFields x).map absolutelyContinuousFunctionEncodeBHist
 
-def absolutelyContinuousFunctionFromEventFlow :
-    EventFlow → Option AbsolutelyContinuousFunctionUp
+private def absolutelyContinuousFunctionEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | I :: F :: M :: P :: V :: D :: L :: T :: W :: Q :: R :: H :: C :: S :: N :: [] =>
-      some
-        (AbsolutelyContinuousFunctionUp.mk
-          (absolutelyContinuousFunctionDecodeBHist I)
-          (absolutelyContinuousFunctionDecodeBHist F)
-          (absolutelyContinuousFunctionDecodeBHist M)
-          (absolutelyContinuousFunctionDecodeBHist P)
-          (absolutelyContinuousFunctionDecodeBHist V)
-          (absolutelyContinuousFunctionDecodeBHist D)
-          (absolutelyContinuousFunctionDecodeBHist L)
-          (absolutelyContinuousFunctionDecodeBHist T)
-          (absolutelyContinuousFunctionDecodeBHist W)
-          (absolutelyContinuousFunctionDecodeBHist Q)
-          (absolutelyContinuousFunctionDecodeBHist R)
-          (absolutelyContinuousFunctionDecodeBHist H)
-          (absolutelyContinuousFunctionDecodeBHist C)
-          (absolutelyContinuousFunctionDecodeBHist S)
-          (absolutelyContinuousFunctionDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => absolutelyContinuousFunctionEventAtDefault index rest
+
+def absolutelyContinuousFunctionFromEventFlow
+    (ef : EventFlow) : Option AbsolutelyContinuousFunctionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (AbsolutelyContinuousFunctionUp.mk
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 0 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 1 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 2 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 3 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 4 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 5 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 6 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 7 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 8 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 9 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 10 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 11 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 12 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 13 ef))
+      (absolutelyContinuousFunctionDecodeBHist (absolutelyContinuousFunctionEventAtDefault 14 ef)))
 
 private theorem AbsolutelyContinuousFunctionTasteGate_single_carrier_alignment_round_trip
     (x : AbsolutelyContinuousFunctionUp) :
@@ -200,35 +205,31 @@ def AbsolutelyContinuousFunctionTasteGate_single_carrier_alignment_taste_gate :
   absolutelyContinuousFunctionChapterTasteGate
 
 theorem AbsolutelyContinuousFunctionTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate AbsolutelyContinuousFunctionUp) ∧
-      Nonempty (FieldFaithful AbsolutelyContinuousFunctionUp) ∧
-        Nonempty (Nontrivial AbsolutelyContinuousFunctionUp) ∧
-          (∀ h : BHist,
-            absolutelyContinuousFunctionDecodeBHist
-              (absolutelyContinuousFunctionEncodeBHist h) = h) ∧
-            (∀ x : AbsolutelyContinuousFunctionUp,
-              absolutelyContinuousFunctionFromEventFlow
-                (absolutelyContinuousFunctionToEventFlow x) = some x) ∧
-              (∀ x y : AbsolutelyContinuousFunctionUp,
-                absolutelyContinuousFunctionToEventFlow x =
-                  absolutelyContinuousFunctionToEventFlow y → x = y) ∧
-                absolutelyContinuousFunctionEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    (∀ h : BHist,
+      absolutelyContinuousFunctionDecodeBHist
+        (absolutelyContinuousFunctionEncodeBHist h) = h) ∧
+      (∀ x : AbsolutelyContinuousFunctionUp,
+        absolutelyContinuousFunctionFromEventFlow
+          (absolutelyContinuousFunctionToEventFlow x) = some x) ∧
+        (∀ x y : AbsolutelyContinuousFunctionUp,
+          absolutelyContinuousFunctionToEventFlow x =
+            absolutelyContinuousFunctionToEventFlow y → x = y) ∧
+          (∀ x y : AbsolutelyContinuousFunctionUp,
+            absolutelyContinuousFunctionFields x =
+              absolutelyContinuousFunctionFields y → x = y) ∧
+            absolutelyContinuousFunctionEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   constructor
-  · exact ⟨absolutelyContinuousFunctionChapterTasteGate⟩
+  · exact AbsolutelyContinuousFunctionTasteGate_single_carrier_alignment_decode_encode
   · constructor
-    · exact ⟨absolutelyContinuousFunctionFieldFaithful⟩
+    · exact AbsolutelyContinuousFunctionTasteGate_single_carrier_alignment_round_trip
     · constructor
-      · exact ⟨absolutelyContinuousFunctionNontrivial⟩
+      · intro x y heq
+        exact
+          AbsolutelyContinuousFunctionTasteGate_single_carrier_alignment_toEventFlow_injective
+            heq
       · constructor
-        · exact AbsolutelyContinuousFunctionTasteGate_single_carrier_alignment_decode_encode
-        · constructor
-          · exact AbsolutelyContinuousFunctionTasteGate_single_carrier_alignment_round_trip
-          · constructor
-            · intro x y heq
-              exact
-                AbsolutelyContinuousFunctionTasteGate_single_carrier_alignment_toEventFlow_injective
-                  heq
-            · rfl
+        · exact AbsolutelyContinuousFunctionTasteGate_single_carrier_alignment_fields_faithful
+        · rfl
 
 end BEDC.Derived.AbsolutelyContinuousFunctionUp
