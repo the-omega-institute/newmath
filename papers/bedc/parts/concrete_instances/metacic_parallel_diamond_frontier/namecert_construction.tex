@@ -160,6 +160,20 @@ The confluence audit packet reads the same rows as an audit boundary. It can cit
 Thus the sibling lattice is substantive rather than bibliographic: the frontier supplies exactly the residual-substitution premise retention and local-diamond obstruction rows consumed by those confluence-facing packets, while the refused endpoints remain outside the carrier.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond confluence handoff]
+\label{thm:metacic-parallel-diamond-confluence-handoff}
+An accepted $\MetaCICParallelDiamondFrontierUp$ packet whose local-diamond, premise-retention, and residual-substitution rows have been displayed exports exactly the conditional confluence handoff consumed by \autoref{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert} and bounded by \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}. In carrier terms, the handoff is the retained route through $P,K,J,R,S,C,B,O,H,T,G,N$: $P$ remains the residual-substitution premise, $K,J,R$ expose the local-diamond and residual windows, $S,C,B$ keep the closed checker and bounded fragment visible, and $O$ records the still-open endpoints. The handoff does not claim global confluence, full strong normalization, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the frontier carrier. The rows $P,K,J,R,S,C,B,O$ are the confluence-facing data, while $H,T,G,N$ transport, replay, source, and name the same packet.
+
+Apply \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. The residual-substitution premise row $P$ is retained through the local critical-pair and residual-frontier rows, so the exported route cannot be read as a premise-free diamond.
+
+Next use \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction}. It keeps the obstruction row $O$ visible unless a separate residual-substitution compatibility certificate is supplied, and therefore preserves the boundary checked by the parallel-diamond residual packet.
+
+Finally apply the sibling route theorem. The candidate-normalization handoff receives only the closed checker boundary, local-diamond window, residual ledger, retained premise, and obstruction data displayed by this packet. Since no carrier row contains global confluence, full strong normalization, subject reduction, evaluator equality, quotient equality, or kernel consistency, none of those endpoints is exported by the handoff.
+\end{proof}
+
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
 
 \closureat{MetaCICParallelDiamondFrontierUp}{seedStr}
