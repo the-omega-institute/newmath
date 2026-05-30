@@ -120,6 +120,20 @@ Next use the handoff and route theorems, \autoref{thm:metacic-parallel-diamond-f
 Finally apply the residual-substitution scope theorem \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}. Since the local-diamond frontier remains scoped by the residual-substitution boundary and the obstruction row is still visible, the retained handoff cannot be retyped as any of the refused confluence endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond frontier sibling route]
+\label{thm:metacic-parallel-diamond-frontier-sibling-route}
+Every accepted $\MetaCICParallelDiamondFrontierUp$ packet that exports its premise-retention handoff feeds two confluence-facing sibling routes: the candidate-normalization confluence handoff of \autoref{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert} and the audit-packet boundary of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}. The exported contribution is exactly the residual-substitution premise row $P$, the local critical-pair row $K$, the residual-frontier row $R$, and the obstruction row $O$ retained by \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}; it does not supply a premise-free diamond, a completed residual-substitution theorem, full closed confluence, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. Any consumed local-diamond handoff keeps the residual-substitution premise row visible through the critical-pair, residual-frontier, closed-checker, and closed-normal rows.
+
+The candidate-normalization confluence handoff can therefore read this packet only as retained frontier data: $P$ names the missing residual-substitution input, $K$ and $R$ name the local peak and residual window, and $O$ keeps the obstruction endpoints visible before candidate-normalization routes are consumed.
+
+The confluence audit packet reads the same rows as an audit boundary. It can cite the retained premise and obstruction rows when it records a conditional local-diamond route, but it cannot erase them into a completed confluence theorem.
+
+Thus the sibling lattice is substantive rather than bibliographic: the frontier supplies exactly the residual-substitution premise retention and local-diamond obstruction rows consumed by those confluence-facing packets, while the refused endpoints remain outside the carrier.
+\end{proof}
+
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
 
 \closureat{MetaCICParallelDiamondFrontierUp}{seedStr}
