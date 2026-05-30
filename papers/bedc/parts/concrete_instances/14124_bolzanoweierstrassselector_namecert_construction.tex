@@ -64,6 +64,48 @@ Finally inspect the excluded data. The carrier has rows for bounded windows, mon
 Thus the Real-facing read is a boundary seal for the displayed finite route and nothing beyond that route is exported.
 \end{proof}
 
+\begin{theorem}[Bolzano--Weierstrass selector bounded-monotone route]
+\label{thm:bolzano-weierstrass-selector-bounded-monotone-route}
+For every accepted $\BolzanoWeierstrassSelectorUp$ packet
+$T=(B,M,Q,W,D,R,E,H,C,P,N)$, the Real-facing row $E$ is available only after
+the finite route
+$$
+\MonotoneSubsequenceUp
+\longmapsto \BoundedMonotoneCauchyWitnessUp
+\longmapsto \BoundedMonotoneConvergenceSealUp
+\longmapsto \StreamNameUp
+\longmapsto \DyadicRatCoreUp
+\longmapsto \RegSeqRatUp
+\longmapsto \RealUp
+$$
+has displayed the rows $B,M,Q,W,D,R,E$. The packet therefore records a bounded
+monotone induction path into the $\RealUp$ seal, not full Bolzano--Weierstrass,
+sequential compactness, choice-selected subsequences, quotient-stream
+equality, host real equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:bolzano-weierstrass-selector-carrier}. The rows $B,M,Q,W,D,R,E$
+are the only Real-facing path before transport, continuation, provenance, and
+local naming are applied.
+
+Apply \autoref{thm:bolzano-weierstrass-subsequence-handoff}. It exposes the
+finite selector route from bounded source windows through monotone selected
+windows and then through $\StreamNameUp$, $\DyadicRatCoreUp$, and
+$\RegSeqRatUp$.
+
+Apply \autoref{thm:bolzano-weierstrass-real-seal-boundary}. The Real seal
+row is consumed only after the bounded monotone Cauchy witness and bounded
+monotone convergence seal packets have been displayed.
+
+Combining these two chapter routes gives the stated induction path from
+$\MonotoneSubsequenceUp$ through the bounded monotone witness, convergence
+seal, stream, dyadic, regular, and Real rows. The carrier has no coordinate
+for classical compactness, countable choice, quotient streams, host real
+equality, or a completeness theorem for $\RealUp$, so no accepted read can
+export those objects.
+\end{proof}
+
 \falsifiablePrediction{Every $\BolzanoWeierstrassSelectorUp$ Real-facing read factors through $\MonotoneSubsequenceUp$, $\BoundedMonotoneCauchyWitnessUp$, and $\BoundedMonotoneConvergenceSealUp$ before the $\RealUp$ seal is visible.}
 
 \independenceWitness{monotonesubsequence, boundedmonotonecauchywitness, boundedmonotoneconvergenceseal, streamname, regseqrat, dyadicratcore, real: $\BolzanoWeierstrassSelectorUp$ is not bijective to any listed sibling because it jointly carries bounded sequence windows, a monotone selector ledger, inspected-threshold cofinal evidence, selected stream windows, dyadic tolerance rows, a regular rational handoff, a Real seal boundary, transports, continuations, provenance, and local naming.}
