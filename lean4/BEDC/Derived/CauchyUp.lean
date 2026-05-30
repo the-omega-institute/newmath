@@ -45,6 +45,89 @@ theorem CauchyCompletionLeftExactnessNameCertObligations
     unary_cont_closed extensionUnary' extensionUnary replayRoute
   exact ⟨sourceUnitUnary, denseKernelUnary, extensionUnary', routeUnary⟩
 
+theorem CauchyCompletionLeftExactnessKernelPairPreservation
+    {S U D K E H C P N sourceUnit denseKernel extension route kernelRead
+      extensionRead : BHist} :
+    UnaryHistory S →
+      UnaryHistory U →
+        UnaryHistory D →
+          UnaryHistory K →
+            UnaryHistory E →
+              Cont S U sourceUnit →
+                Cont D K denseKernel →
+                  Cont sourceUnit denseKernel extension →
+                    Cont extension E route →
+                      Cont K E kernelRead →
+                        Cont denseKernel kernelRead extensionRead →
+                          UnaryHistory sourceUnit ∧ UnaryHistory denseKernel ∧
+                            UnaryHistory extension ∧ UnaryHistory route ∧
+                              UnaryHistory kernelRead ∧ UnaryHistory extensionRead ∧
+                                Cont D K denseKernel ∧ Cont K E kernelRead ∧
+                                  Cont denseKernel kernelRead extensionRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sourceUnary unitUnary denseUnary kernelUnary extensionUnary sourceUnitRoute
+    denseKernelRoute extensionRoute replayRoute kernelRoute extensionReadRoute
+  have sourceUnitUnary : UnaryHistory sourceUnit :=
+    unary_cont_closed sourceUnary unitUnary sourceUnitRoute
+  have denseKernelUnary : UnaryHistory denseKernel :=
+    unary_cont_closed denseUnary kernelUnary denseKernelRoute
+  have extensionUnary' : UnaryHistory extension :=
+    unary_cont_closed sourceUnitUnary denseKernelUnary extensionRoute
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed extensionUnary' extensionUnary replayRoute
+  have kernelReadUnary : UnaryHistory kernelRead :=
+    unary_cont_closed kernelUnary extensionUnary kernelRoute
+  have extensionReadUnary : UnaryHistory extensionRead :=
+    unary_cont_closed denseKernelUnary kernelReadUnary extensionReadRoute
+  exact
+    ⟨sourceUnitUnary, denseKernelUnary, extensionUnary', routeUnary, kernelReadUnary,
+      extensionReadUnary, denseKernelRoute, kernelRoute, extensionReadRoute⟩
+
+theorem CauchyCompletionLeftExactnessRegularLimitPullback
+    {S U D K E H C P N sourceUnit denseKernel extension route regularRead realSeal
+      pullbackRead : BHist} :
+    UnaryHistory S →
+      UnaryHistory U →
+        UnaryHistory D →
+          UnaryHistory K →
+            UnaryHistory E →
+              UnaryHistory H →
+                Cont S U sourceUnit →
+                  Cont D K denseKernel →
+                    Cont sourceUnit denseKernel extension →
+                      Cont extension E route →
+                        Cont denseKernel H regularRead →
+                          Cont regularRead E realSeal →
+                            Cont sourceUnit realSeal pullbackRead →
+                              UnaryHistory sourceUnit ∧ UnaryHistory denseKernel ∧
+                                UnaryHistory extension ∧ UnaryHistory route ∧
+                                  UnaryHistory regularRead ∧ UnaryHistory realSeal ∧
+                                    UnaryHistory pullbackRead ∧
+                                      Cont denseKernel H regularRead ∧
+                                        Cont regularRead E realSeal ∧
+                                          Cont sourceUnit realSeal pullbackRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sourceUnary unitUnary denseUnary kernelUnary extensionUnary regularUnary
+    sourceUnitRoute denseKernelRoute extensionRoute replayRoute regularRoute realSealRoute
+    pullbackRoute
+  have sourceUnitUnary : UnaryHistory sourceUnit :=
+    unary_cont_closed sourceUnary unitUnary sourceUnitRoute
+  have denseKernelUnary : UnaryHistory denseKernel :=
+    unary_cont_closed denseUnary kernelUnary denseKernelRoute
+  have extensionUnary' : UnaryHistory extension :=
+    unary_cont_closed sourceUnitUnary denseKernelUnary extensionRoute
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed extensionUnary' extensionUnary replayRoute
+  have regularReadUnary : UnaryHistory regularRead :=
+    unary_cont_closed denseKernelUnary regularUnary regularRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed regularReadUnary extensionUnary realSealRoute
+  have pullbackReadUnary : UnaryHistory pullbackRead :=
+    unary_cont_closed sourceUnitUnary realSealUnary pullbackRoute
+  exact
+    ⟨sourceUnitUnary, denseKernelUnary, extensionUnary', routeUnary, regularReadUnary,
+      realSealUnary, pullbackReadUnary, regularRoute, realSealRoute, pullbackRoute⟩
+
 theorem CauchyModulusSpaceFiniteRoute [AskSetup] [PackageSetup]
     {index schedule stream dyadic readback realSeal transport replay provenance localName
       route : BHist}
