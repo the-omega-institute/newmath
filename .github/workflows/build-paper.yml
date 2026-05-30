@@ -2,9 +2,8 @@ name: BEDC Build
 
 # Single source of truth for PDF + Lean4 build. Runs on any push / PR that
 # touches paper, lean, dossier source, or any workflow file involved in the
-# build chain. Uploads `bedc-pdf` artifact for downstream consumers
-# (dossier.yml, daily-build.yml) to download via workflow_run, removing
-# the previous PR-time and dev-push-time duplicate PDF builds.
+# build chain. Uploads `bedc-pdf` for downstream consumers and exercises the
+# dossier HTML artifact handoff on pull requests.
 
 on:
   push:
@@ -24,8 +23,6 @@ on:
       - '.github/workflows/reusable-pdf.yml'
       - '.github/workflows/reusable-lean4.yml'
       - '.github/workflows/reusable-dossier-render.yml'
-      - '.github/workflows/dossier-render-runtime.yml'
-      - '.github/images/dossier-render/**'
   pull_request:
     paths:
       - 'docs/dossier/**'
@@ -38,8 +35,6 @@ on:
       - '.github/workflows/reusable-pdf.yml'
       - '.github/workflows/reusable-lean4.yml'
       - '.github/workflows/reusable-dossier-render.yml'
-      - '.github/workflows/dossier-render-runtime.yml'
-      - '.github/images/dossier-render/**'
   workflow_dispatch:
 
 env:
