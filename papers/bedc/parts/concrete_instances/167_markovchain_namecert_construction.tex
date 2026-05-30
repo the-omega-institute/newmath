@@ -41,6 +41,20 @@ No constructor in the carrier produces a filtration, a conditional-expectation o
 \end{proof}
 \leanchecked{BEDC.Derived.MarkovChainUp.MarkovChainBHistTransitionCarrier\_transition\_ledger\_exactness}
 
+\begin{theorem}[MarkovChain transition-kernel row factorization]
+\label{thm:markovchain-transition-kernel-row-factorization}
+Every transition-kernel read of an accepted $\MarkovChainUp$ carrier factors through the displayed finite rows of the carrier: the $\ProbSpaceUp$ event packet, the current and next $\RandomVarUp$ rows, the corresponding $\DistributionUp$ law rows, the transition row $K_n$, the $\Cont$ provenance from adjacent random-variable rows to the next-law endpoint, componentwise $\hsame$ transport, $\Pkg$ provenance, and the local $\NameCert_{\MarkovChainUp}$ row. The row may be consumed as a finite transition-kernel datum inside the BEDC packet, but it is not a standard Markov-kernel object and does not carry a host stochastic process, filtration, conditional expectation, or standard kernel bridge.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition \autoref{def:markovchain-bhist-transition-carrier}. It admits only the source probability-space row, displayed current and next random-variable rows, law rows, transition rows $K_n$, and the visible $\hsame/\Cont/\Pkg$ provenance tying each transition to its adjacent endpoint pair.
+
+Apply transition ledger exactness from \autoref{thm:markovchain-transition-ledger-exactness}. The ledger exposes exactly the transition $\BHist$ rows, the continuation row from the random-variable and transition rows, the provenance row from the probability-space and law rows, the endpoint row from those provenance and continuation rows, and package provenance.
+
+Use the source-boundary theorem \autoref{thm:markovchain-probspace-randomvar-source-boundary}. It keeps the probability source, random variables, and distribution laws inside the joint $\ProbSpaceUp/\RandomVarUp/\DistributionUp$ packet, so the transition row cannot replace them with external probability, random-variable, or distribution objects.
+
+Thus every transition-kernel read factors through the displayed finite rows and their structural transport. Since none of those rows is a standard Markov-kernel object, and since the carrier contains no stochastic-process, filtration, conditional-expectation, or standard-kernel bridge coordinate, the factorized row remains a BEDC transition datum only.
+\end{proof}
+
 \begin{theorem}[MarkovChain probability-random-variable source boundary]
 \label{thm:markovchain-probspace-randomvar-source-boundary}
 The $\MarkovChainUp$ source boundary is the joint BEDC packet consisting of the underlying $\ProbSpaceUp$ event-and-measure rows, the time-indexed $\RandomVarUp$ measurable-preimage rows, and the $\DistributionUp$ pushforward rows for the laws of the displayed random variables. Every transition row in an accepted carrier must read its source event through that packet, and no transition row may replace it with an external probability space, external random variable, or host distribution object.
