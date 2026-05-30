@@ -58,6 +58,46 @@ The normed-space handoff is reached only after the budget row $Q$ has been read.
 The transport, provenance, and local naming rows $H,P,R$ preserve this same route. Therefore the linearization handoff is a finite BEDC route from pointed metric and Lipschitz data to a normed-space interface, not a quotient construction, selected extension, ambient completion, or host universal-property theorem.
 \end{proof}
 
+\begin{theorem}[Arens--Eells molecule zero-sum transport]
+\label{thm:arens-eells-molecule-zero-sum-transport}
+Let $A=(M,b,L,Z,Q,N,H,C,P,R)$ and $A'=(M',b',L',Z',Q',N',H',C',P',R')$ be accepted $\ArensEellsSpaceUp$ carriers. If the pointed metric rows $M,b$, the finite molecule ledger $L$, and the zero-sum row $Z$ transport componentwise through the displayed $\hsame$ rows, then the transported packet preserves both the displayed molecule ledger and the zero-sum boundary over the pointed $\MetricUp$ source. In particular, no transported read may replace $L$ by an unlisted formal sum or replace $Z$ by a host equality proof.
+\end{theorem}
+\begin{proof}
+Project the two carriers through \autoref{def:arens-eells-space-carrier}. The only rows that expose molecule data are $M,b,L,Z$, and the only transport coordinate is the componentwise row $H$.
+
+Use the NameCert obligations of \autoref{thm:arens-eells-space-namecert-obligations}. Molecule admission reads the signed point-coefficient ledger $L$, while zero-sum admission reads the balancing row $Z$ over the same pointed metric source $M,b$.
+
+Transport is componentwise. Hence a valid $\hsame$ replay can rename or move the displayed rows, but it must carry $M,b,L,Z$ together. Since the carrier has no coordinate for host formal sums or quotient equality, the transported molecule remains the finite displayed ledger with the displayed zero-sum boundary.
+\end{proof}
+
+\begin{theorem}[Arens--Eells norm-budget stability]
+\label{thm:arens-eells-norm-budget-stability}
+For every accepted $\ArensEellsSpaceUp$ carrier $A=(M,b,L,Z,Q,N,H,C,P,R)$, each $\RealUp$-valued norm-budget read through $Q$ remains tied to the displayed molecule decomposition rows $M,b,L,Z$. The read may expose finite decomposition budgets and their Real comparisons, but it cannot select an optimal decomposition, choose a quotient representative, or detach the budget from the molecule ledger named by $L$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The row $Q$ is introduced only after the pointed source, molecule ledger, and zero-sum rows $M,b,L,Z$ have already been displayed.
+
+Apply \autoref{thm:arens-eells-space-namecert-obligations}. The theorem makes every accepted norm read pass through $Q$, and it makes $Q$ the Real-valued account over displayed decompositions rather than an external norm primitive.
+
+Finally use the handoff theorem \autoref{thm:arens-eells-space-lipschitz-linearization-handoff}. Downstream normed-space and vector-space consumers reach $N$ only after $Q$ is read. Thus the budget remains attached to the finite molecule data, with no coordinate for an optimal-decomposition selector or quotient representative.
+\end{proof}
+
+\begin{theorem}[Arens--Eells Lipschitz-free universal window]
+\label{thm:arens-eells-lipschitz-free-universal-window}
+Let $A=(M,b,L,Z,Q,N,H,C,P,R)$ be an accepted $\ArensEellsSpaceUp$ carrier. Every finite consumer window that treats $A$ as a Lipschitz-free handoff factors through
+$$
+\LipschitzMapUp,\ \NormedSpaceUp,\ \VecSpaceUp,\ \RealUp,\ \CompletionUp
+$$
+only by reading the displayed route $M,b,L,Z,Q,N,H,C,P,R$. The packet supplies the finite universal-window data needed by Lipschitz, normed-space, vector-space, Real, and completion-facing consumers, but it refuses the classical ambient Banach-space universal property.
+\end{theorem}
+\begin{proof}
+Start with a consumer that asks for a Lipschitz-free route. By \autoref{thm:arens-eells-space-lipschitz-linearization-handoff}, the request must first pass through the pointed metric rows $M,b$, the molecule ledger $L$, the zero-sum row $Z$, and the norm-budget row $Q$.
+
+The consumer then reaches the normed and vector interfaces through $N$. The rows $H,C,P,R$ preserve the same finite route by componentwise transport, displayed replay, provenance, and local naming.
+
+The completion-facing boundary has no additional coordinate in the carrier. Therefore a $\CompletionUp$ read can only receive the already displayed Lipschitz-to-normed-space window, not a completed Banach envelope, unrestricted extension theorem, selected quotient representative, or host universal property.
+\end{proof}
+
 \falsifiablePrediction{Any consumer that claims an $\ArensEellsSpaceUp$ molecule, norm, Lipschitz-linearization, normed-space, vector-space, Real, or Completion read while omitting $M,b,L,Z,Q,N,H,C,P$, or the local $\NameCert$ row refutes the carrier of \autoref{def:arens-eells-space-carrier}.}
 
 \independenceWitness{metric, lipschitzmap, normedspace, vecspace, real, completion: $\ArensEellsSpaceUp$ is not bijective to any listed sibling because it carries a pointed metric source, finite molecule ledger, zero-sum coefficient boundary, Arens--Eells norm budget, and a normed-space linearization handoff before any completion-facing consumer may read the packet.}
