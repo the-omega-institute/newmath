@@ -399,6 +399,20 @@ For the real-facing route, use \autoref{thm:representedspace-streamname-real-han
 For completion and admissibility, apply \autoref{thm:representedspace-root-completion-readback-obligations} and \autoref{thm:representedspace-admissible-finality}. The completion-readback and admissible-finality rows are downstream of the same carrier route, so the scoped package is exactly the displayed finite $\NameCert$ surface and not a new equivalence between unrelated parameter families.
 \end{proof}
 
+\begin{theorem}[RepresentedSpace Cauchy-name scope package]
+\label{thm:represented-space-cauchy-name-scope-package}
+For every accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$, each represented-space Cauchy-name read is scoped by the displayed representation schedule $S,W$, the target row $X$, the representation relation row $\rho$, the classifier transport row $T$, and the replay package $H,C,P,N$. Cauchy names arriving from $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ enter the packet only through those displayed representation rows and through the target-seal ledger already attached to $X$. The read exports no source-equivalence transport statement, quotient representation, selected Cauchy name, host equality, countable choice, or ambient completion datum.
+\end{theorem}
+\begin{proof}
+Open the carrier of \autoref{def:representedspace-carrier}. The source schedule, observation windows, representation relation, target row, classifier transport, replay, provenance, and local naming rows are the only coordinates available to a represented-space read.
+
+Apply the NameCert obligations and name-schedule coverage, \autoref{thm:representedspace-namecert-obligations} and \autoref{thm:representedspace-name-schedule-obligation}. They force every represented read to display the finite schedule and its observation windows before the target row can be consumed.
+
+The Cauchy-name content is then read through the existing target route. Theorems~\ref{thm:representedspace-streamname-representation-source}, \ref{thm:representedspace-realization-exactness}, and \ref{thm:representedspace-target-seal-ledger-package} place $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ data behind the representation relation and the target-seal ledger attached to $X$.
+
+Finally use the scoped package theorem \autoref{thm:representedspace-scoped-package}. It keeps transport, replay, provenance, and local naming inside $H,C,P,N$ and does not add an equivalence between source names. Since the excluded objects are not carrier coordinates, the Cauchy-name read remains scoped by the displayed representation rows.
+\end{proof}
+
 \closureat{RepresentedSpaceUp}{obligationStr}
 
 \begin{closurestatus}{\RepresentedSpaceUp}
