@@ -1,10 +1,8 @@
 name: Deploy BEDC Dossier
 
 # Consumer of BEDC Build's bedc-pdf artifact. Triggered by workflow_run
-# after BEDC Build succeeds. Renders the Quarto dossier site and (on push
-# only) deploys to GitHub Pages. Previously this workflow rebuilt the PDF
-# itself; that step is now subsumed by build-paper.yml so PR-time and
-# push-time PDFs are produced exactly once per commit.
+# after BEDC Build succeeds. Builds the dossier HTML artifact, renders the
+# Quarto site from that artifact, and deploys to GitHub Pages.
 
 on:
   workflow_run:
