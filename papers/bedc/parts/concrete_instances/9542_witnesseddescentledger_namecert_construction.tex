@@ -77,18 +77,16 @@ The witnessed-descent ledger projects only the descent route. Its carrier names 
 Therefore no sibling is collapsed into this packet and this packet is not a full Russell boundary. It is the concrete descent ledger that later consumers may cite when an upward name is read downward.
 \end{proof}
 
-The Lean $\mathsf{TasteGate}$ surface provides the corresponding alignment under the namespace $\mathsf{BEDC.Derived.WitnessedDescentLedgerUp}$.
-\leanchecked{BEDC.Derived.WitnessedDescentLedgerUp.taste\_gate}
+Lean follow-up must provide $\mathsf{Nontrivial}\ \WitnessedDescentLedgerUp$ and $\mathsf{FieldFaithful}\ \WitnessedDescentLedgerUp$ instances together with the corresponding taste-gate alignment under the future namespace $\mathsf{BEDC.Derived.WitnessedDescentLedgerUp}$.
 
-\closureat{WitnessedDescentLedgerUp}{obligationStr}[BEDC.Derived.WitnessedDescentLedgerUp.taste\_gate]
+\closureat{WitnessedDescentLedgerUp}{seedStr}
 
 \begin{closurestatus}{\WitnessedDescentLedgerUp}
   \constructivestory{A $\WitnessedDescentLedgerUp$ packet is generated from a source upward-name row, a bridge row, a descent-request row, a witness row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:witnessed-descent-ledger-carrier}, \autoref{thm:witnessed-descent-ledger-namecert-obligations}, \autoref{thm:witnessed-descent-ledger-public-readback}, and \autoref{thm:witnessed-descent-ledger-sibling-boundary} bind the carrier, obligation surface, public readback factorization, and sibling-boundary noncollapse for the finite source, bridge, request, witness, transport, replay, provenance, and local naming rows used in downward reads of upward names.}
-  \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.WitnessedDescentLedgerUp.taste\_gate}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:witnessed-descent-ledger-carrier}, \autoref{thm:witnessed-descent-ledger-namecert-obligations}, \autoref{thm:witnessed-descent-ledger-public-readback}, and \autoref{thm:witnessed-descent-ledger-sibling-boundary} bind the finite source, bridge, request, witness, transport, replay, provenance, and local naming rows for downward use of upward names.}
+  \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not prove Lean-side formal verification, a standard bridge, a global descent rule, a reducibility principle, quotient equality, proof irrelevance, or identity between upward and downward strata.}
-  \upgradepath{Scoped closure requires Lean-checked witness-row exactness, public readback factorization, sibling noncollapse, and the downstream standard bridge for the displayed packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, witness-row exactness, public readback factorization, sibling noncollapse, and Nontrivial and FieldFaithful instances for the displayed packet.}
 \end{closurestatus}
