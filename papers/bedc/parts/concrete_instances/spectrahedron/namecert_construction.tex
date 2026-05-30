@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\SpectrahedronUp$}
+\label{ch:concrete-instances-spectrahedron-namecert}
+\origin{human}
+
+Following Boyd--Vandenberghe convex optimization, the $\SpectrahedronUp$ packet records the finite BEDC surface by which an affine section of the semidefinite cone is presented as a convex feasible region. It sits after the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map row of \autoref{ch:concrete-instances-linearmap-namecert}, the vector-space boundary of \autoref{ch:concrete-instances-vecspace-namecert}, the semidefinite-cone packet of \autoref{ch:concrete-instances-semidefinitecone-namecert}, and the convex-set provenance of \autoref{ch:concrete-instances-convexset-namecert}. The chapter names the affine pencil route; it does not import host spectral calculus, determinant inequalities, quotient equality of matrices, selected feasible points, or ambient analytic closure.
+
+\begin{definition}[Spectrahedron carrier]
+\label{def:spectrahedron-carrier}
+A $\SpectrahedronUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,L,A,S,K,V,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the affine-parameter row over the displayed $\VecSpaceUp$ source.
+\item $L$ is the $\LinearMapUp$ row carrying the affine pencil direction from parameter rows to symmetric $\MatrixUp$ rows.
+\item $A$ is the affine offset matrix row read through $\MatrixUp$.
+\item $S$ is the symmetric matrix-pencil row naming the displayed sum $A+L(x)$ for each accepted parameter row.
+\item $K$ is the $\SemidefiniteConeUp$ membership row for the displayed pencil matrix.
+\item $V$ is the $\ConvexSetUp$ provenance row that records the accepted parameter rows as a convex feasible subset.
+\item $T$ records componentwise $\hsame$ transport for parameter, linear-map, matrix, cone-membership, convex-provenance, replay, package, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from parameter reads through the affine pencil, semidefinite-cone membership, and convex-set provenance rows.
+\item $P$ is the $\Pkg$ provenance over $\SpectrahedronUp$, $\MatrixUp$, $\SemidefiniteConeUp$, $\ConvexSetUp$, $\LinearMapUp$, $\VecSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SpectrahedronUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,L,A,S,K,V,T,C,P,N$. It has no coordinate for eigenvalue decompositions, determinant tests, quotient equality of matrix pencils, selected feasible points, or ambient closed-convex analytic structure.
+\end{definition}
+
+\begin{theorem}[Spectrahedron NameCert obligations]
+\label{thm:spectrahedron-namecert-obligations}
+For every accepted $\SpectrahedronUp$ carrier
+$$
+Q=(X,L,A,S,K,V,T,C,P,N),
+$$
+the local $\NameCert_{\SpectrahedronUp}$ surface consists exactly of carrier admission for the displayed parameter row $X$, linear-map row $L$, offset matrix row $A$, matrix-pencil row $S$, semidefinite-cone membership row $K$, convex-set provenance row $V$, componentwise $\hsame$ transport through $T$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectrahedron-carrier}. Its coordinates are the parameter, linear-map, offset, matrix-pencil, semidefinite-cone, convex-provenance, transport, replay, package, and local naming rows.
+
+The affine-packet obligations are the rows $X,L,A,S$. They force every consumer to read the candidate point through a displayed $\VecSpaceUp$ parameter row, the $\LinearMapUp$ pencil direction, and the $\MatrixUp$ offset-and-sum surface.
+
+The feasibility and convexity obligations are the rows $K$ and $V$. The semidefinite membership row is read through $\SemidefiniteConeUp$, while convex provenance is read through $\ConvexSetUp$ over the same parameter surface.
+
+Finally $T,C,P,N$ transport, replay, source, and name the route. Since no other coordinate is present, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Spectrahedron semidefinite-cone handoff]
+\label{thm:spectrahedron-semidefinite-cone-handoff}
+Every feasibility-facing consumer of an accepted $\SpectrahedronUp$ carrier must factor through the displayed affine pencil route
+$$
+X,L,A \longmapsto S \longmapsto K \longmapsto V,T,C,P,N .
+$$
+Thus the consumer receives a parameter row, affine matrix-pencil row, semidefinite-cone membership row, convex-set provenance row, transport, replay, package provenance, and local NameCert rather than a host feasible set, spectral selector, determinant criterion, quotient matrix equality, selected feasible point, or ambient analytic closure theorem.
+\end{theorem}
+\begin{proof}
+Begin with a feasibility-facing read of \autoref{def:spectrahedron-carrier}. The only route from a parameter row to matrix data is the displayed affine pencil formed by $L$ and $A$ and named by $S$.
+
+Next read the cone-membership row $K$. Because $K$ is a $\SemidefiniteConeUp$ row over the displayed matrix pencil, the feasibility read cannot bypass the sibling semidefinite-cone carrier or replace it with a host positivity predicate.
+
+The convex provenance row $V$ then records the accepted parameter surface as a $\ConvexSetUp$ consumer. The route remains tied to the same $\VecSpaceUp$, $\LinearMapUp$, $\MatrixUp$, and $\SemidefiniteConeUp$ rows.
+
+Finally $T,C,P,N$ preserve and name the same finite route under transport and replay. No excluded analytic or host object is stored in the carrier, so every consumer factors through the displayed handoff.
+\end{proof}
+
+\closureat{SpectrahedronUp}{seedStr}
+
+\begin{closurestatus}{\SpectrahedronUp}
+  \constructivestory{A $\SpectrahedronUp$ packet is generated from an affine parameter row, LinearMap pencil row, Matrix offset row, matrix-pencil row, SemidefiniteCone membership row, ConvexSet provenance row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:spectrahedron-carrier}, \autoref{thm:spectrahedron-namecert-obligations}, and \autoref{thm:spectrahedron-semidefinite-cone-handoff} seed the affine semidefinite-feasibility route through parameter, pencil, cone, convex, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, spectral decomposition, determinant feasibility criteria, quotient equality of matrix pencils, selected feasible points, or ambient analytic closedness of semidefinite sections.}
+  \upgradepath{Obligation closure requires checked carrier admission, affine-parameter visibility, linear-map pencil exactness, matrix offset and pencil replay, semidefinite-cone membership, convex-set provenance, transport stability, replay stability, and local naming for BEDC.Derived.SpectrahedronUp.}
+\end{closurestatus}
