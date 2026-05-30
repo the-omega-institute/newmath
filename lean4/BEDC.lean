@@ -1740,6 +1740,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.BasisUniformHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPublicExport
 import BEDC.Derived.CauchyfiltercompletionUp.CofinalRegularReadback
 import BEDC.Derived.CauchyfiltercompletionUp.CompletionFunctorFactorization
+import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.LocatedUniformGluing
 import BEDC.Derived.CauchyfiltercompletionUp.MetricUniformCompatibility
 import BEDC.Derived.CauchyfiltercompletionUp.PvariationWindowBound
@@ -1874,6 +1875,7 @@ import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.CliffordUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalCompactUp
+import BEDC.Derived.ClosedBoundedIntervalCompactUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalNetUp.CellCenterReadback
 import BEDC.Derived.ClosedBoundedIntervalNetUp.CompactUniformRoute
 import BEDC.Derived.ClosedBoundedIntervalNetUp.FiniteMeshCoverage
@@ -2495,6 +2497,7 @@ import BEDC.Derived.CookFrontierWitnessUp.TasteGate
 import BEDC.Derived.CoreRegistryIndexUp.RowSurfaceSemanticCertificate
 import BEDC.Derived.CoreRegistryIndexUp.TasteGate
 import BEDC.Derived.CoreStateGraphUp.TasteGate
+import BEDC.Derived.CorpusSupplyDistillationUp.MaturePackageBoundary
 import BEDC.Derived.CorpusSupplyDistillationUp.TasteGate
 import BEDC.Derived.CountableChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CountableDenseSubsetUp.TasteGate
@@ -4523,6 +4526,7 @@ import BEDC.Derived.MartingaleConvergenceUp.TasteGate
 import BEDC.Derived.MartingaleUp
 import BEDC.Derived.MaschkeTheoremUp
 import BEDC.Derived.MatchingUp
+import BEDC.Derived.MaterialityOrbitEscapeUp.TasteGate
 import BEDC.Derived.MatrixUp
 import BEDC.Derived.MatrixUp.AddMulContinuation
 import BEDC.Derived.MatrixUp.AppendVisibleFactorExclusion
