@@ -126,6 +126,20 @@ Apply \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}. It 
 The provenance theorem accounts for the remaining sibling references. They explain where the finite boundary sits, but they add no extra comparison rows. Thus the ledger is exact: the displayed bounded-comparison rows are all that consumers may inspect.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary substitution window]
+\label{thm:metacic-decidable-boundary-substitution-window}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, any substitution-sensitive bounded comparison read factors through the checker row $T$, structural equality row $S$, bounded normal row $B$, finished-normal side-condition row $F$, refusal row $R$, and the transport and replay rows $H,C,P,N$. The read may compare the displayed bounded normal outputs under the recorded side conditions, but it cannot export standalone $\mathsf{ClosedAt}$ decidability, global beta-conversion, quotient equality over represented terms, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:metacic-decidable-boundary-namecert-obligations}. They expose the checker, structural equality, bounded normal comparison, finished-normal side condition, refusal, transport, replay, provenance, and naming rows as one finite packet.
+
+Apply bounded comparison non-escape from \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}. A comparison read through $B$ must keep the finished-normal side-condition row $F$ visible, so substitution-sensitive use of the comparison cannot erase the fuel and side-condition boundary.
+
+Now use refusal exactness and classifier stability, \autoref{thm:metacic-decidable-boundary-refusal-exactness} and \autoref{thm:metacic-decidable-boundary-classifier-stability}. The row $R$ records the absence of global endpoints, while $H,C$ transport and replay only the displayed checker and comparison rows.
+
+Finally apply ledger exactness from \autoref{thm:metacic-decidable-boundary-ledger-exactness}. Since the ledger contains no unrecorded bounded-comparison row, quotient of represented terms, host evaluator, or global beta-conversion decider, the substitution window remains a finite bounded comparison surface.
+\end{proof}
+
 \begin{theorem}[MetaCIC decidable boundary obligation-closure package]
 \label{thm:metacic-decidable-boundary-obligation-closure-package}
 For an accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, the finite checker row $T$, structural equality row $S$, bounded normal comparison row $B$, finished-normal side-condition row $F$, refusal row $R$, and structural rows $H,C,P,N$ form exactly the obligation-closure surface of the chapter. The package records checker visibility, structural-equality visibility, bounded-comparison visibility, finished-normal side conditions, refusal exactness, sibling provenance, classifier stability, and ledger exactness, while it still exports no standalone $\mathsf{ClosedAt}$ decidability, global beta-conversion decidability, fuel-erased normalization, quotient equality, or host evaluation.
