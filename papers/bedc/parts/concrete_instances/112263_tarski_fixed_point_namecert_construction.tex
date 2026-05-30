@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\TarskiFixedPointUp$}
+\label{ch:concrete-instances-tarski-fixed-point-namecert}
+\origin{human}
+
+Following Tarski's fixed point theorem for monotone maps on complete lattices, the $\TarskiFixedPointUp$ packet records the finite BEDC route by which a lattice self-map certificate exposes prefixpoint, postfixpoint, iteration, and fixed-row data to downstream order-theoretic consumers. It is grounded in the finite order surfaces of \autoref{ch:concrete-instances-lattice-namecert}, \autoref{ch:concrete-instances-poset-namecert}, and \autoref{ch:concrete-instances-order-namecert}, and it hands its iteration ledger to \autoref{ch:concrete-instances-fixed-point-iteration-namecert}. The packet is a naming certificate for a displayed monotone fixed-row route, not a host theorem asserting ambient complete-lattice semantics or unrestricted fixed-point existence.
+
+\begin{definition}[Tarski fixed-point carrier]
+\label{def:tarski-fixed-point-carrier}
+A $\TarskiFixedPointUp$ carrier is a finite $\BHist$ packet
+$$
+T=(L,P,O,F,A,B,I,X,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the finite $\LatticeUp$ source row, exposing meet, join, bound, and finite comparison data only through the carried lattice certificate.
+\item $P$ is the $\PosetUp$ row underneath $L$, recording reflexive, transitive, and antisymmetric comparison reads for the same displayed endpoints.
+\item $O$ is the $\OrderUp$ row used by arithmetic and ledger consumers to inspect the finite comparison branches without importing a host order.
+\item $F$ is the monotone self-map row. It stores source membership, target membership, and the displayed implication from $x \leq y$ to $F(x) \leq F(y)$ for the carried rows.
+\item $A$ is the prefixpoint ledger, listing finite rows whose displayed comparison reads certify $F(x) \leq x$.
+\item $B$ is the postfixpoint ledger, listing finite rows whose displayed comparison reads certify $x \leq F(x)$.
+\item $I$ is the $\FixedPointIterationUp$ chain row, recording the finite orbit, comparison phase, and stabilization checks read by iteration consumers.
+\item $X$ is the fixed-row witness. It is available only after $A,B,I$ are displayed and records the paired comparisons $F(x) \leq x$ and $x \leq F(x)$ as local ledger rows.
+\item $H$ records componentwise $\hsame$ transport for the lattice, poset, order, self-map, prefixpoint, postfixpoint, iteration, fixed-row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from order reads through the monotone self-map, prefixpoint and postfixpoint ledgers, iteration chain, fixed-row witness, transport, provenance, and naming rows.
+\item $G$ is the $\Pkg$ provenance over $\TarskiFixedPointUp$, $\LatticeUp$, $\PosetUp$, $\OrderUp$, $\FixedPointIterationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TarskiFixedPointUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,P,O,F,A,B,I,X,H,C,G,N$. It has no coordinate for host complete-lattice semantics, quotient function equality, unrestricted choice, or ambient standard-model fixed points.
+\end{definition}
+
+\begin{theorem}[Tarski fixed-point NameCert obligations]
+\label{thm:tarski-fixed-point-namecert-obligations}
+For every accepted $\TarskiFixedPointUp$ carrier
+$$
+T=(L,P,O,F,A,B,I,X,H,C,G,N),
+$$
+the local $\NameCert_{\TarskiFixedPointUp}$ surface consists exactly of the finite lattice source, poset comparison, order readback, monotone self-map, prefixpoint ledger, postfixpoint ledger, iteration chain, fixed-row witness, componentwise transport, continuation replay, package provenance, and local naming rows of \autoref{def:tarski-fixed-point-carrier}. A valid obligation read must display the sibling route
+$$
+\OrderUp \longmapsto \PosetUp \longmapsto \LatticeUp \longmapsto \FixedPointIterationUp
+$$
+before the fixed-row witness is exported. No obligation may call on host complete-lattice semantics, quotient equality of self-maps, an unrestricted-choice selector, or a standard-model fixed point outside the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tarski-fixed-point-carrier}. The accepted packet exposes only the rows $L,P,O,F,A,B,I,X,H,C,G,N$.
+
+The order-theoretic source is read first. The $\OrderUp$ row supplies finite comparison branches, the $\PosetUp$ row supplies comparison stability, and the $\LatticeUp$ row supplies meet, join, and bound data for the same displayed endpoints.
+
+The monotone self-map row $F$ is then interpreted over that carried source. Prefixpoint rows in $A$ and postfixpoint rows in $B$ can be checked only by replaying the displayed comparison implications from $F$ together with the source rows.
+
+The iteration chain $I$ and fixed-row witness $X$ consume those ledgers. Since $X$ stores only the paired local comparisons $F(x) \leq x$ and $x \leq F(x)$, it is a packet witness rather than a host fixed point.
+
+The remaining rows $H,C,G,N$ transport, replay, source, and name the same route. No excluded complete-lattice, quotient-function, unrestricted-choice, or ambient fixed-point principle is present as a carrier coordinate.
+\end{proof}
+
+\begin{theorem}[Tarski fixed-point lattice-iteration handoff]
+\label{thm:tarski-fixed-point-lattice-iteration-handoff}
+Every downstream consumer of an accepted $\TarskiFixedPointUp$ packet reads the fixed-row witness only after the $\LatticeUp$ source, $\PosetUp$ comparison surface, $\OrderUp$ branch ledger, monotone self-map row, prefixpoint and postfixpoint ledgers, and $\FixedPointIterationUp$ chain have been displayed. The handoff exports the finite rows
+$$
+L,P,O,F,A,B,I,X,H,C,G,N
+$$
+and nothing that identifies quotient self-maps, selects arbitrary lattice elements, or asserts a host standard-model fixed point.
+\end{theorem}
+\begin{proof}
+Start with a downstream consumer of the accepted packet. The only consumer-facing route is the replay row $C$, and its first dependencies are the finite order, poset, and lattice rows $O,P,L$.
+
+The self-map row $F$ is available only as a monotone row over those displayed comparisons. The prefixpoint ledger $A$ and postfixpoint ledger $B$ therefore record finite comparison checks rather than semantic least or greatest fixed-point arguments.
+
+The iteration chain $I$ consumes the same ledgers and exports only its displayed finite chain. The fixed-row witness $X$ is downstream of $I$ and stores paired comparisons for one named row.
+
+Transport, provenance, and local naming preserve that ordering. Thus every consumer receives the lattice-iteration handoff and no larger complete-lattice theorem, quotient-function equality, unrestricted-choice selector, or ambient fixed-point object.
+\end{proof}
+
+\closureat{TarskiFixedPointUp}{seedStr}
+
+\begin{closurestatus}{\TarskiFixedPointUp}
+  \constructivestory{A $\TarskiFixedPointUp$ packet is generated from a finite LatticeUp source, PosetUp comparison surface, OrderUp branch ledger, monotone self-map row, prefixpoint and postfixpoint ledgers, FixedPointIterationUp chain, fixed-row witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tarski-fixed-point-carrier}, \autoref{thm:tarski-fixed-point-namecert-obligations}, and \autoref{thm:tarski-fixed-point-lattice-iteration-handoff} seed the finite Tarski fixed-point naming route over displayed order, lattice, monotone-map, ledger, iteration, witness, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host complete-lattice semantics, quotient function equality, unrestricted choice, ambient standard-model fixed points, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lattice and poset source coverage, monotone self-map stability, prefixpoint and postfixpoint ledger coverage, iteration-chain replay, fixed-row witness coverage, transport, replay, provenance, and local naming for BEDC.Derived.TarskiFixedPointUp.}
+\end{closurestatus}
