@@ -6361,6 +6361,7 @@ import BEDC.Derived.RepresentationRingUp.TasteGate
 import BEDC.Derived.RepresentedSpaceUp
 import BEDC.Derived.RepresentedSpaceUp.AdmissibleNameCoverage
 import BEDC.Derived.RepresentedSpaceUp.CompletionBoundaryRefusal
+import BEDC.Derived.RepresentedSpaceUp.EffectiveMetricRealizerHandoff
 import BEDC.Derived.RepresentedSpaceUp.RealizationExactness
 import BEDC.Derived.RepresentedSpaceUp.RealizationTransport
 import BEDC.Derived.RepresentedSpaceUp.RealizerReadbackWindow
