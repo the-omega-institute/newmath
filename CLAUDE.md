@@ -4,7 +4,7 @@
 
 ## 环境与工具链
 
-- Python: 使用 `python3` (stdlib only, 工具脚本无第三方依赖)
+- Python: 使用 `python3`
 - LaTeX: 使用 `pdflatex`(BEDC 论文体内零中文; 顶层 README/CLAUDE/AGENTS 用中文但不进入 PDF)
 - Lean 4: `lake build`; `lean4/` 为 **mathlib-free** 形式化, 从 first principles 起步
 - 单个 `.tex` 文件不超过 800 行, 超过须**直接 split** 出 sibling 文件, 把相对独立的子主题搬过去并 `\input` 进来. **禁止用任何"压缩空行 / 删空白行 / 把多行合并成一行"等格式压缩动作来给文件腾空间**: 这类动作不传达任何理论内容, 是 code-debt churn, 也会让 git diff 噪音盖过真正的语义改动. 若 split 不出明显独立的子主题, 报告原因, 不要伪装成靠空行省下来的改动
@@ -62,6 +62,8 @@
 - **规范 / 不变量 / 命名约定 / 工作流程** → 唯一源是本 `CLAUDE.md`. 任何其他文档若描述规范, 引这里, 不复述
 - **形式化事实** (定理状态、章节存在性、闭合等级、命名空间命中点、saturation 数字) → 唯一源是 `lean4/BEDC/` + `papers/bedc/parts/` 的实际内容, 通过 `bedc_ci.py` / `critical_path.py` / `grep` 实时读出, 任何文档不缓存这些数字
 - **工具能力** (脚本子命令、参数、输出格式) → 唯一源是脚本自身的 `--help` 与 `--json` 输出, 本文档不列子命令清单
+
+这条约束针对**理论事实 / 规范 / 命名**这类语义内容, **不针对 CI / 基础设施运维配置值** (容器镜像名、base image digest、版本 pin 等). 后者天然出现在多个 entry workflow, 小重复属运维常态, 不构成"同义说明漂移": 不要为消除这类重复引入 repo variable / 一致性守护测试 / sha256 验证等 over-engineering. 一个镜像名就是一个镜像名, 直接硬编码即可.
 
 **Skill / memory / 文件内注释纪律**:
 
