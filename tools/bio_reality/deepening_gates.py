@@ -22,6 +22,7 @@ ID_RE = re.compile(r"^[a-z0-9][a-z0-9._:-]*$")
 
 LAYERS = {
     "code_read",
+    "codon_usage_topology",
     "orf_eligibility",
     "translation_realization",
     "structural_order",
