@@ -22,6 +22,11 @@ MIN_CONSERVED_COLUMNS_TOTAL = 245
 MIN_ASP_SUPPORT_RATE = 0.80
 MAX_THR_SUPPORT_RATE = 0.20
 MAX_ALIGNMENT_P = 0.001
+MIN_HOLDOUT_SPECIES = 40
+MIN_HOLDOUT_CONSERVED_COLUMNS_TOTAL = 500
+MIN_HOLDOUT_ASP_SUPPORT_RATE = 0.85
+MAX_HOLDOUT_THR_SUPPORT_RATE = 0.10
+MAX_HOLDOUT_ALIGNMENT_P = 0.0001
 MAX_CONTAMINATION_FRACTION = 0.05
 MIN_COMPLETENESS_FRACTION = 0.90
 MAX_BINNING_WARNING_FRACTION = 0.10
@@ -86,10 +91,25 @@ def binomial_upper_tail(successes: int, n: int, p: float = 0.5) -> float:
     return sum(math.comb(n, k) * (p ** k) * ((1.0 - p) ** (n - k)) for k in range(successes, n + 1))
 
 
+def timestamp_before(left: Any, right: Any) -> bool:
+    left_text = str(left or "")
+    right_text = str(right or "")
+    if not left_text or not right_text:
+        return False
+    return parse_time(left_text) < parse_time(right_text)
+
+
 def rows(data: dict[str, Any], key: str) -> list[dict[str, Any]]:
     raw = data.get(key)
     if not isinstance(raw, list):
         raise ValueError(f"{key} must be a list")
+    return [item for item in raw if isinstance(item, dict)]
+
+
+def optional_rows(data: dict[str, Any], key: str) -> list[dict[str, Any]]:
+    raw = data.get(key, [])
+    if not isinstance(raw, list):
+        raise ValueError(f"{key} must be a list when present")
     return [item for item in raw if isinstance(item, dict)]
 
 
@@ -102,11 +122,7 @@ def protocol_frozen(data: dict[str, Any]) -> bool:
     )
     if not all(data.get(flag) is True for flag in flags):
         return False
-    frozen_at = str(data.get("protocol_frozen_at") or "")
-    observed_at = str(data.get("external_evidence_observed_at") or "")
-    if not frozen_at or not observed_at:
-        return False
-    return parse_time(frozen_at) < parse_time(observed_at)
+    return timestamp_before(data.get("protocol_frozen_at"), data.get("external_evidence_observed_at"))
 
 
 def inference_without_geometry(data: dict[str, Any]) -> bool:
@@ -229,6 +245,64 @@ def trna_identity_support(data: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def prospective_holdout_challenge(data: dict[str, Any]) -> dict[str, Any]:
+    holdout_species = optional_rows(data, "prospective_holdout_species")
+    holdout_columns = optional_rows(data, "prospective_holdout_conserved_alignment_columns")
+    supported_species = [
+        row for row in holdout_species
+        if row.get("aca_to_asp_called") is True and int(row.get("aca_codon_count") or 0) > 0
+    ]
+    conserved_total = sum(
+        int(row.get("conserved_column_count") or 0)
+        for row in holdout_species
+        if row.get("aca_to_asp_called") is True
+    )
+    asp = sum(1 for row in holdout_columns if str(row.get("reference_residue") or "").upper() == "D")
+    thr = sum(1 for row in holdout_columns if str(row.get("reference_residue") or "").upper() == "T")
+    n = len(holdout_columns)
+    asp_rate = asp / n if n else 0.0
+    thr_rate = thr / n if n else 0.0
+    p_value = binomial_upper_tail(asp, n) if n else 1.0
+    temporal_holdout_ok = timestamp_before(data.get("protocol_frozen_at"), data.get("prospective_holdout_observed_at"))
+    no_geometry_ok = data.get("prospective_holdout_geometry_inputs_used") == []
+    passed = (
+        temporal_holdout_ok
+        and no_geometry_ok
+        and len(supported_species) >= MIN_HOLDOUT_SPECIES
+        and conserved_total >= MIN_HOLDOUT_CONSERVED_COLUMNS_TOTAL
+        and asp_rate >= MIN_HOLDOUT_ASP_SUPPORT_RATE
+        and thr_rate <= MAX_HOLDOUT_THR_SUPPORT_RATE
+        and p_value <= MAX_HOLDOUT_ALIGNMENT_P
+    )
+    return {
+        "passed": passed,
+        "actual": {
+            "protocol_frozen_at": data.get("protocol_frozen_at"),
+            "prospective_holdout_observed_at": data.get("prospective_holdout_observed_at"),
+            "temporal_holdout_ok": temporal_holdout_ok,
+            "prospective_holdout_geometry_inputs_used": data.get("prospective_holdout_geometry_inputs_used"),
+            "supported_species": len(supported_species),
+            "species_rows": len(holdout_species),
+            "conserved_columns_total": conserved_total,
+            "holdout_columns": n,
+            "asp_support": asp,
+            "thr_support": thr,
+            "asp_support_rate": asp_rate,
+            "thr_support_rate": thr_rate,
+            "binomial_upper_tail_p": p_value,
+        },
+        "expected": {
+            "protocol_frozen_before_holdout_observation": True,
+            "geometry_inputs_used": [],
+            "min_species": MIN_HOLDOUT_SPECIES,
+            "min_columns_total": MIN_HOLDOUT_CONSERVED_COLUMNS_TOTAL,
+            "min_asp_support_rate": MIN_HOLDOUT_ASP_SUPPORT_RATE,
+            "max_thr_support_rate": MAX_HOLDOUT_THR_SUPPORT_RATE,
+            "max_binomial_upper_tail_p": MAX_HOLDOUT_ALIGNMENT_P,
+        },
+    }
+
+
 def median_closure_preserved() -> dict[str, Any]:
     code_data = json.loads(CODE_DATA_PATH.read_text(encoding="utf-8"))
     r13 = reassignment_set(code_data)
@@ -310,6 +384,7 @@ def main() -> int:
             {"name": "asp_over_thr_alignment_enrichment", **alignment_enrichment(data)},
             {"name": "artifact_audit_clean", **artifact_audit(data)},
             {"name": "trna_identity_support", **trna_identity_support(data)},
+            {"name": "prospective_independent_holdout_challenge", **prospective_holdout_challenge(data)},
             {"name": "median_closure_preserved_after_aca", **median_closure_preserved()},
             {
                 "name": "no_geometry_to_higher_layer_promotion",
@@ -327,7 +402,7 @@ def main() -> int:
                     "scope": "external_code_read_aca_reassignment_challenge_only",
                     "source": data.get("source", ""),
                     "snapshot_date": data.get("snapshot_date", ""),
-                    "stronger_statistic": "species-level minimum support plus exact one-sided binomial Asp-over-Thr conserved-column enrichment under frozen no-geometry inference",
+                    "stronger_statistic": "failed metadata contact can only be rescued by a prospective independent holdout: at least 40 ACA-to-Asp species, at least 500 conserved columns, Asp support rate at least 0.85, Thr support rate at most 0.10, and exact one-sided binomial p <= 0.0001 after protocol freeze and without geometry input",
                 },
             }
         )
