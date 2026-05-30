@@ -1,0 +1,331 @@
+\section{Unified Schematic Map}
+\label{sec:visions-philosophy-unified-schematic-map}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-unified-theory-closure} gives the
+closure theorem. The present section records the same result as a
+schematic map: each layer is read by the next layer, and no lower layer
+is allowed to impersonate the closure supplied by a higher layer.
+
+\begin{definition}[Primitive-to-certified route]
+\label{def:philosophy-primitive-certified-route}
+The primitive-to-certified route is the ordered reading
+$$
+\mathsf{Distinction}
+\longrightarrow
+\mathsf{History}
+\longrightarrow
+\mathsf{Record}
+\longrightarrow
+\mathsf{Classifier}
+\longrightarrow
+\NameCert
+\longrightarrow
+\mathsf{Ledger}
+\longrightarrow
+\mathsf{CertifiedObject}.
+$$
+The first three layers record generated material; the classifier layer
+organizes material into stable same-and-different judgments; the
+certificate and ledger layers make that organization auditable.
+\end{definition}
+
+\begin{theorem}[Record growth is below classifier discovery]
+\label{thm:philosophy-record-growth-below-classifier-discovery}
+Record growth, longer traces, shorter presentations, new names, and
+formal hardening do not by themselves imply information discovery.
+\end{theorem}
+\begin{proof}
+Each can occur while the classifier relation is preserved. Discovery in
+the classifier-shift reading requires a changed classifier surface
+together with certificate and ledger support, not merely additional
+material, altered presentation, or changed verification status.
+\end{proof}
+
+\begin{definition}[Machine-learning certification stack]
+\label{def:philosophy-machine-learning-certification-stack}
+The machine-learning certification stack reads tensor traces,
+activations, soft features, probes, thresholds, and behaviors as
+classifier candidates. A candidate becomes an auditable explanation only
+through Tensor NameCert rows: tensor source, tensor pattern, tensor
+classifier, tensor stability, and tensor ledger. Formal verification
+may harden selected rows, but it does not replace the Tensor NameCert or
+the ledger.
+\end{definition}
+
+\begin{theorem}[Feature evidence is below Tensor NameCert]
+\label{thm:philosophy-feature-evidence-below-tensor-namecert}
+Features, top examples, probe accuracy, visualizations, and tensor
+directions are evidence fragments rather than certified explanations
+unless they enter a Tensor NameCert with ledger coverage.
+\end{theorem}
+\begin{proof}
+Each fragment can support a pattern or classifier row, but none supplies
+the full source, pattern, classifier, stability, ledger, and seal
+surface by itself. Certification begins only when those rows are jointly
+displayed.
+\end{proof}
+
+\begin{definition}[NDNA schematic]
+\label{def:philosophy-ndna-schematic}
+The neural theorem-DNA schematic for a behavior $B$ is the role family
+$$
+\mathsf{NDNA}(B)
+=
+(
+G_{\mathsf{source}},
+G_{\mathsf{feature}},
+G_{\mathsf{circuit}},
+G_{\mathsf{classifier}},
+G_{\mathsf{stability}},
+G_{\mathsf{intervention}},
+G_{\mathsf{ledger}},
+G_{\mathsf{seal}}
+).
+$$
+It is an explanation genome only when the loci are complete, anchored,
+NameCert-compatible, ledgered, and sealed.
+\end{definition}
+
+\begin{theorem}[Single loci are not explanation genomes]
+\label{thm:philosophy-single-loci-not-explanation-genomes}
+A feature label, circuit diagram, classifier relation, intervention
+record, or semantic label is a single locus or locus fragment, not an
+NDNA-certified explanation.
+\end{theorem}
+\begin{proof}
+The NDNA packet requires source, feature, circuit, classifier,
+stability, intervention, ledger, and seal loci. A single displayed locus
+leaves the remaining roles absent or unanchored.
+\end{proof}
+
+\subsection{Black-Box and Information Schematics}
+\label{subsec:philosophy-black-box-information-schematics}
+
+\begin{definition}[Black-box schematic]
+\label{def:philosophy-black-box-schematic}
+The black-box schematic is
+$$
+\BlackBox(B)
+\quad\Longleftrightarrow\quad
+\exists C.\, C\Vdash B
+\ \text{and}\ 
+\neg\exists N.\,N=\NameCert(C).
+$$
+Resolution on a scope is the package
+$$
+C\Vdash B
+\quad+\quad
+\NameCert(C)
+\quad+\quad
+\mathsf{LedgerComplete}(C,B)
+\quad+\quad
+\mathsf{Seal}(B,C).
+$$
+\end{definition}
+
+\begin{definition}[Five-field deficit schematic]
+\label{def:philosophy-five-field-deficit-schematic}
+For a behavior $B$ and classifier candidate $C$, the five-field deficit
+vector is
+$$
+\mathbf D(B,C)
+=
+(d_S,d_P,d_C,d_\Sigma,d_L)\in\{0,1\}^5.
+$$
+The coordinates record source, pattern, classifier, stability, and
+ledger gaps. The all-zero vector together with zero critical ledger debt
+is the field-level signature of scoped BEDC resolution.
+\end{definition}
+
+\begin{theorem}[Ledger gaps dominate scoped resolution]
+\label{thm:philosophy-ledger-gaps-dominate-scoped-resolution}
+If the ledger coordinate or critical ledger debt is nonzero, scoped
+black-box resolution fails.
+\end{theorem}
+\begin{proof}
+Scoped resolution requires ledger completeness. A nonzero ledger
+coordinate or nonzero critical ledger debt records an unclosed required
+residue row, so the resolution package is incomplete.
+\end{proof}
+
+\begin{definition}[Information schematic]
+\label{def:philosophy-information-schematic}
+For an explanation or unified object $E$, the auditable information
+schematic is
+$$
+\mathsf{Info}(E)
+=
+\mathsf{Benefit}(E)
+-
+\mathsf{Cost}(E)
+-
+\mathsf{Debt}(E).
+$$
+A transition is positive only when the corresponding information
+difference is strictly positive under a public cost protocol.
+\end{definition}
+
+\begin{definition}[Discovery schematic]
+\label{def:philosophy-discovery-schematic}
+Certified discovery is classifier shift with NameCert and ledger rows.
+Positive discovery is certified discovery with positive net information
+gain:
+$$
+\mathsf{Discovery}^{+}
+=
+\mathsf{ClassifierShift}
+\quad+\quad
+\NameCert
+\quad+\quad
+\mathsf{Ledger}
+\quad+\quad
+\Delta\mathsf{Info}>0.
+$$
+\end{definition}
+
+\begin{theorem}[Audit progress and discovery are separate schematic cases]
+\label{thm:philosophy-audit-progress-discovery-separate-schematic}
+Ledger repair, proof hardening, cost reduction, and seal clarification
+can be positive audit progress without being classifier discovery.
+\end{theorem}
+\begin{proof}
+Each may improve benefit, reduce cost, or lower debt while preserving
+the classifier relation. The discovery schematic requires classifier
+shift, so same-classifier audit progress is not discovery.
+\end{proof}
+
+\subsection{Learning, Generalization, and Verification}
+\label{subsec:philosophy-learning-generalization-verification-schematic}
+
+\begin{definition}[Learning schematic]
+\label{def:philosophy-learning-schematic}
+The learning schematic reads training traces and activation records as
+candidate sources for stable tensor distinctions. Strong learning is the
+formation of a learned classifier together with Learning NameCert and
+learning ledger rows. Positive certified learning additionally requires
+positive learning information gain.
+\end{definition}
+
+\begin{theorem}[Performance movement is below certified learning]
+\label{thm:philosophy-performance-movement-below-certified-learning}
+Loss reduction, benchmark gain, parameter growth, and memorization do not
+by themselves establish certified learning discovery.
+\end{theorem}
+\begin{proof}
+They can occur without a displayed classifier shift and without Learning
+NameCert or ledger rows. Certified learning discovery requires the
+classifier surface and its audit packet, not merely a performance or
+parameter event.
+\end{proof}
+
+\begin{definition}[Generalization schematic]
+\label{def:philosophy-generalization-schematic}
+Certified generalization is classifier transfer with ledger. It requires
+a source-domain classifier, target-domain support, transfer or stability
+witnesses, a generalization NameCert, and a target-residue ledger.
+\end{definition}
+
+\begin{theorem}[Accuracy transfer is below certified generalization]
+\label{thm:philosophy-accuracy-transfer-below-certified-generalization}
+Target-domain performance is not yet a certified generalization
+explanation unless the classifier transfer and target residue are
+ledgered.
+\end{theorem}
+\begin{proof}
+Performance can transfer while the classifier boundary changes, while
+target failures remain unrecorded, or while the source classifier is not
+the one supporting the target behavior. The certified claim therefore
+requires classifier-transfer evidence and ledger coverage.
+\end{proof}
+
+\begin{definition}[Verification schematic]
+\label{def:philosophy-verification-schematic}
+Formal verification follows the route
+$$
+F
+\longrightarrow
+\varphi_F
+\longrightarrow
+\pi_F
+\longrightarrow
+\mathcal V\vdash\pi_F:\varphi_F
+\longrightarrow
+\mathsf{Hardened}(F),
+$$
+where $F$ is a transcribed component. The route requires transcription
+ledger and verification ledger whenever it is used to support an
+interpretability claim.
+\end{definition}
+
+\begin{theorem}[Verification hardens components rather than forming objects]
+\label{thm:philosophy-verification-hardens-not-forms-objects}
+Formal verification can harden selected components, but it does not by
+itself create the NameCert, explanation ledger, NDNA packet, or global
+scope ledger.
+\end{theorem}
+\begin{proof}
+The verification judgment concerns a formal statement and proof object.
+Object formation requires source, pattern, classifier, stability,
+ledger, role loci, and scope seal. Those rows are outside the proof
+judgment unless separately supplied.
+\end{proof}
+
+\subsection{Global and Final Schematics}
+\label{subsec:philosophy-global-final-schematics}
+
+\begin{definition}[Global-resolution schematic]
+\label{def:philosophy-global-resolution-schematic}
+Global resolution for a model state requires the covered behavior family,
+supporting classifier family, NameCert family, global ledger, and global
+seal. Without the global ledger, the claim remains scoped even when many
+local explanations are present.
+\end{definition}
+
+\begin{theorem}[No global ledger, no global explanation]
+\label{thm:philosophy-no-global-ledger-no-global-explanation}
+A global explanation claim without a global ledger is not closed.
+\end{theorem}
+\begin{proof}
+By
+\autoref{thm:philosophy-global-resolution-requires-global-ledger-principle},
+global resolution requires ledger coverage for the required residue of
+all covered behaviors and supporting classifiers. Without that ledger,
+the global claim lacks its closure surface.
+\end{proof}
+
+\begin{theorem}[Unified schematic theorem]
+\label{thm:philosophy-unified-schematic-theorem}
+The schematic reading of the machine-learning layer, BEDC certification
+layer, and formal-verification layer is the single chain
+$$
+\mathsf{Distinction}
+\longrightarrow
+\mathsf{Classifier}
+\longrightarrow
+\NameCert
+\longrightarrow
+\mathsf{Ledger}
+\longrightarrow
+\mathsf{Explanation}
+\longrightarrow
+\mathsf{OptionalHardening}.
+$$
+Black boxes are uncertified classifier structures; resolving them means
+supplying NameCert, ledger, and seal; learning is classifier formation;
+discovery is certified classifier shift; and positive discovery is
+certified classifier shift with positive net information gain.
+\end{theorem}
+\begin{proof}
+The primitive-to-certified route supplies the lower chain.
+\autoref{def:philosophy-machine-learning-certification-stack} and
+\autoref{def:philosophy-ndna-schematic} specialize it to tensor
+interpretability.
+\autoref{def:philosophy-black-box-schematic} gives the black-box and
+resolution equations.
+\autoref{def:philosophy-discovery-schematic} gives the discovery and
+positive-discovery equations.
+\autoref{def:philosophy-verification-schematic} places formal
+verification as hardening rather than object formation. These are the
+listed schematic identifications.
+\end{proof}
