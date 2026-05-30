@@ -5500,6 +5500,7 @@ import BEDC.Derived.PreSheafUp
 import BEDC.Derived.PrecompactCompletionUp.TasteGate
 import BEDC.Derived.PrecompactMetricUp
 import BEDC.Derived.PrecompactMetricUp.CauchyFilterHandoff
+import BEDC.Derived.PrecompactMetricUp.FilterNetModulusHandoff
 import BEDC.Derived.PredictiveDescentUp.StabilityScope
 import BEDC.Derived.PredictiveDescentUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
