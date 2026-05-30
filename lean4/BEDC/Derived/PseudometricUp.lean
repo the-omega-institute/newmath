@@ -401,6 +401,86 @@ theorem PseudometricCarrier_separated_reflection_handoff [AskSetup] [PackageSetu
   }
   exact ⟨cert, reflectionUnary, identityUnary, localNamePkg⟩
 
+theorem PseudometricCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {point distance dyadic stream readback sealRow zeroRow transport replay localName
+      distanceRead zeroBoundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PseudometricCarrier point distance dyadic stream readback sealRow zeroRow transport
+        replay localName bundle pkg ->
+      Cont distance stream distanceRead ->
+        Cont zeroRow transport zeroBoundaryRead ->
+          PkgSig bundle distanceRead pkg ->
+            PkgSig bundle zeroBoundaryRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row localName ∧
+                      PseudometricCarrier point distance dyadic stream readback sealRow
+                        zeroRow transport replay localName bundle pkg)
+                  (fun row : BHist =>
+                    hsame row point ∨ hsame row distance ∨ hsame row dyadic ∨
+                      hsame row stream ∨ hsame row readback ∨ hsame row sealRow ∨
+                        hsame row zeroRow ∨ hsame row transport ∨ hsame row replay ∨
+                          hsame row localName ∨ hsame row distanceRead ∨
+                            hsame row zeroBoundaryRead)
+                  (fun _row : BHist =>
+                    PkgSig bundle localName pkg ∧ PkgSig bundle distanceRead pkg ∧
+                      PkgSig bundle zeroBoundaryRead pkg)
+                  hsame ∧
+                UnaryHistory distanceRead ∧ UnaryHistory zeroBoundaryRead := by
+  -- BEDC touchpoint anchor: PseudometricCarrier BHist ProbeBundle Pkg Cont hsame
+  intro carrier distanceRoute zeroBoundaryRoute distancePkg zeroBoundaryPkg
+  have carrierSource :
+      PseudometricCarrier point distance dyadic stream readback sealRow zeroRow transport
+        replay localName bundle pkg := carrier
+  obtain ⟨_pointUnary, distanceUnary, _dyadicUnary, streamUnary, _readbackUnary,
+    _sealUnary, zeroUnary, transportUnary, _replayUnary, _localNameUnary,
+    _streamReadbackDyadic, _dyadicSealZero, _localNameZero, localNamePkg⟩ := carrier
+  have distanceReadUnary : UnaryHistory distanceRead :=
+    unary_cont_closed distanceUnary streamUnary distanceRoute
+  have zeroBoundaryUnary : UnaryHistory zeroBoundaryRead :=
+    unary_cont_closed zeroUnary transportUnary zeroBoundaryRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row localName ∧
+              PseudometricCarrier point distance dyadic stream readback sealRow zeroRow
+                transport replay localName bundle pkg)
+          (fun row : BHist =>
+            hsame row point ∨ hsame row distance ∨ hsame row dyadic ∨
+              hsame row stream ∨ hsame row readback ∨ hsame row sealRow ∨
+                hsame row zeroRow ∨ hsame row transport ∨ hsame row replay ∨
+                  hsame row localName ∨ hsame row distanceRead ∨
+                    hsame row zeroBoundaryRead)
+          (fun _row : BHist =>
+            PkgSig bundle localName pkg ∧ PkgSig bundle distanceRead pkg ∧
+              PkgSig bundle zeroBoundaryRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro localName ⟨hsame_refl localName, carrierSource⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inl source.left)))))))))
+    ledger_sound := by
+      intro _row _source
+      exact ⟨localNamePkg, distancePkg, zeroBoundaryPkg⟩
+  }
+  exact ⟨cert, distanceReadUnary, zeroBoundaryUnary⟩
+
 theorem PseudometricCarrier_completion_universal_handoff [AskSetup] [PackageSetup]
     {point distance dyadic stream readback sealRow zeroRow transport replay localName
       completionRead finalRead : BHist}
