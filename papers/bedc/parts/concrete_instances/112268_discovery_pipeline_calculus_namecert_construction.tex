@@ -60,6 +60,18 @@ The discovery-facing test reaches the classifier-shift row $Q$ and then the gate
 The structural rows $H,C,P,N$ preserve this dependency order. Thus discovery admission requires classifier-shift evidence and cannot be obtained from raw record growth alone.
 \end{proof}
 
+\begin{theorem}[DiscoveryPipelineCalculus audit-map route]
+\label{thm:discovery-pipeline-calculus-audit-map-route}
+Every accepted discovery claim in a $\DiscoveryPipelineCalculusUp$ packet $D=(T,A,G,S,L,Q,K,R,H,C,P,N)$ routes its classifier-shift row $Q$ and discovery-gate row $K$ through the concrete audit-map surfaces of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert} and \autoref{ch:concrete-instances-auditmapinterface-namecert} before it is read as a pipeline admission. The audit-map route is a concrete $\NameCert$ dependency carried by $P$ and replayed by $C$, not a prose-only methodology reference.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:discovery-pipeline-calculus-carrier}. The classifier-shift row $Q$ and the discovery-gate row $K$ are read only after the certified theory-state, automation, genome, score, and lineage rows $T,A,G,S,L$ have been displayed.
+
+Apply the admission theorem \autoref{thm:discovery-pipeline-calculus-classifier-shift-admission}. It forces every accepted discovery read to pass through $Q,K,R$ and then through the structural rows $H,C,P,N$.
+
+Now read the provenance row $P$ and replay row $C$ against the concrete siblings. The GroundCompiler audit-map packet of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert} supplies compiler-facing theorem inventory and audit rows, while the audit-map interface of \autoref{ch:concrete-instances-auditmapinterface-namecert} supplies the common audit-map surface. Thus classifier-shift and gate admission are routed through concrete NameCert dependencies before the pipeline reads the claim as admitted.
+\end{proof}
+
 \falsifiablePrediction{A $\DiscoveryPipelineCalculusUp$ admission trace that accepts discovery from automation-record growth alone, without a classifier-shift row and discovery-gate row, refutes the carrier of \autoref{def:discovery-pipeline-calculus-carrier}.}
 
 \independenceWitness{theorem\_dna\_complexity\_scoring, theorem\_genome\_evolution, theory\_stability\_taste\_gate, groundcompiler\_audit\_map: $\DiscoveryPipelineCalculusUp$ is not bijective to these siblings because it jointly binds certified theory-state rows, automation records, theorem-genome extraction, public score certificates, lineage, classifier-shift evidence, discovery-gate admission, refusal ledgers, transport, replay, provenance, and local naming.}
