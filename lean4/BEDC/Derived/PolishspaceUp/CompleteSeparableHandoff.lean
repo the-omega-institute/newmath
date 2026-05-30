@@ -35,7 +35,7 @@ theorem PolishSpaceCompleteSeparableHandoff [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro carrier metricCompleteRead metricSeparableRead completeSeparableHandoff handoffPkg
   obtain ⟨metricUnary, completeUnary, separableUnary, _streamUnary, _readbackUnary,
-    _ledgerUnary, _alignmentUnary, _transportUnary, _metricCompleteAlignment,
+    _ledgerUnary, _alignmentUnary, _transportUnary, _localNameUnary, _metricCompleteAlignment,
     _alignmentStreamReadback, _ledgerTransportRoute, provenancePkg⟩ := carrier
   have completionReadUnary : UnaryHistory completionRead :=
     unary_cont_closed metricUnary completeUnary metricCompleteRead
