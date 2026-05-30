@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\RegularSequenceSpaceUp$}
+\label{ch:concrete-instances-regular-sequence-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy sequences, the $\RegularSequenceSpaceUp$ packet records the finite carrier for a displayed space of regular sequence names rather than a single regular sequence certificate. It sits between the stream schedules of \autoref{ch:concrete-instances-streamname-namecert}, the rational regular readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the value-facing real seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[RegularSequenceSpace carrier]
+\label{def:regular-sequence-space-carrier}
+A $\RegularSequenceSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,T,Q,D,R,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $X$ is the displayed index-source row naming the finite family of regular sequence names currently admitted to the space packet.
+\item $T$ is the $\StreamNameUp$ schedule row for the inspected tails and precision windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row for regular rational Cauchy names at those windows.
+\item $D$ is the $\DyadicRatCoreUp$ scale row recording the dyadic tolerance core used by the regularity checks.
+\item $R$ is the $\RealUp$ value-facing seal row reached only after $X,T,Q,D$ have stayed visible.
+\item $H$ records componentwise $\hsame$ transport for the source, schedule, readback, dyadic scale, value seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a space-level sequence request through the stream schedule, regular rational readback, dyadic tolerance core, and real-facing seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularSequenceSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularSequenceSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient complete metric space, quotient equality of real names, arbitrary choice of representatives, unrestricted sequence space, or host set of all Cauchy sequences.
+\end{definition}
+
+\begin{theorem}[RegularSequenceSpace NameCert obligations]
+\label{thm:regular-sequence-space-namecert-obligations}
+For every accepted $\RegularSequenceSpaceUp$ carrier $S=(X,T,Q,D,R,H,C,P,N)$, the local $\NameCert_{\RegularSequenceSpaceUp}$ surface consists exactly of space-level carrier admission through $X$, schedule exposure through $T$, regular rational readback through $Q$, dyadic tolerance exposure through $D$, real-facing value seal through $R$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. A consumer therefore reads a regular sequence space only through the finite route
+$$
+X,T,Q,D \longmapsto R,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-sequence-space-carrier}. The source row $X$ opens the space-level family, while the schedule row $T$ and regular rational readback row $Q$ expose only displayed sequence windows.
+
+The dyadic tolerance core $D$ supplies the regularity scale before the real-facing seal $R$ is consumed. Thus the packet reaches $\RealUp$ only after the stream, rational readback, and dyadic core rows have remained visible.
+
+Finally replay the structural rows. Componentwise transport $H$, continuation replay $C$, provenance $P$, and local naming $N$ preserve the same finite carrier, so no ambient complete space, unrestricted sequence space, quotient of real names, or arbitrary representative choice enters the NameCert surface.
+\end{proof}
+
+\closureat{RegularSequenceSpaceUp}{seedStr}
+
+\begin{closurestatus}{\RegularSequenceSpaceUp}
+  \constructivestory{A $\RegularSequenceSpaceUp$ packet is generated from a displayed source family of regular sequence names, stream schedules, regular rational readbacks, dyadic tolerance core rows, a real-facing value seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-sequence-space-carrier} and \autoref{thm:regular-sequence-space-namecert-obligations} seed the finite space-level regular sequence carrier between stream names, rational regular readbacks, dyadic tolerance cores, and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim an ambient complete metric space, quotient equality of real names, arbitrary choice of representatives, unrestricted sequence space, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, schedule routing, regular rational readback, dyadic tolerance exposure, real-facing sealing, and structural nonescape for BEDC.Derived.RegularSequenceSpaceUp.}
+\end{closurestatus}
