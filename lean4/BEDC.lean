@@ -4203,6 +4203,7 @@ import BEDC.Derived.InverseFunctionUp.TasteGate
 import BEDC.Derived.InverseLimitMetricUp.TasteGate
 import BEDC.Derived.InverseMappingTheoremUp.TasteGate
 import BEDC.Derived.IrrationalWitnessUp.TasteGate
+import BEDC.Derived.IsbellTightSpanUp.TasteGate
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.BranchStability
 import BEDC.Derived.IshiharaTrickUp.TasteGate
@@ -5094,6 +5095,7 @@ import BEDC.Derived.NegativeNameBoundaryUp.ObligationClosure
 import BEDC.Derived.NegativeNameBoundaryUp.PublicExport
 import BEDC.Derived.NegativeNameBoundaryUp.QuotientSoundnessLatticeLink
 import BEDC.Derived.NeighborhoodFilterUp.TasteGate
+import BEDC.Derived.NeighborhoodFunctionUp.TasteGate
 import BEDC.Derived.NestedClosedIntervalUp
 import BEDC.Derived.NestedDyadicCauchyUp.TasteGate
 import BEDC.Derived.NestedDyadicIntervalUp
@@ -7270,6 +7272,7 @@ import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
 import BEDC.Derived.UniformConvergenceSeriesUp.TasteGate
 import BEDC.Derived.UniformConvergenceSpaceUp.TasteGate
+import BEDC.Derived.UniformConvergenceTestUp.TasteGate
 import BEDC.Derived.UniformEmbeddingUp
 import BEDC.Derived.UniformEmbeddingUp.TasteGate
 import BEDC.Derived.UniformEntourageBasisUp.TasteGate
@@ -7365,6 +7368,7 @@ import BEDC.Derived.WritingItemAuditPacketUp.TasteGate
 import BEDC.Derived.WritingItemAuditUp.TasteGate
 import BEDC.Derived.YonedaCompletionUp.TasteGate
 import BEDC.Derived.YonedaUp
+import BEDC.Derived.YoungInequalityUp.TasteGate
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZeckendorfCarryNormalizationUp
