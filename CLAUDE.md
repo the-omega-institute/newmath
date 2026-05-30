@@ -8,7 +8,7 @@
 - LaTeX: 使用 `pdflatex`(BEDC 论文体内零中文; 顶层 README/CLAUDE/AGENTS 用中文但不进入 PDF)
 - Lean 4: `lake build`; `lean4/` 为 **mathlib-free** 形式化, 从 first principles 起步
 - 单个 `.tex` 文件不超过 800 行, 超过须**直接 split** 出 sibling 文件, 把相对独立的子主题搬过去并 `\input` 进来. **禁止用任何"压缩空行 / 删空白行 / 把多行合并成一行"等格式压缩动作来给文件腾空间**: 这类动作不传达任何理论内容, 是 code-debt churn, 也会让 git diff 噪音盖过真正的语义改动. 若 split 不出明显独立的子主题, 报告原因, 不要伪装成靠空行省下来的改动
-- **Hub-only 索引文件**: 任何作为 chapter / section 索引的 hub `.tex` 文件 (例如 `\input{...}` 或 `\include{...}` 集中处) 只放结构性元素: 标题宏 (`\chapter` / `\section` / 等) + `\label` + 1-2 句 orienting 段落 + 子文件 `\input{...}` 行 + 必要的状态标注 (如 `\closureat`). **不放任何 `\begin{theorem}` / `\begin{definition}` / `\begin{lemma}` / `\begin{proof}` 等正文环境**. 正文移入同主题子目录的 sibling `.tex` 文件, 文件名按内容 slug 命名 (`<slug>.tex`). hub 自身一般 5-15 行, 始终远低于 800 行上限
+- **Hub-only 索引文件**: hub-only 是结构分类, 不是 filename → role 映射. 只有自身正文只是结构性路由的 `.tex` 文件才按 hub-only 约束: 可放 1-2 句 orienting 段落、子文件 `\input{...}` 行、必要状态标注 (如 `\closureat`), 不放 `\begin{theorem}` / `\begin{definition}` / `\begin{lemma}` / `\begin{proof}` / `\begin{closurestatus}` 等正文环境. 持有 `\chapter` 与正文环境的文件是 content chapter, 受 800 行上限与正文检查约束.
 - 二进制运算使用原生实现, 不用二进制字符串
 
 ## 语言与格式
@@ -43,9 +43,10 @@
 
 - `lean4/` — Lean 4 形式化, mathlib-free, 0 axiom 0 sorry
 - `papers/bedc/` — BEDC LaTeX 论文 (现行态)
-- 多文件 concrete-instances region 采用 hub + subdir 布局:
-  - 顶层 hub 文件: `papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. 只放 `\input{parts/concrete_instances/<slug>/<name>.tex}` 行; 可放 1-2 句 orienting 段和 `\closureat{<X>Up}{<level>Str}` 状态行; **禁** `\chapter` / `\begin{theorem}` / `\begin{definition}` / `\begin{lemma}` / `\begin{proof}` / `\begin{closurestatus}` / 任何正文环境.
-  - Subdir spine: `papers/bedc/parts/concrete_instances/<slug>/namecert_construction.tex`. 持有 `\chapter{...}` / `\label{ch:concrete-instances-<slug>-namecert}` / `\origin{...}` / 章节 intro + 第一批定义.
+- concrete-instances namecert 章节有两种合法布局:
+  - 单文件 content chapter: `papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`. 文件内可持有 `\chapter{...}` / `\label{ch:concrete-instances-<slug>-namecert}` / `\origin{...}` / 正文环境 / `closurestatus`, 受 800 行上限与 content checks 约束.
+  - 多文件 hub + subdir: 当章节拆为多文件时, 顶层文件仍用 `papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`, 但只放 1-2 句 orienting 段、必要 `\closureat{<X>Up}{<level>Str}` 状态行、`\input{parts/concrete_instances/<slug>/<name>.tex}` 行; **禁** `\chapter` / `\begin{theorem}` / `\begin{definition}` / `\begin{lemma}` / `\begin{proof}` / `\begin{closurestatus}` / 任何正文环境.
+  - Subdir spine: `papers/bedc/parts/concrete_instances/<slug>/namecert_construction.tex`. 持有拆分章节的 `\chapter{...}` / `\label{ch:concrete-instances-<slug>-namecert}` / `\origin{...}` / 章节 intro + 第一批定义.
   - 其它 sibling: `papers/bedc/parts/concrete_instances/<slug>/<descriptive_name>.tex`. 文件名 lowercase snake_case, 不带 `<NN>_<slug>_` 前缀.
   - Hub 内 `\input` 顺序: spine 第一, 其余按主题逻辑 (constructor → theorem → bridge → closurestatus).
 - `papers/bedc/parts/project_governance/theory_amendment_policy.tex` — 持续发展规则
@@ -448,9 +449,9 @@ worker 内部可能改了 branch 名 (codex 偶尔自己重命名), merge 前 `c
 
 显式 step 4 后不 push, 否则 worker 偶尔会 push 半成品.
 
-## 8. worker 漏 strip 顶层 hub
+## 8. worker 选择 hub + subdir 布局后漏 strip 顶层 hub
 
-worker 把 region 内容迁到 `<slug>/` subdir 时, 容易创建 subdir 副本但忘记把顶层 hub 文件缩到 `\input` 列表. 结果是 hub 与 sibling 两边都有同一 `\leanchecked` 标记, marker uniqueness gate fail.
+worker 已选择 hub + subdir 布局并把 region 内容迁到 `<slug>/` subdir 时, 顶层 hub 必须 strip 到结构性路由内容. 若顶层 hub 与 sibling 两边都有同一 `\leanchecked` 标记, marker uniqueness gate fail.
 
 缓解: worker prompt 必含 `BEFORE commit: cd papers/bedc && make precheck must exit 0`, 并按上方"项目结构"里的 hub + subdir 布局检查 hub 是否只剩结构性内容.
 

@@ -45,7 +45,7 @@ If the target's `proposed_change` IS a split (move existing content into child f
 
 ### Hub-file exception (≥780-line root indexes)
 
-A "hub" is a `.tex` whose body is dominated by `\input{...}` lines and contains zero substantive content (no `\begin{theorem|definition|lemma|proposition|corollary|example}`, no proof prose, no certificate body). The canonical examples are `papers/bedc/main.tex` (root index of all chapters) and the per-theme hubs under `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex` (when their body is just `\input{parts/concrete_instances/<slug>/<file>.tex}` lines).
+A "hub" is a `.tex` whose body is dominated by `\input{...}` lines and contains zero substantive content (no `\begin{theorem|definition|lemma|proposition|corollary|example}`, no proof prose, no certificate body). The canonical examples are `papers/bedc/main.tex` (root index of all chapters) and per-theme files under `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex` when their body is just `\input{parts/concrete_instances/<slug>/<file>.tex}` lines.
 
 A hub at ≥780 lines is the expected steady state: every new chapter adds one `\input{...}` line to the root index, and the count grows with chapter count. The 800-line cap is irrelevant for hubs — splitting an index does not change the artifact, only the bookkeeping.
 
@@ -167,7 +167,10 @@ For each target in the list above:
    chapter path `papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`,
    allocate `<NN>` by running `python3 papers/bedc/scripts/allocate_concrete_instance_id.py`
    once; do NOT infer the number from local `ls`, `sort`, `tail`, `awk`,
-   or random offsets. Every new chapter file under
+   or random offsets. The new chapter path may stay a single-file content
+   chapter; if it chooses hub + subdir layout, the top-level file must remain
+   hub-only and the chapter body belongs in the subdir spine and siblings.
+   Every new chapter file under
    `papers/bedc/parts/` with `\chapter{...}` MUST contain exactly one
    top-level `\origin{human}` or `\origin{ai}` line near the top after
    `\chapter{...}` and `\label{...}`. Pick `human` for traditional-math
