@@ -144,6 +144,24 @@ Use \autoref{thm:cauchy-equivalence-setoid-classifier-laws} for the finite equal
 Use \autoref{thm:cauchy-equivalence-setoid-transport} for the componentwise handoff to downstream readers. The sibling dependency paragraph below the surface theorem places this same route next to the StreamName, RegSeqRat, DyadicRatCore, and Real chapters, so a $\RealClassifier$ or $\MetricCompletionUp$ consumer receives only the routed packet $S_0,S_1,R_0,R_1,D,T,E,H,C,P,N$ before any completion-facing read.
 \end{proof}
 
+\begin{theorem}[CauchyEquivalenceSetoid psame RealClassifier bridge]
+\label{thm:cauchy-equivalence-setoid-psame-real-classifier-bridge}
+Let $Q=(S_0,S_1,R_0,R_1,D,T,E,H,C,P,N)$ be an accepted $\CauchyEquivalenceSetoidUp$ classifier packet. Any accepted classifier row consumed as a $\psame$ comparison reaches the $\RealClassifier$ boundary only through
+$$
+S_0,S_1 \longmapsto R_0,R_1 \longmapsto D \longmapsto T \longmapsto E,H,C,P,N .
+$$
+Conversely, any $\RealClassifier$-facing read backed by exactly those displayed StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance ledger, setoid-test row, Real seal boundary, componentwise transport, replay, provenance, and local naming rows is a legitimate $\CauchyEquivalenceSetoidUp$ consumer route. The bridge exports no quotient stream equality, host real equality, selected limit, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with the classifier laws of \autoref{thm:cauchy-equivalence-setoid-classifier-laws}. A $\psame$ comparison can use only the reflexive, symmetric, and transitive finite tests in $T$ over $S_0,S_1,R_0,R_1,D$.
+
+Use the transport theorem, \autoref{thm:cauchy-equivalence-setoid-transport}, to carry the comparison componentwise through $H$ while preserving the same StreamName windows, RegSeqRat readbacks, dyadic ledger, classifier row, seal boundary, replay, provenance, and local naming rows.
+
+Apply the NameCert surface and RealEquality consumer route, \autoref{thm:cauchy-equivalence-setoid-namecert-surface} and \autoref{thm:cauchy-equivalence-setoid-real-equality-consumer-route}. They place the Real-facing classifier boundary downstream of the displayed finite route and exclude any detached quotient or host-equality coordinate.
+
+For the converse direction, suppose a RealClassifier-facing read is backed by the rows $S_0,S_1,R_0,R_1,D,T,E,H,C,P,N$ in the displayed order. The NameCert surface admits exactly those rows as the local certificate surface, and the downstream equality dependency theorem, \autoref{thm:cauchy-equivalence-setoid-downstream-equality-dependency}, identifies the same route as the equality-facing consumer route. Therefore the read is a legitimate $\CauchyEquivalenceSetoidUp$ consumer route.
+\end{proof}
+
 \begin{theorem}[CauchyEquivalenceSetoid separated-completion forward link]
 \label{thm:cauchy-equivalence-setoid-separated-completion-forward-link}
 Every $\RegularCauchyCompletionSeparatedUp$ or $\SeparatedMetricUp$ consumer of an accepted $\CauchyEquivalenceSetoidUp$ packet $Q=(S_0,S_1,R_0,R_1,D,T,E,H,C,P,N)$ first reads the two $\StreamNameUp$ windows $S_0,S_1$, the two $\RegSeqRatUp$ readbacks $R_0,R_1$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the setoid-test row $T$, the $\RealUp$ seal boundary $E$, and the structural rows $H,C,P,N$. The route feeds the separated-completion corridor of \autoref{ch:concrete-instances-regular-cauchy-completion-separated-namecert}, the sequence-equivalence boundary of \autoref{ch:concrete-instances-cauchysequenceequivalence-namecert}, and the separated-metric classifier of \autoref{ch:concrete-instances-separatedmetric-namecert}; it exposes no quotient stream equality, selected representative, host real equality, countable choice, or ambient completion.
