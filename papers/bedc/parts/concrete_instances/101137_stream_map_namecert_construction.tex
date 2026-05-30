@@ -148,6 +148,20 @@ The tail-window handoff is the projection to $Q$. Since $Q$ is stored after $S,T
 Finally, ledger non-escape is exhausted by $D,R,H,C,P,N$. These rows record tolerances, seal boundaries, componentwise transport, displayed replay, provenance, and local naming for the same finite route, and none stores quotient stream equality, host function extensionality, selected limits, countable choice, ambient Real completeness, or a detached host map.
 \end{proof}
 
+\begin{theorem}[Stream map obligation-closure package]
+\label{thm:stream-map-obligation-closure-package}
+For every accepted $\StreamMapUp$ carrier $M=(S,T,F,W,Q,D,R,H,C,P,N)$, the carrier row of \autoref{def:stream-map-carrier}, the pointwise stability of \autoref{thm:stream-map-pointwise-stability}, the carrier transport datum of \autoref{def:stream-map-pointwise-carrier-transport}, the carrier transport stability of \autoref{thm:stream-map-pointwise-carrier-transport-stability}, the finite-window functoriality of \autoref{thm:stream-map-finite-window-functoriality}, the composition-window route of \autoref{thm:stream-map-composition-window-route}, the tail-window determinacy of \autoref{thm:stream-map-tail-window-determinacy}, the tail-ledger nonescape of \autoref{thm:stream-map-tail-ledger-nonescape}, and the NameCert obligation surface of \autoref{thm:stream-map-namecert-obligation-surface} jointly form the obligation-closed finite $\StreamMapUp$ packet over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier row first. It displays exactly the source and target $\StreamNameUp$ rows, the point-map row, finite output windows, the $\RegSeqRatUp$ handoff, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal, and the structural rows $H,C,P,N$.
+
+Apply the pointwise and transport clauses next. The rows cited in \autoref{thm:stream-map-pointwise-stability}, \autoref{def:stream-map-pointwise-carrier-transport}, and \autoref{thm:stream-map-pointwise-carrier-transport-stability} keep the map action inside displayed finite source and target cells.
+
+Now use the window and tail clauses. The route of \autoref{thm:stream-map-finite-window-functoriality}, \autoref{thm:stream-map-composition-window-route}, \autoref{thm:stream-map-tail-window-determinacy}, and \autoref{thm:stream-map-tail-ledger-nonescape} forces every downstream regular-rational, dyadic, or Real-facing consumer to pass through the same finite StreamMap window route before any tail or seal row is visible.
+
+Finally apply \autoref{thm:stream-map-namecert-obligation-surface}. Its listed rows exhaust the local $\NameCert_{\StreamMapUp}$ surface, so the paper closure claim here is an obligation package over the displayed finite rows only. It does not assert Lean verification, quotient stream equality, host function extensionality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \closureat{StreamMapUp}{seedStr}
 
 \begin{closurestatus}{\StreamMapUp}
