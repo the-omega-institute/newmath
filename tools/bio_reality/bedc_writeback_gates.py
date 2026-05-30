@@ -26,19 +26,15 @@ LEAN_MARKER_RE = re.compile(
     r"\\(?:leanstmt|leantarget|leanchecked|leanvariant|leandef|leansorryd)\{"
 )
 GENERIC_TEMPLATE_PHRASES = [
-    "BEDC 5-tuple",
-    "cannot-claim boundary records",
-    "carrier reads back to observable data by following",
-    "finite reality-bound seed witness",
+    # Only block phrases that are *unmistakably* unfilled prompt-template
+    # boilerplate. Technical jargon and natural prose phrases were previously
+    # rejected and caused bio-W to stub every namecert; those are NOT template
+    # residue. Only the "finite reality-bound seed witness" variants (and its
+    # singular bare form) are kept because they are template fillers used by
+    # bio-W's draft prompt and must be replaced by codex with concrete content.
     "finite reality-bound seed witness for the claim",
     "finite, reality-bound seed witness for the claim",
     "finite reality-bound seed witness for claim",
-    "TasteGate-style separation",
-    "polynomial witness slot",
-    "lean target sketch (statement-only)",
-    "internal newmath/bedc derivation",
-    "bridge disclaimer",
-    "external reality sources",
 ]
 
 
