@@ -21,149 +21,108 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  TEXLIVE_IMAGE: ghcr.io/xu-cheng/texlive-full@sha256:8b4a00b6a17ebe6b96dee107d82f0cb3eb40daf322f1e23809a9be26486963dd
 
 jobs:
-  render_check:
-    name: Render dossier check
-    if: ${{ inputs.upload_pages_artifact == false }}
+  render_html:
+    name: Build dossier HTML artifact
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 150
     steps:
       - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          repository: ${{ inputs.checkout_repository != '' && inputs.checkout_repository || github.repository }}
+          ref: ${{ inputs.checkout_ref }}
+          fetch-depth: 2
+
+      - name: Build dossier visualization data
         run: |
           set -euo pipefail
-          repository="${{ inputs.checkout_repository != '' && inputs.checkout_repository || github.repository }}"
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          git init "$GITHUB_WORKSPACE"
-          git -C "$GITHUB_WORKSPACE" remote add origin "https://github.com/${repository}.git"
-          git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=2 origin "${{ inputs.checkout_ref }}"
-          git -C "$GITHUB_WORKSPACE" checkout --force FETCH_HEAD
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            -w /workspace \
+            "$TEXLIVE_IMAGE" \
+            bash -lc 'git config --global --add safe.directory /workspace && python3 tools/build_dossier_status.py'
+
+      - name: Build dossier HTML pages
+        run: |
+          set -euo pipefail
+          rm -rf docs/dossier/namecert docs/dossier/paper
+          args=(
+            python3 tools/build_namecert_html.py
+            --scope all
+            --manifest docs/dossier/data/namecert_sources.json
+            --paper-manifest docs/dossier/data/paper_sources.json
+            --dependency docs/dossier/data/dependency.json
+            --jobs 2
+            --page-timeout 180
+          )
+          if [ "${{ inputs.upload_pages_artifact }}" = "true" ]; then
+            args+=(--allow-failures)
+          else
+            args+=(--limit 20 --write-selected-manifest --strict)
+          fi
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            -w /workspace \
+            "$TEXLIVE_IMAGE" \
+            bash -lc '
+              set -euo pipefail
+              texlive_bin=/opt/texlive/texdir/bin/x86_64-linuxmusl
+              texlive_scripts=/opt/texlive/texdir/texmf-dist/scripts/make4ht
+              export PATH="$texlive_bin:$texlive_scripts:$PATH"
+              make4ht --version
+              git config --global --add safe.directory /workspace
+              "$@"
+            ' bash "${args[@]}"
+
+      - name: Upload dossier HTML artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dossier-html
+          path: |
+            docs/dossier/namecert
+            docs/dossier/paper
+            docs/dossier/data/namecert_sources.json
+            docs/dossier/data/paper_sources.json
+          if-no-files-found: error
+          retention-days: 14
+
+  build_site:
+    name: Build dossier site
+    needs: render_html
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          repository: ${{ inputs.checkout_repository != '' && inputs.checkout_repository || github.repository }}
+          ref: ${{ inputs.checkout_ref }}
+          fetch-depth: 2
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          version: "1.9.37"
 
-      - name: Set up Node.js (for dagre layout bake)
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: tools/dagre_layout/package-lock.json
+          node-version: 22
 
       - name: Install dagre layout deps
         run: npm ci
         working-directory: tools/dagre_layout
 
       - name: Download PDF artifact from current run
+        if: ${{ inputs.pdf_run_id == '' }}
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: bedc-pdf
           path: pdf-artifact
 
-      - name: Stage PDF with UTC timestamp
-        id: stage_pdf
-        run: |
-          ts=$(date -u +%Y-%m-%dT%H%M%SZ)
-          pdf_name="bedc_${ts}.pdf"
-          echo "pdf_name=${pdf_name}" >> "$GITHUB_OUTPUT"
-          pdf_file=$(find pdf-artifact -maxdepth 1 -type f -name '*.pdf' -print -quit)
-          if [ -z "$pdf_file" ]; then
-            echo "No PDF found in artifact" >&2
-            ls -la pdf-artifact || true
-            exit 1
-          fi
-          cp "$pdf_file" "docs/dossier/${pdf_name}"
-          ls -lh "docs/dossier/${pdf_name}"
-          sed -i "s|bedc\.pdf|${pdf_name}|g" \
-            docs/dossier/_quarto.yml \
-            docs/dossier/index.qmd \
-            docs/dossier/index.zh-CN.qmd
-
-      - name: Build dossier visualization data
-        run: python3 tools/build_dossier_status.py
-
-      - name: Install make4ht dependencies
-        run: |
-          set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            texlive-extra-utils texlive-latex-recommended texlive-latex-extra \
-            texlive-plain-generic texlive-luatex \
-            texlive-fonts-recommended texlive-fonts-extra dvisvgm
-          make4ht --version || (echo "make4ht not found after install" && exit 1)
-
-      - name: Build sampled NameCert HTML pages
-        run: |
-          rm -rf docs/dossier/namecert docs/dossier/paper
-          python3 tools/build_namecert_html.py \
-            --scope all \
-            --manifest docs/dossier/data/namecert_sources.json \
-            --paper-manifest docs/dossier/data/paper_sources.json \
-            --dependency docs/dossier/data/dependency.json \
-            --jobs 2 \
-            --limit 20 \
-            --write-selected-manifest \
-            --strict
-
-      - name: Glossary completeness gate
-        run: python3 tools/check_glossary.py
-
-      - name: Render dossier
-        run: quarto render docs/dossier/
-
-      - name: Check sampled NameCert HTML links
-        run: python3 tools/check_namecert_html.py --scope all --allow-partial --site-root docs/dossier/_site
-
-      - name: Verify PDF reached _site
-        run: |
-          pdf_name="${{ steps.stage_pdf.outputs.pdf_name }}"
-          if [ ! -f "docs/dossier/_site/${pdf_name}" ]; then
-            echo "PDF missing from _site after render; copying as fallback"
-            cp "docs/dossier/${pdf_name}" "docs/dossier/_site/${pdf_name}"
-          fi
-          ls -lh "docs/dossier/_site/${pdf_name}"
-
-  render_deploy:
-    name: Render dossier for deploy
-    if: ${{ inputs.upload_pages_artifact == true }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 150
-    container:
-      image: ghcr.io/xu-cheng/texlive-full:latest
-    steps:
-      - name: Check out repository
-        run: |
-          set -euo pipefail
-          repository="${{ inputs.checkout_repository != '' && inputs.checkout_repository || github.repository }}"
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          git init "$GITHUB_WORKSPACE"
-          git -C "$GITHUB_WORKSPACE" remote add origin "https://github.com/${repository}.git"
-          git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=2 origin "${{ inputs.checkout_ref }}"
-          git -C "$GITHUB_WORKSPACE" checkout --force FETCH_HEAD
-
-      - name: Install Quarto (容器内直装,texlive-full 无 sudo)
-        run: |
-          set -euo pipefail
-          QV=1.9.37
-          curl -fsSL -o /tmp/quarto.tar.gz "https://github.com/quarto-dev/quarto-cli/releases/download/v${QV}/quarto-${QV}-linux-amd64.tar.gz"
-          mkdir -p /opt/quarto
-          tar -xzf /tmp/quarto.tar.gz -C /opt/quarto --strip-components=1
-          echo "/opt/quarto/bin" >> "$GITHUB_PATH"
-          /opt/quarto/bin/quarto --version
-
-      - name: Set up Node.js (for dagre layout bake)
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: tools/dagre_layout/package-lock.json
-
-      - name: Install dagre layout deps
-        run: npm ci
-        working-directory: tools/dagre_layout
-
       - name: Download PDF artifact from source BEDC Build run
+        if: ${{ inputs.pdf_run_id != '' }}
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: bedc-pdf
@@ -174,6 +133,7 @@ jobs:
       - name: Stage PDF with UTC timestamp
         id: stage_pdf
         run: |
+          set -euo pipefail
           ts=$(date -u +%Y-%m-%dT%H%M%SZ)
           pdf_name="bedc_${ts}.pdf"
           echo "pdf_name=${pdf_name}" >> "$GITHUB_OUTPUT"
@@ -193,28 +153,23 @@ jobs:
       - name: Build dossier visualization data
         run: python3 tools/build_dossier_status.py
 
-      - name: Restore dossier HTML cache
-        uses: actions/cache@v4
+      - name: Download dossier HTML artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
-          path: |
-            docs/dossier/namecert
-            docs/dossier/paper
-          key: dossier-html-${{ hashFiles('papers/bedc/**/*.tex', 'papers/bedc/make4ht-dossier.cfg', 'tools/build_namecert_html.py') }}
-          restore-keys: |
-            dossier-html-
+          name: dossier-html
+          path: dossier-html-artifact
 
-      - name: Check full TeXLive make4ht
-        run: make4ht --version || (echo "make4ht not found in full TeXLive image" && exit 1)
-
-      - name: Build all NameCert HTML pages
+      - name: Stage dossier HTML artifact
         run: |
-          python3 tools/build_namecert_html.py \
-            --scope all \
-            --manifest docs/dossier/data/namecert_sources.json \
-            --paper-manifest docs/dossier/data/paper_sources.json \
-            --dependency docs/dossier/data/dependency.json \
-            --jobs 2 \
-            --allow-failures
+          set -euo pipefail
+          rm -rf docs/dossier/namecert docs/dossier/paper
+          mkdir -p docs/dossier/data
+          test -d dossier-html-artifact/namecert
+          test -d dossier-html-artifact/paper
+          cp -R dossier-html-artifact/namecert docs/dossier/namecert
+          cp -R dossier-html-artifact/paper docs/dossier/paper
+          cp dossier-html-artifact/data/namecert_sources.json docs/dossier/data/namecert_sources.json
+          cp dossier-html-artifact/data/paper_sources.json docs/dossier/data/paper_sources.json
 
       - name: Glossary completeness gate
         run: python3 tools/check_glossary.py
@@ -222,12 +177,18 @@ jobs:
       - name: Render dossier
         run: quarto render docs/dossier/
 
-      - name: Check published NameCert HTML links
+      - name: Check sampled dossier HTML links
+        if: ${{ inputs.upload_pages_artifact == false }}
+        run: python3 tools/check_namecert_html.py --scope all --allow-partial --site-root docs/dossier/_site
+
+      - name: Check published dossier HTML links
+        if: ${{ inputs.upload_pages_artifact == true }}
         continue-on-error: true
         run: python3 tools/check_namecert_html.py --scope all --full --site-root docs/dossier/_site
 
       - name: Verify PDF reached _site
         run: |
+          set -euo pipefail
           pdf_name="${{ steps.stage_pdf.outputs.pdf_name }}"
           if [ ! -f "docs/dossier/_site/${pdf_name}" ]; then
             echo "PDF missing from _site after render; copying as fallback"
@@ -236,6 +197,7 @@ jobs:
           ls -lh "docs/dossier/_site/${pdf_name}"
 
       - name: Upload Pages artifact
+        if: ${{ inputs.upload_pages_artifact == true }}
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/dossier/_site
