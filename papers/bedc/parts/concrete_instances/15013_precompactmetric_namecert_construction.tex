@@ -125,6 +125,42 @@ they merely state which source certificates and which finite rows may be read
 by downstream consumers.
 \end{proof}
 
+\begin{theorem}[PrecompactMetricUp finite-net root obligations]
+\label{thm:precompactmetric-root-finite-net-obligations}
+For every accepted $\PrecompactMetricUp$ packet $P=(X,D,N,F,R,M,H,C,G,Q)$, the root finite-net obligations are exactly the carrier admission of $X,D,N,M,H,C,G,Q$, the $\TotallyBoundedUp$ finite-net rows in $N$, the $\RegularityModulusUp$ tolerance ledger in $M$, and the provenance row $Q$. A downstream total-boundedness consumer may read the closed $\mathsf{ProbeBundle}$ nets, $\mathsf{InBundle}$ memberships, center histories, metric-distance witness rows, and rational comparison ledgers only through those displayed coordinates.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:precompact-metric-carrier}. The finite-net coordinate is $N$, and the only metric, tolerance, transport, route, handoff, provenance, and naming rows available with it are $X,D,M,H,C,G,Q$.
+
+Apply \autoref{thm:precompact-metric-namecert-obligations}. Its finite-net exactness clause identifies the $\TotallyBoundedUp$ net surface with the closed $\mathsf{ProbeBundle}$, membership constructors, center rows, distance witnesses, and rational comparison ledgers already recorded in $N$.
+
+The same theorem's carrier-admission, classifier-transport, and provenance clauses keep the read inside $X,D,N,M,H,C,G,Q$. Thus root finite-net obligations expose total-boundedness data as finite rows and do not export open-cover compactness, selected subsequences, quotient completion, host choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[PrecompactMetricUp Cauchy-filter handoff obligations]
+\label{thm:precompactmetric-cauchy-filter-handoff-obligations}
+For every accepted $\PrecompactMetricUp$ packet $P=(X,D,N,F,R,M,H,C,G,Q)$, every Cauchy-filter or regular-Cauchy-filter handoff reads $F$ and $R$ only after the metric rows $X,D$, finite-net row $N$, regularity-modulus row $M$, transport row $H$, continuation row $C$, handoff row $G$, and provenance row $Q$ have fixed the same packet. The handoff reaches the $\CauchyFilterUp$, $\RegularCauchyFilterUp$, and $\CauchyFilterBasisUp$ sibling surfaces as finite inspection rows, not as a completed point or quotient filter.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:precompact-metric-carrier}. The rows $F$ and $R$ are the only Cauchy-filter and regular-filter inspection coordinates, while $C$ records that basis reads route through the finite generator of $\CauchyFilterBasisUp$.
+
+Use \autoref{thm:precompact-metric-namecert-obligations}. Its Cauchy-filter inspection clause says that $F$ and $R$ expose finite filterbase packets, regular tail windows, refinement ledgers, regular Cauchy readbacks, and dyadic neighbourhood witnesses, all controlled by $M$.
+
+The carrier-admission and provenance clauses force the same packet rows $X,D,N,F,R,M,H,C,G,Q$ to remain visible for the handoff. Therefore no downstream consumer can detach a completed point, a quotient filter, a selected subsequence, or ambient completeness from the Cauchy-filter route.
+\end{proof}
+
+\begin{theorem}[PrecompactMetricUp regularity-modulus scope]
+\label{thm:precompactmetric-regularity-modulus-scope}
+For every accepted $\PrecompactMetricUp$ packet $P=(X,D,N,F,R,M,H,C,G,Q)$, the regularity-modulus row $M$ is scoped simultaneously over finite-net tolerance requests in $N$ and Cauchy-filter tail requests in $F,R$. The scope is transported through $H$, replayed through $C$, handed to total-boundedness consumers through $G$, and named by $Q$; it does not introduce an independent convergence rate, ambient compactness theorem, choice-selected tail, or completed-space coordinate.
+\end{theorem}
+\begin{proof}
+Read $M$ from \autoref{def:precompact-metric-carrier}. The carrier says that its dyadic windows control both the net tolerance and the Cauchy-filter tail requests through one displayed rate ledger.
+
+Apply \autoref{thm:precompact-metric-namecert-obligations}. Finite-net exactness uses $M$ with $N$, and Cauchy-filter inspection uses $M$ with $F$ and $R$; the provenance and handoff clauses keep the same row available to $G$ and $Q$.
+
+Finally use classifier transport from the same theorem. The row $H$ transports modulus windows componentwise and $C$ records the replay route, so the modulus scope is local to $P=(X,D,N,F,R,M,H,C,G,Q)$ and exports no independent rate object or completed ambient space.
+\end{proof}
+
 \begin{theorem}[PrecompactMetricUp totally bounded handoff]
 \label{thm:precompact-metric-totally-bounded-handoff}
 Every $\TotallyBoundedUp$ consumer of an accepted $\PrecompactMetricUp$ packet
