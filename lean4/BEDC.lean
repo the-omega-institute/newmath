@@ -4729,6 +4729,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionBoundaryRouting
 import BEDC.Derived.MetaCICCriticalPathUp.TransportRowStability
 import BEDC.Derived.MetaCICDecidableBoundaryUp.ClassifierStability
 import BEDC.Derived.MetaCICDecidableBoundaryUp.RefusalExactness
+import BEDC.Derived.MetaCICDecidableBoundaryUp.SiblingProvenance
 import BEDC.Derived.MetaCICDecidableBoundaryUp.SubstitutionWindow
 import BEDC.Derived.MetaCICDecidableBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICDecidableBoundaryUp.WindowTotality
@@ -5578,6 +5579,7 @@ import BEDC.Derived.PseudometricUp.LedgerNonescapeObligation
 import BEDC.Derived.PseudometricUp.LocatedMetricSourceExhaustion
 import BEDC.Derived.PseudometricUp.TasteGate
 import BEDC.Derived.PseudometricUp.TriangleLedgerObligation
+import BEDC.Derived.PseudometricUp.ZeroDistanceClassifierStability
 import BEDC.Derived.PseudometricUp.ZeroDistanceCompletionRoute
 import BEDC.Derived.PseudometricUp.ZeroDistanceSourceReflection
 import BEDC.Derived.PublicKeyUp
@@ -6738,6 +6740,7 @@ import BEDC.Derived.SpeckerSequenceUp
 import BEDC.Derived.SpeckerSequenceUp.TasteGate
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.SpectralRadiusFormulaUp.TasteGate
+import BEDC.Derived.SpectralRadiusUp.TasteGate
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralStabilizationUp.TasteGate
 import BEDC.Derived.SpectralTheoremUp
