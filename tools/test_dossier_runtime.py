@@ -122,6 +122,15 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
         for needle in forbidden:
             self.assertNotIn(needle, text)
 
+    def test_texlive_image_comes_from_repository_variable(self) -> None:
+        pdf_workflow = load_workflow(ROOT / ".github" / "workflows" / "reusable-pdf.yml")
+        self.assertEqual(self.workflow["env"]["TEXLIVE_IMAGE"], "${{ vars.TEXLIVE_IMAGE }}")
+        self.assertEqual(
+            pdf_workflow["jobs"]["build-main-pdf"]["container"]["image"],
+            "${{ vars.TEXLIVE_IMAGE }}",
+        )
+        self.assertNotIn("texlive-full@sha256:", workflow_text())
+
     def test_removed_runtime_files_stay_removed(self) -> None:
         self.assertFalse((ROOT / ".github" / "workflows" / joined("dossier-render", "-runtime.yml")).exists())
         runtime_dir = ROOT / ".github" / "images" / joined("dossier", "-render")

@@ -4,7 +4,7 @@
 
 ## 环境与工具链
 
-- Python: 使用 `python3` (stdlib only, 工具脚本无第三方依赖)
+- Python: 使用 `python3`
 - LaTeX: 使用 `pdflatex`(BEDC 论文体内零中文; 顶层 README/CLAUDE/AGENTS 用中文但不进入 PDF)
 - Lean 4: `lake build`; `lean4/` 为 **mathlib-free** 形式化, 从 first principles 起步
 - 单个 `.tex` 文件不超过 800 行, 超过须**直接 split** 出 sibling 文件, 把相对独立的子主题搬过去并 `\input` 进来. **禁止用任何"压缩空行 / 删空白行 / 把多行合并成一行"等格式压缩动作来给文件腾空间**: 这类动作不传达任何理论内容, 是 code-debt churn, 也会让 git diff 噪音盖过真正的语义改动. 若 split 不出明显独立的子主题, 报告原因, 不要伪装成靠空行省下来的改动
