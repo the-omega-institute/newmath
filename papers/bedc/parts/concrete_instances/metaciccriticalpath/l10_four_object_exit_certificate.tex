@@ -14,6 +14,25 @@ Finally retain the four owners separately. Theorem~\ref{thm:metacic-critical-pat
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathL10FourObjectExitCertificate}
 
+\begin{theorem}[MetaCIC critical-path L10 dependency budget]
+\label{thm:metaciccriticalpath-l10-exit-dependency-budget}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, any accepted exit read using the L10 face must display four dependency rows in order:
+\begin{enumerate}
+\item the $\DyadicRatCoreUp$ tolerance row, recording the finite dyadic budget consumed by the request;
+\item the $\StreamNameUp$ finite-observation row, recording the inspected stream windows;
+\item the $\RegSeqRatUp$ readback row, recording the regular rational data obtained from those windows;
+\item the $\RealUp$ seal row, recording the terminal Real-facing handoff reached after the preceding rows have been displayed.
+\end{enumerate}
+The budget is a dependency display over the existing $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows of $K$. It exports no closed consistency result, global normalization theorem, quotient real equality, or selected limit.
+\end{theorem}
+\begin{proof}
+Apply the four-object exit certificate of \autoref{thm:metacic-critical-path-l10-four-object-exit-certificate}. It identifies the current Phase Real and Completion exit surface with exactly the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows attached to the accepted packet.
+
+Read that certificate as an ordered dependency budget. The dyadic row supplies the tolerance request, the StreamName row supplies the finite observations for that request, the RegSeqRat row reads those observations as regular rational data, and the Real row seals only the displayed route.
+
+The same certificate keeps the four rows inside finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. Since the carrier supplies no further exit coordinate, a consumer cannot extract closed consistency, global normalization, quotient real equality, or a selected limit from this dependency budget.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path L10 status bridge obligation]
 \label{thm:metacic-critical-path-l10-status-bridge-obligation}
 For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, any use of Theorem~\ref{thm:metacic-critical-path-l10-four-object-exit-certificate} as Phase Real and Completion exit evidence must pass through the Real L10 objectwise audit pullback of Theorem~\ref{thm:real-l10-current-phase-exit-audit-pullback}. The $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces each contribute their own local closurestatus, formalstatus, leantarget, and bridgestatus rows, read from their local closurestatus blocks and not from an aggregate route credential.
