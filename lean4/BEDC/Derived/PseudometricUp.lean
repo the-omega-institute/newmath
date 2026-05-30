@@ -337,4 +337,68 @@ theorem PseudometricCarrier_separated_reflection_factorization [AskSetup] [Packa
     ⟨cert, reflectionUnary, completionUnary, streamReadbackDyadic, dyadicSealZero,
       localNamePkg⟩
 
+theorem PseudometricCarrier_separated_reflection_handoff [AskSetup] [PackageSetup]
+    {point distance dyadic stream readback sealRow zeroRow transport replay localName
+      reflectionRead identityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PseudometricCarrier point distance dyadic stream readback sealRow zeroRow transport
+        replay localName bundle pkg ->
+      Cont zeroRow transport reflectionRead ->
+        Cont reflectionRead replay identityRead ->
+          PkgSig bundle identityRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row identityRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row zeroRow ∨ hsame row reflectionRead ∨ hsame row identityRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ PkgSig bundle identityRead pkg ∧
+                    Cont reflectionRead replay identityRead)
+                hsame ∧
+              UnaryHistory reflectionRead ∧ UnaryHistory identityRead ∧
+                PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: PseudometricCarrier BHist Cont ProbeBundle PkgSig SemanticNameCert
+  intro carrier zeroTransportReflection reflectionReplayIdentity identityPkg
+  obtain ⟨_pointUnary, _distanceUnary, _dyadicUnary, _streamUnary, _readbackUnary,
+    _sealUnary, zeroUnary, transportUnary, replayUnary, _localNameUnary,
+    _streamReadbackDyadic, _dyadicSealZero, _localNameZero, localNamePkg⟩ := carrier
+  have reflectionUnary : UnaryHistory reflectionRead :=
+    unary_cont_closed zeroUnary transportUnary zeroTransportReflection
+  have identityUnary : UnaryHistory identityRead :=
+    unary_cont_closed reflectionUnary replayUnary reflectionReplayIdentity
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row identityRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row zeroRow ∨ hsame row reflectionRead ∨ hsame row identityRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle identityRead pkg ∧
+              Cont reflectionRead replay identityRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro identityRead ⟨hsame_refl identityRead, identityUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, identityPkg, reflectionReplayIdentity⟩
+  }
+  exact ⟨cert, reflectionUnary, identityUnary, localNamePkg⟩
+
 end BEDC.Derived.PseudometricUp
