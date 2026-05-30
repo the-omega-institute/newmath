@@ -647,10 +647,18 @@ def check_l_math_mode_in_text() -> list[dict]:
 
 def check_m_stale_input() -> list[dict]:
     out: list[dict] = []
+    verbatim_envs = {"verbatim", "lstlisting", "minted"}
     for tex in iter_part_tex():
         rel = tex.relative_to(PAPER_DIR)
-        text = strip_verbatim_preserve_lines(read_text(tex))
+        in_verbatim = False
+        text = read_text(tex)
         for i, line in enumerate(text.splitlines(), 1):
+            env = BEGIN_END_ENV_RE.search(line)
+            if env and env.group(2) in verbatim_envs:
+                in_verbatim = env.group(1) == "begin"
+                continue
+            if in_verbatim:
+                continue
             if line.lstrip().startswith("%"):
                 continue
             code = _line_text_without_comment(line)
