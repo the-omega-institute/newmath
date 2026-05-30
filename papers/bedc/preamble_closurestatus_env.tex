@@ -16,9 +16,6 @@
 % The block is parsed by lean4/scripts/bedc_ci.py audit and consumed by
 % lean4/scripts/critical_path.py to decide whether a chapter is retired
 % from the horizon work queue. Both axes are mandatory.
-% Refactor (iter/issue-253):
-%   Old pattern: closurestatus 是固定字段协议;要承载更多审计属性会倾向引入版本号(\closureprofileversion{N}),但 3510 个 \begin{closurestatus} block 强制迁移不现实,也违反 CLAUDE.md 禁版本号。
-%   New principle: 开放可扩展审计记录:字段存在性决定能力,声明强度决定严格程度。共识=A-inline now(inline 宏 + bedc_ci 能力检测)+ 文档化 extraction trigger,不建首版 record 模块。
 \NewDocumentEnvironment{closurestatus}{m}{%
   \par\smallskip\noindent%
   \begingroup%

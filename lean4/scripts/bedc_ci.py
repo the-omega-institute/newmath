@@ -962,11 +962,6 @@ def detect_orphan_concrete_subdirs() -> list[dict]:
 
 
 def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
-    # Refactor (iter/issue-253):
-    #   Old pattern: closurestatus 是固定字段协议;要承载更多审计属性会倾向引入版本号(\closureprofileversion{N}),但 3510 个 \begin{closurestatus} block 强制迁移不现实,也违反 CLAUDE.md 禁版本号。
-    #   New principle: 开放可扩展审计记录:字段存在性决定能力,声明强度决定严格程度。共识=A-inline now(inline 宏 + bedc_ci 能力检测)+ 文档化 extraction trigger,不建首版 record 模块。
-    # Extraction trigger: if these fields gain a second consumer, or this policy
-    # would be copied into critical_path.py/dossier/DAG tooling, extract it.
     out: list[dict] = []
     for tex in part_root.rglob("*.tex"):
         try:
@@ -1093,12 +1088,7 @@ def _closurestatus_open_message(block: dict, message: str) -> dict[str, object]:
 
 
 def diagnose_closurestatus_open_fields(block: dict) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
-    r"""Return (warnings, errors) for closurestatus open-field capability lint.
-
-    Refactor (iter/issue-253):
-      Old pattern: closurestatus 是固定字段协议;要承载更多审计属性会倾向引入版本号(\closureprofileversion{N}),但 3510 个 \begin{closurestatus} block 强制迁移不现实,也违反 CLAUDE.md 禁版本号。
-      New principle: 开放可扩展审计记录:字段存在性决定能力,声明强度决定严格程度。共识=A-inline now(inline 宏 + bedc_ci 能力检测)+ 文档化 extraction trigger,不建首版 record 模块。
-    """
+    """Return (warnings, errors) for closurestatus open-field capability lint."""
     if block.get("error"):
         return [], []
     warnings: list[dict[str, object]] = []

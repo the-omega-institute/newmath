@@ -17,9 +17,6 @@ from bedc_ci import (  # type: ignore[import-not-found]
 
 
 class ClosurestatusRegexTests(unittest.TestCase):
-    # Refactor (iter/issue-253):
-    #   Old pattern: closurestatus 是固定字段协议;要承载更多审计属性会倾向引入版本号(\closureprofileversion{N}),但 3510 个 \begin{closurestatus} block 强制迁移不现实,也违反 CLAUDE.md 禁版本号。
-    #   New principle: 开放可扩展审计记录:字段存在性决定能力,声明强度决定严格程度。共识=A-inline now(inline 宏 + bedc_ci 能力检测)+ 文档化 extraction trigger,不建首版 record 模块。
     def test_begin_regex_matches_simple_form(self) -> None:
         block = r"\begin{closurestatus}{\NatUp}"
         m = CLOSURESTATUS_BEGIN_RE.search(block)
@@ -120,6 +117,23 @@ class ClosurestatusDiagnosticsTests(unittest.TestCase):
         self.assertTrue(any("requires \\closureledger" in item["message"] for item in errors))
         self.assertTrue(
             any("requires \\closureclassifierincrement" in item["message"] for item in errors)
+        )
+
+    def test_positive_discovery_missing_gate_and_weight_errors(self) -> None:
+        warnings, errors = diagnose_closurestatus_open_fields(
+            self._block(
+                open_fields={
+                    "closureclaimkind": "positiveDiscovery",
+                    "closurenamecert": "n",
+                    "closureledger": "l",
+                    "closureclassifierincrement": "1",
+                }
+            )
+        )
+        self.assertEqual(warnings, [])
+        self.assertTrue(any("requires \\closuregate" in item["message"] for item in errors))
+        self.assertTrue(
+            any("requires \\closureweightprofile" in item["message"] for item in errors)
         )
 
     def test_classifier_increment_must_be_one(self) -> None:
