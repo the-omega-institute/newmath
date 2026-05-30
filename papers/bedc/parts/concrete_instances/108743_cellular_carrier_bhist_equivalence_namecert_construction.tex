@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\CellularCarrierBHistEquivalenceUp$}
+\label{ch:concrete-instances-cellular-carrier-bhist-equivalence-namecert}
+\origin{human}
+
+Following Wolfram's cellular-automaton carrier reading and Cook's Rule 110 universality result, the $\CellularCarrierBHistEquivalenceUp$ packet records the carrier-equivalence content of \autoref{ch:visions-cellular-substrate-as-carrier-alternative} as finite NameCert data. It sits beside the automaton surface of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the orbit substrate of \autoref{ch:concrete-instances-cellularorbitsubstrate-namecert}, the pattern catalog of \autoref{ch:concrete-instances-cellularpatterncatalog-namecert}, the trust substrate of \autoref{ch:concrete-instances-cellular-trust-substrate-namecert}, and the substrate classifier boundary of \autoref{ch:concrete-instances-cellular-substrate-classifier-boundary-namecert}. The packet names a finite BHist encoding and orbit-window comparison without replacing the BEDC carrier.
+
+\begin{definition}[CellularCarrierBHistEquivalence carrier]
+\label{def:cellular-carrier-bhist-equivalence-carrier}
+A $\CellularCarrierBHistEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(W,B,D,R,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the cellular orbit-window row: a finite initial row, width boundary, time window, and local update discipline.
+\item $B$ is the BHist encoding row that reads a finite $\BHist$ value as a finite cell-row code.
+\item $D$ is the decoder row that reads the same finite cell-row code back as a $\BHist$ value when the orbit window remains inside the accepted boundary.
+\item $R$ is the roundtrip row, requiring the encode-decode and decode-encode reads to agree on the displayed finite window.
+\item $K$ is the classifier transport row moving accepted cellular observations to the corresponding $\BHist$ classifier observations and back.
+\item $H$ records componentwise $\hsame$ transport for orbit windows, encodings, decoders, roundtrip rows, classifier transport rows, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+W,B,D,R \longmapsto K .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CellularCarrierBHistEquivalenceUp$, $\CellularAutomatonUp$, $\CellularOrbitSubstrateUp$, $\CellularPatternCatalogUp$, $\CellularTrustSubstrateUp$, $\CellularSubstrateClassifierBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CellularCarrierBHistEquivalenceUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets with these nine rows. It has no coordinate for a replacement BEDC kernel carrier, infinite cellular orbits, global physical substrate claims, hidden evaluator state, host bisimulation, or non-finite classifier equality.
+\end{definition}
+
+\begin{theorem}[CellularCarrierBHistEquivalence NameCert obligations]
+\label{thm:cellular-carrier-bhist-equivalence-namecert-obligations}
+For every accepted $\CellularCarrierBHistEquivalenceUp$ carrier $E=(W,B,D,R,K,H,C,P,N)$, the local $\NameCert_{\CellularCarrierBHistEquivalenceUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for orbit-window, BHist encoding, decoder, roundtrip, classifier transport, transport, replay, provenance, and local naming rows;
+\item orbit-window finiteness, requiring all cellular reads to remain inside the displayed width and time window;
+\item encoding and decoding visibility, requiring $B$ and $D$ to be inspected before any carrier-equivalence claim is exported;
+\item roundtrip and classifier transport, requiring $R$ and $K$ to bind finite BHist reads and finite cellular-window reads through the same accepted packet;
+\item non-escape from carrier replacement, infinite orbit semantics, physical substrate claims, hidden evaluator state, host bisimulation, and non-finite classifier equality.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cellular-carrier-bhist-equivalence-carrier}. The tuple displays exactly the orbit-window, encoding, decoder, roundtrip, classifier transport, transport, replay, provenance, and naming rows.
+
+The cellular side is finite before any equivalence read begins. The row $W$ fixes the initial row, width boundary, time window, and local update discipline inspected by the packet.
+
+The BHist side is read through $B$ and $D$. These rows expose encoding and decoding as finite carrier reads rather than as a replacement of the BEDC kernel carrier.
+
+The roundtrip and classifier rows $R$ and $K$ then bind the two directions over the same displayed window. Transport, replay, provenance, and local naming preserve that binding, while the absent coordinates rule out infinite orbit semantics, physical substrate claims, host bisimulation, and non-finite classifier equality.
+\end{proof}
+
+\begin{theorem}[Cellular carrier BHist equivalence route]
+\label{thm:cellular-carrier-bhist-equivalence-route}
+Every accepted $\CellularCarrierBHistEquivalenceUp$ packet exports the finite route
+$$
+\CellularOrbitSubstrateUp
+\longmapsto
+W
+\longmapsto
+B
+\longmapsto
+D
+\longmapsto
+R
+\longmapsto
+K
+\longmapsto
+H,C,P,N .
+$$
+The route realizes the cellular-carrier alternative as a finite comparison between orbit-window observations and $\BHist$ observations. It does not export a new kernel carrier, an infinite orbit semantics, a global physical substrate assertion, hidden evaluator state, host bisimulation, or non-finite classifier equality.
+\end{theorem}
+\begin{proof}
+Open $W$ first. The orbit-window row supplies the finite cellular observation boundary and therefore prevents the route from depending on an infinite orbit.
+
+Read $B$ and $D$ next. Encoding and decoding connect the finite window code with a finite $\BHist$ value, so the comparison is a NameCert packet rather than a carrier substitution.
+
+Use $R$ and $K$ to bind the roundtrip and classifier transport. These rows keep cellular and $\BHist$ observations in the same finite acceptance boundary.
+
+Finally consume $H,C,P,N$. Componentwise transport, displayed replay, provenance, and local naming preserve the finite route and leave no carrier-replacement, physical-substrate, hidden-evaluator, host-bisimulation, or non-finite-equality coordinate to export.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CellularCarrierBHistEquivalenceUp$ read factors through a finite orbit-window row, a BHist encoding row, a decoder row, a roundtrip row, classifier transport, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{cellularautomaton, cellularorbitsubstrate, cellularpatterncatalog, cellular-trust-substrate, cellular-substrate-classifier-boundary: $\CellularCarrierBHistEquivalenceUp$ is not bijective to any listed sibling because it jointly packages a finite orbit window, BHist encoding, decoding, roundtrip, classifier transport, replay, provenance, and local naming as one carrier-equivalence packet.}
+
+\closureat{CellularCarrierBHistEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\CellularCarrierBHistEquivalenceUp}
+  \constructivestory{A $\CellularCarrierBHistEquivalenceUp$ packet is generated from a finite cellular orbit-window row, a BHist encoding row, a decoder row, a roundtrip row, a classifier transport row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cellular-carrier-bhist-equivalence-carrier}, \autoref{thm:cellular-carrier-bhist-equivalence-namecert-obligations}, and \autoref{thm:cellular-carrier-bhist-equivalence-route} seed the finite carrier-equivalence route between cellular orbit-window observations and BHist observations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close carrier replacement, infinite cellular orbit semantics, global physical substrate claims, hidden evaluator state, host bisimulation, non-finite classifier equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked orbit-window finiteness, encoding and decoding visibility, roundtrip comparison, classifier transport, transport, replay, provenance, and local naming for BEDC.Derived.CellularCarrierBHistEquivalenceUp.}
+\end{closurestatus}

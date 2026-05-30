@@ -98,3 +98,21 @@ The NameCert obligations in \autoref{thm:cauchy-oscillation-namecert-obligations
 
 Therefore a displayed route to $S$ has no available input other than the accepted packet rows and cannot bypass the accepted ledger. Its terminal seal read factors through the finite prefix $W,M,Q,T$ of the same carrier, with $T$ itself determined by $W$, $M$, and $Q$. This is the asserted handoff factorization.
 \end{proof}
+
+\begin{theorem}[CauchyOscillation modulus-root package]
+\label{thm:cauchy-oscillation-modulus-root-package}
+For every accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+each modulus-root read packages $W,M,Q,T,S,H,C,P,N$ as one finite tail-window surface. The row $W$ supplies the $\RegSeqRatUp$ or $\StreamNameUp$ observations, $M$ supplies the threshold schedule, $Q$ supplies the dyadic tolerance, $T$ supplies the oscillation comparison ledger, and $S$ is the downstream $\RealUp$ seal available only after those rows are accepted. The structural rows $H,C,P,N$ transport, replay, source, and name the same package, with no quotient stream, selected limit, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Open the carrier of \autoref{def:cauchy-oscillation-carrier}. The modulus-facing rows are exactly $W,M,Q,T$: a finite tail window, a threshold schedule, a dyadic tolerance, and an oscillation ledger comparing the displayed tail observations.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-oscillation-namecert-obligations}. Oscillation-bound exactness keeps each comparison in $T$ tied to the same $W,M,Q$ coordinates, while stability under $\hsame$ and $\Cont$ preserves the finite dependency packet.
+
+Now use the seal-handoff factorization theorem \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. It places the terminal row $S$ after the accepted prefix $W,M,Q,T$, so a modulus-root consumer cannot read the Real seal before the finite oscillation surface is visible.
+
+Finally $H,C,P,N$ only transport, replay, source, and name that same route. The carrier contains no coordinate for the refused ambient objects, so the modulus-root read is precisely the displayed finite package.
+\end{proof}

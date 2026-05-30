@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\CauchyDedekindEquivalenceUp$}
+\label{ch:concrete-instances-cauchy-dedekind-equivalence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyDedekindEquivalenceUp$ packet names the bidirectional finite handoff between regular Cauchy reads and located-cut completion reads on the L10 Real and Completion route. It is anchored in the one-way bridge of \autoref{ch:concrete-instances-cauchy-dedekind-bridge-namecert}, the located-cut completion surface of \autoref{ch:concrete-instances-located-cut-completion-namecert}, the regular rational route of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records equivalence as two displayed certificate routes, not as quotient equality of completed real names or as an ambient completeness principle.
+
+\begin{definition}[Cauchy-Dedekind equivalence carrier]
+\label{def:cauchy-dedekind-equivalence-carrier}
+A $\CauchyDedekindEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(R,W,D,L,B,E_{0},H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ regular Cauchy readback row exposed before any cut-facing comparison is consumed.
+\item $W$ is the $\StreamNameUp$ finite-window schedule controlling every source, comparison, and return read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger shared by the regular Cauchy side and the located-cut side.
+\item $L$ is the $\LocatedCutCompletionUp$ bracket-completion row, carrying lower and upper located evidence through the same finite windows and dyadic refinements.
+\item $B$ is the forward $\CauchyDedekindBridgeUp$ row from $R,W,D$ into the located-cut-facing comparison route.
+\item $E_{0}$ is the reverse located-cut-to-regular-Cauchy row. It reads the displayed $L,W,D$ brackets back into the regular rational route $R$ before any terminal real seal is exposed.
+\item $H$ records componentwise $\hsame$ transport for the regular row, window schedule, dyadic ledger, located completion row, forward bridge, reverse row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the two routes
+$$
+R,W,D \longmapsto B,L
+\qquad\text{and}\qquad
+L,W,D \longmapsto E_{0},R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyDedekindEquivalenceUp$, $\CauchyDedekindBridgeUp$, $\LocatedCutCompletionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyDedekindEquivalenceUp}$ row.
+\end{enumerate}
+The classifier accepts only packets displaying both directions. It has no coordinate for quotient equality of real names, a selected representative, countable choice, trichotomy, primitive Dedekind cuts outside the displayed rows, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy-Dedekind equivalence NameCert obligations]
+\label{thm:cauchy-dedekind-equivalence-namecert-obligations}
+For every accepted $\CauchyDedekindEquivalenceUp$ carrier
+$$
+E=(R,W,D,L,B,E_{0},H,C,P,N),
+$$
+the local $\NameCert_{\CauchyDedekindEquivalenceUp}$ surface consists exactly of carrier admission, regular Cauchy readback, finite-window scheduling, dyadic tolerance compatibility, located-cut completion exposure, forward bridge exposure, reverse located-cut-to-regular-Cauchy exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape from the excluded host principles.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cauchy-dedekind-equivalence-carrier}. The regular side is $R$, the common finite observation and tolerance surface is $W,D$, and the located-cut completion side is $L$.
+
+The forward handoff is exactly the row $B$. It is read as the bridge from the regular Cauchy data into the located-cut-facing comparison surface already named by \autoref{ch:concrete-instances-cauchy-dedekind-bridge-namecert}.
+
+The reverse handoff is exactly the row $E_{0}$. It reads the displayed lower and upper located-cut completion evidence back through the same finite windows and dyadic tolerances into the regular rational route, so it cannot introduce a selected limit or a quotient representative.
+
+Finally $H,C,P,N$ transport, replay, source, and name the two routes as one packet. Since no excluded host principle occurs as a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy-Dedekind equivalence two-way handoff]
+\label{thm:cauchy-dedekind-equivalence-two-way-handoff}
+Every L10 Real or Completion consumer of an accepted $\CauchyDedekindEquivalenceUp$ packet factors through the paired finite routes
+$$
+\RegSeqRatUp,\ \StreamNameUp,\ \DyadicRatCoreUp
+\longmapsto
+\CauchyDedekindBridgeUp,\ \LocatedCutCompletionUp
+$$
+and
+$$
+\LocatedCutCompletionUp,\ \StreamNameUp,\ \DyadicRatCoreUp
+\longmapsto
+\RegSeqRatUp .
+$$
+Thus the packet exports a named two-way handoff between regular Cauchy reads and located-cut completion reads before the terminal $\RealUp$ seal, without exposing quotient stream equality, selected limits, countable choice, trichotomy, primitive host cuts, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Open an accepted carrier $E=(R,W,D,L,B,E_{0},H,C,P,N)$. The forward route is forced through $R,W,D$ and then through $B,L$ because those are the only rows connecting regular Cauchy readback to located-cut completion evidence.
+
+The reverse route is forced through $L,W,D$ and then through $E_{0},R$. The same finite window schedule and dyadic ledger are reused, so the return direction stays inside displayed packet data.
+
+Rows $H$ and $C$ preserve the two routes under componentwise transport and replay. Rows $P$ and $N$ record the provenance and local naming of the paired handoff. Since the terminal $\RealUp$ seal is downstream of these rows, the consumer receives an equivalence interface rather than an ambient real-completeness theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyDedekindEquivalenceUp$ consumer that claims a two-way Cauchy--Dedekind handoff while omitting one of $R,W,D,L,B,E_{0},H,C,P,N$ refutes the carrier surface of \autoref{def:cauchy-dedekind-equivalence-carrier}.}
+
+\independenceWitness{cauchy-dedekind-bridge, located-cut-completion, regseqrat, streamname, dyadicratcore, real: $\CauchyDedekindEquivalenceUp$ is not bijective to any listed sibling because it jointly carries a forward bridge row and a reverse located-cut-to-regular-Cauchy row over the same finite windows, dyadic tolerance ledger, transport, replay, provenance, and local naming surface.}
+
+\closureat{CauchyDedekindEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyDedekindEquivalenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-dedekind-equivalence-carrier}, \autoref{thm:cauchy-dedekind-equivalence-namecert-obligations}, and \autoref{thm:cauchy-dedekind-equivalence-two-way-handoff} seed the bidirectional finite handoff between regular Cauchy readback and located-cut completion reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected limits, countable choice, trichotomy, primitive host cuts, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, forward bridge exposure, reverse located-cut-to-regular-Cauchy exposure, shared finite-window and dyadic tolerance exactness, transport and replay stability, provenance non-escape, and TasteGate field faithfulness for BEDC.Derived.CauchyDedekindEquivalenceUp.}
+  \constructivestory{A $\CauchyDedekindEquivalenceUp$ packet is generated from RegSeqRat readback, StreamName finite windows, DyadicRatCore tolerances, a LocatedCutCompletion row, a CauchyDedekindBridge row, a reverse located-cut-to-regular-Cauchy row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

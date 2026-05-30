@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailAgreementUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-agreement-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyTailAgreementUp$ packet records the standard tail-equivalence route for regular Cauchy rational names as finite BEDC NameCert data. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies Real and Completion consumers with a displayed agreement surface for two regular rational names, without quotient equality of streams, selected representatives, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular-Cauchy tail-agreement carrier]
+\label{def:regular-cauchy-tail-agreement-carrier}
+A $\RegularCauchyTailAgreementUp$ carrier is a finite $\BHist$ packet
+$$
+T=(X,Y,S,D,A,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the first $\RegSeqRatUp$ source row, read only through finite rational windows.
+\item $Y$ is the second $\RegSeqRatUp$ source row, displayed on the same tail-request surface as $X$.
+\item $S$ is the shared $\StreamNameUp$ tail schedule naming the finite windows inspected by Real and Completion consumers.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic radius, slack, and comparison budget for every displayed tail request.
+\item $A$ is the agreement row asserting that the two regular rational readbacks meet the displayed dyadic tolerance on the admitted tail windows.
+\item $R$ is the downstream $\RealUp$ handoff row, available only after $X,Y,S,D,A$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two regular sources, stream schedule, dyadic ledger, agreement row, Real handoff, and local certificate rows.
+\item $C$ records the displayed $\Cont$ replay from a tail request to the stream windows, dyadic tolerance ledger, regular rational readbacks, agreement row, and Real handoff.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailAgreementUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailAgreementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,S,D,A,R,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, countable-choice schedules, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular-Cauchy tail-agreement NameCert obligations]
+\label{thm:regular-cauchy-tail-agreement-namecert-obligations}
+For every accepted $\RegularCauchyTailAgreementUp$ carrier $T=(X,Y,S,D,A,R,H,C,P,N)$, the local $\NameCert_{\RegularCauchyTailAgreementUp}$ surface consists exactly of carrier admission for the two $\RegSeqRatUp$ source rows, shared finite $\StreamNameUp$ tail schedule, $\DyadicRatCoreUp$ tolerance ledger, agreement row, downstream $\RealUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No NameCert obligation may replace these rows by quotient stream equality, selected representatives, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-agreement-carrier}. The rows $X,Y,S,D,A,R,H,C,P,N$ are the only displayed coordinates available to the local certificate.
+
+The two regular rational sources are consumed through the same stream schedule $S$ and dyadic tolerance ledger $D$. The agreement row $A$ is therefore a finite tail-window comparison, not an equality of completed streams.
+
+The Real handoff $R$ is downstream of that finite route. Transport, replay, provenance, and local naming are supplied by $H,C,P,N$, and the carrier has no additional coordinate from which a quotient, selector, choice principle, trichotomy, host equality, or ambient completeness theorem could be projected.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy tail-agreement RegSeqRat handoff]
+\label{thm:regular-cauchy-tail-agreement-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyTailAgreementUp$ packet reads the agreement only through the displayed route
+$$
+X,Y,S,D,A,R,H,C,P,N .
+$$
+In particular, the two regular rational names are handed to downstream Real and Completion consumers as finite tail-window agreement data, not as quotient-equal streams, selected representatives, countable-choice limits, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a consumer of either regular rational source. The carrier displays $X$ and $Y$ only together with the shared stream schedule $S$ and dyadic tolerance ledger $D$.
+
+The agreement row $A$ can be read only after those windows and tolerances have been displayed. If a Real-facing consumer is present, the downstream row $R$ is available only after the same finite agreement route has been consumed.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-tail-agreement-namecert-obligations}. The support rows $H,C,P,N$ preserve, replay, source, and name this finite route, so the handoff exports no quotient stream equality, selected representative, countable-choice limit, host real equality, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy tail-agreement ledger non-escape]
+\label{thm:regular-cauchy-tail-agreement-ledger-nonescape}
+Every accepted $\RegularCauchyTailAgreementUp$ read factors through the finite $\StreamNameUp$ schedule $S$ and $\DyadicRatCoreUp$ tolerance ledger $D$ before the agreement row $A$ or the $\RealUp$ handoff $R$ can be consumed. Thus no public consumer can bypass the displayed tail ledger to obtain quotient stream equality, selected representatives, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier as $T=(X,Y,S,D,A,R,H,C,P,N)$. The only route from a tail request to an agreement read passes through the stream windows in $S$ and the dyadic tolerance data in $D$.
+
+The agreement row $A$ records the finite comparison after those two ledgers have been displayed. The Real handoff $R$ is downstream of $A$, so it cannot be inspected before the tail ledger has been consumed.
+
+The structural rows $H,C,P,N$ do not add analytic content; they transport, replay, source, and name the same finite route. Since the carrier has no row outside this route, every excluded quotient, selector, choice, trichotomy, host-equality, or ambient-completeness object is refused at the public boundary.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyTailAgreementUp$ consumer that reaches the agreement row or Real handoff without reading two RegSeqRat source rows, a shared StreamName tail schedule, and a DyadicRatCore tolerance ledger refutes the carrier surface.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real: $\RegularCauchyTailAgreementUp$ is not bijective to any listed sibling because it binds two regular rational source rows to one shared tail-agreement ledger and downstream Real handoff.}
+
+\closureat{RegularCauchyTailAgreementUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailAgreementUp}
+  \constructivestory{A $\RegularCauchyTailAgreementUp$ packet is generated from two RegSeqRat source rows, a shared StreamName tail schedule, a DyadicRatCore tolerance ledger, an agreement row, a downstream RealUp handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-agreement-carrier}, \autoref{thm:regular-cauchy-tail-agreement-namecert-obligations}, \autoref{thm:regular-cauchy-tail-agreement-regseqrat-handoff}, and \autoref{thm:regular-cauchy-tail-agreement-ledger-nonescape} seed the finite tail-equivalence route for RegSeqRat and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, countable choice, trichotomy, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove the finite NameCert obligation surface, RegSeqRat handoff, and ledger non-escape theorem.}
+\end{closurestatus}

@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\EffectiveCauchySequenceSpaceUp$}
+\label{ch:concrete-instances-effective-cauchy-sequence-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\EffectiveCauchySequenceSpaceUp$ packet records the finite effective Cauchy-sequence surface used by Real and Completion consumers before any quotient of Cauchy names is formed. It reads the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the comparison boundary of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a displayed sequence-space carrier with a replayable effective route, not a selected representative, not a host sequence type, and not ambient completeness of $\RealUp$.
+
+\begin{definition}[EffectiveCauchySequenceSpace carrier]
+\label{def:effective-cauchy-sequence-space-carrier}
+An $\EffectiveCauchySequenceSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,R,D,Q,A,T,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ window family through which sequence observations are requested.
+\item $R$ is the $\RegSeqRatUp$ readback row exposing regular rational values on those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger naming the dyadic request, halving data, and comparison cells.
+\item $Q$ is the $\CauchyEquivalenceSetoidUp$ comparison row. It records equality-facing comparison only after the windows, regular readback, and dyadic tolerance rows have been displayed.
+\item $A$ is the terminal $\RealUp$ seal row reached by the effective Cauchy route.
+\item $T$ records transport from the displayed stream windows and regular rational rows to the comparison and real-seal rows.
+\item $K$ records replay of the same route for downstream completion consumers.
+\item $H$ records componentwise $\hsame$ transport for $S,R,D,Q,A,T,K$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from finite tolerance requests through $S,R,D,Q,A,T,K,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\EffectiveCauchySequenceSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyEquivalenceSetoidUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\EffectiveCauchySequenceSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,Q,A,T,K,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[EffectiveCauchySequenceSpace NameCert obligations]
+\label{thm:effective-cauchy-sequence-space-namecert-obligations}
+For every accepted $\EffectiveCauchySequenceSpaceUp$ carrier
+$$
+E=(S,R,D,Q,A,T,K,H,C,P,N),
+$$
+the local $\NameCert_{\EffectiveCauchySequenceSpaceUp}$ surface consists exactly of carrier admission, finite StreamName window exposure, RegSeqRat readback, DyadicRatCore tolerance accounting, CauchyEquivalenceSetoid comparison routing, Real seal admission, transport, replay, componentwise $\hsame$ stability, displayed $\Cont$ continuation, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:effective-cauchy-sequence-space-carrier}. Its public rows are precisely the stream windows, regular rational readback, dyadic tolerance, setoid comparison, real seal, transport, replay, stability, continuation, provenance, and local name.
+
+The comparison row $Q$ can be read only after $S,R,D$ have been displayed. Thus equality-facing consumers first consume finite windows, rational observations, and dyadic tolerance data before they see the setoid boundary.
+
+The terminal seal $A$ is downstream of the same route and is preserved only through $T,K,H,C,P,N$. Since quotient stream equality, selected representatives, countable choice, host real equality, and ambient completeness are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[EffectiveCauchySequenceSpace regular readback route]
+\label{thm:effective-cauchy-sequence-space-regular-readback-route}
+Every regular readback exported by an accepted $\EffectiveCauchySequenceSpaceUp$ carrier factors through the displayed route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \CauchyEquivalenceSetoidUp \longmapsto \RealUp
+$$
+inside $S,R,D,Q,A,T,K,H,C,P,N$. The route exports finite observation and tolerance data for completion-facing consumers and does not export quotient equality of streams, a selected limiting representative, countable choice, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:effective-cauchy-sequence-space-namecert-obligations}. It forces a consumer to read the StreamName windows $S$ before using the RegSeqRat row $R$.
+
+The dyadic ledger $D$ supplies the requested tolerance for that readback, and the comparison row $Q$ consumes the same $S,R,D$ data before any equality-facing statement is visible.
+
+Finally the Real seal $A$ is reached only after the comparison route has been displayed. Transport and replay through $T,K,H,C,P,N$ preserve the same row order, so no quotient, selected representative, choice functional, or host equality can be inserted into the readback route.
+\end{proof}
+
+\begin{theorem}[EffectiveCauchySequenceSpace Real seal boundary]
+\label{thm:effective-cauchy-sequence-space-real-seal-boundary}
+Every $\RealUp$ consumer of an accepted $\EffectiveCauchySequenceSpaceUp$ carrier must read the real seal as the terminal row of $S,R,D,Q,A,T,K,H,C,P,N$. The seal records that the displayed effective Cauchy route may be consumed by Real and Completion chapters; it does not assert that $\RealUp$ is ambiently complete, that all Cauchy streams have selected limits, or that Cauchy-equivalent streams are identified by host equality.
+\end{theorem}
+\begin{proof}
+Project $A$ from the carrier. The definition places $A$ after the StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, and CauchyEquivalenceSetoid comparison row.
+
+Apply the regular readback route of \autoref{thm:effective-cauchy-sequence-space-regular-readback-route}. It binds every Real-facing read to the same finite observation and tolerance route before the terminal seal is consumed.
+
+The remaining rows $T,K,H,C,P,N$ transport, replay, source, and name that route. Because the carrier has no coordinate for ambient completeness, selected limits, quotient equality, or host equality, the Real seal remains a boundary row rather than a completeness theorem.
+\end{proof}
+
+\closureat{EffectiveCauchySequenceSpaceUp}{seedStr}
+
+\begin{closurestatus}{\EffectiveCauchySequenceSpaceUp}
+  \constructivestory{An $\EffectiveCauchySequenceSpaceUp$ packet is generated from finite StreamName windows, RegSeqRat readback rows, a DyadicRatCore tolerance ledger, a CauchyEquivalenceSetoid comparison row, a terminal RealUp seal, transport, replay, componentwise hsame stability, displayed Cont continuation, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:effective-cauchy-sequence-space-carrier}, \autoref{thm:effective-cauchy-sequence-space-namecert-obligations}, \autoref{thm:effective-cauchy-sequence-space-regular-readback-route}, and \autoref{thm:effective-cauchy-sequence-space-real-seal-boundary} seed the finite effective Cauchy-sequence-space route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, quotient equality of Cauchy streams, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName window exposure, RegSeqRat readback, DyadicRatCore tolerance accounting, CauchyEquivalenceSetoid comparison routing, RealUp seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.EffectiveCauchySequenceSpaceUp.}
+\end{closurestatus}

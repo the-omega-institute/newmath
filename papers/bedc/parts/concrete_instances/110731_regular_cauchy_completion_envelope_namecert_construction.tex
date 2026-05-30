@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCompletionEnvelopeUp$}
+\label{ch:concrete-instances-regular-cauchy-completion-envelope-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real completion, the $\RegularCauchyCompletionEnvelopeUp$ packet records the finite envelope that carries a regular Cauchy rational readback into the terminal Real naming seal. It sits after the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence interface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name packet of \autoref{ch:concrete-instances-real-namecert}, and the completion route of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet is a finite NameCert envelope for the handoff itself; it does not assert that the host real line is complete.
+
+\begin{definition}[Regular Cauchy completion envelope carrier]
+\label{def:regular-cauchy-completion-envelope-carrier}
+A $\RegularCauchyCompletionEnvelopeUp$ carrier is a finite packet
+$$
+E=(W,D,R,E_R,M,T,C,P,N)
+$$
+where $W$ is the displayed $\StreamNameUp$ window row, $D$ is the $\DyadicRatCoreUp$ tolerance ledger, $R$ is the $\RegSeqRatUp$ regular-rational readback row, $E_R$ is the terminal $\RealUp$ seal row, $M$ is the $\MetricCompletionUp$ route row, $T$ records componentwise $\BHist/\hsame$ transport, $C$ records displayed $\Cont$ replay, $P$ is $\Pkg$ provenance over the displayed rows, and $N$ is the local $\NameCert_{\RegularCauchyCompletionEnvelopeUp}$ row. A consumer of the carrier receives the completion handoff only through these nine coordinates.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyCompletionEnvelopeUp.RegularCauchyCompletionEnvelopeTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy completion envelope obligations]
+\label{thm:regular-cauchy-completion-envelope-namecert-obligations}
+For every accepted $\RegularCauchyCompletionEnvelopeUp$ carrier
+$$
+E=(W,D,R,E_R,M,T,C,P,N),
+$$
+the local NameCert surface consists exactly of window admission, tolerance admission, regular readback admission, terminal Real-seal admission, metric-completion route admission, transport stability, continuation replay, provenance preservation, and local naming preservation for the displayed packet. No quotient stream equality, selected representative, countable choice schedule, host completeness principle, or $\RealUp$ completeness theorem is a coordinate of this surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-completion-envelope-carrier}. Its only data rows are $W,D,R,E_R,M,T,C,P,N$, so the local NameCert can inspect exactly those displayed coordinates.
+
+The first four rows bind the finite observation, dyadic tolerance, regular rational readback, and terminal Real seal. The metric-completion row $M$ is therefore read as a route row over those data, not as an ambient completeness object.
+
+The structural rows $T,C,P,N$ preserve the same packet under componentwise transport, continuation replay, provenance, and local naming. Since the carrier has no slot for quotient stream equality, selected representatives, countable choice, host completeness, or Real completeness, none of those objects can be exported by the obligation surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy completion envelope Real handoff]
+\label{thm:regular-cauchy-completion-envelope-real-handoff}
+Every Real-facing completion consumer of an accepted $\RegularCauchyCompletionEnvelopeUp$ carrier reads the terminal handoff through the ordered finite route
+$$
+W,D,R,E_R,M,T,C,P,N.
+$$
+In particular, the consumer reaches the terminal $\RealUp$ seal only after the $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, and $\RegSeqRatUp$ readback have been displayed inside the same envelope.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:regular-cauchy-completion-envelope-namecert-obligations}. It makes $W,D,R,E_R,M,T,C,P,N$ the entire accepted surface of the envelope.
+
+Read the Real-facing route through $W,D,R,E_R$. The StreamName windows expose the finite observations, the dyadic ledger records the tolerance budget, the regular-rational row gives the readback, and the terminal row gives the Real seal inside the same packet.
+
+The completion route $M$ and the structural rows $T,C,P,N$ only replay and name that displayed handoff. Thus the consumer cannot replace the handoff by quotient stream equality, a chosen representative, countable choice, host completeness, or a completeness theorem for $\RealUp$.
+\end{proof}
+
+\closureat{RegularCauchyCompletionEnvelopeUp}{seedStr}
+\begin{closurestatus}{\RegularCauchyCompletionEnvelopeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-completion-envelope-carrier}, \autoref{thm:regular-cauchy-completion-envelope-namecert-obligations}, and \autoref{thm:regular-cauchy-completion-envelope-real-handoff} seed the finite regular-Cauchy-to-Real completion envelope.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyCompletionEnvelopeUp.RegularCauchyCompletionEnvelopeTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, countable choice, host completeness, or $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, row order, Real handoff, transport stability, replay stability, provenance preservation, and local NameCert preservation for BEDC.Derived.RegularCauchyCompletionEnvelopeUp.}
+  \constructivestory{A $\RegularCauchyCompletionEnvelopeUp$ packet is generated from StreamName windows, DyadicRatCore tolerance, RegSeqRat readback, terminal Real seal, metric-completion routing, transport, replay, provenance, and local NameCert rows.}
+\end{closurestatus}

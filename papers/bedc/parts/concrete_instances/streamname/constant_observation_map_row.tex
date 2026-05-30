@@ -23,3 +23,15 @@ For pointwise mapping, evaluate the original carrier and classifier rows at the 
 
 Finally repack the transported rows into the public StreamName packet. The route exports the same finite StreamName, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ fields after these two transports, so downstream $\RegSeqRatUp$ and $\RealUp$ consumers receive a non-quotient mapped-stream handoff rather than an added completion coordinate.
 \end{proof}
+
+\begin{theorem}[StreamName constant observation map composition]
+\label{thm:streamname-constant-observation-map-composition}
+Let $x$ be a certified point row over the L10 source, let $r$ be a unary reindexing map on finite histories, and let $F$ be a pointwise map on rational-history observations. Suppose $r$ sends every unary window to a unary window, $F$ preserves the $\RatHistoryUp$ carrier, and $F$ preserves the $\RatHistoryUp$ classifier. Then the pointwise map of the constant observation $\StreamNameUp$ packet for $x$ factors through the same finite constant schedule after reindexing by $r$. The exported row contains only the finite $\StreamNameUp$ carrier and classifier, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ data, and it exports no quotient stream equality, selected real value, or real-completeness row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-constant-observation-map-row} to the certified point row $x$. This gives the constant observation StreamName packet on every unary finite window, with its classifier, transport, continuation, package, and local naming rows read from the same constant schedule.
+
+Next apply \autoref{thm:streamname-pointwise-map-stability} to the reindexing map $r$ and the pointwise rational-history map $F$. The hypotheses on $r$ and $F$ transport the carrier and classifier rows windowwise, while preserving the finite StreamName support.
+
+The constant schedule has no additional coordinate beyond the certified point row and the displayed unary window. Therefore after reindexing, the mapped packet still factors through the same finite constant schedule and repacks only the StreamName carrier, classifier, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows for downstream RegSeqRat and Real consumers.
+\end{proof}

@@ -55,6 +55,7 @@ The Darboux-sum and gap rows are then inspected as ledger coordinates. Since eve
 \label{thm:darboux-integral-partition-carrier-admission}
 Let $D=(P,U,L,SU,SL,G,R,H,C,N)$ be an accepted $\DarbouxIntegralUp$ carrier. A Darboux-integral read is admitted only when the finite $\BHist$ partition row $P$ displays a closed interval source, a bounded real function row, the cell ledger used by the upper and lower step approximants, and the local $\NameCert_{\DarbouxIntegralUp}$ carrier row. The admission route is transported by the componentwise $\hsame$ rows in $H$, replayed by $C$, and sourced by the $\Pkg$ provenance inside $N$; it does not introduce Lebesgue measure, choice-selected partitions, or ambient real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DarbouxIntegralUp.DarbouxIntegralPacket\_partition\_carrier\_admission}
 \begin{proof}
 Project the carrier of \autoref{def:darboux-integral-carrier}. The partition row $P$ is the only source row from which cells can be read, and the upper and lower approximants $U,L$ are downstream of that same finite ledger.
 
@@ -67,6 +68,7 @@ The structural rows preserve admission. Componentwise $\hsame$ transport in $H$,
 \label{thm:darboux-integral-upper-lower-sum-ledger}
 For every accepted $\DarbouxIntegralUp$ carrier $D=(P,U,L,SU,SL,G,R,H,C,N)$, the upper and lower sum rows $SU$ and $SL$ are computed from the displayed partition row $P$, the upper and lower $\DyadicStepFunctionUp$ rows $U,L$, and the carried Rational and Real sum ledgers. Componentwise $\hsame$ transport preserves the same cell list and value reads before the gap row $G$ is inspected, and $\Cont$ replay exposes no host Riemann-sum oracle or choice-selected tags.
 \end{theorem}
+\leanchecked{BEDC.Derived.DarbouxIntegralUp.DarbouxIntegralPacket\_upper\_lower\_sum\_ledger}
 \begin{proof}
 Start from \autoref{thm:darboux-integral-partition-carrier-admission}. The accepted read has already displayed the closed interval source, bounded function row, and finite partition ledger.
 
@@ -79,6 +81,7 @@ Transport through $H$ keeps the partition cells and value rows aligned. The Rati
 \label{thm:darboux-integral-cauchy-gap-nonescape}
 Let $D=(P,U,L,SU,SL,G,R,H,C,N)$ be an accepted $\DarbouxIntegralUp$ carrier. Any Cauchy-facing or $\IntegralUp$ consumer that reads the gap row $G$ must first consume the partition admission route and the upper/lower sum ledger, then read the $\RegSeqRatUp/\RealUp$ handoff row $R$ through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ surface. The gap cannot escape to Lebesgue measure, choice-selected partitions, quotient function equality, host completeness, or a detached real sequence.
 \end{theorem}
+\leanchecked{BEDC.Derived.DarbouxIntegralUp.DarbouxIntegralPacket\_cauchy\_gap\_nonescape}
 \begin{proof}
 Apply \autoref{thm:darboux-integral-partition-carrier-admission}. It places the gap consumer behind the displayed partition row, closed interval source, bounded function row, and local carrier admission.
 
@@ -113,14 +116,33 @@ Use \autoref{thm:darboux-integral-upper-lower-sum-gap} to route every consumer-v
 Finally pass the same rows to the $\IntegralUp$ consumer boundary. That boundary receives the partition, step-function, sum, gap, handoff, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows named by the packet, and no additional analytic surface is available.
 \end{proof}
 
-\closureat{DarbouxIntegralUp}{scopedStr}[\autoref{thm:darboux-integral-real-handoff}]
+\begin{theorem}[Darboux public gap seal]
+\label{thm:darboux-integral-public-gap-seal}
+Every $\IntegralUp$-facing public read of an accepted $\DarbouxIntegralUp$ packet factors through the displayed $\PartitionUp$ row, $\DyadicStepFunctionUp$ upper and lower approximants, finite Darboux sum rows, gap ledger $G$, $\RegSeqRatUp$ handoff, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DarbouxIntegralUp}$ rows before any public integral seal is visible. No public gap seal exports a host integrand equality, measure completion, selected tag family, quotient function equality, detached real sequence, or ambient real-completeness witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.DarbouxIntegralUp.DarbouxIntegralPacket\_public\_gap\_seal}
+\begin{proof}
+Start from \autoref{thm:darboux-integral-namecert-obligations}. The carrier and obligation rows expose the partition, upper and lower step approximants, finite sums, gap ledger, handoff rows, structural transport, replay, provenance, and local naming as the whole public surface.
+
+Use \autoref{thm:darboux-integral-cauchy-gap-nonescape}. It places every Cauchy-facing or $\IntegralUp$-facing read of $G$ behind partition admission, the upper/lower sum ledger, and the $\RegSeqRatUp/\RealUp$ handoff through the same finite packet.
+
+Finally apply \autoref{thm:darboux-integral-real-handoff}. The consumer boundary receives exactly the partition, step-function, sum, gap, regular-rational, real-name, transport, replay, provenance, and local NameCert rows. Since the carrier has no coordinate for the excluded host data, the public integral seal can only be reached through those rows.
+\end{proof}
+
+\closureat{DarbouxIntegralUp}{bridgedStr}[\autoref{thm:darboux-integral-real-handoff}, \autoref{thm:darboux-integral-public-gap-seal}]
+
+\begin{definition}[Darboux integral mature boundary]
+\label{def:darboux-integral-mature-boundary}
+The mature $\DarbouxIntegralUp$ boundary is the finite packet formed by the carrier of \autoref{def:darboux-integral-carrier}, the NameCert obligations of \autoref{thm:darboux-integral-namecert-obligations}, the partition admission route, upper/lower sum ledger, Cauchy gap nonescape row, refinement-stable gap theorem, real handoff, and public gap seal of this chapter. Its public surface contains the partition-refinement examples, the non-escape rows excluding measure completion, selected tags, quotient function equality, host integrand equality, detached real sequences, and ambient real-completeness data, and the bridge-facing finite partition boundary recorded by \autoref{thm:darboux-integral-real-handoff} and \autoref{thm:darboux-integral-public-gap-seal}. No additional analytic coordinate is part of the mature packet.
+\end{definition}
+\leanchecked{BEDC.Derived.DarbouxIntegralUp.DarbouxIntegralPacket\_mature\_boundary\_certificate}
 
 \begin{closurestatus}{\DarbouxIntegralUp}
   \constructivestory{A $\DarbouxIntegralUp$ packet is generated from a finite partition row, upper and lower $\DyadicStepFunctionUp$ approximants, upper and lower Darboux sum rows, a visible gap ledger, a $\RegSeqRatUp/\RealUp$ handoff surface, componentwise $\hsame$ transports, finite $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:darboux-integral-carrier}, \autoref{thm:darboux-integral-namecert-obligations}, \autoref{thm:darboux-integral-upper-lower-sum-gap}, and \autoref{thm:darboux-integral-real-handoff} seed the finite Darboux integration boundary over $\PartitionUp$, $\DyadicStepFunctionUp$, $\RegSeqRatUp$, $\RealUp$, and $\IntegralUp$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:darboux-integral-carrier}, \autoref{thm:darboux-integral-namecert-obligations}, \autoref{thm:darboux-integral-upper-lower-sum-gap}, \autoref{thm:darboux-integral-real-handoff}, and \autoref{def:darboux-integral-mature-boundary} bind the mature finite-partition Darboux real handoff over $\PartitionUp$, $\DyadicStepFunctionUp$, $\RegSeqRatUp$, $\RealUp$, and $\IntegralUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a measure completion, quotient function space, selected tag family, host integrand equality, ambient real-completeness theorem, Lean verification, or bridge checking.}
-  \upgradepath{A formal route can encode the finite carrier and prove the NameCert obligation surface, gap preservation theorem, and IntegralUp handoff theorem.}
+  \upgradepath{The next theory step is a bridge theorem relating the public Darboux real handoff to the standard integration boundary.}
 \end{closurestatus}

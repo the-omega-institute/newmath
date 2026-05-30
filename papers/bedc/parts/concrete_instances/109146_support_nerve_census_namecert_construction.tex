@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\SupportNerveCensusUp$}
+\label{ch:concrete-instances-support-nerve-census-namecert}
+\origin{human}
+
+Following the finite theory of abstract simplicial complexes, nerves, and Hochster-style Betti bookkeeping, the $\SupportNerveCensusUp$ packet records the support-family census of \autoref{thm:philosophy-support-nerve-census} as finite NameCert data. It sits beside the simplicial-complex carrier of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, the finite simplicial-chain carrier of \autoref{ch:concrete-instances-finite-simplicial-chain-namecert}, the Hochster nerve--Betti reduction of \autoref{ch:concrete-instances-hochster-nerve-betti-reduction-namecert}, and the Hilbert--Alexander blocker packet of \autoref{ch:concrete-instances-hilbert-alexander-blocker-namecert}. The packet names the finite table of support nerves, reduced Betti signatures, top-support criterion, and lifted-Betti handoff; it does not import an unrestricted resolution, a host homology computation, coefficient-field choice, or ambient equality of Betti tables.
+
+\begin{definition}[Support nerve census carrier]
+\label{def:support-nerve-census-carrier}
+A $\SupportNerveCensusUp$ carrier is a finite $\BHist$ packet
+$$
+C=(S,A,N,B,T,L,H,R,P,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the support-type row, displaying the fifteen nonempty support symbols and the four singleton support entries used by the top-support criterion.
+\item $A$ is the finite support-family row, recording the inspected family $A\subseteq\mathcal{S}$ and its cardinality bucket.
+\item $N$ is the $\SimplicialComplexUp$ nerve row, listing the faces of the support nerve $N_A$ on four vertices.
+\item $B$ is the reduced Betti-signature row, recording the displayed tuple $(\widetilde{\beta}_{-1},\widetilde{\beta}_{0},\widetilde{\beta}_{1},\widetilde{\beta}_{2})$.
+\item $T$ is the top-support row, recording whether the four singleton supports are present and therefore whether the top homology case is exposed.
+\item $L$ is the lifted-Betti row, reading the finite support-level table through the codon lift substitution of \autoref{thm:philosophy-support-nerve-census-theorem}.
+\item $H$ records componentwise $\hsame$ transport for $S,A,N,B,T,L$ and for the replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from support-family inspection through nerve formation, finite homology readback, Betti-signature table lookup, top-support checking, and lifted-Betti handoff.
+\item $P$ is the $\Pkg$ provenance over $\SupportNerveCensusUp$, $\SimplicialComplexUp$, $\FiniteSimplicialChainUp$, $\HochsterNerveBettiReductionUp$, $\HilbertAlexanderBlockerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $M$ is the local $\NameCert_{\SupportNerveCensusUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,A,N,B,T,L,H,R,P,M$. It has no coordinate for an unrestricted minimal resolution, host chain-complex equality, coefficient-field selection, unbounded simplicial homology, ambient Betti-table equality, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Support nerve census NameCert obligations]
+\label{thm:support-nerve-census-namecert-obligations}
+For every accepted $\SupportNerveCensusUp$ carrier $C=(S,A,N,B,T,L,H,R,P,M)$, the local $\NameCert_{\SupportNerveCensusUp}$ surface consists exactly of support-type exposure, finite support-family exposure, $\SimplicialComplexUp$ nerve exposure, finite reduced-Betti signature readback, top-support criterion exposure, lifted-Betti handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:support-nerve-census-carrier}. The rows $S,A,N$ display the finite support universe, the inspected support family, and the resulting four-vertex support nerve.
+
+The census data are exactly $B,T,L$. The Betti row records the reduced signature for the displayed nerve, the top-support row records the singleton-support criterion of \autoref{thm:philosophy-top-support-nerve-criterion}, and the lifted row records the finite handoff used by \autoref{thm:philosophy-support-nerve-census-theorem}.
+
+The structural rows $H,R,P,M$ transport, replay, source, and name the same finite table. Since the packet contains no coordinate for unrestricted resolutions, host chain-complex equality, coefficient-field selection, unbounded homology, or ambient Betti-table equality, the listed rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[Support nerve census lifted Betti handoff]
+\label{thm:support-nerve-census-lifted-betti-handoff}
+Every lifted-Betti consumer of an accepted $\SupportNerveCensusUp$ carrier reads the finite route
+$$
+\SimplicialComplexUp
+\longmapsto
+\FiniteSimplicialChainUp
+\longmapsto
+\HochsterNerveBettiReductionUp
+\longmapsto
+\SupportNerveCensusUp .
+$$
+The route exposes the support nerve, finite chain readback, reduced Betti-signature table, top-support criterion, and codon-lift handoff before any lifted Betti entry is exported. It exports no unrestricted minimal resolution, host homology computation, coefficient-field choice, or ambient equality of Betti tables.
+\end{theorem}
+\begin{proof}
+Start with the support-family and nerve rows $S,A,N$. These rows construct a finite four-vertex simplicial complex and therefore keep the computation inside the visible support nerve.
+
+Next read $B$ and $T$. The reduced Betti-signature row is a finite table lookup through the same finite chain surface used by the Hochster nerve--Betti reduction, and the top-support row records the singleton-support criterion rather than an ambient homology theorem.
+
+Finally apply the lifted row $L$ and the structural rows $H,R,P,M$. The continuation row fixes the order from support-family inspection to lifted-Betti export, and the provenance and name rows keep the result attached to the displayed packet. Thus the lifted table is exported only as finite NameCert data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SupportNerveCensusUp$ consumer must expose support-type rows, finite support-family rows, a $\SimplicialComplexUp$ nerve row, a reduced Betti-signature row, a top-support criterion row, a lifted-Betti handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before a lifted Betti entry is available.}
+
+\independenceWitness{Nearest siblings: SimplicialComplex, FiniteSimplicialChain, HochsterNerveBettiReduction, HilbertAlexanderBlocker, and the support-nerve census theorem in the vision section. The packet is not any one sibling because it binds the full finite support-family census, signature table, top-support criterion, and lifted-Betti handoff into one local NameCert surface.}
+
+\closureat{SupportNerveCensusUp}{seedStr}
+
+\begin{closurestatus}{\SupportNerveCensusUp}
+  \constructivestory{A $\SupportNerveCensusUp$ packet is generated from support-type rows, finite support-family rows, SimplicialComplexUp nerve rows, finite reduced-Betti signature rows, top-support criterion rows, lifted-Betti handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:support-nerve-census-carrier}, \autoref{thm:support-nerve-census-namecert-obligations}, and \autoref{thm:support-nerve-census-lifted-betti-handoff} seed the finite support-nerve census packet and its lifted-Betti handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted minimal resolutions, host homology computations, coefficient-field choice, unbounded simplicial homology, ambient Betti-table equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked support-family exposure, nerve exposure, finite chain readback, reduced Betti-signature table lookup, top-support criterion, lifted-Betti handoff, transport, replay, provenance, and local naming for BEDC.Derived.SupportNerveCensusUp.}
+\end{closurestatus}

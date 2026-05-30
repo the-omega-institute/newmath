@@ -62,6 +62,24 @@ Replay $C$. The request first reads the unary threshold, then the finite complem
 Transport by $H$ preserves this order under classifier movement, while $P$ and $N$ name the same local packet. Therefore a tail-neighborhood read cannot bypass the finite threshold and finite-complement surface.
 \end{proof}
 
+\begin{theorem}[FrechetFilter common-tail refinement]
+\label{thm:frechet-filter-tail-common-refinement}
+Let $F=(U,T,S,Q,R,A,H,C,P,N)$ and $F'=(U',T',S',Q',R',A',H',C',P',N')$ be two accepted $\FrechetFilterUp$ carriers over the same finite-tail filter row. Then the two unary threshold requests admit a displayed common tail threshold $W$ read through that finite-tail row, with $W$ above both $U$ and $U'$ by BEDC row comparison. Every $\StreamNameUp$, $\CauchyFilterUp$, $\RegSeqRatUp$, and $\RealUp$ consumer of the two requests factors through the same finite cofinite-tail surface
+$$
+U,U',T \longmapsto W \longmapsto S,Q,R,A .
+$$
+The refinement exports neither quotient filter equality, selected limits, countable-choice tail selectors, nor ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the two carriers and read their unary threshold rows $U$ and $U'$ over the shared finite-tail filter row. Since the thresholds are displayed unary $\NatUp$ rows, the finite-tail row supplies the BEDC row comparison needed to choose the larger displayed threshold as $W$.
+
+Replay both requests through their continuation rows. The request from $F$ reaches the shared tail surface by first consuming $U$ and $T$, while the request from $F'$ reaches it by first consuming $U'$ and the same finite-tail row. The common threshold $W$ refines both routes, so any tail window admitted after $W$ is admitted for both original requests.
+
+Now apply the handoff route of \autoref{thm:frechet-filter-tail-neighborhood-handoff}. A $\StreamNameUp$ consumer reads only the finite cofinite-tail surface determined by $W$ before inspecting schedule data.
+
+For Cauchy and Real-facing consumers, apply \autoref{thm:frechet-filter-cauchy-source-boundary} and \autoref{thm:frechet-filter-real-completion-consumer-route}. These routes force the $\CauchyFilterUp$ handoff, $\RegSeqRatUp$ readback, and $\RealUp$ seal to factor through the same common finite tail. Hence the refinement cannot expose quotient filter equality, selected limits, countable-choice selectors, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[FrechetFilter Cauchy-source boundary]
 \label{thm:frechet-filter-cauchy-source-boundary}
 Let $F=(U,T,S,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. Every $\CauchyFilterUp$ source read exported from the packet factors through

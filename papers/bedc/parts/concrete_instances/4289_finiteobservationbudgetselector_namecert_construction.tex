@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-finiteobservationbudgetselector-namecert}
 \origin{human}
 
-The $\FiniteObservationBudgetSelectorUp$ packet names the finite observation budget used by the Real completeness route of \autoref{ch:visions-real-completeness}. It sits between the precision-to-window schedule of \autoref{ch:concrete-instances-choice-free-limit-schedule-namecert}, the selected-tail surface of \autoref{ch:concrete-instances-regularcauchytailselector-namecert}, and the diagonal completion packet of \autoref{ch:concrete-instances-real-diagonal-completion-namecert}; its role is to expose the bounded rows a diagonal consumer may inspect before the $\RealUp$ seal is reached.
+The $\FiniteObservationBudgetSelectorUp$ packet names the finite observation budget used by the Real completeness route of \autoref{ch:visions-real-completeness}. It sits between the precision-to-window schedule of \autoref{ch:concrete-instances-choice-free-limit-schedule-namecert}, the selected-tail surface of \autoref{ch:concrete-instances-reg-cauchy-tail-sel-namecert}, and the diagonal completion packet of \autoref{ch:concrete-instances-real-diagonal-completion-namecert}; its role is to expose the bounded rows a diagonal consumer may inspect before the $\RealUp$ seal is reached.
 
 \begin{definition}[Finite observation-budget selector carrier]
 \label{def:finite-observation-budget-selector-carrier}
@@ -70,7 +70,7 @@ For every accepted $\FiniteObservationBudgetSelectorUp$ packet, each $\RealUp$ s
 $$
 B \to S \to W \to D \to R.
 $$
-The handoff is compatible with the selected-tail route of \autoref{ch:concrete-instances-regularcauchytailselector-namecert} and with the diagonal-completion route of \autoref{ch:concrete-instances-real-diagonal-completion-namecert}, because all three surfaces read only displayed $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledgers, $\RegSeqRatUp$ handoff rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ rows before exposing a $\RealUp$ seal.
+The handoff is compatible with the selected-tail route of \autoref{ch:concrete-instances-reg-cauchy-tail-sel-namecert} and with the diagonal-completion route of \autoref{ch:concrete-instances-real-diagonal-completion-namecert}, because all three surfaces read only displayed $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledgers, $\RegSeqRatUp$ handoff rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and $\NameCert$ rows before exposing a $\RealUp$ seal.
 \end{theorem}
 \begin{proof}
 Project the seal coordinate from the carrier. The definition places $E$ after the budget, selected schedule, selected windows, dyadic ledger, and $\RegSeqRatUp$ handoff, and the continuation coordinate records the route into $E$.
@@ -94,7 +94,7 @@ First use the local carrier and NameCert obligations of \autoref{def:finite-obse
 
 Next attach the seal endpoint. By \autoref{thm:finite-observation-budget-selector-real-seal-handoff}, every Real-facing read of $E$ already factors through $B \to S \to W \to D \to R$. Thus a $\CauchyLimitSealUp$ consumer can reach the seal only by appending $E$ to the same finite chain.
 
-Finally compare the sibling consumers already cited by the chapter. The $\RegularCauchyTailSelectorUp$ route of \autoref{ch:concrete-instances-regularcauchytailselector-namecert} reads a displayed tail-selection service, and the $\RealDiagonalCompletionUp$ route of \autoref{ch:concrete-instances-real-diagonal-completion-namecert} reads a displayed diagonal-completion service. Since $F$ supplies only $B,S,W,D,R,E,H,C,P,N$, both consumers share the same budget-to-seal chain and cannot import hidden selectors, quotient streams, host equality, or ambient completeness rows.
+Finally compare the sibling consumers already cited by the chapter. The $\RegularCauchyTailSelectorUp$ route of \autoref{ch:concrete-instances-reg-cauchy-tail-sel-namecert} reads a displayed tail-selection service, and the $\RealDiagonalCompletionUp$ route of \autoref{ch:concrete-instances-real-diagonal-completion-namecert} reads a displayed diagonal-completion service. Since $F$ supplies only $B,S,W,D,R,E,H,C,P,N$, both consumers share the same budget-to-seal chain and cannot import hidden selectors, quotient streams, host equality, or ambient completeness rows.
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteObservationBudgetSelectorUp.FiniteObservationBudgetSelectorCarrier\_tail\_meet\_seal\_compatibility}
 
@@ -180,7 +180,7 @@ Every diagonal-limit or Real-completion consumer that uses an accepted $\FiniteO
 $$
 B \to S \to W \to D \to R \to E
 $$
-together with the $H,C,P,N$ rows. This is the boundary needed by the Real-completeness vision of \autoref{ch:visions-real-completeness}, the selected-tail surface of \autoref{ch:concrete-instances-regularcauchytailselector-namecert}, and the diagonal-completion packet of \autoref{ch:concrete-instances-real-diagonal-completion-namecert}: each such consumer may use the finite budget route, but it receives no quotient stream, host real equality, countable choice, hidden selector, or independent completeness oracle from this selector.
+together with the $H,C,P,N$ rows. This is the boundary needed by the Real-completeness vision of \autoref{ch:visions-real-completeness}, the selected-tail surface of \autoref{ch:concrete-instances-reg-cauchy-tail-sel-namecert}, and the diagonal-completion packet of \autoref{ch:concrete-instances-real-diagonal-completion-namecert}: each such consumer may use the finite budget route, but it receives no quotient stream, host real equality, countable choice, hidden selector, or independent completeness oracle from this selector.
 \end{theorem}
 \begin{proof}
 Begin with the non-escape theorem. It already states that Real-completion, diagonal-limit, tail-selection, and schedule consumers of an accepted packet factor through the displayed finite packet and cannot inspect excluded analytic objects.

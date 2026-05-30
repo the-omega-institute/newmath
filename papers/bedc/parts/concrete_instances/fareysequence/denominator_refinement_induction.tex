@@ -1,0 +1,51 @@
+\begin{theorem}[Farey sequence denominator-refinement induction]
+\label{thm:farey-sequence-denominator-refinement-induction}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the finite refinement route induced by the denominator-bound row $L$ is obtained by induction over the displayed level budget and the mediant row $M$. The base level reads the boundary row $B$ unchanged; each successor level inspects adjacent entries through $A$, inserts exactly the mediant row admitted by $M$ when $L$ permits the denominator, and transports the resulting boundary through $T,S,H,C,P,N$ before any $D,Q,W,R,G,E$ consumer is available.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:farey-sequence-carrier} to expose the finite rows $B,A,M,L,T,S,H,C,P,N$. The denominator-bound window of \autoref{thm:farey-sequence-denominator-bound-window} makes $L$ visible before a refinement or approximation consumer can read the route.
+
+The induction is a sibling-consuming route through \autoref{ch:concrete-instances-stern-brocot-namecert} for adjacent mediants and through \autoref{ch:concrete-instances-dyadicratcore-namecert} for the dyadic tolerance budget before any $\RegSeqRatUp$ or $\RealUp$ consumer can read the bracket.
+
+The base level is the displayed boundary row $B$. No adjacent insertion is required, so carrier admission and the NameCert obligations of \autoref{thm:farey-sequence-namecert-obligations} supply the whole packet at that level.
+
+For the successor level, inspect one adjacent pair through $A$. The mediant refinement stability theorem \autoref{thm:farey-sequence-mediant-refinement-stability} identifies $M$ as the inserted numerator-denominator row, while denominator and tolerance control from \autoref{thm:farey-sequence-denominator-tolerance-control} keeps the insertion under $L,T$.
+
+Apply the induction hypothesis to the remaining displayed boundary. Approximation-window factorization from \autoref{thm:farey-sequence-approximation-window-factorization} keeps $D,Q,W,R,G,E$ downstream of the finite route, so the induction never imports host order, selected approximants, quotient Real equality, trichotomy, choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Farey sequence finite mediant coverage]
+\label{thm:farey-sequence-finite-mediant-coverage}
+For every accepted $\FareySequenceUp$ carrier $F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)$, each boundary inserted by a displayed mediant refinement remains routed through $A,S,L,T$. Consequently every inserted rational boundary is covered by the same determinant-one adjacency ledger, Stern--Brocot handoff, denominator cap, and dyadic tolerance rows before it can be read by $D,Q,W,R,G,E$.
+\end{theorem}
+\begin{proof}
+Start with an inserted boundary row. By mediant refinement stability, the row is produced from an adjacent pair already named by $B$ and checked by $A$.
+
+The finite tree-facing route is supplied by $S$. The Stern--Brocot handoff lock of \autoref{thm:farey-sequence-stern-brocot-handoff-lock} keeps every successor or approximation read that consumes $M$ behind $A,L,T,S$.
+
+The budget rows are $L,T$. Denominator and tolerance control says that no second host bound or selected modulus can enter any read of $M,S,D,Q,W,R,G,E$.
+
+Finally apply approximation-window factorization. The downstream rational, stream, regular-readback, approximation, and Real-seal rows remain after $A,S,L,T$, so each inserted boundary has finite mediant coverage through the displayed packet rows.
+\end{proof}
+
+\begin{theorem}[Farey sequence Real-bracket consumer lock]
+\label{thm:farey-sequence-real-bracket-consumer-lock}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+any Real-facing bracket consumer must read $B,A,M,L,T,S,Q,W,R,G,E$ before the terminal seal is consumed. In particular, no $\RealRationalApproximationUp$ or $\RealUp$ consumer can bypass the displayed boundary, adjacency, mediant, denominator, tolerance, Stern--Brocot, rational-source, stream-window, regular-readback, approximation, and seal rows.
+\end{theorem}
+\begin{proof}
+Begin with the approximation-window factorization theorem. It places each Real-facing read behind the ordered boundary, determinant-one adjacency ledger, mediant row, denominator and tolerance rows, Stern--Brocot handoff, stream window, regular readback, approximation handoff, and terminal seal.
+
+Use finite mediant coverage above for inserted boundaries. Every boundary created by refinement remains under $A,S,L,T$, so the bracket read cannot detach a refined endpoint from its finite denominator and tolerance budget.
+
+The rational-source and readback rows are then $Q,W,R,G,E$. The Real readback root obligation of \autoref{thm:farey-sequence-real-readback-root-obligation} and the approximation ledger non-escape theorem of \autoref{thm:farey-sequence-real-approximation-ledger-nonescape} keep those rows inside the same displayed Farey packet.
+
+Thus every Real-bracket consumer reads $B,A,M,L,T,S,Q,W,R,G,E$ before the seal. The carrier contains no quotient Real equality, selected best approximant, host order, trichotomy, countable choice, or ambient completeness coordinate that could supply an alternate bracket route.
+\end{proof}

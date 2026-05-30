@@ -4,7 +4,7 @@
 
 ## 环境与工具链
 
-- Python: 使用 `python3` (stdlib only, 工具脚本无第三方依赖)
+- Python: 使用 `python3`
 - LaTeX: 使用 `pdflatex`(BEDC 论文体内零中文; 顶层 README/CLAUDE/AGENTS 用中文但不进入 PDF)
 - Lean 4: `lake build`; `lean4/` 为 **mathlib-free** 形式化, 从 first principles 起步
 - 单个 `.tex` 文件不超过 800 行, 超过须**直接 split** 出 sibling 文件, 把相对独立的子主题搬过去并 `\input` 进来. **禁止用任何"压缩空行 / 删空白行 / 把多行合并成一行"等格式压缩动作来给文件腾空间**: 这类动作不传达任何理论内容, 是 code-debt churn, 也会让 git diff 噪音盖过真正的语义改动. 若 split 不出明显独立的子主题, 报告原因, 不要伪装成靠空行省下来的改动
@@ -62,6 +62,8 @@
 - **规范 / 不变量 / 命名约定 / 工作流程** → 唯一源是本 `CLAUDE.md`. 任何其他文档若描述规范, 引这里, 不复述
 - **形式化事实** (定理状态、章节存在性、闭合等级、命名空间命中点、saturation 数字) → 唯一源是 `lean4/BEDC/` + `papers/bedc/parts/` 的实际内容, 通过 `bedc_ci.py` / `critical_path.py` / `grep` 实时读出, 任何文档不缓存这些数字
 - **工具能力** (脚本子命令、参数、输出格式) → 唯一源是脚本自身的 `--help` 与 `--json` 输出, 本文档不列子命令清单
+
+这条约束针对**理论事实 / 规范 / 命名**这类语义内容, **不针对 CI / 基础设施运维配置值** (容器镜像名、base image digest、版本 pin 等). 后者天然出现在多个 entry workflow, 小重复属运维常态, 不构成"同义说明漂移": 不要为消除这类重复引入 repo variable / 一致性守护测试 / sha256 验证等 over-engineering. 一个镜像名就是一个镜像名, 直接硬编码即可.
 
 **Skill / memory / 文件内注释纪律**:
 
@@ -529,3 +531,16 @@ Key routing rules:
 - Security audit, threat model, OWASP review → `/cso`
 - Docs sync after shipping → `/document-release`
 - Auto-run full review gauntlet → `/autoplan`
+
+---
+
+# Dogfooding: consensus-rnd skills 库
+
+本仓库是 [`ChronoAIProject/consensus-rnd`](https://github.com/ChronoAIProject/consensus-rnd) 的 **dogfooding 现场**. 我们(`aloning@gmail.com` / @Loning)是该 skills 库的开发者, 用 newmath 作为真实 host 跑它的引擎(目前的 `codex-refactor-loop` 等), 反过来打磨 skill 本身.
+
+**纪律**:
+
+- 用 `codex-refactor-loop` 或库中任何 skill 时, 若遇到 bug / 模糊指令 / host 写死 / 概念漂移 / 不够通用 → **反馈回 `ChronoAIProject/consensus-rnd`**(开 issue 或直接改 skill repo + PR), 不要在 newmath 这边静默 work around. 默默 work around 会丢失 dogfooding 信号, 让 skill 永远以为自己 OK.
+- 反馈优先级: skill 行为不通用 / 写死了 host 假设(如默认 `dotnet build` 或固定 `auto-refact-dev` 分支名) > 文档与代码冲突 > prompt 模糊 > 拼写/格式.
+- skill 内部假设(`$BUILD_CMD` / `$INTEGRATION_BRANCH` / `$REVIEW_BASE_BRANCH` / `$PROJECT_RULES` 等)通过 `$REPO_ROOT/.refactor-loop/host.env` 注入. newmath 的 host.env 是真值, 不要改 skill 去迁就 newmath; 是 skill 该可参数化时, 改 skill.
+- 已知泛化方向(见上游 README): 抽出 `solve → consensus → implement → verify` 引擎脊柱, 让 audit seed 可替换; 去除"refactor"语义壳. 在 newmath 上发现的具体卡点是这条路线的输入.

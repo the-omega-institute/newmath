@@ -52,6 +52,19 @@ No judgment \(\mathsf{Unary}(\Ezero(h))\) is generated.
 By closed generation for \(\mathsf{Unary}\), the only extension rule uses \(\Eone\). No \(\Ezero\)-extension constructor is displayed.
 \end{proof}
 
+\begin{theorem}[Nat unary terminal empty classifier]
+\label{thm:nat-unary-terminal-empty-classifier}
+Any accepted $\NatUp$ unary-history read whose displayed continuation tail is $\emp$ classifies to the empty endpoint route of the unary carrier. Conversely, any nonempty accepted $\NatUp$ read must arise through repeated $\Eone$ extension from the empty endpoint, never through an $\Ezero$ branch. Downstream $\AddUp$ source-spine reads therefore use this empty classifier as the base case before continuation tails are consumed as addition rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryTerminal\_empty\_classifier}
+\begin{proof}
+For the terminal case, unfold the unary history judgment of \autoref{def:unary-history-judgment}. The displayed empty tail is the endpoint route, so the read exposes the base generator $\mathsf{Unary}(\emp)$ and no predecessor row.
+
+For a nonempty accepted read, use closed generation of the same judgment. The only displayed extension rule is \autoref{lem:unary-closure-under-one-extension}; \autoref{lem:unary-no-zero-extension} removes every $\Ezero$-headed branch. Hence each nonempty accepted history is obtained by iterating $\Eone$ from $\emp$.
+
+The addition source spine of \autoref{thm:nat-add-source-spine-forward-link} consumes exactly this dichotomy. Its base continuation is the empty classifier route, and each nonempty continuation step is a one-extension row available to the $\AddUp$ certificate.
+\end{proof}
+
 \begin{theorem}[Unary prefix totality]
 \label{thm:nat-unary-prefix-total}
 If \(h\) and \(k\) are unary histories, then either \(h\) continues by a unary
@@ -510,6 +523,7 @@ therefore rejected at the boundary.
 \label{prop:nat-unary-history-codomain-mirror-boundary}
 For the $\NatUp$ certificate of \autoref{thm:concrete-natup-namecert}, the unary history judgment has no independent codomain mirror row. A unary domain row is a single witness $\Unary(h)$, and the source, pattern, stability, and ledger fields of \autoref{def:unary-source-specification}, \autoref{def:unary-pattern-specification}, \autoref{def:unary-stability-certificate}, and \autoref{def:unary-ledger-policy} all reuse that same displayed history. If a target history $k$ is read from the same local packet, then either it is only a classifier comparison $h\hsame k$, or it is supplied by an additional unary continuation tail $t$ with $\Cont(h,t,k)$. In the latter case \autoref{lem:nat-unary-prefix-cont-tail-cases} gives exactly the two endpoint cases: $h\hsame k$, or $h$ is a strict unary prefix of $k$. Hence a non-identity codomain side is not obtained by renaming the unary judgment; it belongs to the continuation or strict-prefix surface.
 \end{proposition}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryHistory\_codomain\_mirror\_boundary}
 \begin{proof}
 Unpack the unary judgment of \autoref{def:unary-history-judgment}. Its generators produce judgments of the form $\Unary(h)$: the empty history is admitted, the one-extension of an admitted history is admitted, and no zero-extension is admitted. Thus the judgment itself names one history at a time.
 

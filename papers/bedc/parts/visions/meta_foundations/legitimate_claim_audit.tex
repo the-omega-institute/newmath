@@ -1,0 +1,387 @@
+\chapter{The Legitimate-Claim Problem for Finite Closed Systems}
+\label{ch:visions-legitimate-claim-audit}
+\origin{human}
+
+BEDC is often encountered through particular targets: a concrete
+\NameCert{} construction, a MetaCIC audit map, a halting boundary, or the
+Riemann Hypothesis as a constructive witness target.  The common problem
+behind these examples is more general.  Given a finite closed system
+$\mathcal C$ and a finite expression $E$, what may $\mathcal C$ honestly
+claim about $E$ without importing unmarked supply?  The answer is not always
+``proof'' and not always ``failure''.  The answer is an audited claim status:
+theorem, condition, route, evidence, non-evidence, meta-claim, refusal,
+$\mathsf{GAP}$, or socket.
+
+\section{Finite expressions and closed claim substrates}
+\label{sec:legitimate-claim-finite-expressions}
+
+\begin{definition}[Finite communicable expression]
+\label{def:legitimate-claim-finite-expression}
+A \emph{finite communicable expression} is a finite inscription or program
+fragment that can be exchanged, inspected, and audited.  Definitions,
+theorems, proofs, conjectures, programs, algorithms, theories, physical
+interpretations, observation reports, equivalences, proof routes, rule
+towers, meta-theorems, counterexamples, and numerical evidence all count as
+finite communicable expressions when their presented form is finite.  The
+expression may quantify over an infinite extension; finiteness concerns the
+inscribed artifact.
+\end{definition}
+
+\begin{definition}[Closed claim substrate]
+\label{def:closed-claim-substrate}
+A \emph{closed claim substrate} is a system $\mathcal C$ whose internal uses
+must pass through records, generators, classifiers, continuations, ledgers,
+packages, certificates, or audit gates.  If a dependency cannot be generated,
+defined, proved, classified, certified, or ledgered through those structures,
+then it may not enter as anonymous theorem content.  It must be exposed as a
+named boundary request.
+\end{definition}
+
+\begin{principle}[Closedness as named externality]
+\label{prin:closedness-as-named-externality}
+For BEDC, closedness is an accounting invariant:
+$$
+\text{closed}
+\quad = \quad
+\text{all external dependencies have apophatic names}.
+$$
+The invariant does not say that no external pressure appears.  It says that
+no external pressure may be consumed without a visible name, ledger, or
+socket.
+\end{principle}
+
+\begin{definition}[Positive and apophatic names]
+\label{def:positive-and-apophatic-names}
+A \emph{positive name} names an internally generated or internally specified
+object: a carrier, constructor family, operation, law, eliminator,
+classifier, or certificate field.  An \emph{apophatic name} names an
+external dependency position.  It makes the dependency referable, turns it
+into an auditable unit, and marks the boundary at which internal digestion
+stops; it does not convert the dependency into a theorem, object, witness,
+quotient representative, proposition equality, or causal law.
+\end{definition}
+
+\begin{definition}[Gap, socket, and far end]
+\label{def:claim-gap-socket-far-end}
+For a closed claim substrate $\mathcal C$, a request $\mathrm{req}$ forms
+$\mathsf{GAP}_{\mathcal C}(\mathrm{req})$ when it asks for content not
+produced by the displayed substrate.  If that gap is named as a typed or
+ledgered boundary position, it forms
+$\mathrm{socket}_{\mathcal C}(\mathrm{req})$.  For a forward-binding socket
+$s$, its far end has only the apophatic reading
+$$
+\mathrm{FarEnd}(s) \equiv_{\mathrm{apo}} \mathsf{T}.
+$$
+The symbol $\mathsf{T}$ is not a proof source, state, rule, value, or global
+oracle.  It is the common far-end name for uninternalized supply.
+\end{definition}
+
+\section{Claim status}
+\label{sec:legitimate-claim-status}
+
+\begin{definition}[Claim status]
+\label{def:claim-status}
+For a closed claim substrate $\mathcal C$ and a finite communicable
+expression $E$, $\mathsf{ClaimStatus}_{\mathcal C}(E)$ is the audited status
+that $\mathcal C$ may assign to $E$.  The principal statuses are:
+\begin{description}
+\item[Theorem row.] $E$ has a closed proof in the substrate.
+\item[Conditional row.] $E$ is closed relative to displayed hypotheses,
+  setup fields, or witness obligations.
+\item[Route row.] $E$ supplies transports, equivalences, or a proof-search
+  route without the witness needed to close the target.
+\item[Evidence row.] $E$ supplies a trace, report, numerical datum, or metric
+  indication that is admissible as evidence but not as theorem content.
+\item[Non-evidence row.] $E$ supplies a report that is explicitly barred from
+  serving as proof evidence.
+\item[Meta row.] $E$ is a claim about a fragment, system, proof surface, or
+  audit layer rather than a kernel-level theorem of the object language.
+\item[Refusal row.] $E$ attempts to consume hidden supply and is rejected as
+  an internal claim.
+\item[$\mathsf{GAP}$ row.] $E$ exposes requested content not produced by the
+  displayed substrate.
+\item[Socket row.] $E$ names the boundary position at which such requested
+  content would have to enter.
+\end{description}
+\end{definition}
+
+\begin{definition}[Claim compiler]
+\label{def:claim-compiler}
+The \emph{claim compiler} of a closed substrate is the audit operation
+$$
+\mathsf{Compile}_{\mathcal C}
+  : \mathsf{FiniteExpr}
+  \longrightarrow
+  \mathsf{ClaimStatus}_{\mathcal C}.
+$$
+Its inputs may be proof traces, programs, definitions, observations,
+theories, routes, equivalence chains, or meta-claims.  Its outputs are
+claim-status rows.  The compiler is therefore not merely a theorem machine;
+it is a proof auditor, boundary detector, and refusal surface.
+\end{definition}
+
+\begin{theorem}[Claim-status exhaustion]
+\label{thm:claim-status-exhaustion}
+Let $\mathcal C$ be a closed claim substrate and let $E$ be a finite
+communicable expression encoded for audit.  Then every accepted reading of
+$E$ falls into one of the claim-status rows of \autoref{def:claim-status}.
+If $E$ requests supply not generated by $\mathcal C$, then $E$ cannot be read
+as an unconditional theorem row unless that supply is first discharged.
+\end{theorem}
+
+\begin{proof}
+Inspect the dependencies of the encoded expression.  If they are all
+generated, defined, proved, classified, certified, or ledgered through
+$\mathcal C$, then the expression lands on the internal side: theorem,
+condition, evidence, non-evidence, route, or meta-row according to the
+shape of the supplied data.  If some dependency is requested but not
+produced, the closedness invariant prevents anonymous internal use.  The
+request is therefore recorded as a $\mathsf{GAP}$; if the request is named
+as a boundary position, it is recorded as a socket.  If the expression tries
+to consume the missing supply as theorem content, the proper status is a
+refusal row.  These alternatives exhaust the admissible audit readings.
+\end{proof}
+
+\begin{theorem}[No hidden supply]
+\label{thm:legitimate-claim-no-hidden-supply}
+In a closed claim substrate, ungenerated, uncertified, and unledgered supply
+breaks closedness when consumed as theorem content.  The same supply
+preserves closedness when exposed as a socket and not consumed as an
+internal proof source.
+\end{theorem}
+
+\begin{proof}
+Closedness requires that every internal use be generated, certified, or
+ledgered, and that every external dependency have an apophatic name.  An
+ungenerated supply consumed as theorem content is an anonymous external
+dependency, so it violates the invariant.  If the supply is exposed as a
+socket, the substrate does not claim to possess it internally.  It records
+the requested shape and the non-internalization boundary.  The accounting
+invariant is therefore preserved.
+\end{proof}
+
+\begin{corollary}[Naming prevents smuggling]
+\label{cor:legitimate-claim-naming-prevents-smuggling}
+Apophatic naming does not solve the requested problem by naming it.  It
+prevents the requested supply from being smuggled into theorem content.
+\end{corollary}
+
+\begin{proof}
+A socket gives the audit gate a stable target: the site, requested supply,
+non-internalization marker, and relevant gate can be inspected.  No witness
+or theorem is produced merely by naming the socket.
+\end{proof}
+
+\section{Dual audit bases}
+\label{sec:legitimate-claim-dual-audit-bases}
+
+\begin{definition}[MetaCIC audit base]
+\label{def:claim-metacic-audit-base}
+The $\mathsf{MetaCIC}$ audit base is the closed-CIC meta-theory surface.  It
+audits typing surfaces, beta steps, closedness, substitution, consistency
+assembly, subject reduction, normalisation, confluence, and decidable
+checking.
+\end{definition}
+
+\begin{definition}[GroundCompiler audit base]
+\label{def:claim-groundcompiler-audit-base}
+The $\mathsf{GroundCompiler}$ audit base is the compiler-facing surface.  It
+audits event flows, source channels, generated recognizers, certificate
+gates, metric boundaries, cannot-claim rows, streaming discipline, and
+hidden-input boundaries.
+\end{definition}
+
+\begin{principle}[Dual-base non-collapse]
+\label{prin:claim-dual-base-non-collapse}
+BEDC self-audit uses the composition of $\mathsf{GroundCompiler}$ and
+$\mathsf{MetaCIC}$, not their collapse.  GroundCompiler acceptance does not
+become a proof-theoretic theorem by itself, and MetaCIC local decidability
+does not become a global compiler or route oracle.
+\end{principle}
+
+\begin{theorem}[Dual audit of claim status]
+\label{thm:dual-audit-claim-status}
+For claims that involve both compiled artifacts and proof-theoretic content,
+the legitimate status must pass through both audit bases.  A pass on one
+base cannot silently discharge a blocked edge on the other.
+\end{theorem}
+
+\begin{proof}
+GroundCompiler rows certify how an artifact entered the displayed event,
+source-channel, recognizer, and certificate-gate surface.  MetaCIC rows
+certify how a proof-theoretic claim behaves with respect to typing,
+reduction, substitution, and closedness.  These are different coordinates.
+If a claim is missing a source-channel boundary, MetaCIC typing does not
+provide it.  If a claim is missing subject-reduction transport, a compiler
+recognition row does not provide it.  The two bases therefore cooperate
+without substituting for each other.
+\end{proof}
+
+\section{Infinite claims and global deciders}
+\label{sec:legitimate-claim-infinite-global}
+
+\begin{definition}[Finite grounding of an infinite claim]
+\label{def:claim-finite-grounding}
+An infinite claim $A_{\infty}$ has finite grounding when it is presented by
+a finite generator, recognizer, continuation system, classifier, or packet
+family together with a \NameCert{}, totality witness, correctness witness,
+and dependency ledger sufficient to generate the required instances or
+witnesses.
+\end{definition}
+
+\begin{definition}[Grounding rank]
+\label{def:claim-grounding-rank}
+The grounding rank of a claim is $0$ when the claim itself has a finite
+certificate.  The rank is $n+1$ when the claim is generated by a rule whose
+rank is $n$.  If no finite rank is available, the rank is $\omega$.
+\end{definition}
+
+\begin{theorem}[Infinite-claim closure]
+\label{thm:claim-infinite-claim-closure}
+An infinite claim with finite grounding rank may be used as an auditable BEDC
+claim.  An infinite claim of rank $\omega$ cannot be consumed as proof
+resource; it becomes a $\mathsf{GAP}$ socket unless further finite grounding
+is supplied.
+\end{theorem}
+
+\begin{proof}
+Finite rank gives a finite top certificate.  Certified transports or
+generation steps then unfold the finite tower down to the target claim.
+Rank $\omega$ gives no finite top.  Treating the whole tower as a single
+object only creates a further demand for a generator and certificate for
+that tower.  Without those data, the demand is a gap; once named, it is a
+socket whose far end is read apophatically as $\mathsf{T}$.
+\end{proof}
+
+\begin{definition}[Global closure decider]
+\label{def:claim-global-closure-decider}
+A global closure decider is a classifier $D_{\mathrm{all}}(A,R)$ deciding,
+for every theorem target $A$ and proof route $R$, whether $R$ eventually
+outputs a closed proof of $A$.
+\end{definition}
+
+\begin{theorem}[Global closure deciders are not legitimate claim content]
+\label{thm:claim-no-global-closure-decider}
+No global closure decider is a legitimate internal BEDC claim object.
+\end{theorem}
+
+\begin{proof}
+If such a decider existed, then for any certificate-level continuation
+system $\NameCert_P$ and history $h$, form a route that runs the
+$\Cont_P$-chain from $h$ and outputs a fixed proof of a trivial target
+exactly when that chain terminates.  The decider would determine whether
+the route closes, and hence whether the $\Cont_P$-chain terminates.  This
+is the halting predicate of
+\autoref{ch:visions-halting-as-form-of-distinction-limit}, which closes the
+open meta loop at the certificate stratum.  The reflection boundary of
+\autoref{ch:visions-reflection-and-limits} forbids that closure as internal
+claim content.
+\end{proof}
+
+\section{The legitimate-claim theorem}
+\label{sec:legitimate-claim-theorem}
+
+\begin{definition}[Legitimate-claim problem]
+\label{def:legitimate-claim-problem}
+The \emph{legitimate-claim problem} asks: given a closed claim substrate
+$\mathcal C$ and a finite communicable expression $E$, what is the strongest
+non-oracular status that $\mathcal C$ may assign to $E$?
+\end{definition}
+
+\begin{theorem}[Legitimate-claim theorem]
+\label{thm:legitimate-claim-theorem}
+BEDC solves the legitimate-claim problem for finite communicable
+expressions relative to a closed claim substrate: it assigns the strongest
+non-oracular claim status obtainable from the displayed generators,
+classifiers, continuations, ledgers, packages, certificates, audit gates,
+MetaCIC rows, GroundCompiler rows, gap reports, and sockets.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:claim-status-exhaustion}, every accepted reading of an
+encoded finite expression lands in a claim-status row.  If all relevant
+dependencies are internal, the strongest status is read from the displayed
+proof, condition, route, evidence, non-evidence, or meta-row.  If a
+dependency is not generated, \autoref{thm:legitimate-claim-no-hidden-supply}
+prevents its anonymous consumption and forces a gap or socket reading.  If a
+claim requires both compiler-facing and proof-theoretic support,
+\autoref{thm:dual-audit-claim-status} prevents either audit base from
+impersonating the other.  If a claim tries to use a global closure oracle,
+\autoref{thm:claim-no-global-closure-decider} rejects it as open-meta-loop
+closure.  Thus the assigned status is non-oracular and maximal relative to
+the displayed data.
+\end{proof}
+
+\begin{corollary}[Universal audit interface]
+\label{cor:legitimate-claim-universal-audit-interface}
+BEDC is a universal audit interface, not universal truth possession.  It
+does not assert that every true proposition is provable, every question is
+decidable, every external object is internalizable, or every boundary problem
+has a positive solution.  It asserts that each finite claim must expose its
+status as theorem, condition, route, evidence, non-evidence, meta-claim,
+refusal, $\mathsf{GAP}$, socket, or $\mathsf{T}$-boundary.
+\end{corollary}
+
+\begin{proof}
+The legitimate-claim theorem assigns an audited status to the finite claim.
+Some statuses are proofs; others are conditional, evidential, boundary, or
+refusal statuses.  The theorem therefore gives an audit interface rather
+than a total truth predicate.
+\end{proof}
+
+\section{RH and observer language as tests}
+\label{sec:legitimate-claim-tests}
+
+\begin{corollary}[Riemann Hypothesis as witness-target test]
+\label{cor:legitimate-claim-rh-test}
+The Riemann Hypothesis illustrates the legitimate-claim theorem at maximal
+mathematical pressure.  In BEDC it is a fixed constructive $\Pi$-statement;
+a proof requires the witness function of
+\autoref{prop:rh-constructive-form}; a disproof requires an explicit
+counterexample packet; independence requires a fragment-specific
+meta-theorem; unclosed equivalence chains remain routes; infinite rule
+towers without finite grounding become sockets; and global route deciders
+are halting-style oracles.
+\end{corollary}
+
+\begin{proof}
+This is exactly the RH boundary analysis of
+\autoref{ch:visions-rh-route-halting-boundary}, read as an instance of
+\autoref{thm:legitimate-claim-theorem}.
+\end{proof}
+
+\begin{corollary}[Observer language as claim-status reconstruction]
+\label{cor:legitimate-claim-observer-language}
+The same audit interface applies to observer, time, space, and universe
+language.  Such vocabulary is not admitted as an anonymous background.  It
+must be reconstructed as record accumulation, local inscription,
+inter-history coherence, gap report, socket, or $\mathsf{T}$-boundary.
+\end{corollary}
+
+\begin{proof}
+The apophatic far-end chapters identify closed observational systems,
+forward-binding sockets, local inscription, and the common far-end name
+$\mathsf{T}$.  A claim about observers, time, space, or universe therefore
+enters BEDC through the same status surface: generated records when
+available, coherence rows when displayed, and sockets when the requested
+supply is not internalized.
+\end{proof}
+
+\begin{corollary}[Finite closed systems can speak without hidden supply]
+\label{cor:legitimate-claim-honest-speech}
+A finite closed system can speak about infinity, proof, programs,
+observers, time, space, truth, self-reference, and externality without
+turning unmarked external supply into theorem content.
+\end{corollary}
+
+\begin{proof}
+The system speaks by assigning claim status rather than by pretending that
+every claim is an internal theorem.  Infinite claims require finite
+grounding, proof claims require proof data, program claims face the halting
+boundary, observer claims face the inscription and socket boundary, and
+externality is named apophatically.  Each case preserves the closedness
+invariant.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-claim-status-audit-namecert}{Claim-status audit rows are realized as a finite NameCert carrier for theorem, route, evidence, refusal, GAP, and socket readings.}
+\concretizedIn{ch:concrete-instances-legitimate-claim-audit-ledger-namecert}{Legitimate-claim audit ledgers realize claim source, admissibility gate, refusal socket, marker provenance, replay, and local naming rows.}

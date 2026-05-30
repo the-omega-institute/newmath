@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\UniformSpaceCompletionFilterUp$}
+\label{ch:concrete-instances-uniform-space-completion-filter-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley, the $\UniformSpaceCompletionFilterUp$ packet records the completion route in which a displayed Cauchy filter is read through a uniform-space entourage basis before any quotient completion or selected limit is available. It sits after the uniform-space surface of \autoref{ch:concrete-instances-uniformspace-namecert}, the filter-basis generator of \autoref{ch:concrete-instances-cauchy-filter-basis-namecert}, the saturated Cauchy-filter packet of \autoref{ch:concrete-instances-cauchyfilter-namecert}, and the completion boundary of \autoref{ch:concrete-instances-completion-namecert}. Its finite readback route uses the stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Uniform-space completion-filter carrier]
+\label{def:uniform-space-completion-filter-carrier}
+A $\UniformSpaceCompletionFilterUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(U,B,F,S,R,D,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformSpaceUp$ entourage row, including the finite diagonal, refinement, symmetry, and composition data visible to the packet.
+\item $B$ is the $\CauchyFilterBasisUp$ generator row, listing the basis elements and common-refinement witnesses read from $U$.
+\item $F$ is the $\CauchyFilterUp$ saturated filter row generated from $B$.
+\item $S$ is the $\StreamNameUp$ finite-window schedule controlling which filter and entourage reads may be inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the displayed windows and tolerance requests.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for entourage shrinkage, Cauchy refinement, and completion-radius comparison.
+\item $A$ is the $\RealUp$ completion-admission seal reached only after $U,B,F,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay from a completion request through the uniform, basis, filter, window, readback, tolerance, and Real-seal rows.
+\item $P$ is the $\Pkg$ provenance over $\UniformSpaceCompletionFilterUp$, $\UniformSpaceUp$, $\CauchyFilterBasisUp$, $\CauchyFilterUp$, $\CompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformSpaceCompletionFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,B,F,S,R,D,A,H,C,P,N$. It has no coordinate for quotient filters, host equality of filters, selected representatives, countable choice, a chosen completion point, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniform-space completion-filter NameCert obligations]
+\label{thm:uniform-space-completion-filter-namecert-obligations}
+For every accepted $\UniformSpaceCompletionFilterUp$ carrier $Q=(U,B,F,S,R,D,A,H,C,P,N)$, the local $\NameCert_{\UniformSpaceCompletionFilterUp}$ surface consists exactly of carrier admission for the displayed uniform-space entourage row, Cauchy-filter basis row, saturated Cauchy-filter row, stream-window row, regular-rational readback row, dyadic tolerance ledger, Real completion-admission seal, componentwise transport, continuation replay, package provenance, and local naming row. Every completion-facing read of $Q$ must pass through
+$$
+\UniformSpaceUp \longmapsto \CauchyFilterBasisUp \longmapsto \CauchyFilterUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+before the completion boundary of $\CompletionUp$ may consume the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-space-completion-filter-carrier}. The coordinates list exactly the uniform, basis, filter, window, readback, tolerance, Real-seal, transport, replay, provenance, and local naming rows.
+
+The completion-facing order is forced by $C$. A consumer first reads the entourage data $U$, then the basis row $B$ and saturated filter row $F$, and only then inspects the finite windows $S$, dyadic ledger $D$, regular rational readback $R$, and Real seal $A$.
+
+The structural rows do not add a second source. The transport row $H$ moves only the displayed coordinates componentwise, while $P$ and $N$ name the same finite packet as provenance and local certificate data.
+
+Since no coordinate of $Q$ names quotient filters, host filter equality, selected representatives, countable choice, a chosen completion point, or ambient $\RealUp$ completeness, those objects cannot be exported by the local NameCert surface. The listed rows therefore exhaust the obligations.
+\end{proof}
+
+\begin{theorem}[Uniform-space completion-filter boundary]
+\label{thm:uniform-space-completion-filter-boundary}
+Let $Q=(U,B,F,S,R,D,A,H,C,P,N)$ be an accepted $\UniformSpaceCompletionFilterUp$ packet. Any $\CompletionUp$ consumer of $Q$ receives a finite filter-completion route through the displayed rows $U,B,F,S,R,D,A,H,C,P,N$ and receives no quotient-filter class, selected completion point, host filter equality, countable-choice selector, hidden cofinal subfilter, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligation theorem, \autoref{thm:uniform-space-completion-filter-namecert-obligations}. It routes completion-facing reads through the uniform row, Cauchy-filter basis, Cauchy filter, finite windows, dyadic tolerance ledger, regular readback, and Real seal before the completion boundary consumes the packet.
+
+The replay and transport rows preserve the same route. They do not add representatives, quotient classes, hidden cofinal filters, or selected limits; they only replay and transport the displayed coordinates.
+
+Finally inspect the carrier definition. The excluded objects are absent from $Q$, so a $\CompletionUp$ consumer cannot extract them from the packet.
+\end{proof}
+
+\begin{closurestatus}{\UniformSpaceCompletionFilterUp}
+  \constructivestory{A $\UniformSpaceCompletionFilterUp$ packet is generated from a UniformSpace entourage row, CauchyFilterBasis generator row, CauchyFilter saturation row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, a RealUp completion-admission seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-space-completion-filter-carrier}, \autoref{thm:uniform-space-completion-filter-namecert-obligations}, and \autoref{thm:uniform-space-completion-filter-boundary} seed the non-quotient filter-completion route for UniformSpaceUp, CauchyFilterBasisUp, CauchyFilterUp, CompletionUp, StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, and RealUp consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filter completion, selected completion points, host filter equality, countable choice, hidden cofinal subfilters, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, basis-to-filter saturation, completion-facing replay, Real-seal handoff, and refusal of quotient-filter and selected-limit escapes for BEDC.Derived.UniformSpaceCompletionFilterUp.}
+\end{closurestatus}

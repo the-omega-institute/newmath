@@ -76,6 +76,7 @@ Thus the dependency route is exhausted by $\ProbSpaceUp$, $\RandomVarUp$, $\Cond
 \label{thm:upcrossing-finite-ledger-induction-boundary}
 Every accepted $\UpcrossingUp$ carrier computes its completed crossing count by induction on the displayed finite alternating lower and upper decision ledger $(L,S)$. The induction preserves boundary endpoints, endpoint rows, bounded $\OptionalStoppingUp$ windows, and crossing-count rows under componentwise $\hsame$ transport. An empty ledger gives zero completed crossings; a lower row opens a pending crossing; an upper row after a pending lower row adds exactly one completed count; and every case remains inside the displayed $\MartingaleUp$, $\RandomVarUp$, $\CondExpUp$, $\OptionalStoppingUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.UpcrossingUp.Upcrossing\_finite\_ledger\_induction\_boundary}
 \begin{proof}
 Inspect the finite ledger $(L,S)$ in \autoref{def:upcrossing-carrier}. The empty ledger has no lower row and no upper row, so the completed crossing count is the displayed zero count.
 
@@ -90,6 +91,7 @@ All transport is componentwise. The endpoint rows, boundary endpoints, stopped w
 \label{thm:upcrossing-inequality-martingale-convergence-handoff}
 Every accepted $\UpcrossingUp$ packet exports exactly the finite rows later consumed by a $\MartingaleConvergenceUp$ packet: displayed lower and upper $\RealUp$ boundary rows, finite martingale endpoint rows, lower and upper decision ledgers, bounded $\OptionalStoppingUp$ stopped-window rows, and the crossing-count ledger. The handoff is a finite dependency route, not a martingale convergence theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.UpcrossingUp.UpcrossingInequalityMartingaleConvergenceHandoff}
 \begin{proof}
 Project the carrier of \autoref{def:upcrossing-carrier}. The boundary endpoints are $a$ and $b$, the finite martingale endpoint family is $V$, the lower and upper decision ledgers are $L$ and $S$, and the crossing-count read is computed from those displayed ledgers.
 
@@ -111,6 +113,22 @@ Apply the martingale route and NameCert obligations. The stopped-window reads ar
 
 Finally use \autoref{thm:upcrossing-inequality-martingale-convergence-handoff}. The handoff identifies exactly the rows available to the downstream $\MartingaleConvergenceUp$ packet. Since those rows contain no limiting event or convergence coordinate, the consumer route is finite and no-escape rather than a convergence claim.
 \end{proof}
+\leanchecked{BEDC.Derived.UpcrossingUp.UpcrossingMartingaleConvergenceConsumer}
+
+\begin{theorem}[Upcrossing finite ledger handoff]
+\label{thm:upcrossing-finite-ledger-handoff}
+For every accepted $\UpcrossingUp$ carrier, the completed-crossing count, the bounded $\OptionalStoppingUp$ stopped-window ledger, and the lower and upper $\RealUp$ boundary-rational rows form the only finite handoff consumed by the $\MartingaleConvergenceUp$ route of \autoref{thm:upcrossing-martingale-convergence-consumer}. The handoff is transported by the displayed $\hsame$ rows and replayed by the displayed $\Cont$ rows; it exports no almost-sure quotient equality, no unbounded stopping index, and no measure-completion carrier.
+\end{theorem}
+\begin{proof}
+Induct on the finite crossing ledger $(L,S)$ of \autoref{def:upcrossing-carrier}. In the empty case, the completed-crossing count is zero and the stopped-window ledger has no lower-to-upper pair to export.
+
+For a lower-boundary row, the displayed boundary-rational data record a pending crossing against $a$. The stopped-window row is bounded by the current finite horizon, and no completed count is added.
+
+For an upper-boundary row following a pending lower row, the displayed comparison against $b$ closes exactly one finite pair. The completed-count row, the two boundary-rational rows, and the bounded stopped-window row are updated inside the same $\BHist$ packet.
+
+The induction preserves the handoff under componentwise $\hsame$ transport and displayed $\Cont$ replay. Since the carrier contains no coordinate for almost-sure quotient equality, unbounded stopping, or measure completion, the martingale-convergence consumer can read only this finite ledger package.
+\end{proof}
+\leanchecked{BEDC.Derived.UpcrossingUp.UpcrossingFiniteLedgerHandoff}
 
 \begin{theorem}[Upcrossing no-escape boundary]
 \label{thm:upcrossing-nonescape}

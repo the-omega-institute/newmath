@@ -11,6 +11,14 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def BaireCategoryCarrier [AskSetup] [PackageSetup]
+    (B M D O R T H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory B ∧ UnaryHistory M ∧ UnaryHistory D ∧ UnaryHistory O ∧
+    UnaryHistory R ∧ UnaryHistory T ∧ UnaryHistory H ∧ UnaryHistory C ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ PkgSig bundle P pkg
+
 theorem BaireCategoryCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {B M D O R T H C P N denseRead threadRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -84,5 +92,31 @@ theorem BaireCategoryCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact Or.inl packageP
   }
   exact ⟨cert, rfl⟩
+
+theorem BaireCategoryCarrier_refinement_schedule_obligation [AskSetup] [PackageSetup]
+    {B M D O R T H C P N refinementRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireCategoryCarrier B M D O R T H C P N bundle pkg ->
+      Cont D O R ->
+        Cont R T refinementRead ->
+          Cont refinementRead M terminalRead ->
+            PkgSig bundle terminalRead pkg ->
+              UnaryHistory D ∧ UnaryHistory O ∧ UnaryHistory R ∧ UnaryHistory T ∧
+                UnaryHistory M ∧ UnaryHistory refinementRead ∧ UnaryHistory terminalRead ∧
+                  Cont D O R ∧ Cont R T refinementRead ∧
+                    Cont refinementRead M terminalRead ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier denseOpenRoute refinementRoute terminalRoute terminalPkg
+  obtain ⟨_prefixUnary, metricUnary, denseUnary, openUnary, refinementUnary, threadUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _nameUnary, provenancePkg⟩ := carrier
+  have refinementReadUnary : UnaryHistory refinementRead :=
+    unary_cont_closed refinementUnary threadUnary refinementRoute
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed refinementReadUnary metricUnary terminalRoute
+  exact
+    ⟨denseUnary, openUnary, refinementUnary, threadUnary, metricUnary, refinementReadUnary,
+      terminalReadUnary, denseOpenRoute, refinementRoute, terminalRoute, provenancePkg,
+      terminalPkg⟩
 
 end BEDC.Derived.BaireCategoryUp

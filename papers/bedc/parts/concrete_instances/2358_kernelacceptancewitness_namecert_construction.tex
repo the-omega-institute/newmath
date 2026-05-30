@@ -82,21 +82,23 @@ Use the NameCert obligations of \autoref{thm:kernel-acceptance-witness-namecert-
 
 Finally apply ledger purity from \autoref{thm:kernel-acceptance-witness-ledger-purity}. Purity-facing consumers read accepted BEDC content only through $A,E,Q$, while failed candidates remain on the refusal side of the same packet, so no route exports an $R$ row as accepted content.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessRefusalSeparation}
 
 \closureat{KernelAcceptanceWitnessUp}{seedStr}
 \closureat{KernelAcceptanceWitnessUp}{obligationStr}
 \closureat{KernelAcceptanceWitnessUp}{scopedStr}
+\closureat{KernelAcceptanceWitnessUp}{publicStr}
 
 \begin{closurestatus}{\KernelAcceptanceWitnessUp}
   \constructivestory{A $\KernelAcceptanceWitnessUp$ packet is generated from a candidate declaration row, an accepted declaration row, an environment ledger row, an axiom-query row, refusal-boundary evidence, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:kernel-acceptance-witness-carrier}, \autoref{thm:kernel-acceptance-witness-namecert-obligations}, \autoref{thm:kernel-acceptance-witness-ledger-purity}, and \autoref{thm:kernel-acceptance-witness-refusal-separation} bind Lean kernel acceptance as a finite NameCert packet over accepted declarations, environment ledger rows, dependency queries, and refusal boundaries.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:kernel-acceptance-witness-carrier}, \autoref{thm:kernel-acceptance-witness-namecert-obligations}, \autoref{thm:kernel-acceptance-witness-ledger-purity}, \autoref{thm:kernel-acceptance-witness-refusal-separation}, and \autoref{thm:kernel-acceptance-witness-public-export-package} bind Lean kernel acceptance as a finite NameCert packet over accepted declarations, environment ledger rows, dependency queries, refusal boundaries, and the public export package.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean implementation, host-kernel completeness, semantic conservativity of all accepted declarations, bridge checking, or acceptance for candidates on the refusal side.}
-  \upgradepath{The next paper-axis step is a public export package for the same finite acceptance-witness packet.}
+  \upgradepath{Bridged closure requires an explicit bridge from the finite acceptance-witness packet to the standard kernel-acceptance schema.}
 \end{closurestatus}
 
 \begin{theorem}[KernelAcceptanceWitness public export package]

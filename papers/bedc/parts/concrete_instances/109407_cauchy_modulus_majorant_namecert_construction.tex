@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusMajorantUp$}
+\label{ch:concrete-instances-cauchy-modulus-majorant-namecert}
+\origin{human}
+
+Following Bishop and Bridges on explicit moduli in constructive analysis, the $\CauchyModulusMajorantUp$ packet records the finite certificate that turns an arbitrary displayed Cauchy threshold schedule into a monotone majorant before completion consumers inspect the seal. It sits after the modulus rows of \autoref{ch:concrete-instances-cauchymodulus-namecert}, reads dyadic tolerances from \autoref{ch:concrete-instances-dyadicratcore-namecert}, reads finite windows from \autoref{ch:concrete-instances-streamname-namecert}, supplies regular rational schedules for \autoref{ch:concrete-instances-regseqrat-namecert}, and keeps the terminal real read public only through \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Cauchy modulus majorant carrier]
+\label{def:cauchy-modulus-majorant-carrier}
+A $\CauchyModulusMajorantUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,D,S,R,E,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the incoming $\CauchyModulusUp$ threshold schedule;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare requested precisions and majorant bounds;
+\item $S$ is the $\StreamNameUp$ finite-window row naming which threshold windows may be inspected;
+\item $R$ is the $\RegSeqRatUp$ readback row consumed by regular rational sequence certificates;
+\item $E$ is the $\RealUp$ seal reached only after the finite schedule and dyadic comparison rows have been displayed;
+\item $G$ is the monotone majorant graph row, recording a displayed bound for every inspected threshold window and recording monotonicity as finite comparison data;
+\item $H$ records componentwise $\hsame$ transport for the incoming modulus, dyadic ledger, stream windows, regular readback, real seal, majorant graph, continuation, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay through the same rows in the order seen by consumers;
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CauchyModulusMajorantUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for countable choice, hidden convergence witnesses, host-level supremum selection, or a real-number read that bypasses the displayed majorant route.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus majorant NameCert obligations]
+\label{thm:cauchy-modulus-majorant-namecert-obligations}
+For every accepted $\CauchyModulusMajorantUp$ carrier $M=(A,D,S,R,E,G,H,C,P,N)$, the local $\NameCert_{\CauchyModulusMajorantUp}$ surface consists exactly of carrier admission, incoming modulus exposure through $A$, dyadic tolerance exposure through $D$, finite-window exposure through $S$, regular readback through $R$, real sealing through $E$, majorant graph exposure through $G$, componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-majorant-carrier}. The tuple lists exactly the incoming modulus schedule, dyadic tolerance ledger, stream windows, regular readback, real seal, majorant graph, transport, replay, provenance, and local naming rows.
+
+The majorant obligation is displayed by $G$. It records a finite bound for each inspected threshold window and records monotonicity as comparison data against the dyadic ledger $D$.
+
+The consumer route is then forced by $C$. A RegSeqRat or Real consumer reads $S,D,G,R$ before reaching $E$, and $H$ transports only the displayed coordinates componentwise.
+
+Since no coordinate for countable choice, hidden convergence witnesses, host supremum selection, or bypassed real reads appears in the carrier, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus majorant normalization route]
+\label{thm:cauchy-modulus-majorant-normalization-route}
+Let $M=(A,D,S,R,E,G,H,C,P,N)$ be an accepted $\CauchyModulusMajorantUp$ packet. Every consumer that replaces an arbitrary Cauchy threshold by a monotone schedule must route the replacement through the displayed graph row $G$ after reading the finite windows $S$ and the dyadic tolerance ledger $D$, and before exposing the $\RegSeqRatUp$ row $R$ or the terminal $\RealUp$ seal $E$.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The only row that records the monotone majorant is $G$, while $S$ supplies the inspected windows and $D$ supplies the tolerance comparisons.
+
+The replay row $C$ orders the consumer route through $S,D,G,R,E$. Thus a regular rational sequence consumer sees the majorant schedule before it receives the readback row $R$, and a real-number consumer sees the same route before the seal $E$ is opened.
+
+The transport row $H$ is componentwise, so it cannot replace the displayed graph by a host-level monotone choice. The provenance row $P$ records the same dependencies, and $N$ names the local certificate.
+\end{proof}
+
+\begin{closurestatus}{\CauchyModulusMajorantUp}
+  \constructivestory{A $\CauchyModulusMajorantUp$ packet is generated from an incoming Cauchy modulus schedule, DyadicRatCore tolerance comparisons, StreamName finite windows, RegSeqRat readback, a Real seal, a displayed monotone majorant graph, componentwise transport, replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-majorant-carrier}, \autoref{thm:cauchy-modulus-majorant-namecert-obligations}, and \autoref{thm:cauchy-modulus-majorant-normalization-route} seed the route that replaces arbitrary Cauchy thresholds by a monotone majorant before RegSeqRat and Real consumers inspect the seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, choice-free extraction from every external modulus presentation, completion uniqueness, real-order completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, majorant graph exposure, finite-window routing, dyadic comparison routing, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.CauchyModulusMajorantUp.}
+\end{closurestatus}

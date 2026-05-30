@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMarkovPartitionUp$}
+\label{ch:concrete-instances-finite-markov-partition-namecert}
+\origin{human}
+
+Following Bowen and Walters, the $\FiniteMarkovPartitionUp$ packet records the finite symbolic-dynamics surface by which a compact dynamics calculation is read as cylinder data before any consumer asks for a subshift, invariant measure, or orbit quotient. It sits downstream of the finite partition carrier of \autoref{ch:concrete-instances-partition-namecert}, the adjacency rows of \autoref{ch:concrete-instances-matrix-namecert}, the dynamical-system interface of \autoref{ch:concrete-instances-dynsystem-namecert}, the local update discipline of \autoref{ch:concrete-instances-cellularautomaton-namecert}, and the stream window naming surface of \autoref{ch:concrete-instances-streamname-namecert}. The packet names only a finite Markov partition, its cylinder blocks, adjacency matrix, refinement ledger, transport, replay, provenance, and local NameCert rows; it does not quotient infinite orbits or assert a host-side shift space.
+
+\begin{definition}[Finite Markov partition carrier]
+\label{def:finite-markov-partition-carrier}
+A $\FiniteMarkovPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+M=(P,B,J,R,T,H,C,S,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite partition row, read through $\PartitionUp$, naming the carried atoms and their boundary tags.
+\item $B$ is the finite cylinder-block row, recording the $\BHist$ words obtained by reading finitely many successive visits to atoms of $P$.
+\item $J$ is the adjacency-matrix row, read through $\MatrixUp$, whose entries record which atom-to-atom transitions are admitted by the carried dynamics.
+\item $R$ is the refinement row, recording how a cylinder block refines its initial atom, terminal atom, and every intermediate transition listed by $J$.
+\item $T$ is the dynamics-transport row, read through $\DynSystemUp$, recording the finite action on the displayed atoms and the compatibility route from atom reads to cylinder reads.
+\item $H$ records componentwise $\hsame$ transport for partition atoms, cylinder blocks, adjacency entries, refinement rows, dynamics transport, continuation, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from atom reads to block reads, from block reads to adjacency tests, and from adjacency tests to refinement rows.
+\item $S$ is the $\Pkg$ provenance over $\FiniteMarkovPartitionUp$, $\PartitionUp$, $\MatrixUp$, $\DynSystemUp$, $\CellularAutomatonUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteMarkovPartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,B,J,R,T,H,C,S,N$. It has no coordinate for an infinite orbit quotient, a selected itinerary beyond the displayed cylinder window, a measure on a shift space, or an ambient topological conjugacy.
+\end{definition}
+
+\begin{theorem}[Finite Markov partition NameCert obligations]
+\label{thm:finite-markov-partition-namecert-obligations}
+For every accepted $\FiniteMarkovPartitionUp$ carrier $M=(P,B,J,R,T,H,C,S,N)$, the local $\NameCert_{\FiniteMarkovPartitionUp}$ surface consists exactly of carrier admission, finite partition exposure, finite cylinder-block exposure, adjacency-matrix exposure, refinement-row exactness, dynamics transport, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the finite packet $M=(P,B,J,R,T,H,C,S,N)$. The partition row $P$ supplies the carried atoms, and the cylinder-block row $B$ reads only finitely many visits to those atoms.
+
+The adjacency row $J$ is then read as a finite matrix over the same atoms. The refinement row $R$ records that each displayed cylinder block refines its atom endpoints and the intermediate transitions permitted by $J$.
+
+The dynamics row $T$ supplies the finite transport route from atom reads to cylinder reads. Rows $H,C,S,N$ preserve, replay, source, and name exactly that route, so the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite Markov partition cylinder refinement]
+\label{thm:finite-markov-partition-cylinder-refinement}
+Every accepted $\FiniteMarkovPartitionUp$ cylinder block factors through the partition row $P$, the adjacency-matrix row $J$, and the refinement row $R$. A downstream $\CellularAutomatonUp$ or $\StreamNameUp$ consumer may replay the block as a finite transition window, but it receives no route to a hidden infinite itinerary outside $B,J,R,H,C,S,N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:finite-markov-partition-carrier}. A cylinder block is present only as a row of $B$, and $B$ is indexed by the finite atoms displayed by $P$.
+
+The adjacency matrix $J$ checks each neighboring pair in the block. The refinement row $R$ then binds the block to its initial atom, terminal atom, and internal transition witnesses, so the block can be read only through the finite adjacency surface.
+
+Replay through $C$ gives a finite transition window suitable for $\CellularAutomatonUp$ or $\StreamNameUp$ consumers. Since the carrier has no coordinate for an unbounded itinerary or orbit quotient, the exported object remains the displayed finite cylinder refinement.
+\end{proof}
+
+\begin{theorem}[Finite Markov partition symbolic handoff]
+\label{thm:finite-markov-partition-symbolic-handoff}
+An accepted $\FiniteMarkovPartitionUp$ packet can be handed to a subshift-facing or dynamics-facing consumer only as the finite route
+$$
+P\longmapsto B\longmapsto J\longmapsto R
+$$
+together with $T,H,C,S,N$. The handoff supplies a symbolic refinement surface for the carried dynamics, not a completed shift space, invariant measure, orbit quotient, or global conjugacy theorem.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:finite-markov-partition-namecert-obligations}. They expose only the finite partition, cylinder, adjacency, refinement, dynamics-transport, transport, replay, provenance, and local naming rows.
+
+Use cylinder refinement from \autoref{thm:finite-markov-partition-cylinder-refinement}. Every block read has already passed through the displayed adjacency and refinement rows, hence a subshift-facing consumer receives a finite transition surface rather than a hidden stream of choices.
+
+The excluded objects are not carrier coordinates. There is no row for a completed shift space, invariant measure, quotient orbit, or global conjugacy, so the symbolic handoff is exactly the finite NameCert route shown in the statement.
+\end{proof}
+
+\closureat{FiniteMarkovPartitionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteMarkovPartitionUp}
+  \constructivestory{A $\FiniteMarkovPartitionUp$ packet is generated from finite partition atoms, finite cylinder blocks, adjacency-matrix rows, refinement rows, dynamics transport, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation theorem, cylinder-refinement theorem, symbolic-handoff theorem, and finite symbolic-dynamics boundary for $\FiniteMarkovPartitionUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not claim a completed subshift, invariant measure, orbit quotient, global conjugacy theorem, or infinite itinerary outside the displayed finite cylinder and adjacency rows.}
+  \upgradepath{To reach obligationClosure, the finite carrier, adjacency refinement, symbolic handoff, and ledger non-escape rows must be encoded and checked over $\BHist$ packets.}
+\end{closurestatus}

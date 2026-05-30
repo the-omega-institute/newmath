@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\LocatedFormalBarUp$}
+\label{ch:concrete-instances-located-formal-bar-namecert}
+\origin{human}
+
+Following Brouwer, Troelstra--van Dalen, and Vickers, the $\LocatedFormalBarUp$ packet records a finite located bar/cover boundary for spread paths and formal-topology cover requests. It sits after the cover/refinement carrier of \autoref{ch:concrete-instances-formal-topology-namecert}, the admissible-prefix discipline of \autoref{ch:concrete-instances-spread-law-namecert}, the bar-recursion route of \autoref{ch:concrete-instances-brouwer-bar-induction-namecert}, and the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}. The packet supplies Real and Completion consumers with a finite bar boundary without importing open-cover compactness, selected points, quotient opens, countable choice, or ambient completeness.
+
+\begin{definition}[Located formal-bar carrier]
+\label{def:located-formal-bar-carrier}
+A $\LocatedFormalBarUp$ carrier is a finite $\BHist$ packet
+$$
+L=(F,S,B,W,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FormalTopologyUp$ cover/refinement row, read through \autoref{ch:concrete-instances-formal-topology-namecert}, that names the finite basic neighbourhoods and refinement requests used by the bar.
+\item $S$ is the $\SpreadLawUp$ admissible-prefix row, read through \autoref{ch:concrete-instances-spread-law-namecert}, that determines which finite path prefixes can enter the bar ledger.
+\item $B$ is the $\BrouwerBarInductionUp$ bar-recursion row, read through \autoref{ch:concrete-instances-brouwer-bar-induction-namecert}, that records the finite induction surface consumed by bar-cover arguments.
+\item $W$ is the $\StreamNameUp$ finite-window row, read through \autoref{ch:concrete-instances-streamname-namecert}, that exposes the inspected prefix windows for Real and Completion routes.
+\item $Q$ is the located-query row: each accepted request names a finite prefix, a formal basic neighbourhood, and the bar-cover decision boundary visible at that prefix.
+\item $R$ is the spread-cover row, recording the finite route from an admissible prefix through the formal cover row to the bar-recursion row.
+\item $H$ records componentwise $\hsame$ transport for formal-cover rows, spread-law prefixes, bar-recursion rows, StreamName windows, located-query rows, spread-cover rows, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion finite-window request through $F,S,B,W,Q,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedFormalBarUp$, $\FormalTopologyUp$, $\SpreadLawUp$, $\BrouwerBarInductionUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedFormalBarUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, a selected infinite path, a selected point of a cover, quotient-open equality, countable choice, host topological equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Located formal-bar spread-cover route]
+\label{thm:located-formal-bar-spread-cover}
+Every accepted $\LocatedFormalBarUp$ carrier
+$$
+L=(F,S,B,W,Q,R,H,C,P,N)
+$$
+routes a Real or Completion finite-window consumer through the same displayed spread-cover boundary:
+$$
+F,S,B,W \longmapsto Q,R \longmapsto H,C,P,N .
+$$
+The formal-topology cover row $F$, spread-law row $S$, Brouwer bar-induction row $B$, and StreamName window row $W$ must be visible before the located-query row $Q$ and spread-cover row $R$ are consumed. The route exports no open-cover compactness theorem, selected infinite branch, selected cover point, quotient-open equality, countable-choice schedule, host real equality, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-formal-bar-carrier}. The source rows are $F,S,B,W$, and the located bar/cover rows are $Q,R$.
+
+First read the formal-topology and spread-law surfaces. The finite cover/refinement row $F$ supplies only displayed basic neighbourhoods, while $S$ supplies only admissible finite prefixes.
+
+Next pass through the bar-recursion and StreamName rows. Row $B$ keeps the bar argument on the finite Brouwer induction surface, and $W$ fixes the inspected finite windows used by Real and Completion consumers.
+
+Finally replay through $Q,R,H,C,P,N$. The located query and spread-cover rows are transported componentwise and replayed with the same provenance and local NameCert row. Since the carrier contains no coordinate for compact open covers, selected branches, selected points, quotient opens, choice, host equality, or ambient completeness, no consumer can read those objects from the packet.
+\end{proof}
+
+\closureat{LocatedFormalBarUp}{seedStr}
+
+\begin{closurestatus}{\LocatedFormalBarUp}
+  \constructivestory{A $\LocatedFormalBarUp$ packet is generated from FormalTopology cover/refinement rows, SpreadLaw admissible-prefix rows, BrouwerBarInduction bar-recursion rows, StreamName finite-window rows, located-query rows, spread-cover rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-formal-bar-carrier} and \autoref{thm:located-formal-bar-spread-cover} seed the finite located bar/cover boundary for Real and Completion consumers over formal covers, spread prefixes, bar recursion, finite windows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected infinite branches, selected cover points, quotient-open equality, countable choice, host topological equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, formal-cover exposure, spread-law prefix exposure, bar-recursion routing, StreamName finite-window replay, located-query exactness, spread-cover exactness, transport, provenance, and local naming for BEDC.Derived.LocatedFormalBarUp.}
+\end{closurestatus}

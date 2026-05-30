@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\CantorPairingUp$}
+\label{ch:concrete-instances-cantor-pairing-namecert}
+\origin{human}
+
+Following Cantor's pairing function, the $\CantorPairingUp$ packet records a finite two-input natural-number indexing surface for schedules that must pass between paired observations and a single displayed countable index. It sits after the natural-number carrier of \autoref{ch:concrete-instances-nat-namecert}, reads the finite product envelope of \autoref{ch:concrete-instances-prod-namecert}, and supplies a countable schedule handoff to the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}. The chapter names only a finite pairing and readback certificate; it does not import host natural-number arithmetic as an unrecorded oracle, quotient equality of pairs, countable choice, or a completed stream.
+
+\begin{definition}[Cantor pairing carrier]
+\label{def:cantor-pairing-carrier}
+A $\CantorPairingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,Y,J,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\NatUp$ input rows. They are read as finite unary natural-number names, not as ambient host numerals.
+\item $J$ is the pairing-code row. It records the displayed triangular code
+$$
+\begin{aligned}
+\pi(X,Y)=\frac{(X+Y)(X+Y+1)}{2}+Y .
+\end{aligned}
+$$
+The additions, multiplication, division by the displayed even triangular product, and final successor budget are all ledger rows over the two $\NatUp$ inputs.
+\item $L$ and $R$ are projection rows. They read back the left and right coordinates from the displayed code by replaying the finite triangular search ledger and returning the unique pair of $\NatUp$ rows whose recorded code is $J$.
+\item $H$ records componentwise $\hsame$ transport for the two input rows, the pairing-code row, the two projection rows, continuation replay, provenance, and the local naming row.
+\item $C$ records displayed $\Cont$ replay from the two $\NatUp$ inputs through the $\ProdUp$ pair envelope, the pairing-code row, the projection readbacks, and the $\StreamNameUp$ schedule handoff.
+\item $P$ is the $\Pkg$ provenance over $\CantorPairingUp$, $\NatUp$, $\ProdUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CantorPairingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host natural-number pairing, quotient equality of pairs, a selected enumeration, countable choice, or a completed infinite schedule.
+\end{definition}
+
+\begin{theorem}[Cantor pairing NameCert obligations]
+\label{thm:cantor-pairing-namecert-obligations}
+For every accepted $\CantorPairingUp$ carrier $K=(X,Y,J,L,R,H,C,P,N)$, the local $\NameCert_{\CantorPairingUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the two $\NatUp$ inputs, pairing-code row, projection rows, transport row, continuation row, provenance row, and local naming row;
+\item pairing totality, requiring the displayed triangular computation to produce one finite $\NatUp$ code row from the two finite input rows;
+\item projection readback, requiring $L$ and $R$ to recover precisely the two displayed input rows when the same triangular ledger is replayed from $J$;
+\item StreamName schedule handoff, requiring every downstream countable schedule consumer to read the paired observation through $J,L,R$ before it treats the result as a single $\StreamNameUp$ index;
+\item ledger refusal, excluding unrecorded host natural-number arithmetic, quotient equality of pairs, selected enumerations, countable choice, and completed streams.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cantor-pairing-carrier}. The projection exposes exactly two $\NatUp$ input rows, one displayed pairing-code row, two projection rows, and the structural rows $H,C,P,N$.
+
+Pairing totality is a finite replay through $C$. The two inputs first enter the $\ProdUp$ envelope, then the triangular ledger forms $X+Y$, the next successor, the displayed even product, the halved triangular number, and the final offset by $Y$. Every intermediate value is a $\NatUp$ ledger row, so the code row $J$ is admitted without reading an ambient host pairing function.
+
+Projection readback uses the same finite ledger in the reverse inspection direction. The projection rows $L$ and $R$ replay the bounded triangular search named by $J$ and return the unique coordinate rows whose recorded code is $J$. Componentwise transport by $H$ preserves the code and both recovered coordinates under classifier movement.
+
+Finally, a $\StreamNameUp$ consumer reaches the paired observation only through the $J,L,R$ handoff. The provenance row $P$ and local certificate row $N$ name no further coordinate, so the packet cannot export quotient pair equality, a selected enumeration, countable choice, host arithmetic, or a completed stream schedule.
+\end{proof}
+
+\begin{closurestatus}{\CantorPairingUp}
+  \constructivestory{A $\CantorPairingUp$ packet is generated from two Nat input rows, a displayed triangular pairing-code row, two projection rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-pairing-carrier} and \autoref{thm:cantor-pairing-namecert-obligations} seed the finite Cantor-pairing schedule interface between Nat inputs, Product envelopes, and StreamName countable indices.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host natural-number pairing, quotient equality of pairs, selected enumerations, countable-choice schedules, completed streams, or Lean verification.}
+  \upgradepath{Obligation closure requires carrier admission, pairing totality, projection readback, StreamName handoff, and ledger refusal proofs for the same finite pairing packet.}
+\end{closurestatus}

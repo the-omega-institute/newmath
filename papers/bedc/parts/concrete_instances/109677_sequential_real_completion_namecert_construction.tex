@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\SequentialRealCompletionUp$}
+\label{ch:concrete-instances-sequential-real-completion-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Kelley's completion route, the $\SequentialRealCompletionUp$ packet records the standard sequential completion path from regular Cauchy names to the $\RealUp$ seal as finite BEDC data. It sits after the stream-window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the completion interface of \autoref{ch:concrete-instances-completion-namecert}, and the Cauchy-limit sealing routes used by $\CauchyLimitSealUp$ consumers. The packet is finite regular-Cauchy completion data: it is not a quotient representative, not host equality of completed objects, not countable choice, and not ambient $\RealUp$ completeness.
+
+\begin{definition}[Sequential real completion carrier]
+\label{def:sequential-real-completion-carrier}
+A $\SequentialRealCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,R,D,Q,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window row exposing the inspected observations of the candidate regular Cauchy name.
+\item $R$ is the $\RegSeqRatUp$ readback row naming the regular rational approximants visible in those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare window observations against the requested precision.
+\item $Q$ is the regular-Cauchy coherence row, recording tail agreement and modulus coverage only through displayed finite windows.
+\item $E$ is the terminal $\RealUp$ seal row reached after $W,R,D,Q$ have been displayed.
+\item $L$ is the $\CauchyLimitSealUp$ handoff row, recording that the same regular route is available to completion-facing consumers.
+\item $H$ records componentwise $\hsame$ transport for the stream windows, regular readback, dyadic ledger, coherence row, real seal, limit seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $W,R,D,Q,E,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\SequentialRealCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CompletionUp$, $\CauchyLimitSealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SequentialRealCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $W,R,D,Q,E,L,H,C,P,N$. It has no coordinate for quotient representatives of Cauchy sequences, host equality of completed objects, countable choice over tails, an external limit selector, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Sequential real completion NameCert obligations]
+\label{thm:sequential-real-completion-namecert-obligations}
+For every accepted $\SequentialRealCompletionUp$ carrier
+$$
+S=(W,R,D,Q,E,L,H,C,P,N),
+$$
+the local $\NameCert_{\SequentialRealCompletionUp}$ surface consists exactly of carrier admission, StreamName window admission through $W$, RegSeqRat readback through $R$, DyadicRatCore tolerance admission through $D$, regular-Cauchy coherence through $Q$, RealUp seal admission through $E$, CauchyLimitSeal handoff through $L$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-real-completion-carrier}. The rows $W,R,D,Q$ are the regular Cauchy source route, while $E$ and $L$ are the only real-facing and completion-facing endpoints.
+
+The finite route starts with windows. A precision request reads the displayed $\StreamNameUp$ row $W$, extracts the regular rational observations through $R$, and checks the dyadic tolerance data through $D$ before the coherence row $Q$ may be consumed.
+
+The endpoint rows are downstream of that same route. The $\RealUp$ seal $E$ and the $\CauchyLimitSealUp$ handoff $L$ read only the displayed regular-Cauchy packet, and the structural rows $H,C,P,N$ preserve the same packet under transport, replay, source, and naming.
+
+Since no carrier coordinate contains quotient representatives, host equality, countable-choice schedules, external limit selectors, or ambient real completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Sequential real completion Cauchy-seal route]
+\label{thm:sequential-real-completion-cauchy-seal-route}
+Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\SequentialRealCompletionUp$ carrier factors through the finite chain
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \CauchyLimitSealUp \to \RealUp
+$$
+as displayed by $W,R,D,L,E$ and preserved by $Q,H,C,P,N$. The route exports a sealed regular-Cauchy completion packet only; it does not export quotient stream equality, a selected host real, countable choice, host equality of completions, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Apply the obligation surface of \autoref{thm:sequential-real-completion-namecert-obligations}. Any real-facing or completion-facing read must first expose the finite stream windows, regular rational readback, dyadic tolerance ledger, and coherence row.
+
+The limit-seal row $L$ is then read on the same route. It cannot be detached from $W,R,D,Q$, because its provenance and replay coordinates are the same $H,C,P,N$ rows already attached to the carrier.
+
+Finally the $\RealUp$ seal $E$ is reached only after that limit-seal route is visible. Thus the consumer receives a finite regular-Cauchy completion packet and no quotient representative, selected host limit, countable-choice schedule, host equality, or ambient real-completeness coordinate.
+\end{proof}
+
+\falsifiablePrediction{A $\SequentialRealCompletionUp$ consumer that reaches a $\RealUp$ or $\CompletionUp$ endpoint without reading the displayed StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, regular-Cauchy coherence row, CauchyLimitSeal handoff, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row refutes the carrier surface.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, completion, cauchylimitseal: no listed sibling supplies the whole sequential real completion packet because each sibling contributes only windowing, regular readback, dyadic tolerance, real sealing, completion consumption, or limit-seal handoff while this chapter binds them into one finite regular-Cauchy completion route.}
+
+\closureat{SequentialRealCompletionUp}{seedStr}
+
+\begin{closurestatus}{\SequentialRealCompletionUp}
+  \constructivestory{A $\SequentialRealCompletionUp$ packet is generated from StreamName windows, RegSeqRat regular rational readback, DyadicRatCore tolerance ledgers, regular-Cauchy coherence rows, a RealUp seal, a CauchyLimitSeal handoff, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-real-completion-carrier}, \autoref{thm:sequential-real-completion-namecert-obligations}, and \autoref{thm:sequential-real-completion-cauchy-seal-route} seed the finite regular-Cauchy completion route from sequential names to the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient representatives, host equality of completed objects, countable choice, selected host limits, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName window coverage, RegSeqRat readback, DyadicRatCore tolerance exactness, regular-Cauchy coherence, CauchyLimitSeal handoff, RealUp seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.SequentialRealCompletionUp.}
+\end{closurestatus}

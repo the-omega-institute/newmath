@@ -1,0 +1,254 @@
+\chapter{Theorem-DNA Scoring TasteGate}
+\label{ch:theorem-dna-scoring-taste-gate}
+\origin{ai}
+
+\autoref{ch:visions-theory-stability-taste-gate} records the carrier-facing
+gate: a chapter carrier must display as an event flow, read back through a
+partial decoder, and separate distinct carrier tokens by distinct displays.
+\autoref{ch:theorem-dna-complexity-scoring} records the theorem-facing
+profile: a theorem flow is not a statement string but an eight-locus event-flow
+profile with statement, dependencies, proof, certificates, ledger, status,
+canonical site, and closing seal. The present chapter composes the two
+readings into a stronger admission schema for theorem-like carriers.
+
+\section{Theorem-DNA packet}
+\label{sec:tdcs-theorem-dna-packet}
+
+\begin{definition}[Theorem locus set]
+\label{def:tdcs-theorem-locus-set}
+The theorem-DNA locus set is
+$$
+\mathcal L_{\Theta}=
+\{\ell_{\mathsf{stmt}},\ell_{\mathsf{deps}},\ell_{\mathsf{proof}},
+\ell_{\mathsf{cert}},\ell_{\mathsf{ledger}},\ell_{\mathsf{status}},
+\ell_{\mathsf{site}},\ell_{\mathsf{seal}}\},
+$$
+corresponding respectively to statement, dependencies, proof, certificates,
+ledger, status, canonical site, and closing seal.
+\end{definition}
+
+\begin{definition}[Theorem-DNA packet]
+\label{def:tdcs-theorem-dna-packet}
+For a generated theorem recognizer $R$ and theorem candidate flow $T$, a
+theorem-DNA packet is an eight-tuple
+$$
+D_R(T)=
+(G_{\mathsf{stmt}},G_{\mathsf{deps}},G_{\mathsf{proof}},
+G_{\mathsf{cert}},G_{\mathsf{ledger}},G_{\mathsf{status}},
+G_{\mathsf{site}},G_{\mathsf{seal}})
+$$
+whose components satisfy the matching GroundCompiler role-subflow predicates.
+It is anchored when each component is a source subflow of $T$. It is sound when
+the recognizer also satisfies $\mathsf{SoundTheoremFlow}(R,T)$.
+\end{definition}
+
+\begin{theorem}[Sound theorem-DNA is role-complete]
+\label{thm:tdcs-sound-dna-role-complete}
+Every sound theorem-DNA packet contains all eight theorem loci.
+\end{theorem}
+\begin{proof}
+Sound theorem-DNA includes a theorem-DNA packet, and the packet is defined as
+the eight matching role-subflow witnesses. This is the paper-side unpacking of
+GroundCompiler complete theorem-flow recognition.
+\end{proof}
+
+\section{Score certificate}
+\label{sec:tdcs-score-certificate}
+
+\begin{definition}[Flow mass and score]
+\label{def:tdcs-flow-mass-score}
+For an event flow $S=(w_0,\ldots,w_{n-1})$, define
+$$
+|S|_{\mathsf{flow}}=
+n+\sum_{i=0}^{n-1}|w_i|_{\mathsf{raw}}.
+$$
+For a theorem-DNA packet $D_R(T)$, its complexity vector is the nine-coordinate
+vector of the eight locus masses together with the recognizer mass
+$|R|_{\mathsf{flow}}$. A weight profile
+$\mathbf w\in\mathbb N^9$ assigns public weights to these nine coordinates,
+and the score $\mathsf{Score}_{\mathbf w}(R,D_R(T))$ is the resulting dot
+product.
+\end{definition}
+
+\begin{definition}[Score certificate]
+\label{def:tdcs-score-certificate}
+For a bound $B\in\mathbb N$, a score certificate consists of a sound
+theorem-DNA packet $D_R(T)$ together with the displayed inequality
+$$
+\mathsf{Score}_{\mathbf w}(R,D_R(T))\leq B.
+$$
+It is an auditable upper bound, not a claim that $B$ is the minimal complexity
+of the theorem flow.
+\end{definition}
+
+\begin{theorem}[Score monotonicity]
+\label{thm:tdcs-score-monotonicity}
+For fixed nonnegative weights, componentwise reduction of the theorem-DNA
+complexity vector cannot increase the score.
+\end{theorem}
+\begin{proof}
+This is componentwise monotonicity of a dot product with entries in
+$\mathbb N$. Each coordinate inequality remains valid after multiplication by
+its corresponding weight, and summing preserves the inequality.
+\end{proof}
+
+\begin{theorem}[Scalar score depends on the weight profile]
+\label{thm:tdcs-scalar-score-depends-on-weight-profile}
+A scalar theorem-DNA score is auditable only together with its weight profile.
+\end{theorem}
+\begin{proof}
+Two complexity vectors can trade off statement mass against dependency mass.
+A weight profile concentrated on the first coordinate orders them one way,
+while a profile concentrated on the second coordinate orders them the other
+way. Therefore the weight profile is part of the score certificate.
+\end{proof}
+
+\section{The strengthened gate}
+\label{sec:tdcs-strengthened-gate}
+
+\begin{definition}[Canonical carrier]
+\label{def:tdcs-canonical-carrier}
+For a carrier $X$ with a \texttt{BHistCarrier} display, the canonical carrier
+condition consists of the round-trip equation
+$$
+\forall x:X,\quad
+\mathsf{fromEventFlow}(\mathsf{toEventFlow}(x))=\mathsf{some}(x)
+$$
+and image exactness
+$$
+\forall e,x,\quad
+\mathsf{fromEventFlow}(e)=\mathsf{some}(x)
+\Rightarrow
+e=\mathsf{toEventFlow}(x).
+$$
+The first clause says that the canonical display reads back. The second says
+that the decoder accepts no non-canonical display for the same token.
+\end{definition}
+
+\begin{definition}[Theorem-DNA scoring TasteGate]
+\label{def:tdcs-gate}
+A theorem-like carrier $X$ passes the theorem-DNA scoring TasteGate at weight
+profile $\mathbf w$ and budget $B:X\to\mathbb N$ when:
+$$
+\begin{gathered}
+X \text{ has a } \mathsf{BHistCarrier}\text{ display},\\
+X \text{ satisfies the canonical carrier condition},\\
+X \text{ satisfies } \mathsf{FieldFaithful}\text{ and } \mathsf{Nontrivial},\\
+\forall x:X,\;T_x=\mathsf{toEventFlow}(x)
+\text{ carries anchored sound theorem-DNA},\\
+\forall x:X,\;\mathsf{Score}_{\mathbf w}(R_x,D_x)\leq B(x)
+\text{ for a displayed score certificate}.
+\end{gathered}
+$$
+This gate is denoted $\mathsf{TDCSGate}(X,\mathbf w,B)$.
+\end{definition}
+
+\begin{theorem}[TDCSGate implies ChapterTasteGate]
+\label{thm:tdcs-implies-chapter-tastegate}
+If $\mathsf{TDCSGate}(X,\mathbf w,B)$ holds, then $X$ satisfies
+\texttt{ChapterTasteGate}.
+\end{theorem}
+\begin{proof}
+The canonical carrier condition supplies the round-trip field. To prove layer
+separation, suppose $x\neq y$ and
+$\mathsf{toEventFlow}(x)=\mathsf{toEventFlow}(y)$. Applying round-trip to both
+tokens gives the same decoder value, hence $\mathsf{some}(x)=\mathsf{some}(y)$,
+so $x=y$, a contradiction.
+\end{proof}
+
+\begin{corollary}[Derived display obligations are inherited]
+\label{cor:tdcs-inherits-derived-display-obligations}
+A carrier passing $\mathsf{TDCSGate}$ inherits the existing TasteGate
+conservativity and no-hidden-input theorems.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:tdcs-implies-chapter-tastegate}, the carrier satisfies
+\texttt{ChapterTasteGate}. Conservativity and no-hidden-input are derived
+theorems of that gate, not fields supplied by the carrier.
+\end{proof}
+
+\section{Exclusion principles}
+\label{sec:tdcs-exclusion-principles}
+
+\begin{theorem}[Statement-only carriers cannot pass]
+\label{thm:tdcs-statement-only-carriers-cannot-pass}
+A carrier whose displayed theorem candidate can supply only the statement
+locus and no proof locus cannot pass $\mathsf{TDCSGate}$.
+\end{theorem}
+\begin{proof}
+The gate requires anchored sound theorem-DNA for every displayed token. By
+\autoref{thm:tdcs-sound-dna-role-complete}, such DNA contains a proof locus.
+This contradicts the hypothesis. The GroundCompiler theorem
+\texttt{statement\_alone\_not\_theorem} is the corresponding checked boundary.
+\end{proof}
+\leanvariant{BEDC.GroundCompiler.TheoremGenerated.statement\_alone\_not\_theorem}
+
+\begin{theorem}[Code-only theorem objects cannot pass]
+\label{thm:tdcs-code-only-carriers-cannot-pass}
+A displayed candidate whose only evidence is legal theorem code, with no
+proof-sound theorem recognition, cannot pass $\mathsf{TDCSGate}$.
+\end{theorem}
+\begin{proof}
+The gate requires sound theorem-DNA, hence $\mathsf{SoundTheoremFlow}$ for the
+displayed theorem candidate. Sound theorem flow contains proof-sound theorem
+recognition. Legal code without proof-sound recognition therefore fails the
+gate. The GroundCompiler theorem \texttt{theorem\_code\_is\_not\_proof}
+records the checked separation.
+\end{proof}
+\leanvariant{BEDC.GroundCompiler.TheoremGenerated.theorem\_code\_is\_not\_proof}
+
+\begin{theorem}[Anchoring prevents locus hiding]
+\label{thm:tdcs-anchoring-prevents-locus-hiding}
+In a carrier passing $\mathsf{TDCSGate}$, theorem-DNA loci such as proof,
+certificate, ledger, status, site, and seal cannot be supplied by a hidden
+table or external oracle.
+\end{theorem}
+\begin{proof}
+The gate requires anchored theorem-DNA. Therefore every locus subflow must be a
+source subflow of the displayed theorem candidate $T_x=\mathsf{toEventFlow}(x)$.
+Hidden tables and external oracles are not source subflows of $T_x$.
+\end{proof}
+
+\section{Score and discovery}
+\label{sec:tdcs-score-and-discovery}
+
+\begin{definition}[DNA mutation inside the gate]
+\label{def:tdcs-dna-mutation}
+For a fixed displayed theorem candidate $T_x$, a DNA mutation is a passage
+$$
+D_R(T_x)\leadsto D'_{R'}(T_x)
+$$
+between two anchored sound theorem-DNA packets.
+\end{definition}
+
+\begin{theorem}[Complexity reduction does not imply discovery]
+\label{thm:tdcs-complexity-reduction-not-discovery}
+A mutation can reduce theorem-DNA score while leaving the theorem classifier
+phenotype unchanged.
+\end{theorem}
+\begin{proof}
+A proof-locus replacement may reduce proof mass while preserving statement,
+dependencies, certificate, ledger, status, canonical site, closing seal, and
+phenotype. With positive proof weight the score decreases, but no classifier
+shift has occurred.
+\end{proof}
+
+\begin{theorem}[Classifier shift need not reduce score]
+\label{thm:tdcs-classifier-shift-need-not-reduce-score}
+A classifier-shifting mutation can fail to reduce theorem-DNA score.
+\end{theorem}
+\begin{proof}
+A mutation that changes the theorem classifier phenotype may introduce larger
+certificate, ledger, seal, or recognizer loci. Under nonnegative weights these
+additional loci can keep the score unchanged or increase it.
+\end{proof}
+
+\begin{principle}[TDCSGate adequacy]
+\label{prin:tdcs-gate-adequacy}
+The theorem-DNA scoring TasteGate admits only carriers whose displays are
+canonical, field-faithful, nontrivial, theorem-DNA complete, anchored, sound,
+and accompanied by a public complexity score certificate.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-tastegateadmission-namecert}{TasteGate admission packets supply the carrier-facing display and readback side consumed by TDCSGate.}
+\concretizedIn{ch:concrete-instances-theorem-flow-recognition-namecert}{Theorem-flow recognition packets supply the eight-locus theorem-DNA side consumed by TDCSGate.}

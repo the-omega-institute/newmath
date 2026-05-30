@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\JacobiIterationUp$}
+\label{ch:concrete-instances-jacobi-iteration-namecert}
+\origin{human}
+
+Following Jacobi's iterative method for linear systems, the $\JacobiIterationUp$ packet records the finite BEDC certificate surface of a displayed diagonal split, residual update, iteration schedule, and contraction-budget handoff. It consumes the matrix and linear-map rows read through $\MatrixUp$ and $\LinearMapUp$, the norm budget of $\NormUp$, the Cauchy-orbit handoff of \autoref{ch:concrete-instances-cauchy-sequence-criterion-namecert}, and the fixed-point iteration interface already named by $\FixedPointIterationUp$. The packet names the local row discipline for one displayed iteration scheme; it is not a host convergence theorem, spectral-radius theorem, chosen solution vector, quotient sequence equality, or ambient completeness assertion.
+
+\begin{definition}[Jacobi iteration carrier]
+\label{def:jacobi-iteration-carrier}
+A $\JacobiIterationUp$ carrier is a finite $\BHist$ packet
+$$
+J=(A,D,R,S,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the matrix/vector system row, exposing the finite linear system and right-hand side only through the consumed $\MatrixUp$ and $\LinearMapUp$ surfaces.
+\item $D$ is the diagonal split row, displaying the diagonal part and the residual part as finite matrix rows without assuming an external inverse beyond the displayed diagonal update.
+\item $R$ is the residual update row, recording the deterministic map from the current iterate and the system row to the next displayed iterate.
+\item $S$ is the iteration schedule row, listing the finite observation windows and the orbit positions that a consumer may inspect.
+\item $B$ is the displayed norm and contraction-budget row, exposing the finite descent inequalities read through $\NormUp$ and the fixed-point iteration budget.
+\item $H$ transports $A,D,R,S,B,C,P,N$ componentwise by $\hsame$.
+\item $C$ replays the displayed $\Cont$ updates from a system read through the diagonal split, residual update, schedule, norm budget, and Cauchy-orbit handoff.
+\item $P$ records $\Pkg$ provenance over $\MatrixUp$, $\LinearMapUp$, $\NormUp$, $\CauchySequenceCriterionUp$, $\FixedPointIterationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\JacobiIterationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,D,R,S,B,H,C,P,N$. It has no coordinate for a host solution vector, unrestricted spectral-radius argument, quotient sequence equality, selected limit, countable choice, or ambient Banach-space completeness.
+\end{definition}
+
+\begin{theorem}[Jacobi iteration NameCert obligations]
+\label{thm:jacobi-iteration-namecert-obligations}
+For every accepted $\JacobiIterationUp$ carrier $J=(A,D,R,S,B,H,C,P,N)$, the local $\NameCert_{\JacobiIterationUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the system, diagonal split, residual update, iteration schedule, contraction budget, transport, replay, provenance, and local naming rows;
+\item diagonal split exposure, requiring $D$ to be read after the matrix/vector system row $A$ and before any residual update is inspected;
+\item residual-update determinacy, requiring $R$ to compute the next displayed iterate from the current iterate and the exposed split rows;
+\item contraction-budget descent, requiring $B$ to record the finite norm comparisons used by the schedule row;
+\item Cauchy-orbit handoff, requiring the accepted schedule and budget rows to hand only the displayed orbit windows to $\CauchySequenceCriterionUp$ and $\FixedPointIterationUp$ consumers;
+\item transport and replay preservation through $H$ and $C$;
+\item provenance and local naming through $P$ and $N$;
+\item non-escape from the displayed packet, excluding host convergence, selected limits, quotient sequence equality, unrestricted spectral-radius reasoning, countable choice, and ambient completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:jacobi-iteration-carrier}. The only analytic rows are the system row $A$, diagonal split $D$, residual update $R$, schedule $S$, and budget row $B$.
+
+The diagonal split is exposed before residual replay. Thus each accepted update reads the same displayed system and split rows, and the next iterate is determined by the finite residual row rather than by an external solver.
+
+The budget row is also finite. It records the norm comparisons consumed by the schedule, and the schedule hands only those displayed orbit windows to the Cauchy-sequence and fixed-point iteration consumers.
+
+Transport, replay, provenance, and naming preserve the same rows. Since the refused objects have no carrier coordinate in $J$, the local certificate exports only the displayed Jacobi iteration packet.
+\end{proof}
+
+\closureat{JacobiIterationUp}{seedStr}
+
+\begin{closurestatus}{\JacobiIterationUp}
+  \constructivestory{A $\JacobiIterationUp$ packet is generated from a displayed matrix/vector system row, a diagonal split row, a residual update row, an iteration schedule, a norm/contraction budget, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:jacobi-iteration-carrier} and \autoref{thm:jacobi-iteration-namecert-obligations} seed the finite Jacobi iteration certificate over matrix, linear-map, norm, Cauchy-sequence criterion, fixed-point iteration, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host convergence, spectral-radius convergence, selected solutions, quotient sequence equality, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal split exposure, residual-update determinacy, contraction-budget descent, Cauchy-orbit handoff, transport, replay, provenance, and local naming for BEDC.Derived.JacobiIterationUp.}
+\end{closurestatus}

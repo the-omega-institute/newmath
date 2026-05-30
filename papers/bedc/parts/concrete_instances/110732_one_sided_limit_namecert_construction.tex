@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\OneSidedLimitUp$}
+\label{ch:concrete-instances-one-sided-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\OneSidedLimitUp$ packet records the left- and right-hand real-limit interface as finite BEDC data. It sits next to the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\StreamNameUp$ observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names only displayed side-tagged approach windows, regular rational reads, dyadic tolerance rows, transport, replay, provenance, and a terminal Real seal; it does not import two-sided completeness, host real equality, quotient streams, trichotomy, or a selected limiting point.
+
+\begin{definition}[One-sided limit carrier]\label{def:one-sided-limit-carrier}
+A $\OneSidedLimitUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,L,W,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the approach-anchor row, naming the source point or endpoint cell at which the one-sided read is taken.
+\item $L$ is the side classifier row, with each visible approach window tagged as left-hand or right-hand before any limiting seal is inspected.
+\item $W$ is the finite approach-window row, listing only windows compatible with the tag in $L$ and the anchor in $A$.
+\item $S$ is the $\StreamNameUp$ observation schedule opened by the side-tagged windows.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational data observed on $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the displayed one-sided comparisons.
+\item $E$ is the terminal $\RealUp$ seal row reached from $A,L,W,S,R,D$.
+\item $H$ records componentwise $\hsame$ transport for the anchor, side classifier, windows, stream schedule, regular readback, dyadic ledger, Real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from the side-tagged approach windows through the stream, readback, dyadic, and Real-seal rows.
+\item $P$ is the $\Pkg$ provenance over $\OneSidedLimitUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\OneSidedLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $A,L,W,S,R,D,E,H,C,P,N$. It has no coordinate for a two-sided completion theorem, quotient real equality, host order trichotomy, countable choice, or a selected limit outside the named side-tagged windows.
+\end{definition}
+\leanchecked{BEDC.Derived.OneSidedLimitUp.OneSidedLimitTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[One-sided limit NameCert obligations]\label{thm:one-sided-limit-namecert-obligations}
+For every accepted $\OneSidedLimitUp$ carrier $K=(A,L,W,S,R,D,E,H,C,P,N)$, the local $\NameCert_{\OneSidedLimitUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the approach anchor, side classifier, approach windows, stream schedule, regular readback, dyadic ledger, Real seal, transport, replay, provenance, and local naming rows;
+\item side classifier stability, requiring each transported window to retain its left-hand or right-hand tag before a readback row is consumed;
+\item dyadic tolerance ledger exactness, requiring $D$ to expose only the tolerance rows demanded by the side-tagged windows in $W$;
+\item $\StreamNameUp$ and $\RegSeqRatUp$ readback, requiring $S$ and $R$ to read only the finite observations selected by $A,L,W$;
+\item Real seal nonescape, requiring $E$ to remain downstream of $A,L,W,S,R,D$ and never to serve as a two-sided completeness witness or host real equality row;
+\item componentwise transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No $\OneSidedLimitUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:one-sided-limit-carrier}. The accepted packet displays the approach anchor $A$, side classifier $L$, finite approach windows $W$, stream schedule $S$, regular readback $R$, dyadic ledger $D$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Side classifier stability is componentwise. A transported window may be read only with the left-hand or right-hand tag already recorded in $L$, and the replay row $C$ keeps the same tag attached while the stream and regular-rational rows are inspected.
+
+The tolerance and readback rows are downstream of the same finite windows. The ledger $D$ records the dyadic comparisons demanded by $W$, the schedule $S$ opens only those observations, and $R$ records the regular rational readback.
+
+Finally, the Real seal $E$ is terminal for the route. Since the carrier contains no row for two-sided completeness, quotient real equality, host order trichotomy, countable choice, or a selected limit outside the displayed windows, those objects cannot become local obligations.
+\end{proof}
+
+\begin{theorem}[One-sided limit Real-seal handoff]\label{thm:one-sided-limit-realseal-handoff}
+Every $\RealUp$-facing consumer of an accepted $\OneSidedLimitUp$ packet reads the proposed one-sided limit only through the displayed finite route
+$$
+A,L,W,S,R,D,E,H,C,P,N .
+$$
+Consequently the handoff to $\RealUp$ is available only after the approach anchor, side classifier, finite approach windows, StreamName schedule, RegSeqRat readback, and DyadicRatCore tolerance ledger have been exposed. The handoff exports no two-sided completeness theorem, quotient stream equality, host real equality, order trichotomy, countable choice principle, or selected limiting point.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:one-sided-limit-carrier}. Its Real-facing row is the single terminal coordinate $E$, and the only route to $E$ passes through $A,L,W,S,R,D$ and the structural rows $H,C,P,N$.
+
+The finite approach windows determine the side of approach before readback begins. Thus a consumer that asks for a Real seal must already have read the side classifier, the compatible windows, the stream schedule, the regular rational row, and the dyadic tolerance ledger.
+
+The remaining coordinates transport and name the same route. Because no carrier row stores a two-sided completion principle, quotient equality, host equality, trichotomy, choice, or an independent selected limit, the Real-seal handoff cannot export any of those objects.
+\end{proof}
+
+\falsifiablePrediction{Every $\OneSidedLimitUp$ Real-facing read factors through an approach anchor, a left/right side classifier, finite approach windows, a StreamName schedule, RegSeqRat readback, a DyadicRatCore tolerance ledger, a terminal RealUp seal, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{real, regseqrat, streamname, dyadicratcore: $\OneSidedLimitUp$ is not bijective to any listed sibling because it jointly carries a side classifier, finite approach windows, scheduled regular-rational readback, dyadic tolerance data, and a terminal Real seal in one one-sided packet.}
+
+\closureat{OneSidedLimitUp}{seedStr}
+
+\begin{closurestatus}{\OneSidedLimitUp}
+  \constructivestory{A $\OneSidedLimitUp$ packet is generated from an approach anchor, a left/right side classifier, finite approach windows, StreamName schedules, RegSeqRat readbacks, DyadicRatCore tolerance ledgers, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:one-sided-limit-carrier}, \autoref{thm:one-sided-limit-namecert-obligations}, and \autoref{thm:one-sided-limit-realseal-handoff} seed the finite one-sided real-limit route through side-tagged approach windows and terminal Real seals.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.OneSidedLimitUp.OneSidedLimitTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close two-sided real completeness, quotient stream equality, host real equality, trichotomy, countable choice, selected limits outside the displayed windows, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, side classifier stability, dyadic tolerance exactness, StreamName and RegSeqRat readback, Real seal nonescape, componentwise transport, replay, provenance, and local naming for BEDC.Derived.OneSidedLimitUp.}
+\end{closurestatus}

@@ -296,4 +296,25 @@ theorem FormalBallCarrier_completion_dependency_scope [AskSetup] [PackageSetup]
     ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, completionUnary,
       metricRadiusDyadic, dyadicWindowCompletion, provenancePkg, completionPkg⟩
 
+theorem FormalBallCarrier_radius_refinement [AskSetup] [PackageSetup]
+    {metric radius dyadic window transport replay provenance nameCert refinedWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FormalBallCarrier metric radius dyadic window transport replay provenance nameCert bundle
+        pkg ->
+      Cont radius dyadic refinedWindow ->
+        PkgSig bundle refinedWindow pkg ->
+          UnaryHistory metric ∧ UnaryHistory radius ∧ UnaryHistory dyadic ∧
+            UnaryHistory refinedWindow ∧ Cont radius dyadic refinedWindow ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle refinedWindow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier radiusDyadicRefined refinedPkg
+  obtain ⟨metricUnary, radiusUnary, dyadicUnary, _windowUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _nameCertUnary, _metricRadius, _dyadicWindowReplay,
+    _transportReplay, provenancePkg⟩ := carrier
+  have refinedUnary : UnaryHistory refinedWindow :=
+    unary_cont_closed radiusUnary dyadicUnary radiusDyadicRefined
+  exact
+    ⟨metricUnary, radiusUnary, dyadicUnary, refinedUnary, radiusDyadicRefined,
+      provenancePkg, refinedPkg⟩
+
 end BEDC.Derived.FormalBallUp

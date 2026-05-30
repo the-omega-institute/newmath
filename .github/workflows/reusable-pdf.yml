@@ -26,6 +26,14 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  # 论文规模 (数千章 / 两万余页) 撑爆 pdflatex 默认字符串池
+  # (pool_size=5417750). 这些是 kpathsea 运行时可调量 (非 format-dump 固定),
+  # env 覆盖 texmf.cnf 即可抬高容量, 无需重建 format.
+  pool_size: 300000000
+  max_strings: 12000000
+  hash_extra: 4000000
+  string_vacancies: 200000
+  pool_free: 200000
 
 jobs:
   build-main-pdf:
@@ -33,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     container:
-      image: ghcr.io/xu-cheng/texlive-full:latest
+      image: ghcr.io/xu-cheng/texlive-full@sha256:8b4a00b6a17ebe6b96dee107d82f0cb3eb40daf322f1e23809a9be26486963dd
     defaults:
       run:
         shell: bash

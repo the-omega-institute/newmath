@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NormalFormConsistencySealUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -275,5 +278,112 @@ theorem NormalFormConsistencySealTasteGate_single_carrier_alignment :
         · intro x w m hw hm
           exact BMark_generated_cases m
         · rfl
+
+theorem NormalFormConsistencySealSubjectReductionBoundary
+    {typing falseRow normality theoremRow boundary closedRead : BHist} :
+    UnaryHistory typing ->
+      UnaryHistory normality ->
+        UnaryHistory boundary ->
+          Cont typing normality theoremRow ->
+            Cont theoremRow boundary closedRead ->
+              UnaryHistory theoremRow ∧ UnaryHistory closedRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro typingUnary normalityUnary boundaryUnary subjectRoute boundaryRoute
+  have theoremRowUnary : UnaryHistory theoremRow :=
+    unary_cont_closed typingUnary normalityUnary subjectRoute
+  have closedReadUnary : UnaryHistory closedRead :=
+    unary_cont_closed theoremRowUnary boundaryUnary boundaryRoute
+  exact ⟨theoremRowUnary, closedReadUnary⟩
+
+theorem NormalFormConsistencySealClosedNormalFrontier
+    {T F N K H C P L typedFalse normalTheorem closedRoute namedRoute : BHist} :
+    UnaryHistory T ->
+      UnaryHistory F ->
+        UnaryHistory N ->
+          UnaryHistory K ->
+            UnaryHistory H ->
+              Cont T F typedFalse ->
+                Cont N K normalTheorem ->
+                  Cont typedFalse normalTheorem closedRoute ->
+                    Cont closedRoute H namedRoute ->
+                      UnaryHistory typedFalse ∧
+                        UnaryHistory normalTheorem ∧
+                          UnaryHistory closedRoute ∧
+                            UnaryHistory namedRoute := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro typingUnary falseUnary normalUnary theoremUnary transportUnary
+    typedFalseRoute normalTheoremRoute closedRouteRoute namedRouteRoute
+  have typedFalseUnary : UnaryHistory typedFalse :=
+    unary_cont_closed typingUnary falseUnary typedFalseRoute
+  have normalTheoremUnary : UnaryHistory normalTheorem :=
+    unary_cont_closed normalUnary theoremUnary normalTheoremRoute
+  have closedRouteUnary : UnaryHistory closedRoute :=
+    unary_cont_closed typedFalseUnary normalTheoremUnary closedRouteRoute
+  have namedRouteUnary : UnaryHistory namedRoute :=
+    unary_cont_closed closedRouteUnary transportUnary namedRouteRoute
+  exact ⟨typedFalseUnary, normalTheoremUnary, closedRouteUnary, namedRouteUnary⟩
+
+theorem NormalFormConsistencySealObligationClosure
+    {T F N K X H L typedFalse normalTheorem boundaryRead transportedRead namedRead : BHist} :
+    UnaryHistory T ->
+      UnaryHistory F ->
+        UnaryHistory N ->
+          UnaryHistory K ->
+            UnaryHistory X ->
+              UnaryHistory H ->
+                UnaryHistory L ->
+                  Cont T F typedFalse ->
+                    Cont N K normalTheorem ->
+                      Cont normalTheorem X boundaryRead ->
+                        Cont boundaryRead H transportedRead ->
+                          Cont transportedRead L namedRead ->
+                            UnaryHistory typedFalse ∧ UnaryHistory normalTheorem ∧
+                              UnaryHistory boundaryRead ∧ UnaryHistory transportedRead ∧
+                                UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro tUnary fUnary nUnary kUnary xUnary hUnary lUnary typedFalseRoute normalTheoremRoute
+    boundaryRoute transportRoute nameRoute
+  have typedFalseUnary : UnaryHistory typedFalse :=
+    unary_cont_closed tUnary fUnary typedFalseRoute
+  have normalTheoremUnary : UnaryHistory normalTheorem :=
+    unary_cont_closed nUnary kUnary normalTheoremRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed normalTheoremUnary xUnary boundaryRoute
+  have transportedReadUnary : UnaryHistory transportedRead :=
+    unary_cont_closed boundaryReadUnary hUnary transportRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed transportedReadUnary lUnary nameRoute
+  exact
+    ⟨typedFalseUnary, normalTheoremUnary, boundaryReadUnary, transportedReadUnary,
+      namedReadUnary⟩
+
+theorem NormalFormConsistencySealFiniteWindowDeterminacy
+    {T F N K H T' F' N' K' H' typedFalse typedFalse' normalTheorem normalTheorem'
+      closedRoute closedRoute' namedRoute namedRoute' : BHist} :
+    hsame T T' ->
+      hsame F F' ->
+        hsame N N' ->
+          hsame K K' ->
+            hsame H H' ->
+              Cont T F typedFalse ->
+                Cont N K normalTheorem ->
+                  Cont typedFalse normalTheorem closedRoute ->
+                    Cont closedRoute H namedRoute ->
+                      Cont T' F' typedFalse' ->
+                        Cont N' K' normalTheorem' ->
+                          Cont typedFalse' normalTheorem' closedRoute' ->
+                            Cont closedRoute' H' namedRoute' ->
+                              hsame namedRoute namedRoute' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro sameTyping sameFalse sameNormal sameTheorem sameBoundary typedFalseRoute
+    normalTheoremRoute closedRouteRoute namedRouteRoute typedFalseRoute'
+    normalTheoremRoute' closedRouteRoute' namedRouteRoute'
+  have typedFalseSame : hsame typedFalse typedFalse' :=
+    cont_respects_hsame sameTyping sameFalse typedFalseRoute typedFalseRoute'
+  have normalTheoremSame : hsame normalTheorem normalTheorem' :=
+    cont_respects_hsame sameNormal sameTheorem normalTheoremRoute normalTheoremRoute'
+  have closedRouteSame : hsame closedRoute closedRoute' :=
+    cont_respects_hsame typedFalseSame normalTheoremSame closedRouteRoute closedRouteRoute'
+  exact cont_respects_hsame closedRouteSame sameBoundary namedRouteRoute namedRouteRoute'
 
 end BEDC.Derived.NormalFormConsistencySealUp

@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\RationalFastLimitUp$}
+\label{ch:concrete-instances-rational-fast-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RationalFastLimitUp$ packet records the Bishop-style presentation of a real name as rational observations with an explicit fast tail budget. It sits over the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, the fast Cauchy real packet of \autoref{ch:concrete-instances-fast-cauchy-real-namecert}, and the explicit modulus packet of \autoref{ch:concrete-instances-fast-cauchy-modulus-namecert}. The carrier makes the rational fast-limit surface available to L10 Real and Completion consumers without quotienting streams, selecting representatives, or importing countable choice.
+
+\begin{definition}[RationalFastLimit carrier]\label{def:rational-fast-limit-carrier}
+A $\RationalFastLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the rational observation row, listing the finite rational approximants read by the current precision request.
+\item $D$ is the fast dyadic tail-budget row, recording the dyadic tolerance scale, comparison budget, and tail witness used to compare later rational observations.
+\item $S$ is the finite $\StreamNameUp$ window row naming exactly which rational observations may be opened by the request.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from $Q,D,S$ after the fast budget has bounded the visible tail.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the rational observation, dyadic budget, stream-window, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for rational observations, dyadic tail budgets, stream windows, regular readback, the Real seal, continuation, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a finite precision request through $Q,D,S,R,E$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\RationalFastLimitUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\FastCauchyRealUp$, $\FastCauchyModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalFastLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,D,S,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected rational representatives, a host real limit, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RationalFastLimit NameCert obligations]\label{thm:rational-fast-limit-namecert-obligations}
+For every accepted $\RationalFastLimitUp$ carrier $L=(Q,D,S,R,E,H,C,P,N)$, the local $\NameCert_{\RationalFastLimitUp}$ surface consists exactly of rational observation admission, fast dyadic tail-budget exposure, finite stream-window service, regular rational handoff, Real seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every consumer must read the finite route
+$$
+Q,D,S \longmapsto R \longmapsto E \longmapsto H,C,P,N
+$$
+before treating the packet as a real-name boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rational-fast-limit-carrier}. The rows $Q,D,S$ are the only source rows available to a precision request: rational observations, the fast dyadic tail budget, and the finite window schedule.
+
+The regular handoff is downstream of those rows. The dyadic budget $D$ supplies the tolerance comparison used to bound the tail of the rational observations in $Q$, while $S$ restricts the read to displayed finite windows.
+
+The Real seal row $E$ is reached only after $R$. The structural rows $H,C,P,N$ transport, replay, source, and name the same displayed route, so no quotient stream equality, selected representative, countable choice, or ambient completeness principle is introduced by the certificate.
+\end{proof}
+
+\begin{theorem}[RationalFastLimit regular readback]\label{thm:rational-fast-limit-regular-readback}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RationalFastLimitUp$ packet factors through rational observations, the fast dyadic tail budget, finite stream windows, and the regular rational handoff. Equivalently, the consumer route is the displayed sibling chain
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+$$
+with $\FastCauchyRealUp$ and $\FastCauchyModulusUp$ supplying the fast-limit interpretation of the dyadic budget row. The packet exports no direct rational-stream-to-real shortcut.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet $L=(Q,D,S,R,E,H,C,P,N)$. The rational observations are read from $Q$, but their use as a real-name approximation is constrained by the fast dyadic tail budget $D$.
+
+The finite window row $S$ determines which observations can be inspected. After $Q,D,S$ are fixed, the handoff row $R$ repacks the same data as a regular rational name, matching the route used by the $\RegSeqRatUp$ sibling.
+
+The terminal seal $E$ is downstream of $R$, and the fast interpretation of the budget is exactly the one exposed by $\FastCauchyRealUp$ and $\FastCauchyModulusUp$. Since the carrier has no coordinate for a host real limit or a quotient stream, every regular or Real consumer remains inside the displayed finite route.
+\end{proof}
+
+\begin{closurestatus}{\RationalFastLimitUp}
+  \constructivestory{A $\RationalFastLimitUp$ packet is generated from rational observation rows, a fast dyadic tail budget, finite StreamName windows, a RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-fast-limit-carrier}, \autoref{thm:rational-fast-limit-namecert-obligations}, and \autoref{thm:rational-fast-limit-regular-readback} seed the finite rational fast-limit route into regular rational and Real-facing readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, host real limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fast tail-budget exactness, finite-window service, regular readback, Real seal nonescape, componentwise stability, provenance, and local naming for the displayed packet.}
+\end{closurestatus}
