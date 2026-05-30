@@ -136,6 +136,20 @@ The structural rows close the stability claim. Componentwise transport $H$, repl
 
 \independenceWitness{typelike, firstorder, modeltheory: $\SetLikeUp$ is not bijective to any listed sibling because it carries membership source, classifier, subset implication, restricted comprehension, extensionality boundary, componentwise transport, continuation replay, provenance, and local NameCert rows. TypeLikeUp adds displayed indexed fibers beyond membership; FirstOrderUp adds syntax and deduction rows without membership-source extensionality; ModelTheoryUp adds satisfaction over FirstOrderUp without a general finite membership carrier.}
 
+\begin{theorem}[SetLike subset ledger obligation]
+\label{thm:setlike-subset-ledger-obligation}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the subset ledger exposed to downstream consumers consists exactly of membership-carrier rows $M,Q$, subset-as-membership-implication rows $I$, restricted-comprehension provenance rows $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, and the local $\NameCert_{\SetLikeUp}$ rows named through $P,N$. The ledger exports no host set extensionality, unrestricted comprehension, powerset row, quotient equality of sets, or external inclusion predicate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier in \autoref{def:setlike-carrier}. The membership source $M$ and displayed classifier $Q$ are the only rows from which membership facts can be read.
+
+Use the subset obligation of \autoref{thm:setlike-subset-implication-obligation}. The subset row $I$ is an implication between displayed membership classifiers over $M,Q$, not a host inclusion relation.
+
+Add the restricted-comprehension and extensional boundary controls from \autoref{thm:setlike-bounded-comprehension-obligation} and \autoref{thm:setlike-extensional-boundary-obligation}. The row $R$ records only bounded comprehension provenance, while $E$ remains a boundary ledger and does not export host set extensionality.
+
+Finally replay \autoref{thm:setlike-membership-route}. The structural rows $H,C,P,N$ preserve and name the same finite route, so the subset ledger seen by downstream TypeLike, FirstOrder, and ModelTheory consumers contains no powerset, unrestricted comprehension, quotient equality, or external inclusion coordinate.
+\end{proof}
+
 \closureat{SetLikeUp}{seedStr}
 
 \begin{closurestatus}{\SetLikeUp}

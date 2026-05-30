@@ -154,6 +154,42 @@ Apply \autoref{thm:metacic-decidable-boundary-sibling-provenance} and \autoref{t
 The classifier-stability theorem \autoref{thm:metacic-decidable-boundary-classifier-stability} transports the same displayed rows through $H,C$ without adding a new endpoint. Hence $T,S,B,F,R,H,C,P,N$ are exactly the obligation-closure package surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary ClosedAt refusal route]
+\label{thm:metacic-decidable-boundary-closedat-refusal-route}
+For an accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, any consumer asking for a standalone $\mathsf{ClosedAt}$ decision route is sent exactly to the refusal row $R$. The positive rows $T,S,B,F$ remain available for typing, structural equality, bounded normal comparison, and finished-normal side conditions, while $H,C,P,N$ only transport, replay, source, and name that finite boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidable-boundary-carrier}. The only coordinate assigned to a standalone $\mathsf{ClosedAt}$ decision theorem is the refusal coordinate $R$.
+
+Use refusal exactness from \autoref{thm:metacic-decidable-boundary-refusal-exactness}. It records the absence of standalone $\mathsf{ClosedAt}$ decidability without deleting the positive checker and comparison rows $T,S,B,F$.
+
+Finally apply classifier stability and ledger exactness, \autoref{thm:metacic-decidable-boundary-classifier-stability} and \autoref{thm:metacic-decidable-boundary-ledger-exactness}. The rows $H,C,P,N$ can replay only the displayed boundary, so a ClosedAt-facing consumer cannot find another route outside $R$.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable boundary fuel-window replay]
+\label{thm:metacic-decidable-boundary-fuel-window-replay}
+Let $D=(T,S,B,F,R,H,C,P,N)$ be an accepted $\MetaCICDecidableBoundaryUp$ packet. Every bounded comparison replay that reads $B$ must also expose the fuel and finished-normal side-condition row $F$. The replay may use $T,S,H,C,P,N$ to reach the finite comparison window, but it cannot erase $F$ or turn $B$ into fuel-free normalization.
+\end{theorem}
+\begin{proof}
+Start with the bounded comparison non-escape theorem \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}. It permits access to bounded normal equality only through the pair $B,F$.
+
+The window totality theorem \autoref{thm:metacic-decidable-boundary-window-totality} supplies the finite inspected window through $T,S$ together with $F$. Thus the replayed comparison keeps the side-condition row visible at the same point where $B$ is read.
+
+The remaining structural rows $H,C,P,N$ preserve the route but add no fuel-erased endpoint. Therefore bounded replay cannot remove $F$ and cannot export global normalization.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable boundary conversion nonescape package]
+\label{thm:metacic-decidable-boundary-conversion-nonescape-package}
+Every conversion-facing consumer of an accepted $\MetaCICDecidableBoundaryUp$ packet factors through the finite package $B,F,R,H,C,P,N$. The rows $B,F$ supply bounded comparison under finished-normal side conditions, $R$ records the missing global endpoints, and $H,C,P,N$ provide only componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with candidate normal-form reads from \autoref{thm:metacic-decidable-boundary-candidate-normal-form}. Any conversion-facing request reaches the bounded normal row $B$, the side-condition row $F$, and the refusal row $R$ before it can be replayed structurally.
+
+Apply fuel-window replay and ClosedAt refusal routing, \autoref{thm:metacic-decidable-boundary-fuel-window-replay} and \autoref{thm:metacic-decidable-boundary-closedat-refusal-route}. They keep the bounded comparison tied to $F$ and send standalone decision requests to $R$.
+
+The structural part of the package is then exactly $H,C,P,N$. By ledger exactness, these rows add no quotient equality, host evaluator, unrestricted beta-conversion decider, or fuel-free normalization theorem.
+\end{proof}
+
 \closureat{MetaCICDecidableBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICDecidableBoundaryUp}
