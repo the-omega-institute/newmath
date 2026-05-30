@@ -1010,6 +1010,7 @@ import BEDC.Derived.CantorIntersectionUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp.WidthWindowTransport
 import BEDC.Derived.CantorSetUp.DeletedGapLedgerExhaustion
 import BEDC.Derived.CantorSetUp.NameCertObligations
+import BEDC.Derived.CantorSetUp.NestedIntervalHandoff
 import BEDC.Derived.CantorSetUp.PrefixGapSeparation
 import BEDC.Derived.CantorSetUp.RealMembershipHandoff
 import BEDC.Derived.CantorSetUp.TasteGate
@@ -3742,6 +3743,7 @@ import BEDC.Derived.FirstCountableSpaceUp
 import BEDC.Derived.FirstCountableSpaceUp.TasteGate
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
+import BEDC.Derived.FixedPointIterationUp.TasteGate
 import BEDC.Derived.FocusedLedgerUp.TasteGate
 import BEDC.Derived.FocusedMultiHistLedgerUp.TasteGate
 import BEDC.Derived.FoldDefectStokesUp
