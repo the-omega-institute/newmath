@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\LocatedUniformRealNetUp$}
+\label{ch:concrete-instances-located-uniform-real-net-namecert}
+\origin{human}
+
+Following Bishop--Bridges and Kelley, the $\LocatedUniformRealNetUp$ packet records a choice-free finite-net surface for located real windows. It sits after the Real carrier of \autoref{ch:concrete-instances-real-namecert}, the regular rational sequence carrier of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-name carrier of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}. It also consumes the metric packet of \autoref{ch:concrete-instances-metric-namecert} and the total-boundedness packet of \autoref{ch:concrete-instances-totallybounded-namecert} as sibling surfaces, not as quotient or choice principles.
+
+\begin{definition}[Located uniform real net carrier]
+\label{def:located-uniform-real-net-carrier}
+A $\LocatedUniformRealNetUp$ carrier is a finite $\BHist$ packet
+$$
+U=(R,D,L,F,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the Real-window center row, listing finitely many $\RealUp$ centers through their $\StreamNameUp$ and $\RegSeqRatUp$ presentations.
+\item $D$ is the dyadic-radius row, naming positive radii in $\DyadicRatCoreUp$ and the corresponding metric tolerance budget.
+\item $L$ is the located-coverage row, witnessing that each admitted Real window is covered by one displayed center-radius pair.
+\item $F$ is the uniform-refinement row, sending a requested dyadic tolerance to a finite sub-net whose radii refine the request.
+\item $B$ is the lower-bound fold row, recording the finite minimum radius and the finite coverage budget used by the net.
+\item $H$ records componentwise $\hsame$ transport for centers, radii, located coverage, refinement, lower-bound folds, replay, provenance, and the local name.
+\item $C$ records displayed $\Cont$ replay from a Real-window request through the finite net and back to the carrier rows.
+\item $P$ is the $\Pkg$ provenance over \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-metric-namecert}, \autoref{ch:concrete-instances-totallybounded-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedUniformRealNetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for selecting centers from an infinite cover, quotienting Cauchy names, importing locatedness from classical order, or replacing a displayed refinement by an unrecorded choice.
+\end{definition}
+
+\begin{theorem}[Located uniform real net NameCert obligations]
+\label{thm:located-uniform-real-net-namecert-obligations}
+For every accepted $\LocatedUniformRealNetUp$ carrier $U=(R,D,L,F,B,H,C,P,N)$, the local $\NameCert_{\LocatedUniformRealNetUp}$ surface consists exactly of Real-window center exposure through $R$, dyadic-radius exposure through $D$, located coverage through $L$, uniform refinement through $F$, finite lower-bound folding through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:located-uniform-real-net-carrier}. The center row $R$ names only displayed Real windows and their regular rational and stream presentations, while $D$ fixes the dyadic radii used by the metric budget.
+
+The located-coverage row $L$ supplies the pointwise covering witness. The uniform-refinement row $F$ records the finite response to a smaller dyadic tolerance, and the lower-bound fold $B$ records the finite minimum-radius data used by the same packet.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite rows. Since the carrier has no coordinate for unbounded selection, quotient equality, or hidden radius choice, the NameCert obligations are exactly the displayed rows.
+\end{proof}
+
+\falsifiablePrediction{A $\LocatedUniformRealNetUp$ packet that covers a Real window without displaying a center row, dyadic-radius row, located-coverage row, and uniform-refinement row refutes the carrier of \autoref{def:located-uniform-real-net-carrier}.}
+
+\independenceWitness{real, regseqrat, streamname, dyadicratcore, metric, totallybounded: $\LocatedUniformRealNetUp$ is not bijective to any sibling because it binds Real-window centers, dyadic radii, located coverage, uniform refinement, a lower-bound fold, transport, replay, provenance, and a local NameCert in one finite net packet.}
+
+\closureat{LocatedUniformRealNetUp}{seedStr}
+
+\begin{closurestatus}{\LocatedUniformRealNetUp}
+  \constructivestory{A $\LocatedUniformRealNetUp$ packet is generated from Real-window centers, dyadic radii, located coverage, uniform refinement, lower-bound folds, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-uniform-real-net-carrier} and \autoref{thm:located-uniform-real-net-namecert-obligations} seed the finite located uniform net packet for Real-window centers and dyadic radii.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, a standard bridge, compactness, completeness, quotient equality of Real names, or a global selection principle for arbitrary covers.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-coverage exactness, uniform-refinement exactness, lower-bound fold totality, Real-window replay, and TasteGate compatibility for BEDC.Derived.LocatedUniformRealNetUp.}
+\end{closurestatus}
