@@ -369,6 +369,43 @@ closed consistency. Therefore the closed-normal theorem reads have the same
 BEDC classifier boundary and no stronger determinacy is claimed.
 \end{proof}
 
+\begin{theorem}[Normal-form consistency seal MetaCIC discharge frontier]
+\label{thm:normal-form-consistency-seal-metacic-discharge-frontier}
+Any $\NormalFormConsistencySealUp$ consumer that attempts to promote
+closed-normal consistency into closed consistency must first pass through the
+$\MetaCICCriticalPathUp$ route of
+\autoref{ch:concrete-instances-metaciccriticalpath-namecert} and the
+subject-reduction discharge socket of
+\autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}.
+The seal itself exposes only the rows $T,F,N,K,X,H,C,P,L$ and supplies no
+closed subject-reduction discharge.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:normal-form-consistency-seal-carrier}. Its visible rows are the
+typing row $T$, false-type row $F$, beta-strong normality row $N$, checked
+closed-normal theorem row $K$, subject-reduction boundary row $X$, transport
+$H$, replay $C$, provenance $P$, and local naming row $L$.
+
+Apply
+\autoref{thm:normal-form-consistency-seal-subject-reduction-boundary} and
+\autoref{thm:normal-form-consistency-seal-closed-normal-frontier}. These
+results identify $X$ as a boundary citation and restrict $K$ to the
+closed-normal route, so the packet can expose a closed-normal contradiction
+only after the displayed normality and typing rows have been read.
+
+Apply
+\autoref{thm:normal-form-consistency-seal-reduction-determinacy}. It fixes the
+classifier boundary of the closed-normal read but does not provide arbitrary
+reduction to a normal endpoint. Thus determinacy does not turn the seal into a
+closed-consistency proof.
+
+The $\MetaCICCriticalPathUp$ packet records the same open route through the
+subject-reduction discharge socket. A consumer seeking closed consistency must
+therefore leave the seal and discharge that socket; the present packet records
+the frontier rather than filling it.
+\end{proof}
+
 \closureat{NormalFormConsistencySealUp}{seedStr}
 
 \begin{closurestatus}{\NormalFormConsistencySealUp}
