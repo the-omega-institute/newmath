@@ -1957,6 +1957,177 @@ def _parse_server_host_port(url: str) -> tuple[str, int]:
         return "", 0
 
 
+def _bios_codex_resolve_prompt(rel_path: str, conflicted_content: str, upstream_sha: str) -> str:
+    return "\n".join([
+        "You are resolving a single git merge conflict in the BioReality / BEDC repository.",
+        "Local branch: feat/bio-reality-deepening (BioReality research direction).",
+        f"Merging upstream commit {upstream_sha[:12]} from origin/auto-dev (Loning's main automation branch).",
+        "",
+        "Project invariants (must hold for resolution to be correct):",
+        "- working language Chinese; Python stdlib only; pdflatex single-pass with halt-on-error",
+        "- BEDC: mathlib-free Lean 4, 0 axiom 0 sorry",
+        "- BioReality discipline: every cross-layer claim needs a reality contact at its layer + falsifiable perturbation prediction",
+        "- never delete unrelated content; preserve both sides' intent where possible",
+        "",
+        "Resolution tie-breakers:",
+        "- shared infrastructure (CI workflows, top-level scripts, schemas, prompts that Loning iterates faster on) → prefer upstream side",
+        "- BioReality content (papers/bio_reality/, tools/bio_reality/, vision/) → prefer local side",
+        "- ambiguous → keep both clearly, do NOT silently drop either",
+        "",
+        f"# Conflicted file: {rel_path}",
+        "```",
+        conflicted_content,
+        "```",
+        "",
+        "Return exactly one JSON object inside a ```json fence:",
+        "{",
+        '  "resolved_content": "<the complete resolved file body, no conflict markers>",',
+        '  "rationale": "<short reason for the chosen resolution>"',
+        "}",
+    ])
+
+
+def _bios_run_codex_resolve(prompt: str, repo_root: Path, timeout_seconds: int) -> tuple[dict[str, Any] | None, str, str]:
+    try:
+        completed = subprocess.run(
+            ["codex", "exec", "--dangerously-bypass-approvals-and-sandbox", "--sandbox", "read-only", "--json", "-C", str(repo_root), "-"],
+            input=prompt,
+            text=True,
+            capture_output=True,
+            timeout=timeout_seconds,
+            check=False,
+        )
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        return None, "", f"subprocess_error: {exc}"
+    if completed.returncode != 0:
+        return None, completed.stdout or "", completed.stderr or ""
+    return _parse_bio_w_codex_json(completed.stdout or ""), completed.stdout or "", completed.stderr or ""
+
+
+def _bios_resolve_signature_path(store: BioRealityStore) -> Path:
+    return store.paths.sync_lane_state.parent / "bios_resolve_signatures.jsonl"
+
+
+def _bios_resolve_recent_count(store: BioRealityStore, signature: str, window_seconds: int) -> int:
+    path = _bios_resolve_signature_path(store)
+    if not path.exists():
+        return 0
+    cutoff = time.time() - window_seconds
+    count = 0
+    try:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if record.get("signature") != signature:
+                continue
+            try:
+                ts = datetime.fromisoformat(record.get("ts", "").replace("Z", "+00:00")).timestamp()
+            except (ValueError, AttributeError):
+                continue
+            if ts >= cutoff:
+                count += 1
+    except OSError:
+        return 0
+    return count
+
+
+def _bios_resolve_record(store: BioRealityStore, record: dict[str, Any]) -> None:
+    path = _bios_resolve_signature_path(store)
+    record = {"ts": now_iso(), **record}
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+    except OSError:
+        pass
+
+
+def _bios_codex_resolve_merge(
+    repo_root: Path,
+    store: BioRealityStore,
+    upstream_sha: str,
+    compare_ref: str,
+    cfg: dict[str, Any],
+) -> tuple[bool, dict[str, Any]]:
+    max_files = max(1, int(cfg.get("max_files") or 5))
+    timeout_seconds = int(cfg.get("timeout_seconds") or 600)
+    recurring_threshold = int(cfg.get("recurring_threshold") or 3)
+    recurring_window = int(cfg.get("recurring_window_seconds") or 21600)
+    try:
+        status = _run_command(repo_root, ["git", "status", "--porcelain"], timeout=30.0)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return False, {"reason": "git_status_failed", "error": str(exc)}
+    if status.returncode != 0:
+        return False, {"reason": "git_status_nonzero", "stderr": (status.stderr or "")[-500:]}
+    conflict_files: list[str] = []
+    for line in (status.stdout or "").splitlines():
+        if len(line) < 4:
+            continue
+        code = line[:2]
+        if code in {"UU", "AA", "DD", "AU", "UA", "DU", "UD"}:
+            conflict_files.append(line[3:].strip())
+    if not conflict_files:
+        return False, {"reason": "no_conflict_files"}
+    sig = hashlib.sha256(("|".join([upstream_sha] + sorted(conflict_files))).encode("utf-8")).hexdigest()[:16]
+    if _bios_resolve_recent_count(store, sig, recurring_window) >= recurring_threshold:
+        _bios_resolve_record(store, {"signature": sig, "action": "recurring_skip", "files_count": len(conflict_files)})
+        return False, {"reason": "recurring_skip", "signature": sig, "files_count": len(conflict_files)}
+    selected = conflict_files[:max_files]
+    resolved_paths: list[str] = []
+    failures: list[dict[str, Any]] = []
+    for rel_path in selected:
+        target = repo_root / rel_path
+        try:
+            target_resolved = target.resolve()
+            target_resolved.relative_to(repo_root.resolve())
+        except (ValueError, OSError):
+            failures.append({"path": rel_path, "reason": "path_outside_repo"})
+            continue
+        try:
+            content = target.read_text(encoding="utf-8", errors="replace")
+        except OSError as exc:
+            failures.append({"path": rel_path, "reason": "read_failed", "error": str(exc)})
+            continue
+        if "<<<<<<<" not in content or ">>>>>>>" not in content:
+            continue
+        prompt = _bios_codex_resolve_prompt(rel_path, content, upstream_sha)
+        parsed, stdout_text, stderr_text = _bios_run_codex_resolve(prompt, repo_root, timeout_seconds)
+        if parsed is None or not isinstance(parsed.get("resolved_content"), str):
+            failures.append({"path": rel_path, "reason": "codex_failed", "stderr_tail": _tail_text(stderr_text, 400)})
+            continue
+        try:
+            target.write_text(parsed["resolved_content"], encoding="utf-8")
+        except OSError as exc:
+            failures.append({"path": rel_path, "reason": "write_failed", "error": str(exc)})
+            continue
+        resolved_paths.append(rel_path)
+    if not resolved_paths:
+        _bios_resolve_record(store, {"signature": sig, "action": "no_resolution", "failures": failures, "total_conflict_files": len(conflict_files)})
+        return False, {"reason": "no_resolution", "signature": sig, "failures": failures, "total_conflict_files": len(conflict_files)}
+    try:
+        add = _run_command(repo_root, ["git", "add", "--"] + resolved_paths, timeout=60.0)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        _bios_resolve_record(store, {"signature": sig, "action": "git_add_failed", "error": str(exc)})
+        return False, {"reason": "git_add_failed", "error": str(exc)}
+    if add.returncode != 0:
+        _bios_resolve_record(store, {"signature": sig, "action": "git_add_nonzero", "stderr": (add.stderr or "")[-300:]})
+        return False, {"reason": "git_add_nonzero", "stderr": (add.stderr or "")[-300:]}
+    try:
+        commit = _run_command(repo_root, ["git", "commit", "-m", f"Sync auto-dev {upstream_sha[:12]} (codex-resolved {len(resolved_paths)}/{len(conflict_files)} files)"], timeout=120.0)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        _bios_resolve_record(store, {"signature": sig, "action": "commit_failed", "error": str(exc)})
+        return False, {"reason": "commit_failed", "error": str(exc)}
+    if commit.returncode != 0:
+        _bios_resolve_record(store, {"signature": sig, "action": "commit_nonzero", "stderr": (commit.stderr or "")[-300:]})
+        return False, {"reason": "commit_nonzero", "stderr": (commit.stderr or "")[-300:]}
+    _bios_resolve_record(store, {"signature": sig, "action": "resolved", "files": resolved_paths, "remaining_unresolved": len(conflict_files) - len(resolved_paths)})
+    return True, {"reason": "resolved", "signature": sig, "files": resolved_paths, "remaining_unresolved": len(conflict_files) - len(resolved_paths), "failures": failures}
+
+
 def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
     """Fetch origin/auto-dev, extract Loning's recent biology-related work, attempt fast-forward / no-ff merge."""
     if not _network_available():
@@ -2078,13 +2249,29 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
                     merge_sha = ""
                 _append_sync_log(store, "merge_ok", {"ref": compare_ref, "merge_sha": merge_sha, "upstream_sha": upstream_sha})
             else:
-                merge_status = "conflict_aborted"
                 detail = (merge.stderr or merge.stdout or "git merge failed").strip()
-                _append_sync_log(store, "merge_conflict_aborted", {"ref": compare_ref, "returncode": merge.returncode, "detail": detail[-2000:]})
-                abort = _run_command(repo_root, ["git", "merge", "--abort"], timeout=60.0)
-                if abort.returncode != 0:
-                    abort_detail = (abort.stderr or abort.stdout or "git merge --abort failed").strip()
-                    _append_sync_log(store, "merge_abort_failed", {"returncode": abort.returncode, "detail": abort_detail[-2000:]})
+                resolve_cfg = config.get("codex_resolve") if isinstance(config.get("codex_resolve"), dict) else {}
+                resolved = False
+                if resolve_cfg.get("enabled"):
+                    resolved, resolve_summary = _bios_codex_resolve_merge(
+                        repo_root, store, upstream_sha, compare_ref, resolve_cfg
+                    )
+                    _append_sync_log(store, "codex_resolve_attempt", resolve_summary)
+                    if resolved:
+                        merge_status = "resolved_by_codex"
+                        try:
+                            head = _run_command(repo_root, ["git", "rev-parse", "HEAD"], timeout=30.0)
+                            merge_sha = head.stdout.strip() if head.returncode == 0 else ""
+                        except (OSError, subprocess.TimeoutExpired):
+                            merge_sha = ""
+                        _append_sync_log(store, "merge_resolved", {"merge_sha": merge_sha, "upstream_sha": upstream_sha, "files": resolve_summary.get("files", [])})
+                if not resolved:
+                    merge_status = "conflict_aborted"
+                    _append_sync_log(store, "merge_conflict_aborted", {"ref": compare_ref, "returncode": merge.returncode, "detail": detail[-2000:]})
+                    abort = _run_command(repo_root, ["git", "merge", "--abort"], timeout=60.0)
+                    if abort.returncode != 0:
+                        abort_detail = (abort.stderr or abort.stdout or "git merge --abort failed").strip()
+                        _append_sync_log(store, "merge_abort_failed", {"returncode": abort.returncode, "detail": abort_detail[-2000:]})
 
     new_state = dict(state)
     new_state.update(
