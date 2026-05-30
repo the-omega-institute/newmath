@@ -112,3 +112,36 @@ conjectures that legitimately cross into translation, structure, and
 function layers under the discipline above. The boundary that matters is
 not "do not cross layers" but "every crossing carries its own reality
 contact and falsifiable prediction".
+
+## Addendum 2026-05-30: Residual Compilation Theorem
+
+Gate is not ontology. BEDC ontology is minimal, self-compilable, incompressible
+distinction. Biological relevance is defined by survival score
+S_Q(r | Z) = J_0 - J_Q, not by which gate the variable comes from.
+
+AA-quotient theorem: only q-perp (residual after the amino-acid projection
+P_tau q) can survive in any DNA-to-protein model that already includes the
+amino-acid sequence y = tau(x). Therefore every codon-level candidate must
+first be passed through q -> q - P_tau q.
+
+Residual decompositions of the locally verified R and M:
+  R-perp covers: K_AAA / AAG, Arg AGR / CGN, Ile AUA / AUU AUC,
+                 Leu (CUN union UUA) / UUG, Ser UCA / other Ser.
+  M-perp covers: Ile AUA, Arg AGR, Ser UCR, Thr ACR.
+M-membership collapses Leu and Lys to constants on the amino-acid fibers and
+therefore cannot test CUN / UUR or AAA / AAG. M is a code-read closure object;
+it is locally optimal but insufficient for protein-realization residual fits.
+
+The R -> M = WNR cup CUN step is a residual compiler that recompiles
+code-read anomalies into a different residual basis.
+
+Concrete next-stage BEDC basis to subject to survival-score tests:
+  K_AAA, Arg_AGR, Ile_AUA, Leu_CUN/UUR, Leu_UUA/UUG,
+  Ser_UCR/AGY, Ser_UCA/UCG, Thr_ACR/ACY, f_3-stress.
+
+f_3-stress only becomes a dynamical variable when context tRNA / wobble
+weights break f_3 symmetry: w_c != w_{c^{f_3}}.
+
+Pipeline implication: stop pursuing M-density or M-membership directly; pursue
+each B*_Q6 basis element with its own falsifiable survival test against a
+readout that includes amino-acid composition control + context variables.
