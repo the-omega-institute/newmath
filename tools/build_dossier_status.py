@@ -9,11 +9,6 @@ three JSON files consumed by `docs/dossier/visualization.qmd`:
 - docs/dossier/data/glossary.json   -- bilingual term dictionary
 - docs/dossier/data/dependency.json -- node/edge graph for Cytoscape
 
-NameCert HTML metadata is emitted beside the graph so each dependency node can
-link to a generated chapter page. The source of truth remains the paper label
-`ch:concrete-instances-<slug>-namecert`; this script only records the URL
-contract consumed by the renderer and publication gate.
-
 stdlib only (project rule: no third-party deps in tools).
 """
 
@@ -456,39 +451,6 @@ def chapter_label_region(text: str) -> str | None:
     """Region from `\\label{ch:concrete-instances-<region>-namecert}`. None if absent."""
     m = CHAPTER_LABEL_RE.search(text)
     return paper_label_to_region(m.group(1)) if m else None
-
-
-def collect_namecert_sources() -> list[dict]:
-    """Return concrete-instance chapter sources with their HTML URL.
-
-    The source of truth is the chapter label
-    ``\\label{ch:concrete-instances-<slug>-namecert}``; the dep-graph node
-    id is the normalized paper region, while the URL keeps the literal slug
-    so hyphenated chapters have stable readable paths.
-    """
-    rows: list[dict] = []
-    seen: set[str] = set()
-    if not PAPER_INSTANCES.exists():
-        return rows
-    for f in sorted(PAPER_INSTANCES.rglob("*.tex")):
-        text = _read_text_or_none(f)
-        if text is None:
-            continue
-        m = CHAPTER_LABEL_RE.search(text)
-        if not m:
-            continue
-        slug = m.group(1)
-        if slug in seen:
-            continue
-        seen.add(slug)
-        region = canonical(paper_label_to_region(slug))
-        rows.append({
-            "slug": slug,
-            "region": region,
-            "source": str(f.relative_to(ROOT)),
-            "html_url": f"namecert/{slug}/",
-        })
-    return rows
 
 
 def paper_chapter_to_region(f: Path) -> str | None:
@@ -1177,11 +1139,6 @@ def build_dependency_graph() -> dict:
     paper_per_region = aggregate_markers_per_region(paper_per_chapter)
     namecert_per_region = collect_namecert_theorems_per_region()
     closure_per_region = collect_closure_per_region()
-    html_sources = {
-        row["region"]: row
-        for row in collect_namecert_sources()
-        if row.get("region")
-    }
 
     deps_map, all_regions = derive_dependency_edges()
     deps_map = transitive_reduction(deps_map)
@@ -1235,7 +1192,6 @@ def build_dependency_graph() -> dict:
             "closed_formalstatus": cb.get("formal_status"),
             "namecert_checked": len(namecerts_checked),
             "namecert_stmt": len(namecerts_stmt),
-            **({"html_url": html_sources[nid]["html_url"]} if nid in html_sources else {}),
             # `_details` carries the heavy paper-text fields (constructive
             # story, scope_closed, upgrade_path, namecert_theorems list, ...)
             # — emitted to a sibling file and lazy-fetched when a node is
@@ -1365,7 +1321,6 @@ def main() -> int:
 
     print("[build-dossier-status] building dependency graph...", file=sys.stderr)
     deps = build_dependency_graph()
-    namecert_sources = collect_namecert_sources()
 
     print("[build-dossier-status] building glossary...", file=sys.stderr)
     glossary = build_glossary()
@@ -1431,15 +1386,13 @@ def main() -> int:
     (DATA_DIR / "dependency.json").write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
     (DATA_DIR / "dependency_details.json").write_text(json.dumps(details, indent=2, ensure_ascii=False), encoding="utf-8")
     (DATA_DIR / "mathjax_macros.json").write_text(json.dumps(mathjax_macros, indent=2, ensure_ascii=False), encoding="utf-8")
-    (DATA_DIR / "namecert_sources.json").write_text(json.dumps(namecert_sources, indent=2, ensure_ascii=False), encoding="utf-8")
     if args.output:
         args.output.write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print(
-        f"[build-dossier-status] wrote {DATA_DIR.relative_to(ROOT)}/{{status,glossary,dependency,mathjax_macros,namecert_sources}}.json "
+        f"[build-dossier-status] wrote {DATA_DIR.relative_to(ROOT)}/{{status,glossary,dependency,mathjax_macros}}.json "
         f"-- {total_thms} theorems, {len(deps['nodes'])} nodes, {len(deps['edges'])} edges, "
-        f"{len(glossary)} glossary entries, {len(mathjax_macros)} mathjax macros, "
-        f"{len(namecert_sources)} namecert html sources",
+        f"{len(glossary)} glossary entries, {len(mathjax_macros)} mathjax macros",
         file=sys.stderr,
     )
     return 0

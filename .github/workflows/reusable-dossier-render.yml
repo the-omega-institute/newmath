@@ -23,11 +23,10 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  render_check:
-    name: Render dossier check
-    if: ${{ inputs.upload_pages_artifact == false }}
+  render:
+    name: Render dossier
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 45
     steps:
       - name: Check out repository
         run: |
@@ -56,114 +55,14 @@ jobs:
         working-directory: tools/dagre_layout
 
       - name: Download PDF artifact from current run
+        if: ${{ inputs.pdf_run_id == '' }}
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: bedc-pdf
           path: pdf-artifact
 
-      - name: Stage PDF with UTC timestamp
-        id: stage_pdf
-        run: |
-          ts=$(date -u +%Y-%m-%dT%H%M%SZ)
-          pdf_name="bedc_${ts}.pdf"
-          echo "pdf_name=${pdf_name}" >> "$GITHUB_OUTPUT"
-          pdf_file=$(find pdf-artifact -maxdepth 1 -type f -name '*.pdf' -print -quit)
-          if [ -z "$pdf_file" ]; then
-            echo "No PDF found in artifact" >&2
-            ls -la pdf-artifact || true
-            exit 1
-          fi
-          cp "$pdf_file" "docs/dossier/${pdf_name}"
-          ls -lh "docs/dossier/${pdf_name}"
-          sed -i "s|bedc\.pdf|${pdf_name}|g" \
-            docs/dossier/_quarto.yml \
-            docs/dossier/index.qmd \
-            docs/dossier/index.zh-CN.qmd
-
-      - name: Build dossier visualization data
-        run: python3 tools/build_dossier_status.py
-
-      - name: Install make4ht dependencies
-        run: |
-          set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            texlive-extra-utils texlive-latex-recommended texlive-latex-extra \
-            texlive-plain-generic texlive-luatex \
-            texlive-fonts-recommended texlive-fonts-extra dvisvgm
-          make4ht --version || (echo "make4ht not found after install" && exit 1)
-
-      - name: Build sampled NameCert HTML pages
-        run: |
-          rm -rf docs/dossier/namecert docs/dossier/paper
-          python3 tools/build_namecert_html.py \
-            --scope all \
-            --manifest docs/dossier/data/namecert_sources.json \
-            --paper-manifest docs/dossier/data/paper_sources.json \
-            --dependency docs/dossier/data/dependency.json \
-            --jobs 2 \
-            --limit 20 \
-            --write-selected-manifest \
-            --strict
-
-      - name: Glossary completeness gate
-        run: python3 tools/check_glossary.py
-
-      - name: Render dossier
-        run: quarto render docs/dossier/
-
-      - name: Check sampled NameCert HTML links
-        run: python3 tools/check_namecert_html.py --scope all --allow-partial --site-root docs/dossier/_site
-
-      - name: Verify PDF reached _site
-        run: |
-          pdf_name="${{ steps.stage_pdf.outputs.pdf_name }}"
-          if [ ! -f "docs/dossier/_site/${pdf_name}" ]; then
-            echo "PDF missing from _site after render; copying as fallback"
-            cp "docs/dossier/${pdf_name}" "docs/dossier/_site/${pdf_name}"
-          fi
-          ls -lh "docs/dossier/_site/${pdf_name}"
-
-  render_deploy:
-    name: Render dossier for deploy
-    if: ${{ inputs.upload_pages_artifact == true }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 150
-    container:
-      image: ghcr.io/xu-cheng/texlive-full:latest
-    steps:
-      - name: Check out repository
-        run: |
-          set -euo pipefail
-          repository="${{ inputs.checkout_repository != '' && inputs.checkout_repository || github.repository }}"
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          git init "$GITHUB_WORKSPACE"
-          git -C "$GITHUB_WORKSPACE" remote add origin "https://github.com/${repository}.git"
-          git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=2 origin "${{ inputs.checkout_ref }}"
-          git -C "$GITHUB_WORKSPACE" checkout --force FETCH_HEAD
-
-      - name: Install Quarto (容器内直装,texlive-full 无 sudo)
-        run: |
-          set -euo pipefail
-          QV=1.9.37
-          curl -fsSL -o /tmp/quarto.tar.gz "https://github.com/quarto-dev/quarto-cli/releases/download/v${QV}/quarto-${QV}-linux-amd64.tar.gz"
-          mkdir -p /opt/quarto
-          tar -xzf /tmp/quarto.tar.gz -C /opt/quarto --strip-components=1
-          echo "/opt/quarto/bin" >> "$GITHUB_PATH"
-          /opt/quarto/bin/quarto --version
-
-      - name: Set up Node.js (for dagre layout bake)
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: tools/dagre_layout/package-lock.json
-
-      - name: Install dagre layout deps
-        run: npm ci
-        working-directory: tools/dagre_layout
-
       - name: Download PDF artifact from source BEDC Build run
+        if: ${{ inputs.pdf_run_id != '' }}
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: bedc-pdf
@@ -193,38 +92,11 @@ jobs:
       - name: Build dossier visualization data
         run: python3 tools/build_dossier_status.py
 
-      - name: Restore dossier HTML cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            docs/dossier/namecert
-            docs/dossier/paper
-          key: dossier-html-${{ hashFiles('papers/bedc/**/*.tex', 'papers/bedc/make4ht-dossier.cfg', 'tools/build_namecert_html.py') }}
-          restore-keys: |
-            dossier-html-
-
-      - name: Check full TeXLive make4ht
-        run: make4ht --version || (echo "make4ht not found in full TeXLive image" && exit 1)
-
-      - name: Build all NameCert HTML pages
-        run: |
-          python3 tools/build_namecert_html.py \
-            --scope all \
-            --manifest docs/dossier/data/namecert_sources.json \
-            --paper-manifest docs/dossier/data/paper_sources.json \
-            --dependency docs/dossier/data/dependency.json \
-            --jobs 2 \
-            --allow-failures
-
       - name: Glossary completeness gate
         run: python3 tools/check_glossary.py
 
       - name: Render dossier
         run: quarto render docs/dossier/
-
-      - name: Check published NameCert HTML links
-        continue-on-error: true
-        run: python3 tools/check_namecert_html.py --scope all --full --site-root docs/dossier/_site
 
       - name: Verify PDF reached _site
         run: |
@@ -236,6 +108,7 @@ jobs:
           ls -lh "docs/dossier/_site/${pdf_name}"
 
       - name: Upload Pages artifact
+        if: ${{ inputs.upload_pages_artifact }}
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs/dossier/_site
