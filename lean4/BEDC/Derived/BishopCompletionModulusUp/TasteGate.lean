@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BishopCompletionModulusUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -184,5 +188,19 @@ theorem BishopCompletionModulusTasteGate_single_carrier_alignment :
                   (by
                     intro h
                     cases h))
+
+theorem BishopCompletionModulusCarrier_l10_handoff {M S n k W D R E sealRead : BHist}
+    (hM : UnaryHistory M) (hn : UnaryHistory n) (hS : UnaryHistory S)
+    (hD : UnaryHistory D) (hE : UnaryHistory E) :
+    Cont M n k → Cont S k W → Cont W D R → Cont R E sealRead →
+      UnaryHistory k ∧ UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory sealRead ∧
+        hsame sealRead (append R E) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame append
+  intro modulusRoute windowRoute regularRoute sealRoute
+  have hk : UnaryHistory k := unary_cont_closed hM hn modulusRoute
+  have hW : UnaryHistory W := unary_cont_closed hS hk windowRoute
+  have hR : UnaryHistory R := unary_cont_closed hW hD regularRoute
+  have hSeal : UnaryHistory sealRead := unary_cont_closed hR hE sealRoute
+  exact ⟨hk, hW, hR, hSeal, sealRoute⟩
 
 end BEDC.Derived.BishopCompletionModulusUp

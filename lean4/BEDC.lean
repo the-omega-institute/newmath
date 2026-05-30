@@ -748,6 +748,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.BoundedWindowNonemptyExtraction
 import BEDC.Derived.BolzanoWeierstrassUp.ClosedIntervalClusterHandoff
 import BEDC.Derived.BolzanoWeierstrassUp.ClusterCauchyWindow
 import BEDC.Derived.BolzanoWeierstrassUp.ClusterRealSealFactorization
+import BEDC.Derived.BolzanoWeierstrassUp.ClusterRealSealHandoff
 import BEDC.Derived.BolzanoWeierstrassUp.ClusterSealExtraction
 import BEDC.Derived.BolzanoWeierstrassUp.ClusterSealRealNonescape
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteIntervalTreeInduction
@@ -2761,6 +2762,7 @@ import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
 import BEDC.Derived.DecimalExpansionUp.FinitePrefixCompleteness
 import BEDC.Derived.DecimalExpansionUp.NameCertObligations
+import BEDC.Derived.DecimalExpansionUp.RatRealHandoff
 import BEDC.Derived.DecimalExpansionUp.RealWindowExhaustionAuditRoute
 import BEDC.Derived.DecimalExpansionUp.TailDigitStability
 import BEDC.Derived.DecimalExpansionUp.TasteGate
@@ -3289,6 +3291,7 @@ import BEDC.Derived.EffectiveCauchySequenceUp.TasteGate
 import BEDC.Derived.EffectiveCompletionUp
 import BEDC.Derived.EffectiveCompletionUp.CauchyRealizerHandoff
 import BEDC.Derived.EffectiveCompletionUp.TasteGate
+import BEDC.Derived.EffectiveMetricCompletionUp.TasteGate
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
 import BEDC.Derived.EgorovUp.TasteGate
@@ -3352,6 +3355,7 @@ import BEDC.Derived.FanSpaceUp.TasteGate
 import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FareySequenceUp.DenominatorRefinement
+import BEDC.Derived.FareySequenceUp.DenominatorRefinementInduction
 import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.TasteGate
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
@@ -5422,6 +5426,7 @@ import BEDC.Derived.PolishspaceUp.CompleteSeparableHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRegSeqRatRealHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableUnblockPackage
+import BEDC.Derived.PolishspaceUp.CompletionDensityHandoff
 import BEDC.Derived.PolishspaceUp.CompletionDensityReadback
 import BEDC.Derived.PolishspaceUp.CompletionDensityUnblock
 import BEDC.Derived.PolishspaceUp.CompletionNonescape
@@ -5437,6 +5442,7 @@ import BEDC.Derived.PolishspaceUp.RootCauchyBasisObligations
 import BEDC.Derived.PolishspaceUp.RootCompleteSeparableSynthesis
 import BEDC.Derived.PolishspaceUp.RootCompletionObligations
 import BEDC.Derived.PolishspaceUp.RootCompletionSeparabilityHandoff
+import BEDC.Derived.PolishspaceUp.RootUnblockSurface
 import BEDC.Derived.PolishspaceUp.RootUnblockWindowDiscipline
 import BEDC.Derived.PolishspaceUp.StreamNameBasis
 import BEDC.Derived.PolishspaceUp.StreamNameRealDependencyAnchor
@@ -6193,6 +6199,7 @@ import BEDC.Derived.RegularCauchyMeshUp.TasteGate
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyMinimumUp.TasteGate
+import BEDC.Derived.RegularCauchyModulusCompressionUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusIndependenceUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusNormalizerUp
 import BEDC.Derived.RegularCauchyModulusNormalizerUp.BridgeObstructionBoundary
@@ -6365,6 +6372,7 @@ import BEDC.Derived.RepresentedSpaceUp.RealizationTransport
 import BEDC.Derived.RepresentedSpaceUp.RealizerReadbackWindow
 import BEDC.Derived.RepresentedSpaceUp.ScopePackage
 import BEDC.Derived.RepresentedSpaceUp.StreamNameRepresentationSource
+import BEDC.Derived.RepresentedSpaceUp.StreamnameRealHandoff
 import BEDC.Derived.RepresentedSpaceUp.TargetSealLedgerPackage
 import BEDC.Derived.RepresentedSpaceUp.TranslationNonescape
 import BEDC.Derived.ResearchProgrammeAuditLoopUp.TasteGate
@@ -6814,6 +6822,7 @@ import BEDC.Derived.SubjectReductionDischargeLedgerUp
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeSocketUp
 import BEDC.Derived.SubjectReductionDischargeSocketUp.RowExhaustion
+import BEDC.Derived.SubjectReductionDischargeSocketUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeSocketUp.TransportRouteStability
 import BEDC.Derived.SubjectReductionDischargeSocketUp.TransportStability
 import BEDC.Derived.SubjectReductionDischargeUp
@@ -7456,6 +7465,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
 import BEDC.Derived.ZetaZerosUp
 import BEDC.Derived.ZnormalUp
+import BEDC.Derived.ZnormalUp.CandidateNormalEndpointReadback
 import BEDC.Derived.ZnormalUp.CarryClassifierRow
 import BEDC.Derived.ZnormalUp.ClassifierTransport
 import BEDC.Derived.ZnormalUp.ConsumerDivergenceOracleNonescape

@@ -88,6 +88,20 @@ Finally apply the carrier exclusions. Since no quotient equality, host equality,
 \end{proof}
 \leanchecked{BEDC.Derived.PseudometricUp.PseudometricCarrier\_separated\_reflection\_factorization}
 
+\begin{theorem}[Pseudometric zero-distance scope]
+\label{thm:pseudometric-zero-distance-scope}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ source carrier. Zero-distance evidence in $P$ remains scoped to the displayed boundary row $Z$ until a $\SeparatedMetricUp$ consumer supplies its own reflection rows. $\CompletionUp$ and $\LocatedMetricUp$ consumers may consume the distance witness, dyadic ledger, finite windows, regular readback, Real seal, transport, and replay rows, but they cannot turn $Z$ into host equality, quotient equality, or selected representatives.
+\end{theorem}
+\begin{proof}
+Read the source carrier through \autoref{def:pseudometric-source-carrier}. The row $Z$ is part of the displayed pseudometric packet, while point admission remains in $X$ and distance readback remains in $M,D,S,R,E$.
+
+Apply \autoref{thm:pseudometric-separated-completion-readback}. Completion-facing and separated-facing reads must factor through the displayed rows before zero-distance evidence is inspected, and the completion route receives no quotient equality, host equality, selected representative, selected limit, or ambient separated-completion coordinate.
+
+Apply \autoref{thm:pseudometric-separated-reflection-factorization}. The only route that may interpret zero distance as identity is a later separated-reflection packet with its own rows.
+
+Thus a $\CompletionUp$ or $\LocatedMetricUp$ consumer may use the distance and readback data exposed by $M,D,S,R,E,H,C,N$, but $Z$ remains a scoped boundary row. Host equality, quotient equality, and selected representatives are absent until supplied by a distinct $\SeparatedMetricUp$ reflection surface.
+\end{proof}
+
 \begin{theorem}[Pseudometric NameCert obligations]
 \label{thm:pseudometric-namecert-obligations}
 For every accepted $\PseudometricUp$ carrier $P=(X,M,D,S,R,E,Z,H,C,N)$, the local $\NameCert_{\PseudometricUp}$ surface consists exactly of the following obligation rows:
@@ -128,6 +142,7 @@ Completion and located-distance consumers follow a different boundary. They may 
 
 Because quotient completion, host equality, selected limits, countable-choice selectors, trichotomy, and open-cover compactness are absent from the carrier, no such datum can be exported along the completion or located-metric route.
 \end{proof}
+\leanchecked{BEDC.Derived.PseudometricUp.PseudometricCarrier\_separated\_reflection\_handoff}
 
 \begin{theorem}[Pseudometric zero-distance completion route]
 \label{thm:pseudometric-zero-distance-completion-route}
