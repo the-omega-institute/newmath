@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalizationFuelBoundaryUp$}
+\label{ch:concrete-instances-metacic-normalization-fuel-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICNormalizationFuelBoundaryUp$ packet realizes the candidate-mediated bounded-fuel reading of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It sits beside the normalization-candidate socket of \autoref{ch:concrete-instances-normalization-candidate-socket-namecert}, the candidate router of \autoref{ch:concrete-instances-metacic-candidate-normalization-router-namecert}, the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, and the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. The packet records bounded inspection of candidate evidence; it does not promote a fuel trace into global strong normalization.
+
+\begin{definition}[MetaCIC normalization fuel-boundary carrier]
+\label{def:metacic-normalization-fuel-boundary-carrier}
+A $\MetaCICNormalizationFuelBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,K,B,L,R,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed-term row, naming the typed closed MetaCIC term and the finite observations requested by the audit.
+\item $K$ is the candidate row, carrying candidate, closed-candidate, or candidate-set evidence before any strong-normalization read is allowed.
+\item $B$ is the bounded-fuel row, recording the natural fuel budget, decrement ledger, and stopping boundary for the inspected trace.
+\item $L$ is the finite trace row, listing the inspected beta steps and the local normal-endpoint status reached within the budget.
+\item $R$ is the closedness-preservation row, requiring every inspected trace endpoint to keep the displayed closed-term boundary before it is replayed.
+\item $O$ is the obstruction row, recording timeout, missing candidate evidence, subject-reduction dependence, and evidence-erasure refusal as visible outcomes.
+\item $H$ records componentwise $\hsame$ transport for $T,K,B,L,R,O$.
+\item $C$ records displayed $\Cont$ replay from the closed term through candidate evidence, fuel, trace, closedness preservation, obstruction, and structural rows.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICNormalizationFuelBoundaryUp$, $\NormalizationCandidateSocketUp$, $\MetaCICCandidateNormalizationRouterUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICNormalizationFuelBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,K,B,L,R,O,H,C,P,N$. It has no coordinate for evidence-erased strong normalization, erased subject reduction, host conversion equality, quotient syntax equality, or closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC normalization fuel-boundary NameCert obligations]
+\label{thm:metacic-normalization-fuel-boundary-namecert-obligations}
+For every accepted $\MetaCICNormalizationFuelBoundaryUp$ carrier
+$$
+F=(T,K,B,L,R,O,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICNormalizationFuelBoundaryUp}$ surface consists exactly of finite rows for closed-term admission, candidate-evidence admission, bounded-fuel ledger exposure, trace inspection, closedness-preservation replay, obstruction visibility, componentwise transport, displayed continuation replay, provenance, and local naming. No obligation row may erase $K$, widen $B$ into an unbounded normalizer, discharge the subject-reduction boundary, or export closed consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-fuel-boundary-carrier}. The displayed packet exposes a closed term, candidate evidence, bounded fuel, a finite trace, closedness preservation, obstruction, transport, replay, provenance, and local naming.
+
+The candidate row is consumed before any normalization read. A public consumer may inspect $K$ as evidence for the candidate-mediated route, but it cannot delete $K$ and retain the same conclusion.
+
+The fuel and trace rows are bounded. The row $B$ supplies a finite budget and decrement ledger, while $L$ records only the inspected steps within that budget.
+
+The rows $R$ and $O$ keep the boundary visible. Closedness preservation is replayed only for the inspected trace endpoints, and missing candidate evidence, timeout, or subject-reduction dependence remain obstruction outcomes rather than hidden assumptions.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no evidence-erased normalizer or closed-consistency row, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization fuel-boundary candidate route]
+\label{thm:metacic-normalization-fuel-boundary-candidate-route}
+Every public bounded-fuel normalization audit read of an accepted $\MetaCICNormalizationFuelBoundaryUp$ packet factors through the candidate row $K$, the fuel row $B$, the finite trace row $L$, the closedness-preservation row $R$, and the visible obstruction row $O$ before any replay through $H,C,P,N$. The route may report a bounded normal endpoint or a visible obstruction, but it cannot export evidence-erased strong normalization, unbounded normalization, erased subject reduction, host conversion equality, quotient syntax equality, or closed consistency.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-normalization-fuel-boundary-namecert-obligations}. It orders the public rows as closed-term admission, candidate evidence, bounded fuel, finite trace, closedness preservation, obstruction, transport, replay, provenance, and local naming.
+
+The candidate-mediated siblings supply the front of the route. The normalization-candidate socket and candidate-normalization router provide the evidence row $K$ and route it into the bounded trace without turning candidate evidence into an erased premise.
+
+The critical-path and frontier siblings supply the boundary. They keep subject-reduction dependence, unfinished global normalization, and closed-consistency use outside the exported packet unless the displayed rows name them.
+
+Thus a consumer can read only a bounded trace under candidate evidence, together with its visible obstruction status. The packet has no coordinate for the excluded host conclusions, so the candidate route is the whole public audit surface.
+\end{proof}
+
+\falsifiablePrediction{A bounded normalization audit read that exports strong normalization after deleting the candidate row $K$ and the fuel ledger $B$ falsifies $\MetaCICNormalizationFuelBoundaryUp$; the rejected evidence-erased fuel-to-SN route is not an accepted packet read.}
+
+\independenceWitness{Nearest siblings: normalization-candidate-socket, metacic-candidate-normalization-router, metaciccriticalpath, and metacicnormalizationfrontier. The fuel-boundary packet is not bijective to any of them because it jointly carries closed-term data, candidate evidence, bounded fuel, a finite trace, closedness preservation, visible obstruction, transport, replay, provenance, and local naming as one carrier.}
+
+The Lean TasteGate follow-up for this packet requires explicit $\mathsf{Nontrivial}\ \MetaCICNormalizationFuelBoundaryUp$ and $\mathsf{FieldFaithful}\ \MetaCICNormalizationFuelBoundaryUp$ instances in \texttt{TasteGate.lean}. The nontrivial boundary must separate accepted candidate-mediated bounded traces from timeout or missing-candidate packets, and field faithfulness must preserve $T,K,B,L,R,O,H,C,P,N$ without erasing the candidate or fuel rows.
+
+\closureat{MetaCICNormalizationFuelBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalizationFuelBoundaryUp}
+  \constructivestory{A $\MetaCICNormalizationFuelBoundaryUp$ packet is generated from a closed MetaCIC term row, candidate evidence, bounded fuel, finite trace rows, closedness-preservation replay, visible obstruction rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-fuel-boundary-carrier}, \autoref{thm:metacic-normalization-fuel-boundary-namecert-obligations}, and \autoref{thm:metacic-normalization-fuel-boundary-candidate-route} seed the candidate-mediated bounded-fuel normalization audit boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim evidence-erased strong normalization, unbounded normalization, erased subject reduction, host conversion equality, quotient syntax equality, closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked closed-term admission, candidate-evidence admission, fuel-ledger exactness, trace inspection, closedness-preservation replay, obstruction visibility, TasteGate nontriviality, field faithfulness, and local naming for BEDC.Derived.MetaCICNormalizationFuelBoundaryUp.}
+\end{closurestatus}

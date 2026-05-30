@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\RegularRealTailEquivalenceUp$}
+\label{ch:concrete-instances-regular-real-tail-equivalence-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegularRealTailEquivalenceUp$ packet records equality of regular real names as a finite tail-equivalence certificate rather than as a quotient of streams. It sits after the regular rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the zero-tail factorization of \autoref{ch:concrete-instances-nullsequence-namecert}, the comparison surface of \autoref{ch:concrete-instances-regular-cauchy-comparison-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies the same-real route used by $\RealUp$ consumers without exporting host equality, selected limits, or ambient completeness.
+
+\begin{definition}[Regular real tail equivalence carrier]
+\label{def:regular-real-tail-equivalence-carrier}
+A $\RegularRealTailEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(R_0,R_1,W,D,Z,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0$ and $R_1$ are the two $\RegSeqRatUp$ source rows whose regular real names are compared.
+\item $W$ is the shared $\StreamNameUp$ finite-window row through which both tails are inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the displayed late-stage difference bounds.
+\item $Z$ is the $\NullSequenceUp$ zero-tail row for the displayed difference between the two source rows.
+\item $Q$ is the $\RegularCauchyComparisonUp$ comparison row that ties the two source tails to the same finite comparison route.
+\item $E$ is the $\RealUp$ seal boundary available only after $R_0,R_1,W,D,Z,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source rows, window row, dyadic ledger, null row, comparison row, seal row, continuation, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay of the same finite route.
+\item $P$ records the $\Pkg$ provenance over $\RegularRealTailEquivalenceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\NullSequenceUp$, $\RegularCauchyComparisonUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularRealTailEquivalenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R_0,R_1,W,D,Z,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, host real equality, a selected representative, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular real tail equivalence NameCert obligations]
+\label{thm:regular-real-tail-equivalence-namecert-obligations}
+For every accepted $\RegularRealTailEquivalenceUp$ carrier
+$$
+T=(R_0,R_1,W,D,Z,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularRealTailEquivalenceUp}$ surface consists exactly of source-row exposure for $R_0,R_1$, shared finite-window exposure for $W$, dyadic tolerance exposure for $D$, zero-tail exposure for $Z$, comparison-route exposure for $Q$, $\RealUp$ seal exposure for $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-real-tail-equivalence-carrier}. The first two rows expose the two regular rational sources, while $W$ supplies the common finite stream window through which the tails are inspected.
+
+Next read the analytic rows. The dyadic ledger $D$ records the late-stage tolerance bounds, $Z$ records the zero-tail route for the displayed difference, and $Q$ records the regular Cauchy comparison route connecting the same source rows to the same finite window.
+
+Finally read $E,H,C,P,N$. The seal row is downstream of the source, window, dyadic, null, and comparison rows, and the administrative rows transport, replay, package, and name that same finite route. Hence the NameCert surface is exactly the displayed tuple.
+\end{proof}
+
+\begin{theorem}[Regular real tail equivalence RegSeqRat route]
+\label{thm:regular-real-tail-equivalence-regseqrat-route}
+Every $\RegSeqRatUp$-facing consumer read of an accepted $\RegularRealTailEquivalenceUp$ carrier factors through
+$$
+(R_0,R_1,W,D,Z,Q).
+$$
+The read may use the two regular rational source rows only through the shared finite $\StreamNameUp$ window, the $\DyadicRatCoreUp$ tolerance ledger, the $\NullSequenceUp$ zero-tail row, and the $\RegularCauchyComparisonUp$ route. It cannot introduce a second stream representative, quotient stream equality, host real equality, selected limit, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet. Projection exposes $R_0$ and $R_1$ as the only source rows, so any regular-rational read must begin with those displayed coordinates.
+
+The shared finite window and dyadic ledger are then forced by $W$ and $D$. A consumer has no detached inspection window or tolerance row outside the packet.
+
+The same-real handoff is supplied by $Z$ and $Q$. The null row records the zero-tail route for the displayed difference, and the comparison row records the common regular Cauchy comparison route. Since the carrier contains no coordinate for quotient streams, host equality, selected limits, or ambient completeness, none can be exported by the consumer read.
+\end{proof}
+
+\begin{theorem}[Regular real tail equivalence Real seal nonescape]
+\label{thm:regular-real-tail-equivalence-real-seal-nonescape}
+Every $\RealUp$-facing read of an accepted $\RegularRealTailEquivalenceUp$ carrier reaches the seal row $E$ only through the finite route
+$$
+R_0,R_1,W,D,Z,Q,H,C,P,N.
+$$
+Thus the equality surface for the two regular real names is a tail-equivalence certificate over displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\NullSequenceUp$, and $\RegularCauchyComparisonUp$ rows, not a quotient of streams, host real equality, selected representative, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The seal row $E$ is listed after the two source rows, shared window, tolerance ledger, null row, and comparison row, so it is not available as an independent endpoint.
+
+Apply the NameCert obligations of \autoref{thm:regular-real-tail-equivalence-namecert-obligations}. They identify the complete route that must be displayed before the local certificate can expose the Real-facing seal.
+
+Use the RegSeqRat route of \autoref{thm:regular-real-tail-equivalence-regseqrat-route}. It keeps the two regular rational source rows inside the shared finite-window, dyadic, null, and comparison path. The remaining rows $H,C,P,N$ only transport, replay, package, and name that route, so the seal cannot leak quotient stream equality, host real equality, selected representatives, or ambient completeness.
+\end{proof}
+
+\closureat{RegularRealTailEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\RegularRealTailEquivalenceUp}
+  \constructivestory{A $\RegularRealTailEquivalenceUp$ packet is generated from two $\RegSeqRatUp$ source rows, a shared $\StreamNameUp$ window, a $\DyadicRatCoreUp$ tolerance ledger, a $\NullSequenceUp$ zero-tail row, a $\RegularCauchyComparisonUp$ comparison route, a $\RealUp$ seal boundary, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-real-tail-equivalence-carrier}, \autoref{thm:regular-real-tail-equivalence-namecert-obligations}, \autoref{thm:regular-real-tail-equivalence-regseqrat-route}, and \autoref{thm:regular-real-tail-equivalence-real-seal-nonescape} bind the carrier, local NameCert surface, regular-rational route, and Real seal nonescape boundary for same-real tail equivalence.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove quotient stream equality, host real equality, selected representatives, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\RegularRealTailEquivalenceUp$.}
+  \upgradepath{Scoped closure requires Lean encoding of the carrier, NameCert obligation surface, regular-rational route, and Real seal nonescape boundary.}
+\end{closurestatus}
