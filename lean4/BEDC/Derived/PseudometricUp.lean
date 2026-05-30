@@ -401,4 +401,86 @@ theorem PseudometricCarrier_separated_reflection_handoff [AskSetup] [PackageSetu
   }
   exact ⟨cert, reflectionUnary, identityUnary, localNamePkg⟩
 
+theorem PseudometricCarrier_completion_universal_handoff [AskSetup] [PackageSetup]
+    {point distance dyadic stream readback sealRow zeroRow transport replay localName
+      completionRead finalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PseudometricCarrier point distance dyadic stream readback sealRow zeroRow transport replay
+        localName bundle pkg ->
+      Cont zeroRow transport completionRead ->
+        Cont completionRead replay finalRead ->
+          PkgSig bundle finalRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row finalRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row point ∨ hsame row distance ∨ hsame row dyadic ∨
+                    hsame row stream ∨ hsame row readback ∨ hsame row sealRow ∨
+                      hsame row zeroRow ∨ hsame row completionRead ∨ hsame row finalRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont stream readback dyadic ∧
+                    Cont dyadic sealRow zeroRow ∧ Cont zeroRow transport completionRead ∧
+                      Cont completionRead replay finalRead ∧ PkgSig bundle finalRead pkg)
+                hsame ∧
+              UnaryHistory completionRead ∧ UnaryHistory finalRead ∧
+                Cont stream readback dyadic ∧ Cont dyadic sealRow zeroRow ∧
+                  PkgSig bundle localName pkg ∧ PkgSig bundle finalRead pkg := by
+  -- BEDC touchpoint anchor: PseudometricCarrier BHist Cont ProbeBundle PkgSig SemanticNameCert
+  intro carrier zeroTransportCompletion completionReplayFinal finalPkg
+  obtain ⟨_pointUnary, _distanceUnary, _dyadicUnary, streamUnary, _readbackUnary,
+    _sealUnary, zeroUnary, transportUnary, replayUnary, _localNameUnary,
+    streamReadbackDyadic, dyadicSealZero, _localNameZero, localNamePkg⟩ := carrier
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed zeroUnary transportUnary zeroTransportCompletion
+  have finalUnary : UnaryHistory finalRead :=
+    unary_cont_closed completionUnary replayUnary completionReplayFinal
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row finalRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row point ∨ hsame row distance ∨ hsame row dyadic ∨
+              hsame row stream ∨ hsame row readback ∨ hsame row sealRow ∨
+                hsame row zeroRow ∨ hsame row completionRead ∨ hsame row finalRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont stream readback dyadic ∧
+              Cont dyadic sealRow zeroRow ∧ Cont zeroRow transport completionRead ∧
+                Cont completionRead replay finalRead ∧ PkgSig bundle finalRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro finalRead ⟨hsame_refl finalRead, finalUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, streamReadbackDyadic, dyadicSealZero, zeroTransportCompletion,
+          completionReplayFinal, finalPkg⟩
+  }
+  exact
+    ⟨cert, completionUnary, finalUnary, streamReadbackDyadic, dyadicSealZero,
+      localNamePkg, finalPkg⟩
+
 end BEDC.Derived.PseudometricUp
