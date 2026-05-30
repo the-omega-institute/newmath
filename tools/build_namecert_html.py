@@ -30,6 +30,7 @@ DEFAULT_NAMECERT_MANIFEST = ROOT / "docs" / "dossier" / "data" / "namecert_sourc
 DEFAULT_PAPER_MANIFEST = ROOT / "docs" / "dossier" / "data" / "paper_sources.json"
 DEFAULT_DEPENDENCY = ROOT / "docs" / "dossier" / "data" / "dependency.json"
 SCOPES = {"namecert", "paper", "all"}
+DEFAULT_PAGE_TIMEOUT = 180
 
 OUT_ROOT = NAMECERT_OUT_ROOT
 DEFAULT_MANIFEST = DEFAULT_NAMECERT_MANIFEST
@@ -37,11 +38,22 @@ DEFAULT_MANIFEST = DEFAULT_NAMECERT_MANIFEST
 LABEL_RE = re.compile(r"\\label\{ch:concrete-instances-([a-z0-9-]+)-namecert\}")
 INPUT_RE = re.compile(r"\\(?:input|include)\{([^}]+)\}")
 STRUCTURE_RE = re.compile(r"\\(part|chapter|input|include)\{([^{}]+)\}")
-MACRO_LINE_RE = re.compile(
-    r"^\s*\\(?:(?:re)?newcommand|providecommand)\*?\s*(?:\{\\[A-Za-z@]+\}|\\[A-Za-z@]+)"
-    r"(?:\s*\[[^\]]+\]){0,2}\s*\{.*\}\s*$"
+BODY_ENV_RE = re.compile(
+    r"\\begin\{("
+    r"theorem|definition|lemma|proof|proposition|corollary|example|remark|"
+    r"principle|construction|observation|conjecture|claim|axiom|algorithm|closurestatus"
+    r")\*?\}",
+    re.IGNORECASE,
 )
-DEF_LINE_RE = re.compile(r"^\s*\\def\\[A-Za-z@]+(?:#[1-9])*\s*\{.*\}\s*$")
+MACRO_COMMANDS = (
+    "newcommand",
+    "renewcommand",
+    "providecommand",
+    "def",
+    "let",
+    "DeclareMathOperator",
+    "NewDocumentCommand",
+)
 PUBLISH_SUFFIXES = {".html", ".css", ".png", ".svg", ".jpg", ".jpeg", ".gif", ".webp"}
 PAGE_CSS = """
 <style>
@@ -83,6 +95,53 @@ def text_without_comments(text: str) -> str:
             line = line[:pos]
         lines.append(line)
     return "\n".join(lines)
+
+
+def _strip_braced_arguments(text: str) -> str:
+    out: list[str] = []
+    i = 0
+    while i < len(text):
+        if text[i] != "\\":
+            out.append(text[i])
+            i += 1
+            continue
+        m = re.match(r"\\[A-Za-z@]+\*?", text[i:])
+        if not m:
+            out.append(" ")
+            i += 1
+            continue
+        i += len(m.group(0))
+        while i < len(text):
+            while i < len(text) and text[i].isspace():
+                i += 1
+            if i < len(text) and text[i] == "{":
+                try:
+                    _, i = read_balanced_group(text, i)
+                    continue
+                except ValueError:
+                    break
+            if i < len(text) and text[i] == "[":
+                end = text.find("]", i + 1)
+                if end >= 0:
+                    i = end + 1
+                    continue
+            break
+        out.append(" ")
+    return "".join(out)
+
+
+def is_hub_only_tex(path: Path) -> bool:
+    """Detect structural index files that only route to sibling TeX files."""
+    if not path.exists() or path.suffix.lower() != ".tex":
+        return False
+    text = text_without_comments(path.read_text(encoding="utf-8", errors="ignore"))
+    if not INPUT_RE.search(text) or BODY_ENV_RE.search(text):
+        return False
+    stripped = _strip_braced_arguments(text)
+    stripped = re.sub(r"\\(?:closureat|origin)\b", " ", stripped)
+    stripped = re.sub(r"\\(?:par|noindent|smallskip|medskip|bigskip)\b", " ", stripped)
+    stripped = re.sub(r"[\s{}\\.,;:!?`'\"()\[\]-]+", " ", stripped).strip()
+    return len(stripped.split()) <= 80
 
 
 def title_slug(text: str) -> str:
@@ -301,6 +360,8 @@ def scan_paper_sources(main_tex: Path = MAIN_TEX, namecert_rows: list[dict] | No
         resolved = path.resolve()
         if resolved in seen_sources or not resolved.exists() or resolved.suffix.lower() != ".tex":
             continue
+        if is_hub_only_tex(resolved):
+            continue
         seen_sources.add(resolved)
         order += 1
         rows.append(_build_paper_row(resolved, order, part, chapter, by_source, by_slug))
@@ -410,26 +471,187 @@ def collect_tex_inputs(source_path: Path) -> list[Path]:
     return sorted(ordered, key=lambda p: str(p))
 
 
-def guard_macro_declaration(text: str) -> str:
-    """Convert replayable macro declarations to non-conflicting declarations."""
-    stripped = text.strip()
-    if re.match(r"^\\newcommand\*?", stripped):
-        return re.sub(r"^\\newcommand", r"\\providecommand", stripped, count=1)
-    return stripped
+def read_balanced_group(text: str, start: int, open_ch: str = "{", close_ch: str = "}") -> tuple[str, int]:
+    if start >= len(text) or text[start] != open_ch:
+        raise ValueError("balanced group start not found")
+    depth = 0
+    i = start
+    while i < len(text):
+        ch = text[i]
+        if ch == "\\":
+            i += 2
+            continue
+        if ch == open_ch:
+            depth += 1
+        elif ch == close_ch:
+            depth -= 1
+            if depth == 0:
+                return text[start : i + 1], i + 1
+        i += 1
+    raise ValueError("unterminated balanced group")
+
+
+def _skip_ws(text: str, pos: int) -> int:
+    while pos < len(text) and text[pos].isspace():
+        pos += 1
+    return pos
+
+
+def _read_optional_args(text: str, pos: int) -> tuple[list[str], int]:
+    args: list[str] = []
+    pos = _skip_ws(text, pos)
+    while pos < len(text) and text[pos] == "[":
+        end = text.find("]", pos + 1)
+        if end < 0:
+            break
+        args.append(text[pos : end + 1])
+        pos = _skip_ws(text, end + 1)
+    return args, pos
+
+
+def _read_macro_name(text: str, pos: int) -> tuple[str, int] | tuple[None, int]:
+    pos = _skip_ws(text, pos)
+    if pos < len(text) and text[pos] == "{":
+        try:
+            group, end = read_balanced_group(text, pos)
+        except ValueError:
+            return None, pos
+        return group, end
+    if pos < len(text) and text[pos] == "\\":
+        m = re.match(r"\\[A-Za-z@]+|\\.", text[pos:])
+        if m:
+            return m.group(0), pos + len(m.group(0))
+    return None, pos
+
+
+def _macro_arity(optional_args: list[str]) -> int:
+    if not optional_args:
+        return 0
+    raw = optional_args[0][1:-1].strip()
+    try:
+        return max(0, int(raw))
+    except ValueError:
+        return 0
+
+
+def _doc_command_arity(spec_group: str) -> int:
+    spec = spec_group.strip()[1:-1]
+    count = 0
+    in_default = 0
+    for ch in spec:
+        if ch in "{[":
+            in_default += 1
+        elif ch in "}]" and in_default:
+            in_default -= 1
+        elif in_default == 0 and ch in {"m", "o", "O", "d", "D", "r", "R", "s", "t"}:
+            count += 1
+    return count
+
+
+def _placeholder_body(arity: int) -> str:
+    if arity <= 0:
+        return "{}"
+    return "{" + "".join(f"#{i}" for i in range(1, min(arity, 9) + 1)) + "}"
+
+
+def _canonical_macro_name(raw: str) -> str:
+    return raw.strip()[1:-1].strip() if raw.strip().startswith("{") else raw.strip()
+
+
+def parse_macro_declaration(text: str, start: int) -> tuple[str | None, int]:
+    m = re.match(
+        r"\\(newcommand|renewcommand|providecommand|def|let|DeclareMathOperator|NewDocumentCommand)\*?",
+        text[start:],
+    )
+    if not m:
+        return None, start + 1
+    command = m.group(1)
+    pos = start + len(m.group(0))
+
+    if command in {"newcommand", "renewcommand", "providecommand"}:
+        name, pos = _read_macro_name(text, pos)
+        if not name:
+            return None, pos
+        optional_args, pos = _read_optional_args(text, pos)
+        pos = _skip_ws(text, pos)
+        if pos >= len(text) or text[pos] != "{":
+            return None, pos
+        body, end = read_balanced_group(text, pos)
+        name = _canonical_macro_name(name)
+        return f"\\providecommand{{{name}}}{''.join(optional_args)}{body}", end
+
+    if command == "def":
+        name, pos = _read_macro_name(text, pos)
+        if not name:
+            return None, pos
+        while pos < len(text) and text[pos].isspace():
+            pos += 1
+        params_start = pos
+        while pos < len(text) and text[pos] == "#":
+            pos += 2
+        params = text[params_start:pos]
+        pos = _skip_ws(text, pos)
+        if pos >= len(text) or text[pos] != "{":
+            return None, pos
+        body, end = read_balanced_group(text, pos)
+        return f"\\providecommand{{{_canonical_macro_name(name)}}}{'[' + str(params.count('#')) + ']' if params else ''}{body}", end
+
+    if command == "let":
+        name, pos = _read_macro_name(text, pos)
+        if not name:
+            return None, pos
+        pos = _skip_ws(text, pos)
+        if pos < len(text) and text[pos] == "=":
+            pos += 1
+        target, end = _read_macro_name(text, pos)
+        if not target:
+            return None, pos
+        return f"\\providecommand{{{_canonical_macro_name(name)}}}{{{target}}}", end
+
+    if command == "DeclareMathOperator":
+        name, pos = _read_macro_name(text, pos)
+        if not name:
+            return None, pos
+        pos = _skip_ws(text, pos)
+        if pos >= len(text) or text[pos] != "{":
+            return None, pos
+        body, end = read_balanced_group(text, pos)
+        return f"\\providecommand{{{_canonical_macro_name(name)}}}{{\\operatorname{body}}}", end
+
+    if command == "NewDocumentCommand":
+        name, pos = _read_macro_name(text, pos)
+        if not name:
+            return None, pos
+        pos = _skip_ws(text, pos)
+        if pos >= len(text) or text[pos] != "{":
+            return None, pos
+        spec, pos = read_balanced_group(text, pos)
+        pos = _skip_ws(text, pos)
+        if pos >= len(text) or text[pos] != "{":
+            return None, pos
+        _, end = read_balanced_group(text, pos)
+        arity = _doc_command_arity(spec)
+        return f"\\providecommand{{{_canonical_macro_name(name)}}}[{min(arity, 9)}]{_placeholder_body(arity)}", end
+
+    return None, pos
 
 
 def extract_macro_declarations(path: Path) -> list[str]:
-    """Read simple top-level TeX macro declarations from one source file."""
+    """Read replayable top-level TeX macro declarations from one source file."""
     if not path.exists() or path.suffix.lower() != ".tex":
         return []
     declarations: list[str] = []
-    for line in path.read_text(encoding="utf-8", errors="ignore").splitlines():
-        stripped = line.strip()
-        if not stripped or stripped.startswith("%"):
-            continue
-        clean = stripped.split("%", 1)[0].rstrip()
-        if MACRO_LINE_RE.match(clean) or DEF_LINE_RE.match(clean):
-            declarations.append(guard_macro_declaration(clean))
+    text = text_without_comments(path.read_text(encoding="utf-8", errors="ignore"))
+    pattern = re.compile(r"\\(?:" + "|".join(re.escape(command) for command in MACRO_COMMANDS) + r")\*?")
+    pos = 0
+    while True:
+        match = pattern.search(text, pos)
+        if not match:
+            break
+        declaration, end = parse_macro_declaration(text, match.start())
+        if declaration:
+            declarations.append(declaration.strip())
+        pos = max(end, match.end())
     return declarations
 
 
@@ -565,6 +787,7 @@ def run_make4ht(
     use_build_dir: bool,
     force: bool,
     macro_prelude: str,
+    page_timeout: int,
 ) -> dict:
     slug = row["slug"]
     region = row.get("region") or normalize_region(slug)
@@ -629,7 +852,25 @@ def run_make4ht(
         cmd.append(wrapper.name)
         env = os.environ.copy()
         env["TEXINPUTS"] = f"{PAPER_DIR}{os.pathsep}{ROOT}{os.pathsep}{env.get('TEXINPUTS', '')}"
-        proc = subprocess.run(cmd, cwd=tmpdir, env=env, text=True, capture_output=True)
+        try:
+            proc = subprocess.run(
+                cmd,
+                cwd=tmpdir,
+                env=env,
+                text=True,
+                capture_output=True,
+                timeout=page_timeout,
+            )
+        except subprocess.TimeoutExpired:
+            return {
+                "slug": slug,
+                "scope": row.get("scope", "namecert"),
+                "html_url": row.get("html_url"),
+                "ok": False,
+                "cached": False,
+                "error": f"make4ht timeout after {page_timeout}s",
+                "returncode": 124,
+            }
         if use_build_dir and (build_dir / "index.html").exists():
             for item in build_dir.iterdir():
                 if item.is_file() and item.suffix.lower() not in PUBLISH_SUFFIXES:
@@ -731,6 +972,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("-m", "--mode", default="", help="make4ht mode, e.g. mathjax")
     parser.add_argument("--force", action="store_true", help="ignore per-page stamps and rebuild selected pages")
+    parser.add_argument(
+        "--page-timeout",
+        type=int,
+        default=DEFAULT_PAGE_TIMEOUT,
+        help=f"seconds before one make4ht page render is marked failed; default {DEFAULT_PAGE_TIMEOUT}",
+    )
     parser.add_argument("--write-manifest-only", action="store_true")
     return parser.parse_args()
 
@@ -807,6 +1054,7 @@ def _render_selected_rows(
                 use_build_dir,
                 args.force,
                 macro_prelude,
+                max(1, args.page_timeout),
             )
             for row in selected
         ]
