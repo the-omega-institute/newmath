@@ -56,6 +56,8 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
         self.assertIn("tools/build_namecert_html.py", render_text)
         self.assertIn("--scope all", render_text)
         self.assertIn("--page-timeout 180", render_text)
+        self.assertIn("/opt/texlive/texdir/bin/x86_64-linuxmusl", render_text)
+        self.assertIn("make4ht --version", render_text)
         self.assertNotIn("quarto render", render_text)
 
         upload_steps = [
