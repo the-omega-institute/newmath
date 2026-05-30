@@ -864,9 +864,30 @@ CLOSURESTATUS_BEGIN_RE = re.compile(
     r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
 CLOSURESTATUS_END_RE = re.compile(r"\\end\{closurestatus\}")
+CLOSURESTATUS_OPEN_FIELDS = (
+    "closureclaimkind",
+    "closureclassifierincrement",
+    "closurenamecert",
+    "closureledger",
+    "closuregate",
+    "closureweightprofile",
+    "closureparents",
+    "closurelineage",
+)
+_CLOSURESTATUS_FIELD_NAMES = (
+    "theoryclosure",
+    "formalstatus",
+    "leantarget",
+    "bridgestatus",
+    "scopeclosed",
+    "notclaimed",
+    "upgradepath",
+    "constructivestory",
+    "origin",
+    *CLOSURESTATUS_OPEN_FIELDS,
+)
 CLOSURESTATUS_FIELD_RE = re.compile(
-    r"\\(theoryclosure|formalstatus|leantarget|bridgestatus"
-    r"|scopeclosed|notclaimed|upgradepath|constructivestory|origin)\{([^}]*)\}"
+    r"\\(" + "|".join(_CLOSURESTATUS_FIELD_NAMES) + r")\{([^}]*)\}"
 )
 
 VALID_CLOSURE_GRADES = {
@@ -881,6 +902,16 @@ VALID_FORMAL_GRADES = {
 GRADE_REQUIRES_LEAN_TARGET = {
     "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
     "axiomCleanV", "bridgeCheckedV",
+}
+STRONG_CLOSURESTATUS_CLAIMS = {"discovery", "positiveDiscovery"}
+CLOSURESTATUS_STRONG_CLAIM_REQUIREMENTS = {
+    "closurenamecert": "NameCert evidence",
+    "closureledger": "ledger evidence",
+    "closureclassifierincrement": "classifier increment evidence",
+}
+POSITIVE_DISCOVERY_REQUIREMENTS = {
+    "closuregate": "gate evidence",
+    "closureweightprofile": "weight profile evidence",
 }
 
 
@@ -955,12 +986,18 @@ def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
                     "has_notclaimed": False,
                     "has_upgradepath": False,
                     "has_constructive_story": False,
+                    "open_fields": {},
                 })
                 continue
             body = tail[:end_match.start()]
             fields: dict[str, str] = {}
             for fm in CLOSURESTATUS_FIELD_RE.finditer(body):
                 fields[fm.group(1)] = fm.group(2).strip()
+            open_fields = {
+                name: fields[name]
+                for name in CLOSURESTATUS_OPEN_FIELDS
+                if name in fields
+            }
             tc = fields.get("theoryclosure", "").lstrip("\\")
             fs = fields.get("formalstatus", "").lstrip("\\")
             lt = fields.get("leantarget")
@@ -977,6 +1014,7 @@ def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
                 "bridge_status": fields.get("bridgestatus"),
                 "origin": origin,
                 "raw_body": body,
+                "open_fields": open_fields,
                 "has_scope": "scopeclosed" in fields,
                 "has_notclaimed": "notclaimed" in fields,
                 "has_upgradepath": "upgradepath" in fields,
@@ -1040,6 +1078,68 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
     return issues
 
 
+def _closurestatus_open_message(block: dict, message: str) -> dict[str, object]:
+    return {
+        "file": block["file"],
+        "line": block["line"],
+        "region": f"{block['region']}Up",
+        "message": f"{block['file']}:{block['line']} (region {block['region']}Up): {message}",
+    }
+
+
+def diagnose_closurestatus_open_fields(block: dict) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Return (warnings, errors) for closurestatus open-field capability lint."""
+    if block.get("error"):
+        return [], []
+    warnings: list[dict[str, object]] = []
+    errors: list[dict[str, object]] = []
+    open_fields = block.get("open_fields") or {}
+    claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+    if not claim_kind:
+        return warnings, errors
+
+    missing_base = [
+        (field, label)
+        for field, label in CLOSURESTATUS_STRONG_CLAIM_REQUIREMENTS.items()
+        if not str(open_fields.get(field, "")).strip()
+    ]
+    classifier_increment = str(open_fields.get("closureclassifierincrement", "")).strip()
+    if classifier_increment and classifier_increment != "1":
+        errors.append(
+            _closurestatus_open_message(
+                block,
+                "\\closureclassifierincrement must be 1 for open closurestatus claims",
+            )
+        )
+    if claim_kind not in STRONG_CLOSURESTATUS_CLAIMS:
+        for field, label in missing_base:
+            warnings.append(
+                _closurestatus_open_message(
+                    block,
+                    f"\\closureclaimkind{{{claim_kind}}} lacks \\{field} ({label})",
+                )
+            )
+        return warnings, errors
+
+    for field, label in missing_base:
+        errors.append(
+            _closurestatus_open_message(
+                block,
+                f"\\closureclaimkind{{{claim_kind}}} requires \\{field} ({label})",
+            )
+        )
+    if claim_kind == "positiveDiscovery":
+        for field, label in POSITIVE_DISCOVERY_REQUIREMENTS.items():
+            if not str(open_fields.get(field, "")).strip():
+                errors.append(
+                    _closurestatus_open_message(
+                        block,
+                        f"\\closureclaimkind{{{claim_kind}}} requires \\{field} ({label})",
+                    )
+                )
+    return warnings, errors
+
+
 def audit_payload() -> dict[str, object]:
     changed_files = _get_commit_changed_files()
     declarations, fields = build_declaration_inventory()
@@ -1067,10 +1167,15 @@ def audit_payload() -> dict[str, object]:
     paper_chapter_origin_tags = detect_paper_chapter_origin_tags()
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     closurestatus_diagnostics: list[str] = []
+    closurestatus_open_warnings: list[dict[str, object]] = []
+    closurestatus_open_errors: list[dict[str, object]] = []
     for block in closurestatus_blocks:
         closurestatus_diagnostics.extend(
             diagnose_closurestatus_block(block, symbols)
         )
+        open_warnings, open_errors = diagnose_closurestatus_open_fields(block)
+        closurestatus_open_warnings.extend(open_warnings)
+        closurestatus_open_errors.extend(open_errors)
 
     orphan_concrete_subdirs = detect_orphan_concrete_subdirs()
 
@@ -1105,6 +1210,18 @@ def audit_payload() -> dict[str, object]:
     payload["closurestatus_diagnostics_legacy_count"] = len(closurestatus_legacy)
     payload["closurestatus_diagnostics_new"] = [str(item["message"]) for item in closurestatus_new]
     payload["closurestatus_diagnostics_legacy"] = [str(item["message"]) for item in closurestatus_legacy]
+    _attach_violation_split(
+        payload,
+        "closurestatus_open_errors",
+        closurestatus_open_errors,
+        changed_files,
+    )
+    _attach_violation_split(
+        payload,
+        "closurestatus_open_warnings",
+        closurestatus_open_warnings,
+        changed_files,
+    )
     _attach_violation_split(payload, "orphan_concrete_subdirs", orphan_concrete_subdirs, changed_files)
     return payload
 
@@ -1288,6 +1405,21 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 "\\formalstatus is theoremCheckedV or above, \\leantarget "
                 "is required and must resolve under lean4/BEDC/."
             )
+        if payload["closurestatus_open_warnings"]:
+            print(
+                "[bedc-ci] closurestatus open-field warnings: "
+                f"{payload['closurestatus_open_warnings_count']}"
+            )
+            for item in payload["closurestatus_open_warnings"][:80]:
+                print(f"  {item['message']}")
+        if payload["closurestatus_open_errors"]:
+            print(
+                "[bedc-ci] closurestatus open-field errors: "
+                f"{payload['closurestatus_open_errors_new_count']} new (BLOCKING), "
+                f"{payload['closurestatus_open_errors_legacy_count']} legacy (warning)"
+            )
+            for item in payload["closurestatus_open_errors"][:80]:
+                print(f"  {item['message']}")
         if payload["orphan_concrete_subdirs"]:
             print(
                 "[bedc-ci] orphan concrete_instances/ subdirectories: "
@@ -1315,6 +1447,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["concrete_missing_origin_new_count"]
         + payload["paper_chapter_origin_tags_new_count"]
         + payload["closurestatus_diagnostics_new_count"]
+        + payload["closurestatus_open_errors_new_count"]
         + payload["orphan_concrete_subdirs_new_count"]
     )
     return 0 if failures == 0 else 1

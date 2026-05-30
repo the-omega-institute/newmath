@@ -2,12 +2,17 @@
 import sys
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).parent))
 from bedc_ci import (  # type: ignore[import-not-found]
     CLOSURESTATUS_BEGIN_RE,
     CLOSURESTATUS_FIELD_RE,
+    audit_payload,
+    collect_closurestatus_blocks,
     diagnose_closurestatus_block,
+    diagnose_closurestatus_open_fields,
 )
 
 
@@ -27,6 +32,14 @@ class ClosurestatusRegexTests(unittest.TestCase):
         self.assertEqual(m.group(1), "leantarget")
         self.assertEqual(m.group(2), r"BEDC.Foo.Bar\_baz")
 
+    def test_field_regex_extracts_open_field(self) -> None:
+        body = r"\closureclaimkind{discovery}"
+        m = CLOSURESTATUS_FIELD_RE.search(body)
+        self.assertIsNotNone(m)
+        assert m is not None
+        self.assertEqual(m.group(1), "closureclaimkind")
+        self.assertEqual(m.group(2), "discovery")
+
 
 class ClosurestatusDiagnosticsTests(unittest.TestCase):
     def _block(self, **overrides):
@@ -41,6 +54,8 @@ class ClosurestatusDiagnosticsTests(unittest.TestCase):
             "has_scope": True,
             "has_notclaimed": True,
             "has_upgradepath": True,
+            "has_constructive_story": True,
+            "open_fields": {},
         }
         base.update(overrides)
         return base
@@ -80,6 +95,107 @@ class ClosurestatusDiagnosticsTests(unittest.TestCase):
             lean_symbols={"BEDC.Foo.example"},
         )
         self.assertTrue(any("missing \\scopeclosed" in d for d in diags))
+
+    def test_legacy_block_has_no_open_field_lint(self) -> None:
+        warnings, errors = diagnose_closurestatus_open_fields(self._block())
+        self.assertEqual(warnings, [])
+        self.assertEqual(errors, [])
+
+    def test_weak_claim_missing_evidence_warns_only(self) -> None:
+        warnings, errors = diagnose_closurestatus_open_fields(
+            self._block(open_fields={"closureclaimkind": "survey"})
+        )
+        self.assertTrue(any("lacks \\closurenamecert" in item["message"] for item in warnings))
+        self.assertEqual(errors, [])
+
+    def test_strong_discovery_missing_evidence_errors(self) -> None:
+        warnings, errors = diagnose_closurestatus_open_fields(
+            self._block(open_fields={"closureclaimkind": "discovery"})
+        )
+        self.assertEqual(warnings, [])
+        self.assertTrue(any("requires \\closurenamecert" in item["message"] for item in errors))
+        self.assertTrue(any("requires \\closureledger" in item["message"] for item in errors))
+        self.assertTrue(
+            any("requires \\closureclassifierincrement" in item["message"] for item in errors)
+        )
+
+    def test_positive_discovery_missing_gate_and_weight_errors(self) -> None:
+        warnings, errors = diagnose_closurestatus_open_fields(
+            self._block(
+                open_fields={
+                    "closureclaimkind": "positiveDiscovery",
+                    "closurenamecert": "n",
+                    "closureledger": "l",
+                    "closureclassifierincrement": "1",
+                }
+            )
+        )
+        self.assertEqual(warnings, [])
+        self.assertTrue(any("requires \\closuregate" in item["message"] for item in errors))
+        self.assertTrue(
+            any("requires \\closureweightprofile" in item["message"] for item in errors)
+        )
+
+    def test_classifier_increment_must_be_one(self) -> None:
+        warnings, errors = diagnose_closurestatus_open_fields(
+            self._block(
+                open_fields={
+                    "closureclaimkind": "discovery",
+                    "closurenamecert": "n",
+                    "closureledger": "l",
+                    "closureclassifierincrement": "2",
+                }
+            )
+        )
+        self.assertEqual(warnings, [])
+        self.assertTrue(any("must be 1" in item["message"] for item in errors))
+
+    def test_collect_blocks_preserves_open_fields(self) -> None:
+        with TemporaryDirectory() as td:
+            root = Path(td) / "papers" / "bedc" / "parts"
+            root.mkdir(parents=True)
+            (root / "x.tex").write_text(
+                "\n".join(
+                    [
+                        r"\begin{closurestatus}{\FooUp}",
+                        r"  \theoryclosure{\scopedClosure}",
+                        r"  \formalstatus{\theoremCheckedV}",
+                        r"  \leantarget{BEDC.Foo.example}",
+                        r"  \scopeclosed{scope}",
+                        r"  \notclaimed{none}",
+                        r"  \upgradepath{done}",
+                        r"  \constructivestory{}",
+                        r"  \closureclaimkind{discovery}",
+                        r"  \closurenamecert{NameCert row}",
+                        r"\end{closurestatus}",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            blocks = collect_closurestatus_blocks(root)
+        self.assertEqual(len(blocks), 1)
+        self.assertEqual(blocks[0]["open_fields"]["closureclaimkind"], "discovery")
+        self.assertEqual(blocks[0]["open_fields"]["closurenamecert"], "NameCert row")
+
+    def test_audit_payload_exposes_open_warning_and_error_keys(self) -> None:
+        block = self._block(open_fields={"closureclaimkind": "discovery"})
+        with patch("bedc_ci._get_commit_changed_files", return_value=None), \
+            patch("bedc_ci.build_declaration_inventory", return_value=([], [])), \
+            patch("bedc_ci.collect_part_labels", return_value=[]), \
+            patch("bedc_ci.collect_lean_markers", return_value=[]), \
+            patch("bedc_ci.lean_files", return_value=[]), \
+            patch("bedc_ci.detect_case_collision_paths", return_value=[]), \
+            patch("bedc_ci.detect_preamble_duplicate_commands", return_value=[]), \
+            patch("bedc_ci.detect_concrete_instance_number_collisions", return_value=[]), \
+            patch("bedc_ci.detect_concrete_instance_missing_origin", return_value=[]), \
+            patch("bedc_ci.detect_paper_chapter_origin_tags", return_value=[]), \
+            patch("bedc_ci.collect_closurestatus_blocks", return_value=[block]), \
+            patch("bedc_ci.detect_orphan_concrete_subdirs", return_value=[]):
+            payload = audit_payload()
+        self.assertIn("closurestatus_open_warnings", payload)
+        self.assertIn("closurestatus_open_errors", payload)
+        self.assertEqual(payload["closurestatus_open_warnings_count"], 0)
+        self.assertGreater(payload["closurestatus_open_errors_count"], 0)
 
 
 if __name__ == "__main__":
