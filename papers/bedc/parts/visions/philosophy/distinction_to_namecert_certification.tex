@@ -1,0 +1,225 @@
+\section{Distinction-to-NameCert Certification}
+\label{sec:visions-philosophy-distinction-to-namecert-certification}
+\origin{ai}
+
+The distinction-history and classifier-shift layers identify the route
+from generated marks to certified classifier states. This section names
+the mediating certification layer. BEDC does not treat a stable
+distinction, a feature label, a proof trace, or a model behavior as an
+auditable object merely because it is visible. The object is licensed
+only when the candidate classifier is carried by a NameCert surface with
+source, pattern, classifier, stability, and ledger rows.
+
+\begin{definition}[Generated material]
+\label{def:philosophy-generated-material}
+Generated material is any finite record produced by the mark-history,
+event-flow, proof-trace, tensor-trace, or activation-trace interfaces.
+It is material for certification, not a certified object by itself.
+\end{definition}
+
+\begin{definition}[Candidate classifier]
+\label{def:philosophy-candidate-classifier}
+A candidate classifier on a generated-material family $G$ is a displayed
+relation $C$ on $G$ that proposes which records are to be read as the
+same for the purpose at hand. It may arise from history sameness,
+continuation behavior, compression cells, tensor activation patterns,
+neural features, empirical clusters, proof traces, or certificate
+structure.
+\end{definition}
+
+\begin{definition}[Certified classifier object]
+\label{def:philosophy-certified-classifier-object}
+A certified classifier object is a pair $(C,N)$ where $C$ is a candidate
+classifier and $N$ is a NameCert for $C$. The certificate has the
+five-field form
+$$
+N=
+(S_C,P_C,C,\Sigma_C,L_C),
+$$
+where $S_C$ is the source specification, $P_C$ is the pattern
+specification, $\Sigma_C$ is the stability certificate, and $L_C$ is the
+ledger policy.
+\end{definition}
+
+\begin{theorem}[Candidate classifiers are not certified objects]
+\label{thm:philosophy-candidate-classifier-not-certified-object}
+A candidate classifier without a NameCert is not a certified classifier
+object.
+\end{theorem}
+\begin{proof}
+By \autoref{def:philosophy-certified-classifier-object}, a certified
+classifier object is a pair $(C,N)$ with a NameCert component $N$.
+A bare candidate classifier supplies only the relation $C$. It does not
+supply source, pattern, stability, or ledger rows, so it does not satisfy
+the defining form of a certified classifier object.
+\end{proof}
+
+\begin{corollary}[Stable behavior is not objecthood]
+\label{cor:philosophy-stable-behavior-not-objecthood}
+Stable behavior in histories, tensor traces, activations, or proof
+records is not by itself a BEDC object.
+\end{corollary}
+\begin{proof}
+Stable behavior may support a candidate classifier, but
+\autoref{thm:philosophy-candidate-classifier-not-certified-object}
+requires a NameCert before that classifier has certified object status.
+\end{proof}
+
+\begin{theorem}[NameCert licenses classifier objecthood]
+\label{thm:philosophy-namecert-licenses-classifier-objecthood}
+If a candidate classifier $C$ carries a NameCert $N$, then $(C,N)$ is a
+certified classifier object.
+\end{theorem}
+\begin{proof}
+The conclusion is exactly the construction named in
+\autoref{def:philosophy-certified-classifier-object}. The NameCert
+provides the rows that make the classifier auditable: source, pattern,
+classifier, stability, and ledger.
+\end{proof}
+
+\begin{theorem}[No ledger, no closed certificate]
+\label{thm:philosophy-no-ledger-no-closed-certificate}
+A certificate surface without a ledger policy is not a closed NameCert.
+\end{theorem}
+\begin{proof}
+The ledger policy is one of the five required rows in
+\autoref{def:philosophy-certified-classifier-object}. Without it, hidden
+material, projection residue, compression residue, failure cases, and
+not-claimed boundaries have no audit row. The certificate surface is
+therefore incomplete.
+\end{proof}
+
+\begin{corollary}[Single-field claims are not NameCerts]
+\label{cor:philosophy-single-field-claims-not-namecerts}
+Source-only, pattern-only, classifier-only, stability-only, and
+ledger-only claims are not NameCerts.
+\end{corollary}
+\begin{proof}
+Each such claim omits at least one required field from the five-field
+certificate surface. A source row without a classifier does not say what
+relation is licensed; a pattern row without a source does not say where
+it applies; a classifier row without stability does not say how it is
+transported; a stability row without ledger does not expose what it hides;
+and a ledger row without classifier does not identify the relation being
+audited.
+\end{proof}
+
+\subsection{Semantic Assignment}
+\label{subsec:philosophy-semantic-assignment}
+
+\begin{definition}[Semantic assignment]
+\label{def:philosophy-semantic-assignment}
+A semantic assignment maps classifier cells or public marks to an
+external meaning space, such as truth values, numbers, concept labels,
+model behaviors, or mathematical objects.
+\end{definition}
+
+\begin{definition}[Certified semantic assignment]
+\label{def:philosophy-certified-semantic-assignment}
+A semantic assignment is certified when the assignment itself carries a
+NameCert specifying its source, pattern, classifier, stability, and
+ledger rows.
+\end{definition}
+
+\begin{theorem}[Semantic readings require certification]
+\label{thm:philosophy-semantic-readings-require-certification}
+A semantic reading of a mark, history, tensor feature, or classifier cell
+is not licensed by the reading alone.
+\end{theorem}
+\begin{proof}
+The reading supplies an external label or interpretation. It does not
+thereby expose the source on which the reading acts, the pattern that
+supports it, the classifier relation it respects, the stability witness
+under transport or perturbation, or the ledger of hidden and excluded
+material. Those rows are supplied only by a certificate.
+\end{proof}
+
+\begin{corollary}[Feature labels are not explanations]
+\label{cor:philosophy-feature-labels-not-explanations}
+Calling a neural feature by a concept label is not yet a certified
+explanation.
+\end{corollary}
+\begin{proof}
+The label is a semantic assignment. By
+\autoref{thm:philosophy-semantic-readings-require-certification}, the
+assignment must be certified before it can serve as an auditable
+explanation.
+\end{proof}
+
+\begin{theorem}[Meaning is certificate-derived]
+\label{thm:philosophy-meaning-certificate-derived}
+Within the BEDC certificate reading, meaning is derived from certified
+semantic assignment rather than present as a primitive mark property.
+\end{theorem}
+\begin{proof}
+The primitive display contains marks, histories, generated material, and
+candidate distinctions. External meaning enters through semantic
+assignment. Since a semantic assignment is licensed only through
+\autoref{def:philosophy-certified-semantic-assignment}, certified meaning
+is a derived certificate object.
+\end{proof}
+
+\subsection{Hardening}
+\label{subsec:philosophy-certification-hardening}
+
+\begin{definition}[Certificate hardening]
+\label{def:philosophy-certificate-hardening}
+Certificate hardening is the passage in which one or more certificate
+rows are supported by a stronger evidence form, such as a formal proof
+object accepted by a verification backend, while the classifier surface
+being certified remains identified.
+\end{definition}
+
+\begin{theorem}[Hardening does not create the NameCert layer]
+\label{thm:philosophy-hardening-does-not-create-namecert-layer}
+Formal hardening can strengthen certificate rows, but it does not by
+itself create a complete NameCert.
+\end{theorem}
+\begin{proof}
+A verifier accepts a proof object for a translated formal statement. That
+acceptance may harden a source, classifier, stability, or boundary claim.
+It does not automatically supply the remaining NameCert rows. The
+certificate layer therefore remains distinct from the verification layer.
+\end{proof}
+
+\begin{corollary}[Verified components are not whole explanations]
+\label{cor:philosophy-verified-components-not-whole-explanations}
+A verified statement inside an explanation is not the same as a certified
+explanation.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:philosophy-hardening-does-not-create-namecert-layer},
+verification hardens the component it checks. A certified explanation
+still requires the complete source, pattern, classifier, stability, and
+ledger surface.
+\end{proof}
+
+\begin{theorem}[Certificate hardening is not classifier shift]
+\label{thm:philosophy-certificate-hardening-not-classifier-shift}
+Certificate hardening does not by itself constitute classifier shift.
+\end{theorem}
+\begin{proof}
+Hardening changes the evidence status of one or more rows. If the
+classifier relation on the common source remains the same, the public
+classifier surface has not shifted. This is the certificate-layer form of
+\autoref{thm:philosophy-formal-hardening-not-classifier-shift}.
+\end{proof}
+
+\begin{theorem}[Certification-layer theorem]
+\label{thm:philosophy-certification-layer-theorem}
+BEDC forms a certification layer between generated behavior and optional
+formal hardening: candidate distinctions are organized as candidate
+classifiers, NameCert rows license them as certified classifier objects,
+and verification hardens only the translated rows it actually checks.
+\end{theorem}
+\begin{proof}
+Candidate distinctions and generated behavior supply material for
+classifiers by \autoref{def:philosophy-candidate-classifier}. Certified
+classifier objecthood requires the NameCert pair of
+\autoref{def:philosophy-certified-classifier-object}. Formal hardening is
+separate by \autoref{thm:philosophy-hardening-does-not-create-namecert-layer}.
+Thus the certification layer is neither raw behavior nor the formal
+verification backend; it is the auditable NameCert surface between them.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-distinction-namecert-layer-namecert}{Distinction-to-NameCert certification realizes candidate classifiers, five-field NameCert rows, semantic-assignment licensing, hardening separation, and no-ledger refusal as finite certificate-layer packets.}

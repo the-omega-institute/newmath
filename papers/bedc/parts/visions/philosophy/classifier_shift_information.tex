@@ -1,0 +1,267 @@
+\section{Classifier-Shift Information}
+\label{sec:visions-philosophy-classifier-shift-information}
+\origin{ai}
+
+The preceding distinction-history layer separates generated record growth
+from classifier change. This section names the corresponding information
+principle: information growth in the auditable-generativity reading is not
+the mere accumulation of outputs, traces, activations, or notational
+variants. It is a certified change in the classifier surface under which
+generated material is organized.
+
+\begin{definition}[Certified classifier state]
+\label{def:philosophy-certified-classifier-state}
+A certified classifier state is a tuple
+$$
+\mathcal{T}=(S_{\mathcal{T}},P_{\mathcal{T}},L_{\mathcal{T}},
+C_{\mathcal{T}},N_{\mathcal{T}})
+$$
+where $S_{\mathcal{T}}$ is the source specification, $P_{\mathcal{T}}$
+is the pattern specification, $L_{\mathcal{T}}$ is the ledger policy,
+$C_{\mathcal{T}}$ is the classifier relation on the source material, and
+$N_{\mathcal{T}}$ is the naming certificate or semantic certificate
+licensing the state.
+\end{definition}
+
+\begin{definition}[Classifier equivalence]
+\label{def:philosophy-classifier-equivalence}
+Two certified classifier states $\mathcal{T}$ and $\mathcal{T}'$ are
+classifier-equivalent on their common source when every pair of histories
+admitted by both source specifications receives the same classifier
+judgment from $C_{\mathcal{T}}$ and $C_{\mathcal{T}'}$.
+\end{definition}
+
+\begin{definition}[Classifier shift]
+\label{def:philosophy-classifier-state-shift}
+A passage $\mathcal{T}\to\mathcal{T}'$ has classifier shift when the
+two states are not classifier-equivalent on their common source. The
+shift may appear as refinement, coarsening, or reorganization of the
+classifier cells, but it must be witnessed on the public classifier
+surface rather than inferred from record length, notation, or fluency.
+\end{definition}
+
+\begin{definition}[Structural discovery]
+\label{def:philosophy-structural-discovery}
+A structural discovery is a passage to a certified classifier state
+$\mathcal{T}'$ such that the passage has classifier shift, the target
+state has a ledger witness for its admitted material, and the changed
+classifier is actually used on the displayed record or certificate
+surface.
+\end{definition}
+
+\begin{theorem}[Discovery requires classifier shift]
+\label{thm:philosophy-discovery-requires-classifier-shift}
+Every structural discovery has classifier shift.
+\end{theorem}
+\begin{proof}
+Classifier shift is one of the defining fields of
+\autoref{def:philosophy-structural-discovery}. A passage that preserves
+the same classifier on the common source may improve presentation,
+coverage of displayed routes, or verification status, but it has not
+changed the classifier surface that organizes the material.
+\end{proof}
+
+\begin{theorem}[Discovery requires certificate and ledger]
+\label{thm:philosophy-discovery-requires-certificate-ledger}
+Every structural discovery carries both a certificate for the resulting
+classifier state and a ledger witness for the material it classifies.
+\end{theorem}
+\begin{proof}
+The target of a structural discovery is a certified classifier state, so
+its tuple contains the certificate component $N_{\mathcal{T}'}$. The
+definition also requires a ledger witness. Without the certificate, the
+changed classifier is only an asserted relation; without the ledger, the
+source, hidden material, projection, compression, and boundary behavior
+are not auditable.
+\end{proof}
+
+\begin{corollary}[Record growth is not discovery]
+\label{cor:philosophy-record-growth-not-discovery-classifier}
+A record-only passage is not a structural discovery.
+\end{corollary}
+\begin{proof}
+A record-only passage preserves the certified classifier state while
+adding more displayed material under that state. By
+\autoref{thm:philosophy-discovery-requires-classifier-shift},
+structural discovery requires classifier shift, so record growth
+alone is insufficient.
+\end{proof}
+
+\begin{corollary}[Presentation change is not discovery]
+\label{cor:philosophy-presentation-change-not-discovery}
+Changing notation, proof organization, naming style, or exposition is not
+by itself a structural discovery.
+\end{corollary}
+\begin{proof}
+Presentation changes can alter how a state is read without changing the
+source specification, classifier relation, certificate fields, or ledger
+policy. Such a passage is classifier-equivalent on the common source and
+therefore lacks classifier shift.
+\end{proof}
+
+\begin{definition}[Boundary, bridge, and unification discovery]
+\label{def:philosophy-discovery-modes}
+Classifier-shift discovery has three recurring modes. Boundary discovery
+exposes a principled obstruction to strengthening a classifier. Bridge
+discovery connects previously separated classifier states through a
+certified relation. Unification discovery replaces several classifier
+states by a single certified state whose classifier surface accounts for
+their shared behavior.
+\end{definition}
+
+\begin{theorem}[Formal hardening is not classifier shift]
+\label{thm:philosophy-formal-hardening-not-classifier-shift}
+Formal verification of a statement or certificate component does not by
+itself create classifier shift.
+\end{theorem}
+\begin{proof}
+Formal verification changes the audit status of a statement or proof
+object. If the source specification, classifier relation, certificate
+fields, and ledger policy remain the same, the certified classifier state
+is classifier-equivalent to its prior state on the common source. The
+verification may increase reliability, but the classifier surface has not
+changed.
+\end{proof}
+
+\begin{theorem}[Classifier-shift information principle]
+\label{thm:philosophy-classifier-shift-information-principle}
+In the auditable-generativity reading, theoretical information growth is
+read from certified classifier shift rather than from output length,
+record count, feature count, notation change, or verification status
+alone.
+\end{theorem}
+\begin{proof}
+Output length and record count are governed by record unfolding, which
+can preserve the same classifier. Notation and presentation changes can
+preserve classifier equivalence. Formal hardening can preserve the same
+classifier while changing only audit status. By contrast, structural
+discovery requires a changed classifier together with certificate and
+ledger witnesses. Hence the auditable unit of theoretical information
+growth is certified classifier shift.
+\end{proof}
+
+\subsection{Compression, ledger, and conservation}
+\label{subsec:philosophy-compression-ledger-conservation}
+
+\begin{definition}[Compression map]
+\label{def:philosophy-compression-map}
+For a finite family of histories $X$, a compression map is a displayed
+map $q:X\to Y$ into a representation carrier $Y$. The map induces the
+classifier
+$$
+x\sim_q x'
+\quad\Longleftrightarrow\quad
+q(x)=q(x').
+$$
+\end{definition}
+
+\begin{definition}[Hidden residue]
+\label{def:philosophy-hidden-residue}
+The hidden residue of a compression map $q:X\to Y$ is the family of
+distinction pairs collapsed by the representation:
+$$
+\mathsf{Res}(q)
+=
+\{(x,x')\in X\times X:\ x\neq x'\ \text{and}\ q(x)=q(x')\}.
+$$
+\end{definition}
+
+\begin{definition}[Ledger-complete compression]
+\label{def:philosophy-ledger-complete-compression}
+A compression map is ledger-complete when it carries a ledger
+$\Lambda_q$ whose recorded rows cover the hidden residue of $q$. A
+ledger gap is a collapsed distinction in $\mathsf{Res}(q)$ not recorded
+by $\Lambda_q$.
+\end{definition}
+
+\begin{definition}[Certified compression]
+\label{def:philosophy-certified-compression}
+A certified compression is a compression map equipped with source,
+pattern, compression-induced classifier, stability, and ledger rows
+sufficient to license the compressed representation as a certificate
+surface.
+\end{definition}
+
+\begin{theorem}[Compression is classifier formation]
+\label{thm:philosophy-compression-classifier-formation}
+Every compression map induces a classifier on its source family.
+\end{theorem}
+\begin{proof}
+The relation $\sim_q$ is reflexive, symmetric, and transitive because it
+is defined by equality of the displayed representation $q(x)$. Thus the
+compression map partitions its source family into representation cells.
+\end{proof}
+
+\begin{theorem}[Certified compression requires ledger coverage]
+\label{thm:philosophy-certified-compression-requires-ledger}
+A certified compression has no unrecorded hidden residue.
+\end{theorem}
+\begin{proof}
+By \autoref{def:philosophy-certified-compression}, the compression
+certificate includes a ledger row. By
+\autoref{def:philosophy-ledger-complete-compression}, the ledger row must
+cover every collapsed distinction in $\mathsf{Res}(q)$. Any unrecorded
+collapsed distinction would be a ledger gap, so the compression would not
+be certified.
+\end{proof}
+
+\begin{corollary}[Shorter presentation is not certified gain]
+\label{cor:philosophy-shorter-presentation-not-certified-gain}
+A shorter representation is not by itself a certified information gain.
+\end{corollary}
+\begin{proof}
+Shortening can be achieved by collapsing distinctions. By
+\autoref{thm:philosophy-certified-compression-requires-ledger}, a
+certified compression must account for the collapsed distinctions through
+its ledger. The representation length alone therefore does not determine
+the certified gain.
+\end{proof}
+
+\begin{theorem}[Information conservation for compression]
+\label{thm:philosophy-information-conservation-compression}
+The auditable gain of a compression claim is read only after subtracting
+ledger cost, certificate cost, verification cost when claimed, and ledger
+debt for unrecorded residue from the apparent description gain.
+\end{theorem}
+\begin{proof}
+Apparent description gain records only the shorter representation. A
+certificate must also expose source, pattern, classifier, stability, and
+ledger rows. When a formal verification claim is made, the proof-checking
+work is part of the audit cost. When hidden residue is not recorded, the
+claim carries ledger debt. Omitting any of these terms would treat hidden
+material as free information, contrary to the certificate discipline.
+\end{proof}
+
+\begin{corollary}[Compression discovery requires classifier shift]
+\label{cor:philosophy-compression-discovery-requires-classifier-shift}
+A compression is a structural discovery only when it changes the
+certified classifier surface and supplies the corresponding certificate
+and ledger rows.
+\end{corollary}
+\begin{proof}
+Same-classifier compression may reduce description cost, but it remains
+classifier-equivalent on the common source. By
+\autoref{thm:philosophy-discovery-requires-classifier-shift}, structural
+discovery requires classifier shift, and by
+\autoref{thm:philosophy-discovery-requires-certificate-ledger}, it also
+requires certificate and ledger witnesses.
+\end{proof}
+
+\subsection{Machine-learning reading}
+\label{subsec:philosophy-classifier-shift-ml-reading}
+
+For a learned model, additional activations, candidate features, lower
+training loss, or more examples do not automatically constitute
+interpretability discovery. They become interpretability-relevant only
+when they change a certified classifier state: the activation source, the
+feature pattern, the induced classifier, the stability account, and the
+ledger must be displayed. Dimensionality reduction, feature clustering,
+pruning, and model compression are likewise compression maps: they must
+record hidden residue before they can count as closed explanations. This
+is the philosophy-side counterpart of
+\autoref{sec:large-model-tensor-classifier-certificate-extraction}: a
+learned tensor distinction can propose a classifier, but interpretability
+information is certified only when that classifier is named, stabilized,
+ledgered, and auditable.
+
+\concretizedIn{ch:concrete-instances-classifier-shift-ledger-namecert}{Classifier-shift ledgers realize certified classifier-state change, non-discovery refusals for record-only passages, compression residue accounting, and certificate-ledger discovery witnesses as finite NameCert rows.}

@@ -1,0 +1,499 @@
+\section{Interpretability Classifier Novelty}
+\label{sec:visions-philosophy-interpretability-classifier-novelty}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-explanation-complexity-information}
+separates net explanation information from classifier novelty. This
+section isolates the novelty coordinate itself. A feature catalog, a
+larger circuit diagram, a stronger ledger, a hardened proof component,
+or a clearer semantic label can improve an explanation without changing
+the explanatory classifier. Interpretability discovery, in the
+classifier-level sense, occurs only when the certified classifier surface
+used by the explanation changes.
+
+\begin{definition}[Interpretability explanation state]
+\label{def:philosophy-interpretability-explanation-state}
+An interpretability explanation state is a certified classifier state
+read in the machine-learning explanation context:
+$$
+\mathcal E=(S_E,P_E,L_E,C_E,N_E).
+$$
+Here $S_E$ is the explanation source specification, $P_E$ is the pattern
+specification, $L_E$ is the ledger policy, $C_E$ is the explanation
+classifier, and $N_E$ is the NameCert licensing the state.
+\end{definition}
+
+\begin{definition}[Explanation source scope and classifier cell]
+\label{def:philosophy-explanation-source-scope-cell}
+The source scope of $\mathcal E$ is
+$$
+|\mathcal E|
+=
+\{x\mid S_E(x)\}.
+$$
+For $x\in|\mathcal E|$, the explanation classifier cell of $x$ is
+$$
+[x]_{\mathcal E}
+=
+\{y\in|\mathcal E|\mid C_E(x,y)\}.
+$$
+The objects $x$ and $y$ may be input samples, tensor traces, activation
+records, behavior cases, NDNA packets, or explanation objects, depending
+on the declared source scope.
+\end{definition}
+
+\begin{definition}[Interpretability transition]
+\label{def:philosophy-interpretability-transition}
+An interpretability transition is a passage
+$$
+\mathcal E\leadsto\mathcal E'
+$$
+between explanation states. The passage may change feature loci, circuit
+loci, ledger rows, stability witnesses, semantic assignments, formal
+hardening status, NameCert rows, seal clauses, or the classifier itself.
+\end{definition}
+
+\begin{definition}[Interpretability classifier equivalence]
+\label{def:philosophy-interpretability-classifier-equivalence}
+Two explanation states
+$$
+\mathcal E=(S,P,L,C,N),
+\qquad
+\mathcal E'=(S',P',L',C',N')
+$$
+are interpretability-classifier equivalent when they give the same
+classifier judgment on their common source scope:
+$$
+\forall x,y,\;
+S(x)\land S(y)\land S'(x)\land S'(y)
+\Rightarrow
+\bigl(C(x,y)\leftrightarrow C'(x,y)\bigr).
+$$
+This is the explanation-side instance of
+\autoref{def:philosophy-classifier-equivalence}.
+\end{definition}
+
+\begin{definition}[Classifier novelty value]
+\label{def:philosophy-classifier-novelty-value}
+The classifier novelty value of a transition
+$\mathcal E\leadsto\mathcal E'$ is
+$$
+\nu_{\mathsf{cls}}(\mathcal E,\mathcal E')=0
+$$
+exactly when $\mathcal E$ and $\mathcal E'$ are
+interpretability-classifier equivalent, and is $1$ exactly when that
+equivalence fails.
+\end{definition}
+
+\begin{definition}[Local classifier novelty witness]
+\label{def:philosophy-local-classifier-novelty-witness}
+For a displayed family
+$$
+X\subseteq|\mathcal E|\cap|\mathcal E'|,
+$$
+a local classifier novelty witness is a pair $x,y\in X$ together with
+evidence that
+$$
+C_E(x,y)\not\leftrightarrow C_{E'}(x,y).
+$$
+The witness is certified when the target state carries NameCert and
+ledger rows explaining the changed judgment.
+\end{definition}
+
+\begin{theorem}[Local witness gives classifier novelty]
+\label{thm:philosophy-local-witness-gives-classifier-novelty}
+If there is a local classifier novelty witness for
+$\mathcal E\leadsto\mathcal E'$, then
+$$
+\nu_{\mathsf{cls}}(\mathcal E,\mathcal E')=1.
+$$
+\end{theorem}
+\begin{proof}
+The witness supplies $x,y$ in the common source scope for which the two
+classifier judgments differ. Interpretability-classifier equivalence
+requires agreement on every such pair. Therefore equivalence fails, and
+the classifier novelty value is $1$.
+\end{proof}
+
+\begin{corollary}[One classified pair can certify non-equivalence]
+\label{cor:philosophy-one-pair-certifies-non-equivalence}
+One common-source pair with different classifier judgments is sufficient
+to show that two explanation states are not classifier-equivalent.
+\end{corollary}
+\begin{proof}
+Apply
+\autoref{thm:philosophy-local-witness-gives-classifier-novelty}
+to the displayed two-object family containing the witness pair.
+\end{proof}
+
+\subsection{Nonclassifier Changes}
+\label{subsec:philosophy-nonclassifier-changes}
+
+\begin{definition}[Feature-side change]
+\label{def:philosophy-feature-side-change}
+A feature-side change is a transition that alters the feature locus,
+feature functional, activation source, sparse-autoencoder latent,
+direction, probe, or feature evidence while preserving the classifier
+relation on the common source scope.
+\end{definition}
+
+\begin{definition}[Circuit-side change]
+\label{def:philosophy-circuit-side-change}
+A circuit-side change alters the circuit locus, route graph, layer path,
+attention component, MLP component, residual route, or causal-route
+evidence while preserving the classifier relation on the common source
+scope.
+\end{definition}
+
+\begin{definition}[Ledger-side change]
+\label{def:philosophy-ledger-side-change}
+A ledger-side change adds or reorganizes ledger rows, reduces debt, or
+clarifies not-claimed boundaries while preserving the classifier relation
+on the common source scope.
+\end{definition}
+
+\begin{definition}[Hardening-side and semantic-side changes]
+\label{def:philosophy-hardening-semantic-side-changes}
+A hardening-side change alters evidence mode, proof status, or
+verification ledger without changing the explanation classifier. A
+semantic-side change alters labels, semantic ledgers, examples,
+counterexamples, or concept boundaries without changing the explanation
+classifier.
+\end{definition}
+
+\begin{theorem}[Feature-side change need not create classifier novelty]
+\label{thm:philosophy-feature-side-change-no-classifier-novelty}
+A feature-side change whose classifier relation is preserved has
+classifier novelty value $0$.
+\end{theorem}
+\begin{proof}
+By definition, the classifier relation agrees on the common source scope.
+Thus the two explanation states are interpretability-classifier
+equivalent, so the novelty value is $0$.
+\end{proof}
+
+\begin{theorem}[Circuit-side change need not create classifier novelty]
+\label{thm:philosophy-circuit-side-change-no-classifier-novelty}
+A circuit-side change whose classifier relation is preserved has
+classifier novelty value $0$.
+\end{theorem}
+\begin{proof}
+Changing circuit evidence can refine mechanism without changing the
+classifier cells. If the common-source classifier judgments are the same,
+\autoref{def:philosophy-classifier-novelty-value} gives value $0$.
+\end{proof}
+
+\begin{theorem}[Ledger repair need not create classifier novelty]
+\label{thm:philosophy-ledger-repair-no-classifier-novelty}
+Ledger-side improvement can lower debt without creating classifier
+novelty.
+\end{theorem}
+\begin{proof}
+A ledger-side change may add boundary cases, false-positive rows,
+threshold rows, or not-claimed clauses while leaving $C_E$ unchanged.
+Then the classifier equivalence relation is unchanged, even though the
+audit quality improves.
+\end{proof}
+
+\begin{theorem}[Hardening and semantic changes need not create classifier novelty]
+\label{thm:philosophy-hardening-semantic-no-classifier-novelty}
+Hardening-side and semantic-side changes do not create classifier novelty
+unless they change the classifier relation.
+\end{theorem}
+\begin{proof}
+Formal hardening changes evidence strength; semantic clarification
+changes naming and boundary prose. If neither changes which source
+objects are classified together, the explanation states remain
+classifier-equivalent.
+\end{proof}
+
+\begin{corollary}[Improvement and discovery are distinct]
+\label{cor:philosophy-improvement-discovery-distinct}
+An explanation can become more useful, reliable, precise, or auditable
+without becoming a classifier-level discovery.
+\end{corollary}
+\begin{proof}
+The preceding theorems describe feature, circuit, ledger, hardening, and
+semantic changes that may improve an explanation while preserving the
+classifier relation.
+\end{proof}
+
+\subsection{Classifier-Change Modes}
+\label{subsec:philosophy-classifier-change-modes}
+
+\begin{definition}[Classifier refinement]
+\label{def:philosophy-classifier-refinement}
+A transition is a classifier refinement when
+$$
+C_{E'}(x,y)\Rightarrow C_E(x,y)
+$$
+on the common source scope, and the implication is strict for at least
+one pair. The target classifier separates at least one pair that the
+source classifier grouped.
+\end{definition}
+
+\begin{definition}[Classifier coarsening]
+\label{def:philosophy-classifier-coarsening}
+A transition is a classifier coarsening when
+$$
+C_E(x,y)\Rightarrow C_{E'}(x,y)
+$$
+on the common source scope, and the implication is strict for at least
+one pair. The target classifier groups at least one pair that the source
+classifier separated.
+\end{definition}
+
+\begin{definition}[Classifier reorganization]
+\label{def:philosophy-classifier-reorganization}
+A transition is a classifier reorganization when the two classifiers are
+not equivalent on their common source scope, but the change is neither a
+pure refinement nor a pure coarsening.
+\end{definition}
+
+\begin{definition}[Bridge, boundary, and unification modes]
+\label{def:philosophy-bridge-boundary-unification-modes}
+A bridge mode connects previously separated explanation states through a
+common certified classifier. A boundary mode identifies a principled
+limit beyond which the prior classifier should not be used. A
+unification mode gives one certified classifier surface for several
+previously separated behaviors, features, circuits, or domains.
+\end{definition}
+
+\begin{theorem}[Refinement creates classifier novelty]
+\label{thm:philosophy-refinement-creates-classifier-novelty}
+Every strict classifier refinement has classifier novelty value $1$.
+\end{theorem}
+\begin{proof}
+Strictness supplies $x,y$ in the common source scope with $C_E(x,y)$ and
+$\neg C_{E'}(x,y)$. This is a local classifier novelty witness.
+\end{proof}
+
+\begin{theorem}[Coarsening creates classifier novelty]
+\label{thm:philosophy-coarsening-creates-classifier-novelty}
+Every strict classifier coarsening has classifier novelty value $1$.
+\end{theorem}
+\begin{proof}
+Strictness supplies $x,y$ in the common source scope with
+$\neg C_E(x,y)$ and $C_{E'}(x,y)$. This is again a local classifier
+novelty witness.
+\end{proof}
+
+\begin{theorem}[Reorganization creates classifier novelty]
+\label{thm:philosophy-reorganization-creates-classifier-novelty}
+Every classifier reorganization has classifier novelty value $1$.
+\end{theorem}
+\begin{proof}
+Reorganization is defined by failure of classifier equivalence on the
+common source scope. The classifier novelty value is therefore $1$.
+\end{proof}
+
+\begin{corollary}[Discovery need not only refine]
+\label{cor:philosophy-discovery-need-not-only-refine}
+Classifier-level interpretability discovery may occur by refinement,
+coarsening, reorganization, bridge, boundary, or unification modes.
+\end{corollary}
+\begin{proof}
+The first three modes directly change classifier equivalence. The bridge,
+boundary, and unification modes are discovery modes when their certified
+classifier surface is not equivalent to the prior one.
+\end{proof}
+
+\subsection{Discovery Grades}
+\label{subsec:philosophy-discovery-grades}
+
+\begin{definition}[Discovery candidate]
+\label{def:philosophy-interpretability-discovery-candidate}
+An interpretability transition is a discovery candidate when its
+classifier novelty value is $1$ and the target state has candidate
+NameCert and ledger rows whose closure status is still under audit.
+\end{definition}
+
+\begin{definition}[Certified interpretability discovery]
+\label{def:philosophy-certified-interpretability-discovery}
+An interpretability transition is a certified interpretability discovery
+when its classifier novelty value is $1$ and the target state carries a
+complete NameCert and ledger for the changed classifier surface.
+\end{definition}
+
+\begin{definition}[Positive interpretability discovery grade]
+\label{def:philosophy-positive-interpretability-discovery-grade}
+A certified interpretability discovery is positive when its relative net
+explanation information is positive:
+$$
+\Delta\mathsf{Info}_{\mathbf w}(E_0,E_1)>0.
+$$
+\end{definition}
+
+\begin{definition}[Ledger-only, hybrid, and fully hardened discovery]
+\label{def:philosophy-discovery-evidence-grades}
+A ledger-only interpretability discovery has complete NameCert and ledger
+rows but no hardened formal component. A hybrid discovery combines
+empirical, paper, ledger, and formal evidence. A fully hardened discovery
+has all hardenable critical components formally hardened and all
+non-hardenable critical residue ledgered.
+\end{definition}
+
+\begin{theorem}[Certified discovery requires NameCert and ledger]
+\label{thm:philosophy-certified-discovery-requires-namecert-ledger}
+Every certified interpretability discovery carries NameCert and ledger
+rows for the changed classifier surface.
+\end{theorem}
+\begin{proof}
+Those rows are part of the definition of certified interpretability
+discovery. This is the interpretability-specific instance of
+\autoref{thm:philosophy-discovery-requires-certificate-ledger}.
+\end{proof}
+
+\begin{theorem}[Positive discovery requires novelty and net gain]
+\label{thm:philosophy-positive-discovery-requires-novelty-net-gain}
+Every positive interpretability discovery has classifier novelty value
+$1$ and positive relative net explanation information.
+\end{theorem}
+\begin{proof}
+Positive discovery is defined only after certified discovery has been
+established, and certified discovery requires classifier novelty. The
+positive grade then adds the inequality
+$\Delta\mathsf{Info}_{\mathbf w}(E_0,E_1)>0$.
+\end{proof}
+
+\begin{theorem}[Discovery candidate is not certified discovery]
+\label{thm:philosophy-discovery-candidate-not-certified-discovery}
+A discovery candidate whose NameCert or ledger is incomplete is not a
+certified interpretability discovery.
+\end{theorem}
+\begin{proof}
+Certified discovery requires complete NameCert and ledger rows for the
+changed classifier surface. A candidate missing either row lacks the
+certificate surface required by the definition.
+\end{proof}
+
+\begin{theorem}[Claim demotion preserves audit soundness]
+\label{thm:philosophy-claim-demotion-preserves-audit-soundness}
+If an asserted discovery claim lacks classifier novelty, NameCert, or
+ledger, replacing the claim by the strongest supported feature-side,
+circuit-side, ledger-side, hardening-side, or semantic-side claim
+preserves audit soundness.
+\end{theorem}
+\begin{proof}
+The replacement claim says only what the evidence supports. If the
+classifier did not change, the result is not classifier-level discovery.
+If NameCert or ledger rows are missing, the result may be a candidate or
+an audit improvement, but not a certified discovery. Stating the weaker
+claim prevents overclaiming.
+\end{proof}
+
+\subsection{NDNA, Debt, and Hardening}
+\label{subsec:philosophy-ndna-debt-hardening-classifier-novelty}
+
+\begin{definition}[NDNA classifier-locus novelty]
+\label{def:philosophy-ndna-classifier-locus-novelty}
+An NDNA transition has classifier-locus novelty when the classifier locus
+changes to a classifier not equivalent to the prior classifier on the
+common source scope.
+\end{definition}
+
+\begin{definition}[NDNA nonclassifier-locus change]
+\label{def:philosophy-ndna-nonclassifier-locus-change}
+An NDNA nonclassifier-locus change alters source, feature, circuit,
+stability, intervention, ledger, or seal loci while preserving the
+classifier locus.
+\end{definition}
+
+\begin{theorem}[NDNA classifier-locus novelty gives interpretability novelty]
+\label{thm:philosophy-ndna-classifier-locus-gives-interpretability-novelty}
+Every nontrivial NDNA classifier-locus novelty gives classifier novelty
+value $1$ for the associated explanation transition.
+\end{theorem}
+\begin{proof}
+The classifier locus records the explanation classifier. If that locus
+changes to a non-equivalent classifier, there is a common-source pair
+whose classifier judgment differs, so
+\autoref{thm:philosophy-local-witness-gives-classifier-novelty}
+applies.
+\end{proof}
+
+\begin{theorem}[NDNA nonclassifier change need not create novelty]
+\label{thm:philosophy-ndna-nonclassifier-change-no-novelty}
+An NDNA transition that changes only nonclassifier loci need not create
+classifier novelty.
+\end{theorem}
+\begin{proof}
+If the classifier locus is preserved, the explanation classifier remains
+equivalent on the common source scope. The transition may still lower
+debt, add evidence, or close the seal.
+\end{proof}
+
+\begin{definition}[Classifier debt]
+\label{def:philosophy-classifier-debt}
+Classifier debt is the debt carried by a missing classifier locus, an
+ambiguous classifier relation, an unrecorded classifier boundary, a
+threshold gap, or an unledgered false split or false merge.
+\end{definition}
+
+\begin{theorem}[Classifier debt reduction need not create novelty]
+\label{thm:philosophy-classifier-debt-reduction-no-novelty}
+Reducing classifier debt does not by itself create classifier novelty.
+\end{theorem}
+\begin{proof}
+Debt can be reduced by stating the old classifier more clearly, adding
+boundary rows, recording threshold sensitivity, or clarifying source
+scope. These changes can preserve the classifier relation.
+\end{proof}
+
+\begin{theorem}[Critical classifier debt can force classifier novelty]
+\label{thm:philosophy-critical-classifier-debt-can-force-novelty}
+If repairing critical classifier debt forces a change in the classifier
+boundary, then the repair produces classifier novelty.
+\end{theorem}
+\begin{proof}
+Changing the classifier boundary means that some common-source pair is
+classified differently after the repair. That pair is a local classifier
+novelty witness.
+\end{proof}
+
+\begin{theorem}[Verification-only hardening has no classifier novelty]
+\label{thm:philosophy-verification-only-hardening-no-classifier-novelty}
+Formal hardening that preserves the explanation classifier has classifier
+novelty value $0$.
+\end{theorem}
+\begin{proof}
+Verification-only hardening changes evidence mode or proof status. If the
+classifier relation is preserved on the common source scope, the
+explanation states remain classifier-equivalent.
+\end{proof}
+
+\begin{theorem}[Formal classifier discovery requires a classifier witness]
+\label{thm:philosophy-formal-classifier-discovery-requires-witness}
+A formal verification step that claims classifier-level discovery must
+display a witness that the verified target classifier is not equivalent
+to the prior classifier.
+\end{theorem}
+\begin{proof}
+Without such a witness, the formal step may harden an existing component
+but does not establish classifier novelty. A classifier-level discovery
+claim requires failure of classifier equivalence.
+\end{proof}
+
+\begin{theorem}[Interpretability classifier novelty theorem]
+\label{thm:philosophy-interpretability-classifier-novelty-theorem}
+Classifier-level interpretability discovery is certified classifier
+shift, not feature accumulation, circuit elaboration, ledger repair,
+semantic relabeling, or verification-only hardening.
+\end{theorem}
+\begin{proof}
+Feature, circuit, ledger, hardening, and semantic changes can preserve
+classifier equivalence by
+\autoref{thm:philosophy-feature-side-change-no-classifier-novelty},
+\autoref{thm:philosophy-circuit-side-change-no-classifier-novelty},
+\autoref{thm:philosophy-ledger-repair-no-classifier-novelty}, and
+\autoref{thm:philosophy-hardening-semantic-no-classifier-novelty}.
+Refinement, coarsening, and reorganization create classifier novelty by
+\autoref{thm:philosophy-refinement-creates-classifier-novelty},
+\autoref{thm:philosophy-coarsening-creates-classifier-novelty}, and
+\autoref{thm:philosophy-reorganization-creates-classifier-novelty}.
+Certified discovery additionally requires NameCert and ledger by
+\autoref{thm:philosophy-certified-discovery-requires-namecert-ledger},
+and positive discovery additionally requires positive net explanation
+information by
+\autoref{thm:philosophy-positive-discovery-requires-novelty-net-gain}.
+\end{proof}
