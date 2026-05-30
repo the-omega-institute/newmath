@@ -3797,6 +3797,7 @@ import BEDC.Derived.FormalBallUp.RadiusOrderHandoff
 import BEDC.Derived.FormalBallUp.RadiusOrderScopePackage
 import BEDC.Derived.FormalBallUp.RoundedFilterAdmission
 import BEDC.Derived.FormalBallUp.RoundedFilterCauchyBoundary
+import BEDC.Derived.FormalBallUp.RoundedIdealHandoff
 import BEDC.Derived.FormalBallUp.TasteGate
 import BEDC.Derived.FormalBallUp.UniformCompletionRoute
 import BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp.TasteGate
@@ -4634,6 +4635,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceCandidateMediation
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityConsumerBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityHandoffExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CurrentOpenPhaseReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.DecidabilityHandoffVisibility
