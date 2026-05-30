@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMetricEntropyUp$}
+\label{ch:concrete-instances-finite-metric-entropy-namecert}
+\origin{human}
+
+Following Kolmogorov and Tikhomirov on metric entropy, and Bishop-style finite nets, the $\FiniteMetricEntropyUp$ packet records a constructive quantitative compactness budget as finite BEDC data. It sits beside the metric source of \autoref{ch:concrete-instances-metric-namecert}, the finite net surface of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the covering-number row of \autoref{ch:concrete-instances-metric-covering-number-namecert}, the packing-number row of \autoref{ch:concrete-instances-packing-number-namecert}, the rational tolerance row of \autoref{ch:concrete-instances-rat-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet binds covering and packing data to a visible entropy ledger without importing host cardinality, open-cover compactness, selected centers outside the displayed net, or ambient completeness.
+
+\begin{definition}[Finite metric entropy carrier]
+\label{def:finite-metric-entropy-carrier}
+A $\FiniteMetricEntropyUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,\varepsilon,C,Pk,L,H,Cn,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricUp$ source row, naming the carrier, distance classifier, and finite metric observations consumed by the entropy packet.
+\item $\varepsilon$ is a positive $\RatUp$ or $\DyadicRatCoreUp$ tolerance row, recording the radius at which the budget is read.
+\item $C$ is the finite $\MetricCoveringNumberUp$ row, exposing the displayed cover centers and the covering-number upper bound at tolerance $\varepsilon$.
+\item $Pk$ is the $\PackingNumberUp$ lower-bound row, exposing separated witnesses that can be read against the same metric and tolerance data.
+\item $L$ is the logarithmic or unary entropy-budget ledger, recording the finite budget associated to the covering row and the comparison against the packing row.
+\item $H$ records componentwise $\hsame$ transport for the metric source, tolerance, covering, packing, ledger, replay, provenance, and local naming rows.
+\item $Cn$ records displayed $\Cont$ replay from a metric-entropy request through $X,\varepsilon,C,Pk,L,H$.
+\item $Q$ is the $\Pkg$ provenance over $\FiniteMetricEntropyUp$, $\MetricUp$, $\FiniteEpsilonNetUp$, $\MetricCoveringNumberUp$, $\PackingNumberUp$, $\RatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteMetricEntropyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host cardinality, an infinite open cover, a selected compactness witness, quotient point equality, countable choice, or ambient metric completeness.
+\end{definition}
+
+\begin{theorem}[Finite metric entropy NameCert obligations]
+\label{thm:finite-metric-entropy-namecert-obligations}
+For every accepted $\FiniteMetricEntropyUp$ carrier
+$$
+M=(X,\varepsilon,C,Pk,L,H,Cn,Q,N),
+$$
+the local $\NameCert_{\FiniteMetricEntropyUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed metric source, positive tolerance, covering-number row, packing-number row, entropy ledger, transport, replay, provenance, and local naming rows;
+\item tolerance visibility, requiring every covering or packing read to inspect the same positive $\RatUp$ or $\DyadicRatCoreUp$ tolerance row $\varepsilon$;
+\item covering exactness, requiring the covering budget $C$ to be read through finite $\FiniteEpsilonNetUp$ centers and the $\MetricCoveringNumberUp$ row before the ledger $L$ is consumed;
+\item packing lower-bound visibility, requiring $Pk$ to expose only displayed separated witnesses over $X$ and $\varepsilon$;
+\item entropy-ledger nonescape, requiring every logarithmic or unary budget read to pass through $C,Pk,L,H,Cn,Q,N$ and to avoid host cardinality or compactness.
+\end{enumerate}
+No finite metric-entropy obligation is stored outside $X,\varepsilon,C,Pk,L,H,Cn,Q,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finite-metric-entropy-carrier}. The accepted packet displays the metric source, positive tolerance, covering-number row, packing-number row, entropy ledger, transport, replay, provenance, and local naming rows.
+
+The tolerance and covering obligations follow from the row order. A covering read has no access to centers or a budget until it has inspected $X$ and $\varepsilon$, and the finite net surface is the only route from those rows to $C$.
+
+The packing and ledger obligations are downstream. The row $Pk$ supplies only displayed separated witnesses over the same metric and tolerance data, while $L$ records the finite budget read from $C$ and compared with $Pk$.
+
+Finally, $H,Cn,Q,N$ transport, replay, source, and name the same finite route. Since the carrier contains no host-cardinality, open-cover compactness, selected-center, quotient-equality, countable-choice, or ambient-completeness coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteMetricEntropyUp$ consumer that reads an entropy budget without first displaying the metric row, positive tolerance, covering-number row, packing-number row, and ledger rows refutes the carrier surface.}
+
+\independenceWitness{metric, finite-epsilon-net, metric-covering-number, packing-number, rat, dyadicratcore: no listed sibling is bijective with $\FiniteMetricEntropyUp$ because this packet jointly carries metric source data, a positive tolerance row, covering and packing bounds, an entropy-budget ledger, transport, replay, provenance, and a local $\NameCert$ row.}
+
+\closureat{FiniteMetricEntropyUp}{seedStr}
+
+\begin{closurestatus}{\FiniteMetricEntropyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-metric-entropy-carrier} and \autoref{thm:finite-metric-entropy-namecert-obligations} seed the finite entropy-budget route through metric source data, positive tolerance rows, covering numbers, packing lower bounds, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host cardinality, open-cover compactness, selected centers outside the displayed net, quotient point equality, countable choice, Lean verification, bridge checking, or ambient metric completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance visibility, covering exactness, packing lower-bound visibility, and entropy-ledger nonescape for BEDC.Derived.FiniteMetricEntropyUp.}
+  \constructivestory{A $\FiniteMetricEntropyUp$ packet is generated from MetricUp source data, a positive RatUp or DyadicRatCoreUp tolerance row, finite covering-number data, packing lower-bound data, an entropy-budget ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
