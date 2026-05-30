@@ -1,19 +1,7 @@
 #!/usr/bin/env python3
 """BEDC Lean automation helpers for audit, inventory, and verification.
 
-Subcommands:
-  - audit: scan Lean / paper sources for BEDC-specific forbidden constructs and mismatches
-  - inventory: build a declaration + paper-label + Lean-marker inventory
-  - manifest: emit a release-grade JSON manifest (inventory + git/package metadata)
-  - marker-existence-audit: report paper markers that do not resolve in Lean
-  - manifest-check: check selected Lean theorem type shapes against a manifest
-  - metacic-purity: report axiom dependencies for BEDC.MetaCIC declarations
-  - verify-files: run ``lake env lean`` on one or more Lean files
-
-Newmath adaptation note:
-  - This is a BEDC rewrite of automath's ``omega_ci.py``.
-  - There is no deeply nested theory root here; the paper lives under ``papers/bedc/``.
-  - The dedicated zero-axiom gate remains ``python3 tools/check-axioms.py``; this helper covers the broader audit surface.
+Run ``python3 lean4/scripts/bedc_ci.py --help`` for the canonical subcommand list.
 """
 
 from __future__ import annotations
@@ -54,6 +42,32 @@ MARKER_EXISTENCE_RE = re.compile(
     r"\\(leanchecked|leanvariant|leantarget|leandef|leanstmt|leansorryd)\{([^}]+)\}"
 )
 LEAN_CHECKED_RE = re.compile(r"\\leanchecked\{([^}]+)\}")
+THEOREM_STATUS_ENVS = (
+    "definition",
+    "principle",
+    "kernelrule",
+    "rulebox",
+    "convention",
+    "lemma",
+    "theorem",
+    "corollary",
+    "proposition",
+    "protocol",
+    "remark",
+    "example",
+    "axiomlike",
+    "conjecture",
+)
+THEOREM_STATUS_BEGIN_RE = re.compile(
+    r"\\begin\{(?P<kind>" + "|".join(THEOREM_STATUS_ENVS) + r")\}"
+    r"(?:\[(?P<title>[^\]]*)\])?"
+)
+THEOREM_STATUS_NEXT_BOUNDARY_RE = re.compile(
+    r"\\begin\{(?:" + "|".join(THEOREM_STATUS_ENVS) + r")\}|\\chapter\{|\\section\{"
+)
+THEOREM_STATUS_PROOF_BEGIN_RE = re.compile(r"\\begin\{proof\}")
+THEOREM_STATUS_PROOF_END_RE = re.compile(r"\\end\{proof\}")
+LOCAL_REF_RE = re.compile(r"\\(?P<macro>autoref|ref\*?)\{(?P<label>[^}]+)\}")
 CLAIM_ENTRY_RE = re.compile(r'⟨"[^"]*",\s*"([^"]+)"')
 PREAMBLE_COMMAND_RE = re.compile(
     r"^\\(?P<kind>newcommand|providecommand|renewcommand|DeclareRobustCommand"
@@ -119,6 +133,24 @@ class LeanMarkerRecord:
     line: int
     macro: str
     target: str
+
+
+@dataclass(frozen=True)
+class TheoremStatusEnvironment:
+    kind: str
+    title: str | None
+    start_line: int
+    statement_body: str
+    statement_base_line: int
+    relation_text: str
+    relation_base_line: int
+
+
+@dataclass(frozen=True)
+class TheoremStatusRelationWindow:
+    proof_line: int | None
+    marker_scan_end: int
+    reference_scan_end: int
 
 
 @dataclass(frozen=True)
@@ -462,6 +494,283 @@ def collect_marker_existence_lean_names() -> set[str]:
             namespace = declaration_namespace(module, namespace_stack)
             names.add(qualified_name(name, namespace))
     return names
+
+
+def theorem_status_empty_dna_roles() -> dict[str, object]:
+    return {
+        "statement": None,
+        "dependencies": [],
+        "proof": None,
+        "certificates": [],
+        "ledger": None,
+        "status": None,
+        "canonical_site": None,
+        "closing_seal": None,
+    }
+
+
+def _line_for_offset(text: str, offset: int) -> int:
+    return text.count("\n", 0, offset) + 1
+
+
+def _title_value(raw_title: str | None) -> str | None:
+    title = (raw_title or "").strip()
+    return title or None
+
+
+def _label_records_in_text(text: str, base_line: int) -> list[dict[str, object]]:
+    labels: list[dict[str, object]] = []
+    for match in LABEL_RE.finditer(text):
+        labels.append({
+            "label": match.group(1).strip(),
+            "line": base_line + text.count("\n", 0, match.start()),
+        })
+    return labels
+
+
+def _references_in_text(text: str, base_line: int) -> list[dict[str, object]]:
+    refs: list[dict[str, object]] = []
+    seen: set[tuple[str, str, int]] = set()
+    for match in LOCAL_REF_RE.finditer(text):
+        line = base_line + text.count("\n", 0, match.start())
+        item = (match.group("macro"), match.group("label").strip(), line)
+        if item in seen:
+            continue
+        seen.add(item)
+        refs.append({"macro": item[0], "label": item[1], "line": item[2]})
+    return refs
+
+
+def _lean_marker_records_in_text(
+    text: str,
+    base_line: int,
+    file_name: str,
+) -> list[LeanMarkerRecord]:
+    markers: list[LeanMarkerRecord] = []
+    for line_idx, raw_line in enumerate(text.splitlines(), start=0):
+        if raw_line.lstrip().startswith("%"):
+            continue
+        for match in LEAN_MARKER_RE.finditer(raw_line):
+            markers.append(LeanMarkerRecord(
+                file=file_name,
+                line=base_line + line_idx,
+                macro=match.group(1),
+                target=match.group(2).replace(r"\_", "_").strip(),
+            ))
+    return markers
+
+
+def _site(file_name: str, line: int | None) -> dict[str, object] | None:
+    if line is None:
+        return None
+    return {"file": file_name, "line": line}
+
+
+def _chapter_label_before(text: str, offset: int) -> str | None:
+    label: str | None = None
+    for match in LABEL_RE.finditer(text, 0, offset):
+        candidate = match.group(1).strip()
+        if candidate.startswith("ch:"):
+            label = candidate
+    return label
+
+
+def _closurestatus_projection(block: dict) -> dict[str, object]:
+    return {
+        "file": block.get("file"),
+        "line": block.get("line"),
+        "region": block.get("region"),
+        "theory_closure": block.get("theory_closure"),
+        "bridge_status": block.get("bridge_status"),
+        "has_scope": block.get("has_scope"),
+        "has_notclaimed": block.get("has_notclaimed"),
+        "has_upgradepath": block.get("has_upgradepath"),
+        "open_fields": dict(block.get("open_fields") or {}),
+    }
+
+
+def _lean_resolution_for_markers(
+    markers: list[LeanMarkerRecord],
+    lean_names: set[str],
+) -> list[dict[str, object]]:
+    return [
+        {
+            "target": marker.target,
+            "resolved": marker.target in lean_names,
+        }
+        for marker in markers
+    ]
+
+
+def _closure_blocks_by_file() -> dict[str, list[dict]]:
+    closure_by_file: dict[str, list[dict]] = {}
+    for block in collect_closurestatus_blocks(PAPER_PARTS_ROOT):
+        closure_by_file.setdefault(str(block.get("file", "")), []).append(block)
+    return closure_by_file
+
+
+def _theorem_status_environment(
+    text: str,
+    match: re.Match[str],
+) -> TheoremStatusEnvironment:
+    kind = match.group("kind")
+    end_re = re.compile(r"\\end\{" + re.escape(kind) + r"\}")
+    end_match = end_re.search(text, match.end())
+    statement_end = end_match.end() if end_match else match.end()
+    statement_body = text[match.end(): end_match.start() if end_match else match.end()]
+
+    next_match = THEOREM_STATUS_NEXT_BOUNDARY_RE.search(text, statement_end)
+    relation_end = next_match.start() if next_match else len(text)
+
+    return TheoremStatusEnvironment(
+        kind=kind,
+        title=_title_value(match.group("title")),
+        start_line=_line_for_offset(text, match.start()),
+        statement_body=statement_body,
+        statement_base_line=_line_for_offset(text, match.end()),
+        relation_text=text[statement_end:relation_end],
+        relation_base_line=_line_for_offset(text, statement_end),
+    )
+
+
+def _theorem_status_relation_window(
+    env: TheoremStatusEnvironment,
+) -> TheoremStatusRelationWindow:
+    proof_match = THEOREM_STATUS_PROOF_BEGIN_RE.search(env.relation_text)
+    if not proof_match:
+        return TheoremStatusRelationWindow(
+            proof_line=None,
+            marker_scan_end=len(env.relation_text),
+            reference_scan_end=len(env.relation_text),
+        )
+
+    proof_line = env.relation_base_line + env.relation_text.count("\n", 0, proof_match.start())
+    proof_end_match = THEOREM_STATUS_PROOF_END_RE.search(
+        env.relation_text,
+        proof_match.end(),
+    )
+    return TheoremStatusRelationWindow(
+        proof_line=proof_line,
+        marker_scan_end=proof_match.start(),
+        reference_scan_end=proof_end_match.end() if proof_end_match else len(env.relation_text),
+    )
+
+
+def _theorem_status_label(env: TheoremStatusEnvironment) -> str | None:
+    labels = [
+        item["label"]
+        for item in _label_records_in_text(env.statement_body, env.statement_base_line)
+    ]
+    return str(labels[0]) if labels else None
+
+
+def _marker_payload(markers: list[LeanMarkerRecord]) -> list[dict[str, object]]:
+    return [
+        {
+            "file": marker.file,
+            "line": marker.line,
+            "macro": marker.macro,
+            "target": marker.target,
+        }
+        for marker in markers
+    ]
+
+
+def _theorem_status_markers(
+    env: TheoremStatusEnvironment,
+    window: TheoremStatusRelationWindow,
+    file_name: str,
+) -> list[LeanMarkerRecord]:
+    local_marker_text = env.relation_text[:window.marker_scan_end]
+    markers = _lean_marker_records_in_text(env.statement_body, env.statement_base_line, file_name)
+    markers.extend(_lean_marker_records_in_text(local_marker_text, env.relation_base_line, file_name))
+    return markers
+
+
+def _theorem_status_references(
+    env: TheoremStatusEnvironment,
+    window: TheoremStatusRelationWindow,
+) -> list[dict[str, object]]:
+    refs = _references_in_text(env.statement_body, env.statement_base_line)
+    refs.extend(_references_in_text(env.relation_text[:window.reference_scan_end], env.relation_base_line))
+    seen_refs: set[tuple[str, str, int]] = set()
+    reference_payload: list[dict[str, object]] = []
+    for ref in refs:
+        key = (str(ref["macro"]), str(ref["label"]), int(ref["line"]))
+        if key in seen_refs:
+            continue
+        seen_refs.add(key)
+        reference_payload.append(ref)
+    return reference_payload
+
+
+def _next_closurestatus(
+    blocks: list[dict],
+    start_line: int,
+) -> dict[str, object] | None:
+    for block in blocks:
+        if int(block.get("line") or 0) >= start_line:
+            return _closurestatus_projection(block)
+    return None
+
+
+def _theorem_status_record(
+    text: str,
+    match: re.Match[str],
+    file_name: str,
+    closure_blocks: list[dict],
+    lean_names: set[str],
+) -> dict[str, object]:
+    env = _theorem_status_environment(text, match)
+    window = _theorem_status_relation_window(env)
+    markers = _theorem_status_markers(env, window, file_name)
+    return {
+        "label": _theorem_status_label(env),
+        "kind": env.kind,
+        "title": env.title,
+        "file": file_name,
+        "line": env.start_line,
+        "chapter_label": _chapter_label_before(text, match.start()),
+        "statement_site": _site(file_name, env.start_line),
+        "proof_site": _site(file_name, window.proof_line),
+        "references": _theorem_status_references(env, window),
+        "lean_markers": _marker_payload(markers),
+        "lean_resolution": _lean_resolution_for_markers(markers, lean_names),
+        "chapter_closurestatus": _next_closurestatus(closure_blocks, env.start_line),
+        "dna_roles": theorem_status_empty_dna_roles(),
+    }
+
+
+def collect_theorem_status_records() -> list[dict[str, object]]:
+    lean_names = collect_marker_existence_lean_names()
+    closure_by_file = _closure_blocks_by_file()
+
+    records: list[dict[str, object]] = []
+    for path in part_tex_files():
+        text = read_text(path)
+        file_name = str(path.relative_to(REPO_ROOT))
+        local_closure_blocks = sorted(
+            closure_by_file.get(file_name, []),
+            key=lambda block: int(block.get("line") or 0),
+        )
+        for match in THEOREM_STATUS_BEGIN_RE.finditer(text):
+            records.append(_theorem_status_record(
+                text,
+                match,
+                file_name,
+                local_closure_blocks,
+                lean_names,
+            ))
+    return records
+
+
+def theorem_status_payload() -> dict[str, object]:
+    records = collect_theorem_status_records()
+    return {
+        "source": "derived-from-canonical-sources",
+        "records_total": len(records),
+        "theorem_status_records": records,
+    }
 
 
 def collect_manifest_entry_targets() -> set[str]:
@@ -1471,6 +1780,19 @@ def cmd_inventory(args: argparse.Namespace) -> int:
             f" field_targets={payload['field_targets_total']}"
             f" part_labels={payload['part_labels_total']}"
             f" lean_markers={payload['lean_markers_total']}"
+        )
+    return 0
+
+
+def cmd_theorem_status(args: argparse.Namespace) -> int:
+    payload = theorem_status_payload()
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(
+            "[bedc-ci] theorem-status:"
+            f" source={payload['source']}"
+            f" records={payload['records_total']}"
         )
     return 0
 
@@ -2550,6 +2872,13 @@ def parser() -> argparse.ArgumentParser:
     inv_p = sub.add_parser("inventory", help="Emit declaration and paper inventory")
     inv_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     inv_p.set_defaults(func=cmd_inventory)
+
+    theorem_status_p = sub.add_parser(
+        "theorem-status",
+        help="Emit an informational derived theorem-status reader view",
+    )
+    theorem_status_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    theorem_status_p.set_defaults(func=cmd_theorem_status)
 
     manifest_p = sub.add_parser("manifest", help="Emit release-grade JSON manifest (inventory + git/package metadata)")
     manifest_p.add_argument("--output", type=str, default=None, help="Output file path (defaults to stdout)")
