@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\FrinkMetrizationUp$}
+\label{ch:concrete-instances-frink-metrization-namecert}
+\origin{human}
+
+Following Frink and Kelley, the $\FrinkMetrizationUp$ packet records the finite BEDC route from a uniform entourage basis to a pseudometric-facing and metric-facing distance certificate. It sits after the uniform-source rows of \autoref{ch:concrete-instances-uniformspace-namecert}, the pseudometric carrier of \autoref{ch:concrete-instances-pseudometric-namecert}, the separated metric boundary of \autoref{ch:concrete-instances-metric-namecert}, the topology compatibility row of \autoref{ch:concrete-instances-topology-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}. The packet names only the constructive handoff from nested entourage data to displayed distance reads; it does not form quotient uniformities, select representatives, assert ambient metrizability, or import choice.
+
+\begin{definition}[FrinkMetrization carrier]
+\label{def:frink-metrization-carrier}
+A $\FrinkMetrizationUp$ carrier is a finite $\BHist$ packet
+$$
+F=(U,Q,D,P,M,T,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformSpaceUp$ source row. It names the carrier surface and the finite entourage requests from which the metrization route starts.
+\item $Q$ is the nested entourage chain. It records the finite refinement ladder used to compare two source points at dyadic scales.
+\item $D$ is the $\DyadicRatCoreUp$ radius ledger. It translates the refinement level into displayed dyadic radii and triangle budgets.
+\item $P$ is the $\PseudometricUp$ handoff row. It receives the finite entourage chain and exports the displayed pre-separated distance route.
+\item $M$ is the $\MetricUp$ compatibility row, available only after the separated boundary has accepted the zero-distance route supplied through $P$.
+\item $T$ is the $\TopologyUp$ compatibility row. It records that the metric-facing balls and the original uniform entourage reads are compared through the same finite windows.
+\item $H$ records componentwise $\hsame$ transport for the uniform source, chain, dyadic ledger, pseudometric handoff, metric compatibility, topology compatibility, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a uniform entourage request through the nested chain, dyadic ledger, pseudometric handoff, metric row, topology row, provenance, and local naming row.
+\item $G$ is the $\Pkg$ provenance over $\FrinkMetrizationUp$, $\UniformSpaceUp$, $\PseudometricUp$, $\MetricUp$, $\TopologyUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FrinkMetrizationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient uniformity equality, selected representatives, ambient metrizability, countable choice, host topology equality, or an unbounded distance oracle.
+\end{definition}
+
+\begin{theorem}[FrinkMetrization NameCert obligations]
+\label{thm:frink-metrization-namecert-obligations}
+For every accepted $\FrinkMetrizationUp$ carrier $F=(U,Q,D,P,M,T,H,C,G,N)$, the local $\NameCert_{\FrinkMetrizationUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the uniform source, nested entourage chain, dyadic radius ledger, pseudometric handoff, metric compatibility row, topology compatibility row, transport, continuation, provenance, and local naming row;
+\item nested-chain readability, requiring every distance request to start at the $\UniformSpaceUp$ row $U$ and pass through the finite refinement chain $Q$ before any dyadic radius in $D$ is read;
+\item pseudometric handoff, requiring the displayed distance route to be exported through $P$ before the metric row $M$ or topology row $T$ can be consumed;
+\item compatibility transport, requiring $H$ and $C$ to preserve the same finite $\StreamNameUp$ windows and $\DyadicRatCoreUp$ radius ledger across uniform, pseudometric, metric, and topology-facing consumers;
+\item provenance and refusal, requiring $G$ and $N$ to name only this finite handoff and to refuse quotient uniformity equality, selected representatives, ambient metrizability, countable choice, host topology equality, and unbounded distance oracles.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frink-metrization-carrier}. The projection exposes exactly the uniform source, nested chain, dyadic ledger, pseudometric handoff, metric and topology compatibility rows, and the structural rows $H,C,G,N$.
+
+The nested-chain obligation is forced by row order. A distance request starts at the uniform row $U$, enters the refinement ladder $Q$, and only then reads the dyadic radius ledger $D$.
+
+The pseudometric handoff is the only distance-export step. Row $P$ supplies the pre-separated displayed distance route, while $M$ and $T$ can compare it with metric and topology-facing consumers only after the same finite windows and radii have been replayed.
+
+Rows $H,C,G,N$ transport, replay, source, and name this route. Since the tuple contains no quotient uniformity, selected representative, ambient metrizability, countable choice, host topology equality, or unbounded distance coordinate, the local NameCert cannot export those principles.
+\end{proof}
+
+\closureat{FrinkMetrizationUp}{seedStr}
+\begin{closurestatus}{\FrinkMetrizationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frink-metrization-carrier} and \autoref{thm:frink-metrization-namecert-obligations} seed the finite Frink-style handoff from uniform entourage chains to pseudometric, metric, topology, dyadic, and stream-facing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient uniformity equality, selected representatives, ambient metrizability, countable choice, host topology equality, unbounded distance oracles, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nested-chain readability, dyadic radius exactness, pseudometric handoff, metric and topology compatibility, transport, continuation, provenance, and ledger refusal for BEDC.Derived.FrinkMetrizationUp.}
+  \constructivestory{A $\FrinkMetrizationUp$ packet is generated from a UniformSpace source row, a nested entourage chain, a DyadicRatCore radius ledger, a Pseudometric handoff, Metric and Topology compatibility rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

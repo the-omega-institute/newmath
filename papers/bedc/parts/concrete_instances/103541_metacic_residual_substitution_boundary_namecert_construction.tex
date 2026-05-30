@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}
 \origin{ai}
 
-The $\MetaCICResidualSubstitutionBoundaryUp$ packet realizes the residual-substitution compatibility boundary of \autoref{ch:metacic-confluence-audit-map} as finite NameCert data. It sits beside the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, the closed-normal fragment of \autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}, and the substitution audit surface of \autoref{ch:concrete-instances-substitutionboundaryaudit-namecert}. The packet names exactly the row needed by the conditional parallel-diamond handoff without turning the checked fragments into unconditional MetaCIC confluence.
+The $\MetaCICResidualSubstitutionBoundaryUp$ packet realizes the residual-substitution compatibility boundary of \autoref{ch:metacic-confluence-audit-map} as finite NameCert data. It sits beside the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, the closed-normal fragment of \autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}, and the substitution audit surface of \autoref{ch:concrete-instances-substitutionboundaryaudit-namecert}. The downstream parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert} consumes this packet specifically as the visible residual-substitution premise row while retaining the conditional boundary. The packet names exactly the row needed by the conditional parallel-diamond handoff without turning the checked fragments into unconditional MetaCIC confluence.
 
 \begin{definition}[MetaCIC residual-substitution boundary carrier]
 \label{def:metacic-residual-substitution-boundary-carrier}
@@ -75,6 +75,44 @@ Apply \autoref{thm:metacic-residual-substitution-boundary-namecert-obligations}.
 The sibling separation rows then route the handoff through the confluence audit packet $F$ and the closed-normal fragment $N$ without turning either sibling into a proof of $S$. The confluence audit map may consume the conditional route, but the visible premise row remains part of the exported packet.
 
 Finally $H,P,K$ transport, source, and name the same finite route. Since the carrier has no coordinate proving $\mathsf{BetaParallelSubstitutionCompatibility}$, a parallel-diamond or closed Church--Rosser consumer can receive only the premise-preserving handoff displayed above.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-substitution closed-face consumer]
+\label{thm:metacic-residual-substitution-boundary-closed-face-consumer}
+Let $B=(R,S,A,J,N,F,L,H,C,P,K)$ be an accepted
+$\MetaCICResidualSubstitutionBoundaryUp$ carrier. Any closed-face confluence
+consumer or subject-reduction consumer of $B$ must keep the substitution row
+$S$ and the closed-face audit ledger $L$ visible through the route
+$$
+R,S,A,L \longmapsto J \longmapsto F,N \longmapsto H,P,K .
+$$
+The sibling confluence-audit packet $F$ and closed-normal row $N$ may be used
+as context for the closed face, but neither sibling discharges $S$ or turns
+the route into unrestricted substitution compatibility.
+\end{theorem}
+\begin{proof}
+Start with
+\autoref{thm:metacic-residual-substitution-boundary-namecert-obligations}. Its
+substitution-boundary visibility clause keeps $S$ named whenever the
+conditional join $J$ is exported, and its ledger exactness clause keeps $L$
+attached to the audited closed substitution rows.
+
+Apply
+\autoref{thm:metacic-residual-substitution-boundary-premise-preservation}. It
+routes any parallel-diamond or closed Church--Rosser handoff through
+$$
+R,S,A,L \longmapsto J \longmapsto F,N \longmapsto H,P,K .
+$$
+
+The closed-face consumer may inspect the sibling confluence-audit row $F$ and
+the closed-normal row $N$ only after the visible premise route has reached
+$J$. Those rows provide closed-face context, while $S$ remains the named
+substitution-compatibility premise.
+
+Finally $H,C,P,K$ transport, replay, source, and name the same route. Since
+the carrier has no coordinate proving the substitution row, no closed-face
+consumer can erase $S$ or obtain unrestricted substitution compatibility from
+the sibling context.
 \end{proof}
 
 \falsifiablePrediction{A packet lacking the residual-substitution row is rejected even if it carries closed-normal confluence rows.}

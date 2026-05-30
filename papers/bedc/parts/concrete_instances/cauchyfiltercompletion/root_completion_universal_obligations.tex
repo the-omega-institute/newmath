@@ -28,6 +28,7 @@ C,W,T,R \longmapsto L \longmapsto H,K,P,N .
 $$
 The seal route exports no quotient filter, selected limit, host equality, countable choice, ambient completeness, or detached completion object.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionRootRealSealRoute}
 \begin{proof}
 Start with \autoref{thm:cauchy-filter-completion-root-unblock-window}. It exposes $C,W,T,R$ before the terminal seal can be inspected by a completion-facing consumer.
 
@@ -44,6 +45,7 @@ C,W,T,R,L,H,K,P,N .
 $$
 Uniform and metric completion reads may inspect the provenance row, but they cannot introduce a second completion carrier, quotient filter, selected limit, host equality, countable choice, or ambient completeness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionRootUniformRoute}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-filter-completion-root-unblock-carrier}. The only completion-facing rows available to a consumer are $C,W,T,R,L,H,K,P,N$.
 
@@ -80,6 +82,7 @@ Apply the root window exposure theorem to force the source and finite windows be
 
 The NameCert surface then packages the route as a finite obligation. Since the packet has no coordinate for quotient representatives or selected limits, the existence readback is the displayed completion route itself, not an external completeness principle.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPacket\_root\_cauchy\_filter\_limit\_existence}
 
 \begin{theorem}[CauchyFilterCompletion uniform-completion universal property]
 \label{thm:cauchy-filter-completion-uniform-completion-universal-property}
@@ -96,6 +99,7 @@ Apply the root uniform route. It identifies every $\UniformCompletionUp$ or $\Me
 
 The universal property is therefore stated over the same finite route. Transport through $H$, replay through $K$, provenance through $P$, and local naming through $N$ preserve the packet; none of those rows creates quotient representatives, selected limits, host equality, choice, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionUniformCompletionUniversalProperty}
 
 \begin{theorem}[CauchyFilterCompletion Real seal uniqueness interface]
 \label{thm:cauchy-filter-completion-real-seal-uniqueness-interface}
@@ -108,13 +112,27 @@ Apply the root Real seal route. The only terminal Real-facing row downstream of 
 
 Finally apply the root NameCert surface. The structural rows $H,K,P,N$ preserve, replay, source, and name the same interface, so the comparison cannot escape to quotient filter equality, selected limits, host equality, countable choice, ambient completeness, or detached completion objects.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionRealSealUniquenessInterface}
+
+\begin{theorem}[CauchyFilterCompletion filterbase-window exhaustion]
+\label{thm:cauchy-filter-completion-filterbase-window-exhaustion}
+Every completion-facing read from a root-unblock carrier must first open the $\CauchyFilterUp/\FilterBaseUp$ source row $C$ and the finite $\StreamNameUp$ windows $W$ before tolerance, $\RegSeqRatUp$ readback, $\RealUp$ seal, uniform or metric completion consumers, or local $\NameCert$ rows are available. No detached window, selected limit, quotient filter, host equality, choice route, or ambient completeness route exists inside the root carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionFilterbaseWindowExhaustion}
+\begin{proof}
+Start with \autoref{thm:cauchy-filter-completion-root-unblock-window}. It exposes the source row $C$ and finite windows $W$ before any tolerance or regular-rational readback coordinate can be consumed.
+
+Next use \autoref{thm:cauchy-filter-completion-root-unblock-real-seal} and \autoref{thm:cauchy-filter-completion-root-unblock-uniform-route}. The Real seal, metric-completion reads, and uniform-completion reads are all downstream of the same $C,W,T,R,L$ route.
+
+Finally apply \autoref{thm:cauchy-filter-completion-root-unblock-namecert} and \autoref{thm:cauchy-filter-completion-real-seal-uniqueness-interface}. The local NameCert surface and uniqueness interface preserve the displayed packet through $H,K,P,N$, so no consumer can replace the finite filterbase-window route by a detached window, selected limit, quotient filter, host equality, choice route, or ambient completeness route.
+\end{proof}
 
 \begin{closurestatus}{\CauchyFilterCompletionUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cauchy-filter-completion-root-unblock-carrier}, \autoref{thm:cauchy-filter-completion-root-unblock-window}, \autoref{thm:cauchy-filter-completion-root-unblock-real-seal}, \autoref{thm:cauchy-filter-completion-root-unblock-uniform-route}, \autoref{thm:cauchy-filter-completion-root-unblock-namecert}, \autoref{thm:cauchy-filter-completion-root-cauchy-filter-limit-existence}, \autoref{thm:cauchy-filter-completion-uniform-completion-universal-property}, and \autoref{thm:cauchy-filter-completion-real-seal-uniqueness-interface} close the root obligation surface for the displayed Cauchy-filter source, finite windows, tolerance ledger, regular readback, terminal Real seal, structural transport, continuation replay, provenance, and local NameCert rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-completion-root-unblock-carrier}, \autoref{thm:cauchy-filter-completion-root-unblock-window}, \autoref{thm:cauchy-filter-completion-root-unblock-real-seal}, \autoref{thm:cauchy-filter-completion-root-unblock-uniform-route}, \autoref{thm:cauchy-filter-completion-root-unblock-namecert}, \autoref{thm:cauchy-filter-completion-root-cauchy-filter-limit-existence}, \autoref{thm:cauchy-filter-completion-uniform-completion-universal-property}, \autoref{thm:cauchy-filter-completion-real-seal-uniqueness-interface}, and \autoref{thm:cauchy-filter-completion-filterbase-window-exhaustion} close the root obligation surface for the displayed Cauchy-filter source, finite windows, tolerance ledger, regular readback, terminal Real seal, structural transport, continuation replay, provenance, and local NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient filters, selected limits, host real equality, countable-choice selectors, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires the same root obligation surface to be tied to a public chapter theorem and a bridge-facing interface.}
+  \upgradepath{The next paper-side step is a public chapter theorem and bridge-facing interface for this root completion surface.}
   \constructivestory{A $\CauchyFilterCompletionUp$ packet is generated from a CauchyFilter row, finite StreamName windows, a DyadicRatCore tolerance ledger, a RegSeqRat readback, a RealUp seal handoff, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

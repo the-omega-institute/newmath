@@ -48,6 +48,38 @@ The no-infinite-reduction row $I$ is downstream of the candidate-mediated strong
 Transport, replay, provenance, and local naming preserve this row order through $H,C,P,N$. Because no global normalization, unrestricted subject-reduction, global confluence, quotient syntax equality, host evaluator soundness, or completed consistency row occurs in the carrier, the socket cannot export one.
 \end{proof}
 
+\begin{theorem}[Normalization candidate socket candidate-erasure refusal]
+\label{thm:normalization-candidate-socket-candidate-erasure-refusal}
+Let $S=(M,K,D,E,A,B,I,F,H,C,P,N)$ be an accepted $\NormalizationCandidateSocketUp$ carrier. Any consumer that keeps the closed typed term window $M$ but deletes all candidate evidence rows $K,D,E$ cannot export the no-infinite-reduction row $I$ from this packet. Such a consumer must reach the frontier refusal row $F$. The App adequacy row $A$ and Pi adequacy row $B$ remain route data for candidate-mediated reads; they are not substitutes for reducibility candidate, closed-candidate, or candidate-set evidence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-candidate-socket-carrier}. The closed typed term window $M$ is a visible socket input, but the carrier does not attach no-infinite-reduction evidence directly to $M$.
+
+Apply \autoref{thm:normalization-candidate-socket-boundary}. That boundary places closed typed strong-normalization and no-infinite-reduction exports downstream of at least one of $K,D,E$.
+
+Now delete all three candidate evidence rows. With $K,D,E$ absent, the consumer has no displayed reducibility candidate, closed-candidate, or candidate-set membership route from which $I$ can be replayed.
+
+The adequacy rows do not close the gap. App adequacy $A$ and Pi adequacy $B$ organize function, argument, Pi, and neutral routes once candidate evidence is present, but neither row supplies candidate evidence on its own. Therefore the only available response is the frontier row $F$, and the packet refuses the evidence-erased no-infinite-reduction export.
+\end{proof}
+
+\begin{theorem}[Normalization candidate socket MetaCIC diamond route]
+\label{thm:normalization-candidate-socket-metacic-diamond-route}
+Every diamond-residual consumer of an accepted $\NormalizationCandidateSocketUp$ carrier
+$$
+S=(M,K,D,E,A,B,I,F,H,C,P,N)
+$$
+must first read the candidate rows $K,D,E$, the adequacy rows $A,B$, the no-infinite-reduction row $I$, and the frontier row $F$ before citing \autoref{ch:concrete-instances-metacic-diamond-residual-budget-namecert}. The MetaCIC diamond residual budget may consume the socket only after those candidate-mediated rows are visible; it cannot read a closed typed term window $M$ as a premise-free normalization endpoint.
+\end{theorem}
+\begin{proof}
+Project the socket carrier of \autoref{def:normalization-candidate-socket-carrier}. The rows relevant to a diamond-residual consumer are displayed as $K,D,E,A,B,I,F$ inside the same finite packet.
+
+Use \autoref{thm:normalization-candidate-socket-boundary}. It places closed typed strong-normalization and no-infinite-reduction exports downstream of at least one candidate evidence row among $K,D,E$.
+
+Use \autoref{thm:normalization-candidate-socket-candidate-erasure-refusal}. It shows that deleting $K,D,E$ while retaining $M$ forces the frontier refusal row $F$, so the diamond-residual consumer cannot treat the closed term window alone as normalization evidence.
+
+The adequacy rows $A$ and $B$ remain route data for candidate-mediated App and Pi reads, and $I$ remains downstream of the same candidate evidence. Therefore the sibling route to \autoref{ch:concrete-instances-metacic-diamond-residual-budget-namecert} is available only after $K,D,E,A,B,I,F$ are visible in the socket.
+\end{proof}
+
 \falsifiablePrediction{Any consumer missing candidate, closed-candidate, or candidate-set rows in a $\NormalizationCandidateSocketUp$ packet cannot export closed-term strong normalization from that packet.}
 
 \independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacicconfluenceauditpacket, normalformconsistencyseal: $\NormalizationCandidateSocketUp$ is not bijective to any listed sibling because it jointly carries candidate, closed-candidate, candidate-set, App adequacy, Pi adequacy, no-infinite-reduction, frontier, transport, replay, provenance, and local naming rows.}

@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\FiniteOrthonormalBasisUp$}
+\label{ch:concrete-instances-finite-orthonormal-basis-namecert}
+\origin{human}
+
+Following finite-dimensional linear algebra, Gram--Schmidt, and standard inner-product-space treatments, the $\FiniteOrthonormalBasisUp$ packet records the certificate surface that turns a displayed finite spanning list into a named finite orthonormal-basis row. It consumes the orthogonalization route of \autoref{ch:concrete-instances-gram-schmidt-namecert}, the vector carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the inner-product form rows of \autoref{ch:concrete-instances-innerproduct-namecert}, the norm-one boundary of \autoref{ch:concrete-instances-norm-namecert}, and the finite coordinate ledger of \autoref{ch:concrete-instances-matrix-namecert}. The packet names only the finite selected-row certificate; it is not an infinite basis principle, a host vector equality theorem, a quotient representative selector, or an ambient completion object.
+
+\begin{definition}[Finite orthonormal basis carrier]
+\label{def:finite-orthonormal-basis-carrier}
+A $\FiniteOrthonormalBasisUp$ carrier is a finite $\BHist$ packet
+$$
+B=(V,S,G,O,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the $\VecSpaceUp$ source row, including the displayed zero, addition, scalar action, and finite carrier reads used by the packet.
+\item $S$ is the finite spanning-list row whose entries are the only vectors eligible for the basis route.
+\item $G$ is the $\GramSchmidtUp$ handoff row, exposing the finite orthogonalization replay applied to $S$.
+\item $O$ is the orthogonality and norm-one row, displaying pairwise inner-product-zero checks and unit norm checks for the promoted rows.
+\item $Q$ is the coordinate and reconstruction ledger, recording the finite coefficient rows through which a consumer reconstructs displayed vectors from the promoted rows.
+\item $R$ is the refusal and boundary row, recording each discarded zero residual or non-promoted vector without selecting a replacement outside $S$.
+\item $H$ records componentwise $\hsame$ transport for vector-space data, source rows, Gram--Schmidt replay, orthonormal rows, coordinate rows, refusal rows, continuation, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the source list through Gram--Schmidt, norm-one promotion, coordinate reconstruction, and local certificate.
+\item $P$ is the $\Pkg$ provenance over $\FiniteOrthonormalBasisUp$, $\GramSchmidtUp$, $\VecSpaceUp$, $\InnerProductUp$, $\NormUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteOrthonormalBasisUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $V,S,G,O,Q,R,H,C,P,N$. It has no coordinate for infinite basis choice, host vector equality, quotient representatives, a selected basis outside the displayed rows, or ambient completion.
+\end{definition}
+\leanchecked{BEDC.Derived.FiniteOrthonormalBasisUp.FiniteOrthonormalBasisTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Finite orthonormal basis NameCert obligations]
+\label{thm:finite-orthonormal-basis-namecert-obligations}
+For every accepted $\FiniteOrthonormalBasisUp$ carrier $B=(V,S,G,O,Q,R,H,C,P,N)$, the local $\NameCert_{\FiniteOrthonormalBasisUp}$ surface has exactly five finite rows:
+\begin{enumerate}
+\item carrier admission for the vector-space source, spanning list, Gram--Schmidt handoff, orthogonality and norm-one checks, coordinate reconstruction, refusal boundary, transport, continuation, provenance, and local naming;
+\item Gram--Schmidt route exposure, requiring every promoted basis row to be read through $G$ from the displayed source list $S$;
+\item orthogonality and norm-one exposure, requiring the $\InnerProductUp$ and $\NormUp$ checks in $O$ to be displayed before a promoted row is exported as orthonormal;
+\item coordinate and reconstruction handoff, requiring every finite coordinate row and reconstruction read to pass through $Q$ and the finite $\MatrixUp$ ledger;
+\item ledger non-escape from selected bases outside $S$, infinite basis choice, host vector equality, quotient representatives, and ambient completion.
+\end{enumerate}
+No accepted finite orthonormal-basis read has an obligation outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-orthonormal-basis-carrier}. The rows $V,S,G,O,Q,R,H,C,P,N$ are the only displayed rows available to a local $\NameCert_{\FiniteOrthonormalBasisUp}$ read.
+
+The route first fixes the vector-space source row $V$ and the finite spanning list $S$. The Gram--Schmidt handoff row $G$ then exposes the finite orthogonalization replay, while the refusal row $R$ records every discarded zero residual or non-promoted vector.
+
+The promoted rows are inspected through $O$. Orthogonality is read through displayed $\InnerProductUp$ checks, and unit length is read through displayed $\NormUp$ checks, so no host orthonormality predicate is imported.
+
+Finally the coordinate ledger $Q$ supplies finite reconstruction through the $\MatrixUp$ rows, and $H,C,P,N$ transport, replay, source, and name the same finite route. Since no excluded coordinate appears in the carrier, the ledger cannot escape to infinite basis choice, host vector equality, quotient representatives, or ambient completion.
+\end{proof}
+
+\begin{theorem}[Finite orthonormal basis Gram--Schmidt handoff]
+\label{thm:finite-orthonormal-basis-gram-schmidt-handoff}
+Every $\FiniteOrthonormalBasisUp$ consumer that reads an orthonormal row, a coordinate row, or a reconstruction row from an accepted carrier $B=(V,S,G,O,Q,R,H,C,P,N)$ must first pass through the $\GramSchmidtUp$ handoff row $G$. The consumer therefore receives a finite route from the displayed spanning list to promoted orthonormal rows and coefficient reconstruction, not an infinite basis selector or an ambient completion principle.
+\end{theorem}
+\begin{proof}
+Read the carrier rows of \autoref{def:finite-orthonormal-basis-carrier}. The only route from the finite source list $S$ to promoted rows is the Gram--Schmidt handoff $G$ followed by the orthogonality and norm-one row $O$.
+
+The coordinate and reconstruction ledger $Q$ is downstream of that promoted-row surface. It can expose finite coefficients only after $G$ and $O$ have displayed the orthonormal rows they reference.
+
+Apply the obligation surface of \autoref{thm:finite-orthonormal-basis-namecert-obligations}. Its non-escape row excludes selected bases outside $S$, infinite basis choice, host vector equality, quotient representatives, and ambient completion, so every exported consumer read remains on the displayed Gram--Schmidt route.
+\end{proof}
+
+\closureat{FiniteOrthonormalBasisUp}{seedStr}
+
+\begin{closurestatus}{\FiniteOrthonormalBasisUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-orthonormal-basis-carrier}, \autoref{thm:finite-orthonormal-basis-namecert-obligations}, and \autoref{thm:finite-orthonormal-basis-gram-schmidt-handoff} seed the finite orthonormal-basis packet over displayed vector-space, Gram--Schmidt, inner-product, norm, matrix, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite basis choice, host vector equality, quotient representatives, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Gram--Schmidt route exposure, orthogonality and norm-one exposure, coordinate reconstruction handoff, and ledger non-escape for BEDC.Derived.FiniteOrthonormalBasisUp.}
+  \constructivestory{A $\FiniteOrthonormalBasisUp$ packet is generated from a VecSpaceUp source row, a finite spanning-list row, a GramSchmidtUp handoff, displayed orthogonality and norm-one checks, a finite coordinate reconstruction ledger, refusal rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

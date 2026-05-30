@@ -59,6 +59,16 @@ The comparison row $Q$ is accepted only together with the refusal row $R$ and Sc
 The rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and naming. The excluded host and quotient objects have no carrier coordinate, so the consumer cannot escape the finite packet.
 \end{proof}
 
+\begin{theorem}[Hyperbolic cross-ratio Mobius consumer route]
+\label{thm:hyperbolic-cross-ratio-mobius-consumer-route}
+Any $\MobiusTransformUp$ consumer of an accepted $\HyperbolicCrossRatioUp$ packet must read the disk row $D$, metric row $M$, four boundary rows $B_0,B_1,B_2,B_3$, boundary-fixed transport row $T$, cross-ratio row $Q$, refusal row $R$, Schwarz--Pick provenance row $F$, and structural rows $H,C,P,N$ before it may claim cross-ratio preservation. The consumer route of \autoref{ch:concrete-instances-mobius-transform-namecert} has no accepted preservation coordinate outside this four-boundary packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:hyperbolic-cross-ratio-nonescape}. Every accepted $\HyperbolicCrossRatioUp$ consumer already factors through the disk, metric, boundary, transport, comparison, refusal, provenance, replay, package, and naming rows of the finite carrier.
+
+A $\MobiusTransformUp$ preservation read is a downstream consumer of the same packet, not a separate host-level geometric claim. Since the carrier has no coordinate for cross-ratio preservation unless the four displayed boundary rows and the boundary-fixed transport route are present, the Mobius consumer must enter through $D,M,B_0,B_1,B_2,B_3,T,Q,R,F,H,C,P,N$.
+\end{proof}
+
 \falsifiablePrediction{Any accepted $\HyperbolicCrossRatioUp$ consumer omitting one of the four boundary rows, the $\HyperbolicMetricUp$ comparison, the $\PoincareBoundaryFixedTransportUp$ row, $\Pkg$ provenance, or the local $\NameCert$ row refutes \autoref{thm:hyperbolic-cross-ratio-nonescape}.}
 
 \independenceWitness{poincare-disk-phase-transport, hyperbolic-metric, poincare-boundary-fixed-transport, hyperbolic-busemann-boundary, schwarz-pick-disk-contraction: $\HyperbolicCrossRatioUp$ is not bijective to any listed sibling because it jointly carries disk phase transport, hyperbolic metric comparison, four boundary rows, boundary-fixed transport, finite cross-ratio comparison, refusal of host global geometry, Schwarz--Pick provenance, transport, replay, package provenance, and local naming.}
@@ -70,7 +80,7 @@ The Lean TasteGate file for $\HyperbolicCrossRatioUp$ will provide explicit $\ma
 \begin{closurestatus}{\HyperbolicCrossRatioUp}
   \constructivestory{A $\HyperbolicCrossRatioUp$ packet is generated from PoincareDiskPhaseTransportUp disk data, HyperbolicMetricUp comparison, four displayed boundary rows, PoincareBoundaryFixedTransportUp transport, finite cross-ratio comparison, global-geometry refusal, SchwarzPickDiskContractionUp provenance, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:hyperbolic-cross-ratio-carrier}, \autoref{thm:hyperbolic-cross-ratio-namecert-obligations}, and \autoref{thm:hyperbolic-cross-ratio-nonescape} seed the finite four-boundary-point hyperbolic cross-ratio route over disk, metric, boundary, transport, refusal, provenance, and NameCert rows.}
+  \scopeclosed{\autoref{def:hyperbolic-cross-ratio-carrier}, \autoref{thm:hyperbolic-cross-ratio-namecert-obligations}, \autoref{thm:hyperbolic-cross-ratio-nonescape}, and \autoref{thm:hyperbolic-cross-ratio-mobius-consumer-route} seed the finite four-boundary-point hyperbolic cross-ratio route over disk, metric, boundary, transport, refusal, provenance, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim host global geometry, quotient boundary equality, selected ideal-boundary compactification, unrecorded disk-map invariants, Lean verification, or bridge checking.}

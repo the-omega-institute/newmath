@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\ArensEellsSpaceUp$}
+\label{ch:concrete-instances-arens-eells-space-namecert}
+\origin{human}
+
+Following Arens--Eells and Weaver on Lipschitz-free spaces, the $\ArensEellsSpaceUp$ packet names the finite molecule ledger by which a pointed metric source is linearized before normed-space and completion consumers read it. It sits beside the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the Lipschitz map surface of \autoref{ch:concrete-instances-lipschitzmap-namecert}, the normed-space carrier of \autoref{ch:concrete-instances-normedspace-namecert}, the vector-space rows of \autoref{ch:concrete-instances-vecspace-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, and the completion boundary of \autoref{ch:concrete-instances-completion-namecert}. The packet records only displayed molecules, zero-sum accounting, norm budgets, linear handoff rows, transport, replay, provenance, and local naming; it does not quotient a free vector space, select representatives, invoke duality, or assert an ambient Banach completion.
+
+\begin{definition}[Arens--Eells space carrier]
+\label{def:arens-eells-space-carrier}
+An $\ArensEellsSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,b,L,Z,Q,N,H,C,P,R)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row, exposing the finite distance reads used by molecule budgets.
+\item $b$ is the basepoint row, naming the distinguished source point against which zero-sum molecules are displayed.
+\item $L$ is the finite molecule ledger, listing signed point-coefficient rows whose support is finite.
+\item $Z$ is the zero-sum coefficient row, recording that the displayed coefficients in $L$ balance over the basepoint boundary.
+\item $Q$ is the Arens--Eells norm budget, read through $\RealUp$ rows as a finite infimum ledger over decompositions into elementary molecules.
+\item $N$ is the $\NormedSpaceUp$-facing handoff row, with vector-space operations routed through $\VecSpaceUp$ and norm exposure routed through $Q$.
+\item $H$ records componentwise $\hsame$ transport for the metric source, basepoint, molecule ledger, zero-sum row, norm budget, normed-space handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from metric-source inspection through molecule formation, zero-sum checking, norm-budget accounting, and the normed-space handoff.
+\item $P$ is the $\Pkg$ provenance over $\ArensEellsSpaceUp$, $\MetricUp$, $\LipschitzMapUp$, $\NormedSpaceUp$, $\VecSpaceUp$, $\RealUp$, $\CompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $R$ is the local $\NameCert_{\ArensEellsSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a quotient presentation, selected molecule representative, unrestricted dual space, host linearization theorem, completed Banach envelope, or choice of an optimal decomposition.
+\end{definition}
+
+\begin{theorem}[Arens--Eells NameCert obligations]
+\label{thm:arens-eells-space-namecert-obligations}
+For every accepted $\ArensEellsSpaceUp$ carrier $A=(M,b,L,Z,Q,N,H,C,P,R)$, the local $\NameCert_{\ArensEellsSpaceUp}$ surface consists exactly of carrier admission for the metric source row, basepoint row, finite molecule ledger, zero-sum coefficient row, Arens--Eells norm budget, normed-space handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row. In particular, every accepted molecule read must first expose $M,b,L,Z$, every accepted norm read must pass through the Real-valued budget $Q$, and every normed-space consumer must enter through $N,H,C,P,R$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:arens-eells-space-carrier}. The metric source $M$ and basepoint $b$ are the only rows from which point distances and pointed molecule data can be read.
+
+The molecule ledger is finite. The row $L$ lists the signed point-coefficient entries, while $Z$ records the zero-sum boundary that permits the ledger to behave as an Arens--Eells molecule rather than as an arbitrary formal sum.
+
+The norm budget is likewise displayed. The row $Q$ reads Real-valued distance budgets over finite decompositions of the molecule ledger, and the handoff row $N$ exposes only the resulting vector-space and normed-space interface.
+
+Finally the structural rows $H,C,P,R$ transport, replay, source, and name the same packet. Since no other coordinate occurs in the carrier, the NameCert surface cannot import quotient equality, a selected representative, unrestricted duality, a host linearization theorem, ambient completion, or an optimal-decomposition choice principle.
+\end{proof}
+
+\begin{theorem}[Arens--Eells Lipschitz linearization handoff]
+\label{thm:arens-eells-space-lipschitz-linearization-handoff}
+Let $A=(M,b,L,Z,Q,N,H,C,P,R)$ be an accepted $\ArensEellsSpaceUp$ carrier. Any downstream $\LipschitzMapUp$ consumer that asks for a linearized normed-space route must factor through the finite handoff
+$$
+M,b,L,Z,Q \longmapsto N \longmapsto H,C,P,R .
+$$
+The handoff records only that Lipschitz reads from the pointed metric source may be replayed against finite molecules and their Real-valued norm budgets before entering the $\NormedSpaceUp$ and $\VecSpaceUp$ surfaces; it does not assert a completed free Banach space, host universal property, quotient by molecule equality, selected extension, or dual representation.
+\end{theorem}
+\begin{proof}
+Start with a Lipschitz-facing request. The source data are the pointed metric rows $M,b$, so the request cannot inspect a linear object before the finite molecule ledger is exposed.
+
+Replay the molecule rows by $C$. The ledger $L$ supplies finite signed point-coefficient data, and the zero-sum row $Z$ supplies the balancing boundary required for molecule consumption.
+
+The normed-space handoff is reached only after the budget row $Q$ has been read. That row supplies the Real-valued Arens--Eells norm account over displayed decompositions, and $N$ is the only row that passes this account to $\NormedSpaceUp$ and $\VecSpaceUp$ consumers.
+
+The transport, provenance, and local naming rows $H,P,R$ preserve this same route. Therefore the linearization handoff is a finite BEDC route from pointed metric and Lipschitz data to a normed-space interface, not a quotient construction, selected extension, ambient completion, or host universal-property theorem.
+\end{proof}
+
+\falsifiablePrediction{Any consumer that claims an $\ArensEellsSpaceUp$ molecule, norm, Lipschitz-linearization, normed-space, vector-space, Real, or Completion read while omitting $M,b,L,Z,Q,N,H,C,P$, or the local $\NameCert$ row refutes the carrier of \autoref{def:arens-eells-space-carrier}.}
+
+\independenceWitness{metric, lipschitzmap, normedspace, vecspace, real, completion: $\ArensEellsSpaceUp$ is not bijective to any listed sibling because it carries a pointed metric source, finite molecule ledger, zero-sum coefficient boundary, Arens--Eells norm budget, and a normed-space linearization handoff before any completion-facing consumer may read the packet.}
+
+\closureat{ArensEellsSpaceUp}{seedStr}
+
+\begin{closurestatus}{\ArensEellsSpaceUp}
+  \constructivestory{An $\ArensEellsSpaceUp$ packet is generated from a pointed metric source, finite molecule ledger, zero-sum coefficient row, Real-valued norm budget, normed-space handoff, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:arens-eells-space-carrier}, \autoref{thm:arens-eells-space-namecert-obligations}, and \autoref{thm:arens-eells-space-lipschitz-linearization-handoff} seed the finite molecule and norm-budget route from pointed metric data to Lipschitz and normed-space consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient vector-space equality, a selected molecule representative, unrestricted duality, a completed free Banach space, an ambient universal property, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, molecule ledger replay, zero-sum boundary, Real-valued norm-budget exactness, and Lipschitz-to-normed-space handoff for BEDC.Derived.ArensEellsSpaceUp.}
+\end{closurestatus}

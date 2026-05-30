@@ -94,6 +94,33 @@ itself only needs the right inverse and the unit-product factor exactness
 theorem.
 \end{proof}
 
+\begin{theorem}[Group unary append inverse obstruction replay]
+\label{thm:group-unary-append-inverse-obstruction-replay}
+Any $\GroupUp$ consumer that tests a unary append inverse field over a concrete
+subcarrier $C\subseteq\mathsf{UnaryHistory}$ must replay the inverse-product
+row through \autoref{thm:unary-append-unit-product-factor-exactness} before it
+can derive the singleton-unit collapse of
+\autoref{thm:unary-append-group-subcarrier-unit-collapse}. Thus the group
+obstruction depends on the concrete $\MonoidUp$ unit-product factor exactness
+surface and cannot be read directly from the inverse-field signature alone.
+\end{theorem}
+\begin{proof}
+Start with a $\GroupUp$-facing inverse test for a carried history $h$. The
+test supplies a displayed inverse-product classifier row for
+$\mathsf{append}(h,i(h))$ or $\mathsf{append}(i(h),h)$, but this row still
+lives in the unary append monoid classifier.
+
+Apply \autoref{thm:unary-append-unit-product-factor-exactness}. It is the
+only local result that separates a unary append product classified as $\emp$
+into the two unit-fiber factors for its components.
+
+With that factorization available, apply
+\autoref{thm:unary-append-group-subcarrier-unit-collapse}. The collapse is
+therefore a replay through the $\MonoidUp$ unit-product exactness theorem
+followed by the group subcarrier collapse theorem, not a consequence of the
+inverse-field row by itself.
+\end{proof}
+
 Fit: the traditional target is the append-inverse group interface; the BEDC
 source is $C\subseteq\mathsf{UnaryHistory}$; the carrier is $C$; the classifier
 is inherited from $\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$;

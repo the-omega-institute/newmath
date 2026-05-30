@@ -93,11 +93,33 @@ An exported addition fact must use $A$ after the source, window, and dyadic-budg
 The structural rows preserve only that route. Componentwise $\hsame$ transport and displayed $\Cont$ replay cannot create a host operation or a quotient relation, while provenance and local naming record only the finite packet. Thus every exported algebraic fact is confined to the listed rows, and each excluded principle has no entry point.
 \end{proof}
 
+\begin{theorem}[CauchySequenceAlgebra remainder-estimate handoff]
+\label{thm:cauchy-sequence-algebra-remainder-estimate-handoff}
+Let
+$$
+G=(X,Y,W,D,A,M,S,H,C,P,N)
+$$
+be an accepted $\CauchySequenceAlgebraUp$ carrier. Any downstream $\CauchyRemainderEstimateUp$ read for an addition or product result factors first through the same finite binary-algebra route
+$$
+X,Y \longmapsto W \longmapsto D \longmapsto A,M \longmapsto S \longmapsto H,C,P,N
+$$
+and then through the finite tail-estimate rows of \autoref{ch:concrete-instances-cauchy-remainder-estimate-namecert}. The handoff exports the displayed source rows, synchronized windows, dyadic operation budgets, selected addition or product route, terminal Real seal, transport, replay, provenance, local naming, finite tail threshold, admitted tail windows, regular readback, and tail-diameter boundary rows. It exports no quotient Cauchy class, host real operation, selected limit, countable-choice datum, trichotomy datum, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $G$. By \autoref{thm:cauchy-sequence-algebra-namecert-obligations}, every binary algebra read exposes only the source rows $X,Y$, synchronized window $W$, dyadic budget $D$, operation rows $A,M$, Real seal $S$, and structural rows $H,C,P,N$.
+
+Apply \autoref{thm:cauchy-sequence-algebra-operation-route} to the downstream addition or product request. The result route must pass through $A$ for addition or $M$ for product, and in either case it uses the same upstream $X,Y,W,D$ rows before reaching the seal $S$.
+
+Now apply \autoref{thm:cauchy-sequence-algebra-route-nonescape}. No part of that binary-algebra route can introduce a quotient Cauchy class, host real operation, selected limit, countable-choice row, trichotomy row, or ambient completeness row.
+
+The remainder-estimate consumer therefore begins from the regular readback already displayed by the operation route and then uses the sibling surface \autoref{ch:concrete-instances-cauchy-remainder-estimate-namecert}. That surface supplies the finite threshold, admitted tail windows, regular readback, tail-diameter boundary, transport, replay, provenance, and local naming rows for $\CauchyRemainderEstimateUp$. Composing these two finite routes gives the stated handoff and leaves every excluded principle without a carrier coordinate.
+\end{proof}
+
 \closureat{CauchySequenceAlgebraUp}{seedStr}
 
 \begin{closurestatus}{\CauchySequenceAlgebraUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-sequence-algebra-carrier}, \autoref{thm:cauchy-sequence-algebra-namecert-obligations}, \autoref{thm:cauchy-sequence-algebra-real-field-handoff}, \autoref{thm:cauchy-sequence-algebra-operation-route}, and \autoref{thm:cauchy-sequence-algebra-route-nonescape} seed the finite binary algebra route over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \scopeclosed{\autoref{def:cauchy-sequence-algebra-carrier}, \autoref{thm:cauchy-sequence-algebra-namecert-obligations}, \autoref{thm:cauchy-sequence-algebra-real-field-handoff}, \autoref{thm:cauchy-sequence-algebra-operation-route}, \autoref{thm:cauchy-sequence-algebra-route-nonescape}, and \autoref{thm:cauchy-sequence-algebra-remainder-estimate-handoff} seed the finite binary algebra route over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\CauchyRemainderEstimateUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient Cauchy classes, host real operations, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}

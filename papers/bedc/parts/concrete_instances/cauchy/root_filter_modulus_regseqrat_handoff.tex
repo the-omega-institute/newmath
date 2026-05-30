@@ -1,0 +1,46 @@
+\begin{theorem}[Cauchy root UnaryHistory admission]
+\label{thm:cauchy-root-unary}
+Every accepted root $\CauchyUp$ consumer read admits a UnaryHistory-facing presentation before it enters any filter, modulus, or Real-facing route. The admitted packet is the finite row surface
+$$
+U=(S,Q,D,R,E,H,C,P,N),
+$$
+where $S$ is the $\StreamNameUp$ finite-window row, $Q$ is the directed tail-request row, $D$ is the $\DyadicRatCoreUp$ tolerance row, $R$ is the $\RegSeqRatUp$ readback row, $E$ is the terminal $\RealUp$ seal row, and $H,C,P,N$ are componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyUp.CauchyRootUnaryAdmission}
+\begin{proof}
+Project the root stream and tail-request carriers already displayed for $\CauchyUp$. Their shared rows expose finite StreamName windows before any tolerance, readback, or terminal seal can be read.
+
+The directed request row supplies the unary admission point. It records one visible later-window request over the same finite stream surface, so the read is a UnaryHistory-facing row rather than a parameter transport over an ambient sequence.
+
+The dyadic, regular readback, Real seal, and structural rows then repack the same finite route. No quotient stream, selected limit, host equality, countable choice, or ambient completeness row is exported.
+\end{proof}
+
+\begin{theorem}[Cauchy root filter-modulus compatibility]
+\label{thm:cauchy-root-filter-modulus}
+For every admitted root packet $U=(S,Q,D,R,E,H,C,P,N)$, any $\CauchyFilterUp$ or finite filter consumer that reads the tail request must use the same modulus-compatible route
+$$
+\StreamNameUp \longmapsto \CauchyTailRequestUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp .
+$$
+The filter row may refine the visible window named by $S$ through $Q$, but it cannot replace $D$ by an external tolerance oracle or replace $R$ by a selected limit.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyUp.CauchyRootFilterModulusCompatibility}
+\begin{proof}
+Start with the admitted packet of \autoref{thm:cauchy-root-unary}. The stream row $S$ and directed request row $Q$ are read before any filter-facing or modulus-facing datum.
+
+Apply the existing Cauchy filter Real-seal route. It inserts the finite request row before the dyadic tolerance ledger, so a filter consumer reaches $D$ and $R$ only through the displayed tail request.
+
+The structural rows preserve that order under $\hsame$ transport and $\Cont$ replay. Thus a finite filter may narrow the displayed request, but the modulus and regular readback remain the same BEDC rows.
+\end{proof}
+
+\begin{theorem}[Cauchy root RegSeqRat Real handoff]
+\label{thm:cauchy-root-regseqrat-real-handoff}
+Every $\RegSeqRatUp$-to-$\RealUp$ handoff exported by a root $\CauchyUp$ read factors through the finite windows, directed request, dyadic tolerance ledger, and regular rational readback of \autoref{thm:cauchy-root-filter-modulus}. The Real seal $E$ is available only after $S,Q,D,R,H,C,P,N$ have been displayed, and it exports no quotient filter, selected real, countable-choice schedule, host equality, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Read the filter-modulus compatibility theorem. It places the StreamName window, directed request, dyadic tolerance ledger, and RegSeqRat readback in a fixed order before any Real-facing boundary.
+
+The handoff row is exactly $R$ followed by $E$. A Real-facing consumer therefore receives rational readback through $\RegSeqRatUp$ first and may inspect the terminal seal only after that readback has been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier contains no quotient filter, selected real, choice schedule, host equality, or ambient completeness coordinate, the handoff remains a finite BEDC route.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyUp.CauchyRootRegSeqRatRealHandoff}

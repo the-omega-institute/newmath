@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneClassUp$}
+\label{ch:concrete-instances-monotone-class-namecert}
+\origin{human}
+
+Following Halmos and Dynkin-style monotone class arguments, the $\MonotoneClassUp$ packet records the closure object that measure-theoretic generation uses before any consumer may cite a sigma-algebra completion. It sits after the measurable-event carrier of \autoref{ch:concrete-instances-measure-namecert}, the generated-set boundary of \autoref{ch:concrete-instances-borel-set-namecert}, and the displayed membership discipline of \autoref{ch:concrete-instances-setlike-namecert}. The packet names generator admission, increasing-union rows, decreasing-intersection rows, measurable-event admission, transport, replay, provenance, and local naming; it does not assert a host sigma-algebra, pi-lambda theorem, selected countable chain, measure extension, or quotient equality of subsets.
+
+\begin{definition}[MonotoneClass carrier]
+\label{def:monotone-class-carrier}
+A $\MonotoneClassUp$ carrier is a finite $\BHist$ packet
+$$
+M=(G,U,I,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the generator family over $\BHist$, read as displayed subset rows through $\SetLikeUp$ and as generated-set boundary data through $\BorelSetUp$ when the source is Borel-facing.
+\item $U$ records increasing-union closure rows for finite observed chains and their named limit event request.
+\item $I$ records decreasing-intersection closure rows for finite observed chains and their named limit event request.
+\item $A$ records measurable-event admission through the $\BorelSetUp$ and $\MeasureUp$ sibling surfaces.
+\item $H$ stores componentwise $\hsame$ transport for $G,U,I,A$ and the structural rows.
+\item $C$ stores displayed $\Cont$ replay from a generator request through increasing-union closure, decreasing-intersection closure, measurable-event admission, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneClassUp$, $\MeasureUp$, $\BorelSetUp$, $\SetLikeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneClassUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,U,I,A,H,C,P,N$. It has no coordinate for completed sigma-algebras, chosen countable unions, host subset equality, measure extension, or an ambient monotone-class theorem.
+\end{definition}
+
+\begin{theorem}[MonotoneClass NameCert obligations]
+\label{thm:monotone-class-namecert-obligations}
+For the carrier of \autoref{def:monotone-class-carrier}, the local $\NameCert_{\MonotoneClassUp}$ surface consists exactly of generator admission through $G$, increasing-union closure through $U$, decreasing-intersection closure through $I$, measurable-event admission through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$. Every accepted $\MeasureUp$, $\BorelSetUp$, or $\SetLikeUp$ consumer that reads a monotone-class conclusion must expose those rows before it treats the generated family as closed under the requested operation.
+\end{theorem}
+\begin{proof}
+Project the carrier $M=(G,U,I,A,H,C,P,N)$. The generator row $G$ is the only entry point for displayed set requests, so carrier admission is exhausted by the generator family and its sibling $\SetLikeUp$ or $\BorelSetUp$ boundary.
+
+Read the closure rows next. The row $U$ supplies increasing-union closure for the named observed chain, and $I$ supplies decreasing-intersection closure for the named observed chain. The measurable-event admission row $A$ is the only route from those closures to the $\BorelSetUp$ and $\MeasureUp$ surfaces.
+
+Finally replay the structural rows. Transport through $H$, continuation through $C$, provenance through $P$, and local naming through $N$ preserve the same finite route. Since no carrier coordinate contains completed sigma-algebras, selected countable chains, quotient subset equality, measure extension, or an ambient monotone-class theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MonotoneClass generated closure route]
+\label{thm:monotone-class-generated-closure-route}
+Every accepted $\MonotoneClassUp$ packet exports the generated closure route
+$$
+G \longmapsto U,I \longmapsto A \longmapsto H,C,P,N
+$$
+for downstream $\MeasureUp$, $\BorelSetUp$, and $\SetLikeUp$ consumers. The route lets a consumer cite monotone closure of the displayed generator family only after increasing-union, decreasing-intersection, measurable-event, transport, replay, provenance, and local-name rows have been exposed; it exports no sigma-algebra completion, pi-lambda closure, measure-extension theorem, selected chain, or quotient equality of subsets.
+\end{theorem}
+\begin{proof}
+Start with a displayed generator request in $G$. The request is a finite BEDC row, not a host subset family, and it can be read only through the named $\SetLikeUp$ and $\BorelSetUp$ surfaces.
+
+Pass through the two closure rows. Increasing requests are handled by $U$, decreasing requests by $I$, and both remain attached to the same displayed generator family. The admission row $A$ then records when the resulting event request is visible to the Borel and measure siblings.
+
+Replay the route through $H,C,P,N$. These rows transport, replay, source, and name the same finite certificate. Therefore a downstream consumer receives exactly the generated closure route stated above and no completed sigma-algebra, pi-lambda theorem, measure-extension theorem, selected chain, or quotient subset equality.
+\end{proof}
+
+\begin{closurestatus}{\MonotoneClassUp}
+  \constructivestory{A $\MonotoneClassUp$ packet is generated from displayed set generators, increasing-union rows, decreasing-intersection rows, measurable-event admission, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-class-carrier}, \autoref{thm:monotone-class-namecert-obligations}, and \autoref{thm:monotone-class-generated-closure-route} seed the monotone closure route over displayed generators, union rows, intersection rows, measurable-event admission, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host sigma-algebra completion, pi-lambda closure, measure extension, selected countable chains, quotient subset equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, increasing-union closure, decreasing-intersection closure, measurable-event admission, transport, provenance, and no-escape for BEDC.Derived.MonotoneClassUp.}
+\end{closurestatus}

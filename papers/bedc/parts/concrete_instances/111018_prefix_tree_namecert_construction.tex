@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\PrefixTreeUp$}
+\label{ch:concrete-instances-prefix-tree-namecert}
+\origin{human}
+
+Following Brouwer and Kleene on spreads and finite choice sequences, the $\PrefixTreeUp$ packet records the finite prefix-tree carrier used before StreamName and compact fan routes ask for branch-facing data. It sits between the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the binary obstruction route of \autoref{ch:concrete-instances-kleene-tree-namecert}, the fan boundary of \autoref{ch:concrete-instances-fantheorem-namecert}, and the Cantor prefix reads of \autoref{ch:concrete-instances-cantorspace-namecert}. The packet names a finite frontier and branch-window surface; it is not an infinite branch selector, host tree equality, countable choice, bar induction, compactness, or ambient stream equality.
+
+\begin{definition}[PrefixTree frontier carrier]
+\label{def:prefix-tree-frontier-carrier}
+A $\PrefixTreeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(V,E,F,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the prefix-closed $\BHist$ node row. It lists the root, every displayed node, every displayed parent-prefix row, and the finite prefix relation used by the packet.
+\item $E$ is the finite child $\ProbeBundle$ row. For each displayed node in $V$, it records the listed child probes, the edge labels, and the finite immediate-extension checks.
+\item $F$ is the frontier row. It lists the exposed leaves and boundary nodes whose child probes are not opened by this packet, together with their parent-prefix witnesses in $V$.
+\item $W$ is the $\StreamNameUp$ branch-window row. It records exactly the finite stream-name windows read along displayed root-to-frontier paths before any fan, Cantor, or compact route may consume the tree.
+\item $H$ records componentwise $\hsame$ transport for prefix nodes, child probes, frontier rows, branch windows, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tree request through $V,E,F,W$ and then into the downstream $\StreamNameUp$, $\FanTheoremUp$, $\KleeneTreeUp$, or $\CantorSpaceUp$ consumer route that asked for the prefix data.
+\item $P$ is the $\Pkg$ provenance over $\PrefixTreeUp$, $\StreamNameUp$, $\FanTheoremUp$, $\KleeneTreeUp$, $\CantorSpaceUp$, $\BHist$, $\ProbeBundle$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PrefixTreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $V,E,F,W,H,C,P,N$. It has no coordinate for selected infinite branches, quotient stream equality, host tree equality, countable choice, open-cover compactness, or ambient fan compactness.
+\end{definition}
+
+\begin{theorem}[PrefixTree frontier NameCert obligation surface]
+\label{thm:prefix-tree-frontier-obligation-surface}
+For every accepted $\PrefixTreeUp$ carrier
+$$
+T=(V,E,F,W,H,C,P,N),
+$$
+the local $\NameCert_{\PrefixTreeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the prefix-closed node row, child probe bundle, frontier row, branch-window row, componentwise transport, continuation replay, provenance, and local naming;
+\item prefix closure, requiring every non-root node in $V$ to display its parent-prefix chain inside $V$ before any child probe in $E$ is consumed;
+\item finite branching, requiring each child request to be read from the finite $\ProbeBundle$ row $E$ attached to the currently displayed node;
+\item frontier coverage, requiring every exposed leaf or boundary node in $F$ to be reached by a displayed finite path through $V$ and $E$;
+\item branch-window stability, requiring every $\StreamNameUp$ window in $W$ to be attached to a displayed root-to-frontier path and to transport through $H$ and replay through $C$ without changing the prefix path;
+\item non-escape from selected infinite branches, requiring $P$ and $N$ to export no selected branch, quotient stream equality, host tree equality, countable choice, open-cover compactness, or ambient fan compactness.
+\end{enumerate}
+Thus any downstream $\StreamNameUp$, $\FanTheoremUp$, $\KleeneTreeUp$, or $\CantorSpaceUp$ consumer receives only compact finite prefix data.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:prefix-tree-frontier-carrier}. The accepted packet displays exactly the prefix-node row, finite child probes, frontier ledger, branch windows, and structural rows.
+
+Prefix closure is read from $V$. A non-root node has no entry point except its displayed parent-prefix chain, so a consumer cannot jump to an unlisted node or compare nodes by host tree equality.
+
+Finite branching is read from $E$. For a displayed node, the packet exposes only the listed child probes and edge labels, and each such probe is attached to the node already admitted by $V$.
+
+Frontier coverage is read from $F$. Every exposed leaf or boundary node carries a finite path back through the node and child rows, so the frontier is a finite BEDC ledger rather than a completed branch object.
+
+Branch-window stability is read from $W,H,C$. The $\StreamNameUp$ window is attached to the same displayed root-to-frontier path, componentwise $\hsame$ transport preserves that path, and displayed $\Cont$ replay repeats the same finite route for fan, Kleene-tree, and Cantor-space consumers.
+
+Finally, provenance and local naming in $P,N$ add no excluded coordinate. Since selected infinite branches, quotient streams, host tree equality, countable choice, open-cover compactness, and ambient fan compactness are absent from the carrier, the local NameCert surface cannot export them.
+\end{proof}
+
+\closureat{PrefixTreeUp}{seedStr}
+
+\begin{closurestatus}{\PrefixTreeUp}
+  \constructivestory{A $\PrefixTreeUp$ packet is generated from prefix-closed $\BHist$ node rows, finite $\ProbeBundle$ child rows, frontier rows, finite $\StreamNameUp$ branch windows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:prefix-tree-frontier-carrier} and \autoref{thm:prefix-tree-frontier-obligation-surface} seed the finite prefix-tree frontier route for StreamName, fan, Kleene-tree, and Cantor-space consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite branch selection, quotient stream equality, host tree equality, countable choice, bar induction, compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix closure, finite branching, frontier coverage, branch-window stability, replay, provenance, local naming, and non-escape for BEDC.Derived.PrefixTreeUp.}
+\end{closurestatus}

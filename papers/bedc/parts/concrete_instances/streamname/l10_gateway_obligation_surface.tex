@@ -1,0 +1,52 @@
+\section{StreamName L10 gateway obligation surface}
+\label{sec:streamname-l10-gateway-obligation-surface}
+
+\begin{theorem}[StreamName L10 gateway NameCert obligation surface]
+\label{thm:streamname-l10-gateway-namecert-obligation-surface}
+Every L10 gateway read exported by a $\StreamNameUp$ packet is pinned to a finite $\BHist$ observation window before it can be consumed by $\RegSeqRatUp$ or $\RealUp$. The public route consists of the finite StreamName carrier rows of \autoref{def:rat-stream-name-carrier}, the certificate fields of \autoref{thm:rat-stream-name-certificate-fields}, the finite request sections of \autoref{thm:streamname-real-endpoint-finite-request-section} and \autoref{thm:streamname-regseqrat-window-budget-section}, the terminal Real seal locks of \autoref{thm:streamname-finite-request-section-real-seal-lock} and \autoref{thm:streamname-regseqrat-real-public-seal-no-quotient}, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The gateway exports no quotient stream equality, host sequence equality, selected limit, countable-choice row, metric-completeness datum, or ambient completion coordinate.
+\end{theorem}
+\begin{proof}
+Read the carrier and certificate fields first. The StreamName packet exposes unary finite observations, bundle membership rows, pointwise rational classifier rows, transport rows, replay rows, provenance rows, and local naming rows; it does not expose a host sequence.
+
+Next apply the finite request sections. They package endpoint, window, RegSeqRat budget, dyadic tolerance, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows as one finite gateway request.
+
+Finally use the terminal seal locks. They force every Real-facing read to pass through the finite request section before the $\RealUp$ seal is available, and they refuse quotient streams, selected limits, host real equality, countable choice, metric completeness, and ambient completion.
+\end{proof}
+
+\begin{theorem}[StreamName L10 gateway window reindex stability]
+\label{thm:streamname-l10-gateway-window-reindex-stability}
+Let $W_0$ and $W_1$ be accepted $\StreamNameUp$ finite-window packets that are related by a certified reindex route. If their displayed endpoint rows, pointwise classifier rows, $\BHist$ support, $\hsame$ comparisons, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows transport componentwise, then every L10 gateway read through $W_0$ determines the same public finite observation section as the corresponding read through $W_1$.
+
+The stability statement is internal to the finite StreamName gateway. It does not assert quotient stream equality, host sequence equality, selected limits, countable choice, completion data, or a standard bridge row.
+\end{theorem}
+\begin{proof}
+Start with finite-window reindex determinacy, \autoref{thm:streamname-window-reindex-determinacy}. Its hypotheses identify the endpoint rows, reindex route, and displayed support rows that determine a public finite observation section.
+
+Use the public reindexing identity and associative laws, \autoref{thm:streamname-public-reindexing-identity-law} and \autoref{thm:streamname-public-reindexing-associative-law}. They show that certified identity routes and composable certified routes preserve the displayed classifier, unary observation, bundle-membership, $\hsame$, $\Cont$, $\Pkg$, and local naming rows.
+
+Apply the terminal coverage theorem, \autoref{thm:streamname-reindex-terminal-coverage}. Since the transported packets expose the same public finite observation section, every L10 gateway read reaches the same four-face route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, with no quotient, host, limit, choice, completion, or bridge coordinate.
+\end{proof}
+
+\begin{theorem}[StreamName L10 gateway Real-RegSeqRat handoff]
+\label{thm:streamname-l10-gateway-real-regseqrat-handoff}
+Every Real-facing L10 gateway read of a $\StreamNameUp$ packet factors through the finite route
+$$
+\StreamNameUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\DyadicRatCoreUp
+\longmapsto
+\RealUp .
+$$
+The handoff uses finite observation windows, regular rational readback, dyadic budget rows, terminal real seal locks, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. It does not export quotient stream equality, quotient equality of Cauchy presentations, selected limits, host real equality, countable choice, metric completeness, or ambient completion.
+\end{theorem}
+\begin{proof}
+Begin with the L10 gateway factorization of \autoref{thm:streamname-l10-gateway-factorization}. It places the StreamName point rows, unary observations, bundle ledger, regular source row, dyadic observation ledger, finite tail witness, finite approximation row, and $\RealUp$ seal row on one displayed route.
+
+Next use the RegSeqRat handoff and finite-window diagonal section, \autoref{thm:streamname-regseqrat-real-seal-handoff} and \autoref{thm:streamname-finite-window-diagonal-section}. They ensure that the Real-facing read is not detached from the same finite StreamName request.
+
+The terminal Real seal locks then close the route. By \autoref{thm:streamname-finite-request-section-real-seal-lock} and \autoref{thm:streamname-regseqrat-real-public-seal-no-quotient}, a consumer receives only the finite observation, regular-rational, dyadic-budget, and Real-seal rows, not quotient equality, selected limits, host equality, choice, completion, or a standard bridge.
+\end{proof}

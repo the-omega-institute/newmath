@@ -74,11 +74,13 @@ Inspect the refusal row $R$. When $R$ marks $F$ as non-evidence, the report row 
 
 The transport, replay, provenance, and local naming rows preserve the same flag. Thus a consumer may read the audit report, but any read that treats $F$ as theorem evidence leaves the displayed packet.
 \end{proof}
+\leanchecked{BEDC.Derived.MachineReadableAuditInterfaceUp.MachineReadableAuditInterface\_non\_evidence\_refusal}
 
 \begin{theorem}[Machine-readable audit interface sibling independence]
 \label{thm:machine-readable-audit-interface-sibling-independence}
 The $\MachineReadableAuditInterfaceUp$ carrier is not bijective, under NameCert-row preservation, to $\MachineInterfaceSocketUp$, $\MachineInterfaceFormalizationTargetUp$, $\RegistryExportSurfaceUp$, $\RegistryExportConsistencyGateUp$, or $\GroundCompilerAuditMapUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MachineReadableAuditInterfaceUp.MachineReadableAuditInterface\_sibling\_independence}
 \begin{proof}
 Compare the displayed rows. $\MachineInterfaceSocketUp$ routes formalization targets, and $\MachineInterfaceFormalizationTargetUp$ stores target skeletons, dependency rows, expected status, and audit-gate locality.
 
@@ -98,6 +100,7 @@ For export claims, inspect $E$ and the replay row $K$. For theorem-evidence repo
 
 If one of those rows is absent, disagrees with the claimed read, or marks the read as non-evidence, the claim exits the carrier. Conversely a read backed by the displayed rows is precisely the accepted machine-readable audit interface read.
 \end{proof}
+\leanchecked{BEDC.Derived.MachineReadableAuditInterfaceUp.MachineReadableAuditInterface\_falsifiable\_prediction}
 
 \falsifiablePrediction{A $\MachineReadableAuditInterfaceUp$ packet cannot export a report row as theorem evidence when its refusal row marks the report as non-evidence.}
 
@@ -118,6 +121,7 @@ The non-evidence boundary is fixed by \autoref{thm:machine-readable-audit-interf
 
 Therefore the kernel route for the report is exactly the displayed route through $S,C,E,R,F,H,K,P,N$. A report row can be consumed as machine-readable audit data, but it is not theorem evidence unless the checker row separately accepts it and the refusal row does not mark that evidence claim as blocked.
 \end{proof}
+\leanchecked{BEDC.Derived.MachineReadableAuditInterfaceUp.MachineReadableAuditInterface\_kernel\_scope}
 
 \closureat{MachineReadableAuditInterfaceUp}{seedStr}
 \closureat{MachineReadableAuditInterfaceUp}{obligationStr}
