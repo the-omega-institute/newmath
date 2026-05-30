@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\StreamNameExtensionalityUp$}
+\label{ch:concrete-instances-streamname-extensionality-namecert}
+\origin{human}
+
+Following Bishop-style sequence extensionality, the $\StreamNameExtensionalityUp$ packet records equality of named streams only through matching finite observation windows. It sits over the finite StreamName interface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies a concrete L10 equality object for RegSeqRat and RealUp seal comparisons without quotient stream equality, host function extensionality, selected infinite streams, or countable choice.
+
+\begin{definition}[StreamName extensionality carrier]
+\label{def:streamname-extensionality-carrier}
+A $\StreamNameExtensionalityUp$ carrier is a finite $\BHist$ packet
+$$
+E=(X,Y,W,D,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\StreamNameUp$ source rows being compared.
+\item $W$ is the shared finite-window row listing the observed indices and values inspected from both sources.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the window request when the stream entries feed rational or real-name consumers.
+\item $R$ is the $\RegSeqRatUp$ readback row saying that the paired finite windows give the same regular rational data for the requested precision.
+\item $Q$ is the terminal comparison row consumed by a $\RealUp$ seal route after the StreamName and RegSeqRat reads have matched pointwise on the displayed window.
+\item $H$ records componentwise $\hsame$ transport for the two stream rows, the shared window, dyadic ledger, regular readback, terminal comparison, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a finite equality request through $W,D,R,Q$.
+\item $P$ is the $\Pkg$ provenance over $\StreamNameExtensionalityUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StreamNameExtensionalityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,W,D,R,Q,H,C,P,N$. It has no coordinate for quotient stream equality, host function extensionality, selected infinite streams, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[StreamName extensionality NameCert obligations]
+\label{thm:streamname-extensionality-namecert-obligations}
+For every accepted $\StreamNameExtensionalityUp$ carrier
+$$
+E=(X,Y,W,D,R,Q,H,C,P,N),
+$$
+the local $\NameCert_{\StreamNameExtensionalityUp}$ surface consists exactly of paired StreamName admission for $X$ and $Y$, pointwise finite-window agreement for $W$, dyadic tolerance ledger visibility for $D$, RegSeqRat readback agreement for $R$, terminal Real-facing comparison for $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, sibling provenance through $P$, and local naming through $N$.
+
+No StreamName extensionality obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The two stream names enter only as $X$ and $Y$, and the only equality-facing observation is the displayed finite window $W$.
+
+The dyadic ledger $D$ and regular rational readback $R$ consume that same window before any Real-facing comparison can be read. Thus the packet records pointwise finite-window agreement, not quotient equality of streams.
+
+The terminal row $Q$ is downstream of the StreamName, DyadicRatCore, and RegSeqRat rows. Transport, replay, provenance, and local naming through $H,C,P,N$ preserve the same route, so the displayed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[StreamName extensionality seal route]
+\label{thm:streamname-extensionality-seal-route}
+Every accepted $\StreamNameExtensionalityUp$ packet exports equality evidence to $\RegSeqRatUp$ and $\RealUp$ consumers only through the finite route
+$$
+\StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+The route reads paired stream sources, a shared finite window, dyadic tolerance data, regular rational readback, and the terminal comparison row, then preserves the same packet through $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert_{\StreamNameExtensionalityUp}$ row. It exports no quotient stream equality, host function extensionality, selected infinite stream, countable-choice selector, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the paired stream rows $X,Y$. A comparison request can inspect them only through the finite window row $W$, so the equality surface is pointwise and bounded by the displayed request.
+
+The tolerance ledger $D$ and regular readback $R$ turn the same finite window into the data consumed by RegSeqRat-facing routes. The terminal comparison row $Q$ is therefore a seal over a displayed finite-window readback, not an independent infinite-stream equality.
+
+Finally $H,C,P,N$ transport, replay, source, and name that route. Since the excluded quotient, function-extensionality, selected-stream, choice, and completeness coordinates are absent from the carrier, every RegSeqRat or RealUp equality read factors through the stated finite route.
+\end{proof}
+
+\closureat{StreamNameExtensionalityUp}{seedStr}
+
+\begin{closurestatus}{\StreamNameExtensionalityUp}
+  \constructivestory{A $\StreamNameExtensionalityUp$ packet is generated from two StreamNameUp source rows, a shared finite-window row, a DyadicRatCore tolerance ledger, a RegSeqRat readback row, a terminal RealUp comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:streamname-extensionality-carrier}, \autoref{thm:streamname-extensionality-namecert-obligations}, and \autoref{thm:streamname-extensionality-seal-route} seed the finite pointwise-window equality packet for StreamName, DyadicRatCore, RegSeqRat, and RealUp seal consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, host function extensionality, selected infinite streams, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked paired StreamName admission, finite-window agreement, dyadic tolerance readback, RegSeqRat handoff, Real seal non-escape, transport stability, replay stability, and non-escape for BEDC.Derived.StreamNameExtensionalityUp.}
+\end{closurestatus}
