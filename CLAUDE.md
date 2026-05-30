@@ -529,3 +529,16 @@ Key routing rules:
 - Security audit, threat model, OWASP review → `/cso`
 - Docs sync after shipping → `/document-release`
 - Auto-run full review gauntlet → `/autoplan`
+
+---
+
+# Dogfooding: consensus-rnd skills 库
+
+本仓库是 [`ChronoAIProject/consensus-rnd`](https://github.com/ChronoAIProject/consensus-rnd) 的 **dogfooding 现场**. 我们(`aloning@gmail.com` / @Loning)是该 skills 库的开发者, 用 newmath 作为真实 host 跑它的引擎(目前的 `codex-refactor-loop` 等), 反过来打磨 skill 本身.
+
+**纪律**:
+
+- 用 `codex-refactor-loop` 或库中任何 skill 时, 若遇到 bug / 模糊指令 / host 写死 / 概念漂移 / 不够通用 → **反馈回 `ChronoAIProject/consensus-rnd`**(开 issue 或直接改 skill repo + PR), 不要在 newmath 这边静默 work around. 默默 work around 会丢失 dogfooding 信号, 让 skill 永远以为自己 OK.
+- 反馈优先级: skill 行为不通用 / 写死了 host 假设(如默认 `dotnet build` 或固定 `auto-refact-dev` 分支名) > 文档与代码冲突 > prompt 模糊 > 拼写/格式.
+- skill 内部假设(`$BUILD_CMD` / `$INTEGRATION_BRANCH` / `$REVIEW_BASE_BRANCH` / `$PROJECT_RULES` 等)通过 `$REPO_ROOT/.refactor-loop/host.env` 注入. newmath 的 host.env 是真值, 不要改 skill 去迁就 newmath; 是 skill 该可参数化时, 改 skill.
+- 已知泛化方向(见上游 README): 抽出 `solve → consensus → implement → verify` 引擎脊柱, 让 audit seed 可替换; 去除"refactor"语义壳. 在 newmath 上发现的具体卡点是这条路线的输入.
