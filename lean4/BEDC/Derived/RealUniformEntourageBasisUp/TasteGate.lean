@@ -25,7 +25,7 @@ def realUniformEntourageBasisDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (realUniformEntourageBasisDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (realUniformEntourageBasisDecodeBHist tail)
 
-private theorem RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode :
+private theorem RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -37,39 +37,47 @@ private theorem RealUniformEntourageBasisTasteGate_single_carrier_alignment_deco
 
 def realUniformEntourageBasisFields : RealUniformEntourageBasisUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RealUniformEntourageBasisUp.mk R M U S F W Q H C P N => [R, M, U, S, F, W, Q, H, C, P, N]
+  | RealUniformEntourageBasisUp.mk R M U S F W Q H C P N =>
+      [R, M, U, S, F, W, Q, H, C, P, N]
 
-def realUniformEntourageBasisToEventFlow : RealUniformEntourageBasisUp → EventFlow :=
+def realUniformEntourageBasisToEventFlow : RealUniformEntourageBasisUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (realUniformEntourageBasisFields x).map realUniformEntourageBasisEncodeBHist
+  | x => (realUniformEntourageBasisFields x).map realUniformEntourageBasisEncodeBHist
 
-private def realUniformEntourageBasisEventAtDefault : Nat → EventFlow → RawEvent
+def realUniformEntourageBasisFromEventFlow : EventFlow → Option RealUniformEntourageBasisUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => realUniformEntourageBasisEventAtDefault index rest
+  | [] => none
+  | _R :: [] => none
+  | _R :: _M :: [] => none
+  | _R :: _M :: _U :: [] => none
+  | _R :: _M :: _U :: _S :: [] => none
+  | _R :: _M :: _U :: _S :: _F :: [] => none
+  | _R :: _M :: _U :: _S :: _F :: _W :: [] => none
+  | _R :: _M :: _U :: _S :: _F :: _W :: _Q :: [] => none
+  | _R :: _M :: _U :: _S :: _F :: _W :: _Q :: _H :: [] => none
+  | _R :: _M :: _U :: _S :: _F :: _W :: _Q :: _H :: _C :: [] => none
+  | _R :: _M :: _U :: _S :: _F :: _W :: _Q :: _H :: _C :: _P :: [] => none
+  | R :: M :: U :: S :: F :: W :: Q :: H :: C :: P :: N :: [] =>
+      some
+        (RealUniformEntourageBasisUp.mk
+          (realUniformEntourageBasisDecodeBHist R)
+          (realUniformEntourageBasisDecodeBHist M)
+          (realUniformEntourageBasisDecodeBHist U)
+          (realUniformEntourageBasisDecodeBHist S)
+          (realUniformEntourageBasisDecodeBHist F)
+          (realUniformEntourageBasisDecodeBHist W)
+          (realUniformEntourageBasisDecodeBHist Q)
+          (realUniformEntourageBasisDecodeBHist H)
+          (realUniformEntourageBasisDecodeBHist C)
+          (realUniformEntourageBasisDecodeBHist P)
+          (realUniformEntourageBasisDecodeBHist N))
+  | _R :: _M :: _U :: _S :: _F :: _W :: _Q :: _H :: _C :: _P :: _N ::
+      _extra :: _rest => none
 
-def realUniformEntourageBasisFromEventFlow (ef : EventFlow) :
-    Option RealUniformEntourageBasisUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RealUniformEntourageBasisUp.mk
-      (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEventAtDefault 0 ef))
-      (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEventAtDefault 1 ef))
-      (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEventAtDefault 2 ef))
-      (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEventAtDefault 3 ef))
-      (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEventAtDefault 4 ef))
-      (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEventAtDefault 5 ef))
-      (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEventAtDefault 6 ef))
-      (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEventAtDefault 7 ef))
-      (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEventAtDefault 8 ef))
-      (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEventAtDefault 9 ef))
-      (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEventAtDefault 10 ef)))
-
-private theorem RealUniformEntourageBasisTasteGate_single_carrier_alignment_round_trip :
+private theorem RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_round_trip :
     ∀ x : RealUniformEntourageBasisUp,
-      realUniformEntourageBasisFromEventFlow (realUniformEntourageBasisToEventFlow x) = some x := by
+      realUniformEntourageBasisFromEventFlow
+          (realUniformEntourageBasisToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -89,21 +97,22 @@ private theorem RealUniformEntourageBasisTasteGate_single_carrier_alignment_roun
             (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEncodeBHist P))
             (realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEncodeBHist N))) =
           some (RealUniformEntourageBasisUp.mk R M U S F W Q H C P N)
-      rw [RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode R,
-        RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode M,
-        RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode U,
-        RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode S,
-        RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode F,
-        RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode W,
-        RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode Q,
-        RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode H,
-        RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode C,
-        RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode P,
-        RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode N]
+      rw [RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode R,
+        RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode M,
+        RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode U,
+        RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode S,
+        RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode F,
+        RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode W,
+        RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode Q,
+        RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode H,
+        RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode C,
+        RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode P,
+        RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode N]
 
-private theorem RealUniformEntourageBasisTasteGate_single_carrier_alignment_injective
+private theorem RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : RealUniformEntourageBasisUp} :
-    realUniformEntourageBasisToEventFlow x = realUniformEntourageBasisToEventFlow y → x = y := by
+    realUniformEntourageBasisToEventFlow x = realUniformEntourageBasisToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -111,11 +120,24 @@ private theorem RealUniformEntourageBasisTasteGate_single_carrier_alignment_inje
         realUniformEntourageBasisFromEventFlow (realUniformEntourageBasisToEventFlow y) :=
     congrArg realUniformEntourageBasisFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (RealUniformEntourageBasisTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (RealUniformEntourageBasisTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_round_trip y)))
 
-instance realUniformEntourageBasisBHistCarrier : BHistCarrier RealUniformEntourageBasisUp where
+private theorem RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_fields :
+    ∀ x y : RealUniformEntourageBasisUp,
+      realUniformEntourageBasisFields x = realUniformEntourageBasisFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk R1 M1 U1 S1 F1 W1 Q1 H1 C1 P1 N1 =>
+      cases y with
+      | mk R2 M2 U2 S2 F2 W2 Q2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
+instance realUniformEntourageBasisBHistCarrier :
+    BHistCarrier RealUniformEntourageBasisUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := realUniformEntourageBasisToEventFlow
   fromEventFlow := realUniformEntourageBasisFromEventFlow
@@ -125,23 +147,53 @@ instance realUniformEntourageBasisChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change realUniformEntourageBasisFromEventFlow (realUniformEntourageBasisToEventFlow x) = some x
-    exact RealUniformEntourageBasisTasteGate_single_carrier_alignment_round_trip x
+    change
+      realUniformEntourageBasisFromEventFlow
+        (realUniformEntourageBasisToEventFlow x) = some x
+    exact RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (RealUniformEntourageBasisTasteGate_single_carrier_alignment_injective heq)
+    exact hxy
+      (RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-theorem RealUniformEntourageBasisTasteGate_single_carrier_alignment :
-    (forall h : BHist, realUniformEntourageBasisDecodeBHist
-      (realUniformEntourageBasisEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier RealUniformEntourageBasisUp) ∧
-        Nonempty (ChapterTasteGate RealUniformEntourageBasisUp) ∧
+instance realUniformEntourageBasisFieldFaithful :
+    FieldFaithful RealUniformEntourageBasisUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := realUniformEntourageBasisFields
+  field_faithful := RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_fields
+
+instance realUniformEntourageBasisNontrivial : Nontrivial RealUniformEntourageBasisUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RealUniformEntourageBasisUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      RealUniformEntourageBasisUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate RealUniformEntourageBasisUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  realUniformEntourageBasisChapterTasteGate
+
+theorem RealUniformEntourageBasisUpTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      realUniformEntourageBasisDecodeBHist (realUniformEntourageBasisEncodeBHist h) = h) ∧
+      (∀ x : RealUniformEntourageBasisUp,
+        realUniformEntourageBasisFromEventFlow
+          (realUniformEntourageBasisToEventFlow x) = some x) ∧
+        (∀ x y : RealUniformEntourageBasisUp,
+          realUniformEntourageBasisToEventFlow x = realUniformEntourageBasisToEventFlow y →
+            x = y) ∧
           realUniformEntourageBasisEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨RealUniformEntourageBasisTasteGate_single_carrier_alignment_decode,
-      ⟨⟨realUniformEntourageBasisBHistCarrier⟩,
-        ⟨realUniformEntourageBasisChapterTasteGate⟩,
-        rfl⟩⟩
+    ⟨RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_decode,
+      RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        RealUniformEntourageBasisUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.RealUniformEntourageBasisUp
