@@ -296,4 +296,48 @@ theorem NormedSpaceCarrier_completion_handoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, normReadUnary, metricReadUnary, completionReadUnary, structuralReadUnary⟩
 
+theorem NormedSpaceCarrier_root_unblock_source_triad [AskSetup] [PackageSetup]
+    {V R N M Q H T P C normRead metricRead completionRead structuralRead namedRead
+      zeroNorm zeroRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormedSpaceCarrier V R N M Q H T P C bundle pkg ->
+      Cont V R normRead ->
+        Cont normRead M metricRead ->
+          Cont metricRead Q completionRead ->
+            Cont completionRead H structuralRead ->
+              Cont P C namedRead ->
+                Cont N V zeroNorm ->
+                  Cont V zeroNorm zeroRoute ->
+                    PkgSig bundle structuralRead pkg ->
+                      PkgSig bundle namedRead pkg ->
+                        UnaryHistory normRead ∧ UnaryHistory metricRead ∧
+                          UnaryHistory completionRead ∧ UnaryHistory structuralRead ∧
+                            UnaryHistory namedRead ∧ UnaryHistory zeroNorm ∧
+                              UnaryHistory zeroRoute ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle structuralRead pkg ∧
+                                  PkgSig bundle namedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier normRoute metricRoute completionRoute structuralRoute namedRoute
+    zeroNormRoute zeroRouteRoute structuralPkg namedPkg
+  obtain ⟨vUnary, rUnary, nUnary, mUnary, qUnary, hUnary, _tUnary, pUnary, cUnary,
+    _vectorNormRoute, _completionFacingRoute, _replayRoute, provenancePkg, _localPkg⟩ :=
+      carrier
+  have normReadUnary : UnaryHistory normRead :=
+    unary_cont_closed vUnary rUnary normRoute
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed normReadUnary mUnary metricRoute
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed metricReadUnary qUnary completionRoute
+  have structuralReadUnary : UnaryHistory structuralRead :=
+    unary_cont_closed completionReadUnary hUnary structuralRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed pUnary cUnary namedRoute
+  have zeroNormUnary : UnaryHistory zeroNorm :=
+    unary_cont_closed nUnary vUnary zeroNormRoute
+  have zeroRouteUnary : UnaryHistory zeroRoute :=
+    unary_cont_closed vUnary zeroNormUnary zeroRouteRoute
+  exact
+    ⟨normReadUnary, metricReadUnary, completionReadUnary, structuralReadUnary,
+      namedReadUnary, zeroNormUnary, zeroRouteUnary, provenancePkg, structuralPkg, namedPkg⟩
+
 end BEDC.Derived.NormedSpaceUp
