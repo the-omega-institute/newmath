@@ -253,6 +253,103 @@ theorem CauchySeedCarrierBoundary
     ⟨windowClosed, toleranceClosed, readbackClosed, sealClosed, transportClosed, replayClosed,
       provenanceClosed, nameClosed⟩
 
+theorem CauchySeedNameCertObligation [AskSetup] [PackageSetup]
+    {S W D R E H C P N window tolerance readback sealRow transport replay provenance
+      nameRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory S →
+      UnaryHistory W →
+        UnaryHistory D →
+          UnaryHistory R →
+            UnaryHistory E →
+              UnaryHistory H →
+                UnaryHistory C →
+                  UnaryHistory P →
+                    UnaryHistory N →
+                      Cont S W window →
+                        Cont window D tolerance →
+                          Cont tolerance R readback →
+                            Cont readback E sealRow →
+                              Cont sealRow H transport →
+                                Cont transport C replay →
+                                  Cont replay P provenance →
+                                    Cont provenance N nameRoute →
+                                      PkgSig bundle P pkg →
+                                        PkgSig bundle N pkg →
+                                          SemanticNameCert
+                                              (fun row : BHist =>
+                                                hsame row nameRoute ∧ UnaryHistory row)
+                                              (fun row : BHist =>
+                                                hsame row sealRow ∨ hsame row transport ∨
+                                                  hsame row replay ∨ hsame row provenance ∨
+                                                    hsame row nameRoute)
+                                              (fun row : BHist =>
+                                                UnaryHistory row ∧ PkgSig bundle P pkg ∧
+                                                  PkgSig bundle N pkg)
+                                              hsame ∧
+                                            UnaryHistory window ∧ UnaryHistory tolerance ∧
+                                              UnaryHistory readback ∧ UnaryHistory sealRow ∧
+                                                UnaryHistory transport ∧ UnaryHistory replay ∧
+                                                  UnaryHistory provenance ∧
+                                                    UnaryHistory nameRoute := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro sourceUnary windowUnary toleranceUnary readbackUnary sealUnary transportUnary replayUnary
+    provenanceUnary nameUnary sourceWindow windowTolerance toleranceReadback readbackSeal
+    sealTransport transportReplay replayProvenance provenanceName provenancePkg namePkg
+  have windowClosed : UnaryHistory window :=
+    unary_cont_closed sourceUnary windowUnary sourceWindow
+  have toleranceClosed : UnaryHistory tolerance :=
+    unary_cont_closed windowClosed toleranceUnary windowTolerance
+  have readbackClosed : UnaryHistory readback :=
+    unary_cont_closed toleranceClosed readbackUnary toleranceReadback
+  have sealClosed : UnaryHistory sealRow :=
+    unary_cont_closed readbackClosed sealUnary readbackSeal
+  have transportClosed : UnaryHistory transport :=
+    unary_cont_closed sealClosed transportUnary sealTransport
+  have replayClosed : UnaryHistory replay :=
+    unary_cont_closed transportClosed replayUnary transportReplay
+  have provenanceClosed : UnaryHistory provenance :=
+    unary_cont_closed replayClosed provenanceUnary replayProvenance
+  have nameClosed : UnaryHistory nameRoute :=
+    unary_cont_closed provenanceClosed nameUnary provenanceName
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row nameRoute ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row sealRow ∨ hsame row transport ∨ hsame row replay ∨
+              hsame row provenance ∨ hsame row nameRoute)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro nameRoute ⟨hsame_refl nameRoute, nameClosed⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, provenancePkg, namePkg⟩
+    }
+  exact
+    ⟨cert, windowClosed, toleranceClosed, readbackClosed, sealClosed, transportClosed,
+      replayClosed, provenanceClosed, nameClosed⟩
+
 theorem CauchyRootUnaryAdmission [AskSetup] [PackageSetup]
     {stream request dyadic readback realSeal _transport _replay _provenance _localName tailRead
       toleranceRead realRead : BHist} :
