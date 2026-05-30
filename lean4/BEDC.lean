@@ -3355,6 +3355,7 @@ import BEDC.Derived.FanSpaceUp.TasteGate
 import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FareySequenceUp.DenominatorRefinement
+import BEDC.Derived.FareySequenceUp.DenominatorRefinementInduction
 import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.TasteGate
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
@@ -4633,6 +4634,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceCandidateMediation
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityConsumerBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityHandoffExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CurrentOpenPhaseReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.DecidabilityHandoffVisibility
@@ -6371,6 +6373,7 @@ import BEDC.Derived.RepresentedSpaceUp.RealizationTransport
 import BEDC.Derived.RepresentedSpaceUp.RealizerReadbackWindow
 import BEDC.Derived.RepresentedSpaceUp.ScopePackage
 import BEDC.Derived.RepresentedSpaceUp.StreamNameRepresentationSource
+import BEDC.Derived.RepresentedSpaceUp.StreamnameRealHandoff
 import BEDC.Derived.RepresentedSpaceUp.TargetSealLedgerPackage
 import BEDC.Derived.RepresentedSpaceUp.TranslationNonescape
 import BEDC.Derived.ResearchProgrammeAuditLoopUp.TasteGate
