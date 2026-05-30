@@ -43,6 +43,13 @@ REQUIRED_MANIFEST_FIELDS = {
     "intended_claim_id",
     "license_or_terms",
 }
+FORBIDDEN_PROMOTION_TERMS = (
+    "translation",
+    "protein structure",
+    "physical admissibility",
+    "biological function",
+    "global biological law",
+)
 
 sys.path.insert(0, str(DATA_DIR))
 
@@ -381,6 +388,13 @@ def build_dataset(root: ET.Element, raw_path: Path, url: str) -> Path:
         ],
         "rows": rows,
     }
+    cannot_claim_text = " ".join(dataset["cannot_claim"]).lower()
+    missing_terms = [term for term in FORBIDDEN_PROMOTION_TERMS if term not in cannot_claim_text]
+    rows_without_provenance = [row["row_id"] for row in rows if not row.get("provenance")]
+    if missing_terms:
+        raise ValueError(f"dataset cannot_claim boundary is missing terms: {missing_terms}")
+    if rows_without_provenance:
+        raise ValueError(f"dataset rows are missing provenance: {rows_without_provenance[:5]}")
     dataset_path = DATA_DIR / f"{DATASET_BASENAME}.json"
     payload = json.dumps(dataset, indent=2, sort_keys=True).encode("utf-8") + b"\n"
     dataset_path.write_bytes(payload)

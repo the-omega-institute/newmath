@@ -16,6 +16,19 @@ MANIFEST_DIR = DATA_DIR / "manifests"
 USER_AGENT = "BioReality-data-fetcher/1.0"
 MAX_BYTES = 100 * 1024 * 1024
 CLAIM_ID = "h3.translation_realization.cross_organism.cun_uur_leu_gate"
+ALLOWED_MANIFEST_SOURCE_NAMES = {
+    "ncbi",
+    "uniprot",
+    "ensembl",
+    "gtrnadb",
+    "ena",
+    "arxiv",
+    "biorxiv",
+    "wikipedia",
+    "wikidata",
+    "github",
+    "other",
+}
 
 STANDARD_CODE = {
     "UUU": "F",
@@ -156,6 +169,8 @@ def write_manifest(
     accession_or_id: str,
     license_or_terms: str,
 ) -> None:
+    if source_name not in ALLOWED_MANIFEST_SOURCE_NAMES:
+        raise ValueError(f"manifest source_name is not allowed: {source_name}")
     MANIFEST_DIR.mkdir(parents=True, exist_ok=True)
     manifest = {
         "fetched_at": now_iso(),
