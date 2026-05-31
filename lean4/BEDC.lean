@@ -2146,6 +2146,7 @@ import BEDC.Derived.CompactCauchyCoverUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverShrinkageLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverShrinkageLedgerUp.UniformModulusHandoff
+import BEDC.Derived.CompactDiniModulusUp
 import BEDC.Derived.CompactIntervalFixedPointUp.TasteGate
 import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
@@ -5287,6 +5288,7 @@ import BEDC.Derived.NormalSpaceUp.TopologyConsumerBoundary
 import BEDC.Derived.NormalSpaceUp.UrysohnCozeroLocalization
 import BEDC.Derived.NormalSpaceUp.UrysohnLemmaConsumerExactness
 import BEDC.Derived.NormedSpaceUp
+import BEDC.Derived.NormedSpaceUp.AnalysisConsumerExhaustion
 import BEDC.Derived.NormedSpaceUp.BanachConsumerNonescape
 import BEDC.Derived.NormedSpaceUp.CompletionBudgetEnvelope
 import BEDC.Derived.NormedSpaceUp.RealNormMetricFactorization
@@ -5604,6 +5606,7 @@ import BEDC.Derived.PolishspaceUp.CompleteSeparableHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableMetricRow
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRegSeqRatRealHandoff
+import BEDC.Derived.PolishspaceUp.CompleteSeparableRoute
 import BEDC.Derived.PolishspaceUp.CompleteSeparableUnblockPackage
 import BEDC.Derived.PolishspaceUp.CompletionDensityHandoff
 import BEDC.Derived.PolishspaceUp.CompletionDensityReadback
