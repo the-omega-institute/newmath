@@ -71,6 +71,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "generate": "python scripts/run_bedc_jepa_experiment.py",
             "torch_objective": "python scripts/run_torch_bedc_jepa.py",
             "public_minigrid_probe": "python scripts/probe_public_minigrid.py",
+            "public_jepa_baseline_registry": "python scripts/build_public_jepa_baseline_registry.py",
             "readiness": "python scripts/build_bedc_jepa_readiness.py",
             "test": "python -m pytest -q",
             "paper": "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
@@ -109,6 +110,9 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "minigrid_transition_packet": "reports/bedc_jepa_public_minigrid_transition_packet.json",
         },
         "readiness": "reports/bedc_jepa_readiness.json",
+        "public_baselines": {
+            "jepa_registry": "reports/bedc_jepa_public_baseline_registry.json",
+        },
         "cannot_claim": [
             "public JEPA implementation comparison",
             "robotics benchmark result",

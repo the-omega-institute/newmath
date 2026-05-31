@@ -36,6 +36,18 @@ The paper therefore does not claim that BEDC explains an already trained
 LeJEPA representation.  It proposes a training target in which the distinction
 and the gap are outputs of the world model itself.
 
+\paragraph{Public baseline registry.}
+The quality lab records a public JEPA-family baseline registry rather than
+treating the baseline choice as prose.  The selected first comparison target
+is V-JEPA 2-AC, because its public code is action-conditioned and therefore
+closest to a world-model setting with observation/action streams.  The second
+candidate is LeWorldModel with its LeJEPA-style baseline path, because it
+directly targets stable end-to-end JEPA world modeling from pixels.  The
+registry is currently contract-only: it fixes the expected observation/action
+input, latent prediction or rollout output, and BEDC comparison fields, but it
+does not claim that either public baseline has been executed in this
+workspace.
+
 \paragraph{Contact with Issue 330 and the quality lab.}
 The local quality-lab material supplies an executable evidence envelope, not a
 second semantic source for BEDC.  Its role is to keep the Python side honest:

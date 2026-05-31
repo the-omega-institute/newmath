@@ -1,0 +1,60 @@
+{
+  "candidates": [
+    {
+      "baseline_role": "action-conditioned latent world-model baseline",
+      "bedc_comparison_contract": [
+        "same observation/action stream",
+        "matched latent readback scope where feasible",
+        "BEDC distinction head and gap head evaluated on the same rollout cases",
+        "unlogged error, gap AUROC, certified coverage, and debt reported beside baseline scores"
+      ],
+      "candidate_id": "vjepa2-ac",
+      "current_artifact_status": "not_executed",
+      "expected_input_contract": [
+        "visual observations or video frames",
+        "action sequence or action token stream"
+      ],
+      "expected_output_contract": [
+        "latent rollout or predicted representation",
+        "planning or control-facing latent state"
+      ],
+      "name": "V-JEPA 2-AC",
+      "repository_url": "https://github.com/facebookresearch/vjepa2",
+      "why_relevant": "V-JEPA 2-AC is the closest public JEPA-family contact because it uses action-conditioned latent prediction for world modeling."
+    },
+    {
+      "baseline_role": "LeJEPA-style pixel world-model baseline",
+      "bedc_comparison_contract": [
+        "same pixel benchmark split",
+        "baseline next-embedding prediction metrics",
+        "BEDC objective readback metrics on the declared distinction/gap scope"
+      ],
+      "candidate_id": "leworldmodel-lejepa",
+      "current_artifact_status": "not_executed",
+      "expected_input_contract": [
+        "pixel observations",
+        "benchmark configuration and checkpoint/data path"
+      ],
+      "expected_output_contract": [
+        "next-embedding prediction score",
+        "planning or rollout quality metrics where available"
+      ],
+      "name": "LeWorldModel / LeJEPA baseline",
+      "repository_url": "https://github.com/lucas-maes/le-wm",
+      "why_relevant": "LeWorldModel reports stable end-to-end JEPA world modeling from pixels and publishes LeJEPA baseline checkpoints and data pointers."
+    }
+  ],
+  "execution_status": {
+    "reason": "no public JEPA-family baseline has been cloned, vendored, or executed in this workspace",
+    "status": "missing"
+  },
+  "next_actions": [
+    "clone or vendor the selected public baseline in an approved environment",
+    "record the exact commit, checkpoint, dataset, and command line",
+    "run the selected baseline on a public visual/action benchmark",
+    "export baseline metrics into a BEDC-JEPA comparison artifact"
+  ],
+  "schema_id": "bedc-jepa-public-baseline-registry",
+  "selected_candidate_id": "vjepa2-ac",
+  "status": "contract_only"
+}

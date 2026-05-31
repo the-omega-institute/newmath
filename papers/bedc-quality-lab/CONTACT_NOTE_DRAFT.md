@@ -78,6 +78,12 @@ local visual planning, and cluttered object-counterfactual gates pass, while
 public MiniGrid execution and public JEPA baseline comparison are still
 blocking gates.
 
+For the public JEPA baseline side, the registry selects V-JEPA 2-AC as the
+first candidate because it is action-conditioned, with LeWorldModel / LeJEPA as
+the second candidate because it targets stable JEPA world modeling from pixels.
+The registry is contract-only at this stage; no public JEPA baseline has been
+executed in this workspace.
+
 Reproducible local commands:
 
 ```text
@@ -85,6 +91,8 @@ python scripts/run_bedc_jepa_experiment.py
 python scripts/run_torch_bedc_jepa.py
 python scripts/build_bedc_jepa_artifact_manifest.py
 python scripts/probe_public_minigrid.py
+python scripts/build_public_jepa_baseline_registry.py
+python scripts/build_bedc_jepa_readiness.py
 python -m pytest -q
 ```
 

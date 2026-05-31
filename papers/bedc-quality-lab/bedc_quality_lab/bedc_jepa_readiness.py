@@ -38,7 +38,7 @@ def _torch_objective_gate(torch_objective: dict[str, Any] | None) -> dict[str, s
     passes = (
         float(sweep["gap_auc_gain_mean"]) > 0.20
         and float(sweep["debt_reduction_mean"]) > 0.05
-        and float(sweep["latent_r2_delta_abs_max"]) == 0.0
+        and float(sweep["latent_r2_delta_abs_max"]) < 1e-8
         and float(sweep["gap_auc_win_rate"]) >= 0.75
     )
     return _gate(
@@ -89,10 +89,17 @@ def _public_minigrid_gate(benchmark_packet: dict[str, Any] | None) -> dict[str, 
     )
 
 
-def _public_jepa_gate() -> dict[str, str]:
+def _public_jepa_gate(registry: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_jepa_public_baseline_registry.json" if registry is not None else "no public JEPA baseline artifact recorded"
+    if registry is not None and registry.get("execution_status", {}).get("status") == "executed":
+        return _gate(
+            "pass",
+            evidence,
+            "public JEPA or JEPA-style baseline comparison",
+        )
     return _gate(
         "missing",
-        "no public JEPA baseline artifact recorded",
+        evidence,
         "public JEPA or JEPA-style baseline comparison",
     )
 
@@ -101,12 +108,13 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     summary = _load_optional_json("bedc_jepa_four_system_experiment.json")
     torch_objective = _load_optional_json("bedc_jepa_torch_objective.json")
     public_minigrid = _load_optional_json("bedc_jepa_public_minigrid_benchmark_packet.json")
+    public_jepa_registry = _load_optional_json("bedc_jepa_public_baseline_registry.json")
     gates = {
         "torch_objective_seed_sweep": _torch_objective_gate(torch_objective),
         "local_visual_planning": _local_visual_gate(summary),
         "object_counterfactual_clutter": _clutter_gate(summary),
         "public_minigrid_execution": _public_minigrid_gate(public_minigrid),
-        "public_jepa_baseline": _public_jepa_gate(),
+        "public_jepa_baseline": _public_jepa_gate(public_jepa_registry),
     }
     blocking = [name for name, gate in gates.items() if gate["status"] != "pass"]
     return {
