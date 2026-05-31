@@ -1,9 +1,8 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
-import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CompletionUniformFunctorialEnvelopeUp
+namespace BEDC.Derived.CompletionUniformFunctorialEnvelopeUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -14,13 +13,13 @@ inductive CompletionUniformFunctorialEnvelopeUp : Type where
   | mk (U M F L S R A H C P N : BHist) : CompletionUniformFunctorialEnvelopeUp
   deriving DecidableEq
 
-def completionUniformFunctorialEnvelopeEncodeBHist : BHist → RawEvent
+def completionUniformFunctorialEnvelopeEncodeBHist : BHist → List BMark
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: completionUniformFunctorialEnvelopeEncodeBHist h
   | BHist.e1 h => BMark.b1 :: completionUniformFunctorialEnvelopeEncodeBHist h
 
-def completionUniformFunctorialEnvelopeDecodeBHist : RawEvent → BHist
+def completionUniformFunctorialEnvelopeDecodeBHist : List BMark → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (completionUniformFunctorialEnvelopeDecodeBHist tail)
@@ -29,7 +28,8 @@ def completionUniformFunctorialEnvelopeDecodeBHist : RawEvent → BHist
 private theorem CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEncodeBHist h) = h := by
+          (completionUniformFunctorialEnvelopeEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -44,19 +44,18 @@ def completionUniformFunctorialEnvelopeFields :
       [U, M, F, L, S, R, A, H, C, P, N]
 
 def completionUniformFunctorialEnvelopeToEventFlow :
-    CompletionUniformFunctorialEnvelopeUp → EventFlow :=
+    CompletionUniformFunctorialEnvelopeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (completionUniformFunctorialEnvelopeFields x).map
-      completionUniformFunctorialEnvelopeEncodeBHist
+  | x =>
+      (completionUniformFunctorialEnvelopeFields x).map
+        completionUniformFunctorialEnvelopeEncodeBHist
 
-private def completionUniformFunctorialEnvelopeEventAtDefault : Nat → EventFlow → RawEvent
+private def completionUniformFunctorialEnvelopeEventAt : Nat → EventFlow → List BMark
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      completionUniformFunctorialEnvelopeEventAtDefault index rest
+  | Nat.succ index, _event :: rest => completionUniformFunctorialEnvelopeEventAt index rest
 
 def completionUniformFunctorialEnvelopeFromEventFlow
     (ef : EventFlow) : Option CompletionUniformFunctorialEnvelopeUp :=
@@ -64,61 +63,61 @@ def completionUniformFunctorialEnvelopeFromEventFlow
   some
     (CompletionUniformFunctorialEnvelopeUp.mk
       (completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEventAtDefault 0 ef))
+        (completionUniformFunctorialEnvelopeEventAt 0 ef))
       (completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEventAtDefault 1 ef))
+        (completionUniformFunctorialEnvelopeEventAt 1 ef))
       (completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEventAtDefault 2 ef))
+        (completionUniformFunctorialEnvelopeEventAt 2 ef))
       (completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEventAtDefault 3 ef))
+        (completionUniformFunctorialEnvelopeEventAt 3 ef))
       (completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEventAtDefault 4 ef))
+        (completionUniformFunctorialEnvelopeEventAt 4 ef))
       (completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEventAtDefault 5 ef))
+        (completionUniformFunctorialEnvelopeEventAt 5 ef))
       (completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEventAtDefault 6 ef))
+        (completionUniformFunctorialEnvelopeEventAt 6 ef))
       (completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEventAtDefault 7 ef))
+        (completionUniformFunctorialEnvelopeEventAt 7 ef))
       (completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEventAtDefault 8 ef))
+        (completionUniformFunctorialEnvelopeEventAt 8 ef))
       (completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEventAtDefault 9 ef))
+        (completionUniformFunctorialEnvelopeEventAt 9 ef))
       (completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEventAtDefault 10 ef)))
+        (completionUniformFunctorialEnvelopeEventAt 10 ef)))
 
-private theorem CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : CompletionUniformFunctorialEnvelopeUp,
-      completionUniformFunctorialEnvelopeFromEventFlow
-        (completionUniformFunctorialEnvelopeToEventFlow x) = some x := by
+private theorem CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_round_trip
+    (x : CompletionUniformFunctorialEnvelopeUp) :
+    completionUniformFunctorialEnvelopeFromEventFlow
+        (completionUniformFunctorialEnvelopeToEventFlow x) =
+      some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk U M F L S R A H C P N =>
       change
         some
-            (CompletionUniformFunctorialEnvelopeUp.mk
-              (completionUniformFunctorialEnvelopeDecodeBHist
-                (completionUniformFunctorialEnvelopeEncodeBHist U))
-              (completionUniformFunctorialEnvelopeDecodeBHist
-                (completionUniformFunctorialEnvelopeEncodeBHist M))
-              (completionUniformFunctorialEnvelopeDecodeBHist
-                (completionUniformFunctorialEnvelopeEncodeBHist F))
-              (completionUniformFunctorialEnvelopeDecodeBHist
-                (completionUniformFunctorialEnvelopeEncodeBHist L))
-              (completionUniformFunctorialEnvelopeDecodeBHist
-                (completionUniformFunctorialEnvelopeEncodeBHist S))
-              (completionUniformFunctorialEnvelopeDecodeBHist
-                (completionUniformFunctorialEnvelopeEncodeBHist R))
-              (completionUniformFunctorialEnvelopeDecodeBHist
-                (completionUniformFunctorialEnvelopeEncodeBHist A))
-              (completionUniformFunctorialEnvelopeDecodeBHist
-                (completionUniformFunctorialEnvelopeEncodeBHist H))
-              (completionUniformFunctorialEnvelopeDecodeBHist
-                (completionUniformFunctorialEnvelopeEncodeBHist C))
-              (completionUniformFunctorialEnvelopeDecodeBHist
-                (completionUniformFunctorialEnvelopeEncodeBHist P))
-              (completionUniformFunctorialEnvelopeDecodeBHist
-                (completionUniformFunctorialEnvelopeEncodeBHist N))) =
+          (CompletionUniformFunctorialEnvelopeUp.mk
+            (completionUniformFunctorialEnvelopeDecodeBHist
+              (completionUniformFunctorialEnvelopeEncodeBHist U))
+            (completionUniformFunctorialEnvelopeDecodeBHist
+              (completionUniformFunctorialEnvelopeEncodeBHist M))
+            (completionUniformFunctorialEnvelopeDecodeBHist
+              (completionUniformFunctorialEnvelopeEncodeBHist F))
+            (completionUniformFunctorialEnvelopeDecodeBHist
+              (completionUniformFunctorialEnvelopeEncodeBHist L))
+            (completionUniformFunctorialEnvelopeDecodeBHist
+              (completionUniformFunctorialEnvelopeEncodeBHist S))
+            (completionUniformFunctorialEnvelopeDecodeBHist
+              (completionUniformFunctorialEnvelopeEncodeBHist R))
+            (completionUniformFunctorialEnvelopeDecodeBHist
+              (completionUniformFunctorialEnvelopeEncodeBHist A))
+            (completionUniformFunctorialEnvelopeDecodeBHist
+              (completionUniformFunctorialEnvelopeEncodeBHist H))
+            (completionUniformFunctorialEnvelopeDecodeBHist
+              (completionUniformFunctorialEnvelopeEncodeBHist C))
+            (completionUniformFunctorialEnvelopeDecodeBHist
+              (completionUniformFunctorialEnvelopeEncodeBHist P))
+            (completionUniformFunctorialEnvelopeDecodeBHist
+              (completionUniformFunctorialEnvelopeEncodeBHist N))) =
           some (CompletionUniformFunctorialEnvelopeUp.mk U M F L S R A H C P N)
       rw [CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_decode U,
         CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_decode M,
@@ -132,7 +131,7 @@ private theorem CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alig
         CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_decode P,
         CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_decode N]
 
-private theorem CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_injective
     {x y : CompletionUniformFunctorialEnvelopeUp} :
     completionUniformFunctorialEnvelopeToEventFlow x =
         completionUniformFunctorialEnvelopeToEventFlow y →
@@ -151,6 +150,20 @@ private theorem CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alig
       (Eq.trans hread
         (CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_round_trip y)))
 
+private theorem CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_fields :
+    ∀ x y : CompletionUniformFunctorialEnvelopeUp,
+      completionUniformFunctorialEnvelopeFields x =
+          completionUniformFunctorialEnvelopeFields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk U₁ M₁ F₁ L₁ S₁ R₁ A₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk U₂ M₂ F₂ L₂ S₂ R₂ A₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
+
 instance completionUniformFunctorialEnvelopeBHistCarrier :
     BHistCarrier CompletionUniformFunctorialEnvelopeUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -164,26 +177,49 @@ instance completionUniformFunctorialEnvelopeChapterTasteGate :
     intro x
     change
       completionUniformFunctorialEnvelopeFromEventFlow
-        (completionUniformFunctorialEnvelopeToEventFlow x) = some x
+          (completionUniformFunctorialEnvelopeToEventFlow x) =
+        some x
     exact CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_toEventFlow_injective
-        heq)
+    exact hxy (CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_injective heq)
+
+instance completionUniformFunctorialEnvelopeFieldFaithful :
+    FieldFaithful CompletionUniformFunctorialEnvelopeUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := completionUniformFunctorialEnvelopeFields
+  field_faithful := CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_fields
+
+def taste_gate : ChapterTasteGate CompletionUniformFunctorialEnvelopeUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  completionUniformFunctorialEnvelopeChapterTasteGate
+
+def taste_gate_witness : FieldFaithful CompletionUniformFunctorialEnvelopeUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  completionUniformFunctorialEnvelopeFieldFaithful
 
 theorem CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       completionUniformFunctorialEnvelopeDecodeBHist
-        (completionUniformFunctorialEnvelopeEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier CompletionUniformFunctorialEnvelopeUp) ∧
-        Nonempty (ChapterTasteGate CompletionUniformFunctorialEnvelopeUp) ∧
+          (completionUniformFunctorialEnvelopeEncodeBHist h) =
+        h) ∧
+      (∀ x : CompletionUniformFunctorialEnvelopeUp,
+        completionUniformFunctorialEnvelopeFromEventFlow
+            (completionUniformFunctorialEnvelopeToEventFlow x) =
+          some x) ∧
+        (∀ x y : CompletionUniformFunctorialEnvelopeUp,
+          completionUniformFunctorialEnvelopeToEventFlow x =
+              completionUniformFunctorialEnvelopeToEventFlow y →
+            x = y) ∧
           completionUniformFunctorialEnvelopeEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_decode,
-      ⟨completionUniformFunctorialEnvelopeBHistCarrier⟩,
-      ⟨completionUniformFunctorialEnvelopeChapterTasteGate⟩,
-      rfl⟩
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  constructor
+  · exact CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_decode
+  constructor
+  · exact CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact CompletionUniformFunctorialEnvelopeTasteGate_single_carrier_alignment_injective heq
+  · rfl
 
-end BEDC.Derived.CompletionUniformFunctorialEnvelopeUp
+end BEDC.Derived.CompletionUniformFunctorialEnvelopeUp.TasteGate

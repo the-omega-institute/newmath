@@ -28,6 +28,19 @@ export BEDC.MetaCIC (
   not_subjectReductionDischargeBundle
 )
 
+theorem not_appArgTypeStable : ¬ AppArgTypeStable := by
+  exact BEDC.MetaCIC.not_appArgTypeStable
+
+theorem not_lamDomainSubjectReduction : ¬ LamDomainSubjectReduction := by
+  exact BEDC.MetaCIC.not_lamDomainSubjectReduction
+
+theorem not_piDomainSubjectReduction : ¬ PiDomainSubjectReduction := by
+  exact BEDC.MetaCIC.not_piDomainSubjectReduction
+
+theorem not_subjectReductionDischargeBundle :
+    ¬ SubjectReductionDischargeBundle := by
+  exact BEDC.MetaCIC.not_subjectReductionDischargeBundle
+
 -- Closed term operations
 export BEDC.MetaCIC (shift_closed substitute_closed)
 
