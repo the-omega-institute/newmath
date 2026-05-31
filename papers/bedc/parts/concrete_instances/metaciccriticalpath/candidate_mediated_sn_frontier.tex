@@ -610,6 +610,31 @@ Next apply closed-normal-form readback and normal-form discharge, \autoref{thm:m
 Finally use socket exhaustion, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}, together with socket separation in \autoref{thm:metacic-critical-path-candidate-mediated-frontier-socket-separation}. Once the candidate-mediated rows and L10 faces have been consumed, no hidden coordinate remains for closed subject reduction. A closed subject-reduction consumer must therefore cite a separate subject-reduction row before proceeding, and the refused confluence, beta-decidability, quotient-equality, selected-limit, host-equality, and Real-completeness claims remain outside the packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC subject-reduction socket readiness]
+\label{thm:metacic-criticalpath-subject-reduction-socket-readiness}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. A subject-reduction consumer may inspect the normal-form discharge only after the candidate row $S$, normal-form row $N$, handoff row $U$, subject-reduction socket $D$, and the L10 rows
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp
+$$
+are all visible. Candidate-mediated strong normalization by itself is readiness data for the socket; it is not a closed subject-reduction proof, not full confluence, not beta-conversion decidability, not quotient term equality, and not ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the subject-reduction socket theorem \autoref{thm:metacic-critical-path-candidate-mediated-frontier-subject-reduction-socket}. It keeps $D$ separate from $S,N,U,H,C,P,L$ and requires a closed subject-reduction consumer to cite a separate row before proceeding.
+
+Next read the normal-form discharge theorem \autoref{thm:metacic-critical-path-candidate-mediated-frontier-normal-form-discharge}. Its discharge surface lists the candidate row, the normal-form endpoint, the handoff row, the socket, the structural rows, and the four L10 faces as the finite boundary visible to the consumer.
+
+Apply the L10 readback theorem \autoref{thm:metacic-criticalpath-candidate-mediated-sn-l10-readback} and the dependency seal \autoref{thm:metacic-criticalpath-candidate-sn-l10-dependency-seal}. These force $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ to be displayed before Phase Real, Completion, or confluence-facing inspection of the normal-form boundary.
+
+Finally use socket exhaustion and discharge coverage, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion} and \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}. They leave no hidden coordinate that can turn candidate-mediated SN into closed subject reduction, so the visible rows are readiness data only.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate SN L10 dependency seal]
 \label{thm:metacic-criticalpath-candidate-sn-l10-dependency-seal}
 Let

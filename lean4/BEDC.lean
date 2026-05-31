@@ -776,6 +776,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.RegularSubsequenceWindowReadback
 import BEDC.Derived.BolzanoWeierstrassUp.RetainedCellMonotonicity
 import BEDC.Derived.BolzanoWeierstrassUp.RootIntervalTreeObligation
 import BEDC.Derived.BolzanoWeierstrassUp.RootRealSealObligation
+import BEDC.Derived.BolzanoWeierstrassUp.SourceNetExhaustion
 import BEDC.Derived.BolzanoWeierstrassUp.SubsequenceNonescape
 import BEDC.Derived.BolzanoWeierstrassUp.SubsequenceWindowPublicity
 import BEDC.Derived.BolzanoWeierstrassUp.TailModulusWindowStability
@@ -1957,6 +1958,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.RealSealNonescape
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealRootHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.RegSeqRatWindow
 import BEDC.Derived.ClosedBoundedIntervalUp.RootConsumerCompleteness
+import BEDC.Derived.ClosedBoundedIntervalUp.RootConsumerObligations
 import BEDC.Derived.ClosedBoundedIntervalUp.RootCoverRefinementSource
 import BEDC.Derived.ClosedBoundedIntervalUp.RootNetReadiness
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceCarrierAdmission
@@ -3373,6 +3375,7 @@ import BEDC.Derived.EpistemicWitnessUp.TasteGate
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
+import BEDC.Derived.EquicontinuityFiniteNetSelectorUp.TasteGate
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.ErgodicUp
@@ -3469,6 +3472,7 @@ import BEDC.Derived.FieldUp
 import BEDC.Derived.FieldUp.Affine
 import BEDC.Derived.FieldUp.AffineAutomorphismGroupCertificate
 import BEDC.Derived.FieldUp.AffineCancellationExactness
+import BEDC.Derived.FieldUp.AffineCentralizerNormalizerAction
 import BEDC.Derived.FieldUp.AffineCentralizerNormalizerSubgroup
 import BEDC.Derived.FieldUp.AffineCompositeInverseReverseCoherence
 import BEDC.Derived.FieldUp.AffineCompositeProductWitnessIndependence
@@ -4720,6 +4724,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceAuditDependencyExposure
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceCandidateMediation
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityConsumerBoundary
+import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityFrontierDischargeReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityHandoffExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualDischarge
@@ -4753,6 +4758,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10FaceLeantargetLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceClosureReadiness
+import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceConsumerThreshold
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceDischargeReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationDischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
@@ -4792,6 +4798,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatCandidateNormalizationRoute
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatReadbackReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetDischargeFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetSocketRoute
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualConfluenceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.RootDischargeExactness
 import BEDC.Derived.MetaCICCriticalPathUp.RootRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.RootUnblockAdmission
@@ -6522,6 +6529,7 @@ import BEDC.Derived.RepresentationRingUp.TasteGate
 import BEDC.Derived.RepresentedSpaceUp
 import BEDC.Derived.RepresentedSpaceUp.AdmissibleFinality
 import BEDC.Derived.RepresentedSpaceUp.AdmissibleNameCoverage
+import BEDC.Derived.RepresentedSpaceUp.CauchyNameScopePackage
 import BEDC.Derived.RepresentedSpaceUp.CompletionBoundaryRefusal
 import BEDC.Derived.RepresentedSpaceUp.EffectiveMetricRealizerHandoff
 import BEDC.Derived.RepresentedSpaceUp.RealizationExactness
