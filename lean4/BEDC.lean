@@ -747,6 +747,7 @@ import BEDC.Derived.BlaschkeSelectionCompactHyperspaceUp.TasteGate
 import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedSequenceSource
+import BEDC.Derived.BolzanoWeierstrassUp.BoundedSubsequenceCauchyExtraction
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedWindowInduction
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedWindowNonemptyExtraction
 import BEDC.Derived.BolzanoWeierstrassUp.ClosedIntervalClusterHandoff
@@ -776,6 +777,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.RegularSubsequenceWindowReadback
 import BEDC.Derived.BolzanoWeierstrassUp.RetainedCellMonotonicity
 import BEDC.Derived.BolzanoWeierstrassUp.RootIntervalTreeObligation
 import BEDC.Derived.BolzanoWeierstrassUp.RootRealSealObligation
+import BEDC.Derived.BolzanoWeierstrassUp.SourceNetExhaustion
 import BEDC.Derived.BolzanoWeierstrassUp.SubsequenceNonescape
 import BEDC.Derived.BolzanoWeierstrassUp.SubsequenceWindowPublicity
 import BEDC.Derived.BolzanoWeierstrassUp.TailModulusWindowStability
@@ -957,6 +959,7 @@ import BEDC.Derived.BoundedRealSequenceUp.BolzanoSourceExactness
 import BEDC.Derived.BoundedRealSequenceUp.DyadicBoundTransport
 import BEDC.Derived.BoundedRealSequenceUp.FiniteWindowNetExtraction
 import BEDC.Derived.BoundedRealSequenceUp.LocatedBoundHandoff
+import BEDC.Derived.BoundedRealSequenceUp.LocatedWindowChoice
 import BEDC.Derived.BoundedRealSequenceUp.NameCertObligations
 import BEDC.Derived.BoundedRealSequenceUp.RegularReadbackStability
 import BEDC.Derived.BoundedRealSequenceUp.TasteGate
@@ -1958,6 +1961,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.RealSealNonescape
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealRootHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.RegSeqRatWindow
 import BEDC.Derived.ClosedBoundedIntervalUp.RootConsumerCompleteness
+import BEDC.Derived.ClosedBoundedIntervalUp.RootConsumerObligations
 import BEDC.Derived.ClosedBoundedIntervalUp.RootCoverRefinementSource
 import BEDC.Derived.ClosedBoundedIntervalUp.RootNetReadiness
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceCarrierAdmission
@@ -3617,6 +3621,7 @@ import BEDC.Derived.FiniteGroupRepresentationUp.TasteGate
 import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteIntersectionPropertyUp.TasteGate
 import BEDC.Derived.FiniteKernelCategoryUp.Carrier
+import BEDC.Derived.FiniteKernelCategoryUp.NameCertObligations
 import BEDC.Derived.FiniteKernelCategoryUp.TasteGate
 import BEDC.Derived.FiniteLebesgueNumberUp
 import BEDC.Derived.FiniteLebesgueNumberUp.BridgePacketExactness
