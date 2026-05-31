@@ -748,6 +748,7 @@ import BEDC.Derived.BitVectorUp.TasteGate
 import BEDC.Derived.BlaschkeSelectionCompactHyperspaceUp.TasteGate
 import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
+import BEDC.Derived.BolzanoWeierstrassUp.BoundedSequenceAdmission
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedSequenceSource
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedSubsequenceCauchyExtraction
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedWindowInduction
@@ -1973,6 +1974,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.ModulusWindowTransport
 import BEDC.Derived.ClosedBoundedIntervalUp.NestedCompactnessHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.NetHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.ObligationClosure
+import BEDC.Derived.ClosedBoundedIntervalUp.PublicExport
 import BEDC.Derived.ClosedBoundedIntervalUp.RealCauchyModulusHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealNonescape
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealRootHandoff
@@ -5205,6 +5207,7 @@ import BEDC.Derived.MooreSmithConvergenceUp
 import BEDC.Derived.MooreSmithConvergenceUp.DirectedWindowTotality
 import BEDC.Derived.MooreSmithConvergenceUp.LedgerRefusal
 import BEDC.Derived.MooreSmithConvergenceUp.TasteGate
+import BEDC.Derived.MooreSmithNetUp.TasteGate
 import BEDC.Derived.MulUp.TasteGate
 import BEDC.Derived.MultiHistConfigUp
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
@@ -6329,6 +6332,7 @@ import BEDC.Derived.RegularCauchyAdditionUp.TasteGate
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessOrderUp.TasteGate
+import BEDC.Derived.RegularCauchyApartnessReflectorUp
 import BEDC.Derived.RegularCauchyAverageUp
 import BEDC.Derived.RegularCauchyAverageUp.TasteGate
 import BEDC.Derived.RegularCauchyBallUp.TasteGate
