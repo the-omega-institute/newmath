@@ -15,89 +15,6 @@ theorem PackageReflection_base
       have y_to_y0 := tok.tokenReplacement right right0
       exact eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
 
-theorem base_package_reflection
-    {s : BaseReflectionSetup} {P : s.Pi}
-    (eqv : HSameEquiv s) (tok : TokUnique s P)
-    {x y : s.SigObj} {p q : s.Pkg}
-    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
-    (base : PsameBase s P p q) : s.hsame x y := by
-  cases base with
-  | intro left0 right0 same0 =>
-      have x_to_x0 := tok.tokenReplacement left left0
-      have y_to_y0 := tok.tokenReplacement right right0
-      exact eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
-
-theorem package_reflection_base
-    {s : BaseReflectionSetup} {P : s.Pi}
-    (eqv : HSameEquiv s) (tok : TokUnique s P)
-    {x y : s.SigObj} {p q : s.Pkg}
-    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
-    (base : PsameBase s P p q) : s.hsame x y := by
-  cases base with
-  | intro left0 right0 same0 =>
-      have x_to_x0 := tok.tokenReplacement left left0
-      have y_to_y0 := tok.tokenReplacement right right0
-      exact eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
-
-theorem PackageReflection_base_witness_chain
-    {s : BaseReflectionSetup} {P : s.Pi}
-    (eqv : HSameEquiv s) (tok : TokUnique s P)
-    {x y : s.SigObj} {p q : s.Pkg}
-    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
-    (base : PsameBase s P p q) :
-    ∃ x0 : s.SigObj, ∃ y0 : s.SigObj,
-      s.TokIntro P x0 p ∧ s.TokIntro P y0 q ∧
-        s.hsame x x0 ∧ s.hsame x0 y0 ∧ s.hsame y0 y := by
-  cases base with
-  | intro left0 right0 same0 =>
-      have x_to_x0 := tok.tokenReplacement left left0
-      have y_to_y0 := tok.tokenReplacement right right0
-      exact Exists.intro _
-        (Exists.intro _
-          (And.intro left0
-            (And.intro right0
-              (And.intro x_to_x0
-                (And.intro same0 (eqv.symm y_to_y0))))))
-
-theorem PackageReflection_base_three_step_chain
-    {s : BaseReflectionSetup} {P : s.Pi}
-    (eqv : HSameEquiv s) (tok : TokUnique s P)
-    {x y : s.SigObj} {p q : s.Pkg}
-    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
-    (base : PsameBase s P p q) :
-    exists x0, exists y0,
-      s.TokIntro P x0 p /\ s.TokIntro P y0 q /\
-        s.hsame x x0 /\ s.hsame x0 y0 /\ s.hsame y0 y /\ s.hsame x y := by
-  cases base with
-  | intro left0 right0 same0 =>
-      have x_to_x0 := tok.tokenReplacement left left0
-      have y_to_y0 := tok.tokenReplacement right right0
-      have y0_to_y := eqv.symm y_to_y0
-      have x_to_y := eqv.trans x_to_x0 (eqv.trans same0 y0_to_y)
-      exact Exists.intro _
-        (Exists.intro _
-          (And.intro left0
-            (And.intro right0
-              (And.intro x_to_x0
-                (And.intro same0
-                  (And.intro y0_to_y x_to_y))))))
-
-theorem active_token_mode_reflects_base
-    {s : BaseReflectionSetup} {P : s.Pi}
-    (eqv : HSameEquiv s) (mode : PolicyTokenMode s P)
-    {x y : s.SigObj} {p q : s.Pkg} :
-    s.TokIntro P x p → s.TokIntro P y q → PsameBase s P p q → s.hsame x y := by
-  intro left right base
-  exact PackageReflection_base eqv mode left right base
-
-theorem PackageReflection_base_from_policy
-    {s : BaseReflectionSetup} {P : s.Pi}
-    (eqv : HSameEquiv s) (mode : PolicyTokenMode s P)
-    {x y : s.SigObj} {p q : s.Pkg}
-    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
-    (base : PsameBase s P p q) : s.hsame x y := by
-  exact PackageReflection_base eqv mode left right base
-
 theorem PackageReflection_base_from_data
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)
@@ -108,14 +25,6 @@ theorem PackageReflection_base_from_data
   | mk x0 y0 left0 right0 same0 =>
       exact eqv.trans (tok.tokenReplacement left left0)
         (eqv.trans same0 (eqv.symm (tok.tokenReplacement right right0)))
-
-theorem BaseReflection_active
-    {s : BaseReflectionSetup} {P : s.Pi}
-    (eqv : HSameEquiv s) (tok : TokUnique s P)
-    {x y : s.SigObj} {p q : s.Pkg}
-    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
-    (base : PsameBase s P p q) : s.hsame x y := by
-  exact PackageReflection_base eqv tok left right base
 
 theorem PackageReflection_base_from_canonical
     {s : BaseReflectionSetup} {P : s.Pi}
@@ -133,36 +42,6 @@ theorem StableReflectionContract_from_canonical
     (base : PsameBase s P p q) : s.hsame x y := by
   exact PackageReflection_base_from_canonical eqv mode left right base
 
-theorem PackageReflection_token_unique
-    {s : BaseReflectionSetup} {P : s.Pi}
-    (eqv : HSameEquiv s) (tok : TokUnique s P)
-    {x y : s.SigObj} {p q : s.Pkg}
-    (left : s.TokIntro P x p) (right : s.TokIntro P y q)
-    (base : PsameBase s P p q) : s.hsame x y := by
-  exact PackageReflection_base eqv tok left right base
-
-theorem PackageReflection_token_unique_witness_chain
-    {s : BaseReflectionSetup} {P : s.Pi}
-    (eqv : HSameEquiv s) (tok : TokUnique s P)
-    {x y x0 y0 : s.SigObj} {p q : s.Pkg} :
-    s.TokIntro P x p → s.TokIntro P y q → s.TokIntro P x0 p →
-      s.TokIntro P y0 q → s.hsame x0 y0 → s.hsame x y := by
-  intro left right left0 right0 same0
-  exact eqv.trans (eqv.trans (tok.tokenReplacement left left0) same0)
-    (eqv.symm (tok.tokenReplacement right right0))
-
-theorem PackageReflection_token_unique_symmetric_chain
-    {s : BaseReflectionSetup} {P : s.Pi}
-    (eqv : HSameEquiv s) (tok : TokUnique s P)
-    {x y x0 y0 : s.SigObj} {p q : s.Pkg} :
-    s.TokIntro P x p → s.TokIntro P y q → s.TokIntro P x0 p →
-      s.TokIntro P y0 q → s.hsame x0 y0 → s.hsame x y ∧ s.hsame y x := by
-  intro left right left0 right0 same0
-  have x_to_x0 := tok.tokenReplacement left left0
-  have y_to_y0 := tok.tokenReplacement right right0
-  have x_to_y := eqv.trans (eqv.trans x_to_x0 same0) (eqv.symm y_to_y0)
-  exact And.intro x_to_y (eqv.symm x_to_y)
-
 theorem PackageReflection_token_unique_from_inversion
     {s : BaseReflectionSetup} {P : s.Pi}
     (eqv : HSameEquiv s) (tok : TokUnique s P)
@@ -172,20 +51,6 @@ theorem PackageReflection_token_unique_from_inversion
   cases data with
   | intro d =>
       exact PackageReflection_base_from_data eqv tok left right d
-
-theorem PsameBase_iff_hsame_under_tok_unique
-    {s : BaseReflectionSetup} {P : s.Pi}
-    (eqv : HSameEquiv s) (tok : TokUnique s P)
-    {x y : s.SigObj} {p q : s.Pkg}
-    (left : s.TokIntro P x p) (right : s.TokIntro P y q) :
-    PsameBase s P p q ↔ s.hsame x y := by
-  constructor
-  case mp =>
-    intro base
-    exact PackageReflection_base eqv tok left right base
-  case mpr =>
-    intro same
-    exact PsameBase.intro left right same
 
 theorem PsameBase_trans_under_tok_unique
     {s : BaseReflectionSetup} {P : s.Pi}
@@ -237,7 +102,13 @@ theorem exact_package_sameness
   constructor
   case left =>
     intro x y p q left right
-    exact PsameBase_iff_hsame_under_tok_unique eqv tok left right
+    constructor
+    case mp =>
+      intro base
+      exact PackageReflection_base eqv tok left right base
+    case mpr =>
+      intro same
+      exact PsameBase.intro left right same
   case right =>
     exact PsameBase_equivalence_under_tok_unique eqv tok introOf
 

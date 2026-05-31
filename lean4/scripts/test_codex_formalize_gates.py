@@ -19,9 +19,6 @@ TOOLS_PATH = REPO_ROOT / "tools"
 if str(TOOLS_PATH) not in sys.path:
     sys.path.insert(0, str(TOOLS_PATH))
 
-from host_context import MissingHostValueError
-
-
 def load_codex_formalize():
     spec = importlib.util.spec_from_file_location("codex_formalize_under_test", SCRIPT_PATH)
     assert spec and spec.loader
@@ -37,17 +34,28 @@ if cf.BASE_BRANCH is None:
 
 
 class HostValueHermeticityTests(unittest.TestCase):
-    def test_import_does_not_require_bedc_host_keys(self):
+    def test_import_uses_default_branch_without_host_keys(self):
         with tempfile.TemporaryDirectory() as td:
             env = {"REPO_ROOT": td, "PATH": os.environ.get("PATH", "")}
             with mock.patch.dict(os.environ, env, clear=True):
                 module = load_codex_formalize()
 
-            self.assertIsNone(module.BASE_BRANCH_DEFAULT)
-            self.assertIsNone(module.BASE_BRANCH)
+            self.assertEqual(module.BASE_BRANCH_DEFAULT, "lean4-codex-auto-dev")
+            self.assertEqual(module.BASE_BRANCH, "lean4-codex-auto-dev")
+            self.assertEqual(module._base_branch_default(), "lean4-codex-auto-dev")
 
-            with self.assertRaisesRegex(MissingHostValueError, "BEDC_LEAN_BASE_BRANCH"):
-                module._base_branch_default()
+    def test_process_env_overrides_default_branch(self):
+        with tempfile.TemporaryDirectory() as td:
+            env = {
+                "REPO_ROOT": td,
+                "PATH": os.environ.get("PATH", ""),
+                "BEDC_LEAN_BASE_BRANCH": "env-lean-base",
+            }
+            with mock.patch.dict(os.environ, env, clear=True):
+                module = load_codex_formalize()
+
+            self.assertEqual(module.BASE_BRANCH_DEFAULT, "env-lean-base")
+            self.assertEqual(module.BASE_BRANCH, "env-lean-base")
 
 
 class CoordinationPersistenceTests(unittest.TestCase):

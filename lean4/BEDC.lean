@@ -755,6 +755,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.ClusterRealSealFactorization
 import BEDC.Derived.BolzanoWeierstrassUp.ClusterRealSealHandoff
 import BEDC.Derived.BolzanoWeierstrassUp.ClusterSealExtraction
 import BEDC.Derived.BolzanoWeierstrassUp.ClusterSealRealNonescape
+import BEDC.Derived.BolzanoWeierstrassUp.CofinalClusterSeal
 import BEDC.Derived.BolzanoWeierstrassUp.CofinalSubsequenceClassifierExactness
 import BEDC.Derived.BolzanoWeierstrassUp.DyadicMeshSubsequenceWitness
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteClusterRetentionLedger
@@ -1923,6 +1924,7 @@ import BEDC.Derived.ClosedBoundedIntervalNetUp.ScopeLedger
 import BEDC.Derived.ClosedBoundedIntervalNetUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.HeineCantorRoute
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.TasteGate
+import BEDC.Derived.ClosedBoundedIntervalUp.CantorIntersectionHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.Classifier
 import BEDC.Derived.ClosedBoundedIntervalUp.CompactUniformSource
 import BEDC.Derived.ClosedBoundedIntervalUp.CompactnessConsumerBoundary
@@ -6216,6 +6218,7 @@ import BEDC.Derived.RegSeqRatUp.TerminalFourFaceSourceUniqueness
 import BEDC.Derived.RegistryChangeContinuityUp.TasteGate
 import BEDC.Derived.RegistryConsistencyAuditUp.TasteGate
 import BEDC.Derived.RegistryExportConsistencyGateUp.Carrier
+import BEDC.Derived.RegistryExportConsistencyGateUp.Classifier
 import BEDC.Derived.RegistryExportConsistencyGateUp.NoConflictExport
 import BEDC.Derived.RegistryExportConsistencyGateUp.SiblingDependency
 import BEDC.Derived.RegistryExportConsistencyGateUp.TasteGate
