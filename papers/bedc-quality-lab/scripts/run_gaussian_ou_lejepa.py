@@ -54,10 +54,17 @@ def _torch_encoder(x: np.ndarray, x_pair: np.ndarray, *, seed: int) -> np.ndarra
         return encoder(x_t).detach().cpu().numpy().astype(np.float64)
 
 
-def run_experiment(*, use_torch: bool = True) -> QualityEvidenceEnvelope:
+def run_experiment(
+    *,
+    use_torch: bool = True,
+    sample_count: int = 384,
+    run_id: str = "gaussian-ou-lejepa-seed-23",
+    envelope_artifact: str = "reports/example_envelope.json",
+    report_artifact: str = "reports/quality_report.md",
+) -> QualityEvidenceEnvelope:
     seed = 23
     rho = 0.82
-    batch = make_toy_batch(384, rho=rho, seed=seed)
+    batch = make_toy_batch(sample_count, rho=rho, seed=seed)
     encoder_name = "standardized-nonlinear-observation"
 
     if use_torch:
@@ -105,7 +112,7 @@ def run_experiment(*, use_torch: bool = True) -> QualityEvidenceEnvelope:
     }
     envelope = QualityEvidenceEnvelope(
         schema_id=SCHEMA_ID,
-        run_id="gaussian-ou-lejepa-seed-23",
+        run_id=run_id,
         source_spec=source_spec,
         pattern_spec=pattern_spec,
         classifier_spec=classifier_spec,
@@ -114,8 +121,8 @@ def run_experiment(*, use_torch: bool = True) -> QualityEvidenceEnvelope:
         ledger_gaps=format_ledger_gaps(ledger_gaps),
         debt_items=format_debt_items(debt_assessment),
         artifacts={
-            "envelope": "reports/example_envelope.json",
-            "report": "reports/quality_report.md",
+            "envelope": envelope_artifact,
+            "report": report_artifact,
         },
         bedc_refs=[
             "papers/bedc/preamble.tex:closurestatus",
