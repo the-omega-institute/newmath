@@ -48,15 +48,15 @@ REPO_ROOT = host_path(
     default=Path(__file__).resolve().parent.parent,
 )
 def _base_branch_default() -> str:
-    return host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", required=True)
+    return host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", default="codex-auto-dev")
 
 
 def _mirror_branch_default() -> str:
-    return host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", required=True)
+    return host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", default="auto-dev")
 
 
-BASE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH")
-MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH")
+BASE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", default="codex-auto-dev")
+MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", default="auto-dev")
 CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 DEFAULT_INTERVAL = 900  # 15 min
 
