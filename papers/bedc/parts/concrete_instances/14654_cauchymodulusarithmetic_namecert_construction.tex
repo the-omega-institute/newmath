@@ -155,6 +155,20 @@ row, host real equality row, or ambient-completeness row, no $\RealUp$ consumer
 can extract such data from the arithmetic packet.
 \end{proof}
 
+\begin{theorem}[Cauchy-modulus arithmetic obligation closure]
+\label{thm:cauchy-modulus-arithmetic-obligation-closure}
+For every accepted $\CauchyModulusArithmeticUp$ carrier $A$, the obligation surface of the local packet is exhausted by carrier admission, classifier transport, the two source modulus schedules, the shared meet row, the sum and product consumer rows, dyadic tolerance exactness, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, Real seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\CauchyModulusArithmeticUp}$ row. No further obligation is supplied by quotient streams, selected limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory of \autoref{def:cauchy-modulus-arithmetic-carrier}. It exposes exactly the two source streams, two modulus schedules, shared meet, arithmetic consumers, tolerance ledger, windows, readbacks, Real seal, and structural rows.
+
+The local NameCert obligations are the five rows of \autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}. The first row admits the displayed packet, the second transports it through the classifier, the third stabilizes the source schedules and arithmetic consumers, the fourth fixes the dyadic tolerance ledger, and the fifth records replay, provenance, Real handoff, and local naming.
+
+The sum route is locked to the shared meet by \autoref{thm:cauchy-modulus-arithmetic-sum-meet-closure}. Thus the arithmetic consumer rows cannot be read without the source schedules, shared threshold, dyadic tolerance ledger, finite windows, and regular rational readbacks.
+
+Finally apply \autoref{thm:cauchy-modulus-arithmetic-real-consumer-boundary}. The Real-facing consumer receives only the displayed route and cannot extract quotient streams, selected limits, host real equality, or ambient completeness. Hence the listed rows exhaust the obligation surface.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\CauchyModulusArithmeticUp$ consumer that
 reaches a $\RegularCauchySumUp$, $\RegularCauchyProductUp$, or $\RealUp$ row
 without reading the two displayed $\CauchyModulusUp$ schedules, the
@@ -175,7 +189,7 @@ naming.}
 \begin{closurestatus}{\CauchyModulusArithmeticUp}
   \constructivestory{A $\CauchyModulusArithmeticUp$ packet is generated from two $\StreamNameUp$ windows, two $\CauchyModulusUp$ schedules, one $\CauchyModulusMeetUp$ shared-threshold row, $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ consumer rows, a $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readbacks, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-arithmetic-carrier}, \autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}, \autoref{thm:cauchy-modulus-arithmetic-sum-meet-closure}, and \autoref{thm:cauchy-modulus-arithmetic-real-consumer-boundary} seed the finite modulus-arithmetic boundary over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \scopeclosed{\autoref{def:cauchy-modulus-arithmetic-carrier}, \autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}, \autoref{thm:cauchy-modulus-arithmetic-sum-meet-closure}, \autoref{thm:cauchy-modulus-arithmetic-real-consumer-boundary}, and \autoref{thm:cauchy-modulus-arithmetic-obligation-closure} seed the finite modulus-arithmetic boundary over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient streams, selected limits, host real equality, ambient completeness, Lean verification, or bridge checking.}
