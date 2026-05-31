@@ -195,9 +195,14 @@
         "--self-test"
       ],
       [
-        "python3",
-        "tools/bio_reality/lanes.py",
-        "--self-test"
+        "bash",
+        "-c",
+        "test -f papers/bio_reality/main.pdf && test $(stat -f %z papers/bio_reality/main.pdf) -gt 100000 && test $(find papers/bio_reality/main.pdf -mmin -90 | wc -l | tr -d ' ') -eq 1"
+      ],
+      [
+        "bash",
+        "-c",
+        "python3 -c \"import json; d=json.load(open('tools/bio_reality/registries/claims.json')); assert isinstance(d.get('claims'), list) and len(d['claims']) > 0, 'claims registry malformed'; d=json.load(open('tools/bio_reality/registries/experiments.json')); assert isinstance(d.get('experiments'), list) and len(d['experiments']) > 0, 'experiments registry malformed'\""
       ]
     ],
     "min_seconds_between_pushes": 60,

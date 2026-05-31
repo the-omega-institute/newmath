@@ -25,6 +25,55 @@ with the following rows:
 The carrier has no coordinate for an ambient powerset, unrestricted separation, quotient equality of sets, selected representatives, global choice of elements, or a host universe of all sets.
 \end{definition}
 
+\begin{definition}[SetLike membership carrier]
+\label{def:setlike-membership-carrier}
+For an accepted $\SetLikeUp$ carrier
+$$
+S=(M,Q,I,R,E,H,C,P,N),
+$$
+the membership carrier is the finite $\BHist$ surface
+$$
+S_{\in}=(M,Q,H,C,P,N).
+$$
+Here $M$ is the membership-source row, $Q$ is the classifier-based membership row, $H$ is the componentwise $\hsame$ transport for the displayed rows, $C$ is the $\Cont$ replay route, $P$ is the $\Pkg$ provenance, and $N$ is the local $\NameCert_{\SetLikeUp}$ row. The membership carrier has no coordinate for host elementhood, powersets, quotient equality of sets, unrestricted comprehension, or an external universe of sets.
+\end{definition}
+
+\begin{theorem}[SetLike membership stability]
+\label{thm:setlike-membership-stability}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, every classifier-based membership read through the membership carrier $S_{\in}=(M,Q,H,C,P,N)$ remains the same finite $\BHist$ read after componentwise $\hsame$ transport and $\Cont$ replay. In particular, transport may expose only the membership source $M$, classifier row $Q$, structural route $H,C$, provenance $P$, and local $\NameCert_{\SetLikeUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the membership carrier of \autoref{def:setlike-membership-carrier}. Its only membership data are the source row $M$ and the classifier row $Q$.
+
+Transport is componentwise through $H$, and replay is displayed through $C$. These rows preserve and expose the same classifier-based membership surface rather than creating a second element relation.
+
+The rows $P$ and $N$ source and name the same finite packet. Hence a transported membership read remains a $\BHist$ read through $M,Q,H,C,P,N$ and cannot become host elementhood, a powerset coordinate, quotient equality, or unrestricted comprehension.
+\end{proof}
+
+\begin{theorem}[SetLike subset ledger exactness]
+\label{thm:setlike-subset-ledger-exactness}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the subset ledger is exact: every accepted subset read is the implication row $I$ over the classifier-based membership carrier $S_{\in}$, together with the restricted-comprehension row $R$ only as a bounded consumer of $M,Q,I$. No subset consumer receives host-set extensionality, a global inclusion predicate, quotient equality of sets, or a powerset row outside $M,Q,I,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the membership carrier $S_{\in}$ and the subset row $I$. The classifier $Q$ is the only membership classifier available to the implication row, and $M$ is the only membership source.
+
+The restricted-comprehension row $R$ is bounded by the same displayed route. It can consume $M,Q,I$ but does not provide an ambient subset object.
+
+Transport and replay through $H,C$ preserve the same ledger, while $P,N$ record provenance and local naming. Since no extra coordinate exists, the subset ledger is exactly the finite route $M,Q,I,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[SetLike comprehension scope]
+\label{thm:setlike-comprehension-scope}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, restricted comprehension through $R$ is scoped by classifier-based membership over $M,Q$ and subset implication through $I$. The resulting read remains a finite $\BHist$ row transported by $H$, replayed by $C$, sourced by $P$, and named by $N$; it does not assert unrestricted separation, host-set extensionality, quotient equality, or a universe of all subsets.
+\end{theorem}
+\begin{proof}
+Read $R$ from the carrier of \autoref{def:setlike-carrier}. The row is restricted comprehension, not a powerset constructor.
+
+The scope is supplied by the membership carrier of \autoref{def:setlike-membership-carrier} and the implication row $I$. Thus a comprehension read is accepted only when its classifier is already routed through $M,Q,I$.
+
+Finally apply the structural rows. Componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming keep the same finite row visible, so the comprehension scope does not become unrestricted separation, host-set extensionality, quotient equality, or a universe of all subsets.
+\end{proof}
+
 \begin{theorem}[SetLike NameCert obligations]
 \label{thm:setlike-namecert-obligations}
 For every accepted $\SetLikeUp$ carrier
@@ -39,6 +88,46 @@ Project the accepted carrier of \autoref{def:setlike-carrier}. The membership so
 The subset row $I$ records implication between displayed classifiers, while the restricted-comprehension row $R$ may bind only predicates already exposed through the same membership source and classifier route. The extensionality row $E$ records the comparison boundary for displayed set rows; it does not identify host sets outside the packet.
 
 The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no further coordinate is present, the NameCert obligations cannot require unrestricted separation, ambient powersets, quotient equality of sets, selected representatives, global element choice, or a universe of all sets.
+\end{proof}
+
+\begin{theorem}[SetLike membership source admission]
+\label{thm:setlike-membership-source-admission}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, every membership read must expose the membership-source row $M$, displayed classifier row $Q$, componentwise transport row $H$, continuation replay row $C$, package provenance row $P$, and local naming row $N$ before the read is accepted. In particular, a membership consumer cannot replace $M,Q,H,C,P,N$ by an ambient element relation, a host powerset, selected representatives, or an external universe of sets.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:setlike-carrier}. The only rows that open an element-in-set assertion are the membership source $M$ and displayed classifier $Q$.
+
+Use the obligation surface of \autoref{thm:setlike-namecert-obligations}. It requires membership-source admission, classifier exposure, componentwise $\hsame$ stability, $\Cont$ replay, provenance, and local naming as visible NameCert rows.
+
+The existing route theorem \autoref{thm:setlike-membership-route} then blocks every bypass. Since no carrier coordinate stores an ambient element relation, powerset, representative selector, or host universe, every accepted membership read must expose $M,Q,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[SetLike classifier transport route]
+\label{thm:setlike-classifier-transport-route}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, classifier transport for subset implication, restricted comprehension, and extensional boundary rows stays inside the finite route
+$$
+Q,I,R,E \longmapsto H,C,P,N .
+$$
+The transported classifier remains the displayed membership classifier over $M$ and cannot be reinterpreted as proof-irrelevant host truth, unrestricted separation, quotient equality of sets, or an external inclusion relation.
+\end{theorem}
+\begin{proof}
+Start from the classifier row $Q$ in \autoref{def:setlike-carrier}. The subset implication row $I$, restricted-comprehension row $R$, and extensionality-boundary ledger $E$ are all defined as displayed rows that consume the same membership classifier.
+
+Apply \autoref{thm:setlike-subset-implication-obligation}, \autoref{thm:setlike-bounded-comprehension-obligation}, and \autoref{thm:setlike-extensional-boundary-obligation}. These obligations keep subset, comprehension, and extensional comparison reads attached to $M,Q$ and to the structural rows $H,C,P,N$.
+
+Finally use \autoref{thm:setlike-classifier-transport-exactness}. Transport and replay preserve the displayed classifier route rather than replacing it by host truth, unrestricted separation, quotient equality, or external inclusion.
+\end{proof}
+
+\begin{theorem}[SetLike bounded comprehension nonescape]
+\label{thm:setlike-bounded-comprehension-nonescape}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, a restricted-comprehension read through $R$ cannot export a powerset, unrestricted separation principle, host subset object, or universe of all subsets. It remains a bounded finite $\BHist$ row over $M,Q,I$ and is accepted only together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the restricted-comprehension coordinate $R$ from \autoref{def:setlike-carrier}. The carrier describes $R$ as a row admitting only classifiers already routed through $M,Q,I$.
+
+Use \autoref{thm:setlike-bounded-comprehension-obligation} and \autoref{thm:setlike-subset-comprehension-stability}. Both results keep the comprehension read inside the shared membership classifier and the subset implication route.
+
+The structural rows $H,C,P,N$ preserve and name that finite row. Since the packet has no coordinate for a powerset, unrestricted separation rule, host subset object, or universe of all subsets, restricted comprehension cannot export any of them.
 \end{proof}
 
 \begin{theorem}[SetLike membership route]
@@ -188,6 +277,82 @@ Use the subset obligation of \autoref{thm:setlike-subset-implication-obligation}
 Add the restricted-comprehension and extensional boundary controls from \autoref{thm:setlike-bounded-comprehension-obligation} and \autoref{thm:setlike-extensional-boundary-obligation}. The row $R$ records only bounded comprehension provenance, while $E$ remains a boundary ledger and does not export host set extensionality.
 
 Finally replay \autoref{thm:setlike-membership-route}. The structural rows $H,C,P,N$ preserve and name the same finite route, so the subset ledger seen by downstream TypeLike, FirstOrder, and ModelTheory consumers contains no powerset, unrestricted comprehension, quotient equality, or external inclusion coordinate.
+\end{proof}
+
+\begin{theorem}[SetLike classifier extensional nonescape]
+\label{thm:setlike-classifier-extensional-nonescape}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the extensional row $E$ can compare only displayed membership rows over $M,Q,I,R$. It cannot export quotient equality of sets, powersets, unrestricted separation, host set equality, or an external inclusion predicate; any accepted extensional read must keep $E$ inside the structural route $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project $E$ from the carrier of \autoref{def:setlike-carrier}. The carrier assigns $E$ to the extensionality-boundary ledger, not to a quotient or host equality coordinate.
+
+Use the extensional boundary route of \autoref{thm:setlike-extensional-boundary-route}. That theorem forces every extensional read through the membership-boundary subcarrier $S_{\partial}=(M,Q,I,R,E)$ before the structural rows are replayed.
+
+Finally apply \autoref{thm:setlike-classifier-transport-exactness} and \autoref{thm:setlike-subset-ledger-obligation}. Classifier transport stays on the displayed $Q$ surface, and the downstream ledger exposes no powerset, unrestricted comprehension, quotient equality, or host inclusion coordinate.
+\end{proof}
+
+\begin{theorem}[SetLike restricted comprehension membership factorization]
+\label{thm:setlike-restricted-comprehension-membership-factorization}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, every restricted-comprehension read through $R$ first factors through the membership source $M$, displayed classifier $Q$, and subset implication row $I$. Only after this factorization may the read use $H,C,P,N$ for transport, replay, provenance, and local naming; it cannot create a powerset row, unrestricted separation principle, host subset object, or external comprehension predicate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:setlike-bounded-comprehension-obligation}. It admits $R$ only as a restricted-comprehension row bounded by a displayed certified family over $M,Q,I$.
+
+The common classifier is fixed by \autoref{thm:setlike-subset-comprehension-stability}. Subset implication through $I$ and restricted comprehension through $R$ share the membership classifier $Q$ over the source $M$, so a comprehension read cannot skip the membership route.
+
+Apply bounded comprehension nonescape and ledger scope closure, \autoref{thm:setlike-bounded-comprehension-nonescape} and \autoref{thm:setlike-ledger-scope-closure}. The structural rows $H,C,P,N$ preserve the displayed factorization and add no powerset, unrestricted separation, host subset object, or external comprehension coordinate.
+\end{proof}
+
+\begin{theorem}[SetLike TypeLike FirstOrder ModelTheory consumer boundary]
+\label{thm:setlike-typelike-firstorder-modeltheory-consumer-boundary}
+Every $\TypeLikeUp$, $\FirstOrderUp$, or $\ModelTheoryUp$ consumer of an accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$ must cite the SetLike route through
+$$
+M,Q,I,R,E \longmapsto H,C,P,N .
+$$
+Such a consumer cannot replace the route by external satisfaction, host membership, quotient equality of sets, a powerset row, unrestricted comprehension, or a host universe of sets.
+\end{theorem}
+\begin{proof}
+Use the membership route theorem \autoref{thm:setlike-membership-route}. It already states that TypeLike, FirstOrder, and ModelTheory sibling reads may use $\SetLikeUp$ only through the carried membership route.
+
+Next apply the subset ledger obligation and classifier extensional nonescape, \autoref{thm:setlike-subset-ledger-obligation} and \autoref{thm:setlike-classifier-extensional-nonescape}. These results keep subset, comprehension, and extensionality reads on $M,Q,I,R,E$ before $H,C,P,N$ are used.
+
+Finally invoke \autoref{thm:setlike-ledger-scope-closure}. A consumer leaving the displayed route lacks the required carrier rows, while a consumer staying on it receives the complete local ledger. Therefore external satisfaction, host membership, quotient equality, powersets, unrestricted comprehension, and host universes are outside the accepted SetLike consumer boundary.
+\end{proof}
+
+\begin{theorem}[SetLike kernel membership source totality]
+\label{thm:setlike-kernel-membership-source-totality}
+Every accepted $\SetLikeUp$ membership consumer must expose the full kernel membership source before any TypeLike, FirstOrder, or ModelTheory read is available. Concretely, the consumer must display $M$ as the finite $\BHist$ membership source, $Q$ as the membership classifier row, $H$ as the componentwise $\hsame$ transport ledger, $C$ as the displayed $\Cont$ replay, $P$ as the $\Pkg$ provenance row, and $N$ as the local $\NameCert_{\SetLikeUp}$ row.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:setlike-carrier}. The carrier lists $M,Q,I,R,E,H,C,P,N$, so any accepted membership read has $M,Q,H,C,P,N$ available as displayed rows.
+
+Use the membership route theorem \autoref{thm:setlike-membership-route}. It forces TypeLike, FirstOrder, and ModelTheory consumers through the carried membership route before they may read typed, syntactic, or satisfaction-facing data.
+
+Finally apply the consumer boundary of \autoref{thm:setlike-typelike-firstorder-modeltheory-consumer-boundary}. A consumer lacking $M,Q,H,C,P,N$ has left the displayed route, while a consumer staying inside the route exposes exactly the kernel membership source and structural rows.
+\end{proof}
+
+\begin{theorem}[SetLike restricted comprehension kernel scope]
+\label{thm:setlike-restricted-comprehension-kernel-scope}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the restricted-comprehension row $R$ is admitted only over the displayed membership source $M$, classifier $Q$, and subset implication row $I$. The row $R$ cannot export a powerset, unrestricted separation, a host subset family, or an external comprehension predicate.
+\end{theorem}
+\begin{proof}
+Apply the restricted-comprehension membership factorization theorem \autoref{thm:setlike-restricted-comprehension-membership-factorization}. It already factors every $R$ read through $M,Q,I$ before structural replay.
+
+Use bounded comprehension nonescape from \autoref{thm:setlike-bounded-comprehension-nonescape}. This blocks powerset, unrestricted separation, host subset objects, and external comprehension predicates from the comprehension row.
+
+The ledger scope closure theorem \autoref{thm:setlike-ledger-scope-closure} then repacks the result through $H,C,P,N$. Thus $R$ remains a kernel-scoped row over $M,Q,I$ and not an escaping separation principle.
+\end{proof}
+
+\begin{theorem}[SetLike extensional ledger kernel nonescape]
+\label{thm:setlike-extensional-ledger-kernel-nonescape}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, extensional comparison through $E$ is a visible ledger over the membership, classifier, subset, and restricted-comprehension rows. It is not quotient equality of sets, host extensionality, selected representatives, or an equality oracle outside $M,Q,I,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the extensional boundary route \autoref{thm:setlike-extensional-boundary-route}. It routes extensional reads through the membership-boundary subcarrier before structural replay.
+
+Apply classifier extensional nonescape from \autoref{thm:setlike-classifier-extensional-nonescape}. The extensional comparison remains attached to the displayed classifier and cannot become quotient equality or host extensionality.
+
+Finally use the TypeLike FirstOrder ModelTheory consumer boundary \autoref{thm:setlike-typelike-firstorder-modeltheory-consumer-boundary}. Downstream consumers receive the visible ledger $M,Q,I,R,E,H,C,P,N$ and no equality oracle outside it.
 \end{proof}
 
 \closureat{SetLikeUp}{seedStr}

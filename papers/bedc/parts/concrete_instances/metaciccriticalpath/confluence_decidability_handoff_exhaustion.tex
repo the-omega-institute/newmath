@@ -125,6 +125,24 @@ For the reverse direction, suppose the displayed finite socket-aware rows and fo
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateSNFiniteSocketNormalForm}
 
+\begin{theorem}[MetaCIC critical-path candidate decider exhaustion]
+\label{thm:metacic-critical-path-candidate-decider-exhaustion}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+every beta-conversion read or decidability-facing read mediated by the candidate strong-normalization route is confined to the finite socket rows $S,N,O,U,D,H,C,P,L$ together with the four L10 face records for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The route exports no global beta-conversion decision procedure, no Church--Rosser theorem, no quotient term equality, no closed subject reduction theorem, and no full consistency theorem.
+\end{theorem}
+\begin{proof}
+Begin with the candidate SN finite socket normal form, Theorem~\ref{thm:metacic-critical-path-candidate-sn-finite-socket-normal-form}. It identifies the consumable candidate-mediated read as exactly the socket-aware rows $S,N,O,U,D,H,C,P,L$ plus the four local L10 face records, with support only from $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Next apply confluence-decidability handoff exhaustion, Theorem~\ref{thm:metacic-critical-path-confluence-decidability-handoff-exhaustion}. It keeps confluence-facing and decidability-facing reads on the displayed packet route and refuses global Church--Rosser, beta-conversion decision, closed subject reduction, and full consistency exports.
+
+Finally use the discharge refusal theorem, Theorem~\ref{thm:metacic-critical-path-candidate-route-discharge-refusal}. It prevents the candidate route from filling the socket coordinate $D$ or promoting candidate evidence into a closed metatheorem.
+
+Combining these three boundaries leaves no extra coordinate for quotient term equality, a global beta-conversion decider, closed subject reduction, or full consistency. Hence every beta-conversion or decidability-facing read mediated by candidates is exhausted by the stated finite socket route and four local face records.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence-decidability candidate SN frontier]
 \label{thm:metacic-critical-path-confluence-decidability-candidate-sn-frontier}
 For every accepted $\MetaCICCriticalPathUp$ packet
@@ -212,6 +230,7 @@ Now use the candidate SN finite socket normal form, Theorem~\ref{thm:metacic-cri
 
 The discharge refusal theorem, Theorem~\ref{thm:metacic-critical-path-candidate-route-discharge-refusal}, keeps $D$ unmet. Therefore the decidability-fragment route is bounded by the displayed packet and face records, and it cannot be promoted to global beta-conversion decidability, quotient equality, full consistency, or a discharged socket.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathDecidabilityFragmentRoute}
 
 \begin{theorem}[MetaCIC neutral-spine decidability handoff]
 \label{thm:metacic-critical-path-neutral-spine-decidability-handoff}

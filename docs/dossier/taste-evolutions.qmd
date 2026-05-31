@@ -20,15 +20,22 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-30T17:50:12Z
+> 最后刷新: 2026-05-31T02:08:43Z
 
-**Daemon 状态**: monitor (monitor cycle 3, adjust_since_research 0, round_counter 597, last_adjust none)
+**Daemon 状态**: monitor (monitor cycle 6, adjust_since_research 0, round_counter 1444, last_adjust none)
 
-**待处理 queue** (12 条 finding):
-- isolated_theorem: 12 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (30 条 finding):
+- isolated_theorem: 26 条; 代表样本 `derived`, `derived`, `derived`
+- low_entropy_template: 3 条; 代表样本 `setlike`, `sobolev`, `markovchain`
+- missing_origin: 1 条; 代表样本 `reality_bound_codon_topology_orf_interval_contact`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=low_entropy_template: 2 次
+- TASTE ALERT category=isolated_theorem: 20 次
+- TASTE ALERT category=low_entropy_template: 4 次
+- TASTE ALERT category=dossier_snapshot_push_failed: 1 次
+- TASTE ALERT category=missing_origin: 1 次
+- TASTE ALERT category=resolution_json_parse_failed: 1 次
+- TASTE ALERT category=resolution_merge_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -189,6 +196,8 @@ to case-by-case judgment.
 - 2026-05-30T13:49:19Z: `resolved` `leave_with_rationale` for `polishspace` (flag `low_entropy_template`, finding `low_entropy_template:polishspace:4366abef:6b159b02`). Rationale: The finding is chapter-level rather than a concrete Lean target: the low-entropy evidence comes from the polishspace hub/autoref wrapper, while the surrounding chapter files contain substantive BEDC carrier, NameCert, density, completion, stream/readback, root-unblock, Cauchy-basis, and ledger-exactness content. The Lean namespace likewise has real propositions over BHist, Cont, PkgSig, SemanticNameCert, UnaryHistory, and the root Cauchy-basis carrier; several items are consumed by sibling theorem chains or paper theorem structure, and the empty target makes theorem deletion unsafe. No source change is appropriate for this finding. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
 
 - 2026-05-30T17:49:00Z: `resolved` `add_downstream_user` for `BEDC.Derived.PseudometricUp.PseudometricCarrier_zero_distance_boundary_obligation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.PseudometricUp.PseudometricCarrier_zero_distance_boundary_obligation:b56969e5`). Rationale: The target is not a vacuous restatement: it builds the zero-distance boundary SemanticNameCert surface used by the pseudometric paper route, but grep showed no Lean downstream consumer. I added PseudometricCarrier_boundary_ledger_nonescape_consumer in the ledger-nonescape sibling file; it explicitly invokes the flagged theorem, then carries the boundary row through replay into a ledger-facing SemanticNameCert with UnaryHistory, Cont, and PkgSig outputs. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-30T20:46:33Z: `resolved` `leave_with_rationale` for `BEDC.Derived.PseudometricUp.PseudometricCarrier_separated_reflection_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.PseudometricUp.PseudometricCarrier_separated_reflection_handoff:235834fe`). Rationale: The theorem has real BEDC content: it packages the separated-reflection boundary from a PseudometricCarrier into a SemanticNameCert plus unary handoff facts, and the paper chapter uses it as the boundary for later zero-distance completion and quotient-reflection arguments. Grep confirmed no existing Lean downstream consumer. I attempted add_downstream_user by making PseudometricCarrier_zero_distance_completion_route consume this handoff, but lake build failed because the proof destructured carrier before reusing it, producing Unknown identifier `carrier`; per instruction I reverted the edit and leave this as staging-only with the gate failure recorded. Gate results: lake_build=FAILED: BEDC/Derived/PseudometricUp/ZeroDistanceCompletionRoute.lean:40:6 Unknown identifier `carrier`; unsolved goals after attempted downstream-user edit; changes reverted, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 

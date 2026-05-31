@@ -148,6 +148,54 @@ Use \autoref{thm:precompact-metric-namecert-obligations}. Its Cauchy-filter insp
 
 The carrier-admission and provenance clauses force the same packet rows $X,D,N,F,R,M,H,C,G,Q$ to remain visible for the handoff. Therefore no downstream consumer can detach a completed point, a quotient filter, a selected subsequence, or ambient completeness from the Cauchy-filter route.
 \end{proof}
+\leanchecked{BEDC.Derived.PrecompactMetricUp.PrecompactMetric\_cauchy\_filter\_handoff\_obligations}
+
+\begin{theorem}[PrecompactMetricUp filter-net modulus handoff]
+\label{thm:precompactmetric-filter-net-modulus-handoff}
+For every accepted $\PrecompactMetricUp$ packet $P=(X,D,N,F,R,M,H,C,G,Q)$, a completion-facing handoff that consumes both finite nets and Cauchy-filter tails must read the finite-net coordinate $N$, the Cauchy-filter coordinates $F,R$, and the $\RegularityModulusUp$ coordinate $M$ inside the same packet before it can expose any basis row. The handoff is replayed only through $H,C,G,Q$, so the finite-net radius, filter tail, and modulus window are one displayed NameCert route rather than a quotient completion, selected subsequence, host finite set, or ambient complete space.
+\end{theorem}
+\begin{proof}
+Project the packet $P=(X,D,N,F,R,M,H,C,G,Q)$. The row $N$ is the only finite-net coordinate, $F$ and $R$ are the only Cauchy-filter and regular-Cauchy-filter coordinates, and $M$ is the only visible regularity-modulus coordinate.
+
+Use \autoref{thm:precompactmetric-root-finite-net-obligations} for the root net surface. It identifies the readable net data with the closed $\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ memberships, center histories, metric-distance witnesses, and rational comparison ledgers stored in $N$.
+
+Apply \autoref{thm:precompactmetric-cauchy-filter-handoff-obligations} to the filter side. It keeps every filterbase packet, regular tail window, refinement ledger, regular Cauchy readback, and dyadic neighbourhood witness inside $F,R$ and under the same modulus row $M$.
+
+The remaining rows $H,C,G,Q$ provide transport, replay, handoff, and provenance. Since these rows mention only the displayed carrier coordinates, the combined handoff exports no quotient completion, selected subsequence, host finite set, or ambient complete space.
+\end{proof}
+\leanchecked{BEDC.Derived.PrecompactMetricUp.PrecompactMetric\_filter\_net\_modulus\_handoff}
+
+\begin{theorem}[PrecompactMetricUp completion consumer non-escape]
+\label{thm:precompactmetric-completion-consumer-nonescape}
+Let $P=(X,D,N,F,R,M,H,C,G,Q)$ be an accepted $\PrecompactMetricUp$ packet. Any completion-facing consumer that reads $P$ can inspect only the metric rows $X,D$, finite-net row $N$, Cauchy-filter rows $F,R$, regularity-modulus row $M$, transport and route rows $H,C$, handoff row $G$, and provenance row $Q$. In particular, such a consumer cannot obtain a quotient completion point, a selected convergent subsequence, an external finite set of centers, a host complete-space witness, or a choice operator from the packet.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission in \autoref{def:precompact-metric-carrier}. The carrier has exactly the ten coordinates $X,D,N,F,R,M,H,C,G,Q$, so every admissible consumer read must name one of those rows or a finite subrow displayed by them.
+
+The finite-net part is controlled by \autoref{thm:precompactmetric-root-finite-net-obligations}. It exposes centers and distance witnesses only as $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ data recorded in $N$, not as an external host finite set.
+
+The filter part is controlled by \autoref{thm:precompactmetric-cauchy-filter-handoff-obligations}. It exposes Cauchy-filter and regular-filter data only through $F,R$ with the shared modulus row $M$, not through a completed point, quotient filter, or selected subsequence.
+
+Finally $H,C,G,Q$ only transport, replay, hand off, and name these same displayed rows. Therefore no completion-facing consumer can escape from the finite NameCert surface to a quotient completion, host finite set, selected sequence, ambient complete space, or choice operator.
+\end{proof}
+
+\begin{theorem}[PrecompactMetricUp regular filter finite-net route]
+\label{thm:precompactmetric-regular-filter-finite-net-route}
+For every accepted $\PrecompactMetricUp$ packet $P=(X,D,N,F,R,M,H,C,G,Q)$, the regular-filter route from finite nets to completion-facing basis data is the displayed path
+$$
+N \longrightarrow M \longrightarrow F,R \longrightarrow C,G,Q
+$$
+inside the fixed metric context $X,D,H$. The route first reads the finite net row, then the regularity-modulus row, then the Cauchy-filter and regular-Cauchy-filter rows, and finally the continuation, handoff, and provenance rows; it does not pass through quotient completion, selected subsequence, host finite-set enumeration, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the metric context first. The rows $X,D,H$ fix the metric carrier, metric comparison data, and componentwise transport for every later net, filter, and modulus read.
+
+Next use the finite-net theorem \autoref{thm:precompactmetric-root-finite-net-obligations}. It makes $N$ the displayed source of the finite centers, membership rows, distance witnesses, and rational comparison ledgers used by the route.
+
+Then use the modulus and filter handoff theorems \autoref{thm:precompactmetric-regularity-modulus-scope} and \autoref{thm:precompactmetric-filter-net-modulus-handoff}. The row $M$ scopes the tolerance request shared by $N$ and the filter rows, while $F,R$ expose only finite filterbase and regular-tail inspection data.
+
+The route terminates through $C,G,Q$. These rows replay the path, hand it to the relevant total-boundedness or completion-facing consumer, and record provenance without adding quotient completion, a selected subsequence, host finite-set enumeration, or ambient completeness.
+\end{proof}
 
 \begin{theorem}[PrecompactMetricUp regularity-modulus scope]
 \label{thm:precompactmetric-regularity-modulus-scope}

@@ -95,6 +95,47 @@ The schedules $K_0,K_1,N_0,N_1$ are attached to the same source row $X$. They ca
 Only after those rows are present can $R$ compare the directed ledgers at the requested tolerance. Therefore every hit is routed through $\CompactMetricUp$ and $\TotallyBoundedUp$ finite-net data before tolerance readback, with no selected host point added to the carrier.
 \end{proof}
 
+\begin{theorem}[Hyperspace finite hit directed cover]
+\label{thm:hyperspace-finite-hit-directed-cover}
+Every finite Hausdorff hit accepted by a $\HyperspaceUp$ carrier must expose both directed cover rows $D_0$ and $D_1$ before any symmetric Hausdorff-distance read is public. A consumer may read a hit from $K_0$ toward $K_1$ only as part of $D_0$, and a hit from $K_1$ toward $K_0$ only as part of $D_1$; neither direction can be replaced by a host compact-subset choice, quotient compactum, selected nearest point, or one-sided coverage oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperspace-carrier}. The only directed coverage coordinates are $D_0$ and $D_1$, and both are listed before the tolerance readback row $R$.
+
+Apply \autoref{thm:hyperspace-finite-net-hit}. Each displayed hit is already a finite-net comparison over the compact source and its total-bounded schedules.
+
+Use \autoref{thm:hyperspace-namecert-obligations}. The bidirectional distance clause requires both directed ledgers before the public Hausdorff read is admitted, so no one-sided host selection can stand in for the missing direction.
+\end{proof}
+
+\begin{theorem}[Hyperspace tolerance readback exhaustion]
+\label{thm:hyperspace-tolerance-readback-exhaustion}
+For every accepted $\HyperspaceUp$ carrier $H=(X,K_0,K_1,N_0,N_1,D_0,D_1,R,H_s,C,P,M)$, the tolerance visible to a finite Hausdorff-distance consumer is exhausted by the readback row $R$. Once the compact source, subset-net schedules, and directed ledgers $D_0,D_1$ have been displayed, no downstream consumer may read an additional tolerance comparison from $\CompleteMetricUp$, $\MetricDiameterUp$, $\NetConvergenceUp$, $\CauchyUniformNetUp$, a selected limit, or a host real completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:hyperspace-finite-hit-directed-cover}. The symmetric Hausdorff read is not public until both directed cover rows $D_0$ and $D_1$ have been shown.
+
+The carrier definition names $R$ as the dyadic and $\RealUp$ tolerance readback for those two directed ledgers. Thus every comparison between the two directions passes through the same displayed row.
+
+Finally apply \autoref{thm:hyperspace-complete-metric-nonescape}. Completeness, diameter, convergence, and uniform-net rows support the finite route, but they do not export selected limits or an ambient tolerance object outside $R$.
+\end{proof}
+
+\begin{theorem}[Hyperspace compact source scope]
+\label{thm:hyperspace-compact-source-scope}
+Every compact-subset read of an accepted $\HyperspaceUp$ packet is scoped to the displayed rows
+$$
+\CompactMetricUp,\quad \TotallyBoundedUp,\quad \CompleteMetricUp,\quad
+\MetricDiameterUp,\quad \NetConvergenceUp,\quad \CauchyUniformNetUp .
+$$
+The read may inspect compact source admission, finite-net schedules, completion boundary, diameter or tolerance comparisons, net-convergence replay, and uniform Cauchy-net replay only through those rows and the carrier coordinates $X,K_0,K_1,N_0,N_1,D_0,D_1,R,H_s,C,P,M$. It exports no host powerset of compact subsets, open-cover compactness coordinate, quotient compactum, selected limit, or choice-selected representative.
+\end{theorem}
+\begin{proof}
+Read the source row $X$ in \autoref{def:hyperspace-carrier}. It already contains the compact metric source, total-bounded finite schedules, and complete metric boundary available to the packet.
+
+Use \autoref{thm:hyperspace-compact-hausdorff-distance-route}. The public Hausdorff route passes through the diameter, directed convergence, and uniform Cauchy-net rows only as displayed support for $D_0,D_1,R$ and replay $C$.
+
+Apply \autoref{thm:hyperspace-tolerance-readback-exhaustion}. Since tolerance is exhausted by $R$ and every directed hit is finite, the listed compact-source rows are the whole compact-subset scope.
+\end{proof}
+
 \begin{theorem}[Hyperspace CompleteMetric nonescape]
 \label{thm:hyperspace-complete-metric-nonescape}
 For every accepted $\HyperspaceUp$ carrier, the $\CompleteMetricUp$ support carried by the source row $X$ supplies only the displayed completion boundary needed by the finite compact-metric route. It cannot export selected limits, quotient compacta, open-cover compactness, choice-selected representatives, or an ambient hyperspace completion outside
@@ -188,6 +229,7 @@ Use \autoref{thm:hyperspace-compact-hausdorff-distance-route}. It routes the Hau
 
 Finally apply \autoref{thm:hyperspace-hausdorff-distance-stability}. Componentwise $\hsame$ transport through $H_s$ and displayed replay through $C$ preserve that route, while $P,M$ name it without adding a host compact-subset universe.
 \end{proof}
+\leanchecked{BEDC.Derived.HyperspaceUp.Hyperspace\_compactmetric\_distance\_lift}
 
 \begin{theorem}[Hyperspace totally bounded net lift]
 \label{thm:hyperspace-totallybounded-net-lift}
@@ -239,6 +281,42 @@ Project the carrier of \autoref{def:hyperspace-carrier}. The only compact source
 Use \autoref{thm:hyperspace-namecert-obligation-surface}. The root-unblock surface orders the public rows as compact-source admission, finite subset-net schedules, directed Hausdorff ledgers, readback, transport, replay, provenance, and local naming.
 
 Thus any finite-net inspection must stop at $X,K_0,K_1,N_0,N_1$ before reading the directed ledgers. The rows $H_s,C,M$ preserve and name that same visible packet, so no extra compact-subset carrier can be exposed.
+\end{proof}
+
+\begin{theorem}[Hyperspace finite Vietoris carrier]
+\label{thm:hyperspace-finite-vietoris-carrier}
+Let $H=(X,K_0,K_1,N_0,N_1,D_0,D_1,R,H_s,C,P,M)$ be an accepted $\HyperspaceUp$ carrier. Every Vietoris-facing carrier read of a compact-source finite subset is exposed only through the displayed finite-net rows $X,K_0,K_1,N_0,N_1,D_0,D_1,R,H_s,C,P,M$ of \autoref{def:hyperspace-carrier}. The read may inspect the $\CompactMetricUp$ source row, the $\TotallyBoundedUp$ schedules, the $\CompleteMetricUp$ support carried by $X$, and the $\CauchyUniformNetUp$ replay row, but it does not export a host compact-subset universe, quotient compactum, open-cover compactness proof, choice-selected representative, or ambient hyperspace completion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperspace-carrier}. The compact-source finite subsets are represented by $K_0,K_1$ and their finite resolution ledgers $N_0,N_1$ over the same source row $X$.
+
+Use \autoref{thm:hyperspace-finite-net-carrier-exhaustion}. It exhausts every finite-net inspection at $X,K_0,K_1,N_0,N_1$ before any directed Hausdorff ledger can be read.
+
+Then apply \autoref{thm:hyperspace-vietoris-compactmetric-dependency} and \autoref{thm:hyperspace-compact-hausdorff-distance-route}. These force the Vietoris-facing route through the compact metric source, total-bounded schedules, complete-metric support, directed ledgers, and Cauchy-uniform-net replay. Since the carrier has no row for quotient compacta, open-cover compactness, selected representatives, host powersets, or ambient hyperspace completion, the finite Vietoris carrier is exactly the displayed packet.
+\end{proof}
+
+\begin{theorem}[Hyperspace hit-miss classifier]
+\label{thm:hyperspace-hit-miss-classifier}
+Let $H=(X,K_0,K_1,N_0,N_1,D_0,D_1,R,H_s,C,P,M)$ be an accepted $\HyperspaceUp$ carrier. Every hit or miss comparison used by a Vietoris-facing consumer is read through the finite directed-distance rows $D_0,D_1$ and the tolerance readback row $R$, after the finite subset-net schedules $K_0,K_1,N_0,N_1$ have been exposed over $X$. The classifier is therefore a finite directed Hausdorff ledger in the $\BHist$ packet, not a comparison inside a host compact-subset universe.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection of \autoref{def:hyperspace-carrier}. The only rows that can witness a hit or miss request are the finite subset-net schedules and the two directed coverage ledgers.
+
+Apply \autoref{thm:hyperspace-finite-net-carrier-exhaustion}. It prevents the classifier from reading a compact-subset carrier beyond $X,K_0,K_1,N_0,N_1$ before the directed ledgers are public.
+
+Use \autoref{thm:hyperspace-hausdorff-classifier-transport}. Componentwise $\hsame$ transport preserves the same directed ledgers $D_0,D_1$ and the same readback row $R$, so a transported classifier cannot replace them by a host distance, quotient compactum, selected representative, or ambient hyperspace metric.
+\end{proof}
+
+\begin{theorem}[Hyperspace finite-cover ledger]
+\label{thm:hyperspace-finite-cover-ledger}
+Let $H=(X,K_0,K_1,N_0,N_1,D_0,D_1,R,H_s,C,P,M)$ be an accepted $\HyperspaceUp$ carrier. Every finite-cover ledger consumed downstream is routed through the $\CompactMetricUp$ source row $X$, the $\TotallyBoundedUp$ schedules in $K_0,K_1,N_0,N_1$, the $\CompleteMetricUp$ support carried by $X$, and the $\CauchyUniformNetUp$ replay visible through $D_0,D_1,R,C$. The ledger exports no open-cover compactness principle, quotient compactum, choice-selected representative, host compact-subset universe, selected limit, or ambient hyperspace completion.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:hyperspace-carrier}. The finite-cover information is not a separate host cover object; it is the displayed subset-net data $K_0,K_1,N_0,N_1$ attached to $X$.
+
+Use \autoref{thm:hyperspace-complete-totallybounded-obligations}. It identifies the complete-metric and total-boundedness obligations as the source support in $X$, the finite schedules, the two directed ledgers, and the tolerance readback.
+
+Finally apply \autoref{thm:hyperspace-completemetric-cauchy-lift} and \autoref{thm:hyperspace-compact-complete-handoff}. These route downstream Cauchy-uniform-net and compact-complete consumers through the same finite ledger. No row remains from which to read open-cover compactness, quotient compacta, selected representatives, selected limits, host compact subsets, or ambient hyperspace completion.
 \end{proof}
 
 \begin{theorem}[Hyperspace Hausdorff classifier transport]
@@ -316,6 +394,56 @@ First read the complete and totally bounded obligations of \autoref{thm:hyperspa
 Next apply the Cauchy-uniform-net handoff of \autoref{thm:hyperspace-cauchy-uniform-net-handoff}. It routes every Cauchy-uniform-net consumer through the same compact finite-net carrier before any downstream compactness read is public.
 
 Finally use \autoref{thm:hyperspace-compact-complete-handoff}. The compact-complete consumer receives only the displayed $\BHist$ rows over $X,K_0,K_1,N_0,N_1,D_0,D_1,H_s,C,M$. Thus metric compactness is unblocked as finite BEDC data and not as a host powerset, selected representative, open-cover principle, quotient compactum, or ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[Hyperspace compact-metric Vietoris unblock]
+\label{thm:hyperspace-compactmetric-vietoris-unblock}
+Every Vietoris-facing downstream consumer of an accepted $\HyperspaceUp$ carrier must read compact-source support through $\CompactMetricUp$, $\TotallyBoundedUp$, $\CompleteMetricUp$, $\MetricDiameterUp$, $\NetConvergenceUp$, and $\CauchyUniformNetUp$ before any hit/miss or Hausdorff-distance classifier is public. The route exports no host powerset, quotient compactum, selected representative, open-cover compactness, or ambient hyperspace completion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperspace-carrier}. Its rows expose the compact metric source, finite subset-net presentations, directed Hausdorff ledgers, tolerance readback, transport, replay, provenance, and local naming.
+
+Use \autoref{thm:hyperspace-finite-net-carrier-exhaustion}. It forces every compact-source finite-net read through the displayed rows before a downstream consumer can inspect distance or Vietoris data.
+
+Apply \autoref{thm:hyperspace-hit-miss-classifier} and \autoref{thm:hyperspace-finite-cover-ledger}. The hit/miss and finite-cover reads are both mediated by the same finite net schedules and directed ledgers, so neither supplies a host powerset or an open-cover compactness principle.
+
+Finally use \autoref{thm:hyperspace-metric-compactness-unblock}. Compact-metric readiness is public only through the compact source, total-bounded schedules, completeness support, metric-diameter tolerance, net-convergence route, and Cauchy-uniform-net handoff already present in the accepted carrier. The forbidden quotient, representative, powerset, open-cover, and ambient-completion coordinates are absent.
+\end{proof}
+
+\begin{theorem}[Hyperspace Vietoris finite-net obligations]
+\label{thm:hyperspace-vietoris-finite-net-obligations}
+Let $H=(X,K_0,K_1,N_0,N_1,D_0,D_1,R,H_s,C,P,M)$ be an accepted $\HyperspaceUp$ carrier. Before any downstream consumer reads a compact-subset topology route or a Hausdorff-distance route from $H$, the carrier must expose the $\CompactMetricUp$ source $X$, the $\TotallyBoundedUp$ finite-net schedules in $K_0,K_1,N_0,N_1$, and the Vietoris hit rows recorded by the directed ledgers $D_0,D_1$. Thus every compact-subset read is a finite-net and Vietoris-hit read over the displayed source, not a host powerset, selected compact representative, or open-cover compactness principle.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:hyperspace-finite-net-hit}. It forces every directed Hausdorff hit to pass through the compact source row and the finite-net schedules before tolerance readback is public.
+
+Use \autoref{thm:hyperspace-finite-net-carrier-exhaustion}. The only compact-subset rows available to a consumer are $X,K_0,K_1,N_0,N_1$ together with the directed ledgers and structural rows.
+
+Finally apply \autoref{thm:hyperspace-metric-compactness-unblock}. Since the unblocked surface is exactly the finite-net carrier with transport, replay, provenance, and local naming, a Vietoris compact-subset read cannot bypass those obligations.
+\end{proof}
+
+\begin{theorem}[Hyperspace Cauchy-uniform complete handoff]
+\label{thm:hyperspace-cauchy-uniform-complete-handoff}
+Let $H=(X,K_0,K_1,N_0,N_1,D_0,D_1,R,H_s,C,P,M)$ be an accepted $\HyperspaceUp$ carrier. The only completion-facing handoff from $H$ is the route that reads the $\CompleteMetricUp$ support carried by $X$, consumes the $\CauchyUniformNetUp$ replay through $C$, and then names the same finite-net carrier through $P$ and $M$. No ambient hyperspace completion, selected Cauchy limit, quotient completion representative, or host equality of compact subsets is exported.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:hyperspace-completemetric-cauchy-lift}. It sends complete-metric and Cauchy-uniform-net consumers through the support carried by $X$ after the finite subset-net schedules and directed Hausdorff ledgers are present.
+
+Next use \autoref{thm:hyperspace-cauchy-uniform-net-handoff}. It fixes the Cauchy-uniform handoff as a read of the compact finite-net carrier followed by componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+The finite-net carrier of \autoref{def:hyperspace-finite-net-carrier} supplies exactly those rows. Therefore completion enters the hyperspace packet only through $\CompleteMetricUp$ and $\CauchyUniformNetUp$ rows already named by the BEDC carrier.
+\end{proof}
+
+\begin{theorem}[Hyperspace Hausdorff classifier exactness]
+\label{thm:hyperspace-hausdorff-classifier-exactness}
+Let $H=(X,K_0,K_1,N_0,N_1,D_0,D_1,R,H_s,C,P,M)$ be an accepted $\HyperspaceUp$ carrier. The Hausdorff classifier exposed by $H$ is exactly componentwise $\hsame$ transport of the displayed source, compact finite-net rows, directed ledgers, tolerance readback, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\HyperspaceUp}$ naming. It introduces no quotient equality, no extensional host equality of compact subsets, and no replacement distance outside the two directed ledgers $D_0,D_1$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:hyperspace-hausdorff-distance-stability}. Componentwise $\hsame$ transport preserves the two directed Hausdorff ledgers and the tolerance readback.
+
+Then use \autoref{thm:hyperspace-hausdorff-classifier-transport}. The classifier comparison must retain the same compact-source, complete-metric, finite-net, transport, replay, and local naming rows.
+
+Finally invoke \autoref{thm:hyperspace-namecert-obligations}. The $\NameCert_{\HyperspaceUp}$ row names only the displayed packet, so the classifier has no coordinate on which quotient equality or host extensional equality could enter.
 \end{proof}
 
 \closureat{HyperspaceUp}{seedStr}
