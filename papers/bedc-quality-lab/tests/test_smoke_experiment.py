@@ -36,7 +36,8 @@ def assert_common_experiment_envelope(envelope):
     }
     assert envelope.ledger_gaps
     assert envelope.debt_items
-    assert all(row.startswith("residue=") for row in envelope.ledger_gaps)
+    assert all(row.startswith("kind=") for row in envelope.ledger_gaps)
+    assert all("; residue=" in row for row in envelope.ledger_gaps)
     assert all("kind=" in row and "score=" in row for row in envelope.debt_items)
     assert set(envelope.metrics) == {
         "linear_identifiability_r2",
@@ -53,35 +54,35 @@ def assert_common_experiment_envelope(envelope):
 
 
 FALLBACK_LEDGER_GAPS = [
-    "residue=source-coverage; severity=high; status=open",
-    "residue=mixing-family-coverage; severity=high; status=open",
-    "residue=finite-sample-support; severity=high; status=open",
-    "residue=optimizer-certificate; severity=medium; status=partial",
-    "residue=global-claim-boundary; severity=high; status=open",
+    "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+    "kind=generalization; residue=global-claim-boundary; severity=high; status=open",
+    "kind=source; residue=finite-sample-support; severity=high; status=open",
+    "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+    "kind=source; residue=source-coverage; severity=high; status=open",
 ]
 
 FALLBACK_DEBT_ITEMS = [
     "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
-    "kind=distribution; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
-    "kind=finite-sample; residue=finite-sample-support; severity=high; status=open; score=0.200000",
-    "kind=optimization; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
-    "kind=global-claim; residue=global-claim-boundary; severity=high; status=open; score=0.200000",
+    "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+    "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+    "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+    "kind=generalization; residue=global-claim-boundary; severity=high; status=open; score=0.200000",
 ]
 
 TORCH_METADATA_LEDGER_GAPS = [
-    "residue=source-coverage; severity=high; status=open",
-    "residue=mixing-family-coverage; severity=high; status=open",
-    "residue=finite-sample-support; severity=high; status=open",
-    "residue=optimizer-certificate; severity=high; status=open",
-    "residue=global-claim-boundary; severity=high; status=open",
+    "kind=classifier; residue=optimizer-certificate; severity=high; status=open",
+    "kind=generalization; residue=global-claim-boundary; severity=high; status=open",
+    "kind=source; residue=finite-sample-support; severity=high; status=open",
+    "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+    "kind=source; residue=source-coverage; severity=high; status=open",
 ]
 
 TORCH_METADATA_DEBT_ITEMS = [
     "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
-    "kind=distribution; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
-    "kind=finite-sample; residue=finite-sample-support; severity=high; status=open; score=0.200000",
-    "kind=optimization; residue=optimizer-certificate; severity=high; status=open; score=0.200000",
-    "kind=global-claim; residue=global-claim-boundary; severity=high; status=open; score=0.200000",
+    "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+    "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+    "kind=classifier; residue=optimizer-certificate; severity=high; status=open; score=0.200000",
+    "kind=generalization; residue=global-claim-boundary; severity=high; status=open; score=0.200000",
 ]
 
 
@@ -200,22 +201,23 @@ def test_parameterized_experiment_preserves_producer_chain():
         "envelope": "reports/improvement_after_envelope.json",
         "report": "reports/quality_improvement_report.md",
     }
-    assert "kind=finite-sample; residue=finite-sample-support; severity=none; status=closed; score=0.000000" in envelope.debt_items
+    assert "kind=source; residue=finite-sample-support; severity=none; status=closed; score=0.000000" in envelope.debt_items
     assert all("kind=" in row and "score=" in row for row in envelope.debt_items)
-    assert all(row.startswith("residue=") for row in envelope.ledger_gaps)
+    assert all(row.startswith("kind=") for row in envelope.ledger_gaps)
+    assert all("; residue=" in row for row in envelope.ledger_gaps)
 
 
 def test_improvement_projection_fails_closed_for_missing_or_malformed_target_row():
     envelope = runner.run_experiment(use_torch=False)
     missing = replace(
         envelope,
-        debt_items=[row for row in envelope.debt_items if "kind=finite-sample;" not in row],
+        debt_items=[row for row in envelope.debt_items if "residue=finite-sample-support;" not in row],
     )
     malformed = replace(
         envelope,
         debt_items=[
-            "kind=finite-sample; residue=finite-sample-support; severity=high; status=open"
-            if "kind=finite-sample;" in row
+            "kind=source; residue=finite-sample-support; severity=high; status=open"
+            if "residue=finite-sample-support;" in row
             else row
             for row in envelope.debt_items
         ],
@@ -255,7 +257,7 @@ def test_quality_improvement_delta_and_report_projection():
     assert after.metrics["quality_q"] - before.metrics["quality_q"] > 0
     assert after.metrics["quality_debt"] - before.metrics["quality_debt"] < 0
     assert float(after_row["score"]) - float(before_row["score"]) < 0
-    assert delta["target_kind"] == "finite-sample"
+    assert delta["target_residue"] == "finite-sample-support"
     assert delta["delta_q"] > 0
     assert delta["delta_debt"] < 0
     assert "reports/improvement_before_envelope.json" in report
@@ -264,7 +266,7 @@ def test_quality_improvement_delta_and_report_projection():
     assert "delta_debt" in report
     assert "干预前 status：`open`" in report
     assert "干预后 status：`closed`" in report
-    assert "目标 debt kind：`finite-sample`" in report
+    assert "目标 debt residue：`finite-sample-support`" in report
 
 
 def test_experiment_torch_success_path_uses_tiny_encoder_metadata(monkeypatch):

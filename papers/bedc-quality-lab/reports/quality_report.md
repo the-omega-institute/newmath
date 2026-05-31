@@ -25,19 +25,19 @@
 
 ## Ledger gaps
 
-- residue=source-coverage; severity=high; status=open
-- residue=mixing-family-coverage; severity=high; status=open
-- residue=finite-sample-support; severity=high; status=open
-- residue=optimizer-certificate; severity=high; status=open
-- residue=global-claim-boundary; severity=high; status=open
+- kind=classifier; residue=optimizer-certificate; severity=high; status=open
+- kind=generalization; residue=global-claim-boundary; severity=high; status=open
+- kind=source; residue=finite-sample-support; severity=high; status=open
+- kind=source; residue=mixing-family-coverage; severity=high; status=open
+- kind=source; residue=source-coverage; severity=high; status=open
 
 ## Debt items
 
 - kind=source; residue=source-coverage; severity=high; status=open; score=0.180000
-- kind=distribution; residue=mixing-family-coverage; severity=high; status=open; score=0.220000
-- kind=finite-sample; residue=finite-sample-support; severity=high; status=open; score=0.200000
-- kind=optimization; residue=optimizer-certificate; severity=high; status=open; score=0.200000
-- kind=global-claim; residue=global-claim-boundary; severity=high; status=open; score=0.200000
+- kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000
+- kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000
+- kind=classifier; residue=optimizer-certificate; severity=high; status=open; score=0.200000
+- kind=generalization; residue=global-claim-boundary; severity=high; status=open; score=0.200000
 
 ## Artifacts
 

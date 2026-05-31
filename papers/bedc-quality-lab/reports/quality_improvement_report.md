@@ -2,7 +2,7 @@
 
 ## 对照设置
 
-- 目标 debt kind：`finite-sample`
+- 目标 debt residue：`finite-sample-support`
 - 干预前运行：`gaussian-ou-lejepa-finite-sample-before`
 - 干预后运行：`gaussian-ou-lejepa-finite-sample-after`
 - 干预前 artifact：`reports/improvement_before_envelope.json`

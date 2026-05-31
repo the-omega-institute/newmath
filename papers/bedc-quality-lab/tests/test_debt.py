@@ -34,10 +34,17 @@ def test_debt_assessment_has_five_bounded_categories():
 
     assert [item.kind for item in assessment.items] == [
         "source",
-        "distribution",
-        "finite-sample",
-        "optimization",
-        "global-claim",
+        "source",
+        "source",
+        "classifier",
+        "generalization",
+    ]
+    assert [item.residue for item in assessment.items] == [
+        "source-coverage",
+        "mixing-family-coverage",
+        "finite-sample-support",
+        "optimizer-certificate",
+        "global-claim-boundary",
     ]
     assert all(0.0 <= item.score <= 1.0 for item in assessment.items)
     assert math.isclose(
@@ -57,6 +64,16 @@ def assert_item(assessment, kind, *, severity, status, score):
     assert math.isclose(item.score, score, rel_tol=0.0, abs_tol=1e-12)
 
 
+def assert_residue(assessment, residue, *, kind, severity, status, score):
+    matches = [item for item in assessment.items if item.residue == residue]
+    assert len(matches) == 1
+    item = matches[0]
+    assert item.kind == kind
+    assert item.severity == severity
+    assert item.status == status
+    assert math.isclose(item.score, score, rel_tol=0.0, abs_tol=1e-12)
+
+
 def assess_case(source_spec, classifier_spec=None, stability_spec=None):
     return assess_debt(
         {"approx_identifiability_proxy": 0.25},
@@ -71,9 +88,23 @@ def test_source_coverage_thresholds_pin_closed_partial_open_statuses():
     partial_assessment = assess_case({"source_count": 2})
     closed_assessment = assess_case({"source_count": 3})
 
-    assert_item(open_assessment, "source", severity="high", status="open", score=0.18)
-    assert_item(partial_assessment, "source", severity="medium", status="partial", score=0.09)
-    assert_item(closed_assessment, "source", severity="none", status="closed", score=0.0)
+    assert_residue(open_assessment, "source-coverage", kind="source", severity="high", status="open", score=0.18)
+    assert_residue(
+        partial_assessment,
+        "source-coverage",
+        kind="source",
+        severity="medium",
+        status="partial",
+        score=0.09,
+    )
+    assert_residue(
+        closed_assessment,
+        "source-coverage",
+        kind="source",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
 
 
 def test_distribution_coverage_thresholds_pin_closed_partial_open_statuses():
@@ -81,9 +112,30 @@ def test_distribution_coverage_thresholds_pin_closed_partial_open_statuses():
     partial_assessment = assess_case({"mixing": ["a", "b"]})
     closed_assessment = assess_case({"mixing": ["a", "b", "c"]})
 
-    assert_item(open_assessment, "distribution", severity="high", status="open", score=0.22)
-    assert_item(partial_assessment, "distribution", severity="medium", status="partial", score=0.11)
-    assert_item(closed_assessment, "distribution", severity="none", status="closed", score=0.0)
+    assert_residue(
+        open_assessment,
+        "mixing-family-coverage",
+        kind="source",
+        severity="high",
+        status="open",
+        score=0.22,
+    )
+    assert_residue(
+        partial_assessment,
+        "mixing-family-coverage",
+        kind="source",
+        severity="medium",
+        status="partial",
+        score=0.11,
+    )
+    assert_residue(
+        closed_assessment,
+        "mixing-family-coverage",
+        kind="source",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
 
 
 def test_finite_sample_thresholds_pin_all_score_bands():
@@ -92,10 +144,38 @@ def test_finite_sample_thresholds_pin_all_score_bands():
     partial_support = assess_case({"sample_count": 1024})
     closed_support = assess_case({"sample_count": 2048})
 
-    assert_item(below_support, "finite-sample", severity="high", status="open", score=0.20)
-    assert_item(weak_support, "finite-sample", severity="medium", status="partial", score=0.10)
-    assert_item(partial_support, "finite-sample", severity="low", status="partial", score=0.05)
-    assert_item(closed_support, "finite-sample", severity="none", status="closed", score=0.0)
+    assert_residue(
+        below_support,
+        "finite-sample-support",
+        kind="source",
+        severity="high",
+        status="open",
+        score=0.20,
+    )
+    assert_residue(
+        weak_support,
+        "finite-sample-support",
+        kind="source",
+        severity="medium",
+        status="partial",
+        score=0.10,
+    )
+    assert_residue(
+        partial_support,
+        "finite-sample-support",
+        kind="source",
+        severity="low",
+        status="partial",
+        score=0.05,
+    )
+    assert_residue(
+        closed_support,
+        "finite-sample-support",
+        kind="source",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
 
 
 def test_optimization_certified_deterministic_and_open_training_statuses():
@@ -107,10 +187,38 @@ def test_optimization_certified_deterministic_and_open_training_statuses():
     certified_assessment = assess_case({}, {"name": "certified-search", "training": "align"})
     exhaustive_assessment = assess_case({}, {"name": "finite", "training": "exhaustive-grid"})
 
-    assert_item(open_assessment, "optimization", severity="high", status="open", score=0.20)
-    assert_item(partial_assessment, "optimization", severity="medium", status="partial", score=0.10)
-    assert_item(certified_assessment, "optimization", severity="none", status="closed", score=0.0)
-    assert_item(exhaustive_assessment, "optimization", severity="none", status="closed", score=0.0)
+    assert_residue(
+        open_assessment,
+        "optimizer-certificate",
+        kind="classifier",
+        severity="high",
+        status="open",
+        score=0.20,
+    )
+    assert_residue(
+        partial_assessment,
+        "optimizer-certificate",
+        kind="classifier",
+        severity="medium",
+        status="partial",
+        score=0.10,
+    )
+    assert_residue(
+        certified_assessment,
+        "optimizer-certificate",
+        kind="classifier",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
+    assert_residue(
+        exhaustive_assessment,
+        "optimizer-certificate",
+        kind="classifier",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
 
 
 def test_global_claim_multi_seed_thresholds_pin_closed_partial_open_statuses():
@@ -118,9 +226,30 @@ def test_global_claim_multi_seed_thresholds_pin_closed_partial_open_statuses():
     partial_assessment = assess_case({"global_claim": True}, stability_spec={"multi_seed": False})
     closed_assessment = assess_case({"global_claim": True}, stability_spec={"multi_seed": True})
 
-    assert_item(open_assessment, "global-claim", severity="high", status="open", score=0.20)
-    assert_item(partial_assessment, "global-claim", severity="medium", status="partial", score=0.10)
-    assert_item(closed_assessment, "global-claim", severity="none", status="closed", score=0.0)
+    assert_residue(
+        open_assessment,
+        "global-claim-boundary",
+        kind="generalization",
+        severity="high",
+        status="open",
+        score=0.20,
+    )
+    assert_residue(
+        partial_assessment,
+        "global-claim-boundary",
+        kind="generalization",
+        severity="medium",
+        status="partial",
+        score=0.10,
+    )
+    assert_residue(
+        closed_assessment,
+        "global-claim-boundary",
+        kind="generalization",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
 
 
 def test_debt_formatter_emits_canonical_keys():
