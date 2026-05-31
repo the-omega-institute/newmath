@@ -153,14 +153,27 @@ Transport is componentwise through $H$ and continuation replay is displayed thro
 Finally use ledger non-escape and the Darboux handoff, \autoref{thm:riemann-sum-ledger-nonescape-obligation} and \autoref{thm:riemann-sum-darboux-handoff}. They identify the exported object as the finite tagged-sum side of a Darboux or Riemann comparison, excluding quotient integrand equality, host limiting processes, and measure integrals.
 \end{proof}
 
+\begin{theorem}[Riemann sum mature finite mesh examples]
+\label{thm:riemann-sum-mature-finite-mesh-examples}
+The $\RiemannSumUp$ packet supports mature finite examples by displaying concrete rows for a mesh list, one tag-containment witness per cell, one carried value at each tag, one width row per cell, and the resulting finite sum row. A Darboux or Riemann consumer may read these examples as the finite comparison side of its own packet, but the example surface still stops before host integrability, convergence over all refinements, quotient equality of integrands, external tag choice, or a completed integral value.
+\end{theorem}
+\begin{proof}
+Choose any displayed finite mesh row $M$ and attach a tag-containment row $T$ with one carried tag witness for each cell. The value window $F$ and width ledger $W$ then supply exactly the summand data named by the cells and tags.
+
+The finite sum row $S$ is obtained by replaying the carried arithmetic route from $M,T,F,W$. By \autoref{thm:riemann-sum-width-exactness-obligation}, no summand is admitted unless its tag value and width are read from the same displayed cell route.
+
+Use \autoref{thm:riemann-sum-public-finite-tagged-sum-interface} and \autoref{thm:riemann-sum-tagless-refinement-ledger}. They make the examples public as finite tagged-sum boundaries for Darboux and Riemann consumers while keeping completeness, all-refinement convergence, quotient equality, external tag selection, and completed integral values outside the packet.
+\end{proof}
+
 \closureat{RiemannSumUp}{seedStr}
 \closureat{RiemannSumUp}{obligationStr}
 \closureat{RiemannSumUp}{scopedStr}
+\closureat{RiemannSumUp}{bridgedStr}
 
 \begin{closurestatus}{\RiemannSumUp}
   \constructivestory{A $\RiemannSumUp$ packet is generated from a finite mesh row, tag-containment row, integrand-read window, cell-width ledger, finite sum row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public finite tagged-sum interface is closed for $\BHist$ mesh rows, $\PartitionUp$, $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RiemannIntegralUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RiemannSumUp}$ row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The public finite tagged-sum interface and finite mesh example surface are closed for $\BHist$ mesh rows, $\PartitionUp$, $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RiemannIntegralUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RiemannSumUp}$ row.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host integrability, convergence over all refinements, measure-theoretic integration, quotient function equality, choice-selected tags, Lean verification, or bridge checking.}
