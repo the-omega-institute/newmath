@@ -104,6 +104,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         },
         "public_adapters": {
             "minigrid": "reports/bedc_jepa_public_minigrid_probe.json",
+            "minigrid_transition_packet": "reports/bedc_jepa_public_minigrid_transition_packet.json",
         },
         "cannot_claim": [
             "public JEPA implementation comparison",

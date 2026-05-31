@@ -13,6 +13,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert manifest["commands"]["test"] == "python -m pytest -q"
     assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"
     assert manifest["public_adapters"]["minigrid"] == "reports/bedc_jepa_public_minigrid_probe.json"
+    assert (
+        manifest["public_adapters"]["minigrid_transition_packet"]
+        == "reports/bedc_jepa_public_minigrid_transition_packet.json"
+    )
 
     claims = manifest["contact_ready_claims"]
     assert claims["four_system_ablation"] == ["S0", "S1", "S2", "S3"]

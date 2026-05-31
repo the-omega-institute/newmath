@@ -64,10 +64,12 @@ visual planning benchmark this reduces high-gap and unsafe state selection
 while exposing a real success-rate tradeoff.
 
 We cannot yet claim a public JEPA implementation comparison, a robotics result,
-or natural-video object interaction.  We have added a public MiniGrid adapter
-probe, but the current local environment does not have `gymnasium` / `minigrid`
-installed, so the public MiniGrid run is recorded as unavailable rather than
-executed.
+or natural-video object interaction.  We have added a public MiniGrid DoorKey
+transition packet contract for `MiniGrid-DoorKey-8x8-v0`: it samples Gymnasium
+`image` observations with shape `(7, 7, 3)` and discrete MiniGrid actions when
+the dependencies are present.  The current local environment does not have
+`gymnasium` / `minigrid` installed, so the public MiniGrid packet is recorded
+as unavailable rather than executed.
 
 Reproducible local commands:
 

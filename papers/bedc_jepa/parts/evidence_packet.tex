@@ -12,7 +12,8 @@ $$
 \text{JSON} & \texttt{bedc\_jepa\_four\_system\_experiment.json},\\
 \text{Torch objective} & \texttt{bedc\_jepa\_torch\_objective.json},\\
 \text{Manifest} & \texttt{bedc\_jepa\_artifact\_manifest.json},\\
-\text{Public MiniGrid probe} & \texttt{bedc\_jepa\_public\_minigrid\_probe.json}.
+\text{Public MiniGrid probe} & \texttt{bedc\_jepa\_public\_minigrid\_probe.json},\\
+\text{Public MiniGrid packet} & \texttt{bedc\_jepa\_public\_minigrid\_transition\_packet.json}.
 \end{array}
 $$
 The JSON artifacts are lab-local evidence boundaries.  They are not Python
@@ -58,8 +59,12 @@ distractors.  The remaining gaps are broader.  The planning rollouts are still
 local and synthetic rather than robot-control scale.
 
 \paragraph{Debt items.}
-The current debt items are scale debt, public-baseline debt, and artifact debt.
-Scale debt means the learned-transition and object-intervention benchmarks are
-small.  Public-baseline debt means the comparison is local and not yet run
-against a public JEPA implementation.  Artifact debt means the current package
-is a research branch rather than a cleaned external review bundle.
+The current debt items are scale debt, public-baseline debt, dependency debt,
+and artifact debt.  Scale debt means the learned-transition and
+object-intervention benchmarks are small.  Public-baseline debt means the
+comparison is local and not yet run against a public JEPA implementation.
+Dependency debt means the public MiniGrid transition packet has an executable
+DoorKey contract but records unavailable status in the current environment
+because \texttt{gymnasium} and \texttt{minigrid} are absent.  Artifact debt
+means the current package is a research branch rather than a cleaned external
+review bundle.
