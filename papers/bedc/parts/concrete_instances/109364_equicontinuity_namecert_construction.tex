@@ -81,6 +81,18 @@ Transport through $T$ is componentwise on the displayed rows. It may identify th
 Replay through $R$ and provenance through $P,N$ therefore reread the same shared-radius row. The compact metric, continuous-map, uniform-modulus, and finite-net consumers inherit the single $\rho$ boundary rather than a pointwise-radius surface.
 \end{proof}
 
+\begin{theorem}[Equicontinuity shared-radius obligation]
+\label{thm:equicontinuity-shared-radius-obligation}
+For every accepted $\EquicontinuityUp$ carrier $E=(K,F,\epsilon,\rho,M,T,R,P,N)$, the local $\NameCert_{\EquicontinuityUp}$ obligation requires the single radius row $\rho$ to serve every displayed member of $F$ at tolerance $\epsilon$ before any $\FiniteNetEquicontinuityUp$ or Arzela--Ascoli consumer may read the packet. No consumer may replace $\rho$ by memberwise radii, a pointwise-only modulus family, or a selected finite-net radius outside the carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:equicontinuity-carrier}. The family row $F$ is finite and displayed over the compact metric source $K$, while $\rho$ appears as one row between the tolerance $\epsilon$ and the modulus handoff $M$.
+
+Use the compact-metric route of \autoref{thm:equicontinuity-compact-metric-route}. It forces consumers to read $K,F,\epsilon,\rho,M$ before transport, replay, provenance, and local naming can expose the packet.
+
+Apply shared-radius stability and finite-net readiness, \autoref{thm:equicontinuity-shared-radius-stability} and \autoref{thm:equicontinuity-finite-net-readiness}. Together they keep $\rho$ stable under transport and make it available before any finite-net or Arzela--Ascoli-facing read, so pointwise-radius leakage is outside the accepted carrier.
+\end{proof}
+
 \begin{theorem}[Equicontinuity finite-net readiness]
 \label{thm:equicontinuity-finite-net-readiness}
 For every accepted $\EquicontinuityUp$ carrier $E=(K,F,\epsilon,\rho,M,T,R,P,N)$, a $\FiniteNetEquicontinuityUp$ consumer may begin only after the compact source $K$, the continuous family ledger $F$, the tolerance row $\epsilon$, the shared radius row $\rho$, and the modulus handoff $M$ have all been exposed. The rows $T,R,P,N$ preserve this order and do not themselves select a finite net.
@@ -110,7 +122,7 @@ The exclusions are also forced by \autoref{thm:equicontinuity-nonescape}. Any co
 \begin{closurestatus}{\EquicontinuityUp}
   \constructivestory{An $\EquicontinuityUp$ packet is generated from a compact metric source row, a finite continuous-family ledger, shared tolerance and radius rows, a $\UniformEquicontinuityModulusUp$ or $\UniformModulusUp$ handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:equicontinuity-carrier}, \autoref{thm:equicontinuity-namecert-obligations}, \autoref{thm:equicontinuity-compact-metric-route}, \autoref{thm:equicontinuity-nonescape}, \autoref{thm:equicontinuity-shared-radius-stability}, \autoref{thm:equicontinuity-finite-net-readiness}, and \autoref{thm:equicontinuity-modulus-ledger-exactness} seed the compact-source finite-family shared-modulus route over compact-source, continuous-family, tolerance, shared-radius, modulus-handoff, transport, replay, provenance, and local naming rows.}
+  \scopeclosed{\autoref{def:equicontinuity-carrier}, \autoref{thm:equicontinuity-namecert-obligations}, \autoref{thm:equicontinuity-compact-metric-route}, \autoref{thm:equicontinuity-nonescape}, \autoref{thm:equicontinuity-shared-radius-stability}, \autoref{thm:equicontinuity-shared-radius-obligation}, \autoref{thm:equicontinuity-finite-net-readiness}, and \autoref{thm:equicontinuity-modulus-ledger-exactness} seed the compact-source finite-family shared-modulus route over compact-source, continuous-family, tolerance, shared-radius, modulus-handoff, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close compactness, selected finite nets, selected subsequences, Arzela--Ascoli convergence, host-level continuity, pointwise-only radius choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\EquicontinuityUp$.}
