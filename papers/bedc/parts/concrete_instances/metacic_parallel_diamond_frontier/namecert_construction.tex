@@ -174,6 +174,22 @@ Next use \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction}. 
 Finally apply the sibling route theorem. The candidate-normalization handoff receives only the closed checker boundary, local-diamond window, residual ledger, retained premise, and obstruction data displayed by this packet. Since no carrier row contains global confluence, full strong normalization, subject reduction, evaluator equality, quotient equality, or kernel consistency, none of those endpoints is exported by the handoff.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond premise preservation]
+\label{thm:metacic-parallel-diamond-frontier-premise-preservation}
+Any confluence consumer that reads the conditional parallel-diamond handoff of \autoref{thm:metacic-parallel-diamond-confluence-handoff} must retain the residual-substitution premise row $P$ through the full packet spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+In particular, the handoff cannot erase $P$ into a completed residual-substitution theorem, premise-free parallel diamond, full Church--Rosser theorem, subject-reduction theorem, evaluator equality, quotient equality of terms, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-parallel-diamond-frontier-obligations}. It makes the residual-substitution premise row $P$ part of the local $\NameCert_{\MetaCICParallelDiamondFrontierUp}$ surface together with $K,J,R,S,C,B,O,H,T,G,N$.
+
+Next apply premise retention, \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. The retained premise is still visible when the local-diamond handoff is consumed, and the discharge-obstruction theorem \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction} keeps $O$ displayed unless a separate compatibility certificate is supplied.
+
+Finally use the confluence handoff theorem itself. Its exported route is exactly the conditional path through $P,K,J,R,S,C,B,O,H,T,G,N$, so any consumer that drops $P$ or reads the route as one of the refused endpoints has left the packet described by the carrier.
+\end{proof}
+
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
 
 \closureat{MetaCICParallelDiamondFrontierUp}{seedStr}
