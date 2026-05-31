@@ -15,9 +15,12 @@ Allocate your 3 targets approximately matching these weights:
 
 Source meanings:
 - top: `critical_path.top[0..N]` where N = `critical_path.dispatch_window.lean` (existing primary)
+- sieve_clearance_top: `critical_path.sieve_clearance_top` entries with small, local static-sieve gaps; use only when the listed clearance can be discharged by real Lean structure, not by renaming
 - formal_axis_top: `critical_path.formal_axis_top` (theory-grade-high + formal-grade-low)
 - unformalized_top: `critical_path.unformalized_top` (theorem-level unformalized)
 - carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket from `carrier_isomorphism` field
+
+`critical_path.sieve_demote` is not a dispatch source. It is a low-priority signal already applied to matching `top` scores; do not select extra work merely because a target appears there.
 
 If `dispatch_weights.lean.capstone_candidate` is non-null, you have a pre-picked carrier-isomorphism abstraction candidate. Use the suggested name and slug from that object — do NOT pick your own bucket or invent a different name (the rotation picks the next bucket each cycle so you don't need to choose).
 

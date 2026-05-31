@@ -23,11 +23,14 @@ Allocate your 5 review targets approximately matching these weights:
 
 Source meanings:
 - top: `critical_path.top[0..N]` where N = `critical_path.dispatch_window.paper` (existing primary)
+- sieve_clearance_top: `critical_path.sieve_clearance_top` entries with small, local static-sieve gaps; use only when the listed clearance can be discharged by real paper/Lean evidence, not by renaming
 - top_root_unblocks: `critical_path.top_root_unblocks` (root chapters needing theorem support)
 - closure_mark: closurestatus/token work from `critical_path.drift_chapters`, `bridge_sync_pending`, and `top_transitions`
 - carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket in `carrier_isomorphism`
 - human_derivation_gap: `critical_path.human_derivation_gap` chapters with `\origin{human}`, canonical exclusions, and no visible induction-style derivation proof
 - metacic_priority: `critical_path.metacic_priority` chapters or imports on the MetaCIC path
+
+`critical_path.sieve_demote` is not a review source. It is a low-priority signal already applied to matching `top` scores; do not select extra paper work merely because a target appears there.
 
 If `dispatch_weights.paper.capstone_candidate` is non-null, you have a pre-picked carrier-isomorphism abstraction candidate. Use the suggested name and slug from that object — do NOT pick your own bucket or invent a different name (the rotation picks the next bucket each cycle so you don't need to choose).
 
