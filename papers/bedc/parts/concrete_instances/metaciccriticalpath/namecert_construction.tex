@@ -381,22 +381,6 @@ Route replay preserves that row. Apply \autoref{thm:metacic-critical-path-route-
 The boundary and naming rows rule out a disguised discharge. Use \autoref{thm:metacic-critical-path-obstruction-boundary}, \autoref{thm:metacic-critical-path-discharge-socket-nonescape}, and \autoref{thm:metacic-critical-path-local-naming-exhaustion}. They keep $O$ and $D$ distinct, require a separate subject-reduction input before $D$ can be filled, and prevent the local name row from exporting a hidden theorem coordinate.
 \end{proof}
 
-\begin{theorem}[MetaCIC critical-path consistency route totality]
-\label{thm:metacic-critical-path-consistency-route-totality}
-Every consistency-facing route accepted by a $\MetaCICCriticalPathUp$ carrier reads the whole tuple
-$$
-S,N,O,U,D,H,C,P,L.
-$$
-In particular, no consistency-facing consumer may read only the normalization endpoint or only the handoff row while dropping the obstruction row, discharge socket, transport, continuation, provenance, or local naming rows of the displayed packet.
-\end{theorem}
-\begin{proof}
-Start from \autoref{thm:metacic-critical-path-carrier-admission}. It identifies the accepted carrier with exactly the tuple $K=(S,N,O,U,D,H,C,P,L)$ and supplies no abbreviated consistency carrier.
-
-The consistency handoff uses that full packet. Apply \autoref{thm:metacic-critical-path-consistency-handoff} and \autoref{thm:metacic-critical-path-handoff-row-totality}. The route from $S$ to $N$ is read through the displayed route, transport, provenance, and local naming rows while $O$ and $D$ remain visible.
-
-Finally apply \autoref{thm:metacic-critical-path-route-replay} and \autoref{thm:metacic-critical-path-route-exhaustion}. Replay has no route outside $S,N,O,U,D,H,C,P,L$, and therefore every accepted consistency-facing route is total over the displayed tuple rather than a partial read of a hidden closed-consistency object.
-\end{proof}
-
 \begin{theorem}[MetaCIC critical-path local name nonescape]
 \label{thm:metacic-critical-path-local-name-nonescape}
 For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, the local name row $L$ names only the displayed packet and its listed route obligations. It exports no closed subject-reduction theorem, no full closed-consistency theorem, no global beta-conversion decision procedure, and no quotient over MetaCIC terms.
