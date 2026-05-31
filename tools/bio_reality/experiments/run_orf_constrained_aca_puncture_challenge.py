@@ -78,6 +78,52 @@ def needs_data(started_at: str, missing_data: list[str]) -> int:
     return emit(result)
 
 
+def needs_external_audit_tables(started_at: str, data: dict[str, Any]) -> int:
+    unresolved = data.get("unresolved_required_audit_tables")
+    missing_tables = [str(item) for item in unresolved if isinstance(item, str)] if isinstance(unresolved, list) else []
+    checks = [
+        {
+            "name": "orf_constrained_dataset_loaded",
+            "passed": True,
+            "actual": relative(DATA_PATH),
+            "expected": "curated ORF-constrained external ACA reassignment challenge dataset",
+        },
+        {
+            "name": "external_audit_tables_available",
+            "passed": False,
+            "actual": {
+                "orf_eligible_aca_windows": len(optional_rows(data, "orf_eligible_aca_windows")),
+                "matched_control_pairs": len(optional_rows(data, "matched_control_pairs")),
+                "conserved_alignment_columns": len(optional_rows(data, "conserved_alignment_columns")),
+                "species_qc": len(optional_rows(data, "species_qc")),
+                "trna_candidates": len(optional_rows(data, "trna_candidates")),
+                "missing_external_audit_tables": missing_tables,
+            },
+            "expected": "non-empty external window, control, alignment, QC, and tRNA audit tables before confirmatory scoring",
+        },
+        {"name": "independent_inference_without_geometry", **inference_without_geometry(data)},
+        {"name": "median_closure_preserved_after_aca", **median_closure_preserved()},
+        {"name": "no_geometry_to_higher_layer_promotion", **no_forbidden_promotion(data)},
+    ]
+    result = base_result(started_at)
+    result.update(
+        {
+            "status": "needs_data",
+            "completed_at": now_iso(),
+            "checks": checks,
+            "result": {
+                "scope": "external_code_read_aca_reassignment_challenge_over_orf_eligible_windows_only",
+                "source": data.get("source", ""),
+                "snapshot_date": data.get("snapshot_date", ""),
+                "missing_external_audit_tables": missing_tables,
+                "required_reality_contact": "window-level ORF, matched-control, conserved-alignment, species-QC, and tRNA audit tables independent of BEDC geometry",
+                "stronger_statistic": "prospective no-geometry ORF-constrained holdout with at least 40 supported species, 80 ORF-eligible ACA windows, 80 matched control pairs, sign-test win rate at least 0.75 with p <= 0.0001, and at least 500 conserved columns with Asp support rate at least 0.85",
+            },
+        }
+    )
+    return emit(result)
+
+
 def parse_time(value: Any) -> datetime | None:
     text = str(value or "").strip()
     if not text:
@@ -367,6 +413,16 @@ def main() -> int:
     result = base_result(started_at)
     try:
         data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+        if isinstance(data, dict) and data.get("unresolved_required_audit_tables"):
+            audit_table_keys = (
+                "orf_eligible_aca_windows",
+                "matched_control_pairs",
+                "conserved_alignment_columns",
+                "species_qc",
+                "trna_candidates",
+            )
+            if all(not optional_rows(data, key) for key in audit_table_keys):
+                return needs_external_audit_tables(started_at, data)
         support = positive_support(data)
         alignment = alignment_enrichment(data)
         checks = [
