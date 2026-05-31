@@ -637,6 +637,7 @@ import BEDC.Derived.BaireCategoryUp.RefinementChoiceFree
 import BEDC.Derived.BaireCategoryUp.SourceRouteNonescape
 import BEDC.Derived.BaireCategoryUp.TasteGate
 import BEDC.Derived.BaireOneFunctionUp
+import BEDC.Derived.BaireOneFunctionUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
 import BEDC.Derived.BaireSteinhausUp.TasteGate
@@ -1185,6 +1186,7 @@ import BEDC.Derived.CauchyCompletionFunctorialityUp.TasteGate
 import BEDC.Derived.CauchyCompletionIsometryUp.TasteGate
 import BEDC.Derived.CauchyCompletionKleisliAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionKleisliUp.TasteGate
+import BEDC.Derived.CauchyCompletionLeftExactnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionLiftUp.TasteGate
 import BEDC.Derived.CauchyCompletionMonadUp
@@ -3466,6 +3468,7 @@ import BEDC.Derived.FareySequenceUp.DenominatorRefinement
 import BEDC.Derived.FareySequenceUp.DenominatorRefinementInduction
 import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.RealBracketConsumerLock
+import BEDC.Derived.FareySequenceUp.StreamWindowStability
 import BEDC.Derived.FareySequenceUp.TasteGate
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
 import BEDC.Derived.FastCauchyModulusUp.TasteGate
@@ -4239,6 +4242,7 @@ import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperspaceUp.CompactSubsetRootAdmission
+import BEDC.Derived.HyperspaceUp.FiniteHitDirectedCover
 import BEDC.Derived.HyperspaceUp.TasteGate
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.HypothesisUp
@@ -4897,6 +4901,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.SocketRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketAuditBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionBoundaryRouting
+import BEDC.Derived.MetaCICCriticalPathUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp.TransportRowStability
 import BEDC.Derived.MetaCICDecidableBoundaryUp
 import BEDC.Derived.MetaCICDecidableBoundaryUp.CandidateNormalFormReads
@@ -6697,6 +6702,7 @@ import BEDC.Derived.RiemannStieltjesIntegrationPartsUp.TasteGate
 import BEDC.Derived.RiemannStieltjesUp.MeshHandoff
 import BEDC.Derived.RiemannStieltjesUp.PartitionCoverage
 import BEDC.Derived.RiemannStieltjesUp.RouteClosure
+import BEDC.Derived.RiemannStieltjesUp.StepIntegratorExactness
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
 import BEDC.Derived.RiemannSumGaugeUp.TasteGate
 import BEDC.Derived.RiemannSumUp
