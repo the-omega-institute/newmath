@@ -60,12 +60,24 @@ The obstruction rows remain in the same finite packet. The boundary row $E$ requ
 Therefore the packet cannot export a route that is not already present in $C,M,T,G,B,E,O,H,R,P,N$. In particular, unrestricted beta-conversion decidability and hidden normalization endpoints have no carrier coordinate.
 \end{proof}
 
+\begin{theorem}[Typed conversion window obligation surface]
+\label{thm:typed-conversion-window-obligation-surface}
+Every consumer reading a typed-conversion claim from a $\MetacicDecidableAuditPacketUp$ carrier $A=(C,M,T,G,B,E,O,H,R,P,N)$ must expose the typing rows $C,M,T$ and the bounded-normal rows $B,E,O$ as separate windows. The checked typing-inference route through \texttt{inferTypeCtx}, \texttt{Term.eq}, \texttt{checkSameTerm}, and \texttt{HasType} soundness/completeness cannot be read as unrestricted beta-conversion decidability; bounded normal comparison is available only through $B$, finished closed-normal hypotheses remain explicit in $E$, and the obstruction row $O$ records the excluded global conclusions.
+\end{theorem}
+\begin{proof}
+Project the packet rows from \autoref{def:metacic-decidable-audit-packet}. The checker and same-term rows $C,M$ supply the syntactic checking surface, while $T$ is the only row that records typing soundness and completeness for the represented \texttt{HasType} relation.
+
+Route conversion-facing reads through a different window. The bounded comparison row $B$ names the \texttt{normalizeBounded} and \texttt{decideClosedBetaConv} surface, and $E$ keeps the finished closed-normal hypotheses visible before a normal-form equality claim is read.
+
+Finally use the obstruction row $O$. It excludes unrestricted closed beta-conversion decidability and standalone closedness decision, so a consumer cannot collapse the typing window $C,M,T$ into a global conversion oracle. The structural rows $H,R,P,N$ transport, replay, package, and name the same separated route.
+\end{proof}
+
 \closureat{MetacicDecidableAuditPacketUp}{seedStr}
 
 \begin{closurestatus}{\MetacicDecidableAuditPacketUp}
   \constructivestory{A $\MetacicDecidableAuditPacketUp$ packet is generated from checker, same-term, typing, gallery, bounded-normal comparison, boundary, obstruction, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-decidable-audit-packet}, \autoref{thm:metacic-decidable-audit-packet-namecert-obligations}, and \autoref{thm:metacic-decidable-audit-packet-nonescape} bind the finite audit packet for checked MetaCIC typing inference and bounded normal comparison.}
+  \scopeclosed{\autoref{def:metacic-decidable-audit-packet}, \autoref{thm:metacic-decidable-audit-packet-namecert-obligations}, \autoref{thm:metacic-decidable-audit-packet-nonescape}, and \autoref{thm:typed-conversion-window-obligation-surface} bind the finite audit packet for checked MetaCIC typing inference and bounded normal comparison.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
