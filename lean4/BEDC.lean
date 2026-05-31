@@ -1649,6 +1649,7 @@ import BEDC.Derived.CauchyRateRealizationUp.TasteGate
 import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CauchyRealApartnessUp
 import BEDC.Derived.CauchyRealApartnessUp.TasteGate
+import BEDC.Derived.CauchyRealArchimedeanUp.TasteGate
 import BEDC.Derived.CauchyRealCompletionInterfaceUp.TasteGate
 import BEDC.Derived.CauchyRealEqualityUp.TasteGate
 import BEDC.Derived.CauchyRealFieldUp.TasteGate
@@ -4873,6 +4874,7 @@ import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.RouteBoundary
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
+import BEDC.Derived.MetricAnnulusUp.TasteGate
 import BEDC.Derived.MetricBallUp.BoundedSetContainmentRoute
 import BEDC.Derived.MetricBallUp.CauchyFilterEntryBoundary
 import BEDC.Derived.MetricBallUp.FiniteIntersectionReadiness
@@ -5499,6 +5501,7 @@ import BEDC.Derived.PolishspaceUp.RootCountableDenseCauchyReadback
 import BEDC.Derived.PolishspaceUp.RootUnblockSurface
 import BEDC.Derived.PolishspaceUp.RootUnblockWindowDiscipline
 import BEDC.Derived.PolishspaceUp.StreamNameBasis
+import BEDC.Derived.PolishspaceUp.StreamNameDenseHandoff
 import BEDC.Derived.PolishspaceUp.StreamNameRealDependencyAnchor
 import BEDC.Derived.PolishspaceUp.TasteGate
 import BEDC.Derived.PolynomialUp
@@ -6921,6 +6924,7 @@ import BEDC.Derived.SubstitutionBoundaryAuditUp.TasteGate
 import BEDC.Derived.SubstitutionGeneratorAuditUp.TasteGate
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SubtypeUp.TasteGate
+import BEDC.Derived.SuccessiveApproximationUp.TasteGate
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
 import BEDC.Derived.SumUp.CarrierAwareSameTagExactness
