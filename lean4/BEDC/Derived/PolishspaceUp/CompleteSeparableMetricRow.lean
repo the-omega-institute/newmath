@@ -39,7 +39,7 @@ theorem PolishSpaceCompleteSeparableMetricRow [AskSetup] [PackageSetup]
   obtain ⟨_metricUnary, completeUnary, separableUnary, streamUnary, readbackUnary,
     _ledgerUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
     _metricCompleteLedger, _ledgerStreamReadback, _transportReplayProvenance,
-    _carrierPkg⟩ := carrier
+    _carrierPkg, _carrierLocalPkg⟩ := carrier
   have completeReadUnary : UnaryHistory completeRead :=
     unary_cont_closed completeUnary separableUnary completeSeparableRead
   have denseReadUnary : UnaryHistory denseRead :=
@@ -81,5 +81,30 @@ theorem PolishSpaceCompleteSeparableMetricRow [AskSetup] [PackageSetup]
       exact ⟨source.right, provenancePkg, localNamePkg⟩
   }
   exact ⟨cert, completeReadUnary, denseReadUnary, rowReadUnary⟩
+
+theorem PolishSpaceCarrier_separable_complete_metric_obligations [AskSetup] [PackageSetup]
+    {metric complete separable stream readback ledger transport replay provenance localName
+      completeSeparable : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolishSpaceCarrier metric complete separable stream readback ledger transport replay
+        provenance localName bundle pkg ->
+      Cont complete separable completeSeparable ->
+        PkgSig bundle completeSeparable pkg ->
+          UnaryHistory metric ∧ UnaryHistory complete ∧ UnaryHistory separable ∧
+            UnaryHistory stream ∧ UnaryHistory readback ∧ UnaryHistory completeSeparable ∧
+              Cont complete separable completeSeparable ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle localName pkg ∧ PkgSig bundle completeSeparable pkg := by
+  -- BEDC touchpoint anchor: PolishSpaceCarrier BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier completeSeparableRoute completeSeparablePkg
+  obtain ⟨metricUnary, completeUnary, separableUnary, streamUnary, readbackUnary,
+    _ledgerUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _metricCompleteLedger, _ledgerStreamReadback, _transportReplayProvenance,
+    provenancePkg, localNamePkg⟩ := carrier
+  have completeSeparableUnary : UnaryHistory completeSeparable :=
+    unary_cont_closed completeUnary separableUnary completeSeparableRoute
+  exact
+    ⟨metricUnary, completeUnary, separableUnary, streamUnary, readbackUnary,
+      completeSeparableUnary, completeSeparableRoute, provenancePkg, localNamePkg,
+      completeSeparablePkg⟩
 
 end BEDC.Derived.PolishSpaceUp
