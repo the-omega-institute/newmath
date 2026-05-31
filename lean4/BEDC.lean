@@ -3683,6 +3683,7 @@ import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteLowerBoundFoldUp.TasteGate
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
+import BEDC.Derived.FiniteNetEquicontinuityUp.TasteGate
 import BEDC.Derived.FiniteNetMinimumFoldUp
 import BEDC.Derived.FiniteNetMinimumFoldUp.CompactModulusAttainment
 import BEDC.Derived.FiniteNetMinimumFoldUp.CompactUniformPointwiseRadiusChain
@@ -6173,6 +6174,7 @@ import BEDC.Derived.RegSeqRatUp.TailBudgetTerminalRealSeal
 import BEDC.Derived.RegSeqRatUp.TerminalFourFaceSourceUniqueness
 import BEDC.Derived.RegistryChangeContinuityUp.TasteGate
 import BEDC.Derived.RegistryConsistencyAuditUp.TasteGate
+import BEDC.Derived.RegistryExportConsistencyGateUp.Carrier
 import BEDC.Derived.RegistryExportConsistencyGateUp.NoConflictExport
 import BEDC.Derived.RegistryExportConsistencyGateUp.TasteGate
 import BEDC.Derived.RegistryExportSurfaceUp.TasteGate
