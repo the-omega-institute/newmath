@@ -4,192 +4,193 @@
 This section records gate-passed BioReality research memory. Its statements separate curated biological reality contacts from internal coordinate, closure, spectrum, and relation readings.
 
 \origin{ai}
-\subsection{Window-six local codon tiles}
-\label{sec:codon-window6-local-tile-boundary}
 
-\paragraph{Finite display.}
-This record treats the standard-code codon table as a finite label contact placed over a six-bit codon coordinate cube $Q_6$.  The data used here are not a model of ribosomal translation and not a model of folded protein structure.  They are a code-layer readback: each codon is available as a finite coordinate, and the curated table supplies the amino-acid or stop label attached to that coordinate.  Within that limited setting the distinguished boundary row is the thirteen-codon set
+\subsection{Window-six codon tiles at the code layer}
+\label{sec:codon-window-six-local-tile-boundary}
+
+\paragraph{Scope of the record.}
+This record concerns a six-coordinate display of the standard genetic code as a finite codon cube $Q_6$.  The data under discussion are codon labels in a curated standard-code table: each codon is assigned an amino-acid or stop label, and the construction asks whether a local window-six pattern separates a boundary tile inside that label table.  The contact is therefore a code-read contact.  It does not observe translation as a cellular process, a folded structure, thermodynamic admissibility, biological function, a mechanism, or a universal law across organisms.  Those stronger readings require separate observations and are not supplied by the finite rows used here.
+
+\paragraph{Finite carrier and distinguished boundary set.}
+The carrier is the $64$-point codon cube presented through six binary coordinates.  In the verified row $h0.R.cardinality.13$, the distinguished boundary set $R$ has cardinality $13$ and is exactly
 $$
 \begin{aligned}
-R=\{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
-&UAA, UAG, UCA, UGA, UUA\}.
+R = \{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
+     &UAA, UAG, UCA, UGA, UUA\}.
 \end{aligned}
 $$
-The verified row count is $|R|=13$.  Its cubical face accounting is the punctured-cube vector $(13,16,4)$, meaning that the finite row is not merely an unstructured list: it carries thirteen vertices, sixteen observed one-dimensional adjacencies, and four two-dimensional faces in the local tile display.  This is the concrete object being discussed in the chapter.  No claim is made here that the same finite pattern is a global biological law.
-
-\paragraph{Local spectral and shape evidence.}
-The finite row also carries a numerical spectrum.  The recorded values are $\lambda_M=0.6752479308830213$, $\lambda_R=0.4758352843197002$, and $\mu=3.051487585298128$.  The radial polynomial check returned $-6.224354365258478\times 10^{-12}$, the same value recorded for the cubic-polynomial residual, so the numerical witness is at floating-point tolerance rather than exact symbolic equality.  The shape comparison used $N=2000$ finite samples with seed $42$.  It required $57377$ distinct-sample attempts and $55377$ duplicate retries, producing $1$ exact shape match and $25$ matches with Jaccard score at least $0.9$.  Thus the reported finite-sample rates are $p_{\mathrm{exact}}=0.0005$ and $p_{\mathrm{Jaccard}\ge 0.9}=0.0125$.  A second null route preserving amino-acid classes again used $N=2000$ and seed $42$; it found $0$ exact matches, $7$ lower-tail hits at or below the observed $M$ size, and observed $|M|=20$.  The corresponding reported rates are $0.0$ for exact shape and $0.0035$ for the lower tail.  These numbers support a finite local separation at the code-label level.  They do not by themselves identify a biochemical cause.
-
-\paragraph{Leave-one tests.}
-The leave-one-code-out row evaluated $23$ code tables and $63$ total targets.  Its baseline hit rate was $0.19821739130434785$.  Against that baseline, the recorded hit rate above baseline was $0.9841269841269841$, the hit rate inside $M-T$ was $0.9365079365079365$, and the hit rate inside $M-T$ plus the boundary was $0.9841269841269841$.  The family-level account has $5$ families: alternative yeast at $0.8333333333333334$, bacterial or plastid at $1.0$, candidate other at $1.0$, mitochondrial at $1.0$, and nuclear ciliate at $1.0$.  The leave-one-codon-out row records $0$ anchors, $5$ boundary cases, $8$ high-coverage closure cases, $8$ predictable cases, and recovery rate $1.0$.  These tests are finite deletion probes over code labels.  They show that the local tile retains substantial recovery information under the tested deletions, but they do not observe amino-acid incorporation, peptide synthesis, molecular stability, organismal fitness, or function.
-
-\paragraph{Module accounting.}
-The thirteen boundary codons are completely assigned to six modules.  The verified module partition is
+The independent punctured-cube row $h0.R.punctured.cube$ reports the same codon list and gives the face-count signature
 $$
 \begin{aligned}
-\mathrm{agr}&=\{AGA,AGG\},\\
-\mathrm{ar\_lys}&=\{AAA\},\\
-\mathrm{cun}&=\{CUA,CUC,CUG,CUU\},\\
-\mathrm{ile\_met}&=\{AUA\},\\
-\mathrm{ssn}&=\{UCA,UUA\},\\
-\mathrm{stop\_trp}&=\{UAA,UAG,UGA\}.
+(f_0,f_1,f_2)=(13,16,4).
 \end{aligned}
 $$
-The completion check reports $R\_size=13$, $assigned\_count=13$, no extra module codons, no missing codons from the modules, and no unassigned codons.  Consequently the finite row has a closed local bookkeeping form: every listed boundary codon appears in exactly the supplied module accounting, and every module codon is part of the thirteen-codon row.  This is the strongest statement supported by the supplied table-level evidence.
+Thus the finite object is not merely a list of exceptional labels: it has a local cubical shape with thirteen vertices, sixteen one-dimensional adjacencies, and four two-dimensional faces.  The singleton-corner and three-point label-class language should be read at this level only: it describes how the displayed code labels meet the local tile, not how molecules must behave.
 
-\paragraph{Reality contact and scope.}
-The contact is the curated standard genetic-code table, used only as a codon-to-label source.  It permits a local comparison between six-bit codon coordinates, tile faces, singleton label corners, three-point label classes, and the observed standard-code label assignments.  It does not measure translation realization, folded structure, physical admissibility, biological function, or a universal mechanism.  In particular, amino-acid label readback is still just label readback: it is not a protein fold, not a structural-order observation, and not evidence that the local tile is imposed on biology as necessity.  Any move beyond the code layer would require a separate contact that directly observes the higher layer being asserted.  The finite conclusion of this record is therefore narrow: the window-six coordinates expose a statistically and combinatorially sharp local boundary tile in the curated standard-code table, while all claims about translation, folding, physical possibility, function, mechanism, and universality remain outside the supported scope.
+\paragraph{Spectral row.}
+The row $h0.spectrum$ gives a numerical spectrum attached to the same finite display.  Its reported values are
+$$
+\begin{aligned}
+\lambda_M &= 0.6752479308830213,\\
+\lambda_R &= 0.4758352843197002,\\
+\mu &= 3.051487585298128.
+\end{aligned}
+$$
+The radial cubic check is numerically stable at the recorded tolerance, with polynomial value $-6.224354365258478\times 10^{-12}$.  This is a finite algebraic consistency check for the local display.  It is not evidence that the standard code is generated by the geometry, and it is not a biochemical selection principle.
 
-\subsection{ORF eligibility as a boundary seed}\label{subsec:orf-eligibility-seed-boundary}
+\paragraph{Shape significance under finite null sampling.}
+The row $h0.M.shape.significance$ tests the observed local shape against $2000$ sampled alternatives with seed $42$.  The run needed $57377$ distinct-sample attempts and incurred $55377$ duplicate retries.  It found $1$ exact shape match and $25$ matches at Jaccard threshold at least $0.9$.  The corresponding reported probabilities are
+$$
+\begin{aligned}
+p_{\mathrm{exact}} &= 0.0005,\\
+p_{\mathrm{Jaccard}\geq 0.9} &= 0.0125.
+\end{aligned}
+$$
+A stricter amino-acid-class-preserving null row, $h0.null.model.aa_class_preserving$, again used $N=2000$ and seed $42$.  It reports observed $M$ size $20$, exact match count $0$, lower-tail count $7$, exact-shape probability $0.0$, and lower-tail probability $0.0035$.  These finite null checks say that the observed local shape is uncommon under the tested replacement procedures.  They do not identify a physical cause and do not license promotion from code labels to protein structure.
+
+\paragraph{Leave-one-code-out readback.}
+The row $h1.leave.one.code.out$ evaluates $23$ code tables with $63$ total targets.  The baseline hit rate is $0.19821739130434785$.  The hit rate inside $M-T$ is $0.9365079365079365$, and the hit rate inside $M-T$ with the boundary included is $0.9841269841269841$.  The reported hit rate above baseline is also $0.9841269841269841$.  By family, row $h1.leave_one_code_out.by_family$ records $5$ families, with hit rates above baseline
+$$
+\begin{aligned}
+\mathrm{alternative\_yeast} &= 0.8333333333333334,\\
+\mathrm{bacterial\_plastid} &= 1.0,\\
+\mathrm{candidate\_other} &= 1.0,\\
+\mathrm{mitochondrial} &= 1.0,\\
+\mathrm{nuclear\_ciliate} &= 1.0.
+\end{aligned}
+$$
+The appropriate reading is narrow: when labels are hidden in the tested way, the local tile and boundary rows recover code-table labels at high finite rates.  The result is a code-read regularity, not a demonstration of translation machinery or organism-level necessity.
+
+\paragraph{Leave-one-codon-out and module coverage.}
+The row $h1.leave.one.codon.out$ reports no anchors, $5$ boundary codons, $8$ high-coverage closures, $8$ predictable codons, and recovery rate $1.0$.  The module-classification row partitions the same $13$ boundary codons without omissions or extras: $R$ size is $13$, assigned count is $13$, and the lists of extra module codons, missing codons, and unassigned codons are empty.  The modules are
+$$
+\begin{aligned}
+\mathrm{agr} &= \{AGA,AGG\},\\
+\mathrm{ar\_lys} &= \{AAA\},\\
+\mathrm{cun} &= \{CUA,CUC,CUG,CUU\},\\
+\mathrm{ile\_met} &= \{AUA\},\\
+\mathrm{ssn} &= \{UCA,UUA\},\\
+\mathrm{stop\_trp} &= \{UAA,UAG,UGA\}.
+\end{aligned}
+$$
+Every listed module contains a predictable or boundary member in the recorded classification.  This supports the local boundary-tile description as a finite code-table phenomenon.  It does not turn the module names into claims about folded proteins, tRNA realization, biochemical admissibility, or cellular function.
+
+\paragraph{Boundary of legitimate interpretation.}
+The evidence is strongest where all components remain finite and local: a six-bit codon display, a curated standard-code label table, a thirteen-codon boundary set, a punctured-cube face signature, spectral checks, null-sampling rarity, and leave-one-out recovery.  The evidence stops at the code-read layer.  In particular, an amino-acid label sequence read from the table is not a folded protein structure; a local tile in $Q_6$ is not a global law of biology; and a high recovery rate for hidden labels is not a mechanism of translation.  The next admissible step would require a different contact that directly observes the stronger layer being claimed.
+
+\subsection{ORF eligibility as a guarded boundary packet}
+\label{subsec:orf-eligibility-seed-boundary}
 \origin{ai}
 
-\paragraph{Layer and finite object.}
-The object considered here is not a claim that a molecular interval is translated. It is the much narrower eligibility layer obtained when start and stop codons are enumerated inside finite nucleotide windows. The layer is therefore a boundary record: it specifies what a start--stop test can sort, and it records exactly where that test must stop. The biological object is open-reading-frame eligibility from start/stop codon enumeration, with claimed layer $\mathrm{orf\_eligibility}$. Its minimal coordinate has no internal biological structure before contact: the carrier, readback, and distinguishing biological datum are all absent until a curated interval, sequence record, or transcript record is attached. In this state the packet may say that a test is waiting for contact; it may not say that an ORF has been observed.
+\paragraph{Finite object under test.}
+The record considered here is an open-reading-frame eligibility packet whose biological interpretation is deliberately narrow.  Its biological object is start--stop codon enumeration for candidate nucleotide windows, not translation, protein production, folding, molecular admissibility, cellular role, mechanism, or a general biological law.  The packet begins in a boundary state: without an attached curated sequence interval, transcript observation, or annotation contact, the finite codon geometry is only a testable proposal about what kind of interval would have to be supplied.  The local distinction is therefore between a window whose endpoints pass a syntactic start--stop enumeration rule and an observed biological interval.  Only the former is supplied by the geometry alone.
 
-\paragraph{Codon geometry used by the seed.}
-The finite codon side is concrete. The motif-compressed set $R$ has exactly thirteen listed codons and no missing or extra entries relative to the verified motif union:
-$$
-\begin{aligned}
-R = \{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
-\end{aligned}
-$$
-The larger finite codon set $M$ has cardinality $20$ and is exactly
-$$
-\begin{aligned}
-M = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\\
-&\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\\
-&\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-The finite saturation check records that $\operatorname{Sat}_{f_3}(R)$ reaches $M$ except for $\mathrm{ACA}$ and $\mathrm{ACG}$, while the $f_3$ boundary residue is empty. Equivalently, the verified saturated list is the eighteen-element set
-$$
-\begin{aligned}
-\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\\
-&\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-These lists are useful for building a finite classifier, but they remain codon-level geometry. They do not by themselves identify a biological interval.
+\paragraph{Codon-row ground data.}
+The finite codon universe used by the row audit has cardinality $20$.  The verified set $M$ is
+$\{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}$,
+with reported size $20$.  The motif-compressed set $R$ is
+$\{\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}$,
+and the row audit reports no missing and no extra members for that compression.  The $f_3$ saturation fact gives
+$\mathrm{Sat}_{f_3}(R)=M\setminus\{\mathrm{ACA},\mathrm{ACG}\}$
+with the listed eighteen members
+$\{\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}$,
+and the reported $f_3$ boundary residue is empty.  The same audit states that $M$ is recovered as $\mathrm{Med}(R)\cup\{\mathrm{ACA}\}$, again with the full twenty-member list above.
 
-\paragraph{Quotient geometry and its restricted meaning.}
-The finite geometry also carries an audited quotient summary. For $M$, the verified face vector is $(20,38,26,8,1)$. Its quotient has size $10$, quotient face vector $(10,14,6,1)$, and verified coordinate rows
-$$
-\begin{aligned}
-&(0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\\
-&(0,1,0,0,0),\ (0,1,0,0,1),\ (1,0,0,0,1),\ (1,0,1,1,1),\\
-&(1,0,1,0,1),\ (1,0,1,1,1).
-\end{aligned}
-$$
-This quotient information is a finite combinatorial summary of the codon packet. It can constrain a start--stop enumeration rule, but it cannot replace an observed biological source. The audited self-check says the same thing in operational form: three boundary gates were checked, and no codon geometry was promoted across biological layers.
+\paragraph{Geometry visible before biological contact.}
+The row-level quotient audit contributes finite geometry but does not by itself create a biological assertion.  The vector for $M$ is reported as $(20,38,26,8,1)$, while the quotient vector is $(10,14,6,1)$ and $|\pi_M|=10$.  The ten quotient rows are
+$(0,0,0,0,1)$, $(0,0,0,1,1)$, $(0,0,1,0,1)$, $(0,0,1,1,1)$, $(0,1,0,0,0)$, $(0,1,0,0,1)$, $(1,0,0,0,1)$, $(1,0,0,1,1)$, $(1,0,1,0,1)$, and $(1,0,1,1,1)$.  These numbers describe the finite codon-coordinate object available to the packet.  They may be used to define and classify candidate windows, but they do not witness that a real cell translates the interval, that the translated chain folds, that the chain is physically admissible, or that it has biological activity.
 
-\paragraph{Window enumeration before curated contact.}
-A finite start--stop window manifest was loaded with snapshot date $2026$-$05$-$25$. It contained one input window, and the start--stop enumeration classified that one window. The recorded scope was $\mathrm{external\_window\_start\_stop\_enumeration\_only}$, and the module outcome was explicitly $\mathrm{orf\_eligibility\_only}$. Thus the local classifier is total on the supplied one-row manifest:
-$$
-\begin{aligned}
-\mathrm{classified} &= 1,\\
-\mathrm{input\_windows} &= 1,\\
-\mathrm{window\_count} &= 1.
-\end{aligned}
-$$
-This is an eligibility computation over a supplied row, not evidence for translation, folding, physical admissibility, biological function, mechanism, or a universal biological rule.
+\paragraph{Window-classification contact.}
+A first finite window audit loads one external start--stop enumeration manifest dated 2026-05-25.  Its scope is explicitly recorded as external-window start--stop enumeration only.  The dataset has one input window, the pipeline classifies one window, and the audit reports $1$ classified window out of $1$ supplied window.  The module classification is therefore an eligibility-only classification: the recorded value is \texttt{orf\_eligibility\_only}.  This is sufficient to say that the finite rule classified the supplied window under start--stop enumeration.  It is not sufficient to say that the window was translated, expressed, folded, selected, conserved, functional, or universal.
 
-\paragraph{Curated interval contact.}
-A separate curated interval contact was later attached using NCBI RefSeq GenBank XML CDS intervals from \emph{Escherichia coli} K-12 MG1655 complete genome accession $\mathrm{NC\_000913.3}$, with snapshot date $2026$-$05$-$30$. The dataset path was recorded as \texttt{tools/bio\_reality/data/curated\_orf\_interval\_contact\_dataset.json}, and it contained $168$ rows. The required classes were present: boundary cases, matched non-ORF decoys, and positive curated ORFs. The classifier identifier was $\mathrm{orf\_start\_stop\_window\_eligibility}$, and the rules were not modified after the protocol boundary was fixed. The protocol was frozen at $2026$-$05$-$29\mathrm{T}19{:}11{:}13+00{:}00$, before external evidence was observed at $2026$-$05$-$30\mathrm{T}10{:}29{:}31+00{:}00$.
+\paragraph{Curated interval contact and controls.}
+A separate curated-interval contact, dated 2026-05-30, loads $168$ rows from a curated ORF interval dataset based on NCBI RefSeq GenBank XML CDS intervals for \textit{Escherichia coli} K-12 MG1655 accession NC\_000913.3.  The frozen classifier is \texttt{orf\_start\_stop\_window\_eligibility}; the audit records that classifier rules were not modified after protocol fixation.  The required input classes are present: boundary cases, matched non-ORF decoys, and positive curated ORFs.  The protocol was fixed at 2026-05-29T19:11:13+00:00, and the external evidence was observed at 2026-05-30T10:29:31+00:00.  The analysis records no use of translation or structural input.
 
-\paragraph{Finite statistics of the contact.}
-Within that contacted dataset, the positive class had $72$ accepted examples out of $72$, with accept rate $1.0$ and one-sided exact binomial upper-tail value $2.117582368135751\times 10^{-22}$. The matched decoy class had $72$ rejected examples out of $72$, with reject rate $1.0$ and the same one-sided value $2.117582368135751\times 10^{-22}$. The predeclared paired comparison had $72$ wins in $72$ pairs, again with upper-tail value $2.117582368135751\times 10^{-22}$:
-$$
-\begin{aligned}
-\mathrm{positive\ acceptances} &= 72/72,\\
-\mathrm{matched\ decoy\ rejections} &= 72/72,\\
-\mathrm{paired\ wins} &= 72/72,\\
-p &= 2.117582368135751\times 10^{-22}.
-\end{aligned}
-$$
-The boundary controls were not promoted: $24$ boundary cases yielded $0$ promotions, so the promoted fraction was $0.0$. Held-out stability was checked across three folds, named left-locus, middle-locus, and right-locus folds; each fold had $24$ positive rows and $24$ decoy rows, with positive accept rate $1.0$, decoy reject rate $1.0$, and pass status true.
+\paragraph{Finite statistical separation.}
+Within that curated contact, $72$ positive curated intervals were accepted, giving accept rate $1.0$ and one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$.  The matched decoy control rejected $72$ of $72$ decoys, giving reject rate $1.0$ with the same one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$.  The predeclared paired baseline comparison records $72$ wins in $72$ pairs, win rate $1.0$, and the same reported one-sided binomial value.  Held-out stability is reported across three folds: left, middle, and right locus folds each contain $24$ positives and $24$ decoys, each pass with positive accept rate $1.0$ and decoy reject rate $1.0$.  Boundary controls contain $24$ cases, with $0$ promotions and promoted fraction $0.0$.
 
-\paragraph{Local conclusion.}
-The contacted result supports only this local statement: for the audited finite RefSeq interval dataset and its matched controls, the frozen start--stop eligibility rule separates curated positive intervals from matched non-ORF decoys and does not promote the boundary cases. The result does not say that every start--stop window is an ORF, does not show translation, does not determine protein structure, does not establish physical admissibility, does not identify biological function, does not supply a mechanism, and does not assert universality beyond the contacted finite rows. Any stronger biological layer requires another independent contact capable of testing that stronger layer.
+\paragraph{Local claim boundary.}
+The self-check records three checked gates and states that no codon geometry is promoted across biological layers.  Accordingly, the present packet can say only this: finite codon geometry plus an attached curated interval contact supports ORF-eligibility classification inside the stated external interval dataset.  It cannot say that translation occurred, that a protein product exists, that any product folds, that physical chemistry admits the product, that the interval has function, that a mechanism has been discovered, or that the result extends beyond the supplied dataset.  Those stronger claims require their own contacts and their own finite audits.  The NCBI-derived contact remains a curated biological input to this experiment; it is not converted into kernel content by the codon geometry itself.
 
 \origin{ai}
 
-\subsection{Cross-organism CUN/UUR leucine usage and tRNA-Leu copy-number contact}
+\subsection{Cross-organism CUN/UUR leucine usage as a bounded translation-layer statistic}
 \label{sec:cross-organism-cun-uur-leu-gate-translation-realization}
 
-\paragraph{Finite carrier.}
-This record treats the leucine codon split between the CUN and UUR synonymous families as a finite organism-indexed coordinate, not as a direct molecular mechanism. The measured coordinate is the signed residual
+\paragraph{Claim.}
+This chapter records a finite organism-level test for the leucine codon pair CUN/UUR.  The biological packet is not a claim about a particular protein, a folded state, or a ribosomal trajectory.  It asks a narrower question: when coding-sequence usage is summarized by organism and paired with organism-level tRNA-Leu gene-copy information, does the signed residual between CUN and UUR remain constant, or does it change with the corresponding tRNA-Leu copy-number ratio after controlling for amino-acid composition?  The coordinate used here is the log-ratio
 $$
 \begin{aligned}
-  x_o &= \log\!\left(\frac{\#\mathrm{CUN}_o}{\#\mathrm{UUR}_o}\right),
+  L_o = \log\left(\frac{\#\mathrm{CUN}_o}{\#\mathrm{UUR}_o}\right),
 \end{aligned}
 $$
-paired with an organism label $o$ and with the corresponding tRNA-Leu gene-copy spectrum. The admissible finite rows here are the three loaded organisms $\mathrm{Homo\ sapiens}$, $\mathrm{Saccharomyces\ cerevisiae}$, and $\mathrm{Escherichia\ coli\ K12}$. The observed log-ratio values are
+where $o$ ranges over the measured organisms.  The attached finite run loaded three organism rows: Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K12.  The observed log-ratio list was
 $$
 \begin{aligned}
-  (x_{\mathrm{human}},x_{\mathrm{yeast}},x_{\mathrm{ecoli}})
-  &= (1.3514980212896148,-0.24869078488829677,1.0086640520051702),\\
-  (\operatorname{sgn}x_{\mathrm{human}},\operatorname{sgn}x_{\mathrm{yeast}},\operatorname{sgn}x_{\mathrm{ecoli}})
-  &= (1,-1,1).
+  (1.3514980212896148,\;-0.24869078488829677,\;1.0086640520051702),
 \end{aligned}
 $$
-Thus the sign is not uniform across the finite organism list. The packet therefore records an organism-conditioned leucine-codon usage contrast rather than a single universal direction for CUN versus UUR usage.
+with sign list
+$$
+\begin{aligned}
+  (+1,\;-1,\;+1).
+\end{aligned}
+$$
+Thus the sign is not uniform across the measured organisms.
 
-\paragraph{Reality contacts.}
-Two external contacts are sufficient for the bounded statistic asserted here. The first contact is a per-organism codon-usage readout: coding-sequence summaries report codon counts or frequencies for each organism. The second contact is an organism-level tRNA-Leu gene-copy readout: genome annotation resources report tRNA-Leu copy counts by anticodon family. Each contact is a sequence or annotation summary. Neither one observes ribosome motion, translation kinetics, protein folding, physical realizability, biological function, or a global law. Their role in this record is narrower: they allow the CUN/UUR log-ratio coordinate to be compared with the tRNA-Leu copy-number coordinate after controlling for amino-acid composition through a synonymous-class null.
-
-\paragraph{Finite test outcome.}
-The verification run $675\mathrm{fdddb}3187$ reports status passed for the claim identifier $\mathrm{h3.translation\_realization.cross\_organism.cun\_uur\_leu\_gate}$. On the three organism rows, the raw Pearson value between the CUN/UUR log-ratio coordinate and the tRNA-Leu ratio coordinate is $1.0$. The amino-acid-composition-controlled statistic is also positive on the same finite row set:
+\paragraph{Finite data readout.}
+The validation record h3.translation\_realization.cross\_organism.cun\_uur\_leu\_gate reports experiment run 675fdddb3187 under experiment id cross\_organism\_cun\_uur\_leu\_gate\_validation.  Its status is passed.  The scalar Pearson value recorded for the paired statistic is $1.0$.  The amino-acid-composition-controlled readout is reported as a positive partial correlation with the tRNA-Leu ratio, with
 $$
 \begin{aligned}
   n &= 3,\\
   r_{\mathrm{partial}} &= 1.0.
 \end{aligned}
 $$
-The result is therefore not merely that one organism prefers one synonymous leucine family. The finite contact says that the sign reverses within the measured organism list and, on those same rows, the magnitude and sign are aligned with the tRNA-Leu copy-number ratio under the stated control. This is a translation-layer usage statistic in the limited sense of codon-usage and tRNA-copy matching; it is not a claim that the ribosome-level causal process has been measured.
+Within this finite table, the yeast row carries the negative CUN/UUR log-ratio while the human and E. coli K12 rows carry positive values.  The result therefore supports only the bounded statement that the CUN/UUR statistic is organism-context dependent in this three-row contact and that its signed magnitude tracks the available tRNA-Leu copy-ratio coordinate in the recorded controlled statistic.
 
-\paragraph{Local interpretation.}
-The admissible conclusion is that the CUN/UUR leucine split is externally measurable as an organism-indexed codon-usage residual and that, in the recorded three-row table, the residual is non-uniform and positively associated with the tRNA-Leu copy-number ratio after the synonymous-class control. The negative yeast value, together with the positive human and $E.\ coli$ values, is essential: it prevents the packet from being read as a fixed sign rule. The reported value $r_{\mathrm{partial}}=1.0$ is also finite-row evidence rather than a population theorem. With only three organism rows, it should be read as an exact statistic of the attached table, not as an asymptotic estimate, a mechanistic explanation, or a universal biological principle.
-
-\paragraph{Boundary of the claim.}
-No translation process, folding outcome, physical admissibility statement, biological function, ribosome-mediated mechanism, or universal cross-organism law follows from this chapter alone. The codon-usage table contact and the tRNA gene-copy contact support only the paired organism-level statistic just described. A stronger statement would require a separate contact of the appropriate kind: ribosome profiling or comparable kinetic evidence for ribosome-level realization, protein measurements for folding or function, and a broader organism-matched design for any universality claim. Identifier spelling and packet naming are likewise non-biological bookkeeping constraints; they do not repair missing measurements and do not convert a codon-label readout into a higher-layer biological assertion.
-
-\subsection{Residual Q6 Topology After Amino-Acid Quotienting}\label{sec:residual-basis-q6-topology-after-aa-quotient-translation-realization}
-\origin{ai}
-
-\paragraph{Finite carrier.}
-This record studies a codon-level residual carrier obtained after quotienting by amino-acid identity.  The objects are per-organism CDS codon counts projected onto the amino-acid residual basis $B^{*}_{Q6}$.  The basis used here has nine named coordinates:
-$$
-\begin{aligned}
-B^{*}_{Q6}=\{&K_{AAA},\ Arg_{AGR},\ Ile_{AUA},\ Leu_{CUN/UUR},\ Leu_{UUA/UUG},\\
-&Ser_{UCR/AGY},\ Ser_{UCA/UCG},\ Thr_{ACR/ACY},\ f_{3}\text{-stress}\}.
-\end{aligned}
-$$
-The finite check attached to claim $h3.codon\_usage\_topology.residual\_basis.q6\_topology\_after\_aa\_quotient$ loaded one codon-count table per organism for three organisms: $homo\_sapiens$, $saccharomyces\_cerevisiae$, and $escherichia\_coli\_k12$.  The NCBI genetic code was loaded, and the computation reported that all nine residual coordinates were computed as finite contact data rather than as a population estimate.  With variance threshold $0.01$, seven of the nine residual coordinates were nonzero, giving nonzero fraction $7/9=0.7777777777777778$.  This is a finite cross-organism residual-geometry observation: it says that the amino-acid quotient does not erase all Q6 codon distinctions in the observed rows.
-
-\paragraph{Translation-layer question.}
-The biological question is not whether codon counts vary; the finite computation already supplies that coordinate-level fact.  The question is whether any residual coordinate in $B^{*}_{Q6}$ carries conditional predictive value for a translation-layer readout once amino-acid sequence and simpler codon features are controlled.  For a readout $r$ such as tAI, ribosome occupancy, or protein abundance, and for a conditioning variable $Z$ containing amino-acid sequence $y$, local context $c$, and simpler codon-feature baselines, the intended score comparison is
-$$
-\begin{aligned}
-S_Q(r\mid Z)=J_0(Z)-J_Q(Z,q),\qquad q\in B^{*}_{Q6}.
-\end{aligned}
-$$
-A positive value for at least one $q$ would mean that the residual coordinate improves the conditional readout model relative to the baseline used in the comparison.  The amino-acid quotient is essential: only residual information orthogonal to amino-acid composition is eligible to survive this test.  In particular, a model that only records an $M$-density summary is too coarse for the residual contrasts $Leu_{CUN/UUR}$ and $K_{AAA}$ versus $K_{AAG}$-type distinctions, because those contrasts live inside synonymous amino-acid classes rather than at amino-acid composition level.
-
-\paragraph{Available contacts.}
-Three contact classes are relevant to the proposed test.  Per-organism codon-usage tables supply sequence-composition summaries and can support codon distribution readback, but they do not observe ribosome dynamics, protein output, folding, physical admissibility, biochemical mechanism, or a global biological law.  Organism-level tRNA gene-copy annotations supply anticodon-family spectra, including the kind of Leu-family copy-number information needed to compare $CUN$ and $UUR$ residuals, but copy number alone does not establish translation dynamics.  Organism-scoped tAI or stAI weights can provide a bounded translation-readout table, but such weights are modelled annotations and must remain separate from the residual coordinate geometry being tested.
-
-\paragraph{Blocked statistic.}
-The row $residual\_basis.m\_only\_local\_optimum.controlled\_readout\_gap$ records the current obstruction.  The contacts are of the right kinds, but they have not yet been paired into an organism-matched table containing codon usage, tRNA-copy spectra, and tAI or stAI readouts with amino-acid-composition-controlled estimates of $S_Q(r\mid Z,\Delta_M)$.  Therefore the absence of a positive residual survival score is not evidence against the residual basis, and the existence of nonzero residual variance is not evidence for translation realization.  The present status is a blocked null: the right measurement category has been identified, but the controlled statistic has not been computed.
-
-\paragraph{Break and support conditions.}
-The conjectural translation-realization claim would be supported if some residual coordinate $Q\in B^{*}_{Q6}$ satisfies
-$$
-\begin{aligned}
-S_Q(r\mid Z,\Delta_M)>0
-\end{aligned}
-$$
-in at least one organism and for at least one translation-layer readout, with amino-acid composition controlled.  A second admissible break condition is a sign reversal in the $CUN/UUR$ Leu log-ratio between organisms after the same control, when the $M$-density baseline does not capture the reversal.  The required finite table must contain at least three organisms with codon-usage data, tRNA-Leu, tRNA-Arg, tRNA-Ile, tRNA-Ser, and tRNA-Thr copy-number data, and a translation-readout source such as stAI or ribosome-profiling-derived efficiency.  The three organisms already present in the codon-count computation give the beginning of this design, but not the completed controlled readout table.
+\paragraph{Biological interpretation.}
+The evidence basis consists of two external contacts: per-organism codon-usage summaries and organism-level tRNA-Leu gene-copy spectra.  Codon usage supplies sequence-composition counts or frequencies for coding sequences.  tRNA gene-copy annotation supplies anticodon-family copy-number summaries.  These two contacts are sufficient for the finite statistic above: a signed CUN/UUR usage residual can be compared against a tRNA-Leu copy-number ratio while amino-acid composition is held in the intended synonymous-class control.  The contact does not observe elongation speed, ribosome occupancy, charging state, translation errors, or protein output.  The statistical gate is therefore a translation-layer usage contact, not a mechanistic translation assay.
 
 \paragraph{Local boundary.}
-This chapter asserts only the finite residual-coordinate fact and the precise form of the translation-layer test.  From the present rows one may say that nine amino-acid-residual Q6 coordinates were computed across three organisms and that seven crossed the stated nonzero-variance threshold.  One may not infer translation realization, ribosome-mediated mechanism, protein abundance, folded structure, physical admissibility, biological function, or universality from those counts.  Any such stronger statement requires a separate matched contact supplying the corresponding readout and a controlled score comparison.  Until that comparison exists, $B^{*}_{Q6}$ is a disciplined residual coordinate system for asking the question, not a biological mechanism claim.
+No claim of folded structure follows from these numbers.  No physical admissibility claim follows from them.  No biological function claim follows from them.  No ribosome-mediated mechanism follows from them.  No universal cross-organism law follows from the observed sign reversal or from the value $r_{\mathrm{partial}}=1.0$ at $n=3$.  The result is also not a license to use the raw log-ratio without the amino-acid-composition control as a translation claim.  A stronger conclusion would require a separate contact, for example ribosome profiling, charged tRNA abundance, direct translation-rate measurements, protein-level output, or an independently curated larger paired organism table.
+
+\paragraph{Conclusion.}
+For this standalone record, the admissible conclusion is finite and local: in the three organisms loaded by experiment cross\_organism\_cun\_uur\_leu\_gate\_validation, the CUN/UUR leucine log-ratio is not sign-uniform, with values $1.3514980212896148$, $-0.24869078488829677$, and $1.0086640520051702$, and the recorded controlled comparison with tRNA-Leu copy ratio is positive with partial Pearson value $1.0$ over $3$ rows.  This is enough to keep the CUN/UUR leucine gate as a bounded organism-level codon-usage and tRNA-copy contact.  It is not enough to promote the packet to structure, function, physical realization, mechanistic translation dynamics, or universal biological directionality.
+
+\subsection{residual\_basis.q6\_topology\_after\_aa\_quotient.translation\_realization}
+
+\paragraph{Biological object.} codon-level synonymous residuals B*\_Q6 = \{K\_AAA, Arg\_AGR, Ile\_AUA, Leu\_\{CUN/UUR\}, Leu\_\{UUA/UUG\}, Ser\_\{UCR/AGY\}, Ser\_\{UCA/UCG\}, Thr\_\{ACR/ACY\}, f\_3-stress\} across organisms with codon-usage tables and tRNA copy-number spectra
+
+\paragraph{Current claim.} If Q6 codon topology participates in DNA-to-protein realization beyond amino-acid sequence, then at least one element of the amino-acid-residual basis B*\_Q6 has positive BEDC survival score S\_Q(r | Z) > 0 on a readout r in \{tAI, ribosome occupancy, protein abundance\} given Z = (amino-acid sequence y, context c, simpler-codon-feature baselines). Per AA-quotient theorem only q-perp can survive; per Residual Compilation Theorem M-only models cannot test CUN/UUR or AAA/AAG.
+
+\paragraph{External reality input.}
+\textbf{codon\_usage\_per\_organism}. External per-organism codon-usage resources report codon-count or frequency summaries for coding sequences.
+
+Can test: translation\_realization; cross\_layer\_relation; codon usage distribution. Cannot test: folded structure; physical admissibility; function realization; global biological law.
+
+\textbf{trna\_gene\_copy\_numbers}. External genome annotation resources report organism-level tRNA-Leu gene-copy counts by anticodon family.
+
+Can test: translation\_realization; cross\_layer\_relation; tRNA-Leu gene-copy spectrum. Cannot test: folded structure; physical admissibility; function realization; global biological law.
+
+\textbf{tai\_or\_stai\_weights}. External tAI or stAI resources provide organism-scoped codon adaptation weights that can be used as a bounded translation-layer readout when kept separate from BEDC coordinate geometry.
+
+Can test: translation\_realization; cross\_layer\_relation; codon adaptation weight readback. Cannot test: folded structure; physical admissibility; function realization; global biological law.
+
+\paragraph{Internal newmath/BEDC derivation.} Carrier: per-organism CDS codon-counts projected onto amino-acid residual basis B*\_Q6. Distinctions: K\_AAA\_residual; Arg\_AGR\_residual; Ile\_AUA\_residual; Leu\_CUN\_vs\_UUR\_residual; Leu\_UUA\_vs\_UUG\_residual; Ser\_UCR\_vs\_AGY\_residual; Ser\_UCA\_vs\_UCG\_residual; Thr\_ACR\_vs\_ACY\_residual; f3\_stress\_pair\_antisymmetric. Readback: for each basis element q in B*\_Q6: estimate S\_Q(r | Z) = J\_0(Z) - J\_Q(Z, q) where Z includes y and context, and report sign + magnitude per organism. Internal structure: coordinate; relation; spectrum.
+
+\paragraph{Falsifiable probes.}
+\textbf{residual\_basis.m\_only\_local\_optimum\_insufficiency}. If M-only is the true BEDC variable for DNA-to-protein, then for every organism and every readout in \{tAI, ribosome occupancy, protein abundance\}, adding any element of B*\_Q6 to an M-density baseline (with amino-acid composition controlled) does not increase the BEDC survival score. Equivalently, S\_Q(r | Z, Delta\_M) <= 0 for every Q in B*\_Q6.
+
+Support condition: Codon-usage tables for at least 3 organisms with tRNA-Leu, tRNA-Arg, tRNA-Ile, tRNA-Ser, tRNA-Thr copy-number data (e.g. Kazusa + GtRNAdb), plus a readout source (stAI or ribosome-profiling-derived efficiency).
+
+Break condition: Some Q in B*\_Q6 has S\_Q(r | Z, Delta\_M) > 0 in at least one organism on at least one readout; or CUN/UUR Leu log-ratio shows sign reversal between organisms after amino-acid composition control while Delta\_M does not.
+
+\paragraph{Mismatch ledger.}
+\textbf{residual\_basis.m\_only\_local\_optimum.controlled\_readout\_gap}. Status: blocked\_null. Delta: The probe has the required external contact classes, but they remain separate contact bridges; no curated controlled statistic yet tests whether any B*\_Q6 coordinate improves over an M-density baseline.
+
+Refinement pressure: Treat this as a blocked-null boundary, not a weak biological result: obtain an external paired dataset or experiment that computes the controlled per-organism statistic before reporting M-only insufficiency or positive residual survival. BEDC residual geometry remains an internal coordinate cue and is not itself evidence of translation, structure, physical admissibility, function, or a global law.
+
+\paragraph{Cannot-claim boundary.} Does not claim folding or function from a non-zero survival score without separate physical/functional reality contact.; Does not interpret S\_Q > 0 as a global biological law; survival is conditional on Z.; Does not bypass amino-acid composition control (Z must include y).; Does not equate M-membership with the residual basis; M-density alone is a local optimum and cannot test CUN/UUR or AAA/AAG.; Does not promote to higher layers without a separate higher-layer reality contact.
+
+\paragraph{Verified facts.}
+\textbf{h3.codon\_usage\_topology.residual\_basis.q6\_topology\_after\_aa\_quotient}. Run 971b9c868480. claim\_id=h3.codon\_usage\_topology.residual\_basis.q6\_topology\_after\_aa\_quotient, experiment\_id=residual\_basis\_q6\_topology\_validation, nonzero\_fraction=0.777778, organism\_contact\_scope=finite contact: human, yeast, and E. coli; not a population estimate, organism\_count=3, status=passed.
