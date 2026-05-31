@@ -65,3 +65,10 @@ planner reduces both rates to $0.000000$ in the same rollout setting.  This is
 not a robotics-scale control result, but it is no longer an oracle-state
 planning-only artifact: the rollout is mediated by a learned transition model
 trained from pixel observations.
+
+The larger grid planning sweep uses three targets and thirty-six trajectories.
+The gap-aware planner lowers high-gap state rate by $0.170139$ and unsafe-state
+rate by $0.104167$ on average.  It improves the risk-adjusted planning cost by
+$0.233564$, while reducing raw success rate by $0.250000$.  This is recorded as
+a real tradeoff: the current planner buys gap avoidance by accepting some
+short-horizon reachability loss.

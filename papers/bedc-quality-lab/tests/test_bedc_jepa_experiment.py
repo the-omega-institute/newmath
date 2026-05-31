@@ -75,6 +75,15 @@ def test_bedc_jepa_experiment_runs_grid_pixel_learned_transition_benchmark():
     assert planning["gap_aware"]["high_gap_state_rate"] < planning["vanilla"]["high_gap_state_rate"]
     assert planning["gap_aware"]["success_rate"] >= planning["vanilla"]["success_rate"] - 0.15
 
+    sweep = grid["planning_sweep"]
+    assert sweep["target_count"] >= 3
+    assert sweep["trajectory_count"] >= 20
+    assert sweep["gap_aware_minus_vanilla_success_rate"] >= -0.25
+    assert sweep["vanilla_minus_gap_aware_high_gap_rate"] > 0.10
+    assert sweep["vanilla_minus_gap_aware_unsafe_rate"] > 0.10
+    assert sweep["vanilla_minus_gap_aware_risk_adjusted_cost"] > 0.0
+    assert sweep["gap_aware_better_high_gap_rate"] >= 0.75
+
 
 def test_bedc_jepa_experiment_runs_object_intervention_benchmark():
     summary = run_experiment()

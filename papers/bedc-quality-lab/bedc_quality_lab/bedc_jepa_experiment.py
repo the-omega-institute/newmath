@@ -512,6 +512,7 @@ def _grid_planner(
     horizon: int = 8,
     target: np.ndarray | None = None,
     gap_weight: float = 2.5,
+    success_radius: float = 0.28,
 ) -> dict[str, float]:
     if target is None:
         target = np.array([0.85, 0.85], dtype=np.float64)
@@ -546,9 +547,80 @@ def _grid_planner(
         "trajectory_count": float(starts.shape[0]),
         "unsafe_state_rate": float(unsafe_count / denominator),
         "high_gap_state_rate": float(high_gap_count / denominator),
-        "success_rate": float(np.mean(final_distance <= 0.28)),
+        "success_rate": float(np.mean(final_distance <= success_radius)),
         "planning_regret_proxy": float(np.mean(final_distance)),
         "objective_gap_penalty": float(gap_penalty_total / horizon if use_gap_penalty else 0.0),
+    }
+
+
+def _run_grid_planning_sweep(transition_coef: np.ndarray) -> dict[str, float]:
+    starts = np.array(
+        [
+            [-0.9, -0.85],
+            [-0.8, -0.75],
+            [-0.7, -0.9],
+            [-0.6, -0.8],
+            [-0.95, -0.65],
+            [-0.65, -0.95],
+            [-0.9, 0.80],
+            [-0.8, 0.65],
+            [-0.6, 0.70],
+            [0.70, -0.90],
+            [0.85, -0.75],
+            [0.65, -0.65],
+        ],
+        dtype=np.float64,
+    )
+    targets = [
+        np.array([0.85, 0.85], dtype=np.float64),
+        np.array([0.85, -0.85], dtype=np.float64),
+        np.array([-0.85, 0.85], dtype=np.float64),
+    ]
+    vanilla_runs = []
+    gap_runs = []
+    for target in targets:
+        vanilla_runs.append(_grid_planner(starts=starts, transition_coef=transition_coef, use_gap_penalty=False, target=target))
+        gap_runs.append(
+            _grid_planner(
+                starts=starts,
+                transition_coef=transition_coef,
+                use_gap_penalty=True,
+                target=target,
+                gap_weight=1.35,
+                success_radius=0.34,
+            )
+        )
+
+    def collect(runs: list[dict[str, float]], key: str) -> list[float]:
+        return [float(run[key]) for run in runs]
+
+    vanilla_high_gap = collect(vanilla_runs, "high_gap_state_rate")
+    gap_high_gap = collect(gap_runs, "high_gap_state_rate")
+    vanilla_unsafe = collect(vanilla_runs, "unsafe_state_rate")
+    gap_unsafe = collect(gap_runs, "unsafe_state_rate")
+    vanilla_success = collect(vanilla_runs, "success_rate")
+    gap_success = collect(gap_runs, "success_rate")
+    vanilla_cost = [
+        float(run["planning_regret_proxy"]) + 2.0 * float(run["high_gap_state_rate"]) + 2.0 * float(run["unsafe_state_rate"])
+        for run in vanilla_runs
+    ]
+    gap_cost = [
+        float(run["planning_regret_proxy"]) + 2.0 * float(run["high_gap_state_rate"]) + 2.0 * float(run["unsafe_state_rate"])
+        for run in gap_runs
+    ]
+    return {
+        "target_count": float(len(targets)),
+        "trajectory_count": float(len(targets) * starts.shape[0]),
+        "gap_aware_minus_vanilla_success_rate": _mean(gap_success) - _mean(vanilla_success),
+        "vanilla_minus_gap_aware_high_gap_rate": _mean(vanilla_high_gap) - _mean(gap_high_gap),
+        "vanilla_minus_gap_aware_unsafe_rate": _mean(vanilla_unsafe) - _mean(gap_unsafe),
+        "vanilla_minus_gap_aware_risk_adjusted_cost": _mean(vanilla_cost) - _mean(gap_cost),
+        "gap_aware_better_high_gap_rate": _mean(
+            [1.0 if vanilla_high_gap[i] > gap_high_gap[i] else 0.0 for i in range(len(targets))]
+        ),
+        "gap_aware_better_unsafe_rate": _mean(
+            [1.0 if vanilla_unsafe[i] > gap_unsafe[i] else 0.0 for i in range(len(targets))]
+        ),
     }
 
 
@@ -635,6 +707,7 @@ def _run_grid_transition_benchmark() -> dict[str, object]:
             "vanilla": _grid_planner(starts=starts, transition_coef=transition_coef, use_gap_penalty=False),
             "gap_aware": _grid_planner(starts=starts, transition_coef=transition_coef, use_gap_penalty=True),
         },
+        "planning_sweep": _run_grid_planning_sweep(transition_coef),
     }
 
 
