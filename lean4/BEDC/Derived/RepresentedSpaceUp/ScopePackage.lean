@@ -76,3 +76,93 @@ theorem RepresentedSpaceCarrier_namecert_scope_package [AskSetup] [PackageSetup]
   exact ⟨cert, scopeReadUnary, provenancePkg⟩
 
 end BEDC.Derived.RepresentedSpaceUp.ScopePackage
+
+namespace BEDC.Derived.RepresentedSpaceUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem RepresentedSpaceCarrier_scoped_package [AskSetup] [PackageSetup]
+    {name schedule relation target transport replay provenance localName scheduledSource
+      targetRead realSealRead completionRead scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.RepresentedSpaceUp name schedule relation target transport replay
+        provenance localName bundle pkg →
+      Cont name schedule scheduledSource →
+        Cont relation target targetRead →
+          Cont scheduledSource targetRead realSealRead →
+            Cont realSealRead provenance completionRead →
+              Cont completionRead localName scopedRead →
+                PkgSig bundle scopedRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row name ∨ hsame row schedule ∨ hsame row relation ∨
+                          hsame row target ∨ hsame row realSealRead ∨ hsame row scopedRead)
+                      (fun row : BHist =>
+                        hsame row scopedRead ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle scopedRead pkg)
+                      hsame ∧
+                    UnaryHistory scheduledSource ∧ UnaryHistory targetRead ∧
+                      UnaryHistory realSealRead ∧ UnaryHistory completionRead ∧
+                        UnaryHistory scopedRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier scheduledRoute targetRoute realSealRoute completionRoute scopedRoute scopedPkg
+  obtain ⟨nameUnary, scheduleUnary, relationUnary, targetUnary, _transportUnary,
+    _replayUnary, provenanceUnary, localNameUnary, _nameScheduleReplay,
+    _relationTargetTransport, _localNameTransport, provenancePkg⟩ := carrier
+  have scheduledUnary : UnaryHistory scheduledSource :=
+    unary_cont_closed nameUnary scheduleUnary scheduledRoute
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_cont_closed relationUnary targetUnary targetRoute
+  have realSealUnary : UnaryHistory realSealRead :=
+    unary_cont_closed scheduledUnary targetReadUnary realSealRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed realSealUnary provenanceUnary completionRoute
+  have scopedUnary : UnaryHistory scopedRead :=
+    unary_cont_closed completionUnary localNameUnary scopedRoute
+  have sourceScoped :
+      (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row) scopedRead := by
+    exact ⟨hsame_refl scopedRead, scopedUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row scopedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row name ∨ hsame row schedule ∨ hsame row relation ∨
+              hsame row target ∨ hsame row realSealRead ∨ hsame row scopedRead)
+          (fun row : BHist =>
+            hsame row scopedRead ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle scopedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro scopedRead sourceScoped
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, provenancePkg, scopedPkg⟩
+  }
+  exact ⟨cert, scheduledUnary, targetReadUnary, realSealUnary, completionUnary, scopedUnary⟩
+
+end BEDC.Derived.RepresentedSpaceUp
