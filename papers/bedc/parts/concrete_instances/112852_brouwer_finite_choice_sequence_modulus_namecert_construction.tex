@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerFiniteChoiceSequenceModulusUp$}
+\label{ch:concrete-instances-brouwer-finite-choice-sequence-modulus-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen, the $\BrouwerFiniteChoiceSequenceModulusUp$ packet records the finite-prefix modulus used when a choice-sequence input is read by a Real-facing consumer. It refines the continuity surface of \autoref{ch:concrete-instances-brouwer-continuity-principle-namecert} by isolating the concrete finite row that turns a displayed $\ChoiceSequenceUp$ prefix into a $\StreamNameUp$ window, then into $\RegSeqRatUp$ readback and the terminal $\RealUp$ seal. The packet is a finite NameCert carrier for prefix-modulus readback; it is not a host continuity theorem, a selected infinite branch, quotient stream equality, countable choice, arbitrary bar induction, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Brouwer finite choice-sequence modulus carrier]
+\label{def:brouwer-finite-choice-sequence-modulus-carrier}
+A $\BrouwerFiniteChoiceSequenceModulusUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,Q,W,R,E,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BrouwerContinuityPrincipleUp$ source row that licenses finite-prefix dependence for the read.
+\item $Q$ is the $\ChoiceSequenceUp$ input row, exposing only the inspected finite prefix of the choice sequence.
+\item $W$ is the $\StreamNameUp$ prefix-window row opened from $Q$ and bounded by the displayed modulus.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same finite stream window.
+\item $E$ is the terminal $\RealUp$ seal row reached after the regular rational readback is displayed.
+\item $M$ is the finite modulus row, recording the prefix length sufficient for the displayed output read.
+\item $H$ records componentwise $\hsame$ transport for the continuity source, choice-sequence prefix, window, readback, seal, modulus, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the consumer request through $B,Q,M,W,R,E$.
+\item $P$ is the $\Pkg$ provenance over $\BrouwerFiniteChoiceSequenceModulusUp$, $\BrouwerContinuityPrincipleUp$, $\ChoiceSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrouwerFiniteChoiceSequenceModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,Q,W,R,E,M,H,C,P,N$. It has no coordinate for a completed choice sequence, selected branch, quotient stream equality, countable choice, arbitrary bar-induction principle, host functional continuity theorem, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Brouwer finite choice-sequence modulus obligations]
+\label{thm:brouwer-finite-choice-sequence-modulus-obligations}
+For every accepted $\BrouwerFiniteChoiceSequenceModulusUp$ carrier $F=(B,Q,W,R,E,M,H,C,P,N)$, the local $\NameCert_{\BrouwerFiniteChoiceSequenceModulusUp}$ surface consists exactly of continuity-source admission through $B$, choice-sequence prefix admission through $Q$, finite modulus display through $M$, $\StreamNameUp$ window exposure through $W$, $\RegSeqRatUp$ readback through $R$, $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+No NameCert obligation is stored outside those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:brouwer-finite-choice-sequence-modulus-carrier}. The analytic rows are precisely the Brouwer-continuity source, the choice-sequence prefix, the finite modulus, the stream window, the regular rational readback, and the terminal Real seal.
+
+The finite-prefix part is read through $B,Q,M,W$. The continuity source permits only displayed prefix dependence, the choice-sequence row exposes only the inspected prefix, and the modulus row bounds the window opened by $\StreamNameUp$.
+
+The output-facing part is read through $R,E$. Regular rational readback is downstream of the finite window, and the Real seal is downstream of that readback.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same route. Since no excluded object occurs as a coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Brouwer finite choice-sequence real readback]
+\label{thm:brouwer-finite-choice-sequence-real-readback}
+Every Real-facing consumer of an accepted $\BrouwerFiniteChoiceSequenceModulusUp$ carrier must read the finite route
+$$
+\BrouwerContinuityPrincipleUp,\ \ChoiceSequenceUp
+\longmapsto M
+\longmapsto \StreamNameUp
+\longmapsto \RegSeqRatUp
+\longmapsto \RealUp
+$$
+through $B,Q,M,W,R,E$ before the structural rows $H,C,P,N$ package the read. Thus the output read is determined by a displayed finite choice-sequence prefix and its modulus row, and it exports no completed branch, quotient stream equality, selected real representative, countable-choice selector, host continuity theorem, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the continuity source and input prefix. The row $B$ imports only the finite-prefix discipline of \autoref{ch:concrete-instances-brouwer-continuity-principle-namecert}, and the row $Q$ supplies only the displayed $\ChoiceSequenceUp$ prefix.
+
+Next read the modulus and stream window. The row $M$ fixes the inspected prefix length, and $W$ opens exactly that $\StreamNameUp$ window, so downstream consumers cannot replace the route by an infinite branch or quotient stream equality.
+
+Then read the analytic output. The $\RegSeqRatUp$ row $R$ is obtained from the same finite window, and the $\RealUp$ seal $E$ is available only after that readback has been displayed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Because the carrier contains no coordinate for countable choice, arbitrary bar induction, selected real representatives, host continuity, or ambient Real completeness, none of those objects is exported by the readback.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BrouwerFiniteChoiceSequenceModulusUp$ Real-facing read displays a Brouwer continuity source row, ChoiceSequence finite prefix, StreamName prefix window, RegSeqRat readback, Real seal, finite modulus row, transport, continuation, provenance, and local naming before any output claim is public.}
+
+\independenceWitness{brouwer-continuity-principle, choice-sequence, streamname, regseqrat, real: $\BrouwerFiniteChoiceSequenceModulusUp$ is not bijective to any listed sibling because it jointly carries the source continuity row, displayed choice-sequence prefix, modulus row, stream window, regular readback, Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{BrouwerFiniteChoiceSequenceModulusUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerFiniteChoiceSequenceModulusUp}
+  \constructivestory{A $\BrouwerFiniteChoiceSequenceModulusUp$ packet is generated from a BrouwerContinuityPrinciple source row, a ChoiceSequence finite prefix, a StreamName prefix window, RegSeqRat readback, a RealUp seal, finite modulus data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwer-finite-choice-sequence-modulus-carrier}, \autoref{thm:brouwer-finite-choice-sequence-modulus-obligations}, and \autoref{thm:brouwer-finite-choice-sequence-real-readback} seed the finite-prefix modulus route from Brouwer choice-sequence input to regular-rational and Real readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host functional continuity, selected infinite branches, quotient stream equality, countable choice, arbitrary bar induction, selected real representatives, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-prefix modulus exposure, StreamName window routing, RegSeqRat readback, RealUp seal nonescape, and TasteGate field faithfulness for BEDC.Derived.BrouwerFiniteChoiceSequenceModulusUp.}
+\end{closurestatus}
