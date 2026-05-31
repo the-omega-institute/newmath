@@ -1,0 +1,527 @@
+\section{Explanation Complexity and Interpretability Information}
+\label{sec:visions-philosophy-explanation-complexity-information}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-neural-theorem-dna} identifies the
+complete explanatory unit for a neural behavior as a role-complete,
+anchored, ledgered, and NameCert-compatible packet. This section isolates
+the evaluation problem left by that packet. A shorter explanation is not
+automatically better; a longer explanation is not automatically worse; a
+formally hardened component is not automatically a discovery; and a
+larger feature list is not automatically more interpretability
+information. The auditable quantity is net explanation information:
+benefit minus score and remaining debt, with classifier novelty reported
+as a separate coordinate.
+
+\begin{definition}[Explanation object]
+\label{def:philosophy-explanation-object}
+An explanation object is a tuple
+$$
+E=(B,C,N,\Lambda)
+$$
+where $B$ is a neural behavior target, $C$ is a classifier supporting
+$B$, $N$ is a NameCert or Tensor NameCert for $C$, and $\Lambda$ is the
+ledger attached to the explanation claim. When the explanation is
+role-complete, the same object may be displayed as
+$$
+E_B=(B,\mathsf{NDNA}(B),N,\Lambda).
+$$
+\end{definition}
+
+\begin{definition}[Explanation scope]
+\label{def:philosophy-explanation-scope}
+The scope of $E$ is the tuple
+$$
+\operatorname{Scope}(E)
+=
+(D,M_{\theta},\mathcal A,B),
+$$
+where $D$ is the source or target domain, $M_{\theta}$ is the model
+state, $\mathcal A$ is the admitted family of transformations,
+perturbations, or transfers, and $B$ is the behavior target. All benefit,
+cost, and debt judgments are read inside this scope unless a larger
+scope is explicitly certified.
+\end{definition}
+
+\begin{definition}[Cost protocol]
+\label{def:philosophy-explanation-cost-protocol}
+A cost protocol is a triple
+$$
+\mathcal C=(Q,\operatorname{Cost},\mathbf w),
+$$
+where $Q$ is an ordered commutative monoid, $\operatorname{Cost}$ assigns
+costs to auditable objects, and $\mathbf w$ is a nonnegative weight
+profile. Auditable objects include source descriptions, feature records,
+circuit records, classifier specifications, stability witnesses,
+intervention records, ledgers, seals, semantic assignments, formal
+verification artifacts, and proof objects.
+\end{definition}
+
+\begin{definition}[Extended explanation complexity vector]
+\label{def:philosophy-extended-explanation-complexity-vector}
+For an explanation object $E$, the extended complexity vector is
+$$
+\mathbf C_{\mathsf{exp}}(E)
+=
+(
+c_{\mathsf{source}},
+c_{\mathsf{feature}},
+c_{\mathsf{circuit}},
+c_{\mathsf{classifier}},
+c_{\mathsf{stability}},
+c_{\mathsf{intervention}},
+c_{\mathsf{ledger}},
+c_{\mathsf{seal}},
+c_{\mathsf{semantic}},
+c_{\mathsf{verification}}
+).
+$$
+The first eight coordinates refine the NDNA score of
+\autoref{def:philosophy-ndna-score-certified-gain}; the semantic
+coordinate counts semantic assignment and semantic-ledger cost; the
+verification coordinate counts hardening artifacts and verification
+ledger cost.
+\end{definition}
+
+\begin{definition}[Explanation score]
+\label{def:philosophy-explanation-score}
+For a nonnegative weight profile
+$$
+\mathbf w=
+(
+w_{\mathsf{source}},
+w_{\mathsf{feature}},
+w_{\mathsf{circuit}},
+w_{\mathsf{classifier}},
+w_{\mathsf{stability}},
+w_{\mathsf{intervention}},
+w_{\mathsf{ledger}},
+w_{\mathsf{seal}},
+w_{\mathsf{semantic}},
+w_{\mathsf{verification}}
+),
+$$
+the explanation score is
+$$
+\operatorname{Score}_{\mathbf w}(E)
+=
+\mathbf w\cdot\mathbf C_{\mathsf{exp}}(E).
+$$
+\end{definition}
+
+\begin{theorem}[Explanation score is monotone]
+\label{thm:philosophy-explanation-score-monotone}
+If
+$$
+\mathbf C_{\mathsf{exp}}(E)\leq
+\mathbf C_{\mathsf{exp}}(E')
+$$
+componentwise and all weights are nonnegative, then
+$$
+\operatorname{Score}_{\mathbf w}(E)
+\leq
+\operatorname{Score}_{\mathbf w}(E').
+$$
+\end{theorem}
+\begin{proof}
+Write the two complexity vectors as $(c_1,\ldots,c_n)$ and
+$(c'_1,\ldots,c'_n)$ with $c_j\leq c'_j$ for every $j$. Since each
+weight $w_j$ is nonnegative, $w_jc_j\leq w_jc'_j$. Summing the
+coordinate inequalities gives the score inequality.
+\end{proof}
+
+\begin{theorem}[Scalar score requires public weights]
+\label{thm:philosophy-explanation-score-requires-public-weights}
+A scalar explanation score is not auditable unless its weight profile is
+public.
+\end{theorem}
+\begin{proof}
+Two explanations can trade off source cost against ledger cost, or
+feature cost against verification cost. A weight profile concentrated on
+one coordinate orders the pair differently from a profile concentrated
+on another. Without the declared weights, the scalar order has no stable
+audit meaning.
+\end{proof}
+
+\begin{definition}[Explanation benefit]
+\label{def:philosophy-explanation-benefit}
+The benefit of $E$ is a nonnegative audit functional
+$$
+\operatorname{Benefit}(E)
+=
+\operatorname{CoverageGain}(E)
++
+\operatorname{PredictionGain}(E)
++
+\operatorname{TransferGain}(E)
++
+\operatorname{InterventionGain}(E)
++
+\operatorname{VerificationGain}(E)
++
+\operatorname{UnificationGain}(E).
+$$
+The terms measure, respectively, behavior coverage, predictive value,
+transport across domains or model states, controlled intervention value,
+formal hardening value, and unification of previously separated
+behaviors, features, circuits, or classifiers.
+\end{definition}
+
+\begin{definition}[Explanation debt]
+\label{def:philosophy-explanation-debt}
+The total explanation debt is
+$$
+\operatorname{Debt}(E)
+=
+\operatorname{Debt}_{\mathsf{NDNA}}(E)
++
+\operatorname{Debt}_{\mathsf{ledger}}(E)
++
+\operatorname{Debt}_{\mathsf{semantic}}(E)
++
+\operatorname{Debt}_{\mathsf{verification}}(E)
++
+\operatorname{Debt}_{\mathsf{intervention}}(E)
++
+\operatorname{Debt}_{\mathsf{generalization}}(E).
+$$
+The summands record missing NDNA loci, missing required residue,
+unlicensed semantic labels, unverified critical components, unledgered
+causal residue, and unsupported target-domain claims.
+\end{definition}
+
+\begin{theorem}[Closed explanation has zero critical debt]
+\label{thm:philosophy-closed-explanation-zero-critical-debt}
+If $E$ is closed within its declared scope, then its critical debt is
+zero.
+\end{theorem}
+\begin{proof}
+Closure within a scope requires the critical source, classifier,
+stability, ledger, semantic, intervention, verification, generalization,
+and seal obligations used by the claim to be either discharged or placed
+outside the not-claimed boundary. Therefore no critical residue remains
+unrecorded inside the declared scope.
+\end{proof}
+
+\begin{corollary}[Critical debt blocks strong explanation claims]
+\label{cor:philosophy-critical-debt-blocks-strong-explanation-claims}
+If $E$ has nonzero critical debt, it cannot claim closed explanation,
+positive discovery, global generalization, or full verification within
+that debt-bearing scope.
+\end{corollary}
+\begin{proof}
+Each listed claim requires the relevant critical obligations to be
+closed. Nonzero critical debt leaves at least one such obligation open.
+\end{proof}
+
+\begin{definition}[Net explanation information]
+\label{def:philosophy-net-explanation-information}
+Relative to a cost protocol, the net explanation information of $E$ is
+$$
+\mathsf{Info}_{\mathbf w}(E)
+=
+\operatorname{Benefit}(E)
+-
+\operatorname{Score}_{\mathbf w}(E)
+-
+\operatorname{Debt}(E).
+$$
+For a transition $E_0\leadsto E_1$, the relative net gain is
+$$
+\Delta\mathsf{Info}_{\mathbf w}(E_0,E_1)
+=
+\mathsf{Info}_{\mathbf w}(E_1)
+-
+\mathsf{Info}_{\mathbf w}(E_0).
+$$
+\end{definition}
+
+\begin{theorem}[Lower score does not imply positive net information]
+\label{thm:philosophy-lower-score-not-positive-net-information}
+The inequality
+$$
+\operatorname{Score}_{\mathbf w}(E_1)
+<
+\operatorname{Score}_{\mathbf w}(E_0)
+$$
+does not imply
+$$
+\Delta\mathsf{Info}_{\mathbf w}(E_0,E_1)>0.
+$$
+\end{theorem}
+\begin{proof}
+Net information subtracts both score and debt from benefit. A lower-score
+explanation may lower benefit by removing coverage, predictive value,
+transfer value, or ledger rows. It may also increase debt by hiding
+boundary cases. Either change can offset the score decrease.
+\end{proof}
+
+\begin{theorem}[Higher score can still carry positive net information]
+\label{thm:philosophy-higher-score-positive-net-information}
+An explanation transition can have positive net information even when the
+target explanation has higher score.
+\end{theorem}
+\begin{proof}
+Adding source rows, intervention witnesses, transfer witnesses, semantic
+ledgers, and verification artifacts increases score. If those rows
+increase benefit and reduce debt by more than the score increase, then
+the net information difference is positive by
+\autoref{def:philosophy-net-explanation-information}.
+\end{proof}
+
+\begin{definition}[Interpretability classifier novelty]
+\label{def:philosophy-interpretability-classifier-novelty}
+For an explanation object $E$, let
+$$
+\mathcal T_E=(S_E,P_E,L_E,C_E,N_E)
+$$
+be its certified classifier state. A transition $E_0\leadsto E_1$ has
+interpretability classifier novelty when
+$\mathcal T_{E_0}\to\mathcal T_{E_1}$ has classifier shift in the sense
+of \autoref{def:philosophy-classifier-state-shift}.
+\end{definition}
+
+\begin{definition}[Positive interpretability discovery]
+\label{def:philosophy-positive-interpretability-discovery}
+A transition $E_0\leadsto E_1$ is a positive interpretability discovery
+when it has interpretability classifier novelty, the target classifier
+state has NameCert and ledger witnesses, and
+$$
+\Delta\mathsf{Info}_{\mathbf w}(E_0,E_1)>0.
+$$
+\end{definition}
+
+\begin{theorem}[Explanation improvement need not be discovery]
+\label{thm:philosophy-explanation-improvement-need-not-discovery}
+Positive net explanation information does not imply interpretability
+classifier novelty.
+\end{theorem}
+\begin{proof}
+The net information gain may come from lower ledger debt, lower score,
+hardening of an existing critical component, source-scope clarification,
+or a better not-claimed boundary while the classifier relation remains
+unchanged. By \autoref{thm:philosophy-discovery-requires-classifier-shift},
+classifier novelty requires classifier shift, so such an improvement is
+not necessarily discovery.
+\end{proof}
+
+\begin{theorem}[Interpretability discovery need not be positive]
+\label{thm:philosophy-interpretability-discovery-need-not-positive}
+Interpretability classifier novelty with NameCert and ledger witnesses
+does not by itself imply positive net explanation information.
+\end{theorem}
+\begin{proof}
+A changed certified classifier can require high source, stability,
+intervention, ledger, semantic, or verification cost. If those costs and
+remaining debts exceed the coverage, prediction, transfer, intervention,
+verification, and unification benefits, then the net information
+difference is nonpositive.
+\end{proof}
+
+\begin{theorem}[Positive discovery requires two audits]
+\label{thm:philosophy-positive-discovery-two-audits}
+Positive interpretability discovery requires both classifier novelty and
+positive net explanation information.
+\end{theorem}
+\begin{proof}
+This is exactly the definition of positive interpretability discovery:
+the transition must pass the classifier-shift audit and the net
+information audit.
+\end{proof}
+
+\begin{theorem}[Counts do not determine interpretability information]
+\label{thm:philosophy-counts-do-not-determine-interpretability-information}
+Feature count, proof count, ledger-row count, and raw explanation length
+do not determine net explanation information.
+\end{theorem}
+\begin{proof}
+Additional features may be unstable, redundant, unanchored, or
+unledgered. Additional proofs may harden low-value rows while leaving
+critical components untouched. Additional ledger rows may avoid the
+required critical residue. Shorter text may remove evidence and boundary
+statements. Each count can therefore vary independently of benefit,
+score, and debt.
+\end{proof}
+
+\begin{corollary}[Feature discovery requires certificate value]
+\label{cor:philosophy-feature-discovery-requires-certificate-value}
+Finding more features counts as interpretability information only when
+the resulting explanation changes certified classifier value, lowers
+debt, or increases benefit after cost is counted.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:philosophy-counts-do-not-determine-interpretability-information},
+feature count alone is not an information measure. The feature must
+enter the certified explanation surface.
+\end{proof}
+
+\begin{corollary}[Proof quantity is not explanation quality]
+\label{cor:philosophy-proof-quantity-not-explanation-quality}
+The number of formal proof artifacts is not a standalone explanation
+quality metric.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:philosophy-counts-do-not-determine-interpretability-information},
+proof count does not say which critical loci were hardened or whether
+verification debt decreased.
+\end{proof}
+
+\begin{definition}[Explanation quality vector]
+\label{def:philosophy-explanation-quality-vector}
+The explanation quality vector is
+$$
+\mathbf Q(E)
+=
+(
+\operatorname{Benefit}(E),
+-
+\operatorname{Score}_{\mathbf w}(E),
+-
+\operatorname{Debt}(E),
+\operatorname{Novelty}(E),
+\operatorname{VerificationGain}(E)
+).
+$$
+Here $\operatorname{Novelty}(E)$ records whether the transition under
+discussion has interpretability classifier novelty.
+\end{definition}
+
+\begin{definition}[Pareto comparison]
+\label{def:philosophy-explanation-pareto-comparison}
+An explanation $E_1$ Pareto-dominates $E_0$ when every declared
+coordinate of $\mathbf Q(E_1)$ is at least the corresponding coordinate
+of $\mathbf Q(E_0)$, and at least one coordinate is strictly larger.
+\end{definition}
+
+\begin{theorem}[No hidden scalar captures all explanation dimensions]
+\label{thm:philosophy-no-hidden-scalar-captures-explanation-quality}
+No unpublished scalar score can audibly replace the benefit, score,
+debt, classifier-novelty, and verification coordinates.
+\end{theorem}
+\begin{proof}
+These coordinates can trade off. One explanation may be low cost and
+high debt; another may be high cost and low debt; a third may change the
+classifier but have low verification gain; a fourth may harden a prior
+classifier without classifier novelty. Any scalar ordering must encode
+weights for these tradeoffs. Without publishing those weights, the
+ordering is not auditable.
+\end{proof}
+
+\begin{corollary}[Explanation comparison needs vectors or public weights]
+\label{cor:philosophy-explanation-comparison-vectors-or-public-weights}
+Explanation comparisons should use quality vectors, Pareto frontiers, or
+public scalar weights.
+\end{corollary}
+\begin{proof}
+This follows from
+\autoref{thm:philosophy-no-hidden-scalar-captures-explanation-quality}
+and \autoref{thm:philosophy-explanation-score-requires-public-weights}.
+\end{proof}
+
+\begin{definition}[Selection functional]
+\label{def:philosophy-explanation-selection-functional}
+A selection functional has the form
+$$
+\begin{gathered}
+\operatorname{Sel}(E)
+=
+\alpha\,\operatorname{CoverageGain}(E)
++
+\beta\,\operatorname{PredictionGain}(E)
++
+\gamma\,\operatorname{TransferGain}(E)
++
+\delta\,\operatorname{InterventionGain}(E)
++
+\eta\,\operatorname{UnificationGain}(E)
++
+\zeta\,\operatorname{Novelty}(E)
+-
+\lambda\,\operatorname{Score}_{\mathbf w}(E)
+-
+\rho\,\operatorname{Debt}(E),
+\end{gathered}
+$$
+with nonnegative coefficients. A research-facing selection may weight
+coverage, transfer, unification, and classifier novelty highly; a
+safety-facing selection may weight intervention debt, semantic debt,
+generalization debt, and not-claimed boundaries highly.
+\end{definition}
+
+\begin{theorem}[Shortest explanation need not be selection-favorable]
+\label{thm:philosophy-shortest-explanation-not-selection-favorable}
+The shortest explanation in a candidate family need not maximize a
+selection functional.
+\end{theorem}
+\begin{proof}
+A short feature label may have low score but also low coverage, low
+prediction value, no classifier novelty, and high debt. A longer
+role-complete explanation may have higher score but much higher benefit
+and lower debt. Under a selection functional that values those terms,
+the longer explanation is preferred.
+\end{proof}
+
+\begin{theorem}[Ledger-heavy explanations can be safety-favorable]
+\label{thm:philosophy-ledger-heavy-explanations-safety-favorable}
+An explanation with more ledger material can be preferable in a
+safety-facing selection.
+\end{theorem}
+\begin{proof}
+Safety-facing selection penalizes unrecorded failure cases, off-target
+effects, distribution boundaries, semantic ambiguity, and unsupported
+generalization. Adding the relevant ledger rows increases score, but it
+can reduce debt enough to increase the selection value.
+\end{proof}
+
+\begin{theorem}[Debt reduction can justify higher complexity]
+\label{thm:philosophy-debt-reduction-justifies-higher-complexity}
+If a transition increases explanation score but reduces black-box debt by
+a larger value after benefit is counted, then it has positive net
+explanation information.
+\end{theorem}
+\begin{proof}
+By \autoref{def:philosophy-net-explanation-information}, the score
+increase is subtracted and the debt decrease is added through the
+difference of the negative-debt term. If the debt decrease and benefit
+increase dominate the score increase, the net information difference is
+positive. This is the evaluation form of
+\autoref{thm:philosophy-black-box-ledger-theorem}: recorded residue can
+turn hidden black-box boundary into auditable boundary.
+\end{proof}
+
+\begin{theorem}[Formal hardening has net gain only when it pays for itself]
+\label{thm:philosophy-formal-hardening-net-gain}
+Formal hardening can increase or decrease net explanation information.
+\end{theorem}
+\begin{proof}
+Hardening increases verification cost. It improves net information only
+when the resulting verification gain and debt reduction exceed that cost
+and any remaining verification debt. If it hardens a low-value component
+or leaves critical residues untouched, its net contribution can be
+nonpositive. This refines
+\autoref{thm:philosophy-formal-hardening-not-classifier-shift}: a
+hardened component may improve audit status without creating classifier
+novelty.
+\end{proof}
+
+\begin{theorem}[Explanation complexity and information theorem]
+\label{thm:philosophy-explanation-complexity-information-theorem}
+Interpretability information is not explanation brevity. It is the net
+quantity obtained by auditing benefit, score, and debt, while classifier
+novelty is separately audited by classifier shift with certificate and
+ledger witnesses.
+\end{theorem}
+\begin{proof}
+Score is defined by
+\autoref{def:philosophy-explanation-score}; benefit by
+\autoref{def:philosophy-explanation-benefit}; debt by
+\autoref{def:philosophy-explanation-debt}; and net explanation
+information by \autoref{def:philosophy-net-explanation-information}.
+\autoref{thm:philosophy-lower-score-not-positive-net-information} and
+\autoref{thm:philosophy-higher-score-positive-net-information} separate
+score from quality. \autoref{thm:philosophy-positive-discovery-two-audits}
+separates net information from classifier novelty.
+\autoref{thm:philosophy-counts-do-not-determine-interpretability-information}
+rules out feature, proof, ledger, and length counts as standalone
+measures. The theorem follows.
+\end{proof}

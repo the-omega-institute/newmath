@@ -1,0 +1,268 @@
+\section{Formal Verification as Hard-Certificate Layer}
+\label{sec:visions-philosophy-hard-certificate-layer}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-tensor-namecert} separates tensor
+classifier certification from optional formal hardening. This section
+states the corresponding verification principle. Formal verification is
+a hard-certificate layer: it accepts proof objects for translated formal
+statements under a stated backend and trust boundary. It does not create
+the NameCert surface, does not replace the ledger, and does not by itself
+change the classifier being certified.
+
+\begin{definition}[Verification backend]
+\label{def:philosophy-verification-backend}
+A verification backend is a tuple consisting of a formal language, a
+statement space, a proof-object space, a checker or kernel, an acceptance
+relation, and a trust boundary. We write
+$$
+\mathcal{V}\vdash \pi:\varphi
+$$
+when the backend accepts proof object $\pi$ for statement $\varphi$ under
+that trust boundary.
+\end{definition}
+
+\begin{definition}[Hard certificate]
+\label{def:philosophy-hard-certificate}
+A hard certificate for a statement $\varphi$ is the backend-relative
+record
+$$
+\mathrm{HardCert}_{\mathcal{V}}(\varphi)
+=
+(\mathcal{V},\varphi,\pi,\mathsf{Trust})
+$$
+together with the acceptance judgment
+$$
+\mathcal{V}\vdash \pi:\varphi.
+$$
+It certifies the formal statement relative to the backend, dependencies,
+assumptions, and trust boundary that appear in the record.
+\end{definition}
+
+\begin{definition}[Verification ledger]
+\label{def:philosophy-verification-ledger}
+A verification ledger records the backend, formal statement, proof
+artifact, assumptions, dependencies, trusted components, unchecked
+components, portability boundary, and the certificate fields not covered
+by the proof.
+\end{definition}
+
+\begin{definition}[Formal hardening]
+\label{def:philosophy-formal-hardening}
+A NameCert row $F$ is formally hardened when it is translated to a
+formal statement $\varphi_F$ and a backend accepts a proof object for
+that statement:
+$$
+F\leadsto\varphi_F
+\qquad\text{and}\qquad
+\mathcal{V}\vdash \pi_F:\varphi_F.
+$$
+A NameCert is partially hardened when only some rows are hardened; it is
+fully hardened only when every critical formalizable row is hardened and
+the remaining rows are covered by the ledger.
+\end{definition}
+
+\begin{theorem}[Hard certificates are backend-relative]
+\label{thm:philosophy-hard-certificates-backend-relative}
+Every hard certificate is relative to a verification backend and trust
+boundary.
+\end{theorem}
+\begin{proof}
+By \autoref{def:philosophy-hard-certificate}, the certificate record
+contains $\mathcal{V}$ and $\mathsf{Trust}$. The accepted statement is
+therefore not a free-standing absolute object; it is a checked statement
+under the backend, assumptions, dependencies, and trusted components
+recorded by the verification ledger.
+\end{proof}
+
+\begin{theorem}[Hard certificates do not imply NameCerts]
+\label{thm:philosophy-hard-certificates-do-not-imply-namecerts}
+From $\mathcal{V}\vdash \pi:\varphi$ alone one cannot infer the existence
+of a NameCert for a classifier.
+\end{theorem}
+\begin{proof}
+The judgment gives a proof object for one formal statement. A NameCert
+requires source, pattern, classifier, stability, and ledger rows. The
+formal judgment may harden one of those rows, but it does not construct
+the whole five-field surface.
+\end{proof}
+
+\begin{corollary}[Verified theorem is not certified classifier]
+\label{cor:philosophy-verified-theorem-not-certified-classifier}
+A checked theorem is not, by itself, a certified classifier.
+\end{corollary}
+\begin{proof}
+Certified classifier objecthood requires a candidate classifier paired
+with a NameCert. By
+\autoref{thm:philosophy-hard-certificates-do-not-imply-namecerts}, a
+checked theorem alone does not supply that pair.
+\end{proof}
+
+\begin{theorem}[NameCert existence does not require full formal hardening]
+\label{thm:philosophy-namecert-existence-not-full-hardening}
+A NameCert can exist even when some of its rows are supported by paper,
+empirical, or ledger evidence rather than formal proofs.
+\end{theorem}
+\begin{proof}
+The NameCert condition is that the source, pattern, classifier,
+stability, and ledger rows are displayed and auditable. Formal hardening
+is one possible evidence mode for a row, not the existence condition for
+the certificate surface.
+\end{proof}
+
+\begin{theorem}[Component hardening does not replace other rows]
+\label{thm:philosophy-component-hardening-does-not-replace-rows}
+Hardening one certificate row does not harden or supply the other rows.
+\end{theorem}
+\begin{proof}
+The accepted proof object has target $\varphi_F$, the formal statement
+corresponding to row $F$. It says nothing by itself about a different
+source row, pattern row, classifier row, stability row, or ledger row
+unless those rows are explicitly included in $\varphi_F$.
+\end{proof}
+
+\begin{corollary}[Verified stability does not replace ledger]
+\label{cor:philosophy-verified-stability-not-ledger}
+A verified stability claim does not replace the ledger policy.
+\end{corollary}
+\begin{proof}
+Stability and ledger are distinct rows. By
+\autoref{thm:philosophy-component-hardening-does-not-replace-rows},
+hardening a stability statement does not supply the boundary, failure,
+residue, trust, or not-claimed rows of the ledger.
+\end{proof}
+
+\begin{theorem}[Partial hardening is not full hardening]
+\label{thm:philosophy-partial-hardening-not-full-hardening}
+A partially hardened certificate is not fully hardened unless every
+critical unverified row is recorded in the ledger as outside the hardened
+scope.
+\end{theorem}
+\begin{proof}
+Full hardening requires coverage of all critical formalizable rows, with
+unhardened rows explicitly ledgered. If a critical row is neither
+hardened nor ledgered as outside scope, the certificate has a hardening
+gap and the full-hardening claim is not audit-complete.
+\end{proof}
+
+\subsection{Verification and Discovery}
+\label{subsec:philosophy-verification-and-discovery}
+
+\begin{definition}[Verification-only transition]
+\label{def:philosophy-verification-only-transition}
+A verification-only transition is a passage from $(C,N)$ to $(C,N')$ in
+which the classifier $C$ is unchanged and the difference is that one or
+more rows of the NameCert receive additional formal hardening.
+\end{definition}
+
+\begin{theorem}[Verification-only transitions preserve classifier surface]
+\label{thm:philosophy-verification-only-preserves-classifier}
+A verification-only transition does not create classifier shift.
+\end{theorem}
+\begin{proof}
+By definition, the classifier relation $C$ is unchanged. The transition
+changes the evidence status of certificate rows, not the classifier
+surface on the common source.
+\end{proof}
+
+\begin{corollary}[Formal verification is not discovery by itself]
+\label{cor:philosophy-formal-verification-not-discovery}
+Formal verification of a previously unchecked component is not by itself
+a structural discovery.
+\end{corollary}
+\begin{proof}
+Structural discovery requires classifier shift by
+\autoref{thm:philosophy-discovery-requires-classifier-shift}. By
+\autoref{thm:philosophy-verification-only-preserves-classifier}, a
+verification-only transition preserves the classifier surface.
+\end{proof}
+
+\begin{theorem}[Hardening costs enter discovery accounting]
+\label{thm:philosophy-hardening-costs-enter-discovery-accounting}
+When formal hardening is used to support a discovery claim, its cost is
+part of the certificate cost of that claim.
+\end{theorem}
+\begin{proof}
+Formal hardening consumes statement translation, proof construction,
+checking, dependency maintenance, trust-boundary auditing, and artifact
+transport. If those costs are omitted, the discovery ledger treats proof
+work as free information. The net-gain audit must therefore include the
+hardening cost when hardening supports the claim.
+\end{proof}
+
+\subsection{Verification Transparency}
+\label{subsec:philosophy-verification-transparency}
+
+\begin{theorem}[Hard certificates require verification ledgers]
+\label{thm:philosophy-hard-certificates-require-verification-ledgers}
+A hard certificate without a verification ledger is not audit-complete.
+\end{theorem}
+\begin{proof}
+Because the hard certificate is backend-relative, an auditor must know
+which backend accepted the proof, which statement was checked, which
+dependencies and assumptions were used, which trust boundary was assumed,
+and which certificate rows were not covered. These are exactly the rows
+of \autoref{def:philosophy-verification-ledger}.
+\end{proof}
+
+\begin{corollary}[Opaque verification is a black box]
+\label{cor:philosophy-opaque-verification-black-box}
+A claim that something is verified, without backend, statement, proof
+artifact, dependencies, and trust boundary, is itself a verification
+black box.
+\end{corollary}
+\begin{proof}
+The claim hides the data needed to audit what was checked and under what
+assumptions. By
+\autoref{thm:philosophy-hard-certificates-require-verification-ledgers},
+the hard certificate is not audit-complete.
+\end{proof}
+
+\begin{theorem}[Verification does not automatically transfer across backends]
+\label{thm:philosophy-verification-does-not-transfer-across-backends}
+A proof accepted by one backend is not automatically accepted by another
+backend.
+\end{theorem}
+\begin{proof}
+Backends may differ in language, kernel, proof-object format, axioms,
+libraries, and trust boundary. Transporting a verified result requires a
+new proof, a sound translation, or a transport certificate for the
+backend relation. Acceptance by the first backend alone does not supply
+those rows.
+\end{proof}
+
+\begin{theorem}[Machine-learning explanations may be hybrid]
+\label{thm:philosophy-machine-learning-explanations-may-be-hybrid}
+A tensor-certified explanation may combine formally hardened rows with
+empirical, paper, or ledger-supported rows.
+\end{theorem}
+\begin{proof}
+Tensor-certified explanation requires the Tensor NameCert surface of
+\autoref{def:philosophy-tensor-namecert}. Some of its rows may be
+translated into formal statements and checked; others may remain
+empirical or paper-level, provided their evidence type and boundary are
+recorded. Such an explanation is stronger than a ledger-only certificate
+in the hardened rows, but weaker than a fully hardened certificate.
+\end{proof}
+
+\begin{theorem}[Formal-verification layer theorem]
+\label{thm:philosophy-formal-verification-layer-theorem}
+Formal verification hardens certificate rows by producing
+backend-relative hard certificates with verification ledgers; it does
+not replace the NameCert layer, the ledger layer, or the classifier-shift
+condition for discovery.
+\end{theorem}
+\begin{proof}
+Hard certificates are backend-relative by
+\autoref{thm:philosophy-hard-certificates-backend-relative}. They do not
+imply NameCerts by
+\autoref{thm:philosophy-hard-certificates-do-not-imply-namecerts}.
+Their ledgers remain necessary by
+\autoref{thm:philosophy-hard-certificates-require-verification-ledgers}.
+Finally, verification-only transitions preserve classifier surface by
+\autoref{thm:philosophy-verification-only-preserves-classifier}. The
+formal-verification layer therefore hardens rows without replacing the
+certification, ledger, or discovery layers.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-hard-certificate-layer-namecert}{Hard-certificate layers realize backend-relative proof acceptance, verification ledgers, partial hardening, trust-boundary exposure, non-transfer across backends, and no-discovery-by-verification as finite NameCert rows.}

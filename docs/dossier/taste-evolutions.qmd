@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-31T05:20:16Z
+> 最后刷新: 2026-05-31T07:50:07Z
 
-**Daemon 状态**: monitor (monitor cycle 8, adjust_since_research 0, round_counter 1703, last_adjust none)
+**Daemon 状态**: monitor (monitor cycle 10, adjust_since_research 0, round_counter 1938, last_adjust none)
 
-**待处理 queue** (31 条 finding):
-- isolated_theorem: 26 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (33 条 finding):
+- isolated_theorem: 28 条; 代表样本 `derived`, `derived`, `derived`
 - low_entropy_template: 4 条; 代表样本 `setlike`, `sobolev`, `markovchain`
 - missing_origin: 1 条; 代表样本 `reality_bound_codon_topology_orf_interval_contact`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=isolated_theorem: 20 次
-- TASTE ALERT category=low_entropy_template: 7 次
+- TASTE ALERT category=low_entropy_template: 10 次
 - TASTE ALERT category=cycle_exception: 2 次
 - TASTE ALERT category=missing_origin: 2 次
 - TASTE ALERT category=dossier_snapshot_push_failed: 1 次
@@ -199,6 +199,8 @@ to case-by-case judgment.
 - 2026-05-30T17:49:00Z: `resolved` `add_downstream_user` for `BEDC.Derived.PseudometricUp.PseudometricCarrier_zero_distance_boundary_obligation` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.PseudometricUp.PseudometricCarrier_zero_distance_boundary_obligation:b56969e5`). Rationale: The target is not a vacuous restatement: it builds the zero-distance boundary SemanticNameCert surface used by the pseudometric paper route, but grep showed no Lean downstream consumer. I added PseudometricCarrier_boundary_ledger_nonescape_consumer in the ledger-nonescape sibling file; it explicitly invokes the flagged theorem, then carries the boundary row through replay into a ledger-facing SemanticNameCert with UnaryHistory, Cont, and PkgSig outputs. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-05-30T20:46:33Z: `resolved` `leave_with_rationale` for `BEDC.Derived.PseudometricUp.PseudometricCarrier_separated_reflection_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.PseudometricUp.PseudometricCarrier_separated_reflection_handoff:235834fe`). Rationale: The theorem has real BEDC content: it packages the separated-reflection boundary from a PseudometricCarrier into a SemanticNameCert plus unary handoff facts, and the paper chapter uses it as the boundary for later zero-distance completion and quotient-reflection arguments. Grep confirmed no existing Lean downstream consumer. I attempted add_downstream_user by making PseudometricCarrier_zero_distance_completion_route consume this handoff, but lake build failed because the proof destructured carrier before reusing it, producing Unknown identifier `carrier`; per instruction I reverted the edit and leave this as staging-only with the gate failure recorded. Gate results: lake_build=FAILED: BEDC/Derived/PseudometricUp/ZeroDistanceCompletionRoute.lean:40:6 Unknown identifier `carrier`; unsolved goals after attempted downstream-user edit; changes reverted, audit=skipped, phase_d_lint=skipped.
+
+- 2026-05-31T06:48:20Z: `resolved` `add_downstream_user` for `BEDC.Derived.FareySequenceUp.FareySequenceCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:fareysequence:BEDC.Derived.FareySequenceUp.FareySequenceCarrier_namecert_obligations:8509c8a0`). Rationale: The target has real BEDC content: it constructs a SemanticNameCert for the Farey sequence approximation-read route and closes the Cont-derived UnaryHistory rows. It was isolated only because no Lean sibling consumed it, so I added FareySequenceCarrier_namecert_real_bracket_lock in the Real-facing sibling. The new theorem calls the flagged theorem directly, reuses its certificate and approxRead closure, and extends the route to the terminal sealRead with Cont/PkgSig evidence. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
