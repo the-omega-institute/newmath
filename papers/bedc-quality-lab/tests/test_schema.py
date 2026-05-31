@@ -54,3 +54,17 @@ def test_schema_rejects_bedc_rule_copies():
     good = envelope_kwargs()
     good["bedc_refs"] = ["papers/bedc/preamble.tex:closurestatus"]
     assert QualityEvidenceEnvelope(**good).bedc_refs == good["bedc_refs"]
+
+
+def test_schema_json_roundtrip_uses_public_reader(tmp_path):
+    envelope = QualityEvidenceEnvelope(**envelope_kwargs())
+    path = tmp_path / "envelope.json"
+
+    envelope.write_json(path)
+    restored = QualityEvidenceEnvelope.read_json(path)
+
+    assert restored == envelope
+    assert restored.to_dict() == envelope.to_dict()
+    assert restored.schema_id == SCHEMA_ID
+    assert restored.run_id == "schema-test"
+    assert restored.artifacts == {"report": "reports/quality_report.md"}
