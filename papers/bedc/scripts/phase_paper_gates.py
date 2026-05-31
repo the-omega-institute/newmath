@@ -15,9 +15,13 @@ Usage:
     python3 papers/bedc/scripts/phase_paper_gates.py \\
         --worktree /path/to/round_P1234 \\
         --base-sha abc123                     \\
-        [--gate register-only|vocab|math|oversized|leanvariant|axis-confusion|all]
+        [--gate <GATE_DISPATCH key>|all]
 
 With `--gate all` (default), prints a JSON object keyed by gate name.
+On success, that object contains every key in `GATE_DISPATCH`, and each
+value is a list of violation strings. Infra failures are represented by
+a non-zero exit code or output that the orchestrator cannot parse as
+that complete object.
 With a specific gate name, prints one violation per line.
 
 Exit code is always 0 unless infrastructure (subprocess, JSON parse)

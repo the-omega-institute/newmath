@@ -13,7 +13,7 @@ from typing import Iterable
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_LEDGER = REPO_ROOT / ".refactor-loop" / "verification-ledger.jsonl"
+DEFAULT_LEDGER = REPO_ROOT / ".bedc" / "verification-ledger.jsonl"
 STATUSES = {"passed", "failed", "deferred"}
 
 
