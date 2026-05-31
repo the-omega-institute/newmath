@@ -218,6 +218,7 @@ Finally apply classifier stability and ledger exactness, \autoref{thm:metacic-de
 \label{thm:metacic-decidable-boundary-fuel-window-replay}
 Let $D=(T,S,B,F,R,H,C,P,N)$ be an accepted $\MetaCICDecidableBoundaryUp$ packet. Every bounded comparison replay that reads $B$ must also expose the fuel and finished-normal side-condition row $F$. The replay may use $T,S,H,C,P,N$ to reach the finite comparison window, but it cannot erase $F$ or turn $B$ into fuel-free normalization.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICDecidableBoundaryUp.MetaCICDecidableBoundaryFuelWindowReplay}
 \begin{proof}
 Start with the bounded comparison non-escape theorem \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}. It permits access to bounded normal equality only through the pair $B,F$.
 
@@ -281,7 +282,8 @@ If $B$ is read without this endpoint data, the route has only bounded comparison
   \constructivestory{A $\MetaCICDecidableBoundaryUp$ packet is generated from inferTypeCtx checking, checkSameTerm structural equality, bounded normal comparison, finished-normal side conditions, refusal rows for ClosedAt and global beta conversion, componentwise transport, continuation routes, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:metacic-decidable-boundary-carrier}, \autoref{thm:metacic-decidable-boundary-namecert-obligations}, \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}, \autoref{thm:metacic-decidable-boundary-refusal-exactness}, \autoref{thm:metacic-decidable-boundary-sibling-provenance}, \autoref{thm:metacic-decidable-boundary-window-totality}, \autoref{thm:metacic-decidable-boundary-classifier-stability}, and \autoref{thm:metacic-decidable-boundary-ledger-exactness} bind the finite checker, bounded-comparison, refusal, provenance, and local naming surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MetaCICDecidableBoundaryUp.MetaCICDecidableBoundaryFuelWindowReplay}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a standalone ClosedAt decider, global beta-conversion decidability, fuel-erased normalisation, quotient equality over represented terms, or bridge checking.}
