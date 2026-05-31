@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICDischargeInversionBoundaryUp$}
+\label{ch:concrete-instances-metacic-discharge-inversion-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICDischargeInversionBoundaryUp$ packet realizes the four subject-reduction discharge rows of \autoref{sec:metacic-open-problems-subject-reduction} as a finite inversion boundary. It sits beside the discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the subject-reduction frontier of \autoref{ch:concrete-instances-metacic-subject-reduction-frontier-namecert}, the redex frontier of \autoref{ch:concrete-instances-metacic-redex-frontier-namecert}, the proof-search frontier of \autoref{ch:concrete-instances-metacic-proof-search-frontier-namecert}, and the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. The carrier names the finite boundary at which beta-substitution, application-argument stability, lambda-domain preservation, and Pi-domain preservation can be inspected as rows; it does not prove any of those rows and does not export a closed subject-reduction theorem.
+
+\falsifiablePrediction{An accepted $\MetaCICDischargeInversionBoundaryUp$ consumer that reads a subject-reduction discharge route without displaying the beta-substitution, application-argument, lambda-domain, Pi-domain, obstruction, socket, transport, replay, provenance, and local naming rows refutes the carrier.}
+
+\independenceWitness{subject-reduction-discharge-socket, metacic-subject-reduction-frontier, metacic-redex-frontier, metacic-proof-search-frontier, metaciccriticalpath: none is bijective to $\MetaCICDischargeInversionBoundaryUp$ because this packet jointly binds four discharge rows, an obstruction row, a socket boundary, inversion routing, TasteGate readiness, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate for this packet will provide explicit $\mathsf{Nontrivial}\ \MetaCICDischargeInversionBoundaryUp$ and $\mathsf{FieldFaithful}\ \MetaCICDischargeInversionBoundaryUp$ instances. Those instances must keep the discharge rows $B,A,L,P$, the obstruction row $O$, the socket row $S$, the inversion route $V$, the TasteGate row $T$, and the structural rows $H,C,Q,N$ as separate fields before any checked carrier-alignment theorem can serve as the public gate.
+
+\begin{definition}[MetaCICDischargeInversionBoundary carrier]
+\label{def:metacic-discharge-inversion-boundary-carrier}
+A $\MetaCICDischargeInversionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+M=(B,A,L,P,O,S,V,T,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-substitution preservation discharge row.
+\item $A$ is the application-argument type-stability discharge row.
+\item $L$ is the lambda-domain subject-reduction discharge row.
+\item $P$ is the Pi-domain subject-reduction discharge row.
+\item $O$ is the obstruction row recording that the four-row interface is not replaced by a closed subject-reduction theorem.
+\item $S$ is the $\SubjectReductionDischargeSocketUp$ row that names the finite socket through which the four rows are consumed.
+\item $V$ is the inversion route row, recording which discharge row a subject-reduction branch asks to inspect.
+\item $T$ is the TasteGate readiness row requiring Nontrivial and FieldFaithful separation of the displayed fields.
+\item $H$ records componentwise $\hsame$ transport for the discharge, obstruction, socket, inversion, TasteGate, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a branch inspection request through the socket, inversion route, selected discharge row, obstruction boundary, and TasteGate row.
+\item $Q$ is the $\Pkg$ provenance over $\MetaCICDischargeInversionBoundaryUp$, $\SubjectReductionDischargeSocketUp$, the four MetaCIC discharge rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICDischargeInversionBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no closed subject-reduction proof, no replacement fifth discharge row, no host typing oracle, no quotient syntax equality, and no hidden axiom channel.
+\end{definition}
+
+\begin{theorem}[MetaCICDischargeInversionBoundary NameCert obligations]
+\label{thm:metacic-discharge-inversion-boundary-namecert-obligations}
+For every accepted $\MetaCICDischargeInversionBoundaryUp$ carrier $M=(B,A,L,P,O,S,V,T,H,C,Q,N)$, the local $\NameCert_{\MetaCICDischargeInversionBoundaryUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the four discharge rows, obstruction row, socket row, inversion route, TasteGate row, transport, replay, provenance, and local naming rows;
+\item four-row coverage, requiring the beta-substitution, application-argument, lambda-domain, and Pi-domain rows to remain distinct visible inputs;
+\item inversion exactness, requiring the route row $V$ to select among $B,A,L,P$ without replacing any selected row by $O,S,T,H,C,Q,$ or $N$;
+\item socket preservation, requiring every discharge read to pass through $S$ before a branch-specific row is inspected;
+\item TasteGate separation, requiring the Nontrivial and FieldFaithful obligations for the displayed carrier fields;
+\item ledger refusal, excluding a closed subject-reduction theorem, host typing oracle, quotient syntax equality, hidden axiom channel, or fifth discharge row.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-discharge-inversion-boundary-carrier}. The packet displays exactly four discharge rows, an obstruction row, a socket row, an inversion route, a TasteGate row, and the structural transport, replay, provenance, and naming rows.
+
+Use the four-row ledger exactness of \autoref{thm:subject-reduction-discharge-socket-four-row-ledger-exactness}. The socket already separates beta-substitution, application-argument, lambda-domain, and Pi-domain inputs, and it does not allow a fifth discharge row or an obstruction row to stand in for one of them.
+
+The inversion route $V$ refines only which of the four rows is being inspected. The route can be transported by $H$ and replayed by $C$, while $Q,N$ source and name the same finite packet, but none of those rows creates a closed subject-reduction proof or a host typing oracle.
+
+TasteGate readiness records the remaining admission discipline. Nontriviality distinguishes packets with missing discharge fields from accepted packets, and field faithfulness preserves the displayed row order, so the local NameCert surface is exactly the finite surface listed above.
+\end{proof}
+
+\begin{theorem}[MetaCICDischargeInversionBoundary socket nonescape]
+\label{thm:metacic-discharge-inversion-boundary-socket-nonescape}
+Every subject-reduction-facing read of an accepted $\MetaCICDischargeInversionBoundaryUp$ carrier factors through the socket-preserving route
+$$
+S,V,(B,A,L,P),O,T \longmapsto H,C,Q,N .
+$$
+The read may inspect the four discharge rows, the obstruction row, the socket boundary, the inversion route, TasteGate readiness, transport, replay, provenance, and local naming. It cannot obtain a closed subject-reduction theorem, a replacement discharge row, a host typing oracle, quotient syntax equality, or a hidden axiom channel.
+\end{theorem}
+\begin{proof}
+Start with a subject-reduction-facing read. The carrier exposes the socket row $S$ as the public entry to the four discharge inputs, so the read cannot directly inspect $B,A,L,$ or $P$ without passing through $S$.
+
+Apply \autoref{thm:metacic-discharge-inversion-boundary-namecert-obligations}. The inversion route $V$ selects among the four displayed rows only after the socket boundary is visible, and the obstruction row $O$ remains a boundary row rather than a discharge proof.
+
+The TasteGate row $T$ and structural rows $H,C,Q,N$ preserve that same inventory. Since the carrier has no coordinate for a closed theorem, replacement row, host typing oracle, quotient syntax equality, or hidden axiom channel, none can escape through a public read.
+\end{proof}
+
+\closureat{MetaCICDischargeInversionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICDischargeInversionBoundaryUp}
+  \constructivestory{A $\MetaCICDischargeInversionBoundaryUp$ packet is generated from beta-substitution, application-argument, lambda-domain, Pi-domain, obstruction, discharge-socket, inversion-route, TasteGate, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-discharge-inversion-boundary-carrier}, \autoref{thm:metacic-discharge-inversion-boundary-namecert-obligations}, and \autoref{thm:metacic-discharge-inversion-boundary-socket-nonescape} bind the finite discharge-inversion boundary and its socket nonescape route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove any subject-reduction discharge row, close subject reduction, supply a host typing oracle, quotient syntax equality, hidden axiom channel, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-row coverage, inversion exactness, socket preservation, TasteGate nontriviality, field faithfulness, socket nonescape, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICDischargeInversionBoundaryUp.}
+\end{closurestatus}
