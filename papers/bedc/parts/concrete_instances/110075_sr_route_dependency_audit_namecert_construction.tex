@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-sr-route-dependency-audit-namecert}
 \origin{ai}
 
-The $\SRRouteDependencyAuditUp$ packet realizes the dependency audit surface for the bundle and typeclass subject-reduction discharge routes of \autoref{ch:sr-discharge-routes}. It reads the subject-reduction route packet of \autoref{ch:concrete-instances-subject-reduction-route-namecert}, the route-audit packet of \autoref{ch:concrete-instances-subject-reduction-route-audit-namecert}, the route triangle of \autoref{ch:concrete-instances-subjectreductionroutetriangle-namecert}, and the MetaCIC open-frontier ledger of \autoref{ch:concrete-instances-metacic-open-frontier-ledger-namecert}. The packet records which finite rows a downstream preservation consumer must display before treating either discharge route as available.
+The $\SRRouteDependencyAuditUp$ packet realizes the dependency audit surface for the explicit bundle subject-reduction discharge route of \autoref{ch:sr-discharge-routes}. It reads the subject-reduction route packet of \autoref{ch:concrete-instances-subject-reduction-route-namecert}, the route-audit packet of \autoref{ch:concrete-instances-subject-reduction-route-audit-namecert}, the route triangle of \autoref{ch:concrete-instances-subjectreductionroutetriangle-namecert}, and the MetaCIC open-frontier ledger of \autoref{ch:concrete-instances-metacic-open-frontier-ledger-namecert}. The packet records which finite rows a downstream preservation consumer must display before treating the discharge route as available.
 
 \begin{definition}[SR route dependency audit carrier]
 \label{def:sr-route-dependency-audit-carrier}
@@ -12,19 +12,19 @@ A=(R,U,T,F,B,K,O,H,C,P,N)
 $$
 with the following displayed rows:
 \begin{enumerate}
-\item $R$ is the $\SubjectReductionRouteUp$ row naming the common bundle/setup discharge route.
+\item $R$ is the $\SubjectReductionRouteUp$ row naming the explicit bundle discharge route.
 \item $U$ is the $\SubjectReductionRouteAuditUp$ row recording the audited four-row payload and socket handoff.
-\item $T$ is the $\SubjectReductionRouteTriangleUp$ row separating bundle, typeclass, and obstruction coordinates.
+\item $T$ is the $\SubjectReductionRouteTriangleUp$ row separating bundle and obstruction coordinates.
 \item $F$ is the $\MetacicOpenFrontierLedgerUp$ row naming the open MetaCIC subject-reduction boundary.
 \item $B$ is the bundle-dependency row, listing the four discharge hypotheses as finite bundle coordinates.
-\item $K$ is the typeclass-dependency row, listing the same four coordinates through setup-instance publication.
+\item $K$ is the route-dependency row, listing the same four coordinates through explicit bundle publication.
 \item $O$ is the obstruction-boundary row stating that the audit packet does not inhabit either route for the closed-CIC substrate.
 \item $H$ records componentwise $\hsame$ transport for route, audit, triangle, frontier, dependency, obstruction, replay, provenance, and naming rows.
 \item $C$ records displayed $\Cont$ replay from a preservation request through $R,U,T,F,B,K,O$.
 \item $P$ is the $\Pkg$ provenance over $\SRRouteDependencyAuditUp$, $\SubjectReductionRouteUp$, $\SubjectReductionRouteAuditUp$, $\SubjectReductionRouteTriangleUp$, $\MetacicOpenFrontierLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
 \item $N$ is the local $\NameCert_{\SRRouteDependencyAuditUp}$ row.
 \end{enumerate}
-The classifier compares accepted packets only through $R,U,T,F,B,K,O,H,C,P,N$. It has no coordinate for an inhabited $\mathrm{SubjectReductionDischargeBundle}$, a closed-CIC $\mathrm{SubjectReductionSetup}$ instance, a discharged dependent-codomain premise, or a closed subject-reduction theorem.
+The classifier compares accepted packets only through $R,U,T,F,B,K,O,H,C,P,N$. It has no coordinate for an inhabited $\mathrm{SubjectReductionDischargeBundle}$, a discharged dependent-codomain premise, or a closed subject-reduction theorem.
 \end{definition}
 
 \begin{theorem}[SR route dependency audit obligations]
@@ -33,21 +33,21 @@ For every accepted $\SRRouteDependencyAuditUp$ carrier
 $$
 A=(R,U,T,F,B,K,O,H,C,P,N),
 $$
-the local $\NameCert_{\SRRouteDependencyAuditUp}$ surface consists exactly of carrier admission, subject-reduction route exposure, route-audit exposure, triangle exposure, MetaCIC open-frontier exposure, bundle-dependency visibility, typeclass-dependency visibility, obstruction-boundary retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+the local $\NameCert_{\SRRouteDependencyAuditUp}$ surface consists exactly of carrier admission, subject-reduction route exposure, route-audit exposure, triangle exposure, MetaCIC open-frontier exposure, bundle-dependency visibility, route-dependency visibility, obstruction-boundary retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
 \end{theorem}
 \begin{proof}
 Project the carrier of \autoref{def:sr-route-dependency-audit-carrier}. The dependency audit has exactly the route rows $R,U,T,F$, the dependency rows $B,K$, the obstruction row $O$, and the structural rows $H,C,P,N$.
 
-The subject-reduction route and route-audit rows expose the common four-field discharge payload. The route triangle separates bundle use, setup use, and obstruction retention, while the open-frontier ledger keeps the MetaCIC subject-reduction boundary visible.
+The subject-reduction route and route-audit rows expose the common four-field discharge payload. The route triangle separates bundle use and obstruction retention, while the open-frontier ledger keeps the MetaCIC subject-reduction boundary visible.
 
-The bundle and typeclass dependency rows are compared only as two publications of the same four finite coordinates. They do not create a new discharge premise and do not inhabit the missing closed-CIC setup.
+The bundle and route dependency rows are compared only as two publications of the same four finite coordinates. They do not create a new discharge premise and do not inhabit the missing closed-CIC bundle.
 
-Finally $H,C,P,N$ transport, replay, source, and name only these rows. Since the carrier has no coordinate for an inhabited discharge bundle, setup instance, dependent-codomain discharge, or closed subject-reduction theorem, none of those endpoints can be exported.
+Finally $H,C,P,N$ transport, replay, source, and name only these rows. Since the carrier has no coordinate for an inhabited discharge bundle, dependent-codomain discharge, or closed subject-reduction theorem, none of those endpoints can be exported.
 \end{proof}
 
 \begin{theorem}[SR route dependency obstruction nonescape]
 \label{thm:sr-route-dependency-audit-obstruction-nonescape}
-Any preservation-facing consumer of an accepted $\SRRouteDependencyAuditUp$ packet must read the obstruction row $O$ together with the open-frontier row $F$ before it can cite either the bundle dependency row $B$ or the typeclass dependency row $K$. The audit therefore exposes the two discharge routes as finite dependency surfaces and does not turn them into an available closed-CIC subject-reduction theorem.
+Any preservation-facing consumer of an accepted $\SRRouteDependencyAuditUp$ packet must read the obstruction row $O$ together with the open-frontier row $F$ before it can cite either the bundle dependency row $B$ or the route dependency row $K$. The audit therefore exposes the discharge route as a finite dependency surface and does not turn it into an available closed-CIC subject-reduction theorem.
 \end{theorem}
 \begin{proof}
 Use \autoref{thm:sr-route-dependency-audit-namecert-obligations}. It requires route exposure, route-audit exposure, triangle exposure, open-frontier exposure, and obstruction retention as part of the same local NameCert surface.
@@ -57,20 +57,20 @@ The row $F$ names the MetaCIC subject-reduction frontier, and $O$ records that t
 The replay and provenance rows preserve this order. They carry the preservation request through the displayed route inventory and cannot erase $F$ or $O$.
 \end{proof}
 
-\falsifiablePrediction{A subject-reduction-route consumer refutes $\SRRouteDependencyAuditUp$ if it obtains either the bundle route or the typeclass route without displaying subject-reduction-route, subject-reduction-route-audit, subjectreductionroutetriangle, and metacic-open-frontier-ledger rows.}
+\falsifiablePrediction{A subject-reduction-route consumer refutes $\SRRouteDependencyAuditUp$ if it obtains the bundle route without displaying subject-reduction-route, subject-reduction-route-audit, subjectreductionroutetriangle, and metacic-open-frontier-ledger rows.}
 
-\independenceWitness{subject-reduction-route, subject-reduction-route-audit, subjectreductionroutetriangle, metacic-open-frontier-ledger: none is bijective to $\SRRouteDependencyAuditUp$ because the audit packet jointly records route exposure, audited payload, bundle/typeclass/obstruction separation, open-frontier retention, dependency rows, transport, replay, provenance, and local naming.}
+\independenceWitness{subject-reduction-route, subject-reduction-route-audit, subjectreductionroutetriangle, metacic-open-frontier-ledger: none is bijective to $\SRRouteDependencyAuditUp$ because the audit packet jointly records route exposure, audited payload, bundle/obstruction separation, open-frontier retention, dependency rows, transport, replay, provenance, and local naming.}
 
 The Lean follow-up must provide $\Nontrivial\ \SRRouteDependencyAuditUp$ and $\FieldFaithful\ \SRRouteDependencyAuditUp$ instances. The instances must keep $R,U,T,F,B,K,O,H,C,P,N$ as separate displayed fields before any checked theorem cites the packet as a dependency-audit surface.
 
 \closureat{SRRouteDependencyAuditUp}{seedStr}
 
 \begin{closurestatus}{\SRRouteDependencyAuditUp}
-  \constructivestory{An $\SRRouteDependencyAuditUp$ packet is generated from subject-reduction route, route-audit, route-triangle, open-frontier, bundle-dependency, typeclass-dependency, obstruction, transport, replay, provenance, and local naming rows.}
+  \constructivestory{An $\SRRouteDependencyAuditUp$ packet is generated from subject-reduction route, route-audit, route-triangle, open-frontier, bundle-dependency, route-dependency, obstruction, transport, replay, provenance, and local naming rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:sr-route-dependency-audit-carrier}, \autoref{thm:sr-route-dependency-audit-namecert-obligations}, and \autoref{thm:sr-route-dependency-audit-obstruction-nonescape} seed the finite dependency audit surface for bundle and typeclass subject-reduction discharge routes.}
+  \scopeclosed{\autoref{def:sr-route-dependency-audit-carrier}, \autoref{thm:sr-route-dependency-audit-namecert-obligations}, and \autoref{thm:sr-route-dependency-audit-obstruction-nonescape} seed the finite dependency audit surface for the bundle subject-reduction discharge route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not inhabit the four MetaCIC subject-reduction discharge hypotheses, construct a closed-CIC setup instance, construct a discharge bundle, prove closed subject reduction, give Lean verification, or bridge check the packet.}
-  \upgradepath{Obligation closure requires checked carrier admission, route exposure, route-audit exposure, triangle exposure, open-frontier exposure, bundle and typeclass dependency visibility, obstruction nonescape, Nontrivial and FieldFaithful instances, transport, replay, provenance, and local naming for BEDC.Derived.SRRouteDependencyAuditUp.}
+  \notclaimed{This chapter does not inhabit the four MetaCIC subject-reduction discharge hypotheses, construct a discharge bundle, prove closed subject reduction, give Lean verification, or bridge check the packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, route exposure, route-audit exposure, triangle exposure, open-frontier exposure, bundle and route dependency visibility, obstruction nonescape, Nontrivial and FieldFaithful instances, transport, replay, provenance, and local naming for BEDC.Derived.SRRouteDependencyAuditUp.}
 \end{closurestatus}

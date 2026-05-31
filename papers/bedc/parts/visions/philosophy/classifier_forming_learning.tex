@@ -1,0 +1,446 @@
+\section{Classifier-Forming Learning}
+\label{sec:visions-philosophy-classifier-forming-learning}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-positive-interpretability-discovery}
+defines positive discovery as certified classifier novelty with positive
+net explanation information. The same separation applies to learning
+itself. A training run can move parameters, lower an objective, improve a
+benchmark, memorize more cases, or expose more traces without yet
+forming a certified classifier. In the BEDC reading, strong learning is
+classifier formation under training pressure: a stable distinction is
+extracted from a learning trajectory, lifted to a NameCert surface, and
+ledgered against the residues that training can hide.
+
+\begin{definition}[Learning system]
+\label{def:philosophy-learning-system}
+A learning system is a tuple
+$$
+\mathcal M=(X,Y,\Theta,M,\mathcal D,\mathcal L),
+$$
+where $X$ is an input space, $Y$ is an output space, $\Theta$ is a
+parameter space, $M:\Theta\to(X\to Y)$ is a model family,
+$\mathcal D$ is a data family or sampling regime, and $\mathcal L$ is a
+loss, reward, constraint, or other training pressure. For
+$\theta\in\Theta$, write $M_{\theta}=M(\theta)$.
+\end{definition}
+
+\begin{definition}[Learning state]
+\label{def:philosophy-learning-state}
+A learning state is
+$$
+\mathfrak L=(\theta,R,\mathcal B,\mathcal C,\Lambda),
+$$
+where $\theta$ is the model state, $R$ is the training record,
+$\mathcal B$ is the family of observed behaviors, $\mathcal C$ is the
+family of classifier candidates or certified classifiers, and
+$\Lambda$ is the learning ledger recording training, generalization,
+compression, memorization, failure, shortcut, and distribution-boundary
+residue.
+\end{definition}
+
+\begin{definition}[Learning transition]
+\label{def:philosophy-learning-transition}
+A learning transition is a passage
+$$
+\mathfrak L_t\leadsto\mathfrak L_{t+1}
+$$
+between learning states. It may change the model state, extend the
+training record, alter observed behavior, expose classifier candidates,
+construct NameCert rows, repair ledgers, harden formal components, or
+add transfer evidence.
+\end{definition}
+
+\begin{definition}[Learning classifier state]
+\label{def:philosophy-learning-classifier-state}
+A learning classifier state is the certified classifier state
+$$
+\mathcal T_{\mathsf{learn}}
+=
+(S_{\mathsf{learn}},
+P_{\mathsf{learn}},
+L_{\mathsf{learn}},
+C_{\mathsf{learn}},
+N_{\mathsf{learn}}),
+$$
+where $S_{\mathsf{learn}}$ records data, traces, activation sources,
+task scope, and training protocol; $P_{\mathsf{learn}}$ records the
+learned pattern; $L_{\mathsf{learn}}$ records the learning ledger;
+$C_{\mathsf{learn}}$ is the classifier induced by the learning process;
+and $N_{\mathsf{learn}}$ licenses the state.
+\end{definition}
+
+\begin{definition}[Learning classifier shift]
+\label{def:philosophy-learning-classifier-shift}
+Two learning classifier states are equivalent when their classifier
+relations agree on the common source scope. A learning transition has
+learning classifier shift when the before and after learning classifier
+states are not equivalent.
+\end{definition}
+
+\begin{definition}[Certified learning discovery]
+\label{def:philosophy-certified-learning-discovery}
+A learning transition is a certified learning discovery when it has
+learning classifier shift, the target classifier has a NameCert, the
+learning ledger records the relevant scope and boundary residues, and
+the classifier supports observable behavior or certified
+generalization.
+\end{definition}
+
+\begin{definition}[Positive certified learning]
+\label{def:philosophy-positive-certified-learning}
+A certified learning discovery is positive when its learning net
+information is positive:
+$$
+\mathsf{Info}_{\mathsf{learn}}
+=
+\operatorname{Benefit}_{\mathsf{learn}}
+-
+\operatorname{Cost}_{\mathsf{learn}}
+-
+\operatorname{Debt}_{\mathsf{learn}}
+>
+0.
+$$
+The benefit term may include coverage, prediction, generalization,
+transfer, compression, intervention, and unification gains. The cost term
+includes training, data, model, NameCert, ledger, and verification costs.
+The debt term includes unrecorded learning residue.
+\end{definition}
+
+\subsection{Separation from Metrics}
+\label{subsec:philosophy-learning-metric-separation}
+
+\begin{theorem}[Parameter motion is not learning discovery]
+\label{thm:philosophy-parameter-motion-not-learning-discovery}
+A change in parameter state does not by itself imply certified learning
+discovery.
+\end{theorem}
+\begin{proof}
+Parameter motion reports an internal numerical change. It does not
+display a changed classifier relation, a source specification, a pattern
+row, a stability witness, a ledger policy, or a NameCert. Equivalent
+reparameterization, margin movement, and calibration can move parameters
+while preserving the classifier surface.
+\end{proof}
+
+\begin{theorem}[Model size is not certified information]
+\label{thm:philosophy-model-size-not-certified-information}
+Increasing parameter count or representational capacity does not by
+itself produce certified learning information.
+\end{theorem}
+\begin{proof}
+Additional capacity can store redundant representations, memorized
+cases, or alternative implementations of the same classifier. Certified
+learning information requires a classifier surface with NameCert and
+ledger rows.
+\end{proof}
+
+\begin{theorem}[Loss reduction is not learning discovery]
+\label{thm:philosophy-loss-reduction-not-learning-discovery}
+Lower loss does not by itself imply certified learning discovery.
+\end{theorem}
+\begin{proof}
+Loss reduction can come from calibration, increased margin, sample
+memorization, shortcut use, or optimization inside an already certified
+classifier. It supplies an optimization signal, not the source,
+classifier, stability, and ledger rows required for learning discovery.
+\end{proof}
+
+\begin{theorem}[Learning discovery can precede loss reduction]
+\label{thm:philosophy-learning-discovery-can-precede-loss-reduction}
+A classifier can form before it lowers the displayed training loss.
+\end{theorem}
+\begin{proof}
+A classifier may support future transfer, organize a latent distinction,
+or apply to a target domain not emphasized by the current objective. Its
+certificate value is therefore not determined by immediate loss
+decrease.
+\end{proof}
+
+\begin{theorem}[Performance gain is not a certified explanation]
+\label{thm:philosophy-performance-gain-not-certified-explanation}
+External performance or benchmark improvement does not by itself supply a
+certified explanation of what was learned.
+\end{theorem}
+\begin{proof}
+A performance row reports behavior under a score. It does not identify
+which classifier supports the behavior, whether that classifier differs
+from a prior state, whether it is stable under transfer, or whether its
+failure boundary is ledgered.
+\end{proof}
+
+\begin{corollary}[Training success is not structural learning]
+\label{cor:philosophy-training-success-not-structural-learning}
+A training run can succeed under its metric while failing to produce a
+certified learning discovery.
+\end{corollary}
+\begin{proof}
+Metric success may result from parameter optimization, calibration,
+memorization, or shortcut use under the same classifier surface. By the
+preceding theorems, none of these alone supplies certified classifier
+formation.
+\end{proof}
+
+\subsection{Memory, Generalization, and NameCert}
+\label{subsec:philosophy-learning-memory-generalization-namecert}
+
+\begin{definition}[Memorization event]
+\label{def:philosophy-memorization-event}
+A memorization event occurs when the model preserves reproducible
+outputs for training cases or training patterns without a transferable
+classifier witness. A rote learning transition is one whose main visible
+effect is memorization or record growth rather than certified classifier
+formation.
+\end{definition}
+
+\begin{definition}[Classifier-mediated generalization]
+\label{def:philosophy-classifier-mediated-generalization}
+Classifier-mediated generalization occurs when behavior on a target
+domain is supported by the same classifier surface formed on a source
+domain, together with a stability or transfer witness and a target
+residue ledger.
+\end{definition}
+
+\begin{definition}[Learning NameCert]
+\label{def:philosophy-learning-namecert}
+A Learning NameCert for a learned classifier is
+$$
+\NameCert_{\mathsf{learn}}
+=
+(S_{\mathsf{learn}},
+P_{\mathsf{learn}},
+C_{\mathsf{learn}},
+\Sigma_{\mathsf{learn}},
+L_{\mathsf{learn}}).
+$$
+The rows record training sources and extraction protocol, stable learned
+patterns, the induced classifier, stability or transfer evidence, and
+the learning ledger.
+\end{definition}
+
+\begin{theorem}[Memorization is not structural learning]
+\label{thm:philosophy-memorization-not-structural-learning}
+Memorization without a certified classifier is not structural learning.
+\end{theorem}
+\begin{proof}
+Structural learning requires a classifier surface that supports
+compression, prediction, transfer, or unification beyond the memorized
+records. A memorization event alone supplies stored cases, not a
+NameCert-backed classifier.
+\end{proof}
+
+\begin{theorem}[Certified generalization is structural learning]
+\label{thm:philosophy-certified-generalization-structural-learning}
+Classifier-mediated generalization with NameCert and ledger is
+structural learning.
+\end{theorem}
+\begin{proof}
+The transfer witness says that the source-side classifier remains the
+governing relation on the covered target side. The NameCert and ledger
+make the classifier and its target residue auditable. This is certified
+classifier formation with transfer scope.
+\end{proof}
+
+\begin{theorem}[Learning NameCert creates a certified learning object]
+\label{thm:philosophy-learning-namecert-certified-object}
+A learned classifier equipped with a Learning NameCert is a certified
+learning object.
+\end{theorem}
+\begin{proof}
+The Learning NameCert supplies source, pattern, classifier, stability,
+and ledger rows. These are exactly the rows needed to treat the learned
+classifier as an auditable object rather than a parameter vector, loss
+value, activation dump, feature label, or benchmark row.
+\end{proof}
+
+\begin{theorem}[Learning claims require learning ledger]
+\label{thm:philosophy-learning-claims-require-ledger}
+A claim that a model learned a structure is not closed without a
+learning ledger.
+\end{theorem}
+\begin{proof}
+Learning claims can hide memorization, shortcut use, spurious
+correlation, data leakage, benchmark overfitting, unsupported transfer,
+out-of-domain failure, threshold debt, feature entanglement, semantic
+debt, and verification debt. These residues must be recorded before the
+claim is closed.
+\end{proof}
+
+\begin{theorem}[Shortcut learning is not certified discovery without ledger]
+\label{thm:philosophy-shortcut-learning-not-certified-without-ledger}
+Shortcut-based performance gain is not certified learning discovery when
+shortcut debt is unrecorded.
+\end{theorem}
+\begin{proof}
+A shortcut may raise performance while depending on a spurious
+correlation. Without ledger rows for source, pattern, stability, and
+failure boundary, the apparent classifier lacks a complete Learning
+NameCert.
+\end{proof}
+
+\subsection{Representation and Transfer}
+\label{subsec:philosophy-learning-representation-transfer}
+
+\begin{definition}[Representation classifier]
+\label{def:philosophy-representation-classifier}
+Given an activation map $a_{\ell}^{\theta}:X\to V_{\ell}$ and a tensor
+distinction $\phi:V_{\ell}\to[0,1]$, a representation classifier at
+threshold $\tau$ is the relation
+$$
+x\sim_{\ell,\phi,\tau}y
+\quad\Longleftrightarrow\quad
+m_{\phi,\tau}(a_{\ell}^{\theta}(x))
+=
+m_{\phi,\tau}(a_{\ell}^{\theta}(y)).
+$$
+\end{definition}
+
+\begin{definition}[Certified representation learning]
+\label{def:philosophy-certified-representation-learning}
+Representation learning is certified when a representation classifier is
+equipped with a Tensor NameCert and a ledger for representation
+compression debt.
+\end{definition}
+
+\begin{definition}[Learning-to-generalization bridge]
+\label{def:philosophy-learning-generalization-bridge}
+A learning-to-generalization bridge records that a classifier formed on
+a source domain is the classifier used on a covered target domain. Its
+certificate includes source and target domains, transfer or stability
+witness, target residue, failure cases, and not-claimed target boundary.
+\end{definition}
+
+\begin{theorem}[Representation learning requires Tensor NameCert]
+\label{thm:philosophy-representation-learning-requires-tensor-namecert}
+Features, clusters, embeddings, or low-dimensional views do not by
+themselves certify representation learning.
+\end{theorem}
+\begin{proof}
+They are candidate evidence for a representation classifier. Certified
+representation learning requires the source, pattern, classifier,
+stability, and ledger rows supplied by a Tensor NameCert.
+\end{proof}
+
+\begin{theorem}[Representation compression requires ledger]
+\label{thm:philosophy-representation-compression-requires-ledger}
+Representation compression requires a ledger for collapsed distinctions.
+\end{theorem}
+\begin{proof}
+Dimensionality reduction, bottlenecks, sparse-autoencoder codes, probes,
+clusters, and latent compression can collapse source distinctions. The
+collapsed distinctions are hidden residue and must be recorded when the
+representation is used as an explanatory certificate.
+\end{proof}
+
+\begin{theorem}[Certified generalizing learner requires transfer ledger]
+\label{thm:philosophy-certified-generalizing-learner-transfer-ledger}
+A model is a certified generalizing learner only when its classifier
+transfer is ledgered.
+\end{theorem}
+\begin{proof}
+The transfer ledger records target residue, out-of-domain boundary,
+failed transfer, stability limits, and not-claimed target scope. A
+test-set score can be evidence, but it is not this ledger.
+\end{proof}
+
+\subsection{Lineage, Verification, and Anti-Laundering}
+\label{subsec:philosophy-learning-lineage-verification-anti-laundering}
+
+\begin{definition}[Learning lineage]
+\label{def:philosophy-learning-lineage}
+A learning lineage is a finite chain of learning states. It is an
+optimization lineage when the visible improvements are parameter, record,
+loss, or performance improvements without certified classifier shift. It
+is a structural learning lineage when at least one edge has certified
+classifier shift. It is positive when at least one certified learning
+discovery has positive learning net information.
+\end{definition}
+
+\begin{theorem}[Optimization lineage need not be structural learning]
+\label{thm:philosophy-learning-optimization-not-structural}
+A learning lineage can improve loss or performance without being a
+structural learning lineage.
+\end{theorem}
+\begin{proof}
+Old classifiers can become better calibrated, higher-margin, more
+memorized, or more shortcut-adapted without a certified classifier shift.
+The lineage improves metrics but not the certified classifier surface.
+\end{proof}
+
+\begin{theorem}[Structural learning need not be immediately positive]
+\label{thm:philosophy-structural-learning-not-immediately-positive}
+A structural learning transition can have nonpositive net learning
+information when the classifier first appears.
+\end{theorem}
+\begin{proof}
+The classifier may require costly source, stability, transfer, ledger,
+verification, and seal work before its benefits exceed its costs and
+remaining debts.
+\end{proof}
+
+\begin{theorem}[Verified learning claim is not necessarily learning discovery]
+\label{thm:philosophy-verified-learning-claim-not-learning-discovery}
+Formal verification of a learning component is not learning discovery
+unless it changes and certifies the learning classifier surface.
+\end{theorem}
+\begin{proof}
+Verification can harden a property of data, optimization, stability, or
+certification while preserving the classifier relation. Then it is a
+hardening improvement rather than classifier-forming learning.
+\end{proof}
+
+\begin{theorem}[Formal hardening cost enters learning information]
+\label{thm:philosophy-formal-hardening-cost-enters-learning-information}
+When formal hardening is counted as learning benefit, its cost and
+verification debt must also be counted.
+\end{theorem}
+\begin{proof}
+Hardening adds proof, dependency, backend, maintenance, and trust-boundary
+obligations. Omitting these terms overstates learning net information.
+\end{proof}
+
+\begin{definition}[Learning laundering]
+\label{def:philosophy-learning-laundering}
+Loss laundering treats lower loss as learning discovery. Benchmark
+laundering treats score improvement as learning discovery. Parameter
+laundering treats model size or architecture complexity as learning
+discovery. Memorization laundering treats stored training cases as
+generalization. Shortcut laundering treats shortcut-based performance as
+certified classifier learning.
+\end{definition}
+
+\begin{theorem}[Learning laundering invalidates discovery claims]
+\label{thm:philosophy-learning-laundering-invalidates-discovery}
+Loss, benchmark, parameter, memorization, and shortcut laundering
+invalidate certified learning discovery claims.
+\end{theorem}
+\begin{proof}
+Certified learning discovery requires classifier shift, NameCert, and
+ledger. Lower loss, higher benchmark score, parameter growth, memorized
+cases, and shortcut performance do not supply those rows. Shortcut and
+memorization claims are especially debt-bearing unless their residues are
+ledgered.
+\end{proof}
+
+\begin{theorem}[Classifier-forming learning theorem]
+\label{thm:philosophy-classifier-forming-learning-theorem}
+The information-theoretic content of machine learning is certified
+classifier formation rather than parameter motion, loss reduction,
+benchmark improvement, record growth, or memorization.
+\end{theorem}
+\begin{proof}
+\autoref{thm:philosophy-parameter-motion-not-learning-discovery},
+\autoref{thm:philosophy-model-size-not-certified-information},
+\autoref{thm:philosophy-loss-reduction-not-learning-discovery}, and
+\autoref{thm:philosophy-performance-gain-not-certified-explanation}
+separate learning discovery from common metrics.
+\autoref{thm:philosophy-memorization-not-structural-learning} separates
+structural learning from rote storage.
+\autoref{thm:philosophy-learning-namecert-certified-object} gives the
+certificate route from learned classifier to learning object.
+\autoref{thm:philosophy-learning-claims-require-ledger} supplies the
+ledger condition, and
+\autoref{thm:philosophy-learning-laundering-invalidates-discovery}
+rules out metric-based substitutes.
+\end{proof}

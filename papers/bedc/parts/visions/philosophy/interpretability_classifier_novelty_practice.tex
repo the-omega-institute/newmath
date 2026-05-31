@@ -1,0 +1,130 @@
+\section{Interpretability Classifier Novelty in Practice}
+\label{sec:visions-philosophy-interpretability-classifier-novelty-practice}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-interpretability-classifier-novelty}
+separates classifier-level discovery from feature-side, circuit-side,
+ledger-side, semantic-side, and verification-side improvement. This
+section records the practical audit taxonomy for machine-learning
+interpretability work: what kind of event occurred, whether it changed
+the certified classifier surface, and whether the resulting lineage is
+optimization or discovery.
+
+\begin{definition}[Interpretability event kinds]
+\label{def:philosophy-interpretability-event-kinds}
+Feature events identify feature functionals or activation patterns.
+Classifier events identify changed classifier relations. Certificate
+events construct or repair NameCert rows. Ledger events discover
+critical residue or failure boundaries. Verification events harden
+formal components.
+\end{definition}
+
+\begin{theorem}[Feature events are not necessarily classifier events]
+\label{thm:philosophy-feature-events-not-classifier-events}
+A feature event need not be a classifier event.
+\end{theorem}
+\begin{proof}
+A feature functional may be redundant with the prior classifier or may
+serve only as another implementation route for the same classifier
+cells. Unless the classifier relation changes, classifier novelty is
+absent.
+\end{proof}
+
+\begin{theorem}[Ledger events can become classifier events]
+\label{thm:philosophy-ledger-events-can-become-classifier-events}
+A ledger event becomes a classifier event when the critical residue it
+records forces the classifier boundary to change.
+\end{theorem}
+\begin{proof}
+Critical residue can expose a false split, false merge, threshold
+boundary, or unsupported source region. If correcting that residue
+changes the classifier judgment on a common-source pair, the transition
+has classifier novelty.
+\end{proof}
+
+\begin{theorem}[Certificate events are not necessarily classifier events]
+\label{thm:philosophy-certificate-events-not-classifier-events}
+Constructing or improving a NameCert for an existing classifier need not
+be a classifier event.
+\end{theorem}
+\begin{proof}
+The certificate event can improve audit status while leaving the
+classifier relation unchanged. It is then certification progress rather
+than classifier-level discovery.
+\end{proof}
+
+\begin{definition}[Interpretability lineage]
+\label{def:philosophy-interpretability-lineage}
+An interpretability lineage is a finite chain of explanation states
+$$
+\mathcal E_0\leadsto
+\mathcal E_1\leadsto
+\cdots\leadsto
+\mathcal E_n.
+$$
+It is an optimization lineage when every edge has classifier novelty
+value $0$ while some edge lowers score, debt, or hardening gap. It is a
+discovery lineage when at least one edge has classifier novelty value
+$1$.
+\end{definition}
+
+\begin{theorem}[Optimization lineage need not be discovery lineage]
+\label{thm:philosophy-optimization-lineage-not-discovery-lineage}
+An interpretability lineage can improve explanation quality without
+being a discovery lineage.
+\end{theorem}
+\begin{proof}
+A lineage may add source rows, ledger rows, negative examples,
+stability evidence, or formal hardening while preserving the classifier
+relation at every edge. Then its classifier novelty value is always $0$,
+although score, debt, or hardening gap may improve.
+\end{proof}
+
+\begin{theorem}[Discovery lineage need not be immediately positive]
+\label{thm:philosophy-discovery-lineage-not-immediately-positive}
+A discovery lineage can have nonpositive net explanation information at
+the edge where classifier novelty first appears.
+\end{theorem}
+\begin{proof}
+A changed classifier may require additional source, stability, ledger,
+seal, semantic, and verification work. Before the resulting benefit and
+debt reduction dominate those costs, the net information difference can
+be nonpositive.
+\end{proof}
+
+\begin{definition}[Classifier-prioritized search]
+\label{def:philosophy-classifier-prioritized-search}
+Classifier-prioritized search ranks candidates first by evidence of
+classifier novelty, then audits NameCert closure, ledger closure, and
+net explanation information. Feature-prioritized search ranks candidates
+first by feature events.
+\end{definition}
+
+\begin{theorem}[Classifier-prioritized search differs from feature-prioritized search]
+\label{thm:philosophy-classifier-prioritized-differs-feature-prioritized}
+Classifier-prioritized search and feature-prioritized search can select
+different candidates.
+\end{theorem}
+\begin{proof}
+By
+\autoref{thm:philosophy-feature-events-not-classifier-events}, feature
+events need not change classifiers. A search that ranks feature events
+can therefore select a candidate with no classifier novelty, while a
+classifier-prioritized search selects a candidate with a changed
+classifier surface.
+\end{proof}
+
+\begin{theorem}[Practice audit theorem]
+\label{thm:philosophy-classifier-novelty-practice-audit-theorem}
+Interpretability reports should state separately whether a result is a
+feature event, classifier event, certificate event, ledger event,
+verification event, optimization lineage, discovery lineage, or positive
+discovery lineage.
+\end{theorem}
+\begin{proof}
+Feature, certificate, ledger, and verification events can improve an
+explanation without classifier novelty. Classifier events can introduce
+novelty before becoming positive in net information. Optimization and
+discovery lineages therefore track different audit coordinates and
+should not be collapsed into one report label.
+\end{proof}
