@@ -26,6 +26,7 @@ BEDC_ROOT = LEAN_ROOT / "BEDC"
 PAPER_ROOT = REPO_ROOT / "papers" / "bedc"
 PAPER_PARTS_ROOT = PAPER_ROOT / "parts"
 TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
+LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -136,6 +137,15 @@ class LeanMarkerRecord:
 
 
 @dataclass(frozen=True)
+class LeanStmtDebtEntry:
+    file: str
+    target: str
+    discharge_plan: str
+    line: int | None = None
+    owner_scope: str | None = None
+
+
+@dataclass(frozen=True)
 class TheoremStatusEnvironment:
     kind: str
     title: str | None
@@ -186,6 +196,13 @@ def read_text(path: Path) -> str:
         return path.read_text(encoding="utf-8")
     except (FileNotFoundError, OSError):
         return ""
+
+
+def display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
 
 
 def module_name(path: Path) -> str:
@@ -447,6 +464,292 @@ def collect_lean_markers() -> list[LeanMarkerRecord]:
                     target=target,
                 ))
     return markers
+
+
+def collect_leanstmt_sites(markers: Iterable[LeanMarkerRecord]) -> list[LeanMarkerRecord]:
+    return [marker for marker in markers if marker.macro == "leanstmt"]
+
+
+def _leanstmt_site_key(file: str, target: str) -> tuple[str, str]:
+    return file.strip(), target.strip()
+
+
+def _leanstmt_placeholder_plan(plan: str) -> bool:
+    text = re.sub(r"[\s._-]+", "", plan).lower()
+    placeholders = {
+        "",
+        "todo",
+        "tbd",
+        "none",
+        "na",
+        "n/a",
+        "placeholder",
+        "fixme",
+        "later",
+    }
+    return text in {re.sub(r"[\s._-]+", "", item).lower() for item in placeholders}
+
+
+def load_leanstmt_debt_manifest(
+    path: Path = LEANSTMT_DEBT_MANIFEST_PATH,
+) -> tuple[list[LeanStmtDebtEntry], list[dict[str, object]]]:
+    diagnostics: list[dict[str, object]] = []
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return [], [{
+            "kind": "manifest_missing",
+            "path": display_path(path),
+            "message": f"manifest not found: {display_path(path)}",
+        }]
+    except json.JSONDecodeError as exc:
+        return [], [{
+            "kind": "manifest_invalid_json",
+            "path": display_path(path),
+            "line": exc.lineno,
+            "message": f"invalid JSON: {exc.msg}",
+        }]
+
+    entries: list[LeanStmtDebtEntry] = []
+    if not isinstance(raw, dict):
+        return [], [{
+            "kind": "manifest_invalid_shape",
+            "path": display_path(path),
+            "message": "manifest root must be an object",
+        }]
+
+    allowed_top_keys = {"schema", "entries"}
+    extra_top_keys = sorted(set(raw) - allowed_top_keys)
+    missing_top_keys = sorted(allowed_top_keys - set(raw))
+    if extra_top_keys:
+        diagnostics.append({
+            "kind": "manifest_extra_top_keys",
+            "path": display_path(path),
+            "keys": extra_top_keys,
+            "message": f"unexpected top-level keys: {', '.join(extra_top_keys)}",
+        })
+    if missing_top_keys:
+        diagnostics.append({
+            "kind": "manifest_missing_top_keys",
+            "path": display_path(path),
+            "keys": missing_top_keys,
+            "message": f"missing top-level keys: {', '.join(missing_top_keys)}",
+        })
+    if raw.get("schema") != "leanstmt_debt_manifest.v1":
+        diagnostics.append({
+            "kind": "manifest_schema_mismatch",
+            "path": display_path(path),
+            "schema": raw.get("schema"),
+            "message": "schema must be leanstmt_debt_manifest.v1",
+        })
+
+    raw_entries = raw.get("entries")
+    if not isinstance(raw_entries, list):
+        diagnostics.append({
+            "kind": "manifest_entries_invalid",
+            "path": display_path(path),
+            "message": "entries must be a list",
+        })
+        return [], diagnostics
+
+    seen: dict[tuple[str, str], int] = {}
+    required = {"file", "target", "discharge_plan"}
+    allowed_entry_keys = required | {"line", "owner_scope"}
+    for idx, raw_entry in enumerate(raw_entries):
+        entry_site = {"path": display_path(path), "entry_index": idx}
+        if not isinstance(raw_entry, dict):
+            diagnostics.append({
+                **entry_site,
+                "kind": "manifest_entry_invalid",
+                "message": "entry must be an object",
+            })
+            continue
+
+        missing = sorted(required - set(raw_entry))
+        extra = sorted(set(raw_entry) - allowed_entry_keys)
+        if missing:
+            diagnostics.append({
+                **entry_site,
+                "kind": "manifest_entry_missing_keys",
+                "keys": missing,
+                "message": f"entry missing required keys: {', '.join(missing)}",
+            })
+        if extra:
+            diagnostics.append({
+                **entry_site,
+                "kind": "manifest_entry_extra_keys",
+                "keys": extra,
+                "message": f"entry has unexpected keys: {', '.join(extra)}",
+            })
+
+        file_value = raw_entry.get("file")
+        target_value = raw_entry.get("target")
+        plan_value = raw_entry.get("discharge_plan")
+        line_value = raw_entry.get("line")
+        owner_scope_value = raw_entry.get("owner_scope")
+
+        if not isinstance(file_value, str) or not file_value.strip():
+            diagnostics.append({
+                **entry_site,
+                "kind": "manifest_entry_invalid_file",
+                "message": "file must be a non-empty string",
+            })
+        if not isinstance(target_value, str) or not target_value.strip():
+            diagnostics.append({
+                **entry_site,
+                "kind": "manifest_entry_invalid_target",
+                "message": "target must be a non-empty string",
+            })
+        if not isinstance(plan_value, str) or _leanstmt_placeholder_plan(plan_value):
+            diagnostics.append({
+                **entry_site,
+                "kind": "manifest_entry_invalid_discharge_plan",
+                "file": file_value if isinstance(file_value, str) else None,
+                "target": target_value if isinstance(target_value, str) else None,
+                "message": "discharge_plan must be a non-placeholder string",
+            })
+
+        parsed_line: int | None = None
+        if line_value is not None:
+            if isinstance(line_value, int) and line_value > 0:
+                parsed_line = line_value
+            else:
+                diagnostics.append({
+                    **entry_site,
+                    "kind": "manifest_entry_invalid_line",
+                    "file": file_value if isinstance(file_value, str) else None,
+                    "target": target_value if isinstance(target_value, str) else None,
+                    "message": "line must be a positive integer when present",
+                })
+
+        parsed_owner_scope: str | None = None
+        if owner_scope_value is not None:
+            if isinstance(owner_scope_value, str) and owner_scope_value.strip():
+                parsed_owner_scope = owner_scope_value.strip()
+            else:
+                diagnostics.append({
+                    **entry_site,
+                    "kind": "manifest_entry_invalid_owner_scope",
+                    "file": file_value if isinstance(file_value, str) else None,
+                    "target": target_value if isinstance(target_value, str) else None,
+                    "message": "owner_scope must be a non-empty string when present",
+                })
+
+        if not isinstance(file_value, str) or not isinstance(target_value, str) or not isinstance(plan_value, str):
+            continue
+
+        file_name = file_value.strip()
+        target = target_value.strip()
+        key = _leanstmt_site_key(file_name, target)
+        if key in seen:
+            diagnostics.append({
+                **entry_site,
+                "kind": "manifest_duplicate_key",
+                "file": file_name,
+                "target": target,
+                "first_entry_index": seen[key],
+                "message": f"duplicate manifest key: {file_name} -> {target}",
+            })
+        else:
+            seen[key] = idx
+
+        entries.append(LeanStmtDebtEntry(
+            file=file_name,
+            target=target,
+            discharge_plan=plan_value.strip(),
+            line=parsed_line,
+            owner_scope=parsed_owner_scope,
+        ))
+
+    return entries, diagnostics
+
+
+def leanstmt_debt_payload(
+    markers: Iterable[LeanMarkerRecord],
+    manifest: Iterable[LeanStmtDebtEntry],
+    manifest_diagnostics: list[dict[str, object]] | None = None,
+) -> dict[str, object]:
+    live_sites = collect_leanstmt_sites(markers)
+    manifest_entries = list(manifest)
+    diagnostics = list(manifest_diagnostics or [])
+
+    live_by_key: dict[tuple[str, str], list[LeanMarkerRecord]] = {}
+    for marker in live_sites:
+        live_by_key.setdefault(_leanstmt_site_key(marker.file, marker.target), []).append(marker)
+
+    manifest_by_key: dict[tuple[str, str], list[LeanStmtDebtEntry]] = {}
+    for entry in manifest_entries:
+        manifest_by_key.setdefault(_leanstmt_site_key(entry.file, entry.target), []).append(entry)
+
+    duplicate_live_sites: list[dict[str, object]] = []
+    for (file_name, target), records in sorted(live_by_key.items()):
+        if len(records) <= 1:
+            continue
+        duplicate_live_sites.append({
+            "kind": "duplicate_live_site",
+            "file": file_name,
+            "target": target,
+            "lines": [record.line for record in records],
+            "message": f"duplicate live leanstmt site: {file_name} -> {target}",
+        })
+
+    unregistered_live_sites: list[dict[str, object]] = []
+    for (file_name, target), records in sorted(live_by_key.items()):
+        if (file_name, target) in manifest_by_key:
+            continue
+        for record in records:
+            unregistered_live_sites.append({
+                "kind": "unregistered_live_site",
+                "file": record.file,
+                "line": record.line,
+                "target": record.target,
+                "message": f"live leanstmt site is not registered: {record.file}:{record.line} -> {record.target}",
+            })
+
+    stale_manifest_entries: list[dict[str, object]] = []
+    for (file_name, target), entries in sorted(manifest_by_key.items()):
+        if (file_name, target) in live_by_key:
+            continue
+        for entry in entries:
+            item: dict[str, object] = {
+                "kind": "stale_manifest_entry",
+                "file": entry.file,
+                "target": entry.target,
+                "message": f"manifest entry has no live leanstmt site: {entry.file} -> {entry.target}",
+            }
+            if entry.line is not None:
+                item["line"] = entry.line
+            stale_manifest_entries.append(item)
+
+    return {
+        "schema": "leanstmt_debt_manifest.v1",
+        "manifest_path": str(LEANSTMT_DEBT_MANIFEST_PATH.relative_to(REPO_ROOT)),
+        "live_sites": [
+            {
+                "file": marker.file,
+                "line": marker.line,
+                "target": marker.target,
+            }
+            for marker in live_sites
+        ],
+        "manifest_entries": [
+            {
+                **{
+                    "file": entry.file,
+                    "target": entry.target,
+                    "discharge_plan": entry.discharge_plan,
+                },
+                **({"line": entry.line} if entry.line is not None else {}),
+                **({"owner_scope": entry.owner_scope} if entry.owner_scope is not None else {}),
+            }
+            for entry in manifest_entries
+        ],
+        "manifest_diagnostics": diagnostics,
+        "unregistered_live_sites": unregistered_live_sites,
+        "stale_manifest_entries": stale_manifest_entries,
+        "duplicate_live_sites": duplicate_live_sites,
+        "violations": diagnostics + unregistered_live_sites + stale_manifest_entries + duplicate_live_sites,
+    }
 
 
 def collect_paper_leanchecked_targets() -> set[str]:
@@ -1662,6 +1965,12 @@ def audit_payload() -> dict[str, object]:
     declarations, fields = build_declaration_inventory()
     part_labels = collect_part_labels()
     markers = collect_lean_markers()
+    leanstmt_manifest, leanstmt_manifest_diagnostics = load_leanstmt_debt_manifest()
+    leanstmt_debt = leanstmt_debt_payload(
+        markers,
+        leanstmt_manifest,
+        leanstmt_manifest_diagnostics,
+    )
 
     forbidden: list[dict[str, object]] = []
     for path in lean_files():
@@ -1705,6 +2014,7 @@ def audit_payload() -> dict[str, object]:
         "case_collisions": case_collisions,
         "closurestatus_blocks_total": len(closurestatus_blocks),
         "closurestatus_blocks": closurestatus_blocks,
+        "leanstmt_debt": leanstmt_debt,
         "inventory": inventory_payload(declarations, fields, part_labels, markers),
     }
     _attach_violation_split(payload, "missing_marker_targets", missing_marker_targets, changed_files)
@@ -1953,6 +2263,21 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 "named NN_<X>_namecert_construction.tex). Move helper files "
                 "into the parent region's folder or rename the orphan."
             )
+        leanstmt_debt = payload["leanstmt_debt"]
+        print(
+            "[bedc-ci] leanstmt debt:"
+            f" live_sites={len(leanstmt_debt['live_sites'])}"
+            f" manifest_entries={len(leanstmt_debt['manifest_entries'])}"
+            f" violations={len(leanstmt_debt['violations'])}"
+        )
+        if leanstmt_debt["violations"]:
+            for item in leanstmt_debt["violations"][:80]:
+                site = item.get("file") or item.get("path") or "manifest"
+                line = item.get("line") or item.get("entry_index")
+                target = item.get("target")
+                where = f"{site}:{line}" if line is not None else str(site)
+                suffix = f" -> {target}" if target else ""
+                print(f"  {item.get('kind')}: {where}{suffix}: {item.get('message')}")
 
     failures = (
         payload["forbidden_construct_count"]
@@ -1966,6 +2291,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["closurestatus_diagnostics_new_count"]
         + payload["closurestatus_open_errors_new_count"]
         + payload["orphan_concrete_subdirs_new_count"]
+        + len(payload["leanstmt_debt"]["violations"])
     )
     return 0 if failures == 0 else 1
 
