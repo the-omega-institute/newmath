@@ -1786,6 +1786,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.RootUniformFilterReadback
 import BEDC.Derived.CauchyfiltercompletionUp.SealFactorizationObligation
 import BEDC.Derived.CauchyfiltercompletionUp.TasteGate
 import BEDC.Derived.CauchyfiltercompletionUp.UniformCompletionUniversalProperty
+import BEDC.Derived.CauchyfiltercompletionUp.UniformFilterReadback
 import BEDC.Derived.CauchyfiltercompletionUp.UniversalRoutes
 import BEDC.Derived.CauchyfiltercompletionUp.WindowRealSealDeterminacy
 import BEDC.Derived.CausalCommitmentUp
@@ -3793,6 +3794,7 @@ import BEDC.Derived.FiniteTraceEvaluatorUp.RootExactnessSurface
 import BEDC.Derived.FiniteTraceEvaluatorUp.TasteGate
 import BEDC.Derived.FiniteTraceGapSocketUp.ReplayRoutePackage
 import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
+import BEDC.Derived.FiniteTraceInductionGapUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteVitaliCoverUp.TasteGate
 import BEDC.Derived.FiniteWindowEnvelopeUp
@@ -4068,6 +4070,7 @@ import BEDC.Derived.HausdorffSpaceUp.DiagonalNonescape
 import BEDC.Derived.HausdorffSpaceUp.OpenNeighborhoodTransport
 import BEDC.Derived.HausdorffSpaceUp.PointSeparationChoicefree
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
+import BEDC.Derived.HausdorffUniformCompletionUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
@@ -4331,6 +4334,7 @@ import BEDC.Derived.LQRUp.EmptyHorizonBackwardLedger
 import BEDC.Derived.LQRUp.EmptyHorizonReadback
 import BEDC.Derived.LQRUp.PublicNameCertExport
 import BEDC.Derived.LagrangianMechanicsUp
+import BEDC.Derived.LaguerrePolyaUp.TasteGate
 import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.LambdaCalcUp.ConstructorTransport
@@ -4665,6 +4669,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNObligationSurface
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNPremiseSplit
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNSubjectReductionBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateNormalizationBudget
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateNormalizationL10SourceExactness
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateNormalizationSocketExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateRouteDischargeRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNBoundary
@@ -4682,6 +4687,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityConsumerBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityHandoffExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualDischarge
+import BEDC.Derived.MetaCICCriticalPathUp.ConsistencyRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.CurrentOpenPhaseReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.DecidabilityFragmentRoute
 import BEDC.Derived.MetaCICCriticalPathUp.DecidabilityHandoffVisibility
@@ -4959,6 +4965,7 @@ import BEDC.Derived.MetricCompletionUp.UniformSourceLock
 import BEDC.Derived.MetricCoveringNumberUp.TasteGate
 import BEDC.Derived.MetricEmbeddingUp.TasteGate
 import BEDC.Derived.MetricEntourageUp
+import BEDC.Derived.MetricIdentificationUp.TasteGate
 import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
 import BEDC.Derived.MetricReverseTriangleInequalityUp
@@ -5185,6 +5192,7 @@ import BEDC.Derived.NormalSpaceUp.UrysohnCozeroLocalization
 import BEDC.Derived.NormalSpaceUp.UrysohnLemmaConsumerExactness
 import BEDC.Derived.NormedSpaceUp
 import BEDC.Derived.NormedSpaceUp.BanachConsumerNonescape
+import BEDC.Derived.NormedSpaceUp.CompletionBudgetEnvelope
 import BEDC.Derived.NormedSpaceUp.RealNormMetricFactorization
 import BEDC.Derived.NormedSpaceUp.TasteGate
 import BEDC.Derived.NuclearUp
@@ -5498,6 +5506,7 @@ import BEDC.Derived.PolishspaceUp.CompletionDensityReadback
 import BEDC.Derived.PolishspaceUp.CompletionDensityUnblock
 import BEDC.Derived.PolishspaceUp.CompletionNonescape
 import BEDC.Derived.PolishspaceUp.DenseScheduleRootObligation
+import BEDC.Derived.PolishspaceUp.L10CompleteSeparableConsumerPackage
 import BEDC.Derived.PolishspaceUp.L10SiblingRoute
 import BEDC.Derived.PolishspaceUp.NameCertLedgerExactness
 import BEDC.Derived.PolishspaceUp.NameCertObligations
@@ -5979,6 +5988,7 @@ import BEDC.Derived.RealUp.FiniteWindowFullPackage
 import BEDC.Derived.RealUp.FiniteWindowStabilityPackage
 import BEDC.Derived.RealUp.Index
 import BEDC.Derived.RealUp.IteratedUnaryContext
+import BEDC.Derived.RealUp.L10CurrentPhaseExitAuditPullback
 import BEDC.Derived.RealUp.L10CurrentPhaseExitLocalThreshold
 import BEDC.Derived.RealUp.L10DependencyLattice
 import BEDC.Derived.RealUp.L10ExitCertificateFaceMinimality
