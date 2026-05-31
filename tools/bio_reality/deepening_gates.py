@@ -188,7 +188,8 @@ def _id_repair_hint(value: Any) -> str:
 
 
 def _invalid_id_issue(key: str, value: Any) -> str:
-    return f"{key} {ID_SYNTAX}{_id_repair_hint(value)}"
+    observed = f": {value}" if isinstance(value, str) and value else ""
+    return f"{key}: invalid id{observed}; {ID_SYNTAX}{_id_repair_hint(value)}"
 
 
 def _nonempty(key: str, value: Any, issues: list[str]) -> None:
@@ -446,7 +447,7 @@ def _index(records: list[dict[str, Any]], key: str) -> tuple[dict[str, dict[str,
     for index, record in enumerate(records, 1):
         value = str(record.get(key) or "")
         if not ID_RE.match(value):
-            issues.append(f"{key}:{index}: invalid id: {value}; {_invalid_id_issue(key, value)}")
+            issues.append(f"{key}:{index}: {_invalid_id_issue(key, value)}")
             continue
         if value in by_id:
             issues.append(f"{key}:{index}: duplicate id: {value}")
@@ -688,12 +689,14 @@ def self_test() -> int:
         [],
     )
     by_id = {str(result["packet_id"]): result for result in results}
+    invalid_contact_id = "matched_mRNA_abundance_control"
+    normalized_contact_id = "matched-mrna-abundance-control"
     invalid_contact_results = gate_all(
         [],
         [
             {
                 **contact,
-                "contact_id": "matched_mRNA_abundance_control",
+                "contact_id": invalid_contact_id,
             }
         ],
         [],
@@ -702,8 +705,43 @@ def self_test() -> int:
     if not any("not underscores or uppercase" in issue for result in invalid_contact_results for issue in result["issues"]):
         print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
         return 1
-    if not any("suggested normalized id: matched-mrna-abundance-control" in issue for result in invalid_contact_results for issue in result["issues"]):
+    if not any(f"suggested normalized id: {normalized_contact_id}" in issue for result in invalid_contact_results for issue in result["issues"]):
         print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_contact_mismatch_results = gate_all(
+        [],
+        [
+            {
+                **contact,
+                "contact_id": invalid_contact_id,
+            }
+        ],
+        [],
+        [
+            {
+                "mismatch_id": "cross-organism.cun-uur-translation-boundary.no-promotion.scope-review",
+                "probe_ref": "boundary.probe.overreach",
+                "contact_ref": invalid_contact_id,
+                "status": "underdetermined",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The packet cites an invalid contact id.",
+                "refinement_pressure": "Normalize the contact id before review.",
+                "blocked_claims": ["Do not review a mismatch against an invalid reality contact id."],
+                "null_reason": "",
+            }
+        ],
+    )
+    invalid_contact_mismatch = next(
+        result
+        for result in invalid_contact_mismatch_results
+        if result["packet_id"] == "cross-organism.cun-uur-translation-boundary.no-promotion.scope-review"
+    )
+    if invalid_contact_mismatch["gate_status"] != "gate_blocked" or not any(
+        f"contact_id: invalid id: {invalid_contact_id}" in issue
+        and f"suggested normalized id: {normalized_contact_id}" in issue
+        for issue in invalid_contact_mismatch["issues"]
+    ):
+        print(json.dumps(invalid_contact_mismatch_results, indent=2), file=sys.stderr)
         return 1
     contact_schema = json.loads((SCRIPT_DIR / "reality_contact.schema.json").read_text(encoding="utf-8"))
     contact_id_pattern = contact_schema.get("properties", {}).get("contact_id", {}).get("pattern")
