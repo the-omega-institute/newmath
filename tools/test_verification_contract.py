@@ -10,6 +10,25 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import verification_contract as vc
 
 
+WORKER_REQUIRED_GATES = ("paper-precheck", "axiom-audit", "paper-lean-audit")
+WORKER_DEFERRED_GATES = ("paper-full-make", "lean-full-build", "axiom-purity")
+
+
+def record_worker_required_passes(ledger: Path, sha: str) -> None:
+    for gate in WORKER_REQUIRED_GATES:
+        vc.record(
+            sha=sha,
+            gate=gate,
+            status="passed",
+            mode="worker-premerge",
+            ledger_path=ledger,
+        )
+
+
+def gate_statuses(status: dict) -> dict[str, str]:
+    return {row["gate"]: row["status"] for row in status["gates"]}
+
+
 class VerificationContractTests(unittest.TestCase):
     def test_worker_premerge_plan_marks_full_builds_deferred(self):
         plan = {row["gate"]: row for row in vc.mode_plan("worker-premerge")}
@@ -31,31 +50,57 @@ class VerificationContractTests(unittest.TestCase):
         sha = "a" * 40
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.jsonl"
+            record_worker_required_passes(ledger, sha)
             vc.record(
                 sha=sha,
                 gate="paper-full-make",
                 status="deferred",
                 mode="worker-premerge",
+                ledger_path=ledger,
+            )
+            vc.record(
+                sha=sha,
+                gate="lean-full-build",
+                status="passed",
+                mode="async-builder",
+                ledger_path=ledger,
+            )
+            vc.record(
+                sha=sha,
+                gate="axiom-purity",
+                status="passed",
+                mode="ship",
                 ledger_path=ledger,
             )
 
             status = vc.status_for(sha=sha, mode="worker-premerge", ledger_path=ledger)
 
         self.assertEqual(status["overall"], "deferred")
-        paper_gate = next(row for row in status["gates"] if row["gate"] == "paper-full-make")
-        self.assertEqual(paper_gate["status"], "deferred")
+        self.assertEqual(
+            gate_statuses(status),
+            {
+                "paper-precheck": "passed",
+                "paper-full-make": "deferred",
+                "lean-full-build": "passed",
+                "axiom-audit": "passed",
+                "paper-lean-audit": "passed",
+                "axiom-purity": "passed",
+            },
+        )
 
     def test_async_builder_pass_fulfills_same_sha_gate(self):
         sha = "b" * 40
         with tempfile.TemporaryDirectory() as td:
             ledger = Path(td) / "ledger.jsonl"
-            vc.record(
-                sha=sha,
-                gate="paper-full-make",
-                status="deferred",
-                mode="worker-premerge",
-                ledger_path=ledger,
-            )
+            record_worker_required_passes(ledger, sha)
+            for gate in WORKER_DEFERRED_GATES:
+                vc.record(
+                    sha=sha,
+                    gate=gate,
+                    status="deferred",
+                    mode="worker-premerge",
+                    ledger_path=ledger,
+                )
             vc.record(
                 sha=sha,
                 gate="paper-full-make",
@@ -63,11 +108,35 @@ class VerificationContractTests(unittest.TestCase):
                 mode="async-builder",
                 ledger_path=ledger,
             )
+            vc.record(
+                sha=sha,
+                gate="lean-full-build",
+                status="passed",
+                mode="async-builder",
+                ledger_path=ledger,
+            )
+            vc.record(
+                sha=sha,
+                gate="axiom-purity",
+                status="passed",
+                mode="ship",
+                ledger_path=ledger,
+            )
 
             status = vc.status_for(sha=sha, mode="worker-premerge", ledger_path=ledger)
 
-        paper_gate = next(row for row in status["gates"] if row["gate"] == "paper-full-make")
-        self.assertEqual(paper_gate["status"], "passed")
+        self.assertEqual(status["overall"], "passed")
+        self.assertEqual(
+            gate_statuses(status),
+            {
+                "paper-precheck": "passed",
+                "paper-full-make": "passed",
+                "lean-full-build": "passed",
+                "axiom-audit": "passed",
+                "paper-lean-audit": "passed",
+                "axiom-purity": "passed",
+            },
+        )
 
     def test_failed_async_builder_blocks_status(self):
         sha = "c" * 40
