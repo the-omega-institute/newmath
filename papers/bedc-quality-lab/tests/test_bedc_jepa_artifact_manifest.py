@@ -14,6 +14,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"
     assert manifest["public_adapters"]["minigrid"] == "reports/bedc_jepa_public_minigrid_probe.json"
     assert (
+        manifest["public_adapters"]["minigrid_benchmark_packet"]
+        == "reports/bedc_jepa_public_minigrid_benchmark_packet.json"
+    )
+    assert (
         manifest["public_adapters"]["minigrid_transition_packet"]
         == "reports/bedc_jepa_public_minigrid_transition_packet.json"
     )

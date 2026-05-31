@@ -13,7 +13,8 @@ $$
 \text{Torch objective} & \texttt{bedc\_jepa\_torch\_objective.json},\\
 \text{Manifest} & \texttt{bedc\_jepa\_artifact\_manifest.json},\\
 \text{Public MiniGrid probe} & \texttt{bedc\_jepa\_public\_minigrid\_probe.json},\\
-\text{Public MiniGrid packet} & \texttt{bedc\_jepa\_public\_minigrid\_transition\_packet.json}.
+\text{Public MiniGrid transition} & \texttt{bedc\_jepa\_public\_minigrid\_transition\_packet.json},\\
+\text{Public MiniGrid benchmark} & \texttt{bedc\_jepa\_public\_minigrid\_benchmark\_packet.json}.
 \end{array}
 $$
 The JSON artifacts are lab-local evidence boundaries.  They are not Python
@@ -63,8 +64,12 @@ The current debt items are scale debt, public-baseline debt, dependency debt,
 and artifact debt.  Scale debt means the learned-transition and
 object-intervention benchmarks are small.  Public-baseline debt means the
 comparison is local and not yet run against a public JEPA implementation.
-Dependency debt means the public MiniGrid transition packet has an executable
-DoorKey contract but records unavailable status in the current environment
-because \texttt{gymnasium} and \texttt{minigrid} are absent.  Artifact debt
-means the current package is a research branch rather than a cleaned external
-review bundle.
+Dependency debt means the public MiniGrid packets have executable DoorKey
+contracts but record unavailable status in the current environment because
+\texttt{gymnasium} and \texttt{minigrid} are absent.  The transition packet
+samples Gymnasium image observations and discrete actions when the
+dependencies are present.  The benchmark packet computes a public DoorKey
+readback/gap metric contract with distinction accuracy, gap AUROC, unlogged
+error, certified coverage, and scope-relative debt.  Artifact debt means the
+current package is a research branch rather than a cleaned external review
+bundle.

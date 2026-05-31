@@ -11,6 +11,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.public_minigrid_adapter import (
+    write_public_minigrid_benchmark_packet,
     write_public_minigrid_probe,
     write_public_minigrid_transition_packet,
 )
@@ -23,6 +24,9 @@ def main() -> None:
     transition_path = ROOT / "reports" / "bedc_jepa_public_minigrid_transition_packet.json"
     write_public_minigrid_transition_packet(transition_path)
     print(f"wrote {transition_path.relative_to(ROOT)}")
+    benchmark_path = ROOT / "reports" / "bedc_jepa_public_minigrid_benchmark_packet.json"
+    write_public_minigrid_benchmark_packet(benchmark_path)
+    print(f"wrote {benchmark_path.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

@@ -10,6 +10,15 @@ from typing import Any
 
 import numpy as np
 
+from bedc_quality_lab.bedc_jepa_metrics import (
+    bedc_debt_score,
+    binary_accuracy,
+    certified_coverage,
+    false_claim_rate,
+    gap_detection_auc,
+    unlogged_error_rate,
+)
+
 
 @dataclass(frozen=True)
 class PublicMiniGridProbe:
@@ -93,6 +102,39 @@ def _unavailable_transition_packet(
     }
 
 
+def _empty_metric_packet() -> dict[str, None]:
+    return {
+        "distinction_accuracy": None,
+        "gap_detection_auc": None,
+        "unlogged_error_rate": None,
+        "certified_coverage": None,
+        "bedc_debt_score": None,
+    }
+
+
+def _unavailable_benchmark_packet(
+    *,
+    environment_id: str,
+    sample_count: int,
+    seed: int,
+    deps: dict[str, str],
+) -> dict[str, Any]:
+    return {
+        "status": "unavailable",
+        "environment_id": environment_id,
+        "benchmark_contract": "door-key-public-readback-gap",
+        "seed": float(seed),
+        "sample_count_requested": float(sample_count),
+        "sample_count_collected": 0.0,
+        "observation_key": "image",
+        "observation_shape_contract": [7.0, 7.0, 3.0],
+        "action_space_contract": "Discrete",
+        "dependency_status": deps,
+        "metrics": _empty_metric_packet(),
+        "cannot_claim": ["public MiniGrid benchmark was not executed in this environment"],
+    }
+
+
 def build_public_minigrid_transition_packet(
     *,
     environment_id: str = "MiniGrid-DoorKey-8x8-v0",
@@ -150,3 +192,123 @@ def build_public_minigrid_transition_packet(
         }
     finally:
         env.close()
+
+
+def _visible_object_mask(image: Any, object_ids: set[int]) -> np.ndarray:
+    array = np.asarray(image)
+    return np.isin(array[:, :, 0], list(object_ids))
+
+
+def _agent_position(image: Any) -> np.ndarray:
+    array = np.asarray(image)
+    mask = array[:, :, 0] == 10
+    if np.any(mask):
+        return np.argwhere(mask)[0].astype(np.float64)
+    return np.asarray([3.0, 6.0], dtype=np.float64)
+
+
+def _min_distance_to_mask(image: Any, object_ids: set[int]) -> float:
+    mask = _visible_object_mask(image, object_ids)
+    if not np.any(mask):
+        return 10.0
+    agent = _agent_position(image)
+    points = np.argwhere(mask).astype(np.float64)
+    return float(np.min(np.sum(np.abs(points - agent), axis=1)))
+
+
+def _door_key_scores(image: Any) -> tuple[float, bool, float, bool]:
+    key_visible = bool(np.any(_visible_object_mask(image, {5})))
+    door_visible = bool(np.any(_visible_object_mask(image, {4})))
+    goal_visible = bool(np.any(_visible_object_mask(image, {8})))
+    target_visible = key_visible or door_visible or goal_visible
+    key_distance = _min_distance_to_mask(image, {5})
+    door_distance = _min_distance_to_mask(image, {4})
+    goal_distance = _min_distance_to_mask(image, {8})
+    nearest_distance = min(key_distance, door_distance, goal_distance)
+    distinction_score = 1.0 if target_visible else 0.0
+    low_context = not (key_visible and door_visible)
+    near_boundary = nearest_distance <= 2.0
+    gap_label = low_context or near_boundary
+    gap_score = 0.85 if gap_label else 0.15
+    return distinction_score, target_visible, gap_score, gap_label
+
+
+def build_public_minigrid_benchmark_packet(
+    *,
+    environment_id: str = "MiniGrid-DoorKey-8x8-v0",
+    sample_count: int = 32,
+    seed: int = 20260531,
+) -> dict[str, Any]:
+    deps = _dependency_status()
+    if not all(value == "installed" for value in deps.values()):
+        return _unavailable_benchmark_packet(
+            environment_id=environment_id,
+            sample_count=sample_count,
+            seed=seed,
+            deps=deps,
+        )
+
+    import gymnasium as gym
+    import minigrid  # noqa: F401
+
+    env = gym.make(environment_id)
+    try:
+        observation, _ = env.reset(seed=seed)
+        rng = np.random.default_rng(seed)
+        distinction_scores = []
+        distinction_labels = []
+        gap_scores = []
+        gap_labels = []
+        for index in range(sample_count):
+            d_score, d_label, g_score, g_label = _door_key_scores(observation["image"])
+            distinction_scores.append(d_score)
+            distinction_labels.append(d_label)
+            gap_scores.append(g_score)
+            gap_labels.append(g_label)
+            action = int(rng.integers(env.action_space.n))
+            observation, _, terminated, truncated, _ = env.step(action)
+            if terminated or truncated:
+                observation, _ = env.reset(seed=seed + index + 1)
+        d_scores = np.asarray(distinction_scores, dtype=np.float64)
+        d_labels = np.asarray(distinction_labels, dtype=bool)
+        g_scores = np.asarray(gap_scores, dtype=np.float64)
+        g_labels = np.asarray(gap_labels, dtype=bool)
+        false_claim = false_claim_rate(d_scores, d_labels, g_labels)
+        gap_auc = gap_detection_auc(g_scores, g_labels)
+        unlogged = unlogged_error_rate(d_scores, d_labels, g_scores)
+        certified = certified_coverage(g_scores)
+        return {
+            "status": "available",
+            "environment_id": environment_id,
+            "benchmark_contract": "door-key-public-readback-gap",
+            "seed": float(seed),
+            "sample_count_requested": float(sample_count),
+            "sample_count_collected": float(sample_count),
+            "observation_key": "image",
+            "observation_shape_contract": [7.0, 7.0, 3.0],
+            "action_space_contract": "Discrete",
+            "dependency_status": deps,
+            "metrics": {
+                "distinction_accuracy": binary_accuracy(d_scores, d_labels),
+                "gap_detection_auc": gap_auc,
+                "unlogged_error_rate": unlogged,
+                "certified_coverage": certified,
+                "bedc_debt_score": bedc_debt_score(
+                    unlogged_error=unlogged,
+                    false_claim=false_claim,
+                    gap_auc=gap_auc,
+                    certified=certified,
+                ),
+            },
+            "cannot_claim": [],
+        }
+    finally:
+        env.close()
+
+
+def write_public_minigrid_benchmark_packet(path: str | Path) -> dict[str, Any]:
+    packet = build_public_minigrid_benchmark_packet()
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(packet, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return packet

@@ -64,12 +64,14 @@ visual planning benchmark this reduces high-gap and unsafe state selection
 while exposing a real success-rate tradeoff.
 
 We cannot yet claim a public JEPA implementation comparison, a robotics result,
-or natural-video object interaction.  We have added a public MiniGrid DoorKey
-transition packet contract for `MiniGrid-DoorKey-8x8-v0`: it samples Gymnasium
-`image` observations with shape `(7, 7, 3)` and discrete MiniGrid actions when
-the dependencies are present.  The current local environment does not have
-`gymnasium` / `minigrid` installed, so the public MiniGrid packet is recorded
-as unavailable rather than executed.
+or natural-video object interaction.  We have added public MiniGrid DoorKey
+contracts for `MiniGrid-DoorKey-8x8-v0`: the transition packet samples
+Gymnasium `image` observations with shape `(7, 7, 3)` and discrete MiniGrid
+actions, and the benchmark packet computes a DoorKey readback/gap metric
+contract with distinction accuracy, gap AUROC, unlogged error, certified
+coverage, and debt.  The current local environment does not have `gymnasium` /
+`minigrid` installed, so the public MiniGrid packets are recorded as
+unavailable rather than executed.
 
 Reproducible local commands:
 

@@ -103,6 +103,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "torch": "reports/bedc_jepa_torch_objective.json",
         },
         "public_adapters": {
+            "minigrid_benchmark_packet": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
             "minigrid": "reports/bedc_jepa_public_minigrid_probe.json",
             "minigrid_transition_packet": "reports/bedc_jepa_public_minigrid_transition_packet.json",
         },
