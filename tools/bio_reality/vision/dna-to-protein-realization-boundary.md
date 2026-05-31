@@ -145,3 +145,52 @@ weights break f_3 symmetry: w_c != w_{c^{f_3}}.
 Pipeline implication: stop pursuing M-density or M-membership directly; pursue
 each B*_Q6 basis element with its own falsifiable survival test against a
 readout that includes amino-acid composition control + context variables.
+
+## Addendum 2026-06-01: B*_Q6 translation-readout survival matrix is the locked next step
+
+The next research object is the survival matrix S_{ij} = S_{q_i}(r_j | Z) for
+each B*_Q6 residual coordinate q_i against each translation-related readout
+r_j (tAI, stAI, ribosome occupancy, protein abundance), where Z controls
+amino-acid sequence, organism, GC3, length, M-density baseline. The pipeline
+should not continue to expand Q_6 internal geometry or ORF classifier scope;
+both are at acceptable boundaries. The unresolved question is whether any
+amino-acid-quotient-surviving codon-topology coordinate is also
+translation-readout-surviving.
+
+Three matrices the pipeline must produce, in this order:
+  1. Coupling matrix A_{ij} = q_i^T Sigma P_syn ell_j (synonymous projection
+     of readout weight against residual covariance) — cheap closed form.
+  2. Survival matrix S_{ij} = J_0(r_j | Z) - J_{q_i}(r_j | Z, q_i) — partial
+     description-length improvement after controlling for Z and baselines.
+  3. Mediation matrix testing Q_i -> T_j -> P_k (residual coordinate ->
+     translation readout -> protein readout) once ribosome and proteomics
+     contacts are attached.
+
+New required reality contacts:
+  tai_or_stai_weights — stAIcalc per-organism / per-codon weights.
+  ribosome_profiling_translation_efficiency — GWIPS-viz, RPFdb, or matched
+    ribo-seq dataset per organism with translation-efficiency or
+    ribosome-occupancy per CDS.
+  matched_proteomics_protein_abundance — PAXdb, PRIDE, or organism-matched
+    proteomics quantification per CDS.
+  matched_mRNA_abundance_control — paired transcript abundance for mediation
+    control (RNA-seq matched to ribo-seq).
+
+Falsifiable conditions:
+  Null (all S_{ij} <= 0) is a real negative result — Q6 topology stays at
+    code-read / bounded codon-count residual layer; cannot enter translation
+    realization.
+  Single-coordinate survival (only Leu_CUN/UUR survives) compresses the
+    theory: CUN-tail is the single cross-layer module.
+  Multi-coordinate survival (Leu, Arg_AGR, f3-stress all survive) means
+    B*_Q6 is a translation-relevant residual basis, not a single module.
+  Protein-mediation survival means Q6 enters DNA -> protein realization
+    fitting, not just translation readout.
+
+Discipline reminders:
+  Do not skip from B*_Q6 directly to folding or function. The mandatory
+    intermediate is a translation readout.
+  Do not promote CUN/UUR n=3 contact to a population claim. Extend to
+    more organisms before any directionality is read as general.
+  Each survival matrix entry must report break_condition + AA-composition
+    control + simpler-baseline ablation; otherwise it is parameter fitting.
