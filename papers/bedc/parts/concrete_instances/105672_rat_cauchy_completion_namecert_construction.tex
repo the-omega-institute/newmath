@@ -52,12 +52,26 @@ The only real-facing coordinate of the carrier is $E$, and the only route into t
 The carrier definition also lists the negative boundary: no coordinate stores a selected limit, a quotient representative, a countable-choice schedule, or an ambient completeness theorem for $\RealUp$. Therefore the seal row is a handoff boundary for existing regular rational data, not a proof of completeness of the target interface.
 \end{proof}
 
+\begin{theorem}[RatCauchyCompletion seal nonescape]
+\label{thm:rat-cauchy-completion-seal-nonescape}
+Every accepted $\RatCauchyCompletionUp$ carrier reaches the $\RealUp$ seal only through the displayed rational source row, Cauchy-modulus tail row, StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, componentwise transport, displayed replay, provenance, and local NameCert rows. The packet exports no quotient Cauchy name, selected limit, countable-choice schedule, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rat-cauchy-completion-carrier}. Its only Real-facing coordinate is $E$, and every coordinate before $E$ is one of $R,M,S,Q,D$ together with the structural rows $H,K,P,N$.
+
+Apply the obligation theorem \autoref{thm:rat-cauchy-completion-namecert-obligations}. It exposes the rational source, Cauchy modulus, stream schedule, regular rational readback, dyadic tolerance ledger, Real seal, transport, replay, provenance, and local naming as the whole local NameCert surface.
+
+Now use the handoff theorem \autoref{thm:rat-cauchy-completion-real-seal-boundary}. The seal row is reachable only through the displayed continuation row after the rational-Cauchy and dyadic rows have been presented.
+
+Therefore a seal read cannot escape to quotient Cauchy names, selected limits, countable-choice schedules, or ambient Real completeness. None of those objects is a carrier coordinate or a local NameCert obligation.
+\end{proof}
+
 \closureat{RatCauchyCompletionUp}{seedStr}
 
 \begin{closurestatus}{\RatCauchyCompletionUp}
   \constructivestory{A $\RatCauchyCompletionUp$ packet is generated from $\RatUp$ source rows, $\CauchyModulusUp$ tail data, $\StreamNameUp$ schedules, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledgers, $\RealUp$ seal rows, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:rat-cauchy-completion-carrier}, \autoref{thm:rat-cauchy-completion-namecert-obligations}, and \autoref{thm:rat-cauchy-completion-real-seal-boundary} bind the carrier, local NameCert obligations, and Real-facing seal boundary for the rational-Cauchy completion interface.}
+  \scopeclosed{\autoref{def:rat-cauchy-completion-carrier}, \autoref{thm:rat-cauchy-completion-namecert-obligations}, \autoref{thm:rat-cauchy-completion-real-seal-boundary}, and \autoref{thm:rat-cauchy-completion-seal-nonescape} bind the carrier, local NameCert obligations, Real-facing seal boundary, and seal nonescape theorem for the rational-Cauchy completion interface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not prove $\RealUp$ completeness, quotient Cauchy equality, selected limits, arbitrary Cauchy-filter completion, countable choice, or a public standard bridge.}
