@@ -14,7 +14,7 @@ if str(ROOT) not in sys.path:
 
 from bedc_quality_lab.debt import assess_debt, format_debt_items
 from bedc_quality_lab.ledger import derive_ledger_gaps, format_ledger_gaps
-from bedc_quality_lab.metrics import metric_bundle, quality_components
+from bedc_quality_lab.metrics import classifier_certificate, metric_bundle, quality_components
 from bedc_quality_lab.report import write_quality_report
 from bedc_quality_lab.schema import SCHEMA_ID, QualityEvidenceEnvelope
 from bedc_quality_lab.toy_world import make_toy_batch
@@ -77,6 +77,7 @@ def run_experiment(
         h = _fallback_encoder(batch.x)
 
     metrics = metric_bundle(h, batch.z)
+    certificate = classifier_certificate(metrics)
     source_spec = {
         "name": "gaussian-ou-toy-world",
         "latent_dim": 2,
@@ -92,6 +93,7 @@ def run_experiment(
         "name": encoder_name,
         "output_dim": 2,
         "training": "align-cov-mean" if encoder_name.startswith("tiny") else "deterministic-standardization",
+        **certificate,
     }
     stability_spec = {
         "name": "fixed-seed-single-source",
