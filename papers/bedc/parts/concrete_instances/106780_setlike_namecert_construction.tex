@@ -149,6 +149,50 @@ Extensional reads are likewise bounded. The row $E$ permits comparison only thro
 Finally replay the structural rows. The rows $H,C,P,N$ preserve, replay, source, and name the same finite route, while $\TypeLikeUp$, $\FirstOrderUp$, and $\ModelTheoryUp$ can cite the packet only through $P$ and $C$. No sibling read therefore bypasses $M,Q,I,R,E$.
 \end{proof}
 
+\begin{theorem}[SetLike extensional boundary classifier lock]
+\label{thm:setlike-extensional-boundary-classifier-lock}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, an extensional comparison read must expose the membership source $M$, the displayed classifier $Q$, the extensionality-boundary ledger $E$, and the structural rows $H,C,P,N$ before any downstream consumer treats the comparison as available. The read is locked to the displayed classifier and cannot be replaced by host set equality, quotient equality, selected representatives, or an external inclusion predicate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:setlike-carrier}. The extensional read is the row $E$, and its only membership data are the source row $M$ and classifier row $Q$.
+
+Use \autoref{thm:setlike-membership-route}. The route forces any membership-facing consumer to expose $M,Q,I,R,E$ before the structural rows are replayed.
+
+Finally apply the local carrier rows $H,C,P,N$. Transport, replay, provenance, and naming keep $E$ attached to the same displayed classifier, so the comparison is not host set equality, quotient equality, selected representatives, or external inclusion.
+\end{proof}
+
+\begin{theorem}[SetLike bounded comprehension transport]
+\label{thm:setlike-bounded-comprehension-transport}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, restricted-comprehension transport remains inside the finite route
+$$
+M,Q,I,R,H,C,P,N .
+$$
+It may read a bounded family only after the membership source, classifier, and subset implication rows are visible, and componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\SetLikeUp}$ naming preserve that bounded route without importing powersets, unrestricted separation, quotient equality, or an external comprehension principle.
+\end{theorem}
+\begin{proof}
+Project the restricted-comprehension row $R$ from \autoref{def:setlike-carrier}. The row is part of the accepted finite packet and is not an ambient comprehension operator.
+
+Apply \autoref{thm:setlike-membership-route}. The bounded family consumed by $R$ must already pass through $M,Q,I$ before comprehension data are visible.
+
+Transport is then componentwise. The rows $H,C,P,N$ preserve, replay, source, and name the same bounded route, so the transported comprehension remains inside $M,Q,I,R,H,C,P,N$ and cannot introduce the excluded host-level surfaces.
+\end{proof}
+
+\begin{theorem}[SetLike first-order membership handoff]
+\label{thm:setlike-firstorder-membership-handoff}
+Every $\FirstOrderUp$ consumer that receives membership data from an accepted $\SetLikeUp$ packet receives it only through the displayed finite route
+$$
+M,Q,I,R,E \longmapsto H,C,P,N .
+$$
+Thus first-order syntax may consume SetLike membership, subset implication, restricted comprehension, and extensional comparison only after the carrier route has been displayed, and it cannot import an ambient powerset, unrestricted comprehension principle, quotient equality of sets, selected representatives, or external satisfaction relation.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:setlike-membership-route}. It states the exact finite route available to downstream $\TypeLikeUp$, $\FirstOrderUp$, and $\ModelTheoryUp$ consumers.
+
+Project the carrier of \autoref{def:setlike-carrier}. The rows $M,Q,I,R,E$ are the only membership, subset, comprehension, and extensional comparison rows available before structural replay.
+
+Finally replay $H,C,P,N$. These rows transport, replay, source, and name the same finite membership route for the $\FirstOrderUp$ consumer, so first-order syntax receives no independent powerset, unrestricted comprehension, quotient equality, selected representative, or external satisfaction surface.
+\end{proof}
+
 \begin{theorem}[SetLike subset implication obligation]
 \label{thm:setlike-subset-implication-obligation}
 For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, an accepted subset read is an implication row $I$ over the displayed membership classifier $Q$ and the membership-source row $M$. The read is admitted as finite $\BHist$ data only when the componentwise $\hsame$ row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\SetLikeUp}$ row $N$ all keep the same implication surface visible; it cannot import host subset equality or a global inclusion relation outside those rows.
