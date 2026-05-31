@@ -71,6 +71,53 @@ def test_classifier_certificate_and_certified_quality_benefit():
     )
 
 
+def test_classifier_certificate_custom_positive_thresholds_control_status_and_score():
+    metrics = {
+        "linear_identifiability_r2": 0.90,
+        "approx_identifiability_proxy": 0.80,
+    }
+    default_certificate = classifier_certificate(metrics)
+    strict_certificate = classifier_certificate(metrics, min_r2=0.95, min_proxy=0.85)
+
+    assert default_certificate["cert_status"] == "certified"
+    assert default_certificate["cert_threshold"] == {
+        "linear_identifiability_r2": 0.85,
+        "approx_identifiability_proxy": 0.70,
+    }
+    assert np.isclose(default_certificate["cert_score"], min(0.90 / 0.85, 0.80 / 0.70))
+
+    assert strict_certificate["cert_status"] == "uncertified"
+    assert strict_certificate["cert_threshold"] == {
+        "linear_identifiability_r2": 0.95,
+        "approx_identifiability_proxy": 0.85,
+    }
+    assert np.isclose(strict_certificate["cert_score"], min(0.90 / 0.95, 0.80 / 0.85))
+    assert strict_certificate["cert_score"] < 1.0
+
+
+def test_classifier_certificate_non_positive_threshold_zeroes_score_not_status():
+    metrics = {
+        "linear_identifiability_r2": 0.90,
+        "approx_identifiability_proxy": 0.80,
+    }
+    zero_r2_threshold = classifier_certificate(metrics, min_r2=0.0, min_proxy=0.70)
+    negative_proxy_threshold = classifier_certificate(metrics, min_r2=0.85, min_proxy=-0.10)
+
+    assert zero_r2_threshold["cert_status"] == "certified"
+    assert zero_r2_threshold["cert_score"] == 0.0
+    assert zero_r2_threshold["cert_threshold"] == {
+        "linear_identifiability_r2": 0.0,
+        "approx_identifiability_proxy": 0.70,
+    }
+
+    assert negative_proxy_threshold["cert_status"] == "certified"
+    assert negative_proxy_threshold["cert_score"] == 0.0
+    assert negative_proxy_threshold["cert_threshold"] == {
+        "linear_identifiability_r2": 0.85,
+        "approx_identifiability_proxy": -0.10,
+    }
+
+
 def test_uncertified_classifier_floors_quality_benefit():
     metrics = {
         "linear_identifiability_r2": 0.90,
