@@ -43,6 +43,7 @@ from __future__ import annotations
 
 import fcntl
 import os
+import shutil
 import signal
 import subprocess
 import sys
@@ -54,6 +55,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 TOOLS_DIR = REPO_ROOT / "tools"
 if str(TOOLS_DIR) not in sys.path:
     sys.path.insert(0, str(TOOLS_DIR))
+from host_context import host_value
 from verification_contract import record, utc_now
 
 BUILDER_DIR = REPO_ROOT / ".worktrees" / "_paper_builder"
@@ -67,7 +69,8 @@ LOCK_FILE = REPO_ROOT / ".paper_builder.lock"
 
 POLL_SECONDS = 60
 BUILD_TIMEOUT_S = 1800
-BASE_BRANCH = "codex-auto-dev"
+BASE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", default="codex-auto-dev")
+CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 
 CODEX_FIX_TIMEOUT_S = 1800
 MAX_FIX_ATTEMPTS = 3
@@ -228,6 +231,7 @@ def codex_fix(sha: str, log_tail: str, elapsed: float) -> bool:
         sha=sha[:8],
         elapsed=elapsed,
         log_tail=log_tail[-6000:],
+        base_branch=BASE_BRANCH,
     )
     pre_tip = subprocess.run(
         ["git", "-C", str(REPO_ROOT), "rev-parse", f"origin/{BASE_BRANCH}"],
@@ -237,7 +241,7 @@ def codex_fix(sha: str, log_tail: str, elapsed: float) -> bool:
     try:
         subprocess.run(
             [
-                "codex", "exec", "--dangerously-bypass-approvals-and-sandbox",
+                CODEX_PATH, "exec", "--dangerously-bypass-approvals-and-sandbox",
                 "-C", str(BUILDER_DIR), prompt,
             ],
             timeout=CODEX_FIX_TIMEOUT_S,

@@ -1,4 +1,4 @@
-BEDC paper full-PDF build is failing on branch `codex-auto-dev`. Fix it.
+BEDC paper full-PDF build is failing on branch `{base_branch}`. Fix it.
 
 ## Context
 You are running inside `_paper_builder` worktree, which the
@@ -14,12 +14,12 @@ double-pass pdflatex) at SHA `{sha}` and failed after {elapsed:.0f}s.
   invariants still hold. Do NOT run `make` yourself
   — the daemon re-verifies after you exit.
 - Commit with prefix `paper-builder-fix: ` (single short line), then
-  push to `codex-auto-dev`:
+  push to `{base_branch}`:
     git add papers/bedc/
     git commit -m "paper-builder-fix: <one-line reason>"
-    git fetch origin codex-auto-dev
-    git merge --no-ff --no-edit origin/codex-auto-dev
-    git push origin HEAD:codex-auto-dev
+    git fetch origin {base_branch}
+    git merge --no-ff --no-edit origin/{base_branch}
+    git push origin HEAD:{base_branch}
   If push rejected, repeat fetch+merge+push once.
 - If you cannot identify a safe minimal fix, exit without committing.
   The daemon will retry on the next merged tip.

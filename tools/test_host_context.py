@@ -9,15 +9,18 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from host_context import (
+REPO_ROOT = Path(__file__).resolve().parents[1]
+TOOLS_DIR = REPO_ROOT / "tools"
+for import_root in (REPO_ROOT, TOOLS_DIR):
+    if str(import_root) not in sys.path:
+        sys.path.insert(0, str(import_root))
+
+from tools.host_context import (
     MissingHostValueError,
     host_path,
     host_value,
     load_host_context,
 )
-
-
-REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 class HostContextTests(unittest.TestCase):
@@ -165,6 +168,49 @@ class DaemonHostIntegrationTests(unittest.TestCase):
         self.assertEqual(module.BASE_BRANCH, "lean-host")
         self.assertEqual(module.CODEX_PATH, "/tmp/codex-host")
         self.assertEqual(module.WORKTREE_DIR, REPO_ROOT / ".worktrees")
+
+    def test_paper_builder_uses_bedc_host_values(self):
+        module = self.import_module_with_env(
+            "papers/bedc/scripts/paper_builder_daemon.py",
+            "paper_builder_host_test",
+        )
+
+        self.assertEqual(module.BASE_BRANCH, "pipeline-host")
+        self.assertEqual(module.CODEX_PATH, "/tmp/codex-host")
+
+    def test_paper_builder_codex_fix_uses_host_codex_and_branch(self):
+        module = self.import_module_with_env(
+            "papers/bedc/scripts/paper_builder_daemon.py",
+            "paper_builder_fix_host_test",
+        )
+        captured: dict[str, str | list[str]] = {}
+        git_revs = iter(["pre-tip\n", "post-tip\n"])
+
+        def fake_subprocess_run(cmd, **kwargs):
+            if cmd[0] == "git":
+                class GitResult:
+                    stdout = next(git_revs)
+
+                return GitResult()
+            captured["argv"] = cmd
+            captured["prompt"] = cmd[-1]
+
+            class CodexResult:
+                stdout = ""
+
+            return CodexResult()
+
+        with mock.patch.object(module, "run_git", return_value=(0, "")):
+            with mock.patch.object(module, "log"):
+                with mock.patch.object(module.subprocess, "run", side_effect=fake_subprocess_run):
+                    self.assertTrue(module.codex_fix("abcdef123456", "build tail", 2.0))
+
+        argv = captured["argv"]
+        prompt = captured["prompt"]
+        self.assertEqual(argv[0], "/tmp/codex-host")
+        self.assertIn("pipeline-host", prompt)
+        self.assertIn("git push origin HEAD:pipeline-host", prompt)
+        self.assertNotIn("git push origin HEAD:codex-auto-dev", prompt)
 
 
 class ScaffoldFrameworkDeletionTests(unittest.TestCase):
