@@ -421,6 +421,38 @@ def _run_validation_gate(cmd: list[str], *, cwd: Path, label: str,
     return False
 
 
+def _regen_manifest(cwd: Path) -> None:
+    """Regenerate lean4/BEDC.lean from on-disk files after a merge, folding any
+    change into the just-created merge commit.
+
+    A conflict-free (clean) merge of BEDC.lean does NOT invoke the
+    `bedc-lean-regen` merge driver (git only runs a custom merge driver on a
+    file that actually conflicts). So when one side deleted a `.lean` file and
+    the other side's manifest still carried its `import` line, the textually
+    merged BEDC.lean keeps importing the now-missing module -> `lake build`
+    fails with "no such file or directory" -> dev->auto-dev validation fails
+    and the daemon skips forever ("waits for next passing tick"), since this
+    failure mode reproduces deterministically and is neither a textual conflict
+    (so codex-fallback never fires) nor transient. Regenerating from the actual
+    filesystem drops imports of deleted modules and adds new ones, making the
+    merged manifest consistent before the build gate runs."""
+    regen = run(["python3", "lean4/scripts/regenerate_bedc_lean.py"],
+                cwd=cwd, check=False, capture=True)
+    if regen.returncode != 0:
+        print(f"[sync] regenerate_bedc_lean failed rc={regen.returncode}: "
+              f"{((regen.stdout or '') + (regen.stderr or '')).strip()[:200]}",
+              file=sys.stderr)
+        return
+    status = run(["git", "status", "--porcelain", "lean4/BEDC.lean"],
+                 cwd=cwd, check=False, capture=True)
+    if (status.stdout or "").strip():
+        run(["git", "add", "lean4/BEDC.lean"], cwd=cwd, check=False, capture=True)
+        run(["git", "commit", "--amend", "--no-edit"], cwd=cwd,
+            check=False, capture=True)
+        print("[sync] regenerated BEDC.lean manifest after merge "
+              "(folded into merge commit)")
+
+
 def validate_dev_merge_in_worktree() -> tuple[bool, str | None, str | None]:
     """Validate origin/dev -> auto-dev in an isolated worktree before push."""
     if _rev_list_count(f"origin/{MIRROR_BRANCH}..origin/{UPSTREAM_BRANCH}") == 0:
@@ -449,6 +481,8 @@ def validate_dev_merge_in_worktree() -> tuple[bool, str | None, str | None]:
             check=False, capture=True)
         print(f"[sync] dev->auto-dev validation: merge failed rc={merge.returncode}")
         return False, dev_sha, mirror_sha
+
+    _regen_manifest(VALIDATION_WORKTREE)
 
     if not _run_validation_gate(["make", "warn"],
                                 cwd=VALIDATION_WORKTREE / "papers" / "bedc",
@@ -497,6 +531,7 @@ def sync_dev_to_auto_dev_validated(*, no_push: bool) -> bool:
                 git("merge", "--abort", check=False, capture=True)
                 print("[sync] dev->auto-dev: validated merge failed in main checkout; retry next cycle")
                 return False
+            _regen_manifest(REPO_ROOT)
             push = run(["git", "push", "origin", f"HEAD:refs/heads/{MIRROR_BRANCH}"],
                        check=False, capture=True)
             if push.returncode != 0:
