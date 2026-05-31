@@ -1997,6 +1997,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceRealSealRoute
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceScopeRoute
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceScopedCoverage
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceWindowExactness
+import BEDC.Derived.ClosedBoundedIntervalUp.ScopedKernelEnvelope
 import BEDC.Derived.ClosedBoundedIntervalUp.ScopedSourcePackage
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceCoverBoundary
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceObligationPackage
@@ -3309,6 +3310,7 @@ import BEDC.Derived.DyadicLocatedCutUp
 import BEDC.Derived.DyadicLocatedCutUp.KernelCarrier
 import BEDC.Derived.DyadicLocatedCutUp.TasteGate
 import BEDC.Derived.DyadicMaxUp.TasteGate
+import BEDC.Derived.DyadicMeshCompositionUp.TasteGate
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicMeshUp.EnclosureExport
 import BEDC.Derived.DyadicMeshUp.TasteGate
@@ -6428,6 +6430,7 @@ import BEDC.Derived.RegularCauchyLimitClassifierUp.FiniteRouteExactness
 import BEDC.Derived.RegularCauchyLimitClassifierUp.SynchronizerFactorization
 import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyLimitModulusUp.TasteGate
+import BEDC.Derived.RegularCauchyLimitOperatorUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyLipschitzMapUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedComparisonUp.TasteGate
