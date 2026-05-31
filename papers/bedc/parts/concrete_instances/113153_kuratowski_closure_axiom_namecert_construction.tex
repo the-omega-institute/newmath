@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\KuratowskiClosureAxiomUp$}
+\label{ch:concrete-instances-kuratowski-closure-axiom-namecert}
+\origin{human}
+
+Following Kuratowski's closure axioms and Kelley's topology language, the $\KuratowskiClosureAxiomUp$ packet records a displayed closure operator by finite BEDC rows rather than by an ambient powerset primitive. It sits after the indexed-open topology surface of \autoref{ch:concrete-instances-topology-namecert}, the membership discipline of \autoref{ch:concrete-instances-setlike-namecert}, the metric closure route of \autoref{ch:concrete-instances-metric-closure-namecert}, and the neighbourhood closure surface of \autoref{ch:concrete-instances-topological-closure-namecert}. The packet names exactly the finite closure-law interface consumed by topology and metric-closure chapters; it does not import host subset extensionality, arbitrary powersets, selected closure witnesses, open-cover compactness, or ambient real completeness.
+
+\begin{definition}[Kuratowski closure axiom carrier]
+\label{def:kuratowski-closure-axiom-carrier}
+A $\KuratowskiClosureAxiomUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,S,L,E,M,I,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, carrying the indexed open surface and classifier through which closed-neighbourhood requests are interpreted.
+\item $S$ is the $\SetLikeUp$ subset row, recording membership, subset comparison, and classifier-respecting transport for the displayed source subset.
+\item $L$ is the closure row, assigning to each displayed subset row its displayed closure subset and the membership-read interface for that closure.
+\item $E$ is the extensivity row, requiring every displayed membership in the source subset to replay as membership in its closure.
+\item $M$ is the monotonicity row, requiring every displayed subset inclusion to transport to the corresponding displayed closure inclusion.
+\item $I$ is the idempotence row, requiring the closure of a displayed closure row to replay through the same closure membership route.
+\item $U$ is the finite-union and empty-compatibility row, carrying the displayed equality of the closure of a binary union with the binary union of closures and the displayed empty-closure boundary.
+\item $H$ records componentwise $\hsame$ transport for the topology source, subset row, closure row, the four closure-law rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a closure request through $T,S,L,E,M,I,U,H,P,N$ before any topology or metric-closure consumer reads the result.
+\item $P$ is the $\Pkg$ provenance over $\KuratowskiClosureAxiomUp$, $\TopologyUp$, $\SetLikeUp$, $\MetricClosureUp$, $\TopologicalClosureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KuratowskiClosureAxiomUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,S,L,E,M,I,U,H,C,P,N$ and the displayed routes among those rows. It has no coordinate for a host powerset, an ambient closure primitive, subset extensionality outside the carrier, selected closure witnesses, open-cover compactness, countable choice, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Kuratowski closure axiom NameCert obligations]
+\label{thm:kuratowski-closure-axiom-namecert-obligations}
+For every accepted $\KuratowskiClosureAxiomUp$ carrier
+$$
+K=(T,S,L,E,M,I,U,H,C,P,N),
+$$
+the local $\NameCert_{\KuratowskiClosureAxiomUp}$ surface consists exactly of carrier admission for the topology source row, set-like subset row, closure row, extensivity row, monotonicity row, idempotence row, finite-union and empty-compatibility row, componentwise transport, displayed replay, provenance, and local naming. Every topology-facing or metric-closure-facing use of the packet must display those rows before it can treat a subset read as closure evidence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kuratowski-closure-axiom-carrier}. The source rows are $T$ and $S$, the operation row is $L$, and the closure-law rows are $E,M,I,U$.
+
+The law rows are finite certificate rows. Extensivity reads membership from $S$ into $L$, monotonicity transports displayed subset inclusion through closure, idempotence replays the closure row through itself, and finite-union and empty compatibility provide the binary union and empty boundaries.
+
+The structural rows $H,C,P,N$ preserve the same finite packet by transport, continuation replay, provenance, and local naming. Since the carrier has no coordinate for host powersets, ambient closure primitives, external subset extensionality, selected witnesses, open-cover compactness, countable choice, Lean verification, or bridge checking, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Kuratowski closure topology handoff]
+\label{thm:kuratowski-closure-axiom-topology-handoff}
+Every accepted $\KuratowskiClosureAxiomUp$ packet gives a topology handoff from displayed subset reads to displayed closure reads over the route
+$$
+T,S,L,E,M,I,U,H,C,P,N .
+$$
+A $\TopologyUp$, $\MetricClosureUp$, or $\TopologicalClosureUp$ consumer may use the closure only after the topology source, set-like subset row, closure row, four Kuratowski law rows, componentwise transport, displayed replay, provenance, and local naming rows have been inspected. The handoff exports no host powerset, no ambient closure primitive, no selected closure point, no open-cover compactness theorem, and no ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the topology source row $T$ and the subset row $S$. They determine the displayed carrier, classifier, membership reads, and subset comparisons available to a closure consumer.
+
+Next read the closure row $L$ together with the four law rows. The rows $E,M,I,U$ are exactly the Kuratowski closure axioms as displayed BEDC obligations: source membership enters closure, inclusion is preserved by closure, closure is idempotent, binary unions commute with closure, and the empty subset has the displayed boundary row.
+
+Finally replay the structural rows. The $\hsame$ transport row $H$ and $\Cont$ row $C$ keep the topology, subset, closure, and law rows aligned under presentation change, while $P$ and $N$ source and name the packet for downstream consumers.
+
+Thus the topology and metric-closure handoff is precisely the displayed finite route. No excluded host powerset, ambient closure primitive, selected closure witness, open-cover compactness result, or ambient Real completeness claim is available from the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\KuratowskiClosureAxiomUp$ topology or metric-closure read factors through a Topology source row, SetLike subset row, closure row, extensivity row, monotonicity row, idempotence row, finite-union and empty-compatibility row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{topology, setlike, metric-closure, topological-closure: $\KuratowskiClosureAxiomUp$ is not bijective to any listed sibling because it jointly carries a displayed closure operator and the four Kuratowski law rows over one topology and subset interface, while each sibling supplies only the topology, membership, metric-closure, or neighbourhood-closure part of the route.}
+
+\closureat{KuratowskiClosureAxiomUp}{seedStr}
+
+\begin{closurestatus}{\KuratowskiClosureAxiomUp}
+  \constructivestory{A $\KuratowskiClosureAxiomUp$ packet is generated from a Topology source row, SetLike subset row, closure row, extensivity, monotonicity, idempotence, finite-union and empty compatibility, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kuratowski-closure-axiom-carrier}, \autoref{thm:kuratowski-closure-axiom-namecert-obligations}, and \autoref{thm:kuratowski-closure-axiom-topology-handoff} seed the finite closure-operator route consumed by topology, metric-closure, and topological-closure packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host powersets, ambient closure primitives, external subset extensionality, selected closure witnesses, open-cover compactness, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, closure-row exactness, extensivity, monotonicity, idempotence, finite-union and empty compatibility, transport, replay, provenance, and local naming for BEDC.Derived.KuratowskiClosureAxiomUp.}
+\end{closurestatus}
