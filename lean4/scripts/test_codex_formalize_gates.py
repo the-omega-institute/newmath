@@ -4,15 +4,22 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT_PATH = REPO_ROOT / "lean4" / "scripts" / "codex_formalize.py"
+TOOLS_PATH = REPO_ROOT / "tools"
+if str(TOOLS_PATH) not in sys.path:
+    sys.path.insert(0, str(TOOLS_PATH))
+
+from host_context import MissingHostValueError
 
 
 def load_codex_formalize():
@@ -25,6 +32,22 @@ def load_codex_formalize():
 
 
 cf = load_codex_formalize()
+if cf.BASE_BRANCH is None:
+    cf.BASE_BRANCH = "test-base"
+
+
+class HostValueHermeticityTests(unittest.TestCase):
+    def test_import_does_not_require_bedc_host_keys(self):
+        with tempfile.TemporaryDirectory() as td:
+            env = {"REPO_ROOT": td, "PATH": os.environ.get("PATH", "")}
+            with mock.patch.dict(os.environ, env, clear=True):
+                module = load_codex_formalize()
+
+            self.assertIsNone(module.BASE_BRANCH_DEFAULT)
+            self.assertIsNone(module.BASE_BRANCH)
+
+            with self.assertRaisesRegex(MissingHostValueError, "BEDC_LEAN_BASE_BRANCH"):
+                module._base_branch_default()
 
 
 class CoordinationPersistenceTests(unittest.TestCase):
@@ -278,11 +301,12 @@ class QualityGateTests(unittest.TestCase):
     def test_shell_pattern_uses_round_diff_base_not_origin_branch(self):
         td, root, base_sha = self.init_repo()
         with td:
-            subprocess.run(["git", "checkout", "-q", "-b", cf.BASE_BRANCH], cwd=root, check=True)
+            base_branch = cf.BASE_BRANCH or "test-base"
+            subprocess.run(["git", "checkout", "-q", "-b", base_branch], cwd=root, check=True)
             upstream_sha = subprocess.run(
                 ["git", "rev-parse", "HEAD"], cwd=root, check=True, text=True, capture_output=True
             ).stdout.strip()
-            subprocess.run(["git", "update-ref", f"refs/remotes/origin/{cf.BASE_BRANCH}", base_sha], cwd=root, check=True)
+            subprocess.run(["git", "update-ref", f"refs/remotes/origin/{base_branch}", base_sha], cwd=root, check=True)
             (root / "lean4" / "BEDC" / "FKernel" / "AllowedShell.lean").write_text(
                 "namespace BEDC.FKernel\n"
                 "structure PaperShell where\n"

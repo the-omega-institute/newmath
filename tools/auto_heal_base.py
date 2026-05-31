@@ -47,8 +47,16 @@ REPO_ROOT = host_path(
     "REPO_ROOT",
     default=Path(__file__).resolve().parent.parent,
 )
-BASE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", required=True)
-MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", required=True)
+def _base_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", required=True)
+
+
+def _mirror_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", required=True)
+
+
+BASE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH")
+MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH")
 CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 DEFAULT_INTERVAL = 900  # 15 min
 
@@ -2376,10 +2384,10 @@ def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--interval", type=int, default=DEFAULT_INTERVAL,
                     help="Cycle interval seconds (default 900)")
-    p.add_argument("--base-branch", default=BASE_BRANCH,
-                    help=f"Integration branch name (default: {BASE_BRANCH})")
-    p.add_argument("--mirror-branch", default=MIRROR_BRANCH,
-                    help=f"Mirror branch checked for CI failures (default: {MIRROR_BRANCH})")
+    p.add_argument("--base-branch", default=None,
+                    help="Integration branch name (default: host BEDC_PIPELINE_BRANCH)")
+    p.add_argument("--mirror-branch", default=None,
+                    help="Mirror branch checked for CI failures (default: host BEDC_MIRROR_BRANCH)")
     p.add_argument("--once", action="store_true",
                     help="Run a single cycle and exit (for testing)")
     p.add_argument("--dry-run", action="store_true",
@@ -2389,8 +2397,8 @@ def main() -> int:
     p.add_argument("--verify-only", action="store_true",
                     help="Detect log symptoms, verify current state, and exit without dispatch")
     args = p.parse_args()
-    BASE_BRANCH = args.base_branch
-    MIRROR_BRANCH = args.mirror_branch
+    BASE_BRANCH = args.base_branch if args.base_branch is not None else _base_branch_default()
+    MIRROR_BRANCH = args.mirror_branch if args.mirror_branch is not None else _mirror_branch_default()
 
     if args.self_test:
         return run_cooldown_self_test()

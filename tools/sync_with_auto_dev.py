@@ -43,9 +43,21 @@ REPO_ROOT = host_path(
     "REPO_ROOT",
     default=Path(__file__).resolve().parent.parent,
 )
-SOURCE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", required=True)
-MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", required=True)
-UPSTREAM_BRANCH = host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", required=True)
+def _source_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", required=True)
+
+
+def _mirror_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", required=True)
+
+
+def _upstream_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", required=True)
+
+
+SOURCE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH")
+MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH")
+UPSTREAM_BRANCH = host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH")
 CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 VALIDATION_WORKTREE = host_path(
     REPO_ROOT,
@@ -598,16 +610,16 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--no-push", action="store_true",
                         help="Skip the two pushes to origin (still does the merges locally)")
-    parser.add_argument("--source-branch", default=SOURCE_BRANCH,
-                        help=f"Pipeline integration branch (default: {SOURCE_BRANCH})")
-    parser.add_argument("--mirror-branch", default=MIRROR_BRANCH,
-                        help=f"Stable mirror branch (default: {MIRROR_BRANCH})")
-    parser.add_argument("--upstream-branch", default=UPSTREAM_BRANCH,
-                        help=f"Review base branch (default: {UPSTREAM_BRANCH})")
+    parser.add_argument("--source-branch", default=None,
+                        help="Pipeline integration branch (default: host BEDC_PIPELINE_BRANCH)")
+    parser.add_argument("--mirror-branch", default=None,
+                        help="Stable mirror branch (default: host BEDC_MIRROR_BRANCH)")
+    parser.add_argument("--upstream-branch", default=None,
+                        help="Review base branch (default: host BEDC_UPSTREAM_BRANCH)")
     args = parser.parse_args()
-    SOURCE_BRANCH = args.source_branch
-    MIRROR_BRANCH = args.mirror_branch
-    UPSTREAM_BRANCH = args.upstream_branch
+    SOURCE_BRANCH = args.source_branch if args.source_branch is not None else _source_branch_default()
+    MIRROR_BRANCH = args.mirror_branch if args.mirror_branch is not None else _mirror_branch_default()
+    UPSTREAM_BRANCH = args.upstream_branch if args.upstream_branch is not None else _upstream_branch_default()
 
     original = current_branch()
 
