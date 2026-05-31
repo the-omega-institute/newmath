@@ -691,6 +691,37 @@ def self_test() -> int:
     if not any("not underscores or uppercase" in issue for result in invalid_contact_results for issue in result["issues"]):
         print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
         return 1
+    contact_schema = json.loads((SCRIPT_DIR / "reality_contact.schema.json").read_text(encoding="utf-8"))
+    contact_id_pattern = contact_schema.get("properties", {}).get("contact_id", {}).get("pattern")
+    if contact_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "reality_contact.schema.json",
+                    "field": "contact_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": contact_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    invalid_probe_results = gate_all(
+        [conjecture],
+        [contact],
+        [
+            {
+                **b3_probe,
+                "probe_id": "cross_organism.cun_uur_sign_correlates_with_tRNA_Leu",
+                "conjecture_ref": "codon.code.read",
+            }
+        ],
+        [],
+    )
+    if not any("not underscores or uppercase" in issue for result in invalid_probe_results for issue in result["issues"]):
+        print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
     if by_id["codon.code.read"]["gate_status"] != "gate_passed":
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
