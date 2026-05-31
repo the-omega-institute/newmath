@@ -107,6 +107,20 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
         self.assertIn("Check published dossier HTML links", site_text)
         self.assertIn("actions/upload-pages-artifact@v3", site_text)
 
+    def test_glossary_checker_runs_as_explicit_survey(self) -> None:
+        names = [str(step.get("name", "")) for step in self.site_steps]
+        self.assertNotIn("Glossary completeness gate", names)
+        self.assertIn("Glossary coverage survey", names)
+
+        glossary_steps = [
+            step for step in self.site_steps
+            if "tools/check_glossary.py" in str(step.get("run", ""))
+        ]
+        self.assertEqual(len(glossary_steps), 1)
+        self.assertEqual(glossary_steps[0]["name"], "Glossary coverage survey")
+        self.assertIn("--survey", glossary_steps[0]["run"])
+        self.assertNotIn("--strict", glossary_steps[0]["run"])
+
     def test_deleted_runtime_references_do_not_return(self) -> None:
         text = workflow_text()
         forbidden = [
