@@ -215,6 +215,30 @@ class DiscoveryDeltaLedgerRecord:
 
 
 @dataclass(frozen=True)
+class AdversarialWitness:
+    target: str
+    target_fingerprint: str
+    family: str
+    strength: str
+    lens: str
+    verdict: str
+    evidence: dict[str, object]
+    clearance: list[str]
+
+    def to_json(self) -> dict[str, object]:
+        return {
+            "target": self.target,
+            "target_fingerprint": self.target_fingerprint,
+            "family": self.family,
+            "strength": self.strength,
+            "lens": self.lens,
+            "verdict": self.verdict,
+            "evidence": self.evidence,
+            "clearance": self.clearance,
+        }
+
+
+@dataclass(frozen=True)
 class LeanSourceScan:
     declarations: list[DeclarationRecord]
     fields: list[FieldRecord]
@@ -2886,6 +2910,8 @@ def positive_discovery_target_warnings(
 CONSTRUCTOR_SEPARATION_TERMS = (
     "not_hsame_emp_e0",
     "not_hsame_emp_e1",
+    "not_hsame_e0_empty",
+    "not_hsame_e1_empty",
     "noConfusion",
     "no_confusion",
     "nomatch",
@@ -2940,12 +2966,32 @@ SCOPE_OVERCLAIM_TERMS = (
     "every",
     "canonical",
 )
-SCOPE_SEAL_TERMS = (
-    "scopeSeal",
-    "scope_seal",
-    "seal",
-    "ScopeSeal",
-    "bridgeChecked",
+WITNESS_ENDPOINT_READ_DEPTH = 5
+SUPPORT_OBSERVABLE_READ_DEPTH = 4
+SUPPORT_DISAGREEMENT_READ_DEPTH = 8
+F1_WRAPPER_TERMS = (
+    "readback",
+    "Readback",
+    "wrapper",
+    "alias",
+    "Iff",
+    "iff",
+    "change",
+    "exact",
+)
+F1_NON_WRAPPER_TERMS = (
+    "Decode",
+    "StableSemanticSeparation",
+    "ObservableSupportFamily",
+    "FieldFaithful",
+    "SemanticNameCert",
+)
+F4_CONSTRUCTOR_PROOF_TERMS = (
+    *CONSTRUCTOR_SEPARATION_TERMS,
+)
+F5_LEDGER_COST_CLEARANCE = (
+    "expose an independent weight profile instead of raw row-count benefit",
+    "record bridge rows, debt rows, and a scope seal in the ledger or paper closure site",
 )
 
 
@@ -3054,7 +3100,7 @@ def _target_disagreement_anchors(
         [target],
         declaration_headers,
         declaration_bodies,
-        max_depth=8,
+        max_depth=SUPPORT_DISAGREEMENT_READ_DEPTH,
     )
     anchors = {target} if target in declaration_headers else set()
     for qualified in reachable:
@@ -3210,18 +3256,18 @@ def _referenced_qualified_names_in_text(
     return refs
 
 
-def _support_disagreement_assignment_reaches_target(
+def _support_disagreement_read_model(
     support_target: str,
     target: str,
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
-) -> bool:
+) -> tuple[set[str], set[str], set[str]]:
     assignment = _disagreement_assignment_text(declaration_bodies.get(support_target, ""))
     if not assignment:
-        return False
+        return set(), set(), set()
     effective_assignment, shadowed_locals = _disagreement_effective_return_text(assignment)
     if not effective_assignment:
-        return False
+        return set(), set(), set()
     local_to_qualified = _local_to_qualified_index(declaration_headers)
     seeds = _referenced_qualified_names_in_text(
         effective_assignment,
@@ -3230,14 +3276,31 @@ def _support_disagreement_assignment_reaches_target(
         shadowed_locals,
     )
     anchors = _target_disagreement_anchors(target, declaration_headers, declaration_bodies)
-    if target in seeds or anchors.intersection(seeds):
-        return True
     reachable = _reachable_declarations(
         sorted(seeds),
         declaration_headers,
         declaration_bodies,
-        max_depth=8,
+        max_depth=SUPPORT_DISAGREEMENT_READ_DEPTH,
     )
+    return seeds, anchors, reachable
+
+
+def _support_disagreement_assignment_reaches_target(
+    support_target: str,
+    target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> bool:
+    seeds, anchors, reachable = _support_disagreement_read_model(
+        support_target,
+        target,
+        declaration_headers,
+        declaration_bodies,
+    )
+    if not seeds and not anchors and not reachable:
+        return False
+    if target in seeds or anchors.intersection(seeds):
+        return True
     return target in reachable or bool(anchors.intersection(reachable))
 
 
@@ -3335,16 +3398,28 @@ def _support_reaches_target(
     )
 
 
+def _support_observable_read_targets(
+    support_target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> set[str]:
+    return _reachable_declarations(
+        [support_target],
+        declaration_headers,
+        declaration_bodies,
+        max_depth=SUPPORT_OBSERVABLE_READ_DEPTH,
+    )
+
+
 def _support_body_mentions_observable_witness(
     support_target: str,
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
 ) -> bool:
-    reachable = _reachable_declarations(
-        [support_target],
+    reachable = _support_observable_read_targets(
+        support_target,
         declaration_headers,
         declaration_bodies,
-        max_depth=4,
     )
     text = "\n".join(
         _decl_text(qualified, declaration_headers, declaration_bodies)
@@ -3458,6 +3533,45 @@ def _disagreement_support_text(
     return "\n".join(support)
 
 
+def _negative_disagreement_branch_payload(
+    target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> tuple[str, list[str]]:
+    anchors = _target_disagreement_anchors(
+        target,
+        declaration_headers,
+        declaration_bodies,
+    )
+    reachable = _reachable_declarations(
+        anchors,
+        declaration_headers,
+        declaration_bodies,
+        max_depth=5,
+    )
+    negative_parts: list[str] = []
+    read_targets: set[str] = set(anchors)
+    local_to_qualified = _local_to_qualified_index(declaration_headers)
+    for qualified in sorted(anchors | reachable):
+        header = declaration_headers.get(qualified, "")
+        if not _result_type_mentions(CLASSIFIER_DISAGREEMENT_RESULT_RE, header):
+            continue
+        branch_text = _lean_field_assignment(
+            declaration_bodies.get(qualified, ""),
+            "negative",
+        )
+        if not branch_text:
+            continue
+        negative_parts.append(branch_text)
+        read_targets.add(qualified)
+        read_targets.update(_referenced_qualified_names_in_text(
+            branch_text,
+            declaration_headers,
+            local_to_qualified,
+        ))
+    return "\n".join(negative_parts), sorted(read_targets)
+
+
 def _support_target_names(
     target: str,
     declaration_headers: dict[str, str],
@@ -3547,17 +3661,29 @@ def _is_public_semantic_endpoint(
     return _endpoint_evidence_terms(result_type) != []
 
 
+def _reachable_endpoint_targets(
+    target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> set[str]:
+    return _reachable_declarations(
+        [target],
+        declaration_headers,
+        declaration_bodies,
+        max_depth=WITNESS_ENDPOINT_READ_DEPTH,
+    )
+
+
 def _reachable_endpoint_evidence_terms(
     target: str,
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
 ) -> list[str]:
     terms: list[str] = []
-    reachable = _reachable_declarations(
-        [target],
+    reachable = _reachable_endpoint_targets(
+        target,
         declaration_headers,
         declaration_bodies,
-        max_depth=5,
     )
     for qualified in sorted(reachable):
         if qualified == target:
@@ -3653,8 +3779,11 @@ def _make_sieve_witness(
 
 
 def _parse_nat_assignment(text: str, name: str) -> int | None:
-    match = re.search(rf"\b{name}\s*:=\s*([0-9]+)\b", text)
-    return int(match.group(1)) if match else None
+    match = re.search(rf"\b{name}\s*:=\s*(?P<rhs>[^\n,}}]+)", text)
+    if not match:
+        return None
+    rhs = match.group("rhs").strip()
+    return int(rhs) if re.fullmatch(r"[0-9]+", rhs) else None
 
 
 def _target_word_hits(target: str, evidence_text: str) -> list[str]:
@@ -3671,12 +3800,566 @@ def _target_word_hits(target: str, evidence_text: str) -> list[str]:
     return sorted(set(hits))
 
 
+def _structured_scope_seal_fields(open_fields: dict[str, object]) -> list[str]:
+    return [
+        field
+        for field in ("closureweightprofile", "closuregate")
+        if str(open_fields.get(field, "")).strip()
+    ]
+
+
+def _has_structured_scope_seal(open_fields: dict[str, object]) -> bool:
+    return bool(_structured_scope_seal_fields(open_fields))
+
+
 def _body_mentions_sorry(text: str) -> bool:
     return re.search(r"\bsorry\b", text) is not None
 
 
 def _body_mentions_axiom(text: str) -> bool:
     return re.search(r"(?m)^\s*axiom\s+", text) is not None
+
+
+def _json_sha256(payload: object) -> str:
+    encoded = json.dumps(
+        payload,
+        sort_keys=True,
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
+
+
+def _text_snippet(text: str, needle: str = "", limit: int = 240) -> str:
+    compact = re.sub(r"\s+", " ", text).strip()
+    if not compact:
+        return ""
+    if needle and needle in compact:
+        start = max(0, compact.index(needle) - limit // 3)
+    else:
+        start = 0
+    return compact[start:start + limit]
+
+
+def _witness_read_graph_targets(
+    target: str,
+    support_targets: list[str],
+    adversarial_input_targets: list[str],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> list[str]:
+    refs: set[str] = set([target])
+    refs.update(support_targets)
+    refs.update(adversarial_input_targets)
+    refs.update(_reachable_endpoint_targets(
+        target,
+        declaration_headers,
+        declaration_bodies,
+    ))
+    for support_target in support_targets:
+        refs.update(_support_observable_read_targets(
+            support_target,
+            declaration_headers,
+            declaration_bodies,
+        ))
+        seeds, anchors, reachable = _support_disagreement_read_model(
+            support_target,
+            target,
+            declaration_headers,
+            declaration_bodies,
+        )
+        refs.update(seeds)
+        refs.update(anchors)
+        refs.update(reachable)
+    return sorted(ref for ref in refs if ref in declaration_headers)
+
+
+def _target_fingerprint(
+    target: str,
+    support_targets: list[str],
+    adversarial_input_targets: list[str],
+    block: dict | None,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> str:
+    fingerprint_targets = _witness_read_graph_targets(
+        target,
+        support_targets,
+        adversarial_input_targets,
+        declaration_headers,
+        declaration_bodies,
+    )
+    support_payload = [
+        {
+            "target": support_target,
+            "header": declaration_headers.get(support_target, ""),
+            "body": declaration_bodies.get(support_target, ""),
+        }
+        for support_target in sorted(set(support_targets))
+    ]
+    adversarial_input_payload = [
+        {
+            "target": input_target,
+            "header": declaration_headers.get(input_target, ""),
+            "body": declaration_bodies.get(input_target, ""),
+        }
+        for input_target in sorted(set(adversarial_input_targets))
+    ]
+    witness_graph_payload = [
+        {
+            "target": input_target,
+            "header": declaration_headers.get(input_target, ""),
+            "body": declaration_bodies.get(input_target, ""),
+        }
+        for input_target in fingerprint_targets
+    ]
+    paper_payload = {}
+    if block is not None:
+        paper_payload = {
+            "file": block.get("file", ""),
+            "line": block.get("line", 0),
+            "closurestatus": block.get("raw_body", ""),
+            "scopeclosed": block.get("scopeclosed", ""),
+            "open_fields": block.get("open_fields", {}),
+        }
+    return _json_sha256({
+        "schema": "bedc.adversarial-witness.fingerprint",
+        "target": target,
+        "target_header": declaration_headers.get(target, ""),
+        "target_body": declaration_bodies.get(target, ""),
+        "support": support_payload,
+        "adversarial_input_graph": adversarial_input_payload,
+        "witness_read_graph": witness_graph_payload,
+        "paper": paper_payload,
+    })
+
+
+def _lean_field_assignment(body: str, field: str) -> str:
+    lines = body.splitlines()
+    for idx, line in enumerate(lines):
+        match = re.match(rf"^(?P<indent>\s*){re.escape(field)}\s*:=", line)
+        if not match:
+            continue
+        indent = len(match.group("indent").replace("\t", "  "))
+        assigned = [line.split(":=", 1)[1].strip()]
+        for next_line in lines[idx + 1:]:
+            if not next_line.strip():
+                continue
+            next_indent = len(re.match(r"^\s*", next_line).group(0).replace("\t", "  "))
+            if (
+                next_indent <= indent
+                and re.match(r"^\s*[A-Za-z][A-Za-z0-9_']*\s*:=", next_line)
+            ):
+                break
+            assigned.append(next_line.strip())
+        return "\n".join(part for part in assigned if part)
+    return ""
+
+
+def _resolve_decl_refs_from_text(
+    text: str,
+    declaration_headers: dict[str, str],
+) -> list[str]:
+    local_to_qualified = _local_to_qualified_index(declaration_headers)
+    refs: set[str] = set()
+    dotted_refs = set(
+        re.findall(r"\b[A-Za-z][A-Za-z0-9_']*(?:\.[A-Za-z][A-Za-z0-9_']*)+\b", text)
+    )
+    refs.update(ref for ref in dotted_refs if ref in declaration_headers)
+    for token in _identifier_tokens(text):
+        refs.update(local_to_qualified.get(token, []))
+    return sorted(refs)
+
+
+def _classifier_shift_read_targets(
+    target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> list[str]:
+    body = declaration_bodies.get(target, "")
+    shift_text = _lean_field_assignment(body, "classifier_shift")
+    if not shift_text:
+        return []
+    refs: set[str] = set(_resolve_decl_refs_from_text(shift_text, declaration_headers))
+    for shift_ref in list(refs):
+        shift_body = declaration_bodies.get(shift_ref, "")
+        if not shift_body:
+            continue
+        refs.update(_resolve_decl_refs_from_text(shift_body, declaration_headers))
+        before_text = _lean_field_assignment(shift_body, "BeforeClassifier")
+        after_text = _lean_field_assignment(shift_body, "AfterClassifier")
+        refs.update(_resolve_decl_refs_from_text(before_text, declaration_headers))
+        refs.update(_resolve_decl_refs_from_text(after_text, declaration_headers))
+    reachable = _reachable_declarations(
+        refs,
+        declaration_headers,
+        declaration_bodies,
+        max_depth=WITNESS_ENDPOINT_READ_DEPTH,
+    )
+    refs.update(reachable)
+    return sorted(ref for ref in refs if ref in declaration_headers)
+
+
+def _lean_refs_payload(refs: Iterable[str]) -> list[dict[str, str]]:
+    return [{"name": ref} for ref in sorted(set(refs)) if ref]
+
+
+def _paper_refs_payload(block: dict | None) -> list[dict[str, object]]:
+    if block is None:
+        return []
+    return [{
+        "file": block.get("file", ""),
+        "line": block.get("line", 0),
+        "region": f"{block.get('region', '')}Up",
+    }]
+
+
+def _classifier_body_signature(text: str, local_name: str) -> str:
+    body = re.sub(r"--[^\n]*", " ", text)
+    body = re.sub(r"/-.*?-/", " ", body, flags=re.DOTALL)
+    body = re.sub(rf"\b{re.escape(local_name)}\b", "CLASSIFIER", body)
+    body = re.sub(r"\b(?:h|k|left|right|_h|_k|a|b)\b", "ARG", body)
+    return re.sub(r"\s+", " ", body).strip()
+
+
+def _f1_classifier_has_independent_endpoint(
+    target: str,
+    shift_ref: str,
+    after_ref: str,
+    support_targets: list[str],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> bool:
+    shift_body = declaration_bodies.get(shift_ref, "")
+    after_text = "\n".join((
+        _lean_field_assignment(shift_body, "AfterClassifier"),
+        _decl_text(after_ref, declaration_headers, declaration_bodies),
+    ))
+    shift_reachable = _reachable_declarations(
+        [shift_ref, after_ref],
+        declaration_headers,
+        declaration_bodies,
+        max_depth=5,
+    )
+    shift_endpoint_hits: list[str] = []
+    for reachable in sorted(shift_reachable):
+        if reachable == after_ref:
+            continue
+        result_type = _declaration_header_result_type(
+            declaration_headers.get(reachable, ""),
+        ) or ""
+        shift_endpoint_hits.extend(_endpoint_evidence_terms(result_type))
+        shift_endpoint_hits.extend(_endpoint_evidence_terms(
+            declaration_bodies.get(reachable, ""),
+        ))
+    after_names_independent_endpoint = bool(
+        re.search(r"\bIndependentEndpoint\b", after_text)
+        and _endpoint_evidence_terms(after_text)
+    )
+    support_has_independent_endpoint = _has_independent_disagreement_support(
+        support_targets,
+        declaration_headers,
+        declaration_bodies,
+        target,
+    )
+    return (
+        after_names_independent_endpoint
+        or bool(shift_endpoint_hits)
+        or support_has_independent_endpoint
+    )
+
+
+def _f1_static_witness(
+    target: str,
+    fingerprint: str,
+    block: dict | None,
+    support_targets: list[str],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> AdversarialWitness | None:
+    body = declaration_bodies.get(target, "")
+    shift_text = _lean_field_assignment(body, "classifier_shift")
+    if "some" not in shift_text:
+        return None
+    shift_refs = [
+        ref for ref in _resolve_decl_refs_from_text(shift_text, declaration_headers)
+        if ref in declaration_bodies
+    ]
+    for shift_ref in shift_refs:
+        shift_body = declaration_bodies.get(shift_ref, "")
+        before_text = _lean_field_assignment(shift_body, "BeforeClassifier")
+        after_text = _lean_field_assignment(shift_body, "AfterClassifier")
+        before_refs = [
+            ref for ref in _resolve_decl_refs_from_text(before_text, declaration_headers)
+            if _local_declaration_name(ref).endswith("Classifier")
+        ]
+        after_refs = [
+            ref for ref in _resolve_decl_refs_from_text(after_text, declaration_headers)
+            if _local_declaration_name(ref).endswith("Classifier")
+        ]
+        if not after_refs:
+            continue
+        prior_refs = before_refs or [
+            ref for ref in _resolve_decl_refs_from_text(shift_body, declaration_headers)
+            if _local_declaration_name(ref).endswith("Classifier")
+            and ref not in after_refs
+        ]
+        for after_ref in after_refs:
+            after_decl_text = _decl_text(after_ref, declaration_headers, declaration_bodies)
+            after_local = _local_declaration_name(after_ref)
+            for prior_ref in prior_refs:
+                if prior_ref == after_ref:
+                    continue
+                prior_decl_text = _decl_text(prior_ref, declaration_headers, declaration_bodies)
+                prior_local = _local_declaration_name(prior_ref)
+                after_signature = _classifier_body_signature(after_decl_text, after_local)
+                prior_signature = _classifier_body_signature(prior_decl_text, prior_local)
+                direct_wrapper = (
+                    re.search(rf"\b{re.escape(prior_local)}\b", after_decl_text) is not None
+                    and not _has_any(after_decl_text, F1_NON_WRAPPER_TERMS)
+                )
+                same_shape = (
+                    after_signature == prior_signature
+                    and after_signature
+                    and after_signature != "CLASSIFIER"
+                )
+                wrapper_terms = _has_any(after_decl_text, F1_WRAPPER_TERMS)
+                if same_shape and not (direct_wrapper or wrapper_terms):
+                    return AdversarialWitness(
+                        target=target,
+                        target_fingerprint=fingerprint,
+                        family="F1-static",
+                        strength="heuristic",
+                        lens="prior-classifier-shape-ambiguity",
+                        verdict="inconclusive-by-F1",
+                        evidence={
+                            "lean_refs": _lean_refs_payload([shift_ref, prior_ref, after_ref]),
+                            "paper_refs": _paper_refs_payload(block),
+                            "prior_classifier": prior_ref,
+                            "after_classifier": after_ref,
+                            "reduction": "AfterClassifier has the same normalized text shape as a prior classifier; this is not enough to mark a wrapper without alias evidence.",
+                            "body_fragment": _text_snippet(after_decl_text, prior_local),
+                        },
+                        clearance=[
+                            "inspect whether the same-shape classifier is a deliberate independent endpoint or a pure alias",
+                        ],
+                    )
+                if not (direct_wrapper or wrapper_terms and direct_wrapper):
+                    continue
+                if _f1_classifier_has_independent_endpoint(
+                    target,
+                    shift_ref,
+                    after_ref,
+                    support_targets,
+                    declaration_headers,
+                    declaration_bodies,
+                ):
+                    continue
+                return AdversarialWitness(
+                    target=target,
+                    target_fingerprint=fingerprint,
+                    family="F1-static",
+                    strength="deterministic",
+                    lens="prior-classifier-wrapper-detection",
+                    verdict="suspected-composite-by-F1",
+                    evidence={
+                        "lean_refs": _lean_refs_payload([shift_ref, prior_ref, after_ref]),
+                        "paper_refs": _paper_refs_payload(block),
+                        "prior_classifier": prior_ref,
+                        "after_classifier": after_ref,
+                        "reduction": "AfterClassifier has wrapper, alias, or same-shape body evidence against a prior classifier.",
+                        "body_fragment": _text_snippet(after_decl_text, prior_local),
+                    },
+                    clearance=[
+                        "show an after-classifier observable that is not a wrapper, argument permutation, alias, or readback of the prior classifier",
+                    ],
+                )
+    return None
+
+
+def _f4_static_witness(
+    target: str,
+    fingerprint: str,
+    block: dict | None,
+    support_targets: list[str],
+    negative_witnesses: list[dict[str, object]],
+    negative_branch_text: str,
+) -> AdversarialWitness | None:
+    constructor_terms = _has_any(negative_branch_text, F4_CONSTRUCTOR_PROOF_TERMS)
+    has_constructor_sieve = any(
+        witness.get("reason_tag") == "constructor_only_disagreement"
+        for witness in negative_witnesses
+    )
+    if not constructor_terms and not has_constructor_sieve:
+        return None
+    evidence_refs = support_targets + [
+        str(ref)
+        for ref in re.findall(
+            r"\b[A-Za-z][A-Za-z0-9_']*(?:\.[A-Za-z][A-Za-z0-9_']*)+\b",
+            negative_branch_text,
+        )
+    ]
+    return AdversarialWitness(
+        target=target,
+        target_fingerprint=fingerprint,
+        family="F4-static",
+        strength="deterministic",
+        lens="constructor-normal-form-deepening",
+        verdict="suspected-composite-by-F4",
+        evidence={
+            "lean_refs": _lean_refs_payload(evidence_refs),
+            "paper_refs": _paper_refs_payload(block),
+            "constructor_terms": constructor_terms,
+            "reduction": "The negative branch reduces to BHist constructor separation rather than an independent classifier endpoint.",
+            "body_fragment": _text_snippet(negative_branch_text, constructor_terms[0] if constructor_terms else ""),
+        },
+        clearance=[
+            "replace constructor disequality with an observable endpoint separation that changes the classifier beyond BHist constructor normal form",
+        ],
+    )
+
+
+def _f5_static_witness(
+    target: str,
+    fingerprint: str,
+    block: dict | None,
+    ledger_by_name: dict[str, DiscoveryDeltaLedgerRecord],
+    body: str,
+    has_independent_endpoint: bool,
+) -> AdversarialWitness | None:
+    if target not in ledger_by_name:
+        return None
+    introduced = _parse_nat_assignment(body, "introduced_rows")
+    refusal = _parse_nat_assignment(body, "refusal_rows")
+    bridge = _parse_nat_assignment(body, "bridge_rows")
+    debt = _parse_nat_assignment(body, "not_claimed_rows")
+    if None in (introduced, refusal, bridge, debt):
+        return None
+    scope_seal = 1 if re.search(r"\bclassifier_shift\s*:=\s*some\b", body) else 0
+    benefit = introduced + refusal
+    paper_text = ""
+    has_weight_profile = False
+    has_paper_scope_seal = False
+    structured_scope_seal_fields: list[str] = []
+    if block is not None:
+        open_fields = block.get("open_fields") or {}
+        paper_text = "\n".join((
+            str(block.get("raw_body", "")),
+            str(block.get("scopeclosed", "")),
+            str(open_fields.get("closureweightprofile", "")),
+        ))
+        has_weight_profile = bool(str(open_fields.get("closureweightprofile", "")).strip())
+        structured_scope_seal_fields = _structured_scope_seal_fields(open_fields)
+        has_paper_scope_seal = bool(structured_scope_seal_fields)
+    row_count_only = benefit >= 3 and bridge == 0 and debt == 0
+    unanchored_benefit = (
+        row_count_only
+        and not has_weight_profile
+        and not has_paper_scope_seal
+        and not has_independent_endpoint
+    )
+    if not unanchored_benefit:
+        return None
+    ledger = ledger_by_name[target]
+    return AdversarialWitness(
+        target=target,
+        target_fingerprint=fingerprint,
+        family="F5-static",
+        strength="deterministic",
+        lens="cost-ledger-reduction",
+        verdict="suspected-composite-by-F5",
+        evidence={
+            "lean_refs": _lean_refs_payload([target]),
+            "paper_refs": _paper_refs_payload(block),
+            "introduced_rows": introduced,
+            "refusal_rows": refusal,
+            "bridge_rows": bridge,
+            "not_claimed_rows": debt,
+            "scopeSeal": scope_seal,
+            "benefit": benefit,
+            "cost_plus_debt_plus_scopeSeal": bridge + debt + scope_seal,
+            "has_weight_profile": has_weight_profile,
+            "paper_scope_seal_present": has_paper_scope_seal,
+            "structured_scope_seal_fields": structured_scope_seal_fields,
+            "has_independent_endpoint": has_independent_endpoint,
+            "reduction": "Benefit is a bare row-count margin without weight profile, paper scope-seal evidence, or reachable independent semantic endpoint.",
+            "ledger_site": {"file": ledger.file, "line": ledger.line},
+            "paper_fragment": _text_snippet(paper_text),
+        },
+        clearance=list(F5_LEDGER_COST_CLEARANCE),
+    )
+
+
+def _adversarial_resistance_score(witnesses: list[AdversarialWitness]) -> int:
+    deterministic_weight = 1
+    suspected_count = sum(
+        1 for witness in witnesses if witness.verdict.startswith("suspected-composite")
+    )
+    penalty = deterministic_weight * 25 * suspected_count
+    return max(0, 100 - penalty)
+
+
+def _recomputed_witness_snapshot_payload(
+    fingerprint: str,
+    witnesses: list[AdversarialWitness],
+) -> dict[str, object]:
+    return {
+        "snapshot_semantics": "recomputed_read_model_fingerprint_gated",
+        "target_fingerprint": fingerprint,
+        "verdicts": [
+            {
+                "family": witness.family,
+                "lens": witness.lens,
+                "verdict": witness.verdict,
+                "strength": witness.strength,
+            }
+            for witness in witnesses
+        ],
+    }
+
+
+def _adversarial_witnesses_for_target(
+    target: str,
+    fingerprint: str,
+    block: dict | None,
+    support_targets: list[str],
+    negative_witnesses: list[dict[str, object]],
+    negative_branch_text: str,
+    ledger_by_name: dict[str, DiscoveryDeltaLedgerRecord],
+    has_independent_endpoint: bool,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> list[AdversarialWitness]:
+    witnesses: list[AdversarialWitness] = []
+    for maybe_witness in (
+        _f1_static_witness(
+            target,
+            fingerprint,
+            block,
+            support_targets,
+            declaration_headers,
+            declaration_bodies,
+        ),
+        _f4_static_witness(
+            target,
+            fingerprint,
+            block,
+            support_targets,
+            negative_witnesses,
+            negative_branch_text,
+        ),
+        _f5_static_witness(
+            target,
+            fingerprint,
+            block,
+            ledger_by_name,
+            declaration_bodies.get(target, ""),
+            has_independent_endpoint,
+        ),
+    ):
+        if maybe_witness is not None:
+            witnesses.append(maybe_witness)
+    return witnesses
 
 
 def _discovery_sieve_sites(
@@ -3757,6 +4440,7 @@ def discovery_sieve_payload(
     )
     profiles: list[dict[str, object]] = []
     grade_counts: Counter[str] = Counter()
+    adversarial_verdict_counts: Counter[str] = Counter()
 
     for site in sites:
         target = str(site["target"])
@@ -3876,8 +4560,13 @@ def discovery_sieve_payload(
                 declaration_bodies,
             )
         )
+        negative_branch_text, negative_branch_read_targets = _negative_disagreement_branch_payload(
+            target,
+            declaration_headers,
+            declaration_bodies,
+        )
         constructor_hits = _has_any(
-            f"{support_text}\n{disagreement_text}",
+            negative_branch_text,
             CONSTRUCTOR_SEPARATION_TERMS,
         )
         trivial_hits = _has_any(support_text, TRIVIAL_CLASSIFIER_TERMS)
@@ -3920,6 +4609,12 @@ def discovery_sieve_payload(
             for support_target in support_targets
         )
         semantic_refs_clear = bool(semantic_hits) or reachable_support_has_semantic_anchor
+        has_independent_endpoint = (
+            has_independent_support
+            or public_semantic_endpoint
+            or bool(reachable_endpoint_hits)
+            or reachable_support_has_semantic_anchor
+        )
         if not semantic_refs_clear and not public_semantic_endpoint:
             negative_witnesses.append(_make_sieve_witness(
                 "no_semantic_refs",
@@ -3982,7 +4677,7 @@ def discovery_sieve_payload(
         if (
             scopeclosed
             and any(term in scopeclosed.lower() for term in SCOPE_OVERCLAIM_TERMS)
-            and not _has_any(f"{scopeclosed}\n{evidence_text}\n{combined_text}", SCOPE_SEAL_TERMS)
+            and not _has_structured_scope_seal(open_fields)
         ):
             negative_witnesses.append(_make_sieve_witness(
                 "scope_overclaim",
@@ -3997,10 +4692,12 @@ def discovery_sieve_payload(
         bridge = _parse_nat_assignment(body, "bridge_rows")
         debt = _parse_nat_assignment(body, "not_claimed_rows")
         scope_seal = 1 if re.search(r"\bclassifier_shift\s*:=\s*some\b", body) else 0
+        parsed_accounting = None not in (introduced, refusal, bridge, debt)
         benefit = (introduced or 0) + (refusal or 0)
         has_weight_profile = bool(str(open_fields.get("closureweightprofile", "")).strip())
         if (
             target in ledger_by_name
+            and parsed_accounting
             and benefit >= 3
             and (bridge or 0) == 0
             and (debt or 0) == 0
@@ -4055,9 +4752,45 @@ def discovery_sieve_payload(
 
         missing_support = sorted(set(missing_support))
         clearance_requirements = sorted(set(clearance_requirements))
+        adversarial_input_targets = sorted(set(
+            support_targets
+            + _classifier_shift_read_targets(
+                target,
+                declaration_headers,
+                declaration_bodies,
+            )
+            + negative_branch_read_targets
+        ))
+        target_fingerprint = _target_fingerprint(
+            target,
+            support_targets,
+            adversarial_input_targets,
+            block,
+            declaration_headers,
+            declaration_bodies,
+        )
+        adversarial_witness_records = _adversarial_witnesses_for_target(
+            target,
+            target_fingerprint,
+            block,
+            support_targets,
+            negative_witnesses,
+            negative_branch_text,
+            ledger_by_name,
+            has_independent_endpoint,
+            declaration_headers,
+            declaration_bodies,
+        )
+        adversarial_witnesses = [
+            witness.to_json() for witness in adversarial_witness_records
+        ]
+        for witness in adversarial_witness_records:
+            adversarial_verdict_counts[witness.verdict] += 1
+        adversarial_score = _adversarial_resistance_score(adversarial_witness_records)
         profile = {
             "region": region,
             "target": target,
+            "target_fingerprint": target_fingerprint,
             "sources": site.get("sources", []),
             "grade": grade,
             "grade_semantics": "static_sieve_only_not_truth",
@@ -4066,6 +4799,7 @@ def discovery_sieve_payload(
                 "semantic_anchors": semantic_hits,
                 "support_anchors": support_hits,
                 "support_targets": support_targets,
+                "adversarial_input_targets": adversarial_input_targets,
                 "support_result_types": support_result_types,
                 "support_reachable": [
                     support_target for support_target in support_targets
@@ -4080,6 +4814,13 @@ def discovery_sieve_payload(
                 "suspicious_count": suspicious_count,
             },
             "negative_witnesses": negative_witnesses,
+            "adversarial_witnesses": adversarial_witnesses,
+            "adversarial_resistance_score": adversarial_score,
+            "score_semantics": "ranking_only_not_probability",
+            "recomputed_witness_snapshot": _recomputed_witness_snapshot_payload(
+                target_fingerprint,
+                adversarial_witness_records,
+            ),
             "missing_support": missing_support,
             "clearance_requirements": clearance_requirements,
             "file": site.get("file") or (block["file"] if block else ""),
@@ -4092,6 +4833,9 @@ def discovery_sieve_payload(
         "informational": True,
         "checked_target_count": len(profiles),
         "grade_counts": dict(sorted(grade_counts.items())),
+        "adversarial_witness_count": sum(adversarial_verdict_counts.values()),
+        "adversarial_verdict_counts": dict(sorted(adversarial_verdict_counts.items())),
+        "score_semantics": "ranking_only_not_probability",
         "targets": profiles,
     }
 
@@ -4136,6 +4880,50 @@ def classifier_shift_quality_payload(
         "checked_target_count": len(classifier_targets),
         "finding_count": len(findings),
         "findings": findings,
+    }
+
+
+def discovery_adversarial_payload(
+    blocks: list[dict],
+    ledgers: list[DiscoveryDeltaLedgerRecord],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> dict[str, object]:
+    sieve = discovery_sieve_payload(
+        blocks,
+        ledgers,
+        declaration_headers,
+        declaration_bodies,
+    )
+    targets: list[dict[str, object]] = []
+    witness_count = 0
+    verdict_counts: Counter[str] = Counter()
+    for item in sieve["targets"]:
+        witnesses = list(item.get("adversarial_witnesses", []))
+        witness_count += len(witnesses)
+        for witness in witnesses:
+            if isinstance(witness, dict):
+                verdict_counts[str(witness.get("verdict", ""))] += 1
+        targets.append({
+            "target": item["target"],
+            "target_fingerprint": item.get("target_fingerprint", ""),
+            "adversarial_resistance_score": item.get("adversarial_resistance_score", 100),
+            "score_semantics": item.get(
+                "score_semantics",
+                "ranking_only_not_probability",
+            ),
+            "recomputed_witness_snapshot": item.get("recomputed_witness_snapshot", {}),
+            "adversarial_witnesses": witnesses,
+        })
+    return {
+        "informational": True,
+        "checked_target_count": sieve["checked_target_count"],
+        "adversarial_witness_count": witness_count,
+        "adversarial_verdict_counts": dict(sorted(verdict_counts.items())),
+        "score_semantics": "ranking_only_not_probability",
+        "snapshot_semantics": "recomputed_read_model_fingerprint_gated",
+        "truth_boundary": "suspected-composite-by-Fi only; no composite or prime truth verdict is emitted",
+        "targets": targets,
     }
 
 
@@ -5656,6 +6444,41 @@ def cmd_discovery_sieve(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_discovery_adversarial(args: argparse.Namespace) -> int:
+    blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
+    lean_scan = scan_lean_sources()
+    payload = discovery_adversarial_payload(
+        blocks,
+        lean_scan.discovery_delta_ledgers,
+        lean_scan.declaration_headers,
+        lean_scan.declaration_bodies,
+    )
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(
+            "[bedc-ci] discovery-adversarial (informational):"
+            f" checked={payload['checked_target_count']}"
+            f" witnesses={payload['adversarial_witness_count']}"
+            f" score_semantics={payload['score_semantics']}"
+        )
+        if args.verbose:
+            for item in payload["targets"][:120]:
+                verdicts = [
+                    str(witness.get("verdict", ""))
+                    for witness in item.get("adversarial_witnesses", [])
+                    if isinstance(witness, dict)
+                ]
+                verdict_text = ",".join(verdicts) or "clear"
+                print(
+                    f"  score={item['adversarial_resistance_score']}"
+                    f" {item['target']} [{verdict_text}]"
+                )
+            if len(payload["targets"]) > 120:
+                print(f"  ... and {len(payload['targets']) - 120} more")
+    return 0
+
+
 def cmd_axiom_purity(args: argparse.Namespace) -> int:
     """Check that every BEDC theorem's transitive axiom dependency set is
     contained within the allowed Lean stdlib subset.
@@ -6039,6 +6862,14 @@ def parser() -> argparse.ArgumentParser:
     discovery_sieve_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     discovery_sieve_p.add_argument("--verbose", "-v", action="store_true", help="Show per-target detail")
     discovery_sieve_p.set_defaults(func=cmd_discovery_sieve)
+
+    discovery_adversarial_p = sub.add_parser(
+        "discovery-adversarial",
+        help="Informational deterministic adversarial witnesses for discovery targets (always exit 0)",
+    )
+    discovery_adversarial_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    discovery_adversarial_p.add_argument("--verbose", "-v", action="store_true", help="Show per-target detail")
+    discovery_adversarial_p.set_defaults(func=cmd_discovery_adversarial)
 
     carrier_iso_p = sub.add_parser(
         "carrier-isomorphism",
