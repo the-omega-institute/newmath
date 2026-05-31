@@ -152,9 +152,25 @@ When $I$ is read as located lower and upper real bounds, the narrower sibling ro
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedRealSequenceUp.LocatedBoundHandoff.BoundedRealSequenceLocatedBound\_handoff}
 
+\begin{theorem}[Bounded real sequence located-window choice boundary]
+\label{thm:bounded-real-sequence-located-window-choice}
+Every $\BolzanoWeierstrassUp$ or real-completion consumer reading an accepted $\BoundedRealSequenceUp$ carrier must obtain located lower and upper bound windows through the displayed route
+$$
+S,W,Q,R,I .
+$$
+No such consumer may choose a subsequence, ambient bound, quotient sequence, or host completion witness outside the carrier before the stream windows, regular readback, real seal, and interval-net bound row have been displayed.
+\end{theorem}
+\begin{proof}
+Begin with the finite-window bound of \autoref{thm:bounded-real-sequence-finite-window-bound}. It places each inspected sequence value on the route from $S$ through $W,Q,R$ to the interval-net bound row $I$.
+
+Use the RegSeqRat readback and located-bound handoff, \autoref{thm:bounded-real-sequence-regseqrat-readback} and \autoref{thm:bounded-real-sequence-located-bound-handoff}. They tie the located lower and upper endpoint reads of $I$ to the same finite stream windows and regular rational rows.
+
+Finally apply the obligation-closure package of \autoref{thm:bounded-real-sequence-obligation-closure-package}. The package exports only $S,W,Q,R,I,H,C,P,N$, so Bolzano--Weierstrass and real-completion consumers cannot introduce an outside subsequence choice, ambient bound, quotient sequence, or host completion witness.
+\end{proof}
+
 \begin{theorem}[Bounded real sequence obligation-closure package]
 \label{thm:bounded-real-sequence-obligation-closure-package}
-For every accepted $\BoundedRealSequenceUp$ carrier, the carrier row of \autoref{def:bounded-real-sequence-carrier}, the NameCert obligation surface of \autoref{thm:bounded-real-sequence-namecert-obligations}, the finite-window bound of \autoref{thm:bounded-real-sequence-finite-window-bound}, the Bolzano--Weierstrass handoff of \autoref{thm:bounded-real-sequence-bolzano-weierstrass-handoff}, the window envelope of \autoref{thm:bounded-real-sequence-window-envelope}, the Bolzano frontier of \autoref{thm:bounded-real-sequence-bolzano-frontier}, and the RegSeqRat readback of \autoref{thm:bounded-real-sequence-regseqrat-readback} assemble the obligationClosure surface over
+For every accepted $\BoundedRealSequenceUp$ carrier, the carrier row of \autoref{def:bounded-real-sequence-carrier}, the NameCert obligation surface of \autoref{thm:bounded-real-sequence-namecert-obligations}, the finite-window bound of \autoref{thm:bounded-real-sequence-finite-window-bound}, the Bolzano--Weierstrass handoff of \autoref{thm:bounded-real-sequence-bolzano-weierstrass-handoff}, the window envelope of \autoref{thm:bounded-real-sequence-window-envelope}, the Bolzano frontier of \autoref{thm:bounded-real-sequence-bolzano-frontier}, the RegSeqRat readback of \autoref{thm:bounded-real-sequence-regseqrat-readback}, and the located-window choice boundary of \autoref{thm:bounded-real-sequence-located-window-choice} assemble the obligationClosure surface over
 $$
 \StreamNameUp,\quad
 \RegSeqRatUp,\quad
@@ -248,12 +264,61 @@ Use \autoref{thm:bounded-real-sequence-regseqrat-readback}. The readback availab
 Use \autoref{thm:bounded-real-sequence-finite-window-net-extraction} to repack the transported rows as the finite-window net packet. The remaining rows $H,C,P,N$ and $H',C',P',N'$ supply the transport, replay, provenance, and naming data, so no detached compactness, quotient, choice, trichotomy, or completeness coordinate is introduced.
 \end{proof}
 
+\begin{theorem}[Bounded real sequence dyadic-bound transport]
+\label{thm:bounded-real-sequence-dyadic-bound-transport}
+Let
+$$
+B=(S,W,Q,R,I,H,C,P,N)
+$$
+be an accepted $\BoundedRealSequenceUp$ carrier. Every boundedness read transported from $B$ to a $\BolzanoWeierstrassUp$ or completion-facing consumer factors through finite stream windows $S,W$, the $\RegSeqRatUp$ readback row $Q$, the $\RealUp$ seal row $R$, the $\ClosedBoundedIntervalNetUp$ bound row $I$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\BoundedRealSequenceUp}$ row.
+
+The transported read may carry dyadic lower and upper bound ledgers from the finite window, but it cannot add trichotomy, quotient sequence equality, countable choice, a choice-selected subsequence, open-cover compactness, or ambient real completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedRealSequenceUp.BoundedRealSequenceCarrier\_dyadic\_bound\_transport}
+\begin{proof}
+Project the carrier and read the finite-window net packet of \autoref{def:bounded-real-sequence-finite-window-net}. The packet lists $S,W,Q,R,I,H,C,P,N$ as the complete boundedness route.
+
+Apply \autoref{thm:bounded-real-sequence-regular-readback-stability}. The $\RegSeqRatUp$ readback and interval-net bound row are stable under componentwise transport, so the transported boundedness row remains attached to the same finite stream windows.
+
+Finally use \autoref{thm:bounded-real-sequence-finite-window-net-extraction}. The Bolzano--Weierstrass or completion-facing consumer receives the closed-bounded interval-net source only after $S,W,Q,R,I$ have been displayed, and the structural rows replay the same route without adding any excluded selector or completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Bounded real sequence window factorization]
+\label{thm:bounded-real-sequence-window-factorization}
+For every accepted $\BoundedRealSequenceUp$ carrier, any consumer read of boundedness factors through a finite window prefix before it reaches the $\ClosedBoundedIntervalNetUp$ source. More precisely, the read first inspects the sequence schedule $S$, then the finite $\StreamNameUp$ windows $W$, then the $\RegSeqRatUp$ readback row $Q$, then the $\RealUp$ seal row $R$, and only then the interval-net bound row $I$.
+
+No consumer may bypass this route by asking for an infinite stream object, a quotient sequence equality, countable choice, a selected subsequence, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $B=(S,W,Q,R,I,H,C,P,N)$. The carrier makes the inspected schedule and finite stream windows available before any real readback or interval bound can be consumed.
+
+Use \autoref{thm:bounded-real-sequence-finite-window-bound}. It identifies the bound route as a finite passage from $S$ through $W,Q,R$ into the closed-bounded interval-net row $I$.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name the same finite passage. Since the carrier has no infinite stream, quotient equality, choice, trichotomy, open-cover, selected-subsequence, or ambient-completeness coordinate, the displayed window factorization is exhaustive.
+\end{proof}
+
+\begin{theorem}[Bounded real sequence Bolzano source exactness]
+\label{thm:bounded-real-sequence-bolzano-source-exactness}
+Every $\BolzanoWeierstrassUp$ source read from an accepted $\BoundedRealSequenceUp$ packet is exactly the finite-window source
+$$
+S \to W \to Q \to R \to I \to H \to C \to P \to N.
+$$
+Thus the Bolzano--Weierstrass consumer receives a bounded source only through finite stream windows, regular rational readback, the real-name seal, and the closed-bounded interval-net row; it receives no selected subsequence, no compactness theorem outside the displayed interval-net route, and no ambient real-completeness principle.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier and form the finite-window net packet. The rows $S,W,Q,R,I$ display the source schedule, finite stream names, regular rational readback, real seal, and closed-bounded interval-net bound before the consumer is allowed to read the source.
+
+Apply \autoref{thm:bounded-real-sequence-bolzano-weierstrass-handoff}. That handoff sends Bolzano--Weierstrass consumers to the visible bounded source rather than to a choice-selected subsequence or host compactness theorem.
+
+Use \autoref{thm:bounded-real-sequence-dyadic-bound-transport} to keep the dyadic bound ledger attached to the same source route under transport. The rows $H,C,P,N$ replay, source, and name the handoff, so the source exactness statement has no remaining coordinate for excluded choice, quotient, compactness, trichotomy, or completeness principles.
+\end{proof}
+
 \closureat{BoundedRealSequenceUp}{seedStr}
 
 \begin{closurestatus}{\BoundedRealSequenceUp}
   \constructivestory{A $\BoundedRealSequenceUp$ packet is generated from inspected sequence indices, finite StreamName windows, RegSeqRat readback, RealUp sequence-name seals, a ClosedBoundedIntervalNet bound row, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bounded-real-sequence-carrier}, \autoref{thm:bounded-real-sequence-namecert-obligations}, \autoref{thm:bounded-real-sequence-finite-window-bound}, and \autoref{thm:bounded-real-sequence-bolzano-weierstrass-handoff} bind the finite-window bounded-sequence source consumed by Bolzano-Weierstrass.}
+  \scopeclosed{\autoref{def:bounded-real-sequence-carrier}, \autoref{thm:bounded-real-sequence-namecert-obligations}, \autoref{thm:bounded-real-sequence-finite-window-bound}, \autoref{thm:bounded-real-sequence-bolzano-weierstrass-handoff}, and \autoref{thm:bounded-real-sequence-located-window-choice} bind the finite-window bounded-sequence source consumed by Bolzano-Weierstrass.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, trichotomy, host completeness, quotient equality of streams, or choice-selected subsequences.}
