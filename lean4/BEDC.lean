@@ -6060,6 +6060,7 @@ import BEDC.Derived.RealUp.SelectedTransportClique
 import BEDC.Derived.RealUp.SelectedTransportFit
 import BEDC.Derived.RealUp.SelectedTransportReadback
 import BEDC.Derived.RealUp.SemanticCertificate
+import BEDC.Derived.RealUp.SeparabilityNameCertObligations
 import BEDC.Derived.RealUp.StdBridge
 import BEDC.Derived.RealUp.StreamBridge
 import BEDC.Derived.RealUp.StreamNameFiniteWindowLedgerBoundary
