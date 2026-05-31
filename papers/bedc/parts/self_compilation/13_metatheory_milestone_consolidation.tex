@@ -98,14 +98,13 @@ object calculus.
 \leanvariant{BEDC.MetaCIC.subject\_reduction\_congPi}
 \leanvariant{BEDC.MetaCIC.subject\_reduction}
 \leanvariant{BEDC.MetaCIC.subject\_reduction\_retype}
-\leanstmt{BEDC.MetaCIC.BetaSubstitutionPreservation}
-\leanstmt{BEDC.MetaCIC.AppArgTypeStable}
-\leanstmt{BEDC.MetaCIC.LamDomainSubjectReduction}
-\leanstmt{BEDC.MetaCIC.PiDomainSubjectReduction}
+\leanchecked{BEDC.MetaCIC.not\_subjectReductionDischargeBundle}
 
 The subject-reduction theorem should be read as a precise local theorem, not
 as a disguised claim that all standard preservation obligations have been
-discharged.  The three interfaces identify the required stability facts.  The
+discharged.  The beta-substitution interface remains a carrier obligation,
+while the application-argument, lambda-domain, and Pi-domain interfaces are
+blocked by checked obstruction facts.  The
 closed-term path is also constrained by the checked obstruction showing that a
 closed outer term may contain a locally open redex argument when the redex is
 examined under binders.

@@ -216,6 +216,27 @@ class ScaffoldFrameworkDeletionTests(unittest.TestCase):
 
 
 class SourceRegressionTests(unittest.TestCase):
+    def test_metacic_setup_route_surface_is_absent(self):
+        forbidden = [
+            "SubjectReductionSetup",
+            "subject_reduction_via_setup",
+            "SubjectReductionSetupBundleProjectionUp",
+        ]
+        paths = [
+            *sorted((REPO_ROOT / "lean4" / "BEDC" / "MetaCIC").rglob("*.lean")),
+            *sorted((REPO_ROOT / "papers" / "bedc" / "parts").rglob("*.tex")),
+            REPO_ROOT / "papers" / "bedc" / "preamble.tex",
+        ]
+
+        hits: list[str] = []
+        for path in paths:
+            text = path.read_text(encoding="utf-8", errors="ignore")
+            for needle in forbidden:
+                if needle in text:
+                    hits.append(f"{path.relative_to(REPO_ROOT)}: {needle}")
+
+        self.assertEqual(hits, [])
+
     def test_bedc_daemons_do_not_keep_old_topology_assignments(self):
         forbidden = [
             'BASE_BRANCH_DEFAULT = "lean4-codex-auto-dev"',
