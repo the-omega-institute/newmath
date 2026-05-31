@@ -123,6 +123,39 @@ the displayed terminal readback row. These are exactly the carrier coordinates
 $S$, $P$, $d$, $y$, and $w$, so they repack as the accepted yield read.
 \end{proof}
 
+\begin{theorem}[ContextFreeGrammar pushdown handoff]
+\label{thm:contextfreegrammar-pushdown-handoff}
+Every accepted terminal-yield read of a $\ContextFreeGrammarUp$ packet can be
+handed to a $\PushdownAutomatonUp$ consumer by reading the start row $S$, the
+finite production ledger $P$, the finite derivation ledger $d$, the
+$\ListUp$ sentential-form rows, and the terminal-yield readback $y$ as
+stack-transition and run-ledger rows. The handoff exports no infinite parse
+tree, host language set, grammar quotient, or unbounded machine trace.
+\end{theorem}
+\begin{proof}
+Project the grammar carrier of
+\autoref{def:contextfreegrammar-bhist-carrier}. The start row $S$ initializes
+the pushdown control and the stack row, while the production ledger $P$ names
+exactly the finite rewrites that may be replayed by the stack-transition
+consumer.
+
+Read the finite derivation ledger $d$ step by step. At each derivation step,
+apply \autoref{thm:contextfreegrammar-production-stability} to keep the
+production witness inside the displayed packet. The unreduced sentential-form
+suffix is pushed into the stack row, and the rewritten prefix is recorded as
+the next run-ledger entry.
+
+Finally route the terminal readback through
+\autoref{thm:contextfreegrammar-yield-readback}. The terminal word row $w$ and
+readback row $y$ become the accepted endpoint of the $\PushdownAutomatonUp$
+run ledger, with the same $\hsame$, $\Cont$, and $\Pkg$ provenance.
+
+Every object used in the handoff is a finite carrier coordinate. Since the
+grammar packet has no coordinate for an infinite parse tree, host language
+set, grammar quotient, or unbounded machine trace, the pushdown consumer
+cannot extract one through this route.
+\end{proof}
+
 \begin{theorem}[ContextFreeGrammar terminal-yield finite window]
 \label{thm:contextfreegrammar-terminal-yield-window}
 For an accepted $\ContextFreeGrammarUp$ packet
