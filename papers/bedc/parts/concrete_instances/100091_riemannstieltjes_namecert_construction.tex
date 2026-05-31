@@ -218,6 +218,20 @@ Proceed by induction over the displayed partition refinement rows. The base cont
 The remaining structural rows only preserve this calculation. Componentwise $\hsame$ transport in $H$ keeps step values, cells, and integrator ledger rows aligned; $\Cont$ replay through $C$ repeats the same finite route; and $P,N$ record provenance and local NameCert acceptance. The excluded host objects are absent from the carrier, so step-integrator exactness is a finite BEDC row calculation.
 \end{proof}
 
+\begin{theorem}[Riemann--Stieltjes tagged-partition induction]
+\label{thm:riemann-stieltjes-tagged-partition-induction}
+For an accepted $\RiemannStieltjesUp$ carrier $R=(F,A,T,S,I,E,H,C,P,N)$, let a property of refinement-window reads be one that is evaluated only through the displayed rows $T,S,A,H,C,P,N$. If the property holds on the base tagged partition row $T$, and if it is preserved whenever one finite cell is subdivided through the same dyadic step row $S$, bounded-variation ledger $A$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$, then the property holds for every displayed finite refinement consumed by the handoff row $I$.
+\end{theorem}
+\begin{proof}
+Induct over the finite $\BHist$ refinement ledger consumed by $I$. The base case is the displayed tagged partition row $T$: the tag containment, dyadic step data, and integrator control are read by projection from $T,S,A$.
+
+For the refinement step, subdivide one visible cell. By \autoref{thm:riemann-stieltjes-mesh-refinement-stability}, the refined read preserves the same componentwise transport, replay, and provenance route over $F,A,T,S,I,E,H,C,P,N$.
+
+Use \autoref{thm:riemann-stieltjes-bounded-variation-partition-coverage} to keep each child cell covered by the bounded-variation ledger in $A$. Then apply \autoref{thm:riemann-stieltjes-step-integrator-exactness} to identify the step contribution on the subdivided cells through the displayed rows rather than through a hidden limit.
+
+The induction hypothesis applies to the remaining cells, and the stated preservation clause applies to the subdivided cell. Since $I$ consumes only finite refinements produced by this ledger, every displayed refinement-window read satisfies the property.
+\end{proof}
+
 \closureat{RiemannStieltjesUp}{seedStr}
 
 \begin{closurestatus}{\RiemannStieltjesUp}
