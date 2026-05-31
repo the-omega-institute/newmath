@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ConstantRegSeqRatUp$}
+\label{ch:concrete-instances-constant-regseqrat-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constant Cauchy names, the $\ConstantRegSeqRatUp$ packet records the stationary regular-Cauchy construction that sends one dyadic rational point to the regular rational name constantly equal to that point. It sits between the finite stream carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic point rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies a visible source object for constant embedding routes without quotient stream equality, selected limits, host real equality, or ambient completion.
+
+\begin{definition}[ConstantRegSeqRat carrier]
+\label{def:constant-regseqrat-carrier}
+A $\ConstantRegSeqRatUp$ carrier is a finite $\BHist$ packet
+$$
+C=(D,S,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ point row, naming the dyadic rational endpoint whose constant regular name is being formed.
+\item $S$ is the $\StreamNameUp$ constant schedule row, recording that every inspected finite window reads the same point row $D$.
+\item $R$ is the $\RegSeqRatUp$ regularity row, carrying the stationary Cauchy proof rows and the dyadic tolerance comparisons needed by the regular rational readback.
+\item $H$ records pointwise $\hsame$ transport for the dyadic point, constant schedule, regularity row, provenance row, and local naming row.
+\item $K$ records displayed $\Cont$ replay from the point row through the constant schedule into the regularity row.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstantRegSeqRatUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,H,K,P,N$. It has no coordinate for quotient stream equality, selected representatives, selected limits, host real equality, ambient $\RealUp$ completeness, or a hidden nonstationary tail.
+\end{definition}
+
+\begin{theorem}[ConstantRegSeqRat NameCert obligations]
+\label{thm:constant-regseqrat-namecert-obligations}
+For every accepted $\ConstantRegSeqRatUp$ carrier $C=(D,S,R,H,K,P,N)$, the local $\NameCert_{\ConstantRegSeqRatUp}$ surface consists exactly of five obligation rows: dyadic point exposure through $D$, constant schedule exposure through $S$, stationary regularity exposure through $R$, transport and replay through $H,K$, and provenance with local naming through $P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constant-regseqrat-carrier}. The point row $D$, schedule row $S$, regularity row $R$, transport row $H$, replay row $K$, provenance row $P$, and local name row $N$ are the only displayed coordinates.
+
+The source row is dyadic. A consumer must first read $D$ as the point supplied by \autoref{ch:concrete-instances-dyadicratcore-namecert}, not as a host rational endpoint outside the packet.
+
+The schedule row is constant. The $\StreamNameUp$ row $S$ repeats the same displayed point on every finite window, and the $\RegSeqRatUp$ row $R$ records the stationary regularity proof rows for that schedule.
+
+Finally $H,K,P,N$ transport, replay, source, and name the same finite route. Since no extra coordinate stores quotient stream equality, selected limits, host equality, or ambient completion data, the five obligation groups exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[ConstantRegSeqRat regularity stability]
+\label{thm:constant-regseqrat-regularity-stability}
+Let $C=(D,S,R,H,K,P,N)$ and $C'=(D',S',R',H',K',P',N')$ be accepted $\ConstantRegSeqRatUp$ carriers. If the point rows $D$ and $D'$ compare by the displayed $\DyadicRatCoreUp$ classifier and the constant schedules are transported pointwise through $H,H'$, then the stationary $\RegSeqRatUp$ regularity row of $C$ transports to the stationary regularity row of $C'$. Thus a constant stream preserves regular Cauchy regularity under pointwise classifier transport.
+\end{theorem}
+\begin{proof}
+Read the point comparison first. The only source data for either carrier is the displayed dyadic point row, so a pointwise classifier comparison relates every inspected constant-window entry.
+
+Use the schedule rows next. Because $S$ and $S'$ are constant schedules, transporting the point comparison along $H$ and $H'$ transports every finite StreamName window without introducing a new tail or selector.
+
+The regularity rows are stationary. The same dyadic tolerance comparison that witnesses the pointwise transport also witnesses each regular Cauchy window, since both schedules repeat the transported point. The replay rows $K,K'$ preserve this route into the $\RegSeqRatUp$ readback.
+
+Therefore the accepted regularity row transports from $R$ to $R'$. The argument uses only displayed point, schedule, regularity, transport, replay, provenance, and local naming rows, so it adds no quotient stream equality or host real equality.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ConstantRegSeqRatUp$ read must expose a DyadicRatCore point row, a StreamName constant schedule, a stationary RegSeqRat regularity row, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any Real-facing constant embedding may consume it.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: none is bijective with $\ConstantRegSeqRatUp$ because this packet jointly carries a dyadic point, a constant StreamName schedule, stationary RegSeqRat regularity, transport, replay, provenance, and local naming for the same constant-name construction.}
+
+\closureat{ConstantRegSeqRatUp}{seedStr}
+
+\begin{closurestatus}{\ConstantRegSeqRatUp}
+  \constructivestory{A $\ConstantRegSeqRatUp$ packet is generated from a DyadicRatCore point row, a constant StreamName schedule, stationary RegSeqRat regularity rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constant-regseqrat-carrier}, \autoref{thm:constant-regseqrat-namecert-obligations}, and \autoref{thm:constant-regseqrat-regularity-stability} seed the finite stationary regular-Cauchy construction over DyadicRatCore, StreamName, RegSeqRat, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, selected limits, quotient stream equality, host real equality, arbitrary Cauchy-name existence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, constant schedule exposure, stationary RegSeqRat regularity, pointwise transport stability, replay, provenance, local naming, and non-escape for BEDC.Derived.ConstantRegSeqRatUp.}
+\end{closurestatus}
