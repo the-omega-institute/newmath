@@ -1,23 +1,29 @@
 \origin{ai}
 
-\subsection{Amino-Acid-Class-Preserving Null Model for the Window-Six Codon Tile}
-\label{sec:bior-h0-null-model-aa-class-preserving}
+\subsection{Amino-acid-class preserving null model for the local codon tile}
+\label{sec:h0-null-model-aa-class-preserving}
 
-\paragraph{Finite codon display.}
-The object in this record is the standard-code codon table viewed through a six-bit codon cube $Q_6$. The finite display is not treated as a biochemical mechanism. It is a coordinate object whose rows are the $64$ codons, whose observable labels are the curated amino-acid or stop assignments, and whose local questions are asked only at the code-read layer. The tested claim is that the window-six coordinate description exposes a local boundary-tile pattern while keeping the label table as a contact with observed biological convention rather than as something derived from geometry alone.
+\paragraph{Object and scope.}
+This record concerns the standard-code codon table viewed through a six-coordinate codon display.  The biological datum is not a mechanism for translation and not a structural observation of a protein.  It is the curated assignment of each codon to an amino-acid or stop label.  The question tested here is narrower: after the labels are read at the code layer, does the observed local tile remain exceptional under a null model that preserves amino-acid label classes?  The tested claim is therefore a finite code-read claim.  It does not assert folding, physical admissibility, function, a biochemical mechanism, or universality across organisms unless another observation supplies that higher-layer contact.
 
-\paragraph{Distinguished boundary set.}
-The verified distinguished set $R$ has cardinality $13$ and is exactly
+\paragraph{Finite carrier and observed boundary set.}
+The carrier is the codon cube $Q_6$, with codons represented as finite six-bit coordinate positions.  The distinguished boundary set $R$ has thirteen codons:
 $$
 \begin{aligned}
-R=\{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
-&UAA, UAG, UCA, UGA, UUA\}.
+R = \{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
+     &UAA, UAG, UCA, UGA, UUA\}.
 \end{aligned}
 $$
-The same row reports that this set is a punctured-cube boundary object with $f$-vector $(13,16,4)$. Thus the finite certificate is not merely a list of codons: it records $13$ vertices, $16$ one-dimensional incidences, and $4$ square faces in the local tile. The accompanying module classification assigns all $13$ codons with no missing or extra elements. The modules are $\{AGA,AGG\}$ for $agr$, $\{AAA\}$ for $ar\_lys$, $\{CUA,CUC,CUG,CUU\}$ for $cun$, $\{AUA\}$ for $ile\_met$, $\{UCA,UUA\}$ for $ssn$, and $\{UAA,UAG,UGA\}$ for $stop\_trp$. This is a complete finite partition of $R$, since the recorded $R$ size and assigned count are both $13$, with empty missing and unassigned lists.
+The cardinality check gives $|R|=13$.  The same finite row records that $R$ is a punctured-cube-shaped set with face data
+$$
+\begin{aligned}
+(f_0,f_1,f_2)=(13,16,4).
+\end{aligned}
+$$
+Thus the boundary object being tested is not an informal visual impression: it is the thirteen-codon subset above, together with its recorded local incidence counts.  The row supplies the size of the associated observed module set as $|M|=20$; it does not supply an element-by-element list of $M$ in this packet, so no member list for $M$ is asserted here.
 
-\paragraph{Spectral coordinates.}
-The same finite packet carries a spectral reading of the tile. The reported values are
+\paragraph{Spectral readout.}
+The same finite construction has a recorded spectral profile.  The two local eigenvalue summaries are
 $$
 \begin{aligned}
 \lambda_M &= 0.6752479308830213,\\
@@ -25,23 +31,45 @@ $$
 \mu &= 3.051487585298128.
 \end{aligned}
 $$
-The radial cubic residual is $-6.224354365258478\times 10^{-12}$, also reported as the cubic-polynomial residual. At the numerical precision of the run, this means that the spectral summary is internally consistent with the finite tile calculation. It does not by itself make a biological assertion; it gives a stable coordinate signature for the row set that is later compared with label-preserving null samples.
+The cubic or radial relation attached to the computation is numerically satisfied at $-6.224354365258478\cdot 10^{-12}$, within the recorded tolerance, and the spectral radius entry equals $0.6752479308830213$.  These numbers are used only as finite summaries of the code-layer tile.  They do not promote the codon table into a physical model of translation or protein formation.
 
-\paragraph{Shape significance against unconstrained samples.}
-The shape-significance run used seed $42$ and $N=2000$ distinct samples. It required $57377$ distinct-sample attempts, with $55377$ duplicate retries, so the sample space being probed is visibly constrained by finite collision pressure. Among those $2000$ samples, the exact shape was matched once, giving $p_{exact}=0.0005$. The high-overlap comparison counted $25$ samples with Jaccard score at least $0.9$, giving $p_{J\geq 0.9}=0.0125$. These two numbers say that the observed local shape is uncommon under the sampled null distribution, while still being a finite empirical comparison rather than a theorem about all possible codon labelings.
-
-\paragraph{Amino-acid-class-preserving null comparison.}
-The claim-specific null model preserves amino-acid classes and tests whether the same local shape appears when the labels are randomized under that constraint. In the verified run $N=2000$, the observed $M$ size was $20$. There were no exact matches to the observed shape, so the empirical exact-shape count was $0$ and the reported exact-shape $p$-value was $0.0$ at this sample resolution. The lower-tail comparison counted $7$ samples with size at most the observed $M$ size, yielding
+\paragraph{Amino-acid-class preserving null test.}
+The null model preserves amino-acid label classes and compares the observed tile against $N=2000$ sampled alternatives with seed $42$.  In this run, no sampled alternative reproduced the exact observed shape:
 $$
 \begin{aligned}
-p_{exact,class} &= 0.0,\\
-p_{lower,class} &= 0.0035.
+N &= 2000,\\
+\operatorname{exact\_match\_count} &= 0,\\
+p_{\mathrm{exact}} &= 0.0.
 \end{aligned}
 $$
-The value $0.0$ here means zero hits in $2000$ trials, not a mathematical impossibility statement. The lower-tail number gives the safer finite reading: under the amino-acid-class-preserving null, rows as small as the observed $M$ are rare in this run.
+The lower-tail statistic also remains small.  With observed size $|M|=20$, the number of sampled alternatives with size at most the observed size is $7$, giving
+$$
+\begin{aligned}
+\operatorname{lower\_tail\_count} &= 7,\\
+p_{\mathrm{lower\ tail}} &= 0.0035.
+\end{aligned}
+$$
+This is the central finite-row result for the present claim: even after preserving amino-acid classes, the observed local code tile is not typical among the sampled alternatives.  The result supports a code-layer boundary pattern, not a claim about why the biological code exists or how the translation apparatus realizes it.
 
-\paragraph{Leave-one tests.}
-The code-table leave-one-out row evaluated $23$ tables and $63$ total targets. Its baseline hit rate was $0.19821739130434785$. The hit rate in $M-T$ was $0.9365079365079365$, and the hit rate in $M-T$ plus the boundary was $0.9841269841269841$, equal to the reported rate above baseline. By family, the hit rates above baseline were $0.8333333333333334$ for alternative yeast and $1.0$ for bacterial-plastid, candidate-other, mitochondrial, and nuclear-ciliate families, across $5$ families. The codon leave-one-out row reports $0$ anchors, $5$ boundary cases, $8$ high-coverage closure cases, $8$ predictable cases, and recovery rate $1.0$. These numbers support the local readback role of the tile: removing codons or code rows tends to leave a recoverable boundary or closure signal inside this finite display.
+\paragraph{Comparison with the unrestricted shape test.}
+A separate shape-significance row gives $N=2000$ sampled alternatives, $57377$ distinct-sample attempts, and $55377$ duplicate retries.  In that comparison, there is $1$ exact shape match, so $p_{\mathrm{exact}}=0.0005$.  There are $25$ samples with Jaccard similarity at least $0.9$, giving $p_{\mathrm{Jaccard}\ge 0.9}=0.0125$.  The amino-acid-class preserving null test is therefore not the only source of small finite probabilities: both the unrestricted shape comparison and the class-preserving comparison mark the observed local tile as uncommon in the sampled finite universe.
 
-\paragraph{Reality contact and scope.}
-The only biological contact used here is the curated standard-code table assigning codons to amino-acid or stop labels. That contact is strong enough to test code-layer readback and the local codon-tile label split. It is not a contact with translation dynamics, folded protein geometry, thermodynamic admissibility, biological function, molecular mechanism, or cross-organism universality. Consequently, the finite evidence may be stated as follows: the window-six coordinate system, together with the curated standard-code labels, identifies a rare and recoverable local boundary tile under the tested null models. It does not show that organisms must implement the geometry, that protein structure follows from the codon pattern, or that the pattern is a universal biological law. Any promotion beyond code-read requires a separate observation at the corresponding biological layer.
+\paragraph{Module classification.}
+The thirteen boundary codons are partitioned into six named modules in the recorded module classification:
+$$
+\begin{aligned}
+\mathrm{AGR} &= \{AGA, AGG\},\\
+\mathrm{AR\_Lys} &= \{AAA\},\\
+\mathrm{CUN} &= \{CUA, CUC, CUG, CUU\},\\
+\mathrm{Ile\_Met} &= \{AUA\},\\
+\mathrm{SSN} &= \{UCA, UUA\},\\
+\mathrm{Stop\_Trp} &= \{UAA, UAG, UGA\}.
+\end{aligned}
+$$
+The classification row records $R\_\mathrm{size}=13$, $\operatorname{assigned\_count}=13$, no extra module codons, no missing codons from the modules, and no unassigned codons.  Hence the module account is complete for this finite boundary set.  The statement is combinatorial and label-level: it says that the thirteen observed codons are exactly covered by the listed modules.
+
+\paragraph{Leave-one checks.}
+The leave-one-code-out row evaluates $23$ tables and $63$ total targets.  Its baseline hit rate is $0.19821739130434785$, while the hit rate above baseline is $0.9841269841269841$.  The hit rate inside $M-T$ is $0.9365079365079365$, and the hit rate inside $M-T$ plus the boundary is $0.9841269841269841$.  By family, the above-baseline hit rates are $0.8333333333333334$ for alternative yeast, and $1.0$ for bacterial/plastid, candidate-other, mitochondrial, and nuclear-ciliate families.  The leave-one-codon-out row records $0$ anchors, $5$ boundary cases, $8$ high-coverage closure cases, $8$ predictable cases, and recovery rate $1.0$.  These checks support the robustness of the code-layer tile description under finite deletion probes.  They still do not observe folded structure, physical feasibility, function, or a general biological law.
+
+\paragraph{Local conclusion.}
+The finite evidence supports the following local reading.  In the standard-code table, the six-coordinate codon display exposes a thirteen-codon boundary set with a complete module classification, a stable spectral summary, small sampled null probabilities, and strong leave-one recovery behavior.  Under the amino-acid-class preserving null model, the exact observed shape appears $0$ times in $2000$ samples and the lower-tail probability is $0.0035$.  The scientifically usable conclusion is therefore confined to the code-read layer: the curated standard-code labels exhibit an exceptional local boundary tile in this coordinate representation.  No claim about translation realization, protein folding, physical admissibility, biological function, mechanism, or universality follows from this packet alone.
