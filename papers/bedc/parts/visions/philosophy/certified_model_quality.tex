@@ -1,0 +1,230 @@
+\section{Certified Model Quality}
+\label{sec:visions-philosophy-certified-model-quality}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-black-box-decomposition} decomposes a
+machine-learning black box into missing certificate rows, and
+\autoref{sec:visions-philosophy-classifier-forming-learning} reads
+learning as certified classifier formation. Model quality is the
+evaluation-level form of the same discipline. A model is not better
+merely because a displayed score rises. It is better on a declared scope
+when its critical behaviors are supported by certified classifiers,
+their stability and transfer rows improve, and their remaining
+black-box, ledger, shortcut, safety, semantic, and verification debts are
+accounted for under a public cost protocol.
+
+\begin{definition}[Model quality scope]
+\label{def:philosophy-model-quality-scope}
+A model quality scope is a tuple
+$$
+\Omega_{\mathsf{q}}
+=
+(D,M,\mathcal A,\mathcal B_{\mathsf{crit}},\Pi),
+$$
+where $D$ is the evaluation domain, $M$ is the model state,
+$\mathcal A$ is the admitted transformation, perturbation,
+intervention, or transfer family, $\mathcal B_{\mathsf{crit}}$ is the
+family of critical behavior targets, and $\Pi$ is the public scoring and
+certificate protocol.
+\end{definition}
+
+\begin{definition}[Certified behavior coverage]
+\label{def:philosophy-certified-behavior-coverage}
+For a model quality scope $\Omega_{\mathsf{q}}$, the certified behavior
+coverage of $M$ is the subfamily
+$$
+\operatorname{CertBeh}(M;\Omega_{\mathsf{q}})
+=
+\{B\in\mathcal B_{\mathsf{crit}}\mid
+\exists C,N.\ C\Vdash B\ \text{and}\ N=\NameCert(C)\},
+$$
+with the NameCert read on the displayed scope. The uncovered behavior
+family is
+$$
+\operatorname{UncertBeh}(M;\Omega_{\mathsf{q}})
+=
+\mathcal B_{\mathsf{crit}}
+\setminus
+\operatorname{CertBeh}(M;\Omega_{\mathsf{q}}).
+$$
+\end{definition}
+
+\begin{definition}[Model quality ledger]
+\label{def:philosophy-model-quality-ledger}
+A model quality ledger records, for every critical behavior target, the
+present classifier support, NameCert status, stability status, transfer
+status, safety boundary, shortcut risk, semantic boundary, verification
+status, failure cases, and not-claimed scope. It also records the public
+weights used to compare benefit, cost, and debt.
+\end{definition}
+
+\begin{definition}[Certified model quality score]
+\label{def:philosophy-certified-model-quality-score}
+For a public weight protocol $\mathbf w$, the certified model quality
+score is the audited quantity
+$$
+Q_{\mathbf w}(M;\Omega_{\mathsf{q}})
+=
+\operatorname{Benefit}_{\mathbf w}(M;\Omega_{\mathsf{q}})
+-
+\operatorname{Cost}_{\mathbf w}(M;\Omega_{\mathsf{q}})
+-
+\operatorname{Debt}_{\mathbf w}(M;\Omega_{\mathsf{q}}).
+$$
+The benefit term may include performance, certified classifier gain,
+stability gain, generalization gain, safety gain, intervention gain, and
+verification gain. The cost term records model, data, training,
+certificate, ledger, intervention, and verification cost. The debt term
+records black-box debt, ledger debt, stability debt, generalization
+debt, safety debt, shortcut debt, semantic debt, and verification debt.
+\end{definition}
+
+\begin{definition}[Model quality improvement]
+\label{def:philosophy-model-quality-improvement}
+A transition $M_0\leadsto M_1$ is a certified model quality improvement
+on $\Omega_{\mathsf{q}}$ when
+$$
+Q_{\mathbf w}(M_1;\Omega_{\mathsf{q}})
+>
+Q_{\mathbf w}(M_0;\Omega_{\mathsf{q}})
+$$
+and the comparison ledger records which benefit, cost, and debt rows
+changed.
+\end{definition}
+
+\begin{definition}[Model quality gate]
+\label{def:philosophy-model-quality-gate}
+A model quality gate is a decision rule that accepts a model state on
+$\Omega_{\mathsf{q}}$ only when the critical behavior coverage, maximum
+critical debt, safety ledger, transfer ledger, and verification ledger
+meet the declared thresholds of $\Pi$.
+\end{definition}
+
+\subsection{Separation from Performance}
+\label{subsec:philosophy-certified-model-quality-performance-separation}
+
+\begin{theorem}[Performance gain does not imply quality gain]
+\label{thm:philosophy-performance-gain-not-quality-gain}
+A performance improvement on a displayed metric does not by itself imply
+certified model quality improvement.
+\end{theorem}
+\begin{proof}
+The certified model quality score includes benefit, cost, and debt. A
+metric improvement can be offset by certificate cost, stability loss,
+generalization debt, safety debt, shortcut debt, semantic debt, or
+verification debt. It may also leave the supporting classifier
+uncertified. Therefore the performance row alone does not determine the
+quality comparison.
+\end{proof}
+
+\begin{theorem}[Debt reduction can improve quality without metric gain]
+\label{thm:philosophy-debt-reduction-can-improve-quality}
+For a fixed performance row, lowering critical debt can yield certified
+model quality improvement.
+\end{theorem}
+\begin{proof}
+If the performance contribution is unchanged and the added cost of the
+transition is smaller than the decrease in weighted critical debt, then
+the value of $Q_{\mathbf w}$ strictly increases by
+\autoref{def:philosophy-certified-model-quality-score}. The improvement
+is an audit improvement rather than a raw metric improvement.
+\end{proof}
+
+\begin{theorem}[Certified classifier gain is a quality row]
+\label{thm:philosophy-certified-classifier-gain-quality-row}
+Adding a NameCert-backed classifier for a critical behavior is a model
+quality benefit when its certificate cost and remaining debt are
+accounted for.
+\end{theorem}
+\begin{proof}
+The certified behavior coverage expands, and the behavior moves from
+uncovered or partial-certificate status toward certified support. The
+quality score counts this as certified classifier gain, while the
+certificate and ledger work enter the cost and debt terms. Thus the
+benefit is legitimate only under the public accounting protocol.
+\end{proof}
+
+\begin{theorem}[Unledgered classifier gain is not closed quality gain]
+\label{thm:philosophy-unledgered-classifier-gain-not-closed-quality}
+A classifier that appears to support a critical behavior does not give
+closed model quality gain when its ledger is absent or critically
+incomplete.
+\end{theorem}
+\begin{proof}
+Critical behavior support requires not only a classifier candidate but
+also source, pattern, stability, and ledger rows. If the ledger is absent
+or critically incomplete, the behavior retains black-box residue by
+\autoref{thm:philosophy-ledger-deficit-blocks-decomposition-closure}.
+The apparent gain therefore remains debt-bearing and cannot be counted
+as closed quality gain.
+\end{proof}
+
+\subsection{Debt-Guided Training}
+\label{subsec:philosophy-certified-model-quality-debt-guided-training}
+
+\begin{definition}[Debt-guided training signal]
+\label{def:philosophy-debt-guided-training-signal}
+A debt-guided training signal is a training pressure derived from the
+model quality ledger. It may target boundary cases, unstable margins,
+shortcut residues, unsafe behavior, failed transfer, unclassified
+critical behaviors, semantic ambiguity, or verification gaps.
+\end{definition}
+
+\begin{theorem}[Ledger rows can define training targets]
+\label{thm:philosophy-ledger-rows-define-training-targets}
+Critical residue recorded in a model quality ledger can be used as a
+certificate-guided training target.
+\end{theorem}
+\begin{proof}
+Each recorded residue row identifies a specific failure of source,
+pattern, classifier, stability, transfer, safety, semantic, or
+verification closure. A training objective can be directed at reducing
+that row, for example by adding boundary cases, strengthening margin
+stability, removing shortcut dependence, or improving transfer evidence.
+The ledger therefore supplies a structured target rather than an
+undifferentiated error signal.
+\end{proof}
+
+\begin{theorem}[Debt-guided training needs post-training recertification]
+\label{thm:philosophy-debt-guided-training-needs-recertification}
+Reducing a ledger-derived training loss does not by itself establish
+certified model quality improvement.
+\end{theorem}
+\begin{proof}
+The new model state may alter classifier boundaries, create new
+residue, shift safety behavior, or change the transfer scope. Certified
+quality compares the full audited score and ledger after the transition.
+Thus debt-guided training must be followed by renewed classifier,
+stability, ledger, and gate checks.
+\end{proof}
+
+\begin{theorem}[Model quality gate blocks laundering]
+\label{thm:philosophy-model-quality-gate-blocks-laundering}
+A model quality gate rejects score, benchmark, feature, and verification
+laundering when the required certificate and ledger rows fail the
+declared thresholds.
+\end{theorem}
+\begin{proof}
+The gate reads acceptance from certified behavior coverage, critical
+debt, safety ledger, transfer ledger, and verification ledger rather
+than from a single performance row or proof artifact. A high score, a
+named feature, or a verified subcomponent therefore cannot pass the gate
+unless the corresponding certificate and ledger obligations are also
+met.
+\end{proof}
+
+\begin{theorem}[Certified model quality theorem]
+\label{thm:philosophy-certified-model-quality-theorem}
+On a declared scope, model quality is certified classifier quality with
+public accounting for benefit, cost, and debt.
+\end{theorem}
+\begin{proof}
+\autoref{def:philosophy-certified-model-quality-score} defines quality
+by benefit minus cost and debt. The benefit rows include certified
+classifier formation, stability, transfer, safety, intervention, and
+verification gains. The debt rows record the certificate and ledger
+residues that prevent closed explanation. The separation theorems above
+exclude performance-only and unledgered readings. Hence the BEDC quality
+object is the public accounting of certified classifier support for the
+critical behavior family.
+\end{proof}
