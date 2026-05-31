@@ -4,40 +4,17 @@ This report is the deterministic PI layer for the Automath-to-NewMath bridge.
 It turns global ACK/NACK and gate signals into disciplined bridge-control actions.
 It does not write BEDC paper or Lean content.
 
-## Current Signal
+## Runtime Sources
 
-- ACK rows: `29`
-- Gate rows: `16`
-- PI actions: `5`
-- Refinement targets: `9`
+Read the bridge contract in `docs/bridge/automath-newmath-bridge.md`.
+Read current ACK/NACK, gate, action, status, and reason data from:
 
-## Status Counts
+- `tools/automath_newmath_bridge/out/`
+- `tools/automath_newmath_bridge/state/`
+- `tools/automath_newmath_bridge/logs/`
 
-| Status | Count |
-| --- | ---: |
-| `blocked` | 11 |
-| `consumed` | 9 |
-| `evidence_only` | 9 |
-
-## Reason Counts
-
-| Reason | Count |
-| --- | ---: |
-| `accepted_into_bedc_board` | 1 |
-| `duplicate_board_title` | 8 |
-| `evidence_only:pipeline_status` | 9 |
-| `history_rejected:too_vague` | 2 |
-| `no_specific_board_claim` | 9 |
-
-## PI Actions
-
-| Action | Trigger | Effect | Severity |
-| --- | --- | --- | --- |
-| `pi:newmath:expand_specific_board_claims` | `no_specific_board_claim` | `refinement_queue_written` | `high` |
-| `pi:newmath:narrow_history_rejected_too_vague` | `history_rejected:too_vague` | `cooldown_unchanged_retry` | `high` |
-| `pi:newmath:cooldown_duplicate_board_titles` | `duplicate_board_title` | `do_not_resubmit_without_source_commit_or_title_change` | `medium` |
-| `pi:newmath:keep_pipeline_status_evidence_only` | `evidence_only:pipeline_status` | `retain_as_evidence_only` | `low` |
-| `pi:newmath:cycle_health` | `global_signal_summary` | `monitor_next_cycle` | `info` |
+Use `tools/automath_newmath_bridge/render_bridge_report.py` to render the
+current report from runtime data.
 
 ## Control Policy
 
