@@ -266,6 +266,7 @@ import BEDC.Derived.AscoliDiagonalUp.TasteGate
 import BEDC.Derived.AscoliModulusUp
 import BEDC.Derived.AspectChainUp.NameCertObligations
 import BEDC.Derived.AspectChainUp.TasteGate
+import BEDC.Derived.AsymptoticEquivalenceUp.TasteGate
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AttentionLedgerUp
 import BEDC.Derived.AttentionLedgerUp.TasteGate
@@ -1327,6 +1328,7 @@ import BEDC.Derived.CauchyFilterSpaceUp
 import BEDC.Derived.CauchyFilterSubbasisUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyIntegralTestUp.TasteGate
+import BEDC.Derived.CauchyInterleavingCriterionUp.TasteGate
 import BEDC.Derived.CauchyInterleavingProductUp.TasteGate
 import BEDC.Derived.CauchyInverseBudgetUp.RouteSurface
 import BEDC.Derived.CauchyInverseBudgetUp.TasteGate
@@ -3468,6 +3470,7 @@ import BEDC.Derived.FareySequenceUp.DenominatorRefinement
 import BEDC.Derived.FareySequenceUp.DenominatorRefinementInduction
 import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.RealBracketConsumerLock
+import BEDC.Derived.FareySequenceUp.StreamWindowStability
 import BEDC.Derived.FareySequenceUp.TasteGate
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
 import BEDC.Derived.FastCauchyModulusUp.TasteGate
@@ -4610,6 +4613,7 @@ import BEDC.Derived.LocatedRealIntervalHullUp.TasteGate
 import BEDC.Derived.LocatedRealIntervalPartitionUp.TasteGate
 import BEDC.Derived.LocatedRealIntervalUp.TasteGate
 import BEDC.Derived.LocatedRealLineUp.TasteGate
+import BEDC.Derived.LocatedRealModulusUp.TasteGate
 import BEDC.Derived.LocatedRealNestedIntervalsUp.TasteGate
 import BEDC.Derived.LocatedRealSequenceUp.TasteGate
 import BEDC.Derived.LocatedRealTailEnvelopeUp.TasteGate
@@ -6701,6 +6705,7 @@ import BEDC.Derived.RiemannStieltjesIntegrationPartsUp.TasteGate
 import BEDC.Derived.RiemannStieltjesUp.MeshHandoff
 import BEDC.Derived.RiemannStieltjesUp.PartitionCoverage
 import BEDC.Derived.RiemannStieltjesUp.RouteClosure
+import BEDC.Derived.RiemannStieltjesUp.StepIntegratorExactness
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
 import BEDC.Derived.RiemannSumGaugeUp.TasteGate
 import BEDC.Derived.RiemannSumUp
