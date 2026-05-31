@@ -2399,6 +2399,46 @@ DISCOVERY_SCOPE_GLOBAL_TERMS = (
     "complete",
     "general",
 )
+DISCOVERY_CANDIDATE_HARD_REJECT_TAGS = {
+    "smoke_template_reuse",
+    "trivial_classifier",
+    "target_substring_evidence",
+    "target_missing",
+    "target_axiom",
+    "target_sorry",
+}
+DISCOVERY_CANDIDATE_SUPPORT_TYPES = (
+    "ClassifierNonEquivalent",
+    "ClassifierDisagreement",
+    "DisagreementSupport",
+    "StructuralDiscovery",
+)
+DISCOVERY_MECHANICAL_REASONS = {
+    "known_math_namecert",
+    "carrier_only",
+    "classifier_unchanged",
+    "bridge_only",
+    "marker_sync_only",
+    "human_chapter_reconstruction",
+    "insufficient_evidence",
+    "duplicate_of_existing",
+}
+A_LAYER_HARD_REJECT_THEORY_CLOSURES = {"matureClosure"}
+A_LAYER_HARD_REJECT_FORMAL_STATUSES = {"auditCleanV", "axiomCleanV", "bridgeCheckedV"}
+A_LAYER_HARD_REJECT_BRIDGE_STATUSES = {"bridgeChecked"}
+MECHANICAL_INSUFFICIENT_EVIDENCE_TOKENS = (
+    "inspected_carrier",
+    "inspected_classifier",
+    "inspected_parent",
+    "inspected_sibling",
+    "inspected_evidence",
+    "carrier_inspected",
+    "classifier_inspected",
+    "parent_inspected",
+    "sibling_inspected",
+    "reject_candidate",
+    "explicit_reject",
+)
 
 
 def detect_orphan_concrete_subdirs() -> list[dict]:
@@ -3645,6 +3685,10 @@ def _endpoint_evidence_terms(text: str) -> list[str]:
         "ledger_row": r"\b(?:LedgerRow|ledger_row|ledgerRow|row_witness|rowWitness)\b",
         "event_flow": r"\b(?:BHistCarrier\.(?:toEventFlow|fromEventFlow)|toEventFlow|fromEventFlow)\b",
         "namecert": r"\b(?:SemanticNameCert|NameCertFiveRows|NameCert)\b",
+        "ledger_policy": r"\bLedgerPolicy\b",
+        "pattern_spec": r"\bPatternSpec\b",
+        "stability_spec": r"\bStabilitySpec\b",
+        "field_faithful": r"\bFieldFaithful\b",
     }
     return [name for name, pattern in patterns.items() if re.search(pattern, text)]
 
@@ -4840,6 +4884,651 @@ def discovery_sieve_payload(
     }
 
 
+def _region_to_derived_module(region: object) -> str:
+    text = str(region or "").strip()
+    if text.endswith("Up"):
+        text = text[:-2]
+    return f"BEDC.Derived.{text}Up"
+
+
+def _region_to_chapter_key(region: object) -> str:
+    text = str(region or "")
+    if text.endswith("Up"):
+        text = text[:-2]
+    return _camel_to_snake(text)
+
+
+def _block_is_a_layer_hard_reject(block: dict, origin: str) -> tuple[bool, list[str]]:
+    reasons: list[str] = []
+    if origin == "human":
+        reasons.append("origin_human")
+    theory_closure = str(block.get("theory_closure") or "")
+    formal_status = str(block.get("formal_status") or "")
+    bridge_status = str(block.get("bridge_status") or "")
+    if theory_closure in A_LAYER_HARD_REJECT_THEORY_CLOSURES:
+        reasons.append(f"theory_closure:{theory_closure}")
+    if formal_status in A_LAYER_HARD_REJECT_FORMAL_STATUSES:
+        reasons.append(f"formal_status:{formal_status}")
+    if bridge_status in A_LAYER_HARD_REJECT_BRIDGE_STATUSES:
+        reasons.append(f"bridge_status:{bridge_status}")
+    return bool(reasons), reasons
+
+
+def _decl_kind_map(declarations: list[DeclarationRecord]) -> dict[str, str]:
+    return {decl.qualified_name: decl.kind for decl in declarations}
+
+
+def _support_type_hits(
+    targets: Iterable[str],
+    declaration_headers: dict[str, str],
+) -> list[str]:
+    hits: set[str] = set()
+    for target in targets:
+        result_type = _declaration_header_result_type(
+            declaration_headers.get(target, ""),
+        ) or ""
+        for term in DISCOVERY_CANDIDATE_SUPPORT_TYPES:
+            if re.search(rf"\b(?:[A-Za-z0-9_'.]+\.)?{term}\b", result_type):
+                hits.add(term)
+    return sorted(hits)
+
+
+def _candidate_semantic_endpoint_classes(semantic_hits: Iterable[str]) -> list[str]:
+    hits = set(semantic_hits)
+    classes: set[str] = set()
+    if hits.intersection({"namecert", "ledger_policy", "pattern_spec", "stability_spec"}):
+        classes.add("certified_rows")
+    if hits.intersection({"decode", "readback", "role", "ledger_row", "event_flow"}):
+        classes.add("observable_endpoint")
+    if hits.intersection({"field_faithful", "observable_family_witness"}):
+        classes.add("field_faithful_route")
+    return sorted(classes)
+
+
+def _declaration_is_alias_or_wrapper(
+    before: str,
+    after: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> bool:
+    if before == after:
+        return True
+    body = declaration_bodies.get(after, "")
+    result_type = _declaration_header_result_type(declaration_headers.get(after, "")) or ""
+    before_local = _local_declaration_name(before)
+    after_local = _local_declaration_name(after)
+    body_no_ws = re.sub(r"\s+", " ", body).strip()
+    if re.fullmatch(
+        rf".*:=\s*(?:{re.escape(before)}|{re.escape(before_local)})\s*$",
+        body_no_ws,
+    ):
+        return True
+    if before_local and after_local:
+        stripped_before = before_local.lower().removesuffix("classifier")
+        stripped_after = after_local.lower().removesuffix("classifier")
+        if stripped_before and stripped_before == stripped_after:
+            return True
+    if before in result_type and after_local in before_local:
+        return True
+    return False
+
+
+def _candidate_endpoint_pairs(
+    block: dict,
+    target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> list[tuple[str, str, str]]:
+    open_fields = block.get("open_fields") or {}
+    if not isinstance(open_fields, dict):
+        open_fields = {}
+    before_sources = [
+        _normalize_lean_target(part)
+        for field in ("closureparents", "closurelineage")
+        for part in re.split(r"[,;\s]+", str(open_fields.get(field, "")))
+        if _normalize_lean_target(part)
+    ]
+    after_sources = [
+        _normalize_lean_target(open_fields.get("closuregate")),
+        _normalize_lean_target(open_fields.get("closureledger")),
+        _normalize_lean_target(block.get("lean_target")),
+        _normalize_lean_target(target),
+    ]
+    text = "\n".join([
+        str(block.get("raw_body", "")),
+        declaration_headers.get(target, ""),
+        declaration_bodies.get(target, ""),
+    ])
+    mentioned = [
+        name for name in sorted(set(
+            re.findall(
+                r"\bBEDC(?:\.[A-Za-z][A-Za-z0-9_']+)+\b",
+                text,
+            )
+        ))
+        if name in declaration_headers
+        and re.search(r"(Classifier|Disagreement|Discovery|Gate|Ledger)$", _local_declaration_name(name))
+    ]
+    before_sources.extend(mentioned)
+    after_sources.extend(mentioned)
+    before_valid = [name for name in dict.fromkeys(before_sources) if name in declaration_headers]
+    after_valid = [name for name in dict.fromkeys(after_sources) if name in declaration_headers]
+    pairs: list[tuple[str, str, str]] = []
+    for before in before_valid:
+        for after in after_valid:
+            if before == after:
+                continue
+            if _declaration_is_alias_or_wrapper(
+                before,
+                after,
+                declaration_headers,
+                declaration_bodies,
+            ):
+                continue
+            pairs.append((before, after, "resolved_from_closure_or_lean_declaration"))
+    return pairs[:8]
+
+
+def _discovery_candidate_note(
+    block: dict,
+    target: str,
+    reason: str,
+    *,
+    extra: dict[str, object] | None = None,
+) -> dict[str, object]:
+    payload: dict[str, object] = {
+        "tier": "B",
+        "region": f"{block.get('region')}Up",
+        "chapter_key": _region_to_chapter_key(block.get("region")),
+        "target": target,
+        "file": block.get("file"),
+        "line": block.get("line"),
+        "reason": reason,
+    }
+    if extra:
+        payload.update(extra)
+    return payload
+
+
+def discovery_candidate_payload(
+    blocks: list[dict],
+    lean_scan: LeanSourceScan,
+    *,
+    max_a: int = 3,
+    sieve_payload: dict[str, object] | None = None,
+) -> dict[str, object]:
+    """High-precision production-side discovery candidate survey.
+
+    This is an informational miner. It admits dispatchable candidates only when
+    the chapter supplies real Lean before/after endpoints, graph-reachable
+    disagreement support, semantic endpoint classes, and no hard negative tags.
+    """
+    declarations = lean_scan.declarations
+    declaration_headers = lean_scan.declaration_headers
+    declaration_bodies = lean_scan.declaration_bodies
+    ledgers = lean_scan.discovery_delta_ledgers
+    decl_kinds = _decl_kind_map(declarations)
+    ledger_targets = {ledger.qualified_name for ledger in ledgers}
+    dispatchable: list[dict[str, object]] = []
+    notes: list[dict[str, object]] = []
+    discarded = 0
+
+    for block in blocks:
+        if block.get("error"):
+            continue
+        origin = str(block.get("origin") or "human").lower()
+        open_fields = block.get("open_fields") or {}
+        open_fields = open_fields if isinstance(open_fields, dict) else {}
+        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        if origin == "human" and claim_kind not in STRONG_CLOSURESTATUS_CLAIMS:
+            discarded += 1
+            continue
+        if claim_kind in {"confirmed_composite", "mechanical_reconstruction"}:
+            discarded += 1
+            continue
+        hard_reject, hard_reject_reasons = _block_is_a_layer_hard_reject(block, origin)
+        if hard_reject:
+            notes.append(_discovery_candidate_note(
+                block,
+                _normalize_lean_target(block.get("lean_target")),
+                "hard reject from dispatchable discovery candidate layer",
+                extra={"candidate_reasons": hard_reject_reasons, "in_A": False},
+            ))
+            continue
+        has_explicit_candidate_surface = (
+            claim_kind in STRONG_CLOSURESTATUS_CLAIMS
+            or any(
+                str(open_fields.get(field, "")).strip()
+                for field in (
+                    "closureparents",
+                    "closurelineage",
+                    "closuregate",
+                    "closureledger",
+                    "closureclassifierincrement",
+                )
+            )
+        )
+        if not has_explicit_candidate_surface:
+            if origin == "ai" and block.get("theory_closure") != "seedClosure":
+                notes.append(_discovery_candidate_note(
+                    block,
+                    "",
+                    "ai non-seed chapter has no explicit before/after or discovery ledger surface",
+                ))
+            else:
+                discarded += 1
+            continue
+
+        target_candidates = [
+            _normalize_lean_target(open_fields.get("closuregate")),
+            _normalize_lean_target(open_fields.get("closureledger")),
+            _normalize_lean_target(block.get("lean_target")),
+            _region_to_derived_module(block.get("region")),
+        ]
+        target_candidates = [target for target in dict.fromkeys(target_candidates) if target]
+        target = next((name for name in target_candidates if name in declaration_headers), "")
+        if not target:
+            if origin == "ai" and block.get("theory_closure") != "seedClosure":
+                notes.append(_discovery_candidate_note(
+                    block,
+                    target_candidates[0] if target_candidates else "",
+                    "ai non-seed chapter lacks a resolved Lean target endpoint",
+                ))
+            else:
+                discarded += 1
+            continue
+
+        pairs = _candidate_endpoint_pairs(block, target, declaration_headers, declaration_bodies)
+        if not pairs:
+            if origin == "ai" and block.get("theory_closure") != "seedClosure":
+                notes.append(_discovery_candidate_note(
+                    block,
+                    target,
+                    "no resolved before/after Lean classifier endpoint pair",
+                ))
+            else:
+                discarded += 1
+            continue
+
+        reachable = _reachable_declarations(
+            [target],
+            declaration_headers,
+            declaration_bodies,
+            max_depth=8,
+        )
+        support_targets = sorted(set(
+            _disagreement_support_declarations(
+                target,
+                declaration_headers,
+                declaration_bodies,
+            )
+        ))
+        support_hits = _support_type_hits(
+            set(reachable) | set(support_targets) | {target},
+            declaration_headers,
+        )
+        if not support_hits:
+            notes.append(_discovery_candidate_note(
+                block,
+                target,
+                "reachable declaration graph lacks classifier disagreement support",
+                extra={"before_after_pairs": pairs},
+            ))
+            continue
+
+        tags: list[str] = []
+        target_text = _decl_text(target, declaration_headers, declaration_bodies)
+        if _body_mentions_axiom(target_text):
+            tags.append("target_axiom")
+        if _body_mentions_sorry(target_text):
+            tags.append("target_sorry")
+        if re.search(r"\bsmoke[A-Z_]", target_text) or "smoke" in target.lower():
+            tags.append("smoke_template_reuse")
+        evidence_text = "\n".join(str(open_fields.get(name, "")) for name in CLOSURESTATUS_OPEN_FIELDS)
+        if _target_word_hits(target, evidence_text) and not _has_any(
+            evidence_text,
+            SUBSTRING_EVIDENCE_SUPPORT_TERMS,
+        ):
+            tags.append("target_substring_evidence")
+        support_text_for_tags = "\n".join(
+            _decl_text(support_target, declaration_headers, declaration_bodies)
+            for support_target in support_targets
+        )
+        if _has_any(support_text_for_tags, TRIVIAL_CLASSIFIER_TERMS):
+            tags.append("trivial_classifier")
+        disagreement_text_for_tags = "\n".join(
+            _decl_text(qualified, declaration_headers, declaration_bodies)
+            for qualified in _target_disagreement_anchors(
+                target,
+                declaration_headers,
+                declaration_bodies,
+            )
+        )
+        constructor_only = bool(_has_any(
+            f"{support_text_for_tags}\n{disagreement_text_for_tags}",
+            CONSTRUCTOR_SEPARATION_TERMS,
+        ))
+        if constructor_only:
+            tags.append("constructor_only_disagreement")
+        hard_tags = sorted(set(tags).intersection(DISCOVERY_CANDIDATE_HARD_REJECT_TAGS))
+        if hard_tags:
+            notes.append(_discovery_candidate_note(
+                block,
+                target,
+                "hard negative sieve witness prevents dispatch",
+                extra={"negative_tags": hard_tags},
+            ))
+            continue
+
+        semantic_hits = sorted(set(
+            _reachable_endpoint_evidence_terms(
+                target,
+                declaration_headers,
+                declaration_bodies,
+            )
+            + _support_semantic_evidence_terms(
+                support_targets,
+                declaration_headers,
+                declaration_bodies,
+            )
+            + _endpoint_evidence_terms(
+                _decl_text(target, declaration_headers, declaration_bodies),
+            )
+        ))
+        classes = _candidate_semantic_endpoint_classes(semantic_hits)
+        has_independent_support = _has_independent_disagreement_support(
+            support_targets,
+            declaration_headers,
+            declaration_bodies,
+            target,
+        )
+        if len(classes) < 2:
+            notes.append(_discovery_candidate_note(
+                block,
+                target,
+                "fewer than two nontrivial semantic endpoint classes",
+                extra={"semantic_anchors": semantic_hits, "endpoint_classes": classes},
+            ))
+            continue
+        if constructor_only and not has_independent_support:
+            notes.append(_discovery_candidate_note(
+                block,
+                target,
+                "constructor-only disagreement lacks independent observable witness",
+                extra={"semantic_anchors": semantic_hits, "support_targets": support_targets},
+            ))
+            continue
+
+        before, after, endpoint_source = pairs[0]
+        stable_key = "|".join([
+            _region_to_chapter_key(block.get("region")),
+            "classifier_shift_candidate",
+            target,
+            before,
+            after,
+        ])
+        candidate_reasons = [
+            reason for reason, active in (
+                ("origin_ai_non_seed", origin == "ai" and block.get("theory_closure") != "seedClosure"),
+                ("strong_closurestatus_claim", claim_kind in STRONG_CLOSURESTATUS_CLAIMS),
+                ("resolved_lean_target", bool(target)),
+                ("resolved_before_after_pair", bool(pairs)),
+                ("reachable_disagreement_support", bool(support_hits)),
+                ("semantic_endpoint_classes", len(classes) >= 2),
+                ("independent_disagreement_support", has_independent_support),
+            )
+            if active
+        ]
+        score = 0.0
+        score += 0.30 if origin == "ai" and block.get("theory_closure") != "seedClosure" else 0.0
+        score += 0.20 if {"certified_rows", "observable_endpoint"}.issubset(classes) else 0.0
+        score += 0.20 if "field_faithful_route" in classes else 0.0
+        score += 0.10 if claim_kind in STRONG_CLOSURESTATUS_CLAIMS else 0.0
+        score -= 0.30 if origin == "human" else 0.0
+        dispatchable.append({
+            "tier": "A",
+            "kind": "discovery_candidate",
+            "candidate_kind": "classifier_shift_candidate",
+            "stable_key": stable_key,
+            "region": f"{block.get('region')}Up",
+            "chapter_key": _region_to_chapter_key(block.get("region")),
+            "file_paper": block.get("file"),
+            "line": block.get("line"),
+            "target": target,
+            "target_kind": decl_kinds.get(target),
+            "before_classifier": before,
+            "after_classifier": after,
+            "endpoint_source": endpoint_source,
+            "support_targets": support_targets,
+            "support_anchors": support_hits,
+            "semantic_anchors": semantic_hits,
+            "semantic_endpoint_classes": classes,
+            "negative_tags": tags,
+            "candidate_reasons": candidate_reasons,
+            "candidate_score": round(score, 4),
+            "confidence": "high",
+            "dispatch_intent": "attempt_delta_ledger_or_mark_mechanical",
+            "dispatch_note": (
+                "Try one bounded pass to prove concrete before/after classifier "
+                "disagreement with positive cost margin and semantic endpoint; "
+                "otherwise record auditable mechanical_reconstruction."
+            ),
+            "mechanical_risk": [
+                risk for risk, active in (
+                    ("known_math_namecert", origin == "human"),
+                    ("constructor_only_disagreement", constructor_only),
+                    ("insufficient_evidence", len(classes) < 3),
+                )
+                if active
+            ],
+            "allowed_outcomes": [
+                "positiveDiscovery",
+                "discovery",
+                "mechanical_reconstruction",
+                "reject_candidate",
+            ],
+        })
+
+    dispatchable.sort(
+        key=lambda row: (-float(row.get("candidate_score", 0.0)), str(row["stable_key"]))
+    )
+    for idx, row in enumerate(dispatchable, start=1):
+        row["selection_rank"] = idx
+
+    sieve = sieve_payload or discovery_sieve_payload(
+        blocks,
+        ledgers,
+        declaration_headers,
+        declaration_bodies,
+    )
+    grade_counts = Counter(str(item.get("grade")) for item in sieve.get("targets", []) if isinstance(item, dict))
+    declared_candidate = sum(
+        1 for item in sieve.get("targets", [])
+        if isinstance(item, dict)
+        and (
+            "classifier_shift" in item.get("sources", [])
+            or item.get("target") in ledger_targets
+        )
+    )
+    sieve_survivor = sum(
+        1 for item in sieve.get("targets", [])
+        if isinstance(item, dict)
+        and item.get("grade") in ("probable_prime", "certified_prime")
+    )
+    certified_prime = int(grade_counts.get("certified_prime", 0))
+    falseish = int(grade_counts.get("confirmed_composite", 0)) + int(grade_counts.get("probable_composite", 0))
+    mechanical_optout = sum(
+        1 for block in blocks
+        if str((block.get("open_fields") or {}).get("closureclaimkind", "")).strip()
+        in {"mechanical_reconstruction", "confirmed_composite"}
+    )
+    inspected = declared_candidate + mechanical_optout
+    metrics = {
+        "declared_candidate": declared_candidate,
+        "sieve_survivor": sieve_survivor,
+        "certified_prime": certified_prime,
+        "false_discovery_rate": round(falseish / declared_candidate, 4) if declared_candidate else None,
+        "mechanical_optout_rate": round(mechanical_optout / inspected, 4) if inspected else None,
+        "silent_candidate_escape_rate": round(
+            len(notes) / max(len(notes) + len(dispatchable) + mechanical_optout, 1),
+            4,
+        ),
+    }
+    optout_findings = mechanical_optout_audit_payload(blocks, declaration_headers)
+    return {
+        "informational": True,
+        "semantics": "high_precision_low_recall_static_candidate_survey_not_truth",
+        "candidate_count": len(dispatchable[:max_a]),
+        "candidate_count_total": len(dispatchable),
+        "diagnostic_count": len(notes),
+        "discarded_count": discarded,
+        "candidates": dispatchable[:max_a],
+        "diagnostic_notes": notes[:200],
+        "metrics": metrics,
+        "mechanical_optout_audit": optout_findings,
+    }
+
+
+def _parse_mechanical_metadata(text: str) -> dict[str, str]:
+    fields: dict[str, str] = {}
+    for key in ("mechanical_reason", "nearest_existing_target", "checked_by_worker"):
+        match = re.search(rf"\b{key}\s*=\s*([A-Za-z0-9_'.:-]+)", text)
+        if match:
+            fields[key] = match.group(1)
+    return fields
+
+
+def _resolve_mechanical_nearest_target(
+    target: str,
+    block: dict,
+    declaration_headers: dict[str, str],
+    chapter_targets: set[str],
+) -> tuple[bool, str]:
+    normalized = _normalize_lean_target(target)
+    if not normalized:
+        return False, "missing"
+    if normalized in declaration_headers:
+        return True, "lean_target"
+    if normalized in chapter_targets or _region_to_chapter_key(normalized) in chapter_targets:
+        return True, "chapter_target"
+    chapter_key = _region_to_chapter_key(block.get("region"))
+    candidates = {
+        str(block.get("region") or ""),
+        f"{block.get('region')}Up",
+        _region_to_derived_module(block.get("region")),
+        str(block.get("lean_target") or ""),
+    }
+    if normalized in {candidate for candidate in candidates if candidate}:
+        return True, "chapter_target"
+    if _region_to_chapter_key(normalized) == chapter_key:
+        return True, "chapter_target"
+    return False, "unresolved"
+
+
+def mechanical_optout_audit_payload(
+    blocks: list[dict],
+    declaration_headers: dict[str, str] | None = None,
+) -> dict[str, object]:
+    findings: list[dict[str, object]] = []
+    reason_counts: Counter[str] = Counter()
+    declaration_headers = collect_declaration_headers() if declaration_headers is None else declaration_headers
+    chapter_targets = {
+        candidate
+        for block in blocks
+        for candidate in (
+            _region_to_chapter_key(block.get("region")),
+            str(block.get("region") or ""),
+            f"{block.get('region')}Up",
+            _region_to_derived_module(block.get("region")),
+            str(block.get("lean_target") or ""),
+        )
+        if candidate and candidate != "NoneUp"
+    }
+    for block in blocks:
+        open_fields = block.get("open_fields") or {}
+        if not isinstance(open_fields, dict):
+            continue
+        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        if claim_kind not in {"mechanical_reconstruction", "confirmed_composite"}:
+            continue
+        text = "\n".join(str(open_fields.get(field, "")) for field in CLOSURESTATUS_OPEN_FIELDS)
+        text = f"{text}\n{block.get('raw_body', '')}"
+        metadata = _parse_mechanical_metadata(text)
+        reason = metadata.get("mechanical_reason", "")
+        if reason:
+            reason_counts[reason] += 1
+        if not reason:
+            findings.append(_discovery_item(
+                block,
+                "missing_mechanical_reason",
+                "mechanical opt-out lacks mechanical_reason",
+            ))
+        elif reason not in DISCOVERY_MECHANICAL_REASONS:
+            findings.append(_discovery_item(
+                block,
+                "unknown_mechanical_reason",
+                "mechanical_reason is outside the accepted enumeration",
+                evidence=reason,
+            ))
+        nearest_target = metadata.get("nearest_existing_target", "")
+        nearest_resolved, nearest_resolution = _resolve_mechanical_nearest_target(
+            nearest_target,
+            block,
+            declaration_headers,
+            chapter_targets,
+        )
+        if not nearest_resolved:
+            findings.append(_discovery_item(
+                block,
+                "missing_resolved_nearest_existing_target",
+                "mechanical opt-out must name nearest_existing_target resolving to a chapter or Lean target",
+                evidence=nearest_resolution if not nearest_target else nearest_target,
+            ))
+        if reason == "insufficient_evidence":
+            worker = metadata.get("checked_by_worker")
+            if not worker:
+                findings.append(_discovery_item(
+                    block,
+                    "insufficient_evidence_missing_worker",
+                    "insufficient_evidence must name checked_by_worker",
+                ))
+            if not _has_any(text, MECHANICAL_INSUFFICIENT_EVIDENCE_TOKENS):
+                findings.append(_discovery_item(
+                    block,
+                    "insufficient_evidence_missing_inspected_token",
+                    "insufficient_evidence must name inspected carrier/classifier/parent/sibling evidence or an explicit reject",
+                ))
+        if reason == "classifier_unchanged" and not re.search(
+            r"\b(same_classifier|same_source|same_pattern|formalstatus_only|bridge_only)\b",
+            text,
+        ):
+            findings.append(_discovery_item(
+                block,
+                "classifier_unchanged_missing_invariant",
+                "classifier_unchanged must name the concrete unchanged classifier item",
+            ))
+        if reason == "duplicate_of_existing" and not nearest_resolved:
+            findings.append(_discovery_item(
+                block,
+                "duplicate_missing_resolved_target",
+                "duplicate_of_existing must name a nearest_existing_target resolving to a chapter or Lean target",
+            ))
+        if not metadata.get("checked_by_worker"):
+            findings.append(_discovery_item(
+                block,
+                "missing_checked_by_worker",
+                "mechanical opt-out must record checked_by_worker",
+            ))
+    return {
+        "informational": True,
+        "finding_count": len(findings),
+        "mechanical_optout_violation_count": len(findings),
+        "findings": findings,
+        "mechanical_reason_counts": dict(sorted(reason_counts.items())),
+        "accepted_reasons": sorted(DISCOVERY_MECHANICAL_REASONS),
+    }
+
+
 def classifier_shift_quality_payload(
     blocks: list[dict],
     ledgers: list[DiscoveryDeltaLedgerRecord],
@@ -5082,6 +5771,10 @@ def audit_payload() -> dict[str, object]:
         discovery_delta_ledgers,
         lean_scan.declaration_headers,
     )
+    mechanical_optout_audit = mechanical_optout_audit_payload(
+        closurestatus_blocks,
+        lean_scan.declaration_headers,
+    )
     classifier_shift_quality = classifier_shift_quality_payload(
         closurestatus_blocks,
         discovery_delta_ledgers,
@@ -5120,6 +5813,8 @@ def audit_payload() -> dict[str, object]:
         "theorem_dna_stale": theorem_dna_stale,
         "theorem_dna_staleness": theorem_dna_stale,
         "discovery_ledger_coverage": discovery_ledger_coverage,
+        "mechanical_optout_audit": mechanical_optout_audit,
+        "mechanical_optout_violation_count": mechanical_optout_audit["mechanical_optout_violation_count"],
         "classifier_shift_quality": classifier_shift_quality,
         "positive_discovery_target_warnings": positive_discovery_warnings,
         "positive_discovery_target_warning_count": len(positive_discovery_warnings),
@@ -5372,6 +6067,18 @@ def cmd_audit(args: argparse.Namespace) -> int:
                     f"  covered {item['file']}:{item['line']}"
                     f" {item['region']} -> {targets}"
                 )
+        optout_audit = payload["mechanical_optout_audit"]
+        print(
+            "[bedc-ci] mechanical opt-out audit (informational):"
+            f" findings={optout_audit['finding_count']}"
+            f" violations={optout_audit['mechanical_optout_violation_count']}"
+        )
+        for item in optout_audit["findings"][:20]:
+            evidence = f" evidence={item['evidence']}" if item.get("evidence") else ""
+            print(
+                f"  {item['file']}:{item['line']} {item['region']}"
+                f" {item['kind']}: {item['message']}{evidence}"
+            )
         shift_quality = payload["classifier_shift_quality"]
         print(
             "[bedc-ci] classifier shift quality (informational):"
@@ -6476,6 +7183,36 @@ def cmd_discovery_adversarial(args: argparse.Namespace) -> int:
                 )
             if len(payload["targets"]) > 120:
                 print(f"  ... and {len(payload['targets']) - 120} more")
+def cmd_discovery_candidates(args: argparse.Namespace) -> int:
+    blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
+    lean_scan = scan_lean_sources()
+    payload = discovery_candidate_payload(blocks, lean_scan, max_a=args.max_a)
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        metrics = payload["metrics"]
+        print(
+            "[bedc-ci] discovery-candidates (informational):"
+            f" A={payload['candidate_count']}"
+            f" A_total={payload['candidate_count_total']}"
+            f" B_notes={payload['diagnostic_count']}"
+            f" declared_candidate={metrics['declared_candidate']}"
+            f" sieve_survivor={metrics['sieve_survivor']}"
+            f" certified_prime={metrics['certified_prime']}"
+        )
+        if args.verbose:
+            for item in payload["candidates"]:
+                print(
+                    f"  A {item['region']} {item['target']}"
+                    f" before={item['before_classifier']}"
+                    f" after={item['after_classifier']}"
+                    f" score={item['candidate_score']}"
+                )
+            for item in payload["diagnostic_notes"][:80]:
+                print(
+                    f"  B {item.get('region')} {item.get('target')}:"
+                    f" {item.get('reason')}"
+                )
     return 0
 
 
@@ -6870,6 +7607,14 @@ def parser() -> argparse.ArgumentParser:
     discovery_adversarial_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     discovery_adversarial_p.add_argument("--verbose", "-v", action="store_true", help="Show per-target detail")
     discovery_adversarial_p.set_defaults(func=cmd_discovery_adversarial)
+    discovery_candidates_p = sub.add_parser(
+        "discovery-candidates",
+        help="Informational high-precision survey of production-side discovery candidates (always exit 0)",
+    )
+    discovery_candidates_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    discovery_candidates_p.add_argument("--verbose", "-v", action="store_true", help="Show candidate and diagnostic detail")
+    discovery_candidates_p.add_argument("--max-a", type=int, default=3, help="Maximum dispatchable A-tier candidates to emit")
+    discovery_candidates_p.set_defaults(func=cmd_discovery_candidates)
 
     carrier_iso_p = sub.add_parser(
         "carrier-isomorphism",
