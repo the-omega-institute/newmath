@@ -133,6 +133,42 @@ host objects to L10 Real and Completion consumers.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyUp.CauchyModulusSpaceSeedInterface}
 
+\begin{theorem}[CauchyModulusSpace tail composition]
+\label{thm:cauchy-modulus-space-tail-composition}
+For every accepted $\CauchyModulusSpaceUp$ carrier
+$$
+M=(I,S,W,D,R,Q,H,C,P,N),
+$$
+two displayed modulus schedules in the family compose only through finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance rows, $\RegSeqRatUp$ readback, and terminal $\RealUp$ seal rows. The composed tail read is the finite route
+$$
+I,S,W,D,R,Q \longmapsto H,C,P,N
+$$
+and it exports no quotient sequence equality, selected limit, countable choice, or ambient completeness object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-space-carrier}. The two schedules are displayed rows under $S$ indexed by $I$, and their inspected tails must pass through the same finite window row $W$.
+
+Apply the finite route and seed interface, \autoref{thm:cauchy-modulus-space-finite-route} and \autoref{thm:cauchy-modulus-space-seed-interface}. These results force the tolerance ledger $D$, regular readback $R$, and Real seal boundary $Q$ to remain visible before the composed tail can be consumed.
+
+Finally replay the structural rows. Componentwise transport $H$, displayed continuation $C$, provenance $P$, and local naming $N$ preserve the same finite schedule surface, so tail composition does not add quotient equality, selected limits, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CauchyModulusSpace filter handoff]
+\label{thm:cauchy-modulus-space-filter-handoff}
+Every CauchyFilter or CauchyFilterCompletion consumer of an accepted $\CauchyModulusSpaceUp$ packet receives the modulus family only through the finite handoff
+$$
+I,S,W,D,R,Q,H,C,P,N .
+$$
+The handoff may be consumed as filter-facing Cauchy evidence, but it cannot be reinterpreted as quotient sequence equality, a selected limit, countable choice, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with a filter-facing read. The seed interface of \autoref{thm:cauchy-modulus-space-seed-interface} already routes every scheduled request through finite stream windows, dyadic tolerances, regular rational readback, the Cauchy root route, and the terminal Real seal.
+
+Use tail composition from \autoref{thm:cauchy-modulus-space-tail-composition}. It shows that composing displayed schedules preserves the same finite route through $I,S,W,D,R,Q$ before structural replay.
+
+The filter consumer therefore receives only the transported and replayed packet named by $H,C,P,N$. Since the carrier contains no quotient equality coordinate, no selected limit, no countable-choice schedule, and no ambient completeness row, CauchyFilter and CauchyFilterCompletion may consume only the displayed finite handoff.
+\end{proof}
+
 \falsifiablePrediction{A $\CauchyModulusSpaceUp$ consumer that compares
 schedule families while omitting $I,S,W,D,R,Q,H,C,P,N$ refutes the carrier
 surface of \autoref{def:cauchy-modulus-space-carrier}.}
