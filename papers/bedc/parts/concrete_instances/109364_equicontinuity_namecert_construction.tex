@@ -117,6 +117,55 @@ The ledger is exact because $T,R,P,N$ refer back to those same rows. They cannot
 The exclusions are also forced by \autoref{thm:equicontinuity-nonescape}. Any consumer needing compactness output, selected nets, subsequences, or completeness must obtain those data from a separate chapter after reading the exact modulus ledger here.
 \end{proof}
 
+\begin{definition}[Equicontinuity finite-modulus subcarrier]
+\label{def:equicontinuity-finite-modulus-carrier}
+An $\EquicontinuityUp$ finite-modulus subcarrier is the finite row packet
+$$
+E_{\mathrm{fin}}=(K,F,\epsilon,\rho,M,G,T,R,P,N)
+$$
+projected from an accepted carrier $E=(K,F,\epsilon,\rho,M,T,R,P,N)$. The rows are, in order, the compact metric source $K$, finite continuous-family ledger $F$, shared tolerance request $\epsilon$, shared radius row $\rho$, uniform-modulus handoff $M$, finite-net consumer boundary $G$, componentwise $\hsame$ transport $T$, displayed $\Cont$ replay $R$, $\Pkg$ provenance $P$, and local $\NameCert_{\EquicontinuityUp}$ row $N$. The boundary row $G$ is readable only as readiness for $\FiniteNetEquicontinuityUp$ over the displayed $K,F,\epsilon,\rho,M$ route; it is not a selected net, subsequence, compactness conclusion, or Arzela--Ascoli limit.
+\end{definition}
+
+\begin{theorem}[Equicontinuity compact-metric finite-modulus handoff]
+\label{thm:equicontinuity-compactmetric-handoff}
+Every accepted $\EquicontinuityUp$ finite-modulus subcarrier $E_{\mathrm{fin}}=(K,F,\epsilon,\rho,M,G,T,R,P,N)$ hands downstream consumers a compact-source route only after $K$ has been read as the compact metric source and before $F,\epsilon,\rho,M,G$ are inspected. The rows $T,R,P,N$ preserve this compact-source handoff and cannot replace it by an ambient compactness assertion or selected finite net.
+\end{theorem}
+\begin{proof}
+Project $E_{\mathrm{fin}}$ from \autoref{def:equicontinuity-finite-modulus-carrier}. Its first row is the same compact source $K$ already displayed in \autoref{def:equicontinuity-carrier}.
+
+Apply \autoref{thm:equicontinuity-compact-source-admission} and \autoref{thm:equicontinuity-compact-metric-route}. They force every continuous-family, uniform-modulus, and finite-net-facing read to pass through $K$ before $F,\epsilon,\rho,M$ are consumed.
+
+The boundary row $G$ is therefore only a consumer boundary for the existing route. Transport, replay, provenance, and naming through $T,R,P,N$ preserve that route and add no selected net or ambient compactness coordinate.
+\end{proof}
+
+\begin{theorem}[Equicontinuity continuous-map finite-modulus route]
+\label{thm:equicontinuity-continuousmap-modulus-route}
+For every accepted finite-modulus subcarrier $E_{\mathrm{fin}}=(K,F,\epsilon,\rho,M,G,T,R,P,N)$, the family row $F$ is read only as a finite $\ContinuousMapUp$ ledger over the already displayed compact source $K$. The shared tolerance request $\epsilon$, radius row $\rho$, and modulus handoff $M$ are attached to that same ledger, so no consumer may detach the modulus route into host-level continuity, a source-changing family, or memberwise radii.
+\end{theorem}
+\begin{proof}
+Read the finite family row $F$ after the compact source $K$. By \autoref{def:equicontinuity-finite-modulus-carrier}, these are the same rows projected from the accepted $\EquicontinuityUp$ carrier.
+
+Apply \autoref{thm:equicontinuity-continuous-family-admission} and \autoref{thm:equicontinuity-continuous-family-ledger-admission}. They identify $F$ as the finite $\ContinuousMapUp$ ledger over $K$ and exclude host continuity, source-changing maps, and infinite-family replacement.
+
+Use \autoref{thm:equicontinuity-shared-radius-stability}. The shared radius row $\rho$ is transported with $K,F,\epsilon,M$, so the modulus route remains attached to the same finite family ledger.
+\end{proof}
+
+\begin{theorem}[Equicontinuity uniform-modulus consumer boundary]
+\label{thm:equicontinuity-uniform-modulus-consumer}
+For every accepted finite-modulus subcarrier $E_{\mathrm{fin}}=(K,F,\epsilon,\rho,M,G,T,R,P,N)$, a $\UniformModulusUp$, $\UniformEquicontinuityModulusUp$, or $\FiniteNetEquicontinuityUp$ consumer may read the boundary $G$ only after the shared handoff
+$$
+K,F,\epsilon,\rho,M
+$$
+has been displayed. The boundary exports readiness for the finite-net consumer and no selected finite net, subsequence, compactness proof, Arzela--Ascoli limit, quotient equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the handoff rows $K,F,\epsilon,\rho,M$ and the boundary row $G$ from \autoref{def:equicontinuity-finite-modulus-carrier}. The row $G$ appears downstream of the shared tolerance-radius handoff.
+
+Apply \autoref{thm:equicontinuity-finite-net-readiness} and \autoref{thm:equicontinuity-shared-modulus-handoff-preservation}. They require every finite-net-facing consumer to preserve the compact source, family ledger, tolerance request, shared radius, and modulus handoff before reading any consumer boundary.
+
+Finally use \autoref{thm:equicontinuity-modulus-ledger-exactness} and \autoref{thm:equicontinuity-nonescape}. The displayed handoff is the whole exported modulus ledger, and the excluded selected nets, subsequences, compactness conclusions, limits, quotient equalities, and completeness principles are absent from the packet.
+\end{proof}
+
 \begin{theorem}[Equicontinuity compact-source admission]
 \label{thm:equicontinuity-compact-source-admission}
 For every accepted $\EquicontinuityUp$ carrier $E=(K,F,\epsilon,\rho,M,T,R,P,N)$, the compact source row $K$ is admitted through $\CompactMetricUp$ before any finite-net, shared-radius, or modulus consumer may inspect $F,\epsilon,\rho,M$. No downstream $\FiniteNetEquicontinuityUp$, $\UniformModulusUp$, or Arzela--Ascoli-facing read can bypass $K$ or replace it by an ambient compactness assertion.

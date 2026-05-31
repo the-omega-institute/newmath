@@ -169,6 +169,28 @@ Finally apply the obligation-closure package of \autoref{thm:bounded-real-sequen
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedRealSequenceUp.BoundedRealSequenceLocatedWindowChoice}
 
+\begin{theorem}[Bounded real sequence location induction]
+\label{thm:bounded-real-sequence-location-induction}
+Let
+$$
+B=(S,W,Q,R,I,H,C,P,N)
+$$
+be an accepted $\BoundedRealSequenceUp$ packet whose located-bound row $I$, $\ClosedBoundedIntervalNetUp$ finite-net row, $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ readback $Q$, and $\RealUp$ seal $R$ are displayed. Then every inspected finite prefix admits induction over its window positions: the empty prefix preserves the same located bound row $I$, and each successor read factors through the same route
+$$
+S,W,Q,R,I,H,C,P,N
+$$
+so the new visible value remains inside the same located interval and real-seal rows. The induction exports no subsequence selection, real trichotomy, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $B=(S,W,Q,R,I,H,C,P,N)$. The inspected schedule $S$ and stream windows $W$ are finite, so induction is over the displayed prefix positions rather than over an infinite host stream.
+
+For the empty prefix, read only the already displayed located-bound row $I$. No sequence value has been inspected, and the same $\ClosedBoundedIntervalNetUp$ row remains the active bound.
+
+For the successor step, use \autoref{thm:bounded-real-sequence-finite-window-bound} and \autoref{thm:bounded-real-sequence-regseqrat-readback}. The next window read goes through $W$ to $Q$, then to the $\RealUp$ seal $R$, and then back to the same interval-net row $I$.
+
+The located-bound handoff of \autoref{thm:bounded-real-sequence-located-bound-handoff} keeps the lower and upper endpoint reads attached to this route. Transport, replay, provenance, and naming through $H,C,P,N$ preserve the induction invariant, and the carrier has no coordinate for the excluded subsequence, trichotomy, quotient-equality, or completeness principles.
+\end{proof}
+
 \begin{theorem}[Bounded real sequence obligation-closure package]
 \label{thm:bounded-real-sequence-obligation-closure-package}
 For every accepted $\BoundedRealSequenceUp$ carrier, the carrier row of \autoref{def:bounded-real-sequence-carrier}, the NameCert obligation surface of \autoref{thm:bounded-real-sequence-namecert-obligations}, the finite-window bound of \autoref{thm:bounded-real-sequence-finite-window-bound}, the Bolzano--Weierstrass handoff of \autoref{thm:bounded-real-sequence-bolzano-weierstrass-handoff}, the window envelope of \autoref{thm:bounded-real-sequence-window-envelope}, the Bolzano frontier of \autoref{thm:bounded-real-sequence-bolzano-frontier}, the RegSeqRat readback of \autoref{thm:bounded-real-sequence-regseqrat-readback}, and the located-window choice boundary of \autoref{thm:bounded-real-sequence-located-window-choice} assemble the obligationClosure surface over
