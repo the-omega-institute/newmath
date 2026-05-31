@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\EnrichedYonedaUp$}
+\label{ch:concrete-instances-enriched-yoneda-namecert}
+\origin{human}
+
+Following Kelly's enriched category theory and Mac Lane's categorical account of
+representability, the $\EnrichedYonedaUp$ packet records the enriched
+functor-of-points surface as finite NameCert data. It sits over the category
+carrier of \autoref{ch:concrete-instances-category-namecert}, the ordinary
+functor and natural-transformation rows of
+\autoref{ch:concrete-instances-functor-namecert} and
+\autoref{ch:concrete-instances-nattrans-namecert}, the enriched hom-object
+surface of \autoref{ch:concrete-instances-enrichedcat-namecert}, and the
+monoidal tensor boundary of
+\autoref{ch:concrete-instances-monoidalcat-namecert}. The packet names the
+finite route by which enriched representables, enriched naturality, and
+monoidal coherence can be replayed without importing a host enriched presheaf
+category, ambient ends, quotient functor categories, or external universality.
+
+\begin{definition}[EnrichedYoneda seed carrier]
+\label{def:enriched-yoneda-seed-carrier}
+An $\EnrichedYonedaUp$ seed carrier is a finite $\mathsf{BHist}$ packet
+$$
+Y=(C,V,O,H,F,S,U,Q,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the consumed $\CategoryUp$ object-and-hom boundary for the
+  underlying ordinary category read by downstream categorical consumers;
+\item $V$ is the consumed $\EnrichedCatUp$ row, including the object boundary,
+  enriched hom-object rows, identity rows, and enriched composition rows;
+\item $O$ records the chosen object row whose enriched representable is being
+  named;
+\item $H$ is the enriched hom-object row assigning to each displayed object
+  $x$ the hom-object $V(x,O)$ in the consumed monoidal category;
+\item $F$ is the enriched functor-of-points row, read as the object-indexed
+  assignment $x \mapsto V(x,O)$ together with its displayed action on enriched
+  hom rows;
+\item $S$ records enriched naturality-square rows comparing the action of $F$
+  against enriched composition in $V$;
+\item $U$ records monoidal-unit rows and the coherence rows needed to read
+  identities, associators, left unitors, and right unitors through the consumed
+  $\MonoidalCatUp$ boundary;
+\item $Q$ records componentwise $\hsame$ transport for the ordinary category,
+  enriched category, chosen object, hom-object, functor-of-points, naturality,
+  monoidal coherence, provenance, and local naming rows;
+\item $T$ records displayed $\Cont$ replay from the chosen object through
+  enriched hom-object inspection, functor-of-points readback, naturality-square
+  comparison, and monoidal coherence;
+\item $R$ is the finite readback ledger by which ordinary $\FunctorUp$ and
+  $\NatTransUp$ consumers may read the enriched rows without receiving host
+  functor-category equality;
+\item $P$ is the $\Pkg$ provenance over $\EnrichedYonedaUp$, $\CategoryUp$,
+  $\FunctorUp$, $\NatTransUp$, $\EnrichedCatUp$, $\MonoidalCatUp$,
+  $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\EnrichedYonedaUp}$ row.
+\end{enumerate}
+The classifier relates two accepted packets exactly when these rows transport
+componentwise through $Q$ and replay through the same displayed routes in $T$.
+It does not contain a coordinate for a host enriched presheaf category, external
+end calculus, quotient natural-transformation equality, global enriched
+embedding theorem, or ambient universal property.
+\end{definition}
+
+\begin{closurestatus}{\EnrichedYonedaUp}
+  \constructivestory{An $\EnrichedYonedaUp$ packet is generated from a consumed CategoryUp boundary, FunctorUp and NatTransUp consumer rows, an EnrichedCatUp hom-object surface, a MonoidalCatUp tensor-coherence boundary, a chosen object, enriched functor-of-points rows, naturality squares, componentwise transport, displayed replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:enriched-yoneda-seed-carrier} seeds the finite enriched functor-of-points certificate over CategoryUp, FunctorUp, NatTransUp, EnrichedCatUp, MonoidalCatUp, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close enriched Yoneda equivalence, enriched presheaf categories, end calculus, quotient functor-category equality, host universality, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, enriched hom-object exactness, functor-of-points readback, enriched naturality, monoidal coherence, transport replay, provenance, and non-escape for the same packet.}
+\end{closurestatus}
