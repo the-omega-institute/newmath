@@ -36,7 +36,7 @@ theorem PolishSpaceCarrier_l10_consumer_boundary [AskSetup] [PackageSetup]
         M K D S R W H C G N bundle pkg := carrier
   obtain ⟨_MUnary, _KUnary, _DUnary, _SUnary, _RUnary, WUnary, _HUnary,
     CUnary, _GUnary, _NUnary, _metricCompleteLedger, _ledgerStreamReadback,
-    _transportReplayProvenance, carrierPkg⟩ := carrier
+    _transportReplayProvenance, carrierPkg, _localPkg⟩ := carrier
   have boundaryUnary : UnaryHistory boundaryRead :=
     unary_cont_closed WUnary CUnary ledgerReplayBoundary
   have sourceBoundary :
