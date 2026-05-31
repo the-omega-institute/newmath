@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\ContractiveCauchyIteratorUp$}
+\label{ch:concrete-instances-contractive-cauchy-iterator-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges constructive analysis, the $\ContractiveCauchyIteratorUp$ packet isolates the finite Picard-iteration surface that hands a Cauchy modulus to completion-facing consumers before any fixed-point endpoint is read. It sits between the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the complete-metric service of \autoref{ch:concrete-instances-completemetric-namecert}, the map-level contraction packet of \autoref{ch:concrete-instances-contractionmapping-namecert}, the one-step Picard contraction route of \autoref{ch:concrete-instances-picardcontraction-namecert}, the Banach endpoint consumer of \autoref{ch:concrete-instances-banach-fixed-point-namecert}, the dyadic budget ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real seal boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite iterate windows and the Cauchy-modulus handoff; it does not claim a fixed point.
+
+\begin{definition}[ContractiveCauchyIterator carrier]
+\label{def:contractive-cauchy-iterator-carrier}
+A $\ContractiveCauchyIteratorUp$ carrier is a finite $\BHist$ packet
+$$
+P=(M,T,B,I,W,Q,D,E,H,C,P_0,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row, including the carried point histories and distance-read surface used by the iterator.
+\item $T$ is the $\ContractionMappingUp$ self-map row whose graph and contraction comparison are available before any iterate window is opened.
+\item $B$ is the rational contraction-bound row below one, read through the same dyadic and metric budget as the map row.
+\item $I$ is the initial-row data, naming the starting point and the first graph read used to begin the Picard schedule.
+\item $W$ is the finite iterate-window ledger. It records displayed windows of $x_0,T(x_0),\ldots,T^n(x_0)$ and the adjacent-distance comparisons visible inside those windows.
+\item $Q$ is the Cauchy-modulus ledger. For each displayed tolerance request it records the finite threshold extracted from $B,I,W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance budget row used to compare requested precision, contraction powers, and tail bounds.
+\item $E$ is the completion and $\RealUp$ seal boundary. It is a boundary row only: no endpoint seal may be read until $M,T,B,I,W,Q,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the metric source, contraction map, bound, initial row, iterate windows, Cauchy ledger, dyadic tolerance budget, boundary seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$$
+M,T,B,I,W,Q,D \longmapsto E,H,P_0,N .
+$$
+\item $P_0$ is the $\Pkg$ provenance over $\ContractiveCauchyIteratorUp$, $\MetricUp$, $\CompleteMetricUp$, $\ContractionMappingUp$, $\PicardContractionUp$, $\BanachFixedPointUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ContractiveCauchyIteratorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,T,B,I,W,Q,D,E,H,C,P_0,N$. It has no coordinate for a fixed point, endpoint uniqueness, quotient metric equality, choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[ContractiveCauchyIterator NameCert obligations]
+\label{thm:contractive-cauchy-iterator-namecert-obligations}
+For every accepted $\ContractiveCauchyIteratorUp$ carrier
+$$
+P=(M,T,B,I,W,Q,D,E,H,C,P_0,N),
+$$
+the local $\NameCert_{\ContractiveCauchyIteratorUp}$ surface consists exactly of five finite obligation families:
+\begin{enumerate}
+\item carrier admission for the metric source, contraction map, rational bound, initial row, iterate windows, Cauchy-modulus ledger, dyadic tolerance budget, completion boundary, transport, replay, provenance, and local naming rows;
+\item contraction-budget visibility, requiring $T$ and $B$ to be read against $M$ before any Picard window is consumed;
+\item iterate-window stability, requiring every displayed adjacent-window comparison in $W$ to replay the same contraction comparison and initial row $I$;
+\item Cauchy-modulus exactness, requiring each tolerance request to read $D$ and then $Q$ as a finite threshold ledger over the displayed windows;
+\item endpoint nonescape, requiring every $\CompleteMetricUp$, $\BanachFixedPointUp$, or $\RealUp$ consumer to pass through $M,T,B,I,W,Q,D$ before the boundary row $E$ is exposed.
+\end{enumerate}
+No obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:contractive-cauchy-iterator-carrier}. The accepted packet displays exactly the metric source, contraction map, rational bound, initial row, iterate-window ledger, Cauchy-modulus ledger, dyadic tolerance budget, boundary seal, and structural rows.
+
+The contraction budget is read before iteration. The rows $T$ and $B$ are tied to the metric source row $M$, so an iterate comparison that does not pass through the displayed metric and bound has no coordinate in the carrier.
+
+Window stability is finite replay. Each row of $W$ opens the initial row $I$ and the graph reads of $T$, then records only adjacent comparisons certified by the same contraction budget.
+
+The Cauchy-modulus obligation is the handoff row. A tolerance request first reads the dyadic budget $D$ and then the threshold ledger $Q$, so downstream completion consumers receive a finite modulus rather than a selected endpoint.
+
+Finally $E,H,C,P_0,N$ do not add an analytic endpoint. They expose the boundary, transport the same rows, replay the same route, record provenance, and name the local packet.
+\end{proof}
+
+\begin{theorem}[ContractiveCauchyIterator completion handoff]
+\label{thm:contractive-cauchy-iterator-completion-handoff}
+Every $\CompleteMetricUp$ or $\BanachFixedPointUp$ consumer of an accepted $\ContractiveCauchyIteratorUp$ carrier must read the finite rows
+$$
+M,T,B,I,W,Q,D
+$$
+before any endpoint boundary row $E$ is exposed. The handoff supplies a metric source, a contractive self-map, a displayed rational bound below one, an initial row, finite Picard iterate windows, a Cauchy-modulus ledger, and a dyadic tolerance budget. It does not supply a fixed point, endpoint uniqueness, quotient metric equality, choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows available before the boundary are precisely the metric source $M$, contraction map $T$, rational bound $B$, initial row $I$, iterate windows $W$, Cauchy ledger $Q$, and dyadic tolerance budget $D$.
+
+A complete-metric consumer first reads the finite Cauchy evidence. The iterate windows expose only finite Picard prefixes, while the dyadic budget and Cauchy ledger convert a tolerance request into a displayed threshold.
+
+A Banach-facing consumer receives the same data. It may use the later completion service or fixed-point route only after this iterator packet has handed off the Cauchy-modulus row, so no endpoint is selected inside the iterator itself.
+
+The boundary row $E$ records where completion and real-seal consumers may continue. Since $E$ is downstream of $M,T,B,I,W,Q,D$ and carries no separate choice or equality coordinate, the theorem exports only the finite handoff.
+\end{proof}
+
+\closureat{ContractiveCauchyIteratorUp}{seedStr}
+
+\begin{closurestatus}{\ContractiveCauchyIteratorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:contractive-cauchy-iterator-carrier}, \autoref{thm:contractive-cauchy-iterator-namecert-obligations}, and \autoref{thm:contractive-cauchy-iterator-completion-handoff} seed the finite Picard-iteration Cauchy-modulus handoff before any endpoint seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a fixed point, endpoint uniqueness, quotient metric equality, choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, contraction-budget visibility, iterate-window stability, Cauchy-modulus exactness, endpoint nonescape, provenance, and local naming for BEDC.Derived.ContractiveCauchyIteratorUp.}
+  \constructivestory{A $\ContractiveCauchyIteratorUp$ packet is generated from a metric source, contractive self-map, rational bound below one, initial row, finite iterate windows, Cauchy-modulus ledger, dyadic tolerance budget, completion boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
