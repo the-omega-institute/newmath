@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """Background full-PDF build daemon for the BEDC paper.
 
-Round-level codex_revise rounds only run `make check` (single-pass
-draftmode pdflatex) so PDF builds don't dominate round wall time and
-trigger 600s timeouts. The full double-pass `make` that resolves
-`\\autoref` page numbers and produces the typeset main.pdf is handled
-here instead — asynchronously, against the codex-auto-dev tip, in a
-dedicated `_paper_builder` git worktree so it never touches a round
+Round-level codex_revise rounds run static `make precheck` and record
+full PDF verification as a deferred envelope. The full double-pass `make`
+that resolves `\\autoref` page numbers and produces the typeset main.pdf
+is handled here instead: asynchronously, against the codex-auto-dev tip,
+in a dedicated `_paper_builder` git worktree so it never touches a round
 worktree.
 
 This mirrors the lean side, where the analogous bg_builder thread
@@ -52,6 +51,11 @@ from datetime import datetime
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+TOOLS_DIR = REPO_ROOT / "tools"
+if str(TOOLS_DIR) not in sys.path:
+    sys.path.insert(0, str(TOOLS_DIR))
+from verification_contract import record, utc_now
+
 BUILDER_DIR = REPO_ROOT / ".worktrees" / "_paper_builder"
 LAST_BUILT_FILE = (
     REPO_ROOT / "papers" / "bedc" / "scripts" / ".last_built_sha"
@@ -168,6 +172,28 @@ def run_full_build() -> tuple[bool, str, float]:
         return False, f"make raised {exc!r}", elapsed
 
 
+def record_full_build_result(
+    sha: str,
+    *,
+    ok: bool,
+    tail: str,
+    elapsed: float,
+    started_at: str,
+) -> None:
+    record(
+        sha=sha,
+        gate="paper-full-make",
+        status="passed" if ok else "failed",
+        mode="async-builder",
+        owner="paper_builder_daemon",
+        detail=tail[-1200:],
+        started_at=started_at,
+        finished_at=utc_now(),
+        elapsed_s=elapsed,
+        artifact=str(LOG_FILE),
+    )
+
+
 def fix_attempts_for(sha: str) -> int:
     if not BROKEN_SHAS_FILE.exists():
         return 0
@@ -280,7 +306,15 @@ def main() -> int:
                 if not checkout(sha):
                     log("checkout failed, will retry next tick")
                 else:
+                    started_at = utc_now()
                     ok, tail, elapsed = run_full_build()
+                    record_full_build_result(
+                        sha,
+                        ok=ok,
+                        tail=tail,
+                        elapsed=elapsed,
+                        started_at=started_at,
+                    )
                     if ok:
                         log(
                             f"build OK {sha[:8]} in {elapsed:.0f}s"

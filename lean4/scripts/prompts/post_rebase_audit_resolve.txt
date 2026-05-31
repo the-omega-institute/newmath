@@ -45,15 +45,13 @@ Remove ONLY worker {worker_id}'s offending additions:
    whole block if this round cannot justify it.
 6. Do NOT touch `lean4/BEDC/`. Do NOT introduce iteration
    narrative vocabulary.
-7. Re-run `cd papers/bedc && make check` and `python3 lean4/scripts/bedc_ci.py audit` (full main.pdf is async via paper_builder_daemon)
+7. Re-run `cd papers/bedc && make precheck` and `python3 lean4/scripts/bedc_ci.py audit`
    until both exit 0. If the round's paper-side contribution
    becomes empty after the cleanup, that is acceptable — keep
    the Lean-side commits and let the pipeline merge what
-   remains. While iterating on the strip-out you may use
-   `make check` (single -draftmode pass, ~half the wall time)
-   to confirm syntax; the FINAL verification before commit
-   must be the full `make` so cross-references and the audit
-   line up.
+   remains. While iterating on the strip-out, use `make precheck` for
+   static paper gates. Full PDF verification is recorded by the async
+   builder envelope.
 8. Once everything passes, `git add papers/bedc` and create a
    small follow-up commit (or amend the merge commit with
    `git commit --amend --no-edit`) so the round's history retains

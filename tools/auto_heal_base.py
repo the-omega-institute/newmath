@@ -121,7 +121,7 @@ Representative failure lines (last 5):
 3. Edit ONE prompt file to add an explicit HARD GATE block matching the gate's actual regex / path-match logic. State the rule, the rationale, and an explicit workaround (what codex should do INSTEAD when the natural target would trip the gate). Cite the observed storm: include the count + a representative round id from {rounds} so future readers see the historical justification.
 4. Do NOT modify `codex_formalize.py` / `codex_revise.py` themselves — orchestrator restart would lose in-flight workers, which the project rule forbids.
 5. Do NOT touch the `parts/visions/` directory, the `lean4/BEDC/**/Examples/**` tree, or any `*Examples*` / `*Scaffold*` / `*Demo*` path; those are read-only by project rule.
-6. After editing: `make check` (in `papers/bedc/`) + `python3 lean4/scripts/bedc_ci.py audit` must both exit 0.
+6. After editing: `make precheck` (in `papers/bedc/`) + `python3 lean4/scripts/bedc_ci.py audit` must both exit 0.
 7. `git add` + `git commit -m "auto-heal: gate-storm <gate-name> 提示约束"`; the commit subject MUST contain the dedup signature supplied by the daemon. Do NOT push (the daemon handles push).
 
 ## When NOT to act
@@ -436,7 +436,7 @@ def verify_local_ci() -> tuple[bool, str | None]:
     # reverting otherwise-good codex heal commits. Local benchmarks show
     # axiom-purity normally 3-5 min under load; audit 1-3 min.
     checks = [
-        ("papers/bedc make check", ["make", "check"], REPO_ROOT / "papers" / "bedc", 600),
+        ("papers/bedc make precheck", ["make", "precheck"], REPO_ROOT / "papers" / "bedc", 600),
         ("lean4 lake build", ["lake", "build"], REPO_ROOT / "lean4", 600),
         (
             "bedc_ci audit",
@@ -970,8 +970,7 @@ __LOG__
 3. Verify the fix locally before committing:
    - For Lean-side: `cd lean4 && lake build` exits 0; `python3
      tools/check-axioms.py` exits 0.
-   - For paper-side: `cd papers/bedc && make check` exits 0 (single-pass
-     pdflatex catches macro / math-env errors without the full ~75s build).
+   - For paper-side: `cd papers/bedc && make precheck` exits 0.
    - For audit: `python3 lean4/scripts/bedc_ci.py audit` exits 0.
    Run `python3 lean4/scripts/bedc_ci.py axiom-purity --strict` AND `python3 lean4/scripts/bedc_ci.py audit`; both must exit 0 before commit.
 

@@ -61,6 +61,7 @@ from pipeline_worker_identity import (
     parse_new_worktree_name,
     recovery_ticket_name,
 )
+from verification_contract import record, utc_now
 
 REPO_ROOT = host_path(LEAN_ROOT.parent, "REPO_ROOT", default=LEAN_ROOT.parent)  # newmath/
 IMPL_PLAN = LEAN_ROOT / "IMPLEMENTATION_PLAN.md"
@@ -248,6 +249,14 @@ def _clear_pending_build_if_current(sha: str) -> None:
 
 def request_build(sha: str) -> None:
     """Producer: signal that `sha` is a new build candidate."""
+    record(
+        sha=sha,
+        gate="lean-full-build",
+        status="deferred",
+        mode="worker-premerge",
+        owner="lean_builder",
+        detail="worker-premerge records full Lean build as deferred to background builder",
+    )
     payload = {
         "sha": sha,
         "requested_at": datetime.utcnow().isoformat() + "Z",
@@ -2873,10 +2882,8 @@ def run_round_in_worktree(
             success = True
         else:
             assert wt is not None
-            # No lake build here — codex did single-file `lake env lean` per
-            # touched file in Phase C. A separate background builder
-            # (bg_builder.py) watches the base branch and auto-dispatches
-            # codex repair rounds when the full build breaks downstream.
+            # Full Lean build is recorded as deferred and fulfilled by the
+            # background builder after merge.
             success, new_commits = verify_worktree_commits(wt, pre_commits)
 
         # ── Merge back ────────────────────────────────────────────
@@ -3308,6 +3315,27 @@ def _builder_lake_build(cwd: Path, log_file: Path, timeout: int = 7200) -> tuple
     return ok, tail
 
 
+def record_lake_build_result(
+    sha: str,
+    *,
+    ok: bool,
+    tail: str,
+    log_file: Path,
+    started_at: str,
+) -> None:
+    record(
+        sha=sha,
+        gate="lean-full-build",
+        status="passed" if ok else "failed",
+        mode="async-builder",
+        owner="lean_builder",
+        detail=tail[-1200:],
+        started_at=started_at,
+        finished_at=utc_now(),
+        artifact=str(log_file),
+    )
+
+
 def _builder_make_fix_worktree(sha: str) -> WorktreeInfo:
     """Create a `fix-<sha8>` worktree at `sha`, with .lake cache cloned."""
     WORKTREE_DIR.mkdir(parents=True, exist_ok=True)
@@ -3652,7 +3680,15 @@ def _builder_loop(poll_seconds: float, max_fix_attempts: int) -> None:
             continue
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
         build_log = BUILDER_LOG_DIR / f"build_{sha[:8]}_{ts}.txt"
+        started_at = utc_now()
         ok, tail = _builder_lake_build(BUILDER_WORKTREE / "lean4", build_log)
+        record_lake_build_result(
+            sha,
+            ok=ok,
+            tail=tail,
+            log_file=build_log,
+            started_at=started_at,
+        )
         if ok:
             logger.info(f"[builder] PASS {sha[:8]} (log={build_log.name})")
             try:
