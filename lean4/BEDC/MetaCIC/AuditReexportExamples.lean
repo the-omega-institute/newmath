@@ -13,12 +13,16 @@ example (h : SubjectReductionDischargeBundle) :
     SubjectReductionDischargeBundle :=
   h
 
-/-- Setup route reference: the typeclass-mediated subject-reduction theorem is exported. -/
-example [SubjectReductionSetup]
+/-- Bundle route reference: explicit discharge evidence feeds subject reduction. -/
+example (h : SubjectReductionDischargeBundle)
     {ctx : Ctx} {t t' A : Term}
     (ht : HasType ctx t A) (hbeta : BetaStep t t') :
     HasType ctx t' A :=
-  subject_reduction_via_setup ht hbeta
+  subject_reduction_from_bundle h ht hbeta
+
+/-- Obstruction reference: the audit namespace exports the checked no-bundle fact. -/
+example : ¬ SubjectReductionDischargeBundle :=
+  not_subjectReductionDischargeBundle
 
 /-- Obstruction marker reference: the audit namespace exports the consistency obstruction. -/
 example : ¬ closed_consistency_reduction_obstruction :=
