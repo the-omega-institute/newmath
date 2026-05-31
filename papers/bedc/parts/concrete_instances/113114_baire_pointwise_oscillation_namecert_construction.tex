@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\BairePointwiseOscillationUp$}
+\label{ch:concrete-instances-baire-pointwise-oscillation-namecert}
+\origin{human}
+
+Following Baire and Lebesgue on pointwise oscillation, the $\BairePointwiseOscillationUp$ packet records the finite value-window evidence by which a pointwise-limit ledger exposes an oscillation bound at named source points. It reads the source and approximant windows supplied by \autoref{ch:concrete-instances-baireonefunction-namecert}, checks the rational value windows through \autoref{ch:concrete-instances-regseqrat-namecert}, seals the endpoint observations through \autoref{ch:concrete-instances-real-namecert}, keeps the inspection schedule visible through \autoref{ch:concrete-instances-streamname-namecert}, and exports only the epigraph-facing handoff that \autoref{ch:concrete-instances-lowersemicontinuous-namecert} may consume. The packet is a local certificate for displayed oscillation data, not a topology of function spaces and not a theorem about all discontinuity sets.
+
+\begin{definition}[Baire pointwise oscillation carrier]
+\label{def:baire-pointwise-oscillation-carrier}
+A $\BairePointwiseOscillationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,F,S,Q^-,Q^+,R^-,R^+,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source-context row inherited from the $\BaireOneFunctionUp$ packet, naming the source points and basic-open evidence inspected by the oscillation certificate.
+\item $F$ is the pointwise-limit family ledger of $\BaireOneFunctionUp$ approximant observations whose two displayed value windows are being compared.
+\item $S$ is the $\StreamNameUp$ schedule row selecting the two finite inspection windows, the source point, and the precision request.
+\item $Q^-$ and $Q^+$ are the lower and upper $\RegSeqRatUp$ rational readback rows for the two displayed value windows.
+\item $R^-$ and $R^+$ are the corresponding $\RealUp$ seals, reached only after $X,F,S,Q^-,Q^+$ have been displayed.
+\item $B$ is the rational oscillation-bound row recording a displayed $b\in\mathbb{Q}_{\ge 0}$ with the certified window inequality $R^+ - R^- \leq b$ at the named source point.
+\item $H$ records componentwise $\hsame$ transport for the source context, pointwise-limit ledger, stream schedule, rational readbacks, real seals, oscillation bound, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a source-point request through the $\BaireOneFunctionUp$ value windows, the $\StreamNameUp$ schedule, the $\RegSeqRatUp$ readbacks, the $\RealUp$ seals, the rational oscillation bound, and the lower-semicontinuous handoff surface.
+\item $P$ is the $\Pkg$ provenance over $\BairePointwiseOscillationUp$, $\BaireOneFunctionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LowerSemicontinuousUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BairePointwiseOscillationUp}$ row.
+\end{enumerate}
+The carrier exports no ambient topology on a function space, no arbitrary selector of subsequences, no quotient equality of real names, no global discontinuity classification, and no completeness principle for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Baire pointwise oscillation NameCert obligations]
+\label{thm:baire-pointwise-oscillation-namecert-obligations}
+For every accepted $\BairePointwiseOscillationUp$ carrier $K=(X,F,S,Q^-,Q^+,R^-,R^+,B,H,C,P,N)$, the local $\NameCert_{\BairePointwiseOscillationUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the source context, pointwise-limit family ledger, stream schedule, lower and upper rational readbacks, lower and upper real seals, rational oscillation bound, transport, continuation, provenance, and local naming rows;
+\item value-window admission, requiring both displayed value windows to be read from the same $\BaireOneFunctionUp$ pointwise-limit ledger over the same source row $X$;
+\item schedule coherence, requiring the $\StreamNameUp$ row $S$ to name the source point, precision request, and two finite approximant windows used by $Q^-$ and $Q^+$;
+\item rational readback exactness, requiring $Q^-$ and $Q^+$ to feed the real seals $R^-$ and $R^+$ before the bound row $B$ is available;
+\item oscillation-bound stability, requiring the displayed inequality $R^+ - R^- \leq b$ in $B$ to be preserved by the componentwise $\hsame$ rows in $H$;
+\item handoff compatibility, allowing $\LowerSemicontinuousUp$ consumers to read only the displayed oscillation-bound row and the route that produced it;
+\item ledger refusal, excluding host function-space topology, arbitrary subsequence selection, quotient equality of real names, global discontinuity theorems, and completeness of $\RealUp$.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:baire-pointwise-oscillation-carrier}. The accepted packet exposes exactly the source context, pointwise-limit family ledger, stream schedule, two rational readbacks, two real seals, rational bound, transport, continuation, provenance, and local naming rows.
+
+Value-window admission and schedule coherence come from the rows $F$ and $S$. Both value windows are read from the same $\BaireOneFunctionUp$ ledger, and $S$ records the finite inspection windows before any rational readback can be used.
+
+Rational readback exactness is forced by the order of the route. The rows $Q^-$ and $Q^+$ feed the real seals $R^-$ and $R^+$, and the bound row $B$ is downstream of those seals.
+
+Transport stability is componentwise. The $\hsame$ rows in $H$ identify the displayed source, ledger, schedule, readback, seal, bound, replay, provenance, and naming coordinates, so the displayed inequality is preserved along accepted classifier moves.
+
+The lower-semicontinuous handoff is a read of the same route. Since $P$ and $N$ contain no coordinate for ambient topology, arbitrary subsequences, quotient equality, global discontinuity classification, or $\RealUp$ completeness, the listed obligations exhaust the certificate.
+\end{proof}
+
+\begin{theorem}[BaireOneFunction oscillation handoff]
+\label{thm:baire-pointwise-oscillation-baireone-handoff}
+Every $\BairePointwiseOscillationUp$ consumer row exported by an accepted carrier factors through the displayed $\BaireOneFunctionUp$ value-window route
+$$
+X,F,S,Q^-,Q^+ \longmapsto R^-,R^+ \longmapsto B .
+$$
+Consequently a downstream $\LowerSemicontinuousUp$ consumer may use the rational oscillation bound and the displayed provenance of its two value windows, but it receives no host function-space topology, no arbitrary subsequence selector, no quotient equality of real names, and no global theorem about the discontinuity set of a Baire-one function.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the oscillation-bound row $B$. By carrier admission, $B$ appears only after the source row $X$, the $\BaireOneFunctionUp$ family ledger $F$, the schedule $S$, the rational readbacks $Q^-,Q^+$, and the real seals $R^-,R^+$.
+
+Replay the continuation row $C$. The source-point request first reads the pointwise-limit ledger, then selects the two finite value windows through $S$, checks their rational windows through $Q^-$ and $Q^+$, and seals the endpoints as $R^-$ and $R^+$.
+
+The bound row is therefore a downstream finite certificate, not an independent analytic object. Transport by $H$ preserves the same coordinates, and the provenance row $P$ records only the named packets in the displayed route.
+
+A $\LowerSemicontinuousUp$ consumer can read the handoff only through that route. Since no excluded coordinate is present in the packet, the handoff exports neither ambient topology nor any global discontinuity theorem.
+\end{proof}
+
+\begin{closurestatus}{\BairePointwiseOscillationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:baire-pointwise-oscillation-carrier}, \autoref{thm:baire-pointwise-oscillation-namecert-obligations}, and \autoref{thm:baire-pointwise-oscillation-baireone-handoff} seed the finite pointwise-oscillation packet from Baire-one value windows to lower-semicontinuous consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function-space topology, arbitrary subsequence selection, quotient equality of real names, global discontinuity classification, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, value-window admission, schedule coherence, rational readback exactness, oscillation-bound stability, handoff compatibility, and ledger refusal for BEDC.Derived.BairePointwiseOscillationUp.}
+  \constructivestory{A $\BairePointwiseOscillationUp$ packet is generated from a $\BaireOneFunctionUp$ pointwise-limit ledger, a $\StreamNameUp$ schedule, two $\RegSeqRatUp$ readbacks, two $\RealUp$ seals, a rational oscillation-bound row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
