@@ -1,0 +1,35 @@
+\begin{theorem}[Closed-term substitution boundary socket separation]
+\label{thm:closed-term-substitution-boundary-socket-separation}
+For every accepted $\ClosedTermSubstitutionBoundaryUp$ packet, the source and value closedness rows, shift boundary row, substitution boundary row, ledger row, and audit row keep the free-variable socket separate from every subject-reduction consumer. Any consumer that asks for a confluence, normalization, or subject-reduction theorem must first read the finite boundary route
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+through \autoref{thm:closed-term-substitution-boundary-ledger-route-separation}, \autoref{thm:closed-term-substitution-boundary-route-saturation}, and \autoref{thm:closed-term-substitution-boundary-metacic-consumer-nonescape}; the packet exports no unregistered free-variable coordinate, host substitution semantics, selected term representative, or subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and classifier from \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. The only public operation reads are the displayed shift and substitution boundary rows, and both are guarded by the source/value closedness witnesses and the finite ledger.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-route-separation}. The ledger and audit rows are read before any operation boundary is exported, so a free-variable socket cannot be recovered by bypassing $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, $L$, or $A$.
+
+Next use \autoref{thm:closed-term-substitution-boundary-route-saturation}. Every accepted route is exhausted by the displayed rows and the BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, leaving no coordinate for host substitution semantics or selected term representatives.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-metacic-consumer-nonescape}. MetaCIC confluence and subject-reduction consumers receive only the finite boundary packet, so the free-variable socket remains separate from any subject-reduction theorem.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary audit route totality]
+\label{thm:closed-term-substitution-boundary-audit-route-totality}
+Every audit-visible consumer route for an accepted $\ClosedTermSubstitutionBoundaryUp$ packet is total only after it displays
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+The route may then replay the carrier, classifier, local $\NameCert$ obligations, ledger separation, root audit totality, and socket-separation rows, but it cannot start from a subject-reduction theorem, host syntax quotient, hidden compiler state, unregistered free-variable socket, or host substitution semantics.
+\end{theorem}
+\begin{proof}
+Begin with the root audit totality theorem \autoref{thm:closed-term-substitution-boundary-root-audit-totality}. It already routes every audit-visible consumer through the displayed boundary rows before the packet can be consumed.
+
+Use the NameCert obligations and the ledger route separation. By \autoref{thm:closed-term-substitution-boundary-namecert-obligations} and \autoref{thm:closed-term-substitution-boundary-ledger-route-separation}, the source/value closedness rows, operation rows, ledger row, audit row, transport rows, continuation row, provenance row, and local naming row are all read inside the same finite packet.
+
+Now apply \autoref{thm:closed-term-substitution-boundary-socket-separation}. The free-variable socket is not a hidden entry point into subject reduction; it is blocked unless the same displayed boundary route has already been consumed.
+
+Therefore every audit-visible consumer route is total exactly on the listed rows. Since none of those rows contains a subject-reduction theorem, host syntax quotient, hidden compiler state, unregistered free-variable socket, or host substitution semantics, no audit-visible route can read such data before reading the packet.
+\end{proof}
