@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\NewtonPolygonUp$}
+\label{ch:concrete-instances-newton-polygon-namecert}
+\origin{human}
+
+Following Newton and Dumas, the $\NewtonPolygonUp$ packet records the finite lower-hull surface attached to a displayed polynomial with valued coefficients. It sits after the coefficient carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the dyadic valuation rows of \autoref{ch:concrete-instances-dyadic-valuation-namecert}, the non-archimedean source of \autoref{ch:concrete-instances-padic-namecert}, the comparison surface of \autoref{ch:concrete-instances-totalorder-namecert}, the convex carrier of \autoref{ch:concrete-instances-convexset-namecert}, and the finite face ledger of \autoref{ch:concrete-instances-polytope-namecert}. The packet names a finite valuation/polytope certificate rather than a host convex-hull oracle, algebraic-closure theorem, Puiseux expansion chooser, quotient polynomial equality, or selected root branch.
+
+\begin{definition}[NewtonPolygon carrier]
+\label{def:newton-polygon-carrier}
+A $\NewtonPolygonUp$ carrier is a finite $\BHist$ packet
+$$
+G=(A,V,T,Q,F,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the polynomial coefficient row, read through the normalized coefficient surface of $\PolynomialUp$.
+\item $V$ is the dyadic valuation row for every displayed nonzero coefficient, read through $\DyadicValuationUp$ and the surrounding $\PadicUp$ scale source.
+\item $T$ is the $\TotalOrderUp$ comparison ledger ordering exponent and valuation pairs without importing trichotomy outside the displayed row.
+\item $Q$ is the lower convex hull row, a finite $\ConvexSetUp$ and $\PolytopeUp$ face packet over the point ledger $(i,V_i)$.
+\item $F$ is the finite lower-face ledger selecting exactly the faces visible from below.
+\item $S$ is the slope ledger, recording for each lower face the displayed ordered valuation difference and exponent-length readback.
+\item $H$ records componentwise $\hsame$ transport for coefficient, valuation, order, lower-hull, face, slope, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from coefficient inspection through valuation exposure, order comparison, lower-hull admission, face selection, slope reading, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\NewtonPolygonUp$, $\PolynomialUp$, $\DyadicValuationUp$, $\PadicUp$, $\TotalOrderUp$, $\ConvexSetUp$, $\PolytopeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NewtonPolygonUp}$ row.
+\end{enumerate}
+The classifier reads two accepted carriers only through $A,V,T,Q,F,S,H,C,P,N$. It has no coordinate for host convex-hull computation, quotient polynomial equality, selected roots, algebraic closure, Puiseux branches, ambient real completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[NewtonPolygon NameCert obligations]
+\label{thm:newton-polygon-namecert-obligations}
+For every accepted $\NewtonPolygonUp$ carrier $G=(A,V,T,Q,F,S,H,C,P,N)$, the local $\NameCert_{\NewtonPolygonUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the polynomial coefficient row, dyadic valuation rows, total-order comparisons, lower convex hull, lower-face ledger, slope ledger, transport, replay, provenance, and local naming rows;
+\item valuation readback, requiring every displayed coefficient used by the polygon to expose its dyadic valuation through $V$ before it contributes to $Q$ or $S$;
+\item lower-hull stability, requiring componentwise $\hsame$ transport of coefficient valuations and order comparisons to transport the lower convex hull row $Q$ and the finite lower-face ledger $F$;
+\item face-slope classifier transport, requiring each accepted lower face to read its slope from the same ordered endpoint valuations and exponent-length row before a consumer can classify a side of the polygon;
+\item ledger nonescape, excluding host powersets of points, quotient polynomial equality, host convex-hull or polytope algorithms, selected roots, algebraic closure, Puiseux branch selection, ambient real completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No Newton-polygon obligation is stored outside $A,V,T,Q,F,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The polynomial row $A$ supplies the finite coefficient list, while $V$ supplies valuation readback only for coefficients displayed by that list and the surrounding $p$-adic or dyadic scale rows.
+
+Read the comparison and hull rows next. The total-order row $T$ compares the finite exponent-valuation pairs, and the convex/polytope rows $Q,F$ record the lower hull and its lower faces as finite BEDC ledgers rather than as an ambient convex-hull computation.
+
+For each lower face, the slope ledger $S$ reads the two endpoint valuations and the finite exponent-length row before any classifier result is exported. Componentwise $\hsame$ transport in $H$ and displayed replay in $C$ preserve that same route across accepted carriers.
+
+Finally inspect $P$ and $N$. They record provenance and local naming for precisely the displayed rows $A,V,T,Q,F,S,H,C$, and the carrier contains no coordinate for host powersets, quotient polynomial equality, selected roots, algebraic closure, Puiseux branch choice, ambient real completeness, Lean verification, or bridge checking. The listed rows therefore exhaust the $\NewtonPolygonUp$ NameCert obligations.
+\end{proof}
+
+\closureat{NewtonPolygonUp}{seedStr}
+
+\begin{closurestatus}{\NewtonPolygonUp}
+  \constructivestory{A $\NewtonPolygonUp$ packet is generated from finite polynomial coefficient rows, dyadic valuation rows, total-order comparisons, lower convex hull and face rows, slope ledger rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:newton-polygon-carrier} and \autoref{thm:newton-polygon-namecert-obligations} seed the finite valuation/polytope certificate surface over polynomial, dyadic valuation, p-adic, total-order, convex-set, and polytope rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim algebraic closure, root existence, Puiseux expansions, host convex-hull computation, quotient polynomial equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, valuation readback, lower-hull stability, face-slope classifier transport, provenance, and ledger exhaustion for BEDC.Derived.NewtonPolygonUp.}
+\end{closurestatus}

@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\CantorSpaceUniformModulusUp$}
+\label{ch:concrete-instances-cantor-space-uniform-modulus-namecert}
+\origin{human}
+
+Following Brouwer's fan theorem and Troelstra--van Dalen's constructive treatment of bars, the $\CantorSpaceUniformModulusUp$ packet records the finite prefix-depth route by which a Cantor-space function obtains a uniform modulus from a fan-bar certificate before any Real or Completion consumer reads the result. It sits beside the fan-bar Real route of \autoref{ch:concrete-instances-bishop-fan-modulus-namecert}, the Cantor prefix surface of \autoref{ch:concrete-instances-cantorspace-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the downstream tolerance-only consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet is a finite NameCert surface for a fan-theorem modulus on Cantor space; it does not assert open-cover compactness, select an infinite branch, quotient streams, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[CantorSpaceUniformModulus carrier]
+\label{def:cantor-space-uniform-modulus-carrier}
+A $\CantorSpaceUniformModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(F,A,B,S,D,R,U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FanTheoremUp$ row, carrying the decidable bar and the fan-bar depth bound.
+\item $A$ is the $\CantorSpaceUp$ address row, exposing the finite Boolean prefix cylinder on which the modulus is inspected.
+\item $B$ is the finite bar-depth ledger, recording exactly which prefix depth is sufficient for every retained Cantor address.
+\item $S$ is the $\StreamNameUp$ window row that turns the retained prefixes into finite source windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger consumed by the modulus request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the stream windows and dyadic tolerances.
+\item $U$ is the $\UniformModulusUp$ handoff row that receives the fan depth as the exported uniform precision.
+\item $E$ is the terminal $\RealUp$ seal row, readable only after $F,A,B,S,D,R,U$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the fan, Cantor address, bar-depth, stream-window, dyadic-tolerance, regular-rational, uniform-modulus, real-seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a consumer request through the finite prefix-depth route.
+\item $P$ is the $\Pkg$ provenance over $\CantorSpaceUniformModulusUp$, $\FanTheoremUp$, $\CantorSpaceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\UniformModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CantorSpaceUniformModulusUp}$ row.
+\end{enumerate}
+The classifier for accepted carriers compares only the displayed rows $F,A,B,S,D,R,U,E,H,C,P,N$. It has no coordinate for open-cover compactness, selected branches, quotient stream equality, an external modulus selector, selected Real limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CantorSpaceUniformModulus NameCert obligations]
+\label{thm:cantor-space-uniform-modulus-namecert-obligations}
+For every accepted $\CantorSpaceUniformModulusUp$ carrier
+$$
+M=(F,A,B,S,D,R,U,E,H,C,P,N),
+$$
+the local $\NameCert_{\CantorSpaceUniformModulusUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed fan, Cantor-prefix, bar-depth, stream-window, dyadic-tolerance, regular-rational, uniform-modulus, Real-seal, transport, replay, provenance, and local naming rows;
+\item fan-bar depth exactness, requiring $B$ to expose precisely the depth supplied by $F$ for the retained Cantor prefix cylinder $A$;
+\item Cantor-prefix window exposure, requiring every source read to pass through $A$ and then $S$ before any rational or Real-facing consumer may inspect it;
+\item dyadic tolerance exactness, requiring $D$ to be the only tolerance ledger read by $R$ and $U$;
+\item $\RegSeqRatUp$ readback, requiring the regular rational row $R$ to be downstream of the finite stream windows and dyadic tolerances;
+\item $\UniformModulusUp$ handoff, requiring the exported uniform precision $U$ to be the fan-depth row rather than a host-selected modulus;
+\item Real-seal nonescape, requiring $E$ to be terminal and to add no ambient completeness, selected limit, or quotient-stream equality;
+\item ledger refusal, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed finite route.
+\end{enumerate}
+No $\CantorSpaceUniformModulusUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The row inventory is exactly $F,A,B,S,D,R,U,E,H,C,P,N$, so carrier admission and ledger refusal are coordinate exhaustion.
+
+The fan-bar depth row is read through $F$ and $B$. The Cantor address $A$ restricts the read to a finite Boolean prefix cylinder, so the depth used by the modulus route is the displayed fan-bar depth rather than an open-cover or branch-selection datum.
+
+The source-window route then passes through $S$. Dyadic tolerance is supplied only by $D$, and the regular rational row $R$ reads those windows and tolerances before the uniform-modulus consumer sees the handoff.
+
+Finally, $U$ exports the fan-depth precision to the $\UniformModulusUp$ surface, while $E$ seals the downstream Real read. Since the carrier contains no selected branch, quotient stream equality, external selector, selected Real limit, or ambient completeness row, no such datum can escape through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CantorSpaceUniformModulus sibling route]
+\label{thm:cantor-space-uniform-modulus-sibling-route}
+Every Real or Completion-facing consumer of an accepted $\CantorSpaceUniformModulusUp$ carrier factors through the sibling route
+$$
+\FanTheoremUp \longmapsto \CantorSpaceUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \UniformModulusUp \longmapsto \RealUp .
+$$
+In particular, the fan-modulus dependency is the finite Cantor-space neighbour of \autoref{ch:concrete-instances-bishop-fan-modulus-namecert}, and the exported precision is read by the tolerance-only consumer surface of \autoref{ch:concrete-instances-uniformmodulus-namecert}.
+\end{theorem}
+\begin{proof}
+Read the carrier in the order specified by \autoref{def:cantor-space-uniform-modulus-carrier}. The fan and Cantor rows provide the only prefix-depth source, and the stream, dyadic, and regular-rational rows are the only readback route.
+
+The uniform-modulus row $U$ can therefore consume only the displayed depth and tolerance rows. The Real seal $E$ is downstream of that handoff, so a completion-facing consumer receives the same finite route and no ambient compactness or completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every $\CantorSpaceUniformModulusUp$ Real or Completion-facing read factors through the displayed fan row, Cantor prefix row, bar-depth ledger, StreamName window row, dyadic tolerance ledger, RegSeqRat readback row, UniformModulus handoff row, Real seal, transport, replay, provenance, and local naming.}
+
+\independenceWitness{fantheorem, cantorspace, bishop-fan-modulus, uniformmodulus: $\CantorSpaceUniformModulusUp$ is not bijective to any listed sibling because it jointly carries the fan-depth row, Cantor prefix cylinder, stream-window readback, dyadic tolerance ledger, regular rational row, UniformModulus handoff, Real seal, and structural support while refusing open-cover compactness, selected branches, quotient streams, external modulus selectors, selected Real limits, and ambient completeness.}
+
+\closureat{CantorSpaceUniformModulusUp}{seedStr}
+
+\begin{closurestatus}{\CantorSpaceUniformModulusUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-space-uniform-modulus-carrier}, \autoref{thm:cantor-space-uniform-modulus-namecert-obligations}, and \autoref{thm:cantor-space-uniform-modulus-sibling-route} seed the finite fan-depth route from Cantor prefixes to StreamName, dyadic tolerance, RegSeqRat, UniformModulus, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected infinite branches, quotient stream equality, external modulus selection, selected Real limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fan-bar depth exactness, Cantor-prefix window exposure, dyadic tolerance exactness, RegSeqRat readback, UniformModulus handoff, Real-seal nonescape, transport, replay, provenance, local naming, and ledger refusal for BEDC.Derived.CantorSpaceUniformModulusUp.}
+  \constructivestory{A $\CantorSpaceUniformModulusUp$ packet is generated from a finite $\FanTheoremUp$ row, $\CantorSpaceUp$ prefix row, fan-depth ledger, $\StreamNameUp$ window row, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback row, $\UniformModulusUp$ handoff row, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
