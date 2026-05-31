@@ -6,8 +6,11 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+import sys
 from unittest import mock
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import build_namecert_html
 import check_namecert_html
@@ -193,6 +196,30 @@ class NamecertHtmlTests(unittest.TestCase):
                 build_namecert_html.PAPER_DIR = old_paper
 
         self.assertEqual([row["source"] for row in rows], ["papers/bedc/parts/topic/body.tex"])
+
+    def test_is_hub_only_tex_rejects_chapter_with_body_environment(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            tex = Path(td) / "content.tex"
+            tex.write_text(
+                "\\chapter{Foo}\n"
+                "\\input{parts/foo/body.tex}\n"
+                "\\begin{definition}A.\\end{definition}\n",
+                encoding="utf-8",
+            )
+
+            self.assertFalse(build_namecert_html.is_hub_only_tex(tex))
+
+    def test_is_hub_only_tex_accepts_input_only_structural_hub(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            tex = Path(td) / "hub.tex"
+            tex.write_text(
+                "The Foo packet routes the split chapter body.\n"
+                "\\input{parts/concrete_instances/foo/namecert_construction.tex}\n"
+                "\\input{parts/concrete_instances/foo/closure_status.tex}\n",
+                encoding="utf-8",
+            )
+
+            self.assertTrue(build_namecert_html.is_hub_only_tex(tex))
 
     def test_scan_paper_sources_keeps_body_file_even_when_it_inputs_children(self) -> None:
         with tempfile.TemporaryDirectory() as td:

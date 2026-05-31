@@ -286,14 +286,6 @@ instance cauchySealBudgetSynchronizerFieldFaithful :
   fields := cauchySealBudgetSynchronizerFields
   field_faithful := cauchySealBudgetSynchronizer_field_faithful_concrete
 
-instance cauchySealBudgetSynchronizerStructurallyAtomic :
-    StructurallyAtomic CauchySealBudgetSynchronizerUp where
-  nearest_siblings :=
-    ["CauchyLimitSealUp", "CauchyDiagonalBudgetUp", "RealObservationBudgetUp",
-      "TailCofinalityScheduleUp", "DiagonalTailSelectorUp"]
-  not_reducible_witness :=
-    "joint compatibility row ties selector, budget, shared threshold, and sealRow rows"
-
 theorem CauchySealBudgetSynchronizerTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       cauchySealBudgetSynchronizerDecodeBHist

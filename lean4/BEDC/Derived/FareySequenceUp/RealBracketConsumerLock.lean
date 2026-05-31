@@ -1,4 +1,4 @@
-import BEDC.Derived.FareySequenceUp.TasteGate
+import BEDC.Derived.FareySequenceUp.NameCertObligations
 
 namespace BEDC.Derived.FareySequenceUp
 
@@ -9,6 +9,49 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+
+theorem FareySequenceCarrier_namecert_real_bracket_lock [AskSetup] [PackageSetup]
+    {B A M L T S D Q W R G E H C P N approxRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FareySequenceCarrier B A M L T S D Q W R G E H C P N bundle pkg ->
+      Cont B A M ->
+        Cont M L S ->
+          Cont S T G ->
+            Cont G E approxRead ->
+              Cont approxRead E sealRead ->
+                PkgSig bundle N pkg ->
+                  PkgSig bundle sealRead pkg ->
+                    SemanticNameCert
+                        (fun row : BHist => hsame row approxRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row B ∨ hsame row A ∨ hsame row M ∨ hsame row L ∨
+                            hsame row T ∨ hsame row S ∨ hsame row G ∨ hsame row E ∨
+                              hsame row approxRead ∨ hsame row N)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont B A M ∧ Cont M L S ∧ Cont S T G ∧
+                            Cont G E approxRead ∧ PkgSig bundle N pkg)
+                        hsame ∧
+                      UnaryHistory approxRead ∧ UnaryHistory sealRead ∧
+                        Cont approxRead E sealRead ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier boundaryRoute levelRoute toleranceRoute approximationRoute sealRoute namePkg
+    sealPkg
+  obtain ⟨boundaryUnary, adjacencyUnary, _mediantUnary, levelUnary, toleranceUnary,
+    _sternBrocotUnary, _densityUnary, _rationalUnary, _windowUnary, _readbackUnary,
+    _approximationCarrierUnary, sealUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _nameUnary, _adjacencyEmpty, _sternBrocotEmpty, _mediantEmpty,
+    _approximationEmpty, _sealEmpty, _provenancePkg⟩ := carrier
+  obtain ⟨cert, _mediantClosed, _sternBrocotClosed, _approximationClosed,
+    approxReadUnary⟩ :=
+    FareySequenceCarrier_namecert_obligations
+      (B := B) (A := A) (M := M) (L := L) (T := T) (S := S) (D := D) (Q := Q)
+      (W := W) (R := R) (G := G) (E := E) (H := H) (C := C) (P := P)
+      (N := N) (approxRead := approxRead) (bundle := bundle) (pkg := pkg)
+      boundaryUnary adjacencyUnary levelUnary toleranceUnary sealUnary boundaryRoute
+      levelRoute toleranceRoute approximationRoute namePkg
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed approxReadUnary sealUnary sealRoute
+  exact ⟨cert, approxReadUnary, sealReadUnary, sealRoute, sealPkg⟩
 
 theorem FareySequenceCarrier_real_bracket_consumer_lock [AskSetup] [PackageSetup]
     {B A M L T S D Q W R G E H C P N boundaryRead mediantRead denomRead

@@ -3669,6 +3669,28 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
                 return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "error": str(exc)}
             attempts = attempt
             _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "attempt", "attempt": attempt, "rel_file": rel_file})
+            # Deterministic pre-fix: missing_dollar 经常是 \texttt{...} 内有 unescaped _ 触发的
+            # (LaTeX text mode 里 _ 被解释为 subscript 报 missing $). Try regex replace _→\_
+            # 仅在 \texttt{...} 内部, 不动 math mode 或已转义.
+            if last_error.get("category") == "missing_dollar":
+                def _escape_texttt_underscores(match: "re.Match[str]") -> str:
+                    inner = match.group(1)
+                    fixed_inner = re.sub(r"(?<!\\)_", r"\\_", inner)
+                    return r"\texttt{" + fixed_inner + "}"
+                prefixed_content = re.sub(r"\\texttt\{([^{}]*)\}", _escape_texttt_underscores, content)
+                if prefixed_content != content:
+                    try:
+                        target.write_text(prefixed_content, encoding="utf-8")
+                        returncode, output = _run_writeback_make_check(paper_dir)
+                        if returncode == 0:
+                            _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "healed", "attempt": attempt, "rel_file": rel_file, "fix_kind": "deterministic_texttt_underscore"})
+                            pdf_returncode, _pdf_output = _run_writeback_make_pdf(paper_dir)
+                            pdf_rebuilt = "ok" if pdf_returncode == 0 else "failed"
+                            return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "pdf_rebuilt": pdf_rebuilt, "fix_kind": "deterministic_texttt_underscore"}
+                        # 没修好, 回滚 content 让 codex 试
+                        target.write_text(content, encoding="utf-8")
+                    except OSError:
+                        pass
             prompt = _writeback_heal_prompt(rel_file, content, last_error.get("tail") or "")
             parsed, raw_stdout, raw_stderr = _run_writeback_heal_codex(prompt, repo_root, int(config["timeout_seconds"]))
             if parsed is None:

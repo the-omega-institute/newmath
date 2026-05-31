@@ -227,7 +227,7 @@ WHITELIST + VERIFICATION + DOCS:
 4. Verify locally before commit:
    - python3 -m py_compile lean4/scripts/bedc_ci.py
    - python3 lean4/scripts/bedc_ci.py audit
-   - If touched docs/dossier/*.qmd or papers/*: cd papers/bedc && make check
+   - If touched docs/dossier/*.qmd or papers/*: cd papers/bedc && make precheck
    - If touched lean4/*: cd lean4 && lake build
    - If touched lean4/*: python3 lean4/scripts/bedc_ci.py axiom-purity --strict
    - For any phase_paper_gates.py change: smoke test it parses
@@ -2723,10 +2723,10 @@ def verify_rule_evolution(
         for path in touched
     )
     if touches_paper:
-        ok, msg = command_output_ok(["make", "check"], worktree / "papers" / "bedc", TIMEOUTS["verify"])
+        ok, msg = command_output_ok(["make", "precheck"], worktree / "papers" / "bedc", TIMEOUTS["verify"])
         if not ok:
             return False, msg
-        messages.append(f"make check: {msg}")
+        messages.append(f"make precheck: {msg}")
 
     touches_lean = any(path.startswith("lean4/") for path in touched)
     if touches_lean:

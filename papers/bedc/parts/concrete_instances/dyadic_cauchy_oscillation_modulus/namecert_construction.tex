@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCauchyOscillationModulusUp$}
+\label{ch:concrete-instances-dyadic-cauchy-oscillation-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicCauchyOscillationModulusUp$ packet records the finite modulus surface by which dyadic Cauchy oscillation reads are scheduled before a regular real completion route consumes them. It sits between the oscillation criterion of \autoref{ch:concrete-instances-cauchy-oscillation-criterion-namecert}, the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet also records compatibility with the explicit Cauchy modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, while keeping completeness, quotient equality, selected limits, host equality, trichotomy, and choice outside the carrier.
+
+\begin{definition}[Dyadic Cauchy oscillation modulus carrier]
+\label{def:dyadic-cauchy-oscillation-modulus-carrier}
+A $\DyadicCauchyOscillationModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(O,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the oscillation ledger, read through $\CauchyOscillationCriterionUp$ as the finite record saying which pair of tail observations is compared for a requested tolerance.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and modulus row, containing the requested dyadic radius, the displayed threshold, and the dyadic comparison budget used by $O$.
+\item $W$ is the visible tail-window schedule in $\StreamNameUp$, listing the finite windows beyond the threshold supplied by $D$ and consumed by the oscillation read.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same windows and dyadic tolerance ledger.
+\item $E$ is the $\RealUp$ seal row, visible only after $O,D,W,R$ have fixed the finite oscillation-modulus route.
+\item $H$ stores componentwise $\hsame$ transport for $O,D,W,R,E,C,P,N$ and the local packet shape.
+\item $C$ stores displayed $\Cont$ replay from a tolerance request to the dyadic threshold row, from that threshold to the visible tail windows, from the windows to the oscillation ledger, and from the ledger to the $\RegSeqRatUp$ and $\RealUp$ rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicCauchyOscillationModulusUp$, $\CauchyOscillationCriterionUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicCauchyOscillationModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,D,W,R,E,H,C,P,N$. It has no coordinate for Real completeness, quotient stream equality, selected limits, host equality, trichotomy, countable choice, or an unbounded search over tails.
+\end{definition}
+
+\begin{theorem}[Dyadic Cauchy oscillation modulus route]
+\label{thm:dyadic-cauchy-oscillation-modulus-route}
+Every oscillation read exported by an accepted $\DyadicCauchyOscillationModulusUp$ carrier factors through
+$$
+D\longmapsto W\longmapsto O\longmapsto R\longmapsto E
+$$
+together with the displayed $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicCauchyOscillationModulusUp}$ row. Thus the read is a finite dyadic modulus packet for tail oscillation, not a Real-completeness principle, quotient stream equality, selected limit, host equality, trichotomy row, or countable-choice selector.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier in \autoref{def:dyadic-cauchy-oscillation-modulus-carrier}. The dyadic tolerance and modulus row $D$ is the only coordinate that supplies the requested radius and finite threshold.
+
+The visible tail-window schedule $W$ is downstream of $D$. It displays the finite windows over which the oscillation ledger $O$ may compare tail reads, so $O$ cannot be consumed before the requested dyadic threshold and windows have been shown.
+
+The rows $R$ and $E$ are downstream handoffs. They receive the same displayed windows and dyadic tolerance data after the oscillation ledger has fixed the tail comparison, and the structural rows $H,C,P,N$ only transport, replay, source, and name this route.
+
+No carrier coordinate supplies completeness, quotient equality, selected limits, host equality, trichotomy, choice, or an unbounded tail search. Hence every exported oscillation read is exhausted by the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegSeqRatUp$ or $\RealUp$ consumer of a $\DyadicCauchyOscillationModulusUp$ packet must first display the dyadic tolerance and modulus row, the visible $\StreamNameUp$ tail windows, and the $\CauchyOscillationCriterionUp$ ledger before any readback or seal row is consumed.}
+
+\independenceWitness{cauchyoscillationcriterion, cauchymodulus, dyadicratcore, streamname, regseqrat, real: $\DyadicCauchyOscillationModulusUp$ is not bijective to any listed sibling because it jointly carries an oscillation ledger, dyadic tolerance and modulus data, visible tail-window scheduling, regular rational readback, a real seal boundary, componentwise transport, continuation replay, provenance, and local naming.}
+
+\closureat{DyadicCauchyOscillationModulusUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCauchyOscillationModulusUp}
+  \constructivestory{A $\DyadicCauchyOscillationModulusUp$ packet is generated from an oscillation ledger, a DyadicRatCore tolerance and modulus row, visible StreamName tail windows, RegSeqRat readback, a RealUp seal row, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-cauchy-oscillation-modulus-carrier} and \autoref{thm:dyadic-cauchy-oscillation-modulus-route} seed the finite Bishop--Bridges dyadic modulus packet for Cauchy oscillation reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, selected limits, host equality, trichotomy, countable choice, ambient real arithmetic, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance exactness, tail-window scheduling, oscillation ledger routing, regular rational handoff, real-seal handoff, transport, replay, provenance, and non-escape for BEDC.Derived.DyadicCauchyOscillationModulusUp.}
+\end{closurestatus}
