@@ -79,6 +79,20 @@ The target classifier $T$ and the output observations $W$ then package exactly t
 Thus every mapped finite-window read has the displayed factorization $S \longmapsto F \longmapsto T \longmapsto W$, and downstream consumers inherit that route rather than a quotient-stream or selected-limit principle.
 \end{proof}
 
+\begin{theorem}[Stream map constant-window stability]
+\label{thm:stream-map-constant-window-stability}
+Let $M=(S,T,F,W,Q,D,R,H,C,P,N)$ be an accepted $\StreamMapUp$ carrier applied to a constant certified point stream. Then the displayed finite observation window is preserved by the point-map row: the constant point row read from $S$ is routed through $F$ to the same target-window shape in $T$ and $W$, and any downstream $\RegSeqRatUp$ consumer must first read the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
+\end{theorem}
+\begin{proof}
+Project the $\StreamMapUp$ carrier. The source classifier row $S$ exposes the constant point stream only through a displayed finite window and its point cells.
+
+Use the constant point row together with the finite-window row $W$. Since every source cell in the inspected window is the certified constant point, the point-map row $F$ produces a target row with the same displayed window shape before $Q,D,$ or $R$ is available.
+
+Componentwise transport is then read through $H$. The target cells, output observations, regular handoff, dyadic ledger, and Real seal boundary are moved only along the displayed source and target windows.
+
+Finally the replay and provenance rows $C,P,N$ preserve that route for downstream consumers. A $\RegSeqRatUp$ consumer therefore receives the mapped constant window only after the finite StreamMap support has been displayed, and cannot replace it by quotient stream equality, host function extensionality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[Stream map composition-window route]
 \label{thm:stream-map-composition-window-route}
 Let two accepted $\StreamMapUp$ carriers be composable by identifying the first target window with the second source window. The composed mapped stream can be exposed only through the first source $\StreamNameUp$ row, the first point-map row, the intermediate target/source window, the second point-map row, and the final target window before any $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ row is consumed.
