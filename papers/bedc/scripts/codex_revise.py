@@ -301,6 +301,59 @@ class WorktreeInfo:
         return self.lease.log_tag if self.lease else f"legacy_paper_revise_{self.round_number}"
 
 
+@dataclass(init=False)
+class PhasePaperGateOutcome:
+    ok: bool
+    results: dict[str, list[str]]
+    failure_code: str | None
+    detail: str
+
+    def __init__(
+        self,
+        ok: bool,
+        results: dict[str, list[str]] | None = None,
+        failure_code: str | None = None,
+        detail: str = "",
+    ) -> None:
+        self.ok = ok
+        self.results = results or {}
+        self.failure_code = failure_code
+        self.detail = detail
+
+    @classmethod
+    def ok(cls, results: dict[str, list[str]]) -> "PhasePaperGateOutcome":
+        return cls(True, results=results)
+
+    @classmethod
+    def infra_failure(cls, code: str, detail: str) -> "PhasePaperGateOutcome":
+        if code not in PHASE_PAPER_GATE_FAILURE_CODES:
+            raise ValueError(f"unknown phase paper gate failure code: {code}")
+        return cls(False, failure_code=code, detail=detail)
+
+
+PHASE_PAPER_GATE_FAILURE_CODES = {
+    "runner-missing",
+    "base-sha-missing",
+    "timeout",
+    "exit-nonzero",
+    "invalid-json",
+    "invalid-schema",
+}
+
+
+PAPER_GATE_POLICY: dict[str, dict[str, str]] = {
+    "register-only": {"severity": "hard", "label": "REGISTER-ONLY"},
+    "vocab": {"severity": "advisory", "label": "forbidden-vocab (advisory)"},
+    "math": {"severity": "hard", "label": "FORBIDDEN MATH ENV"},
+    "oversized": {"severity": "hard", "label": "OVERSIZED .TEX"},
+    "leanvariant": {"severity": "advisory", "label": "NEW LEANVARIANT (allowed)"},
+    "axis-confusion": {"severity": "hard", "label": "axis-confusion gate"},
+    "orphan-new-chapter": {"severity": "hard", "label": "ORPHAN NEW CHAPTER"},
+    "ai-missing-falsifiable": {"severity": "hard", "label": "AI MISSING FALSIFIABLE"},
+    "ai-missing-independence": {"severity": "hard", "label": "AI MISSING INDEPENDENCE"},
+}
+
+
 # ---------------------------------------------------------------------------
 # Shell helpers
 # ---------------------------------------------------------------------------
@@ -2012,28 +2065,17 @@ def run_axiom_audit(wt: WorktreeInfo) -> tuple[bool, str]:
     return r.returncode == 0, (r.stdout + r.stderr)[-400:]
 
 
-def _run_phase_paper_gates(wt: WorktreeInfo) -> dict:
-    """Invoke `phase_paper_gates.py` as a subprocess and return the
-    parsed JSON gate results. On any failure the return is an empty
-    dict so callers degrade to "no violations detected" rather than
-    crashing the round."""
+def _run_phase_paper_gates(wt: WorktreeInfo) -> PhasePaperGateOutcome:
+    """Invoke `phase_paper_gates.py` and return typed gate results."""
     script = SCRIPT_DIR / "phase_paper_gates.py"
     if not script.exists():
-        logger.warning(
-            f"[P{wt.round_number}] phase_paper_gates.py missing — "
-            f"skipping content lint gates"
-        )
-        return {}
+        detail = f"phase_paper_gates.py missing at {script}"
+        logger.error(f"[P{wt.round_number}] {detail}")
+        return PhasePaperGateOutcome.infra_failure("runner-missing", detail)
     if not wt.base_sha:
-        return {}
-    # timeout 300s (was 120): under system high load (fseventsd churn from
-    # 40+ worktrees + concurrent lake builds + multiple audit subprocesses),
-    # phase_paper_gates.py routinely exceeds 120s for the git-diff + all-gate
-    # walk. Observed 2026-05-24 05:43-05:51: 5 consecutive P-rounds
-    # (P19660/P19665/P19667/P19669/P19670) timed out -> Drift audit FAILED
-    # -> paper cooldown 7x/h. The script itself is light (--help < 0.3s);
-    # latency is system-IO-bound, not algorithmic. 300s gives a comfortable
-    # margin without changing gate logic.
+        detail = "phase paper gates require a base_sha"
+        logger.error(f"[P{wt.round_number}] {detail}")
+        return PhasePaperGateOutcome.infra_failure("base-sha-missing", detail)
     try:
         r = subprocess.run(
             ["python3", str(script),
@@ -2043,22 +2085,52 @@ def _run_phase_paper_gates(wt: WorktreeInfo) -> dict:
             capture_output=True, text=True, timeout=300,
         )
     except subprocess.TimeoutExpired:
-        logger.error(f"[P{wt.round_number}] phase_paper_gates.py timed out")
-        return {}
+        detail = "phase_paper_gates.py timed out"
+        logger.error(f"[P{wt.round_number}] {detail}")
+        return PhasePaperGateOutcome.infra_failure("timeout", detail)
     if r.returncode != 0:
-        logger.error(
-            f"[P{wt.round_number}] phase_paper_gates.py exit {r.returncode}: "
+        detail = (
+            f"phase_paper_gates.py exit {r.returncode}: "
             f"{(r.stderr or '').strip()[:400]}"
         )
-        return {}
-    try:
-        return json.loads(r.stdout or "{}")
-    except json.JSONDecodeError as exc:
         logger.error(
-            f"[P{wt.round_number}] phase_paper_gates.py produced invalid JSON: "
+            f"[P{wt.round_number}] {detail}"
+        )
+        return PhasePaperGateOutcome.infra_failure("exit-nonzero", detail)
+    try:
+        parsed = json.loads(r.stdout or "")
+    except json.JSONDecodeError as exc:
+        detail = (
+            f"phase_paper_gates.py produced invalid JSON: "
             f"{exc}; stdout={(r.stdout or '')[:200]!r}"
         )
-        return {}
+        logger.error(
+            f"[P{wt.round_number}] {detail}"
+        )
+        return PhasePaperGateOutcome.infra_failure("invalid-json", detail)
+    if not isinstance(parsed, dict):
+        detail = "phase_paper_gates.py output must be a JSON object"
+        logger.error(f"[P{wt.round_number}] {detail}")
+        return PhasePaperGateOutcome.infra_failure("invalid-schema", detail)
+    expected = set(PAPER_GATE_POLICY)
+    actual = set(parsed)
+    if actual != expected:
+        missing = sorted(expected - actual)
+        extra = sorted(actual - expected)
+        detail = (
+            "phase_paper_gates.py output key mismatch: "
+            f"missing={missing}, extra={extra}"
+        )
+        logger.error(f"[P{wt.round_number}] {detail}")
+        return PhasePaperGateOutcome.infra_failure("invalid-schema", detail)
+    results: dict[str, list[str]] = {}
+    for key, value in parsed.items():
+        if not isinstance(value, list) or not all(isinstance(v, str) for v in value):
+            detail = f"phase_paper_gates.py output for {key!r} must be list[str]"
+            logger.error(f"[P{wt.round_number}] {detail}")
+            return PhasePaperGateOutcome.infra_failure("invalid-schema", detail)
+        results[key] = value
+    return PhasePaperGateOutcome.ok(results)
 
 
 def verify_worktree_commits(
@@ -2087,85 +2159,27 @@ def verify_worktree_commits(
     for c in new:
         logger.info(f"  {c}")
 
-    # Gates A/B/C/D/E run in a subprocess so the gate logic and lint
-    # patterns can be tightened or relaxed without restarting the
-    # supervisor. See `phase_paper_gates.py` for the implementations.
-    gate_results = _run_phase_paper_gates(wt)
-
-    # Gate A — register-only / nothing-real-changed
-    rv = gate_results.get("register-only", [])
-    if rv:
-        for v in rv:
-            logger.error(f"[P{wt.round_number}] REGISTER-ONLY: {v}")
-        return False, new
-
-    # Gate B — new \leanvariant markers: warning only.
-    var_v = gate_results.get("leanvariant", [])
-    if var_v:
-        for v in var_v[:10]:
-            logger.warning(f"[P{wt.round_number}] NEW LEANVARIANT (allowed): {v}")
-
-    # Gate F — axis-confusion (closure × verification): hard fail.
-    axis_v = gate_results.get("axis-confusion", [])
-    if axis_v:
+    outcome = _run_phase_paper_gates(wt)
+    if not outcome.ok:
         logger.error(
-            f"[P{wt.round_number}] axis-confusion gate violations: {len(axis_v)}"
+            f"[P{wt.round_number}] phase paper gate infra failure "
+            f"{outcome.failure_code}: {outcome.detail}"
         )
-        for v in axis_v[:20]:
-            logger.error(f"  {v}")
         return False, new
 
-    # Gate C — forbidden iteration-narrative vocabulary (advisory).
-    vocab_v = gate_results.get("vocab", [])
-    if vocab_v:
-        for v in vocab_v[:10]:
-            logger.warning(f"[P{wt.round_number}] forbidden-vocab (advisory): {v}")
-
-    # Gate D — forbidden math environments
-    math_v = gate_results.get("math", [])
-    if math_v:
-        for v in math_v[:10]:
-            logger.error(f"[P{wt.round_number}] FORBIDDEN MATH ENV: {v}")
-        return False, new
-
-    # Gate E — oversized .tex files
-    size_v = gate_results.get("oversized", [])
-    if size_v:
-        for v in size_v[:10]:
-            logger.error(f"[P{wt.round_number}] OVERSIZED .TEX: {v}")
-        return False, new
-
-    # Gate O — orphan new chapter (no sibling/vision cross-ref).
-    orphan_v = gate_results.get("orphan-new-chapter", [])
-    if orphan_v:
-        for v in orphan_v[:10]:
-            logger.error(f"[P{wt.round_number}] ORPHAN NEW CHAPTER: {v}")
-        return False, new
-
-    # Gate FF — `\origin{ai}` chapter first-proposal missing FieldFaithful
-    # instance. Maintenance edits on chapters already `\origin{ai}` are
-    # exempted upstream in phase_paper_gates.detect_ai_chapter_missing_
-    # field_faithful (2026-05-15). FAIL on first-proposal is intentional:
-    # recovery consumer picks up the FAIL and dispatches codex to add the
-    # FF instance, then re-runs the round.
-    ff_v = gate_results.get("ai-missing-fieldfaithful", [])
-    if ff_v:
-        for v in ff_v[:10]:
-            logger.error(f"[P{wt.round_number}] AI MISSING FIELDFAITHFUL: {v}")
-        return False, new
-
-    # Gate FP — \origin{ai} chapter missing \falsifiablePrediction.
-    fp_v = gate_results.get("ai-missing-falsifiable", [])
-    if fp_v:
-        for v in fp_v[:10]:
-            logger.error(f"[P{wt.round_number}] AI MISSING FALSIFIABLE: {v}")
-        return False, new
-
-    # Gate IW — \origin{ai} chapter missing \independenceWitness.
-    iw_v = gate_results.get("ai-missing-independence", [])
-    if iw_v:
-        for v in iw_v[:10]:
-            logger.error(f"[P{wt.round_number}] AI MISSING INDEPENDENCE: {v}")
+    gate_results = outcome.results
+    for gate_name, policy in PAPER_GATE_POLICY.items():
+        violations = gate_results[gate_name]
+        if not violations:
+            continue
+        label = policy["label"]
+        severity = policy["severity"]
+        if severity == "advisory":
+            for v in violations[:10]:
+                logger.warning(f"[P{wt.round_number}] {label}: {v}")
+            continue
+        for v in violations[:20]:
+            logger.error(f"[P{wt.round_number}] {label}: {v}")
         return False, new
 
     # Gate F — full PDF build is an async-builder obligation.
