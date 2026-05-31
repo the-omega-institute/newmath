@@ -166,8 +166,10 @@ def check_parser_branches() -> None:
         ("manifest_invalid_json", "{"),
         ("manifest_invalid_shape", []),
         ("manifest_extra_top_keys", {"schema": "leanstmt_debt_manifest.v1", "entries": [], "extra": True}),
+        ("manifest_missing_top_keys", {"schema": "leanstmt_debt_manifest.v1"}),
         ("manifest_schema_mismatch", {"schema": "wrong", "entries": []}),
         ("manifest_entries_invalid", {"schema": "leanstmt_debt_manifest.v1", "entries": {}}),
+        ("manifest_entry_invalid", {"schema": "leanstmt_debt_manifest.v1", "entries": [None]}),
         (
             "manifest_entry_extra_keys",
             {
@@ -199,13 +201,16 @@ def with_patch(patches: dict[str, object], fn: Callable[[], None]) -> None:
             setattr(bedc_ci, name, value)
 
 
-def check_audit_gate_rejects_unregistered_live_site() -> None:
+def leanstmt_audit_result(
+    manifest_loader: Callable[[], tuple[list[bedc_ci.LeanStmtDebtEntry], list[dict[str, object]]]],
+    markers: list[bedc_ci.LeanMarkerRecord] | None = None,
+) -> tuple[int, str]:
     patches = {
         "_get_commit_changed_files": lambda: set(),
         "build_declaration_inventory": lambda: ([], []),
         "collect_part_labels": lambda: [],
-        "collect_lean_markers": lambda: [marker("parts/a.tex", "BEDC.A", 5)],
-        "load_leanstmt_debt_manifest": lambda: ([], []),
+        "collect_lean_markers": lambda: list(markers or []),
+        "load_leanstmt_debt_manifest": manifest_loader,
         "lean_files": lambda: [],
         "detect_case_collision_paths": lambda: [],
         "detect_preamble_duplicate_commands": lambda: [],
@@ -215,19 +220,66 @@ def check_audit_gate_rejects_unregistered_live_site() -> None:
         "collect_closurestatus_blocks": lambda _root: [],
         "detect_orphan_concrete_subdirs": lambda: [],
     }
+    result: dict[str, object] = {}
 
     def run() -> None:
         out = StringIO()
         args = bedc_ci.argparse.Namespace(json=False, shape_saturation=False)
         with redirect_stdout(out):
-            rc = bedc_ci.cmd_audit(args)
-        text = out.getvalue()
+            result["rc"] = bedc_ci.cmd_audit(args)
+        result["text"] = out.getvalue()
+
+    with_patch(patches, run)
+    return int(result["rc"]), str(result["text"])
+
+
+def check_audit_gate_rejects_missing_manifest() -> None:
+    original_loader = bedc_ci.load_leanstmt_debt_manifest
+    missing_path = bedc_ci.SCRIPT_DIR / "__missing_leanstmt_debt_manifest_for_test__.json"
+    assert not missing_path.exists()
+
+    def run() -> None:
+        rc, text = leanstmt_audit_result(lambda: original_loader(missing_path))
         assert rc != 0
         assert "[bedc-ci] leanstmt debt:" in text
         assert "violations=1" in text
-        assert "unregistered_live_site" in text
+        assert "manifest_missing" in text
 
-    with_patch(patches, run)
+    with_patch({"LEANSTMT_DEBT_MANIFEST_PATH": missing_path}, run)
+
+
+def check_audit_gate_rejects_missing_top_keys() -> None:
+    original_loader = bedc_ci.load_leanstmt_debt_manifest
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "manifest.json"
+        path.write_text(json.dumps({"schema": "leanstmt_debt_manifest.v1"}), encoding="utf-8")
+        rc, text = leanstmt_audit_result(lambda: original_loader(path))
+    assert rc != 0
+    assert "manifest_missing_top_keys" in text
+
+
+def check_audit_gate_rejects_invalid_entry_shape() -> None:
+    original_loader = bedc_ci.load_leanstmt_debt_manifest
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "manifest.json"
+        path.write_text(json.dumps({
+            "schema": "leanstmt_debt_manifest.v1",
+            "entries": [None],
+        }), encoding="utf-8")
+        rc, text = leanstmt_audit_result(lambda: original_loader(path))
+    assert rc != 0
+    assert "manifest_entry_invalid" in text
+
+
+def check_audit_gate_rejects_unregistered_live_site() -> None:
+    rc, text = leanstmt_audit_result(
+        lambda: ([], []),
+        [marker("parts/a.tex", "BEDC.A", 5)],
+    )
+    assert rc != 0
+    assert "[bedc-ci] leanstmt debt:" in text
+    assert "violations=1" in text
+    assert "unregistered_live_site" in text
 
 
 def main() -> int:
@@ -240,6 +292,9 @@ def main() -> int:
     check_duplicate_same_file_live_key()
     check_same_target_in_different_files_require_separate_entries()
     check_parser_branches()
+    check_audit_gate_rejects_missing_manifest()
+    check_audit_gate_rejects_missing_top_keys()
+    check_audit_gate_rejects_invalid_entry_shape()
     check_audit_gate_rejects_unregistered_live_site()
     print("OK: leanstmt debt clean registered sites")
     print("OK: leanstmt debt fail contracts")
