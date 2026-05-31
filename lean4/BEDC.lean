@@ -1189,6 +1189,7 @@ import BEDC.Derived.CauchyCompletionMonadUp.TasteGate
 import BEDC.Derived.CauchyCompletionMultiplicationUp.TasteGate
 import BEDC.Derived.CauchyCompletionOperatorUp.TasteGate
 import BEDC.Derived.CauchyCompletionOrderEmbeddingUp.TasteGate
+import BEDC.Derived.CauchyCompletionReflectionUp.TasteGate
 import BEDC.Derived.CauchyCompletionReflectiveSubcategoryUp.TasteGate
 import BEDC.Derived.CauchyCompletionReflectorUp
 import BEDC.Derived.CauchyCompletionReflectorUp.ObligationTriple
@@ -4739,6 +4740,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNDischargeRow
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontierDischargeCoverage
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNL10CompletionLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNL10Readback
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNObligationSurface
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNPremiseSplit
@@ -4787,6 +4789,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FourFaceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.FourSourceOwnerNoncollapse
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankOpenNode
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffRowCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
 import BEDC.Derived.MetaCICCriticalPathUp.L10BudgetExit
@@ -6900,6 +6903,7 @@ import BEDC.Derived.SobolevUp.CompletionConsumerExport
 import BEDC.Derived.SobolevUp.CompletionFacingRootScope
 import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
+import BEDC.Derived.SobolevUp.FiniteEnergyNameCertObligation
 import BEDC.Derived.SobolevUp.FiniteWindowClassifierSurface
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
 import BEDC.Derived.SobolevUp.HilbertCompletionDescent
