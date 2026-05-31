@@ -117,6 +117,42 @@ Apply finite-net readiness and the nonescape theorem, \autoref{thm:equicontinuit
 Thus finite-net and Arzela--Ascoli consumers may depend on the explicit carrier boundary, but their nets and convergence conclusions must come from downstream chapters.
 \end{proof}
 
+\begin{theorem}[Equicontinuity shared-radius carrier root row]
+\label{thm:equicontinuity-root-unblock-shared-radius-carrier}
+For every accepted $\EquicontinuityUp$ carrier $E=(K,F,\epsilon,\rho,M,T,R,P,N)$, the shared radius row $\rho$ is exposed as a finite $\BHist$ row between the tolerance request $\epsilon$ and the modulus handoff $M$. The same packet displays the compact source $K$, finite $\ContinuousMapUp$ family $F$, componentwise $\hsame$ transport $T$, $\Cont$ replay $R$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$, so any $\CompactMetricUp$, $\ContinuousMapUp$, $\UniformModulusUp$, or $\FiniteNetEquicontinuityUp$ consumer reads one shared-radius carrier route rather than memberwise radius data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:equicontinuity-carrier}. The tuple displays exactly $K,F,\epsilon,\rho,M,T,R,P,N$, and $\rho$ appears as one row before the modulus handoff.
+
+Apply the finite-net consumer boundary of \autoref{thm:equicontinuity-root-unblock-finite-net-consumer-boundary}. It keeps every consumer on the compact-source, finite-family, tolerance, shared-radius, and handoff rows before any finite-net-facing read begins.
+
+The support rows $T,R,P,N$ only transport, replay, source, and name the displayed $\BHist$ route. Since no memberwise radius row is present, the root carrier exposes the shared $\rho$ boundary alone.
+\end{proof}
+
+\begin{theorem}[Equicontinuity compact-modulus consumer root row]
+\label{thm:equicontinuity-root-unblock-compact-modulus-consumer}
+Let $E=(K,F,\epsilon,\rho,M,T,R,P,N)$ be an accepted $\EquicontinuityUp$ carrier. A compact-modulus consumer must first read $K$ as the $\CompactMetricUp$ source, then $F$ as the finite $\ContinuousMapUp$ ledger over that source, then $\epsilon,\rho,M$ as the shared $\UniformModulusUp$ handoff, with the route preserved by $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support. The consumer cannot treat $M$ as detached from the compact source or as a selected finite net.
+\end{theorem}
+\begin{proof}
+Read $K$ and $F$ from the accepted carrier. The compact source row precedes the continuous-family ledger, and the family is displayed over that same source.
+
+Use compact-source admission and finite-net readiness, \autoref{thm:equicontinuity-root-unblock-compact-source-admission} and \autoref{thm:equicontinuity-finite-net-readiness}. They order the compact and family reads before $\epsilon,\rho,M$ can be consumed by a uniform-modulus or finite-net-facing reader.
+
+Finally apply nonescape. The support rows preserve the displayed route, while selected finite nets, detached compactness output, subsequences, and convergence rows are absent from the $\EquicontinuityUp$ packet.
+\end{proof}
+
+\begin{theorem}[Equicontinuity finite-net handoff root row]
+\label{thm:equicontinuity-root-unblock-finite-net-handoff}
+For every accepted $\EquicontinuityUp$ carrier $E=(K,F,\epsilon,\rho,M,T,R,P,N)$, the finite-net handoff is the ordered $\BHist$ route from the $\CompactMetricUp$ source $K$ through the $\ContinuousMapUp$ family $F$ and the shared tolerance-radius rows $\epsilon,\rho,M$ into the $\FiniteNetEquicontinuityUp$ consumer boundary. The $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $T,R,P,N$ preserve that route and do not add compactness output, selected nets, selected subsequences, or an Arzela--Ascoli limit.
+\end{theorem}
+\begin{proof}
+Project the rows $K,F,\epsilon,\rho,M,T,R,P,N$. The analytic part of the packet already orders the compact source, continuous family, tolerance request, shared radius, and modulus handoff.
+
+Apply the shared-radius carrier row above and the compact-modulus consumer row above. Together they make the finite-net read pass through the same compact source and shared radius before the downstream $\FiniteNetEquicontinuityUp$ boundary is available.
+
+The structural rows transport and replay only this displayed handoff. Because finite nets and convergence objects are not carrier coordinates, the handoff remains a root boundary rather than a selected-net construction.
+\end{proof}
+
 \begin{theorem}[Equicontinuity shared-radius obligation]
 \label{thm:equicontinuity-shared-radius-obligation}
 For every accepted $\EquicontinuityUp$ carrier $E=(K,F,\epsilon,\rho,M,T,R,P,N)$, the local $\NameCert_{\EquicontinuityUp}$ obligation requires the single radius row $\rho$ to serve every displayed member of $F$ at tolerance $\epsilon$ before any $\FiniteNetEquicontinuityUp$ or Arzela--Ascoli consumer may read the packet. No consumer may replace $\rho$ by memberwise radii, a pointwise-only modulus family, or a selected finite-net radius outside the carrier.

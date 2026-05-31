@@ -1,0 +1,115 @@
+---
+title: "发现质量筛"
+subtitle: "把 BEDC 的发现声明放进候选、静态负证、对抗见证与 Lean Meta 载体的同一条质量回路."
+lang: zh-Hans
+toc: true
+toc-depth: 2
+date-modified: today
+description: "发现质量筛是 BEDC 对发现声明的生产、过滤与观察系统. 它给出静态筛分和排序信号, 不裁定真发现或真素性."
+---
+
+# 发现质量筛
+
+## 是什么
+
+发现质量筛, 即 Discovery Quality Sieve, 是 BEDC 对发现声明的质量回路。它把“这是不是一次有内容的 classifier shift”拆成三件可查的事: 生产侧只把少量高精度候选送入 worker, 过滤侧用静态负证与确定性对抗见证压低空洞声明, 观察侧把 classifier shift、发现账本、机械分类与覆盖情况作为 informational audit 行暴露出来。
+
+这个名字只指文档层的统一视角。代码里的命令名、JSON 字段、Lean namespace 和 prompt 术语保持原样: `discovery-candidates`, `discovery-sieve`, `discovery-adversarial`, `critical_path.discovery_candidate_top`, `DiscoveryDeltaLedger`, `DisagreementSupport`。
+
+## 三层闭环
+
+### 生产
+
+生产层由 `python3 lean4/scripts/bedc_ci.py discovery-candidates` 与 `lean4/scripts/critical_path.py` 的 `discovery_candidate_top` 组成。`discovery-candidates` 是高精度、低召回的 A 层候选检测器: 它只放行带有已解析 Lean target、before/after classifier endpoint、可达 disagreement support、至少两类非平凡 semantic endpoint、且没有硬负证标签的目标。
+
+A 层硬拒绝包括 human origin、`matureClosure`、`auditCleanV` / `axiomCleanV` / `bridgeCheckedV`、`bridgeChecked`、机械分类声明, 以及 `target_missing`, `target_axiom`, `target_sorry`, `smoke_template_reuse`, `trivial_classifier`, `target_substring_evidence` 等硬负证。放行候选的 `dispatch_intent` 是 `attempt_delta_ledger_or_mark_mechanical`: worker 可以尝试给出真实位移账本, 也可以诚实记录 `mechanical_reconstruction` 或拒绝候选。
+
+`critical_path.discovery_candidate_top` 把这些候选作为低权重 dispatch 来源接入工作流。当前权重是 Lean `0.06`, Paper `0.05`; 这让候选被看见, 但不把“发现产量”变成主调度目标。四个 phase prompt 里的 Discovery Candidate Contract 同样要求真实 classifier 位移声明, 并允许诚实的 `mechanical_reconstruction` 与可审计 opt-out。
+
+生产层的指标是 survivor-based: `declared_candidate`, `sieve_survivor`, `certified_prime`。权重不依赖声明数, 因为声明数本身不能作为发现质量的代理。
+
+### 过滤
+
+过滤层由 `python3 lean4/scripts/bedc_ci.py discovery-sieve`、`python3 lean4/scripts/bedc_ci.py discovery-adversarial` 与 `critical_path` 的 `sieve_clearance_top` / `sieve_demote` 组成。
+
+`discovery-sieve` 对发现目标做多道静态负证筛。它累积 `reason_tags`, 记录 `negative_witnesses`, `missing_support`, `clearance_requirements`, 并给出四级分级:
+
+| 分级 | 含义 |
+|---|---|
+| `certified_prime` | 静态筛下没有负证, 且有非平凡 classifier shift、完整行与独立 support |
+| `probable_prime` | 静态筛下没有负证或有可见语义锚, 但未达到 stronger support |
+| `probable_composite` | 有可疑负证, 或证据形态不足 |
+| `confirmed_composite` | 有确定负证, 如 target 缺失、axiom、sorry、名称子串证据或缺发现行 |
+
+这四个词是筛分隐喻, 不是真值结论。payload 里的 `grade_semantics` 明确写成 `static_sieve_only_not_truth`。
+
+`discovery-adversarial` 在同一批目标上生成确定性对抗见证。当前静态家族包括:
+
+| 家族 | 对抗 lens |
+|---|---|
+| `F1-static` | prior-classifier wrapper / 同形重构 |
+| `F4-static` | constructor normal form deepening |
+| `F5-static` | cost ledger reduction |
+
+每个 `AdversarialWitness` 带 `target_fingerprint`。fingerprint 覆盖 target header/body、support、adversarial input graph、witness read graph 与 paper closurestatus 内容; 证据图变化时快照失效, 旧见证不能被静态复用。`adversarial_resistance_score` 只用于排序, `score_semantics` 是 `ranking_only_not_probability`。
+
+`critical_path.sieve_clearance_top` 从小缺口的筛分目标里挑可局部补证的项; `critical_path.sieve_demote` 把静态低质量目标降权, 不是新的任务来源。
+
+### 观察
+
+观察层把筛分结果接回 audit 输出, 但保持 informational 语义。`bedc_ci.py audit` 暴露三类行:
+
+| audit 行 | 观察内容 |
+|---|---|
+| `classifier shift quality` | classifier-shift 目标是否被筛成 probable / confirmed composite |
+| `discovery ledger coverage` | ai-origin chapter 是否有对应 `DiscoveryDeltaLedger` 声明 |
+| `mechanical opt-out audit` | `mechanical_reconstruction` / `confirmed_composite` 是否给出 reason、nearest target 与 worker 检查记录 |
+
+这些行帮助 operator 判断质量趋势, 但不把 audit 变成真值裁判。
+
+## 素数隐喻与诚实边界
+
+发现质量筛使用“素数/合数/伪素数”的 lens 来整理工作流:
+
+| 隐喻 | 在 BEDC 里的读法 |
+|---|---|
+| 真发现像素数 | 不能被已知 mechanical route 分解的 classifier 位移 |
+| 机械重构像合数 | 已知数学 NameCert、carrier-only、bridge-only、marker sync、duplicate 等可分解工作 |
+| 伪发现像伪素数 | 表面像 discovery, 但被静态负证或对抗见证分解 |
+
+这个 lens 不声明真素性。系统不裁定“真发现”, 不给概率, 不证明一个目标不可分解。它给的是 adversarial-undecomposed degree: 在当前静态读模型、当前 support 图与当前对抗家族下, 目标还没有被分解到机械解释的程度。这个 degree 是排序信号, 不是真值。
+
+## 关键设计理据
+
+软激励优先于硬门。若 worker 必须产出发现, 最容易出现的是伪造 classifier shift、把 constructor disequality 当语义端点, 或用空 ledger 洗白声明。低权重候选、允许 `mechanical_reconstruction`、允许 `reject_candidate`, 让系统把诚实分类作为合格结果。
+
+survivor 不是产量。真实 classifier shift 稀疏, 高精度检测器在一段时间里给出 0 个 A 层候选是正常状态。空转待料比把声明数当目标更可靠。`declared_candidate`, `sieve_survivor`, `certified_prime` 观察的是候选通过筛子的存活情况, 不奖励声明数本身。
+
+防 gaming 是双向的。筛分与对抗见证挡假阳性: target 缺失、sorry、axiom、smoke 模板、名称子串证据、平凡 classifier、constructor-only disagreement、无 semantic refs、裸 row-count margin 都会被记录为负证。mechanical opt-out audit 挡假阴性: worker 不能把困难目标随手标成 mechanical, 必须给出 accepted reason、nearest existing target 和检查记录。
+
+fingerprint 让对抗见证有时效边界。`target_fingerprint` 绑定 target、support、read graph 与 paper closurestatus; 当证据图变化, 旧的 adversarial snapshot 不再是当前图的结论。这样可以用静态见证压低空洞目标, 又不把一次旧读数固化成永久判词。
+
+## Live 接口清单
+
+| 层 | 接口 |
+|---|---|
+| 生产命令 | `python3 lean4/scripts/bedc_ci.py discovery-candidates [--json] [--verbose] [--max-a N]` |
+| 过滤命令 | `python3 lean4/scripts/bedc_ci.py discovery-sieve [--json] [--verbose]` |
+| 对抗命令 | `python3 lean4/scripts/bedc_ci.py discovery-adversarial [--json] [--verbose]` |
+| audit survey | `python3 lean4/scripts/bedc_ci.py discovery-audit [--json] [--verbose]` |
+| critical path | `discovery_candidate_top`, `sieve_clearance_top`, `sieve_demote` |
+| Lean Meta | `BEDC.Meta.DiscoveryDeltaLedger`, `BEDC.Meta.DisagreementSupport`, `BEDC.Meta.TheoremDNA` |
+| prompt contract | Lean Phase B/C 与 paper Review/Revise 的 Discovery Candidate Contract |
+| informational audit 行 | `classifier shift quality`, `discovery ledger coverage`, `mechanical opt-out audit` |
+
+`DiscoveryDeltaLedger` 是每章发现账本: 它携带 `ChapterTasteGate`, row accounting, 以及 `classifier_shift : Option DiscoveryShift`。`none` 表示没有实际 before/after 位移; `some shift` 才进入结构发现账本路径。
+
+`DisagreementSupport` 是 disagreement 的独立支持载体: 它把 classifier source family 与 observable family 分开, observable family 可来自 decode、readback、ledger 或 role witness, 并要求 stable semantic separation 与 observable NameCert。
+
+`TheoremDNA` 提供 theorem-level 内容角色, 包括 statement、dependencies、proof、certificates、ledger、status、canonical site 与 closing seal。每章 DNA 内容哈希时效门用它来约束“证据图当前性”的读法。
+
+## 当前状态与未来
+
+发现质量筛当前接入 `codex-auto-dev` 的生产、过滤、观察回路。A 层候选检测器刻意高精度低召回; 因此当前没有候选时, 默认读法不是系统失效, 而是没有目标同时满足真实 before/after endpoint、可达 support、semantic endpoint 与无硬负证这些条件。
+
+B2 多 agent 对抗与 Lean-checked adversary 仍是后续工件。当前系统提供的是静态筛分、确定性对抗见证、fingerprint 时效门与排序信号; 它还没有把对抗者本身提升为 Lean-checked 证明对象。
