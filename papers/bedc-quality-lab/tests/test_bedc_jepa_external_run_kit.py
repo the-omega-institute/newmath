@@ -24,3 +24,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         minigrid["export_command"]
         == "python scripts/export_public_minigrid_benchmark_result.py"
     )
+    assert (
+        baseline["export_command"]
+        == "python scripts/export_public_jepa_baseline_result.py"
+    )

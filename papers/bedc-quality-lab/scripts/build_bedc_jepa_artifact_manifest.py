@@ -74,6 +74,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "export_public_minigrid_benchmark_result": "python scripts/export_public_minigrid_benchmark_result.py",
             "import_public_minigrid_benchmark_metrics": "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>",
             "public_jepa_baseline_registry": "python scripts/build_public_jepa_baseline_registry.py",
+            "export_public_jepa_baseline_result": "python scripts/export_public_jepa_baseline_result.py",
             "import_public_jepa_baseline_metrics": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
             "external_run_kit": "python scripts/build_bedc_jepa_external_run_kit.py",
             "readiness": "python scripts/build_bedc_jepa_readiness.py",
@@ -118,6 +119,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         "external_run_kit": "reports/bedc_jepa_external_run_kit.json",
         "public_baselines": {
             "jepa_comparison": "reports/bedc_jepa_public_baseline_comparison.json",
+            "jepa_external_result": "reports/bedc_jepa_public_baseline_external_result.json",
             "jepa_registry": "reports/bedc_jepa_public_baseline_registry.json",
         },
         "cannot_claim": [

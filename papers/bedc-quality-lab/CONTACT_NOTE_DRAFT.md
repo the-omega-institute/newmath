@@ -80,9 +80,9 @@ benchmark.
 The current readiness gate is `not_contact_ready`: torch objective seed sweep,
 local visual planning, and cluttered object-counterfactual gates pass, while
 public MiniGrid execution and public JEPA baseline comparison are still
-blocking gates.  The external run kit records the two result schemas and import
-commands needed to close those gates without inventing evidence inside this
-workspace.
+blocking gates.  The external run kit records the two result schemas, export
+commands, and import commands needed to close those gates without inventing
+evidence inside this workspace.
 
 For the public JEPA baseline side, the registry selects V-JEPA 2-AC as the
 first candidate because it is action-conditioned, with LeWorldModel / LeJEPA as
@@ -91,8 +91,9 @@ The registry is contract-only at this stage; no public JEPA baseline has been
 executed in this workspace.  The separate comparison packet is the readiness
 artifact: it keeps baseline latent-prediction score, rollout/planning score,
 and reported benchmark name empty until an actual public baseline run supplies
-them.  The lab now has an import command for an executed public baseline result,
-but no such result is present in this workspace.
+them.  The lab now has a boundary export command and an import command for an
+executed public baseline result, but no such result is present in this
+workspace.
 
 Reproducible local commands:
 
@@ -104,6 +105,7 @@ python scripts/probe_public_minigrid.py
 python scripts/export_public_minigrid_benchmark_result.py
 python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>
 python scripts/build_public_jepa_baseline_registry.py
+python scripts/export_public_jepa_baseline_result.py
 python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>
 python scripts/build_bedc_jepa_external_run_kit.py
 python scripts/build_bedc_jepa_readiness.py

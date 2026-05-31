@@ -161,6 +161,28 @@ def import_public_jepa_baseline_metrics(result: dict[str, Any]) -> dict[str, Any
     return comparison
 
 
+def build_public_jepa_baseline_external_result() -> dict[str, Any]:
+    registry = build_public_jepa_baseline_registry()
+    selected = next(
+        candidate for candidate in registry["candidates"] if candidate["candidate_id"] == registry["selected_candidate_id"]
+    )
+    return {
+        "status": "unavailable",
+        "candidate_id": registry["selected_candidate_id"],
+        "repository_url": selected["repository_url"],
+        "baseline_role": selected["baseline_role"],
+        "cannot_export": ["public JEPA-family baseline was not executed in this workspace"],
+    }
+
+
+def write_public_jepa_baseline_external_result(path: str | Path) -> dict[str, Any]:
+    result = build_public_jepa_baseline_external_result()
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return result
+
+
 def write_public_jepa_baseline_registry(path: str | Path) -> dict[str, Any]:
     registry = build_public_jepa_baseline_registry()
     target = Path(path)

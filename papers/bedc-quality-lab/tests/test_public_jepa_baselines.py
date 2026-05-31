@@ -1,4 +1,5 @@
 from bedc_quality_lab.public_jepa_baselines import (
+    build_public_jepa_baseline_external_result,
     build_public_jepa_baseline_comparison,
     build_public_jepa_baseline_registry,
     import_public_jepa_baseline_metrics,
@@ -71,3 +72,29 @@ def test_public_jepa_baseline_metrics_import_marks_comparison_executed():
         "reported_benchmark_name": "MiniGrid-DoorKey-8x8-v0",
     }
     assert comparison["cannot_claim"] == []
+
+
+def test_public_jepa_baseline_external_result_records_execution_boundary():
+    result = build_public_jepa_baseline_external_result()
+
+    assert result["candidate_id"] == "vjepa2-ac"
+    assert result["repository_url"] == "https://github.com/facebookresearch/vjepa2"
+
+    if result["status"] == "available":
+        assert set(result) == {
+            "status",
+            "candidate_id",
+            "repository_url",
+            "commit",
+            "checkpoint",
+            "reported_benchmark_name",
+            "latent_prediction_score",
+            "rollout_or_planning_score",
+        }
+        comparison = import_public_jepa_baseline_metrics(result)
+        assert comparison["status"] == "executed"
+    else:
+        assert result["status"] == "unavailable"
+        assert result["cannot_export"] == [
+            "public JEPA-family baseline was not executed in this workspace"
+        ]

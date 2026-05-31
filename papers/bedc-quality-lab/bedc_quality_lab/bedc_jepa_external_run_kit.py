@@ -33,6 +33,7 @@ def build_external_run_kit() -> dict[str, Any]:
             "public_jepa_baseline": {
                 "readiness_gate": "public_jepa_baseline",
                 "target_artifact": "reports/bedc_jepa_public_baseline_comparison.json",
+                "export_command": "python scripts/export_public_jepa_baseline_result.py",
                 "import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
                 "required_fields": [
                     "candidate_id",
