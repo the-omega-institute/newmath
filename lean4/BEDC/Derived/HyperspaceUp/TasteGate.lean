@@ -286,4 +286,87 @@ theorem Hyperspace_hausdorff_distance_stability [AskSetup] [PackageSetup]
   }
   exact ⟨distanceUnary, publicUnary, distanceExact, cert⟩
 
+theorem Hyperspace_compactmetric_distance_lift [AskSetup] [PackageSetup]
+    {X K0 K1 N0 N1 D0 D1 R Hs C P M subsetRead netRead distanceRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HyperspaceCarrier X K0 K1 N0 N1 D0 D1 R Hs C P M bundle pkg →
+      Cont K0 K1 subsetRead →
+        Cont N0 N1 netRead →
+          Cont D0 D1 distanceRead →
+            Cont distanceRead R publicRead →
+              PkgSig bundle publicRead pkg →
+                UnaryHistory subsetRead ∧ UnaryHistory netRead ∧
+                  UnaryHistory distanceRead ∧ UnaryHistory publicRead ∧
+                    SemanticNameCert
+                      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row X ∨ hsame row K0 ∨ hsame row K1 ∨ hsame row N0 ∨
+                          hsame row N1 ∨ hsame row D0 ∨ hsame row D1 ∨ hsame row R ∨
+                            hsame row subsetRead ∨ hsame row netRead ∨
+                              hsame row distanceRead ∨ hsame row publicRead)
+                      (fun row : BHist =>
+                        hsame row publicRead ∧ PkgSig bundle P pkg ∧
+                          PkgSig bundle publicRead pkg)
+                      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier subsetRoute netRoute distanceRoute publicRoute publicPkg
+  obtain ⟨_xUnary, k0Unary, k1Unary, n0Unary, n1Unary, d0Unary, d1Unary,
+    rUnary, _hsUnary, _cUnary, _pUnary, _mUnary, provenancePkg⟩ := carrier
+  have subsetUnary : UnaryHistory subsetRead :=
+    unary_cont_closed k0Unary k1Unary subsetRoute
+  have netUnary : UnaryHistory netRead :=
+    unary_cont_closed n0Unary n1Unary netRoute
+  have distanceUnary : UnaryHistory distanceRead :=
+    unary_cont_closed d0Unary d1Unary distanceRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed distanceUnary rUnary publicRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row X ∨ hsame row K0 ∨ hsame row K1 ∨ hsame row N0 ∨
+            hsame row N1 ∨ hsame row D0 ∨ hsame row D1 ∨ hsame row R ∨
+              hsame row subsetRead ∨ hsame row netRead ∨ hsame row distanceRead ∨
+                hsame row publicRead)
+        (fun row : BHist =>
+          hsame row publicRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle publicRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, provenancePkg, publicPkg⟩
+  }
+  exact ⟨subsetUnary, netUnary, distanceUnary, publicUnary, cert⟩
+
 end BEDC.Derived.HyperspaceUp
