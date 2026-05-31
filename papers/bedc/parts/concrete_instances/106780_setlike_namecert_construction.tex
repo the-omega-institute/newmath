@@ -254,6 +254,42 @@ The extensional comparison is the row $E$. By \autoref{thm:setlike-extensional-b
 Finally replay the structural rows $H,C,P,N$. They transport, replay, source, and name the same finite boundary, so an extensional consumer cannot bypass $M,Q,I,R,E$ or replace the displayed boundary by host set equality.
 \end{proof}
 
+\begin{theorem}[SetLike subset implication witness]
+\label{thm:setlike-subset-implication-witness}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the implication row $I$ is the only subset witness available over the displayed membership classifier $Q$ and membership source $M$. Any accepted subset read must keep $I$ attached to $M,Q,H,C,P,N$ and cannot replace it by powersets, unrestricted separation, quotient equality of sets, host subset equality, selected representatives, or an external inclusion predicate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:setlike-carrier}. The subset coordinate is exactly the row $I$, and the only membership data available to it are the source row $M$ and displayed classifier row $Q$.
+
+Use the membership route and subset obligation, \autoref{thm:setlike-membership-route} and \autoref{thm:setlike-subset-implication-obligation}. These force every subset consumer to read implication as finite carrier data over $M,Q,I$ before the structural rows are replayed.
+
+Finally replay through $H,C,P,N$. Since the carrier has no powerset, unrestricted separation, quotient-equality, selected-representative, host-subset, or external-inclusion coordinate, $I$ is the only subset witness exposed by the packet.
+\end{proof}
+
+\begin{theorem}[SetLike bounded comprehension witness]
+\label{thm:setlike-bounded-comprehension-witness}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the restricted-comprehension row $R$ is bounded by the displayed membership source $M$, classifier $Q$, and subset-implication row $I$. The row $R$ witnesses only bounded comprehension inside that carrier route and cannot export powersets, unrestricted separation, quotient equality of sets, selected representatives, host subset objects, or an external comprehension principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:setlike-carrier}. The comprehension coordinate is the row $R$, and its definition admits only classifiers already routed through $M,Q,I$.
+
+Apply bounded-comprehension obligation and restricted-comprehension factorization, \autoref{thm:setlike-bounded-comprehension-obligation} and \autoref{thm:setlike-restricted-comprehension-membership-factorization}. They identify $M,Q,I$ as the required bound before $R$ may be read.
+
+The structural rows $H,C,P,N$ preserve and name that same bounded route. Because no other carrier row stores powersets, unrestricted separation, quotient equality, selected representatives, host subset objects, or external comprehension, $R$ remains only the displayed bounded-comprehension witness.
+\end{proof}
+
+\begin{theorem}[SetLike extensional boundary witness]
+\label{thm:setlike-extensional-boundary-witness}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the extensionality row $E$ is only a classifier boundary over the displayed membership route $M,Q,I,R$. It may witness that two displayed set rows have the same carried classifier behavior, but it does not export host set equality, powersets, unrestricted separation, quotient equality of sets, selected representatives, or an equality oracle outside $M,Q,I,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:setlike-carrier}. The row $E$ is an extensionality-boundary ledger, not a quotient constructor or host equality coordinate.
+
+Use the extensional boundary obligation and route, \autoref{thm:setlike-extensional-boundary-obligation} and \autoref{thm:setlike-extensional-boundary-route}. They force every extensional read through the membership source, classifier, subset implication, and restricted-comprehension rows before $H,C,P,N$ are replayed.
+
+Finally cite classifier extensional nonescape, \autoref{thm:setlike-classifier-extensional-nonescape}. The displayed classifier boundary remains inside $M,Q,I,R,E,H,C,P,N$, so the refused powerset, unrestricted-separation, quotient-equality, selected-representative, host-equality, and equality-oracle readings cannot be exported.
+\end{proof}
+
 \begin{theorem}[SetLike subset-comprehension stability]
 \label{thm:setlike-subset-comprehension-stability}
 For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, subset implication through $I$ and restricted comprehension through $R$ share the same membership classifier $Q$ over the membership source $M$. Any consumer that reads both rows must keep the common classifier visible through $H,C,P,N$, and the read cannot introduce a powerset row, unrestricted separation row, host subset equality, or an external comprehension principle.
