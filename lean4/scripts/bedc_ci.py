@@ -141,8 +141,6 @@ class LeanStmtDebtEntry:
     file: str
     target: str
     discharge_plan: str
-    line: int | None = None
-    owner_scope: str | None = None
 
 
 @dataclass(frozen=True)
@@ -490,176 +488,178 @@ def _leanstmt_placeholder_plan(plan: str) -> bool:
     return text in {re.sub(r"[\s._-]+", "", item).lower() for item in placeholders}
 
 
-def load_leanstmt_debt_manifest(
-    path: Path = LEANSTMT_DEBT_MANIFEST_PATH,
-) -> tuple[list[LeanStmtDebtEntry], list[dict[str, object]]]:
-    diagnostics: list[dict[str, object]] = []
-    try:
-        raw = json.loads(path.read_text(encoding="utf-8"))
-    except FileNotFoundError:
-        return [], [{
-            "kind": "manifest_missing",
-            "path": display_path(path),
-            "message": f"manifest not found: {display_path(path)}",
-        }]
-    except json.JSONDecodeError as exc:
-        return [], [{
-            "kind": "manifest_invalid_json",
-            "path": display_path(path),
-            "line": exc.lineno,
-            "message": f"invalid JSON: {exc.msg}",
-        }]
+def _manifest_diagnostic(
+    path: Path,
+    kind: str,
+    message: str,
+    **extra: object,
+) -> dict[str, object]:
+    return {
+        "kind": kind,
+        "path": display_path(path),
+        "message": message,
+        **extra,
+    }
 
-    entries: list[LeanStmtDebtEntry] = []
+
+def _validate_leanstmt_manifest_root(
+    raw: object,
+    path: Path,
+) -> tuple[dict[str, object] | None, list[dict[str, object]]]:
     if not isinstance(raw, dict):
-        return [], [{
-            "kind": "manifest_invalid_shape",
-            "path": display_path(path),
-            "message": "manifest root must be an object",
-        }]
+        return None, [
+            _manifest_diagnostic(
+                path,
+                "manifest_invalid_shape",
+                "manifest root must be an object",
+            )
+        ]
 
+    diagnostics: list[dict[str, object]] = []
     allowed_top_keys = {"schema", "entries"}
     extra_top_keys = sorted(set(raw) - allowed_top_keys)
     missing_top_keys = sorted(allowed_top_keys - set(raw))
     if extra_top_keys:
-        diagnostics.append({
-            "kind": "manifest_extra_top_keys",
-            "path": display_path(path),
-            "keys": extra_top_keys,
-            "message": f"unexpected top-level keys: {', '.join(extra_top_keys)}",
-        })
+        diagnostics.append(_manifest_diagnostic(
+            path,
+            "manifest_extra_top_keys",
+            f"unexpected top-level keys: {', '.join(extra_top_keys)}",
+            keys=extra_top_keys,
+        ))
     if missing_top_keys:
-        diagnostics.append({
-            "kind": "manifest_missing_top_keys",
-            "path": display_path(path),
-            "keys": missing_top_keys,
-            "message": f"missing top-level keys: {', '.join(missing_top_keys)}",
-        })
+        diagnostics.append(_manifest_diagnostic(
+            path,
+            "manifest_missing_top_keys",
+            f"missing top-level keys: {', '.join(missing_top_keys)}",
+            keys=missing_top_keys,
+        ))
     if raw.get("schema") != "leanstmt_debt_manifest.v1":
+        diagnostics.append(_manifest_diagnostic(
+            path,
+            "manifest_schema_mismatch",
+            "schema must be leanstmt_debt_manifest.v1",
+            schema=raw.get("schema"),
+        ))
+    if not isinstance(raw.get("entries"), list):
+        diagnostics.append(_manifest_diagnostic(
+            path,
+            "manifest_entries_invalid",
+            "entries must be a list",
+        ))
+        return None, diagnostics
+
+    return raw, diagnostics
+
+
+def _parse_leanstmt_manifest_entry(
+    raw_entry: object,
+    path: Path,
+    entry_index: int,
+) -> tuple[LeanStmtDebtEntry | None, list[dict[str, object]]]:
+    entry_site = {"path": display_path(path), "entry_index": entry_index}
+    if not isinstance(raw_entry, dict):
+        return None, [{
+            **entry_site,
+            "kind": "manifest_entry_invalid",
+            "message": "entry must be an object",
+        }]
+
+    diagnostics: list[dict[str, object]] = []
+    required = {"file", "target", "discharge_plan"}
+    allowed_entry_keys = required
+    missing = sorted(required - set(raw_entry))
+    extra = sorted(set(raw_entry) - allowed_entry_keys)
+    if missing:
         diagnostics.append({
-            "kind": "manifest_schema_mismatch",
-            "path": display_path(path),
-            "schema": raw.get("schema"),
-            "message": "schema must be leanstmt_debt_manifest.v1",
+            **entry_site,
+            "kind": "manifest_entry_missing_keys",
+            "keys": missing,
+            "message": f"entry missing required keys: {', '.join(missing)}",
+        })
+    if extra:
+        diagnostics.append({
+            **entry_site,
+            "kind": "manifest_entry_extra_keys",
+            "keys": extra,
+            "message": f"entry has unexpected keys: {', '.join(extra)}",
         })
 
-    raw_entries = raw.get("entries")
-    if not isinstance(raw_entries, list):
+    file_value = raw_entry.get("file")
+    target_value = raw_entry.get("target")
+    plan_value = raw_entry.get("discharge_plan")
+
+    if not isinstance(file_value, str) or not file_value.strip():
         diagnostics.append({
-            "kind": "manifest_entries_invalid",
-            "path": display_path(path),
-            "message": "entries must be a list",
+            **entry_site,
+            "kind": "manifest_entry_invalid_file",
+            "message": "file must be a non-empty string",
         })
+    if not isinstance(target_value, str) or not target_value.strip():
+        diagnostics.append({
+            **entry_site,
+            "kind": "manifest_entry_invalid_target",
+            "message": "target must be a non-empty string",
+        })
+    if not isinstance(plan_value, str) or _leanstmt_placeholder_plan(plan_value):
+        diagnostics.append({
+            **entry_site,
+            "kind": "manifest_entry_invalid_discharge_plan",
+            "file": file_value if isinstance(file_value, str) else None,
+            "target": target_value if isinstance(target_value, str) else None,
+            "message": "discharge_plan must be a non-placeholder string",
+        })
+
+    if not isinstance(file_value, str) or not isinstance(target_value, str) or not isinstance(plan_value, str):
+        return None, diagnostics
+
+    return LeanStmtDebtEntry(
+        file=file_value.strip(),
+        target=target_value.strip(),
+        discharge_plan=plan_value.strip(),
+    ), diagnostics
+
+
+def load_leanstmt_debt_manifest(
+    path: Path = LEANSTMT_DEBT_MANIFEST_PATH,
+) -> tuple[list[LeanStmtDebtEntry], list[dict[str, object]]]:
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return [], [
+            _manifest_diagnostic(path, "manifest_missing", f"manifest not found: {display_path(path)}")
+        ]
+    except json.JSONDecodeError as exc:
+        return [], [
+            _manifest_diagnostic(path, "manifest_invalid_json", f"invalid JSON: {exc.msg}", line=exc.lineno)
+        ]
+
+    manifest, diagnostics = _validate_leanstmt_manifest_root(raw, path)
+    if manifest is None:
         return [], diagnostics
 
+    entries: list[LeanStmtDebtEntry] = []
     seen: dict[tuple[str, str], int] = {}
-    required = {"file", "target", "discharge_plan"}
-    allowed_entry_keys = required | {"line", "owner_scope"}
-    for idx, raw_entry in enumerate(raw_entries):
-        entry_site = {"path": display_path(path), "entry_index": idx}
-        if not isinstance(raw_entry, dict):
-            diagnostics.append({
-                **entry_site,
-                "kind": "manifest_entry_invalid",
-                "message": "entry must be an object",
-            })
+    for idx, raw_entry in enumerate(manifest["entries"]):
+        entry, entry_diagnostics = _parse_leanstmt_manifest_entry(raw_entry, path, idx)
+        diagnostics.extend(entry_diagnostics)
+        if entry is None:
             continue
 
-        missing = sorted(required - set(raw_entry))
-        extra = sorted(set(raw_entry) - allowed_entry_keys)
-        if missing:
-            diagnostics.append({
-                **entry_site,
-                "kind": "manifest_entry_missing_keys",
-                "keys": missing,
-                "message": f"entry missing required keys: {', '.join(missing)}",
-            })
-        if extra:
-            diagnostics.append({
-                **entry_site,
-                "kind": "manifest_entry_extra_keys",
-                "keys": extra,
-                "message": f"entry has unexpected keys: {', '.join(extra)}",
-            })
-
-        file_value = raw_entry.get("file")
-        target_value = raw_entry.get("target")
-        plan_value = raw_entry.get("discharge_plan")
-        line_value = raw_entry.get("line")
-        owner_scope_value = raw_entry.get("owner_scope")
-
-        if not isinstance(file_value, str) or not file_value.strip():
-            diagnostics.append({
-                **entry_site,
-                "kind": "manifest_entry_invalid_file",
-                "message": "file must be a non-empty string",
-            })
-        if not isinstance(target_value, str) or not target_value.strip():
-            diagnostics.append({
-                **entry_site,
-                "kind": "manifest_entry_invalid_target",
-                "message": "target must be a non-empty string",
-            })
-        if not isinstance(plan_value, str) or _leanstmt_placeholder_plan(plan_value):
-            diagnostics.append({
-                **entry_site,
-                "kind": "manifest_entry_invalid_discharge_plan",
-                "file": file_value if isinstance(file_value, str) else None,
-                "target": target_value if isinstance(target_value, str) else None,
-                "message": "discharge_plan must be a non-placeholder string",
-            })
-
-        parsed_line: int | None = None
-        if line_value is not None:
-            if isinstance(line_value, int) and line_value > 0:
-                parsed_line = line_value
-            else:
-                diagnostics.append({
-                    **entry_site,
-                    "kind": "manifest_entry_invalid_line",
-                    "file": file_value if isinstance(file_value, str) else None,
-                    "target": target_value if isinstance(target_value, str) else None,
-                    "message": "line must be a positive integer when present",
-                })
-
-        parsed_owner_scope: str | None = None
-        if owner_scope_value is not None:
-            if isinstance(owner_scope_value, str) and owner_scope_value.strip():
-                parsed_owner_scope = owner_scope_value.strip()
-            else:
-                diagnostics.append({
-                    **entry_site,
-                    "kind": "manifest_entry_invalid_owner_scope",
-                    "file": file_value if isinstance(file_value, str) else None,
-                    "target": target_value if isinstance(target_value, str) else None,
-                    "message": "owner_scope must be a non-empty string when present",
-                })
-
-        if not isinstance(file_value, str) or not isinstance(target_value, str) or not isinstance(plan_value, str):
-            continue
-
-        file_name = file_value.strip()
-        target = target_value.strip()
-        key = _leanstmt_site_key(file_name, target)
+        key = _leanstmt_site_key(entry.file, entry.target)
         if key in seen:
             diagnostics.append({
-                **entry_site,
+                "path": display_path(path),
+                "entry_index": idx,
                 "kind": "manifest_duplicate_key",
-                "file": file_name,
-                "target": target,
+                "file": entry.file,
+                "target": entry.target,
                 "first_entry_index": seen[key],
-                "message": f"duplicate manifest key: {file_name} -> {target}",
+                "message": f"duplicate manifest key: {entry.file} -> {entry.target}",
             })
         else:
             seen[key] = idx
 
-        entries.append(LeanStmtDebtEntry(
-            file=file_name,
-            target=target,
-            discharge_plan=plan_value.strip(),
-            line=parsed_line,
-            owner_scope=parsed_owner_scope,
-        ))
+        entries.append(entry)
 
     return entries, diagnostics
 
@@ -711,15 +711,12 @@ def leanstmt_debt_payload(
         if (file_name, target) in live_by_key:
             continue
         for entry in entries:
-            item: dict[str, object] = {
+            stale_manifest_entries.append({
                 "kind": "stale_manifest_entry",
                 "file": entry.file,
                 "target": entry.target,
                 "message": f"manifest entry has no live leanstmt site: {entry.file} -> {entry.target}",
-            }
-            if entry.line is not None:
-                item["line"] = entry.line
-            stale_manifest_entries.append(item)
+            })
 
     return {
         "schema": "leanstmt_debt_manifest.v1",
@@ -734,13 +731,9 @@ def leanstmt_debt_payload(
         ],
         "manifest_entries": [
             {
-                **{
-                    "file": entry.file,
-                    "target": entry.target,
-                    "discharge_plan": entry.discharge_plan,
-                },
-                **({"line": entry.line} if entry.line is not None else {}),
-                **({"owner_scope": entry.owner_scope} if entry.owner_scope is not None else {}),
+                "file": entry.file,
+                "target": entry.target,
+                "discharge_plan": entry.discharge_plan,
             }
             for entry in manifest_entries
         ],
