@@ -18,13 +18,13 @@ with the following displayed rows:
 \item $I$ is the dependent-codomain inversion-boundary row.
 \item $V$ is the closure-preservation transport row available before typing preservation is requested.
 \item $Q$ is the obstruction row recording that subject reduction is unavailable unless the dependent-codomain stability row is supplied.
-\item $L$ is the stability ledger: it records the exact row that a later setup instance must fill to make the dependent codomain readback stable under the application-argument step.
+\item $L$ is the stability ledger: it records the exact row that a later bundle witness must fill to make the dependent codomain readback stable under the application-argument step.
 \item $H$ records componentwise $\hsame$ transport for application, codomain readback, discharge request, inversion, closure-preservation, obstruction, stability-ledger, replay, provenance, and local naming rows.
 \item $C$ records displayed $\Cont$ replay from the MetaCIC open-problem boundary through $A,D,R,I,V,Q,L,H,P,N$.
-\item $P$ is the $\Pkg$ provenance over $\MetaCICDependentCodomainStabilityBoundaryUp$, $\DependentCodomainInversionBoundaryUp$, $\DependentCodomainClosurePreservationUp$, $\MetaCICSubjectReductionBoundaryUp$, $\ClosedNormalConsistencyBoundaryUp$, $\SubjectReductionDischargeBundle$, $\SubjectReductionSetup$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICDependentCodomainStabilityBoundaryUp$, $\DependentCodomainInversionBoundaryUp$, $\DependentCodomainClosurePreservationUp$, $\MetaCICSubjectReductionBoundaryUp$, $\ClosedNormalConsistencyBoundaryUp$, $\SubjectReductionDischargeBundle$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
 \item $N$ is the local $\NameCert_{\MetaCICDependentCodomainStabilityBoundaryUp}$ row.
 \end{enumerate}
-The classifier compares accepted carriers only through $A,D,R,I,V,Q,L,H,C,P,N$. It has no coordinate for unconditional subject reduction, conversion completeness, closed consistency, ambient normalization, or a hidden setup instance.
+The classifier compares accepted carriers only through $A,D,R,I,V,Q,L,H,C,P,N$. It has no coordinate for unconditional subject reduction, conversion completeness, closed consistency, ambient normalization, or a hidden discharge witness.
 \end{definition}
 
 \begin{theorem}[MetaCIC dependent-codomain stability boundary obligations]
@@ -38,7 +38,7 @@ The codomain-sensitive part is $A,D,R$. These rows record that the reduction bra
 
 The boundary part is $I,V,Q,L$. The inversion row and closure-preservation row provide the available finite data, the obstruction row records why they are insufficient by themselves, and the stability ledger names the missing row rather than discharging it.
 
-Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. The required Lean `Nontrivial` and `FieldFaithful` instances belong to the later setup route because no hidden instance coordinate occurs in this carrier.
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. The required Lean `Nontrivial` and `FieldFaithful` instances belong to the later bundle witness because no hidden instance coordinate occurs in this carrier.
 \end{proof}
 
 \begin{theorem}[MetaCIC dependent-codomain stability handoff]
@@ -47,14 +47,14 @@ Every subject-reduction-facing read of an accepted $\MetaCICDependentCodomainSta
 $$
 \DependentCodomainInversionBoundaryUp,\ \DependentCodomainClosurePreservationUp,\ \MetaCICSubjectReductionBoundaryUp,\ \ClosedNormalConsistencyBoundaryUp,\ L,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
 $$
-The handoff exposes the stability ledger that a later setup instance must fill. It does not turn the dependent-codomain application case into unconditional subject reduction and does not promote closed-normal consistency to full closed consistency.
+The handoff exposes the stability ledger that a later bundle witness must fill. It does not turn the dependent-codomain application case into unconditional subject reduction and does not promote closed-normal consistency to full closed consistency.
 \end{theorem}
 \begin{proof}
 Begin with $A,D,R$. The read is subject-reduction-facing only because it has first displayed the application-argument step, the dependent-codomain readback, and the discharge request.
 
 Next consume $I,V,Q$. The inversion boundary and closure-preservation packet give the available codomain and closedness data, while the obstruction row records that this data does not yet type the post-step codomain.
 
-The ledger $L$ is then the only exported positive handoff. It names the dependent-codomain stability row that a later setup instance must supply, including the instance obligations recorded in the carrier theorem.
+The ledger $L$ is then the only exported positive handoff. It names the dependent-codomain stability row that a later bundle witness must supply, including the instance obligations recorded in the carrier theorem.
 
 Finally $H,C,P,N$ replay the route without adding theorem strength. Thus a consumer receives a precise boundary packet and a setup-facing row, not an unconditional subject-reduction theorem.
 \end{proof}
@@ -72,5 +72,5 @@ Finally $H,C,P,N$ replay the route without adding theorem strength. Thus a consu
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim unconditional subject reduction, conversion completeness, full closed consistency, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked application-argument admission, dependent-codomain readback visibility, inversion-boundary routing, closure-preservation transport, obstruction recording, stability-ledger exactness, and the required setup instances for BEDC.Derived.MetaCICDependentCodomainStabilityBoundaryUp.}
+  \upgradepath{Obligation closure requires checked application-argument admission, dependent-codomain readback visibility, inversion-boundary routing, closure-preservation transport, obstruction recording, stability-ledger exactness, and the required witness instances for BEDC.Derived.MetaCICDependentCodomainStabilityBoundaryUp.}
 \end{closurestatus}

@@ -1,0 +1,396 @@
+\section{Neural Theorem-DNA}
+\label{sec:visions-philosophy-neural-theorem-dna}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-tensor-namecert} treats tensor features,
+probes, directions, and circuits as certificate candidates rather than
+standalone explanations. \autoref{sec:visions-philosophy-black-box-ledger-theory}
+then identifies the ledger surface that prevents hidden residue from
+remaining black-box debt. The neural theorem-DNA reading combines these
+two constraints: a model behavior is not explained by one feature label
+or one circuit diagram, but by a role-complete profile whose roles are
+source, feature, circuit, classifier, stability, intervention, ledger,
+and seal. The term genome names this role-complete audit profile only;
+it does not import biological structure.
+
+\begin{definition}[Neural behavior target]
+\label{def:philosophy-neural-behavior-target}
+A neural behavior target is a displayed behavior $B$ of a tensor model
+context. It may be represented as a relation on inputs and outputs, a
+predicate on inputs or traces, or a soft behavior score, provided the
+source scope and observation protocol are declared.
+\end{definition}
+
+\begin{definition}[Neural theorem-DNA loci]
+\label{def:philosophy-neural-theorem-dna-loci}
+The neural theorem-DNA locus family is
+$$
+\mathcal R_{\mathsf{NDNA}}
+=
+\{
+\mathsf{source},
+\mathsf{feature},
+\mathsf{circuit},
+\mathsf{classifier},
+\mathsf{stability},
+\mathsf{intervention},
+\mathsf{ledger},
+\mathsf{seal}
+\}.
+$$
+For a behavior $B$, a neural theorem-DNA packet is an eight-tuple
+$$
+\mathsf{NDNA}(B)
+=
+(
+G_{\mathsf{source}},
+G_{\mathsf{feature}},
+G_{\mathsf{circuit}},
+G_{\mathsf{classifier}},
+G_{\mathsf{stability}},
+G_{\mathsf{intervention}},
+G_{\mathsf{ledger}},
+G_{\mathsf{seal}}
+).
+$$
+The component $G_{\rho}$ is the gene occupying locus
+$\rho\in\mathcal R_{\mathsf{NDNA}}$.
+\end{definition}
+
+\begin{definition}[Neural theorem genome]
+\label{def:philosophy-neural-theorem-genome}
+A neural theorem genome for $B$ is the behavior together with a neural
+theorem-DNA packet:
+$$
+\Gamma_B=(B,\mathsf{NDNA}(B)).
+$$
+The packet is complete when every locus has declared content, evidence
+mode, scope, and ledger status.
+\end{definition}
+
+\begin{definition}[Locus content]
+\label{def:philosophy-neural-locus-content}
+The source locus records model identity, parameter state, data domain,
+input family, task condition, prompt or observation protocol, trace
+extraction method, target definition, and inclusion boundary. The
+feature locus records activation features, directions, sparse-autoencoder
+latents, probes, subspaces, attention patterns, residual-stream features,
+or tensor distinction functionals. The circuit locus records layer,
+attention, MLP, residual, upstream, downstream, and causal-route
+structure. The classifier locus records the classifier relation induced
+by the behavior explanation. The stability locus records perturbation,
+threshold, representation, classifier, circuit, behavior, or transfer
+stability. The intervention locus records ablation, activation transfer, tracing,
+steering, suppression, amplification, counterfactual, failed, or
+off-target intervention evidence. The ledger locus records residue and
+boundary debt. The seal locus records the closure claim, evidence mode,
+remaining gaps, not-claimed boundary, and hardening status.
+\end{definition}
+
+\begin{definition}[NDNA gap and debt]
+\label{def:philosophy-ndna-gap-debt}
+The neural theorem-DNA gap of $B$ is the family of incomplete loci:
+$$
+\operatorname{Gap}_{\mathsf{NDNA}}(B)
+=
+\{\rho\in\mathcal R_{\mathsf{NDNA}}
+\mid
+G_{\rho}(B)\text{ is not complete}\}.
+$$
+For a nonnegative cost assignment on loci, the NDNA debt is
+$$
+\operatorname{Debt}_{\mathsf{NDNA}}(B)
+=
+\sum_{\rho\in\operatorname{Gap}_{\mathsf{NDNA}}(B)}
+\operatorname{Cost}(\rho).
+$$
+A critical locus is a locus whose absence can change the source scope,
+classifier boundary, causal status, ledger closure, discovery status, or
+positive-gain accounting of the explanation.
+\end{definition}
+
+\begin{theorem}[Complete NDNA has zero NDNA debt]
+\label{thm:philosophy-complete-ndna-zero-debt}
+If $\mathsf{NDNA}(B)$ is complete, then
+$$
+\operatorname{Debt}_{\mathsf{NDNA}}(B)=0.
+$$
+\end{theorem}
+\begin{proof}
+Completeness means that no locus is incomplete. Hence
+$\operatorname{Gap}_{\mathsf{NDNA}}(B)$ is empty, and the debt sum over
+the empty family is zero.
+\end{proof}
+
+\begin{theorem}[Single-locus records are not closed explanations]
+\label{thm:philosophy-single-locus-not-closed-neural-explanation}
+No isolated feature, circuit, classifier, intervention, or semantic label
+is a closed explanation of $B$.
+\end{theorem}
+\begin{proof}
+A closed explanation must declare the source scope, classifier surface,
+stability mode, ledger boundary, and seal. A feature record lacks the
+other roles; a circuit diagram lacks the classifier and ledger surfaces;
+a classifier relation lacks source, stability, and seal data; an
+intervention result lacks off-target and failed-variant ledgers; and a
+semantic label lacks the classifier and semantic-ledger boundary. Each is
+therefore only a locus or locus fragment.
+\end{proof}
+
+\begin{definition}[Anchored locus]
+\label{def:philosophy-anchored-ndna-locus}
+A locus $G_{\rho}(B)$ is anchored when it has an anchor witness
+$A_{\rho}(B)$ tracing the locus to behavior evidence, tensor traces,
+dataset evidence, intervention records, a NameCert component, a ledger
+entry, a formal proof certificate, or a paper proof. A neural
+theorem-DNA packet is anchored when all its loci are anchored.
+\end{definition}
+
+\begin{theorem}[Unanchored critical loci block certification]
+\label{thm:philosophy-unanchored-critical-locus-blocks-certification}
+If a critical locus of $\mathsf{NDNA}(B)$ is unanchored, then
+$\mathsf{NDNA}(B)$ cannot certify a closed explanation of $B$.
+\end{theorem}
+\begin{proof}
+A critical locus can change scope, classifier boundary, causal status,
+ledger closure, discovery status, or gain accounting. Without an anchor
+witness, the auditor cannot tell whether that locus is evidence-bearing
+or merely descriptive. Certification therefore fails at the audit
+surface.
+\end{proof}
+
+\begin{corollary}[Natural language cannot fill an anchor gap]
+\label{cor:philosophy-natural-language-cannot-fill-anchor-gap}
+An unanchored natural-language description cannot substitute for a
+critical anchor witness.
+\end{corollary}
+\begin{proof}
+Such a description does not identify a trace, intervention, certificate,
+ledger row, or proof from which the locus is read. By
+\autoref{thm:philosophy-unanchored-critical-locus-blocks-certification},
+the critical gap remains.
+\end{proof}
+
+\begin{definition}[NDNA-to-NameCert projection]
+\label{def:philosophy-ndna-namecert-projection}
+For a complete neural theorem-DNA packet, its NameCert projection is
+$$
+\Pi_{\NameCert}(\mathsf{NDNA}(B))
+=
+(S_B,P_B,C_B,\Sigma_B,L_B).
+$$
+The source row $S_B$ is read from the source locus; the pattern row
+$P_B$ is read from the feature and circuit loci; the classifier row
+$C_B$ is read from the classifier locus; the stability row $\Sigma_B$
+is read from the stability and intervention loci; and the ledger row
+$L_B$ is read from the ledger locus. The seal locus states the closure
+scope of this projection.
+\end{definition}
+
+\begin{definition}[NameCert-compatible NDNA]
+\label{def:philosophy-namecert-compatible-ndna}
+A complete neural theorem-DNA packet is NameCert-compatible when
+$\Pi_{\NameCert}(\mathsf{NDNA}(B))$ forms a Tensor NameCert for the
+classifier supporting $B$.
+\end{definition}
+
+\begin{theorem}[NameCert-compatible NDNA yields tensor certification]
+\label{thm:philosophy-namecert-compatible-ndna-yields-tensor-certification}
+If $\mathsf{NDNA}(B)$ is complete, anchored, and
+NameCert-compatible, then $B$ has a tensor-certified explanation within
+the seal scope.
+\end{theorem}
+\begin{proof}
+NameCert compatibility supplies the five Tensor NameCert rows of
+\autoref{def:philosophy-tensor-namecert}. Completeness supplies all
+eight neural loci, anchoring supplies the evidence route for each locus,
+and the seal declares the scope. Thus the classifier supporting $B$ is
+displayed with the required source, pattern, classifier, stability, and
+ledger rows.
+\end{proof}
+
+\begin{theorem}[Complete NDNA need not be NameCert-compatible]
+\label{thm:philosophy-complete-ndna-not-necessarily-namecert-compatible}
+A complete neural theorem-DNA packet need not be NameCert-compatible.
+\end{theorem}
+\begin{proof}
+Completeness records that every locus has declared content. It does not
+force cross-locus agreement. The source locus may name one domain, the
+classifier locus another; the stability locus may concern a perturbation
+family different from the one used by the classifier; or the ledger may
+record residue for a threshold not used in the classifier row. In such a
+case the eight loci are present, but the projected five-field certificate
+is inconsistent.
+\end{proof}
+
+\begin{definition}[Causal and correlation-only NDNA]
+\label{def:philosophy-causal-correlation-ndna}
+A causal NDNA claim says that the displayed feature, circuit, or
+classifier causally supports $B$. A correlation-only NDNA supplies
+feature, classifier, or stability evidence without an intervention locus.
+\end{definition}
+
+\begin{theorem}[Causal NDNA claims require intervention ledger]
+\label{thm:philosophy-causal-ndna-requires-intervention-ledger}
+A causal NDNA claim is not closed unless the intervention locus is
+present and its intervention residue is ledgered.
+\end{theorem}
+\begin{proof}
+The causal claim must distinguish causal support from correlation.
+Interventions can have off-target effects, alternative causal paths,
+strength sensitivity, failed variants, and downstream compensation. By
+\autoref{thm:philosophy-causal-explanations-require-intervention-ledger},
+those rows must be ledgered for the causal boundary to close.
+\end{proof}
+
+\begin{definition}[Semantic gene]
+\label{def:philosophy-semantic-ndna-gene}
+A semantic gene is a natural-language concept label assigned to a
+feature, classifier cell, behavior, or circuit role. It is licensed when
+it has a semantic ledger and agrees with the classifier locus.
+\end{definition}
+
+\begin{theorem}[Semantic genes require classifier and ledger]
+\label{thm:philosophy-semantic-genes-require-classifier-ledger}
+A semantic gene cannot enter a certified NDNA packet unless it is bound
+to the classifier locus and accompanied by a semantic ledger.
+\end{theorem}
+\begin{proof}
+Natural-language labels have ambiguous cases, negative cases, polysemy,
+domain dependence, unsupported connotations, and drift. A classifier
+relation determines the public equivalence surface; the semantic ledger
+records the boundary and not-claimed range of the label. Without both,
+the semantic gene is not auditable.
+\end{proof}
+
+\begin{definition}[NDNA score and certified gain]
+\label{def:philosophy-ndna-score-certified-gain}
+The NDNA complexity vector is
+$$
+\mathbf C_{\mathsf{NDNA}}(B)
+=
+(
+c_{\mathsf{source}},
+c_{\mathsf{feature}},
+c_{\mathsf{circuit}},
+c_{\mathsf{classifier}},
+c_{\mathsf{stability}},
+c_{\mathsf{intervention}},
+c_{\mathsf{ledger}},
+c_{\mathsf{seal}}
+).
+$$
+For a nonnegative weight profile $\mathbf w_{\mathsf{NDNA}}$, define
+$$
+\operatorname{Score}_{\mathsf{NDNA}}(B)
+=
+\mathbf w_{\mathsf{NDNA}}\cdot\mathbf C_{\mathsf{NDNA}}(B).
+$$
+The certified gain of an NDNA explanation counts coverage, prediction,
+transfer, and reuse value, then subtracts score and remaining debt.
+\end{definition}
+
+\begin{theorem}[Lower NDNA score does not imply better explanation]
+\label{thm:philosophy-lower-ndna-score-not-better-explanation}
+An explanation with lower NDNA score need not be a better explanation.
+\end{theorem}
+\begin{proof}
+Score records the cost of the displayed loci. Explanation quality also
+depends on coverage, prediction, transfer, classifier shift, causal
+strength, ledger completeness, and remaining debt. A short low-score
+profile may cover little and hide residue, while a higher-score profile
+may close more of the behavior boundary.
+\end{proof}
+
+\begin{definition}[NDNA mutations]
+\label{def:philosophy-ndna-mutations}
+An NDNA mutation is a transition
+$$
+\mathsf{NDNA}(B)\leadsto\mathsf{NDNA}'(B).
+$$
+It is a compression mutation when it lowers score while preserving the
+classifier locus. It is a classifier-shift mutation when the classifier
+locus changes. It is a discovery mutation when the classifier shift is
+NameCert-compatible and ledgered.
+\end{definition}
+
+\begin{theorem}[Compression and discovery are independent]
+\label{thm:philosophy-ndna-compression-discovery-independent}
+NDNA compression and NDNA discovery are independent coordinates.
+\end{theorem}
+\begin{proof}
+A compression mutation can reduce score by shortening feature,
+circuit, proof, or seal records while preserving the classifier locus;
+then no classifier-shift discovery has occurred. Conversely, a discovery
+mutation may introduce classifier, stability, ledger, and seal rows whose
+cost raises the score. Thus score reduction does not imply discovery,
+and discovery does not require immediate score reduction.
+\end{proof}
+
+\begin{theorem}[Ledger mutation can induce NDNA discovery]
+\label{thm:philosophy-ledger-mutation-can-induce-ndna-discovery}
+If a ledger mutation records critical residue that forces the classifier
+locus to change, then it induces an NDNA discovery mutation whenever the
+resulting packet is NameCert-compatible and ledgered.
+\end{theorem}
+\begin{proof}
+Critical residue can change the classifier boundary. Once the classifier
+locus changes, the transition is a classifier-shift mutation. If the
+resulting packet also has a compatible NameCert projection and ledger,
+it satisfies the definition of NDNA discovery mutation.
+\end{proof}
+
+\begin{definition}[NDNA hardening]
+\label{def:philosophy-ndna-hardening}
+An NDNA locus is formally hardened when the claim carried by that locus
+has been rendered as a formal proposition and accepted by the relevant
+verification system. A packet is partially hardened when some loci are
+hardened and the remaining residue is ledgered. It is fully hardened
+when all hardenable critical loci are hardened and all non-hardenable
+critical residue is ledgered.
+\end{definition}
+
+\begin{theorem}[One hardened locus does not harden the whole packet]
+\label{thm:philosophy-one-hardened-locus-not-whole-ndna}
+Formal hardening of one NDNA locus does not imply that the whole neural
+theorem-DNA packet is fully hardened.
+\end{theorem}
+\begin{proof}
+The packet has eight loci. A verified property of one feature, circuit,
+margin, dataset row, or proof row leaves the other loci and their
+ledgers untouched unless they are separately hardened or ledgered.
+\end{proof}
+
+\begin{theorem}[Fully hardened compatible NDNA is certified]
+\label{thm:philosophy-fully-hardened-compatible-ndna-certified}
+If a neural theorem-DNA packet is fully hardened and
+NameCert-compatible, then it yields an NDNA-certified explanation of
+$B$ within its seal scope.
+\end{theorem}
+\begin{proof}
+Full hardening supplies hardened critical loci and ledgered
+non-hardenable residue. NameCert compatibility supplies the Tensor
+NameCert projection. The seal supplies the scope in which the behavior
+is claimed to be explained.
+\end{proof}
+
+\begin{theorem}[Neural theorem-DNA theorem]
+\label{thm:philosophy-neural-theorem-dna-theorem}
+Closed explanation of a neural behavior is a role-complete, anchored,
+ledgered, NameCert-compatible, and sealed profile, not a single feature
+label, circuit diagram, classifier, intervention result, or semantic
+tag.
+\end{theorem}
+\begin{proof}
+\autoref{thm:philosophy-single-locus-not-closed-neural-explanation}
+rules out single-locus substitutes.
+\autoref{thm:philosophy-unanchored-critical-locus-blocks-certification}
+requires anchoring.
+\autoref{thm:philosophy-namecert-compatible-ndna-yields-tensor-certification}
+supplies the Tensor NameCert route.
+\autoref{thm:philosophy-causal-ndna-requires-intervention-ledger} and
+\autoref{thm:philosophy-semantic-genes-require-classifier-ledger} record
+the causal and semantic boundary cases. The hardening theorems separate
+local formal verification from whole-packet closure. Together these
+facts make the complete packet the explanatory unit.
+\end{proof}

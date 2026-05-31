@@ -1,19 +1,7 @@
 #!/usr/bin/env python3
 """BEDC Lean automation helpers for audit, inventory, and verification.
 
-Subcommands:
-  - audit: scan Lean / paper sources for BEDC-specific forbidden constructs and mismatches
-  - inventory: build a declaration + paper-label + Lean-marker inventory
-  - manifest: emit a release-grade JSON manifest (inventory + git/package metadata)
-  - marker-existence-audit: report paper markers that do not resolve in Lean
-  - manifest-check: check selected Lean theorem type shapes against a manifest
-  - metacic-purity: report axiom dependencies for BEDC.MetaCIC declarations
-  - verify-files: run ``lake env lean`` on one or more Lean files
-
-Newmath adaptation note:
-  - This is a BEDC rewrite of automath's ``omega_ci.py``.
-  - There is no deeply nested theory root here; the paper lives under ``papers/bedc/``.
-  - The dedicated zero-axiom gate remains ``python3 tools/check-axioms.py``; this helper covers the broader audit surface.
+Run ``python3 lean4/scripts/bedc_ci.py --help`` for the canonical subcommand list.
 """
 
 from __future__ import annotations
@@ -38,6 +26,7 @@ BEDC_ROOT = LEAN_ROOT / "BEDC"
 PAPER_ROOT = REPO_ROOT / "papers" / "bedc"
 PAPER_PARTS_ROOT = PAPER_ROOT / "parts"
 TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
+LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -54,6 +43,32 @@ MARKER_EXISTENCE_RE = re.compile(
     r"\\(leanchecked|leanvariant|leantarget|leandef|leanstmt|leansorryd)\{([^}]+)\}"
 )
 LEAN_CHECKED_RE = re.compile(r"\\leanchecked\{([^}]+)\}")
+THEOREM_STATUS_ENVS = (
+    "definition",
+    "principle",
+    "kernelrule",
+    "rulebox",
+    "convention",
+    "lemma",
+    "theorem",
+    "corollary",
+    "proposition",
+    "protocol",
+    "remark",
+    "example",
+    "axiomlike",
+    "conjecture",
+)
+THEOREM_STATUS_BEGIN_RE = re.compile(
+    r"\\begin\{(?P<kind>" + "|".join(THEOREM_STATUS_ENVS) + r")\}"
+    r"(?:\[(?P<title>[^\]]*)\])?"
+)
+THEOREM_STATUS_NEXT_BOUNDARY_RE = re.compile(
+    r"\\begin\{(?:" + "|".join(THEOREM_STATUS_ENVS) + r")\}|\\chapter\{|\\section\{"
+)
+THEOREM_STATUS_PROOF_BEGIN_RE = re.compile(r"\\begin\{proof\}")
+THEOREM_STATUS_PROOF_END_RE = re.compile(r"\\end\{proof\}")
+LOCAL_REF_RE = re.compile(r"\\(?P<macro>autoref|ref\*?)\{(?P<label>[^}]+)\}")
 CLAIM_ENTRY_RE = re.compile(r'⟨"[^"]*",\s*"([^"]+)"')
 PREAMBLE_COMMAND_RE = re.compile(
     r"^\\(?P<kind>newcommand|providecommand|renewcommand|DeclareRobustCommand"
@@ -122,6 +137,31 @@ class LeanMarkerRecord:
 
 
 @dataclass(frozen=True)
+class LeanStmtDebtEntry:
+    file: str
+    target: str
+    discharge_plan: str
+
+
+@dataclass(frozen=True)
+class TheoremStatusEnvironment:
+    kind: str
+    title: str | None
+    start_line: int
+    statement_body: str
+    statement_base_line: int
+    relation_text: str
+    relation_base_line: int
+
+
+@dataclass(frozen=True)
+class TheoremStatusRelationWindow:
+    proof_line: int | None
+    marker_scan_end: int
+    reference_scan_end: int
+
+
+@dataclass(frozen=True)
 class AxiomReportRecord:
     name: str
     kind: str
@@ -154,6 +194,13 @@ def read_text(path: Path) -> str:
         return path.read_text(encoding="utf-8")
     except (FileNotFoundError, OSError):
         return ""
+
+
+def display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
 
 
 def module_name(path: Path) -> str:
@@ -417,6 +464,287 @@ def collect_lean_markers() -> list[LeanMarkerRecord]:
     return markers
 
 
+def collect_leanstmt_sites(markers: Iterable[LeanMarkerRecord]) -> list[LeanMarkerRecord]:
+    return [marker for marker in markers if marker.macro == "leanstmt"]
+
+
+def _leanstmt_site_key(file: str, target: str) -> tuple[str, str]:
+    return file.strip(), target.strip()
+
+
+def _leanstmt_placeholder_plan(plan: str) -> bool:
+    text = re.sub(r"[\s._-]+", "", plan).lower()
+    placeholders = {
+        "",
+        "todo",
+        "tbd",
+        "none",
+        "na",
+        "n/a",
+        "placeholder",
+        "fixme",
+        "later",
+    }
+    return text in {re.sub(r"[\s._-]+", "", item).lower() for item in placeholders}
+
+
+def _manifest_diagnostic(
+    path: Path,
+    kind: str,
+    message: str,
+    **extra: object,
+) -> dict[str, object]:
+    return {
+        "kind": kind,
+        "path": display_path(path),
+        "message": message,
+        **extra,
+    }
+
+
+def _validate_leanstmt_manifest_root(
+    raw: object,
+    path: Path,
+) -> tuple[dict[str, object] | None, list[dict[str, object]]]:
+    if not isinstance(raw, dict):
+        return None, [
+            _manifest_diagnostic(
+                path,
+                "manifest_invalid_shape",
+                "manifest root must be an object",
+            )
+        ]
+
+    diagnostics: list[dict[str, object]] = []
+    allowed_top_keys = {"schema", "entries"}
+    extra_top_keys = sorted(set(raw) - allowed_top_keys)
+    missing_top_keys = sorted(allowed_top_keys - set(raw))
+    if extra_top_keys:
+        diagnostics.append(_manifest_diagnostic(
+            path,
+            "manifest_extra_top_keys",
+            f"unexpected top-level keys: {', '.join(extra_top_keys)}",
+            keys=extra_top_keys,
+        ))
+    if missing_top_keys:
+        diagnostics.append(_manifest_diagnostic(
+            path,
+            "manifest_missing_top_keys",
+            f"missing top-level keys: {', '.join(missing_top_keys)}",
+            keys=missing_top_keys,
+        ))
+    if raw.get("schema") != "leanstmt_debt_manifest.v1":
+        diagnostics.append(_manifest_diagnostic(
+            path,
+            "manifest_schema_mismatch",
+            "schema must be leanstmt_debt_manifest.v1",
+            schema=raw.get("schema"),
+        ))
+    if not isinstance(raw.get("entries"), list):
+        diagnostics.append(_manifest_diagnostic(
+            path,
+            "manifest_entries_invalid",
+            "entries must be a list",
+        ))
+        return None, diagnostics
+
+    return raw, diagnostics
+
+
+def _parse_leanstmt_manifest_entry(
+    raw_entry: object,
+    path: Path,
+    entry_index: int,
+) -> tuple[LeanStmtDebtEntry | None, list[dict[str, object]]]:
+    entry_site = {"path": display_path(path), "entry_index": entry_index}
+    if not isinstance(raw_entry, dict):
+        return None, [{
+            **entry_site,
+            "kind": "manifest_entry_invalid",
+            "message": "entry must be an object",
+        }]
+
+    diagnostics: list[dict[str, object]] = []
+    required = {"file", "target", "discharge_plan"}
+    allowed_entry_keys = required
+    missing = sorted(required - set(raw_entry))
+    extra = sorted(set(raw_entry) - allowed_entry_keys)
+    if missing:
+        diagnostics.append({
+            **entry_site,
+            "kind": "manifest_entry_missing_keys",
+            "keys": missing,
+            "message": f"entry missing required keys: {', '.join(missing)}",
+        })
+    if extra:
+        diagnostics.append({
+            **entry_site,
+            "kind": "manifest_entry_extra_keys",
+            "keys": extra,
+            "message": f"entry has unexpected keys: {', '.join(extra)}",
+        })
+
+    file_value = raw_entry.get("file")
+    target_value = raw_entry.get("target")
+    plan_value = raw_entry.get("discharge_plan")
+
+    if not isinstance(file_value, str) or not file_value.strip():
+        diagnostics.append({
+            **entry_site,
+            "kind": "manifest_entry_invalid_file",
+            "message": "file must be a non-empty string",
+        })
+    if not isinstance(target_value, str) or not target_value.strip():
+        diagnostics.append({
+            **entry_site,
+            "kind": "manifest_entry_invalid_target",
+            "message": "target must be a non-empty string",
+        })
+    if not isinstance(plan_value, str) or _leanstmt_placeholder_plan(plan_value):
+        diagnostics.append({
+            **entry_site,
+            "kind": "manifest_entry_invalid_discharge_plan",
+            "file": file_value if isinstance(file_value, str) else None,
+            "target": target_value if isinstance(target_value, str) else None,
+            "message": "discharge_plan must be a non-placeholder string",
+        })
+
+    if not isinstance(file_value, str) or not isinstance(target_value, str) or not isinstance(plan_value, str):
+        return None, diagnostics
+
+    return LeanStmtDebtEntry(
+        file=file_value.strip(),
+        target=target_value.strip(),
+        discharge_plan=plan_value.strip(),
+    ), diagnostics
+
+
+def load_leanstmt_debt_manifest(
+    path: Path = LEANSTMT_DEBT_MANIFEST_PATH,
+) -> tuple[list[LeanStmtDebtEntry], list[dict[str, object]]]:
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return [], [
+            _manifest_diagnostic(path, "manifest_missing", f"manifest not found: {display_path(path)}")
+        ]
+    except json.JSONDecodeError as exc:
+        return [], [
+            _manifest_diagnostic(path, "manifest_invalid_json", f"invalid JSON: {exc.msg}", line=exc.lineno)
+        ]
+
+    manifest, diagnostics = _validate_leanstmt_manifest_root(raw, path)
+    if manifest is None:
+        return [], diagnostics
+
+    entries: list[LeanStmtDebtEntry] = []
+    seen: dict[tuple[str, str], int] = {}
+    for idx, raw_entry in enumerate(manifest["entries"]):
+        entry, entry_diagnostics = _parse_leanstmt_manifest_entry(raw_entry, path, idx)
+        diagnostics.extend(entry_diagnostics)
+        if entry is None:
+            continue
+
+        key = _leanstmt_site_key(entry.file, entry.target)
+        if key in seen:
+            diagnostics.append({
+                "path": display_path(path),
+                "entry_index": idx,
+                "kind": "manifest_duplicate_key",
+                "file": entry.file,
+                "target": entry.target,
+                "first_entry_index": seen[key],
+                "message": f"duplicate manifest key: {entry.file} -> {entry.target}",
+            })
+        else:
+            seen[key] = idx
+
+        entries.append(entry)
+
+    return entries, diagnostics
+
+
+def leanstmt_debt_payload(
+    markers: Iterable[LeanMarkerRecord],
+    manifest: Iterable[LeanStmtDebtEntry],
+    manifest_diagnostics: list[dict[str, object]] | None = None,
+) -> dict[str, object]:
+    live_sites = collect_leanstmt_sites(markers)
+    manifest_entries = list(manifest)
+    diagnostics = list(manifest_diagnostics or [])
+
+    live_by_key: dict[tuple[str, str], list[LeanMarkerRecord]] = {}
+    for marker in live_sites:
+        live_by_key.setdefault(_leanstmt_site_key(marker.file, marker.target), []).append(marker)
+
+    manifest_by_key: dict[tuple[str, str], list[LeanStmtDebtEntry]] = {}
+    for entry in manifest_entries:
+        manifest_by_key.setdefault(_leanstmt_site_key(entry.file, entry.target), []).append(entry)
+
+    duplicate_live_sites: list[dict[str, object]] = []
+    for (file_name, target), records in sorted(live_by_key.items()):
+        if len(records) <= 1:
+            continue
+        duplicate_live_sites.append({
+            "kind": "duplicate_live_site",
+            "file": file_name,
+            "target": target,
+            "lines": [record.line for record in records],
+            "message": f"duplicate live leanstmt site: {file_name} -> {target}",
+        })
+
+    unregistered_live_sites: list[dict[str, object]] = []
+    for (file_name, target), records in sorted(live_by_key.items()):
+        if (file_name, target) in manifest_by_key:
+            continue
+        for record in records:
+            unregistered_live_sites.append({
+                "kind": "unregistered_live_site",
+                "file": record.file,
+                "line": record.line,
+                "target": record.target,
+                "message": f"live leanstmt site is not registered: {record.file}:{record.line} -> {record.target}",
+            })
+
+    stale_manifest_entries: list[dict[str, object]] = []
+    for (file_name, target), entries in sorted(manifest_by_key.items()):
+        if (file_name, target) in live_by_key:
+            continue
+        for entry in entries:
+            stale_manifest_entries.append({
+                "kind": "stale_manifest_entry",
+                "file": entry.file,
+                "target": entry.target,
+                "message": f"manifest entry has no live leanstmt site: {entry.file} -> {entry.target}",
+            })
+
+    return {
+        "schema": "leanstmt_debt_manifest.v1",
+        "manifest_path": str(LEANSTMT_DEBT_MANIFEST_PATH.relative_to(REPO_ROOT)),
+        "live_sites": [
+            {
+                "file": marker.file,
+                "line": marker.line,
+                "target": marker.target,
+            }
+            for marker in live_sites
+        ],
+        "manifest_entries": [
+            {
+                "file": entry.file,
+                "target": entry.target,
+                "discharge_plan": entry.discharge_plan,
+            }
+            for entry in manifest_entries
+        ],
+        "manifest_diagnostics": diagnostics,
+        "unregistered_live_sites": unregistered_live_sites,
+        "stale_manifest_entries": stale_manifest_entries,
+        "duplicate_live_sites": duplicate_live_sites,
+        "violations": diagnostics + unregistered_live_sites + stale_manifest_entries + duplicate_live_sites,
+    }
+
+
 def collect_paper_leanchecked_targets() -> set[str]:
     targets: set[str] = set()
     for path in part_tex_files():
@@ -462,6 +790,283 @@ def collect_marker_existence_lean_names() -> set[str]:
             namespace = declaration_namespace(module, namespace_stack)
             names.add(qualified_name(name, namespace))
     return names
+
+
+def theorem_status_empty_dna_roles() -> dict[str, object]:
+    return {
+        "statement": None,
+        "dependencies": [],
+        "proof": None,
+        "certificates": [],
+        "ledger": None,
+        "status": None,
+        "canonical_site": None,
+        "closing_seal": None,
+    }
+
+
+def _line_for_offset(text: str, offset: int) -> int:
+    return text.count("\n", 0, offset) + 1
+
+
+def _title_value(raw_title: str | None) -> str | None:
+    title = (raw_title or "").strip()
+    return title or None
+
+
+def _label_records_in_text(text: str, base_line: int) -> list[dict[str, object]]:
+    labels: list[dict[str, object]] = []
+    for match in LABEL_RE.finditer(text):
+        labels.append({
+            "label": match.group(1).strip(),
+            "line": base_line + text.count("\n", 0, match.start()),
+        })
+    return labels
+
+
+def _references_in_text(text: str, base_line: int) -> list[dict[str, object]]:
+    refs: list[dict[str, object]] = []
+    seen: set[tuple[str, str, int]] = set()
+    for match in LOCAL_REF_RE.finditer(text):
+        line = base_line + text.count("\n", 0, match.start())
+        item = (match.group("macro"), match.group("label").strip(), line)
+        if item in seen:
+            continue
+        seen.add(item)
+        refs.append({"macro": item[0], "label": item[1], "line": item[2]})
+    return refs
+
+
+def _lean_marker_records_in_text(
+    text: str,
+    base_line: int,
+    file_name: str,
+) -> list[LeanMarkerRecord]:
+    markers: list[LeanMarkerRecord] = []
+    for line_idx, raw_line in enumerate(text.splitlines(), start=0):
+        if raw_line.lstrip().startswith("%"):
+            continue
+        for match in LEAN_MARKER_RE.finditer(raw_line):
+            markers.append(LeanMarkerRecord(
+                file=file_name,
+                line=base_line + line_idx,
+                macro=match.group(1),
+                target=match.group(2).replace(r"\_", "_").strip(),
+            ))
+    return markers
+
+
+def _site(file_name: str, line: int | None) -> dict[str, object] | None:
+    if line is None:
+        return None
+    return {"file": file_name, "line": line}
+
+
+def _chapter_label_before(text: str, offset: int) -> str | None:
+    label: str | None = None
+    for match in LABEL_RE.finditer(text, 0, offset):
+        candidate = match.group(1).strip()
+        if candidate.startswith("ch:"):
+            label = candidate
+    return label
+
+
+def _closurestatus_projection(block: dict) -> dict[str, object]:
+    return {
+        "file": block.get("file"),
+        "line": block.get("line"),
+        "region": block.get("region"),
+        "theory_closure": block.get("theory_closure"),
+        "bridge_status": block.get("bridge_status"),
+        "has_scope": block.get("has_scope"),
+        "has_notclaimed": block.get("has_notclaimed"),
+        "has_upgradepath": block.get("has_upgradepath"),
+        "open_fields": dict(block.get("open_fields") or {}),
+    }
+
+
+def _lean_resolution_for_markers(
+    markers: list[LeanMarkerRecord],
+    lean_names: set[str],
+) -> list[dict[str, object]]:
+    return [
+        {
+            "target": marker.target,
+            "resolved": marker.target in lean_names,
+        }
+        for marker in markers
+    ]
+
+
+def _closure_blocks_by_file() -> dict[str, list[dict]]:
+    closure_by_file: dict[str, list[dict]] = {}
+    for block in collect_closurestatus_blocks(PAPER_PARTS_ROOT):
+        closure_by_file.setdefault(str(block.get("file", "")), []).append(block)
+    return closure_by_file
+
+
+def _theorem_status_environment(
+    text: str,
+    match: re.Match[str],
+) -> TheoremStatusEnvironment:
+    kind = match.group("kind")
+    end_re = re.compile(r"\\end\{" + re.escape(kind) + r"\}")
+    end_match = end_re.search(text, match.end())
+    statement_end = end_match.end() if end_match else match.end()
+    statement_body = text[match.end(): end_match.start() if end_match else match.end()]
+
+    next_match = THEOREM_STATUS_NEXT_BOUNDARY_RE.search(text, statement_end)
+    relation_end = next_match.start() if next_match else len(text)
+
+    return TheoremStatusEnvironment(
+        kind=kind,
+        title=_title_value(match.group("title")),
+        start_line=_line_for_offset(text, match.start()),
+        statement_body=statement_body,
+        statement_base_line=_line_for_offset(text, match.end()),
+        relation_text=text[statement_end:relation_end],
+        relation_base_line=_line_for_offset(text, statement_end),
+    )
+
+
+def _theorem_status_relation_window(
+    env: TheoremStatusEnvironment,
+) -> TheoremStatusRelationWindow:
+    proof_match = THEOREM_STATUS_PROOF_BEGIN_RE.search(env.relation_text)
+    if not proof_match:
+        return TheoremStatusRelationWindow(
+            proof_line=None,
+            marker_scan_end=len(env.relation_text),
+            reference_scan_end=len(env.relation_text),
+        )
+
+    proof_line = env.relation_base_line + env.relation_text.count("\n", 0, proof_match.start())
+    proof_end_match = THEOREM_STATUS_PROOF_END_RE.search(
+        env.relation_text,
+        proof_match.end(),
+    )
+    return TheoremStatusRelationWindow(
+        proof_line=proof_line,
+        marker_scan_end=proof_match.start(),
+        reference_scan_end=proof_end_match.end() if proof_end_match else len(env.relation_text),
+    )
+
+
+def _theorem_status_label(env: TheoremStatusEnvironment) -> str | None:
+    labels = [
+        item["label"]
+        for item in _label_records_in_text(env.statement_body, env.statement_base_line)
+    ]
+    return str(labels[0]) if labels else None
+
+
+def _marker_payload(markers: list[LeanMarkerRecord]) -> list[dict[str, object]]:
+    return [
+        {
+            "file": marker.file,
+            "line": marker.line,
+            "macro": marker.macro,
+            "target": marker.target,
+        }
+        for marker in markers
+    ]
+
+
+def _theorem_status_markers(
+    env: TheoremStatusEnvironment,
+    window: TheoremStatusRelationWindow,
+    file_name: str,
+) -> list[LeanMarkerRecord]:
+    local_marker_text = env.relation_text[:window.marker_scan_end]
+    markers = _lean_marker_records_in_text(env.statement_body, env.statement_base_line, file_name)
+    markers.extend(_lean_marker_records_in_text(local_marker_text, env.relation_base_line, file_name))
+    return markers
+
+
+def _theorem_status_references(
+    env: TheoremStatusEnvironment,
+    window: TheoremStatusRelationWindow,
+) -> list[dict[str, object]]:
+    refs = _references_in_text(env.statement_body, env.statement_base_line)
+    refs.extend(_references_in_text(env.relation_text[:window.reference_scan_end], env.relation_base_line))
+    seen_refs: set[tuple[str, str, int]] = set()
+    reference_payload: list[dict[str, object]] = []
+    for ref in refs:
+        key = (str(ref["macro"]), str(ref["label"]), int(ref["line"]))
+        if key in seen_refs:
+            continue
+        seen_refs.add(key)
+        reference_payload.append(ref)
+    return reference_payload
+
+
+def _next_closurestatus(
+    blocks: list[dict],
+    start_line: int,
+) -> dict[str, object] | None:
+    for block in blocks:
+        if int(block.get("line") or 0) >= start_line:
+            return _closurestatus_projection(block)
+    return None
+
+
+def _theorem_status_record(
+    text: str,
+    match: re.Match[str],
+    file_name: str,
+    closure_blocks: list[dict],
+    lean_names: set[str],
+) -> dict[str, object]:
+    env = _theorem_status_environment(text, match)
+    window = _theorem_status_relation_window(env)
+    markers = _theorem_status_markers(env, window, file_name)
+    return {
+        "label": _theorem_status_label(env),
+        "kind": env.kind,
+        "title": env.title,
+        "file": file_name,
+        "line": env.start_line,
+        "chapter_label": _chapter_label_before(text, match.start()),
+        "statement_site": _site(file_name, env.start_line),
+        "proof_site": _site(file_name, window.proof_line),
+        "references": _theorem_status_references(env, window),
+        "lean_markers": _marker_payload(markers),
+        "lean_resolution": _lean_resolution_for_markers(markers, lean_names),
+        "chapter_closurestatus": _next_closurestatus(closure_blocks, env.start_line),
+        "dna_roles": theorem_status_empty_dna_roles(),
+    }
+
+
+def collect_theorem_status_records() -> list[dict[str, object]]:
+    lean_names = collect_marker_existence_lean_names()
+    closure_by_file = _closure_blocks_by_file()
+
+    records: list[dict[str, object]] = []
+    for path in part_tex_files():
+        text = read_text(path)
+        file_name = str(path.relative_to(REPO_ROOT))
+        local_closure_blocks = sorted(
+            closure_by_file.get(file_name, []),
+            key=lambda block: int(block.get("line") or 0),
+        )
+        for match in THEOREM_STATUS_BEGIN_RE.finditer(text):
+            records.append(_theorem_status_record(
+                text,
+                match,
+                file_name,
+                local_closure_blocks,
+                lean_names,
+            ))
+    return records
+
+
+def theorem_status_payload() -> dict[str, object]:
+    records = collect_theorem_status_records()
+    return {
+        "source": "derived-from-canonical-sources",
+        "records_total": len(records),
+        "theorem_status_records": records,
+    }
 
 
 def collect_manifest_entry_targets() -> set[str]:
@@ -864,9 +1469,30 @@ CLOSURESTATUS_BEGIN_RE = re.compile(
     r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
 CLOSURESTATUS_END_RE = re.compile(r"\\end\{closurestatus\}")
+CLOSURESTATUS_OPEN_FIELDS = (
+    "closureclaimkind",
+    "closureclassifierincrement",
+    "closurenamecert",
+    "closureledger",
+    "closuregate",
+    "closureweightprofile",
+    "closureparents",
+    "closurelineage",
+)
+_CLOSURESTATUS_FIELD_NAMES = (
+    "theoryclosure",
+    "formalstatus",
+    "leantarget",
+    "bridgestatus",
+    "scopeclosed",
+    "notclaimed",
+    "upgradepath",
+    "constructivestory",
+    "origin",
+    *CLOSURESTATUS_OPEN_FIELDS,
+)
 CLOSURESTATUS_FIELD_RE = re.compile(
-    r"\\(theoryclosure|formalstatus|leantarget|bridgestatus"
-    r"|scopeclosed|notclaimed|upgradepath|constructivestory|origin)\{([^}]*)\}"
+    r"\\(" + "|".join(_CLOSURESTATUS_FIELD_NAMES) + r")\{([^}]*)\}"
 )
 
 VALID_CLOSURE_GRADES = {
@@ -882,6 +1508,74 @@ GRADE_REQUIRES_LEAN_TARGET = {
     "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
     "axiomCleanV", "bridgeCheckedV",
 }
+STRONG_CLOSURESTATUS_CLAIMS = {"discovery", "positiveDiscovery"}
+CLOSURESTATUS_STRONG_CLAIM_REQUIREMENTS = {
+    "closurenamecert": "NameCert evidence",
+    "closureledger": "ledger evidence",
+    "closureclassifierincrement": "classifier increment evidence",
+}
+POSITIVE_DISCOVERY_REQUIREMENTS = {
+    "closuregate": "gate evidence",
+    "closureweightprofile": "weight profile evidence",
+}
+DISCOVERY_LEDGER_KIND_KEYWORDS = {
+    "transcription": (
+        "transcription",
+        "transcribe",
+        "paper-to-lean",
+        "paper to lean",
+        "statement",
+    ),
+    "backend": (
+        "backend",
+        "lean",
+        "kernel",
+        "lake",
+        "ci",
+        "pdflatex",
+    ),
+    "trust": (
+        "trust",
+        "trusted",
+        "audit",
+        "checked",
+        "witness",
+    ),
+    "dependency": (
+        "dependency",
+        "dependencies",
+        "depends",
+        "import",
+        "parent",
+        "parents",
+        "upstream",
+        "lineage",
+    ),
+    "positive": (
+        "positive",
+        "gate",
+        "weight",
+        "classifier",
+    ),
+    "namecert": (
+        "namecert",
+        "name cert",
+    ),
+}
+DISCOVERY_VERIFICATION_CUES = ("transcription", "backend", "trust", "dependency")
+DISCOVERY_SCOPE_GLOBAL_TERMS = (
+    "global",
+    "globally",
+    "universal",
+    "universally",
+    "all",
+    "every",
+    "any",
+    "arbitrary",
+    "canonical",
+    "complete",
+    "general",
+)
 
 
 def detect_orphan_concrete_subdirs() -> list[dict]:
@@ -955,12 +1649,18 @@ def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
                     "has_notclaimed": False,
                     "has_upgradepath": False,
                     "has_constructive_story": False,
+                    "open_fields": {},
                 })
                 continue
             body = tail[:end_match.start()]
             fields: dict[str, str] = {}
             for fm in CLOSURESTATUS_FIELD_RE.finditer(body):
                 fields[fm.group(1)] = fm.group(2).strip()
+            open_fields = {
+                name: fields[name]
+                for name in CLOSURESTATUS_OPEN_FIELDS
+                if name in fields
+            }
             tc = fields.get("theoryclosure", "").lstrip("\\")
             fs = fields.get("formalstatus", "").lstrip("\\")
             lt = fields.get("leantarget")
@@ -977,6 +1677,7 @@ def collect_closurestatus_blocks(part_root: Path) -> list[dict]:
                 "bridge_status": fields.get("bridgestatus"),
                 "origin": origin,
                 "raw_body": body,
+                "open_fields": open_fields,
                 "has_scope": "scopeclosed" in fields,
                 "has_notclaimed": "notclaimed" in fields,
                 "has_upgradepath": "upgradepath" in fields,
@@ -1040,11 +1741,229 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
     return issues
 
 
+def _closurestatus_open_message(block: dict, message: str) -> dict[str, object]:
+    return {
+        "file": block["file"],
+        "line": block["line"],
+        "region": f"{block['region']}Up",
+        "message": f"{block['file']}:{block['line']} (region {block['region']}Up): {message}",
+    }
+
+
+def diagnose_closurestatus_open_fields(block: dict) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Return (warnings, errors) for closurestatus open-field capability lint."""
+    if block.get("error"):
+        return [], []
+    warnings: list[dict[str, object]] = []
+    errors: list[dict[str, object]] = []
+    open_fields = block.get("open_fields") or {}
+    claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+    if not claim_kind:
+        return warnings, errors
+
+    missing_base = [
+        (field, label)
+        for field, label in CLOSURESTATUS_STRONG_CLAIM_REQUIREMENTS.items()
+        if not str(open_fields.get(field, "")).strip()
+    ]
+    classifier_increment = str(open_fields.get("closureclassifierincrement", "")).strip()
+    if classifier_increment and classifier_increment != "1":
+        errors.append(
+            _closurestatus_open_message(
+                block,
+                "\\closureclassifierincrement must be 1 for open closurestatus claims",
+            )
+        )
+    if claim_kind not in STRONG_CLOSURESTATUS_CLAIMS:
+        for field, label in missing_base:
+            warnings.append(
+                _closurestatus_open_message(
+                    block,
+                    f"\\closureclaimkind{{{claim_kind}}} lacks \\{field} ({label})",
+                )
+            )
+        return warnings, errors
+
+    for field, label in missing_base:
+        errors.append(
+            _closurestatus_open_message(
+                block,
+                f"\\closureclaimkind{{{claim_kind}}} requires \\{field} ({label})",
+            )
+        )
+    if claim_kind == "positiveDiscovery":
+        for field, label in POSITIVE_DISCOVERY_REQUIREMENTS.items():
+            if not str(open_fields.get(field, "")).strip():
+                errors.append(
+                    _closurestatus_open_message(
+                        block,
+                        f"\\closureclaimkind{{{claim_kind}}} requires \\{field} ({label})",
+                    )
+                )
+    return warnings, errors
+
+
+def _discovery_item(block: dict, kind: str, message: str, evidence: str = "") -> dict[str, object]:
+    item: dict[str, object] = {
+        "file": block["file"],
+        "line": block["line"],
+        "region": f"{block['region']}Up",
+        "kind": kind,
+        "message": message,
+    }
+    if evidence:
+        item["evidence"] = evidence
+    return item
+
+
+def _classify_discovery_ledger_kind(text: str) -> str:
+    lower = text.lower()
+    hits = [
+        kind
+        for kind, needles in DISCOVERY_LEDGER_KIND_KEYWORDS.items()
+        if any(needle in lower for needle in needles)
+    ]
+    return hits[0] if len(hits) == 1 else "kind_unknown"
+
+
+def _discovery_candidate_blocks(blocks: list[dict]) -> list[dict]:
+    return [
+        block
+        for block in blocks
+        if block.get("origin") == "ai"
+        and block.get("theory_closure") not in (None, "seedClosure")
+        and not block.get("error")
+    ]
+
+
+def _field_text(open_fields: dict, *names: str) -> str:
+    return "\n".join(
+        str(open_fields.get(name, ""))
+        for name in names
+        if str(open_fields.get(name, "")).strip()
+    )
+
+
+def discovery_audit_payload(blocks: list[dict]) -> dict[str, object]:
+    candidates = _discovery_candidate_blocks(blocks)
+    ledger_gaps: list[dict[str, object]] = []
+    scope_global_risks: list[dict[str, object]] = []
+    verification_ledger_gaps: list[dict[str, object]] = []
+
+    for block in candidates:
+        open_fields = block.get("open_fields") or {}
+        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        namecert = str(open_fields.get("closurenamecert", "")).strip()
+        ledger = str(open_fields.get("closureledger", "")).strip()
+        classifier_increment = str(open_fields.get("closureclassifierincrement", "")).strip()
+        ledger_kind = _classify_discovery_ledger_kind(ledger) if ledger else "kind_unknown"
+
+        if not claim_kind:
+            ledger_gaps.append(
+                _discovery_item(
+                    block,
+                    "missing_closureclaimkind",
+                    "\\closureclaimkind is absent",
+                )
+            )
+        if not namecert:
+            ledger_gaps.append(
+                _discovery_item(
+                    block,
+                    "missing_closurenamecert",
+                    "\\closurenamecert is absent",
+                )
+            )
+        if not ledger:
+            ledger_gaps.append(
+                _discovery_item(
+                    block,
+                    "missing_closureledger",
+                    "\\closureledger is absent",
+                )
+            )
+        if not classifier_increment:
+            ledger_gaps.append(
+                _discovery_item(
+                    block,
+                    "missing_closureclassifierincrement",
+                    "\\closureclassifierincrement is absent",
+                )
+            )
+        if ledger and ledger_kind == "kind_unknown":
+            ledger_gaps.append(
+                _discovery_item(
+                    block,
+                    "kind_unknown",
+                    "\\closureledger exists but no ledger kind keyword was detected",
+                    ledger,
+                )
+            )
+        if claim_kind == "positiveDiscovery":
+            for field in ("closuregate", "closureweightprofile"):
+                if not str(open_fields.get(field, "")).strip():
+                    ledger_gaps.append(
+                        _discovery_item(
+                            block,
+                            f"missing_{field}",
+                            f"\\{field} is absent for positiveDiscovery",
+                        )
+                    )
+
+        raw_body = str(block.get("raw_body") or "")
+        lower_body = raw_body.lower()
+        for term in DISCOVERY_SCOPE_GLOBAL_TERMS:
+            if re.search(rf"\b{re.escape(term)}\b", lower_body):
+                scope_global_risks.append(
+                    _discovery_item(
+                        block,
+                        "scope_global_keyword",
+                        f"scope text contains global-sounding keyword '{term}'",
+                        term,
+                    )
+                )
+                break
+
+        verification_text = _field_text(
+            open_fields,
+            "closureledger",
+            "closureparents",
+            "closurelineage",
+        )
+        lower_verification_text = verification_text.lower()
+        for cue in DISCOVERY_VERIFICATION_CUES:
+            if cue not in lower_verification_text:
+                verification_ledger_gaps.append(
+                    _discovery_item(
+                        block,
+                        f"missing_{cue}_ledger_cue",
+                        f"formal verification claim lacks {cue} ledger cue",
+                    )
+                )
+
+    return {
+        "informational": True,
+        "candidate_count": len(candidates),
+        "ledger_gaps": ledger_gaps,
+        "ledger_gap_count": len(ledger_gaps),
+        "scope_global_risks": scope_global_risks,
+        "scope_global_risk_count": len(scope_global_risks),
+        "verification_ledger_gaps": verification_ledger_gaps,
+        "verification_ledger_gap_count": len(verification_ledger_gaps),
+    }
+
+
 def audit_payload() -> dict[str, object]:
     changed_files = _get_commit_changed_files()
     declarations, fields = build_declaration_inventory()
     part_labels = collect_part_labels()
     markers = collect_lean_markers()
+    leanstmt_manifest, leanstmt_manifest_diagnostics = load_leanstmt_debt_manifest()
+    leanstmt_debt = leanstmt_debt_payload(
+        markers,
+        leanstmt_manifest,
+        leanstmt_manifest_diagnostics,
+    )
 
     forbidden: list[dict[str, object]] = []
     for path in lean_files():
@@ -1067,10 +1986,15 @@ def audit_payload() -> dict[str, object]:
     paper_chapter_origin_tags = detect_paper_chapter_origin_tags()
     closurestatus_blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     closurestatus_diagnostics: list[str] = []
+    closurestatus_open_warnings: list[dict[str, object]] = []
+    closurestatus_open_errors: list[dict[str, object]] = []
     for block in closurestatus_blocks:
         closurestatus_diagnostics.extend(
             diagnose_closurestatus_block(block, symbols)
         )
+        open_warnings, open_errors = diagnose_closurestatus_open_fields(block)
+        closurestatus_open_warnings.extend(open_warnings)
+        closurestatus_open_errors.extend(open_errors)
 
     orphan_concrete_subdirs = detect_orphan_concrete_subdirs()
 
@@ -1083,6 +2007,7 @@ def audit_payload() -> dict[str, object]:
         "case_collisions": case_collisions,
         "closurestatus_blocks_total": len(closurestatus_blocks),
         "closurestatus_blocks": closurestatus_blocks,
+        "leanstmt_debt": leanstmt_debt,
         "inventory": inventory_payload(declarations, fields, part_labels, markers),
     }
     _attach_violation_split(payload, "missing_marker_targets", missing_marker_targets, changed_files)
@@ -1105,6 +2030,18 @@ def audit_payload() -> dict[str, object]:
     payload["closurestatus_diagnostics_legacy_count"] = len(closurestatus_legacy)
     payload["closurestatus_diagnostics_new"] = [str(item["message"]) for item in closurestatus_new]
     payload["closurestatus_diagnostics_legacy"] = [str(item["message"]) for item in closurestatus_legacy]
+    _attach_violation_split(
+        payload,
+        "closurestatus_open_errors",
+        closurestatus_open_errors,
+        changed_files,
+    )
+    _attach_violation_split(
+        payload,
+        "closurestatus_open_warnings",
+        closurestatus_open_warnings,
+        changed_files,
+    )
     _attach_violation_split(payload, "orphan_concrete_subdirs", orphan_concrete_subdirs, changed_files)
     return payload
 
@@ -1288,6 +2225,21 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 "\\formalstatus is theoremCheckedV or above, \\leantarget "
                 "is required and must resolve under lean4/BEDC/."
             )
+        if payload["closurestatus_open_warnings"]:
+            print(
+                "[bedc-ci] closurestatus open-field warnings: "
+                f"{payload['closurestatus_open_warnings_count']}"
+            )
+            for item in payload["closurestatus_open_warnings"][:80]:
+                print(f"  {item['message']}")
+        if payload["closurestatus_open_errors"]:
+            print(
+                "[bedc-ci] closurestatus open-field errors: "
+                f"{payload['closurestatus_open_errors_new_count']} new (BLOCKING), "
+                f"{payload['closurestatus_open_errors_legacy_count']} legacy (warning)"
+            )
+            for item in payload["closurestatus_open_errors"][:80]:
+                print(f"  {item['message']}")
         if payload["orphan_concrete_subdirs"]:
             print(
                 "[bedc-ci] orphan concrete_instances/ subdirectories: "
@@ -1304,6 +2256,21 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 "named NN_<X>_namecert_construction.tex). Move helper files "
                 "into the parent region's folder or rename the orphan."
             )
+        leanstmt_debt = payload["leanstmt_debt"]
+        print(
+            "[bedc-ci] leanstmt debt:"
+            f" live_sites={len(leanstmt_debt['live_sites'])}"
+            f" manifest_entries={len(leanstmt_debt['manifest_entries'])}"
+            f" violations={len(leanstmt_debt['violations'])}"
+        )
+        if leanstmt_debt["violations"]:
+            for item in leanstmt_debt["violations"][:80]:
+                site = item.get("file") or item.get("path") or "manifest"
+                line = item.get("line") or item.get("entry_index")
+                target = item.get("target")
+                where = f"{site}:{line}" if line is not None else str(site)
+                suffix = f" -> {target}" if target else ""
+                print(f"  {item.get('kind')}: {where}{suffix}: {item.get('message')}")
 
     failures = (
         payload["forbidden_construct_count"]
@@ -1315,7 +2282,9 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["concrete_missing_origin_new_count"]
         + payload["paper_chapter_origin_tags_new_count"]
         + payload["closurestatus_diagnostics_new_count"]
+        + payload["closurestatus_open_errors_new_count"]
         + payload["orphan_concrete_subdirs_new_count"]
+        + len(payload["leanstmt_debt"]["violations"])
     )
     return 0 if failures == 0 else 1
 
@@ -1338,6 +2307,19 @@ def cmd_inventory(args: argparse.Namespace) -> int:
             f" field_targets={payload['field_targets_total']}"
             f" part_labels={payload['part_labels_total']}"
             f" lean_markers={payload['lean_markers_total']}"
+        )
+    return 0
+
+
+def cmd_theorem_status(args: argparse.Namespace) -> int:
+    payload = theorem_status_payload()
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(
+            "[bedc-ci] theorem-status:"
+            f" source={payload['source']}"
+            f" records={payload['records_total']}"
         )
     return 0
 
@@ -2144,6 +3126,41 @@ def cmd_conservativity_audit(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_discovery_audit(args: argparse.Namespace) -> int:
+    payload = discovery_audit_payload(collect_closurestatus_blocks(PAPER_PARTS_ROOT))
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(
+            "[bedc-ci] discovery-audit (informational):"
+            f" candidates={payload['candidate_count']}"
+            f" ledger_gaps={payload['ledger_gap_count']}"
+            f" scope_global_risks={payload['scope_global_risk_count']}"
+            f" verification_ledger_gaps={payload['verification_ledger_gap_count']}"
+        )
+        if args.verbose:
+            for title, key in (
+                ("ledger gaps", "ledger_gaps"),
+                ("scope/global risks", "scope_global_risks"),
+                ("verification ledger gaps", "verification_ledger_gaps"),
+            ):
+                items = payload[key]
+                if not items:
+                    continue
+                print(f"[bedc-ci] {title}:")
+                for item in items[:80]:
+                    evidence = item.get("evidence")
+                    suffix = f" evidence={evidence!r}" if evidence else ""
+                    print(
+                        f"  {item['file']}:{item['line']}"
+                        f" {item['region']} {item['kind']}:"
+                        f" {item['message']}{suffix}"
+                    )
+                if len(items) > 80:
+                    print(f"  ... and {len(items) - 80} more")
+    return 0
+
+
 def cmd_axiom_purity(args: argparse.Namespace) -> int:
     """Check that every BEDC theorem's transitive axiom dependency set is
     contained within the allowed Lean stdlib subset.
@@ -2180,7 +3197,7 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
         return 0
 
     # Race-safe tmp-dir handling. Default --tmp-dir is LEAN_ROOT, which is a
-    # worker worktree directory under .worktrees/round_R<N>/lean4/ during
+    # worker worktree directory under a formalize worktree during
     # recovery. Worktree cleanup can race the audit subprocess: orchestrator
     # may remove the worktree (or its parent dir) between argparse and
     # tempfile.NamedTemporaryFile creation, causing FileNotFoundError that
@@ -2418,6 +3435,13 @@ def parser() -> argparse.ArgumentParser:
     inv_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     inv_p.set_defaults(func=cmd_inventory)
 
+    theorem_status_p = sub.add_parser(
+        "theorem-status",
+        help="Emit an informational derived theorem-status reader view",
+    )
+    theorem_status_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    theorem_status_p.set_defaults(func=cmd_theorem_status)
+
     manifest_p = sub.add_parser("manifest", help="Emit release-grade JSON manifest (inventory + git/package metadata)")
     manifest_p.add_argument("--output", type=str, default=None, help="Output file path (defaults to stdout)")
     manifest_p.add_argument("--release-tag", type=str, default=None, help="Release tag to embed (overrides $RELEASE_TAG env)")
@@ -2494,6 +3518,14 @@ def parser() -> argparse.ArgumentParser:
     conservativity_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     conservativity_p.add_argument("--verbose", "-v", action="store_true", help="Show per-chapter detail")
     conservativity_p.set_defaults(func=cmd_conservativity_audit)
+
+    discovery_p = sub.add_parser(
+        "discovery-audit",
+        help="Informational survey of ai-origin discovery ledger, scope, and verification cues (always exit 0)",
+    )
+    discovery_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    discovery_p.add_argument("--verbose", "-v", action="store_true", help="Show per-gap detail")
+    discovery_p.set_defaults(func=cmd_discovery_audit)
 
     carrier_iso_p = sub.add_parser(
         "carrier-isomorphism",

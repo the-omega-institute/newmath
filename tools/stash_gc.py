@@ -37,6 +37,7 @@ PRESERVE_TERMS = (
     "local",
 )
 AUTO_CATEGORIES = {"sync_autostash", "bare_autostash", "worker"}
+WORKER_SEMANTIC_RE = re.compile(r"On (formalize-[a-z0-9-]+-w[a-z0-9]+|paper-revise-[a-z0-9-]+-w[a-z0-9]+)")
 WORKER_CODEX_RE = re.compile(r"On codex-R(\d+)")
 WORKER_PAPER_RE = re.compile(r"On paper-P(\d+)")
 
@@ -143,7 +144,7 @@ def category_for(message: str) -> str:
         return "sync_autostash"
     if message == "autostash":
         return "bare_autostash"
-    if "On codex-R" in message or "On paper-P" in message:
+    if WORKER_SEMANTIC_RE.search(message) or "On codex-R" in message or "On paper-P" in message:
         return "worker"
     if "On (no branch)" in message:
         return "detached"
@@ -221,13 +222,23 @@ def worker_worktree_exists(root: Path, message: str, category: str) -> bool | No
     if category != "worker":
         return None
 
+    semantic_match = WORKER_SEMANTIC_RE.search(message)
+    if semantic_match:
+        branch = semantic_match.group(1)
+        prefix = "formalize-" if branch.startswith("formalize-") else "paper-revise-"
+        body = branch[len(prefix):]
+        slug, _, lease_id = body.rpartition("-")
+        if slug and lease_id:
+            wt_prefix = "formalize" if branch.startswith("formalize-") else "paper_revise"
+            return (root / ".worktrees" / f"{wt_prefix}_{slug.replace('-', '_')}_{lease_id}").exists()
+
     codex_match = WORKER_CODEX_RE.search(message)
     if codex_match:
-        return (root / ".worktrees" / f"round_R{codex_match.group(1)}").exists()
+        return (root / ".worktrees" / ("round_R" + codex_match.group(1))).exists()
 
     paper_match = WORKER_PAPER_RE.search(message)
     if paper_match:
-        return (root / ".worktrees" / f"paper_P{paper_match.group(1)}").exists()
+        return (root / ".worktrees" / ("paper_P" + paper_match.group(1))).exists()
 
     return False
 
