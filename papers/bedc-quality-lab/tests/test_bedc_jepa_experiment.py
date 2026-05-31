@@ -94,3 +94,20 @@ def test_bedc_jepa_experiment_runs_object_intervention_benchmark():
     masked = object_benchmark["object_masking"]
     assert masked["masked_object_accuracy_drop"] > 0.10
     assert masked["gap_auc_under_mask"] > systems["S2"]["gap_detection_auc"]
+
+
+def test_bedc_jepa_experiment_runs_object_intervention_seed_sweep():
+    summary = run_experiment()
+    sweep = summary["object_intervention_sweep"]
+
+    assert sweep["seed_count"] >= 8
+    assert sweep["s3_minus_s2_outside_gap_accuracy_mean"] > 0.0
+    assert sweep["s3_minus_s2_gap_auc_mean"] > 0.0
+    assert sweep["s2_minus_s3_unlogged_error_mean"] > 0.0
+    assert sweep["s2_minus_s3_debt_mean"] > 0.0
+    assert sweep["s3_better_outside_gap_accuracy_rate"] >= 0.75
+    assert sweep["s3_better_gap_auc_rate"] >= 0.75
+    assert sweep["s3_better_unlogged_error_rate"] >= 0.75
+    assert sweep["s3_better_debt_rate"] >= 0.75
+    assert sweep["counterfactual_accuracy_mean"] > 0.90
+    assert sweep["intervention_sensitivity_mean"] > 0.20
