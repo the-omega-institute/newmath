@@ -7,11 +7,8 @@ from pathlib import Path
 from typing import Mapping
 
 
-DEFAULT_KEYS = {
-    "INTEGRATION_BRANCH": "codex-auto-dev",
-    "MIRROR_BRANCH": "auto-dev",
-    "REVIEW_BASE_BRANCH": "dev",
-}
+class MissingHostValueError(RuntimeError):
+    pass
 
 
 def discover_repo_root(start: str | Path | None = None) -> Path:
@@ -98,7 +95,10 @@ class HostContext:
     def require(self, key: str) -> str:
         value = self.get(key)
         if value is None:
-            raise KeyError(key)
+            raise MissingHostValueError(
+                f"Missing required host key {key}; set it in the process environment "
+                "or .refactor-loop/host.env"
+            )
         return value
 
     def path(self, key: str, default: str | Path | None = None) -> Path:
@@ -120,11 +120,12 @@ def load_host_context(
     *,
     repo_root: str | Path | None = None,
     env_file: str | Path | None = None,
+    env: Mapping[str, str] | None = os.environ,
     defaults: Mapping[str, str | Path] | None = None,
     overrides: Mapping[str, str | Path | None] | None = None,
 ) -> HostContext:
     root = Path(repo_root).resolve() if repo_root is not None else discover_repo_root()
-    values: dict[str, str] = {"REPO_ROOT": str(root), **DEFAULT_KEYS}
+    values: dict[str, str] = {"REPO_ROOT": str(root)}
     if defaults:
         values.update({key: str(value) for key, value in defaults.items()})
 
@@ -137,6 +138,9 @@ def load_host_context(
                 values.update(env_values)
                 break
 
+    if env is not None:
+        values.update({key: value for key, value in env.items() if value is not None})
+
     if overrides:
         values.update({key: str(value) for key, value in overrides.items() if value is not None})
 
@@ -146,17 +150,48 @@ def load_host_context(
 
 
 def host_value(
+    repo_root: str | Path | None,
     key: str,
     *,
     explicit: str | Path | None = None,
     default: str | Path | None = None,
-    repo_root: str | Path | None = None,
     env_file: str | Path | None = None,
+    env: Mapping[str, str] | None = os.environ,
+    required: bool = False,
 ) -> str | None:
     defaults = {key: str(default)} if default is not None else None
-    return load_host_context(
+    context = load_host_context(
         repo_root=repo_root,
         env_file=env_file,
+        env=env,
         defaults=defaults,
         overrides={key: explicit},
-    ).get(key, None if default is None else str(default))
+    )
+    if required:
+        return context.require(key)
+    return context.get(key, None if default is None else str(default))
+
+
+def host_path(
+    repo_root: str | Path | None,
+    key: str,
+    *,
+    explicit: str | Path | None = None,
+    default: str | Path | None = None,
+    env_file: str | Path | None = None,
+    env: Mapping[str, str] | None = os.environ,
+    required: bool = False,
+) -> Path | None:
+    defaults = {key: str(default)} if default is not None else None
+    context = load_host_context(
+        repo_root=repo_root,
+        env_file=env_file,
+        env=env,
+        defaults=defaults,
+        overrides={key: explicit},
+    )
+    if required:
+        return context.path(key)
+    if context.get(key) is None:
+        return None
+    return context.path(key)

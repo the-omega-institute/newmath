@@ -40,19 +40,16 @@ import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from host_context import load_host_context
+from host_context import host_path, host_value
 
-_HOST_CONTEXT = load_host_context(
-    repo_root=Path(__file__).resolve().parent.parent,
-    defaults={
-        "INTEGRATION_BRANCH": "codex-auto-dev",
-        "MIRROR_BRANCH": "auto-dev",
-    },
+REPO_ROOT = host_path(
+    Path(__file__).resolve().parent.parent,
+    "REPO_ROOT",
+    default=Path(__file__).resolve().parent.parent,
 )
-REPO_ROOT = _HOST_CONTEXT.path("REPO_ROOT")
-BASE_BRANCH = _HOST_CONTEXT.require("INTEGRATION_BRANCH")
-MIRROR_BRANCH = _HOST_CONTEXT.require("MIRROR_BRANCH")
-CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
+BASE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", required=True)
+MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", required=True)
+CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 DEFAULT_INTERVAL = 900  # 15 min
 
 _HEAL_VERIFY_FOOTER = """

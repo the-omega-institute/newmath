@@ -36,23 +36,22 @@ import time
 import tempfile
 from pathlib import Path
 
-from host_context import load_host_context
+from host_context import host_path, host_value
 
-_HOST_CONTEXT = load_host_context(
-    repo_root=Path(__file__).resolve().parent.parent,
-    defaults={
-        "INTEGRATION_BRANCH": "codex-auto-dev",
-        "MIRROR_BRANCH": "auto-dev",
-        "REVIEW_BASE_BRANCH": "dev",
-        "SYNC_VALIDATION_WORKTREE": "/tmp/.bedc_sync_validate_wt",
-    },
+REPO_ROOT = host_path(
+    Path(__file__).resolve().parent.parent,
+    "REPO_ROOT",
+    default=Path(__file__).resolve().parent.parent,
 )
-REPO_ROOT = _HOST_CONTEXT.path("REPO_ROOT")
-SOURCE_BRANCH = _HOST_CONTEXT.require("INTEGRATION_BRANCH")
-MIRROR_BRANCH = _HOST_CONTEXT.require("MIRROR_BRANCH")
-UPSTREAM_BRANCH = _HOST_CONTEXT.require("REVIEW_BASE_BRANCH")
-CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
-VALIDATION_WORKTREE = _HOST_CONTEXT.path("SYNC_VALIDATION_WORKTREE")
+SOURCE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", required=True)
+MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", required=True)
+UPSTREAM_BRANCH = host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", required=True)
+CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
+VALIDATION_WORKTREE = host_path(
+    REPO_ROOT,
+    "BEDC_SYNC_VALIDATION_WORKTREE",
+    default=Path(tempfile.gettempdir()) / ".bedc-sync-validate-wt",
+)
 VALIDATION_BRANCH = "bedc-sync-validate"
 CONFLICT_PROMPT = """You are resolving git merge conflicts in the BEDC mathematics project.
 
