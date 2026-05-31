@@ -208,6 +208,14 @@ The needed closedness witnesses are exactly $C_{\mathsf{src}}$ and $C_{\mathsf{v
 Finally apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. Since the audit row $A$ and the continuation row $C$ admit no hidden binder convention, unregistered free-variable coordinate, or ambient compiler theorem, the binder-budget consumer factors through the displayed packet rows and no other substitution surface.
 \end{proof}
 
+\begin{theorem}[Closed-term substitution boundary authorized-generator inversion]
+\label{thm:closed-term-substitution-boundary-authorized-generator-inversion}
+Any $\AuthorizedGeneratorRecursorUp$ consumer of the closed-term substitution boundary must expose $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ before citing the boundary. Thus the read displays the term rows, source and value closedness witnesses, shift row, substitution row, ledger, audit row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row, while refusing full subject reduction, global compiler correctness, host substitution semantics, and quotient syntax.
+\end{theorem}
+\begin{proof}
+Project the carrier, NameCert obligations, source/value closedness admission, substitution-ledger exhaustion, and BinderBudgetSeal factorization. These rows exhaust the authorized-generator read and leave no coordinate for the refused global compiler data.
+\end{proof}
+
 \begin{theorem}[ClosedTermSubstitutionCompiler boundary factorization]
 \label{thm:closed-term-substitution-boundary-compiler-factorization}
 The $\ClosedTermSubstitutionCompilerUp$ schedule of \autoref{ch:concrete-instances-closedtermsubstitutioncompiler-namecert} reads the same closed finite boundary before exposing any compiler-facing $\mathsf{substitute\_closed}$ row. In particular, every accepted schedule read passes through the displayed rows
