@@ -36,37 +36,24 @@ branch back to `bedc-claim-packet-pipeline`, and writes local-only review
 packets when explicitly enabled. Runtime outputs are ignored by Git and must
 not be uploaded.
 
-## Current bridge directions
+## Bridge directions
 
-| Direction | Source artifacts | Candidate destination use | Status |
-| --- | --- | --- | --- |
-| NewMath to Automath | BEDC proposal prompts, accepted proposals, seed-stubs, TasteGate witnesses, BEDC audit rules | Automath autoresearch proposal queues, paper/writeback gates, and local bridge runtime records | observed |
-| Automath to NewMath | Lean corpus inventory, paper claim targets, distillation lifecycle, dossier/publication slugs, audit failures | NewMath research-object source material, planning layer, and task generation candidates | candidate |
-| Bidirectional | Bridge manifest schema, local bridge runtime ledger, commit convention | Shared protocol if NewMath later chooses to mirror the manifest schema | candidate |
+Bridge directions, source paths, destination paths, artifact mappings, and
+readiness are read from the bridge configuration and runtime outputs.
 
-## Source and destination table
+- Static scan sources: `tools/automath_newmath_bridge/bridge_sources.json`
+- Growth-aware source rules: `tools/automath_newmath_bridge/bridge_pipeline_config.json`
+- Runtime inbox, gate output, transfer plan, and synthesis reports:
+  `tools/automath_newmath_bridge/inbox/`,
+  `tools/automath_newmath_bridge/out/`,
+  `tools/automath_newmath_bridge/state/`, and
+  `tools/automath_newmath_bridge/logs/`
 
-| Source | Destination | Artifact mapping | Required boundary |
-| --- | --- | --- | --- |
-| `newmath@origin/auto-dev:papers/bedc/scripts/prompts/phase_propose.txt` | `automath@bridge/automath-newmath-consumption:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `proposal` to `candidate_mechanism` | operator review, TasteGate, audit |
-| `newmath@origin/auto-dev:papers/bedc/proposals/accepted/21bed2eb_belief.md` | `automath@bridge/automath-newmath-consumption:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `accepted_proposal` to `review_packet` | operator review, TasteGate, audit |
-| `newmath@origin/auto-dev:lean4/scripts/review_proposals.py` | `automath@bridge/automath-newmath-consumption:tools/automath_newmath_bridge/README.md` | `review_packet` to `pipeline_status` | operator review, audit |
-| `newmath@origin/codex-auto-dev:papers/bedc/parts/concrete_instances/269_belief_namecert_construction.tex` | this ledger | `paper_seed_stub` to `scope_ledger` | operator review, TasteGate, audit |
-| `newmath@origin/codex-auto-dev:lean4/scripts/bedc_ci.py` | this ledger | `audit_failure` to `scope_ledger` | operator review, TasteGate, audit |
-| `newmath@origin/codex-auto-dev:lean4/BEDC/Derived/BeliefUp/TasteGate.lean` | this ledger | `taste_gate_witness` to `scope_ledger` | operator review, TasteGate, audit |
-| `automath@origin/dev:tools/autoresearch/prepare.py` | `newmath@origin/auto-dev:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `paper_claim` to `open_problem_target` | operator review, audit |
-| `automath@origin/dev:lean4/scripts/omega_ci.py` | `newmath@origin/auto-dev:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `audit_failure` to `pipeline_status` | operator review, audit |
-| `automath@origin/dev:tools/distillation/lifecycle.py` | `newmath@origin/auto-dev:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `writeback_packet` to `candidate_mechanism` | operator review, audit |
-| `automath@origin/dev:tools/distillation/distill.py` | `newmath@origin/auto-dev:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `writeback_packet` to `review_packet` | operator review, writeback gate, audit |
-| `automath@origin/dev:tools/chatgpt-oracle/oracle_pipeline.py` | `newmath@origin/auto-dev:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `pipeline_status` to `candidate_mechanism` | operator review, publication risk review, audit |
-| `automath@origin/dev:lean4/Omega/Folding/KilloFoldResonancePerronIndependenceQ12_17.lean` | `newmath@origin/auto-dev:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `lean_theorem` to `candidate_mechanism` | operator review, audit |
-| `automath@origin/dev:lean4/Omega/Folding/KilloFoldResonanceDiscCharactersQ1217.lean` | `newmath@origin/auto-dev:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `lean_theorem` to `candidate_mechanism` | operator review, audit |
-| `automath@origin/dev:lean4/Omega/Folding/KilloFoldBinEscortRenyiLogisticGeometry.lean` | `newmath@origin/auto-dev:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `lean_theorem` to `candidate_mechanism` | operator review, audit |
-| `automath@origin/dev:lean4/Omega/Folding/KilloFoldBinNormalizedGaugeDeficiencyTailRigidity.lean` | `newmath@origin/auto-dev:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `lean_theorem` to `candidate_mechanism` | operator review, audit |
-| `automath@origin/dev:docs/dossier/index.qmd` | `newmath@origin/auto-dev:tools/automath_newmath_bridge/bridge_manifest.jsonl` | `publication_slug` to `publication_slug` | operator review, audit, publication risk review |
-| `newmath@origin/auto-dev:tools/bedc-deep/supervisor.py` | paired bridge manifests | `pipeline_status` to `pipeline_status` | operator review, audit |
-| `newmath@origin/auto-dev:lean4/BEDC/Derived/RealUp/*.lean` | `automath@bridge/automath-newmath-consumption:tools/automath_newmath_bridge/inbox/newmath/*.json` | `lean_theorem` to `candidate_mechanism` | operator review, TasteGate, audit, Automath receiving queue decision |
-| `newmath@origin/auto-dev:papers/bedc/parts/concrete_instances/**/constant*.tex` | `automath@bridge/automath-newmath-consumption:tools/automath_newmath_bridge/inbox/newmath/*.json` | `paper_claim` to `candidate_mechanism` | operator review, TasteGate, audit, publication risk review |
+Render a reviewable report from a JSONL output with:
+
+```bash
+python3 tools/automath_newmath_bridge/render_bridge_report.py <jsonl> --output <path>
+```
 
 ## Accepted bridge rules
 
@@ -127,8 +114,8 @@ Bridge tooling may not:
 
 NewMath BEDC has a concrete audit rule: if a chapter is marked `\origin{ai}`
 and its theory closure is no longer `seedClosure`, the closure status must
-reference `BEDC.Derived.<X>Up.taste_gate`. The Belief witness currently appears
-as `BEDC.Derived.BeliefUp.taste_gate`.
+reference `BEDC.Derived.<X>Up.taste_gate`. The live witness set is read from
+the source tree and checked by `python3 lean4/scripts/bedc_ci.py audit`.
 
 Automath has a different audit surface: `omega_ci.py` tracks paper claim labels,
 Lean registry labels, forbidden Lean constructs, and file verification. Its
@@ -136,23 +123,13 @@ distillation tooling adds writeback review and application planning. Bridge
 records must name which audit applies instead of treating both projects as one
 pipeline.
 
-## Existing Automath code evidence
+## Automath evidence lookup
 
-The bridge must reuse local Automath mechanisms where they already exist:
-
-| Local code | Evidence | Bridge use |
-| --- | --- | --- |
-| `lean4/scripts/omega_ci.py` | `audit`, `inventory`, `search`, and `paper-coverage` commands over Lean declarations and paper labels | Find exact Lean theorem evidence and run zero-axiom/label gates before marking Automath artifacts consumed |
-| `tools/distillation/distill.py` | `_validate_writebacks`, `_review_writebacks`, `SCORE_PASS_THRESHOLD = 7`, and `KILLO_GOLDEN_TRACE_RE` rejection of visible patch/log wording | Reuse Automath writeback gate for any paper writeback packet; do not invent a parallel bridge writeback path |
-| `tools/chatgpt-oracle/oracle_pipeline.py` | staged F/A/B/C/D publication flow, `compile_gate`, audit gate events, and Stage D `/killo-golden` boundary | Treat publication-facing bridge use as medium-risk and operator-approved only |
-| `lean4/Omega/Folding/KilloFoldResonancePerronIndependenceQ12_17.lean` | existing `paper_killo_fold_resonance_perron_independence_q12_17` theorem package | Candidate Automath-to-NewMath theorem evidence |
-| `lean4/Omega/Folding/KilloFoldResonanceDiscCharactersQ1217.lean` | existing `paper_killo_fold_resonance_disc_characters_q12_17` theorem package | Candidate Automath-to-NewMath theorem evidence |
-| `lean4/Omega/Folding/KilloFoldBinEscortRenyiLogisticGeometry.lean` | `killoEscortTheta`, KL/Renyi divergence, Fisher information on the golden escort logistic curve | Candidate golden mechanism evidence |
-| `lean4/Omega/Folding/KilloFoldBinNormalizedGaugeDeficiencyTailRigidity.lean` | normalized gauge-deficiency tail rigidity and recovered even-zeta values | Candidate golden/Killo mechanism evidence |
-
-This table is deliberately evidence-first. Future agents should add bridge
-records by naming exact files and theorem labels found locally, not by
-describing generic "Automath has gates" behavior.
+The bridge must reuse local Automath mechanisms where they already exist.
+Use Automath's own audit and retrieval commands to find exact theorem,
+paper-label, writeback, publication, and gate evidence before marking any
+Automath artifact accepted or consumed. Bridge records should name exact files
+and theorem labels found locally, not generic descriptions of Automath gates.
 
 ## Supervisor and gate model
 
@@ -174,18 +151,10 @@ distillation, NewMath BEDC supervisor, and loning/oracle pipelines:
 | review packet before writeback | ignored `inbox/writeback_packets/*.json` |
 | publication / review gates | no public-facing use without explicit approval |
 
-The bridge synthesis layer scans both repos, not just refs:
-
-- NewMath constant and `RealConstant*` Lean declarations under
-  `lean4/BEDC/Derived/**/*.lean`;
-- NewMath constant paper labels and `\leanchecked{...}` references under
-  `papers/bedc/parts/concrete_instances/**/*.tex`;
-- NewMath `tools/bedc-deep/supervisor.py` for low-water refill, loning watch,
-  Stage 2 reject clusters, PI review, and guarded commit behavior;
-- NewMath TasteGate witnesses under `lean4/BEDC/Derived/**/TasteGate.lean`;
-- Automath Killo/golden Lean modules under `lean4/Omega/**`;
-- Automath gate surfaces in `omega_ci.py`, `codex_formalize.py`,
-  `tools/distillation`, and `tools/chatgpt-oracle/oracle_pipeline.py`.
+The bridge synthesis layer scans both repos, not just refs. The scan surface is
+the configured source tree plus the discovery rules in
+`tools/automath_newmath_bridge/bridge_pipeline_config.json`; the per-pass
+results are written under `tools/automath_newmath_bridge/out/`.
 
 Synthesis readiness values are intentionally conservative:
 
@@ -193,8 +162,7 @@ Synthesis readiness values are intentionally conservative:
 - `needs_operator_review`: a packet may be useful but a human must decide.
 - `ready_for_local_packet`: deterministic gates may emit an ignored packet.
 - `blocked_automath_not_ready`: NewMath evidence exists, but Automath has no
-  selected receiving target or gate. This is the expected state for current
-  NewMath constant emergence.
+  selected receiving target or gate.
 - `ready_for_durable_write`: reserved for future use after manifest acceptance,
   destination gate selection, and operator approval.
 
