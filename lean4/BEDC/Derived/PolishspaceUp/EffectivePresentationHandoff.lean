@@ -41,7 +41,7 @@ theorem PolishspaceEffectivePresentationHandoff [AskSetup] [PackageSetup]
   obtain ⟨metricUnary, _completeUnary, separableUnary, streamUnary, regseqUnary,
     ledgerUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
     _metricCompleteLedger, _ledgerStreamRegseq, _transportReplayProvenance,
-    _carrierPkg⟩ := carrier
+    _carrierPkg, _localPkg⟩ := carrier
   have presentationUnary : UnaryHistory presentationRead :=
     unary_cont_closed separableUnary streamUnary separableStreamPresentation
   have sourcePresentation :
