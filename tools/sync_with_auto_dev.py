@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -35,12 +36,23 @@ import time
 import tempfile
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-SOURCE_BRANCH = "codex-auto-dev"   # pipeline output (codex workers)
-MIRROR_BRANCH = "auto-dev"          # stable mirror
-UPSTREAM_BRANCH = "dev"             # external main branch (user / external commits)
+from host_context import load_host_context
+
+_HOST_CONTEXT = load_host_context(
+    repo_root=Path(__file__).resolve().parent.parent,
+    defaults={
+        "INTEGRATION_BRANCH": "codex-auto-dev",
+        "MIRROR_BRANCH": "auto-dev",
+        "REVIEW_BASE_BRANCH": "dev",
+        "SYNC_VALIDATION_WORKTREE": "/tmp/.bedc_sync_validate_wt",
+    },
+)
+REPO_ROOT = _HOST_CONTEXT.path("REPO_ROOT")
+SOURCE_BRANCH = _HOST_CONTEXT.require("INTEGRATION_BRANCH")
+MIRROR_BRANCH = _HOST_CONTEXT.require("MIRROR_BRANCH")
+UPSTREAM_BRANCH = _HOST_CONTEXT.require("REVIEW_BASE_BRANCH")
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
-VALIDATION_WORKTREE = Path("/tmp/.bedc_sync_validate_wt")
+VALIDATION_WORKTREE = _HOST_CONTEXT.path("SYNC_VALIDATION_WORKTREE")
 VALIDATION_BRANCH = "bedc-sync-validate"
 CONFLICT_PROMPT = """You are resolving git merge conflicts in the BEDC mathematics project.
 
@@ -159,6 +171,7 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
     prompt = CONFLICT_PROMPT.replace(
         "{conflicted}", "\n".join(f"  {f}" for f in files),
     )
+    prompt = render_prompt_host_context(prompt)
 
     if not Path(CODEX_PATH).exists():
         print(f"[sync] codex CLI not found at {CODEX_PATH}", file=sys.stderr)
@@ -202,6 +215,22 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
                 return False
             git("commit", "--no-edit")
     return True
+
+
+def render_prompt_host_context(prompt: str) -> str:
+    replacements = {
+        "codex-auto-dev": SOURCE_BRANCH,
+        "auto-dev": MIRROR_BRANCH,
+        "dev": UPSTREAM_BRANCH,
+    }
+    out = prompt
+    for old, new in replacements.items():
+        out = re.sub(
+            rf"(?<![A-Za-z0-9_-]){re.escape(old)}(?![A-Za-z0-9_-])",
+            new,
+            out,
+        )
+    return out
 
 
 def merge_with_codex_fallback(target: str, label: str) -> bool:
@@ -565,10 +594,21 @@ def _restore_autostash(stash_oid: str | None) -> None:
 
 
 def main():
+    global SOURCE_BRANCH, MIRROR_BRANCH, UPSTREAM_BRANCH
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--no-push", action="store_true",
                         help="Skip the two pushes to origin (still does the merges locally)")
+    parser.add_argument("--source-branch", default=SOURCE_BRANCH,
+                        help=f"Pipeline integration branch (default: {SOURCE_BRANCH})")
+    parser.add_argument("--mirror-branch", default=MIRROR_BRANCH,
+                        help=f"Stable mirror branch (default: {MIRROR_BRANCH})")
+    parser.add_argument("--upstream-branch", default=UPSTREAM_BRANCH,
+                        help=f"Review base branch (default: {UPSTREAM_BRANCH})")
     args = parser.parse_args()
+    SOURCE_BRANCH = args.source_branch
+    MIRROR_BRANCH = args.mirror_branch
+    UPSTREAM_BRANCH = args.upstream_branch
 
     original = current_branch()
 

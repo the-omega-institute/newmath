@@ -40,8 +40,18 @@ import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-BASE_BRANCH = "codex-auto-dev"
+from host_context import load_host_context
+
+_HOST_CONTEXT = load_host_context(
+    repo_root=Path(__file__).resolve().parent.parent,
+    defaults={
+        "INTEGRATION_BRANCH": "codex-auto-dev",
+        "MIRROR_BRANCH": "auto-dev",
+    },
+)
+REPO_ROOT = _HOST_CONTEXT.path("REPO_ROOT")
+BASE_BRANCH = _HOST_CONTEXT.require("INTEGRATION_BRANCH")
+MIRROR_BRANCH = _HOST_CONTEXT.require("MIRROR_BRANCH")
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 DEFAULT_INTERVAL = 900  # 15 min
 
@@ -1086,7 +1096,7 @@ def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
     # Probe both branches: codex-auto-dev (integration) + auto-dev (CI host).
     # bidirectional sync means a fix on codex-auto-dev reaches auto-dev
     # within 10 min, so healing either side is equivalent.
-    branches_to_probe = [BASE_BRANCH, "auto-dev"]
+    branches_to_probe = [BASE_BRANCH, MIRROR_BRANCH]
     failures: list[dict] = []
     cutoff = time.time() - window_minutes * 60
     for branch in branches_to_probe:
@@ -1414,11 +1424,27 @@ def detect_dup_labels() -> list[tuple[str, list[str]]]:
     return dups
 
 
+def render_prompt_host_context(prompt: str) -> str:
+    replacements = {
+        "codex-auto-dev": BASE_BRANCH,
+        "auto-dev": MIRROR_BRANCH,
+    }
+    out = prompt
+    for old, new in replacements.items():
+        out = re.sub(
+            rf"(?<![A-Za-z0-9_-]){re.escape(old)}(?![A-Za-z0-9_-])",
+            new,
+            out,
+        )
+    return out
+
+
 def call_codex(prompt: str, cwd: Path = REPO_ROOT, timeout: int = 1800) -> int:
     """Invoke codex with the given prompt. Returns rc."""
     if not Path(CODEX_PATH).exists():
         print(f"[heal] codex CLI not found at {CODEX_PATH}", file=sys.stderr)
         return 127
+    prompt = render_prompt_host_context(prompt)
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as pf:
         pf.write(prompt)
         prompt_file = pf.name
@@ -2348,9 +2374,15 @@ def cycle() -> None:
 
 
 def main() -> int:
+    global BASE_BRANCH, MIRROR_BRANCH
+
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--interval", type=int, default=DEFAULT_INTERVAL,
                     help="Cycle interval seconds (default 900)")
+    p.add_argument("--base-branch", default=BASE_BRANCH,
+                    help=f"Integration branch name (default: {BASE_BRANCH})")
+    p.add_argument("--mirror-branch", default=MIRROR_BRANCH,
+                    help=f"Mirror branch checked for CI failures (default: {MIRROR_BRANCH})")
     p.add_argument("--once", action="store_true",
                     help="Run a single cycle and exit (for testing)")
     p.add_argument("--dry-run", action="store_true",
@@ -2360,6 +2392,8 @@ def main() -> int:
     p.add_argument("--verify-only", action="store_true",
                     help="Detect log symptoms, verify current state, and exit without dispatch")
     args = p.parse_args()
+    BASE_BRANCH = args.base_branch
+    MIRROR_BRANCH = args.mirror_branch
 
     if args.self_test:
         return run_cooldown_self_test()

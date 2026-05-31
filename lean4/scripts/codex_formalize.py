@@ -49,30 +49,45 @@ from typing import Optional
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 LEAN_ROOT = SCRIPT_DIR.parent                        # lean4/
-REPO_ROOT = LEAN_ROOT.parent                         # newmath/
+TOOLS_DIR = LEAN_ROOT.parent / "tools"
+if str(TOOLS_DIR) not in sys.path:
+    sys.path.insert(0, str(TOOLS_DIR))
+from host_context import load_host_context
+
+_HOST_CONTEXT = load_host_context(
+    repo_root=LEAN_ROOT.parent,
+    defaults={
+        "INTEGRATION_BRANCH": "lean4-codex-auto-dev",
+        "WORKTREE_DIR": ".worktrees",
+        "LAKE_GATE_LOCK_DIR": ".worktrees/.lake-gate",
+        "PIPELINE_PID_FILE": ".pipeline.pid",
+        "PARALLEL_CONFIG_FILE": ".pipeline_parallel.json",
+    },
+)
+REPO_ROOT = _HOST_CONTEXT.path("REPO_ROOT")           # newmath/
 IMPL_PLAN = LEAN_ROOT / "IMPLEMENTATION_PLAN.md"
 BEDC_ROOT = LEAN_ROOT / "BEDC"
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 
 LOG_DIR = LEAN_ROOT / "scripts" / "logs"
-WORKTREE_DIR = REPO_ROOT / ".worktrees"
+WORKTREE_DIR = _HOST_CONTEXT.path("WORKTREE_DIR")
 
-BASE_BRANCH_DEFAULT = "lean4-codex-auto-dev"
+BASE_BRANCH_DEFAULT = _HOST_CONTEXT.require("INTEGRATION_BRANCH")
 BASE_BRANCH = BASE_BRANCH_DEFAULT
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
 # Lake-gate config exported to every codex child so they all coordinate on
 # the same lock dir / slot count. Defaults below are conservative for a
 # 16 GB M-series Mac. Override via CLI flags (--lake-parallel, --lake-lock-dir).
-LAKE_GATE_LOCK_DIR = REPO_ROOT / ".worktrees" / ".lake-gate"
+LAKE_GATE_LOCK_DIR = _HOST_CONTEXT.path("LAKE_GATE_LOCK_DIR")
 LAKE_GATE_MAX_PARALLEL = 1
 # Graceful stop token: a running pipeline owns this file while its PID is
 # current. Removing or replacing it prevents new rounds from being dispatched;
 # current rounds finish normally and the process exits once the pool drains.
-PID_FILE = REPO_ROOT / ".pipeline.pid"
+PID_FILE = _HOST_CONTEXT.path("PIPELINE_PID_FILE")
 # Dynamic parallelism: read target worker count from this JSON each dispatch
 # decision. File format: {"paper": 7, "lean": 7}. Allows live tuning without
 # pipeline restart. Bound to [1, HARD_MAX_PARALLEL].
-PARALLEL_CONFIG_FILE = REPO_ROOT / ".pipeline_parallel.json"
+PARALLEL_CONFIG_FILE = _HOST_CONTEXT.path("PARALLEL_CONFIG_FILE")
 PARALLEL_CONFIG_KEY = "lean"
 HARD_MAX_PARALLEL = 50
 FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
