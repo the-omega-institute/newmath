@@ -37,6 +37,42 @@ Project the carrier row by row. The endpoint and mesh obligations read only $L,U
 The remaining obligations are structural. The $\hsame$ row $H$ transports equal displayed coordinates, the $\Cont$ row $C$ replays the permitted reads, and the provenance row $P$ records exactly the finite BEDC surfaces used by the packet, including the comparison with the $\BishopIntervalCompactUp$ finite-net interface. Since the carrier has no row for an open-cover selector, a host limit, a quotient equality, a choice functional, or a completeness principle, none of those principles can appear in a local NameCert obligation.
 \end{proof}
 
+\begin{theorem}[DyadicIntervalCover endpoint row admission]
+\label{thm:dyadic-interval-cover-endpoint-row-admission}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Endpoint admission for the lower and upper rows is exactly the finite projection from \autoref{def:dyadic-interval-cover-carrier} together with the local NameCert obligations of \autoref{thm:dyadic-interval-cover-namecert-obligations}: the rows $L,U$ are read as $\DyadicRatCoreUp$ endpoints, $M,R$ provide the displayed mesh and tolerance data, $V,W,Q,A$ remain the finite membership, StreamName, RegSeqRat, and Real-seal rows, and $H,C,P,N$ transport, replay, package, and name that same endpoint surface.
+\end{theorem}
+\begin{proof}
+Project the carrier row $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$. The definition places $L$ and $U$ in the dyadic endpoint slots and places $M$ and $R$ beside them as the only mesh and tolerance data available to endpoint comparisons.
+
+Use the NameCert-obligation theorem. It says that endpoint, mesh, radius, membership, window, readback, seal, transport, continuation, and provenance checks are exhausted by the displayed rows. Thus admitting an endpoint row can only mean checking $L,U$ through $\DyadicRatCoreUp$ and then preserving the result through $H,C,P,N$.
+
+The remaining rows cannot create an additional endpoint source. The membership row $V$, window row $W$, readback row $Q$, and seal row $A$ are downstream consumers of the same finite endpoint data, so endpoint admission stays inside $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover window membership transport]
+\label{thm:dyadic-interval-cover-window-membership-transport}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Finite cover-membership transport along StreamName windows is completely determined by the carrier and obligation rows of \autoref{def:dyadic-interval-cover-carrier} and \autoref{thm:dyadic-interval-cover-namecert-obligations}: the transported membership row $V$ reads endpoint rows $L,U$, mesh row $M$, radius ledger $R$, finite window row $W$, regular readback row $Q$, and Real seal row $A$, and its only structural support is $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the window row $W$ and membership row $V$. The carrier definition makes $W$ the finite StreamName surface and $V$ the finite list of cover-membership witnesses attached to the dyadic endpoint rows.
+
+Apply the NameCert-obligation theorem to the same carrier. The theorem identifies $H$ as the componentwise transport row and $C$ as the replay row for endpoint, mesh, radius, membership, window, readback, and seal data. Therefore a membership transport can only move along the displayed route from $L,U,M,R,W,Q,A$ to $V$.
+
+The rows $P$ and $N$ package and name that route locally. Since no carrier coordinate supplies host interval equality, selected subcovers, quotient real equality, countable choice, or Real completeness, the transported finite membership row stays inside $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover Real seal boundary]
+\label{thm:dyadic-interval-cover-real-seal-boundary}
+For an accepted $\DyadicIntervalCoverUp$ carrier $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$, every Real seal read through $A$ is bounded by the carrier rows and NameCert obligations of \autoref{def:dyadic-interval-cover-carrier} and \autoref{thm:dyadic-interval-cover-namecert-obligations}. The seal may inspect $L,U,M,R,V,W,Q$ and may be transported or replayed by $H,C,P,N$, but it cannot leave the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Project the seal row. In the displayed carrier, $A$ is the only $\RealUp$ seal coordinate and it is listed after the endpoint, mesh, radius, membership, window, and regular readback rows.
+
+Use the NameCert-obligation theorem. Its finite projection discipline forces every seal obligation to be checked from the same rows $L,U,M,R,V,W,Q,A,H,C,P,N$ rather than from an external completion or host real equality.
+
+The structural rows do not enlarge the seal. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve only the route already present in the carrier, so the Real seal boundary cannot export open-cover compactness, selected limits, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[Regular-sequence finite-window exhaustion]
 \label{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}
 Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Any consumer that asks whether a regular real name represented by the displayed $\StreamNameUp$ windows $W$ and $\RegSeqRatUp$ readback $Q$ meets the cover named by $L,U,M,R,V$ is exhausted by a finite window computation: it reads the mesh index $M$, the radius ledger $R$, the regular approximants in $Q$, the finite membership rows $V$, and the visible $\RealUp$ seal $A$. No later tail of the regular sequence and no ambient equality of real names contributes to the cover decision.
