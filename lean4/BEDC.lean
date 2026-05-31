@@ -773,6 +773,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.MonotoneWindowRegularity
 import BEDC.Derived.BolzanoWeierstrassUp.NameCertObligations
 import BEDC.Derived.BolzanoWeierstrassUp.PublicSelectorExport
 import BEDC.Derived.BolzanoWeierstrassUp.RealClusterSeal
+import BEDC.Derived.BolzanoWeierstrassUp.RegSeqRatClusterPackage
 import BEDC.Derived.BolzanoWeierstrassUp.RegSeqRatHandoff
 import BEDC.Derived.BolzanoWeierstrassUp.RegularSubsequenceRoute
 import BEDC.Derived.BolzanoWeierstrassUp.RegularSubsequenceWindowReadback
@@ -4723,6 +4724,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRegSeqRatHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierNormalFormDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierObstructionNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierSubjectReductionSocket
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNConditionalBudget
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNDischarge
@@ -4791,6 +4793,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceDischargeReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourObjectLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationDischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
+import BEDC.Derived.MetaCICCriticalPathUp.L10ReadinessLocalMinimality
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
@@ -5595,6 +5598,7 @@ import BEDC.Derived.PolishspaceUp.CompletionDensityUnblock
 import BEDC.Derived.PolishspaceUp.CompletionNonescape
 import BEDC.Derived.PolishspaceUp.CompletionScheduleStability
 import BEDC.Derived.PolishspaceUp.DenseScheduleRootObligation
+import BEDC.Derived.PolishspaceUp.EffectivePresentationHandoff
 import BEDC.Derived.PolishspaceUp.EffectiveRepresentationHandoff
 import BEDC.Derived.PolishspaceUp.L10CompleteSeparableConsumerPackage
 import BEDC.Derived.PolishspaceUp.L10SiblingRoute
@@ -7969,8 +7973,10 @@ import BEDC.Manifest.Core
 import BEDC.Manifest.Entries
 import BEDC.Meta
 import BEDC.Meta.ClassifierIncrement
+import BEDC.Meta.DisagreementSupport
 import BEDC.Meta.DiscoveryCertificate
 import BEDC.Meta.DiscoveryCertificateExample
+import BEDC.Meta.DiscoveryDeltaLedger
 import BEDC.Meta.TasteGate
 import BEDC.Meta.TheoremDNA
 import BEDC.MetaCIC
