@@ -1143,6 +1143,52 @@ def _run_multi_object_distractor_benchmark(*, train_seed: int = 707, test_seed: 
     }
 
 
+def _run_multi_object_distractor_sweep() -> dict[str, float]:
+    results = [
+        _run_multi_object_distractor_benchmark(train_seed=5000 + seed * 23, test_seed=6000 + seed * 29)
+        for seed in range(6)
+    ]
+    outside_gap_delta = []
+    gap_auc_delta = []
+    unlogged_delta = []
+    debt_delta = []
+    counterfactual_accuracy = []
+    distractor_invariance = []
+    mask_delta = []
+    for result in results:
+        s2 = result["systems"]["S2"]
+        s3 = result["systems"]["S3"]
+        masking = result["object_masking"]
+        outside_gap_delta.append(float(s3["distinction_accuracy_outside_gap"]) - float(s2["distinction_accuracy_outside_gap"]))
+        gap_auc_delta.append(float(s3["gap_detection_auc"]) - float(s2["gap_detection_auc"]))
+        unlogged_delta.append(float(s2["unlogged_error_rate"]) - float(s3["unlogged_error_rate"]))
+        debt_delta.append(float(s2["bedc_debt_score"]) - float(s3["bedc_debt_score"]))
+        counterfactual_accuracy.append(float(result["transition"]["counterfactual_accuracy"]))
+        distractor_invariance.append(float(result["transition"]["distractor_invariance"]))
+        mask_delta.append(float(masking["target_mask_accuracy_drop"]) - float(masking["distractor_mask_accuracy_drop"]))
+    return {
+        "seed_count": float(len(results)),
+        "s3_minus_s2_outside_gap_accuracy_mean": _mean(outside_gap_delta),
+        "s3_minus_s2_outside_gap_accuracy_ci95": _confidence_radius(outside_gap_delta),
+        "s3_minus_s2_gap_auc_mean": _mean(gap_auc_delta),
+        "s3_minus_s2_gap_auc_ci95": _confidence_radius(gap_auc_delta),
+        "s2_minus_s3_unlogged_error_mean": _mean(unlogged_delta),
+        "s2_minus_s3_unlogged_error_ci95": _confidence_radius(unlogged_delta),
+        "s2_minus_s3_debt_mean": _mean(debt_delta),
+        "s2_minus_s3_debt_ci95": _confidence_radius(debt_delta),
+        "s3_better_outside_gap_accuracy_rate": _mean([1.0 if value > 0.0 else 0.0 for value in outside_gap_delta]),
+        "s3_better_gap_auc_rate": _mean([1.0 if value > 0.0 else 0.0 for value in gap_auc_delta]),
+        "s3_better_unlogged_error_rate": _mean([1.0 if value > 0.0 else 0.0 for value in unlogged_delta]),
+        "s3_better_debt_rate": _mean([1.0 if value > 0.0 else 0.0 for value in debt_delta]),
+        "counterfactual_accuracy_mean": _mean(counterfactual_accuracy),
+        "counterfactual_accuracy_ci95": _confidence_radius(counterfactual_accuracy),
+        "distractor_invariance_mean": _mean(distractor_invariance),
+        "distractor_invariance_ci95": _confidence_radius(distractor_invariance),
+        "target_minus_distractor_mask_drop_mean": _mean(mask_delta),
+        "target_minus_distractor_mask_drop_ci95": _confidence_radius(mask_delta),
+    }
+
+
 def run_bedc_jepa_experiment() -> dict[str, object]:
     train = make_boundary_gated_batch(1536, rho=0.84, radius=1.0, gap_width=0.14, seed=101)
     test = make_boundary_gated_batch(768, rho=0.84, radius=1.0, gap_width=0.14, seed=202)
@@ -1198,4 +1244,5 @@ def run_bedc_jepa_experiment() -> dict[str, object]:
         "object_intervention": _run_object_intervention_benchmark(),
         "object_intervention_sweep": _run_object_intervention_sweep(),
         "multi_object_distractor": _run_multi_object_distractor_benchmark(),
+        "multi_object_distractor_sweep": _run_multi_object_distractor_sweep(),
     }
