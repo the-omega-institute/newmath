@@ -689,25 +689,41 @@ def self_test() -> int:
         [],
     )
     by_id = {str(result["packet_id"]): result for result in results}
+    invalid_contact_id_cases = {
+        "matched_mRNA_abundance_control": "matched-mrna-abundance-control",
+        "tai_or_stai_weights": "tai-or-stai-weights",
+    }
+    for invalid_contact_id, normalized_contact_id in invalid_contact_id_cases.items():
+        invalid_contact_results = gate_all(
+            [],
+            [
+                {
+                    **contact,
+                    "contact_id": invalid_contact_id,
+                }
+            ],
+            [],
+            [],
+        )
+        if not any("not underscores or uppercase" in issue for result in invalid_contact_results for issue in result["issues"]):
+            print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+            return 1
+        if not any(
+            issue.startswith(f"contact_id: invalid id: {invalid_contact_id}; ids must match {ID_PATTERN}")
+            for result in invalid_contact_results
+            for issue in result["issues"]
+        ):
+            print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+            return 1
+        if not any(
+            f"suggested normalized id: {normalized_contact_id}" in issue
+            for result in invalid_contact_results
+            for issue in result["issues"]
+        ):
+            print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+            return 1
     invalid_contact_id = "matched_mRNA_abundance_control"
-    normalized_contact_id = "matched-mrna-abundance-control"
-    invalid_contact_results = gate_all(
-        [],
-        [
-            {
-                **contact,
-                "contact_id": invalid_contact_id,
-            }
-        ],
-        [],
-        [],
-    )
-    if not any("not underscores or uppercase" in issue for result in invalid_contact_results for issue in result["issues"]):
-        print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
-        return 1
-    if not any(f"suggested normalized id: {normalized_contact_id}" in issue for result in invalid_contact_results for issue in result["issues"]):
-        print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
-        return 1
+    normalized_contact_id = invalid_contact_id_cases[invalid_contact_id]
     invalid_contact_mismatch_results = gate_all(
         [],
         [
@@ -841,6 +857,21 @@ def self_test() -> int:
                     "field": "probe_id",
                     "expected_pattern": ID_PATTERN,
                     "actual_pattern": probe_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    required_contacts_pattern = probe_schema.get("properties", {}).get("required_contacts", {}).get("items", {}).get("pattern")
+    if required_contacts_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "required_contacts.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": required_contacts_pattern,
                 },
                 indent=2,
             ),
