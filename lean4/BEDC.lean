@@ -3683,6 +3683,7 @@ import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteLowerBoundFoldUp.TasteGate
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
+import BEDC.Derived.FiniteNetEquicontinuityUp.TasteGate
 import BEDC.Derived.FiniteNetMinimumFoldUp
 import BEDC.Derived.FiniteNetMinimumFoldUp.CompactModulusAttainment
 import BEDC.Derived.FiniteNetMinimumFoldUp.CompactUniformPointwiseRadiusChain
@@ -4067,6 +4068,7 @@ import BEDC.Derived.HausdorffSpaceUp.DiagonalNonescape
 import BEDC.Derived.HausdorffSpaceUp.OpenNeighborhoodTransport
 import BEDC.Derived.HausdorffSpaceUp.PointSeparationChoicefree
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
+import BEDC.Derived.HausdorffUniformCompletionUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
@@ -4330,6 +4332,7 @@ import BEDC.Derived.LQRUp.EmptyHorizonBackwardLedger
 import BEDC.Derived.LQRUp.EmptyHorizonReadback
 import BEDC.Derived.LQRUp.PublicNameCertExport
 import BEDC.Derived.LagrangianMechanicsUp
+import BEDC.Derived.LaguerrePolyaUp.TasteGate
 import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.LambdaCalcUp.ConstructorTransport
