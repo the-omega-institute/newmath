@@ -59,6 +59,24 @@ The tolerance ledger $D$ and regular readback $R$ turn the same finite window in
 Finally $H,C,P,N$ transport, replay, source, and name that route. Since the excluded quotient, function-extensionality, selected-stream, choice, and completeness coordinates are absent from the carrier, every RegSeqRat or RealUp equality read factors through the stated finite route.
 \end{proof}
 
+\begin{theorem}[StreamName extensionality finite-window symmetry]
+\label{thm:streamname-extensionality-finite-window-symmetry}
+Let
+$$
+E=(X,Y,W,D,R,Q,H,C,P,N)
+$$
+be an accepted $\StreamNameExtensionalityUp$ carrier. Swapping the two $\StreamNameUp$ source rows $X$ and $Y$ preserves the shared finite window $W$, dyadic tolerance ledger $D$, $\RegSeqRatUp$ readback $R$, terminal $\RealUp$ seal comparison $Q$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\StreamNameExtensionalityUp}$ row $N$.
+
+Thus the equality evidence exported to RegSeqRat and RealUp consumers is symmetric at the finite-window level and introduces no quotient stream equality, host function extensionality, selected infinite stream, countable-choice selector, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:streamname-extensionality-carrier}. The only ordered coordinates are the two source rows $X$ and $Y$; the shared window, tolerance ledger, readback, seal comparison, transport, replay, provenance, and local naming rows are displayed independently of that order.
+
+Exchange $X$ and $Y$ while keeping $W,D,R,Q,H,C,P,N$ fixed. The NameCert obligation theorem \autoref{thm:streamname-extensionality-namecert-obligations} says that these rows are exactly the local certificate surface, so no hidden equality datum changes under the exchange.
+
+The seal-route theorem \autoref{thm:streamname-extensionality-seal-route} then forces every RegSeqRat or RealUp consumer to read the same finite route. Since the carrier has no quotient, function-extensionality, selected-stream, choice, or completeness coordinate, the swapped packet exports only the symmetric finite-window evidence.
+\end{proof}
+
 \closureat{StreamNameExtensionalityUp}{seedStr}
 
 \begin{closurestatus}{\StreamNameExtensionalityUp}
