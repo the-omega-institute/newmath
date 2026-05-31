@@ -129,6 +129,18 @@ Next read the stream and subsequence windows. The row $S$ gives finite source-wi
 Finally apply the readback and seal rows. The row $R$ consumes only the selected windows from $W$, and the row $E$ seals only the accepted regular rational readback. The transport, continuation, provenance, and NameCert rows preserve this same handoff, so no host subsequence selector, quotient stream equality, open-cover compactness theorem, countable choice, or ambient Real completeness can be exported.
 \end{proof}
 
+\begin{theorem}[SequentialCompact RegSeqRat readback route]
+\label{thm:sequential-compact-regseqrat-readback-route}
+Any accepted $\SequentialCompactUp$ packet that reaches the terminal $\RealUp$ seal must first expose the selected finite windows in $W$ and then the regular rational readback row $R$. No consumer may replace $R$ by a host subsequence limit, quotient stream equality, countable-choice selector, open-cover compactness theorem, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations, \autoref{thm:sequential-compact-namecert-obligations}. They identify $W$ and $R$ as displayed carrier rows, not as hidden host selectors or quotient-stream data.
+
+Apply the finite subsequence handoff, \autoref{thm:sequential-compact-finite-subsequence-handoff}. It orders the completion-facing route so that selected windows are exposed before regular rational readback and before the terminal RealUp seal.
+
+Use window transport and selector refusal, \autoref{thm:sequential-compact-window-transport} and \autoref{thm:sequential-compact-selector-refusal}. Transport preserves the displayed rows, while the refusal theorem leaves no coordinate for a host subsequence limit, quotient stream equality, countable-choice selector, open-cover compactness theorem, or ambient completeness principle.
+\end{proof}
+
 \begin{theorem}[SequentialCompact selector monotonicity]
 \label{thm:sequential-compact-selector-monotonicity}
 For an accepted $\SequentialCompactUp$ carrier

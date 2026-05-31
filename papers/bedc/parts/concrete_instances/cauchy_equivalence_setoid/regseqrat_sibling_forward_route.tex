@@ -1,0 +1,13 @@
+\begin{theorem}[Cauchy equivalence setoid RegSeqRat sibling forward route]
+\label{thm:cauchy-equivalence-setoid-regseqrat-sibling-forward-route}
+Every $\CauchyEquivalenceSetoidUp$ classifier read consumed by a $\RealUp$ or completion-facing route factors through the displayed sibling rows of $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ before any Real seal is read. Concretely, the consumer first follows the RegSeqRat sibling route of \autoref{thm:cauchy-equivalence-setoid-regseqrat-sibling-route}, then the forward link of \autoref{thm:cauchy-equivalence-setoid-regseqrat-forward-link}, and finally the RegSeqRat--Real forward route of \autoref{thm:cauchy-equivalence-setoid-regseqrat-real-forward}; no quotient stream object, selected representative, host real equality, or detached completion oracle is available outside that finite route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cauchy-equivalence-setoid-carrier}. Its comparison surface already begins with finite stream windows and regular rational readback rows rather than a quotient object.
+
+Apply the sibling route of \autoref{thm:cauchy-equivalence-setoid-regseqrat-sibling-route}. This forces every equality-facing read to expose the $\RegSeqRatUp$ readback rows and the $\DyadicRatCoreUp$ tolerance ledger before the terminal seal can be consumed.
+
+Now use the forward link of \autoref{thm:cauchy-equivalence-setoid-regseqrat-forward-link}. The link identifies the same displayed rows as the route read by RegSeqRat-facing consumers, so a completion-facing consumer cannot replace the dependency by selected representatives or host equality.
+
+Finally apply \autoref{thm:cauchy-equivalence-setoid-regseqrat-real-forward}. The Real-facing handoff occurs only after the regular rational and dyadic rows have been displayed, which proves the sibling forward route through $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ before any Real seal is read.
+\end{proof}
