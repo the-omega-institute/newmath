@@ -5413,6 +5413,7 @@ import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
 import BEDC.Derived.OrderUp
 import BEDC.Derived.OrderUp.TasteGate
 import BEDC.Derived.OrthogonalPolynomialUp.TasteGate
+import BEDC.Derived.OrthogonalProjectionTheoremUp.TasteGate
 import BEDC.Derived.OscillationModulusUp.TasteGate
 import BEDC.Derived.OtherMindsCommitmentUp.Packet
 import BEDC.Derived.OtherMindsCommitmentUp.TasteGate
@@ -6627,6 +6628,7 @@ import BEDC.Derived.SeparatedCompletionReflectorUp
 import BEDC.Derived.SeparatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.SeparatedCompletionUp
 import BEDC.Derived.SeparatedLimitUniquenessUp.TasteGate
+import BEDC.Derived.SeparatedMetricCompletionUp.TasteGate
 import BEDC.Derived.SeparatedMetricReflectionUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.CarrierBoundary
 import BEDC.Derived.SeparatedMetricUp.CauchyEquivalenceLimitCoherence
@@ -7446,6 +7448,7 @@ import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VietorisRipsComplexUp
 import BEDC.Derived.VietorisRipsComplexUp.TasteGate
+import BEDC.Derived.VietorisTopologyUp.TasteGate
 import BEDC.Derived.ViscositySolutionUp.TasteGate
 import BEDC.Derived.VitaliCoverUp.TasteGate
 import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
@@ -7870,7 +7873,11 @@ import BEDC.Manifest
 import BEDC.Manifest.Core
 import BEDC.Manifest.Entries
 import BEDC.Meta
+import BEDC.Meta.ClassifierIncrement
+import BEDC.Meta.DiscoveryCertificate
+import BEDC.Meta.DiscoveryCertificateExample
 import BEDC.Meta.TasteGate
+import BEDC.Meta.TheoremDNA
 import BEDC.MetaCIC
 import BEDC.MetaCIC.AtomInfer
 import BEDC.MetaCIC.AuditReexport
@@ -7908,7 +7915,7 @@ import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.SubjectReduction.ClosedBinderDischarge
 import BEDC.MetaCIC.SubjectReduction.ClosedDischarge
 import BEDC.MetaCIC.SubjectReduction.DischargeBundle
-import BEDC.MetaCIC.SubjectReduction.SetupClass
+import BEDC.MetaCIC.SubjectReduction.ObstructionLedger
 import BEDC.MetaCIC.Substitution
 import BEDC.MetaCIC.Substitution.Basic
 import BEDC.MetaCIC.Substitution.ClosedComposition

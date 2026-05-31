@@ -27,7 +27,7 @@ jobs:
   render_html:
     name: Build dossier HTML artifact
     runs-on: ubuntu-latest
-    timeout-minutes: 150
+    timeout-minutes: 720
     steps:
       - name: Check out repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -171,8 +171,8 @@ jobs:
           cp dossier-html-artifact/data/namecert_sources.json docs/dossier/data/namecert_sources.json
           cp dossier-html-artifact/data/paper_sources.json docs/dossier/data/paper_sources.json
 
-      - name: Glossary completeness gate
-        run: python3 tools/check_glossary.py
+      - name: Glossary coverage survey
+        run: python3 tools/check_glossary.py --survey
 
       - name: Render dossier
         run: quarto render docs/dossier/

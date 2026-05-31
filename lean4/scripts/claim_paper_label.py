@@ -10,13 +10,13 @@ worktrees) so concurrent rounds in different worktrees see a single source of
 truth — same anchoring trick as `critical_path.py`'s LOCKS_FILE.
 
 Usage:
-    claim_paper_label.py claim --round R<N> --labels thm:foo,def:bar
-        Atomically claim each label for round R<N>. Returns JSON
+    claim_paper_label.py claim --holder <worker-id> --labels thm:foo,def:bar
+        Atomically claim each label for worker-id. Returns JSON
         `{"kept": [...], "dropped": [...]}` listing labels successfully
         claimed vs already-claimed-by-someone-else (or already on disk).
 
-    claim_paper_label.py release --round R<N>
-        Release all labels held by round R<N>.
+    claim_paper_label.py release --holder <worker-id>
+        Release all labels held by worker-id.
 
     claim_paper_label.py inspect
         Print current claim file content as JSON.
@@ -175,21 +175,29 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     p1 = sub.add_parser("claim")
-    p1.add_argument("--round", required=True)
+    p1.add_argument("--holder")
+    p1.add_argument("--round")
     p1.add_argument("--labels", required=True,
                     help="comma-separated label list (e.g. thm:foo,def:bar)")
     p2 = sub.add_parser("release")
-    p2.add_argument("--round", required=True)
+    p2.add_argument("--holder")
+    p2.add_argument("--round")
     sub.add_parser("inspect")
 
     args = ap.parse_args()
     if args.cmd == "claim":
+        holder = args.holder or args.round
+        if not holder:
+            ap.error("claim requires --holder (canonical) or --round (compatibility)")
         labels = [s for s in args.labels.split(",") if s.strip()]
-        out = claim(args.round, labels)
+        out = claim(holder, labels)
         print(json.dumps(out, indent=2))
         return 1 if out["dropped"] else 0
     if args.cmd == "release":
-        print(json.dumps(release(args.round), indent=2))
+        holder = args.holder or args.round
+        if not holder:
+            ap.error("release requires --holder (canonical) or --round (compatibility)")
+        print(json.dumps(release(holder), indent=2))
         return 0
     if args.cmd == "inspect":
         print(json.dumps(inspect(), indent=2))

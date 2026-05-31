@@ -1,0 +1,411 @@
+\section{Positive Interpretability Discovery}
+\label{sec:visions-philosophy-positive-interpretability-discovery}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-interpretability-classifier-novelty}
+defines classifier novelty as the discovery axis, and
+\autoref{sec:visions-philosophy-explanation-complexity-information}
+defines net explanation information as benefit minus score and debt.
+Positive interpretability discovery is the conjunction of these two
+audits: the explanation must introduce a certified classifier shift, and
+the shift must pay for its certificate, ledger, and remaining debt under
+a public cost protocol.
+
+\begin{definition}[Certified discovery transition]
+\label{def:philosophy-certified-discovery-transition}
+A transition $E_0\leadsto E_1$ is a certified discovery transition when
+it has classifier novelty, the target classifier state has a NameCert,
+the changed classifier surface has ledger rows, the classifier shift has
+a local or formal witness, and the seal records the not-claimed
+boundary.
+\end{definition}
+
+\begin{definition}[Positive discovery transition]
+\label{def:philosophy-positive-discovery-transition}
+A certified discovery transition is positive when
+$$
+\Delta\mathsf{Info}_{\mathbf w}(E_0,E_1)>0
+$$
+for the public cost protocol used by the claim. It is negative when the
+quantity is below zero and neutral when it is zero.
+\end{definition}
+
+\begin{definition}[Strong positive discovery]
+\label{def:philosophy-strong-positive-discovery}
+A positive discovery transition is strong when the target explanation has
+zero critical debt, a scope seal, reproducible classifier and ledger
+evidence, a public cost protocol, and a NameCert-compatible NDNA packet.
+\end{definition}
+
+\begin{definition}[False positive discovery claim]
+\label{def:philosophy-false-positive-discovery-claim}
+A claim is a false positive discovery claim when it asserts positive
+interpretability discovery while lacking classifier novelty, NameCert,
+ledger, positive net explanation information, a public cost protocol, or
+a declared not-claimed boundary.
+\end{definition}
+
+\begin{theorem}[Positive discovery implies certified discovery]
+\label{thm:philosophy-positive-discovery-implies-certified-discovery}
+Every positive discovery transition is a certified discovery transition.
+\end{theorem}
+\begin{proof}
+Positive discovery is defined by adding the strict net-information
+inequality to certified discovery. Hence all certified-discovery
+requirements are inherited.
+\end{proof}
+
+\begin{corollary}[Positive discovery requires classifier novelty]
+\label{cor:philosophy-positive-discovery-requires-classifier-novelty}
+Every positive discovery transition has classifier novelty.
+\end{corollary}
+\begin{proof}
+Certified discovery requires classifier novelty by
+\autoref{def:philosophy-certified-discovery-transition}, and positive
+discovery implies certified discovery.
+\end{proof}
+
+\begin{corollary}[Positive discovery requires NameCert and ledger]
+\label{cor:philosophy-positive-discovery-requires-namecert-ledger}
+Every positive discovery transition carries NameCert and ledger rows for
+the changed classifier surface.
+\end{corollary}
+\begin{proof}
+These rows are part of certified discovery, which every positive
+discovery transition satisfies.
+\end{proof}
+
+\begin{theorem}[Classifier novelty alone is not positive discovery]
+\label{thm:philosophy-classifier-novelty-alone-not-positive-discovery}
+Classifier novelty by itself does not imply positive interpretability
+discovery.
+\end{theorem}
+\begin{proof}
+A changed classifier can be expensive to source, stabilize, ledger,
+intervene on, verify, or seal. It may also lack complete NameCert or
+ledger rows. If the net information is nonpositive, or if the certificate
+surface is incomplete, the transition is not positive discovery.
+\end{proof}
+
+\begin{theorem}[Positive information alone is not discovery]
+\label{thm:philosophy-positive-information-alone-not-discovery}
+Positive net explanation information does not imply positive
+interpretability discovery.
+\end{theorem}
+\begin{proof}
+The net gain can come from ledger completion, lower score, verification
+debt reduction, source-scope clarification, semantic-ledger completion,
+or a better not-claimed boundary while the classifier relation is
+unchanged. Such a transition has no classifier novelty and is therefore
+not discovery.
+\end{proof}
+
+\begin{theorem}[Ledger completion can be positive without discovery]
+\label{thm:philosophy-ledger-completion-positive-not-discovery}
+Ledger completion can yield positive net explanation information while
+preserving the classifier.
+\end{theorem}
+\begin{proof}
+Completing a critical ledger can lower debt more than it increases
+score. If the classifier relation is unchanged, the transition is a
+positive audit improvement rather than classifier-level discovery.
+\end{proof}
+
+\begin{theorem}[Formal hardening can be positive without discovery]
+\label{thm:philosophy-formal-hardening-positive-not-discovery}
+Formal hardening can yield positive net explanation information while
+preserving the classifier.
+\end{theorem}
+\begin{proof}
+Hardening can lower verification debt and increase reuse. If its gain
+exceeds its verification cost while the classifier relation remains
+unchanged, it is a positive hardening improvement rather than positive
+interpretability discovery.
+\end{proof}
+
+\subsection{Cost Protocols}
+\label{subsec:philosophy-positive-discovery-cost-protocols}
+
+\begin{definition}[Positive discovery cost protocol]
+\label{def:philosophy-positive-discovery-cost-protocol}
+A positive discovery cost protocol specifies the benefit functional,
+score functional, debt functional, weight profile, source and target
+scope, and not-claimed boundary used to evaluate
+$\Delta\mathsf{Info}_{\mathbf w}(E_0,E_1)$.
+\end{definition}
+
+\begin{definition}[Cost opacity and cost debt]
+\label{def:philosophy-cost-opacity-debt}
+Cost opacity occurs when a positive discovery claim hides its benefit,
+score, debt, weight, scope, or excluded-claim conventions. Cost debt is
+the uncounted cost or debt created by omitting a critical term such as
+ledger cost, semantic debt, verification debt, intervention debt, or
+generalization debt.
+\end{definition}
+
+\begin{theorem}[Positive discovery requires protocol completeness]
+\label{thm:philosophy-positive-discovery-requires-protocol-completeness}
+A positive discovery claim is auditable only when its cost protocol is
+complete and public.
+\end{theorem}
+\begin{proof}
+The sign of $\Delta\mathsf{Info}_{\mathbf w}$ depends on benefit, score,
+debt, and weights inside a declared scope. If any of these terms is
+hidden, the strict positivity claim cannot be checked.
+\end{proof}
+
+\begin{theorem}[Cost debt can invalidate positivity]
+\label{thm:philosophy-cost-debt-can-invalidate-positivity}
+Adding omitted critical cost or debt terms can turn an apparently
+positive discovery claim into a nonpositive one.
+\end{theorem}
+\begin{proof}
+Net information subtracts score and debt. If omitted cost or debt is
+restored, the computed net gain decreases. When the omitted amount
+exceeds the original positive margin, the strict positivity inequality
+fails.
+\end{proof}
+
+\begin{corollary}[Positive discovery must count critical debts]
+\label{cor:philosophy-positive-discovery-counts-critical-debts}
+Ledger, semantic, verification, intervention, and generalization debts
+must be included whenever they are relevant to the claim.
+\end{corollary}
+\begin{proof}
+These are critical debt classes for interpretability claims. Omitting
+them creates cost debt, which can invalidate positivity by
+\autoref{thm:philosophy-cost-debt-can-invalidate-positivity}.
+\end{proof}
+
+\subsection{Benefit Types}
+\label{subsec:philosophy-positive-discovery-benefit-types}
+
+\begin{definition}[Positive discovery benefit modes]
+\label{def:philosophy-positive-discovery-benefit-modes}
+Positive discovery may be coverage-positive, prediction-positive,
+transfer-positive, intervention-positive, unification-positive,
+verification-positive, or ledger-positive, according to the benefit term
+that principally drives the positive net information inequality.
+\end{definition}
+
+\begin{theorem}[Benefit modes can overlap]
+\label{thm:philosophy-positive-benefit-modes-overlap}
+A positive discovery transition can have several benefit modes at once.
+\end{theorem}
+\begin{proof}
+The benefit functional is a sum of coverage, prediction, transfer,
+intervention, verification, and unification terms. More than one term can
+make a material contribution to the positive margin.
+\end{proof}
+
+\begin{corollary}[Positive discovery should report benefit structure]
+\label{cor:philosophy-positive-discovery-report-benefit-structure}
+A positive discovery claim should state which benefit terms drive its
+positive margin.
+\end{corollary}
+\begin{proof}
+Since benefit modes can overlap and trade off against costs and debts,
+reporting only the final sign hides the reason the transition is
+positive.
+\end{proof}
+
+\subsection{Strong and NDNA-Positive Discovery}
+\label{subsec:philosophy-strong-ndna-positive-discovery}
+
+\begin{definition}[NDNA-positive discovery criterion]
+\label{def:philosophy-ndna-positive-discovery-criterion}
+A transition satisfies the NDNA-positive criterion when it has classifier
+novelty, the target NDNA is complete, anchored, NameCert-compatible, and
+ledger-complete, and the NDNA-level net information difference is
+positive.
+\end{definition}
+
+\begin{theorem}[NDNA-positive criterion implies positive discovery]
+\label{thm:philosophy-ndna-positive-criterion-implies-positive-discovery}
+Every transition satisfying the NDNA-positive criterion is a positive
+interpretability discovery.
+\end{theorem}
+\begin{proof}
+Classifier novelty supplies the discovery axis. Complete, anchored,
+NameCert-compatible NDNA supplies the certified explanation surface, and
+ledger completeness supplies the required ledger. The positive NDNA-level
+net information difference supplies the positivity condition.
+\end{proof}
+
+\begin{theorem}[NDNA completeness alone is not positive discovery]
+\label{thm:philosophy-ndna-completeness-alone-not-positive-discovery}
+Complete NDNA alone does not imply positive interpretability discovery.
+\end{theorem}
+\begin{proof}
+Completeness says that all eight loci are present. It does not state that
+the classifier differs from the prior classifier, that the NameCert
+projection is compatible, or that net explanation information is
+positive.
+\end{proof}
+
+\begin{theorem}[Strong positive discovery implies positive discovery]
+\label{thm:philosophy-strong-positive-implies-positive}
+Every strong positive discovery is a positive discovery.
+\end{theorem}
+\begin{proof}
+Strong positive discovery includes positive discovery and adds zero
+critical debt, scope sealing, reproducibility, a public cost protocol,
+and NameCert-compatible NDNA.
+\end{proof}
+
+\begin{theorem}[Positive discovery need not be strong]
+\label{thm:philosophy-positive-need-not-be-strong}
+A positive discovery transition need not be strong.
+\end{theorem}
+\begin{proof}
+A transition can have classifier novelty, NameCert, ledger, and positive
+net information while still retaining noncritical debt, an incomplete
+reproducibility package, a partially developed seal, or an unsettled
+hardening frontier.
+\end{proof}
+
+\subsection{Black-Box Resolution and Verification}
+\label{subsec:philosophy-positive-discovery-black-box-verification}
+
+\begin{definition}[Positive black-box resolution]
+\label{def:philosophy-positive-black-box-resolution}
+A transition is a positive black-box resolution when it lowers
+black-box debt by more than the additional explanation score charged to
+that resolution inside the declared scope.
+\end{definition}
+
+\begin{definition}[Positive discovery-resolution]
+\label{def:philosophy-positive-discovery-resolution}
+A transition is a positive discovery-resolution when it is both a
+positive interpretability discovery and a positive black-box resolution.
+\end{definition}
+
+\begin{theorem}[Positive black-box resolution need not be discovery]
+\label{thm:philosophy-positive-black-box-resolution-not-discovery}
+Positive black-box resolution does not imply interpretability discovery.
+\end{theorem}
+\begin{proof}
+Completing the ledger of an existing classifier can reduce black-box debt
+more than it increases score. If the classifier remains unchanged, the
+transition resolves black-box residue but does not discover a classifier.
+\end{proof}
+
+\begin{theorem}[Positive discovery-resolution is the strongest resolution form]
+\label{thm:philosophy-positive-discovery-resolution-strongest}
+A positive discovery-resolution both changes the certified classifier
+surface and positively reduces black-box debt in net terms.
+\end{theorem}
+\begin{proof}
+The first condition follows from positive interpretability discovery.
+The second follows from positive black-box resolution. Thus the
+transition improves both the classifier axis and the black-box debt axis.
+\end{proof}
+
+\begin{definition}[Verification-assisted positive discovery]
+\label{def:philosophy-verification-assisted-positive-discovery}
+A positive discovery is verification-assisted when formal hardening
+contributes to the positive margin. It is verification-dependent when
+removing the verification benefit makes the net information difference
+nonpositive.
+\end{definition}
+
+\begin{theorem}[Verification assistance does not replace classifier novelty]
+\label{thm:philosophy-verification-assistance-not-replace-novelty}
+Verification-assisted positive discovery still requires classifier
+novelty.
+\end{theorem}
+\begin{proof}
+The verification term can contribute to benefit, but positive discovery
+also requires certified classifier shift. A verification-only transition
+without classifier novelty is a hardening improvement, not discovery.
+\end{proof}
+
+\begin{theorem}[Verification-assisted discovery must count verification cost]
+\label{thm:philosophy-verification-assisted-counts-cost}
+If formal hardening contributes to a positive discovery claim, then
+verification cost and verification-ledger debt must be included.
+\end{theorem}
+\begin{proof}
+Formal hardening can increase benefit, but it also adds proof cost,
+dependency cost, trust-boundary obligations, and verification-ledger
+residue. Omitting those terms overstates net information.
+\end{proof}
+
+\subsection{Lineage and Anti-Laundering}
+\label{subsec:philosophy-positive-discovery-lineage-anti-laundering}
+
+\begin{definition}[Positive discovery lineages]
+\label{def:philosophy-positive-discovery-lineages}
+A positive discovery lineage contains at least one positive discovery
+transition. A pre-positive discovery lineage contains a certified
+discovery step that is not yet positive. A delayed-positive lineage
+becomes positive only after later ledger repair, compression, hardening,
+transfer, or unification work. A transient-negative lineage has an
+initial discovery step whose net information is negative.
+\end{definition}
+
+\begin{theorem}[Discovery can become positive later]
+\label{thm:philosophy-discovery-can-become-positive-later}
+A certified discovery transition with nonpositive net information can
+become part of a positive discovery lineage after later audit work.
+\end{theorem}
+\begin{proof}
+The initial classifier shift can impose high source, stability, ledger,
+seal, semantic, or verification costs. Later work can lower debt, reduce
+score, increase transfer, or improve unification. The total transition
+from the original state to the later state can then have positive net
+information.
+\end{proof}
+
+\begin{theorem}[Positive status can decay under new debt]
+\label{thm:philosophy-positive-status-can-decay}
+A positive discovery claim can lose positive status when later audit
+reveals critical debt large enough to erase the positive margin.
+\end{theorem}
+\begin{proof}
+Positive status depends on $\Delta\mathsf{Info}_{\mathbf w}>0$. Newly
+recorded critical debt increases the debt term. If it exceeds the margin,
+the inequality no longer holds.
+\end{proof}
+
+\begin{definition}[Discovery laundering]
+\label{def:philosophy-discovery-laundering}
+Scope laundering creates apparent positive gain by hiding a scope
+narrowing. Debt laundering hides ledger, semantic, verification,
+intervention, or generalization debt. Classifier laundering presents
+feature-side, ledger-side, hardening-side, or semantic-side improvement
+as classifier novelty.
+\end{definition}
+
+\begin{theorem}[Laundering invalidates positive discovery claims]
+\label{thm:philosophy-laundering-invalidates-positive-discovery}
+Any positive discovery claim that relies on scope, debt, or classifier
+laundering is invalid.
+\end{theorem}
+\begin{proof}
+Scope laundering changes the domain of the benefit and debt calculation
+without sealing the change. Debt laundering suppresses terms subtracted
+by net information. Classifier laundering asserts classifier novelty
+where the classifier relation is unchanged. Each case violates a
+necessary audit condition for positive discovery.
+\end{proof}
+
+\begin{theorem}[Positive interpretability discovery theorem]
+\label{thm:philosophy-positive-interpretability-discovery-theorem}
+Positive interpretability discovery is certified classifier novelty with
+positive net explanation information under a public, debt-complete,
+scope-sealed cost protocol.
+\end{theorem}
+\begin{proof}
+\autoref{thm:philosophy-positive-discovery-implies-certified-discovery}
+gives certified discovery, including classifier novelty, NameCert,
+ledger, witness, and not-claimed boundary.
+\autoref{def:philosophy-positive-discovery-transition} supplies the
+strict net-information inequality.
+\autoref{thm:philosophy-positive-discovery-requires-protocol-completeness}
+and \autoref{cor:philosophy-positive-discovery-counts-critical-debts}
+require a public protocol and critical debt accounting.
+\autoref{thm:philosophy-laundering-invalidates-positive-discovery}
+rules out apparent gains obtained by hiding scope, debt, or classifier
+non-novelty. These conditions are exactly the stated characterization.
+\end{proof}

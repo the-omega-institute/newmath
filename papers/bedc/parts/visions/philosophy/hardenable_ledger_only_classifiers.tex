@@ -1,0 +1,275 @@
+\section{Hardenable and Ledger-Only Classifiers}
+\label{sec:visions-philosophy-hardenable-ledger-only-classifiers}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-hard-certificate-layer} identifies
+formal verification as a hardening layer. This section records the
+corresponding classifier taxonomy. A certified classifier may be
+ledger-only, partially hardened, or fully hardened. Lack of formal
+hardening is not the same as lack of certification; lack of ledgered
+scope and boundary is the actual obstruction to closure.
+
+\begin{definition}[Evidence mode]
+\label{def:philosophy-evidence-mode}
+Each row of a NameCert has an evidence mode: empirical, paper, formal,
+hybrid, ledger-only, or open. The mode states how that row is supported
+and what kind of audit is available for it.
+\end{definition}
+
+\begin{definition}[Mode-complete NameCert]
+\label{def:philosophy-mode-complete-namecert}
+A NameCert is mode-complete when every source, pattern, classifier,
+stability, and ledger row declares an evidence mode and no row remains
+open.
+\end{definition}
+
+\begin{definition}[Mode gap]
+\label{def:philosophy-mode-gap}
+A mode gap is a NameCert row whose evidence mode is missing or open.
+Mode gaps prevent an auditor from determining whether the row is
+empirical, paper-level, formal, hybrid, ledger-only, or not yet closed.
+\end{definition}
+
+\begin{theorem}[Mode gaps prevent full auditability]
+\label{thm:philosophy-mode-gaps-prevent-full-auditability}
+A NameCert with a mode gap is not fully auditable.
+\end{theorem}
+\begin{proof}
+Full auditability requires knowing the evidence source and strength for
+each certificate row. If a row has no declared mode, the auditor cannot
+determine how the row is supported or whether it is closed. Thus the
+certificate remains audit-incomplete.
+\end{proof}
+
+\begin{definition}[Hardenable row]
+\label{def:philosophy-hardenable-row}
+A NameCert row is hardenable relative to a backend $\mathcal{V}$ when
+it can be transcribed into a formal statement for that backend and the
+corresponding proof obligation is explicit. Hardenability is a
+possibility of formalization, not the existence of a proof object.
+\end{definition}
+
+\begin{definition}[Hardened row]
+\label{def:philosophy-hardened-row}
+A hardenable row is hardened relative to $\mathcal{V}$ when the backend
+accepts a proof object for its transcribed statement.
+\end{definition}
+
+\begin{definition}[Hardening frontier]
+\label{def:philosophy-hardening-frontier}
+The hardening frontier of a NameCert is the family of hardenable rows
+that have not yet been hardened. The non-hardenable residue is the
+family of rows that are not currently transcribable as formal proof
+obligations for the stated backend.
+\end{definition}
+
+\begin{theorem}[Hardened implies hardenable]
+\label{thm:philosophy-hardened-implies-hardenable}
+Every hardened row is hardenable relative to the backend that hardens it.
+\end{theorem}
+\begin{proof}
+Hardening requires both a transcription to a formal statement and an
+accepted proof object for that statement. The transcription and proof
+obligation are exactly the data required for hardenability.
+\end{proof}
+
+\begin{theorem}[Hardenability is backend-relative]
+\label{thm:philosophy-hardenability-backend-relative}
+A row hardenable in one verification backend is not automatically
+hardenable in another.
+\end{theorem}
+\begin{proof}
+Backends may have different languages, libraries, kernels, axioms, proof
+styles, and available encodings. A row transcribable in one backend need
+not have a faithful or useful transcription in another. The backend must
+therefore be named in every hardenability claim.
+\end{proof}
+
+\subsection{Classifier Strength Classes}
+\label{subsec:philosophy-classifier-strength-classes}
+
+\begin{definition}[Ledger-only classifier]
+\label{def:philosophy-ledger-only-classifier}
+A ledger-only classifier is a Name-certified classifier whose NameCert is
+mode-complete, has no hardened rows, and records all non-hardenable
+residue in the ledger.
+\end{definition}
+
+\begin{definition}[Partially hardened classifier]
+\label{def:philosophy-partially-hardened-classifier}
+A partially hardened classifier is a Name-certified classifier with at
+least one hardened row and at least one critical row that is either
+unhardened or ledger-only.
+\end{definition}
+
+\begin{definition}[Fully hardened classifier]
+\label{def:philosophy-fully-hardened-classifier}
+A fully hardened classifier is a Name-certified classifier whose
+hardenable critical rows are hardened, whose non-hardenable residue is
+ledgered, whose verification ledger is complete, and whose NameCert is
+mode-complete.
+\end{definition}
+
+\begin{definition}[Critical hardening gap]
+\label{def:philosophy-critical-hardening-gap}
+A critical hardening gap is a critical hardenable row that is neither
+hardened nor recorded in the hardening frontier or ledger. A critical
+row is one whose absence or misclassification can change source scope,
+classifier relation, stability, ledger boundary, discovery status, or
+positive-gain accounting.
+\end{definition}
+
+\begin{theorem}[Fully hardened classifiers have no critical hardening gap]
+\label{thm:philosophy-fully-hardened-no-critical-gap}
+A fully hardened classifier has no critical hardening gap.
+\end{theorem}
+\begin{proof}
+By definition, every hardenable critical row is hardened, and every
+non-hardenable residue is ledgered. A critical row that were neither
+hardened nor recorded would violate one of those clauses.
+\end{proof}
+
+\begin{theorem}[Ledger-only classifiers can be certified objects]
+\label{thm:philosophy-ledger-only-classifiers-certified}
+A ledger-only classifier can be a BEDC-certified object.
+\end{theorem}
+\begin{proof}
+Certified objecthood requires a classifier paired with a NameCert. A
+ledger-only classifier has a mode-complete NameCert and records its
+non-hardenable residue in the ledger. It lacks formal hardening, but
+formal hardening is not required for NameCert existence by
+\autoref{thm:philosophy-namecert-existence-not-full-hardening}.
+\end{proof}
+
+\begin{corollary}[No formal proof is not no certificate]
+\label{cor:philosophy-no-formal-proof-not-no-certificate}
+A classifier may lack formal verification and still be certified by
+NameCert and ledger.
+\end{corollary}
+\begin{proof}
+This is the ledger-only case of
+\autoref{thm:philosophy-ledger-only-classifiers-certified}.
+\end{proof}
+
+\begin{theorem}[Partial hardening strengthens only hardened rows]
+\label{thm:philosophy-partial-hardening-local}
+Moving from ledger-only to partially hardened status strengthens only
+the rows that are actually hardened.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-component-hardening-does-not-replace-rows},
+hardening one row does not supply or harden the other rows. The
+partially hardened classifier is stronger exactly where the proof object
+has been accepted.
+\end{proof}
+
+\begin{theorem}[Empirical stability is not ledger-only legitimacy]
+\label{thm:philosophy-empirical-stability-not-ledger-only-legitimacy}
+Empirical stability of a classifier candidate does not by itself make it
+a ledger-only classifier.
+\end{theorem}
+\begin{proof}
+Empirical stability may support a pattern or stability row. A ledger-only
+classifier also requires a full NameCert, declared evidence modes,
+ledgered non-hardenable residue, and no open mode gap. Empirical
+stability supplies only part of that surface.
+\end{proof}
+
+\subsection{Priority}
+\label{subsec:philosophy-hardening-priority}
+
+\begin{definition}[Net hardening gain]
+\label{def:philosophy-net-hardening-gain}
+The net hardening gain of a row is the audit, reliability, reuse, or
+transport value obtained by hardening it minus the modeling, proof,
+dependency, maintenance, and verification cost of doing so.
+\end{definition}
+
+\begin{theorem}[Not every hardenable row should be hardened immediately]
+\label{thm:philosophy-not-every-hardenable-row-immediate}
+Some hardenable rows have nonpositive net hardening gain.
+\end{theorem}
+\begin{proof}
+A row may be transcribable while its proof is costly, fragile, highly
+backend-specific, or low in reuse value. In such a case the hardening
+cost can exceed the audit gain. Hardenability is therefore a necessary
+condition for hardening, not a priority rule.
+\end{proof}
+
+\begin{theorem}[Ledger completion can outrank formal hardening]
+\label{thm:philosophy-ledger-completion-can-outrank-hardening}
+Completing the ledger can have higher priority than hardening a row.
+\end{theorem}
+\begin{proof}
+If the ledger has a critical boundary gap, the explanation may
+overclaim its scope. Hardening a local row that does not address that
+gap leaves the central audit risk unresolved. In that situation ledger
+completion has higher certificate value.
+\end{proof}
+
+\subsection{Machine-Learning Reading}
+\label{subsec:philosophy-ledger-only-machine-learning}
+
+\begin{definition}[Neural hardening profile]
+\label{def:philosophy-neural-hardening-profile}
+A neural hardening profile records, for a Tensor NameCert, the evidence
+mode of each row, the hardening frontier, the non-hardenable residue, the
+ledger status, the hardened rows, and the not-claimed boundary.
+\end{definition}
+
+\begin{theorem}[Neural explanations can be legitimate without full formalization]
+\label{thm:philosophy-neural-explanations-legitimate-without-full-formalization}
+A neural explanation with a complete Tensor NameCert and ledgered
+non-hardenable residue can be legitimate even when it is not fully
+hardened.
+\end{theorem}
+\begin{proof}
+Legitimacy at the certification layer requires source, pattern,
+classifier, stability, and ledger rows with declared evidence modes.
+Fully formal hardening is a stronger status, but it is not the gate of
+NameCert existence.
+\end{proof}
+
+\begin{theorem}[Concept labels are ledger-only before semantic hardening]
+\label{thm:philosophy-concept-labels-ledger-only-before-hardening}
+Natural-language concept assignments to neural features should be read as
+ledger-only components unless a formal semantics and proof are supplied.
+\end{theorem}
+\begin{proof}
+Natural-language concepts often have open boundaries, context dependence,
+and distributional sensitivity. They may be useful semantic assignments,
+but without formal semantics and proof they are not hardened rows. They
+can still be certified as ledgered semantic assignments with examples,
+counterexamples, scope, and not-claimed boundaries.
+\end{proof}
+
+\begin{theorem}[Ledger-only discovery candidates can be genuine candidates]
+\label{thm:philosophy-ledger-only-discovery-candidates-genuine}
+A classifier transition with classifier shift, NameCert, and ledger may
+be a genuine discovery candidate even before formal hardening.
+\end{theorem}
+\begin{proof}
+Classifier-shift discovery requires a changed certified classifier
+surface and ledgered certificate support. Formal hardening increases
+strength, but it is not listed as an existence condition for classifier
+shift in \autoref{thm:philosophy-discovery-requires-classifier-shift}.
+\end{proof}
+
+\begin{theorem}[Hardening taxonomy theorem]
+\label{thm:philosophy-hardening-taxonomy-theorem}
+The certification layer distinguishes hardenable rows, hardened rows, and
+ledger-only rows; certified classifier status depends on NameCert and
+ledger completeness, while formal hardening determines a stronger audit
+grade within that certified status.
+\end{theorem}
+\begin{proof}
+The distinction follows from the definitions of hardenable row, hardened
+row, ledger-only classifier, partially hardened classifier, and fully
+hardened classifier. \autoref{thm:philosophy-ledger-only-classifiers-certified}
+shows that ledger-only certification can be object-forming, while
+\autoref{thm:philosophy-partial-hardening-local} and
+\autoref{thm:philosophy-fully-hardened-no-critical-gap} state the
+stronger hardening grades.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-hardenable-ledger-only-classifier-namecert}{Hardenable and ledger-only classifier packets realize evidence modes, hardening frontier, non-hardenable residue, ledger-only legitimacy, partial hardening, hardening priority, and neural hardening profiles as finite NameCert rows.}
