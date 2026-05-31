@@ -165,6 +165,8 @@ def global_ledger_complete(claim: GlobalResolutionClaim) -> bool:
 
 
 def globally_resolved(claim: GlobalResolutionClaim) -> bool:
+    if any(cert.scope.model_id != claim.model_id for cert in claim.certificates):
+        return False
     resolved_behaviors = frozenset(
         cert.scope.behavior_id for cert in claim.certificates if scoped_resolved(cert)
     )

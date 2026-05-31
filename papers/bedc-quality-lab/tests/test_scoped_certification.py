@@ -52,13 +52,14 @@ def scope(
 def scoped_cert(
     behavior_id="B1",
     domain_ids=frozenset({"D0"}),
+    model_id="M",
     certificate=CERTIFIED,
     recorded_rows=None,
     not_claimed_boundary=frozenset({"outside-scope"}),
     classifier_id="C1",
     namecert_id="N1",
 ):
-    cert_scope = scope(behavior_id=behavior_id, domain_ids=domain_ids)
+    cert_scope = scope(behavior_id=behavior_id, domain_ids=domain_ids, model_id=model_id)
     required = scope_rows(cert_scope)
     recorded = required if recorded_rows is None else recorded_rows
     return ScopedCertificate(
@@ -168,6 +169,21 @@ def test_global_resolution_requires_global_ledger_exhaustive():
     missing_one = claim_for(certs, global_recorded_rows=frozenset(tuple(required)[1:]))
     assert not globally_resolved(missing_one)
     assert globally_resolved(claim)
+
+
+def test_global_resolution_requires_same_model_certificate():
+    """thm:philosophy-global-resolution-requires-same-model-state; Lean: BEDC.GroundCompiler.SelfHostingCompilerFlow.GlobalVerificationFlow."""
+    same_model = scoped_cert(model_id="M")
+    same_model_claim = full_claim((same_model,), behavior_family=frozenset({"B1"}))
+    assert globally_resolved(same_model_claim)
+
+    cross_model = scoped_cert(model_id="N")
+    cross_model_claim = full_claim((cross_model,), behavior_family=frozenset({"B1"}))
+    assert cross_model_claim.model_id == "M"
+    assert cross_model.scope.model_id == "N"
+    assert global_ledger_complete(cross_model_claim)
+    assert scoped_resolved(cross_model)
+    assert not globally_resolved(cross_model_claim)
 
 
 def test_no_uncertified_global_black_box_eliminator_exhaustive():
