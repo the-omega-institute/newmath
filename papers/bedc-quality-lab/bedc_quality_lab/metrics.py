@@ -62,6 +62,36 @@ def metric_bundle(h: np.ndarray, z: np.ndarray) -> dict[str, float]:
     }
 
 
+def classifier_certificate(
+    metrics: dict[str, float],
+    *,
+    min_r2: float = 0.85,
+    min_proxy: float = 0.70,
+) -> dict[str, object]:
+    cert_r2 = float(metrics.get("linear_identifiability_r2", 0.0))
+    cert_proxy = float(metrics.get("approx_identifiability_proxy", 0.0))
+    cert_score = min(cert_r2 / min_r2, cert_proxy / min_proxy) if min_r2 > 0.0 and min_proxy > 0.0 else 0.0
+    certified = cert_r2 >= min_r2 and cert_proxy >= min_proxy
+    cert_threshold = {
+        "linear_identifiability_r2": float(min_r2),
+        "approx_identifiability_proxy": float(min_proxy),
+    }
+    cert_reason = (
+        "linear_identifiability_r2 and approx_identifiability_proxy meet thresholds"
+        if certified
+        else "linear_identifiability_r2 or approx_identifiability_proxy below threshold"
+    )
+    return {
+        "cert_method": "inline-threshold",
+        "cert_status": "certified" if certified else "uncertified",
+        "cert_score": float(max(0.0, cert_score)),
+        "cert_r2": cert_r2,
+        "cert_proxy": cert_proxy,
+        "cert_threshold": cert_threshold,
+        "cert_reason": cert_reason,
+    }
+
+
 def quality_components(
     metrics: dict[str, float],
     debt_total: float,
@@ -70,6 +100,8 @@ def quality_components(
     r2 = float(metrics.get("linear_identifiability_r2", 0.0))
     proxy = float(metrics.get("approx_identifiability_proxy", 0.0))
     quality_benefit = max(0.0, min(1.0, 0.5 * r2 + 0.5 * proxy))
+    if classifier_spec.get("cert_status") != "certified":
+        quality_benefit = 0.0
 
     output_dim = classifier_spec.get("output_dim", 1)
     if not isinstance(output_dim, (int, float)):

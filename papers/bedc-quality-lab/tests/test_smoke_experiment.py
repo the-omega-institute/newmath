@@ -85,6 +85,34 @@ TORCH_METADATA_DEBT_ITEMS = [
 ]
 
 
+def assert_classifier_spec_base(envelope, expected):
+    for key, value in expected.items():
+        assert envelope.classifier_spec[key] == value
+
+
+def assert_classifier_certificate(envelope):
+    classifier_spec = envelope.classifier_spec
+
+    assert classifier_spec["cert_method"] == "inline-threshold"
+    assert classifier_spec["cert_status"] == "certified"
+    assert isinstance(classifier_spec["cert_score"], (int, float))
+    assert isinstance(classifier_spec["cert_r2"], (int, float))
+    assert isinstance(classifier_spec["cert_proxy"], (int, float))
+    assert isinstance(classifier_spec["cert_reason"], str)
+    assert classifier_spec["cert_threshold"] == {
+        "linear_identifiability_r2": 0.85,
+        "approx_identifiability_proxy": 0.70,
+    }
+    assert np.isclose(
+        classifier_spec["cert_r2"],
+        envelope.metrics["linear_identifiability_r2"],
+    )
+    assert np.isclose(
+        classifier_spec["cert_proxy"],
+        envelope.metrics["approx_identifiability_proxy"],
+    )
+
+
 def assert_canonical_quality_rows(envelope, *, ledger_gaps, debt_items):
     assert envelope.ledger_gaps == ledger_gaps
     assert envelope.debt_items == debt_items
@@ -114,11 +142,15 @@ def test_experiment_fallback_has_stable_quality_envelope(tmp_path):
     envelope = runner.run_experiment(use_torch=False)
 
     assert_common_experiment_envelope(envelope)
-    assert envelope.classifier_spec == {
-        "name": "standardized-nonlinear-observation",
-        "output_dim": 2,
-        "training": "deterministic-standardization",
-    }
+    assert_classifier_spec_base(
+        envelope,
+        {
+            "name": "standardized-nonlinear-observation",
+            "output_dim": 2,
+            "training": "deterministic-standardization",
+        },
+    )
+    assert_classifier_certificate(envelope)
     assert_canonical_quality_rows(
         envelope,
         ledger_gaps=FALLBACK_LEDGER_GAPS,
@@ -150,11 +182,15 @@ def test_parameterized_experiment_preserves_producer_chain():
         "name": "latent-linear-recovery",
         "target": "recover z from representation h by linear least squares",
     }
-    assert envelope.classifier_spec == {
-        "name": "standardized-nonlinear-observation",
-        "output_dim": 2,
-        "training": "deterministic-standardization",
-    }
+    assert_classifier_spec_base(
+        envelope,
+        {
+            "name": "standardized-nonlinear-observation",
+            "output_dim": 2,
+            "training": "deterministic-standardization",
+        },
+    )
+    assert_classifier_certificate(envelope)
     assert envelope.stability_spec == {
         "name": "fixed-seed-single-source",
         "seed": 23,
@@ -242,11 +278,15 @@ def test_experiment_torch_success_path_uses_tiny_encoder_metadata(monkeypatch):
     envelope = runner.run_experiment(use_torch=True)
 
     assert_common_experiment_envelope(envelope)
-    assert envelope.classifier_spec == {
-        "name": "tiny-mlp-2-128-128-2",
-        "output_dim": 2,
-        "training": "align-cov-mean",
-    }
+    assert_classifier_spec_base(
+        envelope,
+        {
+            "name": "tiny-mlp-2-128-128-2",
+            "output_dim": 2,
+            "training": "align-cov-mean",
+        },
+    )
+    assert_classifier_certificate(envelope)
     assert_canonical_quality_rows(
         envelope,
         ledger_gaps=TORCH_METADATA_LEDGER_GAPS,
@@ -264,11 +304,15 @@ def test_experiment_torch_failure_silently_uses_fallback_metadata(monkeypatch):
     envelope = runner.run_experiment(use_torch=True)
 
     assert_common_experiment_envelope(envelope)
-    assert envelope.classifier_spec == {
-        "name": "standardized-nonlinear-observation",
-        "output_dim": 2,
-        "training": "deterministic-standardization",
-    }
+    assert_classifier_spec_base(
+        envelope,
+        {
+            "name": "standardized-nonlinear-observation",
+            "output_dim": 2,
+            "training": "deterministic-standardization",
+        },
+    )
+    assert_classifier_certificate(envelope)
     assert_canonical_quality_rows(
         envelope,
         ledger_gaps=FALLBACK_LEDGER_GAPS,
@@ -293,6 +337,7 @@ def test_smoke_experiment_skips_without_torch():
         "deterministic-standardization",
     }
     assert envelope.classifier_spec["output_dim"] == 2
+    assert_classifier_certificate(envelope)
     assert_meaningful_metric_thresholds(envelope, max_covariance_deviation=0.60)
 
 
