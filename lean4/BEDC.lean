@@ -763,6 +763,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.FiniteClusterRetentionLedger
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteIntervalSubsequenceExhaustion
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteIntervalTreeInduction
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteSubsequenceObligations
+import BEDC.Derived.BolzanoWeierstrassUp.IntervalDepthWitness
 import BEDC.Derived.BolzanoWeierstrassUp.IntervalNestingRoute
 import BEDC.Derived.BolzanoWeierstrassUp.IntervalNetChoiceFreeRetention
 import BEDC.Derived.BolzanoWeierstrassUp.IntervalNetObligation
@@ -1936,6 +1937,7 @@ import BEDC.Derived.ClosedBoundedIntervalNetUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.HeineCantorRoute
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalUp.CantorIntersectionHandoff
+import BEDC.Derived.ClosedBoundedIntervalUp.CarrierClassifierScope
 import BEDC.Derived.ClosedBoundedIntervalUp.CauchyModulusWindow
 import BEDC.Derived.ClosedBoundedIntervalUp.Classifier
 import BEDC.Derived.ClosedBoundedIntervalUp.CompactUniformSource
@@ -1974,6 +1976,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceScopedCoverage
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceWindowExactness
 import BEDC.Derived.ClosedBoundedIntervalUp.ScopedSourcePackage
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceCoverBoundary
+import BEDC.Derived.ClosedBoundedIntervalUp.SourceObligationPackage
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceReadbackStability
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceScopePackage
 import BEDC.Derived.ClosedBoundedIntervalUp.TasteGate
@@ -4770,6 +4773,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10FaceLeantargetLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceClosureReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceConsumerThreshold
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceDischargeReadiness
+import BEDC.Derived.MetaCICCriticalPathUp.L10FourObjectLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationDischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
@@ -4780,6 +4784,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineFourFaceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormPublicNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormReadbackBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormRouteCoverage
+import BEDC.Derived.MetaCICCriticalPathUp.NormalizationBudgetNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationSourceVisibility
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionLedgerExhaustion
@@ -6540,6 +6545,7 @@ import BEDC.Derived.RepresentationRingUp.OperationLedgerCoverage
 import BEDC.Derived.RepresentationRingUp.RepresentationObligationInventory
 import BEDC.Derived.RepresentationRingUp.TasteGate
 import BEDC.Derived.RepresentedSpaceUp
+import BEDC.Derived.RepresentedSpaceUp.AdmissibleCauchyHandoff
 import BEDC.Derived.RepresentedSpaceUp.AdmissibleFinality
 import BEDC.Derived.RepresentedSpaceUp.AdmissibleNameCoverage
 import BEDC.Derived.RepresentedSpaceUp.CauchyNameScopePackage
@@ -6548,6 +6554,7 @@ import BEDC.Derived.RepresentedSpaceUp.EffectiveMetricRealizerHandoff
 import BEDC.Derived.RepresentedSpaceUp.RealizationExactness
 import BEDC.Derived.RepresentedSpaceUp.RealizationTransport
 import BEDC.Derived.RepresentedSpaceUp.RealizerReadbackWindow
+import BEDC.Derived.RepresentedSpaceUp.RealizerScope
 import BEDC.Derived.RepresentedSpaceUp.RootCompletionReadbackObligations
 import BEDC.Derived.RepresentedSpaceUp.RootEffectiveMetricObligations
 import BEDC.Derived.RepresentedSpaceUp.RootRealSealObligations
@@ -6586,6 +6593,7 @@ import BEDC.Derived.RiemannStieltjesUp.RouteClosure
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
 import BEDC.Derived.RiemannSumGaugeUp.TasteGate
 import BEDC.Derived.RiemannSumUp
+import BEDC.Derived.RiemannSumUp.MatureFiniteMeshExamples
 import BEDC.Derived.RiemannSumUp.TasteGate
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.RieszLemmaUp.TasteGate
