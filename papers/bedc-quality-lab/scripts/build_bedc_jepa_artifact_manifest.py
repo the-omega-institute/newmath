@@ -111,6 +111,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         },
         "readiness": "reports/bedc_jepa_readiness.json",
         "public_baselines": {
+            "jepa_comparison": "reports/bedc_jepa_public_baseline_comparison.json",
             "jepa_registry": "reports/bedc_jepa_public_baseline_registry.json",
         },
         "cannot_claim": [

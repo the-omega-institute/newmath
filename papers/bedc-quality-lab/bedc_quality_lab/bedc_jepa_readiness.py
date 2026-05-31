@@ -89,9 +89,13 @@ def _public_minigrid_gate(benchmark_packet: dict[str, Any] | None) -> dict[str, 
     )
 
 
-def _public_jepa_gate(registry: dict[str, Any] | None) -> dict[str, str]:
-    evidence = "reports/bedc_jepa_public_baseline_registry.json" if registry is not None else "no public JEPA baseline artifact recorded"
-    if registry is not None and registry.get("execution_status", {}).get("status") == "executed":
+def _public_jepa_gate(comparison: dict[str, Any] | None) -> dict[str, str]:
+    evidence = (
+        "reports/bedc_jepa_public_baseline_comparison.json"
+        if comparison is not None
+        else "no public JEPA baseline comparison artifact recorded"
+    )
+    if comparison is not None and comparison.get("status") == "executed":
         return _gate(
             "pass",
             evidence,
@@ -108,13 +112,13 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     summary = _load_optional_json("bedc_jepa_four_system_experiment.json")
     torch_objective = _load_optional_json("bedc_jepa_torch_objective.json")
     public_minigrid = _load_optional_json("bedc_jepa_public_minigrid_benchmark_packet.json")
-    public_jepa_registry = _load_optional_json("bedc_jepa_public_baseline_registry.json")
+    public_jepa_comparison = _load_optional_json("bedc_jepa_public_baseline_comparison.json")
     gates = {
         "torch_objective_seed_sweep": _torch_objective_gate(torch_objective),
         "local_visual_planning": _local_visual_gate(summary),
         "object_counterfactual_clutter": _clutter_gate(summary),
         "public_minigrid_execution": _public_minigrid_gate(public_minigrid),
-        "public_jepa_baseline": _public_jepa_gate(public_jepa_registry),
+        "public_jepa_baseline": _public_jepa_gate(public_jepa_comparison),
     }
     blocking = [name for name, gate in gates.items() if gate["status"] != "pass"]
     return {

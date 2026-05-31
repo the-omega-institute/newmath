@@ -82,7 +82,10 @@ For the public JEPA baseline side, the registry selects V-JEPA 2-AC as the
 first candidate because it is action-conditioned, with LeWorldModel / LeJEPA as
 the second candidate because it targets stable JEPA world modeling from pixels.
 The registry is contract-only at this stage; no public JEPA baseline has been
-executed in this workspace.
+executed in this workspace.  The separate comparison packet is the readiness
+artifact: it keeps baseline latent-prediction score, rollout/planning score,
+and reported benchmark name empty until an actual public baseline run supplies
+them.
 
 Reproducible local commands:
 

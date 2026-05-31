@@ -82,9 +82,54 @@ def build_public_jepa_baseline_registry() -> dict[str, Any]:
     }
 
 
+def build_public_jepa_baseline_comparison() -> dict[str, Any]:
+    registry = build_public_jepa_baseline_registry()
+    selected = next(
+        candidate for candidate in registry["candidates"] if candidate["candidate_id"] == registry["selected_candidate_id"]
+    )
+    return {
+        "schema_id": "bedc-jepa-public-baseline-comparison",
+        "status": "missing",
+        "selected_candidate_id": registry["selected_candidate_id"],
+        "selected_repository_url": selected["repository_url"],
+        "comparison_contract": {
+            "baseline_role": selected["baseline_role"],
+            "bedc_comparison_contract": selected["bedc_comparison_contract"],
+            "expected_input_contract": selected["expected_input_contract"],
+            "expected_output_contract": selected["expected_output_contract"],
+        },
+        "baseline_metrics": {
+            "latent_prediction_score": None,
+            "rollout_or_planning_score": None,
+            "reported_benchmark_name": None,
+        },
+        "bedc_metrics_source": "reports/bedc_jepa_torch_objective.json",
+        "bedc_metrics_required": [
+            "gap_auc_gain_mean",
+            "unlogged_error_reduction_mean",
+            "debt_reduction_mean",
+            "latent_r2_delta_abs_max",
+        ],
+        "blocking_reason": "selected public baseline has not been executed in this workspace",
+        "cannot_claim": [
+            "public JEPA baseline comparison",
+            "JEPA-family checkpoint parity",
+            "public benchmark score superiority",
+        ],
+    }
+
+
 def write_public_jepa_baseline_registry(path: str | Path) -> dict[str, Any]:
     registry = build_public_jepa_baseline_registry()
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(registry, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return registry
+
+
+def write_public_jepa_baseline_comparison(path: str | Path) -> dict[str, Any]:
+    comparison = build_public_jepa_baseline_comparison()
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(comparison, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return comparison
