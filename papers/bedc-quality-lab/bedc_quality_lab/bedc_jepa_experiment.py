@@ -717,6 +717,14 @@ def _render_object_slots(states: np.ndarray, *, size: int = 9) -> np.ndarray:
     return np.column_stack([_render_grid_pixels(a, size=size), _render_grid_pixels(b, size=size)])
 
 
+def _render_multi_object_slots(states: np.ndarray, *, object_count: int, size: int = 9) -> np.ndarray:
+    slots = [
+        _render_grid_pixels(states[:, 2 * index : 2 * index + 2], size=size)
+        for index in range(object_count)
+    ]
+    return np.column_stack(slots)
+
+
 def _object_actions() -> np.ndarray:
     return np.array(
         [
@@ -758,6 +766,55 @@ def _object_gap_score(states: np.ndarray, actions: np.ndarray, *, radius: float 
     return np.maximum(boundary_score, occlusion_score)
 
 
+def _multi_object_target_pair(states: np.ndarray) -> np.ndarray:
+    return states[:, :4]
+
+
+def _multi_object_step(states: np.ndarray, actions: np.ndarray) -> np.ndarray:
+    next_states = states.copy()
+    next_states[:, :2] = np.clip(next_states[:, :2] + actions, -1.0, 1.0)
+    return next_states
+
+
+def _multi_object_distractor_distance(states: np.ndarray) -> np.ndarray:
+    target_a = states[:, :2]
+    target_b = states[:, 2:4]
+    distractors = [states[:, 4:6], states[:, 6:8]]
+    distances = []
+    for distractor in distractors:
+        distances.append(np.sqrt(np.sum((distractor - target_a) ** 2, axis=1)))
+        distances.append(np.sqrt(np.sum((distractor - target_b) ** 2, axis=1)))
+    return np.min(np.column_stack(distances), axis=1)
+
+
+def _multi_object_contact_after_action(states: np.ndarray, actions: np.ndarray, *, radius: float = 0.34) -> np.ndarray:
+    return _object_contact_after_action(_multi_object_target_pair(states), actions, radius=radius)
+
+
+def _multi_object_gap_after_action(
+    states: np.ndarray,
+    actions: np.ndarray,
+    *,
+    radius: float = 0.34,
+    width: float = 0.08,
+) -> np.ndarray:
+    pair_gap = _object_gap_after_action(_multi_object_target_pair(states), actions, radius=radius, width=width)
+    distractor_ambiguous = _multi_object_distractor_distance(states) <= 0.22
+    return pair_gap | distractor_ambiguous
+
+
+def _multi_object_gap_score(
+    states: np.ndarray,
+    actions: np.ndarray,
+    *,
+    radius: float = 0.34,
+    width: float = 0.08,
+) -> np.ndarray:
+    pair_score = _object_gap_score(_multi_object_target_pair(states), actions, radius=radius, width=width)
+    distractor_score = _sigmoid(25.0 * (0.22 - _multi_object_distractor_distance(states)))
+    return np.maximum(pair_score, distractor_score)
+
+
 def _make_object_intervention_data(n: int, *, seed: int) -> dict[str, np.ndarray]:
     rng = np.random.default_rng(seed)
     object_b = rng.uniform(-0.65, 0.65, size=(n, 2))
@@ -776,6 +833,41 @@ def _make_object_intervention_data(n: int, *, seed: int) -> dict[str, np.ndarray
         "next_states": _object_step(states, actions),
         "contact": _object_contact_after_action(states, actions),
         "gap": _object_gap_after_action(states, actions),
+    }
+
+
+def _make_multi_object_distractor_data(n: int, *, seed: int) -> dict[str, np.ndarray]:
+    rng = np.random.default_rng(seed)
+    object_b = rng.uniform(-0.60, 0.60, size=(n, 2))
+    angles = rng.uniform(0.0, 2.0 * np.pi, size=n)
+    radii = rng.uniform(0.20, 0.58, size=n)
+    object_a = np.clip(
+        object_b + np.column_stack([np.cos(angles), np.sin(angles)]) * radii[:, None],
+        -0.9,
+        0.9,
+    )
+    distractor_angles = rng.uniform(0.0, 2.0 * np.pi, size=(n, 2))
+    distractor_radii = rng.uniform(0.18, 0.80, size=(n, 2))
+    near_anchor = np.where(rng.random(size=(n, 1)) < 0.55, object_a, object_b)
+    object_c = np.clip(
+        near_anchor
+        + np.column_stack([np.cos(distractor_angles[:, 0]), np.sin(distractor_angles[:, 0])])
+        * distractor_radii[:, :1],
+        -0.95,
+        0.95,
+    )
+    object_d = rng.uniform(-0.95, 0.95, size=(n, 2))
+    states = np.column_stack([object_a, object_b, object_c, object_d])
+    actions_table = _object_actions()
+    action_ids = rng.integers(0, actions_table.shape[0], size=n)
+    actions = actions_table[action_ids]
+    return {
+        "states": states,
+        "pixels": _render_multi_object_slots(states, object_count=4),
+        "actions": actions,
+        "next_states": _multi_object_step(states, actions),
+        "contact": _multi_object_contact_after_action(states, actions),
+        "gap": _multi_object_gap_after_action(states, actions),
     }
 
 
@@ -807,6 +899,13 @@ def _object_counterfactual_scores(head: LinearHead, states: np.ndarray, actions:
         ]
     )
     return head.score(features)
+
+
+def _distractor_shifted_states(states: np.ndarray) -> np.ndarray:
+    shifted = states.copy()
+    shifted[:, 4:6] = np.clip(shifted[:, 4:6] + np.array([0.45, -0.35]), -0.95, 0.95)
+    shifted[:, 6:8] = np.clip(shifted[:, 6:8] + np.array([-0.35, 0.45]), -0.95, 0.95)
+    return shifted
 
 
 def _fit_pixel_action_probe(pixels: np.ndarray, actions: np.ndarray, labels: np.ndarray) -> LinearHead:
@@ -942,6 +1041,108 @@ def _run_object_intervention_sweep() -> dict[str, float]:
     }
 
 
+def _run_multi_object_distractor_benchmark(*, train_seed: int = 707, test_seed: int = 808) -> dict[str, object]:
+    train = _make_multi_object_distractor_data(2800, seed=train_seed)
+    test = _make_multi_object_distractor_data(1200, seed=test_seed)
+    latent_readout = _fit_latent_readout(train["pixels"], train["states"])
+    train_latent = latent_readout.transform(train["pixels"])
+    test_latent = latent_readout.transform(test["pixels"])
+
+    posthoc_probe = _fit_pixel_action_probe(train["pixels"], train["actions"], train["contact"])
+    s2_scores = _pixel_action_scores(posthoc_probe, test["pixels"], test["actions"])
+    counterfactual_head = _fit_object_counterfactual_model(
+        _multi_object_target_pair(train_latent),
+        train["actions"],
+        train["contact"],
+    )
+    s3_scores = _object_counterfactual_scores(
+        counterfactual_head,
+        _multi_object_target_pair(test_latent),
+        test["actions"],
+    )
+
+    s2_gap = _margin_gap_score(s2_scores)
+    s3_gap = np.maximum(
+        _multi_object_gap_score(test_latent, test["actions"]),
+        _margin_gap_score(s3_scores),
+    )
+    object_batch = BoundaryGatedBatch(
+        z=test["states"],
+        z_pair=test["next_states"],
+        x=test["pixels"],
+        x_pair=_render_multi_object_slots(test["next_states"], object_count=4),
+        distinction=test["contact"],
+        distinction_pair=_multi_object_contact_after_action(test["next_states"], test["actions"]),
+        gap=test["gap"],
+        gap_pair=_multi_object_gap_after_action(test["next_states"], test["actions"]),
+        radius=0.34,
+        gap_width=0.08,
+    )
+    systems = {
+        "S2": _evaluate_system(
+            SystemPrediction("S2", "posthoc-multi-object-report", test["pixels"], s2_scores, s2_gap),
+            object_batch,
+            test["contact"],
+            test["gap"],
+        ),
+        "S3": _evaluate_system(
+            SystemPrediction("S3", "trained-multi-object-bedc-jepa", test_latent, s3_scores, s3_gap),
+            object_batch,
+            test["contact"],
+            test["gap"],
+        ),
+    }
+
+    slot_size = test["pixels"].shape[1] // 4
+    target_masked_pixels = test["pixels"].copy()
+    target_masked_pixels[:, slot_size : 2 * slot_size] = 0.0
+    target_masked_latent = latent_readout.transform(target_masked_pixels)
+    target_masked_scores = _object_counterfactual_scores(
+        counterfactual_head,
+        _multi_object_target_pair(target_masked_latent),
+        test["actions"],
+    )
+    distractor_masked_pixels = test["pixels"].copy()
+    distractor_masked_pixels[:, 2 * slot_size :] = 0.0
+    distractor_masked_latent = latent_readout.transform(distractor_masked_pixels)
+    distractor_masked_scores = _object_counterfactual_scores(
+        counterfactual_head,
+        _multi_object_target_pair(distractor_masked_latent),
+        test["actions"],
+    )
+    unmasked_accuracy = binary_accuracy(s3_scores, test["contact"])
+    shifted_states = _distractor_shifted_states(test["states"])
+    shifted_scores = _object_counterfactual_scores(
+        counterfactual_head,
+        _multi_object_target_pair(shifted_states),
+        test["actions"],
+    )
+    return {
+        "source": {
+            "name": "four-object-distractor-contact-world",
+            "observation": "four-object-pixel-slots",
+            "query": "target-pair-counterfactual-contact-after-action",
+            "target_pair": "object-a-object-b",
+            "distractor_count": 2,
+            "train_seed": float(train_seed),
+            "test_seed": float(test_seed),
+            "train_count": float(train["states"].shape[0]),
+            "test_count": float(test["states"].shape[0]),
+        },
+        "transition": {
+            "counterfactual_accuracy": binary_accuracy(s3_scores, test["contact"]),
+            "distractor_invariance": 1.0 - float(np.mean(np.abs(s3_scores - shifted_scores))),
+        },
+        "systems": systems,
+        "object_masking": {
+            "target_mask_accuracy_drop": float(unmasked_accuracy - binary_accuracy(target_masked_scores, test["contact"])),
+            "distractor_mask_accuracy_drop": float(
+                unmasked_accuracy - binary_accuracy(distractor_masked_scores, test["contact"])
+            ),
+        },
+    }
+
+
 def run_bedc_jepa_experiment() -> dict[str, object]:
     train = make_boundary_gated_batch(1536, rho=0.84, radius=1.0, gap_width=0.14, seed=101)
     test = make_boundary_gated_batch(768, rho=0.84, radius=1.0, gap_width=0.14, seed=202)
@@ -996,4 +1197,5 @@ def run_bedc_jepa_experiment() -> dict[str, object]:
         "grid_transition": _run_grid_transition_benchmark(),
         "object_intervention": _run_object_intervention_benchmark(),
         "object_intervention_sweep": _run_object_intervention_sweep(),
+        "multi_object_distractor": _run_multi_object_distractor_benchmark(),
     }

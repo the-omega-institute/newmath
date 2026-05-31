@@ -120,3 +120,24 @@ def test_bedc_jepa_experiment_runs_object_intervention_seed_sweep():
     assert sweep["s3_better_debt_rate"] >= 0.75
     assert sweep["counterfactual_accuracy_mean"] > 0.90
     assert sweep["intervention_sensitivity_mean"] > 0.20
+
+
+def test_bedc_jepa_experiment_runs_multi_object_distractor_benchmark():
+    summary = run_experiment()
+    benchmark = summary["multi_object_distractor"]
+
+    assert benchmark["source"]["observation"] == "four-object-pixel-slots"
+    assert benchmark["source"]["target_pair"] == "object-a-object-b"
+    assert benchmark["source"]["distractor_count"] == 2
+    assert benchmark["transition"]["counterfactual_accuracy"] > 0.88
+    assert benchmark["transition"]["distractor_invariance"] > 0.75
+
+    systems = benchmark["systems"]
+    assert systems["S3"]["distinction_accuracy_outside_gap"] > systems["S2"]["distinction_accuracy_outside_gap"]
+    assert systems["S3"]["gap_detection_auc"] > systems["S2"]["gap_detection_auc"]
+    assert systems["S3"]["unlogged_error_rate"] < systems["S2"]["unlogged_error_rate"]
+    assert systems["S3"]["bedc_debt_score"] < systems["S2"]["bedc_debt_score"]
+
+    masking = benchmark["object_masking"]
+    assert masking["target_mask_accuracy_drop"] > 0.10
+    assert masking["distractor_mask_accuracy_drop"] < masking["target_mask_accuracy_drop"]

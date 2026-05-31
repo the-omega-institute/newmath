@@ -97,3 +97,19 @@ object-slot masking drop is $0.383875 \pm 0.018455$.  The mean gains over the
 post-hoc report are $0.267294 \pm 0.016073$ for outside-gap accuracy,
 $0.429153 \pm 0.011258$ for gap AUROC, $0.279500 \pm 0.018394$ for unlogged
 error reduction, and $0.262087 \pm 0.013921$ for debt reduction.
+
+\paragraph{Multi-object distractor readback.}
+A fourth benchmark uses four object slots.  The operational query remains a
+counterfactual contact claim about the target pair $(A,B)$ after an
+intervention on $A$, while two additional object slots act as distractors.
+The gap ledger marks target-pair boundary cases, target-pair occlusion, and
+distractor intrusion into the target-pair ambiguity zone.  The trained
+multi-object BEDC-JEPA system reaches counterfactual accuracy $0.929167$ and
+distractor invariance $0.992408$.  Against the post-hoc multi-object report,
+it improves outside-gap distinction accuracy from $0.686111$ to $0.987500$,
+improves gap AUROC from $0.511644$ to $0.985894$, lowers unlogged error from
+$0.278333$ to $0.000000$, and lowers debt from $0.289213$ to $0.024655$.
+Masking the target object slot drops accuracy by $0.365000$, while masking
+the distractor slots drops accuracy by only $0.002500$.  This records that the
+readback is tied to the declared target distinction rather than to generic
+slot presence.
