@@ -56,9 +56,12 @@ jobs:
     outputs:
       tex: ${{ steps.detect.outputs.tex }}
       lean4: ${{ steps.detect.outputs.lean4 }}
+      dossier: ${{ steps.detect.outputs.dossier }}
     steps:
       - name: Check out repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
 
       - name: Detect changed files
         id: detect
@@ -68,6 +71,17 @@ jobs:
           # exercise the PDF and Lean jobs they affect.
           echo "tex=true" >> "$GITHUB_OUTPUT"
           echo "lean4=true" >> "$GITHUB_OUTPUT"
+          dossier=false
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            while IFS= read -r path; do
+              case "$path" in
+                docs/dossier/*)
+                  dossier=true
+                  ;;
+              esac
+            done < <(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}")
+          fi
+          echo "dossier=$dossier" >> "$GITHUB_OUTPUT"
 
       - name: Write summary
         run: |
@@ -76,6 +90,7 @@ jobs:
             echo
             echo "- run PDF validation: \`${{ steps.detect.outputs.tex }}\`"
             echo "- run Lean4 validation: \`${{ steps.detect.outputs.lean4 }}\`"
+            echo "- run dossier render: \`${{ steps.detect.outputs.dossier }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Check workflow checkout safety
@@ -116,7 +131,7 @@ jobs:
   render_dossier_check:
     name: Render dossier check
     needs: [detect_changes, build_pdf]
-    if: ${{ github.event_name == 'pull_request' && needs.detect_changes.outputs.tex == 'true' }}
+    if: ${{ github.event_name == 'pull_request' && needs.detect_changes.outputs.dossier == 'true' }}
     uses: ./.github/workflows/reusable-dossier-render.yml
     permissions:
       contents: read
