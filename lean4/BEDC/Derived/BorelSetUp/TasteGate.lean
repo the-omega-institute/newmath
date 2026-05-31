@@ -1,11 +1,21 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BorelSetUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -144,5 +154,176 @@ theorem BorelSetTasteGate_single_carrier_alignment :
     ⟨BorelSetTasteGate_single_carrier_alignment_decode_encode,
       ⟨⟨BorelSetTasteGate_single_carrier_alignment_BHistCarrier⟩,
         ⟨⟨BorelSetTasteGate_single_carrier_alignment_ChapterTasteGate⟩, rfl⟩⟩⟩
+
+def BorelSetCarrier [AskSetup] [PackageSetup]
+    (X O M G R H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory X ∧ UnaryHistory O ∧ UnaryHistory M ∧ UnaryHistory G ∧
+    UnaryHistory R ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+      UnaryHistory N ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem BorelSetCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {X O M G R H C P N sourceRead generatorRead membershipRead readbackRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BorelSetCarrier X O M G R H C P N bundle pkg ->
+      Cont X O sourceRead ->
+        Cont O G generatorRead ->
+          Cont M R membershipRead ->
+            Cont generatorRead membershipRead readbackRead ->
+              PkgSig bundle readbackRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist =>
+                      (hsame row sourceRead ∨ hsame row generatorRead ∨
+                        hsame row membershipRead ∨ hsame row readbackRead ∨
+                          hsame row X ∨ hsame row O ∨ hsame row M ∨
+                            hsame row G ∨ hsame row R) ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row X ∨ hsame row O ∨ hsame row M ∨ hsame row G ∨
+                        hsame row R ∨ hsame row sourceRead ∨
+                          hsame row generatorRead ∨ hsame row membershipRead ∨
+                            hsame row readbackRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ PkgSig bundle readbackRead pkg ∧
+                        PkgSig bundle P pkg)
+                    hsame ∧
+                  UnaryHistory sourceRead ∧ UnaryHistory generatorRead ∧
+                    UnaryHistory membershipRead ∧ UnaryHistory readbackRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier sourceRoute generatorRoute membershipRoute readbackRoute readbackPkg
+  obtain ⟨xUnary, oUnary, mUnary, gUnary, rUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, provenancePkg, _namePkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed xUnary oUnary sourceRoute
+  have generatorUnary : UnaryHistory generatorRead :=
+    unary_cont_closed oUnary gUnary generatorRoute
+  have membershipUnary : UnaryHistory membershipRead :=
+    unary_cont_closed mUnary rUnary membershipRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed generatorUnary membershipUnary readbackRoute
+  have sourceWitness :
+      (fun row : BHist =>
+        (hsame row sourceRead ∨ hsame row generatorRead ∨
+          hsame row membershipRead ∨ hsame row readbackRead ∨ hsame row X ∨
+            hsame row O ∨ hsame row M ∨ hsame row G ∨ hsame row R) ∧
+          UnaryHistory row) readbackRead := by
+    exact
+      ⟨Or.inr (Or.inr (Or.inr (Or.inl (hsame_refl readbackRead)))),
+        readbackUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row sourceRead ∨ hsame row generatorRead ∨
+              hsame row membershipRead ∨ hsame row readbackRead ∨ hsame row X ∨
+                hsame row O ∨ hsame row M ∨ hsame row G ∨ hsame row R) ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row O ∨ hsame row M ∨ hsame row G ∨
+              hsame row R ∨ hsame row sourceRead ∨ hsame row generatorRead ∨
+                hsame row membershipRead ∨ hsame row readbackRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle readbackRead pkg ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro readbackRead sourceWitness
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        constructor
+        · cases source.left with
+          | inl sameSource =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameSource)
+          | inr rest =>
+              cases rest with
+              | inl sameGenerator =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameGenerator))
+              | inr rest =>
+                  cases rest with
+                  | inl sameMembership =>
+                      exact Or.inr (Or.inr
+                        (Or.inl (hsame_trans (hsame_symm sameRows) sameMembership)))
+                  | inr rest =>
+                      cases rest with
+                      | inl sameReadback =>
+                          exact Or.inr (Or.inr (Or.inr
+                            (Or.inl (hsame_trans (hsame_symm sameRows) sameReadback))))
+                      | inr rest =>
+                          cases rest with
+                          | inl sameX =>
+                              exact Or.inr (Or.inr (Or.inr (Or.inr
+                                (Or.inl (hsame_trans (hsame_symm sameRows) sameX)))))
+                          | inr rest =>
+                              cases rest with
+                              | inl sameO =>
+                                  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+                                    (Or.inl
+                                      (hsame_trans (hsame_symm sameRows) sameO))))))
+                              | inr rest =>
+                                  cases rest with
+                                  | inl sameM =>
+                                      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+                                        (Or.inr (Or.inl
+                                          (hsame_trans (hsame_symm sameRows) sameM)))))))
+                                  | inr rest =>
+                                      cases rest with
+                                      | inl sameG =>
+                                          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+                                            (Or.inr (Or.inr (Or.inl
+                                              (hsame_trans (hsame_symm sameRows)
+                                                sameG))))))))
+                                      | inr sameR =>
+                                          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+                                            (Or.inr (Or.inr (Or.inr
+                                              (hsame_trans (hsame_symm sameRows)
+                                                sameR))))))))
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameSource =>
+          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameSource)))))
+      | inr rest =>
+          cases rest with
+          | inl sameGenerator =>
+              exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+                (Or.inl sameGenerator))))))
+          | inr rest =>
+              cases rest with
+              | inl sameMembership =>
+                  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+                    (Or.inr (Or.inl sameMembership)))))))
+              | inr rest =>
+                  cases rest with
+                  | inl sameReadback =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+                        (Or.inr (Or.inr sameReadback)))))))
+                  | inr rest =>
+                      cases rest with
+                      | inl sameX => exact Or.inl sameX
+                      | inr rest =>
+                          cases rest with
+                          | inl sameO => exact Or.inr (Or.inl sameO)
+                          | inr rest =>
+                              cases rest with
+                              | inl sameM => exact Or.inr (Or.inr (Or.inl sameM))
+                              | inr rest =>
+                                  cases rest with
+                                  | inl sameG =>
+                                      exact Or.inr (Or.inr (Or.inr (Or.inl sameG)))
+                                  | inr sameR =>
+                                      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameR))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, readbackPkg, provenancePkg⟩
+  }
+  exact ⟨cert, sourceUnary, generatorUnary, membershipUnary, readbackUnary⟩
 
 end BEDC.Derived.BorelSetUp
