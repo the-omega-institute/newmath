@@ -14,17 +14,30 @@
 - `linear_identifiability_r2`：0.957419
 - `orthogonality_error`：0.005398
 
+## Q 投影
+
+- `quality_benefit`：0.927126
+- `quality_cost`：0.060000
+- `quality_debt`：1.000000
+- `quality_margin`：-0.132874
+- `quality_q`：-0.132874
+- `quality_threshold`：0.000000
+
 ## Ledger gaps
 
-- finite-sample-only
-- single-mixing-family
-- no-global-claim
+- residue=source-coverage; severity=high; status=open
+- residue=mixing-family-coverage; severity=high; status=open
+- residue=finite-sample-support; severity=high; status=open
+- residue=optimizer-certificate; severity=high; status=open
+- residue=global-claim-boundary; severity=high; status=open
 
 ## Debt items
 
-- distribution-debt: only Gaussian latent source is exercised
-- optimization-debt: tiny encoder training is not certified optimal
-- stability-debt: one seed is committed as the canonical artifact
+- kind=source; residue=source-coverage; severity=high; status=open; score=0.180000
+- kind=distribution; residue=mixing-family-coverage; severity=high; status=open; score=0.220000
+- kind=finite-sample; residue=finite-sample-support; severity=high; status=open; score=0.200000
+- kind=optimization; residue=optimizer-certificate; severity=high; status=open; score=0.200000
+- kind=global-claim; residue=global-claim-boundary; severity=high; status=open; score=0.200000
 
 ## Artifacts
 

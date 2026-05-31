@@ -12,7 +12,9 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from bedc_quality_lab.metrics import metric_bundle
+from bedc_quality_lab.debt import assess_debt, format_debt_items
+from bedc_quality_lab.ledger import derive_ledger_gaps, format_ledger_gaps
+from bedc_quality_lab.metrics import metric_bundle, quality_components
 from bedc_quality_lab.report import write_quality_report
 from bedc_quality_lab.schema import SCHEMA_ID, QualityEvidenceEnvelope
 from bedc_quality_lab.toy_world import make_toy_batch
@@ -68,41 +70,49 @@ def run_experiment(*, use_torch: bool = True) -> QualityEvidenceEnvelope:
         h = _fallback_encoder(batch.x)
 
     metrics = metric_bundle(h, batch.z)
+    source_spec = {
+        "name": "gaussian-ou-toy-world",
+        "latent_dim": 2,
+        "sample_count": int(batch.z.shape[0]),
+        "rho": rho,
+        "mixing": "sinusoidal-parabolic-shear",
+    }
+    pattern_spec = {
+        "name": "latent-linear-recovery",
+        "target": "recover z from representation h by linear least squares",
+    }
+    classifier_spec = {
+        "name": encoder_name,
+        "output_dim": 2,
+        "training": "align-cov-mean" if encoder_name.startswith("tiny") else "deterministic-standardization",
+    }
+    stability_spec = {
+        "name": "fixed-seed-single-source",
+        "seed": seed,
+        "pair_process": "ornstein-uhlenbeck",
+    }
+    debt_assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec)
+    ledger_gaps = derive_ledger_gaps(
+        metrics,
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        debt_assessment,
+    )
+    metrics = {
+        **metrics,
+        **quality_components(metrics, debt_assessment.debt_total, classifier_spec),
+    }
     envelope = QualityEvidenceEnvelope(
         schema_id=SCHEMA_ID,
         run_id="gaussian-ou-lejepa-seed-23",
-        source_spec={
-            "name": "gaussian-ou-toy-world",
-            "latent_dim": 2,
-            "sample_count": int(batch.z.shape[0]),
-            "rho": rho,
-            "mixing": "sinusoidal-parabolic-shear",
-        },
-        pattern_spec={
-            "name": "latent-linear-recovery",
-            "target": "recover z from representation h by linear least squares",
-        },
-        classifier_spec={
-            "name": encoder_name,
-            "output_dim": 2,
-            "training": "align-cov-mean" if encoder_name.startswith("tiny") else "deterministic-standardization",
-        },
-        stability_spec={
-            "name": "fixed-seed-single-source",
-            "seed": seed,
-            "pair_process": "ornstein-uhlenbeck",
-        },
+        source_spec=source_spec,
+        pattern_spec=pattern_spec,
+        classifier_spec=classifier_spec,
+        stability_spec=stability_spec,
         metrics=metrics,
-        ledger_gaps=[
-            "finite-sample-only",
-            "single-mixing-family",
-            "no-global-claim",
-        ],
-        debt_items=[
-            "distribution-debt: only Gaussian latent source is exercised",
-            "optimization-debt: tiny encoder training is not certified optimal",
-            "stability-debt: one seed is committed as the canonical artifact",
-        ],
+        ledger_gaps=format_ledger_gaps(ledger_gaps),
+        debt_items=format_debt_items(debt_assessment),
         artifacts={
             "envelope": "reports/example_envelope.json",
             "report": "reports/quality_report.md",
