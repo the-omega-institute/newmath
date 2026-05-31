@@ -61,7 +61,7 @@ def read_host_env(path: str | Path) -> dict[str, str]:
 
 def host_env_candidates(repo_root: str | Path) -> list[Path]:
     root = Path(repo_root).resolve()
-    candidates = [root / ".refactor-loop" / "host.env"]
+    candidates = [root / ".bedc" / "host.env"]
     git_file = root / ".git"
     if git_file.is_file():
         try:
@@ -74,7 +74,7 @@ def host_env_candidates(repo_root: str | Path) -> list[Path]:
             if not git_dir.is_absolute():
                 git_dir = (root / git_dir).resolve()
             common = git_dir.parent.parent.parent
-            candidates.append(common / ".refactor-loop" / "host.env")
+            candidates.append(common / ".bedc" / "host.env")
     out: list[Path] = []
     seen: set[Path] = set()
     for candidate in candidates:
@@ -97,7 +97,7 @@ class HostContext:
         if value is None:
             raise MissingHostValueError(
                 f"Missing required host key {key}; set it in the process environment "
-                "or .refactor-loop/host.env"
+                "or .bedc/host.env"
             )
         return value
 

@@ -99,7 +99,7 @@ class HostContextTests(unittest.TestCase):
             common = Path(td) / "repo"
             worktree = common / ".worktrees" / "unit"
             git_dir = common / ".git" / "worktrees" / "unit"
-            host_env = common / ".refactor-loop" / "host.env"
+            host_env = common / ".bedc" / "host.env"
             worktree.mkdir(parents=True)
             git_dir.mkdir(parents=True)
             host_env.parent.mkdir(parents=True)
