@@ -50,4 +50,45 @@ theorem ClosedBoundedIntervalPacket_constructive_handoff [AskSetup] [PackageSetu
     ⟨netUnary, nestedUnary, coverUnary, modulusUnary, consumerUnary, netRoute,
       nestedRoute, coverRoute, modulusRoute, consumerRoute, provenancePkg, consumerPkg⟩
 
+theorem ClosedBoundedIntervalPacket_constructive_carrier [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported endpointRead containmentRead sealRead replayRead localRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback sealRow
+        transport replay provenance localName exported bundle pkg ->
+      Cont lower upper endpointRead ->
+        Cont order rational containmentRead ->
+          Cont dyadic stream sealRead ->
+            Cont transport replay replayRead ->
+              Cont replayRead localName localRead ->
+                PkgSig bundle localRead pkg ->
+                  UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory order ∧
+                    UnaryHistory rational ∧ UnaryHistory dyadic ∧ UnaryHistory stream ∧
+                      UnaryHistory readback ∧ UnaryHistory sealRow ∧
+                        UnaryHistory endpointRead ∧ UnaryHistory containmentRead ∧
+                          UnaryHistory sealRead ∧ UnaryHistory replayRead ∧
+                            UnaryHistory localRead ∧ PkgSig bundle provenance pkg ∧
+                              PkgSig bundle localRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet endpointRoute containmentRoute sealRoute replayRoute localRoute localPkg
+  obtain ⟨lowerUnary, upperUnary, orderUnary, rationalUnary, dyadicUnary, streamUnary,
+    readbackUnary, sealRowUnary, transportUnary, replayUnary, _provenanceUnary,
+    localNameUnary, _exportedUnary, _carrierEndpointRoute, _carrierContainmentRoute,
+    _carrierSealRoute, _carrierReplayRoute, _carrierNameRoute, provenancePkg,
+    _localNamePkg⟩ := packet
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed lowerUnary upperUnary endpointRoute
+  have containmentUnary : UnaryHistory containmentRead :=
+    unary_cont_closed orderUnary rationalUnary containmentRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed dyadicUnary streamUnary sealRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportUnary replayUnary replayRoute
+  have localReadUnary : UnaryHistory localRead :=
+    unary_cont_closed replayReadUnary localNameUnary localRoute
+  exact
+    ⟨lowerUnary, upperUnary, orderUnary, rationalUnary, dyadicUnary, streamUnary,
+      readbackUnary, sealRowUnary, endpointUnary, containmentUnary, sealUnary,
+      replayReadUnary, localReadUnary, provenancePkg, localPkg⟩
+
 end BEDC.Derived.ClosedboundedintervalUp
