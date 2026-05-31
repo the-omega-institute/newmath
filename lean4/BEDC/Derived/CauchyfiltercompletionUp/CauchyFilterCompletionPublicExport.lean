@@ -68,4 +68,37 @@ theorem CauchyFilterCompletionFilterbaseWindowExhaustion [AskSetup] [PackageSetu
     ⟨filterbaseUnary, windowUnary, exhaustedUnary, filterbaseRoute, windowRoute, exhaustionRoute,
       toleranceReadback, provenancePkg, exhaustedPkg⟩
 
+theorem CauchyFilterCompletionPublicBasisCompletionRoute [AskSetup] [PackageSetup]
+    {filter windows tolerance readback sealRow transport replay provenance name basisRead sealRead
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterCompletionPacket filter windows tolerance readback sealRow transport replay
+        provenance name bundle pkg →
+      Cont filter windows basisRead →
+        Cont basisRead tolerance readback →
+          Cont readback sealRow sealRead →
+            Cont sealRead provenance publicRead →
+              PkgSig bundle publicRead pkg →
+                UnaryHistory basisRead ∧ UnaryHistory sealRead ∧ UnaryHistory publicRead ∧
+                  Cont filter windows tolerance ∧ Cont tolerance readback sealRow ∧
+                    Cont transport replay provenance ∧ Cont filter windows basisRead ∧
+                      Cont basisRead tolerance readback ∧ Cont readback sealRow sealRead ∧
+                        Cont sealRead provenance publicRead ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle UnaryHistory PkgSig
+  intro packet basisRoute basisReadbackRoute sealRoute publicRoute publicPkg
+  obtain ⟨filterUnary, windowsUnary, _toleranceUnary, readbackUnary, sealUnary,
+    transportUnary, replayUnary, provenanceUnary, _nameUnary, filterWindows,
+    toleranceReadback, transportReplay, provenancePkg, _namePkg⟩ := packet
+  have basisUnary : UnaryHistory basisRead :=
+    unary_cont_closed filterUnary windowsUnary basisRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary sealUnary sealRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealReadUnary provenanceUnary publicRoute
+  exact
+    ⟨basisUnary, sealReadUnary, publicUnary, filterWindows, toleranceReadback,
+      transportReplay, basisRoute, basisReadbackRoute, sealRoute, publicRoute, provenancePkg,
+      publicPkg⟩
+
 end BEDC.Derived.CauchyfiltercompletionUp

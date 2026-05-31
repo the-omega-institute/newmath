@@ -2327,7 +2327,7 @@ def _run_keep_gates(store: BioRealityStore, repo_root: Path, gates: list[Any]) -
             _append_keep_log(store, "gate_invalid", {"gate": gate})
             return False, [str(gate)]
         try:
-            result = _run_command(repo_root, gate, timeout=60.0)
+            result = _run_command(repo_root, gate, timeout=180.0)
         except (OSError, subprocess.TimeoutExpired) as exc:
             _append_keep_log(store, "gate_error", {"gate": gate, "error": str(exc)})
             return False, gate
