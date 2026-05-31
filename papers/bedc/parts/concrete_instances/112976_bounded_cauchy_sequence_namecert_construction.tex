@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\BoundedCauchySequenceUp$}
+\label{ch:concrete-instances-bounded-cauchy-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a bounded Cauchy sequence is a rational-name object whose tail control and global bound are displayed before any completed real value is read. The $\BoundedCauchySequenceUp$ packet records this L10 route as finite NameCert data over the Cauchy request of \autoref{ch:concrete-instances-cauchy-namecert}, the StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real boundary of \autoref{ch:concrete-instances-real-namecert}. The packet supplies bounded Cauchy evidence without importing selected limits, quotient streams, countable choice, or ambient completeness.
+
+\begin{definition}[Bounded Cauchy sequence carrier]
+\label{def:bounded-cauchy-sequence}
+A $\BoundedCauchySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,S,R,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the Cauchy modulus row, assigning each dyadic precision request a displayed tail index and the pairwise tail comparison rows certified by $\CauchyUp$.
+\item $S$ is the $\StreamNameUp$ finite-window ledger, listing exactly the source windows inspected by the modulus and bound requests.
+\item $R$ is the $\RegSeqRatUp$ readback row, converting the displayed StreamName windows into regular rational sequence entries.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance row, carrying the dyadic scales used by the tail comparisons and the bound ledger.
+\item $L$ is the dyadic bound ledger, recording a displayed dyadic bound $q$ and certified comparisons saying that every inspected prefix entry and every modulus-controlled tail entry remains below $q$ in absolute value.
+\item $H$ records componentwise $\hsame$ transport for the modulus, stream, readback, tolerance, bound, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision or bound request through $M,S,R,T,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedCauchySequenceUp$, $\CauchyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedCauchySequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,S,R,T,L,H,C,P,N$. It has no coordinate for quotient equality of streams, a selected limit, host sequence equality, a supremum principle, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Bounded Cauchy NameCert obligations]
+\label{thm:cauchy-tail-monotone-enclosure}
+For every accepted $\BoundedCauchySequenceUp$ carrier
+$$
+B=(M,S,R,T,L,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedCauchySequenceUp}$ surface consists exactly of Cauchy modulus admission for $M$, StreamName finite-window admission for $S$, RegSeqRat readback for $R$, DyadicRatCore tolerance visibility for $T$, dyadic bound-ledger enclosure for $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, sibling provenance through $P$, and local naming through $N$.
+
+The enclosure is monotone in the displayed tail request: increasing the requested tail index may shrink the inspected tail window, but it cannot add a bound obligation outside the rows already carried by $M,S,R,T,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-cauchy-sequence}. The tuple $M,S,R,T,L,H,C,P,N$ is the whole accepted packet, so the local NameCert can read only the displayed modulus, window, readback, tolerance, bound, transport, replay, provenance, and naming rows.
+
+The Cauchy route begins with a precision request. The modulus row $M$ names the tail index, the StreamName row $S$ supplies the finite windows inspected at that index, and the RegSeqRat row $R$ reads those windows as rational entries.
+
+The dyadic rows then supply both estimates. The tolerance row $T$ fixes the scale for pairwise tail control, while the bound ledger $L$ records the global dyadic enclosure for the displayed prefix and for all entries reached through the modulus-controlled tail.
+
+If the tail index is increased, the packet replays the same route through $C$ and transports it through $H$. The bound row is not enlarged by an external supremum or selected limit; it is only reread on a smaller displayed tail surface, with provenance and local naming carried by $P,N$.
+
+Since no quotient stream, selected limit, host equality, countable choice, or completeness coordinate occurs in the carrier, no additional NameCert obligation can be exported.
+\end{proof}
+
+\begin{theorem}[Bounded Cauchy consumer route]
+\label{thm:bounded-cauchy-sequence-real-completion-route}
+Every $\RealUp$ or Completion consumer of an accepted $\BoundedCauchySequenceUp$ packet receives bounded Cauchy evidence only through the finite route
+$$
+\CauchyUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \BoundedCauchySequenceUp,\ \RealUp .
+$$
+The consumer receives a displayed Cauchy modulus, finite rational windows, dyadic tolerances, a dyadic bound ledger, transport, replay, provenance, and local naming. It receives no selected real limit, quotient stream equality, ambient completeness principle, or host supremum.
+\end{theorem}
+\begin{proof}
+Start with the consumer read. The only route to the bounded Cauchy evidence is the accepted carrier of \autoref{def:bounded-cauchy-sequence}.
+
+Read $M$ first to obtain the displayed Cauchy modulus, then $S$ and $R$ to expose the finite rational windows. The dyadic tolerance row $T$ supplies the scale used by the tail comparison, and the bound ledger $L$ supplies the displayed enclosure.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet for Real and Completion consumers. Because the carrier contains no coordinate for selected limits, quotient streams, host suprema, or ambient completeness, none of those objects can be imported by the consumer route.
+\end{proof}
+
+\closureat{BoundedCauchySequenceUp}{seedStr}
+
+\begin{closurestatus}{\BoundedCauchySequenceUp}
+  \constructivestory{A $\BoundedCauchySequenceUp$ packet is generated from a Cauchy modulus row, StreamName finite windows, RegSeqRat readback, a DyadicRatCore tolerance row, a dyadic bound ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-cauchy-sequence}, \autoref{thm:cauchy-tail-monotone-enclosure}, and \autoref{thm:bounded-cauchy-sequence-real-completion-route} seed the bounded Cauchy route from finite stream windows and dyadic tolerance to Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close selected limits, quotient stream equality, countable choice, host sequence equality, host suprema, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked Cauchy modulus admission, StreamName finite-window coverage, RegSeqRat readback, DyadicRatCore tolerance visibility, dyadic bound-ledger enclosure, transport stability, replay stability, and non-escape for BEDC.Derived.BoundedCauchySequenceUp.}
+\end{closurestatus}
