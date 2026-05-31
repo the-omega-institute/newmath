@@ -4,6 +4,7 @@ from bedc_quality_lab.classifier_shift import (
     ClassifierPassage,
     ClassifierState,
     classifier_shift,
+    recorded_residue,
     shift_information,
     structural_discovery,
 )
@@ -170,3 +171,27 @@ def test_classifier_shift_information_principle_exhaustive():
     )
     for target in inert_changes:
         assert shift_information(passage(target, recorded_rows=POLICY)) == 0
+
+
+def test_recorded_residue_filters_surface_delta_by_recorded_rows():
+    positive = passage(state(relation=SHIFTED_RELATION), recorded_rows=POLICY)
+    assert recorded_residue(positive) == frozenset({SHIFT_ROW})
+
+    unrecorded = passage(state(relation=SHIFTED_RELATION), recorded_rows=frozenset())
+    assert recorded_residue(unrecorded) == frozenset()
+
+    non_surface = passage(
+        state(relation=SHIFTED_RELATION, surface_used=frozenset()),
+        recorded_rows=POLICY,
+    )
+    assert recorded_residue(non_surface) == frozenset()
+
+    external_relation = frozenset(BASE_RELATION | {("a", "external", "far")})
+    non_common_source = passage(
+        state(
+            relation=external_relation,
+            surface_used=frozenset({("a", "external")}),
+        ),
+        recorded_rows=frozenset({LedgerRowKey("classifier", "a->external")}),
+    )
+    assert recorded_residue(non_common_source) == frozenset()
