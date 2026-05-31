@@ -111,6 +111,52 @@ Now use dyadic tolerance stability from \autoref{thm:cauchy-oscillation-dyadic-t
 Finally invoke the seal-handoff factorization theorem \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. Since $S$ is downstream of the accepted prefix $W,M,Q,T$, every modulus-root consumer reads those rows before any Real seal is available.
 \end{proof}
 
+\begin{theorem}[CauchyOscillation RegSeqRat handoff]
+\label{thm:cauchy-oscillation-regseqrat-handoff}
+For every accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+the row $W$ is exposed as a $\StreamNameUp$ finite tail-window or as the finite tail-window read consumed by $\RegSeqRatUp$ before any oscillation comparison in $T$ is read. No consumer may inspect an oscillation comparison until the route through $W$, the threshold row $M$, and the dyadic tolerance row $Q$ has displayed the regular-rational tail surface used by the comparison.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:cauchy-oscillation-carrier}. The only stream-facing input is $W$, and the only comparison rows downstream of it are $M,Q,T$ before the seal handoff $S$.
+
+Apply \autoref{thm:cauchy-oscillation-tail-window-exposure}. It makes every tail comparison expose $W$ before threshold, tolerance, ledger, or seal data are read, so $W$ cannot be bypassed by a later oscillation consumer.
+
+Use \autoref{thm:cauchy-oscillation-modulus-threshold-exactness}. The threshold row $M$ is tied to the same $W,Q,T$ packet, which is precisely the finite tail-window route consumed by the regular-rational readback surface.
+
+Finally, \autoref{thm:cauchy-oscillation-namecert-obligations} keeps the carrier, replay, provenance, and naming rows attached to that same route. Hence every oscillation comparison reads the StreamName or RegSeqRat tail-window surface before it reaches $T$.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation dyadic tail exactness]
+\label{thm:cauchy-oscillation-dyadic-tail-exactness}
+For every accepted $\CauchyOscillationUp$ carrier $O=(W,M,Q,T,S,H,C,P,N)$, each row of the oscillation ledger $T$ is exactly the $\DyadicTailBoundUp$ comparison over the same tail-window row $W$, modulus-threshold row $M$, and dyadic tolerance row $Q$. Componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$ preserve this dependence and do not create a second tolerance or tail-window source.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection of \autoref{def:cauchy-oscillation-carrier}. The row $T$ is listed only after $W,M,Q$, so its comparison data are not independent of the displayed tail-window, threshold, and tolerance rows.
+
+Invoke dyadic tolerance stability, \autoref{thm:cauchy-oscillation-dyadic-tolerance-stability}. It states that transport and replay preserve $Q$ together with $W,M,T$, preventing a transported ledger row from detaching the tolerance from the tail window.
+
+Apply \autoref{thm:cauchy-oscillation-modulus-threshold-exactness}. Since every modulus-root consumer reads $W,M,Q,T$ before the seal, the threshold and dyadic tolerance used in $T$ are the same rows projected from the accepted carrier.
+
+The NameCert obligations of \autoref{thm:cauchy-oscillation-namecert-obligations} supply the exhaustive ledger clause. Thus every entry of $T$ is the displayed $\DyadicTailBoundUp$ comparison over $W,M,Q$, stable under $H$ and $C$.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation Real seal nonescape]
+\label{thm:cauchy-oscillation-real-seal-nonescape}
+For every accepted $\CauchyOscillationUp$ carrier $O=(W,M,Q,T,S,H,C,P,N)$, each $\RealUp$ seal read $S$ factors through $W,M,Q,T$ and exports no quotient stream equality, selected limit, countable choice, or ambient completeness principle. The public seal is therefore a routed oscillation-bound handoff, not a detached real-completion object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-oscillation-carrier}. The row $S$ appears only as the terminal seal after the tail-window row $W$, threshold row $M$, dyadic tolerance row $Q$, and oscillation ledger $T$.
+
+Apply \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. It states that every displayed route to $S$ factors through the finite prefix $W,M,Q,T$ of the same carrier.
+
+Now combine \autoref{thm:cauchy-oscillation-regseqrat-handoff} and \autoref{thm:cauchy-oscillation-dyadic-tail-exactness}. The first theorem exposes the StreamName or RegSeqRat tail-window surface before any comparison is consumed, and the second identifies the ledger as the exact DyadicTailBound comparison over that same window, threshold, and tolerance.
+
+Finally use \autoref{thm:cauchy-oscillation-namecert-obligations}. Its nonescape clause leaves no row for quotient stream equality, selected limits, countable choice, or ambient completeness. Thus the Real seal read is only the routed handoff through $W,M,Q,T$.
+\end{proof}
+
 \begin{theorem}[CauchyOscillation seal-handoff factorization]
 \label{thm:cauchy-oscillation-seal-handoff-factorization}
 Let
