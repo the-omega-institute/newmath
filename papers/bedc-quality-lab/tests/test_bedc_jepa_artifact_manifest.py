@@ -15,6 +15,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
         == "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>"
     )
     assert (
+        manifest["commands"]["export_public_minigrid_benchmark_result"]
+        == "python scripts/export_public_minigrid_benchmark_result.py"
+    )
+    assert (
         manifest["commands"]["public_jepa_baseline_registry"]
         == "python scripts/build_public_jepa_baseline_registry.py"
     )
@@ -34,6 +38,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert (
         manifest["public_adapters"]["minigrid_benchmark_packet"]
         == "reports/bedc_jepa_public_minigrid_benchmark_packet.json"
+    )
+    assert (
+        manifest["public_adapters"]["minigrid_external_result"]
+        == "reports/bedc_jepa_public_minigrid_external_result.json"
     )
     assert (
         manifest["public_adapters"]["minigrid_transition_packet"]

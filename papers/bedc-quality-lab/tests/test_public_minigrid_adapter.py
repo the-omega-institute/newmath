@@ -1,4 +1,5 @@
 from bedc_quality_lab.public_minigrid_adapter import (
+    build_public_minigrid_external_result,
     build_public_minigrid_benchmark_packet,
     build_public_minigrid_probe,
     build_public_minigrid_transition_packet,
@@ -97,3 +98,32 @@ def test_public_minigrid_metrics_import_marks_benchmark_available():
         "bedc_debt_score": 0.11,
     }
     assert packet["cannot_claim"] == []
+
+
+def test_public_minigrid_external_result_exports_importer_schema_or_dependency_boundary():
+    result = build_public_minigrid_external_result(sample_count=4, seed=17)
+
+    assert result["environment_id"] == "MiniGrid-DoorKey-8x8-v0"
+    assert result["seed"] == 17.0
+    assert result["sample_count_requested"] == 4.0
+
+    if result["status"] == "available":
+        assert set(result) == {
+            "status",
+            "environment_id",
+            "seed",
+            "sample_count_requested",
+            "sample_count_collected",
+            "distinction_accuracy",
+            "gap_detection_auc",
+            "unlogged_error_rate",
+            "certified_coverage",
+            "bedc_debt_score",
+        }
+        packet = import_public_minigrid_benchmark_metrics(result)
+        assert packet["status"] == "available"
+        assert packet["sample_count_collected"] == 4.0
+    else:
+        assert result["status"] == "unavailable"
+        assert result["sample_count_collected"] == 0.0
+        assert result["cannot_export"] == ["public MiniGrid benchmark was not executed in this environment"]

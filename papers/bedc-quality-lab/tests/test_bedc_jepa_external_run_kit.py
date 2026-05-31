@@ -20,3 +20,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert minigrid["readiness_gate"] == "public_minigrid_execution"
     assert baseline["readiness_gate"] == "public_jepa_baseline"
     assert kit["readiness_command"] == "python scripts/build_bedc_jepa_readiness.py"
+    assert (
+        minigrid["export_command"]
+        == "python scripts/export_public_minigrid_benchmark_result.py"
+    )

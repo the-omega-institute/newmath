@@ -358,6 +358,51 @@ def import_public_minigrid_benchmark_metrics_file(source: str | Path, target: st
     return packet
 
 
+def build_public_minigrid_external_result(
+    *,
+    environment_id: str = "MiniGrid-DoorKey-8x8-v0",
+    sample_count: int = 32,
+    seed: int = 20260531,
+) -> dict[str, Any]:
+    packet = build_public_minigrid_benchmark_packet(
+        environment_id=environment_id,
+        sample_count=sample_count,
+        seed=seed,
+    )
+    if packet["status"] != "available":
+        return {
+            "status": "unavailable",
+            "environment_id": packet["environment_id"],
+            "seed": packet["seed"],
+            "sample_count_requested": packet["sample_count_requested"],
+            "sample_count_collected": packet["sample_count_collected"],
+            "dependency_status": packet["dependency_status"],
+            "cannot_export": list(packet["cannot_claim"]),
+        }
+
+    metrics = packet["metrics"]
+    return {
+        "status": "available",
+        "environment_id": packet["environment_id"],
+        "seed": packet["seed"],
+        "sample_count_requested": packet["sample_count_requested"],
+        "sample_count_collected": packet["sample_count_collected"],
+        "distinction_accuracy": metrics["distinction_accuracy"],
+        "gap_detection_auc": metrics["gap_detection_auc"],
+        "unlogged_error_rate": metrics["unlogged_error_rate"],
+        "certified_coverage": metrics["certified_coverage"],
+        "bedc_debt_score": metrics["bedc_debt_score"],
+    }
+
+
+def write_public_minigrid_external_result(path: str | Path) -> dict[str, Any]:
+    result = build_public_minigrid_external_result()
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return result
+
+
 def write_public_minigrid_benchmark_packet(path: str | Path) -> dict[str, Any]:
     packet = build_public_minigrid_benchmark_packet()
     target = Path(path)

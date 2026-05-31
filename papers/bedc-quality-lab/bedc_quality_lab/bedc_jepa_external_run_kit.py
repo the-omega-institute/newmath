@@ -15,6 +15,7 @@ def build_external_run_kit() -> dict[str, Any]:
             "public_minigrid_execution": {
                 "readiness_gate": "public_minigrid_execution",
                 "target_artifact": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
+                "export_command": "python scripts/export_public_minigrid_benchmark_result.py",
                 "import_command": "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>",
                 "required_fields": [
                     "environment_id",

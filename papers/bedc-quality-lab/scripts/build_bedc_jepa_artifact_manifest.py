@@ -71,6 +71,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "generate": "python scripts/run_bedc_jepa_experiment.py",
             "torch_objective": "python scripts/run_torch_bedc_jepa.py",
             "public_minigrid_probe": "python scripts/probe_public_minigrid.py",
+            "export_public_minigrid_benchmark_result": "python scripts/export_public_minigrid_benchmark_result.py",
             "import_public_minigrid_benchmark_metrics": "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>",
             "public_jepa_baseline_registry": "python scripts/build_public_jepa_baseline_registry.py",
             "import_public_jepa_baseline_metrics": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
@@ -109,6 +110,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         },
         "public_adapters": {
             "minigrid_benchmark_packet": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
+            "minigrid_external_result": "reports/bedc_jepa_public_minigrid_external_result.json",
             "minigrid": "reports/bedc_jepa_public_minigrid_probe.json",
             "minigrid_transition_packet": "reports/bedc_jepa_public_minigrid_transition_packet.json",
         },
