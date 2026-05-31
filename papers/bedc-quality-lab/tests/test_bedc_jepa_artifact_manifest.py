@@ -14,6 +14,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
         manifest["commands"]["public_jepa_baseline_registry"]
         == "python scripts/build_public_jepa_baseline_registry.py"
     )
+    assert (
+        manifest["commands"]["import_public_jepa_baseline_metrics"]
+        == "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>"
+    )
     assert manifest["commands"]["readiness"] == "python scripts/build_bedc_jepa_readiness.py"
     assert manifest["commands"]["test"] == "python -m pytest -q"
     assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"

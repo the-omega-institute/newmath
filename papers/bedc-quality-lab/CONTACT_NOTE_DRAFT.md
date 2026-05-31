@@ -85,7 +85,8 @@ The registry is contract-only at this stage; no public JEPA baseline has been
 executed in this workspace.  The separate comparison packet is the readiness
 artifact: it keeps baseline latent-prediction score, rollout/planning score,
 and reported benchmark name empty until an actual public baseline run supplies
-them.
+them.  The lab now has an import command for an executed public baseline result,
+but no such result is present in this workspace.
 
 Reproducible local commands:
 
@@ -95,6 +96,7 @@ python scripts/run_torch_bedc_jepa.py
 python scripts/build_bedc_jepa_artifact_manifest.py
 python scripts/probe_public_minigrid.py
 python scripts/build_public_jepa_baseline_registry.py
+python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>
 python scripts/build_bedc_jepa_readiness.py
 python -m pytest -q
 ```

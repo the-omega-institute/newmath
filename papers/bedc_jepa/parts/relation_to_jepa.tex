@@ -51,6 +51,10 @@ The separate comparison packet is the readiness-facing artifact.  It reserves
 baseline metrics for latent prediction, rollout or planning score, and reported
 benchmark name, and it keeps the public JEPA gate missing until those fields
 come from an executed public baseline.
+The lab includes an import command for that case: it accepts a baseline-result
+JSON with candidate id, commit, checkpoint, benchmark name, latent-prediction
+score, and rollout or planning score, then rewrites the comparison packet as
+executed.  No such result is present in the current workspace.
 
 \paragraph{Contact with Issue 330 and the quality lab.}
 The local quality-lab material supplies an executable evidence envelope, not a

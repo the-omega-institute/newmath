@@ -72,6 +72,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "torch_objective": "python scripts/run_torch_bedc_jepa.py",
             "public_minigrid_probe": "python scripts/probe_public_minigrid.py",
             "public_jepa_baseline_registry": "python scripts/build_public_jepa_baseline_registry.py",
+            "import_public_jepa_baseline_metrics": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
             "readiness": "python scripts/build_bedc_jepa_readiness.py",
             "test": "python -m pytest -q",
             "paper": "pdflatex -interaction=nonstopmode -halt-on-error main.tex",

@@ -119,6 +119,48 @@ def build_public_jepa_baseline_comparison() -> dict[str, Any]:
     }
 
 
+def import_public_jepa_baseline_metrics(result: dict[str, Any]) -> dict[str, Any]:
+    required = {
+        "candidate_id",
+        "commit",
+        "checkpoint",
+        "reported_benchmark_name",
+        "latent_prediction_score",
+        "rollout_or_planning_score",
+    }
+    missing = sorted(required - set(result))
+    if missing:
+        raise ValueError(f"missing public baseline result fields: {', '.join(missing)}")
+    registry = build_public_jepa_baseline_registry()
+    candidates = {candidate["candidate_id"]: candidate for candidate in registry["candidates"]}
+    candidate_id = str(result["candidate_id"])
+    if candidate_id not in candidates:
+        raise ValueError(f"unknown public baseline candidate: {candidate_id}")
+    selected = candidates[candidate_id]
+    comparison = build_public_jepa_baseline_comparison()
+    comparison["status"] = "executed"
+    comparison["selected_candidate_id"] = candidate_id
+    comparison["selected_repository_url"] = selected["repository_url"]
+    comparison["comparison_contract"] = {
+        "baseline_role": selected["baseline_role"],
+        "bedc_comparison_contract": selected["bedc_comparison_contract"],
+        "expected_input_contract": selected["expected_input_contract"],
+        "expected_output_contract": selected["expected_output_contract"],
+    }
+    comparison["baseline_metrics"] = {
+        "latent_prediction_score": float(result["latent_prediction_score"]),
+        "rollout_or_planning_score": float(result["rollout_or_planning_score"]),
+        "reported_benchmark_name": str(result["reported_benchmark_name"]),
+    }
+    comparison["execution_record"] = {
+        "commit": str(result["commit"]),
+        "checkpoint": str(result["checkpoint"]),
+    }
+    comparison["blocking_reason"] = None
+    comparison["cannot_claim"] = []
+    return comparison
+
+
 def write_public_jepa_baseline_registry(path: str | Path) -> dict[str, Any]:
     registry = build_public_jepa_baseline_registry()
     target = Path(path)
@@ -132,4 +174,13 @@ def write_public_jepa_baseline_comparison(path: str | Path) -> dict[str, Any]:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(comparison, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return comparison
+
+
+def import_public_jepa_baseline_metrics_file(source: str | Path, target: str | Path) -> dict[str, Any]:
+    result = json.loads(Path(source).read_text(encoding="utf-8"))
+    comparison = import_public_jepa_baseline_metrics(result)
+    target_path = Path(target)
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    target_path.write_text(json.dumps(comparison, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return comparison
