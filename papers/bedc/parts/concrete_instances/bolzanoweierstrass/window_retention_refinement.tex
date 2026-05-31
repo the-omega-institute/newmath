@@ -1,0 +1,18 @@
+\begin{theorem}[Bolzano--Weierstrass retained-window refinement]
+\label{thm:bolzano-weierstrass-window-retention-refinement}
+Let $B=(S,K,R,Q,E,H,C,P,N)$ be an accepted $\BolzanoWeierstrassUp$ packet carrying the root obligation package of \autoref{thm:bolzano-weierstrass-root-obligation-package}. Every retained dyadic interval cell used by the cluster route is read through
+$$
+S,K,R,Q,H,C,P,N
+$$
+before the terminal $\RealUp$ cluster seal $E$ is exposed. The refinement preserves the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ route: no retained window may be reclassified through a new stream name, a detached dyadic grid, a second rational-readback package, or a host compactness selector.
+\end{theorem}
+\begin{proof}
+Start with the root interval-tree obligation. It displays the retained dyadic cells through $S$ and $K$, so each retained window is already attached to the bounded source and interval-net rows before the extraction route is read.
+
+Next apply the root subsequence extraction obligation. The row $R$ consumes only those retained cells, and the $\StreamNameUp$ and $\DyadicRatCoreUp$ data used by the extraction remain the ones displayed by the same source and interval-net package.
+
+Now use the RegSeqRat cluster package. The readback row $Q$ is the $\RegSeqRatUp$ route for the retained windows already carried by $S,K,R$, so it cannot introduce a second rational-readback surface or a detached dyadic grid.
+
+Finally apply the root Real-seal obligation and the root obligation package. The cluster seal $E$ is downstream of $S,K,R,Q,H,C,P,N$, while $H,C,P,N$ transport, replay, record provenance, and name the same route. Hence the retained-window induction is preserved all the way to the $\RealUp$ seal without importing a new stream, grid, readback package, or host selector.
+\end{proof}
+\leanchecked{BEDC.Derived.BolzanoWeierstrassUp.BolzanoWeierstrassCarrier\_window\_retention\_refinement}
