@@ -18,7 +18,9 @@ DEFAULT_PROBES = SCRIPT_DIR / "inbox" / "probes.jsonl"
 DEFAULT_MISMATCHES = SCRIPT_DIR / "inbox" / "mismatches.jsonl"
 DEFAULT_OUTPUT = SCRIPT_DIR / "out" / "gate_results.jsonl"
 
-ID_RE = re.compile(r"^[a-z0-9][a-z0-9._:-]*$")
+ID_PATTERN = r"^[a-z0-9][a-z0-9.:-]*$"
+ID_SYNTAX = f"ids must match {ID_PATTERN}; use lowercase dotted/kebab tokens, not underscores or uppercase"
+ID_RE = re.compile(ID_PATTERN)
 
 LAYERS = {
     "code_read",
@@ -175,7 +177,7 @@ def _missing(record: dict[str, Any], required: set[str]) -> list[str]:
 
 def _id(key: str, value: Any, issues: list[str]) -> None:
     if not isinstance(value, str) or not ID_RE.match(value):
-        issues.append(f"{key} must match ^[a-z0-9][a-z0-9._:-]*$")
+        issues.append(f"{key} {ID_SYNTAX}")
 
 
 def _nonempty(key: str, value: Any, issues: list[str]) -> None:
@@ -433,7 +435,7 @@ def _index(records: list[dict[str, Any]], key: str) -> tuple[dict[str, dict[str,
     for index, record in enumerate(records, 1):
         value = str(record.get(key) or "")
         if not ID_RE.match(value):
-            issues.append(f"{key}:{index}: invalid id: {value}")
+            issues.append(f"{key}:{index}: invalid id: {value}; {ID_SYNTAX}")
             continue
         if value in by_id:
             issues.append(f"{key}:{index}: duplicate id: {value}")
@@ -675,6 +677,20 @@ def self_test() -> int:
         [],
     )
     by_id = {str(result["packet_id"]): result for result in results}
+    invalid_contact_results = gate_all(
+        [],
+        [
+            {
+                **contact,
+                "contact_id": "matched_mRNA_abundance_control",
+            }
+        ],
+        [],
+        [],
+    )
+    if not any("not underscores or uppercase" in issue for result in invalid_contact_results for issue in result["issues"]):
+        print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+        return 1
     if by_id["codon.code.read"]["gate_status"] != "gate_passed":
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
