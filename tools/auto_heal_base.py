@@ -1182,6 +1182,25 @@ def heal_ci_failure(failure: dict) -> bool:
         )
         _mark_ci_seen(run_id)
         return False
+    # Reproduce-on-BASE guard: do NOT dispatch a CI heal for a failure that
+    # no longer reproduces on the current BASE. The CI-heal misfires observed
+    # in practice are all non-reproducing: (a) STALE runs created before a fix
+    # landed, (b) "noisy-red" runs that built a since-corrected mirrored SHA
+    # (a BEDC Build builds every mirrored SHA, so latest-completed=failure does
+    # NOT mean current BASE is broken), and (c) an active external generator's
+    # (bio_reality) churn that broke its own auto-dev CI but never reached BASE.
+    # In every such case codex cannot reproduce the failure, so it edits the
+    # wrong thing -> verify_local_ci reverts -> a LOCAL_CI_FAILED_AFTER_HEAL
+    # alert, burning a codex dispatch per cycle for nothing. Verify the current
+    # BASE first; if it is already clean the GitHub run is stale -> mark seen
+    # and skip. Only a failure that genuinely reproduces locally gets a heal.
+    repro_ok, _repro_err = verify_local_ci()
+    if repro_ok:
+        print(f"[heal] CI run {run_id} failure does not reproduce on current "
+              f"BASE (stale / noisy-red / external-churn); marking seen, "
+              f"skipping heal", file=sys.stderr, flush=True)
+        _mark_ci_seen(run_id)
+        return False
     # Best-effort job guess: first line matching `<job>\t<step>\t...`.
     job_guess = "?"
     for line in log_tail.splitlines()[:5]:
