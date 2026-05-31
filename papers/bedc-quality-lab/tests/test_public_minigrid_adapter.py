@@ -2,6 +2,7 @@ from bedc_quality_lab.public_minigrid_adapter import (
     build_public_minigrid_benchmark_packet,
     build_public_minigrid_probe,
     build_public_minigrid_transition_packet,
+    import_public_minigrid_benchmark_metrics,
 )
 
 
@@ -68,3 +69,31 @@ def test_public_minigrid_benchmark_packet_has_metric_contract():
         assert packet["sample_count_collected"] == 0.0
         assert packet["metrics"]["bedc_debt_score"] is None
         assert "public MiniGrid benchmark was not executed in this environment" in packet["cannot_claim"]
+
+
+def test_public_minigrid_metrics_import_marks_benchmark_available():
+    packet = import_public_minigrid_benchmark_metrics(
+        {
+            "environment_id": "MiniGrid-DoorKey-8x8-v0",
+            "seed": 31,
+            "sample_count_requested": 32,
+            "sample_count_collected": 32,
+            "distinction_accuracy": 0.91,
+            "gap_detection_auc": 0.83,
+            "unlogged_error_rate": 0.04,
+            "certified_coverage": 0.72,
+            "bedc_debt_score": 0.11,
+        }
+    )
+
+    assert packet["status"] == "available"
+    assert packet["environment_id"] == "MiniGrid-DoorKey-8x8-v0"
+    assert packet["sample_count_collected"] == 32.0
+    assert packet["metrics"] == {
+        "distinction_accuracy": 0.91,
+        "gap_detection_auc": 0.83,
+        "unlogged_error_rate": 0.04,
+        "certified_coverage": 0.72,
+        "bedc_debt_score": 0.11,
+    }
+    assert packet["cannot_claim"] == []

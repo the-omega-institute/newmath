@@ -71,6 +71,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "generate": "python scripts/run_bedc_jepa_experiment.py",
             "torch_objective": "python scripts/run_torch_bedc_jepa.py",
             "public_minigrid_probe": "python scripts/probe_public_minigrid.py",
+            "import_public_minigrid_benchmark_metrics": "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>",
             "public_jepa_baseline_registry": "python scripts/build_public_jepa_baseline_registry.py",
             "import_public_jepa_baseline_metrics": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
             "readiness": "python scripts/build_bedc_jepa_readiness.py",

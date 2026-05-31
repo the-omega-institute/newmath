@@ -11,6 +11,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert manifest["commands"]["torch_objective"] == "python scripts/run_torch_bedc_jepa.py"
     assert manifest["commands"]["public_minigrid_probe"] == "python scripts/probe_public_minigrid.py"
     assert (
+        manifest["commands"]["import_public_minigrid_benchmark_metrics"]
+        == "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>"
+    )
+    assert (
         manifest["commands"]["public_jepa_baseline_registry"]
         == "python scripts/build_public_jepa_baseline_registry.py"
     )

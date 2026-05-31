@@ -71,7 +71,9 @@ actions, and the benchmark packet computes a DoorKey readback/gap metric
 contract with distinction accuracy, gap AUROC, unlogged error, certified
 coverage, and debt.  The current local environment does not have `gymnasium` /
 `minigrid` installed, so the public MiniGrid packets are recorded as
-unavailable rather than executed.
+unavailable rather than executed.  The lab now has an import command for an
+externally executed MiniGrid result, but no such result is present in this
+workspace.
 
 The current readiness gate is `not_contact_ready`: torch objective seed sweep,
 local visual planning, and cluttered object-counterfactual gates pass, while
@@ -95,6 +97,7 @@ python scripts/run_bedc_jepa_experiment.py
 python scripts/run_torch_bedc_jepa.py
 python scripts/build_bedc_jepa_artifact_manifest.py
 python scripts/probe_public_minigrid.py
+python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>
 python scripts/build_public_jepa_baseline_registry.py
 python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>
 python scripts/build_bedc_jepa_readiness.py

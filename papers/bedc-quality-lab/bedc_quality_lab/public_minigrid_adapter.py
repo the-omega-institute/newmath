@@ -306,6 +306,58 @@ def build_public_minigrid_benchmark_packet(
         env.close()
 
 
+def import_public_minigrid_benchmark_metrics(result: dict[str, Any]) -> dict[str, Any]:
+    required = {
+        "environment_id",
+        "seed",
+        "sample_count_requested",
+        "sample_count_collected",
+        "distinction_accuracy",
+        "gap_detection_auc",
+        "unlogged_error_rate",
+        "certified_coverage",
+        "bedc_debt_score",
+    }
+    missing = sorted(required - set(result))
+    if missing:
+        raise ValueError(f"missing public MiniGrid benchmark result fields: {', '.join(missing)}")
+    environment_id = str(result["environment_id"])
+    if environment_id != "MiniGrid-DoorKey-8x8-v0":
+        raise ValueError(f"unsupported public MiniGrid environment: {environment_id}")
+    return {
+        "status": "available",
+        "environment_id": environment_id,
+        "benchmark_contract": "door-key-public-readback-gap",
+        "seed": float(result["seed"]),
+        "sample_count_requested": float(result["sample_count_requested"]),
+        "sample_count_collected": float(result["sample_count_collected"]),
+        "observation_key": "image",
+        "observation_shape_contract": [7.0, 7.0, 3.0],
+        "action_space_contract": "Discrete",
+        "dependency_status": {
+            "gymnasium": "external-executed",
+            "minigrid": "external-executed",
+        },
+        "metrics": {
+            "distinction_accuracy": float(result["distinction_accuracy"]),
+            "gap_detection_auc": float(result["gap_detection_auc"]),
+            "unlogged_error_rate": float(result["unlogged_error_rate"]),
+            "certified_coverage": float(result["certified_coverage"]),
+            "bedc_debt_score": float(result["bedc_debt_score"]),
+        },
+        "cannot_claim": [],
+    }
+
+
+def import_public_minigrid_benchmark_metrics_file(source: str | Path, target: str | Path) -> dict[str, Any]:
+    result = json.loads(Path(source).read_text(encoding="utf-8"))
+    packet = import_public_minigrid_benchmark_metrics(result)
+    target_path = Path(target)
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    target_path.write_text(json.dumps(packet, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return packet
+
+
 def write_public_minigrid_benchmark_packet(path: str | Path) -> dict[str, Any]:
     packet = build_public_minigrid_benchmark_packet()
     target = Path(path)
