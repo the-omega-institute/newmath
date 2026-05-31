@@ -395,12 +395,29 @@ def _origin_sha(branch: str) -> str | None:
 
 
 def _remove_validation_worktree() -> None:
+    """Tear down the scratch validation worktree so the next cycle recreates it
+    cleanly.
+
+    `git worktree remove --force` itself fails with "Directory not empty" when a
+    previous validation crashed mid-run and left untracked files (or an
+    inconsistent `.git/worktrees` entry). When that happens the subsequent
+    `git worktree add` collides with the leftover directory and fails, so
+    dev->auto-dev validation never even reaches the merge/regen/build steps and
+    the sync wedges every cycle FOREVER (the failure is deterministic, not
+    transient). Belt-and-suspenders: after the soft remove, unconditionally
+    `rm -rf` any remnant, prune the stale worktree metadata, and drop the
+    scratch branch — each step is harmless when already clean."""
     if VALIDATION_WORKTREE.exists():
         res = git("worktree", "remove", "--force", str(VALIDATION_WORKTREE),
                   check=False, capture=True)
         if res.returncode != 0:
-            print(f"[sync] dev->auto-dev validation: could not remove old "
-                  f"worktree: {((res.stdout or '') + (res.stderr or '')).strip()[:200]}")
+            print(f"[sync] dev->auto-dev validation: soft worktree remove failed "
+                  f"({((res.stdout or '') + (res.stderr or '')).strip()[:160]}); "
+                  f"forcing rm -rf + prune")
+    if VALIDATION_WORKTREE.exists():
+        run(["rm", "-rf", str(VALIDATION_WORKTREE)], check=False, capture=True)
+    git("worktree", "prune", check=False, capture=True)
+    git("branch", "-D", VALIDATION_BRANCH, check=False, capture=True)
 
 
 def _run_validation_gate(cmd: list[str], *, cwd: Path, label: str,
