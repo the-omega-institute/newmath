@@ -1786,6 +1786,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.RootUniformFilterReadback
 import BEDC.Derived.CauchyfiltercompletionUp.SealFactorizationObligation
 import BEDC.Derived.CauchyfiltercompletionUp.TasteGate
 import BEDC.Derived.CauchyfiltercompletionUp.UniformCompletionUniversalProperty
+import BEDC.Derived.CauchyfiltercompletionUp.UniformFilterReadback
 import BEDC.Derived.CauchyfiltercompletionUp.UniversalRoutes
 import BEDC.Derived.CauchyfiltercompletionUp.WindowRealSealDeterminacy
 import BEDC.Derived.CausalCommitmentUp
@@ -1916,6 +1917,7 @@ import BEDC.Derived.ClosedBoundedIntervalNetUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.HeineCantorRoute
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalUp.Classifier
+import BEDC.Derived.ClosedBoundedIntervalUp.CompactUniformSource
 import BEDC.Derived.ClosedBoundedIntervalUp.CompactnessConsumerBoundary
 import BEDC.Derived.ClosedBoundedIntervalUp.ConsumerNonescapeObligations
 import BEDC.Derived.ClosedBoundedIntervalUp.ContainmentLedgerObligations
@@ -4694,6 +4696,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketTotalityRoute
 import BEDC.Derived.MetaCICCriticalPathUp.DownstreamReadinessBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ExactBoundaryGate
 import BEDC.Derived.MetaCICCriticalPathUp.ExactBoundaryPrefixDeterminacy
+import BEDC.Derived.MetaCICCriticalPathUp.FourFaceAuditFloor
 import BEDC.Derived.MetaCICCriticalPathUp.FourFaceBoundedCheckerGate
 import BEDC.Derived.MetaCICCriticalPathUp.FourFaceConfluenceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.FourFaceDeficiencyRefusal
@@ -4959,6 +4962,7 @@ import BEDC.Derived.MetricCompletionUp.UniformSourceLock
 import BEDC.Derived.MetricCoveringNumberUp.TasteGate
 import BEDC.Derived.MetricEmbeddingUp.TasteGate
 import BEDC.Derived.MetricEntourageUp
+import BEDC.Derived.MetricIdentificationUp.TasteGate
 import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
 import BEDC.Derived.MetricReverseTriangleInequalityUp
