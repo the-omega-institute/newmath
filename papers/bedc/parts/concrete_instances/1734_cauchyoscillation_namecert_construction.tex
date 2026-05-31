@@ -109,33 +109,6 @@ Now use dyadic tolerance stability from \autoref{thm:cauchy-oscillation-dyadic-t
 Finally invoke the seal-handoff factorization theorem \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. Since $S$ is downstream of the accepted prefix $W,M,Q,T$, every modulus-root consumer reads those rows before any Real seal is available.
 \end{proof}
 
-\begin{theorem}[Cauchy oscillation window lower bound]
-\label{thm:cauchyoscillation-window-lower-bound}
-Every accepted oscillation read over a $\StreamNameUp$ or $\RegSeqRatUp$ Cauchy window factors through the $\DyadicRatCoreUp$ tolerance row $Q$, the $\DyadicTailBoundUp$ ledger row $T$, the $\UniformCauchyCriterionUp$ route recorded in $P$, the $\RealUp$ seal row $S$, and the displayed transport and replay rows $H,C$ before it can export a bounded oscillation claim. In particular, the lower window used by the oscillation comparison is not an external real interval or selected limit; it is the finite tail-window surface $W,M,Q,T$ of the same $\CauchyOscillationUp$ packet.
-\end{theorem}
-\begin{proof}
-Project the carrier of \autoref{def:cauchy-oscillation-carrier}. The only available observations are the finite tail-window row $W$, the threshold row $M$, the dyadic tolerance row $Q$, the oscillation ledger $T$, and the downstream seal row $S$.
-
-Use the dyadic tail-bound route for the lower window. The ledger $T$ records comparisons of the named observations in $W$ beyond the threshold supplied by $M$, and the radius of that comparison is read from $Q$.
-
-Replay the route through the source rows. The $\StreamNameUp$ and $\RegSeqRatUp$ components expose the inspected observations before the $\UniformCauchyCriterionUp$ provenance in $P$ can be consumed, while $H$ and $C$ preserve the same rows under transport and displayed replay.
-
-Finally the $\RealUp$ seal $S$ is downstream of that accepted prefix. Since the packet contains no selected limit, quotient stream equality, host real equality, or ambient completeness coordinate, any bounded oscillation export is forced through the displayed lower-window route.
-\end{proof}
-
-\closureat{CauchyOscillationUp}{seedStr}
-
-\begin{closurestatus}{\CauchyOscillationUp}
-  \constructivestory{A $\CauchyOscillationUp$ packet is generated from a finite $\RegSeqRatUp$ or $\StreamNameUp$ tail window, a $\CauchyModulusUp$ threshold schedule, a $\DyadicRatCoreUp$ tolerance row, a $\DyadicTailBoundUp$ oscillation ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite carrier, common tail-window classifier, oscillation-bound exactness, transport stability, tail-window exposure, dyadic tolerance stability, modulus-threshold exactness, and ledger non-escape for constructive Cauchy oscillation packets.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \origin{human}
-  \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, real completeness, or a checked Lean certificate.}
-  \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the displayed tail-window, modulus, tolerance, oscillation-ledger, and seal-handoff rows.}
-\end{closurestatus}
-
 \begin{theorem}[CauchyOscillation seal-handoff factorization]
 \label{thm:cauchy-oscillation-seal-handoff-factorization}
 Let
@@ -180,3 +153,38 @@ Now use the seal-handoff factorization theorem \autoref{thm:cauchy-oscillation-s
 
 Finally $H,C,P,N$ only transport, replay, source, and name that same route. The carrier contains no coordinate for the refused ambient objects, so the modulus-root read is precisely the displayed finite package.
 \end{proof}
+
+\begin{theorem}[CauchyOscillation dyadic-tail Real-seal route]
+\label{thm:cauchy-oscillation-dyadic-tail-real-seal-route}
+For every accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+every Real-facing oscillation consumer factors through the ordered route
+$$
+W,\ M,\ Q,\ T
+$$
+before it reads the $\RealUp$ seal row $S$, where $W$ is the $\RegSeqRatUp$ or $\StreamNameUp$ tail-window row, $M$ is the $\CauchyModulusUp$ threshold schedule, $Q$ is the $\DyadicRatCoreUp$ tolerance row, and $T$ is the $\DyadicTailBoundUp$ oscillation ledger. The route exports no quotient stream, no selected limit, no host real equality, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with tail-window exposure, \autoref{thm:cauchy-oscillation-tail-window-exposure}. It forces every oscillation comparison exposed by $T$ to read the finite window $W$ before threshold, tolerance, ledger, or seal data can be consumed.
+
+Use dyadic tolerance stability, \autoref{thm:cauchy-oscillation-dyadic-tolerance-stability}. It preserves $Q$ only together with $W,M,T$ under componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+Apply modulus-threshold exactness, \autoref{thm:cauchy-oscillation-modulus-threshold-exactness}. It prevents $M$ from being read as a free modulus witness by tying the threshold to the same tail window, dyadic tolerance, and oscillation ledger.
+
+Finally apply seal-handoff factorization, \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. Since the terminal seal $S$ is available only after the accepted prefix $W,M,Q,T$, every Real-facing oscillation consumer follows the stated dyadic-tail route.
+\end{proof}
+
+\closureat{CauchyOscillationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyOscillationUp}
+  \constructivestory{A $\CauchyOscillationUp$ packet is generated from a finite $\RegSeqRatUp$ or $\StreamNameUp$ tail window, a $\CauchyModulusUp$ threshold schedule, a $\DyadicRatCoreUp$ tolerance row, a $\DyadicTailBoundUp$ oscillation ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, common tail-window classifier, oscillation-bound exactness, transport stability, tail-window exposure, dyadic tolerance stability, modulus-threshold exactness, seal-handoff factorization, modulus-root packaging, dyadic-tail Real-seal routing, and ledger non-escape for constructive Cauchy oscillation packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, ambient completeness, real completeness, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding and checked NameCert obligation theorem for the displayed tail-window, modulus, tolerance, oscillation-ledger, and seal-handoff rows.}
+\end{closurestatus}
