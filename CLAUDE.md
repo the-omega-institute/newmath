@@ -21,7 +21,7 @@
 - 论文以**完整当前态**形式呈现; 理论扩展在原章节内追加, 不留版本号痕迹
 - **禁止版本号 / round 编号在任何命名工件**: 文件名 / 命名空间 / 定理名 / 论文段落标题 / branch 名 / worktree 路径 / commit subject / PR title / codex worker 任务名 都不带 `V2` / `V6` / `V7` / `R11` / `Rxx` / `Round N` / `rN-X` / `v[0-9]+` 这类迭代标签. 命名按内容主题 (例: `feat-conf-closed-strip-completion` 而非 `feat-conf-general-v2`; `Typing.lean` 而非 `TypingV2.lean`; "Shift-aware binder context" 而非 "V7 substrate"). 派 codex worker 前自检 branch / worktree / file path 含 `v[0-9]+` / `V[0-9]+` / `r[0-9]+` / `Round` 字样 → 重命名
 - 不生成修改记录、日志、总结、变更原因、报告
-- 不添加文件内备注
+- 文件内备注从简: 允许必要的解释性注释(说清非显然的意图 / 约束 / 推导), 但不堆砌、不逐行注水; 仍禁止迭代叙事类注释(变更记录 / "新增""修订""上一版本" / Old-New 对照 / 迁移说明)
 - 有问题直接改, 无需备份
 
 ## 数学符号写法
