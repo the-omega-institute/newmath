@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\BishopCompletionKleisliTriangleUp$}
+\label{ch:concrete-instances-bishop-completion-kleisli-triangle-namecert}
+\origin{human}
+
+Following Mac Lane and Bishop--Bridges, the $\BishopCompletionKleisliTriangleUp$ packet records the finite triangle where the regular completion monad, the Kleisli consumer, the completion functor, and the universal-property readback meet the Bishop real seal. It sits after the adjoint packet of \autoref{ch:concrete-instances-bishop-real-completion-adjoint-namecert}, the regular completion monad of \autoref{ch:concrete-instances-regular-cauchy-completion-monad-namecert}, and the Kleisli boundary of \autoref{ch:concrete-instances-cauchy-completion-kleisli-namecert}. The packet names a non-quotient L10 completion route; it does not select completed points, compare quotient streams, import countable choice, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop completion Kleisli triangle carrier]
+\label{def:bishop-completion-kleisli-triangle-carrier}
+A $\BishopCompletionKleisliTriangleUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,K,F,U,R,E,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\RegularCauchyCompletionMonadUp$ row, recording the unit and bind schedule for regular completion names.
+\item $K$ is the $\CauchyCompletionKleisliUp$ row, recording the consumer boundary for unit, bind, and reassociated bind requests.
+\item $F$ is the $\CauchyCompletionFunctorUp$ row, recording functorial source-to-completion transport.
+\item $U$ is the $\CompletionUniversalPropertyUp$ row, recording extension and uniqueness only as displayed finite ledger data.
+\item $R$ is the $\RegSeqRatUp$ readback row through which the regular source windows are inspected.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $M,K,F,U,R$ have been displayed.
+\item $J$ is the triangle ledger, matching the monad unit, Kleisli bind, functor handoff, universal-property extension, readback, and Real seal legs.
+\item $H$ records componentwise $\hsame$ transport for the monad, Kleisli, functor, universal-property, readback, seal, triangle-ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M,K,F,U \longmapsto R \longmapsto E \longmapsto J,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopCompletionKleisliTriangleUp$, $\RegularCauchyCompletionMonadUp$, $\CauchyCompletionKleisliUp$, $\CauchyCompletionFunctorUp$, $\CompletionUniversalPropertyUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCompletionKleisliTriangleUp}$ row.
+\end{enumerate}
+The accepted carrier is exactly the displayed packet $T$. It has no coordinate for quotient completion equality, selected limits, host real equality, countable-choice schedules, ambient $\RealUp$ completeness, or a detached Kleisli adjunction theorem.
+\end{definition}
+
+\begin{theorem}[Bishop completion Kleisli triangle NameCert obligations]
+\label{thm:bishop-completion-kleisli-triangle-obligations}
+For every accepted carrier $T=(M,K,F,U,R,E,J,H,C,P,N)$, the local $\NameCert_{\BishopCompletionKleisliTriangleUp}$ obligations are exhausted by carrier admission for the displayed monad, Kleisli, functor, universal-property, readback, seal, triangle-ledger, transport, replay, provenance, and local naming rows. Every completion-facing consumer must read the route in the order
+$$
+M,K,F,U \longmapsto R \longmapsto E \longmapsto J,H,C,P,N .
+$$
+No local obligation may call on quotient completion equality, selected limits, host real equality, countable choice, ambient $\RealUp$ completeness, or an external adjunction principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-completion-kleisli-triangle-carrier}. The only rows visible to the local classifier are $M,K,F,U,R,E,J,H,C,P,N$.
+
+Read the completion route by route ordering. The monad row $M$ supplies unit and bind schedule data, the Kleisli row $K$ fixes the consumer boundary, the functor row $F$ transports source data to completion-facing names, and the universal-property row $U$ supplies the displayed extension ledger. Only after those rows are present may the regular readback $R$ and terminal seal $E$ be consumed.
+
+The triangle row is structural over that same route. The row $J$ records compatibility of the monad, Kleisli, functor, universal-property, readback, and seal legs, while $H$ transports displayed coordinates, $C$ replays the permitted reads, and $P,N$ record provenance and local naming.
+
+Since the accepted packet has no coordinate for quotient completion equality, selected limits, host real equality, countable choice, ambient completeness, or a detached adjunction theorem, no NameCert obligation can export one.
+\end{proof}
+
+\begin{closurestatus}{\BishopCompletionKleisliTriangleUp}
+  \constructivestory{A $\BishopCompletionKleisliTriangleUp$ packet is generated from a regular completion monad row, a Cauchy Kleisli consumer row, a Cauchy completion functor row, a completion universal-property row, a RegSeqRat readback, a Real seal, a triangle ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-completion-kleisli-triangle-carrier} and \autoref{thm:bishop-completion-kleisli-triangle-obligations} seed the non-quotient completion triangle over the monad, Kleisli, functor, universal-property, readback, and Real seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion equality, selected completed limits, host real equality, countable choice, ambient Real completeness, Lean verification, bridge checking, or a host adjunction theorem.}
+  \upgradepath{Obligation closure requires checked carrier admission, triangle-ledger exactness, readback nonescape, seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopCompletionKleisliTriangleUp.}
+\end{closurestatus}
