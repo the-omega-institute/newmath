@@ -40,9 +40,24 @@ import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-BASE_BRANCH = "codex-auto-dev"
-CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
+from host_context import host_path, host_value
+
+REPO_ROOT = host_path(
+    Path(__file__).resolve().parent.parent,
+    "REPO_ROOT",
+    default=Path(__file__).resolve().parent.parent,
+)
+def _base_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", required=True)
+
+
+def _mirror_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", required=True)
+
+
+BASE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH")
+MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH")
+CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 DEFAULT_INTERVAL = 900  # 15 min
 
 _HEAL_VERIFY_FOOTER = """
@@ -106,7 +121,7 @@ Representative failure lines (last 5):
 3. Edit ONE prompt file to add an explicit HARD GATE block matching the gate's actual regex / path-match logic. State the rule, the rationale, and an explicit workaround (what codex should do INSTEAD when the natural target would trip the gate). Cite the observed storm: include the count + a representative round id from {rounds} so future readers see the historical justification.
 4. Do NOT modify `codex_formalize.py` / `codex_revise.py` themselves — orchestrator restart would lose in-flight workers, which the project rule forbids.
 5. Do NOT touch the `parts/visions/` directory, the `lean4/BEDC/**/Examples/**` tree, or any `*Examples*` / `*Scaffold*` / `*Demo*` path; those are read-only by project rule.
-6. After editing: `make check` (in `papers/bedc/`) + `python3 lean4/scripts/bedc_ci.py audit` must both exit 0.
+6. After editing: `make precheck` (in `papers/bedc/`) + `python3 lean4/scripts/bedc_ci.py audit` must both exit 0.
 7. `git add` + `git commit -m "auto-heal: gate-storm <gate-name> 提示约束"`; the commit subject MUST contain the dedup signature supplied by the daemon. Do NOT push (the daemon handles push).
 
 ## When NOT to act
@@ -421,7 +436,7 @@ def verify_local_ci() -> tuple[bool, str | None]:
     # reverting otherwise-good codex heal commits. Local benchmarks show
     # axiom-purity normally 3-5 min under load; audit 1-3 min.
     checks = [
-        ("papers/bedc make check", ["make", "check"], REPO_ROOT / "papers" / "bedc", 600),
+        ("papers/bedc make precheck", ["make", "precheck"], REPO_ROOT / "papers" / "bedc", 600),
         ("lean4 lake build", ["lake", "build"], REPO_ROOT / "lean4", 600),
         (
             "bedc_ci audit",
@@ -881,7 +896,6 @@ Your task: rewrite the offending theorem (or its dependencies) so the proof uses
    - `ChapterTasteGate.round_trip` / `.layer_separation`
    - `FieldFaithful.field_faithful` / `.fields` (newly added 2026-05-13)
    - `Nontrivial.witness_pair` (newly added 2026-05-13)
-   - `StructurallyAtomic.nearest_siblings`
 
 3. Replace each typeclass projection with a CONCRETE `def` or `theorem` reference. The chapter usually already has a `private` or top-level non-typeclass version of the same fact — e.g., `cauchySealBudgetSynchronizer_round_trip` exists as a non-typeclass theorem, and `ChapterTasteGate.round_trip` typeclass field is `:= cauchySealBudgetSynchronizer_round_trip` internally. Use the concrete name in the proof body, not the typeclass projection.
 
@@ -956,8 +970,7 @@ __LOG__
 3. Verify the fix locally before committing:
    - For Lean-side: `cd lean4 && lake build` exits 0; `python3
      tools/check-axioms.py` exits 0.
-   - For paper-side: `cd papers/bedc && make check` exits 0 (single-pass
-     pdflatex catches macro / math-env errors without the full ~75s build).
+   - For paper-side: `cd papers/bedc && make precheck` exits 0.
    - For audit: `python3 lean4/scripts/bedc_ci.py audit` exits 0.
    Run `python3 lean4/scripts/bedc_ci.py axiom-purity --strict` AND `python3 lean4/scripts/bedc_ci.py audit`; both must exit 0 before commit.
 
@@ -1087,7 +1100,7 @@ def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
     # Probe both branches: codex-auto-dev (integration) + auto-dev (CI host).
     # bidirectional sync means a fix on codex-auto-dev reaches auto-dev
     # within 10 min, so healing either side is equivalent.
-    branches_to_probe = [BASE_BRANCH, "auto-dev"]
+    branches_to_probe = [BASE_BRANCH, MIRROR_BRANCH]
     failures: list[dict] = []
     cutoff = time.time() - window_minutes * 60
     for branch in branches_to_probe:
@@ -1180,6 +1193,25 @@ def heal_ci_failure(failure: dict) -> bool:
             cooldown_count=0,
             note="CI 日志显示 TeX 引擎容量限制，codex 修改章节内容无法修复",
         )
+        _mark_ci_seen(run_id)
+        return False
+    # Reproduce-on-BASE guard: do NOT dispatch a CI heal for a failure that
+    # no longer reproduces on the current BASE. The CI-heal misfires observed
+    # in practice are all non-reproducing: (a) STALE runs created before a fix
+    # landed, (b) "noisy-red" runs that built a since-corrected mirrored SHA
+    # (a BEDC Build builds every mirrored SHA, so latest-completed=failure does
+    # NOT mean current BASE is broken), and (c) an active external generator's
+    # (bio_reality) churn that broke its own auto-dev CI but never reached BASE.
+    # In every such case codex cannot reproduce the failure, so it edits the
+    # wrong thing -> verify_local_ci reverts -> a LOCAL_CI_FAILED_AFTER_HEAL
+    # alert, burning a codex dispatch per cycle for nothing. Verify the current
+    # BASE first; if it is already clean the GitHub run is stale -> mark seen
+    # and skip. Only a failure that genuinely reproduces locally gets a heal.
+    repro_ok, _repro_err = verify_local_ci()
+    if repro_ok:
+        print(f"[heal] CI run {run_id} failure does not reproduce on current "
+              f"BASE (stale / noisy-red / external-churn); marking seen, "
+              f"skipping heal", file=sys.stderr, flush=True)
         _mark_ci_seen(run_id)
         return False
     # Best-effort job guess: first line matching `<job>\t<step>\t...`.
@@ -1415,11 +1447,27 @@ def detect_dup_labels() -> list[tuple[str, list[str]]]:
     return dups
 
 
+def render_prompt_host_context(prompt: str) -> str:
+    replacements = {
+        "codex-auto-dev": BASE_BRANCH,
+        "auto-dev": MIRROR_BRANCH,
+    }
+    out = prompt
+    for old, new in replacements.items():
+        out = re.sub(
+            rf"(?<![A-Za-z0-9_-]){re.escape(old)}(?![A-Za-z0-9_-])",
+            new,
+            out,
+        )
+    return out
+
+
 def call_codex(prompt: str, cwd: Path = REPO_ROOT, timeout: int = 1800) -> int:
     """Invoke codex with the given prompt. Returns rc."""
     if not Path(CODEX_PATH).exists():
         print(f"[heal] codex CLI not found at {CODEX_PATH}", file=sys.stderr)
         return 127
+    prompt = render_prompt_host_context(prompt)
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as pf:
         pf.write(prompt)
         prompt_file = pf.name
@@ -2424,9 +2472,15 @@ def cycle() -> None:
 
 
 def main() -> int:
+    global BASE_BRANCH, MIRROR_BRANCH
+
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--interval", type=int, default=DEFAULT_INTERVAL,
                     help="Cycle interval seconds (default 900)")
+    p.add_argument("--base-branch", default=None,
+                    help="Integration branch name (default: host BEDC_PIPELINE_BRANCH)")
+    p.add_argument("--mirror-branch", default=None,
+                    help="Mirror branch checked for CI failures (default: host BEDC_MIRROR_BRANCH)")
     p.add_argument("--once", action="store_true",
                     help="Run a single cycle and exit (for testing)")
     p.add_argument("--dry-run", action="store_true",
@@ -2436,6 +2490,8 @@ def main() -> int:
     p.add_argument("--verify-only", action="store_true",
                     help="Detect log symptoms, verify current state, and exit without dispatch")
     args = p.parse_args()
+    BASE_BRANCH = args.base_branch if args.base_branch is not None else _base_branch_default()
+    MIRROR_BRANCH = args.mirror_branch if args.mirror_branch is not None else _mirror_branch_default()
 
     if args.self_test:
         return run_cooldown_self_test()

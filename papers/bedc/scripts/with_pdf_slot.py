@@ -11,7 +11,7 @@ Slot files live under git's common-dir (.git/.pdf-build-gate/), which
 is the same physical directory across every worktree of this repo.
 Permit count is read from .pipeline_parallel.json key "pdf_build"
 (default 2). Concurrency from `make` callers in any worktree (including
-the orchestrator's per-round paper_PXXXX worktrees) is therefore
+the orchestrator's paper worker worktrees) is therefore
 serialised through the same N slots.
 
 Usage:

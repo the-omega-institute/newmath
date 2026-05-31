@@ -107,6 +107,56 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
         self.assertIn("Check published dossier HTML links", site_text)
         self.assertIn("actions/upload-pages-artifact@v3", site_text)
 
+    def test_glossary_checker_runs_as_explicit_survey(self) -> None:
+        names = [str(step.get("name", "")) for step in self.site_steps]
+        self.assertNotIn("Glossary completeness gate", names)
+        self.assertIn("Glossary coverage survey", names)
+
+        glossary_steps = [
+            step for step in self.site_steps
+            if "tools/check_glossary.py" in str(step.get("run", ""))
+        ]
+        self.assertEqual(len(glossary_steps), 1)
+        self.assertEqual(glossary_steps[0]["name"], "Glossary coverage survey")
+        self.assertIn("--survey", glossary_steps[0]["run"])
+        self.assertNotIn("--strict", glossary_steps[0]["run"])
+
+    def test_build_paper_dossier_render_is_path_gated(self) -> None:
+        build_paper = load_workflow(BUILD_PAPER)
+        jobs = build_paper["jobs"]
+
+        detect_outputs = jobs["detect_changes"]["outputs"]
+        self.assertEqual(detect_outputs["dossier"], "${{ steps.detect.outputs.dossier }}")
+
+        detect_steps = job_steps(build_paper, "detect_changes")
+        detect_runs = [
+            str(step.get("run", ""))
+            for step in detect_steps
+            if step.get("id") == "detect"
+        ]
+        self.assertEqual(len(detect_runs), 1)
+        self.assertIn("docs/dossier/*", detect_runs[0])
+        self.assertIn("echo \"dossier=$dossier\" >> \"$GITHUB_OUTPUT\"", detect_runs[0])
+
+        render_if = jobs["render_dossier_check"]["if"]
+        self.assertEqual(
+            render_if,
+            "${{ github.event_name == 'pull_request' && needs.detect_changes.outputs.dossier == 'true' }}",
+        )
+        self.assertNotIn("needs.detect_changes.outputs.tex", render_if)
+
+        gate = jobs["gate"]
+        self.assertIn("render_dossier_check", gate["needs"])
+        gate_run = "\n".join(str(step.get("run", "")) for step in job_steps(build_paper, "gate"))
+        self.assertIn("dossier_result=\"${{ needs.render_dossier_check.result }}\"", gate_run)
+        self.assertIn("success|skipped", gate_run)
+
+        dossier = load_workflow(DOSSIER)
+        self.assertEqual(
+            dossier["jobs"]["build_dossier"]["uses"],
+            "./.github/workflows/reusable-dossier-render.yml",
+        )
+
     def test_deleted_runtime_references_do_not_return(self) -> None:
         text = workflow_text()
         forbidden = [

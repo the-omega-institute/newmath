@@ -304,6 +304,7 @@ $$
 $$
 together with the finite packet rows $S,N,U,H,C,P,L$. The obstruction row $O$ and the discharge socket $D$ remain visible throughout the read. The source-exact budget exports no closed subject reduction, global confluence, beta-conversion decidability, selected limit, quotient equality, host equality, or $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateNormalizationL10SourceExactness}
 \begin{proof}
 Start with the candidate-mediated SN frontier, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It places the consumer on the displayed strong-normalization rows and the four L10 faces, while keeping the obstruction row and discharge socket in the surrounding packet.
 
@@ -589,6 +590,22 @@ First read the candidate-mediated SN frontier and the discharge budget, \autoref
 Next apply the closed-normal-form readback and L10 readback theorems, \autoref{thm:metacic-critical-path-candidate-mediated-sn-closed-normal-form-readback} and \autoref{thm:metacic-criticalpath-candidate-mediated-sn-l10-readback}. They attach the normal-form endpoint to $S,N,U,H,C,P,L$ and require the four rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before any Phase Real or Completion budget is exported.
 
 Finally use socket separation and discharge coverage, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-socket-separation} and \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}. These keep the subject-reduction socket visible unless a separate subject-reduction row is cited, so the consumer may export only the finite normal-form discharge surface stated above. The excluded global MetaCIC and quotient-equality claims are not coordinates of that surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC subject-reduction socket before normal-form discharge consumers]
+\label{thm:metacic-critical-path-candidate-mediated-frontier-subject-reduction-socket}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any candidate-mediated strong-normalization handoff that reaches the normal-form discharge surface of \autoref{thm:metacic-critical-path-candidate-mediated-frontier-normal-form-discharge} must still expose the subject-reduction socket row $D$ as a separate row before a closed subject-reduction consumer may proceed. The handoff may use the candidate row $S$, the closed normal-form readback row $N$, the handoff row $U$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, provenance $P$, local naming $L$, and the L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, but it cannot treat that surface as global confluence, beta-decidability, quotient term equality, selected limits, host equality, ambient $\RealUp$ completeness, or a closed subject-reduction row.
+\end{theorem}
+\begin{proof}
+Start from the candidate-mediated frontier and the candidate SN boundary, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} and \autoref{thm:metacic-critical-path-candidate-sn-boundary}. They place the SN handoff on the displayed rows $S,N,U,H,C,P,L$ together with the four L10 faces while keeping $O$ and $D$ visible.
+
+Next apply closed-normal-form readback and normal-form discharge, \autoref{thm:metacic-critical-path-candidate-mediated-sn-closed-normal-form-readback} and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-normal-form-discharge}. These results allow the consumer to reach the finite normal-form discharge surface, but that surface still lists $D$ as a subject-reduction socket rather than as a discharged row.
+
+Finally use socket exhaustion, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}, together with socket separation in \autoref{thm:metacic-critical-path-candidate-mediated-frontier-socket-separation}. Once the candidate-mediated rows and L10 faces have been consumed, no hidden coordinate remains for closed subject reduction. A closed subject-reduction consumer must therefore cite a separate subject-reduction row before proceeding, and the refused confluence, beta-decidability, quotient-equality, selected-limit, host-equality, and Real-completeness claims remain outside the packet.
 \end{proof}
 
 \begin{theorem}[MetaCIC candidate SN L10 dependency seal]

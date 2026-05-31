@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Glossary completeness gate.
+"""Glossary coverage survey with optional strict gate.
 
-Four gates run on every CI invocation:
+Four coverage checks run on every invocation:
 
-  Gate 1 -- region coverage:
+  Check 1 -- region coverage:
       Every region id appearing as a node in the auto-derived
       ``docs/dossier/data/dependency.json`` must have a corresponding
       entry in the glossary. If a Lean module or paper chapter
       introduces a new region, the glossary must grow with it.
 
-  Gate 2 -- preamble coverage:
+  Check 2 -- preamble coverage:
       Every project-concept ``\\newcommand`` declared in
       ``papers/bedc/preamble.tex`` must be reachable from the
       glossary, either directly by name or via the ``aliases`` field on
@@ -17,13 +17,13 @@ Four gates run on every CI invocation:
       skipped (rendering helpers, canonical aliases, internal carrier
       predicates etc.).
 
-  Gate 3 -- bilingual completeness:
+  Check 3 -- bilingual completeness:
       Every glossary entry must have a Chinese ``zh.label`` distinct
       from its English ``en.label``, except for entries explicitly
       listed in ``_meta.label_identical_ok`` (technical identifiers with
       no Chinese rendering).
 
-  Gate 4 -- constructive-story bilingual:
+  Check 4 -- constructive-story bilingual:
       Whenever a dependency-graph node carries a non-empty
       ``constructive_story_en`` (extracted from a paper closurestatus
       block), the corresponding glossary entry must supply a non-empty
@@ -38,9 +38,11 @@ Edit the per-term TOML to add / fix entries.
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import sys
+from dataclasses import dataclass, field
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -49,6 +51,26 @@ from _glossary_loader import GLOSSARY_DIR, load_glossary  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 DEP_DATA = ROOT / "docs" / "dossier" / "data" / "dependency.json"
 PREAMBLE = ROOT / "papers" / "bedc" / "preamble.tex"
+
+
+@dataclass
+class GlossaryIssues:
+    duplicate_aliases: list[str] = field(default_factory=list)
+    missing_regions: list[str] = field(default_factory=list)
+    missing_macros: list[str] = field(default_factory=list)
+    bilingual_issues: list[str] = field(default_factory=list)
+    missing_zh_stories: list[str] = field(default_factory=list)
+    notes: list[str] = field(default_factory=list)
+
+    @property
+    def total(self) -> int:
+        return (
+            len(self.duplicate_aliases)
+            + len(self.missing_regions)
+            + len(self.missing_macros)
+            + len(self.bilingual_issues)
+            + len(self.missing_zh_stories)
+        )
 
 
 def parse_preamble_macros(preamble: Path) -> set[str]:
@@ -62,40 +84,29 @@ def parse_preamble_macros(preamble: Path) -> set[str]:
     return macros
 
 
-def main() -> int:
-    if not GLOSSARY_DIR.is_dir():
-        print(f"[check-glossary] glossary source dir missing: {GLOSSARY_DIR}", file=sys.stderr)
-        return 1
-
-    glossary = load_glossary()
-
-    meta = glossary.get("_meta", {})
-    exempt_macros: set[str] = set(meta.get("exempt_macros", []))
-    label_identical_ok: set[str] = set(meta.get("label_identical_ok", []))
-
-    # entries (real glossary data) and their aliases
-    entries = {k: v for k, v in glossary.items() if not k.startswith("_")}
-    glossary_keys = set(entries.keys())
-
-    # Build alias-to-key map from each entry's `aliases` field.
+def build_alias_map(entries: dict[str, dict], issues: GlossaryIssues) -> dict[str, str]:
     alias_to_key: dict[str, str] = {}
     for key, entry in entries.items():
         for alias in entry.get("aliases", []):
             if alias in alias_to_key and alias_to_key[alias] != key:
-                print(
-                    f"[check-glossary] duplicate alias '{alias}' on both "
-                    f"'{alias_to_key[alias]}' and '{key}'",
-                    file=sys.stderr,
+                issues.duplicate_aliases.append(
+                    f"duplicate alias '{alias}' on both '{alias_to_key[alias]}' and '{key}'"
                 )
-                return 1
+                continue
             alias_to_key[alias] = key
+    return alias_to_key
 
-    missing_regions: list[str] = []
-    missing_macros: list[str] = []
-    bilingual_issues: list[str] = []
-    missing_zh_stories: list[str] = []
 
-    # ---- Gate 1: region coverage ----
+def collect_issues(glossary: dict) -> tuple[GlossaryIssues, int, int, int]:
+    issues = GlossaryIssues()
+    meta = glossary.get("_meta", {})
+    exempt_macros: set[str] = set(meta.get("exempt_macros", []))
+    label_identical_ok: set[str] = set(meta.get("label_identical_ok", []))
+
+    entries = {k: v for k, v in glossary.items() if not k.startswith("_")}
+    glossary_keys = set(entries.keys())
+    alias_to_key = build_alias_map(entries, issues)
+
     if DEP_DATA.exists():
         with DEP_DATA.open(encoding="utf-8") as fh:
             dep = json.load(fh)
@@ -104,15 +115,13 @@ def main() -> int:
             if not nid:
                 continue
             if nid not in glossary_keys and nid not in alias_to_key:
-                missing_regions.append(nid)
+                issues.missing_regions.append(nid)
     else:
-        print(
+        issues.notes.append(
             f"[check-glossary] note: {DEP_DATA.relative_to(ROOT)} not built yet; "
-            "skipping region-coverage gate",
-            file=sys.stderr,
+            "skipping region-coverage check"
         )
 
-    # ---- Gate 2: preamble coverage ----
     if PREAMBLE.exists():
         for m in sorted(parse_preamble_macros(PREAMBLE)):
             if m in exempt_macros:
@@ -121,14 +130,10 @@ def main() -> int:
                 continue
             if m in alias_to_key:
                 continue
-            missing_macros.append(m)
+            issues.missing_macros.append(m)
     else:
-        print(f"[check-glossary] preamble not found: {PREAMBLE}", file=sys.stderr)
+        issues.notes.append(f"[check-glossary] preamble not found: {PREAMBLE}")
 
-    # ---- Gate 4: constructive-story bilingual ----
-    # Look at every dependency-graph node that has a non-empty
-    # constructive_story_en. The matching glossary entry must supply
-    # constructive_story_zh.
     if DEP_DATA.exists():
         with DEP_DATA.open(encoding="utf-8") as fh:
             dep = json.load(fh)
@@ -141,74 +146,97 @@ def main() -> int:
             if target is None and nid in alias_to_key:
                 target = entries.get(alias_to_key[nid])
             if target is None:
-                # already counted as missing-region above
                 continue
             zh = (target.get("constructive_story_zh") or "").strip()
             if not zh:
-                missing_zh_stories.append(nid)
+                issues.missing_zh_stories.append(nid)
 
-    # ---- Gate 3: bilingual completeness ----
     for key, entry in entries.items():
         en_label = entry.get("en", {}).get("label", "")
         zh_label = entry.get("zh", {}).get("label", "")
         if not en_label or not zh_label:
-            bilingual_issues.append(f"entry '{key}' missing en.label or zh.label")
+            issues.bilingual_issues.append(f"entry '{key}' missing en.label or zh.label")
             continue
         if en_label == zh_label and key not in label_identical_ok:
-            bilingual_issues.append(
+            issues.bilingual_issues.append(
                 f"entry '{key}' has identical en/zh labels '{en_label}' "
                 "(localise zh.label or add the key to _meta.label_identical_ok)"
             )
 
-    # ---- Report ----
-    # Glossary completeness is advisory: missing entries do NOT block CI.
-    # The dossier still renders without them — unknown nodes just show
-    # their raw region id instead of a bilingual label.
-    total = len(missing_regions) + len(missing_macros) + len(bilingual_issues) + len(missing_zh_stories)
-    if total:
-        print(
-            f"[check-glossary] WARN: {total} issues (advisory; not blocking)",
-            file=sys.stderr,
-        )
-        if missing_regions:
+    return issues, len(entries), len(alias_to_key), len(exempt_macros)
+
+
+def parse_args(argv: list[str] | None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Survey glossary coverage, or fail on coverage gaps with --strict.",
+    )
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument(
+        "--survey",
+        action="store_true",
+        help="report coverage issues as advisory warnings and exit 0",
+    )
+    mode.add_argument(
+        "--strict",
+        action="store_true",
+        help="fail with a nonzero exit code when coverage issues are present",
+    )
+    return parser.parse_args(argv)
+
+
+def print_issue_list(title: str, values: list[str], *, slash_prefix: bool = False) -> None:
+    if not values:
+        return
+    print(f"  {title} ({len(values)}):", file=sys.stderr)
+    for value in sorted(values):
+        prefix = "\\" if slash_prefix else ""
+        print(f"    - {prefix}{value}", file=sys.stderr)
+
+
+def report_issues(issues: GlossaryIssues, mode_name: str) -> int:
+    for note in issues.notes:
+        print(note, file=sys.stderr)
+
+    if issues.total:
+        if mode_name == "strict":
+            print(f"[check-glossary] STRICT/FAIL: {issues.total} issues; exit nonzero", file=sys.stderr)
+        else:
             print(
-                f"  Missing region entries ({len(missing_regions)}):",
+                f"[check-glossary] SURVEY/WARN: {issues.total} issues; exit 0 by design",
                 file=sys.stderr,
             )
-            for nid in sorted(missing_regions):
-                print(f"    - {nid}", file=sys.stderr)
-        if missing_macros:
-            print(
-                f"  Missing preamble macros ({len(missing_macros)}):",
-                file=sys.stderr,
-            )
-            for m in missing_macros:
-                print(f"    - \\{m}", file=sys.stderr)
-        if bilingual_issues:
-            print(
-                f"  Bilingual entry problems ({len(bilingual_issues)}):",
-                file=sys.stderr,
-            )
-            for s in bilingual_issues:
-                print(f"    - {s}", file=sys.stderr)
-        if missing_zh_stories:
-            print(
-                f"  Missing zh constructive stories ({len(missing_zh_stories)}):",
-                file=sys.stderr,
-            )
-            for nid in sorted(missing_zh_stories):
-                print(f"    - {nid}", file=sys.stderr)
+        print_issue_list("Duplicate aliases", issues.duplicate_aliases)
+        print_issue_list("Missing region entries", issues.missing_regions)
+        print_issue_list("Missing preamble macros", issues.missing_macros, slash_prefix=True)
+        print_issue_list("Bilingual entry problems", issues.bilingual_issues)
+        print_issue_list("Missing zh constructive stories", issues.missing_zh_stories)
         print(
             "\n[check-glossary] hint: edit docs/dossier/data_source/glossary/<key>.toml "
             "to add or fix entries, or update _meta.toml's exempt_macros / "
             "label_identical_ok if a term is intentionally not in scope.",
             file=sys.stderr,
         )
-        return 0
+        return 1 if mode_name == "strict" else 0
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    mode_name = "strict" if args.strict else "survey"
+
+    if not GLOSSARY_DIR.is_dir():
+        print(f"[check-glossary] glossary source dir missing: {GLOSSARY_DIR}", file=sys.stderr)
+        return 1
+
+    glossary = load_glossary()
+    issues, entry_count, alias_count, exempt_macro_count = collect_issues(glossary)
+    issue_exit = report_issues(issues, mode_name)
+    if issues.total:
+        return issue_exit
 
     print(
-        f"[check-glossary] OK: {len(entries)} entries cover all project concepts "
-        f"({len(alias_to_key)} aliases, {len(exempt_macros)} exempt macros).",
+        f"[check-glossary] OK: {entry_count} entries cover all project concepts "
+        f"({alias_count} aliases, {exempt_macro_count} exempt macros).",
         file=sys.stderr,
     )
     return 0

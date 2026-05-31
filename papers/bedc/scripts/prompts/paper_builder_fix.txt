@@ -9,9 +9,9 @@ double-pass pdflatex) at SHA `{sha}` and failed after {elapsed:.0f}s.
 - Edit only inside `papers/bedc/`.
 - Keep the patch minimal: smallest change that lets the next full
   `make` succeed. Do NOT refactor, do NOT add new content.
-- After fix, run `make check` (pure-text static gates: file size,
+- After fix, run `make precheck` (static gates: file size,
   forbidden math env, marker uniqueness, naming) to confirm static
-  invariants still hold. Do NOT run `make` (full pdflatex) yourself
+  invariants still hold. Do NOT run `make` yourself
   — the daemon re-verifies after you exit.
 - Commit with prefix `paper-builder-fix: ` (single short line), then
   push to `codex-auto-dev`:
@@ -49,9 +49,8 @@ double-pass pdflatex) at SHA `{sha}` and failed after {elapsed:.0f}s.
 ### Other: read `papers/bedc/main.log` directly
 - `grep -E '^! ' papers/bedc/main.log` lists every TeX-level error
   in order. Fix the first one — subsequent errors often cascade from
-  it. Re-running `make check` does NOT re-trigger TeX errors (it
-  skips pdflatex), so use the most recent `main.log` from the
-  daemon's last build attempt.
+  it. Re-running `make precheck` does not run TeX, so use the most
+  recent `main.log` from the daemon's last build attempt.
 
 ## Build log tail (last 200 lines)
 ```
