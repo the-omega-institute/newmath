@@ -19,6 +19,14 @@ LEGACY_PAPER_WORKTREE_RE = re.compile(r"^paper_P([0-9]+)$")
 LEGACY_FORMALIZE_BRANCH_RE = re.compile(r"^codex-R([0-9]+)$")
 LEGACY_PAPER_BRANCH_RE = re.compile(r"^paper-P([0-9]+)$")
 LEGACY_TICKET_RE = re.compile(r"^([RP])([0-9]+)_[0-9]+\.json$")
+FORMALIZE_RECOVERY_TICKET_RE = re.compile(
+    r"^formalize_[a-z0-9_]+_w[a-z0-9]{3,15}_[0-9]+\.json$"
+)
+PAPER_RECOVERY_TICKET_RE = re.compile(
+    r"^paper_revise_[a-z0-9_]+_w[a-z0-9]{3,15}_[0-9]+\.json$"
+)
+LEGACY_FORMALIZE_RECOVERY_TICKET_RE = re.compile(r"^legacy_formalize_[0-9]+_[0-9]+\.json$")
+LEGACY_PAPER_RECOVERY_TICKET_RE = re.compile(r"^legacy_paper_revise_[0-9]+_[0-9]+\.json$")
 
 
 @dataclass(frozen=True)
@@ -88,7 +96,7 @@ def new_worker_lease(
         branch = f"paper-revise-{slug}-{lease}"
         worktree_name = f"paper_revise_{slug.replace('-', '_')}_{lease}"
     holder = f"{kind}-{slug}-{lease}"
-    ticket_stem = f"{worktree_name}_{lease}"
+    ticket_stem = worktree_name
     log_tag = worktree_name
     commit_prefix = f"{holder}:"
     generated = [branch, worktree_name, ticket_stem, log_tag, commit_prefix, holder]
@@ -140,6 +148,44 @@ def legacy_ticket_kind(name: str) -> tuple[str, int] | None:
     if not m:
         return None
     return ("formalize" if m.group(1) == "R" else "paper-revise", int(m.group(2)))
+
+
+def recovery_ticket_stem(kind: str, lease: WorkerLease | None, round_number: int) -> str:
+    if lease:
+        return lease.ticket_stem
+    if kind == "formalize":
+        return f"legacy_formalize_{round_number}"
+    if kind == "paper-revise":
+        return f"legacy_paper_revise_{round_number}"
+    raise ValueError(f"unknown worker kind: {kind!r}")
+
+
+def recovery_ticket_name(
+    kind: str,
+    lease: WorkerLease | None,
+    round_number: int,
+    timestamp: int,
+) -> str:
+    name = f"{recovery_ticket_stem(kind, lease, round_number)}_{timestamp}.json"
+    if not is_recovery_ticket(name, kind):
+        raise ValueError(f"invalid recovery ticket name for {kind}: {name!r}")
+    return name
+
+
+def is_recovery_ticket(name: str, kind: str) -> bool:
+    if kind == "formalize":
+        if FORMALIZE_RECOVERY_TICKET_RE.fullmatch(name):
+            return True
+        if LEGACY_FORMALIZE_RECOVERY_TICKET_RE.fullmatch(name):
+            return True
+        return legacy_ticket_kind(name) is not None and legacy_ticket_kind(name)[0] == "formalize"
+    if kind == "paper-revise":
+        if PAPER_RECOVERY_TICKET_RE.fullmatch(name):
+            return True
+        if LEGACY_PAPER_RECOVERY_TICKET_RE.fullmatch(name):
+            return True
+        return legacy_ticket_kind(name) is not None and legacy_ticket_kind(name)[0] == "paper-revise"
+    raise ValueError(f"unknown worker kind: {kind!r}")
 
 
 def parse_new_worktree_name(name: str) -> tuple[str, str, str] | None:

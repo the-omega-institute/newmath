@@ -57,9 +57,11 @@ if str(TOOLS_DIR) not in sys.path:
     sys.path.insert(0, str(TOOLS_DIR))
 from pipeline_worker_identity import (
     WorkerLease,
+    is_recovery_ticket,
     legacy_worktree_kind,
     new_worker_lease,
     parse_new_worktree_name,
+    recovery_ticket_name,
 )
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "logs"
@@ -1314,8 +1316,12 @@ def request_recovery(wt: WorktreeInfo) -> None:
             "lease": wt.lease.metadata() if wt.lease else None,
             "queued_at": datetime.utcnow().isoformat() + "Z",
         }
-        stem = wt.lease.ticket_stem if wt.lease else f"legacy_paper_revise_{wt.round_number}"
-        ticket_path = RECOVERY_QUEUE_DIR / f"{stem}_{int(time.time())}.json"
+        ticket_path = RECOVERY_QUEUE_DIR / recovery_ticket_name(
+            "paper-revise",
+            wt.lease,
+            wt.round_number,
+            int(time.time()),
+        )
         ticket_path.write_text(json.dumps(ticket, indent=2))
         logger.info(f"[recovery] queued {ticket_path.name} for {wt.branch}")
         with _recovery_cv:
@@ -1400,7 +1406,7 @@ def _recovery_loop(poll_seconds: float = 30.0,
         try:
             tickets = sorted(
                 p for p in RECOVERY_QUEUE_DIR.iterdir()
-                if p.is_file() and p.suffix == ".json" and p.name.startswith("P")
+                if p.is_file() and p.suffix == ".json" and is_recovery_ticket(p.name, "paper-revise")
             )
         except Exception:
             tickets = []

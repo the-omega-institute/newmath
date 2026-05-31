@@ -51,6 +51,41 @@ class HostValueHermeticityTests(unittest.TestCase):
 
 
 class CoordinationPersistenceTests(unittest.TestCase):
+    def test_recovery_request_writes_semantic_ticket_discovered_by_consumer_matcher(self):
+        with tempfile.TemporaryDirectory() as td:
+            queue = Path(td) / "queue"
+            dead = queue / "dead"
+            lease = cf.new_worker_lease("formalize", "foo", lease_id="wabc1234")
+            wt = cf.WorktreeInfo(
+                path=Path(td) / "worktree",
+                branch=lease.branch,
+                round_number=12,
+                base_sha="abc123",
+                lease=lease,
+            )
+            original_queue = cf.RECOVERY_QUEUE_DIR
+            original_dead = cf.RECOVERY_DEAD_DIR
+            original_time = cf.time.time
+            try:
+                cf.RECOVERY_QUEUE_DIR = queue
+                cf.RECOVERY_DEAD_DIR = dead
+                cf.time.time = lambda: 12345
+
+                cf.request_recovery(wt)
+
+                tickets = sorted(
+                    p.name
+                    for p in queue.iterdir()
+                    if p.is_file() and p.suffix == ".json" and cf.is_recovery_ticket(p.name, "formalize")
+                )
+                self.assertEqual(tickets, ["formalize_foo_wabc1234_12345.json"])
+                self.assertTrue(cf.is_recovery_ticket("R12_12345.json", "formalize"))
+                self.assertNotIn("wabc1234_wabc1234", tickets[0])
+            finally:
+                cf.RECOVERY_QUEUE_DIR = original_queue
+                cf.RECOVERY_DEAD_DIR = original_dead
+                cf.time.time = original_time
+
     def test_pending_build_file_survives_reload_and_collapses_to_newest_sha(self):
         with tempfile.TemporaryDirectory() as td:
             pending = Path(td) / "pending.json"

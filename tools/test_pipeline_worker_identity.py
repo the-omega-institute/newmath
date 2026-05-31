@@ -6,11 +6,14 @@ import unittest
 from pathlib import Path
 
 from pipeline_worker_identity import (
+    is_recovery_ticket,
     legacy_branch_kind,
     legacy_ticket_kind,
     legacy_worktree_kind,
     new_worker_lease,
     parse_new_worktree_name,
+    recovery_ticket_name,
+    recovery_ticket_stem,
     sanitize_slug,
 )
 
@@ -30,6 +33,7 @@ class PipelineWorkerIdentityTests(unittest.TestCase):
         self.assertEqual(lease.branch, "formalize-bedc-derived-fooup-wabc1234")
         self.assertEqual(lease.worktree_name, "formalize_bedc_derived_fooup_wabc1234")
         self.assertEqual(lease.worktree, root / "formalize_bedc_derived_fooup_wabc1234")
+        self.assertEqual(lease.ticket_stem, "formalize_bedc_derived_fooup_wabc1234")
         self.assertEqual(lease.commit_prefix, "formalize-bedc-derived-fooup-wabc1234:")
         self.assertEqual(lease.holder, "formalize-bedc-derived-fooup-wabc1234")
         self.assertEqual(lease.display_ordinal, 77)
@@ -43,6 +47,7 @@ class PipelineWorkerIdentityTests(unittest.TestCase):
 
         self.assertEqual(lease.branch, "paper-revise-closure-mark-wxyz9876")
         self.assertEqual(lease.worktree_name, "paper_revise_closure_mark_wxyz9876")
+        self.assertEqual(lease.ticket_stem, "paper_revise_closure_mark_wxyz9876")
         self.assertEqual(lease.commit_prefix, "paper-revise-closure-mark-wxyz9876:")
         self.assertEqual(lease.holder, "paper-revise-closure-mark-wxyz9876")
 
@@ -84,6 +89,35 @@ class PipelineWorkerIdentityTests(unittest.TestCase):
         self.assertEqual(legacy_branch_kind("paper-P17"), ("paper-revise", 17))
         self.assertEqual(legacy_ticket_kind("R42_123.json"), ("formalize", 42))
         self.assertEqual(legacy_ticket_kind("P17_123.json"), ("paper-revise", 17))
+
+    def test_recovery_ticket_matchers_accept_semantic_and_legacy_names(self) -> None:
+        formalize = new_worker_lease("formalize", "foo", lease_id="wabc1234")
+        paper = new_worker_lease("paper-revise", "bar", lease_id="wxyz9876")
+
+        self.assertEqual(
+            recovery_ticket_stem("formalize", formalize, 12),
+            "formalize_foo_wabc1234",
+        )
+        self.assertEqual(
+            recovery_ticket_stem("paper-revise", paper, 17),
+            "paper_revise_bar_wxyz9876",
+        )
+        self.assertTrue(is_recovery_ticket("formalize_foo_wabc1234_123.json", "formalize"))
+        self.assertTrue(is_recovery_ticket("paper_revise_bar_wxyz9876_123.json", "paper-revise"))
+        self.assertTrue(is_recovery_ticket("legacy_formalize_12_123.json", "formalize"))
+        self.assertTrue(is_recovery_ticket("legacy_paper_revise_17_123.json", "paper-revise"))
+        self.assertTrue(is_recovery_ticket("R12_123.json", "formalize"))
+        self.assertTrue(is_recovery_ticket("P17_123.json", "paper-revise"))
+        self.assertEqual(
+            recovery_ticket_name("formalize", formalize, 12, 123),
+            "formalize_foo_wabc1234_123.json",
+        )
+        self.assertEqual(
+            recovery_ticket_name("paper-revise", paper, 17, 123),
+            "paper_revise_bar_wxyz9876_123.json",
+        )
+        self.assertFalse(is_recovery_ticket("formalize_foo_wabc1234_123.json", "paper-revise"))
+        self.assertFalse(is_recovery_ticket("paper_revise_bar_wxyz9876_123.json", "formalize"))
 
 
 if __name__ == "__main__":
