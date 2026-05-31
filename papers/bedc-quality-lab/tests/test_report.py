@@ -13,6 +13,10 @@ def test_report_projection_uses_envelope_values():
         metrics={
             "linear_identifiability_r2": 0.1234567,
             "approx_identifiability_proxy": 0.2222222,
+            "quality_benefit": 0.3333333,
+            "quality_cost": 0.0444444,
+            "quality_debt": 0.1111111,
+            "quality_q": 0.1777778,
         },
         ledger_gaps=["gap-from-envelope"],
         debt_items=["debt-from-envelope"],
@@ -24,6 +28,8 @@ def test_report_projection_uses_envelope_values():
     assert "projection-test" in report
     assert "source-from-envelope" in report
     assert "0.123457" in report
+    assert "## Q 投影" in report
+    assert "`quality_q`：0.177778" in report
     assert "gap-from-envelope" in report
     assert "debt-from-envelope" in report
     assert "reports/example_envelope.json" in report

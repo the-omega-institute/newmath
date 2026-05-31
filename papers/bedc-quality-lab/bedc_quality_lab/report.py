@@ -26,8 +26,15 @@ def render_quality_report(envelope: QualityEvidenceEnvelope) -> str:
         "## 指标",
         "",
     ]
+    quality_keys = [key for key in sorted(metrics) if key.startswith("quality_")]
     for key in sorted(metrics):
-        lines.append(f"- `{key}`：{_format_metric(metrics[key])}")
+        if key not in quality_keys:
+            lines.append(f"- `{key}`：{_format_metric(metrics[key])}")
+
+    if quality_keys:
+        lines.extend(["", "## Q 投影", ""])
+        for key in quality_keys:
+            lines.append(f"- `{key}`：{_format_metric(metrics[key])}")
 
     lines.extend(["", "## Ledger gaps", ""])
     if envelope.ledger_gaps:

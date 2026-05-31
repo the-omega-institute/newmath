@@ -60,3 +60,33 @@ def metric_bundle(h: np.ndarray, z: np.ndarray) -> dict[str, float]:
         "covariance_deviation": covariance_deviation(h),
         "approx_identifiability_proxy": approximate_identifiability_proxy(h, z),
     }
+
+
+def quality_components(
+    metrics: dict[str, float],
+    debt_total: float,
+    classifier_spec: dict[str, object],
+) -> dict[str, float]:
+    r2 = float(metrics.get("linear_identifiability_r2", 0.0))
+    proxy = float(metrics.get("approx_identifiability_proxy", 0.0))
+    quality_benefit = max(0.0, min(1.0, 0.5 * r2 + 0.5 * proxy))
+
+    output_dim = classifier_spec.get("output_dim", 1)
+    if not isinstance(output_dim, (int, float)):
+        output_dim = 1
+    training = str(classifier_spec.get("training", "")).lower()
+    training_cost = 0.04 if "align" in training else 0.01
+    dimension_cost = min(0.08, 0.01 * max(1.0, float(output_dim)))
+    quality_cost = training_cost + dimension_cost
+
+    quality_debt = max(0.0, min(1.0, float(debt_total)))
+    quality_q = quality_benefit - quality_cost - quality_debt
+    quality_threshold = 0.0
+    return {
+        "quality_benefit": quality_benefit,
+        "quality_cost": quality_cost,
+        "quality_debt": quality_debt,
+        "quality_q": quality_q,
+        "quality_threshold": quality_threshold,
+        "quality_margin": quality_q - quality_threshold,
+    }
