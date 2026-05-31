@@ -2878,7 +2878,7 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
         return 0
 
     # Race-safe tmp-dir handling. Default --tmp-dir is LEAN_ROOT, which is a
-    # worker worktree directory under .worktrees/round_R<N>/lean4/ during
+    # worker worktree directory under a formalize worktree during
     # recovery. Worktree cleanup can race the audit subprocess: orchestrator
     # may remove the worktree (or its parent dir) between argparse and
     # tempfile.NamedTemporaryFile creation, causing FileNotFoundError that

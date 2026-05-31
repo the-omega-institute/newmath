@@ -331,7 +331,7 @@ codex session 没对话上下文, prompt 必须自洽包含:
 - **文件白名单** + **DO NOT 列表** (worker 不能跨界, 否则 merge 冲突)
 - 共享接口规约 (跨 worker 一致的类型签名 / 数据结构必须 freeze 在 prompt 里)
 - 验证准则 (例 `cd lean4 && lake build` 必 exit 0)
-- commit 消息模板 (含 R 编号)
+- commit 消息模板使用语义 worker identity, 禁止把 round / R / P 编号作为模板身份
 - 显式 "不要 push remote, orchestrator 来 merge"
 
 ## 计时与 /loop 配速
