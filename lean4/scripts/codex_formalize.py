@@ -72,10 +72,10 @@ LOG_DIR = LEAN_ROOT / "scripts" / "logs"
 WORKTREE_DIR = host_path(REPO_ROOT, "WORKTREE_DIR", default=".worktrees")
 
 def _base_branch_default() -> str:
-    return host_value(REPO_ROOT, "BEDC_LEAN_BASE_BRANCH", required=True)
+    return host_value(REPO_ROOT, "BEDC_LEAN_BASE_BRANCH", default="lean4-codex-auto-dev")
 
 
-BASE_BRANCH_DEFAULT = host_value(REPO_ROOT, "BEDC_LEAN_BASE_BRANCH")
+BASE_BRANCH_DEFAULT = host_value(REPO_ROOT, "BEDC_LEAN_BASE_BRANCH", default="lean4-codex-auto-dev")
 BASE_BRANCH = BASE_BRANCH_DEFAULT
 CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 # Lake-gate config exported to every codex child so they all coordinate on

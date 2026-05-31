@@ -10,11 +10,9 @@ from unittest import mock
 
 from host_context import (
     MissingHostValueError,
-    host_env_candidates,
     host_path,
     host_value,
     load_host_context,
-    parse_host_env_text,
 )
 
 
@@ -22,54 +20,44 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 class HostContextTests(unittest.TestCase):
-    def test_parse_host_env_supports_exports_quotes_and_comments(self):
-        values = parse_host_env_text(
-            """
-            # ignored
-            export BEDC_PIPELINE_BRANCH=bedc-pipeline
-            BEDC_UPSTREAM_BRANCH="main branch"
-            REPO_ROOT=/tmp/example # trailing comment
-            EMPTY=
-            """
-        )
-
-        self.assertEqual(values["BEDC_PIPELINE_BRANCH"], "bedc-pipeline")
-        self.assertEqual(values["BEDC_UPSTREAM_BRANCH"], "main branch")
-        self.assertEqual(values["REPO_ROOT"], "/tmp/example")
-        self.assertEqual(values["EMPTY"], "")
-
-    def test_explicit_overrides_env_and_host_env(self):
+    def test_explicit_overrides_process_env_and_default(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
-            env_file = root / "host.env"
-            env_file.write_text(
-                "BEDC_PIPELINE_BRANCH=from-host-env\n"
-                "BEDC_UPSTREAM_BRANCH=host-base\n",
-                encoding="utf-8",
-            )
 
             context = load_host_context(
                 repo_root=root,
-                env_file=env_file,
                 env={"BEDC_PIPELINE_BRANCH": "from-process-env"},
+                defaults={
+                    "BEDC_PIPELINE_BRANCH": "from-default",
+                    "BEDC_UPSTREAM_BRANCH": "default-base",
+                },
                 overrides={"BEDC_PIPELINE_BRANCH": "from-cli"},
             )
 
             self.assertEqual(context.require("BEDC_PIPELINE_BRANCH"), "from-cli")
-            self.assertEqual(context.require("BEDC_UPSTREAM_BRANCH"), "host-base")
+            self.assertEqual(context.require("BEDC_UPSTREAM_BRANCH"), "default-base")
 
-    def test_process_env_overrides_host_env(self):
+    def test_process_env_overrides_default(self):
         with tempfile.TemporaryDirectory() as td:
-            env_file = Path(td) / "host.env"
-            env_file.write_text("BEDC_PIPELINE_BRANCH=from-host-env\n", encoding="utf-8")
-
             context = load_host_context(
                 repo_root=td,
-                env_file=env_file,
                 env={"BEDC_PIPELINE_BRANCH": "from-process-env"},
+                defaults={"BEDC_PIPELINE_BRANCH": "from-default"},
             )
 
             self.assertEqual(context.require("BEDC_PIPELINE_BRANCH"), "from-process-env")
+
+    def test_in_code_default_supplies_value(self):
+        with tempfile.TemporaryDirectory() as td:
+            value = host_value(
+                td,
+                "BEDC_PIPELINE_BRANCH",
+                env={},
+                default="codex-auto-dev",
+                required=True,
+            )
+
+            self.assertEqual(value, "codex-auto-dev")
 
     def test_required_missing_key_fails_closed(self):
         with tempfile.TemporaryDirectory() as td:
@@ -77,7 +65,6 @@ class HostContextTests(unittest.TestCase):
                 host_value(
                     td,
                     "BEDC_PIPELINE_BRANCH",
-                    env_file=Path(td) / "missing.env",
                     env={},
                     required=True,
                 )
@@ -87,28 +74,11 @@ class HostContextTests(unittest.TestCase):
             value = host_path(
                 td,
                 "WORKTREE_DIR",
-                env_file=Path(td) / "missing.env",
                 env={},
                 default=".worktrees",
             )
 
             self.assertEqual(value, Path(td).resolve() / ".worktrees")
-
-    def test_linked_worktree_host_env_candidate_uses_common_checkout(self):
-        with tempfile.TemporaryDirectory() as td:
-            common = Path(td) / "repo"
-            worktree = common / ".worktrees" / "unit"
-            git_dir = common / ".git" / "worktrees" / "unit"
-            host_env = common / ".bedc" / "host.env"
-            worktree.mkdir(parents=True)
-            git_dir.mkdir(parents=True)
-            host_env.parent.mkdir(parents=True)
-            (worktree / ".git").write_text(f"gitdir: {git_dir}\n", encoding="utf-8")
-            host_env.write_text("BEDC_PIPELINE_BRANCH=from-common\n", encoding="utf-8")
-
-            self.assertIn(host_env.resolve(), host_env_candidates(worktree))
-            context = load_host_context(repo_root=worktree, env={})
-            self.assertEqual(context.require("BEDC_PIPELINE_BRANCH"), "from-common")
 
 
 class DaemonHostIntegrationTests(unittest.TestCase):
@@ -239,11 +209,6 @@ class SourceRegressionTests(unittest.TestCase):
 
     def test_bedc_daemons_do_not_keep_old_topology_assignments(self):
         forbidden = [
-            'BASE_BRANCH_DEFAULT = "lean4-codex-auto-dev"',
-            'BASE_BRANCH = "codex-auto-dev"',
-            'SOURCE_BRANCH = "codex-auto-dev"',
-            'MIRROR_BRANCH = "auto-dev"',
-            'UPSTREAM_BRANCH = "dev"',
             '"/opt/homebrew/bin/codex"',
             'Path("/tmp/.bedc_sync_validate_wt")',
         ]
