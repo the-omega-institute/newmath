@@ -12,14 +12,13 @@ The repository is mathlib-free by design. Formalization starts from first princi
 
 ## Build
 
+The operational build and verification contract is maintained in `CLAUDE.md`.
+Toolchain and dependency facts are read from the files that drive the build.
+
 ```bash
 cd lean4 && lake build
 cd papers/bedc && make
 ```
-
-## Status
-
-v0.1 is a mirror-port phase for the BEDC v1.5.5 manuscript. Planned follow-up phases target v0.2 normalization and v0.3 post-migration cleanup.
 
 ## License
 
