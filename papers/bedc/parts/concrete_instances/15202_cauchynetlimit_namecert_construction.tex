@@ -94,16 +94,29 @@ Therefore any $\RealUp$-facing consumer reads $A$ only after the dyadic toleranc
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyNetLimitUp.CauchyNetLimitCarrier\_dyadic\_tolerance\_handoff}
 
+\begin{theorem}[CauchyNetLimit abstract completion bridge]
+\label{thm:cauchy-net-limit-abstract-completion-bridge}
+The public $\CauchyNetLimitUp$ boundary factors into the abstract completion-facing interface exactly through the displayed rows $K,W,R,D,A,H,C,P,N$ of \autoref{def:cauchy-net-limit-carrier}. The factorisation reads the $\CauchyNetUp$ directed-window row $K$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RealUp$ seal row $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$. It has no quotient nets, selected host limits, cofinal choice, host equality, or ambient Real completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:cauchy-net-limit-carrier}. The abstract completion-facing interface can inspect only the displayed directed-window, finite-window, regular-readback, dyadic-tolerance, and Real-seal rows, followed by the structural rows $H,C,P,N$.
+
+Use the route constraints already isolated in \autoref{thm:cauchy-net-limit-namecert-obligations}, \autoref{thm:cauchy-net-limit-real-seal-handoff}, and \autoref{thm:cauchy-net-limit-dyadic-tolerance-handoff}. They force every public read to pass through $K,W,R,D$ before $A$, and then through the transport, replay, provenance, and local naming rows.
+
+Thus the public boundary and the completion-facing interface share exactly the same finite row list. Since no carrier coordinate supplies quotient-net equality, a selected limit, cofinal choice, host equality, or Real completeness, none can escape through the bridge.
+\end{proof}
+
 \closureat{CauchyNetLimitUp}{obligationStr}
 \closureat{CauchyNetLimitUp}{scopedStr}
 \closureat{CauchyNetLimitUp}{bridgedStr}
+\closureat{CauchyNetLimitUp}{matureStr}
 
 \begin{closurestatus}{\CauchyNetLimitUp}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:cauchy-net-limit-carrier}, \autoref{thm:cauchy-net-limit-namecert-obligations}, \autoref{thm:cauchy-net-limit-real-seal-handoff}, \autoref{thm:cauchy-net-limit-directed-window-obligations}, and \autoref{thm:cauchy-net-limit-dyadic-tolerance-handoff} bind the directed-window, regular-readback, dyadic-tolerance, $\RealUp$-seal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope for finite Cauchy-net limit reads.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:cauchy-net-limit-carrier}, \autoref{thm:cauchy-net-limit-namecert-obligations}, \autoref{thm:cauchy-net-limit-real-seal-handoff}, \autoref{thm:cauchy-net-limit-directed-window-obligations}, \autoref{thm:cauchy-net-limit-dyadic-tolerance-handoff}, and \autoref{thm:cauchy-net-limit-abstract-completion-bridge} bind the directed-window, regular-readback, dyadic-tolerance, $\RealUp$-seal, abstract completion-facing bridge, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope for finite Cauchy-net limit reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient nets, selected host limits, cofinal choice, host real equality, ambient $\RealUp$ completeness, or Lean verification.}
-  \upgradepath{The next obligation is a bridge theorem connecting the public Cauchy-net limit boundary to the abstract completion-facing interface.}
+  \upgradepath{No further paper-side closure upgrade is claimed beyond bridge-maintenance and formal verification.}
   \constructivestory{A $\CauchyNetLimitUp$ packet is generated from a CauchyNet directed-window row, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

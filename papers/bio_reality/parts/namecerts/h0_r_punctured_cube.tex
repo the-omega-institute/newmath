@@ -1,72 +1,39 @@
+\subsection{Window-Six Boundary Tile in the Standard Codon Table}
+\label{subsec:bioreality-h0-r-punctured-cube}
 \origin{ai}
 
-\subsection{A punctured-cube row in the standard codon table}
-\label{sec:bioreality-h0-r-punctured-cube}
-
-\paragraph{Finite object.}
-This BioReality packet records a code-layer pattern in the standard genetic-code table.  The carrier is the six-coordinate codon cube, read only through a curated codon-to-label table.  The distinguished row $R$ is the following thirteen-codon set:
+\paragraph{Finite object and readout.}
+The packet studies the standard-code codon table through the six-bit codon cube $Q_6$, using the curated codon-to-label table only as a code-layer contact. The selected region $R$ is not asserted to be a mechanism of translation or a physical constraint on molecules. It is a finite pattern in codon-coordinate space whose labels can be compared with the standard table. In the verified row, the region is exactly the following thirteen codons:
 $$
 \begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+R = \{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
 &\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
 \end{aligned}
 $$
-The independent cardinality check gives $|R|=13$, with the same thirteen displayed codons.  The cell complex associated to this row has the verified face-vector
-$$
-\begin{aligned}
-(f_0,f_1,f_2)=(13,16,4).
-\end{aligned}
-$$
-Thus the row is not being summarized by an informal visual impression: it is a finite subconfiguration with thirteen vertices, sixteen one-dimensional incidences, and four local faces inside the window-six codon display.
+The independent cardinality row records $|R|=13$ and gives the same codon list. The punctured-cube row records the face data $f=(13,16,4)$, so the finite shape has thirteen vertices, sixteen one-dimensional adjacencies, and four two-dimensional faces under the local cube incidence used by the computation. This is the concrete boundary tile being tested: a local six-coordinate shape carrying singleton-label corners and three-point label classes when read against the curated standard-code labels.
 
-\paragraph{Spectral measurement.}
-The same packet carries a numerical spectral readout for the row and its companion shape.  The verified values are
-$$
-\begin{aligned}
-\lambda_M&=0.6752479308830213,\\
-\lambda_R&=0.4758352843197002,\\
-\mu&=3.051487585298128.
-\end{aligned}
-$$
-The radial cubic residual was recorded as $-6.224354365258478\times 10^{-12}$, and the spectral-radius tolerance check returned $0.6752479308830213$.  These numbers identify the packet as a concrete finite-row computation rather than as a qualitative analogy between a codon table and a cube.
+\paragraph{Spectral and null-model checks.}
+The associated spectral row gives $\lambda_M=0.6752479308830213$, $\lambda_R=0.4758352843197002$, and $\mu=3.051487585298128$. The radial cubic residual is $-6.224354365258478\times 10^{-12}$, the same value reported for the cubic-polynomial check, so the numerical identity is satisfied to the stated tolerance of the run. The shape-significance row used $N=2000$ samples with seed $42$. Among these samples there was one exact shape match, giving $p_{\mathrm{exact}}=0.0005$, and twenty-five samples with Jaccard score at least $0.9$, giving $p_{J\geq 0.9}=0.0125$. The sampler attempted $57377$ distinct draws and recorded $55377$ duplicate retries, so the small tail counts are being read inside a heavily constrained finite sampling space rather than as asymptotic biological law.
 
-\paragraph{Shape significance against randomized tables.}
-A shape-level randomization test used $N=2000$ sampled trials with seed $42$.  Because the sampling required distinct code-like objects, the run made $57377$ distinct-sample attempts and encountered $55377$ duplicate retries.  The exact shape occurred once, giving
-$$
-\begin{aligned}
-p_{\mathrm{exact}}=0.0005.
-\end{aligned}
-$$
-The high-overlap threshold $J\geq 0.9$ occurred $25$ times, giving
-$$
-\begin{aligned}
-p_{J\geq 0.9}=0.0125.
-\end{aligned}
-$$
-A separate amino-acid-class-preserving null model, again with $N=2000$ and seed $42$, found no exact shape matches.  In that run the observed companion size was $|M|=20$, the lower-tail count at or below that observed size was $7$, the exact-shape value was $0.0$, and the lower-tail value was
-$$
-\begin{aligned}
-p_{\mathrm{lower\ tail}}=0.0035.
-\end{aligned}
-$$
-The row therefore has finite empirical pressure in both the unrestricted shape test and the amino-acid-class-preserving test, while still remaining a code-table observation.
+\paragraph{Amino-acid-class preserving comparison.}
+A second null row preserves amino-acid classes. It again used $N=2000$ and seed $42$. The observed comparison reports $\mathrm{observed\_M\_size}=20$, no exact shape match, and seven samples in the lower tail at or below the observed $M$ size. Thus the exact-shape rate is $0.0$, while the lower-tail rate is $0.0035$. These figures support the narrower claim that the coordinate pattern is difficult to reproduce under the stated finite reshuffling rule. They do not identify a biochemical cause, a folding constraint, or an evolutionary pathway.
 
-\paragraph{Leave-one tests.}
-The leave-one-code-out experiment evaluated $23$ code tables and $63$ total targets.  Its baseline hit rate was $0.19821739130434785$.  The hit rate above baseline was $0.9841269841269841$, the hit rate inside $M\setminus T$ was $0.9365079365079365$, and the hit rate inside $M\setminus T$ plus the boundary was $0.9841269841269841$.  By family, the run classified $5$ families: alternative yeast had hit rate $0.8333333333333334$, while bacterial-plastid, candidate-other, mitochondrial, and nuclear-ciliate each had hit rate $1.0$ above baseline.  The leave-one-codon-out experiment recorded $0$ anchors, $5$ boundary codons, $8$ high-coverage closure codons, $8$ predictable codons, and recovery rate $1.0$.
+\paragraph{Leave-one-out behavior.}
+The code-level prediction rows give two recovery views. In the leave-one-code-out row, $23$ tables were evaluated and $63$ targets were tested. The baseline hit rate is $0.19821739130434785$, while the hit rate in $M-T$ is $0.9365079365079365$ and the hit rate in $M-T$ plus boundary is $0.9841269841269841$. The row also records $0.9841269841269841$ for the hit rate above baseline. In the leave-one-codon-out row, the predictable count is $8$, the boundary count is $5$, the anchor count is $0$, the high-closure coverage count is $8$, and the recovery rate is $1.0$. These numbers say that the local coordinate construction is informative for code-label recovery inside the tested finite table. They do not say that a ribosome realizes the construction, that a protein fold follows from it, or that the pattern is universal across biology.
 
-\paragraph{Module partition.}
-The thirteen codons of $R$ are exactly assigned to six named modules.  The verified partition is
+\paragraph{Family and module accounting.}
+The family-level row separates five code families. The recorded hit rates above baseline are $1.0$ for bacterial-plastid, $1.0$ for mitochondrial, $1.0$ for nuclear-ciliate, $1.0$ for candidate-other, and $0.8333333333333334$ for alternative-yeast. The module-classification row accounts for all thirteen elements of $R$: $\mathrm{assigned\_count}=13$, $R_{\mathrm{size}}=13$, with no extra module codons, no missing module codons, and no unassigned codons. The modules are
 $$
 \begin{aligned}
-\mathrm{agr}&=\{\mathrm{AGA},\mathrm{AGG}\},\\
+\mathrm{agr}&=\{\mathrm{AGA},\mathrm{AGG}\}, &
 \mathrm{ar\_lys}&=\{\mathrm{AAA}\},\\
-\mathrm{cun}&=\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
+\mathrm{cun}&=\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\}, &
 \mathrm{ile\_met}&=\{\mathrm{AUA}\},\\
-\mathrm{ssn}&=\{\mathrm{UCA},\mathrm{UUA}\},\\
+\mathrm{ssn}&=\{\mathrm{UCA},\mathrm{UUA}\}, &
 \mathrm{stop\_trp}&=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
 \end{aligned}
 $$
-The module audit reports $R$-size $13$, assigned count $13$, no extra module codons, no missing codons, and no unassigned codons.  Each module has at least one predictable or boundary entry, so the row is closed as a finite code-layer classification for this packet.
+Each module has either a predictable member or a boundary member in the finite classification. This is the strongest local reading licensed here: the punctured-cube region organizes the thirteen codons into a complete module account that agrees with the code-layer tests.
 
-\paragraph{Biological reading and boundary.}
-The only biological contact used here is the curated standard-code table assigning codons to amino-acid or stop labels.  That contact is sufficient for codon-label readback and for testing the local tile split described above.  It is not a measurement of translation dynamics, ribosomal realization, folded structure, physical admissibility, biological function, or a universal mechanism.  Consequently, the packet supports the claim that the window-six coordinates expose a local boundary-tile pattern in the standard-code label table.  It does not support any statement that DNA must obey this geometry as a biological necessity, nor any inference from amino-acid label sequence to protein fold or function.  Any future promotion beyond the code layer must introduce a separate observational contact at the relevant layer.
+\paragraph{Local verdict and exclusions.}
+The chapter therefore records a ready code-read claim. The standard-code table supplies codon labels, and the six-bit coordinate analysis supplies a local punctured-cube boundary tile with $|R|=13$, $f=(13,16,4)$, significant finite null behavior, spectral consistency, and complete module accounting. The claim stops at that level. No translation event, folded structure, physical admissibility condition, biological function, molecular mechanism, or universal biological principle follows from these rows. Any such stronger statement would require a different observation channel specifically measuring the higher layer being claimed.

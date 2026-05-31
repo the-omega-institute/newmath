@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\NestedIntervalCompletenessUp$}
+\label{ch:concrete-instances-nested-interval-completeness-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\NestedIntervalCompletenessUp$ packet records the finite L10 route by which a bounded decreasing nested interval chain is read as a completion-facing Real seal. It sits over the closed bounded interval packet of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the nested interval source of \autoref{ch:concrete-instances-nestedinterval-namecert}, the Cantor-intersection consumer of \autoref{ch:concrete-instances-cantor-intersection-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names completeness as displayed finite rows; it does not export a host-selected point, quotient stream equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Nested interval completeness carrier]
+\label{def:nested-interval-completeness-carrier}
+A $\NestedIntervalCompletenessUp$ carrier is a finite $\BHist$ packet
+$$
+L=(B,N,C,W,R,E,H,T,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\ClosedBoundedIntervalUp$ endpoint row, carrying the located closed interval bounds used at the root of the chain.
+\item $N$ is the $\NestedIntervalUp$ row, carrying the decreasing finite-window chain and the endpoint containment ledger.
+\item $C$ is the $\CantorIntersectionUp$ handoff row, available only after the nested source and closed bounded interval rows have been displayed.
+\item $W$ is the $\StreamNameUp$ finite observation window read from the displayed nested interval chain.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row obtained from the same finite windows.
+\item $E$ is the $\RealUp$ seal row exposed after $B,N,C,W,R$.
+\item $H$ records componentwise $\hsame$ transport for the interval, nested source, Cantor handoff, stream window, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $T$ is the displayed $\Cont$ replay from a requested interval precision through $B,N,C,W,R,E$.
+\item $P$ is the $\Pkg$ provenance over $\NestedIntervalCompletenessUp$, $\ClosedBoundedIntervalUp$, $\NestedIntervalUp$, $\CantorIntersectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ is the local $\NameCert_{\NestedIntervalCompletenessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for a selected host real, quotient stream equality, countable choice, trichotomy, host equality, or detached completeness theorem.
+\end{definition}
+
+\begin{theorem}[Nested interval completeness NameCert obligations]
+\label{thm:nested-interval-completeness-namecert-obligations}
+For every accepted $\NestedIntervalCompletenessUp$ carrier
+$$
+L=(B,N,C,W,R,E,H,T,P,Q),
+$$
+the local $\NameCert_{\NestedIntervalCompletenessUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item closed bounded interval admission through $B$;
+\item nested interval admission through $N$, requiring monotone containment and displayed finite width windows;
+\item Cantor-intersection handoff through $C$, requiring any completion-facing read to pass through the existing nested-intersection packet;
+\item finite stream and regular rational readback through $W$ and $R$;
+\item terminal Real-seal admission through $E$;
+\item componentwise transport, replay, provenance, and local naming through $H,T,P,Q$.
+\end{enumerate}
+No nested interval completeness obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:nested-interval-completeness-carrier}. The rows $B,N,C,W,R,E$ are the mathematical route, while $H,T,P,Q$ preserve and name it.
+
+The closed bounded interval row fixes the endpoint surface. The nested interval row supplies the decreasing finite-window chain, and the Cantor-intersection row consumes that chain before any completion-facing Real seal is visible.
+
+The stream and regular rational rows expose only finite observations and their readback. Since the carrier has no host point, quotient equality, countable choice, trichotomy, host equality, or detached completeness coordinate, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Nested interval completeness Real seal]
+\label{thm:nested-interval-completeness-real-seal}
+Every $\RealUp$-facing consumer of an accepted $\NestedIntervalCompletenessUp$ carrier factors through the finite route
+$$
+\ClosedBoundedIntervalUp \longmapsto \NestedIntervalUp \longmapsto \CantorIntersectionUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Thus the completeness read is a displayed Real-name seal generated from interval endpoints, nested containment, Cantor-intersection handoff, finite stream windows, and regular rational readback. It is not a host completeness theorem, selected point, quotient stream equality, countable choice, trichotomy, or host real equality claim.
+\end{theorem}
+\begin{proof}
+Begin with the endpoint and nested-source rows $B$ and $N$. They determine the interval family visible to the packet, so a Real-facing consumer cannot start from an ambient complete line.
+
+Read the Cantor-intersection handoff row $C$. This row is downstream of the displayed interval family and upstream of the finite windows, so it is the only completion-facing bridge available inside the carrier.
+
+Finally read the stream window $W$, regular rational readback $R$, and Real seal $E$. The transport, replay, provenance, and naming rows preserve this same route. Because no other coordinate exists, every Real-facing consumer factors through the displayed finite path.
+\end{proof}
+
+\closureat{NestedIntervalCompletenessUp}{seedStr}
+
+\begin{closurestatus}{\NestedIntervalCompletenessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nested-interval-completeness-carrier}, \autoref{thm:nested-interval-completeness-namecert-obligations}, and \autoref{thm:nested-interval-completeness-real-seal} seed the finite nested-interval completeness route from closed bounded interval and nested interval data through CantorIntersection, StreamName, RegSeqRat, and the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host completeness, selected real points, quotient stream equality, countable choice, trichotomy, host equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked closed-interval admission, nested-source admission, Cantor-intersection handoff, finite-window readback, Real-seal admission, transport, replay, provenance, and local naming for BEDC.Derived.NestedIntervalCompletenessUp.}
+  \constructivestory{A $\NestedIntervalCompletenessUp$ packet is generated from a ClosedBoundedIntervalUp endpoint row, a NestedIntervalUp source row, a CantorIntersectionUp handoff, StreamName finite windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

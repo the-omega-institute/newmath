@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for host real equality, a choice-selected dense point, quotient stream equality, ambient completeness, trichotomy, Lean verification, or bridge checking.
 \end{definition}
+\leandef{BEDC.Derived.RealUp.RealSeparabilityCarrier}
 
 The sibling lattice route is explicit: $\RealSeparabilityUp$ consumes \autoref{ch:concrete-instances-dyadic-density-real-namecert} for the dyadic tolerance witness and \autoref{ch:concrete-instances-rational-density-real-namecert} for the rational interval witness before $\CountableDenseSubsetUp$ names the dense source. This places the separability packet downstream of the dyadic and rational density witnesses rather than treating density as a detached Real-side fact.
 
@@ -57,6 +58,7 @@ The RegSeqRat handoff is then the row $R$. It transports the inspected rational 
 
 Finally $E,H,C,P,N$ seal, transport, replay, source, and name only the displayed route. Since the carrier contains no coordinate for host equality, selected dense points, quotient streams, ambient completeness, trichotomy, Lean verification, or bridge checking, the listed obligations exhaust the local NameCert surface.
 \end{proof}
+\leanchecked{BEDC.Derived.RealUp.RealSeparabilityNameCertObligations}
 
 \begin{theorem}[Real separability rational dense handoff]
 \label{thm:real-separability-rational-dense-handoff}
@@ -92,6 +94,24 @@ Project the carrier of \autoref{def:real-separability-carrier}. A density read h
 Apply \autoref{thm:real-separability-rational-dense-handoff}. The rational dense handoff is exported only after the read has passed through $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
 
 When two regular rational windows are compared, read the classifier route of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert} before that export. The classifier supplies the finite Cauchy and RegSeqRat comparison surface, so the separability packet cannot replace it with quotient stream equality, selected representatives, host real equality, countable-choice selectors, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Real separability L10 density certificate]
+\label{thm:real-separability-l10-density-certificate}
+Every dense dyadic schedule exported by an accepted $\RealSeparabilityUp$ carrier
+$$
+S=(Q,D,W,R,E,T,H,C,P,N)
+$$
+factors through $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyEquivalenceSetoidUp$, and the terminal $\RealUp$ seal before it can serve a countable-density consumer. The route uses the Cauchy-equivalence classifier of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert} to compare regular rational windows, and it exports no quotient stream equality, selected dense point, host real equality, countable-choice selector, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-separability-carrier}. A dense dyadic schedule can read only the displayed rational enumeration row $Q$, dyadic tolerance row $D$, finite window row $W$, regular readback row $R$, terminal seal row $E$, exactness ledger $T$, transport $H$, replay $C$, provenance $P$, and local name $N$.
+
+Apply \autoref{thm:real-separability-rational-dense-handoff}. The exported density read must pass through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before any separability consumer can use it.
+
+Next apply \autoref{thm:real-separability-cauchy-equivalence-setoid-forward-consumption}. When the schedule compares two regular rational windows, the comparison is routed through $\CauchyEquivalenceSetoidUp$ and not through quotient stream equality or a selected representative.
+
+Finally route the displayed schedule to the countable-density boundary by \autoref{thm:real-separability-finite-density-exhaustion}. The same rows $Q,D,W,R,E,T,H,C,P,N$ carry the dyadic schedule to the separability export, so no host equality, selected dense point, countable-choice selector, or ambient completeness witness is introduced.
 \end{proof}
 
 \begin{theorem}[Real separability dyadic-rational density handoff]

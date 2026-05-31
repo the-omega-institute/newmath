@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubstitutionSpineUp$}
+\label{ch:concrete-instances-metacic-substitution-spine-namecert}
+\origin{human}
+
+Following de Bruijn's index discipline and Barendregt's account of substitution under binders, the $\MetaCICSubstitutionSpineUp$ packet records the finite BEDC surface for the closed substitution audit fragment. It lands the audit map of \autoref{ch:metacic-substitution-audit-map} as a concrete NameCert spine and reads the closed-boundary packet of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}. The packet is a closed-fragment substitution spine; it does not assert unrestricted substitution composition, subject reduction, host syntax quotients, hidden evaluator state, or compiler correctness.
+
+\begin{definition}[MetaCIC substitution spine carrier]
+\label{def:metacic-substitution-spine-carrier}
+A $\MetaCICSubstitutionSpineUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,V,D,Q,R,L,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed MetaCIC term row, listing the displayed source, payload, and boundary terms.
+\item $V$ is the de Bruijn variable ledger for the finite indices inspected by shift and substitution.
+\item $D$ is the cutoff-depth row recording the boundary at which closedness is tested.
+\item $Q$ is the closedness classifier row for the source and payload terms.
+\item $R$ is the closed shift row, exposed only when the closedness classifier has already been read.
+\item $L$ is the closed substitution row, exposed only through the same closedness classifier and depth row.
+\item $A$ is the closed composition audit row, recording the checked closed-fragment composition and swap surfaces.
+\item $H$ records componentwise $\hsame$ transport for terms, indices, depth, closedness, shift, substitution, composition, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for closed substitution requests through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICSubstitutionSpineUp$, $\ClosedTermSubstitutionBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICSubstitutionSpineUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,V,D,Q,R,L,A,H,C,P,N$. It has no coordinate for unrestricted substitution algebra, typing preservation, subject reduction, host syntax equality, quotient terms, hidden evaluator state, or compiler correctness.
+\end{definition}
+
+\begin{theorem}[MetaCIC substitution spine NameCert obligations]
+\label{thm:metacic-substitution-spine-namecert-obligations}
+For every accepted $\MetaCICSubstitutionSpineUp$ carrier $S=(T,V,D,Q,R,L,A,H,C,P,N)$, the local $\NameCert_{\MetaCICSubstitutionSpineUp}$ surface consists exactly of carrier admission for displayed terms, de Bruijn indices, cutoff depth, closedness, closed shift, closed substitution, closed composition audit, transport, replay, provenance, and local naming; shift and substitution admission requiring $Q$ and $D$ before $R$ or $L$ is visible; closed-composition admission requiring $A$ to read only the checked closed-fragment rows; and nonescape excluding unrestricted substitution composition, subject reduction, host syntax quotients, hidden evaluator state, and compiler correctness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metacic-substitution-spine-carrier}. The accepted packet displays exactly $T,V,D,Q,R,L,A,H,C,P,N$.
+
+Closedness gates the operation rows. The rows $Q$ and $D$ must be exposed before the closed shift row $R$ or the closed substitution row $L$ can be read.
+
+The audit row $A$ records only the closed composition surface. It reads the already displayed operation rows and therefore cannot be reinterpreted as unrestricted substitution algebra or as a subject-reduction theorem.
+
+Finally, $H,C,P,N$ preserve, replay, source, and name the same finite spine. Since the carrier has no coordinate for host syntax quotients, hidden evaluator state, or compiler correctness, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC substitution spine closed-term consumer]
+\label{thm:metacic-substitution-spine-closed-term-consumer}
+Every closed-term consumer of an accepted $\MetaCICSubstitutionSpineUp$ carrier factors through the finite route
+$$
+\ClosedTermSubstitutionBoundaryUp \longmapsto
+T,V,D,Q,R,L,A,H,C,P,N .
+$$
+Thus a consumer may read closed shift, closed substitution, and closed composition audit data only after the closed boundary, de Bruijn index, cutoff-depth, and closedness rows have been displayed, and cannot import subject reduction, host syntax equality, quotient terms, hidden evaluator state, or compiler correctness.
+\end{theorem}
+\begin{proof}
+Start with the closed boundary supplied by \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}. It gives the displayed term, closedness, shift, substitution, ledger, audit, transport, replay, provenance, and naming rows that this spine specializes.
+
+Project the carrier rows $T,V,D,Q,R,L,A$. These rows force a closed-term consumer to read the de Bruijn index and cutoff-depth data before the operation rows are exposed.
+
+Transport, replay, provenance, and local naming are then read through $H,C,P,N$. They preserve the same finite route, so the consumer receives only closed-fragment substitution spine data and none of the excluded host-level principles.
+\end{proof}
+
+\closureat{MetaCICSubstitutionSpineUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubstitutionSpineUp}
+  \constructivestory{A $\MetaCICSubstitutionSpineUp$ packet is generated from closed MetaCIC term rows, de Bruijn index rows, cutoff-depth rows, closedness classifiers, closed shift rows, closed substitution rows, closed composition audit rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-substitution-spine-carrier}, \autoref{thm:metacic-substitution-spine-namecert-obligations}, and \autoref{thm:metacic-substitution-spine-closed-term-consumer} seed the closed substitution, shift, and composition audit spine over the closed-term boundary packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted substitution algebra, subject reduction, typing preservation, host syntax quotients, hidden evaluator state, compiler correctness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires term admission, de Bruijn index admission, cutoff-depth admission, closedness gating, closed shift, closed substitution, closed composition audit, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICSubstitutionSpineUp.}
+\end{closurestatus}
