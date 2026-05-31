@@ -1,0 +1,41 @@
+{
+  "blocking_gates": [
+    "public_minigrid_execution",
+    "public_jepa_baseline"
+  ],
+  "decision": "not_contact_ready",
+  "gates": {
+    "local_visual_planning": {
+      "evidence": "reports/bedc_jepa_four_system_experiment.json",
+      "requirement": "local visual planning with learned transition and risk-adjusted gain",
+      "status": "pass"
+    },
+    "object_counterfactual_clutter": {
+      "evidence": "reports/bedc_jepa_four_system_experiment.json",
+      "requirement": "object-level counterfactual readback under clutter",
+      "status": "pass"
+    },
+    "public_jepa_baseline": {
+      "evidence": "no public JEPA baseline artifact recorded",
+      "requirement": "public JEPA or JEPA-style baseline comparison",
+      "status": "missing"
+    },
+    "public_minigrid_execution": {
+      "evidence": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
+      "requirement": "executed public MiniGrid DoorKey readback/gap benchmark",
+      "status": "missing"
+    },
+    "torch_objective_seed_sweep": {
+      "evidence": "reports/bedc_jepa_torch_objective.json",
+      "requirement": "stable BEDC objective gain without latent R2 change",
+      "status": "pass"
+    }
+  },
+  "next_actions": [
+    "install gymnasium/minigrid or run on an environment where both are present",
+    "execute the public MiniGrid DoorKey benchmark packet",
+    "add a public JEPA or JEPA-style baseline artifact",
+    "rerun the readiness gate before external contact"
+  ],
+  "schema_id": "bedc-jepa-readiness"
+}

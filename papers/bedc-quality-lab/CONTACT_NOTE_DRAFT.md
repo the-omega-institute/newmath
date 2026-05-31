@@ -73,6 +73,11 @@ coverage, and debt.  The current local environment does not have `gymnasium` /
 `minigrid` installed, so the public MiniGrid packets are recorded as
 unavailable rather than executed.
 
+The current readiness gate is `not_contact_ready`: torch objective seed sweep,
+local visual planning, and cluttered object-counterfactual gates pass, while
+public MiniGrid execution and public JEPA baseline comparison are still
+blocking gates.
+
 Reproducible local commands:
 
 ```text
