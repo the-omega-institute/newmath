@@ -1,4 +1,5 @@
 import importlib.util
+from dataclasses import replace
 from pathlib import Path
 
 import numpy as np
@@ -7,6 +8,7 @@ import pytest
 from bedc_quality_lab.report import write_quality_report
 from bedc_quality_lab.schema import SCHEMA_ID, QualityEvidenceEnvelope
 from scripts import run_gaussian_ou_lejepa as runner
+from scripts import run_quality_improvement as improvement
 
 
 def assert_common_experiment_envelope(envelope):
@@ -124,6 +126,109 @@ def test_experiment_fallback_has_stable_quality_envelope(tmp_path):
     )
     assert_meaningful_metric_thresholds(envelope)
     assert_artifact_payloads_can_be_written(envelope, tmp_path)
+
+
+def test_parameterized_experiment_preserves_producer_chain():
+    envelope = runner.run_experiment(
+        use_torch=False,
+        sample_count=2048,
+        run_id="gaussian-ou-lejepa-finite-sample-after",
+        envelope_artifact="reports/improvement_after_envelope.json",
+        report_artifact="reports/quality_improvement_report.md",
+    )
+
+    assert envelope.schema_id == SCHEMA_ID
+    assert envelope.run_id == "gaussian-ou-lejepa-finite-sample-after"
+    assert envelope.source_spec == {
+        "name": "gaussian-ou-toy-world",
+        "latent_dim": 2,
+        "sample_count": 2048,
+        "rho": 0.82,
+        "mixing": "sinusoidal-parabolic-shear",
+    }
+    assert envelope.pattern_spec == {
+        "name": "latent-linear-recovery",
+        "target": "recover z from representation h by linear least squares",
+    }
+    assert envelope.classifier_spec == {
+        "name": "standardized-nonlinear-observation",
+        "output_dim": 2,
+        "training": "deterministic-standardization",
+    }
+    assert envelope.stability_spec == {
+        "name": "fixed-seed-single-source",
+        "seed": 23,
+        "pair_process": "ornstein-uhlenbeck",
+    }
+    assert envelope.artifacts == {
+        "envelope": "reports/improvement_after_envelope.json",
+        "report": "reports/quality_improvement_report.md",
+    }
+    assert "kind=finite-sample; residue=finite-sample-support; severity=none; status=closed; score=0.000000" in envelope.debt_items
+    assert all("kind=" in row and "score=" in row for row in envelope.debt_items)
+    assert all(row.startswith("residue=") for row in envelope.ledger_gaps)
+
+
+def test_improvement_projection_fails_closed_for_missing_or_malformed_target_row():
+    envelope = runner.run_experiment(use_torch=False)
+    missing = replace(
+        envelope,
+        debt_items=[row for row in envelope.debt_items if "kind=finite-sample;" not in row],
+    )
+    malformed = replace(
+        envelope,
+        debt_items=[
+            "kind=finite-sample; residue=finite-sample-support; severity=high; status=open"
+            if "kind=finite-sample;" in row
+            else row
+            for row in envelope.debt_items
+        ],
+    )
+
+    with pytest.raises(ValueError):
+        improvement._target_debt_row(missing)
+    with pytest.raises(ValueError):
+        improvement._target_debt_row(malformed)
+
+
+def test_quality_improvement_delta_and_report_projection():
+    before = runner.run_experiment(
+        use_torch=False,
+        sample_count=384,
+        run_id="gaussian-ou-lejepa-finite-sample-before",
+        envelope_artifact="reports/improvement_before_envelope.json",
+        report_artifact="reports/quality_improvement_report.md",
+    )
+    after = runner.run_experiment(
+        use_torch=False,
+        sample_count=2048,
+        run_id="gaussian-ou-lejepa-finite-sample-after",
+        envelope_artifact="reports/improvement_after_envelope.json",
+        report_artifact="reports/quality_improvement_report.md",
+    )
+
+    before_row = improvement._target_debt_row(before)
+    after_row = improvement._target_debt_row(after)
+    delta = improvement._quality_delta(before, after)
+    report = improvement._render_improvement_report(before, after)
+
+    assert before_row["status"] == "open"
+    assert before_row["score"] == "0.200000"
+    assert after_row["status"] == "closed"
+    assert after_row["score"] == "0.000000"
+    assert after.metrics["quality_q"] - before.metrics["quality_q"] > 0
+    assert after.metrics["quality_debt"] - before.metrics["quality_debt"] < 0
+    assert float(after_row["score"]) - float(before_row["score"]) < 0
+    assert delta["target_kind"] == "finite-sample"
+    assert delta["delta_q"] > 0
+    assert delta["delta_debt"] < 0
+    assert "reports/improvement_before_envelope.json" in report
+    assert "reports/improvement_after_envelope.json" in report
+    assert "delta_q" in report
+    assert "delta_debt" in report
+    assert "干预前 status：`open`" in report
+    assert "干预后 status：`closed`" in report
+    assert "目标 debt kind：`finite-sample`" in report
 
 
 def test_experiment_torch_success_path_uses_tiny_encoder_metadata(monkeypatch):
