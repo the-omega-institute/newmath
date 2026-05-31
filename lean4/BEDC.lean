@@ -1937,6 +1937,7 @@ import BEDC.Derived.ClosedBoundedIntervalNetUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.HeineCantorRoute
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalUp.CantorIntersectionHandoff
+import BEDC.Derived.ClosedBoundedIntervalUp.CarrierClassifierScope
 import BEDC.Derived.ClosedBoundedIntervalUp.CauchyModulusWindow
 import BEDC.Derived.ClosedBoundedIntervalUp.Classifier
 import BEDC.Derived.ClosedBoundedIntervalUp.CompactUniformSource
@@ -2227,6 +2228,7 @@ import BEDC.Derived.CompactUp.SemanticCertificate
 import BEDC.Derived.CompactUp.StdBridge
 import BEDC.Derived.CompactUp.Suffix
 import BEDC.Derived.CompactUp.TwoStepFactor
+import BEDC.Derived.CompactnessCompletionRouteUp.TasteGate
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CompilerClassifierRouteUp.TasteGate
 import BEDC.Derived.CompilerCompositionTraceUp.TasteGate
@@ -4712,6 +4714,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10BudgetLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10DischargeBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRegSeqRatHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierNormalFormDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierObstructionNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNConditionalBudget
@@ -4719,6 +4722,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNDischargeRow
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontierDischargeCoverage
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNL10Readback
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNObligationSurface
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNPremiseSplit
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNSubjectReductionBoundary
@@ -4786,6 +4790,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineFourFaceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormPublicNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormReadbackBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormRouteCoverage
+import BEDC.Derived.MetaCICCriticalPathUp.NormalizationBudgetNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationSourceVisibility
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionLedgerExhaustion
@@ -6546,6 +6551,7 @@ import BEDC.Derived.RepresentationRingUp.OperationLedgerCoverage
 import BEDC.Derived.RepresentationRingUp.RepresentationObligationInventory
 import BEDC.Derived.RepresentationRingUp.TasteGate
 import BEDC.Derived.RepresentedSpaceUp
+import BEDC.Derived.RepresentedSpaceUp.AdmissibleCauchyHandoff
 import BEDC.Derived.RepresentedSpaceUp.AdmissibleFinality
 import BEDC.Derived.RepresentedSpaceUp.AdmissibleNameCoverage
 import BEDC.Derived.RepresentedSpaceUp.CauchyNameScopePackage
