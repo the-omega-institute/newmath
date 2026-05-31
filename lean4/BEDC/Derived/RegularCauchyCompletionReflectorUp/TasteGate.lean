@@ -26,11 +26,10 @@ def regularCauchyCompletionReflectorDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyCompletionReflectorDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyCompletionReflectorDecodeBHist tail)
 
-private theorem regularCauchyCompletionReflector_decode_encode_bhist :
+private theorem RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       regularCauchyCompletionReflectorDecodeBHist
-          (regularCauchyCompletionReflectorEncodeBHist h) =
-        h := by
+        (regularCauchyCompletionReflectorEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -41,52 +40,51 @@ private theorem regularCauchyCompletionReflector_decode_encode_bhist :
 def regularCauchyCompletionReflectorFields :
     RegularCauchyCompletionReflectorUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyCompletionReflectorUp.mk S Q E U I P H C N => [S, Q, E, U, I, P, H, C, N]
+  | RegularCauchyCompletionReflectorUp.mk S Q E U I P H C N =>
+      [S, Q, E, U, I, P, H, C, N]
 
 def regularCauchyCompletionReflectorToEventFlow :
-    RegularCauchyCompletionReflectorUp → EventFlow
+    RegularCauchyCompletionReflectorUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      List.map regularCauchyCompletionReflectorEncodeBHist
-        (regularCauchyCompletionReflectorFields x)
+  fun x =>
+    (regularCauchyCompletionReflectorFields x).map
+      regularCauchyCompletionReflectorEncodeBHist
 
-private def regularCauchyCompletionReflectorEventAt : Nat → EventFlow → RawEvent
+private def regularCauchyCompletionReflectorEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => regularCauchyCompletionReflectorEventAt index rest
+  | Nat.succ index, _event :: rest => regularCauchyCompletionReflectorEventAtDefault index rest
 
-def regularCauchyCompletionReflectorFromEventFlow :
-    EventFlow → Option RegularCauchyCompletionReflectorUp :=
+def regularCauchyCompletionReflectorFromEventFlow
+    (ef : EventFlow) : Option RegularCauchyCompletionReflectorUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun flow =>
-    some
-      (RegularCauchyCompletionReflectorUp.mk
-        (regularCauchyCompletionReflectorDecodeBHist
-          (regularCauchyCompletionReflectorEventAt 0 flow))
-        (regularCauchyCompletionReflectorDecodeBHist
-          (regularCauchyCompletionReflectorEventAt 1 flow))
-        (regularCauchyCompletionReflectorDecodeBHist
-          (regularCauchyCompletionReflectorEventAt 2 flow))
-        (regularCauchyCompletionReflectorDecodeBHist
-          (regularCauchyCompletionReflectorEventAt 3 flow))
-        (regularCauchyCompletionReflectorDecodeBHist
-          (regularCauchyCompletionReflectorEventAt 4 flow))
-        (regularCauchyCompletionReflectorDecodeBHist
-          (regularCauchyCompletionReflectorEventAt 5 flow))
-        (regularCauchyCompletionReflectorDecodeBHist
-          (regularCauchyCompletionReflectorEventAt 6 flow))
-        (regularCauchyCompletionReflectorDecodeBHist
-          (regularCauchyCompletionReflectorEventAt 7 flow))
-        (regularCauchyCompletionReflectorDecodeBHist
-          (regularCauchyCompletionReflectorEventAt 8 flow)))
+  some
+    (RegularCauchyCompletionReflectorUp.mk
+      (regularCauchyCompletionReflectorDecodeBHist
+        (regularCauchyCompletionReflectorEventAtDefault 0 ef))
+      (regularCauchyCompletionReflectorDecodeBHist
+        (regularCauchyCompletionReflectorEventAtDefault 1 ef))
+      (regularCauchyCompletionReflectorDecodeBHist
+        (regularCauchyCompletionReflectorEventAtDefault 2 ef))
+      (regularCauchyCompletionReflectorDecodeBHist
+        (regularCauchyCompletionReflectorEventAtDefault 3 ef))
+      (regularCauchyCompletionReflectorDecodeBHist
+        (regularCauchyCompletionReflectorEventAtDefault 4 ef))
+      (regularCauchyCompletionReflectorDecodeBHist
+        (regularCauchyCompletionReflectorEventAtDefault 5 ef))
+      (regularCauchyCompletionReflectorDecodeBHist
+        (regularCauchyCompletionReflectorEventAtDefault 6 ef))
+      (regularCauchyCompletionReflectorDecodeBHist
+        (regularCauchyCompletionReflectorEventAtDefault 7 ef))
+      (regularCauchyCompletionReflectorDecodeBHist
+        (regularCauchyCompletionReflectorEventAtDefault 8 ef)))
 
 private theorem regularCauchyCompletionReflector_round_trip :
     ∀ x : RegularCauchyCompletionReflectorUp,
       regularCauchyCompletionReflectorFromEventFlow
-          (regularCauchyCompletionReflectorToEventFlow x) =
-        some x := by
+        (regularCauchyCompletionReflectorToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -113,21 +111,20 @@ private theorem regularCauchyCompletionReflector_round_trip :
               (regularCauchyCompletionReflectorDecodeBHist
                 (regularCauchyCompletionReflectorEncodeBHist N))) =
           some (RegularCauchyCompletionReflectorUp.mk S Q E U I P H C N)
-      rw [regularCauchyCompletionReflector_decode_encode_bhist S,
-        regularCauchyCompletionReflector_decode_encode_bhist Q,
-        regularCauchyCompletionReflector_decode_encode_bhist E,
-        regularCauchyCompletionReflector_decode_encode_bhist U,
-        regularCauchyCompletionReflector_decode_encode_bhist I,
-        regularCauchyCompletionReflector_decode_encode_bhist P,
-        regularCauchyCompletionReflector_decode_encode_bhist H,
-        regularCauchyCompletionReflector_decode_encode_bhist C,
-        regularCauchyCompletionReflector_decode_encode_bhist N]
+      rw [RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment_decode S,
+        RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment_decode Q,
+        RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment_decode E,
+        RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment_decode U,
+        RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment_decode I,
+        RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment_decode P,
+        RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment_decode H,
+        RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment_decode C,
+        RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment_decode N]
 
 private theorem regularCauchyCompletionReflectorToEventFlow_injective
     {x y : RegularCauchyCompletionReflectorUp} :
     regularCauchyCompletionReflectorToEventFlow x =
-        regularCauchyCompletionReflectorToEventFlow y →
-      x = y := by
+      regularCauchyCompletionReflectorToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -151,29 +148,32 @@ instance regularCauchyCompletionReflectorChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      regularCauchyCompletionReflectorFromEventFlow
-          (regularCauchyCompletionReflectorToEventFlow x) =
-        some x
+    change regularCauchyCompletionReflectorFromEventFlow
+      (regularCauchyCompletionReflectorToEventFlow x) = some x
     exact regularCauchyCompletionReflector_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (regularCauchyCompletionReflectorToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate RegularCauchyCompletionReflectorUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  regularCauchyCompletionReflectorChapterTasteGate
+
 theorem RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment :
-    (forall h : BHist,
-        regularCauchyCompletionReflectorDecodeBHist
-            (regularCauchyCompletionReflectorEncodeBHist h) =
-          h) ∧
-      Nonempty (BHistCarrier RegularCauchyCompletionReflectorUp) ∧
-        Nonempty (ChapterTasteGate RegularCauchyCompletionReflectorUp) ∧
-          regularCauchyCompletionReflectorEncodeBHist BHist.Empty =
-            ([] : List BMark) := by
+    (∀ h : BHist, regularCauchyCompletionReflectorDecodeBHist
+      (regularCauchyCompletionReflectorEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchyCompletionReflectorUp,
+        regularCauchyCompletionReflectorFromEventFlow
+          (regularCauchyCompletionReflectorToEventFlow x) = some x) ∧
+        (∀ x y : RegularCauchyCompletionReflectorUp,
+          regularCauchyCompletionReflectorToEventFlow x =
+            regularCauchyCompletionReflectorToEventFlow y → x = y) ∧
+          regularCauchyCompletionReflectorEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨regularCauchyCompletionReflector_decode_encode_bhist,
-      ⟨regularCauchyCompletionReflectorBHistCarrier⟩,
-      ⟨regularCauchyCompletionReflectorChapterTasteGate⟩,
+    ⟨RegularCauchyCompletionReflectorTasteGate_single_carrier_alignment_decode,
+      regularCauchyCompletionReflector_round_trip,
+      (fun _ _ heq => regularCauchyCompletionReflectorToEventFlow_injective heq),
       rfl⟩
 
 end BEDC.Derived.RegularCauchyCompletionReflectorUp

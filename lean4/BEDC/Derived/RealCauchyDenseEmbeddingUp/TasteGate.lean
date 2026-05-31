@@ -26,10 +26,9 @@ def realCauchyDenseEmbeddingDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (realCauchyDenseEmbeddingDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (realCauchyDenseEmbeddingDecodeBHist tail)
 
-private theorem realCauchyDenseEmbedding_decode_encode_bhist :
+private theorem RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
-      realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEncodeBHist h) =
-        h := by
+      realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -41,32 +40,31 @@ def realCauchyDenseEmbeddingFields : RealCauchyDenseEmbeddingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | RealCauchyDenseEmbeddingUp.mk R W D J S H C P N => [R, W, D, J, S, H, C, P, N]
 
-def realCauchyDenseEmbeddingToEventFlow : RealCauchyDenseEmbeddingUp → EventFlow
+def realCauchyDenseEmbeddingToEventFlow : RealCauchyDenseEmbeddingUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map realCauchyDenseEmbeddingEncodeBHist (realCauchyDenseEmbeddingFields x)
+  fun x => (realCauchyDenseEmbeddingFields x).map realCauchyDenseEmbeddingEncodeBHist
 
-private def realCauchyDenseEmbeddingEventAt : Nat → EventFlow → RawEvent
+private def realCauchyDenseEmbeddingEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => realCauchyDenseEmbeddingEventAt index rest
+  | Nat.succ index, _event :: rest => realCauchyDenseEmbeddingEventAtDefault index rest
 
-def realCauchyDenseEmbeddingFromEventFlow :
-    EventFlow → Option RealCauchyDenseEmbeddingUp :=
+def realCauchyDenseEmbeddingFromEventFlow (ef : EventFlow) :
+    Option RealCauchyDenseEmbeddingUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun flow =>
-    some
-      (RealCauchyDenseEmbeddingUp.mk
-        (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAt 0 flow))
-        (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAt 1 flow))
-        (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAt 2 flow))
-        (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAt 3 flow))
-        (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAt 4 flow))
-        (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAt 5 flow))
-        (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAt 6 flow))
-        (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAt 7 flow))
-        (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAt 8 flow)))
+  some
+    (RealCauchyDenseEmbeddingUp.mk
+      (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAtDefault 0 ef))
+      (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAtDefault 1 ef))
+      (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAtDefault 2 ef))
+      (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAtDefault 3 ef))
+      (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAtDefault 4 ef))
+      (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAtDefault 5 ef))
+      (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAtDefault 6 ef))
+      (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAtDefault 7 ef))
+      (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEventAtDefault 8 ef)))
 
 private theorem realCauchyDenseEmbedding_round_trip :
     ∀ x : RealCauchyDenseEmbeddingUp,
@@ -89,20 +87,19 @@ private theorem realCauchyDenseEmbedding_round_trip :
               (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEncodeBHist P))
               (realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEncodeBHist N))) =
           some (RealCauchyDenseEmbeddingUp.mk R W D J S H C P N)
-      rw [realCauchyDenseEmbedding_decode_encode_bhist R,
-        realCauchyDenseEmbedding_decode_encode_bhist W,
-        realCauchyDenseEmbedding_decode_encode_bhist D,
-        realCauchyDenseEmbedding_decode_encode_bhist J,
-        realCauchyDenseEmbedding_decode_encode_bhist S,
-        realCauchyDenseEmbedding_decode_encode_bhist H,
-        realCauchyDenseEmbedding_decode_encode_bhist C,
-        realCauchyDenseEmbedding_decode_encode_bhist P,
-        realCauchyDenseEmbedding_decode_encode_bhist N]
+      rw [RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment_decode R,
+        RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment_decode W,
+        RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment_decode D,
+        RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment_decode J,
+        RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment_decode S,
+        RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment_decode H,
+        RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment_decode C,
+        RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment_decode P,
+        RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment_decode N]
 
 private theorem realCauchyDenseEmbeddingToEventFlow_injective
     {x y : RealCauchyDenseEmbeddingUp} :
-    realCauchyDenseEmbeddingToEventFlow x = realCauchyDenseEmbeddingToEventFlow y →
-      x = y := by
+    realCauchyDenseEmbeddingToEventFlow x = realCauchyDenseEmbeddingToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -113,8 +110,7 @@ private theorem realCauchyDenseEmbeddingToEventFlow_injective
     (Eq.trans (realCauchyDenseEmbedding_round_trip x).symm
       (Eq.trans hread (realCauchyDenseEmbedding_round_trip y)))
 
-instance realCauchyDenseEmbeddingBHistCarrier :
-    BHistCarrier RealCauchyDenseEmbeddingUp where
+instance realCauchyDenseEmbeddingBHistCarrier : BHistCarrier RealCauchyDenseEmbeddingUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := realCauchyDenseEmbeddingToEventFlow
   fromEventFlow := realCauchyDenseEmbeddingFromEventFlow
@@ -124,26 +120,32 @@ instance realCauchyDenseEmbeddingChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      realCauchyDenseEmbeddingFromEventFlow (realCauchyDenseEmbeddingToEventFlow x) =
-        some x
+    change realCauchyDenseEmbeddingFromEventFlow (realCauchyDenseEmbeddingToEventFlow x) =
+      some x
     exact realCauchyDenseEmbedding_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (realCauchyDenseEmbeddingToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate RealCauchyDenseEmbeddingUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  realCauchyDenseEmbeddingChapterTasteGate
+
 theorem RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment :
-    (forall h : BHist,
-        realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEncodeBHist h) =
-          h) ∧
-      Nonempty (BHistCarrier RealCauchyDenseEmbeddingUp) ∧
-        Nonempty (ChapterTasteGate RealCauchyDenseEmbeddingUp) ∧
+    (∀ h : BHist,
+      realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEncodeBHist h) = h) ∧
+      (∀ x : RealCauchyDenseEmbeddingUp,
+        realCauchyDenseEmbeddingFromEventFlow (realCauchyDenseEmbeddingToEventFlow x) =
+          some x) ∧
+        (∀ x y : RealCauchyDenseEmbeddingUp,
+          realCauchyDenseEmbeddingToEventFlow x =
+            realCauchyDenseEmbeddingToEventFlow y → x = y) ∧
           realCauchyDenseEmbeddingEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨realCauchyDenseEmbedding_decode_encode_bhist,
-      ⟨realCauchyDenseEmbeddingBHistCarrier⟩,
-      ⟨realCauchyDenseEmbeddingChapterTasteGate⟩,
+    ⟨RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment_decode,
+      realCauchyDenseEmbedding_round_trip,
+      (fun _ _ heq => realCauchyDenseEmbeddingToEventFlow_injective heq),
       rfl⟩
 
 end BEDC.Derived.RealCauchyDenseEmbeddingUp
