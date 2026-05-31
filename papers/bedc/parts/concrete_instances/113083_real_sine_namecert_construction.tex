@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\RealSineUp$}
+\label{ch:concrete-instances-real-sine-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive power series, the $\RealSineUp$ packet isolates the sine series as its own finite NameCert route instead of leaving it as a local trigonometric block inside \autoref{ch:concrete-instances-real-analytic-namecert}. The packet reads the alternating odd-power coefficient ledger through $\RealPowerSeriesUp$, the bounded-window convergence route through $\UniformCauchySeriesUp$, the product and addition handoff through $\CauchyProductUp$, the endpoint comparison through $\RealEqualityUp$, and the terminal seal through $\RealUp$. It shares the factorial-budget discipline of \autoref{ch:concrete-instances-real-exponential-namecert}, but its parity ledger is the odd alternating sine ledger rather than the exponential $1/n!$ ledger.
+
+\begin{definition}[RealSine carrier]\label{def:real-sine-carrier}
+A $\RealSineUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,F,B,U,M,K,P,E,Q,H,C,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the alternating odd-coefficient ledger fixing the sine series by $a_{2k}=0$ and $a_{2k+1}=(-1)^k/(2k+1)!$ on each inspected unary window.
+\item $F$ is the factorial and reciprocal dyadic budget row for the odd denominators, signs, reciprocal enclosures, and denominator-growth comparisons used by $A$.
+\item $B$ is the bounded real-window row on which the sine evaluation request is accepted.
+\item $U$ is the $\UniformCauchySeriesUp$ row proving uniform Cauchy convergence of the displayed odd alternating partial sums on $B$.
+\item $M$ is the majorant tail-budget row, using the alternating-series and factorial-growth estimates to bound every endpoint-facing tail without selecting a host infinite sum.
+\item $K$ is the $\CauchyProductUp$ route used by sine addition, odd-parity product splitting, and compatibility with the cosine-side sibling route in \autoref{ch:concrete-instances-real-analytic-namecert}.
+\item $P$ is the $\RealPowerSeriesUp$ evaluation row exposing coefficient windows, argument powers, partial sums, and endpoint request as power-series data.
+\item $E$ is the $\RealUp$ seal reached only after the coefficient ledger, dyadic budget, uniform Cauchy route, tail budget, product route, and power-series row have been displayed.
+\item $Q$ is the $\RealEqualityUp$ classifier row for comparing accepted sine readbacks through the displayed endpoint boundary.
+\item $H$ is componentwise $\hsame$ transport for $A,F,B,U,M,K,P,E,Q,C,L,N$.
+\item $C$ is the displayed $\Cont$ replay from coefficient and factorial windows to partial sums, from partial sums to uniform Cauchy control, from the uniform route to the power-series endpoint, and from the endpoint to the Real and equality consumers.
+\item $L$ is the $\Pkg$ provenance over $\RealSineUp$, $\RealPowerSeriesUp$, $\UniformCauchySeriesUp$, $\CauchyProductUp$, $\RealEqualityUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealSineUp}$ row.
+\end{enumerate}
+The classifier compares accepted sine packets only through $A,F,B,U,M,K,P,E,Q,H,C,L,N$. It has no coordinate for a host sine function, analytic continuation, quotient real equality, selected infinite sum, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealSine NameCert obligations]\label{thm:real-sine-namecert-obligations}
+For every accepted $\RealSineUp$ carrier $S=(A,F,B,U,M,K,P,E,Q,H,C,L,N)$, the local $\NameCert_{\RealSineUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the alternating odd-coefficient ledger, factorial and reciprocal dyadic budget, bounded real window, uniform Cauchy modulus, majorant tail budget, Cauchy-product route, RealPowerSeries evaluation row, Real seal, RealEquality classifier, transport, continuation, provenance, and local naming rows;
+\item coefficient exactness, requiring every inspected coefficient to be read from $A$ together with the odd factorial and sign budget in $F$;
+\item uniform Cauchy convergence through $U$ and $M$, requiring every endpoint-facing tail to pass through the bounded-window and majorant rows before $P$ or $E$ is consumed;
+\item power-series evaluation through $P$, requiring the endpoint request to be a $\RealPowerSeriesUp$ read rather than a host trigonometric primitive;
+\item endpoint classifier stability through $Q,H,C$, requiring accepted comparisons to preserve the displayed $\RealEqualityUp$ boundary under componentwise transport and replay;
+\item ledger nonescape through $L,N$, requiring the local packet to export no host $\sin$, analytic-continuation datum, quotient real equality, selected infinite sum, countable-choice selector, or ambient completeness witness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-sine-carrier}. The accepted packet displays exactly the rows $A,F,B,U,M,K,P,E,Q,H,C,L,N$, so every public sine read has a visible coefficient, convergence, endpoint, classifier, and structural source.
+
+Coefficient exactness is the joint read of $A$ and $F$. The ledger $A$ fixes the even coefficients as zero and the odd coefficients as alternating reciprocal factorials, while $F$ supplies the inspected factorial and dyadic reciprocal budgets that make those coefficients finite BEDC data.
+
+Uniform Cauchy convergence is read through $B,U,M$. The bounded window $B$ fixes the evaluation scope; $U$ supplies the uniform Cauchy route; and $M$ supplies the displayed tail budget before any endpoint seal may be consumed.
+
+The endpoint and classifier rows are $P,E,Q$. The row $P$ places the read inside $\RealPowerSeriesUp$, $E$ is the only $\RealUp$ seal, and $Q$ is the only endpoint classifier boundary. The transport and replay rows $H,C$ preserve these rows componentwise.
+
+Finally $L$ and $N$ record provenance and local naming for the same finite packet. Since no listed row contains a host trigonometric function, selected limit, quotient equality, countable-choice selector, or ambient completeness principle, none of those objects is exported by the local $\NameCert_{\RealSineUp}$ surface.
+\end{proof}
+
+\begin{theorem}[RealSine power-series route]\label{thm:real-sine-power-series-route}
+Every public read of an accepted $\RealSineUp$ packet factors through
+$$
+\RealAnalyticUp,\quad
+\RealPowerSeriesUp,\quad
+\UniformCauchySeriesUp,\quad
+\CauchyProductUp,\quad
+\RealEqualityUp,\quad
+\RealUp
+$$
+before any endpoint is consumed. Consequently the public route names sine by finite alternating coefficient data, bounded-window Cauchy control, Cauchy-product handoff, endpoint equality, and Real seal data, not by a host trigonometric primitive.
+\end{theorem}
+\begin{proof}
+Begin with a public sine read. The source theorem cluster in \autoref{ch:concrete-instances-real-analytic-namecert} supplies the local sine partial-sum and trigonometric Cauchy-modulus material, while the standalone carrier of \autoref{def:real-sine-carrier} repacks the relevant rows as $A,F,B,U,M,K,P,E,Q,H,C,L,N$.
+
+The coefficient and factorial reads $A,F$ enter $\RealPowerSeriesUp$ through $P$. The bounded real window $B$ fixes the evaluation scope, and the partial sums remain power-series data until the uniform route is accepted.
+
+Uniform convergence is supplied by $U$ and $M$. These rows place the odd alternating partial sums inside $\UniformCauchySeriesUp$ and expose the majorant tail budget before the endpoint seal is available.
+
+Law-facing and comparison-facing reads then pass through $K,Q,E$. The row $K$ supplies the $\CauchyProductUp$ handoff used by the sine addition route, $Q$ supplies the $\RealEqualityUp$ endpoint classifier, and $E$ is the terminal $\RealUp$ seal.
+
+The structural rows $H,C,L,N$ preserve the same route as transport, replay, provenance, and local naming. Thus every public endpoint read factors through the displayed analytic, power-series, uniform-Cauchy, product, equality, and Real rows before the sine value is consumed.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealSineUp$ public read factors through an alternating odd-coefficient ledger, factorial and reciprocal dyadic budgets, a bounded real-window row, a uniform Cauchy-series modulus, a majorant tail budget, a Cauchy-product route, a RealPowerSeries evaluation row, a RealEquality classifier row, a RealUp seal, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{real-analytic, real-exponential, realpowerseries, uniform-cauchy-series, cauchyproduct, real-equality, real: $\RealSineUp$ is not bijective to any listed sibling because it jointly carries the odd alternating sine coefficient ledger, factorial reciprocal budget, bounded-window uniform convergence route, Cauchy-product trigonometric handoff, endpoint equality classifier, Real seal, transport, continuation, provenance, and local naming.}
+
+\closureat{RealSineUp}{seedStr}
+
+\begin{closurestatus}{\RealSineUp}
+  \constructivestory{A $\RealSineUp$ packet is generated from the alternating odd-coefficient ledger $a_{2k}=0$ and $a_{2k+1}=(-1)^k/(2k+1)!$, factorial and reciprocal dyadic budgets, a bounded real-window row, a uniform Cauchy-series modulus, a majorant tail budget, a Cauchy-product route, a RealPowerSeries evaluation row, a RealEquality classifier row, a RealUp seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-sine-carrier}, \autoref{thm:real-sine-namecert-obligations}, and \autoref{thm:real-sine-power-series-route} seed the finite sine power-series route through existing BEDC analytic, power-series, uniform-Cauchy, product, equality, and Real infrastructure.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host trigonometric functions, analytic continuation, quotient real equality, selected infinite sums, countable choice, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient exactness, uniform Cauchy convergence, power-series evaluation, endpoint classifier stability, ledger nonescape, and TasteGate field faithfulness for BEDC.Derived.RealSineUp.}
+\end{closurestatus}
