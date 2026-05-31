@@ -426,23 +426,18 @@ After `lake build` passes:
 
 The `bedc_ci.py audit` will fail if any `\leanchecked{X}` / `\leanvariant{X}` / `\leanstmt{X}` / `\leandef{X}` references X not present in `lean4/BEDC/`.
 
-## Step 4: Full verification
+## Step 4: Worker verification
 All of the following must exit 0 before commit:
 ```bash
 cd lean4 && python3 scripts/lake_gate.py build
-cd papers/bedc && make check
+cd papers/bedc && make precheck
 python3 tools/check-axioms.py
 ```
 
-`make check` is single-pass `pdflatex -draftmode`. It catches every
-real syntax-class error (Undefined control sequence, Missing $, Extra },
-unresolved `\input`, package errors, multiply-defined labels). It does
-NOT produce `main.pdf` and does NOT resolve `\autoref` page numbers;
-those are handled asynchronously by `papers/bedc/scripts/paper_builder_daemon.py`
-running on the main checkout, which performs the full `make` double-pass
-in a dedicated `_paper_builder` worktree. Do NOT run the full `make`
-(double-pass) inside the round worktree; the round verification only
-needs syntax + audit, the daemon does the typeset.
+`make precheck` is the static paper gate. It does not produce `main.pdf`
+and does not resolve `\autoref` page numbers. Full paper verification is
+handled asynchronously by `papers/bedc/scripts/paper_builder_daemon.py`,
+which records a per-SHA verification envelope after the full `make`.
 
 ## Step 5: Pre-commit sync with origin BASE (proactive label-collision resolution)
 
@@ -614,7 +609,7 @@ The `prompts: <PROMPTS_VERSION>` line in the commit body is mandatory. Replace `
 ## Completion Contract
 - No `sorry`, no `admit`, no `axiom`, no `constant`, no `opaque` placeholders in committed Lean code
 - `cd lean4 && python3 scripts/lake_gate.py build` passes
-- `cd papers/bedc && make check` passes (full main.pdf double-pass is async via paper_builder_daemon)
+- `cd papers/bedc && make precheck` passes
 - `python3 tools/check-axioms.py` passes
 - Registration updates stay aligned with `\leanchecked` / `\leanstmt` / `\leandef` conventions
 - Do NOT weaken existing theorem signatures

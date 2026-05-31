@@ -90,11 +90,14 @@ class CoordinationPersistenceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             pending = Path(td) / "pending.json"
             lock = Path(td) / "pending.json.lock"
+            ledger = Path(td) / "ledger.jsonl"
             original_pending = cf.PENDING_BUILD_FILE
             original_lock = cf.PENDING_BUILD_LOCK_FILE
+            original_record = cf.record
             try:
                 cf.PENDING_BUILD_FILE = pending
                 cf.PENDING_BUILD_LOCK_FILE = lock
+                cf.record = lambda **kwargs: original_record(**kwargs, ledger_path=ledger)
 
                 cf.request_build("1111111")
                 cf.request_build("2222222")
@@ -107,9 +110,52 @@ class CoordinationPersistenceTests(unittest.TestCase):
                 self.assertEqual(cf._read_pending_build(), "2222222")
                 cf._clear_pending_build_if_current("2222222")
                 self.assertFalse(pending.exists())
+                rows = [
+                    json.loads(line)
+                    for line in ledger.read_text(encoding="utf-8").splitlines()
+                ]
+                self.assertEqual([row["status"] for row in rows], ["deferred", "deferred"])
+                self.assertEqual({row["gate"] for row in rows}, {"lean-full-build"})
             finally:
                 cf.PENDING_BUILD_FILE = original_pending
                 cf.PENDING_BUILD_LOCK_FILE = original_lock
+                cf.record = original_record
+
+    def test_lake_build_result_records_passed_and_failed_envelopes(self):
+        with tempfile.TemporaryDirectory() as td:
+            ledger = Path(td) / "ledger.jsonl"
+            log_file = Path(td) / "build.log"
+            log_file.write_text("log\n", encoding="utf-8")
+            original_record = cf.record
+            try:
+                cf.record = lambda **kwargs: original_record(**kwargs, ledger_path=ledger)
+
+                cf.record_lake_build_result(
+                    "a" * 40,
+                    ok=True,
+                    tail="ok",
+                    log_file=log_file,
+                    started_at="2026-05-31T00:00:00Z",
+                )
+                cf.record_lake_build_result(
+                    "b" * 40,
+                    ok=False,
+                    tail="bad",
+                    log_file=log_file,
+                    started_at="2026-05-31T00:00:00Z",
+                )
+
+                rows = [
+                    json.loads(line)
+                    for line in ledger.read_text(encoding="utf-8").splitlines()
+                ]
+            finally:
+                cf.record = original_record
+
+        self.assertEqual(rows[0]["gate"], "lean-full-build")
+        self.assertEqual(rows[0]["status"], "passed")
+        self.assertEqual(rows[1]["gate"], "lean-full-build")
+        self.assertEqual(rows[1]["status"], "failed")
 
     def test_target_claim_overlap_rejection_release_and_reclaim(self):
         with tempfile.TemporaryDirectory() as td:
