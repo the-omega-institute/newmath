@@ -1,8 +1,17 @@
 from scripts.run_bedc_jepa_experiment import run_experiment
 
+_SUMMARY = None
+
+
+def _summary():
+    global _SUMMARY
+    if _SUMMARY is None:
+        _SUMMARY = run_experiment()
+    return _SUMMARY
+
 
 def test_bedc_jepa_experiment_compares_four_systems():
-    summary = run_experiment()
+    summary = _summary()
     assert set(summary["systems"]) == {"S0", "S1", "S2", "S3"}
 
     s0 = summary["systems"]["S0"]
@@ -24,7 +33,7 @@ def test_bedc_jepa_experiment_compares_four_systems():
 
 
 def test_bedc_jepa_experiment_reports_gap_aware_planning_gain():
-    summary = run_experiment()
+    summary = _summary()
     planning = summary["planning"]
 
     assert planning["vanilla"]["trajectory_count"] == planning["gap_aware"]["trajectory_count"]
@@ -35,7 +44,7 @@ def test_bedc_jepa_experiment_reports_gap_aware_planning_gain():
 
 
 def test_bedc_jepa_experiment_runs_seed_sweep_with_second_world():
-    summary = run_experiment()
+    summary = _summary()
     sweep = summary["seed_sweep"]
 
     assert set(sweep["worlds"]) == {"radial-boundary", "sinusoidal-boundary"}
@@ -57,7 +66,7 @@ def test_bedc_jepa_experiment_runs_seed_sweep_with_second_world():
 
 
 def test_bedc_jepa_experiment_runs_grid_pixel_learned_transition_benchmark():
-    summary = run_experiment()
+    summary = _summary()
     grid = summary["grid_transition"]
 
     assert grid["source"]["observation"] == "grid-pixel"
@@ -86,7 +95,7 @@ def test_bedc_jepa_experiment_runs_grid_pixel_learned_transition_benchmark():
 
 
 def test_bedc_jepa_experiment_runs_object_intervention_benchmark():
-    summary = run_experiment()
+    summary = _summary()
     object_benchmark = summary["object_intervention"]
 
     assert object_benchmark["source"]["observation"] == "two-object-pixel-slots"
@@ -106,7 +115,7 @@ def test_bedc_jepa_experiment_runs_object_intervention_benchmark():
 
 
 def test_bedc_jepa_experiment_runs_object_intervention_seed_sweep():
-    summary = run_experiment()
+    summary = _summary()
     sweep = summary["object_intervention_sweep"]
 
     assert sweep["seed_count"] >= 8
@@ -123,7 +132,7 @@ def test_bedc_jepa_experiment_runs_object_intervention_seed_sweep():
 
 
 def test_bedc_jepa_experiment_runs_multi_object_distractor_benchmark():
-    summary = run_experiment()
+    summary = _summary()
     benchmark = summary["multi_object_distractor"]
 
     assert benchmark["source"]["observation"] == "four-object-pixel-slots"
@@ -144,7 +153,7 @@ def test_bedc_jepa_experiment_runs_multi_object_distractor_benchmark():
 
 
 def test_bedc_jepa_experiment_runs_multi_object_distractor_seed_sweep():
-    summary = run_experiment()
+    summary = _summary()
     sweep = summary["multi_object_distractor_sweep"]
 
     assert sweep["seed_count"] >= 6
@@ -159,3 +168,21 @@ def test_bedc_jepa_experiment_runs_multi_object_distractor_seed_sweep():
     assert sweep["s3_better_gap_auc_rate"] >= 0.75
     assert sweep["s3_better_unlogged_error_rate"] >= 0.75
     assert sweep["s3_better_debt_rate"] >= 0.75
+
+
+def test_bedc_jepa_experiment_runs_cluttered_object_seed_sweep():
+    summary = _summary()
+    sweep = summary["cluttered_object_sweep"]
+
+    assert sweep["object_count"] == 6
+    assert sweep["distractor_count"] == 4
+    assert sweep["seed_count"] >= 4
+    assert sweep["counterfactual_accuracy_mean"] > 0.86
+    assert sweep["distractor_invariance_mean"] > 0.70
+    assert sweep["s3_minus_s2_outside_gap_accuracy_mean"] > 0.0
+    assert sweep["s3_minus_s2_gap_auc_mean"] > 0.0
+    assert sweep["s2_minus_s3_unlogged_error_mean"] > 0.0
+    assert sweep["s2_minus_s3_debt_mean"] > 0.0
+    assert sweep["target_minus_distractor_mask_drop_mean"] > 0.08
+    assert sweep["s3_better_gap_auc_rate"] >= 0.75
+    assert sweep["s3_better_unlogged_error_rate"] >= 0.75

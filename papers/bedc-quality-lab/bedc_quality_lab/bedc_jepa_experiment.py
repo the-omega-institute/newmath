@@ -779,7 +779,12 @@ def _multi_object_step(states: np.ndarray, actions: np.ndarray) -> np.ndarray:
 def _multi_object_distractor_distance(states: np.ndarray) -> np.ndarray:
     target_a = states[:, :2]
     target_b = states[:, 2:4]
-    distractors = [states[:, 4:6], states[:, 6:8]]
+    distractors = [
+        states[:, 2 * index : 2 * index + 2]
+        for index in range(2, states.shape[1] // 2)
+    ]
+    if not distractors:
+        return np.full(states.shape[0], 1e6, dtype=np.float64)
     distances = []
     for distractor in distractors:
         distances.append(np.sqrt(np.sum((distractor - target_a) ** 2, axis=1)))
@@ -836,7 +841,9 @@ def _make_object_intervention_data(n: int, *, seed: int) -> dict[str, np.ndarray
     }
 
 
-def _make_multi_object_distractor_data(n: int, *, seed: int) -> dict[str, np.ndarray]:
+def _make_multi_object_distractor_data(n: int, *, seed: int, object_count: int = 4) -> dict[str, np.ndarray]:
+    if object_count < 4:
+        raise ValueError("object_count must include a target pair and at least two distractors")
     rng = np.random.default_rng(seed)
     object_b = rng.uniform(-0.60, 0.60, size=(n, 2))
     angles = rng.uniform(0.0, 2.0 * np.pi, size=n)
@@ -856,14 +863,27 @@ def _make_multi_object_distractor_data(n: int, *, seed: int) -> dict[str, np.nda
         -0.95,
         0.95,
     )
-    object_d = rng.uniform(-0.95, 0.95, size=(n, 2))
-    states = np.column_stack([object_a, object_b, object_c, object_d])
+    distractors = [object_c]
+    for index in range(3, object_count):
+        if index % 2 == 1:
+            anchor = np.where(rng.random(size=(n, 1)) < 0.5, object_a, object_b)
+            angle = rng.uniform(0.0, 2.0 * np.pi, size=n)
+            radius = rng.uniform(0.24, 0.90, size=n)
+            distractor = np.clip(
+                anchor + np.column_stack([np.cos(angle), np.sin(angle)]) * radius[:, None],
+                -0.95,
+                0.95,
+            )
+        else:
+            distractor = rng.uniform(-0.95, 0.95, size=(n, 2))
+        distractors.append(distractor)
+    states = np.column_stack([object_a, object_b, *distractors])
     actions_table = _object_actions()
     action_ids = rng.integers(0, actions_table.shape[0], size=n)
     actions = actions_table[action_ids]
     return {
         "states": states,
-        "pixels": _render_multi_object_slots(states, object_count=4),
+        "pixels": _render_multi_object_slots(states, object_count=object_count),
         "actions": actions,
         "next_states": _multi_object_step(states, actions),
         "contact": _multi_object_contact_after_action(states, actions),
@@ -903,8 +923,15 @@ def _object_counterfactual_scores(head: LinearHead, states: np.ndarray, actions:
 
 def _distractor_shifted_states(states: np.ndarray) -> np.ndarray:
     shifted = states.copy()
-    shifted[:, 4:6] = np.clip(shifted[:, 4:6] + np.array([0.45, -0.35]), -0.95, 0.95)
-    shifted[:, 6:8] = np.clip(shifted[:, 6:8] + np.array([-0.35, 0.45]), -0.95, 0.95)
+    shifts = [
+        np.array([0.45, -0.35], dtype=np.float64),
+        np.array([-0.35, 0.45], dtype=np.float64),
+        np.array([0.30, 0.30], dtype=np.float64),
+        np.array([-0.30, -0.30], dtype=np.float64),
+    ]
+    for offset, index in enumerate(range(2, states.shape[1] // 2)):
+        span = slice(2 * index, 2 * index + 2)
+        shifted[:, span] = np.clip(shifted[:, span] + shifts[offset % len(shifts)], -0.95, 0.95)
     return shifted
 
 
@@ -1041,9 +1068,16 @@ def _run_object_intervention_sweep() -> dict[str, float]:
     }
 
 
-def _run_multi_object_distractor_benchmark(*, train_seed: int = 707, test_seed: int = 808) -> dict[str, object]:
-    train = _make_multi_object_distractor_data(2800, seed=train_seed)
-    test = _make_multi_object_distractor_data(1200, seed=test_seed)
+def _run_multi_object_distractor_benchmark(
+    *,
+    train_seed: int = 707,
+    test_seed: int = 808,
+    object_count: int = 4,
+    train_count: int = 2800,
+    test_count: int = 1200,
+) -> dict[str, object]:
+    train = _make_multi_object_distractor_data(train_count, seed=train_seed, object_count=object_count)
+    test = _make_multi_object_distractor_data(test_count, seed=test_seed, object_count=object_count)
     latent_readout = _fit_latent_readout(train["pixels"], train["states"])
     train_latent = latent_readout.transform(train["pixels"])
     test_latent = latent_readout.transform(test["pixels"])
@@ -1070,7 +1104,7 @@ def _run_multi_object_distractor_benchmark(*, train_seed: int = 707, test_seed: 
         z=test["states"],
         z_pair=test["next_states"],
         x=test["pixels"],
-        x_pair=_render_multi_object_slots(test["next_states"], object_count=4),
+        x_pair=_render_multi_object_slots(test["next_states"], object_count=object_count),
         distinction=test["contact"],
         distinction_pair=_multi_object_contact_after_action(test["next_states"], test["actions"]),
         gap=test["gap"],
@@ -1093,7 +1127,7 @@ def _run_multi_object_distractor_benchmark(*, train_seed: int = 707, test_seed: 
         ),
     }
 
-    slot_size = test["pixels"].shape[1] // 4
+    slot_size = test["pixels"].shape[1] // object_count
     target_masked_pixels = test["pixels"].copy()
     target_masked_pixels[:, slot_size : 2 * slot_size] = 0.0
     target_masked_latent = latent_readout.transform(target_masked_pixels)
@@ -1117,13 +1151,15 @@ def _run_multi_object_distractor_benchmark(*, train_seed: int = 707, test_seed: 
         _multi_object_target_pair(shifted_states),
         test["actions"],
     )
+    observation_name = "four-object-pixel-slots" if object_count == 4 else f"{object_count}-object-pixel-slots"
     return {
         "source": {
             "name": "four-object-distractor-contact-world",
-            "observation": "four-object-pixel-slots",
+            "observation": observation_name,
             "query": "target-pair-counterfactual-contact-after-action",
             "target_pair": "object-a-object-b",
-            "distractor_count": 2,
+            "distractor_count": object_count - 2,
+            "object_count": object_count,
             "train_seed": float(train_seed),
             "test_seed": float(test_seed),
             "train_count": float(train["states"].shape[0]),
@@ -1168,6 +1204,62 @@ def _run_multi_object_distractor_sweep() -> dict[str, float]:
         mask_delta.append(float(masking["target_mask_accuracy_drop"]) - float(masking["distractor_mask_accuracy_drop"]))
     return {
         "seed_count": float(len(results)),
+        "object_count": 4.0,
+        "distractor_count": 2.0,
+        "s3_minus_s2_outside_gap_accuracy_mean": _mean(outside_gap_delta),
+        "s3_minus_s2_outside_gap_accuracy_ci95": _confidence_radius(outside_gap_delta),
+        "s3_minus_s2_gap_auc_mean": _mean(gap_auc_delta),
+        "s3_minus_s2_gap_auc_ci95": _confidence_radius(gap_auc_delta),
+        "s2_minus_s3_unlogged_error_mean": _mean(unlogged_delta),
+        "s2_minus_s3_unlogged_error_ci95": _confidence_radius(unlogged_delta),
+        "s2_minus_s3_debt_mean": _mean(debt_delta),
+        "s2_minus_s3_debt_ci95": _confidence_radius(debt_delta),
+        "s3_better_outside_gap_accuracy_rate": _mean([1.0 if value > 0.0 else 0.0 for value in outside_gap_delta]),
+        "s3_better_gap_auc_rate": _mean([1.0 if value > 0.0 else 0.0 for value in gap_auc_delta]),
+        "s3_better_unlogged_error_rate": _mean([1.0 if value > 0.0 else 0.0 for value in unlogged_delta]),
+        "s3_better_debt_rate": _mean([1.0 if value > 0.0 else 0.0 for value in debt_delta]),
+        "counterfactual_accuracy_mean": _mean(counterfactual_accuracy),
+        "counterfactual_accuracy_ci95": _confidence_radius(counterfactual_accuracy),
+        "distractor_invariance_mean": _mean(distractor_invariance),
+        "distractor_invariance_ci95": _confidence_radius(distractor_invariance),
+        "target_minus_distractor_mask_drop_mean": _mean(mask_delta),
+        "target_minus_distractor_mask_drop_ci95": _confidence_radius(mask_delta),
+    }
+
+
+def _run_cluttered_object_sweep() -> dict[str, float]:
+    results = [
+        _run_multi_object_distractor_benchmark(
+            train_seed=7000 + seed * 31,
+            test_seed=8000 + seed * 37,
+            object_count=6,
+            train_count=3200,
+            test_count=1400,
+        )
+        for seed in range(4)
+    ]
+    outside_gap_delta = []
+    gap_auc_delta = []
+    unlogged_delta = []
+    debt_delta = []
+    counterfactual_accuracy = []
+    distractor_invariance = []
+    mask_delta = []
+    for result in results:
+        s2 = result["systems"]["S2"]
+        s3 = result["systems"]["S3"]
+        masking = result["object_masking"]
+        outside_gap_delta.append(float(s3["distinction_accuracy_outside_gap"]) - float(s2["distinction_accuracy_outside_gap"]))
+        gap_auc_delta.append(float(s3["gap_detection_auc"]) - float(s2["gap_detection_auc"]))
+        unlogged_delta.append(float(s2["unlogged_error_rate"]) - float(s3["unlogged_error_rate"]))
+        debt_delta.append(float(s2["bedc_debt_score"]) - float(s3["bedc_debt_score"]))
+        counterfactual_accuracy.append(float(result["transition"]["counterfactual_accuracy"]))
+        distractor_invariance.append(float(result["transition"]["distractor_invariance"]))
+        mask_delta.append(float(masking["target_mask_accuracy_drop"]) - float(masking["distractor_mask_accuracy_drop"]))
+    return {
+        "seed_count": float(len(results)),
+        "object_count": 6.0,
+        "distractor_count": 4.0,
         "s3_minus_s2_outside_gap_accuracy_mean": _mean(outside_gap_delta),
         "s3_minus_s2_outside_gap_accuracy_ci95": _confidence_radius(outside_gap_delta),
         "s3_minus_s2_gap_auc_mean": _mean(gap_auc_delta),
@@ -1245,4 +1337,5 @@ def run_bedc_jepa_experiment() -> dict[str, object]:
         "object_intervention_sweep": _run_object_intervention_sweep(),
         "multi_object_distractor": _run_multi_object_distractor_benchmark(),
         "multi_object_distractor_sweep": _run_multi_object_distractor_sweep(),
+        "cluttered_object_sweep": _run_cluttered_object_sweep(),
     }
