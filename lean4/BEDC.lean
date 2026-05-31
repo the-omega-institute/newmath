@@ -4814,6 +4814,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FourFaceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.FourSourceOwnerNoncollapse
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankNameCertObligations
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankOpenNode
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffRowCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
@@ -4831,6 +4832,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceConsumerThreshold
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceDischargeReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceObligationNoncollapse
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourObjectLocality
+import BEDC.Derived.MetaCICCriticalPathUp.L10FourObjectReady
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationDischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
@@ -4862,6 +4864,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockCompleteness
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockSoundness
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealSourceObligations
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealStatusProductReadiness
+import BEDC.Derived.MetaCICCriticalPathUp.ProvenanceNaming
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionBudgetTriangle
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionFrontierFilter
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionReadinessPackage
@@ -5661,6 +5664,7 @@ import BEDC.Derived.PolishspaceUp.L10CompleteSeparableConsumerPackage
 import BEDC.Derived.PolishspaceUp.L10ConsumerBoundary
 import BEDC.Derived.PolishspaceUp.L10RootUnblockPackage
 import BEDC.Derived.PolishspaceUp.L10SiblingRoute
+import BEDC.Derived.PolishspaceUp.MetricReadbackStability
 import BEDC.Derived.PolishspaceUp.NameCertLedgerExactness
 import BEDC.Derived.PolishspaceUp.NameCertLedgerTransport
 import BEDC.Derived.PolishspaceUp.NameCertObligations
