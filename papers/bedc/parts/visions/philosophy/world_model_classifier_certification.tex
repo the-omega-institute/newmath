@@ -1,0 +1,183 @@
+\section{World-Model Classifier Certification}
+\label{sec:visions-philosophy-world-model-classifier-certification}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-tensor-namecert} treats tensor features
+as classifier candidates, and
+\autoref{sec:visions-philosophy-classifier-forming-learning} separates
+structural learning from loss reduction. World-model representation
+learning supplies a sharper test case. A latent representation does not
+become an explanation merely by aligning paired views, recovering a
+coordinate system, or improving planning. It becomes a BEDC object only
+when the recovered relation is displayed as a scoped classifier with
+source rows, stability rows, transfer rows, and a ledger for the
+assumptions that make the recovery meaningful.
+
+\begin{definition}[World-model certification scope]
+\label{def:philosophy-world-model-certification-scope}
+A world-model certification scope is a tuple
+$$
+\Omega_{\mathsf{wm}}
+=
+(Z,X,g,\mathcal P,\mathcal T,\mathcal H,\mathcal A),
+$$
+where $Z$ is the latent carrier, $X$ is the observation carrier,
+$g:Z\to X$ is the observation map, $\mathcal P$ is the positive-pair
+protocol, $\mathcal T$ is the transition family, $\mathcal H$ is the
+admitted encoder family, and $\mathcal A$ is the assumption ledger. The
+ledger records independence, stationarity, dimension matching, noise,
+sampling, population or finite-sample status, and not-claimed target
+domains.
+\end{definition}
+
+\begin{definition}[World-latent classifier candidate]
+\label{def:philosophy-world-latent-classifier-candidate}
+For an encoder $f:X\to V$, write $h=f\circ g:Z\to V$. A world-latent
+classifier candidate is a relation
+$$
+z\sim_h z'
+$$
+whose public comparison is induced by $h$ together with a declared
+readout rule. The readout may compare recovered coordinates, invariant
+subspaces, thresholded latent features, transition classes, or planning
+states, provided the scope records how those comparisons are observed.
+\end{definition}
+
+\begin{definition}[Identifiability witness]
+\label{def:philosophy-identifiability-witness}
+An identifiability witness for $h$ on $\Omega_{\mathsf{wm}}$ is a
+displayed map $W$ and an equivalence mode $\equiv_W$ such that the
+recovered representation is compared to the latent carrier by
+$$
+h(z)\equiv_W W(z)
+$$
+on the stated scope. The witness may be exact, approximate, empirical,
+formal, or hybrid. Its mode, bound, and residual cases are certificate
+data.
+\end{definition}
+
+\begin{definition}[World-latent NameCert]
+\label{def:philosophy-world-latent-namecert}
+A World-latent NameCert for $(\Omega_{\mathsf{wm}},h,\sim_h)$ is the
+packet
+$$
+\NameCert_{\mathsf{wm}}
+=
+(S_{\mathsf{wm}},
+P_{\mathsf{wm}},
+C_{\mathsf{wm}},
+\Sigma_{\mathsf{wm}},
+L_{\mathsf{wm}}).
+$$
+The source row $S_{\mathsf{wm}}$ records the scope, encoder, observation
+protocol, pair protocol, transition family, and assumption ledger. The
+pattern row $P_{\mathsf{wm}}$ records alignment, recovery, separation,
+transition, and planning evidence. The classifier row $C_{\mathsf{wm}}$
+is the relation $\sim_h$. The stability row $\Sigma_{\mathsf{wm}}$
+records invariance under admitted transformations, approximation bounds,
+and transfer witnesses. The ledger row $L_{\mathsf{wm}}$ records
+unidentified coordinates, rotational or gauge freedom, finite-sample
+residue, model-class restriction, shortcut risk, planning failures, and
+not-claimed domains.
+\end{definition}
+
+\begin{definition}[Certified world-model classifier]
+\label{def:philosophy-certified-world-model-classifier}
+A certified world-model classifier is a tuple
+$$
+(\Omega_{\mathsf{wm}},h,\sim_h,\NameCert_{\mathsf{wm}})
+$$
+where the world-latent classifier candidate carries the World-latent
+NameCert on the displayed scope.
+\end{definition}
+
+\begin{theorem}[Latent recovery is certificate data]
+\label{thm:philosophy-latent-recovery-certificate-data}
+An identifiability claim for a learned world representation is not a
+closed BEDC explanation unless its witness, equivalence mode, scope, and
+residue are recorded in a World-latent NameCert.
+\end{theorem}
+\begin{proof}
+An identifiability statement compares a learned representation with a
+latent carrier only relative to a scope and an equivalence mode. The
+comparison may hide dimension assumptions, sampling assumptions,
+coordinate freedom, approximation error, and uncovered domains. These
+are precisely source, stability, and ledger rows in
+\autoref{def:philosophy-world-latent-namecert}. Without those rows, the
+claim gives evidence for a classifier candidate but not a certified
+world-model classifier.
+\end{proof}
+
+\begin{theorem}[World-model objectives do not certify classifiers]
+\label{thm:philosophy-world-model-objective-not-certifier}
+Optimizing a world-model objective does not by itself certify the
+world-latent classifier induced by the learned representation.
+\end{theorem}
+\begin{proof}
+An objective supplies a training pressure and possibly a record of
+alignment or prediction. It does not by itself display the classifier
+relation, the identifiability witness, the stability mode, the transfer
+scope, or the residue ledger. By
+\autoref{def:philosophy-certified-world-model-classifier}, those rows
+are required for certification.
+\end{proof}
+
+\begin{theorem}[Assumptions are source rows, not hidden laws]
+\label{thm:philosophy-world-model-assumptions-source-rows}
+Distributional and transition assumptions used in world-model recovery
+belong to the source and ledger rows of the certificate.
+\end{theorem}
+\begin{proof}
+The assumptions determine which latent systems, pair protocols,
+transition families, and recovery comparisons are covered. If they are
+not displayed, the classifier's domain of validity is ambiguous. If they
+are displayed but their failures are not ledgered, the certificate hides
+boundary debt. Thus these assumptions are certificate rows rather than
+ambient laws.
+\end{proof}
+
+\begin{theorem}[Planning transfer requires a transfer ledger]
+\label{thm:philosophy-world-model-planning-transfer-ledger}
+A claim that a recovered world representation supports planning is not
+closed without a transfer ledger from latent recovery to planning
+behavior.
+\end{theorem}
+\begin{proof}
+Latent recovery and planning success are different behavior targets.
+Planning adds policy extraction, rollout stability, objective alignment,
+intervention boundary, and failure-mode residue. A recovery certificate
+can support the planning claim only when these transfer rows are recorded
+in $\Sigma_{\mathsf{wm}}$ and $L_{\mathsf{wm}}$.
+\end{proof}
+
+\begin{theorem}[World-model certification is scoped black-box resolution]
+\label{thm:philosophy-world-model-certification-scoped-black-box-resolution}
+If a learned representation supports a world-latent classifier and
+carries a World-latent NameCert on $\Omega_{\mathsf{wm}}$, then the
+corresponding world-model behavior is no longer black-box behavior on
+that scope.
+\end{theorem}
+\begin{proof}
+Black-box behavior is the absence of a certificate for the classifier
+supporting the behavior. The World-latent NameCert supplies the source,
+pattern, classifier, stability, and ledger rows for the supporting
+classifier on $\Omega_{\mathsf{wm}}$. The resolution is scoped because
+the certificate explicitly records its assumptions and not-claimed
+domains.
+\end{proof}
+
+\begin{theorem}[World-model quality is certified classifier quality]
+\label{thm:philosophy-world-model-quality-certified-classifier-quality}
+Within a declared world-model scope, representation quality relevant to
+BEDC explanation is certified classifier quality rather than raw
+performance, latent visual coherence, or objective value.
+\end{theorem}
+\begin{proof}
+Raw performance, visual coherence, and objective value can be evidence
+for the pattern row, but they do not determine a certified classifier.
+The BEDC object is formed only when the recovered relation carries the
+World-latent NameCert of
+\autoref{def:philosophy-world-latent-namecert}. Therefore the explanatory
+quality of the world model is measured by the certified classifier
+surface and its remaining ledger debt.
+\end{proof}
