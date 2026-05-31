@@ -741,6 +741,7 @@ import BEDC.Derived.BishopRegularCauchyLimitSealUp.TasteGate
 import BEDC.Derived.BishopSequenceUp.TasteGate
 import BEDC.Derived.BitVectorUp
 import BEDC.Derived.BitVectorUp.TasteGate
+import BEDC.Derived.BlaschkeSelectionCompactHyperspaceUp.TasteGate
 import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedSequenceSource
@@ -4489,6 +4490,7 @@ import BEDC.Derived.LocatedRealComparisonUp.TasteGate
 import BEDC.Derived.LocatedRealFieldUp
 import BEDC.Derived.LocatedRealFieldUp.TasteGate
 import BEDC.Derived.LocatedRealIntervalBisectionUp
+import BEDC.Derived.LocatedRealIntervalHullUp
 import BEDC.Derived.LocatedRealIntervalHullUp.TasteGate
 import BEDC.Derived.LocatedRealIntervalPartitionUp.TasteGate
 import BEDC.Derived.LocatedRealIntervalUp.TasteGate
@@ -6387,6 +6389,7 @@ import BEDC.Derived.RegularSequenceLimitUp.TasteGate
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RegularityModulusUp.CarrierSurface
 import BEDC.Derived.RegularityModulusUp.ObligationCompleteness
+import BEDC.Derived.RegulatedCauchyIntegralUp
 import BEDC.Derived.RegulatedCauchyIntegralUp.TasteGate
 import BEDC.Derived.RegulatedCauchyModulusUp
 import BEDC.Derived.RegulatedFunctionUp.TasteGate
