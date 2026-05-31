@@ -1649,6 +1649,7 @@ import BEDC.Derived.CauchyRateRealizationUp.TasteGate
 import BEDC.Derived.CauchyRateUp
 import BEDC.Derived.CauchyRealApartnessUp
 import BEDC.Derived.CauchyRealApartnessUp.TasteGate
+import BEDC.Derived.CauchyRealArchimedeanUp.TasteGate
 import BEDC.Derived.CauchyRealCompletionInterfaceUp.TasteGate
 import BEDC.Derived.CauchyRealEqualityUp.TasteGate
 import BEDC.Derived.CauchyRealFieldUp.TasteGate
@@ -4870,6 +4871,7 @@ import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.RouteBoundary
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
+import BEDC.Derived.MetricAnnulusUp.TasteGate
 import BEDC.Derived.MetricBallUp.BoundedSetContainmentRoute
 import BEDC.Derived.MetricBallUp.CauchyFilterEntryBoundary
 import BEDC.Derived.MetricBallUp.FiniteIntersectionReadiness
@@ -6918,6 +6920,7 @@ import BEDC.Derived.SubstitutionBoundaryAuditUp.TasteGate
 import BEDC.Derived.SubstitutionGeneratorAuditUp.TasteGate
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SubtypeUp.TasteGate
+import BEDC.Derived.SuccessiveApproximationUp.TasteGate
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
 import BEDC.Derived.SumUp.CarrierAwareSameTagExactness
