@@ -96,11 +96,12 @@ The Lean follow-up must provide explicit $\Nontrivial\ \RegistryExportConsistenc
 \closureat{RegistryExportConsistencyGateUp}{seedStr}
 \closureat{RegistryExportConsistencyGateUp}{obligationStr}
 \closureat{RegistryExportConsistencyGateUp}{scopedStr}
+\closureat{RegistryExportConsistencyGateUp}{publicStr}
 
 \begin{closurestatus}{\RegistryExportConsistencyGateUp}
   \constructivestory{A $\RegistryExportConsistencyGateUp$ packet is generated from registry entry, blocking, status-consistency, formal-target, audit-route, no-smuggling, transport, replay, provenance, and local naming rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:registry-export-consistency-gate-carrier}, \autoref{def:registry-export-consistency-gate-classifier}, \autoref{thm:registry-export-consistency-gate-namecert-obligations}, \autoref{thm:registry-export-consistency-gate-no-conflict-export}, \autoref{thm:registry-export-consistency-gate-sibling-dependency}, the falsifiablePrediction row, the independenceWitness row, and \texttt{BEDC.Derived.RegistryExportConsistencyGateUp.taste\_gate} bind the obligation surface for carrier admission, classifier acceptance, NameCert obligations, no-conflict export blocking, sibling separation, and checked field faithfulness.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:registry-export-consistency-gate-no-conflict-export} is the public export boundary: together with \autoref{def:registry-export-consistency-gate-carrier}, \autoref{def:registry-export-consistency-gate-classifier}, \autoref{thm:registry-export-consistency-gate-namecert-obligations}, \autoref{thm:registry-export-consistency-gate-sibling-dependency}, the falsifiablePrediction row, the independenceWitness row, and \texttt{BEDC.Derived.RegistryExportConsistencyGateUp.taste\_gate}, it binds carrier admission, classifier acceptance, NameCert obligations, no-conflict export blocking, sibling separation, and checked field faithfulness.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

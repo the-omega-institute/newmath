@@ -360,6 +360,60 @@ Apply the tail tolerance package and completion consumer refusal, \autoref{thm:c
 Use the uniform criterion handoff of \autoref{thm:cauchy-oscillation-uniform-criterion-handoff}. Since the $\UniformCauchyCriterionUp$ consumer reads the same finite prefix before the $\RealUp$ seal, the completion frontier is an obligation surface, not a completed-real construction.
 \end{proof}
 
+\begin{theorem}[CauchyOscillation tail-window cofinality]
+\label{thm:cauchy-oscillation-tail-window-cofinality}
+For every accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+the tail-window row $W$ is cofinal for every downstream $\RealUp$ or completion-facing read of the oscillation packet. Any such read must pass through $W,M,Q,T$ before the seal row $S$ is available, and it cannot replace that route by quotient streams, selected limits, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-oscillation-carrier}. The only rows before the terminal seal are the displayed tail window $W$, modulus threshold $M$, dyadic tolerance $Q$, oscillation ledger $T$, and structural rows $H,C,P,N$.
+
+Apply tail-window exposure and the RegSeqRat handoff, \autoref{thm:cauchy-oscillation-tail-window-exposure} and \autoref{thm:cauchy-oscillation-regseqrat-handoff}. These force every oscillation comparison to open the finite $\StreamNameUp$ or $\RegSeqRatUp$ window before threshold or ledger data are consumed.
+
+Use dyadic tail exactness and the dyadic-tail Real-seal route, \autoref{thm:cauchy-oscillation-dyadic-tail-exactness} and \autoref{thm:cauchy-oscillation-dyadic-tail-real-seal-route}. They identify the ledger as the exact finite comparison over $W,M,Q$ and place the $\RealUp$ seal downstream from that comparison.
+
+Finally the completion-frontier obligation of \autoref{thm:cauchy-oscillation-completion-frontier-obligation} keeps every completion-facing consumer inside the same finite packet, so no refused ambient object supplies an alternate cofinal route.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation modulus-tail monotonicity]
+\label{thm:cauchy-oscillation-modulus-tail-monotonicity}
+For every accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+the modulus threshold row $M$ is monotone only along the displayed tail route $W,Q,T$. If a downstream read tightens the dyadic tolerance or moves farther into the tail, the accepted comparison remains a read of the same $W,M,Q,T$ packet under $H$ and $C$; no detached modulus schedule or external completeness principle can supply the monotonicity witness.
+\end{theorem}
+\begin{proof}
+Start with modulus-threshold exactness, \autoref{thm:cauchy-oscillation-modulus-threshold-exactness}. It ties $M$ to the same tail-window, tolerance, and oscillation-ledger rows rather than to a free threshold parameter.
+
+Use dyadic tolerance stability, \autoref{thm:cauchy-oscillation-dyadic-tolerance-stability}. Tightening or transporting the tolerance row preserves $Q$ together with $W,M,T$ under componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+Apply ledger transport and tail-window cofinality, \autoref{thm:cauchy-oscillation-ledger-transport} and \autoref{thm:cauchy-oscillation-tail-window-cofinality}. The comparison ledger remains over the same finite tail route, and every downstream Real or completion read still reaches the seal only through that route.
+
+Thus the monotonicity available to a consumer is exactly the finite modulus-tail monotonicity displayed by $W,M,Q,T,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation Real-seal uniqueness boundary]
+\label{thm:cauchy-oscillation-real-seal-uniqueness-boundary}
+For every accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+any two downstream $\RealUp$ or completion consumers that read the seal row $S$ through the packet meet at the same finite oscillation boundary $W,M,Q,T,S,H,C,P,N$. The packet supplies no second Real seal, no host equality proof between seals, no selected limit, and no ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier. The row $S$ is the only Real-facing seal coordinate, and it appears after the finite tail window, modulus threshold, dyadic tolerance, and oscillation ledger.
+
+Use Real seal nonescape and seal-handoff factorization, \autoref{thm:cauchy-oscillation-real-seal-nonescape} and \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. They prevent a consumer from reading $S$ except through the accepted prefix $W,M,Q,T$.
+
+Apply tail-window cofinality and modulus-tail monotonicity, \autoref{thm:cauchy-oscillation-tail-window-cofinality} and \autoref{thm:cauchy-oscillation-modulus-tail-monotonicity}. These keep both consumers on the same cofinal tail route and the same threshold-tolerance ledger under the displayed transport and replay rows.
+
+Since $H,C,P,N$ only transport, replay, source, and name that packet, the uniqueness boundary is the shared finite route itself, not host real equality or an ambient completion object.
+\end{proof}
+
 \closureat{CauchyOscillationUp}{seedStr}
 
 \begin{closurestatus}{\CauchyOscillationUp}
