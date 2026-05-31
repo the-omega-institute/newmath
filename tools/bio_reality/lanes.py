@@ -3513,7 +3513,9 @@ def _parse_writeback_heal_error(output: str, paper_dir: Path) -> dict[str, str]:
             combined = combined + "\n" + log_path.read_text(encoding="utf-8", errors="replace")
         except OSError:
             pass
-    if "! Undefined control sequence." in combined:
+    if "Unicode character" in combined and "not set up for use with LaTeX" in combined:
+        category = "unicode_char_not_set_up"
+    elif "! Undefined control sequence." in combined:
         category = "undefined_control_sequence"
     elif "Missing $ inserted" in combined:
         category = "missing_dollar"
@@ -3669,6 +3671,59 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
                 return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "error": str(exc)}
             attempts = attempt
             _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "attempt", "attempt": attempt, "rel_file": rel_file})
+            # Deterministic pre-fix: unicode_char_not_set_up → 替换常见 Unicode 数学字符为 LaTeX 等价
+            if last_error.get("category") == "unicode_char_not_set_up":
+                unicode_to_latex = {
+                    "≤": r"$\leq$", "≥": r"$\geq$", "×": r"$\times$", "÷": r"$\div$",
+                    "→": r"$\to$", "←": r"$\leftarrow$", "↔": r"$\leftrightarrow$",
+                    "⇒": r"$\Rightarrow$", "⇐": r"$\Leftarrow$",
+                    "∞": r"$\infty$", "±": r"$\pm$", "∓": r"$\mp$",
+                    "≠": r"$\neq$", "≈": r"$\approx$", "≡": r"$\equiv$",
+                    "∈": r"$\in$", "∉": r"$\notin$", "⊂": r"$\subset$", "⊆": r"$\subseteq$",
+                    "∪": r"$\cup$", "∩": r"$\cap$", "∀": r"$\forall$", "∃": r"$\exists$",
+                    "α": r"$\alpha$", "β": r"$\beta$", "γ": r"$\gamma$", "δ": r"$\delta$",
+                    "λ": r"$\lambda$", "μ": r"$\mu$", "σ": r"$\sigma$", "π": r"$\pi$",
+                    "ω": r"$\omega$", "Δ": r"$\Delta$", "Σ": r"$\Sigma$", "Π": r"$\Pi$",
+                    "Ω": r"$\Omega$",
+                    "−": r"-", "–": r"--", "—": r"---",
+                }
+                prefixed_content = content
+                for u, latex in unicode_to_latex.items():
+                    prefixed_content = prefixed_content.replace(u, latex)
+                if prefixed_content != content:
+                    try:
+                        target.write_text(prefixed_content, encoding="utf-8")
+                        returncode, output = _run_writeback_make_check(paper_dir)
+                        if returncode == 0:
+                            _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "healed", "attempt": attempt, "rel_file": rel_file, "fix_kind": "deterministic_unicode_replace"})
+                            pdf_returncode, _pdf_output = _run_writeback_make_pdf(paper_dir)
+                            pdf_rebuilt = "ok" if pdf_returncode == 0 else "failed"
+                            return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "pdf_rebuilt": pdf_rebuilt, "fix_kind": "deterministic_unicode_replace"}
+                        target.write_text(content, encoding="utf-8")
+                    except OSError:
+                        pass
+            # Deterministic pre-fix: missing_dollar 经常是 \texttt{...} 内有 unescaped _ 触发的
+            # (LaTeX text mode 里 _ 被解释为 subscript 报 missing $). Try regex replace _→\_
+            # 仅在 \texttt{...} 内部, 不动 math mode 或已转义.
+            if last_error.get("category") == "missing_dollar":
+                def _escape_texttt_underscores(match: "re.Match[str]") -> str:
+                    inner = match.group(1)
+                    fixed_inner = re.sub(r"(?<!\\)_", r"\\_", inner)
+                    return r"\texttt{" + fixed_inner + "}"
+                prefixed_content = re.sub(r"\\texttt\{([^{}]*)\}", _escape_texttt_underscores, content)
+                if prefixed_content != content:
+                    try:
+                        target.write_text(prefixed_content, encoding="utf-8")
+                        returncode, output = _run_writeback_make_check(paper_dir)
+                        if returncode == 0:
+                            _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "healed", "attempt": attempt, "rel_file": rel_file, "fix_kind": "deterministic_texttt_underscore"})
+                            pdf_returncode, _pdf_output = _run_writeback_make_pdf(paper_dir)
+                            pdf_rebuilt = "ok" if pdf_returncode == 0 else "failed"
+                            return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "pdf_rebuilt": pdf_rebuilt, "fix_kind": "deterministic_texttt_underscore"}
+                        # 没修好, 回滚 content 让 codex 试
+                        target.write_text(content, encoding="utf-8")
+                    except OSError:
+                        pass
             prompt = _writeback_heal_prompt(rel_file, content, last_error.get("tail") or "")
             parsed, raw_stdout, raw_stderr = _run_writeback_heal_codex(prompt, repo_root, int(config["timeout_seconds"]))
             if parsed is None:

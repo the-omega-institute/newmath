@@ -1,62 +1,83 @@
-\subsection{Curated Interval Contact for Open-Reading-Frame Eligibility}\label{sec:bior-orf-eligibility-curated-interval-contact}
 \origin{ai}
 
-\paragraph{Finite contact being tested.}
-The record concerns the layer called \emph{open-reading-frame eligibility}: a nucleotide interval may pass a start/stop enumeration test when the interval is supplied by an outside curated biological annotation. The object is deliberately narrower than gene expression, protein production, folded molecular order, physical feasibility, or biological role. Its finite empirical contact is a curated interval table derived from NCBI RefSeq GenBank XML CDS intervals for \emph{Escherichia coli} K-12 MG1655, complete genome accession NC\_000913.3. The snapshot date is 2026-05-30, and the loaded table contains $168$ rows at path \texttt{tools/bio\_reality/data/curated\_orf\_interval\_contact\_dataset.json}. The three required row classes are present: positive curated ORF intervals, matched non-ORF decoys, and boundary cases.
+\subsection{Curated interval contact for ORF eligibility}
+\label{subsec:h2-orf-eligibility-curated-interval-contact}
 
-\paragraph{Pre-contact geometry and why it is insufficient.}
-Before this curated interval contact, start/stop enumeration only supplied a formal window test. The finite codon-side data used elsewhere in the packet are explicit: the recurrent motif set is
+\paragraph{Claim locus.}
+The object tested here is open-reading-frame eligibility as a finite start--stop interval question. The packet is not a claim that a sequence is translated, that a peptide folds, that a molecule is physically admissible, that a biological function is present, that a mechanism has been identified, or that a universal biological law has been found. It is only a bounded contact test for whether a predeclared start--stop-window classifier agrees with curated coding-interval annotation on the finite rows supplied to the experiment. The contact layer is therefore
 $$
 \begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\\
-&\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+\mathrm{scope} &= \mathrm{external\_orf\_interval\_contact\_only},\\
+\mathrm{snapshot\ date} &= 2026\text{-}05\text{-}30,\\
+\mathrm{row\ count} &= 168.
 \end{aligned}
 $$
-The larger finite set is
+The biological input is the NCBI RefSeq GenBank XML CDS interval annotation for \emph{Escherichia coli} K-12 MG1655 complete genome accession NC\_000913.3. The finite dataset path recorded by the run is \texttt{tools/bio\_reality/data/curated\_orf\_interval\_contact\_dataset.json}, with $168$ rows.
+
+\paragraph{Finite geometric background.}
+The lower-level codon geometry used by the classifier is finite and explicitly recorded. The motif-compressed set is
 $$
 \begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
 \end{aligned}
 $$
-with $|M|=20$. The same finite audit reports $M=\mathrm{WNR}\cup\mathrm{CUN}$ in this concrete enumeration. The $f_3$ saturation of $R$ is exactly
+The checked equality $M=\mathrm{WNR}\cup\mathrm{CUN}$ gives the $20$-element list
 $$
 \begin{aligned}
-\mathrm{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\\
+&\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\\
+&\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
 \end{aligned}
 $$
-so the missing members relative to $M$ are precisely $\mathrm{ACA}$ and $\mathrm{ACG}$, while $M=\mathrm{Med}(R)\cup\{\mathrm{ACA},\mathrm{ACG}\}$. The reported $f_3$ boundary is empty. These finite codon facts are useful coordinates for constructing a window classifier, but they do not themselves observe a biological interval.
-
-\paragraph{Geometry-side finite checks.}
-The quotient geometry attached to $M$ has an $f$-vector $(20,38,26,8,1)$. Its quotient image has $10$ cells with quotient $f$-vector $(10,14,6,1)$, and the recorded quotient representatives are
+The saturation record reports
 $$
 \begin{aligned}
-& (0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),\\
-& (0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1).
+\mathrm{Sat}_{f_3}(R)&=M\setminus\{\mathrm{ACA},\mathrm{ACG}\},\\
+\partial_{f_3}&=\varnothing,
 \end{aligned}
 $$
-The preceding single-window enumeration contact, dated 2026-05-25, loaded one external nucleotide-window record and classified that one input window by start/stop enumeration. Its scope was only \texttt{external\_window\_start\_stop\_enumeration\_only}. Thus the interval contact in this subsection is not a consequence of the codon geometry alone; it is the first finite table in this record that attaches the start/stop test to curated CDS intervals.
+and the quotient geometry has $|\pi_M|=10$, with $M$-vector $(20,38,26,8,1)$ and quotient vector $(10,14,6,1)$. These finite codon facts are inputs to the interval classifier, not biological realization claims.
 
-\paragraph{Protocol and classifier restrictions.}
-The classifier is identified as \texttt{orf\_start\_stop\_window\_eligibility}. The audit says that its rules were not modified for the interval table, that the input classes were fixed before observation, that the baselines and held-out splits were specified in advance, and that the analysis used no translation or structure input. The protocol timestamp is 2026-05-29T19:11:13+00:00, and the outside evidence was observed at 2026-05-30T10:29:31+00:00. Consequently the contact tests a narrow question: whether curated CDS intervals are accepted by the predeclared start/stop eligibility classifier while matched decoys and boundary cases are not promoted.
+\paragraph{Pre-specified contact protocol.}
+The interval contact was evaluated after the rules, baselines, input classes, and held-out splits had already been specified. The protocol record states that classifier rules were set at $2026$-$05$-$29$T$19{:}11{:}13$+00:00, while the curated evidence was observed at $2026$-$05$-$30$T$10{:}29{:}31$+00:00. The classifier identifier was \texttt{orf\_start\_stop\_window\_eligibility}; its rule table was not modified during the contact run. The analysis used no translation or protein-structure input. The required row classes were exactly boundary cases, matched non-ORF decoys, and positive curated ORFs.
 
-\paragraph{Observed finite-row outcome.}
-The curated interval contact has $72$ positive curated intervals, $72$ matched non-ORF decoys, and $24$ boundary cases, totaling $168$ rows. All $72$ positive intervals were accepted, and all $72$ matched decoys were rejected. The two exact one-sided binomial tail values reported for these two rates are the same:
+\paragraph{Observed finite-row separation.}
+The contact run contains $72$ positive curated ORF intervals, $72$ matched non-ORF decoys, and $24$ boundary cases, totaling $168$ rows. On the positive rows, the start--stop interval classifier accepted all $72$ rows, so
 $$
 \begin{aligned}
-\Pr_{\mathrm{tail}} &= 2.117582368135751\cdot 10^{-22},\\
-\mathrm{positive\ accept\ rate} &= 72/72=1.0,\\
-\mathrm{matched\ decoy\ reject\ rate} &= 72/72=1.0.
+\mathrm{positive\ accept\ rate} &= 72/72 = 1,\\
+P_{\mathrm{upper}} &= 2.117582368135751\cdot 10^{-22}.
 \end{aligned}
 $$
-The paired baseline comparison also records $72$ wins in $72$ pairs, with win rate $1.0$ and the same one-sided binomial tail value $2.117582368135751\cdot 10^{-22}$. The boundary controls did not create extra ORF claims: $0$ of $24$ boundary rows were promoted, so the promoted fraction is $0.0$.
+On the matched decoys, it rejected all $72$ rows, so
+$$
+\begin{aligned}
+\mathrm{decoy\ reject\ rate} &= 72/72 = 1,\\
+P_{\mathrm{upper}} &= 2.117582368135751\cdot 10^{-22}.
+\end{aligned}
+$$
+The paired baseline comparison likewise recorded $72$ wins out of $72$ pairs, with one-sided exact binomial tail
+$$
+\begin{aligned}
+\mathrm{win\ rate} &= 72/72 = 1,\\
+P_{\mathrm{upper}} &= 2.117582368135751\cdot 10^{-22}.
+\end{aligned}
+$$
+The boundary cases were not promoted: $0$ of $24$ were lifted beyond boundary status, giving promoted fraction $0.0$.
 
-\paragraph{Held-out split stability.}
-The split audit contains three held-out folds. In \texttt{refseq\_nc\_000913\_left\_locus\_fold}, there were $24$ positives and $24$ decoys, with positive accept rate $1.0$ and decoy reject rate $1.0$. The same numbers hold for \texttt{refseq\_nc\_000913\_middle\_locus\_fold} and \texttt{refseq\_nc\_000913\_right\_locus\_fold}. Each split passed. In finite terms, the stability statement is therefore not an averaged trend hiding failed folds; it is the conjunction of three $24$-positive and $24$-decoy checks, all at perfect separation under the recorded classifier.
+\paragraph{Held-out stability.}
+The held-out split check used three locus folds. In the left fold, $24$ positives were accepted and $24$ decoys were rejected. The middle fold had the same $24$ positive and $24$ decoy counts, again with accept rate $1.0$ and reject rate $1.0$. The right fold repeated the same outcome. Thus the finite split table is
+$$
+\begin{aligned}
+\mathrm{split\ count} &= 3,\\
+\mathrm{positive\ rows\ per\ split} &= 24,\\
+\mathrm{decoy\ rows\ per\ split} &= 24,\\
+\mathrm{positive\ accept\ rate\ per\ split} &= 1.0,\\
+\mathrm{decoy\ reject\ rate\ per\ split} &= 1.0.
+\end{aligned}
+$$
+This supports only the stated interval-contact judgment on the supplied curated rows and matched controls.
 
-\paragraph{Local interpretation.}
-The result supports a very specific claim: for this curated RefSeq CDS interval table, the predeclared start/stop-window classifier separates the curated positive intervals from the matched decoys, leaves the boundary cases unpromoted, and remains stable across the three held-out locus folds. It also establishes that this contact is outside curated biological input rather than a theorem produced by the codon-coordinate kernel. The self-check record says that three gates were checked and that no codon geometry is promoted across biological layers.
-
-\paragraph{Boundary of the claim.}
-No stronger biological assertion follows from this row set. The contact does not show translation realization, does not show folded protein structure, does not establish physical admissibility, does not assign biological function, and does not identify a mechanism. It also does not provide a universal law for all nucleotide windows, genomes, organisms, annotations, or transcripts. The matched decoy and boundary controls are controls for this finite table; they do not classify windows outside the recorded dataset unless another contact supplies those windows and repeats the corresponding test.
+\paragraph{Local boundary of interpretation.}
+The chapter records a successful finite contact between a predeclared start--stop-window classifier and curated coding-interval annotation. Nothing in this contact converts codon-window geometry into translation, folded protein structure, physical admissibility, biological function, molecular mechanism, or universality. The NCBI RefSeq annotation remains a curated biological input to the run, not part of the mathematical kernel. The matched decoy and boundary controls also do not classify arbitrary windows outside the $168$-row dataset. The self-check recorded $3$ checked gates and explicitly kept codon geometry from being promoted across biological layers. The admissible conclusion is therefore exactly: within this finite dataset, the geometry-only ORF-window classifier separated curated positive intervals from matched decoys and left boundary cases unpromoted.
