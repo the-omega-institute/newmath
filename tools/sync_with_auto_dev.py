@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -35,12 +36,34 @@ import time
 import tempfile
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-SOURCE_BRANCH = "codex-auto-dev"   # pipeline output (codex workers)
-MIRROR_BRANCH = "auto-dev"          # stable mirror
-UPSTREAM_BRANCH = "dev"             # external main branch (user / external commits)
-CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
-VALIDATION_WORKTREE = Path("/tmp/.bedc_sync_validate_wt")
+from host_context import host_path, host_value
+
+REPO_ROOT = host_path(
+    Path(__file__).resolve().parent.parent,
+    "REPO_ROOT",
+    default=Path(__file__).resolve().parent.parent,
+)
+def _source_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", required=True)
+
+
+def _mirror_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", required=True)
+
+
+def _upstream_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", required=True)
+
+
+SOURCE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH")
+MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH")
+UPSTREAM_BRANCH = host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH")
+CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
+VALIDATION_WORKTREE = host_path(
+    REPO_ROOT,
+    "BEDC_SYNC_VALIDATION_WORKTREE",
+    default=Path(tempfile.gettempdir()) / ".bedc-sync-validate-wt",
+)
 VALIDATION_BRANCH = "bedc-sync-validate"
 CONFLICT_PROMPT = """You are resolving git merge conflicts in the BEDC mathematics project.
 
@@ -159,6 +182,7 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
     prompt = CONFLICT_PROMPT.replace(
         "{conflicted}", "\n".join(f"  {f}" for f in files),
     )
+    prompt = render_prompt_host_context(prompt)
 
     if not Path(CODEX_PATH).exists():
         print(f"[sync] codex CLI not found at {CODEX_PATH}", file=sys.stderr)
@@ -202,6 +226,22 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
                 return False
             git("commit", "--no-edit")
     return True
+
+
+def render_prompt_host_context(prompt: str) -> str:
+    replacements = {
+        "codex-auto-dev": SOURCE_BRANCH,
+        "auto-dev": MIRROR_BRANCH,
+        "dev": UPSTREAM_BRANCH,
+    }
+    out = prompt
+    for old, new in replacements.items():
+        out = re.sub(
+            rf"(?<![A-Za-z0-9_-]){re.escape(old)}(?![A-Za-z0-9_-])",
+            new,
+            out,
+        )
+    return out
 
 
 def merge_with_codex_fallback(target: str, label: str) -> bool:
@@ -395,12 +435,29 @@ def _origin_sha(branch: str) -> str | None:
 
 
 def _remove_validation_worktree() -> None:
+    """Tear down the scratch validation worktree so the next cycle recreates it
+    cleanly.
+
+    `git worktree remove --force` itself fails with "Directory not empty" when a
+    previous validation crashed mid-run and left untracked files (or an
+    inconsistent `.git/worktrees` entry). When that happens the subsequent
+    `git worktree add` collides with the leftover directory and fails, so
+    dev->auto-dev validation never even reaches the merge/regen/build steps and
+    the sync wedges every cycle FOREVER (the failure is deterministic, not
+    transient). Belt-and-suspenders: after the soft remove, unconditionally
+    `rm -rf` any remnant, prune the stale worktree metadata, and drop the
+    scratch branch — each step is harmless when already clean."""
     if VALIDATION_WORKTREE.exists():
         res = git("worktree", "remove", "--force", str(VALIDATION_WORKTREE),
                   check=False, capture=True)
         if res.returncode != 0:
-            print(f"[sync] dev->auto-dev validation: could not remove old "
-                  f"worktree: {((res.stdout or '') + (res.stderr or '')).strip()[:200]}")
+            print(f"[sync] dev->auto-dev validation: soft worktree remove failed "
+                  f"({((res.stdout or '') + (res.stderr or '')).strip()[:160]}); "
+                  f"forcing rm -rf + prune")
+    if VALIDATION_WORKTREE.exists():
+        run(["rm", "-rf", str(VALIDATION_WORKTREE)], check=False, capture=True)
+    git("worktree", "prune", check=False, capture=True)
+    git("branch", "-D", VALIDATION_BRANCH, check=False, capture=True)
 
 
 def _run_validation_gate(cmd: list[str], *, cwd: Path, label: str,
@@ -600,10 +657,21 @@ def _restore_autostash(stash_oid: str | None) -> None:
 
 
 def main():
+    global SOURCE_BRANCH, MIRROR_BRANCH, UPSTREAM_BRANCH
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--no-push", action="store_true",
                         help="Skip the two pushes to origin (still does the merges locally)")
+    parser.add_argument("--source-branch", default=None,
+                        help="Pipeline integration branch (default: host BEDC_PIPELINE_BRANCH)")
+    parser.add_argument("--mirror-branch", default=None,
+                        help="Stable mirror branch (default: host BEDC_MIRROR_BRANCH)")
+    parser.add_argument("--upstream-branch", default=None,
+                        help="Review base branch (default: host BEDC_UPSTREAM_BRANCH)")
     args = parser.parse_args()
+    SOURCE_BRANCH = args.source_branch if args.source_branch is not None else _source_branch_default()
+    MIRROR_BRANCH = args.mirror_branch if args.mirror_branch is not None else _mirror_branch_default()
+    UPSTREAM_BRANCH = args.upstream_branch if args.upstream_branch is not None else _upstream_branch_default()
 
     original = current_branch()
 
