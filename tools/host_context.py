@@ -80,11 +80,9 @@ def host_value(
     *,
     explicit: str | Path | None = None,
     default: str | Path | None = None,
-    env_file: str | Path | None = None,
     env: Mapping[str, str] | None = os.environ,
     required: bool = False,
 ) -> str | None:
-    _ = env_file
     defaults = {key: str(default)} if default is not None else None
     context = load_host_context(
         repo_root=repo_root,
@@ -103,11 +101,9 @@ def host_path(
     *,
     explicit: str | Path | None = None,
     default: str | Path | None = None,
-    env_file: str | Path | None = None,
     env: Mapping[str, str] | None = os.environ,
     required: bool = False,
 ) -> Path | None:
-    _ = env_file
     defaults = {key: str(default)} if default is not None else None
     context = load_host_context(
         repo_root=repo_root,

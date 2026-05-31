@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import inspect
 import os
 import sys
 import tempfile
@@ -20,6 +21,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 class HostContextTests(unittest.TestCase):
+    def test_public_helpers_do_not_accept_env_file(self):
+        for helper in (load_host_context, host_value, host_path):
+            self.assertNotIn("env_file", inspect.signature(helper).parameters)
+
     def test_explicit_overrides_process_env_and_default(self):
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
