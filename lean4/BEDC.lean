@@ -759,6 +759,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.CofinalClusterSeal
 import BEDC.Derived.BolzanoWeierstrassUp.CofinalSubsequenceClassifierExactness
 import BEDC.Derived.BolzanoWeierstrassUp.DyadicMeshSubsequenceWitness
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteClusterRetentionLedger
+import BEDC.Derived.BolzanoWeierstrassUp.FiniteIntervalSubsequenceExhaustion
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteIntervalTreeInduction
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteSubsequenceObligations
 import BEDC.Derived.BolzanoWeierstrassUp.IntervalNestingRoute
@@ -952,6 +953,7 @@ import BEDC.Derived.BoundedMonotoneSubsequenceUp.TasteGate
 import BEDC.Derived.BoundedNestedRealChoiceSealUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
+import BEDC.Derived.BoundedRealSequenceUp.DyadicBoundTransport
 import BEDC.Derived.BoundedRealSequenceUp.FiniteWindowNetExtraction
 import BEDC.Derived.BoundedRealSequenceUp.LocatedBoundHandoff
 import BEDC.Derived.BoundedRealSequenceUp.NameCertObligations
@@ -1948,6 +1950,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.ModulusWindowTransport
 import BEDC.Derived.ClosedBoundedIntervalUp.NestedCompactnessHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.NetHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.ObligationClosure
+import BEDC.Derived.ClosedBoundedIntervalUp.RealCauchyModulusHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealNonescape
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealRootHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.RegSeqRatWindow
@@ -3951,6 +3954,7 @@ import BEDC.Derived.GaugeIntegralUp
 import BEDC.Derived.GaugeIntegralUp.TasteGate
 import BEDC.Derived.GaussTestUp.TasteGate
 import BEDC.Derived.GelfandDualityUp
+import BEDC.Derived.GeneratingFunctionUp.TasteGate
 import BEDC.Derived.GeneratorClosureUp
 import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
 import BEDC.Derived.GeneratorFixedPointUp
@@ -4735,6 +4739,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FourFaceDeficiencyRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.FourFaceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.FourSourceOwnerNoncollapse
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierCoverage
+import BEDC.Derived.MetaCICCriticalPathUp.FrontierNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
 import BEDC.Derived.MetaCICCriticalPathUp.L10BudgetExit
 import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeGate
@@ -4750,6 +4755,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
+import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineDecidabilityHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineFourFaceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormPublicNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormReadbackBoundary
@@ -5531,6 +5537,7 @@ import BEDC.Derived.PoissonKernelUp.TasteGate
 import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
+import BEDC.Derived.PolishspaceUp.CompleteMetricRootObligation
 import BEDC.Derived.PolishspaceUp.CompleteMetricSeparableSynthesis
 import BEDC.Derived.PolishspaceUp.CompleteSeparableHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableMetricRow
@@ -6060,6 +6067,7 @@ import BEDC.Derived.RealUp.SelectedTransportClique
 import BEDC.Derived.RealUp.SelectedTransportFit
 import BEDC.Derived.RealUp.SelectedTransportReadback
 import BEDC.Derived.RealUp.SemanticCertificate
+import BEDC.Derived.RealUp.SeparabilityNameCertObligations
 import BEDC.Derived.RealUp.StdBridge
 import BEDC.Derived.RealUp.StreamBridge
 import BEDC.Derived.RealUp.StreamNameFiniteWindowLedgerBoundary
@@ -6516,6 +6524,7 @@ import BEDC.Derived.RepresentedSpaceUp.RealizationTransport
 import BEDC.Derived.RepresentedSpaceUp.RealizerReadbackWindow
 import BEDC.Derived.RepresentedSpaceUp.RootCompletionReadbackObligations
 import BEDC.Derived.RepresentedSpaceUp.RootEffectiveMetricObligations
+import BEDC.Derived.RepresentedSpaceUp.RootRealSealObligations
 import BEDC.Derived.RepresentedSpaceUp.ScopePackage
 import BEDC.Derived.RepresentedSpaceUp.StreamNameRepresentationSource
 import BEDC.Derived.RepresentedSpaceUp.StreamnameRealHandoff
@@ -7465,6 +7474,7 @@ import BEDC.Derived.ValidatedNumericsUp
 import BEDC.Derived.ValidatedNumericsUp.FiniteWindowSealContainment
 import BEDC.Derived.ValidatedNumericsUp.RefinementCompositionContainment
 import BEDC.Derived.ValidatedNumericsUp.TasteGate
+import BEDC.Derived.VariationOfConstantsUp.TasteGate
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.VectorBundleUp
 import BEDC.Derived.VerificationFailureRoadmapUp.TasteGate
