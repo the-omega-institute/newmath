@@ -96,6 +96,7 @@ The bounded comparison non-escape theorem then prevents rereading $B$ as a globa
 \label{thm:metacic-decidable-boundary-candidate-normal-form}
 Every candidate-normal-form read available to an accepted $\MetaCICDecidableBoundaryUp$ packet factors through the checker row $T$, structural equality row $S$, bounded normal row $B$, finished-normal side-condition row $F$, and refusal row $R$. The read may be replayed through $H,C,P,N$, but it cannot export a standalone $\mathsf{ClosedAt}$ decider, global beta-conversion decision, quotient equality over represented terms, or host evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICDecidableBoundaryUp.MetaCICDecidableBoundary\_candidate\_normal\_form\_reads}
 \begin{proof}
 Start from the window totality theorem \autoref{thm:metacic-decidable-boundary-window-totality}. It says that each bounded comparison request has a finite inspected window supplied by $T,S,F$ together with the bounded comparison row $B$.
 
@@ -246,6 +247,29 @@ Apply bounded normal comparison scope from \autoref{thm:metacic-decidable-bounda
 Use the ClosedAt refusal route of \autoref{thm:metacic-decidable-boundary-closedat-refusal-route}. A standalone $\mathsf{ClosedAt}$ request is sent to $R$, while the positive checker and comparison rows remain available only as the finite rows already displayed by the packet.
 
 Finally apply the conversion nonescape package \autoref{thm:metacic-decidable-boundary-conversion-nonescape-package}. It repacks the conversion-facing surface through $B,F,R,H,C,P,N$, so the normal-form decision envelope is exactly the positive checker, structural equality, bounded comparison, and finished-normal side-condition surface together with the refusal boundary in $R$.
+\end{proof}
+
+\begin{definition}[MetaCIC decidable boundary endpoint subcarrier]
+\label{def:metacic-decidable-boundary-endpoint-subcarrier}
+For an accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, the endpoint subcarrier is the finite packet
+$$
+D_{\mathrm{end}}=(T,B,F,R,H,C,P,N)
+$$
+consisting of the closed-term row $T$, bounded-normal comparison row $B$, finished-normal witness row $F$, refusal row $R$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local $\NameCert_{\MetaCICDecidableBoundaryUp}$ row $N$. It deliberately omits any global conversion decider, quotient equality over represented terms, fuel-free normalizer, or host evaluator.
+\end{definition}
+
+\begin{theorem}[MetaCIC decidable boundary finished normal endpoint]
+\label{thm:metacic-decidable-boundary-finished-normal-endpoint}
+Every global closed beta-conversion decision read from an accepted $\MetaCICDecidableBoundaryUp$ packet may be read only after the endpoint subcarrier of \autoref{def:metacic-decidable-boundary-endpoint-subcarrier} supplies finished-normal witnesses through $F$. The bounded normal comparison row $B$ alone remains a refusal boundary: without the endpoint rows $T,F,R,H,C,P,N$, it cannot export global conversion decidability, quotient equality over represented terms, fuel-erased normalization, or host evaluation.
+\end{theorem}
+\begin{proof}
+Start with the normal-form decision envelope \autoref{thm:metacic-decidable-boundary-normal-form-decision-envelope}. It places every normal-form decision read on the finite route $T,S,B,F,R,H,C,P,N$ and keeps the positive comparison row tied to finished-normal side conditions.
+
+Apply the conversion nonescape package \autoref{thm:metacic-decidable-boundary-conversion-nonescape-package}. Conversion-facing reads factor through $B,F,R,H,C,P,N$, with $R$ recording the missing global endpoints.
+
+Now project the endpoint subcarrier of \autoref{def:metacic-decidable-boundary-endpoint-subcarrier}. It retains the closed-term row, bounded-normal comparison row, finished-normal witnesses, refusal row, transport, replay, provenance, and local naming, so a conversion read is available only with $F$ present.
+
+If $B$ is read without this endpoint data, the route has only bounded comparison under a displayed window. The refusal row still blocks global beta-conversion decidability, quotient equality, fuel-erased normalization, and host evaluation.
 \end{proof}
 
 \closureat{MetaCICDecidableBoundaryUp}{seedStr}
