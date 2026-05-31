@@ -763,6 +763,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.FiniteClusterRetentionLedger
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteIntervalSubsequenceExhaustion
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteIntervalTreeInduction
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteSubsequenceObligations
+import BEDC.Derived.BolzanoWeierstrassUp.IntervalDepthWitness
 import BEDC.Derived.BolzanoWeierstrassUp.IntervalNestingRoute
 import BEDC.Derived.BolzanoWeierstrassUp.IntervalNetChoiceFreeRetention
 import BEDC.Derived.BolzanoWeierstrassUp.IntervalNetObligation
@@ -1973,6 +1974,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceScopedCoverage
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceWindowExactness
 import BEDC.Derived.ClosedBoundedIntervalUp.ScopedSourcePackage
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceCoverBoundary
+import BEDC.Derived.ClosedBoundedIntervalUp.SourceObligationPackage
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceReadbackStability
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceScopePackage
 import BEDC.Derived.ClosedBoundedIntervalUp.TasteGate
@@ -6286,6 +6288,7 @@ import BEDC.Derived.RegularCauchyCommonTailFilterUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonPrincipleUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
+import BEDC.Derived.RegularCauchyCompletionCounitUp
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.TasteGate
@@ -6545,6 +6548,7 @@ import BEDC.Derived.RepresentedSpaceUp.EffectiveMetricRealizerHandoff
 import BEDC.Derived.RepresentedSpaceUp.RealizationExactness
 import BEDC.Derived.RepresentedSpaceUp.RealizationTransport
 import BEDC.Derived.RepresentedSpaceUp.RealizerReadbackWindow
+import BEDC.Derived.RepresentedSpaceUp.RealizerScope
 import BEDC.Derived.RepresentedSpaceUp.RootCompletionReadbackObligations
 import BEDC.Derived.RepresentedSpaceUp.RootEffectiveMetricObligations
 import BEDC.Derived.RepresentedSpaceUp.RootRealSealObligations
