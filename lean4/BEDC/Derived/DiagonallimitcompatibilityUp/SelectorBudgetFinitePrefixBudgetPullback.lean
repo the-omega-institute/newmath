@@ -113,4 +113,46 @@ theorem DiagonalLimitSelectorBudgetFinitePrefixBudgetPullback [AskSetup] [Packag
                           prefixSealPkg⟩
   }
 
+theorem DiagonalLimitCompatibilitySelectorBudgetFinitePrefixBudgetPullback
+    [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      prefixBudget sourceRead tailRead pullbackRead locked : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg →
+      Cont windows dyadic prefixBudget →
+        Cont prefixBudget readback sourceRead →
+          Cont sourceRead realSeal tailRead →
+            Cont tailRead cert pullbackRead →
+              Cont pullbackRead route locked →
+                PkgSig bundle locked pkg →
+                  UnaryHistory windows ∧ UnaryHistory dyadic ∧
+                    UnaryHistory prefixBudget ∧ UnaryHistory readback ∧
+                      UnaryHistory sourceRead ∧ UnaryHistory realSeal ∧
+                        UnaryHistory tailRead ∧ UnaryHistory cert ∧
+                          UnaryHistory pullbackRead ∧ UnaryHistory route ∧
+                            UnaryHistory locked ∧ PkgSig bundle provenance pkg ∧
+                              PkgSig bundle locked pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier windowsDyadicPrefix prefixReadback sourceRealSeal tailCert pullbackRoute
+    lockedPkg
+  obtain ⟨_diagonalUnary, _triangleUnary, _sealRowUnary, dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, routeUnary, _provenanceUnary, certUnary,
+    _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have prefixUnary : UnaryHistory prefixBudget :=
+    unary_cont_closed windowsUnary dyadicUnary windowsDyadicPrefix
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed prefixUnary readbackUnary prefixReadback
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed sourceUnary realSealUnary sourceRealSeal
+  have pullbackUnary : UnaryHistory pullbackRead :=
+    unary_cont_closed tailUnary certUnary tailCert
+  have lockedUnary : UnaryHistory locked :=
+    unary_cont_closed pullbackUnary routeUnary pullbackRoute
+  exact
+    ⟨windowsUnary, dyadicUnary, prefixUnary, readbackUnary, sourceUnary, realSealUnary,
+      tailUnary, certUnary, pullbackUnary, routeUnary, lockedUnary, provenancePkg,
+      lockedPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
