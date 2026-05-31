@@ -2,17 +2,17 @@
 """BEDC paper-side Codex revision pipeline with git-worktree parallelism.
 
 Mirror of `lean4/scripts/codex_formalize.py`, but with the two roles swapped
-(reviewer + reviser instead of selector + implementor) and with `lake build`
-replaced by `make` (pdflatex twice) for verification.
+(reviewer + reviser instead of selector + implementor). Worker rounds run
+fast paper gates and record full PDF verification as an async obligation.
 
 Phases per round (each in its own worktree):
   Phase REVIEW : codex audits the theory in `papers/bedc/parts/` and outputs
                  1–3 concrete revision targets (logical gaps, redundancy,
                  missing companion results, structural improvements, …).
   Gate         : sanity-checks the JSON (count, fields populated, files exist).
-  Phase REVISE : codex applies the revisions, runs `make` + `bedc_ci.py audit`,
+  Phase REVISE : codex applies the revisions, runs `make precheck` + audit,
                  commits the result.
-  Phase VERIFY : pipeline-side gates (PDF builds, drift audit, no axioms,
+  Phase VERIFY : pipeline-side gates (PDF build deferral, drift audit, no axioms,
                  no banned vocabulary, ≤800-line .tex cap, no register-only
                  rounds, no new \\leanvariant markers), merge to base, push.
 
@@ -63,6 +63,7 @@ from pipeline_worker_identity import (
     parse_new_worktree_name,
     recovery_ticket_name,
 )
+from verification_contract import VerificationEnvelope, current_sha, record
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "logs"
 WORKTREE_DIR = REPO_ROOT / ".worktrees"
@@ -1628,6 +1629,7 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                                 cwd=REPO_ROOT, timeout=10,
                             ).returncode == 0
                             if origin_contains:
+                                record_deferred_pdf_build(wt, sha=wt_tip)
                                 logger.info(
                                     f"Merged and pushed {wt.branch} to {BASE_BRANCH} (attempt {attempt})"
                                 )
@@ -1975,25 +1977,16 @@ def _added_lines_per_file(wt: WorktreeInfo, rel_path: str) -> list[tuple[int, st
 
 
 
-def run_pdf_build(wt: WorktreeInfo, *, timeout: int = 600) -> tuple[bool, str]:
-    """Skip round-local PDF build entirely; defer to paper_builder_daemon.
-
-    Round verification used to run `make check` (single-pass) inside the
-    round worktree as a fast LaTeX sanity check. With paper_builder_daemon
-    polling the merged codex-auto-dev tip every 60s in a dedicated
-    `_paper_builder` worktree, round-local PDF build is redundant — the
-    daemon always builds the latest tip (newer commits supersede older
-    ones in the build queue, so the daemon naturally builds only the
-    head). Round-local build also bottlenecks paper round throughput
-    (rounds queue on with_pdf_slot's 5 permits even though the build
-    itself produces nothing the round consumes).
-
-    Other verify-phase gates remain (drift audit, axiom audit, Phase D
-    lints) — PDF build is the only one moved to daemon. If a syntax error
-    sneaks into a commit, the daemon's next full build fails and
-    logs to paper_builder_daemon.log; recovery is manual.
-    """
-    return True, "PDF build skipped — deferred to paper_builder_daemon"
+def record_deferred_pdf_build(wt: WorktreeInfo, *, sha: str | None = None) -> VerificationEnvelope:
+    sha = sha or current_sha(wt.path)
+    return record(
+        sha=sha,
+        gate="paper-full-make",
+        status="deferred",
+        mode="worker-premerge",
+        owner="paper_builder_daemon",
+        detail="worker-premerge records full PDF build as deferred to paper_builder_daemon",
+    )
 
 
 def run_drift_audit(wt: WorktreeInfo) -> tuple[bool, str]:
@@ -2175,14 +2168,12 @@ def verify_worktree_commits(
             logger.error(f"[P{wt.round_number}] AI MISSING INDEPENDENCE: {v}")
         return False, new
 
-    # Gate F — PDF compile
-    ok, tail = run_pdf_build(wt)
-    if not ok:
-        logger.error(f"[P{wt.round_number}] PDF build FAILED")
-        for ln in (tail or "").splitlines()[-15:]:
-            logger.error(f"  {ln}")
-        return False, new
-    logger.info(f"[P{wt.round_number}] PDF build OK")
+    # Gate F — full PDF build is an async-builder obligation.
+    envelope = record_deferred_pdf_build(wt)
+    logger.info(
+        f"[P{wt.round_number}] paper-full-make {envelope.status} "
+        f"to {envelope.owner} for {envelope.sha[:8]}"
+    )
 
     # Gate G — paper ↔ Lean drift audit
     ok, msg = run_drift_audit(wt)
@@ -2296,7 +2287,7 @@ def run_round_in_worktree(
         revise = parse_revise_output(revise_raw)
 
         # ── Phase VERIFY ─────────────────────────────────────────
-        logger.info(f"[{tag}] Phase VERIFY: gates + PDF build...")
+        logger.info(f"[{tag}] Phase VERIFY: gates + verification envelope...")
         if dry_run:
             success = True
         else:

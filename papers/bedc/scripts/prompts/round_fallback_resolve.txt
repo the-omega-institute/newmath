@@ -13,7 +13,7 @@ will retry the merge automatically after you exit cleanly.
 cd {worktree}
 git status --porcelain                 # working tree should be clean before exit
 git log --oneline {base_branch}..HEAD  # confirm worker commits still here
-cd papers/bedc && make check 2>&1 | tail -50 # PDF build break? (`make check` = single -draftmode pass, ~half the time; switch to full `make` once syntax is clean to also catch \autoref / TOC issues)
+cd papers/bedc && make precheck 2>&1 | tail -50 # static paper gates
 cd ../.. && python3 lean4/scripts/bedc_ci.py audit 2>&1 | tail -30
 python3 tools/check-axioms.py 2>&1 | tail -3
 ```
@@ -38,7 +38,7 @@ The first command that errors is what you need to fix.
 - "case-collision" — git index has two paths differing only by case.
   `git update-index --force-remove <wrong-case-path>` then commit.
 
-### `pdflatex` failure (oversize .tex / missing macro / undefined ref)
+### Paper failure (oversize .tex / missing macro / undefined ref)
 - "OVERSIZED .TEX" from precheck — split the offending file: extract
   content into a focused child file under the same theme directory,
   leave the parent as a pure index of `\input` lines.
