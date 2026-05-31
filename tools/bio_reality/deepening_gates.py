@@ -177,7 +177,18 @@ def _missing(record: dict[str, Any], required: set[str]) -> list[str]:
 
 def _id(key: str, value: Any, issues: list[str]) -> None:
     if not isinstance(value, str) or not ID_RE.match(value):
-        issues.append(f"{key} {ID_SYNTAX}")
+        issues.append(_invalid_id_issue(key, value))
+
+
+def _id_repair_hint(value: Any) -> str:
+    if not isinstance(value, str) or not value:
+        return ""
+    repaired = re.sub(r"[^a-z0-9.:-]+", "-", value.lower()).strip(".:-")
+    return f"; suggested normalized id: {repaired}" if repaired and repaired != value else ""
+
+
+def _invalid_id_issue(key: str, value: Any) -> str:
+    return f"{key} {ID_SYNTAX}{_id_repair_hint(value)}"
 
 
 def _nonempty(key: str, value: Any, issues: list[str]) -> None:
@@ -435,7 +446,7 @@ def _index(records: list[dict[str, Any]], key: str) -> tuple[dict[str, dict[str,
     for index, record in enumerate(records, 1):
         value = str(record.get(key) or "")
         if not ID_RE.match(value):
-            issues.append(f"{key}:{index}: invalid id: {value}; {ID_SYNTAX}")
+            issues.append(f"{key}:{index}: invalid id: {value}; {_invalid_id_issue(key, value)}")
             continue
         if value in by_id:
             issues.append(f"{key}:{index}: duplicate id: {value}")
@@ -691,6 +702,9 @@ def self_test() -> int:
     if not any("not underscores or uppercase" in issue for result in invalid_contact_results for issue in result["issues"]):
         print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
         return 1
+    if not any("suggested normalized id: matched-mrna-abundance-control" in issue for result in invalid_contact_results for issue in result["issues"]):
+        print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+        return 1
     contact_schema = json.loads((SCRIPT_DIR / "reality_contact.schema.json").read_text(encoding="utf-8"))
     contact_id_pattern = contact_schema.get("properties", {}).get("contact_id", {}).get("pattern")
     if contact_id_pattern != ID_PATTERN:
@@ -721,6 +735,22 @@ def self_test() -> int:
     )
     if not any("not underscores or uppercase" in issue for result in invalid_probe_results for issue in result["issues"]):
         print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    probe_schema = json.loads((SCRIPT_DIR / "probe.schema.json").read_text(encoding="utf-8"))
+    probe_id_pattern = probe_schema.get("properties", {}).get("probe_id", {}).get("pattern")
+    if probe_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "probe_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": probe_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
         return 1
     if by_id["codon.code.read"]["gate_status"] != "gate_passed":
         print(json.dumps(results, indent=2), file=sys.stderr)
