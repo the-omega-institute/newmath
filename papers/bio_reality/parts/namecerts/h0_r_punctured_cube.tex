@@ -1,24 +1,27 @@
-\subsection{Punctured-cube boundary in the standard-code readback}\label{sec:bior-h0-r-punctured-cube}
+\subsection{The punctured codon cube row}\label{sec:bioreality-h0-r-punctured-cube}
 \origin{ai}
 
-\paragraph{Finite object.}
-The finite object in this record is the six-coordinate codon cube with a curated standard-code label table attached only as a readback contact.  The distinguished row set $R$ consists of thirteen codons:
+\paragraph{Finite carrier and observed row.}
+The record concerns the standard-code codon table viewed through a six-bit codon coordinate display.  The finite carrier is the codon cube $Q_6$, while the distinguished row $R$ is the thirteen-codon set
 $$
 \begin{aligned}
 R=\{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
 &UAA, UAG, UCA, UGA, UUA\}.
 \end{aligned}
 $$
-The independent cardinality check gives $|R|=13$, with the same thirteen displayed rows.  The punctured-cube certificate reports the face data
+The cardinality check reports $|R|=13$, and the independent row equality check returns the same thirteen labels.  In the tile complex induced by this row, the face count vector is
 $$
 \begin{aligned}
-f(R)=(13,16,4),
+(f_0,f_1,f_2)=(13,16,4),
 \end{aligned}
 $$
-so the observed local tile is not merely a list of exceptional labels: it has a finite cubical incidence profile, with thirteen vertices, sixteen local edges, and four local two-faces under the chosen six-bit codon display.  This statement is intentionally confined to the code-read layer.  The contact says that a curated standard genetic-code table assigns each codon to an amino-acid or stop label; it does not itself observe ribosomal translation, folded molecular structure, energetic admissibility, cellular function, a causal mechanism, or a universal biological law.
+so the data are not merely a named list of codons: they also carry a finite local cell structure inside the six-coordinate display.  The intended readback is narrow.  The curated standard genetic-code table supplies codon-to-amino-acid or codon-to-stop labels, and this chapter uses that table only as a label contact for the code layer.
 
-\paragraph{Spectral and shape checks.}
-The row geometry also carries a numerical spectral certificate.  The measured quantities are
+\paragraph{Geometric reading of the row.}
+The row $R$ has the shape of a punctured local cube in the codon-coordinate display.  Its thirteen vertices are concentrated around the $A/G$ and $C/U$ coordinate contrasts that appear in stop, tryptophan, leucine, arginine, lysine, isoleucine, and methionine-related code neighborhoods.  The finite face vector $(13,16,4)$ records that the observed codon row includes local square faces rather than only isolated vertices.  This gives a precise mathematical object for the local tile claim: a row of codon labels, a boundary-like missing pattern, and a small number of two-dimensional faces in $Q_6$.  It does not, by itself, assert how ribosomes translate, how proteins fold, which codons are physically admissible in an organism, or which phenotypes follow from using these labels.
+
+\paragraph{Spectral and sampling checks.}
+A separate spectral row check reports the scalar values
 $$
 \begin{aligned}
 \lambda_M&=0.6752479308830213,\\
@@ -26,16 +29,23 @@ $$
 \mu&=3.051487585298128.
 \end{aligned}
 $$
-The associated radial cubic residual is $-6.224354365258478\cdot 10^{-12}$, recorded again as the cubic-polynomial residual, so the fitted spectral relation is satisfied to numerical tolerance at the finite row level.  In the shape randomization test with seed $42$, $N=2000$ samples were evaluated after $57377$ distinct-sample attempts and $55377$ duplicate retries.  There was one exact shape match, giving $p_{\mathrm{exact}}=0.0005$, and there were twenty-five samples with Jaccard overlap at least $0.9$, giving $p_{J\ge 0.9}=0.0125$.  Thus the punctured-cube pattern is rare under that finite null, but rarity is not promoted into biological necessity.  It is evidence for a local coordinate regularity in the code table, not evidence that nature must implement this coordinate system.
+The radial cubic residual is $-6.224354365258478\cdot 10^{-12}$, so the recorded spectral relation is numerically satisfied to the stated tolerance.  The shape-significance run used $N=2000$ sampled controls with seed $42$.  Among these controls there was $1$ exact shape match, giving $p_{\mathrm{exact}}=0.0005$, and $25$ samples reached Jaccard overlap at least $0.9$, giving $p_{\mathrm{Jaccard}\ge 0.9}=0.0125$.  The sampling run also records $57377$ distinct-sample attempts and $55377$ duplicate retries, which matters because the control space is finite and repeated draws are visible in the audit trail.
 
 \paragraph{Amino-acid-class preserving null.}
-A second null keeps amino-acid class information fixed while testing the shape.  For the same sample count $N=2000$ and seed $42$, the observed companion set has size $|M|=20$.  The exact-shape count is zero, so the empirical exact-shape probability is $0.0$ at the sampled resolution.  The lower-tail count at or below the observed $M$ size is seven, giving $p_{\mathrm{lower}}=0.0035$.  This is the sharper finite-row statement: even after preserving the amino-acid class partition, the observed local arrangement is not a typical sampled shape.  The result remains a code-layer result because the preserved classes and the measured shape are both read through codon labels, not through protein structure or organismal performance.
+The amino-acid-class preserving null supplies a stronger comparison at the code-label level.  In that run, $N=2000$, the observed comparison size for $M$ is $20$, and there are $0$ exact matches.  The lower-tail count at or below the observed $M$ size is $7$, giving
+$$
+\begin{aligned}
+p_{\mathrm{class\ exact}}&=0.0,\\
+p_{\mathrm{class\ lower\ tail}}&=0.0035.
+\end{aligned}
+$$
+This supports the statement that the displayed row is not a typical outcome under the recorded label-class preserving shuffle.  The finite packet does not include a member-by-member list for $M$; the available datum for that object here is its observed size $20$ together with the null-model counts.
 
-\paragraph{Leave-one-out behavior.}
-The leave-one-code-out probe evaluated $23$ code tables and $63$ targets.  Its baseline hit rate was $0.19821739130434785$, while the hit rate above baseline was $0.9841269841269841$.  The hit rate inside $M-T$ was $0.9365079365079365$, and the hit rate inside $M-T$ plus boundary rows was $0.9841269841269841$.  By family, five groups were recorded: alternative yeast has hit rate $0.8333333333333334$, while bacterial-plastid, candidate-other, mitochondrial, and nuclear-ciliate each have hit rate $1.0$ above baseline.  The leave-one-codon-out probe reports anchor count $0$, boundary count $5$, high-coverage closure count $8$, predictable count $8$, and recovery rate $1.0$.  These numbers say that the local boundary and closure structure recovers the finite readback rows unusually well under the chosen probes.  They do not say that missing codons are biologically reconstructed by the coordinate system, only that the tabulated labels are organized so that the finite probes recover them.
+\paragraph{Predictive leave-out behavior.}
+The leave-one-code-out run evaluated $23$ code tables and $63$ targets.  Its baseline hit rate is $0.19821739130434785$, whereas the hit rate above baseline is $0.9841269841269841$.  The hit rate inside $M-T$ is $0.9365079365079365$, and the hit rate inside $M-T$ plus the boundary is $0.9841269841269841$.  The leave-one-codon-out run reports $8$ predictable codons, $5$ boundary codons, $0$ anchor codons, closure coverage high for $8$ cases, and recovery rate $1.0$.  These numbers say that the local row has reproducible label-level recovery behavior under the recorded leave-out tests.  They do not convert the row into a general biological principle.
 
-\paragraph{Module resolution.}
-The thirteen rows split into six named modules with no residue left over.  The module assignment is
+\paragraph{Module partition.}
+The module-classification row assigns all thirteen codons of $R$ with no missing entries, no extras, and no unassigned codons.  The modules are
 $$
 \begin{aligned}
 \mathrm{agr}&=\{AGA,AGG\},\\
@@ -46,4 +56,7 @@ $$
 \mathrm{stop\_trp}&=\{UAA,UAG,UGA\}.
 \end{aligned}
 $$
-The completeness audit records $R$ size $13$, assigned count $13$, no missing module codons, no extra module codons, and no unassigned codons.  Every module has either predictable rows or boundary rows, so the module view and the punctured-cube view agree on the finite support of the claim.  The biological interpretation is therefore narrow: the standard-code table supplies a reliable label readback for this local codon tile, and the finite probes find a structured boundary inside that readback.  The same data do not license claims about translation realization, folding, physical admissibility, biological function, mechanism, or universality.  Any such stronger statement would require a separate observation at the corresponding biological layer.
+The family leave-one-code-out audit lists $5$ families.  The hit rates above baseline are $0.8333333333333334$ for alternative yeast and $1.0$ for bacterial plastid, candidate other, mitochondrial, and nuclear ciliate families.  Thus the row is not only a thirteen-point set; it is also a complete finite partition into biologically named code-label modules under the recorded table contact.
+
+\paragraph{Local boundary of interpretation.}
+The admissible conclusion is a code-read conclusion.  The standard-code table supports the statement that a punctured local cube pattern appears in the finite codon-label display and that the listed leave-out and null-model checks favor this pattern over the recorded controls.  Nothing in this chapter observes translation realization, folded structure, physical admissibility, biological function, mechanism, or universality.  Any such claim would require a separate experimental or curated contact at that higher layer.  In particular, amino-acid label readback is not a protein-structure observation, and a local codon tile is not a law governing all biological systems.
