@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyComparisonNetUp$}
+\label{ch:concrete-instances-regular-cauchy-comparison-net-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RegularCauchyComparisonNetUp$ packet records the finite comparison-net data needed by the Real and Completion route before any consumer asks for a completed real object. It sits between the explicit schedules of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the regular-Cauchy diagonal route of \autoref{ch:concrete-instances-regular-cauchy-diagonalization-namecert}, the finite stream names, the dyadic rational tolerance ledger, the regular rational readback row, and the terminal $\RealUp$ seal. The packet names a comparison surface for regular Cauchy schedules; it does not identify quotient streams, choose limits, or invoke ambient completeness.
+
+\begin{definition}[Regular Cauchy comparison net carrier]
+\label{def:regular-cauchy-comparison-net-carrier}
+A $\RegularCauchyComparisonNetUp$ carrier is a finite $\BHist$ packet
+$$
+G=(M,W,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\CauchyModulusUp$ schedule row for the compared regular Cauchy requests.
+\item $W$ is the finite $\StreamNameUp$ window row opened by the schedules in $M$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare window values.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the scheduled dyadic comparisons.
+\item $E$ is the terminal $\RealUp$ seal reached only after $M,W,D,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $M,W,D,Q,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from schedule requests through stream windows, dyadic tolerances, regular readback, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyComparisonNetUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and the local naming row.
+\item $N$ is the local $\NameCert_{\RegularCauchyComparisonNetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,W,D,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy comparison net NameCert obligations]
+\label{thm:regular-cauchy-comparison-net-namecert-obligations}
+For every accepted $\RegularCauchyComparisonNetUp$ carrier
+$$
+G=(M,W,D,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyComparisonNetUp}$ surface consists exactly of schedule admission for the displayed $\CauchyModulusUp$ rows, finite $\StreamNameUp$ window exposure, $\DyadicRatCoreUp$ tolerance compatibility, $\RegSeqRatUp$ readback compatibility, $\RealUp$ seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The certificate cannot export quotient stream equality, a selected limit, countable choice, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-comparison-net-carrier}. The comparison data are precisely $M,W,D,Q,E$, and the structural rows are $H,C,P,N$.
+
+The schedule row $M$ opens only finite stream windows in $W$. The dyadic row $D$ records the tolerance ledger for those windows, and $Q$ reads the same data as regular rational sequence evidence before the terminal seal $E$ is available.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since none of the displayed rows contains a quotient stream, a selected limit, a choice schedule, host real equality, or an ambient completeness principle, the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy comparison net Real-completion handoff]
+\label{thm:regular-cauchy-comparison-net-real-completion-handoff}
+Every Real or Completion consumer of an accepted $\RegularCauchyComparisonNetUp$ packet must compare regular Cauchy schedules through the finite route
+$$
+M,W,D,Q,E,H,C,P,N .
+$$
+The handoff sends schedule-family comparisons through finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledgers, $\RegSeqRatUp$ readback, and the terminal $\RealUp$ seal. It may be consumed by later Real and Completion packets as comparison data, but it cannot be reinterpreted as quotient stream equality, a selected limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations. They force every accepted comparison to expose the schedule row $M$ before a stream window in $W$ is inspected, and they force the dyadic tolerance row $D$ before regular readback $Q$ reaches the Real seal $E$.
+
+The regular-Cauchy diagonal route of \autoref{ch:concrete-instances-regular-cauchy-diagonalization-namecert} can therefore consume the packet only as finite comparison data. The single-modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert} supplies schedule discipline, while this packet records how several such schedules are compared at the Real-facing boundary.
+
+Structural replay through $H,C,P,N$ preserves that route. No additional row supplies quotient equality, selected limits, countable choice, host real equality, or ambient completeness, so the handoff remains a finite comparison-net packet for Real and Completion consumers.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyComparisonNetUp}
+  \constructivestory{A $\RegularCauchyComparisonNetUp$ packet is generated from CauchyModulus schedule rows, finite StreamName windows, DyadicRatCore tolerance ledgers, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-comparison-net-carrier}, \autoref{thm:regular-cauchy-comparison-net-namecert-obligations}, and \autoref{thm:regular-cauchy-comparison-net-real-completion-handoff} seed the finite comparison-net surface for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, schedule comparison, window routing, dyadic tolerance compatibility, regular readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyComparisonNetUp.}
+\end{closurestatus}
