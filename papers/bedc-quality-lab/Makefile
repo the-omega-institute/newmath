@@ -1,4 +1,4 @@
-.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment clean-reports
+.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment build-bedc-jepa-manifest clean-reports
 
 test:
 	python3 -m pytest -q
@@ -12,5 +12,8 @@ run-bedc-jepa:
 run-bedc-jepa-experiment:
 	python3 scripts/run_bedc_jepa_experiment.py
 
+build-bedc-jepa-manifest:
+	python3 scripts/build_bedc_jepa_artifact_manifest.py
+
 clean-reports:
-	rm -f reports/example_envelope.json reports/quality_report.md reports/bedc_jepa_boundary_envelope.json reports/bedc_jepa_boundary_report.md reports/bedc_jepa_four_system_experiment.json
+	rm -f reports/example_envelope.json reports/quality_report.md reports/bedc_jepa_boundary_envelope.json reports/bedc_jepa_boundary_report.md reports/bedc_jepa_four_system_experiment.json reports/bedc_jepa_artifact_manifest.json
