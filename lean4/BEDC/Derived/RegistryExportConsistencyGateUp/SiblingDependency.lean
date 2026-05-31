@@ -1,4 +1,4 @@
-import BEDC.Derived.RegistryExportConsistencyGateUp.NoConflictExport
+import BEDC.Derived.RegistryExportConsistencyGateUp.Classifier
 
 namespace BEDC.Derived.RegistryExportConsistencyGateUp
 
