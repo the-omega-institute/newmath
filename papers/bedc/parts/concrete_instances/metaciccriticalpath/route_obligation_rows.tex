@@ -14,6 +14,23 @@ Apply \autoref{thm:metacic-critical-path-consistency-handoff}. The consistency-f
 It remains to keep the blocked side attached to the same replay. Use \autoref{thm:metacic-critical-path-obstruction-boundary}, \autoref{thm:metacic-critical-path-discharge-socket-nonescape}, and \autoref{thm:metacic-critical-path-normal-form-readback-boundary}. These boundary results preserve $O$ and $D$ while stopping the read at $N$, so every accepted route replay factors through the full displayed row list.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path consistency route totality]
+\label{thm:metacic-critical-path-consistency-route-totality}
+Every consistency-facing route accepted by a $\MetaCICCriticalPathUp$ carrier reads the whole tuple
+$$
+S,N,O,U,D,H,C,P,L.
+$$
+In particular, no consistency-facing consumer may read only the normalization endpoint or only the handoff row while dropping the obstruction row, discharge socket, transport, continuation, provenance, or local naming rows of the displayed packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathConsistencyRouteTotality}
+\begin{proof}
+Start from \autoref{thm:metacic-critical-path-carrier-admission}. It identifies the accepted carrier with exactly the tuple $K=(S,N,O,U,D,H,C,P,L)$ and supplies no abbreviated consistency carrier.
+
+The consistency handoff uses that full packet. Apply \autoref{thm:metacic-critical-path-consistency-handoff} and \autoref{thm:metacic-critical-path-handoff-row-totality}. The route from $S$ to $N$ is read through the displayed route, transport, provenance, and local naming rows while $O$ and $D$ remain visible.
+
+Finally apply \autoref{thm:metacic-critical-path-route-replay} and \autoref{thm:metacic-critical-path-route-exhaustion}. Replay has no route outside $S,N,O,U,D,H,C,P,L$, and therefore every accepted consistency-facing route is total over the displayed tuple rather than a partial read of a hidden closed-consistency object.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path consumer refusal exactness]
 \label{thm:metacic-critical-path-consumer-refusal-exactness}
 Any MetaCIC consumer that omits the obstruction row $O$ or the discharge socket $D$ is refused as a read of full consistency or subject reduction from an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Such a consumer may still read the displayed normal-form endpoint $N$, but only as the bounded endpoint of the same finite route certificate.

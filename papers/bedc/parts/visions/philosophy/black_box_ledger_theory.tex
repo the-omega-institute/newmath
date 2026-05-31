@@ -1,0 +1,278 @@
+\section{Black-Box Ledger Theory}
+\label{sec:visions-philosophy-black-box-ledger-theory}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-black-box-missing-certificate} defines
+black-box debt as certificate deficit. This section isolates the ledger
+part of that deficit. Any explanation, classifier, compression,
+projection, threshold, generalization, semantic assignment, intervention,
+or verification hides residue. A ledger is the audit surface that records
+that residue; unrecorded residue remains black-box debt.
+
+\begin{definition}[Ledger entry]
+\label{def:philosophy-ledger-entry}
+A ledger entry records a residue kind, a source reference, the residue
+being recorded, and an optional risk or weight annotation. Residue kinds
+include source, pattern, classifier, stability, threshold, projection,
+compression, generalization, intervention, verification, semantic, and
+not-claimed rows.
+\end{definition}
+
+\begin{definition}[Ledger]
+\label{def:philosophy-ledger}
+A ledger is a finite or auditable family of ledger entries attached to a
+target object: a classifier, NameCert, behavior, explanation,
+compression map, soft formula, intervention claim, semantic assignment,
+or formal statement.
+\end{definition}
+
+\begin{definition}[Recorded and required residue]
+\label{def:philosophy-recorded-required-residue}
+For a ledger $\Lambda$, $\mathrm{Rec}(\Lambda)$ is the family of residue
+rows recorded by $\Lambda$. For a target object $O$, $\mathrm{Req}(O)$ is
+the family of residue rows that must be recorded for the claim about $O$
+to be closed.
+\end{definition}
+
+\begin{definition}[Ledger completeness and gap]
+\label{def:philosophy-ledger-completeness-gap}
+A ledger is complete for $O$ when
+$$
+\mathrm{Req}(O)\subseteq\mathrm{Rec}(\Lambda).
+$$
+Its ledger gap is
+$$
+\mathrm{Gap}(\Lambda,O)
+=
+\mathrm{Req}(O)\setminus\mathrm{Rec}(\Lambda).
+$$
+\end{definition}
+
+\begin{theorem}[Ledger completeness is absence of gap]
+\label{thm:philosophy-ledger-completeness-gap-free}
+A ledger is complete for $O$ exactly when its ledger gap for $O$ is empty.
+\end{theorem}
+\begin{proof}
+The gap is defined as the required residue not recorded by the ledger.
+That set is empty exactly when every required residue row is recorded,
+which is the completeness condition.
+\end{proof}
+
+\begin{theorem}[Ledger extension cannot create new fixed-object gaps]
+\label{thm:philosophy-ledger-extension-no-new-fixed-gaps}
+If $\Lambda\subseteq\Lambda'$ and the target object $O$ is fixed, then
+$$
+\mathrm{Gap}(\Lambda',O)\subseteq\mathrm{Gap}(\Lambda,O).
+$$
+\end{theorem}
+\begin{proof}
+Every row recorded by $\Lambda$ is also recorded by $\Lambda'$. Thus the
+required rows missing from $\Lambda'$ form a subfamily of the required
+rows missing from $\Lambda$.
+\end{proof}
+
+\begin{definition}[Ledger debt]
+\label{def:philosophy-ledger-debt}
+Ledger debt is the weighted cost of the gap:
+$$
+\mathrm{Debt}(\Lambda,O)
+=
+\sum_{r\in\mathrm{Gap}(\Lambda,O)}\mathrm{Cost}(r).
+$$
+Critical debt is the same sum restricted to residues whose absence can
+change the claim's truth, scope, risk, classifier boundary, discovery
+status, or positive-gain accounting.
+\end{definition}
+
+\begin{theorem}[Complete ledger has zero debt]
+\label{thm:philosophy-complete-ledger-zero-debt}
+A complete ledger has zero ledger debt.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-ledger-completeness-gap-free}, the gap is
+empty. The debt sum over an empty family is zero.
+\end{proof}
+
+\begin{theorem}[Ledger debt is monotone under fixed-object extension]
+\label{thm:philosophy-ledger-debt-monotone-extension}
+For nonnegative residue costs, extending the ledger of a fixed object can
+only decrease or preserve ledger debt.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-ledger-extension-no-new-fixed-gaps}, the gap
+of the extended ledger is a subfamily of the original gap. Summing
+nonnegative costs over a subfamily cannot increase the total.
+\end{proof}
+
+\begin{theorem}[Critical debt blocks strong claims]
+\label{thm:philosophy-critical-debt-blocks-strong-claims}
+If a target object has unrecorded critical residue, then strong claims
+depending on that object are not closed.
+\end{theorem}
+\begin{proof}
+Critical residue is defined by its ability to affect truth, scope, risk,
+classifier boundary, discovery status, or gain accounting. If it remains
+unrecorded, the strong claim lacks a necessary audit row.
+\end{proof}
+
+\subsection{Ledger Kinds}
+\label{subsec:philosophy-ledger-kinds}
+
+\begin{definition}[Ledger kind]
+\label{def:philosophy-ledger-kind}
+Ledger kinds are indexed by the residue they record: source ledgers,
+pattern ledgers, classifier ledgers, stability ledgers, generalization
+ledgers, threshold ledgers, projection ledgers, intervention ledgers,
+verification ledgers, and semantic ledgers.
+\end{definition}
+
+\begin{theorem}[Ledger kinds do not generally substitute for each other]
+\label{thm:philosophy-ledger-kinds-not-substitutable}
+One ledger kind does not generally replace another.
+\end{theorem}
+\begin{proof}
+Different ledgers record different residue. A source ledger records
+where records come from; a threshold ledger records boundary sensitivity;
+a projection ledger records collapsed distinctions; a verification ledger
+records backend and trust assumptions; a semantic ledger records concept
+boundary and ambiguity. Recording one of these does not record the
+others.
+\end{proof}
+
+\begin{corollary}[Complete explanations often need multiple ledgers]
+\label{cor:philosophy-complete-explanations-need-multiple-ledgers}
+Machine-learning explanations often require several ledger kinds at once.
+\end{corollary}
+\begin{proof}
+An explanation may simultaneously use source selection, thresholding,
+projection, semantic labeling, intervention, generalization, and formal
+verification. By
+\autoref{thm:philosophy-ledger-kinds-not-substitutable}, each involved
+residue kind requires its own ledger row.
+\end{proof}
+
+\subsection{Obligations}
+\label{subsec:philosophy-ledger-obligations}
+
+\begin{theorem}[Compression without ledger hides debt]
+\label{thm:philosophy-compression-without-ledger-hides-debt}
+A compression or projection that collapses distinctions without recording
+the collapsed residue carries hidden debt.
+\end{theorem}
+\begin{proof}
+Collapsed distinctions are required residue for a compression claim. If
+they are not recorded, they lie in the ledger gap and therefore
+contribute to ledger debt.
+\end{proof}
+
+\begin{theorem}[Generalization requires target-residue ledger]
+\label{thm:philosophy-generalization-requires-target-residue-ledger}
+A generalization claim is not closed without a ledger for target residue
+and target failure boundary.
+\end{theorem}
+\begin{proof}
+Generalization extends a classifier from a source setting to a target
+setting. Target cases not covered by the source, transfer witness, or
+stability witness are required residue. Omitting them leaves the scope of
+the generalization claim unclosed.
+\end{proof}
+
+\begin{theorem}[Semantic labels require semantic ledger]
+\label{thm:philosophy-semantic-labels-require-semantic-ledger}
+A natural-language concept label for a classifier cell is not closed
+meaning without a semantic ledger.
+\end{theorem}
+\begin{proof}
+Natural-language labels have ambiguous cases, negative examples,
+polysemy, domain dependence, and unsupported connotations. These are
+required residue for the semantic assignment.
+\end{proof}
+
+\begin{theorem}[Causal explanations require intervention ledger]
+\label{thm:philosophy-causal-explanations-require-intervention-ledger}
+A causal or mechanistic claim based on intervention is not closed without
+an intervention ledger.
+\end{theorem}
+\begin{proof}
+Interventions can have off-target effects, alternative causal paths,
+strength sensitivity, distribution shifts, downstream compensation, and
+failed variants. These residue rows determine the scope of the causal
+claim.
+\end{proof}
+
+\begin{theorem}[Verification ledger does not replace behavior ledger]
+\label{thm:philosophy-verification-ledger-not-behavior-ledger}
+A verification ledger does not replace behavior, classifier,
+generalization, semantic, or intervention ledgers.
+\end{theorem}
+\begin{proof}
+The verification ledger records proof backend, statement, dependencies,
+trust boundary, and unchecked components. It does not record behavior
+failures, distribution boundary, semantic ambiguity, probe artifacts, or
+intervention residue unless those rows are explicitly included.
+\end{proof}
+
+\subsection{Repair and Discovery}
+\label{subsec:philosophy-ledger-repair-discovery}
+
+\begin{definition}[Ledger repair]
+\label{def:philosophy-ledger-repair}
+Ledger repair is a transition $\Lambda\to\Lambda'$ that lowers the debt
+of a fixed target object.
+\end{definition}
+
+\begin{definition}[Ledger discovery]
+\label{def:philosophy-ledger-discovery}
+Ledger discovery occurs when ledger repair uncovers critical residue that
+forces a change in classifier, source scope, or discovery status.
+\end{definition}
+
+\begin{theorem}[Ledger repair is not necessarily discovery]
+\label{thm:philosophy-ledger-repair-not-discovery}
+Ledger repair that preserves the classifier surface is not classifier
+discovery.
+\end{theorem}
+\begin{proof}
+Classifier discovery requires classifier shift. If ledger repair only
+records missing boundary or failure rows while the classifier relation
+stays fixed, the audit status improves but the classifier surface does
+not shift.
+\end{proof}
+
+\begin{theorem}[Critical ledger discovery can induce classifier discovery]
+\label{thm:philosophy-critical-ledger-discovery-can-induce-classifier-discovery}
+If newly recorded critical residue forces the classifier relation to
+change, then the ledger discovery induces classifier shift.
+\end{theorem}
+\begin{proof}
+Changing the classifier relation means that some source records are no
+longer classified as before. That is precisely classifier shift on the
+public classifier surface.
+\end{proof}
+
+\begin{theorem}[Positive claims must count ledger cost and debt]
+\label{thm:philosophy-positive-claims-count-ledger-cost-debt}
+A positive discovery, compression, generalization, or explanation-gain
+claim must count both ledger cost and remaining ledger debt.
+\end{theorem}
+\begin{proof}
+Ledger cost is part of the cost of making the claim auditable. Remaining
+ledger debt is the cost of residue not yet recorded. Omitting either term
+overstates the certified gain.
+\end{proof}
+
+\begin{theorem}[Black-box ledger theorem]
+\label{thm:philosophy-black-box-ledger-theorem}
+Ledger is the closure surface for black-box debt: recorded residue turns
+hidden boundary into auditable boundary, while unrecorded residue remains
+black-box residue.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-ledger-completeness-gap-free}, ledger closure
+is exactly absence of required residue gaps. By
+\autoref{def:philosophy-ledger-debt}, unrecorded residue contributes to
+debt. The ledger therefore converts hidden residue into auditable rows,
+and whatever is not ledgered remains black-box residue.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-black-box-ledger-theory-namecert}{Black-box ledger theory realizes ledger entries, required and recorded residue, debt monotonicity, ledger-kind non-substitution, compression/generalization/semantic/intervention/verification ledger obligations, ledger repair, and critical ledger discovery as finite NameCert rows.}

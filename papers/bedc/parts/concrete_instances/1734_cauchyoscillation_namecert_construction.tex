@@ -176,6 +176,24 @@ Apply modulus-threshold exactness, \autoref{thm:cauchy-oscillation-modulus-thres
 Finally apply seal-handoff factorization, \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. Since the terminal seal $S$ is available only after the accepted prefix $W,M,Q,T$, every Real-facing oscillation consumer follows the stated dyadic-tail route.
 \end{proof}
 
+\begin{theorem}[CauchyOscillation oscillation ledger transport]
+\label{thm:cauchy-oscillation-ledger-transport}
+For every accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+the oscillation ledger $T$ transports as a ledger over the same $\RegSeqRatUp$ or $\StreamNameUp$ tail-window row $W$, $\CauchyModulusUp$ threshold row $M$, and $\DyadicRatCoreUp$ tolerance row $Q$. Under componentwise $\hsame$ transport and displayed $\Cont$ replay, no transported ledger may replace $T$ by a tail comparison sourced from a different packet, an unstated $\DyadicTailBoundUp$ row, or an ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Open the carrier of \autoref{def:cauchy-oscillation-carrier}. The ledger row $T$ is the displayed $\DyadicTailBoundUp$ oscillation ledger, and its comparisons are specified over the same $W,M,Q$ rows of the packet.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-oscillation-namecert-obligations}. Oscillation-bound exactness ties every accepted comparison in $T$ to $W,M,Q$, while stability under $\hsame$ and $\Cont$ preserves the selected tail window, threshold, tolerance, ledger, and seal handoff as one finite dependency packet.
+
+Use dyadic tolerance stability, \autoref{thm:cauchy-oscillation-dyadic-tolerance-stability}, and modulus-threshold exactness, \autoref{thm:cauchy-oscillation-modulus-threshold-exactness}. Together they prevent the transported read from detaching $Q$ or $M$ from the same tail-window and ledger rows.
+
+Finally apply the dyadic-tail Real-seal route, \autoref{thm:cauchy-oscillation-dyadic-tail-real-seal-route}. Since any Real-facing consumer reaches $S$ only after $W,M,Q,T$, there is no coordinate from which to import a ledger from another packet, an unstated dyadic tail-bound row, or ambient Real completeness.
+\end{proof}
+
 \closureat{CauchyOscillationUp}{seedStr}
 
 \begin{closurestatus}{\CauchyOscillationUp}
