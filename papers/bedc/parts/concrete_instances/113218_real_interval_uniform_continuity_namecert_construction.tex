@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RealIntervalUniformContinuityUp$}
+\label{ch:concrete-instances-real-interval-uniform-continuity-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RealIntervalUniformContinuityUp$ packet records the finite interval-uniform-continuity surface for a displayed real map on a located real interval. It sits after the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the endpoint-and-enclosure interval packet of \autoref{ch:concrete-instances-realinterval-namecert}, the located interval row of \autoref{ch:concrete-instances-located-real-interval-namecert}, the continuous-map row of \autoref{ch:concrete-instances-continuousmap-namecert}, the finite stream-window and regular-readback route of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the downstream modulus consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names the finite tolerance handoff used by interval consumers; it does not claim open-cover compactness, a selected modulus from choice, quotient real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Real interval uniform continuity carrier]
+\label{def:real-interval-uniform-continuity-carrier}
+A $\RealIntervalUniformContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+U=(I,L,F,T,W,R,D,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealIntervalUp$ endpoint-and-enclosure row naming the source interval.
+\item $L$ is the $\LocatedRealIntervalUp$ locatedness row exposing endpoint brackets, locator reads, and interval-radius data for the same source interval.
+\item $F$ is the $\ContinuousMapUp$ row for the displayed map from the interval-facing real input row to the real output row.
+\item $T$ is the tolerance request row, recording the requested output precision and the interval window in which the request is read.
+\item $W$ is the $\StreamNameUp$ finite-window row for the input names, output names, and endpoint observations visible to $T$.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row produced from the displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ ledger storing input-radius, output-tolerance, slack, and dyadic comparison data.
+\item $M$ is the $\UniformModulusUp$ handoff row; it receives a tolerance-indexed input radius only after $I,L,F,T,W,R,D$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal for interval-valued input and output reads.
+\item $H$ records componentwise $\hsame$ transport for the interval, locatedness, map, tolerance, window, readback, dyadic, modulus, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $I,L,F,T,W,R,D,M,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealIntervalUniformContinuityUp$, $\RealIntervalUp$, $\LocatedRealIntervalUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\UniformModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealIntervalUniformContinuityUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one displayed interval-uniform-continuity history. It has no coordinate for open-cover compactness, selected representatives, quotient real equality, host continuity, choice-selected moduli, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real interval uniform continuity NameCert obligations]
+\label{thm:real-interval-uniform-continuity-namecert-obligations}
+For every accepted $\RealIntervalUniformContinuityUp$ carrier $U=(I,L,F,T,W,R,D,M,E,H,C,P,N)$, the local $\NameCert_{\RealIntervalUniformContinuityUp}$ surface consists exactly of carrier admission for the displayed interval, locatedness, continuous-map, tolerance-request, stream-window, regular-readback, dyadic-ledger, uniform-modulus, real-seal, transport, replay, provenance, and local naming rows.
+
+The obligation surface additionally requires the interval row $I$ and locatedness row $L$ to precede any input-radius read, the continuous-map row $F$ to precede any output-tolerance read, and the dyadic ledger $D$ to precede the $\UniformModulusUp$ handoff $M$. No local obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The packet contains only the rows $I,L,F,T,W,R,D,M,E,H,C,P,N$, so carrier admission and local naming are componentwise.
+
+The source interval is read through $I$ and $L$. These rows expose endpoint, enclosure, and locatedness data before any input-radius comparison can be treated as interval uniformity evidence.
+
+The map and tolerance route is then finite. The row $F$ exposes the displayed continuous map, $T$ records the requested output precision, $W$ and $R$ expose the visible stream windows and regular rational observations, and $D$ records the dyadic comparison budget.
+
+Only after that route is displayed may $M$ be read as a $\UniformModulusUp$ handoff. The rows $E,H,C,P,N$ seal, transport, replay, source, and name the same finite route, while the excluded compactness, quotient, choice, and completeness objects have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[Real interval uniform continuity modulus handoff]
+\label{thm:real-interval-uniform-continuity-modulus-handoff}
+Every uniform-modulus consumer of an accepted $\RealIntervalUniformContinuityUp$ packet must pass through the displayed route
+$$
+\RealIntervalUp,\ \LocatedRealIntervalUp,\ \ContinuousMapUp
+\longmapsto
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp
+\longmapsto
+\UniformModulusUp,\ \RealUp .
+$$
+Thus the consumer receives a tolerance-indexed input radius for the displayed located real interval and continuous map, without receiving open-cover compactness, a choice-selected modulus, quotient real equality, selected endpoint representatives, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier in \autoref{def:real-interval-uniform-continuity-carrier}. The interval row $I$, locatedness row $L$, and continuous-map row $F$ are the only rows that identify the source, the interval boundary, and the map.
+
+Next read the tolerance data. The request row $T$ fixes the output precision, $W$ supplies the finite windows, $R$ supplies regular rational readback, and $D$ supplies the dyadic comparison ledger.
+
+The handoff row $M$ is downstream of those rows. Therefore any accepted $\UniformModulusUp$ consumer receives its input-radius evidence only through the displayed interval, map, window, readback, and dyadic route.
+
+The structural rows $E,H,C,P,N$ preserve that route and add no hidden selector. Since no excluded object is present in the carrier, the handoff cannot export open-cover compactness, quotient real equality, endpoint representatives, choice-selected moduli, or ambient completeness.
+\end{proof}
+
+\closureat{RealIntervalUniformContinuityUp}{seedStr}
+
+\begin{closurestatus}{\RealIntervalUniformContinuityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-interval-uniform-continuity-carrier}, \autoref{thm:real-interval-uniform-continuity-namecert-obligations}, and \autoref{thm:real-interval-uniform-continuity-modulus-handoff} seed the finite interval-uniform-continuity handoff over $\RealIntervalUp$, $\LocatedRealIntervalUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\UniformModulusUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected modulus existence, quotient real equality, selected endpoint representatives, trichotomy, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval locatedness, continuous-map tolerance readback, dyadic exactness, uniform-modulus handoff, Real seal non-escape, and local naming for BEDC.Derived.RealIntervalUniformContinuityUp.}
+  \constructivestory{A $\RealIntervalUniformContinuityUp$ packet is generated from a RealIntervalUp source interval, a LocatedRealIntervalUp locatedness row, a ContinuousMapUp map row, tolerance requests, StreamNameUp finite windows, RegSeqRatUp readback, a DyadicRatCoreUp ledger, a UniformModulusUp handoff, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
