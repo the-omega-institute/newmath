@@ -69,12 +69,48 @@ The structural rows transport and replay those same rows. They do not add a sele
 Thus every downstream route must obtain finite nets, compactness conclusions, and convergence statements from separate consumer chapters. The $\EquicontinuityUp$ packet supplies only the displayed family-modulus boundary.
 \end{proof}
 
+\begin{theorem}[Equicontinuity shared-radius stability]
+\label{thm:equicontinuity-shared-radius-stability}
+Let $E=(K,F,\epsilon,\rho,M,T,R,P,N)$ be an accepted $\EquicontinuityUp$ carrier. Any transport of the compact source $K$, finite family row $F$, tolerance $\epsilon$, and modulus handoff $M$ through $T$ preserves the same shared radius row $\rho$. Thus a consumer reading $\CompactMetricUp$, $\ContinuousMapUp$, $\UniformModulusUp$, or $\FiniteNetEquicontinuityUp$ through $R,P,N$ cannot replace $\rho$ by pointwise radii depending on members of $F$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:equicontinuity-carrier}. The row $\rho$ is displayed once, between the tolerance row $\epsilon$ and the modulus handoff row $M$.
+
+Transport through $T$ is componentwise on the displayed rows. It may identify the compact source, the family row, the tolerance row, and the handoff row with transported copies, but it has no coordinate for a family-indexed list of radii.
+
+Replay through $R$ and provenance through $P,N$ therefore reread the same shared-radius row. The compact metric, continuous-map, uniform-modulus, and finite-net consumers inherit the single $\rho$ boundary rather than a pointwise-radius surface.
+\end{proof}
+
+\begin{theorem}[Equicontinuity finite-net readiness]
+\label{thm:equicontinuity-finite-net-readiness}
+For every accepted $\EquicontinuityUp$ carrier $E=(K,F,\epsilon,\rho,M,T,R,P,N)$, a $\FiniteNetEquicontinuityUp$ consumer may begin only after the compact source $K$, the continuous family ledger $F$, the tolerance row $\epsilon$, the shared radius row $\rho$, and the modulus handoff $M$ have all been exposed. The rows $T,R,P,N$ preserve this order and do not themselves select a finite net.
+\end{theorem}
+\begin{proof}
+Read the carrier in the order stated by \autoref{thm:equicontinuity-compact-metric-route}. The compact source $K$ is the only source row, and the family ledger $F$ is the only row naming the continuous maps over that source.
+
+The finite-net consumer then reads $\epsilon,\rho,M$. These rows record a tolerance, a shared radius, and the handoff to the uniform-modulus surface before any finite-net selector can inspect the packet.
+
+The structural rows $T,R,P,N$ transport, replay, source, and name the same displayed route. Since \autoref{def:equicontinuity-carrier} has no finite-net coordinate, readiness for $\FiniteNetEquicontinuityUp$ is a boundary condition, not a selected net.
+\end{proof}
+
+\begin{theorem}[Equicontinuity modulus-ledger exactness]
+\label{thm:equicontinuity-modulus-ledger-exactness}
+Let $E=(K,F,\epsilon,\rho,M,T,R,P,N)$ be accepted. The modulus ledger exported by $\EquicontinuityUp$ is exactly the handoff from the compact source $K$ and finite family $F$ at tolerance $\epsilon$ to the shared radius $\rho$ recorded by $M$, transported by $T$, replayed by $R$, sourced by $P$, and named by $N$. It has no additional ledger row for host continuity, ambient $\RealUp$ completeness, selected covers, or an Arzela--Ascoli limit.
+\end{theorem}
+\begin{proof}
+The analytic part of the carrier is $K,F,\epsilon,\rho,M$. The compact-metric row supplies the source, the continuous-map row supplies the finite family, and the uniform-modulus row records the tolerance-to-radius handoff.
+
+The ledger is exact because $T,R,P,N$ refer back to those same rows. They cannot add a second modulus, a selected cover, a limit candidate, or a host-level continuity predicate; they only preserve and name the displayed handoff.
+
+The exclusions are also forced by \autoref{thm:equicontinuity-nonescape}. Any consumer needing compactness output, selected nets, subsequences, or completeness must obtain those data from a separate chapter after reading the exact modulus ledger here.
+\end{proof}
+
 \closureat{EquicontinuityUp}{seedStr}
 
 \begin{closurestatus}{\EquicontinuityUp}
   \constructivestory{An $\EquicontinuityUp$ packet is generated from a compact metric source row, a finite continuous-family ledger, shared tolerance and radius rows, a $\UniformEquicontinuityModulusUp$ or $\UniformModulusUp$ handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:equicontinuity-carrier}, \autoref{thm:equicontinuity-namecert-obligations}, \autoref{thm:equicontinuity-compact-metric-route}, and \autoref{thm:equicontinuity-nonescape} seed the compact-source finite-family shared-modulus route over compact-source, continuous-family, tolerance, shared-radius, modulus-handoff, transport, replay, provenance, and local naming rows.}
+  \scopeclosed{\autoref{def:equicontinuity-carrier}, \autoref{thm:equicontinuity-namecert-obligations}, \autoref{thm:equicontinuity-compact-metric-route}, \autoref{thm:equicontinuity-nonescape}, \autoref{thm:equicontinuity-shared-radius-stability}, \autoref{thm:equicontinuity-finite-net-readiness}, and \autoref{thm:equicontinuity-modulus-ledger-exactness} seed the compact-source finite-family shared-modulus route over compact-source, continuous-family, tolerance, shared-radius, modulus-handoff, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close compactness, selected finite nets, selected subsequences, Arzela--Ascoli convergence, host-level continuity, pointwise-only radius choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\EquicontinuityUp$.}

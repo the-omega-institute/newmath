@@ -279,6 +279,54 @@ Use \autoref{thm:sequential-compact-finite-subsequence-handoff} for the consumer
 Finally combine \autoref{thm:sequential-compact-regseqrat-handoff-exactness} with \autoref{thm:sequential-compact-real-seal-nonescape}. They force the regular tail through $R$ and the Real seal through $E$, while the structural rows preserve the displayed route and do not add excluded host or quotient data.
 \end{proof}
 
+\begin{theorem}[SequentialCompact finite subsequence obligation]
+\label{thm:sequentialcompact-finite-subsequence-obligation}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+every finite subsequence obligation read from $Q$ is a $\BHist$ obligation over the displayed rows $K,B,S,W,R,E,H,C,P,N$. The selected-window row $W$ must be transported by the componentwise $\hsame$ row $H$, replayed through the displayed $\Cont$ row $C$, and named by the local $\NameCert_{\SequentialCompactUp}$ row $N$ before any compact-metric, stream-window, regular-rational, or Real-facing consumer can use it. The obligation refuses host subsequence selectors, countable choice, quotient stream equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:sequential-compact-carrier}. The only row that stores selected subsequence information is $W$, and the carrier records it as finite selected indices, selected source windows, and monotonicity evidence.
+
+Use \autoref{thm:sequential-compact-finite-subsequence-handoff}. The handoff forces the consumer to reach $W$ only after the compact-metric, Baire-cylinder, and stream-window rows have been displayed.
+
+Now read the structural rows. The $\hsame$ row $H$ transports the selected-window data componentwise, the $\Cont$ row $C$ replays the same finite route, and the local $\NameCert$ row $N$ names that displayed packet. None of these rows contains a coordinate for a host selector, countable-choice schedule, quotient stream equality, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[SequentialCompact cluster carrier stability]
+\label{thm:sequentialcompact-cluster-carrier-stability}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+any cluster-window read exposed by $Q$ is stable only along the same $\BHist$ carrier tuple. If a consumer changes presentation through $\hsame$, the cluster read remains the transported $W,R,E$ route replayed by $\Cont$ and named by $\NameCert_{\SequentialCompactUp}$; it does not become a host subsequence selector, a countable-choice witness, a quotient stream equality, or an ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:sequential-compact-window-transport}. The row $H$ preserves the stream-window, selected-window, regular-readback, and terminal-seal rows before any completion consumer reads the route.
+
+The cluster read is therefore carrier-local. It can use $W$ for selected finite windows, $R$ for regular rational readback, and $E$ for the terminal seal, but each of these rows remains inside the same tuple $Q$.
+
+Finally apply \autoref{thm:sequential-compact-real-seal-consumer-boundary}. A Real-facing or compact-metric consumer can inspect only $K,B,S,W,R,E,H,C,P,N$, so no presentation change can export the excluded host selector, choice, quotient, or ambient completeness data.
+\end{proof}
+
+\begin{theorem}[SequentialCompact compactmetric consumer scope]
+\label{thm:sequentialcompact-compactmetric-consumer-scope}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+every $\CompactMetricUp$ consumer that uses the sequential-compactness packet has scope exactly the finite $\BHist$ rows $K,B,S,W,R,E,H,C,P,N$. It may read compact-metric source data, Baire cylinders, stream windows, finite subsequence windows, regular rational readback, the Real seal, $\hsame$ transport, $\Cont$ replay, package provenance, and the local $\NameCert$ row, but it may not request host subsequence selectors, countable choice, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the compact-metric source through $K$. The carrier definition gives no other compactness coordinate, and \autoref{thm:sequential-compact-baire-cylinder-exposure} places the Baire row $B$ before selected windows are consumed.
+
+Next use \autoref{thm:sequentialcompact-finite-subsequence-obligation}. It binds the finite subsequence obligation to $W,H,C,N$, so the compact-metric consumer receives displayed packet data rather than an external selector.
+
+The downstream rows are $R$ and $E$. By \autoref{thm:sequential-compact-regseqrat-handoff-exactness} and \autoref{thm:sequential-compact-real-seal-nonescape}, those rows provide regular readback and the terminal seal without exporting quotient stream equality, countable choice, host subsequence selection, or ambient Real completeness.
+\end{proof}
+
 \closureat{SequentialCompactUp}{seedStr}
 
 \begin{closurestatus}{\SequentialCompactUp}
