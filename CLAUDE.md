@@ -139,8 +139,8 @@
 - `\leanchecked{Lean.Target.name}` — 该 paper site 的 canonical 主实现 (绿 ✓), 每 paper site 只一条; 对应 `formalstatus = theoremCheckedV`
 - `\leanvariant{Lean.Target.name}` — 同一 paper claim 的 wrapper / projection / 不同 binder 风格 / 弱化结论等变体 (灰小字, `↪ variant` 缩进), 每 primary 下可多条
 - `\leansorryd{Lean.Target.name}{rationale}` — 暂用 sorry (橙) -- 项目 invariant 是 0 sorry, 此宏用于未来如有重新出现; 对应 `formalstatus = formalTargetV`
-- `\leanstmt{Lean.Target.name}` — statement-only / structure 字段 (蓝); 对应 `formalstatus = formalTargetV`
-- `\leandef{Lean.Target.name}` — `def` 或 `inductive` 定义 (灰); 对应 `formalstatus = encodedDefV`
+- `\leanstmt{Lean.Target.name}` — statement-only 或未编码的 setup/field 契约 (蓝); 对应 `formalstatus = formalTargetV`
+- `\leandef{Lean.Target.name}` — 已编码的 `def` / `inductive` / concrete `structure` carrier 定义 (灰); 对应 `formalstatus = encodedDefV`
 
 这些宏只描述 Lean-side 验证状态. 它们不暗示 paper 一侧的 closure 等级.
 

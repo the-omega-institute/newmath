@@ -3,20 +3,17 @@
 This durable ledger records Automath-to-NewMath bridge candidates that were shaped as evidence-backed BEDC continuation targets.
 Runtime inbox, state, logs, and raw gate output remain untracked.
 
-| Metric | Value |
-| --- | --- |
-| Apply | `True` |
-| Eligible candidates | `0` |
-| Accepted into BOARD | `0` |
-| Rejected | `0` |
-| Appended ids | `none` |
-| Judge backend | `` |
-
 ## Candidate Modes
 
-| Title | Mode | Source commit | Source paths | Evidence packet | Expected NewMath delta |
-| --- | --- | --- | --- | --- | --- |
-| _none_ |  |  |  |  |  |
+Read the bridge contract in `docs/bridge/automath-newmath-bridge.md`.
+Read current bridge runtime outputs from:
+
+- `tools/automath_newmath_bridge/out/`
+- `tools/automath_newmath_bridge/state/`
+- `tools/automath_newmath_bridge/logs/`
+
+Use `tools/automath_newmath_bridge/render_bridge_report.py` to render the
+current report from runtime data.
 
 ## Policy
 
