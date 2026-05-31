@@ -22,11 +22,24 @@ export BEDC.MetaCIC (subject_reduction subject_reduction_from_bundle)
 -- Discharge routes
 export BEDC.MetaCIC (
   SubjectReductionDischargeBundle
-  not_appArgTypeStable
-  not_lamDomainSubjectReduction
-  not_piDomainSubjectReduction
-  not_subjectReductionDischargeBundle
 )
+
+theorem not_appArgTypeStable : ¬ AppArgTypeStable := by
+  -- BEDC touchpoint anchor: BEDC.MetaCIC.Term BEDC.MetaCIC.Typing
+  exact BEDC.MetaCIC.not_appArgTypeStable
+
+theorem not_lamDomainSubjectReduction : ¬ LamDomainSubjectReduction := by
+  -- BEDC touchpoint anchor: BEDC.MetaCIC.Term BEDC.MetaCIC.Typing
+  exact BEDC.MetaCIC.not_lamDomainSubjectReduction
+
+theorem not_piDomainSubjectReduction : ¬ PiDomainSubjectReduction := by
+  -- BEDC touchpoint anchor: BEDC.MetaCIC.Term BEDC.MetaCIC.Typing
+  exact BEDC.MetaCIC.not_piDomainSubjectReduction
+
+theorem not_subjectReductionDischargeBundle :
+    ¬ SubjectReductionDischargeBundle := by
+  -- BEDC touchpoint anchor: BEDC.MetaCIC.Term BEDC.MetaCIC.Typing
+  exact BEDC.MetaCIC.not_subjectReductionDischargeBundle
 
 -- Closed term operations
 export BEDC.MetaCIC (shift_closed substitute_closed)
