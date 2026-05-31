@@ -1,5 +1,10 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
@@ -7,6 +12,11 @@ namespace BEDC.Derived.PrecompactMetricUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -222,6 +232,40 @@ theorem PrecompactMetricNameCert_obligations (x : PrecompactMetricUp) :
   · intro w m hw hm
     exact PrecompactMetricNameCert_obligations_flow_display
       (precompactMetricFields x) w m hw hm
+
+def PrecompactMetricCarrier [AskSetup] [PackageSetup]
+    (X D N F R M H C G Q : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  UnaryHistory X ∧ UnaryHistory D ∧ UnaryHistory N ∧ UnaryHistory F ∧
+    UnaryHistory R ∧ UnaryHistory M ∧ UnaryHistory H ∧ UnaryHistory C ∧
+      UnaryHistory G ∧ UnaryHistory Q ∧ PkgSig bundle Q pkg
+
+theorem PrecompactMetricCarrier_root_finite_net_obligations [AskSetup] [PackageSetup]
+    {X D N F R M H C G Q netRead radiusRead coverRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PrecompactMetricCarrier X D N F R M H C G Q bundle pkg →
+      Cont N F netRead →
+        Cont D R radiusRead →
+          Cont netRead radiusRead coverRead →
+            PkgSig bundle coverRead pkg →
+              UnaryHistory N ∧ UnaryHistory F ∧ UnaryHistory D ∧ UnaryHistory R ∧
+                UnaryHistory netRead ∧ UnaryHistory radiusRead ∧
+                  UnaryHistory coverRead ∧ Cont N F netRead ∧ Cont D R radiusRead ∧
+                    Cont netRead radiusRead coverRead ∧ PkgSig bundle Q pkg ∧
+                      PkgSig bundle coverRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier netRoute radiusRoute coverRoute coverPkg
+  obtain ⟨_xUnary, dUnary, nUnary, fUnary, rUnary, _mUnary, _hUnary, _cUnary,
+    _gUnary, _qUnary, provenancePkg⟩ := carrier
+  have netUnary : UnaryHistory netRead :=
+    unary_cont_closed nUnary fUnary netRoute
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed dUnary rUnary radiusRoute
+  have coverUnary : UnaryHistory coverRead :=
+    unary_cont_closed netUnary radiusUnary coverRoute
+  exact
+    ⟨nUnary, fUnary, dUnary, rUnary, netUnary, radiusUnary, coverUnary, netRoute,
+      radiusRoute, coverRoute, provenancePkg, coverPkg⟩
 
 theorem PrecompactMetric_totally_bounded_handoff (x : PrecompactMetricUp) :
     ∃ X D N F R M H C G Q : BHist,

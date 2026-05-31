@@ -89,4 +89,77 @@ theorem CauchyModulusSpaceTailComposition [AskSetup] [PackageSetup]
       ⟨scheduleReadUnary, windowReadUnary, toleranceReadUnary, readbackReadUnary,
         sealReadUnary, structuralReadUnary, namedReadUnary⟩
 
+theorem CauchyCompletionLeftExactnessRegSeqRatUnitPullback [AskSetup] [PackageSetup]
+    {S U D K E H C P N regRead realSeal extensionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionLeftExactnessCarrier S U D K E H C P N ->
+      Cont K E regRead ->
+        Cont regRead N realSeal ->
+          Cont realSeal H extensionRead ->
+            PkgSig bundle extensionRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row extensionRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row S ∨ hsame row U ∨ hsame row D ∨ hsame row K ∨
+                      hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                        hsame row N ∨ hsame row regRead ∨ hsame row realSeal ∨
+                          hsame row extensionRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle extensionRead pkg ∧
+                      Cont K E regRead)
+                  hsame ∧
+                UnaryHistory regRead ∧ UnaryHistory realSeal ∧
+                  UnaryHistory extensionRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert hsame
+  intro carrier regRoute realSealRoute extensionRoute extensionPkg
+  obtain ⟨_sUnary, _uUnary, _dUnary, kUnary, eUnary, hUnary, _cUnary, _pUnary,
+    nUnary⟩ := carrier
+  have regReadUnary : UnaryHistory regRead :=
+    unary_cont_closed kUnary eUnary regRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed regReadUnary nUnary realSealRoute
+  have extensionReadUnary : UnaryHistory extensionRead :=
+    unary_cont_closed realSealUnary hUnary extensionRoute
+  have sourceExtension :
+      (fun row : BHist => hsame row extensionRead ∧ UnaryHistory row) extensionRead := by
+    exact ⟨hsame_refl extensionRead, extensionReadUnary⟩
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro extensionRead sourceExtension
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr source.left))))))))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, extensionPkg, regRoute⟩
+    }
+  · exact ⟨regReadUnary, realSealUnary, extensionReadUnary⟩
+
 end BEDC.Derived.CauchyUp
