@@ -147,6 +147,142 @@ the carrier coordinates, the lower-real epigraph handoff exposes only the
 finite BEDC rows stated above.
 \end{proof}
 
+\begin{theorem}[LowerSemicontinuous located readback stability]
+\label{thm:lower-semicontinuous-located-readback-stability}
+Let $L=(X,F,E,W,R,O,H,C,P,N)$ be an accepted
+$\LowerSemicontinuousUp$ carrier. Every epigraph-window comparison accepted by
+$E$ and transported by $H$ preserves the $\LocatedRealUp$ endpoint checks in
+$O$ before any $\RealUp$-facing consumer can read the transported lower bound.
+Equivalently, a consumer that receives a transported row $(x,q)$ must pass
+through the same scheduled window in $W$, the same regular rational readback in
+$R$, and the located endpoint ledger in $O$ before the terminal real-seal route
+is available.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:lower-semicontinuous-carrier}. The
+only accepted lower-bound comparisons are the finite epigraph rows in $E$, and
+the only transport available for those rows is the componentwise $\hsame$
+ledger $H$.
+
+Apply \autoref{thm:lower-semicontinuous-lowerreal-epigraph-route}. Its route
+places $W$ and $R$ before $E$, and places the lower-real, upper-real, and
+located-real comparison ledger $O$ before any terminal $\RealUp$ seal can be
+read.
+
+Thus the transported comparison cannot expose a bound by itself. The located
+endpoint checks in $O$ remain on the route after transport, and $C$ replays the
+same scheduled inspection for every Real-facing consumer.
+\end{proof}
+
+\begin{theorem}[LowerSemicontinuous Real seal nonescape]
+\label{thm:lower-semicontinuous-real-seal-nonescape}
+An accepted $\LowerSemicontinuousUp$ packet exports $\RealUp$-facing data only
+through the displayed rows
+$$
+E,W,R,O,H,C,P,N .
+$$
+In particular, the packet cannot expose host topology, a semantic liminf
+operator, quotient real equality, a selected limit, countable choice,
+open-cover compactness, or ambient completeness as a route to the terminal
+real seal.
+\end{theorem}
+\begin{proof}
+Read the export surface from \autoref{def:lower-semicontinuous-carrier}. The
+terminal real-facing route is represented by epigraph rows, scheduled windows,
+regular rational readbacks, comparison rows, componentwise transport,
+continuation replay, package provenance, and the local name.
+
+Apply \autoref{thm:lower-semicontinuous-lowerreal-epigraph-route}. The theorem
+states that every lower-real or real-seal consumer factors through the finite
+epigraph route and cannot bypass it to host topological openness, quotient
+real equality, semantic liminf data, countable choice, open-cover compactness,
+or completeness of $\RealUp$.
+
+The listed excluded principles are not carrier coordinates and are not
+introduced by $H$ or $C$. Therefore the $\RealUp$ seal row remains a finite
+BEDC export through $E,W,R,O,H,C,P,N$ rather than a host-theoretic escape.
+\end{proof}
+
+\begin{definition}[LowerSemicontinuous root carrier]
+\label{def:lowersemicontinuous-root-carrier}
+The root packet for $\LowerSemicontinuousUp$ is the accepted finite carrier
+$$
+L_{\mathrm{root}}=(X,F,E,W,R,O,H,C,P,N)
+$$
+of \autoref{def:lower-semicontinuous-carrier}, read with $X$ as the displayed
+source row, $F$ as the graph row, $E$ as the lower-real epigraph ledger, $W$ as
+the stream schedule, $R$ as the regular rational readback row, $O$ as the
+lower-real, upper-real, located-real, and real-seal comparison ledger, $H$ as
+componentwise transport, $C$ as displayed replay, $P$ as provenance, and $N$ as
+the local NameCert row. A root consumer may inspect only these rows and the
+routes certified by \autoref{thm:lower-semicontinuous-namecert-obligation-surface};
+it receives no separate topology carrier, semantic liminf operation, quotient
+real equality, selected limit, countable choice, open-cover compactness, or
+ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[LowerSemicontinuous real handoff]
+\label{thm:lowersemicontinuous-real-handoff}
+Every $\RealUp$-facing read of the root packet
+$L_{\mathrm{root}}=(X,F,E,W,R,O,H,C,P,N)$ factors through the displayed
+$\StreamNameUp$, $\RegSeqRatUp$, $\LowerRealUp$, $\LocatedRealUp$, and
+$\RealUp$ rows. Concretely, a consumer first reads a stream window from $W$,
+then a regular rational value row from $R$, then a lower-real epigraph witness
+from $E$, then the located comparison data in $O$, and only then the terminal
+real-seal route recorded by $O,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+The root packet is the carrier of
+\autoref{def:lowersemicontinuous-root-carrier}, so a consumer can start only
+from the rows $X,F,E,W,R,O,H,C,P,N$.
+
+Apply \autoref{thm:lower-semicontinuous-namecert-obligation-surface}. Its
+obligation surface places carrier admission, epigraph-window exactness,
+lower-real classifier stability, located readback compatibility, transport
+replay, provenance, and non-escape on the same local NameCert route.
+
+Apply \autoref{thm:lower-semicontinuous-lowerreal-epigraph-route}. That route
+orders the read through scheduled windows, regular rational readbacks,
+displayed lower-bound rows, lower-real refinements, located endpoint checks,
+transport, replay, provenance, and local naming.
+
+Finally apply
+\autoref{thm:lower-semicontinuous-located-readback-stability} and
+\autoref{thm:lower-semicontinuous-real-seal-nonescape}. They keep the located
+readback before the terminal real seal and exclude every host route not present
+in the finite packet.
+\end{proof}
+
+\begin{theorem}[LowerSemicontinuous open-sublevel route]
+\label{thm:lowersemicontinuous-open-sublevel-route}
+Every sublevel or open-window read of the root packet
+$L_{\mathrm{root}}=(X,F,E,W,R,O,H,C,P,N)$ is a displayed epigraph route through
+$E,W,R,O,H,C,P,N$. It is not a read of host topological openness: the only
+available witness is a finite lower-bound row transported through the
+$\LowerRealUp$ and $\LocatedRealUp$ comparison ledgers and replayed by the same
+continuation route.
+\end{theorem}
+\begin{proof}
+Start with a sublevel or open-window consumer of the root packet. By
+\autoref{def:lowersemicontinuous-root-carrier}, the packet has no coordinate
+for a topology carrier or open-set lattice, so the consumer must read one of
+the displayed finite rows.
+
+Use \autoref{thm:lower-semicontinuous-lowerreal-epigraph-route}. The theorem
+identifies the lower-real route as
+$$
+X,F,W,R,E,O,H,C,P,N .
+$$
+Thus an open-window read can only mean that a scheduled source window and a
+regular rational value row have reached a displayed epigraph witness in $E$.
+
+The located readback stability theorem keeps the comparison in $O$ on the same
+route after transport. The real-seal nonescape theorem then prevents the
+consumer from replacing that displayed epigraph route by host topology,
+semantic liminf data, quotient real equality, choice, compactness, or ambient
+completeness.
+\end{proof}
+
 \begin{closurestatus}{\LowerSemicontinuousUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:lower-semicontinuous-carrier}, \autoref{thm:lower-semicontinuous-namecert-obligation-surface}, and \autoref{thm:lower-semicontinuous-lowerreal-epigraph-route} seed the finite lower-semicontinuity certificate over lower-real epigraph windows, located readbacks, stream schedules, regular rational value rows, and the Real seal.}

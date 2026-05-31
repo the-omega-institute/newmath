@@ -46,6 +46,7 @@ the local $\NameCert_{\SqueezeTheoremUp}$ surface consists exactly of the follow
 \end{enumerate}
 No squeeze theorem obligation is stored outside these rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.SqueezeTheoremUp.SqueezeTheoremCarrier\_namecert\_obligations}
 
 \begin{proof}
 Project the accepted packet $S=(L,M,U,W,D,Q,E,H,C,P,N)$. The carrier exposes the three source rows, one shared finite-window row, one dyadic tolerance ledger, one regular-rational readback row, one terminal sequence-limit and real-seal row, and the structural rows.
@@ -65,6 +66,8 @@ L,M,U,W,D,Q \longmapsto E \longmapsto H,C,P,N .
 $$
 Thus the consumer receives a displayed lower-middle-upper comparison sandwich, a shared $\StreamNameUp$ tail-window schedule, $\DyadicRatCoreUp$ tolerance accounting, $\RegSeqRatUp$ readbacks, the $\RealSequenceLimitUp$ handoff, the terminal $\RealUp$ seal boundary, componentwise transport, continuation replay, package provenance, and local naming. It receives no host sequence limit, quotient stream equality, trichotomy, countable choice, selected representative, or ambient $\RealUp$ completeness principle.
 \end{theorem}
+
+The comparison sandwich consumes the regular-name enclosure of \autoref{ch:concrete-instances-regular-cauchy-squeeze-namecert} and the dyadic lower/upper tolerance route of \autoref{ch:concrete-instances-dyadic-sandwich-namecert} before the $\RealSequenceLimitUp$ and $\RealUp$ seal rows are exposed.
 
 \begin{proof}
 Start with an accepted squeeze-theorem read. The source rows are $L$, $M$, and $U$, and the carrier requires all comparison evidence to be observed through the shared finite-window row $W$.
@@ -87,6 +90,51 @@ Read the seal row $E$ from an accepted carrier. By carrier admission, $E$ is not
 The replay row $C$ has no branch that starts at $E$. It replays the route from the three source rows through the window schedule, tolerance ledger, and rational readback before the seal can be consumed.
 
 The transport and provenance rows $H$ and $P$ preserve the same dependency order. The local name $N$ therefore names only the displayed sandwich packet, so no host limit, quotient stream, trichotomy, countable-choice selector, selected representative, or ambient completeness witness can escape through the seal.
+\end{proof}
+
+\begin{theorem}[Squeeze theorem Real seal handoff]
+\label{thm:squeeze-theorem-real-seal-handoff}
+A $\SqueezeTheoremUp$ consumer reaches the middle-row $\RealUp$ seal only by first displaying the lower and upper $\RealSequenceLimitUp$ rows, the middle sequence row, the shared $\StreamNameUp$ tail windows, the $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readbacks, and the $\RealSequenceLimitUp$ handoff. The resulting route is
+$$
+L,M,U,W,D,Q \longmapsto E \longmapsto H,C,P,N .
+$$
+It refuses host limits, quotient streams, trichotomy, countable choice, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the comparison sandwich of \autoref{thm:squeeze-theorem-comparison-sandwich}. It forces the lower, middle, and upper rows to pass through one shared finite route $L,M,U,W,D,Q$ before any seal row is available.
+
+Apply the real-seal nonescape theorem \autoref{thm:squeeze-theorem-real-seal-nonescape}. The terminal seal $E$ cannot be reached until the shared tail windows, dyadic tolerance ledger, regular rational readbacks, and displayed $\RealSequenceLimitUp$ handoff have all been displayed.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name the same route. Since neither theorem exposes host limits, quotient streams, trichotomy, countable choice, or ambient Real completeness, the handoff to the middle-row $\RealUp$ seal exports none of those objects.
+\end{proof}
+
+\begin{theorem}[Squeeze theorem zero-envelope route]
+\label{thm:squeeze-theorem-zero-envelope-route}
+If an accepted $\SqueezeTheoremUp$ carrier has lower and upper source rows both read through the displayed zero $\RealSequenceLimitUp$ envelope, then every middle-row $\RealUp$ seal still factors through $W,D,Q,E,H,C,P,N$. It cannot be read as host zero-limit equality, quotient stream equality, or ambient completeness.
+\end{theorem}
+
+\begin{proof}
+Project the accepted carrier $S=(L,M,U,W,D,Q,E,H,C,P,N)$. The lower and upper rows share the same displayed zero envelope, but the carrier still exposes the middle row only through the comparison data and terminal seal rows.
+
+Specialize the comparison sandwich of \autoref{thm:squeeze-theorem-comparison-sandwich} to the case where $L$ and $U$ read the same zero $\RealSequenceLimitUp$ envelope. The shared envelope fixes the bounding route; it does not remove the finite window row $W$, dyadic ledger $D$, or regular-rational readback $Q$.
+
+Apply the real-seal nonescape theorem \autoref{thm:squeeze-theorem-real-seal-nonescape}. The middle-row seal reaches $\RealUp$ only after the displayed tolerance and readback route has been consumed.
+
+Thus the zero-envelope squeeze route is certified by finite dyadic tolerance accounting and $\RegSeqRatUp$ readback. It is not a host zero-limit equality, a quotient stream equality, or an appeal to ambient completeness.
+\end{proof}
+
+\begin{theorem}[Squeeze theorem Cauchy-real field route]
+\label{thm:squeeze-theorem-cauchy-real-field-route}
+Let $S=(L,M,U,W,D,Q,E,H,C,P,N)$ be an accepted $\SqueezeTheoremUp$ zero-envelope carrier whose lower, middle, and upper rows are read through the $\CauchyRealFieldUp$ surface. Then the middle-row $\RealUp$ seal is reached only after the common $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyRealFieldUp$, order, transport, replay, provenance, and local $\NameCert$ rows are displayed. The route does not claim $\RealUp$ completeness, trichotomy, or host limits.
+\end{theorem}
+\begin{proof}
+Begin with the zero-envelope route of \autoref{thm:squeeze-theorem-zero-envelope-route}. It already forces the middle-row seal to pass through the shared window row $W$, dyadic ledger $D$, regular readback row $Q$, terminal seal row $E$, and structural rows $H,C,P,N$.
+
+Read the lower, middle, and upper rows through the $\CauchyRealFieldUp$ chapter \autoref{ch:concrete-instances-cauchy-real-field-namecert}. That surface supplies the regular-Cauchy addition, product, reciprocal, and order rows as displayed field-facing data before a real-facing consumer can inspect the result.
+
+Finally pass through the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The seal is downstream of the displayed regular readback, stream windows, dyadic tolerance accounting, Cauchy-real field rows, order rows, transport, replay, provenance, and local naming.
+
+Because the proof composes only those displayed chapter surfaces, it adds no Real completeness principle, no trichotomy split, and no host limit object.
 \end{proof}
 
 \closureat{SqueezeTheoremUp}{seedStr}

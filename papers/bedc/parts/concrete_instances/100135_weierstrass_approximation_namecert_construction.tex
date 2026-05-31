@@ -66,6 +66,7 @@ I,F,\varepsilon \longmapsto S,M \longmapsto P,E \longmapsto T,C,R,Q .
 $$
 Consequently the consumer reads only the $\RealIntervalEnclosureUp$, $\CompactUniformContinuityUp$, $\PolynomialUp$, $\UniformLimitUp$, $\RiemannSumUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows displayed by \autoref{def:weierstrass-approximation-carrier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.WeierstrassApproximationUp.WeierstrassApproximationPolynomialHandoff}
 \begin{proof}
 Begin with the accepted carrier $W=(I,F,\varepsilon,P,S,M,E,T,C,R,Q)$. The interval and map rows determine the inspected source windows, and the requested error row fixes the comparison threshold.
 
@@ -74,6 +75,22 @@ The sample family $S$ is read through $\RealIntervalEnclosureUp$ and the compact
 The polynomial row $P$ supplies only the finite $\PolynomialUp$ coefficient and evaluation route. The error row $E$ then records the comparison between those polynomial evaluations and the corresponding function evaluations, with $\UniformLimitUp$ and $\RiemannSumUp$ appearing only as downstream finite-window and mesh consumers named in the provenance row.
 
 Finally $T,C,R,Q$ transport, replay, source, and name the same route. Since the carrier has no other coordinate, every downstream approximation consumer factors through exactly these displayed BEDC rows and cannot read an open-cover proof, Stone--Weierstrass algebra closure, quotient function space, host supremum norm, selected infinite data, or ambient real completeness.
+\end{proof}
+
+\begin{theorem}[Weierstrass approximation UniformLimit consumer]
+\label{thm:weierstrass-approximation-uniformlimit-consumer}
+Every $\UniformLimitUp$-facing read of an accepted $\WeierstrassApproximationUp$ carrier first reads the compact interval row, continuous-map row, requested rational error, polynomial row, finite samples, compact-uniform modulus, and uniform-error ledger. The consumer boundary is therefore the route
+$$
+I,F,\varepsilon,P,S,M,E \longmapsto T,C,R,Q,
+$$
+with $\UniformLimitUp$ appearing only as the finite-window consumer named by the provenance row and by \autoref{ch:concrete-instances-uniformlimit-namecert}.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:weierstrass-approximation-carrier}. Its rows $I,F,\varepsilon,P,S,M,E$ are the only interval, map, error, polynomial, sample, modulus, and uniform-error data exposed before structural replay.
+
+Apply the polynomial handoff of \autoref{thm:weierstrass-approximation-polynomial-handoff}. It forces every approximation consumer to pass through the same source-window, sample, modulus, polynomial, and error route before $T,C,R,Q$ can transport, replay, source, and name the packet.
+
+The $\UniformLimitUp$ consumer boundary is then exactly the sibling chapter \autoref{ch:concrete-instances-uniformlimit-namecert}. Since the accepted carrier has no coordinate for a host supremum norm, quotient function space, selected infinite sample family, or ambient completeness principle, a uniform-limit-facing read receives only the displayed finite approximation ledger.
 \end{proof}
 
 \closureat{WeierstrassApproximationUp}{seedStr}

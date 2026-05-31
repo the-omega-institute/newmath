@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealCauchyModulusRefinementUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -224,5 +226,17 @@ theorem RealCauchyModulusRefinementTasteGate_single_carrier_alignment :
       ⟨realCauchyModulusRefinementFieldFaithful⟩,
       ⟨realCauchyModulusRefinementNontrivial⟩,
       rfl⟩
+
+theorem RealCauchyModulusRefinementCarrier_window_refinement
+    {M0 M1 R S0 S1 D0 D1 Q E H C P N : BHist} :
+    realCauchyModulusRefinementFields
+        (RealCauchyModulusRefinementUp.mk M0 M1 R S0 S1 D0 D1 Q E H C P N) =
+        [M0, M1, R, S0, S1, D0, D1, Q, E, H, C, P, N] ∧
+      Cont M0 M1 (append M0 M1) ∧
+      Cont S0 S1 (append S0 S1) ∧
+      Cont D0 D1 (append D0 D1) ∧
+      Cont Q E (append Q E) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  exact ⟨rfl, rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.RealCauchyModulusRefinementUp

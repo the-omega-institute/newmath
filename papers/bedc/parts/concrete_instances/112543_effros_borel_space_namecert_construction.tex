@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\EffrosBorelSpaceUp$}
+\label{ch:concrete-instances-effros-borel-space-namecert}
+\origin{human}
+
+Following Effros and standard descriptive-set-theoretic hyperspace practice, the $\EffrosBorelSpaceUp$ packet records the finite hit--miss Borel surface of a hyperspace without importing a host sigma-algebra, a completed measure object, or choice-selected closed sets. It sits beside the compact-subset carrier of \autoref{ch:concrete-instances-hyperspace-namecert}, the Vietoris routing of \autoref{ch:concrete-instances-vietoris-topology-namecert}, the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, and the metric carrier of \autoref{ch:concrete-instances-metric-namecert}.
+
+\begin{definition}[Effros Borel hit--miss carrier]
+\label{def:effros-borel-hit-miss-carrier}
+An $\EffrosBorelSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(H,A,M,V,K,D,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the underlying $\HyperspaceUp$ carrier row, exposing only finite compact-subset names and Hausdorff-facing inspection data.
+\item $A$ is the hit-row ledger, recording the finite open-window tests whose positive intersection is visible to the packet.
+\item $M$ is the miss-row ledger, recording the finite closed-window tests whose avoidance is visible to the packet.
+\item $V$ is the $\VietorisTopologyUp$ routing row that places the hit and miss ledgers in the same finite topological basis.
+\item $K$ is the $\CompactMetricUp$ source row and $D$ is the $\MetricUp$ distance row used before any hyperspace read is admitted.
+\item $T$ records componentwise $\hsame$ transport for hyperspace, hit, miss, Vietoris, compact-metric, metric, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a hit--miss request through $H,A,M,V,K,D,T$.
+\item $P$ is the $\Pkg$ provenance over $\EffrosBorelSpaceUp$, $\HyperspaceUp$, $\VietorisTopologyUp$, $\CompactMetricUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\EffrosBorelSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host powerset of closed sets, an ambient Borel sigma-algebra, a completed measure space, a selected representative, quotient closed-set equality, or countable-choice enumeration of tests.
+\end{definition}
+
+\begin{theorem}[Effros Borel NameCert obligations]
+\label{thm:effros-borel-namecert-obligations}
+For every accepted $\EffrosBorelSpaceUp$ carrier $E=(H,A,M,V,K,D,T,C,P,N)$, the local $\NameCert_{\EffrosBorelSpaceUp}$ surface consists exactly of carrier admission, hit-row stability, miss-row stability, hyperspace nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The hit and miss rows are admitted only through the common $\VietorisTopologyUp$ route over the displayed $\HyperspaceUp$, $\CompactMetricUp$, and $\MetricUp$ source rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:effros-borel-hit-miss-carrier}. The only observable hyperspace data are the finite compact-subset row $H$, the hit ledger $A$, the miss ledger $M$, and the common Vietoris route $V$.
+
+The compact and metric rows $K,D$ fix the source on which the hit and miss tests are read. Since both ledgers pass through $V$, a consumer cannot separate hit stability from miss stability by appealing to an external topology.
+
+Transport and replay are then forced through $T$ and $C$, with provenance and local naming supplied by $P,N$. No remaining coordinate can introduce a host sigma-algebra, a completed measure object, a quotient closed-set representative, or a choice-selected enumeration.
+\end{proof}
+
+\begin{theorem}[Effros Borel hyperspace nonescape]
+\label{thm:effros-borel-hyperspace-nonescape}
+Every Borel-facing consumer of an accepted $\EffrosBorelSpaceUp$ packet must read the finite route
+$$
+\HyperspaceUp,\VietorisTopologyUp,\CompactMetricUp,\MetricUp,\BHist,\hsame,\Cont,\Pkg,\NameCert
+$$
+before it receives a hit--miss name. The read remains inside the displayed hyperspace packet and exports no host Borel sigma-algebra, no completed measure structure, no selected closed subset, no quotient equality of closed sets, and no countable-choice schedule for tests.
+\end{theorem}
+\begin{proof}
+Begin with a Borel-facing read. Carrier admission exposes the hyperspace row $H$, but no hit--miss information is public until the hit row $A$ and miss row $M$ have both been routed through the same Vietoris row $V$.
+
+The source rows $K,D$ keep the route tied to the compact metric and metric carriers already displayed in the packet. Thus a consumer can inspect finite hit and miss windows, but it cannot leave the packet for a host powerset or a detached measurable-space object.
+
+Finally $T,C,P,N$ transport, replay, source, and name the same finite route. The carrier omissions in \autoref{def:effros-borel-hit-miss-carrier} rule out the remaining exits, so every accepted read is a hyperspace nonescape read.
+\end{proof}
+
+\closureat{EffrosBorelSpaceUp}{seedStr}
+
+\begin{closurestatus}{\EffrosBorelSpaceUp}
+  \constructivestory{An $\EffrosBorelSpaceUp$ packet is generated from a Hyperspace row, finite hit rows, finite miss rows, VietorisTopology routing, CompactMetric and Metric source rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:effros-borel-hit-miss-carrier}, \autoref{thm:effros-borel-namecert-obligations}, and \autoref{thm:effros-borel-hyperspace-nonescape} seed the hit--miss hyperspace Borel carrier over Hyperspace, VietorisTopology, CompactMetric, Metric, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host sigma-algebras, completed measure spaces, selected closed-set representatives, quotient closed-set equality, countable-choice test schedules, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, hit-row stability, miss-row stability, hyperspace nonescape, transport, replay, provenance, and local naming for BEDC.Derived.EffrosBorelSpaceUp.}
+\end{closurestatus}

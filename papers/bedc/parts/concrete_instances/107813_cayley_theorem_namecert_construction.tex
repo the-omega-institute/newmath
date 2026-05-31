@@ -1,0 +1,123 @@
+\chapter{A Concrete Naming Certificate for $\CayleyTheoremUp$}
+\label{ch:concrete-instances-cayley-theorem-namecert}
+\origin{human}
+
+Following Cayley, the $\CayleyTheoremUp$ packet records the finite left-regular
+action of a displayed group row as a permutation-action row. It consumes the
+finite $\GroupUp$ source of \autoref{ch:concrete-instances-group-namecert} and
+the finite-position bijection surface of
+\autoref{ch:concrete-instances-permutation-namecert}. The packet names the
+carrier, action, image, faithfulness, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows needed to read the theorem as BEDC data; it does not assert a
+classification of finite groups, a presentation by generators and relations,
+or a representation-theoretic decomposition.
+
+\begin{definition}[Cayley theorem carrier]
+\label{def:cayley-theorem-carrier}
+A $\CayleyTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+C=(G,L,I,F,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the consumed finite $\NameCert_{\GroupUp}$ row, including the
+carrier, multiplication, unit, inverse, and finite support surfaces;
+\item $L$ is the left-regular action row sending a displayed group element $g$
+and a displayed group endpoint $x$ to the product endpoint $gx$;
+\item $I$ is the permutation-image row, reading each left-translation row as a
+certified self-bijection of the finite carrier of $G$ through the
+$\PermutationUp$ interface;
+\item $F$ is the faithfulness row, recording that if two left-translation
+rows have the same action on every displayed endpoint, then their source group
+rows classify together by the $\GroupUp$ classifier;
+\item $H$ is the componentwise $\hsame$ transport for $G,L,I,F$;
+\item $T$ stores the displayed $\Cont$ routes through which consumers read the
+left action, permutation image, and faithfulness rows;
+\item $P$ is the $\Pkg$ provenance over $\GroupUp$, $\PermutationUp$, $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CayleyTheoremUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a host embedding into an ambient
+symmetric group, no quotient by an external equality of functions, and no
+representation category.
+\end{definition}
+
+\begin{theorem}[Cayley theorem NameCert obligations]
+\label{thm:cayley-theorem-namecert-obligations}
+For every accepted $\CayleyTheoremUp$ carrier
+$$
+C=(G,L,I,F,H,T,P,N),
+$$
+the local $\NameCert_{\CayleyTheoremUp}$ surface consists exactly of carrier
+admission for the displayed finite group row, left-regular action row,
+permutation-image row, faithfulness row, componentwise transport row,
+continuation routes, provenance, and local naming row. The obligation route is
+finite group row, left-regular action row, permutation image row, faithfulness
+row, and then the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packaging rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cayley-theorem-carrier}. Carrier admission
+is the displayed tuple $G,L,I,F,H,T,P,N$, so no host symmetric group, host
+function equality, or representation category is available as an additional
+coordinate.
+
+Read $L$ from the multiplication row of $G$. For each displayed source row
+$g$, left multiplication by $g$ sends every displayed endpoint $x$ to the
+endpoint $gx$ and sends the inverse endpoint through the inverse row of $G$,
+so the action has the inverse-witness data needed by the permutation surface.
+
+Read $I$ through \autoref{ch:concrete-instances-permutation-namecert}. The
+finite support row of $G$ supplies the finite spine, while the left-action and
+inverse rows supply the forward graph, inverse graph, inverse witnesses, and
+action ledger of the carried $\PermutationUp$ row.
+
+Finally read $F$ at the unit endpoint of $G$. If two left-translation rows act
+the same on every displayed endpoint, their actions on the unit endpoint
+classify the two source group rows together. Repacking this faithfulness row
+with $H,T,P,N$ gives the stated local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cayley theorem permutation-action handoff]
+\label{thm:cayley-theorem-permutation-action-handoff}
+Every downstream consumer of a $\CayleyTheoremUp$ carrier that asks for a
+permutation action of a finite group reads exactly the rows
+$$
+G,L,I,F,H,T,P,N
+$$
+of \autoref{def:cayley-theorem-carrier}. The handoff exports the consumed
+$\GroupUp$ row, the left-regular action row, the $\PermutationUp$ image row,
+and the faithfulness row, and then transports them through the displayed
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It does not export a bare host
+function, a separate symmetric-group carrier, or any representation-theoretic
+decomposition.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cayley-theorem-namecert-obligations}. It identifies
+the public packet with the finite group row, left-regular action row,
+permutation-image row, faithfulness row, and the transport and provenance rows.
+
+Next project the permutation-image coordinate through
+\autoref{ch:concrete-instances-permutation-namecert}. Each left-translation
+row is read as a certified finite-position self-bijection; the action row is
+the corresponding endpoint action, and inverse coverage is supplied by the
+inverse row of the consumed group packet.
+
+Finally use the faithfulness row. The action on the unit endpoint recovers the
+source group classifier, so the consumer can read the group-to-permutation
+map as faithful without importing host function equality. Since every public
+field has already been listed in $G,L,I,F,H,T,P,N$, the handoff has exactly the
+displayed BEDC surface and no additional symmetric-group or representation
+coordinate.
+\end{proof}
+
+\closureat{CayleyTheoremUp}{seedStr}
+
+\begin{closurestatus}{\CayleyTheoremUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cayley-theorem-carrier}, \autoref{thm:cayley-theorem-namecert-obligations}, and \autoref{thm:cayley-theorem-permutation-action-handoff} seed the finite left-regular action carrier, permutation-image handoff, faithfulness row, and $\hsame$/$\Cont$/$\Pkg$/$\NameCert$ packaging over displayed $\GroupUp$ and $\PermutationUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a classification of finite groups, generator-and-relation presentations, symmetric-group closure, representation decomposition, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, left-action exactness, permutation-image construction, faithfulness at the unit endpoint, and downstream permutation-action consumer boundary for the same finite packet.}
+  \constructivestory{A $\CayleyTheoremUp$ packet is generated from a displayed finite group source, its left-regular action on its own finite carrier, the induced certified permutation row for each source element, a faithfulness read at the unit endpoint, componentwise transport, continuation routes, provenance, and local NameCert evidence.}
+\end{closurestatus}

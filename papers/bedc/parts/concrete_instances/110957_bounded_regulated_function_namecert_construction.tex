@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BoundedRegulatedFunctionUp$}
+\label{ch:concrete-instances-bounded-regulated-function-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\BoundedRegulatedFunctionUp$ packet records a regulated function together with a displayed uniform dyadic envelope, so boundedness-facing consumers receive finite step data rather than a host supremum or selected limit. It sits over the regulated-function schedule of \autoref{ch:concrete-instances-regulated-function-namecert}, the dyadic step-function carrier of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the dyadic mesh ledger of \autoref{ch:concrete-instances-dyadicmesh-namecert}. The packet is an integration-facing and variation-facing certificate: it exposes a bounded route through displayed approximants and does not import host function equality, selected limits, measure completion, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bounded regulated function carrier]
+\label{def:bounded-regulated-function-carrier}
+A $\BoundedRegulatedFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+G=(F,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the accepted $\RegulatedFunctionUp$ source row, carrying the domain, mesh, step schedule, tolerance-tail ledger, and finite-sum handoff of \autoref{def:regulated-function-carrier}.
+\item $B$ is the displayed uniform dyadic envelope row. It records a finite dyadic bound and the mesh-indexed scope on which the bound is offered to downstream consumers.
+\item $E$ records that every visible $\DyadicStepFunctionUp$ approximant in the regulated schedule lies inside the envelope displayed by $B$.
+\item $H$ records componentwise $\hsame$ transport for the regulated source, envelope, approximant-enclosure, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a boundedness request through $F,B,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedRegulatedFunctionUp$, $\RegulatedFunctionUp$, $\DyadicStepFunctionUp$, $\DyadicMeshUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedRegulatedFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,B,E,H,C,P,N$. It has no coordinate for host function equality, a selected pointwise representative, an ambient supremum, measure completion, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bounded regulated function NameCert obligations]
+\label{thm:bounded-regulated-function-namecert-obligations}
+For every accepted $\BoundedRegulatedFunctionUp$ carrier $G=(F,B,E,H,C,P,N)$, the local $\NameCert_{\BoundedRegulatedFunctionUp}$ surface consists exactly of carrier admission, regulated-source admission, uniform dyadic envelope admission, visible step-approximant enclosure, componentwise transport, displayed continuation replay, provenance, local naming, and non-escape from host function equality, selected representatives, ambient suprema, measure completion, and $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-regulated-function-carrier}. The accepted packet displays only the regulated source row $F$, the uniform dyadic envelope $B$, the approximant-enclosure row $E$, transports $H$, continuations $C$, provenance $P$, and local name $N$.
+
+The regulated source is already finite. By \autoref{def:regulated-function-carrier}, the row $F$ opens through the real-domain row, dyadic mesh ledger, dyadic step-function schedule, tolerance-tail ledger, and finite-sum handoff before any integration-facing consumer can inspect it.
+
+The boundedness data are displayed in $B$ and $E$. The row $B$ names the dyadic envelope, while $E$ attaches each visible step approximant from the schedule in $F$ to that same envelope. Rows $H,C,P,N$ preserve and name this finite route, so the excluded host structures never become local obligations.
+\end{proof}
+
+\begin{theorem}[Bounded regulated function uniform bound route]
+\label{thm:bounded-regulated-function-uniform-bound-route}
+Every boundedness-facing read exported by an accepted $\BoundedRegulatedFunctionUp$ carrier factors through the displayed route
+$$
+\RegulatedFunctionUp \longmapsto \DyadicStepFunctionUp \longmapsto B,E .
+$$
+Thus an integral, bounded-variation, or completion consumer may request the finite dyadic envelope only after the regulated source row, mesh-indexed step approximants, and approximant-enclosure row have been displayed.
+\end{theorem}
+\begin{proof}
+Start with a boundedness-facing request. The continuation row $C$ first replays the regulated source $F$, so the request reaches the dyadic mesh ledger and step-function schedule through the route fixed in \autoref{thm:regulated-function-step-approximation-handoff}.
+
+Next read the envelope row. The row $B$ supplies only a displayed dyadic bound, and the row $E$ records that the visible step approximants supplied by $F$ lie inside that envelope. No separate pointwise function or selected representative is introduced.
+
+Finally use the structural rows. Componentwise transport, replay, provenance, and local naming preserve the same route through $F,B,E,H,C,P,N$. Since the carrier has no coordinate for an ambient supremum, measure completion, host function equality, selected limit, or $\RealUp$ completeness, the uniform bound route is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Bounded regulated function obligation closure]
+\label{thm:bounded-regulated-function-obligation-closure}
+For every accepted $\BoundedRegulatedFunctionUp$ carrier $G=(F,B,E,H,C,P,N)$, the carrier block of \autoref{def:bounded-regulated-function-carrier}, the NameCert surface of \autoref{thm:bounded-regulated-function-namecert-obligations}, and the uniform-bound route of \autoref{thm:bounded-regulated-function-uniform-bound-route} jointly close carrier admission, regulated-source admission, dyadic-envelope admission, visible step-approximant enclosure, componentwise transport, displayed replay, provenance, local naming, and ledger refusal for the bounded regulated-function packet. The closure is over the displayed $\RegulatedFunctionUp$ source route and does not add host function equality, selected representatives, ambient suprema, measure completion, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project $G=(F,B,E,H,C,P,N)$ from the carrier definition. The row $F$ is the only regulated-source coordinate, $B$ is the only dyadic-envelope coordinate, and $E$ is the only visible step-approximant enclosure coordinate.
+
+Apply \autoref{thm:bounded-regulated-function-namecert-obligations} to identify carrier admission, regulated-source admission, dyadic-envelope admission, approximant enclosure, transport, replay, provenance, naming, and the ledger refusals as the whole local NameCert surface.
+
+Apply \autoref{thm:bounded-regulated-function-uniform-bound-route}. That route forces every boundedness-facing read through the displayed $\RegulatedFunctionUp$ source row and the finite $B,E$ envelope data before any consumer can use the packet.
+
+The carrier has no further coordinate beyond $F,B,E,H,C,P,N$. Thus the listed obligations are closed by the three local blocks together with the sibling $\RegulatedFunctionUp$ source boundary.
+\end{proof}
+
+\closureat{BoundedRegulatedFunctionUp}{seedStr}
+
+\begin{closurestatus}{\BoundedRegulatedFunctionUp}
+  \constructivestory{A $\BoundedRegulatedFunctionUp$ packet is generated from a RegulatedFunction source row, a displayed uniform dyadic envelope, a visible step-approximant enclosure row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-regulated-function-carrier}, \autoref{thm:bounded-regulated-function-namecert-obligations}, and \autoref{thm:bounded-regulated-function-uniform-bound-route} seed the bounded regulated-function route over regulated sources, dyadic step approximants, displayed envelopes, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, selected representatives, ambient suprema, measure completion, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Lean verification requires carrier admission, regulated-source admission, dyadic-envelope admission, step-approximant enclosure, transport, replay, provenance, and local naming for BEDC.Derived.BoundedRegulatedFunctionUp.}
+\end{closurestatus}

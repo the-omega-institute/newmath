@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\CountingMeasureUp$}
+\label{ch:concrete-instances-counting-measure-namecert}
+\origin{human}
+
+Following Halmos, Feller, and Kolmogorov, the $\CountingMeasureUp$ packet records the finite counting-measure surface as BEDC NameCert data. It sits over the measurable carrier of \autoref{ch:concrete-instances-measure-namecert}, the probability-space normalization discipline of \autoref{ch:concrete-instances-probspace-namecert}, the finite index rows of \autoref{ch:concrete-instances-nat-namecert} and \autoref{ch:concrete-instances-list-namecert}, and the point-mass boundary of \autoref{ch:concrete-instances-dirac-point-mass-namecert}. The packet names finite event tallies only; it does not import a host measure object, a powerset sigma algebra, countable additivity, quotient equality of subsets, or a completed scalar measure theory.
+
+\begin{definition}[CountingMeasure carrier]
+\label{def:counting-measure-carrier}
+A $\CountingMeasureUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(E,F,T,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite event row, recording the displayed event entries whose membership is being counted.
+\item $F$ is the finite-support row, listing exactly the displayed points or atoms whose event-membership rows are visible to the packet.
+\item $T$ is the tally row, assigning to each event row the $\NatUp$ count obtained by traversing the finite support.
+\item $L$ is the $\ListUp$ provenance row, recording the finite traversal order and the duplicate-control evidence used by the tally.
+\item $R$ is the $\RealUp$ mass readback row, transporting the $\NatUp$ tally to the displayed non-negative scalar endpoint consumed by $\MeasureUp$ and $\ProbSpaceUp$ readers.
+\item $H$ records componentwise $\hsame$ transport for event rows, finite support rows, tally rows, list provenance, Real mass readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an event request through $E,F,L,T,R$ and then to the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\CountingMeasureUp$, $\MeasureUp$, $\ProbSpaceUp$, $\NatUp$, $\ListUp$, $\RealUp$, $\DiracPointMassUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CountingMeasureUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host measure object, sigma-additivity, a selected ambient support, a powerset event oracle, quotient equality of subsets, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CountingMeasure NameCert obligation surface]
+\label{thm:counting-measure-namecert-obligation-surface}
+For every accepted $\CountingMeasureUp$ carrier $Q=(E,F,T,L,R,H,C,P,N)$, the local $\NameCert_{\CountingMeasureUp}$ surface consists exactly of the finite event row, finite support row, Nat tally row, List traversal provenance, Real mass readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row. Every $\MeasureUp$, $\ProbSpaceUp$, $\DistributionUp$, or $\DiracPointMassUp$ consumer that reads a counting-mass value must expose those rows before it treats the value as a measure-facing endpoint.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:counting-measure-carrier}. The rows $E$ and $F$ supply the only event and finite-support data, so a consumer can inspect membership only through the displayed finite event packet.
+
+The tally is then forced through $L$ and $T$. The $\ListUp$ row records the finite traversal and duplicate-control evidence, while the $\NatUp$ row records the resulting count; no outside cardinality oracle or selected support is part of the packet.
+
+The scalar mass row $R$ is downstream of that tally. It transports the finite natural count into the displayed $\RealUp$ endpoint used by measure-facing readers, and the route is preserved only by the componentwise $\hsame$ transport and displayed $\Cont$ replay in $H$ and $C$.
+
+Finally $P$ and $N$ source and name the same finite packet. Since the carrier contains no host measure object, sigma-additivity row, powerset event oracle, quotient equality, countable choice, or ambient Real-completeness coordinate, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[CountingMeasure finite disjoint-union additivity]
+\label{thm:counting-measure-finite-disjoint-union-additivity}
+Let an accepted $\CountingMeasureUp$ packet display two finite event rows $E_0,E_1$ over the same finite support row $F$, together with a displayed disjointness row saying that no listed support point is counted by both events. Then the tally row for the displayed union event is classified with the $\NatUp$ sum of the two tally rows, and the $\RealUp$ mass readback follows the same finite Nat-to-Real route.
+
+The statement is internal to the displayed carrier rows: it uses the finite support, event rows, tally rows, $\ListUp$ traversal provenance, $\NatUp$ addition ledger, $\RealUp$ mass readback, componentwise transport, replay, provenance, and local naming. It does not assert countable additivity, a powerset sigma algebra, quotient equality of subsets, a host measure object, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:counting-measure-carrier}. The two event rows and their union are read over the same finite support row $F$, so the traversal is the single $\ListUp$ route already recorded by $L$.
+
+Traverse the support once. At each listed point, the displayed disjointness row splits membership into the $E_0$ side, the $E_1$ side, or neither side; the mixed counted-by-both case is refused by that row.
+
+Accumulate the two tallies through the $\NatUp$ addition ledger. Because every counted point contributes to exactly one of the two displayed event rows, the union tally is the finite sum of the two component tallies.
+
+Transport the result through the mass readback row $R$ and the structural rows $H,C,P,N$. This gives the same finite Nat-to-Real route used by the NameCert obligation surface, without importing countable additivity or any ambient host measure structure.
+\end{proof}
+
+\closureat{CountingMeasureUp}{seedStr}
+
+\begin{closurestatus}{\CountingMeasureUp}
+  \constructivestory{A $\CountingMeasureUp$ packet is generated from finite event rows, finite support rows, Nat tally rows, List traversal provenance, RealUp mass readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:counting-measure-carrier} and \autoref{thm:counting-measure-namecert-obligation-surface} seed the finite counting-measure packet over MeasureUp, ProbSpaceUp, NatUp, ListUp, RealUp, and DiracPointMassUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim sigma-additivity, a host measure object, powerset sigma-algebra generation, quotient equality of subsets, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite event support, Nat tally exactness, List traversal provenance, Real mass readback, transport, replay, provenance, and local naming for BEDC.Derived.CountingMeasureUp.CountingMeasureCarrier\_namecert\_obligations.}
+\end{closurestatus}

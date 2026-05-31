@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\OuterMeasureUp$}
+\label{ch:concrete-instances-outer-measure-namecert}
+\origin{human}
+
+Following Caratheodory and Bishop--Bridges constructive measure theory, the $\OuterMeasureUp$ packet records the finite cover-valued boundary from which measurable-event and measure rows can later be read. It sits between the generated-set surface of \autoref{ch:concrete-instances-borel-set-namecert}, the membership discipline of \autoref{ch:concrete-instances-setlike-namecert}, the real-name endpoint seal of \autoref{ch:concrete-instances-real-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, and the measure carrier of \autoref{ch:concrete-instances-measure-namecert}. The packet names only displayed set rows, empty-set valuation, monotonicity comparisons, finite cover subadditivity, Caratheodory-measurability boundary tests, transport, replay, provenance, and local naming; it does not assert a completed measure space, a chosen sigma-algebra closure, countable choice of covers, quotient equality of subsets, or ambient measure completion.
+
+\begin{definition}[OuterMeasure carrier]
+\label{def:outer-measure-carrier}
+An $\OuterMeasureUp$ carrier is a finite $\BHist$ packet
+$$
+O=(X,S,Z,M,F,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source object whose displayed subsets are read through $\SetLikeUp$ and, when the source is real-facing, through the $\BorelSetUp$ generated-set boundary.
+\item $S$ is the displayed subset-family row naming the finite set requests visible to the packet.
+\item $Z$ is the empty-set value row, comparing the outer value of the displayed empty subset with the zero endpoint on the $\RealUp$ surface.
+\item $M$ is the monotonicity row, recording a finite inclusion witness $A\subseteq B$ together with the comparison $\mu^*(A)\leq\mu^*(B)$ on the displayed real endpoints.
+\item $F$ is the finite displayed cover subadditivity row, assigning a finite cover list $U_0,\ldots,U_k$ of a displayed subset $A$ to the visible comparison
+$$
+\mu^*(A)\leq \mu^*(U_0)+\cdots+\mu^*(U_k).
+$$
+\item $B$ is the Caratheodory-measurability boundary row: for each displayed test set $T$ and candidate measurable set $E$, it records the two-sided split comparison between $\mu^*(T)$ and the displayed sum of the inside and outside rows $T\cap E$ and $T\setminus E$.
+\item $H$ stores componentwise $\hsame$ transport for the source row, subset-family row, value rows, inclusion and finite-cover ledgers, boundary row, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a subset request through empty-set value, monotonicity, finite cover subadditivity, boundary testing, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\OuterMeasureUp$, $\MeasureUp$, $\BorelSetUp$, $\SetLikeUp$, $\RealUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\OuterMeasureUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,S,Z,M,F,B,H,C,P,N$. It has no coordinate for a completed measure, a host sigma-algebra, a selected cover family, quotient subset equality, or a hidden countable-additivity row.
+\end{definition}
+
+\begin{theorem}[OuterMeasure NameCert obligations]
+\label{thm:outer-measure-namecert-obligations}
+For the carrier of \autoref{def:outer-measure-carrier}, the local $\NameCert_{\OuterMeasureUp}$ surface consists exactly of carrier admission for the displayed source and subset-family rows, empty-set zero readback, monotonicity under displayed inclusion, finite displayed cover subadditivity, Caratheodory-measurability boundary testing, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. Every accepted outer-measure consumer must read the source subset through $S$, expose value comparisons through $Z,M,F,B$, and replay those rows through $H,C,P,N$ before any $\MeasureUp$, $\BorelSetUp$, $\SetLikeUp$, $\RealUp$, or $\StreamNameUp$ sibling row is exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier $O=(X,S,Z,M,F,B,H,C,P,N)$. The source row $X$ and subset-family row $S$ are the only admitted entry points for displayed set requests, so carrier admission is exhausted by those rows.
+
+Read the value ledgers. The row $Z$ supplies the empty-set zero comparison, $M$ supplies monotonicity under a displayed inclusion witness, and $F$ supplies the finite cover subadditivity comparison for a named finite cover list.
+
+The boundary row $B$ is the only place where a Caratheodory-measurability test is visible. It records the split comparison for displayed test sets and candidates, but it does not choose a completed sigma-algebra or assert ambient measure completion.
+
+Finally replay the structural rows. Componentwise transport through $H$, continuation replay through $C$, provenance through $P$, and local naming through $N$ preserve the same finite route. Since no further coordinate is present, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[OuterMeasure finite premeasure route]
+\label{thm:outer-measure-finite-premeasure-route}
+Every $\OuterMeasureUp$ packet exports a finite pre-measure route
+$$
+S \longmapsto Z,M,F,B \longmapsto H,C,P,N
+$$
+that downstream $\MeasureUp$, $\RadonMeasureUp$, and $\MeasurableFunctionUp$ consumers may cite before reading measure-completion language. The route exposes empty-set zero, displayed inclusion monotonicity, finite cover subadditivity, and Caratheodory boundary rows, not a host measure space or a choice-selected completion.
+\end{theorem}
+\begin{proof}
+Start with an accepted subset request in $S$. The empty, inclusion, finite cover, and boundary rows are the only value-bearing rows available to the packet.
+
+The finite cover row $F$ keeps the route on a displayed list of cover sets, while the boundary row $B$ tests only the named split of a displayed test set by a candidate measurable set. These two rows provide the pre-measure boundary consumed by later measure-facing chapters.
+
+Replay through $H,C,P,N$. The provenance row records the allowed sibling surfaces, and the continuation row exposes them in the same order. Thus a downstream consumer can cite the finite pre-measure route without importing completed measure language or selected cover choices.
+\end{proof}
+
+\falsifiablePrediction{An $\OuterMeasureUp$ consumer that obtains a completed measure, a chosen sigma-algebra closure, countable choice of covers, quotient equality of subsets, or a $\MeasureUp$ countable-additivity row without first reading $S,Z,M,F,B,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{measure, borelset, setlike, real, streamname: no listed sibling supplies the whole ten-row packet $O=(X,S,Z,M,F,B,H,C,P,N)$, because each sibling contributes only measure values, generated-set membership, set-like membership, real endpoints, or finite observation windows while this chapter binds outer valuation, finite cover subadditivity, boundary testing, transport, replay, provenance, and local naming.}
+
+\begin{closurestatus}{\OuterMeasureUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:outer-measure-carrier}, \autoref{thm:outer-measure-namecert-obligations}, and \autoref{thm:outer-measure-finite-premeasure-route} seed the finite outer-measure surface over displayed subsets, empty-set value, inclusion monotonicity, finite covers, Caratheodory boundary rows, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed measure spaces, chosen sigma-algebra closures, countable choice of covers, quotient subset equality, MeasureUp countable additivity, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, empty-set zero, monotonicity, finite cover subadditivity, Caratheodory boundary testing, transport, provenance, and no-escape for BEDC.Derived.OuterMeasureUp.}
+  \constructivestory{An $\OuterMeasureUp$ packet is generated from a displayed source row, subset-family row, empty-set value row, inclusion monotonicity row, finite cover subadditivity row, Caratheodory boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

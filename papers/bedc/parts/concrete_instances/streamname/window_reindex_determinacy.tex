@@ -128,6 +128,22 @@ with no additional quotient, host, limit, choice, completeness, or bridge
 coordinate.
 \end{proof}
 
+\begin{theorem}[StreamName finite-window reindex stability]
+\label{thm:streamname-finite-window-reindex-stability}
+Let $R$ be an accepted public $\StreamNameUp$ finite-window reindex route. Suppose $R$ preserves the endpoint rows, unary observation rows, $\mathsf{InBundle}$ membership rows, pointwise rational classifier rows, componentwise $\hsame$ comparisons, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of the finite packet. Then $R$ preserves the public finite observation section presented to downstream $\RegSeqRatUp$ and $\RealUp$ consumers.
+
+The preserved section is exactly the displayed StreamName window with its endpoint, bundle, rational classifier, transport, replay, provenance, and naming rows. It exposes no quotient stream equality, host sequence equality, selected limit, countable choice, ambient Real completeness, metric-completeness data, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Apply finite-window reindex determinacy, \autoref{thm:streamname-window-reindex-determinacy}. The preserved endpoint rows, unary observations, bundle membership, pointwise rational classifiers, and support rows determine one public finite observation section.
+
+Use the public identity law, \autoref{thm:streamname-public-reindexing-identity-law}, to identify unchanged windows with the same displayed section. This accounts for trivial reindex legs without adding host sequence equality.
+
+Next apply the public associative law, \autoref{thm:streamname-public-reindexing-associative-law}. Composable certified reindex routes therefore present the same finite section after repacking their displayed support rows.
+
+Finally use terminal coverage, \autoref{thm:streamname-reindex-terminal-coverage}. The downstream $\RegSeqRatUp$ readback and $\RealUp$ seal consume only that public finite section and its support rows, so the excluded quotient, choice, limit, completeness, metric, and bridge coordinates cannot alter the consumer-facing section.
+\end{proof}
+
 \begin{theorem}[StreamName public reindexing section cancellation]
 \label{thm:streamname-public-reindexing-section-cancellation}
 Let $R_0$ and $R_1$ be certified public $\StreamNameUp$ finite-window reindex
@@ -583,4 +599,43 @@ while the terminal pullback inventory just cited lists no quotient stream,
 host equality, selected-limit, choice, ambient-completeness,
 metric-completeness, or bridge coordinate. None of those external rows can
 replace a required support row in the four-face route.
+\end{proof}
+
+\begin{theorem}[StreamName reindex bundle naturality]
+\label{thm:streamname-reindex-bundle-naturality}
+Let $B$ be a $\mathsf{ProbeBundle}$ indexing a public $\StreamNameUp$
+finite-window packet, and let $B'\subseteq B$ be a displayed sub-bundle with
+its $\mathsf{InBundle}$ rows. Any certified reindex route on $B$ that
+preserves $\mathsf{UnaryHistory}$ observation rows, $\mathsf{InBundle}$
+membership rows, pointwise rational classifier rows, componentwise $\hsame$,
+displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ support commutes
+with restriction to $B'$.
+
+Equivalently, restricting the public finite observation section to $B'$ and
+then reindexing produces the same displayed finite section as reindexing on
+$B$ and then restricting to $B'$. The common section exposes exactly the same
+$\StreamNameUp$ windows, pointwise rational classifier rows, support rows, and
+NameCert provenance, and exports no quotient stream equality, host sequence
+equality, selected limit, countable choice datum, ambient $\RealUp$
+completeness assumption, metric-completeness assumption, or standard bridge
+row.
+\end{theorem}
+\begin{proof}
+First apply the finite-window reindex determinacy already displayed in this
+chapter. Since the route preserves $\mathsf{UnaryHistory}$ observations,
+$\mathsf{InBundle}$ rows, pointwise classifiers, and the structural support
+rows, both composites are certified presentations of the same public finite
+observation section over the same endpoints.
+
+Next use the public identity and associative laws for reindexing. Identity
+legs identify the displayed restriction of $B$ to $B'$, and associativity
+compares the route that restricts before reindexing with the route that
+restricts after reindexing as two factorizations of one certified finite
+section.
+
+Finally apply \autoref{thm:streamname-reindex-support-row-necessity}. The
+terminal section can use only the displayed window, classifier, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows. Thus the two restricted packets have
+the same public finite observation section, and no off-table quotient,
+selector, choice, completeness, metric, or bridge row can distinguish them.
 \end{proof}

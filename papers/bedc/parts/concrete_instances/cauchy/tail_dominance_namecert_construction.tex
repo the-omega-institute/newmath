@@ -1,0 +1,77 @@
+\providecommand{\CauchyTailDominanceUp}{\mathsf{CauchyTailDominance}^{\uparrow}}
+
+\chapter{A Concrete Naming Certificate for $\CauchyTailDominanceUp$}
+\label{ch:concrete-instances-cauchy-tail-dominance-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyTailDominanceUp$ packet records the finite tail-dominance surface for Cauchy names at a displayed tolerance. It sits between the finite $\StreamNameUp$ window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the index cofinality discipline of \autoref{ch:concrete-instances-cofinal-sequence-namecert}. The packet gives completion-facing Real arguments a named route from tolerance requests to tail windows; it does not select a limit, choose a subsequence, identify quotient real names, or import ambient completeness.
+
+\begin{definition}[Cauchy tail-dominance carrier]
+\label{def:cauchy-tail-dominance-carrier}
+A $\CauchyTailDominanceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,R,D,I,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected Cauchy-name segment.
+\item $R$ is the $\RegSeqRatUp$ readback row extracted from that window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that records the requested radius, slack budget, and comparison cell used for the tail test.
+\item $I$ is the $\CofinalSequenceUp$ index row witnessing that the displayed tail index dominates the requested tolerance window.
+\item $W$ is the tail-window ledger, pairing the tolerance row $D$ with the cofinal index row $I$ and the inspected stream segment $S$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $S,R,D,I,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream window, regular readback, tolerance row, cofinal index row, tail ledger, Real seal, continuation, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $D,I,S,R,W,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailDominanceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CofinalSequenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTailDominanceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a chosen limit, quotient stream equality, selected subsequence, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy tail-dominance NameCert obligations]
+\label{thm:cauchy-tail-dominance-namecert-obligations}
+For every accepted $\CauchyTailDominanceUp$ carrier
+$$
+T=(S,R,D,I,W,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyTailDominanceUp}$ surface consists exactly of carrier admission for the finite stream window $S$, regular rational readback $R$, dyadic tolerance row $D$, cofinal index row $I$, tail-window ledger $W$, terminal Real seal $E$, componentwise transport $H$, displayed continuation replay $C$, package provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-tail-dominance-carrier}. The projection exposes exactly $S,R,D,I,W,E,H,C,P,N$.
+
+The tolerance request is first read through $D$. The cofinal row $I$ then supplies the displayed index dominance needed to open the tail window, while $S$ and $R$ supply only the finite stream segment and regular rational readback attached to that request.
+
+The ledger $W$ binds $D,I,S,R$ before the terminal seal $E$ is visible. Thus the Real-facing consumer receives a tolerance-directed tail route rather than a chosen limit or a quotient equality of completed names.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same displayed route. Since the carrier has no row for selected subsequences, countable choice, trichotomy, quotient equality, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy tail-dominance RegSeqRat handoff]
+\label{thm:cauchy-tail-dominance-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer admitted by an accepted $\CauchyTailDominanceUp$ packet factors through the finite route
+$$
+\DyadicRatCoreUp \longrightarrow \CofinalSequenceUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+The consumer therefore reads tail dominance only as a displayed tolerance request, cofinal index witness, finite stream window, regular rational readback, and terminal Real seal. It receives no chosen Cauchy limit, selected subsequence, quotient stream equality, countable choice, trichotomy, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with an admitted consumer read. By \autoref{def:cauchy-tail-dominance-carrier}, the only analytic rows available before the Real seal are the tolerance row $D$, cofinal index row $I$, stream window $S$, regular readback $R$, and tail-window ledger $W$.
+
+Read the requested precision through $D$. The row $I$ then certifies the displayed dominance of the chosen tail index over that request, and $W$ records that the same request controls the window opened in $S$.
+
+The regular rational handoff is exactly $R$. It is downstream of $D,I,S,W$ and upstream of the terminal seal $E$, so the Real-facing boundary cannot bypass the finite tail route.
+
+The structural rows $H,C,P,N$ replay and name this route without adding analytic coordinates. Hence every $\RegSeqRatUp$ or $\RealUp$ read factors through the displayed tail-dominance packet and exports none of the excluded limit, subsequence, quotient, choice, trichotomy, or completeness data.
+\end{proof}
+
+\closureat{CauchyTailDominanceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailDominanceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-dominance-carrier}, \autoref{thm:cauchy-tail-dominance-namecert-obligations}, and \autoref{thm:cauchy-tail-dominance-regseqrat-handoff} seed the finite tolerance-directed Cauchy tail-dominance route through StreamName, RegSeqRat, DyadicRatCore, CofinalSequence, and Real seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, selected subsequences, quotient stream equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance-row exactness, cofinal-index dominance, tail-window confinement, RegSeqRat handoff, and RealUp seal non-escape for BEDC.Derived.CauchyTailDominanceUp.}
+  \constructivestory{A $\CauchyTailDominanceUp$ packet is generated from a StreamName finite window, RegSeqRat readback, DyadicRatCore tolerance row, CofinalSequence index row, tail-window ledger, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

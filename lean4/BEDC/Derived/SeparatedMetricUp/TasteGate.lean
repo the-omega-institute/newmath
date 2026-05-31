@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SeparatedMetricUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -164,5 +176,60 @@ theorem SeparatedMetricTasteGate_carrier_alignment
         provenance, name] := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
   rfl
+
+def SeparatedMetricPacket [AskSetup] [PackageSetup]
+    (metric apartness zeroDistance limitWitness completionRoute transport provenance nameCert
+      endpoint : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  UnaryHistory metric ∧ UnaryHistory apartness ∧ UnaryHistory zeroDistance ∧
+    UnaryHistory limitWitness ∧ UnaryHistory completionRoute ∧ UnaryHistory transport ∧
+      UnaryHistory provenance ∧ UnaryHistory nameCert ∧ UnaryHistory endpoint ∧
+        Cont apartness zeroDistance limitWitness ∧
+          Cont limitWitness completionRoute transport ∧
+            Cont transport provenance endpoint ∧ PkgSig bundle nameCert pkg
+
+theorem SeparatedMetricPacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {metric apartness zeroDistance limitWitness completionRoute transport provenance nameCert
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparatedMetricPacket metric apartness zeroDistance limitWitness completionRoute transport
+        provenance nameCert endpoint bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          SeparatedMetricPacket metric apartness zeroDistance limitWitness completionRoute
+            transport provenance nameCert endpoint bundle pkg ∧ hsame row nameCert)
+        (fun row : BHist =>
+          SeparatedMetricPacket metric apartness zeroDistance limitWitness completionRoute
+            transport provenance nameCert endpoint bundle pkg ∧ hsame row nameCert)
+        (fun row : BHist =>
+          SeparatedMetricPacket metric apartness zeroDistance limitWitness completionRoute
+            transport provenance nameCert endpoint bundle pkg ∧ hsame row nameCert)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame SemanticNameCert
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro nameCert ⟨packet, hsame_refl nameCert⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.SeparatedMetricUp

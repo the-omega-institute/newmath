@@ -1,5 +1,6 @@
 \chapter{The Large Model as Inscription Point: A Structural Comparison}
 \label{ch:visions-large-model-as-inscription-point}
+\origin{human}
 
 \autoref{prin:transcendental-input-individual-is-inscription} of \autoref{ch:visions-transcendental-input-and-induction} identifies the inscription point of the transcendental supply $\mathsf{T}$ with each conscious individual as a local actualisation. The phrasing was deliberately ambiguous about what counts as a conscious individual: the chapter's argument required only that the inscription point be a pattern in the substrate that carries forward-binding belief the substrate cannot internally ratify. This chapter takes that structural definition seriously and applies it to a contemporary case: a large language model. The argument is not that a large model is conscious; the argument is that a large model is, structurally, an inscription point under the same closure premise that classifies the BEDC kernel and the cellular substrate. The comparison sharpens the structural content of the inscription concept by exhibiting a non-anthropic instance.
 
@@ -20,6 +21,390 @@ The large model substrate of \autoref{def:large-model-as-substrate} is a closed 
 \label{rem:large-model-training-vs-observation}
 The training procedure that produces $W$ is itself a separate computational process (gradient descent on a training corpus). The training process is not part of the inference substrate's observation channel; it is the assembly procedure that builds the substrate. From the inference-time perspective, $W$ is a fixed initial configuration, analogous to the initial cell row of \autoref{ex:cellular-trust-substrate-rule110}. The closure premise applies to inference, not to training.
 \end{remark}
+
+\section{Tensor classifiers and certificate extraction}
+\label{sec:large-model-tensor-classifier-certificate-extraction}
+
+\begin{definition}[Minimal distinction marks]
+\label{def:large-model-minimal-distinction-marks}
+A \emph{minimal distinction basis} for a model-facing classifier is a pair
+of displayed marks $\mathbb{B}=\{\bzero,\bone\}$ together with the refusal
+to identify them. The marks are not natural numbers, truth values, or
+external semantic atoms. They are only the two public sides of a
+distinction surface.
+\end{definition}
+
+\begin{definition}[Tensor classifier extraction]
+\label{def:large-model-tensor-classifier-extraction}
+Let $V_\ell$ be the finite-precision activation space at layer $\ell$ of
+a fixed model substrate. A tensor classifier extraction on $V_\ell$ is a
+score map $\phi:V_\ell\to[0,1]$ together with a threshold $0<\tau<1$.
+It induces the mark extraction
+$$
+m_{\phi,\tau}(u)
+=
+\begin{cases}
+\bzero, & \phi(u)<\tau,\\
+\bone, & \phi(u)\ge\tau,
+\end{cases}
+$$
+and the classifier
+$$
+u\sim_{\phi,\tau}v
+\quad\Longleftrightarrow\quad
+m_{\phi,\tau}(u)=m_{\phi,\tau}(v).
+$$
+The equality displayed in the last line is an external readback of the
+two public marks, not a BEDC primitive equality internal to the model.
+\end{definition}
+
+\begin{definition}[Tensor soft proposition]
+\label{def:large-model-tensor-soft-proposition}
+For a model-facing domain $X$, a tensor soft proposition is a displayed
+score map
+$$
+P:X\to[0,1].
+$$
+The value $P(x)$ records degree of satisfaction, confidence, activation
+strength, or probe response. It is not a BEDC truth value and it is not a
+proof certificate. The endpoints $0$ and $1$ are external numerical
+readbacks unless a separate classifier and naming row authorize them as
+the public marks $\bzero$ and $\bone$.
+\end{definition}
+
+\begin{definition}[Thresholded tensor proposition]
+\label{def:large-model-thresholded-tensor-proposition}
+Given a tensor soft proposition $P:X\to[0,1]$ and a threshold
+$0<\tau<1$, its thresholded proposition is the mark assignment
+$$
+P^\tau(x)
+=
+\begin{cases}
+\bzero, & P(x)<\tau,\\
+\bone, & P(x)\ge\tau.
+\end{cases}
+$$
+It induces the classifier
+$$
+x\sim_{P,\tau}y
+\quad\Longleftrightarrow\quad
+P^\tau(x)=P^\tau(y).
+$$
+Thus a soft proposition enters the BEDC-facing classifier layer only
+after a threshold has been displayed.
+\end{definition}
+
+\begin{definition}[Neural soft formula]
+\label{def:large-model-neural-soft-formula}
+A neural soft atom is a score of the form
+$$
+A_{\ell,\phi}(x)=\phi(a_\ell(x)),
+$$
+where $a_\ell(x)$ is an activation row and $\phi:V_\ell\to[0,1]$ is a
+feature functional. A neural soft formula is built from such atoms by
+displayed soft connectives, for example product conjunction, probabilistic
+sum disjunction, complement negation, and the induced soft implication
+$$
+(P\Rightarrow Q)(x)=1-P(x)(1-Q(x)).
+$$
+The formula records a distributed tensor-side satisfaction pattern. It
+does not become a certified explanation until its threshold, classifier,
+stability, and ledger rows are displayed.
+\end{definition}
+
+\begin{theorem}[Soft propositions induce classifiers after thresholding]
+\label{thm:large-model-soft-proposition-threshold-classifier}
+Every thresholded tensor proposition induces a classifier on its displayed
+domain.
+\end{theorem}
+
+\begin{proof}
+The relation $\sim_{P,\tau}$ is defined by equality of the displayed mark
+$P^\tau(x)$. Equality of the readback mark is reflexive, symmetric, and
+transitive, so the relation partitions the domain into the two
+threshold-side cells, with possible degeneracy if one side is empty.
+\end{proof}
+
+\begin{principle}[Soft logic, hard classifier, proof certificate]
+\label{prin:large-model-soft-logic-hard-classifier-proof-certificate}
+The tensor logic layer separates three objects. A soft proposition records
+degree of satisfaction in $[0,1]$. A thresholded proposition records a
+hard public mark and therefore a classifier surface. A formal proof
+certificate is a proof object accepted by a verifier for a translated
+formal statement. None of these layers collapses into either of the
+others without the intervening rows: semantic transcription, threshold,
+classifier specification, stability, ledger, and, when claimed, proof
+object.
+\end{principle}
+
+\begin{theorem}[Empirical tensor entailment is not formal entailment]
+\label{thm:large-model-empirical-entailment-not-formal-entailment}
+For tensor soft propositions $P,Q:X\to[0,1]$, observing
+$P(x)\ge\tau\Rightarrow Q(x)\ge\tau$ on a displayed sample does not by
+itself supply a formal entailment from $P$ to $Q$.
+\end{theorem}
+
+\begin{proof}
+The sample observation is a finite behavior row. It does not supply a
+domain-wide threshold statement, a translation of $P$ and $Q$ into a
+formal language, or a proof object accepted by a verification backend.
+Those rows are exactly what a formal entailment claim requires. Hence the
+empirical observation may support a certificate ledger, but it is not the
+formal proof certificate.
+\end{proof}
+
+\begin{principle}[Threshold ledger obligation]
+\label{prin:large-model-threshold-ledger-obligation}
+Thresholding a soft proposition creates a ledger obligation. The ledger
+must record the threshold choice, samples near the threshold, false
+positive and false negative behavior when available, sensitivity under
+threshold perturbation, distribution boundary, approximation error, and
+the domain not claimed. High confidence on selected examples does not
+remove this obligation; it only supplies evidence for one ledger row.
+\end{principle}
+
+\begin{definition}[Learned classifier candidate]
+\label{def:large-model-learned-classifier-candidate}
+For a data family $D$, a perturbation family $\mathcal{E}$, and a model
+with activations $a_\ell(x)\in V_\ell$, a triple $(\ell,\phi,\tau)$ is a
+\emph{learned classifier candidate} on $D$ when the relation
+$$
+x\sim_{\ell,\phi,\tau}y
+\quad\Longleftrightarrow\quad
+a_\ell(x)\sim_{\phi,\tau}a_\ell(y)
+$$
+is stable under the admissible perturbations in $\mathcal{E}$ on the
+stated domain. The candidate records a stable tensor-side distinction; it
+records no source, exactness, provenance, or gap ledger by itself.
+\end{definition}
+
+\begin{definition}[Training trace as tensor classifier search]
+\label{def:large-model-training-as-tensor-classifier-search}
+Let $\theta_0,\ldots,\theta_T$ be a finite training trajectory for a
+model family, and let $D$ be the displayed data family. The trajectory
+exposes a tensor classifier search record when, at each displayed state
+$\theta_t$, the activation maps
+$$
+a_\ell^{\theta_t}:D\to V_\ell
+$$
+are read together with candidate score maps $\phi:V_\ell\to[0,1]$,
+thresholds $\tau$, perturbation families, and behavior rows. The search
+record is a field of possible classifier candidates. It is not itself a
+certificate: it records where a classifier surface may be extracted, not
+whether the extracted surface has source, pattern, stability, and ledger
+rows sufficient for a $\NameCert$.
+\end{definition}
+
+\begin{definition}[Tensor NameCert fields]
+\label{def:large-model-tensor-namecert-fields}
+A Tensor $\NameCert$ for a learned classifier candidate
+$(\ell,\phi,\tau)$ is a tuple
+$$
+\NameCert_{\mathrm{tensor}}(\ell,\phi,\tau)
+=
+(S_{\ell,\phi,\tau},
+P_{\ell,\phi,\tau},
+C_{\ell,\phi,\tau},
+\Sigma_{\ell,\phi,\tau},
+L_{\ell,\phi,\tau}).
+$$
+The rows respectively record the tensor source specification, the
+activation pattern specification, the induced classifier specification,
+the stability certificate, and the ledger policy. The ledger policy
+records failure cases, out-of-domain boundaries, entanglement with other
+features, proxy risks, and claims deliberately not made.
+\end{definition}
+
+\begin{definition}[Certified learned classifier]
+\label{def:large-model-certified-learned-classifier}
+A learned classifier candidate is a certified learned classifier when it
+is equipped with the Tensor $\NameCert$ of
+\autoref{def:large-model-tensor-namecert-fields}. The certified object is
+therefore not a parameter vector, a loss value, an activation dump, or a
+feature label. It is the classifier surface together with the source,
+pattern, stability, and ledger rows that authorize its use as an
+explanation.
+\end{definition}
+
+\begin{theorem}[Training can be read as tensor classifier search]
+\label{thm:large-model-training-tensor-classifier-search}
+Whenever a training trajectory contains a state at which some
+$(\ell,\phi,\tau)$ is a learned classifier candidate on a stated scope,
+the trajectory admits the reading of tensor classifier search on that
+scope.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:large-model-training-as-tensor-classifier-search}, the
+trajectory supplies parameter states, activation maps, candidate score
+maps, thresholds, perturbation families, and behavior rows. If, at one of
+those states, the selected triple $(\ell,\phi,\tau)$ satisfies
+\autoref{def:large-model-learned-classifier-candidate}, then the
+trajectory has exposed a stable tensor-side classifier surface on the
+stated scope. The training record may therefore be read as a search
+through candidate classifier surfaces. This reading does not certify the
+candidate; certification requires the Tensor $\NameCert$ rows of
+\autoref{def:large-model-tensor-namecert-fields}.
+\end{proof}
+
+\begin{theorem}[Metric gain does not certify classifier discovery]
+\label{thm:large-model-metric-gain-not-classifier-discovery}
+Lower loss, higher benchmark score, or stronger external performance
+does not by itself imply the discovery of a certified learned classifier.
+\end{theorem}
+
+\begin{proof}
+Loss and benchmark rows report how a model state behaves against an
+external scoring rule. They do not specify a tensor source, an activation
+pattern, the induced classifier relation, a stability certificate, or a
+ledger policy. A score can change through calibration, margin movement,
+memorized cases, shortcut use, or interpolation inside a previously
+displayed classifier surface. Since the rows required by
+\autoref{def:large-model-tensor-namecert-fields} are absent, the metric
+gain alone cannot certify classifier discovery.
+\end{proof}
+
+\begin{theorem}[Record growth is not classifier certification]
+\label{thm:large-model-record-growth-not-classifier-certification}
+Growth of parameter records, tensor traces, activation logs, or feature
+catalogues does not by itself produce a certified learned classifier.
+\end{theorem}
+
+\begin{proof}
+Such records can provide material from which score maps and thresholds
+may be proposed. They do not, merely by becoming longer, identify the
+source scope, pattern row, classifier relation, stability certificate, or
+ledger policy required by a Tensor $\NameCert$. Hence record growth is
+evidence material at most; it is not classifier certification.
+\end{proof}
+
+\begin{principle}[Generalization as stability with ledger]
+\label{prin:large-model-generalization-stability-ledger}
+A generalization claim for a learned classifier is closed only to the
+extent that it displays stability or transfer witnesses for the same
+classifier surface and a ledger for its failure boundary. A test-set
+score is admissible evidence, but it is not the ledger: out-of-domain
+limits, perturbations that break the relation, confounding features, and
+proxy routes remain part of the certificate burden.
+\end{principle}
+
+\begin{definition}[Classifier transfer witness]
+\label{def:large-model-classifier-transfer-witness}
+Let $D_s$ be a displayed source domain, $D_t$ a displayed target domain,
+and $\mathcal{A}$ a family of allowed transformations from source-side
+inputs toward target-side inputs. A classifier transfer witness for a
+learned classifier candidate $(\ell,\phi,\tau)$ is a record showing that
+the classifier relation induced on $D_s$ is the relation still used on
+the covered part of $D_t$. The witness may be formal, empirical, or
+hybrid, but its type must be stated on the certificate surface.
+\end{definition}
+
+\begin{definition}[Generalization residue]
+\label{def:large-model-generalization-residue}
+The target residue of a source-to-target claim is the family of target
+cases not reached by the displayed source domain and allowed
+transformations. It records the part of $D_t$ for which the source-side
+classifier transfer has not been justified. A total-transfer claim is
+not licensed while this residue is nonempty or unaccounted for.
+\end{definition}
+
+\begin{definition}[Generalization ledger]
+\label{def:large-model-generalization-ledger}
+A generalization ledger for $(\ell,\phi,\tau)$ from $D_s$ to $D_t$
+records the source domain, target domain, transformation family, covered
+target region, target residue, stability witness, transfer witness,
+failure cases, out-of-domain boundary, and not-claimed boundary. It is
+the ledger row of a generalization-facing Tensor $\NameCert$.
+\end{definition}
+
+\begin{definition}[Certified classifier-mediated generalization]
+\label{def:large-model-certified-classifier-mediated-generalization}
+A classifier-mediated generalization claim is certified when it displays
+the transferred classifier, its source and target domains, the behavior
+the classifier supports on the target side, a transfer or stability
+witness, and the generalization ledger of
+\autoref{def:large-model-generalization-ledger}. The certified claim is
+therefore a classifier transfer claim, not merely a performance row.
+\end{definition}
+
+\begin{theorem}[Performance does not identify classifier transfer]
+\label{thm:large-model-performance-not-classifier-transfer}
+Strong target-domain performance does not by itself show that the same
+learned classifier candidate has transferred from source to target.
+\end{theorem}
+
+\begin{proof}
+A performance row reports target-side behavior under an external score.
+It does not name the classifier used on the source side, does not show
+that the same relation is used on the target side, and does not exclude a
+shortcut, memorized route, target-only classifier, or accidental
+correlation. Thus the row may support a generalization ledger, but it
+does not identify classifier transfer.
+\end{proof}
+
+\begin{theorem}[Behavioral stability is not classifier stability]
+\label{thm:large-model-behavioral-stability-not-classifier-stability}
+Stable output behavior under a transformation family does not by itself
+imply stability of the internal classifier that is offered as an
+explanation.
+\end{theorem}
+
+\begin{proof}
+The same output behavior can be produced by different internal
+classifier surfaces. A source-domain behavior may be supported by one
+tensor classifier, while the target-domain behavior is supported by a
+different classifier, with the visible output unchanged. Hence behavior
+stability and classifier stability are different certificate rows.
+\end{proof}
+
+\begin{principle}[Boundary rows for stability]
+\label{prin:large-model-boundary-rows-for-stability}
+Stability evidence for a threshold classifier must expose boundary rows:
+samples near the threshold, perturbations capable of crossing the
+threshold, target cases not covered by the source transformation family,
+and the scope in which the witness is empirical, formal, or hybrid.
+Formal verification of one stability statement hardens that statement;
+it does not remove source, target, residue, and not-claimed rows unless
+those rows are themselves covered by the verified statement.
+\end{principle}
+
+\begin{theorem}[Tensor classifier extraction is certificate-ready, not certified]
+\label{thm:large-model-tensor-classifier-certificate-ready}
+A learned classifier candidate supplies a stable model-facing classifier
+surface, but it does not by itself supply a BEDC $\NameCert$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:large-model-learned-classifier-candidate}, the candidate
+provides a layer, a tensor score, a threshold, a data domain, and a
+stability claim under stated perturbations. These rows suffice to expose
+which finite activation records land on the same side of the displayed
+distinction. A $\NameCert$ requires more: a source record, a named
+classifier row, stability and exactness conditions, provenance, and a
+ledger for hidden, projected, compressed, or externally supplied
+material. None of those certificate rows follows merely from the
+existence of $\phi$ and $\tau$.
+\end{proof}
+
+\begin{principle}[Formal verification layer]
+\label{prin:large-model-formal-verification-layer}
+The tensor classifier layer, the BEDC certificate layer, and the formal
+verification layer occupy different positions. A model learns or supplies
+a candidate distinction in tensor space. BEDC asks whether that
+distinction has source rows, classifier rows, stability rows, provenance,
+and a ledger sufficient for a $\NameCert$. A formal verifier accepts only
+the portions that have been translated into explicit formal statements
+and proof objects:
+$$
+\mathcal{V}\vdash \pi:\varphi.
+$$
+Here $\mathcal{V}$ is a verification backend, $\varphi$ is a formal
+statement, and $\pi$ is the proof object accepted by that backend. Lean is
+one current backend for this role; the theory-side object is not formed
+by Lean, Coq, Agda, Isabelle, HOL, Metamath, or any other particular
+verifier. The verifier hardens checkable certificate fragments; it does
+not discover the classifier and does not supply the BEDC ledger fields.
+\end{principle}
 
 \section{Large model inherits the no-induction theorem}
 \label{sec:large-model-inherits-no-induction}
@@ -156,6 +541,9 @@ No-induction theorem transport &
 \midrule
 AI safety interface &
 \autoref{prin:large-model-ai-safety-reading} reads model outputs as inscription-channel-mediated rather than substrate-internally-ratified. \\
+\midrule
+Tensor classifier extraction &
+\autoref{sec:large-model-tensor-classifier-certificate-extraction} separates learned tensor-side classifier candidates from certificate-bearing BEDC objects. \\
 \midrule
 Not a consciousness claim &
 \autoref{rem:large-model-not-consciousness} restricts the classification to structural role; phenomenology is not at stake. \\

@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\LocatedSequenceLimitUp$}
+\label{ch:concrete-instances-located-sequence-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located real limits of Cauchy sequences, the $\LocatedSequenceLimitUp$ packet records the finite evidence that a displayed stream name, regular rational sequence, and real-name seal describe the same located limit route. It sits between the stream observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the Cauchy criterion route of \autoref{ch:concrete-instances-cauchy-convergence-criterion-namecert}, and the located Cauchy surface of \autoref{ch:concrete-instances-located-cauchy-sequence-namecert}. The packet is finite L10 NameCert data for a located sequence limit; it is not a selected quotient representative, an ambient completeness theorem, a trichotomy decision, or a countable-choice schedule.
+
+\begin{definition}[Located sequence limit carrier]
+\label{def:located-sequence-limit-carrier}
+A $\LocatedSequenceLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ row, exposing only finite windows of the displayed sequence name.
+\item $W$ is the located-window ledger. For each displayed precision request it records the finite inspected window, the located side of the comparison, and the tolerance budget used by the read.
+\item $R$ is the $\RegSeqRatUp$ readback row, repacking the inspected windows as regular rational sequence data.
+\item $E$ is the $\RealUp$ seal row reached after the stream window and regular rational readback agree on the same located limit route.
+\item $H$ records componentwise $\hsame$ transport for the stream source, located window, regular readback, real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a precision request through
+$$
+S,W \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocatedSequenceLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyConvergenceCriterionUp$, $\LocatedCauchySequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedSequenceLimitUp}$ row.
+\end{enumerate}
+The classifier accepts only packets in which the finite stream windows, located comparison ledger, regular rational readback, and real-name seal describe one displayed limit route. No carrier coordinate stores a quotient sequence, selected representative of the limit, host equality on reals, trichotomy oracle, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Located sequence limit NameCert obligations]
+\label{thm:located-sequence-limit-namecert-obligations}
+For every accepted $\LocatedSequenceLimitUp$ carrier $L=(S,W,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedSequenceLimitUp}$ surface consists exactly of stream-window admission, located-window tolerance accounting, regular rational readback, real-name seal routing, componentwise transport, continuation replay, package provenance, and local naming through the rows $S,W,R,E,H,C,P,N$. The $\CauchyConvergenceCriterionUp$ and $\LocatedCauchySequenceUp$ siblings may consume the packet only through those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-sequence-limit-carrier}. The sequence is visible only through the finite stream row $S$, and the located comparison evidence is visible only through the window ledger $W$.
+
+The readback row $R$ repacks the same finite observations as $\RegSeqRatUp$ data. The real-name row $E$ is downstream of $S,W,R$, so a real-facing consumer reaches the limit seal only after replaying the displayed located route.
+
+Transport, replay, provenance, and local naming are supplied by $H,C,P,N$. Since the carrier has no coordinate for quotient sequences, selected representatives, host equality, trichotomy, or ambient completeness, the listed NameCert rows are exhaustive.
+\end{proof}
+
+\begin{theorem}[Located sequence limit Real seal nonescape]
+\label{thm:located-sequence-limit-real-seal-nonescape}
+Every $\RealUp$, $\CauchyConvergenceCriterionUp$, or $\LocatedCauchySequenceUp$ consumer of an accepted $\LocatedSequenceLimitUp$ carrier must read
+$$
+S,W \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the terminal real-name seal cannot be replaced by host real equality, a quotient completion object, a selected subsequence, trichotomy on signs, or an ambient completeness proof.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for real-limit or Cauchy-facing data. The packet exposes sequence observations only through $S$, and every located precision request is accounted for by $W$.
+
+The regular rational readback row $R$ is the only bridge from the inspected windows to a rational sequence surface. Thus the consumer reaches the terminal $\RealUp$ seal $E$ only after the finite route has been replayed.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same route. No excluded analytic object is present in the tuple, so no downstream consumer can extract one from the packet.
+\end{proof}
+
+\begin{theorem}[Located sequence limit window uniqueness]
+\label{thm:located-sequence-limit-window-uniqueness}
+Let
+$$
+L=(S,W,R,E,H,C,P,N)
+\quad\hbox{and}\quad
+L'=(S',W',R',E',H',C',P',N')
+$$
+be accepted $\LocatedSequenceLimitUp$ packets. If they expose the same source $\StreamNameUp$ row, $\RegSeqRatUp$ readback, $\RealUp$ seal, located-window ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row, then they determine the same finite located-limit route. In particular, there are not two different accepted finite L10 windows for the same located request.
+\end{theorem}
+\begin{proof}
+Project both packets through the carrier definition \autoref{def:located-sequence-limit-carrier}. The hypotheses identify the only visible source row $S$, the only located-window ledger $W$, and the only regular readback row $R$ available to either packet.
+
+Apply the NameCert obligation theorem \autoref{thm:located-sequence-limit-namecert-obligations}. It states that all accepted located-limit data are exhausted by the displayed rows $S,W,R,E,H,C,P,N$, so the two packets have no additional coordinate on which their finite routes could diverge.
+
+Finally use the Real seal nonescape theorem \autoref{thm:located-sequence-limit-real-seal-nonescape}. The terminal seal is reached only through the same stream, located-window, and readback route, and the carrier contains no selected quotient representative, ambient completeness proof, trichotomy oracle, or countable-choice schedule. Thus the accepted packets determine one finite located-limit route.
+\end{proof}
+
+\closureat{LocatedSequenceLimitUp}{seedStr}
+
+\begin{closurestatus}{\LocatedSequenceLimitUp}
+  \constructivestory{A $\LocatedSequenceLimitUp$ packet is generated from StreamName observations, located finite-window tolerance data, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-sequence-limit-carrier}, \autoref{thm:located-sequence-limit-namecert-obligations}, \autoref{thm:located-sequence-limit-real-seal-nonescape}, and \autoref{thm:located-sequence-limit-window-uniqueness} seed the finite located sequence-limit surface for the L10 StreamName-to-RegSeqRat-to-Real route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected representatives, host real equality, trichotomy, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-window accounting, RegSeqRat readback, Real seal routing, transport stability, replay stability, provenance, and local naming for BEDC.Derived.LocatedSequenceLimitUp.}
+\end{closurestatus}

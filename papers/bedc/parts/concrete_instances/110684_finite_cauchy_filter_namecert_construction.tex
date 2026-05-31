@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCauchyFilterUp$}
+\label{ch:concrete-instances-finite-cauchy-filter-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\FiniteCauchyFilterUp$ packet records the finite directed-tail surface used when a completion consumer asks for Cauchy-filter evidence before reading a regular rational name or a terminal real-name seal. It sits beside the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite filter basis for tail requests; it is not a quotient filter, a selected limit, countable choice, host real equality, or a completeness theorem for $\RealUp$.
+
+\begin{definition}[Finite Cauchy filter carrier]
+\label{def:finite-cauchy-filter-carrier}
+A $\FiniteCauchyFilterUp$ carrier is a finite $\BHist$ packet
+$$
+F=(W,T,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ row recording the finite source windows inspected by the filter request.
+\item $T$ is the directed-tail request row, naming the finite family of later-window obligations and their refinement order.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic radii and comparison budgets used by the directed tails.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and tolerance ledger.
+\item $E$ is the $\RealUp$ seal row reachable only after $W,T,D,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the stream windows, tail requests, dyadic ledgers, regular readback, and real seal.
+\item $C$ records displayed $\Cont$ replay of the same finite filter route.
+\item $P$ records $\Pkg$ provenance over $\FiniteCauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteCauchyFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,T,D,R,E,H,C,P,N$. It has no coordinate for quotient filters, selected limits, countable choice, host equality of streams, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+\leanchecked{BEDC.Derived.FiniteCauchyFilterUp.FiniteCauchyFilterTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Finite Cauchy filter NameCert obligations]
+\label{thm:finite-cauchy-filter-namecert-obligations}
+For the carrier of \autoref{def:finite-cauchy-filter-carrier}, the local $\NameCert_{\FiniteCauchyFilterUp}$ surface consists exactly of carrier admission, finite $\StreamNameUp$ window exposure, directed-tail request visibility, $\DyadicRatCoreUp$ tolerance-ledger preservation, $\RegSeqRatUp$ readback, $\RealUp$ seal access, componentwise transport, displayed continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $F=(W,T,D,R,E,H,C,P,N)$. The rows $W,T,D$ expose the finite source windows, directed tail requests, and dyadic tolerance budgets before any regular-rational or real-facing read is admitted.
+
+The readback row $R$ is then determined by the displayed windows and tolerance ledger. Since the carrier stores no second regular-rational coordinate, every $\RegSeqRatUp$ consumer reads the same finite route.
+
+The seal row $E$ is downstream of $W,T,D,R$. The transport row $H$, continuation row $C$, package provenance row $P$, and local naming row $N$ preserve exactly that route and provide no coordinate for quotient filters, selected limits, countable choice, host stream equality, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Finite Cauchy filter Real route]
+\label{thm:finite-cauchy-filter-real-route}
+Every $\RealUp$-facing consumer of an accepted $\FiniteCauchyFilterUp$ carrier factors through the finite route
+$$
+W,T,D,R,E,H,C,P,N .
+$$
+In particular, the consumer must first read $\StreamNameUp$ windows, directed tail requests, $\DyadicRatCoreUp$ tolerance ledgers, and the $\RegSeqRatUp$ readback before the terminal $\RealUp$ seal is consumed.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The only real-facing row is $E$, and it is displayed after the stream windows, directed-tail row, dyadic ledger, and regular readback row.
+
+Apply \autoref{thm:finite-cauchy-filter-namecert-obligations}. The local NameCert surface admits the real seal only as part of the same transport, continuation, provenance, and naming route.
+
+Thus any Real-facing consumer receives the finite packet $W,T,D,R,E,H,C,P,N$ and no quotient-filter, selected-limit, countable-choice, host-equality, or ambient-completeness substitute.
+\end{proof}
+
+\closureat{FiniteCauchyFilterUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCauchyFilterUp}
+  \constructivestory{A $\FiniteCauchyFilterUp$ packet is generated from finite StreamName windows, directed tail requests, DyadicRatCore tolerance ledgers, RegSeqRat readback, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cauchy-filter-carrier}, \autoref{thm:finite-cauchy-filter-namecert-obligations}, and \autoref{thm:finite-cauchy-filter-real-route} specify the finite directed-tail filter carrier and its Real-facing route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filter construction, selected limits, countable choice, host stream equality, host real equality, ambient completeness of $\RealUp$, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean carrier encoding and checked theorems for directed-tail visibility, tolerance-ledger preservation, readback, Real seal routing, transport, replay, provenance, and local naming.}
+\end{closurestatus}

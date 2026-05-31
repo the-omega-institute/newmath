@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyBinaryInterleavingUp$}
+\label{ch:concrete-instances-regular-cauchy-binary-interleaving-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyBinaryInterleavingUp$ packet records the finite even--odd interleaving route by which two regular Cauchy rational names are read as one binary stream before any Real or Completion consumer treats the result as a sealed real-facing name. It sits over the finite stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion boundary of \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert}. The packet names a pairing-and-projection ledger; it does not identify host streams, select quotient representatives, or import ambient completeness.
+
+\begin{definition}[Regular Cauchy binary interleaving carrier]
+\label{def:regular-cauchy-binary-interleaving-carrier}
+A $\RegularCauchyBinaryInterleavingUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S_0,S_1,E,O,T,R_0,R_1,L,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two finite $\StreamNameUp$ source rows whose regular rational observations are to be paired.
+\item $E$ is the even $\StreamNameUp$ projection row reading the $S_0$ observations from the interleaved stream.
+\item $O$ is the odd $\StreamNameUp$ projection row reading the $S_1$ observations from the interleaved stream.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance ledger, assigning the same dyadic budget to the two projections and to the interleaved read.
+\item $R_0$ and $R_1$ are the $\RegSeqRatUp$ readback rows for the even and odd projections after the dyadic budget is fixed.
+\item $L$ is the $\RealUp$ seal compatibility row, requiring the two projected regular names and the interleaved name to expose the same terminal seal discipline to Real and Completion consumers.
+\item $H$ records componentwise $\hsame$ transport for the two source rows, projection rows, tolerance ledger, regular readbacks, Real seal row, replay, provenance, and naming rows.
+\item $K$ records displayed $\Cont$ replay from an interleaving request through $S_0,S_1,E,O,T,R_0,R_1,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyBinaryInterleavingUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyFilterCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyBinaryInterleavingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S_0,S_1,E,O,T,R_0,R_1,L,H,K,P,N$. It has no coordinate for host stream equality, quotient sequence equality, a selected completion representative, countable-choice data, or an ambient real-completeness theorem.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy binary interleaving NameCert obligations]
+\label{thm:regular-cauchy-binary-interleaving-namecert-obligations}
+For every accepted $\RegularCauchyBinaryInterleavingUp$ carrier $B=(S_0,S_1,E,O,T,R_0,R_1,L,H,K,P,N)$, the local $\NameCert_{\RegularCauchyBinaryInterleavingUp}$ surface is exhausted by five rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the displayed packet $S_0,S_1,E,O,T,R_0,R_1,L,H,K,P,N$;
+\item projection stability: the even row $E$ and odd row $O$ read the two source $\StreamNameUp$ rows without changing their finite windows;
+\item dyadic tolerance preservation: the ledger $T$ assigns one dyadic tolerance discipline to the two projections and to the interleaved stream;
+\item Real seal compatibility: the row $L$ is reachable only after $E,O,T,R_0,R_1$ have been displayed;
+\item ledger refusal: $H,K,P,N$ export no quotient sequences, choice selectors, host stream equality, hidden completion selector, or ambient completeness theorem.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-binary-interleaving-carrier}. Carrier admission exposes exactly the two sources, two projection rows, one dyadic tolerance ledger, two regular rational readbacks, one Real seal compatibility row, and the structural rows.
+
+Read the projection rows next. The even row $E$ is tied to $S_0$, and the odd row $O$ is tied to $S_1$, so a consumer sees projection stability as a finite StreamName route rather than as host equality of streams.
+
+The tolerance and readback rows then fix the regular Cauchy surface. The same dyadic ledger $T$ is used before $R_0$ and $R_1$ are consumed, and the Real seal compatibility row $L$ is available only after those rows have been displayed.
+
+Finally inspect $H,K,P,N$. These rows transport, replay, source, and name the same finite packet, and none adds quotient sequences, choice selectors, host stream equality, hidden completion selectors, or ambient completeness data. Thus the five obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy binary interleaving seal stability]
+\label{thm:regular-cauchy-binary-interleaving-seal-stability}
+Every Real or Completion consumer of an accepted $\RegularCauchyBinaryInterleavingUp$ packet factors through
+$$
+S_0,S_1 \longmapsto E,O \longmapsto T \longmapsto R_0,R_1 \longmapsto L \longmapsto H,K,P,N .
+$$
+In particular, the consumer cannot read the terminal $\RealUp$ seal compatibility row $L$ without first displaying the even--odd projection rows, the shared dyadic tolerance ledger, and the two $\RegSeqRatUp$ readback rows.
+\end{theorem}
+\begin{proof}
+Begin with a Real or Completion request. The only source rows in the carrier are $S_0$ and $S_1$, and the only ways to read them through the interleaved stream are the even and odd projection rows $E$ and $O$.
+
+Next apply the tolerance ledger. The row $T$ fixes the dyadic budget shared by the two projected reads, so the regular rational rows $R_0$ and $R_1$ cannot be consumed as independent selected sequences.
+
+The seal row $L$ is downstream of those displayed rows. Since the structural rows $H,K,P,N$ only transport and name the same route, any consumer reaching a Real or Completion conclusion without the projection, tolerance, and readback rows would ask for a coordinate outside the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyBinaryInterleavingUp$ read is refuted if a Real or Completion consumer reaches the terminal seal compatibility row without displaying both StreamName source rows, even and odd projection rows, the shared DyadicRatCore tolerance ledger, both RegSeqRat readbacks, transport, replay, provenance, and local naming.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real, cauchyfiltercompletion: none alone is bijective with $\RegularCauchyBinaryInterleavingUp$ because the packet jointly records two source streams, even and odd projection rows, one dyadic tolerance ledger, two regular rational readbacks, a terminal Real seal compatibility row, transport, replay, provenance, and local NameCert.}
+
+\closureat{RegularCauchyBinaryInterleavingUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyBinaryInterleavingUp}
+  \constructivestory{A $\RegularCauchyBinaryInterleavingUp$ packet is generated from two StreamName source rows, even and odd projection rows, a DyadicRatCore tolerance ledger, two RegSeqRat readback rows, a Real seal compatibility row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-binary-interleaving-carrier}, \autoref{thm:regular-cauchy-binary-interleaving-namecert-obligations}, and \autoref{thm:regular-cauchy-binary-interleaving-seal-stability} seed the finite binary interleaving route for regular Cauchy rational names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient sequences, host stream equality, choice selectors, selected completion representatives, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, projection stability, dyadic tolerance preservation, Real seal compatibility, ledger refusal, seal stability, and local naming for BEDC.Derived.RegularCauchyBinaryInterleavingUp.}
+\end{closurestatus}

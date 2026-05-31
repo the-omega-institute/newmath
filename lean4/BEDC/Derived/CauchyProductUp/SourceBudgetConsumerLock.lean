@@ -77,4 +77,50 @@ theorem CauchyProductPacket_source_window_bilinear_synchronization [AskSetup] [P
       sourceWindowBUnary, synchronizedProductUnary, sourceWindowRouteA, sourceWindowRouteB,
       synchronizedRoute, namePkg, synchronizedPkg⟩
 
+theorem CauchyProductPacket_source_window_downstream_coverage [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name budgetClassifier budgetSeal downstreamConsumer
+      downstreamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont classifier routes budgetClassifier ->
+        Cont budgetClassifier ledger budgetSeal ->
+          UnaryHistory downstreamConsumer ->
+            Cont budgetSeal downstreamConsumer downstreamRead ->
+              PkgSig bundle downstreamRead pkg ->
+                UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory windowA ∧
+                  UnaryHistory windowB ∧ UnaryHistory observationA ∧
+                    UnaryHistory observationB ∧ UnaryHistory product ∧
+                      UnaryHistory classifier ∧ UnaryHistory budgetClassifier ∧
+                        UnaryHistory budgetSeal ∧ UnaryHistory downstreamRead ∧
+                          Cont windowA windowB transport ∧
+                            Cont observationA observationB product ∧
+                              Cont product ledger classifier ∧
+                                Cont classifier routes budgetClassifier ∧
+                                  Cont budgetClassifier ledger budgetSeal ∧
+                                    Cont budgetSeal downstreamConsumer downstreamRead ∧
+                                      PkgSig bundle name pkg ∧
+                                        PkgSig bundle downstreamRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet classifierBudget budgetSealRoute downstreamUnary downstreamRoute downstreamPkg
+  obtain ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, _radiusAUnary,
+    _radiusBUnary, observationAUnary, observationBUnary, routesUnary, ledgerUnary,
+    windowTransport, productRoute, classifierRoute, namePkg⟩ := packet
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed observationAUnary observationBUnary productRoute
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed productUnary ledgerUnary classifierRoute
+  have budgetClassifierUnary : UnaryHistory budgetClassifier :=
+    unary_cont_closed classifierUnary routesUnary classifierBudget
+  have budgetSealUnary : UnaryHistory budgetSeal :=
+    unary_cont_closed budgetClassifierUnary ledgerUnary budgetSealRoute
+  have downstreamReadUnary : UnaryHistory downstreamRead :=
+    unary_cont_closed budgetSealUnary downstreamUnary downstreamRoute
+  exact
+    ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, observationAUnary,
+      observationBUnary, productUnary, classifierUnary, budgetClassifierUnary,
+      budgetSealUnary, downstreamReadUnary, windowTransport, productRoute, classifierRoute,
+      classifierBudget, budgetSealRoute, downstreamRoute, namePkg, downstreamPkg⟩
+
 end BEDC.Derived.CauchyProductUp

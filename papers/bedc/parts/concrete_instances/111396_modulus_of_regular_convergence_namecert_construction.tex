@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\ModulusOfRegularConvergenceUp$}
+\label{ch:concrete-instances-modulus-of-regular-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy convergence in constructive real analysis, the $\ModulusOfRegularConvergenceUp$ packet records the finite threshold schedule that lets a regular rational name answer downstream Real and Completion precision requests without appealing to a quotient of streams. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives the L10 Real and Completion route a named finite modulus surface; it does not assert ambient $\RealUp$ completeness, selected limits, trichotomy, countable choice, or quotient-stream equality.
+
+\begin{definition}[Modulus of regular convergence carrier]
+\label{def:modulus-of-regular-convergence-carrier}
+A $\ModulusOfRegularConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(R,Q,W,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row whose regular rational reads are being controlled.
+\item $Q$ is the modulus row, recording a displayed tolerance request and the finite index threshold from which the regular convergence comparison is certified.
+\item $W$ is the $\StreamNameUp$ finite-window row exposing exactly the source reads inspected by $Q$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger controlling the dyadic radius, comparison budget, and readback precision used by the threshold row.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $R,Q,W,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, modulus, window, tolerance, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $R,Q,W,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ModulusOfRegularConvergenceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ModulusOfRegularConvergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,Q,W,D,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, host real equality, countable choice, trichotomy, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Modulus of regular convergence NameCert obligations]
+\label{thm:modulus-of-regular-convergence-namecert-obligations}
+For every accepted $\ModulusOfRegularConvergenceUp$ carrier $M=(R,Q,W,D,E,H,C,P,N)$, the local $\NameCert_{\ModulusOfRegularConvergenceUp}$ surface consists exactly of carrier admission, regular-rational source exposure, explicit threshold exactness, finite stream-window coverage, dyadic tolerance control, terminal real-seal nonescape, componentwise transport, displayed replay, package provenance, and local naming. Every precision-facing read must expose
+$$
+R,Q,W,D \longrightarrow E \longrightarrow H,C,P,N .
+$$
+No obligation is discharged by quotienting two streams, selecting a limit, invoking countable choice, importing trichotomy, or using ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:modulus-of-regular-convergence-carrier}. The packet first displays the regular rational source $R$, the threshold row $Q$, the stream windows $W$, and the dyadic tolerance ledger $D$.
+
+The threshold obligation is local to $Q$. The windows in $W$ supply the finite source reads named by that threshold, while $D$ supplies the dyadic comparison budget used to certify the requested regular convergence read.
+
+The real-facing seal $E$ is downstream of those four rows. Transport through $H$ and replay through $C$ preserve the same order, and $P,N$ record provenance and local NameCert comparison without adding an outside coordinate.
+
+Since quotient stream equality, selected limits, host real equality, countable choice, trichotomy, and ambient completeness do not occur among the carrier coordinates, every NameCert obligation is read through the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Regular convergence finite-modulus handoff]
+\label{thm:modulus-of-regular-convergence-finite-modulus-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\ModulusOfRegularConvergenceUp$ packet must read the regular rational source row, explicit modulus threshold, finite stream windows, and dyadic tolerance ledger before consuming the terminal real seal. The packet therefore exports a finite threshold route from regular rational data into Real-facing data, not a host completeness theorem or a quotient construction.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier as $M=(R,Q,W,D,E,H,C,P,N)$. The only regular rational input is $R$, and the only threshold schedule is $Q$.
+
+The row $W$ exposes the finite observations named by that schedule. The row $D$ supplies the dyadic tolerance comparison that turns those observations into a regular convergence read.
+
+Only after $R,Q,W,D$ are present may the consumer read $E$ as the terminal $\RealUp$ seal. Componentwise transport, replay, provenance, and local naming keep the same route visible to downstream consumers.
+
+The carrier has no coordinate for selected limits, quotient stream equality, host real equality, countable choice, trichotomy, or ambient Real completeness. Thus every completion-facing handoff factors through the finite modulus rows.
+\end{proof}
+
+\closureat{ModulusOfRegularConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\ModulusOfRegularConvergenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulus-of-regular-convergence-carrier}, \autoref{thm:modulus-of-regular-convergence-namecert-obligations}, and \autoref{thm:modulus-of-regular-convergence-finite-modulus-handoff} seed the finite modulus route from regular rational source data through stream windows, dyadic tolerances, and a Real-facing seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable choice, trichotomy, host real equality, Lean verification, bridge checking, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, source exposure, threshold exactness, stream-window coverage, dyadic tolerance control, real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.ModulusOfRegularConvergenceUp.}
+  \constructivestory{A $\ModulusOfRegularConvergenceUp$ packet is generated from a RegSeqRat source row, explicit modulus threshold row, finite StreamName windows, DyadicRatCore tolerance ledger, terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

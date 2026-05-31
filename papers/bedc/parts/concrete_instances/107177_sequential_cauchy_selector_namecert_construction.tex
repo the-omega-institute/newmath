@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\SequentialCauchySelectorUp$}
+\label{ch:concrete-instances-sequential-cauchy-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\SequentialCauchySelectorUp$ packet records the finite selector rows needed when a displayed finite family of Cauchy requests is answered one request at a time, without turning that finite ledger into countable choice or ambient real completeness. It sits after the single-request selection surface of \autoref{ch:concrete-instances-cauchy-selection-function-namecert}, the choice-sequence boundary of \autoref{ch:concrete-instances-choice-sequence-namecert}, the located choice-sequence boundary of \autoref{ch:concrete-instances-located-choice-sequence-namecert}, the stream-window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite sequential handoff; it does not choose an infinite sequence of witnesses, quotient-identify completed reals, or assert a general completeness principle.
+
+\begin{definition}[Sequential Cauchy selector carrier]
+\label{def:sequential-cauchy-selector-carrier}
+A $\SequentialCauchySelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(Q,M,I,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite request ledger, listing the Cauchy-selection queries whose answers are demanded by the packet.
+\item $M$ is the modulus schedule, assigning each listed request its displayed precision and finite window budget.
+\item $I$ is the finite index ledger, ordering the listed requests and recording which rows have already been answered.
+\item $W$ is the selected $\StreamNameUp$ window row, exposing only the finite stream windows admitted by $Q,M,I$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed stream windows and their regular rational comparison data.
+\item $D$ is the $\DyadicRatCoreUp$ ledger, recording dyadic thresholds, comparison rows, and error budgets for every listed request.
+\item $E$ is the $\RealUp$ seal row, exposing a terminal real-facing name only after the selected stream window, regular readback, and dyadic tolerance rows have been read.
+\item $H$ records componentwise $\hsame$ transport for the request, modulus, index, window, readback, dyadic, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each finite request through its modulus schedule, index row, stream window, regular readback, dyadic ledger, and real seal.
+\item $P$ records $\Pkg$ provenance over $\SequentialCauchySelectorUp$, $\CauchySelectionFunctionUp$, $\ChoiceSequenceUp$, $\LocatedChoiceSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialCauchySelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted selector packets only through $Q,M,I,W,R,D,E,H,C,P,N$. It has no coordinate for countable choice, an infinite choice sequence, quotient real equality, ambient real completeness, or a choice-selected family beyond the listed requests.
+\end{definition}
+
+\begin{theorem}[Sequential Cauchy selector NameCert obligations]
+\label{thm:sequential-cauchy-selector-namecert-obligations}
+For every accepted $\SequentialCauchySelectorUp$ carrier $S=(Q,M,I,W,R,D,E,H,C,P,N)$, the local $\NameCert_{\SequentialCauchySelectorUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the request ledger, modulus schedule, index ledger, selected stream windows, regular rational readback, dyadic tolerance ledger, real seal, transport, replay, provenance, and local naming rows;
+\item request-index exactness, requiring every selected row to be indexed by $I$ and sourced from a displayed query in $Q$;
+\item modulus-window compatibility, requiring every precision demand to pass through $M$ before it reads a finite $\StreamNameUp$ window in $W$;
+\item readback and seal stability, requiring $R,D,E$ to be transported componentwise from the same request, modulus, index, and window rows;
+\item boundary refusal, excluding countable choice, infinite choice sequences, quotient real equality, ambient real completeness, and unlisted selected witnesses from the local carrier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-cauchy-selector-carrier}. The tuple $Q,M,I,W,R,D,E,H,C,P,N$ is the full accepted inventory, so each NameCert obligation must be read from one of these finite rows.
+
+The request-index and modulus-window clauses are internal to $Q,M,I,W$. A selected window is exposed only after the query appears in $Q$, its finite index appears in $I$, and its precision demand passes through $M$.
+
+The readback and seal clauses are downstream. The rows $R$ and $D$ read the displayed windows as regular rational and dyadic data, while $E$ records the terminal real-facing seal obtained from the same finite route.
+
+Finally $H$ and $C$ preserve the route under transport and replay, and $P,N$ record provenance and local naming. Since no row stores countable choice, an infinite sequence, quotient real equality, ambient completeness, or an unlisted witness, the NameCert surface cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[Sequential Cauchy selector finite-window determinacy]
+\label{thm:sequential-cauchy-selector-finite-window-determinacy}
+Every consumer of an accepted $\SequentialCauchySelectorUp$ packet reads each selected Cauchy answer through the finite route
+$$
+Q,I \longmapsto M \longmapsto W \longmapsto R,D \longmapsto E \longmapsto H,C,P,N.
+$$
+Consequently two accepted reads agreeing on $Q,M,I,W,R,D,E,H,C,P,N$ determine the same finite selected windows, the same regular rational readback rows, the same dyadic tolerance ledgers, and the same terminal real-seal rows for the listed requests.
+\end{theorem}
+\begin{proof}
+Fix an accepted carrier and a listed request. The index ledger $I$ identifies the request row in $Q$, and the modulus schedule $M$ fixes the precision and finite window budget attached to that row.
+
+The selected window row $W$ is read only after those rows have been fixed. Thus any second accepted read agreeing on $Q,M,I,W$ reaches the same finite stream windows.
+
+The rows $R$ and $D$ are readbacks from those windows, and the seal row $E$ is exposed only after the same readback and tolerance data. Agreement on $R,D,E$ therefore fixes the regular rational, dyadic, and real-facing coordinates for the listed request.
+
+Transport, replay, provenance, and naming do not add fresh selector data. The rows $H,C,P,N$ preserve and certify the same finite route, so determinacy is exactly the equality of the displayed packet rows.
+\end{proof}
+
+\begin{theorem}[Sequential Cauchy selector choice-boundary nonescape]
+\label{thm:sequential-cauchy-selector-choice-boundary-nonescape}
+Every read from an accepted $\SequentialCauchySelectorUp$ packet into $\CauchySelectionFunctionUp$, $\ChoiceSequenceUp$, $\LocatedChoiceSequenceUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ factors through the finite rows $Q,M,I,W,R,D,E,H,C,P,N$. The read may reuse the listed finite selections, but it cannot produce a countable-choice functional, an infinite choice sequence, quotient real equality, ambient $\RealUp$ completeness, or selector rows for requests absent from $Q$.
+\end{theorem}
+\begin{proof}
+Start with the factorization route in \autoref{thm:sequential-cauchy-selector-finite-window-determinacy}. Every consumer sees the request, index, modulus, stream-window, readback, tolerance, and seal rows before it can inspect the structural rows.
+
+The single-request surface of $\CauchySelectionFunctionUp$ is therefore available only for the finitely listed requests. The $\ChoiceSequenceUp$ and $\LocatedChoiceSequenceUp$ chapters can read those displayed rows as finite sequence data, but no row supplies a law assigning witnesses to all future requests.
+
+The regular rational, dyadic, and real-facing consumers likewise receive only $R,D,E$ as finite downstream rows. These rows certify the listed readbacks and seals, not quotient equality of completed reals or ambient completeness.
+
+Thus the packet remains inside its displayed $\BHist$ carrier. Any claimed countable-choice functional, infinite choice sequence, unlisted selector row, quotient real equality, or real-completeness theorem would require a coordinate absent from $Q,M,I,W,R,D,E,H,C,P,N$.
+\end{proof}
+
+\closureat{SequentialCauchySelectorUp}{seedStr}
+
+\begin{closurestatus}{\SequentialCauchySelectorUp}
+  \constructivestory{A $\SequentialCauchySelectorUp$ packet is generated from a finite request ledger, modulus schedule, index ledger, selected StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-cauchy-selector-carrier}, \autoref{thm:sequential-cauchy-selector-namecert-obligations}, \autoref{thm:sequential-cauchy-selector-finite-window-determinacy}, and \autoref{thm:sequential-cauchy-selector-choice-boundary-nonescape} seed the finite sequential selector boundary over request, modulus, window, readback, tolerance, seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim countable choice, an infinite choice sequence, quotient real equality, ambient $\RealUp$ completeness, selector rows outside the finite request ledger, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, request-index exactness, modulus-window compatibility, readback and seal stability, and boundary-refusal proofs for BEDC.Derived.SequentialCauchySelectorUp.}
+\end{closurestatus}

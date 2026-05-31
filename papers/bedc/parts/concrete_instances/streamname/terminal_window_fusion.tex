@@ -645,3 +645,93 @@ countable choice, and fused completion witness are not consumer coordinates on
 this terminal route. Therefore the two implications above form the exact
 four-face exit status equivalence.
 \end{proof}
+
+\begin{theorem}[StreamName terminal fusion support minimality]
+\label{thm:streamname-terminal-fusion-support-minimality}
+Let $\mathcal W$ be an accepted terminal fused StreamName packet. Deleting any
+one roadmap face
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+or any one displayed support row
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+destroys the accepted terminal packet. Equivalently, no proper subpacket of
+these four faces and five support rows carries the same terminal
+$\PhaseRealCompletionExitUp$ consumer readback.
+
+There is no replacement row for the missing support: quotient stream equality,
+selected limits, countable choice, a metric-completeness row, and bridge rows
+are outside the accepted terminal surface.
+\end{theorem}
+\begin{proof}
+The terminal-window fusion theorem
+\autoref{thm:streamname-real-completion-terminal-window-fusion} constructs the
+accepted packet from exactly the four Real-completion faces and the displayed
+support rows. Thus each listed coordinate is part of the packet admitted by the
+terminal fusion surface.
+
+Finite-request section exactness,
+\autoref{thm:streamname-terminal-fusion-finite-request-section-exactness},
+shows that each terminal request is read through the displayed finite section,
+so deleting one face or support row removes a row needed by some accepted
+finite request. Source exhaustion,
+\autoref{thm:streamname-terminal-window-fusion-source-exhaustion}, then rules
+out any additional StreamName-side coordinate from filling the gap.
+
+Finally apply the four-face exit status equivalence
+\autoref{thm:streamname-terminal-fusion-four-face-exit-status-equivalence}.
+The terminal consumer status is exactly the equality class of the four roadmap
+faces, the same-route exact-boundary face, and the displayed support rows. A
+proper subpacket therefore cannot have the same accepted terminal status, and
+the excluded quotient, choice, metric-completeness, and bridge coordinates
+cannot provide a substitute.
+\end{proof}
+
+\begin{theorem}[StreamName terminal window fusion nonescape]
+\label{thm:streamname-terminal-window-fusion-nonescape}
+Let $\mathcal W$ be an accepted fused terminal $\StreamNameUp$ window consumed
+by $\RegSeqRatUp$ and $\RealUp$ on the L10 four-face route. Then every such
+consumer preserves the displayed finite request section, the reindex gluing
+row, the terminal fusion row, and the support-minimality row. Its readable
+surface is exactly
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support.
+
+No consumer of the fused terminal window obtains a selected limit, quotient
+stream equality, host sequence equality, countable-choice schedule,
+metric-completeness datum, bridge row, fused completion witness, or ambient
+$\RealUp$ completeness field from the fusion packet.
+\end{theorem}
+\begin{proof}
+Begin with the finite request section. Apply
+\autoref{thm:streamname-terminal-fusion-finite-request-section-exactness}.
+Every terminal request read by the RegSeqRat and Real consumers is already a
+displayed section of the fused StreamName packet.
+
+Next apply the reindex and fusion rows. The terminal-window fusion theorem
+\autoref{thm:streamname-real-completion-terminal-window-fusion} keeps the
+reindexed requests on the same four roadmap faces and the same displayed
+support, while the universal consumer readback of
+\autoref{thm:streamname-terminal-fusion-phase-exit-consumer-readback}
+identifies the RegSeqRat and Real-facing reads with that fused terminal
+surface.
+
+Now use \autoref{thm:streamname-terminal-fusion-support-minimality}. Since
+removing any roadmap face or support row destroys the accepted terminal
+packet, every consumer that still reads the fused window must preserve those
+rows rather than replacing them by an external coordinate.
+
+Finally combine source exhaustion with the four-face exit status equivalence.
+The exhaustion theorem leaves no additional StreamName-side coordinate, and
+\autoref{thm:streamname-terminal-fusion-four-face-exit-status-equivalence}
+identifies the terminal consumer status with the same four faces and support
+rows. Thus selected limits, quotient stream equality, host sequence equality,
+choice schedules, metric-completeness data, bridge rows, fused completion
+witnesses, and ambient Real completeness fields cannot escape through the
+terminal fusion packet.
+\end{proof}

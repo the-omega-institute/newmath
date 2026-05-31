@@ -27,6 +27,7 @@ $$
 \end{enumerate}
 The carrier predicate admits exactly these nine rows. Its classifier compares accepted packets only through $U,E,F,R,M,H,C,P,N$ and has no coordinate for open-cover compactness, a choice-selected refinement, a host star operation, or ambient completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.StarRefinementUniformCoverUp.StarRefinementUniformCoverTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[StarRefinementUniformCover NameCert obligations]
 \label{thm:star-refinement-uniform-cover-namecert-obligations}
@@ -76,6 +77,37 @@ The entourage-base row $E$ then supplies the star-refinement witness. Its contai
 The completion consumers are downstream of this route. The rounded-ideal row $R$ reads the refinement as a formal-ball neighbourhood boundary, while the metric-completion row $M$ reads it through displayed metric entourage or ball data.
 
 Transport by $H$, replay by $C$, provenance by $P$, and naming by $N$ preserve the same finite route. No excluded host-side principle is available to any completion consumer.
+\end{proof}
+
+\begin{theorem}[StarRefinementUniformCover filter-base determinacy]
+\label{thm:star-refinement-completion-filter-route}
+Let
+$$
+S=(U,E,F,R,M,H,C,P,N)
+$$
+be an accepted $\StarRefinementUniformCoverUp$ carrier. Any completion-facing
+consumer of a star-refinement row must preserve the same directed
+$\FilterBaseUp$ route $F$ when passing to $\RoundedIdealCompletionUp$ through
+$R$ or to $\MetricCompletionUp$ through $M$. No selected refinement, host star
+operation, or ambient completeness row can replace $F$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:star-refinement-uniform-cover-carrier}. The only directed
+completion-facing base row is $F$, and it is stored between the uniform cover
+$U$, the entourage-base refinement witness $E$, and the two completion
+consumer rows $R,M$.
+
+Apply \autoref{thm:star-refinement-uniform-cover-namecert-obligations}. Its
+filter-base handoff obligation requires the directed base row $F$ to preserve
+the same refinement relation for Cauchy and completion consumers.
+
+Finally apply
+\autoref{thm:star-refinement-uniform-cover-completion-handoff}. Both the
+rounded-ideal row $R$ and the metric-completion row $M$ are downstream of
+$U,E,F$ and the structural rows $H,C,P,N$. Since the carrier has no selected
+refinement, host star operation, or ambient completeness coordinate, no
+completion consumer can replace the displayed filter-base route.
 \end{proof}
 
 \closureat{StarRefinementUniformCoverUp}{seedStr}

@@ -2,17 +2,17 @@
 """BEDC paper-side Codex revision pipeline with git-worktree parallelism.
 
 Mirror of `lean4/scripts/codex_formalize.py`, but with the two roles swapped
-(reviewer + reviser instead of selector + implementor) and with `lake build`
-replaced by `make` (pdflatex twice) for verification.
+(reviewer + reviser instead of selector + implementor). Worker rounds run
+fast paper gates and record full PDF verification as an async obligation.
 
 Phases per round (each in its own worktree):
   Phase REVIEW : codex audits the theory in `papers/bedc/parts/` and outputs
                  1–3 concrete revision targets (logical gaps, redundancy,
                  missing companion results, structural improvements, …).
   Gate         : sanity-checks the JSON (count, fields populated, files exist).
-  Phase REVISE : codex applies the revisions, runs `make` + `bedc_ci.py audit`,
+  Phase REVISE : codex applies the revisions, runs `make precheck` + audit,
                  commits the result.
-  Phase VERIFY : pipeline-side gates (PDF builds, drift audit, no axioms,
+  Phase VERIFY : pipeline-side gates (PDF build deferral, drift audit, no axioms,
                  no banned vocabulary, ≤800-line .tex cap, no register-only
                  rounds, no new \\leanvariant markers), merge to base, push.
 
@@ -52,6 +52,18 @@ from typing import Optional
 SCRIPT_DIR = Path(__file__).resolve().parent
 PAPER_ROOT = SCRIPT_DIR.parent              # papers/bedc/
 REPO_ROOT = PAPER_ROOT.parent.parent        # newmath/
+TOOLS_DIR = REPO_ROOT / "tools"
+if str(TOOLS_DIR) not in sys.path:
+    sys.path.insert(0, str(TOOLS_DIR))
+from pipeline_worker_identity import (
+    WorkerLease,
+    is_recovery_ticket,
+    legacy_worktree_kind,
+    new_worker_lease,
+    parse_new_worktree_name,
+    recovery_ticket_name,
+)
+from verification_contract import VerificationEnvelope, current_sha, record
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 LOG_DIR = SCRIPT_DIR / "logs"
 WORKTREE_DIR = REPO_ROOT / ".worktrees"
@@ -114,7 +126,7 @@ _recovery_stop = threading.Event()
 # We key on (sorted paper_files tuple, anchor) so that two parallel rounds
 # do not both try to revise the same theorem block simultaneously.
 _active_targets_lock = threading.Lock()
-_active_targets: dict[int, set[str]] = {}
+_active_targets: dict[str | int, set[str]] = {}
 
 
 def _target_id(t: dict) -> str:
@@ -166,21 +178,24 @@ def _chapter_keys(t: dict) -> set[str]:
 # (which keys on individual file+anchor) and catches the dup-label
 # race described in `_chapter_keys`.
 _active_chapters_lock = threading.Lock()
-_active_chapters: dict[int, set[str]] = {}
+_active_chapters: dict[str | int, set[str]] = {}
 
 
-def claim_targets(round_num: int, targets: list[dict]) -> tuple[list[dict], list[str]]:
+def claim_targets(round_num: int, targets: list[dict], owner: str | None = None) -> tuple[list[dict], list[str]]:
+    claim_key = owner or str(round_num)
     kept: list[dict] = []
     dropped: list[str] = []
     with _active_targets_lock, _active_chapters_lock:
         taken: set[str] = set()
-        for s in _active_targets.values():
+        for r, s in _active_targets.items():
+            if r == claim_key:
+                continue
             taken |= s
         # Chapters owned by other in-flight rounds (this round's own
         # entry — if any — is excluded so re-entrant calls are idempotent).
         chapter_taken: set[str] = set()
         for r, s in _active_chapters.items():
-            if r != round_num:
+            if r != claim_key:
                 chapter_taken |= s
         keep_ids: set[str] = set()
         keep_chapters: set[str] = set()
@@ -207,17 +222,18 @@ def claim_targets(round_num: int, targets: list[dict]) -> tuple[list[dict], list
             keep_chapters |= chap_keys
             kept.append(t)
         if keep_ids:
-            _active_targets[round_num] = keep_ids
+            _active_targets[claim_key] = keep_ids
         if keep_chapters:
-            _active_chapters[round_num] = keep_chapters
+            _active_chapters[claim_key] = keep_chapters
     return kept, dropped
 
 
-def release_targets(round_num: int) -> None:
+def release_targets(round_num: int, owner: str | None = None) -> None:
+    claim_key = owner or str(round_num)
     with _active_targets_lock:
-        _active_targets.pop(round_num, None)
+        _active_targets.pop(claim_key, None)
     with _active_chapters_lock:
-        _active_chapters.pop(round_num, None)
+        _active_chapters.pop(claim_key, None)
 
 
 # ---------------------------------------------------------------------------
@@ -270,6 +286,19 @@ class WorktreeInfo:
     branch: str
     round_number: int
     base_sha: str = ""
+    lease: WorkerLease | None = None
+
+    @property
+    def worker_id(self) -> str:
+        return self.lease.holder if self.lease else f"legacy-paper-revise-{self.round_number}"
+
+    @property
+    def commit_prefix(self) -> str:
+        return self.lease.commit_prefix if self.lease else f"P{self.round_number}:"
+
+    @property
+    def log_tag(self) -> str:
+        return self.lease.log_tag if self.lease else f"legacy_paper_revise_{self.round_number}"
 
 
 # ---------------------------------------------------------------------------
@@ -461,6 +490,21 @@ def read_timeout(key: str, default: int, *, lo: int = 60, hi: int = 14400) -> in
 _origin_sync_stop = threading.Event()
 
 
+def _origin_sync_push_lock():
+    from contextlib import nullcontext
+    import sys as _sys
+
+    _tools_path = str(REPO_ROOT / "tools")
+    if _tools_path not in _sys.path:
+        _sys.path.insert(0, _tools_path)
+    try:
+        from repo_push_lock import acquire_push_lock as _pl
+    except Exception as exc:
+        logger.warning(f"[origin-sync] push-lock import failed: {exc}; using process lock only")
+        return nullcontext()
+    return _pl("codex-auto-dev", timeout=120)
+
+
 def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
     """Background ticker: rebase local base onto origin/<base> when remote
     is ahead.
@@ -492,77 +536,130 @@ def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
                 f"[origin-sync] origin/{base_branch} is {ahead} commit(s) "
                 f"ahead — merging into local"
             )
-            with _git_lock:
-                r3 = subprocess.run(
-                    ["git", "pull", "--no-rebase", "--no-edit", "--autostash",
-                     "origin", base_branch],
-                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
-                )
-                if r3.returncode == 0:
-                    logger.info(f"[origin-sync] merged origin/{base_branch} into local")
-                else:
-                    logger.warning(
-                        f"[origin-sync] merge failed (returncode={r3.returncode}); "
-                        f"stderr={(r3.stderr or '').strip()[:200]}"
-                    )
-                    # Abort any in-flight merge / leftover rebase to leave the
-                    # main repo clean — otherwise worker pushes hit
-                    # "merge in progress" / "rebase in progress" forever.
-                    if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
-                        logger.warning("[origin-sync] mid-merge detected, aborting")
-                        subprocess.run(
-                            ["git", "merge", "--abort"],
-                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                        )
-                    rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
-                    rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
-                    if rebase_merge.exists() or rebase_apply.exists():
-                        logger.warning("[origin-sync] stale mid-rebase detected, aborting")
-                        subprocess.run(
-                            ["git", "rebase", "--abort"],
-                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                        )
-                    # Best-effort autostash pop (safe no-op if nothing stashed).
-                    subprocess.run(
-                        ["git", "stash", "pop"],
-                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                    )
-                    # Verify clean state after recovery.
-                    rs = subprocess.run(
-                        ["git", "status", "--porcelain"],
-                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
-                    )
-                    if (rs.stdout or "").strip():
-                        logger.warning(
-                            "[origin-sync] main repo NOT CLEAN after auto recovery — "
-                            "delegating to codex"
-                        )
-                        try:
-                            prompt = (
-                                _load_prompt("origin_sync_recover")
-                                .replace("<REPO_ROOT>", str(REPO_ROOT))
-                                .replace("<BASE_BRANCH>", base_branch)
-                                .replace("<STATUS_OUTPUT>", (rs.stdout or "").strip()[:2000] or "(empty)")
-                                .replace("<REBASE_STDERR>", (r3.stderr or "").strip()[:2000] or "(empty)")
+            r3 = None
+            recovery_prompt = None
+            try:
+                push_lock_cm = _origin_sync_push_lock()
+                with push_lock_cm:
+                    with _git_lock:
+                        stash_oid = None
+                        dirty = subprocess.run(
+                            ["git", "status", "--porcelain"],
+                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+                        ).stdout.strip()
+                        if dirty:
+                            st = subprocess.run(
+                                ["git", "stash", "push", "-u", "-m", f"origin-sync-{os.getpid()}"],
+                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
                             )
-                            codex_exec(
-                                prompt,
-                                work_dir=REPO_ROOT,
-                                timeout_seconds=600,
+                            if st.returncode != 0:
+                                logger.warning(
+                                    f"[origin-sync] stash push failed; skipping sync: "
+                                    f"{(st.stderr or '').strip()[:200]}"
+                                )
+                                continue
+                            sr = subprocess.run(
+                                ["git", "rev-parse", "--verify", "--quiet", "stash@{0}"],
+                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
                             )
+                            stash_oid = (sr.stdout or "").strip() or None
+
+                        r3 = subprocess.run(
+                            ["git", "pull", "--no-rebase", "--no-edit",
+                             "origin", base_branch],
+                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
+                        )
+                        if r3.returncode != 0:
+                            logger.warning(
+                                f"[origin-sync] merge failed (returncode={r3.returncode}); "
+                                f"stderr={(r3.stderr or '').strip()[:200]}"
+                            )
+                            if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
+                                logger.warning("[origin-sync] mid-merge detected, aborting")
+                                subprocess.run(
+                                    ["git", "merge", "--abort"],
+                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                                )
+                            rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
+                            rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
+                            if rebase_merge.exists() or rebase_apply.exists():
+                                logger.warning("[origin-sync] stale mid-rebase detected, aborting")
+                                subprocess.run(
+                                    ["git", "rebase", "--abort"],
+                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                                )
+
+                        if stash_oid:
+                            ap = subprocess.run(
+                                ["git", "stash", "apply", stash_oid],
+                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                            )
+                            if ap.returncode == 0:
+                                subprocess.run(
+                                    ["git", "stash", "drop", stash_oid],
+                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                                )
+                            else:
+                                subprocess.run(
+                                    ["git", "reset", "--hard", "HEAD"],
+                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                                )
+                                logger.warning(
+                                    f"[origin-sync] autostash {stash_oid[:12]} re-apply "
+                                    "conflicted; reset tracked, kept stash for GC"
+                                )
+
+                        if r3.returncode == 0:
+                            logger.info(f"[origin-sync] merged origin/{base_branch} into local")
+                        else:
+                            rs = subprocess.run(
+                                ["git", "status", "--porcelain"],
+                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+                            )
+                            status_output = (rs.stdout or "").strip()
+                            if status_output:
+                                logger.warning(
+                                    "[origin-sync] main repo NOT CLEAN after auto recovery — "
+                                    "delegating to codex"
+                                )
+                                recovery_prompt = (
+                                    _load_prompt("origin_sync_recover")
+                                    .replace("<REPO_ROOT>", str(REPO_ROOT))
+                                    .replace("<BASE_BRANCH>", base_branch)
+                                    .replace("<STATUS_OUTPUT>", status_output[:2000] or "(empty)")
+                                    .replace("<REBASE_STDERR>", (r3.stderr or "").strip()[:2000] or "(empty)")
+                                )
+            except TimeoutError as exc:
+                logger.warning(f"[origin-sync] push lock timeout; skipping sync: {exc}")
+                continue
+
+            if recovery_prompt:
+                try:
+                    codex_exec(
+                        recovery_prompt,
+                        work_dir=REPO_ROOT,
+                        timeout_seconds=600,
+                    )
+                except Exception as exc:
+                    logger.error(f"[origin-sync] codex recovery raised: {exc}")
+                    continue
+                try:
+                    push_lock_cm = _origin_sync_push_lock()
+                    with push_lock_cm:
+                        with _git_lock:
                             rs2 = subprocess.run(
                                 ["git", "status", "--porcelain"],
                                 cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
                             )
-                            if (rs2.stdout or "").strip():
-                                logger.error(
-                                    f"[origin-sync] codex recovery FAILED, repo still not clean: "
-                                    f"{(rs2.stdout or '').strip()[:300]} — manual fix needed"
-                                )
-                            else:
-                                logger.info("[origin-sync] codex recovery succeeded; repo clean")
-                        except Exception as exc:
-                            logger.error(f"[origin-sync] codex recovery raised: {exc}")
+                    if (rs2.stdout or "").strip():
+                        logger.error(
+                            f"[origin-sync] codex recovery FAILED, repo still not clean: "
+                            f"{(rs2.stdout or '').strip()[:300]} — manual fix needed"
+                        )
+                    else:
+                        logger.info("[origin-sync] codex recovery succeeded; repo clean")
+                except TimeoutError as exc:
+                    logger.warning(f"[origin-sync] push lock timeout after codex recovery: {exc}")
         except Exception as exc:
             logger.warning(f"[origin-sync] error: {exc}")
 
@@ -990,8 +1087,14 @@ def stop_peer_sync_ticker() -> None:
 
 def create_worktree(round_num: int) -> WorktreeInfo:
     WORKTREE_DIR.mkdir(parents=True, exist_ok=True)
-    branch = f"paper-P{round_num}"
-    wt_path = WORKTREE_DIR / f"paper_P{round_num}"
+    lease = new_worker_lease(
+        "paper-revise",
+        "paper-revise",
+        display_ordinal=round_num,
+        worktree_dir=WORKTREE_DIR,
+    )
+    branch = lease.branch
+    wt_path = lease.worktree or (WORKTREE_DIR / lease.worktree_name)
     with _git_lock:
         if wt_path.exists():
             logger.warning(f"Removing stale worktree at {wt_path}")
@@ -999,7 +1102,7 @@ def create_worktree(round_num: int) -> WorktreeInfo:
             if wt_path.exists():
                 shutil.rmtree(wt_path, ignore_errors=True)
         run_cmd(["git", "branch", "-D", branch], cwd=REPO_ROOT)
-        logger.info(f"Creating worktree: {wt_path} on branch {branch}")
+        logger.info(f"Creating worktree: {wt_path} on branch {branch} display_ordinal={round_num}")
         result = run_cmd(
             ["git", "worktree", "add", "-b", branch, str(wt_path), BASE_BRANCH],
             cwd=REPO_ROOT,
@@ -1008,7 +1111,7 @@ def create_worktree(round_num: int) -> WorktreeInfo:
             raise RuntimeError(f"worktree add failed: {result.stderr.strip()}")
     base_sha = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt_path).stdout.strip()
     return WorktreeInfo(path=wt_path, branch=branch,
-                        round_number=round_num, base_sha=base_sha)
+                        round_number=round_num, base_sha=base_sha, lease=lease)
 
 
 def remove_worktree(wt: WorktreeInfo) -> None:
@@ -1025,14 +1128,18 @@ def cleanup_all_worktrees() -> int:
         return 0
     count = 0
     for entry in WORKTREE_DIR.iterdir():
-        if entry.is_dir() and entry.name.startswith("paper_P"):
+        parsed = parse_new_worktree_name(entry.name)
+        legacy = legacy_worktree_kind(entry.name)
+        if entry.is_dir() and (parsed and parsed[0] == "paper-revise" or legacy and legacy[0] == "paper-revise"):
             logger.info(f"Cleaning up {entry}")
             run_cmd(["git", "worktree", "remove", "--force", str(entry)], cwd=REPO_ROOT)
             if entry.exists():
                 shutil.rmtree(entry, ignore_errors=True)
-            m = re.match(r"paper_P(\d+)", entry.name)
-            if m:
-                run_cmd(["git", "branch", "-D", f"paper-P{m.group(1)}"], cwd=REPO_ROOT)
+            if parsed and parsed[0] == "paper-revise":
+                _, slug, lease_id = parsed
+                run_cmd(["git", "branch", "-D", f"paper-revise-{slug}-{lease_id}"], cwd=REPO_ROOT)
+            elif legacy and legacy[0] == "paper-revise":
+                run_cmd(["git", "branch", "-D", "paper-P" + str(legacy[1])], cwd=REPO_ROOT)
             count += 1
     run_cmd(["git", "worktree", "prune"], cwd=REPO_ROOT)
     return count
@@ -1124,51 +1231,76 @@ def _sync_local_with_origin(*, model: Optional[str] = None) -> bool:
     containing origin's content; False only when codex cannot resolve a
     real conflict.
 
-    Caller has typically already done `git fetch origin BASE_BRANCH`.
     Saves and restores the original HEAD if not on BASE_BRANCH.
     """
-    head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
-                   cwd=REPO_ROOT, timeout=10)
-    original_branch = (head.stdout or "").strip()
+    try:
+        push_lock_cm = _origin_sync_push_lock()
+        with push_lock_cm:
+            with _git_lock:
+                head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
+                               cwd=REPO_ROOT, timeout=10)
+                original_branch = (head.stdout or "").strip()
+                run_cmd(["git", "fetch", "origin", BASE_BRANCH],
+                        cwd=REPO_ROOT, timeout=300)
 
-    if original_branch != BASE_BRANCH:
-        co = run_cmd(["git", "checkout", BASE_BRANCH],
-                     cwd=REPO_ROOT, timeout=30)
-        if co.returncode != 0:
-            logger.error(
-                f"_sync_local_with_origin: cannot checkout {BASE_BRANCH}: "
-                f"{(co.stderr or '')[-200:]}"
-            )
-            return False
+                if original_branch != BASE_BRANCH:
+                    co = run_cmd(["git", "checkout", BASE_BRANCH],
+                                 cwd=REPO_ROOT, timeout=30)
+                    if co.returncode != 0:
+                        logger.error(
+                            f"_sync_local_with_origin: cannot checkout {BASE_BRANCH}: "
+                            f"{(co.stderr or '')[-200:]}"
+                        )
+                        return False
+
+                ff = run_cmd(["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
+                             cwd=REPO_ROOT, timeout=30)
+                if ff.returncode == 0:
+                    if original_branch and original_branch != BASE_BRANCH:
+                        run_cmd(["git", "checkout", original_branch],
+                                cwd=REPO_ROOT, check=False, timeout=30)
+                    return True
+                merge = run_cmd(
+                    ["git", "merge", "--no-ff", "--no-edit", f"origin/{BASE_BRANCH}"],
+                    cwd=REPO_ROOT, timeout=120,
+                )
+                if merge.returncode == 0:
+                    if original_branch and original_branch != BASE_BRANCH:
+                        run_cmd(["git", "checkout", original_branch],
+                                cwd=REPO_ROOT, check=False, timeout=30)
+                    return True
+                logger.warning(
+                    f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} merge conflict; "
+                    "invoking codex to resolve"
+                )
+    except TimeoutError as exc:
+        logger.warning(f"_sync_local_with_origin: push lock timeout; skipping sync: {exc}")
+        return False
+
+    resolved = _codex_resolve_conflicts(REPO_ROOT, model=model)
 
     try:
-        ff = run_cmd(["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
-                     cwd=REPO_ROOT, timeout=30)
-        if ff.returncode == 0:
-            return True
-        merge = run_cmd(
-            ["git", "merge", "--no-ff", "--no-edit", f"origin/{BASE_BRANCH}"],
-            cwd=REPO_ROOT, timeout=120,
-        )
-        if merge.returncode == 0:
-            return True
-        logger.warning(
-            f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} merge conflict; "
-            "invoking codex to resolve"
-        )
-        resolved = _codex_resolve_conflicts(REPO_ROOT, model=model)
-        if resolved:
-            return True
-        run_cmd(["git", "merge", "--abort"], cwd=REPO_ROOT, check=False)
-        logger.error(
-            f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} sync failed; "
-            "codex could not resolve"
-        )
+        push_lock_cm = _origin_sync_push_lock()
+        with push_lock_cm:
+            with _git_lock:
+                if resolved:
+                    if original_branch and original_branch != BASE_BRANCH:
+                        run_cmd(["git", "checkout", original_branch],
+                                cwd=REPO_ROOT, check=False, timeout=30)
+                    return True
+                run_cmd(["git", "merge", "--abort"], cwd=REPO_ROOT, check=False)
+                if original_branch and original_branch != BASE_BRANCH:
+                    run_cmd(["git", "checkout", original_branch],
+                            cwd=REPO_ROOT, check=False, timeout=30)
+    except TimeoutError as exc:
+        logger.warning(f"_sync_local_with_origin: push lock timeout during cleanup: {exc}")
         return False
-    finally:
-        if original_branch and original_branch != BASE_BRANCH:
-            run_cmd(["git", "checkout", original_branch],
-                    cwd=REPO_ROOT, check=False, timeout=30)
+
+    logger.error(
+        f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} sync failed; "
+        "codex could not resolve"
+    )
+    return False
 
 
 def request_recovery(wt: WorktreeInfo) -> None:
@@ -1180,9 +1312,17 @@ def request_recovery(wt: WorktreeInfo) -> None:
             "branch": wt.branch,
             "round_number": wt.round_number,
             "base_sha": wt.base_sha,
+            "worker_id": wt.worker_id,
+            "commit_prefix": wt.commit_prefix,
+            "lease": wt.lease.metadata() if wt.lease else None,
             "queued_at": datetime.utcnow().isoformat() + "Z",
         }
-        ticket_path = RECOVERY_QUEUE_DIR / f"P{wt.round_number}_{int(time.time())}.json"
+        ticket_path = RECOVERY_QUEUE_DIR / recovery_ticket_name(
+            "paper-revise",
+            wt.lease,
+            wt.round_number,
+            int(time.time()),
+        )
         ticket_path.write_text(json.dumps(ticket, indent=2))
         logger.info(f"[recovery] queued {ticket_path.name} for {wt.branch}")
         with _recovery_cv:
@@ -1211,6 +1351,9 @@ def _run_recovery_codex(wt: WorktreeInfo, *, model: Optional[str] = None,
     still carrying the round's own commit."""
     prompt = _load_prompt("round_fallback_resolve").format(
         round_number=wt.round_number,
+        worker_id=wt.worker_id,
+        worker_holder=wt.worker_id,
+        commit_prefix=wt.commit_prefix,
         branch=wt.branch,
         base_branch=BASE_BRANCH,
         worktree=str(wt.path),
@@ -1220,7 +1363,7 @@ def _run_recovery_codex(wt: WorktreeInfo, *, model: Optional[str] = None,
         work_dir=wt.path,
         timeout_seconds=timeout,
         model=model,
-        log_tag=f"P{wt.round_number}_recovery",
+        log_tag=f"{wt.log_tag}_recovery",
     )
     head_branch = run_cmd(
         ["git", "branch", "--show-current"], cwd=wt.path, timeout=10
@@ -1242,7 +1385,7 @@ def _run_recovery_codex(wt: WorktreeInfo, *, model: Optional[str] = None,
         ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
         cwd=wt.path, timeout=15,
     ).stdout
-    own_prefix = f"P{wt.round_number}:"
+    own_prefix = wt.commit_prefix
     if not any(own_prefix in l for l in own.splitlines()):
         logger.info(
             f"[recovery] {wt.branch}: codex chose to drop the round (no own-round commit)"
@@ -1264,7 +1407,7 @@ def _recovery_loop(poll_seconds: float = 30.0,
         try:
             tickets = sorted(
                 p for p in RECOVERY_QUEUE_DIR.iterdir()
-                if p.is_file() and p.suffix == ".json" and p.name.startswith("P")
+                if p.is_file() and p.suffix == ".json" and is_recovery_ticket(p.name, "paper-revise")
             )
         except Exception:
             tickets = []
@@ -1292,6 +1435,21 @@ def _recovery_loop(poll_seconds: float = 30.0,
             round_number=int(t["round_number"]),
             base_sha=t.get("base_sha", ""),
         )
+        if isinstance(t.get("lease"), dict):
+            raw_lease = t["lease"]
+            wt.lease = WorkerLease(
+                kind=raw_lease["kind"],
+                semantic_slug=raw_lease["semantic_slug"],
+                lease_id=raw_lease["lease_id"],
+                display_ordinal=raw_lease.get("display_ordinal"),
+                branch=raw_lease["branch"],
+                worktree_name=raw_lease["worktree_name"],
+                worktree=Path(raw_lease["worktree"]) if raw_lease.get("worktree") else None,
+                ticket_stem=raw_lease["ticket_stem"],
+                log_tag=raw_lease["log_tag"],
+                commit_prefix=raw_lease["commit_prefix"],
+                holder=raw_lease["holder"],
+            )
         logger.info(f"[recovery] picking up {wt.branch}")
         codex_ok = False
         try:
@@ -1337,11 +1495,9 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     the "Diverging branches" and "no own-round commit" failure modes that
     rebase + codex resolution kept producing.
 
-    Concurrency: see `lean4/scripts/codex_formalize.py::merge_worktree_to_base`
-    for the cross-process push-lock rationale. Both R-side and P-side
-    orchestrators wrap their merge-to-base in
-    `acquire_push_lock(BASE_BRANCH)` so they cannot race each other on
-    push to origin.
+    Concurrency: shared main-checkout git sequences use the cross-process
+    `acquire_push_lock(BASE_BRANCH)` advisory flock outside `_git_lock`.
+    Codex conflict recovery and hard gates run outside both locks.
     """
     from contextlib import nullcontext
     import sys as _sys
@@ -1361,15 +1517,12 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
 
     logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
 
-    # Phase 1a: fetch + sync local -- needs _git_lock (shared main checkout refs)
-    with _git_lock:
-        run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
-        if not _sync_local_with_origin(model=model):
-            logger.error(
-                f"[P{wt.round_number}] local {BASE_BRANCH} could not sync "
-                f"with origin/{BASE_BRANCH}; aborting"
-            )
-            return False
+    if not _sync_local_with_origin(model=model):
+        logger.error(
+            f"[P{wt.round_number}] local {BASE_BRANCH} could not sync "
+            f"with origin/{BASE_BRANCH}; aborting"
+        )
+        return False
 
     # Phase 1b: worktree-local work (per-worker, NO _git_lock)
     merge = run_cmd(
@@ -1387,7 +1540,7 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
         cwd=wt.path, timeout=30,
     )
     merged_lines = [l.strip() for l in merged_new.stdout.splitlines() if l.strip()]
-    own_prefix = f"P{wt.round_number}:"
+    own_prefix = wt.commit_prefix
     if not any(own_prefix in l for l in merged_lines):
         logger.error(
             f"[P{wt.round_number}] Merge left no own-round commit unique to "
@@ -1476,6 +1629,7 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
                                 cwd=REPO_ROOT, timeout=10,
                             ).returncode == 0
                             if origin_contains:
+                                record_deferred_pdf_build(wt, sha=wt_tip)
                                 logger.info(
                                     f"Merged and pushed {wt.branch} to {BASE_BRANCH} (attempt {attempt})"
                                 )
@@ -1513,18 +1667,18 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             new_base_sha = run_cmd(
                 ["git", "rev-parse", f"origin/{BASE_BRANCH}"], cwd=REPO_ROOT
             ).stdout.strip()
-            if new_base_sha != captured_base_sha:
-                merge = run_cmd(
-                    ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
-                    cwd=wt.path, timeout=180,
-                )
-                if merge.returncode != 0:
-                    logger.warning(f"[P{wt.round_number}] retry merge conflict, invoking codex")
-                    resolved = _codex_resolve_conflicts(wt.path, model=model)
-                    if not resolved:
-                        run_cmd(["git", "merge", "--abort"], cwd=wt.path)
-                        return False
-                captured_base_sha = new_base_sha
+        if new_base_sha != captured_base_sha:
+            merge = run_cmd(
+                ["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH],
+                cwd=wt.path, timeout=180,
+            )
+            if merge.returncode != 0:
+                logger.warning(f"[P{wt.round_number}] retry merge conflict, invoking codex")
+                resolved = _codex_resolve_conflicts(wt.path, model=model)
+                if not resolved:
+                    run_cmd(["git", "merge", "--abort"], cwd=wt.path)
+                    return False
+            captured_base_sha = new_base_sha
 
     return False
 
@@ -1631,10 +1785,15 @@ def codex_exec(
 # Phase REVIEW (the auditor role)
 # ---------------------------------------------------------------------------
 
-def build_review_prompt(round_num: int, recent: str) -> str:
+def build_review_prompt(round_num: int, recent: str, lease: WorkerLease | None = None) -> str:
+    worker_id = lease.holder if lease else f"legacy-paper-revise-{round_num}"
+    commit_prefix = lease.commit_prefix if lease else f"legacy-paper-revise-{round_num}:"
     return (
         _load_prompt("phase_review")
         .replace("<ROUND_NUM>", str(round_num))
+        .replace("<WORKER_ID>", worker_id)
+        .replace("<WORKER_HOLDER>", worker_id)
+        .replace("<COMMIT_PREFIX>", commit_prefix)
         .replace("<RECENT>", recent)
     )
 
@@ -1718,7 +1877,11 @@ def review_gate_check(review: ReviewResult) -> tuple[bool, str, bool]:
 # Phase REVISE (the modifier role)
 # ---------------------------------------------------------------------------
 
-def build_revise_prompt(round_num: int, targets: list[dict]) -> str:
+def build_revise_prompt(
+    round_num: int,
+    targets: list[dict],
+    lease: WorkerLease | None = None,
+) -> str:
     text = ""
     for i, t in enumerate(targets, 1):
         text += (
@@ -1735,9 +1898,14 @@ def build_revise_prompt(round_num: int, targets: list[dict]) -> str:
             f"- expected_effect: {t.get('expected_effect', '(none)')}\n"
             f"- lean_touchpoint: {t.get('lean_touchpoint', '(none)')}\n\n"
         )
+    worker_id = lease.holder if lease else f"legacy-paper-revise-{round_num}"
+    commit_prefix = lease.commit_prefix if lease else f"legacy-paper-revise-{round_num}:"
     return (
         _load_prompt("phase_revise")
         .replace("<ROUND_NUM>", str(round_num))
+        .replace("<WORKER_ID>", worker_id)
+        .replace("<WORKER_HOLDER>", worker_id)
+        .replace("<COMMIT_PREFIX>", commit_prefix)
         .replace("<TARGETS>", text)
         .replace("<BASE_BRANCH>", BASE_BRANCH)
     )
@@ -1809,25 +1977,16 @@ def _added_lines_per_file(wt: WorktreeInfo, rel_path: str) -> list[tuple[int, st
 
 
 
-def run_pdf_build(wt: WorktreeInfo, *, timeout: int = 600) -> tuple[bool, str]:
-    """Skip round-local PDF build entirely; defer to paper_builder_daemon.
-
-    Round verification used to run `make check` (single-pass) inside the
-    round worktree as a fast LaTeX sanity check. With paper_builder_daemon
-    polling the merged codex-auto-dev tip every 60s in a dedicated
-    `_paper_builder` worktree, round-local PDF build is redundant — the
-    daemon always builds the latest tip (newer commits supersede older
-    ones in the build queue, so the daemon naturally builds only the
-    head). Round-local build also bottlenecks paper round throughput
-    (rounds queue on with_pdf_slot's 5 permits even though the build
-    itself produces nothing the round consumes).
-
-    Other verify-phase gates remain (drift audit, axiom audit, Phase D
-    lints) — PDF build is the only one moved to daemon. If a syntax error
-    sneaks into a commit, the daemon's next full build fails and
-    logs to paper_builder_daemon.log; recovery is manual.
-    """
-    return True, "PDF build skipped — deferred to paper_builder_daemon"
+def record_deferred_pdf_build(wt: WorktreeInfo, *, sha: str | None = None) -> VerificationEnvelope:
+    sha = sha or current_sha(wt.path)
+    return record(
+        sha=sha,
+        gate="paper-full-make",
+        status="deferred",
+        mode="worker-premerge",
+        owner="paper_builder_daemon",
+        detail="worker-premerge records full PDF build as deferred to paper_builder_daemon",
+    )
 
 
 def run_drift_audit(wt: WorktreeInfo) -> tuple[bool, str]:
@@ -1915,7 +2074,7 @@ def verify_worktree_commits(
         logger.warning(f"[P{wt.round_number}] Verify: no commits unique to this round")
         return False, []
 
-    own_prefix = f"P{wt.round_number}:"
+    own_prefix = wt.commit_prefix
     own = [c for c in new if own_prefix in c]
     if not own:
         logger.error(
@@ -2009,14 +2168,12 @@ def verify_worktree_commits(
             logger.error(f"[P{wt.round_number}] AI MISSING INDEPENDENCE: {v}")
         return False, new
 
-    # Gate F — PDF compile
-    ok, tail = run_pdf_build(wt)
-    if not ok:
-        logger.error(f"[P{wt.round_number}] PDF build FAILED")
-        for ln in (tail or "").splitlines()[-15:]:
-            logger.error(f"  {ln}")
-        return False, new
-    logger.info(f"[P{wt.round_number}] PDF build OK")
+    # Gate F — full PDF build is an async-builder obligation.
+    envelope = record_deferred_pdf_build(wt)
+    logger.info(
+        f"[P{wt.round_number}] paper-full-make {envelope.status} "
+        f"to {envelope.owner} for {envelope.sha[:8]}"
+    )
 
     # Gate G — paper ↔ Lean drift audit
     ok, msg = run_drift_audit(wt)
@@ -2068,28 +2225,30 @@ def run_round_in_worktree(
         if not dry_run:
             wt = create_worktree(round_num)
             wt_cwd = wt.path
+            lease = wt.lease
         else:
             wt_cwd = REPO_ROOT
+            lease = new_worker_lease("paper-revise", "paper-revise", display_ordinal=round_num)
         pre_commits = git_log_oneline(10, cwd=wt_cwd)
         recent_text = "\n".join(recent_commits[:5]) if recent_commits else "(none)"
 
         # ── Phase REVIEW ─────────────────────────────────────────
         logger.info(f"[{tag}] Phase REVIEW: theory audit...")
-        review_prompt = build_review_prompt(round_num, recent_text)
+        review_prompt = build_review_prompt(round_num, recent_text, lease)
         review_raw = codex_exec(
             review_prompt,
             work_dir=wt_cwd,
             timeout_seconds=read_timeout("paper_review_timeout", review_timeout),
             model=model,
             dry_run=dry_run,
-            log_tag=f"P{round_num}_review",
+            log_tag=f"{lease.log_tag}_review",
         )
         review = parse_review_output(review_raw)
 
         if not review.success:
             logger.error(f"[{tag}] Phase REVIEW failed: could not parse JSON output "
                          f"({len(review.raw_output)} chars)")
-            _save_round_log(round_num, review, ReviseResult(), [], False)
+            _save_round_log(round_num, review, ReviseResult(), [], False, lease)
             return False, round_num, []
 
         logger.info(f"[{tag}] Phase REVIEW: {len(review.targets)} target(s)")
@@ -2098,7 +2257,7 @@ def run_round_in_worktree(
                         f"{t.get('summary', '')[:100]}")
 
         # Dedup against in-flight rounds
-        kept, dropped = claim_targets(round_num, review.targets)
+        kept, dropped = claim_targets(round_num, review.targets, lease.holder)
         if dropped:
             logger.warning(
                 f"[{tag}] Dedup: dropping {len(dropped)} target(s) in flight: "
@@ -2110,25 +2269,25 @@ def run_round_in_worktree(
         proceed, reason, benign_skip = review_gate_check(review)
         if not proceed:
             logger.warning(f"[{tag}] Review gate: {reason} — skipping revise phase")
-            _save_round_log(round_num, review, ReviseResult(), [], True)
+            _save_round_log(round_num, review, ReviseResult(), [], True, lease)
             return benign_skip, round_num, []
         logger.info(f"[{tag}] Review gate: {reason}")
 
         # ── Phase REVISE ─────────────────────────────────────────
         logger.info(f"[{tag}] Phase REVISE: applying revisions...")
-        revise_prompt = build_revise_prompt(round_num, review.targets)
+        revise_prompt = build_revise_prompt(round_num, review.targets, lease)
         revise_raw = codex_exec(
             revise_prompt,
             work_dir=wt_cwd,
             timeout_seconds=read_timeout("paper_revise_timeout", revise_timeout),
             model=model,
             dry_run=dry_run,
-            log_tag=f"P{round_num}_revise",
+            log_tag=f"{lease.log_tag}_revise",
         )
         revise = parse_revise_output(revise_raw)
 
         # ── Phase VERIFY ─────────────────────────────────────────
-        logger.info(f"[{tag}] Phase VERIFY: gates + PDF build...")
+        logger.info(f"[{tag}] Phase VERIFY: gates + verification envelope...")
         if dry_run:
             success = True
         else:
@@ -2145,14 +2304,14 @@ def run_round_in_worktree(
                 # Flip local success so the finally block leaves the worktree
                 # on disk for the recovery consumer.
                 success = False
-                _save_round_log(round_num, review, revise, new_commits, False)
+                _save_round_log(round_num, review, revise, new_commits, False, lease)
                 return False, round_num, new_commits
             logger.info(f"[{tag}] SUCCESS: merged {len(new_commits)} commit(s)")
             request_peer_sync()
         elif success and dry_run:
             logger.info(f"[{tag}] [DRY RUN] Would merge to {BASE_BRANCH}")
 
-        _save_round_log(round_num, review, revise, new_commits, success)
+        _save_round_log(round_num, review, revise, new_commits, success, lease)
         if success and (new_commits or dry_run):
             logger.info(f"[{tag}] Round SUCCESS")
         else:
@@ -2178,7 +2337,7 @@ def run_round_in_worktree(
             pass
         return False, round_num, []
     finally:
-        release_targets(round_num)
+        release_targets(round_num, lease.holder if "lease" in locals() else None)
         if wt and not dry_run:
             try:
                 if not new_commits or (success and new_commits):
@@ -2203,8 +2362,8 @@ def load_state() -> RoundState:
             state = RoundState(**data)
             if latest > state.round_number:
                 logger.info(
-                    f"Advancing round state from P{state.round_number} to "
-                    f"latest commit P{latest}"
+                    f"Advancing display ordinal from {state.round_number} to "
+                    f"latest legacy commit ordinal {latest}"
                 )
                 state.round_number = latest
             return state
@@ -2231,12 +2390,18 @@ def _save_round_log(
     revise: ReviseResult,
     new_commits: list[str],
     success: bool,
+    lease: WorkerLease | None = None,
 ) -> Path:
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_path = LOG_DIR / f"round_P{round_num}_{ts}.json"
+    stem = lease.log_tag if lease else f"legacy_paper_revise_{round_num}"
+    log_path = LOG_DIR / f"{stem}_{ts}.json"
     with open(log_path, "w", encoding="utf-8") as f:
         json.dump({
             "round": round_num,
+            "display_ordinal": round_num,
+            "worker_id": lease.holder if lease else None,
+            "commit_prefix": lease.commit_prefix if lease else None,
+            "identity": lease.metadata() if lease else None,
             "timestamp": ts,
             "success": success,
             "candidate_pool": review.candidate_pool,
@@ -2281,7 +2446,7 @@ def run_parallel_batch(
     with ThreadPoolExecutor(max_workers=parallel, thread_name_prefix="worker") as pool:
         futures: dict[Future, int] = {}
         for rn in nums:
-            memory_pressure_wait(context=f"dispatch P{rn}")
+            memory_pressure_wait(context=f"dispatch display_ordinal={rn}")
             fut = pool.submit(
                 run_round_in_worktree,
                 rn, recent,
@@ -2296,13 +2461,13 @@ def run_parallel_batch(
                 ok, _, commits = fut.result()
                 if ok:
                     succeeded += 1
-                    logger.info(f"[P{rn}] SUCCESS ({len(commits)} commits)")
+                    logger.info(f"[display_ordinal={rn}] SUCCESS ({len(commits)} commits)")
                 else:
                     failed += 1
-                    logger.warning(f"[P{rn}] FAILED")
+                    logger.warning(f"[display_ordinal={rn}] FAILED")
             except Exception as exc:
                 failed += 1
-                logger.error(f"[P{rn}] EXCEPTION: {exc}")
+                logger.error(f"[display_ordinal={rn}] EXCEPTION: {exc}")
 
     state.recent_commits = git_log_oneline(5)
     if failed == parallel:
@@ -2395,8 +2560,11 @@ def main() -> int:
     if args.status:
         state = load_state()
         wt_result = run_cmd(["git", "worktree", "list"], cwd=REPO_ROOT)
-        active = [l for l in wt_result.stdout.splitlines() if "paper_P" in l]
-        print(f"Round:                 P{state.round_number}")
+        active = [
+            l for l in wt_result.stdout.splitlines()
+            if "paper_revise_" in l or "paper_P" in l
+        ]
+        print(f"Display ordinal:       {state.round_number}")
         print(f"Consecutive failures:  {state.consecutive_failures}")
         print(f"Base branch:           {BASE_BRANCH}")
         print(f"Active worktrees:      {len(active)}")
@@ -2441,7 +2609,9 @@ def main() -> int:
         run_cmd(["git", "worktree", "prune"], cwd=REPO_ROOT)
         if WORKTREE_DIR.exists():
             for entry in WORKTREE_DIR.iterdir():
-                if entry.is_dir() and entry.name.startswith("paper_P"):
+                parsed = parse_new_worktree_name(entry.name)
+                legacy = legacy_worktree_kind(entry.name)
+                if entry.is_dir() and (parsed and parsed[0] == "paper-revise" or legacy and legacy[0] == "paper-revise"):
                     wt_result = run_cmd(["git", "worktree", "list", "--porcelain"],
                                         cwd=REPO_ROOT)
                     if str(entry) not in wt_result.stdout:
@@ -2453,7 +2623,7 @@ def main() -> int:
         logger.info(f"Resetting consecutive_failures={state.consecutive_failures}")
         state.consecutive_failures = 0
         save_state(state)
-    logger.info(f"Starting at P{state.round_number}")
+    logger.info(f"Starting at display_ordinal={state.round_number}")
 
     if (not args.dry_run and PEER_BRANCH and not args.no_peer_sync
             and args.peer_sync_interval > 0):
@@ -2515,7 +2685,7 @@ def main() -> int:
                     state.round_number += 1
                     rn = state.round_number
                     save_state(state)
-                memory_pressure_wait(context=f"dispatch P{rn}")
+                memory_pressure_wait(context=f"dispatch display_ordinal={rn}")
                 fut = pool.submit(
                     run_round_in_worktree,
                     rn, state.recent_commits,
@@ -2524,7 +2694,7 @@ def main() -> int:
                     revise_timeout=args.revise_timeout,
                 )
                 futures[fut] = rn
-                logger.info(f"Dispatching P{rn} (rolling)")
+                logger.info(f"Dispatching display_ordinal={rn} (rolling)")
 
             for _ in range(read_target_parallel(args.parallel)):
                 _submit_next()
@@ -2546,7 +2716,7 @@ def main() -> int:
                     except Exception as exc:
                         total_failed += 1
                         state.consecutive_failures += 1
-                        logger.error(f"[P{rn}] EXCEPTION: {exc}")
+                        logger.error(f"[display_ordinal={rn}] EXCEPTION: {exc}")
                     state.recent_commits = git_log_oneline(5)
                     save_state(state)
                     # Re-read live target each completion. Top up to target;
@@ -2593,7 +2763,7 @@ def main() -> int:
 
     logger.info(f"{'='*60}")
     logger.info(f"Session complete: {total_succeeded} succeeded, {total_failed} failed")
-    logger.info(f"Final round: P{state.round_number}")
+    logger.info(f"Final display_ordinal={state.round_number}")
     logger.info(f"{'='*60}")
     return 0 if total_succeeded > 0 or args.dry_run else 1
 

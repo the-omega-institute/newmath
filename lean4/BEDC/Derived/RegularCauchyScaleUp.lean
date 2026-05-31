@@ -182,6 +182,124 @@ theorem RegularCauchyScaleCarrier_classifier_route_exhaustion [AskSetup] [Packag
       provenanceNamecertEndpoint,
       endpointPkg⟩
 
+theorem RegularCauchyScaleCarrier_ledger_exactness_obligation [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg →
+      hsame ledgerRead readback →
+        UnaryHistory scalar ∧ UnaryHistory source ∧ UnaryHistory window ∧
+          UnaryHistory scaledEndpoint ∧ UnaryHistory budget ∧ UnaryHistory ledgerRead ∧
+            Cont scalar window scalarEndpoint ∧ Cont source window sourceEndpoint ∧
+              Cont scalarEndpoint sourceEndpoint scaledEndpoint ∧
+                Cont scaledEndpoint budget readback ∧ Cont readback route provenance ∧
+                  Cont provenance namecert endpoint ∧ hsame sameRows (append scalar source) ∧
+                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameLedgerRead
+  obtain ⟨scalarUnary, sourceUnary, windowUnary, _scalarEndpointUnary,
+    _sourceEndpointUnary, scaledEndpointUnary, budgetUnary, readbackUnary, _sameRowsUnary,
+    _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary, scalarWindow,
+    sourceWindow, endpointsScaled, scaledBudgetReadback, readbackRouteProvenance,
+    provenanceNamecertEndpoint, sameRowsAppend, endpointPkg⟩ := carrier
+  exact
+    ⟨scalarUnary,
+      sourceUnary,
+      windowUnary,
+      scaledEndpointUnary,
+      budgetUnary,
+      unary_transport readbackUnary (hsame_symm sameLedgerRead),
+      scalarWindow,
+      sourceWindow,
+      endpointsScaled,
+      scaledBudgetReadback,
+      readbackRouteProvenance,
+      provenanceNamecertEndpoint,
+      sameRowsAppend,
+      endpointPkg⟩
+
+theorem RegularCauchyScaleCarrier_scalar_classifier_stability_obligation
+    [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint scalarT sourceT windowT budgetT readbackT : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg →
+      hsame scalarT scalar →
+        hsame sourceT source →
+          hsame windowT window →
+            hsame budgetT budget →
+              hsame readbackT readback →
+                UnaryHistory scalarT ∧ UnaryHistory sourceT ∧ UnaryHistory windowT ∧
+                  UnaryHistory budgetT ∧ UnaryHistory readbackT ∧
+                    Cont scaledEndpoint budget readback ∧ Cont readback route provenance ∧
+                      Cont provenance namecert endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameScalar sameSource sameWindow sameBudget sameReadback
+  obtain ⟨scalarUnary, sourceUnary, windowUnary, _scalarEndpointUnary,
+    _sourceEndpointUnary, _scaledEndpointUnary, budgetUnary, readbackUnary, _sameRowsUnary,
+    _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary, _scalarWindow,
+    _sourceWindow, _endpointsScaled, scaledBudgetReadback, readbackRouteProvenance,
+    provenanceNamecertEndpoint, _sameRowsAppend, endpointPkg⟩ := carrier
+  exact
+    ⟨unary_transport scalarUnary (hsame_symm sameScalar),
+      unary_transport sourceUnary (hsame_symm sameSource),
+      unary_transport windowUnary (hsame_symm sameWindow),
+      unary_transport budgetUnary (hsame_symm sameBudget),
+      unary_transport readbackUnary (hsame_symm sameReadback),
+      scaledBudgetReadback,
+      readbackRouteProvenance,
+      provenanceNamecertEndpoint,
+      endpointPkg⟩
+
+theorem RegularCauchyScaleCarrier_classifier_stability_obligation
+    [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint scalar' source' window' scalarEndpoint' sourceEndpoint'
+      scaledEndpoint' budget' readback' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg →
+      hsame scalar' scalar →
+        hsame source' source →
+          hsame window' window →
+            hsame scalarEndpoint' scalarEndpoint →
+              hsame sourceEndpoint' sourceEndpoint →
+                hsame scaledEndpoint' scaledEndpoint →
+                  hsame budget' budget →
+                    hsame readback' readback →
+                      UnaryHistory scalar' ∧ UnaryHistory source' ∧ UnaryHistory window' ∧
+                        UnaryHistory scalarEndpoint' ∧ UnaryHistory sourceEndpoint' ∧
+                          UnaryHistory scaledEndpoint' ∧ UnaryHistory budget' ∧
+                            UnaryHistory readback' ∧ Cont scalar window scalarEndpoint ∧
+                              Cont source window sourceEndpoint ∧
+                                Cont scalarEndpoint sourceEndpoint scaledEndpoint ∧
+                                  Cont scaledEndpoint budget readback ∧
+                                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameScalar sameSource sameWindow sameScalarEndpoint sameSourceEndpoint
+    sameScaledEndpoint sameBudget sameReadback
+  obtain ⟨scalarUnary, sourceUnary, windowUnary, scalarEndpointUnary, sourceEndpointUnary,
+    scaledEndpointUnary, budgetUnary, readbackUnary, _sameRowsUnary, _routeUnary,
+    _provenanceUnary, _namecertUnary, _endpointUnary, scalarWindow, sourceWindow,
+    endpointsScaled, scaledBudgetReadback, _readbackRouteProvenance,
+    _provenanceNamecertEndpoint, _sameRowsAppend, endpointPkg⟩ := carrier
+  exact
+    ⟨unary_transport scalarUnary (hsame_symm sameScalar),
+      unary_transport sourceUnary (hsame_symm sameSource),
+      unary_transport windowUnary (hsame_symm sameWindow),
+      unary_transport scalarEndpointUnary (hsame_symm sameScalarEndpoint),
+      unary_transport sourceEndpointUnary (hsame_symm sameSourceEndpoint),
+      unary_transport scaledEndpointUnary (hsame_symm sameScaledEndpoint),
+      unary_transport budgetUnary (hsame_symm sameBudget),
+      unary_transport readbackUnary (hsame_symm sameReadback),
+      scalarWindow,
+      sourceWindow,
+      endpointsScaled,
+      scaledBudgetReadback,
+      endpointPkg⟩
+
 theorem RegularCauchyScaleCarrier_real_scalar_non_escape [AskSetup] [PackageSetup]
     {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
       route provenance namecert endpoint consumer routeRead : BHist}
@@ -380,5 +498,97 @@ theorem RegularCauchyScaleCarrier_realup_seal_boundary [AskSetup] [PackageSetup]
   exact
     ⟨cert, readbackUnary, provenanceUnary, endpointUnary, realSealUnary, readbackRoute,
       provenanceNamecert, endpointReadbackSeal, endpointPkg, realSealPkg⟩
+
+theorem RegularCauchyScaleCarrier_shared_tail_normalization [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint consumerLeft consumerRight : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg →
+      hsame consumerLeft readback →
+        hsame consumerRight readback →
+          UnaryHistory consumerLeft ∧ UnaryHistory consumerRight ∧
+            hsame consumerLeft consumerRight ∧ UnaryHistory readback ∧ UnaryHistory budget ∧
+              Cont scaledEndpoint budget readback ∧ Cont readback route provenance ∧
+                Cont provenance namecert endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier leftReadback rightReadback
+  obtain ⟨_scalarUnary, _sourceUnary, _windowUnary, _scalarEndpointUnary,
+    _sourceEndpointUnary, _scaledEndpointUnary, budgetUnary, readbackUnary, _sameRowsUnary,
+    _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary, _scalarWindow,
+    _sourceWindow, _endpointsScaled, scaledBudgetReadback, readbackRouteProvenance,
+    provenanceNamecertEndpoint, _sameRowsAppend, endpointPkg⟩ := carrier
+  exact
+    ⟨unary_transport readbackUnary (hsame_symm leftReadback),
+      unary_transport readbackUnary (hsame_symm rightReadback),
+      hsame_trans leftReadback (hsame_symm rightReadback),
+      readbackUnary,
+      budgetUnary,
+      scaledBudgetReadback,
+      readbackRouteProvenance,
+      provenanceNamecertEndpoint,
+      endpointPkg⟩
+
+theorem RegularCauchyScaleCarrier_cofinal_budget_refinement [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint refinedBudget refinedReadback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg ->
+      hsame refinedBudget budget ->
+        Cont scaledEndpoint refinedBudget refinedReadback ->
+          PkgSig bundle refinedReadback pkg ->
+            UnaryHistory scalar ∧ UnaryHistory source ∧ UnaryHistory window ∧
+              UnaryHistory scaledEndpoint ∧ UnaryHistory refinedBudget ∧
+                UnaryHistory refinedReadback ∧ Cont scalar window scalarEndpoint ∧
+                  Cont source window sourceEndpoint ∧
+                    Cont scalarEndpoint sourceEndpoint scaledEndpoint ∧
+                      Cont scaledEndpoint refinedBudget refinedReadback ∧
+                        hsame sameRows (append scalar source) ∧ PkgSig bundle endpoint pkg ∧
+                          PkgSig bundle refinedReadback pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameRefinedBudget refinedRoute refinedPkg
+  obtain ⟨scalarUnary, sourceUnary, windowUnary, _scalarEndpointUnary,
+    _sourceEndpointUnary, scaledEndpointUnary, budgetUnary, _readbackUnary, _sameRowsUnary,
+    _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary, scalarWindow,
+    sourceWindow, endpointsScaled, _scaledBudgetReadback, _readbackRouteProvenance,
+    _provenanceNamecertEndpoint, sameRowsAppend, endpointPkg⟩ := carrier
+  have refinedBudgetUnary : UnaryHistory refinedBudget :=
+    unary_transport budgetUnary (hsame_symm sameRefinedBudget)
+  have refinedReadbackUnary : UnaryHistory refinedReadback :=
+    unary_cont_closed scaledEndpointUnary refinedBudgetUnary refinedRoute
+  exact
+    ⟨scalarUnary, sourceUnary, windowUnary, scaledEndpointUnary, refinedBudgetUnary,
+      refinedReadbackUnary, scalarWindow, sourceWindow, endpointsScaled, refinedRoute,
+      sameRowsAppend, endpointPkg, refinedPkg⟩
+
+theorem RegularCauchyScaleCarrier_tail_window_carrier_obligation [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint tailRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg ->
+      Cont budget readback tailRead ->
+        PkgSig bundle tailRead pkg ->
+          UnaryHistory scalar ∧ UnaryHistory source ∧ UnaryHistory window ∧
+            UnaryHistory scaledEndpoint ∧ UnaryHistory budget ∧ UnaryHistory readback ∧
+              UnaryHistory tailRead ∧ Cont scalar window scalarEndpoint ∧
+                Cont source window sourceEndpoint ∧
+                  Cont scalarEndpoint sourceEndpoint scaledEndpoint ∧
+                    Cont scaledEndpoint budget readback ∧ Cont budget readback tailRead ∧
+                      PkgSig bundle endpoint pkg ∧ PkgSig bundle tailRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier budgetReadbackTail tailPkg
+  obtain ⟨scalarUnary, sourceUnary, windowUnary, _scalarEndpointUnary,
+    _sourceEndpointUnary, scaledEndpointUnary, budgetUnary, readbackUnary, _sameRowsUnary,
+    _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary, scalarWindow,
+    sourceWindow, endpointsScaled, scaledBudgetReadback, _readbackRouteProvenance,
+    _provenanceNamecertEndpoint, _sameRowsAppend, endpointPkg⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed budgetUnary readbackUnary budgetReadbackTail
+  exact
+    ⟨scalarUnary, sourceUnary, windowUnary, scaledEndpointUnary, budgetUnary, readbackUnary,
+      tailUnary, scalarWindow, sourceWindow, endpointsScaled, scaledBudgetReadback,
+      budgetReadbackTail, endpointPkg, tailPkg⟩
 
 end BEDC.Derived.RegularCauchyScaleUp

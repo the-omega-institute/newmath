@@ -27,7 +27,7 @@ VERSION = "loning-pipeline-signals"
 
 
 PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
-    ("tastegate_hardening", re.compile(r"TasteGate|FieldFaithful|Nontrivial|StructurallyAtomic|ChapterTasteGate", re.I)),
+    ("tastegate_hardening", re.compile(r"TasteGate|FieldFaithful|Nontrivial|ChapterTasteGate", re.I)),
     ("paper_gate_hardening", re.compile(r"phase_paper_gates|phase_review|phase_revise|origin\{ai\}|falsifiablePrediction|independenceWitness", re.I)),
     ("conjecture_channel", re.compile(r"conjecture|parts/conjectures", re.I)),
     ("ripeness_signal", re.compile(r"ripeness|dossier_ripeness|in_degree|orphan", re.I)),

@@ -90,4 +90,34 @@ theorem CauchyProductPacket_real_budget_multiplication_boundary [AskSetup] [Pack
       classifierRoute, classifierBudget, budgetSealRoute, sealSelectorRead,
       selectorMultiplication, namePkg, multiplicationSealPkg⟩
 
+theorem CauchyProductPacket_root_source_window_strict_obstruction [AskSetup] [PackageSetup]
+    {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product
+      classifier transport routes ledger name realSeal obstructionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA
+        observationB product classifier transport routes ledger name bundle pkg ->
+      Cont transport routes realSeal ->
+        Cont realSeal ledger obstructionRead ->
+          PkgSig bundle obstructionRead pkg ->
+            UnaryHistory sourceA ∧ UnaryHistory sourceB ∧ UnaryHistory windowA ∧
+              UnaryHistory windowB ∧ UnaryHistory transport ∧ UnaryHistory realSeal ∧
+                UnaryHistory obstructionRead ∧ Cont windowA windowB transport ∧
+                  Cont transport routes realSeal ∧ Cont realSeal ledger obstructionRead ∧
+                    PkgSig bundle name pkg ∧ PkgSig bundle obstructionRead pkg := by
+  -- BEDC touchpoint anchor: CauchyProductPacket BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet transportRoutesRealSeal realSealLedgerObstruction obstructionPkg
+  obtain ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, _radiusAUnary,
+    _radiusBUnary, _observationAUnary, _observationBUnary, routesUnary, ledgerUnary,
+    windowTransport, _productRoute, _classifierRoute, namePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed windowAUnary windowBUnary windowTransport
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed transportUnary routesUnary transportRoutesRealSeal
+  have obstructionUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed realSealUnary ledgerUnary realSealLedgerObstruction
+  exact
+    ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, transportUnary,
+      realSealUnary, obstructionUnary, windowTransport, transportRoutesRealSeal,
+      realSealLedgerObstruction, namePkg, obstructionPkg⟩
+
 end BEDC.Derived.CauchyProductUp

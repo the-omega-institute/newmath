@@ -1,0 +1,103 @@
+\chapter{MetaCIC Candidate Normalization Confluence Handoff NameCert Construction}
+\label{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert}
+\origin{ai}
+
+The $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet realizes the candidate-mediated strong-normalization boundary of \autoref{ch:metacic-normalization-audit-map} as a finite handoff surface for confluence and decidability consumers. It sits beside the critical-path carrier of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the residual confluence envelope of \autoref{ch:concrete-instances-metacic-confluence-residual-envelope-namecert}, and the decidable boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}. The packet names a guarded route from candidate evidence to bounded normal endpoints and residual-envelope reads; it does not assert unconditional strong normalization, full Church--Rosser, unrestricted subject reduction, or global closed-term conversion decidability.
+
+\begin{definition}[MetaCIC candidate normalization confluence handoff carrier]
+\label{def:metacic-candidate-normalization-confluence-handoff-carrier}
+A $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier is a finite $\BHist$ packet
+$$
+H=(A,K,N,F,C,D,B,T,R,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the audit-map anchor row, binding the packet to the candidate-mediated reading of \autoref{ch:metacic-normalization-audit-map}.
+\item $K$ is the candidate-evidence row, storing Candidate, ClosedCandidate, or CandidateSet membership data before any strong-normalization read is exported.
+\item $N$ is the normal-endpoint row, recording the bounded normal endpoint or no-infinite-reduction projection obtained from $K$.
+\item $F$ is the $\MetaCICNormalizationFrontierUp$ row that keeps candidate evidence and finished-normal evidence inside the displayed frontier packet.
+\item $C$ is the confluence-facing row, read through the residual envelope of \autoref{ch:concrete-instances-metacic-confluence-residual-envelope-namecert}.
+\item $D$ is the $\MetaCICDecidableBoundaryUp$ row, limiting decidability reads to bounded checker output and normal endpoint comparison.
+\item $B$ is the blocked-edge row, retaining subject-reduction and residual-substitution obligations as visible boundaries rather than discharged theorems.
+\item $T$ records componentwise $\hsame$ transport for the audit, candidate, normal endpoint, frontier, confluence, decidability, blocked-edge, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a MetaCIC consumer request through $A,K,N,F,C,D,B,T$.
+\item $P$ is the $\Pkg$ provenance over $\MetacicCandidateNormalizationConfluenceHandoffUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\MetacicConfluenceAuditWitnessUp$, $\MetaCICDecidableBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MetacicCandidateNormalizationConfluenceHandoffUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,K,N,F,C,D,B,T,R,P,L$. It has no coordinate for evidence-free normalization, a global parallel diamond, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC candidate normalization confluence handoff boundary]
+\label{thm:metacic-candidate-normalization-confluence-handoff-boundary}
+For every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier
+$$
+H=(A,K,N,F,C,D,B,T,R,P,L),
+$$
+the local $\NameCert_{\MetacicCandidateNormalizationConfluenceHandoffUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the audit anchor, candidate evidence, normal endpoint, normalization frontier, residual confluence envelope, decidable boundary, blocked-edge row, transport, replay, provenance, and local naming;
+\item candidate-gate exactness, requiring every normalization read to pass through $K$ and the frontier row $F$ before $N$ is consumed;
+\item confluence handoff discipline, requiring every residual or join read to pass through $C$ while retaining $B$ as a visible blocked edge;
+\item decidable-boundary discipline, requiring every conversion-facing read to pass through $D$ after $N$ and before any bounded normal comparison is exported;
+\item frontier non-collapse, requiring $T,R,P,L$ to preserve the same rows without promoting candidate-mediated SN into an unconditional closed-term theorem or residual-envelope rows into full Church--Rosser.
+\end{enumerate}
+No handoff obligation is stored outside $A,K,N,F,C,D,B,T,R,P,L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. The accepted packet displays exactly the audit anchor, candidate evidence, normal endpoint, normalization frontier, residual confluence envelope, decidable boundary, blocked-edge, and structural rows.
+
+The normalization stage is $A,K,N,F$. The audit anchor fixes the candidate-mediated reading; the candidate row $K$ is exposed before the endpoint row $N$, and the frontier row $F$ keeps both inside the public normalization boundary.
+
+The confluence and decidability stage is $C,D,B$. A confluence-facing consumer may read residual-envelope data through $C$, but the blocked-edge row $B$ remains visible. A conversion-facing consumer may read bounded checker output through $D$ only after the normal endpoint has been displayed.
+
+Finally $T,R,P,L$ transport, replay, source, and name the same finite route. Since the carrier contains no evidence-free normalization coordinate, global diamond theorem, unrestricted subject-reduction proof, quotient syntax equality, host evaluator soundness, or closed-consistency endpoint, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate handoff consumer boundary]
+\label{thm:metacic-candidate-normalization-confluence-handoff-consumer-boundary}
+Every public consumer of an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet factors through
+$$
+\MetaCICCriticalPathUp \longmapsto \MetaCICNormalizationFrontierUp \longmapsto C,D,B \longmapsto T,R,P,L .
+$$
+The consumer receives candidate-mediated normalization evidence, bounded normal endpoint data, residual-envelope visibility, decidable-boundary routing, and blocked-edge retention. It receives no unconditional strong-normalization theorem, full Church--Rosser theorem, unrestricted subject-reduction theorem, global conversion decider, or completed closed-consistency proof.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. The audit and critical-path rows determine which candidate-mediated normalization and boundary rows are visible to the consumer.
+
+Apply \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. The candidate gate exposes $K,F,N$ before any normal endpoint is available, while $C,D,B$ retain the confluence and decidability boundaries as displayed rows.
+
+The structural rows $T,R,P,L$ do not add another route. They preserve the same carrier under componentwise transport, replay it for downstream consumers, record provenance, and name the packet locally. The absent global theorems cannot be projected from those rows.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate normalization residual progress]
+\label{thm:metacic-candidate-normalization-residual-progress}
+An accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet consumes residual data only as a progress ledger. Every admitted candidate-normalization row read through $A,K,N,F,C,D,B,T,R,P,L$ either forwards a retained premise through the candidate and frontier rows $K,F$ or emits a residual obstruction row through $C$ and $B$, with the residual boundary read against \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}. The packet does not assert full confluence, unrestricted subject reduction, unconditional strong normalization, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. The candidate-normalization data are $A,K,N,F$, the residual and decidability boundary rows are $C,D,B$, and the structural rows are $T,R,P,L$.
+
+Apply \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. The candidate gate forces any normalization row to expose $K$ and $F$ before a normal endpoint is consumed, so a retained premise remains visible when the row is forwarded.
+
+If the row cannot be forwarded as a retained premise, the same boundary theorem routes the read through $C$ and $B$. The residual envelope is then consumed as a ledger compatible with \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}, while the blocked-edge row records the obstruction rather than discharging it.
+
+Finally use \autoref{thm:metacic-candidate-normalization-confluence-handoff-consumer-boundary}. The public consumer receives only the candidate-mediated route, residual-envelope visibility, decidable-boundary routing, blocked-edge retention, and structural rows. Since the excluded global endpoints are not carrier coordinates, the progress ledger cannot be read as a full confluence or strong-normalization theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ read that exports a normal endpoint, residual-envelope row, or bounded conversion comparison without first exposing candidate evidence, the normalization frontier, the confluence residual envelope, the decidable boundary, blocked-edge retention, transport, replay, provenance, and local naming is outside the carrier surface.}
+
+\independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacic-confluence-residual-envelope, metacicdecidableboundary, metacic-normalization-confluence-bridge: no listed sibling supplies the joint handoff containing candidate evidence, bounded normal endpoint data, residual-envelope visibility, decidable-boundary routing, blocked-edge retention, transport, replay, provenance, and local NameCert rows while refusing unconditional SN and Church--Rosser.}
+
+Lean follow-up should provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the carrier so the candidate row, residual-envelope row, and decidable-boundary row can be audited as distinct fields rather than as a collapsed route.
+
+\closureat{MetacicCandidateNormalizationConfluenceHandoffUp}{seedStr}
+
+\begin{closurestatus}{\MetacicCandidateNormalizationConfluenceHandoffUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}, \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}, and \autoref{thm:metacic-candidate-normalization-confluence-handoff-consumer-boundary} seed the finite handoff from candidate-mediated normalization through confluence residual-envelope and decidable-boundary rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unconditional strong normalization, full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, closed consistency, Lean proof obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-gate exactness, confluence handoff discipline, decidable-boundary discipline, frontier non-collapse, Nontrivial, and FieldFaithful instances for BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.}
+  \constructivestory{A $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet is generated from a MetaCIC audit anchor, candidate evidence, bounded normal endpoint row, MetaCICNormalizationFrontierUp row, residual confluence-envelope row, MetaCICDecidableBoundaryUp row, blocked-edge retention, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

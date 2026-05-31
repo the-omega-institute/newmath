@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -6,6 +7,7 @@ namespace BEDC.Derived.CauchyProductCommutativityUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -201,6 +203,18 @@ private theorem cauchyProductCommutativityToEventFlow_injective
     (Eq.trans (cauchyProductCommutativity_round_trip x).symm
       (Eq.trans hread (cauchyProductCommutativity_round_trip y)))
 
+private theorem cauchyProductCommutativityFields_faithful :
+    ∀ x y : CauchyProductCommutativityUp,
+      cauchyProductCommutativityFields x = cauchyProductCommutativityFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk Pxy₁ Pyx₁ Wx₁ Wy₁ Dxy₁ Dyx₁ Rxy₁ Ryx₁ Exy₁ Eyx₁ H₁ C₁ Q₁ N₁ =>
+      cases y with
+      | mk Pxy₂ Pyx₂ Wx₂ Wy₂ Dxy₂ Dyx₂ Rxy₂ Ryx₂ Exy₂ Eyx₂ H₂ C₂ Q₂ N₂ =>
+          cases hfields
+          rfl
+
 instance cauchyProductCommutativityBHistCarrier :
     BHistCarrier CauchyProductCommutativityUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -219,6 +233,12 @@ instance cauchyProductCommutativityChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (cauchyProductCommutativityToEventFlow_injective heq)
+
+instance cauchyProductCommutativityFieldFaithful :
+    FieldFaithful CauchyProductCommutativityUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := cauchyProductCommutativityFields
+  field_faithful := cauchyProductCommutativityFields_faithful
 
 instance cauchyProductCommutativityNontrivial :
     BEDC.Meta.TasteGate.Nontrivial CauchyProductCommutativityUp where
@@ -320,5 +340,23 @@ theorem CauchyProductCommutativityTasteGate_single_carrier_alignment :
                     (cauchyProductCommutativityEncodeBHist_injective hQ)
                     (cauchyProductCommutativityEncodeBHist_injective hN)
       · rfl
+
+theorem CauchyProductCommutativity_window_swap
+    {Pxy Pyx Wx Wy Dxy Dyx Rxy Ryx Exy Eyx H C Q N replay : BHist} :
+    Cont H C replay →
+      cauchyProductCommutativityFields
+          (CauchyProductCommutativityUp.mk Pyx Pxy Wy Wx Dyx Dxy Ryx Rxy Eyx Exy H C Q N) =
+        [Pyx, Pxy, Wy, Wx, Dyx, Dxy, Ryx, Rxy, Eyx, Exy, H, C, Q, N] ∧
+          hsame
+            (cauchyProductCommutativityDecodeBHist
+              (cauchyProductCommutativityEncodeBHist H))
+            H ∧
+            Cont H C replay := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro replayRoute
+  exact
+    ⟨rfl,
+      cauchyProductCommutativity_decode_encode_bhist H,
+      replayRoute⟩
 
 end BEDC.Derived.CauchyProductCommutativityUp

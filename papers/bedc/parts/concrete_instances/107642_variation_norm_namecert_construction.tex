@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\VariationNormUp$}
+\label{ch:concrete-instances-variation-norm-namecert}
+\origin{human}
+
+Following Jordan and the bounded-variation treatment in Rudin, the $\VariationNormUp$ packet names the finite norm row obtained from displayed partition variation data. It consumes the $\BoundedVariationUp$ partition ledger of \autoref{ch:concrete-instances-boundedvariation-namecert}, the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the regular completion route through \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet records a finite variation-norm observation over displayed partitions; it does not introduce a completed Banach space of bounded-variation functions, a host supremum over all partitions, or quotient equality of functions.
+
+\begin{definition}[VariationNorm carrier]
+\label{def:variation-norm-carrier}
+A $\VariationNormUp$ carrier is a finite $\BHist$ packet
+$$
+V=(B,R,Q,S,D,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the source $\BoundedVariationUp$ packet, including its displayed interval row, finite partition ledger, endpoint-name rows, dyadic edge observations, finite variation sum, and common-refinement rows.
+\item $R$ is the $\RealUp$ endpoint and value seal read from the same partition ledger.
+\item $Q$ is the $\RegSeqRatUp$ regular-name row used when the endpoint values are consumed through rational readback.
+\item $S$ is the finite $\StreamNameUp$ window row from which the regular-name reads are inspected.
+\item $D$ is the $\DyadicRatCoreUp$ edge-difference and finite-sum ledger.
+\item $A$ is the displayed variation-norm row, recording the finite base-value read together with the finite partition-variation sum read from $B$.
+\item $H$ records componentwise $\hsame$ transport for the bounded-variation source, Real seal, regular-name row, stream window, dyadic ledger, norm row, continuation, provenance, and local name.
+\item $C$ records the displayed $\Cont$ replay route from a variation-norm request through $B,R,Q,S,D,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedVariationUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VariationNormUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by the displayed bounded-variation packet, Real or regular endpoint reads, stream windows, dyadic variation ledger, variation-norm row, and structural transport and provenance. It has no coordinate for a completed function space, host function equality, variation measure, hidden partition family, or supremum over all partitions.
+\end{definition}
+
+\begin{theorem}[VariationNorm NameCert obligations]
+\label{thm:variation-norm-namecert-obligations}
+For every accepted $\VariationNormUp$ carrier $V=(B,R,Q,S,D,A,H,C,P,N)$, the local $\NameCert_{\VariationNormUp}$ obligation surface consists exactly of bounded-variation source admission, Real endpoint sealing, RegSeqRat readback, finite StreamName window selection, DyadicRatCore edge accounting, displayed variation-norm row formation, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming through the displayed rows.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The only source of variation data is the $\BoundedVariationUp$ row $B$, and the only real-valued reads attached to it are the Real seal $R$, the regular-name row $Q$, the stream window $S$, and the dyadic ledger $D$.
+
+The variation-norm row $A$ is then formed from those displayed rows. It reads a finite base-value component and the displayed partition-variation sum, both already present in the bounded-variation ledger and its Real/Completion dependency route.
+
+Transport and replay are handled by $H$ and $C$. These rows move the same finite source, endpoint, stream, dyadic, and norm data componentwise, while $P$ and $N$ record provenance and local naming. Since the excluded analytic objects have no carrier coordinate, they cannot be part of the local obligation surface.
+\end{proof}
+
+\begin{theorem}[VariationNorm refinement stability]
+\label{thm:variation-norm-refinement-stability}
+Let $V=(B,R,Q,S,D,A,H,C,P,N)$ and $V'=(B',R',Q',S',D',A',H',C',P',N')$ be accepted $\VariationNormUp$ carriers whose bounded-variation source packets compare by a displayed common-refinement classifier. Then the variation-norm rows $A$ and $A'$ compare componentwise after transporting the Real endpoint seals, RegSeqRat readbacks, StreamName windows, DyadicRatCore edge ledgers, $\Pkg$ provenance, and local $\NameCert$ rows through the stored $\hsame$ and $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+Begin with the common-refinement classifier for the source $\BoundedVariationUp$ packets. By \autoref{ch:concrete-instances-boundedvariation-namecert}, the comparison is a displayed finite refinement with transported endpoint rows, dyadic edge observations, finite variation sums, and package and naming provenance.
+
+Read the Real and completion-facing coordinates along that same refinement. The rows $R,Q,S,D$ and $R',Q',S',D'$ expose the Real seal, regular-name readback, stream windows, and dyadic edge ledgers without adding a hidden partition or completed function carrier.
+
+Finally replay the norm rows through $C$ and $C'$ and transport them through $H$ and $H'$. The row $A$ is built from the same finite base-value and partition-variation data as $A'$, after the displayed common refinement, so the variation-norm comparison is stable under the classifier.
+\end{proof}
+
+\closureat{VariationNormUp}{seedStr}
+\closureat{VariationNormUp}{obligationStr}
+
+\begin{closurestatus}{\VariationNormUp}
+  \constructivestory{A $\VariationNormUp$ packet is generated from a BoundedVariation source, Real endpoint seal, RegSeqRat readback, StreamName window, DyadicRatCore edge ledger, displayed variation-norm row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:variation-norm-carrier}, \autoref{thm:variation-norm-namecert-obligations}, and \autoref{thm:variation-norm-refinement-stability} bind the finite variation-norm carrier, obligation surface, and common-refinement stability route to the displayed BoundedVariation and Real/Completion dependency rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed bounded-variation function spaces, host function equality, a variation measure, hidden partition families, a supremum over all partitions, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires a checked finite partition-norm consumer theorem over the same bounded-variation source, Real seal, regular-name, stream-window, dyadic-ledger, transport, replay, provenance, and local naming rows.}
+\end{closurestatus}

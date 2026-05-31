@@ -1,0 +1,11 @@
+\begin{theorem}[Prod sum-projection route]
+\label{thm:prod-sum-projection-route}
+For every accepted $\ProdUp$ packet, the two projection rows can be consumed by the $\SumUp$ and $\OptionUp$ finite-data routes only through the displayed product carrier, component projections, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ProdUp}$ rows. The $\SumUp$ route of \autoref{ch:concrete-instances-sum-namecert} may read the projected component as a branch payload only after the product carrier has exposed the ordered pair, and the $\OptionUp$ route of \autoref{ch:concrete-instances-option-namecert} may read the same component as a possible-presence payload only after the product projection row has been named.
+\end{theorem}
+\begin{proof}
+Start with the product public finite-data exit package of \autoref{thm:prod-public-finite-data-exit-package}. It exposes the displayed pair, component projections, semantic certificate, $\hsame$ rows, $\Cont$ rows, $\Pkg$ provenance, and local naming rows before any external finite-data consumer can read a component.
+
+Next apply the existing sibling lattice through \autoref{thm:prod-option-sum-component-sibling-route} and \autoref{prop:prod-sum-list-finite-data-lattice}. These results force branch-style and optional-style reads to pass through the same product component rows rather than through a host tuple projection.
+
+Finally consume the sibling surfaces. The $\SumUp$ chapter accounts for the branch route, while the $\OptionUp$ chapter accounts for the possible-presence route. Since the accepted product packet exports no independent projection oracle outside its carrier, transport, replay, provenance, and NameCert rows, both finite-data consumers receive only the displayed ProdUp route.
+\end{proof}

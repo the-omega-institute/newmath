@@ -294,6 +294,9 @@ instance groundCompilerAuditMapChapterTasteGate : ChapterTasteGate GroundCompile
     intro x y hxy heq
     exact hxy (groundCompilerAuditMapToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate GroundCompilerAuditMapUp :=
+  groundCompilerAuditMapChapterTasteGate
+
 instance groundCompilerAuditMapFieldFaithful : FieldFaithful GroundCompilerAuditMapUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := fun x =>

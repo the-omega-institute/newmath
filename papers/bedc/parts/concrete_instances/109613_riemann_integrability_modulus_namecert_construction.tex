@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RiemannIntegrabilityModulusUp$}
+\label{ch:concrete-instances-riemann-integrability-modulus-namecert}
+\origin{human}
+
+Following Riemann--Darboux integration and Bishop--Bridges constructive analysis, the $\RiemannIntegrabilityModulusUp$ packet records the finite modulus data that turns a Darboux gap estimate into a Cauchy route for integral names. It sits after the equal-mesh surface of \autoref{ch:concrete-instances-uniform-partition-namecert}, the Darboux finite-sum carrier of \autoref{ch:concrete-instances-darboux-sum-namecert}, the integrability carrier of \autoref{ch:concrete-instances-riemann-integrable-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet gives later integration chapters a displayed finite handoff from upper-lower Darboux gaps to Cauchy integral windows without importing selected integrals, quotient functions, open-cover compactness, measure completion, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann integrability modulus carrier]
+\label{def:riemann-integrability-modulus-carrier}
+A $\RiemannIntegrabilityModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,U,L,G,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the closed bounded $\RealUp$ interval and bounded-function observation row consumed by the Darboux and Riemann-integrable surfaces.
+\item $U$ is the $\UniformPartitionUp$ row selecting an equal-mesh finite partition at a requested dyadic tolerance scale.
+\item $L$ is the lower Darboux finite-sum row read over the same interval and partition windows.
+\item $G$ is the upper Darboux finite-sum row read over the same interval and partition windows.
+\item $D$ is the Darboux-gap ledger, recording a positive dyadic tolerance request and the displayed comparison $G-L$ below that request.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns the Darboux-gap ledger into a regular rational Cauchy window for the integral name.
+\item $E$ is the $\DyadicRatCoreUp$ tolerance and terminal $\RealUp$ seal row for every endpoint, sum, gap, and integral-window read.
+\item $H$ records componentwise $\hsame$ transport for interval, partition, lower sum, upper sum, gap, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from Darboux-gap requests, Riemann-integrable reads, or integral-window consumers through $I,U,L,G,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RiemannIntegrabilityModulusUp$, $\RiemannIntegrableUp$, $\UniformPartitionUp$, $\DarbouxSumUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannIntegrabilityModulusUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite constructive Darboux-to-Cauchy modulus history. It has no coordinate for a selected integral value, host function quotient, open cover of the interval, measure-completion object, choice principle, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Riemann integrability modulus NameCert obligations]
+\label{thm:riemann-integrability-modulus-namecert-obligations}
+For every accepted $\RiemannIntegrabilityModulusUp$ carrier $M=(I,U,L,G,D,R,E,H,C,P,N)$, the local $\NameCert_{\RiemannIntegrabilityModulusUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the interval, equal-mesh partition, lower Darboux sum, upper Darboux sum, gap ledger, regular rational readback, dyadic tolerance and Real seal, transport, replay, provenance, and local name;
+\item partition coherence, requiring $L$ and $G$ to read the same $I$ and $U$ rows before the gap ledger $D$ can be consumed;
+\item Darboux-gap exactness, requiring $D$ to expose only the displayed comparison between the upper and lower finite sums at the requested dyadic tolerance;
+\item Cauchy-window readiness, requiring $R$ to be read from $D$ and $E$ before any integral-window consumer receives a regular rational name;
+\item Real seal nonescape, requiring every endpoint, sum, gap, or integral-window read to pass through $E$ after the displayed finite Darboux rows have been exposed;
+\item transport and replay, requiring $H$ and $C$ to preserve the same finite modulus history;
+\item provenance and naming, requiring $P$ and $N$ to package and name exactly the displayed rows;
+\item ledger refusal, excluding selected integrals, quotient functions, open-cover compactness, measure completion, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No Riemann-integrability modulus obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:riemann-integrability-modulus-carrier}. The projection exposes exactly the interval, partition, lower-sum, upper-sum, gap, readback, seal, and structural rows.
+
+The Darboux route is $I,U\mapsto L,G\mapsto D$. Since $L$ and $G$ read the same interval and partition rows, the comparison in $D$ is a comparison between two finite Darboux sums attached to one displayed partition history.
+
+The Cauchy handoff is then read from $D,R,E$. The gap ledger supplies the dyadic tolerance comparison, the regular rational readback turns that comparison into a Cauchy window, and the Real seal records only the resulting finite read.
+
+Finally, $H,C,P,N$ transport, replay, package, and name the same history. The excluded host objects have no carrier coordinate, so the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Darboux-to-Cauchy handoff]
+\label{thm:riemann-integrability-modulus-darboux-cauchy-handoff}
+Every accepted $\RiemannIntegrabilityModulusUp$ carrier $M=(I,U,L,G,D,R,E,H,C,P,N)$ exports a finite route
+$$
+\UniformPartitionUp \longmapsto \DarbouxSumUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+in which a Darboux-gap request first reads the common partition row $U$, then the paired lower and upper finite-sum rows $L,G$, then the gap ledger $D$, and only then the regular rational readback $R$ and Real seal $E$. Any later Riemann-integral or completion-facing consumer of the integral name factors through this route and cannot bypass it by selecting an ambient integral value, quotienting functions, invoking an open-cover compactness theorem, completing a measure space, or using ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:riemann-integrability-modulus-carrier}. The only partition coordinate is $U$, and the only Darboux-sum coordinates are the paired lower and upper rows $L$ and $G$.
+
+The gap ledger $D$ is defined after those rows, so any gap request must pass through the common partition and the paired finite sums before the tolerance comparison is available. The readback row $R$ and the seal row $E$ occur after $D$, hence the Cauchy-window read cannot precede the Darboux comparison.
+
+The replay row $C$ preserves that order for downstream consumers, while $H,P,N$ preserve transport, provenance, and naming. Since no selected integral, quotient-function, open-cover, measure-completion, or ambient-completeness coordinate is present in the carrier, none can be used as an alternate route.
+\end{proof}
+
+\closureat{RiemannIntegrabilityModulusUp}{seedStr}
+
+\begin{closurestatus}{\RiemannIntegrabilityModulusUp}
+  \constructivestory{A $\RiemannIntegrabilityModulusUp$ packet is generated from a closed bounded RealUp interval row, UniformPartitionUp equal-mesh row, paired DarbouxSumUp lower and upper finite sums, Darboux-gap ledger, RegSeqRatUp readback, DyadicRatCoreUp tolerance ledger, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-integrability-modulus-carrier}, \autoref{thm:riemann-integrability-modulus-namecert-obligations}, and \autoref{thm:riemann-integrability-modulus-darboux-cauchy-handoff} seed the finite constructive Darboux-to-Cauchy modulus route over $\UniformPartitionUp$, $\DarbouxSumUp$, $\RiemannIntegrableUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected integrals, quotient functions, open-cover compactness, measure completion, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition coherence, Darboux-gap exactness, Cauchy-window readiness, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RiemannIntegrabilityModulusUp.}
+\end{closurestatus}

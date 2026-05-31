@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\InitialValueProblemUp$}
+\label{ch:concrete-instances-initial-value-problem-namecert}
+\origin{human}
+
+Following Picard and Lindelof, the $\InitialValueProblemUp$ packet records the local ODE initial-data object consumed by Picard--Lindelof as explicit finite NameCert data. It sits between the ODE source of \autoref{ch:concrete-instances-ode-namecert}, the Lipschitz vector-field ledger of \autoref{ch:concrete-instances-lipschitzmap-namecert}, the local existence route of \autoref{ch:concrete-instances-picard-lindelof-namecert}, the complete-metric handoff of \autoref{ch:concrete-instances-completemetric-namecert}, and the real-number ground of \autoref{ch:concrete-instances-real-namecert}. The packet names the initial time, state, local window, vector-field graph, solution graph, and endpoint classifier before any solution representative is exposed.
+
+\begin{definition}[Initial-value problem carrier]
+\label{def:initial-value-problem-carrier}
+An $\InitialValueProblemUp$ carrier is a finite $\BHist$ packet
+$$
+I=(T,X,F,W,S,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the time row, including the initial time cell and the local time-radius ledger;
+\item $X$ is the state row, including the initial state cell and the state-window ledger;
+\item $F$ is the vector-field graph row, read through the $\OdeUp$ and $\LipschitzMapUp$ dependency surface on the same local window;
+\item $W$ is the local window row binding the time and state ledgers used by the Picard route;
+\item $S$ is the solution-graph row exposed only as finite graph windows and not as a selected host function;
+\item $E$ is the endpoint classifier row, comparing endpoint reads inside the same local window;
+\item $H$ records componentwise $\hsame$ transport for the time row, state row, vector-field graph, local window, solution graph, endpoint classifier, replay rows, provenance, and local naming row;
+\item $C$ records the displayed $\Cont$ replay from initial data through vector-field reads, Picard iteration, completion handoff, solution windows, and endpoint classification;
+\item $P$ is the $\Pkg$ provenance over $\InitialValueProblemUp$, $\OdeUp$, $\LipschitzMapUp$, $\PicardLindelofUp$, $\CompleteMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\InitialValueProblemUp}$ row.
+\end{enumerate}
+The classifier accepts only packets with these rows. It has no coordinate for a global flow, maximal continuation, host function-space equality, selected solution representative, or ambient completeness object.
+\end{definition}
+
+\begin{theorem}[Initial-value problem NameCert obligations]
+\label{thm:initial-value-problem-namecert-obligations}
+For an accepted $\InitialValueProblemUp$ carrier $I=(T,X,F,W,S,E,H,C,P,N)$, the local $\NameCert_{\InitialValueProblemUp}$ surface consists exactly of carrier admission for the displayed rows, time-state compatibility for $T$ and $X$, vector-field graph admission through $F$, local-window nonescape through $W$, solution-graph visibility through $S$, endpoint classification through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:initial-value-problem-carrier}. The accepted packet displays the time, state, vector-field, local-window, solution-graph, endpoint, transport, replay, provenance, and local naming rows.
+
+The source rows $T,X,F,W$ bind one local initial-data surface. The time and state cells determine the initial condition, the vector-field graph is read only through the displayed ODE and Lipschitz rows, and the local window records the bounds within which later Picard reads are permitted.
+
+The solution and endpoint rows are downstream of that surface. The row $S$ records only displayed graph windows, while $E$ classifies endpoint reads inside the same local window. Transport, continuation replay, provenance, and local naming preserve this route and do not add global ODE existence, maximal continuation, host function equality, or selected solution representatives.
+\end{proof}
+
+\begin{theorem}[Initial-value problem Picard handoff]
+\label{thm:initial-value-problem-picard-handoff}
+Every accepted $\InitialValueProblemUp$ carrier hands a Picard--Lindelof consumer exactly the displayed route
+$$
+\OdeUp,\ \LipschitzMapUp,\ \PicardLindelofUp,\ \CompleteMetricUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The consumer must read the time row, state row, vector-field graph, and local window before it may inspect solution-graph windows or endpoint classifiers. The handoff exports no global solution curve, maximal interval, host function-space equality, selected solution representative, or completeness principle outside the displayed complete-metric row.
+\end{theorem}
+\begin{proof}
+Start with the initial-data surface. The rows $T$ and $X$ give the initial time and state, while $F$ and $W$ bind the vector-field graph to the same local window.
+
+Replay the Picard-facing route through $C$. The Picard--Lindelof consumer reaches the solution-graph row $S$ only after the ODE and Lipschitz data have been read, and it reaches the endpoint classifier $E$ only through the displayed completion handoff.
+
+Finally use the structural rows. Componentwise $\hsame$ transport in $H$, provenance in $P$, and the local name $N$ record the same finite handoff. Since the carrier contains no global-flow, maximal-continuation, host-equality, selected-representative, or detached-completeness coordinate, none can be exported to the consumer.
+\end{proof}
+
+\closureat{InitialValueProblemUp}{seedStr}
+
+\begin{closurestatus}{\InitialValueProblemUp}
+  \constructivestory{An $\InitialValueProblemUp$ packet is generated from an initial time row, an initial state row, a vector-field graph row, a local window, solution-graph windows, an endpoint classifier, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:initial-value-problem-carrier}, \autoref{thm:initial-value-problem-namecert-obligations}, and \autoref{thm:initial-value-problem-picard-handoff} seed the local initial-data surface consumed by Picard--Lindelof over ODE, Lipschitz, complete-metric, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global ODE existence, maximal continuation, host function-space equality, selected solution representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, time-state compatibility, vector-field graph admission, local-window nonescape, solution-graph visibility, endpoint classification, transport, replay, provenance, and local naming for BEDC.Derived.InitialValueProblemUp.}
+\end{closurestatus}

@@ -4,6 +4,8 @@
 
 Following Nachbin and Kelley, the $\QuasiUniformSpaceUp$ packet records directed uniform entourage data as finite NameCert evidence before any symmetric uniformity or quotient completion is read. It sits on the L10 Real and Completion route beside \autoref{ch:concrete-instances-uniformspace-namecert}, \autoref{ch:concrete-instances-cauchyfilter-namecert}, \autoref{ch:concrete-instances-cauchynet-namecert}, \autoref{ch:concrete-instances-uniformcompletion-namecert}, and \autoref{ch:concrete-instances-separated-uniform-space-namecert}. The packet exposes the asymmetric substrate used by completion-facing filters and nets without asserting inverse entourages, separated quotient completion, selected limits, open-cover compactness, \texttt{Classical.choice}, or \texttt{Quot.sound}.
 
+At the spine level, the reflected row $E$ is a downstream reader of \autoref{ch:concrete-instances-uniformspace-namecert}. Completion-facing consumers route onward through \autoref{ch:concrete-instances-uniformcompletion-namecert}, so the directed quasi-uniform carrier exposes the sibling dependency before any reflected uniform completion data is consumed.
+
 \begin{definition}[QuasiUniformSpace carrier]
 \label{def:quasi-uniform-space-carrier}
 A $\QuasiUniformSpaceUp$ carrier is a finite $\BHist$ packet
@@ -89,12 +91,54 @@ The provenance row $P$ names the same dependency order. It may cite $\UniformSpa
 Componentwise $\hsame$ transport in $H$ preserves these rows without adding an inverse-entourage axiom. Hence symmetric uniformity, separated quotient completion, and selected limits remain outside the carrier.
 \end{proof}
 
+\begin{theorem}[Uniform completion sibling route for quasi-uniform data]
+\label{thm:quasi-uniform-space-uniform-completion-sibling-route}
+Let
+$$
+Q=(U,D,F,N,E,H,C,P,L)
+$$
+be an accepted $\QuasiUniformSpaceUp$ carrier. Every $\UniformCompletionUp$ consumer of $Q$ must first read the directed entourage row $U$, the direction ledger $D$, the $\CauchyFilterUp$ and $\CauchyNetUp$ rows $F,N$, then the reflection row $E$ and the structural rows $H,C,P,L$. Equivalently, the completion-facing route factors through
+$$
+U,D \longmapsto F,N \longmapsto E \longmapsto H,C,P,L
+$$
+before it can use the uniform-completion surface of \autoref{ch:concrete-instances-uniformcompletion-namecert}. The Cauchy-filter and Cauchy-net siblings of \autoref{ch:concrete-instances-cauchyfilter-namecert} and \autoref{ch:concrete-instances-cauchynet-namecert} are therefore mandatory readers, while uniform completion remains a reflected consumer rather than primitive data in the quasi-uniform carrier.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:quasi-uniform-space-cauchy-filter-boundary}. It forces every Cauchy-facing read to inspect $U,D$ before it reaches the filter row $F$ or the net row $N$.
+
+Apply \autoref{thm:quasi-uniform-space-uniform-reflection-route}. A uniform-completion consumer can be named only by the reflected row $E$ or by provenance in $P$, and both are downstream of the directed Cauchy boundary.
+
+The structural rows $H,C,P,L$ then transport, replay, source, and name the same route. Since $\UniformCompletionUp$ is reached through this reflected path, no carrier coordinate promotes quotient completion, separatedness, selected limits, or symmetric uniformity to primitive quasi-uniform data.
+\end{proof}
+
+\begin{theorem}[Metric reflection lattice route for quasi-uniform data]
+\label{thm:quasi-uniform-space-metric-reflection-lattice-route}
+Let
+$$
+Q=(U,D,F,N,E,H,C,P,L)
+$$
+be an accepted $\QuasiUniformSpaceUp$ carrier. Whenever $Q$ is reflected through a symmetric or separated row and then read by a $\MetricSpaceUp$ or $\MetricCompletionUp$ consumer, the route must first expose
+$$
+U,D,F,N,E,H,C,P,L
+$$
+before any metric-space or metric-completion surface is available. Thus the metric-facing lattice route factors through the Cauchy boundary and uniform reflection rows of $Q$ before it reaches the metric certificate of \autoref{ch:concrete-instances-metric-namecert} or the metric-completion sibling of \autoref{ch:concrete-instances-metriccompletion-namecert}.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:quasi-uniform-space-cauchy-filter-boundary}. It forces every completion-facing read to open the directed entourage row $U$, the direction ledger $D$, and the Cauchy filter and net rows $F,N$ before a reflected consumer can inspect completion data.
+
+Next apply \autoref{thm:quasi-uniform-space-uniform-reflection-route}. A symmetric or separated row is present only as a reflected reader in $E$ or as provenance in $P$, so metric structure is downstream of the quasi-uniform route rather than a primitive coordinate of the carrier.
+
+Finally use the sibling route of \autoref{thm:quasi-uniform-space-uniform-completion-sibling-route}. A metric-completion consumer may read the reflected completion surface only after $H,C,P,L$ transport, replay, source, and name the displayed rows. Since none of those rows stores quotient completion equality, a selected limit, or a host metric completion object, those alternate routes remain unavailable.
+\end{proof}
+
+The completion lattice therefore has a mandatory sibling passage: any quasi-uniform completion consumer must first enter the uniform-completion surface of \autoref{ch:concrete-instances-uniformcompletion-namecert}, and only after that reflected uniform row is displayed can metric reflection reach the metric-completion consumer of \autoref{ch:concrete-instances-metriccompletion-namecert}. This dependency prevents a directed entourage packet from being read directly as metric completion data.
+
 \closureat{QuasiUniformSpaceUp}{seedStr}
 
 \begin{closurestatus}{\QuasiUniformSpaceUp}
   \constructivestory{A $\QuasiUniformSpaceUp$ packet is generated from directed entourage observations, a direction ledger, CauchyFilter and CauchyNet read rows, optional uniform reflection, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:quasi-uniform-space-carrier}, \autoref{thm:quasi-uniform-space-entourage-obligations}, \autoref{thm:quasi-uniform-space-cauchy-filter-boundary}, and \autoref{thm:quasi-uniform-space-uniform-reflection-route} seed the directed uniform completion substrate over finite quasi-uniform data.}
+  \scopeclosed{\autoref{def:quasi-uniform-space-carrier}, \autoref{thm:quasi-uniform-space-entourage-obligations}, \autoref{thm:quasi-uniform-space-cauchy-filter-boundary}, \autoref{thm:quasi-uniform-space-uniform-reflection-route}, \autoref{thm:quasi-uniform-space-uniform-completion-sibling-route}, and \autoref{thm:quasi-uniform-space-metric-reflection-lattice-route} seed the directed uniform completion substrate over finite quasi-uniform data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close symmetric uniformity, quotient completion, selected limits, open-cover compactness, choice principles, Lean verification, or a public standard bridge.}

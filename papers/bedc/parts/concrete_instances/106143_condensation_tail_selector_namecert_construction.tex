@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CondensationTailSelectorUp$}
+\label{ch:concrete-instances-condensation-tail-selector-namecert}
+\origin{human}
+
+Following Cauchy's condensation test and the Bishop--Bridges constructive series criterion, the $\CondensationTailSelectorUp$ packet records the finite tail-selector route used by constructive series-test consumers before a regular rational handoff or real seal is read. It sits after the dyadic block comparison surface of \autoref{ch:concrete-instances-cauchy-condensation-test-namecert}, the alternating route of \autoref{ch:concrete-instances-alternating-series-test-namecert}, the Dirichlet route of \autoref{ch:concrete-instances-dirichlet-test-namecert}, the summable-tail modulus of \autoref{ch:concrete-instances-summable-tail-modulus-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed selector for finite tail windows; it is not an infinite tail choice, a selected sum, a quotient series equality, a host real equality, or an ambient $\RealUp$ completeness theorem.
+
+\begin{definition}[Condensation tail selector carrier]
+\label{def:condensation-tail-selector-carrier}
+A $\CondensationTailSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+T=(K,A,D,M,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CauchyCondensationTestUp$ dyadic-block row, exposing the monotone nonnegative source tail, block-index ledger, condensed block terms, and finite comparison budget.
+\item $A$ is the $\AlternatingSeriesTestUp$ face row, exposing the alternating sign ledger, monotone magnitude row, and finite tail-bound schedule when the downstream consumer uses the alternating route.
+\item $D$ is the $\DirichletTestUp$ face row, exposing bounded partial sums, coefficient windows, null-tail data, and the finite Dirichlet tail estimate schedule.
+\item $M$ is the $\SummableTailModulusUp$ row, naming the displayed modulus request that bounds the inspected tail window without choosing an infinite tail.
+\item $S$ is the selector row. It records which of the condensation, alternating, or Dirichlet faces supplies the next finite tail window and which modulus row certifies the requested tolerance.
+\item $R$ is the $\RegSeqRatUp$ handoff row read only after $K,A,D,M,S$ have displayed the selected finite tail route.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the regular rational handoff and the selected finite tail route have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the condensation, alternating, Dirichlet, modulus, selector, handoff, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a series-test request through $K,A,D,M,S,R,E$.
+\item $P$ is the $\Pkg$ provenance over $\CondensationTailSelectorUp$, $\CauchyCondensationTestUp$, $\AlternatingSeriesTestUp$, $\DirichletTestUp$, $\SummableTailModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CondensationTailSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows and their replay route. It has no coordinate for selected infinite sums, countable choice, quotient series equality, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Condensation tail selector NameCert obligations]
+\label{thm:condensation-tail-selector-namecert-obligations}
+For every accepted $\CondensationTailSelectorUp$ carrier $T=(K,A,D,M,S,R,E,H,C,P,N)$, the local $\NameCert_{\CondensationTailSelectorUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the condensation, alternating, Dirichlet, summable-tail modulus, selector, regular handoff, Real seal, transport, replay, provenance, and local naming rows;
+\item selector coverage, requiring $S$ to name one of the displayed $\CauchyCondensationTestUp$, $\AlternatingSeriesTestUp$, or $\DirichletTestUp$ faces before a tail window is exported;
+\item modulus handoff, requiring the selected face to pass through the $\SummableTailModulusUp$ row $M$ before any $\RegSeqRatUp$ readback is available;
+\item non-escape, requiring every terminal $\RealUp$ read to pass through $K,A,D,M,S,R,H,C,P,N$ and excluding selected infinite sums, countable choice, quotient series equality, host real equality, and ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:condensation-tail-selector-carrier}. The rows $K,A,D$ are the only convergence-test faces, and $S$ is the only row allowed to choose among those displayed finite faces for a requested tail window.
+
+The selected face then passes through $M$. Thus the requested tail window is bounded by a displayed $\SummableTailModulusUp$ row before the $\RegSeqRatUp$ handoff $R$ can be read.
+
+Finally $E$ is downstream of $R$, while $H,C,P,N$ transport, replay, source, and locally name the same finite route. Since the carrier contains no coordinate for selected infinite sums, countable choice, quotient series equality, host real equality, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Condensation tail selector test handoff]
+\label{thm:condensation-tail-selector-test-handoff}
+Every series-test consumer of an accepted $\CondensationTailSelectorUp$ packet factors its tail read through the finite route
+$$
+K,A,D\longmapsto S\longmapsto M\longmapsto R\longmapsto E\longmapsto H,C,P,N .
+$$
+Consequently the consumer may cite the condensation, alternating, or Dirichlet test surface through one displayed selector row and one displayed modulus row, but it receives no selected infinite sum, countable-choice operator, quotient series equality, host real equality, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with a consumer asking for a tail window usable by a Real-facing readback. The only available test data are the three displayed faces $K,A,D$, and the only row that records the chosen face is $S$.
+
+The route then reads $M$ before $R$. This forces the tail request to become a finite modulus-bound request rather than a hidden choice of an unbounded tail.
+
+The seal row $E$ is reached only after this handoff, and $H,C,P,N$ preserve the same route under transport, replay it as displayed continuation data, record provenance, and name it locally. The excluded objects are not coordinates of the packet, so they cannot be exported by the handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CondensationTailSelectorUp$ consumer that reaches a $\RegSeqRatUp$ handoff or $\RealUp$ seal while omitting the selected convergence-test face, the selector row, the summable-tail modulus row, transport, replay, provenance, or local naming refutes the packet.}
+
+\independenceWitness{cauchy-condensation-test, alternating-series-test, dirichlet-test, summable-tail-modulus, regseqrat, real: no listed sibling supplies the whole selector packet $T=(K,A,D,M,S,R,E,H,C,P,N)$, because each sibling contributes a test face, a modulus row, a regular handoff, or a terminal seal while this chapter binds them as one finite tail-selector certificate.}
+
+\closureat{CondensationTailSelectorUp}{seedStr}
+
+\begin{closurestatus}{\CondensationTailSelectorUp}
+  \constructivestory{A $\CondensationTailSelectorUp$ packet is generated from CauchyCondensationTest, AlternatingSeriesTest, DirichletTest, SummableTailModulus, RegSeqRat, and RealUp rows, together with componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:condensation-tail-selector-carrier}, \autoref{thm:condensation-tail-selector-namecert-obligations}, and \autoref{thm:condensation-tail-selector-test-handoff} seed the finite tail-selector route over condensation, alternating, Dirichlet, summable-tail modulus, regular handoff, Real seal, transport, replay, provenance, and local NameCert data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite sums, countable choice, quotient series equality, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector coverage, modulus handoff, test handoff, Real-seal routing, transport, replay, provenance, and local naming for BEDC.Derived.CondensationTailSelectorUp.}
+\end{closurestatus}

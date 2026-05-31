@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveCauchyIntervalUp$}
+\label{ch:concrete-instances-constructive-cauchy-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ConstructiveCauchyIntervalUp$ packet names a closed constructive interval by regular Cauchy data rather than by quotient real equality. It sits between the closed bounded interval rows of \autoref{ch:concrete-instances-closedboundedinterval-namecert} and the completion-facing consumers of \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Constructive Cauchy interval carrier]
+\label{def:constructive-cauchy-interval-carrier}
+A $\ConstructiveCauchyIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,O,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $U$ are lower and upper located endpoint rows inherited from a $\ClosedBoundedIntervalUp$ source.
+\item $O$ is the endpoint-order row asserting that the lower endpoint is not above the upper endpoint in the located order used by the source interval.
+\item $D$ is the dyadic containment row over $\DyadicRatCoreUp$; it names the finite dyadic windows that contain the interval at each displayed precision.
+\item $S$ is the $\StreamNameUp$ window row naming the finite stream of containment windows read by Cauchy consumers.
+\item $R$ is the $\RegSeqRatUp$ handoff row; it turns each accepted containment window into regular rational sequence data.
+\item $E$ is the $\RealUp$ seal row recording the real-completion consumer reached from $R$ without quotient real equality, trichotomy, choice, or an ambient completeness axiom.
+\item $H$ records componentwise $\hsame$ transport for endpoint, order, dyadic, stream, regular-sequence, real-seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from any interval-completion read through $L,U,O,D,S,R,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveCauchyIntervalUp$, $\ClosedBoundedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveCauchyIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,O,D,S,R,E,H,C,P,N$. It has no coordinate for open-cover compactness, selected interval points, quotient real equality, trichotomy, countable choice, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Constructive Cauchy interval NameCert obligations]
+\label{thm:constructive-cauchy-interval-namecert-obligations}
+For every accepted $\ConstructiveCauchyIntervalUp$ carrier $I=(L,U,O,D,S,R,E,H,C,P,N)$, the local $\NameCert_{\ConstructiveCauchyIntervalUp}$ surface consists exactly of endpoint admission, endpoint-order preservation, dyadic containment exposure, StreamName window exposure, RegSeqRat handoff, Real seal exposure, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-cauchy-interval-carrier}. The rows $L,U,O$ are inherited from the closed bounded interval source and therefore supply the only endpoint data visible to the packet.
+
+Next read the completion route. The dyadic row $D$ exposes finite containment windows, $S$ names their stream surface, $R$ supplies the regular rational sequence handoff, and $E$ seals the route as a Real-facing completion consumer.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same route. Since the excluded host objects are not carrier coordinates, the local NameCert obligations are exactly the listed rows.
+\end{proof}
+
+\begin{theorem}[Constructive Cauchy interval RegSeqRat handoff]
+\label{thm:constructive-cauchy-interval-regseqrat-handoff}
+Every completion-facing read of an accepted $\ConstructiveCauchyIntervalUp$ packet factors through
+$$
+L,U,O \longmapsto D \longmapsto S \longmapsto R \longmapsto E,H,C,P,N.
+$$
+In particular, any RegSeqRat or Real consumer sees only the located endpoints, endpoint order, dyadic containment ledger, StreamName windows, RegSeqRat handoff row, Real seal, transport, replay, provenance, and local NameCert row.
+\end{theorem}
+\begin{proof}
+Start with the endpoint rows. The closed bounded interval source fixes $L,U,O$, so a completion-facing consumer cannot introduce a new endpoint classifier or a selected point of the interval.
+
+The containment route is finite. Dyadic containment $D$ supplies the displayed windows, the stream row $S$ names their readback order, and the handoff row $R$ exposes exactly the regular rational sequence surface consumed by $\RegSeqRatUp$.
+
+Finally the Real seal $E$ and the structural rows $H,C,P,N$ preserve the same route for downstream readers. Thus every RegSeqRat or Real-facing read factors through the displayed rows and does not claim open-cover compactness, quotient real equality, trichotomy, countable choice, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every completion-facing read of a $\ConstructiveCauchyIntervalUp$ packet factors through located endpoints, endpoint order, dyadic containment, StreamName windows, RegSeqRat handoff, a RealUp seal, transport, replay, provenance, and local naming.}
+
+\independenceWitness{closedboundedinterval, regseqrat, streamname, dyadicratcore, real: $\ConstructiveCauchyIntervalUp$ is not bijective to any listed sibling because it jointly carries interval endpoints, endpoint order, dyadic containment, stream windows, regular rational handoff, Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{ConstructiveCauchyIntervalUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveCauchyIntervalUp}
+  \constructivestory{A $\ConstructiveCauchyIntervalUp$ packet is generated from located endpoint rows, an endpoint-order row, dyadic containment data, StreamName windows, RegSeqRat handoff data, a RealUp seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-cauchy-interval-carrier}, \autoref{thm:constructive-cauchy-interval-namecert-obligations}, and \autoref{thm:constructive-cauchy-interval-regseqrat-handoff} seed the constructive Cauchy interval completion packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, quotient real equality, trichotomy, selected interval points, countable choice, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-order preservation, dyadic containment exposure, StreamName window exposure, RegSeqRat handoff, and Real seal nonescape for BEDC.Derived.ConstructiveCauchyIntervalUp.}
+\end{closurestatus}

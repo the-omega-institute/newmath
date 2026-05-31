@@ -27,6 +27,7 @@ whose displayed coordinates are as follows:
 \end{enumerate}
 Two accepted carriers are classified together exactly when their partitions refine to a displayed common dyadic partition and, on every refined cell, the transported carried values are classified together by the recorded $\DyadicRatCoreUp$ or $\RealUp$ classifier row. The comparison is finite and cellwise: it is mediated only by $M$, $E$, $L$, and the displayed $\hsame$ and $\Cont$ routes in $C$.
 \end{definition}
+\leanchecked{BEDC.Derived.DyadicStepFunctionUp.DyadicStepFunctionTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Dyadic step function NameCert obligations]
 \label{thm:dyadic-step-function-namecert-obligations}
@@ -49,6 +50,7 @@ W=(I,M,E,V,R,L,C,P,N).
 $$
 Here $I$ exposes the finite partition cells, $M$ exposes endpoint-parent transport under common refinement, $E$ exposes endpoint ledgers, $V$ exposes carried values, $R$ exposes classifier rows, $L$ exposes the finite consumer ledger, $C$ exposes $\hsame$ and $\Cont$ routes, $P$ exposes the $\Pkg$ provenance, and $N$ exposes the local $\NameCert_{\DyadicStepFunctionUp}$ row. The partition coordinate $\Pi$ remains the source of the cells in $I$, but every downstream consumer reads the packet through the displayed window $W$.
 \end{definition}
+\leandef{BEDC.Derived.DyadicStepFunctionUp.DyadicStepFunctionWindowCarrier}
 
 \begin{theorem}[Dyadic step function finite-window obligations]
 \label{thm:dyadic-step-function-window-obligations}
@@ -335,6 +337,7 @@ Apply the refinement stability, $\RegSeqRatUp$ handoff, ledger exactness, common
 
 Finally use the cellwise sum, cellwise product, and stepwise order window theorems. They show that the visible finite-cell operations and comparisons repack inside the same scoped rows, so no measure completion, quotient representative, selected limit, host step function, or ambient equality oracle is exported.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicStepFunctionUp.DyadicStepFunctionCarrier\_scoped\_obligation\_package}
 
 \begin{theorem}[DyadicStepFunction scope export]\label{thm:dyadicstepfunction-scope-export}
 The scoped obligation package of \autoref{thm:dyadic-step-function-scoped-obligation-package} exports exactly the downstream surface consisting of the $\DyadicRatCoreUp$ partition and value rows, the $\DyadicMeshUp$ and $\DyadicSplineUp$ refinement rows, the $\RegSeqRatUp$ handoff, and the $\RealUp$ seal-window exactness rows. Every downstream step-function consumer must read through those displayed rows together with the carrier's $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\DyadicStepFunctionUp}$ coordinates.
@@ -350,6 +353,7 @@ The analytic handoff is exactly the one already bounded locally. Apply \autoref{
 
 Finally combine the non-escape clauses of \autoref{thm:dyadic-step-function-ledger-exactness} and \autoref{thm:dyadic-step-function-scoped-window-package}. They exclude open-cover compactness, host function spaces, selected limits, quotient representatives, measure completion, and ambient equality oracles from the exported surface.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicStepFunctionUp.DyadicStepFunctionCarrier\_scope\_export}
 
 \begin{theorem}[Dyadic step function refinement boundary coverage]
 \label{thm:dyadic-step-function-refinement-boundary-coverage}
@@ -419,6 +423,7 @@ For accepted $\DyadicStepFunctionUp$ packets compared through a displayed common
 
 This correspondence exports no host step function, quotient representative, measure completion, selected limit, or ambient equality oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicStepFunctionUp.CommonRefinementRealRegseq.DyadicStepFunctionCarrier\_common\_refinement\_real\_regseq\_correspondence}
 \begin{proof}
 First expose the common-refinement cells. Apply \autoref{thm:dyadic-step-function-common-refinement-cell-coverage} to place every accepted comparison on displayed dyadic cells and to keep the visible rows inside $I,M,E,V,R,L,C,P,N$.
 
@@ -444,17 +449,33 @@ The real-facing boundary is already local to those rows. Use \autoref{thm:dyadic
 
 Finally apply \autoref{thm:dyadic-step-function-common-refinement-real-regseq-correspondence}. It identifies the public common-refinement route with the regular-Cauchy and real-seal route, so repacking $I,M,E,V,R,L,C,P,N$ gives exactly the stated public $\NameCert_{\DyadicStepFunctionUp}$ certificate and leaves the refused host, quotient, completion, limit, and ambient-equality objects without coordinates.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicStepFunctionUp.DyadicStepFunctionCarrier\_public\_certificate}
+
+\begin{theorem}[Dyadic step function standard bridge]
+\label{thm:dyadic-step-function-standard-bridge}
+The public $\DyadicStepFunctionUp$ certificate of \autoref{thm:dyadic-step-function-public-certificate} is transported through the displayed dyadic mesh, dyadic interval, $\RegSeqRatUp$ handoff, $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The bridge imports no host step function, ambient completeness object, selected limit, quotient representative, measure completion, or ambient equality oracle.
+\end{theorem}
+\begin{proof}
+Start from the public certificate surface. By \autoref{thm:dyadic-step-function-public-certificate}, every visible read of the packet is already exposed through the finite partition, interval-cell row, mesh and common-refinement row, endpoint transport, carried values, classifier rows, finite ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal row, transport, replay, provenance, and local naming.
+
+The bridge therefore has no extra analytic coordinate to import. Use \autoref{thm:dyadic-step-function-common-refinement-public-route} for the dyadic mesh and interval route, \autoref{thm:dyadic-step-function-real-regseqrat-scope-lock} for the regular-Cauchy handoff, and \autoref{thm:dyadic-step-function-real-seal-public-boundary} for the real seal boundary.
+
+Finally, \autoref{thm:dyadic-step-function-common-refinement-real-regseq-correspondence} identifies the common-refinement route with the regular-Cauchy and real-seal route. Thus the standard bridge is exactly the displayed packet transport through $I,M,E,V,R,L,C,P,N$, with the refused host and completion objects remaining outside the public certificate.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicStepFunctionUp.DyadicStepFunctionUp\_StdBridge}
 
 \closureat{DyadicStepFunctionUp}{seedStr}
 \closureat{DyadicStepFunctionUp}{obligationStr}
 \closureat{DyadicStepFunctionUp}{scopedStr}
+\closureat{DyadicStepFunctionUp}{bridgedStr}
 
 \begin{closurestatus}{\DyadicStepFunctionUp}
   \constructivestory{A dyadic step-function packet is generated by a finite dyadic partition, displayed interval cells, carried values, common-refinement maps, endpoint transport, finite consumer ledgers, and visible transport and provenance rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:dyadic-step-function-public-certificate} closes the public certificate surface over the displayed finite partition, dyadic interval, carried value, common-refinement, endpoint-transport, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the finite step-function packet.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:dyadic-step-function-standard-bridge} transports the public certificate surface over the displayed finite partition, dyadic interval, carried value, common-refinement, endpoint-transport, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the finite step-function packet.}
+  \formalstatus{\bridgeCheckedV}
+  \leantarget{BEDC.Derived.DyadicStepFunctionUp.DyadicStepFunctionUp\_StdBridge}
+  \bridgestatus{bridgeChecked}
   \notclaimed{This chapter does not close measure completion, quotient representatives, selected limits, host step functions, or ambient equality oracles.}
-  \upgradepath{Bridged closure requires a standard bridge theorem for the public $\DyadicStepFunctionUp$ certificate.}
+  \upgradepath{no further upgrade -- chapter at top of formal axis}
 \end{closurestatus}

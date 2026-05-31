@@ -11,7 +11,7 @@ Checks (IDs match the analysis report):
      (theoryclosure / formalstatus / scopeclosed / notclaimed / upgradepath)
   D  Content namecert file (with \\chapter) must reach a closurestatus block
      directly or via \\input chain
-  E  Hub namecert file (no \\chapter, only \\input lines) must not contain
+  E  Top-level no-chapter namecert hub candidate must not contain
      theorem-like environments or closurestatus blocks
   F  Content namecert chapter must \\label{ch:concrete-instances-<slug>-namecert}
   G  If \\origin{...} appears in a content namecert chapter, it must be human|ai
@@ -463,7 +463,10 @@ def check_e_hub_purity() -> list[dict]:
                     "check": "E",
                     "file": str(rel),
                     "line": i,
-                    "msg": f"hub file (no \\chapter) contains forbidden environment \\begin{{{m.group(1)}}}",
+                    "msg": (
+                        "top-level no-chapter namecert hub candidate contains "
+                        f"forbidden environment \\begin{{{m.group(1)}}}"
+                    ),
                 })
     return out
 
@@ -647,10 +650,18 @@ def check_l_math_mode_in_text() -> list[dict]:
 
 def check_m_stale_input() -> list[dict]:
     out: list[dict] = []
+    verbatim_envs = {"verbatim", "lstlisting", "minted"}
     for tex in iter_part_tex():
         rel = tex.relative_to(PAPER_DIR)
-        text = strip_verbatim_preserve_lines(read_text(tex))
+        in_verbatim = False
+        text = read_text(tex)
         for i, line in enumerate(text.splitlines(), 1):
+            env = BEGIN_END_ENV_RE.search(line)
+            if env and env.group(2) in verbatim_envs:
+                in_verbatim = env.group(1) == "begin"
+                continue
+            if in_verbatim:
+                continue
             if line.lstrip().startswith("%"):
                 continue
             code = _line_text_without_comment(line)

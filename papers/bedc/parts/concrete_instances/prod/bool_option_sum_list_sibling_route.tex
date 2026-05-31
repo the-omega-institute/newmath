@@ -1,0 +1,11 @@
+\begin{theorem}[Prod finite-data sibling route]
+\label{thm:prod-bool-option-sum-list-sibling-route}
+Every public finite-product carrier route consumed by $\ProdUp$ reads the sibling finite-data surfaces before exporting the product classifier. The route uses \autoref{ch:concrete-instances-bool-namecert} for $\BoolUp$ endpoint discrimination, \autoref{ch:concrete-instances-option-namecert} for $\OptionUp$ partiality, \autoref{ch:concrete-instances-sum-namecert} for $\SumUp$ tagged alternatives, and \autoref{ch:concrete-instances-list-namecert} for $\ListUp$ spine discipline. No product classifier is exported from a route that omits one of those displayed sibling rows.
+\end{theorem}
+\begin{proof}
+Start with the product public finite-data exit package. It exports the product classifier only after the displayed product carrier, component rows, history envelope, transport, continuation, provenance, and local NameCert rows have been read.
+
+The finite sibling route supplies the required four surfaces. $\BoolUp$ distinguishes the two endpoint projections, $\OptionUp$ records absent and present partial component reads, $\SumUp$ separates tagged alternatives for case-facing consumers, and $\ListUp$ records the finite spine discipline for iterated product windows.
+
+Since the product packet has no host tuple equality, selected projection, quotient carrier, or external recursion coordinate, the classifier cannot bypass those sibling rows. The public route therefore consumes the four finite-data surfaces before the product classifier is exported.
+\end{proof}

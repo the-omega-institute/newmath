@@ -28,6 +28,8 @@ The carrier has no coordinate for host real equality, a choice-selected dense po
 
 The sibling lattice route is explicit: $\RealSeparabilityUp$ consumes \autoref{ch:concrete-instances-dyadic-density-real-namecert} for the dyadic tolerance witness and \autoref{ch:concrete-instances-rational-density-real-namecert} for the rational interval witness before $\CountableDenseSubsetUp$ names the dense source. This places the separability packet downstream of the dyadic and rational density witnesses rather than treating density as a detached Real-side fact.
 
+The same dyadic tolerance witness and rational interval witness feed the finite precision requests of \autoref{ch:concrete-instances-realcauchymodulus-namecert}: a modulus consumer may read the dyadic tolerance row $D$ as its requested precision and the rational interval witness carried by $Q,T$ as the finite interval evidence before opening the StreamName and RegSeqRat rows.
+
 \begin{theorem}[Real separability NameCert obligations]
 \label{thm:real-separability-namecert-obligations}
 For every accepted $\RealSeparabilityUp$ carrier
@@ -76,6 +78,22 @@ The handoff to $R$ places the inspected rational candidate into the regular rati
 The exactness ledger $T$, componentwise transport $H$, replay $C$, provenance $P$, and local naming row $N$ preserve this order. Hence every exported density read factors through $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before separability is consumed.
 \end{proof}
 
+\begin{theorem}[Real separability Cauchy-equivalence forward consumption]
+\label{thm:real-separability-cauchy-equivalence-setoid-forward-consumption}
+Every $\RealSeparabilityUp$ density read that compares two regular rational windows must consume the finite classifier route of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert} before the rational dense handoff is exported. Thus an accepted separability carrier
+$$
+S=(Q,D,W,R,E,T,H,C,P,N)
+$$
+receives a finite $\StreamNameUp$ and $\RegSeqRatUp$ comparison surface rather than quotient stream equality, selected representatives, host real equality, countable-choice selectors, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-separability-carrier}. A density read has only the rational enumeration row $Q$, dyadic tolerance row $D$, finite window row $W$, regular readback row $R$, terminal seal row $E$, exactness ledger $T$, transport $H$, replay $C$, provenance $P$, and local name $N$.
+
+Apply \autoref{thm:real-separability-rational-dense-handoff}. The rational dense handoff is exported only after the read has passed through $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+When two regular rational windows are compared, read the classifier route of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert} before that export. The classifier supplies the finite Cauchy and RegSeqRat comparison surface, so the separability packet cannot replace it with quotient stream equality, selected representatives, host real equality, countable-choice selectors, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Real separability dyadic-rational density handoff]
 \label{thm:real-separability-dyadic-rational-density-handoff}
 Every accepted $\RealSeparabilityUp$ density consumer whose tolerance row is served by an accepted $\DyadicDensityRealUp$ witness and whose interval witness is served by $\RationalDensityRealUp$ factors through the finite route
@@ -100,6 +118,72 @@ Compose those two witness routes with \autoref{thm:real-separability-rational-de
 The remaining rows $T,H,C,P,N$ preserve the same order as exactness ledger, componentwise transport, displayed replay, provenance, and local naming. Since none of the three packets contains a coordinate for host real equality, a choice-selected dense point, quotient stream equality, trichotomy, or ambient completeness, the composed handoff cannot export any such data.
 \end{proof}
 
+\begin{theorem}[Real separability dyadic witness family]
+\label{thm:real-separability-dyadic-witness-family}
+An accepted $\RealSeparabilityUp$ density read determines a finite family of rational witnesses indexed only by the displayed dyadic tolerance row $D$ and finite $\StreamNameUp$ window $W$ of its carrier
+$$
+S=(Q,D,W,R,E,T,H,C,P,N).
+$$
+Every witness in that family is routed through $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CountableDenseSubsetUp$, and the terminal $\RealUp$ seal before separability is exported. The family contains no choice-selected dense point, host real equality, quotient stream, trichotomy row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-separability-carrier}. The only rows that can index a finite density family are the dyadic tolerance row $D$ and the finite StreamName window row $W$, with the rational enumeration row $Q$ supplying the visible rational candidates.
+
+Apply \autoref{thm:real-separability-rational-dense-handoff}. Each candidate read starts in $\RatUp$, passes through the dyadic tolerance and finite window rows, and reaches $\RegSeqRatUp$ before the terminal $\RealUp$ seal is consumed.
+
+Next apply \autoref{thm:real-separability-dyadic-rational-density-handoff}. The dyadic-density and rational-density witnesses attach the family to the same displayed route, so the candidate family is indexed by $D,W$ rather than by a choice function over Real balls.
+
+Finally apply \autoref{thm:real-separability-finite-density-exhaustion}. The $\CountableDenseSubsetUp$ boundary receives exactly the finite rational family already routed through $Q,D,W,R,E,T,H,C,P,N$. Since the carrier and handoff theorems expose no host equality, quotient stream, trichotomy, selected dense point, or ambient completeness coordinate, the witness family exports none of them.
+\end{proof}
+
+\begin{theorem}[Real separability finite-density selector]
+\label{thm:real-separability-finite-density-selector}
+Every finite density selector exported by an accepted $\RealSeparabilityUp$ carrier
+$$
+S=(Q,D,W,R,E,T,H,C,P,N)
+$$
+factors through the displayed route
+$$
+\RatUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The selector first reads the rational enumeration row $Q$, then the dyadic tolerance row $D$, then the finite StreamName window $W$, then the RegSeqRat readback row $R$, and only then the terminal Real seal $E$. It cannot expose a chosen dense point, quotient stream, host real equality, ambient completeness witness, selected nearest point, or detached dense subset.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows available to a finite density selector are exactly the rational enumeration $Q$, dyadic tolerance $D$, finite window $W$, readback $R$, Real seal $E$, exactness ledger $T$, transport $H$, replay $C$, provenance $P$, and local naming row $N$.
+
+Apply \autoref{thm:real-separability-rational-dense-handoff}. It forces the selector to begin at the $\RatUp$ enumeration row and to pass through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before any separability boundary is exported.
+
+Next apply \autoref{thm:real-separability-dyadic-rational-density-handoff}. The dyadic tolerance and rational-density witness surfaces attach the selector to the same finite request, so the selected datum is displayed as a routed rational witness rather than as a point chosen from an ambient Real ball.
+
+Finally apply \autoref{thm:real-separability-dyadic-witness-family}. The admissible witnesses form a finite family indexed by $D$ and $W$, and each family member is consumed through $Q,R,E,T,H,C,P,N$. Since no listed row contains a quotient stream, host equality, ambient completeness witness, selected nearest point, or detached dense subset, the selector cannot export any such object.
+\end{proof}
+
+\begin{theorem}[Real separability stream-window stability]
+\label{thm:real-separability-stream-window-stability}
+Let
+$$
+S=(Q,D,W,R,E,T,H,C,P,N)
+$$
+and
+$$
+S'=(Q',D',W',R',E',T',H',C',P',N')
+$$
+be accepted $\RealSeparabilityUp$ packets whose rational enumeration, dyadic tolerance, and finite stream-window rows are componentwise transported by displayed $\hsame$ data
+$$
+Q \hsame Q',\qquad D \hsame D',\qquad W \hsame W',
+$$
+and whose replay rows display the same $\Cont$ route from a Real-facing density request through those transported rows. Then the finite rational witness family determined by $S$ and the family determined by $S'$ are the same displayed density route. In particular, the RegSeqRat readback and terminal $\RealUp$ seal handoff agree as packet data, and no choice-selected dense point, host real equality, quotient stream equality, trichotomy row, or ambient completeness witness is introduced by replacing $S$ with $S'$.
+\end{theorem}
+\begin{proof}
+Project the two carriers. The hypotheses identify the only rows that index the finite rational witness family: the rational enumeration rows $Q,Q'$, the dyadic tolerance rows $D,D'$, and the StreamName windows $W,W'$.
+
+Apply \autoref{thm:real-separability-rational-dense-handoff} to both packets. Since the displayed $\Cont$ replay carries the same request through transported $Q,D,W$ rows, the inspected rational candidates are read along the same finite route before any RegSeqRat or Real seal row is visible.
+
+Apply \autoref{thm:real-separability-dyadic-rational-density-handoff}. The dyadic-density and rational-density surfaces attach to the transported tolerance and window rows, so the two packets expose the same dyadic-rational density witness route.
+
+Finally apply \autoref{thm:real-separability-dyadic-witness-family} and \autoref{thm:real-separability-finite-density-exhaustion}. The witness family is exhausted by the displayed route through $Q,D,W,R,E,T,H,C,P,N$ and the transported route through $Q',D',W',R',E',T',H',C',P',N'$, with no additional coordinate available for a selected dense point, host equality, quotient stream, trichotomy, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Real separability finite-density exhaustion]
 \label{thm:real-separability-finite-density-exhaustion}
 Every admitted $\RealSeparabilityUp$ density read is exhausted by the displayed finite route
@@ -119,6 +203,26 @@ Next apply \autoref{thm:real-separability-dyadic-rational-density-handoff}. The 
 
 The structural rows $T,H,C,P,N$ preserve that order and add no analytic coordinate. Since the carrier and the two handoff routes contain no choice-selected dense point, quotient stream, trichotomy, ambient completeness, host real equality, selected nearest point, or detached dense subset, the displayed finite route exhausts the admitted density read.
 \end{proof}
+
+\begin{theorem}[Real separability Cauchy-setoid density stability]
+\label{thm:real-separability-cauchy-setoid-density-stability}
+Every $\RealSeparabilityUp$ density read that compares two regular-rational names must pass through the $\CauchyEquivalenceSetoidUp$ classifier of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert} before the dense rational row is exported. For an accepted separability carrier
+$$
+S=(Q,D,W,R,E,T,H,C,P,N),
+$$
+the exported density route is therefore the composite of $Q,D,W,R,E,T,H,C,P,N$ with the displayed Cauchy-equivalence classifier rows, and it exposes no quotient stream equality, selected representative, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted $\RealSeparabilityUp$ carrier. The rows $Q,D,W,R,E,T,H,C,P,N$ list the rational enumeration, dyadic tolerance, finite window, regular rational readback, Real seal, dense-window exactness, transport, replay, provenance, and local naming available to the density consumer.
+
+When the consumer compares two regular-rational names, the comparison is not a free equality on streams. It must open the $\CauchyEquivalenceSetoidUp$ classifier of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}, where the two StreamName windows, RegSeqRat readbacks, dyadic tolerance ledger, setoid-test row, Real seal boundary, transport, replay, provenance, and local naming rows are displayed.
+
+Compose that classifier route with \autoref{thm:real-separability-dyadic-rational-density-handoff}. The dense rational row is exported only after the regular readback $R$, dyadic row $D$, window row $W$, and terminal seal $E$ have been compared through the Cauchy-setoid surface.
+
+The structural rows $T,H,C,P,N$ preserve this composite route. Since neither the separability carrier nor the Cauchy-setoid classifier carries quotient stream equality, selected representatives, countable choice, host real equality, or ambient completeness, the density read cannot export any of those objects.
+\end{proof}
+
+The dense Real route also reads Cauchy-equivalent regular names through the classifier of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert} before export. Classifier stability keeps equivalent regular names on the same displayed density-consumer route, so the separability packet transports dense witnesses through finite RegSeqRat and Real rows rather than through quotient real equality or ambient completeness.
 
 \begin{closurestatus}{\RealSeparabilityUp}
   \theoryclosure{\seedClosure}

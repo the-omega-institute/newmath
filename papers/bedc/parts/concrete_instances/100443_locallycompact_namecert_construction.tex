@@ -54,6 +54,7 @@ X,x,r,B,K,A,H,C,P,N
 $$
 and receives only the displayed metric source, inspected point, positive radius ledger, closed-ball row, compact witness, optional located compact handoff, transports, replay, provenance, and local naming data. It receives no open-cover compactness, host neighbourhood selector, quotient point equality, countable choice, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocallyCompactUp.LocallyCompactClosedBallNeighborhoodBase}
 \begin{proof}
 Start from a consumer request for local compactness at the inspected point. The only admissible entry point is the carrier projection, so the request first reads $X,x,r$ and then the closed-ball row $B$.
 
@@ -62,6 +63,42 @@ The compactness data are exactly $K$. A consumer may transport that witness alon
 If located compactness is needed, the consumer reads $A$ only as a handoff row over the same window. If no such handoff is displayed, the packet exposes no located compact claim.
 
 The provenance row $P$ names the sibling certificates that may be cited, and $N$ names the local packet. Therefore every downstream compactness, completion, or properness comparison factors through the displayed tuple above, with no additional host compactness or completeness datum.
+\end{proof}
+
+\begin{theorem}[LocallyCompact located handoff boundary]
+\label{thm:locally-compact-located-handoff-boundary}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. Every $\LocatedCompactUp$ consumer of $L$ first reads the $\MetricSpaceUp$ row $X$, inspected point $x$, $\RatUp$ or $\RealUp$ radius ledger $r$, $\MetricClosedBallUp$ row $B$, and $\CompactMetricUp$ witness $K$ before the located handoff row $A$ can be inspected. The handoff is transported through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$, and it does not claim open-cover compactness, a neighbourhood-base selector, countable choice, global properness, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:locally-compact-carrier}. The located handoff row $A$ is listed only after the metric source, inspected point, positive radius ledger, closed-ball row, and compact witness.
+
+Apply the NameCert obligations of \autoref{thm:locally-compact-namecert-obligations}. They require located compact handoff to be exact when $A$ is present and to remain empty when no located boundary is displayed.
+
+Finally use the closed-ball neighbourhood-base theorem, \autoref{thm:locally-compact-closed-ball-neighborhood-base}. Every consumer factors through $X,x,r,B,K,A,H,C,P,N$, so the located handoff cannot bypass the displayed MetricSpace, MetricClosedBall, CompactMetric, Rat or Real radius, BHist, hsame, Cont, Pkg, and NameCert route.
+\end{proof}
+
+\begin{theorem}[LocallyCompact properness comparison non-escape]
+\label{thm:locally-compact-properness-comparison-nonescape}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. Any $\ProperMetricUp$ comparison that consumes $L$ receives one displayed closed-ball window over $\MetricSpaceUp$, $\MetricClosedBallUp$, $\CompactMetricUp$, $\LocatedCompactUp$, $\RatUp$ or $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It receives no global properness theorem, no radius-indexed family for all centers, no neighbourhood-base selector, no countable choice, and no ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project $L$ through \autoref{def:locally-compact-carrier}. The properness-facing data are the single inspected point $x$, radius ledger $r$, closed-ball row $B$, compact witness $K$, and optional located handoff $A$.
+
+The NameCert obligations of \autoref{thm:locally-compact-namecert-obligations} make the $\ProperMetricUp$ comparison boundary one-way. A proper metric packet may read this local row as an indexed closed-ball window, but $L$ does not contain the global family required to prove properness.
+
+The closed-ball neighbourhood-base theorem of \autoref{thm:locally-compact-closed-ball-neighborhood-base} exhausts the consumer route through $H,C,P,N$. Since no coordinate ranges over all centers and radii, the properness comparison cannot escape the displayed local packet.
+\end{proof}
+
+\begin{theorem}[LocallyCompact completion consumer route]
+\label{thm:locally-compact-completion-consumer-route}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. Every completion-facing consumer reads local compactness only through the displayed $\MetricSpaceUp$ source, inspected point, $\RatUp$ or $\RealUp$ radius ledger, $\MetricClosedBallUp$ window, $\CompactMetricUp$ witness, optional $\LocatedCompactUp$ handoff, $\BHist$ packet, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The route supplies a finite local window and does not import open-cover compactness, a host neighbourhood-base selector, countable choice, global properness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:locally-compact-closed-ball-neighborhood-base}. It identifies the only local compactness route available to downstream compactness, completion, or properness consumers as $X,x,r,B,K,A,H,C,P,N$.
+
+Use the located handoff boundary of \autoref{thm:locally-compact-located-handoff-boundary} for consumers that require located compact data. They can read $A$ only after the same closed-ball and compact-metric rows have been displayed.
+
+Use the properness comparison non-escape of \autoref{thm:locally-compact-properness-comparison-nonescape} for completion consumers that compare against proper metric structure. The comparison supplies one local window, not a global properness proof or ambient completeness theorem.
 \end{proof}
 
 \closureat{$\LocallyCompactUp$}{seedStr}

@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\ClosedBoundedIntervalFanUp$}
+\label{ch:concrete-instances-closed-bounded-interval-fan-namecert}
+\origin{human}
+
+Following Bishop and Bridges on the fan theorem and constructive compactness of intervals, the $\ClosedBoundedIntervalFanUp$ packet records the finite fan/bar data used to inspect a closed bounded interval through finite binary and dyadic prefixes. It consumes the closed bounded interval source of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-coordinate seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite bar coverage and prefix stability only as displayed BEDC rows; it does not assert open-cover compactness, selected subcovers, countable choice, quotient equality of real names, trichotomy, or ambient Real completeness.
+
+\begin{definition}[Closed bounded interval fan carrier]
+\label{def:closed-bounded-interval-fan-carrier}
+A $\ClosedBoundedIntervalFanUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,T,B,W,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalUp$ source row, exposing endpoint order, rational containment, dyadic containment, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and $\RealUp$ sealing.
+\item $T$ is the finite binary-prefix tree row used to enumerate dyadic subinterval decisions.
+\item $B$ is the finite bar row, recording that every inspected branch meets a displayed prefix in $T$.
+\item $W$ is the prefix-stability row saying that extension of a branch past a bar prefix preserves the associated interval containment decision.
+\item $S$ is the $\StreamNameUp$ window row for endpoint names, branch prefixes, and dyadic containment tests.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the endpoint and prefix windows.
+\item $E$ is the $\RealUp$ seal row reached only after $I,T,B,W,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval source, tree, bar, stability, window, readback, and seal rows.
+\item $C$ records displayed $\Cont$ replay from interval-source inspection through finite prefix reads, bar coverage, regular rational readback, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\ClosedBoundedIntervalFanUp$, $\ClosedBoundedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedBoundedIntervalFanUp}$ row.
+\end{enumerate}
+The carrier exports a finite fan/bar interface over the interval source. It has no coordinate for an open cover, a selected subcover, a choice function on branches, quotient equality of real names, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval fan NameCert obligations]
+\label{thm:closed-bounded-interval-fan-namecert-obligations}
+For every accepted $\ClosedBoundedIntervalFanUp$ carrier $F=(I,T,B,W,S,R,E,H,C,P,N)$, the local $\NameCert_{\ClosedBoundedIntervalFanUp}$ surface consists exactly of interval-source admission through $I$, finite prefix-tree admission through $T$, finite bar exposure through $B$, prefix-stability exposure through $W$, finite observation through $S$, regular rational readback through $R$, Real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-bounded-interval-fan-carrier}. The interval source $I$ is already the closed bounded interval packet of \autoref{ch:concrete-instances-closedboundedinterval-namecert}; the fan-specific rows are the finite tree $T$, finite bar $B$, and prefix-stability row $W$.
+
+Read the observation and seal rows next. The $\StreamNameUp$ window $S$ and $\RegSeqRatUp$ readback $R$ inspect endpoint and prefix data at finite precision, and the $\RealUp$ seal $E$ is downstream of those finite rows.
+
+The structural rows close the local certificate. Transport $H$, replay $C$, provenance $P$, and naming $N$ preserve exactly this finite fan/bar route, so the obligations introduce no open-cover compactness, selected subcover, choice over branches, quotient equality, trichotomy, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval fan finite-bar route]
+\label{thm:closed-bounded-interval-fan-finite-bar-route}
+Every compactness-facing or uniform-modulus consumer of an accepted $\ClosedBoundedIntervalFanUp$ packet must read the finite route
+$$
+\ClosedBoundedIntervalUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+\longmapsto
+T,B,W
+$$
+before it uses fan/bar data. The route first displays the closed bounded interval source, then finite stream windows and regular rational readbacks, then the Real seal, and only then exposes the finite prefix tree, finite bar, and prefix-stability rows. It supplies the finite bar interface needed by interval-net, compactness, and uniform-modulus consumers without claiming open-cover compactness, choice of a subcover, quotient real equality, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the interval source row. By \autoref{thm:closed-bounded-interval-namecert-obligations}, the source $I$ already displays endpoint order, containment ledgers, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ sealing, transport, replay, provenance, and naming.
+
+Use \autoref{thm:closed-bounded-interval-fan-namecert-obligations}. It places the finite prefix tree $T$, finite bar $B$, and prefix-stability row $W$ inside the same accepted carrier, downstream of the interval source and the finite readback route.
+
+Thus a consumer receives fan data only as a finite BEDC route over an accepted closed bounded interval. Since the carrier has no open-cover coordinate, no branch selector, no quotient-real equality row, no trichotomy row, and no ambient completeness row, the finite-bar route cannot export any of those objects.
+\end{proof}
+
+\closureat{ClosedBoundedIntervalFanUp}{seedStr}
+
+\begin{closurestatus}{\ClosedBoundedIntervalFanUp}
+  \constructivestory{A $\ClosedBoundedIntervalFanUp$ packet is generated from a ClosedBoundedIntervalUp source row, finite binary-prefix tree rows, finite bar rows, prefix-stability rows, StreamName windows, RegSeqRat readbacks, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-bounded-interval-fan-carrier}, \autoref{thm:closed-bounded-interval-fan-namecert-obligations}, and \autoref{thm:closed-bounded-interval-fan-finite-bar-route} seed the finite fan/bar surface for closed bounded interval compactness and uniform-modulus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, selected subcovers, countable choice, quotient real equality, trichotomy, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite prefix-tree admission, finite bar exposure, prefix-stability exposure, StreamName readback, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.ClosedBoundedIntervalFanUp.}
+\end{closurestatus}

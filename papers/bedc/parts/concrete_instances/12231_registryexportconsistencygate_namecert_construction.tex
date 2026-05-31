@@ -25,6 +25,7 @@ with the following visible rows:
 \end{enumerate}
 The carrier contains no coordinate for an export grade that bypasses $S$, no private override of $B$, no machine target outside $F$, and no audit path outside $A$.
 \end{definition}
+\leandef{BEDC.Derived.RegistryExportConsistencyGateUp.RegistryExportConsistencyGateCarrier}
 
 \begin{definition}[Registry export consistency gate classifier]
 \label{def:registry-export-consistency-gate-classifier}
@@ -43,7 +44,7 @@ For the carrier of \autoref{def:registry-export-consistency-gate-carrier}, the l
 \item componentwise transport, continuation replay, provenance, and local naming through $H,C,P,N$.
 \end{enumerate}
 \end{theorem}
-\leanchecked{BEDC.Derived.RegistryExportConsistencyGateUp.RegistryExportConsistencyGateUp\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.RegistryExportConsistencyGateUp.taste\_gate}
 \begin{proof}
 Project the finite packet of \autoref{def:registry-export-consistency-gate-carrier}. Rows $R$ and $B$ expose the registry entry and the blocking row before any export decision is read.
 
@@ -58,6 +59,7 @@ Finally $H,C,P,N$ transport, replay, package, and name these same rows. Since th
 \label{thm:registry-export-consistency-gate-no-conflict-export}
 If status consistency fails between a registry entry, its export grade, its closure-status reading, and its formalization target, then no accepted $\RegistryExportConsistencyGateUp$ packet exports the claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegistryExportConsistencyGateUp.RegistryExportConsistencyGateNoConflictExport}
 \begin{proof}
 Assume an accepted packet
 $$
@@ -74,6 +76,7 @@ The no-smuggling row $U$ rules out recovering the export from prose, host semant
 \label{thm:registry-export-consistency-gate-sibling-dependency}
 The $\RegistryExportConsistencyGateUp$ carrier is not bijective, under NameCert-row preservation, to $\ClaimRegistryLayerUp$, $\RegistryExportSurfaceUp$, $\MachineInterfaceSocketUp$, $\AxisZeckendorfCannotClaimUp$, or $\GroundCompilerRecognitionUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegistryExportConsistencyGateUp.RegistryExportConsistencyGateSiblingDependency}
 \begin{proof}
 Compare the displayed rows. $\ClaimRegistryLayerUp$ supplies claim-entry export control, while $\RegistryExportSurfaceUp$ binds registration, blocking, status, machine target, audit, and non-smuggling rows for export.
 
@@ -90,14 +93,15 @@ The Lean follow-up must provide explicit $\Nontrivial\ \RegistryExportConsistenc
 
 \closureat{RegistryExportConsistencyGateUp}{seedStr}
 \closureat{RegistryExportConsistencyGateUp}{obligationStr}
+\closureat{RegistryExportConsistencyGateUp}{scopedStr}
 
 \begin{closurestatus}{\RegistryExportConsistencyGateUp}
   \constructivestory{A $\RegistryExportConsistencyGateUp$ packet is generated from registry entry, blocking, status-consistency, formal-target, audit-route, no-smuggling, transport, replay, provenance, and local naming rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:registry-export-consistency-gate-carrier}, \autoref{def:registry-export-consistency-gate-classifier}, \autoref{thm:registry-export-consistency-gate-namecert-obligations}, and \autoref{thm:registry-export-consistency-gate-no-conflict-export} give the current seed surface for carrier admission, classifier acceptance, NameCert obligations, and no-conflict export blocking.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:registry-export-consistency-gate-carrier}, \autoref{def:registry-export-consistency-gate-classifier}, \autoref{thm:registry-export-consistency-gate-namecert-obligations}, \autoref{thm:registry-export-consistency-gate-no-conflict-export}, \autoref{thm:registry-export-consistency-gate-sibling-dependency}, the falsifiablePrediction row, the independenceWitness row, and \texttt{BEDC.Derived.RegistryExportConsistencyGateUp.taste\_gate} bind the obligation surface for carrier admission, classifier acceptance, NameCert obligations, no-conflict export blocking, sibling separation, and checked field faithfulness.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, public export closure, or bridge checking.}
-  \upgradepath{Obligation closure is supplied by the displayed carrier, classifier, status-consistency, audit-route, and no-smuggling rows.}
+  \upgradepath{The next paper-axis step is public export closure for the same registry-entry, status-consistency, audit-route, no-smuggling, and local naming rows.}
 \end{closurestatus}

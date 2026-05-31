@@ -1,0 +1,71 @@
+\subsection{Leave-One-Code-Out Stability of the Window-Six Codon Tile}\label{subsec:h1-leave-one-code-out}
+\origin{ai}
+
+\paragraph{Finite setting.}
+The object of this record is the standard-code codon table viewed at the code-read layer. The finite carrier is the six-coordinate codon cube $Q_6$, where each codon is represented by a six-bit display and where the observed labels are amino-acid or stop labels supplied by the curated standard genetic-code table. The present claim is not a claim about translation dynamics. It is a finite label-readback statement: local window-six coordinates expose a boundary tile in the codon table, and that tile can be tested by holding out code tables or codons and asking whether the same local split reappears.
+
+\paragraph{Observed residual tile.}
+The distinguished residual set $R$ has cardinality $13$. In the recorded row it is exactly
+$$
+\begin{aligned}
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+\end{aligned}
+$$
+The same row records this set as a punctured cubical piece with face data
+$$
+\begin{aligned}
+f(R)=(13,16,4).
+\end{aligned}
+$$
+Thus the finite object is not an unstructured list of exceptional codons. It has a small boundary shape: thirteen vertices, sixteen one-dimensional adjacencies, and four two-dimensional faces inside the local codon display. This is the combinatorial substrate used by the leave-one tests below.
+
+\paragraph{Spectral and shape checks.}
+The spectral row gives $\lambda_M=0.6752479308830213$, $\lambda_R=0.4758352843197002$, and $\mu=3.051487585298128$. The radial cubic check is numerically closed to tolerance, with polynomial residual
+$$
+\begin{aligned}
+-6.224354365258478\times 10^{-12}.
+\end{aligned}
+$$
+The shape-significance row used $N=2000$ random samples with seed $42$. It required $57377$ distinct-sample attempts and encountered $55377$ duplicate retries. Among those samples, the exact shape appeared once, giving $p_{\mathrm{exact}}=0.0005$, while $25$ samples had Jaccard similarity at least $0.9$, giving $p_{J\geq 0.9}=0.0125$. An amino-acid-class-preserving null also used $N=2000$ and seed $42$. It found $0$ exact matches and $7$ samples in the lower tail at the observed size of $M$, where the recorded observed size is $20$. The corresponding values are
+$$
+\begin{aligned}
+p_{\mathrm{aa\ class\ exact}}&=0.0,\\
+p_{\mathrm{aa\ class\ lower\ tail}}&=0.0035.
+\end{aligned}
+$$
+These rows make the local tile experimentally sharper than a generic relabeling artifact, while still keeping the conclusion at the codon-label level.
+
+\paragraph{Leave-one-code-out result.}
+The primary leave-one-code-out row evaluated $23$ code tables and $63$ total targets. The baseline hit rate is $0.19821739130434785$. Against that baseline, the observed hit rate above baseline is $0.9841269841269841$. The stricter interior rate inside $M\setminus T$ is $0.9365079365079365$, and the rate inside $M\setminus T$ plus the boundary is again $0.9841269841269841$. In scalar form,
+$$
+\begin{aligned}
+\mathrm{baseline}&=0.19821739130434785,\\
+\mathrm{hit}(M\setminus T)&=0.9365079365079365,\\
+\mathrm{hit}(M\setminus T\ \mathrm{plus\ boundary})&=0.9841269841269841.
+\end{aligned}
+$$
+The interpretation is that removing one code table usually does not erase the local codon-tile signal. The signal is therefore stable under this finite row of code-table holdouts, but the stability is stability of label readback, not of a biological mechanism.
+
+\paragraph{Family stratification.}
+The family-level row divides the tested codes into $5$ families. The hit-rate-above-baseline values are $1.0$ for bacterial-plastid, $1.0$ for candidate-other, $1.0$ for mitochondrial, $1.0$ for nuclear-ciliate, and $0.8333333333333334$ for alternative-yeast. The one family below perfect recovery is still far above the global baseline value $0.19821739130434785$. This stratification matters because it shows that the leave-one-code-out recovery is not confined to a single naming convention for genetic-code variants. The row nevertheless remains finite: it reports the five families represented in the present data and does not certify all possible code-table taxonomies.
+
+\paragraph{Codon-level recovery and modules.}
+The leave-one-codon-out row records $8$ predictable codons, $5$ boundary codons, $0$ anchors, closure coverage $8$, and recovery rate $1.0$. The module-classification row accounts for all $13$ codons of $R$: assigned count $13$, no missing codons, no extra module codons, and no unassigned codons. The recorded modules are
+$$
+\begin{aligned}
+\mathrm{agr}&=\{\mathrm{AGA},\mathrm{AGG}\},\\
+\mathrm{ar\_lys}&=\{\mathrm{AAA}\},\\
+\mathrm{cun}&=\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
+\mathrm{ile\_met}&=\{\mathrm{AUA}\},\\
+\mathrm{ssn}&=\{\mathrm{UCA},\mathrm{UUA}\},\\
+\mathrm{stop\_trp}&=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{aligned}
+$$
+Every listed module has either a predictable member or a boundary member in the recorded classification. This gives a concrete account of where the thirteen residual codons sit: the signal is not only a global cardinality fact, but also a module-by-module boundary decomposition.
+
+\paragraph{Contact with biological data.}
+The only biological contact used here is the curated standard genetic-code table, whose observed fact is that codons are assigned to amino-acid or stop labels. This contact has resolution at the codon-label readback level. It supports tests of local label splits in the standard code and in the recorded code-table holdouts. It does not observe ribosomal translation, molecular folding, thermodynamic admissibility, cellular function, evolutionary mechanism, or universality across all organisms.
+
+\paragraph{Local verdict.}
+The finite rows support the following bounded claim. In the six-coordinate codon display, the standard-code label table contains a thirteen-codon residual boundary tile with the recorded cubical face vector, spectral values, null-model significance, module classification, and leave-one-code-out stability. The hit-rate row, family row, and leave-one-codon-out row jointly make the tile a reproducible code-read pattern in the supplied finite data. No higher-layer biological conclusion follows from this chapter alone: translation realization, folded structure, physical admissibility, biological function, mechanism, and universal law all require separate observations of the appropriate kind before they can be asserted.

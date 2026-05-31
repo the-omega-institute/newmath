@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalBolzanoUp$}
+\label{ch:concrete-instances-located-interval-bolzano-namecert}
+\origin{human}
+
+Following Bolzano and Bishop--Bridges constructive analysis, the $\LocatedIntervalBolzanoUp$ packet records the finite interval-zero route used when a continuous located-real map changes sign on a located closed interval. It sits over the located real interval carrier of \autoref{ch:concrete-instances-located-real-interval-namecert}, the finite-net interval coverage rows of \autoref{ch:concrete-instances-located-closed-interval-finite-net-namecert}, the continuous-map replay of \autoref{ch:concrete-instances-continuousmap-namecert}, the intermediate-value route of \autoref{ch:concrete-instances-located-intermediate-value-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names an interval-zero certificate from finite endpoint, bisection, stream, regular-rational, and real-seal data; it does not export trichotomy, a selected zero, quotient equality of real names, host compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located interval Bolzano zero carrier]
+\label{def:located-interval-bolzano-zero-carrier}
+A $\LocatedIntervalBolzanoUp$ zero carrier is a finite $\BHist$ packet
+$$
+Z=(I,F,E,N,B,S,D,R,Q,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the located-real interval source row, exposing the two endpoint seals, interval order witness, and located containment ledger.
+\item $F$ is the $\ContinuousMapUp$ replay row for the map inspected on the interval.
+\item $E$ is the endpoint sign row, displaying located negative and positive observations for the two endpoint values.
+\item $N$ is the $\LocatedClosedIntervalFiniteNetUp$ coverage row used to keep bisection requests inside the displayed interval.
+\item $B$ is the finite bisection row, recording the retained subinterval side, midpoint request, and sign handoff at every inspected stage.
+\item $S$ is the $\StreamNameUp$ finite-window row opened for endpoint, midpoint, and retained-interval observations.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the endpoint gaps, midpoint scale, and retained interval radius.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and dyadic tolerance ledger.
+\item $Q$ is the terminal $\RealUp$ seal row, exposed only after $I,F,E,N,B,S,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the analytic rows and for the local structural rows.
+\item $C$ records displayed $\Cont$ replay from the sign-change request through finite bisection, stream windows, regular rational readback, and the terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalBolzanoUp$, $\LocatedRealIntervalUp$, $\LocatedClosedIntervalFiniteNetUp$, $\ContinuousMapUp$, $\LocatedIntermediateValueUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\LocatedIntervalBolzanoUp}$ row.
+\end{enumerate}
+The classifier compares accepted zero carriers only through $I,F,E,N,B,S,D,R,Q,H,C,P,L$. It has no coordinate for real trichotomy, an externally selected zero, quotient equality of real names, host compactness, countable choice, Lean verification, bridge checking, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located interval Bolzano sign handoff]
+\label{thm:located-interval-bolzano-sign-handoff}
+For every accepted $\LocatedIntervalBolzanoUp$ zero carrier
+$$
+Z=(I,F,E,N,B,S,D,R,Q,H,C,P,L),
+$$
+the sign-change request is handed to completion-facing consumers only through the displayed route
+$$
+\LocatedRealIntervalUp \longmapsto \LocatedClosedIntervalFiniteNetUp \longmapsto \ContinuousMapUp \longmapsto \LocatedIntermediateValueUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The terminal zero read is therefore a finite interval certificate consisting of endpoint signs, retained bisection rows, stream windows, dyadic tolerances, regular-rational readbacks, a real seal, componentwise transport, replay, provenance, and local naming. It is not a selected point, quotient real representative, trichotomy comparison, host compactness argument, countable-choice schedule, or ambient real-completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-interval-bolzano-zero-carrier}. The source interval row $I$, continuous-map row $F$, endpoint sign row $E$, finite-net row $N$, and bisection row $B$ are the only interval-zero coordinates available before the stream-facing rows are read.
+
+The bisection route is finite. At every inspected stage the retained side and midpoint request are displayed together with the finite coverage row, so the sign handoff stays inside the located closed interval and never asks for a global trichotomy decision.
+
+Read $S,D,R,Q$ next. The stream windows expose exactly the finite endpoint and midpoint observations, the dyadic ledger records their tolerance budget, the regular rational row reads those observations as regular data, and the terminal real seal is downstream of those displayed rows.
+
+Finally $H,C,P,L$ transport, replay, source, and name the same route. Since the packet contains no coordinate for selected zeros, quotient real equality, host compactness, countable choice, Lean verification, bridge checking, or ambient Real completeness, the displayed rows exhaust the sign handoff.
+\end{proof}
+
+\falsifiablePrediction{A completion-facing interval-zero consumer that omits the located interval row, finite-net coverage row, continuous-map replay row, bisection row, StreamName window row, DyadicRatCore tolerance ledger, RegSeqRat readback, or RealUp seal cannot claim a $\LocatedIntervalBolzanoUp$ zero handoff.}
+
+\independenceWitness{located-real-interval, located-closed-interval-finite-net, continuousmap, intermediatevalue, streamname, dyadicratcore, regseqrat, real: $\LocatedIntervalBolzanoUp$ is not bijective to any listed sibling because it jointly carries endpoint signs, finite interval coverage, continuous-map replay, retained bisection data, stream windows, dyadic tolerances, regular rational readback, a terminal Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{LocatedIntervalBolzanoUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalBolzanoUp}
+  \constructivestory{A $\LocatedIntervalBolzanoUp$ packet is generated from a located-real interval row, finite endpoint sign rows, a LocatedClosedIntervalFiniteNet coverage row, ContinuousMap replay, a finite bisection ledger, StreamName windows, DyadicRatCore tolerance rows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-bolzano-zero-carrier} and \autoref{thm:located-interval-bolzano-sign-handoff} seed the constructive interval-zero route over located real intervals, finite interval nets, continuous maps, bisection, stream windows, regular rational readback, and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close real trichotomy, selected zeros, quotient real equality, host compactness, countable choice, Lean verification, bridge checking, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint sign exposure, finite-net interval coverage, continuous-map replay, bisection ledger exactness, StreamName window exposure, DyadicRatCore tolerance stability, RegSeqRat readback, RealUp sealing, transport, replay, provenance, and local naming for BEDC.Derived.LocatedIntervalBolzanoUp.}
+\end{closurestatus}

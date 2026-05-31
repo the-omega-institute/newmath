@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\StepFunctionUp$}
+\label{ch:concrete-instances-step-function-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges constructive analysis, the $\StepFunctionUp$ packet records a finite partition-to-real approximation object as BEDC NameCert data. It sits after the partition surface of \autoref{ch:concrete-instances-partition-namecert}, the dyadic step-function specialization of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the tagged finite-sum route of \autoref{ch:concrete-instances-riemannsum-namecert}, the integration boundary of \autoref{ch:concrete-instances-integral-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet supplies a textbook finite step-function interface without forcing every integration-facing consumer through dyadic endpoints alone.
+
+\begin{definition}[Step function carrier]
+\label{def:step-function-carrier}
+A $\StepFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(P,V,A,D,S,I,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is a $\PartitionUp$ row listing finitely many ordered cells and their boundary incidence data.
+\item $V$ assigns a displayed $\RealUp$ value row to each cell of $P$.
+\item $A$ records the constant-on-cell admission relation, so every accepted domain read first chooses a cell of $P$ and then reads the corresponding value in $V$.
+\item $D$ is the $\DyadicStepFunctionUp$ comparison row, present when the partition cells and values are supplied through dyadic subrows.
+\item $S$ is the $\RiemannSumUp$ finite-sum row obtained from the displayed cells, tags, and values.
+\item $I$ is the $\IntegralUp$ consumer boundary that may read $S$ only after $P,V,A,D$ have been displayed.
+\item $R$ is the $\RegSeqRatUp$ approximation ledger used when a later real-facing route samples the finite row by regular rational names.
+\item $H$ records componentwise $\hsame$ transport for partition, value, cell-admission, dyadic comparison, finite-sum, integral-boundary, regular-readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a step-function read through $P,V,A,D,S,I,R,H$.
+\item $Q$ is the $\Pkg$ provenance over $\StepFunctionUp$, $\PartitionUp$, $\RealUp$, $\DyadicStepFunctionUp$, $\IntegralUp$, $\RiemannSumUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StepFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by these rows. It has no coordinate for a measurable-function quotient, an ambient function space, a selected refinement limit, open-cover compactness, or an unbounded integration procedure.
+\end{definition}
+
+\begin{theorem}[Step function NameCert obligations]
+\label{thm:step-function-namecert-obligations}
+For every accepted $\StepFunctionUp$ carrier $F=(P,V,A,D,S,I,R,H,C,Q,N)$, the local $\NameCert_{\StepFunctionUp}$ surface consists exactly of carrier admission, finite partition exposure, real-value exposure, constant-on-cell admission, dyadic comparison when present, finite-sum handoff, integral-boundary handoff, regular rational readback, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:step-function-carrier}. The rows $P,V,A$ display the finite partition, the value row on each cell, and the constant-on-cell admission relation before any consumer can read a function value.
+
+The analytic consumers are downstream of those rows. The dyadic comparison row $D$ is only a displayed specialization, the finite-sum row $S$ is computed from the visible cells and values, and the integral boundary $I$ reads the same finite row before any integration claim is exported.
+
+The regular readback and structural rows preserve that route. Since $R,H,C,Q,N$ name only regular sampling, transport, replay, provenance, and the local certificate, and since the carrier has no coordinate for a host function quotient, selected refinement limit, compactness proof, or unbounded integration procedure, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Step function partition-integral route]
+\label{thm:step-function-partition-integral-route}
+Every integration-facing read of an accepted $\StepFunctionUp$ carrier factors through
+$$
+\PartitionUp \longmapsto \RealUp \longmapsto \DyadicStepFunctionUp \longmapsto \RiemannSumUp \longmapsto \IntegralUp
+$$
+together with the $\RegSeqRatUp$ approximation ledger and the structural rows $H,C,Q,N$. The route exports a finite partition-to-real approximation surface, not a quotient function object, a selected limiting mesh, measure-theoretic integration, open-cover compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the displayed partition row. A read has no domain observation except the cells listed by $P$, and it has no value observation except the corresponding $\RealUp$ rows in $V$.
+
+The step-function comparison and finite-sum handoff are then forced. The dyadic row $D$ records only the dyadic specialization of the same cells and values, while $S$ is the finite $\RiemannSumUp$ row computed from those displayed data.
+
+Finally read the integral and approximation rows. The $\IntegralUp$ boundary $I$ is available only after $P,V,A,D,S$ are displayed, and the $\RegSeqRatUp$ row $R$ supplies regular rational sampling without changing the carrier. The structural rows $H,C,Q,N$ transport and name the same route, so no external function quotient, mesh-limit choice, compactness principle, measure-theoretic integral, or ambient completeness coordinate can be exported.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\StepFunctionUp$ integration-facing read is refuted if its $\IntegralUp$ boundary is preserved while the displayed $\PartitionUp$ row, $\RealUp$ value row, $\RiemannSumUp$ finite-sum row, and $\RegSeqRatUp$ readback are removed.}
+
+\independenceWitness{partition, real-value, dyadic-step-function, riemann-sum, integral, regseqrat: none is bijective with $\StepFunctionUp$ because the packet jointly carries finite partition cells, displayed real values, constant-on-cell admission, dyadic comparison, finite-sum handoff, integral boundary, regular rational readback, componentwise transport, replay, provenance, and local naming rows.}
+
+\closureat{StepFunctionUp}{seedStr}
+
+\begin{closurestatus}{\StepFunctionUp}
+  \constructivestory{A $\StepFunctionUp$ packet is generated from a finite PartitionUp row, displayed RealUp values, constant-on-cell admission, optional DyadicStepFunctionUp comparison, finite RiemannSumUp handoff, IntegralUp boundary, RegSeqRatUp readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:step-function-carrier}, \autoref{thm:step-function-namecert-obligations}, and \autoref{thm:step-function-partition-integral-route} seed the finite partition-to-real step-function approximation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim measure-theoretic integration, host function quotients, selected refinement limits, open-cover compactness, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition exposure, real-value exposure, constant-on-cell admission, finite-sum handoff, IntegralUp boundary routing, RegSeqRatUp readback, and structural transport for BEDC.Derived.StepFunctionUp.}
+\end{closurestatus}

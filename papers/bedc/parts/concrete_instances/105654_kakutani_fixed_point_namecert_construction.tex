@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\KakutaniFixedPointUp$}
+\label{ch:concrete-instances-kakutani-fixed-point-namecert}
+\origin{human}
+
+Following Kakutani's fixed point theorem and constructive fixed-point readings, the $\KakutaniFixedPointUp$ packet records only a finite certificate surface for compact convex domains, convex-valued set maps, approximate selector windows, and fixed-point witness ledgers. It sits beside $\CompactUp$ in \autoref{ch:concrete-instances-compact-namecert}, $\ConvexSetUp$ in \autoref{ch:concrete-instances-convexset-namecert}, $\SchauderFixedPointUp$ in \autoref{ch:concrete-instances-schauder-fixed-point-namecert}, $\FixedPointIterationUp$ in \autoref{ch:concrete-instances-fixed-point-iteration-namecert}, and $\MetricSpaceUp$ in \autoref{ch:concrete-instances-metric-namecert}. The packet is a NameCert surface for the fixed-point obligation; it does not import a host choice selector, a full classical compactness theorem, or ambient real completeness.
+
+\begin{definition}[Kakutani fixed point carrier]\label{def:kakutani-fixed-point-carrier}
+A $\KakutaniFixedPointUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,G,V,S,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the compact convex domain row, read through the named $\CompactUp$, $\ConvexSetUp$, and $\MetricSpaceUp$ surfaces.
+\item $G$ is the set-valued graph row, recording only finite graph windows and their source ledger.
+\item $V$ is the nonempty compact convex value row for the displayed graph windows.
+\item $S$ is the approximate selector-window row, listing finite selector approximants and their domain restrictions.
+\item $F$ is the fixed-point witness ledger, recording approximate self-contact rows and the accepted witness boundary.
+\item $H$ stores componentwise $\hsame$ transport for the domain, graph, value, selector, witness, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from domain reads to graph windows, from graph windows to selector windows, and from selector windows to the fixed-point witness ledger.
+\item $P$ is the $\Pkg$ provenance over $\KakutaniFixedPointUp$, $\CompactUp$, $\ConvexSetUp$, $\SchauderFixedPointUp$, $\FixedPointIterationUp$, $\MetricSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KakutaniFixedPointUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,G,V,S,F,H,C,P,N$. It has no coordinate for a host choice selector, a full classical compactness principle, an ambient real-completeness oracle, or an unrestricted multivalued map.
+\end{definition}
+
+\begin{theorem}[Kakutani fixed point NameCert obligations]\label{thm:kakutani-fixed-point-namecert-obligations}
+For every accepted $\KakutaniFixedPointUp$ carrier $K=(D,G,V,S,F,H,C,P,N)$, the local $\NameCert_{\KakutaniFixedPointUp}$ surface consists exactly of carrier admission for the nine displayed rows, compact-convex domain admission through $D$, finite set-valued graph access through $G$, nonempty compact convex value admission through $V$, approximate selector-window admission through $S$, fixed-point witness ledger admission through $F$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kakutani-fixed-point-carrier}. The domain, graph, value, selector, and witness coordinates are exactly $D,G,V,S,F$, so every fixed-point observation enters through those displayed rows.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no additional coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Kakutani graph-selector nonescape]\label{thm:kakutani-fixed-point-graph-selector-nonescape}
+Every selector-facing read from an accepted $\KakutaniFixedPointUp$ carrier factors through
+$$
+D,G,V\longmapsto S\longmapsto F
+$$
+together with $H,C,P,N$. Consequently a consumer may use the displayed $\CompactUp$, $\ConvexSetUp$, $\SchauderFixedPointUp$, $\FixedPointIterationUp$, and $\MetricSpaceUp$ interfaces named by the packet, but it receives no host selection function, no unbounded graph oracle, no full classical compactness theorem, and no ambient real-completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a selector-facing request. By \autoref{def:kakutani-fixed-point-carrier}, the request can inspect the compact convex domain row $D$, the finite set-valued graph row $G$, and the nonempty compact convex value row $V$ before it reads a selector window.
+
+The selector row $S$ exposes only the displayed approximate selectors and their domain restrictions. The witness ledger $F$ repacks those selector reads as approximate self-contact and fixed-point boundary data.
+
+Finally read $H,C,P,N$. These rows preserve, replay, source, and name the same displayed data, so none of the excluded host principles can escape through the accepted classifier.
+\end{proof}
+
+\begin{theorem}[Kakutani convex compact value scope]\label{thm:kakutani-fixed-point-convex-compact-value-scope}
+The value coordinate $V$ of an accepted $\KakutaniFixedPointUp$ carrier is scoped only as a displayed nonempty compact convex value row relative to $D$ and $G$. It may feed the selector-window route $S$ and the witness ledger $F$, but it exports no ambient hyperspace compactness theorem, no quotient set-of-points object, no arbitrary selection principle, and no host real-completeness assumption.
+\end{theorem}
+\begin{proof}
+Use the carrier rows $D,G,V$ from \autoref{def:kakutani-fixed-point-carrier}. The value row is admitted relative to the displayed domain and graph windows, so its compactness and convexity evidence remains a finite row in the packet.
+
+The only downstream consumers are the selector windows $S$ and the fixed-point witness ledger $F$. The structural rows $H,C,P,N$ then keep the value evidence tied to the same finite NameCert route rather than an ambient hyperspace or choice construction.
+\end{proof}
+
+\falsifiablePrediction{Every $\KakutaniFixedPointUp$ fixed-point read factors through a compact convex domain row, finite set-valued graph row, nonempty compact convex value row, approximate selector windows, fixed-point witness ledger, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{compact, convexset, schauder-fixed-point, fixed-point-iteration, metricspace: $\KakutaniFixedPointUp$ is not bijective to any listed sibling because it jointly carries a compact convex domain, set-valued graph, nonempty compact convex values, approximate selector windows, fixed-point witness ledger, transport, continuation, provenance, and local naming.}
+
+\closureat{KakutaniFixedPointUp}{seedStr}
+
+\begin{closurestatus}{\KakutaniFixedPointUp}
+  \constructivestory{A $\KakutaniFixedPointUp$ packet is generated from finite rows for a compact convex domain, set-valued graph, nonempty compact convex values, approximate selector windows, a fixed-point witness ledger, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kakutani-fixed-point-carrier}, \autoref{thm:kakutani-fixed-point-namecert-obligations}, \autoref{thm:kakutani-fixed-point-graph-selector-nonescape}, and \autoref{thm:kakutani-fixed-point-convex-compact-value-scope} bind the finite Kakutani fixed-point certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host choice, full classical compactness, ambient real completeness, unrestricted hyperspace compactness, bridge checking, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligations, graph-selector nonescape, convex-compact value scope, and TasteGate field faithfulness for BEDC.Derived.KakutaniFixedPointUp.}
+\end{closurestatus}

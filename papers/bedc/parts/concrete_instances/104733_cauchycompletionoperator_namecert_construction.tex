@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-cauchycompletionoperator-namecert}
 \origin{human}
 
-Following Bishop and Bridges on constructive completion, the $\CauchyCompletionOperatorUp$ packet names the finite operator surface that turns displayed Cauchy data into a completion-facing handoff without selecting quotient representatives. It sits between the metric completion carrier of \autoref{ch:concrete-instances-metriccompletion-namecert}, the completion boundary of \autoref{ch:concrete-instances-cauchy-completion-boundary-namecert}, the uniform completion route of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the separated limit surface of \autoref{ch:concrete-instances-complete-separated-metric-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The operator is therefore a finite NameCert object over visible StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, completion-boundary rows, and Real-facing seals, not a host completion class or a choice of limits.
+Following Bishop and Bridges constructive analysis, the $\CauchyCompletionOperatorUp$ packet names the finite operator surface that turns displayed Cauchy data into a completion-facing handoff without selecting quotient representatives. It sits between the metric completion carrier of \autoref{ch:concrete-instances-metriccompletion-namecert}, the Cauchy carrier of \autoref{ch:concrete-instances-cauchy-namecert}, the StreamName finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the completion boundary of \autoref{ch:concrete-instances-cauchy-completion-boundary-namecert}, the uniform completion route of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the separated limit surface of \autoref{ch:concrete-instances-complete-separated-metric-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The operator is therefore a finite NameCert object over visible StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, completion-boundary rows, and Real-facing seals, not a host completion class or a choice of limits.
 
 \begin{definition}[CauchyCompletionOperator carrier]
 \label{def:cauchy-completion-operator-carrier}
@@ -30,6 +30,7 @@ The classifier accepts only packets whose operator handoff is exhausted by $M,B,
 
 \begin{theorem}[CauchyCompletionOperator NameCert obligation surface]
 \label{thm:cauchy-completion-operator-namecert-obligation-surface}
+\label{thm:cauchy-completion-operator-namecert-obligations}
 For every accepted $\CauchyCompletionOperatorUp$ carrier $O=(M,B,U,S,R,D,Q,E,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionOperatorUp}$ surface consists exactly of carrier admission for the displayed twelve-row packet; metric-completion exposure through $M$; completion-boundary exposure through $B$; uniform-completion exposure through $U$; finite-window exposure through $S$; regular-rational readback through $R$; dyadic-tolerance exposure through $D$; separated-limit handoff through $Q$; terminal Real sealing through $E$; componentwise transport through $H$; displayed replay through $C$; package provenance through $P$; and local naming through $N$.
 \end{theorem}
 \begin{proof}
@@ -60,6 +61,26 @@ The rows $Q$ and $E$ are terminal for the separated-limit and Real-facing sides 
 The structural rows $H,C,P,N$ preserve this route under transport, replay it as a displayed continuation, record provenance, and name the local certificate. Therefore any later functorial completion surface can consume only the displayed operator route.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionOperator finite-window extraction]
+\label{thm:cauchy-completion-operator-window-extraction}
+Every accepted $\CauchyCompletionOperatorUp$ packet exposes its completion-facing request through a finite extraction window before any separated-limit or Real endpoint row is available. The extracted window consists exactly of the $\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the completion-boundary row $B$, and the structural rows $H,C,P,N$ that transport, replay, source, and name the same finite packet.
+
+Consequently a consumer may reach $Q$ or $E$ only through the displayed route
+$$
+B,S,R,D,H,C,P,N \longrightarrow Q,E .
+$$
+No selected limit, quotient completion equality, host completion operator, host real equality, or countable-choice schedule is exposed by the extraction.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-operator-carrier}. The only rows between the metric and uniform source requests and the terminal consumers are the completion boundary, finite StreamName schedule, regular readback, dyadic ledger, separated-limit row, Real seal, and structural support.
+
+Apply \autoref{thm:cauchy-completion-operator-namecert-obligations}. Its obligation surface forces local naming to inspect $B,S,R,D$ before $Q$ or $E$ can be consumed, while $H,C,P,N$ only transport, replay, source, and name the displayed packet.
+
+Use \autoref{thm:cauchy-completion-operator-functorial-handoff}. The handoff order places the finite window and dyadic ledger between the completion source rows and the terminal rows, so the extraction is determined by the visible window data rather than by any host completion object.
+
+The exclusion clause follows from the same carrier inventory. The packet has no coordinate for a selected limit, quotient completion equality, host completion operator, host real equality, or countable-choice schedule, so none can be read during extraction.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionOperator ledger nonescape]
 \label{thm:cauchy-completion-operator-ledger-nonescape}
 No accepted $\CauchyCompletionOperatorUp$ packet exports quotient completion equality, selected representatives, selected limits, countable-choice schedules, host completion operators, or ambient $\RealUp$ completeness data. Every consumer route to $\CompleteSeparatedMetricUp$ or $\RealUp$ must first read the packet rows $M,B,U,S,R,D,Q,E,H,C,P,N$.
@@ -70,6 +91,20 @@ Inspect the carrier inventory in \autoref{def:cauchy-completion-operator-carrier
 The structural coordinates are only $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. They move, replay, source, and name the displayed packet; they do not add analytic data.
 
 The excluded quotient, representative, limit, choice, host-operator, and ambient-completeness objects are absent from both inventories. Hence every separated-limit or Real-facing read is forced through the visible finite ledger and cannot escape the operator packet.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionOperator Real-seal nonescape]
+\label{thm:cauchy-completion-operator-real-seal-nonescape}
+Let $T$ be any Real-facing consumer of an accepted $\CauchyCompletionOperatorUp$ carrier $O=(M,B,U,S,R,D,Q,E,H,C,P,N)$. If $T$ reads the terminal $\RealUp$ seal $E$, then the read first factors through the completion-boundary row $B$, the finite $\StreamNameUp$ window $S$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the displayed transport, replay, provenance, and local naming rows $H,C,P,N$.
+
+The terminal seal therefore exports only the displayed finite operator packet. It does not expose Real completeness, quotient limits, selected representatives, choice, host equality, or an ambient completion endpoint.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchy-completion-operator-window-extraction}. It isolates the finite window and tolerance ledger that every terminal consumer must pass through before $Q$ or $E$ can be inspected.
+
+Next apply \autoref{thm:cauchy-completion-operator-functorial-handoff}. The Real-facing side of the handoff receives $E$ only after $B,S,R,D$ and the structural rows have already fixed the displayed route.
+
+Finally use \autoref{thm:cauchy-completion-operator-ledger-nonescape}. Since the packet exports no quotient completion equality, selected representative, selected limit, choice schedule, host completion operator, or ambient Real-completeness coordinate, the terminal Real seal cannot escape the finite operator packet.
 \end{proof}
 
 \closureat{CauchyCompletionOperatorUp}{seedStr}

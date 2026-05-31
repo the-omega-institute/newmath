@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyShiftEquivalenceUp$}
+\label{ch:concrete-instances-regular-cauchy-shift-equivalence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\RegularCauchyShiftEquivalenceUp$ packet records when a finite tail shift preserves the named regular Cauchy object as displayed BEDC data. It sits over the finite schedule rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational classifier of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the tail-shift packet of \autoref{ch:concrete-instances-regular-cauchy-shift-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a NameCert surface for tail-shift equivalence of regular Cauchy names, not a quotient of streams, not selected host equality, and not an ambient completeness theorem.
+
+\begin{definition}[Regular Cauchy shift equivalence carrier]
+\label{def:regular-cauchy-shift-equivalence-carrier}
+A $\RegularCauchyShiftEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(Q,k,S,R,D,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $Q$ is the source regular Cauchy name row, presented through the same regular rational readback used by the original $\RegSeqRatUp$ classifier.
+\item $k$ is the finite tail-shift index, displayed as a unary prefix length and carrying no unbounded selector.
+\item $S$ is the shifted $\StreamNameUp$ row whose window request at $n$ reads the source name at the displayed index $n+k$.
+\item $R$ is the $\RegSeqRatUp$ classifier row for the shifted readback, attached to $Q$ through the displayed schedule $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that records the dyadic slack preserved by the shifted readback.
+\item $H$ records componentwise $\hsame$ transport for the source name, shift index, shifted stream row, classifier row, dyadic ledger, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an equivalence request through $k$, $S$, $R$, $D$, and the source row $Q$, and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyShiftUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyShiftEquivalenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected representatives, host sequence equality, countable-choice tail selectors, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy shift equivalence NameCert obligations]
+\label{thm:regular-cauchy-shift-equivalence-namecert-obligations}
+For every accepted $\RegularCauchyShiftEquivalenceUp$ carrier $E=(Q,k,S,R,D,H,C,P,N)$, the local $\NameCert_{\RegularCauchyShiftEquivalenceUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the source regular Cauchy name, finite shift index, shifted $\StreamNameUp$ row, shifted $\RegSeqRatUp$ classifier row, $\DyadicRatCoreUp$ tolerance ledger, transports, continuation, provenance, and local naming row;
+\item source-name retention, requiring the shifted classifier to read the same source regular Cauchy name $Q$ after the finite index shift;
+\item shifted-window exposure, requiring every request to pass through the displayed shift index $k$ before it can inspect $S$;
+\item classifier stability, requiring the shifted $\RegSeqRatUp$ row $R$ to remain attached to the displayed windows in $S$ and the tolerance ledger $D$;
+\item real-seal compatibility, requiring every $\RealUp$-facing read to pass through $Q,k,S,R,D$ before any seal-facing consumer can inspect the structural rows;
+\item ledger refusal, excluding quotient stream equality, selected representatives, host sequence equality, countable-choice tail selection, and ambient completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-shift-equivalence-carrier}. The displayed coordinates are exactly the source regular Cauchy name, finite shift index, shifted stream row, shifted regular-rational classifier, dyadic tolerance ledger, and the structural rows $H,C,P,N$.
+
+Replay the continuation row $C$. An equivalence request first consumes the finite shift index $k$, then reads the shifted schedule $S$ and the shifted classifier row $R$ attached to the source row $Q$.
+
+The dyadic ledger $D$ is read on the same route. It supplies the tolerance data needed before a $\RealUp$-facing consumer can inspect the shifted readback as a real-name seal.
+
+The remaining rows only transport, replay, package, and locally name that finite route. Since no coordinate stores quotient stream equality, selected representatives, host sequence equality, countable-choice tail selection, or ambient completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy shift equivalence tail stability]
+\label{thm:regular-cauchy-shift-equivalence-tail-stability}
+Let $E=(Q,k,S,R,D,H,C,P,N)$ be an accepted $\RegularCauchyShiftEquivalenceUp$ carrier. Every tail-equivalence consumer and every $\RealUp$-facing consumer factors through the finite route
+$$
+Q \longmapsto k \longmapsto S \longmapsto R \longmapsto D \longmapsto H \longmapsto C \longmapsto P \longmapsto N.
+$$
+Thus the shifted regular Cauchy name remains stable under the displayed finite tail shift before quotient streams, host sequence equality, selected representatives, countable-choice tail selectors, or ambient completion data are available.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for the shifted regular Cauchy name. Carrier admission supplies only the source row $Q$, the finite shift index $k$, the shifted schedule $S$, the classifier row $R$, the dyadic ledger $D$, and the structural rows.
+
+The shifted schedule is read after $k$. Hence every displayed window of the shifted name is still a window of the source name at the translated finite index, and the classifier row $R$ remains attached to that same readback.
+
+The tolerance ledger $D$ travels with the shifted read. Transport by $H$ and replay by $C$ preserve the route through $Q,k,S,R,D$, while $P$ and $N$ only record provenance and local naming for that route.
+
+No refused object has a carrier coordinate. A tail-equivalence or $\RealUp$-facing consumer therefore receives the displayed finite shift route and no quotient stream, host sequence equality row, selected representative, choice selector, or ambient completion theorem.
+\end{proof}
+
+\closureat{RegularCauchyShiftEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyShiftEquivalenceUp}
+  \constructivestory{A $\RegularCauchyShiftEquivalenceUp$ packet is generated from a source regular Cauchy name row, finite tail-shift index, shifted StreamName row, RegSeqRat classifier row, DyadicRatCore tolerance ledger, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-shift-equivalence-carrier}, \autoref{thm:regular-cauchy-shift-equivalence-namecert-obligations}, and \autoref{thm:regular-cauchy-shift-equivalence-tail-stability} seed the finite tail-shift equivalence route over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyShiftUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, host sequence equality, countable-choice tail selection, ambient Real completeness, Lean verification, or a checked standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, shifted-window exposure, classifier stability, dyadic tolerance preservation, real-seal compatibility, and ledger refusal for BEDC.Derived.RegularCauchyShiftEquivalenceUp.}
+\end{closurestatus}

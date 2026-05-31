@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\SpectralAblationHingeUp$}
+\label{ch:concrete-instances-spectral-ablation-hinge-namecert}
+\origin{ai}
+
+The $\SpectralAblationHingeUp$ packet realizes the spectral-ablation ledger of \autoref{def:philosophy-spectral-ablation}, the single-codon deletion table of \autoref{thm:philosophy-single-codon-ablation}, the orbit-module deletion table of \autoref{thm:philosophy-orbit-module-ablation}, the tail-coupling edge deletion of \autoref{thm:philosophy-tail-coupling-ablation}, and the load-bearing interface summary of \autoref{thm:philosophy-spectral-hinges-load-bearing-interfaces} as finite NameCert data. It records deletion rows, killed-walk rows, spectral-loss rows, orbit-module rows, transport rows, replay rows, provenance rows, and local naming rows. The packet does not claim a biological fitness law, a continuous spectrum, a host eigenvector selector, or an external ranking rule outside the displayed ledger.
+
+The packet consumes the finite hinge-ledger rows of \autoref{ch:concrete-instances-spectral-ablation-hinge-ledger-namecert}, the quotient spectral trigger rows of \autoref{ch:concrete-instances-wobble-quotient-spectral-trigger-namecert}, and the energy-partition boundary of \autoref{ch:concrete-instances-trigger-energy-partition-namecert} before its ranking row is read. The killed-walk matrix rows and hinge rankings come from the ledger sibling, while the quotient trigger and energy-partition rows constrain which deletion reads can be treated as trigger-facing.
+
+\begin{definition}[SpectralAblationHinge carrier]
+\label{def:spectral-ablation-hinge-carrier}
+A $\SpectralAblationHingeUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,K,L,O,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the finite deletion row, naming the deleted codon, edge, edge group, or orbit module.
+\item $K$ is the killed-walk row computed after the displayed deletion.
+\item $L$ is the spectral-loss ledger row recording the displayed difference between the source spectral radius and the killed-walk spectral radius.
+\item $O$ is the orbit-module row that records whether the deletion is point-level, module-level, interface-level, or single-edge data.
+\item $T$ is the tail-coupling row for the $\mathrm{UUR}$--$\mathrm{CUR}$ antenna interface when the deletion reads that boundary.
+\item $R$ is the hinge-ranking row obtained by reading only $D,K,L,O,T$.
+\item $H$ records componentwise $\hsame$ transport for deletion, killed-walk, loss, orbit-module, tail-coupling, ranking, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from finite deletion data through killed-walk inspection, spectral-loss computation, orbit-module classification, tail-coupling inspection, and hinge ranking.
+\item $P$ is the $\Pkg$ provenance over $\SpectralAblationHingeUp$, radial-wobble-spectrum, wobble-quotient-spectral-trigger, six-boundary-tile-coverage, window-coverage-trigger-algebra, hyperbolic-metric, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SpectralAblationHingeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an accepted hinge ranking that bypasses the spectral-loss ledger $L$.
+\end{definition}
+
+\begin{theorem}[SpectralAblationHinge NameCert obligations]
+\label{thm:spectral-ablation-hinge-namecert-obligations}
+For every accepted $\SpectralAblationHingeUp$ carrier $A=(D,K,L,O,T,R,H,C,P,N)$, the local $\NameCert_{\SpectralAblationHingeUp}$ surface consists exactly of finite deletion admission through $D$, killed-walk admission through $K$, spectral-loss ledger exactness through $L$, orbit-module classification through $O$, tail-coupling boundary exposure through $T$, hinge-ranking readback through $R$, and structural transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectral-ablation-hinge-carrier}. The displayed rows are exactly $D,K,L,O,T,R,H,C,P,N$.
+
+The deletion side is exhausted by $D,K,L$. A consumer first reads the finite deletion row, then the killed-walk row after that deletion, and then the spectral-loss ledger comparing the source and killed rows.
+
+The hinge side is exhausted by $O,T,R$. Orbit-module classification and tail-coupling inspection supply the only ranking inputs, and the ranking row $R$ is read only after those rows and the loss ledger have been displayed.
+
+Transport, replay, provenance, and local naming preserve this finite ledger. No accepted NameCert obligation is stored in a host eigenvector selector, a continuous spectrum, or a ranking rule detached from $D,K,L,O,T,R$.
+\end{proof}
+
+\begin{theorem}[SpectralAblationHinge loss route]
+\label{thm:spectral-ablation-hinge-loss-route}
+Every accepted hinge-ranking read from a $\SpectralAblationHingeUp$ carrier factors through the route
+$$
+D \longmapsto K \longmapsto L \longmapsto O,T \longmapsto R \longmapsto H,C,P,N .
+$$
+Deleting the spectral-loss ledger $L$ prevents the carrier from exporting an accepted hinge ranking, even when the deletion row, killed-walk row, orbit-module row, and tail-coupling row remain displayed.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:spectral-ablation-hinge-namecert-obligations}. They require finite deletion admission, killed-walk admission, and spectral-loss ledger exactness before orbit-module or hinge-ranking data is read.
+
+The ranking row is downstream of the loss row. The orbit-module row $O$ and tail-coupling row $T$ classify the deletion, but neither row stores the spectral loss itself.
+
+If $L$ is deleted, the displayed route cannot reach $R$ as an accepted hinge-ranking row. The structural rows $H,C,P,N$ only transport, replay, source, and name accepted rows, so they cannot reconstruct the missing loss ledger.
+\end{proof}
+
+\falsifiablePrediction{Deleting the spectral-loss ledger prevents any accepted $\SpectralAblationHingeUp$ hinge ranking read, even when finite deletion, killed-walk, orbit-module, tail-coupling, transport, replay, provenance, and local naming rows remain displayed.}
+
+\independenceWitness{radial-wobble-spectrum, wobble-quotient-spectral-trigger, six-boundary-tile-coverage, window-coverage-trigger-algebra, hyperbolic-metric: none is bijective to the spectral ablation hinge packet because only $\SpectralAblationHingeUp$ binds deletion, killed-walk, spectral-loss, orbit-module, tail-coupling, ranking, transport, replay, provenance, and local naming rows into one accepted hinge ledger.}
+
+Lean follow-up must provide $\mathsf{Nontrivial}\ \SpectralAblationHingeUp$ and $\mathsf{FieldFaithful}\ \SpectralAblationHingeUp$ in $\mathsf{TasteGate.lean}$ before the packet can be read as a checked TasteGate object.
+
+\closureat{SpectralAblationHingeUp}{seedStr}
+
+\begin{closurestatus}{\SpectralAblationHingeUp}
+  \constructivestory{A $\SpectralAblationHingeUp$ packet is generated from finite deletion rows, killed-walk rows, spectral-loss ledger rows, orbit-module rows, tail-coupling rows, hinge-ranking rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:spectral-ablation-hinge-carrier}, \autoref{thm:spectral-ablation-hinge-namecert-obligations}, and \autoref{thm:spectral-ablation-hinge-loss-route} seed the finite deletion, killed-walk, spectral-loss, orbit-module, tail-coupling, ranking, transport, replay, provenance, and local naming route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close biological fitness laws, continuous spectral theory, host eigenvector selectors, Lean verification, TasteGate checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, deletion admission, killed-walk admission, spectral-loss exactness, orbit-module classification, tail-coupling exposure, ranking readback, transport, replay, provenance, and local naming for BEDC.Derived.SpectralAblationHingeUp.}
+\end{closurestatus}

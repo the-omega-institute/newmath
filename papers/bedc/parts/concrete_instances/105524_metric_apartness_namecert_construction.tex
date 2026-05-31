@@ -1,0 +1,76 @@
+\chapter{A Constructive Apartness Certificate for $\MetricApartnessUp$}
+\label{ch:concrete-instances-metric-apartness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\MetricApartnessUp$ packet records the positive-distance separation surface of a constructive metric space as finite BEDC NameCert data. It sits after the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the separated zero-distance classifier of \autoref{ch:concrete-instances-separatedmetric-namecert}, and the completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet supplies a finite apartness interface for metric and completion consumers; it does not import host inequality, real trichotomy, quotient classes, selected representatives, or ambient completeness.
+
+\begin{definition}[MetricApartness carrier]
+\label{def:metric-apartness-carrier}
+A $\MetricApartnessUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,x,y,D,R,Z,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row supplying the displayed distance-read interface.
+\item $x$ and $y$ are the two inspected point rows over the same metric source.
+\item $D$ is the metric-distance witness row for the finite read $d(x,y)$.
+\item $R$ is the $\RealUp$ positive-distance row, recording that the displayed distance has a positive real witness.
+\item $Z$ is the $\RealUp$ zero-distance refusal row, recording that the accepted apartness read rejects the zero-distance branch by displayed real data.
+\item $S$ is the $\SeparatedMetricUp$ classifier-comparison row, used only to compare the zero-distance boundary with the displayed point classifier.
+\item $Q$ is the $\MetricCompletionUp$ and $\CauchySequenceEquivalenceUp$ finite-window transport row for completion-facing consumers.
+\item $H$ records componentwise $\hsame$ transport for the metric source, point rows, distance witness, real positivity row, zero-distance refusal row, separated comparison, finite-window transport, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an apartness request through $M,x,y,D,R,Z,S,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetricApartnessUp$, $\MetricUp$, $\RealUp$, $\SeparatedMetricUp$, $\MetricCompletionUp$, $\CauchySequenceEquivalenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricApartnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted apartness packets only through these displayed rows. It contains no host inequality predicate, no trichotomy of real numbers, no quotient-completion class, no selected representative, and no ambient completeness witness.
+\end{definition}
+
+\begin{theorem}[MetricApartness NameCert obligations]
+\label{thm:metric-apartness-namecert-obligations}
+For every accepted $\MetricApartnessUp$ carrier $A=(M,x,y,D,R,Z,S,Q,H,C,P,N)$, the local $\NameCert_{\MetricApartnessUp}$ surface consists exactly of carrier admission for the displayed metric source and point rows, distance-witness visibility through $D$, positive-distance readback through $R$, zero-distance refusal through $Z$, separated classifier comparison through $S$, completion-facing finite-window transport through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. Every apartness read therefore follows the route
+$$
+M,x,y\longmapsto D\longmapsto R,Z\longmapsto S,Q\longmapsto H,C,P,N .
+$$
+No additional coordinate can decide apartness by host inequality, real trichotomy, quotient class comparison, selected representative equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-apartness-carrier}. The rows $M,x,y$ expose the metric source and the two inspected points, and $D$ is the only row from which their displayed distance can be read.
+
+The real-facing branch is then forced through $R$ and $Z$. The row $R$ supplies positive-distance evidence, while $Z$ records refusal of the zero-distance branch by the same $\RealUp$ readback surface.
+
+Separated and completion-facing consumers are downstream. The row $S$ compares the zero-distance boundary with the separated classifier, and $Q$ transports finite-window completion reads through $\MetricCompletionUp$ and $\CauchySequenceEquivalenceUp$ without creating quotient classes or selected representatives.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the displayed route. Since no row stores host inequality, real trichotomy, quotient comparison, selected representative equality, or ambient completeness, the listed coordinates exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetricApartness completion handoff]
+\label{thm:metric-apartness-completion-handoff}
+Every $\MetricCompletionUp$ or $\CauchySequenceEquivalenceUp$ consumer of an accepted $\MetricApartnessUp$ packet must read the finite route $M,x,y,D,R,Z,S,Q,H,C,P,N$ before treating the two displayed names as apart. The exported handoff is only the positive-distance certificate together with zero-distance refusal, separated-classifier comparison, finite-window transport, componentwise transport, replay, provenance, and local naming. It does not export host inequality, real trichotomy, quotient-completion equality, selected representatives, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing apartness request. The metric source and inspected point rows $M,x,y$ must be displayed before the distance witness $D$ can be consumed.
+
+The rows $R$ and $Z$ bind the constructive apartness decision to real readback: one row supplies positive-distance evidence, and the other refuses the zero-distance branch. This gives the separated row $S$ a displayed classifier boundary to compare.
+
+The finite-window row $Q$ is then the only completion-facing handoff. It transports the same distance and refusal data through $\MetricCompletionUp$ and $\CauchySequenceEquivalenceUp$ consumers, while $H,C,P,N$ record transport, replay, provenance, and local naming.
+
+Thus the completion consumer receives exactly the finite apartness route described above, with no hidden route through host inequality, trichotomy, quotient classes, selected representatives, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetricApartnessUp$ read factors through a MetricUp source, two displayed point rows, a distance witness, RealUp positive-distance evidence, RealUp zero-distance refusal, a SeparatedMetric classifier comparison, MetricCompletion and CauchySequenceEquivalence finite-window transport, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{metric, real, separatedmetric, metriccompletion, cauchysequenceequivalence: $\MetricApartnessUp$ is not bijective to any listed sibling because it jointly carries a metric source, two displayed point rows, positive-distance evidence, zero-distance refusal, separated classifier comparison, completion-facing finite-window transport, transport, replay, provenance, and local naming as one apartness packet.}
+
+\closureat{MetricApartnessUp}{seedStr}
+
+\begin{closurestatus}{\MetricApartnessUp}
+  \constructivestory{A $\MetricApartnessUp$ packet is generated from a MetricUp source row, two displayed point rows, a metric-distance witness, RealUp positive-distance evidence, RealUp zero-distance refusal, a SeparatedMetric classifier-comparison row, MetricCompletion and CauchySequenceEquivalence finite-window transport, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-apartness-carrier}, \autoref{thm:metric-apartness-namecert-obligations}, and \autoref{thm:metric-apartness-completion-handoff} seed the finite constructive apartness surface for metric and completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host inequality, real trichotomy, quotient-completion equality, selected representatives, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, distance-witness visibility, positive-distance evidence, zero-distance refusal, separated classifier comparison, completion-facing finite-window transport, transport and replay stability, provenance non-escape, and local naming for BEDC.Derived.MetricApartnessUp.}
+\end{closurestatus}

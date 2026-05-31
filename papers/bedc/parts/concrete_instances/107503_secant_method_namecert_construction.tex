@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\SecantMethodUp$}
+\label{ch:concrete-instances-secant-method-namecert}
+\origin{human}
+
+Following Traub and Ortega--Rheinboldt on iterative root-finding, the $\SecantMethodUp$ packet records the finite two-point root-finding surface used by the L10 completion-facing numerical-analysis route. It sits beside the Newton--Kantorovich packet of \autoref{ch:concrete-instances-newton-kantorovich-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the displayed bracketing windows, two previous iterates, finite secant denominator checks, residual reads, next-iterate rows, Cauchy handoff, transport, replay, provenance, and local naming; it does not assert global convergence, a derivative bound, quotient equality of reals, a selected host limit, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Secant method carrier]
+\label{def:secant-method-carrier}
+A $\SecantMethodUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,X,Y,D,R,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the function-evaluation row, naming the finite $\RealUp$ input and residual observations used by the root-finding request.
+\item $X$ and $Y$ are the two previous iterate rows, each exposed through $\RegSeqRatUp$ readback and the same $\StreamNameUp$ window schedule.
+\item $D$ is the $\DyadicRatCoreUp$ denominator-separation row, recording the finite nonzero secant-denominator comparison needed before the next iterate can be read.
+\item $R$ is the residual-control row, binding the two displayed residuals and the candidate next residual to finite dyadic tolerances.
+\item $W$ is the $\StreamNameUp$ window row for the iterate, residual, denominator, and tolerance observations.
+\item $Q$ is the $\RegSeqRatUp$ handoff row that reads every iterate and residual window as regular rational data.
+\item $E$ is the downstream $\RealUp$ seal reached only after $F,X,Y,D,R,W,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for function-evaluation, iterate, denominator, residual, window, readback, endpoint, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a secant request through $F,X,Y,D,R,W,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\SecantMethodUp$, $\NewtonKantorovichUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SecantMethodUp}$ row.
+\end{enumerate}
+The classifier accepts the packet only through these finite rows. There is no coordinate for derivative availability, a completed limit point, quotient equality of real presentations, an unbounded convergence search, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Secant method NameCert obligations]
+\label{thm:secant-method-namecert-obligations}
+For the carrier of \autoref{def:secant-method-carrier}, the local $\NameCert_{\SecantMethodUp}$ surface consists exactly of carrier admission for $S=(F,X,Y,D,R,W,Q,E,H,C,P,N)$, function-evaluation admission through $F$, two-iterate admission through $X,Y$, dyadic denominator-separation admission through $D$, residual-control admission through $R$, finite-window admission through $W$, regular-rational readback through $Q$, downstream $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The function row $F$ and iterate rows $X,Y$ expose the only data from which the secant step may be read, and both iterate rows are tied to the same finite window surface.
+
+The denominator and residual checks are displayed before the next-iterate read. The row $D$ supplies a dyadic nonzero comparison for the secant denominator, while $R$ records residual tolerances using the same finite observations.
+
+Readback then passes through $W$ and $Q$. The $\StreamNameUp$ row supplies the requested windows, and $\RegSeqRatUp$ turns those windows into regular rational data before the downstream $\RealUp$ seal $E$ is visible.
+
+Finally $H,C,P,N$ transport, replay, source, and name this route. Since the carrier contains no derivative row, limit selector, quotient equality, unbounded search, choice principle, or ambient completeness coordinate, the listed rows exhaust the local obligations.
+\end{proof}
+
+\begin{theorem}[Secant method Cauchy handoff]
+\label{thm:secant-method-cauchy-handoff}
+Every completion-facing read of an accepted $\SecantMethodUp$ packet factors through the finite route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \SecantMethodUp \longmapsto \RealUp .
+$$
+The handoff first exposes finite iterate and residual windows, then regular rational readback, then dyadic denominator and residual budgets, and only then the terminal real-name seal. It supplies no independent convergence theorem, no derivative-based Newton certificate, no selected limit, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a completion-facing consumer. The carrier forces the request to read $W$ and $Q$ before a secant step can be interpreted, so the iterates and residuals are finite regular rational observations rather than host real representatives.
+
+Next inspect the dyadic rows. The denominator-separation row $D$ and residual-control row $R$ provide the only permitted comparison data for the next iterate, and both are attached to the same displayed windows.
+
+The $\RealUp$ seal $E$ is reached after those rows have been replayed through $C$ and transported through $H$. Thus the exported handoff is a finite Cauchy-facing route, not an assertion of global convergence, derivative control, selected limits, quotient equality, countable choice, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SecantMethodUp$ completion-facing read factors through finite StreamName windows, RegSeqRat readback, DyadicRatCore denominator and residual budgets, displayed secant-step rows, a downstream RealUp seal, hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{newtonkantorovich, regseqrat, dyadicratcore, streamname, real: $\SecantMethodUp$ is not bijective to any listed sibling because it jointly carries two previous iterate rows, a finite secant denominator check, residual-control rows, regular rational readback, dyadic tolerance data, a downstream Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{SecantMethodUp}{seedStr}
+
+\begin{closurestatus}{\SecantMethodUp}
+  \constructivestory{A $\SecantMethodUp$ packet is generated from function-evaluation rows, two previous iterate rows, dyadic denominator-separation and residual-control rows, finite StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:secant-method-carrier}, \autoref{thm:secant-method-namecert-obligations}, and \autoref{thm:secant-method-cauchy-handoff} seed the finite secant root-finding route from regular rational windows to the Real endpoint seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, global convergence, derivative-control hypotheses, quotient equality of real presentations, selected limits, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, two-iterate admission, denominator-separation exactness, residual-control routing, Cauchy handoff, transport, replay, provenance, and local naming for BEDC.Derived.SecantMethodUp.}
+\end{closurestatus}

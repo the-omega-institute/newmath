@@ -51,6 +51,7 @@ the local $\NameCert_{\FareySequenceUp}$ surface consists exactly of the followi
 \end{enumerate}
 No Farey-sequence obligation is stored outside these rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.FareySequenceUp.FareySequenceNameCertObligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:farey-sequence-carrier}. The accepted tuple exposes exactly the ordered boundary sequence, adjacency ledger, mediant refinement, denominator-bound, dyadic-tolerance, Stern--Brocot handoff, density handoff, rational-source, stream-window, regular-rational, RealRationalApproximation, real-seal, transport, replay, provenance, and local naming rows listed in the statement.
 
@@ -62,6 +63,26 @@ The handoff obligation is read from $S$. It translates the same adjacent-pair in
 
 Finally, $W,R,G,E,H,C,P,N$ keep the real-facing route downstream of finite rational rows. Since the carrier has no coordinate for host real order, quotient real equality, selected best approximants, trichotomy, countable choice, ambient completeness, or completed representatives, the listed rows exhaust the local certificate.
 \end{proof}
+\leanchecked{BEDC.Derived.FareySequenceUp.FareySequenceCarrier\_namecert\_obligations}
+
+\begin{theorem}[Farey sequence Stern--Brocot adjacency obligations]
+\label{thm:fareysequence-stern-brocot-adjacency-obligations}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+each determinant-one adjacency read from $A$ is routed through the $\SternBrocotUp$ row $S$ before any mediant refinement row $M$, approximation handoff row $G$, or terminal $\RealUp$ seal $E$ can be consumed. The route is preserved by the NameCert obligations of \autoref{thm:farey-sequence-namecert-obligations}, the approximation-window factorization of \autoref{thm:farey-sequence-approximation-window-factorization}, and the mediant refinement stability of \autoref{thm:farey-sequence-mediant-refinement-stability}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The adjacent determinant-one ledger is $A$, and the only tree-facing handoff coordinate attached to that ledger is $S$.
+
+Apply the local NameCert obligations of \autoref{thm:farey-sequence-namecert-obligations}. They require each adjacent-pair inspection to be recorded in $A$ and then sent through the $\SternBrocotUp$ handoff before the packet treats the pair as a Farey-neighbor route.
+
+Next apply approximation-window factorization. The rows $G$ and $E$ are downstream of the finite ordered boundary, adjacency ledger, mediant row, denominator and tolerance rows, Stern--Brocot handoff, stream window, and regular readback rows, so an approximation consumer cannot inspect $G$ or $E$ before the $A,S$ route is visible.
+
+Finally apply mediant refinement stability. The inserted mediant is read only between the two boundary rows already inspected by $A$, and the same finite tree address is carried by $S$. Thus every mediant or real-approximation read remains behind the determinant-one Stern--Brocot adjacency obligation, with no host order, selected best approximant, quotient-real equality, trichotomy, choice, or ambient completeness coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.FareySequenceUp.FareySequenceCarrier\_stern\_brocot\_adjacency\_obligations}
 
 \begin{theorem}[Farey sequence carrier admission]
 \label{thm:farey-sequence-carrier-admission}
@@ -78,6 +99,7 @@ The analytic rows are read first. The ordered boundary sequence, determinant-one
 
 The structural rows are $H,C,P,N$. They transport, replay, source, and name the same displayed packet, so carrier admission cannot expose host real order, quotient real equality, selected best approximants, trichotomy, countable choice, ambient completeness, or a completed real representative.
 \end{proof}
+\leanchecked{BEDC.Derived.FareySequenceUp.FareySequenceCarrier\_admission}
 
 \begin{theorem}[Farey sequence classifier transport]
 \label{thm:farey-sequence-classifier-transport}
@@ -93,6 +115,46 @@ Start with the componentwise transport row $H$. Its coordinates compare the boun
 The displayed replay row $C$ then preserves the observation route through the same fields. A request transported from one accepted packet to another still reads $B,A,M,L,T,S,D,Q,W,R,G,E$ in the same order before it reaches the local naming row.
 
 Finally $P$ and $N$ package and name the transported route. Because the classifier has no extra coordinate beyond the carrier rows, transport through $H,C,P,N$ preserves the stated componentwise classifiers without adding a selected approximant, host comparison, or ambient completion witness.
+\end{proof}
+
+\begin{theorem}[Farey sequence approximation-window factorization]
+\label{thm:farey-sequence-approximation-window-factorization}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+every $\RealRationalApproximationUp$ read from $F$ factors through the ordered boundary row $B$, determinant-one adjacency ledger $A$, mediant refinement row $M$, denominator-bound row $L$, dyadic tolerance row $T$, Stern--Brocot handoff $S$, finite $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $R$, approximation handoff $G$, and terminal $\RealUp$ seal $E$, with $H,C,P,N$ preserving the same route under transport, replay, provenance, and local naming.
+\end{theorem}
+\leanchecked{BEDC.Derived.FareySequenceUp.FareySequenceApproximationWindowFactorization}
+\begin{proof}
+Project the carrier through \autoref{def:farey-sequence-carrier}. The approximation-facing rows are displayed in the tuple, and carrier admission from \autoref{thm:farey-sequence-carrier-admission} exposes exactly those rows before any Real-facing read is available.
+
+Apply the NameCert obligations of \autoref{thm:farey-sequence-namecert-obligations}. They force adjacency stability through $A$, mediant refinement through $M$, finite denominator and tolerance control through $L,T$, and the Stern--Brocot handoff through $S$ before the approximation handoff can be consumed.
+
+Use classifier transport from \autoref{thm:farey-sequence-classifier-transport}. The rows $H,C,P,N$ preserve the boundary, adjacency, refinement, denominator, tolerance, window, readback, approximation, and Real-seal classifiers componentwise, so the transported packet keeps the same ordered route.
+
+Finally read the approximation side through $W,R,G,E$. The finite stream window supplies the displayed observations, the regular-rational row repackages the same window, the $\RealRationalApproximationUp$ row receives the bracket with its denominator and dyadic budget, and the $\RealUp$ seal is reached only after those rows. Thus no quotient Real equality, selected best approximant, trichotomy, countable choice, or ambient completeness coordinate enters the factorization.
+\end{proof}
+
+\begin{theorem}[Farey sequence denominator-bound window]
+\label{thm:farey-sequence-denominator-bound-window}
+For every accepted $\FareySequenceUp$ carrier $F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)$, the denominator cap $L$ and dyadic tolerance $T$ must be displayed before any mediant refinement row $M$ or approximation consumer reads $G,E$. The route through $L,T$ is a finite $\BHist$ budget, not a host real order, choice principle, selected best approximant, or ambient completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.FareySequenceUp.FareySequenceCarrier\_denominator\_bound\_window}
+\begin{proof}
+Read the approximation-window factorization theorem. It places $L,T$ before $W,R,G,E$ in every Real-facing route.
+
+The mediant refinement stability theorem keeps $M$ attached to the same finite denominator and tolerance rows. Thus refinement and approximation consumers receive the displayed budget before they inspect either the inserted mediant or the terminal Real-facing handoff.
+\end{proof}
+
+\begin{theorem}[Farey sequence stream-window stability]
+\label{thm:farey-sequence-stream-window-stability}
+For every accepted $\FareySequenceUp$ carrier $F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)$, the finite $\StreamNameUp$ window $W$ and $\RegSeqRatUp$ readback $R$ preserve the boundary row $B$ and adjacency row $A$ under classifier transport before the Real-facing seal $E$ is read. The stream window therefore cannot introduce a host sequence, selected subsequence, quotient Real equality, choice principle, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Use classifier transport. The rows $H,C,P,N$ preserve the boundary, adjacency, stream-window, and regular-rational classifiers componentwise.
+
+Then read approximation-window factorization. It routes every Real-facing approximation through $W,R,G$ before $E$, so the transported stream window and regular readback remain attached to the original Farey boundary and adjacency rows.
 \end{proof}
 
 \begin{theorem}[Farey sequence mediant refinement stability]
@@ -111,6 +173,135 @@ After insertion, the two new neighboring pairs are still checked by $A$. The Ste
 The rows $L$ and $T$ keep the denominator cap and dyadic tolerance budget attached to the refinement. Since \autoref{def:farey-sequence-carrier} contains no coordinate for selected best approximants, trichotomy, countable choice, ambient completeness, or a completed real representative, mediant refinement cannot export any of those principles.
 \end{proof}
 
+\input{parts/concrete_instances/fareysequence/denominator_refinement_induction.tex}
+\input{parts/concrete_instances/fareysequence/finite_density_root_package.tex}
+
+\begin{theorem}[Farey sequence Stern--Brocot handoff lock]
+\label{thm:farey-sequence-stern-brocot-handoff-lock}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+every denominator-level successor or approximation read that consumes a mediant row $M$ must pass through the adjacent determinant-one ledger $A$, the denominator cap $L$, the dyadic tolerance $T$, and the $\SternBrocotUp$ handoff $S$ before the $\RealRationalApproximationUp$ row $G$ or terminal $\RealUp$ row $E$ is read. The locked route exports no selected best approximant, host order, quotient real equality, trichotomy, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a successor or approximation read that consumes $M$. Carrier admission exposes $M$ only as the mediant row for an adjacent pair already displayed in $B$, so the determinant-one ledger $A$ is the first required witness for that read.
+
+Apply mediant refinement stability from \autoref{thm:farey-sequence-mediant-refinement-stability}. The inserted row remains tied to the same adjacent-pair inspection, and the Stern--Brocot handoff $S$ records the corresponding finite tree route rather than a host-order branch choice.
+
+Next use denominator and tolerance control from \autoref{thm:farey-sequence-denominator-tolerance-control}. The denominator cap $L$ and dyadic tolerance $T$ are the only budget rows available to the mediant and approximation route, so no second host bound or selected modulus can enter before the read reaches $G$ or $E$.
+
+Finally apply approximation-window factorization from \autoref{thm:farey-sequence-approximation-window-factorization}. The real-facing rows $G,E$ are downstream of $A,M,L,T,S,W,R$ and the structural rows $H,C,P,N$. Since the carrier has no coordinate for selected best approximants, host order, quotient real equality, trichotomy, countable choice, or ambient completeness, the handoff is locked to the finite Stern--Brocot route.
+\end{proof}
+
+\begin{theorem}[Farey sequence Real readback root obligation]
+\label{thm:farey-sequence-real-readback-root-obligation}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+every $\RealUp$-facing Farey read factors through the finite route
+$$
+B,A,M,L,T,S,Q,W,R,G,H,C,P,N \longmapsto E .
+$$
+Thus the ordered boundary, adjacent determinant-one ledger, mediant row, denominator cap, dyadic tolerance, Stern--Brocot handoff, rational-source row, StreamName window, RegSeqRat readback, approximation handoff, transport, replay, provenance, and local naming rows are all visible before the terminal Real seal is consumed. The route supplies no selected best approximant, host order, quotient real equality, trichotomy, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from a Real-facing Farey read. Carrier admission exposes the only Real seal as $E$, and the approximation-window factorization theorem places $E$ after the finite boundary, adjacency, mediant, denominator, tolerance, Stern--Brocot, window, readback, and approximation rows.
+
+The rational and stream stages are read before the seal. The rational-source row $Q$, StreamName window $W$, RegSeqRat readback $R$, and approximation handoff $G$ give the displayed route to the terminal Real boundary.
+
+Finally transport, replay, provenance, and local naming are carried by $H,C,P,N$. Since no row of the carrier stores a selected approximant, host order, quotient Real equality, trichotomy, choice schedule, or ambient completeness datum, the listed route exhausts the Real-facing readback obligation.
+\end{proof}
+
+\begin{theorem}[Farey sequence RegSeqRat density root obligation]
+\label{thm:farey-sequence-regseqrat-density-root-obligation}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+every $\RegSeqRatUp$ consumer and rational-density consumer receives only the displayed boundary row $B$, adjacent determinant-one ledger $A$, mediant row $M$, denominator cap $L$, dyadic tolerance row $T$, density handoff $D$, rational-source row $Q$, StreamName window $W$, and regular readback row $R$, with $H,C,P,N$ preserving that same finite route. No such consumer receives a host order, selected best approximant, quotient real equality, trichotomy, countable choice, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Read the density side of the carrier. The finite rational data available before any regular readback are $B,A,M,L,T,D,Q$, namely the displayed boundary, adjacency, mediant, denominator, tolerance, density, and rational-source rows.
+
+The window and regular readback are then $W,R$. The StreamName row fixes the finite observation window, and the RegSeqRat row replays that window as a regular rational readback without adding a second rational-density witness.
+
+Transport and replay preserve the same finite route through $H,C,P,N$. Because the carrier has no coordinate for host order, selected approximants, quotient real equality, trichotomy, choice, or ambient completeness, the RegSeqRat and rational-density consumers can receive only the displayed rows listed in the statement.
+\end{proof}
+
+\begin{theorem}[Farey sequence level-successor induction]
+\label{thm:farey-sequence-level-successor-induction}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the successor from one displayed denominator level to the next is generated by induction on the finite boundary row $B$. The base boundary is admitted unchanged, and each successor step reads one adjacent pair through $A$, inserts the permitted mediant through $M$ when the denominator cap in $L$ admits it, and carries the resulting row through $T,S,H,C,P,N$. The construction uses no parameter-transport equivalence, selected best approximant, host order, quotient real equality, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Induct on the displayed boundary row $B$. For the empty and singleton boundaries there is no adjacent pair to inspect, so carrier admission supplies the whole next-level row and no mediant insertion is performed.
+
+For the successor step, expose the first adjacent pair through the determinant-one ledger $A$. The mediant row $M$ supplies exactly the numerator-denominator sum for that pair, while the denominator cap $L$ decides whether that finite row belongs to the next displayed level.
+
+Apply the induction hypothesis to the remaining boundary suffix. The tolerance row $T$ and Stern--Brocot handoff $S$ keep the inserted row on the same finite route, and $H,C,P,N$ transport, replay, source, and name the resulting level.
+
+Since each step consumes only $B,A,M,L,T,S,H,C,P,N$, the construction is an induction over the displayed finite row. The excluded host-order, quotient, trichotomy, choice, selected-approximant, and ambient-completeness data never become available.
+\end{proof}
+
+\begin{theorem}[Farey sequence mediant density window]
+\label{thm:farey-sequence-mediant-density-window}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+each density window opened by a $\RegSeqRatUp$ or rational approximation consumer is refined by finite mediant insertion through $A,M,L,T,S$ before it is handed to $D,Q,W,R,G,E$. In particular, a requested window between adjacent displayed rationals is covered by the boundary row already present in $B$ or by the inserted mediant row admitted by $M$ under the denominator cap $L$ and tolerance row $T$.
+\end{theorem}
+\begin{proof}
+Begin with a density-window request. Carrier admission exposes the boundary row $B$ and the adjacent determinant-one ledger $A$ before any rational-source, stream, or regular-readback row can be consumed.
+
+If the requested window is already covered by an adjacent boundary endpoint, the route stays inside $B,A$ and proceeds to the density handoff $D$. No mediant is inserted in this case.
+
+If the window lies strictly between an adjacent pair, use the level-successor induction of \autoref{thm:farey-sequence-level-successor-induction}. The induction step inserts the unique displayed mediant row through $M$ and keeps it under the denominator and tolerance rows $L,T$.
+
+The Stern--Brocot row $S$ records the same adjacent-pair route, after which $D,Q,W,R,G,E$ read the density, rational-source, stream-window, RegSeqRat, approximation, and Real-seal data. Thus the window is refined by finite mediant insertion rather than by trichotomy, selected approximants, host order, quotient equality, choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Farey sequence RegSeqRat density induction]
+\label{thm:farey-sequence-regseqrat-density-induction}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the $\RegSeqRatUp$ density route is obtained by induction over the displayed denominator-level successor rows. At each level the finite boundary row is refined by $A,M,L,T,S$, the density handoff is read through $D,Q,W$, and the regular rational readback $R$ is produced before $G,E$ are available. The route preserves the no-trichotomy, no-choice, no-host-order, no-quotient-equality, and no-ambient-completeness exclusions.
+\end{theorem}
+\begin{proof}
+Induct on the displayed denominator-level successor row supplied by \autoref{thm:farey-sequence-level-successor-induction}. The base level supplies only the boundary data already admitted by the carrier, so the RegSeqRat density read is the finite readback through $D,Q,W,R$ for that boundary.
+
+For the successor level, apply the mediant density window theorem \autoref{thm:farey-sequence-mediant-density-window}. Each new gap is either already covered by the boundary or refined by the mediant row generated through $A,M,L,T,S$.
+
+After the finite refinement step, read $D,Q,W$ as the density, rational-source, and StreamName window rows. The regular rational row $R$ packages exactly that windowed data, and the approximation and Real rows $G,E$ remain downstream.
+
+The structural rows $H,C,P,N$ preserve the same induction route under transport, replay, provenance, and local naming. Since the carrier contains no coordinate for trichotomy, countable choice, host order, quotient real equality, selected best approximants, or ambient completeness, the RegSeqRat density derivation is internal to the displayed Farey packet.
+\end{proof}
+
+\begin{theorem}[Farey sequence root-unblock package]
+\label{thm:farey-sequence-root-unblock-package}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the root-facing Farey package is the conjunction of carrier admission, the local NameCert obligations, approximation-window factorization, the Stern--Brocot handoff lock, the Real readback root obligation, and the RegSeqRat density root obligation. Consequently downstream $\RegSeqRatUp$ and $\RealUp$ consumers read the same finite Farey packet through $B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N$, with no selected best approximant, host order, quotient real equality, trichotomy, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission and the local NameCert obligations. These expose exactly the boundary, adjacency, mediant, denominator, tolerance, Stern--Brocot, density, rational-source, stream-window, readback, approximation, Real-seal, transport, replay, provenance, and naming rows.
+
+Next combine approximation-window factorization with the Stern--Brocot handoff lock. The first routes the windowed approximation read through $W,R,G,E$, while the second keeps mediant and denominator-level reads on the finite $A,M,L,T,S$ route.
+
+Apply the two root obligations above. The Real readback obligation keeps terminal Real consumers behind the same finite route, and the RegSeqRat density obligation restricts rational-density consumers to the displayed boundary, mediant, tolerance, stream-window, and readback rows.
+
+The structural rows $H,C,P,N$ preserve that package under transport, replay, provenance, and local naming. Since the accepted carrier stores none of the excluded host-order, selection, quotient, choice, or completeness data, the package is a finite root-facing unblock certificate rather than an analytic completion principle.
+\end{proof}
+
 \begin{theorem}[Farey sequence denominator and tolerance control]
 \label{thm:farey-sequence-denominator-tolerance-control}
 For every accepted $\FareySequenceUp$ carrier
@@ -127,6 +318,70 @@ The mediant row $M$ reads denominator data only through the displayed boundary a
 The approximation side is then forced through $W,R,G,E$. The finite stream window and regular rational readback use the tolerance row $T$ before the $\RealRationalApproximationUp$ handoff $G$ and the terminal $\RealUp$ seal $E$ are available.
 
 The componentwise transport and replay rows $H,C$ preserve the same two coordinates. Since the carrier has no coordinate for a host bound, selected modulus, quotient-real comparison, or ambient completeness principle, $L,T$ exhaust the denominator and tolerance control consumed by the route.
+\end{proof}
+
+\begin{theorem}[Farey sequence level successor]
+\label{thm:farey-sequence-level-successor}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the denominator-bound row $L$ and mediant row $M$ produce the next finite Farey level by induction on the displayed boundary row $B$. Each successor step inspects one adjacent pair recorded by $A$, inserts exactly the mediant row admitted by $M$ when the denominator cap in $L$ permits it, and transports the resulting boundary through $S,H,C,P,N$ without invoking selected best approximants, host order, quotient real equality, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Induct on the finite boundary row $B$. The empty and singleton boundaries have no adjacent pair, so the next level is the displayed row already admitted by carrier admission and no mediant insertion is available.
+
+For the inductive step, expose the first adjacent pair through $A$. The mediant refinement stability theorem \autoref{thm:farey-sequence-mediant-refinement-stability} identifies the only permitted insertion as the numerator-denominator sum stored in $M$, and the denominator and tolerance control theorem \autoref{thm:farey-sequence-denominator-tolerance-control} keeps that insertion under the cap recorded by $L$.
+
+Apply the induction hypothesis to the remaining boundary suffix. The Stern--Brocot handoff $S$ records the same adjacent-pair route, while $H,C,P,N$ transport, replay, source, and name the resulting finite level. Since every step reads only $B,A,M,L,S,H,C,P,N$, no excluded order, quotient, selection, choice, or completeness object enters the successor construction.
+\end{proof}
+
+\begin{theorem}[Farey sequence adjacency density]
+\label{thm:farey-sequence-adjacency-density}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+each requested adjacent gap in the displayed boundary row is refined through $A,M,S$ and then handed to the density and approximation rows $D,Q,W,R,G,E$. The refinement is a finite adjacent-pair inspection and not a selected best approximant, host real-order comparison, quotient-real equality, trichotomy, countable-choice selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a requested adjacent gap. Carrier admission and the NameCert obligations identify the gap by its two boundary entries in $B$ and by the determinant-one ledger entry in $A$.
+
+Apply mediant refinement stability. The row $M$ supplies the displayed mediant for that adjacent pair, and the handoff row $S$ records the same finite Stern--Brocot route without selecting a branch outside the packet.
+
+Finally read the density and approximation surface. The rows $D,Q$ expose the finite rational source, $W,R$ expose the stream window and regular-rational readback, and $G,E$ expose the RealRationalApproximation handoff and terminal Real seal. The classifier transport theorem keeps this route under $H,C,P,N$, so the density claim remains finite and cannot import a best-approximant selector, trichotomy, choice, quotient equality, host order, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Farey sequence refinement coverage]
+\label{thm:farey-sequence-refinement-coverage}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+every $\RealRationalApproximationUp$ consumer reads each Farey refinement through the finite route $B,A,M,L,T,S,W,R,G,E$ together with transport, replay, provenance, and local naming through $H,C,P,N$. Thus refinement coverage is exhaustive over the displayed packet and contains no quotient real equality, selected approximant, trichotomy, countable choice, host sequence, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from an accepted approximation-window request. The approximation-window factorization theorem routes the request through the ordered boundary $B$, adjacency ledger $A$, mediant row $M$, denominator and tolerance rows $L,T$, Stern--Brocot handoff $S$, stream window $W$, regular readback $R$, approximation handoff $G$, and Real seal $E$.
+
+Use adjacency density for the local refinement step. It shows that each requested adjacent gap is refined by the finite $A,M,S$ route before $D,Q,W,R,G,E$ are consumed by rational-window or Real-facing readers.
+
+The real approximation ledger non-escape theorem then confines the consumer to the same displayed packet. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the coverage route, so every refinement visible to a $\RealRationalApproximationUp$ consumer is accounted for by $B,A,M,L,T,S,W,R,G,E,H,C,P,N$ and by no excluded ambient object.
+\end{proof}
+
+\begin{theorem}[Farey sequence stream-window denominator lock]
+\label{thm:farey-sequence-stream-window-denominator-lock}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+every stream-window read $W$ consumed by $R,G,E$ carries the denominator-bound row $L$ and the dyadic-tolerance row $T$ from the same accepted carrier. Consequently, $\RegSeqRatUp$, $\RealRationalApproximationUp$, and terminal $\RealUp$ consumers cannot replace the displayed Farey denominator cap by a host denominator bound, an external modulus, a quotient-real comparison, or an ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:farey-sequence-carrier}. The rows $L,T,W,R,G,E$ are coordinates of the same finite packet, so a window read cannot be detached from the denominator and tolerance rows that classify the packet.
+
+Apply the denominator and tolerance control of \autoref{thm:farey-sequence-denominator-tolerance-control}. It identifies $L,T$ as the only finite bound and tolerance rows available to any read of $W,R,G,E$ that depends on such data.
+
+Finally use the approximation ledger non-escape theorem \autoref{thm:farey-sequence-real-approximation-ledger-nonescape}. Since real-facing reads remain inside $B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N$, no downstream consumer can substitute a host cap, external modulus, quotient-real comparison, or ambient completeness witness for the displayed rows $L,T$.
 \end{proof}
 
 \begin{theorem}[Farey sequence approximation ledger non-escape]
@@ -167,6 +422,76 @@ The rational-source handoff is then carried by $D$ and $Q$. Dyadic, rational, ra
 The approximation route is carried by $W,R,G,E$. A finite $\StreamNameUp$ window requests entries from the sequence, $\RegSeqRatUp$ reads the resulting regular rational row, $\RealRationalApproximationUp$ receives the bracket with its dyadic tolerance and denominator bound, and $\RealUp$ receives only the downstream seal row.
 
 Componentwise transport and replay preserve the same factorization for classified packets. The provenance and local naming rows name the same finite inventory, so no quotient real equality, selected limit, ambient completeness, or independent representative can enter the route.
+\end{proof}
+
+\begin{theorem}[Farey sequence regular-readback approximation bridge]
+\label{thm:farey-sequence-regular-readback-approximation-bridge}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the $\RegSeqRatUp$ readback row $R$ and the $\RealRationalApproximationUp$ handoff row $G$ are forced through the same ordered boundary row $B$, adjacency ledger $A$, denominator-bound row $L$, dyadic-tolerance row $T$, and stream-window row $W$. The bridge exports a regular rational readback and a real-approximation handoff only along this common finite boundary, not through a host sequence, selected approximant, quotient-real equality, countable choice, or ambient completion.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:farey-sequence-carrier}. The regular readback $R$ and approximation handoff $G$ are not independent rows; they are read after the same boundary, adjacency, denominator, tolerance, and stream-window rows $B,A,L,T,W$ are displayed.
+
+Apply the approximation-window factorization of \autoref{thm:farey-sequence-approximation-window-factorization}. It routes each $\RealRationalApproximationUp$ read through the ordered boundary, determinant-one adjacency ledger, denominator and tolerance rows, stream window, regular readback, and approximation handoff before the terminal real seal is available.
+
+Use the RealRationalApproximation handoff theorem \autoref{thm:farey-sequence-real-approximation-handoff}. The handoff keeps $R$ and $G$ downstream of the same finite Farey packet, so the bridge cannot introduce a host sequence, selected approximant, quotient-real equality, countable-choice selector, or ambient completion coordinate.
+\end{proof}
+
+\begin{theorem}[Farey sequence continued-fraction window]
+\label{thm:farey-sequence-continued-fraction-window}
+Every $\ContinuedFractionUp$ consumer of an accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)
+$$
+must read the rational-source row $Q$, the finite $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the denominator-bound row $L$, and the dyadic tolerance row $T$ before any continued-fraction comparison is exported. The comparison route therefore exposes only displayed finite rational-source and window rows, with no selected tail, host real order, quotient real equality, trichotomy, countable-choice selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:farey-sequence-carrier}. A continued-fraction consumer can find its rational-source row only at $Q$, and that row is already tied to the displayed boundary, mediant, denominator, and tolerance data.
+
+The next visible access is the finite window row $W$. It requests only displayed entries of the Farey packet, so a comparison cannot bypass the packet through a host rational sequence.
+
+The regular readback row $R$ packages the same windowed data before any continued-fraction comparison leaves the packet. The rows $L$ and $T$ keep the denominator cap and dyadic tolerance attached to that read.
+
+Transport, replay, provenance, and naming through $H,C,P,N$ preserve this route. Since the carrier has no selected continued-fraction tail, host real order, quotient equality, trichotomy, choice selector, or ambient completeness coordinate, every exported continued-fraction comparison is confined to $Q,W,R,L,T$ and the displayed support rows.
+\end{proof}
+
+\begin{theorem}[Farey sequence Stern--Brocot mediant density route]
+\label{thm:farey-sequence-stern-brocot-mediant-density-route}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the mediant refinement row $M$ and the Stern--Brocot handoff row $S$ jointly preserve determinant-one adjacency through $A$ and keep the denominator and tolerance data attached through $L,T$. The resulting density route is finite and exports no selected best approximant, branch selector, host real order, quotient real equality, trichotomy, choice selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with an adjacent pair from the ordered boundary row $B$. The determinant-one check for that pair is the ledger row $A$, and the mediant row $M$ inserts only the displayed numerator-denominator sum between those two boundary entries.
+
+The Stern--Brocot handoff $S$ reads the same adjacent-pair inspection. It therefore sends the refinement to the finite tree-facing ledger without selecting an independent branch or importing a host-order comparison.
+
+The denominator and tolerance side is locked by $L,T$. Every density read that uses the mediant or the Stern--Brocot handoff keeps the displayed denominator cap and dyadic error budget attached to the same finite refinement step.
+
+The downstream rows $D,Q,W,R,G,E,H,C,P,N$ can only consume the resulting finite route. Because none of the carrier rows stores a best-approximant selector, branch selector, host real order, quotient equality, trichotomy, choice, or completeness witness, the mediant density route remains the finite one stated above.
+\end{proof}
+
+\begin{theorem}[Farey sequence Real approximation density route]
+\label{thm:farey-sequence-real-approximation-density-route}
+Every $\RealRationalApproximationUp$ density read of an accepted $\FareySequenceUp$ carrier factors through the full finite inventory
+$$
+B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N.
+$$
+In particular, the read first uses the ordered boundary, adjacency, mediant, denominator, tolerance, Stern--Brocot, and density rows $B,A,M,L,T,S,D$, then the rational-source, window, regular-readback, approximation, and Real-seal rows $Q,W,R,G,E$, and finally transport, replay, provenance, and naming through $H,C,P,N$. It has no host order, quotient Real equality, trichotomy, choice selector, selected best approximant, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with a density read aimed at $\RealRationalApproximationUp$. The Farey-side part of the carrier is $B,A,M,L,T,S,D$: the boundary row, adjacency ledger, mediant refinement, denominator cap, tolerance budget, Stern--Brocot handoff, and density handoff.
+
+The rational-source and windowed-readback part is $Q,W,R$. These rows ensure that the density read reaches rational and regular rational consumers through displayed finite windows rather than through a host rational or real sequence.
+
+The real-facing endpoint is then $G,E$. The handoff row $G$ supplies the $\RealRationalApproximationUp$ packet, and $E$ exposes only the terminal $\RealUp$ seal reached from the preceding finite rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same inventory. Since \autoref{def:farey-sequence-carrier} contains no coordinate for host order, quotient Real equality, trichotomy, choice, selected best approximants, or ambient completeness, every Real approximation density read factors through exactly the displayed finite rows.
 \end{proof}
 
 \begin{theorem}[Farey sequence stream-window adjacency scope]
@@ -215,6 +540,230 @@ Project the accepted carrier to the transport and replay rows. The row $H$ compa
 The row $C$ replays observation requests through the same components. It has no separate source from which a host order, quotient equality, or selected approximant could be read.
 
 Finally, $P$ and $N$ package and name the already displayed packet. Because the listed carrier coordinates exhaust the local certificate, transport, replay, provenance, and naming preserve the finite Farey packet without adding trichotomy, countable choice, ambient completeness, or a completed real representative.
+\end{proof}
+
+\begin{theorem}[Farey sequence mediant window coverage]
+\label{thm:farey-sequence-mediant-window-coverage}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+each displayed denominator-bounded mediant window is covered by a finite adjacent-row inspection of $B,A,M,L$. The coverage row names the two adjacent rational boundary entries, the inserted mediant, and the level cap before any $\RealRationalApproximationUp$ or $\RealUp$ consumer may read the window. It exports no host real order, quotient real equality, selected best approximant, trichotomy, countable choice, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the boundary, adjacency, mediant, and level rows. The ordered row $B$ supplies the finite list of rational boundary entries, $A$ supplies the determinant-one neighboring checks, $M$ supplies the displayed numerator-denominator sum, and $L$ supplies the finite denominator cap.
+
+For an inspected adjacent pair, the only admitted refinement is the mediant row placed between the two named endpoints. Thus the displayed window is bounded by the same adjacent-row inspection that created it, and every denominator-bounded request is accounted for by a finite segment of $B,A,M,L$.
+
+The downstream rows $T,S,D,Q,W,R,G,E,H,C,P,N$ preserve that finite coverage route. Since none of those rows contains a host-order comparison, quotient equality, selected best approximant, trichotomy, choice selector, or completeness witness, the mediant window cannot escape the displayed adjacent-row coverage.
+\end{proof}
+
+\begin{theorem}[Farey sequence stream approximation totality]
+\label{thm:farey-sequence-stream-approximation-totality}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+every accepted approximation request that reaches the $\RealRationalApproximationUp$ handoff first routes through the finite $\StreamNameUp$ window $W$ and the $\RegSeqRatUp$ readback $R$. The handoff then reads $G$ and the terminal $\RealUp$ seal $E$ from the same displayed packet; it does not choose a best approximant or identify quotient real names.
+\end{theorem}
+\begin{proof}
+Start with an accepted approximation request. The finite rational data available to it are the boundary, adjacency, mediant, denominator, tolerance, Stern--Brocot, density, and rational-source rows $B,A,M,L,T,S,D,Q$.
+
+The request must next pass through the window row $W$. That row supplies only finite $\StreamNameUp$ access to displayed sequence entries, so the approximation cannot bypass the stream window to a host rational sequence.
+
+After the window is displayed, the readback row $R$ packages the same data as a $\RegSeqRatUp$ surface. Only then can $G$ expose the $\RealRationalApproximationUp$ handoff and $E$ expose the terminal $\RealUp$ seal.
+
+Because the route is $B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N$ and the carrier has no selected-best-approximant or quotient-real coordinate, the accepted approximation request is total only along this finite stream and regular-rational route.
+\end{proof}
+
+\begin{theorem}[Farey sequence adjacent dyadic window]
+\label{thm:fareysequence-adjacent-dyadic-window}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+an adjacent Farey window inspected through $B,A,M,L$ gives a dyadic tolerance route only through the displayed $\DyadicRatCoreUp$ and $\RatUp$ rows in $Q$ together with the tolerance row $T$. The route may feed $\RationalStreamUp$ and $\StreamNameUp$ consumers through $W$, but it cannot introduce a host real-order comparison, selected best approximant, or quotient-real equality witness.
+\end{theorem}
+\begin{proof}
+Start with an adjacent-pair inspection. The finite boundary row $B$ names the rational endpoints, the adjacency ledger $A$ records determinant-one neighboring, the mediant row $M$ supplies the displayed refinement, and $L$ bounds the denominators.
+
+The dyadic tolerance read is then forced through $T$ and $Q$. These rows are the only coordinates that expose $\DyadicRatCoreUp$ and $\RatUp$ data to downstream rational consumers.
+
+The stream-facing part of the same request uses $W$ for the $\StreamNameUp$ window and may expose $\RationalStreamUp$ through the rational-source handoff. Since no host-order, selected-approximant, or quotient-equality coordinate appears in \autoref{def:farey-sequence-carrier}, the adjacent window remains a finite dyadic-tolerance route.
+\end{proof}
+
+\begin{theorem}[Farey sequence rational stream readback]
+\label{thm:fareysequence-rational-stream-readback}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the $\RationalStreamUp$ and $\StreamNameUp$ readback of an adjacent Farey window preserves the same classifier rows $B,A,M,L,T,Q,W$. When the readback is repackaged as a $\RegSeqRatUp$ row $R$, it still records the same finite window classifier and does not add a new rational sequence, choice selector, or ambient completion coordinate.
+\end{theorem}
+\begin{proof}
+Read the stream-facing route from $Q,W$. The rational-source row $Q$ exposes only the displayed rational data already controlled by $B,A,M,L,T$, and the finite stream window $W$ requests entries from that displayed sequence.
+
+The regular rational readback row $R$ repackages the same window for $\RegSeqRatUp$. It is downstream of $Q,W$, so it cannot replace the classifier by a hidden rational stream or by a selected subsequence.
+
+Transport and replay through $H,C$ preserve the same rows before provenance and local naming are read. Thus the classifier remains $B,A,M,L,T,Q,W,R$ throughout the rational-stream readback.
+\end{proof}
+
+\begin{theorem}[Farey sequence real approximation boundary]
+\label{thm:fareysequence-real-approximation-boundary}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the Real-facing approximation boundary is the route from adjacent Farey rows through $\DyadicRatCoreUp$, $\RatUp$, $\RationalStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, and then $G,E$ for $\RealRationalApproximationUp$ and $\RealUp$. The boundary exports finite approximation data only; it cannot export quotient equality of real names, a selected limit, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the adjacent window and dyadic tolerance route of \autoref{thm:fareysequence-adjacent-dyadic-window}. It confines the approximation request to $B,A,M,L,T,Q,W$ before the regular readback is available.
+
+Apply the readback scope of \autoref{thm:fareysequence-rational-stream-readback}. The row $R$ gives the $\RegSeqRatUp$ surface for the same displayed window, preserving the rational and stream classifiers.
+
+Only after those rows are displayed can $G$ expose the $\RealRationalApproximationUp$ handoff and $E$ expose the terminal $\RealUp$ seal. The carrier contains no quotient-real equality, selected-limit, trichotomy, choice, or ambient-completeness coordinate, so the real-facing boundary is finite approximation data and nothing stronger.
+\end{proof}
+
+\begin{theorem}[Farey sequence Stern--Brocot refinement scope]
+\label{thm:farey-sequence-stern-brocot-refinement-scope}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the Stern--Brocot-facing scope of the packet is exactly the refinement handoff through $S$ from an adjacent-row inspection of $B,A,M,L$. No other row exports a tree address, branch selector, or refinement path to a tree-facing consumer.
+\end{theorem}
+\begin{proof}
+Read the tree-facing data from the carrier. The only row named as a Stern--Brocot handoff is $S$, and its input is the same finite adjacent-pair inspection supplied by $B,A,M,L$.
+
+The rational-source and approximation rows $D,Q,W,R,G,E$ are downstream of that handoff. They can consume the finite rational and window data, but they do not contain a separate tree address or branch-selection coordinate.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier stores no hidden branch selector or independent refinement path, every tree-facing use of $\FareySequenceUp$ is scoped by the single Stern--Brocot handoff $S$.
+\end{proof}
+
+\begin{theorem}[Farey sequence neighbor determinacy]
+\label{thm:fareysequence-neighbor-determinacy}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+an adjacent determinant-one inspection in $A$ determines a unique displayed Stern--Brocot refinement route inside the carrier: the boundary rows are read from $B$, the mediant insertion is read from $M$, the tree-facing address is read from $S$, and every transported or replayed use of that route remains under $H,C,P,N$. The determinacy is internal to the displayed rows and does not assert quotient-real equality, a selected best approximant, trichotomy, choice, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the finite adjacent-pair data. Theorems~\ref{thm:farey-sequence-carrier-admission}, \ref{thm:farey-sequence-namecert-obligations}, and \ref{thm:farey-sequence-mediant-refinement-stability} identify $B,A,M$ as the boundary, determinant-one, and mediant rows for a displayed refinement.
+
+The tree-facing route is then forced by $S$. Theorems~\ref{thm:farey-sequence-stern-brocot-mediant-density-route} and \ref{thm:farey-sequence-stern-brocot-refinement-scope} say that the Stern--Brocot consumer reads only the handoff row attached to that adjacent-pair inspection, with no separate branch selector or refinement path.
+
+Finally transport and replay through $H,C,P,N$ preserve the same route by Theorems~\ref{thm:farey-sequence-classifier-transport} and \ref{thm:farey-sequence-local-naming-replay-scope}. Since the carrier has no coordinate for quotient-real equality, selected approximants, trichotomy, choice, or ambient completeness, the displayed Stern--Brocot route is unique at the level of the packet rows.
+\end{proof}
+
+\begin{theorem}[Farey sequence denominator ledger exactness]
+\label{thm:fareysequence-denominator-ledger}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the denominator bounds and dyadic tolerances consumed by any $\StreamNameUp$ window, $\RegSeqRatUp$ readback, or $\RealRationalApproximationUp$ handoff are read from the same finite ledger rows $L,T$ before the handoff reaches $W,R,G,E$. No consumer may replace $L,T$ by a host denominator bound, selected modulus, quotient-real comparison, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Read the ledger rows first. Theorems~\ref{thm:farey-sequence-denominator-tolerance-control} and \ref{thm:fareysequence-adjacent-dyadic-window} identify $L,T$ as the displayed denominator and dyadic-tolerance source for adjacent Farey windows.
+
+Next pass to stream and regular-rational consumers. Theorems~\ref{thm:farey-sequence-stream-window-adjacency-scope}, \ref{thm:fareysequence-rational-stream-readback}, and \ref{thm:farey-sequence-stream-approximation-totality} route $W$ and $R$ through the same adjacent-window data rather than through an independent bound.
+
+The real-facing handoff is downstream of that route. By Theorems~\ref{thm:farey-sequence-approximation-window-factorization}, \ref{thm:fareysequence-real-approximation-boundary}, and \ref{thm:farey-sequence-real-approximation-ledger-nonescape}, $G,E$ receive only the displayed ledger, window, and readback rows, so no host bound, selected modulus, quotient comparison, or ambient completeness coordinate can enter.
+\end{proof}
+
+\begin{theorem}[Farey sequence rational coverage]
+\label{thm:fareysequence-rational-coverage}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+every rational-window approximation consumer factors through the rows already present in the carrier: $\RatUp$ and $\DyadicRatCoreUp$ are read through $Q,T$, $\RationalStreamUp$ and $\StreamNameUp$ through $Q,W$, $\RegSeqRatUp$ through $R$, $\RealRationalApproximationUp$ through $G$, and $\RealUp$ through $E$, with $B,A,M,L,S,H,C,P,N$ preserving the finite Farey-neighbor context. The coverage statement adds no quotient-real equality, selected best approximant, trichotomy, choice, or Real-completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with the rational-source rows. Theorems~\ref{thm:farey-sequence-rational-source-handoff-scope}, \ref{thm:fareysequence-adjacent-dyadic-window}, and \ref{thm:farey-sequence-mediant-window-coverage} place $\RatUp$, $\DyadicRatCoreUp$, $\RationalStreamUp$, and $\StreamNameUp$ reads inside $Q,T,W$ over the same finite boundary and adjacency rows.
+
+The regular and approximation rows are then read in order. Theorems~\ref{thm:fareysequence-rational-stream-readback}, \ref{thm:farey-sequence-real-approximation-handoff}, and \ref{thm:fareysequence-real-approximation-boundary} route $R,G,E$ from the rational window to $\RegSeqRatUp$, $\RealRationalApproximationUp$, and the terminal $\RealUp$ seal.
+
+The context rows $B,A,M,L,S,H,C,P,N$ are preserved by carrier admission, classifier transport, and local naming replay. Thus every rational-window approximation consumer factors through the displayed Farey packet rows, and the excluded quotient, selection, trichotomy, choice, and completeness objects remain absent from the carrier.
+\end{proof}
+
+\begin{theorem}[Farey sequence denominator-monotone coverage]
+\label{thm:fareysequence-denominator-monotone-coverage}
+For every accepted $\FareySequenceUp$ carrier $F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)$, the displayed denominator row $L$ covers each boundary entry of $B$ monotonically along the finite row order before any $W,R,G,E$ approximation consumer is read. The coverage is a $\BHist$ and $\NameCert_{\FareySequenceUp}$ fact over $B,A,M,L,T,H,C,P,N$, transported only by the displayed $\hsame$ rows and replayed only through the displayed $\Cont$ rows.
+\end{theorem}
+\begin{proof}
+Induct over the displayed boundary row $B$. The first and last rows are read from carrier admission, while each adjacent step is checked by the determinant-one row $A$ and the denominator budget row $L$.
+
+At a mediant insertion, the row $M$ supplies the inserted numerator-denominator data and $T$ keeps the dyadic tolerance request attached to the same budget. Componentwise transport through $H$ and replay through $C$ preserve that finite budget row, so downstream $W,R,G,E$ reads cannot introduce a larger hidden denominator source.
+\end{proof}
+
+\begin{theorem}[Farey sequence Stern--Brocot cofinal bracket]
+\label{thm:fareysequence-stern-brocot-cofinal-bracket}
+For every accepted $\FareySequenceUp$ carrier $F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)$, every displayed Stern--Brocot bracket consumed through $S$ is cofinal with a finite adjacent bracket already present in $B,A,M,L,T$. The cofinality certificate is the carried $\BHist$ route through $S,H,C,P,N$, not a host order-completeness or infinite-branch selector.
+\end{theorem}
+\begin{proof}
+Induct over the finite Stern--Brocot handoff row $S$. The base bracket is one of the adjacent pairs in $B$ checked by $A$, with its denominator budget read from $L$.
+
+For a refinement step, the mediant row $M$ inserts the next bracket inside the previous adjacent pair and the tolerance row $T$ records the requested depth. Since $H,C,P,N$ transport, replay, source, and name only those rows, the bracket exported to a consumer is cofinal inside the displayed finite Farey context.
+\end{proof}
+
+\begin{theorem}[Farey sequence real rational-approximation unblock]
+\label{thm:fareysequence-real-rational-approximation-unblock}
+For every accepted $\FareySequenceUp$ carrier $F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)$, a $\RealRationalApproximationUp$ consumer may read an approximation route only after the finite coverage rows $B,A,M,L,T,S,D,Q,W,R,G$ have been displayed. The terminal $\RealUp$ seal $E$ is therefore reached through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\FareySequenceUp}$ rows, with no selected best approximant, quotient real equality, trichotomy, choice, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the rational-source rows. The boundary row $B$, adjacency row $A$, mediant row $M$, denominator row $L$, tolerance row $T$, Stern--Brocot row $S$, density row $D$, and rational source row $Q$ form the finite rational bracket inventory.
+
+The approximation route then passes through $W,R,G$ in order: stream window, regular readback, and real-rational handoff. Transport through $H$, replay through $C$, and provenance through $P,N$ keep the terminal seal $E$ attached to that inventory, so a Real or Completion consumer receives a finite rational-approximation route and no hidden selector.
+\end{proof}
+
+\begin{theorem}[Farey sequence adjacency obligation]
+\label{thm:farey-sequence-adjacency-obligation}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the determinant-one adjacency obligation of $\NameCert_{\FareySequenceUp}$ is bound exactly by the rows $A$ and $S$. The row $A$ records the adjacent determinant-one checks for consecutive entries of $B$, and the row $S$ carries the same adjacent-pair inspection to the $\SternBrocotUp$ handoff before any $W,R,G,E$ approximation read is available.
+\end{theorem}
+\begin{proof}
+Carrier admission from \autoref{thm:farey-sequence-carrier-admission} exposes $B,A,S$ as displayed rows of the same accepted packet. The classifier transport theorem \autoref{thm:farey-sequence-classifier-transport} keeps these rows componentwise fixed under $H,C,P,N$.
+
+The local adjacency content is supplied by $A$. The adjacent dyadic window theorem \autoref{thm:fareysequence-adjacent-dyadic-window} starts each approximation window with the displayed boundary row and the determinant-one ledger before tolerance or stream data can be consumed.
+
+The tree-facing continuation is supplied by $S$. The Stern--Brocot refinement scope theorem \autoref{thm:farey-sequence-stern-brocot-refinement-scope} and the neighbor determinacy theorem \autoref{thm:fareysequence-neighbor-determinacy} route the same adjacent inspection through the Stern--Brocot handoff without adding a branch selector, host order, quotient real equality, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Farey sequence refinement obligation]
+\label{thm:farey-sequence-refinement-obligation}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the mediant refinement obligation of $\NameCert_{\FareySequenceUp}$ is bound exactly by the rows $M,L,T$ together with the adjacency and Stern--Brocot rows $A,S$. The inserted mediant is read from $M$, its finite denominator and tolerance budgets are read from $L,T$, and its refinement route remains attached to the adjacent-pair handoff through $A,S$.
+\end{theorem}
+\begin{proof}
+Start with the mediant row exposed by carrier admission. The theorem \autoref{thm:farey-sequence-mediant-refinement-stability} identifies $M$ as the displayed numerator-denominator sum inserted between the two boundary rows named by $B$ and checked by $A$.
+
+The finite budget is supplied by $L,T$. The denominator and tolerance control theorem \autoref{thm:farey-sequence-denominator-tolerance-control} says that every mediant, Stern--Brocot, rational-source, stream, readback, and approximation read that depends on such data factors through those two rows.
+
+The refinement handoff is then routed through $S$. Theorems~\ref{thm:farey-sequence-stern-brocot-handoff-lock}, \ref{thm:farey-sequence-stern-brocot-mediant-density-route}, and \ref{thm:farey-sequence-refinement-coverage} keep the inserted row on the finite $A,M,L,T,S$ route before any downstream approximation consumer can read $W,R,G,E$.
+\end{proof}
+
+\begin{theorem}[Farey sequence approximation obligation]
+\label{thm:farey-sequence-approximation-obligation}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the $\RealRationalApproximationUp$ handoff obligation of $\NameCert_{\FareySequenceUp}$ is bound exactly by the rows $W,R,G,E$ over the finite Farey context $B,A,M,L,T,S,D,Q$. A real-facing approximation read must pass through the finite $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the handoff row $G$, and the terminal $\RealUp$ seal $E$.
+\end{theorem}
+\begin{proof}
+Begin with the windowed approximation route. The approximation-window factorization theorem \autoref{thm:farey-sequence-approximation-window-factorization} routes every $\RealRationalApproximationUp$ read through the ordered boundary, adjacency, mediant, denominator, tolerance, Stern--Brocot, stream, readback, handoff, and real-seal rows.
+
+The stream and rational readback stages are finite. The adjacent dyadic window theorem \autoref{thm:fareysequence-adjacent-dyadic-window} supplies $Q,T,W$ from the same adjacent Farey window, and the rational stream readback theorem \autoref{thm:fareysequence-rational-stream-readback} repackages that window as the row $R$ without adding a new rational sequence or choice selector.
+
+The real-facing boundary is then $G,E$. The theorem \autoref{thm:fareysequence-real-approximation-boundary} and the real approximation ledger non-escape theorem \autoref{thm:farey-sequence-real-approximation-ledger-nonescape} keep the handoff inside $B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N$, with no quotient real equality, selected limit, trichotomy, countable choice, host sequence, or ambient completeness coordinate.
 \end{proof}
 
 \closureat{FareySequenceUp}{seedStr}

@@ -1,0 +1,49 @@
+\chapter{A Concrete Naming Certificate for $\FrechetMetricEmbeddingUp$}
+\label{ch:concrete-instances-frechet-metric-embedding-namecert}
+\origin{human}
+
+Following Fréchet and Kuratowski, the $\FrechetMetricEmbeddingUp$ packet records a metric space by the finite distance observations that send a point to its displayed distances from a finite probe family. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, the real-distance rows of \autoref{ch:concrete-instances-real-namecert}, the distance-function route of \autoref{ch:concrete-instances-kuratowski-embedding-namecert}, and the embedding interfaces of \autoref{ch:concrete-instances-isometric-embedding-namecert} and \autoref{ch:concrete-instances-uniform-embedding-namecert}. The packet names only displayed finite reads; it does not import host function extensionality, quotient equality of maps, or an ambient function-space carrier.
+
+\begin{definition}[Fréchet metric embedding carrier]
+\label{def:frechet-metric-embedding-carrier}
+A $\FrechetMetricEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,Q,D,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the point row whose accepted element is the source point being embedded.
+\item $Q$ is the $\MetricSpaceUp$ source row, carrying the source classifier and source-distance interface.
+\item $D$ is the family of $\RealUp$-valued distance-read rows $d(X,q)$ for displayed probes $q$.
+\item $A$ is the finite probe-family and classifier row: two packets agree exactly when the displayed $\RealUp$ distance reads agree componentwise on the same probe family.
+\item $H$ records componentwise $\hsame$ transport for the point row, metric-source row, distance-read rows, probe-family classifier, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from source metric reads through the probe-family distance reads and then through the classifier-by-displayed-distance-agreement.
+\item $P$ is the $\Pkg$ provenance over $\FrechetMetricEmbeddingUp$, $\MetricSpaceUp$, $\RealUp$, $\KuratowskiEmbeddingUp$, $\IsometricEmbeddingUp$, $\UniformEmbeddingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FrechetMetricEmbeddingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host function object, quotient equality of distance functions, selected completion representatives, or an ambient real-valued function space.
+\end{definition}
+
+\begin{theorem}[Fréchet metric embedding NameCert obligations]
+\label{thm:frechet-metric-embedding-namecert-obligations}
+For every accepted $\FrechetMetricEmbeddingUp$ carrier $F=(X,Q,D,A,H,C,P,N)$, the local $\NameCert_{\FrechetMetricEmbeddingUp}$ surface consists exactly of the finite rows displayed in \autoref{def:frechet-metric-embedding-carrier}. Carrier admission reads the point row, metric-source row, $\RealUp$ distance-read rows, finite probe family, classifier-by-displayed-distance-agreement, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming row. Classifier stability compares accepted packets only by the displayed $\RealUp$ distance reads over the shared finite probe family, with transport and replay preserving that same route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $F=(X,Q,D,A,H,C,P,N)$. The point row $X$ and metric-source row $Q$ are the only source data exposed before distance reads are requested.
+
+The row $D$ then records the finite $\RealUp$ distance observations against the probe family named by $A$. Since $A$ classifies by displayed distance agreement, two accepted packets can be compared only by componentwise equality of these finite reads under the same probe family.
+
+Finally read $H,C,P,N$. Transport, replay, provenance, and local naming preserve the point-to-distance route without adding host function extensionality, quotient equality of maps, selected representatives, or an ambient function-space carrier.
+\end{proof}
+
+\closureat{FrechetMetricEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\FrechetMetricEmbeddingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frechet-metric-embedding-carrier} and \autoref{thm:frechet-metric-embedding-namecert-obligations} seed the finite distance-function embedding route over MetricSpaceUp, RealUp, KuratowskiEmbeddingUp, IsometricEmbeddingUp, and UniformEmbeddingUp.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function extensionality, quotient equality of maps, selected completion representatives, an ambient function-space carrier, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, displayed-distance classifier stability, hsame transport, Cont replay, provenance, and local NameCert coverage for BEDC.Derived.FrechetMetricEmbeddingUp.}
+  \constructivestory{A $\FrechetMetricEmbeddingUp$ packet is generated from a point row, a MetricSpaceUp source row, RealUp-valued distance-read rows, a finite probe-family classifier, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

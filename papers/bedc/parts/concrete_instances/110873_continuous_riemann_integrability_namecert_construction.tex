@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\ContinuousRiemannIntegrabilityUp$}
+\label{ch:concrete-instances-continuous-riemann-integrability-namecert}
+\origin{human}
+
+Following Riemann and Bishop--Bridges constructive integration, the $\ContinuousRiemannIntegrabilityUp$ packet records the finite route by which a continuous function on a located closed real interval receives a Darboux/Riemann integrability certificate. It consumes the pointwise-modulus surface of \autoref{ch:concrete-instances-continuous-namecert}, the tag-bearing finite interval route of \autoref{ch:concrete-instances-tagged-real-partition-namecert}, the Darboux upper/lower boundary of \autoref{ch:concrete-instances-darboux-sum-namecert}, the integrability carrier of \autoref{ch:concrete-instances-riemann-integrable-namecert}, the weak located interval selector of \autoref{ch:concrete-instances-weakly-located-interval-selection-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives integration consumers a finite NameCert surface for continuous functions without importing measure integration, open-cover compactness, quotient equality of real names, selected limiting values, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Continuous Riemann integrability carrier]
+\label{def:continuous-riemann-integrability-carrier}
+A $\ContinuousRiemannIntegrabilityUp$ carrier is a finite $\BHist$ packet
+$$
+I=(F,T,D,J,W,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\ContinuousUp$ row exposing the pointwise modulus and graph-stability data of the integrand over the displayed interval source.
+\item $T$ is the $\TaggedRealPartitionUp$ row naming the finite partition cells, tag containment, window reads, regular readbacks, and terminal real seals used for integration.
+\item $D$ is the $\DarbouxSumUp$ row carrying lower and upper finite sums over the same displayed partition route.
+\item $J$ is the $\RiemannIntegrableUp$ handoff row, read only after the Darboux gap row has been displayed.
+\item $W$ is the $\WeaklyLocatedIntervalSelectionUp$ row that exposes located cells and endpoint windows for the closed interval source.
+\item $S$ is the $\StreamNameUp$ finite-window family opened for interval endpoints, partition tags, and pointwise modulus reads.
+\item $R$ is the $\RegSeqRatUp$ readback family attached to the same finite windows.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $F,T,D,J,W,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the continuous row, tagged partition, Darboux rows, integrability handoff, weak interval selector, window and readback rows, real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from pointwise modulus requests through located cells, finite tagged partitions, Darboux lower/upper rows, the integrability handoff, and the terminal real seal.
+\item $P$ is the $\Pkg$ provenance over $\ContinuousRiemannIntegrabilityUp$, $\ContinuousUp$, $\TaggedRealPartitionUp$, $\DarbouxSumUp$, $\RiemannIntegrableUp$, $\WeaklyLocatedIntervalSelectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ContinuousRiemannIntegrabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,T,D,J,W,S,R,E,H,C,P,N$. It has no coordinate for full integration theory, measure integration, open-cover compactness, quotient equality, selected limits, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Continuous Riemann integrability NameCert obligations]
+\label{thm:continuous-riemann-integrability-namecert-obligations}
+For every accepted $\ContinuousRiemannIntegrabilityUp$ carrier
+$$
+I=(F,T,D,J,W,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\ContinuousRiemannIntegrabilityUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the finite $\BHist$ packet and the displayed rows $F,T,D,J,W,S,R,E,H,C,P,N$;
+\item interval-source visibility through the weakly located interval row $W$ and its located cell, endpoint-window, and regular-readback route;
+\item pointwise modulus exposure through the continuous-function row $F$, with every modulus read tied to displayed interval cells and finite windows;
+\item finite tagged partition coverage through $T$, including cell containment, tag containment, and the same $\StreamNameUp$ and $\RegSeqRatUp$ readback rows;
+\item Darboux gap control through $D$, read as finite lower and upper sums over the displayed tagged partition route;
+\item integrability handoff through $J$, allowed only after the Darboux gap row and partition coverage rows are visible;
+\item Real-seal nonescape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{enumerate}
+No full integration theory, measure integration, open-cover compactness, quotient equality of real names, selected limiting value, Lean verification, or bridge checking is an obligation or output of this packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:continuous-riemann-integrability-carrier}. The accepted packet displays the continuous row, tagged partition, Darboux row, integrability handoff, weak interval selector, window family, regular readback, real seal, transport, replay, provenance, and local name.
+
+The interval and modulus rows are read first. The row $W$ supplies located cells and endpoint windows, while $F$ supplies pointwise modulus data only over those displayed cells and windows.
+
+The finite partition route is then exposed by $T$. Tags and endpoints are read through $S$ and $R$, so the integration-facing partition is a finite BEDC object rather than a host partition or a selected representative family.
+
+The Darboux and integrability rows are downstream. The row $D$ computes lower and upper finite sums over the displayed partition route, and $J$ exports integrability evidence only after that gap control is visible.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same route. Since the carrier has no coordinate for the excluded analytic objects, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Continuous Riemann integrability Darboux handoff]
+\label{thm:continuous-riemann-integrability-darboux-handoff}
+Every integration-facing consumer of an accepted $\ContinuousRiemannIntegrabilityUp$ carrier factors through the finite partition and Darboux rows
+$$
+W,F \longmapsto T,S,R \longmapsto D \longmapsto J \longmapsto E,H,C,P,N .
+$$
+Consequently the consumer receives a finite located-cell, pointwise-modulus, tagged-partition, lower/upper Darboux, integrability-handoff, and Real-seal route rather than quotient reals, host equality, choice-selected witnesses, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with an integration-facing read. The weak interval selector $W$ and continuous row $F$ force the request through located cells, endpoint windows, and pointwise modulus rows before any partition or sum row can be inspected.
+
+Next read the tagged partition route $T,S,R$. The finite cells and tags are displayed together with their StreamName windows and RegSeqRat readbacks, so later rows cannot detach the partition from the interval source.
+
+The Darboux row $D$ is then read as lower and upper finite sums over those displayed cells and tags. The integrability row $J$ is therefore a handoff from finite Darboux gap control, not from a quotient real or host equality judgment.
+
+The terminal seal and structural rows $E,H,C,P,N$ preserve that route. No excluded object is stored in the carrier, so every consumer factors through the displayed finite partition and Darboux rows.
+\end{proof}
+
+\begin{theorem}[Continuous Riemann integrability uniform-modulus handoff]
+\label{thm:continuous-riemann-integrability-uniform-modulus-handoff}
+Every accepted $\ContinuousRiemannIntegrabilityUp$ carrier whose continuous row factors through a displayed uniform-modulus or composed-modulus route passes the Darboux gap and $\RiemannIntegrableUp$ handoff through the finite chain
+$$
+\ContinuousUp,\ \UniformContinuityCompositionUp,\ \TaggedRealPartitionUp,\ \DarbouxSumUp,\ \RiemannIntegrableUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The handoff therefore reads composed modulus data before the Darboux row and exports no host integral selector, quotient function equality, open-cover compactness argument, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:continuous-riemann-integrability-carrier}. The displayed rows are the continuous row $F$, tagged partition row $T$, Darboux row $D$, Riemann-integrable handoff $J$, weak interval selector $W$, StreamName windows $S$, RegSeqRat readbacks $R$, Real seal $E$, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:continuous-riemann-integrability-namecert-obligations} for row exhaustion. When the continuous row is supplied by a uniform-modulus or composed-modulus route, the only admitted modulus source is the displayed $\ContinuousUp$ row together with the $\UniformContinuityCompositionUp$ composed-modulus handoff of \autoref{ch:concrete-instances-uniform-continuity-composition-namecert}.
+
+Now apply \autoref{thm:continuous-riemann-integrability-darboux-handoff}. The tagged partition, Darboux lower and upper sums, and integrability row must be read after the same StreamName windows, RegSeqRat readbacks, and terminal Real seal, so the composed-modulus source cannot bypass the finite Darboux route.
+
+Since the carrier stores no host integral selector, quotient function equality, open-cover compactness proof, or ambient completeness object, the listed finite rows are the whole uniform-modulus handoff.
+\end{proof}
+
+\closureat{ContinuousRiemannIntegrabilityUp}{seedStr}
+
+\begin{closurestatus}{\ContinuousRiemannIntegrabilityUp}
+  \constructivestory{A $\ContinuousRiemannIntegrabilityUp$ packet is generated from a Continuous row, TaggedRealPartition row, DarbouxSum row, RiemannIntegrable handoff row, WeaklyLocatedIntervalSelection row, StreamName windows, RegSeqRat readbacks, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:continuous-riemann-integrability-carrier}, \autoref{thm:continuous-riemann-integrability-namecert-obligations}, \autoref{thm:continuous-riemann-integrability-darboux-handoff}, and \autoref{thm:continuous-riemann-integrability-uniform-modulus-handoff} seed the finite Darboux/Riemann integrability route for continuous functions on located closed real intervals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full integration theory, measure integration, open-cover compactness, quotient equality, selected limits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval-source visibility, pointwise modulus exposure, finite tagged partition coverage, Darboux gap control, integrability handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.ContinuousRiemannIntegrabilityUp.}
+\end{closurestatus}

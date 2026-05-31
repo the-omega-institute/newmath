@@ -151,6 +151,10 @@ def _changed_tex_files(*, worktree: Path, base_sha: str) -> list[str]:
     ]
 
 
+_ADDED_LINES_CACHE: dict[tuple[str, str, str], list[tuple[int, str]]] = {}
+_OWN_COMMITS_CACHE: dict[tuple[str, str], list[str]] = {}
+
+
 def _added_lines_per_file(*, worktree: Path, base_sha: str,
                           rel_path: str) -> list[tuple[int, str]]:
     """Return (line_no, content) tuples for lines this round added.
@@ -164,17 +168,33 @@ def _added_lines_per_file(*, worktree: Path, base_sha: str,
 
     Also filters by `--diff-filter=AM`: only files added or modified
     in the round's own commit set are scanned.
+
+    Process-level cache: `gate all` invokes ~4 gates (vocab, math,
+    leanvariant, axis-confusion) that each scan the same set of
+    changed files. Without caching this re-runs `git log` and
+    `git diff sha^!` once per (gate, file) — ~60+ subprocess
+    invocations under typical round load, dominating gate wall time.
+    Cache key = (worktree, base_sha, rel_path); same gate-all
+    invocation reuses results across gates.
     """
     if not base_sha:
         return []
-    # List the round's own (non-merge) commits oldest-first.
-    log_out = _git(
-        ["log", "--no-merges", "--reverse", "--pretty=%H",
-         f"{base_sha}..HEAD"],
-        cwd=worktree,
-    )
-    own_commits = [c.strip() for c in log_out.splitlines() if c.strip()]
+    wt_key = str(worktree)
+    cache_key = (wt_key, base_sha, rel_path)
+    if cache_key in _ADDED_LINES_CACHE:
+        return _ADDED_LINES_CACHE[cache_key]
+    commits_key = (wt_key, base_sha)
+    own_commits = _OWN_COMMITS_CACHE.get(commits_key)
+    if own_commits is None:
+        log_out = _git(
+            ["log", "--no-merges", "--reverse", "--pretty=%H",
+             f"{base_sha}..HEAD"],
+            cwd=worktree,
+        )
+        own_commits = [c.strip() for c in log_out.splitlines() if c.strip()]
+        _OWN_COMMITS_CACHE[commits_key] = own_commits
     if not own_commits:
+        _ADDED_LINES_CACHE[cache_key] = []
         return []
     rows: list[tuple[int, str]] = []
     hunk_re = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
@@ -198,6 +218,7 @@ def _added_lines_per_file(*, worktree: Path, base_sha: str,
                 pass
             else:
                 current_new += 1
+    _ADDED_LINES_CACHE[cache_key] = rows
     return rows
 
 
@@ -270,9 +291,23 @@ def detect_math(*, worktree: Path, base_sha: str) -> list[str]:
     return violations
 
 
+_OVERSIZED_EXEMPT_RE = re.compile(
+    r"^papers/bedc/(?:main|preamble_chapter_macros(?:_[a-z_]+)?)\.tex$"
+)
+
+
 def detect_oversized(*, worktree: Path, base_sha: str) -> list[str]:
     violations: list[str] = []
     for rel in _changed_tex_files(worktree=worktree, base_sha=base_sha):
+        # Macro-only files (preamble_chapter_macros{,_<suffix>}.tex) are flat
+        # \providecommand lists with no theory content — there is no
+        # subtopic to split off, only a destination tail file. The 800-line
+        # cap exists to force chapter content to be modularized; it does
+        # not apply here. Workers append new \providecommand entries to
+        # these files in routine maintenance, and the cap was producing
+        # OVERSIZED-fail cooldowns every time the count crossed.
+        if _OVERSIZED_EXEMPT_RE.match(rel):
+            continue
         try:
             n = len((worktree / rel).read_text(encoding="utf-8").splitlines())
         except Exception:
@@ -414,6 +449,28 @@ def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
             text = path.read_text(encoding="utf-8", errors="ignore")
         except OSError:
             continue
+
+        # Hub + spine support: a hub file contains only structural elements
+        # (\input{...} + comments + blank lines). The chapter's autoref
+        # cross-references live in the spine sibling file under
+        # `papers/bedc/parts/concrete_instances/<slug>/namecert_construction.tex`.
+        # Resolve the `\input{...}` targets and concatenate their text so the
+        # autoref check sees the full chapter content, not just the hub.
+        for input_target in re.findall(r"\\input\{([^}]+)\}", text):
+            target_rel = input_target.strip()
+            if not target_rel.endswith(".tex"):
+                target_rel = target_rel + ".tex"
+            if target_rel.startswith("papers/bedc/"):
+                target_path = worktree / target_rel
+            else:
+                target_path = worktree / "papers" / "bedc" / target_rel
+            if target_path.exists():
+                try:
+                    text = text + "\n" + target_path.read_text(
+                        encoding="utf-8", errors="ignore"
+                    )
+                except OSError:
+                    pass
 
         sibling_refs: set[str] = set()
         for slug in _SIBLING_REF_RE.findall(text):

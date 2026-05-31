@@ -28,6 +28,17 @@ The seed closure lists the integrally closed row, the Noetherian row, and the no
 Since the carrier and ideal classifier have already been fixed by the source obligation, the three domain laws cannot be supplied as detached host properties. They must be read as certificate rows over that same BEDC classifier.
 \end{proof}
 
+\begin{theorem}[Dedekind Noetherian source factorization]\label{thm:dedekind-noetherian-source-factorization}
+For any accepted $\DedekindUp$ packet, the Noetherian witness row of \autoref{thm:dedekind-domain-law-obligation} factors through the $\NoetherianRingUp$ carrier of \autoref{def:noetherian-ring-carrier} over the same $\CommRingUp$ and $\IdealUp$ classifier. The integrally closed row and the nonzero-prime-maximal row remain Dedekind-specific rows over that shared classifier.
+\end{theorem}
+\begin{proof}
+Project the $\DedekindUp$ source obligation from \autoref{thm:dedekind-source-obligation}. It fixes the commutative-ring source and the ideal source before the domain-law rows are read, so the Noetherian row has the same ambient carrier and classifier required by the $\NoetherianRingUp$ carrier.
+
+Apply \autoref{thm:noetherian-ring-namecert-obligations} to read the Noetherian witness as finite ideal-chain stabilization data over those two source rows. The $\DedekindUp$ packet therefore consumes the reusable $\NoetherianRingUp$ surface rather than treating Noetherianity as an isolated internal row.
+
+The remaining two domain-law rows are not absorbed by $\NoetherianRingUp$. Integrally closedness and nonzero-prime-maximality are projected from \autoref{thm:dedekind-domain-law-obligation} and stay attached to the Dedekind classifier as the Dedekind-specific part of the packet.
+\end{proof}
+
 \begin{theorem}[Dedekind classifier ledger obligation]\label{thm:dedekind-classifier-ledger-obligation}
 Classifier transport and the $\DedekindUp$ ledger expose exactly the commutative-ring source, the ideal source, the integrally closed witness, the Noetherian witness, and the nonzero-prime-maximal witness. The ledger exposes no quotient data, no classical-choice data, and no $\StdBridge$ data.
 \end{theorem}

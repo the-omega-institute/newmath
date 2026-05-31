@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\TypedNormalFormDeciderUp$}
+\label{ch:concrete-instances-typed-normal-form-decider-namecert}
+\origin{ai}
+
+The $\TypedNormalFormDeciderUp$ packet realizes the normal-equality section of \autoref{ch:metacic-decidable-audit-map} as a finite BEDC certificate tying \texttt{inferTypeCtx} to bounded normal-form comparison. It sits beside the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the decidability witness of \autoref{ch:concrete-instances-metacicdecidabilitywitness-namecert}, the closure-preservation audit trace of \autoref{ch:concrete-instances-metacicclosuretrace-namecert}, and the normalization audit map of \autoref{ch:metacic-normalization-audit-map}. The packet names the typed checker and bounded comparison route; it refuses to turn that route into unrestricted beta-conversion decidability.
+
+\falsifiablePrediction{Every accepted $\TypedNormalFormDeciderUp$ packet displays \texttt{inferTypeCtx} rows, typed input rows, bounded normalizer output rows, finished-normalization witnesses when supplied, bounded normal-form comparison rows, refusal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data.}
+
+\independenceWitness{bounded-normal-equality-checker, metacicdecidabilitywitness, closure-preservation audit, normalization audit: $\TypedNormalFormDeciderUp$ is not bijective to any listed sibling because it jointly carries typed-checker admission, bounded normal-form comparison, finished-normalization side conditions, refusal, transport, replay, provenance, and local naming rows.}
+
+\begin{definition}[Typed normal-form decider carrier]
+\label{def:typed-normal-form-decider-carrier}
+A $\TypedNormalFormDeciderUp$ carrier is a finite $\BHist$ packet
+$$
+D=(I,L,R,T_L,T_R,F,N_L,N_R,E,W,Q,H,C,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the \texttt{inferTypeCtx} checker row for the shared context and the represented input terms;
+\item $L$ and $R$ are the two closed represented MetaCIC input term rows;
+\item $T_L$ and $T_R$ are the optional inferred type rows produced by the checker, together with the displayed success or refusal status of each check;
+\item $F$ is the bounded fuel row used by the normalizer;
+\item $N_L$ and $N_R$ are the bounded normal-form output rows obtained from $L$ and $R$ at fuel $F$;
+\item $E$ is the structural normal-form comparison row, read through \texttt{Term.eq} on $N_L$ and $N_R$;
+\item $W$ stores the finished-normalization witnesses required before the comparison can be consumed as a typed normal-form equality result;
+\item $Q$ is the refusal row blocking unrestricted beta-conversion decidability, global normalization, subject reduction, confluence, arbitrary closedness decidability, quotient syntax equality, and fuel selection;
+\item $H$ records componentwise $\hsame$ transport for checker, term, type, fuel, normal-form output, comparison, finished-witness, refusal, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from a typed normal-form decision request through $I,L,R,T_L,T_R,F,N_L,N_R,E,W,Q,H,P,A$;
+\item $P$ is the $\Pkg$ provenance over $\TypedNormalFormDeciderUp$, the MetaCIC decidability audit map, $\BoundedNormalEqualityCheckerUp$, $\MetaCICDecidableTypingFrontierUp$, closure-preservation audit rows, normalization audit rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $A$ is the local $\NameCert_{\TypedNormalFormDeciderUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a fuel-erased beta-conversion oracle, no proof that all closed typed terms normalize, no hidden subject-reduction discharge, no confluence theorem, and no host quotient over terms.
+\end{definition}
+
+\begin{theorem}[Typed normal-form decider NameCert obligations]
+\label{thm:typed-normal-form-decider-namecert-obligations}
+For the carrier of \autoref{def:typed-normal-form-decider-carrier}, the local $\NameCert_{\TypedNormalFormDeciderUp}$ surface consists exactly of typing-checker admission through $I,T_L,T_R$, bounded-normal comparison through $F,N_L,N_R,E$, finished-normalization side-condition exposure through $W$, explicit refusal through $Q$, componentwise transport through $H$, displayed continuation replay through $C$, provenance through $P$, and local naming through $A$.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The checker side is exhausted by $I,L,R,T_L,T_R$, so a consumer obtains typed input only through the displayed \texttt{inferTypeCtx} rows.
+
+The normal-form side is exhausted by $F,N_L,N_R,E,W$. The comparison row $E$ can be consumed only with the bounded fuel and finished-normalization witnesses displayed in the same packet.
+
+The refusal row $Q$ is part of the certificate surface. It prevents the bounded route from being reread as global normalization, unrestricted beta-conversion decidability, subject reduction, confluence, arbitrary closedness decidability, quotient syntax equality, or fuel selection.
+
+Finally $H,C,P,A$ preserve and name the same finite route. Future $\mathrm{Nontrivial}$ and $\mathrm{FieldFaithful}$ TasteGate instances must witness that none of these rows can be collapsed away or replaced by an unlisted oracle.
+\end{proof}
+
+\begin{theorem}[Typed normal-form decider bounded comparison boundary]
+\label{thm:typed-normal-form-decider-bounded-comparison-boundary}
+Every consumer of an accepted $\TypedNormalFormDeciderUp$ packet reaches a typed normal-form comparison only through the finite route
+$$
+\texttt{inferTypeCtx},\ L,R,T_L,T_R,F,N_L,N_R,E,W,Q,H,C,P,A .
+$$
+The route exports typing-checker data and bounded finished-normal comparison data; it exports no unrestricted closed beta-conversion decider, no global normalizer, no subject-reduction theorem, no confluence theorem, no arbitrary closedness decider, and no host quotient equality for MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Read the checker rows first. A typed comparison request must pass through $I$ and the displayed optional type rows $T_L,T_R$ before it can inspect normal forms.
+
+Next read the bounded normal-form rows. The fuel $F$, the outputs $N_L,N_R$, the structural comparison $E$, and the finished-normalization witnesses $W$ form the complete comparison surface.
+
+The refusal row $Q$ is then read before structural replay. It records that the packet has no coordinate for a stronger conversion, normalization, subject-reduction, confluence, closedness, quotient, or fuel-selection theorem.
+
+Thus transport, replay, provenance, and local naming in $H,C,P,A$ preserve only the displayed bounded route.
+\end{proof}
+
+\closureat{TypedNormalFormDeciderUp}{seedStr}
+
+\begin{closurestatus}{\TypedNormalFormDeciderUp}
+  \constructivestory{A $\TypedNormalFormDeciderUp$ packet is generated from inferTypeCtx checker rows, closed input term rows, optional inferred type rows, bounded fuel, bounded normalizer outputs, structural normal-form comparison, finished-normalization witnesses, refusal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:typed-normal-form-decider-carrier}, \autoref{thm:typed-normal-form-decider-namecert-obligations}, and \autoref{thm:typed-normal-form-decider-bounded-comparison-boundary} seed the finite typed normal-form decider surface over typing-checker and bounded normal-form comparison rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unrestricted beta-conversion decidability, global normalization, subject reduction, confluence, arbitrary closedness decidability, quotient syntax equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typing-checker exactness, bounded-normal comparison exactness, finished-normalization side-condition exposure, refusal, Nontrivial and FieldFaithful TasteGate instances, transport, replay, provenance, and local naming for BEDC.Derived.TypedNormalFormDeciderUp.}
+\end{closurestatus}

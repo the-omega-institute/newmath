@@ -37,6 +37,7 @@ The ledger side is closed by \autoref{thm:authorized-generator-recursor-open-pha
 \label{thm:authorized-generator-recursor-completion-boundary-exhaustion}
 Let $R=(I,E,M,B,D,O,A,H,C,P,G,N)$ be an accepted $\AuthorizedGeneratorRecursorUp$ packet. A completion-facing consumer of the recursor output has exactly two admissible boundary shapes: it either displays a separate completion-seal row before using completion data, or it remains bounded by the AuthorizedGeneratorRecursor packet through $I,E,M,B,D,O,A,H,C,P,G,N$. Without the separate completion-seal row, the consumer cannot read a completion object, quotient completion equality, selected limit, host completeness proof, or off-packet proof producer.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorCompletionBoundaryExhaustion}
 \begin{proof}
 Begin with \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. Completion-facing use is treated as a downstream specialization of the same finite output route, so $O$ remains attached to $A,H,C,P,G,N$.
 
@@ -57,6 +58,7 @@ I,E,M,B,D,O,A,H,C,P,G,N,
 $$
 with readback through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, boundary, audit, transport, provenance, and local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ rows. It cannot be reinterpreted as a global impossibility theorem, a host theorem about recursors or real completion, hidden external validation of the failed route, a selected real witness, a quotient stream equality, a detached induction rule, a completion object, or an external proof producer.
 \end{corollary}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorRegSeqRatRouteStrictObstruction}
 \begin{proof}
 Apply the $\RegSeqRatUp$ route factorization theorem, \autoref{thm:authorized-generator-recursor-regseqrat-route-factorization}. It states that every $\RegSeqRatUp$ consumer of the recursor output factors through the displayed signature, eliminator, motive, branch, descent, output, audit, transport, continuation, provenance, boundary, and local naming rows. In particular, the consumer may read $O$ only while retaining $I,E,M,B,D,A,H,C,P,G,N$ in the same finite packet, and it obtains no regular-rational source outside that route.
 

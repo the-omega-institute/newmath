@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFiniteSumUp$}
+\label{ch:concrete-instances-regular-cauchy-finite-sum-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy real arithmetic, the $\RegularCauchyFiniteSumUp$ packet records finite sums of displayed regular Cauchy rational names as folded addition routes. It sits after the regular rational source surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the binary addition packet of \autoref{ch:concrete-instances-regular-cauchy-addition-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the finite-product sibling of \autoref{ch:concrete-instances-regular-cauchy-finite-product-namecert}. The carrier records displayed folded addition data, not host finite sums, quotient streams, selected limits, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy finite sum carrier]\label{def:regular-cauchy-finite-sum-carrier}
+A $\RegularCauchyFiniteSumUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,S,W,D,A,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite unary index row. It lists exactly the summand slots opened by the request and the displayed fold order used by the addition route.
+\item $S$ is the component $\RegSeqRatUp$ source family, one regular rational Cauchy name for each slot of $I$.
+\item $W$ is the synchronized $\StreamNameUp$ window family for component reads, intermediate addition reads, and the final sum-facing read.
+\item $D$ is the $\DyadicRatCoreUp$ sum-budget ledger, storing component observations, intermediate sum observations, requested radii, and slack cells.
+\item $A$ is the folded $\RegularCauchyAdditionUp$ route row. It records the adjacent binary additions named by $I,W,D$ and exposes no host finite-sum operation.
+\item $R$ is the final $\RegSeqRatUp$ readback row obtained only after the source, window, dyadic, and folded-addition rows have been displayed.
+\item $E$ is the $\RealUp$ seal row reached after the regular readback of the folded sum has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the index row, summand sources, synchronized windows, dyadic ledger, folded-addition route, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from any finite-sum request through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyFiniteSumUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyAdditionUp$, $\RealUp$, $\RegularCauchyFiniteProductUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyFiniteSumUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,S,W,D,A,R,E,H,C,P,N$. It has no coordinate for a host finite sum, quotient stream equality, selected limit, trichotomy, ambient $\RealUp$ completeness, Lean verification, or standard bridge.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy finite sum NameCert obligations]\label{thm:regular-cauchy-finite-sum-namecert-obligations}
+For every accepted $\RegularCauchyFiniteSumUp$ carrier
+$$
+K=(I,S,W,D,A,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyFiniteSumUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite unary index row, component $\RegSeqRatUp$ summands, synchronized $\StreamNameUp$ windows, $\DyadicRatCoreUp$ budget ledger, folded $\RegularCauchyAdditionUp$ route, final readback, $\RealUp$ seal, transport, replay, provenance, and local name;
+\item finite tuple-window coverage, requiring every summand slot in $I$ to open the matching source row and all synchronized windows needed by the fold;
+\item dyadic sum-budget exactness, requiring every intermediate addition observation to consume its assigned radius and slack cells from $D$;
+\item RegSeqRat readback stability, requiring the final readback row $R$ to depend only on the displayed sources, windows, dyadic ledger, and folded-addition route;
+\item Real seal non-escape, requiring $E,H,C,P,N$ to expose no host finite sum, quotient stream equality, selected limit, trichotomy, ambient completeness theorem, Lean verification, or bridge credential.
+\end{enumerate}
+No Regular Cauchy finite sum obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-finite-sum-carrier}. The displayed tuple $I,S,W,D,A,R,E,H,C,P,N$ is the whole public surface, so carrier admission is exactly the admission of those rows.
+
+Tuple-window coverage is forced by the index row. Each slot named by $I$ has one component $\RegSeqRatUp$ source in $S$, and the synchronized window row $W$ is the only place where component, intermediate, and final sum reads are opened.
+
+The dyadic budget is read through $D$. Each intermediate binary addition request consumes a displayed radius and slack cell from that ledger before the corresponding folded $\RegularCauchyAdditionUp$ row $A$ can be inspected.
+
+The final regular readback row $R$ is downstream of $S,W,D,A$. Therefore readback stability follows from the carrier order: no sum-facing $\RegSeqRatUp$ data can be inspected until the synchronized windows, dyadic budget, and folded addition route have already been displayed.
+
+Finally, the seal, transport, replay, provenance, and local name rows preserve only this route. Since none of the excluded objects is a coordinate of the carrier, the listed five rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy finite sum budget route]\label{thm:regular-cauchy-finite-sum-budget-route}
+Let
+$$
+K=(I,S,W,D,A,R,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyFiniteSumUp$ carrier. Every finite sum read from $K$ factors through
+$$
+I,S \longmapsto W \longmapsto D,A \longmapsto R \longmapsto E,H,C,P,N .
+$$
+In particular, regrouping displayed adjacent additions may change only the fold order named by $I$ and $A$; it preserves the same synchronized windows $W$, dyadic sum-budget ledger $D$, final $\RegSeqRatUp$ readback $R$, and $\RealUp$ seal $E$ when those rows are fixed by the accepted carrier.
+\end{theorem}
+\begin{proof}
+Begin with a finite sum request. The request first names the finite unary index row $I$ and the component source family $S$, because these are the only carrier rows that identify which regular Cauchy names participate in the fold.
+
+The requested component and intermediate observations then pass through $W$. This synchronized window row aligns component reads with the intermediate addition reads used by the displayed fold.
+
+The dyadic part of the request is read next through $D$, and the adjacent binary additions are read through $A$. The proof uses the displayed $\RegularCauchyAdditionUp$ rows rather than host associativity of sums.
+
+Only after those rows are displayed can the final regular rational readback $R$ be consumed. The downstream rows $E,H,C,P,N$ seal, transport, replay, source, and name the same route, so the finite sum read cannot bypass the synchronized windows, the dyadic ledger, or the folded-addition route.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyFiniteSumUp$ sum-facing read factors through a finite unary index row, component RegSeqRat sources, synchronized StreamName windows, DyadicRatCore sum-budget observations, a folded RegularCauchyAddition route, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, regular-cauchy-addition, real, regular-cauchy-finite-product: $\RegularCauchyFiniteSumUp$ is not bijective to any listed sibling because it jointly carries a finite unary summand index, synchronized multi-source windows, dyadic sum-budget accounting, folded addition rows, final RegSeqRat readback, RealUp sealing, transport, continuation, provenance, and local naming.}
+
+\closureat{RegularCauchyFiniteSumUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFiniteSumUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-finite-sum-carrier}, \autoref{thm:regular-cauchy-finite-sum-namecert-obligations}, and \autoref{thm:regular-cauchy-finite-sum-budget-route} seed the finite sum route from displayed regular Cauchy sources through synchronized windows, dyadic sum budgets, folded addition rows, final RegSeqRat readback, and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host finite sums, quotient stream equality, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tuple-window coverage, dyadic budget exactness, folded-addition routing, readback stability, seal non-escape, and local naming for BEDC.Derived.RegularCauchyFiniteSumUp.}
+  \constructivestory{A $\RegularCauchyFiniteSumUp$ packet is generated from a finite unary summand index row, component RegSeqRat source rows, synchronized StreamName windows, DyadicRatCore sum-budget observations, a folded RegularCauchyAddition route, final RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

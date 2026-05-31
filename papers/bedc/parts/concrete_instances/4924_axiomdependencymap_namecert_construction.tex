@@ -127,15 +127,16 @@ Use query-ledger factorization to inspect any downstream replay. A consumer must
 Apply the non-escape boundary. The rows $H,C,P,N$ transport, replay, package, and name the same displayed tuple, and the carrier has no coordinate for unrestricted theorem export. Therefore a restricted proof row remains restricted and cannot be read as an unconditional BEDC theorem.
 \end{proof}
 
-\closureat{AxiomDependencyMapUp}{seedStr}
+\closureat{AxiomDependencyMapUp}{obligationStr}
+\closureat{AxiomDependencyMapUp}{scopedStr}
 
 \begin{closurestatus}{\AxiomDependencyMapUp}
   \constructivestory{An $\AxiomDependencyMapUp$ packet is generated from a claim row, a mode row, a witness row, a required-axiom-set row, componentwise $\hsame$ transports, displayed $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:axiom-dependency-map-certificate}, \autoref{thm:axiom-dependency-map-ledger-obligations}, \autoref{thm:axiom-dependency-map-mode-soundness}, \autoref{thm:axiom-dependency-map-query-ledger-factorization}, \autoref{thm:axiom-dependency-map-boundary}, \autoref{thm:axiom-dependency-map-required-supply-separation}, and \autoref{thm:axiom-dependency-map-restricted-row-nonescape} specify the finite claim-level dependency-map packet, mode soundness, ledger factorization, supply separation, restricted-row non-escape, and public boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not enumerate all classical CIC claims, prove global completeness of the dependency map, certify any hidden host proof oracle, close Lean verification, or bridge the packet to an external schema.}
-  \upgradepath{Obligation closure requires checked carrier admission, mode classification, witness and required-supply exactness, query-ledger factorization, and non-escape for the displayed packet.}
+  \upgradepath{Public closure requires a public exported NameCert statement over the same claim, mode, witness, required-supply, transport, replay, provenance, and local naming rows.}
 \end{closurestatus}

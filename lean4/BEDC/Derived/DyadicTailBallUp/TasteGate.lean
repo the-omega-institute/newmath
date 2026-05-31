@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DyadicTailBallUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -186,6 +189,19 @@ theorem DyadicTailBallTasteGate_single_carrier_alignment :
       DyadicTailBallTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => DyadicTailBallTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+theorem DyadicTailBallCarrier_regular_cauchy_consumer_route {B D F R H C P N : BHist} :
+    UnaryHistory D → UnaryHistory F → Cont D F B → UnaryHistory R → Cont B R N →
+      dyadicTailBallFields (DyadicTailBallUp.mk B D F R H C P N) =
+        [B, D, F, R, H, C, P, N] ∧
+        UnaryHistory B ∧ UnaryHistory N := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro dyadicUnary filterUnary ballRoute consumerUnary terminalRoute
+  have ballUnary : UnaryHistory B :=
+    unary_cont_closed dyadicUnary filterUnary ballRoute
+  have terminalUnary : UnaryHistory N :=
+    unary_cont_closed ballUnary consumerUnary terminalRoute
+  exact ⟨rfl, ballUnary, terminalUnary⟩
 
 end BEDC.Derived.DyadicTailBallUp.TasteGate
 

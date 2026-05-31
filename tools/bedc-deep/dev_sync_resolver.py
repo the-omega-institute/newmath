@@ -390,8 +390,8 @@ class ValidationResult:
 def _validate_post_resolution(*, changed_files: list[str] | None = None) -> ValidationResult:
     """Run the project's CI gates. Returns pass/fail + which gate failed.
 
-    Note: pdflatex is NOT in the gauntlet here — it's slow and Stage 2 will
-    catch any compile breakage on its next append cycle, then roll back."""
+    Full PDF is not in the gauntlet here; async builders record full-build
+    verification envelopes per SHA."""
     failures: list[str] = []
     changed = changed_files or []
 
@@ -415,7 +415,7 @@ def _validate_post_resolution(*, changed_files: list[str] | None = None) -> Vali
     if any(path.startswith("papers/bedc/") for path in changed):
         try:
             proc = subprocess.run(
-                ["make", "check"],
+                ["make", "precheck"],
                 cwd=str(REPO_ROOT / "papers" / "bedc"),
                 capture_output=True,
                 text=True,
@@ -423,9 +423,9 @@ def _validate_post_resolution(*, changed_files: list[str] | None = None) -> Vali
             )
             if proc.returncode != 0:
                 tail = (proc.stdout or "")[-1500:] + (proc.stderr or "")[-800:]
-                failures.append(f"paper make check failed:\n{tail}")
+                failures.append(f"paper make precheck failed:\n{tail}")
         except (subprocess.TimeoutExpired, FileNotFoundError) as exc:
-            failures.append(f"paper make check infra error: {exc}")
+            failures.append(f"paper make precheck infra error: {exc}")
 
     if not any(path.startswith("lean4/") or path.startswith("tools/check-axioms.py") for path in changed):
         summary = "paper gates passed" if not failures else f"{len(failures)} gate(s) failed"

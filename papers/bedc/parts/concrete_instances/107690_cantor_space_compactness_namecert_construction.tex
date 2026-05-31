@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\CantorSpaceCompactnessUp$}
+\label{ch:concrete-instances-cantor-space-compactness-namecert}
+\origin{human}
+
+Following Brouwer and Bishop, the $\CantorSpaceCompactnessUp$ packet records the constructive compactness route for Boolean streams as a finite NameCert surface adjacent to $\CantorSpaceUp$ in \autoref{ch:concrete-instances-cantorspace-namecert}. It reads finite prefix data through $\FanTheoremUp$, obstruction rows through $\KleeneTreeUp$, and observation windows through $\StreamNameUp$; it does not import open-cover compactness, countable choice, quotient equality of infinite streams, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CantorSpaceCompactness carrier]
+\label{def:cantor-space-compactness-carrier}
+A $\CantorSpaceCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+K=(C,F,T,S,B,H,R,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\CantorSpaceUp$ finite-prefix source row, including the Boolean prefix observations and cylinder reads named in \autoref{def:cantor-space-carrier};
+\item $F$ is the $\FanTheoremUp$ row, recording the finite decidable bar, its inspected prefix depth, and the finite branch-window witness;
+\item $T$ is the $\KleeneTreeUp$ obstruction row, used only to record that a displayed infinite-branch escape is absent from the finite fan route;
+\item $S$ is the $\StreamNameUp$ observation row that schedules the finite prefix requests consumed by $C$ and $F$;
+\item $B$ is the prefix-cover row, listing the finitely many Boolean cylinders whose union covers the inspected prefix surface;
+\item $H$ records componentwise $\hsame$ transport for the Cantor-space, fan, obstruction, stream, prefix-cover, continuation, provenance, and local naming rows;
+\item $R$ records displayed $\Cont$ replay from a finite prefix request through the fan-depth row and the prefix-cover row;
+\item $Q$ is the refusal row excluding open-cover compactness, countable choice, quotient equality of infinite streams, and ambient $\RealUp$ completeness;
+\item $P$ is the $\Pkg$ provenance over $\CantorSpaceCompactnessUp$, $\CantorSpaceUp$, $\FanTheoremUp$, $\KleeneTreeUp$, $\StreamNameUp$, prefix covers, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CantorSpaceCompactnessUp}$ row naming the displayed finite compactness packet and its permitted consumer reads.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed Cantor prefix, fan-depth, obstruction, stream-window, and prefix-cover rows, transported by $H$ and replayed by $R$. No classifier coordinate compares ambient infinite streams or completed function-space objects.
+\end{definition}
+
+\begin{theorem}[CantorSpaceCompactness NameCert obligations]
+\label{thm:cantor-space-compactness-namecert-obligations}
+For every accepted $\CantorSpaceCompactnessUp$ carrier $K=(C,F,T,S,B,H,R,Q,P,N)$, the local $\NameCert_{\CantorSpaceCompactnessUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\CantorSpaceUp$ source, $\FanTheoremUp$ finite-bar row, $\KleeneTreeUp$ obstruction row, $\StreamNameUp$ schedule, prefix-cover ledger, transport, replay, refusal, provenance, and local naming row;
+\item prefix-cover exactness, requiring every accepted compactness read to use the same finite Boolean cylinders listed in $B$ and the same inspected prefix schedule in $S$;
+\item fan-depth stability, requiring the finite bar depth in $F$ to bound the cylinders consumed by a downstream compactness read;
+\item obstruction nonescape, requiring $T$ to remain a finite refusal row rather than a source of an infinite branch;
+\item ledger nonescape, excluding open-cover compactness, countable choice, quotient equality of infinite streams, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No local NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of \autoref{def:cantor-space-compactness-carrier}. The packet exposes exactly $C,F,T,S,B,H,R,Q,P,N$ before any compactness-facing read is permitted.
+
+Prefix-cover exactness reads $B$ together with the $\StreamNameUp$ schedule $S$. Fan-depth stability reads $F$ and forces the listed cylinders to sit below the inspected finite bar depth.
+
+The obstruction row $T$ is then read only as a finite nonescape boundary. Transport by $H$ and replay by $R$ preserve the same displayed route, while $Q,P,N$ record refusal, provenance, and local naming. Since none of these rows contains open-cover compactness, countable choice, quotient equality, or ambient real completeness, the listed obligations exhaust the local surface.
+\end{proof}
+
+\begin{theorem}[CantorSpaceCompactness finite prefix subcover]
+\label{thm:cantor-space-compactness-finite-prefix-subcover}
+Let $K=(C,F,T,S,B,H,R,Q,P,N)$ be an accepted $\CantorSpaceCompactnessUp$ carrier. Every compactness-facing read that asks for a cover of a displayed $\CantorSpaceUp$ prefix is answered by the finite prefix-cover row $B$ after the fan-depth row $F$ has fixed the inspected depth and the $\StreamNameUp$ schedule $S$ has fixed the visible positions. The subcover is therefore a finite list of Boolean cylinders over the displayed prefix surface, not an open-cover compactness principle and not a choice-selected family of cylinders.
+\end{theorem}
+\begin{proof}
+Start with the $\CantorSpaceUp$ row $C$. By \autoref{thm:cantor-space-finite-prefix-cylinder-stability}, every cylinder read of $C$ factors through finite $\StreamNameUp$ windows, finite Boolean observations, and local NameCert rows.
+
+Read the fan row $F$. It supplies a finite decidable bar depth and the inspected branch-window witness, so the compactness-facing request is reduced to the cylinders visible below that depth.
+
+Now use the prefix-cover ledger $B$. The row lists the finitely many Boolean cylinders that cover the inspected prefix surface, and the replay row $R$ routes the consumer through exactly that ledger. The refusal row $Q$ excludes open-cover compactness, countable choice, quotient stream equality, and ambient $\RealUp$ completeness from the exported subcover.
+\end{proof}
+
+\begin{theorem}[CantorSpaceCompactness nonescape]
+\label{thm:cantor-space-compactness-nonescape}
+For every accepted $\CantorSpaceCompactnessUp$ carrier $K=(C,F,T,S,B,H,R,Q,P,N)$, any downstream consumer of compactness data remains inside the route
+$$
+C,S \longmapsto F \longmapsto B \longmapsto T \longmapsto H,R,Q,P,N .
+$$
+The route exports only finite Boolean prefix covers for the displayed Cantor-space packet. It exports no open-cover compactness theorem, no countable choice principle, no quotient equality of streams, no selected infinite branch through a $\KleeneTreeUp$ obstruction row, and no ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cantor-space-compactness-finite-prefix-subcover}. A compactness-facing read first consumes the displayed Cantor prefix row $C$ and the stream schedule $S$, then reads the fan-depth row $F$ and the finite prefix-cover ledger $B$.
+
+The obstruction row $T$ is downstream of that finite route. It records that the displayed route has no accepted infinite-branch escape; it does not provide a selected branch or a host-level tree path.
+
+Finally inspect $H,R,Q,P,N$. These rows transport, replay, refuse, source, and name only the displayed finite packet. Therefore a consumer has no row from which to recover open-cover compactness, countable choice, quotient stream equality, an infinite branch selector, or ambient real completeness.
+\end{proof}
+
+\falsifiablePrediction{Every $\CantorSpaceCompactnessUp$ compactness read factors through a displayed $\CantorSpaceUp$ prefix, a finite $\FanTheoremUp$ bar-depth row, and a finite prefix-cover ledger before any consumer sees a compactness-shaped output.}
+
+\independenceWitness{cantorspace, fantheorem, kleenetree, streamname: $\CantorSpaceCompactnessUp$ is not bijective to any listed sibling because it jointly carries Cantor prefix data, fan-depth coverage, obstruction nonescape, stream scheduling, prefix-cover rows, transport, continuation replay, package provenance, refusal, and local naming.}
+
+\closureat{CantorSpaceCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\CantorSpaceCompactnessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-space-compactness-carrier}, \autoref{thm:cantor-space-compactness-namecert-obligations}, \autoref{thm:cantor-space-compactness-finite-prefix-subcover}, and \autoref{thm:cantor-space-compactness-nonescape} seed the constructive finite-prefix compactness packet over $\CantorSpaceUp$, $\FanTheoremUp$, $\KleeneTreeUp$, $\StreamNameUp$, prefix covers, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, countable choice, quotient equality of streams, selected infinite branches, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-prefix subcover exactness, fan-depth stability, obstruction nonescape, and local NameCert replay for BEDC.Derived.CantorSpaceCompactnessUp.}
+  \constructivestory{A $\CantorSpaceCompactnessUp$ packet is generated from CantorSpace finite-prefix rows, FanTheorem finite-bar rows, KleeneTree obstruction rows, StreamName schedules, prefix-cover ledgers, componentwise hsame transport, displayed Cont replay, refusal, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

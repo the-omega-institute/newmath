@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\mathsf{TangentCone}^{\uparrow}$}
+\label{ch:concrete-instances-tangent-cone-namecert}
+\origin{human}
+
+Following Bouligand and Rockafellar, the $\mathsf{TangentCone}^{\uparrow}$ packet names the finite feasible-direction surface of a convex set at a displayed base point. It sits after the convex carrier of \autoref{ch:concrete-instances-convexset-namecert}, the affine ambient row of \autoref{ch:concrete-instances-affinespace-namecert}, the vector-space operations of \autoref{ch:concrete-instances-vecspace-namecert}, the metric window route of \autoref{ch:concrete-instances-metric-namecert}, and the terminal real-name interface of \autoref{ch:concrete-instances-real-namecert}. The packet records finite secant windows and scale ledgers for a proposed direction; it does not build a host limit, a quotient tangent space, a differentiability theorem, or a separation theorem.
+
+\begin{definition}[TangentCone carrier]
+\label{def:tangent-cone-carrier}
+A $\mathsf{TangentCone}^{\uparrow}$ carrier is a finite $\BHist$ packet
+$$
+T=(B,S,L,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the base-point row, naming the displayed point in the $\ConvexSetUp$ carrier together with its $\AffineSpaceUp$, $\VecSpaceUp$, $\MetricUp$, and $\RealUp$ ambient readbacks.
+\item $S$ is the feasible secant-window row. It lists finite windows in which the point obtained by moving from $B$ along the candidate direction remains inside the convex feasible row at the displayed scale.
+\item $L$ is the positive scale and radius ledger. It records the inspected positive scale rows, metric radii, comparison budgets, and the refusal of zero-scale or unbounded-host reads.
+\item $V$ is the direction row, read through the $\VecSpaceUp$ addition and scalar-action surface and compared only by the displayed metric windows.
+\item $H$ records componentwise $\hsame$ transport for the base point, secant windows, scale ledger, direction row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a feasible-direction request through $B,S,L,V$ before any structural row is consumed.
+\item $P$ is the $\Pkg$ provenance over $\ConvexSetUp$, $\AffineSpaceUp$, $\VecSpaceUp$, $\MetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\mathsf{TangentCone}^{\uparrow}}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $B,S,L,V,H,C,P,N$. It has no coordinate for an ambient host limit, quotient tangent space, differentiability theorem, normal cone, separation theorem, or closed convex analysis theorem outside the displayed finite rows.
+\end{definition}
+
+\begin{theorem}[TangentCone secant-window exposure]
+\label{thm:tangent-cone-secant-window-exposure}
+Let $T=(B,S,L,V,H,C,P,N)$ be an accepted $\mathsf{TangentCone}^{\uparrow}$ carrier. Every feasible-direction read must first expose the base-point row $B$, then the secant-window row $S$, then the positive scale and radius ledger $L$, and only then the direction row $V$. Consequently a consumer sees a finite Bouligand-style secant surface, not a host limiting process or a selected tangent representative.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tangent-cone-carrier}. The only rows available before the structural data are $B,S,L,V$, and the secant-window row is explicitly indexed by the base point exposed in $B$.
+
+Replay the continuation row $C$. A feasible-direction request is routed through the displayed base-point read, then through the finite feasible secant windows, and then through the positive scale and radius ledger before the direction row can be inspected.
+
+Transport by $H$ preserves the same route, while $P$ and $N$ package only those rows. Thus no host limit, quotient tangent representative, differentiability theorem, normal cone, or separation theorem can be read from the packet.
+\end{proof}
+
+\begin{theorem}[TangentCone cone-scaling stability]
+\label{thm:tangent-cone-cone-scaling-stability}
+For an accepted $\mathsf{TangentCone}^{\uparrow}$ carrier $T=(B,S,L,V,H,C,P,N)$, scaling an accepted displayed direction by a positive scale already present in $L$ stays on the same finite tangent-cone surface. The resulting read uses the same base-point row $B$, the scaled secant windows recorded in $S$, the positive comparison ledger $L$, and the vector-space scalar-action row inside $V$, with transport and replay supplied by $H$ and $C$.
+\end{theorem}
+\begin{proof}
+Start with a direction read accepted by the packet and a positive scale row displayed in $L$. The vector-space row $V$ contains the scalar-action data, while the scale ledger records the positive comparison budget needed to reuse the feasible secant windows.
+
+The secant-window row $S$ is then read with the scaled direction and the same base point $B$. Convex feasibility is consumed only through the displayed $\ConvexSetUp$ row, and metric comparison is consumed only through the windows and radii already listed in $L$.
+
+Finally replay $C$ and transport through $H$. Provenance $P$ and the local name row $N$ certify that the scaled direction remains inside the same finite packet surface, with no appeal to a host closure theorem, quotient tangent space, differentiability result, or separation principle.
+\end{proof}
+
+\begin{closurestatus}{\mathsf{TangentCone}^{\uparrow}}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tangent-cone-carrier}, \autoref{thm:tangent-cone-secant-window-exposure}, and \autoref{thm:tangent-cone-cone-scaling-stability} seed the finite convex feasible-direction packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host limit, quotient tangent space, differentiability theorem, separation theorem, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, secant-window exposure, cone-scaling stability, transport, replay, provenance, and local naming for BEDC.Derived.TangentConeUp.}
+\end{closurestatus}

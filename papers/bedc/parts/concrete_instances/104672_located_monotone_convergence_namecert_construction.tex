@@ -62,12 +62,27 @@ Finally the structural rows $H,C,P,N$ transport, replay, source, and name the sa
 \label{thm:located-monotone-convergence-supremum-readback}
 Let $L=(M,B,U,W,R,D,E,H,C,P,N)$ be an accepted $\LocatedMonotoneConvergenceUp$ packet. Every $\RealUp$-facing convergence read exported by $L$ factors through the $\LocatedSupremumUp$ handoff row $U$ and its displayed upper-bound and lower-approximation ledgers, then through the shared $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the terminal $\RealUp$ seal $E$. Thus the read is a located-supremum factorization of the monotone source $M$, not an appeal to ambient completeness of arbitrary real subsets.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedMonotoneConvergenceUp.LocatedMonotoneConvergenceCarrier\_supremum\_readback}
 \begin{proof}
 Start with a Real-facing convergence consumer. By \autoref{def:located-monotone-convergence-carrier}, the only terminal real coordinate is $E$, and it is displayed after the monotone source, bounded ledger, located-supremum handoff, shared window, regular readback, and dyadic tolerance ledger.
 
 Apply \autoref{thm:located-monotone-convergence-namecert-obligations}. Its located-supremum handoff row forces the upper-bound and lower-approximation reads through $U$, while its readback and tolerance rows force the same request through $W,R,D$ before $E$ can be read.
 
 The packet $M$ supplies only the bounded monotone source surface, and $H,C,P,N$ can only transport, replay, source, and name the displayed route. Therefore every exported convergence read factors through $\LocatedSupremumUp$ and not through an ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Located monotone convergence bounded source route]
+\label{thm:located-monotone-convergence-bounded-source-route}
+Let $L=(M,B,U,W,R,D,E,H,C,P,N)$ be an accepted $\LocatedMonotoneConvergenceUp$ packet whose source row is supplied by an accepted $\MonotoneBoundedSequenceUp$ packet. Then every convergence read first consumes the source packet's monotonicity ledger, boundedness ledger, and $\CauchyConvergenceModulusUp$ handoff before it may inspect the $\LocatedSupremumUp$ row $U$, the $\RegSeqRatUp$ row $R$, the $\DyadicRatCoreUp$ row $D$, or the terminal $\RealUp$ seal $E$. The readback is therefore a bounded-monotone-source route followed by a located-supremum route, not an ambient completeness shortcut.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-monotone-convergence-carrier}. The rows $M$ and $B$ are the only source-facing rows available before the located-supremum handoff $U$ and the readback rows $W,R,D,E$.
+
+When $M$ is supplied by $\MonotoneBoundedSequenceUp$, apply \autoref{thm:monotone-bounded-sequence-finite-limit-boundary}. The source-side read must expose the monotonicity ledger, boundedness ledger, and $\CauchyConvergenceModulusUp$ handoff through the same finite source surface before a located convergence consumer can inspect later rows.
+
+Now apply \autoref{thm:located-monotone-convergence-supremum-readback}. After the bounded source route is fixed, every $\RealUp$-facing convergence read factors through $U$, then through the shared window and readback rows $W,R,D$, and finally through the terminal seal $E$.
+
+The structural rows $H,C,P,N$ preserve this order under transport, replay, provenance, and naming. Since neither carrier has a coordinate for arbitrary real completeness or a selected ambient limit, the readback cannot bypass the bounded-source route.
 \end{proof}
 
 \falsifiablePrediction{Every accepted $\LocatedMonotoneConvergenceUp$ convergence read factors through a MonotoneRealSequence source, a boundedness ledger, a LocatedSupremum handoff, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any Real-facing convergence consumer may inspect it.}
@@ -78,7 +93,7 @@ The packet $M$ supplies only the bounded monotone source surface, and $H,C,P,N$ 
 
 \begin{closurestatus}{\LocatedMonotoneConvergenceUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:located-monotone-convergence-carrier}, \autoref{thm:located-monotone-convergence-namecert-obligations}, and \autoref{thm:located-monotone-convergence-supremum-readback} seed the finite handoff from bounded monotone real sequence data to a located-supremum Real-facing convergence read.}
+  \scopeclosed{\autoref{def:located-monotone-convergence-carrier}, \autoref{thm:located-monotone-convergence-namecert-obligations}, \autoref{thm:located-monotone-convergence-supremum-readback}, and \autoref{thm:located-monotone-convergence-bounded-source-route} seed the finite handoff from bounded monotone real sequence data to a located-supremum Real-facing convergence read.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim arbitrary $\RealUp$ completeness, trichotomy, quotient stream equality, countable choice, open-cover compactness, Lean verification, or bridge checking.}

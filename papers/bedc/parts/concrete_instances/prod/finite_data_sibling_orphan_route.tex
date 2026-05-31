@@ -1,0 +1,13 @@
+\begin{theorem}[Prod finite-data sibling orphan route]
+\label{thm:prod-finite-data-sibling-orphan-route}
+Every $\ProdUp$ finite-data read is routed through the sibling lattice consisting of BoolUp endpoint tags from \autoref{ch:concrete-instances-bool-namecert}, OptionUp optional envelopes from \autoref{ch:concrete-instances-option-namecert}, SumUp injections from \autoref{ch:concrete-instances-sum-namecert}, and ListUp spine and readback rows from \autoref{ch:concrete-instances-list-namecert}. The exported product read is therefore a finite $\BHist$ route with componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ transport. It exposes no host product equality and no tuple primitive outside the displayed finite-data siblings.
+\end{theorem}
+\begin{proof}
+Start with the endpoint tags. The BoolUp sibling supplies the finite left/right and endpoint-discriminator rows used to distinguish the component positions of a product read.
+
+Next wrap absence and presence through OptionUp and SumUp. Optional envelopes record whether a component slot is present, while sum injections route the displayed component into the finite coproduct surface before any list spine is consumed.
+
+Then read the ListUp spine. The list rows provide the finite order, readback, and replay discipline for the component family, so the product packet is inspected as named finite data rather than as a host tuple.
+
+Finally transport the route through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. These rows preserve the displayed sibling data without adding host product equality or an external tuple primitive.
+\end{proof}

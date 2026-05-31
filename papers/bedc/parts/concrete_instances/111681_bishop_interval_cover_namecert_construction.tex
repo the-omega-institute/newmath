@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\BishopIntervalCoverUp$}
+\label{ch:concrete-instances-bishop-interval-cover-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopIntervalCoverUp$ packet records finite interval-cover data for a displayed closed bounded interval. It sits after the closed bounded interval source of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the dyadic cover rows of \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}, the dyadic endpoint arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the located cover boundary of \autoref{ch:concrete-instances-located-interval-cover-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records a finite cover ledger and its readback route; it is not open-cover compactness, a choice-selected subcover, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[BishopIntervalCover carrier]
+\label{def:bishop-interval-cover-carrier}
+A $\BishopIntervalCoverUp$ carrier is a finite $\BHist$ packet
+$$
+B=(E,D,F,L,W,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the endpoint row. It records the lower and upper $\RealUp$ endpoint names, the endpoint-order ledger, and the closed bounded interval source read through $\ClosedBoundedIntervalUp$.
+\item $D$ is the dyadic interval-cell row. It records the finite dyadic cells, their lower and upper dyadic endpoints, mesh scale, radius ledger, and containment tests read through $\DyadicIntervalCoverUp$ and $\DyadicRatCoreUp$.
+\item $F$ is the finite cover ledger. It records the list of accepted covering cells, the source-interval slots they cover, and the displayed finite subcover boundary for the requested interval window.
+\item $L$ is the located containment row. It records the located membership and endpoint-containment witnesses connecting $E,D,F$ to the located cover surface of $\LocatedIntervalCoverUp$.
+\item $W$ is the $\StreamNameUp$ window row. It schedules the finite endpoint, cell, containment, and cover-ledger observations used by the packet.
+\item $Q$ is the $\RegSeqRatUp$ readback row. It translates the displayed StreamName windows and dyadic cells into regular rational observations at the requested mesh and tolerance.
+\item $R$ is the terminal $\RealUp$ seal row. It is reachable only after $E,D,F,L,W,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for endpoint rows, dyadic cells, finite cover ledgers, located containment, stream windows, regular readback, the Real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from any finite cover request through the same $E,D,F,L,W,Q,R,H,P,N$ rows.
+\item $P$ is the $\Pkg$ provenance over $\BishopIntervalCoverUp$, $\ClosedBoundedIntervalUp$, $\DyadicIntervalCoverUp$, $\DyadicRatCoreUp$, $\LocatedIntervalCoverUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopIntervalCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,D,F,L,W,Q,R,H,C,P,N$. It has no coordinate for arbitrary open covers, choice-selected subcovers, quotient endpoint equality, countable choice, selected host covers, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.BishopIntervalCoverUp.BishopIntervalCoverTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[BishopIntervalCover NameCert obligations]
+\label{thm:bishop-interval-cover-namecert-obligations}
+For every accepted $\BishopIntervalCoverUp$ carrier
+$$
+B=(E,D,F,L,W,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\BishopIntervalCoverUp}$ surface consists exactly of carrier admission for endpoint rows, dyadic interval cells, finite cover ledgers, located containment witnesses, StreamName windows, $\RegSeqRatUp$ readback, the terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every interval-cover consumer must expose the finite cover ledger $F$ and the located containment row $L$ before it can read the regular rational row $Q$ or the Real seal $R$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-interval-cover-carrier}. The source interval is the endpoint row $E$, the cover data are the dyadic cell row $D$ and finite cover ledger $F$, and the local containment evidence is the row $L$.
+
+The readback rows are downstream of this finite cover surface. The StreamName row $W$ schedules only finite endpoint, cell, containment, and ledger observations, while $Q$ repacks those displayed observations as regular rational data.
+
+The terminal seal $R$ is therefore not an independent compactness object. The structural rows $H,C,P,N$ transport, replay, package, and name the same finite packet, and the carrier contains no open-cover compactness, selected subcover, quotient equality, choice, selected host-cover, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[BishopIntervalCover dyadic subcover readback]
+\label{thm:bishop-interval-cover-dyadic-subcover-readback}
+Every finite subcover read of an accepted $\BishopIntervalCoverUp$ packet factors through the displayed route
+$$
+\ClosedBoundedIntervalUp \longmapsto \DyadicIntervalCoverUp,\DyadicRatCoreUp \longmapsto \LocatedIntervalCoverUp \longmapsto \StreamNameUp,\RegSeqRatUp .
+$$
+Thus the exported subcover is a finite dyadic-and-located ledger with regular rational readback, not an open-cover compactness theorem or a choice-selected subcover functional.
+\end{theorem}
+\begin{proof}
+Start with $B=(E,D,F,L,W,Q,R,H,C,P,N)$. The source interval must be read from $E$, so every subcover request begins at the displayed $\ClosedBoundedIntervalUp$ boundary.
+
+The dyadic part of the route is $D$ together with the finite ledger $F$. These rows expose the mesh, dyadic endpoints, radius ledger, finite membership tests, and retained covering cells through the dyadic siblings.
+
+The located part of the route is $L$. It witnesses that the retained cells are read against the displayed endpoint and containment data, so the regular rational readback $Q$ is attached to finite located containment rather than to a host open cover.
+
+Finally $W,Q,H,C,P,N$ provide the finite window schedule, regular readback, transport, replay, provenance, and naming. Since no coordinate stores a selector for arbitrary covers, the subcover readback is exactly the finite route displayed above.
+\end{proof}
+
+\begin{theorem}[BishopIntervalCover Real seal nonescape]
+\label{thm:bishop-interval-cover-real-seal-nonescape}
+For every accepted $\BishopIntervalCoverUp$ carrier $B=(E,D,F,L,W,Q,R,H,C,P,N)$, any consumer that reaches the terminal $\RealUp$ seal $R$ has already exposed the endpoint row $E$, dyadic cell row $D$, finite cover ledger $F$, located containment row $L$, StreamName window row $W$, and $\RegSeqRatUp$ readback row $Q$. Consequently the Real-facing export contains no ambient completeness principle, quotient equality of real names, selected host endpoints, open-cover compactness, or countable-choice datum.
+\end{theorem}
+\begin{proof}
+The carrier definition places $R$ after the finite interval-cover rows $E,D,F,L,W,Q$. There is no second Real seal coordinate and no bypass from a cover request directly to $R$.
+
+The read of $R$ is therefore mediated first by the interval source and dyadic cover rows, then by the located containment row, and then by the finite StreamName and regular rational readback rows. Componentwise transport and replay preserve this order through $H$ and $C$.
+
+The provenance and local naming rows $P,N$ name the same packet. Because the listed exclusions are not carrier coordinates, they cannot escape through the terminal Real-facing seal.
+\end{proof}
+
+\falsifiablePrediction{Every $\BishopIntervalCoverUp$ Real-facing read passes through $\ClosedBoundedIntervalUp$, $\DyadicIntervalCoverUp$, $\DyadicRatCoreUp$, $\LocatedIntervalCoverUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any finite cover output is visible.}
+
+\independenceWitness{closedboundedinterval, dyadicintervalcover, dyadicratcore, located-interval-cover, streamname, regseqrat, real: $\BishopIntervalCoverUp$ is not bijective to any listed sibling because it jointly carries endpoint rows, dyadic interval cells, a finite cover ledger, located containment witnesses, finite windows, regular rational readback, a Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{BishopIntervalCoverUp}{seedStr}
+
+\begin{closurestatus}{\BishopIntervalCoverUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-interval-cover-carrier}, \autoref{thm:bishop-interval-cover-namecert-obligations}, \autoref{thm:bishop-interval-cover-dyadic-subcover-readback}, and \autoref{thm:bishop-interval-cover-real-seal-nonescape} seed the finite Bishop interval-cover route from closed bounded endpoint rows through dyadic cells, finite cover ledgers, located containment, finite windows, regular readback, terminal Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.BishopIntervalCoverUp.BishopIntervalCoverTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, choice-selected subcovers, quotient real equality, selected host covers, countable choice, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-row exactness, dyadic-cell exactness, finite-cover ledger exposure, located-containment exactness, StreamName and RegSeqRat readback ordering, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopIntervalCoverUp.}
+  \constructivestory{A $\BishopIntervalCoverUp$ packet is generated from ClosedBoundedIntervalUp endpoint rows, dyadic interval cells, a finite cover ledger, located containment witnesses, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

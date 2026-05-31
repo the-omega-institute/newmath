@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\AntipodalTriggerLedgerUp$}
+\label{ch:concrete-instances-antipodal-trigger-ledger-namecert}
+\origin{ai}
+
+The $\AntipodalTriggerLedgerUp$ packet realizes the antipodal AGY trigger of \autoref{thm:philosophy-antipodal-single-trigger} as finite NameCert data. It records the median-closure source, the $R$-halfspace with its $\mathrm{CUY}$ anchor, the $\mathrm{AGY}$ antipode row, the trigger ledger, transport, replay, provenance, and local naming surface. The packet is adjacent to the six-boundary and trigger-algebra family of \autoref{ch:concrete-instances-six-boundary-tile-coverage-namecert}, \autoref{ch:concrete-instances-window-coverage-trigger-algebra-namecert}, \autoref{ch:concrete-instances-anchor-subcube-trigger-namecert}, and \autoref{ch:concrete-instances-radial-wobble-spectrum-namecert}, but it is not bijective to any of them because it binds the one-pass antipodal median trigger as its own carrier row.
+
+\begin{definition}[Antipodal trigger ledger carrier]
+\label{def:antipodal-trigger-ledger-carrier}
+An $\AntipodalTriggerLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,Y,G,T,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source row for $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, including the saturated $R$ halfspace and the $\mathrm{CUY}$ anchor row.
+\item $Y$ is the third-position $Y$ halfspace shell ledger, displaying the shell decomposition $H_{0},H_{1},H_{2},H_{3},H_{4}$.
+\item $G$ is the antipodal $\mathrm{AGY}$ row, displaying either $\mathrm{AGU}$ or $\mathrm{AGC}$ as the single trigger.
+\item $T$ is the trigger ledger that pairs the $\mathrm{CUY}$ anchor, the $\mathrm{AGY}$ antipode, and the already present $R$-halfspace witness $t_{b}$ for each target $Y$-side codon $b$.
+\item $M$ is the median-closure replay row, recording that the coordinatewise median of those three displayed witnesses reaches $b$ and hence fills the whole codon cube in one pass.
+\item $H$ records componentwise $\hsame$ transport for the source, shell, antipode, trigger, median-closure, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from source presentation through the antipode trigger ledger into the median-closure row.
+\item $P$ is the $\Pkg$ provenance over $\AntipodalTriggerLedgerUp$, $\DnaBoundaryTriggerClosureUp$, $\SixBoundaryTileCoverageUp$, $\WindowCoverageTriggerAlgebraUp$, $\AnchorSubcubeTriggerUp$, $\RadialWobbleSpectrumUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AntipodalTriggerLedgerUp}$ row.
+\end{enumerate}
+The classifier admits only packets carrying these finite rows and future implementations must provide the corresponding $\Nontrivial$ and $\FieldFaithful$ instances before a Lean-side field interpretation can be claimed.
+\end{definition}
+
+\falsifiablePrediction{Removing the displayed $\mathrm{AGY}$ antipode row prevents an accepted $\AntipodalTriggerLedgerUp$ packet from claiming one-pass full-cube median closure.}
+
+\independenceWitness{\texttt{six\_boundary\_tile\_coverage}, \texttt{window\_coverage\_trigger\_algebra}, \texttt{anchor\_subcube\_trigger}, and \texttt{radial\_wobble\_spectrum}: none is bijective to $\AntipodalTriggerLedgerUp$ because the packet jointly stores the $M^{\star}$ source, the $\mathrm{CUY}$ anchor, the $\mathrm{AGY}$ antipode, the one-pass target witness ledger, median replay, transport, continuation, provenance, and local naming rows.}
+
+\begin{theorem}[Antipodal trigger ledger NameCert obligations]
+\label{thm:antipodal-trigger-ledger-namecert-obligations}
+For every accepted $\AntipodalTriggerLedgerUp$ carrier $A=(S,Y,G,T,M,H,C,P,N)$, the local $\NameCert_{\AntipodalTriggerLedgerUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item source admission for $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$ and its median-closed halfspace anchor;
+\item shell admission for the displayed $Y$-halfspace ledger and its antipodal $H_{4}=\mathrm{AGY}$ row;
+\item trigger exactness, requiring the same $\mathrm{CUY}$ anchor, $\mathrm{AGY}$ antipode, and $R$-halfspace witness row to feed the median calculation;
+\item one-pass median replay, requiring the row $M$ to expose every $Y$-side target before the full-cube claim is exported;
+\item transport, replay, provenance, and naming stability through $H,C,P,N$;
+\item field-read discipline, requiring future $\Nontrivial$ and $\FieldFaithful$ instances before any field-facing interpretation of the trigger ledger is exposed.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:antipodal-trigger-ledger-carrier}. The source row $S$ supplies the $R$ halfspace and the $\mathrm{CUY}$ anchor, while $Y$ supplies the finite shell ledger.
+
+The trigger row $G$ is indispensable. Without a displayed $\mathrm{AGY}$ antipode, the packet contains no finite row pairing the anchor with the antipodal point required by \autoref{thm:philosophy-antipodal-single-trigger}.
+
+The ledger $T$ then names the witness triple for each target $Y$-side codon $b$: the $\mathrm{CUY}$ anchor, the $\mathrm{AGY}$ antipode, and the already present $R$-halfspace point $t_{b}$. The replay row $M$ records the coordinatewise median calculation and exposes the one-pass full-cube result.
+
+Finally $H,C,P,N$ preserve this route under transport, continuation, provenance, and local naming. The field-read clause is only a discipline on later interpretation: until $\Nontrivial$ and $\FieldFaithful$ instances are displayed, the packet exports a finite median-trigger ledger rather than a field theorem.
+\end{proof}
+
+\begin{theorem}[Antipodal trigger ledger median nonescape]
+\label{thm:antipodal-trigger-ledger-median-nonescape}
+Every accepted $\AntipodalTriggerLedgerUp$ full-cube read factors through the finite route
+$$
+M^{\star}
+\longmapsto
+\mathrm{CUY}\text{ anchor}
+\longmapsto
+\mathrm{AGY}\text{ antipode}
+\longmapsto
+\text{target witness ledger}
+\longmapsto
+\text{one-pass median replay}.
+$$
+Thus the one-pass median-closure claim is available only when $S,Y,G,T,M,H,C,P,N$ are all displayed. A packet missing the $\mathrm{AGY}$ row, the target witness ledger, or the median replay row cannot export full-cube closure.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier. The public full-cube read must first expose $S$, so the median source is exactly $M^{\star}$ with the $\mathrm{CUY}$ anchor and the already present $R$ halfspace.
+
+Next the read consumes $Y$ and $G$. These rows place the $\mathrm{AGY}$ point in the antipodal shell $H_{4}$ and identify it as the single trigger rather than as an undifferentiated radial-shell element.
+
+Now apply the trigger ledger $T$ and median replay $M$. For each target $Y$-side codon, the route supplies the anchor, antipode, and matching $R$-halfspace witness, so the coordinatewise median calculation remains inside displayed finite data.
+
+The structural rows $H,C,P,N$ do not add another closure principle; they preserve the same finite route. Hence a consumer that omits the antipode, witness ledger, or median replay row cannot claim one-pass full-cube median closure from this packet.
+\end{proof}
+
+\begin{closurestatus}{\AntipodalTriggerLedgerUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:antipodal-trigger-ledger-carrier}, \autoref{thm:antipodal-trigger-ledger-namecert-obligations}, and \autoref{thm:antipodal-trigger-ledger-median-nonescape} seed the finite median-trigger ledger from the $M^{\star}$ source through the $\mathrm{AGY}$ antipode into one-pass full-cube median replay.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, field-facing interpretation without $\Nontrivial$ and $\FieldFaithful$ instances, radial optimality, spectral optimality, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked source admission, shell admission, antipode exactness, target-witness ledger replay, median nonescape, field-read discipline, and provenance exhaustion for BEDC.Derived.AntipodalTriggerLedgerUp.}
+  \constructivestory{An $\AntipodalTriggerLedgerUp$ packet is generated from the $M^{\star}$ source row, $Y$-halfspace shell ledger, $\mathrm{AGY}$ antipode row, target witness ledger, one-pass median replay, transport, continuation, provenance, and local NameCert rows.}
+\end{closurestatus}

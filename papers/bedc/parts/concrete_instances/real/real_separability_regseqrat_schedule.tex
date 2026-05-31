@@ -1,0 +1,22 @@
+\begin{definition}[Real separability RegSeqRat schedule]
+\label{def:real-separability-regseqrat-schedule}
+The $\RealSeparabilityUp$ RegSeqRat schedule is the finite route row that presents a dense-read request through the displayed $\StreamNameUp$ window, the $\RegSeqRatUp$ rational readback, the $\DyadicRatCoreUp$ tolerance ledger, and the terminal $\RealUp$ seal in that order. A schedule instance is a $\BHist$ surface
+$$
+\Sigma=(S,R,D,E,H,C,P,N)
+$$
+where $S$ opens the finite stream window, $R$ records the regular rational candidate read on that window, $D$ fixes the dyadic tolerance used by the density request, $E$ is the $\RealUp$ seal reached only after those rows have been displayed, and $H,C,P,N$ provide componentwise transport, replay, provenance, and local naming. The schedule has no coordinate for a host dense subset, selected nearest point, quotient real equality, countable choice, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Real separability RegSeqRat schedule handoff]
+\label{thm:real-separability-regseqrat-schedule-handoff}
+Every dense-read consumer of an accepted $\RealSeparabilityUp$ packet factors through the schedule of \autoref{def:real-separability-regseqrat-schedule}. In particular, the consumer first opens the finite $\StreamNameUp$ window of \autoref{ch:concrete-instances-streamname-namecert}, then reads the regular rational row of \autoref{ch:concrete-instances-regseqrat-namecert}, then fixes the dyadic tolerance row of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and only then reaches the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. No dense-read handoff exports a host dense subset, selected nearest point, quotient real equality, countable-choice schedule, or ambient Real completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted $\RealSeparabilityUp$ density route. The local carrier already exposes density through finite observation rows, so the consumer cannot reach the Real-facing seal before the stream window, regular rational readback, and dyadic tolerance data are displayed.
+
+The $\StreamNameUp$ row supplies the finite window $S$. The $\RegSeqRatUp$ row $R$ then reads the rational candidate on that window, and the $\DyadicRatCoreUp$ row $D$ binds the tolerance used by the density request.
+
+Only after those rows are fixed does the consumer reach the $\RealUp$ seal $E$. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite schedule.
+
+Because the schedule contains no host dense subset, selected nearest point, quotient real equality, countable-choice schedule, or ambient completeness coordinate, every dense-read consumer factors through the displayed RegSeqRat schedule before separability is exported.
+\end{proof}

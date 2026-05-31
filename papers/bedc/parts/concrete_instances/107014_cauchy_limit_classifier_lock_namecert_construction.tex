@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchyLimitClassifierLockUp$}
+\label{ch:concrete-instances-cauchy-limit-classifier-lock-namecert}
+\origin{human}
+
+Following Bishop and Bridges' regular Cauchy completion, the $\CauchyLimitClassifierLockUp$ packet records the finite classifier lock by which a diagonal limit candidate and its uniqueness witness are read through one completion-seal route. It sits after the Cauchy limit seal of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, the completion-seal classifier of \autoref{ch:concrete-instances-real-completion-seal-classifier-namecert}, the finite limit-seal envelope of \autoref{ch:concrete-instances-finite-limit-seal-envelope-namecert}, the regular Cauchy comparison surface of \autoref{ch:concrete-instances-regular-cauchy-comparison-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the uniqueness classifier for the diagonal regular Cauchy limit, not an arbitrary choice of representatives or an ambient Real completeness principle.
+
+\begin{definition}[CauchyLimitClassifierLock carrier]
+\label{def:cauchy-limit-classifier-lock-carrier}
+A $\CauchyLimitClassifierLockUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,\mu,L,U,S,W,Q,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the regular Cauchy input row over $\RegSeqRatUp$.
+\item $\mu$ is the finite modulus-budget row used to select diagonal and comparison windows.
+\item $L$ is the diagonal limit-candidate row.
+\item $U$ is the uniqueness classifier row comparing any second candidate with $L$ through the displayed RealUp classifier.
+\item $S$ is the $\CauchyLimitSealUp$ row carrying the common seal interface for $L$ and $U$.
+\item $W$ is the $\StreamNameUp$ window family opened for the input, diagonal candidate, and comparison candidate.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the selected windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger controlling the diagonal and uniqueness comparisons.
+\item $E$ is the $\RealUp$ seal row reached only after $S,W,Q,D$ are displayed.
+\item $H$ records componentwise $\hsame$ transport for the input, modulus, diagonal candidate, uniqueness classifier, seal, windows, readback, tolerance, and real seal.
+\item $C$ records displayed $\Cont$ replay from regular Cauchy data through the diagonal candidate and classifier lock to the terminal $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyLimitClassifierLockUp$, $\CauchyLimitSealUp$, $\RealCompletionSealClassifierUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyLimitClassifierLockUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,\mu,L,U,S,W,Q,D,E,H,C,P,N$. It has no coordinate for selected quotient representatives, host real equality, countable choice, arbitrary Cauchy completeness, or a second seal route outside $S$.
+\end{definition}
+
+\begin{theorem}[CauchyLimitClassifierLock NameCert obligations]
+\label{thm:cauchy-limit-classifier-lock-namecert-obligations}
+For every accepted $\CauchyLimitClassifierLockUp$ carrier $K=(X,\mu,L,U,S,W,Q,D,E,H,C,P,N)$, the local $\NameCert_{\CauchyLimitClassifierLockUp}$ surface consists exactly of regular Cauchy input exposure, modulus-budget exposure, diagonal candidate exposure, uniqueness-classifier exposure, $\CauchyLimitSealUp$ handoff, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance accounting, $\RealUp$ seal routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+The uniqueness row $U$ is accepted only when it is replayed through the same $S,W,Q,D,E$ route as the diagonal candidate $L$. A consumer that compares candidates through a distinct host equality, quotient representative, or hidden completion seal leaves the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-limit-classifier-lock-carrier}. The rows $X,\mu,L,U$ expose the regular input, modulus budget, diagonal candidate, and uniqueness classifier.
+
+The seal row $S$ is shared by the candidate and the uniqueness comparison. The finite windows $W$, regular readback $Q$, and dyadic tolerance ledger $D$ are the only rows through which the comparison may reach the terminal real seal $E$.
+
+Finally $H,C,P,N$ preserve and replay this same route. Since no host equality, quotient representative, countable choice, arbitrary completeness row, or second seal route is a carrier coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyLimitClassifierLock uniqueness route]
+\label{thm:cauchy-limit-classifier-lock-uniqueness-route}
+Every uniqueness read exported by an accepted $\CauchyLimitClassifierLockUp$ packet factors through the common completion-seal route
+$$
+X,\mu,L,U \longmapsto S \longmapsto W,Q,D \longmapsto E,H,C,P,N .
+$$
+Thus the diagonal limit candidate and the RealUp uniqueness classifier are locked to the same finite CauchyLimitSeal, RegSeqRat, StreamName, DyadicRatCore, and RealUp NameCert packet.
+\end{theorem}
+\begin{proof}
+Start from an accepted uniqueness read. The carrier exposes only one diagonal candidate row $L$ and one uniqueness classifier row $U$, both attached to the same regular input $X$ and modulus budget $\mu$.
+
+The common seal row $S$ is then read before any window, readback, tolerance, or real-seal row is exported. Consequently $W,Q,D,E$ inspect the same completion-seal route for the candidate and for the uniqueness comparison.
+
+Transport, replay, provenance, and local naming are supplied by $H,C,P,N$ over this single route. A second classifier route would require an additional carrier coordinate, which \autoref{def:cauchy-limit-classifier-lock-carrier} excludes.
+\end{proof}
+
+\falsifiablePrediction{Every accepted Cauchy limit uniqueness read uses the same CauchyLimitSeal route as the displayed diagonal candidate before reaching RealUp.}
+
+\independenceWitness{cauchy-limit-seal, real-completion-seal-classifier, finite-limit-seal-envelope, regular-cauchy-comparison, streamname, regseqrat, dyadicratcore, real: $\CauchyLimitClassifierLockUp$ is not bijective to any listed sibling because it jointly carries a regular Cauchy input, modulus budget, diagonal candidate, uniqueness classifier, common seal, finite windows, regular readback, dyadic tolerance ledger, RealUp seal, transport, replay, provenance, and local naming.}
+
+\begin{closurestatus}{\CauchyLimitClassifierLockUp}
+  \constructivestory{A $\CauchyLimitClassifierLockUp$ packet is generated from a regular Cauchy input, modulus budget, diagonal limit candidate, uniqueness classifier, CauchyLimitSeal handoff, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance accounting, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-limit-classifier-lock-carrier}, \autoref{thm:cauchy-limit-classifier-lock-namecert-obligations}, and \autoref{thm:cauchy-limit-classifier-lock-uniqueness-route} seed the finite classifier-lock route for the Real completeness limit theorem.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary RealUp completeness, host equality of completed reals, selected quotient representatives, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal candidate exposure, uniqueness classifier exactness, common CauchyLimitSeal routing, finite-window readback, dyadic tolerance accounting, RealUp seal routing, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}

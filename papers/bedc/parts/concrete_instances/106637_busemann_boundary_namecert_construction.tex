@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\BusemannBoundaryUp$}
+\label{ch:concrete-instances-busemann-boundary-namecert}
+\origin{human}
+
+Following Busemann and Bridson--Haefliger, the $\BusemannBoundaryUp$ packet records boundary reads by finite distance-difference rows rather than by a completed host ideal-boundary quotient. It sits after the metric-read surface of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the geodesic far-end carrier of \autoref{ch:concrete-instances-hyperbolic-geodesic-boundary-namecert}, the boundary-fixed transport route of \autoref{ch:concrete-instances-poincare-boundary-fixed-transport-namecert}, and the disk-coordinate surface of \autoref{ch:concrete-instances-unitdisk-namecert}.
+
+\begin{definition}[Busemann boundary carrier]
+\label{def:busemann-boundary-carrier}
+A $\BusemannBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,o,R,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\HyperbolicMetricUp$ source row, exposing the metric carrier from which all distance-difference reads are taken.
+\item $o$ is the basepoint row, recording the named origin point and its admission through the same metric source.
+\item $R$ is the geodesic-ray window row, displaying the finite ray segments and endpoint probes supplied by $\HyperbolicGeodesicBoundaryUp$.
+\item $D$ is the dyadic distance-difference ledger for the inspected values $d(x,\gamma(t))-d(o,\gamma(t))$ over the displayed windows.
+\item $L$ is the boundary-read row, classifying the finite Busemann read against the visible ideal-boundary data of $\HyperbolicGeodesicBoundaryUp$, $\PoincareBoundaryFixedTransportUp$, and $\UnitDiskUp$.
+\item $H$ records componentwise $\hsame$ transport for the metric source, basepoint, ray windows, dyadic ledger, boundary-read row, replay, provenance, and local naming data.
+\item $C$ records displayed $\Cont$ replay from a boundary request through $X,o,R,D,L$.
+\item $P$ is the $\Pkg$ provenance over $\BusemannBoundaryUp$, $\HyperbolicMetricUp$, $\HyperbolicGeodesicBoundaryUp$, $\PoincareBoundaryFixedTransportUp$, $\UnitDiskUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BusemannBoundaryUp}$ row.
+\end{enumerate}
+The classifier has no coordinate for an arbitrary compactification, a host quotient of ideal points, a globally chosen geodesic representative, classical sequential compactness at infinity, or an ambient visual boundary not displayed by the packet.
+\end{definition}
+
+\begin{theorem}[Busemann boundary NameCert obligations]
+\label{thm:busemann-boundary-namecert-obligations}
+For every accepted $\BusemannBoundaryUp$ carrier $B=(X,o,R,D,L,H,C,P,N)$, the local $\NameCert_{\BusemannBoundaryUp}$ surface consists exactly of finite $\BHist$ rows for carrier admission, ray-window exactness, metric-read stability, boundary classifier laws, and nonescape from the host ideal-boundary quotients. Every boundary consumer must read $X,o,R,D,L$ before transport, replay, provenance, and local naming are available, and any disagreement between accepted Busemann reads must occur in one of those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:busemann-boundary-carrier}. The packet exposes a hyperbolic metric source, a basepoint, geodesic-ray windows, a dyadic distance-difference ledger, and a boundary-read row before any structural replay is present.
+
+Carrier admission is therefore row-local. Ray-window exactness is read from $R$, metric-read stability from the shared $X,o$ source, and boundary classifier laws from $L$ against the displayed geodesic, transport, and disk rows.
+
+The structural rows $H,C,P,N$ then preserve, replay, source, and name the same finite surface. Since the carrier contains no coordinate for a completed host quotient or an unrecorded compactification, the read cannot escape the displayed ideal-boundary data.
+\end{proof}
+
+\begin{theorem}[Busemann boundary nonescape]
+\label{thm:busemann-boundary-nonescape-boundary}
+Every accepted boundary read exported by a $\BusemannBoundaryUp$ carrier factors through
+$$
+\HyperbolicMetricUp,\qquad
+\HyperbolicGeodesicBoundaryUp,\qquad
+\PoincareBoundaryFixedTransportUp,\qquad
+\UnitDiskUp
+$$
+and then through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the same packet. The exported read is therefore a finite distance-difference boundary certificate; it is not a host compactification point, a quotient class of rays, or an ambient visual-boundary object.
+\end{theorem}
+\begin{proof}
+Begin with an accepted boundary read. By \autoref{thm:busemann-boundary-namecert-obligations}, the read first enters the $\HyperbolicMetricUp$ row $X$ and the basepoint row $o$, so each distance-difference entry is tied to the same displayed metric source.
+
+The ray-window and boundary rows then force the read through $\HyperbolicGeodesicBoundaryUp$, $\PoincareBoundaryFixedTransportUp$, and $\UnitDiskUp$. The ledger $D$ records only the finite dyadic distance-difference values attached to those windows, and $L$ classifies only against the displayed boundary data.
+
+Finally $H,C,P,N$ transport, replay, source, and name this same route. No additional coordinate remains for a host ideal-boundary quotient, a global ray representative, or an ambient compactification, so every exported Busemann boundary read stays inside the named packet.
+\end{proof}
+
+\closureat{BusemannBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\BusemannBoundaryUp}
+  \constructivestory{A $\BusemannBoundaryUp$ packet is generated from a HyperbolicMetric source row, a basepoint row, geodesic-ray windows, a dyadic distance-difference ledger, a boundary-read row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:busemann-boundary-carrier}, \autoref{thm:busemann-boundary-namecert-obligations}, and \autoref{thm:busemann-boundary-nonescape-boundary} seed the Busemann boundary carrier over finite metric, basepoint, ray-window, distance-difference, and boundary-read rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary compactifications, host ideal-boundary quotients, global geodesic representatives, classical compactness at infinity, ambient visual boundaries, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ray-window exactness, metric-read stability, boundary classifier laws, nonescape from host ideal-boundary quotients, transport, replay, provenance, and local naming for the same displayed packet.}
+\end{closurestatus}

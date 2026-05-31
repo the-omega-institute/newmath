@@ -114,6 +114,24 @@ In the doubled case, $F$ stores the enlarged threshold before $S$ is opened. The
 The NameCert obligations of \autoref{thm:fast-cauchy-modulus-namecert-obligations} state that finite-window exactness and dyadic slack exactness are stored in those same displayed rows. No further window or tolerance coordinate is available.
 \end{proof}
 
+\begin{theorem}[Fast Cauchy modulus threshold minimality]
+\label{thm:fast-cauchy-modulus-threshold-minimality}
+Let
+$$
+M_{\mathrm{fast}}=(M,F,S,D,Q,E,H,C,P,N)
+$$
+be an accepted $\FastCauchyModulusUp$ carrier. The selected threshold row in $F$ is exhausted by the direct fast threshold or the doubled-window threshold for the same precision query $Q$, and every downstream $\StreamNameUp$ or $\DyadicRatCoreUp$ read must use that selected row before a $\RegSeqRatUp$ or $\RealUp$ handoff is consumed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:fast-cauchy-modulus-carrier}. The only threshold-bearing rows are the source modulus row $M$, the fast discipline row $F$, and the precision query row $Q$.
+
+Apply \autoref{thm:fast-cauchy-modulus-threshold-dichotomy}. For the displayed query, $F$ exposes either the direct fast threshold or the doubled-window threshold from the same source modulus row.
+
+Apply \autoref{thm:fast-cauchy-modulus-window-exactness}. The finite window $S$ and dyadic ledger $D$ are determined by that selected threshold, and no additional window or tolerance coordinate is present.
+
+Thus every downstream StreamName or DyadicRatCore read uses the selected row in $F$ before the regular rational or Real handoff row $E$ is consumed. The carrier has no third selector from which a competing threshold could be read.
+\end{proof}
+
 \begin{theorem}[Fast Cauchy modulus handoff nonescape]
 \label{thm:fast-cauchy-modulus-handoff-nonescape}
 Let

@@ -1,0 +1,475 @@
+\section{BEDC Decomposition of Machine-Learning Black Boxes}
+\label{sec:visions-philosophy-black-box-decomposition}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-black-box-missing-certificate}
+identifies black-box behavior as supported structure without certificate
+closure. \autoref{sec:visions-philosophy-black-box-ledger-theory}
+isolates the ledger part of that debt,
+\autoref{sec:visions-philosophy-neural-theorem-dna} gives the
+role-complete neural packet, and
+\autoref{sec:visions-philosophy-formal-verification-certified-interpretability}
+separates certificate closure from formal hardening. The present section
+puts those readings into one decomposition theorem: a machine-learning
+black box is not a primitive opacity, but a certificate deficit for a
+classifier candidate supporting a displayed behavior.
+
+\begin{definition}[Behavioral black-box object]
+\label{def:philosophy-behavioral-black-box-object}
+A behavioral black-box object is a tuple
+$$
+\mathbb B=(B,D_B,E_B),
+$$
+where $B$ is a displayed model behavior, $D_B$ is the behavior scope,
+and $E_B$ is the evidence packet, consisting of samples, outputs,
+statistics, traces, failure cases, or an observation protocol. It is
+eligible for decomposition when $B$ has observed stability but lacks a
+closed explanation.
+\end{definition}
+
+\begin{definition}[Support candidates]
+\label{def:philosophy-support-candidates}
+For a behavior $B$, the support-candidate family is
+$$
+\operatorname{SuppCand}(B)
+=
+\{C\mid C\Vdash B\},
+$$
+where $C\Vdash B$ means that classifier candidate $C$ supports $B$ by
+prediction, correlation, intervention, formal constraint, or hybrid
+evidence.
+\end{definition}
+
+\begin{definition}[Decomposition target]
+\label{def:philosophy-decomposition-target}
+A BEDC decomposition target is a pair $(B,C)$ with
+$C\in\operatorname{SuppCand}(B)$. The target asks which certificate rows
+and ledger rows are already present for the claim that $C$ supports
+$B$, and which rows remain absent or incomplete.
+\end{definition}
+
+\begin{definition}[Certificate fields]
+\label{def:philosophy-certificate-fields}
+For a classifier candidate $C$, its certificate-field family is
+$$
+\operatorname{Field}(C)
+=
+\{S_C,P_C,C_C,\Sigma_C,L_C\},
+$$
+where $S_C$ is the source row, $P_C$ the pattern row, $C_C$ the
+classifier row, $\Sigma_C$ the stability row, and $L_C$ the ledger-policy
+row.
+\end{definition}
+
+\begin{definition}[Present and missing fields]
+\label{def:philosophy-present-missing-fields}
+For a target $(B,C)$, $\operatorname{Present}(B,C)$ is the subfamily of
+certificate fields that are declared, anchored, scoped, and supplied with
+the required ledger evidence. Its missing-field family is
+$$
+\operatorname{Missing}(B,C)
+=
+\operatorname{Field}(C)\setminus\operatorname{Present}(B,C).
+$$
+\end{definition}
+
+\begin{definition}[BEDC black-box decomposition]
+\label{def:philosophy-bedc-black-box-decomposition}
+The BEDC decomposition of $B$ relative to $C$ is
+$$
+\operatorname{Decomp}_{\mathrm{BEDC}}(B,C)
+=
+(\operatorname{Present}(B,C),
+\operatorname{Missing}(B,C),
+\Lambda_{B,C},
+\operatorname{Debt}_{B,C}),
+$$
+where $\Lambda_{B,C}$ is the ledger currently attached to the target and
+$\operatorname{Debt}_{B,C}$ is the cost of unrecorded or incomplete
+critical residue.
+\end{definition}
+
+\subsection{Decomposition States}
+\label{subsec:philosophy-black-box-decomposition-states}
+
+\begin{definition}[Decomposition states]
+\label{def:philosophy-decomposition-states}
+A behavior is unexplained when
+$\operatorname{SuppCand}(B)=\emptyset$. It is in candidate state
+relative to $C$ when $C\Vdash B$ but the certificate rows are absent or
+only fragmentary. It is in partial-certificate state when
+$\operatorname{Present}(B,C)\neq\emptyset$ and
+$\operatorname{Missing}(B,C)\neq\emptyset$. It is NameCert-complete when
+$\operatorname{Missing}(B,C)=\emptyset$, ledger-complete when the
+critical ledger gap is empty, and closed-explanation state when
+NameCert-completeness, ledger-completeness, scope seal, and not-claimed
+boundary are all present.
+\end{definition}
+
+\begin{theorem}[Unexplained and black-box states are distinct]
+\label{thm:philosophy-unexplained-black-box-states-distinct}
+If $\operatorname{SuppCand}(B)=\emptyset$, then $B$ is not a
+certificate-deficit black box.
+\end{theorem}
+\begin{proof}
+A certificate-deficit black box requires a supporting classifier
+candidate whose certificate rows are absent or incomplete. When
+$\operatorname{SuppCand}(B)$ is empty, no such candidate has been
+displayed. The failure is therefore at the support-candidate level, not
+at the certificate-completion level.
+\end{proof}
+
+\begin{theorem}[Partial certificate states retain black-box residue]
+\label{thm:philosophy-partial-certificate-retains-black-box-residue}
+If $(B,C)$ is in partial-certificate state, then the explanation of $B$
+relative to $C$ retains black-box residue.
+\end{theorem}
+\begin{proof}
+Partial-certificate state means that at least one certificate field is
+missing. A closed explanation requires source, pattern, classifier,
+stability, and ledger-policy rows for the declared scope. The absent row
+therefore remains a certificate deficit.
+\end{proof}
+
+\begin{theorem}[Ledger deficit blocks decomposition closure]
+\label{thm:philosophy-ledger-deficit-blocks-decomposition-closure}
+If the ledger-policy row is absent or the critical ledger gap is
+nonempty, then $(B,C)$ is not in closed-explanation state.
+\end{theorem}
+\begin{proof}
+Closed-explanation state includes ledger-completeness. By
+\autoref{thm:philosophy-ledger-completeness-gap-free}, ledger
+completeness is absence of required residue gap. An absent ledger-policy
+row or nonempty critical ledger gap violates that condition.
+\end{proof}
+
+\begin{theorem}[Closed explanation removes scoped black-box status]
+\label{thm:philosophy-closed-explanation-removes-scoped-black-box-status}
+If $(B,C)$ is in closed-explanation state, then $B$ is not a black box
+relative to $C$ on the sealed scope.
+\end{theorem}
+\begin{proof}
+Black-box status relative to $C$ is the absence or incompleteness of the
+certificate and ledger rows supporting $C\Vdash B$. Closed-explanation
+state supplies those rows and seals their scope. Hence the
+certificate-deficit condition no longer holds on that scope.
+\end{proof}
+
+\subsection{Deficit Vectors and Frontiers}
+\label{subsec:philosophy-deficit-vectors-frontiers}
+
+\begin{definition}[Deficit vector]
+\label{def:philosophy-deficit-vector}
+The deficit vector of a target $(B,C)$ is
+$$
+\mathbf D(B,C)
+=
+(d_S,d_P,d_C,d_\Sigma,d_L)\in\{0,1\}^5,
+$$
+where the coordinate is $1$ exactly when the corresponding source,
+pattern, classifier, stability, or ledger field is absent or incomplete.
+The ledger coordinate is also $1$ when the ledger-policy row is present
+but the critical ledger gap is nonempty.
+\end{definition}
+
+\begin{definition}[Weighted deficit score]
+\label{def:philosophy-weighted-deficit-score}
+For nonnegative field weights
+$$
+\mathbf w_D=(w_S,w_P,w_C,w_\Sigma,w_L),
+$$
+the weighted deficit score is
+$$
+\operatorname{DefScore}(B,C)
+=
+w_Sd_S+w_Pd_P+w_Cd_C+w_\Sigma d_\Sigma+w_Ld_L.
+$$
+\end{definition}
+
+\begin{definition}[Decomposition frontier]
+\label{def:philosophy-decomposition-frontier}
+The decomposition frontier of $(B,C)$ is
+$$
+\operatorname{Frontier}(B,C)
+=
+\operatorname{Missing}(B,C)\cup
+\operatorname{Gap}(\Lambda_{B,C},(B,C)).
+$$
+It is the family of certificate fields and ledger rows whose completion
+would next reduce black-box residue.
+\end{definition}
+
+\begin{theorem}[Zero deficit is field-and-ledger closure]
+\label{thm:philosophy-zero-deficit-field-ledger-closure}
+The equality $\mathbf D(B,C)=(0,0,0,0,0)$ holds exactly when no
+certificate field is missing and the critical ledger gap is empty.
+\end{theorem}
+\begin{proof}
+Each nonledger coordinate records absence or incompleteness of its
+corresponding certificate field. The ledger coordinate records either
+absence of the ledger-policy row or nonempty critical ledger gap. All
+coordinates vanish exactly when every field is present and no critical
+ledger row is missing.
+\end{proof}
+
+\begin{theorem}[Decomposition improvement reduces black-box deficit]
+\label{thm:philosophy-decomposition-improvement-reduces-deficit}
+If a transition from decomposition $D_0$ to $D_1$ satisfies
+$$
+\operatorname{DefScore}(D_1)<\operatorname{DefScore}(D_0),
+$$
+then it reduces black-box deficit for the fixed target.
+\end{theorem}
+\begin{proof}
+The score is the weighted cost of the displayed certificate deficits.
+Strict decrease of that score is precisely reduction of the weighted
+deficit.
+\end{proof}
+
+\begin{theorem}[Frontier gives the decomposition route]
+\label{thm:philosophy-frontier-gives-decomposition-route}
+For a fixed target $(B,C)$, the decomposition frontier identifies the
+certificate rows and ledger rows that must be addressed to move toward
+closure.
+\end{theorem}
+\begin{proof}
+The frontier is the union of missing certificate fields and required
+ledger rows not recorded by the current ledger. These are exactly the
+rows preventing closure under
+\autoref{def:philosophy-decomposition-states}.
+\end{proof}
+
+\subsection{NDNA and Formal Hardening}
+\label{subsec:philosophy-decomposition-ndna-hardening}
+
+\begin{definition}[NDNA decomposition map]
+\label{def:philosophy-ndna-decomposition-map}
+For a behavior $B$ with neural theorem-DNA packet
+$$
+\mathsf{NDNA}(B)
+=
+(G_{\mathsf{source}},
+G_{\mathsf{feature}},
+G_{\mathsf{circuit}},
+G_{\mathsf{classifier}},
+G_{\mathsf{stability}},
+G_{\mathsf{intervention}},
+G_{\mathsf{ledger}},
+G_{\mathsf{seal}}),
+$$
+the NDNA decomposition map reads the source row from
+$G_{\mathsf{source}}$, pattern evidence from
+$G_{\mathsf{feature}}$ and $G_{\mathsf{circuit}}$, the classifier row
+from $G_{\mathsf{classifier}}$, stability evidence from
+$G_{\mathsf{stability}}$ and $G_{\mathsf{intervention}}$, ledger rows
+from $G_{\mathsf{ledger}}$, and the closure scope from
+$G_{\mathsf{seal}}$.
+\end{definition}
+
+\begin{definition}[NDNA-complete decomposition]
+\label{def:philosophy-ndna-complete-decomposition}
+An NDNA-complete decomposition is a decomposition in which the NDNA
+packet is complete, anchored, NameCert-compatible, ledger-complete, and
+sealed for the declared scope.
+\end{definition}
+
+\begin{theorem}[NDNA-complete decomposition yields BEDC closure]
+\label{thm:philosophy-ndna-complete-decomposition-yields-bedc-closure}
+An NDNA-complete decomposition yields closed-explanation state for some
+supporting classifier candidate.
+\end{theorem}
+\begin{proof}
+By completeness and anchoring, every NDNA locus has displayed content and
+evidence route. By NameCert compatibility, the projected source,
+pattern, classifier, stability, and ledger rows form a certificate for
+the classifier supporting $B$. Ledger-completeness and the seal provide
+the remaining closure rows. Thus the corresponding target is in
+closed-explanation state.
+\end{proof}
+
+\begin{definition}[Verification-aware decomposition]
+\label{def:philosophy-verification-aware-decomposition}
+A decomposition is verification-aware when it records which components
+are formally hardened, which hardenable components remain unhardened,
+which components are ledger-only, and which transcription ledger,
+verification ledger, and trust boundary govern every verification
+claim.
+\end{definition}
+
+\begin{theorem}[Closure and hardening are separate axes]
+\label{thm:philosophy-closure-hardening-separate-axes}
+Verification-aware decomposition separates certificate closure from
+formal hardening.
+\end{theorem}
+\begin{proof}
+Certificate closure is determined by NameCert rows, ledger rows, scope
+seal, and not-claimed boundary. Formal hardening is determined by
+transcribed statements, proof objects, verification ledgers, and backend
+trust boundaries. A verification-aware decomposition records both
+families of rows rather than identifying one with the other.
+\end{proof}
+
+\begin{theorem}[Verification gaps block fully hardened decomposition]
+\label{thm:philosophy-verification-gaps-block-fully-hardened-decomposition}
+If a decomposition contains a verification claim without its
+transcription ledger or verification ledger, it cannot be fully
+hardened.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-verified-statement-needs-transcription-ledger}
+and
+\autoref{thm:philosophy-verification-opacity-blocks-audit-completeness},
+a verified component without these ledgers is not audit-complete. Fully
+hardened decomposition requires all verification claims in the
+decomposition to be audit-complete.
+\end{proof}
+
+\subsection{Value and Discovery}
+\label{subsec:philosophy-decomposition-value-discovery}
+
+\begin{definition}[Decomposition information]
+\label{def:philosophy-decomposition-information}
+For a decomposition $D$, its decomposition information is
+$$
+\operatorname{Info}_{\mathrm{dec}}(D)
+=
+\operatorname{Benefit}_{\mathrm{dec}}(D)
+-
+\operatorname{Cost}_{\mathrm{dec}}(D)
+-
+\operatorname{Debt}_{\mathrm{dec}}(D).
+$$
+The benefit term may count coverage, prediction, classifier clarity,
+transfer, intervention, unification, and verification gain. The cost and
+debt terms count certificate construction, ledger work, NDNA work,
+formal hardening, remaining gaps, and seal cost.
+\end{definition}
+
+\begin{definition}[Positive and discovery-resolving decompositions]
+\label{def:philosophy-positive-discovery-resolving-decompositions}
+A decomposition is positive when
+$\operatorname{Info}_{\mathrm{dec}}(D)>0$. It is a positive black-box
+resolution when it is positive and in closed-explanation state. It is a
+discovery-resolving decomposition when the transition to the resolved
+state includes classifier shift and positive decomposition-information
+gain.
+\end{definition}
+
+\begin{theorem}[Closure does not imply positive value]
+\label{thm:philosophy-closure-does-not-imply-positive-value}
+Closed-explanation state does not imply positive decomposition
+information.
+\end{theorem}
+\begin{proof}
+Closure records that the certificate and ledger obligations are met.
+Those obligations can be costly, and the resulting behavior coverage or
+transfer value may be small. If cost plus remaining debt is at least the
+benefit, the decomposition information is not positive.
+\end{proof}
+
+\begin{theorem}[Positive decomposition is not automatically discovery]
+\label{thm:philosophy-positive-decomposition-not-automatically-discovery}
+Positive decomposition information does not by itself imply discovery.
+\end{theorem}
+\begin{proof}
+The positive value may come from ledger repair, source clarification,
+verification gain, reduced debt, or better scope sealing while the
+classifier relation remains unchanged. Discovery at this level requires
+classifier shift, as in
+\autoref{thm:philosophy-discovery-requires-classifier-shift}.
+\end{proof}
+
+\begin{theorem}[Discovery resolution requires closure, classifier shift, and positive gain]
+\label{thm:philosophy-discovery-resolution-requires-three-conditions}
+A discovery-resolving decomposition requires closed-explanation state,
+classifier shift, and positive decomposition-information gain.
+\end{theorem}
+\begin{proof}
+Resolution supplies closure, classifier shift supplies the discovery
+axis, and positive decomposition-information gain supplies the value
+axis. Omitting any one of these conditions leaves either an unclosed
+explanation, a non-discovery audit improvement, or a nonpositive
+resolution.
+\end{proof}
+
+\subsection{Practice Illusions}
+\label{subsec:philosophy-decomposition-practice-illusions}
+
+\begin{definition}[Explanation illusion]
+\label{def:philosophy-explanation-illusion}
+An explanation illusion is a claim that appears to explain $B$ while its
+BEDC decomposition still has a critical certificate, ledger, scope,
+semantic, NDNA, or verification gap.
+\end{definition}
+
+\begin{theorem}[Feature and circuit records are not decompositions]
+\label{thm:philosophy-feature-circuit-records-not-decompositions}
+A feature label or circuit diagram is not a black-box resolution unless
+it is embedded in a ledger-complete certificate for a supporting
+classifier.
+\end{theorem}
+\begin{proof}
+Feature and circuit records may contribute to the pattern row, but they
+do not by themselves supply source scope, classifier relation, stability
+row, ledger row, seal, or not-claimed boundary. They are evidence
+fragments until the missing rows are supplied.
+\end{proof}
+
+\begin{theorem}[Probe and benchmark gains are not decompositions]
+\label{thm:philosophy-probe-benchmark-gains-not-decompositions}
+Probe accuracy or benchmark improvement does not by itself resolve a
+machine-learning black box.
+\end{theorem}
+\begin{proof}
+A probe is a classifier candidate that needs its own certificate and
+ledger. A benchmark improvement reports performance movement, not the
+source, classifier, stability, ledger, and seal rows explaining the
+behavior. Either can support a decomposition, but neither is closure by
+itself.
+\end{proof}
+
+\begin{theorem}[Local proof is not black-box resolution]
+\label{thm:philosophy-local-proof-not-black-box-resolution}
+A local formally verified statement is not a black-box resolution unless
+the surrounding decomposition is certificate-complete, ledger-complete,
+and verification-aware.
+\end{theorem}
+\begin{proof}
+The local proof hardens a transcribed statement. It does not by itself
+provide the behavior source, classifier boundary, stability scope,
+explanation ledger, transcription ledger, verification ledger, or seal.
+Those rows are required for black-box resolution.
+\end{proof}
+
+\begin{theorem}[BEDC decomposition theorem for machine-learning black boxes]
+\label{thm:philosophy-bedc-decomposition-machine-learning-black-boxes}
+For a displayed machine-learning behavior $B$, BEDC decomposes its
+black-box status into support candidates, certificate fields, ledger
+gaps, debt, NDNA loci, optional verification hardening, and value
+accounting. If no support candidate is displayed, $B$ is unexplained. If
+a support candidate exists but its certificate or ledger is incomplete,
+$B$ has black-box residue. If a support candidate has complete
+certificate rows, complete ledger rows, and a sealed scope, $B$ is
+resolved on that scope. Positive discovery-resolution additionally
+requires classifier shift and positive decomposition-information gain.
+\end{theorem}
+\begin{proof}
+\autoref{thm:philosophy-unexplained-black-box-states-distinct}
+separates unexplained behavior from certificate-deficit black boxes.
+\autoref{thm:philosophy-partial-certificate-retains-black-box-residue}
+and
+\autoref{thm:philosophy-ledger-deficit-blocks-decomposition-closure}
+identify the remaining residue when rows or ledgers are absent.
+\autoref{thm:philosophy-closed-explanation-removes-scoped-black-box-status}
+gives scoped resolution.
+\autoref{thm:philosophy-ndna-complete-decomposition-yields-bedc-closure}
+connects NDNA to BEDC closure, while
+\autoref{thm:philosophy-closure-hardening-separate-axes} separates
+formal hardening from certificate closure. The value and discovery
+conditions are given by
+\autoref{thm:philosophy-closure-does-not-imply-positive-value},
+\autoref{thm:philosophy-positive-decomposition-not-automatically-discovery},
+and
+\autoref{thm:philosophy-discovery-resolution-requires-three-conditions}.
+Together these statements give the decomposition theorem.
+\end{proof}

@@ -1,11 +1,15 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.Derived.KernelAcceptanceWitnessUp
 
 namespace BEDC.Derived.KernelAcceptanceAuditWitnessUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 
 def KernelAcceptanceAuditWitnessCarrier
     (generated candidate accepted ledger axiomQuery replay transport route provenance
@@ -88,6 +92,83 @@ theorem KernelAcceptanceAuditWitnessCarrier_namecert_obligations
       intro row source
       exact hsame_trans source ledgerFromRoute
   }
+
+theorem KernelAcceptanceAuditWitnessCarrier_acceptance_witness_namecert_consumer
+    [AskSetup] [PackageSetup]
+    {generated candidate accepted ledger axiomQuery replay transport route provenance name
+      acceptance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery replay
+        transport route provenance name →
+      BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessPacket generated accepted
+          ledger axiomQuery replay transport route provenance name acceptance bundle pkg →
+        SemanticNameCert
+            (fun row : BHist =>
+              BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessPacket generated
+                accepted ledger axiomQuery replay transport route provenance name acceptance
+                bundle pkg ∧ hsame row name)
+            (fun row : BHist =>
+              BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessPacket generated
+                accepted ledger axiomQuery replay transport route provenance name acceptance
+                bundle pkg ∧ hsame row name)
+            (fun row : BHist =>
+              BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessPacket generated
+                accepted ledger axiomQuery replay transport route provenance name acceptance
+                bundle pkg ∧ hsame row name)
+            hsame ∧
+          SemanticNameCert (fun row : BHist => hsame row name)
+            (fun row : BHist => hsame row accepted)
+            (fun row : BHist => hsame row ledger) hsame ∧
+            Cont generated candidate accepted ∧ Cont accepted ledger axiomQuery ∧
+              PkgSig bundle acceptance pkg := by
+  -- BEDC touchpoint anchor: BHist KernelAcceptanceWitnessPacket SemanticNameCert
+  intro carrier witnessPacket
+  have witnessCert :=
+    BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessPacket_semantic_name_certificate
+      witnessPacket
+  have auditCert :=
+    KernelAcceptanceAuditWitnessCarrier_namecert_obligations carrier (hsame_refl accepted)
+      (hsame_refl ledger)
+  obtain ⟨generatedCandidateAccepted, acceptedLedgerAxiom, _axiomReplayRoute,
+    _transportSame, _provenanceSame, _nameAccepted, _nameLedger⟩ := carrier
+  obtain ⟨_generatedUnary, _acceptedUnary, _ledgerUnary, _axiomUnary, _replayUnary,
+    _nameUnary, _generatedLedgerAccepted, _acceptedAxiomTransport, _replayRoute,
+    _nameRoute, _acceptanceRoute, acceptancePkg⟩ := witnessPacket
+  exact
+    ⟨witnessCert, auditCert, generatedCandidateAccepted, acceptedLedgerAxiom,
+      acceptancePkg⟩
+
+theorem KernelAcceptanceAuditWitnessCarrier_acceptance_witness_alignment_consumer
+    {generated candidate accepted ledger axiomQuery replay transport route provenance
+      name : BHist} :
+    KernelAcceptanceAuditWitnessCarrier generated candidate accepted ledger axiomQuery replay
+        transport route provenance name →
+      (∀ h : BHist,
+        BEDC.Derived.KernelAcceptanceWitnessUp.kernelAcceptanceWitnessDecodeBHist
+            (BEDC.Derived.KernelAcceptanceWitnessUp.kernelAcceptanceWitnessEncodeBHist h) =
+          h) ∧
+        (∀ x : BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessUp,
+          BEDC.Derived.KernelAcceptanceWitnessUp.kernelAcceptanceWitnessFromEventFlow
+              (BEDC.Derived.KernelAcceptanceWitnessUp.kernelAcceptanceWitnessToEventFlow x) =
+            some x) ∧
+          (∀ x y : BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessUp,
+            BEDC.Derived.KernelAcceptanceWitnessUp.kernelAcceptanceWitnessToEventFlow x =
+                BEDC.Derived.KernelAcceptanceWitnessUp.kernelAcceptanceWitnessToEventFlow y →
+              x = y) ∧
+            Cont generated candidate accepted ∧ Cont accepted ledger axiomQuery ∧
+              hsame name accepted ∧ hsame name ledger ∧
+                BEDC.Derived.KernelAcceptanceWitnessUp.kernelAcceptanceWitnessEncodeBHist
+                  BHist.Empty = ([] : List BEDC.FKernel.Mark.BMark) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame KernelAcceptanceWitnessUp
+  intro carrier
+  have alignment :=
+    BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessTasteGate_single_carrier_alignment
+  obtain ⟨decodeEncode, roundTrip, injective, emptyEncode⟩ := alignment
+  obtain ⟨generatedCandidateAccepted, acceptedLedgerAxiom, _axiomReplayRoute,
+    _transportSame, _provenanceSame, nameAccepted, nameLedger⟩ := carrier
+  exact
+    ⟨decodeEncode, roundTrip, injective, generatedCandidateAccepted, acceptedLedgerAxiom,
+      nameAccepted, nameLedger, emptyEncode⟩
 
 theorem KernelAcceptanceAuditWitnessCarrier_route_determinacy
     {generated candidate accepted ledger axiomQuery replay transport route provenance name

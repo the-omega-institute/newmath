@@ -121,4 +121,115 @@ theorem KleeneTree_streamname_path_boundary [AskSetup] [PackageSetup]
     unary_cont_closed nodeUnary obstructionUnary nodeObstruction
   exact ⟨streamUnary, prefixUnary, nodeUnary, obstructionReadUnary, provenancePkg⟩
 
+theorem KleeneTree_fan_boundary [AskSetup] [PackageSetup]
+    {tree boolLedger listSpine stream obstruction transport traversal provenance localName
+      streamRead spineRead boolRead _treeRead obstructionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KleeneTreeCarrier tree boolLedger listSpine stream obstruction transport traversal provenance
+        localName bundle pkg →
+      Cont stream listSpine streamRead →
+        Cont streamRead boolLedger spineRead →
+          Cont spineRead tree boolRead →
+            Cont boolRead obstruction obstructionRead →
+              PkgSig bundle obstructionRead pkg →
+                UnaryHistory stream ∧ UnaryHistory listSpine ∧ UnaryHistory boolLedger ∧
+                  UnaryHistory tree ∧ UnaryHistory obstruction ∧ UnaryHistory obstructionRead ∧
+                    Cont stream listSpine streamRead ∧ Cont streamRead boolLedger spineRead ∧
+                      Cont spineRead tree boolRead ∧ Cont boolRead obstruction obstructionRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle obstructionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier streamSpine spineBool boolTree treeObstruction obstructionPkg
+  obtain ⟨treeUnary, boolUnary, listUnary, streamUnary, obstructionUnary, _transportUnary,
+    _traversalUnary, _provenanceUnary, _localNameUnary, provenancePkg, _localNamePkg⟩ :=
+    carrier
+  have streamReadUnary : UnaryHistory streamRead :=
+    unary_cont_closed streamUnary listUnary streamSpine
+  have spineReadUnary : UnaryHistory spineRead :=
+    unary_cont_closed streamReadUnary boolUnary spineBool
+  have boolReadUnary : UnaryHistory boolRead :=
+    unary_cont_closed spineReadUnary treeUnary boolTree
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed boolReadUnary obstructionUnary treeObstruction
+  exact
+    ⟨streamUnary, listUnary, boolUnary, treeUnary, obstructionUnary, obstructionReadUnary,
+      streamSpine, spineBool, boolTree, treeObstruction, provenancePkg, obstructionPkg⟩
+
+theorem KleeneTreeSelectorRefusal [AskSetup] [PackageSetup]
+    {tree boolLedger listSpine stream obstruction transport traversal provenance localName
+      prefixRead nodeRead obstructionRead selectorRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KleeneTreeCarrier tree boolLedger listSpine stream obstruction transport traversal provenance
+        localName bundle pkg →
+      Cont stream listSpine prefixRead →
+        Cont prefixRead boolLedger nodeRead →
+          Cont nodeRead obstruction obstructionRead →
+            Cont obstructionRead provenance selectorRead →
+              PkgSig bundle selectorRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row selectorRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row stream ∨ hsame row listSpine ∨ hsame row boolLedger ∨
+                        hsame row tree ∨ hsame row obstruction ∨
+                          hsame row obstructionRead ∨ hsame row selectorRead)
+                    (fun row : BHist =>
+                      hsame row selectorRead ∧ PkgSig bundle selectorRead pkg)
+                    hsame ∧
+                  UnaryHistory stream ∧ UnaryHistory obstructionRead ∧
+                    UnaryHistory selectorRead ∧ Cont stream listSpine prefixRead ∧
+                      Cont prefixRead boolLedger nodeRead ∧
+                        Cont nodeRead obstruction obstructionRead ∧
+                          Cont obstructionRead provenance selectorRead ∧
+                            PkgSig bundle provenance pkg ∧
+                              PkgSig bundle selectorRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame UnaryHistory
+  intro carrier streamPrefix prefixNode nodeObstruction obstructionSelector selectorPkg
+  obtain ⟨treeUnary, boolUnary, listUnary, streamUnary, obstructionUnary, _transportUnary,
+    _traversalUnary, provenanceUnary, _localNameUnary, provenancePkg, _localNamePkg⟩ :=
+    carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed streamUnary listUnary streamPrefix
+  have nodeUnary : UnaryHistory nodeRead :=
+    unary_cont_closed prefixUnary boolUnary prefixNode
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed nodeUnary obstructionUnary nodeObstruction
+  have selectorReadUnary : UnaryHistory selectorRead :=
+    unary_cont_closed obstructionReadUnary provenanceUnary obstructionSelector
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row selectorRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row stream ∨ hsame row listSpine ∨ hsame row boolLedger ∨
+              hsame row tree ∨ hsame row obstruction ∨ hsame row obstructionRead ∨
+                hsame row selectorRead)
+          (fun row : BHist => hsame row selectorRead ∧ PkgSig bundle selectorRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro selectorRead ⟨hsame_refl selectorRead, selectorReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, selectorPkg⟩
+  }
+  exact
+    ⟨cert, streamUnary, obstructionReadUnary, selectorReadUnary, streamPrefix, prefixNode,
+      nodeObstruction, obstructionSelector, provenancePkg, selectorPkg⟩
+
 end BEDC.Derived.KleeneTreeUp

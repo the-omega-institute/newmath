@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\TriggerEnergyPartitionUp$}
+\label{ch:concrete-instances-trigger-energy-partition-namecert}
+\origin{ai}
+
+The $\TriggerEnergyPartitionUp$ packet realizes the trigger-energy theorem of \autoref{thm:philosophy-trigger-energy-theorem} as finite BEDC NameCert data. It records support rows, an energy ledger, a partition row, codon-lift accounting, transport, replay, provenance, and local naming for the energy-minimal trigger surface. It is a sibling of the reliability packet in \autoref{ch:concrete-instances-energy-biased-trigger-reliability-namecert}: $\EnergyBiasedTriggerReliabilityUp$ consumes energy-weighted reliability rows, while $\TriggerEnergyPartitionUp$ isolates the partition certificate for equality in the energy lower bound.
+
+\begin{definition}[Trigger-energy partition carrier]
+\label{def:trigger-energy-partition-carrier}
+A $\TriggerEnergyPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,L,E,Q,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite support row over the four trigger coordinates $\Omega=\{s_{1},f_{1},s_{2},f_{2}\}$.
+\item $L$ is the trigger-selection row naming the displayed quotient-level trigger and its codon-level lift choices.
+\item $E$ is the energy-ledger row recording the sum of the support sizes of the selected external codons.
+\item $Q$ is the partition row certifying that the selected supports are pairwise disjoint and cover $\Omega$ exactly in the energy-minimal case.
+\item $K$ is the codon-lift row recording the finite $f_{3}$-lift multiplicity for each selected support block.
+\item $H$ records componentwise $\hsame$ transport for support, selection, energy, partition, codon-lift, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an energy-minimal trigger request through $S,L,E,Q,K,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\TriggerEnergyPartitionUp$, $\EnergyBiasedTriggerReliabilityUp$, $\SixBoundaryTileCoverageUp$, $\WindowCoverageTriggerAlgebraUp$, the source theorem \autoref{thm:philosophy-trigger-energy-theorem}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TriggerEnergyPartitionUp}$ row.
+\end{enumerate}
+The carrier contains no biological stochastic model, empirical likelihood claim, hidden codon semantics, unbounded trigger enumeration, or external partition oracle.
+\end{definition}
+
+\begin{theorem}[Trigger-energy partition NameCert obligations]
+\label{thm:trigger-energy-partition-namecert-obligations}
+For every accepted $\TriggerEnergyPartitionUp$ carrier $T=(S,L,E,Q,K,H,C,P,N)$, the local $\NameCert_{\TriggerEnergyPartitionUp}$ surface consists exactly of carrier admission for the displayed rows, finite support exposure through $S$, trigger-selection exposure through $L$, energy-ledger exactness through $E$, partition exactness through $Q$, codon-lift accounting through $K$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:trigger-energy-partition-carrier}. The support row $S$ and selection row $L$ expose the finite trigger family, while $E$ records the total support-size ledger.
+
+Partition exactness reads the equality case of \autoref{thm:philosophy-trigger-energy-theorem}. When the energy ledger has value $4$, the partition row $Q$ records that the selected supports cover the four coordinates exactly once; conversely, the displayed partition row forces the energy ledger to count four coordinate appearances.
+
+The codon-lift row $K$ is finite because it records only the displayed $f_{3}$ choices over the selected support blocks. Transport and replay preserve $S,L,E,Q,K$ componentwise, and provenance plus local naming keep the certificate tied to the source theorem and the energy-biased reliability sibling. No stochastic, empirical, hidden-semantic, or unbounded-search row is exported.
+\end{proof}
+
+\begin{theorem}[Trigger-energy partition reliability handoff]
+\label{thm:trigger-energy-partition-reliability-handoff}
+Every energy-minimal trigger read consumed by $\EnergyBiasedTriggerReliabilityUp$ factors through the finite $\TriggerEnergyPartitionUp$ route
+$$
+S,L,E,Q,K,H,C,P,N .
+$$
+The reliability consumer receives the support family, energy ledger, partition certificate, and codon-lift count as finite rows, not as an external enumeration or biological probability model.
+\end{theorem}
+\begin{proof}
+Start with an accepted trigger-energy partition carrier. The finite support row $S$ names the coordinate supports, and $L$ names the selected quotient trigger together with its codon-level lift surface.
+
+The energy ledger $E$ and partition row $Q$ then expose the equality case in the lower bound: every coordinate of $\Omega$ is covered exactly once. The codon-lift row $K$ records the finite lift multiplicities attached to those blocks.
+
+An $\EnergyBiasedTriggerReliabilityUp$ consumer may read these rows as inputs for its weighted reliability formula, but the transport, replay, provenance, and local naming rows keep the handoff inside the displayed finite certificate. Thus the consumer obtains no external trigger enumeration, empirical likelihood, or hidden codon semantics.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\TriggerEnergyPartitionUp$ read exposes finite support, trigger-selection, energy-ledger, partition, codon-lift, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any energy-biased reliability consumer can use an energy-minimal trigger partition.}
+
+\independenceWitness{energy-biased-trigger-reliability, six-boundary-tile-coverage, window-coverage-trigger-algebra: $\TriggerEnergyPartitionUp$ is not bijective to any listed sibling because it jointly carries the energy equality partition row and codon-lift accounting rather than only coverage, algebra, or reliability rows.}
+
+\closureat{TriggerEnergyPartitionUp}{seedStr}
+
+\begin{closurestatus}{\TriggerEnergyPartitionUp}
+  \constructivestory{A $\TriggerEnergyPartitionUp$ packet is generated from finite support rows, trigger-selection rows, an energy ledger, a partition certificate, codon-lift accounting, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:trigger-energy-partition-carrier}, \autoref{thm:trigger-energy-partition-namecert-obligations}, and \autoref{thm:trigger-energy-partition-reliability-handoff} seed the finite partition surface for equality in the trigger-energy lower bound.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, biological stochastic semantics, empirical likelihood, hidden codon semantics, or unrestricted trigger enumeration.}
+  \upgradepath{Obligation closure requires checked carrier admission, support exposure, energy-ledger exactness, partition exactness, codon-lift accounting, reliability handoff, Nontrivial TriggerEnergyPartitionUp, and FieldFaithful TriggerEnergyPartitionUp for BEDC.Derived.TriggerEnergyPartitionUp.}
+\end{closurestatus}

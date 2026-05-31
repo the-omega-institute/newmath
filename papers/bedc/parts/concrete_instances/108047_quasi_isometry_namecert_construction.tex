@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\QuasiIsometryUp$}
+\label{ch:concrete-instances-quasi-isometry-namecert}
+\origin{human}
+
+Following Gromov and Bridson--Haefliger, the $\QuasiIsometryUp$ packet records coarse metric equivalence as finite BEDC coarse metric data rather than as an ambient set-theoretic map. It reads source and target metric presentations from \autoref{ch:concrete-instances-metric-namecert}, reuses the displayed host-map discipline of \autoref{ch:concrete-instances-lipschitzmap-namecert}, keeps properness visible through \autoref{ch:concrete-instances-propermetric-namecert}, sends completion-facing rows through \autoref{ch:concrete-instances-cauchy-completion-functoriality-namecert}, and uses the readback surfaces of \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}. The packet names finite coarse equivalence evidence; it is not a selected inverse function, not quotient equality of completions, not a host-space bijection, and not an oracle for external large-scale geometry.
+
+\begin{definition}[Quasi-isometry carrier]
+\label{def:quasi-isometry-carrier}
+A $\QuasiIsometryUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,Y,F,A,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source metric row, recording the named $\MetricUp$ presentation and the source distance queries visible to the packet.
+\item $Y$ is the target metric row, recording the named $\MetricUp$ presentation and the target distance queries visible to the packet.
+\item $F$ is the coarse map graph row, recording the finite graph of the displayed map route without adding a host-level function outside the BEDC carrier.
+\item $A$ is the affine distortion row, storing the multiplicative and additive control constants that bound target distances from source distances and source distances from target witnesses.
+\item $S$ is the coarse-surjectivity witness row, recording the finite target-cover ledger and its bounded return witnesses.
+\item $R$ is the $\RegSeqRatUp$ and $\RealUp$ distance readback row, storing rational windows and real-distance readings used by the coarse estimates.
+\item $E$ is the completion-facing row, recording the handoff to $\CauchyCompletionFunctorialityUp$ consumers and the stability data exposed to completion routes.
+\item $H$ records componentwise $\hsame$ transport for source metric, target metric, graph, distortion, coarse-surjectivity, readback, completion-facing, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a source or target coarse query through graph readback, distortion control, surjectivity witness, distance readback, and completion-facing handoff.
+\item $P$ is the $\Pkg$ provenance over $\QuasiIsometryUp$, $\MetricUp$, $\LipschitzMapUp$, $\ProperMetricUp$, $\CauchyCompletionFunctorialityUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\QuasiIsometryUp}$ row.
+\end{enumerate}
+The carrier predicate compares accepted packets only through $X,Y,F,A,S,R,E,H,C,P,N$. It has no coordinate for a selected inverse map, quotient equality of completions, a host-space bijection, an external large-scale geometry theorem, or a choice principle for target witnesses.
+\end{definition}
+
+\begin{theorem}[Quasi-isometry NameCert obligations]
+\label{thm:quasi-isometry-namecert-obligations}
+For every accepted $\QuasiIsometryUp$ carrier $Q=(X,Y,F,A,S,R,E,H,C,P,N)$, the local $\NameCert_{\QuasiIsometryUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item Carrier admission for the displayed source metric, target metric, graph, distortion, surjectivity, readback, completion-facing, transport, replay, provenance, and local naming rows.
+\item Coarse Lipschitz control, read from $F,A,R,H,C$, for source-distance windows and target-distance windows displayed by the packet.
+\item Coarse-surjectivity ledger exactness, read from $S,R,H,C$, for every target-side witness exported by the packet.
+\item Completion-facing stability, read from $E,H,C,P$, for every consumer that routes coarse metric evidence into completion functoriality.
+\item Non-escape from host maps, selected witnesses, choice principles, quotient equality, and ambient bijections, witnessed by the absence of such coordinates from $X,Y,F,A,S,R,E,H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:quasi-isometry-carrier}. The accepted packet exposes only the two metric rows, the coarse graph, affine distortion constants, coarse-surjectivity witnesses, distance readback, completion-facing handoff, transport, replay, provenance, and local naming.
+
+The coarse Lipschitz and coarse-surjectivity obligations are finite route inspections. The rows $F,A,S,R,H,C$ display the graph, bounds, witnesses, readback windows, transport equalities, and replay path before any consumer receives a quasi-isometry reading.
+
+The completion-facing obligation is another projection. A completion consumer must pass through $E$ together with the same transport, replay, and provenance rows $H,C,P$, so it cannot obtain a host completion isomorphism or quotient equality from the packet.
+
+The non-escape row follows from the carrier boundary itself. Since no coordinate stores a selected inverse map, a choice functional, an ambient bijection, or quotient equality of completions, the five listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\QuasiIsometryUp$ read is refuted if a consumer obtains coarse equivalence, completion-facing stability, or target-side coverage without displaying source and target metric rows, graph readback, affine distortion constants, coarse-surjectivity witnesses, RegSeqRat/Real readback, transport, replay, provenance, and local naming.}
+
+\independenceWitness{metric, lipschitzmap, propermetric, cauchy-completion-functoriality, regseqrat, real: none is bijective to $\QuasiIsometryUp$ because this packet jointly carries source and target metric rows, coarse graph data, affine distortion constants, coarse-surjectivity witnesses, rational and real distance readback, completion-facing stability, transport, replay, provenance, and local naming.}
+
+\closureat{QuasiIsometryUp}{seedStr}
+
+\begin{closurestatus}{\QuasiIsometryUp}
+  \constructivestory{A $\QuasiIsometryUp$ packet is generated from source and target metric rows, a finite coarse map graph, affine distortion constants, coarse-surjectivity witnesses, RegSeqRat/Real distance readback, completion-facing stability, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:quasi-isometry-carrier} and \autoref{thm:quasi-isometry-namecert-obligations} seed the finite coarse metric equivalence certificate over displayed metric, graph, distortion, surjectivity, readback, completion-facing, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.QuasiIsometryUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a selected inverse map, quotient equality of completions, host-space bijection, external large-scale geometry theorem, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coarse Lipschitz control, coarse-surjectivity exactness, completion-facing stability, non-escape from host maps, and local naming for BEDC.Derived.QuasiIsometryUp.}
+\end{closurestatus}

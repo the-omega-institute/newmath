@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The accepted carrier stores no quotient cut, no selected supremum element, no trichotomy oracle, no host real equality test, and no ambient order-completeness coordinate.
 \end{definition}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_semantic\_name\_certificate}
 
 \begin{theorem}[LocatedSupremum NameCert obligations]
 \label{thm:located-supremum-namecert-obligations}
@@ -105,6 +106,7 @@ The continuation row $C$ replays only that route, and the componentwise transpor
 \label{thm:locatedsupremum-root-upper-lower-window}
 Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. The upper-bound reads exported through $U$ and the lower-approximation reads exported through $A$ are exposed through the same finite precision window $W$. Thus a root consumer that asks for both sides of the located-supremum surface receives one shared windowed route through $L,U,A,W,R,E,H,C,P,N$, rather than separate upper and lower access paths.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_root\_upper\_lower\_window}
 \begin{proof}
 Project the accepted carrier of \autoref{def:located-supremum-carrier}. The carrier has one $\StreamNameUp$ precision-window row $W$, and both the upper-bound ledger $U$ and the lower-approximation ledger $A$ are displayed before the regular handoff $R$ and the $\RealUp$ seal $E$.
 
@@ -117,6 +119,7 @@ Finally use \autoref{thm:located-supremum-real-seal-boundary}. Every real-facing
 \label{thm:locatedsupremum-streamname-cut-scope}
 Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. Every located-cut or located-real read exported by $S$ is scoped through the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance surface carried by the windowed approximation ledger, the terminal $\RealUp$ seal $E$, the componentwise $\hsame$ transports $H$, the displayed $\Cont$ replay $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\LocatedSupremumUp}$ row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_streamname\_cut\_scope}
 \begin{proof}
 Begin with a located-cut or located-real consumer of $S$. The source row $L$ is admitted only as part of the displayed packet, and the carrier stores no independent cut or real object apart from the route through $W,R,E$.
 
@@ -129,6 +132,7 @@ Now apply \autoref{thm:located-supremum-regseqrat-real-handoff-stability}. The r
 \label{thm:locatedsupremum-real-seal-nonescape}
 Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. No $\RealUp$-facing consumer can bypass $L,U,A,W,R,E,H,C,P,N$ to obtain a selected supremum, trichotomy row, quotient cut, host real equality test, or ambient order-completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_real\_seal\_nonescape}
 \begin{proof}
 Start from the Real-facing boundary theorem \autoref{thm:located-supremum-real-seal-boundary}. It identifies every exported real read with the finite route through the located family, upper-bound ledger, lower-approximation ledger, precision window, regular handoff, terminal seal, transports, continuations, provenance, and local name.
 
@@ -148,6 +152,7 @@ The upper and lower ledgers are downstream of that source envelope. The upper-bo
 
 Apply the real-seal nonescape theorem \autoref{thm:locatedsupremum-real-seal-nonescape}. Since all consumer-facing reads remain inside $L,U,A,W,R,E,H,C,P,N$, the source envelope cannot be replaced by selected suprema, trichotomy, quotient cuts, host equality, countable choice, or real completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_source\_envelope}
 
 \begin{theorem}[LocatedSupremum dyadic bracket]
 \label{thm:located-supremum-dyadic-bracket}
@@ -160,6 +165,7 @@ The source envelope of \autoref{thm:located-supremum-source-envelope} supplies t
 
 The StreamName cut-scope theorem \autoref{thm:locatedsupremum-streamname-cut-scope} keeps this bracket on the route through $W,R,E,H,C,P,N$. Thus the bracket is shared by $U$ and $A$ before the regular-rational and real-name handoffs, with no selected supremum, quotient cut, trichotomy, host equality, countable choice, or completeness principle.
 \end{proof}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_dyadic\_bracket}
 
 \begin{theorem}[LocatedSupremum RegSeqRat handoff route]
 \label{thm:located-supremum-regseqrat-handoff}
@@ -187,6 +193,7 @@ For the lower side, apply \autoref{thm:located-supremum-lower-approximation-cofi
 
 Finally use \autoref{thm:located-supremum-regseqrat-handoff}. The common bracket is repacked through $R$ before $E$, and the route is replayed only by $H,C,P,N$. Thus every accepted completion-facing request receives a single finite window carrying both the upper-bound and cofinal lower-approximation reads.
 \end{proof}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_cofinal\_window\_totality}
 
 \begin{theorem}[LocatedSupremum monotone sequence handoff]
 \label{thm:located-supremum-monotone-sequence-handoff}
@@ -201,6 +208,22 @@ Use \autoref{thm:located-supremum-lower-approximation-cofinality} and \autoref{t
 
 Finally replay the route through $H,C,P,N$. Componentwise transport and continuation replay preserve the displayed rows but cannot add an ambient completeness coordinate, selected supremum, trichotomy row, quotient cut, host sequence equality, or countable-choice selector.
 \end{proof}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_monotone\_sequence\_handoff}
+
+\begin{theorem}[LocatedSupremum monotone convergence consumer envelope]
+\label{thm:located-supremum-monotone-convergence-consumer-envelope}
+Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. Any monotone-convergence or completion-facing consumer that reads the upper/lower window of $S$ as stable $\RealUp$ data must first read the $\RegSeqRatUp$ handoff and terminal $\RealUp$ seal through the Cauchy-equivalence classifier boundary of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}. The consumer receives a classifier-mediated regular-rational route, not a quotient real equality, host sequence equality, selected supremum, countable-choice selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the monotone sequence handoff. By \autoref{thm:located-supremum-monotone-sequence-handoff}, a monotone bounded real-sequence consumer must pass through the displayed upper-bound ledger, lower-approximation ledger, shared window, regular-rational handoff, dyadic tolerance surface, terminal seal, and structural rows.
+
+Use the StreamName cut scope of \autoref{thm:locatedsupremum-streamname-cut-scope}. The cut-facing read is already confined to the finite window $W$, the $\RegSeqRatUp$ readback $R$, the dyadic tolerance surface, and the terminal $\RealUp$ seal $E$.
+
+Now insert the Cauchy-equivalence classifier boundary. The regular-rational readback can be treated as a stable Real-facing route only after the comparison surface of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert} has classified equivalent Cauchy windows on the same displayed path.
+
+Finally apply \autoref{thm:locatedsupremum-real-seal-nonescape}. Since the carrier has no selected supremum, quotient cut, host sequence equality, countable-choice selector, or completeness coordinate, the monotone-convergence consumer receives only the classifier-mediated route through $L,U,A,W,R,E,H,C,P,N$.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_monotone\_convergence\_consumer\_envelope}
 
 \begin{theorem}[LocatedSupremum window transport refusal]
 \label{thm:located-supremum-window-transport}
@@ -213,13 +236,14 @@ Apply \autoref{thm:located-supremum-upper-bound-ledger-stability} and \autoref{t
 
 The nonescape clause follows from \autoref{thm:locatedsupremum-real-seal-nonescape}. Since $C$ can only replay displayed routes and the carrier contains none of the excluded coordinates, window transport cannot manufacture selected suprema, trichotomy, quotient cuts, host equality, countable choice, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_window\_transport}
 
 \closureat{LocatedSupremumUp}{obligationStr}[BEDC.Derived.LocatedSupremumUp.LocatedSupremum\_real\_seal\_boundary]
 
 \begin{closurestatus}{\LocatedSupremumUp}
   \constructivestory{A $\LocatedSupremumUp$ packet is generated from a located family row, an upper-bound ledger, a lower-approximation ledger, a StreamName precision window, a RegSeqRat handoff, a RealUp seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:located-supremum-carrier}, \autoref{thm:located-supremum-namecert-obligations}, and \autoref{thm:located-supremum-real-seal-boundary} bind the located upper-bound and lower-approximation seed over the L10 Real and Completion route.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:located-supremum-carrier}, \autoref{thm:located-supremum-namecert-obligations}, \autoref{thm:located-supremum-lower-approximation-cofinality}, \autoref{thm:located-supremum-regseqrat-real-handoff-stability}, \autoref{thm:locatedsupremum-root-upper-lower-window}, and \autoref{thm:locatedsupremum-streamname-cut-scope} bind the carrier, NameCert obligations, lower-approximation cofinality, RegSeqRat Real handoff, root upper-lower window, and StreamName cut scope over the L10 Real and Completion route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim full Dedekind completeness, arbitrary least-upper-bound completeness, quotient cuts, selected suprema, trichotomy, host real equality, countable choice, Real completeness, or a standard bridge.}

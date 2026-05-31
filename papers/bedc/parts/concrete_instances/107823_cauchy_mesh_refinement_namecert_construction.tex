@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\CauchyMeshRefinementUp$}
+\label{ch:concrete-instances-cauchy-mesh-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy data and regular rational approximations, the $\CauchyMeshRefinementUp$ packet records a finite common-refinement mesh for two displayed Cauchy requests before a terminal real-name seal is read. It sits between the finite-window gateway of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal seal of \autoref{ch:concrete-instances-real-namecert}, and the tail-budget surface of \autoref{ch:concrete-instances-cauchy-tail-bound-namecert}. The packet supplies later diagonal, tail-budget, and regular-Cauchy arguments with finite mesh data; it does not introduce quotient streams, selected limits, countable choice, host real equality, trichotomy, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Cauchy mesh refinement carrier]
+\label{def:cauchy-mesh-refinement-carrier}
+A $\CauchyMeshRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+M=(Q_0,Q_1,D_0,D_1,J,S,R,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q_0$ and $Q_1$ are the two source Cauchy request rows. Each records the source name, requested precision, finite tail index, and the local tolerance budget visible to the request.
+\item $D_0$ and $D_1$ are the two dyadic mesh rows. They display the finite dyadic partitions
+$$
+D_i=\{a_{i,0}<a_{i,1}<\cdots<a_{i,k_i}\}
+$$
+for $i=0,1$, together with the endpoint, radius, and comparison cells supplied by $\DyadicRatCoreUp$.
+\item $J$ is the common refinement row. It lists the finite dyadic mesh containing every point of $D_0$ and $D_1$, the inclusion maps from both meshes, and the comparison ledger showing that the inherited tolerances are below the two source requests.
+\item $S$ is the $\StreamNameUp$ finite-window row for the source schedules inspected along $J$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same displayed windows and the common dyadic refinement.
+\item $T$ is the $\CauchyTailBoundUp$ row recording that the inherited tail budget is read from $J$, not from an unlisted completion object.
+\item $E$ is the $\RealUp$ seal row reached only after $Q_0,Q_1,D_0,D_1,J,S,R,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source requests, dyadic meshes, common refinement, StreamName windows, RegSeqRat readback, tail-bound row, real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a precision request through
+$$
+Q_0,Q_1 \longmapsto D_0,D_1 \longmapsto J \longmapsto S \longmapsto R \longmapsto T \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyMeshRefinementUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyTailBoundUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyMeshRefinementUp}$ row.
+\end{enumerate}
+The classifier accepts only packets in which both displayed meshes factor through the same finite row $J$ and every downstream read of $S,R,T,E,H,C,P,N$ preserves that common refinement. No coordinate stores a quotient stream, selected limit, countable-choice schedule, trichotomy oracle, host real equality, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Cauchy mesh refinement NameCert obligations]
+\label{thm:cauchy-mesh-refinement-namecert-obligations}
+For every accepted $\CauchyMeshRefinementUp$ carrier
+$$
+M=(Q_0,Q_1,D_0,D_1,J,S,R,T,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyMeshRefinementUp}$ surface consists exactly of source Cauchy request admission, two displayed dyadic mesh ledgers, common-refinement inclusion, $\StreamNameUp$ window exposure, $\RegSeqRatUp$ readback, $\CauchyTailBoundUp$ budget routing, terminal $\RealUp$ seal admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through the rows $Q_0,Q_1,D_0,D_1,J,S,R,T,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-mesh-refinement-carrier}. The two source requests are visible only as $Q_0,Q_1$, and their dyadic data are visible only as the finite mesh rows $D_0,D_1$.
+
+The common row $J$ is the only place where the two meshes are compared. Since the inclusion maps and inherited tolerance checks are stored there, every later StreamName, RegSeqRat, and tail-budget consumer must read the same finite refinement before it can inspect a Real-facing seal.
+
+The rows $H,C,P,N$ transport, replay, source, and name this route. The carrier has no coordinate for quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient completeness, so the listed rows exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Cauchy mesh refinement RegSeqRat handoff]
+\label{thm:cauchy-mesh-refinement-regseqrat-handoff}
+Every $\RegSeqRatUp$, $\CauchyTailBoundUp$, or $\RealUp$ consumer of an accepted $\CauchyMeshRefinementUp$ carrier must factor through the displayed route
+$$
+Q_0,Q_1 \longmapsto D_0,D_1 \longmapsto J \longmapsto S \longmapsto R \longmapsto T \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently a regular rational readback cannot be replaced by a quotient stream, selected limit, countable-choice schedule, trichotomy decision, host real equality, detached tail witness, or ambient $\RealUp$ completeness argument.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for regular rational, tail-budget, or real-seal data. The source Cauchy requests first expose $Q_0,Q_1$, and the dyadic rows $D_0,D_1$ display the two finite meshes answering those requests.
+
+The common refinement row $J$ is then forced by carrier admission. It is the unique finite row through which both dyadic meshes pass, so the StreamName windows $S$ and the RegSeqRat readback $R$ are read from the same mesh surface.
+
+The tail-bound row $T$ and Real seal row $E$ are downstream of that readback. Transport, replay, provenance, and local naming preserve the displayed route, and the excluded analytic objects are absent from the tuple. Thus every consumer handoff is the stated finite route.
+\end{proof}
+
+\closureat{CauchyMeshRefinementUp}{seedStr}
+
+\begin{closurestatus}{\CauchyMeshRefinementUp}
+  \constructivestory{A $\CauchyMeshRefinementUp$ packet is generated from two source Cauchy requests, two displayed dyadic meshes, a common refinement row, StreamName windows, RegSeqRat readback, a CauchyTailBound budget row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-mesh-refinement-carrier}, \autoref{thm:cauchy-mesh-refinement-namecert-obligations}, and \autoref{thm:cauchy-mesh-refinement-regseqrat-handoff} seed the finite common-refinement mesh surface for L10 Cauchy requests over StreamName, RegSeqRat, DyadicRatCore, CauchyTailBound, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, trichotomy, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source-request admission, dyadic mesh ledgers, common-refinement inclusion, StreamName windows, RegSeqRat readback, CauchyTailBound routing, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyMeshRefinementUp.}
+\end{closurestatus}

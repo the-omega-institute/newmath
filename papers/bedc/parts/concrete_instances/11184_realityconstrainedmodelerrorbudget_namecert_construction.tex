@@ -30,6 +30,7 @@ The carrier has no coordinate for unbounded validation, hidden residual cancella
 \label{thm:reality-constrained-model-error-budget-namecert-obligations}
 For the carrier of \autoref{def:reality-constrained-model-error-budget-carrier}, the local $\NameCert_{\RealityConstrainedModelErrorBudgetUp}$ surface consists exactly of source-trace exposure through $S$, error-budget exposure through $E$, observation-window exposure through $O$, mismatch-ledger exactness through $M$, failure-surface exposure through $F$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedModelErrorBudgetUp.RealityConstrainedModelErrorBudgetNameCert\_obligations}
 \begin{proof}
 Project the carrier $B=(S,E,O,M,F,H,C,P,N)$. The first three rows expose the finite source trace, declared budget, and observation window before any consumer can read model fit or audit strength.
 
@@ -48,6 +49,7 @@ S,E,O,M,F,H,C,P,N.
 $$
 No consumer may preserve the model syntax while replacing the error-budget row, changing the observation window, hiding the mismatch ledger, erasing the failure surface, or importing a model-selection verdict from outside the displayed packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedModelErrorBudgetUp.RealityConstrainedModelErrorBudgetCarrier\_nonescape}
 \begin{proof}
 Start with the NameCert obligations of \autoref{thm:reality-constrained-model-error-budget-namecert-obligations}. They make $S,E,O,M,F,H,C,P,N$ the complete row surface for a bounded error-budget read.
 
@@ -57,6 +59,49 @@ The failure row $F$ keeps rejection conditions visible. Budget overruns, hidden 
 
 Thus the accepted packet has no route that preserves only model syntax and changes the error evidence. Any such route leaves the finite carrier and cannot be consumed as a $\RealityConstrainedModelErrorBudgetUp$ certificate.
 \end{proof}
+
+\begin{theorem}[Reality-constrained model error-budget observation-window exactness]
+\label{thm:reality-constrained-model-error-budget-window-exactness}
+Every mismatch-ledger read in an accepted $\RealityConstrainedModelErrorBudgetUp$ carrier preserves the source trace $S$, error-budget row $E$, observation-window row $O$, and mismatch-ledger row $M$ as one finite packet. A consumer cannot read $M$ while changing the source route, widening the observation window, or detaching the comparison from the declared budget envelope.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedModelErrorBudgetUp.RealityConstrainedModelErrorBudgetCarrier\_observation\_window\_exactness}
+\begin{proof}
+Project the carrier $B=(S,E,O,M,F,H,C,P,N)$. The row $M$ is introduced only after the source trace $S$, budget row $E$, and observation window $O$ have been displayed.
+
+The sibling audit chapters named in the introduction supply separate audit, residue, fit, selection, and failure rows, but none of them replaces the packet order here. The mismatch comparison remains a read of the displayed source-window-budget surface.
+
+Transport and replay preserve the same dependency. Rows $H$ and $C$ move and replay $S,E,O,M$ componentwise, while $P$ and $N$ only source and name the route. Hence any accepted mismatch-ledger read keeps those four rows together.
+\end{proof}
+
+\begin{theorem}[Reality-constrained model error-budget failure visibility]
+\label{thm:reality-constrained-model-error-budget-failure-visibility}
+No accepted $\RealityConstrainedModelErrorBudgetUp$ budget consumer may preserve the model syntax while hiding the failure-surface row $F$. The rows for budget overruns, hidden residuals, classifier exits, and model-selection defeats must remain visible whenever the source trace, budget, observation window, and mismatch ledger are exported.
+\end{theorem}
+\begin{proof}
+Use the carrier inventory and the nonescape theorem. The failure-surface row $F$ is one of the displayed coordinates of every accepted budget packet, and \autoref{thm:reality-constrained-model-error-budget-nonescape} forbids erasing it while preserving model syntax.
+
+The cited failure-surface sibling supplies the interpretation of rejection rows, but visibility is already local to this carrier. Once $S,E,O,M$ are exported, the corresponding row $F$ must travel with the packet so that overruns, hidden residuals, classifier exits, and selection defeats remain inspectable.
+
+The structural rows add no hidden substitute. Transport through $H$, replay through $C$, provenance through $P$, and naming through $N$ preserve the displayed failure row rather than replacing it by a detached fit score.
+\end{proof}
+\leanchecked{BEDC.Derived.RealityConstrainedModelErrorBudgetUp.RealityConstrainedModelErrorBudgetCarrier\_failure\_visibility}
+
+\begin{theorem}[Reality-constrained model error-budget selection handoff]
+\label{thm:reality-constrained-model-error-budget-selection-handoff}
+Every $\ModelSelectionBoundaryUp$ consumer of an accepted $\RealityConstrainedModelErrorBudgetUp$ carrier may consume the budget only through
+$$
+S,E,O,M,F,H,C,P,N.
+$$
+It receives source trace, error budget, observation window, mismatch ledger, failure surface, transport, replay, provenance, and local naming rows, not detached fit scoring outside the finite error-budget packet.
+\end{theorem}
+\begin{proof}
+Begin with the model-selection sibling named in the introduction. Its consumer route can inspect a budget packet only through the rows that this chapter exposes.
+
+Rows $S,E,O,M,F$ bind the substantive evidence: source route, declared budget, observation window, mismatch comparison, and visible failure surface. A fit score without these rows is not a projection of the accepted $\RealityConstrainedModelErrorBudgetUp$ carrier.
+
+Rows $H,C,P,N$ then transport, replay, source, and name the same packet for the selection boundary. Therefore the handoff to $\ModelSelectionBoundaryUp$ is through $S,E,O,M,F,H,C,P,N$ and cannot be replaced by detached scoring.
+\end{proof}
+\leanchecked{BEDC.Derived.RealityConstrainedModelErrorBudgetUp.RealityConstrainedModelErrorBudgetCarrier\_selection\_handoff}
 
 \falsifiablePrediction{A packet that preserves the model syntax while changing the error-budget row is rejected by the carrier classifier whenever the mismatch ledger or observation-window route is not preserved.}
 

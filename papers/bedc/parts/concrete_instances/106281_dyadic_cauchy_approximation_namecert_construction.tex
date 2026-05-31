@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCauchyApproximationUp$}
+\label{ch:concrete-instances-dyadic-cauchy-approximation-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the $\DyadicCauchyApproximationUp$ packet records the finite dyadic approximation surface used to pass from tolerance requests to regular rational and real-name consumers. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the completed real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the locator-facing route of \autoref{ch:concrete-instances-cauchy-real-locator-namecert}. The chapter names only finite dyadic approximation data; it does not introduce quotient streams, selected limits, trichotomy, open-cover compactness, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic Cauchy approximation carrier]
+\label{def:dyadic-cauchy-approximation-carrier}
+A $\DyadicCauchyApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,W,Q,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic radius, comparison, and refinement data requested by the approximation.
+\item $W$ is the finite $\StreamNameUp$ window row exposing the inspected stream prefixes associated with the dyadic tolerance request.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the same dyadic tolerances and stream windows.
+\item $E$ is the terminal $\RealUp$ seal available only after $D,W,Q$ have been displayed.
+\item $L$ is the $\CauchyRealLocatorUp$ handoff row, recording the locator-facing use of the same finite approximation data.
+\item $H$ records componentwise $\hsame$ transport for the tolerance, window, readback, Real seal, locator handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an approximation request through $D,W,Q,E,L$ to the named consumer rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicCauchyApproximationUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyRealLocatorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicCauchyApproximationUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite approximation history. It has no coordinate for quotient stream equality, selected limits, trichotomy, open-cover compactness, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic Cauchy approximation NameCert obligations]
+\label{thm:dyadic-cauchy-approximation-namecert-obligations}
+For every accepted $\DyadicCauchyApproximationUp$ carrier $K=(D,W,Q,E,L,H,C,P,N)$, the local $\NameCert_{\DyadicCauchyApproximationUp}$ surface consists exactly of carrier admission for the nine displayed rows, dyadic tolerance admission through $D$, finite stream-window exposure through $W$, regular rational readback through $Q$, RealUp sealing through $E$, CauchyRealLocator handoff through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-cauchy-approximation-carrier}. The only rows available to an approximation consumer are $D,W,Q,E,L,H,C,P,N$, so tolerance, window, readback, seal, locator, transport, replay, provenance, and naming obligations must be read there.
+
+The dyadic and stream obligations are bound by $D$ and $W$. The dyadic radius, comparison, and refinement data come from the $\DyadicRatCoreUp$ row, while the inspected prefixes are the finite $\StreamNameUp$ windows attached to the same request.
+
+The readback obligations are bound by $Q,E,L$. The regular rational row reads exactly the dyadic-window data, the Real seal is downstream of that row, and the locator handoff reuses the same finite approximation surface.
+
+Finally $H,C,P,N$ transport, replay, source, and name this route. Since the carrier has no quotient-stream, selected-limit, trichotomy, open-cover, choice, or ambient completeness coordinate, the listed obligations exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Dyadic Cauchy approximation RegSeqRat handoff]
+\label{thm:dyadic-cauchy-approximation-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer read of an accepted $\DyadicCauchyApproximationUp$ packet factors through
+$$
+D,W \longmapsto Q \longmapsto E,L,H,C,P,N .
+$$
+Thus the consumer first receives the $\DyadicRatCoreUp$ tolerance row and finite $\StreamNameUp$ windows, then the $\RegSeqRatUp$ readback, and only then the terminal $\RealUp$ seal or $\CauchyRealLocatorUp$ handoff. The route exports no quotient stream equality, selected limit, trichotomy, open-cover compactness, countable-choice schedule, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $K=(D,W,Q,E,L,H,C,P,N)$. The only approximation-facing entry point is the pair $D,W$, so every tolerance request is read as a dyadic core row together with a finite stream-window row.
+
+The regular rational stage is $Q$. It reads precisely the windows and dyadic tolerances already displayed by $D$ and $W$, so no separate stream quotient or selected limit can enter the handoff.
+
+The endpoint stage is $E,L,H,C,P,N$. The $\RealUp$ seal and $\CauchyRealLocatorUp$ handoff are downstream of the regular readback, while transport, replay, provenance, and local naming preserve the same finite route.
+\end{proof}
+
+\begin{theorem}[Dyadic Cauchy approximation window composition]
+\label{thm:dyadic-cauchy-approximation-window-composition}
+Every accepted $\DyadicCauchyApproximationUp$ packet composes a tolerance request through the $\DyadicRatCoreUp$ budget row $D$, the finite $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, and the terminal $\RealUp$-facing seal $E$ before any locator-facing or consumer-facing output is exported. The composed route is preserved by $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ naming $N$, and it provides no quotient-stream equality, selected limit, trichotomy, countable-choice schedule, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-cauchy-approximation-carrier}. The tolerance request is recorded first by $D$, and the only stream data available to it is the finite window row $W$.
+
+Apply the NameCert obligations theorem \autoref{thm:dyadic-cauchy-approximation-namecert-obligations}. It identifies the regular rational readback as $Q$, the Real-facing endpoint as $E$, and the locator handoff as $L$, all sourced by the same finite approximation history.
+
+Apply the RegSeqRat handoff theorem \autoref{thm:dyadic-cauchy-approximation-regseqrat-handoff}. It forces every $\RegSeqRatUp$ or $\RealUp$ consumer through $D,W,Q,E$ before transport, replay, provenance, and naming rows export the route.
+
+Since the carrier has no quotient-stream, selected-limit, trichotomy, choice, or ambient-completeness coordinate, the displayed window composition is the full consumer-visible path.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicCauchyApproximationUp$ consumer that reaches $\RegSeqRatUp$, $\RealUp$, or $\CauchyRealLocatorUp$ while omitting the DyadicRatCore tolerance row, StreamName window row, transport row, replay row, provenance row, or local naming row refutes the packet.}
+
+\closureat{DyadicCauchyApproximationUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCauchyApproximationUp}
+  \constructivestory{A $\DyadicCauchyApproximationUp$ packet is generated from a DyadicRatCore tolerance row, finite StreamName windows, RegSeqRat readback, a RealUp seal, a CauchyRealLocator handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-cauchy-approximation-carrier}, \autoref{thm:dyadic-cauchy-approximation-namecert-obligations}, and \autoref{thm:dyadic-cauchy-approximation-regseqrat-handoff} seed the finite dyadic approximation route from tolerance rows and stream windows to regular rational readback, Real seal, and locator handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, trichotomy, open-cover compactness, countable choice, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance routing, StreamName window exposure, RegSeqRat readback, Real seal nonescape, CauchyRealLocator handoff, transport, replay, provenance, and local naming for BEDC.Derived.DyadicCauchyApproximationUp.}
+\end{closurestatus}

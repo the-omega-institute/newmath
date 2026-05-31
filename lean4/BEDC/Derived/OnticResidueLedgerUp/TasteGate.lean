@@ -338,6 +338,36 @@ theorem OnticResidueLedgerBridgeExport_structural_rows_nonescape
         injection tail9 with hN _
         exact visibleN hN
 
+theorem OnticResidueLedgerMature_consumer_surface
+    {O M S A C R H T P N : BHist}
+    (visibleS : S ≠ BHist.Empty)
+    (visibleH : H ≠ BHist.Empty) :
+    onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) =
+        [O, M, S, A, C, R, H, T, P, N] ∧
+      onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+        onticResidueLedgerFields (OnticResidueLedgerUp.mk O M BHist.Empty A C R H T P N) ∧
+        onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+          onticResidueLedgerFields
+            (OnticResidueLedgerUp.mk O M S A C R BHist.Empty T P N) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  constructor
+  · rfl
+  · constructor
+    · intro hfields
+      injection hfields with _ tail1
+      injection tail1 with _ tail2
+      injection tail2 with hS _
+      exact visibleS hS
+    · intro hfields
+      injection hfields with _ tail1
+      injection tail1 with _ tail2
+      injection tail2 with _ tail3
+      injection tail3 with _ tail4
+      injection tail4 with _ tail5
+      injection tail5 with _ tail6
+      injection tail6 with hH _
+      exact visibleH hH
+
 end TasteGate
 
 namespace TasteGate

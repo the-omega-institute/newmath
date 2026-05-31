@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceFieldUp$}
+\label{ch:concrete-instances-cauchy-sequence-field-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the $\CauchySequenceFieldUp$ packet records the finite regular-Cauchy route by which field-facing real operations are read from rational names. It sits after the algebraic operation rows of $\CauchySequenceAlgebraUp$, the order and apartness rows of $\CauchySequenceOrderUp$, the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and before the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a non-quotient field-facing route; it does not import host real arithmetic, quotient representatives, trichotomy, countable choice, or ambient completeness.
+
+\begin{definition}[CauchySequenceField carrier]
+\label{def:cauchy-sequence-field-carrier}
+A $\CauchySequenceFieldUp$ carrier is a finite $\BHist$ packet
+$$
+F=(R,W,D,A,O,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row, carrying the regular rational name whose field-facing operations are being inspected.
+\item $W$ is the $\StreamNameUp$ synchronized-window row used to read the source sequence, companion operation inputs, and comparison requests at the same finite precision.
+\item $D$ is the $\DyadicRatCoreUp$ budget ledger for radii, slack, denominator guards, and tolerance comparisons opened by the synchronized windows.
+\item $A$ is the $\CauchySequenceAlgebraUp$ operation row, displaying addition, negation, multiplication, zero, one, and operation replay over the same regular-Cauchy source rows.
+\item $O$ is the $\CauchySequenceOrderUp$ order and apartness row, displaying positivity, nonzero guards, reciprocal-side admission, and comparison data read through $W$ and $D$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $R,W,D,A,O$ have been displayed and replayed.
+\item $H$ records componentwise $\hsame$ transport for the regular-rational source, synchronized windows, dyadic budgets, algebra rows, order rows, real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a field-operation request through $R,W,D,A,O,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchySequenceFieldUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchySequenceAlgebraUp$, $\CauchySequenceOrderUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySequenceFieldUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,W,D,A,O,E,H,C,P,N$. It has no coordinate for a quotient real, selected sequence representative, host real field operation, trichotomy branch, countable-choice schedule, or ambient completeness theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchySequenceFieldUp.CauchySequenceFieldTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[CauchySequenceField NameCert obligations]
+\label{thm:cauchy-sequence-field-namecert-obligations}
+For every accepted $\CauchySequenceFieldUp$ carrier $F=(R,W,D,A,O,E,H,C,P,N)$, the local $\NameCert_{\CauchySequenceFieldUp}$ surface consists exactly of carrier admission for the regular-rational source row $R$, synchronized-window exposure through $W$, dyadic budget exactness through $D$, algebraic operation exposure through $A$, order and apartness exposure through $O$, real-seal non-escape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. No field-facing obligation may replace these rows by host real arithmetic or quotient equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-sequence-field-carrier}. The visible rows are precisely the regular-rational source, synchronized windows, dyadic budget ledger, algebra row, order row, real seal, transport, replay, provenance, and local naming.
+
+The algebra row $A$ supplies the operation side only after the source row $R$ has been read through $W$ and $D$. The order row $O$ supplies positivity, apartness, and reciprocal-side guards through the same finite windows and budgets.
+
+The seal row $E$ is terminal. It is reached only after the regular-Cauchy source, window, budget, algebra, and order rows have been displayed, so it cannot be used as a detached host real.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no quotient representative, host operation, trichotomy, countable-choice, or completeness coordinate, those principles are not local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CauchySequenceField operation route]
+\label{thm:cauchy-sequence-field-operation-route}
+Every field-facing read exported by an accepted $\CauchySequenceFieldUp$ packet factors through the finite route
+$$
+\RegSeqRatUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto
+\CauchySequenceAlgebraUp \longmapsto \CauchySequenceOrderUp \longmapsto \RealUp .
+$$
+The route exposes algebraic operations and order-side guards as regular-Cauchy rows before any terminal real-name seal is inspected, and exports no host real arithmetic, quotient equality, selected representative, trichotomy branch, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a field-operation request for the accepted carrier $F=(R,W,D,A,O,E,H,C,P,N)$. Carrier projection exposes the $\RegSeqRatUp$ source row $R$ and the synchronized $\StreamNameUp$ windows $W$ before any operation row can be consumed.
+
+The dyadic ledger $D$ then fixes the finite budgets used by the request. Algebraic operation reads pass through $A$, while positivity, apartness, nonzero, and reciprocal-side reads pass through $O$ over the same windows and budgets.
+
+Only after those rows have been displayed does the request reach the terminal $\RealUp$ seal $E$. The replay row $C$ and transport row $H$ preserve this order componentwise, and $P,N$ source and name the same route.
+
+Because the packet has no alternate coordinate for host real arithmetic, quotient equality, selected representatives, trichotomy, countable choice, or ambient completeness, every exported field-facing read is forced through the displayed finite route.
+\end{proof}
+
+\closureat{CauchySequenceFieldUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequenceFieldUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequence-field-carrier}, \autoref{thm:cauchy-sequence-field-namecert-obligations}, and \autoref{thm:cauchy-sequence-field-operation-route} seed the finite regular-Cauchy field route from RegSeqRat, StreamName, DyadicRatCore, CauchySequenceAlgebra, and CauchySequenceOrder rows into the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host real arithmetic, quotient equality, selected sequence representatives, trichotomy, countable choice, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, synchronized-window exposure, dyadic-budget exactness, algebra and order handoff, real-seal non-escape, transport, and replay proofs for BEDC.Derived.CauchySequenceFieldUp.}
+  \constructivestory{A $\CauchySequenceFieldUp$ packet is generated from a regular rational source row, synchronized StreamName windows, a DyadicRatCore tolerance ledger, CauchySequenceAlgebra operation rows, CauchySequenceOrder order and apartness rows, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

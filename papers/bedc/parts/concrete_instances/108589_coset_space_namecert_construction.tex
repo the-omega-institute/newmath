@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\CosetSpaceUp$}
+\label{ch:concrete-instances-coset-space-namecert}
+\origin{human}
+
+Following Bourbaki's treatment of groups and cosets, the $\CosetSpaceUp$ packet records the finite BEDC surface at which left and right cosets become classifier data over a displayed group and subgroup. It sits after the group carrier of \autoref{ch:concrete-instances-group-namecert}, the subgroup membership surface of \autoref{ch:concrete-instances-subgroup-namecert}, and the quotient-facing route of \autoref{ch:concrete-instances-quotientgroup-namecert}; it is also compatible with the finite permutation surface of \autoref{ch:concrete-instances-symgroup-namecert} and the word-source discipline of \autoref{ch:concrete-instances-freemonoid-namecert}. The packet names coset membership and representative replacement as finite rows, not as a host quotient type or an appeal to $\mathsf{Quot.sound}$.
+
+\begin{definition}[Coset-space carrier]
+\label{def:coset-space-carrier}
+A $\CosetSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+X=(G,S,r,o,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the consumed $\GroupUp$ operation surface, including carrier, multiplication, unit, inverse, and operation-law rows;
+\item $S$ is the consumed $\SubgroupUp$ membership surface inside the group row $G$, including closure under multiplication, unit, inverse, and classifier transport;
+\item $r$ is the representative row naming the selected displayed group element used to read a coset;
+\item $o$ is the orientation row, distinguishing left-coset reads from right-coset reads without changing the ambient group or subgroup rows;
+\item $H$ is componentwise $\hsame$ transport for the group, subgroup, representative, orientation, replay, provenance, and local-name rows;
+\item $C$ is the displayed $\Cont$ replay route from a coset-space request through $G,S,r,o,H,P,N$;
+\item $P$ is the $\Pkg$ provenance over $\CosetSpaceUp$, $\GroupUp$, $\SubgroupUp$, $\QuotientGroupUp$, $\SymGroupUp$, $\FreeMonoidUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CosetSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers by the displayed group operation rows, subgroup membership rows, representative row, orientation row, transport, replay, provenance, and local naming. It has no coordinate for a host quotient set, quotient-type equality, selected transversal, external action orbit, or subgroup lattice object.
+\end{definition}
+
+\begin{theorem}[Coset-space NameCert obligations]
+\label{thm:coset-space-namecert-obligations}
+For the carrier of \autoref{def:coset-space-carrier}, the local $\NameCert_{\CosetSpaceUp}$ surface consists exactly of carrier admission for $X=(G,S,r,o,H,C,P,N)$, group-operation exposure through $G$, subgroup-membership exposure through $S$, oriented representative readback through $r,o$, componentwise classifier transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$. A consumer receives no host quotient type, $\mathsf{Quot.sound}$ equality, or off-packet representative selector.
+\end{theorem}
+\begin{proof}
+Project the carrier. The group row $G$ provides the only multiplication, unit, inverse, and operation-law data visible to the packet, and the subgroup row $S$ provides the only membership and closure data.
+
+The representative row $r$ and orientation row $o$ determine whether the consumer reads a left or right coset. This read is still a finite membership route through $G$ and $S$, so no host quotient carrier or selected transversal is introduced.
+
+Finally, $H,C,P,N$ preserve the same row inventory under transport, replay, provenance, and local naming. Since the carrier contains no coordinate for quotient-type equality or $\mathsf{Quot.sound}$, the local NameCert obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Coset-space classifier transport]
+\label{thm:coset-space-classifier-transport}
+Let $X=(G,S,r,o,H,C,P,N)$ and $X'=(G',S',r',o,H',C',P',N')$ be accepted $\CosetSpaceUp$ carriers with the same orientation row. If componentwise $\hsame$ transport identifies the group operation rows, subgroup membership rows, and representative rows, and if representative replacement is witnessed by the displayed subgroup-membership transport in $S$ and $S'$, then the two carriers classify together as the same coset-space read. The transported classifier does not pass through a host quotient type or $\mathsf{Quot.sound}$.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers. The group rows $G,G'$ supply the only multiplication and inverse operations, while the subgroup rows $S,S'$ supply the only membership tests available for comparing representative replacements.
+
+Use the displayed representative transport between $r$ and $r'$. For a left-coset orientation, the replacement is read by multiplying the transported representative difference against the subgroup membership row; for a right-coset orientation, the same argument is read on the opposite side. In both cases the membership witness remains inside $S$ and $S'$.
+
+Replay the result through $C$ and $C'$ and compare provenance and local naming through $P,N$ and $P',N'$. Because the route never leaves the displayed $G,S,r,o$ rows, the classifier transport is a coset-membership transport rather than a quotient-type equality proof.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CosetSpaceUp$ consumer is refuted if it exports a coset classifier while omitting the displayed group row, subgroup membership row, representative row, orientation row, transport, replay, provenance, or local NameCert row.}
+
+\independenceWitness{group, subgroup, quotientgroup, symgroup, freemonoid: none is bijective to $\CosetSpaceUp$ because this packet jointly carries the ambient group operation, subgroup membership surface, representative row, left/right orientation, transport, replay, provenance, and local naming. The group packet lacks subgroup membership and representatives; the subgroup packet lacks oriented coset classification; the quotient group packet names a quotient-facing route; the symmetric group and free monoid packets provide finite action and word sources without owning coset membership transport.}
+
+\closureat{CosetSpaceUp}{seedStr}
+
+\begin{closurestatus}{\CosetSpaceUp}
+  \constructivestory{A $\CosetSpaceUp$ packet is generated from a group operation row, subgroup membership row, representative row, left/right orientation row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:coset-space-carrier}, \autoref{thm:coset-space-namecert-obligations}, and \autoref{thm:coset-space-classifier-transport} seed the coset-space carrier, obligation surface, and representative-transport classifier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient-group normality, orbit-stabilizer theory, selected transversals, or host quotient-type equality for $\CosetSpaceUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, group and subgroup row exposure, oriented representative transport, replay stability, provenance non-escape, and TasteGate instances for BEDC.Derived.CosetSpaceUp.}
+\end{closurestatus}

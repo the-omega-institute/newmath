@@ -84,6 +84,24 @@ Now apply \autoref{thm:located-set-distance-handoff}. The distance handoff force
 The final handoff is therefore exact. The rows $H,C,P,N$ transport, replay, source, and name this same route, while $T$ exposes it to $\LocatedMetricUp$ consumers only after the Real seal has been displayed. Since the carrier has no coordinate for nearest points, open covers, quotient subset equality, completed ambient spaces, or full real completeness, none of those principles can appear in the Real-distance seal.
 \end{proof}
 
+\begin{theorem}[LocatedSet nearest-point refusal boundary]
+\label{thm:located-set-nearest-point-refusal-boundary}
+Every consumer asking for a nearest-point or projection endpoint from an accepted $\LocatedSetUp$ packet must supply an additional endpoint witness row outside
+$$
+(X,A,Q,R,E,T,H,C,P,N).
+$$
+The $\LocatedSetUp$ packet itself exports only the parent $\MetricUp$ row, $\MetricSubspaceUp$ admission, located-distance ledger, rational comparison windows, $\RealUp$ seal, $\LocatedMetricUp$ handoff, componentwise transport, continuation replay, provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:located-set-carrier}. The carrier tuple lists the parent metric row, subspace admission row, located-distance ledger, rational windows, real distance row, located-metric handoff, and the four structural rows.
+
+Apply \autoref{thm:located-set-distance-handoff}. It forces every distance consumer through $X,A,Q,R,E$ before the result can be read by located-metric, completion, compactness, or total-boundedness consumers.
+
+Apply \autoref{thm:located-set-real-distance-seal-exactness}. The real distance read is exactly the displayed metric, subspace, located-distance, rational-window, real-seal, and located-metric route.
+
+No row of $(X,A,Q,R,E,T,H,C,P,N)$ is an endpoint witness row. Hence a $\ProximinalSetUp$, $\MetricProjectionUp$, compactness, or projection consumer that needs a nearest point or projection endpoint must provide that endpoint evidence outside the $\LocatedSetUp$ packet.
+\end{proof}
+
 \falsifiablePrediction{Every $\LocatedSetUp$ read from an accepted packet factors through the parent $\MetricUp$ row, $\MetricSubspaceUp$ admission row, located-distance ledger, rational comparison windows, $\RealUp$ distance seal, located-metric handoff, componentwise transport, continuation replay, provenance, and local $\NameCert$ before any completion, compactness, or total-boundedness consumer reads the route.}
 
 \independenceWitness{metric, metricsubspace, locatedmetric, real: $\LocatedSetUp$ is not bijective to any listed sibling because it jointly carries parent metric data, displayed subspace admission, a located-distance ledger, rational windows, a RealUp distance seal, located-metric handoff, transport, continuation replay, provenance, and local naming.}

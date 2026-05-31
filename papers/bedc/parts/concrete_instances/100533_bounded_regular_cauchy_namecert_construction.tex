@@ -91,6 +91,46 @@ The repacking stage preserves the $\RegSeqRatUp$ handoff because $Q$ has no coor
 The conclusion follows from \autoref{thm:bounded-regular-cauchy-real-seal-boundary} together with ledger non-escape in $P$ and $N$. Since those rows export no endpoint choice, selected limit, quotient stream, countable choice, trichotomy, open-cover compactness, or ambient Real equality, the induction remains confined to the displayed threshold windows.
 \end{proof}
 
+\begin{theorem}[BoundedRegularCauchy modulus-chain induction]
+\label{thm:bounded-regular-cauchy-modulus-chain-induction}
+For every accepted $\BoundedRegularCauchyUp$ carrier
+$$
+R_{\mathrm{bd}}=(S,M,B,Q,A,H,C,P,N),
+$$
+induction on the finite modulus chain displayed by $M$ shows that each tolerance request first reads its threshold from $M$, then reads the dyadic boundedness ledger $B$, then repacks through the $\RegSeqRatUp$ row $Q$, and only after those rows reaches the terminal $\RealUp$ seal $A$. The induction exports no quotient stream, selected limit, countable choice, trichotomy, open-cover compactness, or ambient Real equality.
+\end{theorem}
+\begin{proof}
+The base stage is the first displayed tolerance request. By \autoref{def:bounded-regular-cauchy-carrier}, the request has no threshold coordinate except the modulus row $M$, and no bound coordinate except the dyadic ledger $B$.
+
+For the induction step, assume all earlier displayed requests have followed the route through $M,B,Q$. The successor request is still a row of the same finite chain $M$, so the continuation replay in $C$ can only expose the corresponding $B$-entry before the readback row $Q$ is consumed.
+
+The terminal stage is fixed by \autoref{thm:bounded-regular-cauchy-real-seal-boundary}. That theorem places $A$ after the displayed modulus, boundedness, and regular-readback rows, so the induction cannot reach the Real seal before $M,B,Q$ have appeared.
+
+Finally the structural rows $H,P,N$ add transport, provenance, and local naming without adding excluded coordinates. Thus the whole finite modulus-chain induction remains confined to the displayed carrier rows.
+\end{proof}
+
+\begin{theorem}[BoundedRegularCauchy tail-modulus extraction]
+\label{thm:bounded-regular-cauchy-tail-modulus-extraction}
+For every accepted $\BoundedRegularCauchyUp$ carrier
+$$
+R_{\mathrm{bd}}=(S,M,B,Q,A,H,C,P,N),
+$$
+each displayed dyadic tolerance request exports a finite tail-modulus threshold row by the route
+$$
+M \longrightarrow B \longrightarrow Q \longrightarrow A .
+$$
+The request first reads its threshold from the modulus schedule $M$, validates the late-window dyadic bound in $B$, repacks the bounded late observations through the $\RegSeqRatUp$ readback row $Q$, and reaches the terminal $\RealUp$ seal $A$ only after those rows have been displayed. The exported threshold row is therefore a reusable Real and Completion handoff, not a quotient stream representative, selected limit, countable-choice schedule, trichotomy principle, open-cover compactness proof, or ambient Real equality.
+\end{theorem}
+\begin{proof}
+Carrier projection from \autoref{def:bounded-regular-cauchy-carrier} gives the only available rows for a tolerance request: the stream windows $S$, modulus schedule $M$, dyadic bound $B$, regular readback $Q$, and terminal Real seal $A$.
+
+The Real-seal boundary of \autoref{thm:bounded-regular-cauchy-real-seal-boundary} orders any Real-facing or Completion-facing read through the displayed finite route before $A$ can be consumed. Hence no terminal seal can appear before the modulus, boundedness, and readback rows have been exposed.
+
+Apply the tail-window induction of \autoref{thm:bounded-regular-cauchy-tail-window-induction} to keep each late window attached to its finite threshold in $M$ and its displayed observations in $S$. Then apply \autoref{thm:bounded-regular-cauchy-modulus-chain-induction} to read the threshold chain through $M,B,Q,A$.
+
+The extracted threshold row is the finite row produced by that chain. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so the handoff cannot introduce a quotient representative, selected limit, choice schedule, trichotomy principle, open-cover compactness proof, or ambient Real equality.
+\end{proof}
+
 \closureat{BoundedRegularCauchyUp}{seedStr}
 
 \begin{closurestatus}{\BoundedRegularCauchyUp}

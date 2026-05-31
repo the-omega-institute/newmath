@@ -68,6 +68,28 @@ The ledger key $K$ and local-join ledger $J$ are then read together. The bounded
 The route-separation row $S$ remains visible before the audit replay $A$ and structural rows package the read. Therefore the consumer receives a finite ledger route, while the excluded global confluence and subject-reduction claims remain outside the packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-pair ledger local-join induction]
+\label{thm:metacic-critical-pair-ledger-local-join-induction}
+For every accepted $\MetaCICCriticalPairLedgerUp$ carrier
+$$
+L=(B,F,D,K,J,E,S,A,H,C,P,N),
+$$
+induction over the finite ledger-key row $K$ preserves the route
+$$
+B,F,D \longmapsto K,J \longmapsto E,S \longmapsto A,H,C,P,N
+$$
+for each displayed critical-pair entry. Each induction step reads the local join from $J$ before the bounded-checker handoff $E$ and the subject-reduction separation row $S$, and no step upgrades the ledger to global confluence, arbitrary closed-term Church--Rosser, full parallel diamond, residual-substitution compatibility, or unchecked subject-reduction discharge.
+\end{theorem}
+\begin{proof}
+The base key is read after the source rows $B,F,D$. By \autoref{def:metacic-critical-pair-ledger-carrier}, the first ledger entry has no join coordinate except the displayed local-join row $J$.
+
+For the induction step, assume the route has been preserved for the earlier ledger keys. The next key is another finite entry of $K$, so the packet again exposes its join candidate through $J$ before any bounded-checker handoff through $E$ is available.
+
+The separation row $S$ remains downstream of the local join and checker rows. Applying \autoref{thm:metacic-critical-pair-ledger-audit-route}, the audit replay can therefore continue only through $A,H,C,P,N$ after the route $B,F,D \longmapsto K,J \longmapsto E,S$ has been displayed.
+
+No excluded confluence principle is present in the carrier. Componentwise transport, continuation replay, provenance, and local naming preserve the finite ledger route without adding global confluence, arbitrary closed-term Church--Rosser, full parallel diamond, residual-substitution compatibility, or unchecked subject-reduction discharge.
+\end{proof}
+
 \closureat{MetaCICCriticalPairLedgerUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICCriticalPairLedgerUp}

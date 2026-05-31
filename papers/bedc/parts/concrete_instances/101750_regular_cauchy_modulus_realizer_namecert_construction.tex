@@ -74,6 +74,20 @@ Once $A$ and $M$ are fixed, the selected window $W$ is the finite stream row con
 Finally the seal $E$ and structural rows $H,C,P,N$ close the finite route. They preserve and name the displayed path, but they introduce none of the excluded completeness, quotient, choice, order, verification, or bridge data.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy modulus realizer stream handoff]
+\label{thm:regular-cauchy-modulus-realizer-stream-handoff}
+Every accepted $\RegularCauchyModulusRealizerUp$ read that reaches a $\RegSeqRatUp$ or $\RealUp$ consumer must expose the $\StreamNameUp$ finite window, selected tail schedule, $\DyadicRatCoreUp$ tolerance budget, and componentwise $\hsame$ and $\Cont$ replay rows before the Real seal row can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-modulus-realizer-carrier}. The stream-facing window is the row $W$, the dyadic budget is $D$, and the structural replay is carried by $H$ and $C$.
+
+Use the tail realization of \autoref{thm:regular-cauchy-modulus-realizer-tail-realization}. It fixes the selected tail window by the displayed route from the precision request row $A$ through the Cauchy-modulus threshold row $M$ before any regular readback or terminal seal is visible.
+
+Now apply request transport determinacy, \autoref{thm:regular-cauchy-modulus-realizer-request-transport-determinacy}. Under componentwise $\hsame$ transport and displayed $\Cont$ replay, the same request-threshold route keeps the same selected window, tolerance ledger, regular readback, and seal-facing path.
+
+Thus any downstream $\RegSeqRatUp$ or $\RealUp$ consumer receives the finite window, selected tail schedule, dyadic tolerance budget, and replay rows before reading the Real seal. The carrier contains no selected-limit, quotient-stream, host-real-equality, choice, or ambient-completeness coordinate that could bypass this stream handoff.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy modulus realizer request transport determinacy]
 \label{thm:regular-cauchy-modulus-realizer-request-transport-determinacy}
 Let

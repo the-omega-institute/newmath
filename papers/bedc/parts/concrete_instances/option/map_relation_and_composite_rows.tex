@@ -669,6 +669,39 @@ certificate rows, the public exit has no additional data channel.
 \end{proof}
 \leanchecked{BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate}
 
+\begin{theorem}[Option payload-map totality]
+\label{thm:option-payload-map-totality}
+Every public payload-map read of an accepted $\OptionUp$ packet first reads the
+visible $\BoolUp$ tag. If the tag is the displayed absent endpoint, the read
+returns the displayed none witness and exposes no payload row. If the tag is
+the displayed present endpoint, the read exposes exactly one payload row through
+the present-payload classifier and the $\OptionUp$ classifier, with replay and
+provenance carried by the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\OptionUp}$ rows used by the public exit package.
+\end{theorem}
+\begin{proof}
+Begin with the public finite-data exit package of
+\autoref{thm:option-finite-data-public-exit-package}. It restricts every public
+read to the displayed finite carrier, classifier, replay, provenance, and
+certificate rows, so a payload-map consumer has no channel before the visible
+tag is inspected.
+
+The absent case is fixed by the exclusive branch readback and cross-source
+separation theorems. The displayed absent endpoint is the none witness, and the
+visible payload classification theorems rule out any present payload row in
+that branch.
+
+In the present case, use map relation coherence together with visible payload
+classification. The intermediate factor coverage and unique intermediate
+factor statements in this file identify the single present payload row read by
+the public map relation, and the option classifier records it as the displayed
+some witness.
+
+Thus the payload-map read is total as a visible $\OptionUp$ witness: absent
+reads return none, present reads return one classified payload row, and both
+branches stay inside the same displayed public package.
+\end{proof}
+
 \closureat{OptionUp}{scopedStr}[BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate]
 \closureat{OptionUp}{matureStr}[BEDC.Derived.OptionUp.option\_history\_semantic\_name\_certificate]
 

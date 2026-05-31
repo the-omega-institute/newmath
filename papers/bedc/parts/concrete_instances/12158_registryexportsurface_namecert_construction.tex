@@ -129,17 +129,33 @@ Thus the Lean surface named in the theorem is the appropriate follow-up site for
 
 \independenceWitness{cannotclaim, largemodeloutputverifier, focused-multi-hist-ledger, groundcompilerrecognizerflow: the cannot-claim packet records refusal rows without machine-target export, the large-model verifier records checked output without registry status coverage, the focused multi-Hist ledger records a finite focus ledger without claim blocking, and the GroundCompiler recognizer flow records machine recognition without the full registration, blocking, audit, and non-smuggling packet. None is bijective to $\RegistryExportSurfaceUp$.}
 
+\begin{theorem}[Registry export surface public bridge route]
+\label{thm:registry-export-surface-public-bridge-route}
+The public $\RegistryExportSurfaceUp$ route bridges registration, blocking, status, machine-target, audit, and non-smuggling rows to the sibling surfaces \autoref{ch:concrete-instances-axiszeckendorfcannotclaim-namecert}, \autoref{ch:concrete-instances-largemodeloutputverifier-namecert}, \autoref{ch:concrete-instances-focused-multi-hist-ledger-namecert}, \autoref{ch:concrete-instances-groundcompilerrecognition-namecert}, and \autoref{ch:concrete-instances-physical-namecert-audit-namecert}. The bridge-facing route is paper-level: it records the public dependency surface while leaving Lean bridge checking and $\StdBridge$ discharge outside this chapter.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:registry-export-surface-namecert-obligations}. It displays the registration row $R$, blocking row $B$, status row $S$, machine-target row $M$, audit row $A$, non-smuggling row $U$, and structural rows $H,C,P,N$.
+
+Use \autoref{thm:registry-export-surface-nonescape}, \autoref{thm:registry-export-surface-status-exactness}, and \autoref{thm:registry-export-surface-machine-target-audit-route}. These theorems keep export, blocking, status, machine target, and audit reads inside the public carrier instead of prose or hidden registry state.
+
+Finally apply \autoref{thm:registry-export-surface-nonsmuggling-ledger-exhaustion}. The non-smuggling row connects the public route to the cannot-claim, large-model-output-verifier, focused-ledger, GroundCompiler-recognition, and physical NameCert audit sibling surfaces named in the chapter introduction. Since no checked $\StdBridge$ row is displayed, the result is a bridged paper route while the bridge verification axis remains unchanged.
+\end{proof}
+
 \closureat{RegistryExportSurfaceUp}{seedStr}
 \closureat{RegistryExportSurfaceUp}{obligationStr}
+\closureat{RegistryExportSurfaceUp}{scopedStr}
+\closureat{RegistryExportSurfaceUp}{publicStr}
+\closureat{RegistryExportSurfaceUp}{bridgedStr}
+\closureat{RegistryExportSurfaceUp}{matureStr}
 
 \begin{closurestatus}{\RegistryExportSurfaceUp}
   \constructivestory{A $\RegistryExportSurfaceUp$ packet is generated from registration, blocking, status, machine-target, audit, non-smuggling, transport, replay, provenance, and local naming rows.}
   \leanchecked{BEDC.Derived.RegistryExportSurfaceUp.taste\_gate}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation packet records the carrier, NameCert obligations, non-escape theorem, status exactness, machine-target audit route, non-smuggling ledger exhaustion, TasteGate witness, falsifiable prediction, and independence witness for registry export control.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature export surface is closed by the carrier rows $R,B,S,M,A,U,H,C,P,N$, the local $\NameCert$ obligations, nonescape, status exactness, machine-target audit route, non-smuggling ledger exhaustion, the TasteGate obligation, and \autoref{thm:registry-export-surface-public-bridge-route}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, hidden registry state, prose-only export, or machine targets that bypass blocking.}
-  \upgradepath{Scoped closure requires checked registration, blocking, status, machine-target, audit, non-smuggling, transport, replay, provenance, and local naming rows.}
+  \upgradepath{Lean closure requires checked registration, blocking, status, machine-target, audit, non-smuggling, transport, replay, provenance, and local naming rows.}
 \end{closurestatus}

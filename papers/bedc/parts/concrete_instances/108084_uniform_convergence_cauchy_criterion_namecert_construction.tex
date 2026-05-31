@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\UniformConvergenceCauchyCriterionUp$}
+\label{ch:concrete-instances-uniform-convergence-cauchy-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive uniform convergence and Cauchy criteria, the $\UniformConvergenceCauchyCriterionUp$ packet records the finite means by which a displayed family of real-valued observations is certified uniformly Cauchy before any completion or uniform-limit consumer reads it. It sits between the uniform-limit handoff of \autoref{ch:concrete-instances-uniform-sequential-limit-namecert}, the common refinement mesh of \autoref{ch:concrete-instances-cauchy-mesh-refinement-namecert}, and the fast criterion route of \autoref{ch:concrete-instances-fast-cauchy-criterion-namecert}. The packet supplies later uniform-limit and completion-extension certificates with a finite Cauchy surface; it does not import host function limits, quotient equality of functions, countable choice, ambient completeness, or a selected limiting map.
+
+\begin{definition}[Uniform convergence Cauchy criterion carrier]
+\label{def:uniform-convergence-cauchy-criterion-carrier}
+A $\UniformConvergenceCauchyCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(U,M,F,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the uniform observation row. It records the accepted $\UniformConvergenceUp$ tail requests and the finite source windows through which the family is inspected.
+\item $M$ is the common mesh row supplied by $\CauchyMeshRefinementUp$. It aligns all displayed source windows under one finite tolerance ledger before any readback occurs.
+\item $F$ is the fast criterion row supplied by $\FastCauchyCriterionUp$. It exposes the monotone threshold discipline used to answer each requested precision.
+\item $Q$ is the Cauchy comparison row. It records that every pair of displayed source entries beyond the threshold named by $F$ is compared through the common mesh named by $M$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same windows, mesh, and fast threshold.
+\item $E$ is the terminal completion or $\RealUp$ seal row reached only after $U,M,F,Q,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $U,M,F,Q,R,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a uniform-Cauchy request through the observation, mesh, fast-threshold, comparison, readback, seal, transport, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\UniformConvergenceCauchyCriterionUp$, $\UniformConvergenceUp$, $\UniformSequentialLimitUp$, $\CauchyMeshRefinementUp$, $\FastCauchyCriterionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformConvergenceCauchyCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,M,F,Q,R,E,H,C,P,N$. It has no coordinate for a host-space function limit, quotient equality of functions, countable-choice schedule, ambient completion theorem, or selected limit object.
+\end{definition}
+
+\begin{theorem}[Uniform convergence Cauchy criterion NameCert obligations]
+\label{thm:uniform-convergence-cauchy-criterion-namecert-obligations}
+For every accepted $\UniformConvergenceCauchyCriterionUp$ carrier
+$$
+K=(U,M,F,Q,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\UniformConvergenceCauchyCriterionUp}$ surface consists exactly of the following five obligation families:
+\begin{enumerate}
+\item uniform source-window admission through $U$;
+\item common finite mesh exposure through $M$;
+\item fast threshold and pairwise Cauchy comparison through $F,Q$;
+\item regular rational readback and terminal seal routing through $R,E$;
+\item componentwise transport, displayed replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+Consequently every accepted packet exports a finite uniform-Cauchy criterion over displayed BEDC rows, not a host function limit, quotient equality of functions, countable-choice schedule, ambient completeness claim, or selected limiting map.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-convergence-cauchy-criterion-carrier}. The row $U$ exposes only the displayed uniform source windows, while $M$ supplies the common finite mesh used by all later comparisons.
+
+Read $F$ and $Q$ next. The fast threshold row gives the precision discipline, and the comparison row forces each post-threshold pair to be checked against the same finite mesh rather than against an unlisted limiting object.
+
+Finally read $R,E,H,C,P,N$. The regular rational readback and terminal seal are downstream of the source, mesh, threshold, and comparison rows, and the structural rows transport and name exactly that route. Since the excluded analytic objects are absent from the carrier inventory, the five listed obligation families exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Uniform convergence Cauchy criterion completion handoff]
+\label{thm:uniform-convergence-cauchy-criterion-completion-handoff}
+Every uniform-limit or completion-extension consumer of an accepted $\UniformConvergenceCauchyCriterionUp$ carrier factors through the displayed route
+$$
+\UniformConvergenceUp \longmapsto \CauchyMeshRefinementUp \longmapsto \FastCauchyCriterionUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The handoff may be consumed by $\UniformSequentialLimitUp$ and later completion certificates only as finite Cauchy data over $U,M,F,Q,R,E,H,C,P,N$. It does not supply host function limits, quotient equality of functions, countable choice, ambient completeness, or a selected limit map.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for a uniform-limit or completion-extension read. Carrier admission exposes $U$ first, so the request sees only displayed uniform source windows.
+
+The request must then pass through $M,F,Q$. The common mesh row aligns the source windows, the fast row gives the precision threshold, and the comparison row records the Cauchy checks performed after that threshold.
+
+The only downstream readback is $R,E,H,C,P,N$. These rows package the regular rational observations, terminal seal, transport, replay, provenance, and local naming. Hence $\UniformSequentialLimitUp$ and completion-facing consumers receive finite criterion data and no extra analytic principle.
+\end{proof}
+
+\closureat{UniformConvergenceCauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{\UniformConvergenceCauchyCriterionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-convergence-cauchy-criterion-carrier}, \autoref{thm:uniform-convergence-cauchy-criterion-namecert-obligations}, and \autoref{thm:uniform-convergence-cauchy-criterion-completion-handoff} seed the finite uniform-Cauchy criterion route over UniformConvergence, CauchyMeshRefinement, FastCauchyCriterion, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function limits, quotient equality of functions, countable choice, ambient completeness, selected limit maps, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source-window admission, common mesh exposure, fast threshold stability, Cauchy comparison routing, readback, terminal seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.UniformConvergenceCauchyCriterionUp.}
+  \constructivestory{A $\UniformConvergenceCauchyCriterionUp$ packet is generated from uniform source windows, a common CauchyMeshRefinement row, a FastCauchyCriterion threshold row, a pairwise Cauchy comparison row, RegSeqRat readback, terminal seal routing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

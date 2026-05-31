@@ -1,0 +1,627 @@
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+import BEDC.Meta.TasteGate
+
+namespace BEDC.Derived.TotallyBoundedMetricUp.TasteGate
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+open BEDC.GroundCompiler.EventFlow
+open BEDC.Meta.TasteGate
+
+inductive TotallyBoundedMetricUp : Type where
+  | mk (M R E D S Q H C P N : BHist) : TotallyBoundedMetricUp
+  deriving DecidableEq
+
+def totallyBoundedMetricEncodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | BHist.Empty => []
+  | BHist.e0 h => BMark.b0 :: totallyBoundedMetricEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: totallyBoundedMetricEncodeBHist h
+
+def totallyBoundedMetricDecodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | [] => BHist.Empty
+  | BMark.b0 :: tail => BHist.e0 (totallyBoundedMetricDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (totallyBoundedMetricDecodeBHist tail)
+
+private theorem TotallyBoundedMetricTasteGate_single_carrier_alignment_decode :
+    ∀ h : BHist, totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist h) = h := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  induction h with
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
+
+def totallyBoundedMetricToEventFlow : TotallyBoundedMetricUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | TotallyBoundedMetricUp.mk M R E D S Q H C P N =>
+      [[BMark.b0],
+        totallyBoundedMetricEncodeBHist M,
+        [BMark.b1, BMark.b0],
+        totallyBoundedMetricEncodeBHist R,
+        [BMark.b1, BMark.b1, BMark.b0],
+        totallyBoundedMetricEncodeBHist E,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        totallyBoundedMetricEncodeBHist D,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        totallyBoundedMetricEncodeBHist S,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        totallyBoundedMetricEncodeBHist Q,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        totallyBoundedMetricEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        totallyBoundedMetricEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        totallyBoundedMetricEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        totallyBoundedMetricEncodeBHist N]
+
+private def totallyBoundedMetricEventAtDefault : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => totallyBoundedMetricEventAtDefault index rest
+
+def totallyBoundedMetricFromEventFlow (ef : EventFlow) : Option TotallyBoundedMetricUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (TotallyBoundedMetricUp.mk
+      (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEventAtDefault 1 ef))
+      (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEventAtDefault 3 ef))
+      (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEventAtDefault 5 ef))
+      (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEventAtDefault 7 ef))
+      (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEventAtDefault 9 ef))
+      (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEventAtDefault 11 ef))
+      (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEventAtDefault 13 ef))
+      (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEventAtDefault 15 ef))
+      (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEventAtDefault 17 ef))
+      (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEventAtDefault 19 ef)))
+
+private theorem TotallyBoundedMetricTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : TotallyBoundedMetricUp,
+      totallyBoundedMetricFromEventFlow (totallyBoundedMetricToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
+  cases x with
+  | mk M R E D S Q H C P N =>
+      change
+        some
+          (TotallyBoundedMetricUp.mk
+            (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist M))
+            (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist R))
+            (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist E))
+            (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist D))
+            (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist S))
+            (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist Q))
+            (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist H))
+            (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist C))
+            (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist P))
+            (totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist N))) =
+          some (TotallyBoundedMetricUp.mk M R E D S Q H C P N)
+      rw [TotallyBoundedMetricTasteGate_single_carrier_alignment_decode M,
+        TotallyBoundedMetricTasteGate_single_carrier_alignment_decode R,
+        TotallyBoundedMetricTasteGate_single_carrier_alignment_decode E,
+        TotallyBoundedMetricTasteGate_single_carrier_alignment_decode D,
+        TotallyBoundedMetricTasteGate_single_carrier_alignment_decode S,
+        TotallyBoundedMetricTasteGate_single_carrier_alignment_decode Q,
+        TotallyBoundedMetricTasteGate_single_carrier_alignment_decode H,
+        TotallyBoundedMetricTasteGate_single_carrier_alignment_decode C,
+        TotallyBoundedMetricTasteGate_single_carrier_alignment_decode P,
+        TotallyBoundedMetricTasteGate_single_carrier_alignment_decode N]
+
+private theorem TotallyBoundedMetricTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : TotallyBoundedMetricUp} :
+    totallyBoundedMetricToEventFlow x = totallyBoundedMetricToEventFlow y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hread :
+      totallyBoundedMetricFromEventFlow (totallyBoundedMetricToEventFlow x) =
+        totallyBoundedMetricFromEventFlow (totallyBoundedMetricToEventFlow y) :=
+    congrArg totallyBoundedMetricFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans
+      (TotallyBoundedMetricTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (TotallyBoundedMetricTasteGate_single_carrier_alignment_round_trip y)))
+
+private def totallyBoundedMetricFields : TotallyBoundedMetricUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | TotallyBoundedMetricUp.mk M R E D S Q H C P N => [M, R, E, D, S, Q, H, C, P, N]
+
+private theorem TotallyBoundedMetricTasteGate_single_carrier_alignment_fields :
+    ∀ x y : TotallyBoundedMetricUp, totallyBoundedMetricFields x = totallyBoundedMetricFields y →
+      x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk M1 R1 E1 D1 S1 Q1 H1 C1 P1 N1 =>
+      cases y with
+      | mk M2 R2 E2 D2 S2 Q2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
+instance totallyBoundedMetricBHistCarrier : BHistCarrier TotallyBoundedMetricUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  toEventFlow := totallyBoundedMetricToEventFlow
+  fromEventFlow := totallyBoundedMetricFromEventFlow
+
+instance totallyBoundedMetricChapterTasteGate : ChapterTasteGate TotallyBoundedMetricUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  round_trip := by
+    intro x
+    change totallyBoundedMetricFromEventFlow (totallyBoundedMetricToEventFlow x) = some x
+    exact TotallyBoundedMetricTasteGate_single_carrier_alignment_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (TotallyBoundedMetricTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+instance totallyBoundedMetricFieldFaithful : FieldFaithful TotallyBoundedMetricUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := totallyBoundedMetricFields
+  field_faithful := TotallyBoundedMetricTasteGate_single_carrier_alignment_fields
+
+instance totallyBoundedMetricNontrivial : Nontrivial TotallyBoundedMetricUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨TotallyBoundedMetricUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      TotallyBoundedMetricUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def totallyBoundedMetricTasteGate : ChapterTasteGate TotallyBoundedMetricUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  totallyBoundedMetricChapterTasteGate
+
+theorem TotallyBoundedMetricTasteGate_single_carrier_alignment :
+    (∀ h : BHist, totallyBoundedMetricDecodeBHist (totallyBoundedMetricEncodeBHist h) = h) ∧
+      (∀ x : TotallyBoundedMetricUp,
+        totallyBoundedMetricFromEventFlow (totallyBoundedMetricToEventFlow x) = some x) ∧
+        (∀ x y : TotallyBoundedMetricUp,
+          totallyBoundedMetricToEventFlow x = totallyBoundedMetricToEventFlow y → x = y) ∧
+          totallyBoundedMetricEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨TotallyBoundedMetricTasteGate_single_carrier_alignment_decode,
+      TotallyBoundedMetricTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => TotallyBoundedMetricTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
+
+def TotallyBoundedMetricCarrier [AskSetup] [PackageSetup]
+    (M R E D S Q H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory D ∧
+    UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory C ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ Cont M R D ∧ Cont D S Q ∧
+        Cont H C P ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem TotallyBoundedMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {M R E D S Q H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row E ∧ TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row R ∨ hsame row D ∨ Cont M R D ∨ Cont D S Q)
+          (fun row : BHist =>
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧ hsame row E)
+          hsame ∧
+        UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory D ∧
+          UnaryHistory S ∧ UnaryHistory Q ∧ Cont M R D ∧ Cont D S Q ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier
+  obtain ⟨MUnary, RUnary, EUnary, DUnary, SUnary, QUnary, _HUnary, _CUnary, _PUnary,
+    _NUnary, metricToleranceRoute, windowReadbackRoute, _transportReplayRoute,
+    provenancePkg, localNamePkg⟩ := carrier
+  have carrierAtE :
+      TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg :=
+    ⟨MUnary, RUnary, EUnary, DUnary, SUnary, QUnary, _HUnary, _CUnary, _PUnary,
+      _NUnary, metricToleranceRoute, windowReadbackRoute, _transportReplayRoute,
+      provenancePkg, localNamePkg⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row E ∧ TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row R ∨ hsame row D ∨ Cont M R D ∨ Cont D S Q)
+          (fun row : BHist =>
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧ hsame row E)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro E ⟨hsame_refl E, carrierAtE⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inl metricToleranceRoute)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, localNamePkg, source.left⟩
+  }
+  exact
+    ⟨cert, MUnary, RUnary, EUnary, DUnary, SUnary, QUnary, metricToleranceRoute,
+      windowReadbackRoute, provenancePkg, localNamePkg⟩
+
+theorem TotallyBoundedMetricCarrier_finite_net_factorization [AskSetup] [PackageSetup]
+    {M R E D S Q H C P N metricRead toleranceRead finiteNetRead windowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg ->
+      Cont M R metricRead ->
+        Cont metricRead D toleranceRead ->
+          Cont toleranceRead E finiteNetRead ->
+            Cont finiteNetRead S windowRead ->
+              PkgSig bundle windowRead pkg ->
+                UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory D ∧
+                  UnaryHistory S ∧ UnaryHistory metricRead ∧ UnaryHistory toleranceRead ∧
+                    UnaryHistory finiteNetRead ∧ UnaryHistory windowRead ∧
+                      Cont M R metricRead ∧ Cont metricRead D toleranceRead ∧
+                        Cont toleranceRead E finiteNetRead ∧ Cont finiteNetRead S windowRead ∧
+                          PkgSig bundle P pkg ∧ PkgSig bundle windowRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier metricRoute toleranceRoute finiteNetRoute windowRoute windowPkg
+  obtain ⟨MUnary, RUnary, EUnary, DUnary, SUnary, _QUnary, _HUnary, _CUnary,
+    _PUnary, _NUnary, _metricFamilyRoute, _windowReadbackRoute, _transportReplayRoute,
+    carrierPkg, _localNamePkg⟩ := carrier
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed MUnary RUnary metricRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed metricUnary DUnary toleranceRoute
+  have finiteNetUnary : UnaryHistory finiteNetRead :=
+    unary_cont_closed toleranceUnary EUnary finiteNetRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed finiteNetUnary SUnary windowRoute
+  exact
+    ⟨MUnary, RUnary, EUnary, DUnary, SUnary, metricUnary, toleranceUnary,
+      finiteNetUnary, windowUnary, metricRoute, toleranceRoute, finiteNetRoute,
+      windowRoute, carrierPkg, windowPkg⟩
+
+theorem TotalBoundedMetricCauchyCoverObligation [AskSetup] [PackageSetup]
+    {metric realMetric epsilonNet dyadic stream regseq transport replay provenance
+      localName cauchyCover : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedMetricCarrier metric realMetric epsilonNet dyadic stream regseq
+        transport replay provenance localName bundle pkg →
+      Cont dyadic epsilonNet cauchyCover →
+        PkgSig bundle cauchyCover pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row cauchyCover ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row metric ∨ hsame row realMetric ∨ hsame row dyadic ∨
+                  hsame row epsilonNet ∨ hsame row stream ∨ hsame row regseq ∨
+                    hsame row cauchyCover)
+              (fun row : BHist =>
+                hsame row cauchyCover ∧ PkgSig bundle cauchyCover pkg ∧
+                  PkgSig bundle provenance pkg)
+              hsame ∧
+            UnaryHistory cauchyCover ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier dyadicEpsilonCover cauchyCoverPkg
+  obtain ⟨metricUnary, realMetricUnary, epsilonNetUnary, dyadicUnary, streamUnary,
+    regseqUnary, _transportUnary, _replayUnary, provenanceUnary, _localNameUnary,
+    _metricRealMetricEpsilonNet, _dyadicStreamRegseq, _transportReplayProvenance,
+    provenancePkg, _localNamePkg⟩ := carrier
+  have cauchyCoverUnary : UnaryHistory cauchyCover :=
+    unary_cont_closed dyadicUnary epsilonNetUnary dyadicEpsilonCover
+  have sourceCover :
+      (fun row : BHist => hsame row cauchyCover ∧ UnaryHistory row) cauchyCover := by
+    exact ⟨hsame_refl cauchyCover, cauchyCoverUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row cauchyCover ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row metric ∨ hsame row realMetric ∨ hsame row dyadic ∨
+              hsame row epsilonNet ∨ hsame row stream ∨ hsame row regseq ∨
+                hsame row cauchyCover)
+          (fun row : BHist =>
+            hsame row cauchyCover ∧ PkgSig bundle cauchyCover pkg ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro cauchyCover sourceCover
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, cauchyCoverPkg, provenancePkg⟩
+  }
+  exact ⟨cert, cauchyCoverUnary, provenancePkg⟩
+
+theorem TotallyBoundedMetricCarrier_cauchy_cover_obligation [AskSetup] [PackageSetup]
+    {M R E D S Q H C P N metricRead toleranceRead finiteNetRead cauchyCover : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg ->
+      Cont M R metricRead ->
+        Cont metricRead D toleranceRead ->
+          Cont toleranceRead E finiteNetRead ->
+            Cont finiteNetRead Q cauchyCover ->
+              PkgSig bundle cauchyCover pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row cauchyCover ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row M ∨ hsame row R ∨ hsame row D ∨ hsame row E ∨
+                        hsame row Q ∨ hsame row cauchyCover)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ PkgSig bundle cauchyCover pkg ∧
+                        PkgSig bundle P pkg)
+                    hsame ∧
+                  UnaryHistory cauchyCover ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert
+  intro carrier metricRoute toleranceRoute finiteNetRoute cauchyCoverRoute cauchyCoverPkg
+  obtain ⟨MUnary, RUnary, EUnary, DUnary, _SUnary, QUnary, _HUnary, _CUnary,
+    _PUnary, _NUnary, _metricFamilyRoute, _windowReadbackRoute, _transportReplayRoute,
+    carrierPkg⟩ := carrier
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed MUnary RUnary metricRoute
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed metricReadUnary DUnary toleranceRoute
+  have finiteNetReadUnary : UnaryHistory finiteNetRead :=
+    unary_cont_closed toleranceReadUnary EUnary finiteNetRoute
+  have cauchyCoverUnary : UnaryHistory cauchyCover :=
+    unary_cont_closed finiteNetReadUnary QUnary cauchyCoverRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row cauchyCover ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row M ∨ hsame row R ∨ hsame row D ∨ hsame row E ∨
+            hsame row Q ∨ hsame row cauchyCover)
+        (fun row : BHist =>
+          UnaryHistory row ∧ PkgSig bundle cauchyCover pkg ∧ PkgSig bundle P pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro cauchyCover
+        (And.intro (hsame_refl cauchyCover) cauchyCoverUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' same same'
+        exact hsame_trans same same'
+      carrier_respects_equiv := by
+        intro row row' same sourceRow
+        exact And.intro (hsame_trans (hsame_symm same) sourceRow.left)
+          (unary_transport sourceRow.right same)
+    }
+    pattern_sound := by
+      intro row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+    ledger_sound := by
+      intro row sourceRow
+      exact And.intro sourceRow.right (And.intro cauchyCoverPkg carrierPkg.left)
+  }
+  exact ⟨cert, cauchyCoverUnary, carrierPkg.left⟩
+
+theorem TotalBoundedMetricCarrier_finite_net_obligation [AskSetup] [PackageSetup]
+    {metric realMetric epsilonNet dyadic stream readback transport replay provenance
+      localName finiteNetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedMetricCarrier metric realMetric epsilonNet dyadic stream readback
+        transport replay provenance localName bundle pkg →
+      Cont dyadic epsilonNet finiteNetRead →
+        PkgSig bundle finiteNetRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row finiteNetRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row metric ∨ hsame row realMetric ∨ hsame row epsilonNet ∨
+                  hsame row dyadic ∨ hsame row finiteNetRead)
+              (fun row : BHist =>
+                hsame row finiteNetRead ∧ PkgSig bundle finiteNetRead pkg ∧
+                  PkgSig bundle provenance pkg)
+              hsame ∧
+            UnaryHistory finiteNetRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier dyadicEpsilonNetRead finiteNetPkg
+  obtain ⟨_metricUnary, _realMetricUnary, epsilonNetUnary, dyadicUnary, _streamUnary,
+    _readbackUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _metricRealEpsilonRoute, _dyadicStreamReadback, _transportReplayProvenance,
+    provenancePkg, _localNamePkg⟩ := carrier
+  have finiteNetUnary : UnaryHistory finiteNetRead :=
+    unary_cont_closed dyadicUnary epsilonNetUnary dyadicEpsilonNetRead
+  have sourceFiniteNet :
+      (fun row : BHist => hsame row finiteNetRead ∧ UnaryHistory row) finiteNetRead := by
+    exact ⟨hsame_refl finiteNetRead, finiteNetUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row finiteNetRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row metric ∨ hsame row realMetric ∨ hsame row epsilonNet ∨
+              hsame row dyadic ∨ hsame row finiteNetRead)
+          (fun row : BHist =>
+            hsame row finiteNetRead ∧ PkgSig bundle finiteNetRead pkg ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro finiteNetRead sourceFiniteNet
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, finiteNetPkg, provenancePkg⟩
+  }
+  exact ⟨cert, finiteNetUnary, provenancePkg⟩
+
+theorem TotalBoundedMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    (T : TotallyBoundedMetricUp)
+    {M R E D S Q H C P N netRead toleranceRead readback endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    totallyBoundedMetricFields T = [M, R, E, D, S, Q, H, C, P, N] →
+      UnaryHistory M →
+        UnaryHistory R →
+          UnaryHistory E →
+            UnaryHistory D →
+              UnaryHistory S →
+                UnaryHistory Q →
+                  Cont M R toleranceRead →
+                    Cont D E netRead →
+                      Cont netRead S readback →
+                        Cont readback Q endpoint →
+                          PkgSig bundle P pkg →
+                            SemanticNameCert
+                                (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row M ∨ hsame row R ∨ hsame row E ∨
+                                    hsame row D ∨ hsame row S ∨ hsame row Q ∨
+                                      Cont D E netRead)
+                                (fun row : BHist => hsame row endpoint ∧ PkgSig bundle P pkg)
+                                hsame ∧
+                              UnaryHistory toleranceRead ∧ UnaryHistory netRead ∧
+                                UnaryHistory readback ∧ UnaryHistory endpoint := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro _fields MUnary RUnary EUnary DUnary SUnary QUnary metricRoute netRoute readbackRoute
+    endpointRoute provenancePkg
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed MUnary RUnary metricRoute
+  have netUnary : UnaryHistory netRead :=
+    unary_cont_closed DUnary EUnary netRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed netUnary SUnary readbackRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed readbackUnary QUnary endpointRoute
+  have sourceAtEndpoint :
+      (fun row : BHist => hsame row endpoint ∧ UnaryHistory row) endpoint := by
+    exact ⟨hsame_refl endpoint, endpointUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row R ∨ hsame row E ∨ hsame row D ∨ hsame row S ∨
+              hsame row Q ∨ Cont D E netRead)
+          (fun row : BHist => hsame row endpoint ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint sourceAtEndpoint
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr netRoute)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, provenancePkg⟩
+  }
+  exact ⟨cert, toleranceUnary, netUnary, readbackUnary, endpointUnary⟩
+
+end BEDC.Derived.TotallyBoundedMetricUp.TasteGate
+
+namespace BEDC.Derived.TotalBoundedMetricUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem TotalBoundedMetricCarrier_cauchy_window_extraction [AskSetup] [PackageSetup]
+    {metric realMetric epsilonNet dyadic stream readback transport replay provenance localCert
+      windowRead netRead compactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.TotallyBoundedMetricUp.TasteGate.TotallyBoundedMetricCarrier metric
+        realMetric epsilonNet dyadic stream readback transport replay provenance localCert
+        bundle pkg ->
+      Cont dyadic stream windowRead ->
+        Cont epsilonNet windowRead netRead ->
+          Cont netRead readback compactRead ->
+            PkgSig bundle compactRead pkg ->
+              UnaryHistory dyadic ∧ UnaryHistory stream ∧ UnaryHistory epsilonNet ∧
+                UnaryHistory readback ∧ UnaryHistory windowRead ∧ UnaryHistory netRead ∧
+                  UnaryHistory compactRead ∧ Cont dyadic stream windowRead ∧
+                    Cont epsilonNet windowRead netRead ∧ Cont netRead readback compactRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle compactRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier dyadicStreamWindow epsilonWindowNet netReadbackCompact compactPkg
+  obtain ⟨_metricUnary, _realMetricUnary, epsilonNetUnary, dyadicUnary, streamUnary,
+    readbackUnary, _transportUnary, _replayUnary, _provenanceUnary, _localCertUnary,
+    _metricRealMetricEpsilonNet, _dyadicStreamReadback, _transportReplayProvenance,
+      provenancePkg, _localCertPkg⟩ := carrier
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed dyadicUnary streamUnary dyadicStreamWindow
+  have netUnary : UnaryHistory netRead :=
+    unary_cont_closed epsilonNetUnary windowUnary epsilonWindowNet
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed netUnary readbackUnary netReadbackCompact
+  exact
+    ⟨dyadicUnary, streamUnary, epsilonNetUnary, readbackUnary, windowUnary, netUnary,
+      compactUnary, dyadicStreamWindow, epsilonWindowNet, netReadbackCompact, provenancePkg,
+      compactPkg⟩
+
+end BEDC.Derived.TotalBoundedMetricUp

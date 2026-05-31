@@ -28,6 +28,7 @@ $$
 \end{enumerate}
 The classifier compares accepted packets only through $M,N,W,Q,D,R,H,C,P,L$.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchyModulusChoiceUp.CauchyModulusChoiceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Cauchy modulus choice NameCert obligations]
 \label{thm:cauchy-modulus-choice-namecert-obligations}
@@ -77,6 +78,26 @@ The route cannot reach a finite window before $N$ is read. Thus the $\StreamName
 Readback and tolerance follow the same route. The $\RegSeqRatUp$ row $Q$ reads the displayed window, and the $\DyadicRatCoreUp$ row $D$ supplies the tolerance ledger for that readback.
 
 The terminal $\RealUp$ seal $R$ is downstream of those four rows. The structural rows $H,C,P,L$ keep the route componentwise, replayable, sourced, and locally named, so every consumer factors through the normal-form surface before using the selected threshold.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus choice window determinacy]
+\label{thm:cauchy-modulus-choice-window-determinacy}
+Let
+$$
+K=(M,N,W,Q,D,R,H,C,P,L)
+\quad\text{and}\quad
+K'=(M,N,W',Q',D',R',H',C',P',L')
+$$
+be accepted $\CauchyModulusChoiceUp$ carriers with the same raw modulus row $M$ and normal-form row $N$. Then every $\RealUp$ or completion-facing read of the selected threshold in either carrier passes through the same finite window, readback, and tolerance route determined by $N$: first the $\StreamNameUp$ window row, then the $\RegSeqRatUp$ readback row, then the $\DyadicRatCoreUp$ tolerance row, before the $\RealUp$ seal. The claim is only route determinacy inside the displayed normal-form surface; it is not host uniqueness of limits, quotient stream equality, or countable choice.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers using \autoref{def:cauchy-modulus-choice-carrier}. The only rows upstream of a selected-threshold read are the raw modulus row $M$, the normal-form row $N$, the finite window row, the regular readback row, and the dyadic tolerance row.
+
+Apply the normal-form selection obligation from \autoref{thm:cauchy-modulus-choice-namecert-obligations}. Since the two carriers share $M$ and $N$, a threshold read in either packet is forced to use the same displayed normal-form source before any window can be opened.
+
+Use \autoref{thm:cauchy-modulus-choice-normal-form-factorization}. It places the downstream route in the order $W,Q,D$ before $R$, so every Real or completion-facing read is mediated by the window, readback, and tolerance rows attached to that shared normal-form source.
+
+The structural rows $H,C,P,L$ and $H',C',P',L'$ only transport, replay, source, and name the displayed route. Because neither carrier contains host limit uniqueness, quotient stream equality, or a countable-choice coordinate, the determinacy asserted here is exactly the finite route through $W,Q,D$ before $R$.
 \end{proof}
 
 \begin{theorem}[Cauchy modulus choice Real seal nonescape]

@@ -1,0 +1,356 @@
+\chapter{Theorem-Genome Evolution: Mutation, Recombination, Selection, and Discovery}
+\label{ch:theorem-genome-evolution}
+\origin{ai}
+
+\autoref{ch:visions-classifier-level-information}, \autoref{ch:theorem-dna-complexity-scoring},
+and \autoref{ch:theorem-dna-scoring-taste-gate} isolate three audit
+coordinates: classifier-level novelty, eight-locus theorem-DNA, and public
+complexity scoring. This chapter packages those coordinates as a single
+evolutionary reading of theorem flows. The term genome names the whole
+recognized theorem profile; it does not add biological assumptions.
+
+\section{Theorem genomes}
+\label{sec:theorem-genome-theorem-genomes}
+
+\begin{definition}[Theorem genome]
+\label{def:theorem-genome}
+Let $T$ be a theorem candidate flow, $R$ a generated theorem recognizer, and
+$D_R(T)$ an eight-locus theorem-DNA packet. If
+$$
+\mathsf{SoundTheoremFlow}(R,T)
+$$
+holds, then
+$$
+\Gamma=(T,R,D_R(T))
+$$
+is a theorem genome. Its loci are statement, dependency, proof, certificate,
+ledger, status, canonical site, and closing seal.
+\end{definition}
+
+\begin{definition}[Genome phenotype]
+\label{def:theorem-genome-phenotype}
+Given a theorem classifier relation $Q$ on theorem candidate flows, genomes
+$\Gamma_T=(T,R_T,D_T)$ and $\Gamma_U=(U,R_U,D_U)$ have the same phenotype when
+$Q(T,U)$ holds. This relation is written $\Gamma_T\sim_Q\Gamma_U$.
+\end{definition}
+
+\begin{theorem}[Statement locus does not determine genome]
+\label{thm:theorem-genome-statement-locus-not-determining}
+The statement locus does not determine the theorem genome.
+\end{theorem}
+\begin{proof}
+The GroundCompiler theorem \texttt{same\_statement\_multiple\_flows} provides
+one statement subflow that appears as the statement role of two distinct
+theorem candidate flows. Since theorem genomes include the candidate flow,
+recognizer, and complete theorem-DNA packet, the statement locus alone cannot
+determine the genome.
+\end{proof}
+\leanvariant{BEDC.GroundCompiler.TheoremGenerated.same\_statement\_multiple\_flows}
+
+\begin{theorem}[Code does not imply genome]
+\label{thm:theorem-genome-code-not-genome}
+Legal theorem code does not by itself supply a theorem genome.
+\end{theorem}
+\begin{proof}
+The GroundCompiler theorem \texttt{theorem\_code\_is\_not\_proof} exhibits
+legal theorem code decoding to a candidate that has no proof-sound theorem
+recognition for any recognizer. A theorem genome requires sound theorem-flow
+recognition, hence proof soundness. Code is a flow address, not a genome.
+\end{proof}
+\leanvariant{BEDC.GroundCompiler.TheoremGenerated.theorem\_code\_is\_not\_proof}
+
+\section{Complexity space}
+\label{sec:theorem-genome-complexity-space}
+
+\begin{definition}[Genome complexity vector]
+\label{def:theorem-genome-complexity-vector}
+For a genome $\Gamma=(T,R,D_R(T))$, define
+$$
+\mathbf C(\Gamma)=
+(c_s,c_d,c_p,c_c,c_l,c_t,c_a,c_z,c_R)\in\mathbb N^9
+$$
+by taking the first eight coordinates to be the event-flow masses of the
+statement, dependency, proof, certificate, ledger, status, canonical-site, and
+closing-seal loci, and the last coordinate to be the recognizer mass
+$|R|_{\mathsf{flow}}$.
+\end{definition}
+
+\begin{definition}[Genome score]
+\label{def:theorem-genome-score}
+For a public weight profile
+$$
+\mathbf w=(w_s,w_d,w_p,w_c,w_l,w_t,w_a,w_z,w_R)\in\mathbb N^9,
+$$
+the genome score is
+$$
+\mathsf{Score}_{\mathbf w}(\Gamma)
+=
+\mathbf w\cdot\mathbf C(\Gamma).
+$$
+\end{definition}
+
+\begin{definition}[Phenotype complexity]
+\label{def:theorem-genome-phenotype-complexity}
+For a phenotype class $[\Gamma]_Q$, define
+$$
+\mathsf{PC}_{\mathbf w,Q}([\Gamma]_Q)
+=
+\min\{\mathsf{Score}_{\mathbf w}(\Gamma')\mid
+\Gamma'\sim_Q\Gamma\}.
+$$
+This takes the least scored representative in a theorem classifier class.
+\end{definition}
+
+\section{Mutation and discovery}
+\label{sec:theorem-genome-mutation-discovery}
+
+\begin{definition}[Genome mutation]
+\label{def:theorem-genome-mutation}
+A genome mutation is a transition
+$$
+\Gamma\leadsto\Gamma'
+$$
+between theorem genomes. It is single-locus when exactly one theorem locus is
+changed.
+\end{definition}
+
+\begin{definition}[Mutation classes]
+\label{def:theorem-genome-mutation-classes}
+Relative to $Q$ and $\mathbf w$, a mutation is:
+$$
+\begin{gathered}
+\text{silent if }\Gamma\sim_Q\Gamma'
+\text{ and }
+\mathsf{Score}_{\mathbf w}(\Gamma)=\mathsf{Score}_{\mathbf w}(\Gamma'),\\
+\text{compressive if }\Gamma\sim_Q\Gamma'
+\text{ and }
+\mathsf{Score}_{\mathbf w}(\Gamma')<\mathsf{Score}_{\mathbf w}(\Gamma),\\
+\text{drifting if }\Gamma\sim_Q\Gamma'
+\text{ and }
+\mathsf{Score}_{\mathbf w}(\Gamma')>\mathsf{Score}_{\mathbf w}(\Gamma),\\
+\text{classifier-shifting if }\neg(\Gamma\sim_Q\Gamma').
+\end{gathered}
+$$
+A classifier-shifting mutation is a discovery mutation only when it induces a
+different certified classifier state carrying a semantic naming certificate and
+a ledger witness.
+\end{definition}
+
+\begin{theorem}[Complexity reduction does not imply discovery]
+\label{thm:theorem-genome-compression-not-discovery}
+There are mutations that reduce genome score without being discovery
+mutations.
+\end{theorem}
+\begin{proof}
+Replace only the proof locus by a shorter proof locus, leaving statement,
+dependencies, certificates, ledger, status, canonical site, closing seal, and
+phenotype fixed. With positive proof weight, the score decreases. Since no
+classifier phenotype changes and no different certified classifier state is
+introduced, the mutation is compressive rather than discovery.
+\end{proof}
+
+\begin{theorem}[Discovery may increase complexity]
+\label{thm:theorem-genome-discovery-may-increase-complexity}
+A discovery mutation can increase genome score.
+\end{theorem}
+\begin{proof}
+A classifier-shifting mutation may introduce larger certificate, ledger,
+closing-seal, or recognizer loci. If the corresponding weights are positive,
+the score may increase even though the mutation changes phenotype and carries
+the certificate and ledger data required for discovery.
+\end{proof}
+
+\begin{principle}[No free discovery]
+\label{prin:theorem-genome-no-free-discovery}
+A transition that changes only presentation, naming, or proof length, while
+leaving classifier phenotype, semantic naming certificate, and ledger witness
+unchanged, is not a discovery mutation.
+\end{principle}
+
+\section{Recombination and lineage}
+\label{sec:theorem-genome-recombination-lineage}
+
+\begin{definition}[Genome recombination]
+\label{def:theorem-genome-recombination}
+Two genomes are locus-compatible along a set of loci $A$ when replacing the
+loci of one genome by the corresponding loci of the other still yields some
+$R'$ and $T'$ satisfying $\mathsf{SoundTheoremFlow}(R',T')$. The resulting
+transition is genome recombination.
+\end{definition}
+
+\begin{theorem}[Recombination preserves theoremhood under soundness]
+\label{thm:theorem-genome-recombination-soundness}
+If a recombination result satisfies $\mathsf{SoundTheoremFlow}(R',T')$, then
+it is a theorem genome.
+\end{theorem}
+\begin{proof}
+This is immediate from \autoref{def:theorem-genome}: theorem genomehood is the
+triple of theorem candidate, recognizer, theorem-DNA packet, and sound
+theorem-flow recognition.
+\end{proof}
+
+\begin{corollary}[Recombination is not free]
+\label{cor:theorem-genome-recombination-not-free}
+Two sound genomes do not automatically produce a sound genome under arbitrary
+locus exchange.
+\end{corollary}
+\begin{proof}
+Soundness is a relation among one recognizer, one theorem candidate flow, and
+all eight loci. Replacing proof, certificate, or ledger loci can break proof
+soundness, certificate soundness, or ledger soundness. The recombined profile
+therefore needs its own soundness witness.
+\end{proof}
+
+\begin{definition}[Genome lineage]
+\label{def:theorem-genome-lineage}
+A genome lineage is a finite chain
+$$
+\Gamma_0\leadsto\Gamma_1\leadsto\cdots\leadsto\Gamma_n
+$$
+whose steps are mutations or recombinations. Its complexity profile is
+$L_{\mathbf w}(i)=\mathsf{Score}_{\mathbf w}(\Gamma_i)$, and its classifier
+profile is the sequence of phenotypes $[\Gamma_i]_{Q_i}$.
+\end{definition}
+
+\begin{theorem}[A lineage can improve without discovering]
+\label{thm:theorem-genome-lineage-improve-without-discovering}
+There are lineages whose scores strictly decrease while their classifier
+profiles remain constant.
+\end{theorem}
+\begin{proof}
+Take a sequence of proof-compression mutations. Each step lowers proof-locus
+mass and leaves the other loci and the classifier phenotype fixed.
+\end{proof}
+
+\begin{theorem}[A lineage can discover before it compresses]
+\label{thm:theorem-genome-lineage-discover-before-compress}
+There are lineages in which a classifier shift first increases score and later
+compression lowers score within the changed phenotype.
+\end{theorem}
+\begin{proof}
+The first step introduces a different classifier phenotype with additional
+certificate, ledger, seal, and recognizer mass. The second step optimizes a
+proof or ledger locus under that changed phenotype. Thus discovery can precede
+compression.
+\end{proof}
+
+\section{Selection and potential}
+\label{sec:theorem-genome-selection-potential}
+
+\begin{definition}[Selection functional]
+\label{def:theorem-genome-selection-functional}
+For a population of theorem genomes, a selection functional has the form
+$$
+\mathsf{Sel}_{\mathbf w}(\Gamma)
+=
+-\mathsf{Score}_{\mathbf w}(\Gamma)
++\lambda\,\mathsf{Novelty}(\Gamma)
++\eta\,\mathsf{Reuse}(\Gamma)
++\theta\,\mathsf{Unification}(\Gamma).
+$$
+It values low score, classifier novelty, reusable proof/certificate/ledger
+material, and unification of prior phenotypes.
+\end{definition}
+
+\begin{theorem}[Shortest theorem need not be research-favorable]
+\label{thm:theorem-genome-shortest-not-research-favorable}
+The least-scored genome in a population need not maximize a selection
+functional.
+\end{theorem}
+\begin{proof}
+A low-score genome can have low novelty, reuse, and unification. A higher-score
+genome can dominate the selection value when its novelty, reuse, and
+unification terms are sufficiently large.
+\end{proof}
+
+\begin{definition}[Discovery potential]
+\label{def:theorem-genome-discovery-potential}
+The discovery potential of a genome is an audit functional
+$$
+\mathsf{DP}(\Gamma)=
+\alpha\,\mathsf{Unification}(\Gamma)
++\beta\,\mathsf{Reuse}(\Gamma)
++\gamma\,\mathsf{Transfer}(\Gamma)
+-\delta\,\mathsf{LedgerCost}(\Gamma).
+$$
+\end{definition}
+
+\begin{theorem}[High potential can coexist with high complexity]
+\label{thm:theorem-genome-high-potential-high-complexity}
+A genome can have high score and high discovery potential at the same time.
+\end{theorem}
+\begin{proof}
+Large certificates, ledgers, and recognizers increase score. The same loci can
+also support unification, reuse, and transfer across domains. If these positive
+terms dominate ledger cost in the potential functional, discovery potential is
+high despite high score.
+\end{proof}
+
+\section{Gate hierarchy}
+\label{sec:theorem-genome-gate-hierarchy}
+
+\begin{definition}[Genome gate hierarchy]
+\label{def:theorem-genome-gate-hierarchy}
+The theorem-genome audit hierarchy is:
+$$
+\mathsf{BHistCarrier}
+\subset
+\mathsf{ChapterTasteGate}
+\subset
+\mathsf{FieldFaithful}
+\subset
+\mathsf{TheoremDNA}
+\subset
+\mathsf{ScoredDiscoveryGate}.
+$$
+The first layer gives display and readback shape; the second gives round-trip
+and layer separation; the third prevents field erasure; the fourth requires
+anchored sound theorem-DNA; the fifth requires public score certificates and
+discovery claims to carry classifier shift, semantic naming certificate, and
+ledger witness.
+\end{definition}
+
+Compiler-closure audit is not another theorem-genome locus in this hierarchy.
+It is the later audit layer that asks whether a genome flow expresses a
+compiler phenotype and whether that phenotype feeds back into a later accepted
+genome flow; see \autoref{ch:compiler-closure-self-compilation}.
+
+\begin{theorem}[The gate hierarchy is strict as an audit hierarchy]
+\label{thm:theorem-genome-gate-hierarchy-strict}
+Each higher layer includes the obligations of the lower layers, but the reverse
+implications are not available in general.
+\end{theorem}
+\begin{proof}
+A display need not round-trip. A round-tripping display need not reflect all
+declared fields. A field-faithful carrier need not carry theorem-DNA. A
+theorem-DNA carrier need not publish a score certificate. A scored carrier need
+not justify a discovery claim without classifier shift, semantic naming
+certificate, and ledger witness.
+\end{proof}
+
+\begin{theorem}[Theorem-genome evolution theorem]
+\label{thm:theorem-genome-evolution}
+The evolution of theorem-like objects in BEDC has four independent audit
+coordinates: record growth, genome complexity, classifier phenotype, and
+ledgered discovery.
+\end{theorem}
+\begin{proof}
+Record growth can occur by continuation without changing the genome-level
+classifier. Genome complexity can decrease by proof compression while phenotype
+is fixed. Phenotype can change while complexity increases because new
+certificate and ledger loci are introduced. Discovery is the strongest
+coordinate: it requires classifier shift together with semantic naming
+certificate and ledger witness. These four observations separate the audit
+coordinates.
+\end{proof}
+
+\begin{principle}[Theorem-genome slogan]
+\label{prin:theorem-genome-slogan}
+A theorem is a genome, not a sentence. A proof is one locus, not the whole
+theorem. Compression improves a genome; discovery changes its classifier
+phenotype. No discovery is free: every classifier shift must pay in
+\NameCert{} and ledger.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-theorem-flow-recognition-namecert}{Theorem-flow recognition packets supply the role-complete theorem-genome carrier.}
+\concretizedIn{ch:concrete-instances-groundcompiler-audit-packet-namecert}{GroundCompiler audit packets supply the code/proof, classifier quotient, recognizer, and ledger boundaries consumed by theorem-genome evolution.}

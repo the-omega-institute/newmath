@@ -89,6 +89,18 @@ Use the regular-tail exactness clause of the same theorem. The basis refinement 
 The remaining rows only preserve or consume the finite route. Hence quotient filters, selected limits, countable choice, hidden basis inspection, host equality, and ambient completeness are absent from the refinement path.
 \end{proof}
 
+\begin{theorem}[Located Cauchy filter choice-free basis]
+\label{thm:located-cauchy-filter-choice-free-basis}
+Every accepted $\LocatedCauchyFilterUp$ read factors through the displayed filter row $F$, basis row $B$, regular tail ledger $R$, $\StreamNameUp$ and $\RegSeqRatUp$ readback rows $S,Q$, dyadic located-tail rows $D,T$, and the $\RealUp$ seal row $E$ before any limit-facing consumer can inspect it. The route introduces no countable choice, hidden filter selection, quotient filter equality, selected limit, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier $L=(F,B,R,S,Q,D,T,E,H,C,P,N)$ using \autoref{def:located-cauchy-filter-carrier}. The displayed filter and basis rows are $F$ and $B$, and the regular tail and located dyadic rows are $R,D,T$.
+
+Apply the basis-refinement route of \autoref{thm:located-cauchy-filter-basis-refinement-route}. A located-tail read first fixes the Cauchy filter row and then refines through the displayed basis row at the requested dyadic tolerance before the downstream sequence or real-facing rows are visible.
+
+Now combine the Real seal boundary of \autoref{thm:located-cauchy-filter-real-seal-boundary} with the regular sequence handoff of \autoref{thm:located-cauchy-filter-regular-sequence-handoff}. The route through $S,Q,D,T$ reaches the seal $E$ only as displayed finite readback data, so no countable-choice selector or hidden filter selection is introduced.
+\end{proof}
+
 \begin{theorem}[Located Cauchy filter Real seal boundary]
 \label{thm:located-cauchy-filter-real-seal-boundary}
 Every $\RealUp$-facing read exported by an accepted $\LocatedCauchyFilterUp$ carrier factors through the complete finite route
@@ -103,6 +115,44 @@ Begin with a downstream real-facing read. The carrier exposes the seal only as $
 Use the real-seal non-escape clause of \autoref{thm:located-cauchy-filter-namecert-obligations}. Any request that reaches $E$ must first pass through $F,B,R,S,Q,D,T$, so the terminal seal is a routed finite read rather than a host-selected limit.
 
 The structural rows then preserve the route. The rows $H,C,P,N$ transport, replay, source, and name the same displayed packet, and the carrier has no coordinate for quotient filters, countable choice, hidden basis inspection, host equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Located Cauchy filter Bishop completion handoff]
+\label{thm:located-cauchy-filter-bishop-completion-handoff}
+Every accepted $\LocatedCauchyFilterUp$ packet consumed by $\BishopRegularCauchyCompletionUp$ must expose the rows
+$$
+F,B,R,S,Q,D,T,E,H,C,P,N
+$$
+before the completion seal is read. The route uses the existing $\CauchyFilterUp$, $\CauchyFilterBasisUp$, $\RegularCauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows, and it exports no quotient filter, selected limit, countable choice, host equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier using \autoref{def:located-cauchy-filter-carrier}. The visible rows are exactly the filter row $F$, basis row $B$, regular filter row $R$, finite windows $S$, regular readback $Q$, dyadic ledger $D$, located-tail row $T$, Real seal row $E$, and structural rows $H,C,P,N$.
+
+Apply the basis-refinement route of \autoref{thm:located-cauchy-filter-basis-refinement-route}. A completion-facing request fixes the Cauchy filter row and basis row at the displayed dyadic tolerance before the regular filter row, finite windows, or readback rows are available.
+
+Now use the Real seal boundary of \autoref{thm:located-cauchy-filter-real-seal-boundary} together with the regular sequence handoff of \autoref{thm:located-cauchy-filter-regular-sequence-handoff}. The $\BishopRegularCauchyCompletionUp$ consumer reads the completion seal only after $F,B,R,S,Q,D,T,E,H,C,P,N$ have been displayed, so the route has no coordinate for quotient filters, selected limits, countable choice, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Located Cauchy filter regular sequence handoff]
+\label{thm:located-cauchy-filter-regular-sequence-handoff}
+Every sequence-facing consumer of an accepted $\LocatedCauchyFilterUp$ packet
+$$
+L=(F,B,R,S,Q,D,T,E,H,C,P,N)
+$$
+factors through the finite sequence route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp
+$$
+before the downstream $\RealUp$ seal row $E$ can be inspected. Equivalently, a consumer that asks for a sequence presentation of the located filter must read the window row $S$, the regular rational readback $Q$, the dyadic tolerance ledger $D$, and the located-tail witness $T$ before it reaches $E$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The sequence-facing rows are exactly $S$ and $Q$, and the dyadic tolerance needed to interpret their located readback is the displayed ledger $D$.
+
+Use the sequence handoff compatibility clause of \autoref{thm:located-cauchy-filter-namecert-obligations}. It forces $S$ and $Q$ to expose only finite windows and regular rational readbacks generated from the same located filter request.
+
+Replay the continuation route $C$. The request passes through $S,Q,D,T$ before it can reach the seal boundary $E$, so the real-facing read is downstream from the sequence route rather than a selected limit.
+
+Finally, apply the Real seal boundary of \autoref{thm:located-cauchy-filter-real-seal-boundary}. The rows $H,C,P,N$ preserve and name the same finite handoff, and no quotient filter, countable-choice selector, hidden basis inspection, host equality, or ambient completeness row is exported.
 \end{proof}
 
 \closureat{LocatedCauchyFilterUp}{seedStr}

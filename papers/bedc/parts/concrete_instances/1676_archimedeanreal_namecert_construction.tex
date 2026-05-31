@@ -163,6 +163,23 @@ The two routes therefore compose in one order: budget rows first, Archimedean bo
 \end{proof}
 \leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_budgeted\_observation\_handoff}
 
+\begin{theorem}[ArchimedeanReal budgeted Cauchy bound]
+\label{thm:archimedean-real-budgeted-cauchy-bound}
+Let a $\RealObservationBudgetUp$ consumer display the finite budget rows for a precision request and accept an $\ArchimedeanRealUp$ packet
+$$
+A=(R,Q,D,S,G,B,H,C,P,N).
+$$
+Then every Cauchy-tail or completion-facing consumer receives the rational and dyadic bound rows $Q,D$ through the same $\StreamNameUp$ windows, $\RegSeqRatUp$ handoff, bound ledger, componentwise transport, replay, provenance, and local $\NameCert$ route $S,G,B,H,C,P,N$. The bound witness is available only through the composed budgeted route and exports no host supremum, selected least bound, quotient stream equality, hidden limit selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the public bound export of \autoref{thm:archimedean-real-public-bound-export}. It identifies the Archimedean bound surface for the displayed $\RealUp$ name as the rational row $Q$, the dyadic row $D$, the stream windows $S$, the regular handoff $G$, the bound ledger $B$, and the structural rows $H,C,P,N$.
+
+Now compose this surface with the budgeted observation handoff of \autoref{thm:archimedean-real-budgeted-observation-handoff}. The consumer first displays the finite $\RealObservationBudgetUp$ rows for the precision request and only then reads the Archimedean bound rows.
+
+The resulting Cauchy-tail or completion-facing read therefore receives a bound witness through the same $Q,D,S,G,B,H,C,P,N$ route already exposed by the accepted packet. Since neither theorem supplies a host supremum, selected least bound, quotient stream equality, hidden limit selector, or ambient completeness coordinate, the composed budgeted read cannot export one.
+\end{proof}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_budgeted\_cauchy\_bound}
+
 \begin{theorem}[ArchimedeanReal dyadic threshold totality]
 \label{thm:archimedean-real-dyadic-threshold-totality}
 Let an accepted $\ArchimedeanRealUp$ packet
@@ -180,6 +197,38 @@ Next compose with the budgeted observation handoff of \autoref{thm:archimedean-r
 Use the $\RealObservationBudgetUp$ window coverage and finite route coverage rows. By \autoref{thm:real-observation-budget-window-coverage}, each dyadic readback used by the request is covered by a displayed finite $\StreamNameUp$ window, and by \autoref{thm:real-observation-budget-finite-route-coverage} the admitted route remains inside the precision, window, dyadic, regular handoff, seal, transport, continuation, provenance, and local naming rows.
 
 The classifier stability is then the componentwise $\hsame$ stability already carried by the two packets. Since neither packet has coordinates for trichotomy, host-real completeness, hidden limit selection, quotient stream equality, or a selected least bound, the composed dyadic threshold row cannot export them.
+\end{proof}
+
+\begin{theorem}[ArchimedeanReal Cauchy threshold forward route]
+\label{thm:archimedean-real-cauchy-threshold-forward-route}
+Let a $\RegSeqRatUp$, $\StreamNameUp$, or completion-facing consumer use an accepted $\ArchimedeanRealUp$ packet
+$$
+A=(R,Q,D,S,G,B,H,C,P,N).
+$$
+Before any Cauchy-tail or $\RealUp$-seal read is exported, the consumer must read the rational bound row $Q$, the dyadic bound row $D$, the finite stream windows $S$, the regular handoff $G$, and the threshold ledger obtained from $B,H,C,P,N$ through the dyadic threshold route. The resulting forward route exports the Archimedean bound surface to Cauchy-facing consumers without importing a supremum, trichotomy, quotient stream equality, selected limit, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the public bound export of \autoref{thm:archimedean-real-public-bound-export}. It identifies $Q,D,S,G,B,H,C,P,N$ as the visible bound surface attached to the displayed $\RealUp$ name.
+
+Next apply the budgeted observation handoff of \autoref{thm:archimedean-real-budgeted-observation-handoff}. A precision-sensitive Cauchy read must pass through the finite observation-budget route before it consumes the Archimedean rational and dyadic rows.
+
+Finally use the dyadic threshold totality theorem of \autoref{thm:archimedean-real-dyadic-threshold-totality}. The threshold row is sourced from $Q,D$, read through the same stream windows and regular handoff, and transported by $H,C,P,N$. Thus any $\RegSeqRatUp$, $\StreamNameUp$, Cauchy-tail, or completion-facing export has already consumed the stated Archimedean threshold surface.
+\end{proof}
+
+\begin{theorem}[ArchimedeanReal located-threshold handoff]
+\label{thm:archimedean-real-located-threshold-handoff}
+Every $\ConstructiveRealLineUp$ or $\LocatedRealUp$ consumer of an accepted $\ArchimedeanRealUp$ packet
+$$
+A=(R,Q,D,S,G,B,H,C,P,N)
+$$
+must read the rational bound row $Q$, dyadic bound row $D$, finite $\StreamNameUp$ windows $S$, $\RegSeqRatUp$ handoff $G$, bound ledger $B$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before using a located threshold. The located threshold is therefore routed through the public Archimedean bound surface and the $\ConstructiveRealLineUp$ L10 seal route; it exports no trichotomy, least-bound selector, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the public bound export of \autoref{thm:archimedean-real-public-bound-export}. It identifies $Q,D,S,G,B,H,C,P,N$ as the only bound surface that a consumer may read from the accepted Archimedean packet.
+
+Next apply the dyadic threshold totality theorem of \autoref{thm:archimedean-real-dyadic-threshold-totality}. The finite threshold row is sourced from $Q,D$ and is transported through the same stream-window, regular handoff, ledger, transport, replay, provenance, and naming rows.
+
+Finally route the consumer through the $\ConstructiveRealLineUp$ L10 seal surface of \autoref{thm:constructive-real-line-l10-seal-route}. A $\ConstructiveRealLineUp$ or $\LocatedRealUp$ read reaches the located threshold only after the dyadic, stream, regular-rational, real-seal, located boundary, transport, replay, provenance, and naming rows have been displayed. None of those rows contains trichotomy, a selected least bound, quotient stream equality, or ambient real completeness, so the composed handoff cannot export such data.
 \end{proof}
 
 \begin{theorem}[ArchimedeanReal budgeted bound window exhaustion]
@@ -245,11 +294,12 @@ Finally use the no-hidden-search boundary of \autoref{thm:archimedean-integer-pa
 
 \begin{closurestatus}{\ArchimedeanRealUp}
   \constructivestory{An $\ArchimedeanRealUp$ packet is generated from a displayed $\RealUp$ name, an explicit $\RatUp$ bound row, a matching $\DyadicRatCoreUp$ presentation, finite $\StreamNameUp$ windows, a $\RegSeqRatUp$ handoff, a bound ledger, componentwise $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:archimedean-real-scope-closure} binds the carrier, NameCert obligations, rational-bound witness, transported-bound stability, consumer handoff, and bound-ledger non-escape rows to the displayed $\RealUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:archimedean-real-scope-closure}, \autoref{thm:archimedean-real-public-bound-export}, \autoref{thm:archimedean-real-public-order-consumer}, and \autoref{thm:archimedean-real-integer-bracket} bind the carrier, NameCert obligations, rational-bound witness, transported-bound stability, public bound export, public order consumer, integer-bracket handoff, and bound-ledger non-escape rows to the displayed $\RealUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ public interface.}
+  \formalstatus{\axiomCleanV}
+  \leantarget{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_scope\_closure}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close least-upper-bound principles, quotient stream equality, selected host limits, ambient real completeness, or bridge checking.}
-  \upgradepath{Public closure requires downstream consumers to adopt the displayed public order surface as their binding Real-facing route.}
+  \upgradepath{Bridge closure requires a checked standard bridge for the displayed public bound and order-consumer interface.}
 \end{closurestatus}

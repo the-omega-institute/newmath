@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICPiAdequacyBudgetUp$}
+\label{ch:concrete-instances-metacic-pi-adequacy-budget-namecert}
+\origin{ai}
+
+The $\MetaCICPiAdequacyBudgetUp$ packet realizes the Pi-adequacy route of \autoref{ch:metacic-normalization-audit-map} as finite BEDC data. It sits beside the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the candidate socket of \autoref{ch:concrete-instances-normalization-candidate-socket-namecert}, the normalization-confluence bridge of \autoref{ch:concrete-instances-metacic-normalization-confluence-bridge-namecert}, and the normalization audit packet of \autoref{ch:concrete-instances-metacic-normalization-audit-packet-namecert}. The packet records the candidate-mediated budget needed by Pi adequacy; it does not claim unconditional global normalization or erase the candidate evidence consumed by the Lean route.
+
+\begin{definition}[MetaCIC Pi adequacy budget carrier]
+\label{def:metacic-pi-adequacy-budget-carrier}
+A $\MetaCICPiAdequacyBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(G,\Pi,N,A,S,F,O,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the closed context and typing-frontier row for the Pi candidate being inspected.
+\item $\Pi$ is the Pi-candidate evidence row consumed by the route named by \texttt{PiAdequacy.lean}.
+\item $N$ is the neutral-normal evidence row used by the neutral branch of the adequacy argument.
+\item $A$ is the application-side adequacy handoff row, recording the candidate argument and the application result row.
+\item $S$ is the strong-normalization handoff row, naming the projections corresponding to $\texttt{piCandidate\_implies\_sn}$, $\texttt{neutralNormal\_implies\_sn}$, and $\texttt{sn\_pi}$.
+\item $F$ is the frontier-refusal row, keeping candidate evidence, subject-reduction boundaries, and confluence boundaries visible whenever a consumer requests a stronger normalization claim.
+\item $O$ is the obligation-budget row for the remaining endpoint evidence needed by closed-consistency consumers.
+\item $H$ records componentwise $\hsame$ transport for the typing, Pi-candidate, neutral-normal, application, strong-normalization, frontier, and obligation rows.
+\item $C$ records displayed $\Cont$ replay from a Pi-adequacy request through $G,\Pi,N,A,S,F,O$.
+\item $P$ is $\Pkg$ provenance over $\MetaCICPiAdequacyBudgetUp$, $\MetaCICNormalizationAuditPacketUp$, $\MetaCICDecidableNeutralSpineUp$, $\MetaCICFuelTraceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MetaCICPiAdequacyBudgetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for evidence-free closed-term strong normalization, unrestricted subject reduction, global confluence, semantic equality, quotient syntax equality, or host evaluation soundness.
+\end{definition}
+
+\begin{theorem}[MetaCIC Pi adequacy budget NameCert obligations]
+\label{thm:metacic-pi-adequacy-budget-namecert-obligations}
+For every accepted $\MetaCICPiAdequacyBudgetUp$ carrier $B=(G,\Pi,N,A,S,F,O,H,C,P,L)$, the local $\NameCert_{\MetaCICPiAdequacyBudgetUp}$ surface consists exactly of typing-frontier admission, Pi-candidate evidence admission, neutral-normal evidence admission, application adequacy handoff, strong-normalization projection handoff, frontier refusal, obligation-budget exposure, componentwise transport, displayed replay, provenance, and local naming. A consumer receives no stronger normalization endpoint unless that endpoint is supplied as a displayed row of the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-pi-adequacy-budget-carrier}. The typing row $G$, Pi-candidate row $\Pi$, and neutral-normal row $N$ are the only source evidence available to the adequacy budget.
+
+The handoff rows are $A$ and $S$. They expose the application-side candidate route and the named strong-normalization projections without replacing candidate evidence by an evidence-free theorem.
+
+The boundary rows are $F$ and $O$. They keep the normalization frontier, subject-reduction boundary, confluence boundary, and endpoint obligation budget visible to any closed-consistency consumer.
+
+Finally, $H,C,P,L$ transport, replay, source, and name the same finite route. Because the carrier lacks coordinates for global normalization, unrestricted subject reduction, confluence, semantic equality, quotient syntax equality, and host evaluation soundness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC Pi adequacy strong-normalization handoff]
+\label{thm:metacic-pi-adequacy-budget-sn-handoff}
+Every normalization-facing consumer of an accepted $\MetaCICPiAdequacyBudgetUp$ packet factors through the route
+$$
+G,\Pi,N,A
+\longmapsto
+S
+\longmapsto
+F,O,H,C,P,L .
+$$
+The consumer therefore reads closed context data, Pi-candidate evidence, neutral-normal evidence, application adequacy data, the strong-normalization handoff, frontier refusal, obligation budget, transport, replay, provenance, and local naming before citing the Pi adequacy contribution to candidate-mediated strong normalization.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $B=(G,\Pi,N,A,S,F,O,H,C,P,L)$. The source rows $G,\Pi,N,A$ provide the only candidate and neutral-normal evidence made public by the packet.
+
+The strong-normalization handoff is $S$. It packages the displayed Pi-candidate, neutral-normal, and Pi-shaped SN projections as rows of the same finite carrier, so a consumer cannot cite them after dropping their evidence inputs.
+
+The frontier and obligation rows $F,O$ remain attached to the handoff. They record that subject-reduction, confluence, and global closed-normalization endpoints are not exported by the Pi adequacy budget alone.
+
+The rows $H,C,P,L$ preserve and name this route. Hence any normalization-facing consumer factors through the displayed candidate-mediated budget before it may use the Pi adequacy contribution.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MetaCICPiAdequacyBudgetUp$ normalization-facing read is refuted if it exports Pi-shaped strong-normalization data while omitting the displayed typing-frontier, Pi-candidate, neutral-normal, application-handoff, SN-handoff, frontier-refusal, obligation-budget, transport, replay, provenance, or local NameCert rows.}
+
+\independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, \texttt{normalization\_candidate\_socket}, metacicnormalizationconfluencebridge: $\MetaCICPiAdequacyBudgetUp$ is not bijective to any listed sibling because it jointly carries Pi-candidate evidence, neutral-normal evidence, application adequacy handoff, SN projection rows, frontier refusal, obligation-budget exposure, transport, replay, provenance, and local naming.}
+
+\closureat{MetaCICPiAdequacyBudgetUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICPiAdequacyBudgetUp}
+  \constructivestory{A $\MetaCICPiAdequacyBudgetUp$ packet is generated from closed context and typing-frontier data, Pi-candidate evidence, neutral-normal evidence, application adequacy rows, strong-normalization handoff rows, frontier refusal, obligation budget, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-pi-adequacy-budget-carrier}, \autoref{thm:metacic-pi-adequacy-budget-namecert-obligations}, and \autoref{thm:metacic-pi-adequacy-budget-sn-handoff} seed the Pi adequacy budget consumed by candidate-mediated strong-normalization routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, evidence-free closed-term strong normalization, unrestricted subject reduction, global confluence, semantic equality, quotient syntax equality, or host evaluation soundness.}
+  \upgradepath{Obligation closure requires checked carrier admission, Pi-candidate evidence exactness, neutral-normal readback, application adequacy handoff, strong-normalization projection handoff, frontier refusal stability, obligation-budget exposure, and consumer nonescape for BEDC.Derived.MetaCICPiAdequacyBudgetUp.}
+\end{closurestatus}

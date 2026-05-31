@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\LaplaceTransformUp$}
+\label{ch:concrete-instances-laplace-transform-namecert}
+\origin{human}
+
+Following classical Laplace transform theory in analysis, the $\LaplaceTransformUp$ packet records only the finite constructive transform interface visible to BEDC consumers. It sits after the coefficient and convergence rows of \autoref{ch:concrete-instances-realpowerseries-namecert}, the integral carrier of \autoref{ch:concrete-instances-integral-namecert}, the graph discipline of \autoref{ch:concrete-instances-continuousmap-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The chapter records finite exponential-kernel, integral-window, transform-output, transport, replay, provenance, and local NameCert rows; it does not assert host analytic continuation, a global function-space quotient, selected improper integrals, or ambient real completeness.
+
+\begin{definition}[Laplace transform carrier]
+\label{def:laplace-transform-carrier}
+A $\LaplaceTransformUp$ carrier is a finite $\BHist$ packet
+$$
+L=(K,I,F,W,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the exponential-kernel row, read through $\RealPowerSeriesUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ data for the finitely inspected values of $e^{-st}$.
+\item $I$ is the $\IntegralUp$ window row naming the displayed interval, mesh or tagged integration data, and tolerance budget used by the transform read.
+\item $F$ is the $\ContinuousMapUp$ input-function row restricted to the finite source observations consumed by $I$.
+\item $W$ is the finite product-read window combining the kernel row $K$ with the input row $F$ before the integral row $I$ is consumed.
+\item $O$ is the transform-output row, a $\RegSeqRatUp$ and $\RealUp$ handoff reached only through $K,F,W,I$.
+\item $H$ records componentwise $\hsame$ transport for the kernel, integral window, input function, product reads, output handoff, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from kernel and function reads through the integral window into the output row.
+\item $P$ is the $\Pkg$ provenance over $\LaplaceTransformUp$, $\RealPowerSeriesUp$, $\IntegralUp$, $\ContinuousMapUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LaplaceTransformUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $K,I,F,W,O,H,C,P,N$. It has no coordinate for host analytic continuation, quotient equality of functions, selected improper limits, unbounded integration outside the displayed window, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Laplace transform NameCert obligations]
+\label{thm:laplace-transform-namecert-obligations}
+For an accepted $\LaplaceTransformUp$ carrier $L=(K,I,F,W,O,H,C,P,N)$, the local $\NameCert_{\LaplaceTransformUp}$ surface consists exactly of carrier admission, exponential-kernel admission, integral-window exactness, input-function read compatibility, product-window replay, transform-output handoff, componentwise transport, continuation replay, provenance, and ledger non-escape. These obligations are discharged along the finite route
+$$
+K,F\longmapsto W\longmapsto I\longmapsto O
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:laplace-transform-carrier}. The kernel row $K$, input-function row $F$, product-read window $W$, integral row $I$, and output row $O$ are stored coordinates before any downstream consumer reads the transform.
+
+The exponential-kernel obligation is confined to the displayed $\RealPowerSeriesUp$ and real-read rows inside $K$. The input-function obligation is confined to the finite $\ContinuousMapUp$ observations in $F$, and the product-window obligation records exactly which paired reads enter the integration window.
+
+Integral-window exactness is the row $I$. It consumes only the paired reads in $W$ and the displayed tolerance and mesh data carried by the integral interface, so the calculation is a finite $\BHist$ route rather than an improper-integral assertion.
+
+The rows $H$ and $C$ transport and replay the same route componentwise. The provenance row $P$ and local name $N$ source the packet, while $O$ is downstream of $K,F,W,I$. Since none of the excluded host objects appears as a carrier coordinate, the listed obligations exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Laplace transform exponential-kernel window]
+\label{thm:laplace-transform-exponential-kernel-window}
+Every accepted $\LaplaceTransformUp$ read of the exponential factor passes through the finite kernel row $K$ before it can enter the product window $W$ and the integral row $I$. The kernel read is therefore a displayed $\RealPowerSeriesUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ window over the inspected $s,t$ values, not a host exponential-function oracle and not an analytic-continuation principle.
+\end{theorem}
+\begin{proof}
+Project the kernel row $K$ from the carrier of \autoref{def:laplace-transform-carrier}. The row records only the finitely inspected real and regular-rational reads needed for the exponential kernel.
+
+The product window $W$ consumes $K$ together with the input-function row $F$. Thus an integral read cannot reach the kernel through any route except the displayed finite kernel row and its stored transport and replay data.
+
+Finally the integral row $I$ consumes $W$ rather than a host exponential function. The transform output $O$ is downstream of this route, so no consumer can replace the kernel window by analytic continuation or an unrecorded exponential oracle.
+\end{proof}
+
+\begin{theorem}[Laplace transform real seal nonescape]
+\label{thm:laplace-transform-real-seal-nonescape}
+The output row $O$ of an accepted $\LaplaceTransformUp$ packet exports to $\RealUp$ only after the displayed route
+$$
+K,F\longmapsto W\longmapsto I
+$$
+has been transported and replayed through $H$ and $C$. The real seal records the finite transform-output handoff already present in the packet, and it does not export host analytic continuation, global function-space equality, selected improper limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The output row $O$ is a carrier coordinate, but \autoref{def:laplace-transform-carrier} places it downstream of the kernel row, input-function row, product-read window, and integral row. A $\RealUp$ consumer therefore receives only the output handoff obtained from the displayed finite route.
+
+Componentwise transport through $H$ preserves the same coordinates, and continuation replay through $C$ rebuilds the same dependency route. The package row $P$ and local name $N$ record provenance without adding analytic structure.
+
+The excluded objects are absent from the carrier. There is no host analytic-continuation row, no quotient function-space coordinate, no selected improper-integral limit, no countable-choice selector, and no ambient completeness witness. Hence the real seal is nonescaping.
+\end{proof}
+
+\closureat{LaplaceTransformUp}{seedStr}
+
+\begin{closurestatus}{\LaplaceTransformUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:laplace-transform-carrier}, \autoref{thm:laplace-transform-namecert-obligations}, \autoref{thm:laplace-transform-exponential-kernel-window}, and \autoref{thm:laplace-transform-real-seal-nonescape} seed the finite exponential-kernel and integral-window transform boundary over $\RealPowerSeriesUp$, $\IntegralUp$, $\ContinuousMapUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host analytic continuation, global function-space equality, selected improper limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, exponential-kernel admission, integral-window exactness, product-window replay, transform-output handoff, transport, replay, provenance, and ledger non-escape for BEDC.Derived.LaplaceTransformUp.}
+  \constructivestory{A $\LaplaceTransformUp$ packet is generated from a finite exponential-kernel row, an input-function row, a product-read window, an Integral window, a RegSeqRat and Real output handoff, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+\end{closurestatus}

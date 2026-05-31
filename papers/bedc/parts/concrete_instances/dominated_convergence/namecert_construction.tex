@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-dominated-convergence-namecert}
 \origin{human}
 
-Following Lebesgue's convergence theorem and Bishop-style constructive integration, the $\DominatedConvergenceUp$ packet records the finite visible route by which pointwise limit data, an integrable majorant, and integral readback rows are retained before any limit-of-integrals consumer reads the conclusion. It sits after the measure surface of \autoref{ch:concrete-instances-measure-namecert}, the public integral row of \autoref{ch:concrete-instances-integral-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the series-style bounded handoff of \autoref{ch:concrete-instances-tannery-theorem-namecert}. The packet names dominated convergence as finite NameCert data; it does not assert ambient measure-theoretic completeness, quotient function equality, host almost-everywhere equality, selected representatives, or an unbounded convergence theorem.
+Following Lebesgue's convergence theorem and Bishop-style constructive integration, the $\DominatedConvergenceUp$ packet records the finite visible route by which pointwise limit data, an integrable majorant, and integral readback rows are retained before any limit-of-integrals consumer reads the conclusion. It sits after the measure surface of \autoref{ch:concrete-instances-measure-namecert}, the public integral row of \autoref{ch:concrete-instances-integral-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the series-style bounded handoff of \autoref{ch:concrete-instances-tannery-theorem-namecert}. The lower-bound side is kept compatible with \autoref{ch:concrete-instances-fatou-lemma-namecert}: $\FatouLemmaUp$ supplies the nonnegative liminf route, while this packet adds the displayed integrable majorant and limit-window rows needed for dominated integral readback. The packet names dominated convergence as finite NameCert data; it does not assert ambient measure-theoretic completeness, quotient function equality, host almost-everywhere equality, selected representatives, or an unbounded convergence theorem.
 
 \begin{definition}[Dominated convergence carrier]
 \label{def:dominated-convergence-carrier}
@@ -27,6 +27,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for ambient measure completion, quotient function equality, host almost-everywhere equality, selected representatives, countable choice, or a detached completeness theorem.
 \end{definition}
+\leanchecked{BEDC.Derived.DominatedConvergenceUp.DominatedConvergenceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Dominated convergence NameCert obligations]
 \label{thm:dominated-convergence-namecert-obligations}
@@ -66,6 +67,20 @@ The limit part is forced through $L$ and $R$. The row $L$ displays the pointwise
 The bounded handoff is $T$. It points to the finite domination discipline already visible in $\TanneryTheoremUp$ without importing the ambient dominated convergence theorem as a hidden premise.
 
 Finally, $H,C,P,N$ preserve and name the same route. Since the carrier lacks coordinates for measure completion, quotient function equality, host almost-everywhere equality, selected representatives, and countable choice, every consumer factors through the displayed majorant handoff.
+\end{proof}
+
+\begin{theorem}[Dominated convergence measure-integral route]
+\label{thm:dominated-convergence-measure-integral-route}
+Every dominated-convergence consumer of an accepted $\DominatedConvergenceUp$ carrier $D=(M,I,F,G,L,R,E,T,H,C,P,N)$ factors through the $\MeasureUp$ row, $\IntegralUp$ row, majorant row, pointwise-limit row, $\RegSeqRatUp$ readback, $\RealUp$ seal, and $\TanneryTheoremUp$ handoff before it consumes the conclusion. The route is anchored by \autoref{ch:concrete-instances-measure-namecert}, \autoref{ch:concrete-instances-integral-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-tannery-theorem-namecert}, with $H,C,P,N$ preserving and naming exactly those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dominated-convergence-carrier}. The first available analytic rows are $M,I,G,L,R,E,T$, and the structural rows are $H,C,P,N$.
+
+The measure and integral stages are $M$ and $I$. They bind the consumer to the finite measure and integral surfaces before any domination or limit row is read.
+
+The domination and convergence stages are $G$ and $L$. The majorant row is read through the same measure and integral surfaces, while the pointwise-limit row exposes only the displayed convergence windows.
+
+The readback and sibling handoff are $R,E,T$. The regular rational row and terminal real seal are consumed before the Tannery handoff, and the transport, replay, provenance, and naming rows preserve this route without adding host almost-everywhere equality, selected representatives, or ambient completeness.
 \end{proof}
 
 \falsifiablePrediction{Every $\DominatedConvergenceUp$ integral-facing or Real-facing read factors through displayed Measure, Integral, majorant, pointwise-limit, RegSeqRat readback, Real seal, Tannery handoff, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}

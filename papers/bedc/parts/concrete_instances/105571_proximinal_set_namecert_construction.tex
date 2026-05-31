@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\ProximinalSetUp$}
+\label{ch:concrete-instances-proximinal-set-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located sets in metric spaces, a proximinal set is read here as a located subset whose displayed distance data may be accompanied by finite distance-attainment witnesses. The $\ProximinalSetUp$ packet sits between the located-subset interface of \autoref{ch:concrete-instances-locatedset-namecert}, the located-metric handoff of \autoref{ch:concrete-instances-locatedmetric-namecert}, the real distance seal of \autoref{ch:concrete-instances-real-namecert}, and the Hilbert or convex projection specialization of \autoref{ch:concrete-instances-metricprojection-namecert}. It records displayed distance-attainment witness rows and deliberately does not export a host nearest-point selector, quotient point equality, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Proximinal set carrier]
+\label{def:proximinal-set-carrier}
+A $\ProximinalSetUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(X,L,D,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the parent $\MetricUp$ row, including the point classifier, distance witness, metric-law ledger, and finite observation histories.
+\item $L$ is the $\LocatedSetUp$ row. It supplies the displayed subspace admission, located-distance ledger, rational comparison windows, $\RealUp$ distance seal, and $\LocatedMetricUp$ handoff already exposed by the located-set packet.
+\item $D$ is the located-metric distance-read row. It records that the ambient point, admitted set row, and requested tolerance are read through the $\LocatedMetricUp$ and $\LocatedSetUp$ interfaces before any attainment evidence is inspected.
+\item $W$ is the distance-attainment witness row. For each displayed request it stores a finite admitted point row and a finite equality-of-distance certificate tying that point to the real distance name supplied by $L$ and $D$.
+\item $E$ is the real attainment seal. It records the $\RealUp$ comparison between the displayed distance name and the displayed witness point distance, without adding trichotomy, quotient point equality, or ambient real completeness.
+\item $H$ stores componentwise $\hsame$ transport for the parent metric row, located-set row, located-metric distance read, attainment witness row, real seal, continuation replay, provenance, and local naming row.
+\item $C$ stores displayed $\Cont$ replay from ambient point observations into located-set distance data, from located-set distance data into $D$, from $D$ into $W$, and from the witness row into $E$.
+\item $P$ is the $\Pkg$ provenance over $\ProximinalSetUp$, $\MetricUp$, $\LocatedSetUp$, $\LocatedMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProximinalSetUp}$ row.
+\end{enumerate}
+The classifier compares packets only through $X,L,D,W,E,H,C,P,N$. It has no coordinate for a host nearest-point function, quotient equality of ambient points, trichotomy, open-cover compactness, a Hilbert projection theorem, or full ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Proximinal set NameCert obligations]
+\label{thm:proximinal-set-namecert-obligations}
+For an accepted $\ProximinalSetUp$ carrier $Z=(X,L,D,W,E,H,C,P,N)$, the local $\NameCert_{\ProximinalSetUp}$ obligations are exactly carrier admission, parent metric compatibility, located-set distance compatibility, located-metric read ordering, displayed distance-attainment witness stability, real attainment seal readback, and structural non-escape. These obligations are discharged by the finite route
+$$
+X\longmapsto L\longmapsto D\longmapsto W\longmapsto E
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:proximinal-set-carrier}. The tuple lists the parent metric row, located-set row, located-metric distance read, attainment witness row, real seal, and structural rows.
+
+Parent metric compatibility and located-set distance compatibility are read first. The consumer sees ambient points through $X$ and sees set distance data through $L$, so the packet inherits the nearest-point refusal boundary of the located-set interface before any attainment row can be consumed.
+
+The row $D$ fixes the located-metric read order. It prevents an attainment witness from being read as a primitive selector by forcing the request through the located-set and located-metric distance route.
+
+The witness row $W$ then stores only displayed request-specific evidence: an admitted point row and a finite equality-of-distance certificate. The real seal $E$ compares that displayed point distance with the real distance name already read from $L$ and $D$.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for a host nearest-point function, quotient point equality, trichotomy, open-cover compactness, Hilbert projection, or ambient real completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Proximinal set distance-witness route]
+\label{thm:proximinal-set-distance-witness-route}
+Every accepted $\ProximinalSetUp$ packet exposes distance-attainment data only through the route
+$$
+\MetricUp \longmapsto \LocatedSetUp \longmapsto \LocatedMetricUp \longmapsto W \longmapsto \RealUp .
+$$
+Thus a $\MetricProjectionUp$ or compactness consumer may read a displayed witness row, but it must supply any host nearest-point selector, quotient point equality principle, trichotomy branch, open-cover compactness argument, or ambient real-completeness principle outside the packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:proximinal-set-carrier}. The only analytic rows available before the witness are the parent metric row $X$, the located-set row $L$, and the located-metric distance read $D$.
+
+Apply \autoref{thm:located-set-distance-handoff} and \autoref{thm:located-set-real-distance-seal-exactness}. These force located-set distance data through parent metric observations, subspace admission, located-distance ledgers, rational windows, and a $\RealUp$ seal before a consumer can read the distance as real data.
+
+The $\ProximinalSetUp$ carrier then adds $W$ only as a displayed witness row for that already-read distance. It does not turn the row into a host function from ambient points to nearest points, because the witness is indexed by the finite request already present in the packet.
+
+The terminal seal $E$ records the equality-of-distance readback for the displayed witness. The structural rows $H,C,P,N$ preserve the same route, so downstream projection or compactness consumers receive a finite distance-attainment witness boundary rather than quotient point equality, trichotomy, open-cover compactness, Hilbert projection, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every $\ProximinalSetUp$ read from an accepted packet factors through the parent $\MetricUp$ row, $\LocatedSetUp$ distance interface, $\LocatedMetricUp$ handoff, displayed distance-attainment witness row, $\RealUp$ attainment seal, componentwise transport, continuation replay, provenance, and local $\NameCert$ before any projection, compactness, or completion consumer reads the route.}
+
+\independenceWitness{locatedset, locatedmetric, metricprojection, real: $\ProximinalSetUp$ is not bijective to any listed sibling because it jointly carries displayed located-set distance data and request-indexed distance-attainment witness rows while refusing host nearest-point selection, quotient point equality, trichotomy, open-cover compactness, and ambient real completeness.}
+
+\closureat{ProximinalSetUp}{seedStr}
+
+\begin{closurestatus}{\ProximinalSetUp}
+  \constructivestory{A $\ProximinalSetUp$ packet starts from a parent Metric row, reads a LocatedSet distance interface, routes the distance through a LocatedMetric handoff, records displayed request-indexed distance-attainment witnesses, seals the equality of distance in a RealUp row, and preserves the same route through componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proximinal-set-carrier}, \autoref{thm:proximinal-set-namecert-obligations}, and \autoref{thm:proximinal-set-distance-witness-route} seed the finite proximinal-set interface through located-set distance data, located-metric reads, displayed attainment witnesses, and real distance seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host nearest-point selection, quotient point equality, trichotomy, open-cover compactness, Hilbert projection, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, parent metric compatibility, located-set distance compatibility, located-metric read ordering, displayed distance-attainment witness stability, RealUp attainment seal readback, structural non-escape, Nontrivial ProximinalSetUp, and FieldFaithful ProximinalSetUp.}
+\end{closurestatus}

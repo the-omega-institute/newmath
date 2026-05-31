@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetaCICClosureTraceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -174,5 +176,116 @@ theorem MetaCICClosureTraceTasteGate_single_carrier_alignment :
       MetaCICClosureTraceTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => MetaCICClosureTraceTasteGate_single_carrier_alignment_injective heq),
       rfl⟩
+
+theorem MetaCICClosureTrace_substitution_shift_generator_package {S U V B R G K H C P N : BHist} :
+    SemanticNameCert
+        (fun row : BHist =>
+          hsame row G ∧
+            List.Mem S
+              (metaCICClosureTraceFields (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) ∧
+              List.Mem U
+                (metaCICClosureTraceFields
+                  (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) ∧
+                List.Mem V
+                  (metaCICClosureTraceFields
+                    (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) ∧
+                  List.Mem G
+                    (metaCICClosureTraceFields
+                      (MetaCICClosureTraceUp.mk S U V B R G K H C P N)))
+        (fun row : BHist =>
+          hsame row G ∧
+            List.Mem row
+              (metaCICClosureTraceFields (MetaCICClosureTraceUp.mk S U V B R G K H C P N)))
+        (fun row : BHist =>
+          hsame row G ∧
+            metaCICClosureTraceFromEventFlow
+                (metaCICClosureTraceToEventFlow
+                  (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) =
+              some (MetaCICClosureTraceUp.mk S U V B R G K H C P N))
+        hsame ∧ metaCICClosureTraceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark SemanticNameCert hsame
+  have memS :
+      List.Mem S
+        (metaCICClosureTraceFields (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) :=
+    List.Mem.head _
+  have memU :
+      List.Mem U
+        (metaCICClosureTraceFields (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) :=
+    List.Mem.tail _ (List.Mem.head _)
+  have memV :
+      List.Mem V
+        (metaCICClosureTraceFields (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) :=
+    List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))
+  have memG :
+      List.Mem G
+        (metaCICClosureTraceFields (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) :=
+    List.Mem.tail _ <|
+      List.Mem.tail _ <|
+        List.Mem.tail _ <|
+          List.Mem.tail _ <|
+            List.Mem.tail _ (List.Mem.head _)
+  have roundTrip :
+      metaCICClosureTraceFromEventFlow
+          (metaCICClosureTraceToEventFlow
+            (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) =
+        some (MetaCICClosureTraceUp.mk S U V B R G K H C P N) :=
+    MetaCICClosureTraceTasteGate_single_carrier_alignment_round_trip
+      (MetaCICClosureTraceUp.mk S U V B R G K H C P N)
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row G ∧
+            List.Mem S
+              (metaCICClosureTraceFields (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) ∧
+              List.Mem U
+                (metaCICClosureTraceFields
+                  (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) ∧
+                List.Mem V
+                  (metaCICClosureTraceFields
+                    (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) ∧
+                  List.Mem G
+                    (metaCICClosureTraceFields
+                      (MetaCICClosureTraceUp.mk S U V B R G K H C P N)))
+        (fun row : BHist =>
+          hsame row G ∧
+            List.Mem row
+              (metaCICClosureTraceFields (MetaCICClosureTraceUp.mk S U V B R G K H C P N)))
+        (fun row : BHist =>
+          hsame row G ∧
+            metaCICClosureTraceFromEventFlow
+                (metaCICClosureTraceToEventFlow
+                  (MetaCICClosureTraceUp.mk S U V B R G K H C P N)) =
+              some (MetaCICClosureTraceUp.mk S U V B R G K H C P N))
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro G ⟨hsame_refl G, memS, memU, memV, memG⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            source.right.left,
+            source.right.right.left,
+            source.right.right.right.left,
+            source.right.right.right.right⟩
+    }
+    pattern_sound := by
+      intro row source
+      cases source.left
+      exact ⟨hsame_refl G, source.right.right.right.right⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, roundTrip⟩
+  }
+  exact ⟨cert, rfl⟩
 
 end BEDC.Derived.MetaCICClosureTraceUp

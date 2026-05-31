@@ -275,6 +275,43 @@ component relations supply the remaining conjuncts.
 \end{proof}
 \leanchecked{BEDC.Derived.ProdUp.ProdComponentHistoryClassifier\_displayed\_exactness}
 
+\begin{theorem}[Product component-classifier pullback]
+\label{thm:prod-component-classifier-pullback}
+Let $L,R:\mathsf{BHist}\to\mathsf{Prop}$ be source-history carriers and let
+$\sim_L,\sim_R:\mathsf{BHist}\to\mathsf{BHist}\to\mathsf{Prop}$ be source
+classifiers satisfying the displayed transitivity laws of
+\autoref{thm:prod-component-history-classifier-displayed-exactness}. For any
+public product-envelope consumers $C$ and $D$, if their displayed reads of a
+pair envelope agree on the left component classifier and on the right component
+classifier, then their reads pull back to the same
+$\ProdUp$ envelope classifier. The pullback is measured through
+$\mathsf{ProdComponentHistoryClassifier}_{L,R,\sim_L,\sim_R}$, descends to
+$\mathsf{ProdHistoryClassifier}(L,R,-,-)$ when the component classifiers are
+$\hsame$-sound, and is recorded by the product stability certificate rows.
+\end{theorem}
+\begin{proof}
+Project both public consumers to their displayed product rows. The exactness
+theorem
+\autoref{thm:prod-component-history-classifier-displayed-exactness} rewrites
+each componentwise product classifier as the conjunction of the two displayed
+component classifier agreements.
+
+Because $C$ and $D$ agree on both component classifiers, those two conjunctions
+are the same displayed witness. Repack the two component agreements through
+Definition~\ref{def:prod-component-history-classifier}; this gives the common
+$\mathsf{ProdComponentHistoryClassifier}$ row for the two product-envelope
+reads.
+
+Envelope descent is then
+\autoref{thm:prod-component-history-classifier-descends-to-envelope} under the
+declared $\hsame$-soundness of the component classifiers. The displayed
+$\hsame$ exactness theorem
+\autoref{thm:prod-history-classifier-displayed-component-hsame-iff} identifies
+the envelope readback with the same component data, and
+\autoref{def:prod-stability-certificate} records the stability rows that let
+finite-data consumers reuse the pullback.
+\end{proof}
+
 \begin{definition}[Prod stability certificate]
 \label{def:prod-stability-certificate}
 The checked stability subcertificate consists of:

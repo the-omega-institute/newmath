@@ -1,0 +1,100 @@
+\begin{theorem}[CauchyFilterCompletion root carrier admission obligation]
+\label{thm:cauchy-filter-completion-root-carrier-admission-obligation}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier as in \autoref{def:cauchy-filter-completion-carrier}. The root carrier-admission obligation is the $\BHist$-anchored demand that the Cauchy-filter source $C$, finite $\StreamNameUp$ windows $W$, tolerance ledger $T$, $\RegSeqRatUp$ readback $R$, terminal $\RealUp$ seal $L$, transport row $H$, replay row $K$, provenance row $P$, and local NameCert row $N$ are all admitted as rows of the same finite packet before any completion-facing consumer reads them.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:cauchy-filter-completion-carrier}. Its displayed carrier rows are exactly $C,W,T,R,L,H,K,P,N$.
+
+The obligation is rooted in the same $\BHist$ packet. Carrier admission therefore does not create a detached completion object; it only exposes the already displayed CauchyFilterUp, StreamNameUp, RegSeqRatUp, RealUp, UniformCompletionUp, transport, replay, provenance, and naming rows.
+
+The refusal side follows from the absence of any quotient-filter, selected-limit, host-equality, choice, or ambient-completeness coordinate in the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionRootCarrierAdmissionObligation}
+
+\begin{theorem}[CauchyFilterCompletion root filterbase source coverage obligation]
+\label{thm:cauchy-filter-completion-root-filterbase-source-coverage-obligation}
+For an accepted $\CauchyFilterCompletionUp$ carrier $F=(C,W,T,R,L,H,K,P,N)$, the filterbase-directed source coverage obligation requires every completion-facing read of $W,T,R,L$ to pass through the same $\FilterBaseUp/\CauchyFilterUp$ source row behind $C$. The finite windows, regular readback, Real seal, and $\UniformCompletionUp$ provenance row cannot be read from a second source packet.
+\end{theorem}
+\begin{proof}
+Use the carrier admission obligation of \autoref{thm:cauchy-filter-completion-root-carrier-admission-obligation}. It keeps $C,W,T,R,L,H,K,P,N$ inside one $\BHist$ packet.
+
+Read the source row first. The CauchyFilterUp carrier behind $C$ supplies the filterbase-facing data, and the finite StreamNameUp windows $W$ are downstream from that source.
+
+The readback and seal rows remain attached to the same route. Since $R$ is the RegSeqRatUp readback extracted from $W$ and $T$, and $L$ is the RealUp seal reached after that extraction, the UniformCompletionUp provenance in $P$ has no second filterbase source to expose.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionRootFilterbaseSourceCoverageObligation}
+
+\begin{theorem}[CauchyFilterCompletion root Real seal handoff obligation]
+\label{thm:cauchy-filter-completion-root-real-seal-handoff-obligation}
+For an accepted $\CauchyFilterCompletionUp$ carrier $F=(C,W,T,R,L,H,K,P,N)$, the Real-seal completion handoff obligation requires every $\RealUp$ or $\UniformCompletionUp$ consumer to reach the terminal seal $L$ only after the $\FilterBaseUp/\CauchyFilterUp$ source $C$, finite $\StreamNameUp$ windows $W$, tolerance ledger $T$, and $\RegSeqRatUp$ readback $R$ have been replayed through $K$ and preserved by $H,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPacket\_root\_real\_seal\_handoff}
+\begin{proof}
+Start from \autoref{thm:cauchy-filter-completion-root-filterbase-source-coverage-obligation}. It fixes the source and window rows for every completion-facing read.
+
+The Real seal is downstream from the readback row. A consumer of $L$ therefore must first traverse $C,W,T,R$, and the displayed replay row $K$ records that route inside the same $\BHist$ packet.
+
+The structural rows preserve the handoff. Componentwise transport $H$, UniformCompletionUp provenance $P$, and local naming $N$ carry the same route forward, so the seal handoff does not introduce selected limits, host equality of completion points, quotient filters, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion root filter scope closure]
+\label{thm:cauchyfiltercompletion-root-filter-scope-closure}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Before any completion-facing consumer can read a completed point, the root-filter completion read must expose the $\FilterBaseUp$ and $\CauchyFilterUp$ rows behind $C$, the $\UniformCompletionUp$ or $\SeparatedCompletionUp$ handoff surface, the $\StreamNameUp$ finite-window schedule $W$, the $\RegSeqRatUp$ regular readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $T$, the $\RealUp$ seal $L$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $K$, $\Pkg$ provenance $P$, and the local $\NameCert_{\CauchyFilterCompletionUp}$ row $N$.
+
+Consequently the root-filter completion scope exports only this displayed finite route. It does not export quotient completions, selected limits, countable-choice schedules, host equality of completed points, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionRootFilterScopeClosure}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-filter-completion-carrier}. The source coordinate $C$ is the only place where a root filter can enter, and the root carrier admission obligation keeps $C,W,T,R,L,H,K,P,N$ inside the same finite $\BHist$ packet.
+
+Route filter-base requests through the existing source coverage obligation. The $\FilterBaseUp/\CauchyFilterUp$ rows behind $C$ must be read before the $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, or the $\RegSeqRatUp$ readback $R$ can be inspected.
+
+Now route the completion handoff. The $\RealUp$ seal $L$ and the $\UniformCompletionUp$ or $\SeparatedCompletionUp$ consumer surface are reached only after the displayed source, window, tolerance, and readback rows have been replayed through $K$ and transported by $H$.
+
+Finally $P$ and $N$ source and name the same route. Since the packet has no quotient-completion, selected-limit, countable-choice, host-equality, or ambient-completeness coordinate, the root-filter completion scope is exactly the finite route stated above.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion root filter route]
+\label{thm:cauchyfiltercompletion-root-filter-route}
+Every accepted $\CauchyFilterCompletionUp$ carrier read by a completion-facing consumer factors through the displayed $\FilterBaseUp/\CauchyFilterUp$ source row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CauchyFilterCompletionUp}$ row before the completion data are consumed. The route cannot use quotient filters, selected limits, countable choice, host equality of completed points, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionRootFilterRoute}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-filter-completion-carrier}. Its displayed rows are exactly $C,W,T,R,L,H,K,P,N$, with the root filter source entering through $C$.
+
+Apply \autoref{thm:cauchy-filter-completion-root-filterbase-source-coverage-obligation}. It forces every completion-facing read of the finite windows, tolerance ledger, regular readback, and Real seal to pass through the same $\FilterBaseUp/\CauchyFilterUp$ source row behind $C$.
+
+Next apply \autoref{thm:cauchy-filter-completion-root-real-seal-handoff-obligation}. The terminal seal $L$ is available only after the source row, windows, tolerance ledger, and readback have been replayed through $K$ and preserved by $H,P,N$.
+
+Finally apply \autoref{thm:cauchyfiltercompletion-root-filter-scope-closure}. The scope-closure theorem exhausts the displayed finite route and excludes quotient filters, selected limits, countable-choice schedules, host equality, and ambient completeness coordinates.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion public export]
+\label{thm:cauchy-filter-completion-public-export}
+An accepted $\CauchyFilterCompletionUp$ carrier exports a public completion-facing route only through the displayed $\FilterBaseUp/\CauchyFilterUp$ source row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CauchyFilterCompletionUp}$ row. The exported route exposes no quotient filters, selected limits, countable-choice schedule, host equality of completed points, or ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPublicExport}
+\begin{proof}
+First compose carrier admission with source coverage. Apply \autoref{thm:cauchy-filter-completion-root-carrier-admission-obligation} to keep $C,W,T,R,L,H,K,P,N$ inside one finite $\BHist$ packet, then apply \autoref{thm:cauchy-filter-completion-root-filterbase-source-coverage-obligation} to force every read of $W,T,R,L$ through the displayed $\FilterBaseUp/\CauchyFilterUp$ source behind $C$.
+
+Next compose the Real-seal handoff. Apply \autoref{thm:cauchy-filter-completion-root-real-seal-handoff-obligation}; the terminal seal $L$ is reached only after the source, finite windows, tolerance ledger, and regular readback have been replayed through $K$ and preserved by $H,P,N$.
+
+Finally apply \autoref{thm:cauchyfiltercompletion-root-filter-route}. That theorem packages the same source row, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local naming data as the only completion-facing route.
+
+The refusal clause follows because none of the composed obligations introduces a quotient-filter coordinate, selected limit, countable-choice schedule, host equality of completed points, or ambient-completeness witness.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion root sibling dependency route]
+\label{thm:cauchy-filter-completion-root-sibling-dependency-route}
+Every accepted root completion read for $\CauchyFilterCompletionUp$ first consumes the sibling surfaces \autoref{ch:concrete-instances-filterbase-namecert}, \autoref{ch:concrete-instances-cauchyfilter-namecert}, \autoref{ch:concrete-instances-uniformcompletion-namecert}, \autoref{ch:concrete-instances-separatedcompletion-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert} before it exposes the public completion route. The route therefore records the actual L10 sibling lattice rather than a kernel-only completion island.
+\end{theorem}
+\begin{proof}
+Start from carrier admission in \autoref{thm:cauchy-filter-completion-root-carrier-admission-obligation}. The finite packet already binds the completion carrier, source windows, tolerance ledger, regular readback, Real seal, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:cauchy-filter-completion-root-filterbase-source-coverage-obligation}. It forces the root route to read the $\FilterBaseUp$ and $\CauchyFilterUp$ source surfaces before the completion-facing rows may be inspected.
+
+Next use \autoref{thm:cauchy-filter-completion-root-real-seal-handoff-obligation}. The readback passes through finite $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ handoff, and the terminal $\RealUp$ seal.
+
+Finally apply \autoref{thm:cauchyfiltercompletion-root-filter-route} and \autoref{thm:cauchy-filter-completion-public-export}. These package the same rows as the public completion route, with the uniform and separated completion siblings supplying the completion-facing boundary and with no quotient filters, selected limits, countable choice, host equality, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionRootSiblingDependencyRoute}

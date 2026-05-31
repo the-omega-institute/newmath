@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\LawOfTotalVarianceUp$}
+\label{ch:concrete-instances-law-of-total-variance-namecert}
+\origin{human}
+
+Following Kolmogorov and Doob on conditional expectation and variance decompositions, the $\LawOfTotalVarianceUp$ packet records the finite Real-valued ledger behind the identity that total variance splits into conditional variance and variance of the conditional mean. It sits after the normalized probability surface of \autoref{ch:concrete-instances-probspace-namecert}, the carried random-variable rows of \autoref{ch:concrete-instances-randomvar-namecert}, the singleton conditional-expectation rows of \autoref{ch:concrete-instances-condexp-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, and the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}. The chapter names the finite BEDC rows needed by later martingale and variance consumers; it does not import a host probability space, quotient almost-sure equality, an unrestricted conditional-expectation operator, or ambient real completeness.
+
+\begin{definition}[LawOfTotalVariance carrier]
+\label{def:law-of-total-variance-carrier}
+A $\LawOfTotalVarianceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(P,X,C,M,V,W,T,S,R,H,K,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the source $\ProbSpaceUp$ row, exposing the total-event normalization, measurable-event classifier, and Real-valued probability readbacks used by the variance request.
+\item $X$ is the centered $\RandomVarUp$ row whose finite-window square readback is being decomposed.
+\item $C$ is the $\CondExpUp$ row that displays the conditioning face for the inspected finite window.
+\item $M$ is the conditional-mean row, read as the displayed conditional expectation of $X$ along $C$.
+\item $V$ is the conditional-variance row, read as the conditional expectation of the squared residual between $X$ and $M$ on the same conditioning face.
+\item $W$ is the total-variance row, read as the Real-valued finite-window expectation of the squared residual from the total mean.
+\item $T$ is the variance-of-conditional-mean row, read as the Real-valued finite-window variance of $M$.
+\item $S$ is the terminal $\RealUp$ seal comparing $W$ with the displayed sum of $V$ and $T$ through the Real classifier.
+\item $R$ is the $\RegSeqRatUp$ readback row recording the rational windows, tolerances, and finite square-expansion approximants used before the Real seal is exposed.
+\item $H$ records componentwise $\hsame$ transport for $P,X,C,M,V,W,T,S,R$ and the structural rows below.
+\item $K$ records displayed $\Cont$ replay through the probability source, random-variable row, conditional-expectation row, variance rows, regular-rational readback, and Real seal.
+\item $Q$ is the $\Pkg$ provenance over $\LawOfTotalVarianceUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\CondExpUp$, $\RealUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LawOfTotalVarianceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host almost-sure quotient equality, an external $L^2$ space, countable-choice representatives, or an ambient conditional-expectation theorem.
+\end{definition}
+
+\begin{theorem}[LawOfTotalVariance NameCert obligations]
+\label{thm:law-of-total-variance-namecert-obligations}
+For every accepted $\LawOfTotalVarianceUp$ carrier $L=(P,X,C,M,V,W,T,S,R,H,K,Q,N)$, the local $\NameCert_{\LawOfTotalVarianceUp}$ surface consists exactly of the displayed probability source, random-variable endpoint, conditional-expectation face, conditional-mean row, conditional-variance row, total-variance row, variance-of-conditional-mean row, Real seal, RegSeqRat readback, componentwise transport, replay, provenance, and local naming rows. No obligation may be discharged by importing an ambient variance theorem, quotient almost-sure equality, a host conditional-expectation operator, countable choice, or an external real-completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:law-of-total-variance-carrier}. The rows $P,X,C$ supply the probability source, the carried random variable, and the conditioning face; the rows $M,V,W,T$ expose the conditional mean, conditional variance, total variance, and variance of the conditional mean.
+
+The comparison is finite before it is Real-facing. The row $R$ records the regular rational windows and tolerance data used by the square-expansion readbacks, while $S$ is the only terminal Real seal available to the consumer.
+
+Finally the structural rows $H,K,Q,N$ preserve and name the same packet through componentwise transport, displayed replay, provenance, and local certification. Since the excluded host theorem, quotient, choice, and completeness coordinates are absent from $L$, they cannot discharge any local obligation.
+\end{proof}
+
+\begin{theorem}[LawOfTotalVariance conditional-mean decomposition]
+\label{thm:law-of-total-variance-conditional-mean-decomposition}
+Every accepted $\LawOfTotalVarianceUp$ decomposition read factors through the finite route
+$$
+P,X,C \longmapsto M \longmapsto V,T \longmapsto R \longmapsto S \longmapsto H,K,Q,N .
+$$
+Thus a total-variance consumer receives the displayed equality between the total variance row $W$ and the sum of the conditional-variance row $V$ with the variance-of-conditional-mean row $T$ only after reading the probability source, random-variable endpoint, conditional-expectation face, conditional mean, finite-window RegSeqRat approximants, Real seal, transport, replay, provenance, and local NameCert data.
+\end{theorem}
+\begin{proof}
+Begin with the source rows. The probability packet $P$ fixes the measurable-event and Real-valued mass surface, while $X$ supplies the carried random-variable endpoint and $C$ supplies the conditioning face through the existing $\CondExpUp$ interface.
+
+Next read the mean and variance rows. The row $M$ is the displayed conditional mean, $V$ is the conditional variance around that mean, $W$ is the total variance, and $T$ is the variance of the conditional mean. These rows are compared only on the finite window named by the packet.
+
+The rows $R$ and $S$ then move the comparison from rational approximants to the Real seal. The structural rows $H,K,Q,N$ keep the same route under transport and replay. Therefore the decomposition exposed to downstream consumers is exactly the displayed finite BEDC ledger, not a host-side variance theorem.
+\end{proof}
+
+\falsifiablePrediction{A total-variance read that omits the conditioning face, the conditional-mean row, the RegSeqRat finite-window readback, or the terminal Real seal is not accepted by the local NameCert.}
+
+\independenceWitness{probspace, randomvar, condexp, real, regseqrat: $\LawOfTotalVarianceUp$ is not bijective to any listed sibling because it jointly carries the probability source, random-variable endpoint, conditioning face, conditional mean, conditional variance, total variance, variance of the conditional mean, finite-window readback, Real seal, transport, replay, provenance, and local naming rows.}
+
+\closureat{LawOfTotalVarianceUp}{seedStr}
+
+\begin{closurestatus}{\LawOfTotalVarianceUp}
+  \constructivestory{A $\LawOfTotalVarianceUp$ packet is generated from a ProbSpace row, RandomVar row, CondExp row, conditional-mean row, conditional-variance row, total-variance row, variance-of-conditional-mean row, RegSeqRat finite-window readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:law-of-total-variance-carrier}, \autoref{thm:law-of-total-variance-namecert-obligations}, and \autoref{thm:law-of-total-variance-conditional-mean-decomposition} seed the finite variance-decomposition route through ProbSpace, RandomVar, CondExp, RegSeqRat, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host almost-sure quotient equality, an unrestricted conditional-expectation operator, an external $L^2$ theorem, countable-choice representatives, ambient $\RealUp$ completeness, Lean theorem checking, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, conditional-mean routing, conditional-variance readback, total-variance readback, variance-of-conditional-mean readback, RegSeqRat tolerance accounting, Real sealing, transport stability, replay stability, provenance, and local naming for BEDC.Derived.LawOfTotalVarianceUp.}
+\end{closurestatus}

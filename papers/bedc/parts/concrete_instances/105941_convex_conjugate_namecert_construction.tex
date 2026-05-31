@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ConvexConjugateUp$}
+\label{ch:concrete-instances-convex-conjugate-namecert}
+\origin{human}
+
+Following Rockafellar and Boyd--Vandenberghe, the $\ConvexConjugateUp$ packet names the Fenchel--Legendre conjugate surface by finite primal rows, dual rows, pairing evaluations, epigraph rows, and displayed supremum budgets. It sits over the convex-set, vector-space, real-name, and real-order interfaces of \autoref{ch:concrete-instances-convexset-namecert}, \autoref{ch:concrete-instances-vecspace-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{sec:realalgorder-concrete-interface}, and it supplies the conjugacy handoff consumed by \autoref{ch:concrete-instances-fenchelduality-namecert}. The packet records conjugate data as BEDC carrier rows; it does not import host convex analysis, selected suprema, quotient function spaces, choice selectors, or ambient completeness.
+
+\begin{definition}[Convex conjugate carrier]\label{def:convex-conjugate-carrier}
+A $\ConvexConjugateUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,V,P,D,E,S,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the primal convex functional row, read through a displayed $\ConvexSetUp$ epigraph boundary.
+\item $V$ is the dual-vector row over the visible $\VecSpaceUp$ dependency surface.
+\item $P$ is the pairing-evaluation row that records the finite bilinear read used by the conjugate comparison.
+\item $D$ is the domain and epigraph admission row tying the primal functional to the visible convex-set carrier.
+\item $E$ is the extended-value comparison row, read through $\RealUp$ and the real-order interface.
+\item $S$ is the supremum-budget row listing the finite inspected witnesses and the budget that prevents escape to a host supremum.
+\item $H$ stores componentwise $\hsame$ transport for the primal row, dual vector, pairing row, epigraph row, comparison row, supremum budget, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from primal and dual reads to pairing evaluations, from pairing evaluations to epigraph comparisons, and from those comparisons to the budgeted conjugate row.
+\item $Q$ is the $\Pkg$ provenance over $\ConvexConjugateUp$, $\FenchelDualityUp$, $\ConvexSetUp$, $\VecSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConvexConjugateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,V,P,D,E,S,H,C,Q,N$. It has no coordinate for a host supremum operator, quotient function space, choice-selected maximizer, ambient dual-space completion, or external conjugacy theorem.
+\end{definition}
+
+\begin{theorem}[Convex conjugate NameCert obligations]\label{thm:convex-conjugate-namecert-obligations}
+For every accepted $\ConvexConjugateUp$ carrier $K=(F,V,P,D,E,S,H,C,Q,N)$, the local $\NameCert_{\ConvexConjugateUp}$ surface consists exactly of carrier admission for the ten displayed rows, classifier stability under componentwise $\hsame$ transport, epigraph transport through the visible $\ConvexSetUp$ dependency, supremum-budget nonescape through $S$, and ledger visibility through the replay and provenance rows $C,Q,N$. Every conjugate read must pass through the primal functional row, dual-vector row, pairing evaluation row, epigraph row, extended-value comparison row, and displayed budget before a Fenchel-facing consumer can inspect it.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:convex-conjugate-carrier}. Its visible coordinates are exactly $F,V,P,D,E,S,H,C,Q,N$, so carrier admission and classifier comparison are componentwise on those rows.
+
+The epigraph and comparison clauses route every primal functional read through $\ConvexSetUp$, $\RealUp$, and the real-order interface before it can be paired with the dual row. Transport by $H$ and replay by $C$ preserve that displayed route.
+
+The row $S$ is the only supremum-facing coordinate. Since the carrier has no host supremum, quotient function space, or selected maximizer field, the budgeted ledger $S,C,Q,N$ is the entire local NameCert surface available to downstream consumers.
+\end{proof}
+
+\begin{theorem}[Convex conjugate Fenchel handoff]\label{thm:convex-conjugate-fenchel-handoff}
+Every $\FenchelDualityUp$ consumer that reads conjugacy through an accepted $\ConvexConjugateUp$ carrier receives only the displayed packet route
+$$
+F,V,P,D,E,S\longmapsto H,C,Q,N.
+$$
+The consumer reads primal functionals, dual vectors, pairings, epigraphs, extended-value comparisons, and supremum budgets through the $\ConvexConjugateUp$ packet, and receives no host supremum, quotient function space, choice selector, ambient completeness theorem, or external Fenchel conjugacy principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:convex-conjugate-namecert-obligations}. It places every conjugate-facing read on the carrier rows $F,V,P,D,E,S$ before the structural rows $H,C,Q,N$ can replay or source the answer.
+
+Now pass to the Fenchel-facing consumer. The consumer may cite the $\FenchelDualityUp$ packet only after the displayed conjugate rows have been read, so conjugacy enters as a finite BEDC row rather than as an analytic operation in the host language.
+
+The excluded host objects are absent from \autoref{def:convex-conjugate-carrier}. Therefore the handoff supplies exactly the packet route and no selected supremum, quotient-function value, choice witness, completeness theorem, or external duality theorem.
+\end{proof}
+
+\falsifiablePrediction{Every $\ConvexConjugateUp$ consumer reads conjugacy through a primal functional row, dual-vector row, pairing-evaluation row, epigraph row, extended-value comparison row, supremum-budget row, transport, continuation replay, provenance, and local naming.}
+
+\independenceWitness{convexset, vecspace, real, realalgorder, fenchelduality: $\ConvexConjugateUp$ is not bijective to any listed sibling because it jointly carries primal functional data, dual-vector data, pairing evaluation, epigraph comparison, a displayed supremum budget, transport, replay, provenance, and local naming.}
+
+\closureat{ConvexConjugateUp}{seedStr}
+
+\begin{closurestatus}{\ConvexConjugateUp}
+  \constructivestory{A $\ConvexConjugateUp$ packet is generated from a primal convex functional row, a dual-vector row, a pairing-evaluation row, epigraph and extended-value comparison rows, a displayed supremum budget, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:convex-conjugate-carrier}, \autoref{thm:convex-conjugate-namecert-obligations}, and \autoref{thm:convex-conjugate-fenchel-handoff} bind the finite Fenchel--Legendre conjugate certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host convex analysis, selected suprema, quotient function spaces, choice selectors, ambient completeness, bridge checking, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligations, supremum-budget nonescape, Fenchel handoff, and TasteGate field faithfulness for BEDC.Derived.ConvexConjugateUp.}
+\end{closurestatus}

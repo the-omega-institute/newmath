@@ -2,9 +2,8 @@ name: BEDC Build
 
 # Single source of truth for PDF + Lean4 build. Runs on any push / PR that
 # touches paper, lean, dossier source, or any workflow file involved in the
-# build chain. Uploads `bedc-pdf` artifact for downstream consumers
-# (dossier.yml, daily-build.yml) to download via workflow_run, removing
-# the previous PR-time and dev-push-time duplicate PDF builds.
+# build chain. Uploads `bedc-pdf` for downstream consumers and exercises the
+# dossier HTML artifact handoff on pull requests.
 
 on:
   push:
@@ -57,6 +56,7 @@ jobs:
     outputs:
       tex: ${{ steps.detect.outputs.tex }}
       lean4: ${{ steps.detect.outputs.lean4 }}
+      dossier: ${{ steps.detect.outputs.dossier }}
     steps:
       - name: Check out repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -71,6 +71,17 @@ jobs:
           # exercise the PDF and Lean jobs they affect.
           echo "tex=true" >> "$GITHUB_OUTPUT"
           echo "lean4=true" >> "$GITHUB_OUTPUT"
+          dossier=false
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            while IFS= read -r path; do
+              case "$path" in
+                docs/dossier/*)
+                  dossier=true
+                  ;;
+              esac
+            done < <(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}")
+          fi
+          echo "dossier=$dossier" >> "$GITHUB_OUTPUT"
 
       - name: Write summary
         run: |
@@ -79,7 +90,11 @@ jobs:
             echo
             echo "- run PDF validation: \`${{ steps.detect.outputs.tex }}\`"
             echo "- run Lean4 validation: \`${{ steps.detect.outputs.lean4 }}\`"
+            echo "- run dossier render: \`${{ steps.detect.outputs.dossier }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check workflow checkout safety
+        run: python3 tools/check_workflow_checkout_safety.py
 
   build_pdf:
     name: Build main.pdf
@@ -99,10 +114,24 @@ jobs:
     uses: ./.github/workflows/reusable-lean4.yml
     secrets: inherit
 
+  dossier_source_tests:
+    name: Dossier source regression tests
+    needs: detect_changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Install Python test dependencies
+        run: python3 -m pip install --user pytest pyyaml
+
+      - name: Run dossier source regression tests
+        run: python3 -m pytest tools/test_namecert_html.py tools/test_dossier_runtime.py tools/test_check_glossary.py -q
+
   render_dossier_check:
     name: Render dossier check
     needs: [detect_changes, build_pdf]
-    if: ${{ github.event_name == 'pull_request' && needs.detect_changes.outputs.tex == 'true' }}
+    if: ${{ github.event_name == 'pull_request' && needs.detect_changes.outputs.dossier == 'true' }}
     uses: ./.github/workflows/reusable-dossier-render.yml
     permissions:
       contents: read
@@ -115,7 +144,7 @@ jobs:
 
   gate:
     name: Gate
-    needs: [detect_changes, build_pdf, build_lean4, render_dossier_check]
+    needs: [detect_changes, build_pdf, build_lean4, dossier_source_tests, render_dossier_check]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
@@ -124,6 +153,7 @@ jobs:
           detect_result="${{ needs.detect_changes.result }}"
           pdf_result="${{ needs.build_pdf.result }}"
           lean4_result="${{ needs.build_lean4.result }}"
+          source_test_result="${{ needs.dossier_source_tests.result }}"
           dossier_result="${{ needs.render_dossier_check.result }}"
 
           {
@@ -132,6 +162,7 @@ jobs:
             echo "- detect_changes: \`$detect_result\`"
             echo "- build_pdf: \`$pdf_result\`"
             echo "- build_lean4: \`$lean4_result\`"
+            echo "- dossier_source_tests: \`$source_test_result\`"
             echo "- render_dossier_check: \`$dossier_result\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -141,7 +172,7 @@ jobs:
           fi
           # Each sub-job: must be `success` (ran and passed) or `skipped`
           # (path detection said not needed). Any other state fails the gate.
-          for r in "$pdf_result" "$lean4_result" "$dossier_result"; do
+          for r in "$pdf_result" "$lean4_result" "$source_test_result" "$dossier_result"; do
             case "$r" in
               success|skipped) : ;;
               *) exit 1 ;;

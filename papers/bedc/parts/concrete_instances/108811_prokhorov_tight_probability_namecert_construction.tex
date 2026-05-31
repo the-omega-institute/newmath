@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\ProkhorovTightProbabilityUp$}
+\label{ch:concrete-instances-prokhorov-tight-probability-namecert}
+\origin{human}
+
+Following Prokhorov's tightness theorem for probability measures, the $\ProkhorovTightProbabilityUp$ packet records only the constructive finite tightness data needed before weak-convergence consumers can inspect a probability family. It starts from the probability source of \autoref{ch:concrete-instances-probspace-namecert}, the pushforward distribution row of \autoref{ch:concrete-instances-distribution-namecert}, the event-surface measure row of \autoref{ch:concrete-instances-measure-namecert}, the compact-test packet of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite-net witness of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, and the located outside-mass ledger of \autoref{ch:concrete-instances-real-tightness-namecert}. The chapter also reads the underlying real boundary of \autoref{ch:concrete-instances-real-namecert}. It is a finite tightness certificate, not a proof of weak compactness, selected subsequences, countable choice, or ambient real completeness.
+
+\begin{definition}[Prokhorov tight probability carrier]
+\label{def:prokhorov-tight-probability-carrier}
+A $\ProkhorovTightProbabilityUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(P,D,M,K,N,E,R,T,H,C,Q,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\ProbSpaceUp$ source row carrying the probability mass surface.
+\item $D$ is the $\DistributionUp$ pushforward row whose target-side event reads are being tested for tightness.
+\item $M$ is the $\MeasureUp$ event-surface row through which the outside event and its mass are read.
+\item $K$ is the $\CompactMetricUp$ compact-test row naming the compact metric test surface used by the packet.
+\item $N$ is the $\FiniteEpsilonNetUp$ row displayed inside the compact test for the requested tolerance.
+\item $E$ is the outside-mass error-bound row read through $\RealTightnessUp$ and the underlying $\RealUp$ comparison surface.
+\item $R$ is the finite radius or tolerance ledger that aligns the compact test, finite net, and outside-mass request.
+\item $T$ records transport from the probability source through distribution, measure, compact-test, finite-net, and real-tightness rows.
+\item $H$ records componentwise $\hsame$ transport for every displayed row.
+\item $C$ records displayed $\Cont$ replay of source admission, pushforward readback, event-surface inspection, compact-test exposure, finite-net inspection, outside-mass comparison, and radius-ledger readback.
+\item $Q$ is the $\Pkg$ provenance over $\ProkhorovTightProbabilityUp$, $\ProbSpaceUp$, $\DistributionUp$, $\MeasureUp$, $\CompactMetricUp$, $\FiniteEpsilonNetUp$, $\RealTightnessUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\ProkhorovTightProbabilityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, weak compactness, selected subsequences, countable choice, host measures, quotient events, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Prokhorov tight probability NameCert obligations]
+\label{thm:prokhorov-tight-probability-namecert-obligations}
+For every accepted $\ProkhorovTightProbabilityUp$ carrier $Z=(P,D,M,K,N,E,R,T,H,C,Q,L)$, the local $\NameCert_{\ProkhorovTightProbabilityUp}$ surface consists exactly of five obligation groups:
+\begin{enumerate}
+\item carrier admission for the probability source, pushforward distribution, event-surface measure, compact test, finite net, outside-mass bound, radius ledger, transport, replay, provenance, and local naming rows;
+\item compact-test exposure, requiring every tightness read to display the $\CompactMetricUp$ row $K$ and the internal $\FiniteEpsilonNetUp$ row $N$ before the outside event is consumed;
+\item outside-mass bound exactness, requiring the error row $E$ to be read through $\RealTightnessUp$ and $\RealUp$ rather than through a host real inequality;
+\item distribution/measure compatibility, requiring the pushforward row $D$ and event-surface row $M$ to name the same measured outside event under the displayed transport $T$;
+\item non-escape from open-cover compactness, weak compactness, selected subsequences, countable choice, host measures, quotient events, and ambient real completeness.
+\end{enumerate}
+No additional NameCert obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:prokhorov-tight-probability-carrier}. The tuple lists exactly the probability source, distribution pushforward, event-surface measure, compact-test, finite-net, outside-mass, radius-ledger, transport, replay, provenance, and local naming rows.
+
+The compact side is finite. A tightness read must expose $K$ and the internal finite-net row $N$ before it can identify the outside event measured by $M$.
+
+The outside-mass side is real-name data. The error row $E$ is read through the located tightness and real comparison surfaces, while $D,M,T$ keep the distribution and measure event rows compatible.
+
+Since no carrier coordinate stores open-cover compactness, weak compactness, selected subsequences, countable choice, host measures, quotient events, or ambient real completeness, the five displayed groups exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Prokhorov tight probability finite-net handoff]
+\label{thm:prokhorov-tight-probability-finite-net-handoff}
+Every accepted tightness read from a $\ProkhorovTightProbabilityUp$ carrier factors through the finite route
+$$
+\ProbSpaceUp \longmapsto \DistributionUp \longmapsto \MeasureUp \longmapsto \CompactMetricUp \longmapsto \FiniteEpsilonNetUp \longmapsto \RealTightnessUp \longmapsto \RealUp
+$$
+before any weak-convergence consumer can inspect it. The exported read is the displayed probability, distribution, measure, compact-test, finite-net, outside-mass, radius-ledger, transport, replay, provenance, and local naming route; it exposes no weak compactness theorem, selected subsequence, countable-choice selector, host measure, quotient event, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:prokhorov-tight-probability-namecert-obligations}. Carrier admission places the probability source and pushforward distribution before the measured outside event.
+
+Next read the compact finite test. The measure row is inspected only after the compact metric row and its finite-net witness are displayed for the requested tolerance ledger.
+
+Finally the outside-mass bound is consumed through $\RealTightnessUp$ and $\RealUp$. The structural rows transport and replay this same finite route, so a weak-convergence consumer receives only the displayed handoff and cannot insert an unlisted compactness, sequence-selection, quotient, host-measure, or completeness coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ProkhorovTightProbabilityUp$ tightness read factors through $\ProbSpaceUp$, $\DistributionUp$, $\MeasureUp$, $\CompactMetricUp$, $\FiniteEpsilonNetUp$, $\RealTightnessUp$, and $\RealUp$ before any weak-convergence consumer can inspect it.}
+
+\independenceWitness{probspace, distribution, measure, compactmetric, finite-epsilon-net, real-tightness, real: the packet is not bijective to any listed sibling because it binds the probability source, pushforward event surface, compact finite-net test, outside-mass error row, radius ledger, transport, replay, provenance, and local NameCert row as one tight probability surface.}
+
+\closureat{ProkhorovTightProbabilityUp}{seedStr}
+
+\begin{closurestatus}{\ProkhorovTightProbabilityUp}
+  \constructivestory{A $\ProkhorovTightProbabilityUp$ packet is generated from ProbSpaceUp source rows, DistributionUp pushforward rows, MeasureUp event-surface rows, CompactMetricUp compact-test rows, FiniteEpsilonNetUp finite-net rows, RealTightnessUp outside-mass rows over RealUp, a finite tolerance ledger, transport, hsame, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:prokhorov-tight-probability-carrier}, \autoref{thm:prokhorov-tight-probability-namecert-obligations}, and \autoref{thm:prokhorov-tight-probability-finite-net-handoff} seed the finite tight-probability handoff for probability compactness consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, weak compactness, selected subsequences, countable choice, host measures, quotient events, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-test exposure, outside-mass exactness, distribution/measure compatibility, non-escape, transport, replay, provenance, and local naming for BEDC.Derived.ProkhorovTightProbabilityUp.}
+\end{closurestatus}

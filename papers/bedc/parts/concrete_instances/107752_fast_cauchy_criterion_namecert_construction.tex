@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\FastCauchyCriterionUp$}
+\label{ch:concrete-instances-fast-cauchy-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\FastCauchyCriterionUp$ packet records the finite criterion data by which displayed fast Cauchy windows, monotone fast-modulus control, regular rational readback, and the terminal real-name seal may be inspected together before a Real or Completion consumer reads the result. It sits between the fast sequence surface of \autoref{ch:concrete-instances-fast-cauchy-sequence-namecert}, the fast modulus discipline of \autoref{ch:concrete-instances-fast-cauchy-modulus-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet is criterion data for a displayed regular-Cauchy route; it is not quotient real equality, a selected representative, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[FastCauchyCriterion carrier]
+\label{def:fast-cauchy-criterion-carrier}
+A $\FastCauchyCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,D,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ window row recording the inspected sequence values used by the criterion.
+\item $D$ is the dyadic tolerance scale row, read through $\DyadicRatCoreUp$, against which the fast-window comparisons are measured.
+\item $M$ is the monotone $\FastCauchyModulusUp$ row, displaying the threshold discipline that sends a requested tolerance to a later inspected window and preserves monotonicity of the request ledger.
+\item $R$ is the $\RegSeqRatUp$ compatibility row, recording that the displayed windows and dyadic bounds form the regular rational readback consumed by Real and Completion routes.
+\item $E$ is the $\RealUp$ seal handoff row, available only after $S,D,M,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream windows, dyadic tolerance scale, monotone modulus, regular rational readback, and Real seal handoff.
+\item $C$ records displayed $\Cont$ replay for window inspection, tolerance comparison, monotone threshold use, RegSeqRat compatibility, and Real seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\FastCauchyCriterionUp$, $\FastCauchySequenceUp$, $\FastCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FastCauchyCriterionUp}$ row.
+\end{enumerate}
+The carrier exports no quotient equality of real names, no selected representative of a Cauchy class, no countable-choice schedule, and no ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[FastCauchyCriterion NameCert obligations]
+\label{thm:fast-cauchy-criterion-namecert-obligations}
+For every accepted $\FastCauchyCriterionUp$ carrier $K=(S,D,M,R,E,H,C,P,N)$, the local $\NameCert_{\FastCauchyCriterionUp}$ surface consists exactly of finite StreamName window admission, dyadic tolerance-scale admission, monotone fast-modulus threshold exposure, RegSeqRat compatibility, RealUp seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $S,D,M,R,E$ are the only analytic rows available to a criterion consumer, and they appear in the order needed by the fast Cauchy route: finite windows first, dyadic tolerances next, the monotone threshold ledger next, regular rational readback next, and the Real seal last.
+
+Read the sibling routes through provenance. The row $M$ is the visible threshold discipline of \autoref{ch:concrete-instances-fast-cauchy-modulus-namecert}, while $S,D,R$ are the finite window, dyadic tolerance, and regular rational surfaces already used by \autoref{ch:concrete-instances-fast-cauchy-sequence-namecert}.
+
+The structural rows do not add analytic content. The transport row $H$ moves only the displayed coordinates componentwise, the replay row $C$ repeats the same threshold and comparison route, and $P,N$ source and name that finite surface. Thus no NameCert obligation remains outside $S,D,M,R,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[FastCauchyCriterion modulus readback]
+\label{thm:fast-cauchy-criterion-modulus-readback}
+Let $K=(S,D,M,R,E,H,C,P,N)$ be an accepted $\FastCauchyCriterionUp$ carrier. Every requested precision read obtains its fast threshold from $M$, opens only the finite $\StreamNameUp$ windows recorded in $S$, checks the dyadic bound through $D$, and hands the resulting regular schedule to $R$ before any $\RealUp$ seal in $E$ is consumed. The readback is therefore a finite criterion route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, not a selected representative or an ambient completeness argument.
+\end{theorem}
+\begin{proof}
+Start with the monotone modulus row. The request is sent to the displayed threshold in $M$, and monotonicity keeps later precision requests inside the same finite threshold ledger rather than invoking a choice sequence.
+
+Open the finite windows through $S$ and compare them through $D$. These rows provide exactly the inspected values and dyadic tolerance account needed for a fast Cauchy criterion, so the route remains inside the displayed $\BHist$ packet.
+
+Finally read $R$ and then $E$. The $\RegSeqRatUp$ compatibility row consumes the same windows and tolerances, and the $\RealUp$ handoff is downstream of that compatibility row. Componentwise transport, replay, provenance, and local naming preserve the same route and add no quotient equality, selected representative, countable choice, or ambient completeness coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FastCauchyCriterionUp$ precision read exposes one finite StreamName window row, one dyadic tolerance-scale row, one monotone FastCauchyModulus row, one RegSeqRat compatibility row, one RealUp seal handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before a Real or Completion consumer may read the criterion.}
+
+\independenceWitness{fastcauchysequence, fastcauchymodulus, streamname, dyadicratcore, regseqrat, real: $\FastCauchyCriterionUp$ is not bijective with any listed sibling because it jointly carries windows, tolerance scale, monotone threshold discipline, regular readback, Real seal handoff, transport, replay, provenance, and local NameCert data.}
+
+\closureat{FastCauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{\FastCauchyCriterionUp}
+  \constructivestory{A $\FastCauchyCriterionUp$ packet is generated from finite StreamName windows, a dyadic tolerance scale, a monotone FastCauchyModulus row, RegSeqRat compatibility, a RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fast-cauchy-criterion-carrier}, \autoref{thm:fast-cauchy-criterion-namecert-obligations}, and \autoref{thm:fast-cauchy-criterion-modulus-readback} seed the finite criterion surface connecting fast Cauchy sequence windows, fast modulus thresholds, RegSeqRat readback, and Real seal handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\FastCauchyCriterionUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone modulus exposure, dyadic tolerance readback, RegSeqRat compatibility, Real seal handoff, transport, replay, provenance, and non-escape for BEDC.Derived.FastCauchyCriterionUp.}
+\end{closurestatus}

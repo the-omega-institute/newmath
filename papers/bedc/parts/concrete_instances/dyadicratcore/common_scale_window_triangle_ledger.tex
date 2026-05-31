@@ -141,6 +141,26 @@ Use \autoref{thm:dyadicratcore-finite-tail-exit-certificate-refinement-invarianc
 Finally apply \autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}. The equality of dyadic exit certificates pushes through the StreamName finite-window face, the RegSeqRat classifier and readback face, and the Real seal face. The exclusions in \autoref{thm:dyadicratcore-terminal-real-exit-no-fifth-source} rule out any fifth source that could distinguish the direct and two-step certificates, so the two radius handoffs determine one finite four-face exit certificate.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore common scale distance-window invariant]
+\label{thm:dyadicratcore-common-scale-distance-window}
+Let two accepted $\DyadicRatCoreUp$ endpoint/radius ledgers be transported to a common exponent scale, and suppose their visible distance-window comparison feeds the ordered L10 route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+Then the displayed distance-window comparison is invariant under the common scale-window triangle ledger and composes through the terminal four-face pullback route. The invariant preserves the signed mantissa rows, refined positive-unary exponent rows, denominator ledgers, endpoint distance rows, radius rows, StreamName finite window, RegSeqRat classifier and readback rows, Real seal row, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ coordinates.
+
+The invariant exports no quotient rational carrier, quotient stream equality, selected $\RealUp$ endpoint, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+First place the two endpoint/radius ledgers inside a three-face comparison by adding the common-scale comparison face. Apply \autoref{thm:dyadicratcore-common-scale-window-triangle-ledger}. It supplies one finite directed-meet scale window carrying the mantissa, exponent, denominator, distance, radius, transport, replay, provenance, and local naming rows for the displayed comparison.
+
+Next read that finite window through the terminal route. Apply \autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}. The dyadic distance-window comparison is identified with the StreamName finite window, RegSeqRat classifier and readback rows, and Real seal row of the same four-face pullback.
+
+Finally use \autoref{thm:dyadicratcore-common-scale-window-radius-monotone-composition}. Any refinement from one common exponent scale to another composes with the same direct radius handoff, so the distance-window comparison cannot depend on the chosen common-scale presentation.
+
+The nonescape inventory is inherited from the triangle ledger, the four-face pullback correspondence, and the composition coherence theorem. None of those rows contains quotient rationals, quotient streams, selected endpoints, choice data, metric-completeness data, bridge rows, or ambient Real-completeness coordinates, so the stated invariant is exactly the displayed finite BEDC surface.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore four-face scale-window chain induction]
 \label{thm:dyadicratcore-four-face-scale-window-chain-induction}
 Let
@@ -169,4 +189,24 @@ and the last adjacent inclusion $W_{n-1} \leq W_n$. By the induction hypothesis,
 Now compose that prefix certificate with the final adjacent handoff. Apply \autoref{thm:dyadicratcore-common-scale-window-radius-monotone-composition} to the three-window comparison $W_0 \leq W_{n-1} \leq W_n$. It identifies the direct $W_0$ to $W_n$ handoff with the certificate obtained by first using the prefix handoff and then using the last adjacent inclusion.
 
 Finally apply \autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence} to push this equality through the StreamName finite-window face, the RegSeqRat classifier and readback face, and the Real seal face. The nonescape inventory of \autoref{thm:dyadicratcore-terminal-real-exit-no-fifth-source} leaves no quotient rational, quotient stream equality, selected endpoint, countable-choice row, metric-completeness row, bridge row, or ambient Real-completeness row that could distinguish a different parenthesization. Thus every finite adjacent composite and the direct handoff determine one four-face exit certificate.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore common scale tolerance inversion]
+\label{thm:dyadicratcore-common-scale-tolerance-inversion}
+Let $W_0$ and $W_1$ be terminal four-face $\DyadicRatCoreUp$ windows over the ordered L10 route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+Assume the two windows share a common exponent scale after refinement and agree on the displayed dyadic radius row and distance-window row at that scale. Then the earlier tolerance request that generated the terminal comparison is recovered by the same common-scale ledger. The recovered request is read from the signed mantissa rows, positive-unary exponent rows, denominator ledgers, common-scale comparison row, radius row, distance row, StreamName finite window, RegSeqRat classifier and readback rows, Real seal row, and visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+The inversion exports no quotient rational carrier, quotient stream equality, selected $\RealUp$ endpoint, host real comparison, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+First read the two terminal windows through \autoref{thm:dyadicratcore-common-scale-distance-window}. The distance-window invariant places both presentations on the same common-scale ledger and preserves the displayed mantissa, exponent, denominator, radius, distance, transport, replay, provenance, and local naming rows.
+
+Next use \autoref{thm:dyadicratcore-common-scale-window-radius-monotone-composition}. Since the radius rows agree after refinement, composing the earlier tolerance request into the terminal common scale gives the same radius handoff on both windows.
+
+Apply \autoref{thm:dyadicratcore-four-face-scale-window-chain-induction} to the finite chain from the earlier request to the terminal refined windows. The induction says that every parenthesized refinement path determines the same four-face exit certificate, so the common terminal radius and distance rows recover the unique earlier tolerance request along that chain.
+
+Finally push the recovered request through \autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}. The StreamName, RegSeqRat, and Real faces read the same finite dyadic ledger, while \autoref{thm:dyadicratcore-terminal-real-exit-no-fifth-source} excludes quotient rationals, quotient streams, selected endpoints, host real comparisons, choice data, metric completeness, bridge rows, and ambient Real completeness as alternate recovery coordinates.
 \end{proof}

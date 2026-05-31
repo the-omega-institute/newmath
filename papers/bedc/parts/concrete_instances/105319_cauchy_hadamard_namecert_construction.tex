@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\CauchyHadamardUp$}
+\label{ch:concrete-instances-cauchy-hadamard-namecert}
+\origin{human}
+
+Following Cauchy and Hadamard's power-series radius formula, the $\CauchyHadamardUp$ packet records the constructive radius route for a real power series as finite BEDC certificate data. It sits over the coefficient windows of \autoref{ch:concrete-instances-realpowerseries-namecert}, the radius seal of \autoref{ch:concrete-instances-convergence-radius-namecert}, the regular root-bound route of \autoref{ch:concrete-instances-regular-cauchy-root-test-namecert}, and the sibling ratio-test comparison route of \autoref{ch:concrete-instances-regular-cauchy-ratio-test-namecert}. The chapter packages the traditional formula as a NameCert route through displayed coefficient windows, dyadic tolerance rows, and regular-Cauchy readbacks rather than through a host limsup, quotient stream, choice-selected radius, or ambient completeness theorem.
+
+\begin{definition}[Cauchy-Hadamard carrier]
+\label{def:cauchy-hadamard-carrier}
+A $\CauchyHadamardUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,W,R,G,D,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ is the $\RealPowerSeriesUp$ source row, exposing only the displayed coefficient family and its finite inspection windows;
+\item $W$ is the coefficient-window ledger, recording the inspected unary indices, absolute-coefficient reads, and root-bound requests used by the packet;
+\item $R$ is the $\RegularCauchyRootTestUp$ root-bound route, read from the same coefficient windows and tolerance requests;
+\item $G$ is the $\ConvergenceRadiusUp$ seal row reached from the root-bound route and the power-series source;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, storing the dyadic slack and comparison budgets used by the root-bound and radius rows;
+\item $H$ records componentwise $\hsame$ transports for the source row, coefficient windows, root-bound route, radius seal, tolerance ledger, and local naming row;
+\item $C$ records the displayed $\Cont$ replay by which consumers read $A,W,R,G,D,H,P,N$ in that order;
+\item $P$ is the $\Pkg$ provenance over $\RealPowerSeriesUp$, $\RegularCauchyRootTestUp$, $\RegularCauchyRatioTestUp$, $\ConvergenceRadiusUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyHadamardUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows and their recorded transport, continuation, package, and local NameCert provenance.
+\end{definition}
+
+\begin{theorem}[Cauchy-Hadamard NameCert obligations]
+\label{thm:cauchy-hadamard-namecert-obligations}
+The local $\NameCert_{\CauchyHadamardUp}$ surface for \autoref{def:cauchy-hadamard-carrier} consists exactly of carrier admission for $K=(A,W,R,G,D,H,C,P,N)$, coefficient-window exposure through $A,W$, root-bound exposure through $R$, radius-seal exposure through $G$, dyadic tolerance exactness through $D$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$. Every accepted radius read is classified only by the displayed power-series row, finite coefficient windows, root-bound route, tolerance ledger, radius seal, and structural rows.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple $K$. The source row, coefficient-window ledger, root-bound route, radius seal, dyadic tolerance ledger, transport rows, continuation routes, package row, and local name are all stored coordinates.
+
+Carrier admission and coefficient exposure are therefore finite projections from $A$ and $W$. The root-bound and radius obligations project $R$ and $G$, with $D$ recording the tolerance comparisons used by both rows.
+
+The structural obligations project $H,C,P,N$. Since no coordinate names a host limsup, quotient stream, choice-selected radius, or ambient completeness theorem, the local certificate exports only the displayed Cauchy-Hadamard route.
+\end{proof}
+
+\begin{theorem}[Cauchy-Hadamard root-bound handoff]
+\label{thm:cauchy-hadamard-root-bound-handoff}
+For every accepted $\CauchyHadamardUp$ carrier, each root-bound request consumed by the radius row factors through the finite route
+$$
+A\longmapsto W\longmapsto D\longmapsto R\longmapsto G\longmapsto H\longmapsto C\longmapsto P\longmapsto N.
+$$
+The handoff uses the $\RealPowerSeriesUp$ coefficient source, the $\RegularCauchyRootTestUp$ root-bound row, the $\DyadicRatCoreUp$ tolerance ledger, and the $\ConvergenceRadiusUp$ seal. The $\RegularCauchyRatioTestUp$ sibling is available only as a comparison provenance row in $P$ and does not replace the displayed root-bound route.
+\end{theorem}
+\begin{proof}
+Read $A,W,D,R,G$ from the carrier. A radius request first opens the power-series coefficient source and the finite coefficient-window ledger, so the root-bound row sees only displayed coefficient data.
+
+Use the dyadic tolerance ledger $D$ to align the slack and comparison budget consumed by $R$. The radius seal $G$ is then read after the root-bound route, not from a host supremum or selected limsup witness.
+
+The continuation and provenance rows preserve the same order for downstream consumers. The ratio-test sibling remains a recorded dependency anchor in $P$, while the accepted handoff itself is the root-bound route through $A,W,D,R,G,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cauchy-Hadamard root-bound NameCert route]
+\label{thm:cauchy-hadamard-root-bound-namecert}
+Any accepted $\CauchyHadamardUp$ radius read whose $\ConvergenceRadiusUp$ row consumes a Cauchy-Hadamard exactness witness factors through the displayed $\RealPowerSeriesUp$ coefficient source, finite coefficient windows, $\RegularCauchyRootTestUp$ route, $\DyadicRatCoreUp$ tolerance ledger, and $\ConvergenceRadiusUp$ seal. The exactness row is a local witness inside the displayed packet, not a host limsup, quotient stream, selected radius representative, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(A,W,R,G,D,H,C,P,N)$ of \autoref{def:cauchy-hadamard-carrier}. The coefficient source is $A$, the finite windows are $W$, the root-bound route is $R$, the tolerance ledger is $D$, and the radius seal is $G$.
+
+Apply the root-bound handoff theorem. It orders every radius request through $A,W,D,R,G$ before the structural rows $H,C,P,N$ expose the local certificate to a consumer.
+
+The Cauchy-Hadamard exactness witness is therefore read as part of the local $\ConvergenceRadiusUp$ seal row. Since no carrier coordinate stores a host limsup, quotient coefficient stream, selected radius, or ambient completeness theorem, the NameCert route remains the displayed finite root-bound packet.
+\end{proof}
+
+\begin{theorem}[Cauchy-Hadamard radius nonescape]
+\label{thm:cauchy-hadamard-radius-nonescape}
+Every $\ConvergenceRadiusUp$ read exported by an accepted $\CauchyHadamardUp$ packet factors through the displayed $\RealPowerSeriesUp$ source row, finite coefficient windows, $\RegularCauchyRootTestUp$ root-bound route, $\DyadicRatCoreUp$ tolerance ledger, $\BHist$ histories, $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. It exports no host limsup, real supremum row, quotient coefficient stream, countable-choice selector, selected radius representative, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from the radius seal row $G$. By the carrier definition, $G$ is reached only after the source row $A$, coefficient windows $W$, tolerance ledger $D$, and root-bound route $R$ have been displayed.
+
+Apply the NameCert obligations. They identify the structural support of the read as $H,C,P,N$ and keep componentwise transport and continuation replay attached to the same finite packet.
+
+No refused object has a row in the carrier. Therefore a downstream $\ConvergenceRadiusUp$ consumer cannot escape the displayed Cauchy-Hadamard route by invoking a host limsup, real supremum, quotient stream, choice selector, selected radius, or ambient real-completeness coordinate.
+\end{proof}
+
+\closureat{CauchyHadamardUp}{scopedStr}
+
+\begin{closurestatus}{\CauchyHadamardUp}
+  \constructivestory{A $\CauchyHadamardUp$ packet is generated from a $\RealPowerSeriesUp$ coefficient source row, finite coefficient windows, a $\RegularCauchyRootTestUp$ root-bound route, a $\ConvergenceRadiusUp$ seal row, a $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-hadamard-carrier}, \autoref{thm:cauchy-hadamard-namecert-obligations}, \autoref{thm:cauchy-hadamard-root-bound-handoff}, and \autoref{thm:cauchy-hadamard-radius-nonescape} bind the constructive power-series radius route over $\RealPowerSeriesUp$, $\RegularCauchyRootTestUp$, $\RegularCauchyRatioTestUp$, $\ConvergenceRadiusUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a Lean implementation, host limsup, real supremum row, quotient coefficient stream, countable-choice selector, selected radius representative, ambient $\RealUp$ completeness theorem, or bridge-checked standard model.}
+  \upgradepath{Formal closure requires a Lean carrier and obligation package for the same $\RealPowerSeriesUp$, $\RegularCauchyRootTestUp$, $\ConvergenceRadiusUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.}
+\end{closurestatus}

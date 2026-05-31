@@ -1,0 +1,118 @@
+\begin{definition}[CauchyFilterCompletion basis route]
+\label{def:cauchy-filter-completion-basis-route}
+For an accepted $\CauchyFilterCompletionUp$ carrier $F=(C,W,T,R,L,H,K,P,N)$, the \emph{basis-completion route} is the ordered completion-facing read that opens the displayed $\FilterBaseUp/\CauchyFilterUp$ basis behind $C$, then the finite $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, the $\RegSeqRatUp$ readback $R$, the terminal $\RealUp$ seal $L$, and finally the structural rows $H,K,P,N$. The route exports no quotient filter, selected limit, host equality, countable-choice selector, detached completion object, or ambient completeness witness.
+\end{definition}
+\leandef{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionBasisRoute}
+
+\begin{theorem}[CauchyFilterCompletion basis totality]
+\label{thm:cauchy-filter-completion-basis-totality}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Every completion-facing consumer first reads the basis-completion route of \autoref{def:cauchy-filter-completion-basis-route}; in particular, the displayed $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ is admitted before any window, tolerance, readback, seal, transport, replay, provenance, or local naming row can be inspected.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPacket\_basis\_totality}
+\begin{proof}
+Apply \autoref{thm:cauchy-filter-completion-filter-base-admission}. It places the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ before every downstream completion-facing read.
+
+Then read the carrier rows in the order displayed by \autoref{def:cauchy-filter-completion-basis-route}. The windows $W$, tolerance ledger $T$, readback $R$, and seal $L$ are downstream from the admitted source, and $H,K,P,N$ only transport, replay, source, and name that same route.
+
+Finally use \autoref{thm:cauchy-filter-completion-non-choice-boundary}. The refused quotient, selected-limit, host-equality, choice, detached-completion, and ambient-completeness objects have no coordinate in $F$, so every completion-facing consumer is total only through the displayed basis route.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion basis Real seal]
+\label{thm:cauchy-filter-completion-basis-real-seal}
+For an accepted $\CauchyFilterCompletionUp$ carrier $F=(C,W,T,R,L,H,K,P,N)$, any consumer that reaches the terminal $\RealUp$ seal $L$ has already traversed the displayed $\FilterBaseUp/\CauchyFilterUp$ basis behind $C$, the $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, and the $\RegSeqRatUp$ readback $R$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-filter-completion-basis-totality}. It fixes the source and window side of every completion-facing read at $C,W,T,R$ before the seal can be inspected.
+
+Apply \autoref{thm:cauchy-filter-completion-completion-handoff}. Metric-facing and uniform-facing readers share the same finite carrier route, so neither can reach a different seal source downstream.
+
+The terminal row $L$ is therefore a seal for the displayed basis-completion route, not a selected limit or host equality proof. The structural rows $H,K,P,N$ preserve and name that same route after the seal boundary has been reached.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPacket\_basis\_real\_seal}
+
+\begin{theorem}[CauchyFilterCompletion basis uniform handoff]
+\label{thm:cauchy-filter-completion-basis-uniform-handoff}
+Every $\UniformCompletionUp$ consumer of an accepted $\CauchyFilterCompletionUp$ carrier receives only the basis-completion route
+$$
+C,W,T,R,L,H,K,P,N .
+$$
+The uniform handoff reads the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$, finite windows, dyadic tolerances, regular readback, terminal Real seal, transport, replay, provenance, and local naming rows; it does not import quotient filters, selected limits, countable choice, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cauchy-filter-completion-completion-handoff}. It identifies every uniform-facing read with the same carrier route used by the metric-facing completion consumer.
+
+Apply \autoref{thm:cauchy-filter-completion-basis-real-seal}. The terminal Real seal exposed to the uniform handoff is downstream from the displayed source, windows, tolerance ledger, and readback row.
+
+Close with \autoref{thm:cauchy-filter-completion-non-choice-boundary}. Since the refused objects have no carrier coordinate, the uniform handoff cannot add a quotient filter, selected limit, countable-choice selector, host equality, or ambient completeness witness beyond the basis-completion route.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPacket\_basis\_uniform\_handoff}
+
+\begin{definition}[CauchyFilterCompletion basis ledger route]
+\label{def:cauchy-filter-completion-basis-ledger-route}
+For an accepted $\CauchyFilterCompletionUp$ carrier $F=(C,W,T,R,L,H,K,P,N)$, the \emph{basis-ledger route} is the source-window-tolerance-readback-seal ledger
+$$
+C \longmapsto W \longmapsto T \longmapsto R \longmapsto L
+$$
+together with the structural transport, replay, provenance, and local naming rows $H,K,P,N$. It is the visible ledger read that begins at the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$, opens the finite $\StreamNameUp$ windows $W$, reads the $\DyadicRatCoreUp$ tolerance ledger $T$, extracts the $\RegSeqRatUp$ readback $R$, and reaches the terminal $\RealUp$ seal $L$ without adding quotient filters, selected limits, host equality, or countable-choice selectors.
+\end{definition}
+\leandef{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionBasisLedgerRoute}
+
+\begin{theorem}[CauchyFilterCompletion basis ledger exhaustion]
+\label{thm:cauchy-filter-completion-basis-ledger-exhaustion}
+Every basis-facing completion read of an accepted $\CauchyFilterCompletionUp$ carrier is exhausted by the basis-ledger route of \autoref{def:cauchy-filter-completion-basis-ledger-route}. In particular, once the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ has been admitted, all visible completion data pass through $W,T,R,L,H,K,P,N$ and no additional source, tolerance, readback, seal, or completion coordinate remains available.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPacket\_basis\_readback\_route}
+\begin{proof}
+Start with \autoref{thm:cauchy-filter-completion-basis-totality}. It places the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ before any basis-facing completion read can inspect downstream rows.
+
+Apply \autoref{thm:cauchy-filter-completion-basis-real-seal}. The terminal $\RealUp$ seal is reachable only after the finite windows $W$, tolerance ledger $T$, and regular readback row $R$ have been traversed.
+
+Finally use \autoref{thm:cauchy-filter-completion-basis-uniform-handoff}. Uniform-facing reads share the same displayed carrier route, so the structural rows $H,K,P,N$ only transport, replay, package, and name the already visible ledger. The sibling FilterBaseUp, RegSeqRatUp, RealUp, and UniformCompletionUp chapters are therefore consumed through this finite route rather than through detached completion data.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion basis universal consumer route]
+\label{thm:cauchy-filter-completion-basis-universal-consumer-route}
+Every $\MetricCompletionUp$, $\UniformCompletionUp$, $\CauchyCompletionFunctorialityUp$, or $\RealUp$ consumer of an accepted $\CauchyFilterCompletionUp$ carrier factors through the same basis-ledger route of \autoref{def:cauchy-filter-completion-basis-ledger-route}. The consumer may repackage the route for metric, uniform, functorial, or Real-facing use, but it receives only the displayed $\FilterBaseUp/\CauchyFilterUp$ source, windows, dyadic tolerances, regular readback, terminal seal, transport, replay, provenance, and local NameCert rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionBasisUniversalConsumerRoute}
+\begin{proof}
+Use \autoref{thm:cauchy-filter-completion-basis-ledger-exhaustion} to identify the only available basis-facing completion data with $C,W,T,R,L,H,K,P,N$.
+
+For the Real-facing branch, apply \autoref{thm:cauchy-filter-completion-basis-real-seal}. The $\RealUp$ consumer reaches $L$ only through the same source-window-tolerance-readback route.
+
+For the uniform and functorial branches, apply \autoref{thm:cauchy-filter-completion-basis-uniform-handoff}. The $\UniformCompletionUp$ and $\CauchyCompletionFunctorialityUp$ consumers can transport or repackage the finite ledger, but they cannot add quotient filters, selected limits, host equality, countable choice, or an ambient completeness witness. The $\MetricCompletionUp$ branch is the same route read through the metric-completion vocabulary.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion public basis-completion route]
+\label{thm:cauchyfiltercompletion-public-basis-completion-route}
+Every public $\CauchyFilterCompletionUp$ consumer factors through the displayed $\FilterBaseUp/\CauchyFilterUp$ source behind $C$, the $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, the $\RegSeqRatUp$ readback $R$, the terminal $\RealUp$ seal $L$, and the structural rows $H,K,P,N$ of the accepted carrier $F=(C,W,T,R,L,H,K,P,N)$. The route exports no quotient filter, selected limit, host equality, countable choice, detached completion object, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with basis totality, \autoref{thm:cauchy-filter-completion-basis-totality}. It places the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ before any public completion-facing read can inspect downstream rows.
+
+Use the Real seal and uniform handoff next. By \autoref{thm:cauchy-filter-completion-basis-real-seal}, the terminal $\RealUp$ seal $L$ is downstream of $W,T,R$; by \autoref{thm:cauchy-filter-completion-basis-uniform-handoff}, uniform-facing consumers receive the same finite route rather than a detached completion object.
+
+Now apply the universal consumer route, \autoref{thm:cauchy-filter-completion-basis-universal-consumer-route}. Metric, uniform, functorial, and Real-facing consumers all repackage the same basis-ledger route.
+
+Finally attach the separated reflector of \autoref{thm:cauchy-filter-completion-basis-separated-reflector}. The separated consumer may read its classifier only after the same source, window, tolerance, readback, seal, transport, replay, provenance, and local NameCert rows have been displayed, so the public export is exactly the basis-completion route.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPublicBasisCompletionRoute}
+
+\begin{theorem}[CauchyFilterCompletion separated reflector basis]
+\label{thm:cauchy-filter-completion-basis-separated-reflector}
+Every $\SeparatedCompletionUp$ or separated $\MetricCompletionUp$ consumer of an accepted $\CauchyFilterCompletionUp$ carrier factors through the same basis-ledger route
+$$
+C,W,T,R,L,H,K,P,N .
+$$
+The separated classifier is read only after the displayed $\FilterBaseUp/\CauchyFilterUp$ source behind $C$, the $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, the $\RegSeqRatUp$ readback $R$, and the terminal $\RealUp$ seal $L$. The reflector route imports no quotient filter, selected limit, host equality, countable choice, or ambient completeness theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPacket\_basis\_separated\_reflector}
+\begin{proof}
+Start with basis-ledger exhaustion, \autoref{thm:cauchy-filter-completion-basis-ledger-exhaustion}. It leaves $C,W,T,R,L,H,K,P,N$ as the only available completion-facing route after the displayed filter basis has been admitted.
+
+Read the Real and uniform sides next. The basis Real seal of \autoref{thm:cauchy-filter-completion-basis-real-seal} places $L$ after the source, window, tolerance, and readback rows, while \autoref{thm:cauchy-filter-completion-basis-uniform-handoff} prevents a separated metric consumer from adding another completion surface.
+
+Now attach the separated-completion packet route of \autoref{ch:concrete-instances-separatedcompletion-namecert}. A $\SeparatedCompletionUp$ consumer may read its separated classifier only after the same finite source, dense or metric handoff, tolerance, readback, and Real-seal rows are displayed.
+
+The structural rows $H,K,P,N$ transport, replay, source, and name that route. Since quotient filters, selected limits, host equality, countable choice, and ambient completeness have no coordinate in the accepted carrier, the separated reflector factors through the displayed basis-ledger route.
+\end{proof}

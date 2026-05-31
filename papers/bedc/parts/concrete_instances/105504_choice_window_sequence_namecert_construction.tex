@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ChoiceWindowSequenceUp$}
+\label{ch:concrete-instances-choice-window-sequence-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen on choice sequences, the $\ChoiceWindowSequenceUp$ packet isolates the finite inspected windows by which a choice sequence becomes available to an L10 $\StreamNameUp$ consumer. It refines the finite-prefix surface of \autoref{ch:concrete-instances-choice-sequence-namecert}, keeps the lawless-sequence boundary of \autoref{ch:concrete-instances-lawlesssequence-namecert} visible, and reads Baire-style prefix data from \autoref{ch:concrete-instances-bairespace-namecert}. The packet uses $\NatUp$ positions and answer rows, $\BoolUp$ presence rows, and the $\StreamNameUp$ handoff only as displayed finite data; it does not import countable choice, a completed host sequence, quotient stream equality, or a global law selecting all future answers.
+
+\begin{definition}[ChoiceWindowSequence finite-window carrier]
+\label{def:choice-window-sequence-carrier}
+A $\ChoiceWindowSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+W=(Q,L,B,S,I,A,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the source $\ChoiceSequenceUp$ prefix packet whose currently available answers may be inspected;
+\item $L$ is the sibling $\LawlessSequenceUp$ boundary row, recording that the packet reads only displayed answers and no governing law for future positions;
+\item $B$ is the $\BaireSpaceUp$ finite-prefix context in which the window is interpreted;
+\item $S$ is the $\StreamNameUp$ schedule naming the finite positions requested by the consumer;
+\item $I$ is the $\NatUp$ index ledger listing the positions of the inspected window;
+\item $A$ is the $\NatUp$ answer ledger attached to the positions in $I$;
+\item $O$ is the $\BoolUp$ presence classifier for each requested position, distinguishing displayed answers from absent future data;
+\item $H$ records componentwise $\hsame$ transport for $Q,L,B,S,I,A,O$ and the local naming row;
+\item $C$ records displayed $\Cont$ replay of the same finite-window read;
+\item $P$ is the $\Pkg$ provenance over $\ChoiceWindowSequenceUp$, $\ChoiceSequenceUp$, $\LawlessSequenceUp$, $\BaireSpaceUp$, $\StreamNameUp$, $\NatUp$, $\BoolUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ChoiceWindowSequenceUp}$ row.
+\end{enumerate}
+The carrier accepts only the finite window displayed by $S,I,A,O$. It exports no completed function $\NatUp \to \NatUp$, no countable-choice selector, no quotient infinite stream, no hidden tail oracle, and no law determining positions outside the displayed window.
+\end{definition}
+
+\begin{theorem}[ChoiceWindowSequence carrier admission obligations]
+\label{thm:choice-window-sequence-carrier-admission}
+For every accepted $\ChoiceWindowSequenceUp$ carrier $W=(Q,L,B,S,I,A,O,H,C,P,N)$, the local $\NameCert_{\ChoiceWindowSequenceUp}$ surface consists exactly of carrier admission for the source $\ChoiceSequenceUp$ row, the lawless-sequence boundary row, the $\BaireSpaceUp$ prefix context, the finite $\StreamNameUp$ schedule, the $\NatUp$ index and answer ledgers, the $\BoolUp$ presence classifier, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:choice-window-sequence-carrier}. The visible coordinates are precisely $Q,L,B,S,I,A,O,H,C,P,N$, so carrier admission reads no object outside the displayed finite packet.
+
+The source rows $Q,L,B$ identify the traditional choice-sequence, lawless-sequence, and Baire-prefix context. The inspection rows $S,I,A,O$ then name the finite schedule, the requested positions, the displayed answers, and the presence decisions.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite window. Since the carrier has no coordinate for a total host sequence, countable-choice selector, quotient stream equality, hidden tail oracle, or global law, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[ChoiceWindowSequence window classifier stability]
+\label{thm:choice-window-sequence-window-classifier-stability}
+Let $W=(Q,L,B,S,I,A,O,H,C,P,N)$ and $W'=(Q',L',B',S',I',A',O',H',C',P',N')$ be accepted $\ChoiceWindowSequenceUp$ carriers. If the displayed $\StreamNameUp$ schedules, $\NatUp$ index ledgers, $\NatUp$ answer ledgers, and $\BoolUp$ presence classifiers agree componentwise under the available $\hsame$ rows, then every public finite-window read classifies $W$ and $W'$ the same way. The classifier is insensitive to tail values or laws outside the displayed window.
+\end{theorem}
+\begin{proof}
+Begin with the displayed schedules and ledgers. Agreement of $S,I,A,O$ and $S',I',A',O'$ gives the same requested positions, the same visible answer rows, and the same present-or-absent decisions for every finite request a consumer may replay.
+
+The source context is read only through those windows. The $\ChoiceSequenceUp$ and $\BaireSpaceUp$ rows supply finite-prefix data, while the $\LawlessSequenceUp$ row records that no law for undisplayed positions is part of the packet.
+
+Finally transport the read through $H,H'$ and replay it through $C,C'$. Since public reads factor through the displayed window and the carrier contains no tail oracle, completed function, quotient stream, or countable-choice selector, no classifier distinction can be obtained outside the agreed finite data.
+\end{proof}
+
+\begin{theorem}[ChoiceWindowSequence StreamName handoff]
+\label{thm:choice-window-sequence-streamname-handoff}
+Every $\StreamNameUp$ consumer of an accepted $\ChoiceWindowSequenceUp$ packet factors through the finite route
+$$
+\ChoiceSequenceUp,\ \LawlessSequenceUp,\ \BaireSpaceUp
+\longmapsto
+\StreamNameUp,\ \NatUp,\ \BoolUp
+\longmapsto
+\BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The handoff supplies a finite inspected choice-sequence window to the L10 StreamName-facing interface and supplies no countable choice, total host sequence, quotient stream equality, selected future value, or law for undisplayed positions.
+\end{theorem}
+\begin{proof}
+Read the source side first. The consumer receives a choice-sequence prefix row, a lawless-sequence boundary row, and a Baire-prefix context, all as finite displayed packets.
+
+Next open the StreamName-facing window. The schedule row $S$ selects the inspected positions, the $\NatUp$ rows $I,A$ list the requested indices and displayed answers, and the $\BoolUp$ row $O$ records which requested positions are currently present.
+
+Finally pass through $H,C,P,N$. Componentwise transport and continuation replay preserve the same finite window, while provenance and local naming attach the packet to the BEDC kernel rows. No excluded global choice object is introduced by the handoff.
+\end{proof}
+
+\begin{closurestatus}{\ChoiceWindowSequenceUp}
+  \constructivestory{A $\ChoiceWindowSequenceUp$ packet is generated from a ChoiceSequence prefix row, LawlessSequence boundary row, BaireSpace finite-prefix context, StreamName finite schedule, NatUp index and answer ledgers, BoolUp presence classifiers, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choice-window-sequence-carrier}, \autoref{thm:choice-window-sequence-carrier-admission}, \autoref{thm:choice-window-sequence-window-classifier-stability}, and \autoref{thm:choice-window-sequence-streamname-handoff} seed the finite inspected-window route for choice-sequence data consumed by StreamName-facing L10 packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, a total host sequence, quotient stream equality, selected future values, a global law for undisplayed positions, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window classifier stability, StreamName handoff, transport, continuation, provenance, and non-escape proofs for BEDC.Derived.ChoiceWindowSequenceUp.}
+\end{closurestatus}

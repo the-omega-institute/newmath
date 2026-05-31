@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -578,5 +580,21 @@ theorem CauchyProductPacket_real_seal_source_budget_nonescape [AskSetup] [Packag
     ⟨sourceAUnary, sourceBUnary, windowAUnary, windowBUnary, radiusAUnary, radiusBUnary,
       observationAUnary, observationBUnary, transportUnary, realSealUnary, windowTransport,
       transportRoutesRealSeal, namePkg, realSealPkg⟩
+
+theorem CauchyProductPacket_real_observation_budget_handoff [AskSetup] [PackageSetup] {sourceA sourceB windowA windowB radiusA radiusB observationA observationB product classifier transport routes ledger name budgetWindow budgetDyadic budgetRegSeq budgetSeal budgetConsumer realSeal : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyProductPacket sourceA sourceB windowA windowB radiusA radiusB observationA observationB product classifier transport routes ledger name bundle pkg -> UnaryHistory budgetWindow -> UnaryHistory budgetDyadic -> UnaryHistory budgetSeal -> Cont classifier routes realSeal -> Cont budgetWindow budgetDyadic budgetRegSeq -> Cont budgetRegSeq budgetSeal budgetConsumer -> PkgSig bundle budgetConsumer pkg -> SemanticNameCert (fun row : BHist => hsame row classifier ∨ hsame row budgetRegSeq ∨ hsame row budgetConsumer) (fun row : BHist => hsame row classifier ∨ hsame row budgetRegSeq ∨ hsame row budgetConsumer) (fun row : BHist => PkgSig bundle budgetConsumer pkg ∧ (hsame row classifier ∨ hsame row budgetRegSeq ∨ hsame row budgetConsumer)) hsame ∧ UnaryHistory product ∧ UnaryHistory classifier ∧ UnaryHistory realSeal ∧ UnaryHistory budgetRegSeq ∧ UnaryHistory budgetConsumer ∧ Cont product ledger classifier ∧ Cont classifier routes realSeal ∧ Cont budgetWindow budgetDyadic budgetRegSeq ∧ Cont budgetRegSeq budgetSeal budgetConsumer ∧ PkgSig bundle name pkg ∧ PkgSig bundle budgetConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame UnaryHistory
+  intro packet budgetWindowUnary budgetDyadicUnary budgetSealUnary classifierReal budgetReg budgetConsumerRoute budgetConsumerPkg
+  obtain ⟨_sA, _sB, _wA, _wB, _rA, _rB, observationAUnary, observationBUnary, routesUnary, ledgerUnary, _windowTransport, productRoute, classifierRoute, namePkg⟩ := packet
+  have productUnary : UnaryHistory product := unary_cont_closed observationAUnary observationBUnary productRoute
+  have classifierUnary : UnaryHistory classifier := unary_cont_closed productUnary ledgerUnary classifierRoute
+  have realSealUnary : UnaryHistory realSeal := unary_cont_closed classifierUnary routesUnary classifierReal
+  have budgetRegSeqUnary : UnaryHistory budgetRegSeq := unary_cont_closed budgetWindowUnary budgetDyadicUnary budgetReg
+  have budgetConsumerUnary : UnaryHistory budgetConsumer := unary_cont_closed budgetRegSeqUnary budgetSealUnary budgetConsumerRoute
+  have cert : SemanticNameCert (fun row : BHist => hsame row classifier ∨ hsame row budgetRegSeq ∨ hsame row budgetConsumer) (fun row : BHist => hsame row classifier ∨ hsame row budgetRegSeq ∨ hsame row budgetConsumer) (fun row : BHist => PkgSig bundle budgetConsumer pkg ∧ (hsame row classifier ∨ hsame row budgetRegSeq ∨ hsame row budgetConsumer)) hsame := {
+    core := { carrier_inhabited := ⟨classifier, Or.inl (hsame_refl classifier)⟩, equiv_refl := by intro row _; exact hsame_refl row, equiv_symm := by intro _ _ same; exact hsame_symm same, equiv_trans := by intro _ _ _ left right; exact hsame_trans left right, carrier_respects_equiv := by intro row other same source; cases source with | inl h => exact Or.inl (hsame_trans (hsame_symm same) h) | inr rest => cases rest with | inl h => exact Or.inr (Or.inl (hsame_trans (hsame_symm same) h)) | inr h => exact Or.inr (Or.inr (hsame_trans (hsame_symm same) h)) }
+    pattern_sound := by intro _ source; exact source
+    ledger_sound := by intro _ source; exact ⟨budgetConsumerPkg, source⟩ }
+  exact ⟨cert, productUnary, classifierUnary, realSealUnary, budgetRegSeqUnary, budgetConsumerUnary, classifierRoute, classifierReal, budgetReg, budgetConsumerRoute, namePkg, budgetConsumerPkg⟩
 
 end BEDC.Derived.CauchyProductUp

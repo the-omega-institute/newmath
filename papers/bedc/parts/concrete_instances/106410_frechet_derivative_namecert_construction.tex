@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\FrechetDerivativeUp$}
+\label{ch:concrete-instances-frechet-derivative-namecert}
+\origin{human}
+
+Following Cartan-style differential calculus on normed spaces, the $\FrechetDerivativeUp$ packet records the local linear approximation surface as finite NameCert data. It sits beside the norm carrier of \autoref{ch:concrete-instances-norm-namecert}, the linear-map obligations of \autoref{ch:concrete-instances-linearmap-namecert}, the calculus route named by $\CalculusUp$, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed derivative read through norm, linearity, and dyadic remainder control; it is not a host function-space derivative, not a selected tangent map outside the carrier, and not an ambient theorem about differentiability.
+
+\begin{definition}[Frechet derivative carrier]
+\label{def:frechet-derivative-carrier}
+A $\FrechetDerivativeUp$ carrier is a finite $\BHist$ packet
+$$
+D=(X,A,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the normed source row, carrying the domain and codomain norm data through which difference vectors and error sizes are read.
+\item $A$ is the point-and-window row, recording the base point, admissible neighbourhood window, and finite comparison requests visible to the derivative packet.
+\item $L$ is the $\LinearMapUp$ row naming the linear approximation admitted at the displayed point and over the same source and target norm rows.
+\item $R$ is the dyadic remainder-modulus row. It records a finite tolerance schedule that bounds the residual after the linear read $L$ has been subtracted from the local step read.
+\item $H$ records componentwise $\hsame$ transport for $X,A,L,R$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a derivative request through the normed source, point window, linear map, and dyadic remainder-modulus rows.
+\item $P$ is the $\Pkg$ provenance over $\FrechetDerivativeUp$, $\NormUp$, $\LinearMapUp$, $\CalculusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FrechetDerivativeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host function equality, a global function-space topology, an unrecorded derivative operator, quotient tangent germs, or classical differentiability primitives outside the displayed finite route.
+\end{definition}
+
+\begin{theorem}[Frechet derivative NameCert obligations]
+\label{thm:frechet-derivative-namecert-obligations}
+For every accepted $\FrechetDerivativeUp$ carrier $D=(X,A,L,R,H,C,P,N)$, the local $\NameCert_{\FrechetDerivativeUp}$ surface consists exactly of carrier admission for the normed source row, point-and-window row, linear-map row, dyadic remainder-modulus row, componentwise transport, displayed replay, provenance, and local naming; linear approximation of the local step through $L$; remainder-modulus control through $R$ over the same window $A$ and norm row $X$; classifier stability under $\hsame$ transport of all displayed rows; and ledger non-escape from host function equality, global function-space topology, unrecorded derivative operators, quotient tangent germs, and classical differentiability primitives outside the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frechet-derivative-carrier}. The tuple $X,A,L,R,H,C,P,N$ is the whole accepted packet, so carrier admission for the named rows is a direct read from the finite history.
+
+The linear approximation clause is the read of $L$ over the source row $X$ and the point window $A$. Because $L$ is a $\LinearMapUp$ row in the same packet, the approximation is not detached into a host tangent map.
+
+The remainder-modulus clause is the read of $R$. Its dyadic tolerance schedule is attached to the same $X$ and $A$, so the residual bound is compared through the displayed norm and window rows rather than through an external limit predicate.
+
+Classifier stability is the componentwise transport row $H$, replay is the continuation row $C$, and source accounting is the package row $P$. Since no coordinate names any excluded host object, the local certificate exports only the displayed Frechet-derivative route.
+\end{proof}
+
+\begin{theorem}[Frechet derivative linear-remainder handoff]
+\label{thm:frechet-derivative-linear-remainder-handoff}
+Every derivative read of an accepted $\FrechetDerivativeUp$ carrier factors through the ordered finite route
+$$
+\NormUp,\ \LinearMapUp,\ \CalculusUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The linear approximation row and dyadic remainder-modulus row are exposed before any consumer may read the derivative as public BEDC data. Thus the packet supplies a traditional analysis neighbour for later derivative and implicit-function certificates without importing a host derivative operator.
+\end{theorem}
+\begin{proof}
+Read a derivative request through the continuation row $C$. The replay first exposes the normed source row $X$ and point window $A$, so the request is already tied to displayed source, target, and local neighbourhood data.
+
+Next read the $\LinearMapUp$ row $L$ and the dyadic remainder-modulus row $R$. The first row supplies the linear approximation, while the second supplies the finite tolerance ledger that keeps the residual under the displayed norm comparison.
+
+The package row $P$ records the dependency route through $\NormUp$, $\LinearMapUp$, $\CalculusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The local naming row $N$ exports only that route, with no host function-space derivative, selected tangent germ, quotient equality, or ambient differentiability theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FrechetDerivativeUp$ packet must expose $\NormUp$, $\LinearMapUp$, $\CalculusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before any derivative read is public.}
+
+\independenceWitness{norm, linearmap, calculus, real: $\FrechetDerivativeUp$ is not bijective to any listed sibling because it jointly binds a normed source row, point-and-window row, linear approximation row, dyadic remainder-modulus row, transport, replay, provenance, and local naming rows.}
+
+\closureat{FrechetDerivativeUp}{seedStr}
+
+\begin{closurestatus}{\FrechetDerivativeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frechet-derivative-carrier}, \autoref{thm:frechet-derivative-namecert-obligations}, and \autoref{thm:frechet-derivative-linear-remainder-handoff} seed the finite Frechet derivative route over Norm, LinearMap, Calculus, Real, BHist, hsame, Cont, Pkg, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host differentiability, global function-space topology, quotient tangent germs, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, linear approximation, remainder-modulus control, classifier stability, derivative handoff stability, provenance exhaustion, and TasteGate field faithfulness for BEDC.Derived.FrechetDerivativeUp.}
+  \constructivestory{A $\FrechetDerivativeUp$ packet is generated from a normed source row, a point-and-window row, a LinearMap approximation row, a dyadic remainder-modulus row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+\end{closurestatus}

@@ -74,6 +74,23 @@ The dyadic part of the request is read next. The observation row $D$ supplies th
 Only after those rows are displayed can the final regular rational readback $R$ be consumed. The downstream rows $E,H,C,Q,N$ seal, transport, replay, source, and name the same route, so the finite product read cannot bypass the synchronized windows or the dyadic ledger.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy finite product budget associativity]\label{thm:regular-cauchy-finite-product-budget-associativity}
+Let
+$$
+K=(I,S,W,D,P,R,E,H,C,Q,N)
+$$
+be an accepted $\RegularCauchyFiniteProductUp$ carrier. Regrouping adjacent binary product folds in the displayed fold order preserves the same synchronized windows $W$, dyadic observations $D$, product-budget ledger $P$, final $\RegSeqRatUp$ readback $R$, and $\RealUp$ seal $E$. The regrouped read is a projection of the displayed fold rows of $K$, not an appeal to host associativity of finite products or quotient stream equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-finite-product-tail-budget}. Every finite product read from $K$ factors through the index and source rows, then through the synchronized windows, then through the dyadic observations and product-budget ledger, before reaching the final readback and seal.
+
+The carrier rows of \autoref{def:regular-cauchy-finite-product-carrier} identify where regrouping can be displayed. The finite unary index row $I$ names the fold order, while $W,D,P$ record the windows, observations, product schedule, radii, and slack cells used by that order.
+
+Regrouping adjacent binary product folds therefore changes only the displayed parenthesization inside the schedule already stored in $I$ and $P$. It does not create a second window family, a second dyadic observation row, a second product-budget ledger, or a second final readback.
+
+Since $R$ and $E$ are downstream of the fixed rows $W,D,P$, the regrouped read preserves the same final $\RegSeqRatUp$ readback and $\RealUp$ seal. The argument is projection from the accepted carrier, so no host finite-product operation or quotient stream equality is introduced.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy finite product Real seal non-escape]\label{thm:regular-cauchy-finite-product-real-seal-nonescape}
 For every accepted $\RegularCauchyFiniteProductUp$ carrier $K$, the $\RealUp$ seal row exposed by $K$ is a downstream seal for the displayed finite route
 $$
@@ -89,6 +106,34 @@ The transport and replay rows $H$ and $C$ preserve this order. They can move or 
 The provenance and local naming rows $Q$ and $N$ cite the same dependencies. Since the carrier has no coordinate for a host finite product, quotient stream equality, selected limit, trichotomy, or ambient completeness theorem, the $\RealUp$ seal cannot export any of them.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy finite product projection roundtrip]
+\label{thm:regular-cauchy-finite-product-projection-roundtrip}
+For every accepted $\RegularCauchyFiniteProductUp$ carrier $K=(I,S,W,D,P,R,E,H,C,Q,N)$, any left or right projection read consumed by $\RegularCauchyProductProjectionUp$ factors back through the same finite index row $I$, source family $S$, synchronized window family $W$, dyadic observations $D$, product-budget ledger $P$, and final readback $R$. The projection packet may expose component readbacks, but it cannot introduce a host product, selected component representative, or quotient stream equality.
+\end{theorem}
+\begin{proof}
+Begin with an accepted finite-product carrier $K=(I,S,W,D,P,R,E,H,C,Q,N)$ and a projection read consumed by \autoref{ch:concrete-instances-regular-cauchy-product-projection-namecert}. The projection can name a left or right component only after it names the product packet from which that component is read.
+
+Apply the tail-budget theorem \autoref{thm:regular-cauchy-finite-product-tail-budget}. The product-facing read factors through $I,S,W,D,P,R$ before any $\RealUp$ seal or component-facing export is available.
+
+Apply budget associativity from \autoref{thm:regular-cauchy-finite-product-budget-associativity}. Regrouping the binary fold may expose the component position needed by the projection packet, but it preserves the same synchronized windows, dyadic observations, product-budget ledger, final readback, and seal route.
+
+Finally use the Real seal non-escape theorem \autoref{thm:regular-cauchy-finite-product-real-seal-nonescape}. The projection packet may expose component readbacks downstream of the displayed finite product route, but no host product, selected component representative, or quotient stream equality is present in the carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy finite product diagonal seal]
+\label{thm:regular-cauchy-finite-product-diagonal-seal}
+For every accepted $\RegularCauchyFiniteProductUp$ carrier $K=(I,S,W,D,P,R,E,H,C,Q,N)$, any diagonal read or component projection read from $K$ preserves the same synchronized $\StreamNameUp$ windows $W$, $\DyadicRatCoreUp$ observations $D$, product-budget ledger $P$, final $\RegSeqRatUp$ readback $R$, and terminal $\RealUp$ seal $E$. Thus a finite-product consumer may reuse the projected route as a sealed $\RegSeqRatUp$ and $\RealUp$ input, but it cannot introduce a host product, selected component representative, quotient stream equality, trichotomy, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:regular-cauchy-finite-product-namecert-obligations}. They order every accepted carrier through the finite unary index row, component sources, synchronized windows, dyadic observations, product-budget ledger, final readback, seal, transport, replay, provenance, and local name.
+
+Induct over the displayed finite fold route. The base read is one component source with its synchronized window and dyadic observation rows, so the readback and seal are exactly the rows displayed in $R$ and $E$.
+
+For the fold step, use budget associativity from \autoref{thm:regular-cauchy-finite-product-budget-associativity}. Regrouping a binary product exposes the component or diagonal position without changing $W,D,P,R,E$.
+
+Finally apply the Real seal non-escape theorem \autoref{thm:regular-cauchy-finite-product-real-seal-nonescape} and the projection roundtrip \autoref{thm:regular-cauchy-finite-product-projection-roundtrip}. The projected read still passes through the same finite product route before it reaches $\RegSeqRatUp$ readback or $\RealUp$ sealing, so no excluded host equality or completion object is exported.
+\end{proof}
+
 \falsifiablePrediction{Every $\RegularCauchyFiniteProductUp$ product-facing read factors through a finite unary index row, component RegSeqRat sources, synchronized StreamName windows, DyadicRatCore observations, a finite product-budget ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{regseqrat, streamname, dyadicratcore, real, regularcauchyproduct, cauchyproduct: $\RegularCauchyFiniteProductUp$ is not bijective to any listed sibling because it jointly carries a finite unary product index, synchronized multi-source windows, dyadic product-budget accounting, final RegSeqRat readback, RealUp sealing, transport, continuation, provenance, and local naming.}
@@ -97,7 +142,7 @@ The provenance and local naming rows $Q$ and $N$ cite the same dependencies. Sin
 
 \begin{closurestatus}{\RegularCauchyFiniteProductUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-finite-product-carrier}, \autoref{thm:regular-cauchy-finite-product-namecert-obligations}, \autoref{thm:regular-cauchy-finite-product-tail-budget}, and \autoref{thm:regular-cauchy-finite-product-real-seal-nonescape} seed the finite product route from displayed regular Cauchy sources through synchronized windows, dyadic product budgets, final RegSeqRat readback, and RealUp sealing.}
+  \scopeclosed{\autoref{def:regular-cauchy-finite-product-carrier}, \autoref{thm:regular-cauchy-finite-product-namecert-obligations}, \autoref{thm:regular-cauchy-finite-product-tail-budget}, \autoref{thm:regular-cauchy-finite-product-budget-associativity}, and \autoref{thm:regular-cauchy-finite-product-real-seal-nonescape} seed the finite product route from displayed regular Cauchy sources through synchronized windows, dyadic product budgets, final RegSeqRat readback, and RealUp sealing.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.RegularCauchyFiniteProductUp}
   \bridgestatus{none}

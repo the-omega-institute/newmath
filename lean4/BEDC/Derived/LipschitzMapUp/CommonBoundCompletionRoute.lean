@@ -112,6 +112,55 @@ theorem LipschitzMapCarrier_common_bound_completion_namecert_route [AskSetup] [P
     ⟨cert, completionUnary, modulusRoutesRealSeal, realSealProvenanceCompletion,
       completionPkg⟩
 
+theorem LipschitzMapCarrier_local_namecert_completion_handoff [AskSetup] [PackageSetup]
+    {source target bound graph modulus transports routes provenance localCert realSeal
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+        bundle pkg ->
+      Cont modulus routes realSeal ->
+        Cont realSeal provenance completionRead ->
+          PkgSig bundle realSeal pkg ->
+            PkgSig bundle completionRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+                  (fun row : BHist => hsame row localCert)
+                  (fun row : BHist => hsame row localCert ∧ Cont modulus routes provenance)
+                  hsame ∧
+                SemanticNameCert
+                    (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row modulus ∨ hsame row realSeal ∨ hsame row completionRead)
+                    (fun row : BHist =>
+                      hsame row completionRead ∧ PkgSig bundle completionRead pkg)
+                    hsame ∧
+                  UnaryHistory localCert ∧ UnaryHistory completionRead ∧
+                    Cont modulus routes provenance ∧ Cont modulus routes realSeal ∧
+                      Cont realSeal provenance completionRead ∧
+                        PkgSig bundle provenance pkg ∧
+                          PkgSig bundle completionRead pkg := by
+  intro carrier modulusRoutesRealSeal realSealProvenanceCompletion realSealPkg completionPkg
+  have localSurface :=
+    BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_namecert_obligation_certificate
+      carrier
+  have completionSurface :=
+    LipschitzMapCarrier_common_bound_completion_namecert_route carrier modulusRoutesRealSeal
+      realSealProvenanceCompletion realSealPkg completionPkg
+  obtain
+    ⟨localCertSurface, _sourceUnary, _targetUnary, _boundUnary, _graphUnary,
+      _modulusUnary, _graphBoundModulus, modulusRoutesProvenance, provenancePkg⟩ :=
+    localSurface
+  obtain
+    ⟨completionCert, completionUnary, modulusRoutesRealSeal',
+      realSealProvenanceCompletion', completionPkg'⟩ := completionSurface
+  obtain ⟨_sourceUnary, _targetUnary, _boundUnary, _graphUnary, _transportsUnary,
+    _routesUnary, localCertUnary, _graphBoundModulus, _modulusRoutesProvenance,
+    _provenancePkg⟩ := carrier
+  exact
+    ⟨localCertSurface, completionCert, localCertUnary, completionUnary,
+      modulusRoutesProvenance, modulusRoutesRealSeal', realSealProvenanceCompletion',
+      provenancePkg, completionPkg'⟩
+
 theorem LipschitzMapCarrier_boundary_completion_consumer_route [AskSetup] [PackageSetup]
     {source target bound graph modulus transports routes provenance localCert consumer realSeal
       completionRead : BHist}

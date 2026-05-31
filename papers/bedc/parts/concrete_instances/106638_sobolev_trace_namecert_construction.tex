@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\SobolevTraceUp$}
+\label{ch:concrete-instances-sobolev-trace-namecert}
+\origin{human}
+
+Following Lions--Magenes and Adams--Fournier, the $\SobolevTraceUp$ packet records finite BEDC boundary trace data for Sobolev carriers. It sits next to the weak-derivative packet of \autoref{ch:concrete-instances-sobolev-namecert}, consumes the boundary-control route of \autoref{ch:concrete-instances-poincare-inequality-namecert}, uses the compact-window handoff of \autoref{ch:concrete-instances-rellich-kondrachov-namecert}, and reads scalar and metric data through \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-metric-namecert}, and \autoref{ch:concrete-instances-completemetric-namecert}. The packet names only the displayed boundary restriction surface; it does not claim a host trace operator on a completed Sobolev quotient.
+
+\begin{definition}[Sobolev trace carrier]
+\label{def:sobolev-trace-carrier}
+A $\SobolevTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,D,B,R,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SobolevUp$ source row, exposing the weak-derivative, integrability, codomain, transport, replay, provenance, and local naming rows already admitted by the Sobolev packet.
+\item $D$ is the boundary-domain row. It records the finite boundary chart, collar, normal-window, or boundary-read ledger on which the trace is inspected.
+\item $B$ is the Poincare-facing boundary-control row from $\PoincareInequalityUp$, used only to keep constant or zero-boundary escape from entering the trace read.
+\item $R$ is the Rellich--Kondrachov compact-window row, recording the finite compactness or subsequence-window handoff consumed by boundary convergence tests.
+\item $M$ is the $\MetricUp$ or $\CompleteMetricUp$ row that supplies the finite distance and Cauchy-readback surface for the boundary values.
+\item $E$ is the $\RealUp$ scalar seal for boundary magnitudes, radii, and norm estimates.
+\item $H$ stores componentwise $\hsame$ transport for $S,D,B,R,M,E$ and the structural rows.
+\item $C$ stores the displayed $\Cont$ replay from a trace request through the Sobolev source, boundary row, Poincare row, compact-window row, metric row, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\SobolevTraceUp$, $\SobolevUp$, $\PoincareInequalityUp$, $\RellichKondrachovUp$, $\MetricUp$, $\CompleteMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SobolevTraceUp}$ row.
+\end{enumerate}
+The classifier has no coordinate for an ambient trace operator, quotient equality of boundary functions, selected representative, distributional boundary value, open-cover compactness theorem, or global completeness theorem for the real line.
+\end{definition}
+
+\begin{theorem}[Sobolev trace NameCert obligations]
+\label{thm:sobolev-trace-namecert-obligation-surface}
+For every accepted $\SobolevTraceUp$ carrier $T=(S,D,B,R,M,E,H,C,P,N)$, the local $\NameCert_{\SobolevTraceUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed Sobolev source, boundary-domain row, Poincare control row, Rellich--Kondrachov compact-window row, metric or complete-metric row, real seal, transport, replay, provenance, and local naming data;
+\item source compatibility, requiring every trace request to enter through the $\SobolevUp$ weak-derivative ledger before any boundary row is read;
+\item boundary-control exactness, requiring $D$ and $B$ to supply the boundary restriction and normalization data consumed by the trace;
+\item compact and complete-metric handoff, requiring $R$ and $M$ to expose only finite convergence, compact-window, distance, and Cauchy-readback rows;
+\item scalar readback and transport, requiring $E,H,C,P,N$ to preserve, replay, source, and name the same finite trace route.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier. The accepted packet exposes only the rows $S,D,B,R,M,E,H,C,P,N$, so carrier admission is row-local.
+
+The source compatibility row is forced by $S$. A trace request first reads the $\SobolevUp$ weak-derivative and magnitude ledger, then reaches the boundary-domain row $D$ and the Poincare control row $B$.
+
+The compact and complete-metric handoff is similarly row-local. The Rellich--Kondrachov row $R$ supplies only finite compact-window data, and $M$ supplies only the displayed metric or complete-metric readback surface.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same route. Since the carrier contains no ambient trace operator, host quotient, selected representative, or distributional boundary coordinate, the local NameCert obligations are exhausted by the five displayed rows.
+\end{proof}
+
+\begin{theorem}[Sobolev trace boundary readback]
+\label{thm:sobolev-trace-boundary-readback}
+Every boundary value read exported by an accepted $\SobolevTraceUp$ packet factors through
+$$
+\SobolevUp \longmapsto \PoincareInequalityUp \longmapsto \RellichKondrachovUp \longmapsto \MetricUp,\CompleteMetricUp,\RealUp
+$$
+and then through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the same packet. The exported object is a finite boundary readback certificate; it is not a host boundary function, quotient trace class, distributional trace, or selected representative.
+\end{theorem}
+\begin{proof}
+Start with an accepted trace read. By \autoref{thm:sobolev-trace-namecert-obligation-surface}, the read first enters the Sobolev source row $S$, so it inherits only the weak-derivative and magnitude data visible in the source packet.
+
+The boundary rows $D$ and $B$ then restrict the request to the displayed boundary ledger and Poincare-facing control surface. These rows determine which boundary observations are available before any compactness or completion-facing datum is consumed.
+
+The remaining analytic read passes through $R,M,E$. Thus compact-window information, metric or complete-metric readback, and scalar magnitude are all finite rows of the same packet.
+
+The structural rows $H,C,P,N$ merely preserve, replay, source, and name this route. No carrier coordinate remains from which a host boundary function, quotient class, distributional trace, or selected representative could be read.
+\end{proof}
+
+\begin{theorem}[Sobolev trace complete-metric handoff]
+\label{thm:sobolev-trace-complete-metric-handoff}
+Any $\CompleteMetricUp$, $\MetricUp$, $\RealUp$, PDE, variational, or boundary-analysis consumer citing an accepted $\SobolevTraceUp$ carrier receives only the complete-metric handoff displayed by $M$, the real scalar seal displayed by $E$, and the upstream rows $S,D,B,R$. In particular, a complete-metric consumer may request Cauchy-readback data for the boundary trace only after the Sobolev source, boundary-control, Poincare, and Rellich--Kondrachov rows have been read.
+\end{theorem}
+\begin{proof}
+Project a downstream consumer request. The carrier places $M$ after $S,D,B,R$, so the complete-metric surface cannot be reached before the Sobolev source, boundary row, boundary-control row, and compact-window row are fixed.
+
+The real scalar seal is read through $E$. It records the displayed boundary magnitudes and radii used by $M$, not a host completeness theorem for all real-valued boundary functions.
+
+The transport, replay, provenance, and local naming rows keep this handoff inside the same $\BHist$ packet. Hence the complete-metric consumer receives only the finite Cauchy-readback route displayed by the trace carrier.
+\end{proof}
+
+\falsifiablePrediction{Every $\SobolevTraceUp$ boundary read factors through displayed SobolevUp, PoincareInequalityUp, RellichKondrachovUp, MetricUp, CompleteMetricUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows before any downstream trace consumer receives it.}
+
+\independenceWitness{sobolev, poincare-inequality, rellich-kondrachov, metric, completemetric, real: $\SobolevTraceUp$ is not bijective to any listed sibling because it jointly carries a Sobolev source, boundary-domain row, boundary-control row, compact-window row, complete-metric boundary readback, scalar seal, transport, replay, provenance, and local naming.}
+
+\closureat{SobolevTraceUp}{seedStr}
+
+\begin{closurestatus}{\SobolevTraceUp}
+  \constructivestory{A $\SobolevTraceUp$ packet is generated from a Sobolev source row, boundary-domain row, Poincare control row, Rellich--Kondrachov compact-window row, metric or complete-metric readback row, real scalar seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sobolev-trace-carrier}, \autoref{thm:sobolev-trace-namecert-obligation-surface}, \autoref{thm:sobolev-trace-boundary-readback}, and \autoref{thm:sobolev-trace-complete-metric-handoff} seed the finite boundary trace route over Sobolev, Poincare, Rellich--Kondrachov, metric, complete-metric, and real neighbours.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host trace operator, quotient equality of boundary functions, selected representatives, distributional boundary values, open-cover compactness, real-line completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source compatibility, boundary-control exactness, compact and complete-metric handoff, scalar readback, componentwise transport, replay, provenance, and local naming.}
+\end{closurestatus}

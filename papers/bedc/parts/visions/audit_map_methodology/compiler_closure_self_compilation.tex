@@ -1,0 +1,472 @@
+\chapter{Compiler-Closure Self-Compilation}
+\label{ch:compiler-closure-self-compilation}
+\origin{ai}
+
+\autoref{ch:theorem-dna-complexity-scoring},
+\autoref{ch:theorem-genome-evolution}, and
+\autoref{ch:automated-theory-discovery-pipeline-calculus} make theorem
+recognition role-complete: a theorem-like flow is read through statement,
+dependency, proof, certificate, ledger, status, canonical-site, and
+closing-seal loci. This chapter records the next audit layer. A self-compiling
+BEDC system must also account for the compiler phenotypes expressed by genome
+flows and for the certified feedback by which those phenotypes regulate the
+next generation of theorem, certificate, gate, and closure flows.
+
+The governing schematic is
+$$
+D_t\longrightarrow C_t\longrightarrow P_t\longrightarrow D_{t+1}.
+$$
+Here $D_t$ is the current genome flow, $C_t$ is the compiler or recognizer
+flow expressed by it, $P_t$ is the behavior phenotype carried by that compiler,
+and $D_{t+1}$ is the accepted genome flow exported after gate, ledger,
+\NameCert{}, and closure-certificate checks. The point is not unrestricted
+reflection. The point is eventized, certified, ledgered self-compilation.
+This is a paper-side audit contract: it fixes the evidence shape a later
+pipeline can read, without asserting that every field is already implemented
+as a closure-status field or extraction script.
+
+\section{From theorem DNA to compiler closure}
+\label{sec:compiler-closure-from-dna}
+
+\begin{definition}[Genome flow]
+\label{def:compiler-closure-genome-flow}
+A genome flow is an event flow $D:\EventFlow$ used as an auditable theory-state
+record. Its visible loci may include theorem-DNA packets, closure-status
+records, naming certificates, ledgers, gate data, score certificates, or
+lineage edges.
+\end{definition}
+
+\begin{principle}[One-directional recognition boundary]
+\label{prin:compiler-closure-one-directional-boundary}
+Theorem-DNA recognition reads a theorem candidate into role-complete loci, but
+it does not by itself express a compiler, recognizer, gate, or classifier that
+regulates later genome flows.
+\end{principle}
+
+\begin{theorem}[Theorem DNA alone is not self-compilation]
+\label{thm:compiler-closure-dna-alone-not-self-compilation}
+Let $T$ be a theorem candidate flow. If $T$ has role-complete theorem-DNA but
+does not certifiably express a compiler phenotype, then there is no genome flow
+$D'$ for which $T$ forms a certified self-compilation loop into $D'$.
+\end{theorem}
+\begin{proof}
+A certified self-compilation loop, as defined in
+\autoref{def:compiler-closure-certified-loop}, includes certified expression
+of a compiler phenotype. The hypothesis denies such an expression witness for
+$T$. Therefore the loop data cannot be supplied.
+\end{proof}
+
+\begin{corollary}[Theorem-genome audit and compiler-closure audit are distinct]
+\label{cor:compiler-closure-two-audits}
+Theorem-genome audit asks whether a theorem-like flow is role-complete, scored,
+anchored, and ledgered. Compiler-closure audit asks whether such a genome flow
+expresses a compiler phenotype and carries ledgered feedback into a later
+accepted genome flow.
+\end{corollary}
+\begin{proof}
+The first audit is witnessed by theorem-DNA and theorem-genome gates. The
+second requires compiler expression, compiler behavior, feedback, and accepted
+export data. These are not part of theorem-DNA alone.
+\end{proof}
+
+\section{Compiler phenotype}
+\label{sec:compiler-closure-phenotype}
+
+\begin{definition}[Compiler phenotype]
+\label{def:compiler-closure-compiler-phenotype}
+A compiler phenotype is a triple
+$$
+P=(C,\beta,\rho)
+$$
+where $C:\EventFlow$ is a compiler flow,
+$$
+\beta:\EventFlow\to\EventFlow\to\mathsf{Prop}
+$$
+is its behavior relation, and $\rho$ witnesses
+$\mathsf{RecognizedCompilerFlow}(C)$.
+\end{definition}
+
+\begin{definition}[Compiler-genome loci]
+\label{def:compiler-closure-compiler-genome-loci}
+A compiler genome is a genome flow whose displayed loci include source,
+recognizer, compiler, gate, classifier, ledger, export, and feedback-seal
+components. These loci record what the compiler reads, how legal flows are
+recognized, how outputs are produced, how impostors are refused, how accepted
+objects are classified, how obligations are recorded, how results are exported,
+and how feedback is permitted.
+\end{definition}
+
+\begin{theorem}[Self-compilation requires compiler phenotype]
+\label{thm:compiler-closure-requires-phenotype}
+If $D\circlearrowright D'$ is a certified self-compilation loop, then there
+exists a compiler phenotype $P=(C,\beta,\rho)$ such that
+$\mathsf{RecognizedCompilerFlow}(C)$ and $\beta(D,D')$.
+\end{theorem}
+\begin{proof}
+Unfold the certified self-compilation loop. It supplies a compiler phenotype
+$P$, certified expression from $D$ to $P$, and feedback from $P$ on $D$ to
+$D'$. Unfolding the compiler phenotype gives the recognized compiler-flow
+witness for $C$. Unfolding the feedback witness gives $\beta(D,D')$.
+\end{proof}
+
+\begin{corollary}[No recognized compiler flow, no self-compilation]
+\label{cor:compiler-closure-no-recognized-compiler-no-loop}
+If no event flow is recognized as a compiler flow, then no certified
+self-compilation loop exists.
+\end{corollary}
+\begin{proof}
+This is the contrapositive of
+\autoref{thm:compiler-closure-requires-phenotype}.
+\end{proof}
+
+\section{Certified expression}
+\label{sec:compiler-closure-certified-expression}
+
+\begin{definition}[Expression witness]
+\label{def:compiler-closure-expression-witness}
+Let $D$ be a genome flow and let $P=(C,\beta,\rho)$ be a compiler phenotype.
+An expression witness for $D\Rightarrow P$ is a ledger flow
+$L_{\mathsf{expr}}$ such that $C$ is visible as a source subflow of $D$,
+$L_{\mathsf{expr}}$ is visible as a source subflow of $D$, and
+$L_{\mathsf{expr}}$ records the genome carrier, the expressed compiler flow,
+the visible expression route, the recognized-compiler witness, and the formal
+input surface used by the expression.
+\end{definition}
+
+\begin{definition}[Certified compiler expression]
+\label{def:compiler-closure-certified-expression}
+A genome flow $D$ certifiably expresses a compiler phenotype $P$, written
+$$
+D\Rightarrow P,
+$$
+when an expression witness exists and all formal compiler inputs used by the
+expression are raw events, event flows, recognized flows, or certified exports.
+\end{definition}
+
+\begin{theorem}[Expression excludes hidden host state]
+\label{thm:compiler-closure-expression-no-hidden-host}
+A certified compiler expression cannot depend on host ASTs, host YAML, host
+manifests, host packages, host theorem identifiers, host object names, host
+type tags, host mode tags, host opcode tables, host arity tables, or host
+parser state as formal compiler inputs.
+\end{theorem}
+\begin{proof}
+BEDC's formal compiler-input relation admits raw events, event flows,
+recognized flows, and certified exports. The listed host structures are
+structural hidden inputs rather than formal compiler inputs. Certified
+expression requires its input route to stay inside the formal compiler-input
+surface, so those hidden host structures are excluded.
+\end{proof}
+
+\begin{corollary}[Expression is not host extraction]
+\label{cor:compiler-closure-expression-not-host-extraction}
+A host parser, manifest scanner, or theorem-name lookup may help locate a
+candidate during engineering, but it does not by itself witness
+$D\Rightarrow P$. The witness must be present as event-flow expression data.
+\end{corollary}
+\begin{proof}
+Use \autoref{thm:compiler-closure-expression-no-hidden-host}. Host parser
+state, manifests, and theorem identifiers are excluded from the formal input
+surface unless they have first been represented as accepted event-flow data.
+\end{proof}
+
+\section{Ledgered feedback}
+\label{sec:compiler-closure-ledgered-feedback}
+
+\begin{definition}[Feedback witness]
+\label{def:compiler-closure-feedback-witness}
+Let $P=(C,\beta,\rho)$ be a compiler phenotype and let $D,D'$ be genome flows.
+A feedback witness for
+$$
+P:D\leadsto D'
+$$
+is a ledger flow $L_{\mathsf{fb}}$ such that $\beta(D,D')$ holds,
+$L_{\mathsf{fb}}$ is visible as a source subflow of $D'$, and
+$L_{\mathsf{fb}}$ records the source genome carrier, the compiler phenotype,
+the behavior relation, the target genome carrier, the accepted-export route,
+the naming and closure-certificate obligations, and the boundary excluding
+unrestricted reflection.
+\end{definition}
+
+\begin{principle}[No unledgered feedback]
+\label{prin:compiler-closure-no-unledgered-feedback}
+A compiler phenotype may regulate a later genome flow only through a displayed
+feedback ledger. Otherwise the transition is an external update, not BEDC
+self-compilation.
+\end{principle}
+
+\begin{corollary}[External file edits are not self-compilation]
+\label{cor:compiler-closure-external-file-edits-not-loop}
+An external script that edits theorem text, closure status, or lineage data
+without presenting the update as event-flow feedback with a visible ledger does
+not establish certified self-compilation.
+\end{corollary}
+\begin{proof}
+Certified self-compilation requires the feedback witness of
+\autoref{def:compiler-closure-feedback-witness}. A host-level edit without the
+visible feedback ledger fails that requirement.
+\end{proof}
+
+\section{Certified self-compilation loop}
+\label{sec:compiler-closure-certified-loop}
+
+\begin{definition}[Certified self-compilation loop]
+\label{def:compiler-closure-certified-loop}
+For genome flows $D$ and $D'$, write
+$$
+D\circlearrowright D'
+$$
+when there exists a compiler phenotype $P$ such that $D\Rightarrow P$,
+$P:D\leadsto D'$, and $\mathsf{AcceptedObjectFlow}(D')$.
+\end{definition}
+
+\begin{definition}[Strict and stationary self-compilation]
+\label{def:compiler-closure-strict-stationary}
+A certified self-compilation loop is strict when $D\neq D'$. It is stationary
+when $D=D'$.
+\end{definition}
+
+\begin{theorem}[Certified self-compilation exports an accepted object]
+\label{thm:compiler-closure-loop-accepted-output}
+If $D\circlearrowright D'$, then $\mathsf{AcceptedObjectFlow}(D')$.
+\end{theorem}
+\begin{proof}
+This is one of the clauses in the definition of certified self-compilation.
+\end{proof}
+
+\begin{corollary}[The output is not just a later file state]
+\label{cor:compiler-closure-output-not-file-state}
+If $D'$ is not an accepted object flow, then a transition $D\to D'$ is not a
+certified self-compilation loop.
+\end{corollary}
+\begin{proof}
+Use \autoref{thm:compiler-closure-loop-accepted-output}.
+\end{proof}
+
+\section{Self-hosting is not self-compilation}
+\label{sec:compiler-closure-self-hosting-boundary}
+
+\begin{theorem}[Self-hosting is weaker than self-compilation]
+\label{thm:compiler-closure-self-hosting-weaker}
+A self-hosting target for a compiler flow does not by itself supply certified
+self-compilation.
+\end{theorem}
+\begin{proof}
+A self-hosting target states that a compiler flow is behaviorally equivalent
+to itself under some compiler behavior. Certified self-compilation also
+requires a genome flow, certified expression of a compiler phenotype by that
+genome, feedback from the phenotype into a later genome flow, and accepted
+export of the later genome flow. These data are not supplied by self-hosting
+alone.
+\end{proof}
+
+\begin{principle}[Compiler property versus genome-feedback property]
+\label{prin:compiler-closure-self-hosting-boundary}
+Self-hosting is a compiler-layer property. Self-compilation is a
+genome--compiler--feedback--accepted-export property.
+\end{principle}
+
+\section{Discovery self-compilation}
+\label{sec:compiler-closure-discovery-self-compilation}
+
+\begin{definition}[Discovery self-compilation]
+\label{def:compiler-closure-discovery-self-compilation}
+A certified self-compilation loop
+$$
+D\circlearrowright D'
+$$
+is discovery self-compilation when the associated discovery audit packet has
+classifier-change bit $d=1$ and the later genome flow carries a certified
+classifier state with semantic naming certificate and ledger witness.
+\end{definition}
+
+\begin{theorem}[Self-compilation is not automatically discovery]
+\label{thm:compiler-closure-self-compilation-not-automatically-discovery}
+A certified self-compilation loop whose associated classifier-change bit is
+$d=0$ is not discovery self-compilation.
+\end{theorem}
+\begin{proof}
+Discovery self-compilation requires classifier-change bit $d=1$ by definition.
+\end{proof}
+
+\begin{theorem}[Discovery self-compilation is a discovery transition]
+\label{thm:compiler-closure-discovery-loop-is-discovery}
+Every discovery self-compilation loop is a discovery transition.
+\end{theorem}
+\begin{proof}
+Discovery self-compilation includes certified self-compilation, classifier
+shift, semantic naming certificate, and ledger witness. These are exactly the
+obligations required for a discovery transition in the automated discovery
+calculus.
+\end{proof}
+
+\section{Compiler-closure gate contract}
+\label{sec:compiler-closure-gate-contract}
+
+\begin{definition}[Compiler-closure audit packet]
+\label{def:compiler-closure-audit-packet}
+A compiler-closure audit packet is a tuple
+$$
+\mathsf{CCClaim}=
+(D,D',C,\beta,L_{\mathsf{expr}},L_{\mathsf{fb}},E,N_{\mathsf{name}},
+N_{\mathsf{close}},d,\mathcal B)
+$$
+where $D$ is the source genome flow, $D'$ is the target genome flow, $C$ is
+the expressed compiler flow, $\beta$ is the behavior relation,
+$L_{\mathsf{expr}}$ is the expression ledger, $L_{\mathsf{fb}}$ is the feedback
+ledger, $E$ is the accepted-export witness for $D'$, $N_{\mathsf{name}}$ and
+$N_{\mathsf{close}}$ are the naming and closure-certificate witnesses, $d$ is
+the classifier-change bit, and $\mathcal B$ is the explicit not-claimed
+boundary.
+\end{definition}
+
+\begin{definition}[Compiler-closure evidence obligations]
+\label{def:compiler-closure-evidence-obligations}
+A compiler-closure audit packet satisfies the evidence obligations when:
+\begin{enumerate}
+\item $C$ is a recognized compiler flow.
+\item $\beta$ is supplied as a compiler behavior relation.
+\item $L_{\mathsf{expr}}$ witnesses certified expression $D\Rightarrow
+P=(C,\beta,\rho)$.
+\item $L_{\mathsf{fb}}$ witnesses ledgered feedback $P:D\leadsto D'$.
+\item $E$, $N_{\mathsf{name}}$, and $N_{\mathsf{close}}$ witness accepted
+export of the target genome as an accepted object flow.
+\item $\mathcal B$ excludes hidden host state, host-executable identity, and
+unrestricted reflective meta-loops.
+\end{enumerate}
+If the packet asserts discovery self-compilation, it must also have $d=1$,
+semantic naming certificate, and ledger witness in the sense of
+\autoref{def:automated-discovery-discovery-transition}.
+\end{definition}
+
+\begin{definition}[Free self-compilation claim]
+\label{def:compiler-closure-free-claim}
+A free self-compilation claim is a claim that asserts
+$D\circlearrowright D'$ while omitting at least one of recognized compiler
+flow, compiler behavior, expression witness, feedback witness, accepted object
+flow, or feedback ledger.
+\end{definition}
+
+\begin{definition}[CompilerClosureGate]
+\label{def:compiler-closure-gate}
+A claim passes $\mathsf{CompilerClosureGate}$ when it is represented by a
+compiler-closure audit packet satisfying
+\autoref{def:compiler-closure-evidence-obligations}. Where the source or
+target carrier is theorem-like, the relevant theorem-DNA scoring obligations
+must also hold. Where the claim asserts discovery self-compilation, the
+discovery obligations of $\mathsf{DiscoveryGate}$ must also hold.
+\end{definition}
+
+\begin{definition}[Compiler-closure demotion]
+\label{def:compiler-closure-demotion}
+Compiler-closure demotion maps an over-strong self-compilation claim to the
+strongest status supported by its evidence. Without a recognized compiler flow
+or compiler behavior, the packet is only a compiler candidate. Without an
+expression witness, it is not a self-compilation claim. Without a feedback
+ledger, it is a free claim. Without accepted export of $D'$, it is only a
+candidate transition. Without $d=1$ and semantic naming certificate, it may be
+self-compilation but not discovery self-compilation.
+\end{definition}
+
+\begin{theorem}[No free self-compilation passes]
+\label{thm:compiler-closure-no-free-claim-passes}
+No free self-compilation claim passes $\mathsf{CompilerClosureGate}$.
+\end{theorem}
+\begin{proof}
+The gate requires the evidence obligations of
+\autoref{def:compiler-closure-evidence-obligations}. A free claim omits at
+least one required item, so the gate obligation is not met.
+\end{proof}
+
+\begin{theorem}[Demotion never strengthens evidence]
+\label{thm:compiler-closure-demotion-no-strengthening}
+After compiler-closure demotion, the assigned status is no stronger than the
+evidence actually carried by the packet.
+\end{theorem}
+\begin{proof}
+\autoref{def:compiler-closure-demotion} removes self-compilation strength when
+recognized compiler flow, behavior, expression, feedback ledger, or accepted
+export is missing, and removes discovery strength when classifier change,
+semantic naming, or ledger witness is missing. Therefore the resulting status
+does not assert evidence absent from the packet.
+\end{proof}
+
+\begin{theorem}[CompilerClosureGate strictly strengthens TDCSGate]
+\label{thm:compiler-closure-gate-strengthens-tdcs}
+For theorem-like carriers, passing $\mathsf{CompilerClosureGate}$ implies the
+relevant theorem-DNA scoring obligations, but theorem-DNA scoring obligations
+alone do not imply passing $\mathsf{CompilerClosureGate}$.
+\end{theorem}
+\begin{proof}
+The compiler-closure gate includes the relevant theorem-DNA scoring
+obligations where the source or target carrier is theorem-like. It also
+requires compiler expression, behavior, feedback, accepted export, and a
+feedback ledger. These additional clauses are not consequences of theorem-DNA
+scoring alone.
+\end{proof}
+
+\begin{theorem}[DiscoveryGate alone is not compiler closure]
+\label{thm:compiler-closure-discovery-gate-alone-not-closure}
+A gate-passed discovery claim does not by itself establish compiler-closure
+self-compilation unless it also supplies compiler expression and ledgered
+feedback.
+\end{theorem}
+\begin{proof}
+$\mathsf{DiscoveryGate}$ checks classifier-change, semantic naming, ledger,
+score, lineage, and not-claimed obligations for discovery. Certified
+self-compilation additionally requires a recognized compiler phenotype,
+certified expression, and feedback from that phenotype into the target genome.
+Those data are not supplied by discovery evidence alone.
+\end{proof}
+
+\section{Pipeline adoption boundary}
+\label{sec:compiler-closure-pipeline-boundary}
+
+\begin{principle}[Compiler-closure adoption]
+\label{prin:compiler-closure-adoption}
+The automated theory-discovery pipeline may treat compiler-closure audit as a
+post-theorem-genome layer:
+$$
+\text{theorem-DNA extraction}
+\longrightarrow
+\text{genome scoring}
+\longrightarrow
+\text{TDCSGate}
+\longrightarrow
+\text{compiler-closure audit}
+\longrightarrow
+\text{discovery gate}.
+$$
+The additional layer asks whether a genome flow expresses a compiler phenotype
+whose feedback produces a later accepted genome flow. It reads the
+compiler-closure audit packet of
+\autoref{def:compiler-closure-audit-packet}; it does not infer
+self-compilation from file edits, host execution, or theorem-name lookup.
+\end{principle}
+
+\begin{theorem}[Compiler-closure self-compilation theorem]
+\label{thm:compiler-closure-self-compilation-theorem}
+A BEDC transition $D\to D'$ can be accepted as certified self-compilation
+exactly when its compiler-closure audit packet satisfies the evidence
+obligations of \autoref{def:compiler-closure-evidence-obligations}. If the
+same packet also has classifier-change bit $d=1$ with semantic naming
+certificate and ledger witness, it is discovery self-compilation.
+\end{theorem}
+\begin{proof}
+The forward direction unfolds certified self-compilation and places its
+recognized compiler flow, behavior relation, expression ledger, feedback
+ledger, accepted export, and boundary into the audit packet. The reverse
+direction reads those packet fields as certified expression and ledgered
+feedback and then applies the accepted-output clause of the loop definition.
+The classifier-change, semantic naming, and ledger witnesses supply the
+discovery strengthening.
+\end{proof}
+
+\begin{principle}[Compiler-closure slogan]
+\label{prin:compiler-closure-slogan}
+Theorem DNA audits what a theorem flow contains. Compiler closure audits what
+a genome flow can express and how the expressed compiler phenotype feeds back
+into the next accepted genome flow.
+\end{principle}
+
+\concretizedIn{ch:concrete-instances-public-local-reflective-compilation-namecert}{PublicLocalReflectiveCompilationUp realizes the compiler-closure self-compilation audit surface as finite public/local compiler-event and MetaCIC closure rows.}

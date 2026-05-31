@@ -1,4 +1,5 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
@@ -6,6 +7,7 @@ import BEDC.Meta.TasteGate
 namespace BEDC.Derived.SequentialCompactUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -149,5 +151,14 @@ theorem SequentialCompactTasteGate_single_carrier_alignment :
       ChapterTasteGate.round_trip⟩
 
 end TasteGate
+
+theorem SequentialCompactCarrier_finite_subsequence_handoff {K B S W R E H C P N : BHist} :
+    sequentialCompactFields (SequentialCompactUp.mk K B S W R E H C P N) =
+        [K, B, S, W, R, E, H, C, P, N] ∧
+      Cont K B (append K B) ∧
+      Cont S W (append S W) ∧
+      Cont R E (append R E) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  exact ⟨rfl, rfl, rfl, rfl⟩
 
 end BEDC.Derived.SequentialCompactUp

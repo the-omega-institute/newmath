@@ -1,0 +1,31 @@
+\begin{theorem}[Sum public branch-disjointness route]
+\label{thm:sum-branch-disjointness-public-route}
+Every public $\SumUp$ branch read factors through the visible tag exactness,
+branch exclusivity, left and right tag inversion, same-tag exactness, and the
+$\BoolUp$ finite discriminator route. A left-branch read exposes only a
+displayed $\Ezero$ tag together with its left payload classifier row; a
+right-branch read exposes only a displayed $\Eone$ tag together with its right
+payload classifier row. No public consumer can read a left payload as a right
+payload or read a right payload as a left payload.
+\end{theorem}
+\begin{proof}
+Start with carrier branch exclusivity from
+\autoref{thm:sum-history-carrier-branch-exclusivity}. It prevents a single
+displayed sum history from carrying both a left presentation and a right
+presentation, so a public branch read must choose one visible tag surface.
+
+For same-tag reads, apply the left and right tag inversion theorems
+\autoref{thm:sum-history-classifier-left-hsame-inversion} and
+\autoref{thm:sum-history-classifier-right-hsame-inversion}, together with
+\autoref{thm:sum-history-classifier-same-tag-exactness}. These identify the
+payload classifier only inside the branch selected by the visible tag.
+
+For mixed-tag reads, use
+\autoref{thm:sum-history-classifier-tag-separation} and
+\autoref{thm:sum-history-classifier-reverse-tag-separation}. The finite
+discriminator supplied by $\BoolUp$ in
+\autoref{thm:bool-finite-data-sibling-lattice-integrity} and
+\autoref{thm:bool-sibling-carrier-boundary} is therefore only a displayed
+left/right endpoint row; it cannot export the opposite payload carrier or
+classifier. Thus the public route is branch-disjoint.
+\end{proof}

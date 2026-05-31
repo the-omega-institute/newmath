@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\NormalizationEvidenceBudgetUp$}
+\label{ch:concrete-instances-normalization-evidence-budget-namecert}
+\origin{ai}
+
+The $\NormalizationEvidenceBudgetUp$ packet realizes the candidate-mediated strong-normalization boundary of \autoref{ch:metacic-normalization-audit-map} as finite budget data inspected before any SN read. It sits beside the frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the router of \autoref{ch:concrete-instances-metacicnormalizationcertificaterouter-namecert}, the closed-substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, the authorized generator route of \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert}, and the compiler-recognizer flow of \autoref{ch:concrete-instances-groundcompilerrecognizerflow-namecert}. The packet names bounded candidate evidence, closed-candidate evidence, candidate-set membership, Pi and application adequacy, closed-term projection, no-infinite-reduction projection, transport, replay, provenance, and local naming rows; it does not claim evidence-free strong normalization, global closed consistency, erased subject reduction, host evaluation soundness, quotient syntax equality, Lean verification, or bridge checking.
+
+\begin{definition}[Normalization evidence budget carrier]
+\label{def:normalization-evidence-budget-carrier}
+A $\NormalizationEvidenceBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+E=(A,C,K,S,P,R,J,I,F,G,D,H,T,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the audit-map anchor row for \autoref{ch:metacic-normalization-audit-map}.
+\item $C$ is the candidate-evidence budget row, listing the finite candidate witnesses available for the read.
+\item $K$ is the closed-candidate budget row, listing the finite closed-candidate wrappers and their closed typed term boundaries.
+\item $S$ is the candidate-set budget row, listing finite membership, soundness, and beta-closure evidence.
+\item $P$ is the Pi-adequacy row for function-side candidate use.
+\item $R$ is the application-adequacy row for argument and application candidate use.
+\item $J$ is the closed-term projection row consumed through $\ClosedTermSubstitutionBoundaryUp$.
+\item $I$ is the no-infinite-reduction projection row read only after candidate, closed-candidate, or candidate-set evidence is present.
+\item $F$ is the $\MetaCICNormalizationFrontierUp$ retention row keeping candidate evidence, finished-normal evidence, and subject-reduction obstruction visible.
+\item $G$ is the $\AuthorizedGeneratorRecursorUp$ generator handoff row.
+\item $D$ is the $\GroundCompilerRecognizerFlowUp$ compiler-recognizer row.
+\item $H$ records componentwise $\hsame$ transport for $A,C,K,S,P,R,J,I,F,G,D,T,Q,N$.
+\item $T$ records displayed $\Cont$ replay from evidence budgets through closed-term SN and no-infinite-reduction reads.
+\item $Q$ is the $\Pkg$ provenance over $\NormalizationEvidenceBudgetUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICNormalizationCertificateRouterUp$, $\ClosedTermSubstitutionBoundaryUp$, $\AuthorizedGeneratorRecursorUp$, $\GroundCompilerRecognizerFlowUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NormalizationEvidenceBudgetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a closed-term SN read outside $C,K,S$, no application-normalization read outside $P,R$, and no no-infinite-reduction read outside $I$.
+\end{definition}
+
+\begin{theorem}[Normalization evidence budget NameCert obligations]
+\label{thm:normalization-evidence-budget-namecert-obligations}
+For the carrier of \autoref{def:normalization-evidence-budget-carrier}, the local $\NameCert_{\NormalizationEvidenceBudgetUp}$ surface consists exactly of audit-map anchoring through $A$, candidate evidence through $C$, closed-candidate evidence through $K$, candidate-set evidence through $S$, Pi and application adequacy through $P,R$, closed-term projection through $J$, no-infinite-reduction projection through $I$, frontier retention through $F$, authorized-generator handoff through $G$, compiler-recognizer handoff through $D$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, $\Pkg$ provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $E=(A,C,K,S,P,R,J,I,F,G,D,H,T,Q,N)$. The audit anchor $A$ fixes the route to the candidate-mediated map, and the evidence rows $C,K,S$ list exactly the candidate, closed-candidate, and candidate-set data available before any closed-term SN read.
+
+The adequacy rows $P,R$ keep function, argument, and application cases inside the displayed candidate route. The projection rows $J,I$ are downstream: $J$ records closed-term projection, while $I$ records the no-infinite-reduction consequence only after evidence is present.
+
+The sibling rows $F,G,D$ retain the normalization frontier, authorized generator handoff, and compiler-recognizer flow as visible budget provenance. They route evidence; they do not create evidence-free normalization.
+
+Finally $H,T,Q,N$ transport, replay, package, and name the same displayed rows. Since the carrier exposes no further coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Normalization evidence-budget refusal route]
+\label{thm:normalization-evidence-budget-refusal-route}
+Let
+$$
+E=(A,C,K,S,P,R,J,I,F,G,D,H,T,Q,N)
+$$
+be an accepted $\NormalizationEvidenceBudgetUp$ packet. If the candidate-evidence row $C$, closed-candidate row $K$, and candidate-set row $S$ are absent from the accepted budget surface, then no closed-term strong-normalization read can pass through $J$ and no no-infinite-reduction read can pass through $I$. The refusal is a local budget refusal along the MetaCIC normalization audit map boundary of \autoref{ch:metacic-normalization-audit-map}; it does not assert evidence-free strong normalization.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-evidence-budget-carrier}. The only rows that can support a normalization read before the projections are the displayed candidate budget $C$, closed-candidate budget $K$, and candidate-set budget $S$.
+
+Apply the NameCert obligations of \autoref{thm:normalization-evidence-budget-namecert-obligations}. They place the closed-term projection $J$ and the no-infinite-reduction projection $I$ downstream of the evidence rows and route the remaining frontier, generator, compiler, transport, replay, provenance, and naming rows through the same finite budget.
+
+If $C,K,S$ are absent, the projected route has no evidence source from which $J$ or $I$ can be admitted. The audit-map boundary of \autoref{ch:metacic-normalization-audit-map} therefore records a refusal of the read, not a proof of evidence-free strong normalization.
+\end{proof}
+
+\falsifiablePrediction{A closed-term SN read through $\NormalizationEvidenceBudgetUp$ is refused when the displayed budget contains no candidate evidence, no closed-candidate evidence, and no candidate-set evidence.}
+
+\independenceWitness{metacicnormalizationfrontier, metacicnormalizationcertificaterouter, closedtermsubstitutionboundary, authorizedgeneratorrecursor, groundcompilerrecognizerflow: $\NormalizationEvidenceBudgetUp$ is not bijective to any listed sibling because it jointly carries candidate, closed-candidate, candidate-set, Pi/app adequacy, closed-term projection, no-infinite-reduction, frontier, generator, compiler-recognizer, transport, replay, provenance, and local naming rows.}
+
+The Lean TasteGate site for $\NormalizationEvidenceBudgetUp$ must provide explicit $\Nontrivial\ \NormalizationEvidenceBudgetUp$ and $\FieldFaithful\ \NormalizationEvidenceBudgetUp$ instances. These instances preserve the finite evidence-budget rows as distinguishable fields before SN and no-infinite-reduction reads are admitted.
+
+\closureat{NormalizationEvidenceBudgetUp}{seedStr}
+
+\begin{closurestatus}{\NormalizationEvidenceBudgetUp}
+  \constructivestory{A $\NormalizationEvidenceBudgetUp$ packet is generated from an audit-map anchor, candidate evidence, closed-candidate evidence, candidate-set membership, Pi and application adequacy, closed-term projection, no-infinite-reduction projection, frontier retention, authorized-generator handoff, compiler-recognizer handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:normalization-evidence-budget-carrier} and \autoref{thm:normalization-evidence-budget-namecert-obligations} seed the finite evidence-budget carrier for candidate-mediated normalization reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close evidence-free strong normalization, global closed consistency, erased subject reduction, host evaluation soundness, quotient syntax equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, evidence-budget refusal, projection exactness, frontier retention, generator and compiler handoff, TasteGate nontriviality, and field-faithfulness for BEDC.Derived.NormalizationEvidenceBudgetUp.}
+\end{closurestatus}

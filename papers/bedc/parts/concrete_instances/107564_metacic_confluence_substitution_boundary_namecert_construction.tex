@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICConfluenceSubstitutionBoundaryUp$}
+\label{ch:concrete-instances-metacic-confluence-substitution-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICConfluenceSubstitutionBoundaryUp$ packet realizes a finite conditional-boundary row from the MetaCIC confluence audit map of \autoref{ch:metacic-confluence-audit-map}. It sits beside the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the critical-pair boundary of \autoref{ch:concrete-instances-metacic-confluence-critical-pair-boundary-namecert}, the frontier critical-pair packet of \autoref{ch:concrete-instances-metacic-frontier-critical-pair-namecert}, the local diamond witness of \autoref{ch:concrete-instances-metacic-local-diamond-witness-namecert}, and the confluence audit witness of \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}. The carrier isolates the substitution-stability gate that must remain visible before any conditional parallel-diamond route is read as a closed confluence theorem.
+
+\begin{definition}[MetaCIC confluence substitution-boundary carrier]
+\label{def:metacic-confluence-substitution-boundary-carrier}
+A $\MetaCICConfluenceSubstitutionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,R,U,D,J,O,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite typed-term window containing the source term, the two one-step parallel reducts, and the candidate common reduct.
+\item $R$ is the redex-frontier row, exposing the local redex shapes consumed by the confluence audit map.
+\item $U$ is the substitution-boundary row, recording the closed substitution support, binder-depth ledger, and free-variable non-escape checks needed by the branch.
+\item $D$ is the conditional parallel-diamond handoff row. It may be consumed only after $T,R,U$ have been displayed.
+\item $J$ is the local join witness row, recording the candidate common reduct as a finite replay path rather than as a global Church--Rosser theorem.
+\item $O$ is the obstruction row naming the absent endpoints: unrestricted substitution compatibility, arbitrary subject reduction, and global closed confluence.
+\item $G$ is the $\TasteGate$ readiness row, reserving the later $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instance obligations for this finite carrier.
+\item $H$ records componentwise $\hsame$ transport for the typed-term window, redex frontier, substitution boundary, conditional-diamond handoff, local join, obstruction, TasteGate readiness, replay, provenance, and local name rows.
+\item $C$ records displayed $\Cont$ replay from a confluence-boundary query through $T,R,U,D,J,O,G,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICConfluenceSubstitutionBoundaryUp$, the confluence audit map, residual-substitution boundary rows, critical-pair rows, local-diamond rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\TasteGate$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICConfluenceSubstitutionBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It contains no coordinate for global confluence, unrestricted substitution compatibility, subject reduction, kernel consistency, evaluator equality, or hidden conversion.
+\end{definition}
+
+\begin{theorem}[MetaCIC confluence substitution-boundary obligations]
+\label{thm:metacic-confluence-substitution-boundary-obligations}
+For every accepted $\MetaCICConfluenceSubstitutionBoundaryUp$ carrier $S=(T,R,U,D,J,O,G,H,C,P,N)$, the local $\NameCert_{\MetaCICConfluenceSubstitutionBoundaryUp}$ surface consists exactly of typed-window exposure through $T$, redex-frontier exposure through $R$, substitution-boundary exposure through $U$, conditional parallel-diamond handoff through $D$, local join replay through $J$, obstruction retention through $O$, TasteGate readiness through $G$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+
+The confluence-facing route is
+$$
+T,R,U \longmapsto D,J,O \longmapsto G,H,C,P,N .
+$$
+It is conditional at $U$ and $D$: the packet records where substitution stability is available, not a closed confluence theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-substitution-boundary-carrier}. The term-facing rows are $T,R,U,D,J,O$, and the structural rows are $G,H,C,P,N$.
+
+The conditional branch begins with $T,R,U$. The typed-term window supplies the finite peak, the redex-frontier row supplies the local critical shape, and the substitution-boundary row supplies exactly the closed substitution support that must be checked before the diamond handoff is read.
+
+The rows $D,J,O$ then separate positive and negative content. The handoff and join rows record a local candidate route, while the obstruction row keeps unrestricted substitution compatibility, subject reduction, and global confluence outside the packet.
+
+Finally $G,H,C,P,N$ prepare the later TasteGate instance surface, transport the same rows, replay the same query, source it, and name it. Since no hidden conversion, evaluator equality, global confluence theorem, or kernel-consistency coordinate occurs in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence substitution-boundary non-escape]
+\label{thm:metacic-confluence-substitution-boundary-nonescape}
+Every confluence-audit consumer of an accepted $\MetaCICConfluenceSubstitutionBoundaryUp$ carrier must factor through
+$$
+T,R,U,D,J,O,G,H,C,P,N .
+$$
+If the substitution-boundary row $U$ or the conditional handoff row $D$ is absent, the packet no longer exports a confluence-boundary read. The remaining rows may still record typed terms, redex shapes, obstruction names, local join candidates, transport, replay, provenance, TasteGate readiness, and local naming, but they cannot supply global Church--Rosser, unrestricted substitution compatibility, arbitrary subject reduction, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply the obligation surface of \autoref{thm:metacic-confluence-substitution-boundary-obligations}. A confluence-audit read reaches the local join only through the typed window, redex frontier, substitution boundary, and conditional handoff.
+
+If $U$ is absent, the substitution-stability premise is not displayed. If $D$ is absent, the conditional parallel-diamond handoff is not displayed. In either case the finite packet no longer contains the route needed to treat $J$ as a confluence-boundary read.
+
+The rows $O,G,H,C,P,N$ do not repair the missing premise. They retain obstruction names, reserve the later TasteGate obligations, and preserve the visible packet, but none is a coordinate for global Church--Rosser, unrestricted substitution compatibility, subject reduction, or consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence substitution-boundary TasteGate readiness]
+\label{thm:metacic-confluence-substitution-boundary-tastegate-readiness}
+The later Lean side must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ $\TasteGate$ instances for $\MetaCICConfluenceSubstitutionBoundaryUp$ at the displayed finite carrier surface
+$$
+T,R,U,D,J,O,G,H,C,P,N .
+$$
+Those instances must certify that the packet is neither empty nor field-forgetting: every accepted carrier visibly retains the typed-term window, redex-frontier row, substitution-boundary row, conditional handoff, local join row, obstruction row, transport, replay, provenance, and local NameCert data.
+\end{theorem}
+\begin{proof}
+The readiness row $G$ is part of the carrier in \autoref{def:metacic-confluence-substitution-boundary-carrier}. It is deliberately tied to the whole tuple rather than to the obstruction row alone.
+
+Nontriviality must therefore exhibit an accepted packet with all finite rows present. FieldFaithfulness must show that deleting any of $T,R,U,D,J,O,H,C,P,N$ changes the readable carrier surface. The theorem records those Lean obligations at paper level while leaving their proofs to the later formalization namespace.
+\end{proof}
+
+\falsifiablePrediction{A $\MetaCICConfluenceSubstitutionBoundaryUp$ confluence-audit read factors through displayed typed-term windows, redex-frontier rows, substitution-boundary rows, conditional parallel-diamond handoffs, local join witnesses, obstruction rows, Nontrivial and FieldFaithful TasteGate readiness, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert data.}
+
+\independenceWitness{metacic-residual-substitution-boundary, metacic-confluence-critical-pair-boundary, metacic-frontier-critical-pair, metacic-local-diamond-witness, metacic-confluence-audit-witness: $\MetaCICConfluenceSubstitutionBoundaryUp$ is not bijective to any listed sibling because it jointly carries a typed peak, redex frontier, substitution-boundary row, conditional handoff, local join candidate, obstruction ledger, TasteGate readiness, transport, replay, provenance, and local naming as one boundary packet.}
+
+\closureat{MetaCICConfluenceSubstitutionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICConfluenceSubstitutionBoundaryUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-confluence-substitution-boundary-carrier}, \autoref{thm:metacic-confluence-substitution-boundary-obligations}, \autoref{thm:metacic-confluence-substitution-boundary-nonescape}, and \autoref{thm:metacic-confluence-substitution-boundary-tastegate-readiness} seed the finite substitution-sensitive confluence-boundary packet for MetaCIC audit consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global Church--Rosser, unrestricted substitution compatibility, arbitrary subject reduction, kernel consistency, evaluator equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-window exposure, redex-frontier exposure, substitution-boundary coverage, conditional handoff, local join replay, obstruction retention, TasteGate readiness, transport, replay, provenance, and non-escape for BEDC.Derived.MetaCICConfluenceSubstitutionBoundaryUp.}
+  \constructivestory{A $\MetaCICConfluenceSubstitutionBoundaryUp$ packet is generated from a typed-term peak window, redex-frontier rows, a substitution-boundary row, a conditional parallel-diamond handoff, a local join witness, an obstruction ledger, Nontrivial and FieldFaithful TasteGate readiness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

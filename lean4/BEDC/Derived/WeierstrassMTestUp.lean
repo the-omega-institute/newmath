@@ -456,4 +456,43 @@ theorem WeierstrassMTestCarrier_scoped_dependency_package [AskSetup] [PackageSet
     _regseqRealSealReadRow, sameSealRead, routePkg, namePkg⟩ := sealFacts
   exact ⟨cert, handoffUnary, sealReadUnary, sameSealRead, routePkg, namePkg⟩
 
+theorem WeierstrassMTestCarrier_bridge_majorant_seal [AskSetup] [PackageSetup]
+    {family majorant domination tail regseq realSeal transport route provenance name handoff
+      sealRead bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    WeierstrassMTestCarrier family majorant domination tail regseq realSeal transport route
+        provenance name bundle pkg →
+      Cont tail regseq handoff →
+        Cont regseq realSeal sealRead →
+          PkgSig bundle sealRead pkg →
+            Cont handoff sealRead bridgeRead →
+              PkgSig bundle bridgeRead pkg →
+                UnaryHistory handoff ∧ UnaryHistory sealRead ∧ UnaryHistory bridgeRead ∧
+                  Cont tail regseq handoff ∧ Cont regseq realSeal sealRead ∧
+                    Cont handoff sealRead bridgeRead ∧ hsame transport sealRead ∧
+                      PkgSig bundle route pkg ∧ PkgSig bundle name pkg ∧
+                        PkgSig bundle sealRead pkg ∧ PkgSig bundle bridgeRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg UnaryHistory
+  intro carrier tailRegseqHandoff regseqRealSealRead sealReadPkg handoffSealBridge
+    bridgeReadPkg
+  have handoffFacts :
+      UnaryHistory handoff ∧ Cont tail regseq handoff ∧ Cont regseq realSeal transport ∧
+        PkgSig bundle route pkg ∧ PkgSig bundle name pkg :=
+    WeierstrassMTestCarrier_regseqrat_handoff carrier tailRegseqHandoff
+  have sealFacts :
+      UnaryHistory regseq ∧ UnaryHistory realSeal ∧ UnaryHistory sealRead ∧
+        Cont regseq realSeal transport ∧ Cont regseq realSeal sealRead ∧
+          hsame transport sealRead ∧ PkgSig bundle route pkg ∧ PkgSig bundle name pkg :=
+    WeierstrassMTestCarrier_real_seal_factorization carrier regseqRealSealRead
+  obtain ⟨handoffUnary, handoffRoute, _carrierSealRoute, routePkgFromHandoff,
+    namePkgFromHandoff⟩ := handoffFacts
+  obtain ⟨_regseqUnary, _realSealUnary, sealReadUnary, _regseqRealSealTransport,
+    sealReadRoute, sameSealRead, _routePkgFromSeal, _namePkgFromSeal⟩ := sealFacts
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed handoffUnary sealReadUnary handoffSealBridge
+  exact
+    ⟨handoffUnary, sealReadUnary, bridgeReadUnary, handoffRoute, sealReadRoute,
+      handoffSealBridge, sameSealRead, routePkgFromHandoff, namePkgFromHandoff,
+      sealReadPkg, bridgeReadPkg⟩
+
 end BEDC.Derived.WeierstrassMTestUp

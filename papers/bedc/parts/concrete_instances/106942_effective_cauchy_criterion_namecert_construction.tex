@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\mathsf{EffectiveCauchyCriterion}^{\uparrow}$}
+\label{ch:concrete-instances-effective-cauchy-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\mathsf{EffectiveCauchyCriterion}^{\uparrow}$ packet records the displayed criterion by which a Cauchy source, an effective precision schedule, and a finite tail-window readback become one completion-facing BEDC object. It sits after the criterion surface of \autoref{ch:concrete-instances-cauchycriterion-namecert}, the modulus schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the effective modulus packet of \autoref{ch:concrete-instances-effective-cauchy-modulus-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies a finite L10 criterion/modulus handoff; it does not construct quotient streams, select a host limit, import countable choice, or assume ambient $\RealUp$ completeness.
+
+\begin{definition}[Effective Cauchy criterion carrier]
+\label{def:effective-cauchy-criterion-carrier}
+An $\mathsf{EffectiveCauchyCriterion}^{\uparrow}$ carrier is a finite $\BHist$ packet
+$$
+E=(Q,M,S,T,D,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\CauchyCriterionUp$ source row naming the finite Cauchy request and its accepted comparison surface.
+\item $M$ is the $\CauchyModulusUp$ schedule row, refined through the $\EffectiveCauchyModulusUp$ packet to a displayed precision-to-tail request.
+\item $S$ is the $\StreamNameUp$ finite source window opened by the criterion request.
+\item $T$ is the finite tail-window row selected by the effective modulus schedule for the same request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger carrying the requested radius, tail comparison, and endpoint budget.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained only after $Q,M,S,T,D$ have been displayed.
+\item $L$ is the terminal $\RealUp$ seal row available only to consumers that have already read the criterion, schedule, windows, tolerance ledger, and regular-rational readback.
+\item $H$ stores componentwise $\hsame$ transport for the criterion, modulus, windows, tolerance ledger, readback, seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from an effective Cauchy request through $Q,M,S,T,D,R,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\mathsf{EffectiveCauchyCriterion}^{\uparrow}$, $\CauchyCriterionUp$, $\CauchyModulusUp$, $\EffectiveCauchyModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\mathsf{EffectiveCauchyCriterion}^{\uparrow}}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,M,S,T,D,R,L,H,C,P,N$. It has no coordinate for quotient-stream equality, a selected limit, host sequence equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Effective Cauchy criterion NameCert obligations]
+\label{thm:effective-cauchy-criterion-namecert-obligations}
+For every accepted $\mathsf{EffectiveCauchyCriterion}^{\uparrow}$ carrier
+$$
+E=(Q,M,S,T,D,R,L,H,C,P,N),
+$$
+the local $\NameCert_{\mathsf{EffectiveCauchyCriterion}^{\uparrow}}$ surface consists exactly of carrier admission for the criterion row $Q$, effective modulus schedule $M$, source window $S$, tail window $T$, dyadic tolerance ledger $D$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $L$, componentwise transport $H$, displayed replay $C$, package provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:effective-cauchy-criterion-carrier}. The analytic rows are exactly the criterion request $Q$, the effective modulus schedule $M$, the source and tail windows $S,T$, the dyadic tolerance ledger $D$, the regular-rational readback $R$, and the terminal real seal $L$.
+
+The schedule obligation is read through $M$ and $T$. The modulus row turns a displayed precision request into a finite tail threshold, and the tail-window row records the finite observations permitted at that threshold.
+
+The readback obligation is downstream of $Q,M,S,T,D$. The regular-rational row $R$ is therefore a finite readback from the same criterion and tolerance ledger, not a quotient stream, selected limit, or ambient completeness argument.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since the carrier has no coordinate for the excluded objects, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Effective Cauchy criterion RegSeqRat handoff]
+\label{thm:effective-cauchy-criterion-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\mathsf{EffectiveCauchyCriterion}^{\uparrow}$ packet factors through
+$$
+Q,M \longmapsto S,T,D \longmapsto R \longmapsto L \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives the displayed criterion request, effective modulus schedule, finite source and tail windows, dyadic tolerance ledger, regular-rational readback, terminal real seal, and local structural rows; it receives no quotient-stream equality, selected host limit, countable choice, host sequence equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the criterion and modulus rows. The row $Q$ states the Cauchy comparison request, while $M$ supplies the effective precision-to-tail schedule consumed by that request.
+
+Next open the finite windows and tolerance ledger. The source window $S$ and tail window $T$ provide the only observations exposed to the request, and $D$ records the dyadic budget against which those observations are compared.
+
+Only after those rows are displayed does the packet expose $R$ and then $L$. The row $R$ is the $\RegSeqRatUp$ readback produced from the finite windows and tolerance ledger, and $L$ is the terminal $\RealUp$ seal available to completion-facing consumers.
+
+The structural rows $H,C,P,N$ preserve the same dependency order under transport, replay, provenance, and local naming. Thus every consumer route factors through the displayed finite handoff and cannot bypass it through any excluded host object.
+\end{proof}
+
+\closureat{EffectiveCauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{EffectiveCauchyCriterionUp}
+  \constructivestory{An $\mathsf{EffectiveCauchyCriterion}^{\uparrow}$ packet is generated from a CauchyCriterion request row, a CauchyModulus effective schedule, StreamName source and tail windows, a DyadicRatCore tolerance ledger, a RegSeqRat readback row, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:effective-cauchy-criterion-carrier}, \autoref{thm:effective-cauchy-criterion-namecert-obligations}, and \autoref{thm:effective-cauchy-criterion-regseqrat-handoff} seed the finite effective Cauchy criterion handoff for RegSeqRat and Real-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient-stream equality, selected limits, host sequence equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, effective schedule exactness, StreamName source and tail window admission, DyadicRatCore tolerance readback, RegSeqRat handoff, RealUp seal confinement, transport stability, continuation replay, and provenance non-escape for BEDC.Derived.EffectiveCauchyCriterionUp.}
+\end{closurestatus}

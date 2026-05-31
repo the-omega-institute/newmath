@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceProductStabilityUp$}
+\label{ch:concrete-instances-cauchy-sequence-product-stability-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchySequenceProductStabilityUp$ packet records the finite stability route by which two regular rational Cauchy source rows keep their product inside the Real and Completion interface. It gathers the regular product route of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, the product criterion of \autoref{ch:concrete-instances-cauchy-product-criterion-namecert}, the synchronized window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic budget rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert carrier for product stability, not host multiplication of completed reals, quotient equality of streams, selected limits, countable choice, trichotomy, or ambient completeness.
+
+\begin{definition}[Cauchy sequence product stability carrier]
+\label{def:cauchy-sequence-product-stability-carrier}
+A $\CauchySequenceProductStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,B,W_A,W_B,D,P,K,R,E,H,C,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source rows whose regular Cauchy schedules supply the two input sequences.
+\item $W_A$ and $W_B$ are synchronized $\StreamNameUp$ window rows for the same product request, precision demand, and observation index.
+\item $D$ is the $\DyadicRatCoreUp$ product-budget row, recording input tolerances, finite magnitude bounds, cross-error terms, and the output tolerance assigned to the product window.
+\item $P$ is the $\RegularCauchyProductUp$ route row, read only after $A,B,W_A,W_B,D$ have been displayed.
+\item $K$ is the $\CauchyProductCriterionUp$ acceptance row for the displayed product route.
+\item $R$ is the $\RegSeqRatUp$ readback row produced by the product route under the dyadic budget and criterion row.
+\item $E$ is the $\RealUp$ seal row, consumed only after the regular-rational product readback $R$ has been displayed.
+\item $H$ records componentwise $\hsame$ transport for $A,B,W_A,W_B,D,P,K,R,E,C,L,N$ and the local product-stability packet shape.
+\item $C$ records displayed $\Cont$ replay from the two source rows through the synchronized windows, dyadic budget, product route, criterion row, readback row, and real seal.
+\item $L$ is the $\Pkg$ provenance over $\CauchySequenceProductStabilityUp$, $\RegularCauchyProductUp$, $\CauchyProductCriterionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySequenceProductStabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,B,W_A,W_B,D,P,K,R,E,H,C,L,N$. It has no coordinate for host multiplication of completed reals, quotient stream equality, a selected product limit, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cauchy sequence product stability NameCert obligations]
+\label{thm:cauchy-sequence-product-stability-namecert-obligations}
+For an accepted $\CauchySequenceProductStabilityUp$ carrier $S=(A,B,W_A,W_B,D,P,K,R,E,H,C,L,N)$, the local $\NameCert_{\CauchySequenceProductStabilityUp}$ obligations are exactly carrier admission for the two $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ windows, dyadic product-budget exactness, the $\RegularCauchyProductUp$ route, the $\CauchyProductCriterionUp$ acceptance row, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise transport through $H$, displayed continuation replay through $C$, provenance through $L$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-sequence-product-stability-carrier}. The tuple displays the two source rows, synchronized windows, dyadic product budget, product route, criterion row, regular-rational readback, real seal, and structural rows.
+
+The source and window obligations are read from $A,B,W_A,W_B$. These rows expose the two regular schedules and align them before the product route is available.
+
+The budget and route obligations are read from $D,P,K$. The dyadic row records the finite tolerance and magnitude data, the regular product route consumes that data, and the criterion row accepts the displayed product route for downstream readback.
+
+The rows $R,E,H,C,L,N$ then provide the regular-rational boundary, real-seal boundary, transport, replay, provenance, and local name. Since no other coordinate occurs in the carrier, the listed rows exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Cauchy sequence product budget stability]
+\label{thm:cauchy-sequence-product-stability-budget-stability}
+Let $S=(A,B,W_A,W_B,D,P,K,R,E,H,C,L,N)$ be an accepted $\CauchySequenceProductStabilityUp$ carrier. Replacing the two source rows, synchronized window rows, dyadic product budget, product route, criterion row, readback row, and real seal by displayed componentwise $\hsame$ rows, and replaying the replacement through $C$, preserves the admissible product-stability route
+$$
+A,B\longmapsto W_A,W_B\longmapsto D\longmapsto P\longmapsto K\longmapsto R\longmapsto E .
+$$
+Thus every Real and Completion consumer of the product reads the same finite stability packet and cannot introduce host multiplication, quotient stream equality, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only route from the two source sequences to the terminal real seal is the displayed chain through the synchronized windows, dyadic budget, regular product route, criterion row, regular-rational readback, and real seal.
+
+The replacement hypothesis is internal to the structural rows. The row $H$ gives componentwise $\hsame$ transport for every displayed product-stability coordinate, and $C$ replays the continuation through the transported coordinates in the same order.
+
+Therefore the transported packet still reaches $D$, then $P$, then $K$, then $R$, then $E$. The provenance row $L$ and local name $N$ preserve the same finite packet and do not add a second product operation.
+
+Since the carrier has no coordinate for host multiplication, quotient streams, selected limits, choice, trichotomy, or ambient completeness, the budget-stable route is exactly the displayed BEDC product-stability route.
+\end{proof}
+
+\closureat{CauchySequenceProductStabilityUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequenceProductStabilityUp}
+  \constructivestory{A $\CauchySequenceProductStabilityUp$ packet is generated from two RegSeqRat source rows, synchronized StreamName windows, a DyadicRatCore product budget, a RegularCauchyProduct route, a CauchyProductCriterion acceptance row, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequence-product-stability-carrier}, \autoref{thm:cauchy-sequence-product-stability-namecert-obligations}, and \autoref{thm:cauchy-sequence-product-stability-budget-stability} seed the finite product-stability packet for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host multiplication of completed reals, quotient stream equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, synchronized-window admission, dyadic product-budget exactness, RegularCauchyProduct routing, CauchyProductCriterion acceptance, RegSeqRat readback, Real seal handoff, transport stability, continuation replay, and provenance non-escape for BEDC.Derived.CauchySequenceProductStabilityUp.}
+\end{closurestatus}

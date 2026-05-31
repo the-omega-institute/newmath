@@ -1,0 +1,148 @@
+\chapter{A Concrete Naming Certificate for $\RealDecimalNormalFormUp$}
+\label{ch:concrete-instances-real-decimal-normal-form-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real approximants and the
+classical decimal expansion normalization convention, the
+$\RealDecimalNormalFormUp$ packet records the finite readback surface by which
+a displayed $\RealUp$ name is presented through decimal prefixes. It sits
+after the decimal-prefix route of
+\autoref{ch:concrete-instances-decimalexpansion-namecert}, the integer
+bracket route of
+\autoref{ch:concrete-instances-archimedean-integer-part-namecert}, the
+rational naming surface of \autoref{ch:concrete-instances-rat-namecert}, the
+dyadic tolerance surface of
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational
+handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the
+terminal seal discipline of \autoref{ch:concrete-instances-real-namecert}.
+The packet names a canonical decimal readback route only; it does not choose
+a quotient representative, compare host real streams, or import ambient
+real completeness.
+
+\begin{definition}[RealDecimalNormalForm carrier]
+\label{def:real-decimal-normal-form-carrier}
+A $\RealDecimalNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,I,Q,Y,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DecimalExpansionUp$ prefix ledger, including finite digit
+  rows and decimal-place windows.
+\item $I$ is the $\ArchimedeanIntegerPartUp$ bracket row that fixes the
+  integer-part surface used by the decimal readback.
+\item $Q$ is the $\RatUp$ place-value row that evaluates each inspected
+  decimal prefix as a rational expression.
+\item $Y$ is the $\DyadicRatCoreUp$ tolerance row attached to the same
+  prefix and bracket data.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained after the decimal,
+  bracket, rational, and dyadic rows are displayed.
+\item $E$ is the terminal $\RealUp$ seal row whose name is read only after
+  $D,I,Q,Y,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for decimal-prefix,
+  integer-part, rational, dyadic, regular-rational, and real-seal rows.
+\item $C$ records displayed $\Cont$ replay for the route from decimal prefix
+  windows through integer brackets, place values, tolerances, regular
+  readback, and the terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\RealDecimalNormalFormUp$,
+  $\DecimalExpansionUp$, $\ArchimedeanIntegerPartUp$, $\RatUp$,
+  $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$,
+  $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealDecimalNormalFormUp}$ row.
+\end{enumerate}
+The classifier for the packet compares accepted decimal normal-form reads
+only through $D,I,Q,Y,R,E,H,C,P,N$. It has no coordinate for quotient stream
+equality, selected representatives, trichotomy over arbitrary real names,
+host decimal reals, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[RealDecimalNormalForm NameCert obligations]
+\label{thm:real-decimal-normal-form-namecert-obligations}
+For every accepted $\RealDecimalNormalFormUp$ carrier
+$$
+M=(D,I,Q,Y,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealDecimalNormalFormUp}$ surface consists exactly of
+five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed decimal-prefix, integer-bracket,
+  rational place-value, dyadic tolerance, regular-rational handoff, real-seal,
+  transport, replay, provenance, and local naming rows;
+\item digit legality and place-value exactness, requiring every accepted
+  digit row in $D$ to be a decimal digit and every inspected prefix to be
+  evaluated through the rational row $Q$;
+\item endpoint normalization, requiring the ledger to exclude the
+  eventual-nine route before a decimal read is treated as normal-form data;
+\item $\RegSeqRatUp$ handoff, requiring $R$ to be reached only after the
+  decimal, integer-bracket, rational, and dyadic rows have been displayed;
+\item $\RealUp$ seal nonescape, requiring every real-facing consumer to read
+  $E$ through the same $D,I,Q,Y,R,H,C,P,N$ route.
+\end{enumerate}
+No obligation is discharged by quotienting streams, selecting endpoint
+representatives, deciding trichotomy for all real names, or using ambient
+real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-decimal-normal-form-carrier}. The
+displayed rows $D,I,Q,Y,R,E,H,C,P,N$ are the whole packet, so carrier
+admission is rowwise.
+
+Digit legality and place-value exactness are read from $D$ and $Q$. The
+decimal-prefix ledger supplies only finite digit rows and windows, while the
+rational row $Q$ evaluates those windows before any dyadic or real-facing
+consumer can inspect them.
+
+Endpoint normalization is local to the same finite ledger. The non-eventual-nine
+condition is recorded before the regular-rational handoff, so the packet
+does not identify two host decimal streams or select an endpoint
+representative.
+
+The handoff and seal clauses follow the order of the remaining coordinates.
+The dyadic row $Y$ is attached to the same prefix and bracket data, the
+regular-rational row $R$ is downstream of $D,I,Q,Y$, and the terminal real
+seal $E$ is downstream of $R$ with $H,C,P,N$ preserving the route.
+\end{proof}
+
+\begin{theorem}[RealDecimalNormalForm Real readback]
+\label{thm:real-decimal-normal-form-real-readback}
+Every $\RealUp$ read of an accepted $\RealDecimalNormalFormUp$ packet factors
+through the finite route
+$$
+\DecimalExpansionUp,\ \ArchimedeanIntegerPartUp,\ \RatUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+Concretely, the consumer first reads decimal prefix rows, then the
+integer-part bracket rows, then the rational place-value rows, then dyadic
+tolerance rows, then the regular-rational handoff, and only then the terminal
+$\RealUp$ seal. The packet supplies no quotient stream equality, selected
+representative, trichotomy row, host decimal real, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $M=(D,I,Q,Y,R,E,H,C,P,N)$. The decimal rows
+$D$ are already finite prefix rows, and $I$ supplies the integer bracket that
+fixes the readback surface before place-value evaluation is exposed.
+
+Now read the arithmetic rows. The rational row $Q$ evaluates the inspected
+prefixes, and the dyadic row $Y$ translates the same values into the
+tolerance discipline used by regular-rational and real consumers.
+
+Apply the $\RegSeqRatUp$ handoff row $R$. It is listed only after the decimal,
+integer-bracket, rational, and dyadic rows, so no consumer can reach the
+regular-rational readback without displaying that route.
+
+Finally read the terminal seal $E$ and the structural rows $H,C,P,N$. These
+rows transport, replay, source, and name the same finite route, and none of
+them is a quotient equality, selected representative, trichotomy decision,
+host decimal real, or completeness object.
+\end{proof}
+
+\closureat{RealDecimalNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\RealDecimalNormalFormUp}
+  \constructivestory{A $\RealDecimalNormalFormUp$ packet is generated from DecimalExpansion prefix rows, ArchimedeanIntegerPart bracket rows, Rat place-value rows, DyadicRatCore tolerance rows, a RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-decimal-normal-form-carrier}, \autoref{thm:real-decimal-normal-form-namecert-obligations}, and \autoref{thm:real-decimal-normal-form-real-readback} seed the finite canonical decimal readback route from DecimalExpansion and ArchimedeanIntegerPart data through Rat, DyadicRatCore, RegSeqRat, and RealUp seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close uniqueness of all decimal expansions, quotient stream equality, selected representatives, trichotomy over arbitrary real names, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, digit legality, place-value exactness, endpoint-normalization ledger exhaustion, RegSeqRat handoff, and RealUp seal nonescape for BEDC.Derived.RealDecimalNormalFormUp.}
+\end{closurestatus}

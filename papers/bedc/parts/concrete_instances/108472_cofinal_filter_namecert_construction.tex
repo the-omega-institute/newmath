@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\CofinalFilterUp$}
+\label{ch:concrete-instances-cofinal-filter-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on cofinal filters, the $\CofinalFilterUp$ packet records the finite corridor by which a downstream filter or completion consumer reads a target filter through a displayed cofinal source route. It sits between the finite base surface of \autoref{ch:concrete-instances-filterbase-namecert}, the Cauchy-filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the refinement corridor of \autoref{ch:concrete-instances-filter-refinement-namecert}, the uniform-completion consumer of \autoref{ch:concrete-instances-uniformcompletion-namecert}, and the metric-completion consumer of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet records cofinal comparison data without quotient filters, selected representatives, selected limits, ultrafilters, countable choice, Zorn arguments, or ambient completeness.
+
+\begin{definition}[CofinalFilter carrier]
+\label{def:cofinal-filter-carrier}
+A $\CofinalFilterUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,T,\rho,\lambda,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\FilterBaseUp$ row whose displayed packets answer the downstream request after cofinal replacement.
+\item $T$ is the target $\FilterBaseUp$ row named by the consumer before the cofinal route is read.
+\item $\rho$ is the cofinal map row, sending every displayed target request to a source packet contained in that target request.
+\item $\lambda$ is the reverse ledger when route equivalence is needed. It records the finite reverse containment and common-refinement reads, and it is absent when only one-way cofinal consumption is claimed.
+\item $Q$ is the completion handoff row consumed by $\CauchyFilterUp$, $\UniformCompletionUp$, and $\MetricCompletionUp$ readers after the cofinal comparison rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $S,T,\rho,\lambda,Q,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a target request through $\rho$, through the source base packet, through $\lambda$ when present, and then through the completion handoff.
+\item $P$ is the $\Pkg$ provenance over $\CofinalFilterUp$, $\FilterBaseUp$, $\CauchyFilterUp$, $\FilterRefinementUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofinalFilterUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filter equality, ultrafilter extension, selected representatives, selected limits, countable choice, Zorn arguments, host filter equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[CofinalFilter NameCert obligations]
+\label{thm:cofinal-filter-namecert-obligations}
+For every accepted $\CofinalFilterUp$ carrier $F=(S,T,\rho,\lambda,Q,H,C,P,N)$, the local $\NameCert_{\CofinalFilterUp}$ surface consists exactly of carrier admission for the source and target $\FilterBaseUp$ rows, the cofinal map row, the reverse ledger when equivalence is requested, the completion handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every accepted consumer request must expose $T,\rho,S$ and the relevant ledger rows before $Q$ is available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-filter-carrier}. The rows $S$ and $T$ display the source and target filter bases, while $\rho$ is the only row that moves a target request to a source packet.
+
+The ledger row $\lambda$ is conditional on equivalence use. When the consumer asks only for one-way cofinal replacement it is not read; when equivalence is claimed it supplies exactly the reverse containment and common-refinement entries needed for that claim.
+
+The completion handoff row $Q$ is downstream of this comparison. Transport through $H$ and replay through $C$ preserve the same finite order, and $P,N$ source and name the route. Since the excluded quotient, ultrafilter, selector, choice, Zorn, host-equality, and completeness objects are absent from the carrier, no further NameCert obligation is available.
+\end{proof}
+
+\begin{theorem}[CofinalFilter completion handoff]
+\label{thm:cofinal-filter-completion-handoff}
+Every $\CauchyFilterUp$, $\UniformCompletionUp$, or $\MetricCompletionUp$ consumer of an accepted $\CofinalFilterUp$ packet reads completion-facing data only through
+$$
+T \longmapsto \rho \longmapsto S \longmapsto \lambda,Q,H,C,P,N .
+$$
+Thus the completion corridor factors through the displayed cofinal-filter rows and the sibling $\FilterRefinementUp$ discipline before any completion request is answered. It exports no quotient filter, selected representative, selected limit, ultrafilter, countable-choice schedule, Zorn argument, host filter equality, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing request. The consumer names a target filter base row $T$, so the carrier forces the request through the cofinal map row $\rho$ before any source packet can be read.
+
+Apply \autoref{thm:cofinal-filter-namecert-obligations}. The source row $S$ supplies the displayed packet answering the target request, while $\lambda$ is read only when the consumer needs the reverse comparison ledger required by the refinement discipline.
+
+The handoff row $Q$ is therefore reached after the finite cofinal comparison. Componentwise transport, continuation replay, provenance, and local naming preserve that same route for $\CauchyFilterUp$, $\UniformCompletionUp$, and $\MetricCompletionUp$ consumers. No excluded quotient, selector, choice, Zorn, host-equality, or completeness coordinate is exported.
+\end{proof}
+
+\falsifiablePrediction{If a completion-facing read cites $\CofinalFilterUp$ while bypassing the displayed target row, cofinal map, source row, required reverse ledger, completion handoff, hsame transport, Cont replay, Pkg provenance, or local NameCert row, it is not an accepted $\CofinalFilterUp$ packet.}
+
+\independenceWitness{Nearest siblings: filterbase, cauchyfilter, filter-refinement, uniformcompletion, metriccompletion; $\CofinalFilterUp$ is not bijective to any listed sibling because it jointly records a target base, source base, cofinal map, optional reverse ledger, completion handoff, transport, continuation, provenance, and local naming in one finite corridor.}
+
+\closureat{CofinalFilterUp}{seedStr}
+
+\begin{closurestatus}{\CofinalFilterUp}
+  \constructivestory{A $\CofinalFilterUp$ packet is generated from source and target FilterBase rows, a cofinal map, a reverse ledger when equivalence is requested, a completion handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-filter-carrier}, \autoref{thm:cofinal-filter-namecert-obligations}, and \autoref{thm:cofinal-filter-completion-handoff} seed the finite cofinal-filter corridor between filter bases, filter refinement, CauchyFilter, UniformCompletion, and MetricCompletion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filter equality, selected representatives, selected limits, ultrafilters, countable choice, Zorn arguments, host filter equality, Lean verification, bridge checking, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal map exactness, reverse-ledger compatibility, completion handoff non-escape, transport stability, replay stability, and ledger-refusal proofs for BEDC.Derived.CofinalFilterUp.}
+\end{closurestatus}

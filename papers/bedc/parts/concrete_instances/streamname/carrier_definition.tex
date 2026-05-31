@@ -66,6 +66,47 @@ $\mathsf{RatStreamNameCarrier}(s')$.
 \end{proof}
 \leanchecked{BEDC.Derived.StreamNameUp.RatStreamNameCarrier\_pointwise\_hsame\_transport}
 
+\begin{definition}[StreamName pointwise reindexing packet]
+\label{def:streamname-pointwise-reindexing}
+For certified observation maps $s,t:\Hist\to\Hist$, a $\mathsf{StreamNamePointwiseReindexing}(s,t)$ packet is a finite display
+$$
+(\rho,U,H,C,P)
+$$
+where $\rho:\Hist\to\Hist$ is a certified unary-history reindexing map, $U$ sends each $\mathsf{UnaryHistory}(n)$ row to a displayed $\mathsf{UnaryHistory}(\rho(n))$ row, $H$ records pointwise $\hsame$ transport for the endpoint histories $s(\rho(n))$ and $t(\rho(n))$, $C$ records the displayed $\Cont$ replay of finite observation requests along $\rho$, and $P$ is the $\Pkg$ provenance over $\mathsf{BHist}$, $\mathsf{UnaryHistory}$, $\mathsf{RatStreamNameCarrier}$, $\mathsf{RatStreamNameClassifier}$, $\mathsf{ProbeBundle}$, $\hsame$, and $\Cont$. The packet has no coordinate for host sequence equality, quotient stream equality, selected limits, or ambient completion data.
+\end{definition}
+
+\begin{theorem}[StreamName finite-window pullback stability]
+\label{thm:streamname-finite-window-pullback-stability}
+Let $s,t:\Hist\to\Hist$ be certified observation maps, let $\mathcal{P}:\mathsf{ProbeBundle}$ be a finite probe bundle, and let $(\rho,U,H,C,P)$ be a $\mathsf{StreamNamePointwiseReindexing}(s,t)$ packet. If $\mathsf{RatStreamNameFiniteWindowClassifier}(s,t,\mathcal{P})$ holds and $\mathcal{P}^{\rho}$ is the displayed pullback bundle whose certified observations are exactly the $n$ with $\rho(n)$ displayed in $\mathcal{P}$, then $\mathsf{RatStreamNameFiniteWindowClassifier}(s\circ\rho,t\circ\rho,\mathcal{P}^{\rho})$ holds.
+
+For each pulled-back observation, the endpoint $\RatUp$ classifier row is the same pointwise row read at $\rho(n)$ through $U,H,C,P$. The pullback introduces no new endpoint classifier, quotient stream equality, RegSeqRat seal, Real seal, host sequence equality, selected limit, or ambient completion coordinate.
+\end{theorem}
+\begin{proof}
+Unfold the finite-window classifier for $\mathcal{P}^{\rho}$. Fix a certified unary observation $n$ in the pulled-back bundle, together with its $\mathsf{UnaryHistory}(n)$ witness and its displayed membership row.
+
+Use the reindexing packet. The row $U$ sends the unary witness at $n$ to a unary witness at $\rho(n)$, and the pullback membership row says that this reindexed observation lies in the original bundle $\mathcal{P}$.
+
+Read the original finite-window classifier at $\rho(n)$. It returns the pointwise $\RatHistoryClassifier(s(\rho(n)),t(\rho(n)))$ row for the two endpoint rational histories.
+
+Finally replay the endpoint row through $H$ and $C$. These rows are componentwise $\hsame$ and displayed continuation data for the same rational histories, so the pointwise classifier repacks as the endpoint row of $\mathsf{RatStreamNameFiniteWindowClassifier}(s\circ\rho,t\circ\rho,\mathcal{P}^{\rho})$. Since the packet contains only $U,H,C,P$ over the listed BEDC rows, none of the refused objects can enter the pullback.
+\end{proof}
+
+\begin{theorem}[StreamName constant section transport]
+\label{thm:streamname-constant-section-transport}
+Let $q:\Hist$ be a certified $\RatUp$ history row, and let $s_q:\Hist\to\Hist$ be the constant certified stream with $s_q(n)=q$ at every displayed unary observation. For every $\mathsf{StreamNamePointwiseReindexing}(s_q,s_q)$ packet $(\rho,U,H,C,P)$ and every finite probe bundle $\mathcal{P}$, the pulled-back constant section over $\mathcal{P}^{\rho}$ is again certified by the same constant $\mathsf{RatStreamNameCarrier}$ and the same pointwise $\RatHistoryClassifier(q,q)$ rows.
+
+Thus constant certified streams are stable under displayed pointwise pullback. The transport reads only $\mathsf{UnaryHistory}$, $\mathsf{BHist}$, $\mathsf{RatStreamNameCarrier}$, $\mathsf{RatStreamNameClassifier}$, $\mathsf{ProbeBundle}$, $\hsame$, $\Cont$, and $\Pkg$ rows, and it introduces no selected limit, quotient stream equality, host sequence equality, RegSeqRat seal, Real seal, or ambient completion datum.
+\end{theorem}
+\begin{proof}
+Project the constant stream carrier. At every displayed unary observation, both endpoints of the classifier are the same rational history row $q$.
+
+Apply \autoref{thm:streamname-finite-window-pullback-stability} to the constant pair $s_q,s_q$. The pulled-back bundle $\mathcal{P}^{\rho}$ reads each observation by first applying $\rho$ and then reading the same constant endpoint row.
+
+The pointwise classifier is unchanged. Since $s_q(\rho(n))=q$ and $s_q(n)=q$ at each displayed observation, the endpoint row after pullback is still $\mathsf{RatHistoryClassifier}(q,q)$, transported only by the supplied $\hsame$ and $\Cont$ rows.
+
+The package provenance $P$ names no further stream or completion coordinate. Hence the pulled-back section is the same constant certified stream on the pulled-back finite window.
+\end{proof}
+
 Ten-field fit: traditional target rational stream-name carrier transport; BEDC
 source RatUp plus StreamNameUp over $\mathsf{BHist}$; carrier
 $\mathsf{RatStreamNameCarrier}$; classifier untouched; stability pointwise

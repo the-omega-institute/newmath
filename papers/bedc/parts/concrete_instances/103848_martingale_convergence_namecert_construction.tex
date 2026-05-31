@@ -34,6 +34,7 @@ with the following displayed rows:
 \end{enumerate}
 The local classifier compares accepted carriers only through these displayed rows. In particular, it has no coordinate for almost-sure quotient equality, completed sigma-algebras, Brownian paths, unbounded stopping-time choice, or a bridge theorem.
 \end{definition}
+\leanchecked{BEDC.Derived.MartingaleConvergenceUp.MartingaleConvergenceTasteGate\_single\_carrier\_alignment}
 
 \section{Certificate Obligations}
 \label{sec:martingale-convergence-obligations}
@@ -58,6 +59,29 @@ The crossing-facing rows are $U,D$. They consume the finite crossing-count ledge
 The remaining rows $S,R,L,A,H,K,P,N$ record finite prefix scheduling, rational approximation, boundary endpoints, admission, transport, replay, provenance, and naming. Since the carrier contains no quotient-equality, measure-completion, Brownian-path, unbounded-choice, or bridge coordinate, those objects are outside the local certificate surface.
 \end{proof}
 
+\begin{definition}[Martingale convergence bounded real window]
+\label{def:martingale-convergence-bounded-real-window}
+For an accepted $\MartingaleConvergenceUp$ carrier
+$$
+C=(\Omega,X,E,M,T,O,U,D,S,R,L,A,H,K,P,N),
+$$
+the bounded real window is the finite endpoint packet displayed by $L,S,R$: the row $L$ names the lower and upper $\RealUp$ boundary endpoints, the row $S$ names the finite prefix windows in which those endpoints are inspected, and the row $R$ names the regular rational readbacks used to compare the endpoints with the martingale values. The window is bounded only when the same $L,S,R$ rows are consumed before the upcrossing rows $U,D$ and before the convergence-admission row $A$.
+\end{definition}
+
+\begin{theorem}[Martingale convergence upcrossing window lock]
+\label{thm:martingale-convergence-upcrossing-window-lock}
+Every convergence-admission read of $A$ in an accepted $\MartingaleConvergenceUp$ carrier first passes through the upcrossing rows $U,D$ together with the bounded real window of \autoref{def:martingale-convergence-bounded-real-window}, the bounded optional-stopping rows $T,O$, the $\StreamNameUp$ schedule row $S$, and the $\RegSeqRatUp$ readback row $R$. The lock supplies a finite convergence-preparation boundary over bounded endpoints and bounded stopping windows; it supplies no almost-sure quotient equality, no unbounded stopping theorem, no measure completion, and no ambient convergence theorem.
+\end{theorem}
+\begin{proof}
+Open the carrier of \autoref{def:martingale-convergence-carrier}. The row $A$ is the convergence-admission ledger, and its available inputs are exactly the displayed probability, endpoint, martingale, stopping, upcrossing, schedule, readback, boundary, transport, replay, provenance, and naming rows of the same packet.
+
+Apply the NameCert obligation theorem, \autoref{thm:martingale-convergence-namecert-obligations}. It identifies bounded stopped-window exposure through $T,O$, finite upcrossing and Doob-bound exposure through $U,D$, schedule and rational-approximation exposure through $S,R,L$, and convergence-admission exactness through $A$.
+
+The bounded real window is therefore not an external endpoint object. It is the same $L,S,R$ packet that the upcrossing and Doob rows consume before $A$ can admit a convergence-facing read.
+
+Finally, the carrier contains no coordinate for almost-sure quotient equality, completed measure spaces, unbounded stopping-time choice, or ambient convergence. Hence the admission row can only lock the finite bounded-window route through $T,O,U,D,L,S,R,H,K,P,N$.
+\end{proof}
+
 \begin{theorem}[Martingale convergence upcrossing route]
 \label{thm:martingale-convergence-upcrossing-route}
 Every accepted $\MartingaleConvergenceUp$ carrier consumes upcrossing information only through the displayed finite handoff from $\UpcrossingUp$ and $\DoobUpcrossingUp$: lower and upper $\RealUp$ boundary rows, finite martingale endpoint rows, lower and upper decision ledgers, bounded $\OptionalStoppingUp$ stopped-window rows, crossing-count ledger, and the Doob-bound row. No convergence consumer may replace that handoff by an ambient limiting event, almost-sure quotient, or unbounded stopping theorem.
@@ -70,11 +94,25 @@ The boundary rows and endpoint reads are displayed in $L$ and $X$, while the bou
 Thus a downstream consumer receives exactly the finite upcrossing handoff rows carried by $U,D,L,X,T,O,H,K,P,N$. The carrier has no coordinate from which an ambient limiting event, almost-sure quotient, or unbounded stopping theorem could be read.
 \end{proof}
 
+\begin{theorem}[Martingale convergence finite Cauchy admission]
+\label{thm:martingale-convergence-finite-cauchy-admission}
+For an accepted $\MartingaleConvergenceUp$ carrier, the convergence-admission row $A$ may export a finite Cauchy-preparation ledger only after the bounded endpoint rows $L$, $\StreamNameUp$ schedule $S$, $\RegSeqRatUp$ readback $R$, $\UpcrossingUp$ row $U$, and $\DoobUpcrossingUp$ row $D$ have all been displayed. The exported ledger is a finite bounded-window admission route over the same martingale, stopping, optional-stopping, upcrossing, schedule, rational-readback, and Real-boundary rows; it does not claim almost-sure convergence, measure completion, unbounded stopping-time choice, Brownian convergence, or an ambient convergence theorem.
+\end{theorem}
+\begin{proof}
+Open the carrier of \autoref{def:martingale-convergence-carrier}. The row $A$ is the only convergence-admission ledger, and its available endpoint and approximation inputs are the displayed $L,S,R$ rows of the same packet.
+
+Apply \autoref{thm:martingale-convergence-namecert-obligations}. It identifies finite upcrossing and Doob-bound exposure through $U,D$, schedule and rational-approximation exposure through $S,R,L$, and convergence-admission exactness through $A$.
+
+Use the bounded real window of \autoref{def:martingale-convergence-bounded-real-window} and the lock theorem \autoref{thm:martingale-convergence-upcrossing-window-lock}. They force any admission read to pass through bounded endpoint rows, finite prefix scheduling, rational readback, and bounded upcrossing control before $A$ is consumed.
+
+Finally apply \autoref{thm:martingale-convergence-upcrossing-route}. The upcrossing input to the admission ledger is exactly the displayed $\UpcrossingUp$ and $\DoobUpcrossingUp$ handoff, so the exported Cauchy-preparation ledger remains finite and cannot add almost-sure convergence, measure completion, unbounded stopping-time choice, Brownian convergence, or an ambient convergence theorem.
+\end{proof}
+
 \closureat{MartingaleConvergenceUp}{seedStr}
 
 \begin{closurestatus}{\MartingaleConvergenceUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:martingale-convergence-carrier}, \autoref{thm:martingale-convergence-namecert-obligations}, and \autoref{thm:martingale-convergence-upcrossing-route} seed the finite convergence-preparation packet over martingale windows, bounded stopping, upcrossing ledgers, Doob bounds, finite prefix schedules, rational approximation rows, and Real boundary endpoints.}
+  \scopeclosed{\autoref{def:martingale-convergence-carrier}, \autoref{thm:martingale-convergence-namecert-obligations}, \autoref{def:martingale-convergence-bounded-real-window}, \autoref{thm:martingale-convergence-upcrossing-window-lock}, and \autoref{thm:martingale-convergence-upcrossing-route} seed the finite convergence-preparation packet over martingale windows, bounded stopping, upcrossing ledgers, Doob bounds, finite prefix schedules, rational approximation rows, and Real boundary endpoints.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close almost-sure quotient equality, measure completion, unbounded choice of stopping times, Brownian convergence, Lean verification, or bridge checking.}

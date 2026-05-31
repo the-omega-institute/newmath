@@ -29,6 +29,7 @@ $$
 \end{enumerate}
 The classifier compares accepted packets only through $X,Y,K_X,K_Y,R,D,H,Q,U,T,C,P,N$. It has no coordinate for quotient compacta, selected optimal correspondences, open-cover compactness, host metric-space equality, ambient $\RealUp$ completeness, or semantic isometry of completed spaces.
 \end{definition}
+\leanchecked{BEDC.Derived.GromovHausdorffUp.GromovHausdorffTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[GromovHausdorffUp NameCert obligations]
 \label{thm:gromov-hausdorff-namecert-obligations}
@@ -48,6 +49,7 @@ the local $\NameCert_{\GromovHausdorffUp}$ surface consists exactly of the follo
 \end{enumerate}
 No Gromov--Hausdorff obligation is stored outside these rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.GromovHausdorffUp.GromovHausdorffCarrier\_namecert\_obligations}
 \begin{proof}
 Project the accepted carrier of \autoref{def:gromov-hausdorff-carrier}. The endpoint rows $X,Y$ and compact-metric support rows $K_X,K_Y$ are the only compact metric surfaces that a consumer may inspect.
 
@@ -76,13 +78,48 @@ The bridge rows then determine the available external views. A Hausdorff or hype
 The structural rows $U,T,C,P,N$ preserve the route under componentwise transport, replay it, source it, and name it. Because no further coordinate is present, the consumer boundary is exactly the displayed finite comparison surface and nothing beyond it.
 \end{proof}
 
+\begin{theorem}[Gromov-Hausdorff pointed basepoint forgetful route]
+\label{thm:gromov-hausdorff-pointed-basepoint-forgetful-route}
+Let a $\PointedCompleteMetricSpaceUp$ packet feed a
+$\GromovHausdorffUp$ endpoint. The endpoint may be consumed only through the
+forgotten-basepoint rows
+$$
+\MetricUp,\quad \CompleteMetricUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+The $\GromovHausdorffUp$ correspondence cannot inspect, preserve, or compare
+the basepoint row unless a separate pointed Gromov-Hausdorff carrier supplies
+an explicit pointed endpoint row.
+\end{theorem}
+\begin{proof}
+Project the $\GromovHausdorffUp$ carrier of
+\autoref{def:gromov-hausdorff-carrier}. Its endpoint coordinates are
+$X,Y,K_X,K_Y$, and its comparison coordinates are $R,D,H,Q,U,T,C,P,N$.
+
+Use \autoref{thm:gromov-hausdorff-correspondence-bridge}. Any
+metric-comparison consumer first reads the ordinary metric and compact-metric
+endpoint rows, then the correspondence and distortion rows, and finally the
+Hausdorff, hyperspace, Kuratowski, transport, replay, provenance, and naming
+rows.
+
+A $\PointedCompleteMetricSpaceUp$ source may provide such an endpoint only by
+forgetting its basepoint row and exposing the metric, complete-metric,
+regular-rational, and real-seal rows. The basepoint route belongs to
+\autoref{ch:concrete-instances-pointed-complete-metric-space-namecert}, not to
+the ordinary Gromov-Hausdorff carrier.
+
+Since no basepoint coordinate appears among $X,Y,K_X,K_Y,R,D,H,Q,U,T,C,P,N$,
+the correspondence cannot preserve or compare it. A pointed comparison
+therefore requires a separate pointed endpoint row.
+\end{proof}
+
 \closureat{GromovHausdorffUp}{seedStr}
 
 \begin{closurestatus}{\GromovHausdorffUp}
   \constructivestory{A $\GromovHausdorffUp$ packet is generated from two compact-metric endpoints, finite correspondence rows, dyadic distortion bounds, HausdorffMetricUp and HyperspaceUp comparison rows, a KuratowskiEmbeddingUp observation handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:gromov-hausdorff-carrier}, \autoref{thm:gromov-hausdorff-namecert-obligations}, and \autoref{thm:gromov-hausdorff-correspondence-bridge} seed the finite correspondence interface for compact-metric comparison without importing quotient, selected-correspondence, open-cover, host-equality, or ambient-completeness principles.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.GromovHausdorffUp.GromovHausdorffCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient compacta, selected correspondences, open-cover compactness, host metric-space equality, ambient RealUp completeness, Lean verification, or a standard bridge.}
   \upgradepath{Obligation closure requires checked endpoint admission, correspondence admission, dyadic distortion exactness, compact-subset comparison compatibility, Kuratowski observation compatibility, classifier transport, and provenance/name exhaustion for BEDC.Derived.GromovHausdorffUp.}

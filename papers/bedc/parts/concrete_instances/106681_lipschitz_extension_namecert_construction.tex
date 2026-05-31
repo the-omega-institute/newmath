@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\LipschitzExtensionUp$}
+\label{ch:concrete-instances-lipschitz-extension-namecert}
+\origin{human}
+
+Following McShane, Whitney, and Bishop--Bridges constructive metric analysis, the $\LipschitzExtensionUp$ packet records the reusable finite certificate by which a displayed Lipschitz map on a displayed subcarrier is read as an extension candidate on an ambient metric carrier. It sits above the map-level surface of \autoref{ch:concrete-instances-lipschitzmap-namecert}, the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the continuity handoff of \autoref{ch:concrete-instances-continuousmap-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the formula-specific McShane--Whitney certificate of \autoref{ch:concrete-instances-mcshane-extension-namecert}. The chapter isolates the extension interface itself: source inclusion, bound ledger, candidate graph, restriction agreement, continuity handoff, transport, replay, provenance, and local naming.
+
+\begin{definition}[Lipschitz extension carrier]
+\label{def:lipschitz-extension-carrier}
+A $\LipschitzExtensionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(X,A,L,B,F,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the ambient $\MetricUp$ row naming the source metric observations available to the extension request.
+\item $A$ is the displayed subcarrier row, including membership evidence and inclusion routes into $X$.
+\item $L$ is the source $\LipschitzMapUp$ row on $A$, carrying the finite graph window and displayed Lipschitz constant.
+\item $B$ is the $\RegSeqRatUp$ bound row that records the rational tolerance and constant reads used by the extension certificate.
+\item $F$ is the candidate extension graph row, exposed only as finite ambient graph observations.
+\item $R$ is the restriction-agreement row, requiring each candidate read over an admitted source point to replay the source $\LipschitzMapUp$ read through $A,L,B$.
+\item $Q$ is the $\ContinuousMapUp$ handoff row for the candidate extension on the displayed ambient window.
+\item $H$ records componentwise $\hsame$ transport for the metric, subcarrier, source map, bound, candidate graph, restriction, continuity handoff, provenance, and local name rows.
+\item $C$ records displayed $\Cont$ replay from an ambient extension request through $X,A,L,B,F,R,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LipschitzExtensionUp$, $\LipschitzMapUp$, $\MetricUp$, $\ContinuousMapUp$, $\RegSeqRatUp$, $\RealUp$, $\McShaneExtensionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LipschitzExtensionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for host function equality, quotient function spaces, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Lipschitz extension NameCert obligations]
+\label{thm:lipschitz-extension-namecert-obligations}
+For every accepted $\LipschitzExtensionUp$ carrier $E=(X,A,L,B,F,R,Q,H,C,P,N)$, the local $\NameCert_{\LipschitzExtensionUp}$ surface consists exactly of carrier admission, subcarrier inclusion, source Lipschitz-map admission, rational bound readback, candidate graph admission, restriction-agreement exactness, continuity handoff, componentwise transport, displayed replay, provenance, and ledger non-escape. The finite route is
+$$
+X,A \longmapsto L \longmapsto B \longmapsto F \longmapsto R,Q \longmapsto H,C,P,N .
+$$
+No obligation is discharged by a host extension formula or by equality of ambient functions.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:lipschitz-extension-carrier}. The rows $X,A,L,B,F,R,Q,H,C,P,N$ are the complete visible inventory of an accepted packet.
+
+The subcarrier and source-map clauses read $A$ and $L$. A source value can enter the extension certificate only after the membership and inclusion row $A$ has been displayed and the $\LipschitzMapUp$ row $L$ has exposed the finite graph and bound data.
+
+The rational bound and candidate graph clauses read $B$ and $F$. The bound is a regular-rational ledger, and the candidate graph is a finite ambient observation row, so neither row selects a global function object or an unrecorded real limit.
+
+Restriction exactness is the row $R$, while continuity handoff is the row $Q$. The transport and replay rows $H$ and $C$ preserve the same route componentwise, and $P,N$ source and name it. Since no excluded host object occurs as a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Lipschitz extension restriction handoff]
+\label{thm:lipschitz-extension-restriction-handoff}
+Every $\MetricUp$, $\ContinuousMapUp$, $\RegSeqRatUp$, $\RealUp$, or $\McShaneExtensionUp$ consumer of an accepted $\LipschitzExtensionUp$ packet must read the restriction route
+$$
+A,L,B \longmapsto R
+$$
+before it can treat the candidate graph row $F$ as an extension of the source Lipschitz row. The handoff exports the displayed agreement between source and ambient rows, not a quotient function equality, not a selected representative, and not an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with a consumer asking whether the candidate extends the source map. The subcarrier row $A$ is read first, because the question is meaningful only for points admitted by the displayed inclusion route.
+
+Next read the source Lipschitz row $L$ and the rational bound row $B$. These rows supply the finite source graph and tolerance data against which the candidate graph will be checked.
+
+The restriction-agreement row $R$ then compares the candidate graph row $F$ with the source route over the admitted point. The continuity row $Q$ and structural rows $H,C,P,N$ replay and source the same comparison without adding a host function-space coordinate.
+
+Thus a McShane--Whitney certificate may instantiate the interface, but the interface itself exports only the finite restriction handoff displayed above.
+\end{proof}
+
+\closureat{LipschitzExtensionUp}{seedStr}
+
+\begin{closurestatus}{\LipschitzExtensionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lipschitz-extension-carrier}, \autoref{thm:lipschitz-extension-namecert-obligations}, and \autoref{thm:lipschitz-extension-restriction-handoff} seed the finite reusable Lipschitz extension surface over displayed metric, Lipschitz-map, continuity, regular-rational, real, and McShane-extension rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, quotient function spaces, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subcarrier inclusion, source Lipschitz admission, rational bound readback, candidate graph admission, restriction exactness, continuity handoff, transport, replay, provenance, and non-escape for BEDC.Derived.LipschitzExtensionUp.}
+  \constructivestory{A $\LipschitzExtensionUp$ packet is generated from an ambient Metric row, a displayed subcarrier row, a source LipschitzMap row, a regular rational bound ledger, a candidate extension graph, a restriction-agreement row, a ContinuousMap handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

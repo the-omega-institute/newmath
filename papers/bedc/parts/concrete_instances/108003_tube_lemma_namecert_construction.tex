@@ -1,0 +1,52 @@
+\chapter{A Concrete Naming Certificate for $\TubeLemmaUp$}
+\label{ch:concrete-instances-tube-lemma-namecert}
+\origin{human}
+
+Following Munkres and Kelley on product topology and compact neighbourhoods, the $\TubeLemmaUp$ packet records the finite BEDC surface for the tube lemma: when a slice around a compact factor lies inside an open product-neighbourhood row, a displayed neighbourhood in the other factor suffices for the whole compact slice. It sits over the product topology certificate of \autoref{ch:concrete-instances-product-topology-namecert}, the generated-open topology rows of \autoref{ch:concrete-instances-topology-namecert}, the compact finite-cover surface of \autoref{ch:concrete-instances-compact-namecert}, and the finite-cover siblings such as \autoref{ch:concrete-instances-interval-finite-cover-certificate-namecert} and \autoref{ch:concrete-instances-finite-cover-refinement-namecert}. The chapter names only the finite tube-neighbourhood carrier and its local obligations; it does not assert product compactness, quotient equality of product points, selected neighbourhood bases, or ambient open-cover compactness beyond the displayed compact row.
+
+\begin{definition}[Tube lemma carrier]
+\label{def:tube-lemma-carrier}
+A $\TubeLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+T=(X,Y,K,O,U,V,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\TopologyUp$ row naming the first factor.
+\item $Y$ is the source $\TopologyUp$ row naming the second factor.
+\item $K$ is the $\CompactUp$ row for the compact slice inside the second factor.
+\item $O$ is the $\ProductUp$ open-neighbourhood row containing the displayed slice.
+\item $U$ is the finite family of product-open rows read from $O$ along the compact slice.
+\item $V$ is the resulting neighbourhood row in the first factor.
+\item $F$ is the finite-cover row over $K$ that justifies replacing the family $U$ by one displayed tube neighbourhood.
+\item $H$ records componentwise $\hsame$ transport for the two topology rows, compact row, product-open row, finite family, tube neighbourhood, finite-cover row, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a slice-neighbourhood request through $X,Y,K,O,U,V,F,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\TubeLemmaUp$, $\ProductUp$, $\TopologyUp$, $\CompactUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TubeLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,K,O,U,V,F,H,C,P,N$. It has no coordinate for global product compactness, a host topological theorem, quotient equality of product points, an arbitrary open-cover selector, or a detached neighbourhood basis.
+\end{definition}
+
+\begin{theorem}[Tube lemma NameCert obligations]
+\label{thm:tube-lemma-namecert-obligations}
+For every accepted $\TubeLemmaUp$ carrier $T=(X,Y,K,O,U,V,F,H,C,P,N)$, the local $\NameCert_{\TubeLemmaUp}$ surface is exhausted by carrier admission, topology-row exposure for both factors, compact-slice exposure through $K$, product-open exposure through $O$, finite product-neighbourhood family exposure through $U$, tube-neighbourhood exposure through $V$, finite-cover justification through $F$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tube-lemma-carrier}. The accepted tuple exposes the two topology rows, the compact slice row, the product-open row, the finite product-neighbourhood family, the resulting tube neighbourhood, and the finite-cover row.
+
+The compactness use is local to $K$ and $F$. The finite family $U$ is read from the displayed product-open neighbourhood $O$ along the compact slice, and $F$ records the finite-cover handoff that permits one neighbourhood row $V$ in the first factor to cover the whole slice.
+
+Finally transport and replay preserve the same finite route. Since $H,C,P,N$ contain only componentwise transport, continuation replay, provenance, and naming, they cannot add product compactness, quotient product equality, selected bases, or an arbitrary open-cover selector. The listed rows therefore exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{TubeLemmaUp}{seedStr}
+
+\begin{closurestatus}{\TubeLemmaUp}
+  \constructivestory{A $\TubeLemmaUp$ packet is generated from two topology rows, a compact slice row, a product-open neighbourhood row, a finite product-neighbourhood family, a tube neighbourhood row, a finite-cover row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tube-lemma-carrier} and \autoref{thm:tube-lemma-namecert-obligations} seed the finite tube-neighbourhood packet over product topology, compact slice, generated-open, and finite-cover rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close product compactness, arbitrary open-cover compactness, quotient equality of product points, selected neighbourhood bases, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked topology-row exposure, compact-slice exposure, product-open exposure, finite-cover justification, tube-neighbourhood exactness, transport replay, provenance exhaustion, and local naming for BEDC.Derived.TubeLemmaUp.}
+\end{closurestatus}

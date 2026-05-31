@@ -303,6 +303,29 @@ theorem NatUnaryPrefix_cont_tail_cases {h k tail : BHist} :
       exact Or.inr
         ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), tailCont⟩
 
+theorem NatUnaryHistory_codomain_mirror_boundary {h k tail : BHist} :
+    UnaryHistory h -> UnaryHistory tail -> Cont h tail k ->
+      hsame h k ∨ NatUnaryStrictPrefix h k := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame NatUnaryStrictPrefix
+  intro _sourceUnary tailUnary tailCont
+  exact NatUnaryPrefix_cont_tail_cases tailUnary tailCont
+
+theorem NatUnaryTerminal_empty_classifier {h tail : BHist} :
+    UnaryHistory tail -> Cont BHist.Empty tail h ->
+      UnaryHistory h ∧ (hsame h BHist.Empty ∨ ∃ t : BHist, hsame h (BHist.e1 t)) := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro tailUnary emptyTailCont
+  have hUnary : UnaryHistory h := unary_cont_closed unary_empty tailUnary emptyTailCont
+  constructor
+  · exact hUnary
+  · cases h with
+    | Empty =>
+        exact Or.inl rfl
+    | e0 z =>
+        exact False.elim (unary_no_zero_extension hUnary)
+    | e1 t =>
+        exact Or.inr ⟨t, rfl⟩
+
 theorem NatUp_unary_standard_bridge :
     (BEDC.FKernel.ExternalBinary.bwordLength BHist.Empty = 0) ∧
       (forall h : BHist, UnaryHistory h ->
@@ -360,6 +383,22 @@ theorem NatUp_unary_standard_bridge :
         · intro h t k _unaryH _unaryT contHTK
           exact (congrArg BEDC.FKernel.ExternalBinary.bwordLength contHTK).trans
             (BEDC.FKernel.ExternalBinary.bwordLength_append h t)
+
+theorem NatUp_StdBridge {h k tail : BHist} :
+    UnaryHistory h -> UnaryHistory k -> UnaryHistory tail -> Cont h tail k ->
+      (UnaryClassifierSpec h k ∨ NatUnaryStrictPrefix h k) ∧
+        (BEDC.FKernel.ExternalBinary.bwordLength k =
+          BEDC.FKernel.ExternalBinary.bwordLength h +
+            BEDC.FKernel.ExternalBinary.bwordLength tail) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryClassifierSpec NatUnaryStrictPrefix
+  intro unaryH unaryK unaryTail continuation
+  constructor
+  · cases NatUnaryPrefix_cont_tail_cases unaryTail continuation with
+    | inl same =>
+        exact Or.inl ⟨unaryH, unaryK, same⟩
+    | inr strict =>
+        exact Or.inr strict
+  · exact NatUp_unary_standard_bridge.right.right.right.right unaryH unaryTail continuation
 
 theorem NatUp_mature_unary_recursion_package {h : BHist} :
     UnaryHistory h ->

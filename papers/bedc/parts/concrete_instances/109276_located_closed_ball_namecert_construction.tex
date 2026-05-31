@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\LocatedClosedBallUp$}
+\label{ch:concrete-instances-located-closed-ball-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedClosedBallUp$ packet records a located closed ball by finite center, radius, distance, membership, and locator rows rather than by an ambient closed subset. It sits between the center-radius closed-ball surface of \autoref{ch:concrete-instances-metricclosedball-namecert}, the endpoint-location discipline of \autoref{ch:concrete-instances-locatedinterval-namecert}, the located-distance route of \autoref{ch:concrete-instances-locatedmetric-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives compact-metric, local-support, and completion consumers a displayed closed-ball support row without quotienting points, choosing nearest points, or importing ambient $\RealUp$ completeness.
+
+\begin{definition}[Located closed-ball carrier]
+\label{def:located-closed-ball-carrier}
+A $\LocatedClosedBallUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,c,r,D,I,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\LocatedMetricUp$ source row naming the metric carrier and located distance discipline.
+\item $c$ is the displayed centre row.
+\item $r$ is the nonnegative $\RealUp$ radius row.
+\item $D$ is the distance row from the source point to the centre, read through the located metric.
+\item $I$ is the $\LocatedIntervalUp$ row naming the non-strict comparison interval $D\leq r$.
+\item $R$ is the $\MetricClosedBallUp$ membership row attached to the same centre, radius, and distance comparison.
+\item $E$ is the terminal $\RealUp$ seal for the radius and comparison readback.
+\item $H$ records componentwise $\hsame$ transport of the metric source, centre, radius, distance, interval, closed-ball membership, and seal rows.
+\item $C$ records displayed $\Cont$ replay for distance evaluation, located interval comparison, closed-ball membership, and downstream support handoff.
+\item $P$ is the $\Pkg$ provenance over $\LocatedClosedBallUp$, $\MetricClosedBallUp$, $\LocatedIntervalUp$, $\LocatedMetricUp$, $\MetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedClosedBallUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,c,r,D,I,R,E,H,C,P,N$. It has no coordinate for a host subset, quotient point equality, selected nearest point, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located closed-ball membership transport]
+\label{thm:located-closed-ball-membership-transport}
+Let $B=(M,c,r,D,I,R,E,H,C,P,N)$ and $B'=(M',c',r',D',I',R',E',H',C',P',N')$ be accepted $\LocatedClosedBallUp$ carriers whose metric source, centre, radius, distance, interval, membership, and seal rows are paired by the displayed $\hsame$ transports. Then the located closed-ball membership row $R$ transports to $R'$ through the same located-metric distance row and located-interval comparison row, with $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming preserved.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-closed-ball-carrier}. The membership row $R$ is downstream of the located metric source $M$, centre $c$, radius $r$, distance row $D$, located interval row $I$, and terminal seal $E$.
+
+Transport the displayed rows componentwise by $H$ and $H'$. The centre and radius rows move together with the distance row, and the located interval comparison remains attached to that same transported distance and radius.
+
+Replay the comparison by $C$ and $C'$. Since $P,P'$ and $N,N'$ source and name only the displayed rows, the transported membership row is still the $\MetricClosedBallUp$ comparison read through $\LocatedMetricUp$ and $\LocatedIntervalUp$, not a host subset or quotient point equality.
+\end{proof}
+
+\begin{theorem}[Located closed-ball nonescape]
+\label{thm:located-closed-ball-nonescape}
+Every compact-metric, local-support, completion, or interval-facing consumer of an accepted $\LocatedClosedBallUp$ carrier must read the finite route
+$$
+M,c,r,D,I,R,E,H,C,P,N .
+$$
+The consumer may use the located metric source, displayed centre, radius seal, located distance, located interval comparison, MetricClosedBall membership, transport, replay, provenance, and local naming rows, but it cannot add a host closed subset, quotient point equality, selected nearest point, trichotomy, selected subcover, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:located-closed-ball-carrier}. The accepted packet has exactly the rows $M,c,r,D,I,R,E,H,C,P,N$.
+
+Use \autoref{thm:located-closed-ball-membership-transport}. It keeps every membership read attached to the located metric source, located interval comparison, closed-ball membership row, and Real seal under transport and replay.
+
+The listed consumers therefore receive a located support row only through the displayed finite route. Since none of the refused host data is a carrier coordinate or a continuation target, the read cannot escape to a host subset, quotient point equality, selected point, selected subcover, trichotomy, or ambient completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocatedClosedBallUp$ read displays one $\LocatedMetricUp$ source row, one centre row, one $\RealUp$ radius row, one located distance row, one $\LocatedIntervalUp$ comparison row, one $\MetricClosedBallUp$ membership row, one terminal $\RealUp$ seal row, and the structural rows $H,C,P,N$.}
+
+\independenceWitness{metricclosedball, locatedinterval, locatedmetric, real: $\LocatedClosedBallUp$ is not bijective to any listed sibling because it binds the closed-ball membership row, located interval comparison, and located metric distance row through the same displayed centre-radius support before the Real seal is exposed.}
+
+\closureat{LocatedClosedBallUp}{seedStr}
+
+\begin{closurestatus}{\LocatedClosedBallUp}
+  \constructivestory{A $\LocatedClosedBallUp$ packet is generated from a LocatedMetric source row, centre row, RealUp radius row, located distance row, LocatedInterval comparison row, MetricClosedBall membership row, RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-closed-ball-carrier}, \autoref{thm:located-closed-ball-membership-transport}, and \autoref{thm:located-closed-ball-nonescape} seed the located closed-ball support route over MetricClosedBall, LocatedInterval, LocatedMetric, Metric, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host closed subsets, quotient point equality, selected nearest points, selected subcovers, trichotomy, compactness, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-distance exactness, located-interval comparison transport, MetricClosedBall membership transport, Real-seal nonescape, replay, provenance, and local naming for BEDC.Derived.LocatedClosedBallUp.}
+\end{closurestatus}

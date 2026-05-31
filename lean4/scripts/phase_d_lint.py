@@ -25,7 +25,7 @@ gate) picks up the change.
 Usage:
 
     python3 lean4/scripts/phase_d_lint.py \
-        --worktree /path/to/round_R1234 \
+        --worktree /path/to/formalize_target_wabc1234 \
         --base-branch codex-auto-dev
 
 Exit code 0 = clean. Exit code 1 = at least one violation; details on

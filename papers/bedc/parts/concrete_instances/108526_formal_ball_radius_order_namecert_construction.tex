@@ -1,0 +1,51 @@
+\chapter{A Concrete Naming Certificate for $\FormalBallRadiusOrderUp$}
+\label{ch:concrete-instances-formal-ball-radius-order-namecert}
+\origin{human}
+
+Following Edalat--Heckmann and Vickers-style formal-ball presentations, the $\FormalBallRadiusOrderUp$ packet isolates the radius-refinement order that is consumed by the formal-ball carrier of \autoref{ch:concrete-instances-formalball-namecert}, the rounded-basis route of \autoref{ch:concrete-instances-formal-ball-basis-namecert}, and the completion-facing handoff of \autoref{ch:concrete-instances-formal-ball-completion-namecert}. Its role is to name the finite BEDC comparison surface for smaller-radius reads before any completion quotient, selected representative, or ambient completeness principle is available.
+
+\begin{definition}[FormalBall radius-order carrier]
+\label{def:formal-ball-radius-order}
+A $\FormalBallRadiusOrderUp$ carrier is a finite $\BHist$ packet
+$$
+O=(B,R,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\FormalBallUp$ carrier row whose center, radius, dyadic ledger, finite window, replay, provenance, and local name are already displayed.
+\item $R$ is the radius-read row, taken from the $\RegSeqRatUp$ scale attached to the formal-ball packet.
+\item $D$ is the $\DyadicRatCoreUp$ comparison ledger recording strict and weak radius comparisons used by the refinement order.
+\item $L$ is the rounded lower-neighborhood row, recording the smaller-radius formal-ball windows that remain inside the same carrier route.
+\item $H$ records componentwise $\hsame$ transport for formal-ball carriers, radius rows, dyadic ledgers, lower-neighborhood rows, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from radius comparison to rounded refinement, basis handoff, and completion boundary.
+\item $P$ is the $\Pkg$ provenance over $\FormalBallUp$, $\FormalBallBasisUp$, $\FormalBallCompletionUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FormalBallRadiusOrderUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient equality of completed balls, a selected Cauchy representative, a countable-choice schedule, open-cover compactness, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[FormalBall radius-order NameCert obligations]
+\label{thm:formal-ball-radius-order-namecert-obligations}
+For the carrier of \autoref{def:formal-ball-radius-order}, the local $\NameCert_{\FormalBallRadiusOrderUp}$ surface consists exactly of carrier admission for $O=(B,R,D,L,H,C,P,N)$, dyadic radius comparison through $D$, rounded refinement through $L$, basis handoff through the $\FormalBallBasisUp$ row named by $P$, completion non-escape through the $\FormalBallCompletionUp$ boundary, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+
+Every accepted radius-order read must first expose the underlying $\FormalBallUp$ packet $B$, then compare radii through the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ rows, and only then hand the rounded refinement to basis or completion consumers. It cannot read a quotient completion equality, choose a representative, select a limit, use countable choice, invoke compactness, or assume completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:formal-ball-radius-order}. The tuple displays the formal-ball packet, radius row, dyadic comparison ledger, lower-neighborhood row, transport, replay, provenance, and local name.
+
+Dyadic radius comparison is confined to $R$ and $D$. The formal-ball row $B$ supplies the source center-radius packet, while $D$ records the finite comparison data used to recognize a smaller radius.
+
+Rounded refinement and basis handoff are then read through $L$ and $C$. The lower-neighborhood row records the smaller formal-ball window, and replay sends that window to the basis and completion-facing rows carried in $P$.
+
+Completion non-escape follows from row exhaustion. Since the carrier has no quotient-completion equality, selected representative, selected limit, countable-choice schedule, compactness principle, or ambient complete-space coordinate, none of those objects can be exported by the local NameCert surface.
+\end{proof}
+
+\begin{closurestatus}{\FormalBallRadiusOrderUp}
+  \constructivestory{A $\FormalBallRadiusOrderUp$ packet is generated from a displayed FormalBallUp carrier, a RegSeqRat radius row, a DyadicRatCore comparison ledger, a rounded lower-neighborhood row, componentwise hsame transport, displayed Cont replay toward basis and completion consumers, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:formal-ball-radius-order} and \autoref{thm:formal-ball-radius-order-namecert-obligations} seed the finite radius-refinement order route consumed by formal-ball basis and completion packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, open-cover compactness, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic comparison stability, rounded-refinement replay, basis handoff, completion non-escape, transport, provenance, and local naming for the same packet.}
+\end{closurestatus}

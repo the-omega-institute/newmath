@@ -58,6 +58,7 @@ I,E,M,B,D,O,A,H,C,P,G,N.
 $$
 The route part is $I,E,M,B,D,O,A$, the transport and readback part is $H,C,P$, and the boundary-certificate part is $G,N$. In particular, there is no consumer-facing bridge coordinate for an unlisted branch table, detached transport, off-packet readback, ambient substitution calculus, hidden generator, host equality, external axiom channel, or second $\NameCert$ row.
 \end{lemma}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorOutputReadinessBridgeDeterminacy}
 \begin{proof}
 Start with output readiness. By \autoref{thm:authorized-generator-recursor-output-readiness}, the row $O$ is public for downstream closed-substitution and generator-audit consumers only after the accepted signature, emitted recursor, motive, branch package, descent row, audit row, componentwise transport, continuation route, package provenance, host-boundary row, and local naming row have all been retained in the same packet. Thus a consumer-facing read of $O$ already begins from the displayed carrier $R$, not from an independent output surface.
 
@@ -76,6 +77,7 @@ R=(I,E,M,B,D,O,A,H,C,P,G,N)
 $$
 be an accepted $\AuthorizedGeneratorRecursorUp$ packet, and fix the displayed rows of $R$. Any accepted downstream use of the output readiness surface that reads $O$ as a finite route, packet-local normal-form readiness claim, readback, closed-substitution handoff, or exactness decision must use the route, transport, readback, boundary, and local certificate already named by those rows. The route side is fixed by $I,E,M,B,D,O,A$, the transport and readback side is fixed by $H,C,P$, and the boundary-certificate side is fixed by $G,N$. Hence two accepted consumers over the fixed rows determine the same finite route and the same packet-local readiness or exactness decision named by the chapter; there is no alternate hidden coordinate, detached branch table, off-packet readback, ambient substitution calculus, hidden generator, host equality, external axiom channel, second $\NameCert$ row, or duplicate classifier source.
 \end{corollary}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorOutputReadinessDeterminacy}
 \begin{proof}
 Apply \autoref{lem:authorized-generator-recursor-output-readiness-bridge-determinacy}. It says that every downstream consumer reading $O$ as a route, transport, readback, or closed-substitution handoff factors through the same finite rows
 $$

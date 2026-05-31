@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealSequenceAlgebraUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -219,5 +221,53 @@ theorem RealSequenceAlgebraTasteGate_single_carrier_alignment :
             · intro x y heq
               exact RealSequenceAlgebraTasteGate_single_carrier_alignment_toEventFlow_injective heq
             · rfl
+
+theorem RealSequenceAlgebraCarrier_namecert_obligations (x : RealSequenceAlgebraUp) :
+    ∃ localCert : BHist,
+      SemanticNameCert
+        (fun row : BHist => hsame row localCert ∧ localCert ∈ realSequenceAlgebraFields x)
+        (fun row : BHist => hsame row localCert ∧ localCert ∈ realSequenceAlgebraFields x)
+        (fun row : BHist => hsame row localCert ∧ localCert ∈ realSequenceAlgebraFields x)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  cases x with
+  | mk sourceLeft sourceRight windowLeft windowRight readbackLeft readbackRight dyadicLedger
+      operation outputSeal transport replay provenance localCert =>
+      refine ⟨localCert, ?_⟩
+      refine
+        { core :=
+            { carrier_inhabited := ?_
+              equiv_refl := ?_
+              equiv_symm := ?_
+              equiv_trans := ?_
+              carrier_respects_equiv := ?_ }
+          pattern_sound := ?_
+          ledger_sound := ?_ }
+      · exact
+          ⟨localCert, hsame_refl localCert,
+            List.Mem.tail _ <|
+              List.Mem.tail _ <|
+                List.Mem.tail _ <|
+                  List.Mem.tail _ <|
+                    List.Mem.tail _ <|
+                      List.Mem.tail _ <|
+                        List.Mem.tail _ <|
+                          List.Mem.tail _ <|
+                            List.Mem.tail _ <|
+                              List.Mem.tail _ <|
+                                List.Mem.tail _ <|
+                                  List.Mem.tail _ <| List.Mem.head _⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro row row' same
+        exact hsame_symm same
+      · intro row row' row'' same₁ same₂
+        exact hsame_trans same₁ same₂
+      · intro row row' same source
+        exact ⟨hsame_trans (hsame_symm same) source.left, source.right⟩
+      · intro row source
+        exact source
+      · intro row source
+        exact source
 
 end BEDC.Derived.RealSequenceAlgebraUp

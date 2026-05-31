@@ -9,6 +9,11 @@ three JSON files consumed by `docs/dossier/visualization.qmd`:
 - docs/dossier/data/glossary.json   -- bilingual term dictionary
 - docs/dossier/data/dependency.json -- node/edge graph for Cytoscape
 
+NameCert HTML metadata is emitted beside the graph so each dependency node can
+link to a generated chapter page. The source of truth remains the paper label
+`ch:concrete-instances-<slug>-namecert`; this script only records the URL
+contract consumed by the renderer and publication gate.
+
 stdlib only (project rule: no third-party deps in tools).
 """
 
@@ -19,8 +24,8 @@ import json
 import re
 import subprocess
 import sys
-from collections import Counter, defaultdict
-from datetime import datetime
+from collections import Counter, defaultdict, deque
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -453,6 +458,39 @@ def chapter_label_region(text: str) -> str | None:
     return paper_label_to_region(m.group(1)) if m else None
 
 
+def collect_namecert_sources() -> list[dict]:
+    """Return concrete-instance chapter sources with their HTML URL.
+
+    The source of truth is the chapter label
+    ``\\label{ch:concrete-instances-<slug>-namecert}``; the dep-graph node
+    id is the normalized paper region, while the URL keeps the literal slug
+    so hyphenated chapters have stable readable paths.
+    """
+    rows: list[dict] = []
+    seen: set[str] = set()
+    if not PAPER_INSTANCES.exists():
+        return rows
+    for f in sorted(PAPER_INSTANCES.rglob("*.tex")):
+        text = _read_text_or_none(f)
+        if text is None:
+            continue
+        m = CHAPTER_LABEL_RE.search(text)
+        if not m:
+            continue
+        slug = m.group(1)
+        if slug in seen:
+            continue
+        seen.add(slug)
+        region = canonical(paper_label_to_region(slug))
+        rows.append({
+            "slug": slug,
+            "region": region,
+            "source": str(f.relative_to(ROOT)),
+            "html_url": f"namecert/{slug}/",
+        })
+    return rows
+
+
 def paper_chapter_to_region(f: Path) -> str | None:
     """Map a paper .tex file to its canonical region id.
 
@@ -784,6 +822,136 @@ def _find_cycle(adj: dict[str, set[str]]) -> list[str] | None:
     return None
 
 
+def transitive_reduction(deps: dict[str, set[str]]) -> dict[str, set[str]]:
+    """Drop dependency edges implied by a longer path — the Hasse diagram of
+    the dependency order. On the BEDC graph this removes ~70% of edges, which
+    is what lets dagre bake the layout inside CI memory (the full ~18k-edge
+    set OOMs node's default heap) and turns the rendered hairball into
+    readable layers. Reachability is preserved exactly, so longest-path
+    levels are unchanged.
+
+    SCC-safe: region coarsening (many Lean files collapsed to one region) can
+    introduce small directed cycles, so condense strongly-connected
+    components first, reduce the condensed DAG, keep one representative edge
+    per surviving component pair, and leave intra-component edges untouched.
+    """
+    # Arc orientation matches the rendered graph: d -> n for "n depends on d".
+    adj: dict[str, set[str]] = defaultdict(set)
+    for n, ds in deps.items():
+        for d in ds:
+            if d != n:
+                adj[d].add(n)
+    all_nodes = set(deps) | {d for ds in deps.values() for d in ds}
+
+    # Tarjan SCC (iterative, to survive deep graphs).
+    index_c: dict[str, int] = {}
+    low: dict[str, int] = {}
+    on_stack: dict[str, bool] = {}
+    stack: list[str] = []
+    comp_of: dict[str, int] = {}
+    n_comp = [0]
+    counter = [0]
+
+    def tarjan(start: str) -> None:
+        work = [(start, iter(sorted(adj[start])))]
+        index_c[start] = low[start] = counter[0]
+        counter[0] += 1
+        stack.append(start)
+        on_stack[start] = True
+        while work:
+            v, it = work[-1]
+            advanced = False
+            for w in it:
+                if w not in index_c:
+                    index_c[w] = low[w] = counter[0]
+                    counter[0] += 1
+                    stack.append(w)
+                    on_stack[w] = True
+                    work.append((w, iter(sorted(adj[w]))))
+                    advanced = True
+                    break
+                if on_stack.get(w):
+                    low[v] = min(low[v], index_c[w])
+            if not advanced:
+                work.pop()
+                if work:
+                    low[work[-1][0]] = min(low[work[-1][0]], low[v])
+                if low[v] == index_c[v]:
+                    while True:
+                        w = stack.pop()
+                        on_stack[w] = False
+                        comp_of[w] = n_comp[0]
+                        if w == v:
+                            break
+                    n_comp[0] += 1
+
+    for node in sorted(all_nodes):
+        if node not in index_c:
+            tarjan(node)
+
+    # Condensed DAG over components, remembering one representative node edge
+    # per component pair.
+    cdag: dict[int, set[int]] = defaultdict(set)
+    edge_by_comp: dict[tuple[int, int], list[tuple[str, str]]] = defaultdict(list)
+    for s in adj:
+        for t in adj[s]:
+            cs, ct = comp_of[s], comp_of[t]
+            if cs != ct:
+                cdag[cs].add(ct)
+                edge_by_comp[(cs, ct)].append((s, t))
+
+    # Kahn topological order of the condensed DAG.
+    indeg: dict[int, int] = defaultdict(int)
+    for u in cdag:
+        for v in cdag[u]:
+            indeg[v] += 1
+    queue = deque(c for c in range(n_comp[0]) if indeg[c] == 0)
+    topo: list[int] = []
+    while queue:
+        u = queue.popleft()
+        topo.append(u)
+        for v in cdag[u]:
+            indeg[v] -= 1
+            if indeg[v] == 0:
+                queue.append(v)
+
+    # Transitive reduction on the condensed DAG: keep u->v only if v is not
+    # reachable from u through some other successor.
+    reach: dict[int, set[int]] = {}
+    kept_comp_edges: list[tuple[int, int]] = []
+    for u in reversed(topo):
+        succ = cdag[u]
+        for v in succ:
+            if not any(v in reach.get(s, ()) for s in succ if s != v):
+                kept_comp_edges.append((u, v))
+        desc: set[int] = set()
+        for s in succ:
+            desc |= reach.get(s, set())
+            desc.add(s)
+        reach[u] = desc
+
+    # Rebuild deps: one representative edge per surviving component pair, plus
+    # every intra-component edge (the genuine cycle structure).
+    new_deps: dict[str, set[str]] = {n: set() for n in deps}
+    for cu, cv in kept_comp_edges:
+        s, t = min(edge_by_comp[(cu, cv)])
+        new_deps.setdefault(t, set()).add(s)
+    for s in adj:
+        for t in adj[s]:
+            if comp_of[s] == comp_of[t]:
+                new_deps.setdefault(t, set()).add(s)
+
+    before = sum(len(ds) for ds in deps.values())
+    after = sum(len(ds) for ds in new_deps.values())
+    print(
+        f"[transitive_reduction] {before} -> {after} edges "
+        f"({100 * (before - after) / max(before, 1):.0f}% redundant), "
+        f"{n_comp[0]} components",
+        file=sys.stderr,
+    )
+    return new_deps
+
+
 def compute_levels(deps: dict[str, set[str]]) -> dict[str, int]:
     """Longest-path level from leaves (nodes without deps) to each node, with cycle guard."""
     level: dict[str, int] = {}
@@ -1009,8 +1177,14 @@ def build_dependency_graph() -> dict:
     paper_per_region = aggregate_markers_per_region(paper_per_chapter)
     namecert_per_region = collect_namecert_theorems_per_region()
     closure_per_region = collect_closure_per_region()
+    html_sources = {
+        row["region"]: row
+        for row in collect_namecert_sources()
+        if row.get("region")
+    }
 
     deps_map, all_regions = derive_dependency_edges()
+    deps_map = transitive_reduction(deps_map)
     schema_set = detect_schema_only_regions()
     levels = compute_levels(deps_map)
     max_level = max(levels.values()) if levels else 0
@@ -1061,6 +1235,7 @@ def build_dependency_graph() -> dict:
             "closed_formalstatus": cb.get("formal_status"),
             "namecert_checked": len(namecerts_checked),
             "namecert_stmt": len(namecerts_stmt),
+            **({"html_url": html_sources[nid]["html_url"]} if nid in html_sources else {}),
             # `_details` carries the heavy paper-text fields (constructive
             # story, scope_closed, upgrade_path, namecert_theorems list, ...)
             # — emitted to a sibling file and lazy-fetched when a node is
@@ -1190,6 +1365,7 @@ def main() -> int:
 
     print("[build-dossier-status] building dependency graph...", file=sys.stderr)
     deps = build_dependency_graph()
+    namecert_sources = collect_namecert_sources()
 
     print("[build-dossier-status] building glossary...", file=sys.stderr)
     glossary = build_glossary()
@@ -1214,7 +1390,7 @@ def main() -> int:
     total_thms = sum(r["theorems"] for r in region_thms.values())
     valid_region_ids = {n["id"] for n in deps["nodes"]}
     status = {
-        "generated_at": datetime.utcnow().isoformat() + "Z",
+        "generated_at": datetime.now(timezone.utc).replace(tzinfo=None).isoformat() + "Z",
         "total_theorems": total_thms,
         "daily_activity": activity,
         "critical_path": [
@@ -1255,13 +1431,15 @@ def main() -> int:
     (DATA_DIR / "dependency.json").write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
     (DATA_DIR / "dependency_details.json").write_text(json.dumps(details, indent=2, ensure_ascii=False), encoding="utf-8")
     (DATA_DIR / "mathjax_macros.json").write_text(json.dumps(mathjax_macros, indent=2, ensure_ascii=False), encoding="utf-8")
+    (DATA_DIR / "namecert_sources.json").write_text(json.dumps(namecert_sources, indent=2, ensure_ascii=False), encoding="utf-8")
     if args.output:
         args.output.write_text(json.dumps(deps, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print(
-        f"[build-dossier-status] wrote {DATA_DIR.relative_to(ROOT)}/{{status,glossary,dependency,mathjax_macros}}.json "
+        f"[build-dossier-status] wrote {DATA_DIR.relative_to(ROOT)}/{{status,glossary,dependency,mathjax_macros,namecert_sources}}.json "
         f"-- {total_thms} theorems, {len(deps['nodes'])} nodes, {len(deps['edges'])} edges, "
-        f"{len(glossary)} glossary entries, {len(mathjax_macros)} mathjax macros",
+        f"{len(glossary)} glossary entries, {len(mathjax_macros)} mathjax macros, "
+        f"{len(namecert_sources)} namecert html sources",
         file=sys.stderr,
     )
     return 0
