@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\GroundCompilerStrengthMonotonicityUp$}
+\label{ch:concrete-instances-groundcompiler-strength-monotonicity-namecert}
+\origin{ai}
+
+The $\GroundCompilerStrengthMonotonicityUp$ packet realizes the strength-monotonicity theorem family of the GroundCompiler derivation-certificate recognizer as finite NameCert data for MetaCIC normalization audit consumers. It sits beside the flow-level round-trip packet of \autoref{ch:concrete-instances-groundcompilerflowlevelroundtrip-namecert}, the event-flow audit packet of \autoref{ch:concrete-instances-groundcompilereventflowaudit-namecert}, the recognizer-flow packet of \autoref{ch:concrete-instances-groundcompilerrecognizerflow-namecert}, the candidate-mediated socket of \autoref{ch:concrete-instances-normalization-candidate-socket-namecert}, and the route-budget packet of \autoref{ch:concrete-instances-auditmaproutebudget-namecert}. The packet records when a lower-strength derivation-certificate subflow may support a lower accepted flow, without turning the compiler into a source of hidden proof evidence, retroactive promotion, or unconditional normalization.
+
+\begin{definition}[GroundCompiler strength monotonicity carrier]
+\label{def:groundcompiler-strength-monotonicity-carrier}
+A $\GroundCompilerStrengthMonotonicityUp$ carrier is a finite $\BHist$ packet
+$$
+S=(N,H,L,A,D,R,G,B,C,P,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the accepted object-flow row whose higher-strength acceptance is being inspected.
+\item $H$ is the higher-strength row.
+\item $L$ is the lower-strength row requested by the downstream consumer.
+\item $A$ is the accepted-flow witness row at strength $H$.
+\item $D$ is the recognized lower-strength derivation-certificate subflow row supporting $L$.
+\item $R$ is the route row tying $D$ to $A$ as a displayed subflow rather than as hidden compiler evidence.
+\item $G$ records the GroundCompiler gate-monotone read of $\mathsf{StrengthMonotonicityAtFlowLevel}$.
+\item $B$ records the audit-map route budget consumed through $\AuditMapRouteBudgetUp$ before the lower-strength acceptance is public.
+\item $C$ records componentwise $\hsame$ transport and displayed $\Cont$ replay for $N,H,L,A,D,R,G,B$.
+\item $P$ is the $\Pkg$ provenance over $\GroundCompilerStrengthMonotonicityUp$, $\GroundCompilerFlowLevelRoundTripUp$, $\GroundCompilerEventFlowAuditUp$, $\GroundCompilerRecognizerFlowUp$, $\NormalizationCandidateSocketUp$, $\AuditMapRouteBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $M$ is the local $\NameCert_{\GroundCompilerStrengthMonotonicityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $N,H,L,A,D,R,G,B,C,P,M$. It has no coordinate for retroactive promotion, hidden compiler state, proof reconstruction, global normalization, erased candidate evidence, or a route that bypasses the displayed lower-strength derivation-certificate subflow.
+\end{definition}
+\leanchecked{BEDC.GroundCompiler.DerivCertGenerated.gate\_monotone\_strength}
+
+\begin{theorem}[GroundCompiler strength monotonicity NameCert obligations]
+\label{thm:groundcompiler-strength-monotonicity-namecert-obligations}
+For every accepted $\GroundCompilerStrengthMonotonicityUp$ carrier $S=(N,H,L,A,D,R,G,B,C,P,M)$, the local $\NameCert_{\GroundCompilerStrengthMonotonicityUp}$ surface consists exactly of accepted-object exposure through $N$, higher-strength exposure through $H$, lower-strength request exposure through $L$, accepted-flow evidence through $A$, recognized lower-strength derivation-certificate subflow exposure through $D$, subflow routing through $R$, gate-monotone strength readback through $G$, audit-map route-budget exposure through $B$, componentwise transport and replay through $C$, provenance through $P$, and local naming through $M$.
+
+No NameCert obligation is stored outside those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier. The monotonicity source consists of the accepted object row $N$, the higher and lower strength rows $H,L$, the higher-strength accepted-flow row $A$, and the lower-strength derivation-certificate subflow row $D$.
+
+The route row $R$ keeps $D$ visible as a subflow of $A$. Thus the lower-strength conclusion is not obtained by weakening the strength label alone; it is obtained only after the lower derivation-certificate evidence has been displayed.
+
+The checked GroundCompiler theorem supplies the gate-monotone readback row $G$, while the audit-map budget row $B$ keeps the event-flow, recognizer, certificate-gate, report-boundary, and cannot-claim routes visible.
+
+Finally $C,P,M$ transport, source, and name the same finite surface. Since no excluded object occurs as a coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[GroundCompiler strength monotonicity route]
+\label{thm:groundcompiler-strength-monotonicity-route}
+Every MetaCIC normalization audit consumer that reads $\GroundCompilerStrengthMonotonicityUp$ must pass through the finite route
+$$
+\GroundCompilerFlowLevelRoundTripUp,\GroundCompilerEventFlowAuditUp,\GroundCompilerRecognizerFlowUp
+\longmapsto A,D,R,G
+\longmapsto \AuditMapRouteBudgetUp
+\longmapsto \NormalizationCandidateSocketUp
+\longmapsto C,P,M .
+$$
+The route preserves the lower-strength derivation-certificate subflow before the lower accepted-flow read is public. It does not export hidden proof evidence, retroactive promotion, erased candidate normalization, host compiler state, or an unconditional closed-term normalization endpoint.
+\end{theorem}
+\begin{proof}
+Begin with the GroundCompiler flow rows. The flow-level round-trip row keeps encoded flow readback attached to its source, the event-flow audit row separates compiler-facing event data from hidden inputs, and the recognizer-flow row exposes generated-recognizer admission before any certificate-gate read.
+
+Next read the monotonicity rows. The accepted-flow witness $A$ and lower derivation-certificate subflow $D$ are connected by $R$, and the gate-monotone row $G$ reads the checked strength-monotonicity theorem only for that displayed subflow relation.
+
+The audit-map route budget $B$ fixes the event-flow, recognizer, certificate-gate, report-boundary, and cannot-claim path before the result reaches MetaCIC normalization consumers. The normalization candidate socket then preserves candidate-mediated evidence rather than replacing it by an unconditional endpoint.
+
+The structural rows $C,P,M$ replay and name the same route. Because the carrier has no coordinate for hidden proof evidence, retroactive promotion, erased candidate normalization, host compiler state, or unconditional closed-term normalization, those reads remain outside the packet.
+\end{proof}
+
+\falsifiablePrediction{A GroundCompiler consumer that lowers strength without displaying a recognized lower-strength derivation-certificate subflow, the gate-monotone strength row, and the audit-map route budget is not an accepted $\GroundCompilerStrengthMonotonicityUp$ packet.}
+
+\independenceWitness{groundcompilerflowlevelroundtrip, groundcompilereventflowaudit, groundcompilerrecognizerflow, normalization-candidate-socket, auditmaproutebudget: $\GroundCompilerStrengthMonotonicityUp$ is not bijective to any listed sibling because it jointly carries higher and lower strength rows, accepted-flow evidence, lower derivation-certificate subflow evidence, gate-monotone readback, route-budget exposure, candidate-socket consumer routing, transport, provenance, and local naming.}
+
+\closureat{GroundCompilerStrengthMonotonicityUp}{seedStr}
+
+\begin{closurestatus}{\GroundCompilerStrengthMonotonicityUp}
+  \constructivestory{A $\GroundCompilerStrengthMonotonicityUp$ packet is generated from an accepted object-flow row, higher and lower strength rows, higher-strength accepted-flow evidence, recognized lower-strength derivation-certificate subflow evidence, subflow routing, the checked gate-monotone strength row, audit-map route-budget data, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:groundcompiler-strength-monotonicity-carrier}, \autoref{thm:groundcompiler-strength-monotonicity-namecert-obligations}, and \autoref{thm:groundcompiler-strength-monotonicity-route} seed the finite GroundCompiler strength-monotonicity packet for MetaCIC normalization audit consumers.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.GroundCompiler.DerivCertGenerated.gate\_monotone\_strength}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close hidden proof evidence, compiler correctness, retroactive promotion, erased candidate normalization, global closed-term normalization, host compiler state, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subflow-route exactness, audit-map budget nonescape, candidate-socket consumer preservation, and TasteGate field faithfulness for BEDC.Derived.GroundCompilerStrengthMonotonicityUp.}
+\end{closurestatus}
