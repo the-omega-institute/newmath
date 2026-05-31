@@ -388,6 +388,42 @@ theorem NormalFormConsistencySealFiniteWindowDeterminacy
     cont_respects_hsame typedFalseSame normalTheoremSame closedRouteRoute closedRouteRoute'
   exact cont_respects_hsame closedRouteSame sameBoundary namedRouteRoute namedRouteRoute'
 
+theorem NormalFormConsistencySealReductionDeterminacy
+    {T F N K X C L T' F' N' K' X' C' L' typedFalse typedFalse' normalTheorem
+      normalTheorem' boundaryRead boundaryRead' replayRead replayRead' namedRead namedRead' :
+        BHist} :
+    hsame T T' →
+      hsame F F' →
+        hsame N N' →
+          hsame K K' →
+            hsame X X' →
+              hsame C C' →
+                hsame L L' →
+                  Cont T F typedFalse →
+                    Cont N K normalTheorem →
+                      Cont normalTheorem X boundaryRead →
+                        Cont boundaryRead C replayRead →
+                          Cont replayRead L namedRead →
+                            Cont T' F' typedFalse' →
+                              Cont N' K' normalTheorem' →
+                                Cont normalTheorem' X' boundaryRead' →
+                                  Cont boundaryRead' C' replayRead' →
+                                    Cont replayRead' L' namedRead' →
+                                      hsame namedRead namedRead' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro sameTyping sameFalse sameNormal sameTheorem sameBoundary sameReplay sameName
+    typedFalseRoute normalTheoremRoute boundaryRoute replayRoute namedRoute typedFalseRoute'
+    normalTheoremRoute' boundaryRoute' replayRoute' namedRoute'
+  have typedFalseSame : hsame typedFalse typedFalse' :=
+    cont_respects_hsame sameTyping sameFalse typedFalseRoute typedFalseRoute'
+  have normalTheoremSame : hsame normalTheorem normalTheorem' :=
+    cont_respects_hsame sameNormal sameTheorem normalTheoremRoute normalTheoremRoute'
+  have boundaryReadSame : hsame boundaryRead boundaryRead' :=
+    cont_respects_hsame normalTheoremSame sameBoundary boundaryRoute boundaryRoute'
+  have replayReadSame : hsame replayRead replayRead' :=
+    cont_respects_hsame boundaryReadSame sameReplay replayRoute replayRoute'
+  exact cont_respects_hsame replayReadSame sameName namedRoute namedRoute'
+
 theorem NormalFormConsistencySealObligations
     {T F N K X H C P L typedFalse normalTheorem boundaryRead replayRead namedRead : BHist} :
     UnaryHistory T ->
