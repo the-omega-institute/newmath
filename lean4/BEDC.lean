@@ -6028,7 +6028,9 @@ import BEDC.Derived.RealUp.L10CurrentPhaseExitLocalThreshold
 import BEDC.Derived.RealUp.L10DependencyLattice
 import BEDC.Derived.RealUp.L10ExitCertificateFaceMinimality
 import BEDC.Derived.RealUp.L10ExitCertificateSupportNoConfusion
+import BEDC.Derived.RealUp.L10FaceLeantargetNoncollapse
 import BEDC.Derived.RealUp.L10FaceStatusNoncollapse
+import BEDC.Derived.RealUp.L10FaceStatusProductReadback
 import BEDC.Derived.RealUp.L10FiniteWindowWitnessDeterminacy
 import BEDC.Derived.RealUp.L10TerminalFaceOrder
 import BEDC.Derived.RealUp.MalformedEndpoint
