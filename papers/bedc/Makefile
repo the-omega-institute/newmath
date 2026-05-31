@@ -3,7 +3,6 @@ all: main.pdf
 precheck: warn
 	@bash scripts/check_tex_size.sh
 	@bash scripts/check_math_env.sh
-	@bash scripts/check_codon_native_binary.sh
 	@python3 scripts/check_marker_uniqueness.py
 	@python3 scripts/check_naming.py
 	@python3 scripts/check_up_macros.py

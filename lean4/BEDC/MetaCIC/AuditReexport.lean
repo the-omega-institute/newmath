@@ -2,7 +2,7 @@ import BEDC.MetaCIC.Consistency
 import BEDC.MetaCIC.ClosurePreservation
 import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.SubjectReduction.DischargeBundle
-import BEDC.MetaCIC.SubjectReduction.SetupClass
+import BEDC.MetaCIC.SubjectReduction.ObstructionLedger
 import BEDC.MetaCIC.ClosedTerm
 import BEDC.MetaCIC.Normalization
 
@@ -17,10 +17,16 @@ in a single namespace for downstream consumers. -/
 export BEDC.MetaCIC (no_closed_normal_proof_of_false closed_normal_consistency_assembly closed_consistency_reduction_obstruction_not_available)
 
 -- Subject reduction
-export BEDC.MetaCIC (subject_reduction subject_reduction_from_bundle subject_reduction_via_setup)
+export BEDC.MetaCIC (subject_reduction subject_reduction_from_bundle)
 
 -- Discharge routes
-export BEDC.MetaCIC (SubjectReductionDischargeBundle SubjectReductionSetup)
+export BEDC.MetaCIC (
+  SubjectReductionDischargeBundle
+  not_appArgTypeStable
+  not_lamDomainSubjectReduction
+  not_piDomainSubjectReduction
+  not_subjectReductionDischargeBundle
+)
 
 -- Closed term operations
 export BEDC.MetaCIC (shift_closed substitute_closed)

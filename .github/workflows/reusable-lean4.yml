@@ -49,7 +49,9 @@ jobs:
         run: python3 tools/check-axioms.py
 
       - name: Test structurally atomic boundary regression
-        run: python3 lean4/scripts/test_structurally_atomic_boundary.py
+        run: |
+          python3 lean4/scripts/test_structurally_atomic_boundary.py
+          python3 lean4/scripts/test_leanstmt_debt.py
 
       # `bedc_ci.py audit` (paper-Lean drift / closurestatus diagnostics /
       # marker existence / orphan subdir / etc.) now runs in
