@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.53 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.54 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Dedup partial drop handling
 
@@ -216,6 +216,14 @@ For each target in the list above:
    - **Bridge sync (after a lean bridge commit)**: when Phase Review's bridge_candidates HARD GATE fires (lean R-round committed `<X>Up_StdBridge` with subject beginning with the formalize worker prefix and `bridge <X>Up to schema (axiomClean->bridgeCheck)`), this paper round records the upgrade by editing the chapter's `closurestatus` block: change `\bridgestatus{none}` (or `\bridgestatus{paperBridge}`) to `\bridgestatus{bridgeChecked}` AND change `\formalstatus{\axiomCleanV}` (or `\formalstatus{\theoremCheckedV}` if drift sync hadn't run yet) to `\formalstatus{\bridgeCheckedV}`. Update `\upgradepath{...}` to record there is no further upgrade. Do NOT modify `\theoryclosure{...}` (already at `\matureClosure`) or `\leantarget{...}` (still points at the canonical chapter theorem; the bridge is an additional named theorem, not a replacement of leantarget). The total diff is 2-3 lines. Verify the bridge theorem actually exists in `lean4/BEDC/Derived/<X>Up.lean` (or sibling) before recording the upgrade — `bedc_ci.py audit` will reject if not. Commit subject: `<COMMIT_PREFIX> record <X>Up bridgeChecked closure`.
    - The block is the manuscript's binding commitment that the theory has reached the named closure grade and the cited Lean target has been verified at the named verification grade. Adding it without coverage or with a fake grounding is a discipline violation that the audit catches.
 
+9b. **Discovery candidate (`kind=discovery_candidate`)**: inspect the listed chapter, before/after classifier targets, support targets, and Lean ledger/gate surface.
+   - `positiveDiscovery` is allowed only when a resolved Lean target has `DiscoveryTasteGate` or `PositiveDiscovery` result type, a non-smoke `DiscoveryDeltaLedger` has `classifier_shift := some ...`, `\closureclassifierincrement{1}` is true, and `\closureweightprofile{...}` is present.
+   - `discovery` is allowed only when the chapter has NameCert evidence, a non-smoke ledger, and concrete before/after classifier-shift witness, but the full positive gate or weight profile is still incomplete.
+   - `mechanical_reconstruction` is the correct outcome for known-math NameCert reconstruction, carrier-only rows, classifier-unchanged surface, bridge-only sync, marker sync, human chapter reconstruction, insufficient local evidence, or duplicate of an existing target.
+   - For mechanical outcome, write auditable metadata in an existing closure ledger row or nearby certificate prose: `mechanical_reason=<one of known_math_namecert|carrier_only|classifier_unchanged|bridge_only|marker_sync_only|human_chapter_reconstruction|insufficient_evidence|duplicate_of_existing>`, `nearest_existing_target=<real chapter or Lean target>`, and `checked_by_worker=<WORKER_ID>`. For `classifier_unchanged`, name the concrete unchanged item such as `same_classifier`, `same_source`, `same_pattern`, `formalstatus_only`, or `bridge_only`. For `duplicate_of_existing`, the nearest target must resolve.
+   - Do not use `mechanical_reconstruction` as a generic skip. The diff must show which carrier/classifier/parent or sibling was inspected, or the target should be rejected rather than edited.
+   - Do not write a positive discovery claim from prose alone. Do not set `\closureclassifierincrement{1}` without resolved Lean evidence.
+
 10. If the diff would touch any file under `papers/bedc/parts/visions/`,
     reject the round and return an empty commit with a note, unless the
     entire vision-side diff is restricted to appending
@@ -296,12 +304,12 @@ If the diff only re-indents existing lines or only adds new `\leanvariant` marke
 git add papers/bedc lean4/BEDC
 git commit -m "<COMMIT_PREFIX> [brief description of what was revised]
 
-	prompts: v4.53
+	prompts: v4.54
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v4.53` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
+The `prompts: v4.54` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
 
 DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
 
