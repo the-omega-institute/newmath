@@ -2769,6 +2769,8 @@ import BEDC.Derived.DecidableRefutationBoundaryUp.NameCertObligations
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
+import BEDC.Derived.DecimalExpansionUp.CountableDenseConsumerHandoff
+import BEDC.Derived.DecimalExpansionUp.DyadicComparisonHandoff
 import BEDC.Derived.DecimalExpansionUp.DyadicRationalReadback
 import BEDC.Derived.DecimalExpansionUp.FinitePrefixCompleteness
 import BEDC.Derived.DecimalExpansionUp.NameCertObligations
@@ -4735,6 +4737,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.SocketRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketAuditBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionBoundaryRouting
 import BEDC.Derived.MetaCICCriticalPathUp.TransportRowStability
+import BEDC.Derived.MetaCICDecidableBoundaryUp.CandidateNormalFormReads
 import BEDC.Derived.MetaCICDecidableBoundaryUp.ClassifierStability
 import BEDC.Derived.MetaCICDecidableBoundaryUp.RefusalExactness
 import BEDC.Derived.MetaCICDecidableBoundaryUp.SiblingProvenance
@@ -5158,6 +5161,7 @@ import BEDC.Derived.NormalSpaceUp.UrysohnCozeroLocalization
 import BEDC.Derived.NormalSpaceUp.UrysohnLemmaConsumerExactness
 import BEDC.Derived.NormedSpaceUp
 import BEDC.Derived.NormedSpaceUp.BanachConsumerNonescape
+import BEDC.Derived.NormedSpaceUp.RealNormMetricFactorization
 import BEDC.Derived.NormedSpaceUp.TasteGate
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.NullSequenceUp
@@ -5584,6 +5588,7 @@ import BEDC.Derived.PseudometricUp.CompletionNonescapeObligation
 import BEDC.Derived.PseudometricUp.DependencyReadyPackage
 import BEDC.Derived.PseudometricUp.DistanceReadbackObligation
 import BEDC.Derived.PseudometricUp.FiniteWindowDistanceRoute
+import BEDC.Derived.PseudometricUp.KernelSourceCarrier
 import BEDC.Derived.PseudometricUp.LedgerNonescapeObligation
 import BEDC.Derived.PseudometricUp.LocatedMetricSourceExhaustion
 import BEDC.Derived.PseudometricUp.TasteGate
