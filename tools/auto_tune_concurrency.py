@@ -21,9 +21,8 @@ Pressure-driven adjustments (applied AFTER demand-driven tuning):
 Housekeeping (runs every tick, cheap):
   - log retention: delete logs older than LOG_RETENTION_DAYS in
     {papers/bedc/scripts/logs/, lean4/scripts/logs/, scripts/logs/}
-  - stale worktree cleanup: any `.worktrees/round_R<N>` or
-    `paper_P<N>` whose round id has had no orchestrator log activity
-    in WORKTREE_STALE_MINUTES gets force-removed plus its branch.
+  - stale worktree cleanup: semantic worker worktrees first; ordinal-shaped
+    worktrees are cleanup remnants.
 
 Run periodically (e.g. every 300s via the autotune daemon):
   python3 tools/auto_tune_concurrency.py            # write + report + clean
@@ -43,6 +42,8 @@ import sys
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
+
+from pipeline_worker_identity import legacy_worktree_kind, parse_new_worktree_name
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CRITICAL_PATH = REPO_ROOT / "lean4/scripts/critical_path.py"
@@ -281,15 +282,12 @@ def cleanup_old_logs(retention_days: float, dry_run: bool = False) -> dict:
     }
 
 
-_ROUND_DIR_RE = re.compile(r"^(round_R|paper_P)([0-9]+)$")
-
-
 def cleanup_stale_worktrees(stale_minutes: int = WORKTREE_STALE_MINUTES,
                             dry_run: bool = False) -> dict:
     """Force-remove worktrees with no orchestrator-log activity in N minutes.
 
-    Heuristic: scan `.worktrees/round_R*` and `paper_P*`, grep each id in the
-    corresponding orchestrator log, find last mention. If older than
+    Heuristic: scan semantic worker worktrees and ordinal-shaped cleanup
+    remnants, grep each id in the corresponding orchestrator log, find last mention. If older than
     stale_minutes, the worktree is abandoned. Skip if recovery_queue has a
     ticket for it.
     """
@@ -299,9 +297,7 @@ def cleanup_stale_worktrees(stale_minutes: int = WORKTREE_STALE_MINUTES,
     queued_ids: set[str] = set()
     if recovery_queue.exists():
         for f in recovery_queue.iterdir():
-            m = re.match(r"^(R[0-9]+|P[0-9]+)_", f.name)
-            if m:
-                queued_ids.add(m.group(1))
+            queued_ids.add(f.name.rsplit("_", 1)[0])
 
     # Pre-read both orchestrator logs once (last 4 MB each is enough; 30-45min span)
     def read_tail(p: Path, mb: int = 4) -> str:
@@ -347,27 +343,32 @@ def cleanup_stale_worktrees(stale_minutes: int = WORKTREE_STALE_MINUTES,
     for wt in WORKTREES_DIR.iterdir():
         if not wt.is_dir():
             continue
-        m = _ROUND_DIR_RE.match(wt.name)
-        if not m:
+        parsed = parse_new_worktree_name(wt.name)
+        legacy = legacy_worktree_kind(wt.name)
+        if not parsed and not legacy:
             continue
-        prefix, num = m.groups()
-        if prefix == "round_R":
-            rid = f"R{num}"
-            branch = f"codex-R{num}"
+        if parsed:
+            kind, slug, lease_id = parsed
+            rid = wt.name
+            branch = f"{kind}-{slug}-{lease_id}"
+            log_text = lean_log if kind == "formalize" else paper_log
+        elif legacy and legacy[0] == "formalize":
+            rid = f"R{legacy[1]}"
+            branch = "codex-R" + str(legacy[1])
             log_text = lean_log
         else:
-            rid = f"P{num}"
-            branch = f"paper-P{num}"
+            assert legacy is not None
+            rid = f"P{legacy[1]}"
+            branch = "paper-P" + str(legacy[1])
             log_text = paper_log
-        if rid in queued_ids:
+        if rid in queued_ids or wt.name in queued_ids:
             continue
         if str(wt) in held_paths:
             # An active codex subprocess holds this worktree; do NOT touch.
             continue
-        # Find last mention of [Rnnn] or [Pnnn]
         last_ts = ""
         for line in log_text.splitlines():
-            if f"[{rid}]" in line:
+            if f"[{rid}]" in line or rid in line:
                 last_ts = line[:19]  # YYYY-MM-DD HH:MM:SS
         if not last_ts:
             # Worktree exists but never mentioned in tail; old enough to clear

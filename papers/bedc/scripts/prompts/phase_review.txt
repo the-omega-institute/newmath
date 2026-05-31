@@ -1,4 +1,4 @@
-You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
+You are the THEORY REVIEW phase for BEDC paper revision worker <WORKER_ID>.
 
 ## Prompts version
 v4.53 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
@@ -532,7 +532,7 @@ You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touc
 - `papers/bedc/parts/` — theory chapters (core, proof_obligations, concrete_instances, concrete_hardening, hardening, formalization, proof_sprint, proof_standing, project_governance)
 - `papers/bedc/appendices/` — appendix material
 - `lean4/BEDC/` — Lean 4 formalization (mathlib-free, 0 axiom 0 sorry); paper claims linked via `\leanchecked` / `\leanvariant` / `\leanstmt` / `\leandef` markers.
-- Current round: P<ROUND_NUM>
+- Worker identity: <WORKER_ID>
 - Recent commits:
 <RECENT>
 
@@ -1027,7 +1027,7 @@ Before producing JSON, build an inventory of real paper files:
 Do NOT propose targets that fail this sanity check. A split-only target is INVALID even if the file is long; attach splitting only to a substantive theorem/definition/proof/certificate change that needs it. A target whose only effect is to register a marker pointing to a Lean theorem that does not exist is INVALID.
 
 ## Task
-Pick **exactly 1 primary review target** for P<ROUND_NUM>: the hardest feasible candidate from the candidate pool, not the first easy target found. Emit more than one target only when the selected content-bearing target requires a split to stay under the line cap; in that case, the split is an implementation detail of the same substantive target, not a separate target. Empty rounds are better than low-confidence rounds.
+Pick **exactly 1 primary review target** for <WORKER_ID>: the hardest feasible candidate from the candidate pool, not the first easy target found. Emit more than one target only when the selected content-bearing target requires a split to stay under the line cap; in that case, the split is an implementation detail of the same substantive target, not a separate target. Empty rounds are better than low-confidence rounds.
 
 At least one emitted target MUST advance the OPEN phase from the roadmap (record its `roadmap_phase` field in the JSON) unless the only valid high-quality target is a discipline/structural safety fix. If you emit multiple targets, prefer one from {1, 5, 6} (theory tightening) and one of category 9 (`theory_extension`) only when the extension meets the quality score gate. Do not force a `theory_extension` when the precise statement or proof skeleton is weak.
 
@@ -1047,7 +1047,7 @@ Derive each target's label slug (typically `thm:<concept>` from the target's pri
 
 ```bash
 python3 lean4/scripts/claim_paper_label.py claim \
-    --round P<ROUND_NUM> \
+    --holder <WORKER_HOLDER> \
     --labels thm:foo-bar,def:baz-qux
 ```
 
