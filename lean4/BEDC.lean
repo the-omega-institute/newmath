@@ -637,6 +637,7 @@ import BEDC.Derived.BaireCategoryUp.RefinementChoiceFree
 import BEDC.Derived.BaireCategoryUp.SourceRouteNonescape
 import BEDC.Derived.BaireCategoryUp.TasteGate
 import BEDC.Derived.BaireOneFunctionUp
+import BEDC.Derived.BaireOneFunctionUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
 import BEDC.Derived.BaireSteinhausUp.TasteGate
@@ -1185,6 +1186,7 @@ import BEDC.Derived.CauchyCompletionFunctorialityUp.TasteGate
 import BEDC.Derived.CauchyCompletionIsometryUp.TasteGate
 import BEDC.Derived.CauchyCompletionKleisliAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionKleisliUp.TasteGate
+import BEDC.Derived.CauchyCompletionLeftExactnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionLiftUp.TasteGate
 import BEDC.Derived.CauchyCompletionMonadUp
@@ -4239,6 +4241,8 @@ import BEDC.Derived.HyersUlamStabilityUp.TasteGate
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.HyperspaceUp.CompactSubsetRootAdmission
+import BEDC.Derived.HyperspaceUp.FiniteHitDirectedCover
 import BEDC.Derived.HyperspaceUp.TasteGate
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.HypothesisUp
@@ -4897,6 +4901,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.SocketRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketAuditBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionBoundaryRouting
+import BEDC.Derived.MetaCICCriticalPathUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp.TransportRowStability
 import BEDC.Derived.MetaCICDecidableBoundaryUp
 import BEDC.Derived.MetaCICDecidableBoundaryUp.CandidateNormalFormReads
@@ -5805,6 +5810,7 @@ import BEDC.Derived.PseudometricUp.TasteGate
 import BEDC.Derived.PseudometricUp.TriangleLedgerObligation
 import BEDC.Derived.PseudometricUp.ZeroDistanceClassifierStability
 import BEDC.Derived.PseudometricUp.ZeroDistanceCompletionRoute
+import BEDC.Derived.PseudometricUp.ZeroDistanceScope
 import BEDC.Derived.PseudometricUp.ZeroDistanceSourceReflection
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
