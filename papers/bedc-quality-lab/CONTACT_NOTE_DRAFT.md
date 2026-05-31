@@ -40,6 +40,8 @@ Selected current numbers:
 ```text
 torch objective latent R^2 delta:                    0.000000
 torch objective gap AUROC gain, BEDC - latent-only:  0.499223
+torch objective gap AUROC gain mean, three seeds:    0.498762
+torch objective debt reduction mean, three seeds:    0.102887
 torch objective unlogged error, BEDC:                0.000000
 torch objective debt reduction:                      0.096838
 grid transition one-step R^2:                         0.998237

@@ -5,15 +5,8 @@ The local evidence is stored outside this paper as a lab artifact.  The paper
 records only the current contact and its boundary.
 
 \paragraph{Artifact pointers.}
-The current protocol writes two boundary-envelope artifacts in
-\path{papers/bedc-quality-lab/reports/}:
-$$
-\begin{array}{ll}
-\text{Envelope} & \texttt{bedc\_jepa\_boundary\_envelope.json},\\
-\text{Report} & \texttt{bedc\_jepa\_boundary\_report.md}.
-\end{array}
-$$
-The four-system experiment writes:
+The current protocol writes machine-readable artifacts under the quality-lab
+reports directory.  The four-system experiment writes:
 $$
 \begin{array}{ll}
 \text{JSON} & \texttt{bedc\_jepa\_four\_system\_experiment.json},\\
@@ -22,8 +15,9 @@ $$
 \text{Public MiniGrid probe} & \texttt{bedc\_jepa\_public\_minigrid\_probe.json}.
 \end{array}
 $$
-The envelope is a lab-local evidence boundary.  It is not a Python definition
-of BEDC NameCert, closurestatus, origin, or Lean verification status.
+The JSON artifacts are lab-local evidence boundaries.  They are not Python
+definitions of BEDC NameCert, closurestatus, origin, or Lean verification
+status.
 
 \paragraph{Source specification.}
 The source is \texttt{boundary-gated-ou-world}.  Its latent dimension is $2$,
@@ -39,18 +33,21 @@ inside-boundary distinction, and boundary gap detection.
 The current boundary envelope records three gaps:
 $$
 \begin{array}{l}
-\texttt{no-gradient-bedc-jepa-training-yet},\\
 \texttt{one-boundary-family},\\
 \texttt{no-gap-aware-planning-rollout-yet}.
 \end{array}
 $$
-The torch objective artifact closes the no-gradient gap for the boundary
-readback setting under a frozen-latent protocol: the latent encoder has the
-same recovery score in the latent-only and BEDC-objective systems, while the
-trained distinction and gap heads lower debt and remove unlogged error.  The
-four-system experiment closes part of the second gap by comparing BEDC-JEPA
-readback against post-hoc baselines on radial and sinusoidal boundary
-families.  It also adds a grid-pixel benchmark with a learned
+The torch objective artifact supplies gradient-trained BEDC heads for the
+boundary readback setting under a frozen-latent protocol: the latent encoder
+has the same recovery score in the latent-only and BEDC-objective systems,
+while the trained distinction and gap heads lower debt and remove unlogged
+error.  The three-seed gradient sweep records mean gap AUROC gain
+$0.498762 \pm 0.000467$, mean unlogged-error reduction
+$0.009983 \pm 0.002251$, and mean debt reduction
+$0.102887 \pm 0.007293$, with no measured change in latent $R^2$.  The
+four-system experiment closes part of the boundary-family gap by comparing
+BEDC-JEPA readback against post-hoc baselines on radial and sinusoidal
+boundary families.  It also adds a grid-pixel benchmark with a learned
 action-conditioned transition model, a MiniGrid-style visual planning
 benchmark, and an eight-seed two-object counterfactual contact benchmark.  The
 object evidence also includes a four-slot distractor benchmark where the

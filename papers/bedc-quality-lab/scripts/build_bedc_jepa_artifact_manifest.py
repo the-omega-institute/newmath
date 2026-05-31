@@ -38,14 +38,32 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
     torch_objective = _load_optional_json("bedc_jepa_torch_objective.json")
     torch_claims = {}
     if torch_objective is not None:
+        torch_single = torch_objective.get("single", torch_objective)
+        torch_sweep = torch_objective.get("sweep")
         torch_claims = {
-            "torch_objective_gap_auc_gain": torch_objective["deltas"]["gap_auc_gain"],
-            "torch_objective_debt_reduction": torch_objective["deltas"]["debt_reduction"],
-            "torch_objective_unlogged_error": torch_objective["systems"]["bedc_objective"][
+            "torch_objective_gap_auc_gain": torch_single["deltas"]["gap_auc_gain"],
+            "torch_objective_debt_reduction": torch_single["deltas"]["debt_reduction"],
+            "torch_objective_unlogged_error": torch_single["systems"]["bedc_objective"][
                 "unlogged_error_rate"
             ],
-            "torch_objective_latent_r2_delta": torch_objective["deltas"]["latent_r2_delta"],
+            "torch_objective_latent_r2_delta": torch_single["deltas"]["latent_r2_delta"],
         }
+        if torch_sweep is not None:
+            torch_claims.update(
+                {
+                    "torch_objective_seed_count": torch_sweep["seed_count"],
+                    "torch_objective_gap_auc_gain_mean": torch_sweep["gap_auc_gain_mean"],
+                    "torch_objective_gap_auc_win_rate": torch_sweep["gap_auc_win_rate"],
+                    "torch_objective_debt_reduction_mean": torch_sweep["debt_reduction_mean"],
+                    "torch_objective_debt_win_rate": torch_sweep["debt_win_rate"],
+                    "torch_objective_unlogged_error_reduction_mean": torch_sweep[
+                        "unlogged_error_reduction_mean"
+                    ],
+                    "torch_objective_latent_r2_delta_abs_max": torch_sweep[
+                        "latent_r2_delta_abs_max"
+                    ],
+                }
+            )
     return {
         "schema_id": "bedc-jepa-artifact-manifest",
         "artifact": "reports/bedc_jepa_four_system_experiment.json",

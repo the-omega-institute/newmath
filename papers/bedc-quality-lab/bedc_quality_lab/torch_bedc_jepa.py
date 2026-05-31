@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from collections.abc import Sequence
 from typing import Any
 
 import numpy as np
@@ -34,6 +35,20 @@ def _experiment_debt_score(
 ) -> float:
     raw = 0.55 * unlogged_error + 0.20 * false_claim + 0.20 * (1.0 - gap_auc) + 0.05 * (1.0 - certified)
     return float(max(0.0, min(1.0, raw)))
+
+
+def _ci95(values: Sequence[float]) -> float:
+    if len(values) <= 1:
+        return 0.0
+    array = np.asarray(values, dtype=np.float64)
+    return float(1.96 * np.std(array, ddof=1) / np.sqrt(array.shape[0]))
+
+
+def _win_rate(values: Sequence[float], *, threshold: float = 0.0) -> float:
+    if not values:
+        return 0.0
+    wins = sum(1 for value in values if float(value) > threshold)
+    return float(wins / len(values))
 
 
 def _make_mlp(torch: Any, in_dim: int, out_dim: int) -> Any:
@@ -228,4 +243,42 @@ def run_torch_bedc_jepa_benchmark(*, seed: int = 4242) -> dict[str, object]:
             - float(latent["distinction_accuracy_outside_gap"]),
             "latent_r2_delta": float(bedc["linear_identifiability_r2"]) - float(latent["linear_identifiability_r2"]),
         },
+    }
+
+
+def run_torch_bedc_jepa_sweep(*, seeds: Sequence[int] = (4242, 4259, 4276)) -> dict[str, object]:
+    runs = [run_torch_bedc_jepa_benchmark(seed=int(seed)) for seed in seeds]
+    gap_auc_gains = [float(run["deltas"]["gap_auc_gain"]) for run in runs]
+    unlogged_reductions = [float(run["deltas"]["unlogged_error_reduction"]) for run in runs]
+    debt_reductions = [float(run["deltas"]["debt_reduction"]) for run in runs]
+    outside_gap_gains = [float(run["deltas"]["outside_gap_accuracy_gain"]) for run in runs]
+    latent_r2_deltas = [float(run["deltas"]["latent_r2_delta"]) for run in runs]
+    compact_runs = [
+        {
+            "seed": float(run["source"]["seed"]),
+            "gap_auc_gain": float(run["deltas"]["gap_auc_gain"]),
+            "unlogged_error_reduction": float(run["deltas"]["unlogged_error_reduction"]),
+            "debt_reduction": float(run["deltas"]["debt_reduction"]),
+            "outside_gap_accuracy_gain": float(run["deltas"]["outside_gap_accuracy_gain"]),
+            "latent_r2_delta": float(run["deltas"]["latent_r2_delta"]),
+        }
+        for run in runs
+    ]
+    return {
+        "seed_count": float(len(seeds)),
+        "seeds": [float(seed) for seed in seeds],
+        "runs": compact_runs,
+        "gap_auc_gain_mean": float(np.mean(gap_auc_gains)),
+        "gap_auc_gain_ci95": _ci95(gap_auc_gains),
+        "unlogged_error_reduction_mean": float(np.mean(unlogged_reductions)),
+        "unlogged_error_reduction_ci95": _ci95(unlogged_reductions),
+        "debt_reduction_mean": float(np.mean(debt_reductions)),
+        "debt_reduction_ci95": _ci95(debt_reductions),
+        "outside_gap_accuracy_gain_mean": float(np.mean(outside_gap_gains)),
+        "outside_gap_accuracy_gain_ci95": _ci95(outside_gap_gains),
+        "latent_r2_delta_mean": float(np.mean(latent_r2_deltas)),
+        "latent_r2_delta_abs_max": float(np.max(np.abs(np.asarray(latent_r2_deltas, dtype=np.float64)))),
+        "gap_auc_win_rate": _win_rate(gap_auc_gains),
+        "unlogged_error_win_rate": _win_rate(unlogged_reductions, threshold=-1e-12),
+        "debt_win_rate": _win_rate(debt_reductions),
     }
