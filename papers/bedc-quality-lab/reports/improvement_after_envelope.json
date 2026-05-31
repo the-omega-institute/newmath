@@ -8,22 +8,32 @@
     "papers/bedc/parts/project_governance/theory_amendment_policy.tex"
   ],
   "classifier_spec": {
+    "cert_method": "inline-threshold",
+    "cert_proxy": 0.8532236540830835,
+    "cert_r2": 0.9169803490890405,
+    "cert_reason": "linear_identifiability_r2 and approx_identifiability_proxy meet thresholds",
+    "cert_score": 1.0788004106929887,
+    "cert_status": "certified",
+    "cert_threshold": {
+      "approx_identifiability_proxy": 0.7,
+      "linear_identifiability_r2": 0.85
+    },
     "name": "standardized-nonlinear-observation",
     "output_dim": 2,
     "training": "deterministic-standardization"
   },
   "debt_items": [
     "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
-    "kind=distribution; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
-    "kind=finite-sample; residue=finite-sample-support; severity=none; status=closed; score=0.000000",
-    "kind=optimization; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
-    "kind=global-claim; residue=global-claim-boundary; severity=high; status=open; score=0.200000"
+    "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+    "kind=source; residue=finite-sample-support; severity=none; status=closed; score=0.000000",
+    "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+    "kind=generalization; residue=global-claim-boundary; severity=high; status=open; score=0.200000"
   ],
   "ledger_gaps": [
-    "residue=source-coverage; severity=high; status=open",
-    "residue=mixing-family-coverage; severity=high; status=open",
-    "residue=optimizer-certificate; severity=medium; status=partial",
-    "residue=global-claim-boundary; severity=high; status=open"
+    "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+    "kind=generalization; residue=global-claim-boundary; severity=high; status=open",
+    "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+    "kind=source; residue=source-coverage; severity=high; status=open"
   ],
   "metrics": {
     "approx_identifiability_proxy": 0.8532236540830835,

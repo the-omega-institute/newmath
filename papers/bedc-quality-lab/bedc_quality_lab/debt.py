@@ -5,13 +5,15 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Mapping, Any
 
+from .ledger import LedgerEntry, LedgerRowKey, ledger_debt, ledger_gap, recorded_rows, required_rows
 
-_CATEGORY_WEIGHTS = {
-    "source": 0.18,
-    "distribution": 0.22,
-    "finite-sample": 0.20,
-    "optimization": 0.20,
-    "global-claim": 0.20,
+
+_ROW_WEIGHTS = {
+    LedgerRowKey("source", "source-coverage"): 0.18,
+    LedgerRowKey("source", "mixing-family-coverage"): 0.22,
+    LedgerRowKey("source", "finite-sample-support"): 0.20,
+    LedgerRowKey("classifier", "optimizer-certificate"): 0.20,
+    LedgerRowKey("generalization", "global-claim-boundary"): 0.20,
 }
 
 
@@ -58,7 +60,7 @@ def _positive_int(spec: Mapping[str, Any], key: str, default: int) -> int:
 
 
 def _source_score(source_spec: Mapping[str, Any]) -> float:
-    upper = _CATEGORY_WEIGHTS["source"]
+    upper = _ROW_WEIGHTS[LedgerRowKey("source", "source-coverage")]
     count = _positive_int(source_spec, "source_count", 1)
     if count <= 1:
         return upper
@@ -68,7 +70,7 @@ def _source_score(source_spec: Mapping[str, Any]) -> float:
 
 
 def _distribution_score(source_spec: Mapping[str, Any]) -> float:
-    upper = _CATEGORY_WEIGHTS["distribution"]
+    upper = _ROW_WEIGHTS[LedgerRowKey("source", "mixing-family-coverage")]
     mixing = source_spec.get("mixing")
     if isinstance(mixing, (list, tuple, set)):
         count = len(mixing)
@@ -82,7 +84,7 @@ def _distribution_score(source_spec: Mapping[str, Any]) -> float:
 
 
 def _finite_sample_score(source_spec: Mapping[str, Any]) -> float:
-    upper = _CATEGORY_WEIGHTS["finite-sample"]
+    upper = _ROW_WEIGHTS[LedgerRowKey("source", "finite-sample-support")]
     sample_count = _positive_int(source_spec, "sample_count", 0)
     if sample_count >= 2048:
         return 0.0
@@ -94,7 +96,7 @@ def _finite_sample_score(source_spec: Mapping[str, Any]) -> float:
 
 
 def _optimization_score(classifier_spec: Mapping[str, Any]) -> float:
-    upper = _CATEGORY_WEIGHTS["optimization"]
+    upper = _ROW_WEIGHTS[LedgerRowKey("classifier", "optimizer-certificate")]
     training = str(classifier_spec.get("training", ""))
     name = str(classifier_spec.get("name", ""))
     text = f"{name} {training}".lower()
@@ -106,7 +108,7 @@ def _optimization_score(classifier_spec: Mapping[str, Any]) -> float:
 
 
 def _global_claim_score(source_spec: Mapping[str, Any], stability_spec: Mapping[str, Any]) -> float:
-    upper = _CATEGORY_WEIGHTS["global-claim"]
+    upper = _ROW_WEIGHTS[LedgerRowKey("generalization", "global-claim-boundary")]
     if source_spec.get("global_claim") is True and stability_spec.get("multi_seed") is True:
         return 0.0
     if source_spec.get("global_claim") is True:
@@ -114,16 +116,38 @@ def _global_claim_score(source_spec: Mapping[str, Any], stability_spec: Mapping[
     return upper
 
 
-def _item(kind: str, residue: str, score: float) -> DebtItem:
-    upper = _CATEGORY_WEIGHTS[kind]
+def _item(row: LedgerRowKey, score: float) -> DebtItem:
+    upper = _ROW_WEIGHTS[row]
     bounded = _bounded(score, upper)
     return DebtItem(
-        kind=kind,
-        residue=residue,
+        kind=row.kind,
+        residue=row.residue,
         severity=_severity(bounded, upper),
         status=_status(bounded, upper),
         score=bounded,
     )
+
+
+def _required_entries() -> tuple[LedgerEntry, ...]:
+    return tuple(
+        LedgerEntry(row=row, source_ref="quality-lab-cost-policy", weight=weight, critical=True)
+        for row, weight in _ROW_WEIGHTS.items()
+    )
+
+
+def _recorded_entries(items: tuple[DebtItem, ...]) -> tuple[LedgerEntry, ...]:
+    entries = []
+    for item in items:
+        if item.status == "closed":
+            entries.append(
+                LedgerEntry(
+                    row=LedgerRowKey(item.kind, item.residue),
+                    source_ref="quality-lab-observed-closure",
+                    weight=0.0,
+                    critical=True,
+                )
+            )
+    return tuple(entries)
 
 
 def assess_debt(
@@ -139,13 +163,23 @@ def assess_debt(
     """
     del metrics
     items = (
-        _item("source", "source-coverage", _source_score(source_spec)),
-        _item("distribution", "mixing-family-coverage", _distribution_score(source_spec)),
-        _item("finite-sample", "finite-sample-support", _finite_sample_score(source_spec)),
-        _item("optimization", "optimizer-certificate", _optimization_score(classifier_spec)),
-        _item("global-claim", "global-claim-boundary", _global_claim_score(source_spec, stability_spec)),
+        _item(LedgerRowKey("source", "source-coverage"), _source_score(source_spec)),
+        _item(LedgerRowKey("source", "mixing-family-coverage"), _distribution_score(source_spec)),
+        _item(LedgerRowKey("source", "finite-sample-support"), _finite_sample_score(source_spec)),
+        _item(LedgerRowKey("classifier", "optimizer-certificate"), _optimization_score(classifier_spec)),
+        _item(
+            LedgerRowKey("generalization", "global-claim-boundary"),
+            _global_claim_score(source_spec, stability_spec),
+        ),
     )
-    total = sum(item.score for item in items)
+    required = required_rows(_required_entries())
+    recorded = recorded_rows(_recorded_entries(items))
+    gap = ledger_gap(required, recorded)
+    cost_map = {
+        LedgerRowKey(item.kind, item.residue): item.score
+        for item in items
+    }
+    total = ledger_debt(gap, cost_map)
     return DebtAssessment(items=items, debt_total=float(total))
 
 

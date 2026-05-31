@@ -13,7 +13,7 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.schema import QualityEvidenceEnvelope
 from scripts.run_gaussian_ou_lejepa import run_experiment
 
-TARGET_DEBT_KIND = "finite-sample"
+TARGET_DEBT_RESIDUE = "finite-sample-support"
 BEFORE_ENVELOPE_ARTIFACT = "reports/improvement_before_envelope.json"
 AFTER_ENVELOPE_ARTIFACT = "reports/improvement_after_envelope.json"
 REPORT_ARTIFACT = "reports/quality_improvement_report.md"
@@ -39,15 +39,15 @@ def _parse_debt_row(row: str) -> dict[str, str]:
     return fields
 
 
-def _target_debt_row(envelope: QualityEvidenceEnvelope, kind: str = TARGET_DEBT_KIND) -> dict[str, str]:
+def _target_debt_row(envelope: QualityEvidenceEnvelope, residue: str = TARGET_DEBT_RESIDUE) -> dict[str, str]:
     matches = []
     for row in envelope.debt_items:
         fields = _parse_debt_row(row)
-        if fields["kind"] == kind:
+        if fields["residue"] == residue:
             matches.append(fields)
 
     if len(matches) != 1:
-        raise ValueError(f"expected exactly one {kind!r} debt row, found {len(matches)}")
+        raise ValueError(f"expected exactly one {residue!r} debt row, found {len(matches)}")
     return matches[0]
 
 
@@ -55,14 +55,14 @@ def _quality_delta(
     before: QualityEvidenceEnvelope,
     after: QualityEvidenceEnvelope,
     *,
-    target_kind: str = TARGET_DEBT_KIND,
+    target_residue: str = TARGET_DEBT_RESIDUE,
 ) -> dict[str, float | str]:
-    before_row = _target_debt_row(before, target_kind)
-    after_row = _target_debt_row(after, target_kind)
+    before_row = _target_debt_row(before, target_residue)
+    after_row = _target_debt_row(after, target_residue)
     before_score = float(before_row["score"])
     after_score = float(after_row["score"])
     return {
-        "target_kind": target_kind,
+        "target_residue": target_residue,
         "before_status": before_row["status"],
         "after_status": after_row["status"],
         "before_score": before_score,
@@ -84,7 +84,7 @@ def _render_improvement_report(before: QualityEvidenceEnvelope, after: QualityEv
         "",
         "## 对照设置",
         "",
-        f"- 目标 debt kind：`{delta['target_kind']}`",
+        f"- 目标 debt residue：`{delta['target_residue']}`",
         f"- 干预前运行：`{before.run_id}`",
         f"- 干预后运行：`{after.run_id}`",
         f"- 干预前 artifact：`{before.artifacts['envelope']}`",

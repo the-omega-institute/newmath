@@ -25,16 +25,24 @@ def test_ledger_gaps_derive_from_debt_and_specs():
     rows = format_ledger_gaps(gaps)
 
     assert rows
-    assert all(row.startswith("residue=") for row in rows)
+    assert all(row.startswith("kind=") for row in rows)
+    assert all("; residue=" in row for row in rows)
     assert all("; severity=" in row for row in rows)
     assert all("; status=" in row for row in rows)
-    assert any(gap.residue == "source-coverage" and gap.status in {"open", "partial"} for gap in gaps)
     assert any(
-        gap.residue == "mixing-family-coverage" and gap.status in {"open", "partial"}
+        gap.kind == "source" and gap.residue == "source-coverage" and gap.status in {"open", "partial"}
         for gap in gaps
     )
     assert any(
-        gap.residue == "global-claim-boundary" and gap.status in {"open", "partial"}
+        gap.kind == "source"
+        and gap.residue == "mixing-family-coverage"
+        and gap.status in {"open", "partial"}
+        for gap in gaps
+    )
+    assert any(
+        gap.kind == "generalization"
+        and gap.residue == "global-claim-boundary"
+        and gap.status in {"open", "partial"}
         for gap in gaps
     )
 
@@ -67,6 +75,7 @@ def test_ledger_metric_gap_pins_partial_and_open_statuses_below_margin():
 
     assert partial_gaps == [
         type(partial_gaps[0])(
+            kind="verification",
             residue="identifiability-proxy-margin",
             severity="medium",
             status="partial",
@@ -74,6 +83,7 @@ def test_ledger_metric_gap_pins_partial_and_open_statuses_below_margin():
     ]
     assert open_gaps == [
         type(open_gaps[0])(
+            kind="verification",
             residue="identifiability-proxy-margin",
             severity="high",
             status="open",
