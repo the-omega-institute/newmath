@@ -18,12 +18,17 @@ import json
 import os
 import re
 import subprocess
+import sys
 import time
 from collections import deque
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+TOOLS_DIR = ROOT / "tools"
+if str(TOOLS_DIR) not in sys.path:
+    sys.path.insert(0, str(TOOLS_DIR))
+from pipeline_worker_identity import parse_new_worktree_name
 NAMECERT_GLOB = ROOT / "papers/bedc/parts/concrete_instances"
 DERIVED_DIR = ROOT / "lean4/BEDC/Derived"
 _THEOREM_ENVS_CACHE_PATH = Path("/tmp/.bedc_cp_theorem_envs_cache.json")
@@ -1567,7 +1572,7 @@ def _grade_lag(grade: str | None, order: list[str], threshold: str) -> int:
 
 
 def _inflight_paper_attack_chapters() -> set[str]:
-    """Scan `.worktrees/paper_P*/` for working-tree changes touching
+    """Scan paper worker worktrees for working-tree changes touching
     `concrete_instances/<chapter>...` files. Returns the set of chapter
     names currently being attacked by in-flight paper rounds whose
     edits have NOT yet been committed.
@@ -1593,7 +1598,10 @@ def _inflight_paper_attack_chapters() -> set[str]:
     pat = re.compile(
         r"concrete_instances/(?:\d+_)?([a-z][a-z0-9_]*?)(?:_namecert|/|\.tex)"
     )
-    for wt in worktrees_dir.glob("paper_P*"):
+    for wt in worktrees_dir.iterdir():
+        parsed = parse_new_worktree_name(wt.name)
+        if not ((parsed and parsed[0] == "paper-revise") or wt.name.startswith("paper_P")):
+            continue
         try:
             out = subprocess.run(
                 ["git", "status", "--porcelain"],
@@ -1617,7 +1625,7 @@ def _inflight_paper_attack_chapters() -> set[str]:
 
 def _inflight_lean_attack_chapters() -> set[str]:
     """Same as _inflight_paper_attack_chapters but scans
-    `.worktrees/round_R*/` for lean-side worktree edits to lean4/BEDC/
+    formalize worker worktrees for lean-side worktree edits to lean4/BEDC/
     or to paper closurestatus blocks. Used by bridge_candidates +
     formal_axis_top to avoid dispatching multiple lean rounds at the
     same chapter.
@@ -1631,7 +1639,10 @@ def _inflight_lean_attack_chapters() -> set[str]:
     paper_pat = re.compile(
         r"concrete_instances/(?:\d+_)?([a-z][a-z0-9_]*?)(?:_namecert|/|\.tex)"
     )
-    for wt in worktrees_dir.glob("round_R*"):
+    for wt in worktrees_dir.iterdir():
+        parsed = parse_new_worktree_name(wt.name)
+        if not ((parsed and parsed[0] == "formalize") or wt.name.startswith("round_R")):
+            continue
         try:
             out = subprocess.run(
                 ["git", "status", "--porcelain"],

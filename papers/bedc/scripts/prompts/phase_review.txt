@@ -1,4 +1,4 @@
-You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
+You are the THEORY REVIEW phase for BEDC paper revision worker <WORKER_ID>.
 
 ## Prompts version
 v4.53 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
@@ -36,12 +36,12 @@ If `dispatch_weights.paper.capstone_candidate` is non-null, you have a pre-picke
 2. MetaCIC 研究: 路径含 `MetaCIC` 的目标优先, 包括 discharge conditional hypothesis / 扩 candidate-mediated SN / confluence 碎片 / decidability fragment.
 Phase Review output 的 priority/score 字段已 reflect 这些权重, 但请明确选择上述类型 target 优先.
 
-The capstone chapter to draft follows the hub + subdir convention:
+The capstone chapter to draft chooses the hub + subdir layout:
 - Hub: `papers/bedc/parts/concrete_instances/<NNNN>_<suggested_paper_slug>_namecert_construction.tex`
 - Subdir spine: `papers/bedc/parts/concrete_instances/<suggested_paper_slug>/namecert_construction.tex`
 - HARD: allocate `<NNNN>` by running `python3 papers/bedc/scripts/allocate_concrete_instance_id.py` exactly once when creating the chapter. This script uses a cross-process lock and shared counter, so concurrent workers do not reuse the same number. Do NOT infer `<NNNN>` from local snapshots with `ls | sort | tail`, `awk`, random offsets, or similar commands; that stale-snapshot inference caused the `110934` same-number collision.
 - Include preamble macro `\newcommand{\<SuggestedLeanName>}{\mathsf{<...>}^{\uparrow}}` and the `main.tex` include
-- Treat it as a regular concrete-instance chapter. The top-level hub only contains structural input lines; the subdir spine holds the chapter heading, label, origin, intro, seed-level `closurestatus`, and `\leanstmt{BEDC.Derived.<suggested_lean_name>}` pointing at the lean-side draft if it exists
+- Treat it as a regular concrete-instance chapter. When this target chooses hub + subdir layout, the top-level hub only contains structural input lines; the subdir spine holds the chapter heading, label, origin, intro, seed-level `closurestatus`, and `\leanstmt{BEDC.Derived.<suggested_lean_name>}` pointing at the lean-side draft if it exists
 - DO NOT modify the bucket member chapters this round (instance migration is a separate human-reviewed step)
 
 ### HARD FLOOR for carrier_isomorphism_capstone
@@ -79,7 +79,7 @@ The `top` and `top_root_unblocks` sampling windows follow `.pipeline_parallel.js
 2. **`targets[0]` MUST be that human_chapter_extension entry.** This is the FIRST target, not an optional second. closure_mark / drift / bridge / theory_extension candidates ALL go to `targets[1+]` as additional targets.
 3. **NO "out of current phase" reasoning** — the gate fires regardless of which open phase the project is in. Current focus phase informs choice of WHICH human chapter, not WHETHER to emit one. If the current phase is "L10 Real and Completion", pick a human-known one-step neighbour from that phase (e.g. Heine-Borel, Bolzano-Weierstrass on RealUp). If the current phase is algebra, pick `ModuleUp` / `RingUp` / `IdealUp` neighbours. Always a relevant human-known mathematical object exists.
 4. **Result chapter MUST have `\origin{human}`** + ground-cite "Following <author>, ..." in orienting paragraph.
-5. **Mechanically**: `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble_chapter_macros.tex"]`, propose `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex` with `<NN>` from `allocate_concrete_instance_id.py`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro (appended to `preamble_chapter_macros.tex`).
+5. **Mechanically**: `paper_files = ["papers/bedc/main.tex", "papers/bedc/preamble_chapter_macros.tex"]`, propose `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex` with `<NN>` from `allocate_concrete_instance_id.py`, new `\input{...}` line, new `\newcommand{\<X>Up}{...}` macro (appended to `preamble_chapter_macros.tex`). The default new chapter path may be a single-file content chapter with `\chapter` and body content. If the target chooses hub + subdir layout, the top-level file must be hub-only and the chapter body belongs in the subdir spine and siblings.
 
 This is **rank 1** every round, no exception. Other candidates compete for ranks 2+. Goal: bring corpus split from ~50/50 to ~60/40 (human/ai) over the next ~200 rounds. Violation of this rule (failing to emit human_chapter_extension as `targets[0]`) will be detected and the round will be REJECTED at the orchestrator review gate in a follow-up commit.
 
@@ -532,7 +532,7 @@ You audit the BEDC theory currently presented in `papers/bedc/`. You do NOT touc
 - `papers/bedc/parts/` — theory chapters (core, proof_obligations, concrete_instances, concrete_hardening, hardening, formalization, proof_sprint, proof_standing, project_governance)
 - `papers/bedc/appendices/` — appendix material
 - `lean4/BEDC/` — Lean 4 formalization (mathlib-free, 0 axiom 0 sorry); paper claims linked via `\leanchecked` / `\leanvariant` / `\leanstmt` / `\leandef` markers.
-- Current round: P<ROUND_NUM>
+- Worker identity: <WORKER_ID>
 - Recent commits:
 <RECENT>
 
@@ -1027,7 +1027,7 @@ Before producing JSON, build an inventory of real paper files:
 Do NOT propose targets that fail this sanity check. A split-only target is INVALID even if the file is long; attach splitting only to a substantive theorem/definition/proof/certificate change that needs it. A target whose only effect is to register a marker pointing to a Lean theorem that does not exist is INVALID.
 
 ## Task
-Pick **exactly 1 primary review target** for P<ROUND_NUM>: the hardest feasible candidate from the candidate pool, not the first easy target found. Emit more than one target only when the selected content-bearing target requires a split to stay under the line cap; in that case, the split is an implementation detail of the same substantive target, not a separate target. Empty rounds are better than low-confidence rounds.
+Pick **exactly 1 primary review target** for <WORKER_ID>: the hardest feasible candidate from the candidate pool, not the first easy target found. Emit more than one target only when the selected content-bearing target requires a split to stay under the line cap; in that case, the split is an implementation detail of the same substantive target, not a separate target. Empty rounds are better than low-confidence rounds.
 
 At least one emitted target MUST advance the OPEN phase from the roadmap (record its `roadmap_phase` field in the JSON) unless the only valid high-quality target is a discipline/structural safety fix. If you emit multiple targets, prefer one from {1, 5, 6} (theory tightening) and one of category 9 (`theory_extension`) only when the extension meets the quality score gate. Do not force a `theory_extension` when the precise statement or proof skeleton is weak.
 
@@ -1047,7 +1047,7 @@ Derive each target's label slug (typically `thm:<concept>` from the target's pri
 
 ```bash
 python3 lean4/scripts/claim_paper_label.py claim \
-    --round P<ROUND_NUM> \
+    --holder <WORKER_HOLDER> \
     --labels thm:foo-bar,def:baz-qux
 ```
 

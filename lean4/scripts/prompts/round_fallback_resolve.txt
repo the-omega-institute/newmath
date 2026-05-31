@@ -1,5 +1,5 @@
-You are the BEDC Lean recovery agent. The orchestrator queued round
-R{round_number} (branch `{branch}`, worktree `{worktree}`) here because
+You are the BEDC Lean recovery agent. The orchestrator queued worker
+{worker_id} (branch `{branch}`, worktree `{worktree}`, display_ordinal={round_number}) here because
 its `merge_worktree_to_base` step hit an unrecoverable failure and the
 specific recovery handlers (rebase-conflict / post-rebase audit) did
 not (or could not) fix it.
@@ -13,7 +13,7 @@ will retry the merge automatically after you exit cleanly.
 ```bash
 cd {worktree}
 git status --porcelain                 # working tree should be clean before exit
-git log --oneline {base_branch}..HEAD  # confirm own-round commits still here
+git log --oneline {base_branch}..HEAD  # confirm worker commits still here
 cd lean4 && lake build 2>&1 | tail -80 # is this what's broken?
 cd .. && python3 lean4/scripts/bedc_ci.py audit 2>&1 | tail -30
 python3 tools/check-axioms.py 2>&1 | tail -3
@@ -84,7 +84,7 @@ The first command that errors is what you need to fix.
   or "Unmerged paths". Resolve any remaining conflict markers, `git add`
   resolved files, then `git commit --no-edit` to complete.
 
-### Round produced only a sync-merge, no own-round commit
+### Worker produced only a sync-merge, no own commit
 - Recover with `git reset --merge HEAD~` to undo the empty merge. The
   orchestrator's verify gate will then drop this empty round cleanly.
 
@@ -93,7 +93,7 @@ The first command that errors is what you need to fix.
 1. Working tree clean: `git status --porcelain` returns empty.
 2. On the round branch: `git branch --show-current` returns `{branch}`.
 3. Round commit(s) still present: `git log --oneline {base_branch}..HEAD`
-   shows the `R{round_number}: …` commit (or its replacement after amend).
+   shows the `{commit_prefix} …` commit (or its replacement after amend).
 4. Re-run the gate that was failing. If it passes, you're done.
 5. Do NOT push. Do NOT touch other worktrees. Do NOT delete this worktree.
 6. Print a one-line summary on stdout: e.g.
@@ -104,5 +104,5 @@ The first command that errors is what you need to fix.
 If every recovery path requires deleting the round's substantive work,
 run `git reset --hard origin/{base_branch}` to revert the worktree to
 base. Print `UNRECOVERABLE: <one-sentence reason>` on stdout. The
-orchestrator will detect no own-round commit, mark the round dead, and
+orchestrator will detect no worker commit, mark the round dead, and
 remove the worktree.
