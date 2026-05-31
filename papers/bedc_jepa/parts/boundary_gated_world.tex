@@ -1,0 +1,74 @@
+\section{Boundary-Gated World}
+\label{sec:boundary-gated-world}
+
+The first executable protocol is deliberately small.  It is not a claim about
+large-scale pixel world modeling.  It is a controlled setting that separates
+latent recovery from distinction and gap learning.
+
+\paragraph{World.}
+The latent state is two-dimensional.  The continuation rule is an
+Ornstein--Uhlenbeck pair:
+$$
+  z_{t+1}=\rho z_t+\sqrt{1-\rho^2}\eta_t .
+$$
+The observation is a nonlinear shear $x_t=g(z_t)$.  The operational
+distinction is an inside/outside radial boundary:
+$$
+  d_t = \mathbf 1[\lVert z_t\rVert^2\le r^2].
+$$
+The gap ledger is a boundary band:
+$$
+  g_t = \mathbf 1[|\lVert z_t\rVert^2-r^2|\le \varepsilon].
+$$
+Thus the world has a continuous state, a discrete distinction, and an explicit
+gap surface.  The distinction is operational because crossing the boundary
+changes the inside/outside claim.  The gap is operational because near-boundary
+claims are not certified.
+
+\paragraph{Current artifact.}
+The lab script \texttt{run\_bedc\_jepa\_boundary\_world.py}, stored under
+\path{papers/bedc-quality-lab/scripts/}, generates a canonical evidence
+envelope for this protocol.  The experiment script
+\texttt{run\_bedc\_jepa\_experiment.py} then runs the four-system comparison:
+latent-only prediction, post-hoc probe, post-hoc BEDC report, and trained
+BEDC-JEPA gap readback.
+
+\paragraph{Recorded measurements.}
+The four-system experiment records:
+$$
+\begin{array}{ll}
+\texttt{S0\_unlogged\_error\_rate} & 0.091146,\\
+\texttt{S1\_unlogged\_error\_rate} & 0.080729,\\
+\texttt{S2\_unlogged\_error\_rate} & 0.035156,\\
+\texttt{S3\_unlogged\_error\_rate} & 0.013021,\\
+\texttt{S2\_gap\_detection\_auc} & 0.845039,\\
+\texttt{S3\_gap\_detection\_auc} & 0.898880,\\
+\texttt{S2\_bedc\_debt\_score} & 0.056448,\\
+\texttt{S3\_bedc\_debt\_score} & 0.037607.
+\end{array}
+$$
+
+All four systems have the same latent recovery score, $0.926199$, in this
+controlled setting.  The trained BEDC-JEPA system therefore does not win by
+hiding a worse latent model behind a better report.  It keeps the post-hoc
+probe's outside-gap distinction accuracy while improving gap AUROC, unlogged
+error, and the scope-relative debt score against the post-hoc BEDC report
+baseline.
+
+\paragraph{Seed sweep.}
+The experiment also runs a two-world seed sweep: the radial boundary world and
+a sinusoidal boundary world.  Across $16$ world-seed cells, the aggregate
+trained-minus-post-hoc gap AUROC gain is $0.021994 \pm 0.013291$, the
+post-hoc-minus-trained unlogged-error reduction is $0.022868 \pm 0.006128$,
+and the post-hoc-minus-trained debt reduction is $0.011947 \pm 0.005406$.
+The trained system beats the post-hoc baseline in $81.25\%$ of cells for gap
+AUROC, $100\%$ for unlogged error, and $81.25\%$ for debt.
+
+\paragraph{Grid-pixel learned transition.}
+A second benchmark uses $11\times 11$ pixel observations of a moving point in a
+grid world.  A latent readout is trained from pixels, and a linear
+action-conditioned transition model is trained on the learned state.  The
+one-step transition score is $R^2=0.998237$ with mean L2 error $0.021983$.
+Against the post-hoc grid report baseline, trained BEDC-JEPA improves gap
+AUROC from $0.892642$ to $0.999210$, lowers unlogged error from $0.010000$ to
+$0.001111$, and lowers debt from $0.029559$ to $0.009579$.

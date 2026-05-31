@@ -1,0 +1,67 @@
+\section{Gap-Aware Planning}
+\label{sec:gap-aware-planning}
+
+The planner should not treat all predicted states equally.  A low predicted
+task cost is not enough when the world model itself predicts that a trajectory
+passes through high-gap regions.
+
+\begin{definition}[Gap-sound model]
+A model is gap-sound at tolerance $\epsilon$ and threshold $\tau$ on a declared
+scope if
+$$
+  g(o,a)<\tau \Rightarrow \operatorname{PredError}(o,a)\le\epsilon
+$$
+and
+$$
+  \operatorname{PredError}(o,a)>\epsilon \Rightarrow g(o,a)\ge\tau .
+$$
+The first implication says that low-gap states are reliable.  The second says
+that high-error states are ledgered.
+\end{definition}
+
+Given a predicted rollout, BEDC-JEPA planning minimizes
+$$
+  \sum_t c(z_t,a_t)+\lambda_g\sum_t \lVert g_t\rVert_1 .
+$$
+The second term is not an interpretability report.  It changes the selected
+plan by making high-gap trajectories expensive.
+
+\begin{proposition}[Gap penalty blocks cheap high-gap plans]
+Suppose a low-gap feasible trajectory has predicted task cost at most $C$.
+Suppose every high-gap trajectory has gap penalty at least $G$.  If
+$\lambda_g G$ is larger than the task-cost advantage of every high-gap
+trajectory over the low-gap trajectory, then the gap-aware planner selects a
+low-gap trajectory.
+\end{proposition}
+
+\begin{proof}
+For any high-gap trajectory, the BEDC-JEPA objective equals its predicted task
+cost plus at least $\lambda_g G$.  By hypothesis this exceeds the objective of
+the low-gap feasible trajectory.  Therefore no high-gap trajectory can be an
+optimizer of the penalized planning objective.
+\end{proof}
+
+\paragraph{Experimental target.}
+The planning experiment should compare a vanilla latent planner and a
+gap-aware planner on the same learned transition model.  The primary measures
+are unsafe-state rate, high-gap trajectory rate, success rate, and unlogged
+failure rate.  The expected BEDC-JEPA advantage is not only lower prediction
+loss, but fewer selected trajectories through regions where the model itself
+has marked its world-state claim as unsupported.
+
+\paragraph{Current result.}
+In the boundary-gated rollout, both planners use the same candidate actions and
+the same target.  The vanilla planner optimizes only predicted task cost.  The
+gap-aware planner adds the learned gap penalty.  On eight trajectories with an
+eight-step horizon, the high-gap state rate drops from $0.109375$ to
+$0.015625$, while success remains $1.000000$.  The regret proxy increases
+slightly from $0.123423$ to $0.128087$, which records the expected cost of
+avoiding uncertified boundary states.
+
+In the grid-pixel learned-transition benchmark, planning uses the trained
+action-conditioned transition model.  The vanilla planner enters high-gap
+states at rate $0.520833$ and unsafe states at rate $0.333333$.  The gap-aware
+planner reduces both rates to $0.000000$ in the same rollout setting.  This is
+not a robotics-scale control result, but it is no longer an oracle-state
+planning-only artifact: the rollout is mediated by a learned transition model
+trained from pixel observations.

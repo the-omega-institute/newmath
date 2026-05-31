@@ -1,0 +1,96 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\usepackage{url}
+
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+
+\title{BEDC-JEPA: Learning World Models with Certifiable Distinctions and Gap-Aware Planning}
+\author{The Omega Institute}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Joint-embedding predictive architectures learn world models by predicting
+target representations rather than reconstructing observations.  Recent
+identifiability results show that, under explicit Gaussian and transition
+assumptions, such objectives can recover latent world variables up to a linear
+or orthogonal gauge.  This paper proposes a different learning target:
+BEDC-JEPA, a world-model principle in which the learned state includes
+continuous latent coordinates, operational distinction heads, and explicit gap
+ledger heads.  The goal is not to attach a post-hoc report to a representation,
+but to train the model to know which distinctions are stable enough to claim
+and where its own world-state predictions require a ledger entry.  A
+boundary-gated Ornstein--Uhlenbeck toy world gives the first executable
+experiment: a continuous latent trajectory, an inside/outside operational
+distinction, and a boundary gap band.  A four-system comparison separates
+latent-only prediction, a post-hoc probe, a post-hoc BEDC report, and a trained
+BEDC-JEPA gap readback.  Under equal latent recovery, the trained BEDC-JEPA
+system lowers unlogged error and scope-relative debt against the post-hoc
+report baseline, and gap-aware planning reduces selected high-gap states in a
+small rollout.
+\end{abstract}
+
+\section{Scope}
+BEDC-JEPA is not a formalization of an existing JEPA paper and not a post-hoc
+model card.  The object of study is a BEDC-native world-model objective:
+$$
+\text{world state} = z_t + d_t + g_t .
+$$
+Here $z_t$ is a continuous latent state, $d_t$ is a vector of operational
+distinctions, and $g_t$ is a vector of gap-ledger states.  A distinction is not
+a natural-language label.  It is a stable predicate with transition,
+intervention, or planning consequences inside a declared scope.  A gap state is
+not an after-the-fact explanation.  It is a model output indicating that the
+current prediction or distinction claim is not certified.
+
+\input{parts/reality_boundary}
+\input{parts/relation_to_jepa}
+\input{parts/model_principle}
+\input{parts/boundary_gated_world}
+\input{parts/evaluation_contract}
+\input{parts/gap_aware_planning}
+\input{parts/evidence_packet}
+\input{parts/cannot_claim_boundary}
+
+\begin{thebibliography}{9}
+\bibitem{lecun-ami}
+Yann LeCun.
+\newblock A Path Towards Autonomous Machine Intelligence.
+\newblock Open research essay, 2022.
+
+\bibitem{ijepa}
+Mahmoud Assran, Quentin Duval, Ishan Misra, Piotr Bojanowski, Pascal Vincent,
+Michael Rabbat, Yann LeCun, and Nicolas Ballas.
+\newblock Self-Supervised Learning from Images with a Joint-Embedding
+Predictive Architecture.
+\newblock arXiv:2301.08243, 2023.
+
+\bibitem{causal-jepa}
+Heejeong Nam, Quentin Le Lidec, Lucas Maes, Yann LeCun, and Randall
+Balestriero.
+\newblock Causal-JEPA: Learning World Models through Object-Level Latent
+Masking.
+\newblock arXiv:2602.11389, 2026.
+
+\bibitem{leworldmodel}
+Lucas Maes, Quentin Le Lidec, Damien Scieur, Yann LeCun, and Randall
+Balestriero.
+\newblock LeWorldModel: Stable End-to-End Joint-Embedding Predictive
+Architecture from Pixels.
+\newblock arXiv:2603.19312, 2026.
+
+\bibitem{lejepa-world-model}
+David Klindt, Yann LeCun, and Randall Balestriero.
+\newblock When Does LeJEPA Learn a World Model?
+\newblock arXiv:2605.26379, 2026.
+\end{thebibliography}
+
+\end{document}

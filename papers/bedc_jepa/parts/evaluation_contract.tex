@@ -1,0 +1,83 @@
+\section{Evaluation Contract}
+\label{sec:evaluation-contract}
+
+The empirical claim must separate latent quality from BEDC world-state
+quality.  High latent recovery is necessary for the toy protocol, but it is
+not the contribution by itself.  The contribution requires lower silent
+failure at comparable latent recovery.
+
+\paragraph{Systems.}
+The evaluation compares four systems:
+$$
+\begin{array}{ll}
+S_0 & \text{latent JEPA-style prediction only},\\
+S_1 & \text{latent prediction with a post-hoc distinction probe},\\
+S_2 & \text{latent prediction with a post-hoc evidence envelope},\\
+S_3 & \text{BEDC-JEPA with trained distinction and gap heads}.
+\end{array}
+$$
+Only $S_3$ changes the learning objective.  $S_1$ and $S_2$ are necessary
+controls because they test whether the result is merely a better report over
+the same representation.
+
+\paragraph{Primary outcome.}
+The primary metric is unlogged error:
+$$
+\operatorname{UER}
+=
+\Pr[
+  \text{critical distinction error}
+  \wedge
+  \text{gap head below threshold}
+].
+$$
+The BEDC-JEPA target is:
+$$
+\operatorname{UER}(S_3)
+<
+\operatorname{UER}(S_0),\quad
+\operatorname{UER}(S_1),\quad
+\operatorname{UER}(S_2)
+$$
+under comparable latent recovery.  This metric captures the central BEDC
+constraint: the model may be wrong, but it must not be confidently and
+silently wrong on a declared critical distinction.
+
+\paragraph{Current result.}
+The boundary-gated OU experiment satisfies this target in the narrow declared
+scope.  The four systems share the same latent recovery score, $0.926199$.
+Their unlogged error rates are:
+$$
+\begin{array}{ll}
+S_0 & 0.091146,\\
+S_1 & 0.080729,\\
+S_2 & 0.035156,\\
+S_3 & 0.013021.
+\end{array}
+$$
+The trained BEDC-JEPA system also improves gap AUROC from $0.845039$ to
+$0.898880$ against the post-hoc BEDC report baseline, while preserving
+outside-gap distinction accuracy at $0.943423$.
+
+\paragraph{Secondary outcomes.}
+Secondary measures are distinction accuracy outside the gap, gap AUROC,
+false-claim rate inside the gap, certified coverage, and scope-relative debt.
+The planning version additionally reports unsafe-state rate, high-gap
+trajectory rate, success rate, and planning regret.
+
+The seed sweep reports $95\%$ confidence radii for the three main deltas.  The
+aggregate deltas are positive across radial and sinusoidal boundary worlds:
+gap AUROC gain $0.021994 \pm 0.013291$, unlogged-error reduction
+$0.022868 \pm 0.006128$, and debt reduction $0.011947 \pm 0.005406$.
+
+The grid-pixel learned-transition benchmark adds the JEPA-style requirement
+that the model act through a learned representation and learned predictor
+rather than an oracle latent rollout.  It preserves high one-step transition
+accuracy while keeping the same ablation contract: $S_3$ must improve over
+$S_2$ on gap AUROC, unlogged error, and debt.
+
+\paragraph{Break condition.}
+The protocol fails as a BEDC-JEPA result if $S_3$ improves the report format
+but does not lower unlogged error or gap-sensitive planning failures against
+the post-hoc baselines.  It also fails if the gap head is only a proxy for high
+prediction loss while missing the declared operational distinction boundary.

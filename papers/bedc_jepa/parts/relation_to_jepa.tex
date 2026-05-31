@@ -1,0 +1,45 @@
+\section{Relation to JEPA World-Model Work}
+\label{sec:relation-to-jepa}
+
+The JEPA family supplies the contact surface for this paper.  LeCun's
+autonomous-intelligence program places learned world models at the center of
+prediction, planning, and action \cite{lecun-ami}.  I-JEPA shows that
+representation-space prediction can support semantic image representations
+without reconstructing every pixel detail \cite{ijepa}.  LeWorldModel moves
+the same principle toward end-to-end pixel world modeling with a compact
+latent predictor and Gaussian regularization \cite{leworldmodel}.  Causal-JEPA
+adds object-level latent masking so that interaction-dependent prediction
+enters the learning objective \cite{causal-jepa}.
+
+The most direct theory contact is the LeJEPA identifiability result
+\cite{lejepa-world-model}.  That result asks when alignment plus Gaussian
+regularization recovers latent world variables, and it connects such recovery
+to latent-space planning.  BEDC-JEPA asks a different question.  Once a world
+model has a latent carrier, which operational distinctions can be trained as
+part of the state, and which failure surfaces must be carried by an explicit
+gap head?
+
+\paragraph{Complementarity.}
+The LeJEPA question is latent recovery:
+$$
+\text{observation} \longrightarrow \text{recoverable latent coordinate}.
+$$
+The BEDC-JEPA question is ledgered world-state formation:
+$$
+\text{observation}
+\longrightarrow
+\text{latent coordinate}
++ \text{operational distinction}
++ \text{gap ledger}.
+$$
+The paper therefore does not claim that BEDC explains an already trained
+LeJEPA representation.  It proposes a training target in which the distinction
+and the gap are outputs of the world model itself.
+
+\paragraph{Contact with Issue 330 and the quality lab.}
+The local quality-lab material supplies an executable evidence envelope, not a
+second semantic source for BEDC.  Its role is to keep the Python side honest:
+source, pattern, classifier, stability setting, metrics, ledger gaps, debt
+items, and artifact pointers are recorded in a reproducible packet.  BEDC
+semantics remain in the paper and Lean tracks; the lab only reports the
+contact values produced by the protocol.
