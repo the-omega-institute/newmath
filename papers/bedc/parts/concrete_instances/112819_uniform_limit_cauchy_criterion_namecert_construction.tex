@@ -62,11 +62,27 @@ The terminal Real seal is downstream of that route. The $\UniformCauchyCriterion
 Since $H,C,P,N$ preserve the same rows and add no external analytic object, the L10 handoff contains no quotient function equality, pointwise-only convergence witness, selected limit, countable choice, or ambient $\RealUp$ completeness datum.
 \end{proof}
 
-\closureat{UniformLimitCauchyCriterionUp}{seedStr}
+\begin{theorem}[Uniform limit Cauchy criterion endpoint stability]
+\label{thm:uniform-limit-cauchy-criterion-endpoint-stability}
+Let
+$$
+U=(F,W,M,S,R,E,H,C,P,N)
+$$
+be an accepted $\UniformLimitCauchyCriterionUp$ carrier. Any endpoint-facing consumer preserving the rows $F,W,M,S,R,E,H,C,P,N$ preserves the same $\StreamNameUp$ observation, $\RegSeqRatUp$ readback, and $\RealUp$ seal. In particular, the consumer cannot replace the shared uniform Cauchy modulus $M$ by pointwise convergence, selected limits, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-limit-cauchy-criterion-carrier}. The endpoint-facing data are exactly the family row, finite windows, shared uniform modulus, stream observation, regular readback, Real seal, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:uniform-limit-cauchy-criterion-namecert-obligations} in row order. The modulus row $M$ precedes the observations $S$, readback $R$, and Real seal $E$, so any row-preserving consumer must keep the same uniform Cauchy evidence attached to the same finite windows.
+
+Finally apply \autoref{thm:uniform-limit-cauchy-criterion-l10-handoff}. It identifies the endpoint route through $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, while $H,C,P,N$ preserve and name that route. Hence no pointwise-only convergence witness, selected limit, countable-choice selector, or ambient completeness datum can replace the shared uniform modulus.
+\end{proof}
+
+\closureat{UniformLimitCauchyCriterionUp}{obligationStr}
 
 \begin{closurestatus}{\UniformLimitCauchyCriterionUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:uniform-limit-cauchy-criterion-carrier}, \autoref{thm:uniform-limit-cauchy-criterion-namecert-obligations}, and \autoref{thm:uniform-limit-cauchy-criterion-l10-handoff} seed the finite Real-and-Completion route for uniform Cauchy function-family convergence through displayed StreamName, RegSeqRat, Real, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:uniform-limit-cauchy-criterion-carrier}, \autoref{thm:uniform-limit-cauchy-criterion-namecert-obligations}, \autoref{thm:uniform-limit-cauchy-criterion-l10-handoff}, and \autoref{thm:uniform-limit-cauchy-criterion-endpoint-stability} close the finite Real-and-Completion route for uniform Cauchy function-family convergence through displayed StreamName, RegSeqRat, Real, transport, replay, provenance, and local NameCert rows at obligation strength.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient function equality, selected family limits, countable choice, pointwise-only convergence, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
