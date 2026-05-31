@@ -16,6 +16,46 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+theorem PolishSpaceRootObligationPackage [AskSetup] [PackageSetup]
+    {metric complete separable stream readback ledger transport route provenance localName
+      rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont metric complete separable ->
+      Cont stream ledger readback ->
+        Cont ledger transport route ->
+          Cont route localName rootRead ->
+            UnaryHistory metric ->
+              UnaryHistory complete ->
+                UnaryHistory stream ->
+                  UnaryHistory ledger ->
+                    UnaryHistory transport ->
+                      UnaryHistory localName ->
+                        PkgSig bundle provenance pkg ->
+                          PkgSig bundle localName pkg ->
+                            UnaryHistory separable ∧ UnaryHistory readback ∧
+                              UnaryHistory route ∧ UnaryHistory rootRead ∧
+                                Cont metric complete separable ∧
+                                  Cont stream ledger readback ∧
+                                    Cont ledger transport route ∧
+                                      Cont route localName rootRead ∧
+                                        PkgSig bundle provenance pkg ∧
+                                          PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro metricCompleteSeparable streamLedgerReadback ledgerTransportRoute routeLocalRoot
+    metricUnary completeUnary streamUnary ledgerUnary transportUnary localNameUnary provenancePkg
+    localNamePkg
+  have separableUnary : UnaryHistory separable :=
+    unary_cont_closed metricUnary completeUnary metricCompleteSeparable
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed streamUnary ledgerUnary streamLedgerReadback
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed ledgerUnary transportUnary ledgerTransportRoute
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed routeUnary localNameUnary routeLocalRoot
+  exact
+    ⟨separableUnary, readbackUnary, routeUnary, rootUnary, metricCompleteSeparable,
+      streamLedgerReadback, ledgerTransportRoute, routeLocalRoot, provenancePkg, localNamePkg⟩
+
 theorem PolishSpaceCompleteMetricRootObligation [AskSetup] [PackageSetup]
     {metric complete stream readback ledger transport route completionRead rootRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
