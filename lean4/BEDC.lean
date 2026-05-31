@@ -2785,7 +2785,6 @@ import BEDC.Derived.DecimalExpansionUp.FinitePrefixCompleteness
 import BEDC.Derived.DecimalExpansionUp.NameCertObligations
 import BEDC.Derived.DecimalExpansionUp.PrefixStability
 import BEDC.Derived.DecimalExpansionUp.RatRealHandoff
-import BEDC.Derived.DecimalExpansionUp.RealReadbackBoundary
 import BEDC.Derived.DecimalExpansionUp.RealWindowExhaustionAuditRoute
 import BEDC.Derived.DecimalExpansionUp.TailDigitStability
 import BEDC.Derived.DecimalExpansionUp.TasteGate
@@ -4533,7 +4532,6 @@ import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LocatedSupremumUp.WindowTransport
 import BEDC.Derived.LocatedUniformCompletionUp.TasteGate
 import BEDC.Derived.LocatedUniformContinuityUp.TasteGate
-import BEDC.Derived.LocatedUniformLimitUp.TasteGate
 import BEDC.Derived.LocatedUniformSpaceUp.TasteGate
 import BEDC.Derived.LocatednessModulusUp
 import BEDC.Derived.LocatednessModulusUp.TasteGate
@@ -4643,7 +4641,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeBudgetRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeFrontierCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeScheduleExhaustion
-import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierConfluenceSocketBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierDischargeCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10DischargeBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
@@ -4753,7 +4750,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketAuditBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionBoundaryRouting
 import BEDC.Derived.MetaCICCriticalPathUp.TransportRowStability
 import BEDC.Derived.MetaCICDecidableBoundaryUp.CandidateNormalFormReads
-import BEDC.Derived.MetaCICDecidableBoundaryUp.CandidateSubstitutionExhaustion
 import BEDC.Derived.MetaCICDecidableBoundaryUp.ClassifierStability
 import BEDC.Derived.MetaCICDecidableBoundaryUp.RefusalExactness
 import BEDC.Derived.MetaCICDecidableBoundaryUp.SiblingProvenance
@@ -5490,6 +5486,7 @@ import BEDC.Derived.PolishspaceUp.CompletionDensityHandoff
 import BEDC.Derived.PolishspaceUp.CompletionDensityReadback
 import BEDC.Derived.PolishspaceUp.CompletionDensityUnblock
 import BEDC.Derived.PolishspaceUp.CompletionNonescape
+import BEDC.Derived.PolishspaceUp.DenseScheduleRootObligation
 import BEDC.Derived.PolishspaceUp.L10SiblingRoute
 import BEDC.Derived.PolishspaceUp.NameCertLedgerExactness
 import BEDC.Derived.PolishspaceUp.NameCertObligations
