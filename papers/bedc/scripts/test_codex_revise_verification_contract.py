@@ -6,7 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from contextlib import nullcontext
+from contextlib import ExitStack, nullcontext
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -33,7 +33,63 @@ def clean_gate_results(cr):
     return {name: [] for name in cr.PAPER_GATE_POLICY}
 
 
+def make_worktree(cr, path: Path, round_number: int, base_sha: str = "a" * 40):
+    return cr.WorktreeInfo(
+        path=path,
+        branch="paper-test",
+        round_number=round_number,
+        base_sha=base_sha,
+    )
+
+
 class CodexReviseVerificationContractTests(unittest.TestCase):
+    def assert_phase_gate_failure_blocks_verification(
+        self,
+        cr,
+        *,
+        wt,
+        ledger,
+        failure_code: str,
+        detail_substring: str,
+        patches=(),
+    ):
+        original_record = cr.record
+        original_runner = cr._run_phase_paper_gates
+        outcomes = []
+
+        def capture_outcome(inner_wt):
+            outcome = original_runner(inner_wt)
+            outcomes.append(outcome)
+            return outcome
+
+        try:
+            cr.record = lambda **kwargs: original_record(**kwargs, ledger_path=ledger)
+            with ExitStack() as stack:
+                for patcher in patches:
+                    stack.enter_context(patcher)
+                stack.enter_context(patch.object(
+                    cr,
+                    "run_cmd",
+                    return_value=completed(f"1234567 P{wt.round_number}: verify branch\n"),
+                ))
+                stack.enter_context(
+                    patch.object(cr, "_run_phase_paper_gates", side_effect=capture_outcome)
+                )
+                drift_audit = stack.enter_context(patch.object(cr, "run_drift_audit"))
+                ok, new = cr.verify_worktree_commits(wt, pre_commits=[])
+
+            self.assertEqual(len(outcomes), 1)
+            outcome = outcomes[0]
+            self.assertFalse(outcome.ok)
+            self.assertEqual(outcome.failure_code, failure_code)
+            self.assertIn(detail_substring, outcome.detail)
+            self.assertFalse(ok)
+            self.assertEqual(new, [f"1234567 P{wt.round_number}: verify branch"])
+            self.assertFalse(ledger.exists())
+            drift_audit.assert_not_called()
+        finally:
+            cr.record = original_record
+
     def test_deferred_pdf_build_records_envelope(self):
         cr = load_codex_revise()
         with tempfile.TemporaryDirectory() as td:
@@ -283,6 +339,103 @@ class CodexReviseVerificationContractTests(unittest.TestCase):
             self.assertIn("missing=['math']", outcome.detail)
             self.assertFalse(ok)
             self.assertEqual(new, ["1234567 P11: verify branch"])
+
+    def test_phase_paper_gate_runner_missing_fails_closed(self):
+        cr = load_codex_revise()
+        with tempfile.TemporaryDirectory() as td:
+            temp = Path(td)
+            self.assert_phase_gate_failure_blocks_verification(
+                cr,
+                wt=make_worktree(cr, temp, 14),
+                ledger=temp / "ledger.jsonl",
+                failure_code="runner-missing",
+                detail_substring="phase_paper_gates.py missing",
+                patches=[patch.object(cr, "SCRIPT_DIR", temp / "absent-scripts")],
+            )
+
+    def test_phase_paper_gate_base_sha_missing_fails_closed(self):
+        cr = load_codex_revise()
+        with tempfile.TemporaryDirectory() as td:
+            temp = Path(td)
+            scripts = temp / "scripts"
+            scripts.mkdir()
+            (scripts / "phase_paper_gates.py").write_text("", encoding="utf-8")
+            self.assert_phase_gate_failure_blocks_verification(
+                cr,
+                wt=make_worktree(cr, temp, 15, base_sha=""),
+                ledger=temp / "ledger.jsonl",
+                failure_code="base-sha-missing",
+                detail_substring="require a base_sha",
+                patches=[patch.object(cr, "SCRIPT_DIR", scripts)],
+            )
+
+    def test_phase_paper_gate_exit_nonzero_fails_closed(self):
+        cr = load_codex_revise()
+        with tempfile.TemporaryDirectory() as td:
+            temp = Path(td)
+            self.assert_phase_gate_failure_blocks_verification(
+                cr,
+                wt=make_worktree(cr, temp, 16),
+                ledger=temp / "ledger.jsonl",
+                failure_code="exit-nonzero",
+                detail_substring="exit 2",
+                patches=[patch.object(
+                    cr.subprocess,
+                    "run",
+                    return_value=completed(stderr="gate crashed", returncode=2),
+                )],
+            )
+
+    def test_phase_paper_gate_non_object_json_fails_closed(self):
+        cr = load_codex_revise()
+        with tempfile.TemporaryDirectory() as td:
+            temp = Path(td)
+            self.assert_phase_gate_failure_blocks_verification(
+                cr,
+                wt=make_worktree(cr, temp, 17),
+                ledger=temp / "ledger.jsonl",
+                failure_code="invalid-schema",
+                detail_substring="must be a JSON object",
+                patches=[patch.object(cr.subprocess, "run", return_value=completed("[]"))],
+            )
+
+    def test_phase_paper_gate_extra_key_schema_mismatch_fails_closed(self):
+        cr = load_codex_revise()
+        results = clean_gate_results(cr)
+        results["unexpected"] = []
+        with tempfile.TemporaryDirectory() as td:
+            temp = Path(td)
+            self.assert_phase_gate_failure_blocks_verification(
+                cr,
+                wt=make_worktree(cr, temp, 18),
+                ledger=temp / "ledger.jsonl",
+                failure_code="invalid-schema",
+                detail_substring="extra=['unexpected']",
+                patches=[patch.object(
+                    cr.subprocess,
+                    "run",
+                    return_value=completed(json.dumps(results)),
+                )],
+            )
+
+    def test_phase_paper_gate_non_list_string_value_fails_closed(self):
+        cr = load_codex_revise()
+        results = clean_gate_results(cr)
+        results["math"] = "paper.tex:3: forbidden math env"
+        with tempfile.TemporaryDirectory() as td:
+            temp = Path(td)
+            self.assert_phase_gate_failure_blocks_verification(
+                cr,
+                wt=make_worktree(cr, temp, 19),
+                ledger=temp / "ledger.jsonl",
+                failure_code="invalid-schema",
+                detail_substring="must be list[str]",
+                patches=[patch.object(
+                    cr.subprocess,
+                    "run",
+                    return_value=completed(json.dumps(results)),
+                )],
+            )
 
     def test_phase_paper_gate_advisory_violations_do_not_block(self):
         cr = load_codex_revise()
