@@ -94,6 +94,20 @@ The boundary rows and endpoint reads are displayed in $L$ and $X$, while the bou
 Thus a downstream consumer receives exactly the finite upcrossing handoff rows carried by $U,D,L,X,T,O,H,K,P,N$. The carrier has no coordinate from which an ambient limiting event, almost-sure quotient, or unbounded stopping theorem could be read.
 \end{proof}
 
+\begin{theorem}[Martingale convergence finite Cauchy admission]
+\label{thm:martingale-convergence-finite-cauchy-admission}
+For an accepted $\MartingaleConvergenceUp$ carrier, the convergence-admission row $A$ may export a finite Cauchy-preparation ledger only after the bounded endpoint rows $L$, $\StreamNameUp$ schedule $S$, $\RegSeqRatUp$ readback $R$, $\UpcrossingUp$ row $U$, and $\DoobUpcrossingUp$ row $D$ have all been displayed. The exported ledger is a finite bounded-window admission route over the same martingale, stopping, optional-stopping, upcrossing, schedule, rational-readback, and Real-boundary rows; it does not claim almost-sure convergence, measure completion, unbounded stopping-time choice, Brownian convergence, or an ambient convergence theorem.
+\end{theorem}
+\begin{proof}
+Open the carrier of \autoref{def:martingale-convergence-carrier}. The row $A$ is the only convergence-admission ledger, and its available endpoint and approximation inputs are the displayed $L,S,R$ rows of the same packet.
+
+Apply \autoref{thm:martingale-convergence-namecert-obligations}. It identifies finite upcrossing and Doob-bound exposure through $U,D$, schedule and rational-approximation exposure through $S,R,L$, and convergence-admission exactness through $A$.
+
+Use the bounded real window of \autoref{def:martingale-convergence-bounded-real-window} and the lock theorem \autoref{thm:martingale-convergence-upcrossing-window-lock}. They force any admission read to pass through bounded endpoint rows, finite prefix scheduling, rational readback, and bounded upcrossing control before $A$ is consumed.
+
+Finally apply \autoref{thm:martingale-convergence-upcrossing-route}. The upcrossing input to the admission ledger is exactly the displayed $\UpcrossingUp$ and $\DoobUpcrossingUp$ handoff, so the exported Cauchy-preparation ledger remains finite and cannot add almost-sure convergence, measure completion, unbounded stopping-time choice, Brownian convergence, or an ambient convergence theorem.
+\end{proof}
+
 \closureat{MartingaleConvergenceUp}{seedStr}
 
 \begin{closurestatus}{\MartingaleConvergenceUp}

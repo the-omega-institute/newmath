@@ -1,38 +1,40 @@
-\subsection{Cross-organism CUN/UUR leucine gate}\label{subsec:cross-organism-cun-uur-leu-gate}
 \origin{ai}
 
-\paragraph{Finite packet.}
-This record concerns the leucine synonymous split between the CUN family and the UUR family at organism scale.  The carrier is a finite table whose rows pair an organism label with two measured coordinates: the signed residual $\log(\#\mathrm{CUN}/\#\mathrm{UUR})$ and an organism-level tRNA-Leu gene-copy ratio, with amino-acid composition held fixed through a synonymous-class control.  The biological reading is deliberately narrow.  The table is not a statement about protein output as such; it is a checked relation between codon-usage summaries and tRNA-Leu copy-number summaries for the organisms loaded in the run.
+\subsection{Cross-Organism Leucine Codon-Usage Gate}
+\label{subsec:bioreality-cross-organism-cun-uur-leu-gate}
 
-\paragraph{Loaded rows.}
-The run $675\mathrm{f}\mathrm{dddb}3187$ for experiment $\mathrm{cross\_organism\_cun\_uur\_leu\_gate\_validation}$ loaded exactly three organism rows: $\mathrm{homo\_sapiens}$, $\mathrm{saccharomyces\_cerevisiae}$, and $\mathrm{escherichia\_coli\_k12}$.  The observed CUN-over-UUR log-ratio vector was
+\paragraph{Object of the row.}
+This record treats the leucine synonymous coding split between the $CUN$ family and the $UUR$ family as a bounded organism-level readout.  The measured coordinate is the signed logarithmic usage contrast
+$$
+\begin{aligned}
+L_{\mathrm{Leu}} &= \log(\#CUN/\#UUR),
+\end{aligned}
+$$
+paired with an organism label and with an organism-level tRNA-Leu gene-copy ratio.  The row is not a protein claim and is not a claim about a particular ribosomal event.  It is a finite cross-organism statistic whose admissible content is limited to codon-usage summaries and tRNA-Leu annotation summaries after controlling for amino-acid composition at the synonymous-class level.
+
+\paragraph{Finite rows used.}
+The run $675\mathrm{fdddb3187}$ loaded three organisms: Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K-12.  For these rows the recorded $L_{\mathrm{Leu}}$ values were
 $$
 \begin{aligned}
 (1.3514980212896148,\;-0.24869078488829677,\;1.0086640520051702),
 \end{aligned}
 $$
-with sign vector
+with corresponding sign vector
 $$
 \begin{aligned}
 (+1,\;-1,\;+1).
 \end{aligned}
 $$
-Thus the finite table does not support a uniform sign rule across the loaded organisms: the reported Boolean $\mathrm{sign\_uniform}$ is $\mathrm{false}$.  The yeast row has the opposite sign from the human and bacterial rows in this finite readout, so the packet is recording context dependence rather than a single directional law.
+Thus the sign-uniformity flag is false.  The observed signs do not collapse to a single cross-organism direction: the yeast row is negative while the human and bacterial rows are positive.  The row therefore passes the narrow counterexample test against any claim that the $CUN/UUR$ sign is fixed across the measured organisms.
 
-\paragraph{Controlled association.}
-The positive statistic recorded for the same run is $\rho=1.0$ for the Pearson coordinate, and the amino-acid-composition-controlled statistic reports partial Pearson $1.0$ with $n=3$.  In the notation of this packet, the finite claim is therefore
-$$
-\begin{aligned}
-\mathrm{sign\_uniform} &= \mathrm{false},\\
-\rho_{\mathrm{Pearson}} &= 1.0,\\
-\rho_{\mathrm{partial}\mid \mathrm{AA\ control}} &= 1.0,\\
-n &= 3.
-\end{aligned}
-$$
-The evidence status for the run is $\mathrm{passed}$.  This should be read as a small finite-row acceptance of the specified codon-usage/tRNA-copy statistic, not as a population-level theorem.  Since the row count is three, the statistic is exact for the supplied table but fragile as an estimator of any broader taxonomic pattern.
+\paragraph{Paired statistic.}
+The paired codon-usage and tRNA-Leu readback reports a Pearson coefficient of $1.0$ for the available three-row table.  The amino-acid-composition-controlled statistic is recorded as a positive partial correlation with $n=3$ and partial Pearson value $1.0$.  In this finite table, the supported statement is therefore only that the signed and scaled $CUN/UUR$ contrast co-varies positively with the recorded tRNA-Leu gene-copy ratio after the stated control.  The row count is small, so the coefficient is best read as an exact property of the loaded finite table rather than as a population-level estimate.  No p-value is recorded in the supplied row, and no confidence interval is recorded; the chapter therefore does not attach inferential significance beyond the finite-table result.
 
-\paragraph{Scope of the contact.}
-The codon-usage contact supplies per-organism sequence-composition summaries, and the tRNA contact supplies organism-level tRNA-Leu gene-copy summaries by anticodon family.  Together they are adequate for the bounded question asked here: whether the CUN/UUR log-ratio sign is non-uniform and whether the signed magnitude is positively associated with the tRNA-Leu copy ratio after the synonymous-class control.  They do not observe ribosome motion, elongation timing, nascent-chain behavior, folded structure, molecular stability, or organismal function.  For that reason the present chapter records only a translation-layer statistical contact in the restricted sense of codon usage paired with tRNA-copy annotation.
+\paragraph{Admissible interpretation.}
+The passed status attaches to the experiment identifier $\mathrm{cross\_organism\_cun\_uur\_leu\_gate\_validation}$.  Its content is the following bounded claim: across the three loaded organisms, the leucine $CUN/UUR$ usage contrast is not sign-uniform, and the measured contrast has a positive partial correlation with the recorded tRNA-Leu gene-copy ratio under the stated amino-acid-composition control.  This is enough to keep the packet as a translation-layer coordinate in the narrow sense of organism-level coding usage paired with organism-level tRNA annotation.  It is not enough to assert that a ribosome has realized a mechanism, that an individual transcript has a particular elongation behavior, or that the relation is a general biological law.
 
-\paragraph{Local negative boundary.}
-No ribosomal translation process, no folding fact, no physical admissibility fact, no biological function, no mechanistic causal account, and no universal cross-organism rule follows from this finite table alone.  The sign reversal is reported as context-dependent.  The positive partial correlation is reported only for the loaded three-row table and only after the amino-acid-composition control.  A later claim about protein structure, physical feasibility, function, ribosome-level mechanism, or a global biological law would require a separate contact that directly measures that higher object.
+\paragraph{Local exclusion boundary.}
+The contacts used here are codon-usage tables and tRNA gene-copy annotations.  Those contacts can test sequence-composition summaries, organism labels, synonymous leucine-family contrasts, and tRNA-Leu copy-number spectra.  They do not measure folded structure, thermodynamic admissibility, molecular function, ribosome dynamics, or universal directionality.  Consequently no translation in the full mechanistic sense, no folding conclusion, no physical-admissibility conclusion, no biological-function conclusion, no ribosome-mediated mechanism, and no universal cross-organism rule follows from this row unless a separate contact supplies that missing evidence.  The sign reversal is retained as context-dependent finite data, not promoted into a rule that must hold outside the measured table.
+
+\paragraph{Audit verdict.}
+The row is accepted as a finite organism-level coding statistic with status $\mathrm{passed}$.  The exact data supporting that verdict are the three loaded organisms, the three logarithmic contrasts, the non-uniform sign vector, the Pearson value $1.0$, and the controlled partial Pearson value $1.0$ at $n=3$.  The result is scientifically useful because it separates a concrete codon-usage/tRNA-copy relation from stronger biological interpretations that the recorded contacts do not observe.

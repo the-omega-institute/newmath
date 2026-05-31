@@ -174,20 +174,20 @@ Next use \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction}. 
 Finally apply the sibling route theorem. The candidate-normalization handoff receives only the closed checker boundary, local-diamond window, residual ledger, retained premise, and obstruction data displayed by this packet. Since no carrier row contains global confluence, full strong normalization, subject reduction, evaluator equality, quotient equality, or kernel consistency, none of those endpoints is exported by the handoff.
 \end{proof}
 
-\begin{theorem}[MetaCIC parallel diamond frontier candidate-mediated handoff]
-\label{thm:metacic-parallel-diamond-frontier-candidate-mediated-handoff}
-Every accepted $\MetaCICParallelDiamondFrontierUp$ packet that routes a local candidate join through the critical-pair row $K$, closed-checker seal $S$, closed-normal fragment $C$, bounded-check row $B$, and residual-substitution premise row $P$ may export only a conditional closed-star confluence handoff until a separate residual-substitution compatibility certificate is cited. In carrier terms, the export remains the retained route through $P,K,J,R,S,C,B,O,H,T,G,N$, with $P$ preserved as a premise rather than discharged as a theorem.
+\begin{theorem}[MetaCIC parallel-diamond premise preservation]
+\label{thm:metacic-parallel-diamond-frontier-premise-preservation}
+Any confluence consumer that reads the conditional parallel-diamond handoff of \autoref{thm:metacic-parallel-diamond-confluence-handoff} must retain the residual-substitution premise row $P$ through the full packet spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+In particular, the handoff cannot erase $P$ into a completed residual-substitution theorem, premise-free parallel diamond, full Church--Rosser theorem, subject-reduction theorem, evaluator equality, quotient equality of terms, or kernel-consistency certificate.
 \end{theorem}
 \begin{proof}
-Project the carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. The candidate-mediated data are the critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, closed-checker row $S$, closed-normal row $C$, bounded-check row $B$, and residual-substitution premise row $P$.
+Start with \autoref{thm:metacic-parallel-diamond-frontier-obligations}. It makes the residual-substitution premise row $P$ part of the local $\NameCert_{\MetaCICParallelDiamondFrontierUp}$ surface together with $K,J,R,S,C,B,O,H,T,G,N$.
 
-Apply the local-diamond frontier theorem, \autoref{thm:metacic-local-diamond-frontier}. It allows the candidate join to be read only through the displayed residual-frontier and closed-fragment rows, with the obstruction row still visible.
+Next apply premise retention, \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. The retained premise is still visible when the local-diamond handoff is consumed, and the discharge-obstruction theorem \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction} keeps $O$ displayed unless a separate compatibility certificate is supplied.
 
-Apply residual-substitution scope and premise retention, \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope} and \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. These theorems keep $P$ in the consumer-visible route through the critical-pair, residual-frontier, closed-checker, and closed-normal rows.
-
-Apply closed-checker retention and the confluence handoff theorem, \autoref{thm:metacic-parallel-diamond-closed-checker-retention} and \autoref{thm:metacic-parallel-diamond-confluence-handoff}. The handoff reaches the candidate-normalization consumer with $P,S,C,B,O$ still displayed, so it is conditional closed-star confluence data rather than an unconditional Church--Rosser result.
-
-The TasteGate sentence below this theorem records the expected nontriviality and field-faithfulness coverage for the same rows $P,K,J,R,S,C,B,O,H,T,G,N$. This paper theorem keeps that coverage boundary visible and makes no Lean verification claim.
+Finally use the confluence handoff theorem itself. Its exported route is exactly the conditional path through $P,K,J,R,S,C,B,O,H,T,G,N$, so any consumer that drops $P$ or reads the route as one of the refused endpoints has left the packet described by the carrier.
 \end{proof}
 
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
