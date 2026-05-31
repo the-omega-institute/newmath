@@ -70,6 +70,24 @@ The rows $H,C,P,N$ preserve and name the same order. Therefore every regular rat
 \end{proof}
 \leanchecked{BEDC.Derived.EffectiveCauchySequenceUp.EffectiveCauchySequenceCarrier\_regseqrat\_handoff}
 
+\begin{theorem}[Effective Cauchy sequence modulus readback]
+\label{thm:effective-cauchy-sequence-modulus-readback}
+Let $G=(S,M,W,D,Q,E,H,C,P,N)$ be an accepted $\EffectiveCauchySequenceUp$ carrier. The explicit modulus row $M$ determines the dyadic tolerance budget consumed by the $\RegSeqRatUp$ handoff $Q$ and by the terminal $\RealUp$ seal boundary $E$: every such read must pass through the same finite route
+$$
+S \longmapsto M \longmapsto W \longmapsto D \longmapsto Q \longmapsto E
+$$
+before transport, replay, provenance, or local naming can export it.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory of \autoref{def:effective-cauchy-sequence-carrier}. The row $M$ is the only explicit modulus coordinate, and the row $D$ is the only dyadic tolerance ledger available to the packet.
+
+The NameCert obligations of \autoref{thm:effective-cauchy-sequence-namecert-obligations} require every tolerance request to expose $M$ before the corresponding finite windows $W$ are consumed. The same obligations require all radii, slack rows, comparison budgets, and tolerance conversions to pass through $D$.
+
+Apply the RegSeqRat handoff theorem \autoref{thm:effective-cauchy-sequence-regseqrat-handoff}. It places the regular rational readback $Q$ downstream of $S,M,W,D$, so the dyadic budget consumed by $Q$ is exactly the one selected by the displayed modulus route.
+
+The Real seal boundary of \autoref{thm:effective-cauchy-sequence-real-seal-boundary} then places $E$ downstream of the same handoff. By the non-escape theorem \autoref{thm:effective-cauchy-sequence-nonescape}, no quotient, selected limit, choice, trichotomy, host equality, ambient completeness, Lean, or bridge datum can replace that budget outside the displayed rows.
+\end{proof}
+
 \begin{theorem}[Effective Cauchy sequence Real seal boundary]\label{thm:effective-cauchy-sequence-real-seal-boundary}
 Every $\RealUp$-facing read of an accepted $\EffectiveCauchySequenceUp$ carrier $G=(S,M,W,D,Q,E,H,C,P,N)$ factors through
 $$
