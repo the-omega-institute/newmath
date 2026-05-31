@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\PointedGromovHausdorffUp$}
+\label{ch:concrete-instances-pointed-gromov-hausdorff-namecert}
+\origin{human}
+
+Following Gromov and Burago--Burago--Ivanov, the $\PointedGromovHausdorffUp$ packet records compact-metric comparison with displayed basepoints. It sits after the ordinary comparison carrier of \autoref{ch:concrete-instances-gromov-hausdorff-namecert}, the compact-metric surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, the scalar Hausdorff-distance route of \autoref{ch:concrete-instances-hausdorff-distance-namecert}, and the basepoint-sensitive observer rows of \autoref{ch:concrete-instances-hyperbolic-gromov-product-namecert}. The packet names a finite pointed comparison surface; it is not a quotient compactum, a selected optimal pointed correspondence, a completed moduli space, or an ambient isometry theorem.
+
+\begin{definition}[Pointed Gromov--Hausdorff carrier]
+\label{def:pointed-gromov-hausdorff-carrier}
+A $\PointedGromovHausdorffUp$ carrier is a finite $\BHist$ packet
+$$
+G=(X,Y,x_0,y_0,K_X,K_Y,R,D,B,H,Q,U,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two compact-metric endpoint names, each read through the $\MetricUp$ and $\CompactMetricUp$ source rows.
+\item $x_0$ and $y_0$ are the displayed basepoint rows attached to the two endpoints before any comparison row is public.
+\item $K_X$ and $K_Y$ are the endpoint compact-metric certificates consumed by the ordinary $\GromovHausdorffUp$ route.
+\item $R$ is the finite pointed correspondence table, containing the ordinary correspondence rows and the displayed pair $(x_0,y_0)$.
+\item $D$ is the dyadic distortion ledger for endpoint distances along the displayed correspondence rows.
+\item $B$ is the basepoint preservation ledger, recording that the pointed correspondence reads the pair $(x_0,y_0)$ as distinguished rather than as an anonymous correspondence row.
+\item $H$ records the $\HausdorffDistanceUp$ and $\HausdorffMetricUp$ comparison rows used to read the compact-subset distance data attached to the same finite table.
+\item $Q$ records the optional observer handoff to the $\HyperbolicGromovProductUp$ basepoint-sensitive comparison surface when such a consumer is present.
+\item $U$ records componentwise $\hsame$ transport for endpoints, basepoints, compact-metric rows, correspondence rows, distortion bounds, basepoint preservation, comparison handoffs, replay, provenance, and local naming rows.
+\item $T$ records displayed transport of the pointed comparison surface across accepted endpoint and basepoint renamings.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+X,Y,x_0,y_0,K_X,K_Y \longmapsto R \longmapsto D,B \longmapsto H,Q \longmapsto U,T .
+$$
+\item $P$ is the $\Pkg$ provenance over $\PointedGromovHausdorffUp$, $\GromovHausdorffUp$, $\CompactMetricUp$, $\MetricUp$, $\HausdorffDistanceUp$, $\HyperbolicGromovProductUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PointedGromovHausdorffUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,x_0,y_0,K_X,K_Y,R,D,B,H,Q,U,T,C,P,N$. It has no coordinate for unpointed quotient compacta, selected optimal correspondences, completed moduli spaces, host equality of compact metric spaces, or ambient isometry of pointed completions.
+\end{definition}
+
+\begin{theorem}[Pointed Gromov--Hausdorff NameCert obligations]
+\label{thm:pointed-gromov-hausdorff-namecert-obligations}
+For every accepted $\PointedGromovHausdorffUp$ carrier
+$$
+G=(X,Y,x_0,y_0,K_X,K_Y,R,D,B,H,Q,U,T,C,P,N),
+$$
+the local $\NameCert_{\PointedGromovHausdorffUp}$ surface consists exactly of endpoint admission, basepoint admission, compact-metric support, pointed-correspondence admission, dyadic distortion exactness, basepoint preservation, Hausdorff-distance comparison, optional basepoint-sensitive observer handoff, componentwise transport, displayed replay, provenance, and local naming through the displayed rows of $G$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pointed-gromov-hausdorff-carrier}. The endpoint rows $X,Y,K_X,K_Y$ give the same compact-metric surface consumed by $\GromovHausdorffUp$, while $x_0,y_0$ are additional rows attached before any correspondence is read.
+
+The pointed correspondence row $R$ and the distortion ledger $D$ provide the ordinary comparison data. The row $B$ then marks the distinguished pair $(x_0,y_0)$ as preserved by that correspondence, so the basepoint information is not recovered from an unpointed quotient.
+
+The comparison handoffs $H,Q$ read the same finite table through Hausdorff-distance and basepoint-sensitive observer surfaces. The structural rows $U,T,C,P,N$ transport, replay, source, and name exactly those displayed rows.
+
+Since no further coordinate appears in the carrier, the listed rows exhaust the local NameCert obligations and export no selected optimal correspondence, completed moduli object, host equality, or ambient isometry theorem.
+\end{proof}
+
+\begin{theorem}[Pointed-to-unpointed forgetful route]
+\label{thm:pointed-gromov-hausdorff-basepoint-forgetful-route}
+Every ordinary $\GromovHausdorffUp$ consumer of an accepted $\PointedGromovHausdorffUp$ carrier factors through the forgetful route
+$$
+X,Y,K_X,K_Y,R,D,H,U,T,C,P,N .
+$$
+The pointed rows $x_0,y_0,B$ remain available only to pointed consumers. Forgetting them recovers the ordinary compact-metric comparison surface, but it does not allow the unpointed carrier to inspect, preserve, or compare basepoints.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and erase the basepoint-specific rows $x_0,y_0,B$. The remaining endpoint, compact-metric, correspondence, distortion, Hausdorff-distance, transport, replay, provenance, and local-name rows have the same shape as the ordinary comparison route of \autoref{thm:gromov-hausdorff-correspondence-bridge}.
+
+A pointed consumer may read the erased rows before forming its comparison claim. An ordinary consumer cannot, because the target $\GromovHausdorffUp$ surface contains no basepoint coordinate and no basepoint preservation ledger.
+
+Thus the forgetful route is constructive and finite: it projects the pointed packet to the ordinary comparison rows, while preserving the refusal stated in \autoref{thm:gromov-hausdorff-pointed-basepoint-forgetful-route}. Basepoint comparison requires the pointed carrier itself.
+\end{proof}
+
+\closureat{PointedGromovHausdorffUp}{seedStr}
+
+\begin{closurestatus}{\PointedGromovHausdorffUp}
+  \constructivestory{A $\PointedGromovHausdorffUp$ packet is generated from two compact-metric endpoints, displayed basepoints, finite pointed correspondence rows, dyadic distortion bounds, a basepoint preservation ledger, HausdorffDistanceUp comparison rows, an optional HyperbolicGromovProductUp observer handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pointed-gromov-hausdorff-carrier}, \autoref{thm:pointed-gromov-hausdorff-namecert-obligations}, and \autoref{thm:pointed-gromov-hausdorff-basepoint-forgetful-route} seed the finite pointed compact-metric comparison packet over endpoints, basepoints, correspondence, distortion, Hausdorff-distance, observer handoff, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected optimal pointed correspondences, quotient compacta, completed moduli spaces, host compact-metric equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint admission, basepoint admission, pointed-correspondence admission, dyadic distortion exactness, basepoint preservation, comparison handoffs, transport, replay, provenance, and local naming for BEDC.Derived.PointedGromovHausdorffUp.}
+\end{closurestatus}
