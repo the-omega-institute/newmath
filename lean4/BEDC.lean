@@ -750,6 +750,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.BoundedSequenceSource
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedSubsequenceCauchyExtraction
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedWindowInduction
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedWindowNonemptyExtraction
+import BEDC.Derived.BolzanoWeierstrassUp.ChoiceFreeClusterPackage
 import BEDC.Derived.BolzanoWeierstrassUp.ClosedIntervalClusterHandoff
 import BEDC.Derived.BolzanoWeierstrassUp.ClusterCauchyWindow
 import BEDC.Derived.BolzanoWeierstrassUp.ClusterRealSealFactorization
@@ -1307,6 +1308,7 @@ import BEDC.Derived.CauchyFilterMeetUp.TasteGate
 import BEDC.Derived.CauchyFilterModulusTransferUp.TasteGate
 import BEDC.Derived.CauchyFilterNetCorrespondenceUp.TasteGate
 import BEDC.Derived.CauchyFilterRegularizationUp.TasteGate
+import BEDC.Derived.CauchyFilterSpaceUp
 import BEDC.Derived.CauchyFilterSubbasisUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyIntegralTestUp.TasteGate
@@ -5590,6 +5592,7 @@ import BEDC.Derived.PolishspaceUp.CompletionDensityUnblock
 import BEDC.Derived.PolishspaceUp.CompletionNonescape
 import BEDC.Derived.PolishspaceUp.CompletionScheduleStability
 import BEDC.Derived.PolishspaceUp.DenseScheduleRootObligation
+import BEDC.Derived.PolishspaceUp.EffectiveRepresentationHandoff
 import BEDC.Derived.PolishspaceUp.L10CompleteSeparableConsumerPackage
 import BEDC.Derived.PolishspaceUp.L10SiblingRoute
 import BEDC.Derived.PolishspaceUp.NameCertLedgerExactness
@@ -7962,8 +7965,10 @@ import BEDC.Manifest.Core
 import BEDC.Manifest.Entries
 import BEDC.Meta
 import BEDC.Meta.ClassifierIncrement
+import BEDC.Meta.DisagreementSupport
 import BEDC.Meta.DiscoveryCertificate
 import BEDC.Meta.DiscoveryCertificateExample
+import BEDC.Meta.DiscoveryDeltaLedger
 import BEDC.Meta.TasteGate
 import BEDC.Meta.TheoremDNA
 import BEDC.MetaCIC
