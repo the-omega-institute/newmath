@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\FiniteLipschitzIterationUp$}
+\label{ch:concrete-instances-finite-lipschitz-iteration-namecert}
+\origin{human}
+
+Following Banach and Picard, the $\FiniteLipschitzIterationUp$ packet records the finite contraction-budget route by which a displayed initial point, a Lipschitz self-map, and a dyadic tolerance schedule generate an explicitly bounded Picard-prefix ledger. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, the continuous-map row of \autoref{ch:concrete-instances-continuousmap-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the Cauchy-modulus window of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the Picard contraction surface of \autoref{ch:concrete-instances-picardcontraction-namecert}. The packet names finite iteration data only; it does not select a fixed point, assert ambient completeness, or export a completed limit.
+
+\begin{definition}[Finite Lipschitz iteration carrier]
+\label{def:finite-lipschitz-iteration-carrier}
+A $\FiniteLipschitzIterationUp$ carrier is a finite $\BHist$ packet
+$$
+I=(X,d,f,L,q,n,x_0,W,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X,d$ are the $\MetricUp$ source and distance rows.
+\item $f$ is the $\ContinuousMapUp$ self-map row over the same metric source.
+\item $L$ is the Lipschitz-constant row, read through the same map and source.
+\item $q$ is the dyadic tolerance row used to compare the finite tail budget.
+\item $n$ is the displayed finite iteration counter.
+\item $x_0$ is the initial-point row.
+\item $W$ is the finite prefix row listing the displayed reads of $x_0,f(x_0),\ldots,f^n(x_0)$.
+\item $B$ is the contraction-budget row consumed by $\CauchyModulusUp$ and $\PicardContractionUp$ consumers.
+\item $H$ records componentwise $\hsame$ transport for the metric source, map, Lipschitz constant, dyadic tolerance, counter, prefix, and budget rows.
+\item $C$ records displayed $\Cont$ replay through the metric source, continuous-map row, Lipschitz row, finite prefix, and budget row.
+\item $P$ is the $\Pkg$ provenance over $\MetricUp$, $\ContinuousMapUp$, $\RealUp$, $\CauchyModulusUp$, $\PicardContractionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteLipschitzIterationUp}$ row.
+\end{enumerate}
+The carrier compares finite prefixes only through these rows. It has no coordinate for a selected fixed point, quotient orbit, infinite limit, host completeness theorem, or ambient contraction principle.
+\end{definition}
+
+\begin{theorem}[Finite Lipschitz iteration NameCert obligations]
+\label{thm:finite-lipschitz-iteration-namecert-obligations}
+For every accepted $\FiniteLipschitzIterationUp$ carrier $I=(X,d,f,L,q,n,x_0,W,B,H,C,P,N)$, the local $\NameCert_{\FiniteLipschitzIterationUp}$ surface consists exactly of carrier admission for the metric source, continuous self-map, Lipschitz constant, dyadic tolerance, finite counter, initial point, finite prefix, contraction budget, transport, replay, provenance, and local naming; exactness of the displayed prefix $W$ at counter $n$; budget compatibility with the same $X,d,f,L,q$ rows; and nonescape excluding fixed-point selection, ambient completeness, quotient orbit equality, and host-level limiting.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The displayed rows are precisely $X,d,f,L,q,n,x_0,W,B,H,C,P,N$, so carrier admission and local naming are direct reads from \autoref{def:finite-lipschitz-iteration-carrier}.
+
+The exactness of $W$ is finite. At counter $0$, the prefix row exposes only the initial point $x_0$. At a successor counter, the next row is obtained by replaying the same continuous-map row $f$ over the same metric source and appending that displayed read to the previous prefix.
+
+The budget row $B$ is attached to the same metric source, continuous-map row, Lipschitz constant row, and dyadic tolerance row. Transport through $H$ and replay through $C$ preserve those rows before $\Pkg$ provenance and the local NameCert expose the packet.
+
+Since the carrier contains no selected fixed point, infinite orbit, quotient equality, host limit, or completeness coordinate, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[Finite Lipschitz contraction-budget induction]
+\label{thm:finite-lipschitz-iteration-contraction-budget-induction}
+For every accepted $\FiniteLipschitzIterationUp$ carrier and every displayed finite counter $n$, the contraction-budget row $B$ is obtained by induction on $n$: the base prefix reads the initial point over the metric source, and each successor step consumes the same metric source, continuous-map row, Lipschitz constant row, dyadic tolerance row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The induction exports only a finite prefix budget for $\CauchyModulusUp$ and $\PicardContractionUp$ consumers.
+\end{theorem}
+\begin{proof}
+Induct on the displayed counter $n$.
+
+In the base case, project the carrier and read $x_0$ as the whole prefix. The metric source $X,d$, tolerance $q$, transport, replay, provenance, and local naming rows are present, but no application of $f$ has yet been consumed.
+
+For the successor case, assume the previous prefix budget has been displayed over the same rows. Replay the continuous-map row $f$ through $C$, transport the metric source, Lipschitz constant, and tolerance through $H$, and append the next displayed read to $W$. The budget row $B$ is therefore updated by the same finite rows rather than by a new source, a hidden map, or an external limit.
+
+The induction stops at the displayed counter. It supplies a finite contraction-budget handoff to $\CauchyModulusUp$ and $\PicardContractionUp$, and it does not assert convergence, completeness, or fixed-point existence.
+\end{proof}
+
+\closureat{FiniteLipschitzIterationUp}{seedStr}
+
+\begin{closurestatus}{\FiniteLipschitzIterationUp}
+  \constructivestory{A $\FiniteLipschitzIterationUp$ packet is generated from a Metric source, ContinuousMap self-map, Lipschitz constant, dyadic tolerance, finite counter, initial point, finite prefix, contraction budget, hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-lipschitz-iteration-carrier}, \autoref{thm:finite-lipschitz-iteration-namecert-obligations}, and \autoref{thm:finite-lipschitz-iteration-contraction-budget-induction} seed the finite contraction-prefix budget route over metric, map, Lipschitz, tolerance, counter, prefix, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close fixed-point existence, selected limits, ambient completeness, quotient orbit equality, Lean verification, or bridge checking for $\FiniteLipschitzIterationUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-prefix exactness, contraction-budget induction, nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteLipschitzIterationUp.}
+\end{closurestatus}
