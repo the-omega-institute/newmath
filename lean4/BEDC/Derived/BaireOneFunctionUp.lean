@@ -102,4 +102,75 @@ theorem BaireOneFunctionCarrier_namecert_obligation_surface [AskSetup] [PackageS
   }
   exact ⟨cert, endpointUnary⟩
 
+theorem BaireOneFunctionCarrier_pointwise_schedule_obligations [AskSetup] [PackageSetup]
+    {X F S Q R L H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg →
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row H ∧ BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨ hsame row R ∨
+              hsame row L ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame ∧
+        UnaryHistory X ∧ UnaryHistory F ∧ UnaryHistory S ∧ UnaryHistory Q ∧
+          UnaryHistory R ∧ UnaryHistory L ∧ UnaryHistory H ∧ UnaryHistory C ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧ Cont X F S ∧
+              Cont S Q R ∧ Cont R L H := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier
+  have carrierWhole := carrier
+  obtain ⟨xUnary, fUnary, sUnary, qUnary, rUnary, lUnary, hUnary, cUnary,
+    _pUnary, _nUnary, sourceApproxSchedule, scheduleReadbackReal,
+    realHandoffTransport, _transportContinuationProvenance, provenancePkg,
+    namePkg⟩ := carrier
+  have sourceTransport :
+      (fun row : BHist =>
+        hsame row H ∧ BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg)
+          H := by
+    exact ⟨hsame_refl H, carrierWhole⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row H ∧ BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨ hsame row R ∨
+              hsame row L ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro H sourceTransport
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr (Or.inr (Or.inl source.left))))))
+    ledger_sound := by
+      intro row source
+      exact ⟨unary_transport hUnary (hsame_symm source.left), provenancePkg, namePkg⟩
+  }
+  exact
+    ⟨cert, xUnary, fUnary, sUnary, qUnary, rUnary, lUnary, hUnary, cUnary,
+      provenancePkg, namePkg, sourceApproxSchedule, scheduleReadbackReal,
+      realHandoffTransport⟩
+
 end BEDC.Derived.BaireOneFunctionUp
