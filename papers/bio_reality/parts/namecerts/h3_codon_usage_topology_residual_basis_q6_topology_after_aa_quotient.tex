@@ -1,37 +1,43 @@
 \origin{ai}
-\subsection{Codon-Usage Topology After Amino-Acid Quotienting}
-\label{sec:codon-usage-topology-residual-basis-q6}
+\subsection{Amino-acid-residual codon topology after quotienting}
+\label{sec:h3-codon-usage-topology-residual-basis-q6-topology-after-aa-quotient}
 
-\paragraph{Residual coordinate.}
-This record isolates a codon-level question that remains after amino-acid identity has already been accounted for.  The carrier is a per-organism coding-sequence codon-count table, projected away from the amino-acid sequence coordinate and then read in the residual basis $B^{*}_{Q6}$.  The nine named residual coordinates are
+\paragraph{Question.}
+The record asks whether a codon-level topology can leave a measurable residue after amino-acid identity has already been accounted for. The carrier is not a protein-folding object, a kinetic mechanism, or a universal rule about translation. It is the per-organism coding-sequence codon-count table, projected to an amino-acid-residual coordinate family $B^*_{Q6}$. The intended readout is conditional: for a basis element $q \in B^*_{Q6}$ and a readout $r$, compare a baseline score $J_0(Z)$ against a score $J_Q(Z,q)$ after adding the residual coordinate, with $Z$ containing amino-acid sequence $y$, contextual variables, and simpler codon-feature baselines. The reported quantity is
 $$
 \begin{aligned}
-B^{*}_{Q6}=\{&K_{AAA},\ Arg_{AGR},\ Ile_{AUA},\ Leu_{CUN/UUR},\ Leu_{UUA/UUG},\\
-&Ser_{UCR/AGY},\ Ser_{UCA/UCG},\ Thr_{ACR/ACY},\ f_{3}\text{-stress antisymmetric}\}.
+S_Q(r \mid Z) = J_0(Z) - J_Q(Z,q).
 \end{aligned}
 $$
-Here the point is not that a codon count is already a translation mechanism.  The point is narrower: once amino-acid composition is held fixed, these coordinates ask whether synonymous codon topology still leaves a detectable residual signal.  The Leu coordinates are especially important because an aggregate membership or density variable cannot distinguish the $CUN/UUR$ split, and it also cannot test the $UUA/UUG$ contrast by itself.  The same issue appears for $AAA/AAG$ in lysine: a local optimum over a simpler codon feature is not the same thing as a test of the residual coordinate.
+A positive value would only say that the coordinate improves that bounded readout under those controls. It would not by itself identify a ribosome mechanism, protein abundance law, folded structure, physical admissibility, biological function, or organism-independent principle.
 
 \paragraph{Finite contact.}
-The finite run used three organism-scoped codon-count tables: $homo\_sapiens$, $saccharomyces\_cerevisiae$, and $escherichia\_coli\_k12$.  The NCBI genetic code table was loaded, and the contact scope was one codon-count table per organism.  This is a finite organism contact, not a population estimate over all taxa or all genomes.  In the run identified as $971b9c868480$, all nine residual basis elements were computed, and the finite-contact flag was recorded as true.  With variance threshold $0.01$, seven of the nine residual coordinates were nonzero, so the observed finite-row nonzero fraction was
+The finite row used here is experiment run $971b9c868480$, with status $\mathrm{passed}$. The loaded sequence contact consists of one codon-count table per organism for exactly three organisms: $\mathrm{homo\_sapiens}$, $\mathrm{saccharomyces\_cerevisiae}$, and $\mathrm{escherichia\_coli\_k12}$. The NCBI genetic code was loaded for the codon-to-amino-acid quotient. This is a finite three-organism contact, not a population estimate and not a sampling statement about all organisms.
+
+\paragraph{Residual coordinate family.}
+The residual basis computed in the finite row has nine named elements:
 $$
 \begin{aligned}
-\frac{7}{9}=0.7777777777777778.
+B^*_{Q6} = \{&K_{AAA},\ Arg_{AGR},\ Ile_{AUA},\ Leu_{CUN/UUR},\ Leu_{UUA/UUG},\\
+&Ser_{UCR/AGY},\ Ser_{UCA/UCG},\ Thr_{ACR/ACY},\ f_3\text{-stress antisymmetric pair}\}.
 \end{aligned}
 $$
-This establishes only that the amino-acid quotient does not collapse the chosen codon-count residual basis to zero on this three-organism contact.  It does not estimate a universal taxonomic frequency, and it does not by itself select a biological direction for any coordinate.
+These coordinates are designed to remain visible only after quotienting by amino-acid identity. Thus the object being measured is not the amino-acid sequence itself, but the part of synonymous codon organization that can still vary inside the same amino-acid readback. In particular, the Leu coordinates separate $CUN$ from $UUR$ and also $UUA$ from $UUG$; the Lys coordinate isolates $AAA$ within the $AAA/AAG$ pair; the Arg, Ile, Ser, Thr, and $f_3$-stress coordinates test analogous residual distinctions.
 
-\paragraph{Survival statistic.}
-For a basis element $q\in B^{*}_{Q6}$ and a readout $r$, the intended controlled statistic compares a baseline objective $J_{0}(Z)$ with a model that is allowed to use the residual coordinate:
+\paragraph{Observed finite-row result.}
+All nine basis elements were computed on the three-organism codon-count contact. Using the declared variance threshold $0.01$, seven of the nine coordinates were nonzero after amino-acid quotienting. The nonzero fraction is therefore
 $$
 \begin{aligned}
-S_{Q}(r\mid Z)=J_{0}(Z)-J_{Q}(Z,q).
+\frac{7}{9} = 0.7777777777777778.
 \end{aligned}
 $$
-The conditioning data $Z$ must include the amino-acid sequence $y$, the relevant biological context $c$, and simpler codon-feature baselines such as an $M$-density coordinate when that coordinate is being tested.  A positive value of $S_{Q}(r\mid Z)$ would mean that the residual coordinate improves the chosen readout under the stated controls.  The permitted readout classes are bounded translation-layer observables such as tAI, stAI, ribosome occupancy, or protein abundance, but each such readout must be supplied by a matched external table or experiment rather than inferred from codon counts alone.
+This verifies that the residual basis is not collapsed by the amino-acid quotient on this finite contact. The finite result is a coordinate-level observation: the projected codon-count tables retain nontrivial synonymous structure in most of the tested directions. It does not yet estimate $S_Q(r \mid Z)$ for tAI, stAI, ribosome occupancy, or protein abundance, because those require organism-matched readout tables and an explicit controlled comparison against the baseline variables.
 
-\paragraph{Blocked-null boundary.}
-The present finite row has the coordinate side and the contact categories, but it does not yet contain an organism-matched statistic combining codon usage, relevant tRNA copy-number spectra, and tAI, stAI, ribosome-occupancy, or protein-abundance readout under amino-acid-composition control.  Therefore the positive-survival claim is not reported as established.  The correct status of the stronger probe is a blocked null: the absence of the paired statistic is a missing measurement, not evidence that the residual basis is useless and not evidence that an $M$-only description is sufficient.  In particular, the current data do not test whether any $q\in B^{*}_{Q6}$ has $S_{Q}(r\mid Z,\Delta_{M})>0$.
+\paragraph{Relation to M-density baselines.}
+A model that only records an $M$-density-style local optimum cannot test several distinctions that remain present in $B^*_{Q6}$. The finite row is therefore useful as a diagnostic of what an amino-acid-residual analysis must be able to represent: $CUN/UUR$ Leu separation, $AAA/AAG$ Lys separation, and the other listed within-amino-acid contrasts are not reducible to a mere assertion that an organism has a locally dense preferred-codon set. The present data show that the residual coordinates can be formed and that seven of them have nonzero finite variance across the three loaded organism contacts. They do not show that any such coordinate survives a translation-efficiency readout once amino-acid composition and context are controlled.
 
-\paragraph{Local interpretation.}
-The safe conclusion is that the residual basis is nontrivial on the finite codon-count contact after amino-acid quotienting: nine named coordinates were computed, seven crossed the stated nonzero threshold, and the three organisms were human, budding yeast, and $E.\ coli$ K-12.  This supports using the basis as a disciplined coordinate system for a later controlled readout study.  It does not say that codon-count residual variance is already ribosome-mediated translation realization, protein output, folding, structural order, physical admissibility, biochemical function, molecular mechanism, or a law applying across organisms.  Any such higher claim requires a separate matched contact that measures the corresponding layer directly and keeps amino-acid composition in the control set.
+\paragraph{Readout status.}
+The relevant readout contacts are separate: per-organism codon-usage tables, organism-level tRNA gene-copy spectra, and tAI or stAI weights. The current finite row has the codon-count side and the residual-coordinate computation, but it does not include a paired organism-matched statistic combining codon counts, tRNA copy numbers, tAI or stAI weights, and amino-acid-composition controls. Consequently the proper status is a bounded coordinate finding plus a blocked readout claim. A later positive value of $S_Q(r \mid Z,\Delta_M)$ for at least one $q \in B^*_{Q6}$ and one controlled readout would support a translation-layer survival statement for that readout and organism. Until that paired statistic exists, neither $S_Q>0$ nor insufficiency of an $M$-only baseline is established.
+
+\paragraph{Local boundary.}
+The finite row explicitly forbids promotion from codon-count residual variance to broader biological conclusions. Nonzero residual variance does not assert ribosome-mediated translation realization, protein-output control, folded structure, structural order, physical admissibility, biological function, biochemical mechanism, or a universal biological law. The signs of the residual coordinates are not universal directional claims. Any future statement about translation, folding, physical feasibility, function, mechanism, or universality must be supplied by a separate contact that measures that layer under the appropriate controls.
