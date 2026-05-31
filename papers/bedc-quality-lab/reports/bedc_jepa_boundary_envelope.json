@@ -1,0 +1,59 @@
+{
+  "artifacts": {
+    "envelope": "reports/bedc_jepa_boundary_envelope.json",
+    "report": "reports/bedc_jepa_boundary_report.md"
+  },
+  "bedc_refs": [
+    "papers/bedc/preamble.tex:closurestatus",
+    "papers/bedc/parts/project_governance/theory_amendment_policy.tex"
+  ],
+  "classifier_spec": {
+    "name": "bedc-jepa-protocol-radial-distinction-gap-heads",
+    "output_dim": 4,
+    "training": "protocol-sketch-standardized-observation-no-gradient"
+  },
+  "debt_items": [
+    "model-debt: this artifact defines the BEDC-JEPA target protocol before training the full objective",
+    "gap-debt: boundary-gated ledger is radial and synthetic only",
+    "planning-debt: gap penalty theorem is specified in the directive but not experimentally tested here"
+  ],
+  "ledger_gaps": [
+    "no-gradient-bedc-jepa-training-yet",
+    "one-boundary-family",
+    "no-gap-aware-planning-rollout-yet"
+  ],
+  "metrics": {
+    "approx_identifiability_proxy": 0.9027051607582333,
+    "bedc_debt_score": 0.1778837099811676,
+    "certified_coverage": 0.9166666666666666,
+    "covariance_deviation": 0.06606931952011211,
+    "distinction_accuracy": 0.8815104166666666,
+    "distinction_accuracy_outside_gap": 0.9152542372881356,
+    "false_claim_rate_inside_gap": 0.31666666666666665,
+    "gap_detection_auc": 0.7834981167608286,
+    "linear_identifiability_r2": 0.927453223711656,
+    "orthogonality_error": 0.06595759205363451,
+    "unlogged_error_rate": 0.078125
+  },
+  "pattern_spec": {
+    "name": "latent-plus-distinction-plus-gap",
+    "target": "learn continuous state, operational inside-boundary distinction, and boundary gap ledger"
+  },
+  "run_id": "boundary-gated-bedc-jepa-protocol-seed-41",
+  "schema_id": "bedc-quality-lab:evidence-envelope",
+  "source_spec": {
+    "gap_width": 0.14,
+    "latent_dim": 2,
+    "name": "boundary-gated-ou-world",
+    "observation": "sinusoidal-parabolic-shear",
+    "radius": 1.0,
+    "rho": 0.84,
+    "sample_count": 768
+  },
+  "stability_spec": {
+    "claim_boundary": "low-gap cases only",
+    "name": "ou-continuation-boundary-scope",
+    "pair_process": "ornstein-uhlenbeck",
+    "seed": 41
+  }
+}

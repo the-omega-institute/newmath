@@ -9,12 +9,28 @@ Python 侧只拥有 lab-local 的 `QualityEvidenceEnvelope` 证据边界。`bedc
 ```bash
 python3 -m pytest -q
 make run-example
+python3 scripts/run_bedc_jepa_boundary_world.py
 ```
 
 `make run-example` 会调用 `scripts/run_gaussian_ou_lejepa.py`，写出：
 
 - `reports/example_envelope.json`
 - `reports/quality_report.md`
+
+`make run-bedc-jepa` calls `scripts/run_bedc_jepa_boundary_world.py` and writes:
+
+- `reports/bedc_jepa_boundary_envelope.json`
+- `reports/bedc_jepa_boundary_report.md`
+
+## BEDC-JEPA Direction
+
+`BEDC_JEPA_DIRECTIVE.md` records the next research boundary. The lab does not treat JEPA as a post-hoc report object. It studies a BEDC-native world-model principle in which state contains:
+
+```text
+continuous latent state + operational distinctions + gap ledger
+```
+
+The current boundary-gated OU world is the first executable protocol for that direction. It remains a protocol sketch, not a claim that full gradient-trained BEDC-JEPA has already been completed.
 
 ## 依赖
 
