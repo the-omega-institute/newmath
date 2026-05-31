@@ -132,6 +132,11 @@ def assess_debt(
     classifier_spec: Mapping[str, Any],
     stability_spec: Mapping[str, Any],
 ) -> DebtAssessment:
+    """Assess canonical producer debt from the consensus producer surface.
+
+    The full signature is forward-compatible with derivations that consume more
+    envelope fields; the present scoring consumes the current debt subset.
+    """
     del metrics
     items = (
         _item("source", "source-coverage", _source_score(source_spec)),

@@ -50,6 +50,44 @@ def assert_common_experiment_envelope(envelope):
     }
 
 
+FALLBACK_LEDGER_GAPS = [
+    "residue=source-coverage; severity=high; status=open",
+    "residue=mixing-family-coverage; severity=high; status=open",
+    "residue=finite-sample-support; severity=high; status=open",
+    "residue=optimizer-certificate; severity=medium; status=partial",
+    "residue=global-claim-boundary; severity=high; status=open",
+]
+
+FALLBACK_DEBT_ITEMS = [
+    "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+    "kind=distribution; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+    "kind=finite-sample; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+    "kind=optimization; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+    "kind=global-claim; residue=global-claim-boundary; severity=high; status=open; score=0.200000",
+]
+
+TORCH_METADATA_LEDGER_GAPS = [
+    "residue=source-coverage; severity=high; status=open",
+    "residue=mixing-family-coverage; severity=high; status=open",
+    "residue=finite-sample-support; severity=high; status=open",
+    "residue=optimizer-certificate; severity=high; status=open",
+    "residue=global-claim-boundary; severity=high; status=open",
+]
+
+TORCH_METADATA_DEBT_ITEMS = [
+    "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+    "kind=distribution; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+    "kind=finite-sample; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+    "kind=optimization; residue=optimizer-certificate; severity=high; status=open; score=0.200000",
+    "kind=global-claim; residue=global-claim-boundary; severity=high; status=open; score=0.200000",
+]
+
+
+def assert_canonical_quality_rows(envelope, *, ledger_gaps, debt_items):
+    assert envelope.ledger_gaps == ledger_gaps
+    assert envelope.debt_items == debt_items
+
+
 def assert_meaningful_metric_thresholds(envelope, *, max_covariance_deviation=0.35):
     assert envelope.metrics["linear_identifiability_r2"] > 0.85
     assert envelope.metrics["approx_identifiability_proxy"] > 0.70
@@ -79,6 +117,11 @@ def test_experiment_fallback_has_stable_quality_envelope(tmp_path):
         "output_dim": 2,
         "training": "deterministic-standardization",
     }
+    assert_canonical_quality_rows(
+        envelope,
+        ledger_gaps=FALLBACK_LEDGER_GAPS,
+        debt_items=FALLBACK_DEBT_ITEMS,
+    )
     assert_meaningful_metric_thresholds(envelope)
     assert_artifact_payloads_can_be_written(envelope, tmp_path)
 
@@ -99,6 +142,11 @@ def test_experiment_torch_success_path_uses_tiny_encoder_metadata(monkeypatch):
         "output_dim": 2,
         "training": "align-cov-mean",
     }
+    assert_canonical_quality_rows(
+        envelope,
+        ledger_gaps=TORCH_METADATA_LEDGER_GAPS,
+        debt_items=TORCH_METADATA_DEBT_ITEMS,
+    )
     assert_meaningful_metric_thresholds(envelope)
 
 
@@ -116,6 +164,11 @@ def test_experiment_torch_failure_silently_uses_fallback_metadata(monkeypatch):
         "output_dim": 2,
         "training": "deterministic-standardization",
     }
+    assert_canonical_quality_rows(
+        envelope,
+        ledger_gaps=FALLBACK_LEDGER_GAPS,
+        debt_items=FALLBACK_DEBT_ITEMS,
+    )
     assert_meaningful_metric_thresholds(envelope)
 
 

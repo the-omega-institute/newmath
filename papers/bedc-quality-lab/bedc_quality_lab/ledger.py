@@ -35,6 +35,11 @@ def derive_ledger_gaps(
     stability_spec: Mapping[str, Any],
     debt_assessment: DebtAssessment,
 ) -> list[LedgerGap]:
+    """Derive canonical ledger gaps from the consensus producer surface.
+
+    The spec parameters are retained for forward-compatible derivations even
+    when the current ledger projection only needs metrics and debt.
+    """
     del source_spec, classifier_spec, stability_spec
     gaps = [
         LedgerGap(residue=item.residue, severity=item.severity, status=item.status)
