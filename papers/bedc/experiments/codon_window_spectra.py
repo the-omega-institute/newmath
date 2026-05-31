@@ -19,7 +19,8 @@ import urllib.request
 
 NCBI_GENETIC_CODES_URL = "https://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?chapter=tgencodes"
 NCBI_GENETIC_CODES_CACHE = pathlib.Path(__file__).with_name("cache") / "ncbi_genetic_codes.html"
-BASE_BITS = {"T": "00", "C": "01", "A": "10", "G": "11"}
+BASE_CODES = {"T": 0, "C": 1, "A": 2, "G": 3}
+BASE_FROM_CODE = "TCAG"
 BASES = "TCAG"
 MODULES = {
     "Stop/Trp": {"TAA", "TAG", "TGA", "TGG"},
@@ -210,13 +211,29 @@ def all_codons() -> list[str]:
     return ["".join(parts) for parts in itertools.product(BASES, repeat=3)]
 
 
-def bits(codon: str) -> str:
-    return "".join(BASE_BITS[base] for base in codon)
+def base_code(base: str) -> int:
+    return BASE_CODES[base]
 
 
-def codon_from_bits(word: str) -> str:
-    inverse = {value: key for key, value in BASE_BITS.items()}
-    return "".join(inverse[word[index : index + 2]] for index in (0, 2, 4))
+def codon_code(codon: str) -> int:
+    return (base_code(codon[0]) << 4) | (base_code(codon[1]) << 2) | base_code(codon[2])
+
+
+def codon_from_code(code: int) -> str:
+    return "".join(BASE_FROM_CODE[(code >> shift) & 3] for shift in (4, 2, 0))
+
+
+def codon_bit(code: int, index: int) -> int:
+    return (code >> (5 - index)) & 1
+
+
+def set_codon_bit(code: int, index: int, value: int | str) -> int:
+    mask = 1 << (5 - index)
+    return (code | mask) if int(value) else (code & ~mask)
+
+
+def flip_codon_bit(code: int, index: int) -> int:
+    return code ^ (1 << (5 - index))
 
 
 def multiplicity_pattern(labels: list[str]) -> str:
@@ -230,13 +247,11 @@ def q1_spectrum(table: dict[str, str]) -> tuple[list[int], list[int]]:
     for direction in range(6):
         same = 0
         diff = 0
-        for point in itertools.product("01", repeat=6):
-            if point[direction] == "1":
+        for code in range(64):
+            if codon_bit(code, direction):
                 continue
-            neighbor = list(point)
-            neighbor[direction] = "1"
-            left = codon_from_bits("".join(point))
-            right = codon_from_bits("".join(neighbor))
+            left = codon_from_code(code)
+            right = codon_from_code(flip_codon_bit(code, direction))
             if table[left] == table[right]:
                 same += 1
             else:
@@ -333,17 +348,15 @@ def q2_faces(table: dict[str, str]) -> tuple[collections.Counter[str], dict[str,
     for free in itertools.combinations(range(6), 2):
         fixed = [index for index in range(6) if index not in free]
         for values in itertools.product("01", repeat=4):
-            word = [""] * 6
+            code = 0
             for index, value in zip(fixed, values):
-                word[index] = value
+                code = set_codon_bit(code, index, value)
             vertices: list[str] = []
             local_words: list[str] = []
-            for local in ("00", "01", "10", "11"):
-                candidate = word.copy()
-                candidate[free[0]] = local[0]
-                candidate[free[1]] = local[1]
-                vertices.append(codon_from_bits("".join(candidate)))
-                local_words.append(local)
+            for first, second in itertools.product((0, 1), repeat=2):
+                candidate = set_codon_bit(set_codon_bit(code, free[0], first), free[1], second)
+                vertices.append(codon_from_code(candidate))
+                local_words.append(f"{first}{second}")
             labels = [table[codon] for codon in vertices]
             pattern = multiplicity_pattern(labels)
             total[pattern] += 1
@@ -398,15 +411,15 @@ def q3_spectrum(table: dict[str, str]) -> tuple[collections.Counter[str], list[d
     for free in itertools.combinations(range(6), 3):
         fixed = [index for index in range(6) if index not in free]
         for values in itertools.product("01", repeat=3):
-            word = [""] * 6
+            code = 0
             for index, value in zip(fixed, values):
-                word[index] = value
+                code = set_codon_bit(code, index, value)
             vertices: list[str] = []
-            for local in itertools.product("01", repeat=3):
-                candidate = word.copy()
+            for local in itertools.product((0, 1), repeat=3):
+                candidate = code
                 for index, value in zip(free, local):
-                    candidate[index] = value
-                vertices.append(codon_from_bits("".join(candidate)))
+                    candidate = set_codon_bit(candidate, index, value)
+                vertices.append(codon_from_code(candidate))
             pattern = multiplicity_pattern([table[codon] for codon in vertices])
             total[pattern] += 1
             cubes.append({"free_bits": free, "vertices": vertices, "pattern": pattern})
@@ -424,12 +437,10 @@ def containing_cube_patterns(cubes: list[dict[str, object]], tile: set[str]) -> 
 def hamming_edges() -> list[tuple[str, str, int]]:
     edges: list[tuple[str, str, int]] = []
     for direction in range(6):
-        for point in itertools.product("01", repeat=6):
-            if point[direction] == "1":
+        for code in range(64):
+            if codon_bit(code, direction):
                 continue
-            neighbor = list(point)
-            neighbor[direction] = "1"
-            edges.append((codon_from_bits("".join(point)), codon_from_bits("".join(neighbor)), direction))
+            edges.append((codon_from_code(code), codon_from_code(flip_codon_bit(code, direction)), direction))
     return edges
 
 
@@ -519,11 +530,9 @@ def class_transition_summary(table: dict[str, str]) -> dict[str, object]:
     for label, codons in sorted(codons_by_class.items()):
         row: collections.Counter[str] = collections.Counter()
         for codon in codons:
-            word = bits(codon)
+            code = codon_code(codon)
             for direction in range(6):
-                neighbor = list(word)
-                neighbor[direction] = "1" if word[direction] == "0" else "0"
-                row[table[codon_from_bits("".join(neighbor))]] += 1
+                row[table[codon_from_code(flip_codon_bit(code, direction))]] += 1
         denominator = 6 * len(codons)
         counts[label] = dict(sorted(row.items()))
         probabilities[label] = {
@@ -548,15 +557,15 @@ def q4_spectrum(table: dict[str, str]) -> tuple[dict[str, object], list[dict[str
     for free in itertools.combinations(range(6), 4):
         fixed = [index for index in range(6) if index not in free]
         for values in itertools.product("01", repeat=2):
-            word = [""] * 6
+            code = 0
             for index, value in zip(fixed, values):
-                word[index] = value
+                code = set_codon_bit(code, index, value)
             vertices: list[str] = []
-            for local in itertools.product("01", repeat=4):
-                candidate = word.copy()
+            for local in itertools.product((0, 1), repeat=4):
+                candidate = code
                 for index, value in zip(free, local):
-                    candidate[index] = value
-                vertices.append(codon_from_bits("".join(candidate)))
+                    candidate = set_codon_bit(candidate, index, value)
+                vertices.append(codon_from_code(candidate))
             counts = collections.Counter(table[codon] for codon in vertices)
             max_distribution[max(counts.values())] += 1
             for label, count in counts.items():
@@ -595,9 +604,9 @@ def containing_q4_neighborhoods(cubes: list[dict[str, object]], tile: set[str]) 
 def q5_control_half_cube_summary(table: dict[str, str]) -> dict[str, object]:
     control_codons = MODULES["Ile/Met"] | MODULES["Stop/Trp"]
     shared_fixed_bits: list[dict[str, object]] = []
-    control_words = {codon: bits(codon) for codon in control_codons}
+    control_codes = {codon: codon_code(codon) for codon in control_codons}
     for direction in range(6):
-        values = {word[direction] for word in control_words.values()}
+        values = {str(codon_bit(code, direction)) for code in control_codes.values()}
         if len(values) == 1:
             value = next(iter(values))
             shared_fixed_bits.append({"bit": direction, "value": value})
@@ -607,7 +616,7 @@ def q5_control_half_cube_summary(table: dict[str, str]) -> dict[str, object]:
     vertices = [
         codon
         for codon in all_codons()
-        if bits(codon)[fixed["bit"]] == fixed["value"]
+        if str(codon_bit(codon_code(codon), fixed["bit"])) == fixed["value"]
     ]
     counts = collections.Counter(table[codon] for codon in vertices)
     return {
@@ -952,9 +961,9 @@ def reassignment_concentration_summary(tables: dict[int, dict[str, str]]) -> dic
     for _table_id, codon, _old, new in diffs:
         codon_targets[codon][new] += 1
 
-    half_cube_counts = collections.Counter(bits(codon)[1] for _table_id, codon, _old, _new in diffs)
-    control_half_cube_codons = [codon for codon in sorted(codon_counts) if bits(codon)[1] == "0"]
-    outside_control_half_cube_codons = [codon for codon in sorted(codon_counts) if bits(codon)[1] == "1"]
+    half_cube_counts = collections.Counter(str(codon_bit(codon_code(codon), 1)) for _table_id, codon, _old, _new in diffs)
+    control_half_cube_codons = [codon for codon in sorted(codon_counts) if codon_bit(codon_code(codon), 1) == 0]
+    outside_control_half_cube_codons = [codon for codon in sorted(codon_counts) if codon_bit(codon_code(codon), 1) == 1]
 
     refined_modules = {
         "Stop/Trp_X2": {"TAA", "TAG", "TGA"},
@@ -1075,15 +1084,15 @@ def reassignment_concentration_summary(tables: dict[int, dict[str, str]]) -> dic
 
 def subcube_vertices(free_bits: tuple[int, ...], fixed_values: tuple[str, ...]) -> tuple[str, ...]:
     fixed = [index for index in range(6) if index not in free_bits]
-    word = [""] * 6
+    code = 0
     for index, value in zip(fixed, fixed_values):
-        word[index] = value
+        code = set_codon_bit(code, index, value)
     vertices: list[str] = []
-    for local in itertools.product("01", repeat=len(free_bits)):
-        candidate = word.copy()
+    for local in itertools.product((0, 1), repeat=len(free_bits)):
+        candidate = code
         for index, value in zip(free_bits, local):
-            candidate[index] = value
-        vertices.append(codon_from_bits("".join(candidate)))
+            candidate = set_codon_bit(candidate, index, value)
+        vertices.append(codon_from_code(candidate))
     return tuple(vertices)
 
 
@@ -1244,12 +1253,7 @@ def edge_isoperimetric_max_edges(dimension: int, size: int) -> int:
 
 @functools.lru_cache(maxsize=None)
 def median_codon(left: str, middle: str, right: str) -> str:
-    return codon_from_bits(
-        "".join(
-            "1" if (int(a) + int(b) + int(c)) >= 2 else "0"
-            for a, b, c in zip(bits(left), bits(middle), bits(right))
-        )
-    )
+    return codon_from_code(median_index(codon_code(left), codon_code(middle), codon_code(right)))
 
 
 def median_closure(codons: set[str]) -> tuple[set[str], list[dict[str, object]]]:
@@ -1292,10 +1296,11 @@ def apply_cube_automorphism(
     permutation: tuple[int, ...],
     flips: tuple[int, ...],
 ) -> str:
-    word = bits(codon)
-    return codon_from_bits(
-        "".join(str(int(word[permutation[index]]) ^ flips[index]) for index in range(6))
-    )
+    code = codon_code(codon)
+    transformed = 0
+    for index in range(6):
+        transformed = set_codon_bit(transformed, index, codon_bit(code, permutation[index]) ^ flips[index])
+    return codon_from_code(transformed)
 
 
 def automorphism_name(permutation: tuple[int, ...], flips: tuple[int, ...]) -> str:
@@ -1372,16 +1377,16 @@ def automorphism_permutation_vector(
     codons: tuple[str, ...],
     codon_index: dict[str, int],
 ) -> tuple[int, ...]:
-    bit_codes = tuple(int(bits(codon), 2) for codon in codons)
-    index_by_bit_code = {code: index for index, code in enumerate(bit_codes)}
+    codes = tuple(codon_code(codon) for codon in codons)
+    index_by_code = {code: index for index, code in enumerate(codes)}
     return tuple(
-        index_by_bit_code[
+        index_by_code[
             sum(
                 (((code >> (5 - permutation[index])) & 1) ^ flips[index]) << (5 - index)
                 for index in range(6)
             )
         ]
-        for code in bit_codes
+        for code in codes
     )
 
 
@@ -1503,15 +1508,14 @@ def interval_closure(codons: set[str]) -> tuple[set[str], list[dict[str, object]
     while True:
         additions: set[str] = set()
         for left, right in itertools.combinations(sorted(closed), 2):
-            left_bits = bits(left)
-            right_bits = bits(right)
-            free = [index for index, (a, b) in enumerate(zip(left_bits, right_bits)) if a != b]
-            base = list(left_bits)
-            for values in itertools.product("01", repeat=len(free)):
-                candidate = base.copy()
+            left_code = codon_code(left)
+            right_code = codon_code(right)
+            free = [index for index in range(6) if codon_bit(left_code, index) != codon_bit(right_code, index)]
+            for values in itertools.product((0, 1), repeat=len(free)):
+                candidate = left_code
                 for index, value in zip(free, values):
-                    candidate[index] = value
-                additions.add(codon_from_bits("".join(candidate)))
+                    candidate = set_codon_bit(candidate, index, value)
+                additions.add(codon_from_code(candidate))
         additions -= closed
         if not additions:
             break
@@ -1748,7 +1752,7 @@ def weighted_deformation_spine_summary(tables: dict[int, dict[str, str]]) -> dic
     for direction in range(6):
         masses = collections.Counter()
         for codon, weight in codon_weights.items():
-            masses[bits(codon)[direction]] += weight
+            masses[str(codon_bit(codon_code(codon), direction))] += weight
         majority_value, majority_mass = max(masses.items(), key=lambda item: (item[1], item[0]))
         bit_majority.append(
             {
@@ -1888,7 +1892,8 @@ def reassignment_spectral_compression_summary(
         for subset in itertools.combinations(range(6), size):
             total = 0
             for codon, weight in weights.items():
-                parity = sum(int(bits(codon)[index]) for index in subset) % 2
+                code = codon_code(codon)
+                parity = sum(codon_bit(code, index) for index in subset) % 2
                 total += weight * (-1 if parity else 1)
             coefficients[subset] = total / 64
 
@@ -2477,7 +2482,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     complement_pairs = tuple(
         (left, right)
         for left, right in itertools.combinations(support_tuple, 2)
-        if all(a != b for a, b in zip(bits(left), bits(right)))
+        if codon_code(left) ^ codon_code(right) == 63
     )
 
     q2_deletion_rows: list[dict[str, object]] = []
@@ -2763,11 +2768,9 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     outside_target_by_class: collections.Counter[str] = collections.Counter()
     for codon in sorted(median_set):
         codon_index = median_codon_to_spectral_index[codon]
-        word = bits(codon)
+        code = codon_code(codon)
         for bit_index in range(6):
-            neighbor_word = list(word)
-            neighbor_word[bit_index] = "1" if neighbor_word[bit_index] == "0" else "0"
-            neighbor = codon_from_bits("".join(neighbor_word))
+            neighbor = codon_from_code(flip_codon_bit(code, bit_index))
             if neighbor not in median_set:
                 outside_target_by_class[standard[neighbor]] += (
                     median_eigenvector[codon_index]
@@ -2782,9 +2785,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     outside_target_rows.sort(key=lambda row: (-row["probability"], row["class"]))
 
     def flipped_codon(codon: str, bit_index: int) -> str:
-        word = list(bits(codon))
-        word[bit_index] = "1" if word[bit_index] == "0" else "0"
-        return codon_from_bits("".join(word))
+        return codon_from_code(flip_codon_bit(codon_code(codon), bit_index))
 
     exit_probability_by_bit: collections.Counter[str] = collections.Counter()
     outside_target_by_codon: collections.Counter[str] = collections.Counter()
@@ -2956,14 +2957,14 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         return radius
 
     def permute_s3_c2(codon: str, permutation: tuple[int, int, int], flip_f3: bool) -> str:
-        word = bits(codon)
+        code = codon_code(codon)
         bit_values = {
-            "s1": word[0],
-            "f1": word[1],
-            "s2": word[2],
-            "f2": word[3],
-            "s3": word[4],
-            "f3": word[5],
+            "s1": codon_bit(code, 0),
+            "f1": codon_bit(code, 1),
+            "s2": codon_bit(code, 2),
+            "f2": codon_bit(code, 3),
+            "s3": codon_bit(code, 4),
+            "f3": codon_bit(code, 5),
         }
         source_names = ("s1", "s2", "f2")
         target_names = ("s1", "s2", "f2")
@@ -2971,10 +2972,11 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         for target, source_index in zip(target_names, permutation):
             transformed[target] = bit_values[source_names[source_index]]
         if flip_f3:
-            transformed["f3"] = "1" if transformed["f3"] == "0" else "0"
-        return codon_from_bits(
-            "".join(transformed[name] for name in ("s1", "f1", "s2", "f2", "s3", "f3"))
-        )
+            transformed["f3"] ^= 1
+        result = 0
+        for index, name in enumerate(("s1", "f1", "s2", "f2", "s3", "f3")):
+            result = set_codon_bit(result, index, transformed[name])
+        return codon_from_code(result)
 
     def gamma_orbit(codon: str) -> tuple[str, ...]:
         return tuple(
@@ -3118,13 +3120,13 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
 
     mstar_set = motif_codons("NNR") | motif_codons("CUY")
     full_cube_set = set(all_codons())
-    cuy_bits_prefix = bits("CTT")[:4]
+    cuy_code = codon_code("CTT")
     y_shells: dict[int, set[str]] = {index: set() for index in range(5)}
     for codon in full_cube_set:
-        word = bits(codon)
-        if word[4] != "0":
+        code = codon_code(codon)
+        if codon_bit(code, 4) != 0:
             continue
-        distance = sum(left != right for left, right in zip(word[:4], cuy_bits_prefix))
+        distance = sum(codon_bit(code, index) != codon_bit(cuy_code, index) for index in range(4))
         y_shells[distance].add(codon)
     mstar_closure, mstar_closure_stages = median_closure(mstar_set)
     shell_trigger_rows = []
@@ -3210,10 +3212,11 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         return codon.replace("T", "U")
 
     def anchor_support(codon: str) -> frozenset[int]:
+        code = codon_code(codon)
         return frozenset(
             index
-            for index, (left, right) in enumerate(zip(bits(codon)[:4], cuy_bits_prefix))
-            if left != right
+            for index in range(4)
+            if codon_bit(code, index) != codon_bit(cuy_code, index)
         )
 
     def span_dimension(codons: set[str]) -> int:
@@ -3226,9 +3229,9 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         y_side = {
             codon
             for codon in full_cube_set
-            if bits(codon)[4] == "0"
+            if codon_bit(codon_code(codon), 4) == 0
             and all(
-                (index in support) or (bits(codon)[index] == cuy_bits_prefix[index])
+                (index in support) or (codon_bit(codon_code(codon), index) == codon_bit(cuy_code, index))
                 for index in range(4)
             )
         }
@@ -3280,8 +3283,8 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     bedc_stop_square = ("TAA", "TAG", "TGA", "TGG")
     bedc_rank_deficiency_rows = []
     for codon in bedc_stop_square:
-        word = bits(codon)
-        suffix_bits = word[3] + word[5]
+        code = codon_code(codon)
+        suffix_bits = f"{codon_bit(code, 3)}{codon_bit(code, 5)}"
         local_support = tuple(
             coordinate
             for bit, coordinate in zip(suffix_bits, ("f2", "f3"))
@@ -5827,9 +5830,7 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     ]
 
     def flip_bit(codon: str, direction: int) -> str:
-        word = list(bits(codon))
-        word[direction] = "1" if word[direction] == "0" else "0"
-        return codon_from_bits("".join(word))
+        return codon_from_code(flip_codon_bit(codon_code(codon), direction))
 
     def directional_saturation(codons: set[str], direction: int) -> set[str]:
         return codons | {flip_bit(codon, direction) for codon in codons}
@@ -5888,8 +5889,8 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
     )
 
     def median_boolean_formula(codon: str) -> bool:
-        word = bits(codon)
-        s1, f1, s2, f2, s3, _f3 = (int(bit) for bit in word)
+        code = codon_code(codon)
+        s1, f1, s2, f2, s3, _f3 = (codon_bit(code, index) for index in range(6))
         return (f1 == 0 and s3 == 1) or (
             f1 == 1 and s1 == 0 and s2 == 0 and f2 == 0
         )
@@ -5898,37 +5899,36 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         codon for codon in all_codons() if median_boolean_formula(codon)
     }
 
-    inverse_base_bits = {value: key for key, value in BASE_BITS.items()}
-
     def rna_label(text: str) -> str:
         return text.replace("T", "U")
 
-    def project_without_f3(codon: str) -> str:
-        word = bits(codon)
-        return word[:5]
+    def project_without_f3(codon: str) -> int:
+        return codon_code(codon) >> 1
 
-    def quotient_label(word: str) -> str:
-        first = inverse_base_bits[word[0:2]]
-        second = inverse_base_bits[word[2:4]]
-        third = "R" if word[4] == "1" else "Y"
+    def quotient_label(word: int) -> str:
+        first = BASE_FROM_CODE[(word >> 3) & 3]
+        second = BASE_FROM_CODE[(word >> 1) & 3]
+        third = "R" if word & 1 else "Y"
         return rna_label(first + second + third)
 
-    def quotient_pair(word: str) -> tuple[str, ...]:
+    def quotient_pair(word: int) -> tuple[str, ...]:
         return tuple(
             rna_label(codon)
             for codon in sorted(
-                codon_from_bits(word + family_bit)
-                for family_bit in "01"
+                codon_from_code((word << 1) | family_bit)
+                for family_bit in (0, 1)
             )
         )
 
-    def median_word(left: str, middle: str, right: str) -> str:
-        return "".join(
-            "1" if (int(a) + int(b) + int(c)) >= 2 else "0"
-            for a, b, c in zip(left, middle, right)
-        )
+    def median_word(left: int, middle: int, right: int) -> int:
+        value = 0
+        for index in range(5):
+            mask = 1 << index
+            if int(bool(left & mask)) + int(bool(middle & mask)) + int(bool(right & mask)) >= 2:
+                value |= mask
+        return value
 
-    def median_closure_words(words: set[str]) -> tuple[set[str], list[dict[str, object]]]:
+    def median_closure_words(words: set[int]) -> tuple[set[int], list[dict[str, object]]]:
         closed = set(words)
         stages: list[dict[str, object]] = []
         stage_index = 0
@@ -5951,20 +5951,25 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
             )
         return closed, stages
 
-    def q5_subcube_vertices(free_bits: tuple[int, ...], fixed_values: tuple[str, ...]) -> tuple[str, ...]:
+    def q5_subcube_vertices(free_bits: tuple[int, ...], fixed_values: tuple[str, ...]) -> tuple[int, ...]:
         fixed = [index for index in range(5) if index not in free_bits]
-        word = [""] * 5
+        word = 0
         for index, value in zip(fixed, fixed_values):
-            word[index] = value
-        vertices: list[str] = []
-        for local in itertools.product("01", repeat=len(free_bits)):
-            candidate = word.copy()
+            if int(value):
+                word |= 1 << (4 - index)
+        vertices: list[int] = []
+        for local in itertools.product((0, 1), repeat=len(free_bits)):
+            candidate = word
             for index, value in zip(free_bits, local):
-                candidate[index] = value
-            vertices.append("".join(candidate))
+                mask = 1 << (4 - index)
+                candidate = (candidate | mask) if value else (candidate & ~mask)
+            vertices.append(candidate)
         return tuple(vertices)
 
-    def q5_cubical_complex(vertices: set[str]) -> dict[str, object]:
+    def q5_word_label(word: int) -> str:
+        return "".join(str((word >> (4 - index)) & 1) for index in range(5))
+
+    def q5_cubical_complex(vertices: set[int]) -> dict[str, object]:
         cells_by_dimension: dict[int, list[dict[str, object]]] = {dimension: [] for dimension in range(6)}
         for dimension in range(6):
             for free in itertools.combinations(range(5), dimension):
@@ -5974,7 +5979,8 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
                         cells_by_dimension[dimension].append(
                             {
                                 "free_bits": free,
-                                "vertices": cell_vertices,
+                                "vertex_codes": cell_vertices,
+                                "vertices": tuple(q5_word_label(word) for word in cell_vertices),
                                 "labels": tuple(quotient_label(word) for word in cell_vertices),
                             }
                         )
@@ -5986,19 +5992,22 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         maximal_cells = [
             cell
             for cell in all_cells
-            if not any(set(cell["vertices"]) < set(other["vertices"]) for other in all_cells)
+            if not any(set(cell["vertex_codes"]) < set(other["vertex_codes"]) for other in all_cells)
         ]
         maximal_cells.sort(key=lambda cell: (-len(cell["free_bits"]), cell["labels"]))
         return {
             "f_vector": tuple(len(cells_by_dimension[dimension]) for dimension in range(6)),
-            "maximal_cells": maximal_cells,
+            "maximal_cells": [
+                {key: value for key, value in cell.items() if key != "vertex_codes"}
+                for cell in maximal_cells
+            ],
         }
 
-    def q5_edges(vertices: set[str]) -> tuple[tuple[str, str], ...]:
+    def q5_edges(vertices: set[int]) -> tuple[tuple[int, int], ...]:
         return tuple(
             (left, right)
             for left, right in itertools.combinations(sorted(vertices), 2)
-            if sum(a != b for a, b in zip(left, right)) == 1
+            if (left ^ right).bit_count() == 1
         )
 
     quotient_support = {project_without_f3(codon) for codon in support}
