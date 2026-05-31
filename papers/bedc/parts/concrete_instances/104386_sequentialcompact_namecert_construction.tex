@@ -177,6 +177,60 @@ Use \autoref{thm:sequential-compact-selector-monotonicity} to keep the selected 
 It remains only to inspect the structural rows. Transport, replay, provenance, and naming preserve the displayed route $K,B,S,W,R,E$; they do not add completeness, quotient, or choice coordinates. Hence the real seal is a nonescaping endpoint of the finite handoff, not an ambient Real-completeness principle.
 \end{proof}
 
+\begin{theorem}[SequentialCompact window extraction scope]
+\label{thm:sequential-compact-window-extraction-scope}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+every finite extraction request must expose the compact metric source row $K$, the Baire cylinder row $B$, the stream-window row $S$, and the selected finite-window row $W$ before any $\RegSeqRatUp$ readback or terminal $\RealUp$ seal is available. The extraction scope exports no host subsequence selector, countable choice, quotient stream equality, open-cover compactness theorem, selected Real limit, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:sequential-compact-baire-cylinder-exposure}. It places the Baire cylinder row $B$ before selected-window data can be consumed, so an extraction request cannot start from a detached selector.
+
+Next apply \autoref{thm:sequential-compact-finite-subsequence-handoff}. The route reads $K,B,S,W$ in finite order, and the selected source windows are packet rows rather than an infinite subsequence object.
+
+Use \autoref{thm:sequential-compact-selector-monotonicity}. It keeps the selected indices and selected windows inside $W$, while $H,C,P,N$ only transport, replay, source, and name the same displayed rows.
+
+The later rows $R$ and $E$ are downstream of the window route. Hence the extraction scope is finite and does not export the excluded host selector, choice, quotient, compactness, selected-limit, or completeness principles.
+\end{proof}
+
+\begin{theorem}[SequentialCompact Baire RegSeqRat exhaustion]
+\label{thm:sequential-compact-baire-regseqrat-exhaustion}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+every regular rational readback requested after a Baire cylinder exposure must pass through the row $R$. The request first displays $B$, then the stream and selected-window rows $S,W$, and only then reads $R$ before the seal $E$; no host subsequence selector, countable choice, quotient stream equality, open-cover compactness theorem, or ambient Real completeness is exported.
+\end{theorem}
+\begin{proof}
+Read the Baire exposure through \autoref{thm:sequential-compact-baire-cylinder-exposure}. It supplies the cylinder row $B$ as displayed finite data before selected windows are available.
+
+Apply \autoref{thm:sequential-compact-window-extraction-scope}. The request reaches the selected windows through $K,B,S,W$, so the regular rational readback is tied to the same finite route.
+
+Now use \autoref{thm:sequential-compact-regseqrat-handoff-exactness}. It identifies $R$ as the only $\RegSeqRatUp$ handoff after $W$, and the structural rows do not add another readback coordinate.
+
+Therefore the Baire-to-RegSeqRat route is exhausted by $B,S,W,R$ and cannot be replaced by a host selector, a choice schedule, quotient stream equality, open-cover compactness, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[SequentialCompact Real seal window nonescape]
+\label{thm:sequential-compact-real-seal-window-nonescape}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+the terminal $\RealUp$ seal $E$ is a window endpoint: it may be read only after the Baire cylinder row $B$, stream-window row $S$, selected-window row $W$, and regular rational readback row $R$ have been displayed. The seal exports no host subsequence selector, countable choice, quotient stream equality, open-cover compactness theorem, selected Real limit, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:sequential-compact-window-extraction-scope}. It forces every extraction request to expose $B,S,W$ as finite packet rows before downstream readback can begin.
+
+Then apply \autoref{thm:sequential-compact-baire-regseqrat-exhaustion}. Every regular rational request after that exposure passes through $R$, so the seal cannot be reached from a detached stream or selector.
+
+Finally use \autoref{thm:sequential-compact-real-seal-nonescape}. The row $E$ is downstream of $R$ and of the structural rows $H,C,P,N$, all of which preserve the displayed route.
+
+Thus the Real seal remains a finite-window endpoint. It does not provide a host subsequence selector, countable choice, quotient stream equality, open-cover compactness, selected Real limit, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[SequentialCompact cylinder monotone window]
 \label{thm:sequential-compact-cylinder-monotone-window}
 For an accepted $\SequentialCompactUp$ carrier
