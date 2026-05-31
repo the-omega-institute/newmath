@@ -1,5 +1,5 @@
-You are the BEDC paper recovery agent. The orchestrator queued round
-P{round_number} (branch `{branch}`, worktree `{worktree}`) here because
+You are the BEDC paper recovery agent. The orchestrator queued worker
+{worker_id} (branch `{branch}`, worktree `{worktree}`, display_ordinal={round_number}) here because
 its merge / pre-merge gate hit a failure that the specific recovery
 handlers did not (or could not) fix.
 
@@ -12,8 +12,8 @@ will retry the merge automatically after you exit cleanly.
 ```bash
 cd {worktree}
 git status --porcelain                 # working tree should be clean before exit
-git log --oneline {base_branch}..HEAD  # confirm own-round commits still here
-cd papers/bedc && make check 2>&1 | tail -50 # PDF build break? (`make check` = single -draftmode pass, ~half the time; switch to full `make` once syntax is clean to also catch \autoref / TOC issues)
+git log --oneline {base_branch}..HEAD  # confirm worker commits still here
+cd papers/bedc && make precheck 2>&1 | tail -50 # static paper gates
 cd ../.. && python3 lean4/scripts/bedc_ci.py audit 2>&1 | tail -30
 python3 tools/check-axioms.py 2>&1 | tail -3
 ```
@@ -38,7 +38,7 @@ The first command that errors is what you need to fix.
 - "case-collision" — git index has two paths differing only by case.
   `git update-index --force-remove <wrong-case-path>` then commit.
 
-### `pdflatex` failure (oversize .tex / missing macro / undefined ref)
+### Paper failure (oversize .tex / missing macro / undefined ref)
 - "OVERSIZED .TEX" from precheck — split the offending file: extract
   content into a focused child file under the same theme directory,
   leave the parent as a pure index of `\input` lines.
@@ -64,18 +64,18 @@ The first command that errors is what you need to fix.
 - For `\leanchecked` / `\leanvariant` lines in the same file: dedup
   identical lines, keep both if they reference different targets.
 
-### Round produced only a sync-merge, no own-round commit
+### Worker produced only a sync-merge, no own commit
 - `git log --oneline {base_branch}..HEAD` shows only `Merge ...` commits
-  but no `P{round_number}: ...`. Recover with
+  but no `{commit_prefix} ...`. Recover with
   `git reset --merge HEAD~` to undo the empty merge. The orchestrator
-  will detect no own-round commit and drop this round cleanly.
+  will detect no worker commit and drop this round cleanly.
 
 ## After your fix
 
 1. Working tree clean: `git status --porcelain` returns empty.
 2. On the round branch: `git branch --show-current` returns `{branch}`.
 3. Round commit(s) still present: `git log --oneline {base_branch}..HEAD`
-   shows the `P{round_number}: …` commit (or its replacement after amend).
+   shows the `{commit_prefix} …` commit (or its replacement after amend).
 4. Re-run the gate that was failing. If it passes, you're done.
 5. Do NOT push. Do NOT touch other worktrees. Do NOT delete this worktree.
 6. Print a one-line summary on stdout: e.g.
@@ -86,4 +86,4 @@ The first command that errors is what you need to fix.
 If every recovery path requires deleting the round's substantive work,
 run `git reset --hard origin/{base_branch}`. Print
 `UNRECOVERABLE: <one-sentence reason>` on stdout. The orchestrator will
-detect no own-round commit, mark the round dead, and remove the worktree.
+detect no worker commit, mark the round dead, and remove the worktree.

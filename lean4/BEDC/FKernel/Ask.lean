@@ -90,6 +90,33 @@ structure BundleAskPolicy (bundle : ProbeBundle ProbeName) (D : BHist → Prop) 
       InBundle pi bundle → hsame h k → Ask pi h m delta → Ask pi k n theta → msame m n
 
 omit S in
+theorem BundleAskPolicy_iff_fields [AskSetup] {bundle : ProbeBundle ProbeName}
+    {D : BHist → Prop} :
+    BundleAskPolicy bundle D ↔
+      ((∀ {pi : ProbeName} {h : BHist}, InBundle pi bundle → D h →
+        ∃ m : BMark, ∃ delta : Evidence, Ask pi h m delta) ∧
+      (∀ {pi : ProbeName} {h : BHist} {m n : BMark} {delta theta : Evidence},
+        InBundle pi bundle → Ask pi h m delta → Ask pi h n theta → msame m n) ∧
+      (∀ {pi : ProbeName} {h k : BHist} {m n : BMark} {delta theta : Evidence},
+        InBundle pi bundle → hsame h k → Ask pi h m delta → Ask pi k n theta → msame m n)) := by
+  constructor
+  · intro policy
+    constructor
+    · intro pi h inBundle hD
+      exact policy.total inBundle hD
+    · constructor
+      · intro pi h m n delta theta inBundle left right
+        exact policy.deterministic inBundle left right
+      · intro pi h k m n delta theta inBundle same left right
+        exact policy.respectsHistory inBundle same left right
+  · intro fields
+    cases fields with
+    | intro total rest =>
+        cases rest with
+        | intro deterministic respectsHistory =>
+            exact BundleAskPolicy.mk total deterministic respectsHistory
+
+omit S in
 theorem bundleAskPolicy_of_membership_inclusion [AskSetup]
     {source target : ProbeBundle ProbeName} {D : BHist → Prop} :
     BundleAskPolicy source D →

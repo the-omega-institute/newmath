@@ -1,0 +1,409 @@
+\section{No Global Black-Box Eliminator}
+\label{sec:visions-philosophy-scoped-certification-principle}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-black-box-decomposition} decomposes a
+machine-learning black box into support candidates, certificate fields,
+ledger gaps, debt, NDNA loci, optional verification hardening, and value
+accounting. The present section records the corresponding limitation:
+black-box resolution is scope-relative unless a global ledger is
+displayed. A total feature label, total diagram, total proof, or total
+interpretability narrative is not a global eliminator unless it carries
+the behavior family, classifier family, NameCert family, global ledger,
+verification ledger where applicable, and not-claimed boundary.
+
+\begin{definition}[Explanation scope]
+\label{def:philosophy-scoped-certification-explanation-scope}
+An explanation scope is a tuple
+$$
+\Omega=(D,M_\theta,\mathcal A,B),
+$$
+where $D$ is the input or behavior source domain, $M_\theta$ is the
+model state, $\mathcal A$ is the admitted perturbation, transformation,
+transfer, or rewrite family, and $B$ is the behavior being explained. An
+explanation is scoped when its certificate and ledger claims are made
+only inside $\Omega$.
+\end{definition}
+
+\begin{definition}[Scoped black-box resolution]
+\label{def:philosophy-scoped-black-box-resolution-principle}
+Behavior $B$ is resolved on scope $\Omega$ when there is an explanation
+object
+$$
+E_\Omega=(B,C,N_C,\Lambda_C)
+$$
+such that $C\Vdash_\Omega B$, $N_C=\NameCert(C)$, the ledger
+$\Lambda_C$ is complete for $(B,C,\Omega)$, and the seal records
+$\Omega$ together with the not-claimed boundary.
+\end{definition}
+
+\begin{definition}[Global behavior family]
+\label{def:philosophy-global-behavior-family}
+For a model state $M_\theta$, the global behavior family
+$\mathcal B(M_\theta)$ is the family of behaviors being covered by a
+global explanation claim. It may contain output behaviors, refusals,
+errors, transfer behaviors, safety behaviors, intervention behaviors,
+and boundary behaviors.
+\end{definition}
+
+\begin{definition}[Global resolution and global ledger]
+\label{def:philosophy-global-resolution-ledger}
+A model state is globally resolved when every
+$B\in\mathcal B(M_\theta)$ has a closed explanation and these
+explanations are covered by a common global ledger. A global ledger
+$\Lambda_{\mathrm{global}}$ records, for every covered behavior and
+supporting classifier, the required source, pattern, classifier,
+stability, semantic, intervention, verification, generalization, and
+not-claimed residue:
+$$
+\operatorname{Req}(B,C_B)
+\subseteq
+\operatorname{Rec}(\Lambda_{\mathrm{global}}).
+$$
+\end{definition}
+
+\begin{definition}[Global black-box eliminator]
+\label{def:philosophy-global-black-box-eliminator}
+A global black-box eliminator is an explanation claim that asserts
+global resolution of $M_\theta$. It is uncertified when it omits the
+covered behavior family, the supporting classifier family, the NameCert
+family, the global ledger, the verification ledger for verified rows, or
+the not-claimed boundary.
+\end{definition}
+
+\begin{theorem}[Scoped resolution does not imply global resolution]
+\label{thm:philosophy-scoped-resolution-not-global-resolution}
+Resolving $B$ on a scope $\Omega$ does not imply global resolution of
+$M_\theta$.
+\end{theorem}
+\begin{proof}
+Scoped resolution supplies a closed explanation only for the target
+$(B,\Omega)$. Global resolution requires closed explanations for every
+behavior in $\mathcal B(M_\theta)$ and a common ledger covering their
+required residue. The scoped certificate gives neither the remaining
+behaviors nor their global ledger.
+\end{proof}
+
+\begin{theorem}[Finite-sample closure is not open-domain closure]
+\label{thm:philosophy-finite-sample-closure-not-open-domain-closure}
+Closure on a finite sample domain $D_0$ does not by itself imply closure
+on a larger open domain $D$.
+\end{theorem}
+\begin{proof}
+The finite certificate records required residue for $D_0$. A larger
+domain may contain boundary cases, out-of-distribution cases, semantic
+ambiguity, and generalization residue not recorded by the finite ledger.
+Thus the ledger inclusion for $D_0$ does not entail the ledger inclusion
+for $D$.
+\end{proof}
+
+\begin{theorem}[Global resolution requires global ledger]
+\label{thm:philosophy-global-resolution-requires-global-ledger-principle}
+Any global resolution claim for $M_\theta$ requires a global ledger.
+\end{theorem}
+\begin{proof}
+Global resolution requires each behavior in $\mathcal B(M_\theta)$ to
+have a closed explanation. Each closed explanation requires ledger
+coverage for its required residue. Taking the family of all such
+required rows gives the required residue of the global claim, and a
+ledger covering that family is precisely the global ledger.
+\end{proof}
+
+\begin{theorem}[No uncertified global black-box eliminator]
+\label{thm:philosophy-no-uncertified-global-black-box-eliminator}
+An uncertified global black-box eliminator is not a valid global
+resolution claim.
+\end{theorem}
+\begin{proof}
+By
+\autoref{thm:philosophy-global-resolution-requires-global-ledger-principle},
+global resolution requires a global ledger. It also requires behavior
+coverage, supporting classifiers, NameCert rows, and the relevant
+verification and not-claimed ledgers. An eliminator claim omitting these
+rows lacks the conditions it asserts.
+\end{proof}
+
+\subsection{Classifier and Semantic Globalization}
+\label{subsec:philosophy-classifier-semantic-globalization}
+
+\begin{definition}[Single-classifier explanation]
+\label{def:philosophy-single-classifier-explanation}
+A single-classifier explanation uses one classifier $C^\star$ to explain
+several behaviors. Two behaviors are classifier-separated when their
+closed explanations require nonequivalent classifier relations unless a
+product classifier or bridge ledger is supplied.
+\end{definition}
+
+\begin{definition}[Product classifier and bridge ledger]
+\label{def:philosophy-product-classifier-bridge-ledger}
+For classifiers $C_1,\ldots,C_n$, a product classifier is the joint
+relation
+$$
+C_\Pi(x,y)
+\Longleftrightarrow
+\bigwedge_{i=1}^{n} C_i(x,y).
+$$
+A bridge ledger for such a product records each source scope, each
+classifier boundary, the distinctions created by the product, the
+behaviors unified or separated by it, and its not-claimed boundary.
+\end{definition}
+
+\begin{theorem}[A single classifier does not automatically explain many behaviors]
+\label{thm:philosophy-single-classifier-not-many-behaviors}
+If $B_1$ and $B_2$ are supported by nonequivalent classifiers, a closed
+explanation of $B_1$ by $C_1$ does not automatically close an explanation
+of $B_2$.
+\end{theorem}
+\begin{proof}
+The certificate for $C_1\Vdash B_1$ records the source, classifier,
+stability, and ledger rows for $B_1$. Nonequivalence of the classifiers
+means that the public classification surface needed for $B_2$ can differ.
+Without a proof that $C_1$ supports $B_2$, or a certified product or
+bridge, the rows for $B_2$ are absent.
+\end{proof}
+
+\begin{theorem}[Product classifiers require bridge ledgers]
+\label{thm:philosophy-product-classifiers-require-bridge-ledgers}
+A product classifier used to unify several behavior explanations requires
+a bridge ledger.
+\end{theorem}
+\begin{proof}
+The product classifier changes classification granularity. It can split
+old cells, expose boundary cases, and change which behavior rows are
+covered by which classifier. These residues are created by the
+unification operation itself and must be recorded for the unified claim
+to close.
+\end{proof}
+
+\begin{definition}[Semantic globalizer]
+\label{def:philosophy-semantic-globalizer}
+A semantic globalizer is an explanation claim that uses one natural
+language concept $K$ to unify several features, classifiers, behaviors,
+or model states. It overreaches when it lacks a semantic ledger for
+positive cases, negative cases, ambiguous cases, polysemy, domain
+dependence, context dependence, label drift, unsupported connotations,
+and not-claimed semantics.
+\end{definition}
+
+\begin{theorem}[Semantic globalization requires semantic ledger]
+\label{thm:philosophy-semantic-globalization-requires-semantic-ledger}
+A natural-language concept used as a global explanation requires a
+semantic global ledger.
+\end{theorem}
+\begin{proof}
+Natural-language concepts have ambiguous boundaries, domain dependence,
+and unsupported connotations. A global use of such a concept must record
+which behaviors fall under it, which do not, which are ambiguous, and
+where the concept is not claimed. Those rows are exactly the semantic
+global ledger.
+\end{proof}
+
+\subsection{Formal and Diagonal Residue}
+\label{subsec:philosophy-formal-diagonal-residue}
+
+\begin{definition}[Formal globalizer]
+\label{def:philosophy-formal-globalizer}
+A formal globalizer uses a checked judgment
+$$
+\mathcal V\vdash\pi:\varphi
+$$
+as a claim about the model or behavior family beyond the scope of the
+statement $\varphi$.
+\end{definition}
+
+\begin{definition}[Verification global ledger]
+\label{def:philosophy-verification-global-ledger}
+A verification global ledger records checked statements, their scopes,
+unverified components, backend, trust boundary, proof dependencies,
+translation assumptions, portability boundary, and behaviors not covered
+by the verification claim.
+\end{definition}
+
+\begin{theorem}[Scoped proof does not imply global explanation]
+\label{thm:philosophy-scoped-proof-not-global-explanation}
+A formally checked statement on scope $\Omega$ does not imply a global
+explanation unless the checked statement and its verification ledger are
+global.
+\end{theorem}
+\begin{proof}
+The proof establishes the formal statement that was checked. If the
+statement is scoped, its conclusion is scoped. A larger explanation
+claim requires additional behavior coverage, transcription ledgers,
+verification ledgers, and non-hardenable residue rows.
+\end{proof}
+
+\begin{definition}[Diagonal residue]
+\label{def:philosophy-diagonal-residue}
+For an explanation $E$, diagonal residue is a behavior case, boundary
+case, input, intervention, counterexample, out-of-distribution case, or
+semantic ambiguity that lies in a not-covered region or ledger gap of
+$E$.
+\end{definition}
+
+\begin{definition}[Self-exposure test]
+\label{def:philosophy-self-exposure-test}
+A self-exposure test for $E$ searches for unrecorded source rows,
+unrecorded boundaries, false positives, false negatives, semantic
+ambiguity, untested interventions, verification gaps, and generalization
+residue.
+\end{definition}
+
+\begin{theorem}[Non-global ledgers admit diagonal-residue risk]
+\label{thm:philosophy-non-global-ledgers-admit-diagonal-residue-risk}
+If an explanation lacks a global ledger, then diagonal residue remains a
+possible risk.
+\end{theorem}
+\begin{proof}
+Without a global ledger, the required residue of the global claim is not
+known to be covered by the recorded ledger rows. Any uncovered required
+row may be exposed by an input, behavior case, intervention, or semantic
+ambiguity. The absence of the global ledger is therefore a diagonal
+residue risk even when a specific witness has not yet been displayed.
+\end{proof}
+
+\begin{theorem}[Diagonal residue forces classifier refinement or ledger repair]
+\label{thm:philosophy-diagonal-residue-forces-refinement-or-ledger-repair}
+When diagonal residue changes the boundary of the supporting classifier,
+the explanation must either refine the classifier or repair the ledger.
+\end{theorem}
+\begin{proof}
+If the residue shows that the old classifier wrongly joins or separates
+cases, the classifier relation must change. If the classifier is kept,
+the residue must be recorded as a boundary, failure case, or not-claimed
+row. These are respectively classifier refinement and ledger repair.
+\end{proof}
+
+\subsection{Cost and Free Explanation}
+\label{subsec:philosophy-cost-free-explanation}
+
+\begin{definition}[Global explanation cost]
+\label{def:philosophy-global-explanation-cost}
+For a global behavior family, the global explanation cost is the cost of
+its NameCert rows, ledger rows, verification rows where used, and seal
+rows. When the behavior family is finite this can be written as
+$$
+\operatorname{Cost}_{\mathrm{global}}(M_\theta)
+=
+\sum_{B\in\mathcal B(M_\theta)}
+\bigl(
+\operatorname{NameCertCost}(B)
++
+\operatorname{LedgerCost}(B)
++
+\operatorname{SealCost}(B)
+\bigr).
+$$
+For nonfinite behavior families, the sum is replaced by the appropriate
+cost observer for the declared scope.
+\end{definition}
+
+\begin{definition}[Global explanation compression]
+\label{def:philosophy-global-explanation-compression}
+Global explanation compression uses a smaller family of schemas to cover
+many behavior explanations. The compression is certified only when its
+schema ledger records coverage, failure cases, uncovered behavior
+classes, schema-specific debt, and the bridge from schemas to behaviors.
+\end{definition}
+
+\begin{theorem}[Global explanation has nonzero certificate cost]
+\label{thm:philosophy-global-explanation-nonzero-cost}
+If the covered behavior family contains a nontrivial behavior, then a
+global explanation has nonzero certificate cost.
+\end{theorem}
+\begin{proof}
+A nontrivial covered behavior requires at least a supporting classifier,
+certificate rows, ledger rows, and a seal. These rows are nonempty
+audit objects. Their construction and maintenance cost is therefore not
+zero.
+\end{proof}
+
+\begin{theorem}[Compressed global explanations require schema ledgers]
+\label{thm:philosophy-compressed-global-explanations-require-schema-ledgers}
+A schema that compresses many behavior explanations requires a schema
+ledger.
+\end{theorem}
+\begin{proof}
+Compression hides behavior-specific boundaries, failure cases, domain
+differences, and residue. The schema ledger records which cases the
+schema covers, which it does not, and which bridge rows connect the
+schema to each behavior explanation. Without those rows the compressed
+global claim is unclosed.
+\end{proof}
+
+\begin{definition}[Free explanation and free gain]
+\label{def:philosophy-free-explanation-free-gain}
+A free explanation claims that $E$ explains $B$ without supplying a
+classifier, NameCert, ledger, scope, and not-claimed boundary. A free
+global explanation makes the same omission for an entire behavior
+family. A free interpretability-gain claim asserts positive explanation
+information without subtracting certificate cost, ledger cost,
+verification cost, and remaining debt.
+\end{definition}
+
+\begin{theorem}[No free explanation]
+\label{thm:philosophy-no-free-explanation}
+A free explanation is not a closed explanation.
+\end{theorem}
+\begin{proof}
+Closed explanation requires a supporting classifier, certificate rows,
+ledger rows, scope seal, and not-claimed boundary. A free explanation
+omits these rows by definition, so it lacks the closure conditions.
+\end{proof}
+
+\begin{theorem}[No free global explanation]
+\label{thm:philosophy-no-free-global-explanation}
+A free global explanation is not a valid global resolution claim.
+\end{theorem}
+\begin{proof}
+A free global explanation is already missing the rows required for
+ordinary closed explanation, and global resolution additionally requires
+global behavior coverage and a global ledger. It therefore lacks both
+local closure rows and global closure rows.
+\end{proof}
+
+\begin{theorem}[No free interpretability gain]
+\label{thm:philosophy-no-free-interpretability-gain}
+An interpretability-gain claim that omits certificate cost, ledger cost,
+verification cost, or remaining debt is not audit-complete.
+\end{theorem}
+\begin{proof}
+Explanation information is benefit minus cost and debt. Omitting any
+required cost or debt term overstates the value of the explanation and
+prevents an auditor from determining whether the net gain is positive.
+\end{proof}
+
+\begin{theorem}[No global black-box eliminator theorem]
+\label{thm:philosophy-no-global-black-box-eliminator-theorem}
+There is no uncertified global black-box eliminator. Machine-learning
+black-box resolution is scoped, classifier-relative, NameCert-bound, and
+ledger-complete unless a global behavior family, classifier family,
+NameCert family, global ledger, verification ledger where applicable,
+and global seal are displayed.
+\end{theorem}
+\begin{proof}
+\autoref{thm:philosophy-scoped-resolution-not-global-resolution} and
+\autoref{thm:philosophy-finite-sample-closure-not-open-domain-closure}
+separate scoped and finite closure from global closure.
+\autoref{thm:philosophy-global-resolution-requires-global-ledger-principle}
+gives the global-ledger requirement, and
+\autoref{thm:philosophy-no-uncertified-global-black-box-eliminator}
+rules out eliminator claims that omit it.
+\autoref{thm:philosophy-single-classifier-not-many-behaviors},
+\autoref{thm:philosophy-product-classifiers-require-bridge-ledgers},
+and
+\autoref{thm:philosophy-semantic-globalization-requires-semantic-ledger}
+rule out unsupported classifier and semantic globalization.
+\autoref{thm:philosophy-scoped-proof-not-global-explanation}
+rules out proof-scope overreach.
+\autoref{thm:philosophy-non-global-ledgers-admit-diagonal-residue-risk}
+and
+\autoref{thm:philosophy-diagonal-residue-forces-refinement-or-ledger-repair}
+identify the diagonal-residue risk.
+\autoref{thm:philosophy-global-explanation-nonzero-cost},
+\autoref{thm:philosophy-compressed-global-explanations-require-schema-ledgers},
+\autoref{thm:philosophy-no-free-explanation},
+\autoref{thm:philosophy-no-free-global-explanation}, and
+\autoref{thm:philosophy-no-free-interpretability-gain}
+give the cost and audit requirements. Together these statements prove
+the theorem.
+\end{proof}
