@@ -88,6 +88,44 @@ class CoordinationPersistenceTests(unittest.TestCase):
             finally:
                 cf.TARGET_CLAIMS_FILE = original_claims
 
+    def test_expired_target_claim_is_reclaimed_by_new_owner(self):
+        with tempfile.TemporaryDirectory() as td:
+            claims = Path(td) / "target_claims.json"
+            original_claims = cf.TARGET_CLAIMS_FILE
+            original_time = cf.time.time
+            try:
+                cf.TARGET_CLAIMS_FILE = claims
+                claims.write_text(
+                    json.dumps(
+                        {
+                            "BEDC.expired": {
+                                "owner": "1",
+                                "round_num": 1,
+                                "claimed_at": "2000-01-01T00:00:00Z",
+                                "expires_at": 999.0,
+                                "pid": 123,
+                            }
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+                cf.time.time = lambda: 1000.0
+
+                kept, dropped = cf.claim_targets(2, [{"lean_name": "BEDC.expired"}])
+
+                self.assertEqual([cf._target_id(t) for t in kept], ["BEDC.expired"])
+                self.assertEqual(dropped, [])
+                data = json.loads(claims.read_text(encoding="utf-8"))
+                self.assertEqual(data["BEDC.expired"]["owner"], "2")
+                self.assertEqual(data["BEDC.expired"]["round_num"], 2)
+                self.assertEqual(
+                    data["BEDC.expired"]["expires_at"],
+                    1000.0 + cf.TARGET_CLAIM_TTL_SECONDS,
+                )
+            finally:
+                cf.TARGET_CLAIMS_FILE = original_claims
+                cf.time.time = original_time
+
     def test_corrupt_state_is_quarantined_and_recovered_without_plan_header(self):
         with tempfile.TemporaryDirectory() as td:
             state_file = Path(td) / "formalize_state.json"
