@@ -529,6 +529,7 @@ import BEDC.Derived.AxiomDependencyTupleUp
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerExhaustion
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
+import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomQueryLedgerUp
 import BEDC.Derived.AxiomRefusalLedgerUp.NameCertObligations
@@ -1798,6 +1799,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.CompletionFunctorFactorization
 import BEDC.Derived.CauchyfiltercompletionUp.FilterConvergenceHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseAdmission
 import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseHandoff
+import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseTotality
 import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseWindowExactness
 import BEDC.Derived.CauchyfiltercompletionUp.FiniteWindowInduction
 import BEDC.Derived.CauchyfiltercompletionUp.L10SourceScope
@@ -1822,6 +1824,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.RootUnblockCarrier
 import BEDC.Derived.CauchyfiltercompletionUp.RootUniformFilterReadback
 import BEDC.Derived.CauchyfiltercompletionUp.SealFactorizationObligation
 import BEDC.Derived.CauchyfiltercompletionUp.TasteGate
+import BEDC.Derived.CauchyfiltercompletionUp.UniformCompletionComparison
 import BEDC.Derived.CauchyfiltercompletionUp.UniformCompletionUniversalProperty
 import BEDC.Derived.CauchyfiltercompletionUp.UniformFilterReadback
 import BEDC.Derived.CauchyfiltercompletionUp.UniformLimitCompatibility
@@ -1972,6 +1975,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.DyadicContainmentTotality
 import BEDC.Derived.ClosedBoundedIntervalUp.EndpointClassifierStability
 import BEDC.Derived.ClosedBoundedIntervalUp.EndpointOrderTransport
 import BEDC.Derived.ClosedBoundedIntervalUp.FiniteCoverNonescape
+import BEDC.Derived.ClosedBoundedIntervalUp.FiniteCoverWindow
 import BEDC.Derived.ClosedBoundedIntervalUp.FiniteWindowTransportObligations
 import BEDC.Derived.ClosedBoundedIntervalUp.LocatedCoverHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.LocatedCoverSourceTotality
@@ -1997,6 +2001,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceRealSealRoute
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceScopeRoute
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceScopedCoverage
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceWindowExactness
+import BEDC.Derived.ClosedBoundedIntervalUp.ScopedKernelEnvelope
 import BEDC.Derived.ClosedBoundedIntervalUp.ScopedSourcePackage
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceCoverBoundary
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceObligationPackage
@@ -3309,6 +3314,7 @@ import BEDC.Derived.DyadicLocatedCutUp
 import BEDC.Derived.DyadicLocatedCutUp.KernelCarrier
 import BEDC.Derived.DyadicLocatedCutUp.TasteGate
 import BEDC.Derived.DyadicMaxUp.TasteGate
+import BEDC.Derived.DyadicMeshCompositionUp.TasteGate
 import BEDC.Derived.DyadicMeshUp
 import BEDC.Derived.DyadicMeshUp.EnclosureExport
 import BEDC.Derived.DyadicMeshUp.TasteGate
@@ -4586,6 +4592,7 @@ import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
 import BEDC.Derived.LocatedRealComparisonUp.TasteGate
 import BEDC.Derived.LocatedRealFieldUp
 import BEDC.Derived.LocatedRealFieldUp.TasteGate
+import BEDC.Derived.LocatedRealIntermediateValueUp.TasteGate
 import BEDC.Derived.LocatedRealIntervalBisectionUp
 import BEDC.Derived.LocatedRealIntervalHullUp
 import BEDC.Derived.LocatedRealIntervalHullUp.TasteGate
@@ -6433,6 +6440,7 @@ import BEDC.Derived.RegularCauchyLimitClassifierUp.FiniteRouteExactness
 import BEDC.Derived.RegularCauchyLimitClassifierUp.SynchronizerFactorization
 import BEDC.Derived.RegularCauchyLimitModulusUp
 import BEDC.Derived.RegularCauchyLimitModulusUp.TasteGate
+import BEDC.Derived.RegularCauchyLimitOperatorUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyLipschitzMapUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedComparisonUp.TasteGate
