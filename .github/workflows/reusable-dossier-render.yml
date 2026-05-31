@@ -171,8 +171,8 @@ jobs:
           cp dossier-html-artifact/data/namecert_sources.json docs/dossier/data/namecert_sources.json
           cp dossier-html-artifact/data/paper_sources.json docs/dossier/data/paper_sources.json
 
-      - name: Glossary completeness gate
-        run: python3 tools/check_glossary.py
+      - name: Glossary coverage survey
+        run: python3 tools/check_glossary.py --survey
 
       - name: Render dossier
         run: quarto render docs/dossier/

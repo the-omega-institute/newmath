@@ -25,6 +25,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import fcntl
 import json
 import logging
 import os
@@ -48,35 +49,72 @@ from typing import Optional
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 LEAN_ROOT = SCRIPT_DIR.parent                        # lean4/
-REPO_ROOT = LEAN_ROOT.parent                         # newmath/
+TOOLS_DIR = LEAN_ROOT.parent / "tools"
+if str(TOOLS_DIR) not in sys.path:
+    sys.path.insert(0, str(TOOLS_DIR))
+from host_context import host_path, host_value
+from pipeline_worker_identity import (
+    WorkerLease,
+    is_recovery_ticket,
+    legacy_worktree_kind,
+    new_worker_lease,
+    parse_new_worktree_name,
+    recovery_ticket_name,
+)
+
+REPO_ROOT = host_path(LEAN_ROOT.parent, "REPO_ROOT", default=LEAN_ROOT.parent)  # newmath/
 IMPL_PLAN = LEAN_ROOT / "IMPLEMENTATION_PLAN.md"
 BEDC_ROOT = LEAN_ROOT / "BEDC"
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 
 LOG_DIR = LEAN_ROOT / "scripts" / "logs"
-WORKTREE_DIR = REPO_ROOT / ".worktrees"
+WORKTREE_DIR = host_path(REPO_ROOT, "WORKTREE_DIR", default=".worktrees")
 
-BASE_BRANCH_DEFAULT = "lean4-codex-auto-dev"
+def _base_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_LEAN_BASE_BRANCH", required=True)
+
+
+BASE_BRANCH_DEFAULT = host_value(REPO_ROOT, "BEDC_LEAN_BASE_BRANCH")
 BASE_BRANCH = BASE_BRANCH_DEFAULT
-CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
+CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 # Lake-gate config exported to every codex child so they all coordinate on
 # the same lock dir / slot count. Defaults below are conservative for a
 # 16 GB M-series Mac. Override via CLI flags (--lake-parallel, --lake-lock-dir).
-LAKE_GATE_LOCK_DIR = REPO_ROOT / ".worktrees" / ".lake-gate"
+LAKE_GATE_LOCK_DIR = host_path(REPO_ROOT, "LAKE_GATE_LOCK_DIR", default=".worktrees/.lake-gate")
 LAKE_GATE_MAX_PARALLEL = 1
 # Graceful stop token: a running pipeline owns this file while its PID is
 # current. Removing or replacing it prevents new rounds from being dispatched;
 # current rounds finish normally and the process exits once the pool drains.
-PID_FILE = REPO_ROOT / ".pipeline.pid"
+PID_FILE = host_path(REPO_ROOT, "PIPELINE_PID_FILE", default=".pipeline.pid")
 # Dynamic parallelism: read target worker count from this JSON each dispatch
 # decision. File format: {"paper": 7, "lean": 7}. Allows live tuning without
 # pipeline restart. Bound to [1, HARD_MAX_PARALLEL].
-PARALLEL_CONFIG_FILE = REPO_ROOT / ".pipeline_parallel.json"
+PARALLEL_CONFIG_FILE = host_path(REPO_ROOT, "PARALLEL_CONFIG_FILE", default=".pipeline_parallel.json")
 PARALLEL_CONFIG_KEY = "lean"
 HARD_MAX_PARALLEL = 50
 FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
 FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "placeholder", "demo"}
 MAX_LEAN_FILE_LINES = 800
+
+
+def _resolve_git_common_file(filename: str, fallback: Path) -> Path:
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "--git-common-dir"],
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=5,
+        ).stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
+        return fallback
+    if not out:
+        return fallback
+    common = Path(out)
+    if not common.is_absolute():
+        common = (REPO_ROOT / common).resolve()
+    return common / filename
 
 
 def _read_pipeline_pid(pid_file: Path = PID_FILE) -> int | None:
@@ -133,22 +171,97 @@ _round_lock = threading.Lock()
 # Lock serializing .lake/build merges back to the main repo
 _lake_merge_lock = threading.Lock()
 
-# Single-slot build request for the background builder (multi-producer,
-# single-consumer, collapsing). Each worker that merges a round calls
-# `request_build(sha)`. The builder consumes only the latest SHA — if
-# multiple commits land while the builder is busy, only the newest tip
-# is built; intermediate SHAs are skipped.
 _build_cv = threading.Condition()
-_build_request: Optional[str] = None
 _builder_stop = threading.Event()
+PENDING_BUILD_FILE = _resolve_git_common_file(
+    "bedc-codex-formalize-pending-build.json",
+    LOG_DIR / "pending_build.json",
+)
+PENDING_BUILD_LOCK_FILE = PENDING_BUILD_FILE.with_suffix(PENDING_BUILD_FILE.suffix + ".lock")
+
+
+def _atomic_write_json(path: Path, data: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(
+        "w",
+        encoding="utf-8",
+        dir=str(path.parent),
+        prefix=f".{path.name}.",
+        suffix=".tmp",
+        delete=False,
+    ) as f:
+        tmp = Path(f.name)
+        json.dump(data, f, indent=2)
+        f.write("\n")
+        f.flush()
+        os.fsync(f.fileno())
+    try:
+        os.replace(tmp, path)
+    finally:
+        if tmp.exists():
+            try:
+                tmp.unlink()
+            except OSError:
+                pass
+
+
+def _read_json_file(path: Path) -> dict:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        return {}
+    except json.JSONDecodeError:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _read_pending_build() -> Optional[str]:
+    fd = _open_locked_json_file(PENDING_BUILD_LOCK_FILE)
+    try:
+        data = _read_json_file(PENDING_BUILD_FILE)
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
+    sha = data.get("sha")
+    return sha.strip() if isinstance(sha, str) and sha.strip() else None
+
+
+def _clear_pending_build_if_current(sha: str) -> None:
+    fd = _open_locked_json_file(PENDING_BUILD_LOCK_FILE)
+    try:
+        data = _read_json_file(PENDING_BUILD_FILE)
+        current = data.get("sha")
+        if isinstance(current, str) and current.strip() == sha:
+            try:
+                PENDING_BUILD_FILE.unlink()
+            except FileNotFoundError:
+                pass
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
 
 
 def request_build(sha: str) -> None:
-    """Producer: signal that `sha` is a new build candidate. Overwrites
-    any pending (unbuild) request — the builder will pick the latest."""
-    global _build_request
+    """Producer: signal that `sha` is a new build candidate."""
+    payload = {
+        "sha": sha,
+        "requested_at": datetime.utcnow().isoformat() + "Z",
+        "producer_pid": os.getpid(),
+    }
+    fd = _open_locked_json_file(PENDING_BUILD_LOCK_FILE)
+    try:
+        _atomic_write_json(PENDING_BUILD_FILE, payload)
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
     with _build_cv:
-        _build_request = sha
         _build_cv.notify()
 
 
@@ -185,9 +298,17 @@ def request_recovery(wt: "WorktreeInfo") -> None:
             "round_number": wt.round_number,
             "base_sha": wt.base_sha,
             "formalization_base_sha": getattr(wt, "formalization_base_sha", ""),
+            "worker_id": wt.worker_id,
+            "commit_prefix": wt.commit_prefix,
+            "lease": wt.lease.metadata() if wt.lease else None,
             "queued_at": datetime.utcnow().isoformat() + "Z",
         }
-        ticket_path = RECOVERY_QUEUE_DIR / f"R{wt.round_number}_{int(time.time())}.json"
+        ticket_path = RECOVERY_QUEUE_DIR / recovery_ticket_name(
+            "formalize",
+            wt.lease,
+            wt.round_number,
+            int(time.time()),
+        )
         ticket_path.write_text(json.dumps(ticket, indent=2))
         logger.info(f"[recovery] queued {ticket_path.name} for {wt.branch}")
         with _recovery_cv:
@@ -195,16 +316,11 @@ def request_recovery(wt: "WorktreeInfo") -> None:
     except Exception as exc:
         logger.error(f"[recovery] failed to queue ticket for {wt.branch}: {exc}")
 
-# In-memory dedup of in-flight target IDs across parallel rounds.
-# Phase B selects targets concurrently and can pick the same paper (same
-# lean_name / paper_label) in two worktrees; the second one wastes a Phase C
-# and produces a merge conflict. We register each round's target IDs after
-# Phase B and drop any that overlap with another live round; if too few
-# remain we fail the round before Phase C. Entries are removed in
-# `run_round_in_worktree`'s finally block, so the set only ever holds IDs
-# of rounds currently in flight (~= --parallel size).
-_active_targets_lock = threading.Lock()
-_active_targets: dict[int, set[str]] = {}
+TARGET_CLAIMS_FILE = _resolve_git_common_file(
+    "bedc-codex-formalize-target-claims.json",
+    LOG_DIR / "target_claims.json",
+)
+TARGET_CLAIM_TTL_SECONDS = 1800
 
 
 def _target_id(t: dict) -> str:
@@ -212,15 +328,47 @@ def _target_id(t: dict) -> str:
     return (t.get("lean_name") or t.get("paper_label") or "").strip()
 
 
-def claim_targets(round_num: int, targets: list[dict]) -> tuple[list[dict], list[str]]:
-    """Filter `targets` against in-flight target IDs from other rounds.
-    Returns (kept, dropped_ids). Registers the kept IDs under `round_num`."""
+def _open_locked_json_file(path: Path) -> int:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd = os.open(path, os.O_RDWR | os.O_CREAT, 0o644)
+    fcntl.flock(fd, fcntl.LOCK_EX)
+    return fd
+
+
+def _read_json_from_fd(fd: int) -> dict:
+    os.lseek(fd, 0, 0)
+    raw = os.read(fd, 1 << 20).decode("utf-8") or "{}"
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _write_json_to_fd(fd: int, data: dict) -> None:
+    os.lseek(fd, 0, 0)
+    os.ftruncate(fd, 0)
+    os.write(fd, json.dumps(data, indent=2).encode("utf-8"))
+    os.write(fd, b"\n")
+    os.fsync(fd)
+
+
+def _expire_target_claims(state: dict, now: float) -> dict:
+    return {
+        k: v for k, v in state.items()
+        if isinstance(v, dict) and float(v.get("expires_at", 0)) > now
+    }
+
+
+def claim_targets(round_num: int, targets: list[dict], owner: str | None = None) -> tuple[list[dict], list[str]]:
+    """Filter `targets` against target IDs claimed by other rounds."""
+    owner = owner or str(round_num)
     kept: list[dict] = []
     dropped: list[str] = []
-    with _active_targets_lock:
-        taken: set[str] = set()
-        for s in _active_targets.values():
-            taken |= s
+    fd = _open_locked_json_file(TARGET_CLAIMS_FILE)
+    try:
+        now = time.time()
+        state = _expire_target_claims(_read_json_from_fd(fd), now)
         keep_ids: set[str] = set()
         for t in targets:
             tid = _target_id(t)
@@ -228,19 +376,47 @@ def claim_targets(round_num: int, targets: list[dict]) -> tuple[list[dict], list
                 # Unkeyable target — keep but don't register; can't dedup.
                 kept.append(t)
                 continue
-            if tid in taken or tid in keep_ids:
+            holder = state.get(tid)
+            if (
+                tid in keep_ids
+                or (isinstance(holder, dict) and holder.get("owner") != owner)
+            ):
                 dropped.append(tid)
                 continue
             keep_ids.add(tid)
             kept.append(t)
-        if keep_ids:
-            _active_targets[round_num] = keep_ids
+        for tid in keep_ids:
+            state[tid] = {
+                "owner": owner,
+                "round_num": round_num,
+                "claimed_at": datetime.utcnow().isoformat() + "Z",
+                "expires_at": now + TARGET_CLAIM_TTL_SECONDS,
+                "pid": os.getpid(),
+            }
+        _write_json_to_fd(fd, state)
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
     return kept, dropped
 
 
-def release_targets(round_num: int) -> None:
-    with _active_targets_lock:
-        _active_targets.pop(round_num, None)
+def release_targets(round_num: int, owner: str | None = None) -> None:
+    owner = owner or str(round_num)
+    fd = _open_locked_json_file(TARGET_CLAIMS_FILE)
+    try:
+        state = _read_json_from_fd(fd)
+        for tid in list(state.keys()):
+            holder = state.get(tid)
+            if isinstance(holder, dict) and holder.get("owner") == owner:
+                del state[tid]
+        _write_json_to_fd(fd, state)
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
 
 # ---------------------------------------------------------------------------
 # Logging
@@ -294,6 +470,19 @@ class WorktreeInfo:
     round_number: int
     base_sha: str = ""  # HEAD at worktree creation; ground truth for the round's full integration range
     formalization_base_sha: str = ""  # HEAD immediately before Phase C creates this round's commits
+    lease: WorkerLease | None = None
+
+    @property
+    def worker_id(self) -> str:
+        return self.lease.holder if self.lease else f"legacy-formalize-{self.round_number}"
+
+    @property
+    def commit_prefix(self) -> str:
+        return self.lease.commit_prefix if self.lease else f"R{self.round_number}:"
+
+    @property
+    def log_tag(self) -> str:
+        return self.lease.log_tag if self.lease else f"legacy_formalize_{self.round_number}"
 
 
 # ---------------------------------------------------------------------------
@@ -854,8 +1043,14 @@ def _clone_lake_cache(wt_path: Path) -> None:
 def create_worktree(round_num: int) -> WorktreeInfo:
     """Create an isolated worktree for a round, with warm .lake cache."""
     WORKTREE_DIR.mkdir(parents=True, exist_ok=True)
-    branch = f"codex-R{round_num}"
-    wt_path = WORKTREE_DIR / f"round_R{round_num}"
+    lease = new_worker_lease(
+        "formalize",
+        "formalize",
+        display_ordinal=round_num,
+        worktree_dir=WORKTREE_DIR,
+    )
+    branch = lease.branch
+    wt_path = lease.worktree or (WORKTREE_DIR / lease.worktree_name)
 
     with _git_lock:
         # Clean up stale worktree at this path if it exists
@@ -869,7 +1064,7 @@ def create_worktree(round_num: int) -> WorktreeInfo:
         run_cmd(["git", "branch", "-D", branch], cwd=REPO_ROOT)
 
         # Create worktree from base branch
-        logger.info(f"Creating worktree: {wt_path} on branch {branch}")
+        logger.info(f"Creating worktree: {wt_path} on branch {branch} display_ordinal={round_num}")
         result = run_cmd(
             ["git", "worktree", "add", "-b", branch, str(wt_path), BASE_BRANCH],
             cwd=REPO_ROOT,
@@ -884,7 +1079,7 @@ def create_worktree(round_num: int) -> WorktreeInfo:
 
     base_sha = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt_path).stdout.strip()
     return WorktreeInfo(
-        path=wt_path, branch=branch, round_number=round_num, base_sha=base_sha,
+        path=wt_path, branch=branch, round_number=round_num, base_sha=base_sha, lease=lease,
     )
 
 
@@ -1098,6 +1293,8 @@ def _codex_resolve_post_rebase_audit(
     round_number: int,
     audit_tail: str,
     *,
+    worker_id: str | None = None,
+    commit_prefix: str | None = None,
     model: Optional[str] = None,
     timeout: int = 1200,
 ) -> bool:
@@ -1109,6 +1306,9 @@ def _codex_resolve_post_rebase_audit(
     prompt = _load_prompt("post_rebase_audit_resolve").format(
         audit_tail=audit_tail,
         round_number=round_number,
+        worker_id=worker_id or f"legacy-formalize-{round_number}",
+        worker_holder=worker_id or f"legacy-formalize-{round_number}",
+        commit_prefix=commit_prefix or f"legacy-formalize-{round_number}:",
     )
     codex_exec(prompt, work_dir=wt_path, timeout_seconds=timeout, model=model)
     return True
@@ -1269,7 +1469,7 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     merged_lines = [
         l.strip() for l in merged_new.stdout.splitlines() if l.strip()
     ]
-    own_prefix = f"R{wt.round_number}:"
+    own_prefix = wt.commit_prefix
     if not any(own_prefix in l for l in merged_lines):
         logger.error(
             f"[R{wt.round_number}] Merge left no own-round commit "
@@ -1303,7 +1503,12 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
             "asking codex to drop colliding paper additions"
         )
         _codex_resolve_post_rebase_audit(
-            wt.path, wt.round_number, gate_tail or "", model=model
+            wt.path,
+            wt.round_number,
+            gate_tail or "",
+            worker_id=wt.worker_id,
+            commit_prefix=wt.commit_prefix,
+            model=model,
         )
         gates_ok, failed_gate, gate_tail = run_pre_merge_hard_gates(wt)
         if gates_ok:
@@ -1397,7 +1602,9 @@ def cleanup_all_worktrees() -> int:
         return 0
     count = 0
     for entry in WORKTREE_DIR.iterdir():
-        if entry.is_dir() and entry.name.startswith("round_R"):
+        parsed = parse_new_worktree_name(entry.name)
+        legacy = legacy_worktree_kind(entry.name)
+        if entry.is_dir() and (parsed and parsed[0] == "formalize" or legacy and legacy[0] == "formalize"):
             logger.info(f"Cleaning up {entry}")
             run_cmd(["git", "worktree", "remove", "--force", str(entry)], cwd=REPO_ROOT)
             if entry.exists():
@@ -1406,9 +1613,11 @@ def cleanup_all_worktrees() -> int:
                     pkg_link.unlink()
                 shutil.rmtree(entry, ignore_errors=True)
             # Force-delete branch (may have unmerged commits)
-            m = re.match(r"round_R(\d+)", entry.name)
-            if m:
-                run_cmd(["git", "branch", "-D", f"codex-R{m.group(1)}"], cwd=REPO_ROOT)
+            if parsed and parsed[0] == "formalize":
+                _, slug, lease_id = parsed
+                run_cmd(["git", "branch", "-D", f"formalize-{slug}-{lease_id}"], cwd=REPO_ROOT)
+            elif legacy and legacy[0] == "formalize":
+                run_cmd(["git", "branch", "-D", "codex-R" + str(legacy[1])], cwd=REPO_ROOT)
             count += 1
     # Prune worktree list
     run_cmd(["git", "worktree", "prune"], cwd=REPO_ROOT)
@@ -1539,10 +1748,20 @@ def codex_exec(
 # Phase B: Target Selection
 # ---------------------------------------------------------------------------
 
-def build_phase_b_prompt(round_num: int, total_theorems: int, recent: str) -> str:
+def build_phase_b_prompt(
+    round_num: int,
+    total_theorems: int,
+    recent: str,
+    lease: WorkerLease | None = None,
+) -> str:
+    worker_id = lease.holder if lease else f"legacy-formalize-{round_num}"
+    commit_prefix = lease.commit_prefix if lease else f"legacy-formalize-{round_num}:"
     return (
         _load_prompt("phase_b")
         .replace("<ROUND_NUM>", str(round_num))
+        .replace("<WORKER_ID>", worker_id)
+        .replace("<WORKER_HOLDER>", worker_id)
+        .replace("<COMMIT_PREFIX>", commit_prefix)
         .replace("<TOTAL_THEOREMS>", str(total_theorems))
         .replace("<RECENT>", recent)
     )
@@ -1613,7 +1832,11 @@ def gate_check(targets: list[dict]) -> tuple[bool, str]:
 # Phase C: Implementation (runs inside worktree)
 # ---------------------------------------------------------------------------
 
-def build_phase_c_prompt(round_num: int, targets: list[dict]) -> str:
+def build_phase_c_prompt(
+    round_num: int,
+    targets: list[dict],
+    lease: WorkerLease | None = None,
+) -> str:
     targets_text = ""
     for i, t in enumerate(targets, 1):
         targets_text += (
@@ -1628,9 +1851,14 @@ def build_phase_c_prompt(round_num: int, targets: list[dict]) -> str:
             f"{t.get('lean_signature', '-- unknown')}\n"
             f"```\n\n"
         )
+    worker_id = lease.holder if lease else f"legacy-formalize-{round_num}"
+    commit_prefix = lease.commit_prefix if lease else f"legacy-formalize-{round_num}:"
     return (
         _load_prompt("phase_c")
         .replace("<ROUND_NUM>", str(round_num))
+        .replace("<WORKER_ID>", worker_id)
+        .replace("<WORKER_HOLDER>", worker_id)
+        .replace("<COMMIT_PREFIX>", commit_prefix)
         .replace("<TARGETS>", targets_text)
     )
 
@@ -1877,7 +2105,7 @@ def _round_commit_base(wt: WorktreeInfo) -> str:
         )
     except Exception:
         return _round_diff_base(wt)
-    prefix = f"R{wt.round_number}:"
+    prefix = wt.commit_prefix
     for line in (result.stdout or "").splitlines():
         sha, sep, subject = line.partition("\x00")
         if sep and subject.startswith(prefix):
@@ -2184,16 +2412,13 @@ def detect_new_leanvariant_markers(wt: WorktreeInfo) -> list[str]:
 
 def detect_markers_not_backed_by_new_decls(wt: WorktreeInfo) -> list[str]:
     new_decls = set(collect_added_lean_declarations(wt))
-    existing_decls = _collect_all_lean_declarations(wt)
     violations: list[str] = []
     for rel, kind, name in _added_marker_lines(wt):
         if kind not in {"leanchecked", "leanstmt", "leandef"}:
             continue
         if name in new_decls:
             continue
-        if name in existing_decls:
-            continue
-        violations.append(f"{rel}: {kind} marker {name} does not reference an existing Lean declaration")
+        violations.append(f"{rel}: {kind} marker {name} does not reference a Lean declaration added by this round")
     return violations
 
 
@@ -2410,7 +2635,7 @@ def verify_worktree_commits(wt: WorktreeInfo, pre_commits: list[str]) -> tuple[b
         post = git_log_oneline(40, cwd=wt.path)
         new = [c for c in post if c not in pre_commits]
     if new:
-        own_prefix = f"R{wt.round_number}:"
+        own_prefix = wt.commit_prefix
         if not any(own_prefix in c for c in new):
             logger.error(
                 f"[R{wt.round_number}] Phase D: no own-round commit found; "
@@ -2573,29 +2798,31 @@ def run_round_in_worktree(
         if not dry_run:
             wt = create_worktree(round_num)
             wt_cwd = wt.path
+            lease = wt.lease
         else:
             wt_cwd = REPO_ROOT
+            lease = new_worker_lease("formalize", "formalize", display_ordinal=round_num)
 
         pre_commits = git_log_oneline(10, cwd=wt_cwd)
         recent_text = "\n".join(recent_commits[:5]) if recent_commits else "(none)"
 
         # ── Phase B ───────────────────────────────────────────────
         logger.info(f"[{tag}] Phase B: Target selection...")
-        phase_b_prompt = build_phase_b_prompt(round_num, total_theorems, recent_text)
+        phase_b_prompt = build_phase_b_prompt(round_num, total_theorems, recent_text, lease)
         phase_b_raw = codex_exec(
             phase_b_prompt,
             work_dir=wt_cwd,
             timeout_seconds=read_timeout("phase_b_timeout", phase_b_timeout),
             model=model,
             dry_run=dry_run,
-            log_tag=f"R{round_num}_phaseB",
+            log_tag=f"{lease.log_tag}_phase_b",
         )
         phase_b = parse_phase_b_output(phase_b_raw)
 
         if not phase_b.success:
             logger.error(f"[{tag}] Phase B failed: no targets extracted "
                          f"({len(phase_b.raw_output)} chars)")
-            _save_round_log(round_num, phase_b, PhaseCResult(), [], False)
+            _save_round_log(round_num, phase_b, PhaseCResult(), [], False, lease)
             return False, round_num, []
 
         logger.info(f"[{tag}] Phase B: {len(phase_b.targets)} target(s) extracted")
@@ -2604,7 +2831,7 @@ def run_round_in_worktree(
                          f"({t.get('difficulty', '?')}, {t.get('chapter', '?')})")
 
         # ── Dedup: drop targets already claimed by another in-flight round ─
-        kept, dropped = claim_targets(round_num, phase_b.targets)
+        kept, dropped = claim_targets(round_num, phase_b.targets, lease.holder)
         if dropped:
             logger.warning(
                 f"[{tag}] Dedup: dropping {len(dropped)} target(s) already in flight: "
@@ -2612,7 +2839,7 @@ def run_round_in_worktree(
             )
         if not kept:
             logger.error(f"[{tag}] All targets duplicated by other rounds; aborting")
-            _save_round_log(round_num, phase_b, PhaseCResult(), [], False)
+            _save_round_log(round_num, phase_b, PhaseCResult(), [], False, lease)
             return False, round_num, []
         phase_b.targets = kept
 
@@ -2629,14 +2856,14 @@ def run_round_in_worktree(
             wt.formalization_base_sha = run_cmd(
                 ["git", "rev-parse", "HEAD"], cwd=wt.path, check=False
             ).stdout.strip()
-        phase_c_prompt = build_phase_c_prompt(round_num, phase_b.targets)
+        phase_c_prompt = build_phase_c_prompt(round_num, phase_b.targets, lease)
         phase_c_raw = codex_exec(
             phase_c_prompt,
             work_dir=wt_cwd,
             timeout_seconds=read_timeout("phase_c_timeout", phase_c_timeout),
             model=model,
             dry_run=dry_run,
-            log_tag=f"R{round_num}_phaseC",
+            log_tag=f"{lease.log_tag}_phase_c",
         )
         phase_c = parse_phase_c_output(phase_c_raw)
 
@@ -2663,7 +2890,7 @@ def run_round_in_worktree(
                 # (`if not new_commits or (success and new_commits): remove_worktree`)
                 # leaves the worktree on disk for the recovery consumer.
                 success = False
-                _save_round_log(round_num, phase_b, phase_c, new_commits, False)
+                _save_round_log(round_num, phase_b, phase_c, new_commits, False, lease)
                 return False, round_num, new_commits
             logger.info(f"[{tag}] SUCCESS: merged {len(new_commits)} commit(s) to {BASE_BRANCH}")
             # Offer the new tip to the builder (collapsing: it will pick
@@ -2681,7 +2908,7 @@ def run_round_in_worktree(
         elif success and dry_run:
             logger.info(f"[{tag}] [DRY RUN] Would merge to {BASE_BRANCH}")
 
-        _save_round_log(round_num, phase_b, phase_c, new_commits, success)
+        _save_round_log(round_num, phase_b, phase_c, new_commits, success, lease)
 
         if success and new_commits:
             logger.info(f"[{tag}] Round SUCCESS: {len(new_commits)} commit(s)")
@@ -2714,7 +2941,7 @@ def run_round_in_worktree(
     finally:
         # Always release the round's claim on its target IDs so other rounds
         # can pick them up if this one fails.
-        release_targets(round_num)
+        release_targets(round_num, lease.holder if "lease" in locals() else None)
         # Cleanup worktree on success or non-merge-conflict failure
         if wt and not dry_run:
             try:
@@ -2732,6 +2959,27 @@ def run_round_in_worktree(
 STATE_FILE = LOG_DIR / "formalize_state.json"
 
 
+def _quarantine_state_file(path: Optional[Path] = None) -> Optional[Path]:
+    path = path or STATE_FILE
+    if not path.exists():
+        return None
+    ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    dst = path.with_name(f"{path.name}.quarantine.{ts}.{os.getpid()}")
+    try:
+        os.replace(path, dst)
+        return dst
+    except OSError:
+        return None
+
+
+def _state_from_git() -> RoundState:
+    return RoundState(
+        round_number=latest_committed_round(),
+        total_theorems=count_lean_theorems(),
+        recent_commits=git_log_oneline(5),
+    )
+
+
 def load_state() -> RoundState:
     latest_round = latest_committed_round()
     if STATE_FILE.exists():
@@ -2741,29 +2989,30 @@ def load_state() -> RoundState:
             state = RoundState(**data)
             if latest_round > state.round_number:
                 logger.info(
-                    f"Advancing round state from R{state.round_number} to latest git commit R{latest_round}"
+                    f"Advancing display ordinal from {state.round_number} to latest legacy commit ordinal {latest_round}"
                 )
                 state.round_number = latest_round
             return state
-        except Exception:
-            logger.warning("Failed to load state, rebuilding from IMPLEMENTATION_PLAN")
-    plan_text = read_impl_plan_header(30)
-    return RoundState(
-        round_number=max(parse_round_from_plan(plan_text), latest_round),
-        total_theorems=count_lean_theorems(),
-        recent_commits=git_log_oneline(5),
-    )
+        except json.JSONDecodeError as exc:
+            quarantine = _quarantine_state_file()
+            detail = f" quarantined at {quarantine}" if quarantine else ""
+            logger.warning(f"State file is corrupt; deriving state from git.{detail} {exc}")
+        except Exception as exc:
+            logger.warning(f"Failed to load state; deriving state from git. {exc}")
+    return _state_from_git()
 
 
 def save_state(state: RoundState) -> None:
-    with open(STATE_FILE, "w", encoding="utf-8") as f:
-        json.dump({
+    _atomic_write_json(
+        STATE_FILE,
+        {
             "round_number": state.round_number,
             "coverage_pct": state.coverage_pct,
             "total_theorems": state.total_theorems,
             "recent_commits": state.recent_commits[:10],
             "consecutive_failures": state.consecutive_failures,
-        }, f, indent=2)
+        },
+    )
 
 
 def _save_round_log(
@@ -2772,12 +3021,18 @@ def _save_round_log(
     phase_c: PhaseCResult,
     new_commits: list[str],
     success: bool,
+    lease: WorkerLease | None = None,
 ) -> Path:
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_path = LOG_DIR / f"round_R{round_num}_{ts}.json"
+    stem = lease.log_tag if lease else f"legacy_formalize_{round_num}"
+    log_path = LOG_DIR / f"{stem}_{ts}.json"
     with open(log_path, "w", encoding="utf-8") as f:
         json.dump({
             "round": round_num,
+            "display_ordinal": round_num,
+            "worker_id": lease.holder if lease else None,
+            "commit_prefix": lease.commit_prefix if lease else None,
+            "identity": lease.metadata() if lease else None,
             "timestamp": ts,
             "success": success,
             "targets": phase_b.targets,
@@ -2839,7 +3094,7 @@ def run_parallel_batch(
                     f"Pipeline PID token is not current ({PID_FILE}), stopping batch dispatch"
                 )
                 break
-            memory_pressure_wait(context=f"dispatch R{rn}")
+            memory_pressure_wait(context=f"dispatch display_ordinal={rn}")
             fut = pool.submit(
                 run_round_in_worktree,
                 rn, total_theorems, recent,
@@ -2856,13 +3111,13 @@ def run_parallel_batch(
                 ok, _, commits = fut.result()
                 if ok:
                     succeeded += 1
-                    logger.info(f"[R{rn}] Batch result: SUCCESS ({len(commits)} commits)")
+                    logger.info(f"[display_ordinal={rn}] Batch result: SUCCESS ({len(commits)} commits)")
                 else:
                     failed += 1
-                    logger.warning(f"[R{rn}] Batch result: FAILED")
+                    logger.warning(f"[display_ordinal={rn}] Batch result: FAILED")
             except Exception as exc:
                 failed += 1
-                logger.error(f"[R{rn}] Batch result: EXCEPTION: {exc}")
+                logger.error(f"[display_ordinal={rn}] Batch result: EXCEPTION: {exc}")
 
     # Update state after batch
     state.total_theorems = count_lean_theorems()
@@ -2901,7 +3156,7 @@ def run_round_serial(
 
 
 # ---------------------------------------------------------------------------
-# Background builder (single consumer for the _build_request slot)
+# Background builder
 # ---------------------------------------------------------------------------
 
 BUILDER_LOG_DIR = LOG_DIR / "builder"
@@ -3175,6 +3430,11 @@ def _builder_attempt_fix(sha: str, build_log: Path, max_attempts: int) -> bool:
     return False
 
 
+def _finish_builder_candidate(sha: str, *, built: bool) -> None:
+    if built:
+        _clear_pending_build_if_current(sha)
+
+
 def _force_remove_worktree(wt_path: Path) -> None:
     """Best-effort: remove a git worktree + its directory. Used by the
     recovery consumer after a ticket is dispositioned (recovered or dead).
@@ -3201,6 +3461,9 @@ def _run_recovery_codex(wt: "WorktreeInfo", *,
     re-run `merge_worktree_to_base` to verify the gate now passes."""
     prompt = _load_prompt("round_fallback_resolve").format(
         round_number=wt.round_number,
+        worker_id=wt.worker_id,
+        worker_holder=wt.worker_id,
+        commit_prefix=wt.commit_prefix,
         branch=wt.branch,
         base_branch=BASE_BRANCH,
         worktree=str(wt.path),
@@ -3210,7 +3473,7 @@ def _run_recovery_codex(wt: "WorktreeInfo", *,
         work_dir=wt.path,
         timeout_seconds=timeout,
         model=model,
-        log_tag=f"R{wt.round_number}_recovery",
+        log_tag=f"{wt.log_tag}_recovery",
     )
     head_branch = run_cmd(
         ["git", "branch", "--show-current"], cwd=wt.path, timeout=10
@@ -3232,7 +3495,7 @@ def _run_recovery_codex(wt: "WorktreeInfo", *,
         ["git", "log", "--oneline", f"{BASE_BRANCH}..HEAD"],
         cwd=wt.path, timeout=15,
     ).stdout
-    own_prefix = f"R{wt.round_number}:"
+    own_prefix = wt.commit_prefix
     if not any(own_prefix in l for l in own.splitlines()):
         logger.info(
             f"[recovery] {wt.branch}: codex chose to drop the round (no own-round commit)"
@@ -3254,7 +3517,7 @@ def _recovery_loop(poll_seconds: float = 30.0,
         try:
             tickets = sorted(
                 p for p in RECOVERY_QUEUE_DIR.iterdir()
-                if p.is_file() and p.suffix == ".json" and p.name.startswith("R")
+                if p.is_file() and p.suffix == ".json" and is_recovery_ticket(p.name, "formalize")
             )
         except Exception:
             tickets = []
@@ -3287,6 +3550,21 @@ def _recovery_loop(poll_seconds: float = 30.0,
             base_sha=t.get("base_sha", ""),
             formalization_base_sha=t.get("formalization_base_sha", ""),
         )
+        if isinstance(t.get("lease"), dict):
+            raw_lease = t["lease"]
+            wt.lease = WorkerLease(
+                kind=raw_lease["kind"],
+                semantic_slug=raw_lease["semantic_slug"],
+                lease_id=raw_lease["lease_id"],
+                display_ordinal=raw_lease.get("display_ordinal"),
+                branch=raw_lease["branch"],
+                worktree_name=raw_lease["worktree_name"],
+                worktree=Path(raw_lease["worktree"]) if raw_lease.get("worktree") else None,
+                ticket_stem=raw_lease["ticket_stem"],
+                log_tag=raw_lease["log_tag"],
+                commit_prefix=raw_lease["commit_prefix"],
+                holder=raw_lease["holder"],
+            )
         logger.info(f"[recovery] picking up {wt.branch}")
         codex_ok = False
         try:
@@ -3336,13 +3614,12 @@ def _recovery_loop(poll_seconds: float = 30.0,
 
 
 def _builder_loop(poll_seconds: float, max_fix_attempts: int) -> None:
-    """Single-consumer loop. Blocks on `_build_cv` for a new SHA request,
+    """Single-consumer loop. Blocks on `_build_cv` for a pending SHA,
     runs `lake build` in BUILDER_WORKTREE (separate from REPO_ROOT so that
     worker merges don't ff the builder's working tree mid-build), and on
     success syncs the fresh BEDC .oleans back to REPO_ROOT/.lake/build
     for round worker worktrees to COW. On failure spawns a codex fix. When
     multiple SHAs queue up during a build, only the latest is processed."""
-    global _build_request
     logger.info(f"[builder] started (poll={poll_seconds}s, max_fix={max_fix_attempts})")
     BUILDER_LOG_DIR.mkdir(parents=True, exist_ok=True)
     try:
@@ -3353,17 +3630,19 @@ def _builder_loop(poll_seconds: float, max_fix_attempts: int) -> None:
     last_built: Optional[str] = None
     while not _builder_stop.is_set():
         with _build_cv:
-            while _build_request is None and not _builder_stop.is_set():
+            while _read_pending_build() is None and not _builder_stop.is_set():
                 _build_cv.wait(timeout=poll_seconds)
             if _builder_stop.is_set():
                 break
-            sha = _build_request
-            _build_request = None
+            sha = _read_pending_build()
         if sha is None or sha == last_built:
+            if sha is not None:
+                _clear_pending_build_if_current(sha)
             continue
         if sha in _read_broken_shas():
             logger.info(f"[builder] {sha[:8]} already recorded broken; skipping")
             last_built = sha
+            _clear_pending_build_if_current(sha)
             continue
         logger.info(f"[builder] building {sha[:8]} in builder worktree")
         try:
@@ -3381,15 +3660,18 @@ def _builder_loop(poll_seconds: float, max_fix_attempts: int) -> None:
             except Exception as exc:
                 logger.warning(f"[builder] cache sync failed: {exc}")
             last_built = sha
+            _finish_builder_candidate(sha, built=True)
             continue
         logger.error(f"[builder] FAIL {sha[:8]} (log={build_log.name})")
         for ln in tail.splitlines()[-10:]:
             logger.error(f"  {ln}")
         if _builder_attempt_fix(sha, build_log, max_fix_attempts):
+            _clear_pending_build_if_current(sha)
             last_built = None     # fix pushed new tip; next loop picks it up
         else:
             _record_broken_sha(sha, build_log.name)
             last_built = sha
+            _clear_pending_build_if_current(sha)
     logger.info("[builder] stopped")
 
 
@@ -3398,7 +3680,7 @@ def _builder_loop(poll_seconds: float, max_fix_attempts: int) -> None:
 # ---------------------------------------------------------------------------
 
 def main() -> int:
-    global BASE_BRANCH, LAKE_GATE_LOCK_DIR, LAKE_GATE_MAX_PARALLEL
+    global BASE_BRANCH, BASE_BRANCH_DEFAULT, LAKE_GATE_LOCK_DIR, LAKE_GATE_MAX_PARALLEL
 
     parser = argparse.ArgumentParser(
         description="Lean4 Codex-First formalization with worktree parallelism",
@@ -3452,8 +3734,8 @@ def main() -> int:
         help="Deprecated in PID mode; start the pipeline normally to create a fresh token",
     )
     parser.add_argument(
-        "--base-branch", type=str, default=BASE_BRANCH_DEFAULT,
-        help=f"Base branch name (default: {BASE_BRANCH_DEFAULT})",
+        "--base-branch", type=str, default=None,
+        help="Base branch name (default: host BEDC_LEAN_BASE_BRANCH)",
     )
     parser.add_argument(
         "--mem-guard", dest="mem_guard", action="store_true", default=None,
@@ -3516,6 +3798,8 @@ def main() -> int:
              f"(default: {LAKE_GATE_LOCK_DIR}).",
     )
     args = parser.parse_args()
+    BASE_BRANCH = args.base_branch if args.base_branch is not None else _base_branch_default()
+    BASE_BRANCH_DEFAULT = BASE_BRANCH
 
     if args.lake_lock_dir:
         LAKE_GATE_LOCK_DIR = Path(args.lake_lock_dir)
@@ -3528,8 +3812,6 @@ def main() -> int:
         f"Lake gate: max_parallel={LAKE_GATE_MAX_PARALLEL}, "
         f"lock_dir={LAKE_GATE_LOCK_DIR}"
     )
-
-    BASE_BRANCH = args.base_branch
 
     # ── Memory-pressure guard config ──────────────────────────────
     _MEM_GUARD_CFG["enabled"] = (
@@ -3577,9 +3859,9 @@ def main() -> int:
         wt_result = run_cmd(["git", "worktree", "list"], cwd=REPO_ROOT)
         active_wts = [
             l for l in wt_result.stdout.splitlines()
-            if "round_R" in l
+            if "formalize_" in l or "round_R" in l
         ]
-        print(f"Round:                 R{state.round_number}")
+        print(f"Display ordinal:       {state.round_number}")
         print(f"Total theorems:        ~{state.total_theorems}")
         print(f"Consecutive failures:  {state.consecutive_failures}")
         print(f"Base branch:           {BASE_BRANCH}")
@@ -3634,7 +3916,9 @@ def main() -> int:
         run_cmd(["git", "worktree", "prune"], cwd=REPO_ROOT)
         if WORKTREE_DIR.exists():
             for entry in WORKTREE_DIR.iterdir():
-                if entry.is_dir() and entry.name.startswith("round_R"):
+                parsed = parse_new_worktree_name(entry.name)
+                legacy = legacy_worktree_kind(entry.name)
+                if entry.is_dir() and (parsed and parsed[0] == "formalize" or legacy and legacy[0] == "formalize"):
                     # Only remove dirs not registered as active worktrees
                     wt_result = run_cmd(["git", "worktree", "list", "--porcelain"], cwd=REPO_ROOT)
                     if str(entry) not in wt_result.stdout:
@@ -3652,7 +3936,7 @@ def main() -> int:
         logger.info(f"Resetting consecutive_failures={state.consecutive_failures} on session start")
         state.consecutive_failures = 0
         save_state(state)
-    logger.info(f"Starting: R{state.round_number}, ~{state.total_theorems} theorems")
+    logger.info(f"Starting: display_ordinal={state.round_number}, ~{state.total_theorems} theorems")
 
     # ── Background builder consumer ─────────────────────────────────────
     # Worker threads are producers (call `request_build(sha)` on successful
@@ -3736,7 +4020,7 @@ def main() -> int:
                     state.round_number += 1
                     rn = state.round_number
                     save_state(state)
-                memory_pressure_wait(context=f"dispatch R{rn}")
+                memory_pressure_wait(context=f"dispatch display_ordinal={rn}")
                 fut = pool.submit(
                     run_round_in_worktree,
                     rn, state.total_theorems, state.recent_commits,
@@ -3746,7 +4030,7 @@ def main() -> int:
                     phase_c_timeout=args.phase_c_timeout,
                 )
                 futures[fut] = rn
-                logger.info(f"Dispatching R{rn} (rolling)")
+                logger.info(f"Dispatching display_ordinal={rn} (rolling)")
 
             # Fill the pool initially up to current target (live-readable).
             for _ in range(read_target_parallel(args.parallel)):
@@ -3765,15 +4049,15 @@ def main() -> int:
                         if ok:
                             total_succeeded += 1
                             state.consecutive_failures = 0
-                            logger.info(f"[R{rn}] SUCCESS ({len(commits)} commits)")
+                            logger.info(f"[display_ordinal={rn}] SUCCESS ({len(commits)} commits)")
                         else:
                             total_failed += 1
                             state.consecutive_failures += 1
-                            logger.warning(f"[R{rn}] FAILED")
+                            logger.warning(f"[display_ordinal={rn}] FAILED")
                     except Exception as exc:
                         total_failed += 1
                         state.consecutive_failures += 1
-                        logger.error(f"[R{rn}] EXCEPTION: {exc}")
+                        logger.error(f"[display_ordinal={rn}] EXCEPTION: {exc}")
                     state.total_theorems = count_lean_theorems()
                     state.recent_commits = git_log_oneline(5)
                     save_state(state)
@@ -3823,7 +4107,7 @@ def main() -> int:
     # ── Summary ────────────────────────────────────────────────────
     logger.info(f"{'='*60}")
     logger.info(f"Session complete: {total_succeeded} succeeded, {total_failed} failed")
-    logger.info(f"Final: R{state.round_number}, ~{state.total_theorems} theorems")
+    logger.info(f"Final: display_ordinal={state.round_number}, ~{state.total_theorems} theorems")
     logger.info(f"{'='*60}")
 
     return 0 if total_succeeded > 0 or args.dry_run else 1

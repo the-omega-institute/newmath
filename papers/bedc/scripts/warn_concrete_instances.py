@@ -11,7 +11,7 @@ Checks (IDs match the analysis report):
      (theoryclosure / formalstatus / scopeclosed / notclaimed / upgradepath)
   D  Content namecert file (with \\chapter) must reach a closurestatus block
      directly or via \\input chain
-  E  Hub namecert file (no \\chapter, only \\input lines) must not contain
+  E  Top-level no-chapter namecert hub candidate must not contain
      theorem-like environments or closurestatus blocks
   F  Content namecert chapter must \\label{ch:concrete-instances-<slug>-namecert}
   G  If \\origin{...} appears in a content namecert chapter, it must be human|ai
@@ -463,7 +463,10 @@ def check_e_hub_purity() -> list[dict]:
                     "check": "E",
                     "file": str(rel),
                     "line": i,
-                    "msg": f"hub file (no \\chapter) contains forbidden environment \\begin{{{m.group(1)}}}",
+                    "msg": (
+                        "top-level no-chapter namecert hub candidate contains "
+                        f"forbidden environment \\begin{{{m.group(1)}}}"
+                    ),
                 })
     return out
 

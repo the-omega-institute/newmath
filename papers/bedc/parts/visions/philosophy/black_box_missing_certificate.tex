@@ -1,0 +1,299 @@
+\section{Black Box as Missing Certificate}
+\label{sec:visions-philosophy-black-box-missing-certificate}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-tensor-namecert} defines tensor
+black-box behavior in the machine-learning case. The general principle is
+broader: a black box is not absence of structure. It is supported
+behavior whose classifier surface has not yet received the NameCert and
+ledger rows needed for audit.
+
+\begin{definition}[Behavior target]
+\label{def:philosophy-behavior-target}
+A behavior target is a displayed output, decision, refusal, error,
+transfer, safety, or generalization pattern on a stated behavior domain.
+It may be recorded as a relation, predicate, soft score, or finite
+evidence packet.
+\end{definition}
+
+\begin{definition}[Explanation candidate]
+\label{def:philosophy-explanation-candidate}
+An explanation candidate for a behavior target $B$ is a pair $(C,B)$
+where $C$ is a classifier candidate and $C$ supports $B$ by prediction,
+correlation, intervention, causal account, formal statement, or hybrid
+evidence.
+\end{definition}
+
+\begin{definition}[Certified explanation]
+\label{def:philosophy-certified-explanation}
+A certified explanation for $B$ is a tuple
+$$
+(C,\NameCert(C),B)
+$$
+where $C$ supports $B$ and the NameCert has source, pattern, classifier,
+stability, and ledger rows for the stated scope.
+\end{definition}
+
+\begin{definition}[Black-box behavior]
+\label{def:philosophy-black-box-behavior}
+A behavior target $B$ is black-box behavior when it has a supporting
+classifier candidate but no NameCert for that candidate on the stated
+scope:
+$$
+\mathsf{BlackBox}(B)
+\quad\Longleftrightarrow\quad
+\exists C.\, C\Vdash B\ \text{and}\ \neg\exists N.\,N=\NameCert(C).
+$$
+\end{definition}
+
+\begin{definition}[Unexplained behavior]
+\label{def:philosophy-unexplained-behavior}
+A behavior target is unexplained when no supporting classifier candidate
+has been displayed for it.
+\end{definition}
+
+\begin{definition}[Closed explanation behavior]
+\label{def:philosophy-closed-explanation-behavior}
+A behavior target is closed on a stated scope when it has a certified
+explanation whose ledger is complete on that scope.
+\end{definition}
+
+\begin{theorem}[Black boxes have support structure]
+\label{thm:philosophy-black-boxes-have-support-structure}
+Every black-box behavior has a supporting classifier candidate.
+\end{theorem}
+\begin{proof}
+The existence of a supporting classifier candidate is the first clause
+of \autoref{def:philosophy-black-box-behavior}. What is missing is not
+structure, but the certificate that licenses the structure.
+\end{proof}
+
+\begin{theorem}[Unexplained behavior is not black-box behavior]
+\label{thm:philosophy-unexplained-not-black-box}
+Unexplained behavior is distinct from black-box behavior.
+\end{theorem}
+\begin{proof}
+Unexplained behavior has no displayed supporting classifier candidate.
+Black-box behavior, by contrast, has such a candidate but lacks its
+NameCert. The two failure modes occur at different levels.
+\end{proof}
+
+\begin{theorem}[Closed explanation is not black box]
+\label{thm:philosophy-closed-explanation-not-black-box}
+A behavior target with a ledger-complete certified explanation is not
+black-box behavior on that scope.
+\end{theorem}
+\begin{proof}
+Black-box behavior requires absence of a NameCert for the supporting
+classifier. A ledger-complete certified explanation supplies that
+NameCert and its ledger on the stated scope, so the missing-certificate
+condition fails.
+\end{proof}
+
+\subsection{Certificate Deficits}
+\label{subsec:philosophy-black-box-certificate-deficits}
+
+\begin{definition}[Black-box type]
+\label{def:philosophy-black-box-type}
+A black-box type records which NameCert row is missing or incomplete:
+source, pattern, classifier, stability, ledger, or verification ledger.
+Multiple missing rows form a composite black box.
+\end{definition}
+
+\begin{definition}[Certificate deficit]
+\label{def:philosophy-certificate-deficit}
+For an explanation candidate $(C,B)$, the certificate deficit is the set
+of missing or incomplete rows among source, pattern, classifier,
+stability, and ledger. A verification deficit is recorded separately
+when the explanation invokes a hard certificate without its verification
+ledger.
+\end{definition}
+
+\begin{definition}[Black-box debt]
+\label{def:philosophy-black-box-debt}
+Black-box debt is the weighted cost of the certificate deficit for the
+best displayed supporting classifier candidate for $B$. Ledger deficits
+may receive greater weight because they can produce plausible but
+unbounded half-explanations.
+\end{definition}
+
+\begin{theorem}[Missing NameCert rows diagnose black boxes]
+\label{thm:philosophy-missing-namecert-rows-diagnose-black-boxes}
+If $C$ supports $B$ but one of the required NameCert rows is missing or
+incomplete, then the explanation is not closed.
+\end{theorem}
+\begin{proof}
+Closed explanation requires a complete NameCert and ledger on the stated
+scope. Omitting source, pattern, classifier, stability, or ledger leaves
+the certificate surface incomplete. The failure can therefore be
+diagnosed by the missing row.
+\end{proof}
+
+\begin{theorem}[Ledger black boxes are high-risk half-explanations]
+\label{thm:philosophy-ledger-black-box-high-risk}
+An explanation with source, pattern, classifier, and stability rows but
+without a ledger is not closed, even when it appears structurally rich.
+\end{theorem}
+\begin{proof}
+The first four rows can make the explanation appear complete: they name
+where it applies, what pattern is seen, what classifier is used, and why
+it is stable. Without the ledger, failure cases, hidden residue,
+false-positive and false-negative behavior, distribution boundary, and
+not-claimed scope are unaccounted for. The explanation is therefore a
+plausible half-explanation, not a closed one.
+\end{proof}
+
+\begin{theorem}[Closed explanations have zero certificate deficit]
+\label{thm:philosophy-closed-explanations-zero-deficit}
+A ledger-complete certified explanation has zero certificate deficit on
+its stated scope.
+\end{theorem}
+\begin{proof}
+By definition, the certified explanation supplies every NameCert row and
+the ledger is complete on the scope. No required row is missing, so the
+deficit set is empty.
+\end{proof}
+
+\begin{theorem}[Black-box debt can decrease before closure]
+\label{thm:philosophy-black-box-debt-can-decrease-before-closure}
+An explanation process can reduce black-box debt without yet producing a
+closed explanation.
+\end{theorem}
+\begin{proof}
+Supplying a source row, classifier row, negative examples, or stability
+witness removes part of the certificate deficit. If the ledger remains
+incomplete, the explanation is still not closed, but the debt has
+decreased.
+\end{proof}
+
+\subsection{Resolution}
+\label{subsec:philosophy-black-box-resolution}
+
+\begin{definition}[Black-box reduction]
+\label{def:philosophy-black-box-reduction}
+A black-box reduction is a transition of explanation state that lowers
+the black-box debt of a behavior target.
+\end{definition}
+
+\begin{definition}[Scoped black-box resolution]
+\label{def:philosophy-scoped-black-box-resolution}
+Scoped black-box resolution occurs when a behavior target receives a
+ledger-complete certified explanation on a specified model state, source
+domain, transformation family, and behavior scope.
+\end{definition}
+
+\begin{definition}[Global black-box resolution claim]
+\label{def:philosophy-global-black-box-resolution-claim}
+A global black-box resolution claim asserts closed explanation for all
+relevant behaviors, inputs, distributions, model states, failures, and
+not-claimed boundaries.
+\end{definition}
+
+\begin{theorem}[Scoped resolution is obtained by NameCert]
+\label{thm:philosophy-scoped-resolution-by-namecert}
+If a behavior has a supporting classifier with a ledger-complete NameCert
+on a stated scope, then scoped black-box resolution holds for that scope.
+\end{theorem}
+\begin{proof}
+The NameCert supplies source, pattern, classifier, stability, and ledger
+rows for the supporting classifier. Ledger completeness supplies the
+scope boundary. This is exactly
+\autoref{def:philosophy-scoped-black-box-resolution}.
+\end{proof}
+
+\begin{theorem}[Global resolution requires global ledger]
+\label{thm:philosophy-global-resolution-requires-global-ledger}
+A global black-box resolution claim requires a global ledger for the
+claimed behavior space.
+\end{theorem}
+\begin{proof}
+The claim ranges over all relevant behaviors and boundaries. Each one
+must either have a closed explanation or be explicitly outside the
+claim. That accounting is precisely the work of a global ledger.
+\end{proof}
+
+\begin{corollary}[Interpretability claims are scoped by default]
+\label{cor:philosophy-interpretability-claims-scoped-default}
+Machine-learning explanations should be read as scoped unless a global
+ledger is displayed.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:philosophy-global-resolution-requires-global-ledger},
+global resolution requires stronger ledger coverage than ordinary
+feature, probe, visualization, or local verification claims provide.
+\end{proof}
+
+\subsection{Practice}
+\label{subsec:philosophy-black-box-practice}
+
+\begin{theorem}[Feature labels do not resolve black boxes]
+\label{thm:philosophy-feature-labels-do-not-resolve-black-boxes}
+Naming a feature does not by itself resolve black-box behavior.
+\end{theorem}
+\begin{proof}
+A feature label is a semantic assignment. It does not by itself supply
+the source, classifier, stability, and ledger rows required by
+\autoref{def:philosophy-certified-explanation}.
+\end{proof}
+
+\begin{theorem}[Visual explanations require projection ledger]
+\label{thm:philosophy-visual-explanations-require-projection-ledger}
+Visualizations used as explanations require a projection or compression
+ledger.
+\end{theorem}
+\begin{proof}
+A visualization maps high-dimensional or structured records into a
+display surface. This projection can collapse distinctions and hide
+boundary behavior. Without a ledger for that collapse, the visualization
+is evidence material rather than closed explanation.
+\end{proof}
+
+\begin{theorem}[Probe explanations require probe ledger]
+\label{thm:philosophy-probe-explanations-require-probe-ledger}
+A probe-based explanation requires a ledger for the probe classifier and
+its hidden residue.
+\end{theorem}
+\begin{proof}
+A probe is itself a classifier extraction or compression map. Its
+accuracy can support a pattern or stability row, but false positives,
+false negatives, probe-specific artifacts, source scope, and hidden
+residue must still be ledgered.
+\end{proof}
+
+\begin{theorem}[Black-box reduction is not necessarily discovery]
+\label{thm:philosophy-black-box-reduction-not-necessarily-discovery}
+Lowering black-box debt does not necessarily create classifier shift.
+\end{theorem}
+\begin{proof}
+Debt reduction may come from filling source rows, adding boundary cases,
+recording a ledger, or hardening an existing component. If the classifier
+relation is unchanged, the classifier surface has not shifted.
+\end{proof}
+
+\begin{theorem}[Black-box resolution may contain discovery]
+\label{thm:philosophy-black-box-resolution-may-contain-discovery}
+A black-box resolution process can contain a discovery step when it
+introduces a new certified classifier.
+\end{theorem}
+\begin{proof}
+If the resolution process supplies a classifier not classifier-equivalent
+to the prior certified state and gives it NameCert and ledger support,
+then the process includes classifier shift. By
+\autoref{thm:philosophy-discovery-requires-classifier-shift}, that step
+is a discovery candidate.
+\end{proof}
+
+\begin{theorem}[Black-box theorem]
+\label{thm:philosophy-black-box-missing-certificate-theorem}
+In the certificate reading, a black box is uncertified supporting
+structure: it is neither structureless behavior nor closed explanation.
+\end{theorem}
+\begin{proof}
+\autoref{thm:philosophy-black-boxes-have-support-structure} separates
+black boxes from unexplained behavior, while
+\autoref{thm:philosophy-closed-explanation-not-black-box} separates them
+from closed explanations. The remaining condition is missing NameCert or
+ledger support for a displayed classifier candidate.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-black-box-missing-certificate-namecert}{Black-box missing-certificate packets realize behavior support, certificate deficits, black-box debt, scoped resolution, ledger-black-box refusal, projection/probe ledger obligations, and discovery separation as finite NameCert rows.}

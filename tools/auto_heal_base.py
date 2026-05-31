@@ -40,9 +40,24 @@ import time
 from datetime import datetime, timedelta
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
-BASE_BRANCH = "codex-auto-dev"
-CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
+from host_context import host_path, host_value
+
+REPO_ROOT = host_path(
+    Path(__file__).resolve().parent.parent,
+    "REPO_ROOT",
+    default=Path(__file__).resolve().parent.parent,
+)
+def _base_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", required=True)
+
+
+def _mirror_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", required=True)
+
+
+BASE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH")
+MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH")
+CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 DEFAULT_INTERVAL = 900  # 15 min
 
 _HEAL_VERIFY_FOOTER = """
@@ -881,7 +896,6 @@ Your task: rewrite the offending theorem (or its dependencies) so the proof uses
    - `ChapterTasteGate.round_trip` / `.layer_separation`
    - `FieldFaithful.field_faithful` / `.fields` (newly added 2026-05-13)
    - `Nontrivial.witness_pair` (newly added 2026-05-13)
-   - `StructurallyAtomic.nearest_siblings`
 
 3. Replace each typeclass projection with a CONCRETE `def` or `theorem` reference. The chapter usually already has a `private` or top-level non-typeclass version of the same fact — e.g., `cauchySealBudgetSynchronizer_round_trip` exists as a non-typeclass theorem, and `ChapterTasteGate.round_trip` typeclass field is `:= cauchySealBudgetSynchronizer_round_trip` internally. Use the concrete name in the proof body, not the typeclass projection.
 
@@ -1087,7 +1101,7 @@ def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
     # Probe both branches: codex-auto-dev (integration) + auto-dev (CI host).
     # bidirectional sync means a fix on codex-auto-dev reaches auto-dev
     # within 10 min, so healing either side is equivalent.
-    branches_to_probe = [BASE_BRANCH, "auto-dev"]
+    branches_to_probe = [BASE_BRANCH, MIRROR_BRANCH]
     failures: list[dict] = []
     cutoff = time.time() - window_minutes * 60
     for branch in branches_to_probe:
@@ -1415,11 +1429,27 @@ def detect_dup_labels() -> list[tuple[str, list[str]]]:
     return dups
 
 
+def render_prompt_host_context(prompt: str) -> str:
+    replacements = {
+        "codex-auto-dev": BASE_BRANCH,
+        "auto-dev": MIRROR_BRANCH,
+    }
+    out = prompt
+    for old, new in replacements.items():
+        out = re.sub(
+            rf"(?<![A-Za-z0-9_-]){re.escape(old)}(?![A-Za-z0-9_-])",
+            new,
+            out,
+        )
+    return out
+
+
 def call_codex(prompt: str, cwd: Path = REPO_ROOT, timeout: int = 1800) -> int:
     """Invoke codex with the given prompt. Returns rc."""
     if not Path(CODEX_PATH).exists():
         print(f"[heal] codex CLI not found at {CODEX_PATH}", file=sys.stderr)
         return 127
+    prompt = render_prompt_host_context(prompt)
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as pf:
         pf.write(prompt)
         prompt_file = pf.name
@@ -2349,9 +2379,15 @@ def cycle() -> None:
 
 
 def main() -> int:
+    global BASE_BRANCH, MIRROR_BRANCH
+
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--interval", type=int, default=DEFAULT_INTERVAL,
                     help="Cycle interval seconds (default 900)")
+    p.add_argument("--base-branch", default=None,
+                    help="Integration branch name (default: host BEDC_PIPELINE_BRANCH)")
+    p.add_argument("--mirror-branch", default=None,
+                    help="Mirror branch checked for CI failures (default: host BEDC_MIRROR_BRANCH)")
     p.add_argument("--once", action="store_true",
                     help="Run a single cycle and exit (for testing)")
     p.add_argument("--dry-run", action="store_true",
@@ -2361,6 +2397,8 @@ def main() -> int:
     p.add_argument("--verify-only", action="store_true",
                     help="Detect log symptoms, verify current state, and exit without dispatch")
     args = p.parse_args()
+    BASE_BRANCH = args.base_branch if args.base_branch is not None else _base_branch_default()
+    MIRROR_BRANCH = args.mirror_branch if args.mirror_branch is not None else _mirror_branch_default()
 
     if args.self_test:
         return run_cooldown_self_test()

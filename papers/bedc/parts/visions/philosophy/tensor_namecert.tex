@@ -1,0 +1,266 @@
+\section{Tensor NameCert}
+\label{sec:visions-philosophy-tensor-namecert}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-distinction-to-namecert-certification}
+describes the abstract passage from candidate classifiers to certified
+classifier objects. The tensor case is the machine-learning instance of
+that passage. A feature, direction, probe, sparse-autoencoder latent,
+attention pattern, or circuit score may expose a stable distinction, but
+it becomes an auditable explanation only when the induced classifier is
+licensed by a Tensor NameCert.
+
+\begin{definition}[Tensor model context]
+\label{def:philosophy-tensor-model-context}
+A tensor model context consists of a model state, an input domain, an
+output interface, a displayed source domain, an allowed transformation
+family, and an observation protocol specifying which activation sites,
+hooks, data selections, and trace records are admitted.
+\end{definition}
+
+\begin{definition}[Activation source]
+\label{def:philosophy-activation-source}
+An activation source is a specified layer, site, and recording mode
+together with the induced map
+$$
+a_A:X\to V_A.
+$$
+Examples include residual-stream positions, attention-head outputs, MLP
+outputs, probe inputs, and sparse-autoencoder latent spaces, provided
+the observation protocol states how they are read.
+\end{definition}
+
+\begin{definition}[Tensor classifier candidate]
+\label{def:philosophy-tensor-classifier-candidate}
+A tensor classifier candidate is a tuple $C=(A,\phi,\tau,D)$ where $A$
+is an activation source, $\phi:V_A\to[0,1]$ is a feature functional,
+$0<\tau<1$ is a threshold, and $D$ is the displayed source domain. It
+induces the relation
+$$
+x\sim_C y
+\quad\Longleftrightarrow\quad
+m_{\phi,\tau}(x)=m_{\phi,\tau}(y),
+$$
+where $m_{\phi,\tau}(x)$ is the thresholded public mark read from
+\(\phi(a_A(x))\).
+\end{definition}
+
+\begin{definition}[Behavior support]
+\label{def:philosophy-tensor-behavior-support}
+For a behavior target $B$, a tensor classifier candidate $C$ supports
+$B$ when the classifier supplies a stated predictive, correlational,
+interventional, causal, formal, or hybrid account of that behavior. The
+support type is part of the certificate surface.
+\end{definition}
+
+\begin{definition}[Tensor NameCert]
+\label{def:philosophy-tensor-namecert}
+A Tensor NameCert for $C=(A,\phi,\tau,D)$ is the five-field packet
+$$
+\NameCert_{\mathrm{tensor}}(C)
+=
+(S_C,P_C,\ClassifierSpec_C,\Sigma_C,L_C).
+$$
+Here $S_C$ records model identity, activation source, source domain,
+trace protocol, feature source, threshold protocol, and behavior scope;
+$P_C$ records positive, negative, boundary, margin, clustering, circuit,
+or soft-formula patterns; $\ClassifierSpec_C$ is the classifier relation
+induced by the thresholded marks; $\Sigma_C$ records stability and
+transfer evidence; and $L_C$ records threshold debt, boundary cases,
+false positives, false negatives, entanglement, untested domain, proxy
+risk, source leakage, and not-claimed behavior.
+\end{definition}
+
+\begin{definition}[Tensor-certified explanation]
+\label{def:philosophy-tensor-certified-explanation}
+A tensor-certified explanation is a tuple
+$$
+(C,\NameCert_{\mathrm{tensor}}(C),B)
+$$
+where $C$ supports the behavior target $B$ and the Tensor NameCert is
+displayed.
+\end{definition}
+
+\begin{theorem}[Tensor NameCert instantiates NameCert]
+\label{thm:philosophy-tensor-namecert-instantiates-namecert}
+Every Tensor NameCert is an instance of the BEDC NameCert surface.
+\end{theorem}
+\begin{proof}
+The abstract surface of
+\autoref{def:philosophy-certified-classifier-object} has source,
+pattern, classifier, stability, and ledger rows. The Tensor NameCert of
+\autoref{def:philosophy-tensor-namecert} supplies exactly those rows in
+the tensor-model context. Thus the tensor packet is a machine-learning
+instance of the same certificate form.
+\end{proof}
+
+\begin{theorem}[Feature functionals are not explanations]
+\label{thm:philosophy-feature-functional-not-explanation}
+A tensor feature functional $\phi:V_A\to[0,1]$ is not by itself a
+tensor-certified explanation.
+\end{theorem}
+\begin{proof}
+The functional supplies only a score map. It does not identify the
+activation source, threshold, source domain, behavior support,
+classifier relation, stability witness, or ledger policy. Those rows are
+required by \autoref{def:philosophy-tensor-certified-explanation}.
+\end{proof}
+
+\begin{corollary}[Top activations are not explanations]
+\label{cor:philosophy-top-activations-not-explanations}
+Lists of highly activating examples, feature labels, or visualization
+snippets are not tensor-certified explanations.
+\end{corollary}
+\begin{proof}
+Such records can support the pattern row of a Tensor NameCert, but they
+do not supply the whole source, classifier, stability, and ledger
+surface. By \autoref{thm:philosophy-feature-functional-not-explanation},
+the feature evidence alone is insufficient.
+\end{proof}
+
+\begin{theorem}[Source ambiguity blocks tensor certification]
+\label{thm:philosophy-source-ambiguity-blocks-tensor-certification}
+If a tensor classifier candidate does not specify its model state,
+activation source, source domain, trace protocol, or threshold protocol,
+then it is not source-complete.
+\end{theorem}
+\begin{proof}
+Those entries are part of the source row $S_C$ in
+\autoref{def:philosophy-tensor-namecert}. Omitting them leaves the
+classifier's domain of application and method of observation ambiguous,
+so the source row is incomplete.
+\end{proof}
+
+\begin{theorem}[Pattern evidence needs boundary evidence]
+\label{thm:philosophy-pattern-evidence-needs-boundary-evidence}
+Positive examples alone do not determine a Tensor PatternSpec.
+\end{theorem}
+\begin{proof}
+Positive examples show where a feature fires or where a classifier cell
+is populated. They do not identify negative cases, boundary cases, false
+positives, false negatives, entanglement, or stability under admissible
+transformations. Those rows are needed for the pattern and ledger
+surfaces.
+\end{proof}
+
+\begin{theorem}[Threshold selection is certificate data]
+\label{thm:philosophy-threshold-selection-certificate-data}
+Changing the threshold of a tensor classifier candidate can change its
+ClassifierSpec.
+\end{theorem}
+\begin{proof}
+The classifier relation is defined by equality of thresholded marks. A
+new threshold can move source records from one public mark side to the
+other, especially near the boundary. Hence threshold choice is not an
+implementation detail; it is certificate data.
+\end{proof}
+
+\begin{theorem}[Stability claims require mode and evidence type]
+\label{thm:philosophy-stability-claims-require-mode}
+Tensor stability claims are not auditable unless they declare both the
+stability mode and the evidence type.
+\end{theorem}
+\begin{proof}
+Feature stability, classifier stability, circuit stability, behavior
+stability, transfer stability, empirical stability, paper stability, and
+formal stability have different strengths. Without a declared mode and
+evidence type, an auditor cannot tell what is being claimed or how far it
+transports.
+\end{proof}
+
+\begin{theorem}[Tensor ledger gaps prevent closed explanation]
+\label{thm:philosophy-tensor-ledger-gaps-prevent-closed-explanation}
+A tensor-certified explanation is not closed when its ledger omits known
+or relevant boundary debt.
+\end{theorem}
+\begin{proof}
+The ledger row records threshold-sensitive cases, false positives, false
+negatives, source leakage, entanglement, untested regions, proxy
+behavior, and not-claimed boundaries. If relevant debt is omitted, the
+explanation hides part of the material compressed by the classifier. The
+certificate is therefore not closed.
+\end{proof}
+
+\subsection{Black-Box Resolution}
+\label{subsec:philosophy-tensor-black-box-resolution}
+
+\begin{definition}[Tensor black-box behavior]
+\label{def:philosophy-tensor-black-box-behavior}
+A behavior is tensor black-box behavior on a stated scope when it has a
+supporting tensor classifier candidate but no Tensor NameCert for that
+candidate on that scope.
+\end{definition}
+
+\begin{theorem}[Tensor NameCert resolves scoped black-box behavior]
+\label{thm:philosophy-tensor-namecert-resolves-black-box}
+If a behavior target $B$ is supported by a tensor classifier candidate
+$C$ and $C$ carries a Tensor NameCert on the stated scope, then $B$ is no
+longer tensor black-box behavior on that scope.
+\end{theorem}
+\begin{proof}
+The black-box condition in
+\autoref{def:philosophy-tensor-black-box-behavior} is the absence of a
+Tensor NameCert for the supporting candidate. Supplying that certificate
+removes the missing row on the stated scope.
+\end{proof}
+
+\begin{corollary}[Black-box resolution is classifier certification]
+\label{cor:philosophy-black-box-resolution-classifier-certification}
+Resolving tensor black-box behavior requires certifying the classifier
+that supports the behavior, not merely naming a feature.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:philosophy-tensor-namecert-resolves-black-box}, the
+resolving object is the Tensor NameCert for the supporting classifier.
+A feature label alone does not supply that certificate.
+\end{proof}
+
+\subsection{Hardening and Gain}
+\label{subsec:philosophy-tensor-hardening-gain}
+
+\begin{theorem}[Formal hardening does not replace Tensor NameCert]
+\label{thm:philosophy-formal-hardening-not-tensor-namecert}
+Formal verification can harden selected Tensor NameCert fields, but it
+does not replace the Tensor NameCert.
+\end{theorem}
+\begin{proof}
+A formal proof object verifies a translated statement. It may harden a
+classifier law, a stability statement, or a boundary claim. It does not
+automatically supply the model source, activation protocol, pattern
+evidence, behavior support, or ledger rows. The Tensor NameCert remains
+the complete explanation surface.
+\end{proof}
+
+\begin{theorem}[Tensor explanations require net-gain audit when discovery is claimed]
+\label{thm:philosophy-tensor-explanations-require-net-gain-audit}
+When a tensor-certified explanation is claimed as a discovery, the claim
+must account for classifier novelty, certificate cost, hardening cost
+when used, and ledger debt.
+\end{theorem}
+\begin{proof}
+Classifier novelty is required by
+\autoref{thm:philosophy-discovery-requires-classifier-shift}. The
+certificate and hardening rows are costs of making the explanation
+auditable, and ledger debt records unclosed boundary material. Omitting
+these costs would treat hidden or unverified work as free information.
+\end{proof}
+
+\begin{theorem}[Tensor NameCert theorem]
+\label{thm:philosophy-tensor-namecert-theorem}
+In the machine-learning reading, a feature becomes an auditable
+explanation only through the passage from tensor classifier candidate to
+Tensor NameCert, with source, pattern, classifier, stability, and ledger
+rows displayed.
+\end{theorem}
+\begin{proof}
+The feature functional alone is insufficient by
+\autoref{thm:philosophy-feature-functional-not-explanation}. The
+candidate relation is specified by
+\autoref{def:philosophy-tensor-classifier-candidate}. The Tensor NameCert
+of \autoref{def:philosophy-tensor-namecert} supplies the five rows needed
+for certified explanation, and
+\autoref{thm:philosophy-formal-hardening-not-tensor-namecert} separates
+that surface from optional formal hardening.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-tensor-namecert-namecert}{Tensor NameCert realizes activation-source, feature-functional, threshold, classifier, stability, ledger, behavior-support, black-box-resolution, and hardening-separation rows as finite certificate packets.}

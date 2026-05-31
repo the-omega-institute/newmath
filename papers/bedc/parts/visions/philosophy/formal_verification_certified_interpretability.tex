@@ -1,0 +1,421 @@
+\section{Formal Verification in Certified Interpretability}
+\label{sec:visions-philosophy-formal-verification-certified-interpretability}
+\origin{ai}
+
+\autoref{sec:visions-philosophy-hard-certificate-layer} treats formal
+verification as a hard-certificate layer, and
+\autoref{sec:visions-philosophy-hardenable-ledger-only-classifiers}
+separates ledger-only, partially hardened, and fully hardened
+classifiers. The present section applies that separation to certified
+interpretability. Formal verification is not the rule that forms an
+explanation object; the object is formed by classifier, NameCert, and
+ledger. Verification hardens the components that have been faithfully
+transcribed into formal statements, and it must carry its own ledger.
+
+\begin{definition}[Certified interpretability object]
+\label{def:philosophy-certified-interpretability-object}
+A certified interpretability object is
+$$
+E=(B,C,N_C,\Lambda_C),
+$$
+where $B$ is the explained behavior, $C$ is the classifier supporting
+$B$, $N_C=(S_C,P_C,C,\Sigma_C,L_C)$ is the NameCert or Tensor NameCert
+for $C$, and $\Lambda_C$ is the explanation ledger.
+\end{definition}
+
+\begin{definition}[Explanation component]
+\label{def:philosophy-explanation-component}
+An explanation component of $E$ is any row or role used by its certified
+surface: source, pattern, classifier, stability, ledger, feature,
+circuit, intervention, semantic assignment, seal, or verification
+component. The family of such components is denoted
+$\operatorname{Comp}(E)$.
+\end{definition}
+
+\begin{definition}[Verifiable component]
+\label{def:philosophy-verifiable-explanation-component}
+A component $F\in\operatorname{Comp}(E)$ is verifiable relative to a
+backend $\mathcal V$ when it can be transcribed as a formal statement
+$\varphi_F$ with an explicit proof obligation and declared scope. It is
+ledger-only when it is not presently transcribable without losing
+essential empirical, semantic, distributional, or boundary content, but
+its evidence and limitations are recorded in the ledger.
+\end{definition}
+
+\begin{definition}[Formal verification target]
+\label{def:philosophy-formal-verification-target}
+A formal verification target is a tuple
+$$
+T=(F,\varphi_F,\mathcal V),
+$$
+where $F$ is an explanation component, $\varphi_F$ is its transcribed
+formal statement, and $\mathcal V$ is the verification backend. A proof
+object $\pi_F$ hardens the target when
+$$
+\mathcal V\vdash \pi_F:\varphi_F.
+$$
+\end{definition}
+
+\begin{definition}[Verification coverage]
+\label{def:philosophy-verification-coverage}
+The verification coverage of a hardened component $F$ is the part of
+$F$ actually expressed by $\varphi_F$. If the coverage is a proper
+subcomponent of $F$, the remainder must be recorded in a transcription
+ledger or the hardening claim is incomplete.
+\end{definition}
+
+\subsection{Hardenable Components}
+\label{subsec:philosophy-formal-verification-hardenable-components}
+
+\begin{definition}[Threshold-classifier targets]
+\label{def:philosophy-threshold-classifier-verification-targets}
+For a threshold classifier
+$$
+m_{\phi,\tau}(x)=
+\begin{cases}
+\mathsf{0},&\phi(a(x))<\tau,\\
+\mathsf{1},&\phi(a(x))\geq\tau,
+\end{cases}
+$$
+verifiable targets include threshold-definition consistency,
+equivalence-relation properties of the induced classifier, finite-scope
+classification tables, margin stability, and threshold-perturbation
+bounds.
+\end{definition}
+
+\begin{definition}[Compression, finite-data, circuit, and ledger targets]
+\label{def:philosophy-common-verification-targets}
+Compression and projection targets include injectivity on a scope,
+non-injectivity witnesses, collapsed-distinction enumeration, and
+compression-cell equivalence. Finite-data targets include enumeration
+coverage, finite classifier-table correctness, finite confusion-matrix
+properties, and finite no-counterexample claims. Circuit targets include
+graph reachability, acyclicity, dependency containment, path coverage,
+and declared intervention-site membership. Ledger targets include finite
+or formal coverage claims of the form
+$$
+\operatorname{Req}(E)\subseteq\operatorname{Rec}(\Lambda).
+$$
+\end{definition}
+
+\begin{definition}[NameCert structure targets]
+\label{def:philosophy-namecert-structure-verification-targets}
+NameCert structure targets include existence of the source, pattern,
+classifier, stability, and ledger rows; consistency of references
+between rows; agreement between source scope and classifier domain; and
+ledger coverage for the declared scope.
+\end{definition}
+
+\begin{theorem}[Finite classifier tables are verifiable]
+\label{thm:philosophy-finite-classifier-tables-verifiable}
+If a classifier is displayed by a finite table on a finite domain, then
+its basic classifier properties can be formally verified.
+\end{theorem}
+\begin{proof}
+On a finite domain $D_0=\{x_1,\ldots,x_n\}$ the classifier relation can
+be represented by a finite Boolean matrix $M_{ij}$ with
+$M_{ij}=1$ exactly when $C(x_i,x_j)$. Reflexivity, symmetry, and
+transitivity reduce to finitely many Boolean conditions on this matrix.
+Those conditions are formal verification targets.
+\end{proof}
+
+\begin{theorem}[Margin stability is verifiable under a bound]
+\label{thm:philosophy-margin-stability-verifiable}
+If
+$$
+|\phi(a(x))-\tau|>\epsilon
+$$
+and every admitted perturbation $\alpha$ satisfies
+$$
+|\phi(a(\alpha(x)))-\phi(a(x))|\leq\epsilon,
+$$
+then the threshold mark of $x$ is preserved by $\alpha$.
+\end{theorem}
+\begin{proof}
+If $\phi(a(x))\geq\tau$, the margin assumption gives
+$\phi(a(x))-\tau>\epsilon$, and the perturbation bound gives
+$\phi(a(\alpha(x)))>\tau$. If $\phi(a(x))<\tau$, the margin assumption
+gives $\tau-\phi(a(x))>\epsilon$, and the perturbation bound gives
+$\phi(a(\alpha(x)))<\tau$. In both cases the threshold mark is
+unchanged.
+\end{proof}
+
+\begin{theorem}[Finite ledger coverage is verifiable]
+\label{thm:philosophy-finite-ledger-coverage-verifiable}
+If required residue and recorded residue are finite displayed families,
+then the coverage claim
+$$
+\operatorname{Req}(E)\subseteq\operatorname{Rec}(\Lambda)
+$$
+is formally verifiable.
+\end{theorem}
+\begin{proof}
+The finite inclusion is equivalent to checking, for each displayed
+required row, membership in the recorded family. This is a finite family
+of decidable membership checks.
+\end{proof}
+
+\subsection{Limits and Transcription}
+\label{subsec:philosophy-formal-verification-limits-transcription}
+
+\begin{definition}[Open semantic and distributional components]
+\label{def:philosophy-open-semantic-distributional-components}
+An open semantic component depends on natural-language meaning, cultural
+context, open-ended categories, or semantic similarity. An open
+distributional component depends on an unknown or open distribution.
+Such components may be ledgered, sampled, or partially modeled, but they
+are not fully hardened unless their formalization and residual gap are
+declared.
+\end{definition}
+
+\begin{definition}[Transcription ledger]
+\label{def:philosophy-transcription-ledger}
+A transcription ledger for $F\leadsto\varphi_F$ records which parts of
+$F$ are expressed by $\varphi_F$, which parts are omitted, the scope and
+assumptions of the transcription, any semantic weakening, approximation,
+excluded cases, and the not-claimed boundary.
+\end{definition}
+
+\begin{definition}[Transcription gap]
+\label{def:philosophy-transcription-gap}
+A transcription gap exists when critical content of $F$ is neither
+expressed by $\varphi_F$ nor recorded in the transcription ledger.
+\end{definition}
+
+\begin{theorem}[Open semantics are not closed by proof alone]
+\label{thm:philosophy-open-semantics-not-closed-by-proof-alone}
+An open semantic component is not closed by formal verification alone
+unless a formal semantics and semantic ledger are supplied.
+\end{theorem}
+\begin{proof}
+Formal verification checks a formal statement. Natural-language meaning
+has ambiguity, context dependence, polysemy, and boundary cases. A
+formal semantics specifies what has been modeled, and the semantic
+ledger records the gap between that model and the open concept.
+\end{proof}
+
+\begin{theorem}[Finite empirical stability is not global formal stability]
+\label{thm:philosophy-empirical-stability-not-global-formal-stability}
+Passing finite perturbation tests does not by itself prove stability on
+an open domain or open transformation family.
+\end{theorem}
+\begin{proof}
+Finite tests cover only the displayed sample and displayed
+transformations. A larger domain or transformation family may contain
+cases not tested. Global formal stability requires a proof over the
+declared domain and family.
+\end{proof}
+
+\begin{theorem}[Untranscribed claims have no proof target]
+\label{thm:philosophy-untranscribed-claims-no-proof-target}
+If an explanation component has not been transcribed into a formal
+statement, then formal verification has no target for that component.
+\end{theorem}
+\begin{proof}
+A backend judgment has the form
+$\mathcal V\vdash\pi:\varphi$. Without a statement $\varphi_F$
+representing the component, no such judgment can be posed for it.
+\end{proof}
+
+\begin{theorem}[Verified statement needs transcription ledger]
+\label{thm:philosophy-verified-statement-needs-transcription-ledger}
+A verified statement does not audit-completely support an explanation
+component unless its transcription ledger is supplied.
+\end{theorem}
+\begin{proof}
+The proof establishes $\varphi_F$. Without the transcription ledger, the
+auditor cannot tell whether $\varphi_F$ covers the critical content of
+$F$, weakens the claim, omits a boundary, or changes semantic scope.
+\end{proof}
+
+\begin{theorem}[Transcription gaps block full hardening]
+\label{thm:philosophy-transcription-gaps-block-full-hardening}
+A component with a transcription gap cannot be claimed fully hardened.
+\end{theorem}
+\begin{proof}
+Full hardening requires every critical part of the component to be
+covered by the verified statement or ledgered as residue. A transcription
+gap is precisely a critical part covered by neither.
+\end{proof}
+
+\subsection{Verification Ledgers and Grades}
+\label{subsec:philosophy-verification-ledgers-grades}
+
+\begin{definition}[Component verification ledger]
+\label{def:philosophy-component-verification-ledger}
+A component verification ledger records the backend, formal statement,
+proof object, assumptions, axioms, dependencies, trusted libraries,
+kernel or checker trust boundary, extraction assumptions, unverified
+components, and portability boundary for a verified component.
+\end{definition}
+
+\begin{definition}[Verification opacity]
+\label{def:philosophy-verification-opacity}
+Verification opacity occurs when a verification claim lacks its backend,
+checked statement, proof artifact, assumptions, dependencies, or trust
+boundary.
+\end{definition}
+
+\begin{definition}[Verification grade]
+\label{def:philosophy-interpretability-verification-grade}
+An explanation is ledger-only when it has NameCert and ledger but no
+formally hardened component; partially verified when at least one
+component is hardened; fully verified scoped when every hardenable
+critical component in the declared scope is hardened and every
+non-hardenable residue is ledgered; and globally verified only when the
+global scope and all excluded cases are ledgered.
+\end{definition}
+
+\begin{theorem}[Verification opacity blocks audit completeness]
+\label{thm:philosophy-verification-opacity-blocks-audit-completeness}
+An opaque verification claim is not audit-complete.
+\end{theorem}
+\begin{proof}
+The auditor must know which backend accepted which statement, with which
+proof object, assumptions, dependencies, and trust boundary. If these
+rows are absent, the strength and scope of the verification cannot be
+audited.
+\end{proof}
+
+\begin{theorem}[Verification ledger does not replace explanation ledger]
+\label{thm:philosophy-component-verification-ledger-not-explanation-ledger}
+A component verification ledger does not replace the explanation ledger.
+\end{theorem}
+\begin{proof}
+The verification ledger audits proof acceptance and trust boundary. The
+explanation ledger audits source residue, classifier boundary, stability
+limits, semantic ambiguity, intervention residue, generalization residue,
+and not-claimed behavior. These are different required rows.
+\end{proof}
+
+\begin{theorem}[Partial verification is not scoped full verification]
+\label{thm:philosophy-partial-verification-not-scoped-full}
+Partially verified explanation does not imply fully verified scoped
+explanation.
+\end{theorem}
+\begin{proof}
+One hardened component may leave other hardenable critical components
+unhardened and unledgered. Fully verified scoped status requires the
+entire critical hardening frontier of the declared scope to be handled.
+\end{proof}
+
+\begin{theorem}[Global verification requires global scope ledger]
+\label{thm:philosophy-global-verification-requires-global-scope-ledger}
+A global verification claim requires a global scope ledger.
+\end{theorem}
+\begin{proof}
+Global verification quantifies over the whole claimed source, behavior,
+model, or domain space. The ledger must record that scope, the excluded
+cases, the assumptions, and every non-hardenable residue. Without that
+ledger, the global claim is unclosed.
+\end{proof}
+
+\subsection{NDNA Verification and Discovery}
+\label{subsec:philosophy-ndna-verification-discovery}
+
+\begin{definition}[NDNA verification profile]
+\label{def:philosophy-ndna-verification-profile}
+An NDNA verification profile records, for each NDNA locus, whether it is
+unhardened, hardenable, hardened, or ledger-only, together with the
+hardening frontier, the component verification ledger, and the
+not-claimed boundary.
+\end{definition}
+
+\begin{theorem}[One hardened NDNA locus does not harden all NDNA]
+\label{thm:philosophy-one-hardened-ndna-locus-not-all-ndna}
+Hardening one NDNA locus does not imply that the whole NDNA packet is
+hardened.
+\end{theorem}
+\begin{proof}
+NDNA has source, feature, circuit, classifier, stability, intervention,
+ledger, and seal loci. A proof about one locus does not establish the
+formal statements, ledgers, or non-hardenable residues of the other
+loci.
+\end{proof}
+
+\begin{theorem}[Fully verified NDNA requires verification profile]
+\label{thm:philosophy-fully-verified-ndna-requires-profile}
+A fully verified NDNA claim requires a complete NDNA verification
+profile.
+\end{theorem}
+\begin{proof}
+The claim requires all critical hardenable loci to be hardened and all
+non-hardenable critical residue to be ledgered. The verification profile
+is the audit surface that records those statuses locus by locus.
+\end{proof}
+
+\begin{definition}[Verification-assisted discovery]
+\label{def:philosophy-component-verification-assisted-discovery}
+A positive discovery is verification-assisted when formal hardening
+contributes positive verification gain to its net explanation
+information. It is verification-only when the classifier surface is
+unchanged and the transition only hardens components.
+\end{definition}
+
+\begin{theorem}[Verification gain does not replace classifier novelty]
+\label{thm:philosophy-verification-gain-not-classifier-novelty}
+Verification gain does not by itself create classifier-level discovery.
+\end{theorem}
+\begin{proof}
+Classifier-level discovery requires classifier novelty. A verification
+gain can harden a row, reduce verification debt, or improve reuse while
+leaving the classifier relation unchanged.
+\end{proof}
+
+\begin{theorem}[Verification-assisted discovery counts verification cost]
+\label{thm:philosophy-verification-assisted-discovery-counts-cost}
+When verification contributes to positive discovery, verification cost
+and verification debt must be counted.
+\end{theorem}
+\begin{proof}
+Formal hardening consumes transcription work, proof construction,
+dependency maintenance, checking, transport, and verification-ledger
+work. Omitting those terms overstates net explanation information.
+\end{proof}
+
+\begin{definition}[Verification misuse]
+\label{def:philosophy-verification-misuse}
+Verification laundering uses a verified statement to hide a missing
+NameCert, ledger, classifier novelty, or scope boundary. Proof-quantity
+laundering treats many proof artifacts as explanation quality. Backend
+laundering states that a result is verified without naming backend,
+dependencies, and trust boundary. Scope laundering by verification uses a
+scoped proof as if it were global.
+\end{definition}
+
+\begin{theorem}[Verification misuse invalidates the stronger claim]
+\label{thm:philosophy-verification-misuse-invalidates-claim}
+Verification laundering, proof-quantity laundering, backend laundering,
+and scope laundering by verification invalidate the stronger explanation
+or discovery claim they are used to support.
+\end{theorem}
+\begin{proof}
+Verification does not replace NameCert or ledger, proof quantity does
+not determine explanation quality, opaque backend claims are not
+audit-complete, and scoped proofs do not prove larger scopes. Each misuse
+therefore asserts more than the verification evidence supports.
+\end{proof}
+
+\begin{theorem}[Formal verification in certified interpretability theorem]
+\label{thm:philosophy-formal-verification-certified-interpretability-theorem}
+In certified interpretability, formal verification hardens transcribed
+components under a backend and verification ledger; it does not replace
+the NameCert, explanation ledger, NDNA profile, or classifier-novelty
+condition for discovery.
+\end{theorem}
+\begin{proof}
+\autoref{thm:philosophy-finite-classifier-tables-verifiable},
+\autoref{thm:philosophy-margin-stability-verifiable}, and
+\autoref{thm:philosophy-finite-ledger-coverage-verifiable} identify
+typical hardenable targets.
+\autoref{thm:philosophy-open-semantics-not-closed-by-proof-alone},
+\autoref{thm:philosophy-empirical-stability-not-global-formal-stability},
+and \autoref{thm:philosophy-untranscribed-claims-no-proof-target}
+identify limits.
+\autoref{thm:philosophy-verified-statement-needs-transcription-ledger}
+and
+\autoref{thm:philosophy-verification-opacity-blocks-audit-completeness}
+give the ledger requirements.
+\autoref{thm:philosophy-verification-gain-not-classifier-novelty}
+separates hardening from discovery. The theorem follows.
+\end{proof}

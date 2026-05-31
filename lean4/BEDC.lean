@@ -7664,6 +7664,7 @@ import BEDC.Manifest
 import BEDC.Manifest.Core
 import BEDC.Manifest.Entries
 import BEDC.Meta
+import BEDC.Meta.DiscoveryCertificate
 import BEDC.Meta.TasteGate
 import BEDC.MetaCIC
 import BEDC.MetaCIC.AtomInfer
@@ -7702,7 +7703,7 @@ import BEDC.MetaCIC.SubjectReduction
 import BEDC.MetaCIC.SubjectReduction.ClosedBinderDischarge
 import BEDC.MetaCIC.SubjectReduction.ClosedDischarge
 import BEDC.MetaCIC.SubjectReduction.DischargeBundle
-import BEDC.MetaCIC.SubjectReduction.SetupClass
+import BEDC.MetaCIC.SubjectReduction.ObstructionLedger
 import BEDC.MetaCIC.Substitution
 import BEDC.MetaCIC.Substitution.Basic
 import BEDC.MetaCIC.Substitution.ClosedComposition

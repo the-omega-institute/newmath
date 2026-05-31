@@ -3,15 +3,23 @@
 from __future__ import annotations
 
 import importlib.util
+import json
+import os
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT_PATH = REPO_ROOT / "lean4" / "scripts" / "codex_formalize.py"
+TOOLS_PATH = REPO_ROOT / "tools"
+if str(TOOLS_PATH) not in sys.path:
+    sys.path.insert(0, str(TOOLS_PATH))
+
+from host_context import MissingHostValueError
 
 
 def load_codex_formalize():
@@ -24,6 +32,191 @@ def load_codex_formalize():
 
 
 cf = load_codex_formalize()
+if cf.BASE_BRANCH is None:
+    cf.BASE_BRANCH = "test-base"
+
+
+class HostValueHermeticityTests(unittest.TestCase):
+    def test_import_does_not_require_bedc_host_keys(self):
+        with tempfile.TemporaryDirectory() as td:
+            env = {"REPO_ROOT": td, "PATH": os.environ.get("PATH", "")}
+            with mock.patch.dict(os.environ, env, clear=True):
+                module = load_codex_formalize()
+
+            self.assertIsNone(module.BASE_BRANCH_DEFAULT)
+            self.assertIsNone(module.BASE_BRANCH)
+
+            with self.assertRaisesRegex(MissingHostValueError, "BEDC_LEAN_BASE_BRANCH"):
+                module._base_branch_default()
+
+
+class CoordinationPersistenceTests(unittest.TestCase):
+    def test_recovery_request_writes_semantic_ticket_discovered_by_consumer_matcher(self):
+        with tempfile.TemporaryDirectory() as td:
+            queue = Path(td) / "queue"
+            dead = queue / "dead"
+            lease = cf.new_worker_lease("formalize", "foo", lease_id="wabc1234")
+            wt = cf.WorktreeInfo(
+                path=Path(td) / "worktree",
+                branch=lease.branch,
+                round_number=12,
+                base_sha="abc123",
+                lease=lease,
+            )
+            original_queue = cf.RECOVERY_QUEUE_DIR
+            original_dead = cf.RECOVERY_DEAD_DIR
+            original_time = cf.time.time
+            try:
+                cf.RECOVERY_QUEUE_DIR = queue
+                cf.RECOVERY_DEAD_DIR = dead
+                cf.time.time = lambda: 12345
+
+                cf.request_recovery(wt)
+
+                tickets = sorted(
+                    p.name
+                    for p in queue.iterdir()
+                    if p.is_file() and p.suffix == ".json" and cf.is_recovery_ticket(p.name, "formalize")
+                )
+                self.assertEqual(tickets, ["formalize_foo_wabc1234_12345.json"])
+                self.assertTrue(cf.is_recovery_ticket("R12_12345.json", "formalize"))
+                self.assertNotIn("wabc1234_wabc1234", tickets[0])
+            finally:
+                cf.RECOVERY_QUEUE_DIR = original_queue
+                cf.RECOVERY_DEAD_DIR = original_dead
+                cf.time.time = original_time
+
+    def test_pending_build_file_survives_reload_and_collapses_to_newest_sha(self):
+        with tempfile.TemporaryDirectory() as td:
+            pending = Path(td) / "pending.json"
+            lock = Path(td) / "pending.json.lock"
+            original_pending = cf.PENDING_BUILD_FILE
+            original_lock = cf.PENDING_BUILD_LOCK_FILE
+            try:
+                cf.PENDING_BUILD_FILE = pending
+                cf.PENDING_BUILD_LOCK_FILE = lock
+
+                cf.request_build("1111111")
+                cf.request_build("2222222")
+
+                self.assertEqual(cf._read_pending_build(), "2222222")
+                data = json.loads(pending.read_text(encoding="utf-8"))
+                self.assertEqual(data["sha"], "2222222")
+                cf._clear_pending_build_if_current("1111111")
+                self.assertTrue(pending.exists())
+                self.assertEqual(cf._read_pending_build(), "2222222")
+                cf._clear_pending_build_if_current("2222222")
+                self.assertFalse(pending.exists())
+            finally:
+                cf.PENDING_BUILD_FILE = original_pending
+                cf.PENDING_BUILD_LOCK_FILE = original_lock
+
+    def test_target_claim_overlap_rejection_release_and_reclaim(self):
+        with tempfile.TemporaryDirectory() as td:
+            claims = Path(td) / "target_claims.json"
+            original_claims = cf.TARGET_CLAIMS_FILE
+            try:
+                cf.TARGET_CLAIMS_FILE = claims
+
+                kept, dropped = cf.claim_targets(
+                    1,
+                    [
+                        {"lean_name": "BEDC.alpha"},
+                        {"paper_label": "thm:beta"},
+                    ],
+                )
+                self.assertEqual([cf._target_id(t) for t in kept], ["BEDC.alpha", "thm:beta"])
+                self.assertEqual(dropped, [])
+
+                kept, dropped = cf.claim_targets(
+                    2,
+                    [
+                        {"lean_name": "BEDC.alpha"},
+                        {"lean_name": "BEDC.gamma"},
+                    ],
+                )
+                self.assertEqual([cf._target_id(t) for t in kept], ["BEDC.gamma"])
+                self.assertEqual(dropped, ["BEDC.alpha"])
+
+                cf.release_targets(1)
+                kept, dropped = cf.claim_targets(2, [{"lean_name": "BEDC.alpha"}])
+
+                self.assertEqual([cf._target_id(t) for t in kept], ["BEDC.alpha"])
+                self.assertEqual(dropped, [])
+            finally:
+                cf.TARGET_CLAIMS_FILE = original_claims
+
+    def test_expired_target_claim_is_reclaimed_by_new_owner(self):
+        with tempfile.TemporaryDirectory() as td:
+            claims = Path(td) / "target_claims.json"
+            original_claims = cf.TARGET_CLAIMS_FILE
+            original_time = cf.time.time
+            try:
+                cf.TARGET_CLAIMS_FILE = claims
+                claims.write_text(
+                    json.dumps(
+                        {
+                            "BEDC.expired": {
+                                "owner": "1",
+                                "round_num": 1,
+                                "claimed_at": "2000-01-01T00:00:00Z",
+                                "expires_at": 999.0,
+                                "pid": 123,
+                            }
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+                cf.time.time = lambda: 1000.0
+
+                kept, dropped = cf.claim_targets(2, [{"lean_name": "BEDC.expired"}])
+
+                self.assertEqual([cf._target_id(t) for t in kept], ["BEDC.expired"])
+                self.assertEqual(dropped, [])
+                data = json.loads(claims.read_text(encoding="utf-8"))
+                self.assertEqual(data["BEDC.expired"]["owner"], "2")
+                self.assertEqual(data["BEDC.expired"]["round_num"], 2)
+                self.assertEqual(
+                    data["BEDC.expired"]["expires_at"],
+                    1000.0 + cf.TARGET_CLAIM_TTL_SECONDS,
+                )
+            finally:
+                cf.TARGET_CLAIMS_FILE = original_claims
+                cf.time.time = original_time
+
+    def test_corrupt_state_is_quarantined_and_recovered_without_plan_header(self):
+        with tempfile.TemporaryDirectory() as td:
+            state_file = Path(td) / "formalize_state.json"
+            state_file.write_text("{bad json", encoding="utf-8")
+            original_state = cf.STATE_FILE
+            original_latest = cf.latest_committed_round
+            original_count = cf.count_lean_theorems
+            original_log = cf.git_log_oneline
+            original_plan = cf.read_impl_plan_header
+            try:
+                cf.STATE_FILE = state_file
+                cf.latest_committed_round = lambda *, cwd=None: 42
+                cf.count_lean_theorems = lambda bedc_root=None: 7
+                cf.git_log_oneline = lambda n=5, *, cwd=None: ["abc subject"]
+
+                def fail_plan(*args, **kwargs):
+                    raise AssertionError("read_impl_plan_header must not be called")
+
+                cf.read_impl_plan_header = fail_plan
+
+                state = cf.load_state()
+
+                self.assertEqual(state.round_number, 42)
+                self.assertEqual(state.total_theorems, 7)
+                self.assertEqual(state.recent_commits, ["abc subject"])
+                self.assertFalse(state_file.exists())
+                self.assertEqual(len(list(Path(td).glob("formalize_state.json.quarantine.*"))), 1)
+            finally:
+                cf.STATE_FILE = original_state
+                cf.latest_committed_round = original_latest
+                cf.count_lean_theorems = original_count
+                cf.git_log_oneline = original_log
+                cf.read_impl_plan_header = original_plan
 
 
 class QualityGateTests(unittest.TestCase):
@@ -143,11 +336,12 @@ class QualityGateTests(unittest.TestCase):
     def test_shell_pattern_uses_round_diff_base_not_origin_branch(self):
         td, root, base_sha = self.init_repo()
         with td:
-            subprocess.run(["git", "checkout", "-q", "-b", cf.BASE_BRANCH], cwd=root, check=True)
+            base_branch = cf.BASE_BRANCH or "test-base"
+            subprocess.run(["git", "checkout", "-q", "-b", base_branch], cwd=root, check=True)
             upstream_sha = subprocess.run(
                 ["git", "rev-parse", "HEAD"], cwd=root, check=True, text=True, capture_output=True
             ).stdout.strip()
-            subprocess.run(["git", "update-ref", f"refs/remotes/origin/{cf.BASE_BRANCH}", base_sha], cwd=root, check=True)
+            subprocess.run(["git", "update-ref", f"refs/remotes/origin/{base_branch}", base_sha], cwd=root, check=True)
             (root / "lean4" / "BEDC" / "FKernel" / "AllowedShell.lean").write_text(
                 "namespace BEDC.FKernel\n"
                 "structure PaperShell where\n"
