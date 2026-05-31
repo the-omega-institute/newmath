@@ -33,6 +33,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         "artifact": "reports/bedc_jepa_four_system_experiment.json",
         "commands": {
             "generate": "python scripts/run_bedc_jepa_experiment.py",
+            "public_minigrid_probe": "python scripts/probe_public_minigrid.py",
             "test": "python -m pytest -q",
             "paper": "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
         },
@@ -59,6 +60,9 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "cluttered_object_unlogged_error_reduction_mean": cluttered[
                 "s2_minus_s3_unlogged_error_mean"
             ],
+        },
+        "public_adapters": {
+            "minigrid": "reports/bedc_jepa_public_minigrid_probe.json",
         },
         "cannot_claim": [
             "public JEPA implementation comparison",
