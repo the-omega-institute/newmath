@@ -1,0 +1,49 @@
+% This root is written by scripts/gen_core_root.py.
+% Edit main.tex or the generator, then run the generator.
+\documentclass[11pt,oneside,openany]{book}
+\input{preamble.tex}
+\begin{document}
+\frontmatter
+\input{frontmatter/title.tex}
+\input{frontmatter/preface.tex}
+\input{frontmatter/roadmap.tex}
+\tableofcontents
+\mainmatter
+\part{Finite Kernel Theory}
+\input{parts/core.tex}
+\part{Proof Sprint}
+\chapter{Finite Kernel Proof Target}
+\input{parts/proof_sprint.tex}
+\input{parts/proof_sprint/15_theorem_dependency_dag.tex}
+\part{Proof Standing}
+\input{parts/proof_standing/01_internal_sameness_no_confusion.tex}
+\input{parts/proof_standing/02_ext_cont_proof_spine.tex}
+\input{parts/proof_standing/03_signature_proof_spine.tex}
+\input{parts/proof_standing/04_package_gap_proof_spine.tex}
+\input{parts/proof_standing/05_namecert_proof_instances.tex}
+\part{Hardening}
+\input{parts/hardening/01_package_gap_policy_expansion.tex}
+\input{parts/hardening/02_typed_name_certificate_instances.tex}
+\input{parts/hardening/03_machine_checkable_milestones.tex}
+\part{Proof Obligations}
+\input{parts/proof_obligations.tex}
+
+\part{Implementation-Facing Contract}
+\chapter{Formalization Implementation Contract}
+\input{parts/formalization_contract.tex}
+\part{Acceptance Discipline}
+\input{parts/acceptance.tex}
+\part{Ground Compiler Discipline}
+\input{parts/ground_compiler.tex}
+\input{parts/self_compilation.tex}
+\part{Capstones}
+\input{parts/visions/index}
+\part{Open Conjectures}
+\input{parts/conjectures/index}
+\part{Project Governance}
+\input{parts/project_governance.tex}
+\appendix
+\part{Appendices}
+\input{appendices/lean_scaffold.tex}
+\input{appendices/build_and_verification_log.tex}
+\end{document}
