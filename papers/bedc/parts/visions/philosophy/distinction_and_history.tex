@@ -407,6 +407,99 @@ to an \(\Ezero\)- or \(\Eone\)-extension. This gives the preparatory
 form later made explicit by the continuation relation.
 \end{proof}
 
+\subsection{Extension, continuation, and unfolding}
+\label{subsec:extension-continuation-unfolding}
+
+\begin{definition}[Extension step]
+\label{def:philosophy-extension-step}
+An extension step is a generated relation instance
+$$
+\ExtR(\bzero,h,\Ezero(h))
+\qquad\text{or}\qquad
+\ExtR(\bone,h,\Eone(h)).
+$$
+It records one visible mark-shaped passage from a source history to a
+result history. It is read as a relation instance, not as an imported
+primitive function on histories.
+\end{definition}
+
+\begin{definition}[Continuation trace]
+\label{def:philosophy-continuation-trace}
+A continuation trace is a finite relation witness built from the empty
+continuation and the visible $\bzero$- and $\bone$-steps. It records a
+finite route from one history to another through generated history
+growth.
+\end{definition}
+
+\begin{theorem}[Extension is singleton continuation]
+\label{thm:philosophy-extension-singleton-continuation}
+Each extension step is the one-step case of continuation.
+\end{theorem}
+\begin{proof}
+An extension by $\bzero$ produces the same result shape as the
+continuation step whose visible tail is the singleton $\Ezero(\emp)$.
+The $\bone$ case is identical with $\Eone(\emp)$. Thus extension
+supplies the visible one-step boundary, while continuation iterates the
+same generated passage.
+\end{proof}
+
+\begin{definition}[Record unfolding]
+\label{def:philosophy-record-unfolding}
+A record unfolding is a passage from a finite record of histories to a
+larger finite record obtained by adding histories reachable from the
+displayed record through extension or continuation traces, while keeping
+the carrier, classifier, certificate fields, and ledger policy fixed.
+\end{definition}
+
+\begin{definition}[Classifier shift]
+\label{def:philosophy-classifier-shift}
+A classifier shift occurs when the public classifier surface changes:
+the admitted source rows, classifier relation, stability witness, ledger
+policy, or naming certificate no longer has the same extension as before
+the passage under consideration.
+\end{definition}
+
+\begin{theorem}[Unfolding does not by itself shift a classifier]
+\label{thm:philosophy-unfolding-does-not-shift-classifier}
+Record unfolding can lengthen the visible history record without
+changing the classifier surface.
+\end{theorem}
+\begin{proof}
+By \autoref{def:philosophy-record-unfolding}, the passage adds only
+histories already reachable by the fixed extension or continuation
+relations. The carrier, classifier, stability witness, ledger policy,
+and naming certificate are held fixed. Therefore the passage supplies
+more displayed route material but does not by itself alter the public
+classifier surface.
+\end{proof}
+
+\begin{corollary}[History growth is not theoretical discovery]
+\label{cor:philosophy-history-growth-not-discovery}
+Increasing the length of a history record is not, by itself, a
+theoretical discovery.
+\end{corollary}
+\begin{proof}
+A theoretical discovery in this reading requires a classifier shift or a
+certificate-strengthening row. By
+\autoref{thm:philosophy-unfolding-does-not-shift-classifier}, record
+unfolding can increase visible route material while preserving the same
+classifier surface. Hence history growth alone is insufficient.
+\end{proof}
+
+\begin{corollary}[Verified unfolding remains an unfolding fact]
+\label{cor:philosophy-verified-unfolding-remains-unfolding-fact}
+Formal verification of an unfolding theorem hardens the stated route
+claim; it does not convert fixed-classifier computation into classifier
+shift.
+\end{corollary}
+\begin{proof}
+A formal verifier accepts a proof object for a formal statement about
+the displayed route. If the statement concerns only record growth under
+the fixed carrier, classifier, stability witness, and ledger policy of
+\autoref{def:philosophy-record-unfolding}, the accepted proof hardens
+that route statement without changing the classifier surface.
+\end{proof}
+
 \subsection{Synthesis}
 \label{subsec:distinction-history-synthesis}
 
