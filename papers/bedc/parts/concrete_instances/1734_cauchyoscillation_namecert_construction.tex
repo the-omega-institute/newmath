@@ -200,6 +200,24 @@ Apply tail-window exposure and modulus-threshold exactness, \autoref{thm:cauchy-
 Finally use the seal-handoff factorization, \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. Since $S$ is available only after the accepted prefix $W,M,Q,T$, the completion-facing reader has no route around the root package and no coordinate for the refused external objects.
 \end{proof}
 
+\begin{theorem}[CauchyOscillation completion root route]
+\label{thm:cauchy-oscillation-root-unblock-route}
+Every completion-facing consumer of an accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N)
+$$
+factors through the finite route $W,M,Q,T$, then the $\StreamNameUp$ or $\RegSeqRatUp$ readback carried by $W$, then the $\DyadicRatCoreUp$ tolerance row $Q$, and only then the $\RealUp$ seal row $S$. The route exports no quotient stream equality, selected limit, host equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with tail-window exposure and the root window lock, \autoref{thm:cauchy-oscillation-tail-window-exposure} and \autoref{thm:cauchy-oscillation-root-window-lock}. They force every completion-facing read to expose $W,M,Q,T$ before the seal row $S$ can be consumed.
+
+Use the RegSeqRat handoff and dyadic tolerance stability, \autoref{thm:cauchy-oscillation-regseqrat-handoff} and \autoref{thm:cauchy-oscillation-dyadic-tolerance-stability}. These identify $W$ as the displayed StreamName or RegSeqRat tail-window readback and keep the dyadic tolerance row $Q$ attached to the same window, threshold, and ledger under $H$ and $C$.
+
+Apply dyadic tail exactness, \autoref{thm:cauchy-oscillation-dyadic-tail-exactness}. The oscillation ledger $T$ is exactly the displayed tail comparison over $W,M,Q$, so a downstream read has no detached tail-bound or quotient-stream coordinate.
+
+Finally use Real seal nonescape and seal-handoff factorization, \autoref{thm:cauchy-oscillation-real-seal-nonescape} and \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. They place $S$ downstream from the same finite prefix and exclude selected limits, host equality, countable choice, and ambient Real completeness from the accepted route.
+\end{proof}
+
 \begin{theorem}[CauchyOscillation tail tolerance package]
 \label{thm:cauchy-oscillation-tail-tolerance-package}
 For every accepted $\CauchyOscillationUp$ carrier
