@@ -262,6 +262,7 @@ RETIREMENT_FORMAL_THRESHOLD = "theoremCheckedV"
 _LEAN_BASE_WEIGHTS = {
     "top": 0.50,
     "sieve_clearance_top": 0.15,
+    "discovery_candidate_top": 0.06,
     "formal_axis_top": 0.25,
     "unformalized_top": 0.15,
     "carrier_isomorphism_capstone": 0.10,
@@ -269,6 +270,7 @@ _LEAN_BASE_WEIGHTS = {
 _PAPER_BASE_WEIGHTS = {
     "top": 0.40,
     "sieve_clearance_top": 0.25,
+    "discovery_candidate_top": 0.05,
     "top_root_unblocks": 0.30,
     "closure_mark": 0.15,
     "carrier_isomorphism_capstone": 0.10,
@@ -301,6 +303,32 @@ def _normalize_weights(weights: dict[str, float]) -> dict[str, float]:
     return {k: round(max(0.0, v) / total, 4) for k, v in weights.items()}
 
 
+def _apply_post_normalization_caps(
+    weights: dict[str, float],
+    caps: dict[str, float],
+) -> dict[str, float]:
+    capped = dict(weights)
+    surplus = 0.0
+    for key, cap in caps.items():
+        current = capped.get(key, 0.0)
+        if current > cap:
+            capped[key] = cap
+            surplus += current - cap
+    if surplus <= 0:
+        return {key: round(value, 4) for key, value in capped.items()}
+
+    recipients = [
+        key for key, value in capped.items()
+        if value > 0 and key not in caps
+    ]
+    recipient_total = sum(capped[key] for key in recipients)
+    if recipient_total <= 0:
+        return {key: round(value, 4) for key, value in capped.items()}
+    for key in recipients:
+        capped[key] += surplus * (capped[key] / recipient_total)
+    return {key: round(value, 4) for key, value in capped.items()}
+
+
 def _cap_against_base(value: float, base_value: float) -> float:
     return min(base_value * 1.5, max(base_value * 0.5, value))
 
@@ -310,6 +338,7 @@ def _compute_consumption_60min() -> dict[str, int]:
     sources = {
         "top": 0,
         "sieve_clearance_top": 0,
+        "discovery_candidate_top": 0,
         "formal_axis_top": 0,
         "unformalized_top": 0,
         "top_root_unblocks": 0,
@@ -339,7 +368,9 @@ def _compute_consumption_60min() -> dict[str, int]:
             break
     for subject in subjects:
         s = subject.lower()
-        if re.search(r"sieve|discovery[-_ ]?sieve|clearance", s):
+        if re.search(r"discovery[-_ ]?candidate|delta ledger|classifier shift|confirmed composite|mechanical reconstruction", s):
+            sources["discovery_candidate_top"] += 1
+        elif re.search(r"sieve|discovery[-_ ]?sieve|clearance", s):
             sources["sieve_clearance_top"] += 1
         elif re.search(r"carrier[-_ ]?isomorphism|capstone", s):
             sources["carrier_isomorphism_capstone"] += 1
@@ -381,7 +412,10 @@ def _adjust_dispatch_weights(
                 factor = 1.2
             adjusted[key] = _cap_against_base(weight * factor, base[key])
 
-    normalized_active = _normalize_weights(adjusted)
+    normalized_active = _apply_post_normalization_caps(
+        _normalize_weights(adjusted),
+        {"discovery_candidate_top": 0.10},
+    )
     return {key: normalized_active.get(key, 0.0) for key in base}
 
 
@@ -393,13 +427,21 @@ def _dispatch_advice(side: str, weights: dict[str, float], supply: dict[str, int
     ]
     if not available:
         return "No currently supplied source; use critical_path fallback gates."
-    top = sorted(available, key=lambda item: item[1], reverse=True)[:2]
+    top = sorted(available, key=lambda item: item[1], reverse=True)
+    top = [
+        item for item in top
+        if not (item[0] == "discovery_candidate_top" and len(top) > 1)
+    ][:2]
     if side == "lean":
         parts = [f"Pick {1 if weight < 0.34 else 2} of 3 from {key}" for key, weight in top]
+        if weights.get("discovery_candidate_top", 0) > 0 and supply.get("discovery_candidate_top", 0):
+            parts.append("Use at most 1 discovery candidate as bounded evidence attempt")
         if weights.get("carrier_isomorphism_capstone", 0) >= 0.10 and supply.get("carrier_isomorphism_capstone", 0):
             parts.append("Consider 1 capstone draft if other sources are blocked")
     else:
         parts = [f"Pick {'2' if weight >= 0.34 else '1'} of 5 from {key}" for key, weight in top]
+        if weights.get("discovery_candidate_top", 0) > 0 and supply.get("discovery_candidate_top", 0):
+            parts.append("Use at most 1 discovery candidate; positive claim requires resolved Lean evidence")
         if weights.get("carrier_isomorphism_capstone", 0) >= 0.10 and supply.get("carrier_isomorphism_capstone", 0):
             parts.append("Reserve at most 1 capstone NameCert seed when compatible with hard gates")
     return ". ".join(parts) + "."
@@ -641,6 +683,24 @@ def _git_head_short() -> str:
 _objective_grades_cache: dict[str, str] | None = None
 _carrier_isomorphism_cache: dict | None = None
 _discovery_sieve_cache: dict | None = None
+_discovery_candidate_cache: dict | None = None
+_bedc_ci_scan_cache: tuple[object, object] | None = None
+
+
+def _load_bedc_ci_scan() -> tuple[object, object]:
+    global _bedc_ci_scan_cache
+    if _bedc_ci_scan_cache is not None:
+        return _bedc_ci_scan_cache
+    sys_path_addition = str((ROOT / "lean4" / "scripts").resolve())
+    import sys as _sys
+    if sys_path_addition not in _sys.path:
+        _sys.path.insert(0, sys_path_addition)
+    import bedc_ci  # type: ignore
+
+    blocks = bedc_ci.collect_closurestatus_blocks(bedc_ci.PAPER_PARTS_ROOT)
+    lean_scan = bedc_ci.scan_lean_sources()
+    _bedc_ci_scan_cache = (blocks, lean_scan)
+    return _bedc_ci_scan_cache
 
 _ARITY_NAME = {
     1: "Mono",
@@ -922,14 +982,9 @@ def _get_discovery_sieve_payload() -> dict:
         return _discovery_sieve_cache
 
     try:
-        sys_path_addition = str((ROOT / "lean4" / "scripts").resolve())
-        import sys as _sys
-        if sys_path_addition not in _sys.path:
-            _sys.path.insert(0, sys_path_addition)
         import bedc_ci  # type: ignore
 
-        blocks = bedc_ci.collect_closurestatus_blocks(bedc_ci.PAPER_PARTS_ROOT)
-        lean_scan = bedc_ci.scan_lean_sources()
+        blocks, lean_scan = _load_bedc_ci_scan()
         _discovery_sieve_cache = bedc_ci.discovery_sieve_payload(
             blocks,
             lean_scan.discovery_delta_ledgers,
@@ -945,6 +1000,54 @@ def _get_discovery_sieve_payload() -> dict:
             "grade_counts": {},
         }
     return _discovery_sieve_cache
+
+
+def _get_discovery_candidate_payload() -> dict:
+    global _discovery_candidate_cache
+    if _discovery_candidate_cache is not None:
+        return _discovery_candidate_cache
+
+    try:
+        import bedc_ci  # type: ignore
+
+        blocks, lean_scan = _load_bedc_ci_scan()
+        _discovery_candidate_cache = bedc_ci.discovery_candidate_payload(
+            blocks,
+            lean_scan,
+            sieve_payload=_get_discovery_sieve_payload(),
+        )
+    except Exception as exc:
+        _discovery_candidate_cache = {
+            "informational": True,
+            "available": False,
+            "reason": str(exc)[:500],
+            "candidates": [],
+            "diagnostic_notes": [],
+            "metrics": {},
+        }
+    return _discovery_candidate_cache
+
+
+def compute_discovery_candidate_targets(payload: dict, max_n: int = 3) -> list[dict]:
+    candidates = payload.get("candidates", [])
+    if not isinstance(candidates, list):
+        return []
+    worker_shard, total_shards = _current_worker_slice()
+    out: list[dict] = []
+    for item in candidates:
+        if not isinstance(item, dict):
+            continue
+        key = item.get("stable_key") or item.get("target")
+        if _target_shard(key, total_shards) != worker_shard:
+            continue
+        row = dict(item)
+        row["worker_shard"] = worker_shard
+        row["worker_shards"] = total_shards
+        row["dispatch_source"] = "discovery_candidate_top"
+        row["suggested_landing"] = "existing_chapter_ledger_row"
+        out.append(row)
+    out.sort(key=lambda row: (row.get("selection_rank", 9999), str(row.get("stable_key", ""))))
+    return out[:max_n]
 
 
 def compute_sieve_clearance_targets(payload: dict, max_n: int = 25) -> list[dict]:
@@ -2930,6 +3033,7 @@ def main(argv: list[str] | None = None) -> int:
                 break
 
     discovery_sieve = _get_discovery_sieve_payload()
+    discovery_candidates_payload = _get_discovery_candidate_payload()
     sieve_demote_raw = compute_sieve_demote_targets(discovery_sieve)
     ranked = _apply_sieve_demotions(ranked, sieve_demote_raw)
     sieve_demote = _filter_sieve_demote_dogpile(sieve_demote_raw)
@@ -3161,6 +3265,9 @@ def main(argv: list[str] | None = None) -> int:
     formal_axis_top = formal_axis_top_full[:10]
 
     sieve_clearance_top = compute_sieve_clearance_targets(discovery_sieve)
+    discovery_candidate_top = compute_discovery_candidate_targets(
+        discovery_candidates_payload,
+    )
 
     _conc = read_dispatch_concurrency()
     _top_n = len(rolled)
@@ -3184,6 +3291,8 @@ def main(argv: list[str] | None = None) -> int:
         "bridge_sync_pending": bridge_sync_pending,
         "formal_axis_top_total": len(formal_axis_top_full),
         "sieve_clearance_top_total": len(sieve_clearance_top),
+        "discovery_candidate_top_total": discovery_candidates_payload.get("candidate_count_total", 0),
+        "discovery_candidate_diagnostic_total": discovery_candidates_payload.get("diagnostic_count", 0),
         "sieve_demote_total": len(sieve_demote_raw),
         "sieve_demote_available_total": len(sieve_demote),
         "granularity": "sibling",
@@ -3200,6 +3309,9 @@ def main(argv: list[str] | None = None) -> int:
         "bridge_candidates": bridge_candidates,
         "formal_axis_top": formal_axis_top,
         "discovery_sieve_grade_counts": discovery_sieve.get("grade_counts", {}),
+        "discovery_candidate_metrics": discovery_candidates_payload.get("metrics", {}),
+        "discovery_candidate_notes": discovery_candidates_payload.get("diagnostic_notes", [])[:50],
+        "discovery_candidate_top": discovery_candidate_top,
         "sieve_clearance_top": sieve_clearance_top,
         "sieve_demote": sieve_demote,
         "capstone_overlap_map": compute_capstone_overlap_map(),
@@ -3232,6 +3344,7 @@ def main(argv: list[str] | None = None) -> int:
         supply_lean = {
             "top": len(rolled),
             "sieve_clearance_top": len(sieve_clearance_top),
+            "discovery_candidate_top": len(discovery_candidate_top),
             "formal_axis_top": len(formal_axis_top_full),
             "unformalized_top": len(payload.get("unformalized_top", [])),
             "carrier_isomorphism_capstone": carrier_iso_phase2_bucket_count,
@@ -3239,6 +3352,7 @@ def main(argv: list[str] | None = None) -> int:
         supply_paper = {
             "top": len(rolled),
             "sieve_clearance_top": len(sieve_clearance_top),
+            "discovery_candidate_top": len(discovery_candidate_top),
             "top_root_unblocks": len(root_unblocks),
             "closure_mark": _count_closure_mark_candidates(),
             "carrier_isomorphism_capstone": carrier_iso_phase2_bucket_count,
