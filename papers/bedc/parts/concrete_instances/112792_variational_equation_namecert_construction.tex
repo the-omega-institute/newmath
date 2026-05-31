@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\VariationalEquationUp$}
+\label{ch:concrete-instances-variational-equation-namecert}
+\origin{human}
+
+Following Coddington and Levinson, the $\VariationalEquationUp$ packet records the finite linearized-flow companion to the local Picard--Lindelof route. It sits after the local existence surface of \autoref{ch:concrete-instances-picard-lindelof-namecert}, the ODE source of \autoref{ch:concrete-instances-ode-namecert}, the vector-field Lipschitz ledger of \autoref{ch:concrete-instances-lipschitzmap-namecert}, the Banach state classifier of \autoref{ch:concrete-instances-banach-namecert}, and the complete-metric convergence boundary of \autoref{ch:concrete-instances-completemetric-namecert}. The packet names the tangent linear equation along one displayed local flow; it is not a global differentiable flow, a host fundamental-matrix object, a maximal interval theorem, or a choice-selected family of derivatives.
+
+\begin{definition}[Variational equation carrier]
+\label{def:variational-equation-carrier}
+A $\VariationalEquationUp$ carrier is a finite $\BHist$ packet
+$$
+V=(B,D,L,T,U,H,C,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $B$ is the base local-flow row, read through a $\PicardLindelofUp$ packet and the underlying $\OdeUp$ time-state source.
+\item $D$ is the derivative and Lipschitz ledger for the vector field on the same local window, including the displayed linearization row and the Lipschitz bound used to compare nearby tangent reads.
+\item $L$ is the linearized Picard route, a finite contraction-style ledger that reads each tangent iterate through $B,D$ and the carried Banach state classifier.
+\item $T$ is the tangent-transport row, recording how displayed tangent vectors are carried along the base local-flow row before the linearized endpoint is read.
+\item $U$ is the uniqueness and nonescape row for the tangent equation on the named local time-state window.
+\item $H$ stores componentwise $\hsame$ transport for the base flow, derivative ledger, linearized Picard route, tangent transport, uniqueness and nonescape row, replay row, provenance row, and local naming row.
+\item $C$ stores the displayed $\Cont$ replay from the base local-flow row through derivative reads, tangent Picard iterates, tangent transport, uniqueness, and local endpoint comparison.
+\item $P$ is the $\Pkg$ provenance over $\VariationalEquationUp$, $\PicardLindelofUp$, $\OdeUp$, $\LipschitzMapUp$, $\BanachUp$, $\CompleteMetricUp$, $\PicardContractionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\VariationalEquationUp}$ row.
+\end{enumerate}
+The carrier exposes only the finite tangent equation route attached to one accepted local-flow packet. It has no coordinate for a host derivative bundle, a global fundamental matrix, smooth flow dependence beyond the displayed derivative ledger, maximal continuation, or bridge-checked standardization.
+\end{definition}
+
+\begin{theorem}[Variational equation NameCert obligations]
+\label{thm:variational-equation-namecert-obligations}
+For an accepted $\VariationalEquationUp$ carrier
+$$
+V=(B,D,L,T,U,H,C,P,N),
+$$
+the local $\NameCert_{\VariationalEquationUp}$ surface consists exactly of base local-flow admission, derivative and Lipschitz ledger admission, linearized Picard-route compatibility, tangent-transport visibility, uniqueness and nonescape stability, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every tangent endpoint read must pass through these rows before it is treated as a linearized ODE solution.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:variational-equation-carrier}. The base flow row $B$ fixes the $\PicardLindelofUp$ and $\OdeUp$ source, while $D$ supplies the displayed derivative and Lipschitz data used by the linearized equation.
+
+Induct over the finite linearized Picard route $L$. At the base row, the tangent iterate is attached to the displayed base flow and derivative ledger. At a successor row, the next tangent iterate is read by the same derivative ledger, the same Banach state classifier, and the same local window.
+
+The tangent endpoint is then exposed only through $T$ and $U$. The transport row $T$ keeps tangent reads attached to the base local-flow route, and the row $U$ records the finite uniqueness and nonescape boundary.
+
+Finally the structural rows $H,C,P,N$ transport, replay, source, and name this same route. Since no carrier coordinate contains a host derivative bundle, a global fundamental matrix, or a selected family of derivatives, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Variational equation local Picard companion route]
+\label{thm:variational-equation-local-picard-companion-route}
+Every accepted $\VariationalEquationUp$ packet is consumed as a local linearized companion of an accepted $\PicardLindelofUp$ packet. A consumer must first read the base local-flow row $B$, the derivative and Lipschitz ledger $D$, the linearized Picard route $L$, the tangent-transport row $T$, the uniqueness and nonescape row $U$, and the structural rows $H,C,P,N$. The packet exports no tangent endpoint outside that finite base-flow route.
+\end{theorem}
+\begin{proof}
+Project $V=(B,D,L,T,U,H,C,P,N)$. The only base trajectory available to the packet is the displayed local-flow row $B$, and the only vector-field variation available to the packet is the derivative and Lipschitz ledger $D$.
+
+Use the finite route $L$ for tangent iteration. Each linearized iterate reads the same base flow and derivative ledger, so a consumer cannot detach the tangent equation from the accepted $\PicardLindelofUp$ route.
+
+The endpoint-facing rows are $T$ and $U$. They record tangent transport, uniqueness, and nonescape inside the same local window, while $H,C,P,N$ preserve the route under transport, replay, provenance, and naming.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\VariationalEquationUp$ tangent endpoint read exposes one base local-flow row, one derivative and Lipschitz ledger, one linearized Picard route, one tangent-transport row, one uniqueness and nonescape row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{picard-lindelof, ode, lipschitzmap, banach, completemetric: $\VariationalEquationUp$ is not bijective to any listed sibling because it jointly carries the base local-flow row, derivative and Lipschitz ledger, linearized Picard route, tangent transport, uniqueness and nonescape row, and the transport/replay/provenance rows tying them together.}
+
+\closureat{VariationalEquationUp}{seedStr}
+
+\begin{closurestatus}{\VariationalEquationUp}
+  \constructivestory{A $\VariationalEquationUp$ packet is generated from one PicardLindelof base local-flow row, one derivative and Lipschitz ledger, one linearized Picard route, one tangent-transport row, one uniqueness and nonescape row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:variational-equation-carrier}, \autoref{thm:variational-equation-namecert-obligations}, and \autoref{thm:variational-equation-local-picard-companion-route} seed the finite linearized ODE companion route over a displayed local Picard flow, derivative ledger, tangent transport, nonescape, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global differentiable flow, a host fundamental matrix, maximal continuation, choice-selected derivative families, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked base-flow admission, derivative and Lipschitz ledger admission, linearized Picard-route compatibility, tangent-transport visibility, uniqueness and nonescape stability, transport, replay, provenance, and local naming for BEDC.Derived.VariationalEquationUp.}
+\end{closurestatus}
