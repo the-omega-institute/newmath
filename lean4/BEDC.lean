@@ -967,6 +967,7 @@ import BEDC.Derived.BoundedRealSequenceUp.FiniteWindowNet
 import BEDC.Derived.BoundedRealSequenceUp.FiniteWindowNetExtraction
 import BEDC.Derived.BoundedRealSequenceUp.LocatedBoundHandoff
 import BEDC.Derived.BoundedRealSequenceUp.LocatedWindowChoice
+import BEDC.Derived.BoundedRealSequenceUp.LocationInduction
 import BEDC.Derived.BoundedRealSequenceUp.NameCertObligations
 import BEDC.Derived.BoundedRealSequenceUp.RegularReadbackStability
 import BEDC.Derived.BoundedRealSequenceUp.TasteGate
@@ -1185,6 +1186,7 @@ import BEDC.Derived.CauchyCompletionMonadUp.FiniteWindowExhaustion
 import BEDC.Derived.CauchyCompletionMonadUp.StdBridge
 import BEDC.Derived.CauchyCompletionMonadUp.TasteGate
 import BEDC.Derived.CauchyCompletionMultiplicationUp.TasteGate
+import BEDC.Derived.CauchyCompletionOperatorUp.TasteGate
 import BEDC.Derived.CauchyCompletionOrderEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionReflectiveSubcategoryUp.TasteGate
 import BEDC.Derived.CauchyCompletionReflectorUp
@@ -1850,6 +1852,7 @@ import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
 import BEDC.Derived.CellularPatternCatalogUp.TasteGate
 import BEDC.Derived.CellularRowClassifierUp.TasteGate
 import BEDC.Derived.CellularSubstrateClassifierUp.TasteGate
+import BEDC.Derived.CellularSubstrateObservationBoundaryUp.TasteGate
 import BEDC.Derived.CellularSubstrateUp.TasteGate
 import BEDC.Derived.CellularTrustSubstrateUp.MatureRouteCompleteness
 import BEDC.Derived.CellularTrustSubstrateUp.PrimitiveScopeBinding
@@ -1946,6 +1949,7 @@ import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.HeineCantorRoute
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalUp.CantorIntersectionHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.CarrierClassifierScope
+import BEDC.Derived.ClosedBoundedIntervalUp.CauchyModulusNonescape
 import BEDC.Derived.ClosedBoundedIntervalUp.CauchyModulusWindow
 import BEDC.Derived.ClosedBoundedIntervalUp.Classifier
 import BEDC.Derived.ClosedBoundedIntervalUp.CompactUniformSource
@@ -2142,7 +2146,6 @@ import BEDC.Derived.CompactCauchyCoverUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverShrinkageLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverShrinkageLedgerUp.UniformModulusHandoff
-import BEDC.Derived.CompactDiniModulusUp
 import BEDC.Derived.CompactIntervalFixedPointUp.TasteGate
 import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
@@ -4782,6 +4785,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FourFaceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.FourSourceOwnerNoncollapse
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.HandoffRowCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
 import BEDC.Derived.MetaCICCriticalPathUp.L10BudgetExit
 import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeGate
@@ -4974,6 +4978,7 @@ import BEDC.Derived.MetaCICRedexFrontierUp.TasteGate
 import BEDC.Derived.MetaCICResidualSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionObligationUp.TasteGate
+import BEDC.Derived.MetaCICSubstitutionSpineUp.TasteGate
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp
@@ -5614,6 +5619,7 @@ import BEDC.Derived.PolishspaceUp.NameCertLedgerExactness
 import BEDC.Derived.PolishspaceUp.NameCertLedgerTransport
 import BEDC.Derived.PolishspaceUp.NameCertObligations
 import BEDC.Derived.PolishspaceUp.ObservationLedgerExhaustion
+import BEDC.Derived.PolishspaceUp.RealRegseqratNonescape
 import BEDC.Derived.PolishspaceUp.RegSeqRatRealHandoff
 import BEDC.Derived.PolishspaceUp.RegSeqRatWindowUnblock
 import BEDC.Derived.PolishspaceUp.RegularCauchyRootWindow
