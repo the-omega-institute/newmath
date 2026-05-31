@@ -17,6 +17,13 @@ def _load_summary() -> dict[str, object]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _load_optional_json(name: str) -> dict[str, object] | None:
+    path = ROOT / "reports" / name
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def _system_delta(section: dict[str, object], key: str) -> float:
     systems = section["systems"]
     return float(systems["S3"][key]) - float(systems["S2"][key])
@@ -28,11 +35,23 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
     object_sweep = summary["object_intervention_sweep"]
     multi_sweep = summary["multi_object_distractor_sweep"]
     cluttered = summary["cluttered_object_sweep"]
+    torch_objective = _load_optional_json("bedc_jepa_torch_objective.json")
+    torch_claims = {}
+    if torch_objective is not None:
+        torch_claims = {
+            "torch_objective_gap_auc_gain": torch_objective["deltas"]["gap_auc_gain"],
+            "torch_objective_debt_reduction": torch_objective["deltas"]["debt_reduction"],
+            "torch_objective_unlogged_error": torch_objective["systems"]["bedc_objective"][
+                "unlogged_error_rate"
+            ],
+            "torch_objective_latent_r2_delta": torch_objective["deltas"]["latent_r2_delta"],
+        }
     return {
         "schema_id": "bedc-jepa-artifact-manifest",
         "artifact": "reports/bedc_jepa_four_system_experiment.json",
         "commands": {
             "generate": "python scripts/run_bedc_jepa_experiment.py",
+            "torch_objective": "python scripts/run_torch_bedc_jepa.py",
             "public_minigrid_probe": "python scripts/probe_public_minigrid.py",
             "test": "python -m pytest -q",
             "paper": "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
@@ -60,6 +79,10 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "cluttered_object_unlogged_error_reduction_mean": cluttered[
                 "s2_minus_s3_unlogged_error_mean"
             ],
+            **torch_claims,
+        },
+        "objective_artifacts": {
+            "torch": "reports/bedc_jepa_torch_objective.json",
         },
         "public_adapters": {
             "minigrid": "reports/bedc_jepa_public_minigrid_probe.json",

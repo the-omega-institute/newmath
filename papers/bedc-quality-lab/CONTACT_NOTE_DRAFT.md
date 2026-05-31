@@ -38,6 +38,10 @@ clutter sweeps.
 Selected current numbers:
 
 ```text
+torch objective latent R^2 delta:                    0.000000
+torch objective gap AUROC gain, BEDC - latent-only:  0.499223
+torch objective unlogged error, BEDC:                0.000000
+torch objective debt reduction:                      0.096838
 grid transition one-step R^2:                         0.998237
 MiniGrid-style transition one-step accuracy:          1.000000
 MiniGrid-style gap AUROC gain, S3 - S2:               0.428459
@@ -51,9 +55,11 @@ six-object clutter unlogged-error reduction mean:     0.270000
 
 The intended contribution is a model objective, not a post-hoc report:
 distinction heads and gap heads are part of the trained world-state readback,
-and planning can penalize predicted high-gap states.  In the visual planning
-benchmark this reduces high-gap and unsafe state selection while exposing a
-real success-rate tradeoff.
+and planning can penalize predicted high-gap states.  The torch objective
+artifact keeps the latent carrier fixed and trains the BEDC heads, so the gap
+and debt gains are not coming from a different latent recovery score.  In the
+visual planning benchmark this reduces high-gap and unsafe state selection
+while exposing a real success-rate tradeoff.
 
 We cannot yet claim a public JEPA implementation comparison, a robotics result,
 or natural-video object interaction.  We have added a public MiniGrid adapter
@@ -65,6 +71,7 @@ Reproducible local commands:
 
 ```text
 python scripts/run_bedc_jepa_experiment.py
+python scripts/run_torch_bedc_jepa.py
 python scripts/build_bedc_jepa_artifact_manifest.py
 python scripts/probe_public_minigrid.py
 python -m pytest -q

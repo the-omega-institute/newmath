@@ -17,6 +17,7 @@ The four-system experiment writes:
 $$
 \begin{array}{ll}
 \text{JSON} & \texttt{bedc\_jepa\_four\_system\_experiment.json},\\
+\text{Torch objective} & \texttt{bedc\_jepa\_torch\_objective.json},\\
 \text{Manifest} & \texttt{bedc\_jepa\_artifact\_manifest.json},\\
 \text{Public MiniGrid probe} & \texttt{bedc\_jepa\_public\_minigrid\_probe.json}.
 \end{array}
@@ -43,10 +44,13 @@ $$
 \texttt{no-gap-aware-planning-rollout-yet}.
 \end{array}
 $$
-The four-system experiment closes the first and part of the second gap for the
-narrow boundary readback setting: it trains a BEDC-JEPA gap readback against
-the post-hoc baselines and repeats the comparison on radial and sinusoidal
-boundary families.  It also adds a grid-pixel benchmark with a learned
+The torch objective artifact closes the no-gradient gap for the boundary
+readback setting under a frozen-latent protocol: the latent encoder has the
+same recovery score in the latent-only and BEDC-objective systems, while the
+trained distinction and gap heads lower debt and remove unlogged error.  The
+four-system experiment closes part of the second gap by comparing BEDC-JEPA
+readback against post-hoc baselines on radial and sinusoidal boundary
+families.  It also adds a grid-pixel benchmark with a learned
 action-conditioned transition model, a MiniGrid-style visual planning
 benchmark, and an eight-seed two-object counterfactual contact benchmark.  The
 object evidence also includes a four-slot distractor benchmark where the

@@ -1,0 +1,52 @@
+{
+  "deltas": {
+    "debt_reduction": 0.09683825717787116,
+    "gap_auc_gain": 0.4992226890756303,
+    "latent_r2_delta": 0.0,
+    "outside_gap_accuracy_gain": 0.0,
+    "unlogged_error_reduction": 0.0078125
+  },
+  "objective_terms": [
+    "latent_prediction",
+    "distinction_bce",
+    "gap_bce",
+    "unlogged_error_penalty"
+  ],
+  "source": {
+    "name": "boundary-gated-ou-world",
+    "seed": 4242.0,
+    "test_count": 768.0,
+    "train_count": 1536.0,
+    "training": "torch-gradient"
+  },
+  "systems": {
+    "bedc_objective": {
+      "approx_identifiability_proxy": 0.9734180016050283,
+      "bedc_debt_score": 0.007458617822128848,
+      "certified_coverage": 0.9127604166666666,
+      "covariance_deviation": 0.07972059080075522,
+      "distinction_accuracy": 0.98828125,
+      "distinction_accuracy_outside_gap": 1.0,
+      "false_claim_rate_inside_gap": 0.014705882352941176,
+      "gap_detection_auc": 0.9992226890756303,
+      "linear_identifiability_r2": 0.9918370943719802,
+      "orthogonality_error": 0.033816075667429786,
+      "system_name": "torch-bedc-jepa-objective",
+      "unlogged_error_rate": 0.0
+    },
+    "latent_only": {
+      "approx_identifiability_proxy": 0.9734180016050283,
+      "bedc_debt_score": 0.10429687500000001,
+      "certified_coverage": 1.0,
+      "covariance_deviation": 0.07972059080075522,
+      "distinction_accuracy": 0.9921875,
+      "distinction_accuracy_outside_gap": 1.0,
+      "false_claim_rate_inside_gap": 0.0,
+      "gap_detection_auc": 0.5,
+      "linear_identifiability_r2": 0.9918370943719802,
+      "orthogonality_error": 0.033816075667429786,
+      "system_name": "torch-latent-only",
+      "unlogged_error_rate": 0.0078125
+    }
+  }
+}

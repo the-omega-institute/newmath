@@ -8,8 +8,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert manifest["schema_id"] == "bedc-jepa-artifact-manifest"
     assert manifest["artifact"] == "reports/bedc_jepa_four_system_experiment.json"
     assert manifest["commands"]["generate"] == "python scripts/run_bedc_jepa_experiment.py"
+    assert manifest["commands"]["torch_objective"] == "python scripts/run_torch_bedc_jepa.py"
     assert manifest["commands"]["public_minigrid_probe"] == "python scripts/probe_public_minigrid.py"
     assert manifest["commands"]["test"] == "python -m pytest -q"
+    assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"
     assert manifest["public_adapters"]["minigrid"] == "reports/bedc_jepa_public_minigrid_probe.json"
 
     claims = manifest["contact_ready_claims"]

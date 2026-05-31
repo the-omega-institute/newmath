@@ -55,6 +55,19 @@ probe's outside-gap distinction accuracy while improving gap AUROC, unlogged
 error, and the scope-relative debt score against the post-hoc BEDC report
 baseline.
 
+\paragraph{Gradient-trained objective.}
+The torch objective artifact trains a latent encoder and predictor, freezes
+the recovered latent carrier, and then compares a latent-only distinction
+probe with a BEDC objective that trains distinction and gap heads with an
+unlogged-error penalty.  The protocol deliberately keeps latent recovery fixed:
+both systems have linear identifiability $R^2=0.991837$, covariance deviation
+$0.079721$, and orthogonality error $0.033816$.  Under that fixed carrier, the
+BEDC objective improves gap AUROC from $0.500000$ to $0.999223$, lowers
+unlogged error from $0.007812$ to $0.000000$, and lowers debt from $0.104297$
+to $0.007459$.  This is the first gradient-trained BEDC-JEPA objective
+artifact in the lab; it is still boundary-world scale, not a public JEPA
+implementation comparison.
+
 \paragraph{Seed sweep.}
 The experiment also runs a two-world seed sweep: the radial boundary world and
 a sinusoidal boundary world.  Across $16$ world-seed cells, the aggregate
