@@ -184,6 +184,58 @@ The NameCert obligations in \autoref{thm:cauchy-oscillation-namecert-obligations
 Therefore a displayed route to $S$ has no available input other than the accepted packet rows and cannot bypass the accepted ledger. Its terminal seal read factors through the finite prefix $W,M,Q,T$ of the same carrier, with $T$ itself determined by $W$, $M$, and $Q$. This is the asserted handoff factorization.
 \end{proof}
 
+\begin{theorem}[CauchyOscillation root window lock]
+\label{thm:cauchy-oscillation-root-window-lock}
+Let
+$$
+O=(W,M,Q,T,S,H,C,P,N)
+$$
+be an accepted $\CauchyOscillationUp$ carrier consumed by a completion-facing $\RealUp$, $\RegSeqRatUp$, or tail-bound reader. Every such consumer must read the finite root package $W,M,Q,T$ before it can read the seal row $S$. The read cannot be replaced by a quotient stream, a selected limit, host real equality, or an ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition, \autoref{def:cauchy-oscillation-carrier}. The rows $W,M,Q,T$ are the only finite source of the tail window, threshold schedule, dyadic tolerance, and oscillation ledger.
+
+Apply tail-window exposure and modulus-threshold exactness, \autoref{thm:cauchy-oscillation-tail-window-exposure} and \autoref{thm:cauchy-oscillation-modulus-threshold-exactness}. They force each completion-facing read to expose $W$ and then to read $M$ and $Q$ as the rows that determine the ledger $T$.
+
+Finally use the seal-handoff factorization, \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. Since $S$ is available only after the accepted prefix $W,M,Q,T$, the completion-facing reader has no route around the root package and no coordinate for the refused external objects.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation tail tolerance package]
+\label{thm:cauchy-oscillation-tail-tolerance-package}
+For every accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+the finite tail-tolerance package consists of the $\StreamNameUp$ or $\RegSeqRatUp$ tail-window row $W$, the cutoff schedule $M$, the $\DyadicRatCoreUp$ tolerance row $Q$, and the $\DyadicTailBoundUp$ ledger $T$. Componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$ preserve this package as one finite boundary before the $\RealUp$ seal is read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-oscillation-carrier}. The rows $W,M,Q,T$ list exactly the StreamName or RegSeqRat window, cutoff schedule, dyadic tolerance, and oscillation ledger used by the carrier.
+
+Use the RegSeqRat handoff and dyadic tolerance stability, \autoref{thm:cauchy-oscillation-regseqrat-handoff} and \autoref{thm:cauchy-oscillation-dyadic-tolerance-stability}. These keep the tail-window and dyadic tolerance rows attached to the same ledger under $H$ and $C$.
+
+Apply dyadic tail exactness, \autoref{thm:cauchy-oscillation-dyadic-tail-exactness}. It identifies every row of $T$ with the displayed DyadicTailBound comparison over $W,M,Q$.
+
+The seal-handoff factorization then places $S$ strictly downstream of the accepted package. Thus completion consumers receive a finite tail-tolerance surface before any Real seal projection.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation completion consumer refusal]
+\label{thm:cauchy-oscillation-completion-consumer-refusal}
+Every completion-facing consumer of an accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N)
+$$
+is confined to the finite route $W,M,Q,T,S,H,C,P,N$. It cannot replace that route by quotient streams, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness, and it cannot read a seal that is detached from the displayed tail-window and dyadic-tolerance package.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations, \autoref{thm:cauchy-oscillation-namecert-obligations}. Their carrier admission, exactness, transport, continuation, provenance, and naming clauses exhaust the accepted rows of $O$.
+
+Combine the root window lock and tail tolerance package, \autoref{thm:cauchy-oscillation-root-window-lock} and \autoref{thm:cauchy-oscillation-tail-tolerance-package}. They make every completion-facing read pass through $W,M,Q,T$ and preserve that package under $H$ and $C$.
+
+Now apply Real seal nonescape and seal-handoff factorization, \autoref{thm:cauchy-oscillation-real-seal-nonescape} and \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. These route the terminal $\RealUp$ seal through the same finite prefix and exclude detached real-completion data.
+
+Since the carrier has no row for quotient streams, selected limits, countable choice, host real equality, or ambient completeness, a completion consumer cannot obtain those objects from the accepted package.
+\end{proof}
+
 \begin{theorem}[CauchyOscillation modulus-root package]
 \label{thm:cauchy-oscillation-modulus-root-package}
 For every accepted $\CauchyOscillationUp$ carrier
