@@ -66,6 +66,8 @@
 
 这条约束针对**理论事实 / 规范 / 命名**这类语义内容, **不针对 CI / 基础设施运维配置值** (容器镜像名、base image digest、版本 pin 等). 后者天然出现在多个 entry workflow, 小重复属运维常态, 不构成"同义说明漂移": 不要为消除这类重复引入 repo variable / 一致性守护测试 / sha256 验证等 over-engineering. 一个镜像名就是一个镜像名, 直接硬编码即可.
 
+**host 自有自动化脚本可直接写自己的分支名 / 工具路径**: FI-002「通用 skill / engine 不硬编码具体项目、组织、路径、分支或人员事实」**只约束跨项目复用的通用 engine**(如 consensus-rnd skill 本体). host 自己的流水线 / 自动化脚本 (如 `papers/bedc/scripts/paper_builder_daemon.py`) 写死它**自己的** BEDC 分支名 (`codex-auto-dev` 等)、codex 可执行路径属运维常态, **不算 FI-002 违例**, 不要为它引入 host_value 注入层 / 一致性守护. audit / refactor 不得据 FI-002 把 host 自有脚本的自身分支硬编码当成 cleanup 目标.
+
 **Skill / memory / 文件内注释纪律**:
 
 - 只承载**方法** (怎么查、用什么命令组合、怎么解读输出) 与**指针** (去 `bedc_ci.py audit` 看 X, 去 `critical_path.py` 看 Y)
