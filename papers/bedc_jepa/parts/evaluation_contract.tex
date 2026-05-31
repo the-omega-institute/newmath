@@ -76,6 +76,12 @@ rather than an oracle latent rollout.  It preserves high one-step transition
 accuracy while keeping the same ablation contract: $S_3$ must improve over
 $S_2$ on gap AUROC, unlogged error, and debt.
 
+The object-level counterfactual benchmark adds the Causal-JEPA-style
+requirement that an action intervention on one object changes a predicted
+distinction involving another object.  The evaluation therefore checks
+counterfactual accuracy, intervention sensitivity, object-slot masking, and
+the same $S_3$ versus $S_2$ gap/debt criteria.
+
 \paragraph{Break condition.}
 The protocol fails as a BEDC-JEPA result if $S_3$ improves the report format
 but does not lower unlogged error or gap-sensitive planning failures against

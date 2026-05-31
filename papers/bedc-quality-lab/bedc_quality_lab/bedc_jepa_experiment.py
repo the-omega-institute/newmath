@@ -638,6 +638,190 @@ def _run_grid_transition_benchmark() -> dict[str, object]:
     }
 
 
+def _render_object_slots(states: np.ndarray, *, size: int = 9) -> np.ndarray:
+    a = states[:, :2]
+    b = states[:, 2:]
+    return np.column_stack([_render_grid_pixels(a, size=size), _render_grid_pixels(b, size=size)])
+
+
+def _object_actions() -> np.ndarray:
+    return np.array(
+        [
+            [0.0, 0.0],
+            [0.38, 0.0],
+            [-0.38, 0.0],
+            [0.0, 0.38],
+            [0.0, -0.38],
+        ],
+        dtype=np.float64,
+    )
+
+
+def _object_step(states: np.ndarray, actions: np.ndarray) -> np.ndarray:
+    next_states = states.copy()
+    next_states[:, :2] = np.clip(next_states[:, :2] + actions, -1.0, 1.0)
+    return next_states
+
+
+def _object_contact_after_action(states: np.ndarray, actions: np.ndarray, *, radius: float = 0.34) -> np.ndarray:
+    next_states = _object_step(states, actions)
+    distance = np.sqrt(np.sum((next_states[:, :2] - next_states[:, 2:]) ** 2, axis=1))
+    return distance <= radius
+
+
+def _object_gap_after_action(states: np.ndarray, actions: np.ndarray, *, radius: float = 0.34, width: float = 0.08) -> np.ndarray:
+    next_states = _object_step(states, actions)
+    distance = np.sqrt(np.sum((next_states[:, :2] - next_states[:, 2:]) ** 2, axis=1))
+    occlusion = np.sqrt(np.sum((states[:, :2] - states[:, 2:]) ** 2, axis=1)) <= 0.18
+    return (np.abs(distance - radius) <= width) | occlusion
+
+
+def _object_gap_score(states: np.ndarray, actions: np.ndarray, *, radius: float = 0.34, width: float = 0.08) -> np.ndarray:
+    next_states = _object_step(states, actions)
+    distance = np.sqrt(np.sum((next_states[:, :2] - next_states[:, 2:]) ** 2, axis=1))
+    current_distance = np.sqrt(np.sum((states[:, :2] - states[:, 2:]) ** 2, axis=1))
+    boundary_score = _sigmoid(22.0 * (width - np.abs(distance - radius)))
+    occlusion_score = _sigmoid(25.0 * (0.18 - current_distance))
+    return np.maximum(boundary_score, occlusion_score)
+
+
+def _make_object_intervention_data(n: int, *, seed: int) -> dict[str, np.ndarray]:
+    rng = np.random.default_rng(seed)
+    object_b = rng.uniform(-0.65, 0.65, size=(n, 2))
+    angles = rng.uniform(0.0, 2.0 * np.pi, size=n)
+    radii = rng.uniform(0.22, 0.56, size=n)
+    offsets = np.column_stack([np.cos(angles), np.sin(angles)]) * radii[:, None]
+    object_a = np.clip(object_b + offsets, -0.9, 0.9)
+    states = np.column_stack([object_a, object_b])
+    actions_table = _object_actions()
+    action_ids = rng.integers(0, actions_table.shape[0], size=n)
+    actions = actions_table[action_ids]
+    return {
+        "states": states,
+        "pixels": _render_object_slots(states),
+        "actions": actions,
+        "next_states": _object_step(states, actions),
+        "contact": _object_contact_after_action(states, actions),
+        "gap": _object_gap_after_action(states, actions),
+    }
+
+
+def _fit_object_counterfactual_model(states: np.ndarray, actions: np.ndarray, labels: np.ndarray) -> LinearHead:
+    next_delta = states[:, :2] + actions - states[:, 2:]
+    next_dist_sq = np.sum(next_delta * next_delta, axis=1, keepdims=True)
+    features = np.column_stack(
+        [
+            states,
+            actions,
+            states[:, :2] - states[:, 2:],
+            next_delta,
+            next_dist_sq,
+        ]
+    )
+    return _fit_head(features, labels)
+
+
+def _object_counterfactual_scores(head: LinearHead, states: np.ndarray, actions: np.ndarray) -> np.ndarray:
+    next_delta = states[:, :2] + actions - states[:, 2:]
+    next_dist_sq = np.sum(next_delta * next_delta, axis=1, keepdims=True)
+    features = np.column_stack(
+        [
+            states,
+            actions,
+            states[:, :2] - states[:, 2:],
+            next_delta,
+            next_dist_sq,
+        ]
+    )
+    return head.score(features)
+
+
+def _fit_pixel_action_probe(pixels: np.ndarray, actions: np.ndarray, labels: np.ndarray) -> LinearHead:
+    return _fit_head(np.column_stack([pixels, actions]), labels)
+
+
+def _pixel_action_scores(head: LinearHead, pixels: np.ndarray, actions: np.ndarray) -> np.ndarray:
+    return head.score(np.column_stack([pixels, actions]))
+
+
+def _run_object_intervention_benchmark() -> dict[str, object]:
+    train = _make_object_intervention_data(2200, seed=505)
+    test = _make_object_intervention_data(1000, seed=606)
+    latent_readout = _fit_latent_readout(train["pixels"], train["states"])
+    train_latent = latent_readout.transform(train["pixels"])
+    test_latent = latent_readout.transform(test["pixels"])
+
+    posthoc_probe = _fit_pixel_action_probe(train["pixels"], train["actions"], train["contact"])
+    s2_scores = _pixel_action_scores(posthoc_probe, test["pixels"], test["actions"])
+    counterfactual_head = _fit_object_counterfactual_model(train_latent, train["actions"], train["contact"])
+    s3_scores = _object_counterfactual_scores(counterfactual_head, test_latent, test["actions"])
+
+    s2_gap = _margin_gap_score(s2_scores)
+    s3_gap = np.maximum(_object_gap_score(test_latent, test["actions"]), _margin_gap_score(s3_scores))
+    object_batch = BoundaryGatedBatch(
+        z=test["states"],
+        z_pair=test["next_states"],
+        x=test["pixels"],
+        x_pair=_render_object_slots(test["next_states"]),
+        distinction=test["contact"],
+        distinction_pair=_object_contact_after_action(test["next_states"], test["actions"]),
+        gap=test["gap"],
+        gap_pair=_object_gap_after_action(test["next_states"], test["actions"]),
+        radius=0.34,
+        gap_width=0.08,
+    )
+    systems = {
+        "S2": _evaluate_system(
+            SystemPrediction("S2", "posthoc-object-report", test["pixels"], s2_scores, s2_gap),
+            object_batch,
+            test["contact"],
+            test["gap"],
+        ),
+        "S3": _evaluate_system(
+            SystemPrediction("S3", "trained-object-bedc-jepa", test_latent, s3_scores, s3_gap),
+            object_batch,
+            test["contact"],
+            test["gap"],
+        ),
+    }
+    masked_pixels = test["pixels"].copy()
+    slot_size = masked_pixels.shape[1] // 2
+    masked_pixels[:, slot_size:] = 0.0
+    masked_latent = latent_readout.transform(masked_pixels)
+    masked_scores = _object_counterfactual_scores(counterfactual_head, masked_latent, test["actions"])
+    masked_accuracy = binary_accuracy(masked_scores, test["contact"])
+    unmasked_accuracy = binary_accuracy(s3_scores, test["contact"])
+    masked_gap_scores = np.maximum(_object_gap_score(test_latent, test["actions"]), 1.0 - masked_accuracy)
+    action_table = _object_actions()
+    all_action_scores = [
+        _object_counterfactual_scores(
+            counterfactual_head,
+            test_latent,
+            np.repeat(action[None, :], test_latent.shape[0], axis=0),
+        )
+        for action in action_table
+    ]
+    action_score_matrix = np.column_stack(all_action_scores)
+    return {
+        "source": {
+            "name": "two-object-counterfactual-contact-world",
+            "observation": "two-object-pixel-slots",
+            "query": "counterfactual-contact-after-action",
+            "train_count": float(train["states"].shape[0]),
+            "test_count": float(test["states"].shape[0]),
+        },
+        "transition": {
+            "counterfactual_accuracy": binary_accuracy(s3_scores, test["contact"]),
+            "intervention_sensitivity": float(np.mean(np.max(action_score_matrix, axis=1) - np.min(action_score_matrix, axis=1))),
+        },
+        "systems": systems,
+        "object_masking": {
+            "masked_object_accuracy_drop": float(unmasked_accuracy - masked_accuracy),
+            "gap_auc_under_mask": gap_detection_auc(masked_gap_scores, test["gap"]),
+        },
+    }
+
+
 def run_bedc_jepa_experiment() -> dict[str, object]:
     train = make_boundary_gated_batch(1536, rho=0.84, radius=1.0, gap_width=0.14, seed=101)
     test = make_boundary_gated_batch(768, rho=0.84, radius=1.0, gap_width=0.14, seed=202)
@@ -690,4 +874,5 @@ def run_bedc_jepa_experiment() -> dict[str, object]:
         "planning": planning,
         "seed_sweep": _run_seed_sweep(),
         "grid_transition": _run_grid_transition_benchmark(),
+        "object_intervention": _run_object_intervention_benchmark(),
     }

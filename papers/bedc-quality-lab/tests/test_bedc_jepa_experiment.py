@@ -74,3 +74,23 @@ def test_bedc_jepa_experiment_runs_grid_pixel_learned_transition_benchmark():
     assert planning["gap_aware"]["unsafe_state_rate"] < planning["vanilla"]["unsafe_state_rate"]
     assert planning["gap_aware"]["high_gap_state_rate"] < planning["vanilla"]["high_gap_state_rate"]
     assert planning["gap_aware"]["success_rate"] >= planning["vanilla"]["success_rate"] - 0.15
+
+
+def test_bedc_jepa_experiment_runs_object_intervention_benchmark():
+    summary = run_experiment()
+    object_benchmark = summary["object_intervention"]
+
+    assert object_benchmark["source"]["observation"] == "two-object-pixel-slots"
+    assert object_benchmark["source"]["query"] == "counterfactual-contact-after-action"
+    assert object_benchmark["transition"]["counterfactual_accuracy"] > 0.90
+    assert object_benchmark["transition"]["intervention_sensitivity"] > 0.20
+
+    systems = object_benchmark["systems"]
+    assert systems["S3"]["distinction_accuracy_outside_gap"] > systems["S2"]["distinction_accuracy_outside_gap"]
+    assert systems["S3"]["gap_detection_auc"] > systems["S2"]["gap_detection_auc"]
+    assert systems["S3"]["unlogged_error_rate"] < systems["S2"]["unlogged_error_rate"]
+    assert systems["S3"]["bedc_debt_score"] < systems["S2"]["bedc_debt_score"]
+
+    masked = object_benchmark["object_masking"]
+    assert masked["masked_object_accuracy_drop"] > 0.10
+    assert masked["gap_auc_under_mask"] > systems["S2"]["gap_detection_auc"]

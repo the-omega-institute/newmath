@@ -72,3 +72,16 @@ one-step transition score is $R^2=0.998237$ with mean L2 error $0.021983$.
 Against the post-hoc grid report baseline, trained BEDC-JEPA improves gap
 AUROC from $0.892642$ to $0.999210$, lowers unlogged error from $0.010000$ to
 $0.001111$, and lowers debt from $0.029559$ to $0.009579$.
+
+\paragraph{Object-level counterfactual intervention.}
+A third benchmark uses two object slots rendered as pixels.  The query is
+whether object $A$, after an action intervention, will contact object $B$.
+This supplies a Causal-JEPA-style object-level counterfactual readback rather
+than a scalar boundary only.  The trained object BEDC-JEPA system reaches
+counterfactual accuracy $0.946000$ with intervention sensitivity $0.628799$.
+Against the post-hoc object report baseline, it improves outside-gap
+distinction accuracy from $0.728553$ to $0.994878$, improves gap AUROC from
+$0.518800$ to $0.988137$, lowers unlogged error from $0.263000$ to $0.002000$,
+and lowers debt from $0.287323$ to $0.016736$.  Masking object $B$ drops the
+trained counterfactual accuracy by $0.373000$, showing that the readback uses
+the object slot rather than only action priors.
