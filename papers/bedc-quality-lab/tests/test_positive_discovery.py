@@ -5,7 +5,7 @@ from bedc_quality_lab.classifier_shift import ClassifierPassage, ClassifierState
 from bedc_quality_lab.hardening import HardeningBackend, HardeningProfile, fully_hardened_classifier
 from bedc_quality_lab.ledger import LedgerRowKey, ledger_complete
 from bedc_quality_lab.metrics import classifier_certificate
-from bedc_quality_lab.scope import Scope, ScopedCertificate, scope_rows, scoped_resolved
+from bedc_quality_lab.scope import GlobalResolutionClaim, Scope, ScopedCertificate, global_required_rows, scope_rows, scoped_resolved
 
 
 SOURCE_IDS = frozenset({"a", "b"})
@@ -64,6 +64,23 @@ def scoped_cert(*, certificate=CERTIFIED, recorded_rows=None, boundary=frozenset
     )
 
 
+def global_resolution_claim(*, recorded_rows=None):
+    cert = scoped_cert()
+    base = GlobalResolutionClaim(
+        model_id="M",
+        behavior_family=frozenset({"B"}),
+        certificates=(cert,),
+        global_recorded_rows=frozenset(),
+    )
+    rows = global_required_rows(base) if recorded_rows is None else recorded_rows
+    return GlobalResolutionClaim(
+        model_id=base.model_id,
+        behavior_family=base.behavior_family,
+        certificates=base.certificates,
+        global_recorded_rows=rows,
+    )
+
+
 def hardening_profile(*, critical_rows=frozenset(), hardened_rows=frozenset(), recorded_rows=frozenset()):
     return HardeningProfile(
         certificate=CERTIFIED,
@@ -116,6 +133,7 @@ def claim(
     laundering=frozenset(),
     hardening=None,
     backend=None,
+    global_claim=None,
 ):
     cert = scoped_certificate
     if scoped and cert is None:
@@ -137,6 +155,7 @@ def claim(
         benefit_modes=modes,
         omitted_debt_terms={} if omitted is None else omitted,
         scoped_certificate=cert,
+        global_claim=global_claim,
         critical_debt_rows=critical_debt_rows,
         reproducible_evidence=reproducible,
         ndna_complete=ndna_complete,
@@ -359,6 +378,26 @@ def test_philosophy_verification_assistance_not_replace_novelty_exhaustive():
     assert not discovery.verification_assisted_positive_discovery(verify_only)
 
 
+def test_philosophy_verification_dependent_assistance_truth_table_exhaustive():
+    """thm:philosophy-verification-assistance-not-replace-novelty; Lean: BEDC.GroundCompiler.AnalysisPipeline.CertificateObligationDischarge and BEDC.GroundCompiler.NameCertGenerated.NameCertClassifierSoundnessEvent."""
+    for assisted, verification_benefit, total_benefit in product((False, True), (0.0, 0.4, 1.0), (0.4, 0.8, 1.4)):
+        candidate = claim(
+            verification_assisted=assisted,
+            verification_benefit=verification_benefit,
+            benefit={"verification": total_benefit},
+        )
+        assert discovery.verification_dependent(candidate) == (
+            discovery.verification_assisted_positive_discovery(candidate)
+            and discovery.net_information(candidate) - candidate.verification_benefit <= 0.0
+        )
+    dependent = claim(verification_assisted=True, verification_benefit=0.9, benefit={"verification": 1.0})
+    independent = claim(verification_assisted=True, verification_benefit=0.2, benefit={"verification": 1.0})
+    unassisted = claim(verification_assisted=False, verification_benefit=0.9, benefit={"verification": 1.0})
+    assert discovery.verification_dependent(dependent)
+    assert not discovery.verification_dependent(independent)
+    assert not discovery.verification_dependent(unassisted)
+
+
 def test_philosophy_verification_assisted_counts_cost_exhaustive():
     """thm:philosophy-verification-assisted-counts-cost; Lean: BEDC.GroundCompiler.ImplementationInterface.CertificateLeanTargetSet and BEDC.GroundCompiler.AnalysisPipeline.CertificateObligationDischarge."""
     for cost_counted, row_counted in product((False, True), repeat=2):
@@ -375,6 +414,22 @@ def test_philosophy_verification_assisted_counts_cost_exhaustive():
     uncounted = claim(benefit={"verification": 1.0}, verification_assisted=True, verification_benefit=0.6, verification_required_rows=frozenset({VERIFY_ROW}), verification_recorded_rows=frozenset())
     assert discovery.verification_cost_counted(counted)
     assert not discovery.verification_cost_counted(uncounted)
+
+
+def test_philosophy_global_resolution_protocol_scope_complete_exhaustive():
+    """thm:philosophy-global-resolution-requires-global-ledger-principle; Lean: BEDC.GroundCompiler.SelfHostingCompilerFlow.GlobalVerificationFlow and BEDC.GroundCompiler.SelfHostingCompilerFlow.GlobalStatusCertificateFlow."""
+    full = global_resolution_claim()
+    required = global_required_rows(full)
+    for recorded_rows in powerset(required):
+        global_claim = global_resolution_claim(recorded_rows=recorded_rows)
+        candidate = claim(scoped=False, global_claim=global_claim)
+        assert discovery.protocol_scope_complete(candidate) == required.issubset(recorded_rows)
+    resolved = claim(scoped=False, global_claim=full)
+    incomplete = claim(scoped=False, global_claim=global_resolution_claim(recorded_rows=frozenset(tuple(required)[1:])))
+    unsealed = claim(scoped=False, scope_sealed=False, global_claim=full)
+    assert discovery.protocol_scope_complete(resolved)
+    assert not discovery.protocol_scope_complete(incomplete)
+    assert not discovery.protocol_scope_complete(unsealed)
 
 
 def test_philosophy_discovery_can_become_positive_later_exhaustive():
