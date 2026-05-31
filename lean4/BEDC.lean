@@ -529,6 +529,7 @@ import BEDC.Derived.AxiomDependencyTupleUp
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerExhaustion
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
+import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomQueryLedgerUp
 import BEDC.Derived.AxiomRefusalLedgerUp.NameCertObligations
@@ -1974,6 +1975,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.DyadicContainmentTotality
 import BEDC.Derived.ClosedBoundedIntervalUp.EndpointClassifierStability
 import BEDC.Derived.ClosedBoundedIntervalUp.EndpointOrderTransport
 import BEDC.Derived.ClosedBoundedIntervalUp.FiniteCoverNonescape
+import BEDC.Derived.ClosedBoundedIntervalUp.FiniteCoverWindow
 import BEDC.Derived.ClosedBoundedIntervalUp.FiniteWindowTransportObligations
 import BEDC.Derived.ClosedBoundedIntervalUp.LocatedCoverHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.LocatedCoverSourceTotality
@@ -4590,6 +4592,7 @@ import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
 import BEDC.Derived.LocatedRealComparisonUp.TasteGate
 import BEDC.Derived.LocatedRealFieldUp
 import BEDC.Derived.LocatedRealFieldUp.TasteGate
+import BEDC.Derived.LocatedRealIntermediateValueUp.TasteGate
 import BEDC.Derived.LocatedRealIntervalBisectionUp
 import BEDC.Derived.LocatedRealIntervalHullUp
 import BEDC.Derived.LocatedRealIntervalHullUp.TasteGate
@@ -5266,6 +5269,7 @@ import BEDC.Derived.NegativeNameBoundaryUp.PublicExport
 import BEDC.Derived.NegativeNameBoundaryUp.QuotientSoundnessLatticeLink
 import BEDC.Derived.NeighborhoodFilterUp.TasteGate
 import BEDC.Derived.NeighborhoodFunctionUp.TasteGate
+import BEDC.Derived.NemytskiiOperatorUp
 import BEDC.Derived.NestedClosedIntervalUp
 import BEDC.Derived.NestedDyadicCauchyUp.TasteGate
 import BEDC.Derived.NestedDyadicIntervalUp
