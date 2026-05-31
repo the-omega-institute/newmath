@@ -425,6 +425,18 @@ Apply classifier extensional nonescape from \autoref{thm:setlike-classifier-exte
 Finally use the TypeLike FirstOrder ModelTheory consumer boundary \autoref{thm:setlike-typelike-firstorder-modeltheory-consumer-boundary}. Downstream consumers receive the visible ledger $M,Q,I,R,E,H,C,P,N$ and no equality oracle outside it.
 \end{proof}
 
+\begin{theorem}[SetLike TypeLike signature scope]
+\label{thm:setlike-typelike-signature-scope}
+Let $S=(M,Q,I,R,E,H,C,P,N)$ be an accepted $\SetLikeUp$ packet. Any TypeLike, FirstOrder, or ModelTheory consumer that reads $S$ as a set-like signature must first read the membership source row $M$, membership classifier row $Q$, subset implication row $I$, restricted-comprehension row $R$, extensional boundary row $E$, componentwise transport row $H$, continuation row $C$, provenance row $P$, and local $\NameCert_{\SetLikeUp}$ row $N$. The signature read exports no ambient powerset, unrestricted separation, quotient equality of sets, selected representative, or host equality oracle outside $M,Q,I,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the membership route of \autoref{thm:setlike-membership-route}. It makes $M$ and $Q$ the visible source of every membership read before a typed, syntactic, or satisfaction-facing consumer can inspect the packet.
+
+Next apply restricted comprehension factorization from \autoref{thm:setlike-restricted-comprehension-membership-factorization} and the kernel scope theorem \autoref{thm:setlike-restricted-comprehension-kernel-scope}. These force $R$ to remain a row over $M,Q,I$ rather than a powerset or unrestricted separation principle.
+
+Finally use the consumer boundary of \autoref{thm:setlike-typelike-firstorder-modeltheory-consumer-boundary} together with the extensional ledger nonescape theorem \autoref{thm:setlike-extensional-ledger-kernel-nonescape}. The downstream TypeLike, FirstOrder, and ModelTheory reads receive exactly $M,Q,I,R,E,H,C,P,N$, and no external set-equality or comprehension coordinate is available.
+\end{proof}
+
 \closureat{SetLikeUp}{seedStr}
 
 \begin{closurestatus}{\SetLikeUp}
