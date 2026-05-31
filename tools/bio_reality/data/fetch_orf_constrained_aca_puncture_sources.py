@@ -18,6 +18,14 @@ MAX_BYTES = 100 * 1024 * 1024
 CLAIM_ID = "h2.external.aca_puncture_orf_validated"
 DATASET_BASENAME = "orf_constrained_aca_puncture_challenge_dataset"
 DOI = "10.64898/2026.05.03.722492"
+UNRESOLVED_REQUIRED_AUDIT_TABLES = [
+    "externally supplied RAAP-2 / Acidimicrobiales nucleotide windows or assemblies plus nearest standard-code outgroups",
+    "species-level ORF-eligible ACA codon count and ACA-to-Asp call table",
+    "matched ORF-eligible, ORF-ineligible, shuffled, M-minus-R, off-M, and nearest-outgroup controls",
+    "conserved alignment column table with Asp-vs-Thr residues",
+    "contamination, completeness, binning, high-GC, and phylogenetic-coherence audit table",
+    "tRNAUGU and aaRS annotation table sufficient to audit Thr identity loss and Asp identity support",
+]
 
 REQUIRED_MANIFEST_FIELDS = {
     "fetched_at",
@@ -182,14 +190,7 @@ def build_dataset(raw_paths: list[Path]) -> Path:
         },
         "raw_external_files": raw_files,
         "source_urls": source_urls,
-        "unresolved_required_audit_tables": [
-            "externally supplied RAAP-2 / Acidimicrobiales nucleotide windows or assemblies plus nearest standard-code outgroups",
-            "species-level ORF-eligible ACA codon count and ACA-to-Asp call table",
-            "matched ORF-eligible, ORF-ineligible, shuffled, M-minus-R, off-M, and nearest-outgroup controls",
-            "conserved alignment column table with Asp-vs-Thr residues",
-            "contamination, completeness, binning, high-GC, and phylogenetic-coherence audit table",
-            "tRNAUGU and aaRS annotation table sufficient to audit Thr identity loss and Asp identity support",
-        ],
+        "unresolved_required_audit_tables": UNRESOLVED_REQUIRED_AUDIT_TABLES,
         "cannot_claim": [
             "The metadata contact does not establish translation realization.",
             "The metadata contact does not establish protein structure.",
@@ -198,26 +199,33 @@ def build_dataset(raw_paths: list[Path]) -> Path:
             "The metadata contact does not establish a global biological law.",
         ],
     }
-    dataset_path = DATA_DIR / f"{DATASET_BASENAME}.json"
-    payload = json.dumps(dataset, indent=2, sort_keys=True).encode("utf-8") + b"\n"
-    dataset_path.write_bytes(payload)
-    write_manifest(
-        DATASET_BASENAME,
-        payload=payload,
-        content_type="application/json",
-        url=SOURCES[0]["source_url"],
-        source_name="other",
-        accession_or_id=DATASET_BASENAME,
-        license_or_terms="Local aggregation of public metadata records; underlying source terms recorded in per-source manifests.",
-        extra={"source_urls": source_urls},
-    )
-    return dataset_path
+    if UNRESOLVED_REQUIRED_AUDIT_TABLES:
+        raise RuntimeError(
+            "public metadata contact is insufficient for "
+            f"{DATASET_BASENAME}; missing audit tables: "
+            + "; ".join(UNRESOLVED_REQUIRED_AUDIT_TABLES)
+        )
+    raise AssertionError("unreachable: unresolved audit table guard failed")
 
 
 def main() -> int:
     MANIFEST_DIR.mkdir(parents=True, exist_ok=True)
     raw_paths = [write_raw_payload(source) for source in SOURCES]
-    dataset_path = build_dataset(raw_paths)
+    try:
+        dataset_path = build_dataset(raw_paths)
+    except RuntimeError as exc:
+        print(
+            json.dumps(
+                {
+                    "raw": [relative(path) for path in raw_paths],
+                    "dataset": None,
+                    "status": "needs_data",
+                    "diagnosis": str(exc),
+                },
+                indent=2,
+            )
+        )
+        return 2
     print(json.dumps({"raw": [relative(path) for path in raw_paths], "dataset": relative(dataset_path)}, indent=2))
     return 0
 
