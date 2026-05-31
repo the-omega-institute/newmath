@@ -228,6 +228,18 @@ Now apply the consumer threshold theorem, \autoref{thm:metacic-critical-path-l10
 Finally package that conjunction as the exported readiness row. Because the construction uses the product of four local records, \autoref{thm:metacic-critical-path-four-face-deficiency-refusal} still blocks consumption when any face is absent or below threshold, and the listed aggregate, quotient, choice, selected-limit, and completeness substitutes remain outside the accepted route.
 \end{proof}
 
+\begin{theorem}[MetaCIC L10 consumer-readiness locality]
+\label{thm:metacic-critical-path-l10-consumer-readiness-locality}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, any downstream MetaCIC consumer of the Phase Real route must read $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ through their four local closurestatus, formalstatus, leantarget, and bridgestatus records. The four-object route may package those local records as readiness evidence, but it cannot replace any one of them by route-level readiness, quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metaciccriticalpath-l10-four-object-ready}. Its readiness row is a product of the four local records, so a consumer obtains readiness only after the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ records have each been read.
+
+Apply \autoref{thm:metacic-critical-path-l10-four-face-closure-readiness}. It fixes the local closurestatus and formalstatus rows as facewise obligations rather than as a single route-level threshold.
+
+Finally use \autoref{thm:metacic-critical-path-four-face-deficiency-refusal}. If any face-local record is absent, the downstream consumer cannot repair the gap with aggregate route readiness, quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness. Thus consumer readiness remains local to the four displayed faces.
+\end{proof}
+
 \begin{theorem}[MetaCIC L10 four-face obligation-closure package]
 \label{thm:metacic-critical-path-l10-four-face-obligation-closure-package}
 For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$ consumed as Phase Real and Completion evidence, the accepted packet must present the four objectwise obligation rows for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, together with their local closurestatus and formalstatus support. The aggregate MetaCIC route may package the four faces through its displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows, but it cannot replace any face or infer any local support row from the aggregate route alone.
