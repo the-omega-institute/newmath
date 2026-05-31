@@ -78,7 +78,9 @@ workspace.
 The current readiness gate is `not_contact_ready`: torch objective seed sweep,
 local visual planning, and cluttered object-counterfactual gates pass, while
 public MiniGrid execution and public JEPA baseline comparison are still
-blocking gates.
+blocking gates.  The external run kit records the two result schemas and import
+commands needed to close those gates without inventing evidence inside this
+workspace.
 
 For the public JEPA baseline side, the registry selects V-JEPA 2-AC as the
 first candidate because it is action-conditioned, with LeWorldModel / LeJEPA as
@@ -100,6 +102,7 @@ python scripts/probe_public_minigrid.py
 python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>
 python scripts/build_public_jepa_baseline_registry.py
 python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>
+python scripts/build_bedc_jepa_external_run_kit.py
 python scripts/build_bedc_jepa_readiness.py
 python -m pytest -q
 ```

@@ -1,0 +1,47 @@
+{
+  "cannot_claim_until_ready": [
+    "public JEPA implementation comparison",
+    "public MiniGrid execution",
+    "contact-ready external bundle"
+  ],
+  "readiness_command": "python scripts/build_bedc_jepa_readiness.py",
+  "required_external_results": {
+    "public_jepa_baseline": {
+      "import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
+      "pass_condition": "target artifact status is executed",
+      "readiness_gate": "public_jepa_baseline",
+      "required_fields": [
+        "candidate_id",
+        "commit",
+        "checkpoint",
+        "reported_benchmark_name",
+        "latent_prediction_score",
+        "rollout_or_planning_score"
+      ],
+      "target_artifact": "reports/bedc_jepa_public_baseline_comparison.json"
+    },
+    "public_minigrid_execution": {
+      "import_command": "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>",
+      "pass_condition": "target artifact status is available and sample_count_collected is positive",
+      "readiness_gate": "public_minigrid_execution",
+      "required_fields": [
+        "environment_id",
+        "seed",
+        "sample_count_requested",
+        "sample_count_collected",
+        "distinction_accuracy",
+        "gap_detection_auc",
+        "unlogged_error_rate",
+        "certified_coverage",
+        "bedc_debt_score"
+      ],
+      "target_artifact": "reports/bedc_jepa_public_minigrid_benchmark_packet.json"
+    }
+  },
+  "schema_id": "bedc-jepa-external-run-kit",
+  "status": "contract_only",
+  "verification_commands": [
+    "python -m pytest -q",
+    "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
+  ]
+}
