@@ -49,30 +49,39 @@ from typing import Optional
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 LEAN_ROOT = SCRIPT_DIR.parent                        # lean4/
-REPO_ROOT = LEAN_ROOT.parent                         # newmath/
+TOOLS_DIR = LEAN_ROOT.parent / "tools"
+if str(TOOLS_DIR) not in sys.path:
+    sys.path.insert(0, str(TOOLS_DIR))
+from host_context import host_path, host_value
+
+REPO_ROOT = host_path(LEAN_ROOT.parent, "REPO_ROOT", default=LEAN_ROOT.parent)  # newmath/
 IMPL_PLAN = LEAN_ROOT / "IMPLEMENTATION_PLAN.md"
 BEDC_ROOT = LEAN_ROOT / "BEDC"
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
 
 LOG_DIR = LEAN_ROOT / "scripts" / "logs"
-WORKTREE_DIR = REPO_ROOT / ".worktrees"
+WORKTREE_DIR = host_path(REPO_ROOT, "WORKTREE_DIR", default=".worktrees")
 
-BASE_BRANCH_DEFAULT = "lean4-codex-auto-dev"
+def _base_branch_default() -> str:
+    return host_value(REPO_ROOT, "BEDC_LEAN_BASE_BRANCH", required=True)
+
+
+BASE_BRANCH_DEFAULT = host_value(REPO_ROOT, "BEDC_LEAN_BASE_BRANCH")
 BASE_BRANCH = BASE_BRANCH_DEFAULT
-CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
+CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 # Lake-gate config exported to every codex child so they all coordinate on
 # the same lock dir / slot count. Defaults below are conservative for a
 # 16 GB M-series Mac. Override via CLI flags (--lake-parallel, --lake-lock-dir).
-LAKE_GATE_LOCK_DIR = REPO_ROOT / ".worktrees" / ".lake-gate"
+LAKE_GATE_LOCK_DIR = host_path(REPO_ROOT, "LAKE_GATE_LOCK_DIR", default=".worktrees/.lake-gate")
 LAKE_GATE_MAX_PARALLEL = 1
 # Graceful stop token: a running pipeline owns this file while its PID is
 # current. Removing or replacing it prevents new rounds from being dispatched;
 # current rounds finish normally and the process exits once the pool drains.
-PID_FILE = REPO_ROOT / ".pipeline.pid"
+PID_FILE = host_path(REPO_ROOT, "PIPELINE_PID_FILE", default=".pipeline.pid")
 # Dynamic parallelism: read target worker count from this JSON each dispatch
 # decision. File format: {"paper": 7, "lean": 7}. Allows live tuning without
 # pipeline restart. Bound to [1, HARD_MAX_PARALLEL].
-PARALLEL_CONFIG_FILE = REPO_ROOT / ".pipeline_parallel.json"
+PARALLEL_CONFIG_FILE = host_path(REPO_ROOT, "PARALLEL_CONFIG_FILE", default=".pipeline_parallel.json")
 PARALLEL_CONFIG_KEY = "lean"
 HARD_MAX_PARALLEL = 50
 FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
@@ -3577,7 +3586,7 @@ def _builder_loop(poll_seconds: float, max_fix_attempts: int) -> None:
 # ---------------------------------------------------------------------------
 
 def main() -> int:
-    global BASE_BRANCH, LAKE_GATE_LOCK_DIR, LAKE_GATE_MAX_PARALLEL
+    global BASE_BRANCH, BASE_BRANCH_DEFAULT, LAKE_GATE_LOCK_DIR, LAKE_GATE_MAX_PARALLEL
 
     parser = argparse.ArgumentParser(
         description="Lean4 Codex-First formalization with worktree parallelism",
@@ -3631,8 +3640,8 @@ def main() -> int:
         help="Deprecated in PID mode; start the pipeline normally to create a fresh token",
     )
     parser.add_argument(
-        "--base-branch", type=str, default=BASE_BRANCH_DEFAULT,
-        help=f"Base branch name (default: {BASE_BRANCH_DEFAULT})",
+        "--base-branch", type=str, default=None,
+        help="Base branch name (default: host BEDC_LEAN_BASE_BRANCH)",
     )
     parser.add_argument(
         "--mem-guard", dest="mem_guard", action="store_true", default=None,
@@ -3695,6 +3704,8 @@ def main() -> int:
              f"(default: {LAKE_GATE_LOCK_DIR}).",
     )
     args = parser.parse_args()
+    BASE_BRANCH = args.base_branch if args.base_branch is not None else _base_branch_default()
+    BASE_BRANCH_DEFAULT = BASE_BRANCH
 
     if args.lake_lock_dir:
         LAKE_GATE_LOCK_DIR = Path(args.lake_lock_dir)
@@ -3707,8 +3718,6 @@ def main() -> int:
         f"Lake gate: max_parallel={LAKE_GATE_MAX_PARALLEL}, "
         f"lock_dir={LAKE_GATE_LOCK_DIR}"
     )
-
-    BASE_BRANCH = args.base_branch
 
     # ── Memory-pressure guard config ──────────────────────────────
     _MEM_GUARD_CFG["enabled"] = (
