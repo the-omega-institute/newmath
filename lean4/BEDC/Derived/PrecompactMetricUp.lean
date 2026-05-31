@@ -267,6 +267,54 @@ theorem PrecompactMetricCarrier_root_finite_net_obligations [AskSetup] [PackageS
     ⟨nUnary, fUnary, dUnary, rUnary, netUnary, radiusUnary, coverUnary, netRoute,
       radiusRoute, coverRoute, provenancePkg, coverPkg⟩
 
+theorem PrecompactMetric_completion_consumer_nonescape [AskSetup] [PackageSetup]
+    {X D N F R M H C G Q completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PrecompactMetricCarrier X D N F R M H C G Q bundle pkg →
+      Cont F R completionRead →
+        PkgSig bundle completionRead pkg →
+          UnaryHistory X ∧ UnaryHistory D ∧ UnaryHistory N ∧ UnaryHistory F ∧
+            UnaryHistory R ∧ UnaryHistory M ∧ UnaryHistory H ∧ UnaryHistory C ∧
+              UnaryHistory G ∧ UnaryHistory Q ∧ UnaryHistory completionRead ∧
+                Cont F R completionRead ∧ PkgSig bundle Q pkg ∧
+                  PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier completionRoute completionPkg
+  obtain ⟨xUnary, dUnary, nUnary, fUnary, rUnary, mUnary, hUnary, cUnary,
+    gUnary, qUnary, provenancePkg⟩ := carrier
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed fUnary rUnary completionRoute
+  exact
+    ⟨xUnary, dUnary, nUnary, fUnary, rUnary, mUnary, hUnary, cUnary, gUnary,
+      qUnary, completionUnary, completionRoute, provenancePkg, completionPkg⟩
+
+theorem PrecompactMetric_regularity_modulus_scope [AskSetup] [PackageSetup]
+    {X D N F R M H C G Q netRead filterRead scopeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PrecompactMetricCarrier X D N F R M H C G Q bundle pkg →
+      Cont N M netRead →
+        Cont M F filterRead →
+          Cont netRead filterRead scopeRead →
+            PkgSig bundle scopeRead pkg →
+              UnaryHistory N ∧ UnaryHistory M ∧ UnaryHistory F ∧
+                UnaryHistory netRead ∧ UnaryHistory filterRead ∧
+                  UnaryHistory scopeRead ∧ Cont N M netRead ∧
+                    Cont M F filterRead ∧ Cont netRead filterRead scopeRead ∧
+                      PkgSig bundle Q pkg ∧ PkgSig bundle scopeRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier netRoute filterRoute scopeRoute scopePkg
+  obtain ⟨_xUnary, _dUnary, nUnary, fUnary, _rUnary, mUnary, _hUnary, _cUnary,
+    _gUnary, _qUnary, provenancePkg⟩ := carrier
+  have netUnary : UnaryHistory netRead :=
+    unary_cont_closed nUnary mUnary netRoute
+  have filterUnary : UnaryHistory filterRead :=
+    unary_cont_closed mUnary fUnary filterRoute
+  have scopeUnary : UnaryHistory scopeRead :=
+    unary_cont_closed netUnary filterUnary scopeRoute
+  exact
+    ⟨nUnary, mUnary, fUnary, netUnary, filterUnary, scopeUnary, netRoute,
+      filterRoute, scopeRoute, provenancePkg, scopePkg⟩
+
 theorem PrecompactMetric_totally_bounded_handoff (x : PrecompactMetricUp) :
     ∃ X D N F R M H C G Q : BHist,
       x = PrecompactMetricUp.mk X D N F R M H C G Q ∧
