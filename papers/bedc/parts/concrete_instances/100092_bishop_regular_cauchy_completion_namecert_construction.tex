@@ -131,6 +131,24 @@ Use seal stability from \autoref{thm:bishop-regular-cauchy-completion-seal-stabi
 Finally apply nonescape exactness from \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}. Since no quotient-stream equality, selected-limit, choice, host-equality, or Real-completeness coordinate is present in either carrier, the shared-tail comparison is quotient-free.
 \end{proof}
 
+\begin{theorem}[Bishop regular Cauchy completion tail determinacy]
+\label{thm:bishop-regular-cauchy-completion-tail-determinacy}
+Let $B=(E,S,R,D,W,H,C,P,N)$ and $B'=(E',S',R',D,W,H',C,P',N')$ be accepted $\BishopRegularCauchyCompletionUp$ packets sharing the same displayed dyadic tail modulus $D$, the same common-tail window $W$, componentwise transport through $H,H'$, and the same displayed $\Cont$ replay $C$. Then every completion-facing consumer reads the two packets through the same displayed route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+before reaching the terminal Real-seal boundary. The determinacy is a rowwise read-route claim: it exports no quotient stream equality, no selected limit, no host real equality, no countable-choice schedule, and no ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Begin with common-tail modulus stability from \autoref{thm:bishop-regular-cauchy-completion-common-tail-modulus-stability}. The shared rows $D$ and $W$ force both completion-facing reads to expose the same dyadic tail budget and the same finite comparison window before either Real seal can be inspected.
+
+Next use classifier transport from \autoref{thm:bishop-regular-cauchy-completion-classifier-transport}. Componentwise $\hsame$ transport moves only the displayed endpoint, observation, regularity, tail-modulus, common-window, provenance, and naming rows, while the shared $\Cont$ replay $C$ preserves the same ordered route.
+
+Apply seal stability from \autoref{thm:bishop-regular-cauchy-completion-seal-stability}. The terminal Real-facing boundary is downstream of the $\DyadicRatCoreUp$ endpoint ledger, $\StreamNameUp$ finite observations, and $\RegSeqRatUp$ readback, so the two reads reach their seals through the same visible dependency route.
+
+Finally apply nonescape exactness from \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}. Since neither carrier has a coordinate for quotient stream equality, selected limits, host real equality, countable choice, or ambient Real completeness, no such object can distinguish the completion-facing read route.
+\end{proof}
+
 \begin{theorem}[Bishop regular Cauchy completion nonescape exactness]
 \label{thm:bishop-regular-cauchy-completion-nonescape-exactness}
 Every completion-facing read of an accepted $\BishopRegularCauchyCompletionUp$ carrier $B=(E,S,R,D,W,H,C,P,N)$ is exhausted by the rows $E,S,R,D,W,H,C,P,N$. Thus the local $\NameCert_{\BishopRegularCauchyCompletionUp}$ boundary exports only dyadic endpoints, finite stream observations, regular rational sequence data, dyadic tail moduli, common-tail windows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming data, and exports no quotient stream equality, host real equality, selected limit, countable choice, or ambient Real completeness.
@@ -217,7 +235,7 @@ The excluded objects are absent from all three ingredients. Since none of the ca
 
 \begin{closurestatus}{\BishopRegularCauchyCompletionUp}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:bishop-regular-cauchy-completion-carrier}, \autoref{thm:bishop-regular-cauchy-completion-regularity-envelope}, \autoref{thm:bishop-regular-cauchy-completion-seal-stability}, \autoref{thm:bishop-regular-cauchy-completion-classifier-transport}, \autoref{thm:bishop-regular-cauchy-completion-common-tail-modulus-stability}, \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}, \autoref{thm:bishop-regular-cauchy-completion-real-seal-consumer}, \autoref{thm:bishop-regular-cauchy-completion-obligation-closure-package}, \autoref{thm:bishop-regular-cauchy-completion-scoped-kernel-route}, and \autoref{thm:bishop-regular-cauchy-completion-public-real-seal} close the finite regular Cauchy completion dependency surface and public Real-seal export over displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \scopeclosed{\autoref{def:bishop-regular-cauchy-completion-carrier}, \autoref{thm:bishop-regular-cauchy-completion-regularity-envelope}, \autoref{thm:bishop-regular-cauchy-completion-seal-stability}, \autoref{thm:bishop-regular-cauchy-completion-classifier-transport}, \autoref{thm:bishop-regular-cauchy-completion-common-tail-modulus-stability}, \autoref{thm:bishop-regular-cauchy-completion-tail-determinacy}, \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}, \autoref{thm:bishop-regular-cauchy-completion-real-seal-consumer}, \autoref{thm:bishop-regular-cauchy-completion-obligation-closure-package}, \autoref{thm:bishop-regular-cauchy-completion-scoped-kernel-route}, and \autoref{thm:bishop-regular-cauchy-completion-public-real-seal} close the finite regular Cauchy completion dependency surface and public Real-seal export over displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.BishopRegularCauchyCompletionUp.BishopRegularCauchyCompletionObligationClosurePackage}
   \bridgestatus{none}
