@@ -76,8 +76,25 @@ The same learned transition model is used in a three-target planning sweep,
 where gap-aware planning improves risk-adjusted cost while exposing a
 short-horizon success tradeoff.
 
+\paragraph{MiniGrid-style visual planning.}
+A third visual-planning benchmark uses a MiniGrid-style one-hot image
+observation with walls, a two-room door passage, a goal region, and a hazard
+band.  A state readout is learned from the image observation, and an
+action-conditioned transition table is estimated from data.  The learned
+one-step transition accuracy is $1.000000$.  Against the post-hoc visual
+report baseline, trained BEDC-JEPA improves gap AUROC from $0.571541$ to
+$1.000000$ and lowers debt from $0.085692$ to $0.016167$.  Unlogged error is
+$0.000000$ for both systems because the goal-cell distinction is directly
+readable in this one-hot visual setting.  In a three-target, thirty-six
+trajectory planning sweep, gap-aware planning lowers high-gap state rate by
+$0.202778$, lowers unsafe-state rate by $0.072222$, and improves
+risk-adjusted planning cost by $0.313494$, while reducing raw success rate by
+$0.305556$.  This benchmark is still local, but it has the form of a public
+partial-observability grid-control task rather than a scalar latent boundary
+only.
+
 \paragraph{Object-level counterfactual intervention.}
-A third benchmark uses two object slots rendered as pixels.  The query is
+A fourth benchmark uses two object slots rendered as pixels.  The query is
 whether object $A$, after an action intervention, will contact object $B$.
 This supplies a Causal-JEPA-style object-level counterfactual readback rather
 than a scalar boundary only.  The trained object BEDC-JEPA system reaches
@@ -99,7 +116,7 @@ $0.429153 \pm 0.011258$ for gap AUROC, $0.279500 \pm 0.018394$ for unlogged
 error reduction, and $0.262087 \pm 0.013921$ for debt reduction.
 
 \paragraph{Multi-object distractor readback.}
-A fourth benchmark uses four object slots.  The operational query remains a
+A fifth benchmark uses four object slots.  The operational query remains a
 counterfactual contact claim about the target pair $(A,B)$ after an
 intervention on $A$, while two additional object slots act as distractors.
 The gap ledger marks target-pair boundary cases, target-pair occlusion, and

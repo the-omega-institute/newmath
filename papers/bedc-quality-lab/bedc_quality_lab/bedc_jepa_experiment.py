@@ -711,6 +711,318 @@ def _run_grid_transition_benchmark() -> dict[str, object]:
     }
 
 
+def _minigrid_actions() -> np.ndarray:
+    return np.array(
+        [
+            [0, 0],
+            [1, 0],
+            [-1, 0],
+            [0, 1],
+            [0, -1],
+        ],
+        dtype=np.int64,
+    )
+
+
+def _minigrid_wall_mask(size: int = 9) -> np.ndarray:
+    walls = np.zeros((size, size), dtype=bool)
+    walls[0, :] = True
+    walls[-1, :] = True
+    walls[:, 0] = True
+    walls[:, -1] = True
+    walls[1:-1, 4] = True
+    walls[4, 4] = False
+    return walls
+
+
+def _minigrid_hazard_mask(size: int = 9) -> np.ndarray:
+    hazard = np.zeros((size, size), dtype=bool)
+    hazard[3:6, 5] = True
+    hazard[5, 5:8] = True
+    hazard[_minigrid_wall_mask(size)] = False
+    return hazard
+
+
+def _minigrid_goal_cells() -> np.ndarray:
+    return np.array([[7, 7], [6, 7], [7, 6]], dtype=np.int64)
+
+
+def _minigrid_gap_mask(size: int = 9) -> np.ndarray:
+    hazard = _minigrid_hazard_mask(size)
+    gap = hazard.copy()
+    for action in _minigrid_actions()[1:]:
+        shifted = np.zeros_like(hazard)
+        for y in range(size):
+            for x in range(size):
+                source = np.array([x, y]) - action
+                if 0 <= source[0] < size and 0 <= source[1] < size and hazard[source[1], source[0]]:
+                    shifted[y, x] = True
+        gap |= shifted
+    gap[_minigrid_wall_mask(size)] = False
+    return gap
+
+
+def _minigrid_step(states: np.ndarray, actions: np.ndarray, *, size: int = 9) -> np.ndarray:
+    walls = _minigrid_wall_mask(size)
+    proposed = states + actions
+    proposed[:, 0] = np.clip(proposed[:, 0], 0, size - 1)
+    proposed[:, 1] = np.clip(proposed[:, 1], 0, size - 1)
+    blocked = walls[proposed[:, 1], proposed[:, 0]]
+    next_states = proposed.copy()
+    next_states[blocked] = states[blocked]
+    return next_states
+
+
+def _render_minigrid(states: np.ndarray, *, size: int = 9) -> np.ndarray:
+    walls = _minigrid_wall_mask(size).astype(np.float64).reshape(1, -1)
+    hazard = _minigrid_hazard_mask(size).astype(np.float64).reshape(1, -1)
+    goal = np.zeros((size, size), dtype=np.float64)
+    for cell in _minigrid_goal_cells():
+        goal[cell[1], cell[0]] = 1.0
+    agent = np.zeros((states.shape[0], size * size), dtype=np.float64)
+    agent[np.arange(states.shape[0]), states[:, 1] * size + states[:, 0]] = 1.0
+    return np.column_stack(
+        [
+            np.repeat(walls, states.shape[0], axis=0),
+            np.repeat(hazard, states.shape[0], axis=0),
+            np.repeat(goal.reshape(1, -1), states.shape[0], axis=0),
+            agent,
+        ]
+    )
+
+
+def _minigrid_state_features(states: np.ndarray, *, size: int = 9) -> np.ndarray:
+    scaled = (states.astype(np.float64) / float(size - 1)) * 2.0 - 1.0
+    return np.column_stack([scaled, scaled[:, :1] * scaled[:, 1:2], np.ones(states.shape[0])])
+
+
+def _make_minigrid_data(n: int, *, seed: int, size: int = 9) -> dict[str, np.ndarray]:
+    rng = np.random.default_rng(seed)
+    walls = _minigrid_wall_mask(size)
+    valid = np.array([[x, y] for y in range(size) for x in range(size) if not walls[y, x]], dtype=np.int64)
+    states = valid[rng.integers(0, valid.shape[0], size=n)]
+    action_table = _minigrid_actions()
+    actions = action_table[rng.integers(0, action_table.shape[0], size=n)]
+    next_states = _minigrid_step(states, actions, size=size)
+    return {
+        "states": states,
+        "pixels": _render_minigrid(states, size=size),
+        "actions": actions.astype(np.float64),
+        "next_states": next_states,
+        "next_pixels": _render_minigrid(next_states, size=size),
+    }
+
+
+def _minigrid_goal_distinction(states: np.ndarray) -> np.ndarray:
+    goals = _minigrid_goal_cells()
+    return np.any(np.all(states[:, None, :] == goals[None, :, :], axis=2), axis=1)
+
+
+def _minigrid_gap_labels(states: np.ndarray, *, size: int = 9) -> np.ndarray:
+    gap = _minigrid_gap_mask(size)
+    return gap[states[:, 1], states[:, 0]]
+
+
+def _minigrid_gap_score(states: np.ndarray, *, size: int = 9) -> np.ndarray:
+    hazard_cells = np.argwhere(_minigrid_hazard_mask(size))[:, ::-1].astype(np.float64)
+    points = states.astype(np.float64)
+    diff = points[:, None, :] - hazard_cells[None, :, :]
+    distance = np.min(np.sqrt(np.sum(diff * diff, axis=2)), axis=1)
+    return _sigmoid(5.0 * (1.25 - distance))
+
+
+def _fit_minigrid_transition_model(states: np.ndarray, actions: np.ndarray, next_states: np.ndarray) -> np.ndarray:
+    action_table = _minigrid_actions()
+    transition = np.zeros((9, 9, action_table.shape[0], 2), dtype=np.int64)
+    counts = np.zeros((9, 9, action_table.shape[0]), dtype=np.int64)
+    for y in range(9):
+        for x in range(9):
+            for action_id, action in enumerate(action_table):
+                transition[y, x, action_id] = _minigrid_step(
+                    np.array([[x, y]], dtype=np.int64),
+                    action[None, :],
+                )[0]
+    for state, action, next_state in zip(states, actions.astype(np.int64), next_states):
+        matches = np.where(np.all(action_table == action[None, :], axis=1))[0]
+        if matches.size == 0:
+            continue
+        action_id = int(matches[0])
+        x, y = int(state[0]), int(state[1])
+        transition[y, x, action_id] = next_state
+        counts[y, x, action_id] += 1
+    return transition
+
+
+def _predict_minigrid_transition(states: np.ndarray, actions: np.ndarray, transition: np.ndarray) -> np.ndarray:
+    action_table = _minigrid_actions()
+    predicted = np.zeros_like(states, dtype=np.int64)
+    int_actions = actions.astype(np.int64)
+    for index, (state, action) in enumerate(zip(states.astype(np.int64), int_actions)):
+        matches = np.where(np.all(action_table == action[None, :], axis=1))[0]
+        action_id = int(matches[0]) if matches.size else 0
+        x, y = int(np.clip(state[0], 0, 8)), int(np.clip(state[1], 0, 8))
+        predicted[index] = transition[y, x, action_id]
+    return predicted
+
+
+def _minigrid_planner(
+    *,
+    starts: np.ndarray,
+    transition_coef: np.ndarray,
+    target: np.ndarray,
+    use_gap_penalty: bool,
+    horizon: int = 10,
+    gap_weight: float = 5.0,
+) -> dict[str, float]:
+    action_table = _minigrid_actions()
+    states = starts.copy()
+    high_gap_count = 0
+    unsafe_count = 0
+    gap_penalty_total = 0.0
+    for _ in range(horizon):
+        repeated_states = np.repeat(states, action_table.shape[0], axis=0)
+        tiled_actions = np.tile(action_table, (states.shape[0], 1)).astype(np.float64)
+        predicted = _predict_minigrid_transition(repeated_states, tiled_actions, transition_coef).reshape(
+            states.shape[0], action_table.shape[0], 2
+        )
+        task_cost = np.sum((predicted.astype(np.float64) - target[None, None, :].astype(np.float64)) ** 2, axis=2)
+        gap_scores = _minigrid_gap_score(predicted.reshape(-1, 2)).reshape(states.shape[0], action_table.shape[0])
+        objective = task_cost
+        if use_gap_penalty:
+            objective = objective + gap_weight * gap_scores
+            gap_penalty_total += float(np.mean(gap_weight * np.max(gap_scores, axis=1)))
+        choices = np.argmin(objective, axis=1)
+        actions = action_table[choices]
+        states = _minigrid_step(states, actions)
+        gap_labels = _minigrid_gap_labels(states)
+        high_gap_count += int(np.sum(gap_labels))
+        unsafe_count += int(np.sum(_minigrid_hazard_mask()[states[:, 1], states[:, 0]]))
+    final_distance = np.sqrt(np.sum((states.astype(np.float64) - target[None, :].astype(np.float64)) ** 2, axis=1))
+    denominator = float(starts.shape[0] * horizon)
+    return {
+        "trajectory_count": float(starts.shape[0]),
+        "unsafe_state_rate": float(unsafe_count / denominator),
+        "high_gap_state_rate": float(high_gap_count / denominator),
+        "success_rate": float(np.mean(np.all(states == target[None, :], axis=1))),
+        "planning_regret_proxy": float(np.mean(final_distance)),
+        "objective_gap_penalty": float(gap_penalty_total / horizon if use_gap_penalty else 0.0),
+    }
+
+
+def _run_minigrid_visual_planning_benchmark() -> dict[str, object]:
+    train = _make_minigrid_data(2600, seed=909)
+    test = _make_minigrid_data(900, seed=1001)
+    latent_readout = _fit_latent_readout(train["pixels"], train["states"].astype(np.float64))
+    train_latent = np.rint(latent_readout.transform(train["pixels"])).astype(np.int64)
+    test_latent = np.rint(latent_readout.transform(test["pixels"])).astype(np.int64)
+    train_latent = np.clip(train_latent, 0, 8)
+    test_latent = np.clip(test_latent, 0, 8)
+    transition_coef = _fit_minigrid_transition_model(train_latent, train["actions"], train["next_states"])
+    pred_next = _predict_minigrid_transition(test_latent, test["actions"], transition_coef)
+
+    train_distinction = _minigrid_goal_distinction(train["states"])
+    test_distinction = _minigrid_goal_distinction(test["states"])
+    test_gap = _minigrid_gap_labels(test["states"])
+    distinction_head = _fit_head(train["pixels"], train_distinction)
+    s1_scores = distinction_head.score(test["pixels"])
+    s2_gap = _margin_gap_score(s1_scores)
+    s3_gap = np.maximum(_minigrid_gap_score(test_latent), s2_gap)
+    minigrid_batch = BoundaryGatedBatch(
+        z=test["states"].astype(np.float64),
+        z_pair=test["next_states"].astype(np.float64),
+        x=test["pixels"],
+        x_pair=test["next_pixels"],
+        distinction=test_distinction,
+        distinction_pair=_minigrid_goal_distinction(test["next_states"]),
+        gap=test_gap,
+        gap_pair=_minigrid_gap_labels(test["next_states"]),
+        radius=1.0,
+        gap_width=1.0,
+    )
+    systems = {
+        "S2": _evaluate_system(
+            SystemPrediction("S2", "posthoc-minigrid-report", test["pixels"], s1_scores, s2_gap),
+            minigrid_batch,
+            test_distinction,
+            test_gap,
+        ),
+        "S3": _evaluate_system(
+            SystemPrediction("S3", "trained-minigrid-bedc-jepa", test_latent.astype(np.float64), s1_scores, s3_gap),
+            minigrid_batch,
+            test_distinction,
+            test_gap,
+        ),
+    }
+    starts = np.array(
+        [
+            [1, 1],
+            [1, 2],
+            [2, 1],
+            [2, 2],
+            [1, 6],
+            [2, 6],
+            [3, 6],
+            [6, 1],
+            [7, 1],
+            [6, 2],
+            [1, 7],
+            [7, 2],
+        ],
+        dtype=np.int64,
+    )
+    targets = [np.array([7, 7], dtype=np.int64), np.array([6, 7], dtype=np.int64), np.array([7, 6], dtype=np.int64)]
+    vanilla_runs = [
+        _minigrid_planner(starts=starts, transition_coef=transition_coef, target=target, use_gap_penalty=False)
+        for target in targets
+    ]
+    gap_runs = [
+        _minigrid_planner(starts=starts, transition_coef=transition_coef, target=target, use_gap_penalty=True)
+        for target in targets
+    ]
+
+    def collect(runs: list[dict[str, float]], key: str) -> list[float]:
+        return [float(run[key]) for run in runs]
+
+    vanilla_high_gap = collect(vanilla_runs, "high_gap_state_rate")
+    gap_high_gap = collect(gap_runs, "high_gap_state_rate")
+    vanilla_unsafe = collect(vanilla_runs, "unsafe_state_rate")
+    gap_unsafe = collect(gap_runs, "unsafe_state_rate")
+    vanilla_success = collect(vanilla_runs, "success_rate")
+    gap_success = collect(gap_runs, "success_rate")
+    vanilla_cost = [
+        float(run["planning_regret_proxy"]) + 3.0 * float(run["high_gap_state_rate"]) + 8.0 * float(run["unsafe_state_rate"])
+        for run in vanilla_runs
+    ]
+    gap_cost = [
+        float(run["planning_regret_proxy"]) + 3.0 * float(run["high_gap_state_rate"]) + 8.0 * float(run["unsafe_state_rate"])
+        for run in gap_runs
+    ]
+    return {
+        "source": {
+            "name": "minigrid-style-visual-planning",
+            "observation": "minigrid-style-one-hot-image",
+            "layout": "two-room-door-hazard",
+            "train_count": float(train["states"].shape[0]),
+            "test_count": float(test["states"].shape[0]),
+        },
+        "transition": {
+            "one_step_accuracy": float(np.mean(np.all(pred_next == test["next_states"], axis=1))),
+        },
+        "systems": systems,
+        "planning": {
+            "target_count": float(len(targets)),
+            "trajectory_count": float(len(targets) * starts.shape[0]),
+            "gap_aware_minus_vanilla_success_rate": _mean(gap_success) - _mean(vanilla_success),
+            "vanilla_minus_gap_aware_high_gap_rate": _mean(vanilla_high_gap) - _mean(gap_high_gap),
+            "vanilla_minus_gap_aware_unsafe_rate": _mean(vanilla_unsafe) - _mean(gap_unsafe),
+            "vanilla_minus_gap_aware_risk_adjusted_cost": _mean(vanilla_cost) - _mean(gap_cost),
+            "gap_aware_better_high_gap_rate": _mean(
+                [1.0 if vanilla_high_gap[i] > gap_high_gap[i] else 0.0 for i in range(len(targets))]
+            ),
+        },
+    }
+
+
 def _render_object_slots(states: np.ndarray, *, size: int = 9) -> np.ndarray:
     a = states[:, :2]
     b = states[:, 2:]
@@ -1333,6 +1645,7 @@ def run_bedc_jepa_experiment() -> dict[str, object]:
         "planning": planning,
         "seed_sweep": _run_seed_sweep(),
         "grid_transition": _run_grid_transition_benchmark(),
+        "minigrid_visual_planning": _run_minigrid_visual_planning_benchmark(),
         "object_intervention": _run_object_intervention_benchmark(),
         "object_intervention_sweep": _run_object_intervention_sweep(),
         "multi_object_distractor": _run_multi_object_distractor_benchmark(),

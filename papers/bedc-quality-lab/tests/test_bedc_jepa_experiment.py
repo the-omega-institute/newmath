@@ -94,6 +94,28 @@ def test_bedc_jepa_experiment_runs_grid_pixel_learned_transition_benchmark():
     assert sweep["gap_aware_better_high_gap_rate"] >= 0.75
 
 
+def test_bedc_jepa_experiment_runs_minigrid_style_visual_planning_benchmark():
+    summary = _summary()
+    minigrid = summary["minigrid_visual_planning"]
+
+    assert minigrid["source"]["observation"] == "minigrid-style-one-hot-image"
+    assert minigrid["source"]["layout"] == "two-room-door-hazard"
+    assert minigrid["transition"]["one_step_accuracy"] > 0.94
+
+    systems = minigrid["systems"]
+    assert systems["S3"]["gap_detection_auc"] > systems["S2"]["gap_detection_auc"]
+    assert systems["S3"]["unlogged_error_rate"] <= systems["S2"]["unlogged_error_rate"]
+    assert systems["S3"]["bedc_debt_score"] < systems["S2"]["bedc_debt_score"]
+
+    planning = minigrid["planning"]
+    assert planning["target_count"] >= 3
+    assert planning["trajectory_count"] >= 30
+    assert planning["vanilla_minus_gap_aware_high_gap_rate"] > 0.05
+    assert planning["vanilla_minus_gap_aware_unsafe_rate"] > 0.05
+    assert planning["vanilla_minus_gap_aware_risk_adjusted_cost"] > 0.0
+    assert planning["gap_aware_better_high_gap_rate"] >= 0.75
+
+
 def test_bedc_jepa_experiment_runs_object_intervention_benchmark():
     summary = _summary()
     object_benchmark = summary["object_intervention"]
