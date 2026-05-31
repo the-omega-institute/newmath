@@ -109,6 +109,20 @@ Now use dyadic tolerance stability from \autoref{thm:cauchy-oscillation-dyadic-t
 Finally invoke the seal-handoff factorization theorem \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. Since $S$ is downstream of the accepted prefix $W,M,Q,T$, every modulus-root consumer reads those rows before any Real seal is available.
 \end{proof}
 
+\begin{theorem}[Cauchy oscillation window lower bound]
+\label{thm:cauchyoscillation-window-lower-bound}
+Every accepted oscillation read over a $\StreamNameUp$ or $\RegSeqRatUp$ Cauchy window factors through the $\DyadicRatCoreUp$ tolerance row $Q$, the $\DyadicTailBoundUp$ ledger row $T$, the $\UniformCauchyCriterionUp$ route recorded in $P$, the $\RealUp$ seal row $S$, and the displayed transport and replay rows $H,C$ before it can export a bounded oscillation claim. In particular, the lower window used by the oscillation comparison is not an external real interval or selected limit; it is the finite tail-window surface $W,M,Q,T$ of the same $\CauchyOscillationUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-oscillation-carrier}. The only available observations are the finite tail-window row $W$, the threshold row $M$, the dyadic tolerance row $Q$, the oscillation ledger $T$, and the downstream seal row $S$.
+
+Use the dyadic tail-bound route for the lower window. The ledger $T$ records comparisons of the named observations in $W$ beyond the threshold supplied by $M$, and the radius of that comparison is read from $Q$.
+
+Replay the route through the source rows. The $\StreamNameUp$ and $\RegSeqRatUp$ components expose the inspected observations before the $\UniformCauchyCriterionUp$ provenance in $P$ can be consumed, while $H$ and $C$ preserve the same rows under transport and displayed replay.
+
+Finally the $\RealUp$ seal $S$ is downstream of that accepted prefix. Since the packet contains no selected limit, quotient stream equality, host real equality, or ambient completeness coordinate, any bounded oscillation export is forced through the displayed lower-window route.
+\end{proof}
+
 \closureat{CauchyOscillationUp}{seedStr}
 
 \begin{closurestatus}{\CauchyOscillationUp}
