@@ -1953,6 +1953,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceScopedCoverage
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceWindowExactness
 import BEDC.Derived.ClosedBoundedIntervalUp.ScopedSourcePackage
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceCoverBoundary
+import BEDC.Derived.ClosedBoundedIntervalUp.SourceReadbackStability
 import BEDC.Derived.ClosedBoundedIntervalUp.SourceScopePackage
 import BEDC.Derived.ClosedBoundedIntervalUp.TasteGate
 import BEDC.Derived.ClosedConsistencyAssemblyUp.TasteGate
@@ -2233,6 +2234,7 @@ import BEDC.Derived.CompletionPreservesSeparableUp.TasteGate
 import BEDC.Derived.CompletionReflectionUp
 import BEDC.Derived.CompletionReflectionUp.TasteGate
 import BEDC.Derived.CompletionTowerUp.TasteGate
+import BEDC.Derived.CompletionUniformFunctorialEnvelopeUp.TasteGate
 import BEDC.Derived.CompletionUniquenessUp
 import BEDC.Derived.CompletionUniquenessUp.TasteGate
 import BEDC.Derived.CompletionUnitTriangleUp.TasteGate
@@ -2776,6 +2778,7 @@ import BEDC.Derived.DNAFourPhaseAlphabetBridgeUp.TasteGate
 import BEDC.Derived.DarbouxContinuityUp.TasteGate
 import BEDC.Derived.DarbouxIntegralUp
 import BEDC.Derived.DarbouxIntegralUp.TasteGate
+import BEDC.Derived.DarbouxPropertyUp.TasteGate
 import BEDC.Derived.DarbouxSumUp.TasteGate
 import BEDC.Derived.DeRhamUp
 import BEDC.Derived.DeRhamUp.BridgeClassifierSourceScope
@@ -6603,6 +6606,7 @@ import BEDC.Derived.ScientificModelBridgeUp.Carrier
 import BEDC.Derived.ScientificModelBridgeUp.TasteGate
 import BEDC.Derived.ScientificObjectUp.EmpiricalBridgeSeparation
 import BEDC.Derived.ScientificObjectUp.GapReportLedger
+import BEDC.Derived.ScientificObjectUp.ObligationClosurePackage
 import BEDC.Derived.ScientificObjectUp.RecordClassifierAdmission
 import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.ScientificObjectUp.TruthDomainGapScope

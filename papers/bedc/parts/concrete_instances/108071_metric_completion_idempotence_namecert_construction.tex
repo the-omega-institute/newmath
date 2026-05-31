@@ -66,6 +66,20 @@ Use the separated boundary supplied by $S$ and the complete-service row $C$. The
 The uniform compatibility row $U$ keeps uniform consumers on the same route. Transport and replay through $H,K$ then carry that route to $R$, while $P,N$ record provenance and local naming.
 \end{proof}
 
+\begin{theorem}[MetricCompletionIdempotence obligation scope]
+\label{thm:metric-completion-idempotence-obligation-scope}
+For an accepted $\MetricCompletionIdempotenceUp$ carrier $I=(M,S,C,U,R,H,K,P,N)$, the obligation surface is exactly first $\MetricCompletionUp$ admission through $M$, $\SeparatedCompletionUp$ boundary through $S$, $\CompleteMetricUp/\CompleteSeparatedMetricUp$ service through $C$, $\UniformCompletionUp$ compatibility through $U$, repeated-readback determinacy through $R$, $\hsame$ transport through $H$, $\Cont$ replay through $K$, $\Pkg$ provenance through $P$, and local $\NameCert$ through $N$. It exports no quotient completion, selected representative, host equality, countable choice, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier. The first completion admission is the row $M$, and the fixed-point boundary can inspect only $S,C,U$ before it reaches the repeated readback row $R$.
+
+The separated and complete rows determine the admissible service surface. The row $S$ blocks quotient completion equality, while $C$ exposes only the displayed complete-metric or complete-separated-metric service already present in the packet.
+
+Uniform compatibility is the role of $U$. It keeps uniform consumers on the same completion route before the repeated readback is public, so no separate completion object or host equality row is introduced.
+
+Finally $R,H,K,P,N$ determine repeated-readback determinacy, transport, replay, provenance, and local naming. Since the carrier has no coordinate for selected representatives, countable choice, or $\RealUp$ completeness, the listed rows are exactly the obligation surface.
+\end{proof}
+
 \begin{theorem}[MetricCompletionIdempotence downstream scope]
 \label{thm:metric-completion-idempotence-downstream-scope}
 Every completion-functor, regular-rational, or real-completion consumer of an accepted $\MetricCompletionIdempotenceUp$ carrier receives only the fixed-point route displayed by $M,S,C,U,R,H,K,P,N$. The packet supplies a non-quotient idempotence target for downstream completion functoriality and Real or $\RegSeqRatUp$ readback routes, but it does not close arbitrary completion monad laws, global reflection theorems, selected-limit principles, host equality of completed points, or ambient $\RealUp$ completeness.
@@ -80,14 +94,14 @@ For regular-rational and real-completion consumers, the readback data are inheri
 The nonescape clause of \autoref{thm:metric-completion-idempotence-namecert-obligations} then excludes quotient equality, selected limits, host equality, choice, ambient completeness, and detached second completion data from all such consumers.
 \end{proof}
 
-\closureat{MetricCompletionIdempotenceUp}{seedStr}
+\closureat{MetricCompletionIdempotenceUp}{obligationStr}
 
 \begin{closurestatus}{\MetricCompletionIdempotenceUp}
   \constructivestory{A $\MetricCompletionIdempotenceUp$ packet is generated from a MetricCompletionUp row, a SeparatedCompletionUp boundary row, a CompleteMetricUp or CompleteSeparatedMetricUp service row, a UniformCompletionUp compatibility row, a repeated-completion readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metric-completion-idempotence-carrier}, \autoref{thm:metric-completion-idempotence-namecert-obligations}, and \autoref{thm:metric-completion-idempotence-repeated-completion-fixed-point} seed the constructive completion fixed-point boundary for repeated metric completion reads.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:metric-completion-idempotence-carrier}, \autoref{thm:metric-completion-idempotence-namecert-obligations}, \autoref{thm:metric-completion-idempotence-repeated-completion-fixed-point}, and \autoref{thm:metric-completion-idempotence-obligation-scope} close the obligation surface for repeated metric completion reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close arbitrary completion monad laws, global reflection theorems, quotient completion equality, selected limits, host equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires carrier admission, separated fixed-point exactness, complete-service compatibility, uniform-route compatibility, repeated-readback determinacy, transport, replay, provenance, and local naming for BEDC.Derived.MetricCompletionIdempotenceUp.}
+  \upgradepath{Scoped closure requires explicit downstream dependency scope for completion-functor, regular-rational, and real-completion consumers of BEDC.Derived.MetricCompletionIdempotenceUp.}
 \end{closurestatus}
