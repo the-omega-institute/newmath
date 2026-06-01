@@ -1068,6 +1068,7 @@ import BEDC.Derived.CantorIntersectionUp.WidthWindowTransport
 import BEDC.Derived.CantorSetUp.DeletedGapDensityRefusal
 import BEDC.Derived.CantorSetUp.DeletedGapLedgerExhaustion
 import BEDC.Derived.CantorSetUp.EndpointLedgerStability
+import BEDC.Derived.CantorSetUp.MiddleThirdWindowExhaustion
 import BEDC.Derived.CantorSetUp.NameCertObligations
 import BEDC.Derived.CantorSetUp.NestedIntervalHandoff
 import BEDC.Derived.CantorSetUp.PrefixGapSeparation
@@ -1890,6 +1891,7 @@ import BEDC.Derived.CellularBoundaryConditionUp.TasteGate
 import BEDC.Derived.CellularCarrierEncodingUp.TasteGate
 import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
+import BEDC.Derived.CellularPatternCatalogUp.TagLookupDeterminacy
 import BEDC.Derived.CellularPatternCatalogUp.TasteGate
 import BEDC.Derived.CellularRowClassifierUp.TasteGate
 import BEDC.Derived.CellularSubstrateClassifierUp.TasteGate
