@@ -76,6 +76,7 @@ FALLBACK_DEBT_ITEMS = [
     "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
     "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
     "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+    "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
     "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000",
 ]
 
@@ -91,6 +92,7 @@ TORCH_METADATA_DEBT_ITEMS = [
     "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
     "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
     "kind=classifier; residue=optimizer-certificate; severity=high; status=open; score=0.200000",
+    "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
     "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000",
 ]
 

@@ -88,12 +88,14 @@ def test_ledger_metric_gap_pins_partial_and_open_statuses_below_bound_margin():
     source_spec = {"source_count": 3, "sample_count": 2048, "mixing": ["a", "b", "c"]}
     classifier_spec = {"name": "certified-classifier", "training": "certified"}
     stability_spec = {"multi_seed": True}
-    assessment = assess_debt(
-        {"approx_identifiability_proxy": 0.8},
-        {**source_spec, "global_claim": True},
-        classifier_spec,
-        stability_spec,
-    )
+    closed_metrics = {
+        "theorem3_bound": 1.0,
+        "actual_recovery_error": 0.4,
+        "bound_margin": 0.6,
+        "normalized_gap_d": 0.1,
+        "whitening_deviation_epsilon": 0.1,
+    }
+    assessment = assess_debt(closed_metrics, {**source_spec, "global_claim": True}, classifier_spec, stability_spec)
 
     partial_gaps = derive_ledger_gaps(
         {

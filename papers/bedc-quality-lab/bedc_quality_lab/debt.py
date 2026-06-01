@@ -7,6 +7,9 @@ from typing import Mapping, Any
 
 from .cost_protocol import CostProtocol, REQUIRED_DEBT_ROWS, load_cost_protocol
 from .ledger import LedgerEntry, LedgerRowKey, ledger_debt, ledger_gap, recorded_rows, required_rows
+from .theorem_bound_quality import THEOREM_BOUND_ROW, _bound_values
+
+_EPS = 1.0e-12
 
 
 @dataclass(frozen=True)
@@ -112,6 +115,18 @@ def _global_claim_score(
     return 0.0
 
 
+def _theorem_bound_score(metrics: Mapping[str, float], protocol: CostProtocol) -> float:
+    upper = protocol.weight(THEOREM_BOUND_ROW)
+    values = _bound_values(metrics)
+    if values is None:
+        return upper
+    margin = values["bound_margin"]
+    if margin >= 0.0:
+        return 0.0
+    scale = max(_EPS, 1.0, abs(values["theorem3_bound"]))
+    return _bounded((-margin / scale) * upper, upper)
+
+
 def _item(row: LedgerRowKey, score: float, protocol: CostProtocol) -> DebtItem:
     upper = protocol.weight(row)
     bounded = _bounded(score, upper)
@@ -158,7 +173,6 @@ def assess_debt(
     The full signature is forward-compatible with derivations that consume more
     envelope fields; the present scoring consumes the current debt subset.
     """
-    del metrics
     cost_protocol = load_cost_protocol() if protocol is None else protocol
     cost_protocol.validate_required_rows(REQUIRED_DEBT_ROWS)
     items = (
@@ -176,6 +190,11 @@ def assess_debt(
         _item(
             LedgerRowKey("classifier", "optimizer-certificate"),
             _optimization_score(classifier_spec, cost_protocol),
+            cost_protocol,
+        ),
+        _item(
+            THEOREM_BOUND_ROW,
+            _theorem_bound_score(metrics, cost_protocol),
             cost_protocol,
         ),
         _item(
