@@ -742,6 +742,7 @@ import BEDC.Derived.BishopLocatedRealCompletionUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
 import BEDC.Derived.BishopMonotoneRealLimitUp.TasteGate
+import BEDC.Derived.BishopOrderCompletionUp.TasteGate
 import BEDC.Derived.BishopRealApartnessTopologyUp.TasteGate
 import BEDC.Derived.BishopRealComparisonUp
 import BEDC.Derived.BishopRealComparisonUp.CauchyDedekindBoundary
@@ -6763,6 +6764,7 @@ import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.RegularCauchyInterleavingUp
 import BEDC.Derived.RegularCauchyInterleavingUp.BridgeReadbackScope
 import BEDC.Derived.RegularCauchyInterleavingUp.FiniteTailBudgetRoute
+import BEDC.Derived.RegularCauchyInterleavingUp.RegSeqRatRealConsumerFactorization
 import BEDC.Derived.RegularCauchyInterleavingUp.SwapSymmetryBoundary
 import BEDC.Derived.RegularCauchyInterleavingUp.TasteGate
 import BEDC.Derived.RegularCauchyInterpolationUp.TasteGate
