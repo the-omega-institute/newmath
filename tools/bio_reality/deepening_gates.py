@@ -965,6 +965,140 @@ def self_test() -> int:
     ):
         print(json.dumps(invalid_conjecture_contact_ref_results, indent=2), file=sys.stderr)
         return 1
+    invalid_conjecture_id = "cross_organism.cun_uur_leu_gate.translation_realization"
+    normalized_conjecture_id = "cross-organism.cun-uur-leu-gate.translation-realization"
+    invalid_conjecture_id_results = gate_all(
+        [
+            {**conjecture, "conjecture_id": "fixture.conjecture.1"},
+            {**conjecture, "conjecture_id": invalid_conjecture_id},
+        ],
+        [contact],
+        [],
+        [],
+    )
+    if not any(
+        issue.startswith(f"conjecture_id:2: conjecture_id: invalid id: {invalid_conjecture_id};")
+        and f"suggested normalized id: {normalized_conjecture_id}" in issue
+        for result in invalid_conjecture_id_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_id_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        issue.startswith(f"conjecture_id: invalid id: {invalid_conjecture_id};")
+        and f"suggested normalized id: {normalized_conjecture_id}" in issue
+        for result in invalid_conjecture_id_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_id_results, indent=2), file=sys.stderr)
+        return 1
+    mixed_invalid_id_results = gate_all(
+        [
+            {**conjecture, "conjecture_id": "fixture.conjecture.1"},
+            {**conjecture, "conjecture_id": "orf_eligibility.seed.boundary"},
+            {
+                **conjecture,
+                "conjecture_id": "cross_organism.cun_uur_leu_gate.translation_realization",
+            },
+            {
+                **conjecture,
+                "conjecture_id": "residual_basis.q6_topology_after_aa_quotient.translation_realization",
+            },
+            {
+                **conjecture,
+                "conjecture_id": "translation_survival.b_star_q6_survival_matrix.translation_realization",
+            },
+        ],
+        [
+            {**contact, "contact_id": "fixture.contact.1"},
+            {**contact, "contact_id": "fixture.contact.2"},
+            {**contact, "contact_id": "codon_usage_per_organism"},
+            {**contact, "contact_id": "fixture.contact.4"},
+            {**contact, "contact_id": "fixture.contact.5"},
+            {**contact, "contact_id": "ribosome_profiling_translation_efficiency"},
+        ],
+        [
+            {**b3_probe, "probe_id": f"fixture.probe.{index}", "conjecture_ref": "fixture.conjecture.1"}
+            for index in range(1, 5)
+        ]
+        + [
+            {
+                **b3_probe,
+                "probe_id": "cross_organism.cun_uur_sign_correlates_with_trna_leu",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "residual_basis.m_only_local_optimum_insufficiency",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "cross_organism.cun_uur_translation_boundary.no_promotion",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "residual_basis.translation_readout_boundary.no_promotion",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "b_star_q6_survival_matrix_break_condition",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "leu_cun_uur_multi_organism_extension",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+        ],
+        [],
+    )
+    mixed_invalid_id_expectations = {
+        "contact_id:3": ("codon_usage_per_organism", "codon-usage-per-organism"),
+        "contact_id:6": ("ribosome_profiling_translation_efficiency", "ribosome-profiling-translation-efficiency"),
+        "conjecture_id:2": ("orf_eligibility.seed.boundary", "orf-eligibility.seed.boundary"),
+        "conjecture_id:3": (
+            "cross_organism.cun_uur_leu_gate.translation_realization",
+            "cross-organism.cun-uur-leu-gate.translation-realization",
+        ),
+        "conjecture_id:4": (
+            "residual_basis.q6_topology_after_aa_quotient.translation_realization",
+            "residual-basis.q6-topology-after-aa-quotient.translation-realization",
+        ),
+        "conjecture_id:5": (
+            "translation_survival.b_star_q6_survival_matrix.translation_realization",
+            "translation-survival.b-star-q6-survival-matrix.translation-realization",
+        ),
+        "probe_id:5": (
+            "cross_organism.cun_uur_sign_correlates_with_trna_leu",
+            "cross-organism.cun-uur-sign-correlates-with-trna-leu",
+        ),
+        "probe_id:6": (
+            "residual_basis.m_only_local_optimum_insufficiency",
+            "residual-basis.m-only-local-optimum-insufficiency",
+        ),
+        "probe_id:7": (
+            "cross_organism.cun_uur_translation_boundary.no_promotion",
+            "cross-organism.cun-uur-translation-boundary.no-promotion",
+        ),
+        "probe_id:8": (
+            "residual_basis.translation_readout_boundary.no_promotion",
+            "residual-basis.translation-readout-boundary.no-promotion",
+        ),
+        "probe_id:9": ("b_star_q6_survival_matrix_break_condition", "b-star-q6-survival-matrix-break-condition"),
+        "probe_id:10": ("leu_cun_uur_multi_organism_extension", "leu-cun-uur-multi-organism-extension"),
+    }
+    mixed_invalid_id_issues = [issue for result in mixed_invalid_id_results for issue in result["issues"]]
+    for prefix, (invalid_id, normalized_id) in mixed_invalid_id_expectations.items():
+        if not any(
+            issue.startswith(f"{prefix}: {prefix.split(':', 1)[0]}: invalid id: {invalid_id};")
+            and f"suggested normalized id: {normalized_id}" in issue
+            for issue in mixed_invalid_id_issues
+        ):
+            print(json.dumps(mixed_invalid_id_results, indent=2), file=sys.stderr)
+            return 1
     contact_schema = json.loads((SCRIPT_DIR / "reality_contact.schema.json").read_text(encoding="utf-8"))
     contact_id_pattern = contact_schema.get("properties", {}).get("contact_id", {}).get("pattern")
     if contact_id_pattern != ID_PATTERN:
@@ -1001,6 +1135,21 @@ def self_test() -> int:
             )
             return 1
     conjecture_schema = json.loads((SCRIPT_DIR / "conjecture.schema.json").read_text(encoding="utf-8"))
+    conjecture_id_pattern = conjecture_schema.get("properties", {}).get("conjecture_id", {}).get("pattern")
+    if conjecture_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "conjecture.schema.json",
+                    "field": "conjecture_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
     conjecture_contact_ref_pattern = (
         conjecture_schema.get("properties", {}).get("reality_contact_refs", {}).get("items", {}).get("pattern")
     )

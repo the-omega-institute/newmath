@@ -1,63 +1,32 @@
+\subsection{NameCert: h2.orf\_eligibility.curated\_interval\_contact}
+\label{sec:namecert-h2_orf_eligibility_curated_interval_contact}
 \origin{ai}
-\subsection{Curated interval contact for ORF eligibility}
-\label{subsec:bioreality-orf-eligibility-curated-interval-contact}
+\noindent\textit{Proposed by bio-namer; review status: draft.}
 
-\paragraph{Object and finite contact.}
-This record concerns open-reading-frame eligibility as tested by start--stop interval enumeration against a curated biological annotation table.  The biological object is not protein production, folded molecular form, cellular role, or a universal genomic principle; it is the narrower question of whether a frozen start--stop-window classifier accepts curated coding intervals and rejects matched non-ORF intervals in the finite table supplied to the experiment.  The contact table has $168$ rows and is reported as `curated\_orf\_interval\_contact\_dataset.json'.  Its source is the NCBI RefSeq GenBank XML CDS interval annotation for the Escherichia coli K-12 MG1655 complete genome, accession NC\_000913.3, with snapshot date $2026$-$05$-$30$.  The row classes present in the table are boundary cases, matched non-ORF decoys, and positive curated ORFs.  The relevant scope is therefore only the finite interval-contact task:
-$$
-\begin{aligned}
-\text{row count} &= 168,\\
-\text{positive curated ORF rows used in tests} &= 72,\\
-\text{matched non-ORF decoy rows used in tests} &= 72,\\
-\text{boundary-case rows} &= 24.
-\end{aligned}
-$$
-The classifier is identified as `orf\_start\_stop\_window\_eligibility'.  Its rules were fixed before the outside annotation was inspected, and the audit records that no translation or structure input entered the analysis.
+\paragraph{NameCert chapter slug.}
+Proposed slug: `14104\_reality\_bound\_codon\_topology\_orf\_interval\_contact\_namecert\_construction`. The concept is BioReality-namespaced through `RealityBoundCodonTopology` and an ORF-interval-contact ledger. It avoids Loning's occupied `Codon64`, `Q\_6`, `M\textasciicircum{}star`, `StopCodonZeckendorfSuffix`, support-nerve, trigger-lattice, and standard-code bridge-row names while preserving the intended Loning-format concrete NameCert shape.
 
-\paragraph{Frozen protocol and observed interval behavior.}
-The protocol was frozen at $2026$-$05$-$29$T$19$:$11$:$13$+$00$:$00$, while the outside annotation was first observed at $2026$-$05$-$30$T$10$:$29$:$31$+$00$:$00$.  The input classes, classifier rules, held-out splits, and baselines were all fixed before that observation.  On the positive class, all $72$ curated intervals were accepted, giving an acceptance rate of $1.0$.  Under the exact one-sided binomial calculation recorded for this finite table, the reported upper-tail probability is
-$$
-\begin{aligned}
-P_{\mathrm{positive}} &= 2.117582368135751\times 10^{-22},\\
-72/72 &= 1.0.
-\end{aligned}
-$$
-On the matched decoy class, all $72$ decoys were rejected, again with the same reported one-sided binomial probability:
-$$
-\begin{aligned}
-P_{\mathrm{decoy}} &= 2.117582368135751\times 10^{-22},\\
-72/72 &= 1.0.
-\end{aligned}
-$$
-The predeclared paired comparison also records $72$ wins in $72$ positive--decoy pairs, hence win rate $1.0$ and the same probability value $2.117582368135751\times 10^{-22}$.  Boundary rows were not turned into accepted ORF claims: $0$ of $24$ boundary cases were promoted, so the promoted fraction was $0.0$.
+\paragraph{Carrier.}
+Carrier name: `RealityBoundCodonTopologyOrfIntervalContactLedger`. BEDC 5-tuple: `(carrier, distinctions, internal\_geometry\_packet, external\_reality\_bridge, cannot\_claim\_boundary)`. The carrier is a finite NameCert-facing ledger for the claim that a frozen start/stop-window geometry classifier made contact with an external curated ORF-interval dataset. The distinctions component records the experiment's declared row classes and classifier-output roles. The internal\_geometry\_packet records only BEDC-facing finite codon-window partition, median-closure, spectrum, and quotient context as geometry. The external\_reality\_bridge points to curated NCBI RefSeq and genetic-code sources, experiment-run provenance, and statistical witness records. The cannot\_claim\_boundary blocks translation realization, protein structure, physical admissibility, biological function, biological-code necessity, universal mechanism, and out-of-dataset classification.
 
-\paragraph{Held-out stability.}
-The finite table was also partitioned into three held-out folds.  In the left-locus fold, $24$ positive intervals were accepted at rate $1.0$ and $24$ decoys were rejected at rate $1.0$.  The middle-locus fold has the same counts and rates, and the right-locus fold also has $24$ positive examples and $24$ decoys with rates $1.0$ and $1.0$, respectively.  Thus the finite contact is not a single aggregate-only success; each recorded split passes the same positive-versus-decoy separation:
-$$
-\begin{aligned}
-\text{left fold} &: (24\ \text{positive at }1.0,\ 24\ \text{decoy at }1.0),\\
-\text{middle fold} &: (24\ \text{positive at }1.0,\ 24\ \text{decoy at }1.0),\\
-\text{right fold} &: (24\ \text{positive at }1.0,\ 24\ \text{decoy at }1.0).
-\end{aligned}
-$$
-This supports only a table-relative interval-eligibility statement: within the frozen finite contact, the start--stop-window rule separates the curated interval rows from the matched decoys and leaves the boundary rows unpromoted.
+\paragraph{Distinctions.}
+- `positive\_curated\_orf`: externally curated ORF interval rows used only as curated biological reality contacts. - `matched\_non\_orf\_decoy`: matched decoy rows used as external controls against geometry-only overclassification. - `boundary\_case`: boundary rows used to verify that the classifier does not promote ambiguous or non-contact windows. - `orf\_start\_stop\_window\_eligibility`: the frozen classifier identifier, treated as a finite geometry-only rule packet. - `start\_codon\_hit`: a classifier-output distinction for a start event inside the supplied window. - `terminal\_stop\_hit`: a classifier-output distinction for a terminal stop event inside the supplied window. - `ambiguous\_base\_flag`: a separation marker preventing ambiguous windows from being promoted as interval contacts. - `heldout\_split`: the experiment's fold-level stability distinction, kept as provenance rather than BEDC kernel data. - `matched\_context\_id`: the positive/decoy pairing distinction for the predeclared paired baseline witness. - `external\_orf\_interval\_contact\_only`: the scope distinction separating curated biological interval contact from translation, folding, physical admissibility, function, and global-law claims.
 
-\paragraph{Finite codon geometry carried along by the record.}
-The contact is linked to the finite codon-level geometry already recorded for the surrounding packet.  The motif-compression row gives
-$$
-\begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\\
-&\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
-\end{aligned}
-$$
-The medium set has cardinality $20$ and is recorded as
-$$
-\begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-The third saturation row records $\mathrm{Sat}_{f3}(R)=M\setminus\{\mathrm{ACA},\mathrm{ACG}\}$ and an empty $f3$ boundary.  The quotient-geometry row records the vector $(20,38,26,8,1)$ for $M$, a quotient size of $10$, and quotient vector $(10,14,6,1)$.  These finite codon facts explain the discrete coordinate setting in which the start--stop classifier is specified, but they do not by themselves observe a biological interval.  The interval observation enters only through the curated annotation contact described above.
+\paragraph{Readback.}
+The carrier reads back to observable data by following the curated ORF interval dataset pointer, the NCBI RefSeq GenBank XML provenance pointer, the NCBI genetic-code table pointer used by the classifier, the claim record `h2.orf\_eligibility.curated\_interval\_contact`, the linked conjecture `orf\_eligibility.seed.boundary`, and the passed `curated\_orf\_interval\_contact\_validation` experiment run. The readback surface is a finite path from externally curated nucleotide intervals and matched controls to classifier outputs under a frozen start/stop-window enumeration. It records contact between a bounded geometry-only classifier and a curated interval dataset; it does not claim that the geometry translates, folds, functions, is physically admissible, or supplies a universal biological law.
 
-\paragraph{Local boundary of the claim.}
-The conclusion is deliberately narrow.  The finite contact supports the statement that, on this $168$-row curated interval table, a fixed geometry-only start--stop classifier accepts all $72$ positive curated ORF intervals, rejects all $72$ matched non-ORF decoys, and promotes none of the $24$ boundary cases.  It does not assert translation, ribosome occupancy, transcript evidence, protein folding, thermodynamic admissibility, molecular mechanism, organismal function, or a law applying beyond the sampled table.  None of those stronger biological layers follows from codon-window geometry or from this interval contact unless another independent contact supplies the relevant evidence.  The NCBI RefSeq annotation remains curated biological input to the experiment rather than content generated by the mathematical kernel.  The self-check row agrees with this limitation: three gates were checked, and no codon geometry was promoted across biological layers.
+\paragraph{Derivation from coordinate, closure, spectrum, and relation.}
+The internal newmath/BEDC content is a pure finite-coordinate packet: a BioReality-facing carrier name, a codon-window partition slot, a median-closure context slot, a spectrum context slot, a quotient-context slot, a classifier-rule slot, an experiment-run provenance slot, and a boundary slot. The BEDC side may express finite geometry, carrier alignment, field separation, and TasteGate-style readback discipline. It may also record that upstream codon topology, median closure, spectrum, and quotient geometry are context, not biological realization. No curated RefSeq interval, genetic-code table row, nucleotide sequence, start position, stop position, acceptance rate, rejection rate, split result, p-value, or row count is a kernel fact; those values are not BEDC kernel facts. Those items remain bridge and provenance fields supplied by external reality sources.
+
+\paragraph{Curated reality contacts and observed facts.}
+- Curated interval dataset pointer: `tools/bio\_reality/data/curated\_orf\_interval\_contact\_dataset.json`, cited as the external ORF interval contact dataset for this claim. - Curated NCBI RefSeq source pointer: NCBI RefSeq GenBank XML CDS intervals from the Escherichia coli K-12 MG1655 complete genome accession `NC\_000913.3`, cited by dataset provenance rather than copied into the BEDC carrier. - Curated genetic-code table pointer: `tools/bio\_reality/data/ncbi\_genetic\_codes.json`, cited as the external table source used by start/stop enumeration. - Claim pointer: `tools/bio\_reality/registries/claims.json` record `h2.orf\_eligibility.curated\_interval\_contact`. - Conjecture pointer: `tools/bio\_reality/inbox/conjectures.jsonl` record `orf\_eligibility.seed.boundary`. - Experiment provenance pointer: `tools/bio\_reality/state/experiment\_runs.jsonl` latest passed `experiment\_run\_id` `7c9b30b02d46` for claim `h2.orf\_eligibility.curated\_interval\_contact`. - Dataset-load witness: experiment check `curated\_interval\_dataset\_loaded`. - Protocol-freeze witness: experiment check `protocol\_frozen\_before\_external\_observation`. - Input-class witness: experiment check `required\_input\_classes\_present`. - Frozen-classifier witness: experiment check `classifier\_frozen\_and\_geometry\_only`. - Positive-contact statistical witness: experiment check `positive\_interval\_strong\_binomial`. - Matched-decoy statistical witness: experiment check `matched\_decoy\_rejection\_strong\_binomial`. - Boundary-control witness: experiment check `boundary\_cases\_not\_promoted`. - Heldout-stability witness: experiment check `heldout\_split\_stability`. - Paired-baseline witness: experiment check `predeclared\_baseline\_pairwise\_advantage`. - Cannot-claim witness: experiment check `no\_geometry\_to\_higher\_layer\_promotion`. - External numeric values from these witnesses remain provenance fields for the bridge; they are not internalized as BEDC kernel facts.
+
+\paragraph{Layer discipline and out-of-scope assertions.}
+- This chapter does not claim biological-code necessity. - This chapter does not claim that codon/window geometry establishes translation. - This chapter does not claim that curated ORF interval contact establishes ribosome-mediated translation realization. - This chapter does not claim protein folding, structural order, physical admissibility, biological function, biochemical mechanism, or universal biological mechanism. - This chapter does not claim that the frozen classifier applies outside the curated dataset and declared controls. - This chapter does not claim that matched decoy rejection or boundary non-promotion classifies biological windows beyond this external contact scope. - This chapter does not claim that NCBI RefSeq intervals, NCBI genetic-code rows, nucleotide sequences, row classes, split labels, statistical witnesses, p-values, or experiment-run outputs are BEDC kernel facts. - This chapter does not promote median closure, quotient geometry, spectrum, or start/stop enumeration into a higher biological layer without a separate reality contact for that layer.
+
+\paragraph{Disclaimer on the bridge from coordinate to mechanism.}
+This proposal is a vision-level scientific-model bridge for a stable BioReality ORF-eligibility interval-contact claim. It is not a CheckedCert claim about molecular biology, and it does not turn a BEDC coordinate, codon-window geometry, median closure, quotient context, spectrum, curated RefSeq interval, NCBI genetic-code table, frozen classifier, or statistical witness into translation realization, folded structure, physical admissibility, biological function, biological-code necessity, mechanism, or a universal biological law. The proposal records only an ORF-eligibility-layer readback from explicitly external curated inputs, with every higher biological layer blocked until separately contacted.
+
+\paragraph{Lean-side statement target sketch.}
+`BEDC.Derived.RealityBoundCodonTopologyOrfIntervalContactLedgerUp.TasteGate` carrier alignment, with curated-interval dataset, NCBI RefSeq provenance, genetic-code table, experiment-run, heldout-stability, statistical-witness, and cannot-claim evidence represented only as bridge/provenance fields.
+
