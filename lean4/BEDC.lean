@@ -1827,7 +1827,6 @@ import BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPublicExport
 import BEDC.Derived.CauchyfiltercompletionUp.ChoicefreeCompletionRow
 import BEDC.Derived.CauchyfiltercompletionUp.CofinalRegularReadback
 import BEDC.Derived.CauchyfiltercompletionUp.CompletionFunctorFactorization
-import BEDC.Derived.CauchyfiltercompletionUp.CompletionHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.FilterConvergenceHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseAdmission
 import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseHandoff
@@ -1952,7 +1951,6 @@ import BEDC.Derived.CertificateCompilerUp.RouteReplayScope
 import BEDC.Derived.CertificateCompilerUp.SourceTargetLandingExhaustion
 import BEDC.Derived.CertificateCompilerUp.TargetEndpointConsumerDeterminacy
 import BEDC.Derived.CertificateCompilerUp.TripleCompositeAssociativity
-import BEDC.Derived.CertificateMachineBranchUp.TasteGate
 import BEDC.Derived.CertificateMachineUp.TasteGate
 import BEDC.Derived.CertificateTruthBranchBoundaryUp
 import BEDC.Derived.CertificateTruthBranchBoundaryUp.TasteGate
@@ -3438,7 +3436,6 @@ import BEDC.Derived.DyadicTailRadiusLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceScaleUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
-import BEDC.Derived.DyadicTotallyBoundedIntervalUp
 import BEDC.Derived.DyadicUp.TasteGate
 import BEDC.Derived.DyadicValuationUp
 import BEDC.Derived.DyadicValuationUp.TasteGate
@@ -4907,7 +4904,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.FrontierCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankNameCertObligations
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankOpenNode
-import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankTransportStability
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffRowCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
 import BEDC.Derived.MetaCICCriticalPathUp.L10BudgetExit
@@ -5445,7 +5441,6 @@ import BEDC.Derived.NormedSpaceUp.FunctionalAnalysisHandoff
 import BEDC.Derived.NormedSpaceUp.FunctionalAnalysisRootPackage
 import BEDC.Derived.NormedSpaceUp.L10CompletionObligation
 import BEDC.Derived.NormedSpaceUp.MetricCompletionSource
-import BEDC.Derived.NormedSpaceUp.MetricCompletionUnblock
 import BEDC.Derived.NormedSpaceUp.RealMetricTransport
 import BEDC.Derived.NormedSpaceUp.RealNormMetricFactorization
 import BEDC.Derived.NormedSpaceUp.RealNormMetricRoute
