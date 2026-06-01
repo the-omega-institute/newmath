@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ClusterFilterUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -146,5 +148,50 @@ theorem ClusterFilterUpTasteGate_single_carrier_alignment :
   exact
     ⟨clusterFilterDecode_encode_bhist, clusterFilter_round_trip,
       (fun _ _ heq => clusterFilterToEventFlow_injective heq), rfl⟩
+
+theorem ClusterFilterCarrier_namecert_obligations (x : ClusterFilterUp) :
+    ∃ localCert : BHist,
+      SemanticNameCert
+        (fun row : BHist => hsame row localCert ∧ localCert ∈ clusterFilterFields x)
+        (fun row : BHist => hsame row localCert ∧ localCert ∈ clusterFilterFields x)
+        (fun row : BHist => hsame row localCert ∧ localCert ∈ clusterFilterFields x)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  cases x with
+  | mk F M T W R E A H C P N =>
+      refine ⟨N, ?_⟩
+      refine
+        { core :=
+            { carrier_inhabited := ?_
+              equiv_refl := ?_
+              equiv_symm := ?_
+              equiv_trans := ?_
+              carrier_respects_equiv := ?_ }
+          pattern_sound := ?_
+          ledger_sound := ?_ }
+      · exact
+          ⟨N, hsame_refl N,
+            List.Mem.tail _ <|
+              List.Mem.tail _ <|
+                List.Mem.tail _ <|
+                  List.Mem.tail _ <|
+                    List.Mem.tail _ <|
+                      List.Mem.tail _ <|
+                        List.Mem.tail _ <|
+                          List.Mem.tail _ <|
+                            List.Mem.tail _ <|
+                              List.Mem.tail _ <| List.Mem.head _⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro _row _other same
+        exact hsame_symm same
+      · intro _row _other _third same₁ same₂
+        exact hsame_trans same₁ same₂
+      · intro _row _other same source
+        exact And.intro (hsame_trans (hsame_symm same) source.left) source.right
+      · intro _row source
+        exact source
+      · intro _row source
+        exact source
 
 end BEDC.Derived.ClusterFilterUp
