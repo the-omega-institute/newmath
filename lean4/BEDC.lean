@@ -787,6 +787,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.PublicSelectorExport
 import BEDC.Derived.BolzanoWeierstrassUp.RealClusterSeal
 import BEDC.Derived.BolzanoWeierstrassUp.RegSeqRatClusterPackage
 import BEDC.Derived.BolzanoWeierstrassUp.RegSeqRatHandoff
+import BEDC.Derived.BolzanoWeierstrassUp.RegularClusterSeal
 import BEDC.Derived.BolzanoWeierstrassUp.RegularSubsequenceRoute
 import BEDC.Derived.BolzanoWeierstrassUp.RegularSubsequenceWindowReadback
 import BEDC.Derived.BolzanoWeierstrassUp.RetainedCellMonotonicity
@@ -1774,6 +1775,7 @@ import BEDC.Derived.CauchyUniformContinuityPrincipleUp.TasteGate
 import BEDC.Derived.CauchyUniformNetUp.TasteGate
 import BEDC.Derived.CauchyUp
 import BEDC.Derived.CauchyUp.CompletionLeftExactnessAdmission
+import BEDC.Derived.CauchyUp.ModulusSpaceFilterHandoff
 import BEDC.Derived.CauchyUp.ModulusSpaceTail
 import BEDC.Derived.CauchyWindowTransducerUp.NameCertObligations
 import BEDC.Derived.CauchyWindowTransducerUp.StdBridge
@@ -5385,6 +5387,7 @@ import BEDC.Derived.NormalSpaceUp.UrysohnLemmaConsumerExactness
 import BEDC.Derived.NormedSpaceUp
 import BEDC.Derived.NormedSpaceUp.AnalysisConsumerExhaustion
 import BEDC.Derived.NormedSpaceUp.BanachConsumerNonescape
+import BEDC.Derived.NormedSpaceUp.CarrierTransportCompletionService
 import BEDC.Derived.NormedSpaceUp.CompletionBudgetEnvelope
 import BEDC.Derived.NormedSpaceUp.CompletionMetricRootUnblock
 import BEDC.Derived.NormedSpaceUp.CompletionWindowNonescape
@@ -7626,6 +7629,7 @@ import BEDC.Derived.UniformContinuityUp.TasteGate
 import BEDC.Derived.UniformConvergenceSeriesUp.TasteGate
 import BEDC.Derived.UniformConvergenceSpaceUp.TasteGate
 import BEDC.Derived.UniformConvergenceTestUp.TasteGate
+import BEDC.Derived.UniformConvergenceUp.TasteGate
 import BEDC.Derived.UniformEmbeddingCompletionUp.TasteGate
 import BEDC.Derived.UniformEmbeddingUp
 import BEDC.Derived.UniformEmbeddingUp.TasteGate
