@@ -990,6 +990,7 @@ import BEDC.Derived.BoundedRealSequenceUp.NameCertObligations
 import BEDC.Derived.BoundedRealSequenceUp.RegularReadbackStability
 import BEDC.Derived.BoundedRealSequenceUp.TasteGate
 import BEDC.Derived.BoundedRealSequenceUp.WindowFactorization
+import BEDC.Derived.BoundedRealSequenceUp.WindowLocalization
 import BEDC.Derived.BoundedRealUpperCutUp.TasteGate
 import BEDC.Derived.BoundedRealVariationUp.TasteGate
 import BEDC.Derived.BoundedRecursorReplayUp.TasteGate
@@ -1840,6 +1841,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.FiniteWindowInduction
 import BEDC.Derived.CauchyfiltercompletionUp.L10SourceScope
 import BEDC.Derived.CauchyfiltercompletionUp.LocatedUniformGluing
 import BEDC.Derived.CauchyfiltercompletionUp.MetricUniformCompatibility
+import BEDC.Derived.CauchyfiltercompletionUp.NonChoiceBoundary
 import BEDC.Derived.CauchyfiltercompletionUp.PublicNameCertExport
 import BEDC.Derived.CauchyfiltercompletionUp.PvariationWindowBound
 import BEDC.Derived.CauchyfiltercompletionUp.QuotientNonescape
@@ -4312,6 +4314,7 @@ import BEDC.Derived.HyersUlamStabilityUp.TasteGate
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HypergeometricUp
+import BEDC.Derived.HyperspaceUp.CompactSourceScope
 import BEDC.Derived.HyperspaceUp.CompactSubsetRootAdmission
 import BEDC.Derived.HyperspaceUp.CompleteMetricNonescape
 import BEDC.Derived.HyperspaceUp.FiniteHausdorffCarrier
@@ -5932,6 +5935,7 @@ import BEDC.Derived.PseudometricUp.LedgerNonescapeObligation
 import BEDC.Derived.PseudometricUp.LocatedMetricSourceExhaustion
 import BEDC.Derived.PseudometricUp.ScopedKernelDependencySurface
 import BEDC.Derived.PseudometricUp.SeparatedCompletionSource
+import BEDC.Derived.PseudometricUp.SeparatedReflectionExactness
 import BEDC.Derived.PseudometricUp.SeparatedReflectionKernelSaturation
 import BEDC.Derived.PseudometricUp.TasteGate
 import BEDC.Derived.PseudometricUp.TriangleLedgerObligation
