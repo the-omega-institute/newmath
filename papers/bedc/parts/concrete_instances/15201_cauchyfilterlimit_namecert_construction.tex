@@ -147,13 +147,25 @@ Compare with the Cauchy-net packet only at the shared rows. The directed-net cov
 The comparison stops at row sharing. Since the filter packet has no coordinate for quotient filters, selected subnets, quotient equality of nets, or a common representative, the result records finite route compatibility without collapsing the two classifiers.
 \end{proof}
 
+\begin{theorem}[CauchyFilterLimit bridge surface]
+\label{thm:cauchy-filter-limit-bridge-surface}
+For every accepted $\CauchyFilterLimitUp$ carrier $L=(B,F,S,R,D,A,H,C,P,N)$, the public route supplies the bridge surface from the concrete Cauchy-filter-limit carrier to the abstract completion-limit interface. The surface preserves basis saturation, regular readback, dyadic tolerance, the $\RealUp$ seal, componentwise transport, continuation replay, provenance, and local naming, and it refuses quotient filters, selected subnets, host limits, choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the basis-saturation and regular-readback obligations of \autoref{thm:cauchy-filter-limit-basis-saturation-obligation} and \autoref{thm:cauchy-filter-limit-regular-readback-obligation}. They force every completion-facing request to expose $B,F,S,R,D,A$ before any limit read is exported.
+
+Apply the ledger refusal theorem \autoref{thm:cauchy-filter-limit-ledger-refusal-obligation}. It keeps quotient filters, selected host limits, host real equality, countable-choice selectors, and ambient completeness outside the carrier surface.
+
+The directed-net coverage theorem \autoref{thm:cauchy-filter-limit-directed-net-coverage} and the comparison theorem \autoref{thm:cauchy-net-limit-filter-comparison} show that downstream net or completion consumers can only compare the shared finite rows. Transport, replay, provenance, and naming then repack the same route as the bridge surface without adding a host-limit coordinate.
+\end{proof}
+
 \closureat{CauchyFilterLimitUp}{publicStr}
 \begin{closurestatus}{\CauchyFilterLimitUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:cauchy-filter-limit-carrier}, \autoref{thm:cauchy-filter-limit-namecert-obligations}, \autoref{thm:cauchy-filter-limit-regular-seal-handoff}, \autoref{thm:cauchy-filter-limit-directed-net-handoff}, \autoref{thm:cauchy-filter-limit-basis-saturation-obligation}, \autoref{thm:cauchy-filter-limit-regular-readback-obligation}, \autoref{thm:cauchy-filter-limit-ledger-refusal-obligation}, \autoref{thm:cauchy-filter-limit-directed-net-coverage}, and \autoref{thm:cauchy-net-limit-filter-comparison} close the finite obligation surface between generated filter data, directed-net consumers, comparison rows, and the downstream $\RealUp$ seal.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-limit-carrier}, \autoref{thm:cauchy-filter-limit-namecert-obligations}, \autoref{thm:cauchy-filter-limit-regular-seal-handoff}, \autoref{thm:cauchy-filter-limit-directed-net-handoff}, \autoref{thm:cauchy-filter-limit-basis-saturation-obligation}, \autoref{thm:cauchy-filter-limit-regular-readback-obligation}, \autoref{thm:cauchy-filter-limit-ledger-refusal-obligation}, \autoref{thm:cauchy-filter-limit-directed-net-coverage}, \autoref{thm:cauchy-net-limit-filter-comparison}, and \autoref{thm:cauchy-filter-limit-bridge-surface} close the bridge surface from generated filter data to completion-limit consumers and the downstream $\RealUp$ seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected host limits, host real equality, countable-choice selectors, ambient $\RealUp$ completeness, or Lean verification.}
-  \upgradepath{Bridged closure requires a standard bridge theorem for the same public filter-limit surface.}
+  \upgradepath{Mature closure requires downstream examples and completeness consumers for the same bridge surface.}
   \constructivestory{A $\CauchyFilterLimitUp$ packet is generated from a CauchyFilterBasis row, a CauchyFilter saturation row, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}
