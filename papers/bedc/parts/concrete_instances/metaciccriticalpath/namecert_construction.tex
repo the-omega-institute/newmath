@@ -625,6 +625,7 @@ Consequently confluence and decidability uses are mediated by the same obstructi
 \label{thm:metacic-critical-path-normalization-obstruction-route-coverage}
 For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, every normalization-to-normal-form read from $S$ to $N$ keeps the obstruction row $O$ visible along the route. The read may reach the normal-form consistency row through $H,C,P,L$, but it cannot pass through the route while hiding $O$, filling $D$, or upgrading the normal-form endpoint to closed subject reduction or full closed consistency.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathNormalizationObstructionRouteCoverage}
 \begin{proof}
 Start with the consistency handoff of \autoref{thm:metacic-critical-path-consistency-handoff}. It permits a consumer to read from the closed-strong-normalization row $S$ to the normal-form consistency row $N$ only through the displayed route rows $H,C,P,L$.
 
@@ -647,6 +648,7 @@ Next read the public carrier route. Theorems~\ref{thm:metacic-critical-path-norm
 
 Finally attach the socket and handoff rows. Theorems~\ref{thm:metacic-critical-path-discharge-socket-nonescape}, \ref{thm:metacic-critical-path-obstruction-socket-separation}, \ref{thm:metacic-critical-path-handoff-row-coverage}, and \ref{thm:metacic-critical-path-sn-discharge-socket-readiness} keep $D$ separate from the candidate-mediated rows and keep $U$ as a handoff row. Thus the public handoff is a readiness surface and not a proof of full MetaCIC SN, closed subject reduction, full confluence, full closed consistency, or socket discharge.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedSNPublicHandoff}
 
 \begin{theorem}[MetaCIC confluence frontier public handoff]
 \label{thm:metaciccriticalpath-confluence-frontier-public}
