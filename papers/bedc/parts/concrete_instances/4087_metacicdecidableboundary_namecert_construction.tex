@@ -184,6 +184,30 @@ Now use refusal exactness and classifier stability, \autoref{thm:metacic-decidab
 Finally apply ledger exactness from \autoref{thm:metacic-decidable-boundary-ledger-exactness}. Since the ledger contains no unrecorded bounded-comparison row, quotient of represented terms, host evaluator, or global beta-conversion decider, the substitution window remains a finite bounded comparison surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary refusal substitution stability]
+\label{thm:metacic-decidable-boundary-refusal-substitution-stability}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, substitution-sensitive reads that ask for standalone $\mathsf{ClosedAt}$ decidability, global beta-conversion, quotient equality over represented terms, fuel-erased normalization, or host evaluator behavior are still routed to the refusal row $R$. The transport, replay, provenance, and naming rows $H,C,P,N$ preserve the finite substitution window, but they do not turn the refused requests into accepted endpoints.
+\end{theorem}
+\begin{proof}
+Begin with the substitution-window theorem \autoref{thm:metacic-decidable-boundary-substitution-window}. It keeps every substitution-sensitive bounded comparison inside $T,S,B,F,R,H,C,P,N$.
+
+Use refusal exactness from \autoref{thm:metacic-decidable-boundary-refusal-exactness}. The row $R$ is precisely the displayed refusal boundary for standalone $\mathsf{ClosedAt}$ decisions, global beta-conversion, quotient equality, fuel-erased normalization, and host evaluation.
+
+Finally apply ledger exactness from \autoref{thm:metacic-decidable-boundary-ledger-exactness}. Since the ledger contains no separate endpoint for those requests, transport and replay through $H,C,P,N$ can preserve only the finite boundary and must route the requests back to $R$.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable boundary candidate-normal substitution scope]
+\label{thm:metacic-decidable-boundary-candidate-normal-substitution-scope}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, candidate-normal comparison under substitution consumes only the checker row $T$, structural equality row $S$, bounded normal comparison row $B$, finished-normal side-condition row $F$, refusal row $R$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. No candidate-mediated read may add a hidden evaluator, quotient equality row, global beta-conversion decider, standalone $\mathsf{ClosedAt}$ decider, or fuel-free normalization endpoint.
+\end{theorem}
+\begin{proof}
+Start from candidate-normal-form reads in \autoref{thm:metacic-decidable-boundary-candidate-normal-form}. Candidate inspection is already tied to $T,S,B,F$ and cannot be detached from the displayed checker and side-condition rows.
+
+Apply the substitution-window theorem \autoref{thm:metacic-decidable-boundary-substitution-window}. It shows that substitution-sensitive comparison still passes through $R,H,C,P,N$ in addition to the checker, equality, comparison, and finished-normal rows.
+
+Use refusal exactness and ledger exactness, \autoref{thm:metacic-decidable-boundary-refusal-exactness} and \autoref{thm:metacic-decidable-boundary-ledger-exactness}. The refusal row accounts for the missing global endpoints, and the ledger has no unrecorded row beyond $T,S,B,F,R,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[MetaCIC decidable boundary candidate-substitution exhaustion]
 \label{thm:metacic-decidable-boundary-candidate-substitution-exhaustion}
 For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, every substitution-sensitive candidate comparison read must expose the checker row $T$, structural equality row $S$, bounded normal row $B$, finished-normal row $F$, refusal row $R$, and replay and provenance rows $H,C,P,N$. No consumer may infer standalone $\mathsf{ClosedAt}$ decidability, global beta-conversion, quotient equality over represented terms, or host evaluator behavior from such a candidate-mediated read.
