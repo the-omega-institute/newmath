@@ -1,0 +1,410 @@
+{
+  "artifact": "reports/certificate_guided_training.json",
+  "cost_protocol": {
+    "formula": {
+      "id": "quality_q",
+      "text": "quality_benefit - quality_cost - quality_debt"
+    },
+    "name": "bedc-quality-lab-default-cost-protocol",
+    "row_weights": [
+      {
+        "kind": "classifier",
+        "residue": "optimizer-certificate",
+        "weight": 0.2
+      },
+      {
+        "kind": "generalization",
+        "residue": "global-claim-boundary",
+        "weight": 0.2
+      },
+      {
+        "kind": "source",
+        "residue": "finite-sample-support",
+        "weight": 0.2
+      },
+      {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "weight": 0.22
+      },
+      {
+        "kind": "source",
+        "residue": "source-coverage",
+        "weight": 0.18
+      },
+      {
+        "kind": "source",
+        "residue": "transition-isotropy",
+        "weight": 0.12
+      },
+      {
+        "kind": "verification",
+        "residue": "theorem3-bound-margin",
+        "weight": 0.2
+      }
+    ]
+  },
+  "deltas": {
+    "after_minus_before": {
+      "benefit_delta": -0.10825812274815388,
+      "cost_delta": 0.0,
+      "debt_delta": -0.16186652404576007,
+      "loss_delta": -1.1803555650358963,
+      "quality_q_delta": 0.053608401297606134
+    },
+    "control_minus_before": {
+      "benefit_delta": -0.10825812274815388,
+      "cost_delta": 0.03,
+      "debt_delta": 0.10000000000000009,
+      "loss_delta": 0.2641672616904245,
+      "quality_q_delta": -0.23825812274815406
+    }
+  },
+  "generated_at": "2026-06-01T21:29:37.667720+00:00",
+  "lambda_weights": {
+    "lambda_c": 1.0,
+    "lambda_l": 0.75,
+    "lambda_m": 0.5,
+    "lambda_s": 0.25
+  },
+  "objective": {
+    "formula": "task_loss + lambda_s*stability + lambda_m*margin + lambda_l*ledger + lambda_c*coverage",
+    "ledger_weight_source": "CostProtocol.weight(row)",
+    "required_rows": [
+      "classifier/optimizer-certificate",
+      "generalization/global-claim-boundary",
+      "source/finite-sample-support",
+      "source/mixing-family-coverage",
+      "source/source-coverage",
+      "source/transition-isotropy",
+      "verification/theorem3-bound-margin"
+    ]
+  },
+  "records": [
+    {
+      "artifacts": {
+        "envelope": "reports/certificate_guided_training.json",
+        "report": "reports/certificate_guided_training.md"
+      },
+      "candidate_id": "deterministic-baseline",
+      "certificate_guided_loss": 2.204491069577517,
+      "cost_protocol_name": "bedc-quality-lab-default-cost-protocol",
+      "critical_unlogged_error_rate": 0.4782608695652174,
+      "execution": {
+        "classifier_name": "standardized-nonlinear-observation",
+        "deterministic_fallback": true,
+        "torch_arm": false,
+        "use_torch_requested": false
+      },
+      "gap_metric_arm": "vanilla",
+      "gap_metric_source_run_id": "gaussian-ou-gap-ledger-head-seed-23",
+      "lambda_weights": {
+        "lambda_c": 1.0,
+        "lambda_l": 0.75,
+        "lambda_m": 0.5,
+        "lambda_s": 0.25
+      },
+      "ledger_rows": [
+        {
+          "kind": "source",
+          "residue": "source-coverage",
+          "score": 0.18,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.18
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": 0.22,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.22
+        },
+        {
+          "kind": "source",
+          "residue": "finite-sample-support",
+          "score": 0.2,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.2
+        },
+        {
+          "kind": "source",
+          "residue": "transition-isotropy",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.12
+        },
+        {
+          "kind": "classifier",
+          "residue": "optimizer-certificate",
+          "score": 0.1,
+          "severity": "medium",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "verification",
+          "residue": "theorem3-bound-margin",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        },
+        {
+          "kind": "generalization",
+          "residue": "global-claim-boundary",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        }
+      ],
+      "loss_breakdown": {
+        "coverage": 0.9565217391304348,
+        "deterministic_fallback": true,
+        "ledger": 0.7000000000000001,
+        "margin": 0.621741877251846,
+        "stability": 0.32967871345692723,
+        "torch_arm": false
+      },
+      "performance": {
+        "approx_identifiability_proxy": 0.703275954433922,
+        "linear_identifiability_r2": 0.9115324356576109,
+        "quality_margin": -0.621741877251846,
+        "task_loss": 0.32967871345692723
+      },
+      "quality_benefit": 0.10825812274815388,
+      "quality_cost": 0.03,
+      "quality_debt": 0.7,
+      "quality_q": -0.621741877251846,
+      "role": "before",
+      "run_id": "certificate-guided-before-deterministic-baseline-seed-23",
+      "unlogged_error_rate": 0.4782608695652174
+    },
+    {
+      "artifacts": {
+        "envelope": "reports/certificate_guided_training.json",
+        "report": "reports/certificate_guided_training.md"
+      },
+      "candidate_id": "certificate-guided-sample-support",
+      "certificate_guided_loss": 1.0241355045416207,
+      "cost_protocol_name": "bedc-quality-lab-default-cost-protocol",
+      "critical_unlogged_error_rate": 0.0,
+      "execution": {
+        "classifier_name": "standardized-nonlinear-observation",
+        "deterministic_fallback": true,
+        "torch_arm": false,
+        "use_torch_requested": false
+      },
+      "gap_metric_arm": "gap_head",
+      "gap_metric_source_run_id": "gaussian-ou-gap-ledger-head-seed-23",
+      "lambda_weights": {
+        "lambda_c": 1.0,
+        "lambda_l": 0.75,
+        "lambda_m": 0.5,
+        "lambda_s": 0.25
+      },
+      "ledger_rows": [
+        {
+          "kind": "source",
+          "residue": "source-coverage",
+          "score": 0.18,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.18
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": 0.22,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.22
+        },
+        {
+          "kind": "source",
+          "residue": "finite-sample-support",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        },
+        {
+          "kind": "source",
+          "residue": "transition-isotropy",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.12
+        },
+        {
+          "kind": "classifier",
+          "residue": "optimizer-certificate",
+          "score": 0.1,
+          "severity": "medium",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "verification",
+          "residue": "theorem3-bound-margin",
+          "score": 0.03813347595423987,
+          "severity": "low",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "generalization",
+          "residue": "global-claim-boundary",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        }
+      ],
+      "loss_breakdown": {
+        "coverage": 0.0,
+        "deterministic_fallback": true,
+        "ledger": 0.5381334759542399,
+        "margin": 0.5681334759542399,
+        "stability": 0.2691749276790566,
+        "torch_arm": false
+      },
+      "performance": {
+        "approx_identifiability_proxy": 0.8311486495075036,
+        "linear_identifiability_r2": 0.9312385493568649,
+        "quality_margin": -0.5681334759542399,
+        "task_loss": 0.2691749276790566
+      },
+      "quality_benefit": 0.0,
+      "quality_cost": 0.03,
+      "quality_debt": 0.5381334759542399,
+      "quality_q": -0.5681334759542399,
+      "role": "after",
+      "run_id": "certificate-guided-after-certificate-guided-sample-support-seed-23",
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "artifacts": {
+        "envelope": "reports/certificate_guided_training.json",
+        "report": "reports/certificate_guided_training.md"
+      },
+      "candidate_id": "torch-request-control",
+      "certificate_guided_loss": 2.4686583312679415,
+      "cost_protocol_name": "bedc-quality-lab-default-cost-protocol",
+      "critical_unlogged_error_rate": 0.4782608695652174,
+      "execution": {
+        "classifier_name": "tiny-mlp-2-128-128-2",
+        "deterministic_fallback": false,
+        "torch_arm": true,
+        "use_torch_requested": true
+      },
+      "gap_metric_arm": "vanilla",
+      "gap_metric_source_run_id": "gaussian-ou-gap-ledger-head-seed-23",
+      "lambda_weights": {
+        "lambda_c": 1.0,
+        "lambda_l": 0.75,
+        "lambda_m": 0.5,
+        "lambda_s": 0.25
+      },
+      "ledger_rows": [
+        {
+          "kind": "source",
+          "residue": "source-coverage",
+          "score": 0.18,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.18
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": 0.22,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.22
+        },
+        {
+          "kind": "source",
+          "residue": "finite-sample-support",
+          "score": 0.2,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.2
+        },
+        {
+          "kind": "source",
+          "residue": "transition-isotropy",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.12
+        },
+        {
+          "kind": "classifier",
+          "residue": "optimizer-certificate",
+          "score": 0.2,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.2
+        },
+        {
+          "kind": "verification",
+          "residue": "theorem3-bound-margin",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        },
+        {
+          "kind": "generalization",
+          "residue": "global-claim-boundary",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        }
+      ],
+      "loss_breakdown": {
+        "coverage": 0.9565217391304348,
+        "deterministic_fallback": false,
+        "ledger": 0.8,
+        "margin": 0.8600000000000001,
+        "stability": 0.3857092737100051,
+        "torch_arm": true
+      },
+      "performance": {
+        "approx_identifiability_proxy": 0.7957435899433731,
+        "linear_identifiability_r2": 0.9109840833533501,
+        "quality_margin": -0.8600000000000001,
+        "task_loss": 0.3857092737100051
+      },
+      "quality_benefit": 0.0,
+      "quality_cost": 0.06,
+      "quality_debt": 0.8,
+      "quality_q": -0.8600000000000001,
+      "role": "control",
+      "run_id": "certificate-guided-control-torch-request-control-seed-23",
+      "unlogged_error_rate": 0.4782608695652174
+    }
+  ],
+  "report": "reports/certificate_guided_training.md",
+  "result": {
+    "ledger_rows_written": true,
+    "note": "certificate-guided candidate did not improve every tracked projection",
+    "selected_after_candidate_id": "certificate-guided-sample-support",
+    "shared_cost_protocol_name": true,
+    "status": "negative"
+  },
+  "source_artifacts": {
+    "canonical_runner": "scripts/run_gaussian_ou_lejepa.py::run_experiment",
+    "gap_ledger_metric_surface": "scripts/run_gaussian_ou_gap_ledger_head.py",
+    "generation_script": "scripts/run_certificate_guided_training.py",
+    "helper": "bedc_quality_lab.training.certificate_guided",
+    "json_artifact": "reports/certificate_guided_training.json",
+    "report_artifact": "reports/certificate_guided_training.md"
+  }
+}
