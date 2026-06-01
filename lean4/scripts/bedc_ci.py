@@ -149,6 +149,9 @@ DNA_PROOF_ENV_RE = re.compile(
 TOP_LEVEL_ORIGIN_RE = re.compile(r"^\s*\\origin\{([^}]*)\}\s*$", re.MULTILINE)
 VALID_ORIGINS = {"human", "ai"}
 STRUCTURAL_DNA_EXE = LEAN_ROOT / ".lake" / "build" / "bin" / "structural_dna"
+STRUCTURAL_DNA_PROVENANCE_SEMANTICS = (
+    "positive provenance evidence; not a discovery certificate"
+)
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
@@ -4125,11 +4128,93 @@ def _run_structural_dna_expr_fingerprints(
     return out
 
 
+def _structural_dna_relation_unavailable(
+    detail: str,
+    message: str = "",
+    *,
+    returncode: int | None = None,
+) -> dict[str, object]:
+    note: dict[str, object] = {
+        "relation": "relation_analysis_unavailable",
+        "reason": "relation_analysis_unavailable",
+        "detail": detail,
+        "message": message,
+        "provenance_semantics": STRUCTURAL_DNA_PROVENANCE_SEMANTICS,
+    }
+    if returncode is not None:
+        note["returncode"] = returncode
+    return note
+
+
+def _structural_dna_build_failure_note(
+    build: subprocess.CompletedProcess[str],
+) -> dict[str, object]:
+    return _structural_dna_relation_unavailable(
+        "structural_dna_build_failed",
+        _text_snippet((build.stderr or "") + "\n" + (build.stdout or "")),
+        returncode=build.returncode,
+    )
+
+
+def _ensure_structural_dna_relation_exe() -> tuple[bool, dict[str, object] | None]:
+    build = subprocess.run(
+        ["lake", "build", "structural_dna"],
+        cwd=LEAN_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if build.returncode != 0:
+        return False, _structural_dna_build_failure_note(build)
+    if not STRUCTURAL_DNA_EXE.exists():
+        return False, _structural_dna_relation_unavailable(
+            "structural_dna_exe_missing_after_build",
+            str(STRUCTURAL_DNA_EXE),
+        )
+    return True, None
+
+
+def _structural_dna_relations_from_payload(
+    raw: object,
+    *,
+    returncode: int = 0,
+) -> tuple[list[dict[str, object]], dict[str, object] | None]:
+    if not isinstance(raw, dict):
+        return [], _structural_dna_relation_unavailable(
+            "structural_dna_relation_payload_not_object",
+            type(raw).__name__,
+            returncode=returncode,
+        )
+    if raw.get("schema") != "bedc.structural_dna.relations":
+        return [], _structural_dna_relation_unavailable(
+            "structural_dna_relation_schema_missing",
+            _text_snippet(json.dumps(raw, ensure_ascii=False, sort_keys=True)),
+            returncode=returncode,
+        )
+    relations = raw.get("relations", [])
+    if not isinstance(relations, list):
+        return [], _structural_dna_relation_unavailable(
+            "structural_dna_relation_list_missing",
+            _text_snippet(json.dumps(raw, ensure_ascii=False, sort_keys=True)),
+            returncode=returncode,
+        )
+    out: list[dict[str, object]] = []
+    for item in relations:
+        if not isinstance(item, dict):
+            continue
+        if item.get("relation") != "conjunctive_refinement":
+            continue
+        copied = dict(item)
+        copied["provenance_semantics"] = STRUCTURAL_DNA_PROVENANCE_SEMANTICS
+        out.append(copied)
+    return out, None
+
+
 def _run_structural_dna_relations(
     candidates: Iterable[str],
     priors: Iterable[str],
     imports: Iterable[str] = ("BEDC",),
-) -> list[dict[str, object]]:
+) -> tuple[list[dict[str, object]], dict[str, object] | None]:
     candidate_names = sorted({
         _normalize_lean_target(name)
         for name in candidates
@@ -4141,17 +4226,10 @@ def _run_structural_dna_relations(
         if _normalize_lean_target(name)
     })
     if not candidate_names or not prior_names:
-        return []
-    if not STRUCTURAL_DNA_EXE.exists():
-        build = subprocess.run(
-            ["lake", "build", "structural_dna"],
-            cwd=LEAN_ROOT,
-            text=True,
-            capture_output=True,
-            check=False,
-        )
-        if build.returncode != 0:
-            return []
+        return [], None
+    exe_ready, unavailable = _ensure_structural_dna_relation_exe()
+    if not exe_ready:
+        return [], unavailable
     request = {
         "imports": list(imports),
         "relations": {
@@ -4168,28 +4246,20 @@ def _run_structural_dna_relations(
         check=False,
     )
     if result.returncode != 0:
-        return []
+        return [], _structural_dna_relation_unavailable(
+            "structural_dna_relation_request_failed",
+            _text_snippet((result.stderr or "") + "\n" + (result.stdout or "")),
+            returncode=result.returncode,
+        )
     try:
         raw = json.loads(result.stdout or "{}")
     except json.JSONDecodeError:
-        return []
-    if not isinstance(raw, dict):
-        return []
-    relations = raw.get("relations", [])
-    if not isinstance(relations, list):
-        return []
-    out: list[dict[str, object]] = []
-    for item in relations:
-        if not isinstance(item, dict):
-            continue
-        if item.get("relation") != "conjunctive_refinement":
-            continue
-        copied = dict(item)
-        copied["provenance_semantics"] = (
-            "positive provenance evidence; not a discovery certificate"
+        return [], _structural_dna_relation_unavailable(
+            "structural_dna_relation_json_invalid",
+            _text_snippet(result.stdout or result.stderr or ""),
+            returncode=result.returncode,
         )
-        out.append(copied)
-    return out
+    return _structural_dna_relations_from_payload(raw, returncode=result.returncode)
 
 
 def _structural_canonical_json(payload: object) -> str:
@@ -6630,7 +6700,7 @@ def discovery_integrity_payload(
         for target in site.get("before_classifiers", [])
         if str(target)
     })
-    relation_entries = _run_structural_dna_relations(
+    relation_entries, relation_unavailable = _run_structural_dna_relations(
         explicit_relation_candidates,
         explicit_relation_priors,
     )
@@ -6661,6 +6731,17 @@ def discovery_integrity_payload(
         site_record["provenance"] = []
         site_record["unavailable"] = []
         site_record["unresolved"] = []
+        if relation_unavailable is not None:
+            relation_note = {
+                **relation_unavailable,
+                "file": site["file"],
+                "line": site["line"],
+                "region": site["region"],
+                "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
+            }
+            unavailable.append(relation_note)
+            site_record["provenance"].append(relation_note)
+            site_record["unavailable"].append(relation_note)
         for note in site.get("parse_notes", []) or []:
             if isinstance(note, dict):
                 unavailable_note = {
@@ -7443,6 +7524,28 @@ def _structural_dna_regression_checks() -> list[dict[str, object]]:
             "name": "mentioned_endpoint_missing_fingerprint_rejected",
             "message": "mentioned classifier endpoints without fingerprints must not enter A-tier pairs",
             "pairs": mentioned_pairs,
+        })
+
+    relation_payload, relation_unavailable = _structural_dna_relations_from_payload({
+        "schema": "bedc.structural_dna.fingerprints",
+        "BEDC.StructuralDna.TestTargets.BaseClassifier": {},
+    })
+    if relation_payload or relation_unavailable is None:
+        failures.append({
+            "name": "relation_unavailable_is_explicit",
+            "message": "relation-mode schema mismatch must emit relation_analysis_unavailable",
+        })
+    elif relation_unavailable.get("relation") != "relation_analysis_unavailable":
+        failures.append({
+            "name": "relation_unavailable_relation_label",
+            "message": "relation unavailability must be encoded as a provenance relation label",
+            "payload": relation_unavailable,
+        })
+    elif relation_unavailable.get("provenance_semantics") != STRUCTURAL_DNA_PROVENANCE_SEMANTICS:
+        failures.append({
+            "name": "relation_unavailable_semantics",
+            "message": "relation unavailability must preserve the provenance semantics boundary",
+            "payload": relation_unavailable,
         })
 
     return failures

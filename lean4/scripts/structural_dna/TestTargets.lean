@@ -46,6 +46,12 @@ def FixedShapeClassifier : BHist → BHist → Prop :=
 def ExtendedEtaClassifier : BHist → BHist → Prop :=
   fun h k => ExtendedClassifier h k
 
+def PairPriorClassifier : BHist → BHist → Prop :=
+  fun h k => SomeP h ∧ SomeQ k
+
+def TripleCandidateClassifier : BHist → BHist → Prop :=
+  fun h k => SomeP h ∧ SomeQ k ∧ SomeP k
+
 def HeadDependsClassifier : BHist → Prop :=
   fun h =>
     (match h with
@@ -54,6 +60,8 @@ def HeadDependsClassifier : BHist → Prop :=
     | BHist.e1 _ => SomeP) h
 
 def Hollow : BHist → Prop := fun _ => True
+
+def HollowRefiner : BHist → Prop := fun h => True ∧ SomeP h
 
 def ExplicitArrow : Type := ∀ _ : BHist, BHist
 

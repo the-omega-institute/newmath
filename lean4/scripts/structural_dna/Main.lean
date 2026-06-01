@@ -271,6 +271,21 @@ partial def flattenAndWithPath (params : List Name) (path : String) (e : Expr) :
 def flattenAnd (view : ClassifierView) : List ConjunctLeaf :=
   flattenAndWithPath view.params "body" view.body
 
+def containsString (items : List String) (item : String) : Bool :=
+  items.any (fun other => other == item)
+
+def pushUniqueString (items : List String) (item : String) : List String :=
+  if containsString items item then items else item :: items
+
+def uniqueStrings (items : List String) : List String :=
+  items.foldl pushUniqueString [] |>.reverse
+
+def leafFps (leaves : List ConjunctLeaf) : List String :=
+  uniqueStrings (leaves.map (·.exprFp))
+
+def nontrivialLeafFps (leaves : List ConjunctLeaf) : List String :=
+  uniqueStrings ((leaves.filter (fun leaf => !leaf.isTrivial)).map (·.exprFp))
+
 def binderSignatureFp (binders : List LambdaBinder) : String :=
   stableHash (joinPayload "lambda-binders" (
     binders.map (fun b => joinPayload "binder" [b.binderInfo, b.typePayload])
@@ -288,19 +303,25 @@ def normalizerJson : Json :=
 def relationEvidenceJson
     (candidate : ClassifierView)
     (prior : ClassifierView)
-    (matched : ConjunctLeaf)
+    (priorLeaves : List ConjunctLeaf)
+    (matchedLeaves : List ConjunctLeaf)
     (extraCount : Nat)
-    (leaves : List ConjunctLeaf) : Json :=
+    (candidateLeaves : List ConjunctLeaf) : Json :=
+  let matchedPaths := matchedLeaves.map (·.path)
+  let firstMatchedPath := matchedPaths.head?.getD ""
   Json.mkObj [
     ("normal_form", Json.str "reduced_value"),
     ("binder_arity", toJson candidate.lambdaBinders.length),
     ("binder_signature_fp", Json.str (binderSignatureFp candidate.lambdaBinders)),
     ("prior_body_fp", Json.str prior.bodyFp),
     ("candidate_body_fp", Json.str candidate.bodyFp),
-    ("matched_conjunct_path", Json.str matched.path),
-    ("matched_path", Json.str matched.path),
+    ("matched_conjunct_path", Json.str firstMatchedPath),
+    ("matched_path", Json.str firstMatchedPath),
+    ("matched_conjunct_paths", toJson matchedPaths),
+    ("prior_conjunct_paths", toJson (priorLeaves.map (·.path))),
+    ("prior_conjunct_fps", toJson (leafFps priorLeaves)),
     ("extra_conjunct_count", toJson extraCount),
-    ("candidate_conjunct_fps", toJson (leaves.map (·.exprFp)))
+    ("candidate_conjunct_fps", toJson (candidateLeaves.map (·.exprFp)))
   ]
 
 def conjunctiveRefinementJson
@@ -309,23 +330,35 @@ def conjunctiveRefinementJson
   if candidate.lambdaBinders != prior.lambdaBinders then
     none
   else
-    let leaves := flattenAnd candidate
-    let matchedLeaves := (leaves.filter (fun leaf => leaf.exprFp == prior.bodyFp)).mergeSort
-      (fun a b => a.path < b.path)
-    match matchedLeaves with
-    | [] => none
-    | matched :: _ =>
-        let extraCount := (leaves.filter (fun leaf => leaf.exprFp != prior.bodyFp && !leaf.isTrivial)).length
-        if extraCount == 0 then
+    let candidateLeaves := flattenAnd candidate
+    let priorLeaves := flattenAnd prior
+    if priorLeaves.any (fun leaf => leaf.isTrivial) then
+      none
+    else
+      let priorFps := leafFps priorLeaves
+      let candidateFps := nontrivialLeafFps candidateLeaves
+      let includesPrior := priorFps.all (fun fp => containsString candidateFps fp)
+      let extraCount := (candidateFps.filter (fun fp => !containsString priorFps fp)).length
+      let matchedLeaves :=
+        (candidateLeaves.filter
+          (fun leaf => !leaf.isTrivial && containsString priorFps leaf.exprFp)).mergeSort
+          (fun a b => a.path < b.path)
+      match matchedLeaves with
+      | [] => none
+      | _ =>
+        if !includesPrior || extraCount == 0 then
           none
         else
           some (Json.mkObj [
             ("relation", Json.str "conjunctive_refinement"),
             ("direction", Json.str "candidate_implies_prior"),
             ("grade_semantics", Json.str "semantic_projection"),
+            ("provenance_semantics", Json.str
+              "positive provenance evidence; not a discovery certificate"),
             ("prior", Json.str priorName),
             ("candidate", Json.str candidateName),
-            ("evidence", relationEvidenceJson candidate prior matched extraCount leaves)
+            ("evidence", relationEvidenceJson
+              candidate prior priorLeaves matchedLeaves extraCount candidateLeaves)
           ])
 
 def declFingerprint (env : Environment) (info : ConstantInfo) : IO DeclFingerprint := do
@@ -516,8 +549,11 @@ def testDecls : Array String :=
     "BEDC.StructuralDna.TestTargets.SharedOnlyClassifier",
     "BEDC.StructuralDna.TestTargets.FixedShapeClassifier",
     "BEDC.StructuralDna.TestTargets.ExtendedEtaClassifier",
+    "BEDC.StructuralDna.TestTargets.PairPriorClassifier",
+    "BEDC.StructuralDna.TestTargets.TripleCandidateClassifier",
     "BEDC.StructuralDna.TestTargets.HeadDependsClassifier",
     "BEDC.StructuralDna.TestTargets.Hollow",
+    "BEDC.StructuralDna.TestTargets.HollowRefiner",
     "BEDC.StructuralDna.TestTargets.SomeP",
     "BEDC.StructuralDna.TestTargets.ExplicitArrow",
     "BEDC.StructuralDna.TestTargets.ImplicitArrow",
@@ -554,6 +590,14 @@ def hasRelation (relations : List Json) (candidate prior relationName : String) 
           && r.getStr?.toOption == some relationName
     | _, _, _ => false)
 
+def relationHasProvenanceSemantics (relations : List Json) : Bool :=
+  relations.any (fun item =>
+    match item.getObjVal? "provenance_semantics" with
+    | .ok value =>
+        value.getStr?.toOption ==
+          some "positive provenance evidence; not a discovery certificate"
+    | .error _ => false)
+
 unsafe def relationSelfTest : IO Bool := do
   let req : RelationRequest := {
     imports := testImports
@@ -562,11 +606,15 @@ unsafe def relationSelfTest : IO Bool := do
       "BEDC.StructuralDna.TestTargets.ReorderedClassifier",
       "BEDC.StructuralDna.TestTargets.SharedOnlyClassifier",
       "BEDC.StructuralDna.TestTargets.FixedShapeClassifier",
-      "BEDC.StructuralDna.TestTargets.ExtendedEtaClassifier"
+      "BEDC.StructuralDna.TestTargets.ExtendedEtaClassifier",
+      "BEDC.StructuralDna.TestTargets.TripleCandidateClassifier",
+      "BEDC.StructuralDna.TestTargets.HollowRefiner"
     ]
     priors := #[
       "BEDC.StructuralDna.TestTargets.BaseClassifier",
-      "BEDC.StructuralDna.TestTargets.ExtendedClassifier"
+      "BEDC.StructuralDna.TestTargets.ExtendedClassifier",
+      "BEDC.StructuralDna.TestTargets.PairPriorClassifier",
+      "BEDC.StructuralDna.TestTargets.Hollow"
     ]
   }
   let raw ← relationsJson req
@@ -583,6 +631,10 @@ unsafe def relationSelfTest : IO Bool := do
   let sharedOnly := "BEDC.StructuralDna.TestTargets.SharedOnlyClassifier"
   let fixedShape := "BEDC.StructuralDna.TestTargets.FixedShapeClassifier"
   let extendedEta := "BEDC.StructuralDna.TestTargets.ExtendedEtaClassifier"
+  let pairPrior := "BEDC.StructuralDna.TestTargets.PairPriorClassifier"
+  let tripleCandidate := "BEDC.StructuralDna.TestTargets.TripleCandidateClassifier"
+  let hollow := "BEDC.StructuralDna.TestTargets.Hollow"
+  let hollowRefiner := "BEDC.StructuralDna.TestTargets.HollowRefiner"
   let r1 ← printCheck "R1 conjunctive refinement extension" (
     hasRelation relations extended base "conjunctive_refinement"
   )
@@ -598,7 +650,16 @@ unsafe def relationSelfTest : IO Bool := do
   let r5 ← printCheck "R5 eta wrapper not positive relation" (
     !hasRelation relations extendedEta extended "conjunctive_refinement"
   )
-  return [r1, r2, r3, r4, r5].all id
+  let r6 ← printCheck "R6 prior conjunction set inclusion" (
+    hasRelation relations tripleCandidate pairPrior "conjunctive_refinement"
+  )
+  let r7 ← printCheck "R7 vacuous prior not positive relation" (
+    !hasRelation relations hollowRefiner hollow "conjunctive_refinement"
+  )
+  let r8 ← printCheck "R8 relation payload provenance semantics" (
+    relationHasProvenanceSemantics relations
+  )
+  return [r1, r2, r3, r4, r5, r6, r7, r8].all id
 
 unsafe def runSelfTest : IO UInt32 := do
   let items ← withImportModules (testImports.map importSpec) Options.empty fun env => do
