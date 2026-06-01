@@ -222,4 +222,33 @@ theorem CauchyOscillationCarrier_seal_handoff_factorization [AskSetup] [PackageS
     }
   exact ⟨sealReadUnary, ledgerSealRoute, routesNameCertSealRead, sealReadPkg, cert⟩
 
+theorem CauchyOscillationCarrier_ledger_transport [AskSetup] [PackageSetup]
+    {tailWindow modulus tolerance ledger sealRow transport routes provenance nameCert ledgerRead
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyOscillationCarrier tailWindow modulus tolerance ledger sealRow transport routes provenance
+        nameCert bundle pkg ->
+      Cont tailWindow modulus tolerance ->
+        Cont modulus tolerance ledgerRead ->
+          Cont ledgerRead sealRow routes ->
+            Cont routes nameCert sealRead ->
+              PkgSig bundle sealRead pkg ->
+                UnaryHistory ledgerRead ∧ hsame ledger ledgerRead ∧ UnaryHistory sealRead ∧
+                  Cont ledgerRead sealRow routes ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier _tailModulusTolerance modulusToleranceLedgerRead ledgerReadSealRoute
+    routesNameCertSealRead sealReadPkg
+  obtain ⟨_tailWindowUnary, modulusUnary, toleranceUnary, _ledgerUnary, _sealUnary,
+    _transportUnary, routesUnary, _provenanceUnary, nameCertUnary, _tailWindowModulus,
+    modulusToleranceLedger, _ledgerSealRoute, _routesNameCert, _provenancePkg⟩ := carrier
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed modulusUnary toleranceUnary modulusToleranceLedgerRead
+  have sameLedger : hsame ledger ledgerRead :=
+    cont_respects_hsame (hsame_refl modulus) (hsame_refl tolerance) modulusToleranceLedger
+      modulusToleranceLedgerRead
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed routesUnary nameCertUnary routesNameCertSealRead
+  exact
+    ⟨ledgerReadUnary, sameLedger, sealReadUnary, ledgerReadSealRoute, sealReadPkg⟩
+
 end BEDC.Derived.CauchyOscillationUp

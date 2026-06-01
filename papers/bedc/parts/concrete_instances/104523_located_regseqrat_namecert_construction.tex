@@ -107,6 +107,42 @@ Apply \autoref{thm:located-regseqrat-modulus-consumer-route} and \autoref{thm:lo
 Since no carrier coordinate stores quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient completeness, an explicit-modulus consumer cannot bypass this finite route.
 \end{proof}
 
+\begin{theorem}[LocatedRegSeqRat finite location decision]
+\label{thm:located-regseqrat-finite-location-decision}
+Every located comparison row $Q$ of an accepted $\LocatedRegSeqRatUp$ carrier is decided only after the dyadic tolerance ledger $D$, finite $\StreamNameUp$ schedule $S$, $\RegSeqRatUp$ readback row $R$, and tail-window row $W$ have been displayed. Thus a location decision is a finite BEDC route through $D,S,R,W,Q$, not a host trichotomy decision, selected limit comparison, quotient stream equality, or ambient $\RealUp$ order test.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $L=(D,S,R,Q,W,H,K,P,N)$. The carrier lists the dyadic tolerance ledger, stream schedule, regular rational row, located comparison row, and tail-window row as displayed data before transport, replay, provenance, or local naming can be read.
+
+The comparison row $Q$ is downstream of $D,S,R,W$. The tolerance to be decided is supplied by $D$, the finite observation windows by $S$, the rational readback by $R$, and the finite suffix binding by $W$.
+
+The structural rows $H,K,P,N$ only preserve and replay this displayed route. Since no coordinate stores trichotomy, selected limits, quotient stream equality, or ambient $\RealUp$ order, the located decision remains a finite comparison over the displayed rows.
+\end{proof}
+
+\begin{theorem}[LocatedRegSeqRat tail-modulus transport]
+\label{thm:located-regseqrat-tail-modulus-transport}
+Componentwise $\hsame$ transport of an accepted $\LocatedRegSeqRatUp$ carrier preserves the same dyadic tolerance and finite $\StreamNameUp$ schedule for every transported tail-window read. In particular, a transported comparison cannot replace the displayed tolerance ledger $D$ or schedule $S$ with a new modulus source outside the carrier.
+\end{theorem}
+\begin{proof}
+Start with the transport row $H$ of $L=(D,S,R,Q,W,H,K,P,N)$. By carrier projection, $H$ acts componentwise on the dyadic ledger, stream schedule, regular rational readback, located comparison, tail-window, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:located-regseqrat-tail-window-stability}. It already forces every transported location request to replay $D,S,R,Q,W$ before the local naming row is inspected.
+
+The same route preserves the tolerance and schedule used by the original tail-window read. If a transported packet changed the dyadic tolerance source or finite StreamName schedule, it would leave the componentwise transport row and therefore would not be the accepted transported $\LocatedRegSeqRatUp$ packet.
+\end{proof}
+
+\begin{theorem}[LocatedRegSeqRat Real seal nonescape]
+\label{thm:located-regseqrat-real-seal-nonescape}
+The $\RealUp$ seal read from an accepted $\LocatedRegSeqRatUp$ carrier is terminal for the displayed finite route. It cannot export quotient stream equality, selected limits, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness to a Real-facing or Completion-facing consumer.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:located-regseqrat-realup-handoff}. Every Real-facing consumer first factors through the dyadic ledger, finite stream schedule, regular rational source, located comparison, tail-window row, transport, replay, provenance, and local naming.
+
+Use \autoref{thm:located-regseqrat-modulus-consumer-route} and \autoref{thm:located-regseqrat-bishop-completion-handoff}. These handoffs keep Real-facing and Completion-facing reads downstream of the finite rows $D,S,R,Q,W,H,K,P,N$.
+
+The terminal seal is therefore a boundary row, not a source of additional host principles. Since the carrier has no coordinate for quotient stream equality, selected limits, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness, none of those objects can be exported by the seal.
+\end{proof}
+
 \closureat{LocatedRegSeqRatUp}{seedStr}
 
 \begin{closurestatus}{\LocatedRegSeqRatUp}
