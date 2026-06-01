@@ -58,12 +58,12 @@ def run_experiment(
     *,
     use_torch: bool = True,
     sample_count: int = 384,
+    seed: int = 23,
+    rho: float = 0.82,
     run_id: str = "gaussian-ou-lejepa-seed-23",
     envelope_artifact: str = "reports/example_envelope.json",
     report_artifact: str = "reports/quality_report.md",
 ) -> QualityEvidenceEnvelope:
-    seed = 23
-    rho = 0.82
     batch = make_toy_batch(sample_count, rho=rho, seed=seed)
     encoder_name = "standardized-nonlinear-observation"
 
