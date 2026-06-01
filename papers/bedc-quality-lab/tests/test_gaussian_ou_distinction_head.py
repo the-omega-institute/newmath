@@ -1,4 +1,5 @@
 import json
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
@@ -41,6 +42,129 @@ def test_train_eval_split_is_deterministic_and_disjoint():
     assert len(train_a) == 14
     assert len(eval_a) == 6
     assert train_a.tolist() != train_c.tolist() or eval_a.tolist() != eval_c.tolist()
+
+
+def test_run_record_passes_canonical_runner_arguments_and_builds_distinction_rows(monkeypatch):
+    calls = []
+    z = np.array(
+        [
+            [2.0, -1.0],
+            [-2.0, -1.0],
+            [2.0, 1.0],
+            [-2.0, 1.0],
+            [1.0, -2.0],
+            [-1.0, -2.0],
+            [1.0, 2.0],
+            [-1.0, 2.0],
+        ],
+        dtype=np.float64,
+    )
+    z_pair = np.array(
+        [
+            [-2.0, -1.0],
+            [-2.0, -1.0],
+            [2.0, 1.0],
+            [2.0, 1.0],
+            [1.0, -2.0],
+            [-1.0, -2.0],
+            [1.0, 2.0],
+            [-1.0, 2.0],
+        ],
+        dtype=np.float64,
+    )
+
+    def fake_make_toy_batch(sample_count, *, rho, seed):
+        assert sample_count == 8
+        assert rho == runner.RHO
+        assert seed == 4242
+        return SimpleNamespace(z=z, z_pair=z_pair)
+
+    def fake_run_experiment(**kwargs):
+        calls.append(kwargs)
+        return SimpleNamespace(
+            run_id=kwargs["run_id"],
+            source_spec={"name": "fixture-source", "sample_count": kwargs["sample_count"]},
+            classifier_spec={"name": "fixture-classifier"},
+            metrics={"quality_q": 0.25, "quality_margin": 0.75},
+            artifacts={
+                "envelope": kwargs["envelope_artifact"],
+                "report": kwargs["report_artifact"],
+            },
+        )
+
+    monkeypatch.setattr(runner, "SAMPLE_COUNT", 8)
+    monkeypatch.setattr(runner, "make_toy_batch", fake_make_toy_batch)
+    monkeypatch.setattr(runner, "run_experiment", fake_run_experiment)
+
+    record = runner._run_record(seed=4242, seed_index=2)
+
+    assert calls == [
+        {
+            "use_torch": runner.USE_TORCH,
+            "sample_count": 8,
+            "seed": 4242,
+            "rho": runner.RHO,
+            "run_id": "gaussian-ou-distinction-head-seed-4242",
+            "envelope_artifact": runner.JSON_ARTIFACT,
+            "report_artifact": runner.REPORT_ARTIFACT,
+        }
+    ]
+    assert record["seed_index"] == 2
+    assert record["seed_sequence_position"] == 3
+    assert record["run_id"] == "gaussian-ou-distinction-head-seed-4242"
+    assert record["config"]["train_count"] == 6
+    assert record["config"]["eval_count"] == 2
+    assert record["config"]["high_energy_threshold"] == pytest.approx(5.0)
+    assert record["split"] == {
+        "train_indices": [1, 2, 4, 5, 6, 7],
+        "eval_indices": [0, 3],
+        "overlap_count": 0,
+    }
+    assert record["canonical_envelope_projection"] == {
+        "run_id": "gaussian-ou-distinction-head-seed-4242",
+        "source_spec": {"name": "fixture-source", "sample_count": 8},
+        "classifier_spec": {"name": "fixture-classifier"},
+        "metrics": {"quality_q": 0.25, "quality_margin": 0.75},
+        "artifacts": {
+            "envelope": runner.JSON_ARTIFACT,
+            "report": runner.REPORT_ARTIFACT,
+        },
+    }
+
+    x_row = record["per_distinction"]["latent_x_positive"]
+    assert x_row["truth"] == {
+        "label_positive_rate_train": 0.5,
+        "label_positive_rate_eval": 0.5,
+        "pair_label_positive_rate": 0.5,
+    }
+    assert x_row["train"]["accuracy"] == pytest.approx(1.0)
+    assert x_row["eval"]["accuracy"] == pytest.approx(1.0)
+    assert x_row["stability"] == pytest.approx(0.75)
+    assert x_row["generalization_gap"] == pytest.approx(0.0)
+
+    y_row = record["per_distinction"]["latent_y_positive"]
+    assert y_row["truth"]["label_positive_rate_eval"] == pytest.approx(0.5)
+    assert y_row["eval"]["accuracy"] == pytest.approx(1.0)
+    assert y_row["stability"] == pytest.approx(1.0)
+
+    energy_row = record["per_distinction"]["high_energy"]
+    assert energy_row["truth"] == {
+        "label_positive_rate_train": 0.0,
+        "label_positive_rate_eval": 0.0,
+        "pair_label_positive_rate": 0.0,
+    }
+    assert energy_row["eval"]["prediction_positive_rate"] == pytest.approx(0.0)
+
+    assert record["intervention"]["latent_x_positive"]["on_target_flip_rate"] == pytest.approx(1.0)
+    assert record["intervention"]["latent_x_positive"]["off_target_flip_rate"] == pytest.approx(0.0)
+    assert record["intervention"]["latent_x_positive"]["per_distinction"]["latent_y_positive"] == {
+        "prediction_flip_rate": 0.0,
+        "post_intervention_truth_positive_rate": 0.5,
+        "post_intervention_accuracy": 1.0,
+    }
+    assert record["intervention"]["latent_y_positive"]["on_target_flip_rate"] == pytest.approx(1.0)
+    assert record["intervention"]["high_energy"]["on_target_flip_rate"] == pytest.approx(0.0)
+    assert record["intervention"]["high_energy"]["off_target_flip_rate"] == pytest.approx(0.5)
 
 
 def test_probe_training_interface_learns_separable_fixture():
