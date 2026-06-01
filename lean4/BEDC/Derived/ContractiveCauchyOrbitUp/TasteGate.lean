@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.ContractiveCauchyOrbitUp.TasteGate
+namespace BEDC.Derived.ContractiveCauchyOrbitUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,9 +25,9 @@ def contractiveCauchyOrbitDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (contractiveCauchyOrbitDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (contractiveCauchyOrbitDecodeBHist tail)
 
-private theorem ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist,
-      contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEncodeBHist h) = h := by
+private theorem contractiveCauchyOrbitDecode_encode_bhist :
+    ∀ h : BHist, contractiveCauchyOrbitDecodeBHist
+      (contractiveCauchyOrbitEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -37,70 +37,39 @@ private theorem ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode 
 
 def contractiveCauchyOrbitFields : ContractiveCauchyOrbitUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ContractiveCauchyOrbitUp.mk X T I W R M K E H C P N => [X, T, I, W, R, M, K, E, H, C, P, N]
+  | ContractiveCauchyOrbitUp.mk X T I W R M K E H C P N =>
+      [X, T, I, W, R, M, K, E, H, C, P, N]
 
-def contractiveCauchyOrbitToEventFlow : ContractiveCauchyOrbitUp → EventFlow :=
+def contractiveCauchyOrbitToEventFlow : ContractiveCauchyOrbitUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (contractiveCauchyOrbitFields x).map contractiveCauchyOrbitEncodeBHist
+  | x => (contractiveCauchyOrbitFields x).map contractiveCauchyOrbitEncodeBHist
 
-def contractiveCauchyOrbitFromEventFlow (ef : EventFlow) :
-    Option ContractiveCauchyOrbitUp :=
+private def contractiveCauchyOrbitEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  match ef with
-  | [] => none
-  | X :: restX =>
-      match restX with
-      | [] => none
-      | T :: restT =>
-          match restT with
-          | [] => none
-          | I :: restI =>
-              match restI with
-              | [] => none
-              | W :: restW =>
-                  match restW with
-                  | [] => none
-                  | R :: restR =>
-                      match restR with
-                      | [] => none
-                      | M :: restM =>
-                          match restM with
-                          | [] => none
-                          | K :: restK =>
-                              match restK with
-                              | [] => none
-                              | E :: restE =>
-                                  match restE with
-                                  | [] => none
-                                  | H :: restH =>
-                                      match restH with
-                                      | [] => none
-                                      | C :: restC =>
-                                          match restC with
-                                          | [] => none
-                                          | P :: restP =>
-                                              match restP with
-                                              | [] => none
-                                              | N :: restN =>
-                                                  match restN with
-                                                  | [] =>
-                                                      some
-                                                        (ContractiveCauchyOrbitUp.mk
-                                                          (contractiveCauchyOrbitDecodeBHist X)
-                                                          (contractiveCauchyOrbitDecodeBHist T)
-                                                          (contractiveCauchyOrbitDecodeBHist I)
-                                                          (contractiveCauchyOrbitDecodeBHist W)
-                                                          (contractiveCauchyOrbitDecodeBHist R)
-                                                          (contractiveCauchyOrbitDecodeBHist M)
-                                                          (contractiveCauchyOrbitDecodeBHist K)
-                                                          (contractiveCauchyOrbitDecodeBHist E)
-                                                          (contractiveCauchyOrbitDecodeBHist H)
-                                                          (contractiveCauchyOrbitDecodeBHist C)
-                                                          (contractiveCauchyOrbitDecodeBHist P)
-                                                          (contractiveCauchyOrbitDecodeBHist N))
-                                                  | _ :: _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => contractiveCauchyOrbitEventAtDefault index rest
 
-private theorem ContractiveCauchyOrbitTasteGate_single_carrier_alignment_round_trip :
+def contractiveCauchyOrbitFromEventFlow : EventFlow → Option ContractiveCauchyOrbitUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun ef =>
+    some
+      (ContractiveCauchyOrbitUp.mk
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 0 ef))
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 1 ef))
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 2 ef))
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 3 ef))
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 4 ef))
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 5 ef))
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 6 ef))
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 7 ef))
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 8 ef))
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 9 ef))
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 10 ef))
+        (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEventAtDefault 11 ef)))
+
+private theorem contractiveCauchyOrbit_round_trip :
     ∀ x : ContractiveCauchyOrbitUp,
       contractiveCauchyOrbitFromEventFlow (contractiveCauchyOrbitToEventFlow x) =
         some x := by
@@ -124,22 +93,23 @@ private theorem ContractiveCauchyOrbitTasteGate_single_carrier_alignment_round_t
             (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEncodeBHist P))
             (contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEncodeBHist N))) =
           some (ContractiveCauchyOrbitUp.mk X T I W R M K E H C P N)
-      rw [ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode X,
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode T,
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode I,
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode W,
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode R,
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode M,
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode K,
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode E,
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode H,
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode C,
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode P,
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode N]
+      rw [contractiveCauchyOrbitDecode_encode_bhist X,
+        contractiveCauchyOrbitDecode_encode_bhist T,
+        contractiveCauchyOrbitDecode_encode_bhist I,
+        contractiveCauchyOrbitDecode_encode_bhist W,
+        contractiveCauchyOrbitDecode_encode_bhist R,
+        contractiveCauchyOrbitDecode_encode_bhist M,
+        contractiveCauchyOrbitDecode_encode_bhist K,
+        contractiveCauchyOrbitDecode_encode_bhist E,
+        contractiveCauchyOrbitDecode_encode_bhist H,
+        contractiveCauchyOrbitDecode_encode_bhist C,
+        contractiveCauchyOrbitDecode_encode_bhist P,
+        contractiveCauchyOrbitDecode_encode_bhist N]
 
-private theorem ContractiveCauchyOrbitTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem contractiveCauchyOrbitToEventFlow_injective
     {x y : ContractiveCauchyOrbitUp} :
-    contractiveCauchyOrbitToEventFlow x = contractiveCauchyOrbitToEventFlow y → x = y := by
+    contractiveCauchyOrbitToEventFlow x = contractiveCauchyOrbitToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -147,10 +117,8 @@ private theorem ContractiveCauchyOrbitTasteGate_single_carrier_alignment_toEvent
         contractiveCauchyOrbitFromEventFlow (contractiveCauchyOrbitToEventFlow y) :=
     congrArg contractiveCauchyOrbitFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (ContractiveCauchyOrbitTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (ContractiveCauchyOrbitTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (contractiveCauchyOrbit_round_trip x).symm
+      (Eq.trans hread (contractiveCauchyOrbit_round_trip y)))
 
 instance contractiveCauchyOrbitBHistCarrier : BHistCarrier ContractiveCauchyOrbitUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -162,34 +130,27 @@ instance contractiveCauchyOrbitChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change contractiveCauchyOrbitFromEventFlow (contractiveCauchyOrbitToEventFlow x) =
-      some x
-    exact ContractiveCauchyOrbitTasteGate_single_carrier_alignment_round_trip x
+    change
+      contractiveCauchyOrbitFromEventFlow (contractiveCauchyOrbitToEventFlow x) =
+        some x
+    exact contractiveCauchyOrbit_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (ContractiveCauchyOrbitTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-def taste_gate : ChapterTasteGate ContractiveCauchyOrbitUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  contractiveCauchyOrbitChapterTasteGate
+    exact hxy (contractiveCauchyOrbitToEventFlow_injective heq)
 
 theorem ContractiveCauchyOrbitTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      contractiveCauchyOrbitDecodeBHist (contractiveCauchyOrbitEncodeBHist h) = h) ∧
-      (∀ x : ContractiveCauchyOrbitUp,
-        contractiveCauchyOrbitFromEventFlow (contractiveCauchyOrbitToEventFlow x) =
-          some x) ∧
-        (∀ x y : ContractiveCauchyOrbitUp,
-          contractiveCauchyOrbitToEventFlow x = contractiveCauchyOrbitToEventFlow y →
-            x = y) ∧
+    (∀ h : BHist, contractiveCauchyOrbitDecodeBHist
+      (contractiveCauchyOrbitEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier ContractiveCauchyOrbitUp) ∧
+        Nonempty (ChapterTasteGate ContractiveCauchyOrbitUp) ∧
           contractiveCauchyOrbitEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨ContractiveCauchyOrbitTasteGate_single_carrier_alignment_decode,
-      ContractiveCauchyOrbitTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        ContractiveCauchyOrbitTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+  constructor
+  · exact contractiveCauchyOrbitDecode_encode_bhist
+  · constructor
+    · exact ⟨contractiveCauchyOrbitBHistCarrier⟩
+    · constructor
+      · exact ⟨contractiveCauchyOrbitChapterTasteGate⟩
+      · rfl
 
-end BEDC.Derived.ContractiveCauchyOrbitUp.TasteGate
+end BEDC.Derived.ContractiveCauchyOrbitUp
