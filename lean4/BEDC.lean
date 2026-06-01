@@ -4812,6 +4812,7 @@ import BEDC.Derived.LocatedIntervalUp.PublicConsumerRoute
 import BEDC.Derived.LocatedIntervalUp.RealStreamBracketCorrespondence
 import BEDC.Derived.LocatedIntervalUp.StdBridge
 import BEDC.Derived.LocatedIntervalUp.TasteGate
+import BEDC.Derived.LocatedLimitUp.CauchyTailUniqueness
 import BEDC.Derived.LocatedLimitUp.NameCertObligations
 import BEDC.Derived.LocatedLimitUp.RealSealComparison
 import BEDC.Derived.LocatedLimitUp.RealSealRoute
@@ -7377,6 +7378,7 @@ import BEDC.Derived.StableNegationBoundaryUp.LedgerExhaustion
 import BEDC.Derived.StableNegationBoundaryUp.TasteGate
 import BEDC.Derived.StackUp
 import BEDC.Derived.StackUp.SchemeSiteTransport
+import BEDC.Derived.StandardBorelSpaceUp
 import BEDC.Derived.StandardBridgeAuditPacketUp.TasteGate
 import BEDC.Derived.StarRefinementUniformCoverUp.TasteGate
 import BEDC.Derived.StatManifoldUp
