@@ -101,6 +101,62 @@ Use the located handoff boundary of \autoref{thm:locally-compact-located-handoff
 Use the properness comparison non-escape of \autoref{thm:locally-compact-properness-comparison-nonescape} for completion consumers that compare against proper metric structure. The comparison supplies one local window, not a global properness proof or ambient completeness theorem.
 \end{proof}
 
+\begin{theorem}[LocallyCompact local compact-neighbourhood obligations]
+\label{thm:locallycompact-local-compact-neighborhood-obligations}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. The local compact-neighbourhood obligation for $L$ is exactly the finite closed-ball compact window named by $X,x,r,B,K,A,H,C,P,N$: the metric source and inspected point are $X,x$, the positive window is $r$, the closed boundary is $B$, the compact witness is $K$, the located handoff is $A$ when present, and all consumer reads pass through $H,C,P,N$. No obligation in this packet asserts a host neighbourhood base, open-cover compactness, quotient point equality, countable choice, global properness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:locally-compact-carrier}. The only rows available to a local compact-neighbourhood request are $X,x,r,B,K,A,H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:locally-compact-namecert-obligations}. They identify local neighbourhood indexing with the positive-radius route through $x,r,B$ and closed-ball compact witness transport through $K,H,C$.
+
+Use the closed-ball neighbourhood-base theorem, \autoref{thm:locally-compact-closed-ball-neighborhood-base}. It forces every consumer through the displayed tuple, so the local obligation is a finite closed-ball compact window rather than a host neighbourhood base.
+
+The non-escape clauses in the carrier and the same closed-ball theorem exclude the missing rows. Since no open-cover, quotient, choice, global properness, or ambient completeness coordinate is present, no such obligation can be recovered from $L$.
+\end{proof}
+
+\begin{theorem}[LocallyCompact compact-window root admission]
+\label{thm:locallycompact-compact-window-root-admission}
+For an accepted $\LocallyCompactUp$ packet $L=(X,x,r,B,K,A,H,C,P,N)$, any root consumer that admits local compactness admits only the compact window consisting of the closed-ball row $B$ and compact witness $K$ over the displayed source rows $X,x,r$. The located row $A$ may refine the same window, and $H,C,P,N$ may transport, replay, source, and name it, but the root admission does not become an open-cover theorem, a selected neighbourhood system, a global properness theorem, or an ambient completeness assertion.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The root consumer can see the metric source $X$, inspected point $x$, radius ledger $r$, closed-ball row $B$, compact witness $K$, optional located handoff $A$, and structural rows $H,C,P,N$.
+
+Apply \autoref{thm:locally-compact-closed-ball-neighborhood-base}. It states that downstream compactness, completion, and properness comparisons factor through this displayed tuple and receive no host compactness or completeness datum.
+
+If the consumer asks for located compact information, apply \autoref{thm:locally-compact-located-handoff-boundary}. The row $A$ is read only after $B$ and $K$, so it refines the same compact window rather than opening a second root route.
+
+Finally apply \autoref{thm:locally-compact-properness-comparison-nonescape}. Properness can read the window as one boundary datum, but the packet lacks the family over all centers and radii required for global properness.
+\end{proof}
+
+\begin{theorem}[LocallyCompact properness-locality root boundary]
+\label{thm:locallycompact-properness-locality-root-boundary}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. A $\ProperMetricUp$ or completion-facing root may consume $L$ only as a local closed-ball compactness boundary: it receives one source $X$, one inspected point $x$, one positive radius $r$, one closed-ball row $B$, one compact witness $K$, the optional located handoff $A$, and the transport, replay, provenance, and naming rows $H,C,P,N$. It receives no all-centers/all-radii properness family and no host neighbourhood-base structure.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:locally-compact-carrier}. The properness-facing boundary is the finite row tuple $X,x,r,B,K,A,H,C,P,N$.
+
+Apply \autoref{thm:locally-compact-properness-comparison-nonescape}. It states that a $\ProperMetricUp$ comparison receives one displayed closed-ball window and not the radius-indexed family for all centers.
+
+Use \autoref{thm:locally-compact-completion-consumer-route} for completion-facing roots. They read local compactness through the same metric source, radius ledger, closed-ball window, compact witness, located handoff, transport, replay, provenance, and local NameCert route.
+
+The carrier projection and both non-escape results leave no row for a host neighbourhood base or global properness theorem. Therefore the root boundary is locality itself: a finite closed-ball compact window with exact sibling handoffs.
+\end{proof}
+
+\begin{theorem}[LocallyCompact compact-window transport]
+\label{thm:locallycompact-compact-window-transport}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. Any $\hsame$ transport of the displayed metric source $X$, inspected point $x$, positive radius $r$, closed-ball row $B$, compact witness $K$, and optional located handoff $A$ preserves the same local compact window before any $\ProperMetricUp$ or completion consumer reads it. The transported read still factors through $X,x,r,B,K,A,H,C,P,N$ and does not upgrade the packet to global properness, open-cover compactness, a host neighbourhood-base selector, quotient point equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier in \autoref{def:locally-compact-carrier}. The transport row $H$ is componentwise over the metric source, point, radius, closed-ball row, compact witness, located handoff, replay, provenance, and local naming data.
+
+Use the closed-ball neighbourhood-base theorem, \autoref{thm:locally-compact-closed-ball-neighborhood-base}. It identifies the visible local compactness window as exactly $X,x,r,B,K,A,H,C,P,N$, so an $\hsame$ read can only transport that displayed finite window.
+
+Now apply the properness-locality root boundary of \autoref{thm:locallycompact-properness-locality-root-boundary}. A properness or completion consumer may consume the transported window as one local boundary, but it receives no all-centers/all-radii family and no host neighbourhood-base structure.
+
+Therefore compact-window transport preserves locality itself. The optional located handoff remains attached to the same closed-ball compact witness, and the excluded global compactness, properness, quotient, choice, and completeness rows remain absent.
+\end{proof}
+
 \closureat{$\LocallyCompactUp$}{seedStr}
 
 \begin{closurestatus}{\LocallyCompactUp}

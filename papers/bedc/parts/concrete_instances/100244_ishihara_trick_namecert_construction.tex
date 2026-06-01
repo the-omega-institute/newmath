@@ -85,6 +85,18 @@ Thus a displayed apartness branch remains an apartness branch with transported d
 \end{proof}
 \leanchecked{BEDC.Derived.IshiharaTrickUp.IshiharaTrickCarrier\_branch\_stability}
 
+\begin{theorem}[Ishihara trick binary branch boundary]
+\label{thm:ishihara-trick-binary-branch-boundary}
+Every accepted $\IshiharaTrickUp$ packet exposes exactly two branch readings at the finite Real/Completion boundary: either a displayed dyadic apartness branch whose radius, endpoint, and margin rows come from $D$ inside $W$, or a refinement request inside the transported schedule. No LLPO, WLPO, Markov principle, trichotomy, quotient equality, selected limit, countable choice, or $\RealUp$ completeness supplies a third case.
+\end{theorem}
+\begin{proof}
+Project the carrier described in \autoref{def:ishihara-trick-carrier}. The branch coordinate $A$ is read only after the schedule $S$, readback $R$, test sequence $T$, finite window $W$, dyadic ledger $D$, and real seal $E$ have been displayed.
+
+Apply the finite-test boundary of \autoref{thm:ishihara-trick-finite-test-boundary}. A positive branch can cite only a dyadic radius, endpoint comparison, and finite margin from $D$ inside $W$; if no such row is displayed, the packet records only a refinement request still inside the schedule.
+
+Apply branch stability from \autoref{thm:ishihara-trick-branch-stability}. Componentwise transport and continuation replay preserve the displayed apartness branch and the refinement-request branch, and the carrier has no coordinate for a third semi-classical or completion-supplied alternative.
+\end{proof}
+
 \begin{theorem}[Ishihara trick real seal nonescape]
 \label{thm:ishihara-trick-real-seal-nonescape}
 Every Real/Completion consumer of an accepted $\IshiharaTrickUp$ packet factors through the displayed finite rows
@@ -106,7 +118,7 @@ No omitted semi-classical or completion principle is a coordinate of the packet.
 \begin{closurestatus}{\IshiharaTrickUp}
   \constructivestory{An $\IshiharaTrickUp$ packet is generated from a StreamName schedule, RegSeqRat readback, displayed real-name test sequence, finite inspection window, DyadicRatCore tolerance ledger, Real seal, inspected binary boundary, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:ishihara-trick-carrier}, \autoref{thm:ishihara-trick-namecert-obligations}, \autoref{thm:ishihara-trick-finite-test-boundary}, \autoref{thm:ishihara-trick-branch-stability}, and \autoref{thm:ishihara-trick-real-seal-nonescape} seed the finite Real/Completion boundary for Ishihara-style inspection.}
+  \scopeclosed{\autoref{def:ishihara-trick-carrier}, \autoref{thm:ishihara-trick-namecert-obligations}, \autoref{thm:ishihara-trick-finite-test-boundary}, \autoref{thm:ishihara-trick-branch-stability}, \autoref{thm:ishihara-trick-binary-branch-boundary}, and \autoref{thm:ishihara-trick-real-seal-nonescape} seed the finite Real/Completion boundary for Ishihara-style inspection.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.IshiharaTrickUp}
   \bridgestatus{none}
