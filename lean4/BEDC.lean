@@ -1835,7 +1835,6 @@ import BEDC.Derived.CauchyfiltercompletionUp.ChoicefreeCompletionRow
 import BEDC.Derived.CauchyfiltercompletionUp.CofinalRegularReadback
 import BEDC.Derived.CauchyfiltercompletionUp.CompletionFunctorFactorization
 import BEDC.Derived.CauchyfiltercompletionUp.CompletionHandoff
-import BEDC.Derived.CauchyfiltercompletionUp.CompletionReflectorConsumer
 import BEDC.Derived.CauchyfiltercompletionUp.FilterConvergenceHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseAdmission
 import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseHandoff
@@ -4334,7 +4333,6 @@ import BEDC.Derived.HostTotalTraceUp.TasteGate
 import BEDC.Derived.HurwitzApproximationUp.TasteGate
 import BEDC.Derived.HyersUlamStabilityUp.TasteGate
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
-import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperspaceUp.CarrierObligations
