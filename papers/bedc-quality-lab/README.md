@@ -7,14 +7,18 @@ Python 侧只拥有 lab-local 的 `QualityEvidenceEnvelope` 证据边界。`bedc
 ## 运行
 
 ```bash
-python3 -m pytest -q
-make run-example
+make check
+python3 scripts/run_canonical_reports.py --help
 ```
 
 `make run-example` 会调用 `scripts/run_gaussian_ou_lejepa.py`，写出：
 
 - `reports/example_envelope.json`
 - `reports/quality_report.md`
+
+`make check` 是本目录的一键验证入口：先运行 lab-local pytest，再通过
+`scripts/run_canonical_reports.py` 生成 `reports/canonical/` 下的 canonical 报告和
+`reports/canonical/index.json`。
 
 ## 依赖
 
