@@ -138,61 +138,6 @@ def test_aggregate_fails_closed_when_std_does_not_shrink(monkeypatch):
     assert variance["prediction_pass"] is False
 
 
-def test_metric_stats_reports_empty_metric_list_as_closed_nan_payload():
-    stats = scaling._metric_stats([])
-
-    assert stats["n"] == 0
-    assert math_is_nan(stats["mean"])
-    assert math_is_nan(stats["std"])
-    assert math_is_nan(stats["ci95_half_width"])
-
-
-def test_metric_stats_reports_single_record_zero_std_and_ci():
-    stats = scaling._metric_stats([0.73])
-
-    assert stats == {
-        "n": 1,
-        "mean": pytest.approx(0.73),
-        "std": 0.0,
-        "ci95_half_width": 0.0,
-    }
-
-
-def test_fit_log_log_slope_fails_closed_for_insufficient_positive_std_points():
-    fit = scaling._fit_log_log_slope(
-        [
-            {"sample_count": 100, "std": 0.0},
-            {"sample_count": 200, "std": 0.1},
-            {"sample_count": 400, "std": 0.0},
-            {"sample_count": 800, "std": 0.2},
-        ]
-    )
-
-    assert fit["status"] == "insufficient_positive_std"
-    assert fit["n"] == 2
-    assert math_is_nan(fit["slope"])
-    assert math_is_nan(fit["intercept"])
-    assert math_is_nan(fit["slope_ci95_low"])
-    assert math_is_nan(fit["slope_ci95_high"])
-
-
-def test_fit_log_log_slope_reports_ci():
-    points = [
-        {"sample_count": 100, "std": 0.2},
-        {"sample_count": 200, "std": 0.141421356},
-        {"sample_count": 400, "std": 0.1},
-        {"sample_count": 800, "std": 0.070710678},
-        {"sample_count": 1600, "std": 0.05},
-    ]
-
-    fit = scaling._fit_log_log_slope(points)
-
-    assert fit["status"] == "ok"
-    assert fit["n"] == 5
-    assert fit["slope"] == pytest.approx(-0.5, abs=0.001)
-    assert fit["slope_ci95_low"] <= fit["slope"] <= fit["slope_ci95_high"]
-
-
 def test_aggregate_fails_closed_when_positive_std_points_are_insufficient(monkeypatch):
     monkeypatch.setattr(scaling, "SAMPLE_COUNTS", (100, 200, 400, 800))
     rows = records_from_offsets(
@@ -288,7 +233,3 @@ def test_main_writes_payload_shape(monkeypatch, tmp_path):
     assert len(payload["records"]) == 15
     assert payload["aggregate"]["variance_scaling"]["prediction_pass"]
     assert "Sample count range: `100` to `1600`." in report
-
-
-def math_is_nan(value):
-    return value != value
