@@ -1,10 +1,124 @@
 import json
 import math
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
 
 from scripts import run_gaussian_ou_gap_ledger_head as runner
+
+
+def _install_record_fixture(monkeypatch):
+    calls = []
+    fit_order = []
+    z = np.array(
+        [
+            [2.0, 1.0],
+            [-2.0, 1.0],
+            [2.0, -1.0],
+            [-2.0, -1.0],
+            [0.25, 0.25],
+            [-0.25, -0.25],
+        ],
+        dtype=np.float64,
+    )
+    z_pair = np.array(
+        [
+            [-2.0, 1.0],
+            [-2.0, 1.0],
+            [2.0, -1.0],
+            [2.0, -1.0],
+            [2.0, 2.0],
+            [-0.25, 0.25],
+        ],
+        dtype=np.float64,
+    )
+    train_idx = np.array([1, 2, 3, 4], dtype=np.int64)
+    eval_idx = np.array([0, 5], dtype=np.int64)
+
+    expected_gap_labels = np.array(
+        [
+            [1.0, 0.0, 1.0, 1.0],
+            [0.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 1.0],
+            [0.0, 0.0, 1.0, 1.0],
+            [0.0, 1.0, 1.0, 1.0],
+            [0.0, 1.0, 1.0, 1.0],
+        ],
+        dtype=np.float64,
+    )
+
+    def fake_make_toy_batch(sample_count, *, rho, seed):
+        assert sample_count == 6
+        assert rho == runner.RHO
+        assert seed == 4242
+        return SimpleNamespace(z=z, z_pair=z_pair)
+
+    def fake_train_eval_split(n, *, seed, train_fraction=runner.TRAIN_FRACTION):
+        assert n == 6
+        assert seed == 4242
+        assert train_fraction == runner.TRAIN_FRACTION
+        return train_idx, eval_idx
+
+    def fake_high_energy_threshold(batch_z, batch_train_idx):
+        np.testing.assert_allclose(batch_z, z)
+        np.testing.assert_array_equal(batch_train_idx, train_idx)
+        return 1.0
+
+    def fake_fit_probe(batch_z, labels):
+        name = runner.DISTINCTIONS[len(fit_order)]
+        fit_order.append((name, np.array(batch_z, copy=True), np.array(labels, copy=True)))
+        return {"name": name}
+
+    def fake_predict_probe(probe, batch_z):
+        name = probe["name"]
+        value = np.asarray(batch_z, dtype=np.float64)
+        labels = runner.distinction._label_truth(name, value, high_energy_threshold=1.0)
+        predictions = np.array(labels, copy=True)
+        if name == "latent_x_positive":
+            miss = (value[:, 0] > 1.5) & (value[:, 1] > 0.5)
+            predictions[miss] = 0.0
+        magnitude = np.where(np.max(np.abs(value), axis=1) < 0.5, 0.05, 2.0)
+        logits = np.where(predictions > 0.5, magnitude, -magnitude).astype(np.float64)
+        return {
+            "probabilities": runner._sigmoid(logits),
+            "logits": logits,
+            "predictions": predictions.astype(np.float64),
+        }
+
+    def fake_run_experiment(**kwargs):
+        calls.append(kwargs)
+        return SimpleNamespace(
+            run_id=kwargs["run_id"],
+            source_spec={"name": "fixture-source", "sample_count": kwargs["sample_count"]},
+            classifier_spec={"name": "fixture-classifier"},
+            metrics={
+                "quality_q": 0.25,
+                "quality_margin": 0.75,
+                "linear_identifiability_r2": 0.5,
+                "approx_identifiability_proxy": 0.125,
+            },
+            artifacts={
+                "envelope": kwargs["envelope_artifact"],
+                "report": kwargs["report_artifact"],
+            },
+        )
+
+    monkeypatch.setattr(runner, "SAMPLE_COUNT", 6)
+    monkeypatch.setattr(runner, "make_toy_batch", fake_make_toy_batch)
+    monkeypatch.setattr(runner, "run_experiment", fake_run_experiment)
+    monkeypatch.setattr(runner.distinction, "_train_eval_split", fake_train_eval_split)
+    monkeypatch.setattr(runner.distinction, "_high_energy_threshold", fake_high_energy_threshold)
+    monkeypatch.setattr(runner.distinction, "_fit_probe", fake_fit_probe)
+    monkeypatch.setattr(runner.distinction, "_predict_probe", fake_predict_probe)
+
+    return {
+        "calls": calls,
+        "fit_order": fit_order,
+        "train_idx": train_idx,
+        "eval_idx": eval_idx,
+        "expected_gap_labels": expected_gap_labels,
+    }
 
 
 def test_default_config_matches_structural_protocol_b():
@@ -98,6 +212,123 @@ def test_unlogged_error_and_gap_sound_primary_predicates():
     assert primary["epsilon"] == runner.PRIMARY_EPSILON
     assert primary["low_gap_implies_error_within_epsilon"] == pytest.approx(0.5)
     assert primary["error_above_epsilon_implies_gap_at_least_tau"] == pytest.approx(0.5)
+
+
+def test_features_and_labels_derives_gap_channels_and_canonical_projection(monkeypatch):
+    fixture = _install_record_fixture(monkeypatch)
+
+    data = runner._features_and_labels(seed=4242)
+
+    assert fixture["calls"] == [
+        {
+            "use_torch": runner.USE_TORCH,
+            "sample_count": 6,
+            "seed": 4242,
+            "rho": runner.RHO,
+            "run_id": "gaussian-ou-gap-ledger-head-seed-4242",
+            "envelope_artifact": runner.JSON_ARTIFACT,
+            "report_artifact": runner.REPORT_ARTIFACT,
+        }
+    ]
+    assert [name for name, _, _ in fixture["fit_order"]] == list(runner.DISTINCTIONS)
+    assert data["features"].shape == (6, 19)
+    np.testing.assert_array_equal(data["train_idx"], fixture["train_idx"])
+    np.testing.assert_array_equal(data["eval_idx"], fixture["eval_idx"])
+    np.testing.assert_array_equal(data["gap_labels"], fixture["expected_gap_labels"])
+    np.testing.assert_array_equal(data["prediction_error"], [1.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+    assert data["margin_threshold"] == pytest.approx(1.805)
+    assert data["label_rates"] == {
+        "prediction_error": pytest.approx(1.0 / 6.0),
+        "low_margin": pytest.approx(2.0 / 6.0),
+        "transition_unstable": pytest.approx(4.0 / 6.0),
+        "off_target_intervention": pytest.approx(5.0 / 6.0),
+    }
+    assert data["eval_label_rates"] == {
+        "prediction_error": pytest.approx(0.5),
+        "low_margin": pytest.approx(0.5),
+        "transition_unstable": pytest.approx(1.0),
+        "off_target_intervention": pytest.approx(1.0),
+    }
+    assert data["canonical_envelope_projection"] == {
+        "run_id": "gaussian-ou-gap-ledger-head-seed-4242",
+        "source_spec": {"name": "fixture-source", "sample_count": 6},
+        "classifier_spec": {"name": "fixture-classifier"},
+        "metrics": {
+            "quality_q": 0.25,
+            "quality_margin": 0.75,
+            "linear_identifiability_r2": 0.5,
+            "approx_identifiability_proxy": 0.125,
+        },
+        "artifacts": {
+            "envelope": runner.JSON_ARTIFACT,
+            "report": runner.REPORT_ARTIFACT,
+        },
+    }
+
+
+def test_run_record_wires_gap_head_split_labels_and_eval_surface(monkeypatch):
+    fixture = _install_record_fixture(monkeypatch)
+    captured = {}
+    eval_probabilities = np.array(
+        [
+            [0.9, 0.2, 0.3, 0.4],
+            [0.1, 0.8, 0.2, 0.7],
+        ],
+        dtype=np.float64,
+    )
+
+    def fake_fit_gap_head(features, labels):
+        captured["train_features"] = np.array(features, copy=True)
+        captured["train_labels"] = np.array(labels, copy=True)
+        return {"fixture": "gap-head"}
+
+    def fake_predict_gap_head(heads, features):
+        assert heads == {"fixture": "gap-head"}
+        captured["eval_features"] = np.array(features, copy=True)
+        return eval_probabilities
+
+    monkeypatch.setattr(runner, "_fit_gap_head", fake_fit_gap_head)
+    monkeypatch.setattr(runner, "_predict_gap_head", fake_predict_gap_head)
+
+    record = runner._run_record(seed=4242, seed_index=3)
+
+    assert fixture["calls"][0]["run_id"] == "gaussian-ou-gap-ledger-head-seed-4242"
+    assert record["seed_index"] == 3
+    assert record["seed_sequence_position"] == 4
+    assert record["config"]["sample_count"] == 6
+    assert record["config"]["train_count"] == 4
+    assert record["config"]["eval_count"] == 2
+    assert record["split"] == {
+        "train_indices": [1, 2, 3, 4],
+        "eval_indices": [0, 5],
+        "overlap_count": 0,
+    }
+    assert set(record["split"]["train_indices"]).isdisjoint(record["split"]["eval_indices"])
+    np.testing.assert_array_equal(
+        captured["train_labels"], fixture["expected_gap_labels"][fixture["train_idx"]]
+    )
+    assert captured["train_features"].shape == (4, 19)
+    assert captured["eval_features"].shape == (2, 19)
+    assert record["gap_label_rates"] == {
+        "prediction_error": pytest.approx(1.0 / 6.0),
+        "low_margin": pytest.approx(2.0 / 6.0),
+        "transition_unstable": pytest.approx(4.0 / 6.0),
+        "off_target_intervention": pytest.approx(5.0 / 6.0),
+    }
+    assert record["eval_gap_label_rates"] == {
+        "prediction_error": pytest.approx(0.5),
+        "low_margin": pytest.approx(0.5),
+        "transition_unstable": pytest.approx(1.0),
+        "off_target_intervention": pytest.approx(1.0),
+    }
+    vanilla = record["arms"]["vanilla"]
+    gap_head = record["arms"]["gap_head"]
+    assert vanilla["prediction_error_rate"] == gap_head["prediction_error_rate"] == pytest.approx(0.5)
+    assert vanilla["unlogged_error_rate"] == pytest.approx(0.5)
+    assert gap_head["unlogged_error_rate"] == pytest.approx(0.0)
+    assert gap_head["failure_detection_auroc"]["value"] == pytest.approx(1.0)
+    assert record["comparison"]["unlogged_error_rate_delta_gap_minus_vanilla"] == pytest.approx(-0.5)
+    assert record["comparison"]["failure_detection_auroc_delta_gap_minus_vanilla"] == pytest.approx(0.5)
 
 
 def test_vanilla_vs_gap_head_metrics_are_assembled_on_same_error_surface():
