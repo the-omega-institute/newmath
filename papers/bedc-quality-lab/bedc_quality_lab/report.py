@@ -6,6 +6,7 @@ from pathlib import Path
 
 from .cost_protocol import CostProtocol, format_cost_protocol_lines, load_cost_protocol
 from .schema import QualityEvidenceEnvelope
+from .tensor_namecert_candidate import from_quality_evidence_envelope
 
 
 _IDENTIFIABILITY_BOUND_KEYS = (
@@ -27,6 +28,7 @@ def _format_metric(value: float) -> str:
 def render_quality_report(envelope: QualityEvidenceEnvelope, protocol: CostProtocol | None = None) -> str:
     metrics = envelope.metrics
     cost_protocol = load_cost_protocol() if protocol is None else protocol
+    candidate = from_quality_evidence_envelope(envelope)
     lines = [
         "# BEDC Model Quality Lab 报告",
         "",
@@ -36,6 +38,18 @@ def render_quality_report(envelope: QualityEvidenceEnvelope, protocol: CostProto
         f"- 模式：`{envelope.pattern_spec.get('name', 'unknown')}`",
         f"- 分类器：`{envelope.classifier_spec.get('name', 'unknown')}`",
         f"- 稳定性设置：`{envelope.stability_spec.get('name', 'unknown')}`",
+        "",
+        "## Tensor NameCert Candidate",
+        "",
+        f"- Candidate：`{candidate.name}`",
+        f"- Evidence envelope：`{candidate.evidence_envelope_ref['schema_id']}:{candidate.evidence_envelope_ref['run_id']}`",
+        f"- `source_spec` lab-local candidate closure：`{candidate.closure_status['source_spec']}`",
+        f"- `pattern_spec` lab-local candidate closure：`{candidate.closure_status['pattern_spec']}`",
+        f"- `classifier_spec` lab-local candidate closure：`{candidate.closure_status['classifier_spec']}`",
+        f"- `stab_cert` stability lab-local candidate closure：`{candidate.closure_status['stab_cert']}`",
+        f"- `ledger_policy` lab-local candidate closure：`{candidate.closure_status['ledger_policy']}`",
+        f"- `scope_seal` lab-local candidate closure：`{candidate.closure_status['scope_seal']}`",
+        f"- Scope seal：`{candidate.scope_seal['boundary']}`",
         "",
         "## 指标",
         "",
