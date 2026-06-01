@@ -156,6 +156,27 @@ def test_saturation_estimate_detects_adjacent_ci_overlap(monkeypatch):
     assert estimate["overlapping_pair"]["right_x"] == pytest.approx(0.75)
 
 
+def test_saturation_estimate_marks_final_rho_overlap_as_grid_boundary(monkeypatch):
+    monkeypatch.setattr(rho_runner, "RHO_VALUES", (0.0, 0.25, 0.5, 0.75, 0.9))
+    points = rho_runner._target_points(
+        rho_runner._aggregate(
+            synthetic_records(
+                means={0.0: 0.20, 0.25: 0.45, 0.5: 0.70, 0.75: 0.95, 0.9: 0.96}
+            )
+        )
+    )
+
+    estimate = rho_runner._saturation_estimate(points)
+
+    assert estimate["method"] == "adjacent_ci_overlap_first_rho"
+    assert estimate["saturated"]
+    assert estimate["saturation_x"] == pytest.approx(0.9)
+    assert estimate["saturation_index"] == len(points) - 1
+    assert estimate["grid_boundary"] is True
+    assert estimate["overlapping_pair"]["left_x"] == pytest.approx(0.75)
+    assert estimate["overlapping_pair"]["right_x"] == pytest.approx(0.9)
+
+
 def test_post_saturation_slope_ci_reports_zero_branches():
     contains = {
         "post_saturation_fit": {
