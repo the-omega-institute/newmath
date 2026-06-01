@@ -16,6 +16,7 @@ from bedc_ci import (  # type: ignore[import-not-found]
     LeanSourceScan,
     _discovery_candidate_blocks,
     _is_classifier_endpoint,
+    _structural_dna_relation_unavailable,
     _ledger_classifier_shift_targets,
     audit_payload,
     cmd_discovery_audit,
@@ -563,6 +564,71 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(payload["violation_count"], 0)
         provenance = payload["sites"][0]["provenance"]
         self.assertTrue(all(item["prior"] != "BEDC.B.C" for item in provenance))
+
+    def test_relation_unavailable_does_not_pollute_provenance(self) -> None:
+        headers = {
+            "BEDC.A.C": "def C (x y : BHist) : Prop :=",
+            "BEDC.B.C": "def C (x y : BHist) : Prop :=",
+            "BEDC.Target.Ledger": "def Ledger : DiscoveryDeltaLedger X :=",
+        }
+        bodies = {
+            "BEDC.A.C": "def C (x y : BHist) : Prop := True",
+            "BEDC.B.C": "def C (x y : BHist) : Prop := False",
+            "BEDC.Target.Ledger": (
+                "def Ledger : DiscoveryDeltaLedger X where\n"
+                "  classifier_shift := some {\n"
+                "    BeforeClassifier := BEDC.A.C\n"
+                "    AfterClassifier := BEDC.B.C\n"
+                "  }"
+            ),
+        }
+        ledger = DiscoveryDeltaLedgerRecord(
+            "Ledger",
+            "BEDC.Target.Ledger",
+            "lean4/BEDC/Target.lean",
+            1,
+            "Target",
+            "target",
+            True,
+        )
+        block = self._block(
+            open_fields={
+                "closureclaimkind": "positiveDiscovery",
+                "closureledger": "BEDC.Target.Ledger",
+            },
+        )
+        scan = LeanSourceScan([], [], headers, bodies, [ledger])
+        fps = {
+            "BEDC.A.C": ExprFingerprint(
+                "a", "type", "a", reduced_fingerprint="ra"
+            ),
+            "BEDC.B.C": ExprFingerprint(
+                "b", "type", "b", reduced_fingerprint="rb"
+            ),
+        }
+        unavailable = _structural_dna_relation_unavailable("forced_unavailable")
+        with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps), \
+            patch("bedc_ci._run_structural_dna_relations", return_value=([], unavailable)):
+            payload = discovery_integrity_payload([block], scan)
+        site = payload["sites"][0]
+        self.assertTrue(all("prior" in item for item in site["provenance"]))
+        self.assertTrue(all(
+            item.get("relation") != "relation_analysis_unavailable"
+            for item in site["provenance"]
+        ))
+        self.assertEqual(len(site["unavailable"]), 1)
+        self.assertEqual(site["unavailable"][0]["relation"], "relation_analysis_unavailable")
+        self.assertEqual(len(payload["relation_diagnostics"]), 1)
+        self.assertEqual(
+            payload["relation_diagnostics"][0]["relation"],
+            "relation_analysis_unavailable",
+        )
+        self.assertEqual(len(site["relation_diagnostics"]), 1)
+        self.assertEqual(
+            site["relation_diagnostics"][0]["relation"],
+            "relation_analysis_unavailable",
+        )
+        self.assertEqual(payload["relation_diagnostics_count"], 1)
 
 
 if __name__ == "__main__":
