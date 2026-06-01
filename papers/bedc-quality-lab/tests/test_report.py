@@ -35,6 +35,35 @@ def test_report_projection_uses_envelope_values():
     assert "reports/example_envelope.json" in report
 
 
+def test_report_includes_tensor_namecert_candidate_section():
+    envelope = QualityEvidenceEnvelope(
+        schema_id=SCHEMA_ID,
+        run_id="candidate-report-test",
+        source_spec={"name": "source-from-envelope"},
+        pattern_spec={"name": "pattern-from-envelope"},
+        classifier_spec={"name": "classifier-from-envelope", "cert_status": "not-certified"},
+        stability_spec={"name": "stability-from-envelope"},
+        metrics={"quality_q": 0.1777778},
+        ledger_gaps=[],
+        debt_items=[],
+        artifacts={"envelope": "reports/example_envelope.json"},
+        bedc_refs=["papers/bedc/preamble.tex:closurestatus"],
+    )
+
+    report = render_quality_report(envelope)
+
+    assert "## Tensor NameCert Candidate" in report
+    assert "TensorNameCertCandidate:candidate-report-test" in report
+    assert "bedc-quality-lab:evidence-envelope:candidate-report-test" in report
+    assert "`source_spec` lab-local candidate closure：`closed`" in report
+    assert "`pattern_spec` lab-local candidate closure：`closed`" in report
+    assert "`classifier_spec` lab-local candidate closure：`partial`" in report
+    assert "`stab_cert` stability lab-local candidate closure：`closed`" in report
+    assert "`ledger_policy` lab-local candidate closure：`none`" in report
+    assert "`scope_seal` lab-local candidate closure：`closed`" in report
+    assert "lab-local candidate projection" in report
+
+
 def test_report_includes_cost_protocol_section():
     envelope = QualityEvidenceEnvelope(
         schema_id=SCHEMA_ID,

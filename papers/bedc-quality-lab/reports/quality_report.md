@@ -7,6 +7,18 @@
 - 分类器：`tiny-mlp-2-128-128-2`
 - 稳定性设置：`fixed-seed-single-source`
 
+## Tensor NameCert Candidate
+
+- Candidate：`TensorNameCertCandidate:gaussian-ou-lejepa-seed-23`
+- Evidence envelope：`bedc-quality-lab:evidence-envelope:gaussian-ou-lejepa-seed-23`
+- `source_spec` lab-local candidate closure：`closed`
+- `pattern_spec` lab-local candidate closure：`closed`
+- `classifier_spec` lab-local candidate closure：`closed`
+- `stab_cert` stability lab-local candidate closure：`closed`
+- `ledger_policy` lab-local candidate closure：`partial`
+- `scope_seal` lab-local candidate closure：`closed`
+- Scope seal：`lab-local candidate projection`
+
 ## 指标
 
 - `alignment_gap_delta`：0.000000
