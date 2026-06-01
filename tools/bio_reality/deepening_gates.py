@@ -773,6 +773,45 @@ def self_test() -> int:
     ):
         print(json.dumps(recurring_probe_failure_results, indent=2), file=sys.stderr)
         return 1
+    event_mismatch_failure_results = gate_all(
+        [],
+        [
+            {**contact, "contact_id": f"fixture.contact.{index}"}
+            for index in range(1, 8)
+        ]
+        + [
+            {
+                **contact,
+                "contact_id": "matched_mRNA_abundance_control",
+            }
+        ],
+        [],
+        [
+            {
+                "mismatch_id": "curated.standard.code_table.cross_organism_id_shape_boundary",
+                "probe_ref": "fixture.probe",
+                "contact_ref": "fixture.contact.1",
+                "status": "underdetermined",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The packet carries an invalid indexed contact id.",
+                "refinement_pressure": "Normalize the reality contact id before review.",
+                "blocked_claims": ["Do not review a mismatch against an invalid contact table."],
+                "null_reason": "",
+            }
+        ],
+    )
+    event_mismatch_failure = next(
+        result
+        for result in event_mismatch_failure_results
+        if result["packet_id"] == "curated.standard.code_table.cross_organism_id_shape_boundary"
+    )
+    if event_mismatch_failure["gate_status"] != "gate_blocked" or not any(
+        issue.startswith("contact_id:8: contact_id: invalid id: matched_mRNA_abundance_control;")
+        and f"suggested normalized id: {invalid_contact_id_cases['matched_mRNA_abundance_control']}" in issue
+        for issue in event_mismatch_failure["issues"]
+    ):
+        print(json.dumps(event_mismatch_failure_results, indent=2), file=sys.stderr)
+        return 1
     scalar_test_scope_results = gate_all(
         [],
         [
