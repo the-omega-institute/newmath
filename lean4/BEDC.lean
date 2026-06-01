@@ -644,6 +644,7 @@ import BEDC.Derived.BaireOneFunctionUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
 import BEDC.Derived.BaireSteinhausUp.TasteGate
+import BEDC.Derived.BaireUltrametricUp.CylinderRefinement
 import BEDC.Derived.BaireUltrametricUp.TasteGate
 import BEDC.Derived.BanachAlaogluUp.TasteGate
 import BEDC.Derived.BanachAlgebraUp.TasteGate
@@ -1068,6 +1069,7 @@ import BEDC.Derived.CantorIntersectionUp.WidthWindowTransport
 import BEDC.Derived.CantorSetUp.DeletedGapDensityRefusal
 import BEDC.Derived.CantorSetUp.DeletedGapLedgerExhaustion
 import BEDC.Derived.CantorSetUp.EndpointLedgerStability
+import BEDC.Derived.CantorSetUp.MiddleThirdWindowExhaustion
 import BEDC.Derived.CantorSetUp.NameCertObligations
 import BEDC.Derived.CantorSetUp.NestedIntervalHandoff
 import BEDC.Derived.CantorSetUp.NestedRealHandoff
@@ -1335,6 +1337,7 @@ import BEDC.Derived.CauchyExtensionOperatorUp.TasteGate
 import BEDC.Derived.CauchyFilterBaseUp.TasteGate
 import BEDC.Derived.CauchyFilterClusterUp.TasteGate
 import BEDC.Derived.CauchyFilterCompletionCriterionUp.TasteGate
+import BEDC.Derived.CauchyFilterCriterionUp.TasteGate
 import BEDC.Derived.CauchyFilterLimitUp
 import BEDC.Derived.CauchyFilterLimitUp.TasteGate
 import BEDC.Derived.CauchyFilterMeetUp
@@ -1894,6 +1897,7 @@ import BEDC.Derived.CellularBoundaryConditionUp.TasteGate
 import BEDC.Derived.CellularCarrierEncodingUp.TasteGate
 import BEDC.Derived.CellularLocalUpdateRuleUp.TasteGate
 import BEDC.Derived.CellularOrbitSubstrateUp.TasteGate
+import BEDC.Derived.CellularPatternCatalogUp.TagLookupDeterminacy
 import BEDC.Derived.CellularPatternCatalogUp.TasteGate
 import BEDC.Derived.CellularRowClassifierUp.TasteGate
 import BEDC.Derived.CellularSubstrateClassifierUp.TasteGate
@@ -1955,6 +1959,7 @@ import BEDC.Derived.CertifiedPhysicalTruthUp
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
 import BEDC.Derived.CertifiedUseProcessUp.TasteGate
 import BEDC.Derived.CesaroConvergenceUp.TasteGate
+import BEDC.Derived.CevaUp.TasteGate
 import BEDC.Derived.ChainConnectedMetricUp.TasteGate
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ChebyshevPolynomialUp.TasteGate
@@ -2149,6 +2154,7 @@ import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.ClosureWitnessLedgerUp
+import BEDC.Derived.ClusterFilterUp.CauchyCompletionHandoff
 import BEDC.Derived.ClusterFilterUp.TasteGate
 import BEDC.Derived.CodonSixBitWindowUp.TasteGate
 import BEDC.Derived.CodonTransitionMatrixUp.TasteGate
@@ -3902,6 +3908,7 @@ import BEDC.Derived.FiniteRealSectionUp.WindowReadbackDeterminacy
 import BEDC.Derived.FiniteReflectionTupleUp.Core
 import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
 import BEDC.Derived.FiniteRefutationBoundaryUp.TasteGate
+import BEDC.Derived.FiniteSimplicialChainUp.TasteGate
 import BEDC.Derived.FiniteSupportUp.TasteGate
 import BEDC.Derived.FiniteTailDiagonalSealUp
 import BEDC.Derived.FiniteTailDiagonalSealUp.StdBridge
@@ -5732,6 +5739,7 @@ import BEDC.Derived.PicardContractionUp.RootUnblockPackage
 import BEDC.Derived.PicardContractionUp.SourceReadback
 import BEDC.Derived.PicardContractionUp.SourceWindow
 import BEDC.Derived.PicardErrorEstimateUp.TasteGate
+import BEDC.Derived.PicardFixedPointModulusUp.TasteGate
 import BEDC.Derived.PicardIterationUp.TasteGate
 import BEDC.Derived.PicardLindelofLocalFlowUp.TasteGate
 import BEDC.Derived.PicardLindelofUp.TasteGate
@@ -6567,6 +6575,7 @@ import BEDC.Derived.RegularCauchyFilterUp.TailStability
 import BEDC.Derived.RegularCauchyFilterUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteObservationRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteProductUp
+import BEDC.Derived.RegularCauchyHausdorffReflectionUp.FiniteWindowUniquenessRoute
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.RepresentativeIndependence
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.TasteGate
