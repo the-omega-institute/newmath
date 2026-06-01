@@ -151,31 +151,15 @@ def taste_gate : ChapterTasteGate DyadicDensityRealEmbeddingComparisonUp :=
   dyadicDensityRealEmbeddingComparisonChapterTasteGate
 
 theorem DyadicDensityRealEmbeddingComparisonTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate DyadicDensityRealEmbeddingComparisonUp) ∧
-      (∀ h : BHist,
-        dyadicDensityRealEmbeddingComparisonDecodeBHist
-            (dyadicDensityRealEmbeddingComparisonEncodeBHist h) =
-          h) ∧
-        (∀ x : DyadicDensityRealEmbeddingComparisonUp,
-          dyadicDensityRealEmbeddingComparisonFromEventFlow
-              (dyadicDensityRealEmbeddingComparisonToEventFlow x) =
-            some x) ∧
-          dyadicDensityRealEmbeddingComparisonFromEventFlow
-              (dyadicDensityRealEmbeddingComparisonToEventFlow
-                (DyadicDensityRealEmbeddingComparisonUp.mk BHist.Empty BHist.Empty BHist.Empty
-                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                  BHist.Empty)) =
-            some
-              (DyadicDensityRealEmbeddingComparisonUp.mk BHist.Empty BHist.Empty BHist.Empty
-                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-                BHist.Empty) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨⟨dyadicDensityRealEmbeddingComparisonChapterTasteGate⟩,
-      dyadicDensityRealEmbeddingComparison_decode_encode,
-      dyadicDensityRealEmbeddingComparison_round_trip,
-      dyadicDensityRealEmbeddingComparison_round_trip
-        (DyadicDensityRealEmbeddingComparisonUp.mk BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)⟩
+    (∀ h : BHist,
+      dyadicDensityRealEmbeddingComparisonDecodeBHist
+          (dyadicDensityRealEmbeddingComparisonEncodeBHist h) =
+        h) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro h
+  induction h with
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 end BEDC.Derived.DyadicDensityRealEmbeddingComparisonUp

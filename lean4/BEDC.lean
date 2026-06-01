@@ -1576,6 +1576,7 @@ import BEDC.Derived.CauchyModulusSpaceUp.TasteGate
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
+import BEDC.Derived.CauchyNetCompletionUp.MooreSmithHandoff
 import BEDC.Derived.CauchyNetFilterCorrespondenceUp.TasteGate
 import BEDC.Derived.CauchyNetHausdorffUniquenessUp.TasteGate
 import BEDC.Derived.CauchyNetLimitUp
@@ -3977,6 +3978,7 @@ import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditHandoff
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditNonclosure
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
 import BEDC.Derived.FiniteOrthonormalBasisUp.TasteGate
+import BEDC.Derived.FiniteOscillationRadiusLedgerUp.TasteGate
 import BEDC.Derived.FinitePartitionMeshUp.TasteGate
 import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
@@ -7876,6 +7878,7 @@ import BEDC.Derived.UniformCauchySeriesUp.TasteGate
 import BEDC.Derived.UniformCauchySubsequenceUp.TasteGate
 import BEDC.Derived.UniformClosureUp.TasteGate
 import BEDC.Derived.UniformCompleteSpaceUp.TasteGate
+import BEDC.Derived.UniformCompletionFunctorUp.SourceFactorization
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.UniversalHandoff
 import BEDC.Derived.UniformCompletionMonadUp
