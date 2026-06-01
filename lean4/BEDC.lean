@@ -808,6 +808,7 @@ import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
 import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
+import BEDC.Derived.BoundedCauchyIntervalUp.TasteGate
 import BEDC.Derived.BoundedFunctionFamilyUp
 import BEDC.Derived.BoundedFunctionFamilyUp.NameCertObligations
 import BEDC.Derived.BoundedFunctionFamilyUp.TasteGate
@@ -2122,6 +2123,7 @@ import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.ClosureWitnessLedgerUp
+import BEDC.Derived.ClusterFilterUp.TasteGate
 import BEDC.Derived.CodonSixBitWindowUp.TasteGate
 import BEDC.Derived.CodonTransitionMatrixUp.TasteGate
 import BEDC.Derived.CodonWindowSpectralInverseUp.TasteGate
@@ -2863,6 +2865,7 @@ import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
 import BEDC.Derived.DecimalExpansionUp.CountableDenseConsumerHandoff
+import BEDC.Derived.DecimalExpansionUp.DigitCarryDeterminacy
 import BEDC.Derived.DecimalExpansionUp.DyadicComparisonHandoff
 import BEDC.Derived.DecimalExpansionUp.DyadicRationalReadback
 import BEDC.Derived.DecimalExpansionUp.EndpointWindowTransport
@@ -3377,6 +3380,7 @@ import BEDC.Derived.DyadicStepFunctionUp.TasteGate
 import BEDC.Derived.DyadicStepFunctionUp.WindowCarrier
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicSubdivisionUp.TasteGate
+import BEDC.Derived.DyadicSubsequenceUp.TasteGate
 import BEDC.Derived.DyadicSupremumUp.TasteGate
 import BEDC.Derived.DyadicTailBallUp.MonotoneInclusion
 import BEDC.Derived.DyadicTailBallUp.RadiusMonotonicity
@@ -5239,6 +5243,7 @@ import BEDC.Derived.MonoidUp.StdBridge
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.MonoidalCompletionUp.TasteGate
 import BEDC.Derived.MonotoneBarModulusUp
+import BEDC.Derived.MonotoneBoundedSequenceUp.TasteGate
 import BEDC.Derived.MonotoneCauchyUp
 import BEDC.Derived.MonotoneCauchyUp.BoundedWitnessTailFactorization
 import BEDC.Derived.MonotoneCauchyUp.BridgeFacingCertificate
@@ -6789,6 +6794,7 @@ import BEDC.Derived.SamuelCompletionUp.TasteGate
 import BEDC.Derived.SchauderFixedPointUp.TasteGate
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.SchurMatrixSummabilityUp.TasteGate
+import BEDC.Derived.SchwartzFunctionUp.TasteGate
 import BEDC.Derived.SchwarzReflectionRouteUp.TasteGate
 import BEDC.Derived.ScienceBridgeUp.TasteGate
 import BEDC.Derived.ScientificIdealizationResidueSealUp.NameCertObligations
