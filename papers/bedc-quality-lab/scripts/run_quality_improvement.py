@@ -10,8 +10,11 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from bedc_quality_lab.schema import QualityEvidenceEnvelope
-from scripts.run_gaussian_ou_lejepa import run_experiment
+from bedc_quality_lab.debt import assess_debt, format_debt_items
+from bedc_quality_lab.ledger import derive_ledger_gaps, format_ledger_gaps
+from bedc_quality_lab.metrics import classifier_certificate, metric_bundle, quality_components
+from bedc_quality_lab.schema import SCHEMA_ID, QualityEvidenceEnvelope
+from bedc_quality_lab.toy_world import make_toy_batch
 
 TARGET_DEBT_RESIDUE = "finite-sample-support"
 BEFORE_ENVELOPE_ARTIFACT = "reports/improvement_before_envelope.json"
@@ -77,6 +80,77 @@ def _format_signed(value: float) -> str:
     return f"{value:+.6f}"
 
 
+def _run_improvement_surface(
+    *,
+    sample_count: int,
+    seed: int = 23,
+    run_id: str,
+    envelope_artifact: str,
+    report_artifact: str = REPORT_ARTIFACT,
+) -> QualityEvidenceEnvelope:
+    rho = 0.82
+    batch = make_toy_batch(sample_count, rho=rho, seed=seed)
+    centered = batch.x - batch.x.mean(axis=0, keepdims=True)
+    scale = centered.std(axis=0, keepdims=True)
+    scale[scale <= 1e-12] = 1.0
+    h = centered / scale
+    metrics = metric_bundle(h, batch.z)
+    certificate = classifier_certificate(metrics)
+    source_spec = {
+        "name": "gaussian-ou-toy-world",
+        "latent_dim": 2,
+        "sample_count": int(batch.z.shape[0]),
+        "rho": rho,
+        "mixing": "sinusoidal-parabolic-shear",
+    }
+    pattern_spec = {
+        "name": "latent-linear-recovery",
+        "target": "recover z from representation h by linear least squares",
+    }
+    classifier_spec = {
+        "name": "standardized-nonlinear-observation",
+        "output_dim": 2,
+        "training": "deterministic-standardization",
+        **certificate,
+    }
+    stability_spec = {
+        "name": "fixed-seed-single-source",
+        "seed": seed,
+        "pair_process": "ornstein-uhlenbeck",
+    }
+    debt_assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec)
+    ledger_gaps = derive_ledger_gaps(
+        metrics,
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        debt_assessment,
+    )
+    metrics = {
+        **metrics,
+        **quality_components(metrics, debt_assessment.debt_total, classifier_spec),
+    }
+    return QualityEvidenceEnvelope(
+        schema_id=SCHEMA_ID,
+        run_id=run_id,
+        source_spec=source_spec,
+        pattern_spec=pattern_spec,
+        classifier_spec=classifier_spec,
+        stability_spec=stability_spec,
+        metrics=metrics,
+        ledger_gaps=format_ledger_gaps(ledger_gaps),
+        debt_items=format_debt_items(debt_assessment),
+        artifacts={
+            "envelope": envelope_artifact,
+            "report": report_artifact,
+        },
+        bedc_refs=[
+            "papers/bedc/preamble.tex:closurestatus",
+            "papers/bedc/parts/project_governance/theory_amendment_policy.tex",
+        ],
+    )
+
+
 def _render_improvement_report(before: QualityEvidenceEnvelope, after: QualityEvidenceEnvelope) -> str:
     delta = _quality_delta(before, after)
     lines = [
@@ -105,15 +179,13 @@ def _render_improvement_report(before: QualityEvidenceEnvelope, after: QualityEv
 
 
 def main() -> None:
-    before = run_experiment(
-        use_torch=False,
+    before = _run_improvement_surface(
         sample_count=384,
         run_id="gaussian-ou-lejepa-finite-sample-before",
         envelope_artifact=BEFORE_ENVELOPE_ARTIFACT,
         report_artifact=REPORT_ARTIFACT,
     )
-    after = run_experiment(
-        use_torch=False,
+    after = _run_improvement_surface(
         sample_count=2048,
         run_id="gaussian-ou-lejepa-finite-sample-after",
         envelope_artifact=AFTER_ENVELOPE_ARTIFACT,
