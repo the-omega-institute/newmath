@@ -1247,6 +1247,54 @@ def self_test() -> int:
             file=sys.stderr,
         )
         return 1
+    probe_schema = json.loads((SCRIPT_DIR / "probe.schema.json").read_text(encoding="utf-8"))
+    probe_id_pattern = probe_schema.get("properties", {}).get("probe_id", {}).get("pattern")
+    if probe_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "probe_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": probe_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    probe_conjecture_ref_pattern = probe_schema.get("properties", {}).get("conjecture_ref", {}).get("pattern")
+    if probe_conjecture_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "conjecture_ref",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": probe_conjecture_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    probe_required_contact_pattern = (
+        probe_schema.get("properties", {}).get("required_contacts", {}).get("items", {}).get("pattern")
+    )
+    if probe_required_contact_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "required_contacts.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": probe_required_contact_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
     mismatch_schema = json.loads((SCRIPT_DIR / "mismatch.schema.json").read_text(encoding="utf-8"))
     mismatch_id_pattern = mismatch_schema.get("properties", {}).get("mismatch_id", {}).get("pattern")
     if mismatch_id_pattern != ID_PATTERN:
