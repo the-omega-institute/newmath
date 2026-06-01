@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from bedc_ci import (  # type: ignore[import-not-found]
     CLOSURESTATUS_BEGIN_RE,
     CLOSURESTATUS_FIELD_RE,
+    DiscoveryDeltaLedgerRecord,
     ExprFingerprint,
     LeanSourceScan,
     _discovery_candidate_blocks,
@@ -233,10 +234,9 @@ class DiscoveryAuditTests(unittest.TestCase):
 
     def test_discovery_audit_reports_ledger_gaps(self) -> None:
         payload = discovery_audit_payload([
-            self._block(open_fields={"closureparents": "BEDC.Prior.OldClassifier"})
+            self._block(open_fields={"closureclaimkind": "discovery"})
         ])
         kinds = {item["kind"] for item in payload["ledger_gaps"]}
-        self.assertIn("missing_closureclaimkind", kinds)
         self.assertIn("missing_closurenamecert", kinds)
         self.assertIn("missing_closureledger", kinds)
         self.assertIn("missing_closureclassifierincrement", kinds)
@@ -292,6 +292,11 @@ class DiscoveryAuditTests(unittest.TestCase):
             "seed_closure": self._block(theory_closure="seedClosure"),
             "missing_theory_closure": self._block(theory_closure=None),
             "parser_error": self._block(error="unterminated closurestatus block"),
+            "thematic_name_only": self._block(
+                region="ClassifierNoveltyLedger",
+                raw_body=r"\scopeclosed{This classifier novelty chapter is seed-level prose.}",
+            ),
+            "origin_ai_only": self._block(origin="ai"),
         }
         for name, block in cases.items():
             with self.subTest(name=name):
@@ -368,16 +373,98 @@ class DiscoveryAuditTests(unittest.TestCase):
             {"BEDC.A.C": "def C (x : BHist) (y : BHist) : Prop :="},
         ))
 
-    def test_discovery_integrity_reports_unresolved_existing_surface(self) -> None:
+    def test_discovery_integrity_ignores_thematic_existing_surface_without_claim(self) -> None:
         payload = discovery_integrity_payload(
             [self._block(region="ClassifierNoveltyLedger")],
             LeanSourceScan([], [], {}, {}, []),
         )
+        self.assertEqual(payload["declared_discovery_chapter_count"], 0)
+        self.assertEqual(payload["checked_chapter_count"], 0)
+        self.assertEqual(payload["unresolved_count"], 0)
+        self.assertEqual(payload["violation_count"], 0)
+
+    def test_discovery_integrity_blocks_declared_positive_without_shift(self) -> None:
+        headers = {
+            "BEDC.Fake.Ledger": "def Ledger : DiscoveryDeltaLedger X :=",
+        }
+        bodies = {
+            "BEDC.Fake.Ledger": (
+                "def Ledger : DiscoveryDeltaLedger X where\n"
+                "  classifier_shift := none"
+            ),
+        }
+        ledger = DiscoveryDeltaLedgerRecord(
+            "Ledger",
+            "BEDC.Fake.Ledger",
+            "lean4/BEDC/Fake.lean",
+            1,
+            "Fake",
+            "fake",
+            False,
+        )
+        block = self._block(
+            open_fields={
+                "closureclaimkind": "positiveDiscovery",
+                "closureledger": "BEDC.Fake.Ledger",
+            },
+        )
+        payload = discovery_integrity_payload(
+            [block],
+            LeanSourceScan([], [], headers, bodies, [ledger]),
+        )
         self.assertEqual(payload["declared_discovery_chapter_count"], 1)
         self.assertEqual(payload["checked_chapter_count"], 0)
         self.assertEqual(payload["unresolved_count"], 1)
-        self.assertEqual(payload["unresolved"][0]["reason"], "no_declared_new_classifier_resolved")
-        self.assertEqual(payload["sites"][0]["resolution_status"], "unresolved")
+        self.assertEqual(payload["violation_count"], 1)
+        self.assertEqual(
+            payload["violations"][0]["kind"],
+            "declared_discovery_classifier_unresolved",
+        )
+
+    def test_discovery_integrity_accepts_marker_linked_shifted_ledger_surface(self) -> None:
+        headers = {
+            "BEDC.A.C": "def C (x y : BHist) : Prop :=",
+            "BEDC.B.D": "def D (x y : BHist) : Prop :=",
+            "BEDC.Target.Ledger": "def Ledger : DiscoveryDeltaLedger X :=",
+        }
+        bodies = {
+            "BEDC.A.C": "def C (x y : BHist) : Prop := True",
+            "BEDC.B.D": "def D (x y : BHist) : Prop := False",
+            "BEDC.Target.Ledger": (
+                "def Ledger : DiscoveryDeltaLedger X where\n"
+                "  classifier_shift := some {\n"
+                "    BeforeClassifier := BEDC.A.C\n"
+                "    AfterClassifier := BEDC.B.D\n"
+                "  }"
+            ),
+        }
+        ledger = DiscoveryDeltaLedgerRecord(
+            "Ledger",
+            "BEDC.Target.Ledger",
+            "lean4/BEDC/Target.lean",
+            1,
+            "Target",
+            "target",
+            True,
+        )
+        block = self._block(raw_body=r"\leanchecked{BEDC.Target.Ledger}")
+        fps = {
+            "BEDC.A.C": ExprFingerprint(
+                "a", "type", "a", reduced_fingerprint="old"
+            ),
+            "BEDC.B.D": ExprFingerprint(
+                "b", "type", "b", reduced_fingerprint="fresh"
+            ),
+        }
+        with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
+            payload = discovery_integrity_payload(
+                [block],
+                LeanSourceScan([], [], headers, bodies, [ledger]),
+            )
+        self.assertEqual(payload["declared_discovery_chapter_count"], 1)
+        self.assertEqual(payload["explicit_discovery_chapter_count"], 0)
+        self.assertEqual(payload["checked_chapter_count"], 1)
+        self.assertEqual(payload["violation_count"], 0)
 
     def test_discovery_integrity_blocks_binder_style_reconstruction(self) -> None:
         headers = {
@@ -387,12 +474,31 @@ class DiscoveryAuditTests(unittest.TestCase):
         bodies = {
             "BEDC.Prior.OldRel": "def OldRel (x y : BHist) : Prop := True",
             "BEDC.Target.NewRel": "def NewRel (x y : BHist) : Prop := True",
+            "BEDC.Target.Ledger": (
+                "def Ledger : DiscoveryDeltaLedger X where\n"
+                "  classifier_shift := some {\n"
+                "    BeforeClassifier := BEDC.Prior.OldRel\n"
+                "    AfterClassifier := BEDC.Target.NewRel\n"
+                "  }"
+            ),
         }
+        headers["BEDC.Target.Ledger"] = "def Ledger : DiscoveryDeltaLedger X :="
         block = self._block(
-            open_fields={"closureclaimkind": "positiveDiscovery"},
-            lean_target="BEDC.Target.NewRel",
+            open_fields={
+                "closureclaimkind": "positiveDiscovery",
+                "closureledger": "BEDC.Target.Ledger",
+            },
         )
-        scan = LeanSourceScan([], [], headers, bodies, [])
+        ledger = DiscoveryDeltaLedgerRecord(
+            "Ledger",
+            "BEDC.Target.Ledger",
+            "lean4/BEDC/Target.lean",
+            1,
+            "Target",
+            "target",
+            True,
+        )
+        scan = LeanSourceScan([], [], headers, bodies, [ledger])
         fps = {
             "BEDC.Prior.OldRel": ExprFingerprint(
                 "old", "type", "old", reduced_fingerprint="same"
@@ -418,12 +524,31 @@ class DiscoveryAuditTests(unittest.TestCase):
         bodies = {
             "BEDC.A.C": "def C (x y : BHist) : Prop := True",
             "BEDC.B.C": "def C (x y : BHist) : Prop := False",
+            "BEDC.Target.Ledger": (
+                "def Ledger : DiscoveryDeltaLedger X where\n"
+                "  classifier_shift := some {\n"
+                "    BeforeClassifier := BEDC.A.C\n"
+                "    AfterClassifier := BEDC.B.C\n"
+                "  }"
+            ),
         }
+        headers["BEDC.Target.Ledger"] = "def Ledger : DiscoveryDeltaLedger X :="
         block = self._block(
-            open_fields={"closureclaimkind": "positiveDiscovery"},
-            lean_target="BEDC.B.C",
+            open_fields={
+                "closureclaimkind": "positiveDiscovery",
+                "closureledger": "BEDC.Target.Ledger",
+            },
         )
-        scan = LeanSourceScan([], [], headers, bodies, [])
+        ledger = DiscoveryDeltaLedgerRecord(
+            "Ledger",
+            "BEDC.Target.Ledger",
+            "lean4/BEDC/Target.lean",
+            1,
+            "Target",
+            "target",
+            True,
+        )
+        scan = LeanSourceScan([], [], headers, bodies, [ledger])
         fps = {
             "BEDC.A.C": ExprFingerprint(
                 "a", "type", "a", reduced_fingerprint="ra"

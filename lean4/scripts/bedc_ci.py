@@ -2422,6 +2422,7 @@ GRADE_REQUIRES_LEAN_TARGET = {
     "axiomCleanV", "bridgeCheckedV",
 }
 STRONG_CLOSURESTATUS_CLAIMS = {"discovery", "positiveDiscovery"}
+DISCOVERY_DECLARATION_CLAIM_KINDS = {"discovery", "positiveDiscovery"}
 CLOSURESTATUS_STRONG_CLAIM_REQUIREMENTS = {
     "closurenamecert": "NameCert evidence",
     "closureledger": "ledger evidence",
@@ -2781,25 +2782,19 @@ def _discovery_candidate_blocks(blocks: list[dict]) -> list[dict]:
 def _block_has_discovery_candidate_surface(block: dict) -> bool:
     if block.get("error"):
         return False
+    return _block_discovery_claim_kind(block) in DISCOVERY_DECLARATION_CLAIM_KINDS
+
+
+def _block_discovery_claim_kind(block: dict) -> str:
     open_fields = block.get("open_fields") or {}
     if not isinstance(open_fields, dict):
         open_fields = {}
     claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
-    if claim_kind in STRONG_CLOSURESTATUS_CLAIMS:
-        return True
-    if any(
-        str(open_fields.get(field, "")).strip()
-        for field in (
-            "closureparents",
-            "closurelineage",
-            "closuregate",
-            "closureledger",
-            "closureclassifierincrement",
-        )
-    ):
-        return True
+    if claim_kind:
+        return claim_kind
     body = str(block.get("raw_body", ""))
-    return "DiscoveryDeltaLedger" in body
+    match = re.search(r"\\closureclaimkind\{([^}]*)\}", body)
+    return match.group(1).strip() if match else ""
 
 
 def _field_text(open_fields: dict, *names: str) -> str:
@@ -6132,10 +6127,6 @@ def _discovery_endpoint_reduced_fp(
 DISCOVERY_INTEGRITY_SEMANTICS = (
     "structural reconstruction check — negative only; does not certify positive discovery genuineness"
 )
-EXISTING_DISCOVERY_SURFACE_REGIONS = {
-    "PositiveInterpretabilityClassifierPracticeUp": "existing_positive_discovery_classifier_practice_surface",
-    "ClassifierNoveltyLedgerUp": "existing_classifier_novelty_ledger_surface",
-}
 
 
 def _classifier_endpoint_names(declaration_headers: dict[str, str]) -> list[str]:
@@ -6146,30 +6137,78 @@ def _classifier_endpoint_names(declaration_headers: dict[str, str]) -> list[str]
     )
 
 
-def _existing_discovery_surface_sites(blocks: list[dict]) -> list[dict[str, object]]:
+def _block_lean_targets(block: dict) -> list[str]:
+    targets: list[str] = []
+    open_fields = block.get("open_fields") or {}
+    if not isinstance(open_fields, dict):
+        open_fields = {}
+    for raw in (
+        open_fields.get("closureledger"),
+        open_fields.get("closuregate"),
+        block.get("lean_target"),
+    ):
+        target = _normalize_lean_target(raw)
+        if target and target not in targets:
+            targets.append(target)
+    return targets
+
+
+def _block_discovery_marker_targets(block: dict) -> list[str]:
+    targets: list[str] = []
+    target = _normalize_lean_target(block.get("lean_target"))
+    if target:
+        targets.append(target)
+    body = str(block.get("raw_body") or "")
+    for macro, target in _latex_macro_args(
+        body,
+        {"leanchecked", "leantarget"},
+    ):
+        normalized = _normalize_lean_target(target)
+        if normalized and normalized not in targets:
+            targets.append(normalized)
+    return targets
+
+
+def _existing_discovery_surface_sites(
+    blocks: list[dict],
+    ledgers: list[DiscoveryDeltaLedgerRecord],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> list[dict[str, object]]:
+    ledger_by_name = {ledger.qualified_name: ledger for ledger in ledgers}
+    local_to_qualified = _local_to_qualified_index(declaration_headers)
     sites: list[dict[str, object]] = []
     for block in blocks:
         if block.get("error"):
             continue
-        region = f"{block.get('region')}Up"
-        source = EXISTING_DISCOVERY_SURFACE_REGIONS.get(region)
-        if source is None:
+        claim_kind = _block_discovery_claim_kind(block)
+        if claim_kind in DISCOVERY_DECLARATION_CLAIM_KINDS:
             continue
-        sites.append({
-            "file": block["file"],
-            "line": block["line"],
-            "region": region,
-            "chapter_key": _region_to_chapter_key(block.get("region")),
-            "claim_kind": "",
-            "sources": [source],
-            "ledger": "",
-            "shift_refs": [],
-            "before_classifiers": [],
-            "declared_new_classifiers": [],
-            "parse_notes": [],
-            "informational_only": True,
-            "resolution_status": "unresolved",
-        })
+        for target in _block_discovery_marker_targets(block):
+            ledger = ledger_by_name.get(target)
+            if ledger is None or not ledger.has_classifier_shift:
+                continue
+            before_targets, after_targets, shift_refs, parse_notes = _ledger_classifier_shift_targets(
+                ledger.qualified_name,
+                declaration_headers,
+                declaration_bodies,
+                local_to_qualified,
+            )
+            sites.append({
+                "file": block["file"],
+                "line": block["line"],
+                "region": f"{block.get('region')}Up",
+                "chapter_key": _region_to_chapter_key(block.get("region")),
+                "claim_kind": "",
+                "sources": ["DiscoveryDeltaLedger.classifier_shift"],
+                "ledger": ledger.qualified_name,
+                "shift_refs": shift_refs,
+                "before_classifiers": before_targets,
+                "declared_new_classifiers": after_targets,
+                "parse_notes": parse_notes,
+                "resolution_status": "resolved" if before_targets and after_targets else "unresolved",
+            })
+            break
     return sites
 
 
@@ -6349,11 +6388,18 @@ def _declared_discovery_integrity_sites(
         if not isinstance(open_fields, dict):
             open_fields = {}
         claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
-        ledger_target = _normalize_lean_target(open_fields.get("closureledger"))
-        ledger = ledger_by_name.get(ledger_target)
+        claim_declared = claim_kind in DISCOVERY_DECLARATION_CLAIM_KINDS
+        ledger_target = ""
+        ledger: DiscoveryDeltaLedgerRecord | None = None
+        for target in _block_lean_targets(block):
+            candidate = ledger_by_name.get(target)
+            if candidate is not None:
+                ledger_target = candidate.qualified_name
+                ledger = candidate
+                break
         sources: list[str] = []
-        if claim_kind == "positiveDiscovery":
-            sources.append("positiveDiscovery")
+        if claim_declared:
+            sources.append(claim_kind)
         if ledger is not None and ledger.has_classifier_shift:
             sources.append("DiscoveryDeltaLedger.classifier_shift")
         if not sources:
@@ -6370,19 +6416,26 @@ def _declared_discovery_integrity_sites(
                 declaration_bodies,
                 local_to_qualified,
             )
-
-        if claim_kind == "positiveDiscovery" and not after_targets:
-            for target in (
-                _normalize_lean_target(open_fields.get("closuregate")),
-                _normalize_lean_target(block.get("lean_target")),
-            ):
-                if (
-                    target
-                    and target in declaration_headers
-                    and _is_classifier_endpoint(target, declaration_headers)
-                    and target not in after_targets
-                ):
-                    after_targets.append(target)
+        elif ledger is not None:
+            parse_notes.append({
+                "kind": "declared_discovery_classifier_shift_absent",
+                "field": "classifier_shift",
+                "tokens": [ledger.qualified_name],
+                "message": (
+                    "DiscoveryDeltaLedger is cited by a discovery claim but "
+                    "classifier_shift is none or absent"
+                ),
+            })
+        elif claim_declared:
+            parse_notes.append({
+                "kind": "declared_discovery_ledger_unresolved",
+                "field": "classifier_shift",
+                "tokens": _block_lean_targets(block),
+                "message": (
+                    "\\closureclaimkind declares discovery but no cited "
+                    "DiscoveryDeltaLedger with classifier_shift := some ... was resolved"
+                ),
+            })
 
         sites.append({
             "file": block["file"],
@@ -6396,7 +6449,7 @@ def _declared_discovery_integrity_sites(
             "before_classifiers": before_targets,
             "declared_new_classifiers": after_targets,
             "parse_notes": parse_notes,
-            "resolution_status": "resolved" if after_targets else "unresolved",
+            "resolution_status": "resolved" if before_targets and after_targets else "unresolved",
         })
 
     return sites
@@ -6452,7 +6505,12 @@ def discovery_integrity_payload(
         declaration_headers,
         declaration_bodies,
     )
-    informational_sites = _existing_discovery_surface_sites(blocks)
+    informational_sites = _existing_discovery_surface_sites(
+        blocks,
+        lean_scan.discovery_delta_ledgers,
+        declaration_headers,
+        declaration_bodies,
+    )
     sites = _merge_discovery_integrity_sites(explicit_sites, informational_sites)
     classifier_names = _classifier_endpoint_names(declaration_headers)
     requested: set[str] = set()
@@ -6517,8 +6575,12 @@ def discovery_integrity_payload(
                         "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
                     })
 
-        if not candidate_targets:
-            reason = "no_declared_new_classifier_resolved"
+        if not before_targets or not candidate_targets:
+            reason = (
+                "no_before_classifier_resolved"
+                if not before_targets and candidate_targets
+                else "no_declared_new_classifier_resolved"
+            )
             note = {
                 "file": site["file"],
                 "line": site["line"],
@@ -6532,14 +6594,30 @@ def discovery_integrity_payload(
             unresolved_note = dict(note)
             unresolved_note["status"] = "unresolved"
             unresolved_note["message"] = (
-                "discovery surface is declared but no checkable after-classifier "
-                "endpoint was resolved; this site is not counted as checked"
+                "discovery surface is declared but no checkable before/after "
+                "classifier endpoint pair was resolved"
             )
             unavailable.append(note)
             unresolved.append(unresolved_note)
             site_record["unavailable"].append(note)
             site_record["unresolved"].append(unresolved_note)
             site_record["resolution_status"] = "unresolved"
+            violations.append({
+                "file": site["file"],
+                "line": site["line"],
+                "region": site["region"],
+                "chapter_key": site["chapter_key"],
+                "kind": "declared_discovery_classifier_unresolved",
+                "message": (
+                    f"chapter {site['region']} declares discovery but no "
+                    "structurally checkable before/after classifier endpoint pair "
+                    "was resolved"
+                ),
+                "reason": reason,
+                "sources": list(site.get("sources", [])),
+                "ledger": site.get("ledger", ""),
+                "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
+            })
             site_payloads.append(site_record)
             continue
 
