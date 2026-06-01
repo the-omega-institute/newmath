@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import numpy as np
 
+from .theorem_bound_quality import theorem_bound_quality_components
+
 
 QUALITY_Q_FORMULA_ID = "quality_q"
 QUALITY_Q_FORMULA_TEXT = "quality_benefit - quality_cost - quality_debt"
@@ -130,3 +132,11 @@ def quality_components(
         "quality_threshold": quality_threshold,
         "quality_margin": quality_q - quality_threshold,
     }
+
+
+def quality_components_from_bound(
+    metrics: dict[str, float],
+    debt_total: float,
+    classifier_spec: dict[str, object],
+) -> dict[str, float]:
+    return theorem_bound_quality_components(metrics, debt_total, classifier_spec)

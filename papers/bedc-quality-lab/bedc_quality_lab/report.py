@@ -9,13 +9,14 @@ from .schema import QualityEvidenceEnvelope
 
 
 _IDENTIFIABILITY_BOUND_KEYS = (
-    "alignment_loss",
-    "alignment_gap_delta",
-    "whitening_deviation_epsilon",
-    "normalized_gap_d",
     "theorem3_bound",
     "actual_recovery_error",
     "bound_margin",
+    "cert_bound_margin",
+    "theorem_bound_benefit",
+    "theorem_bound_gap_penalty",
+    "theorem_bound_whitening_penalty",
+    "theorem_bound_recovery_pressure",
 )
 
 
@@ -47,6 +48,9 @@ def render_quality_report(envelope: QualityEvidenceEnvelope, protocol: CostProto
 
     if bound_keys:
         lines.extend(["", "## Identifiability Bound", ""])
+        cert_status = envelope.classifier_spec.get("cert_status")
+        if isinstance(cert_status, str) and cert_status:
+            lines.append(f"- `cert_status`：`{cert_status}`")
         for key in bound_keys:
             lines.append(f"- `{key}`：{_format_metric(metrics[key])}")
 

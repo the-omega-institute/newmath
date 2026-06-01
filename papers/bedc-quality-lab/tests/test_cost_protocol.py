@@ -19,6 +19,7 @@ SENTINEL_WEIGHTS = {
     LedgerRowKey("source", "mixing-family-coverage"): 0.37,
     LedgerRowKey("source", "finite-sample-support"): 0.41,
     LedgerRowKey("classifier", "optimizer-certificate"): 0.47,
+    LedgerRowKey("verification", "theorem3-bound-margin"): 0.49,
     LedgerRowKey("generalization", "global-claim-boundary"): 0.53,
 }
 
@@ -35,6 +36,7 @@ def protocol_body(*, omit: str | None = None, extra: str = "", formula_id: str =
         "source/mixing-family-coverage": "0.22",
         "source/finite-sample-support": "0.20",
         "classifier/optimizer-certificate": "0.20",
+        "verification/theorem3-bound-margin": "0.20",
         "generalization/global-claim-boundary": "0.20",
     }
     row_lines = "\n".join(f"  {key}: {value}" for key, value in rows.items() if key != omit)
@@ -200,7 +202,7 @@ def test_assess_debt_derives_every_row_from_protocol_weight(
     expected_score = SENTINEL_WEIGHTS[row] * expected_factor
     assert scores[row] == pytest.approx(expected_score)
     assert assessment.debt_total == pytest.approx(expected_score)
-    for other_row in REQUIRED_DEBT_ROWS - {row}:
+    for other_row in scores.keys() - {row}:
         assert scores[other_row] == pytest.approx(0.0)
 
 

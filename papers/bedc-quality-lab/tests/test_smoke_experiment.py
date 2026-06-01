@@ -51,6 +51,10 @@ def assert_common_experiment_envelope(envelope):
         "theorem3_bound",
         "actual_recovery_error",
         "bound_margin",
+        "theorem_bound_benefit",
+        "theorem_bound_gap_penalty",
+        "theorem_bound_whitening_penalty",
+        "theorem_bound_recovery_pressure",
         "quality_benefit",
         "quality_cost",
         "quality_debt",
@@ -65,7 +69,6 @@ FALLBACK_LEDGER_GAPS = [
     "kind=source; residue=finite-sample-support; severity=high; status=open",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open",
     "kind=source; residue=source-coverage; severity=high; status=open",
-    "kind=verification; residue=identifiability-proxy-margin; severity=medium; status=partial",
 ]
 
 FALLBACK_DEBT_ITEMS = [
@@ -81,7 +84,6 @@ TORCH_METADATA_LEDGER_GAPS = [
     "kind=source; residue=finite-sample-support; severity=high; status=open",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open",
     "kind=source; residue=source-coverage; severity=high; status=open",
-    "kind=verification; residue=identifiability-proxy-margin; severity=medium; status=partial",
 ]
 
 TORCH_METADATA_DEBT_ITEMS = [
@@ -98,27 +100,27 @@ def assert_classifier_spec_base(envelope, expected):
         assert envelope.classifier_spec[key] == value
 
 
-def assert_classifier_certificate(envelope):
+def assert_classifier_certificate(envelope, *, expected_status="certified"):
     classifier_spec = envelope.classifier_spec
 
-    assert classifier_spec["cert_method"] == "inline-threshold"
-    assert classifier_spec["cert_status"] == "certified"
+    assert classifier_spec["cert_method"] == "theorem3-bound-margin"
+    assert classifier_spec["cert_status"] == expected_status
     assert isinstance(classifier_spec["cert_score"], (int, float))
-    assert isinstance(classifier_spec["cert_r2"], (int, float))
-    assert isinstance(classifier_spec["cert_proxy"], (int, float))
+    assert isinstance(classifier_spec["cert_bound"], (int, float))
+    assert isinstance(classifier_spec["cert_actual_recovery_error"], (int, float))
+    assert isinstance(classifier_spec["cert_bound_margin"], (int, float))
     assert isinstance(classifier_spec["cert_reason"], str)
-    assert classifier_spec["cert_threshold"] == {
-        "linear_identifiability_r2": 0.85,
-        "approx_identifiability_proxy": 0.70,
-    }
+    assert classifier_spec["cert_threshold"]["theorem3_bound"] == envelope.metrics["theorem3_bound"]
+    assert classifier_spec["cert_threshold"]["max_recovery_error"] == 1.0
     assert np.isclose(
-        classifier_spec["cert_r2"],
-        envelope.metrics["linear_identifiability_r2"],
+        classifier_spec["cert_bound"],
+        envelope.metrics["theorem3_bound"],
     )
     assert np.isclose(
-        classifier_spec["cert_proxy"],
-        envelope.metrics["approx_identifiability_proxy"],
+        classifier_spec["cert_actual_recovery_error"],
+        envelope.metrics["actual_recovery_error"],
     )
+    assert np.isclose(classifier_spec["cert_bound_margin"], envelope.metrics["bound_margin"])
     assert classifier_spec["split_policy"] == "train-eval-disjoint"
     assert classifier_spec["train_fraction"] == 0.70
     assert classifier_spec["train_count"] == round(0.70 * envelope.source_spec["sample_count"])
@@ -225,7 +227,7 @@ def test_parameterized_experiment_preserves_producer_chain():
             "training": "deterministic-standardization",
         },
     )
-    assert_classifier_certificate(envelope)
+    assert_classifier_certificate(envelope, expected_status="not-certified")
     assert envelope.stability_spec == {
         "name": "fixed-seed-single-source",
         "seed": 23,

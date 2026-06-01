@@ -72,22 +72,20 @@ def critical_gap(gap: Iterable[LedgerEntry]) -> frozenset[LedgerRowKey]:
 
 
 def _metric_gap(metrics: Mapping[str, float]) -> LedgerGap | None:
-    value = float(metrics.get("approx_identifiability_proxy", 0.0))
-    row = LedgerRowKey("verification", "identifiability-proxy-margin")
-    required = (row,)
-    recorded = (row,) if value >= 0.75 else ()
-    if not ledger_gap(required, recorded):
+    from .theorem_bound_quality import theorem_bound_ledger_gap
+
+    if not any(
+        key in metrics
+        for key in (
+            "theorem3_bound",
+            "actual_recovery_error",
+            "bound_margin",
+            "normalized_gap_d",
+            "whitening_deviation_epsilon",
+        )
+    ):
         return None
-    if value >= 0.75:
-        return None
-    severity = "medium" if value >= 0.5 else "high"
-    status = "partial" if value >= 0.5 else "open"
-    return LedgerGap(
-        kind=row.kind,
-        residue="identifiability-proxy-margin",
-        severity=severity,
-        status=status,
-    )
+    return theorem_bound_ledger_gap(metrics)
 
 
 def derive_ledger_gaps(
