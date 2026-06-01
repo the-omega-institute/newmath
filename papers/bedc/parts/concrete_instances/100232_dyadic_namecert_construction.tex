@@ -80,6 +80,20 @@ Apply \autoref{thm:dyadic-up-real-seal-factorization}. A Real-facing consumer ca
 The sibling chapters provide exactly those finite rows: the tolerance ledger from \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window classifier from \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}. The structural rows $H,C,P,N$ preserve and name that route, so no selected binary expansion, quotient stream, trichotomy, host real equality, countable choice, or ambient completeness principle is exposed by the handoff.
 \end{proof}
 
+\begin{theorem}[Dyadic exponent-shift composition]
+\label{thm:dyadic-exponent-shift-composition}
+Two displayed $\DyadicUp$ exponent-shift tolerance ledgers compose only by common precision refinement. Any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of the composed tolerance row must first read the two $\DyadicRatCoreUp$ ledgers, refine them to a common finite precision window, expose the corresponding $\StreamNameUp$ and $\RegSeqRatUp$ rows, and only then consume the terminal $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:dyadic-up-namecert-obligations}. Each exponent-shift read is a displayed dyadic core row together with its stream window, regular sequence row, Real seal boundary, transport, replay, provenance, and local naming.
+
+Use \autoref{thm:dyadic-up-real-seal-factorization} for both ledgers. A Real-facing read of either ledger is unavailable until the dyadic core, finite stream window, and regular rational row have all been displayed.
+
+Now compare the two exponent-shift windows by common precision refinement. The refinement is finite because it is formed from the two displayed $\StreamNameUp$ windows and the two displayed dyadic tolerance rows; no quotient stream or selected limit is introduced.
+
+Finally apply \autoref{thm:dyadic-up-streamname-regseqrat-route}. The composed tolerance row reaches $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers only through the refined finite route, so it exposes no host quotient, selected limit, trichotomy, countable choice, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[DyadicUp terminal Real-seal boundary]
 \label{thm:dyadicup-terminal-real-seal-boundary}
 Let
