@@ -54,20 +54,25 @@ def epigraphToEventFlow : EpigraphUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (epigraphFields x).map epigraphEncodeBHist
 
-def epigraphFromEventFlow : EventFlow → Option EpigraphUp
+private def epigraphEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | D :: V :: L :: O :: H :: C :: P :: N :: [] =>
-      some
-        (EpigraphUp.mk
-          (epigraphDecodeBHist D)
-          (epigraphDecodeBHist V)
-          (epigraphDecodeBHist L)
-          (epigraphDecodeBHist O)
-          (epigraphDecodeBHist H)
-          (epigraphDecodeBHist C)
-          (epigraphDecodeBHist P)
-          (epigraphDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => epigraphEventAt index rest
+
+def epigraphFromEventFlow (ef : EventFlow) : Option EpigraphUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (EpigraphUp.mk
+      (epigraphDecodeBHist (epigraphEventAt 0 ef))
+      (epigraphDecodeBHist (epigraphEventAt 1 ef))
+      (epigraphDecodeBHist (epigraphEventAt 2 ef))
+      (epigraphDecodeBHist (epigraphEventAt 3 ef))
+      (epigraphDecodeBHist (epigraphEventAt 4 ef))
+      (epigraphDecodeBHist (epigraphEventAt 5 ef))
+      (epigraphDecodeBHist (epigraphEventAt 6 ef))
+      (epigraphDecodeBHist (epigraphEventAt 7 ef)))
 
 private theorem epigraph_round_trip :
     ∀ x : EpigraphUp, epigraphFromEventFlow (epigraphToEventFlow x) = some x := by
@@ -75,8 +80,22 @@ private theorem epigraph_round_trip :
   intro x
   cases x with
   | mk D V L O H C P N =>
-      simp only [epigraphToEventFlow, epigraphFields, epigraphFromEventFlow, List.map_cons,
-        List.map_nil, epigraphDecode_encode_bhist]
+      change
+        some
+          (EpigraphUp.mk
+            (epigraphDecodeBHist (epigraphEncodeBHist D))
+            (epigraphDecodeBHist (epigraphEncodeBHist V))
+            (epigraphDecodeBHist (epigraphEncodeBHist L))
+            (epigraphDecodeBHist (epigraphEncodeBHist O))
+            (epigraphDecodeBHist (epigraphEncodeBHist H))
+            (epigraphDecodeBHist (epigraphEncodeBHist C))
+            (epigraphDecodeBHist (epigraphEncodeBHist P))
+            (epigraphDecodeBHist (epigraphEncodeBHist N))) =
+          some (EpigraphUp.mk D V L O H C P N)
+      rw [epigraphDecode_encode_bhist D, epigraphDecode_encode_bhist V,
+        epigraphDecode_encode_bhist L, epigraphDecode_encode_bhist O,
+        epigraphDecode_encode_bhist H, epigraphDecode_encode_bhist C,
+        epigraphDecode_encode_bhist P, epigraphDecode_encode_bhist N]
 
 private theorem epigraphToEventFlow_injective {x y : EpigraphUp} :
     epigraphToEventFlow x = epigraphToEventFlow y → x = y := by
@@ -88,6 +107,17 @@ private theorem epigraphToEventFlow_injective {x y : EpigraphUp} :
     congrArg epigraphFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (epigraph_round_trip x).symm (Eq.trans hread (epigraph_round_trip y)))
+
+private theorem epigraphFields_faithful :
+    ∀ x y : EpigraphUp, epigraphFields x = epigraphFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk D₁ V₁ L₁ O₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk D₂ V₂ L₂ O₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
 instance epigraphBHistCarrier : BHistCarrier EpigraphUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -103,6 +133,49 @@ instance epigraphChapterTasteGate : ChapterTasteGate EpigraphUp where
   layer_separation := by
     intro x y hxy heq
     exact hxy (epigraphToEventFlow_injective heq)
+
+instance epigraphFieldFaithful : FieldFaithful EpigraphUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := epigraphFields
+  field_faithful := epigraphFields_faithful
+
+instance epigraphNontrivial : BEDC.Meta.TasteGate.Nontrivial EpigraphUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨EpigraphUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      EpigraphUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def epigraphTasteGate : ChapterTasteGate EpigraphUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  epigraphChapterTasteGate
+
+namespace TasteGate
+
+theorem EpigraphTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate EpigraphUp) ∧
+      Nonempty (FieldFaithful EpigraphUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial EpigraphUp) ∧
+          (∀ h : BHist, epigraphDecodeBHist (epigraphEncodeBHist h) = h) ∧
+            (∀ x : EpigraphUp, epigraphFromEventFlow (epigraphToEventFlow x) = some x) ∧
+              (∀ x y : EpigraphUp,
+                epigraphToEventFlow x = epigraphToEventFlow y -> x = y) ∧
+                epigraphEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  exact
+    ⟨⟨epigraphChapterTasteGate⟩,
+      ⟨epigraphFieldFaithful⟩,
+      ⟨epigraphNontrivial⟩,
+      epigraphDecode_encode_bhist,
+      epigraph_round_trip,
+      fun x y => epigraphToEventFlow_injective,
+      rfl⟩
+
+end TasteGate
 
 def EpigraphCarrier [AskSetup] [PackageSetup]
     (D V L O H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
