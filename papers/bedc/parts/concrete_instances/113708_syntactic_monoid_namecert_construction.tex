@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\SyntacticMonoidUp$}
+\label{ch:concrete-instances-syntactic-monoid-namecert}
+\origin{human}
+
+Following Myhill, Nerode, and Eilenberg, the $\SyntacticMonoidUp$ packet records the finite classifier monoid of a regular language as BEDC NameCert data. It sits beside the accepted-word surface of \autoref{ch:concrete-instances-regularlanguage-namecert}, the right-congruence classifier of \autoref{ch:concrete-instances-myhill-nerode-namecert}, and the canonical deterministic presentation of \autoref{ch:concrete-instances-minimal-dfa-namecert}. The packet names finite congruence classes and their multiplication table before any language consumer may read a transition monoid, host quotient of all words, arbitrary automaton presentation, or regular-expression proof.
+
+\begin{definition}[Syntactic monoid carrier]
+\label{def:syntactic-monoid-carrier}
+A $\SyntacticMonoidUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,W,L,E,C,\mu,e,\rho,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the alphabet row, exposing the finite symbols available to the word-spine reader.
+\item $W$ is the word-spine row, recording finite word concatenation windows over $A$.
+\item $L$ is the regular-language observation row read from $\RegularLanguageUp$.
+\item $E$ is the syntactic congruence row, tabulating when displayed contexts make two words indistinguishable by $L$.
+\item $C$ is the finite class row, naming the displayed congruence classes admitted by $E$.
+\item $\mu$ is the multiplication row, recording class multiplication induced by finite word concatenation.
+\item $e$ is the identity-class row, naming the class of the empty word.
+\item $\rho$ is the recognition morphism row from displayed words to classes and from accepted classes back to the regular-language observation.
+\item $H$ records componentwise $\hsame$ transport for alphabet, word-spine, language observation, congruence, class, multiplication, identity, recognition, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from word observations through congruence-class multiplication and recognition.
+\item $P$ is the $\Pkg$ provenance over $\SyntacticMonoidUp$, $\RegularLanguageUp$, $\MyhillNerodeUp$, $\MinimalDfaUp$, $\ListUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SyntacticMonoidUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,W,L,E,C,\mu,e,\rho,H,K,P,N$. It has no coordinate for a host quotient over all words, selected representatives outside the displayed classes, arbitrary transition monoid presentation, nondeterministic branch, or regular-expression equivalence proof.
+\end{definition}
+
+\begin{theorem}[Syntactic monoid NameCert obligations]
+\label{thm:syntactic-monoid-namecert-obligations}
+For every accepted $\SyntacticMonoidUp$ carrier $M=(A,W,L,E,C,\mu,e,\rho,H,K,P,N)$, the local $\NameCert_{\SyntacticMonoidUp}$ surface consists exactly of alphabet exposure, word-spine exposure, regular-language observation, syntactic-congruence tabulation, finite class admission, multiplication-table replay, identity-class naming, recognition morphism readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:syntactic-monoid-carrier}. The alphabet row $A$, word-spine row $W$, and regular-language row $L$ are displayed before any congruence or monoid data can be consumed.
+
+Read $E,C,\mu,e,\rho$ next. The congruence row $E$ classifies displayed words by finite context tests against $L$, the class row $C$ names the admitted finite classes, and $\mu$ and $e$ record multiplication and identity only on those classes. The recognition row $\rho$ is therefore a finite route from words to classes and back to the accepted-language observation.
+
+The structural rows $H,K,P,N$ transport, replay, source, and name the same finite table. Since no further coordinate exists, the carrier cannot import a host word quotient, external representatives, arbitrary transition monoid presentation, nondeterministic branch, or regular-expression equivalence proof.
+\end{proof}
+
+\begin{theorem}[Syntactic monoid regular-language handoff]
+\label{thm:syntactic-monoid-regularlanguage-handoff}
+Every $\RegularLanguageUp$, $\MyhillNerodeUp$, or $\MinimalDfaUp$ consumer of an accepted $\SyntacticMonoidUp$ packet first reads the displayed alphabet row, word-spine row, regular-language observation, syntactic congruence row, finite class row, multiplication table, identity class, and recognition morphism. The handoff through \autoref{ch:concrete-instances-regularlanguage-namecert}, \autoref{ch:concrete-instances-myhill-nerode-namecert}, and \autoref{ch:concrete-instances-minimal-dfa-namecert} therefore exports only the finite classifier-monoid route.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of $M=(A,W,L,E,C,\mu,e,\rho,H,K,P,N)$. The regular-language sibling reads $L$ only after the finite alphabet and word-spine rows have been displayed.
+
+The Myhill--Nerode sibling then consumes the congruence row $E$ as a finite right-congruence classifier. The finite class row $C$ and multiplication table $\mu$ keep this handoff inside displayed class data rather than a host quotient of all words.
+
+The minimal deterministic automaton sibling can read the recognition morphism $\rho$ only after the identity row $e$ and class multiplication have been shown. Thus the syntactic-monoid packet supplies a finite classifier monoid to those consumers, not an arbitrary automaton presentation or regular-expression proof.
+\end{proof}
+
+\closureat{SyntacticMonoidUp}{seedStr}
+
+\begin{closurestatus}{\SyntacticMonoidUp}
+  \constructivestory{A $\SyntacticMonoidUp$ packet is generated from finite alphabet, word-spine, regular-language observation, syntactic congruence, finite class, multiplication, identity, recognition, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:syntactic-monoid-carrier}, \autoref{thm:syntactic-monoid-namecert-obligations}, and \autoref{thm:syntactic-monoid-regularlanguage-handoff} seed the finite classifier-monoid route over RegularLanguageUp, MyhillNerodeUp, and MinimalDfaUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, transition-monoid equivalence, arbitrary automaton minimization, regular-expression equivalence, host quotients of all words, or selected external representatives.}
+  \upgradepath{Obligation closure requires checked carrier admission, syntactic congruence stability, multiplication replay, identity exactness, recognition morphism readback, sibling handoff, transport, replay, provenance, and local naming for BEDC.Derived.SyntacticMonoidUp.}
+\end{closurestatus}
