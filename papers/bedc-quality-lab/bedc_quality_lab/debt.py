@@ -90,6 +90,21 @@ def _finite_sample_score(source_spec: Mapping[str, Any], protocol: CostProtocol)
     return upper
 
 
+def _transition_isotropy_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
+    upper = protocol.weight(LedgerRowKey("source", "transition-isotropy"))
+    transition = source_spec.get("transition_kernel")
+    if not isinstance(transition, Mapping):
+        return 0.0
+    if transition.get("isotropic") is True:
+        return 0.0
+    gap = transition.get("anisotropy_gap", source_spec.get("transition_anisotropy_gap", 0.0))
+    if not isinstance(gap, (int, float)):
+        return upper
+    if gap <= 0.0:
+        return 0.0
+    return _bounded((float(gap) / 0.5) * upper, upper)
+
+
 def _optimization_score(classifier_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
     upper = protocol.weight(LedgerRowKey("classifier", "optimizer-certificate"))
     training = str(classifier_spec.get("training", ""))
@@ -185,6 +200,11 @@ def assess_debt(
         _item(
             LedgerRowKey("source", "finite-sample-support"),
             _finite_sample_score(source_spec, cost_protocol),
+            cost_protocol,
+        ),
+        _item(
+            LedgerRowKey("source", "transition-isotropy"),
+            _transition_isotropy_score(source_spec, cost_protocol),
             cost_protocol,
         ),
         _item(

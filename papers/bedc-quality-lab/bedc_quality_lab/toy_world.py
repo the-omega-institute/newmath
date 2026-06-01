@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-import math
 
 import numpy as np
+
+from .transition import TransitionKernelSpec, make_transition_pair
 
 
 @dataclass(frozen=True)
@@ -24,11 +25,8 @@ def make_latents(n: int, *, seed: int) -> np.ndarray:
 def make_ou_pair(z: np.ndarray, *, rho: float, seed: int) -> np.ndarray:
     if z.ndim != 2 or z.shape[1] != 2:
         raise ValueError("z must have shape (n, 2)")
-    if not -1.0 < rho < 1.0:
-        raise ValueError("rho must be strictly between -1 and 1")
-    rng = np.random.default_rng(seed)
-    eta = rng.normal(size=z.shape)
-    return (rho * z + math.sqrt(1.0 - rho * rho) * eta).astype(np.float64)
+    spec = TransitionKernelSpec.isotropic(rho, latent_dim=z.shape[1])
+    return make_transition_pair(z, spec, seed)
 
 
 def mix_latents(z: np.ndarray) -> np.ndarray:
@@ -39,7 +37,14 @@ def mix_latents(z: np.ndarray) -> np.ndarray:
     return np.column_stack([x0, x1]).astype(np.float64)
 
 
-def make_toy_batch(n: int, *, rho: float = 0.82, seed: int = 17) -> ToyBatch:
+def make_toy_batch(
+    n: int,
+    *,
+    rho: float = 0.82,
+    seed: int = 17,
+    transition_kernel: TransitionKernelSpec | None = None,
+) -> ToyBatch:
     z = make_latents(n, seed=seed)
-    z_pair = make_ou_pair(z, rho=rho, seed=seed + 1)
+    spec = transition_kernel if transition_kernel is not None else TransitionKernelSpec.isotropic(rho, latent_dim=z.shape[1])
+    z_pair = make_transition_pair(z, spec, seed + 1)
     return ToyBatch(z=z, z_pair=z_pair, x=mix_latents(z), x_pair=mix_latents(z_pair))

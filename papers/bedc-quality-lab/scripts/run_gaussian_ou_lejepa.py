@@ -20,6 +20,7 @@ from bedc_quality_lab.report import write_quality_report
 from bedc_quality_lab.schema import SCHEMA_ID, QualityEvidenceEnvelope
 from bedc_quality_lab.theorem_bound_quality import theorem_bound_certificate
 from bedc_quality_lab.toy_world import make_toy_batch
+from bedc_quality_lab.transition import TransitionKernelSpec
 
 
 def _train_eval_split(sample_count: int, *, seed: int) -> tuple[np.ndarray, np.ndarray]:
@@ -96,11 +97,13 @@ def run_experiment(
     sample_count: int = 384,
     seed: int = 23,
     rho: float = 0.82,
+    transition_kernel: TransitionKernelSpec | None = None,
     run_id: str = "gaussian-ou-lejepa-seed-23",
     envelope_artifact: str = "reports/example_envelope.json",
     report_artifact: str = "reports/quality_report.md",
 ) -> QualityEvidenceEnvelope:
-    batch = make_toy_batch(sample_count, rho=rho, seed=seed)
+    spec = transition_kernel if transition_kernel is not None else TransitionKernelSpec.isotropic(rho, latent_dim=2)
+    batch = make_toy_batch(sample_count, rho=rho, seed=seed, transition_kernel=spec)
     train_idx, eval_idx = _train_eval_split(batch.z.shape[0], seed=seed)
     train_x = batch.x[train_idx]
     train_x_pair = batch.x_pair[train_idx]
@@ -123,12 +126,18 @@ def run_experiment(
         **identifiability_bound_metrics(h, h_pair, eval_z, rho),
     }
     certificate = theorem_bound_certificate(metrics)
+    transition_source = spec.to_source_spec()
     source_spec = {
         "name": "gaussian-ou-toy-world",
         "latent_dim": 2,
         "sample_count": int(batch.z.shape[0]),
         "rho": rho,
+        "rho_by_axis": list(spec.rho_by_axis),
+        "latent_distribution": "gaussian",
         "mixing": "sinusoidal-parabolic-shear",
+        "transition_kernel": transition_source,
+        "transition_isotropic": transition_source["isotropic"],
+        "transition_anisotropy_gap": transition_source["anisotropy_gap"],
     }
     pattern_spec = {
         "name": "latent-linear-recovery",
@@ -151,6 +160,8 @@ def run_experiment(
         "name": "fixed-seed-single-source",
         "seed": seed,
         "pair_process": "ornstein-uhlenbeck",
+        "transition_noise_family": spec.noise_family,
+        "transition_eigenvalue_interleaving": transition_source["eigenvalue_interleaving"],
     }
     debt_assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec)
     ledger_gaps = derive_ledger_gaps(

@@ -48,6 +48,7 @@
   - `source/finite-sample-support`: 0.200000
   - `source/mixing-family-coverage`: 0.220000
   - `source/source-coverage`: 0.180000
+  - `source/transition-isotropy`: 0.120000
   - `verification/theorem3-bound-margin`: 0.200000
 - Not claimed global boundary:
   - tokens: `outside-declared-scope`, `untested-source-families`, `unproved-global-generalization`
@@ -65,6 +66,7 @@
 - kind=source; residue=source-coverage; severity=high; status=open; score=0.180000
 - kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000
 - kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000
+- kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000
 - kind=classifier; residue=optimizer-certificate; severity=high; status=open; score=0.200000
 - kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000
 - kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000

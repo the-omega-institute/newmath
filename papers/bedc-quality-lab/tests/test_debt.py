@@ -46,6 +46,7 @@ def test_debt_assessment_has_required_bounded_categories():
         "source",
         "source",
         "source",
+        "source",
         "classifier",
         "verification",
         "generalization",
@@ -54,6 +55,7 @@ def test_debt_assessment_has_required_bounded_categories():
         "source-coverage",
         "mixing-family-coverage",
         "finite-sample-support",
+        "transition-isotropy",
         "optimizer-certificate",
         "theorem3-bound-margin",
         "global-claim-boundary",
@@ -187,6 +189,74 @@ def test_finite_sample_thresholds_pin_all_score_bands():
         severity="none",
         status="closed",
         score=0.0,
+    )
+
+
+def test_transition_isotropy_row_closes_for_scalar_and_isotropic_metadata():
+    scalar_metadata = assess_case({})
+    isotropic = assess_case(
+        {
+            "transition_kernel": {
+                "family": "ornstein-uhlenbeck",
+                "rho_by_axis": [0.9, 0.9],
+                "noise_family": "gaussian",
+                "isotropic": True,
+                "anisotropy_gap": 0.0,
+            }
+        }
+    )
+
+    assert_residue(
+        scalar_metadata,
+        "transition-isotropy",
+        kind="source",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
+    assert_residue(
+        isotropic,
+        "transition-isotropy",
+        kind="source",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
+
+
+def test_transition_isotropy_row_opens_from_anisotropic_transition_metadata():
+    partial_assessment = assess_case(
+        {
+            "transition_kernel": {
+                "isotropic": False,
+                "anisotropy_gap": 0.3,
+            }
+        }
+    )
+    open_assessment = assess_case(
+        {
+            "transition_kernel": {
+                "isotropic": False,
+                "anisotropy_gap": 0.8,
+            }
+        }
+    )
+
+    assert_residue(
+        partial_assessment,
+        "transition-isotropy",
+        kind="source",
+        severity="medium",
+        status="partial",
+        score=0.072,
+    )
+    assert_residue(
+        open_assessment,
+        "transition-isotropy",
+        kind="source",
+        severity="high",
+        status="open",
+        score=0.12,
     )
 
 
@@ -335,7 +405,7 @@ def test_debt_formatter_emits_canonical_keys():
 
     rows = format_debt_items(assessment)
 
-    assert len(rows) == 6
+    assert len(rows) == 7
     for row in rows:
         assert "kind=" in row
         assert "residue=" in row
