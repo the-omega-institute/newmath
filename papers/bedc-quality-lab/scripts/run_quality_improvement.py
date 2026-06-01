@@ -51,7 +51,7 @@ def _target_debt_row(envelope: QualityEvidenceEnvelope, residue: str = TARGET_DE
     return matches[0]
 
 
-def _quality_delta(
+def quality_delta(
     before: QualityEvidenceEnvelope,
     after: QualityEvidenceEnvelope,
     *,
@@ -78,7 +78,7 @@ def _format_signed(value: float) -> str:
 
 
 def _render_improvement_report(before: QualityEvidenceEnvelope, after: QualityEvidenceEnvelope) -> str:
-    delta = _quality_delta(before, after)
+    delta = quality_delta(before, after)
     lines = [
         "# BEDC Quality Lab 改进报告",
         "",

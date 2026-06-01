@@ -247,7 +247,7 @@ def test_quality_improvement_delta_and_report_projection():
 
     before_row = improvement._target_debt_row(before)
     after_row = improvement._target_debt_row(after)
-    delta = improvement._quality_delta(before, after)
+    delta = improvement.quality_delta(before, after)
     report = improvement._render_improvement_report(before, after)
 
     assert before_row["status"] == "open"
