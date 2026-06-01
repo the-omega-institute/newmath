@@ -148,6 +148,102 @@ def groundCompilerDeltaLedger : DiscoveryDeltaLedger EventFlow where
   not_claimed_rows := 0
   classifier_shift := none
 
+def axisCarryRouteSeparationDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 4
+  refusal_rows := 1
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def certificateAuditGateDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 5
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def digestLoopRefusalDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 3
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def logicContradictionMetaLoopDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 3
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def subjectReductionDischargeLedgerDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 4
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def continuationBisimulationDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 4
+  refusal_rows := 1
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def hostPrimitiveLeakageDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 3
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def metaCICDecidableBoundaryDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 5
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def stableNegationBoundaryDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 4
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def hardProblemClosureDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 3
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def interHistLocalityLedgerDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 4
+  refusal_rows := 1
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def openPhysicalFitDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 3
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
 theorem groundCompilerDeltaLedger_inhabited :
     Nonempty (DiscoveryDeltaLedger EventFlow) := by
   exact ⟨groundCompilerDeltaLedger⟩
