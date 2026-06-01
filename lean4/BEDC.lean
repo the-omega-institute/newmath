@@ -3579,6 +3579,7 @@ import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.RealBracketConsumerLock
 import BEDC.Derived.FareySequenceUp.RealReadbackRootObligation
 import BEDC.Derived.FareySequenceUp.RefinementCoverage
+import BEDC.Derived.FareySequenceUp.SternBrocotHandoffLock
 import BEDC.Derived.FareySequenceUp.StreamWindowStability
 import BEDC.Derived.FareySequenceUp.TasteGate
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
@@ -4405,6 +4406,7 @@ import BEDC.Derived.HyperspaceUp.VietorisDownstreamDependency
 import BEDC.Derived.HyperspaceUp.VietorisFiniteNetObligations
 import BEDC.Derived.HyperspaceUp.VietorisFiniteWindowObligations
 import BEDC.Derived.HyperspaceUp.VietorisHandoff
+import BEDC.Derived.HyperspaceUp.VietorisHitMissStability
 import BEDC.Derived.HyperspaceUp.VietorisLocatedRealDependency
 import BEDC.Derived.HyperspaceUp.VietorisRefinementFactorization
 import BEDC.Derived.HypothesisTestUp
@@ -5062,6 +5064,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockSoundness
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealSourceObligations
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealStatusProductReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.ProvenanceNaming
+import BEDC.Derived.MetaCICCriticalPathUp.PublicExport
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionBudgetTriangle
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionFrontierFilter
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionReadinessPackage
