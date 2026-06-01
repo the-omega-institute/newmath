@@ -12,7 +12,7 @@ their canonical names and bound variables keep their de Bruijn indices.
 
 This deliberately does not fold definitional-equality unfolding: `def A := B` and an inline copy of
 `B` may receive different fingerprints. Bounded-whnf or unfolding-aware comparison is a separate
-extension.
+extension. Theorem fingerprints ignore proof terms and retain only the proposition shape.
 -/
 
 def hashString (s : String) : UInt64 :=
@@ -52,6 +52,12 @@ def literalPayload : Literal → String
   | .natVal n => joinPayload "lit-nat" [toString n]
   | .strVal s => joinPayload "lit-str" [quoteToken s]
 
+def binderInfoPayload : BinderInfo → String
+  | .default => "default"
+  | .implicit => "implicit"
+  | .strictImplicit => "strictImplicit"
+  | .instImplicit => "instImplicit"
+
 partial def exprPayload (params : List Name) : Expr → String
   | .bvar i => joinPayload "bvar" [toString i]
   | .fvar id => joinPayload "fvar" [quoteToken id.name.toString]
@@ -64,10 +70,17 @@ partial def exprPayload (params : List Name) : Expr → String
         joinPayload "levels" (us.map (levelPayload · params))
       ]
   | .app f a => joinPayload "app" [exprPayload params f, exprPayload params a]
-  | .lam _ ty body _ => joinPayload "lam" [exprPayload params ty, exprPayload params body]
-  | .forallE _ ty body _ => joinPayload "forall" [exprPayload params ty, exprPayload params body]
+  | .lam _ ty body bi =>
+      joinPayload "lam" [binderInfoPayload bi, exprPayload params ty, exprPayload params body]
+  | .forallE _ ty body bi =>
+      joinPayload "forall" [binderInfoPayload bi, exprPayload params ty, exprPayload params body]
   | .letE _ ty val body _ =>
-      joinPayload "let" [exprPayload params ty, exprPayload params val, exprPayload params body]
+      joinPayload "let" [
+        binderInfoPayload .default,
+        exprPayload params ty,
+        exprPayload params val,
+        exprPayload params body
+      ]
   | .lit lit => literalPayload lit
   | .mdata _ e => exprPayload params e
   | .proj structName idx e =>
@@ -82,13 +95,21 @@ structure DeclFingerprint where
   valueFp : String
 deriving Repr
 
+def isTheoremOrPropConstant (info : ConstantInfo) : Bool :=
+  match info with
+  | .thmInfo _ => true
+  | _ => info.type.isProp
+
 def declFingerprint (info : ConstantInfo) : DeclFingerprint :=
   let params := info.levelParams
   let typeFp := exprFingerprint params info.type
   let valueFp :=
-    match info.value? (allowOpaque := true) with
-    | some value => exprFingerprint params value
-    | none => ""
+    if isTheoremOrPropConstant info then
+      ""
+    else
+      match info.value? (allowOpaque := true) with
+      | some value => exprFingerprint params value
+      | none => ""
   let fingerprint :=
     stableHash (joinPayload "decl" [typeFp, valueFp])
   { fingerprint := fingerprint, typeFp := typeFp, valueFp := valueFp }
@@ -158,7 +179,14 @@ def testDecls : Array String :=
     "BEDC.StructuralDna.TestTargets.C1",
     "BEDC.StructuralDna.TestTargets.C2",
     "BEDC.StructuralDna.TestTargets.Hollow",
-    "BEDC.StructuralDna.TestTargets.SomeP"
+    "BEDC.StructuralDna.TestTargets.SomeP",
+    "BEDC.StructuralDna.TestTargets.ExplicitArrow",
+    "BEDC.StructuralDna.TestTargets.ImplicitArrow",
+    "BEDC.StructuralDna.TestTargets.InstanceArrow",
+    "BEDC.StructuralDna.TestTargets.AlphaLamA",
+    "BEDC.StructuralDna.TestTargets.AlphaLamB",
+    "BEDC.StructuralDna.TestTargets.ProofA",
+    "BEDC.StructuralDna.TestTargets.ProofB"
   ]
 
 def getFp! (items : List (String × DeclFingerprint)) (name : String) : IO String := do
@@ -186,11 +214,25 @@ unsafe def runSelfTest : IO UInt32 := do
   let c2 ← getFp! items "BEDC.StructuralDna.TestTargets.C2"
   let hollow ← getFp! items "BEDC.StructuralDna.TestTargets.Hollow"
   let someP ← getFp! items "BEDC.StructuralDna.TestTargets.SomeP"
+  let explicitArrow ← getFp! items "BEDC.StructuralDna.TestTargets.ExplicitArrow"
+  let implicitArrow ← getFp! items "BEDC.StructuralDna.TestTargets.ImplicitArrow"
+  let instanceArrow ← getFp! items "BEDC.StructuralDna.TestTargets.InstanceArrow"
+  let alphaLamA ← getFp! items "BEDC.StructuralDna.TestTargets.AlphaLamA"
+  let alphaLamB ← getFp! items "BEDC.StructuralDna.TestTargets.AlphaLamB"
+  let proofA ← getFp! items "BEDC.StructuralDna.TestTargets.ProofA"
+  let proofB ← getFp! items "BEDC.StructuralDna.TestTargets.ProofB"
   let t1 ← printCheck "T1 lam alpha" (ta == tb)
   let t2 ← printCheck "T2 forall alpha" (fa == fb)
   let t3 ← printCheck "T3 classifier distinction" (c1 != c2)
   let t4 ← printCheck "T4 hollow distinction" (hollow != someP)
-  return if [t1, t2, t3, t4].all id then 0 else 1
+  let t5 ← printCheck "T5 binderInfo distinction" (
+    explicitArrow != implicitArrow
+    && explicitArrow != instanceArrow
+    && implicitArrow != instanceArrow
+  )
+  let t6 ← printCheck "T6 binder-name alpha" (alphaLamA == alphaLamB)
+  let t7 ← printCheck "T7 theorem proof irrelevance" (proofA == proofB)
+  return if [t1, t2, t3, t4, t5, t6, t7].all id then 0 else 1
 
 end BEDC.StructuralDna
 

@@ -22,4 +22,18 @@ def C2 : BHist → BHist → Prop := fun h k => SomeQ h ∧ SomeP k
 
 def Hollow : BHist → Prop := fun _ => True
 
+def ExplicitArrow : Type := ∀ _ : BHist, BHist
+
+def ImplicitArrow : Type := {_ : BHist} → BHist
+
+def InstanceArrow : Type := [Inhabited BHist] → BHist
+
+def AlphaLamA : BHist → Prop := fun hist => SomeP hist
+
+def AlphaLamB : BHist → Prop := fun z => SomeP z
+
+theorem ProofA : BHist.Empty = BHist.Empty := rfl
+
+theorem ProofB : BHist.Empty = BHist.Empty := Eq.refl _
+
 end BEDC.StructuralDna.TestTargets

@@ -99,7 +99,7 @@ CONCRETE_INPUT_LINE_RE = re.compile(r"^\s*\\input\{[^}]+\}\s*$")
 CONCRETE_BODY_ENV_RE = re.compile(
     r"\\begin\{(?:theorem|definition|lemma|proof|aligned)\}"
 )
-ORIGIN_TAG_RE = re.compile(r"\\origin\{([^}]*)\}")
+ORIGIN_TAG_RE = re.compile(r"\\origin\s*\{([^}]*)\}")
 CHAPTER_LABEL_RE = re.compile(r"\\label\{ch:concrete-instances-([a-z0-9_-]+)-namecert\}")
 CLOSURESTATUS_BLOCK_RE = re.compile(
     r"\\begin\{closurestatus\}.*?\\end\{closurestatus\}",
@@ -2722,10 +2722,34 @@ def _discovery_candidate_blocks(blocks: list[dict]) -> list[dict]:
     return [
         block
         for block in blocks
-        if block.get("origin") == "ai"
+        if _block_has_discovery_candidate_surface(block)
         and block.get("theory_closure") not in (None, "seedClosure")
         and not block.get("error")
     ]
+
+
+def _block_has_discovery_candidate_surface(block: dict) -> bool:
+    if block.get("error"):
+        return False
+    open_fields = block.get("open_fields") or {}
+    if not isinstance(open_fields, dict):
+        open_fields = {}
+    claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+    if claim_kind in STRONG_CLOSURESTATUS_CLAIMS:
+        return True
+    if any(
+        str(open_fields.get(field, "")).strip()
+        for field in (
+            "closureparents",
+            "closurelineage",
+            "closuregate",
+            "closureledger",
+            "closureclassifierincrement",
+        )
+    ):
+        return True
+    body = str(block.get("raw_body", ""))
+    return "DiscoveryDeltaLedger" in body
 
 
 def _field_text(open_fields: dict, *names: str) -> str:
@@ -2780,7 +2804,7 @@ def discovery_ledger_coverage_payload(
     unresolved_targets: list[dict[str, object]] = []
     wrong_type_targets: list[dict[str, object]] = []
     stem_warnings: list[dict[str, object]] = []
-    for block in _ai_origin_blocks(blocks):
+    for block in _discovery_candidate_blocks(blocks):
         region = str(block.get("region") or "")
         key = _region_key(region)
         open_fields = block.get("open_fields") or {}
@@ -2865,6 +2889,7 @@ def discovery_ledger_coverage_payload(
 
     return {
         "informational": True,
+        "candidate_surface_chapter_count": len(chapters),
         "ai_origin_chapter_count": len(chapters),
         "covered_count": len(covered),
         "missing_count": len(missing),
@@ -5114,7 +5139,7 @@ def _structural_dna_record_from_sieve_item(
         "alpha_renaming": "Lean.Expr de Bruijn bound variables; binder display names ignored",
         "qualified_names": "constants keep canonical names",
         "metadata": "Lean.Expr mdata stripped",
-        "binder_info": "ignored",
+        "binder_info": "retained as stable default/implicit/strictImplicit/instImplicit tags",
         "defeq_unfolding": "not folded; bounded-whnf normalization is a separate extension",
         "static_context": "static read-graph survey fields retained for diagnostics",
         "unknown_reasons": sorted(unknown_reasons),
@@ -5402,6 +5427,7 @@ def structural_dna_payload(
     expr_fingerprints = _run_structural_dna_expr_fingerprints(expr_requested)
     records: list[dict[str, object]] = []
     grade_counts: Counter[str] = Counter()
+    regression_failures = _structural_dna_regression_checks()
     for item in sieve_targets:
         record = _structural_dna_record_from_sieve_item(
             item,
@@ -5435,6 +5461,9 @@ def structural_dna_payload(
         "schema": "bedc.classifier_shift_dna",
         "checked_target_count": len(records),
         "grade_counts": dict(sorted(grade_counts.items())),
+        "regression_check_count": 2,
+        "regression_failures": regression_failures,
+        "regression_status": "PASS" if not regression_failures else "FAIL",
         "truth_boundary": "origin-blind structural survey only; no novelty or closurestatus truth claim is emitted",
         "targets": records,
     }
@@ -6014,11 +6043,37 @@ def _declaration_is_alias_or_wrapper(
     return False
 
 
+def _discovery_endpoint_value_fp(
+    name: str,
+    expr_fingerprints: dict[str, ExprFingerprint],
+) -> str:
+    fp = expr_fingerprints.get(name)
+    if fp is None:
+        return ""
+    return fp.value_fp or fp.fingerprint
+
+
+def _prior_classifier_fingerprint_index(
+    before_valid: Iterable[str],
+    _after_valid: Iterable[str],
+    expr_fingerprints: dict[str, ExprFingerprint],
+) -> dict[str, list[str]]:
+    out: dict[str, list[str]] = {}
+    for name in before_valid:
+        value_fp = _discovery_endpoint_value_fp(name, expr_fingerprints)
+        if value_fp:
+            out.setdefault(value_fp, []).append(name)
+    for names in out.values():
+        names.sort()
+    return out
+
+
 def _candidate_endpoint_pairs(
     block: dict,
     target: str,
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
+    expr_fingerprints: dict[str, ExprFingerprint] | None = None,
 ) -> list[tuple[str, str, str]]:
     open_fields = block.get("open_fields") or {}
     if not isinstance(open_fields, dict):
@@ -6054,6 +6109,14 @@ def _candidate_endpoint_pairs(
     after_sources.extend(mentioned)
     before_valid = [name for name in dict.fromkeys(before_sources) if name in declaration_headers]
     after_valid = [name for name in dict.fromkeys(after_sources) if name in declaration_headers]
+    expr_fingerprints = expr_fingerprints or _run_structural_dna_expr_fingerprints(
+        set(before_valid) | set(after_valid)
+    )
+    prior_classifier_fps = _prior_classifier_fingerprint_index(
+        before_valid,
+        after_valid,
+        expr_fingerprints,
+    )
     pairs: list[tuple[str, str, str]] = []
     for before in before_valid:
         for after in after_valid:
@@ -6066,8 +6129,83 @@ def _candidate_endpoint_pairs(
                 declaration_bodies,
             ):
                 continue
+            before_value_fp = _discovery_endpoint_value_fp(before, expr_fingerprints)
+            after_value_fp = _discovery_endpoint_value_fp(after, expr_fingerprints)
+            if after_value_fp and before_value_fp and after_value_fp == before_value_fp:
+                continue
+            prior_matches = [
+                name for name in prior_classifier_fps.get(after_value_fp, [])
+                if name != after
+            ]
+            if after_value_fp and prior_matches:
+                continue
             pairs.append((before, after, "resolved_from_closure_or_lean_declaration"))
     return pairs[:8]
+
+
+def _structural_dna_regression_checks() -> list[dict[str, object]]:
+    failures: list[dict[str, object]] = []
+
+    scrub_base = _target_fingerprint(
+        "BEDC.Test.Target",
+        [],
+        [],
+        {"file": "p.tex", "line": 1, "raw_body": r"\origin{ai}", "open_fields": {}},
+        {},
+        {},
+    )
+    scrub_spaced = _target_fingerprint(
+        "BEDC.Test.Target",
+        [],
+        [],
+        {"file": "p.tex", "line": 1, "raw_body": r"\origin{ ai }", "open_fields": {}},
+        {},
+        {},
+    )
+    if scrub_base != scrub_spaced:
+        failures.append({
+            "name": "origin_space_scrub",
+            "message": r"\origin{ ai } must be scrubbed like \origin{ai}",
+        })
+
+    headers = {
+        "BEDC.Prior.OldClassifier": "def OldClassifier : BHist → Prop :=",
+        "BEDC.Prior.SameShapeClassifier": "def SameShapeClassifier : BHist → Prop :=",
+    }
+    bodies = {
+        "BEDC.Prior.OldClassifier": "def OldClassifier : BHist → Prop := fun h => SomeP h",
+        "BEDC.Prior.SameShapeClassifier": "def SameShapeClassifier : BHist → Prop := fun z => SomeP z",
+    }
+    block = {
+        "raw_body": (
+            r"\closureparents{BEDC.Prior.OldClassifier} "
+            r"\closuregate{BEDC.Prior.SameShapeClassifier}"
+        ),
+        "open_fields": {
+            "closureparents": "BEDC.Prior.OldClassifier",
+            "closuregate": "BEDC.Prior.SameShapeClassifier",
+        },
+        "lean_target": "BEDC.Prior.SameShapeClassifier",
+    }
+    expr_fps = {
+        "BEDC.Prior.OldClassifier": ExprFingerprint("old-decl", "type", "same-shape"),
+        "BEDC.Prior.SameShapeClassifier": ExprFingerprint("same-decl", "type", "same-shape"),
+    }
+    pairs = _candidate_endpoint_pairs(
+        block,
+        "BEDC.Prior.SameShapeClassifier",
+        headers,
+        bodies,
+        expr_fps,
+    )
+    if pairs:
+        failures.append({
+            "name": "prior_classifier_reconstruction_rejected",
+            "message": "same-shape after-classifier must not enter A-tier endpoint pairs",
+            "pairs": pairs,
+        })
+
+    return failures
 
 
 def _discovery_candidate_note(
@@ -6122,6 +6260,27 @@ def discovery_candidate_payload(
         for item in dna_payload.get("targets", [])
         if isinstance(item, dict)
     }
+    endpoint_requested: set[str] = set()
+    for block in blocks:
+        if block.get("error"):
+            continue
+        open_fields = block.get("open_fields") or {}
+        if not isinstance(open_fields, dict):
+            open_fields = {}
+        for field in (
+            "closureparents",
+            "closurelineage",
+            "closuregate",
+            "closureledger",
+        ):
+            for part in re.split(r"[,;\s]+", str(open_fields.get(field, ""))):
+                normalized = _normalize_lean_target(part)
+                if normalized in declaration_headers:
+                    endpoint_requested.add(normalized)
+        normalized = _normalize_lean_target(block.get("lean_target"))
+        if normalized in declaration_headers:
+            endpoint_requested.add(normalized)
+    endpoint_expr_fps = _run_structural_dna_expr_fingerprints(endpoint_requested)
     dispatchable: list[dict[str, object]] = []
     notes: list[dict[str, object]] = []
     discarded = 0
@@ -6129,7 +6288,6 @@ def discovery_candidate_payload(
     for block in blocks:
         if block.get("error"):
             continue
-        origin = str(block.get("origin") or "human").lower()
         open_fields = block.get("open_fields") or {}
         open_fields = open_fields if isinstance(open_fields, dict) else {}
         claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
@@ -6189,7 +6347,13 @@ def discovery_candidate_payload(
             ))
             continue
 
-        pairs = _candidate_endpoint_pairs(block, target, declaration_headers, declaration_bodies)
+        pairs = _candidate_endpoint_pairs(
+            block,
+            target,
+            declaration_headers,
+            declaration_bodies,
+            endpoint_expr_fps,
+        )
         if not pairs:
             notes.append(_discovery_candidate_note(
                 block,
@@ -8256,6 +8420,7 @@ def cmd_structural_dna(args: argparse.Namespace) -> int:
             f" weak={counts.get('weak', 0)}"
             f" composite={counts.get('composite', 0)}"
             f" unknown={counts.get('unknown', 0)}"
+            f" regressions={payload.get('regression_status', 'unknown')}"
         )
         if args.verbose:
             for item in payload["targets"][:120]:
