@@ -3,6 +3,7 @@ import math
 import pytest
 
 from bedc_quality_lab.schema import SCHEMA_ID, QualityEvidenceEnvelope
+from bedc_quality_lab.transition import TransitionKernelSpec
 from scripts import run_gaussian_ou_lejepa
 from scripts import run_gaussian_ou_sweep as sweep
 
@@ -231,3 +232,30 @@ def test_lejepa_experiment_propagates_custom_seed_and_rho():
         "envelope": "reports/custom_envelope.json",
         "report": "reports/custom_report.md",
     }
+
+
+def test_lejepa_experiment_records_anisotropic_transition_kernel():
+    envelope = run_gaussian_ou_lejepa.run_experiment(
+        use_torch=False,
+        sample_count=64,
+        seed=987,
+        rho=0.75,
+        transition_kernel=TransitionKernelSpec(rho_by_axis=(0.9, 0.6)),
+    )
+
+    transition_kernel = envelope.source_spec["transition_kernel"]
+
+    assert envelope.source_spec["rho_by_axis"] == [0.9, 0.6]
+    assert transition_kernel["rho_by_axis"] == [0.9, 0.6]
+    assert transition_kernel["isotropic"] is False
+    assert envelope.source_spec["transition_isotropic"] is False
+    assert envelope.source_spec["transition_anisotropy_gap"] == pytest.approx(0.3, abs=1.0e-12)
+    assert transition_kernel["anisotropy_gap"] == pytest.approx(0.3, abs=1.0e-12)
+    assert (
+        "kind=source; residue=transition-isotropy; severity=medium; status=partial; score=0.072000"
+        in envelope.debt_items
+    )
+    assert (
+        "kind=source; residue=transition-isotropy; severity=medium; status=partial"
+        in envelope.ledger_gaps
+    )

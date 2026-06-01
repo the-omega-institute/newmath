@@ -192,8 +192,8 @@ def test_finite_sample_thresholds_pin_all_score_bands():
     )
 
 
-def test_transition_isotropy_row_closes_for_scalar_legacy_and_isotropic_metadata():
-    legacy = assess_case({})
+def test_transition_isotropy_row_closes_for_scalar_and_isotropic_metadata():
+    scalar_metadata = assess_case({})
     isotropic = assess_case(
         {
             "transition_kernel": {
@@ -207,7 +207,7 @@ def test_transition_isotropy_row_closes_for_scalar_legacy_and_isotropic_metadata
     )
 
     assert_residue(
-        legacy,
+        scalar_metadata,
         "transition-isotropy",
         kind="source",
         severity="none",
