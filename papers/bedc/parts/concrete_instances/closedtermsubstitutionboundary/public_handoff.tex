@@ -1,0 +1,17 @@
+\begin{theorem}[Closed-term substitution boundary MetaCIC public handoff]
+\label{thm:closed-term-substitution-boundary-metacic-public-handoff}
+Every $\AuthorizedGeneratorRecursorUp$ or $\MetaCICNormalizationFrontierUp$ consumer that cites an accepted $\ClosedTermSubstitutionBoundaryUp$ packet must pass through the displayed public handoff rows
+$$
+\mathsf{Term},\mathsf{ClosedAt},\mathsf{shift},\mathsf{substitute},L,A,H,C,P,N.
+$$
+The rows are read as the source term and value term entries, source and value closedness entries, closed shift and substitute-closed operation entries, finite ledger $L$, audit row $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The handoff exports no subject-reduction theorem, host substitution semantics, compiler correctness theorem, host syntax quotient, hidden evaluator state, or unregistered normalization route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:closed-term-substitution-boundary-carrier} and the classifier of \autoref{def:closed-term-substitution-boundary-classifier}. They display the term rows, closedness rows, closed shift row, substitute-closed row, ledger, audit, transport, continuation, provenance, and local naming rows as one finite packet.
+
+Apply \autoref{thm:closed-term-substitution-boundary-namecert-obligations}, \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, and \autoref{thm:closed-term-substitution-boundary-audit-scope-closure}. These rows force every closed operation read to pass through the ledger and audit surface before the operation is exported.
+
+Now use \autoref{thm:closed-term-substitution-boundary-downstream-root-handoff} and \autoref{thm:closed-term-substitution-boundary-metacic-consumer-nonescape} when the consumer is MetaCIC-facing. The downstream root handoff lists $\AuthorizedGeneratorRecursorUp$ and $\MetaCICNormalizationFrontierUp$ among the roots that consume only the displayed packet, while the MetaCIC consumer boundary blocks confluence or subject-reduction reads from leaving the same rows.
+
+Thus the public handoff for these two consumers is exactly the displayed $\mathsf{Term}$, $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, ledger, audit, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route. Any subject-reduction theorem, host substitution semantics, compiler correctness theorem, host syntax quotient, hidden evaluator state, or unregistered normalization route would require a coordinate outside the accepted packet.
+\end{proof}
