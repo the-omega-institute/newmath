@@ -356,6 +356,42 @@ Now project the endpoint subcarrier of \autoref{def:metacic-decidable-boundary-e
 If $B$ is read without this endpoint data, the route has only bounded comparison under a displayed window. The refusal row still blocks global beta-conversion decidability, quotient equality, fuel-erased normalization, and host evaluation.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary conversion case split]
+\label{thm:metacic-decidable-boundary-conversion-case-split}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, each conversion request presented to the packet is split inside the displayed $\BHist$ route into an accepted finite case using $T,S,B,F$ or a refusal row in $R$. The split is preserved by componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\MetaCICDecidableBoundaryUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Use conversion refusal trichotomy. It classifies conversion-facing requests as bounded comparison with $B,F$, finite refusal through $R$, or structural replay through $H,C,P,N$.
+
+The normal-form decision envelope supplies the accepted finite cases through $T,S,B,F$. The ClosedAt refusal route supplies the negative rows in $R$ when the request asks for a standalone endpoint outside the packet.
+
+Transport and replay are componentwise by classifier stability. Hence the split is a $\BHist$ and $\NameCert$-facing route, not a parameter transport theorem and not a hidden global conversion decider.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable boundary critical-pair finiteness]
+\label{thm:metacic-decidable-boundary-critical-pair-finiteness}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet, every critical-pair check visible to the decidable-boundary surface is recorded as a finite ledger row inside $T,S,B,F,R,H,C,P,N$. The ledger records the inspected checker window, structural-equality comparison, bounded normal comparison, finished-normal side condition, refusal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming; it exports no unrecorded critical-pair search and no host evaluator.
+\end{theorem}
+\begin{proof}
+Start with window totality and ledger exactness. They make each bounded comparison a finite inspected window whose rows are $T,S,B,F$ together with the refusal and structural context $R,H,C,P,N$.
+
+Apply substitution window and candidate-substitution exhaustion. Critical-pair inspection is therefore read only through displayed checker, structural equality, bounded normal, finished-normal, refusal, replay, provenance, and naming rows.
+
+The bounded comparison nonescape theorem blocks promotion to unrestricted conversion, quotient equality, fuel-erased normalization, or host evaluation. Thus the critical-pair check is a finite ledger row of the packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable boundary normal-form readback]
+\label{thm:metacic-decidable-boundary-normal-form-readback}
+Every normal-form readback available from an accepted $\MetaCICDecidableBoundaryUp$ packet is routed through the displayed boundary packet $T,S,B,F,R,H,C,P,N$. The readback may expose candidate normal-form data, bounded comparison under finished-normal side conditions, and finite refusal rows, but it cannot bypass the packet to obtain fuel-erased normalization, quotient equality over represented terms, standalone $\mathsf{ClosedAt}$ decidability, or host evaluation.
+\end{theorem}
+\begin{proof}
+Begin with candidate normal-form reads and the normal-form decision envelope. Together they route readback through the checker row $T$, structural equality row $S$, bounded comparison row $B$, finished-normal side condition $F$, and refusal row $R$.
+
+Use fuel-window replay and the finished normal endpoint theorem. These keep readback tied to finite fuel and displayed endpoint rows before a conversion-facing read is accepted.
+
+Finally apply the conversion nonescape package. The structural rows $H,C,P,N$ only transport, replay, source, and name the displayed boundary, so readback cannot leave the packet for a fuel-erased normalizer, quotient equality, standalone ClosedAt decider, or host evaluator.
+\end{proof}
+
 \closureat{MetaCICDecidableBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICDecidableBoundaryUp}
