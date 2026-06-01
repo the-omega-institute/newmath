@@ -147,6 +147,30 @@ For the fold step, use budget associativity from \autoref{thm:regular-cauchy-fin
 Finally apply the Real seal non-escape theorem \autoref{thm:regular-cauchy-finite-product-real-seal-nonescape} and the projection roundtrip \autoref{thm:regular-cauchy-finite-product-projection-roundtrip}. The projected read still passes through the same finite product route before it reaches $\RegSeqRatUp$ readback or $\RealUp$ sealing, so no excluded host equality or completion object is exported.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy finite product classifier bridge]
+\label{thm:regular-cauchy-finite-product-classifier-bridge}
+Two accepted $\RegularCauchyFiniteProductUp$ packets
+$$
+K=(I,S,W,D,P,R,E,H,C,Q,N)
+\quad\text{and}\quad
+K'=(I',S',W',D',P',R',E',H',C',Q',N')
+$$
+are classifier-equal exactly when the finite unary index rows $I,I'$ match, the component $\RegSeqRatUp$ classifiers on $S,S'$ agree slotwise, the synchronized $\StreamNameUp$ window classifiers on $W,W'$ agree for component, intermediate, and final reads, the $\DyadicRatCoreUp$ tolerance and readback ledgers $D,P$ and $D',P'$ are equal as displayed budget data, and the downstream $\RealUp$ seal route through $R,E,H,C,Q,N$ is the same as the route through $R',E',H',C',Q',N'$. This correspondence is the finite-product classifier surface consumed by product regular-Cauchy limit certificates and Real algebra finite-product certificates.
+\end{theorem}
+\begin{proof}
+For the forward direction, project both accepted carriers using \autoref{def:regular-cauchy-finite-product-carrier}. The classifier for an accepted packet has no coordinate outside $I,S,W,D,P,R,E,H,C,Q,N$, so equality of packet classifiers can be read only from the listed rows.
+
+The first projection reads the finite unary index row. Once $I$ and $I'$ match, the component slots are aligned, and the component classifier comparison is forced to be slotwise comparison of the $\RegSeqRatUp$ source family $S$ against $S'$.
+
+Next read the synchronized window and dyadic budget rows. The window classifiers on $W,W'$ cover the component, intermediate, and final product reads, while the ledgers $D,P$ and $D',P'$ record the tolerance cells, readback cells, radius allocation, fold schedule, and slack account. These are the only budget rows available to the classifier.
+
+Finally, use the Real seal non-escape theorem \autoref{thm:regular-cauchy-finite-product-real-seal-nonescape}. The route through $R,E,H,C,Q,N$ cannot export a host finite product or quotient stream equality, so downstream classifier agreement is exactly agreement of that displayed seal route.
+
+For the reverse direction, rebuild the packet classifier from the matching rows. The common finite index row aligns the sources; the component $\RegSeqRatUp$ classifiers and synchronized $\StreamNameUp$ window classifiers rebuild the inspected fold; the equal dyadic tolerance and budget ledgers rebuild the product-accounting part; and the common route through $R,E,H,C,Q,N$ supplies the same terminal $\RealUp$ seal, transport, replay, provenance, and local name.
+
+The diagonal seal theorem \autoref{thm:regular-cauchy-finite-product-diagonal-seal} then shows that every product-facing consumer sees the same projected route. Since the carrier exposes no additional classifier coordinate, the rebuilt rows are sufficient for classifier equality, and the same bridge is available to downstream regular-Cauchy limit and Real algebra finite-product consumers.
+\end{proof}
+
 \falsifiablePrediction{Every $\RegularCauchyFiniteProductUp$ product-facing read factors through a finite unary index row, component RegSeqRat sources, synchronized StreamName windows, DyadicRatCore observations, a finite product-budget ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{regseqrat, streamname, dyadicratcore, real, regularcauchyproduct, cauchyproduct: $\RegularCauchyFiniteProductUp$ is not bijective to any listed sibling because it jointly carries a finite unary product index, synchronized multi-source windows, dyadic product-budget accounting, final RegSeqRat readback, RealUp sealing, transport, continuation, provenance, and local naming.}
