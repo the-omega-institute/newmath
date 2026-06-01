@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 from pathlib import Path
 import subprocess
+import traceback
 from typing import Any
 
 
@@ -185,6 +187,45 @@ def _remote_head(url: str) -> str | None:
     return line.split()[0] if line else None
 
 
+def _hub_cache_present() -> bool:
+    cache_root = Path(os.environ.get("TORCH_HOME", Path.home() / ".cache" / "torch"))
+    return (cache_root / "hub" / "facebookresearch_vjepa2_main" / "hubconf.py").exists()
+
+
+def _model_load_attempt(dependency_status: dict[str, str]) -> dict[str, Any]:
+    required = ["torch", "timm", "einops"]
+    missing = [name for name in required if dependency_status.get(name) != "installed"]
+    if missing:
+        return {
+            "status": "not_attempted",
+            "stage": "dependency_check",
+            "reason": f"missing dependencies: {', '.join(missing)}",
+        }
+    try:
+        import torch
+
+        model = torch.hub.load(
+            "facebookresearch/vjepa2",
+            "vjepa2_ac_vit_giant",
+            pretrained=False,
+            trust_repo=True,
+            skip_validation=True,
+        )
+        return {
+            "status": "loaded",
+            "stage": "torch_hub_structure_load",
+            "model_type": type(model).__name__,
+        }
+    except Exception as exc:  # pragma: no cover - environment-dependent probe boundary
+        return {
+            "status": "failed",
+            "stage": "torch_hub_structure_load",
+            "exception_type": type(exc).__name__,
+            "message": str(exc),
+            "trace_tail": traceback.format_exc().splitlines()[-6:],
+        }
+
+
 def build_public_jepa_baseline_probe() -> dict[str, Any]:
     registry = build_public_jepa_baseline_registry()
     selected = next(
@@ -193,18 +234,25 @@ def build_public_jepa_baseline_probe() -> dict[str, Any]:
     dependency_status = _dependency_status(["torch", "torchvision", "timm", "einops"])
     head = _remote_head(selected["repository_url"])
     missing = [name for name, status in dependency_status.items() if status != "installed"]
+    model_load_attempt = _model_load_attempt(dependency_status)
     cannot_execute = []
     if missing:
         cannot_execute.append(f"missing dependencies: {', '.join(missing)}")
     if head is None:
         cannot_execute.append("public repository HEAD could not be resolved")
+    if model_load_attempt["status"] == "failed":
+        cannot_execute.append("V-JEPA2-AC structure load failed")
+    if model_load_attempt["status"] == "loaded":
+        cannot_execute.append("checkpoint evaluation metrics have not been executed")
     return {
         "schema_id": "bedc-jepa-public-baseline-probe",
-        "status": "ready_to_execute" if not cannot_execute else "unavailable",
+        "status": "ready_to_execute" if model_load_attempt["status"] == "loaded" and head is not None else "unavailable",
         "candidate_id": registry["selected_candidate_id"],
         "repository_url": selected["repository_url"],
         "repository_head": head,
+        "hub_cache_present": _hub_cache_present(),
         "dependency_status": dependency_status,
+        "model_load_attempt": model_load_attempt,
         "execution_contract": {
             "model_load": "torch.hub.load('facebookresearch/vjepa2', 'vjepa2_ac_vit_giant')",
             "requires_checkpoint_download": True,

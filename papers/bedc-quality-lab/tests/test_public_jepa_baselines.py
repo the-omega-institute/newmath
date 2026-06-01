@@ -110,6 +110,8 @@ def test_public_jepa_baseline_probe_records_dependency_and_repository_boundary()
     assert "torch" in probe["dependency_status"]
     assert "timm" in probe["dependency_status"]
     assert probe["status"] in {"ready_to_execute", "unavailable"}
+    assert "hub_cache_present" in probe
+    assert "model_load_attempt" in probe
 
     if probe["status"] == "ready_to_execute":
         assert probe["cannot_execute"] == []
