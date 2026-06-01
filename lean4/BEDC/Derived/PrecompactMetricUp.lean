@@ -315,6 +315,48 @@ theorem PrecompactMetric_regularity_modulus_scope [AskSetup] [PackageSetup]
     ⟨nUnary, mUnary, fUnary, netUnary, filterUnary, scopeUnary, netRoute,
       filterRoute, scopeRoute, provenancePkg, scopePkg⟩
 
+theorem PrecompactMetricRegularFilterFiniteNetRoute [AskSetup] [PackageSetup]
+    {X D N F R M H C G Q netRead radiusRead coverRead filterRead regularRead
+      routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PrecompactMetricCarrier X D N F R M H C G Q bundle pkg →
+      Cont N F netRead →
+        Cont D R radiusRead →
+          Cont netRead radiusRead coverRead →
+            Cont M F filterRead →
+              Cont filterRead R regularRead →
+                Cont regularRead G routeRead →
+                  PkgSig bundle routeRead pkg →
+                    UnaryHistory N ∧ UnaryHistory M ∧ UnaryHistory F ∧
+                      UnaryHistory R ∧ UnaryHistory netRead ∧
+                        UnaryHistory radiusRead ∧ UnaryHistory coverRead ∧
+                          UnaryHistory filterRead ∧ UnaryHistory regularRead ∧
+                            UnaryHistory routeRead ∧ Cont N F netRead ∧
+                              Cont D R radiusRead ∧ Cont netRead radiusRead coverRead ∧
+                                Cont M F filterRead ∧ Cont filterRead R regularRead ∧
+                                  Cont regularRead G routeRead ∧ PkgSig bundle Q pkg ∧
+                                    PkgSig bundle routeRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier netRoute radiusRoute coverRoute filterRoute regularRoute routeRoute routePkg
+  obtain ⟨_xUnary, dUnary, nUnary, fUnary, rUnary, mUnary, _hUnary, _cUnary,
+    gUnary, _qUnary, provenancePkg⟩ := carrier
+  have netUnary : UnaryHistory netRead :=
+    unary_cont_closed nUnary fUnary netRoute
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed dUnary rUnary radiusRoute
+  have coverUnary : UnaryHistory coverRead :=
+    unary_cont_closed netUnary radiusUnary coverRoute
+  have filterUnary : UnaryHistory filterRead :=
+    unary_cont_closed mUnary fUnary filterRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed filterUnary rUnary regularRoute
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed regularUnary gUnary routeRoute
+  exact
+    ⟨nUnary, mUnary, fUnary, rUnary, netUnary, radiusUnary, coverUnary,
+      filterUnary, regularUnary, routeUnary, netRoute, radiusRoute, coverRoute,
+      filterRoute, regularRoute, routeRoute, provenancePkg, routePkg⟩
+
 theorem PrecompactMetric_totally_bounded_handoff (x : PrecompactMetricUp) :
     ∃ X D N F R M H C G Q : BHist,
       x = PrecompactMetricUp.mk X D N F R M H C G Q ∧
