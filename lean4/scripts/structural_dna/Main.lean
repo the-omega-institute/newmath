@@ -252,9 +252,9 @@ def isAndExpr (e : Expr) : Option (Expr × Expr) :=
 def isClosedTerm (e : Expr) : Bool :=
   !e.hasLooseBVars && !e.hasFVar && !e.hasExprMVar
 
-def isClosedReflexiveEq (e : Expr) : Bool :=
+def isReflexiveEq (params : List Name) (e : Expr) : Bool :=
   match appHeadArgs e with
-  | (.const ``Eq _, [_type, left, right]) => left == right && isClosedTerm left
+  | (.const ``Eq _, [_type, left, right]) => exprPayload params left == exprPayload params right
   | _ => false
 
 partial def isConstantTrueBranch : Expr → Bool
@@ -288,13 +288,13 @@ partial def containsMatchTrueRecursorLeaf : Expr → Bool
   | .proj _ _ e => containsMatchTrueRecursorLeaf e
   | _ => false
 
-partial def isTrivialLeaf : Expr → Bool
-  | .mdata _ e => isTrivialLeaf e
+partial def isTrivialLeaf (params : List Name) : Expr → Bool
+  | .mdata _ e => isTrivialLeaf params e
   | .sort _ => true
   | .bvar _ => true
   | .const ``True _ => true
   | .const ``False _ => true
-  | other => isClosedReflexiveEq other || containsMatchTrueRecursorLeaf other
+  | other => isReflexiveEq params other || containsMatchTrueRecursorLeaf other
 
 partial def flattenAndWithPath (params : List Name) (path : String) (e : Expr) :
     List ConjunctLeaf :=
@@ -310,7 +310,7 @@ partial def flattenAndWithPath (params : List Name) (path : String) (e : Expr) :
             path := path,
             expr := other,
             exprFp := exprFingerprint params other,
-            isTrivial := isTrivialLeaf other
+            isTrivial := isTrivialLeaf params other
           }]
 
 def flattenAnd (view : ClassifierView) : List ConjunctLeaf :=
@@ -386,7 +386,7 @@ def relationEvidenceJson
     ("candidate_duplicate_conjunct_fps", toJson candidateSet.duplicateFps),
     ("conjunct_semantics", Json.str "set_inclusion_after_dedup"),
     ("trivial_filter_scope", Json.str
-      ("syntactic, definitional, and known closed reflexive equality only; "
+      ("syntactic, definitional, and reduced reflexive equality by operand payload; "
         ++ "general propositional triviality is undecidable and is not claimed complete")),
     ("extra_conjunct_count", toJson extraCount),
     ("candidate_conjunct_fps", toJson (candidateLeaves.map (·.exprFp)))
@@ -636,6 +636,8 @@ def testDecls : Array String :=
     "BEDC.StructuralDna.TestTargets.DefinitionalTrueRefiner",
     "BEDC.StructuralDna.TestTargets.ReflexiveEqPrior",
     "BEDC.StructuralDna.TestTargets.ReflexiveEqRefiner",
+    "BEDC.StructuralDna.TestTargets.ParamReflexiveEqPrior",
+    "BEDC.StructuralDna.TestTargets.ParamReflexiveEqRefiner",
     "BEDC.StructuralDna.TestTargets.MatchTruePrior",
     "BEDC.StructuralDna.TestTargets.MatchTrueRefiner",
     "BEDC.StructuralDna.TestTargets.DuplicatePriorClassifier",
@@ -717,6 +719,7 @@ unsafe def relationSelfTest : IO Bool := do
       "BEDC.StructuralDna.TestTargets.HollowRefiner",
       "BEDC.StructuralDna.TestTargets.DefinitionalTrueRefiner",
       "BEDC.StructuralDna.TestTargets.ReflexiveEqRefiner",
+      "BEDC.StructuralDna.TestTargets.ParamReflexiveEqRefiner",
       "BEDC.StructuralDna.TestTargets.MatchTrueRefiner",
       "BEDC.StructuralDna.TestTargets.DuplicateCandidateClassifier"
     ]
@@ -727,6 +730,7 @@ unsafe def relationSelfTest : IO Bool := do
       "BEDC.StructuralDna.TestTargets.Hollow",
       "BEDC.StructuralDna.TestTargets.DefinitionalTrue",
       "BEDC.StructuralDna.TestTargets.ReflexiveEqPrior",
+      "BEDC.StructuralDna.TestTargets.ParamReflexiveEqPrior",
       "BEDC.StructuralDna.TestTargets.MatchTruePrior",
       "BEDC.StructuralDna.TestTargets.DuplicatePriorClassifier"
     ]
@@ -753,6 +757,8 @@ unsafe def relationSelfTest : IO Bool := do
   let definitionalTrueRefiner := "BEDC.StructuralDna.TestTargets.DefinitionalTrueRefiner"
   let reflexiveEqPrior := "BEDC.StructuralDna.TestTargets.ReflexiveEqPrior"
   let reflexiveEqRefiner := "BEDC.StructuralDna.TestTargets.ReflexiveEqRefiner"
+  let paramReflexiveEqPrior := "BEDC.StructuralDna.TestTargets.ParamReflexiveEqPrior"
+  let paramReflexiveEqRefiner := "BEDC.StructuralDna.TestTargets.ParamReflexiveEqRefiner"
   let matchTruePrior := "BEDC.StructuralDna.TestTargets.MatchTruePrior"
   let matchTrueRefiner := "BEDC.StructuralDna.TestTargets.MatchTrueRefiner"
   let duplicatePrior := "BEDC.StructuralDna.TestTargets.DuplicatePriorClassifier"
@@ -790,7 +796,11 @@ unsafe def relationSelfTest : IO Bool := do
     hasRelation relations duplicateCandidate duplicatePrior "conjunctive_refinement"
     && relationEvidenceHasSetSemantics relations duplicateCandidate duplicatePrior
   )
-  return [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10].all id
+  let r11 ← printCheck "R11 open binder reflexive equality prior rejected" (
+    !hasRelation relations paramReflexiveEqRefiner paramReflexiveEqPrior
+      "conjunctive_refinement"
+  )
+  return [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11].all id
 
 unsafe def runSelfTest : IO UInt32 := do
   let items ← withImportModules (testImports.map importSpec) Options.empty fun env => do

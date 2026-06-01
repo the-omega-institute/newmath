@@ -71,6 +71,11 @@ def ReflexiveEqPrior : BHist → Prop := fun _ => BHist.Empty = BHist.Empty
 
 def ReflexiveEqRefiner : BHist → Prop := fun h => ReflexiveEqPrior h ∧ SomeP h
 
+def ParamReflexiveEqPrior : BHist → Prop := fun h => h = h
+
+def ParamReflexiveEqRefiner : BHist → Prop :=
+  fun h => ParamReflexiveEqPrior h ∧ SomeP h
+
 def MatchTruePrior : BHist → Prop :=
   fun h =>
     match h with

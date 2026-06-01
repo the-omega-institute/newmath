@@ -618,6 +618,17 @@ class DiscoveryAuditTests(unittest.TestCase):
         ))
         self.assertEqual(len(site["unavailable"]), 1)
         self.assertEqual(site["unavailable"][0]["relation"], "relation_analysis_unavailable")
+        self.assertEqual(len(payload["relation_diagnostics"]), 1)
+        self.assertEqual(
+            payload["relation_diagnostics"][0]["relation"],
+            "relation_analysis_unavailable",
+        )
+        self.assertEqual(len(site["relation_diagnostics"]), 1)
+        self.assertEqual(
+            site["relation_diagnostics"][0]["relation"],
+            "relation_analysis_unavailable",
+        )
+        self.assertEqual(payload["relation_diagnostics_count"], 1)
 
 
 if __name__ == "__main__":

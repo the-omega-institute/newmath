@@ -6713,6 +6713,7 @@ def discovery_integrity_payload(
 
     checked_chapters = 0
     unavailable: list[dict[str, object]] = []
+    relation_diagnostics: list[dict[str, object]] = []
     unresolved: list[dict[str, object]] = []
     violations: list[dict[str, object]] = []
     site_payloads: list[dict[str, object]] = []
@@ -6730,6 +6731,7 @@ def discovery_integrity_payload(
         site_record["semantics"] = DISCOVERY_INTEGRITY_SEMANTICS
         site_record["provenance"] = []
         site_record["unavailable"] = []
+        site_record["relation_diagnostics"] = []
         site_record["unresolved"] = []
         if relation_unavailable is not None:
             relation_note = {
@@ -6741,6 +6743,8 @@ def discovery_integrity_payload(
             }
             unavailable.append(relation_note)
             site_record["unavailable"].append(relation_note)
+            relation_diagnostics.append(relation_note)
+            site_record["relation_diagnostics"].append(relation_note)
         for note in site.get("parse_notes", []) or []:
             if isinstance(note, dict):
                 unavailable_note = {
@@ -6886,10 +6890,12 @@ def discovery_integrity_payload(
         "classifier_endpoint_count": len(classifier_names),
         "fingerprint_count": len(expr_fingerprints),
         "unavailable_count": len(unavailable),
+        "relation_diagnostics_count": len(relation_diagnostics),
         "unresolved_count": len(unresolved),
         "violation_count": len(violations),
         "violations": violations,
         "unavailable": unavailable,
+        "relation_diagnostics": relation_diagnostics,
         "unresolved": unresolved,
         "sites": site_payloads,
     }
