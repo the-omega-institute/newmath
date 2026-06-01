@@ -1,73 +1,70 @@
+\subsection{ORF Start--Stop Window Eligibility}\label{sec:h2-orf-start-stop-window-eligibility}
 \origin{ai}
-\subsection{Start--Stop Window Eligibility as a Bounded ORF Contact Test}
-\label{sec:bioreality-orf-start-stop-window-eligibility}
 
-\paragraph{Object of the record.}
-This record concerns the narrow biological question whether a finite nucleotide window is eligible, at the start--stop boundary level, to be counted as an open-reading-frame candidate.  The biological object is not a translated protein and not a realized gene product.  It is the weaker finite event that a window supplied by an annotation source can be classified by an explicitly stated start/stop enumeration rule.  The verified run for the window-enumeration packet loaded one curated finite nucleotide-window manifest, classified all loaded windows, and reported
+\paragraph{Finite object under test.}
+This record isolates the smallest BioReality question asked by the open-reading-frame packet: whether a finite nucleotide window can be sorted by start/stop codon enumeration while remaining below any claim of translation. The verified run for this claim used experiment identifier \texttt{c26a0d6656f7}. Its input was a curated finite nucleotide-window manifest dated 2026-05-25, and the manifest was loaded as an external annotation input rather than as a fact derived from the combinatorial coordinate system. The run reports one loaded window and one classified window:
 $$
 \begin{aligned}
-  \#\mathrm{windows} &= 1,\\
-  \#\mathrm{classified} &= 1,\\
-  \#\mathrm{input\ windows} &= 1.
+\mathrm{input\_windows} &= 1,\\
+\mathrm{classified} &= 1,\\
+\mathrm{window\_count} &= 1.
 \end{aligned}
 $$
-The run therefore establishes only that the single externally supplied window in the manifest lies inside the predeclared start/stop enumeration scope.  Its declared scope is external-window start/stop enumeration only, with snapshot date 2026-05-25.  The manifest is an annotation input to the experiment and is not produced by the codon geometry itself.
+The scope of the run is explicitly \texttt{external\_window\_start\_stop\_enumeration\_only}. Thus the finite output is an eligibility-level classification for a supplied window, not a statement that the window is translated, expressed, folded, stable, functional, mechanistic, or representative of all genomes.
 
-\paragraph{Finite codon context.}
-The codon-side finite context used around this record is explicit.  The motif-compression check gives
+\paragraph{Codon background used only as finite combinatorics.}
+The surrounding codon packet supplies a finite alphabetic setting in which start/stop enumeration can be stated without importing biological realization. The motif-compression run \texttt{338799579a87} identifies the thirteen-word set
 $$
 \begin{aligned}
-R = \{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\},
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
 \end{aligned}
 $$
-with no missing and no extra codons in the reported comparison.  The larger finite set is
+The membership run \texttt{a53ef0f36703} gives the twenty-word set
 $$
 \begin{aligned}
-M = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\\
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\\
 &\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\\
 &\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
 \end{aligned}
 $$
-and the same run reports $|M|=20$.  The saturation check records
+with $|M|=20$. The saturation run \texttt{f4eee68dd2c3} reports that the third finite expansion from $R$ reaches
 $$
 \begin{aligned}
-\mathrm{Sat}_{f_3}(R) = M \setminus \{\mathrm{ACA},\mathrm{ACG}\},
+\operatorname{Sat}_{f3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\\
+&\mathrm{UUA},\mathrm{UUG}\},
 \end{aligned}
 $$
-so the saturated list has eighteen codons, while $M$ is recovered by adjoining $\mathrm{ACA}$ and $\mathrm{ACG}$ to that saturated part.  The boundary term attached to $f_3$ is empty in the recorded finite table.  These facts are useful as a finite codon background, but they do not by themselves create an observed open reading frame.
+so that the recorded boundary is empty, $\partial f3=\varnothing$, and $M=\operatorname{Med}(R)\cup\{\mathrm{ACA},\mathrm{ACG}\}$. These lists are used here as finite enumeration data. They do not, by themselves, say that any nucleotide interval exists in a cell or that any transcript or protein is produced.
 
-\paragraph{Quotient geometry available before biological contact.}
-The finite quotient geometry attached to $M$ has $20$ codons, $38$ one-dimensional incidences, $26$ two-dimensional incidences, $8$ three-dimensional incidences, and $1$ top-dimensional cell in the reported vector
+\paragraph{Quotient and size checks.}
+The geometric audit \texttt{fd0a506a0881} gives a size check on the combinatorial carrier. The vector attached to $M$ is
 $$
 \begin{aligned}
-  f(M)=(20,38,26,8,1).
+(20,38,26,8,1),
 \end{aligned}
 $$
-The quotient projection has ten listed points and the quotient vector
+and the quotient projection has ten points, with quotient vector
 $$
 \begin{aligned}
-  f(\pi M)=(10,14,6,1), \qquad |\pi M|=10.
+(10,14,6,1).
 \end{aligned}
 $$
-This geometry is a finite coordinate device for comparing codon patterns.  In this chapter it is kept below the biological assertion threshold: a coordinate pattern may help define a classifier, but the classifier receives biological meaning only when a sequence window or curated interval has been supplied as a separate finite observation.
-
-\paragraph{Window-enumeration verdict.}
-For claim \texttt{h2.orf.start\_stop.window\_eligibility}, the direct run reports that the external dataset was loaded and that every input window was classified by the start/stop enumeration.  The run also stores the local promotion guard as \texttt{orf\_eligibility\_only}.  Hence the mathematical content of the record is the finite implication
+The ten quotient representatives are
 $$
 \begin{aligned}
-  \mathrm{loaded}(W) \wedge \mathrm{start/stop\ classified}(W)
-  \;\Longrightarrow\;
-  \mathrm{eligible}_{\mathrm{boundary}}(W),
+& (0,0,0,0,1), (0,0,0,1,1), (0,0,1,0,1), (0,0,1,1,1), (0,1,0,0,0),\\
+& (0,1,0,0,1), (1,0,0,0,1), (1,0,0,1,1), (1,0,1,0,1), (1,0,1,1,1).
 \end{aligned}
 $$
-where $W$ ranges only over the one window present in the loaded manifest.  The implication is not quantified over all genomes, all transcripts, all organisms, or all possible nucleotide strings.  It is a statement about the particular finite manifest read by experiment run \texttt{c26a0d6656f7}.
+These figures confirm that the combinatorial side is finite and completely enumerated. They are not used as a substitute for biological observation. In particular, quotient geometry may organize codon windows, but it does not certify ribosomal reading, peptide production, cellular viability, molecular folding, biochemical role, evolutionary conservation, or organism-level phenotype.
 
-\paragraph{Curated interval contact.}
-A stronger related contact is present in the finite ledger for curated intervals.  It loaded $168$ rows from an NCBI RefSeq GenBank XML CDS-interval dataset for \emph{Escherichia coli} K-12 MG1655 accession NC\_000913.3, with snapshot date 2026-05-30.  The input classes were positive curated ORF intervals, matched non-ORF decoys, and boundary cases.  The frozen classifier was \texttt{orf\_start\_stop\_window\_eligibility}, and the record says that its rules were not modified after the protocol was fixed.  The positive interval test accepted $72$ of $72$ positives, giving accept rate $1.0$ and one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$.  The matched-decoy test rejected $72$ of $72$ decoys, giving reject rate $1.0$ with the same one-sided binomial upper-tail value.  The predeclared paired baseline comparison recorded $72$ wins in $72$ pairs, again with upper-tail value $2.117582368135751\times 10^{-22}$.
+\paragraph{Eligibility verdict.}
+For the specific start/stop-window run, the module classification is \texttt{orf\_eligibility\_only}. The record therefore licenses only the following narrow statement: the one externally supplied nucleotide window in the 2026-05-25 manifest was classified by the start/stop enumeration procedure. It does not license an ORF claim for an unsupplied interval, and it does not convert the finite codon lists into a biological event. The self-check run \texttt{0f47d2f0cf41} records the same boundary in aggregate form, with three checked gates and the condition that no codon geometry is promoted across biological layers.
 
-\paragraph{Held-out stability and boundary behavior.}
-The curated-interval contact also reports three held-out folds.  The left-locus fold had $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$.  The middle-locus fold had the same counts and rates.  The right-locus fold also had $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$.  The boundary control contains $24$ cases and promotes none of them, so its promotion fraction is $0.0$.  These numbers make the contact materially stronger than the one-window seed, but they still remain interval-contact facts: they do not convert finite start/stop classification into a claim about translation products, protein conformation, biochemical viability, cellular role, molecular mechanism, or a universal biological law.
+\paragraph{Separate contact comparison.}
+A later curated-interval contact, experiment \texttt{7c9b30b02d46}, shows what a stronger external attachment looks like without changing the status of this seed. That contact loaded 168 rows from an NCBI RefSeq GenBank XML CDS-interval dataset for \textit{Escherichia coli} K-12 MG1655 accession NC\_000913.3, dated 2026-05-30. It contained 72 positive curated ORF intervals, 72 matched non-ORF decoys, and 24 boundary cases. The positive accept rate was $72/72=1.0$, the matched decoy rejection rate was $72/72=1.0$, and the one-sided binomial upper-tail value recorded for the positive, decoy, and paired baseline tests was $2.117582368135751\times 10^{-22}$. Three held-out splits each had 24 positives and 24 decoys, with positive accept rate $1.0$ and decoy rejection rate $1.0$. The 24 boundary cases had zero promotions. These contact results may support an interval-contact layer for that dataset, but they do not retroactively turn start/stop enumeration alone into translation evidence.
 
-\paragraph{Local non-promotion rule.}
-The self-check for the BioReality ledger reports three checked gates and states that codon geometry is not promoted across biological layers.  Accordingly, this chapter licenses only the following local reading.  Start/stop enumeration can mark a supplied nucleotide window as boundary-eligible for ORF consideration, and curated interval rows can test that classifier against a finite annotation table.  Nothing in the record says that ribosomes translate the interval, that a stable folded protein exists, that the product is physically admissible in a cell, that it has a biological function, that the mechanism is explained, or that the rule holds outside the stated finite inputs.  Any such assertion would require an additional observation channel that directly bears on the stronger layer.
+\paragraph{Local cannot-claim boundary.}
+The admissible conclusion is deliberately small. Start and stop codons can delimit an eligibility window after an external nucleotide record supplies the window to be tested. Without such an attachment, the packet remains a boundary test for what would have to be observed. Even with the one-window enumeration result, the paper does not infer translation realization, folded protein structure, physical admissibility, biochemical function, mechanism, organismal role, or universal biological law. Any step from enumeration to those stronger layers requires a separate finite contact that directly measures or curates the relevant biological object.
