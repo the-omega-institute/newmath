@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.GaussBonnetBoundaryUp.TasteGate
+namespace BEDC.Derived.GaussBonnetBoundaryUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,167 +10,181 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive GaussBonnetBoundaryUp : Type where
-  | mk :
-      (surface metric curvature boundary form deRham euler transport replay provenance
-        namecert : BHist) →
-        GaussBonnetBoundaryUp
-  deriving DecidableEq
+  | mk (S M K B F D E H C P N : BHist) : GaussBonnetBoundaryUp
 
-def gaussBonnetBoundaryEncodeBHist : BHist → RawEvent
+private def GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist :
+    BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: gaussBonnetBoundaryEncodeBHist h
-  | BHist.e1 h => BMark.b1 :: gaussBonnetBoundaryEncodeBHist h
+  | BHist.e0 h => BMark.b0 ::
+      GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e1 h => BMark.b1 ::
+      GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist h
 
-def gaussBonnetBoundaryDecodeBHist : RawEvent → BHist
+private def GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist :
+    RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (gaussBonnetBoundaryDecodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (gaussBonnetBoundaryDecodeBHist tail)
+  | BMark.b0 :: tail =>
+      BHist.e0 (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b1 :: tail =>
+      BHist.e1 (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist tail)
 
-private theorem gaussBonnetBoundaryDecode_encode_bhist :
-    ∀ h : BHist, gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist h) = h := by
+private theorem GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist,
+      GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+          (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
-def gaussBonnetBoundaryToEventFlow : GaussBonnetBoundaryUp → EventFlow
+private def GaussBonnetBoundaryTasteGate_single_carrier_alignment_toEventFlow :
+    GaussBonnetBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | GaussBonnetBoundaryUp.mk surface metric curvature boundary form deRham euler transport
-      replay provenance namecert =>
-      [[BMark.b0],
-        gaussBonnetBoundaryEncodeBHist surface,
-        [BMark.b1, BMark.b0],
-        gaussBonnetBoundaryEncodeBHist metric,
-        [BMark.b1, BMark.b1, BMark.b0],
-        gaussBonnetBoundaryEncodeBHist curvature,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        gaussBonnetBoundaryEncodeBHist boundary,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        gaussBonnetBoundaryEncodeBHist form,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        gaussBonnetBoundaryEncodeBHist deRham,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        gaussBonnetBoundaryEncodeBHist euler,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        gaussBonnetBoundaryEncodeBHist transport,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        gaussBonnetBoundaryEncodeBHist replay,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        gaussBonnetBoundaryEncodeBHist provenance,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        gaussBonnetBoundaryEncodeBHist namecert]
+  | GaussBonnetBoundaryUp.mk S M K B F D E H C P N =>
+      [GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist S,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist M,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist K,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist B,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist F,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist D,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist E,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist H,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist C,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist P,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist N]
 
-def gaussBonnetBoundaryEventAt : Nat → EventFlow → RawEvent
+private def GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => gaussBonnetBoundaryEventAt index rest
+  | Nat.succ index, _event :: rest =>
+      GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt index rest
 
-def gaussBonnetBoundaryFromEventFlow : EventFlow → Option GaussBonnetBoundaryUp
+private def GaussBonnetBoundaryTasteGate_single_carrier_alignment_fromEventFlow
+    (ef : EventFlow) : Option GaussBonnetBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      some
-        (GaussBonnetBoundaryUp.mk
-          (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEventAt 1 flow))
-          (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEventAt 3 flow))
-          (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEventAt 5 flow))
-          (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEventAt 7 flow))
-          (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEventAt 9 flow))
-          (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEventAt 11 flow))
-          (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEventAt 13 flow))
-          (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEventAt 15 flow))
-          (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEventAt 17 flow))
-          (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEventAt 19 flow))
-          (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEventAt 21 flow)))
+  some
+    (GaussBonnetBoundaryUp.mk
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+        (GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt 0 ef))
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+        (GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt 1 ef))
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+        (GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt 2 ef))
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+        (GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt 3 ef))
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+        (GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt 4 ef))
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+        (GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt 5 ef))
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+        (GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt 6 ef))
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+        (GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt 7 ef))
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+        (GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt 8 ef))
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+        (GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt 9 ef))
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+        (GaussBonnetBoundaryTasteGate_single_carrier_alignment_eventAt 10 ef)))
 
-private theorem gaussBonnetBoundary_round_trip :
+private theorem GaussBonnetBoundaryTasteGate_single_carrier_alignment_round_trip :
     ∀ x : GaussBonnetBoundaryUp,
-      gaussBonnetBoundaryFromEventFlow (gaussBonnetBoundaryToEventFlow x) = some x := by
+      GaussBonnetBoundaryTasteGate_single_carrier_alignment_fromEventFlow
+          (GaussBonnetBoundaryTasteGate_single_carrier_alignment_toEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk surface metric curvature boundary form deRham euler transport replay provenance
-      namecert =>
+  | mk S M K B F D E H C P N =>
       change
         some
           (GaussBonnetBoundaryUp.mk
-            (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist surface))
-            (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist metric))
-            (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist curvature))
-            (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist boundary))
-            (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist form))
-            (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist deRham))
-            (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist euler))
-            (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist transport))
-            (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist replay))
-            (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist provenance))
-            (gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist namecert))) =
-          some
-            (GaussBonnetBoundaryUp.mk surface metric curvature boundary form deRham euler
-              transport replay provenance namecert)
-      rw [gaussBonnetBoundaryDecode_encode_bhist surface,
-        gaussBonnetBoundaryDecode_encode_bhist metric,
-        gaussBonnetBoundaryDecode_encode_bhist curvature,
-        gaussBonnetBoundaryDecode_encode_bhist boundary,
-        gaussBonnetBoundaryDecode_encode_bhist form,
-        gaussBonnetBoundaryDecode_encode_bhist deRham,
-        gaussBonnetBoundaryDecode_encode_bhist euler,
-        gaussBonnetBoundaryDecode_encode_bhist transport,
-        gaussBonnetBoundaryDecode_encode_bhist replay,
-        gaussBonnetBoundaryDecode_encode_bhist provenance,
-        gaussBonnetBoundaryDecode_encode_bhist namecert]
+            (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+              (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist S))
+            (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+              (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist M))
+            (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+              (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist K))
+            (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+              (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist B))
+            (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+              (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist F))
+            (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+              (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist D))
+            (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+              (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist E))
+            (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+              (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist H))
+            (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+              (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist C))
+            (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+              (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist P))
+            (GaussBonnetBoundaryTasteGate_single_carrier_alignment_decodeBHist
+              (GaussBonnetBoundaryTasteGate_single_carrier_alignment_encodeBHist N))) =
+          some (GaussBonnetBoundaryUp.mk S M K B F D E H C P N)
+      rw [GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode S,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode M,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode K,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode B,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode F,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode D,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode E,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode H,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode C,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode P,
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem gaussBonnetBoundaryToEventFlow_injective (x y : GaussBonnetBoundaryUp) :
-    gaussBonnetBoundaryToEventFlow x = gaussBonnetBoundaryToEventFlow y → x = y := by
+private theorem GaussBonnetBoundaryTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : GaussBonnetBoundaryUp} :
+    GaussBonnetBoundaryTasteGate_single_carrier_alignment_toEventFlow x =
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_toEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      gaussBonnetBoundaryFromEventFlow (gaussBonnetBoundaryToEventFlow x) =
-        gaussBonnetBoundaryFromEventFlow (gaussBonnetBoundaryToEventFlow y) :=
-    congrArg gaussBonnetBoundaryFromEventFlow heq
+      GaussBonnetBoundaryTasteGate_single_carrier_alignment_fromEventFlow
+          (GaussBonnetBoundaryTasteGate_single_carrier_alignment_toEventFlow x) =
+        GaussBonnetBoundaryTasteGate_single_carrier_alignment_fromEventFlow
+          (GaussBonnetBoundaryTasteGate_single_carrier_alignment_toEventFlow y) :=
+    congrArg GaussBonnetBoundaryTasteGate_single_carrier_alignment_fromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (gaussBonnetBoundary_round_trip x).symm
-      (Eq.trans hread (gaussBonnetBoundary_round_trip y)))
+    (Eq.trans
+      (GaussBonnetBoundaryTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (GaussBonnetBoundaryTasteGate_single_carrier_alignment_round_trip y)))
 
 instance gaussBonnetBoundaryBHistCarrier : BHistCarrier GaussBonnetBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := gaussBonnetBoundaryToEventFlow
-  fromEventFlow := gaussBonnetBoundaryFromEventFlow
+  toEventFlow := GaussBonnetBoundaryTasteGate_single_carrier_alignment_toEventFlow
+  fromEventFlow := GaussBonnetBoundaryTasteGate_single_carrier_alignment_fromEventFlow
 
 instance gaussBonnetBoundaryChapterTasteGate : ChapterTasteGate GaussBonnetBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change gaussBonnetBoundaryFromEventFlow (gaussBonnetBoundaryToEventFlow x) = some x
-    exact gaussBonnetBoundary_round_trip x
+    change
+      GaussBonnetBoundaryTasteGate_single_carrier_alignment_fromEventFlow
+          (GaussBonnetBoundaryTasteGate_single_carrier_alignment_toEventFlow x) =
+        some x
+    exact GaussBonnetBoundaryTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (gaussBonnetBoundaryToEventFlow_injective x y heq)
+    exact hxy (GaussBonnetBoundaryTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate GaussBonnetBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   gaussBonnetBoundaryChapterTasteGate
 
 theorem GaussBonnetBoundaryTasteGate_single_carrier_alignment :
-    (∀ h : BHist, gaussBonnetBoundaryDecodeBHist (gaussBonnetBoundaryEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier GaussBonnetBoundaryUp) ∧
-        Nonempty (ChapterTasteGate GaussBonnetBoundaryUp) ∧
-          gaussBonnetBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+    ChapterTasteGate GaussBonnetBoundaryUp := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨gaussBonnetBoundaryDecode_encode_bhist,
-      ⟨gaussBonnetBoundaryBHistCarrier⟩,
-      ⟨gaussBonnetBoundaryChapterTasteGate⟩,
-      rfl⟩
+  exact gaussBonnetBoundaryChapterTasteGate
 
-end BEDC.Derived.GaussBonnetBoundaryUp.TasteGate
+end BEDC.Derived.GaussBonnetBoundaryUp
