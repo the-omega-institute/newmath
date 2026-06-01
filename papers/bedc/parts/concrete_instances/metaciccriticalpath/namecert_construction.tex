@@ -634,6 +634,30 @@ Apply \autoref{thm:metacic-critical-path-normal-form-readback-boundary} and \aut
 The discharge socket is still separate by \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. Therefore every normalization-to-normal-form read carries the obstruction row through the route and stops short of the two excluded theorem exports.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate-mediated SN public handoff]
+\label{thm:metaciccriticalpath-candidate-mediated-sn-public}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, the public candidate-mediated strong-normalization handoff is the finite readiness surface formed by the candidate-mediated SN rows, the normalization-frontier rows, the confluence-decidability budget, and the subject-reduction discharge socket. A consumer may cite this surface only as a route through $S,N,O,U,D,H,C,P,L$ together with the displayed CandidateMediatedSN and CandidateSNConfluenceBoundary rows. It cannot cite the surface as full MetaCIC strong normalization, closed subject reduction, full confluence, full closed consistency, or a filled discharge bundle.
+\end{theorem}
+\begin{proof}
+Start with the candidate-mediated obligation surface. Theorems~\ref{thm:metacic-confluence-candidate-mediated-sn-obligation-surface}, \ref{thm:metaciccriticalpath-candidate-mediated-sn-frontier-coverage}, and \ref{thm:metacic-critical-path-candidate-sn-readiness} identify the candidate-mediated SN rows as finite packet data rather than as a global normalization theorem.
+
+Next read the public carrier route. Theorems~\ref{thm:metacic-critical-path-normalization-frontier-factorization}, \ref{thm:metacic-critical-path-frontier-coverage}, and \ref{thm:metacic-critical-path-normalization-obstruction-route-coverage} keep the normalization-frontier endpoint attached to $S,N,O,H,C,P,L$ and keep the obstruction row visible.
+
+Finally attach the socket and handoff rows. Theorems~\ref{thm:metacic-critical-path-discharge-socket-nonescape}, \ref{thm:metacic-critical-path-obstruction-socket-separation}, \ref{thm:metacic-critical-path-handoff-row-coverage}, and \ref{thm:metacic-critical-path-sn-discharge-socket-readiness} keep $D$ separate from the candidate-mediated rows and keep $U$ as a handoff row. Thus the public handoff is a readiness surface and not a proof of full MetaCIC SN, closed subject reduction, full confluence, full closed consistency, or socket discharge.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence frontier public handoff]
+\label{thm:metaciccriticalpath-confluence-frontier-public}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, every public confluence-frontier read factors through CandidateMediatedSN, CandidateSNConfluenceBoundary, FiniteObservationConfluence, MetaCICNormalizationFrontier, and SubjectReductionDischargeSocket rows only as displayed packet obligations. The route may expose finite-observation confluence readiness and confluence-decidability handoff data, but it exports no arbitrary Church--Rosser theorem, no global beta-conversion decision procedure, no full MetaCIC confluence theorem, and no closed subject-reduction discharge.
+\end{theorem}
+\begin{proof}
+Read the confluence-facing packet rows first. Theorems~\ref{thm:metacic-critical-path-confluence-decidability-socket}, \ref{thm:metacic-critical-path-sn-confluence-budget}, and \ref{thm:metacic-critical-path-confluence-decidability-consumer-boundary} force confluence and decidability uses through $U$ together with the obstruction, socket, transport, replay, provenance, and local naming rows.
+
+Next attach the candidate and finite-observation frontier. Theorems~\ref{thm:metacic-critical-path-candidate-frontier-confluence-socket-boundary}, \ref{thm:metacic-critical-path-sn-confluence-decidability-handshake}, and \ref{thm:metacic-critical-path-confluence-candidate-mediation} keep CandidateMediatedSN and CandidateSNConfluenceBoundary as mediated readiness rows, while the finite-observation confluence side remains bounded by the same packet route.
+
+Finally use the public handoff theorem above together with discharge-socket coverage, \autoref{thm:metaciccriticalpath-candidate-mediated-sn-public} and \autoref{thm:metacic-critical-path-discharge-socket-coverage}. The subject-reduction socket remains visible and unfilled, so the confluence frontier is a public readiness surface over finite BEDC rows rather than a global Church--Rosser, beta-decidability, full-confluence, or subject-reduction theorem.
+\end{proof}
+
 \input{parts/concrete_instances/metaciccriticalpath/frontier_rank_surface}
 
 \input{parts/concrete_instances/metaciccriticalpath/public_route_obligations}
