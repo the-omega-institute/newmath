@@ -39,12 +39,35 @@ def test_ledger_gaps_derive_from_debt_and_specs():
         and gap.status in {"open", "partial"}
         for gap in gaps
     )
-    assert any(
-        gap.kind == "generalization"
-        and gap.residue == "global-claim-boundary"
-        and gap.status in {"open", "partial"}
+    assert not any(gap.kind == "generalization" and gap.residue == "global-claim-boundary" for gap in gaps)
+
+
+def test_ledger_keeps_single_seed_global_claim_boundary_gap_live():
+    source_spec = {
+        "source_count": 3,
+        "sample_count": 2048,
+        "mixing": ["sinusoidal", "parabolic", "shear"],
+        "global_claim": True,
+    }
+    classifier_spec = {"name": "certified-classifier", "training": "certified"}
+    stability_spec = {"multi_seed": False}
+    metrics = {"approx_identifiability_proxy": 0.8}
+    assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec)
+
+    gaps = derive_ledger_gaps(metrics, source_spec, classifier_spec, stability_spec, assessment)
+
+    assert [
+        gap
         for gap in gaps
-    )
+        if gap.kind == "generalization" and gap.residue == "global-claim-boundary"
+    ] == [
+        type(gaps[0])(
+            kind="generalization",
+            residue="global-claim-boundary",
+            severity="medium",
+            status="partial",
+        )
+    ]
 
 
 def test_ledger_metric_gap_pins_partial_and_open_statuses_below_margin():

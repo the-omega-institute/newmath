@@ -222,17 +222,26 @@ def test_optimization_certified_deterministic_and_open_training_statuses():
 
 
 def test_global_claim_multi_seed_thresholds_pin_closed_partial_open_statuses():
-    open_assessment = assess_case({"global_claim": False}, stability_spec={"multi_seed": True})
+    scoped_assessment = assess_case({"global_claim": False}, stability_spec={"multi_seed": True})
+    missing_assessment = assess_case({}, stability_spec={"multi_seed": False})
     partial_assessment = assess_case({"global_claim": True}, stability_spec={"multi_seed": False})
     closed_assessment = assess_case({"global_claim": True}, stability_spec={"multi_seed": True})
 
     assert_residue(
-        open_assessment,
+        scoped_assessment,
         "global-claim-boundary",
         kind="generalization",
-        severity="high",
-        status="open",
-        score=0.20,
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
+    assert_residue(
+        missing_assessment,
+        "global-claim-boundary",
+        kind="generalization",
+        severity="none",
+        status="closed",
+        score=0.0,
     )
     assert_residue(
         partial_assessment,

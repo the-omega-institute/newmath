@@ -55,7 +55,6 @@ def assert_common_experiment_envelope(envelope):
 
 FALLBACK_LEDGER_GAPS = [
     "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
-    "kind=generalization; residue=global-claim-boundary; severity=high; status=open",
     "kind=source; residue=finite-sample-support; severity=high; status=open",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open",
     "kind=source; residue=source-coverage; severity=high; status=open",
@@ -66,12 +65,11 @@ FALLBACK_DEBT_ITEMS = [
     "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
     "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
     "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
-    "kind=generalization; residue=global-claim-boundary; severity=high; status=open; score=0.200000",
+    "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000",
 ]
 
 TORCH_METADATA_LEDGER_GAPS = [
     "kind=classifier; residue=optimizer-certificate; severity=high; status=open",
-    "kind=generalization; residue=global-claim-boundary; severity=high; status=open",
     "kind=source; residue=finite-sample-support; severity=high; status=open",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open",
     "kind=source; residue=source-coverage; severity=high; status=open",
@@ -82,7 +80,7 @@ TORCH_METADATA_DEBT_ITEMS = [
     "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
     "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
     "kind=classifier; residue=optimizer-certificate; severity=high; status=open; score=0.200000",
-    "kind=generalization; residue=global-claim-boundary; severity=high; status=open; score=0.200000",
+    "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000",
 ]
 
 

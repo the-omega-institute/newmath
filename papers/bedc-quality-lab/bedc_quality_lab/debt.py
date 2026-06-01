@@ -113,7 +113,7 @@ def _global_claim_score(source_spec: Mapping[str, Any], stability_spec: Mapping[
         return 0.0
     if source_spec.get("global_claim") is True:
         return 0.5 * upper
-    return upper
+    return 0.0
 
 
 def _item(row: LedgerRowKey, score: float) -> DebtItem:
