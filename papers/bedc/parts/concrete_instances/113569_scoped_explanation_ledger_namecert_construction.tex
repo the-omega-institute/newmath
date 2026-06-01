@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\ScopedExplanationLedgerUp$}
+\label{ch:concrete-instances-scoped-explanation-ledger-namecert}
+\origin{ai}
+
+The $\ScopedExplanationLedgerUp$ packet realizes the scoped black-box certification principle of \autoref{sec:visions-philosophy-scoped-certification-principle} as finite NameCert data. It records an explanation scope, the classifier rows valid inside that scope, the behavior ledger they cover, the global-ledger refusal row for uncovered behavior families, transport, replay, provenance, and local naming. The packet is an interpretability boundary: it certifies scoped explanation rows without pretending that a single classifier or natural-language summary eliminates global behavior residue.
+
+\begin{definition}[Scoped explanation ledger carrier]
+\label{def:scoped-explanation-ledger-carrier}
+A $\ScopedExplanationLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(\Omega,B,E,Q,G,F,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the explanation-scope row, naming the source domain, model state, admitted transformation family, and behavior being explained.
+\item $B$ is the behavior-family boundary row, separating the scoped behavior from behavior rows not covered by the packet.
+\item $E$ is the explanation-object row, containing the finite classifier, local NameCert, and scoped ledger entries used for the certified behavior.
+\item $Q$ is the scoped classifier row, recording exactly which comparisons or behavioral equivalences are valid inside $\Omega$.
+\item $G$ is the global-ledger refusal row, recording that no global behavior-family ledger is exported unless a separate global carrier is supplied.
+\item $F$ is the failure and not-claimed row, listing uncovered behaviors, unverified transfers, semantic residue, and out-of-scope transformations.
+\item $T$ records componentwise $\hsame$ transport for $\Omega,B,E,Q,G,F,R,P,N$.
+\item $R$ records displayed $\Cont$ replay for scoped explanation reads, classifier reads, refusal reads, and downstream audit consumers.
+\item $P$ is the $\Pkg$ provenance over $\ScopedExplanationLedgerUp$, the scoped certification principle of \autoref{sec:visions-philosophy-scoped-certification-principle}, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ScopedExplanationLedgerUp}$ row.
+\end{enumerate}
+The classifier compares packets only by the displayed scope, behavior boundary, explanation object, classifier, refusal, failure, transport, replay, provenance, and naming rows. It has no row that turns scoped resolution into global resolution.
+\end{definition}
+
+\begin{theorem}[Scoped explanation ledger NameCert obligations]
+\label{thm:scoped-explanation-ledger-namecert-obligations}
+For every accepted $\ScopedExplanationLedgerUp$ carrier $L=(\Omega,B,E,Q,G,F,T,R,P,N)$, the local $\NameCert_{\ScopedExplanationLedgerUp}$ surface consists exactly of explanation-scope admission, behavior-boundary exposure, explanation-object exposure, scoped classifier exactness, global-ledger refusal, not-claimed residue, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:scoped-explanation-ledger-carrier}. The rows $\Omega,B,E,Q$ state the scoped explanation and its classifier, while $G,F$ state what is not exported.
+
+The carrier admits a packet only when the scope and behavior boundary are displayed. The explanation object $E$ and classifier row $Q$ are therefore read inside that scope rather than as global model facts.
+
+The refusal and residue rows are equally part of the certificate. The row $G$ denies a global-ledger export, and $F$ lists the behavior, transfer, semantic, and verification residue left outside the scoped claim.
+
+Transport, replay, provenance, and naming preserve this same boundary. They do not create a global behavior-family ledger or a universal classifier, so the NameCert obligations are exactly the listed rows.
+\end{proof}
+
+\begin{theorem}[Scoped explanation ledger global nonescape]
+\label{thm:scoped-explanation-ledger-global-nonescape}
+An accepted $\ScopedExplanationLedgerUp$ packet never exports global black-box resolution from the scoped explanation row alone. Any consumer claiming global behavior coverage must read a separate global-ledger carrier; the rows $\Omega,B,E,Q,G,F,T,R,P,N$ only certify the scoped explanation and the explicit global-ledger refusal.
+\end{theorem}
+\begin{proof}
+Begin with the rows of \autoref{def:scoped-explanation-ledger-carrier}. The explanation object $E$ and classifier row $Q$ are indexed by the scope row $\Omega$ and behavior boundary $B$.
+
+The global-ledger row of this packet is a refusal row. It records that no global behavior-family ledger is exported from the scoped explanation.
+
+The residue row $F$ names the uncovered behavior, transfer, semantic, and verification residue. A consumer that ignores $F$ has not consumed the certificate boundary of the packet.
+
+Thus global behavior coverage is unavailable from this carrier. It requires a separate carrier whose rows actually display the covered behavior family and common global ledger.
+\end{proof}
+
+\begin{theorem}[Scoped explanation ledger sibling independence]
+\label{thm:scoped-explanation-ledger-sibling-independence}
+The $\ScopedExplanationLedgerUp$ carrier is not bijective with any single classifier packet, relation packet, compiler packet, no-global-synchronization ledger, or machine-interface socket. Its public route requires the combined scope, behavior boundary, explanation object, scoped classifier, global-ledger refusal, residue, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+A single classifier packet can supply a comparison row, but it lacks the explanation scope, behavior-family boundary, global-ledger refusal, and not-claimed residue required by \autoref{def:scoped-explanation-ledger-carrier}.
+
+A relation or compiler packet can expose relation or compilation rows, but those rows do not determine which behavior is certified inside which explanation scope.
+
+A no-global-synchronization ledger or machine-interface socket can expose refusal or boundary rows, but it lacks the scoped explanation object and classifier exactness row.
+
+Therefore none of those siblings is bijective with the scoped explanation ledger. The carrier is the combined finite route $\Omega,B,E,Q,G,F,T,R,P,N$.
+\end{proof}
+
+\falsifiablePrediction{If a $\ScopedExplanationLedgerUp$ packet is reduced to a single classifier row, then the global-ledger refusal row is lost.}
+
+\independenceWitness{layeredrelationsite, certificatecompiler, no\_global\_synchronization\_ledger, machineinterfacesocket: the relation site supplies relation rows without the explanation-scope ledger; the certificate compiler supplies compilation rows without behavior-family residue; the no-global-synchronization ledger supplies refusal rows without scoped classifier exactness; the machine-interface socket supplies boundary access without the local explanation object. None is bijective with the combined scope, classifier, ledger, refusal, transport, replay, provenance, and NameCert route.}
+
+\closureat{ScopedExplanationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ScopedExplanationLedgerUp}
+  \constructivestory{A $\ScopedExplanationLedgerUp$ packet is generated from an explanation scope, behavior-family boundary, explanation object, scoped classifier, global-ledger refusal, not-claimed residue, componentwise hsame transport, displayed Cont replay, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:scoped-explanation-ledger-carrier}, \autoref{thm:scoped-explanation-ledger-namecert-obligations}, \autoref{thm:scoped-explanation-ledger-global-nonescape}, and \autoref{thm:scoped-explanation-ledger-sibling-independence} seed the scoped explanation, classifier, refusal, residue, transport, replay, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, global black-box resolution, a universal classifier, global synchronization, open-domain behavior coverage, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked scope admission, behavior-boundary exposure, scoped classifier exactness, global-ledger refusal, residue, transport, replay, provenance, and local naming for BEDC.Derived.ScopedExplanationLedgerUp.}
+\end{closurestatus}
