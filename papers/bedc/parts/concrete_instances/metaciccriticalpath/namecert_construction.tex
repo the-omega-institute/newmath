@@ -619,6 +619,7 @@ The socket side is fixed by \autoref{thm:metacic-critical-path-obstruction-bound
 
 Consequently confluence and decidability uses are mediated by the same obstruction, socket, transport, route, provenance, and naming rows. They do not create an extra decision procedure or confluence theorem outside the finite packet.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_confluence\_decidability\_socket}
 
 \begin{theorem}[MetaCIC critical-path normalization-obstruction route coverage]
 \label{thm:metacic-critical-path-normalization-obstruction-route-coverage}
@@ -656,6 +657,22 @@ Read the confluence-facing packet rows first. Theorems~\ref{thm:metacic-critical
 Next attach the candidate and finite-observation frontier. Theorems~\ref{thm:metacic-critical-path-candidate-frontier-confluence-socket-boundary}, \ref{thm:metacic-critical-path-sn-confluence-decidability-handshake}, and \ref{thm:metacic-critical-path-confluence-candidate-mediation} keep CandidateMediatedSN and CandidateSNConfluenceBoundary as mediated readiness rows, while the finite-observation confluence side remains bounded by the same packet route.
 
 Finally use the public handoff theorem above together with discharge-socket coverage, \autoref{thm:metaciccriticalpath-candidate-mediated-sn-public} and \autoref{thm:metacic-critical-path-discharge-socket-coverage}. The subject-reduction socket remains visible and unfilled, so the confluence frontier is a public readiness surface over finite BEDC rows rather than a global Church--Rosser, beta-decidability, full-confluence, or subject-reduction theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path public export]
+\label{thm:metacic-critical-path-public-export}
+For every accepted $\MetaCICCriticalPathUp$ carrier
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+the public export surface is exactly the finite route through CandidateMediatedSN, CandidateSNConfluenceBoundary, FiniteObservationConfluence, MetaCICNormalizationFrontier, SubjectReductionDischargeSocket, and the carrier rows $S,N,O,U,D,H,C,P,L$. This export refuses full MetaCIC strong normalization, closed subject reduction, full confluence, full closed consistency, and discharge of the socket $D$.
+\end{theorem}
+\begin{proof}
+First read the candidate-mediated SN public handoff, \autoref{thm:metaciccriticalpath-candidate-mediated-sn-public}. It presents CandidateMediatedSN and CandidateSNConfluenceBoundary only as finite readiness rows over the carrier route.
+
+Next read the confluence-frontier public handoff, \autoref{thm:metaciccriticalpath-confluence-frontier-public}. It attaches FiniteObservationConfluence and MetaCICNormalizationFrontier to the same carrier rows, while keeping confluence and decidability uses bounded by the displayed handoff data.
+
+Finally use discharge-socket coverage and obstruction-socket separation, \autoref{thm:metacic-critical-path-discharge-socket-coverage} and \autoref{thm:metacic-critical-path-obstruction-socket-separation}. These keep SubjectReductionDischargeSocket visible but unfilled, so $D$ remains a socket coordinate rather than a closed subject-reduction proof or a source of the excluded global theorem exports.
 \end{proof}
 
 \input{parts/concrete_instances/metaciccriticalpath/frontier_rank_surface}
