@@ -1827,6 +1827,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPublicExport
 import BEDC.Derived.CauchyfiltercompletionUp.ChoicefreeCompletionRow
 import BEDC.Derived.CauchyfiltercompletionUp.CofinalRegularReadback
 import BEDC.Derived.CauchyfiltercompletionUp.CompletionFunctorFactorization
+import BEDC.Derived.CauchyfiltercompletionUp.CompletionHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.FilterConvergenceHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseAdmission
 import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseHandoff
