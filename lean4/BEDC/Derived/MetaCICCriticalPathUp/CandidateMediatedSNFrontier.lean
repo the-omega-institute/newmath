@@ -11,6 +11,17 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def MetaCICCriticalPathCandidateMediatedFrontier [AskSetup] [PackageSetup]
+    (strongNorm normalForm obstruction unblock discharge handoff continuation provenance
+      localName dyadic stream regseq realSeal : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory
+  MetaCICCriticalPathOpenPhaseSourceLedger strongNorm normalForm obstruction unblock
+      discharge handoff continuation provenance localName dyadic stream regseq realSeal
+      bundle pkg ∧
+    UnaryHistory dyadic ∧ UnaryHistory stream ∧ UnaryHistory regseq ∧
+      UnaryHistory realSeal
+
 theorem MetaCICCriticalPathPacket_candidate_mediated_sn_frontier [AskSetup] [PackageSetup]
     {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
       localName dyadic stream regseq realSeal frontier : BHist}
