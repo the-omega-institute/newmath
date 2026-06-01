@@ -2182,8 +2182,37 @@ def push_to_origin() -> bool:
     acquire_push_lock = import_push_lock()
     try:
         with acquire_push_lock(BASE_BRANCH, timeout=120):
-            res = run(["git", "push", "origin", f"HEAD:{BASE_BRANCH}"],
-                      check=False, capture=True, timeout=60)
+            for attempt in range(3):
+                res = run(["git", "push", "origin", f"HEAD:{BASE_BRANCH}"],
+                          check=False, capture=True, timeout=60)
+                if res.returncode == 0:
+                    return True
+                run(["git", "fetch", "origin", BASE_BRANCH],
+                    check=False, capture=True, timeout=60)
+                reb = run(["git", "rebase", f"origin/{BASE_BRANCH}"],
+                          check=False, capture=True, timeout=180)
+                if reb.returncode != 0:
+                    run(["git", "rebase", "--abort"],
+                        check=False, capture=True, timeout=30)
+                    print(
+                        f"[heal] heal commit rebase onto origin/{BASE_BRANCH} "
+                        "conflicted; abandon push this tick: "
+                        f"{(reb.stdout or '')[-200:]}",
+                        file=sys.stderr,
+                    )
+                    return False
+                print(
+                    f"[heal] origin/{BASE_BRANCH} advanced during heal; "
+                    "rebased heal commit, retrying push "
+                    f"({attempt + 1}/3)",
+                    file=sys.stderr,
+                )
+            print(
+                "[heal] push still rejected after 3 rebase retries; "
+                "retry next tick",
+                file=sys.stderr,
+            )
+            return False
     except TimeoutError as exc:
         print(f"[heal] push lock timeout: {exc}", file=sys.stderr)
         log_heal_alert(
@@ -2193,10 +2222,6 @@ def push_to_origin() -> bool:
             note="共享 push lock 超时，本 tick 跳过 push",
         )
         return False
-    if res.returncode != 0:
-        print(f"[heal] push failed: {res.stderr}", file=sys.stderr)
-        return False
-    return True
 
 
 INDEX_LOCK_STALE_SECONDS = 600  # 10 min >> any real git index op
