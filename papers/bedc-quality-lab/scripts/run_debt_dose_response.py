@@ -19,6 +19,7 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.debt import assess_debt, format_debt_items
 from bedc_quality_lab.ledger import derive_ledger_gaps, format_ledger_gaps
 from bedc_quality_lab.metrics import classifier_certificate, metric_bundle, quality_components
+from bedc_quality_lab.mixing import canonical_mixing_families
 from bedc_quality_lab.scope import Scope, scope_rows
 
 MASTER_SEED = 44320260601
@@ -171,7 +172,7 @@ def _dose_surface(debt_level: float) -> _DoseSurface:
         "source_count": 3,
         "sample_count": 2048,
         "rho": 0.82,
-        "mixing": ("sinusoidal", "parabolic", "shear"),
+        "mixing": canonical_mixing_families(),
         "global_claim": True,
     }
     classifier_spec_base = {

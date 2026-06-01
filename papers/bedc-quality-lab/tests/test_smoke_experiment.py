@@ -21,7 +21,7 @@ def assert_common_experiment_envelope(envelope):
         "rho": 0.82,
         "rho_by_axis": [0.82, 0.82],
         "latent_distribution": "gaussian",
-        "mixing": "sinusoidal-parabolic-shear",
+        "mixing": "sinusoidal_shear",
         "transition_kernel": {
             "family": "ornstein-uhlenbeck",
             "rho_by_axis": [0.82, 0.82],
@@ -249,7 +249,7 @@ def test_parameterized_experiment_preserves_producer_chain():
         "rho": 0.82,
         "rho_by_axis": [0.82, 0.82],
         "latent_distribution": "gaussian",
-        "mixing": "sinusoidal-parabolic-shear",
+        "mixing": "sinusoidal_shear",
         "transition_kernel": {
             "family": "ornstein-uhlenbeck",
             "rho_by_axis": [0.82, 0.82],

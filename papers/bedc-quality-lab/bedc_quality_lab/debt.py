@@ -7,6 +7,7 @@ from typing import Mapping, Any
 
 from .cost_protocol import CostProtocol, REQUIRED_DEBT_ROWS, load_cost_protocol
 from .ledger import LedgerEntry, LedgerRowKey, ledger_debt, ledger_gap, recorded_rows, required_rows
+from .mixing import covered_canonical_mixing_families
 from .theorem_bound_quality import THEOREM_BOUND_ROW, _bound_values
 
 _EPS = 1.0e-12
@@ -66,14 +67,10 @@ def _source_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> flo
 
 def _distribution_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
     upper = protocol.weight(LedgerRowKey("source", "mixing-family-coverage"))
-    mixing = source_spec.get("mixing")
-    if isinstance(mixing, (list, tuple, set)):
-        count = len(mixing)
-    else:
-        count = 1 if mixing else 0
+    count = len(covered_canonical_mixing_families(source_spec.get("mixing")))
     if count <= 1:
         return upper
-    if count < 3:
+    if count < 4:
         return 0.5 * upper
     return 0.0
 

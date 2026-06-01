@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 
+from bedc_quality_lab.mixing import DEFAULT_MIXING, canonical_mixing_families, mix_latents
 from bedc_quality_lab.toy_world import make_ou_pair, make_toy_batch
 from bedc_quality_lab.transition import TransitionKernelSpec, make_transition_pair
 
@@ -34,3 +35,23 @@ def test_make_toy_batch_accepts_transition_kernel_for_per_axis_rho():
     observed = np.mean(batch.z * batch.z_pair, axis=0)
 
     assert np.allclose(observed, np.array([0.95, 0.3]), atol=0.06)
+
+
+def test_make_toy_batch_routes_default_mixing_to_both_observation_paths():
+    batch = make_toy_batch(32, seed=404)
+
+    assert batch.x == pytest.approx(mix_latents(batch.z, DEFAULT_MIXING))
+    assert batch.x_pair == pytest.approx(mix_latents(batch.z_pair, DEFAULT_MIXING))
+
+
+def test_make_toy_batch_routes_each_canonical_mixing_family():
+    for family in canonical_mixing_families():
+        batch = make_toy_batch(32, seed=505, mixing=family)
+
+        assert batch.x == pytest.approx(mix_latents(batch.z, family))
+        assert batch.x_pair == pytest.approx(mix_latents(batch.z_pair, family))
+
+
+def test_make_toy_batch_rejects_unknown_mixing_family():
+    with pytest.raises(ValueError, match="unknown mixing family"):
+        make_toy_batch(8, mixing="not-canonical")
