@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\InitialUniformityUp$}
+\label{ch:concrete-instances-initial-uniformity-namecert}
+\origin{human}
+
+Following Bourbaki on uniform structures and initial uniformities, the $\InitialUniformityUp$ packet names the finite pullback-uniformity route determined by a displayed map into a target uniform space. It sits after the Real-induced uniformity of \autoref{ch:concrete-instances-real-uniform-structure-namecert}, the abstract uniform entourage basis of \autoref{ch:concrete-instances-uniform-entourage-basis-namecert}, and the completion-facing handoff of \autoref{ch:concrete-instances-uniform-space-completion-namecert}. The packet records only source rows, target entourages, displayed maps, pulled-back entourage rows, transport, replay, provenance, and local naming; it is not an ambient topology, quotient uniformity, selected representative principle, open-cover compactness theorem, or countable-choice device.
+
+\begin{definition}[InitialUniformity carrier]
+\label{def:initial-uniformity-carrier}
+An $\InitialUniformityUp$ carrier is a finite $\BHist$ packet
+$$
+I=(S,T,F,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source carrier row. It records the points or names on which the pulled-back uniformity is being inspected.
+\item $T$ is the target uniformity row. It exposes the finite target-entourage requests admitted by the target $\UniformSpaceUp$ or by a basis packet such as $\UniformEntourageBasisUp$.
+\item $F$ is the displayed map row. It names the finite graph, readback, or continuation by which a source request is sent into the target carrier before an entourage is tested.
+\item $E$ is the pulled-back entourage row. Each entry records a target entourage from $T$ together with the displayed source-pair request whose two $F$-images are tested against that target entourage.
+\item $H$ records componentwise $\hsame$ transport for $S,T,F,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a source-pair request through $F$ and then through the target-entourage read in $T$.
+\item $P$ is the $\Pkg$ provenance over $\InitialUniformityUp$, $\UniformSpaceUp$, $\UniformEntourageBasisUp$, $\UniformSpaceCompletionUp$, $\RealUniformStructureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\InitialUniformityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,F,E,H,C,P,N$. It has no coordinate for an ambient topology on $S$, a quotient uniformity, a selected representative family, a host continuity theorem, open-cover compactness, countable choice, or external completeness.
+\end{definition}
+
+\begin{theorem}[InitialUniformity pullback entourage stability]
+\label{thm:initial-uniformity-pullback-entourage-stability}
+Let $I=(S,T,F,E,H,C,P,N)$ be an accepted $\InitialUniformityUp$ carrier. If two displayed source-pair requests are componentwise $\hsame$ through $H$, and the target-entourage read is replayed through the displayed $\Cont$ route $C$, then the pulled-back entourage row $E$ returns the same accepted pullback read. Thus pullback-entourage stability is internal to the displayed source row, target uniformity row, map row, pulled-back entourage row, transport row, and replay row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:initial-uniformity-carrier}. A pullback-entourage read begins with a source-pair request in $S$, sends both components through the displayed map row $F$, and then tests the resulting target pair against the target-entourage row $T$.
+
+Use componentwise $\hsame$ transport in $H$ on the source request, the two displayed map reads, and the target-entourage request. These transports preserve the visible coordinates of the packet, so the transported read still lands in the same target-entourage row.
+
+Replay the transported request through $C$. Since $C$ records only the route from source-pair data through $F$ into $T$, the replay reaches the same pulled-back row $E$ and cannot introduce an ambient topology, quotient uniformity, selected representative, or choice coordinate.
+\end{proof}
+
+\begin{theorem}[InitialUniformity NameCert obligations]
+\label{thm:initial-uniformity-namecert-obligations}
+For the carrier of \autoref{def:initial-uniformity-carrier}, the local $\NameCert_{\InitialUniformityUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier exposure for $I=(S,T,F,E,H,C,P,N)$;
+\item target-entourage exposure through the target uniformity row $T$;
+\item map compatibility requiring every pulled-back request in $E$ to read the displayed map row $F$ before target-entourage testing;
+\item pulled-back entourage stability under componentwise $\hsame$ transport and displayed $\Cont$ replay as in \autoref{thm:initial-uniformity-pullback-entourage-stability};
+\item refusal of ambient topology on $S$, quotient uniformity, selected representatives, host continuity, open-cover compactness, countable choice, and external completion principles.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is the projection of the finite tuple $I=(S,T,F,E,H,C,P,N)$. The target-entourage exposure is the projection of $T$, and map compatibility is the requirement that every entry of $E$ is read only after its two source components have been sent through $F$.
+
+The stability obligation is exactly \autoref{thm:initial-uniformity-pullback-entourage-stability}. It binds source-pair transport, target-entourage transport, and continuation replay to the same pulled-back entourage row.
+
+The refusal obligation follows from the carrier inventory. No row stores an ambient topology, quotient uniformity, selected representative family, host continuity theorem, open-cover compactness proof, countable-choice selector, or external completion object, so the local certificate exports only the finite pullback-uniformity route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\InitialUniformityUp$ pullback-entourage read factors through one source row, one target uniformity row, one displayed map row, one pulled-back entourage row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{real-uniform-structure, uniform-entourage-basis, uniform-space-completion: $\InitialUniformityUp$ is not bijective to any listed sibling because it packages the source carrier, target uniformity, displayed map, pulled-back entourage row, transport, replay, provenance, and local NameCert as one pullback-uniformity certificate.}
+
+\closureat{InitialUniformityUp}{seedStr}
+
+\begin{closurestatus}{\InitialUniformityUp}
+  \constructivestory{An $\InitialUniformityUp$ packet is generated from a source carrier row, a target uniformity row, a displayed map row, pulled-back entourage rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:initial-uniformity-carrier}, \autoref{thm:initial-uniformity-pullback-entourage-stability}, and \autoref{thm:initial-uniformity-namecert-obligations} seed the finite pullback-uniformity boundary for target-entourage consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.InitialUniformityUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient topology, quotient uniformity, selected representatives, host continuity, open-cover compactness, countable choice, external completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, target-entourage exposure, map compatibility, pulled-back entourage stability, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.InitialUniformityUp.}
+\end{closurestatus}
