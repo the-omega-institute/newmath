@@ -42,27 +42,33 @@ def finiteSimplicialChainToEventFlow : FiniteSimplicialChainUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (finiteSimplicialChainFields x).map finiteSimplicialChainEncodeBHist
 
-private def finiteSimplicialChainEventAt : Nat → EventFlow → RawEvent
+def finiteSimplicialChainFromEventFlow : EventFlow → Option FiniteSimplicialChainUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => finiteSimplicialChainEventAt index rest
-
-def finiteSimplicialChainFromEventFlow (ef : EventFlow) : Option FiniteSimplicialChainUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (FiniteSimplicialChainUp.mk
-      (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEventAt 0 ef))
-      (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEventAt 1 ef))
-      (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEventAt 2 ef))
-      (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEventAt 3 ef))
-      (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEventAt 4 ef))
-      (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEventAt 5 ef))
-      (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEventAt 6 ef))
-      (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEventAt 7 ef))
-      (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEventAt 8 ef))
-      (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEventAt 9 ef)))
+  | [] => none
+  | _K :: [] => none
+  | _K :: _F :: [] => none
+  | _K :: _F :: _A :: [] => none
+  | _K :: _F :: _A :: _G :: [] => none
+  | _K :: _F :: _A :: _G :: _B :: [] => none
+  | _K :: _F :: _A :: _G :: _B :: _Z :: [] => none
+  | _K :: _F :: _A :: _G :: _B :: _Z :: _H :: [] => none
+  | _K :: _F :: _A :: _G :: _B :: _Z :: _H :: _T :: [] => none
+  | _K :: _F :: _A :: _G :: _B :: _Z :: _H :: _T :: _P :: [] => none
+  | K :: F :: A :: G :: B :: Z :: H :: T :: P :: N :: [] =>
+      some
+        (FiniteSimplicialChainUp.mk
+          (finiteSimplicialChainDecodeBHist K)
+          (finiteSimplicialChainDecodeBHist F)
+          (finiteSimplicialChainDecodeBHist A)
+          (finiteSimplicialChainDecodeBHist G)
+          (finiteSimplicialChainDecodeBHist B)
+          (finiteSimplicialChainDecodeBHist Z)
+          (finiteSimplicialChainDecodeBHist H)
+          (finiteSimplicialChainDecodeBHist T)
+          (finiteSimplicialChainDecodeBHist P)
+          (finiteSimplicialChainDecodeBHist N))
+  | _K :: _F :: _A :: _G :: _B :: _Z :: _H :: _T :: _P :: _N :: _extra :: _rest =>
+      none
 
 private theorem FiniteSimplicialChainTasteGate_single_carrier_alignment_round_trip
     (x : FiniteSimplicialChainUp) :
