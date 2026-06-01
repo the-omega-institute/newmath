@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\RealUniformCauchyProductUp$}
+\label{ch:concrete-instances-real-uniform-cauchy-product-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy products, the $\RealUniformCauchyProductUp$ packet records the finite route by which two uniformly Cauchy real-window families expose a product family with the same uniform-tail discipline. It sits beside the shared-threshold criterion of \autoref{ch:concrete-instances-uniformcauchycriterion-namecert}, the product-convergence route of \autoref{ch:concrete-instances-cauchy-product-convergence-namecert}, the regular product criterion of \autoref{ch:concrete-instances-regular-cauchy-product-criterion-namecert}, and the endpoint-seal discipline of \autoref{ch:concrete-instances-uniformlimit-namecert}. The chapter names only the finite product-stability certificate; it does not assert quotient sequence equality, selected product limits, countable choice, host function equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Real uniform Cauchy product carrier]
+\label{def:real-uniform-cauchy-product-carrier}
+A $\RealUniformCauchyProductUp$ carrier is a finite $\BHist$ packet
+$$
+P=(F,G,M,W_F,W_G,D,U,K,R,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ and $G$ are the two real-window family rows whose values are read only through finite $\StreamNameUp$ and $\RealUp$ endpoint displays.
+\item $M$ is the shared uniform threshold ledger assigning each product tolerance to one family-wide tail bound for both inputs.
+\item $W_F$ and $W_G$ are the synchronized source-window rows exposed at the product request and the threshold selected by $M$.
+\item $D$ is the $\DyadicRatCoreUp$ product-budget row, recording input tolerances, visible endpoint bounds, cross-error terms, and the output tolerance for the product window.
+\item $U$ is the $\UniformCauchyCriterionUp$ row certifying that the source comparisons beyond $M$ are uniform in the displayed index.
+\item $K$ is the $\RegularCauchyProductCriterionUp$ row that turns the synchronized source windows and dyadic product budget into a regular product read.
+\item $R$ is the $\CauchyProductConvergenceUp$ route row for the resulting finite product-tail calculation.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the uniform tail, product budget, regular criterion, and product-convergence route have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source families, threshold ledger, synchronized windows, dyadic budget, uniform-tail row, product criterion, convergence route, seal row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a product-stability request through $F,G,M,W_F,W_G,D,U,K,R,E,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\RealUniformCauchyProductUp$, $\UniformCauchyCriterionUp$, $\RegularCauchyProductCriterionUp$, $\CauchyProductConvergenceUp$, $\UniformLimitUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealUniformCauchyProductUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows, their transports, replay routes, provenance, and local naming row.
+\end{definition}
+
+\begin{theorem}[Real uniform Cauchy product NameCert obligations]
+\label{thm:real-uniform-cauchy-product-namecert-obligations}
+For every accepted $\RealUniformCauchyProductUp$ carrier $P=(F,G,M,W_F,W_G,D,U,K,R,E,H,C,Q,N)$, the local $\NameCert_{\RealUniformCauchyProductUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the two source families, shared threshold ledger, synchronized source windows, dyadic product budget, uniform-tail row, product criterion, product-convergence route, Real seal, transport, replay, provenance, and local naming;
+\item uniform-threshold stability under componentwise $\hsame$ transport of $F,G,M,W_F,W_G$;
+\item dyadic product-budget exactness through $D$, with all endpoint bounds and cross-error rows displayed before $K$ is read;
+\item uniform-tail compatibility between $M$, the synchronized source windows, and the $\UniformCauchyCriterionUp$ row $U$;
+\item product-criterion routing through $K$ and product-convergence routing through $R$ before the terminal $\RealUp$ seal $E$ is exposed;
+\item displayed $\Cont$ replay and $\Pkg$ provenance for the whole route;
+\item refusal of any consumer that omits a source family, shared threshold, synchronized window, dyadic product budget, uniform-tail row, product criterion, convergence route, Real seal, transport row, replay row, provenance row, or local naming row.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-uniform-cauchy-product-carrier}. The projection exposes the two source families, shared threshold ledger, synchronized windows, dyadic product budget, uniform-tail row, product criterion, product-convergence route, Real seal, and support rows.
+
+The uniform part is bound by $M,W_F,W_G,U$. A consumer can read the product family only after the same threshold has supplied both source comparisons, so the route is not pointwise-only.
+
+The product part is bound by $D,K,R$. The dyadic row records the finite product budget, the regular criterion consumes that budget, and the convergence row records the product-tail calculation before any seal is available.
+
+Finally $E,H,C,Q,N$ seal, transport, replay, package, and name the same finite route. Since the carrier has no quotient-sequence, selected-limit, host-function-equality, choice, or ambient-completeness coordinate, the obligation list is exhaustive.
+\end{proof}
+
+\begin{theorem}[Real uniform Cauchy product ten-field package]
+\label{thm:real-uniform-cauchy-product-ten-field-package}
+The $\RealUniformCauchyProductUp$ certificate instantiates the ten-field roadmap template as follows: traditional target, uniform Cauchy stability of products of real-window families; BEDC source, the displayed $\BHist$ route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\UniformCauchyCriterionUp$, $\RegularCauchyProductCriterionUp$, $\CauchyProductConvergenceUp$, and $\RealUp$; carrier, $P$; classifier, componentwise comparison of the displayed rows; stability, $\hsame$ transport through $H$; ledger, the rows $M,W_F,W_G,D,U,K,R$; core theorem list, \autoref{thm:real-uniform-cauchy-product-namecert-obligations} and \autoref{thm:real-uniform-cauchy-product-seal-factorization}; exactness, exhaustion of the listed rows; standard bridge, none; status, paper seed certificate for $\NameCert_{\RealUniformCauchyProductUp}$.
+\end{theorem}
+\begin{proof}
+Start with the carrier $P$ of \autoref{def:real-uniform-cauchy-product-carrier}. Its source rows, threshold ledger, synchronized windows, dyadic budget, uniform-tail row, product criterion, convergence route, seal row, and support rows provide the listed BEDC source and carrier fields.
+
+Apply \autoref{thm:real-uniform-cauchy-product-namecert-obligations}. The theorem supplies the classifier, stability, ledger, routing, replay, provenance, and nonescape obligations, while the absence of a bridge row keeps the standard-bridge field empty.
+
+Thus the ten fields form one citable seed certificate rather than a stronger analytic claim about completed real functions or selected product limits.
+\end{proof}
+
+\begin{theorem}[Real uniform Cauchy product seal factorization]
+\label{thm:real-uniform-cauchy-product-seal-factorization}
+Every $\RealUp$-facing read of an accepted $\RealUniformCauchyProductUp$ carrier factors through the finite route
+$$
+F,G \longmapsto M,W_F,W_G \longmapsto D,U,K,R \longmapsto E,H,C,Q,N .
+$$
+Thus a downstream Real or uniform-limit consumer first reads the two source families and the shared uniform threshold, then the synchronized windows, product budget, uniform-tail row, product criterion, and product-convergence route, and only then the terminal seal and local support rows. The route exports no quotient sequence equality, selected product limit, host function equality, countable choice, trichotomy, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $P=(F,G,M,W_F,W_G,D,U,K,R,E,H,C,Q,N)$. The only source-family coordinates are $F$ and $G$, and the only shared threshold coordinate is $M$.
+
+The synchronized windows $W_F,W_G$ and the dyadic row $D$ expose the finite data used by the product request. The uniform-tail row $U$ and regular product criterion $K$ then certify that these data are adequate for a uniform Cauchy product read.
+
+The product-convergence row $R$ precedes the Real seal $E$. The rows $H,C,Q,N$ only transport, replay, package, and name the same route, so no second endpoint route can bypass the displayed product-tail calculation.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealUniformCauchyProductUp$ consumer that reaches a terminal $\RealUp$ seal while omitting a source family, shared threshold ledger, synchronized source window, DyadicRatCore product-budget row, UniformCauchyCriterion row, RegularCauchyProductCriterion row, CauchyProductConvergence route, transport row, replay row, provenance row, or local naming row refutes the packet.}
+
+\closureat{RealUniformCauchyProductUp}{seedStr}
+
+\begin{closurestatus}{\RealUniformCauchyProductUp}
+  \constructivestory{A $\RealUniformCauchyProductUp$ packet is generated from two real-window source families, a shared uniform threshold ledger, synchronized StreamName windows, a DyadicRatCore product budget, a UniformCauchyCriterion row, a RegularCauchyProductCriterion row, a CauchyProductConvergence route, a RealUp seal, componentwise transport, displayed continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-uniform-cauchy-product-carrier}, \autoref{thm:real-uniform-cauchy-product-namecert-obligations}, \autoref{thm:real-uniform-cauchy-product-ten-field-package}, and \autoref{thm:real-uniform-cauchy-product-seal-factorization} seed the finite uniform product-stability route from source families and shared thresholds to product budget, convergence routing, and Real seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient sequence equality, selected product limits, host function equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, uniform-threshold stability, synchronized-window admission, dyadic product-budget exactness, UniformCauchyCriterion compatibility, RegularCauchyProductCriterion routing, CauchyProductConvergence routing, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RealUniformCauchyProductUp.}
+\end{closurestatus}
