@@ -175,3 +175,102 @@ def test_all_slope_ci_overlap_requires_common_intersection():
     assert common["overlap_low"] == pytest.approx(-0.45)
     assert common["overlap_high"] == pytest.approx(-0.2)
     assert not stats.all_slope_ci_overlap(separated)
+
+
+def test_prefix_metric_stats_uses_only_first_k_values():
+    rows = stats.prefix_metric_stats([1.0, 3.0, 100.0, 1000.0], [2])
+
+    assert rows[0]["status"] == "ok"
+    assert rows[0]["k"] == 2
+    assert rows[0]["mean"] == pytest.approx(2.0)
+    assert rows[0]["std"] == pytest.approx(math.sqrt(2.0))
+
+
+def test_prefix_metric_stats_fails_closed_for_empty_and_insufficient_points():
+    empty = stats.prefix_metric_stats([], [2])[0]
+    single = stats.prefix_metric_stats([0.7], [1, 2])
+
+    assert empty["status"] == "insufficient_points"
+    assert empty["n"] == 0
+    assert math.isnan(empty["mean"])
+    assert single[0]["status"] == "insufficient_points"
+    assert single[1]["status"] == "insufficient_points"
+    assert math.isnan(single[0]["ci95_half_width"])
+
+
+def test_prefix_metric_stats_half_width_is_nonincreasing_for_synthetic_shrinkage():
+    values = [1.0, 1.1, 0.95, 1.04, 1.02, 1.01, 0.99, 1.0]
+    rows = stats.prefix_metric_stats(values, [2, 4, 8])
+    half_widths = [float(row["ci95_half_width"]) for row in rows]
+
+    assert all(row["status"] == "ok" for row in rows)
+    assert half_widths[1] <= half_widths[0]
+    assert half_widths[2] <= half_widths[1]
+
+
+def test_fit_ci_halfwidth_decay_reports_root_k_slope():
+    rows = [
+        {"k": 5, "status": "ok", "ci95_half_width": 0.2},
+        {"k": 10, "status": "ok", "ci95_half_width": 0.2 / math.sqrt(2.0)},
+        {"k": 20, "status": "ok", "ci95_half_width": 0.1},
+        {"k": 40, "status": "ok", "ci95_half_width": 0.1 / math.sqrt(2.0)},
+    ]
+
+    fit = stats.fit_ci_halfwidth_decay(rows)
+
+    assert fit["status"] == "ok"
+    assert fit["slope"] == pytest.approx(-0.5, abs=0.001)
+    assert fit["slope_in_expected_interval"]
+    assert fit["usable_points"] == [
+        {"k": 5, "ci95_half_width": pytest.approx(0.2)},
+        {"k": 10, "ci95_half_width": pytest.approx(0.2 / math.sqrt(2.0))},
+        {"k": 20, "ci95_half_width": pytest.approx(0.1)},
+        {"k": 40, "ci95_half_width": pytest.approx(0.1 / math.sqrt(2.0))},
+    ]
+
+
+def test_fit_ci_halfwidth_decay_ignores_nonpositive_nonfinite_and_closed_rows():
+    fit = stats.fit_ci_halfwidth_decay(
+        [
+            {"k": 2, "status": "ok", "ci95_half_width": 0.4},
+            {"k": 4, "status": "ok", "ci95_half_width": 0.2},
+            {"k": 8, "status": "ok", "ci95_half_width": 0.0},
+            {"k": 16, "status": "ok", "ci95_half_width": math.inf},
+            {"k": 32, "status": "insufficient_points", "ci95_half_width": math.nan},
+            {"k": 64, "status": "ok", "ci95_half_width": 0.1},
+        ]
+    )
+
+    assert fit["status"] == "ok"
+    assert [point["k"] for point in fit["usable_points"]] == [2, 4, 64]
+    assert [point["status"] for point in fit["ignored_points"]] == [
+        "non_positive_or_non_finite_half_width",
+        "non_positive_or_non_finite_half_width",
+        "insufficient_points",
+    ]
+
+
+def test_estimate_min_k_for_ci_returns_observed_or_extrapolated_k():
+    observed_rows = [
+        {"k": 5, "status": "ok", "ci95_half_width": 0.04},
+        {"k": 10, "status": "ok", "ci95_half_width": 0.015},
+    ]
+    extrapolated_rows = [
+        {"k": 5, "status": "ok", "ci95_half_width": 0.08},
+        {"k": 10, "status": "ok", "ci95_half_width": 0.04},
+        {"k": 20, "status": "ok", "ci95_half_width": 0.02},
+        {"k": 40, "status": "ok", "ci95_half_width": 0.01},
+    ]
+
+    observed = stats.estimate_min_k_for_ci(observed_rows, target_ci95_half_width=0.02)
+    extrapolated = stats.estimate_min_k_for_ci(
+        extrapolated_rows,
+        target_ci95_half_width=0.005,
+    )
+
+    assert observed["status"] == "observed"
+    assert observed["estimated_k"] == 10
+    assert observed["achieved_observed"]
+    assert extrapolated["status"] == "extrapolated"
+    assert extrapolated["estimated_k"] > 40
+    assert not extrapolated["achieved_observed"]

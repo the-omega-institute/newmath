@@ -39,6 +39,50 @@ def metric_stats(values: Iterable[float]) -> dict[str, float | int]:
     }
 
 
+def _closed_prefix_row(k: int, n: int, status: str) -> dict[str, float | int | str]:
+    return {
+        "k": int(k),
+        "n": int(n),
+        "status": status,
+        "mean": math.nan,
+        "std": math.nan,
+        "ci95_half_width": math.nan,
+        "ci95_low": math.nan,
+        "ci95_high": math.nan,
+    }
+
+
+def prefix_metric_stats(
+    values: Iterable[float],
+    ks: Iterable[int],
+) -> list[dict[str, float | int | str]]:
+    samples = [float(value) for value in values]
+    rows: list[dict[str, float | int | str]] = []
+    for raw_k in ks:
+        k = int(raw_k)
+        if k < 2 or len(samples) < k:
+            rows.append(_closed_prefix_row(k, min(max(k, 0), len(samples)), "insufficient_points"))
+            continue
+        prefix = samples[:k]
+        if any(not math.isfinite(value) for value in prefix):
+            rows.append(_closed_prefix_row(k, k, "non_finite_value"))
+            continue
+        summary = metric_stats(prefix)
+        rows.append(
+            {
+                "k": k,
+                "n": int(summary["n"]),
+                "status": "ok",
+                "mean": float(summary["mean"]),
+                "std": float(summary["std"]),
+                "ci95_half_width": float(summary["ci95_half_width"]),
+                "ci95_low": float(summary["ci95_low"]),
+                "ci95_high": float(summary["ci95_high"]),
+            }
+        )
+    return rows
+
+
 def fit_log_log_slope(points: Iterable[dict[str, float | int]]) -> dict[str, Any]:
     usable = [
         (math.log(float(point["sample_count"])), math.log(float(point["std"])))
@@ -80,6 +124,115 @@ def fit_log_log_slope(points: Iterable[dict[str, float | int]]) -> dict[str, Any
         "slope_standard_error": float(slope_se),
         "slope_ci95_low": float(low),
         "slope_ci95_high": float(high),
+    }
+
+
+def fit_ci_halfwidth_decay(points: Iterable[dict[str, float | int | str]]) -> dict[str, Any]:
+    expected_interval = (-0.8, -0.3)
+    usable: list[dict[str, float | int]] = []
+    ignored: list[dict[str, Any]] = []
+    for point in points:
+        k = point.get("k")
+        status = str(point.get("status", "ok"))
+        try:
+            k_value = float(k)
+            half_width = float(point["ci95_half_width"])
+        except (KeyError, TypeError, ValueError):
+            ignored.append({"k": k, "status": "missing_or_invalid_half_width"})
+            continue
+        if status != "ok":
+            ignored.append({"k": int(k_value) if math.isfinite(k_value) else k, "status": status})
+            continue
+        if not math.isfinite(k_value) or k_value <= 0.0:
+            ignored.append({"k": k, "status": "non_positive_or_non_finite_k"})
+            continue
+        if not math.isfinite(half_width) or half_width <= 0.0:
+            ignored.append({"k": int(k_value), "status": "non_positive_or_non_finite_half_width"})
+            continue
+        usable.append({"sample_count": int(k_value), "std": half_width})
+
+    fit = fit_log_log_slope(usable)
+    slope = float(fit["slope"])
+    low, high = expected_interval
+    return {
+        **fit,
+        "expected_slope_interval": list(expected_interval),
+        "slope_in_expected_interval": bool(fit["status"] == "ok" and low <= slope <= high),
+        "usable_points": [
+            {"k": int(point["sample_count"]), "ci95_half_width": float(point["std"])}
+            for point in usable
+        ],
+        "ignored_points": ignored,
+    }
+
+
+def estimate_min_k_for_ci(
+    points: Iterable[dict[str, float | int | str]],
+    *,
+    target_ci95_half_width: float,
+    decay_fit: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    target = float(target_ci95_half_width)
+    valid: list[tuple[int, float]] = []
+    for point in points:
+        if str(point.get("status", "ok")) != "ok":
+            continue
+        try:
+            k = int(point["k"])
+            half_width = float(point["ci95_half_width"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if k > 0 and math.isfinite(half_width) and half_width > 0.0:
+            valid.append((k, half_width))
+
+    for k, half_width in sorted(valid):
+        if half_width <= target:
+            return {
+                "status": "observed",
+                "target_ci95_half_width": target,
+                "achieved_observed": True,
+                "observed_k": k,
+                "estimated_k": k,
+                "method": "observed_prefix",
+                "basis_ci95_half_width": half_width,
+            }
+
+    fit = fit_ci_halfwidth_decay(points) if decay_fit is None else decay_fit
+    if fit.get("status") != "ok":
+        return {
+            "status": "unavailable",
+            "target_ci95_half_width": target,
+            "achieved_observed": False,
+            "observed_k": None,
+            "estimated_k": None,
+            "method": "unavailable",
+            "basis_ci95_half_width": math.nan,
+            "reason": fit.get("status", "fit_unavailable"),
+        }
+
+    slope = float(fit["slope"])
+    intercept = float(fit["intercept"])
+    if slope >= 0.0 or not math.isfinite(slope) or not math.isfinite(intercept):
+        return {
+            "status": "unavailable",
+            "target_ci95_half_width": target,
+            "achieved_observed": False,
+            "observed_k": None,
+            "estimated_k": None,
+            "method": "unavailable",
+            "basis_ci95_half_width": math.nan,
+            "reason": "non_decaying_fit",
+        }
+
+    estimated = math.exp((math.log(target) - intercept) / slope)
+    return {
+        "status": "extrapolated",
+        "target_ci95_half_width": target,
+        "achieved_observed": False,
+        "observed_k": None,
+        "estimated_k": int(math.ceil(estimated)),
+        "method": "log_log_ci_halfwidth_decay",
+        "basis_ci95_half_width": valid[-1][1] if valid else math.nan,
     }
 
 
