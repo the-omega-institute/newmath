@@ -1983,7 +1983,6 @@ import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.ChoiceFreeLimitScheduleUp
 import BEDC.Derived.ChoiceFreeRegularCauchyModulusUp.TasteGate
 import BEDC.Derived.ChoiceRecipeLedgerUp
-import BEDC.Derived.ChoiceWindowSequenceUp.TasteGate
 import BEDC.Derived.ChurchEliminatorRegressionMatrixUp.TasteGate
 import BEDC.Derived.ClaimRegistryLayerUp
 import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
@@ -2976,7 +2975,6 @@ import BEDC.Derived.DerivativeUp.TasteGate
 import BEDC.Derived.DerivedCatUp
 import BEDC.Derived.DerivedFunctorUp
 import BEDC.Derived.DeterminantUp
-import BEDC.Derived.DiagonalCauchySubsequenceUp.TasteGate
 import BEDC.Derived.DiagonalCofinalTailUp
 import BEDC.Derived.DiagonalCofinalTailUp.CompatibilityHandoff
 import BEDC.Derived.DiagonalCofinalTailUp.FiniteWindowReplayDeterminacy
@@ -4255,7 +4253,6 @@ import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HausdorffUniformCompletionUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
-import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
@@ -4342,7 +4339,6 @@ import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperspaceUp.CarrierObligations
-import BEDC.Derived.HyperspaceUp.CompactCompleteHandoff
 import BEDC.Derived.HyperspaceUp.CompactHausdorffDistanceRoute
 import BEDC.Derived.HyperspaceUp.CompactSourceScope
 import BEDC.Derived.HyperspaceUp.CompactSubsetRootAdmission
