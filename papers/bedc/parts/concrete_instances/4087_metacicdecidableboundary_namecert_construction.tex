@@ -178,6 +178,20 @@ Apply \autoref{thm:metacic-decidable-boundary-sibling-provenance} and \autoref{t
 The classifier-stability theorem \autoref{thm:metacic-decidable-boundary-classifier-stability} transports the same displayed rows through $H,C$ without adding a new endpoint. Hence $T,S,B,F,R,H,C,P,N$ are exactly the obligation-closure package surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary obligation scope lock]
+\label{thm:metacic-decidable-boundary-obligation-scope-lock}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, every obligation-closure consumer must keep the checker row $T$, structural equality row $S$, bounded normal comparison row $B$, finished-normal side-condition row $F$, refusal row $R$, componentwise transport row $H$, displayed replay row $C$, provenance row $P$, and local name row $N$ together. In particular, bounded normal comparison cannot be read as global beta-conversion decidability, standalone $\mathsf{ClosedAt}$ decidability, quotient equality over represented terms, fuel-erased normalization, or host evaluation.
+\end{theorem}
+\begin{proof}
+Start with bounded-comparison nonescape, \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}. It permits a read of $B$ only with the finished-normal side-condition row $F$, and it refuses the jump to global conversion.
+
+Apply refusal exactness, \autoref{thm:metacic-decidable-boundary-refusal-exactness}. The row $R$ records exactly the missing standalone $\mathsf{ClosedAt}$ decision and unrestricted beta-conversion decision, while the positive checker and comparison rows remain finite.
+
+Use classifier stability and ledger exactness, \autoref{thm:metacic-decidable-boundary-classifier-stability} and \autoref{thm:metacic-decidable-boundary-ledger-exactness}. Transport and replay preserve the displayed rows, and the ledger contains no unrecorded comparison row, quotient of represented terms, host evaluator, or global beta-conversion decider.
+
+Finally invoke the obligation-closure package theorem \autoref{thm:metacic-decidable-boundary-obligation-closure-package}. It identifies $T,S,B,F,R,H,C,P,N$ as the exact obligation surface. Hence any obligation-closure consumer must keep the rows together, and the bounded comparison row cannot be exported as a global decidability principle.
+\end{proof}
+
 \begin{theorem}[MetaCIC decidable boundary ClosedAt refusal scope]
 \label{thm:metacic-decidable-boundary-closedat-refusal-scope}
 For an accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, the refusal row $R$ records only the absence of standalone $\mathsf{ClosedAt}$ decisions and global beta-conversion decisions. It cannot erase the bounded side conditions attached to $B,F$, and it cannot turn the transported checker surface $T,S,H,C,P,N$ into a host evaluator or quotient equality.
