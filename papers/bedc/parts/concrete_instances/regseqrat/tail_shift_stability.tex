@@ -215,4 +215,18 @@ All rows used in the argument are finite BEDC rows of the packet. Thus no
 quotient stream equality, selected limit, choice principle, metric-completeness
 datum, completion point, or ambient Real-completeness coordinate is introduced.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-shift choice-free finite window]
+\label{thm:regseqrat-tail-shift-choice-free-window}
+Let $P$ be an accepted $\RegSeqRatUp$ packet and let $t_0,\ldots,t_k$ be a finite displayed family of tail shifts over the same $\StreamNameUp$ schedule and the same $\DyadicRatCoreUp$ tolerance budget. Suppose the shifted windows expose the transported endpoint rows, dyadic-radius rows, regularity ledgers, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of $P$. Then the family has a synchronized regularity readback whose downstream $\RealUp$ seal consumes only the displayed finite window.
+
+The readback exports no selected limit, quotient stream equality, countable-choice schedule, completion point, metric-completeness datum, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-shift-finite-section-induction} to the displayed finite family. This supplies one synchronized finite readback route for all tail shifts before the downstream Real seal is opened.
+
+Use \autoref{thm:regseqrat-tail-shift-regularity-refinement} to preserve the regularity ledger on the common refinement. Then apply \autoref{thm:regseqrat-tail-window-cofinality} to keep the synchronized readback inside the same finite StreamName schedule and DyadicRatCore tolerance budget.
+
+When the terminal radius is read by a Real-facing consumer, apply \autoref{thm:dyadicratcore-terminal-radius-half-step-inversion}. The half-radius row is already determined by the finite DyadicRatCore common-scale refinement, so the RegSeqRat route has no need for a selected limit, quotient stream equality, countable-choice schedule, completion point, metric-completeness datum, or ambient Real completeness.
+\end{proof}
 \closureat{RegSeqRatUp}{seedStr}
