@@ -126,13 +126,20 @@ def taste_gate : ChapterTasteGate UniformConvergenceUp :=
   uniformConvergenceChapterTasteGate
 
 theorem UniformConvergenceTasteGate_single_carrier_alignment :
-    (forall h : BHist, uniformConvergenceDecodeBHist (uniformConvergenceEncodeBHist h) = h) /\
-      (forall x : UniformConvergenceUp,
-        uniformConvergenceFromEventFlow (uniformConvergenceToEventFlow x) = some x) /\
-      (forall x y : UniformConvergenceUp,
-        uniformConvergenceToEventFlow x = uniformConvergenceToEventFlow y -> x = y) /\
-      uniformConvergenceEncodeBHist BHist.Empty = ([] : List BMark) := by
+    Nonempty (BHistCarrier UniformConvergenceUp) ∧
+      Nonempty (ChapterTasteGate UniformConvergenceUp) ∧
+      (∀ h : BHist,
+        uniformConvergenceDecodeBHist (uniformConvergenceEncodeBHist h) = h) ∧
+      (∀ x : UniformConvergenceUp,
+        uniformConvergenceFromEventFlow (uniformConvergenceToEventFlow x) = some x) ∧
+      (∀ x y : UniformConvergenceUp,
+        uniformConvergenceToEventFlow x = uniformConvergenceToEventFlow y → x = y) ∧
+      uniformConvergenceEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · exact ⟨uniformConvergenceBHistCarrier⟩
+  constructor
+  · exact ⟨uniformConvergenceChapterTasteGate⟩
   constructor
   · exact uniformConvergence_decode_encode_bhist
   constructor

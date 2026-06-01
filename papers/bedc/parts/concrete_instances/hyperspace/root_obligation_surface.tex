@@ -40,3 +40,15 @@ Use \autoref{thm:hyperspace-compact-subset-root-admission} to account for the ro
 
 The structural rows are then fixed by \autoref{thm:hyperspace-namecert-obligations}. Componentwise transport, continuation replay, provenance, and local naming are the only remaining public rows, so the excluded host and quotient objects cannot add a further root obligation.
 \end{proof}
+
+\begin{theorem}[Hyperspace Vietoris finite-window obligations]
+\label{thm:hyperspace-vietoris-finite-window}
+Every Vietoris-style finite-window read exported by an accepted $\HyperspaceUp$ packet must pass through compact-source admission, subset-net schedules, directed Hausdorff coverage, tolerance readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before a compact-subset consumer reads hit or miss data. The read is therefore exhausted by the same finite root surface as \autoref{thm:hyperspace-finite-hausdorff-root-obligations}; it does not export a host Vietoris topology, arbitrary open-cover compactness, quotient compact-subset equality, selected nearest points, or an ambient complete hyperspace.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:hyperspace-compact-subset-root-admission}. It forces a compact-subset request to enter through the compact source and the finite subset-net schedules before any hit or miss observation is available.
+
+Use \autoref{thm:hyperspace-directed-hausdorff-root-coverage}. The hit and miss reads are routed through the two directed finite coverage ledgers and the shared tolerance readback row, so they cannot be supplied by a host Vietoris topology or by selected nearest points.
+
+Finally apply \autoref{thm:hyperspace-finite-hausdorff-root-obligations}. The remaining public rows are exactly componentwise transport, displayed replay, provenance, and local naming, which repack the same finite window without adding quotient compacta, open-cover compactness, or an ambient complete-hyperspace object.
+\end{proof}
