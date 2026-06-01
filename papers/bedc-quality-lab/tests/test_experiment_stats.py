@@ -148,6 +148,77 @@ def test_fit_linear_slope_fails_closed_for_constant_x():
     assert math.isnan(fit["slope_ci95_high"])
 
 
+def test_first_ci_overlap_saturation_detects_first_adjacent_overlap():
+    points = [
+        {"rho": 0.0, "mean": 0.20, "ci95_low": 0.18, "ci95_high": 0.22},
+        {"rho": 0.25, "mean": 0.45, "ci95_low": 0.43, "ci95_high": 0.47},
+        {"rho": 0.50, "mean": 0.56, "ci95_low": 0.46, "ci95_high": 0.66},
+        {"rho": 0.75, "mean": 0.57, "ci95_low": 0.47, "ci95_high": 0.67},
+        {"rho": 0.90, "mean": 0.58, "ci95_low": 0.48, "ci95_high": 0.68},
+    ]
+
+    saturation = stats.first_ci_overlap_saturation(
+        points, "rho", "mean", "ci95_low", "ci95_high"
+    )
+
+    assert saturation["status"] == "ok"
+    assert saturation["saturated"]
+    assert saturation["saturation_x"] == pytest.approx(0.5)
+    assert saturation["saturation_index"] == 2
+    assert saturation["overlapping_pair"]["left_x"] == pytest.approx(0.25)
+    assert saturation["overlapping_pair"]["right_x"] == pytest.approx(0.5)
+    assert saturation["overlapping_pair"]["overlap_low"] == pytest.approx(0.46)
+    assert saturation["overlapping_pair"]["overlap_high"] == pytest.approx(0.47)
+    assert saturation["post_saturation_fit"]["status"] == "ok"
+    assert saturation["post_saturation_fit"]["n"] == 3
+
+
+def test_first_ci_overlap_saturation_reports_no_overlap():
+    points = [
+        {"rho": 0.0, "mean": 0.10, "ci95_low": 0.09, "ci95_high": 0.11},
+        {"rho": 0.25, "mean": 0.30, "ci95_low": 0.29, "ci95_high": 0.31},
+        {"rho": 0.50, "mean": 0.50, "ci95_low": 0.49, "ci95_high": 0.51},
+    ]
+
+    saturation = stats.first_ci_overlap_saturation(
+        points, "rho", "mean", "ci95_low", "ci95_high"
+    )
+
+    assert saturation["status"] == "no_adjacent_ci_overlap"
+    assert saturation["saturated"] is False
+    assert math.isnan(saturation["saturation_x"])
+    assert saturation["saturation_index"] is None
+    assert saturation["overlapping_pair"] is None
+    assert saturation["post_saturation_fit"]["status"] == "insufficient_points"
+
+
+def test_first_ci_overlap_saturation_fails_closed_for_non_finite_and_insufficient_points():
+    non_finite = stats.first_ci_overlap_saturation(
+        [
+            {"rho": 0.0, "mean": 0.10, "ci95_low": 0.09, "ci95_high": 0.11},
+            {"rho": 0.25, "mean": math.inf, "ci95_low": 0.29, "ci95_high": 0.31},
+        ],
+        "rho",
+        "mean",
+        "ci95_low",
+        "ci95_high",
+    )
+    insufficient = stats.first_ci_overlap_saturation(
+        [{"rho": 0.0, "mean": 0.10, "ci95_low": 0.09, "ci95_high": 0.11}],
+        "rho",
+        "mean",
+        "ci95_low",
+        "ci95_high",
+    )
+
+    assert non_finite["status"] == "non_finite_or_missing_value"
+    assert non_finite["saturated"] is False
+    assert math.isnan(non_finite["saturation_x"])
+    assert insufficient["status"] == "insufficient_points"
+    assert insufficient["saturated"] is False
+    assert math.isnan(insufficient["saturation_x"])
+
+
 def test_slope_ci_overlap_true_and_false():
     left = {"status": "ok", "slope_ci95_low": -0.7, "slope_ci95_high": -0.3}
     overlapping = {"status": "ok", "slope_ci95_low": -0.5, "slope_ci95_high": -0.1}

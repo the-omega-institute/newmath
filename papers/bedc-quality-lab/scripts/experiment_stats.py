@@ -164,6 +164,96 @@ def fit_linear_slope(
     }
 
 
+def first_ci_overlap_saturation(
+    points: Iterable[dict[str, float | int]],
+    x_key: str,
+    mean_key: str,
+    ci_low_key: str,
+    ci_high_key: str,
+) -> dict[str, Any]:
+    rows: list[dict[str, float]] = []
+    for point in points:
+        try:
+            row = {
+                x_key: float(point[x_key]),
+                mean_key: float(point[mean_key]),
+                ci_low_key: float(point[ci_low_key]),
+                ci_high_key: float(point[ci_high_key]),
+            }
+        except (KeyError, TypeError, ValueError):
+            return {
+                "status": "non_finite_or_missing_value",
+                "saturated": False,
+                "saturation_x": math.nan,
+                "saturation_index": None,
+                "overlapping_pair": None,
+                "post_saturation_fit": fit_linear_slope([], x_key, mean_key),
+            }
+        if not all(math.isfinite(value) for value in row.values()):
+            return {
+                "status": "non_finite_or_missing_value",
+                "saturated": False,
+                "saturation_x": math.nan,
+                "saturation_index": None,
+                "overlapping_pair": None,
+                "post_saturation_fit": fit_linear_slope([], x_key, mean_key),
+            }
+        if row[ci_low_key] > row[ci_high_key]:
+            return {
+                "status": "invalid_ci_interval",
+                "saturated": False,
+                "saturation_x": math.nan,
+                "saturation_index": None,
+                "overlapping_pair": None,
+                "post_saturation_fit": fit_linear_slope([], x_key, mean_key),
+            }
+        rows.append(row)
+
+    if len(rows) < 2:
+        return {
+            "status": "insufficient_points",
+            "saturated": False,
+            "saturation_x": math.nan,
+            "saturation_index": None,
+            "overlapping_pair": None,
+            "post_saturation_fit": fit_linear_slope([], x_key, mean_key),
+        }
+
+    for left_index, (left, right) in enumerate(zip(rows, rows[1:])):
+        overlap_low = max(left[ci_low_key], right[ci_low_key])
+        overlap_high = min(left[ci_high_key], right[ci_high_key])
+        if overlap_low <= overlap_high:
+            saturation_index = left_index + 1
+            return {
+                "status": "ok",
+                "saturated": True,
+                "saturation_x": float(right[x_key]),
+                "saturation_index": saturation_index,
+                "overlapping_pair": {
+                    "left_index": left_index,
+                    "right_index": saturation_index,
+                    "left_x": float(left[x_key]),
+                    "right_x": float(right[x_key]),
+                    "left_ci_low": float(left[ci_low_key]),
+                    "left_ci_high": float(left[ci_high_key]),
+                    "right_ci_low": float(right[ci_low_key]),
+                    "right_ci_high": float(right[ci_high_key]),
+                    "overlap_low": float(overlap_low),
+                    "overlap_high": float(overlap_high),
+                },
+                "post_saturation_fit": fit_linear_slope(rows[saturation_index:], x_key, mean_key),
+            }
+
+    return {
+        "status": "no_adjacent_ci_overlap",
+        "saturated": False,
+        "saturation_x": math.nan,
+        "saturation_index": None,
+        "overlapping_pair": None,
+        "post_saturation_fit": fit_linear_slope([], x_key, mean_key),
+    }
+
+
 def _finite_interval(fit: dict[str, Any]) -> tuple[float, float] | None:
     if fit.get("status") != "ok":
         return None
