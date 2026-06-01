@@ -119,6 +119,52 @@ Apply \autoref{thm:setlike-subset-implication-obligation}, \autoref{thm:setlike-
 Finally use \autoref{thm:setlike-classifier-transport-exactness}. Transport and replay preserve the displayed classifier route rather than replacing it by host truth, unrestricted separation, quotient equality, or external inclusion.
 \end{proof}
 
+\begin{theorem}[SetLike membership carrier admission]
+\label{thm:setlike-membership-carrier-admission}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, any membership-facing consumer must first admit the membership carrier
+$$
+S_{\in}=(M,Q,H,C,P,N)
+$$
+from \autoref{def:setlike-membership-carrier}. The admissible read exposes $M,Q,H,C,P,N$ as source, classifier, transport, replay, provenance, and local naming rows, and it cannot inspect host elementhood, a powerset coordinate, unrestricted comprehension, quotient equality, selected representatives, or an ambient universe before those rows are visible.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:setlike-carrier} and the membership carrier of \autoref{def:setlike-membership-carrier}. The only membership rows available at this stage are the source row $M$ and classifier row $Q$.
+
+Use \autoref{thm:setlike-namecert-obligations}. The NameCert surface requires componentwise transport, displayed replay, package provenance, and local naming through $H,C,P,N$ for the same displayed rows.
+
+Finally apply \autoref{thm:setlike-classifier-transport-route}. Classifier transport keeps the read inside the displayed route, so no consumer can replace $M,Q,H,C,P,N$ by host elementhood, powerset data, unrestricted comprehension, quotient equality, selected representatives, or an ambient universe.
+\end{proof}
+
+\begin{theorem}[SetLike subset classifier exactness]
+\label{thm:setlike-subset-classifier-exactness}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, subset implication and restricted comprehension are exact over the classifier route
+$$
+Q,I,R,E \longmapsto H,C,P,N .
+$$
+The implication row $I$ and restricted-comprehension row $R$ may use only the displayed classifier $Q$ and extensional-boundary ledger $E$ before transport, replay, provenance, and local naming are read. They export no powerset row, host-universe coordinate, unrestricted separation rule, quotient set equality, or external inclusion predicate.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:setlike-carrier}. The rows $I$ and $R$ are displayed subset-implication and restricted-comprehension rows over the classifier row $Q$, while $E$ records the comparison boundary.
+
+Apply \autoref{thm:setlike-namecert-obligations}. Its obligation surface keeps subset, comprehension, and boundary reads attached to the accepted packet before structural replay.
+
+Use \autoref{thm:setlike-classifier-transport-route}. Since classifier transport stays inside $Q,I,R,E,H,C,P,N$, exactness is a property of the displayed rows rather than an ambient powerset, host universe, unrestricted separation rule, quotient equality, or external inclusion relation.
+\end{proof}
+
+\begin{theorem}[SetLike TypeLike and model-theory handoff]
+\label{thm:setlike-typelike-modeltheory-handoff}
+Every $\TypeLikeUp$, $\FirstOrderUp$, or $\ModelTheoryUp$ consumer that reads family, satisfaction, or model data from an accepted $\SetLikeUp$ packet must first pass through the membership carrier $M,Q,H,C,P,N$ and the classifier route $Q,I,R,E,H,C,P,N$. Satisfaction-facing and family-facing reads therefore remain downstream of the SetLike membership and classifier surface, not of an ambient set-theoretic assumption.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier of \autoref{def:setlike-carrier}. The membership source, classifier, subset implication, restricted comprehension, and extensional boundary rows are $M,Q,I,R,E$.
+
+Use \autoref{def:setlike-membership-carrier} and \autoref{thm:setlike-namecert-obligations}. These fix the membership carrier and require the structural rows $H,C,P,N$ before a sibling consumer receives any membership data.
+
+Apply \autoref{thm:setlike-classifier-transport-route}. The classifier route remains displayed through $Q,I,R,E,H,C,P,N$, so $\TypeLikeUp$, $\FirstOrderUp$, and $\ModelTheoryUp$ consumers may build family, syntax, and satisfaction reads only after that SetLike surface is visible.
+
+Thus no downstream consumer obtains satisfaction, family membership, or model-theory data from an ambient powerset, host universe, external satisfaction relation, quotient set equality, or unrestricted comprehension principle.
+\end{proof}
+
 \begin{theorem}[SetLike bounded comprehension nonescape]
 \label{thm:setlike-bounded-comprehension-nonescape}
 For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, a restricted-comprehension read through $R$ cannot export a powerset, unrestricted separation principle, host subset object, or universe of all subsets. It remains a bounded finite $\BHist$ row over $M,Q,I$ and is accepted only together with $H,C,P,N$.

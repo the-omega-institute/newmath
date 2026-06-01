@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MomentProblemUp$}
+\label{ch:concrete-instances-moment-problem-namecert}
+\origin{human}
+
+Following Hausdorff, Stieltjes, and Hamburger on moment problems, the $\MomentProblemUp$ packet records the finite BEDC surface by which a truncated moment table may be inspected before any consumer asks for a representing measure. It sits after the rational and real readback rows of \autoref{ch:concrete-instances-rat-namecert} and \autoref{ch:concrete-instances-real-namecert}, the finite matrix rows of \autoref{ch:concrete-instances-matrix-namecert}, and the measure-facing boundary of \autoref{ch:concrete-instances-measure-namecert} and \autoref{ch:concrete-instances-distribution-namecert}. The certificate names only finite Hankel windows, positivity checks, transport, replay, provenance, and local naming; it does not export an ambient moment problem, a representing measure theorem, determinacy, uniqueness, or a host analytic solution principle.
+
+\begin{definition}[MomentProblem carrier]
+\label{def:moment-problem-carrier}
+A $\MomentProblemUp$ carrier is a finite $\BHist$ packet
+$$
+M=(R,A,H_0,H_1,W,P_s,D,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RatUp$ coefficient ledger used to encode the requested finite moment entries and comparison tolerances.
+\item $A$ is the $\RealUp$ readback row that seals the inspected moment values as BEDC real-name data.
+\item $H_0$ and $H_1$ are the first two finite $\MatrixUp$ Hankel table rows, built from the displayed moment window.
+\item $W$ is the finite-window schedule naming which initial segment of the moment sequence and which principal Hankel minors are inspected.
+\item $P_s$ records the finite positivity certificates for the displayed Hankel windows, including the chosen rows, columns, and rational tolerance budget.
+\item $D$ is the optional $\DistributionUp$ boundary row available only as downstream probabilistic syntax; it is not a representing-measure object.
+\item $H$ records componentwise $\hsame$ transport for the rational ledger, real readbacks, Hankel matrices, finite-window schedule, positivity rows, distribution boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite moment-window request through $R,A,H_0,H_1,W,P_s,D,H$.
+\item $Q$ is the $\Pkg$ provenance over $\MomentProblemUp$, $\RatUp$, $\RealUp$, $\MatrixUp$, $\DistributionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MomentProblemUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for an ambient measure space, selected representing measure, moment determinacy theorem, infinite Hankel operator, or host analytic solution.
+\end{definition}
+
+\begin{theorem}[MomentProblem NameCert obligations]
+\label{thm:moment-problem-namecert-obligations}
+For every accepted $\MomentProblemUp$ carrier $M=(R,A,H_0,H_1,W,P_s,D,H,C,Q,N)$, the local $\NameCert_{\MomentProblemUp}$ surface consists exactly of rational moment-entry admission, real readback admission, finite Hankel matrix admission, finite-window scheduling, displayed positivity certification, optional distribution-boundary syntax, componentwise transport, displayed replay, provenance, and local naming for the rows
+$$
+R,A,H_0,H_1,W,P_s,D,H,C,Q,N .
+$$
+No consumer of the certificate receives a representing measure, an infinite moment sequence, a uniqueness theorem, a selected support, or an ambient analytic moment-problem solver.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The numeric content is limited to the rational ledger $R$, the real readback row $A$, and the two displayed Hankel matrices $H_0,H_1$.
+
+The finite-window row $W$ determines which moments and minors may be inspected. The positivity row $P_s$ certifies only those displayed Hankel windows with the recorded rational tolerance budget, so no infinite positivity condition or representing-measure theorem is available from the carrier.
+
+The structural rows $H,C,Q,N$ then transport, replay, source, and name exactly the same packet. The optional distribution row $D$ is boundary syntax for downstream probabilistic consumers, not an analytic existence witness; hence the local certificate exposes only the listed finite rows.
+\end{proof}
+
+\begin{theorem}[MomentProblem finite Hankel window]
+\label{thm:moment-problem-finite-hankel-window}
+Every finite-window read of an accepted $\MomentProblemUp$ packet factors through the displayed route
+$$
+\RatUp,\ \RealUp,\ \MatrixUp,\ \MatrixUp
+$$
+before a positivity consumer may inspect Hankel data. The read must use the window schedule $W$, the positivity ledger $P_s$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\MomentProblemUp}$ row; it cannot be strengthened to an infinite Hankel operator, a representing measure, a selected support, or an ambient moment-problem theorem.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:moment-problem-carrier}. The Hankel data appears only as the finite matrices $H_0,H_1$, and both are built from the rational and real readback rows $R,A$.
+
+Apply \autoref{thm:moment-problem-namecert-obligations}. It forces every positivity-facing read through the window row $W$ and the finite positivity ledger $P_s$ before the structural rows can replay or package the request.
+
+Because no carrier coordinate stores an infinite sequence, selected measure, support, determinacy proof, or host solver, the finite Hankel window is the whole public surface for moment-problem consumption.
+\end{proof}
+
+\closureat{MomentProblemUp}{seedStr}
+
+\begin{closurestatus}{\MomentProblemUp}
+  \constructivestory{A $\MomentProblemUp$ packet is generated from RatUp coefficient rows, RealUp readback rows, finite MatrixUp Hankel windows, a finite-window schedule, displayed positivity certificates, an optional DistributionUp boundary row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:moment-problem-carrier}, \autoref{thm:moment-problem-namecert-obligations}, and \autoref{thm:moment-problem-finite-hankel-window} seed the finite moment-window route over RatUp, RealUp, MatrixUp, DistributionUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a representing measure theorem, determinacy, uniqueness, selected support, ambient measure-space existence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite Hankel-window exactness, positivity ledger non-escape, transport, replay, provenance, and local naming for BEDC.Derived.MomentProblemUp.}
+\end{closurestatus}
