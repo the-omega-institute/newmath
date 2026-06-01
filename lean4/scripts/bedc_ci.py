@@ -287,6 +287,38 @@ class CarrierRecord:
         return len(self.field_names)
 
 
+@dataclass(frozen=True)
+class StructuralDnaRecord:
+    target: str
+    region: str
+    schema: str
+    structural_fingerprint: str
+    grade: str
+    shift_kernel: dict[str, object]
+    witness_fingerprint: dict[str, object]
+    support_fingerprint: dict[str, object]
+    factor_spectrum: dict[str, object]
+    carrier_skeleton: list[dict[str, object]]
+    normalization: dict[str, object]
+    lineage: dict[str, object]
+
+    def to_json(self) -> dict[str, object]:
+        return {
+            "target": self.target,
+            "region": self.region,
+            "schema": self.schema,
+            "structural_fingerprint": self.structural_fingerprint,
+            "grade": self.grade,
+            "shift_kernel": self.shift_kernel,
+            "witness_fingerprint": self.witness_fingerprint,
+            "support_fingerprint": self.support_fingerprint,
+            "factor_spectrum": self.factor_spectrum,
+            "carrier_skeleton": self.carrier_skeleton,
+            "normalization": self.normalization,
+            "lineage": self.lineage,
+        }
+
+
 def read_text(path: Path) -> str:
     # Race-safe: lean_files() / paper file walkers snapshot the directory,
     # but a concurrent worker may delete / rename a file between the walk
@@ -3624,6 +3656,82 @@ def _support_target_names(
     )
 
 
+def _cheap_support_target_names(
+    target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+    support_candidates: list[str] | None = None,
+) -> list[str]:
+    local = _local_declaration_name(target)
+    hits: list[str] = []
+    candidates = support_candidates
+    if candidates is None:
+        candidates = [
+            qualified
+            for qualified, header in declaration_headers.items()
+            if _declares_disagreement_support(header)
+        ]
+    for qualified in candidates:
+        text = _decl_text(qualified, declaration_headers, declaration_bodies)
+        if target in text or (local and re.search(rf"\b{re.escape(local)}\b", text)):
+            hits.append(qualified)
+    return sorted(set(hits))
+
+
+def _cheap_support_reaches_target(
+    support_target: str,
+    target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> bool:
+    local = _local_declaration_name(target)
+    text = _decl_text(support_target, declaration_headers, declaration_bodies)
+    return target in text or bool(local and re.search(rf"\b{re.escape(local)}\b", text))
+
+
+def _cheap_support_mentions_observable_witness(
+    support_target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> bool:
+    text = _decl_text(support_target, declaration_headers, declaration_bodies)
+    has_family_payload = re.search(
+        r"\bSupportFamily\.(?:decode|readback|ledger|role)\b",
+        text,
+    ) is not None
+    required_fields = (
+        "observable_family_supported",
+        "observable_namecert",
+        "semantic_separation",
+        "family_independent",
+    )
+    return has_family_payload and all(re.search(rf"\b{field}\b", text) for field in required_fields)
+
+
+def _cheap_classifier_shift_read_targets(
+    target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+    local_to_qualified: dict[str, list[str]] | None = None,
+) -> list[str]:
+    body = declaration_bodies.get(target, "")
+    shift_text = _lean_field_assignment(body, "classifier_shift")
+    refs: set[str] = set(_resolve_decl_refs_from_text(
+        shift_text,
+        declaration_headers,
+        local_to_qualified,
+    ))
+    for shift_ref in list(refs):
+        shift_body = declaration_bodies.get(shift_ref, "")
+        for field in ("scope", "BeforeSource", "AfterSource", "BeforeClassifier", "AfterClassifier"):
+            refs.update(_resolve_decl_refs_from_text(
+                _lean_field_assignment(shift_body, field),
+                declaration_headers,
+                local_to_qualified,
+            ))
+    return sorted(ref for ref in refs if ref in declaration_headers)
+
+
 def _has_independent_disagreement_support(
     support_targets: list[str],
     declaration_headers: dict[str, str],
@@ -3874,6 +3982,15 @@ def _json_sha256(payload: object) -> str:
     return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
 
+def _structural_canonical_json(payload: object) -> str:
+    return json.dumps(
+        payload,
+        sort_keys=True,
+        ensure_ascii=True,
+        separators=(",", ":"),
+    )
+
+
 def _text_snippet(text: str, needle: str = "", limit: int = 240) -> str:
     compact = re.sub(r"\s+", " ", text).strip()
     if not compact:
@@ -3997,14 +4114,25 @@ def _lean_field_assignment(body: str, field: str) -> str:
                 break
             assigned.append(next_line.strip())
         return "\n".join(part for part in assigned if part)
+    inline = re.search(
+        rf"\b{re.escape(field)}\s*:=\s*(?P<rhs>[^,}}]+)",
+        body,
+        re.DOTALL,
+    )
+    if inline:
+        return re.sub(r"\s+", " ", inline.group("rhs")).strip()
     return ""
 
 
 def _resolve_decl_refs_from_text(
     text: str,
     declaration_headers: dict[str, str],
+    local_to_qualified: dict[str, list[str]] | None = None,
 ) -> list[str]:
-    local_to_qualified = _local_to_qualified_index(declaration_headers)
+    local_to_qualified = (
+        _local_to_qualified_index(declaration_headers)
+        if local_to_qualified is None else local_to_qualified
+    )
     refs: set[str] = set()
     dotted_refs = set(
         re.findall(r"\b[A-Za-z][A-Za-z0-9_']*(?:\.[A-Za-z][A-Za-z0-9_']*)+\b", text)
@@ -4406,6 +4534,799 @@ def _adversarial_witnesses_for_target(
     return witnesses
 
 
+def _canonical_lean_expr(
+    text: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+    *,
+    max_alias_depth: int = 3,
+    local_to_qualified: dict[str, list[str]] | None = None,
+) -> dict[str, object]:
+    unknown_reasons: list[str] = []
+    local_to_qualified = (
+        _local_to_qualified_index(declaration_headers)
+        if local_to_qualified is None else local_to_qualified
+    )
+
+    def normalize(raw: str, depth: int) -> str:
+        cleaned = strip_comments_and_strings(raw)
+        cleaned = re.sub(r"--[^\n]*", " ", cleaned)
+        cleaned = re.sub(r"/-.*?-/", " ", cleaned, flags=re.DOTALL)
+        cleaned = cleaned.replace("∀", " forall ")
+        cleaned = cleaned.replace("→", " -> ")
+        cleaned = cleaned.replace("↔", " iff ")
+        cleaned = cleaned.replace("∧", " And ")
+        cleaned = cleaned.replace("∨", " Or ")
+        cleaned = re.sub(r"\bfun\s+[^=]+=>", "fun ARG =>", cleaned)
+        cleaned = re.sub(r"\bforall\s+[^,]+,", "forall ARG,", cleaned)
+        cleaned = re.sub(
+            r"\bBHist\.Empty\b|\bempty\b",
+            "BHIST_EMPTY",
+            cleaned,
+        )
+        cleaned = re.sub(r"\bBHist\.e0\b", "BHIST_E0", cleaned)
+        cleaned = re.sub(r"\bBHist\.e1\b", "BHIST_E1", cleaned)
+        cleaned = re.sub(r"\b(?:h|k|z|left|right|lhs|rhs|a|b|x|y|u|v|p|q)\b", "ARG", cleaned)
+
+        refs = _referenced_qualified_names_in_text(
+            cleaned,
+            declaration_headers,
+            local_to_qualified,
+        )
+        for ref in sorted(refs, key=len, reverse=True):
+            local = _local_declaration_name(ref)
+            body = declaration_bodies.get(ref, "")
+            alias_rhs = _thin_alias_rhs(body)
+            if alias_rhs and depth < max_alias_depth:
+                replacement = normalize(alias_rhs, depth + 1)
+            else:
+                header = declaration_headers.get(ref, "")
+                result_type = _declaration_header_result_type(header) or ""
+                replacement = _decl_structural_token(ref, result_type)
+            cleaned = re.sub(rf"\b{re.escape(ref)}\b", replacement, cleaned)
+            cleaned = re.sub(rf"\b{re.escape(local)}\b", replacement, cleaned)
+
+        cleaned = _sort_commutative_connectives(cleaned, "And")
+        cleaned = _sort_commutative_connectives(cleaned, "Or")
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
+        if not cleaned:
+            unknown_reasons.append("empty_expression_after_normalization")
+        return cleaned
+
+    core = normalize(text, 0)
+    if max_alias_depth <= 0:
+        unknown_reasons.append("alias_expansion_disabled")
+    return {
+        "core": core,
+        "hash": hashlib.sha256(core.encode("utf-8")).hexdigest()[:24],
+        "unknown_reasons": sorted(set(unknown_reasons)),
+    }
+
+
+def _thin_alias_rhs(body: str) -> str | None:
+    compact = re.sub(r"\s+", " ", strip_comments_and_strings(body)).strip()
+    match = re.search(r":=\s*(?P<rhs>[A-Za-z0-9_'.]+)\s*$", compact)
+    if match:
+        return match.group("rhs")
+    match = re.search(r":=\s*fun\s+[^=]+=>\s*(?P<rhs>[A-Za-z0-9_'.]+(?:\s+[A-Za-z0-9_'.]+){0,3})\s*$", compact)
+    if match:
+        return match.group("rhs")
+    return None
+
+
+def _decl_structural_token(qualified: str, result_type: str) -> str:
+    local = _local_declaration_name(qualified)
+    if re.search(r"\bBHist\s*->\s*Prop\b|\bBHist\s*→\s*Prop\b", result_type):
+        return "BHistPredicate"
+    if re.search(r"\bBHist\s*->\s*BHist\s*->\s*Prop\b|\bBHist\s*→\s*BHist\s*→\s*Prop\b", result_type):
+        return "BHistClassifier"
+    if re.search(r"\bClassifier(?:Disagreement|NonEquivalent)\b", result_type):
+        return "ClassifierDisagreement"
+    if "DisagreementSupport" in result_type:
+        return "DisagreementSupport"
+    if "StructuralDiscovery" in result_type:
+        return "StructuralDiscovery"
+    if "DiscoveryShift" in result_type:
+        return "DiscoveryShift"
+    if "DiscoveryDeltaLedger" in result_type:
+        return "DiscoveryDeltaLedger"
+    if "NameCert" in result_type:
+        return "NameCert"
+    if local.endswith("Up"):
+        return "CarrierUp"
+    return f"DeclKind:{_camel_to_snake(local)}"
+
+
+def _sort_commutative_connectives(text: str, token: str) -> str:
+    pattern = re.compile(rf"\(([^()]+?)\s+{re.escape(token)}\s+([^()]+?)\)")
+
+    def repl(match: re.Match[str]) -> str:
+        left = match.group(1).strip()
+        right = match.group(2).strip()
+        first, second = sorted((left, right))
+        return f"({first} {token} {second})"
+
+    previous = None
+    current = text
+    while previous != current:
+        previous = current
+        current = pattern.sub(repl, current)
+    return current
+
+
+def _canonical_bhist_terms(text: str) -> list[str]:
+    compact = re.sub(r"\s+", " ", strip_comments_and_strings(text))
+    terms: set[str] = set()
+    for match in re.finditer(r"\bBHist\.(?:Empty|e0|e1)\b(?:\s+BHist\.(?:Empty|e0|e1)\b)*", compact):
+        raw = match.group(0)
+        raw = raw.replace("BHist.Empty", "Empty")
+        raw = raw.replace("BHist.e0", "e0")
+        raw = raw.replace("BHist.e1", "e1")
+        pieces = raw.split()
+        stack: list[str] = []
+        for piece in reversed(pieces):
+            if piece == "Empty":
+                stack.append("Empty")
+            elif piece in {"e0", "e1"} and stack:
+                stack[-1] = f"{piece}({stack[-1]})"
+        if stack:
+            terms.add(stack[-1])
+    for match in re.finditer(r"\b(?:emp|empty|left|right)(?:E[01])*\b", compact):
+        token = match.group(0)
+        if token in {"left", "right"}:
+            continue
+        terms.add(_camel_to_snake(token).upper())
+    return sorted(terms)
+
+
+def _support_family_tags_from_text(text: str) -> list[str]:
+    tags = set(re.findall(r"\bSupportFamily\.(classifier|decode|readback|ledger|role)\b", text))
+    if re.search(r"\bClassifier(?:Disagreement|NonEquivalent)\b", text):
+        tags.add("classifier")
+    return sorted(tags)
+
+
+def _lineage_payload(block: dict | None) -> dict[str, object]:
+    origin = str((block or {}).get("origin") or "unknown").lower()
+    if origin == "human":
+        novelty = "human_known"
+    elif origin == "ai":
+        novelty = "ai_claimed"
+    else:
+        novelty = "unknown"
+    return {
+        "origin": origin,
+        "lineage_novelty": novelty,
+        "semantics": "orthogonal_metadata_not_structural_gate",
+    }
+
+
+def _carrier_signature_index(records: list[CarrierRecord]) -> dict[str, dict[str, object]]:
+    out: dict[str, dict[str, object]] = {}
+    for record in records:
+        out[record.name] = {
+            "name": record.name,
+            "arity": record.arity,
+            "field_types": sorted(record.field_types),
+            "ordered_field_types": list(record.field_types),
+            "phase2_status": record.phase2_status,
+            "toEventFlow_shape": shape_to_json(record.to_event_flow_shape),
+            "nameCert_hash": record.namecert_hash,
+        }
+    return out
+
+
+def _carrier_skeleton_for_refs(
+    refs: Iterable[str],
+    carrier_index: dict[str, dict[str, object]],
+) -> list[dict[str, object]]:
+    skeleton: list[dict[str, object]] = []
+    seen: set[str] = set()
+    for ref in refs:
+        local = _local_declaration_name(ref)
+        key = local if local in carrier_index else ref
+        if key in carrier_index and key not in seen:
+            payload = dict(carrier_index[key])
+            payload.pop("name", None)
+            skeleton.append(payload)
+            seen.add(key)
+    return sorted(skeleton, key=lambda item: _structural_canonical_json(item))
+
+
+def _canonical_decl_shape(
+    ref: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+    local_to_qualified: dict[str, list[str]] | None = None,
+) -> dict[str, object]:
+    result_type = _declaration_header_result_type(declaration_headers.get(ref, "")) or ""
+    body = strip_comments_and_strings(declaration_bodies.get(ref, ""))
+    body = re.sub(r"\bfun\s+[^=]+=>", "fun ARG =>", body)
+    body = re.sub(r"\b[A-Za-z][A-Za-z0-9_']*(?:\.[A-Za-z][A-Za-z0-9_']*)+\b", "QUAL", body)
+    body = re.sub(r"\b(?:h|k|z|left|right|lhs|rhs|a|b|x|y|u|v|p|q)\b", "ARG", body)
+    body = re.sub(r"\bBHist\.Empty\b|\bempty\b", "BHIST_EMPTY", body)
+    body = re.sub(r"\bBHist\.e0\b", "BHIST_E0", body)
+    body = re.sub(r"\bBHist\.e1\b", "BHIST_E1", body)
+    body = re.sub(r"\s+", " ", body).strip()
+    payload = {
+        "kind": _decl_structural_token(ref, result_type),
+        "result_shape": _canonical_lean_expr(
+        result_type or "unknown_result_type",
+        declaration_headers,
+        declaration_bodies,
+        max_alias_depth=1,
+        local_to_qualified=local_to_qualified,
+    ).get("hash", ""),
+        "body_shape": hashlib.sha256(body.encode("utf-8")).hexdigest()[:24],
+    }
+    return payload
+
+
+def _canonical_read_graph(
+    refs: Iterable[str],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+    local_to_qualified: dict[str, list[str]] | None = None,
+) -> list[dict[str, object]]:
+    shapes = [
+        _canonical_decl_shape(ref, declaration_headers, declaration_bodies, local_to_qualified)
+        for ref in sorted(set(refs))
+        if ref in declaration_headers
+    ]
+    return sorted(shapes, key=lambda item: _structural_canonical_json(item))
+
+
+def _residual_prime_status(
+    grade: str,
+    witnesses: list[dict[str, object]],
+    has_independent_support: bool,
+) -> str:
+    verdicts = [
+        str(witness.get("verdict", ""))
+        for witness in witnesses
+        if isinstance(witness, dict)
+    ]
+    if any(verdict.startswith("suspected-composite") for verdict in verdicts):
+        return "composite"
+    if grade == "certified_prime" and has_independent_support:
+        return "prime"
+    if grade == "probable_prime":
+        return "weak"
+    if grade in {"probable_composite", "confirmed_composite"}:
+        return "composite"
+    return "unknown"
+
+
+def _structural_dna_grade(residual_prime_status: str) -> str:
+    if residual_prime_status == "prime":
+        return "prime"
+    if residual_prime_status == "composite":
+        return "composite"
+    if residual_prime_status == "weak":
+        return "weak"
+    return "unknown"
+
+
+def _structural_dna_record_from_sieve_item(
+    item: dict[str, object],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+    carrier_index: dict[str, dict[str, object]],
+    *,
+    lightweight: bool = False,
+) -> StructuralDnaRecord:
+    target = str(item.get("target", ""))
+    block = None
+    local_to_qualified = _local_to_qualified_index(declaration_headers)
+    region = str(item.get("region") or target.rsplit(".", 1)[-1])
+    support_targets = [
+        str(name)
+        for name in (item.get("sieve_profile", {}) or {}).get("support_targets", [])
+    ]
+    adversarial_input_targets = [
+        str(name)
+        for name in (item.get("sieve_profile", {}) or {}).get("adversarial_input_targets", [])
+    ]
+    if lightweight:
+        read_targets = sorted(set([target] + support_targets + adversarial_input_targets))
+    else:
+        read_targets = _witness_read_graph_targets(
+            target,
+            support_targets,
+            adversarial_input_targets,
+            declaration_headers,
+            declaration_bodies,
+        )
+    target_body = declaration_bodies.get(target, "")
+    shift_text = _lean_field_assignment(target_body, "classifier_shift")
+    shift_refs = _resolve_decl_refs_from_text(shift_text, declaration_headers)
+    shift_ref = next((ref for ref in shift_refs if ref in declaration_bodies), "")
+    shift_body = declaration_bodies.get(shift_ref, "")
+    scope_text = _lean_field_assignment(shift_body, "scope")
+    before_source_text = _lean_field_assignment(shift_body, "BeforeSource")
+    after_source_text = _lean_field_assignment(shift_body, "AfterSource")
+    before_classifier_text = _lean_field_assignment(shift_body, "BeforeClassifier")
+    after_classifier_text = _lean_field_assignment(shift_body, "AfterClassifier")
+    if not shift_text:
+        shift_text = target_body
+
+    if lightweight:
+        negative_branch_text = ""
+        negative_branch_read_targets: list[str] = []
+    else:
+        negative_branch_text, negative_branch_read_targets = _negative_disagreement_branch_payload(
+            target,
+            declaration_headers,
+            declaration_bodies,
+        )
+    disagreement_text = (
+        _decl_text(target, declaration_headers, declaration_bodies)
+        if lightweight else "\n".join(
+            _decl_text(qualified, declaration_headers, declaration_bodies)
+            for qualified in _target_disagreement_anchors(
+                target,
+                declaration_headers,
+                declaration_bodies,
+            )
+        )
+    )
+    support_text = "\n".join(
+        _decl_text(support_target, declaration_headers, declaration_bodies)
+        for support_target in support_targets
+    )
+    support_profile = item.get("sieve_profile", {}) or {}
+    support_reachable = [
+        str(name) for name in support_profile.get("support_reachable", [])
+    ]
+    semantic_anchors = [str(name) for name in support_profile.get("semantic_anchors", [])]
+    support_anchors = [str(name) for name in support_profile.get("support_anchors", [])]
+    support_family_tags = _support_family_tags_from_text(support_text)
+    if "classifier_shift" in item.get("sources", []):
+        support_family_tags = sorted(set(support_family_tags + ["classifier"]))
+    endpoint_classes = _candidate_semantic_endpoint_classes(semantic_anchors)
+    has_independent_support = bool(support_reachable) and any(
+        _support_body_mentions_observable_witness(
+            support_target,
+            declaration_headers,
+            declaration_bodies,
+        )
+        for support_target in support_targets
+    )
+
+    shift_kernel = {
+        "scope": _canonical_lean_expr(scope_text or "unknown_scope", declaration_headers, declaration_bodies, local_to_qualified=local_to_qualified),
+        "before_source": _canonical_lean_expr(before_source_text or "unknown_before_source", declaration_headers, declaration_bodies, local_to_qualified=local_to_qualified),
+        "after_source": _canonical_lean_expr(after_source_text or "unknown_after_source", declaration_headers, declaration_bodies, local_to_qualified=local_to_qualified),
+        "before_classifier": _canonical_lean_expr(before_classifier_text or "unknown_before_classifier", declaration_headers, declaration_bodies, local_to_qualified=local_to_qualified),
+        "after_classifier": _canonical_lean_expr(after_classifier_text or "unknown_after_classifier", declaration_headers, declaration_bodies, local_to_qualified=local_to_qualified),
+        "source": "DiscoveryDeltaLedger.classifier_shift" if shift_ref else "reachable_discovery_target",
+    }
+    direction = "unknown"
+    if re.search(r"\bleft\b", disagreement_text):
+        direction = "before_positive"
+    if re.search(r"\bright\b", disagreement_text):
+        direction = "after_positive" if direction == "unknown" else "mixed"
+    witness_fingerprint = {
+        "direction": direction,
+        "left_right_bhist": _canonical_bhist_terms(disagreement_text),
+        "positive_classifier_shape": _canonical_lean_expr(
+            _lean_field_assignment(disagreement_text, "positive") or disagreement_text,
+            declaration_headers,
+            declaration_bodies,
+            local_to_qualified=local_to_qualified,
+        ),
+        "negative_classifier_shape": _canonical_lean_expr(
+            negative_branch_text or _lean_field_assignment(disagreement_text, "negative") or disagreement_text,
+            declaration_headers,
+            declaration_bodies,
+            local_to_qualified=local_to_qualified,
+        ),
+        "read_graph": _canonical_read_graph(
+            read_targets + negative_branch_read_targets,
+            declaration_headers,
+            declaration_bodies,
+            local_to_qualified,
+        ),
+    }
+    support_fingerprint = {
+        "families": support_family_tags,
+        "observable_endpoint_classes": endpoint_classes,
+        "observable": sorted(set(semantic_anchors + support_anchors)),
+        "separation": _canonical_lean_expr(
+            "\n".join(
+                _lean_field_assignment(declaration_bodies.get(support_target, ""), "semantic_separation")
+                for support_target in support_targets
+            ) or support_text,
+            declaration_headers,
+            declaration_bodies,
+            local_to_qualified=local_to_qualified,
+        ),
+        "independent_observable_support": has_independent_support,
+        "read_graph": _canonical_read_graph(
+            support_targets + support_reachable,
+            declaration_headers,
+            declaration_bodies,
+            local_to_qualified,
+        ),
+    }
+    adversarial_witnesses = [
+        witness for witness in item.get("adversarial_witnesses", [])
+        if isinstance(witness, dict)
+    ]
+    factor_verdicts = {
+        "F1": [
+            str(witness.get("verdict"))
+            for witness in adversarial_witnesses
+            if str(witness.get("family")) == "F1-static"
+        ],
+        "F4": [
+            str(witness.get("verdict"))
+            for witness in adversarial_witnesses
+            if str(witness.get("family")) == "F4-static"
+        ],
+        "F5": [
+            str(witness.get("verdict"))
+            for witness in adversarial_witnesses
+            if str(witness.get("family")) == "F5-static"
+        ],
+    }
+    residual = _residual_prime_status(
+        str(item.get("grade", "unknown")),
+        adversarial_witnesses,
+        has_independent_support,
+    )
+    factor_spectrum = {
+        "families": factor_verdicts,
+        "adversarial_resistance_score": item.get("adversarial_resistance_score", 100),
+        "negative_tags": list((item.get("sieve_profile", {}) or {}).get("reason_tags", [])),
+        "constructor_only_without_observable": (
+            "constructor_only_disagreement" in list((item.get("sieve_profile", {}) or {}).get("reason_tags", []))
+            and not has_independent_support
+        ),
+        "independent_observable_support": has_independent_support,
+        "residual_prime_status": residual,
+    }
+    carrier_skeleton = _carrier_skeleton_for_refs(read_targets, carrier_index)
+    canonical_fragments = {
+        "shift_kernel": shift_kernel,
+        "witness_fingerprint": witness_fingerprint,
+        "support_fingerprint": support_fingerprint,
+        "factor_spectrum": factor_spectrum,
+        "carrier_skeleton": carrier_skeleton,
+    }
+    structural_fingerprint = hashlib.sha256(
+        _structural_canonical_json(canonical_fragments).encode("utf-8")
+    ).hexdigest()
+    unknown_reasons: set[str] = set()
+    for fragment in (
+        shift_kernel["scope"],
+        shift_kernel["before_source"],
+        shift_kernel["after_source"],
+        shift_kernel["before_classifier"],
+        shift_kernel["after_classifier"],
+        witness_fingerprint["positive_classifier_shape"],
+        witness_fingerprint["negative_classifier_shape"],
+        support_fingerprint["separation"],
+    ):
+        if isinstance(fragment, dict):
+            unknown_reasons.update(str(reason) for reason in fragment.get("unknown_reasons", []))
+    if not shift_ref:
+        unknown_reasons.add("no_explicit_classifier_shift_ref")
+    if not support_targets:
+        unknown_reasons.add("no_disagreement_support_target")
+    normalization = {
+        "method": "static_high_precision_approximation",
+        "alpha_renaming": "binder_names_collapsed",
+        "qualified_names": "resolved_to_structural_tokens_when_declaration_known",
+        "wrapper_alias_expansion_depth": 3,
+        "commutative_connectives": "And/Or sorted in parenthesized binary fragments",
+        "bhist_constructors": "recognized_constructor_trees_normalized",
+        "unknown_reasons": sorted(unknown_reasons),
+        "truth_boundary": "same fingerprint is a static structural match, not a proof of semantic isomorphism or novelty",
+    }
+    return StructuralDnaRecord(
+        target=target,
+        region=region,
+        schema="bedc.classifier_shift_dna",
+        structural_fingerprint=structural_fingerprint,
+        grade=_structural_dna_grade(residual),
+        shift_kernel=shift_kernel,
+        witness_fingerprint=witness_fingerprint,
+        support_fingerprint=support_fingerprint,
+        factor_spectrum=factor_spectrum,
+        carrier_skeleton=carrier_skeleton,
+        normalization=normalization,
+        lineage=_lineage_payload(block),
+    )
+
+
+def _structural_dna_item_for_target(
+    target: str,
+    source: str,
+    block: dict | None,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+    ledger_by_name: dict[str, DiscoveryDeltaLedgerRecord],
+    local_to_qualified: dict[str, list[str]] | None = None,
+    support_candidates: list[str] | None = None,
+) -> dict[str, object]:
+    local_to_qualified = (
+        _local_to_qualified_index(declaration_headers)
+        if local_to_qualified is None else local_to_qualified
+    )
+    support_targets = _cheap_support_target_names(
+        target,
+        declaration_headers,
+        declaration_bodies,
+        support_candidates,
+    ) if target in declaration_headers else []
+    support_text = "\n".join(
+        _decl_text(support_target, declaration_headers, declaration_bodies)
+        for support_target in support_targets
+    )
+    support_result_types = _support_result_types(support_targets, declaration_headers)
+    semantic_anchors = sorted(set(
+        _endpoint_evidence_terms(_decl_text(target, declaration_headers, declaration_bodies))
+        + [
+            term
+            for support_target in support_targets
+            for term in _endpoint_evidence_terms(
+                _decl_text(support_target, declaration_headers, declaration_bodies)
+            )
+        ]
+        + [
+            "observable_family_witness"
+            for support_target in support_targets
+            if _cheap_support_mentions_observable_witness(
+                support_target,
+                declaration_headers,
+                declaration_bodies,
+            )
+        ]
+    ))
+    direct_refs = set(_resolve_decl_refs_from_text(
+        _decl_text(target, declaration_headers, declaration_bodies),
+        declaration_headers,
+        local_to_qualified,
+    ))
+    support_anchors = _support_type_hits(
+        direct_refs | set(support_targets) | {target},
+        declaration_headers,
+    ) if target in declaration_headers else []
+    support_reachable = [
+        support_target for support_target in support_targets
+        if _cheap_support_reaches_target(
+            support_target,
+            target,
+            declaration_headers,
+            declaration_bodies,
+        )
+    ]
+    negative_witnesses: list[dict[str, object]] = []
+    tags: list[str] = []
+    target_text = _decl_text(target, declaration_headers, declaration_bodies)
+    if target not in declaration_headers:
+        tags.append("target_missing")
+        negative_witnesses.append(_make_sieve_witness("target_missing", "confirmed", {"target": target}, True))
+    elif _body_mentions_axiom(target_text):
+        tags.append("target_axiom")
+        negative_witnesses.append(_make_sieve_witness("target_axiom", "confirmed", {"target": target}, True))
+    elif _body_mentions_sorry(target_text):
+        tags.append("target_sorry")
+        negative_witnesses.append(_make_sieve_witness("target_sorry", "confirmed", {"target": target}, True))
+    if re.search(r"\bsmoke[A-Z_]", target_text) or "smoke" in target.lower():
+        tags.append("smoke_template_reuse")
+        negative_witnesses.append(_make_sieve_witness("smoke_template_reuse", "suspicious", {"target": target}, False))
+    if _has_any(support_text, TRIVIAL_CLASSIFIER_TERMS):
+        tags.append("trivial_classifier")
+        negative_witnesses.append(_make_sieve_witness("trivial_classifier", "suspicious", {"target": target}, False))
+    negative_branch_text = _lean_field_assignment(target_text, "negative")
+    negative_branch_read_targets = _resolve_decl_refs_from_text(
+        negative_branch_text,
+        declaration_headers,
+        local_to_qualified,
+    )
+    disagreement_text = target_text
+    if _has_any(f"{negative_branch_text}\n{disagreement_text}", CONSTRUCTOR_SEPARATION_TERMS):
+        tags.append("constructor_only_disagreement")
+        negative_witnesses.append(_make_sieve_witness(
+            "constructor_only_disagreement",
+            "suspicious",
+            {"target": target, "support_targets": support_targets},
+            False,
+        ))
+    has_independent_endpoint = any(
+        _cheap_support_reaches_target(
+            support_target,
+            target,
+            declaration_headers,
+            declaration_bodies,
+            local_to_qualified,
+        )
+        and _cheap_support_mentions_observable_witness(
+            support_target,
+            declaration_headers,
+            declaration_bodies,
+        )
+        for support_target in support_targets
+    )
+    if any(tag in {"target_missing", "target_axiom", "target_sorry"} for tag in tags):
+        grade = "confirmed_composite"
+    elif negative_witnesses:
+        grade = "probable_composite"
+    elif has_independent_endpoint and source == "classifier_shift":
+        grade = "certified_prime"
+    elif semantic_anchors or support_anchors:
+        grade = "probable_prime"
+    else:
+        grade = "probable_composite"
+    adversarial_input_targets = sorted(set(
+        support_targets
+        + _cheap_classifier_shift_read_targets(
+            target,
+            declaration_headers,
+            declaration_bodies,
+        )
+        + negative_branch_read_targets
+    ))
+    fingerprint = _json_sha256({
+        "target": target,
+        "source": source,
+        "support_targets": support_targets,
+        "negative_tags": sorted(set(tags)),
+    })
+    adversarial_records = []
+    return {
+        "target": target,
+        "region": (
+            f"{block.get('region')}Up" if block else (
+                f"{ledger_by_name[target].chapter_region}Up"
+                if target in ledger_by_name else target.rsplit(".", 1)[-1]
+            )
+        ),
+        "sources": [source],
+        "grade": grade,
+        "sieve_profile": {
+            "reason_tags": sorted(set(tags)),
+            "semantic_anchors": semantic_anchors,
+            "support_anchors": support_anchors,
+            "support_targets": support_targets,
+            "adversarial_input_targets": adversarial_input_targets,
+            "support_result_types": support_result_types,
+            "support_reachable": support_reachable,
+            "public_semantic_endpoint": _is_public_semantic_endpoint(
+                target,
+                declaration_headers,
+                declaration_bodies,
+            ),
+            "suspicious_count": sum(1 for witness in negative_witnesses if witness.get("severity") == "suspicious"),
+        },
+        "negative_witnesses": negative_witnesses,
+        "adversarial_witnesses": [witness.to_json() for witness in adversarial_records],
+        "adversarial_resistance_score": _adversarial_resistance_score(adversarial_records),
+    }
+
+
+def _structural_dna_light_items(
+    blocks: list[dict],
+    lean_scan: LeanSourceScan,
+) -> list[dict[str, object]]:
+    local_to_qualified = _local_to_qualified_index(lean_scan.declaration_headers)
+    support_candidates = [
+        qualified
+        for qualified, header in lean_scan.declaration_headers.items()
+        if "DisagreementSupport" in header and _declares_disagreement_support(header)
+    ]
+    ledger_by_name = {
+        ledger.qualified_name: ledger
+        for ledger in lean_scan.discovery_delta_ledgers
+    }
+    block_by_target: dict[str, dict] = {}
+    for block in blocks:
+        if block.get("error"):
+            continue
+        open_fields = block.get("open_fields") or {}
+        if not isinstance(open_fields, dict):
+            open_fields = {}
+        for target in (
+            _normalize_lean_target(open_fields.get("closuregate")),
+            _normalize_lean_target(open_fields.get("closureledger")),
+            _normalize_lean_target(block.get("lean_target")),
+        ):
+            if target:
+                block_by_target.setdefault(target, block)
+    sites: dict[str, tuple[str, dict | None]] = {}
+    for ledger in lean_scan.discovery_delta_ledgers:
+        if ledger.has_classifier_shift:
+            sites[ledger.qualified_name] = (
+                "classifier_shift",
+                block_by_target.get(ledger.qualified_name),
+            )
+    for target, header in lean_scan.declaration_headers.items():
+        if "DiscoveryTasteGate" in header and _result_type_mentions(DISCOVERY_TASTE_GATE_RESULT_RE, header):
+            sites.setdefault(target, ("DiscoveryTasteGate", block_by_target.get(target)))
+        elif "PositiveDiscovery" in header and _result_type_mentions(POSITIVE_DISCOVERY_RESULT_RE, header):
+            sites.setdefault(target, ("positiveDiscovery", block_by_target.get(target)))
+    return [
+        _structural_dna_item_for_target(
+            target,
+            source,
+            block,
+            lean_scan.declaration_headers,
+            lean_scan.declaration_bodies,
+            ledger_by_name,
+            local_to_qualified,
+            support_candidates,
+        )
+        for target, (source, block) in sorted(sites.items())
+    ]
+
+
+def structural_dna_payload(
+    blocks: list[dict],
+    lean_scan: LeanSourceScan,
+    *,
+    sieve_payload: dict[str, object] | None = None,
+    carrier_records: list[CarrierRecord] | None = None,
+) -> dict[str, object]:
+    sieve = (
+        sieve_payload if sieve_payload is not None else
+        {"targets": _structural_dna_light_items(blocks, lean_scan)}
+    )
+    block_by_region = {
+        f"{block.get('region')}Up": block
+        for block in blocks
+        if not block.get("error")
+    }
+    sieve_targets = [
+        item for item in sieve.get("targets", [])
+        if isinstance(item, dict)
+    ]
+    carrier_index = _carrier_signature_index(
+        (
+            collect_carrier_records()
+            if carrier_records is None and sieve_targets else carrier_records or []
+        )
+    )
+    records: list[dict[str, object]] = []
+    grade_counts: Counter[str] = Counter()
+    for item in sieve_targets:
+        record = _structural_dna_record_from_sieve_item(
+            item,
+            lean_scan.declaration_headers,
+            lean_scan.declaration_bodies,
+            carrier_index,
+            lightweight=sieve_payload is None,
+        )
+        lineage_block = block_by_region.get(record.region)
+        if lineage_block is not None:
+            record = StructuralDnaRecord(
+                target=record.target,
+                region=record.region,
+                schema=record.schema,
+                structural_fingerprint=record.structural_fingerprint,
+                grade=record.grade,
+                shift_kernel=record.shift_kernel,
+                witness_fingerprint=record.witness_fingerprint,
+                support_fingerprint=record.support_fingerprint,
+                factor_spectrum=record.factor_spectrum,
+                carrier_skeleton=record.carrier_skeleton,
+                normalization=record.normalization,
+                lineage=_lineage_payload(lineage_block),
+            )
+        payload = record.to_json()
+        records.append(payload)
+        grade_counts[record.grade] += 1
+    return {
+        "informational": True,
+        "schema": "bedc.classifier_shift_dna",
+        "checked_target_count": len(records),
+        "grade_counts": dict(sorted(grade_counts.items())),
+        "truth_boundary": "origin-blind structural survey only; no novelty or closurestatus truth claim is emitted",
+        "targets": records,
+    }
+
+
 def _discovery_sieve_sites(
     blocks: list[dict],
     ledgers: list[DiscoveryDeltaLedgerRecord],
@@ -4695,7 +5616,16 @@ def discovery_sieve_payload(
             ))
             clearance_requirements.append("instantiate the site away from smoke template data")
 
-        if block is not None and block.get("origin") == "ai" and block.get("theory_closure") != "seedClosure":
+        structurally_declared_discovery = (
+            block is not None
+            and (
+                claim_kind in STRONG_CLOSURESTATUS_CLAIMS
+                or "classifier_shift" in site.get("sources", [])
+                or _result_type_mentions(DISCOVERY_TASTE_GATE_RESULT_RE, header)
+                or _result_type_mentions(POSITIVE_DISCOVERY_RESULT_RE, header)
+            )
+        )
+        if structurally_declared_discovery:
             missing_fields = [
                 field for field in (
                     "closureclaimkind",
@@ -4898,10 +5828,8 @@ def _region_to_chapter_key(region: object) -> str:
     return _camel_to_snake(text)
 
 
-def _block_is_a_layer_hard_reject(block: dict, origin: str) -> tuple[bool, list[str]]:
+def _block_is_a_layer_hard_reject(block: dict) -> tuple[bool, list[str]]:
     reasons: list[str] = []
-    if origin == "human":
-        reasons.append("origin_human")
     theory_closure = str(block.get("theory_closure") or "")
     formal_status = str(block.get("formal_status") or "")
     bridge_status = str(block.get("bridge_status") or "")
@@ -5069,6 +5997,18 @@ def discovery_candidate_payload(
     ledgers = lean_scan.discovery_delta_ledgers
     decl_kinds = _decl_kind_map(declarations)
     ledger_targets = {ledger.qualified_name for ledger in ledgers}
+    sieve = sieve_payload or discovery_sieve_payload(
+        blocks,
+        ledgers,
+        declaration_headers,
+        declaration_bodies,
+    )
+    dna_payload = structural_dna_payload(blocks, lean_scan, sieve_payload=sieve)
+    dna_by_target = {
+        str(item.get("target")): item
+        for item in dna_payload.get("targets", [])
+        if isinstance(item, dict)
+    }
     dispatchable: list[dict[str, object]] = []
     notes: list[dict[str, object]] = []
     discarded = 0
@@ -5080,19 +6020,21 @@ def discovery_candidate_payload(
         open_fields = block.get("open_fields") or {}
         open_fields = open_fields if isinstance(open_fields, dict) else {}
         claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
-        if origin == "human" and claim_kind not in STRONG_CLOSURESTATUS_CLAIMS:
-            discarded += 1
-            continue
         if claim_kind in {"confirmed_composite", "mechanical_reconstruction"}:
             discarded += 1
             continue
-        hard_reject, hard_reject_reasons = _block_is_a_layer_hard_reject(block, origin)
+        lineage = _lineage_payload(block)
+        hard_reject, hard_reject_reasons = _block_is_a_layer_hard_reject(block)
         if hard_reject:
             notes.append(_discovery_candidate_note(
                 block,
                 _normalize_lean_target(block.get("lean_target")),
                 "hard reject from dispatchable discovery candidate layer",
-                extra={"candidate_reasons": hard_reject_reasons, "in_A": False},
+                extra={
+                    "candidate_reasons": hard_reject_reasons,
+                    "lineage": lineage,
+                    "in_A": False,
+                },
             ))
             continue
         has_explicit_candidate_surface = (
@@ -5109,14 +6051,12 @@ def discovery_candidate_payload(
             )
         )
         if not has_explicit_candidate_surface:
-            if origin == "ai" and block.get("theory_closure") != "seedClosure":
-                notes.append(_discovery_candidate_note(
-                    block,
-                    "",
-                    "ai non-seed chapter has no explicit before/after or discovery ledger surface",
-                ))
-            else:
-                discarded += 1
+            notes.append(_discovery_candidate_note(
+                block,
+                "",
+                "chapter has no explicit before/after or discovery ledger surface",
+                extra={"lineage": lineage},
+            ))
             continue
 
         target_candidates = [
@@ -5128,26 +6068,22 @@ def discovery_candidate_payload(
         target_candidates = [target for target in dict.fromkeys(target_candidates) if target]
         target = next((name for name in target_candidates if name in declaration_headers), "")
         if not target:
-            if origin == "ai" and block.get("theory_closure") != "seedClosure":
-                notes.append(_discovery_candidate_note(
-                    block,
-                    target_candidates[0] if target_candidates else "",
-                    "ai non-seed chapter lacks a resolved Lean target endpoint",
-                ))
-            else:
-                discarded += 1
+            notes.append(_discovery_candidate_note(
+                block,
+                target_candidates[0] if target_candidates else "",
+                "chapter lacks a resolved Lean target endpoint",
+                extra={"lineage": lineage},
+            ))
             continue
 
         pairs = _candidate_endpoint_pairs(block, target, declaration_headers, declaration_bodies)
         if not pairs:
-            if origin == "ai" and block.get("theory_closure") != "seedClosure":
-                notes.append(_discovery_candidate_note(
-                    block,
-                    target,
-                    "no resolved before/after Lean classifier endpoint pair",
-                ))
-            else:
-                discarded += 1
+            notes.append(_discovery_candidate_note(
+                block,
+                target,
+                "no resolved before/after Lean classifier endpoint pair",
+                extra={"lineage": lineage},
+            ))
             continue
 
         reachable = _reachable_declarations(
@@ -5172,7 +6108,7 @@ def discovery_candidate_payload(
                 block,
                 target,
                 "reachable declaration graph lacks classifier disagreement support",
-                extra={"before_after_pairs": pairs},
+                extra={"before_after_pairs": pairs, "lineage": lineage},
             ))
             continue
 
@@ -5216,7 +6152,7 @@ def discovery_candidate_payload(
                 block,
                 target,
                 "hard negative sieve witness prevents dispatch",
-                extra={"negative_tags": hard_tags},
+                extra={"negative_tags": hard_tags, "lineage": lineage},
             ))
             continue
 
@@ -5247,7 +6183,11 @@ def discovery_candidate_payload(
                 block,
                 target,
                 "fewer than two nontrivial semantic endpoint classes",
-                extra={"semantic_anchors": semantic_hits, "endpoint_classes": classes},
+                extra={
+                    "semantic_anchors": semantic_hits,
+                    "endpoint_classes": classes,
+                    "lineage": lineage,
+                },
             ))
             continue
         if constructor_only and not has_independent_support:
@@ -5255,11 +6195,18 @@ def discovery_candidate_payload(
                 block,
                 target,
                 "constructor-only disagreement lacks independent observable witness",
-                extra={"semantic_anchors": semantic_hits, "support_targets": support_targets},
+                extra={
+                    "semantic_anchors": semantic_hits,
+                    "support_targets": support_targets,
+                    "lineage": lineage,
+                },
             ))
             continue
 
         before, after, endpoint_source = pairs[0]
+        target_dna = dna_by_target.get(target, {})
+        structural_grade = str(target_dna.get("grade", "unknown"))
+        structural_fingerprint = str(target_dna.get("structural_fingerprint", ""))
         stable_key = "|".join([
             _region_to_chapter_key(block.get("region")),
             "classifier_shift_candidate",
@@ -5269,22 +6216,22 @@ def discovery_candidate_payload(
         ])
         candidate_reasons = [
             reason for reason, active in (
-                ("origin_ai_non_seed", origin == "ai" and block.get("theory_closure") != "seedClosure"),
                 ("strong_closurestatus_claim", claim_kind in STRONG_CLOSURESTATUS_CLAIMS),
                 ("resolved_lean_target", bool(target)),
                 ("resolved_before_after_pair", bool(pairs)),
                 ("reachable_disagreement_support", bool(support_hits)),
                 ("semantic_endpoint_classes", len(classes) >= 2),
                 ("independent_disagreement_support", has_independent_support),
+                ("structural_dna_prime_or_weak", structural_grade in {"prime", "weak"}),
             )
             if active
         ]
         score = 0.0
-        score += 0.30 if origin == "ai" and block.get("theory_closure") != "seedClosure" else 0.0
+        score += 0.25 if structural_grade == "prime" else 0.0
+        score += 0.10 if structural_grade == "weak" else 0.0
         score += 0.20 if {"certified_rows", "observable_endpoint"}.issubset(classes) else 0.0
         score += 0.20 if "field_faithful_route" in classes else 0.0
         score += 0.10 if claim_kind in STRONG_CLOSURESTATUS_CLAIMS else 0.0
-        score -= 0.30 if origin == "human" else 0.0
         dispatchable.append({
             "tier": "A",
             "kind": "discovery_candidate",
@@ -5303,24 +6250,26 @@ def discovery_candidate_payload(
             "support_anchors": support_hits,
             "semantic_anchors": semantic_hits,
             "semantic_endpoint_classes": classes,
+            "structural_dna_grade": structural_grade,
+            "structural_fingerprint": structural_fingerprint,
+            "lineage": lineage,
             "negative_tags": tags,
             "candidate_reasons": candidate_reasons,
             "candidate_score": round(score, 4),
             "confidence": "high",
-            "dispatch_intent": "attempt_delta_ledger_or_mark_mechanical",
+            "dispatch_intent": "attempt_classifier_shift_delta_ledger_and_independent_support",
             "dispatch_note": (
                 "Try one bounded pass to prove concrete before/after classifier "
-                "disagreement with positive cost margin and semantic endpoint; "
-                "otherwise record auditable mechanical_reconstruction."
+                "disagreement with positive cost margin and semantic endpoint."
             ),
             "mechanical_risk": [
                 risk for risk, active in (
-                    ("known_math_namecert", origin == "human"),
                     ("constructor_only_disagreement", constructor_only),
                     ("insufficient_evidence", len(classes) < 3),
                 )
                 if active
             ],
+            "lineage_risk": "lineage_unknown",
             "allowed_outcomes": [
                 "positiveDiscovery",
                 "discovery",
@@ -5335,12 +6284,6 @@ def discovery_candidate_payload(
     for idx, row in enumerate(dispatchable, start=1):
         row["selection_rank"] = idx
 
-    sieve = sieve_payload or discovery_sieve_payload(
-        blocks,
-        ledgers,
-        declaration_headers,
-        declaration_bodies,
-    )
     grade_counts = Counter(str(item.get("grade")) for item in sieve.get("targets", []) if isinstance(item, dict))
     declared_candidate = sum(
         1 for item in sieve.get("targets", [])
@@ -7183,6 +8126,34 @@ def cmd_discovery_adversarial(args: argparse.Namespace) -> int:
                 )
             if len(payload["targets"]) > 120:
                 print(f"  ... and {len(payload['targets']) - 120} more")
+
+
+def cmd_structural_dna(args: argparse.Namespace) -> int:
+    blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
+    lean_scan = scan_lean_sources()
+    payload = structural_dna_payload(blocks, lean_scan)
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        counts = payload["grade_counts"]
+        print(
+            "[bedc-ci] structural-dna (informational):"
+            f" checked={payload['checked_target_count']}"
+            f" prime={counts.get('prime', 0)}"
+            f" weak={counts.get('weak', 0)}"
+            f" composite={counts.get('composite', 0)}"
+            f" unknown={counts.get('unknown', 0)}"
+        )
+        if args.verbose:
+            for item in payload["targets"][:120]:
+                print(
+                    f"  {item['grade']} {item['target']}"
+                    f" fp={str(item.get('structural_fingerprint', ''))[:16]}"
+                )
+            if len(payload["targets"]) > 120:
+                print(f"  ... and {len(payload['targets']) - 120} more")
+
+
 def cmd_discovery_candidates(args: argparse.Namespace) -> int:
     blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     lean_scan = scan_lean_sources()
@@ -7607,6 +8578,15 @@ def parser() -> argparse.ArgumentParser:
     discovery_adversarial_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     discovery_adversarial_p.add_argument("--verbose", "-v", action="store_true", help="Show per-target detail")
     discovery_adversarial_p.set_defaults(func=cmd_discovery_adversarial)
+
+    structural_dna_p = sub.add_parser(
+        "structural-dna",
+        help="Informational origin-blind structural DNA survey for discovery targets (always exit 0)",
+    )
+    structural_dna_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    structural_dna_p.add_argument("--verbose", "-v", action="store_true", help="Show per-target detail")
+    structural_dna_p.set_defaults(func=cmd_structural_dna)
+
     discovery_candidates_p = sub.add_parser(
         "discovery-candidates",
         help="Informational high-precision survey of production-side discovery candidates (always exit 0)",
