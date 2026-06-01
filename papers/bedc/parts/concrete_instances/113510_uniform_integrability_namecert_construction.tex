@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\UniformIntegrabilityUp$}
+\label{ch:concrete-instances-uniform-integrability-namecert}
+\origin{human}
+
+Following Dunford and Schwartz, the $\UniformIntegrabilityUp$ packet records the finite tail-control surface that sits between dominated convergence and Vitali convergence. It reads the measure and integral rows used by \autoref{ch:concrete-instances-dominated-convergence-namecert}, exposes a family-indexed tail cutoff and uniform tail-bound ledger, and then supplies the uniform-integrability row consumed by \autoref{ch:concrete-instances-vitali-convergence-namecert}. The packet is a finite BEDC carrier for tail budgets; it is not measure-theoretic choice, full dominated convergence, ambient integration completeness, quotient almost-everywhere equality, or a selected representative theorem.
+
+\begin{definition}[Uniform integrability carrier]
+\label{def:uniform-integrability-carrier}
+A $\UniformIntegrabilityUp$ carrier is a finite $\BHist$ packet
+$$
+U=(M,I,F,T,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MeasureUp$ source row for the displayed measurable-domain and measurable-set requests.
+\item $I$ is the $\IntegralUp$ readback row through which tail integrals and budget comparisons are inspected.
+\item $F$ is the finite family row naming the integrands whose tails are being controlled.
+\item $T$ is the tail-cutoff row, assigning each displayed tolerance request a finite cutoff window.
+\item $B$ is the uniform tail-bound row, recording the shared bound read after $M,I,F,T$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for $M,I,F,T,B$ and the local structural rows.
+\item $C$ records displayed $\Cont$ replay from a tail-budget request through the cutoff and bound rows.
+\item $P$ is the $\Pkg$ provenance over $\UniformIntegrabilityUp$, $\MeasureUp$, $\IntegralUp$, $\DominatedConvergenceUp$, $\VitaliConvergenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformIntegrabilityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for countable choice of representatives, ambient measure completion, full dominated convergence, global integration completeness, quotient almost-everywhere equality, or a detached Vitali theorem.
+\end{definition}
+
+\begin{theorem}[Uniform integrability NameCert obligations]
+\label{thm:uniform-integrability-namecert-obligations}
+For every accepted $\UniformIntegrabilityUp$ carrier $U=(M,I,F,T,B,H,C,P,N)$, the local $\NameCert_{\UniformIntegrabilityUp}$ surface consists exactly of carrier admission for the measure row, integral row, displayed family row, tail-cutoff row, uniform tail-bound row, transport row, replay row, provenance row, and local naming row. The cutoff and bound obligations are read only through $T$ and $B$ after $M,I,F$ have been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-integrability-carrier}. The analytic rows are exactly $M,I,F,T,B$, and the structural rows are exactly $H,C,P,N$.
+
+Tail control is the ordered read through $T$ and $B$. The cutoff row answers the displayed tolerance request, and the uniform bound row records the shared tail estimate after the same measure, integral, and family rows have already been exposed.
+
+The structural rows preserve the same packet. Componentwise transport, replay, provenance, and local naming do not add a selected representative, measure completion, host domination theorem, or integration-completeness coordinate. Hence the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Uniform integrability Vitali consumption]
+\label{thm:uniform-integrability-vitali-consumption}
+Every $\VitaliConvergenceUp$ consumer of a $\UniformIntegrabilityUp$ packet reads the uniform-integrability budget through the finite route
+$$
+M \longmapsto I \longmapsto F \longmapsto T \longmapsto B \longmapsto H,C,P,N .
+$$
+When a dominated-convergence sibling route is present, \autoref{ch:concrete-instances-dominated-convergence-namecert} may supply the displayed majorant-side evidence, but the Vitali-facing handoff of \autoref{ch:concrete-instances-vitali-convergence-namecert} still consumes only the tail-cutoff and uniform tail-bound rows listed in \autoref{def:uniform-integrability-carrier}.
+\end{theorem}
+\begin{proof}
+Start with a Vitali-facing read. By \autoref{def:uniform-integrability-carrier}, the only family-level analytic rows are $M,I,F,T,B$.
+
+The budget visible to $\VitaliConvergenceUp$ is the tail route $T \longmapsto B$. It records finite cutoffs and a shared tail-bound ledger, not a host theorem about all measurable functions.
+
+If a dominated-convergence handoff is also used, it is sibling evidence attached through the displayed measure, integral, and family rows. It does not replace the uniform-integrability row by full dominated convergence.
+
+The structural rows $H,C,P,N$ transport and replay the same finite route. Since the carrier lacks measure-theoretic choice, ambient integration completeness, quotient almost-everywhere equality, and selected representatives, the Vitali consumer cannot read any of those objects from this packet.
+\end{proof}
+
+\falsifiablePrediction{Any $\VitaliConvergenceUp$ read that claims a uniform-integrability budget while bypassing the displayed Measure, Integral, family, tail-cutoff, uniform tail-bound, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows refutes the carrier of \autoref{def:uniform-integrability-carrier}.}
+
+\independenceWitness{dominated-convergence, vitali-convergence, measure, integral: $\UniformIntegrabilityUp$ is not bijective to any listed sibling because it stores the finite tail-cutoff and uniform tail-bound rows that dominated convergence may imply and Vitali convergence consumes, without storing full dominated convergence or the Vitali conclusion.}
+
+\closureat{UniformIntegrabilityUp}{seedStr}
+
+\begin{closurestatus}{\UniformIntegrabilityUp}
+  \constructivestory{A $\UniformIntegrabilityUp$ packet is generated from displayed Measure, Integral, integrand-family, tail-cutoff, uniform tail-bound, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-integrability-carrier}, \autoref{thm:uniform-integrability-namecert-obligations}, and \autoref{thm:uniform-integrability-vitali-consumption} seed the finite tail-budget interface between dominated convergence and Vitali convergence.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim measure-theoretic choice, full dominated convergence, ambient integration completeness, quotient almost-everywhere equality, selected representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-cutoff visibility, uniform tail-bound exactness, dominated-convergence sibling routing, Vitali consumption routing, structural transport, replay, provenance, and nonescape for BEDC.Derived.UniformIntegrabilityUp.}
+\end{closurestatus}

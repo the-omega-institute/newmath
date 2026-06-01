@@ -200,6 +200,60 @@ Apply tail-window exposure and modulus-threshold exactness, \autoref{thm:cauchy-
 Finally use the seal-handoff factorization, \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. Since $S$ is available only after the accepted prefix $W,M,Q,T$, the completion-facing reader has no route around the root package and no coordinate for the refused external objects.
 \end{proof}
 
+\begin{theorem}[CauchyOscillation uniform criterion consumer]
+\label{thm:cauchy-oscillation-uniform-criterion-consumer}
+Let
+$$
+O=(W,M,Q,T,S,H,C,P,N)
+$$
+be an accepted $\CauchyOscillationUp$ carrier consumed by a $\UniformCauchyCriterionUp$ reader. The reader must expose the finite tail-window row $W$, modulus-threshold row $M$, dyadic tolerance row $Q$, oscillation ledger $T$, transport row $H$, replay row $C$, provenance row $P$, and local name row $N$ before it can use the packet as a uniform Cauchy criterion input. It cannot bypass those rows by reading a detached modulus, an unstated dyadic tolerance, a quotient stream, or a selected limit.
+\end{theorem}
+\begin{proof}
+Start with tail-window exposure, \autoref{thm:cauchy-oscillation-tail-window-exposure}. It makes $W$ visible before any oscillation comparison can be consumed.
+
+Apply modulus-threshold exactness, \autoref{thm:cauchy-oscillation-modulus-threshold-exactness}. The threshold row $M$ is tied to the same $W,Q,T$ packet rather than to a free modulus witness.
+
+Use dyadic-tail exactness, \autoref{thm:cauchy-oscillation-dyadic-tail-exactness}. It identifies the ledger $T$ as the displayed dyadic comparison over $W,M,Q$.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name that finite route. Therefore a $\UniformCauchyCriterionUp$ consumer receives exactly the displayed oscillation packet and has no route around the finite tail window, threshold, tolerance, and ledger.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation real completion consumer]
+\label{thm:cauchy-oscillation-real-completion-consumer}
+Let
+$$
+O=(W,M,Q,T,S,H,C,P,N)
+$$
+be an accepted $\CauchyOscillationUp$ carrier consumed by a $\RealUp$ completion-facing reader. The reader may reach the seal row $S$ only after the finite prefix $W,M,Q,T$ has been displayed and replayed through $H,C,P,N$. The packet exports no quotient stream equality, selected real limit, host real equality, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the root window lock above. It forces every completion-facing read to expose $W,M,Q,T$ before $S$ is available.
+
+Apply Real seal nonescape, \autoref{thm:cauchy-oscillation-real-seal-nonescape}. The seal row is a routed oscillation-bound handoff and not a detached real-completion object.
+
+Use dyadic-tail exactness, \autoref{thm:cauchy-oscillation-dyadic-tail-exactness}, to keep the terminal read tied to the same dyadic tolerance and tail ledger. The comparison feeding the seal is therefore the displayed $T$ over $W,M,Q$.
+
+Finally, the structural rows $H,C,P,N$ preserve this route without adding quotient, selected-limit, host-equality, countable-choice, or ambient-completeness data.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation root-unblock package]
+\label{thm:cauchy-oscillation-root-unblock-package}
+For every accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+the root-unblock surface consumed by $\UniformCauchyCriterionUp$ and $\RealUp$ is exactly the finite package $W,M,Q,T,S,H,C,P,N$. Uniform-criterion consumers must read $W,M,Q,T,H,C,P,N$ before using the oscillation packet, and real-completion consumers must read the same finite prefix before the seal row $S$. No consumer may replace this package by a detached modulus, unstated dyadic tolerance, quotient stream, selected limit, host real equality, countable choice, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Use the uniform criterion consumer theorem above. It exposes the finite tail window, threshold, tolerance, ledger, and structural rows before any $\UniformCauchyCriterionUp$ read is public.
+
+Use the real completion consumer theorem above. It places the $\RealUp$ seal downstream from the same finite prefix and refuses every detached completion route.
+
+The tail-window exposure, modulus-threshold exactness, dyadic-tail exactness, and Real-seal nonescape theorems supply the four locking points of the package: $W$ must be visible, $M$ must remain attached to $W,Q,T$, $T$ must be the displayed dyadic comparison over $W,M,Q$, and $S$ must remain downstream from the accepted ledger.
+
+Thus the only public root-unblock surface is $W,M,Q,T,S,H,C,P,N$ itself. The listed forbidden objects are absent from the carrier and cannot be reconstructed by transport, replay, provenance, or naming.
+\end{proof}
+
 \begin{theorem}[CauchyOscillation completion root route]
 \label{thm:cauchy-oscillation-root-unblock-route}
 Every completion-facing consumer of an accepted $\CauchyOscillationUp$ carrier
@@ -460,6 +514,55 @@ Use Real seal nonescape and seal-handoff factorization, \autoref{thm:cauchy-osci
 Apply tail-window cofinality and modulus-tail monotonicity, \autoref{thm:cauchy-oscillation-tail-window-cofinality} and \autoref{thm:cauchy-oscillation-modulus-tail-monotonicity}. These keep both consumers on the same cofinal tail route and the same threshold-tolerance ledger under the displayed transport and replay rows.
 
 Since $H,C,P,N$ only transport, replay, source, and name that packet, the uniqueness boundary is the shared finite route itself, not host real equality or an ambient completion object.
+\end{proof}
+
+\begin{definition}[CauchyOscillation uniform-limit source subpacket]
+\label{def:cauchy-oscillation-uniform-limit-source}
+For an accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+the uniform-limit source subpacket is
+$$
+O_{\mathrm{ulim}}=(W,M,Q,T,H,C,P,N).
+$$
+It consists of the $\StreamNameUp$ or $\RegSeqRatUp$ finite tail-window row $W$, the threshold row $M$, the $\DyadicRatCoreUp$ tolerance row $Q$, the oscillation ledger $T$, and the transport, replay, provenance, and local naming rows. The $\RealUp$ seal row $S$ remains downstream of this subpacket and is not a selected limit.
+\end{definition}
+
+\begin{theorem}[CauchyOscillation uniform-limit tail handoff]
+\label{thm:cauchy-oscillation-uniform-limit-tail-handoff}
+Every $\UniformLimitUp$-facing read of an accepted $\CauchyOscillationUp$ packet must first display the uniform-limit source subpacket of \autoref{def:cauchy-oscillation-uniform-limit-source}. The handoff is the finite route $W,M,Q,T,H,C,P,N$; it cannot be replaced by quotient streams, a selected limit, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with tail-window exposure and dyadic tolerance stability, \autoref{thm:cauchy-oscillation-tail-window-exposure} and \autoref{thm:cauchy-oscillation-dyadic-tolerance-stability}. They force every oscillation comparison to open the finite tail row $W$ and keep the tolerance row $Q$ attached to the same $W,M,T$ packet.
+
+Use the RegSeqRat handoff and the uniform criterion handoff, \autoref{thm:cauchy-oscillation-regseqrat-handoff} and \autoref{thm:cauchy-oscillation-uniform-criterion-handoff}. These identify the displayed source as the $\StreamNameUp$ or $\RegSeqRatUp$ tail route consumed by uniform Cauchy readers.
+
+Finally apply the completion-frontier obligation, \autoref{thm:cauchy-oscillation-completion-frontier-obligation}. It keeps the $\RealUp$ seal downstream from $O_{\mathrm{ulim}}$ and refuses quotient-stream, selected-limit, host-equality, countable-choice, and ambient-completeness endpoints.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation completion-source exhaustion]
+\label{thm:cauchy-oscillation-completion-source-exhaustion}
+For every accepted $\CauchyOscillationUp$ carrier, the completion source available to $\UniformLimitUp$, $\UniformCauchyCriterionUp$, or $\RealUp$ consumers is exhausted by the route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the downstream $\RealUp$ seal displayed in $W,M,Q,T,S,H,C,P,N$. No further completion source, quotient stream, selected limit, host real equality, or ambient completeness theorem is exported by the packet.
+\end{theorem}
+\begin{proof}
+Project the source subpacket $O_{\mathrm{ulim}}$ from \autoref{def:cauchy-oscillation-uniform-limit-source}. Its rows name the stream or regular-rational window, the threshold schedule, the dyadic tolerance, and the oscillation ledger before any seal read.
+
+Apply the dyadic-tail Real-seal route and completion-frontier obligation, \autoref{thm:cauchy-oscillation-dyadic-tail-real-seal-route} and \autoref{thm:cauchy-oscillation-completion-frontier-obligation}. These place $\DyadicRatCoreUp$ and $\RealUp$ on the same finite handoff and block ambient completion data.
+
+Use Real-seal uniqueness boundary, \autoref{thm:cauchy-oscillation-real-seal-uniqueness-boundary}. Since the packet supplies only the displayed seal route and no second seal or host equality proof, the listed source chain exhausts the completion-facing surface.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation RegSeqRat uniform-threshold preservation]
+\label{thm:cauchy-oscillation-regseqrat-uniform-threshold}
+Under componentwise $\hsame$ transport and displayed $\Cont$ replay, the $\RegSeqRatUp$ or $\StreamNameUp$ tail-window row $W$ preserves the uniform threshold row $M$ together with the dyadic tolerance row $Q$ and oscillation ledger $T$. A transported $\UniformLimitUp$ or $\UniformCauchyCriterionUp$ consumer therefore reads the same finite threshold packet $W,M,Q,T,H,C,P,N$ before any $\RealUp$ seal handoff.
+\end{theorem}
+\begin{proof}
+Begin with modulus-threshold exactness and modulus-tail monotonicity, \autoref{thm:cauchy-oscillation-modulus-threshold-exactness} and \autoref{thm:cauchy-oscillation-modulus-tail-monotonicity}. They tie $M$ to the displayed tail route $W,Q,T$ and prevent a detached threshold schedule from supplying the comparison.
+
+Use ledger transport and the RegSeqRat handoff, \autoref{thm:cauchy-oscillation-ledger-transport} and \autoref{thm:cauchy-oscillation-regseqrat-handoff}. The transported ledger remains over the same $\RegSeqRatUp$ or $\StreamNameUp$ window and the same dyadic tolerance row.
+
+Finally apply the uniform-limit tail handoff, \autoref{thm:cauchy-oscillation-uniform-limit-tail-handoff}. It presents $W,M,Q,T,H,C,P,N$ as the finite source packet required before a uniform-limit or uniform-Cauchy consumer may reach the Real seal.
 \end{proof}
 
 \closureat{CauchyOscillationUp}{seedStr}

@@ -420,4 +420,34 @@ theorem Hyperspace_directed_hausdorff_root_coverage [AskSetup] [PackageSetup]
     ⟨d0Unary, d1Unary, rUnary, directedLeftUnary, directedRightUnary, symmetricUnary,
       directedLeftRoute, directedRightRoute, symmetricRoute, provenancePkg, symmetricPkg⟩
 
+theorem Hyperspace_totallybounded_net_lift [AskSetup] [PackageSetup]
+    {X K0 K1 N0 N1 D0 D1 R Hs C P M netLeft netRight directedRead publicRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HyperspaceCarrier X K0 K1 N0 N1 D0 D1 R Hs C P M bundle pkg →
+      Cont K0 N0 netLeft →
+        Cont K1 N1 netRight →
+          Cont netLeft netRight directedRead →
+            Cont directedRead R publicRead →
+              PkgSig bundle publicRead pkg →
+                UnaryHistory netLeft ∧ UnaryHistory netRight ∧
+                  UnaryHistory directedRead ∧ UnaryHistory publicRead ∧
+                    hsame directedRead (append netLeft netRight) ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier netLeftRoute netRightRoute directedRoute publicRoute publicPkg
+  obtain ⟨_xUnary, k0Unary, k1Unary, n0Unary, n1Unary, _d0Unary, _d1Unary,
+    rUnary, _hsUnary, _cUnary, _pUnary, _mUnary, provenancePkg⟩ := carrier
+  have netLeftUnary : UnaryHistory netLeft :=
+    unary_cont_closed k0Unary n0Unary netLeftRoute
+  have netRightUnary : UnaryHistory netRight :=
+    unary_cont_closed k1Unary n1Unary netRightRoute
+  have directedUnary : UnaryHistory directedRead :=
+    unary_cont_closed netLeftUnary netRightUnary directedRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed directedUnary rUnary publicRoute
+  exact
+    ⟨netLeftUnary, netRightUnary, directedUnary, publicUnary, directedRoute,
+      provenancePkg, publicPkg⟩
+
 end BEDC.Derived.HyperspaceUp
