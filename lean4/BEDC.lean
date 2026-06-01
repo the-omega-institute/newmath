@@ -2327,6 +2327,7 @@ import BEDC.Derived.CompleteSeparatedMetricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletionAdjointUp.TasteGate
 import BEDC.Derived.CompletionComparisonUp.TasteGate
+import BEDC.Derived.CompletionDenseRangeUp
 import BEDC.Derived.CompletionEmbeddingUp
 import BEDC.Derived.CompletionEmbeddingUp.TasteGate
 import BEDC.Derived.CompletionExtensionUniquenessUp.TasteGate
