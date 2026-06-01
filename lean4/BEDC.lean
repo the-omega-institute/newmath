@@ -6648,6 +6648,7 @@ import BEDC.Derived.RegularCauchyLimitOperatorUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitTransportUp
 import BEDC.Derived.RegularCauchyLipschitzMapUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedComparisonUp.TasteGate
+import BEDC.Derived.RegularCauchyLocatedFieldUp.TasteGate
 import BEDC.Derived.RegularCauchyLocatedOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyLocationWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyMapUp.TasteGate
