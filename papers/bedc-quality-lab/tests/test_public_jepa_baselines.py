@@ -1,8 +1,10 @@
 from bedc_quality_lab.public_jepa_baselines import (
+    build_public_jepa_adapter_comparison,
     build_public_jepa_baseline_external_result,
     build_public_jepa_baseline_probe,
     build_public_jepa_baseline_comparison,
     build_public_jepa_baseline_registry,
+    run_public_jepa_structure_adapter,
     import_public_jepa_baseline_metrics,
 )
 
@@ -134,3 +136,62 @@ def test_public_jepa_baseline_probe_model_load_attempt_is_fail_closed():
     if attempt["status"] == "failed":
         assert probe["status"] == "unavailable"
         assert "exception_type" in attempt
+
+
+def test_public_jepa_structure_adapter_runs_small_public_encoder_scope():
+    result = run_public_jepa_structure_adapter(train_count=4, test_count=4, seed=77)
+
+    assert result["schema_id"] == "bedc-jepa-public-structure-adapter"
+    assert result["candidate_id"] == "vjepa2-1-vit-base-384-structure"
+    assert result["status"] == "available"
+    assert result["model"]["pretrained"] is False
+    assert result["model"]["checkpoint_status"] == "not_loaded"
+    assert result["sample_counts"] == {"train": 4.0, "test": 4.0}
+    assert result["metrics"]["unlogged_error_rate"] >= 0.0
+    assert result["metrics"]["gap_detection_auc"] >= 0.0
+    assert "checkpoint weights were not loaded" in result["cannot_claim"]
+
+
+def test_public_jepa_pretrained_adapter_records_checkpoint_scope():
+    result = run_public_jepa_structure_adapter(train_count=4, test_count=4, seed=77, pretrained=True)
+
+    assert result["schema_id"] == "bedc-jepa-public-structure-adapter"
+    assert result["candidate_id"] == "vjepa2-1-vit-base-384-pretrained"
+    assert result["status"] in {"available", "unavailable"}
+    if result["status"] == "available":
+        assert result["model"]["pretrained"] is True
+        assert result["model"]["checkpoint_status"] == "loaded"
+        assert result["metrics"]["unlogged_error_rate"] >= 0.0
+        assert "V-JEPA2-AC action-conditioned checkpoint comparison" in result["cannot_claim"]
+
+
+def test_public_jepa_adapter_comparison_records_bedc_advantage_and_ac_boundary():
+    comparison = build_public_jepa_adapter_comparison(
+        bedc_objective={
+            "unlogged_error_rate": 0.0,
+            "gap_detection_auc": 0.99,
+            "bedc_debt_score": 0.01,
+        },
+        structure_adapter={
+            "status": "available",
+            "metrics": {
+                "unlogged_error_rate": 0.31,
+                "gap_detection_auc": 0.66,
+                "bedc_debt_score": 0.50,
+            },
+        },
+        pretrained_adapter={
+            "status": "available",
+            "metrics": {
+                "unlogged_error_rate": 0.18,
+                "gap_detection_auc": 0.46,
+                "bedc_debt_score": 0.19,
+            },
+        },
+    )
+
+    assert comparison["schema_id"] == "bedc-jepa-public-adapter-comparison"
+    assert comparison["status"] == "executed"
+    assert comparison["deltas"]["pretrained_minus_bedc_unlogged_error"] == 0.18
+    assert comparison["deltas"]["structure_minus_bedc_debt"] == 0.49
+    assert comparison["ac_giant_gate"]["status"] == "needs_gpu"
