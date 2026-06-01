@@ -132,8 +132,8 @@ def taste_gate : ChapterTasteGate RealCauchyDenseEmbeddingUp :=
   realCauchyDenseEmbeddingChapterTasteGate
 
 theorem RealCauchyDenseEmbeddingTasteGate_single_carrier_alignment :
-    (∀ h : BHist, realCauchyDenseEmbeddingDecodeBHist
-      (realCauchyDenseEmbeddingEncodeBHist h) = h) ∧
+    (∀ h : BHist,
+      realCauchyDenseEmbeddingDecodeBHist (realCauchyDenseEmbeddingEncodeBHist h) = h) ∧
       (∀ x : RealCauchyDenseEmbeddingUp,
         realCauchyDenseEmbeddingFromEventFlow (realCauchyDenseEmbeddingToEventFlow x) =
           some x) ∧
