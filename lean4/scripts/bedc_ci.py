@@ -5566,6 +5566,7 @@ def discovery_sieve_payload(
         block = blocks_for_target[0] if blocks_for_target else None
         open_fields = block.get("open_fields") if block else {}
         open_fields = open_fields if isinstance(open_fields, dict) else {}
+        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
         region = f"{block['region']}Up" if block else (
             f"{ledger_by_name[target].chapter_region}Up" if target in ledger_by_name
             else target.rsplit(".", 1)[-1]
@@ -6032,6 +6033,311 @@ def _discovery_endpoint_reduced_fp(
     if fp is None:
         return ""
     return fp.reduced_fingerprint or fp.value_fp or fp.fingerprint
+
+
+DISCOVERY_INTEGRITY_SEMANTICS = (
+    "structural reconstruction check — negative only; does not certify positive discovery genuineness"
+)
+
+
+def _classifier_endpoint_names(declaration_headers: dict[str, str]) -> list[str]:
+    return sorted(
+        name
+        for name in declaration_headers
+        if _is_classifier_endpoint(name, declaration_headers)
+    )
+
+
+def _shift_classifier_refs_from_text(
+    shift_text: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+    local_to_qualified: dict[str, list[str]],
+) -> tuple[list[str], list[str], list[str]]:
+    shift_refs = [
+        ref
+        for ref in _resolve_decl_refs_from_text(
+            shift_text,
+            declaration_headers,
+            local_to_qualified,
+        )
+        if ref in declaration_bodies
+    ]
+    shift_bodies = [
+        _decl_text(shift_ref, declaration_headers, declaration_bodies)
+        for shift_ref in shift_refs
+    ]
+    if not shift_bodies:
+        shift_bodies = [shift_text]
+
+    before_refs: set[str] = set()
+    after_refs: set[str] = set()
+    for shift_body in shift_bodies:
+        for field, out in (
+            ("BeforeClassifier", before_refs),
+            ("AfterClassifier", after_refs),
+        ):
+            field_text = _lean_field_assignment(shift_body, field)
+            out.update(_resolve_decl_refs_from_text(
+                field_text,
+                declaration_headers,
+                local_to_qualified,
+            ))
+
+    before = sorted(
+        ref for ref in before_refs if _is_classifier_endpoint(ref, declaration_headers)
+    )
+    after = sorted(
+        ref for ref in after_refs if _is_classifier_endpoint(ref, declaration_headers)
+    )
+    return before, after, sorted(shift_refs)
+
+
+def _ledger_classifier_shift_targets(
+    ledger_target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+    local_to_qualified: dict[str, list[str]],
+) -> tuple[list[str], list[str], list[str]]:
+    body = declaration_bodies.get(ledger_target, "")
+    shift_text = _lean_field_assignment(body, "classifier_shift")
+    if not shift_text or "some" not in shift_text:
+        return [], [], []
+    return _shift_classifier_refs_from_text(
+        shift_text,
+        declaration_headers,
+        declaration_bodies,
+        local_to_qualified,
+    )
+
+
+def _declared_discovery_integrity_sites(
+    blocks: list[dict],
+    ledgers: list[DiscoveryDeltaLedgerRecord],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> list[dict[str, object]]:
+    ledger_by_name = {ledger.qualified_name: ledger for ledger in ledgers}
+    local_to_qualified = _local_to_qualified_index(declaration_headers)
+    sites: list[dict[str, object]] = []
+
+    for block in blocks:
+        if block.get("error"):
+            continue
+        open_fields = block.get("open_fields") or {}
+        if not isinstance(open_fields, dict):
+            open_fields = {}
+        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        ledger_target = _normalize_lean_target(open_fields.get("closureledger"))
+        ledger = ledger_by_name.get(ledger_target)
+        sources: list[str] = []
+        if claim_kind == "positiveDiscovery":
+            sources.append("positiveDiscovery")
+        if ledger is not None and ledger.has_classifier_shift:
+            sources.append("DiscoveryDeltaLedger.classifier_shift")
+        if not sources:
+            continue
+
+        before_targets: list[str] = []
+        after_targets: list[str] = []
+        shift_refs: list[str] = []
+        if ledger is not None and ledger.has_classifier_shift:
+            before_targets, after_targets, shift_refs = _ledger_classifier_shift_targets(
+                ledger.qualified_name,
+                declaration_headers,
+                declaration_bodies,
+                local_to_qualified,
+            )
+
+        if claim_kind == "positiveDiscovery" and not after_targets:
+            for target in (
+                _normalize_lean_target(open_fields.get("closuregate")),
+                _normalize_lean_target(open_fields.get("closureclassifierincrement")),
+                _normalize_lean_target(block.get("lean_target")),
+            ):
+                if (
+                    target
+                    and target in declaration_headers
+                    and _is_classifier_endpoint(target, declaration_headers)
+                    and target not in after_targets
+                ):
+                    after_targets.append(target)
+
+        sites.append({
+            "file": block["file"],
+            "line": block["line"],
+            "region": f"{block.get('region')}Up",
+            "chapter_key": _region_to_chapter_key(block.get("region")),
+            "claim_kind": claim_kind,
+            "sources": sources,
+            "ledger": ledger_target,
+            "shift_refs": shift_refs,
+            "before_classifiers": before_targets,
+            "declared_new_classifiers": after_targets,
+        })
+
+    return sites
+
+
+def _discovery_provenance_entries(
+    candidate: str,
+    candidate_fp: str,
+    prior_index: dict[str, list[str]],
+    expr_fingerprints: dict[str, ExprFingerprint],
+    explicit_prior_targets: Iterable[str],
+) -> list[dict[str, object]]:
+    explicit_priors = set(explicit_prior_targets)
+    prior_names = sorted({
+        name
+        for names in prior_index.values()
+        for name in names
+        if name != candidate or name in explicit_priors
+    })
+    reconstruction_priors = {
+        name
+        for name in prior_index.get(candidate_fp, [])
+        if name != candidate or name in explicit_priors
+    }
+    entries: list[dict[str, object]] = []
+    for prior in prior_names:
+        prior_fp = _discovery_endpoint_reduced_fp(prior, expr_fingerprints)
+        if not prior_fp:
+            continue
+        entries.append({
+            "candidate": candidate,
+            "prior": prior,
+            "relation": "reconstruction" if prior in reconstruction_priors else "distinct",
+            "candidate_reduced_fp": candidate_fp,
+            "reduced_fp": prior_fp,
+        })
+    return entries
+
+
+def discovery_integrity_payload(
+    blocks: list[dict],
+    lean_scan: LeanSourceScan,
+) -> dict[str, object]:
+    declaration_headers = lean_scan.declaration_headers
+    declaration_bodies = lean_scan.declaration_bodies
+    sites = _declared_discovery_integrity_sites(
+        blocks,
+        lean_scan.discovery_delta_ledgers,
+        declaration_headers,
+        declaration_bodies,
+    )
+    classifier_names = _classifier_endpoint_names(declaration_headers)
+    requested = set(classifier_names)
+    for site in sites:
+        requested.update(str(target) for target in site.get("declared_new_classifiers", []))
+        requested.update(str(target) for target in site.get("before_classifiers", []))
+
+    expr_fingerprints = _run_structural_dna_expr_fingerprints(requested)
+    prior_index = _prior_classifier_fingerprint_index(
+        classifier_names,
+        [],
+        expr_fingerprints,
+    ) if expr_fingerprints else {}
+
+    checked_chapters = 0
+    unavailable: list[dict[str, object]] = []
+    violations: list[dict[str, object]] = []
+    site_payloads: list[dict[str, object]] = []
+
+    for site in sites:
+        before_targets = [
+            str(target) for target in site.get("before_classifiers", []) if str(target)
+        ]
+        candidate_targets = [
+            str(target)
+            for target in site.get("declared_new_classifiers", [])
+            if str(target)
+        ]
+        site_record = dict(site)
+        site_record["semantics"] = DISCOVERY_INTEGRITY_SEMANTICS
+        site_record["provenance"] = []
+        site_record["unavailable"] = []
+
+        if not candidate_targets:
+            note = {
+                "file": site["file"],
+                "line": site["line"],
+                "region": site["region"],
+                "reason": "no_declared_new_classifier_resolved",
+                "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
+            }
+            unavailable.append(note)
+            site_record["unavailable"].append(note)
+            site_payloads.append(site_record)
+            continue
+
+        site_checked = False
+        for candidate in candidate_targets:
+            candidate_fp = _discovery_endpoint_reduced_fp(candidate, expr_fingerprints)
+            if not candidate_fp:
+                note = {
+                    "file": site["file"],
+                    "line": site["line"],
+                    "region": site["region"],
+                    "target": candidate,
+                    "reason": "structural_dna_reduced_fingerprint_unavailable",
+                    "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
+                }
+                unavailable.append(note)
+                site_record["unavailable"].append(note)
+                continue
+            site_checked = True
+            provenance = _discovery_provenance_entries(
+                candidate,
+                candidate_fp,
+                prior_index,
+                expr_fingerprints,
+                before_targets,
+            )
+            site_record["provenance"].extend(provenance)
+            prior_matches = [
+                item for item in provenance if item.get("relation") == "reconstruction"
+            ]
+            if not prior_matches:
+                continue
+            prior_names = sorted(str(item["prior"]) for item in prior_matches)
+            first_prior = prior_names[0]
+            message = (
+                f"chapter {site['region']} 声明 "
+                f"{'/'.join(str(source) for source in site['sources'])}, "
+                f"但其 classifier {candidate} reduced_fingerprint 命中已有 "
+                f"{first_prior}(结构重建/包装) -> 非新结构,撤回声明或换真新结构"
+            )
+            violations.append({
+                "file": site["file"],
+                "line": site["line"],
+                "region": site["region"],
+                "chapter_key": site["chapter_key"],
+                "kind": "structural_reconstruction_discovery_claim",
+                "message": message,
+                "candidate": candidate,
+                "prior_classifier": first_prior,
+                "prior_classifiers": prior_names,
+                "reduced_fingerprint": candidate_fp,
+                "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
+            })
+        if site_checked:
+            checked_chapters += 1
+        site_payloads.append(site_record)
+
+    return {
+        "schema": "bedc.discovery_integrity.structural_reconstruction",
+        "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
+        "gate": "blocking_for_declared_discovery_reconstruction",
+        "declared_discovery_chapter_count": len(sites),
+        "checked_chapter_count": checked_chapters,
+        "classifier_endpoint_count": len(classifier_names),
+        "fingerprint_count": len(expr_fingerprints),
+        "unavailable_count": len(unavailable),
+        "violation_count": len(violations),
+        "violations": violations,
+        "unavailable": unavailable,
+        "sites": site_payloads,
+    }
 
 
 def _declaration_is_alias_or_wrapper(
@@ -6713,6 +7019,16 @@ def discovery_candidate_payload(
         if normalized in declaration_headers:
             endpoint_requested.add(normalized)
     endpoint_expr_fps = _run_structural_dna_expr_fingerprints(endpoint_requested)
+    classifier_names = _classifier_endpoint_names(declaration_headers)
+    discovery_expr_fps = dict(endpoint_expr_fps)
+    missing_classifier_fps = set(classifier_names) - set(discovery_expr_fps)
+    if missing_classifier_fps:
+        discovery_expr_fps.update(_run_structural_dna_expr_fingerprints(missing_classifier_fps))
+    prior_classifier_fingerprint_index = _prior_classifier_fingerprint_index(
+        classifier_names,
+        [],
+        discovery_expr_fps,
+    )
     dispatchable: list[dict[str, object]] = []
     notes: list[dict[str, object]] = []
     discarded = 0
@@ -6916,6 +7232,14 @@ def discovery_candidate_payload(
         target_dna = dna_by_target.get(target, {})
         structural_grade = str(target_dna.get("grade", "unknown"))
         structural_fingerprint = str(target_dna.get("structural_fingerprint", ""))
+        after_reduced_fp = _discovery_endpoint_reduced_fp(after, discovery_expr_fps)
+        provenance = _discovery_provenance_entries(
+            after,
+            after_reduced_fp,
+            prior_classifier_fingerprint_index,
+            discovery_expr_fps,
+            [before],
+        ) if after_reduced_fp else []
         stable_key = "|".join([
             _region_to_chapter_key(block.get("region")),
             "classifier_shift_candidate",
@@ -6954,6 +7278,9 @@ def discovery_candidate_payload(
             "target_kind": decl_kinds.get(target),
             "before_classifier": before,
             "after_classifier": after,
+            "after_classifier_reduced_fingerprint": after_reduced_fp,
+            "provenance": provenance,
+            "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
             "endpoint_source": endpoint_source,
             "support_targets": support_targets,
             "support_anchors": support_hits,
@@ -7433,6 +7760,7 @@ def audit_payload() -> dict[str, object]:
         lean_scan.declaration_headers,
         lean_scan.declaration_bodies,
     )
+    discovery_integrity = discovery_integrity_payload(closurestatus_blocks, lean_scan)
     closurestatus_diagnostics: list[str] = []
     closurestatus_open_warnings: list[dict[str, object]] = []
     closurestatus_open_errors: list[dict[str, object]] = []
@@ -7468,6 +7796,8 @@ def audit_payload() -> dict[str, object]:
         "mechanical_optout_audit": mechanical_optout_audit,
         "mechanical_optout_violation_count": mechanical_optout_audit["mechanical_optout_violation_count"],
         "classifier_shift_quality": classifier_shift_quality,
+        "discovery_integrity": discovery_integrity,
+        "discovery_integrity_violation_count": discovery_integrity["violation_count"],
         "positive_discovery_target_warnings": positive_discovery_warnings,
         "positive_discovery_target_warning_count": len(positive_discovery_warnings),
         "theorem_dna_coverage_count": theorem_dna_coverage["covered_count"],
@@ -7505,6 +7835,12 @@ def audit_payload() -> dict[str, object]:
         payload,
         "closurestatus_open_warnings",
         closurestatus_open_warnings,
+        changed_files,
+    )
+    _attach_violation_split(
+        payload,
+        "discovery_integrity_violations",
+        list(discovery_integrity["violations"]),
         changed_files,
     )
     _attach_violation_split(payload, "orphan_concrete_subdirs", orphan_concrete_subdirs, changed_files)
@@ -7742,6 +8078,25 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 f"  {item['kind']} {item['target']}: "
                 f"{item['reason']}"
             )
+        discovery_integrity = payload["discovery_integrity"]
+        print(
+            "[bedc-ci] discovery integrity structural-DNA gate:"
+            f" declared={discovery_integrity['declared_discovery_chapter_count']}"
+            f" checked={discovery_integrity['checked_chapter_count']}"
+            f" violations={payload['discovery_integrity_violations_new_count']} new (BLOCKING), "
+            f"{payload['discovery_integrity_violations_legacy_count']} legacy (warning)"
+            f" unavailable={discovery_integrity['unavailable_count']}"
+        )
+        print(f"  semantics: {discovery_integrity['semantics']}")
+        for item in payload["discovery_integrity_violations"][:20]:
+            print(f"  {item['file']}:{item['line']} {item['message']}")
+        if discovery_integrity["unavailable"]:
+            for item in discovery_integrity["unavailable"][:10]:
+                target = f" target={item['target']}" if item.get("target") else ""
+                print(
+                    f"  informational {item['file']}:{item['line']}"
+                    f" {item['region']}: {item['reason']}{target}"
+                )
         if payload["closurestatus_open_errors"]:
             print(
                 "[bedc-ci] closurestatus open-field errors: "
@@ -7809,6 +8164,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["paper_chapter_origin_tags_new_count"]
         + payload["closurestatus_diagnostics_new_count"]
         + payload["closurestatus_open_errors_new_count"]
+        + payload["discovery_integrity_violations_new_count"]
         + payload["orphan_concrete_subdirs_new_count"]
         + len(payload["leanstmt_debt"]["violations"])
     )
