@@ -317,6 +317,22 @@ Use the ClosedAt refusal route of \autoref{thm:metacic-decidable-boundary-closed
 Finally apply the conversion nonescape package \autoref{thm:metacic-decidable-boundary-conversion-nonescape-package}. It repacks the conversion-facing surface through $B,F,R,H,C,P,N$, so the normal-form decision envelope is exactly the positive checker, structural equality, bounded comparison, and finished-normal side-condition surface together with the refusal boundary in $R$.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary conversion refusal trichotomy]
+\label{thm:metacic-decidable-boundary-conversion-refusal-trichotomy}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, every conversion-facing request is classified by exactly one displayed route: bounded comparison through $B$ together with the finished-normal side condition $F$, finite refusal through $R$ when that side condition is absent, or structural replay through $H,C,P,N$ when the request is only transporting an already displayed boundary. None of the three routes exports global beta-conversion, fuel-erased normalization, quotient equality over represented terms, or host evaluation.
+\end{theorem}
+\begin{proof}
+Begin with the normal-form decision envelope \autoref{thm:metacic-decidable-boundary-normal-form-decision-envelope}. A positive conversion-facing read must expose the finite checker rows $T,S$, the bounded comparison row $B$, and the finished-normal side-condition row $F$ before any comparison result is available.
+
+If $F$ is absent, apply the ClosedAt refusal route \autoref{thm:metacic-decidable-boundary-closedat-refusal-route}. The request cannot be promoted to a standalone conversion decision, so it is routed to the finite refusal row $R$ rather than to a hidden normalizer or host evaluator.
+
+If the request is a replay of already displayed data, apply fuel-window replay \autoref{thm:metacic-decidable-boundary-fuel-window-replay}. The structural rows $H,C,P,N$ can transport, replay, source, and name the boundary, but they cannot erase fuel or add a new comparison endpoint.
+
+The candidate-substitution and refusal exactness rows separate these cases. A request with $B,F$ present is the bounded-comparison route; a request lacking the side condition is the refusal route through $R$; and a request that only reuses displayed data is the replay route through $H,C,P,N$.
+
+Finally use the conversion nonescape package \autoref{thm:metacic-decidable-boundary-conversion-nonescape-package}. Since the carrier has no coordinate for global beta-conversion, fuel-erased normalization, quotient equality, or host evaluation, the three displayed routes exhaust the conversion-facing classifier.
+\end{proof}
+
 \begin{definition}[MetaCIC decidable boundary endpoint subcarrier]
 \label{def:metacic-decidable-boundary-endpoint-subcarrier}
 For an accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, the endpoint subcarrier is the finite packet
