@@ -13,7 +13,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def EpigraphCarrier [AskSetup] [PackageSetup]
+def epigraph_namecert_obligations_carrier [AskSetup] [PackageSetup]
     (D V L O H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory D ∧
     UnaryHistory V ∧
@@ -31,7 +31,7 @@ def EpigraphCarrier [AskSetup] [PackageSetup]
 theorem EpigraphNamecertObligations [AskSetup] [PackageSetup]
     {D V L O H C P N queryRead replayRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    EpigraphCarrier D V L O H C P N bundle pkg ->
+    epigraph_namecert_obligations_carrier D V L O H C P N bundle pkg ->
       Cont D V L ->
         Cont L O queryRead ->
           Cont queryRead H replayRead ->
