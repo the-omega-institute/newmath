@@ -48,6 +48,90 @@ def test_child_seed_is_deterministic_bounded_and_stream_separated():
     assert all(0 <= seed <= 0xFFFFFFFF for seed in first + level_stream + master_stream)
 
 
+def test_dose_surface_branches_by_debt_level():
+    surfaces = {level: dose._dose_surface(level) for level in dose.DEBT_LEVELS}
+
+    assert surfaces[0.0].classifier_spec_base["name"] == "certified-standardized-linear-reader"
+    assert surfaces[0.0].classifier_spec_base["training"] == "certified deterministic standardization"
+    assert surfaces[0.2].classifier_spec_base["name"] == "certified-standardized-linear-reader"
+    assert surfaces[0.2].classifier_spec_base["training"] == "certified deterministic standardization"
+    for level in (0.1, 0.3, 0.4):
+        assert surfaces[level].classifier_spec_base["name"] == "deterministic-standardized-linear-reader"
+        assert surfaces[level].classifier_spec_base["training"] == "deterministic standardization"
+
+    assert [surfaces[level].sample_count for level in dose.DEBT_LEVELS] == [2048, 2048, 384, 384, 384]
+    assert [surfaces[level].source_spec["sample_count"] for level in dose.DEBT_LEVELS] == [2048, 2048, 384, 384, 384]
+    assert surfaces[0.3].stability_spec == {
+        "name": "multi-seed-stability",
+        "pair_process": "ornstein-uhlenbeck",
+        "multi_seed": True,
+    }
+    assert surfaces[0.4].stability_spec == {
+        "name": "single-seed-stability",
+        "pair_process": "ornstein-uhlenbeck",
+        "multi_seed": False,
+    }
+
+
+def test_record_wires_real_debt_injection_certificate_and_target_score():
+    baseline = dose._record(0.0, 0, 0)
+    classifier_debt = dose._record(0.1, 1, 0)
+    finite_sample_debt = dose._record(0.2, 2, 0)
+    combined_debt = dose._record(0.4, 4, 0)
+
+    assert baseline["generation"]["sample_count"] == 2048
+    assert baseline["classifier_spec"]["name"] == "certified-standardized-linear-reader"
+    assert baseline["classifier_spec"]["cert_status"] == "certified"
+    assert baseline["metrics"]["target_score"] == pytest.approx(0.0)
+    assert baseline["metrics"]["quality_debt"] == pytest.approx(0.0)
+    assert baseline["ledger_gaps"] == []
+
+    assert classifier_debt["generation"]["sample_count"] == 2048
+    assert classifier_debt["classifier_spec"]["name"] == "deterministic-standardized-linear-reader"
+    assert classifier_debt["classifier_spec"]["training"] == "deterministic standardization"
+    assert classifier_debt["classifier_spec"]["cert_status"] == "certified"
+    assert classifier_debt["metrics"]["target_score"] == pytest.approx(0.0)
+    assert classifier_debt["metrics"]["quality_debt"] == pytest.approx(0.1)
+    assert "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial" in classifier_debt["ledger_gaps"]
+
+    assert finite_sample_debt["generation"]["sample_count"] == 384
+    assert finite_sample_debt["classifier_spec"]["cert_status"] == "certified"
+    assert finite_sample_debt["metrics"]["target_score"] == pytest.approx(0.2)
+    assert finite_sample_debt["metrics"]["quality_debt"] == pytest.approx(0.2)
+    assert "kind=source; residue=finite-sample-support; severity=high; status=open" in finite_sample_debt["ledger_gaps"]
+
+    assert combined_debt["generation"]["sample_count"] == 384
+    assert combined_debt["classifier_spec"]["name"] == "deterministic-standardized-linear-reader"
+    assert combined_debt["classifier_spec"]["cert_status"] == "certified"
+    assert combined_debt["stability_spec"]["name"] == "single-seed-stability"
+    assert combined_debt["stability_spec"]["multi_seed"] is False
+    assert combined_debt["metrics"]["target_score"] == pytest.approx(0.2)
+    assert combined_debt["metrics"]["quality_debt"] == pytest.approx(0.4)
+    assert "kind=generalization; residue=global-claim-boundary; severity=medium; status=partial" in combined_debt["ledger_gaps"]
+
+
+def test_records_real_producer_remains_complete_and_monotone():
+    records = dose._records()
+    aggregate = dose._aggregate(records)
+
+    assert len(records) == len(dose.DEBT_LEVELS) * dose.SEED_COUNT
+    assert aggregate["record_count"] == len(records)
+    assert aggregate["monotonicity"]["quality_q_means"] == pytest.approx([
+        0.9493259772233684,
+        0.8488804201061507,
+        0.7425342394938547,
+        0.640357784328438,
+        0.5447459766957136,
+    ])
+    assert aggregate["monotonicity"]["strictly_decreasing"]
+    assert aggregate["monotonicity"]["slope_ci_below_zero"]
+    assert aggregate["monotonicity"]["pass"]
+    assert [
+        aggregate["by_level"][f"{level:.1f}"]["metrics"]["target_score"]["mean"]
+        for level in dose.DEBT_LEVELS
+    ] == pytest.approx([0.0, 0.0, 0.2, 0.2, 0.2])
+
+
 def test_aggregate_summarizes_levels_and_passes_monotonicity():
     aggregate = dose._aggregate(synthetic_records())
 
