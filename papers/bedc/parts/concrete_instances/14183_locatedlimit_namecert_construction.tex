@@ -87,6 +87,7 @@ Thus every $\RealUp$ limit read factors through $S,M,T,Q,E,H,C,P,N$. Since no ot
 \label{thm:located-limit-window-schedule-exactness}
 For every accepted $\LocatedLimitUp$ carrier $L=(S,M,T,Q,E,H,C,P,N)$, each limit-facing tolerance request reads the displayed schedule row $T$ and the modulus ledger $M$ before it reaches the $\RegSeqRatUp$ readback row $Q$ or the $\RealUp$ seal row $E$. The exactness claim is the finite routing statement of \autoref{def:located-limit-carrier} and \autoref{def:located-limit-classifier}, with the obligation order supplied by \autoref{thm:located-limit-namecert-obligations} and the terminal route supplied by \autoref{thm:located-limit-real-seal-route}.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedLimitUp.LocatedLimitWindowScheduleExactness}
 \begin{proof}
 Project the carrier of \autoref{def:located-limit-carrier}. The only rows that can answer a tolerance request before readback are the schedule row $T$ and the modulus ledger $M$.
 
@@ -113,6 +114,7 @@ Finally use \autoref{thm:located-limit-real-seal-route}. Since the Real seal is 
 \label{thm:located-limit-real-seal-comparison}
 Let $L=(S,M,T,Q,E,H,C,P,N)$ and $L'=(S',M',T',Q',E',H',C',P',N')$ be accepted $\LocatedLimitUp$ carriers. If their transported schedule rows, modulus ledgers, $\RegSeqRatUp$ readback rows, and terminal $\RealUp$ seal rows match under the displayed $\hsame$ and $\Cont$ routes, then any comparison between the two accepted Real seals is exhausted by those rows. No comparison may appeal to host real equality, quotient equality of streams, a selected limit, countable choice, trichotomy, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedLimitUp.LocatedLimitCarrier\_real\_seal\_comparison}
 \begin{proof}
 Read both carriers through \autoref{def:located-limit-carrier}. The only comparison-facing rows are the sequence surfaces, modulus ledgers, schedule rows, regular readbacks, Real seals, transport rows, replay rows, provenance rows, and local naming rows.
 
