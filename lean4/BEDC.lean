@@ -1854,7 +1854,6 @@ import BEDC.Derived.CauchyfiltercompletionUp.NonChoiceBoundary
 import BEDC.Derived.CauchyfiltercompletionUp.PublicNameCertExport
 import BEDC.Derived.CauchyfiltercompletionUp.PvariationWindowBound
 import BEDC.Derived.CauchyfiltercompletionUp.QuotientNonescape
-import BEDC.Derived.CauchyfiltercompletionUp.RealSealChoiceFreeTailTotality
 import BEDC.Derived.CauchyfiltercompletionUp.RealSealHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.RealSealNonescape
 import BEDC.Derived.CauchyfiltercompletionUp.RealSealRefusal
