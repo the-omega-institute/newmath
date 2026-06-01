@@ -754,6 +754,7 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp.DiagonalWindowStability
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ObligationClosurePackage
 import BEDC.Derived.BishopRegularCauchyCompletionUp.RealSealConsumer
 import BEDC.Derived.BishopRegularCauchyCompletionUp.RegularityEnvelope
+import BEDC.Derived.BishopRegularCauchyCompletionUp.TailDeterminacy
 import BEDC.Derived.BishopRegularCauchyCompletionUp.TasteGate
 import BEDC.Derived.BishopRegularCauchyLimitSealUp.TasteGate
 import BEDC.Derived.BishopSequenceUp.TasteGate
@@ -5400,6 +5401,7 @@ import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
 import BEDC.Derived.ModulusContinuityUp.CauchyRoute
 import BEDC.Derived.ModulusContinuityUp.CompositionRoute
 import BEDC.Derived.ModulusContinuityUp.TasteGate
+import BEDC.Derived.ModulusContinuityUp.UniformCauchyHandoff
 import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
 import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
 import BEDC.Derived.ModulusOfConvergenceUp
@@ -6384,6 +6386,7 @@ import BEDC.Derived.RealUniformEntourageBasisUp.TasteGate
 import BEDC.Derived.RealUniformEntourageRefinementUp.TasteGate
 import BEDC.Derived.RealUniformSpaceUp.TasteGate
 import BEDC.Derived.RealUniformStructureUp
+import BEDC.Derived.RealUniformStructureUp.PositiveRadiusEntourageRefinement
 import BEDC.Derived.RealUniformStructureUp.TasteGate
 import BEDC.Derived.RealUniformTailComparisonUp.TasteGate
 import BEDC.Derived.RealUp
