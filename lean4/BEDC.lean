@@ -3672,6 +3672,7 @@ import BEDC.Derived.FieldUp.TwoSided
 import BEDC.Derived.FieldUp.TwoSidedEmptySolution
 import BEDC.Derived.FilterBaseUp
 import BEDC.Derived.FilterBaseUp.TasteGate
+import BEDC.Derived.FilterConvergenceUp.TasteGate
 import BEDC.Derived.FilterRefinementUp.CauchyPreservation
 import BEDC.Derived.FilterRefinementUp.CompletionRoute
 import BEDC.Derived.FilterRefinementUp.TasteGate
@@ -5271,6 +5272,7 @@ import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.MonoidalCompletionUp.TasteGate
 import BEDC.Derived.MonotoneBarModulusUp
 import BEDC.Derived.MonotoneBoundedSequenceUp.TasteGate
+import BEDC.Derived.MonotoneCauchySequenceUp.TasteGate
 import BEDC.Derived.MonotoneCauchyUp
 import BEDC.Derived.MonotoneCauchyUp.BoundedWitnessTailFactorization
 import BEDC.Derived.MonotoneCauchyUp.BridgeFacingCertificate
