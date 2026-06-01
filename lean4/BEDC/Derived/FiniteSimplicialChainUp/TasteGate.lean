@@ -25,7 +25,7 @@ def finiteSimplicialChainDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (finiteSimplicialChainDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (finiteSimplicialChainDecodeBHist tail)
 
-private theorem FiniteSimplicialChainTasteGate_single_carrier_alignment_decode :
+private theorem FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, finiteSimplicialChainDecodeBHist (finiteSimplicialChainEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -70,11 +70,10 @@ def finiteSimplicialChainFromEventFlow : EventFlow → Option FiniteSimplicialCh
   | _K :: _F :: _A :: _G :: _B :: _Z :: _H :: _T :: _P :: _N :: _extra :: _rest =>
       none
 
-private theorem FiniteSimplicialChainTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : FiniteSimplicialChainUp,
-      finiteSimplicialChainFromEventFlow (finiteSimplicialChainToEventFlow x) = some x := by
+private theorem FiniteSimplicialChainTasteGate_single_carrier_alignment_round_trip
+    (x : FiniteSimplicialChainUp) :
+    finiteSimplicialChainFromEventFlow (finiteSimplicialChainToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk K F A G B Z H T P N =>
       change
@@ -91,16 +90,16 @@ private theorem FiniteSimplicialChainTasteGate_single_carrier_alignment_round_tr
             (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEncodeBHist P))
             (finiteSimplicialChainDecodeBHist (finiteSimplicialChainEncodeBHist N))) =
           some (FiniteSimplicialChainUp.mk K F A G B Z H T P N)
-      rw [FiniteSimplicialChainTasteGate_single_carrier_alignment_decode K,
-        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode F,
-        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode A,
-        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode G,
-        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode B,
-        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode Z,
-        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode H,
-        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode T,
-        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode P,
-        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode N]
+      rw [FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode K,
+        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode F,
+        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode A,
+        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode G,
+        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode B,
+        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode Z,
+        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode H,
+        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode T,
+        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode P,
+        FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode N]
 
 private theorem FiniteSimplicialChainTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : FiniteSimplicialChainUp} :
@@ -130,24 +129,24 @@ instance finiteSimplicialChainChapterTasteGate : ChapterTasteGate FiniteSimplici
     intro x y hxy heq
     exact hxy (FiniteSimplicialChainTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+def FiniteSimplicialChainTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate FiniteSimplicialChainUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  finiteSimplicialChainChapterTasteGate
+
 theorem FiniteSimplicialChainTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate FiniteSimplicialChainUp) ∧
-      (∀ h : BHist, finiteSimplicialChainDecodeBHist (finiteSimplicialChainEncodeBHist h) = h) ∧
+    (∀ h : BHist, finiteSimplicialChainDecodeBHist (finiteSimplicialChainEncodeBHist h) = h) ∧
       (∀ x : FiniteSimplicialChainUp,
         finiteSimplicialChainFromEventFlow (finiteSimplicialChainToEventFlow x) = some x) ∧
-      (∀ x y : FiniteSimplicialChainUp,
-        finiteSimplicialChainToEventFlow x = finiteSimplicialChainToEventFlow y → x = y) ∧
-      finiteSimplicialChainEncodeBHist BHist.Empty = ([] : List BMark) := by
+        (∀ x y : FiniteSimplicialChainUp,
+          finiteSimplicialChainToEventFlow x = finiteSimplicialChainToEventFlow y → x = y) ∧
+          finiteSimplicialChainEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact ⟨finiteSimplicialChainChapterTasteGate⟩
-  constructor
-  · exact FiniteSimplicialChainTasteGate_single_carrier_alignment_decode
-  constructor
-  · exact FiniteSimplicialChainTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y
-    exact FiniteSimplicialChainTasteGate_single_carrier_alignment_toEventFlow_injective
-  · rfl
+  exact
+    ⟨FiniteSimplicialChainTasteGate_single_carrier_alignment_decode_encode,
+      FiniteSimplicialChainTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        FiniteSimplicialChainTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.FiniteSimplicialChainUp.TasteGate

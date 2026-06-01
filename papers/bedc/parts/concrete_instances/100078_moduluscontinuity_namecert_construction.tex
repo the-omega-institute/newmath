@@ -94,6 +94,29 @@ The structural coordinates cannot create an additional analytic source. Componen
 Finally apply \autoref{thm:modulus-continuity-real-completion-handoff}. Any Cauchy, Real, or Completion consumer reads the function-specific modulus only through the displayed rows, so the excluded compactness, selected-limit, quotient-stream, host-equality, detached-oracle, and ambient-completeness objects have no coordinate through which to enter the route.
 \end{proof}
 
+\begin{theorem}[Uniform Cauchy handoff for modulus continuity]
+\label{thm:modulus-continuity-uniform-cauchy-handoff}
+Let
+$$
+M=(G,S,K,D,Q,R,H,C,P,N)
+$$
+be an accepted $\ModulusContinuityUp$ carrier over certified dyadic source windows. Suppose a family of source streams is presented through $\StreamNameUp$ rows whose regular-rational readbacks are $\RegSeqRatUp$ streams and whose Cauchy witnesses share the same dyadic modulus row in $D$. Then the target streams obtained by routing each source stream through $M$ are regular Cauchy target streams with the target modulus obtained by reindexing the shared dyadic budget through
+$$
+D \to K \to S \to G \to Q \to R .
+$$
+The handoff uses only the chapter's non-escape and composition rows: it exports no selected limit, quotient stream equality, host real equality, detached continuity oracle, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModulusContinuityUp.ModulusContinuityUniformCauchyHandoff}
+\begin{proof}
+Project $M$ through \autoref{def:modulus-continuity-carrier}. The shared dyadic Cauchy modulus is read in $D$, and the carrier's modulus row $K$ converts every target tolerance request into the same certified source-window budget.
+
+Reindex the source streams along that budget. The $\StreamNameUp$ row $S$ selects the finite observations required by $K$, and the $\RegSeqRatUp$ row $Q$ supplies the regular-rational readback for those windows. Since all source streams share the same dyadic modulus row, the reindexed windows are uniform across the family.
+
+Route the selected windows through the graph row $G$ and then to the target seal $R$. The Cauchy route of \autoref{thm:modulus-continuity-cauchy-route} fixes the order of this handoff, so every target tolerance is discharged by the finite path $D \to K \to S \to G \to Q \to R$.
+
+Finally apply the composition and non-escape rows. The structural coordinates $H,C,P,N$ transport and name the same finite route, while \autoref{thm:modulus-continuity-composition-non-escape} prevents a selected limit, quotient equality, host equality, detached continuity oracle, or ambient completeness row from entering the exported regular Cauchy target stream.
+\end{proof}
+
 \begin{theorem}[Modulus-continuity composition route]
 \label{thm:modulus-continuity-composition-route}
 Let
@@ -150,6 +173,20 @@ Apply the same composition route to the resulting matched surface and $M_f$. The
 Use \autoref{thm:modulus-continuity-real-completion-handoff} at both matched surfaces. The handoff theorem prevents either match from becoming a detached continuity oracle, an ambient completeness row, or a selected Real limit; each match is read only through the displayed carrier rows.
 
 The structural rows only transport and source the same finite route. Componentwise $\hsame$, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows concatenate the three packet routes without adding any object beyond the displayed modulus-continuity inventories.
+\end{proof}
+
+\begin{theorem}[Modulus-continuity composition associativity route]
+\label{thm:modulus-continuity-composition-associativity-route}
+For three accepted $\ModulusContinuityUp$ carriers with matching consecutive source and target surfaces, applying the composition route as $(h \circ g) \circ f$ or as $h \circ (g \circ f)$ exposes the same finite tolerance-to-window route through the displayed $D,K,S,G,Q,R$ rows of the three carriers and the same structural $H,C,P,N$ rows. Neither parenthesization exports open-cover compactness, selected limits, quotient stream equality, host real equality, detached continuity oracles, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:modulus-continuity-composition-route} twice in the parenthesization $(h \circ g) \circ f$. The outer request reads through the rows of $M_h$, then the rows of $M_g$, and finally the rows of $M_f$ before reaching the terminal Real seal.
+
+Apply the same theorem twice in the parenthesization $h \circ (g \circ f)$. The intermediate grouping changes which composed route is named first, but the displayed tolerance-to-window reads still pass through the same $D,K,S,G,Q,R$ rows in the same carrier order.
+
+Compare both readings with the double-composition route of \autoref{thm:modulus-continuity-double-composition-route}. It records the common finite concatenation, while the structural rows $H,C,P,N$ only transport, replay, source, and name that concatenation.
+
+Finally use \autoref{thm:modulus-continuity-composition-non-escape}. Since the composed consumer has no coordinate for compactness, selected limits, quotient stream equality, host real equality, detached continuity oracles, or ambient completeness, neither parenthesization can export one.
 \end{proof}
 
 \begin{theorem}[Modulus-continuity composition non-escape]

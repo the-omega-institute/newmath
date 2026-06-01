@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\SingularHomologyUp$}
+\label{ch:concrete-instances-singular-homology-namecert}
+\origin{human}
+
+Following Eilenberg and Steenrod, the $\SingularHomologyUp$ packet records singular homology as a finite NameCert-facing ledger of singular-simplex rows, chain rows, boundary rows, and cycle-boundary classifier rows. It refines the homology carrier of \autoref{ch:concrete-instances-homology-namecert}, reads simplex incidence beside the finite combinatorics of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, keeps cochain duality separate from the cohomology certificate of \autoref{ch:concrete-instances-cohomology-namecert}, and attaches all simplex domains and endpoint evaluations to the Topology packet of \autoref{ch:concrete-instances-topology-namecert}. The chapter names the local certificate surface for singular chains; it does not assert exactness of long sequences, homotopy invariance, excision, universal coefficients, or de Rham comparison.
+
+\begin{definition}[SingularHomology carrier]\label{def:singular-homology-carrier}
+A $\SingularHomologyUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,\Delta,\Sigma,C,B,Z,Q,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\TopologyUp$ carrier row naming the inspected space, its displayed opens, and the finite continuity witnesses used by singular simplices.
+\item $\Delta$ is the finite simplex-domain row. It lists dimensions, face inclusions, vertex orders, and endpoint evaluations for the displayed standard simplices.
+\item $\Sigma$ is the singular-simplex row. Each entry records a displayed continuous map from a simplex domain in $\Delta$ into the topological space row $X$.
+\item $C$ is the chain row. It stores finite formal integer combinations of the displayed singular simplices and records the degree of each chain.
+\item $B$ is the boundary row. It records the alternating face ledger for each chain row using only the listed face maps and singular-simplex restrictions.
+\item $Z$ is the cycle-boundary classifier row. It separates rows whose boundary is the displayed zero chain from rows displayed as a boundary of a chain in the next degree.
+\item $Q$ is the quotient-facing homology-name row. It names the cycle modulo boundary classifier as local BEDC data rather than as host quotient equality.
+\item $H$ stores componentwise $\hsame$ transport for topology, simplex-domain, singular-simplex, chain, boundary, cycle-boundary classifier, quotient-facing name, continuation, provenance, and local naming rows.
+\item $T$ stores displayed $\Cont$ replay from simplex domains to singular maps, from singular maps to chains, from chains to boundaries, and from cycle-boundary classifiers to the local homology name.
+\item $P$ is the $\Pkg$ provenance over $\SingularHomologyUp$, $\HomologyUp$, $\SimplicialComplexUp$, $\CohomologyUp$, $\TopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SingularHomologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It contains no coordinate for ambient abelian-group quotients, choice of representatives, arbitrary topological colimits, exact-sequence machinery, homotopy invariance, excision, or de Rham integration.
+\end{definition}
+
+\begin{theorem}[SingularHomology NameCert obligations]\label{thm:singular-homology-namecert-obligations}
+For every accepted $\SingularHomologyUp$ carrier $S=(X,\Delta,\Sigma,C,B,Z,Q,H,T,P,N)$, the local $\NameCert_{\SingularHomologyUp}$ surface is exhausted by topology admission for $X$, simplex-domain admission for $\Delta$, singular-simplex continuity for $\Sigma$, finite chain admission for $C$, boundary-row computation for $B$, cycle-boundary classification for $Z$, quotient-facing homology naming for $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier row by row. The topology, simplex-domain, singular-simplex, chain, boundary, classifier, and homology-name coordinates are the only mathematical data visible to the local certificate.
+
+The structural rows preserve that surface. Componentwise $\hsame$ transport in $H$ can identify only displayed coordinates, the replay row $T$ can traverse only the displayed route from simplex domains to homology names, and $P,N$ record provenance and local naming for that same route.
+
+The cited sibling chapters provide the intended boundaries: \autoref{ch:concrete-instances-homology-namecert} supplies the homology naming pattern, \autoref{ch:concrete-instances-simplicialcomplex-namecert} supplies finite face bookkeeping, \autoref{ch:concrete-instances-cohomology-namecert} remains the separate dual certificate surface, and \autoref{ch:concrete-instances-topology-namecert} supplies topological continuity data. Since no other row is present, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[SingularHomology boundary-square-zero ledger]\label{thm:singular-homology-boundary-square-zero}
+For every accepted $\SingularHomologyUp$ carrier $S=(X,\Delta,\Sigma,C,B,Z,Q,H,T,P,N)$, the displayed boundary ledger $B$ contains the local witness that applying the singular boundary route twice reaches the displayed zero chain row. The witness is computed only from the alternating face rows in $\Delta$, the singular-simplex restrictions in $\Sigma$, the chain row $C$, and the replay data in $T$; it does not use host quotient equality, selected chain representatives, homotopy invariance, excision, or a de Rham comparison theorem.
+\end{theorem}
+\begin{proof}
+Read the simplex-domain row $\Delta$. Its face-inclusion ledger lists the two ways each codimension-two face appears in an iterated boundary, with opposite alternating signs.
+
+Next read the singular-simplex row $\Sigma$ and the chain row $C$. Restricting singular simplices along the two displayed face routes produces the same listed simplex face with opposite signs, so the iterated boundary entries cancel inside the finite chain ledger.
+
+Finally replay the result through $B,Z,Q,H,T,P,N$. The boundary row records the cancellation as a displayed zero-chain witness, the classifier row $Z$ consumes it as the cycle side of the cycle-boundary ledger, and the local homology-name row $Q$ receives only that finite witness. No excluded global theorem or external quotient principle is available in the carrier.
+\end{proof}
+
+\begin{closurestatus}{\SingularHomologyUp}
+  \constructivestory{A $\SingularHomologyUp$ packet is generated from a Topology row, finite simplex-domain rows, singular-simplex rows, chain rows, boundary rows, cycle-boundary classifier rows, quotient-facing homology names, componentwise transport, displayed continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:singular-homology-carrier}, \autoref{thm:singular-homology-namecert-obligations}, and \autoref{thm:singular-homology-boundary-square-zero} seed the finite singular-chain certificate surface and its boundary-square-zero ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim exactness of long sequences, homotopy invariance, excision, universal coefficients, de Rham comparison, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, singular-simplex continuity, chain admission, boundary computation, cycle-boundary classification, transport stability, and local NameCert replay for BEDC.Derived.SingularHomologyUp.}
+\end{closurestatus}

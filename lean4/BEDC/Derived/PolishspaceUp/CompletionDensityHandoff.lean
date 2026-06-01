@@ -23,7 +23,7 @@ def PolishSpaceCarrier [AskSetup] [PackageSetup]
   UnaryHistory M ∧ UnaryHistory K ∧ UnaryHistory D ∧ UnaryHistory S ∧
     UnaryHistory R ∧ UnaryHistory W ∧ UnaryHistory H ∧ UnaryHistory C ∧
       UnaryHistory G ∧ UnaryHistory N ∧ Cont M K W ∧ Cont W S R ∧
-        Cont H C G ∧ PkgSig bundle G pkg
+        Cont H C G ∧ PkgSig bundle G pkg ∧ PkgSig bundle N pkg
 
 theorem PolishSpaceCarrier_completion_density_handoff [AskSetup] [PackageSetup]
     {M K D S R W H C G N completionRead densityRead commonRead : BHist}
@@ -46,7 +46,7 @@ theorem PolishSpaceCarrier_completion_density_handoff [AskSetup] [PackageSetup]
   intro carrier completionRoute densityRoute commonRoute commonPkg
   obtain ⟨MUnary, KUnary, DUnary, _SUnary, _RUnary, _WUnary, _HUnary, _CUnary,
     _GUnary, _NUnary, _metricCompleteLedger, _ledgerStreamReadback,
-    _transportReplayProvenance, carrierPkg⟩ := carrier
+    _transportReplayProvenance, carrierPkg, _localPkg⟩ := carrier
   have completionUnary : UnaryHistory completionRead :=
     unary_cont_closed MUnary KUnary completionRoute
   have densityUnary : UnaryHistory densityRead :=

@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\LocatedDyadicRealUp$}
+\label{ch:concrete-instances-located-dyadic-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a located real presentation is useful only when every comparison request remains tied to explicit rational tolerances. The $\LocatedDyadicRealUp$ packet realizes that presentation over the dyadic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the located-real classifier of \autoref{ch:concrete-instances-locatedreal-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. Its certificate is a finite bridge from dyadic tolerance data to located comparison and Real-seal readback, not a quotient stream construction or a selected limit.
+
+\begin{definition}[Located dyadic real carrier]
+\label{def:located-dyadic-real-carrier}
+A $\LocatedDyadicRealUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D,S,Q,L_c,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the positive $\DyadicRatCoreUp$ tolerance row, including the comparison radius and the halving ledger used by finite approximation reads.
+\item $S$ is the $\StreamNameUp$ window row, exposing only the finite windows requested at the displayed dyadic tolerance.
+\item $Q$ is the $\RegSeqRatUp$ readback row, converting each finite stream window into the regular rational comparison data consumed by the located surface.
+\item $L_c$ is the located comparison row, recording the finite alternative required by the $\LocatedRealUp$ classifier at the displayed dyadic tolerance.
+\item $R$ is the terminal $\RealUp$ seal row, reached only after the dyadic tolerance, stream window, regular readback, and located comparison rows have been replayed.
+\item $H$ records componentwise $\hsame$ transport for $D,S,Q,L_c,R$.
+\item $C$ records displayed $\Cont$ replay from tolerance requests through stream windows, regular readbacks, located comparisons, the Real seal, and structural rows.
+\item $P$ is the $\Pkg$ provenance over $\LocatedDyadicRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\LocatedRealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedDyadicRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located dyadic real NameCert obligations]
+\label{thm:located-dyadic-real-namecert-obligations}
+For every accepted $\LocatedDyadicRealUp$ carrier
+$$
+L=(D,S,Q,L_c,R,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedDyadicRealUp}$ surface consists exactly of finite rows for dyadic tolerance admission, StreamName window exposure, RegSeqRat readback, located comparison, terminal Real sealing, componentwise transport, displayed replay, provenance, and local naming. No obligation row may erase $D$, infer located comparison without $S$ and $Q$, identify quotient streams, select a limit, or export ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-dyadic-real-carrier}. The dyadic tolerance row is public before any stream window or regular rational readback is requested.
+
+The window and readback rows are then forced in order. A located comparison may inspect the finite StreamName window and the RegSeqRat readback attached to the same displayed tolerance, but it cannot replace them by a quotient stream or a chosen limit.
+
+The terminal Real seal is downstream of that located comparison. It names the sealed endpoint reached by the finite route, not a free ambient completeness principle.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since these structural rows add no selector, quotient, or host-real equality coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Located dyadic real terminal seal]
+\label{thm:located-dyadic-real-terminal-seal}
+Every Real-facing consumer of an accepted $\LocatedDyadicRealUp$ packet factors through the finite route
+$$
+D \to S \to Q \to L_c \to R \to H,C,P,N .
+$$
+The consumer may narrow a dyadic tolerance request and reread the corresponding finite windows and regular rational rows, but it cannot bypass the located comparison row, identify quotient streams, select a limit, use countable choice, invoke trichotomy, or export ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the obligations of \autoref{thm:located-dyadic-real-namecert-obligations}. They expose the tolerance, window, readback, located comparison, and Real seal rows in a fixed finite order.
+
+A narrowed tolerance request remains a request in the same $D$ ledger. Replaying it may refine the finite window $S$ and the regular readback $Q$, but the located comparison row $L_c$ is still the only classifier-facing handoff.
+
+The Real seal $R$ is therefore terminal only for this displayed route. It records that the located dyadic presentation has reached the Real surface, while leaving quotient equality, selected limits, choice, trichotomy, and ambient completeness outside the packet.
+
+The structural rows preserve this boundary under $\hsame$ transport, $\Cont$ replay, provenance, and local naming. Hence every Real-facing read factors through the stated finite route.
+\end{proof}
+
+\begin{theorem}[Located dyadic real comparison refinement]
+\label{thm:located-dyadic-real-comparison-refinement}
+Let $L=(D,S,Q,L_c,R,H,C,P,N)$ be an accepted $\LocatedDyadicRealUp$ packet. If the packet is reread at a narrower positive $\DyadicRatCoreUp$ tolerance recorded by the same $D$ ledger, then it exposes a refined $\StreamNameUp$ window and $\RegSeqRatUp$ row through the same route
+$$
+D,S,Q,L_c,R,H,C,P,N .
+$$
+The located comparison row $L_c$ remains the only classifier-facing handoff before the terminal $\RealUp$ row is read.
+\end{theorem}
+\begin{proof}
+Project the dyadic tolerance row $D$ and its halving ledger. A narrower positive tolerance is still a read of the same displayed ledger, so it cannot introduce an external comparison oracle or an ambient real-order principle.
+
+Replay $S$ and $Q$ through $\Cont$ at the narrower request. The replay exposes the refined finite StreamName window and the corresponding RegSeqRat readback before any terminal Real row is public.
+
+Transport the located comparison row componentwise by $\hsame$. The row $L_c$ therefore remains attached to the refined window and readback, and no other classifier-facing handoff is available in the carrier.
+
+Finally apply \autoref{thm:located-dyadic-real-terminal-seal}. Its terminal route excludes quotient streams, selected limits, trichotomy, and ambient $\RealUp$ completeness before $R$ is read.
+\end{proof}
+
+\falsifiablePrediction{A $\LocatedDyadicRealUp$ consumer that exports ambient Real completeness, a selected limit, or quotient stream equality after deleting $D$, $S$, $Q$, or $L_c$ refutes the carrier of \autoref{def:located-dyadic-real-carrier}.}
+
+\independenceWitness{Nearest siblings: dyadicratcore, streamname, regseqrat, locatedreal, and real. $\LocatedDyadicRealUp$ is not bijective to any one of them because it jointly carries dyadic tolerance, finite stream windows, regular rational readback, located comparison, terminal Real sealing, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{LocatedDyadicRealUp}{seedStr}
+
+\begin{closurestatus}{\LocatedDyadicRealUp}
+  \constructivestory{A $\LocatedDyadicRealUp$ packet is generated from positive DyadicRatCore tolerance rows, StreamName windows, RegSeqRat readbacks, located comparison rows, terminal Real seal rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-dyadic-real-carrier}, \autoref{thm:located-dyadic-real-namecert-obligations}, and \autoref{thm:located-dyadic-real-terminal-seal} seed the finite located dyadic bridge from dyadic tolerances to terminal Real reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance exactness, StreamName window replay, RegSeqRat readback, located comparison nonescape, terminal Real sealing, classifier transport, and local naming for BEDC.Derived.LocatedDyadicRealUp.}
+\end{closurestatus}

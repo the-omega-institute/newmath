@@ -71,4 +71,54 @@ theorem ClosedBoundedIntervalUniformModulus_lebesgue_handoff_scope
   exact
     ⟨rfl, sourceUnary, outputUnary, dyadicLebesgueSource, sourcePointwiseOutput⟩
 
+theorem ClosedBoundedIntervalUniformModulus_consumer_examples
+    {leftEndpoint rightEndpoint intervalRow compactCover dyadicCover lebesgueLedger
+      pointwiseModulus uniformOutput transport route provenance name sourceRead centerRead
+      outputRead consumerRead realSeal : BHist} :
+    UnaryHistory intervalRow ->
+      UnaryHistory compactCover ->
+        UnaryHistory lebesgueLedger ->
+          UnaryHistory pointwiseModulus ->
+            UnaryHistory uniformOutput ->
+              UnaryHistory provenance ->
+                Cont intervalRow compactCover sourceRead ->
+                  Cont sourceRead lebesgueLedger centerRead ->
+                    Cont centerRead pointwiseModulus outputRead ->
+                      Cont outputRead uniformOutput consumerRead ->
+                        Cont consumerRead provenance realSeal ->
+                          closedBoundedIntervalUniformModulusFields
+                              (ClosedBoundedIntervalUniformModulusUp.mk leftEndpoint
+                                rightEndpoint intervalRow compactCover dyadicCover
+                                lebesgueLedger pointwiseModulus uniformOutput transport route
+                                provenance name) =
+                            [leftEndpoint, rightEndpoint, intervalRow, compactCover,
+                              dyadicCover, lebesgueLedger, pointwiseModulus, uniformOutput,
+                              transport, route, provenance, name] ∧
+                            UnaryHistory sourceRead ∧ UnaryHistory centerRead ∧
+                              UnaryHistory outputRead ∧ UnaryHistory consumerRead ∧
+                                UnaryHistory realSeal ∧
+                                  Cont intervalRow compactCover sourceRead ∧
+                                    Cont sourceRead lebesgueLedger centerRead ∧
+                                      Cont centerRead pointwiseModulus outputRead ∧
+                                        Cont outputRead uniformOutput consumerRead ∧
+                                          Cont consumerRead provenance realSeal := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro intervalUnary compactUnary lebesgueUnary pointwiseUnary uniformUnary provenanceUnary
+    intervalCompactSource sourceLebesgueCenter centerPointwiseOutput outputUniformConsumer
+    consumerProvenanceSeal
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed intervalUnary compactUnary intervalCompactSource
+  have centerUnary : UnaryHistory centerRead :=
+    unary_cont_closed sourceUnary lebesgueUnary sourceLebesgueCenter
+  have outputUnary : UnaryHistory outputRead :=
+    unary_cont_closed centerUnary pointwiseUnary centerPointwiseOutput
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed outputUnary uniformUnary outputUniformConsumer
+  have sealUnary : UnaryHistory realSeal :=
+    unary_cont_closed consumerUnary provenanceUnary consumerProvenanceSeal
+  exact
+    ⟨rfl, sourceUnary, centerUnary, outputUnary, consumerUnary, sealUnary,
+      intervalCompactSource, sourceLebesgueCenter, centerPointwiseOutput,
+      outputUniformConsumer, consumerProvenanceSeal⟩
+
 end BEDC.Derived.ClosedBoundedIntervalUniformModulusUp

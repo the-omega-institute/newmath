@@ -50,6 +50,106 @@ Ultrametric compatibility is read from $U$. Since the controlling radius is dete
 The structural rows $H,C,P,N$ transport, replay, source, and name only those coordinates. Hence no completed stream, quotient equality of infinite names, host real metric, countable-choice selector, or external topological datum can appear as a NameCert obligation.
 \end{proof}
 
+\begin{theorem}[BaireMetric prefix-window admission]
+\label{thm:bairemetric-prefix-window-admission}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ carrier. Every accepted distance read admits a finite prefix window: before the dyadic radius row is inspected, the continuation row displays a $\StreamNameUp$ schedule $S$, an accepted $\BaireSpaceUp$ prefix packet $B$, and a $\NatUp$ window $W$ that records the inspected length and the equality rows below the first displayed separation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bairemetric-prefix-distance-carrier}. The continuation row $C$ routes every comparison through the stream schedule $S$ and the BaireSpace prefix packet $B$ before reaching any radius coordinate.
+
+The window row $W$ is the only Nat-valued inspection coordinate in the carrier. Thus the accepted comparison must name the inspected finite length and the displayed equality rows below any first disagreement before $D,R,$ or $U$ can be read.
+\end{proof}
+
+\begin{theorem}[BaireMetric first-disagreement dyadic exactness]
+\label{thm:bairemetric-first-disagreement-dyadic-radius-exactness}
+For an accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$, the dyadic radius row $D$ is exact for the displayed first-disagreement window. If $W$ records first disagreement at $k$, then $D$ records the radius branch $2^{-k}$; if $W$ records only displayed equality across the inspected window, then $D$ records the zero-radius branch for that finite read. No other radius source is available to the packet.
+\end{theorem}
+\begin{proof}
+The carrier admits dyadic radius data only through the row $D$. The row is downstream of $S,B,W$, so its positive branch is read from the first displayed disagreement already named by $W$.
+
+In the equality branch, $W$ exposes only the inspected finite equality window. The corresponding radius branch in $D$ is therefore the displayed zero-radius read for that window, not a claim about completed infinite stream equality.
+
+Because $R$ and $U$ are downstream consumers of $D$, neither can introduce an independent radius value. Exactness is consequently a projection of the single dyadic row attached to the first-disagreement window.
+\end{proof}
+
+\begin{theorem}[BaireMetric prefix radius monotonicity]
+\label{thm:bairemetric-prefix-radius-monotonicity}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ carrier. Extending the displayed inspected prefix through the same $\StreamNameUp$ schedule can only preserve the dyadic radius branch already read from $W,D$ or move it to a smaller displayed dyadic branch. The extension cannot replace the first-disagreement route by a larger radius, a host metric, or a completed-stream comparison.
+\end{theorem}
+\begin{proof}
+Use carrier admission from \autoref{def:bairemetric-prefix-distance-carrier} and the NameCert obligations of \autoref{thm:bairemetric-namecert-obligations}. Every distance read is routed through the scheduled prefix packet $S,B$ and the finite window $W$ before the dyadic row $D$ is inspected.
+
+By prefix-window admission in \autoref{thm:bairemetric-prefix-window-admission}, an extended read only adds inspected coordinates after the displayed window already exposed. If the earlier first disagreement remains visible, first-disagreement exactness in \autoref{thm:bairemetric-first-disagreement-dyadic-radius-exactness} keeps the same $2^{-k}$ branch.
+
+If the extension exposes a later first displayed disagreement after an equality branch, the dyadic branch read from $D$ moves to that later index and is therefore no larger than the previous displayed prefix bound. Since $R$ and $U$ consume the same $D$ row, no downstream metric or ultrametric consumer can enlarge the radius.
+\end{proof}
+
+\begin{theorem}[BaireMetric zero-radius branch confinement]
+\label{thm:bairemetric-zero-radius-branch}
+For an accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$, the zero-radius branch of $D$ is confined to displayed finite inspected-window equality. It is never a quotient equality of completed Baire streams, a global extensional equality theorem, or an ambient topological identification.
+\end{theorem}
+\begin{proof}
+Project the zero branch through the carrier of \autoref{def:bairemetric-prefix-distance-carrier}. The only equality evidence before $D$ is the displayed finite equality row in $W$, scheduled by $S$ and admitted through $B$.
+
+Apply the NameCert obligations of \autoref{thm:bairemetric-namecert-obligations}. The prefix-distance row requires every zero-radius read to remain inside the inspected equality window, and the ledger-refusal row excludes completed streams, quotient equality of Baire names, host real metrics, and external topology.
+
+Finally use \autoref{thm:bairemetric-first-disagreement-dyadic-radius-exactness}. Its equality branch identifies the zero-radius read with that finite window alone. Transport by $H$ and replay by $C$ preserve the same row family and cannot turn finite inspected equality into equality of completed streams.
+\end{proof}
+
+\begin{theorem}[BaireMetric prefix radius transport]
+\label{thm:bairemetric-prefix-radius-transport}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ and $M'=(B',W',D',R',U',S',H',C',P',N')$ be accepted $\BaireMetricUp$ carriers. If componentwise $\hsame$ transports the displayed Baire prefix packets, stream schedules, first-disagreement windows, dyadic rows, parent metric rows, ultrametric rows, provenance, and local names, and the displayed $\Cont$ replay preserves the prefix-read order, then $M'$ exposes the same route
+$$
+S,B,W,D,R,U
+$$
+as $M$ for every accepted prefix-radius read.
+\end{theorem}
+\begin{proof}
+Start from the accepted read in $M$. Prefix-window admission supplies the schedule, prefix packet, first-disagreement window, and dyadic row before any parent metric or ultrametric row is consumed.
+
+Transport each displayed coordinate through the componentwise $\hsame$ rows recorded in $H$ and $H'$. The carrier definition gives matching coordinates $S',B',W',D',R',U'$ and the NameCert obligations require those coordinates to remain the only distance, metric, and ultrametric sources.
+
+Replay the transported read through $C'$. First-disagreement exactness then reads $D'$ from the transported $W'$ branch, while the parent handoff and ultrametric handoff consume $R'$ and $U'$ downstream of that same branch. Thus the transported packet preserves the route and admits no alternate radius source.
+\end{proof}
+
+\begin{theorem}[BaireMetric parent MetricSpace handoff]
+\label{thm:bairemetric-parent-metricspace-handoff}
+Every parent $\MetricSpaceUp$ read exported by an accepted $\BaireMetricUp$ packet factors through
+$$
+S,B,W,D \longmapsto R .
+$$
+The zero-distance boundary, symmetry row, and ordinary triangle route in $R$ may read only the scheduled prefix packet, first-disagreement window, and dyadic radius row.
+\end{theorem}
+\begin{proof}
+Start with a parent metric read. Carrier admission exposes the parent row only as $R$, and the definition places $R$ downstream of the scheduled prefix and dyadic comparison rows.
+
+The zero-distance, symmetry, and ordinary triangle components of $R$ therefore receive their data from $S,B,W,D$. Componentwise transport by $H$ and replay by $C$ preserve this order, so the handoff cannot inspect a host metric on completed streams.
+\end{proof}
+
+\begin{theorem}[BaireMetric UltrametricSpace strong-triangle handoff]
+\label{thm:bairemetric-ultrametricspace-strong-triangle-handoff}
+Every $\UltrametricSpaceUp$ strong-triangle read exported by an accepted $\BaireMetricUp$ carrier factors through the same first-disagreement and dyadic-radius rows used by the parent metric handoff:
+$$
+S,B,W,D,R \longmapsto U .
+$$
+The strong max-radius comparison is a finite prefix-window comparison, not a separate topology or completed-stream theorem.
+\end{theorem}
+\begin{proof}
+The ultrametric witness appears in the carrier only as $U$. It is listed after the scheduled prefix packet, first-disagreement window, dyadic radius row, and parent metric row.
+
+Thus a strong-triangle read must first replay the finite prefix comparisons through $S,B,W,D$ and the parent handoff $R$. The row $U$ then packages the max-radius comparison over those displayed radii, with no coordinate for external topology or completed Baire names.
+\end{proof}
+
+\begin{theorem}[BaireMetric stream-schedule nonescape]
+\label{thm:bairemetric-stream-schedule-nonescape}
+For every accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$, a consumer cannot read a distance, metric, or ultrametric conclusion outside the displayed $\StreamNameUp$ schedule. Every such conclusion is replayed by $C$ through $S$ before it reaches $B,W,D,R,$ or $U$.
+\end{theorem}
+\begin{proof}
+The stream schedule $S$ is the carrier coordinate controlling which finite prefixes may be inspected. The continuation row $C$ names the replay order from a requested comparison through $S$ before any BaireSpace, window, radius, metric, or ultrametric row is consumed.
+
+Transport, provenance, and local naming preserve that replay order. Consequently a consumer has no slot from which to read an unscheduled prefix, completed stream, quotient equality of names, or external topological neighborhood.
+\end{proof}
+
 \begin{theorem}[BaireMetric ultrametric prefix route]
 \label{thm:bairemetric-ultrametric-prefix-route}
 Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ packet. Every accepted prefix-distance comparison exported by $M$ factors through the displayed route
@@ -66,6 +166,42 @@ The continuation row $C$ first schedules finite prefix reads through $S$ and the
 The dyadic radius row $D$ converts that window into the displayed radius comparison. The parent $\MetricSpaceUp$ row $R$ receives only this radius evidence when supplying zero-distance, symmetry, and ordinary triangle data.
 
 Finally the $\UltrametricSpaceUp$ witness $U$ reads the same first-disagreement and radius rows to supply the strong max-radius route. Componentwise transport by $H$ and provenance by $P$ preserve this order, so no consumer-facing path bypasses the displayed BaireSpace, Nat, StreamName, DyadicRatCore, MetricSpace, and UltrametricSpace rows.
+\end{proof}
+
+\begin{theorem}[BaireMetric complete-ultrametric consumer readiness]
+\label{thm:bairemetric-complete-ultrametric-consumer-readiness}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ packet. Every $\CompleteMetricUp$, $\UltrametricSpaceUp$, or $\BaireSpaceUp$ consumer of $M$ must first read the displayed route
+$$
+S,B,W,D,R,U,H,C,P,N .
+$$
+The route schedules $\StreamNameUp$ reads before $\BaireSpaceUp$ prefix rows, reads the $\NatUp$ first-disagreement window before the $\DyadicRatCoreUp$ radius row, reads the parent $\MetricSpaceUp$ row before the $\UltrametricSpaceUp$ strong-triangle row, and reads transport, replay, provenance, and local naming before exporting any consumer-facing conclusion.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bairemetric-prefix-window-admission}. It places the $\StreamNameUp$ schedule $S$ before the $\BaireSpaceUp$ prefix packet $B$ and the $\NatUp$ first-disagreement window $W$ for every accepted distance read.
+
+Apply \autoref{thm:bairemetric-first-disagreement-dyadic-radius-exactness}. The dyadic radius row $D$ is read only after the displayed first-disagreement window, so a downstream consumer cannot obtain a radius without the finite prefix-window evidence.
+
+Apply \autoref{thm:bairemetric-parent-metricspace-handoff} and \autoref{thm:bairemetric-ultrametricspace-strong-triangle-handoff}. They order the parent $\MetricSpaceUp$ row $R$ before the $\UltrametricSpaceUp$ strong-triangle row $U$, with both rows using the same scheduled prefix, window, and radius data.
+
+Finally apply \autoref{thm:bairemetric-ultrametric-prefix-route}. It records that the consumer-facing prefix-distance route is finite and that componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve the same order before any $\CompleteMetricUp$, $\UltrametricSpaceUp$, or $\BaireSpaceUp$ conclusion is exported.
+\end{proof}
+
+\begin{theorem}[BaireMetric root prefix ultrametric package]
+\label{thm:bairemetric-root-prefix-ultrametric-package}
+Every accepted $\BaireMetricUp$ root package exposes exactly the route through $\BaireSpaceUp$, $\StreamNameUp$, $\NatUp$, $\DyadicRatCoreUp$, $\MetricSpaceUp$, and $\UltrametricSpaceUp$, together with the structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, before any PolishSpace, BaireSpace, or ultrametric consumer reads it. In the notation of \autoref{def:bairemetric-prefix-distance-carrier}, the package surface is the finite row family
+$$
+B,S,W,D,R,U,H,C,P,N .
+$$
+No consumer-facing read may replace this row family by completed streams, quotient equality of names, host real metrics, countable choice, or external topology.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bairemetric-prefix-window-admission}. It forces every distance read to expose the $\StreamNameUp$ schedule $S$, the $\BaireSpaceUp$ prefix packet $B$, and the $\NatUp$ first-disagreement window $W$ before any radius or metric row is inspected.
+
+Apply \autoref{thm:bairemetric-first-disagreement-dyadic-radius-exactness}. The dyadic radius row $D$ is then determined by the displayed first-disagreement window, with the zero-radius branch remaining inside the inspected finite equality window.
+
+Apply \autoref{thm:bairemetric-parent-metricspace-handoff} and \autoref{thm:bairemetric-ultrametricspace-strong-triangle-handoff}. The parent $\MetricSpaceUp$ row $R$ and the $\UltrametricSpaceUp$ row $U$ both read the same scheduled prefix, window, and dyadic-radius data.
+
+Finally use \autoref{thm:bairemetric-stream-schedule-nonescape} and \autoref{thm:bairemetric-ultrametric-prefix-route}. They place every metric, ultrametric, PolishSpace, BaireSpace, or downstream prefix consumer behind the same replay row $C$, with componentwise transport $H$, provenance $P$, and local naming $N$. Since the carrier has no coordinate for completed streams, quotient equality of names, host real metrics, countable choice, or external topology, the displayed root package is the whole exported surface.
 \end{proof}
 
 \falsifiablePrediction{Every accepted $\BaireMetricUp$ distance comparison factors through the $\BaireSpaceUp$ prefix packet, $\StreamNameUp$ schedule, $\NatUp$ first-disagreement window, $\DyadicRatCoreUp$ radius row, parent $\MetricSpaceUp$ row, $\UltrametricSpaceUp$ witness, componentwise transport, continuation replay, provenance, and local $\NameCert$ before any consumer reads a metric or ultrametric conclusion.}

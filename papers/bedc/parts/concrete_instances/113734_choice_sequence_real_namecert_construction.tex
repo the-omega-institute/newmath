@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\ChoiceSequenceRealUp$}
+\label{ch:concrete-instances-choice-sequence-real-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Troelstra--van Dalen on choice sequences, the $\ChoiceSequenceRealUp$ packet names a finite-prefix real surface before any consumer reads an infinite branch. It sits after the finite StreamName window of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It also shares the choice-free boundary discipline of \autoref{ch:concrete-instances-speckersequence-namecert}: finite prefixes may be inspected, but no selected limit, quotient stream equality, countable choice, trichotomy, or ambient Real completeness is exported.
+
+\begin{definition}[ChoiceSequenceReal carrier]
+\label{def:choice-sequence-real-carrier}
+A $\ChoiceSequenceRealUp$ carrier is a finite $\BHist$ packet
+$$
+C=(F,S,R,D,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite prefix schedule. It lists the admitted prefix length, the unary request indices, and the displayed dependency of each read on earlier finite choices.
+\item $S$ is the $\StreamNameUp$ window row. It records the finite stream observations exposed by $F$ before any infinite branch is named.
+\item $R$ is the $\RegSeqRatUp$ readback row. It stores the regular rational values read from the finite stream window and the visible modulus entries used by later real-name consumers.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It records the signed dyadic mantissa, denominator, radius, and terminal half-radius rows used to certify the readback tolerance.
+\item $E$ is the $\RealUp$ seal row. It may be consumed only after $F,S,R,D$ have been displayed, and it stores no selected endpoint beyond that finite route.
+\item $H$ records componentwise $\hsame$ transport for finite prefixes, stream windows, regular rational readback, dyadic tolerance rows, Real seal rows, replay, provenance, and local naming.
+\item $T$ records displayed $\Cont$ replay from finite prefix schedules to StreamName windows, from StreamName windows to RegSeqRat readback, from dyadic tolerance rows to the terminal Real seal, and from structural rows to local naming.
+\item $P$ is the $\Pkg$ provenance over $\ChoiceSequenceRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ChoiceSequenceRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,S,R,D,E,H,T,P,N$. It has no coordinate for quotient stream equality, selected infinite branches, countable choice, trichotomy of arbitrary reals, metric completeness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[ChoiceSequenceReal NameCert obligations]
+\label{thm:choice-sequence-real-namecert-obligations}
+For every accepted $\ChoiceSequenceRealUp$ carrier $C=(F,S,R,D,E,H,T,P,N)$, the local $\NameCert_{\ChoiceSequenceRealUp}$ surface consists exactly of finite prefix admission, StreamName window exposure, RegSeqRat regular readback, DyadicRatCore tolerance ledger admission, Real seal routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every Real or Completion consumer must read the displayed route
+$$
+F,S,R,D \longmapsto E,H,T,P,N
+$$
+before it can consume the packet as real-name evidence.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier row by row. The finite prefix schedule $F$, the stream window $S$, the regular rational readback $R$, and the dyadic tolerance ledger $D$ are the only rows that carry mathematical read data.
+
+The Real seal row $E$ is downstream from those rows. It can be replayed only through the displayed $\Cont$ route $T$ and transported only through the componentwise $\hsame$ row $H$.
+
+The provenance and naming rows $P,N$ name the same route. Since no other coordinate is present, the local certificate has no source for quotient stream equality, selected infinite branches, countable choice, trichotomy, metric completeness, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[ChoiceSequenceReal finite-prefix regularity]
+\label{thm:choice-sequence-real-finite-prefix-regularity}
+Let $C=(F,S,R,D,E,H,T,P,N)$ be an accepted $\ChoiceSequenceRealUp$ carrier. Any finite extension of the displayed prefix schedule whose new reads preserve the same StreamName window discipline and DyadicRatCore tolerance ledger has a RegSeqRat readback on a common finite window before the downstream $\RealUp$ seal is opened.
+
+The regularity read is determined by $F,S,R,D,H,T,P,N$. It does not choose an infinite branch, identify quotient streams, select a limit, use countable choice, appeal to metric completeness, or import ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the finite prefix schedule $F$ and its StreamName window $S$. A finite extension supplies more displayed reads but remains a finite $\BHist$ row.
+
+Use the RegSeqRat readback row $R$ and the DyadicRatCore tolerance ledger $D$ on the combined finite window. The common window has the same regular rational values and tolerance rows needed by the downstream seal.
+
+Finally transport and replay through $H$ and $T$, with provenance and local naming recorded by $P$ and $N$. The argument never leaves the finite packet, so it cannot introduce a selected branch, quotient stream equality, a chosen limit, countable choice, metric completeness, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[ChoiceSequenceReal nonescape]
+\label{thm:choice-sequence-real-nonescape}
+Every $\RealUp$-facing or Completion-facing read of an accepted $\ChoiceSequenceRealUp$ packet factors through the finite prefix schedule, StreamName window, RegSeqRat readback, DyadicRatCore tolerance ledger, structural transport, replay, provenance, and local NameCert rows displayed by the carrier. No consumer can bypass those rows by appealing to a selected limit, countable choice, quotient stream equality, trichotomy, metric completeness, bridge row, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:choice-sequence-real-namecert-obligations}. It identifies the only local certificate rows available to a Real or Completion consumer.
+
+Then apply \autoref{thm:choice-sequence-real-finite-prefix-regularity}. Finite prefix extensions and their regular readbacks remain inside the displayed StreamName, RegSeqRat, and DyadicRatCore route before the Real seal is consumed.
+
+The sibling surfaces provide the boundary of the route: \autoref{ch:concrete-instances-streamname-namecert} supplies finite stream windows, \autoref{ch:concrete-instances-regseqrat-namecert} supplies regular rational readback, \autoref{ch:concrete-instances-dyadicratcore-namecert} supplies dyadic tolerance rows, \autoref{ch:concrete-instances-real-namecert} supplies the terminal seal, and \autoref{ch:concrete-instances-speckersequence-namecert} records the compatible nonselection discipline. Hence the packet exports no bypass through the excluded global objects.
+\end{proof}
+
+\closureat{ChoiceSequenceRealUp}{seedStr}
+
+\begin{closurestatus}{\ChoiceSequenceRealUp}
+  \constructivestory{A $\ChoiceSequenceRealUp$ packet is generated from a finite prefix schedule, StreamName finite windows, RegSeqRat regular readback, DyadicRatCore tolerance rows, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choice-sequence-real-carrier}, \autoref{thm:choice-sequence-real-namecert-obligations}, \autoref{thm:choice-sequence-real-finite-prefix-regularity}, and \autoref{thm:choice-sequence-real-nonescape} seed the finite-prefix real-name packet for the open L10 Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected limits, countable choice, quotient stream equality, trichotomy, metric completeness, bridge checking, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-prefix regularity, terminal Real-seal nonescape, transport stability, replay exactness, and local NameCert replay for BEDC.Derived.ChoiceSequenceRealUp.}
+\end{closurestatus}

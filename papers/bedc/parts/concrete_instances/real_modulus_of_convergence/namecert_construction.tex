@@ -129,6 +129,42 @@ Apply \autoref{thm:real-modulus-of-convergence-window-composition} and \autoref{
 The downstream rows $E,H,C,P,N$ are therefore read only as seal, transport, replay, provenance, and local naming for that route. Since the carrier excludes quotient streams, selected limits, countable choice, host Real equality, and ambient completeness, neither a $\RegSeqRatUp$ uniqueness consumer nor a $\RealUp$ seal consumer can read any further distinguishing datum.
 \end{proof}
 
+\begin{theorem}[Real modulus Cauchy-equivalence setoid factorization]
+\label{thm:real-modulus-of-convergence-cauchy-equivalence-setoid-factorization}
+Let $R=(D,W,Q,M,E,H,C,P,N)$ and $R'=(D',W',Q',M',E',H',C',P',N')$ be accepted $\RealModulusOfConvergenceUp$ packets. If the two packets agree on their displayed $\DyadicRatCoreUp$ tolerance row, their $\StreamNameUp$ finite-window row, their $\RegSeqRatUp$ readback row, and their monotone modulus ledger, then every equality-facing consumer factors through $\CauchyEquivalenceSetoidUp$ before the terminal $\RealUp$ seal. The factorization route is
+$$
+D,W,Q,M \longmapsto \CauchyEquivalenceSetoidUp \longmapsto E \longmapsto H,C,P,N .
+$$
+It exports no quotient stream, selected limit, countable-choice schedule, host Real equality, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Project the two carriers through \autoref{def:real-modulus-of-convergence-carrier}. The hypotheses identify exactly the displayed tolerance, window, readback, and monotone ledger rows, so an equality-facing consumer sees one shared pre-seal route rather than two independent convergence reads.
+
+Apply \autoref{thm:real-modulus-of-convergence-namecert-obligations}. The Real-facing seal $E$ is downstream of $D,W,Q,M$, while $H,C,P,N$ only transport, replay, source, and name the same finite route.
+
+Use \autoref{thm:real-modulus-convergence-regseqrat-uniqueness-handoff}. Since the $\RegSeqRatUp$ readback and monotone ledger are identified, the uniqueness-facing consumer cannot distinguish the packets before the equality boundary is read.
+
+The equality boundary is therefore the displayed setoid route of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}. Because the carrier contains no quotient streams, selected limits, countable choice, host Real equality, or ambient completeness coordinate, the comparison factors through $\CauchyEquivalenceSetoidUp$ before the terminal $\RealUp$ seal and exports none of those excluded objects.
+\end{proof}
+
+\begin{theorem}[Real modulus of convergence CauchyFilterLimit route]
+\label{thm:real-modulus-of-convergence-cauchyfilterlimit-route}
+Let $R=(D,W,Q,M,E,H,C,P,N)$ be an accepted $\RealModulusOfConvergenceUp$ packet. Every $\CauchyFilterLimitUp$ consumer of $R$ reads the convergence-modulus schedule only through the shared finite route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The modulus row supplies the filter-limit tolerance schedule, the finite window row supplies the basis inspected by the filter-limit request, and the regular rational readback row supplies the only pre-seal comparison. The route exports no quotient stream, selected host limit, countable-choice schedule, host Real equality, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:real-modulus-of-convergence-namecert-obligations}. Carrier admission exposes the dyadic tolerance row $D$, finite window row $W$, regular rational readback row $Q$, monotone modulus ledger $M$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Apply Theorem~\ref{thm:real-modulus-convergence-cauchy-modulus-handoff}. The modulus row is first consumed as the tolerance schedule for the filter-limit request, so the request cannot start from a selected host limit or from ambient completeness.
+
+Use Theorem~\ref{thm:real-modulus-of-convergence-tail-stability} and Theorem~\ref{thm:real-modulus-of-convergence-monotone-window-refinement}. These keep the filter-limit tolerance schedule on a weakly later $\StreamNameUp$ window while preserving the same $\RegSeqRatUp$ readback and $\DyadicRatCoreUp$ ledger.
+
+Finally apply Theorem~\ref{thm:real-modulus-convergence-regseqrat-uniqueness-handoff} and the regular seal handoff of \autoref{thm:cauchy-filter-limit-regular-seal-handoff}. The downstream consumer reaches the $\CauchyFilterLimitUp$ seal only through the same $\RealUp$ boundary and structural rows, and the carrier contains no quotient stream, selected host limit, countable-choice schedule, host Real equality, or ambient completeness coordinate.
+\end{proof}
+
 \begin{theorem}[Real modulus of convergence tail comparison route]
 \label{thm:real-modulus-of-convergence-tail-comparison-route}
 Let $R=(D,W,Q,M,E,H,C,P,N)$ and $R'=(D',W',Q',M',E',H',C',P',N')$ be accepted $\RealModulusOfConvergenceUp$ packets. Suppose their dyadic tolerance rows and monotone ledgers compare through the same $\CauchyModulusUp$ request, and suppose the later-tail comparison is read only after the displayed $\StreamNameUp$ window and $\RegSeqRatUp$ handoff rows are exposed. Then every later-tail comparison between $R$ and $R'$ routes through
@@ -147,6 +183,22 @@ Apply Theorem~\ref{thm:real-modulus-of-convergence-monotone-window-refinement}. 
 Finally apply Theorem~\ref{thm:real-modulus-convergence-regseqrat-uniqueness-handoff}. The identified pre-seal rows force every uniqueness-facing and Real-facing consumer to read the same downstream seal, transport, replay, provenance, and local naming rows. Since the carrier contains none of quotient streams, selected limits, countable choice, host Real equality, or ambient completeness, the later-tail comparison cannot export any such datum.
 \end{proof}
 
+\begin{theorem}[Real modulus of convergence Cauchy-tail exhaustion]
+\label{thm:real-modulus-of-convergence-cauchy-tail-exhaustion}
+Let $R=(D,W,Q,M,E,H,C,P,N)$ be an accepted $\RealModulusOfConvergenceUp$ packet. Every later-tail comparison accepted by $R$ is exhausted by the $\CauchyModulusUp$ request, the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ tolerance ledger, the $\RealUp$ seal, and the structural rows $H,C,P,N$. No quotient stream equality, selected limit, countable-choice schedule, host Real equality, ambient $\RealUp$ completeness, or extra metric-completion row is exported by the comparison.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-of-convergence-carrier}. The only pre-seal rows available to a later-tail comparison are the dyadic tolerance row $D$, finite-window row $W$, regular rational readback row $Q$, and monotone ledger $M$.
+
+Apply Theorem~\ref{thm:real-modulus-convergence-cauchy-modulus-handoff}. The comparison must first be read as a $\CauchyModulusUp$ request, so it cannot begin from a selected limit or from an ambient Real equality.
+
+Use Theorem~\ref{thm:real-modulus-of-convergence-tail-stability}. Later requests move only to weakly later $\StreamNameUp$ windows and preserve the same $\RegSeqRatUp$ handoff route.
+
+Apply Theorem~\ref{thm:real-modulus-of-convergence-window-composition} and Theorem~\ref{thm:real-modulus-of-convergence-monotone-window-refinement}. These keep the dyadic tolerance ledger, finite window, readback row, and monotone comparison on one displayed route before the $\RealUp$ seal is consumed.
+
+Finally apply Theorem~\ref{thm:real-modulus-of-convergence-tail-comparison-route}. The downstream rows $E,H,C,P,N$ supply only the Real-facing seal, transport, replay, provenance, and local naming for that route. Since no carrier coordinate records quotient streams, selected limits, countable choice, host Real equality, ambient completeness, or a separate metric-completion row, the accepted later-tail comparison is exhausted by the stated data.
+\end{proof}
+
 \begin{theorem}[Real modulus of convergence tail dominance]
 \label{thm:real-modulus-of-convergence-tail-dominance}
 Let $R=(D,W,Q,M,E,H,C,P,N)$ be an accepted $\RealModulusOfConvergenceUp$ packet. If a later displayed request dominates an earlier convergence-modulus request through the monotone ledger $M$, then every Real or Completion consumer follows the same route
@@ -163,6 +215,23 @@ Apply Theorem~\ref{thm:real-modulus-convergence-cauchy-modulus-handoff}. The req
 Use Theorem~\ref{thm:real-modulus-of-convergence-tail-stability} and Theorem~\ref{thm:real-modulus-of-convergence-monotone-window-refinement}. Since the later request dominates the earlier one, the accepted read moves only to a weakly later $\StreamNameUp$ window and preserves the same $\RegSeqRatUp$ handoff route.
 
 Finally apply Theorem~\ref{thm:real-modulus-of-convergence-tail-comparison-route}. The downstream consumer reaches the same $\RealUp$ seal through $D,W,Q,M,E,H,C,P,N$. Because the carrier has no coordinate for a second choice schedule, selected tails, quotient stream equality, host Real equality, or ambient completeness, dominance cannot export any such datum.
+\end{proof}
+
+\begin{theorem}[Real modulus CauchySequenceSpace factorization]\label{thm:real-modulus-convergence-cauchy-space-factorization}
+Let $R=(D,W,Q,M,E,H,C,P,N)$ be an accepted $\RealModulusOfConvergenceUp$ packet. Every $\CauchySequenceSpaceUp$-facing consumer of $R$ factors through the same displayed route
+$$
+D,W,Q,M \longmapsto E \longmapsto H,C,P,N .
+$$
+The $\CauchySequenceSpaceUp$ family row, schedule row, and common-window ledger may read the $\DyadicRatCoreUp$ tolerance row $D$, the $\StreamNameUp$ finite-window row $W$, the $\RegSeqRatUp$ readback row $Q$, and the $\RealUp$ seal row $E$ only through that route. The factorization exports no quotient stream, selected limit, countable-choice schedule, host Real equality, ambient $\RealUp$ completeness, or detached metric-completion row.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:real-modulus-of-convergence-namecert-obligations}. It exposes exactly the dyadic tolerance row, finite-window row, regular rational readback row, monotone modulus ledger, Real seal, and structural rows available to any downstream consumer.
+
+Apply Theorem~\ref{thm:real-modulus-convergence-cauchy-modulus-handoff}. The $\CauchySequenceSpaceUp$ common-window request therefore reads the displayed packet first as convergence-modulus data, before the regular rational family or Real seal can be consumed.
+
+Use Theorem~\ref{thm:real-modulus-of-convergence-tail-stability}, Theorem~\ref{thm:real-modulus-of-convergence-window-composition}, and Theorem~\ref{thm:real-modulus-of-convergence-monotone-window-refinement}. These keep the family row, schedule row, and common-window ledger on the same $D,W,Q,M$ route with a weakly later finite window when the tolerance request is refined.
+
+Finally apply Theorem~\ref{thm:real-modulus-convergence-regseqrat-uniqueness-handoff}. The regular rational readback and the Real seal cannot split into a second representative route. Since the carrier has no coordinate for quotient streams, selected limits, countable choice, host Real equality, ambient Real completeness, or a detached metric-completion row, no $\CauchySequenceSpaceUp$-facing consumer can export any of those objects.
 \end{proof}
 
 \falsifiablePrediction{Every accepted $\RealModulusOfConvergenceUp$ Real or Completion consumer factors through one displayed $\DyadicRatCoreUp$ tolerance row, one $\StreamNameUp$ finite-window row, one $\RegSeqRatUp$ readback row, one monotone convergence-modulus ledger, one $\RealUp$ seal handoff, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before it may use a convergence-modulus claim.}
