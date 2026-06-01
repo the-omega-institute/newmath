@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\CayleyHamiltonUp$}
+\label{ch:concrete-instances-cayley-hamilton-namecert}
+\origin{human}
+
+Following Cayley and Hamilton, the $\CayleyHamiltonUp$ packet records the characteristic-polynomial annihilation law as a finite matrix-polynomial certificate. It sits over the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the scalar $\RingUp$ structure of \autoref{ch:concrete-instances-ring-namecert}, and the coefficient $\CommRingUp$ structure of \autoref{ch:concrete-instances-commring-namecert}. The packet exposes a square matrix, its finite coefficient ledger, the characteristic-polynomial row, the matrix-polynomial evaluation row, and a zero-matrix annihilation witness before any spectral or determinant-facing consumer can read the claim.
+
+The certificate is a NameCert boundary for the finite algebraic identity. It does not choose eigenvalues, diagonalize a matrix, assert field algebraic closure, or import host determinant semantics.
+
+\begin{definition}[Cayley-Hamilton carrier]
+\label{def:cayley-hamilton-carrier}
+A $\CayleyHamiltonUp$ carrier is a finite $\BHist$ packet
+$$
+C=(R,n,A,\chi,E,Z,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the scalar $\CommRingUp$ coefficient source, read together with its underlying $\RingUp$ addition, multiplication, zero, one, and distributivity rows;
+\item $n$ is the finite square-size row for the matrix index carrier;
+\item $A$ is the $\MatrixUp$ row for a carried $n \times n$ matrix over $R$;
+\item $\chi$ is the $\PolynomialUp$ row naming the characteristic polynomial of $A$ as a finite coefficient ledger over $R$;
+\item $E$ is the matrix-polynomial evaluation row obtained by substituting $A$ into $\chi$ using the finite matrix multiplication and addition ledgers;
+\item $Z$ is the zero-matrix comparison row certifying that the evaluated matrix-polynomial row is the displayed zero matrix;
+\item $H$ records componentwise $\hsame$ transport for $R,n,A,\chi,E,Z$;
+\item $K$ records the displayed $\Cont$ replay route from the scalar and matrix rows through the polynomial evaluation row to the zero-matrix witness;
+\item $P$ is the $\Pkg$ provenance over $\MatrixUp$, $\PolynomialUp$, $\RingUp$, $\CommRingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CayleyHamiltonUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose rows are the displayed coefficient source, square-size row, matrix row, characteristic-polynomial row, matrix-polynomial evaluation row, zero-matrix comparison, transport, replay, provenance, and local naming data. It has no coordinate for an eigenvalue, diagonal form, ambient algebraic closure, determinant oracle, or host polynomial identity.
+\end{definition}
+
+\begin{theorem}[Cayley-Hamilton NameCert obligations]
+\label{thm:cayley-hamilton-namecert-obligations}
+For every accepted $\CayleyHamiltonUp$ carrier $C=(R,n,A,\chi,E,Z,H,K,P,N)$, the local $\NameCert_{\CayleyHamiltonUp}$ surface consists exactly of carrier admission for the scalar $\CommRingUp$ and $\RingUp$ rows, the finite square $\MatrixUp$ row, the finite $\PolynomialUp$ characteristic-polynomial row, the displayed matrix-polynomial evaluation row, the zero-matrix comparison row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The annihilation obligation requires $E$ to evaluate the same $\chi$ at the same $A$ over the same scalar structure, and requires $Z$ to compare that evaluation with the displayed zero matrix. No accepted packet exports eigenvalues, diagonalization, algebraic closure, a determinant oracle, host matrix equality, or a spectral decomposition.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cayley-hamilton-carrier}. The accepted packet lists exactly $R,n,A,\chi,E,Z,H,K,P,N$, so every algebraic read starts from the displayed coefficient, matrix, polynomial, evaluation, and zero-comparison rows.
+
+The evaluation obligation is finite. The row $\chi$ is a $\PolynomialUp$ coefficient ledger over the same scalar source $R$, and the row $E$ is obtained by the displayed finite matrix addition and multiplication route over the $\MatrixUp$ carrier $A$.
+
+The annihilation witness is the comparison row $Z$. It relates the matrix-polynomial evaluation row to the zero matrix inside the same square-size and scalar structure, and transport through $H$ preserves those displayed rows componentwise.
+
+Finally, replay and provenance through $K,P,N$ expose only the NameCert route just described. Since the carrier has no eigenvalue, diagonalization, algebraic-closure, determinant-oracle, host-equality, or spectral-decomposition coordinate, the listed obligations exhaust the certificate surface.
+\end{proof}
+
+\closureat{CayleyHamiltonUp}{seedStr}
+
+\begin{closurestatus}{\CayleyHamiltonUp}
+  \constructivestory{A $\CayleyHamiltonUp$ packet is generated from a scalar CommRingUp and RingUp source, a finite square MatrixUp row, a PolynomialUp characteristic-polynomial ledger, a matrix-polynomial evaluation row, a zero-matrix comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cayley-hamilton-carrier} and \autoref{thm:cayley-hamilton-namecert-obligations} seed the finite matrix-polynomial certificate over displayed scalar, matrix, polynomial, evaluation, zero-comparison, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close eigenvalue construction, diagonalization, algebraic closure, determinant semantics, spectral decomposition, Lean verification, or bridge checking for $\CayleyHamiltonUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, characteristic-polynomial evaluation exactness, zero-matrix comparison stability, transport, replay, provenance, and local naming for BEDC.Derived.CayleyHamiltonUp.}
+\end{closurestatus}
