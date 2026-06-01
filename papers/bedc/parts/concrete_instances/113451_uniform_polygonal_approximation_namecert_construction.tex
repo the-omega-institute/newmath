@@ -82,6 +82,24 @@ The dyadic row $D$ records the numerical tolerance and cell-width comparison use
 Transport, replay, provenance, and local naming do not add analytic data. They keep the read inside $I,M,L,Q,F,R,D,H,C,P,N$, so the excluded limit, quotient, choice, host-function, compactness, and completeness surfaces remain outside the certificate.
 \end{proof}
 
+\begin{theorem}[Uniform polygonal approximation mesh refinement]
+\label{thm:uniform-polygonal-approximation-mesh-refinement}
+Let $U=(I,M,L,Q,F,R,D,H,C,P,N)$ be an accepted $\UniformPolygonalApproximationUp$ packet. If the packet is reread on a dyadic mesh $M'$ refining $M$ and satisfying the same located modulus row $Q$ at the requested tolerance, then the refined polygonal row $L'$ and dyadic ledger $D'$ remain inside the route
+$$
+I,M,Q,L,D \to F,R \to H,P,N
+$$
+and preserve the same finite approximation handoff to $\ContinuousMapUp$ and $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the mesh row $M$ and the located modulus row $Q$. The refined mesh $M'$ is accepted only as a refinement of the displayed cell ledger and only at a tolerance admitted by the same located modulus request.
+
+Use the dyadic comparison ledger to relate the cell widths of $M'$ to those of $M$. The refined dyadic row $D'$ is therefore a replay of the packet's finite error accounting, not a separate compactness or choice argument.
+
+Replay the piecewise-linear row over the refined mesh. The resulting $L'$ supplies affine-cell data over the smaller cells while remaining tied to the original interval source $I$, modulus row $Q$, and continuous-map handoff $F$.
+
+Finally apply \autoref{thm:uniform-polygonal-approximation-nonescape}. It blocks selected polygonal limits, quotient map equality, choice, open-cover compactness, and ambient $\RealUp$ completeness, so the refined read preserves the finite approximation route.
+\end{proof}
+
 \falsifiablePrediction{A $\UniformPolygonalApproximationUp$ consumer that reaches $\ContinuousMapUp$ or $\RealUp$ approximation data without displaying the mesh row $M$, located modulus row $Q$, polygonal row $L$, and dyadic tolerance row $D$ refutes the carrier surface.}
 
 \independenceWitness{Nearest siblings: closedboundedinterval, dyadic-partition, uniform-partition, piecewise-linear-approximation, located-uniform-continuity, continuousmap, real, dyadicratcore. Those chapters supply interval, mesh, affine-cell, modulus, map, real-readback, and dyadic-tolerance rows separately; this chapter binds them into the single eleven-row finite uniform approximation route $U=(I,M,L,Q,F,R,D,H,C,P,N)$.}
