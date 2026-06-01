@@ -86,21 +86,21 @@ def _delta_record(
     before_sample_count: int,
     after_sample_count: int,
 ) -> dict[str, Any]:
-    before = improvement._run_improvement_surface(
+    before = improvement.run_improvement_surface(
         sample_count=before_sample_count,
         seed=before_seed,
         run_id=f"quality-improvement-{arm}-seed-{index:02d}-before",
         envelope_artifact=f"reports/{arm}_seed_{index:02d}_before_envelope.json",
         report_artifact=REPORT_ARTIFACT,
     )
-    after = improvement._run_improvement_surface(
+    after = improvement.run_improvement_surface(
         sample_count=after_sample_count,
         seed=after_seed,
         run_id=f"quality-improvement-{arm}-seed-{index:02d}-after",
         envelope_artifact=f"reports/{arm}_seed_{index:02d}_after_envelope.json",
         report_artifact=REPORT_ARTIFACT,
     )
-    delta = improvement._quality_delta(before, after)
+    delta = improvement.quality_delta(before, after)
     delta_q = float(delta["delta_q"])
     delta_debt = float(delta["delta_debt"])
     delta_target_score = float(delta["delta_target_score"])

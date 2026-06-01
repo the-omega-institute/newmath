@@ -54,7 +54,7 @@ def _target_debt_row(envelope: QualityEvidenceEnvelope, residue: str = TARGET_DE
     return matches[0]
 
 
-def _quality_delta(
+def quality_delta(
     before: QualityEvidenceEnvelope,
     after: QualityEvidenceEnvelope,
     *,
@@ -80,7 +80,7 @@ def _format_signed(value: float) -> str:
     return f"{value:+.6f}"
 
 
-def _run_improvement_surface(
+def run_improvement_surface(
     *,
     sample_count: int,
     seed: int = 23,
@@ -152,7 +152,7 @@ def _run_improvement_surface(
 
 
 def _render_improvement_report(before: QualityEvidenceEnvelope, after: QualityEvidenceEnvelope) -> str:
-    delta = _quality_delta(before, after)
+    delta = quality_delta(before, after)
     lines = [
         "# BEDC Quality Lab 改进报告",
         "",
@@ -179,13 +179,13 @@ def _render_improvement_report(before: QualityEvidenceEnvelope, after: QualityEv
 
 
 def main() -> None:
-    before = _run_improvement_surface(
+    before = run_improvement_surface(
         sample_count=384,
         run_id="gaussian-ou-lejepa-finite-sample-before",
         envelope_artifact=BEFORE_ENVELOPE_ARTIFACT,
         report_artifact=REPORT_ARTIFACT,
     )
-    after = _run_improvement_surface(
+    after = run_improvement_surface(
         sample_count=2048,
         run_id="gaussian-ou-lejepa-finite-sample-after",
         envelope_artifact=AFTER_ENVELOPE_ARTIFACT,
