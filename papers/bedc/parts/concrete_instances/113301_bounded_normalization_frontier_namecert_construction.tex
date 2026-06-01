@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BoundedNormalizationFrontierUp$}
+\label{ch:concrete-instances-bounded-normalization-frontier-namecert}
+\origin{ai}
+
+The $\BoundedNormalizationFrontierUp$ packet realizes the MetaCIC decidability audit map of \autoref{ch:metacic-decidable-audit-map} as finite fuel, finished-normal, bounded-comparison, and refusal rows. It sits beside the decidable typing frontier of \autoref{ch:concrete-instances-metacic-decidable-typing-frontier-namecert}, the typed normal-form decider of \autoref{ch:concrete-instances-typed-normal-form-decider-namecert}, the bounded-normalization fuel packet of \autoref{ch:concrete-instances-bounded-normalization-fuel-namecert}, the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, and the finite observation fold of \autoref{ch:concrete-instances-finite-observation-fold-namecert}. The packet names the exact frontier where \texttt{normalizeBounded} and \texttt{decideClosedBetaConv} are finite procedures; it does not claim unrestricted beta-conversion decidability.
+
+\falsifiablePrediction{Every accepted BoundedNormalizationFrontierUp conversion consumer must expose typed term rows, a shared fuel row, normalizeBounded trace rows, finished-normal witness rows, bounded Term.eq comparison rows, refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows before any conversion claim is available.}
+
+\independenceWitness{metacic-decidable-typing-frontier, typed-normal-form-decider, bounded-normalization-fuel, bounded-normal-equality-checker, finite-observation-fold: $\BoundedNormalizationFrontierUp$ is not bijective to any listed sibling because it binds fuel, trace, finished-normal, bounded-comparison, refusal, replay, transport, provenance, and local naming as one frontier certificate with proposed Lean TasteGate obligations.}
+
+\begin{definition}[Bounded normalization frontier carrier]
+\label{def:bounded-normalization-frontier-carrier}
+A $\BoundedNormalizationFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,U,B,X,Y,E,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed term row, carrying the closed MetaCIC terms and their displayed typing context boundary.
+\item $U$ is the shared finite fuel row used by the bounded normalizer.
+\item $B$ is the \texttt{normalizeBounded} trace row for both terms at fuel $U$.
+\item $X$ is the finished-normal witness row, present only when the bounded traces are certified as closed finished normal forms.
+\item $Y$ is the bounded \texttt{Term.eq} comparison row over the two bounded normalizer outputs.
+\item $E$ is the bounded conversion result row exposed by \texttt{decideClosedBetaConv} at the displayed fuel.
+\item $O$ is the refusal and obstruction row. It records the missing endpoint data whenever the packet cannot promote a bounded comparison to unrestricted beta-conversion.
+\item $H$ records componentwise $\hsame$ transport for typed terms, fuel, bounded traces, finished-normal witnesses, bounded equality, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a conversion request through $T,U,B,X,Y,E,O,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedNormalizationFrontierUp$, MetaCIC typed terms, \texttt{normalizeBounded}, \texttt{Term.eq}, \texttt{decideClosedBetaConv}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BoundedNormalizationFrontierUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,U,B,X,Y,E,O,H,C,P,N$. It has no coordinate for global normalization, unrestricted beta-conversion decidability, fuel-erased confluence, selected normal forms outside the trace, or a host equality oracle.
+\end{definition}
+
+\begin{theorem}[Bounded normalization frontier NameCert obligations]
+\label{thm:bounded-normalization-frontier-namecert-obligations}
+For every accepted $\BoundedNormalizationFrontierUp$ carrier
+$$
+F=(T,U,B,X,Y,E,O,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedNormalizationFrontierUp}$ surface consists exactly of typed-term admission, finite-fuel admission, bounded-normalizer trace replay, finished-normal witness exposure, bounded \texttt{Term.eq} comparison, bounded conversion transport, refusal-row nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The typed terms are read through $T$, the computation budget through $U$, and the bounded normalizer traces through $B$.
+
+Finished-normal evidence is separate. The row $X$ records the endpoint witnesses that make the bounded traces closed normal forms; if those witnesses are absent, the refusal row $O$ is the only exposed endpoint information.
+
+The bounded comparison uses $Y$ and $E$. It compares the two displayed bounded normalizer outputs by \texttt{Term.eq} and exposes only the finite result at fuel $U$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and locally name the same route. Since the carrier contains no row for global normalization, unrestricted beta-conversion decidability, fuel-erased confluence, selected external normal forms, or host equality, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bounded conversion frontier handoff]
+\label{thm:bounded-normalization-frontier-bounded-conversion-handoff}
+Every conversion consumer of an accepted $\BoundedNormalizationFrontierUp$ packet receives a bounded frontier certificate, not an unrestricted beta-conversion decider. For
+$$
+F=(T,U,B,X,Y,E,O,H,C,P,N),
+$$
+the consumer must read typed terms $T$, finite fuel $U$, bounded traces $B$, finished-normal witnesses $X$ when present, bounded \texttt{Term.eq} comparison $Y$, bounded conversion result $E$, and the refusal row $O$ before any conversion-facing claim is exposed through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory in \autoref{def:bounded-normalization-frontier-carrier}. It stores a concrete fuel value and concrete bounded traces, so every conversion request is already a finite-fuel request.
+
+Apply \autoref{thm:bounded-normalization-frontier-namecert-obligations}. The comparison route is $T,U,B,X,Y,E,O$ in that order: typed terms and fuel determine the traces, finished-normal witnesses mark the closed endpoint case, the bounded equality row compares the displayed outputs, and the refusal row records the missing endpoint data when no global conclusion is available.
+
+The rows $H,C,P,N$ preserve that finite route. Because unrestricted normalization and fuel-erased beta-conversion are absent from the carrier, a consumer cannot bypass the bounded frontier by appealing to a host conversion theorem or selected normal form.
+\end{proof}
+
+\closureat{BoundedNormalizationFrontierUp}{seedStr}
+
+\begin{closurestatus}{\BoundedNormalizationFrontierUp}
+  \constructivestory{A $\BoundedNormalizationFrontierUp$ packet is generated from typed term rows, finite fuel rows, bounded normalizer traces, finished-normal witnesses, bounded Term.eq comparison rows, bounded conversion result rows, refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-normalization-frontier-carrier}, \autoref{thm:bounded-normalization-frontier-namecert-obligations}, and \autoref{thm:bounded-normalization-frontier-bounded-conversion-handoff} seed the finite MetaCIC bounded-normalization route over typed terms, fuel, traces, finished-normal witnesses, bounded equality, refusal, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, global normalization, unrestricted beta-conversion decidability, fuel-erased confluence, selected external normal forms, or host equality.}
+  \upgradepath{Obligation closure requires checked typed-term admission, finite-fuel admission, bounded trace replay, finished-normal witness exposure, bounded equality comparison, refusal-row nonescape, conversion handoff, transport, replay, provenance, and local naming for BEDC.Derived.BoundedNormalizationFrontierUp.}
+\end{closurestatus}
