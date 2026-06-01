@@ -6740,7 +6740,6 @@ def discovery_integrity_payload(
                 "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
             }
             unavailable.append(relation_note)
-            site_record["provenance"].append(relation_note)
             site_record["unavailable"].append(relation_note)
         for note in site.get("parse_notes", []) or []:
             if isinstance(note, dict):

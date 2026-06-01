@@ -63,6 +63,29 @@ def Hollow : BHist → Prop := fun _ => True
 
 def HollowRefiner : BHist → Prop := fun h => True ∧ SomeP h
 
+def DefinitionalTrue : BHist → Prop := fun _ => True
+
+def DefinitionalTrueRefiner : BHist → Prop := fun h => DefinitionalTrue h ∧ SomeP h
+
+def ReflexiveEqPrior : BHist → Prop := fun _ => BHist.Empty = BHist.Empty
+
+def ReflexiveEqRefiner : BHist → Prop := fun h => ReflexiveEqPrior h ∧ SomeP h
+
+def MatchTruePrior : BHist → Prop :=
+  fun h =>
+    match h with
+    | BHist.Empty => True
+    | BHist.e0 _ => True
+    | BHist.e1 _ => True
+
+def MatchTrueRefiner : BHist → Prop := fun h => MatchTruePrior h ∧ SomeP h
+
+def DuplicatePriorClassifier : BHist → BHist → Prop :=
+  fun h k => SomeP h ∧ SomeP h ∧ SomeQ k
+
+def DuplicateCandidateClassifier : BHist → BHist → Prop :=
+  fun h k => SomeP h ∧ SomeQ k ∧ SomeP k
+
 def ExplicitArrow : Type := ∀ _ : BHist, BHist
 
 def ImplicitArrow : Type := {_ : BHist} → BHist

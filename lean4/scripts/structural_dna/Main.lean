@@ -125,6 +125,11 @@ structure ConjunctLeaf where
   isTrivial : Bool
 deriving Repr
 
+structure DedupConjuncts where
+  uniqueFps : List String
+  duplicateFps : List String
+deriving Repr
+
 partial def collectLams : Expr → Nat × Expr
   | .lam _ _ body _ =>
       let (n, inner) := collectLams body
@@ -244,15 +249,55 @@ def isAndExpr (e : Expr) : Option (Expr × Expr) :=
   | .const ``And _, [left, right] => some (left, right)
   | _, _ => none
 
-def isTrivialLeaf : Expr → Bool
+def isClosedTerm (e : Expr) : Bool :=
+  !e.hasLooseBVars && !e.hasFVar && !e.hasExprMVar
+
+def isClosedReflexiveEq (e : Expr) : Bool :=
+  match appHeadArgs e with
+  | (.const ``Eq _, [_type, left, right]) => left == right && isClosedTerm left
+  | _ => false
+
+partial def isConstantTrueBranch : Expr → Bool
+  | .mdata _ e => isConstantTrueBranch e
+  | .const ``True _ => true
+  | .lam _ _ body _ => isConstantTrueBranch body
+  | _ => false
+
+def isMatchTrueRecursorLeaf (e : Expr) : Bool :=
+  match appHeadArgs e with
+  | (.lam _ _ _ _, args) =>
+      args.length >= 3 && (args.drop 2).all isConstantTrueBranch
+  | (.const name _, args) =>
+      (`rec).isSuffixOf name && args.length >= 4 && (args.drop 1).dropLast.all isConstantTrueBranch
+  | _ => false
+
+partial def containsMatchTrueRecursorLeaf : Expr → Bool
+  | .mdata _ e => containsMatchTrueRecursorLeaf e
+  | .app f a =>
+      isMatchTrueRecursorLeaf (.app f a)
+        || containsMatchTrueRecursorLeaf f
+        || containsMatchTrueRecursorLeaf a
+  | .lam _ ty body _ =>
+      containsMatchTrueRecursorLeaf ty || containsMatchTrueRecursorLeaf body
+  | .forallE _ ty body _ =>
+      containsMatchTrueRecursorLeaf ty || containsMatchTrueRecursorLeaf body
+  | .letE _ ty val body _ =>
+      containsMatchTrueRecursorLeaf ty
+        || containsMatchTrueRecursorLeaf val
+        || containsMatchTrueRecursorLeaf body
+  | .proj _ _ e => containsMatchTrueRecursorLeaf e
+  | _ => false
+
+partial def isTrivialLeaf : Expr → Bool
   | .mdata _ e => isTrivialLeaf e
   | .sort _ => true
   | .bvar _ => true
   | .const ``True _ => true
   | .const ``False _ => true
-  | _ => false
+  | other => isClosedReflexiveEq other || containsMatchTrueRecursorLeaf other
 
-partial def flattenAndWithPath (params : List Name) (path : String) (e : Expr) : List ConjunctLeaf :=
+partial def flattenAndWithPath (params : List Name) (path : String) (e : Expr) :
+    List ConjunctLeaf :=
   match e with
   | .mdata _ inner => flattenAndWithPath params path inner
   | other =>
@@ -280,6 +325,17 @@ def pushUniqueString (items : List String) (item : String) : List String :=
 def uniqueStrings (items : List String) : List String :=
   items.foldl pushUniqueString [] |>.reverse
 
+def dedupStrings (items : List String) : DedupConjuncts :=
+  let (seen, duplicates) := items.foldl
+    (fun (state : List String × List String) item =>
+      let (seen, duplicates) := state
+      if containsString seen item then
+        (seen, pushUniqueString duplicates item)
+      else
+        (item :: seen, duplicates))
+    ([], [])
+  { uniqueFps := seen.reverse, duplicateFps := duplicates.reverse }
+
 def leafFps (leaves : List ConjunctLeaf) : List String :=
   uniqueStrings (leaves.map (·.exprFp))
 
@@ -304,6 +360,8 @@ def relationEvidenceJson
     (candidate : ClassifierView)
     (prior : ClassifierView)
     (priorLeaves : List ConjunctLeaf)
+    (priorSet : DedupConjuncts)
+    (candidateSet : DedupConjuncts)
     (matchedLeaves : List ConjunctLeaf)
     (extraCount : Nat)
     (candidateLeaves : List ConjunctLeaf) : Json :=
@@ -320,6 +378,16 @@ def relationEvidenceJson
     ("matched_conjunct_paths", toJson matchedPaths),
     ("prior_conjunct_paths", toJson (priorLeaves.map (·.path))),
     ("prior_conjunct_fps", toJson (leafFps priorLeaves)),
+    ("prior_unique_conjunct_fps", toJson priorSet.uniqueFps),
+    ("candidate_unique_conjunct_fps", toJson candidateSet.uniqueFps),
+    ("duplicate_conjunct", Json.bool (
+      !priorSet.duplicateFps.isEmpty || !candidateSet.duplicateFps.isEmpty)),
+    ("prior_duplicate_conjunct_fps", toJson priorSet.duplicateFps),
+    ("candidate_duplicate_conjunct_fps", toJson candidateSet.duplicateFps),
+    ("conjunct_semantics", Json.str "set_inclusion_after_dedup"),
+    ("trivial_filter_scope", Json.str
+      ("syntactic, definitional, and known closed reflexive equality only; "
+        ++ "general propositional triviality is undecidable and is not claimed complete")),
     ("extra_conjunct_count", toJson extraCount),
     ("candidate_conjunct_fps", toJson (candidateLeaves.map (·.exprFp)))
   ]
@@ -335,8 +403,11 @@ def conjunctiveRefinementJson
     if priorLeaves.any (fun leaf => leaf.isTrivial) then
       none
     else
-      let priorFps := leafFps priorLeaves
-      let candidateFps := nontrivialLeafFps candidateLeaves
+      let priorSet := dedupStrings (priorLeaves.map (·.exprFp))
+      let candidateSet := dedupStrings (
+        (candidateLeaves.filter (fun leaf => !leaf.isTrivial)).map (·.exprFp))
+      let priorFps := priorSet.uniqueFps
+      let candidateFps := candidateSet.uniqueFps
       let includesPrior := priorFps.all (fun fp => containsString candidateFps fp)
       let extraCount := (candidateFps.filter (fun fp => !containsString priorFps fp)).length
       let matchedLeaves :=
@@ -358,7 +429,14 @@ def conjunctiveRefinementJson
             ("prior", Json.str priorName),
             ("candidate", Json.str candidateName),
             ("evidence", relationEvidenceJson
-              candidate prior priorLeaves matchedLeaves extraCount candidateLeaves)
+              candidate
+              prior
+              priorLeaves
+              priorSet
+              candidateSet
+              matchedLeaves
+              extraCount
+              candidateLeaves)
           ])
 
 def declFingerprint (env : Environment) (info : ConstantInfo) : IO DeclFingerprint := do
@@ -554,6 +632,14 @@ def testDecls : Array String :=
     "BEDC.StructuralDna.TestTargets.HeadDependsClassifier",
     "BEDC.StructuralDna.TestTargets.Hollow",
     "BEDC.StructuralDna.TestTargets.HollowRefiner",
+    "BEDC.StructuralDna.TestTargets.DefinitionalTrue",
+    "BEDC.StructuralDna.TestTargets.DefinitionalTrueRefiner",
+    "BEDC.StructuralDna.TestTargets.ReflexiveEqPrior",
+    "BEDC.StructuralDna.TestTargets.ReflexiveEqRefiner",
+    "BEDC.StructuralDna.TestTargets.MatchTruePrior",
+    "BEDC.StructuralDna.TestTargets.MatchTrueRefiner",
+    "BEDC.StructuralDna.TestTargets.DuplicatePriorClassifier",
+    "BEDC.StructuralDna.TestTargets.DuplicateCandidateClassifier",
     "BEDC.StructuralDna.TestTargets.SomeP",
     "BEDC.StructuralDna.TestTargets.ExplicitArrow",
     "BEDC.StructuralDna.TestTargets.ImplicitArrow",
@@ -598,6 +684,26 @@ def relationHasProvenanceSemantics (relations : List Json) : Bool :=
           some "positive provenance evidence; not a discovery certificate"
     | .error _ => false)
 
+def relationEvidenceHasSetSemantics (relations : List Json) (candidate prior : String) : Bool :=
+  relations.any (fun item =>
+    match item.getObjVal? "candidate", item.getObjVal? "prior", item.getObjVal? "evidence" with
+    | .ok c, .ok p, .ok evidence =>
+        c.getStr?.toOption == some candidate
+          && p.getStr?.toOption == some prior
+          && (match evidence.getObjVal? "conjunct_semantics" with
+              | .ok value => value.getStr?.toOption == some "set_inclusion_after_dedup"
+              | .error _ => false)
+          && (match evidence.getObjVal? "prior_unique_conjunct_fps" with
+              | .ok value =>
+                  match value.getArr? with
+                  | .ok arr => arr.size > 0
+                  | .error _ => false
+              | .error _ => false)
+          && (match evidence.getObjVal? "duplicate_conjunct" with
+              | .ok value => value.getBool?.toOption == some true
+              | .error _ => false)
+    | _, _, _ => false)
+
 unsafe def relationSelfTest : IO Bool := do
   let req : RelationRequest := {
     imports := testImports
@@ -608,13 +714,21 @@ unsafe def relationSelfTest : IO Bool := do
       "BEDC.StructuralDna.TestTargets.FixedShapeClassifier",
       "BEDC.StructuralDna.TestTargets.ExtendedEtaClassifier",
       "BEDC.StructuralDna.TestTargets.TripleCandidateClassifier",
-      "BEDC.StructuralDna.TestTargets.HollowRefiner"
+      "BEDC.StructuralDna.TestTargets.HollowRefiner",
+      "BEDC.StructuralDna.TestTargets.DefinitionalTrueRefiner",
+      "BEDC.StructuralDna.TestTargets.ReflexiveEqRefiner",
+      "BEDC.StructuralDna.TestTargets.MatchTrueRefiner",
+      "BEDC.StructuralDna.TestTargets.DuplicateCandidateClassifier"
     ]
     priors := #[
       "BEDC.StructuralDna.TestTargets.BaseClassifier",
       "BEDC.StructuralDna.TestTargets.ExtendedClassifier",
       "BEDC.StructuralDna.TestTargets.PairPriorClassifier",
-      "BEDC.StructuralDna.TestTargets.Hollow"
+      "BEDC.StructuralDna.TestTargets.Hollow",
+      "BEDC.StructuralDna.TestTargets.DefinitionalTrue",
+      "BEDC.StructuralDna.TestTargets.ReflexiveEqPrior",
+      "BEDC.StructuralDna.TestTargets.MatchTruePrior",
+      "BEDC.StructuralDna.TestTargets.DuplicatePriorClassifier"
     ]
   }
   let raw ← relationsJson req
@@ -635,6 +749,14 @@ unsafe def relationSelfTest : IO Bool := do
   let tripleCandidate := "BEDC.StructuralDna.TestTargets.TripleCandidateClassifier"
   let hollow := "BEDC.StructuralDna.TestTargets.Hollow"
   let hollowRefiner := "BEDC.StructuralDna.TestTargets.HollowRefiner"
+  let definitionalTrue := "BEDC.StructuralDna.TestTargets.DefinitionalTrue"
+  let definitionalTrueRefiner := "BEDC.StructuralDna.TestTargets.DefinitionalTrueRefiner"
+  let reflexiveEqPrior := "BEDC.StructuralDna.TestTargets.ReflexiveEqPrior"
+  let reflexiveEqRefiner := "BEDC.StructuralDna.TestTargets.ReflexiveEqRefiner"
+  let matchTruePrior := "BEDC.StructuralDna.TestTargets.MatchTruePrior"
+  let matchTrueRefiner := "BEDC.StructuralDna.TestTargets.MatchTrueRefiner"
+  let duplicatePrior := "BEDC.StructuralDna.TestTargets.DuplicatePriorClassifier"
+  let duplicateCandidate := "BEDC.StructuralDna.TestTargets.DuplicateCandidateClassifier"
   let r1 ← printCheck "R1 conjunctive refinement extension" (
     hasRelation relations extended base "conjunctive_refinement"
   )
@@ -659,7 +781,16 @@ unsafe def relationSelfTest : IO Bool := do
   let r8 ← printCheck "R8 relation payload provenance semantics" (
     relationHasProvenanceSemantics relations
   )
-  return [r1, r2, r3, r4, r5, r6, r7, r8].all id
+  let r9 ← printCheck "R9 reduced and reflexive trivial priors rejected" (
+    !hasRelation relations definitionalTrueRefiner definitionalTrue "conjunctive_refinement"
+    && !hasRelation relations reflexiveEqRefiner reflexiveEqPrior "conjunctive_refinement"
+    && !hasRelation relations matchTrueRefiner matchTruePrior "conjunctive_refinement"
+  )
+  let r10 ← printCheck "R10 duplicate conjunct set semantics" (
+    hasRelation relations duplicateCandidate duplicatePrior "conjunctive_refinement"
+    && relationEvidenceHasSetSemantics relations duplicateCandidate duplicatePrior
+  )
+  return [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10].all id
 
 unsafe def runSelfTest : IO UInt32 := do
   let items ← withImportModules (testImports.map importSpec) Options.empty fun env => do
