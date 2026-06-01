@@ -522,10 +522,11 @@ def _ci_fix_signature(log_tail: str, failure: dict) -> str:
     return f"CI heal {failure.get('workflow', '?')} {fallback}"
 
 
-def verify_then_push(phase: str) -> bool:
+def verify_then_push(phase: str, target_branch: str | None = None) -> bool:
+    target_branch = target_branch or BASE_BRANCH
     ok, err = verify_local_ci()
     if ok:
-        if push_to_origin():
+        if push_to_origin(target_branch=target_branch):
             print(f"[heal] codex committed + pushed ({phase})", flush=True)
             return True
         print(f"[heal] codex committed but push failed ({phase}; retry next tick)",
@@ -546,7 +547,7 @@ def verify_then_push(phase: str) -> bool:
     )
     try:
         acquire_push_lock = import_push_lock()
-        with acquire_push_lock(BASE_BRANCH, timeout=120):
+        with acquire_push_lock(target_branch, timeout=120):
             git("reset", "--hard", "HEAD^", check=False, capture=True)
         print("[heal] reverted heal commit (verify failed)", flush=True)
     except TimeoutError as exc:
@@ -856,7 +857,7 @@ Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Stop after a
 """
 
 
-HEAL_CI_PROMPT = """You are healing a failed CI run on the BEDC `codex-auto-dev` branch.
+HEAL_CI_PROMPT = """You are healing a failed CI run on the BEDC target branch `auto-dev`.
 
 A GitHub Actions workflow run has failed. The failure log tail (last ~8 KB of
 the failing step) is:
@@ -869,20 +870,20 @@ __LOG__
 - **Run ID**: __RUN_ID__
 - **Failing job/step (best guess)**: __JOB__
 
-## Important — the failure may NOT reproduce on this checkout
+## Important — the failure may NOT reproduce locally
 
-This run may be a sync-PR / merge-to-upstream gate (head branch
-`auto-dev-sync-*`) whose defect is only `legacy` / non-blocking on THIS branch
-but `new` / BLOCKING in the merge target. Do NOT conclude "nothing to fix" just
-because `make precheck` / `audit` already pass here. **Fix the SPECIFIC defect
-named in the log tail above** (e.g. the unresolved `\\leantarget{X}` /
-`\\leanchecked{X}`, the duplicate label, the undefined macro, the oversized
-`.tex`) regardless of its local blocking status — a `legacy` unresolved marker
-is still a real defect to resolve (drop the marker / downgrade `\\formalstatus`
-to a level that needs no resolving target, or add the missing Lean decl). After
-fixing, the local gates must still pass. Only if, after carefully reading the
-log AND the named files, there is genuinely no defect present in the current
-tree (the run is stale and the defect was already fixed) do you make no commit.
+The daemon has reset this checkout to the target branch `auto-dev`, but some
+log-named defects can still be legacy / non-blocking under the quick local
+precheck. Do NOT conclude "nothing to fix" just because `make precheck` /
+`audit` already pass here. **Fix the SPECIFIC defect named in the log tail
+above** (e.g. the unresolved `\\leantarget{X}` / `\\leanchecked{X}`, the
+duplicate label, the undefined macro, the oversized `.tex`) regardless of its
+local blocking status — a `legacy` unresolved marker is still a real defect to
+resolve (drop the marker / downgrade `\\formalstatus` to a level that needs no
+resolving target, or add the missing Lean decl). After fixing, the local gates
+must still pass. Only if, after carefully reading the log AND the named files,
+there is genuinely no defect present in the current tree (the run is stale and
+the defect was already fixed) do you make no commit.
 
 ## Your task
 
@@ -925,7 +926,7 @@ tree (the run is stale and the defect was already fixed) do you make no commit.
 4. Commit with subject `auto-heal: CI 修复 <one-line failure>` and a 1-line
    body identifying the failing workflow + run ID.
 
-Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Stop
+Target branch: auto-dev. Do NOT push (the heal daemon handles push). Stop
 after the failing gate passes locally.
 """
 
@@ -1033,20 +1034,7 @@ def _classify_ci_unfixable(log_tail: str) -> str | None:
 
 
 def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
-    """Query GitHub Actions for recently-failed workflow runs across the whole
-    pipeline branch family — not just the two literal integration branch names.
-
-    Family = the integration branches (`codex-auto-dev` / `auto-dev`), the
-    upstream (`dev`), AND the ephemeral sync-PR branches the sync daemon opens
-    toward upstream (`auto-dev-sync-<ts>` etc., matched by prefix). The two
-    integration branches host the BEDC Build + lake CI; but the sync daemon
-    also opens `auto-dev-sync-*` PRs toward `dev`, and THOSE run the full
-    precheck/PDF/Lean gate under a merge-to-dev change-set. A defect that is
-    only `legacy` (non-blocking) on the integration branch becomes a `new`
-    BLOCKING violation in that merge context, so its failure shows up solely
-    on the sync-PR branch's run. A per-`--branch` query against the two literal
-    names never lists it — so we query repo-wide and keep any run whose head
-    branch is in the family.
+    """Query GitHub Actions for recently-failed runs on MIRROR_BRANCH only.
 
     Returns a list of {run_id, workflow, name, created_at, branch} dicts.
     Empty if `gh` CLI is unavailable, no runs in the window failed, or any
@@ -1055,25 +1043,12 @@ def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
     if not shutil.which("gh"):
         return []
 
-    def _in_family(head: str) -> bool:
-        # startswith(BASE_BRANCH) catches codex-auto-dev + any codex-auto-dev-*;
-        # startswith(MIRROR_BRANCH) catches auto-dev + auto-dev-sync-*; plus the
-        # bare upstream branch. This is origin/CI-side branch matching, so a
-        # loose prefix is correct (we never act blindly — heal_ci_failure still
-        # reproduces or branch-gates before dispatching codex).
-        if not head:
-            return False
-        return (
-            head == UPSTREAM_BRANCH
-            or head.startswith(BASE_BRANCH)
-            or head.startswith(MIRROR_BRANCH)
-        )
-
     failures: list[dict] = []
     cutoff = time.time() - window_minutes * 60
     try:
         r = run([
             "gh", "run", "list",
+            "--branch", MIRROR_BRANCH,
             "--limit", "80",
             "--json",
             "status,conclusion,name,workflowName,databaseId,createdAt,headBranch",
@@ -1093,7 +1068,7 @@ def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
         if row.get("conclusion") != "failure":
             continue
         head = row.get("headBranch", "") or ""
-        if not _in_family(head):
+        if head != MIRROR_BRANCH:
             continue
         ts = row.get("createdAt", "")
         # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
@@ -1176,38 +1151,25 @@ def heal_ci_failure(failure: dict) -> bool:
             "到下一档。仅当日志明显是 runaway argument / 宏无限展开时，才转去定位并修"
             "那个失控宏。不要为绕开容量而删除章节。\n"
         )
-    # Reproduce-on-BASE guard: do NOT dispatch a CI heal for a failure that
-    # no longer reproduces on the current BASE. The CI-heal misfires observed
-    # in practice are all non-reproducing: (a) STALE runs created before a fix
-    # landed, (b) "noisy-red" runs that built a since-corrected mirrored SHA
-    # (a BEDC Build builds every mirrored SHA, so latest-completed=failure does
-    # NOT mean current BASE is broken), and (c) an active external generator's
-    # (bio_reality) churn that broke its own auto-dev CI but never reached BASE.
-    # In every such case codex cannot reproduce the failure, so it edits the
-    # wrong thing -> verify_local_ci reverts -> a LOCAL_CI_FAILED_AFTER_HEAL
-    # alert, burning a codex dispatch per cycle for nothing. Verify the current
-    # BASE first; if it is already clean the GitHub run is stale -> mark seen
-    # and skip. Only a failure that genuinely reproduces locally gets a heal.
-    # SCOPE: this stale-skip applies ONLY to failures on the integration
-    # branches (codex-auto-dev / auto-dev), where the BEDC Build workflow
-    # rebuilds every mirrored SHA and a since-corrected SHA reports a stale
-    # failure. Sync-PR branches (auto-dev-sync-*) and the upstream run the gate
-    # in a merge-to-dev change-set: a BASE `legacy` (non-blocking) defect
-    # becomes a `new` BLOCKING violation there, so it legitimately does NOT
-    # reproduce on the narrow BASE `make precheck` yet is a real defect — heal
-    # it from the log. Engine-capacity failures (unfixable set) are
-    # deterministic config limits, not noisy-red SHA artifacts, so they also
-    # bypass the stale-skip.
-    branch = failure.get("branch", "")
-    is_integration = branch in (BASE_BRANCH, MIRROR_BRANCH)
-    if is_integration and not unfixable:
+    run(["git", "fetch", "origin", MIRROR_BRANCH], check=False, capture=True, timeout=120)
+    r = run(["git", "reset", "--hard", f"origin/{MIRROR_BRANCH}"],
+            check=False, capture=True, timeout=60)
+    if r.returncode != 0:
+        print(f"[heal] reset to origin/{MIRROR_BRANCH} failed; skip: "
+              f"{(r.stderr or '')[-200:]}", file=sys.stderr)
+        return False
+    run(["git", "clean", "-fd"], check=False, capture=True, timeout=60)
+
+    # Reproduce guard on MIRROR_BRANCH. CI heal intentionally acts on the
+    # branch that runs CI. A clean local suite can still mean the log points at
+    # a legacy / non-blocking defect, so the prompt remains log-driven instead
+    # of treating a clean reproduction check as proof that no fix is needed.
+    if not unfixable:
         repro_ok, _repro_err = verify_local_ci()
         if repro_ok:
-            print(f"[heal] CI run {run_id} failure does not reproduce on current "
-                  f"BASE (stale / noisy-red / external-churn); marking seen, "
-                  f"skipping heal", file=sys.stderr, flush=True)
-            _mark_ci_seen(run_id)
-            return False
+            print(f"[heal] CI run {run_id} does not reproduce on current "
+                  f"{MIRROR_BRANCH}; continuing with log-guided heal",
+                  file=sys.stderr, flush=True)
     # Best-effort job guess: first line matching `<job>\t<step>\t...`.
     job_guess = "?"
     for line in log_tail.splitlines()[:5]:
@@ -2178,25 +2140,51 @@ def run_verify_only() -> int:
     return 0
 
 
-def push_to_origin() -> bool:
+def push_to_origin(target_branch: str | None = None) -> bool:
+    target_branch = target_branch or BASE_BRANCH
     acquire_push_lock = import_push_lock()
     try:
-        with acquire_push_lock(BASE_BRANCH, timeout=120):
-            res = run(["git", "push", "origin", f"HEAD:{BASE_BRANCH}"],
-                      check=False, capture=True, timeout=60)
+        with acquire_push_lock(target_branch, timeout=120):
+            for attempt in range(3):
+                res = run(["git", "push", "origin", f"HEAD:{target_branch}"],
+                          check=False, capture=True, timeout=60)
+                if res.returncode == 0:
+                    return True
+                run(["git", "fetch", "origin", target_branch],
+                    check=False, capture=True, timeout=60)
+                reb = run(["git", "rebase", f"origin/{target_branch}"],
+                          check=False, capture=True, timeout=180)
+                if reb.returncode != 0:
+                    run(["git", "rebase", "--abort"],
+                        check=False, capture=True, timeout=30)
+                    print(
+                        f"[heal] heal commit rebase onto origin/{target_branch} "
+                        "conflicted; abandon push this tick: "
+                        f"{(reb.stdout or '')[-200:]}",
+                        file=sys.stderr,
+                    )
+                    return False
+                print(
+                    f"[heal] origin/{target_branch} advanced during heal; "
+                    "rebased heal commit, retrying push "
+                    f"({attempt + 1}/3)",
+                    file=sys.stderr,
+                )
+            print(
+                "[heal] push still rejected after 3 rebase retries; "
+                "retry next tick",
+                file=sys.stderr,
+            )
+            return False
     except TimeoutError as exc:
         print(f"[heal] push lock timeout: {exc}", file=sys.stderr)
         log_heal_alert(
             category="PUSH_LOCK_TIMEOUT",
-            details={"operation": "push", "error": str(exc)},
+            details={"operation": "push", "branch": target_branch, "error": str(exc)},
             cooldown_count=0,
             note="共享 push lock 超时，本 tick 跳过 push",
         )
         return False
-    if res.returncode != 0:
-        print(f"[heal] push failed: {res.stderr}", file=sys.stderr)
-        return False
-    return True
 
 
 INDEX_LOCK_STALE_SECONDS = 600  # 10 min >> any real git index op
@@ -2295,7 +2283,7 @@ def cycle() -> None:
     else:
         print("[heal] audit clean (0 dup labels)", flush=True)
 
-    # Detect CI failures on origin/BASE_BRANCH within last 60min.
+    # Detect CI failures on origin/MIRROR_BRANCH within last 60min.
     ci_failures = detect_ci_failures(window_minutes=60)
     if ci_failures:
         attempted = False
@@ -2307,7 +2295,7 @@ def cycle() -> None:
                   f"workflow={failure.get('workflow','?')}); triaging",
                   flush=True)
             if heal_ci_failure(failure):
-                if verify_then_push("CI fix"):
+                if verify_then_push("CI fix", target_branch=MIRROR_BRANCH):
                     _mark_ci_seen(failure["run_id"])
                 else:
                     _ci_mark_failed_attempt(
@@ -2316,6 +2304,8 @@ def cycle() -> None:
                         "local verify or push failed after CI heal commit",
                     )
                 return  # one heal per cycle is enough
+            if not _prepare_clean_base_checkout():
+                return
             break
         if not attempted:
             print(f"[heal] all {len(ci_failures)} CI failure(s) already attempted; "
