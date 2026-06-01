@@ -1,4 +1,5 @@
 import BEDC.Derived.PolishspaceUp.RootCauchyBasisCarrier
+import BEDC.Derived.PolishspaceUp.RootUnblockSurface
 import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.PolishspaceUp
@@ -98,5 +99,76 @@ theorem PolishspaceL10RootUnblockPackage [AskSetup] [PackageSetup]
       exact ⟨source.right, realSealLedgerL10, l10Pkg⟩
   }
   exact ⟨cert, realSealUnary, l10Unary⟩
+
+theorem PolishSpaceL10RootUnblockPackage [AskSetup] [PackageSetup]
+    {metric complete separable stream readback ledger transport replay provenance localName
+      completionRead denseRead rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolishSpaceRootUnblockSurface metric complete separable stream readback ledger transport
+        replay provenance localName bundle pkg →
+      Cont complete stream completionRead →
+        Cont separable stream denseRead →
+          Cont completionRead denseRead rootRead →
+            PkgSig bundle rootRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row rootRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row metric ∨ hsame row complete ∨ hsame row separable ∨
+                      hsame row stream ∨ hsame row readback ∨ hsame row ledger ∨
+                        hsame row rootRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle localName pkg ∧ PkgSig bundle rootRead pkg)
+                  hsame ∧
+                UnaryHistory completionRead ∧ UnaryHistory denseRead ∧
+                  UnaryHistory rootRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro surface completionRoute denseRoute rootRoute rootPkg
+  obtain ⟨metricUnary, completeUnary, separableUnary, streamUnary, _readbackUnary,
+    _ledgerUnary, _transportUnary, _metricCompleteRoute, _metricSeparableRoute,
+    _replayRoute, provenancePkg, localNamePkg⟩ := surface
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed completeUnary streamUnary completionRoute
+  have denseUnary : UnaryHistory denseRead :=
+    unary_cont_closed separableUnary streamUnary denseRoute
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed completionUnary denseUnary rootRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row rootRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row metric ∨ hsame row complete ∨ hsame row separable ∨
+              hsame row stream ∨ hsame row readback ∨ hsame row ledger ∨
+                hsame row rootRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle localName pkg ∧ PkgSig bundle rootRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro rootRead ⟨hsame_refl rootRead, rootUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, provenancePkg, localNamePkg, rootPkg⟩
+  }
+  exact ⟨cert, completionUnary, denseUnary, rootUnary⟩
 
 end BEDC.Derived.PolishspaceUp
