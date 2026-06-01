@@ -1,4 +1,5 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 /-!
@@ -14,23 +15,23 @@ open BEDC.Meta.TasteGate
 
 /-- Bishop located-real completion packet with the nine displayed rows. -/
 inductive BishopLocatedRealCompletionUp : Type where
-  | mk : (D S R L E H C P N : BHist) → BishopLocatedRealCompletionUp
+  | mk : (D S R L E H C P N : BHist) -> BishopLocatedRealCompletionUp
   deriving DecidableEq
 
-def bishopLocatedRealCompletionEncodeBHist : BHist → RawEvent
+def bishopLocatedRealCompletionEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: bishopLocatedRealCompletionEncodeBHist h
   | BHist.e1 h => BMark.b1 :: bishopLocatedRealCompletionEncodeBHist h
 
-def bishopLocatedRealCompletionDecodeBHist : RawEvent → BHist
+def bishopLocatedRealCompletionDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (bishopLocatedRealCompletionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (bishopLocatedRealCompletionDecodeBHist tail)
 
 private theorem BishopLocatedRealCompletionTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist,
+    forall h : BHist,
       bishopLocatedRealCompletionDecodeBHist
         (bishopLocatedRealCompletionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -40,8 +41,12 @@ private theorem BishopLocatedRealCompletionTasteGate_single_carrier_alignment_de
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+def bishopLocatedRealCompletionFields : BishopLocatedRealCompletionUp -> List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | BishopLocatedRealCompletionUp.mk D S R L E H C P N => [D, S, R, L, E, H, C, P, N]
+
 def bishopLocatedRealCompletionToEventFlow :
-    BishopLocatedRealCompletionUp → EventFlow
+    BishopLocatedRealCompletionUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | BishopLocatedRealCompletionUp.mk D S R L E H C P N =>
       [[BMark.b0],
@@ -66,7 +71,7 @@ def bishopLocatedRealCompletionToEventFlow :
         bishopLocatedRealCompletionEncodeBHist N]
 
 private def bishopLocatedRealCompletionDecodeRows :
-    EventFlow → Option (List BHist)
+    EventFlow -> Option (List BHist)
   -- BEDC touchpoint anchor: BHist BMark
   | [] => some []
   | _tag :: rest0 =>
@@ -78,7 +83,7 @@ private def bishopLocatedRealCompletionDecodeRows :
           | none => none
 
 private def bishopLocatedRealCompletionFromRows :
-    List BHist → Option BishopLocatedRealCompletionUp
+    List BHist -> Option BishopLocatedRealCompletionUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | D :: rest0 =>
@@ -113,7 +118,7 @@ private def bishopLocatedRealCompletionFromRows :
                                       | _ :: _ => none
 
 def bishopLocatedRealCompletionFromEventFlow :
-    EventFlow → Option BishopLocatedRealCompletionUp :=
+    EventFlow -> Option BishopLocatedRealCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   fun ef =>
     match bishopLocatedRealCompletionDecodeRows ef with
@@ -121,7 +126,7 @@ def bishopLocatedRealCompletionFromEventFlow :
     | none => none
 
 private theorem BishopLocatedRealCompletionTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : BishopLocatedRealCompletionUp,
+    forall x : BishopLocatedRealCompletionUp,
       bishopLocatedRealCompletionFromEventFlow
         (bishopLocatedRealCompletionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -163,7 +168,7 @@ private theorem BishopLocatedRealCompletionTasteGate_single_carrier_alignment_ro
 private theorem BishopLocatedRealCompletionTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : BishopLocatedRealCompletionUp} :
     bishopLocatedRealCompletionToEventFlow x =
-      bishopLocatedRealCompletionToEventFlow y → x = y := by
+      bishopLocatedRealCompletionToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -177,6 +182,35 @@ private theorem BishopLocatedRealCompletionTasteGate_single_carrier_alignment_to
       (BishopLocatedRealCompletionTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (BishopLocatedRealCompletionTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem BishopLocatedRealCompletion_fields_faithful :
+    forall x y : BishopLocatedRealCompletionUp,
+      bishopLocatedRealCompletionFields x = bishopLocatedRealCompletionFields y -> x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk D1 S1 R1 L1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk D2 S2 R2 L2 E2 H2 C2 P2 N2 =>
+          injection hfields with hD tail0
+          injection tail0 with hS tail1
+          injection tail1 with hR tail2
+          injection tail2 with hL tail3
+          injection tail3 with hE tail4
+          injection tail4 with hH tail5
+          injection tail5 with hC tail6
+          injection tail6 with hP tail7
+          injection tail7 with hN _
+          subst hD
+          subst hS
+          subst hR
+          subst hL
+          subst hE
+          subst hH
+          subst hC
+          subst hP
+          subst hN
+          rfl
 
 instance bishopLocatedRealCompletionBHistCarrier :
     BHistCarrier BishopLocatedRealCompletionUp where
@@ -198,21 +232,39 @@ instance bishopLocatedRealCompletionChapterTasteGate :
     exact hxy
       (BishopLocatedRealCompletionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+instance bishopLocatedRealCompletionFieldFaithful :
+    FieldFaithful BishopLocatedRealCompletionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := bishopLocatedRealCompletionFields
+  field_faithful := BishopLocatedRealCompletion_fields_faithful
+
+instance bishopLocatedRealCompletionNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial BishopLocatedRealCompletionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BishopLocatedRealCompletionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BishopLocatedRealCompletionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 /-- Public TasteGate object for the Bishop located-real completion carrier. -/
 def taste_gate : ChapterTasteGate BishopLocatedRealCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   bishopLocatedRealCompletionChapterTasteGate
 
 theorem BishopLocatedRealCompletionTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
+    (forall h : BHist,
         bishopLocatedRealCompletionDecodeBHist
           (bishopLocatedRealCompletionEncodeBHist h) = h) ∧
-      (∀ x : BishopLocatedRealCompletionUp,
+      (forall x : BishopLocatedRealCompletionUp,
         bishopLocatedRealCompletionFromEventFlow
           (bishopLocatedRealCompletionToEventFlow x) = some x) ∧
-      (∀ x y : BishopLocatedRealCompletionUp,
+      (forall x y : BishopLocatedRealCompletionUp,
         bishopLocatedRealCompletionToEventFlow x =
-          bishopLocatedRealCompletionToEventFlow y → x = y) ∧
+          bishopLocatedRealCompletionToEventFlow y -> x = y) ∧
       bishopLocatedRealCompletionEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
@@ -225,5 +277,29 @@ theorem BishopLocatedRealCompletionTasteGate_single_carrier_alignment :
           BishopLocatedRealCompletionTasteGate_single_carrier_alignment_toEventFlow_injective
             heq
       · rfl
+
+theorem BishopLocatedRealCompletion_namecert_obligations :
+    Nonempty (ChapterTasteGate BishopLocatedRealCompletionUp) ∧
+      Nonempty (FieldFaithful BishopLocatedRealCompletionUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial BishopLocatedRealCompletionUp) ∧
+          (forall D S R L E H C P N : BHist,
+            bishopLocatedRealCompletionFields
+                (BishopLocatedRealCompletionUp.mk D S R L E H C P N) =
+              [D, S, R, L, E, H, C, P, N]) ∧
+            (forall h : BHist,
+              bishopLocatedRealCompletionDecodeBHist
+                  (bishopLocatedRealCompletionEncodeBHist h) =
+                h) ∧
+              bishopLocatedRealCompletionEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨⟨bishopLocatedRealCompletionChapterTasteGate⟩,
+      ⟨bishopLocatedRealCompletionFieldFaithful⟩,
+      ⟨bishopLocatedRealCompletionNontrivial⟩,
+      (by
+        intro D S R L E H C P N
+        rfl),
+      BishopLocatedRealCompletionTasteGate_single_carrier_alignment_decode_encode,
+      rfl⟩
 
 end BEDC.Derived.BishopLocatedRealCompletionUp
