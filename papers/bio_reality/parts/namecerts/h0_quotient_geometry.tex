@@ -1,19 +1,45 @@
-\subsection{Quotient Geometry and ORF-Eligibility Boundary}\label{sec:h0-quotient-geometry-orf-eligibility}\origin{ai}
+\origin{ai}
 
-\paragraph{Finite geometric record.}
-The row named \texttt{h0.quotient.geometry} records a finite quotient geometry over the codon-level set $M$ and its projected image $\pi M$.  The verified finite vector for $M$ is
+\subsection{Quotient Geometry as a Boundary Record for ORF Eligibility}
+\label{sec:h0-quotient-geometry-orf-eligibility-boundary}
+
+\paragraph{Finite combinatorial datum.}
+The record named $h0.quotient.geometry$ is a finite codon-level geometry attached to an ORF-eligibility boundary question. Its verified carrier set $M$ has cardinality $20$ and is exactly
 $$
 \begin{aligned}
-(f_0,f_1,f_2,f_3,f_4)(M)=(20,38,26,8,1),
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
+& CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-while the quotient vector is
+The same run verifies that $M$ is the union denoted by $WNR\cup CUN$ in the finite enumeration. A smaller motif-union set $R$ has $13$ listed elements,
 $$
 \begin{aligned}
-(f_0,f_1,f_2,f_3)(\pi M)=(10,14,6,1).
+R=\{&AAA,AGA,AGG,AUA,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UGA,UUA\},
 \end{aligned}
 $$
-The quotient contains exactly $10$ projected points.  In the row certificate these points are the binary vectors
+with no missing and no extra elements relative to the motif-union computation. The saturation check reports
+$$
+\begin{aligned}
+\operatorname{Sat}_{f3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},
+\end{aligned}
+$$
+and the boundary contribution for this saturation is the empty set. Thus the enumerated codon geometry distinguishes $ACA$ and $ACG$ from the saturated motif closure while still placing both inside the full $20$-element set $M$.
+
+\paragraph{Quotient geometry.}
+The finite run for $h0.quotient.geometry$ verifies the face vector
+$$
+\begin{aligned}
+f(M)=(20,38,26,8,1),
+\end{aligned}
+$$
+and verifies that the quotient image has size $10$ with quotient face vector
+$$
+\begin{aligned}
+f(\pi M)=(10,14,6,1).
+\end{aligned}
+$$
+The ten quotient rows are precisely
 $$
 \begin{aligned}
 \pi M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
@@ -21,48 +47,19 @@ $$
 &(1,0,1,0,1),(1,0,1,1,1)\}.
 \end{aligned}
 $$
-The product-decomposition obstruction field is empty in the finite audit.  Thus the chapter records a checked quotient shape, not a biological realization of that shape.
+The product-decomposition obstruction reported by the run is empty, so the finite quotient calculation is internally coherent as a discrete geometry. This is only a statement about the finite rows and their quotient classes. It does not by itself assert that a nucleotide interval is present in a biological genome, that translation occurs, or that a protein product is formed.
 
-\paragraph{Codon sets used by the quotient row.}
-The same finite packet records $|M|=20$ and identifies $M$ with the union $\mathrm{WNR}\cup\mathrm{CUN}$.  The enumerated set is
+\paragraph{ORF-eligibility contact boundary.}
+The biological layer attached to this packet is $orf\_eligibility$, interpreted as eligibility from start/stop codon enumeration. The record contains no direct contact at the seed stage: the carrier, distinctions, and readback fields are explicitly waiting for an independent biological observation. Consequently, the geometry above can at most specify what must be checked once a sequence, transcript, or curated interval annotation is supplied. A separate finite contact later loaded one external window manifest with $1$ input window, classified all $1$ window by start/stop enumeration, and marked the scope as external-window start/stop enumeration only, with snapshot date $2026$-$05$-$25$. That contact supports a narrow eligibility classification for its supplied window; it does not turn the quotient geometry into translation evidence.
+
+\paragraph{Curated interval contact.}
+A stronger curated-interval contact loaded $168$ rows from a finite interval dataset derived from NCBI RefSeq GenBank XML CDS intervals for Escherichia coli K-12 MG1655 accession $NC\_000913.3$, with snapshot date $2026$-$05$-$30$. Its required input classes were boundary cases, matched non-ORF decoys, and positive curated ORFs. The protocol was frozen before the external observation: classifier rules, input classes, held-out splits, and baselines were all marked fixed, and the analysis used no translation or structure input. On $72$ positive intervals the accept rate was $1.0$, and on $72$ matched decoys the reject rate was $1.0$. Both exact one-sided binomial upper-tail probabilities were
 $$
 \begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\\
-&\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\\
-&\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+p=2.117582368135751\cdot 10^{-22}.
 \end{aligned}
 $$
-A smaller motif-compression row records the motif union
-$$
-\begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
-&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\},
-\end{aligned}
-$$
-with no missing codons and no extra codons against the declared motif union.  The $f_3$ saturation row further verifies
-$$
-\begin{aligned}
-\mathrm{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\\
-&\mathrm{UUA},\mathrm{UUG}\},
-\end{aligned}
-$$
-and reports an empty $f_3$ boundary.  It also verifies that $M$ is obtained from the mediated row together with $\mathrm{ACA}$ and $\mathrm{ACG}$, yielding the same $20$ codons listed above.
+The predeclared pairwise comparison also produced $72$ wins from $72$ pairs, with the same upper-tail probability. Three held-out splits each had $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$: the left-locus, middle-locus, and right-locus folds all passed. The boundary-control block contained $24$ boundary cases and promoted $0$ of them, giving promoted fraction $0.0$.
 
-\paragraph{ORF-eligibility interpretation.}
-The biological object attached to this row is open-reading-frame eligibility as tested by start and stop codon enumeration.  The geometric certificate by itself is weaker than an observed ORF interval.  It supplies a finite codon and quotient pattern from which one may formulate an eligibility test, but it does not supply a sequence record, transcript record, curated interval, translation product, folded molecule, physical admissibility argument, cellular function, mechanism, or universal biological rule.  Promotion beyond this boundary requires a separate contact with biological data that can test the proposed interval.
-
-The row therefore has a local negative content as important as its positive finite content: start/stop-window geometry is not treated as translation.  It is not treated as protein structure.  It is not treated as biochemical viability.  It is not treated as biological function.  It is only a rule-bounded finite pattern whose possible biological use must be checked against an independently supplied interval contact.
-
-\paragraph{Contact-bearing comparison row.}
-A separate ORF-eligibility contact row shows what the stronger form of evidence looks like when an external curated interval dataset is actually supplied.  That contact row loads $168$ curated rows from an NCBI RefSeq GenBank XML CDS interval dataset for \textit{Escherichia coli} K-12 MG1655 accession \texttt{NC\_000913.3}, with snapshot date $2026$-$05$-$30$.  It records $72$ accepted positive intervals out of $72$, $72$ rejected matched non-ORF decoys out of $72$, and $24$ boundary cases with $0$ promotions.  The positive-interval exact one-sided binomial statistic is $2.117582368135751\cdot 10^{-22}$, and the matched-decoy rejection statistic is the same value:
-$$
-\begin{aligned}
-p_{\mathrm{positive}}&=2.117582368135751\cdot 10^{-22},\\
-p_{\mathrm{decoy}}&=2.117582368135751\cdot 10^{-22}.
-\end{aligned}
-$$
-The paired baseline comparison also records $72$ wins in $72$ pairs with the same one-sided binomial value.  Three held-out splits are reported: left, middle, and right locus folds, each with $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$.  These numbers belong to the external interval-contact row, not to the quotient geometry alone.
-
-\paragraph{Boundary conclusion.}
-The present quotient row is therefore ready as a finite geometric chapter: it establishes the $20$-codon set $M$, the $13$-codon motif set $R$, the $18$-codon $f_3$ saturation output, the quotient cardinality $10$, and the two verified face vectors $(20,38,26,8,1)$ and $(10,14,6,1)$.  Its biological reading is deliberately bounded.  Without an attached curated interval, sequence, or transcript contact, the row remains an ORF-eligibility boundary record.  Even with such a contact, the supported conclusion is interval eligibility under the stated start/stop enumeration protocol; it still does not by itself establish translation realization, folded structure, physical admissibility, function, mechanism, or universality.
+\paragraph{Local conclusion.}
+The finite evidence therefore has two distinct parts. First, the codon geometry has a verified $20$-element carrier, a $13$-element motif-union subset, a saturation computation, and a $10$-row quotient with face vector $(10,14,6,1)$. Second, a separate curated interval contact tests ORF-eligibility behavior on $168$ external rows and gives perfect positive acceptance, perfect matched-decoy rejection, perfect paired advantage, and stable held-out split behavior under the stated finite protocol. The conclusion is deliberately narrow: the packet supports only an ORF-eligibility boundary analysis for the supplied contact regime. No translation realization, folded molecular structure, physical admissibility, biological function, biochemical mechanism, organism-level effect, or universal biological law follows from these rows unless another independently specified contact supplies that higher-layer evidence.
