@@ -122,6 +122,20 @@ Then use \autoref{thm:bounded-set-diameter-consumer-boundary}. Downstream consum
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedSetUp.BoundedSetCarrier\_real\_order\_radius\_obligation}
 
+\begin{theorem}[BoundedSet RealSeparability forward link]
+\label{thm:bounded-set-real-separability-forward-link}
+When an accepted $\BoundedSetUp$ packet over a $\RealUp$ metric carrier is consumed by a $\RealSeparabilityUp$ route, the consumer may read only the displayed center row $c$, radius row $r$, $\MetricBallUp$ containment ledger $B$, and countable dense witness rows from \autoref{ch:concrete-instances-real-separability-namecert}. The handoff cannot infer compactness, a supremum, a selected maximum, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $Q=(X,S,c,r,B,H,C,P,N)$ using \autoref{def:bounded-set-carrier}. The bounded-set side exposes the metric carrier $X$, membership classifier $S$, center row $c$, radius row $r$, containment ledger $B$, and structural rows $H,C,P,N$.
+
+Route membership through the containment ledger as in \autoref{thm:boundedset-metricball-carrier-obligation}. A separability consumer therefore receives bounded membership only after the $\MetricBallUp$ row $B$ has paired the membership classifier with the displayed center and radius rows.
+
+Use the radius obligation \autoref{thm:boundedset-real-order-radius-obligation}. The radius remains a displayed $\RealAlgOrderUp$ comparison input, so it cannot become a host supremum, selected maximum, trichotomy decision, compactness witness, or ambient completeness theorem.
+
+Finally pass the finite ball-cover request to the countable dense witness surface of \autoref{ch:concrete-instances-real-separability-namecert}. The $\RealSeparabilityUp$ route may consume the displayed ball data and dense rows, but the structural rows $H,C,P,N$ preserve only that finite handoff.
+\end{proof}
+
 \begin{theorem}[BoundedSet NameCert ledger nonescape]
 \label{thm:boundedset-namecert-ledger-nonescape}
 Let $Q=(X,S,c,r,B,H,C,P,N)$ be an accepted $\BoundedSetUp$ carrier. The local $\NameCert_{\BoundedSetUp}$ ledger consumes exactly the membership classifier $S$, $\MetricBallUp$ containment row $B$, $\RealAlgOrderUp$ radius comparison row $r$, and structural rows $H,C,P,N$ over the metric carrier $X$ and center row $c$. No accepted ledger read can escape into host sets, suprema, selected maxima, trichotomy, compactness, finite-net existence, or ambient $\RealUp$ completeness.
