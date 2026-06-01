@@ -13,6 +13,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import run_quality_improvement as improvement
+from scripts.run_gaussian_ou_lejepa import run_experiment
 
 MASTER_SEED = 43820260601
 SEED_COUNT = 24
@@ -86,14 +87,16 @@ def _delta_record(
     before_sample_count: int,
     after_sample_count: int,
 ) -> dict[str, Any]:
-    before = improvement.run_improvement_surface(
+    before = run_experiment(
+        use_torch=False,
         sample_count=before_sample_count,
         seed=before_seed,
         run_id=f"quality-improvement-{arm}-seed-{index:02d}-before",
         envelope_artifact=f"reports/{arm}_seed_{index:02d}_before_envelope.json",
         report_artifact=REPORT_ARTIFACT,
     )
-    after = improvement.run_improvement_surface(
+    after = run_experiment(
+        use_torch=False,
         sample_count=after_sample_count,
         seed=after_seed,
         run_id=f"quality-improvement-{arm}-seed-{index:02d}-after",
