@@ -376,6 +376,40 @@ exclude any hidden discharge, so the candidate route is exactly the displayed
 finite route through $T,F,N,K,X,H,C,P,L$.
 \end{proof}
 
+\begin{theorem}[Normal-form consistency seal candidate-mediated SN handoff]
+\label{thm:normal-form-consistency-seal-candidate-mediated-sn-handoff}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
+$\NormalFormConsistencySealUp$ packet. Any read of $S$ that exports
+candidate-mediated strong-normalization evidence must first expose the closed
+typed-term row $T$, candidate row, normalization-frontier row, consistency-seal
+row $K$, $\hsame$ transport $H$, $\Cont$ replay $C$, provenance $P$, and local
+NameCert row $L$. The handoff cannot turn candidate-mediated SN into arbitrary
+closed subject reduction, full closed consistency, hidden normalization
+transport, or host equality.
+\end{theorem}
+\begin{proof}
+Project the seal carrier. The closed typed-term information is read through
+$T$, and the consistency-seal conclusion is read only through $K$ together
+with the finite rows carried by the packet.
+
+Use the candidate route
+\autoref{thm:normal-form-consistency-seal-candidate-route}. It forces any
+candidate-facing read of the closed-normal theorem row to pass through
+$T,F,N,K,X,H,C,P,L$ rather than through an arbitrary normalization endpoint.
+
+Use the MetaCIC discharge frontier
+\autoref{thm:normal-form-consistency-seal-metacic-discharge-frontier} together
+with the normalization-frontier chapter
+\autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. These
+references keep candidate-mediated SN attached to the displayed frontier and
+leave subject reduction at its separate discharge socket.
+
+Finally apply the non-escape theorem
+\autoref{thm:normal-form-consistency-seal-nonescape}. The structural rows
+$H,C,P,L$ preserve and name the same finite handoff, so no consumer can read a
+stronger consistency or normalization claim from the seal.
+\end{proof}
+
 \begin{theorem}[Normal-form consistency seal reduction determinacy]
 \label{thm:normal-form-consistency-seal-reduction-determinacy}
 Let $S=(T,F,N,K,X,H,C,P,L)$ and
