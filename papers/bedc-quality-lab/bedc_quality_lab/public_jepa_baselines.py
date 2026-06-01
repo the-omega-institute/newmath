@@ -23,6 +23,10 @@ from bedc_quality_lab.bedc_jepa_metrics import (
 from bedc_quality_lab.bedc_jepa_world import make_boundary_gated_batch
 
 
+PUBLIC_VJEPA2_BASE_URL = "https://dl.fbaipublicfiles.com/vjepa2"
+PUBLIC_VJEPA2_AC_GIANT_CHECKPOINT_URL = f"{PUBLIC_VJEPA2_BASE_URL}/vjepa2-ac-vitg.pt"
+
+
 def _vjepa2_ac_candidate() -> dict[str, Any]:
     return {
         "candidate_id": "vjepa2-ac",
@@ -309,6 +313,61 @@ def _render_boundary_video(x: np.ndarray, *, img_size: int = 384, num_frames: in
     return video
 
 
+def _render_boundary_transition_video(batch: Any, *, img_size: int = 256) -> Any:
+    import torch
+
+    first = np.asarray(batch.x, dtype=np.float32)
+    second = np.asarray(batch.x_pair, dtype=np.float32)
+    values = np.concatenate([first, second], axis=0)
+    mins = values.min(axis=0, keepdims=True)
+    spans = np.maximum(values.max(axis=0, keepdims=True) - mins, 1e-6)
+    first_norm = (first - mins) / spans
+    second_norm = (second - mins) / spans
+    video = torch.zeros((first.shape[0], 3, 2, img_size, img_size), dtype=torch.float32)
+    grid = torch.linspace(-1.0, 1.0, img_size)
+    yy, xx = torch.meshgrid(grid, grid, indexing="ij")
+    for index, states in enumerate((first_norm, second_norm)):
+        for row in range(first.shape[0]):
+            cx = float(2.0 * states[row, 0] - 1.0)
+            cy = float(2.0 * states[row, 1] - 1.0)
+            blob = torch.exp(-60.0 * ((xx - cx) ** 2 + (yy - cy) ** 2))
+            video[row, 0, index, :, :] = blob
+            video[row, 1, index, :, :] = float(states[row, 0])
+            video[row, 2, index, :, :] = float(states[row, 1])
+    return video
+
+
+def _action_state_tensors(batch: Any) -> tuple[np.ndarray, np.ndarray]:
+    z = np.asarray(batch.z, dtype=np.float32)
+    z_pair = np.asarray(batch.z_pair, dtype=np.float32)
+    x = np.asarray(batch.x, dtype=np.float32)
+    x_pair = np.asarray(batch.x_pair, dtype=np.float32)
+    n = z.shape[0]
+    states = np.column_stack(
+        [
+            z[:, 0],
+            z[:, 1],
+            x[:, 0],
+            x[:, 1],
+            np.full(n, float(batch.radius), dtype=np.float32),
+            np.full(n, float(batch.gap_width), dtype=np.float32),
+            np.ones(n, dtype=np.float32),
+        ]
+    ).astype(np.float32)
+    actions = np.column_stack(
+        [
+            z_pair[:, 0] - z[:, 0],
+            z_pair[:, 1] - z[:, 1],
+            x_pair[:, 0] - x[:, 0],
+            x_pair[:, 1] - x[:, 1],
+            np.sum(z * z, axis=1),
+            np.sum(z_pair * z_pair, axis=1),
+            np.ones(n, dtype=np.float32),
+        ]
+    ).astype(np.float32)
+    return actions[:, None, :], states[:, None, :]
+
+
 def _fit_linear_scores(train_features: np.ndarray, train_labels: np.ndarray, test_features: np.ndarray) -> np.ndarray:
     labels = np.asarray(train_labels, dtype=np.float64)
     targets = np.where(labels, 1.0, -1.0)
@@ -317,6 +376,110 @@ def _fit_linear_scores(train_features: np.ndarray, train_labels: np.ndarray, tes
     test_design = np.column_stack([test_features, np.ones(test_features.shape[0])])
     logits = test_design @ coef
     return 1.0 / (1.0 + np.exp(-logits))
+
+
+def _cuda_environment_report() -> dict[str, Any]:
+    try:
+        import torch
+
+        available = bool(torch.cuda.is_available())
+        props = torch.cuda.get_device_properties(0) if available else None
+        return {
+            "torch_version": str(torch.__version__),
+            "torch_cuda_version": str(torch.version.cuda),
+            "cuda_available": available,
+            "device_count": int(torch.cuda.device_count()),
+            "gpu_name": torch.cuda.get_device_name(0) if available else None,
+            "total_memory_bytes": int(props.total_memory) if props is not None else None,
+        }
+    except Exception as exc:  # pragma: no cover - environment-dependent probe boundary
+        return {
+            "cuda_available": False,
+            "exception_type": type(exc).__name__,
+            "message": str(exc),
+        }
+
+
+def _load_public_vjepa2_ac_giant_checkpoint() -> dict[str, Any]:
+    import torch
+
+    url = PUBLIC_VJEPA2_AC_GIANT_CHECKPOINT_URL
+    state_dict = torch.hub.load_state_dict_from_url(url, map_location="cpu")
+    required = {"encoder", "predictor"}
+    missing = sorted(required - set(state_dict))
+    if missing:
+        raise RuntimeError(f"checkpoint missing keys: {', '.join(missing)}")
+    return {
+        "url": url,
+        "state_dict": state_dict,
+    }
+
+
+def _load_vjepa2_ac_giant_modules(*, num_frames: int = 2) -> tuple[Any, Any, dict[str, Any]]:
+    import torch
+
+    model = torch.hub.load(
+        "facebookresearch/vjepa2",
+        "vjepa2_ac_vit_giant",
+        pretrained=False,
+        trust_repo=True,
+        skip_validation=True,
+        num_frames=num_frames,
+    )
+    encoder, predictor = model
+    checkpoint = _load_public_vjepa2_ac_giant_checkpoint()
+    encoder_state = _clean_vjepa_state_dict(checkpoint["state_dict"]["encoder"])
+    predictor_state = _clean_vjepa_state_dict(checkpoint["state_dict"]["predictor"])
+    encoder.load_state_dict(encoder_state, strict=False)
+    predictor.load_state_dict(predictor_state, strict=True)
+    return encoder, predictor, {
+        "checkpoint_url": checkpoint["url"],
+        "encoder_keys": float(len(encoder_state)),
+        "predictor_keys": float(len(predictor_state)),
+    }
+
+
+def _clean_vjepa_state_dict(state_dict: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key.replace("module.", "").replace("backbone.", ""): value
+        for key, value in state_dict.items()
+    }
+
+
+def _extract_ac_giant_features(
+    encoder: Any,
+    predictor: Any,
+    batch: Any,
+    *,
+    batch_size: int,
+    device: str,
+    use_amp: bool,
+) -> np.ndarray:
+    import torch
+
+    encoder.eval()
+    predictor.eval()
+    encoder.to(device)
+    predictor.to(device)
+    features: list[np.ndarray] = []
+    videos = _render_boundary_transition_video(batch)
+    actions_np, states_np = _action_state_tensors(batch)
+    amp_enabled = bool(use_amp and device == "cuda")
+    with torch.inference_mode():
+        for start in range(0, videos.shape[0], batch_size):
+            stop = min(start + batch_size, videos.shape[0])
+            video = videos[start:stop].to(device, non_blocking=True)
+            actions = torch.from_numpy(actions_np[start:stop]).to(device, non_blocking=True)
+            states = torch.from_numpy(states_np[start:stop]).to(device, non_blocking=True)
+            with torch.cuda.amp.autocast(enabled=amp_enabled):
+                tokens = encoder(video)
+                predicted = predictor(tokens, actions, states)
+                pooled = predicted.mean(dim=1)
+            features.append(pooled.detach().float().cpu().numpy())
+            del video, actions, states, tokens, predicted, pooled
+            if device == "cuda":
+                torch.cuda.empty_cache()
+    return np.concatenate(features, axis=0)
 
 
 def run_public_jepa_structure_adapter(
@@ -411,6 +574,185 @@ def run_public_jepa_structure_adapter(
         }
 
 
+def run_public_jepa_ac_giant_adapter(
+    *,
+    train_count: int = 64,
+    test_count: int = 64,
+    seed: int = 6061,
+    batch_size: int = 1,
+    device: str = "cuda",
+    use_amp: bool = True,
+) -> dict[str, Any]:
+    cuda = _cuda_environment_report()
+    if device == "cuda" and not cuda.get("cuda_available"):
+        return {
+            "schema_id": "bedc-jepa-public-ac-giant-adapter",
+            "status": "unavailable",
+            "candidate_id": "vjepa2-ac-vit-giant",
+            "repository_url": "https://github.com/facebookresearch/vjepa2",
+            "cuda_environment": cuda,
+            "blocking_reason": "CUDA was requested but torch.cuda.is_available() is false",
+            "cannot_claim": [
+                "V-JEPA2-AC action-conditioned checkpoint comparison",
+                "public benchmark score superiority",
+                "large-scale real-world conclusion",
+                "formal neural-network proof",
+            ],
+        }
+    try:
+        import torch
+
+        train = make_boundary_gated_batch(train_count, rho=0.84, radius=1.0, gap_width=0.14, seed=seed)
+        test = make_boundary_gated_batch(test_count, rho=0.84, radius=1.0, gap_width=0.14, seed=seed + 1)
+        encoder, predictor, checkpoint_record = _load_vjepa2_ac_giant_modules(num_frames=2)
+        train_features = _extract_ac_giant_features(
+            encoder,
+            predictor,
+            train,
+            batch_size=batch_size,
+            device=device,
+            use_amp=use_amp,
+        )
+        test_features = _extract_ac_giant_features(
+            encoder,
+            predictor,
+            test,
+            batch_size=batch_size,
+            device=device,
+            use_amp=use_amp,
+        )
+        distinction_scores = _fit_linear_scores(train_features, train.distinction, test_features)
+        gap_scores = _fit_linear_scores(train_features, train.gap, test_features)
+        gap_auc = gap_detection_auc(gap_scores, test.gap)
+        unlogged = unlogged_error_rate(distinction_scores, test.distinction, gap_scores)
+        false_claim = false_claim_rate(distinction_scores, test.distinction, test.gap)
+        coverage = certified_coverage(gap_scores)
+        peak_memory = None
+        if device == "cuda":
+            peak_memory = float(torch.cuda.max_memory_allocated())
+        return {
+            "schema_id": "bedc-jepa-public-ac-giant-adapter",
+            "status": "available",
+            "candidate_id": "vjepa2-ac-vit-giant",
+            "repository_url": "https://github.com/facebookresearch/vjepa2",
+            "cuda_environment": cuda,
+            "model": {
+                "hub_entry": "vjepa2_ac_vit_giant",
+                "model_type": type(encoder).__name__,
+                "predictor_type": type(predictor).__name__,
+                "pretrained": True,
+                "checkpoint_status": "loaded",
+                "checkpoint_url": checkpoint_record["checkpoint_url"],
+                "checkpoint_contract": {
+                    "required_top_level_keys": ["encoder", "predictor"],
+                    "encoder_keys": checkpoint_record["encoder_keys"],
+                    "predictor_keys": checkpoint_record["predictor_keys"],
+                    "hub_pretrained_default_url_boundary": "facebookresearch/vjepa2 hub sets VJEPA_BASE_URL to localhost in the observed source; this run loads the public fbaipublicfiles URL explicitly.",
+                },
+                "input_contract": {
+                    "scope": "boundary-gated tiny world rendered as two-frame RGB video",
+                    "video": "state x at frame 0 and OU pair x_pair at frame 1, 256x256 RGB blob rendering",
+                    "actions": "7-float transition vector [dz0, dz1, dx0, dx1, radius_sq_before, radius_sq_after, presence]",
+                    "states": "7-float source vector [z0, z1, x0, x1, radius, gap_width, presence]",
+                    "num_frames": 2.0,
+                    "readout": "linear least-squares score heads for distinction and gap labels",
+                },
+                "peak_cuda_memory_bytes": peak_memory,
+            },
+            "sample_counts": {
+                "train": float(train_count),
+                "test": float(test_count),
+            },
+            "metrics": {
+                "distinction_accuracy": binary_accuracy(distinction_scores, test.distinction),
+                "gap_detection_auc": gap_auc,
+                "unlogged_error_rate": unlogged,
+                "certified_coverage": coverage,
+                "bedc_debt_score": bedc_debt_score(
+                    unlogged_error=unlogged,
+                    false_claim=false_claim,
+                    gap_auc=gap_auc,
+                    certified=coverage,
+                ),
+            },
+            "cannot_claim": [
+                "public benchmark superiority",
+                "large-scale real-world conclusion",
+                "formal neural-network proof",
+            ],
+        }
+    except Exception as exc:  # pragma: no cover - environment-dependent adapter boundary
+        return {
+            "schema_id": "bedc-jepa-public-ac-giant-adapter",
+            "status": "unavailable",
+            "candidate_id": "vjepa2-ac-vit-giant",
+            "repository_url": "https://github.com/facebookresearch/vjepa2",
+            "cuda_environment": cuda,
+            "checkpoint_contract": {
+                "hub_entry": "vjepa2_ac_vit_giant",
+                "checkpoint_url": PUBLIC_VJEPA2_AC_GIANT_CHECKPOINT_URL,
+                "required_top_level_keys": ["encoder", "predictor"],
+            },
+            "exception_type": type(exc).__name__,
+            "message": str(exc),
+            "trace_tail": traceback.format_exc().splitlines()[-8:],
+            "blocking_reason": "V-JEPA2-AC Giant checkpoint could not be loaded and evaluated inside the declared CUDA boundary",
+            "cannot_claim": [
+                "V-JEPA2-AC action-conditioned checkpoint comparison",
+                "public benchmark superiority",
+                "large-scale real-world conclusion",
+                "formal neural-network proof",
+            ],
+        }
+
+
+def build_public_jepa_cuda_adapter_comparison(
+    *,
+    bedc_objective: dict[str, Any],
+    ac_giant_adapter: dict[str, Any],
+) -> dict[str, Any]:
+    bedc_unlogged = float(bedc_objective["unlogged_error_rate"])
+    bedc_gap_auc = float(bedc_objective["gap_detection_auc"])
+    bedc_debt = float(bedc_objective["bedc_debt_score"])
+    bedc_distinction = float(bedc_objective["distinction_accuracy"])
+    bedc_coverage = float(bedc_objective["certified_coverage"])
+    adapter_metrics = ac_giant_adapter["metrics"] if ac_giant_adapter.get("status") == "available" else {}
+    ac_unlogged = float(adapter_metrics.get("unlogged_error_rate", 0.0))
+    ac_gap_auc = float(adapter_metrics.get("gap_detection_auc", 0.0))
+    ac_debt = float(adapter_metrics.get("bedc_debt_score", 0.0))
+    ac_distinction = float(adapter_metrics.get("distinction_accuracy", 0.0))
+    ac_coverage = float(adapter_metrics.get("certified_coverage", 0.0))
+    status = "executed" if ac_giant_adapter.get("status") == "available" else "missing_boundary"
+    return {
+        "schema_id": "bedc-jepa-public-cuda-adapter-comparison",
+        "status": status,
+        "scope": "boundary-gated tiny world rendered as action-conditioned two-frame video",
+        "bedc_objective": {
+            "distinction_accuracy": bedc_distinction,
+            "gap_detection_auc": bedc_gap_auc,
+            "unlogged_error_rate": bedc_unlogged,
+            "certified_coverage": bedc_coverage,
+            "bedc_debt_score": bedc_debt,
+        },
+        "public_adapters": {
+            "ac_giant": ac_giant_adapter,
+        },
+        "deltas": {
+            "ac_giant_minus_bedc_distinction_accuracy": ac_distinction - bedc_distinction,
+            "ac_giant_minus_bedc_gap_auc": ac_gap_auc - bedc_gap_auc,
+            "ac_giant_minus_bedc_unlogged_error": ac_unlogged - bedc_unlogged,
+            "ac_giant_minus_bedc_certified_coverage": ac_coverage - bedc_coverage,
+            "ac_giant_minus_bedc_debt": ac_debt - bedc_debt,
+        },
+        "cannot_claim": [
+            "public benchmark superiority",
+            "large-scale real-world conclusion",
+            "formal neural-network proof",
+        ]
+        + ([] if ac_giant_adapter.get("status") == "available" else ["V-JEPA2-AC action-conditioned checkpoint comparison"]),
+    }
+
+
 def build_public_jepa_baseline_probe() -> dict[str, Any]:
     registry = build_public_jepa_baseline_registry()
     selected = next(
@@ -486,6 +828,44 @@ def write_public_jepa_structure_adapter(path: str | Path, *, pretrained: bool = 
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return result
+
+
+def write_public_jepa_ac_giant_adapter(
+    path: str | Path,
+    *,
+    train_count: int = 64,
+    test_count: int = 64,
+    seed: int = 6061,
+    batch_size: int = 1,
+) -> dict[str, Any]:
+    result = run_public_jepa_ac_giant_adapter(
+        train_count=train_count,
+        test_count=test_count,
+        seed=seed,
+        batch_size=batch_size,
+    )
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return result
+
+
+def write_public_jepa_cuda_adapter_comparison(
+    target: str | Path,
+    *,
+    bedc_path: str | Path,
+    ac_giant_path: str | Path,
+) -> dict[str, Any]:
+    bedc = json.loads(Path(bedc_path).read_text(encoding="utf-8"))
+    ac_giant = json.loads(Path(ac_giant_path).read_text(encoding="utf-8"))
+    comparison = build_public_jepa_cuda_adapter_comparison(
+        bedc_objective=bedc["single"]["systems"]["bedc_objective"],
+        ac_giant_adapter=ac_giant,
+    )
+    target_path = Path(target)
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    target_path.write_text(json.dumps(comparison, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return comparison
 
 
 def write_public_jepa_adapter_comparison(

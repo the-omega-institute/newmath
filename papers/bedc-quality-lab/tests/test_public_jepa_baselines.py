@@ -1,9 +1,11 @@
 from bedc_quality_lab.public_jepa_baselines import (
+    build_public_jepa_cuda_adapter_comparison,
     build_public_jepa_adapter_comparison,
     build_public_jepa_baseline_external_result,
     build_public_jepa_baseline_probe,
     build_public_jepa_baseline_comparison,
     build_public_jepa_baseline_registry,
+    run_public_jepa_ac_giant_adapter,
     run_public_jepa_structure_adapter,
     import_public_jepa_baseline_metrics,
 )
@@ -195,3 +197,66 @@ def test_public_jepa_adapter_comparison_records_bedc_advantage_and_ac_boundary()
     assert comparison["deltas"]["pretrained_minus_bedc_unlogged_error"] == 0.18
     assert comparison["deltas"]["structure_minus_bedc_debt"] == 0.49
     assert comparison["ac_giant_gate"]["status"] == "needs_gpu"
+
+
+def test_public_jepa_ac_giant_adapter_fails_closed_without_cuda(monkeypatch):
+    monkeypatch.setattr(
+        "bedc_quality_lab.public_jepa_baselines._cuda_environment_report",
+        lambda: {"cuda_available": False, "torch_version": "test"},
+    )
+
+    result = run_public_jepa_ac_giant_adapter(train_count=2, test_count=2)
+
+    assert result["schema_id"] == "bedc-jepa-public-ac-giant-adapter"
+    assert result["status"] == "unavailable"
+    assert result["candidate_id"] == "vjepa2-ac-vit-giant"
+    assert "torch.cuda.is_available() is false" in result["blocking_reason"]
+    assert "V-JEPA2-AC action-conditioned checkpoint comparison" in result["cannot_claim"]
+
+
+def test_public_jepa_cuda_comparison_records_ac_giant_deltas():
+    comparison = build_public_jepa_cuda_adapter_comparison(
+        bedc_objective={
+            "distinction_accuracy": 0.98,
+            "unlogged_error_rate": 0.0,
+            "gap_detection_auc": 0.99,
+            "certified_coverage": 0.91,
+            "bedc_debt_score": 0.01,
+        },
+        ac_giant_adapter={
+            "status": "available",
+            "metrics": {
+                "distinction_accuracy": 0.75,
+                "unlogged_error_rate": 0.25,
+                "gap_detection_auc": 0.40,
+                "certified_coverage": 0.80,
+                "bedc_debt_score": 0.20,
+            },
+        },
+    )
+
+    assert comparison["schema_id"] == "bedc-jepa-public-cuda-adapter-comparison"
+    assert comparison["status"] == "executed"
+    assert comparison["deltas"]["ac_giant_minus_bedc_distinction_accuracy"] == -0.22999999999999998
+    assert comparison["deltas"]["ac_giant_minus_bedc_unlogged_error"] == 0.25
+    assert comparison["deltas"]["ac_giant_minus_bedc_gap_auc"] == -0.59
+    assert comparison["deltas"]["ac_giant_minus_bedc_debt"] == 0.19
+
+
+def test_public_jepa_cuda_comparison_fails_closed_when_ac_missing():
+    comparison = build_public_jepa_cuda_adapter_comparison(
+        bedc_objective={
+            "distinction_accuracy": 0.98,
+            "unlogged_error_rate": 0.0,
+            "gap_detection_auc": 0.99,
+            "certified_coverage": 0.91,
+            "bedc_debt_score": 0.01,
+        },
+        ac_giant_adapter={
+            "status": "unavailable",
+            "blocking_reason": "checkpoint boundary missing",
+        },
+    )
+
+    assert comparison["status"] == "missing_boundary"
+    assert "V-JEPA2-AC action-conditioned checkpoint comparison" in comparison["cannot_claim"]
