@@ -4125,6 +4125,73 @@ def _run_structural_dna_expr_fingerprints(
     return out
 
 
+def _run_structural_dna_relations(
+    candidates: Iterable[str],
+    priors: Iterable[str],
+    imports: Iterable[str] = ("BEDC",),
+) -> list[dict[str, object]]:
+    candidate_names = sorted({
+        _normalize_lean_target(name)
+        for name in candidates
+        if _normalize_lean_target(name)
+    })
+    prior_names = sorted({
+        _normalize_lean_target(name)
+        for name in priors
+        if _normalize_lean_target(name)
+    })
+    if not candidate_names or not prior_names:
+        return []
+    if not STRUCTURAL_DNA_EXE.exists():
+        build = subprocess.run(
+            ["lake", "build", "structural_dna"],
+            cwd=LEAN_ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        if build.returncode != 0:
+            return []
+    request = {
+        "imports": list(imports),
+        "relations": {
+            "candidates": candidate_names,
+            "priors": prior_names,
+        },
+    }
+    result = subprocess.run(
+        ["lake", "env", str(STRUCTURAL_DNA_EXE)],
+        cwd=LEAN_ROOT,
+        input=json.dumps(request, ensure_ascii=False),
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return []
+    try:
+        raw = json.loads(result.stdout or "{}")
+    except json.JSONDecodeError:
+        return []
+    if not isinstance(raw, dict):
+        return []
+    relations = raw.get("relations", [])
+    if not isinstance(relations, list):
+        return []
+    out: list[dict[str, object]] = []
+    for item in relations:
+        if not isinstance(item, dict):
+            continue
+        if item.get("relation") != "conjunctive_refinement":
+            continue
+        copied = dict(item)
+        copied["provenance_semantics"] = (
+            "positive provenance evidence; not a discovery certificate"
+        )
+        out.append(copied)
+    return out
+
+
 def _structural_canonical_json(payload: object) -> str:
     return json.dumps(
         payload,
@@ -6461,6 +6528,7 @@ def _discovery_provenance_entries(
     prior_index: dict[str, list[str]],
     expr_fingerprints: dict[str, ExprFingerprint],
     explicit_prior_targets: Iterable[str],
+    relation_entries: Iterable[dict[str, object]] = (),
 ) -> list[dict[str, object]]:
     explicit_priors = set(explicit_prior_targets)
     prior_names = sorted({
@@ -6490,6 +6558,30 @@ def _discovery_provenance_entries(
             "candidate_reduced_fp": candidate_fp,
             "reduced_fp": prior_fp,
         })
+    existing_keys = {
+        (str(item.get("candidate", "")), str(item.get("prior", "")), str(item.get("relation", "")))
+        for item in entries
+    }
+    for relation in relation_entries:
+        if str(relation.get("candidate", "")) != candidate:
+            continue
+        prior = str(relation.get("prior", ""))
+        if not prior:
+            continue
+        key = (candidate, prior, str(relation.get("relation", "")))
+        if key in existing_keys:
+            continue
+        prior_fp = _discovery_endpoint_reduced_fp(prior, expr_fingerprints)
+        enriched = dict(relation)
+        enriched.setdefault(
+            "prior_scope",
+            "explicit_before_classifier" if prior in explicit_priors else "current_classifier_index",
+        )
+        enriched.setdefault("candidate_reduced_fp", candidate_fp)
+        if prior_fp:
+            enriched.setdefault("reduced_fp", prior_fp)
+        entries.append(enriched)
+        existing_keys.add(key)
     return entries
 
 
@@ -6526,6 +6618,28 @@ def discovery_integrity_payload(
         [],
         expr_fingerprints,
     ) if expr_fingerprints else {}
+    explicit_relation_candidates = sorted({
+        str(target)
+        for site in sites
+        for target in site.get("declared_new_classifiers", [])
+        if str(target)
+    })
+    explicit_relation_priors = sorted({
+        str(target)
+        for site in sites
+        for target in site.get("before_classifiers", [])
+        if str(target)
+    })
+    relation_entries = _run_structural_dna_relations(
+        explicit_relation_candidates,
+        explicit_relation_priors,
+    )
+    relation_index: dict[tuple[str, str], list[dict[str, object]]] = {}
+    for relation in relation_entries:
+        candidate = str(relation.get("candidate", ""))
+        prior = str(relation.get("prior", ""))
+        if candidate and prior:
+            relation_index.setdefault((candidate, prior), []).append(relation)
 
     checked_chapters = 0
     unavailable: list[dict[str, object]] = []
@@ -6644,6 +6758,11 @@ def discovery_integrity_payload(
                 prior_index,
                 expr_fingerprints,
                 before_targets,
+                [
+                    relation
+                    for before in before_targets
+                    for relation in relation_index.get((candidate, before), [])
+                ],
             )
             site_record["provenance"].extend(provenance)
             prior_matches = [

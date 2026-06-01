@@ -28,6 +28,24 @@ def C1MidEta : BHist → BHist → Prop := fun h k => C1 h k
 
 def C1MultiEta : BHist → BHist → Prop := fun h k => C1MidEta h k
 
+def BaseClassifier : BHist → BHist → Prop :=
+  fun h _k => SomeP h
+
+def ExtendedClassifier : BHist → BHist → Prop :=
+  fun h k => SomeP h ∧ SomeQ k
+
+def ReorderedClassifier : BHist → BHist → Prop :=
+  fun h k => SomeQ k ∧ SomeP h
+
+def SharedOnlyClassifier : BHist → BHist → Prop :=
+  fun h k => SomeP h ∨ SomeQ k
+
+def FixedShapeClassifier : BHist → BHist → Prop :=
+  fun _h _k => SomeP BHist.Empty
+
+def ExtendedEtaClassifier : BHist → BHist → Prop :=
+  fun h k => ExtendedClassifier h k
+
 def HeadDependsClassifier : BHist → Prop :=
   fun h =>
     (match h with
