@@ -58,6 +58,7 @@ def test_report_includes_cost_protocol_section():
     assert "`source/source-coverage`: 0.180000" in report
     assert "`source/mixing-family-coverage`: 0.220000" in report
     assert "`source/finite-sample-support`: 0.200000" in report
+    assert "`source/transition-isotropy`: 0.120000" in report
     assert "`classifier/optimizer-certificate`: 0.200000" in report
     assert "`verification/theorem3-bound-margin`: 0.200000" in report
     assert "`generalization/global-claim-boundary`: 0.200000" in report

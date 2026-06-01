@@ -18,6 +18,7 @@ REQUIRED_DEBT_ROWS = frozenset(
         LedgerRowKey("source", "source-coverage"),
         LedgerRowKey("source", "mixing-family-coverage"),
         LedgerRowKey("source", "finite-sample-support"),
+        LedgerRowKey("source", "transition-isotropy"),
         LedgerRowKey("classifier", "optimizer-certificate"),
         LedgerRowKey("verification", "theorem3-bound-margin"),
         LedgerRowKey("generalization", "global-claim-boundary"),

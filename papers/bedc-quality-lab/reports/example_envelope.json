@@ -34,6 +34,7 @@
     "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
     "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+    "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
     "kind=classifier; residue=optimizer-certificate; severity=high; status=open; score=0.200000",
     "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
     "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
@@ -75,14 +76,66 @@
   "schema_id": "bedc-quality-lab:evidence-envelope",
   "source_spec": {
     "latent_dim": 2,
+    "latent_distribution": "gaussian",
     "mixing": "sinusoidal-parabolic-shear",
     "name": "gaussian-ou-toy-world",
     "rho": 0.82,
-    "sample_count": 384
+    "rho_by_axis": [
+      0.82,
+      0.82
+    ],
+    "sample_count": 384,
+    "transition_anisotropy_gap": 0.0,
+    "transition_isotropic": true,
+    "transition_kernel": {
+      "anisotropy_gap": 0.0,
+      "eigenvalue_interleaving": {
+        "adjacent_gaps": [
+          0.0
+        ],
+        "anisotropy_gap": 0.0,
+        "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+        "eigenvalues": [
+          0.82,
+          0.82
+        ],
+        "min_adjacent_gap": 0.0,
+        "operator": "diagonal-ou-transition",
+        "sorted_eigenvalues": [
+          0.82,
+          0.82
+        ]
+      },
+      "family": "ornstein-uhlenbeck",
+      "isotropic": true,
+      "noise_family": "gaussian",
+      "rho_by_axis": [
+        0.82,
+        0.82
+      ]
+    }
   },
   "stability_spec": {
     "name": "fixed-seed-single-source",
     "pair_process": "ornstein-uhlenbeck",
-    "seed": 23
+    "seed": 23,
+    "transition_eigenvalue_interleaving": {
+      "adjacent_gaps": [
+        0.0
+      ],
+      "anisotropy_gap": 0.0,
+      "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+      "eigenvalues": [
+        0.82,
+        0.82
+      ],
+      "min_adjacent_gap": 0.0,
+      "operator": "diagonal-ou-transition",
+      "sorted_eigenvalues": [
+        0.82,
+        0.82
+      ]
+    },
+    "transition_noise_family": "gaussian"
   }
 }
