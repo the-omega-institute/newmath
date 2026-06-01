@@ -199,6 +199,42 @@ Apply the subject-reduction separation theorem \autoref{thm:metacic-critical-pai
 Finally apply the local-join coverage theorem \autoref{thm:metacic-critical-pair-local-join-coverage}. Local joinability is exhausted by the finite $K,J,E,D$ coverage route, and the rows $U,H,C,P,N$ only record the boundary, transport, replay, source, and name. Residual-substitution compatibility and a global parallel diamond are therefore outside the accepted packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-pair residual-substitution obstruction route]
+\label{thm:metacic-critical-pair-residual-substitution-obstruction-route}
+Let $B=(R,K,J,E,D,S,U,H,C,P,N)$ be an accepted
+$\MetaCICConfluenceCriticalPairBoundaryUp$ carrier. Any
+residual-substitution-shaped consumer of $B$ must route through
+$$
+K,J,E,D,S,U,H,C,P,N .
+$$
+It may read residual-style data only as an obstruction boundary for the local
+critical-pair packet, not as residual-substitution compatibility, global
+parallel diamond evidence, or full confluence.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:metacic-confluence-critical-pair-boundary-carrier}. The
+projection exposes the critical-pair table $K$, common-reduct table $J$,
+bounded checker $E$, closed-normal fragment $D$, subject-reduction boundary
+$S$, non-claim boundary $U$, and structural rows $H,C,P,N$.
+
+Use the common-reduct boundary of
+\autoref{thm:metacic-confluence-critical-pair-common-reduct-boundary}. Any
+consumer that starts from a critical-pair row must pass through $J$ before it
+may consult $E$ or $D$.
+
+Apply \autoref{thm:metacic-critical-pair-subject-reduction-separation} and
+\autoref{thm:metacic-critical-pair-local-join-coverage}. These results keep
+subject-reduction discharge separated at $S$ and exhaust local joinability by
+the finite $K,J,E,D$ coverage route.
+
+Finally apply \autoref{thm:metacic-critical-pair-residual-join}. The residual
+read is already classified as boundary data, and no carrier row supplies
+residual-substitution compatibility or a global parallel diamond. Therefore a
+residual-substitution-shaped consumer can only read an obstruction boundary
+through $K,J,E,D,S,U,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence critical-pair field-faithful prediction]
 \label{thm:metacic-confluence-critical-pair-fieldfaithful-prediction}
 Let $B=(R,K,J,E,D,S,U,H,C,P,N)$ and $B'=(R',K',J',E',D',S',U',H',C',P',N')$ be accepted $\MetaCICConfluenceCriticalPairBoundaryUp$ carriers. If their displayed field projections agree componentwise on $R,K,J,E,D,S,U,H,C,P,N$, then they expose the same critical-pair and common-reduct boundary route. In particular, the critical-pair table $K$ and common-reduct table $J$ cannot be erased or replaced by aliases of $R,E,D,S,U,H,C,P,N$ without changing the public packet classifier.
