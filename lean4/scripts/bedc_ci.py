@@ -4262,13 +4262,26 @@ def _lean_field_assignment(body: str, field: str) -> str:
                 break
             assigned.append(next_line.strip())
         return "\n".join(part for part in assigned if part)
-    inline = re.search(
-        rf"\b{re.escape(field)}\s*:=\s*(?P<rhs>[^,}}]+)",
-        body,
-        re.DOTALL,
-    )
+    inline = re.search(rf"\b{re.escape(field)}\s*:=", body)
     if inline:
-        return re.sub(r"\s+", " ", inline.group("rhs")).strip()
+        rhs = body[inline.end():]
+        depth = 0
+        out: list[str] = []
+        for ch in rhs:
+            if ch in "({[":
+                depth += 1
+                out.append(ch)
+                continue
+            if ch in ")}]":
+                if depth == 0:
+                    break
+                depth -= 1
+                out.append(ch)
+                continue
+            if ch == "," and depth == 0:
+                break
+            out.append(ch)
+        return re.sub(r"\s+", " ", "".join(out)).strip()
     return ""
 
 
@@ -6120,7 +6133,7 @@ DISCOVERY_INTEGRITY_SEMANTICS = (
     "structural reconstruction check — negative only; does not certify positive discovery genuineness"
 )
 EXISTING_DISCOVERY_SURFACE_REGIONS = {
-    "PositiveInterpretabilityClassifierUp": "existing_positive_discovery_classifier_surface",
+    "PositiveInterpretabilityClassifierPracticeUp": "existing_positive_discovery_classifier_practice_surface",
     "ClassifierNoveltyLedgerUp": "existing_classifier_novelty_ledger_surface",
 }
 
@@ -6155,6 +6168,7 @@ def _existing_discovery_surface_sites(blocks: list[dict]) -> list[dict[str, obje
             "declared_new_classifiers": [],
             "parse_notes": [],
             "informational_only": True,
+            "resolution_status": "unresolved",
         })
     return sites
 
@@ -6209,6 +6223,30 @@ def _shift_classifier_refs_from_text(
     before_refs: set[str] = set()
     after_refs: set[str] = set()
     parse_notes: list[dict[str, object]] = []
+    for field, out in (
+        ("BeforeClassifier", before_refs),
+        ("AfterClassifier", after_refs),
+    ):
+        field_text = _lean_field_assignment(shift_text, field)
+        if not field_text:
+            continue
+        resolved, ambiguous = _resolve_unambiguous_decl_refs_from_text(
+            field_text,
+            declaration_headers,
+            local_to_qualified,
+        )
+        out.update(resolved)
+        if ambiguous:
+            parse_notes.append({
+                "kind": "ambiguous_classifier_ref",
+                "field": field,
+                "tokens": ambiguous,
+                "message": (
+                    f"{field} contains ambiguous unqualified classifier "
+                    "reference; cite the fully qualified Lean declaration"
+                ),
+            })
+
     for shift_body in shift_bodies:
         for field, out in (
             ("BeforeClassifier", before_refs),
@@ -6232,12 +6270,47 @@ def _shift_classifier_refs_from_text(
                     ),
                 })
 
+    if not before_refs:
+        parse_notes.append({
+            "kind": "classifier_shift_before_endpoint_unresolved",
+            "field": "BeforeClassifier",
+            "tokens": [],
+            "message": (
+                "DiscoveryDeltaLedger.classifier_shift declares a shift but no "
+                "BeforeClassifier endpoint could be resolved"
+            ),
+        })
+    if not after_refs:
+        parse_notes.append({
+            "kind": "classifier_shift_after_endpoint_unresolved",
+            "field": "AfterClassifier",
+            "tokens": [],
+            "message": (
+                "DiscoveryDeltaLedger.classifier_shift declares a shift but no "
+                "AfterClassifier endpoint could be resolved"
+            ),
+        })
+
     before = sorted(
         ref for ref in before_refs if _is_classifier_endpoint_candidate(ref, declaration_headers)
     )
     after = sorted(
         ref for ref in after_refs if _is_classifier_endpoint_candidate(ref, declaration_headers)
     )
+    if before_refs and not before:
+        parse_notes.append({
+            "kind": "classifier_shift_before_endpoint_not_classifier",
+            "field": "BeforeClassifier",
+            "tokens": sorted(before_refs),
+            "message": "BeforeClassifier refs resolved but none has classifier endpoint shape",
+        })
+    if after_refs and not after:
+        parse_notes.append({
+            "kind": "classifier_shift_after_endpoint_not_classifier",
+            "field": "AfterClassifier",
+            "tokens": sorted(after_refs),
+            "message": "AfterClassifier refs resolved but none has classifier endpoint shape",
+        })
     return before, after, sorted(shift_refs), parse_notes
 
 
@@ -6323,6 +6396,7 @@ def _declared_discovery_integrity_sites(
             "before_classifiers": before_targets,
             "declared_new_classifiers": after_targets,
             "parse_notes": parse_notes,
+            "resolution_status": "resolved" if after_targets else "unresolved",
         })
 
     return sites
@@ -6397,6 +6471,7 @@ def discovery_integrity_payload(
 
     checked_chapters = 0
     unavailable: list[dict[str, object]] = []
+    unresolved: list[dict[str, object]] = []
     violations: list[dict[str, object]] = []
     site_payloads: list[dict[str, object]] = []
 
@@ -6413,6 +6488,7 @@ def discovery_integrity_payload(
         site_record["semantics"] = DISCOVERY_INTEGRITY_SEMANTICS
         site_record["provenance"] = []
         site_record["unavailable"] = []
+        site_record["unresolved"] = []
         for note in site.get("parse_notes", []) or []:
             if isinstance(note, dict):
                 unavailable_note = {
@@ -6427,18 +6503,43 @@ def discovery_integrity_payload(
                 }
                 unavailable.append(unavailable_note)
                 site_record["unavailable"].append(unavailable_note)
+                if str(note.get("kind", "")).startswith("classifier_shift_"):
+                    violations.append({
+                        "file": site["file"],
+                        "line": site["line"],
+                        "region": site["region"],
+                        "chapter_key": site["chapter_key"],
+                        "kind": "classifier_shift_endpoint_parse_failure",
+                        "message": note.get("message", ""),
+                        "reason": note.get("kind", "classifier_shift_parse_failure"),
+                        "field": note.get("field"),
+                        "tokens": note.get("tokens", []),
+                        "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
+                    })
 
         if not candidate_targets:
+            reason = "no_declared_new_classifier_resolved"
             note = {
                 "file": site["file"],
                 "line": site["line"],
                 "region": site["region"],
-                "reason": "no_declared_new_classifier_resolved",
+                "reason": reason,
                 "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
                 "informational_only": bool(site.get("informational_only")),
+                "sources": list(site.get("sources", [])),
+                "ledger": site.get("ledger", ""),
             }
+            unresolved_note = dict(note)
+            unresolved_note["status"] = "unresolved"
+            unresolved_note["message"] = (
+                "discovery surface is declared but no checkable after-classifier "
+                "endpoint was resolved; this site is not counted as checked"
+            )
             unavailable.append(note)
+            unresolved.append(unresolved_note)
             site_record["unavailable"].append(note)
+            site_record["unresolved"].append(unresolved_note)
+            site_record["resolution_status"] = "unresolved"
             site_payloads.append(site_record)
             continue
 
@@ -6458,6 +6559,7 @@ def discovery_integrity_payload(
                 site_record["unavailable"].append(note)
                 continue
             site_checked = True
+            site_record["resolution_status"] = "resolved"
             provenance = _discovery_provenance_entries(
                 candidate,
                 candidate_fp,
@@ -6507,9 +6609,11 @@ def discovery_integrity_payload(
         "classifier_endpoint_count": len(classifier_names),
         "fingerprint_count": len(expr_fingerprints),
         "unavailable_count": len(unavailable),
+        "unresolved_count": len(unresolved),
         "violation_count": len(violations),
         "violations": violations,
         "unavailable": unavailable,
+        "unresolved": unresolved,
         "sites": site_payloads,
     }
 
@@ -8286,10 +8390,17 @@ def cmd_audit(args: argparse.Namespace) -> int:
             f" violations={payload['discovery_integrity_violations_new_count']} new (BLOCKING), "
             f"{payload['discovery_integrity_violations_legacy_count']} legacy (warning)"
             f" unavailable={discovery_integrity['unavailable_count']}"
+            f" unresolved={discovery_integrity['unresolved_count']}"
         )
         print(f"  semantics: {discovery_integrity['semantics']}")
         for item in payload["discovery_integrity_violations"][:20]:
             print(f"  {item['file']}:{item['line']} {item['message']}")
+        if discovery_integrity["unresolved"]:
+            for item in discovery_integrity["unresolved"][:10]:
+                print(
+                    f"  unresolved {item['file']}:{item['line']}"
+                    f" {item['region']}: {item['reason']}"
+                )
         if discovery_integrity["unavailable"]:
             for item in discovery_integrity["unavailable"][:10]:
                 target = f" target={item['target']}" if item.get("target") else ""

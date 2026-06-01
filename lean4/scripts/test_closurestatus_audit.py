@@ -11,12 +11,17 @@ sys.path.insert(0, str(Path(__file__).parent))
 from bedc_ci import (  # type: ignore[import-not-found]
     CLOSURESTATUS_BEGIN_RE,
     CLOSURESTATUS_FIELD_RE,
+    ExprFingerprint,
+    LeanSourceScan,
     _discovery_candidate_blocks,
+    _is_classifier_endpoint,
+    _ledger_classifier_shift_targets,
     audit_payload,
     cmd_discovery_audit,
     collect_closurestatus_blocks,
     diagnose_closurestatus_block,
     diagnose_closurestatus_open_fields,
+    discovery_integrity_payload,
     discovery_audit_payload,
     parser as bedc_parser,
 )
@@ -227,7 +232,9 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertTrue(args.json)
 
     def test_discovery_audit_reports_ledger_gaps(self) -> None:
-        payload = discovery_audit_payload([self._block()])
+        payload = discovery_audit_payload([
+            self._block(open_fields={"closureparents": "BEDC.Prior.OldClassifier"})
+        ])
         kinds = {item["kind"] for item in payload["ledger_gaps"]}
         self.assertIn("missing_closureclaimkind", kinds)
         self.assertIn("missing_closurenamecert", kinds)
@@ -251,7 +258,10 @@ class DiscoveryAuditTests(unittest.TestCase):
 
     def test_discovery_audit_reports_scope_global_keyword_risk(self) -> None:
         payload = discovery_audit_payload([
-            self._block(raw_body=r"\scopeclosed{This gives a global classifier.}")
+            self._block(
+                raw_body=r"\scopeclosed{This gives a global classifier.}",
+                open_fields={"closureclaimkind": "discovery"},
+            )
         ])
         self.assertEqual(payload["scope_global_risk_count"], 1)
         item = payload["scope_global_risks"][0]
@@ -319,6 +329,115 @@ class DiscoveryAuditTests(unittest.TestCase):
             redirect_stdout(StringIO()):
             rc = cmd_discovery_audit(args)
         self.assertEqual(rc, 0)
+
+    def test_discovery_integrity_parses_record_literal_classifier_shift(self) -> None:
+        headers = {
+            "BEDC.A.C": "def C (x y : BHist) : Prop :=",
+            "BEDC.B.D": "def D (x y : BHist) : Prop :=",
+            "BEDC.Target.Ledger": "def Ledger : DiscoveryDeltaLedger X :=",
+        }
+        bodies = {
+            "BEDC.A.C": "def C (x y : BHist) : Prop := True",
+            "BEDC.B.D": "def D (x y : BHist) : Prop := True",
+            "BEDC.Target.Ledger": (
+                "def Ledger : DiscoveryDeltaLedger X where\n"
+                "  classifier_shift := some {\n"
+                "    BeforeClassifier := BEDC.A.C\n"
+                "    AfterClassifier := BEDC.B.D\n"
+                "  }"
+            ),
+        }
+        before, after, shift_refs, notes = _ledger_classifier_shift_targets(
+            "BEDC.Target.Ledger",
+            headers,
+            bodies,
+            {"C": ["BEDC.A.C"], "D": ["BEDC.B.D"], "Ledger": ["BEDC.Target.Ledger"]},
+        )
+        self.assertEqual(before, ["BEDC.A.C"])
+        self.assertEqual(after, ["BEDC.B.D"])
+        self.assertEqual(shift_refs, ["BEDC.A.C", "BEDC.B.D"])
+        self.assertEqual(notes, [])
+
+    def test_binder_style_classifier_endpoint_is_recognized(self) -> None:
+        self.assertTrue(_is_classifier_endpoint(
+            "BEDC.A.C",
+            {"BEDC.A.C": "def C (x y : BHist) : Prop :="},
+        ))
+        self.assertTrue(_is_classifier_endpoint(
+            "BEDC.A.C",
+            {"BEDC.A.C": "def C (x : BHist) (y : BHist) : Prop :="},
+        ))
+
+    def test_discovery_integrity_reports_unresolved_existing_surface(self) -> None:
+        payload = discovery_integrity_payload(
+            [self._block(region="ClassifierNoveltyLedger")],
+            LeanSourceScan([], [], {}, {}, []),
+        )
+        self.assertEqual(payload["declared_discovery_chapter_count"], 1)
+        self.assertEqual(payload["checked_chapter_count"], 0)
+        self.assertEqual(payload["unresolved_count"], 1)
+        self.assertEqual(payload["unresolved"][0]["reason"], "no_declared_new_classifier_resolved")
+        self.assertEqual(payload["sites"][0]["resolution_status"], "unresolved")
+
+    def test_discovery_integrity_blocks_binder_style_reconstruction(self) -> None:
+        headers = {
+            "BEDC.Prior.OldRel": "def OldRel (x y : BHist) : Prop :=",
+            "BEDC.Target.NewRel": "def NewRel (x y : BHist) : Prop :=",
+        }
+        bodies = {
+            "BEDC.Prior.OldRel": "def OldRel (x y : BHist) : Prop := True",
+            "BEDC.Target.NewRel": "def NewRel (x y : BHist) : Prop := True",
+        }
+        block = self._block(
+            open_fields={"closureclaimkind": "positiveDiscovery"},
+            lean_target="BEDC.Target.NewRel",
+        )
+        scan = LeanSourceScan([], [], headers, bodies, [])
+        fps = {
+            "BEDC.Prior.OldRel": ExprFingerprint(
+                "old", "type", "old", reduced_fingerprint="same"
+            ),
+            "BEDC.Target.NewRel": ExprFingerprint(
+                "new", "type", "new", reduced_fingerprint="same"
+            ),
+        }
+        with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
+            payload = discovery_integrity_payload([block], scan)
+        self.assertEqual(payload["checked_chapter_count"], 1)
+        self.assertEqual(payload["violation_count"], 1)
+        self.assertEqual(
+            payload["violations"][0]["kind"],
+            "structural_reconstruction_discovery_claim",
+        )
+
+    def test_discovery_integrity_keeps_qualified_same_local_names_distinct(self) -> None:
+        headers = {
+            "BEDC.A.C": "def C (x y : BHist) : Prop :=",
+            "BEDC.B.C": "def C (x y : BHist) : Prop :=",
+        }
+        bodies = {
+            "BEDC.A.C": "def C (x y : BHist) : Prop := True",
+            "BEDC.B.C": "def C (x y : BHist) : Prop := False",
+        }
+        block = self._block(
+            open_fields={"closureclaimkind": "positiveDiscovery"},
+            lean_target="BEDC.B.C",
+        )
+        scan = LeanSourceScan([], [], headers, bodies, [])
+        fps = {
+            "BEDC.A.C": ExprFingerprint(
+                "a", "type", "a", reduced_fingerprint="ra"
+            ),
+            "BEDC.B.C": ExprFingerprint(
+                "b", "type", "b", reduced_fingerprint="rb"
+            ),
+        }
+        with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
+            payload = discovery_integrity_payload([block], scan)
+        self.assertEqual(payload["checked_chapter_count"], 1)
+        self.assertEqual(payload["violation_count"], 0)
+        provenance = payload["sites"][0]["provenance"]
+        self.assertTrue(all(item["prior"] != "BEDC.B.C" for item in provenance))
 
 
 if __name__ == "__main__":
