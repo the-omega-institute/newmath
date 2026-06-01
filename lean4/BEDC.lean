@@ -1086,6 +1086,7 @@ import BEDC.Derived.CantorSetUp.NestedIntervalHandoff
 import BEDC.Derived.CantorSetUp.NestedRealHandoff
 import BEDC.Derived.CantorSetUp.PrefixGapSeparation
 import BEDC.Derived.CantorSetUp.RealMembershipHandoff
+import BEDC.Derived.CantorSetUp.RealSealMembershipBoundary
 import BEDC.Derived.CantorSetUp.RealSealNonescape
 import BEDC.Derived.CantorSetUp.TasteGate
 import BEDC.Derived.CantorSetUp.TernaryPrefixClassifier
@@ -1327,6 +1328,7 @@ import BEDC.Derived.CauchyCriterionUp.TerminalSelectorSealNochoiceExhaustion
 import BEDC.Derived.CauchyCriterionUp.UniformCriterionFiniteFamilyReduction
 import BEDC.Derived.CauchyCriterionUp.UniformSelectorSealCompatibility
 import BEDC.Derived.CauchyCriterionUp.VisibleTerminalClosure
+import BEDC.Derived.CauchyCutBridgeUp.TasteGate
 import BEDC.Derived.CauchyCutComparisonUp
 import BEDC.Derived.CauchyCutComparisonUp.TasteGate
 import BEDC.Derived.CauchyCutUp.TasteGate
@@ -2655,7 +2657,6 @@ import BEDC.Derived.ContractionMappingUp.RegularCauchyModulusSurface
 import BEDC.Derived.ContractionMappingUp.ScopedDependencySurface
 import BEDC.Derived.ContractionMappingUp.TasteGate
 import BEDC.Derived.ContractiveCauchyIteratorUp.TasteGate
-import BEDC.Derived.ContractiveCauchyOrbitUp.TasteGate
 import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.ConvergenceRadiusUp
@@ -3583,6 +3584,7 @@ import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.RealBracketConsumerLock
 import BEDC.Derived.FareySequenceUp.RealReadbackRootObligation
 import BEDC.Derived.FareySequenceUp.RefinementCoverage
+import BEDC.Derived.FareySequenceUp.RegSeqRatDensityRootObligation
 import BEDC.Derived.FareySequenceUp.SternBrocotHandoffLock
 import BEDC.Derived.FareySequenceUp.StreamWindowStability
 import BEDC.Derived.FareySequenceUp.TasteGate
@@ -4412,7 +4414,6 @@ import BEDC.Derived.HyperspaceUp.VietorisFiniteWindowObligations
 import BEDC.Derived.HyperspaceUp.VietorisHandoff
 import BEDC.Derived.HyperspaceUp.VietorisLocatedRealDependency
 import BEDC.Derived.HyperspaceUp.VietorisRefinementFactorization
-import BEDC.Derived.HyperspaceUp.VietorisUnionStability
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.IdealClassUp
