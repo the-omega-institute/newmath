@@ -10,7 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ClosedLamDomainSubjectReductionUp : Type where
-  | mk (T D D' B Y Z G H R Q N : BHist) : ClosedLamDomainSubjectReductionUp
+  | mk (T D Dp B Y Z G H R Q N : BHist) : ClosedLamDomainSubjectReductionUp
   deriving DecidableEq
 
 def closedLamDomainSubjectReductionEncodeBHist : BHist → RawEvent
@@ -25,7 +25,7 @@ def closedLamDomainSubjectReductionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (closedLamDomainSubjectReductionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (closedLamDomainSubjectReductionDecodeBHist tail)
 
-private theorem closedLamDomainSubjectReduction_decode_encode_bhist :
+private theorem closedLamDomainSubjectReductionDecode_encode_bhist :
     ∀ h : BHist,
       closedLamDomainSubjectReductionDecodeBHist
         (closedLamDomainSubjectReductionEncodeBHist h) = h := by
@@ -39,8 +39,8 @@ private theorem closedLamDomainSubjectReduction_decode_encode_bhist :
 def closedLamDomainSubjectReductionFields :
     ClosedLamDomainSubjectReductionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ClosedLamDomainSubjectReductionUp.mk T D D' B Y Z G H R Q N =>
-      [T, D, D', B, Y, Z, G, H, R, Q, N]
+  | ClosedLamDomainSubjectReductionUp.mk T D Dp B Y Z G H R Q N =>
+      [T, D, Dp, B, Y, Z, G, H, R, Q, N]
 
 def closedLamDomainSubjectReductionToEventFlow :
     ClosedLamDomainSubjectReductionUp → EventFlow
@@ -49,40 +49,57 @@ def closedLamDomainSubjectReductionToEventFlow :
       (closedLamDomainSubjectReductionFields x).map
         closedLamDomainSubjectReductionEncodeBHist
 
-private def closedLamDomainSubjectReductionEventAt : Nat → EventFlow → RawEvent
+def closedLamDomainSubjectReductionFromEventFlow :
+    EventFlow → Option ClosedLamDomainSubjectReductionUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => closedLamDomainSubjectReductionEventAt index rest
-
-def closedLamDomainSubjectReductionFromEventFlow
-    (ef : EventFlow) : Option ClosedLamDomainSubjectReductionUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (ClosedLamDomainSubjectReductionUp.mk
-      (closedLamDomainSubjectReductionDecodeBHist
-        (closedLamDomainSubjectReductionEventAt 0 ef))
-      (closedLamDomainSubjectReductionDecodeBHist
-        (closedLamDomainSubjectReductionEventAt 1 ef))
-      (closedLamDomainSubjectReductionDecodeBHist
-        (closedLamDomainSubjectReductionEventAt 2 ef))
-      (closedLamDomainSubjectReductionDecodeBHist
-        (closedLamDomainSubjectReductionEventAt 3 ef))
-      (closedLamDomainSubjectReductionDecodeBHist
-        (closedLamDomainSubjectReductionEventAt 4 ef))
-      (closedLamDomainSubjectReductionDecodeBHist
-        (closedLamDomainSubjectReductionEventAt 5 ef))
-      (closedLamDomainSubjectReductionDecodeBHist
-        (closedLamDomainSubjectReductionEventAt 6 ef))
-      (closedLamDomainSubjectReductionDecodeBHist
-        (closedLamDomainSubjectReductionEventAt 7 ef))
-      (closedLamDomainSubjectReductionDecodeBHist
-        (closedLamDomainSubjectReductionEventAt 8 ef))
-      (closedLamDomainSubjectReductionDecodeBHist
-        (closedLamDomainSubjectReductionEventAt 9 ef))
-      (closedLamDomainSubjectReductionDecodeBHist
-        (closedLamDomainSubjectReductionEventAt 10 ef)))
+  | [] => none
+  | T :: rest0 =>
+      match rest0 with
+      | [] => none
+      | D :: rest1 =>
+          match rest1 with
+          | [] => none
+          | Dp :: rest2 =>
+              match rest2 with
+              | [] => none
+              | B :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | Y :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | Z :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | G :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | H :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | R :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | Q :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | N :: rest10 =>
+                                              match rest10 with
+                                              | [] =>
+                                                  some
+                                                    (ClosedLamDomainSubjectReductionUp.mk
+                                                      (closedLamDomainSubjectReductionDecodeBHist T)
+                                                      (closedLamDomainSubjectReductionDecodeBHist D)
+                                                      (closedLamDomainSubjectReductionDecodeBHist Dp)
+                                                      (closedLamDomainSubjectReductionDecodeBHist B)
+                                                      (closedLamDomainSubjectReductionDecodeBHist Y)
+                                                      (closedLamDomainSubjectReductionDecodeBHist Z)
+                                                      (closedLamDomainSubjectReductionDecodeBHist G)
+                                                      (closedLamDomainSubjectReductionDecodeBHist H)
+                                                      (closedLamDomainSubjectReductionDecodeBHist R)
+                                                      (closedLamDomainSubjectReductionDecodeBHist Q)
+                                                      (closedLamDomainSubjectReductionDecodeBHist N))
+                                              | _ :: _ => none
 
 private theorem closedLamDomainSubjectReduction_round_trip :
     ∀ x : ClosedLamDomainSubjectReductionUp,
@@ -91,7 +108,7 @@ private theorem closedLamDomainSubjectReduction_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk T D D' B Y Z G H R Q N =>
+  | mk T D Dp B Y Z G H R Q N =>
       change
         some
           (ClosedLamDomainSubjectReductionUp.mk
@@ -100,7 +117,7 @@ private theorem closedLamDomainSubjectReduction_round_trip :
             (closedLamDomainSubjectReductionDecodeBHist
               (closedLamDomainSubjectReductionEncodeBHist D))
             (closedLamDomainSubjectReductionDecodeBHist
-              (closedLamDomainSubjectReductionEncodeBHist D'))
+              (closedLamDomainSubjectReductionEncodeBHist Dp))
             (closedLamDomainSubjectReductionDecodeBHist
               (closedLamDomainSubjectReductionEncodeBHist B))
             (closedLamDomainSubjectReductionDecodeBHist
@@ -117,23 +134,24 @@ private theorem closedLamDomainSubjectReduction_round_trip :
               (closedLamDomainSubjectReductionEncodeBHist Q))
             (closedLamDomainSubjectReductionDecodeBHist
               (closedLamDomainSubjectReductionEncodeBHist N))) =
-          some (ClosedLamDomainSubjectReductionUp.mk T D D' B Y Z G H R Q N)
-      rw [closedLamDomainSubjectReduction_decode_encode_bhist T,
-        closedLamDomainSubjectReduction_decode_encode_bhist D,
-        closedLamDomainSubjectReduction_decode_encode_bhist D',
-        closedLamDomainSubjectReduction_decode_encode_bhist B,
-        closedLamDomainSubjectReduction_decode_encode_bhist Y,
-        closedLamDomainSubjectReduction_decode_encode_bhist Z,
-        closedLamDomainSubjectReduction_decode_encode_bhist G,
-        closedLamDomainSubjectReduction_decode_encode_bhist H,
-        closedLamDomainSubjectReduction_decode_encode_bhist R,
-        closedLamDomainSubjectReduction_decode_encode_bhist Q,
-        closedLamDomainSubjectReduction_decode_encode_bhist N]
+          some (ClosedLamDomainSubjectReductionUp.mk T D Dp B Y Z G H R Q N)
+      rw [closedLamDomainSubjectReductionDecode_encode_bhist T,
+        closedLamDomainSubjectReductionDecode_encode_bhist D,
+        closedLamDomainSubjectReductionDecode_encode_bhist Dp,
+        closedLamDomainSubjectReductionDecode_encode_bhist B,
+        closedLamDomainSubjectReductionDecode_encode_bhist Y,
+        closedLamDomainSubjectReductionDecode_encode_bhist Z,
+        closedLamDomainSubjectReductionDecode_encode_bhist G,
+        closedLamDomainSubjectReductionDecode_encode_bhist H,
+        closedLamDomainSubjectReductionDecode_encode_bhist R,
+        closedLamDomainSubjectReductionDecode_encode_bhist Q,
+        closedLamDomainSubjectReductionDecode_encode_bhist N]
 
 private theorem closedLamDomainSubjectReductionToEventFlow_injective
     {x y : ClosedLamDomainSubjectReductionUp} :
     closedLamDomainSubjectReductionToEventFlow x =
-      closedLamDomainSubjectReductionToEventFlow y → x = y := by
+        closedLamDomainSubjectReductionToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -146,10 +164,11 @@ private theorem closedLamDomainSubjectReductionToEventFlow_injective
     (Eq.trans (closedLamDomainSubjectReduction_round_trip x).symm
       (Eq.trans hread (closedLamDomainSubjectReduction_round_trip y)))
 
-private theorem closedLamDomainSubjectReduction_field_faithful :
+private theorem closedLamDomainSubjectReduction_fields_faithful :
     ∀ x y : ClosedLamDomainSubjectReductionUp,
       closedLamDomainSubjectReductionFields x =
-        closedLamDomainSubjectReductionFields y → x = y := by
+          closedLamDomainSubjectReductionFields y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
@@ -182,18 +201,17 @@ instance closedLamDomainSubjectReductionFieldFaithful :
     FieldFaithful ClosedLamDomainSubjectReductionUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := closedLamDomainSubjectReductionFields
-  field_faithful := closedLamDomainSubjectReduction_field_faithful
+  field_faithful := closedLamDomainSubjectReduction_fields_faithful
 
 instance closedLamDomainSubjectReductionNontrivial :
     Nontrivial ClosedLamDomainSubjectReductionUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨ClosedLamDomainSubjectReductionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      ClosedLamDomainSubjectReductionUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
+    ⟨ClosedLamDomainSubjectReductionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ClosedLamDomainSubjectReductionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
       by
         intro h
         cases h⟩
@@ -208,12 +226,26 @@ theorem ClosedLamDomainSubjectReductionTasteGate_single_carrier_alignment :
         (closedLamDomainSubjectReductionEncodeBHist h) = h) ∧
       Nonempty (BHistCarrier ClosedLamDomainSubjectReductionUp) ∧
         Nonempty (ChapterTasteGate ClosedLamDomainSubjectReductionUp) ∧
-          closedLamDomainSubjectReductionEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+          closedLamDomainSubjectReductionEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            closedLamDomainSubjectReductionFields
+                (ClosedLamDomainSubjectReductionUp.mk BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty) =
+              [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+                BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+              Nonempty
+                (@FieldFaithful ClosedLamDomainSubjectReductionUp
+                  closedLamDomainSubjectReductionBHistCarrier) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨closedLamDomainSubjectReduction_decode_encode_bhist,
+    ⟨closedLamDomainSubjectReductionDecode_encode_bhist,
       ⟨closedLamDomainSubjectReductionBHistCarrier⟩,
       ⟨closedLamDomainSubjectReductionChapterTasteGate⟩,
-      rfl⟩
+      rfl,
+      rfl,
+      ⟨{
+        fields := closedLamDomainSubjectReductionFields
+        field_faithful := closedLamDomainSubjectReduction_fields_faithful
+      }⟩⟩
 
 end BEDC.Derived.ClosedLamDomainSubjectReductionUp

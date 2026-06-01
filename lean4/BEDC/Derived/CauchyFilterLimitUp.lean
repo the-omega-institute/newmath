@@ -5,6 +5,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.CauchyNetLimitUp
 
 namespace BEDC.Derived.CauchyFilterLimitUp
 
@@ -327,5 +328,44 @@ theorem CauchyFilterLimitCarrier_ledger_refusal_obligation [AskSetup] [PackageSe
       exact ⟨provenancePkg, namePkg, source.left⟩
   }
   exact ⟨cert, rejectedReadUnary, sealRowUnary⟩
+
+theorem CauchyFilterLimitCarrier_filter_comparison [AskSetup] [PackageSetup]
+    {basis filter window readback tolerance sealRow transport route provenance name netK netW
+      netR netD netA netH netC netP netN sharedRead filterCompletionRead
+      netCompletionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterLimitCarrier basis filter window readback tolerance sealRow transport route
+        provenance name bundle pkg ->
+      BEDC.Derived.CauchyNetLimitUp.CauchyNetLimitCarrier netK netW netR netD netA netH
+        netC netP netN ->
+        Cont window readback sharedRead ->
+          Cont sharedRead tolerance filterCompletionRead ->
+            Cont netW netR sharedRead ->
+              Cont sharedRead netD netCompletionRead ->
+                PkgSig bundle filterCompletionRead pkg ->
+                  PkgSig bundle netCompletionRead pkg ->
+                    UnaryHistory sharedRead ∧ UnaryHistory filterCompletionRead ∧
+                      UnaryHistory netCompletionRead ∧ Cont window readback sharedRead ∧
+                        Cont netW netR sharedRead ∧ PkgSig bundle filterCompletionRead pkg ∧
+                          PkgSig bundle netCompletionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro filterCarrier netCarrier windowReadbackShared sharedToleranceFilter netWindowShared
+    sharedNetTolerance filterCompletionPkg netCompletionPkg
+  obtain ⟨_basisUnary, _filterUnary, windowUnary, readbackUnary, toleranceUnary,
+    _sealRowUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _basisFilterWindow, _windowReadbackTolerance, _toleranceSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, _provenancePkg, _namePkg⟩ :=
+    filterCarrier
+  obtain ⟨_netKUnary, netWUnary, netRUnary, netDUnary, _netAUnary, _netHUnary,
+    _netCUnary, _netPUnary, _netNUnary⟩ := netCarrier
+  have sharedUnaryFromFilter : UnaryHistory sharedRead :=
+    unary_cont_closed windowUnary readbackUnary windowReadbackShared
+  have filterCompletionUnary : UnaryHistory filterCompletionRead :=
+    unary_cont_closed sharedUnaryFromFilter toleranceUnary sharedToleranceFilter
+  have netCompletionUnary : UnaryHistory netCompletionRead :=
+    unary_cont_closed sharedUnaryFromFilter netDUnary sharedNetTolerance
+  exact
+    ⟨sharedUnaryFromFilter, filterCompletionUnary, netCompletionUnary,
+      windowReadbackShared, netWindowShared, filterCompletionPkg, netCompletionPkg⟩
 
 end BEDC.Derived.CauchyFilterLimitUp

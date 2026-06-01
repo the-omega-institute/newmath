@@ -4367,6 +4367,7 @@ import BEDC.Derived.HyperspaceUp.CompactHausdorffDistanceRoute
 import BEDC.Derived.HyperspaceUp.CompactSourceScope
 import BEDC.Derived.HyperspaceUp.CompactSubsetRootAdmission
 import BEDC.Derived.HyperspaceUp.CompleteMetricCauchyLift
+import BEDC.Derived.HyperspaceUp.CompleteMetricHandoff
 import BEDC.Derived.HyperspaceUp.CompleteMetricNonescape
 import BEDC.Derived.HyperspaceUp.FiniteCoverLedger
 import BEDC.Derived.HyperspaceUp.FiniteHausdorffCarrier
