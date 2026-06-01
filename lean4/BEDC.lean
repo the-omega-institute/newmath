@@ -1019,6 +1019,7 @@ import BEDC.Derived.BoundedSetUp.RadiusClassifierStability
 import BEDC.Derived.BoundedSetUp.RadiusLedger
 import BEDC.Derived.BoundedSetUp.RealClampingStability
 import BEDC.Derived.BoundedSetUp.RealRadiusLedger
+import BEDC.Derived.BoundedSetUp.RealSeparabilityForwardLink
 import BEDC.Derived.BoundedSetUp.StandardInterfaceBridge
 import BEDC.Derived.BoundedSetUp.SubsetBallReplayStability
 import BEDC.Derived.BoundedSetUp.TasteGate
@@ -4078,6 +4079,7 @@ import BEDC.Derived.FunctorUp.StdBridge
 import BEDC.Derived.FunctorUp.VisibleMorphismStrictPrefix
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FundamentalGroupUp.TasteGate
+import BEDC.Derived.FundamentalTheoremCalculusUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
@@ -4371,6 +4373,7 @@ import BEDC.Derived.HyperspaceUp.TasteGate
 import BEDC.Derived.HyperspaceUp.ToleranceReadbackExhaustion
 import BEDC.Derived.HyperspaceUp.VietorisDownstreamDependency
 import BEDC.Derived.HyperspaceUp.VietorisFiniteWindowObligations
+import BEDC.Derived.HyperspaceUp.VietorisHandoff
 import BEDC.Derived.HyperspaceUp.VietorisLocatedRealDependency
 import BEDC.Derived.HyperspaceUp.VietorisRefinementFactorization
 import BEDC.Derived.HypothesisTestUp
