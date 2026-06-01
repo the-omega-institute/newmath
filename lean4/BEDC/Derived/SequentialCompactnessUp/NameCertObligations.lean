@@ -92,4 +92,93 @@ theorem SequentialCompactnessCarrier_namecert_obligations [AskSetup] [PackageSet
       exact ⟨provenancePkg, localCertPkg, consumerPkg⟩
   }
 
+theorem SequentialCompactnessCarrier_finite_window_exhaustion [AskSetup] [PackageSetup]
+    {compactSource sequenceWindow selectorWindow readback realSeal transport provenance
+      consumer finalConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory compactSource →
+      UnaryHistory sequenceWindow →
+        UnaryHistory readback →
+          UnaryHistory transport →
+            UnaryHistory provenance →
+              Cont compactSource sequenceWindow selectorWindow →
+                Cont selectorWindow readback realSeal →
+                  Cont realSeal transport consumer →
+                    Cont consumer provenance finalConsumer →
+                      PkgSig bundle provenance pkg →
+                        PkgSig bundle finalConsumer pkg →
+                          SemanticNameCert
+                            (fun row : BHist =>
+                              hsame row selectorWindow ∨ hsame row realSeal ∨
+                                hsame row consumer ∨ hsame row finalConsumer)
+                            (fun row : BHist => UnaryHistory row)
+                            (fun _row : BHist =>
+                              PkgSig bundle provenance pkg ∧ PkgSig bundle finalConsumer pkg)
+                            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert hsame UnaryHistory
+  intro compactUnary sequenceUnary readbackUnary transportUnary provenanceUnary selectorCont
+    realSealCont consumerCont finalConsumerCont provenancePkg finalConsumerPkg
+  have selectorUnary : UnaryHistory selectorWindow :=
+    unary_cont_closed compactUnary sequenceUnary selectorCont
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed selectorUnary readbackUnary realSealCont
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed realSealUnary transportUnary consumerCont
+  have finalConsumerUnary : UnaryHistory finalConsumer :=
+    unary_cont_closed consumerUnary provenanceUnary finalConsumerCont
+  have selectorSource :
+      (fun row : BHist =>
+        hsame row selectorWindow ∨ hsame row realSeal ∨ hsame row consumer ∨
+          hsame row finalConsumer) selectorWindow := by
+    exact Or.inl (hsame_refl selectorWindow)
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro selectorWindow selectorSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        cases source with
+        | inl sameSelector =>
+            exact Or.inl (hsame_trans (hsame_symm same) sameSelector)
+        | inr rest =>
+            cases rest with
+            | inl sameSeal =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm same) sameSeal))
+            | inr rest' =>
+                cases rest' with
+                | inl sameConsumer =>
+                    exact Or.inr
+                      (Or.inr (Or.inl (hsame_trans (hsame_symm same) sameConsumer)))
+                | inr sameFinal =>
+                    exact Or.inr
+                      (Or.inr (Or.inr (hsame_trans (hsame_symm same) sameFinal)))
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | inl sameSelector =>
+          exact unary_transport selectorUnary (hsame_symm sameSelector)
+      | inr rest =>
+          cases rest with
+          | inl sameSeal =>
+              exact unary_transport realSealUnary (hsame_symm sameSeal)
+          | inr rest' =>
+              cases rest' with
+              | inl sameConsumer =>
+                  exact unary_transport consumerUnary (hsame_symm sameConsumer)
+              | inr sameFinal =>
+                  exact unary_transport finalConsumerUnary (hsame_symm sameFinal)
+    ledger_sound := by
+      intro _row _source
+      exact ⟨provenancePkg, finalConsumerPkg⟩
+  }
+
 end BEDC.Derived.SequentialCompactnessUp
