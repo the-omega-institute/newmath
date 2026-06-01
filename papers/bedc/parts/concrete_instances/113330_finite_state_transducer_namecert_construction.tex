@@ -57,6 +57,30 @@ Proceed along the displayed input window. At the empty window, both packets are 
 The $\hsame$ rows transport each selected transition and output entry componentwise, while $P$ and $N$ keep both packets under the same $\FiniteAutomatonUp$ and $\StreamNameUp$ provenance. There is no remaining coordinate from which a second output ledger could be selected, so the accumulated output row is determined by the displayed finite route.
 \end{proof}
 
+\begin{theorem}[FiniteStateTransducerUp stream output trace obligation]
+\label{thm:finite-state-transducer-stream-output-trace-obligation}
+Every output-producing read of an accepted $\FiniteStateTransducerUp$ packet factors through one displayed finite $\StreamNameUp$ input window, the transition trace ledger over that window, and the accumulated output ledger replayed along the same rows. Thus a consumer may read output only after displaying the rows $Q,\Sigma,\Gamma,\delta,\lambda,q_0,w,\rho,o,H,C,P,N$ and the finite route from $w$ through $\rho$ to $o$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-state-transducer-carrier}. The finite input window $w$ is the only row through which an input read enters the packet, and it is already tied to the $\StreamNameUp$ inspection surface.
+
+Proceed by induction over the displayed input window. The empty window exposes the start row $q_0$, the empty transition trace, and the empty accumulated output row. For a nonempty window, the head symbol and current state select one displayed transition entry from $\delta$ and one displayed output entry from $\lambda$.
+
+The replay rows $C$ continue the same finite route through the tail of the window, while $H,P,N$ transport, package, and name the displayed rows. Since the carrier has no host word function, infinite stream totality, hidden output coordinate, or quotient equality, every output-producing read factors through the displayed window, transition trace, and output ledger.
+\end{proof}
+
+\begin{theorem}[FiniteStateTransducerUp window composition obligation]
+\label{thm:finite-state-transducer-window-composition-obligation}
+Suppose two displayed finite input windows for an accepted $\FiniteStateTransducerUp$ packet are concatenated after the first window has replayed to its displayed terminal state and output ledger. The trace and accumulated output for the concatenated window are obtained only by composing the displayed $\delta$, $\lambda$, $\rho$, $o$, $H$, $C$, $P$, and $N$ rows for the first window with the corresponding displayed rows for the second window.
+\end{theorem}
+\begin{proof}
+Use induction on the first displayed window. In the empty case, the concatenated route is exactly the second displayed window route, starting at the displayed state and using its displayed transition trace and output ledger.
+
+For a nonempty first window, project the head transition and head output rows selected by $\delta$ and $\lambda$. The induction hypothesis applies to the tail window followed by the second displayed window, because the $\Cont$ replay row carries the transported next-state row into that tail route.
+
+The accumulated output ledger is therefore the displayed head output block followed by the output ledger supplied by the induction hypothesis. All transports and naming data are supplied by $H,C,P,N$, and no composition step can appeal to an unstored word function, infinite trace, quotient stream equality, or nondisplayed output totality.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\FiniteStateTransducerUp$ read is refuted if an output-producing consumer obtains an output row without displaying the finite state row, input symbol row, output symbol row, transition ledger, output ledger, input window, transition trace, hsame transport, Cont replay, Pkg provenance over FiniteAutomatonUp and StreamNameUp, and local naming row.}
 
 \independenceWitness{FiniteAutomaton and StreamName: neither is bijective to $\FiniteStateTransducerUp$ because the transducer packet jointly stores finite control, input-window replay, and a synchronized output ledger, while the automaton packet stores acceptance replay and the stream-name packet stores observation windows without an emitted output ledger.}
@@ -65,7 +89,7 @@ The $\hsame$ rows transport each selected transition and output entry componentw
 \begin{closurestatus}{\FiniteStateTransducerUp}
   \constructivestory{A $\FiniteStateTransducerUp$ packet is generated from a finite state row, input-symbol row, output-symbol row, transition ledger, output ledger, start state, finite input window, transition trace, accumulated output ledger, componentwise hsame transport, displayed continuation replay, package provenance over FiniteAutomatonUp and StreamNameUp, and local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-state-transducer-carrier}, \autoref{thm:finite-state-transducer-namecert-obligations}, and \autoref{thm:finite-state-transducer-output-ledger-determinacy} seed the finite transducer packet over finite control, stream windows, transition replay, output replay, transport, continuation, provenance, and local naming rows.}
+  \scopeclosed{\autoref{def:finite-state-transducer-carrier}, \autoref{thm:finite-state-transducer-namecert-obligations}, \autoref{thm:finite-state-transducer-output-ledger-determinacy}, \autoref{thm:finite-state-transducer-stream-output-trace-obligation}, and \autoref{thm:finite-state-transducer-window-composition-obligation} seed the finite transducer packet over finite control, stream windows, transition replay, output replay, transport, continuation, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close language quotient equivalence, minimization, nondeterministic transducers, total stream functions, infinite traces, Lean verification, or bridge checking.}
