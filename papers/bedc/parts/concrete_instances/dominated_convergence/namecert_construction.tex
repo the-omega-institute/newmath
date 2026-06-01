@@ -83,6 +83,24 @@ The domination and convergence stages are $G$ and $L$. The majorant row is read 
 The readback and sibling handoff are $R,E,T$. The regular rational row and terminal real seal are consumed before the Tannery handoff, and the transport, replay, provenance, and naming rows preserve this route without adding host almost-everywhere equality, selected representatives, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Dominated convergence Fatou--Tannery nonescape]
+\label{thm:dominated-convergence-fatou-tannery-nonescape}
+Every lower-bound or bounded-series consumer of an accepted $\DominatedConvergenceUp$ carrier $D=(M,I,F,G,L,R,E,T,H,C,P,N)$ reads the Fatou nonnegative route and the Tannery bounded handoff only through the displayed rows
+$$
+M,I,G,L,R,E,T,H,C,P,N .
+$$
+In particular, the consumer may use $\FatouLemmaUp$ only as the nonnegative lower-bound boundary compatible with $M,I,G,L,R,E$, and may use $\TanneryTheoremUp$ only through the bounded handoff row $T$. It cannot import host almost-everywhere equality, selected representatives, quotient function equality, ambient measure completion, or a detached completion theorem at the Fatou--Tannery boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dominated-convergence-carrier}. The carrier exposes the majorant row $G$, the pointwise-limit windows $L$, the regular rational readback $R$, the Real seal $E$, the Tannery handoff $T$, and the structural rows $H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:dominated-convergence-namecert-obligations}. Majorant visibility forces every domination read through $G$ together with $M$ and $I$, while limit-window visibility forces every convergence read through $L$ before integral-limit readback is available.
+
+Use the majorant handoff of \autoref{thm:dominated-convergence-majorant-handoff} and the measure-integral route of \autoref{thm:dominated-convergence-measure-integral-route}. These two routes place the lower-bound side next to the $\FatouLemmaUp$ nonnegative boundary and place the bounded-series side next to the $\TanneryTheoremUp$ row $T$ without adding any new carrier coordinate.
+
+It follows that the Fatou-facing and Tannery-facing reads are exhausted by $M,I,G,L,R,E,T,H,C,P,N$. Since host almost-everywhere equality, selected representatives, quotient function equality, ambient measure completion, and detached completeness are absent from that list, none can escape through this boundary.
+\end{proof}
+
 \falsifiablePrediction{Every $\DominatedConvergenceUp$ integral-facing or Real-facing read factors through displayed Measure, Integral, majorant, pointwise-limit, RegSeqRat readback, Real seal, Tannery handoff, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
 
 \independenceWitness{measure, integral, regseqrat, real, tannery-theorem: $\DominatedConvergenceUp$ is not bijective to any listed sibling because it jointly carries measure source, integral readback, indexed integrand family, integrable majorant, pointwise-limit windows, regular rational approximants, Real seal, bounded Tannery handoff, transport, replay, provenance, and local naming.}

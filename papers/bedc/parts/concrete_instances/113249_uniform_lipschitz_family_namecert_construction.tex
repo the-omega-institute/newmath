@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\UniformLipschitzFamilyUp$}
+\label{ch:concrete-instances-uniform-lipschitz-family-namecert}
+\origin{human}
+
+Following Arzela-Ascoli and the standard Lipschitz-family compactness literature, the $\UniformLipschitzFamilyUp$ packet records the finite BEDC surface for a family of continuous maps controlled by one displayed Lipschitz bound across all listed members. It sits after the metric source of \autoref{ch:concrete-instances-metric-namecert}, the continuous-map graph rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the bound ledger of \autoref{ch:concrete-instances-lipschitz-constant-namecert}, the compact source of \autoref{ch:concrete-instances-compactmetric-namecert}, and the tolerance consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names uniform Lipschitz control as finite family data; it does not assert ambient function-space compactness, select a convergent subsequence, or import open-cover compactness.
+
+\begin{definition}[Uniform Lipschitz-family carrier]
+\label{def:uniform-lipschitz-family-carrier}
+A $\UniformLipschitzFamilyUp$ carrier is a finite $\BHist$ packet
+$$
+U=(X,Y,I,F,L,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\CompactMetricUp$ source row whose finite metric windows supply all source-distance reads.
+\item $Y$ is the target $\MetricUp$ row whose distance reads are used only through displayed continuous-map values.
+\item $I$ is the finite family-index row naming the inspected maps.
+\item $F$ is the finite list of $\ContinuousMapUp$ rows, one for each displayed family member from $X$ to $Y$.
+\item $L$ is the shared $\LipschitzConstantUp$ row, recording one common bound for every listed member rather than one hidden ambient bound per function.
+\item $V$ is the $\UniformModulusUp$ handoff row that receives the common Lipschitz bound as a tolerance-only modulus surface.
+\item $H$ records componentwise $\hsame$ transport for $X,Y,I,F,L,V$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route from compact source windows through continuous-map values and the shared Lipschitz bound to the uniform-modulus handoff.
+\item $P$ is the $\Pkg$ provenance over $\UniformLipschitzFamilyUp$, $\CompactMetricUp$, $\MetricUp$, $\ContinuousMapUp$, $\LipschitzConstantUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\UniformLipschitzFamilyUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient function-space topology, selected subsequence, quotient equality of functions, open-cover compactness, or a non-displayed modulus.
+\end{definition}
+
+\begin{theorem}[Uniform Lipschitz-family NameCert obligations]
+\label{thm:uniform-lipschitz-family-namecert-obligations}
+For every accepted $\UniformLipschitzFamilyUp$ carrier $U=(X,Y,I,F,L,V,H,C,P,N)$, the local $\NameCert_{\UniformLipschitzFamilyUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the compact source, target metric, family-index, continuous-map list, shared Lipschitz bound, uniform-modulus handoff, transport, replay, provenance, and local naming rows;
+\item compact-source exposure, requiring every family read to pass through $X$ before any pointwise value or bound row is consumed;
+\item continuous-map exposure, requiring each listed family member in $I$ to be read through a corresponding $\ContinuousMapUp$ row in $F$;
+\item shared-bound exactness, requiring the single row $L$ to control every listed member and forbidding a hidden per-member or ambient Lipschitz selector;
+\item uniform-modulus handoff, requiring $V$ to consume only the common bound row together with the displayed source and target metric evidence;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the rows already listed.
+\end{enumerate}
+No uniform Lipschitz-family obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $U=(X,Y,I,F,L,V,H,C,P,N)$. The displayed coordinates give the compact source, target metric, finite index row, listed continuous-map rows, shared Lipschitz bound, uniform-modulus handoff, and structural rows.
+
+The source and map rows come first. The compact metric row $X$ supplies source-distance windows, while $I$ and $F$ restrict inspection to the listed continuous maps.
+
+The common bound is then read through $L$. Since the same row is used for every listed member, the certificate records a family-level Lipschitz constraint rather than a collection of host-level function predicates.
+
+Finally $V,H,C,P,N$ package the same displayed route for downstream consumers. The excluded objects do not occur as carrier coordinates, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Uniform Lipschitz-family compact-uniform handoff]
+\label{thm:uniform-lipschitz-family-compact-uniform-handoff}
+Every compact-uniform or Arzela--Ascoli consumer of an accepted $\UniformLipschitzFamilyUp$ carrier receives the finite route
+$$
+\CompactMetricUp,\MetricUp,\ContinuousMapUp,\LipschitzConstantUp
+\longmapsto
+\UniformModulusUp
+\longmapsto
+\hsame,\Cont,\Pkg,\NameCert .
+$$
+Thus the shared Lipschitz bound is exported only as compact-source metric data, displayed map rows, a common LipschitzConstant row, and a UniformModulus handoff. It exports no ambient function-space topology, selected subsequence, open-cover compactness, quotient function equality, or non-displayed modulus.
+\end{theorem}
+\begin{proof}
+Start with the source and target metric rows. The compact source $X$ and target metric $Y$ provide the only distance reads available to the family.
+
+Read the finite family rows $I$ and $F$. Each inspected member is attached to a displayed $\ContinuousMapUp$ row, so a consumer cannot quantify over an ambient function space.
+
+The shared bound row $L$ then feeds $V$. The downstream $\UniformModulusUp$ consumer receives the common Lipschitz ledger as tolerance data, while $H,C,P,N$ transport, replay, source, and name that same route.
+
+Because the carrier lacks coordinates for subsequence selection, open-cover compactness, quotient function equality, and hidden moduli, every compact-uniform or Arzela--Ascoli read factors through the displayed handoff.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\UniformLipschitzFamilyUp$ read is refuted if a compact-uniform or Arzela--Ascoli consumer obtains a UniformModulusUp handoff without displaying the CompactMetric source row, target Metric row, finite family-index row, ContinuousMap rows, shared LipschitzConstant row, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{metric, continuousmap, lipschitz-constant, compactmetric, uniformmodulus: no listed sibling is bijective with $\UniformLipschitzFamilyUp$ because the packet jointly carries a compact source, target metric, finite family index, displayed continuous-map list, one shared Lipschitz bound, a uniform-modulus handoff, transport, replay, provenance, and local NameCert.}
+
+\closureat{UniformLipschitzFamilyUp}{seedStr}
+
+\begin{closurestatus}{\UniformLipschitzFamilyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-lipschitz-family-carrier}, \autoref{thm:uniform-lipschitz-family-namecert-obligations}, and \autoref{thm:uniform-lipschitz-family-compact-uniform-handoff} seed the finite shared-Lipschitz family route from compact metric source data through continuous-map rows to a UniformModulus handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient function-space compactness, selected subsequences, open-cover compactness, quotient function equality, non-displayed moduli, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-source exposure, continuous-map exposure, shared-bound exactness, UniformModulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.UniformLipschitzFamilyUp.}
+  \constructivestory{A $\UniformLipschitzFamilyUp$ packet is generated from a compact metric source row, target Metric row, finite family-index row, ContinuousMap rows, a shared LipschitzConstant row, UniformModulus handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

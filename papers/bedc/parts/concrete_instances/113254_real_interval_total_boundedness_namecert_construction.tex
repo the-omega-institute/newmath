@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\RealIntervalTotalBoundednessUp$}
+\label{ch:concrete-instances-real-interval-total-boundedness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealIntervalTotalBoundednessUp$ packet records the finite total-boundedness route for a displayed located real interval before compact-interval and uniform-continuity consumers may read a finite net. It sits after the endpoint surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, the located real interval carrier of \autoref{ch:concrete-instances-located-real-interval-namecert}, and the finite epsilon-net certificate of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}. The packet is an L10 finite-net interval object; it does not claim open-cover Heine--Borel, a choice-selected subcover, quotient real equality, endpoint trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Real interval total boundedness carrier]
+\label{def:real-interval-total-boundedness-carrier}
+A $\RealIntervalTotalBoundednessUp$ carrier is a finite $\BHist$ packet
+$$
+T=(I,L,\varepsilon,M,E,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\LocatedIntervalUp$ endpoint row exposing the lower endpoint, upper endpoint, and interval-order boundary.
+\item $L$ is the $\LocatedRealIntervalUp$ row for the same displayed interval, carrying real-name enclosure and locatedness data.
+\item $\varepsilon$ is a positive $\RatUp$ or $\RealUp$ tolerance ledger read as the requested net radius.
+\item $M$ is a finite mesh row whose cells refine the located interval at tolerance $\varepsilon$.
+\item $E$ is the finite list of displayed centers, each center read through the same located real interval rows $I,L$.
+\item $F$ is the $\FiniteEpsilonNetUp$ handoff row asserting that every inspected interval point is covered by one center from $E$ at radius $\varepsilon$.
+\item $H$ records componentwise $\hsame$ transport for the interval, locatedness, tolerance, mesh, centers, net handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a total-boundedness request through $I,L,\varepsilon,M,E,F,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealIntervalTotalBoundednessUp$, $\LocatedIntervalUp$, $\LocatedRealIntervalUp$, $\FiniteEpsilonNetUp$, $\RatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealIntervalTotalBoundednessUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these ten rows. It has no coordinate for arbitrary open covers, selected finite subcovers, quotient real equality, endpoint trichotomy, countable choice, host compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real interval total boundedness NameCert obligations]
+\label{thm:real-interval-total-boundedness-namecert-obligations}
+For every accepted $\RealIntervalTotalBoundednessUp$ carrier $T=(I,L,\varepsilon,M,E,F,H,C,P,N)$, the local $\NameCert_{\RealIntervalTotalBoundednessUp}$ surface consists exactly of carrier admission, located endpoint admission, located real interval admission, positive tolerance admission, finite mesh admission, finite center admission, finite epsilon-net handoff, componentwise transport, replay, provenance, and local naming for the displayed rows $I,L,\varepsilon,M,E,F,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $T=(I,L,\varepsilon,M,E,F,H,C,P,N)$. Carrier admission reads the located endpoint row $I$, the located real interval row $L$, the positive tolerance ledger $\varepsilon$, the mesh row $M$, the center list $E$, and the finite-net handoff $F$.
+
+The endpoint and located-real rows precede the net route. A point request first enters through $I$ and $L$, then reads the tolerance ledger and mesh; no host interval, quotient representative, or endpoint trichotomy is selected.
+
+The finite handoff is the row $F$. It is transported only through $H$ and replayed only through $C$, while $P$ records the sibling certificate provenance and $N$ names the local packet.
+
+Since the carrier contains no open-cover, subcover-selection, countable-choice, or ambient completeness coordinate, no $\NameCert_{\RealIntervalTotalBoundednessUp}$ consumer can recover those objects from the packet.
+\end{proof}
+
+\begin{theorem}[Real interval total boundedness finite-net handoff]
+\label{thm:real-interval-total-boundedness-finite-net-handoff}
+Every compact-interval, completion, or uniform-continuity consumer of an accepted $\RealIntervalTotalBoundednessUp$ packet receives total boundedness only through the displayed route
+$$
+\LocatedIntervalUp,\ \LocatedRealIntervalUp,\ \RatUp\ \text{or}\ \RealUp
+\longmapsto
+\FiniteEpsilonNetUp .
+$$
+Thus the consumer receives a finite list of interval centers and a tolerance-indexed coverage row for the displayed located real interval, without receiving open-cover Heine--Borel, a selected subcover, quotient real equality, endpoint trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:real-interval-total-boundedness-carrier}. The rows $I$ and $L$ are the only interval source, and $\varepsilon$ is the only tolerance request visible to the consumer.
+
+The mesh and center rows $M,E$ are finite data. They feed the $\FiniteEpsilonNetUp$ handoff $F$, so coverage is read as a displayed net over the same located real interval rather than as a subcover of an arbitrary open cover.
+
+Transport and replay do not widen the boundary. The rows $H,C,P,N$ preserve the same finite route and add provenance and local naming, while the excluded compactness, choice, quotient, trichotomy, and completeness objects have no carrier coordinate.
+\end{proof}
+
+\closureat{$\RealIntervalTotalBoundednessUp$}{seedStr}
+
+\begin{closurestatus}{\RealIntervalTotalBoundednessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-interval-total-boundedness-carrier}, \autoref{thm:real-interval-total-boundedness-namecert-obligations}, and \autoref{thm:real-interval-total-boundedness-finite-net-handoff} seed the finite total-boundedness route over $\LocatedIntervalUp$, $\LocatedRealIntervalUp$, $\FiniteEpsilonNetUp$, $\RatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover Heine--Borel, selected finite subcovers, quotient real equality, endpoint trichotomy, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located interval admission, positive tolerance exactness, finite mesh coverage, finite epsilon-net handoff, non-escape, and local naming for BEDC.Derived.RealIntervalTotalBoundednessUp.}
+  \constructivestory{A $\RealIntervalTotalBoundednessUp$ packet is generated from LocatedIntervalUp endpoints, a LocatedRealIntervalUp locatedness row, a positive RatUp or RealUp tolerance ledger, finite mesh cells, displayed centers, a FiniteEpsilonNetUp handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

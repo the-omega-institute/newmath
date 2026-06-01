@@ -439,4 +439,48 @@ theorem RealUniformStructureCompletionEntourageBasis [AskSetup] [PackageSetup]
   }
   exact ⟨cert, refinedUnary, refinedCont, pPkg, refinedPkg⟩
 
+theorem RealUniformStructureCarrier_basis_refinement_uniqueness [AskSetup] [PackageSetup]
+    {R M U F D S Q H C P N basisRead refinedRead filterRead windowRead readbackRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealUniformStructureCarrier R M U F D S Q H C P N bundle pkg ->
+      Cont R D basisRead ->
+        Cont basisRead U refinedRead ->
+          Cont refinedRead F filterRead ->
+            Cont filterRead S windowRead ->
+              Cont windowRead Q readbackRead ->
+                PkgSig bundle readbackRead pkg ->
+                  UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory U ∧ UnaryHistory F ∧
+                    UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory basisRead ∧
+                      UnaryHistory refinedRead ∧ UnaryHistory filterRead ∧
+                        UnaryHistory windowRead ∧ UnaryHistory readbackRead ∧
+                          Cont R D basisRead ∧ Cont basisRead U refinedRead ∧
+                            Cont refinedRead F filterRead ∧ Cont filterRead S windowRead ∧
+                              Cont windowRead Q readbackRead ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle readbackRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier basisCont refinedCont filterCont windowCont readbackCont readbackPkg
+  have rUnary : UnaryHistory R := carrier.left
+  have uUnary : UnaryHistory U := carrier.right.right.left
+  have fUnary : UnaryHistory F := carrier.right.right.right.left
+  have dUnary : UnaryHistory D := carrier.right.right.right.right.left
+  have sUnary : UnaryHistory S := carrier.right.right.right.right.right.left
+  have qUnary : UnaryHistory Q := carrier.right.right.right.right.right.right.left
+  have pPkg : PkgSig bundle P pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right
+  have basisUnary : UnaryHistory basisRead :=
+    unary_cont_closed rUnary dUnary basisCont
+  have refinedUnary : UnaryHistory refinedRead :=
+    unary_cont_closed basisUnary uUnary refinedCont
+  have filterUnary : UnaryHistory filterRead :=
+    unary_cont_closed refinedUnary fUnary filterCont
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed filterUnary sUnary windowCont
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary qUnary readbackCont
+  exact
+    ⟨rUnary, dUnary, uUnary, fUnary, sUnary, qUnary, basisUnary, refinedUnary,
+      filterUnary, windowUnary, readbackUnary, basisCont, refinedCont, filterCont,
+      windowCont, readbackCont, pPkg, readbackPkg⟩
+
 end BEDC.Derived.RealUniformStructureUp
