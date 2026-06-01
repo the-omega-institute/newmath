@@ -191,4 +191,28 @@ theorem SimplicialApproximationUpTasteGate_single_carrier_alignment :
         SimplicialApproximationUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
+theorem SimplicialApproximationTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate SimplicialApproximationUp) ∧
+      Nonempty (FieldFaithful SimplicialApproximationUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial SimplicialApproximationUp) ∧
+          (∀ h : BHist,
+            simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist h) =
+              h) ∧
+            (∀ x : SimplicialApproximationUp,
+              simplicialApproximationFromEventFlow
+                (simplicialApproximationToEventFlow x) = some x) ∧
+              simplicialApproximationEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  constructor
+  · exact ⟨simplicialApproximationChapterTasteGate⟩
+  · constructor
+    · exact ⟨simplicialApproximationFieldFaithful⟩
+    · constructor
+      · exact ⟨simplicialApproximationNontrivial⟩
+      · constructor
+        · exact SimplicialApproximationUpTasteGate_single_carrier_alignment_decode
+        · constructor
+          · exact SimplicialApproximationUpTasteGate_single_carrier_alignment_round_trip
+          · rfl
+
 end BEDC.Derived.SimplicialApproximationUp
