@@ -219,6 +219,29 @@ def test_first_ci_overlap_saturation_fails_closed_for_non_finite_and_insufficien
     assert math.isnan(insufficient["saturation_x"])
 
 
+def test_first_ci_overlap_saturation_fails_closed_for_invalid_ci_interval():
+    saturation = stats.first_ci_overlap_saturation(
+        [
+            {"rho": 0.0, "mean": 0.10, "ci95_low": 0.09, "ci95_high": 0.11},
+            {"rho": 0.25, "mean": 0.30, "ci95_low": 0.32, "ci95_high": 0.28},
+            {"rho": 0.50, "mean": 0.50, "ci95_low": 0.49, "ci95_high": 0.51},
+        ],
+        "rho",
+        "mean",
+        "ci95_low",
+        "ci95_high",
+    )
+
+    assert saturation["status"] == "invalid_ci_interval"
+    assert saturation["saturated"] is False
+    assert math.isnan(saturation["saturation_x"])
+    assert saturation["saturation_index"] is None
+    assert saturation["overlapping_pair"] is None
+    assert saturation["post_saturation_fit"]["status"] == "insufficient_points"
+    assert saturation["post_saturation_fit"]["n"] == 0
+    assert math.isnan(saturation["post_saturation_fit"]["slope"])
+
+
 def test_slope_ci_overlap_true_and_false():
     left = {"status": "ok", "slope_ci95_low": -0.7, "slope_ci95_high": -0.3}
     overlapping = {"status": "ok", "slope_ci95_low": -0.5, "slope_ci95_high": -0.1}
