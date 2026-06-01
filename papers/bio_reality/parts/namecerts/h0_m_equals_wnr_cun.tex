@@ -1,32 +1,50 @@
-\subsection{NameCert: h0.M.equals.WNR.CUN}
-\label{sec:namecert-h0_m_equals_wnr_cun}
+\subsection{ORF eligibility seed for the $M=WNR\cup CUN$ row}\label{subsec:bioreality-h0-m-equals-wnr-cun-orf-eligibility}
 \origin{ai}
-\noindent\textit{Proposed by bio-namer; review status: draft.}
 
-\paragraph{NameCert chapter slug.}
-Proposed slug: `14102\_bioreality\_q\_six\_median\_closure\_ledger\_namecert\_construction`. The concept is BioReality-namespaced and avoids the documented Loning genetic-bridge namespaces by using a BioReality-prefixed closure-ledger name.
+\paragraph{Finite codon row.}
+This BioReality row attaches the identifier $h0.M.equals.WNR.CUN$ to a finite codon packet whose measured carrier is the twenty-element set
+$$
+\begin{aligned}
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\& CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\end{aligned}
+$$
+The experiment run $a53ef0f36703$ records both $|M|=20$ and exact equality with $WNR\cup CUN$.  The row is therefore not an open-ended codon heuristic: the only codon symbols available to this packet are the listed twenty RNA triplets.  The companion motif-compression run $338799579a87$ isolates the thirteen-element motif subrow
+$$
+\begin{aligned}
+R=\{&AAA,AGA,AGG,AUA,CUA,CUC,CUG,CUU,\\&UAA,UAG,UCA,UGA,UUA\},
+\end{aligned}
+$$
+with no missing and no additional members relative to its declared motif union.  The $f_3$ saturation run $f4eee68dd2c3$ then records $Sat_{f_3}(R)=M\setminus\{ACA,ACG\}$, so the saturated row contains eighteen codons and leaves precisely $ACA$ and $ACG$ outside that saturation.  The same run records an empty $f_3$ boundary, and it records that adjoining $ACA$ to the mediated row recovers the same twenty codons in $M$.  These enumerations are used here only as finite coordinates for a testable ORF-eligibility packet.
 
-\paragraph{Carrier.}
-Carrier name: `BioRealityQSixMedianClosureLedger`. BEDC 5-tuple: `(carrier, distinctions, internal\_closure\_packet, external\_reality\_bridge, cannot\_claim\_boundary)`, where the carrier is a finite window-six codon-coordinate ledger; distinctions separate the experiment's median-closure membership slots from the reassignment-source and named-union slots; internal\_closure\_packet records only BEDC closure, relation, quotient, and spectrum-compatible bookkeeping; external\_reality\_bridge points to curated biological tables and reproducible experiment runs; and cannot\_claim\_boundary prevents codon/window geometry from being promoted to translation, folding, physical admissibility, function, mechanism, or global biological law.
+\paragraph{Combinatorial shape.}
+The quotient-geometry check $fd0a506a0881$ gives the row a concrete finite shape before any biological interpretation is attempted.  For $M$ the recorded face vector is
+$$
+\begin{aligned}
+(20,38,26,8,1),
+\end{aligned}
+$$
+and the quotient image has size $10$ with face vector
+$$
+\begin{aligned}
+(10,14,6,1).
+\end{aligned}
+$$
+The recorded quotient coordinates are the ten binary rows
+$$
+\begin{aligned}
+&(0,0,0,0,1), (0,0,0,1,1), (0,0,1,0,1), (0,0,1,1,1),\\&(0,1,0,0,0), (0,1,0,0,1),\\&(1,0,0,0,1), (1,0,0,1,1), (1,0,1,0,1), (1,0,1,1,1).
+\end{aligned}
+$$
+The product-decomposition mismatch list is empty.  Consequently the packet has a stable internal finite geometry, but this geometry is not itself a biological observation.  It specifies which start and stop boundary patterns can be enumerated in the codon row; it does not say that a cell transcribes, translates, folds, stabilizes, or uses any corresponding product.
 
-\paragraph{Distinctions.}
-- Codons enumerated by the experiment as belonging to the median closure `M`. - Codons enumerated by the experiment as belonging to the reassignment source `R`. - Codons enumerated by the experiment as belonging to the named union comparator `WNR union CUN`. - The experiment check distinguishing equality of the median-closure enumeration from equality of biological interpretation. - The linked conjecture's `orf\_eligibility` boundary distinction between start/stop-window eligibility and translation realization. - The bridge distinction between curated code-label readback and internal BEDC coordinate, closure, quotient, and spectrum structure.
+\paragraph{ORF-eligibility contact and controls.}
+The first ORF-window contact, run $c26a0d6656f7$, loaded one external nucleotide-window record and classified one input window by start/stop enumeration.  Its scope is explicitly limited to external-window start/stop enumeration, with snapshot date $2026$-$05$-$25$, and its recorded layer is $orf\_eligibility\_only$.  A later curated-interval contact, run $7c9b30b02d46$, uses a frozen classifier named $orf\_start\_stop\_window\_eligibility$ with unchanged rules.  The curated interval dataset has $168$ rows from NCBI RefSeq GenBank XML CDS intervals for Escherichia coli K-12 MG1655 complete genome accession $NC\_000913.3$, snapshot date $2026$-$05$-$30$.  Its required input classes are present: positive curated ORFs, matched non-ORF decoys, and boundary cases.
 
-\paragraph{Readback.}
-The carrier reads back to observable data by following the curated genetic-code table pointer, the linked conjecture `orf\_eligibility.seed.boundary`, and the latest passed `check\_M\_equals\_WNR\_CUN` run for `h0.M.equals.WNR.CUN`. The readback surface is an experiment/provenance pointer into curated code-table comparisons and reproducible median-closure computation; the carrier itself records the existence of separated closure witness fields and their readback boundary, not a biological mechanism.
+\paragraph{Observed finite performance.}
+Within that curated contact, the positive interval statistic records $72$ accepted positives out of $72$, so the accept rate is $1.0$ with one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$.  The matched decoy statistic records $72$ rejected decoys out of $72$, so the reject rate is $1.0$ with the same upper-tail value $2.117582368135751\times 10^{-22}$.  The predeclared paired comparison records $72$ wins in $72$ pairs, again with upper-tail value $2.117582368135751\times 10^{-22}$.  The held-out stability check has three splits.  In the left-locus fold, $24$ positives are accepted at rate $1.0$ and $24$ decoys are rejected at rate $1.0$.  The middle-locus fold and right-locus fold record the same $24$ positive and $24$ decoy counts with the same rates, and all three splits pass.  The boundary-case control records $24$ boundary cases with $0$ promoted, hence promoted fraction $0.0$.
 
-\paragraph{Derivation from coordinate, closure, spectrum, and relation.}
-The internal content is a pure BEDC finite-coordinate packet: a BioReality-namespaced window-six carrier, a median-closure slot, a comparator-union slot, a quotient-compatible ledger slot, and a TasteGate-style separation between internal coordinate structure and external readback. No curated genetic-code entry, codon list, closure cardinality, translation table row, empirical frequency, start/stop role, ORF eligibility fact, or statistical conclusion is a kernel fact. Such values remain bridge and provenance fields supplied by section 6.
+\paragraph{Local interpretation.}
+This chapter therefore supports a narrow claim: the finite $M=WNR\cup CUN$ codon row can be used as a start/stop-window eligibility coordinate, and a separate curated interval contact tests that coordinate on a $168$-row external annotation dataset with the counts stated above.  The protocol was frozen before external observation: the record gives protocol time $2026$-$05$-$29T19{:}11{:}13+00{:}00$ and external evidence time $2026$-$05$-$30T10{:}29{:}31+00{:}00$, with frozen classifier rules, frozen held-out splits, frozen input classes, predeclared baselines, and no translation or structure input to the analysis.  The self-check run $0f47d2f0cf41$ records three checked gates and states that no codon geometry is promoted across biological layers.
 
-\paragraph{Curated reality contacts and observed facts.}
-- Curated genetic-code source pointer: `tools/bio\_reality/data/ncbi\_genetic\_codes.json`. - Conjecture pointer: `tools/bio\_reality/inbox/conjectures.jsonl` record `orf\_eligibility.seed.boundary`. - Claim pointer: `tools/bio\_reality/registries/claims.json` record `h0.M.equals.WNR.CUN`. - Experiment provenance pointer: `tools/bio\_reality/state/experiment\_runs.jsonl` latest passed `experiment\_run\_id` `a53ef0f36703` for `check\_M\_equals\_WNR\_CUN`. - Gate/probe boundary pointer: probes `orf.eligibility.boundary.requires.contact` and `orf.eligibility.contact.gap.check`. - Statistical witness pointer: the linked conjecture records statistical witnesses by claim/run reference; those witnesses remain separate external provenance and are not imported into this carrier.
-
-\paragraph{Layer discipline and out-of-scope assertions.}
-- This chapter does not claim biological-code necessity. - This chapter does not claim that median closure realizes translation. - This chapter does not claim that equality with a named codon union establishes ORF eligibility. - This chapter does not claim folded protein structure, physical admissibility, biological function, or universal mechanism. - This chapter does not claim that a curated table row, codon list, closure count, start/stop role, or statistical witness is a BEDC kernel fact. - This chapter does not claim that local codon-window geometry is a global biological law. - This chapter does not claim evolution, causality, biochemical mechanism, or biological universality from the median-closure ledger.
-
-\paragraph{Disclaimer on the bridge from coordinate to mechanism.}
-This proposal is a vision-level scientific-model bridge for a stable BioReality median-closure code-read claim. It is not a CheckedCert claim about molecular biology, and it does not turn a BEDC window-six coordinate, a local codon tile, a median-closure ledger, or equality with a named codon-union comparator into ORF eligibility, translation realization, folded structure, physical admissibility, function realization, biological-code necessity, or a universal biological law; those require separate external reality contacts.
-
-\paragraph{Lean-side statement target sketch.}
-`BEDC.Derived.BioRealityQSixMedianClosureLedgerUp.TasteGate` carrier alignment, with curated-table, experiment-run, conjecture-boundary, and statistical-witness evidence represented only as bridge/provenance fields.
-
+\paragraph{Local non-promotion rule.}
+No stronger biological conclusion follows in this chapter.  Start/stop-window eligibility is not translation realization.  It is not a folded molecular structure, not physical admissibility, not a biochemical mechanism, not a biological function, and not a universal law about genomes.  The curated RefSeq interval contact is an external annotation contact for this finite experiment; it is not part of the codon-row geometry itself.  Any later claim about translation, protein structure, physical viability, mechanism, organism-level function, or universality would require its own independently recorded contact and its own finite audit trail.
