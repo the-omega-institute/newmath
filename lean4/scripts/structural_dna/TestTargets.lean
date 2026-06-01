@@ -20,6 +20,14 @@ def C1 : BHist → BHist → Prop := fun h k => SomeP h ∧ SomeQ k
 
 def C2 : BHist → BHist → Prop := fun h k => SomeQ h ∧ SomeP k
 
+def C1DirectEta : BHist → BHist → Prop := fun h k => C1 h k
+
+def C1LetEta : BHist → BHist → Prop := fun h k => (let f := C1; f) h k
+
+def C1MidEta : BHist → BHist → Prop := fun h k => C1 h k
+
+def C1MultiEta : BHist → BHist → Prop := fun h k => C1MidEta h k
+
 def Hollow : BHist → Prop := fun _ => True
 
 def ExplicitArrow : Type := ∀ _ : BHist, BHist

@@ -327,6 +327,7 @@ class ExprFingerprint:
     value_fp: str
     const_fp: str = ""
     eta_value_fp: str = ""
+    reduced_fingerprint: str = ""
 
 
 def read_text(path: Path) -> str:
@@ -4069,6 +4070,7 @@ def _run_structural_dna_expr_fingerprints(
         value_fp = str(payload.get("value_fp") or "")
         const_fp = str(payload.get("const_fp") or "")
         eta_value_fp = str(payload.get("eta_value_fp") or "")
+        reduced_fingerprint = str(payload.get("reduced_fingerprint") or "")
         if fingerprint:
             out[str(decl)] = ExprFingerprint(
                 fingerprint=fingerprint,
@@ -4076,6 +4078,7 @@ def _run_structural_dna_expr_fingerprints(
                 value_fp=value_fp,
                 const_fp=const_fp,
                 eta_value_fp=eta_value_fp,
+                reduced_fingerprint=reduced_fingerprint,
             )
     return out
 
@@ -5467,7 +5470,7 @@ def structural_dna_payload(
         "schema": "bedc.classifier_shift_dna",
         "checked_target_count": len(records),
         "grade_counts": dict(sorted(grade_counts.items())),
-        "regression_check_count": 2,
+        "regression_check_count": 3,
         "regression_failures": regression_failures,
         "regression_status": "PASS" if not regression_failures else "FAIL",
         "truth_boundary": "origin-blind structural survey only; no novelty or closurestatus truth claim is emitted",
@@ -6021,131 +6024,14 @@ def _candidate_semantic_endpoint_classes(semantic_hits: Iterable[str]) -> list[s
     return sorted(classes)
 
 
-LEAN_IDENT_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_']*")
-
-
-def _split_top_level_ws(text: str) -> list[str]:
-    parts: list[str] = []
-    start: int | None = None
-    depth = 0
-    for idx, ch in enumerate(text):
-        if ch in "({[":
-            depth += 1
-        elif ch in ")}]" and depth > 0:
-            depth -= 1
-        if ch.isspace() and depth == 0:
-            if start is not None:
-                parts.append(text[start:idx])
-                start = None
-        elif start is None:
-            start = idx
-    if start is not None:
-        parts.append(text[start:])
-    return parts
-
-
-def _strip_balanced_outer(text: str) -> str:
-    text = text.strip()
-    pairs = {"(": ")", "{": "}", "[": "]"}
-    changed = True
-    while changed and len(text) >= 2:
-        changed = False
-        opening = text[0]
-        closing = pairs.get(opening)
-        if closing is None or text[-1] != closing:
-            continue
-        depth = 0
-        balanced_outer = True
-        for idx, ch in enumerate(text):
-            if ch == opening:
-                depth += 1
-            elif ch == closing:
-                depth -= 1
-                if depth == 0 and idx != len(text) - 1:
-                    balanced_outer = False
-                    break
-        if balanced_outer and depth == 0:
-            text = text[1:-1].strip()
-            changed = True
-    return text
-
-
-def _binder_names_from_chunk(chunk: str) -> list[str]:
-    chunk = _strip_balanced_outer(chunk)
-    if not chunk:
-        return []
-    if ":=" in chunk:
-        chunk = chunk.split(":=", 1)[0]
-    if ":" in chunk:
-        chunk = chunk.split(":", 1)[0]
-    if "←" in chunk:
-        chunk = chunk.split("←", 1)[0]
-    if "<-" in chunk:
-        chunk = chunk.split("<-", 1)[0]
-    return [
-        name for name in LEAN_IDENT_RE.findall(chunk)
-        if name not in {"_", "fun", "forall", "by", "let"}
-    ]
-
-
-def _lambda_binder_names(binder_text: str) -> list[str]:
-    names: list[str] = []
-    for chunk in _split_top_level_ws(binder_text):
-        names.extend(_binder_names_from_chunk(chunk))
-    return names
-
-
-def _application_head_and_args(expr: str) -> tuple[str, list[str]] | None:
-    expr = _strip_balanced_outer(expr)
-    if expr.startswith("@"):
-        expr = expr[1:].strip()
-    parts = _split_top_level_ws(expr)
-    if not parts:
-        return None
-    callee = _strip_balanced_outer(parts[0]).lstrip("@")
-    if not re.fullmatch(r"[A-Za-z0-9_'.]+", callee):
-        return None
-    args: list[str] = []
-    for part in parts[1:]:
-        arg = _strip_balanced_outer(part)
-        if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_']*", arg):
-            args.append(arg)
-        else:
-            return None
-    return callee, args
-
-
-def _eta_wrapper_target(body_no_ws: str) -> str | None:
-    match = re.search(
-        r":=\s*fun\s+(?P<binders>.+?)\s*=>\s*(?P<body>.+?)\s*$",
-        body_no_ws,
-    )
-    if not match:
-        return None
-    binders = _lambda_binder_names(match.group("binders"))
-    applied = _application_head_and_args(match.group("body"))
-    if applied is None:
-        return None
-    callee, args = applied
-    if binders and binders == args:
-        return callee
-    return None
-
-
-def _eta_wrapper_by_fingerprint(
-    before: str,
-    after: str,
-    expr_fingerprints: dict[str, ExprFingerprint] | None,
-) -> bool:
-    if not expr_fingerprints:
-        return False
-    before_fp = expr_fingerprints.get(before)
-    after_fp = expr_fingerprints.get(after)
-    if before_fp is None or after_fp is None:
-        return False
-    before_const = before_fp.const_fp
-    after_eta = after_fp.eta_value_fp
-    return bool(before_const and after_eta and before_const == after_eta)
+def _discovery_endpoint_reduced_fp(
+    name: str,
+    expr_fingerprints: dict[str, ExprFingerprint],
+) -> str:
+    fp = expr_fingerprints.get(name)
+    if fp is None:
+        return ""
+    return fp.reduced_fingerprint or fp.value_fp or fp.fingerprint
 
 
 def _declaration_is_alias_or_wrapper(
@@ -6157,8 +6043,11 @@ def _declaration_is_alias_or_wrapper(
 ) -> bool:
     if before == after:
         return True
-    if _eta_wrapper_by_fingerprint(before, after, expr_fingerprints):
-        return True
+    if expr_fingerprints:
+        before_reduced = _discovery_endpoint_reduced_fp(before, expr_fingerprints)
+        after_reduced = _discovery_endpoint_reduced_fp(after, expr_fingerprints)
+        if before_reduced and after_reduced and before_reduced == after_reduced:
+            return True
     body = declaration_bodies.get(after, "")
     result_type = _declaration_header_result_type(declaration_headers.get(after, "")) or ""
     before_local = _local_declaration_name(before)
@@ -6168,8 +6057,6 @@ def _declaration_is_alias_or_wrapper(
         rf".*:=\s*(?:{re.escape(before)}|{re.escape(before_local)})\s*$",
         body_no_ws,
     ):
-        return True
-    if _eta_wrapper_target(body_no_ws) in {before, before_local}:
         return True
     if before_local and after_local:
         stripped_before = before_local.lower().removesuffix("classifier")
@@ -6223,16 +6110,6 @@ def _candidate_fingerprint_names(
     return out
 
 
-def _discovery_endpoint_value_fp(
-    name: str,
-    expr_fingerprints: dict[str, ExprFingerprint],
-) -> str:
-    fp = expr_fingerprints.get(name)
-    if fp is None:
-        return ""
-    return fp.value_fp or fp.fingerprint
-
-
 def _prior_classifier_fingerprint_index(
     before_valid: Iterable[str],
     _after_valid: Iterable[str],
@@ -6240,7 +6117,7 @@ def _prior_classifier_fingerprint_index(
 ) -> dict[str, list[str]]:
     out: dict[str, list[str]] = {}
     for name in before_valid:
-        value_fp = _discovery_endpoint_value_fp(name, expr_fingerprints)
+        value_fp = _discovery_endpoint_reduced_fp(name, expr_fingerprints)
         if value_fp:
             out.setdefault(value_fp, []).append(name)
     for names in out.values():
@@ -6334,8 +6211,8 @@ def _candidate_endpoint_pairs(
                 expr_fingerprints,
             ):
                 continue
-            before_value_fp = _discovery_endpoint_value_fp(before, expr_fingerprints)
-            after_value_fp = _discovery_endpoint_value_fp(after, expr_fingerprints)
+            before_value_fp = _discovery_endpoint_reduced_fp(before, expr_fingerprints)
+            after_value_fp = _discovery_endpoint_reduced_fp(after, expr_fingerprints)
             if after_value_fp and before_value_fp and after_value_fp == before_value_fp:
                 continue
             prior_matches = [
@@ -6439,8 +6316,18 @@ def _structural_dna_regression_checks() -> list[dict[str, object]]:
         wrapper_headers,
         wrapper_bodies,
         {
-            "BEDC.Prior.OldClassifier": ExprFingerprint("old-decl", "type", "old-value"),
-            "BEDC.Prior.FreshClassifier": ExprFingerprint("fresh-decl", "type", "fresh-value"),
+            "BEDC.Prior.OldClassifier": ExprFingerprint(
+                "old-decl",
+                "type",
+                "old-value",
+                reduced_fingerprint="old-reduced",
+            ),
+            "BEDC.Prior.FreshClassifier": ExprFingerprint(
+                "fresh-decl",
+                "type",
+                "fresh-value",
+                reduced_fingerprint="old-reduced",
+            ),
         },
     )
     if wrapper_pairs:
@@ -6465,8 +6352,18 @@ def _structural_dna_regression_checks() -> list[dict[str, object]]:
         wrapper_headers,
         typed_wrapper_bodies,
         {
-            "BEDC.Prior.OldClassifier": ExprFingerprint("old-decl", "type", "old-value"),
-            "BEDC.Prior.FreshClassifier": ExprFingerprint("fresh-decl", "type", "fresh-value"),
+            "BEDC.Prior.OldClassifier": ExprFingerprint(
+                "old-decl",
+                "type",
+                "old-value",
+                reduced_fingerprint="old-reduced",
+            ),
+            "BEDC.Prior.FreshClassifier": ExprFingerprint(
+                "fresh-decl",
+                "type",
+                "fresh-value",
+                reduced_fingerprint="old-reduced",
+            ),
         },
     )
     if typed_wrapper_pairs:
@@ -6491,8 +6388,18 @@ def _structural_dna_regression_checks() -> list[dict[str, object]]:
         wrapper_headers,
         genuinely_new_bodies,
         {
-            "BEDC.Prior.OldClassifier": ExprFingerprint("old-decl", "type", "old-value"),
-            "BEDC.Prior.FreshClassifier": ExprFingerprint("fresh-decl", "type", "new-value"),
+            "BEDC.Prior.OldClassifier": ExprFingerprint(
+                "old-decl",
+                "type",
+                "old-value",
+                reduced_fingerprint="old-reduced",
+            ),
+            "BEDC.Prior.FreshClassifier": ExprFingerprint(
+                "fresh-decl",
+                "type",
+                "new-value",
+                reduced_fingerprint="new-reduced",
+            ),
         },
     )
     if not genuinely_new_pairs:
@@ -6500,6 +6407,122 @@ def _structural_dna_regression_checks() -> list[dict[str, object]]:
             "name": "typed_new_classifier_preserved",
             "message": "typed-binder classifier with a distinct body must still be eligible",
         })
+
+    eta_headers = {
+        "BEDC.StructuralDna.TestTargets.C1": "def C1 : BHist → BHist → Prop :=",
+        "BEDC.StructuralDna.TestTargets.C2": "def C2 : BHist → BHist → Prop :=",
+        "BEDC.StructuralDna.TestTargets.C1DirectEta": (
+            "def C1DirectEta : BHist → BHist → Prop :="
+        ),
+        "BEDC.StructuralDna.TestTargets.C1LetEta": (
+            "def C1LetEta : BHist → BHist → Prop :="
+        ),
+        "BEDC.StructuralDna.TestTargets.C1MidEta": (
+            "def C1MidEta : BHist → BHist → Prop :="
+        ),
+        "BEDC.StructuralDna.TestTargets.C1MultiEta": (
+            "def C1MultiEta : BHist → BHist → Prop :="
+        ),
+    }
+    eta_bodies = {
+        "BEDC.StructuralDna.TestTargets.C1": (
+            "def C1 : BHist → BHist → Prop := fun h k => SomeP h ∧ SomeQ k"
+        ),
+        "BEDC.StructuralDna.TestTargets.C2": (
+            "def C2 : BHist → BHist → Prop := fun h k => SomeQ h ∧ SomeP k"
+        ),
+        "BEDC.StructuralDna.TestTargets.C1DirectEta": (
+            "def C1DirectEta : BHist → BHist → Prop := fun h k => C1 h k"
+        ),
+        "BEDC.StructuralDna.TestTargets.C1LetEta": (
+            "def C1LetEta : BHist → BHist → Prop := fun h k => (let f := C1; f) h k"
+        ),
+        "BEDC.StructuralDna.TestTargets.C1MidEta": (
+            "def C1MidEta : BHist → BHist → Prop := fun h k => C1 h k"
+        ),
+        "BEDC.StructuralDna.TestTargets.C1MultiEta": (
+            "def C1MultiEta : BHist → BHist → Prop := fun h k => C1MidEta h k"
+        ),
+    }
+    eta_expr_fps = _run_structural_dna_expr_fingerprints(
+        eta_headers,
+        imports=("scripts.structural_dna.TestTargets",),
+    )
+    eta_old = eta_expr_fps.get("BEDC.StructuralDna.TestTargets.C1")
+    eta_new = eta_expr_fps.get("BEDC.StructuralDna.TestTargets.C2")
+    eta_wrappers = [
+        "BEDC.StructuralDna.TestTargets.C1DirectEta",
+        "BEDC.StructuralDna.TestTargets.C1LetEta",
+        "BEDC.StructuralDna.TestTargets.C1MultiEta",
+    ]
+    if eta_old is None or eta_new is None or any(name not in eta_expr_fps for name in eta_wrappers):
+        failures.append({
+            "name": "reduced_eta_fingerprint_available",
+            "message": "structural_dna must emit reduced fingerprints for eta-wrapper checks",
+        })
+    else:
+        old_reduced = eta_old.reduced_fingerprint
+        new_reduced = eta_new.reduced_fingerprint
+        if (
+            not old_reduced
+            or old_reduced == new_reduced
+            or any(eta_expr_fps[name].reduced_fingerprint != old_reduced for name in eta_wrappers)
+        ):
+            failures.append({
+                "name": "reduced_eta_fingerprint_equivalence",
+                "message": "direct, let, and multi-layer eta wrappers must share the old classifier root",
+            })
+        eta_block_template = {
+            "raw_body": r"\closureparents{BEDC.StructuralDna.TestTargets.C1}",
+            "open_fields": {
+                "closureparents": "BEDC.StructuralDna.TestTargets.C1",
+            },
+        }
+        for wrapper_name in eta_wrappers:
+            eta_block = dict(eta_block_template)
+            eta_block["open_fields"] = dict(eta_block_template["open_fields"])
+            eta_block["open_fields"]["closuregate"] = wrapper_name
+            eta_block["raw_body"] = (
+                eta_block["raw_body"] + " " + rf"\closuregate{{{wrapper_name}}}"
+            )
+            eta_block["lean_target"] = wrapper_name
+            eta_pairs = _candidate_endpoint_pairs(
+                eta_block,
+                wrapper_name,
+                eta_headers,
+                eta_bodies,
+                eta_expr_fps,
+            )
+            if eta_pairs:
+                failures.append({
+                    "name": "reduced_eta_wrapper_rejected",
+                    "message": "eta-equivalent classifier wrappers must not enter A-tier endpoint pairs",
+                    "wrapper": wrapper_name,
+                    "pairs": eta_pairs,
+                })
+        new_block = {
+            "raw_body": (
+                r"\closureparents{BEDC.StructuralDna.TestTargets.C1} "
+                r"\closuregate{BEDC.StructuralDna.TestTargets.C2}"
+            ),
+            "open_fields": {
+                "closureparents": "BEDC.StructuralDna.TestTargets.C1",
+                "closuregate": "BEDC.StructuralDna.TestTargets.C2",
+            },
+            "lean_target": "BEDC.StructuralDna.TestTargets.C2",
+        }
+        new_pairs = _candidate_endpoint_pairs(
+            new_block,
+            "BEDC.StructuralDna.TestTargets.C2",
+            eta_headers,
+            eta_bodies,
+            eta_expr_fps,
+        )
+        if not new_pairs:
+            failures.append({
+                "name": "reduced_distinct_classifier_preserved",
+                "message": "a distinct classifier must remain eligible after reduced-fingerprint gating",
+            })
 
     gate_headers = {
         "BEDC.Prior.OldClassifier": "def OldClassifier : BHist → Prop :=",

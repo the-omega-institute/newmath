@@ -14,6 +14,10 @@ their canonical names and bound variables keep their de Bruijn indices.
 This deliberately does not fold definitional-equality unfolding: `def A := B` and an inline copy of
 `B` may receive different fingerprints. Bounded-whnf or unfolding-aware comparison is a separate
 extension. Theorem fingerprints ignore proof terms and retain only the proposition shape.
+
+The `reduced_fingerprint` field is separate from the structural fingerprint. It normalizes
+definition values through beta, eta, zeta, and transparent constant unfolding, and is used only for
+novelty checks that must reject definitional wrappers.
 -/
 
 def hashString (s : String) : UInt64 :=
@@ -96,6 +100,7 @@ structure DeclFingerprint where
   valueFp : String
   constFp : String
   etaValueFp : String
+  reducedFingerprint : String
 deriving Repr
 
 partial def collectLams : Expr → Nat × Expr
@@ -130,6 +135,24 @@ def etaReduceValue (e : Expr) : Expr :=
       head
     else
       e
+
+partial def fixedPointReduce (fuel : Nat) (e : Expr) : MetaM Expr := do
+  match fuel with
+  | 0 => return e
+  | fuel + 1 =>
+      let reduced ← withTransparency .all <| reduce e false false true
+      let etaReduced := etaReduceValue reduced
+      if exprPayload [] etaReduced == exprPayload [] e then
+        return etaReduced
+      else
+        fixedPointReduce fuel etaReduced
+
+def reducedValueFingerprint (env : Environment) (params : List Name) (value : Expr) : IO String := do
+  let coreCtx : Core.Context := { fileName := "structural_dna", fileMap := default }
+  let coreState : Core.State := { env := env }
+  match ← ((fixedPointReduce 16 value).run {} {} |>.run coreCtx coreState).toIO' with
+  | .ok ((reduced, _), _) => return exprFingerprint params reduced
+  | .error _ => return exprFingerprint params (etaReduceValue value)
 
 def isTheoremConstant (info : ConstantInfo) : Bool :=
   match info with
@@ -169,6 +192,17 @@ def declFingerprint (env : Environment) (info : ConstantInfo) : IO DeclFingerpri
           else
             pure (exprFingerprint params (etaReduceValue value))
       | none => pure ""
+  let reducedFingerprint ←
+    if isTheoremConstant info then
+      pure ""
+    else
+      match info.value? (allowOpaque := true) with
+      | some value =>
+          if ← valueIsProof env value then
+            pure ""
+          else
+            reducedValueFingerprint env params value
+      | none => pure ""
   let fingerprint :=
     stableHash (joinPayload "decl" [typeFp, valueFp])
   return {
@@ -176,7 +210,8 @@ def declFingerprint (env : Environment) (info : ConstantInfo) : IO DeclFingerpri
     typeFp := typeFp,
     valueFp := valueFp,
     constFp := constFp,
-    etaValueFp := etaValueFp
+    etaValueFp := etaValueFp,
+    reducedFingerprint := reducedFingerprint
   }
 
 def jsonForDeclFingerprint (fp : DeclFingerprint) : Json :=
@@ -185,7 +220,8 @@ def jsonForDeclFingerprint (fp : DeclFingerprint) : Json :=
     ("type_fp", Json.str fp.typeFp),
     ("value_fp", Json.str fp.valueFp),
     ("const_fp", Json.str fp.constFp),
-    ("eta_value_fp", Json.str fp.etaValueFp)
+    ("eta_value_fp", Json.str fp.etaValueFp),
+    ("reduced_fingerprint", Json.str fp.reducedFingerprint)
   ]
 
 def parseJsonStringArray (j : Json) (field : String) : Except String (Array String) := do
@@ -245,6 +281,10 @@ def testDecls : Array String :=
     "BEDC.StructuralDna.TestTargets.FB",
     "BEDC.StructuralDna.TestTargets.C1",
     "BEDC.StructuralDna.TestTargets.C2",
+    "BEDC.StructuralDna.TestTargets.C1DirectEta",
+    "BEDC.StructuralDna.TestTargets.C1LetEta",
+    "BEDC.StructuralDna.TestTargets.C1MidEta",
+    "BEDC.StructuralDna.TestTargets.C1MultiEta",
     "BEDC.StructuralDna.TestTargets.Hollow",
     "BEDC.StructuralDna.TestTargets.SomeP",
     "BEDC.StructuralDna.TestTargets.ExplicitArrow",
@@ -262,6 +302,11 @@ def testDecls : Array String :=
 def getFp! (items : List (String × DeclFingerprint)) (name : String) : IO String := do
   match items.find? (fun item => item.fst == name) with
   | some item => return item.snd.fingerprint
+  | none => throw (IO.userError s!"test declaration missing: {name}")
+
+def getReducedFp! (items : List (String × DeclFingerprint)) (name : String) : IO String := do
+  match items.find? (fun item => item.fst == name) with
+  | some item => return item.snd.reducedFingerprint
   | none => throw (IO.userError s!"test declaration missing: {name}")
 
 def printCheck (label : String) (ok : Bool) : IO Bool := do
@@ -282,6 +327,12 @@ unsafe def runSelfTest : IO UInt32 := do
   let fb ← getFp! items "BEDC.StructuralDna.TestTargets.FB"
   let c1 ← getFp! items "BEDC.StructuralDna.TestTargets.C1"
   let c2 ← getFp! items "BEDC.StructuralDna.TestTargets.C2"
+  let c1Reduced ← getReducedFp! items "BEDC.StructuralDna.TestTargets.C1"
+  let c2Reduced ← getReducedFp! items "BEDC.StructuralDna.TestTargets.C2"
+  let c1DirectEtaReduced ← getReducedFp! items "BEDC.StructuralDna.TestTargets.C1DirectEta"
+  let c1LetEtaReduced ← getReducedFp! items "BEDC.StructuralDna.TestTargets.C1LetEta"
+  let c1MidEtaReduced ← getReducedFp! items "BEDC.StructuralDna.TestTargets.C1MidEta"
+  let c1MultiEtaReduced ← getReducedFp! items "BEDC.StructuralDna.TestTargets.C1MultiEta"
   let hollow ← getFp! items "BEDC.StructuralDna.TestTargets.Hollow"
   let someP ← getFp! items "BEDC.StructuralDna.TestTargets.SomeP"
   let explicitArrow ← getFp! items "BEDC.StructuralDna.TestTargets.ExplicitArrow"
@@ -310,7 +361,14 @@ unsafe def runSelfTest : IO UInt32 := do
     && propDefTrue != propDefEq
     && propDefFalse != propDefEq
   )
-  return if [t1, t2, t3, t4, t5, t6, t7, t8].all id then 0 else 1
+  let t10 ← printCheck "T10 reduced eta equivalence" (
+    c1Reduced == c1DirectEtaReduced
+    && c1Reduced == c1LetEtaReduced
+    && c1Reduced == c1MidEtaReduced
+    && c1Reduced == c1MultiEtaReduced
+    && c1Reduced != c2Reduced
+  )
+  return if [t1, t2, t3, t4, t5, t6, t7, t8, t10].all id then 0 else 1
 
 end BEDC.StructuralDna
 
