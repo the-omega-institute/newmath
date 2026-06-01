@@ -4,6 +4,8 @@
 
 The $\ScopedExplanationLedgerUp$ packet realizes the scoped black-box certification principle of \autoref{sec:visions-philosophy-scoped-certification-principle} as finite NameCert data. It records an explanation scope, the classifier rows valid inside that scope, the behavior ledger they cover, the global-ledger refusal row for uncovered behavior families, transport, replay, provenance, and local naming. The packet is an interpretability boundary: it certifies scoped explanation rows without pretending that a single classifier or natural-language summary eliminates global behavior residue.
 
+The scoped ledger consumes relation rows from \autoref{ch:concrete-instances-layeredrelationsite-namecert} and certificate compilation rows from \autoref{ch:concrete-instances-certificatecompiler-namecert} before it records behavior-family residue. Those sibling surfaces supply the relation-site and compiled-certificate inputs that the scoped classifier reads; the ledger row keeps the uncovered behavior families visible instead of converting compilation into a global explanation claim.
+
 \begin{definition}[Scoped explanation ledger carrier]
 \label{def:scoped-explanation-ledger-carrier}
 A $\ScopedExplanationLedgerUp$ carrier is a finite $\BHist$ packet
