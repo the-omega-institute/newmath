@@ -680,6 +680,22 @@ Finally use discharge-socket coverage and obstruction-socket separation, \autore
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPublicExport}
 
+\begin{theorem}[MetaCIC critical-path public consumer surface]
+\label{thm:metacic-critical-path-public-consumer-surface}
+Every public consumer of the $\MetaCICCriticalPathUp$ critical path must route through CandidateMediatedSN, CandidateSNConfluenceBoundary, FiniteObservationConfluence, MetaCICNormalizationFrontier, SubjectReductionDischargeSocket, and the carrier rows
+$$
+S,N,O,U,D,H,C,P,L.
+$$
+The consumer surface may expose candidate-mediated normalization readiness, confluence-frontier readiness, finite-observation confluence data, normalization-frontier data, the visible subject-reduction socket, and the displayed carrier route, but it exports no closed subject reduction, full confluence, full closed consistency, or socket discharge.
+\end{theorem}
+\begin{proof}
+First read \autoref{thm:metaciccriticalpath-candidate-mediated-sn-public}. It keeps CandidateMediatedSN and CandidateSNConfluenceBoundary on the public readiness surface and routes them through the carrier rows $S,N,O,U,D,H,C,P,L$.
+
+Next read \autoref{thm:metaciccriticalpath-confluence-frontier-public}. It attaches FiniteObservationConfluence and MetaCICNormalizationFrontier to the same displayed packet route and refuses arbitrary Church--Rosser, global beta-decision, full confluence, and closed subject-reduction exports.
+
+Finally read \autoref{thm:metacic-critical-path-public-export}. It names the public export surface as exactly the route through CandidateMediatedSN, CandidateSNConfluenceBoundary, FiniteObservationConfluence, MetaCICNormalizationFrontier, SubjectReductionDischargeSocket, and $S,N,O,U,D,H,C,P,L$. Therefore a public consumer inherits that exact route and none of the excluded closed subject-reduction, full-confluence, full-consistency, or socket-discharge conclusions.
+\end{proof}
+
 \input{parts/concrete_instances/metaciccriticalpath/frontier_rank_surface}
 
 \input{parts/concrete_instances/metaciccriticalpath/public_route_obligations}
