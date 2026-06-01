@@ -329,6 +329,71 @@ theorem CauchyFilterLimitCarrier_ledger_refusal_obligation [AskSetup] [PackageSe
   }
   exact ⟨cert, rejectedReadUnary, sealRowUnary⟩
 
+theorem CauchyFilterLimitCarrier_bridge_surface [AskSetup] [PackageSetup]
+    {basis filter window readback tolerance sealRow transport route provenance name bridgeRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterLimitCarrier basis filter window readback tolerance sealRow transport route
+        provenance name bundle pkg ->
+      Cont route sealRow bridgeRead ->
+        PkgSig bundle bridgeRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row basis ∨ hsame row filter ∨ hsame row window ∨
+                  hsame row readback ∨ hsame row tolerance ∨ hsame row sealRow ∨
+                    Cont route sealRow bridgeRead)
+              (fun row : BHist =>
+                PkgSig bundle provenance pkg ∧ PkgSig bundle bridgeRead pkg ∧
+                  hsame row bridgeRead)
+              hsame ∧
+            UnaryHistory bridgeRead ∧ Cont route sealRow bridgeRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier routeSealBridge bridgePkg
+  obtain ⟨_basisUnary, _filterUnary, _windowUnary, _readbackUnary, _toleranceUnary,
+    sealRowUnary, _transportUnary, routeUnary, _provenanceUnary, _nameUnary,
+    _basisFilterWindow, _windowReadbackTolerance, _toleranceSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed routeUnary sealRowUnary routeSealBridge
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row basis ∨ hsame row filter ∨ hsame row window ∨
+              hsame row readback ∨ hsame row tolerance ∨ hsame row sealRow ∨
+                Cont route sealRow bridgeRead)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle bridgeRead pkg ∧
+              hsame row bridgeRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro bridgeRead
+        ⟨hsame_refl bridgeRead, bridgeUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr routeSealBridge)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, bridgePkg, source.left⟩
+  }
+  exact ⟨cert, bridgeUnary, routeSealBridge⟩
+
 theorem CauchyFilterLimitCarrier_filter_comparison [AskSetup] [PackageSetup]
     {basis filter window readback tolerance sealRow transport route provenance name netK netW
       netR netD netA netH netC netP netN sharedRead filterCompletionRead

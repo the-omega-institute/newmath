@@ -178,6 +178,30 @@ The finite-net consumer then reads $\epsilon,\rho,M$. These rows record a tolera
 The structural rows $T,R,P,N$ transport, replay, source, and name the same displayed route. Since \autoref{def:equicontinuity-carrier} has no finite-net coordinate, readiness for $\FiniteNetEquicontinuityUp$ is a boundary condition, not a selected net.
 \end{proof}
 
+\begin{theorem}[Equicontinuity family-modulus consumer exhaustion]
+\label{thm:equicontinuity-family-modulus-consumer-exhaustion}
+For every accepted $\EquicontinuityUp$ carrier $E=(K,F,\epsilon,\rho,M,T,R,P,N)$, every compact-uniform modulus consumer of $E$ must read exactly the rows $K,F,\epsilon,\rho,M,T,R,P,N$. The consumer may use $K$ as the compact source, $F$ as the displayed family ledger, $\epsilon$ as the tolerance request, $\rho$ as the shared radius, $M$ as the modulus handoff, and $T,R,P,N$ as the structural transport, replay, provenance, and naming rows. It cannot detach a pointwise radius schedule from $F$, replace $\rho$ by memberwise radii, or insert a selected finite-net row into the carrier.
+\end{theorem}
+\begin{proof}
+Start from shared-radius stability in \autoref{thm:equicontinuity-shared-radius-stability}. It pins $\rho$ to the displayed compact source $K$, family ledger $F$, tolerance row $\epsilon$, and modulus handoff $M$.
+
+Use finite-net readiness from \autoref{thm:equicontinuity-finite-net-readiness}. A finite-net-facing or compact-uniform consumer may begin only after $K,F,\epsilon,\rho,M$ have been exposed, while $T,R,P,N$ preserve that same route.
+
+Finally apply nonescape from \autoref{thm:equicontinuity-nonescape}. Since the carrier has no coordinate for memberwise radius schedules, selected finite nets, subsequences, host continuity, or ambient completeness, the rows $K,F,\epsilon,\rho,M,T,R,P,N$ exhaust the compact-uniform consumer surface.
+\end{proof}
+
+\begin{theorem}[Equicontinuity finite-net selector readiness]
+\label{thm:equicontinuity-finite-net-selector-readiness}
+Let $E=(K,F,\epsilon,\rho,M,T,R,P,N)$ be an accepted $\EquicontinuityUp$ carrier. A $\FiniteNetEquicontinuityUp$ selector may start only after the compact-source row $K$, continuous-family row $F$, shared-radius row $\rho$, and modulus-handoff row $M$ are exposed for the same tolerance request $\epsilon$. The structural rows $T,R,P,N$ may transport and replay that readiness boundary, but they do not authorize a selected finite net before the compact source, family, shared radius, and modulus handoff have all been read.
+\end{theorem}
+\begin{proof}
+Read the prerequisite order from \autoref{thm:equicontinuity-finite-net-readiness}. It places a finite-net consumer after the compact source, continuous family ledger, tolerance request, shared radius, and modulus handoff.
+
+Apply shared-radius stability from \autoref{thm:equicontinuity-shared-radius-stability}. The selector cannot split the family into detached pointwise radius schedules, because the radius row $\rho$ is transported with $K,F,\epsilon,M$.
+
+Use nonescape from \autoref{thm:equicontinuity-nonescape}. Selected nets, subsequences, limiting maps, convergence certificates, host continuity, and ambient completeness are absent from the carrier, so the selector receives only readiness at the displayed boundary.
+\end{proof}
+
 \begin{theorem}[Equicontinuity shared-modulus sibling route]
 \label{thm:equicontinuity-root-unblock-shared-modulus-scope}
 For every accepted $\EquicontinuityUp$ carrier $E=(K,F,\epsilon,\rho,M,T,R,P,N)$, any downstream consumer of the equicontinuity packet must read the compact source through \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous family through \autoref{ch:concrete-instances-continuousmap-namecert}, the uniform modulus handoff through \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the finite-net boundary through \autoref{ch:concrete-instances-finite-net-equicontinuity-namecert}. The route preserves the same shared radius $\rho$ and exports no selected finite net, subsequence, host continuity theorem, or ambient $\RealUp$ completeness row.
