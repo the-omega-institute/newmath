@@ -219,6 +219,20 @@ The remaining structural rows only preserve this calculation. Componentwise $\hs
 \end{proof}
 \leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_step\_integrator\_exactness}
 
+\begin{theorem}[Riemann--Stieltjes regulated-integrator variation exactness]
+\label{thm:riemann-stieltjes-regulated-integrator-variation-exactness}
+For an accepted $\RiemannStieltjesUp$ carrier $R=(F,A,T,S,I,E,H,C,P,N)$, every regulated-integrator variation contribution consumed by $I$ is determined by the displayed bounded-variation row $A$, tagged partition row $T$, dyadic step row $S$, and structural rows $H,C,P,N$. No measure-space integral, selected limiting partition, host integrator quotient, or ambient real equality supplies variation data.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $R=(F,A,T,S,I,E,H,C,P,N)$. The bounded-variation row $A$ is the only component that carries integrator jumps, oscillation ledgers, and finite variation reads, while $T$ and $S$ identify the cells and step values on which those reads are consumed.
+
+Use \autoref{thm:riemann-stieltjes-bounded-variation-ledger} and \autoref{thm:riemann-stieltjes-bounded-variation-partition-coverage}. They place every variation contribution inside $A$ before the handoff row $I$ can read the corresponding partition cell, and they keep each displayed cell of $T$ covered by a visible bounded-variation ledger row.
+
+Mesh-refinement stability then preserves the same rows under subdivision. Apply \autoref{thm:riemann-stieltjes-mesh-refinement-stability} to transport the refined cells through $H$ and replay the finite route through $C$ without adding a selected limiting partition.
+
+Finally use \autoref{thm:riemann-stieltjes-step-integrator-exactness}. The step contribution is computed from the displayed rows $S,T,A$, and the remaining rows $P,N$ only record provenance and local naming. Since the carrier has no coordinate for a measure-space integral, host quotient of integrators, or ambient real equality, the variation contribution is exact as a BEDC row calculation.
+\end{proof}
+
 \begin{theorem}[Riemann--Stieltjes tagged-partition induction]
 \label{thm:riemann-stieltjes-tagged-partition-induction}
 For an accepted $\RiemannStieltjesUp$ carrier $R=(F,A,T,S,I,E,H,C,P,N)$, let a property of refinement-window reads be one that is evaluated only through the displayed rows $T,S,A,H,C,P,N$. If the property holds on the base tagged partition row $T$, and if it is preserved whenever one finite cell is subdivided through the same dyadic step row $S$, bounded-variation ledger $A$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$, then the property holds for every displayed finite refinement consumed by the handoff row $I$.
