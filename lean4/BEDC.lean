@@ -1024,6 +1024,7 @@ import BEDC.Derived.BoundedSetUp.RealSeparabilityForwardLink
 import BEDC.Derived.BoundedSetUp.StandardInterfaceBridge
 import BEDC.Derived.BoundedSetUp.SubsetBallReplayStability
 import BEDC.Derived.BoundedSetUp.TasteGate
+import BEDC.Derived.BoundedSetUp.TotallyBoundedConsumer
 import BEDC.Derived.BoundedUniversalTraceUp.Carrier
 import BEDC.Derived.BoundedUniversalTraceUp.TasteGate
 import BEDC.Derived.BoundedVariationCompletionUp
@@ -1854,6 +1855,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.NonChoiceBoundary
 import BEDC.Derived.CauchyfiltercompletionUp.PublicNameCertExport
 import BEDC.Derived.CauchyfiltercompletionUp.PvariationWindowBound
 import BEDC.Derived.CauchyfiltercompletionUp.QuotientNonescape
+import BEDC.Derived.CauchyfiltercompletionUp.RealSealChoiceFreeTailTotality
 import BEDC.Derived.CauchyfiltercompletionUp.RealSealHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.RealSealNonescape
 import BEDC.Derived.CauchyfiltercompletionUp.RealSealRefusal
@@ -4383,6 +4385,7 @@ import BEDC.Derived.HyperspaceUp.HitMissClassifier
 import BEDC.Derived.HyperspaceUp.HitMissDirectedRefinement
 import BEDC.Derived.HyperspaceUp.MetricCompactnessUnblock
 import BEDC.Derived.HyperspaceUp.NameCertObligationSurface
+import BEDC.Derived.HyperspaceUp.RealSeparabilityForwardRoute
 import BEDC.Derived.HyperspaceUp.RootFiniteNetHitMiss
 import BEDC.Derived.HyperspaceUp.RootHausdorffFiniteWindow
 import BEDC.Derived.HyperspaceUp.RootVietorisNetBasis
@@ -4962,6 +4965,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityConsumerBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityExitBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityFrontierDischargeReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityHandoffExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceFrontierPublicHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualFrontierRoute
@@ -7183,6 +7187,7 @@ import BEDC.Derived.SignedDigitStreamUp.PrefixTruncation
 import BEDC.Derived.SignedDigitStreamUp.Tail
 import BEDC.Derived.SignedDigitStreamUp.WindowBridge
 import BEDC.Derived.SignedDistanceUp.TasteGate
+import BEDC.Derived.SignedDyadicExpansionUp.TasteGate
 import BEDC.Derived.SignedDyadicNormalFormUp.TasteGate
 import BEDC.Derived.SilvermanToeplitzUp.TasteGate
 import BEDC.Derived.SimplicialApproximationUp.TasteGate
