@@ -330,6 +330,7 @@ The nonescape boundary of \autoref{thm:normed-space-banach-completion-nonescape}
 \label{thm:normedspace-functional-analysis-handoff}
 Every functional-analysis consumer of an accepted $\NormedSpaceUp$ packet $S=(V,R,N,M,Q,H,T,P,C)$ must receive the handoff through the displayed rows $V,R,N,M,Q,H,T,P,C$. The handoff first reads the vector carrier and real-valued norm, then the induced metric, then the completion-facing budget, and finally the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. The route is the common downstream surface of \autoref{thm:normed-space-real-norm-metric-factorization}, \autoref{thm:normed-space-completion-request-budget}, and \autoref{thm:normed-space-banach-completion-nonescape}; it exports no host duality theorem, basis choice, quotient completion, selected limit, or ambient complete normed space.
 \end{theorem}
+\leanchecked{BEDC.Derived.NormedSpaceUp.NormedSpaceCarrier\_functional\_analysis\_handoff}
 \begin{proof}
 Project the carrier of \autoref{def:normed-space-carrier}. The only available rows for a general functional-analysis consumer are $V,R,N,M,Q,H,T,P,C$.
 
@@ -515,6 +516,7 @@ Next apply the completion handoff and the L10 completion obligation. They place 
 
 Finally use the Real metric transport theorem above. Transport preserves the Real norm route through $R,N,M,H,T,P,C$, so downstream MetricCompletion, Banach, Hilbert, and bounded-operator consumers receive only the displayed completion-metric root surface and none of the excluded host data.
 \end{proof}
+\leanchecked{BEDC.Derived.NormedSpaceUp.NormedSpaceCarrier\_completion\_metric\_root\_unblock}
 
 \begin{theorem}[NormedSpace Banach consumer nonescape]
 \label{thm:normedspace-banach-consumer-nonescape}

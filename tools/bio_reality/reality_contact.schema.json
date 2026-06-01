@@ -20,6 +20,9 @@
     "contact_id": {
       "type": "string",
       "description": "Lowercase BioReality id; use dotted/kebab tokens, not underscores or uppercase.",
+      "examples": [
+        "matched-mrna-abundance-control"
+      ],
       "pattern": "^[a-z0-9][a-z0-9.:-]*$"
     },
     "source_kind": {
@@ -63,7 +66,8 @@
       "minItems": 1,
       "items": {
         "type": "string",
-        "minLength": 1
+        "minLength": 1,
+        "pattern": "\\S"
       }
     },
     "cannot_test": {
@@ -71,7 +75,8 @@
       "minItems": 1,
       "items": {
         "type": "string",
-        "minLength": 1
+        "minLength": 1,
+        "pattern": "\\S"
       }
     },
     "null_reason": {

@@ -286,6 +286,29 @@ theorem Hyperspace_hausdorff_distance_stability [AskSetup] [PackageSetup]
   }
   exact ⟨distanceUnary, publicUnary, distanceExact, cert⟩
 
+theorem Hyperspace_hausdorff_distance_window [AskSetup] [PackageSetup]
+    {X K0 K1 N0 N1 D0 D1 R Hs C P M distanceRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HyperspaceCarrier X K0 K1 N0 N1 D0 D1 R Hs C P M bundle pkg →
+      Cont D0 D1 distanceRead →
+        Cont distanceRead R publicRead →
+          PkgSig bundle publicRead pkg →
+            UnaryHistory D0 ∧ UnaryHistory D1 ∧ UnaryHistory R ∧
+              UnaryHistory distanceRead ∧ UnaryHistory publicRead ∧
+                hsame distanceRead (append D0 D1) ∧ PkgSig bundle P pkg ∧
+                  PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier distanceRoute publicRoute publicPkg
+  obtain ⟨_xUnary, _k0Unary, _k1Unary, _n0Unary, _n1Unary, d0Unary, d1Unary,
+    rUnary, _hsUnary, _cUnary, _pUnary, _mUnary, provenancePkg⟩ := carrier
+  have distanceUnary : UnaryHistory distanceRead :=
+    unary_cont_closed d0Unary d1Unary distanceRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed distanceUnary rUnary publicRoute
+  exact
+    ⟨d0Unary, d1Unary, rUnary, distanceUnary, publicUnary, distanceRoute,
+      provenancePkg, publicPkg⟩
+
 theorem Hyperspace_compactmetric_distance_lift [AskSetup] [PackageSetup]
     {X K0 K1 N0 N1 D0 D1 R Hs C P M subsetRead netRead distanceRead publicRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -368,5 +391,33 @@ theorem Hyperspace_compactmetric_distance_lift [AskSetup] [PackageSetup]
       exact ⟨source.left, provenancePkg, publicPkg⟩
   }
   exact ⟨subsetUnary, netUnary, distanceUnary, publicUnary, cert⟩
+
+theorem Hyperspace_directed_hausdorff_root_coverage [AskSetup] [PackageSetup]
+    {X K0 K1 N0 N1 D0 D1 R Hs C P M directedLeft directedRight symmetricRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HyperspaceCarrier X K0 K1 N0 N1 D0 D1 R Hs C P M bundle pkg →
+      Cont D0 R directedLeft →
+        Cont D1 R directedRight →
+          Cont directedLeft directedRight symmetricRead →
+            PkgSig bundle symmetricRead pkg →
+              UnaryHistory D0 ∧ UnaryHistory D1 ∧ UnaryHistory R ∧
+                UnaryHistory directedLeft ∧ UnaryHistory directedRight ∧
+                  UnaryHistory symmetricRead ∧ Cont D0 R directedLeft ∧
+                    Cont D1 R directedRight ∧ Cont directedLeft directedRight symmetricRead ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle symmetricRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier directedLeftRoute directedRightRoute symmetricRoute symmetricPkg
+  obtain ⟨_xUnary, _k0Unary, _k1Unary, _n0Unary, _n1Unary, d0Unary, d1Unary,
+    rUnary, _hsUnary, _cUnary, _pUnary, _mUnary, provenancePkg⟩ := carrier
+  have directedLeftUnary : UnaryHistory directedLeft :=
+    unary_cont_closed d0Unary rUnary directedLeftRoute
+  have directedRightUnary : UnaryHistory directedRight :=
+    unary_cont_closed d1Unary rUnary directedRightRoute
+  have symmetricUnary : UnaryHistory symmetricRead :=
+    unary_cont_closed directedLeftUnary directedRightUnary symmetricRoute
+  exact
+    ⟨d0Unary, d1Unary, rUnary, directedLeftUnary, directedRightUnary, symmetricUnary,
+      directedLeftRoute, directedRightRoute, symmetricRoute, provenancePkg, symmetricPkg⟩
 
 end BEDC.Derived.HyperspaceUp
