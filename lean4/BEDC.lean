@@ -4410,8 +4410,10 @@ import BEDC.Derived.HyperspaceUp.VietorisDownstreamDependency
 import BEDC.Derived.HyperspaceUp.VietorisFiniteNetObligations
 import BEDC.Derived.HyperspaceUp.VietorisFiniteWindowObligations
 import BEDC.Derived.HyperspaceUp.VietorisHandoff
+import BEDC.Derived.HyperspaceUp.VietorisHitMissStability
 import BEDC.Derived.HyperspaceUp.VietorisLocatedRealDependency
 import BEDC.Derived.HyperspaceUp.VietorisRefinementFactorization
+import BEDC.Derived.HyperspaceUp.VietorisUnionStability
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.IdealClassUp
