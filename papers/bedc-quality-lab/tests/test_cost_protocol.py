@@ -12,6 +12,7 @@ from bedc_quality_lab.cost_protocol import (
 from bedc_quality_lab.debt import assess_debt
 from bedc_quality_lab.ledger import LedgerRowKey
 from bedc_quality_lab.metrics import QUALITY_Q_FORMULA_ID, quality_components, quality_formula_description
+from bedc_quality_lab.mixing import canonical_mixing_families
 
 
 SENTINEL_WEIGHTS = {
@@ -68,7 +69,12 @@ def cost_protocol(row_weights: dict[LedgerRowKey, float] | None = None) -> CostP
 
 def closed_specs():
     return (
-        {"source_count": 3, "mixing": ["a", "b", "c"], "sample_count": 2048, "global_claim": False},
+        {
+            "source_count": 3,
+            "mixing": canonical_mixing_families(),
+            "sample_count": 2048,
+            "global_claim": False,
+        },
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
     )
@@ -143,7 +149,7 @@ def test_debt_uses_injected_protocol_weights():
 
     assessment = assess_debt(
         closed_metrics(),
-        {"source_count": 1, "mixing": ["a", "b", "c"], "sample_count": 2048},
+        {"source_count": 1, "mixing": canonical_mixing_families(), "sample_count": 2048},
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
         protocol=protocol,
@@ -168,7 +174,7 @@ def test_debt_uses_injected_protocol_weights():
         (
             LedgerRowKey("source", "mixing-family-coverage"),
             {},
-            {"mixing": ["a", "b"]},
+            {"mixing": canonical_mixing_families()[:2]},
             {},
             {},
             0.5,

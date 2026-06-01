@@ -1,6 +1,7 @@
 import math
 
 from bedc_quality_lab.debt import assess_debt, format_debt_items
+from bedc_quality_lab.mixing import canonical_mixing_families
 
 
 def closed_metrics(**patch):
@@ -18,7 +19,7 @@ def example_specs():
         {
             "name": "gaussian-ou-toy-world",
             "sample_count": 384,
-            "mixing": "sinusoidal-parabolic-shear",
+            "mixing": "sinusoidal_shear",
         },
         {
             "name": "tiny-mlp-2-128-128-2",
@@ -122,10 +123,21 @@ def test_source_coverage_thresholds_pin_closed_partial_open_statuses():
 
 
 def test_distribution_coverage_thresholds_pin_closed_partial_open_statuses():
-    open_assessment = assess_case({"mixing": "single-family"})
-    partial_assessment = assess_case({"mixing": ["a", "b"]})
-    closed_assessment = assess_case({"mixing": ["a", "b", "c"]})
+    family_a, family_b, family_c, family_d = canonical_mixing_families()
+    no_canonical_assessment = assess_case({"mixing": "not-canonical"})
+    open_assessment = assess_case({"mixing": family_a})
+    partial_two_assessment = assess_case({"mixing": [family_a, family_b]})
+    partial_three_assessment = assess_case({"mixing": [family_a, family_b, family_c]})
+    closed_assessment = assess_case({"mixing": [family_a, family_b, family_c, family_d]})
 
+    assert_residue(
+        no_canonical_assessment,
+        "mixing-family-coverage",
+        kind="source",
+        severity="high",
+        status="open",
+        score=0.22,
+    )
     assert_residue(
         open_assessment,
         "mixing-family-coverage",
@@ -135,12 +147,63 @@ def test_distribution_coverage_thresholds_pin_closed_partial_open_statuses():
         score=0.22,
     )
     assert_residue(
-        partial_assessment,
+        partial_two_assessment,
         "mixing-family-coverage",
         kind="source",
         severity="medium",
         status="partial",
         score=0.11,
+    )
+    assert_residue(
+        partial_three_assessment,
+        "mixing-family-coverage",
+        kind="source",
+        severity="medium",
+        status="partial",
+        score=0.11,
+    )
+    assert_residue(
+        closed_assessment,
+        "mixing-family-coverage",
+        kind="source",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
+
+
+def test_distribution_coverage_dedupes_and_never_closes_for_non_canonical_names():
+    family_a, family_b, family_c, family_d = canonical_mixing_families()
+    duplicate_assessment = assess_case({"mixing": [family_a, family_a, family_b]})
+    mixed_assessment = assess_case({"mixing": [family_a, family_b, family_c, "not-canonical"]})
+    non_canonical_only_assessment = assess_case(
+        {"mixing": ["alpha", "beta", "gamma", "delta", "epsilon"]}
+    )
+    closed_assessment = assess_case({"mixing": [family_a, family_b, family_c, family_d, "not-canonical"]})
+
+    assert_residue(
+        duplicate_assessment,
+        "mixing-family-coverage",
+        kind="source",
+        severity="medium",
+        status="partial",
+        score=0.11,
+    )
+    assert_residue(
+        mixed_assessment,
+        "mixing-family-coverage",
+        kind="source",
+        severity="medium",
+        status="partial",
+        score=0.11,
+    )
+    assert_residue(
+        non_canonical_only_assessment,
+        "mixing-family-coverage",
+        kind="source",
+        severity="high",
+        status="open",
+        score=0.22,
     )
     assert_residue(
         closed_assessment,
@@ -347,19 +410,19 @@ def test_theorem_bound_margin_thresholds_pin_closed_and_open_statuses():
     closed_assessment = assess_case({}, stability_spec={"multi_seed": True})
     zero_assessment = assess_debt(
         closed_metrics(theorem3_bound=1.0, actual_recovery_error=1.0, bound_margin=0.0),
-        {"source_count": 3, "mixing": ["a", "b", "c"], "sample_count": 2048},
+        {"source_count": 3, "mixing": canonical_mixing_families(), "sample_count": 2048},
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
     )
     open_assessment = assess_debt(
         closed_metrics(theorem3_bound=1.0, actual_recovery_error=2.0, bound_margin=-1.0),
-        {"source_count": 3, "mixing": ["a", "b", "c"], "sample_count": 2048},
+        {"source_count": 3, "mixing": canonical_mixing_families(), "sample_count": 2048},
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
     )
     missing_assessment = assess_debt(
         {},
-        {"source_count": 3, "mixing": ["a", "b", "c"], "sample_count": 2048},
+        {"source_count": 3, "mixing": canonical_mixing_families(), "sample_count": 2048},
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
     )

@@ -19,6 +19,7 @@ from bedc_quality_lab.metrics import metric_bundle, quality_components_from_boun
 from bedc_quality_lab.report import write_quality_report
 from bedc_quality_lab.schema import SCHEMA_ID, QualityEvidenceEnvelope
 from bedc_quality_lab.theorem_bound_quality import theorem_bound_certificate
+from bedc_quality_lab.mixing import DEFAULT_MIXING
 from bedc_quality_lab.toy_world import make_toy_batch
 from bedc_quality_lab.transition import TransitionKernelSpec
 
@@ -98,12 +99,13 @@ def run_experiment(
     seed: int = 23,
     rho: float = 0.82,
     transition_kernel: TransitionKernelSpec | None = None,
+    mixing: str = DEFAULT_MIXING,
     run_id: str = "gaussian-ou-lejepa-seed-23",
     envelope_artifact: str = "reports/example_envelope.json",
     report_artifact: str = "reports/quality_report.md",
 ) -> QualityEvidenceEnvelope:
     spec = transition_kernel if transition_kernel is not None else TransitionKernelSpec.isotropic(rho, latent_dim=2)
-    batch = make_toy_batch(sample_count, rho=rho, seed=seed, transition_kernel=spec)
+    batch = make_toy_batch(sample_count, rho=rho, seed=seed, transition_kernel=spec, mixing=mixing)
     train_idx, eval_idx = _train_eval_split(batch.z.shape[0], seed=seed)
     train_x = batch.x[train_idx]
     train_x_pair = batch.x_pair[train_idx]
@@ -134,7 +136,7 @@ def run_experiment(
         "rho": rho,
         "rho_by_axis": list(spec.rho_by_axis),
         "latent_distribution": "gaussian",
-        "mixing": "sinusoidal-parabolic-shear",
+        "mixing": mixing,
         "transition_kernel": transition_source,
         "transition_isotropic": transition_source["isotropic"],
         "transition_anisotropy_gap": transition_source["anisotropy_gap"],
