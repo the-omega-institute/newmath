@@ -143,6 +143,20 @@ Use \autoref{thm:locally-compact-completion-consumer-route} for completion-facin
 The carrier projection and both non-escape results leave no row for a host neighbourhood base or global properness theorem. Therefore the root boundary is locality itself: a finite closed-ball compact window with exact sibling handoffs.
 \end{proof}
 
+\begin{theorem}[LocallyCompact compact-window transport]
+\label{thm:locallycompact-compact-window-transport}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. Any $\hsame$ transport of the displayed metric source $X$, inspected point $x$, positive radius $r$, closed-ball row $B$, compact witness $K$, and optional located handoff $A$ preserves the same local compact window before any $\ProperMetricUp$ or completion consumer reads it. The transported read still factors through $X,x,r,B,K,A,H,C,P,N$ and does not upgrade the packet to global properness, open-cover compactness, a host neighbourhood-base selector, quotient point equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier in \autoref{def:locally-compact-carrier}. The transport row $H$ is componentwise over the metric source, point, radius, closed-ball row, compact witness, located handoff, replay, provenance, and local naming data.
+
+Use the closed-ball neighbourhood-base theorem, \autoref{thm:locally-compact-closed-ball-neighborhood-base}. It identifies the visible local compactness window as exactly $X,x,r,B,K,A,H,C,P,N$, so an $\hsame$ read can only transport that displayed finite window.
+
+Now apply the properness-locality root boundary of \autoref{thm:locallycompact-properness-locality-root-boundary}. A properness or completion consumer may consume the transported window as one local boundary, but it receives no all-centers/all-radii family and no host neighbourhood-base structure.
+
+Therefore compact-window transport preserves locality itself. The optional located handoff remains attached to the same closed-ball compact witness, and the excluded global compactness, properness, quotient, choice, and completeness rows remain absent.
+\end{proof}
+
 \closureat{$\LocallyCompactUp$}{seedStr}
 
 \begin{closurestatus}{\LocallyCompactUp}
