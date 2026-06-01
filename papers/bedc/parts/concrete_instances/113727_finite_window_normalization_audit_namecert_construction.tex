@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowNormalizationAuditUp$}
+\label{ch:concrete-instances-finite-window-normalization-audit-namecert}
+\origin{ai}
+
+The $\FiniteWindowNormalizationAuditUp$ packet realizes the redex-frontier inspection route of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It sits beside the critical-path route of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}, and the normalization frontier packet of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. The packet records a bounded typed-term window, the displayed redex-frontier row, candidate-mediated strong-normalization handoff data, and the audit ledger that a consumer must read before making any normalization-audit conclusion.
+
+\begin{definition}[Finite-window normalization audit carrier]
+\label{def:finite-window-normalization-audit-carrier}
+A $\FiniteWindowNormalizationAuditUp$ carrier is a finite $\BHist$ packet
+$$
+A=(W,R,K,F,S,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite typed-term window, including the inspected closed typed terms and the local depth or fuel boundary for the audit.
+\item $R$ is the redex-frontier row, recording exactly which beta-frontier and neutral-frontier cells are visible in the window.
+\item $K$ is the $\MetaCICCriticalPathUp$ handoff row, naming the consistency-facing route that any audit consumer must preserve.
+\item $F$ is the $\MetaCICNormalizationFrontierUp$ row, separating candidate evidence, finished-normal use, and subject-reduction obstruction data.
+\item $S$ is the $\NormalFormConsistencySealUp$ row, consumed only after the frontier rows have been displayed.
+\item $L$ is the normalization audit ledger, recording candidate-mediated strong-normalization evidence, no-infinite-reduction projections, and refused global-normalization claims.
+\item $H$ records componentwise $\hsame$ transport for $W,R,K,F,S,L$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from the finite window through redex-frontier inspection, candidate handoff, consistency-seal use, audit ledger, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\FiniteWindowNormalizationAuditUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\NormalFormConsistencySealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteWindowNormalizationAuditUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,R,K,F,S,L,H,C,P,N$. It has no coordinate for global strong normalization, full closed consistency, closed subject reduction, unrestricted beta-conversion decidability, hidden normalization transport, or host equality of MetaCIC terms.
+\end{definition}
+
+\begin{theorem}[Finite-window normalization audit NameCert obligations]
+\label{thm:finite-window-normalization-audit-namecert-obligations}
+For every accepted $\FiniteWindowNormalizationAuditUp$ carrier $A=(W,R,K,F,S,L,H,C,P,N)$, the local $\NameCert_{\FiniteWindowNormalizationAuditUp}$ surface consists exactly of carrier admission for the finite typed-term window, redex-frontier row, critical-path handoff row, normalization-frontier row, normal-form consistency seal row, normalization audit ledger, componentwise transport, displayed replay, provenance, and local naming. The audit conclusion is public only after the window $W$, frontier $R,F$, candidate handoff data in $L$, consistency-seal row $S$, transport $H$, replay $C$, provenance $P$, and local name $N$ have been displayed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $A=(W,R,K,F,S,L,H,C,P,N)$. The carrier definition exposes exactly the finite typed-term window, redex-frontier row, critical-path handoff, normalization frontier, consistency seal, audit ledger, transport, replay, provenance, and naming rows.
+
+The window and redex-frontier rows are read first. They determine which finite terms and which frontier cells are inspected, so no conclusion can range over arbitrary closed typed terms.
+
+The handoff rows $K,F,S$ then attach the inspection to the existing MetaCIC critical path, normalization frontier, and normal-form consistency seal. The ledger row $L$ records candidate-mediated strong-normalization evidence and refused global claims, while $H,C,P,N$ preserve and name the same route.
+
+Because the carrier has no coordinate for global strong normalization, closed subject reduction, full closed consistency, unrestricted beta-conversion, hidden normalization transport, or host equality, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite-window normalization audit redex frontier]
+\label{thm:finite-window-normalization-audit-redex-frontier}
+Every accepted $\FiniteWindowNormalizationAuditUp$ packet routes a normalization-audit read through
+$$
+W \longmapsto R \longmapsto F,L \longmapsto K,S \longmapsto H,C,P,N .
+$$
+Thus a consumer must expose the finite typed-term window, redex-frontier row, candidate-mediated normalization frontier, audit ledger, MetaCIC critical-path row, normal-form consistency seal, componentwise transport, replay, provenance, and local naming before any normalization-audit conclusion is public.
+\end{theorem}
+\begin{proof}
+Start with an audit consumer read. The finite window $W$ is the only source of inspected terms, and the redex-frontier row $R$ is the only source of visible frontier cells.
+
+The normalization frontier $F$ and audit ledger $L$ are read after that window. They keep candidate evidence, finished-normal use, no-infinite-reduction consequences, and subject-reduction obstruction data attached to the displayed inspection.
+
+The critical-path row $K$ and consistency-seal row $S$ are then consumed as handoff rows. They do not turn the packet into a proof of global normalization or full closed consistency; they only record how the finite audit may cite the existing MetaCIC route and seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Therefore every normalization-audit conclusion remains confined to the displayed window and redex frontier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteWindowNormalizationAuditUp$ read exposes the finite typed-term window, redex-frontier row, candidate handoff, normalization audit ledger, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any normalization-audit conclusion is public.}
+
+\independenceWitness{metaciccriticalpath, normalformconsistencyseal, metacicnormalizationfrontier, metacicclosuretrace: none is bijective with $\FiniteWindowNormalizationAuditUp$ because the audit packet jointly binds the finite term window, redex frontier, candidate-mediated SN handoff, audit ledger, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate surface for this packet must provide explicit $\mathsf{Nontrivial}\ \FiniteWindowNormalizationAuditUp$ and $\mathsf{FieldFaithful}\ \FiniteWindowNormalizationAuditUp$ instances preserving $W,R,K,F,S,L,H,C,P,N$ as distinct displayed rows before a checked target may cite the packet as a verified carrier-alignment theorem.
+
+\closureat{FiniteWindowNormalizationAuditUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWindowNormalizationAuditUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-window-normalization-audit-carrier}, \autoref{thm:finite-window-normalization-audit-namecert-obligations}, and \autoref{thm:finite-window-normalization-audit-redex-frontier} seed the finite normalization-audit route over typed-term windows, redex frontiers, critical-path rows, normalization-frontier rows, normal-form consistency seals, audit ledgers, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global strong normalization, full closed consistency, closed subject reduction, unrestricted beta-conversion decidability, hidden normalization transport, host equality of MetaCIC terms, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, redex-frontier exactness, candidate-mediated audit ledger exposure, critical-path handoff, normal-form seal handoff, transport, replay, provenance, local naming, and Nontrivial and FieldFaithful instances for BEDC.Derived.FiniteWindowNormalizationAuditUp.}
+  \constructivestory{A $\FiniteWindowNormalizationAuditUp$ packet is generated from a finite typed-term window, redex-frontier row, MetaCIC critical-path row, normalization-frontier row, normal-form consistency seal row, candidate-mediated audit ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
