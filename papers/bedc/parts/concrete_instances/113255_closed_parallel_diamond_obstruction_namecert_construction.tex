@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ClosedParallelDiamondObstructionUp$}
+\label{ch:concrete-instances-closed-parallel-diamond-obstruction-namecert}
+\origin{ai}
+
+The $\ClosedParallelDiamondObstructionUp$ packet realizes the MetaCIC confluence frontier of \autoref{sec:metacic-open-problems-confluence} as a finite obstruction surface. It sits beside the premise ledger of \autoref{ch:concrete-instances-closed-parallel-diamond-premise-ledger-namecert}, the finite observation budget of \autoref{ch:concrete-instances-finite-observation-confluence-budget-namecert}, the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, and the residual checker of \autoref{ch:concrete-instances-metacic-confluence-residual-checker-namecert}. The packet records the missing closed parallel diamond route as a named obstruction row, separating it from both the existing premise ledger and any future proof of $\mathrm{BetaParallelDiamondClosed}$.
+
+\begin{definition}[Closed parallel diamond obstruction carrier]
+\label{def:closed-parallel-diamond-obstruction-carrier}
+A $\ClosedParallelDiamondObstructionUp$ carrier is a finite $\BHist$ packet
+$$
+O=(P,L,R,C,B,D,H,K,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the closed parallel-step window whose two branches are under inspection.
+\item $L$ is the $\ClosedParallelDiamondPremiseLedgerUp$ row, recording the premise-ledger route that a conditional confluence bridge may cite.
+\item $R$ is the $\MetaCICResidualSubstitutionBoundaryUp$ row, keeping residual-substitution compatibility visible as a separate obstruction.
+\item $C$ is the $\MetaCICConfluenceResidualCheckerUp$ row, recording the finite checker status available for the displayed residual window.
+\item $B$ is the $\FiniteObservationConfluenceBudgetUp$ row, bounding the observation budget in which local joins may be inspected.
+\item $D$ is the obstruction row: $\mathrm{BetaParallelDiamondClosed}$ is not discharged by the packet and remains a required closed-diamond input.
+\item $H$ records componentwise $\hsame$ transport for the closed parallel window, premise ledger, residual boundary, checker, finite budget, obstruction row, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from the closed parallel window through $L,R,C,B,D,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\ClosedParallelDiamondObstructionUp$, $\ClosedParallelDiamondPremiseLedgerUp$, $\FiniteObservationConfluenceBudgetUp$, $\MetaCICResidualSubstitutionBoundaryUp$, $\MetaCICConfluenceResidualCheckerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedParallelDiamondObstructionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,L,R,C,B,D,H,K,Q,N$. It has no coordinate proving $\mathrm{BetaParallelDiamondClosed}$, no proof of $\mathrm{BetaParallelSubstitutionCompatibility}$, no arbitrary closed Church--Rosser theorem, no host residual semantics, and no unchecked confluence bridge.
+\end{definition}
+
+\begin{theorem}[Closed parallel diamond obstruction obligations]
+\label{thm:closed-parallel-diamond-obstruction-obligations}
+For every accepted $\ClosedParallelDiamondObstructionUp$ carrier $O=(P,L,R,C,B,D,H,K,Q,N)$, the local $\NameCert_{\ClosedParallelDiamondObstructionUp}$ surface consists exactly of closed parallel-window admission, premise-ledger exposure, residual-substitution boundary exposure, residual-checker exposure, finite observation-budget exposure, closed-diamond obstruction retention, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-parallel-diamond-obstruction-carrier}. The rows $P,L,R,C,B,D$ are the mathematical obstruction surface, and $H,K,Q,N$ are the structural rows.
+
+The premise-ledger and residual rows are separate. Row $L$ records the conditional premise route, while row $R$ keeps substitution compatibility visible as an independent boundary.
+
+The finite observation rows $C$ and $B$ record bounded checker status and local observation budget. They do not discharge the closed parallel diamond row $D$.
+
+Rows $H,K,Q,N$ transport, replay, source, and name the same finite packet. Since no row proves $\mathrm{BetaParallelDiamondClosed}$ or $\mathrm{BetaParallelSubstitutionCompatibility}$, and no row exports arbitrary closed confluence, the listed obligations exhaust the local surface.
+\end{proof}
+
+\begin{theorem}[Closed parallel diamond obstruction separation]
+\label{thm:closed-parallel-diamond-obstruction-separation}
+Every MetaCIC confluence read through an accepted $\ClosedParallelDiamondObstructionUp$ packet factors through
+$$
+P \longmapsto L,R,C,B \longmapsto D \longmapsto H,K,Q,N .
+$$
+The packet therefore separates the missing closed parallel diamond premise from the existing premise-ledger carrier: it records why the confluence endpoint is blocked, not a proof that the endpoint has been supplied.
+\end{theorem}
+\begin{proof}
+Begin with the closed parallel window $P$. The carrier allows that window to be read only together with the premise ledger $L$, residual boundary $R$, residual checker $C$, and finite observation budget $B$.
+
+The obstruction row $D$ is downstream of those rows and remains present in the accepted packet. It names the closed parallel diamond input as not discharged by the carrier.
+
+Apply \autoref{thm:closed-parallel-diamond-obstruction-obligations}. Transport, replay, provenance, and local naming preserve the same finite route without replacing $D$ by a theorem.
+
+Thus the packet can guide a confluence consumer to the precise obstruction row, while the separate premise ledger remains a cited input surface rather than a closed diamond proof.
+\end{proof}
+
+\falsifiablePrediction{If a MetaCIC confluence consumer cites $\ClosedParallelDiamondObstructionUp$ as proof of arbitrary closed-term confluence, then the packet is refuted because the obstruction row $D$ is still present and no closed parallel diamond proof row is displayed.}
+
+\independenceWitness{closed\_parallel\_diamond\_premise\_ledger, finite\_observation\_confluence\_budget, metacic\_residual\_substitution\_boundary, metacic\_confluence\_residual\_checker: $\ClosedParallelDiamondObstructionUp$ is not bijective to any listed sibling because it simultaneously displays the premise-ledger route, residual-substitution boundary, finite residual-checker status, observation budget, and retained closed-diamond obstruction row.}
+
+The Lean TasteGate site for $\ClosedParallelDiamondObstructionUp$ must later provide explicit $\Nontrivial\ \ClosedParallelDiamondObstructionUp$ and $\FieldFaithful\ \ClosedParallelDiamondObstructionUp$ instances. Those instances should distinguish the premise-ledger row, finite observation budget, residual-substitution boundary, residual checker, obstruction row, transport, replay, provenance, and local naming as separate fields rather than collapsing the obstruction into the existing ledger.
+
+\closureat{ClosedParallelDiamondObstructionUp}{seedStr}
+
+\begin{closurestatus}{\ClosedParallelDiamondObstructionUp}
+  \constructivestory{A $\ClosedParallelDiamondObstructionUp$ packet is generated from closed parallel-step windows, ClosedParallelDiamondPremiseLedger rows, MetaCICResidualSubstitutionBoundary rows, MetaCICConfluenceResidualChecker rows, FiniteObservationConfluenceBudget rows, a retained closed-diamond obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-parallel-diamond-obstruction-carrier}, \autoref{thm:closed-parallel-diamond-obstruction-obligations}, and \autoref{thm:closed-parallel-diamond-obstruction-separation} seed the finite obstruction packet for the MetaCIC closed parallel diamond frontier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove $\mathrm{BetaParallelDiamondClosed}$, $\mathrm{BetaParallelSubstitutionCompatibility}$, arbitrary closed Church--Rosser, host residual semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, premise-ledger exposure, residual-substitution boundary exposure, residual-checker exposure, finite observation-budget exposure, obstruction retention, transport, replay, provenance, and TasteGate Nontrivial and FieldFaithful instances for BEDC.Derived.ClosedParallelDiamondObstructionUp.}
+\end{closurestatus}
