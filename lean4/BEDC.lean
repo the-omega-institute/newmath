@@ -4078,6 +4078,7 @@ import BEDC.Derived.FunctorUp.StdBridge
 import BEDC.Derived.FunctorUp.VisibleMorphismStrictPrefix
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FundamentalGroupUp.TasteGate
+import BEDC.Derived.FundamentalTheoremCalculusUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
@@ -4346,6 +4347,7 @@ import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperspaceUp.CarrierObligations
+import BEDC.Derived.HyperspaceUp.CauchyUniformNetHandoff
 import BEDC.Derived.HyperspaceUp.CompactCompleteHandoff
 import BEDC.Derived.HyperspaceUp.CompactHausdorffDistanceRoute
 import BEDC.Derived.HyperspaceUp.CompactSourceScope
@@ -4358,6 +4360,7 @@ import BEDC.Derived.HyperspaceUp.FiniteHitDirectedCover
 import BEDC.Derived.HyperspaceUp.FiniteNetCarrierExhaustion
 import BEDC.Derived.HyperspaceUp.FiniteNetHit
 import BEDC.Derived.HyperspaceUp.FiniteVietorisCarrier
+import BEDC.Derived.HyperspaceUp.HausdorffClassifierTransport
 import BEDC.Derived.HyperspaceUp.HausdorffObligationSurface
 import BEDC.Derived.HyperspaceUp.HitMissClassifier
 import BEDC.Derived.HyperspaceUp.HitMissDirectedRefinement
@@ -5490,6 +5493,7 @@ import BEDC.Derived.NormalFamilyUp.TasteGate
 import BEDC.Derived.NormalFormConsistencySealUp
 import BEDC.Derived.NormalFormConsistencySealUp.CandidateRoute
 import BEDC.Derived.NormalFormConsistencySealUp.ContinuationReplay
+import BEDC.Derived.NormalFormConsistencySealUp.LocalNamingBoundary
 import BEDC.Derived.NormalFormConsistencySealUp.ProvenanceExactness
 import BEDC.Derived.NormalSpaceUp
 import BEDC.Derived.NormalSpaceUp.ClosedSetSeparationRoute
@@ -7432,6 +7436,7 @@ import BEDC.Derived.TauberianRemainderUp
 import BEDC.Derived.TauberianRemainderUp.TasteGate
 import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.TaylorModelUp.TasteGate
+import BEDC.Derived.TaylorRemainderUp
 import BEDC.Derived.TemperedDistributionUp.TasteGate
 import BEDC.Derived.TensorAlgebraUp.TasteGate
 import BEDC.Derived.TensorProductUp
