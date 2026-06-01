@@ -489,6 +489,46 @@ Apply \autoref{thm:sequentialcompact-baire-real-window-admission}. The Baire and
 The remaining structural rows are transport, replay, provenance, and local naming rows only. They carry no primitive sequential compactness, external selection, quotient stream equality, countable-choice schedule, or open-cover compactness proof, so the root surface is exactly the finite carrier-and-seal interface stated above.
 \end{proof}
 
+\begin{theorem}[SequentialCompact root obligation surface]
+\label{thm:sequentialcompact-root-obligation-surface}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+every root obligation read for the L10 compactness corridor must expose the $\CompactMetricUp$ source row $K$, the $\BaireSpaceUp$ cylinder row $B$, the $\StreamNameUp$ source-window row $S$, the finite selected-window row $W$, the $\RegSeqRatUp$ readback row $R$, and the terminal $\RealUp$ seal row $E$ before transport, replay, provenance, and local naming are consulted. The obligation is a finite $\BHist$ surface over $K,B,S,W,R,E,H,C,P,N$, not countable choice, quotient stream equality, external subsequence selection, open-cover compactness, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-compact-carrier}. The root reader sees only the compact-metric, Baire, stream, finite-window, regular-rational, Real-seal, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:sequential-compact-root-window} and \autoref{thm:sequential-compact-root-regseqrat-exposure}. These force the selected-window read through $B,S,W$ and then through the regular-rational row $R$ before any Real-facing conclusion is available.
+
+Apply \autoref{thm:sequential-compact-real-seal-nonescape}. The seal row $E$ cannot supply host sequential compactness, a selected subsequence object, quotient stream equality, countable choice, or ambient Real completeness. The remaining rows $H,C,P,N$ preserve the same finite route.
+\end{proof}
+
+\begin{theorem}[SequentialCompact compactmetric handoff]
+\label{thm:sequentialcompact-compactmetric-handoff}
+Every $\CompactMetricUp$ consumer that receives an accepted $\SequentialCompactUp$ packet receives the compact-metric row $K$ together with the Baire, StreamName, selected-window, RegSeqRat, Real-seal, transport, replay, provenance, and local naming rows $B,S,W,R,E,H,C,P,N$. The handoff permits downstream compact and completion chapters to consume finite carrier-and-window obligations, but it does not export a primitive sequential compactness theorem, an externally selected subsequence, quotient stream equality, countable choice, open-cover compactness, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:sequentialcompact-compactmetric-consumer-scope}. It already restricts compact-metric consumers to the rows $K,B,S,W,R,E,H,C,P,N$.
+
+Apply \autoref{thm:sequentialcompact-root-obligation-surface}. The new root surface records the same rows as an obligation boundary, so the compact-metric handoff is a finite packet read rather than a hidden theorem about all sequences.
+
+Finally use \autoref{thm:sequentialcompact-regseqrat-cluster-handoff} and \autoref{thm:sequential-compact-real-seal-consumer-boundary}. They route cluster and Real-facing reads through $R$ and $E$ without introducing selected representatives, host stream equality, choice schedules, or ambient completion.
+\end{proof}
+
+\begin{theorem}[SequentialCompact RegSeqRat stream scope]
+\label{thm:sequentialcompact-regseqrat-stream-scope}
+Every $\RegSeqRatUp$ readback exported by an accepted $\SequentialCompactUp$ packet is scoped by the displayed $\StreamNameUp$ source row $S$ and finite selected-window row $W$. A downstream completion or Real-facing consumer may read $R$ only as a regular-rational readback of the finite stream window $S,W$; it may not replace the route by quotient stream equality, an externally chosen subsequence, countable choice, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Read the source-window scope from \autoref{thm:sequential-compact-root-window}. The stream source $S$ and selected finite window $W$ are displayed before the RegSeqRat row can be used.
+
+Apply \autoref{thm:sequential-compact-root-regseqrat-exposure}. It makes $R$ the exposed regular-rational readback row for root consumers, not a selector or quotient-class object.
+
+Use \autoref{thm:sequentialcompact-baire-real-window-admission} to keep the Baire and Real-facing route attached to $B,S,W,R,E$. Since the carrier has no row for quotient stream equality, external subsequence selection, choice, host real equality, or ambient completeness, the RegSeqRat stream scope is exactly the displayed finite-window route.
+\end{proof}
+
 \closureat{SequentialCompactUp}{seedStr}
 
 \begin{closurestatus}{\SequentialCompactUp}
