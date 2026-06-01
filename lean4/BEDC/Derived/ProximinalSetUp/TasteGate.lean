@@ -10,7 +10,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ProximinalSetUp : Type where
-  | mk (X L D W E H C P N : BHist) : ProximinalSetUp
+  | mk
+      (metric located distance witness realSeal transport continuation provenance localName :
+        BHist) : ProximinalSetUp
   deriving DecidableEq
 
 def proximinalSetEncodeBHist : BHist → RawEvent
@@ -25,7 +27,7 @@ def proximinalSetDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (proximinalSetDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (proximinalSetDecodeBHist tail)
 
-private theorem ProximinalSetTasteGate_single_carrier_alignment_decode :
+private theorem ProximinalSetTasteGate_decode_encode :
     ∀ h : BHist, proximinalSetDecodeBHist (proximinalSetEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -36,65 +38,67 @@ private theorem ProximinalSetTasteGate_single_carrier_alignment_decode :
 
 def proximinalSetFields : ProximinalSetUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ProximinalSetUp.mk X L D W E H C P N => [X, L, D, W, E, H, C, P, N]
+  | ProximinalSetUp.mk metric located distance witness realSeal transport continuation
+      provenance localName =>
+      [metric, located, distance, witness, realSeal, transport, continuation, provenance,
+        localName]
 
-def proximinalSetToEventFlow : ProximinalSetUp → EventFlow :=
+def proximinalSetToEventFlow : ProximinalSetUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun token => (proximinalSetFields token).map proximinalSetEncodeBHist
+  | x => (proximinalSetFields x).map proximinalSetEncodeBHist
 
-private def proximinalSetEventAtDefault : Nat → EventFlow → RawEvent
+private def proximinalSetEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => proximinalSetEventAtDefault index rest
+  | Nat.succ index, _event :: rest => proximinalSetEventAt index rest
 
 def proximinalSetFromEventFlow (ef : EventFlow) : Option ProximinalSetUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (ProximinalSetUp.mk
-      (proximinalSetDecodeBHist (proximinalSetEventAtDefault 0 ef))
-      (proximinalSetDecodeBHist (proximinalSetEventAtDefault 1 ef))
-      (proximinalSetDecodeBHist (proximinalSetEventAtDefault 2 ef))
-      (proximinalSetDecodeBHist (proximinalSetEventAtDefault 3 ef))
-      (proximinalSetDecodeBHist (proximinalSetEventAtDefault 4 ef))
-      (proximinalSetDecodeBHist (proximinalSetEventAtDefault 5 ef))
-      (proximinalSetDecodeBHist (proximinalSetEventAtDefault 6 ef))
-      (proximinalSetDecodeBHist (proximinalSetEventAtDefault 7 ef))
-      (proximinalSetDecodeBHist (proximinalSetEventAtDefault 8 ef)))
+      (proximinalSetDecodeBHist (proximinalSetEventAt 0 ef))
+      (proximinalSetDecodeBHist (proximinalSetEventAt 1 ef))
+      (proximinalSetDecodeBHist (proximinalSetEventAt 2 ef))
+      (proximinalSetDecodeBHist (proximinalSetEventAt 3 ef))
+      (proximinalSetDecodeBHist (proximinalSetEventAt 4 ef))
+      (proximinalSetDecodeBHist (proximinalSetEventAt 5 ef))
+      (proximinalSetDecodeBHist (proximinalSetEventAt 6 ef))
+      (proximinalSetDecodeBHist (proximinalSetEventAt 7 ef))
+      (proximinalSetDecodeBHist (proximinalSetEventAt 8 ef)))
 
-private theorem ProximinalSetTasteGate_single_carrier_alignment_round_trip :
-    ∀ token : ProximinalSetUp,
-      proximinalSetFromEventFlow (proximinalSetToEventFlow token) = some token := by
+private theorem ProximinalSetTasteGate_round_trip (x : ProximinalSetUp) :
+    proximinalSetFromEventFlow (proximinalSetToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro token
-  cases token with
-  | mk X L D W E H C P N =>
+  cases x with
+  | mk metric located distance witness realSeal transport continuation provenance localName =>
       change
         some
           (ProximinalSetUp.mk
-            (proximinalSetDecodeBHist (proximinalSetEncodeBHist X))
-            (proximinalSetDecodeBHist (proximinalSetEncodeBHist L))
-            (proximinalSetDecodeBHist (proximinalSetEncodeBHist D))
-            (proximinalSetDecodeBHist (proximinalSetEncodeBHist W))
-            (proximinalSetDecodeBHist (proximinalSetEncodeBHist E))
-            (proximinalSetDecodeBHist (proximinalSetEncodeBHist H))
-            (proximinalSetDecodeBHist (proximinalSetEncodeBHist C))
-            (proximinalSetDecodeBHist (proximinalSetEncodeBHist P))
-            (proximinalSetDecodeBHist (proximinalSetEncodeBHist N))) =
-          some (ProximinalSetUp.mk X L D W E H C P N)
-      rw [ProximinalSetTasteGate_single_carrier_alignment_decode X,
-        ProximinalSetTasteGate_single_carrier_alignment_decode L,
-        ProximinalSetTasteGate_single_carrier_alignment_decode D,
-        ProximinalSetTasteGate_single_carrier_alignment_decode W,
-        ProximinalSetTasteGate_single_carrier_alignment_decode E,
-        ProximinalSetTasteGate_single_carrier_alignment_decode H,
-        ProximinalSetTasteGate_single_carrier_alignment_decode C,
-        ProximinalSetTasteGate_single_carrier_alignment_decode P,
-        ProximinalSetTasteGate_single_carrier_alignment_decode N]
+            (proximinalSetDecodeBHist (proximinalSetEncodeBHist metric))
+            (proximinalSetDecodeBHist (proximinalSetEncodeBHist located))
+            (proximinalSetDecodeBHist (proximinalSetEncodeBHist distance))
+            (proximinalSetDecodeBHist (proximinalSetEncodeBHist witness))
+            (proximinalSetDecodeBHist (proximinalSetEncodeBHist realSeal))
+            (proximinalSetDecodeBHist (proximinalSetEncodeBHist transport))
+            (proximinalSetDecodeBHist (proximinalSetEncodeBHist continuation))
+            (proximinalSetDecodeBHist (proximinalSetEncodeBHist provenance))
+            (proximinalSetDecodeBHist (proximinalSetEncodeBHist localName))) =
+          some
+            (ProximinalSetUp.mk metric located distance witness realSeal transport
+              continuation provenance localName)
+      rw [ProximinalSetTasteGate_decode_encode metric,
+        ProximinalSetTasteGate_decode_encode located,
+        ProximinalSetTasteGate_decode_encode distance,
+        ProximinalSetTasteGate_decode_encode witness,
+        ProximinalSetTasteGate_decode_encode realSeal,
+        ProximinalSetTasteGate_decode_encode transport,
+        ProximinalSetTasteGate_decode_encode continuation,
+        ProximinalSetTasteGate_decode_encode provenance,
+        ProximinalSetTasteGate_decode_encode localName]
 
-private theorem ProximinalSetTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : ProximinalSetUp} :
+private theorem proximinalSetToEventFlow_injective {x y : ProximinalSetUp} :
     proximinalSetToEventFlow x = proximinalSetToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -103,18 +107,19 @@ private theorem ProximinalSetTasteGate_single_carrier_alignment_toEventFlow_inje
         proximinalSetFromEventFlow (proximinalSetToEventFlow y) :=
     congrArg proximinalSetFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (ProximinalSetTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (ProximinalSetTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (ProximinalSetTasteGate_round_trip x).symm
+      (Eq.trans hread (ProximinalSetTasteGate_round_trip y)))
 
-private theorem ProximinalSetTasteGate_single_carrier_alignment_fields :
-    ∀ x y : ProximinalSetUp, proximinalSetFields x = proximinalSetFields y → x = y := by
+private theorem proximinalSet_field_faithful :
+    ∀ x y : ProximinalSetUp,
+      proximinalSetFields x = proximinalSetFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro a b hfields
-  cases a with
-  | mk X1 L1 D1 W1 E1 H1 C1 P1 N1 =>
-      cases b with
-      | mk X2 L2 D2 W2 E2 H2 C2 P2 N2 =>
+  intro x y hfields
+  cases x with
+  | mk metric located distance witness realSeal transport continuation provenance localName =>
+      cases y with
+      | mk metric' located' distance' witness' realSeal' transport' continuation'
+          provenance' localName' =>
           cases hfields
           rfl
 
@@ -128,17 +133,18 @@ instance proximinalSetChapterTasteGate : ChapterTasteGate ProximinalSetUp where
   round_trip := by
     intro x
     change proximinalSetFromEventFlow (proximinalSetToEventFlow x) = some x
-    exact ProximinalSetTasteGate_single_carrier_alignment_round_trip x
+    exact ProximinalSetTasteGate_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (ProximinalSetTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (proximinalSetToEventFlow_injective heq)
 
 instance proximinalSetFieldFaithful : FieldFaithful ProximinalSetUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := proximinalSetFields
-  field_faithful := ProximinalSetTasteGate_single_carrier_alignment_fields
+  field_faithful := proximinalSet_field_faithful
 
-instance proximinalSetNontrivial : Nontrivial ProximinalSetUp where
+instance proximinalSetNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial ProximinalSetUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨ProximinalSetUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -154,18 +160,23 @@ def taste_gate : ChapterTasteGate ProximinalSetUp :=
   proximinalSetChapterTasteGate
 
 theorem ProximinalSetTasteGate_single_carrier_alignment :
-    (∀ h : BHist, proximinalSetDecodeBHist (proximinalSetEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate ProximinalSetUp) ∧
+      Nonempty (FieldFaithful ProximinalSetUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial ProximinalSetUp) ∧
+      (∀ h : BHist, proximinalSetDecodeBHist (proximinalSetEncodeBHist h) = h) ∧
       (∀ x : ProximinalSetUp,
         proximinalSetFromEventFlow (proximinalSetToEventFlow x) = some x) ∧
-        (∀ x y : ProximinalSetUp,
-          proximinalSetToEventFlow x = proximinalSetToEventFlow y → x = y) ∧
-          proximinalSetEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+      (∀ x y : ProximinalSetUp,
+        proximinalSetToEventFlow x = proximinalSetToEventFlow y → x = y) ∧
+      proximinalSetEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   exact
-    ⟨ProximinalSetTasteGate_single_carrier_alignment_decode,
-      ProximinalSetTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        ProximinalSetTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+    ⟨⟨proximinalSetChapterTasteGate⟩,
+      ⟨proximinalSetFieldFaithful⟩,
+      ⟨proximinalSetNontrivial⟩,
+      ProximinalSetTasteGate_decode_encode,
+      ProximinalSetTasteGate_round_trip,
+      (fun _ _ heq => proximinalSetToEventFlow_injective heq),
       rfl⟩
 
 end BEDC.Derived.ProximinalSetUp
