@@ -1,0 +1,214 @@
+import numpy as np
+
+from bedc_quality_lab.metrics import (
+    approximate_identifiability_proxy,
+    classifier_certificate,
+    covariance_deviation,
+    linear_identifiability_r2,
+    orthogonality_error,
+    quality_components,
+    quality_components_from_bound,
+)
+
+
+def test_metrics_linear_recovery_and_shuffle_direction():
+    rng = np.random.default_rng(7)
+    z = rng.normal(size=(256, 2))
+    h = z @ np.array([[1.2, -0.4], [0.3, 0.9]]) + np.array([0.1, -0.2])
+    shuffled = h[rng.permutation(h.shape[0])]
+
+    good_r2 = linear_identifiability_r2(h, z)
+    shuffled_r2 = linear_identifiability_r2(shuffled, z)
+
+    assert good_r2 > 0.98
+    assert shuffled_r2 < 0.15
+    assert approximate_identifiability_proxy(h, z) > approximate_identifiability_proxy(shuffled, z)
+    assert orthogonality_error(h) >= 0.0
+    assert covariance_deviation(h) >= 0.0
+
+
+def test_quality_components_follow_identity_and_debt_monotonicity():
+    metrics = {
+        "linear_identifiability_r2": 0.90,
+        "approx_identifiability_proxy": 0.80,
+    }
+    classifier_spec = {
+        "name": "tiny-mlp-2-128-128-2",
+        "output_dim": 2,
+        "training": "align-cov-mean",
+        **classifier_certificate(metrics),
+    }
+
+    low_debt = quality_components_from_bound(metrics, 0.10, classifier_spec)
+    high_debt = quality_components_from_bound(metrics, 0.30, classifier_spec)
+
+    assert np.isclose(
+        low_debt["quality_q"],
+        low_debt["quality_benefit"] - low_debt["quality_cost"] - low_debt["quality_debt"],
+    )
+    assert high_debt["quality_q"] < low_debt["quality_q"]
+
+
+def test_classifier_certificate_and_certified_quality_benefit():
+    metrics = {
+        "linear_identifiability_r2": 0.90,
+        "approx_identifiability_proxy": 0.80,
+        "theorem3_bound": 1.0,
+        "actual_recovery_error": 0.20,
+        "bound_margin": 0.80,
+        "normalized_gap_d": 0.10,
+        "whitening_deviation_epsilon": 0.10,
+    }
+    certificate = classifier_certificate(metrics)
+    values = quality_components_from_bound(metrics, 0.10, {"output_dim": 2, "training": "", **certificate})
+
+    assert certificate["cert_method"] == "inline-threshold"
+    assert certificate["cert_status"] == "certified"
+    assert certificate["cert_r2"] == 0.90
+    assert certificate["cert_proxy"] == 0.80
+    assert certificate["cert_threshold"] == {
+        "linear_identifiability_r2": 0.85,
+        "approx_identifiability_proxy": 0.70,
+    }
+    assert values["quality_benefit"] > 0.0
+    assert np.isclose(
+        values["quality_q"],
+        values["quality_benefit"] - values["quality_cost"] - values["quality_debt"],
+    )
+
+
+def test_classifier_certificate_custom_positive_thresholds_control_status_and_score():
+    metrics = {
+        "linear_identifiability_r2": 0.90,
+        "approx_identifiability_proxy": 0.80,
+    }
+    default_certificate = classifier_certificate(metrics)
+    strict_certificate = classifier_certificate(metrics, min_r2=0.95, min_proxy=0.85)
+
+    assert default_certificate["cert_status"] == "certified"
+    assert default_certificate["cert_threshold"] == {
+        "linear_identifiability_r2": 0.85,
+        "approx_identifiability_proxy": 0.70,
+    }
+    assert np.isclose(default_certificate["cert_score"], min(0.90 / 0.85, 0.80 / 0.70))
+
+    assert strict_certificate["cert_status"] == "uncertified"
+    assert strict_certificate["cert_threshold"] == {
+        "linear_identifiability_r2": 0.95,
+        "approx_identifiability_proxy": 0.85,
+    }
+    assert np.isclose(strict_certificate["cert_score"], min(0.90 / 0.95, 0.80 / 0.85))
+    assert strict_certificate["cert_score"] < 1.0
+
+
+def test_classifier_certificate_non_positive_threshold_zeroes_score_not_status():
+    metrics = {
+        "linear_identifiability_r2": 0.90,
+        "approx_identifiability_proxy": 0.80,
+    }
+    zero_r2_threshold = classifier_certificate(metrics, min_r2=0.0, min_proxy=0.70)
+    negative_proxy_threshold = classifier_certificate(metrics, min_r2=0.85, min_proxy=-0.10)
+
+    assert zero_r2_threshold["cert_status"] == "certified"
+    assert zero_r2_threshold["cert_score"] == 0.0
+    assert zero_r2_threshold["cert_threshold"] == {
+        "linear_identifiability_r2": 0.0,
+        "approx_identifiability_proxy": 0.70,
+    }
+
+    assert negative_proxy_threshold["cert_status"] == "certified"
+    assert negative_proxy_threshold["cert_score"] == 0.0
+    assert negative_proxy_threshold["cert_threshold"] == {
+        "linear_identifiability_r2": 0.85,
+        "approx_identifiability_proxy": -0.10,
+    }
+
+
+def test_uncertified_classifier_floors_quality_benefit():
+    metrics = {
+        "linear_identifiability_r2": 0.90,
+        "approx_identifiability_proxy": 0.60,
+        "theorem3_bound": 1.0,
+        "actual_recovery_error": 0.20,
+        "bound_margin": 0.80,
+        "normalized_gap_d": 0.10,
+        "whitening_deviation_epsilon": 0.10,
+    }
+    certificate = classifier_certificate(metrics)
+    values = quality_components_from_bound(metrics, 0.10, {"output_dim": 2, "training": "", **certificate})
+
+    assert certificate["cert_status"] == "uncertified"
+    assert values["quality_benefit"] == 0.0
+    assert np.isclose(
+        values["quality_q"],
+        values["quality_benefit"] - values["quality_cost"] - values["quality_debt"],
+    )
+
+
+def test_missing_classifier_certificate_floors_quality_benefit():
+    metrics = {
+        "linear_identifiability_r2": 0.90,
+        "approx_identifiability_proxy": 0.80,
+    }
+    values = quality_components(metrics, 0.10, {"output_dim": 2, "training": ""})
+
+    assert values["quality_benefit"] == 0.0
+    assert np.isclose(
+        values["quality_q"],
+        values["quality_benefit"] - values["quality_cost"] - values["quality_debt"],
+    )
+
+
+def test_quality_components_clamp_benefit_and_debt():
+    high_values = quality_components_from_bound(
+        {
+            "linear_identifiability_r2": 1.4,
+            "approx_identifiability_proxy": 1.2,
+            "theorem3_bound": 2.0,
+            "actual_recovery_error": 0.0,
+            "bound_margin": 2.0,
+            "normalized_gap_d": 0.0,
+            "whitening_deviation_epsilon": 0.0,
+        },
+        1.7,
+        {
+            "output_dim": 1,
+            "training": "",
+            "cert_status": "certified",
+        },
+    )
+    low_values = quality_components_from_bound(
+        {"linear_identifiability_r2": -0.4, "approx_identifiability_proxy": -0.2},
+        -0.3,
+        {"output_dim": 1, "training": ""},
+    )
+
+    assert high_values["quality_benefit"] == 1.0
+    assert high_values["quality_debt"] == 1.0
+    assert low_values["quality_benefit"] == 0.0
+    assert low_values["quality_debt"] == 0.0
+
+
+def test_quality_components_output_dimension_cost_cap_and_fallback():
+    metrics = {"linear_identifiability_r2": 0.0, "approx_identifiability_proxy": 0.0}
+
+    capped = quality_components(metrics, 0.0, {"output_dim": 20, "training": ""})
+    fallback = quality_components(metrics, 0.0, {"output_dim": "wide", "training": ""})
+
+    assert np.isclose(capped["quality_cost"], 0.09)
+    assert np.isclose(fallback["quality_cost"], 0.02)
+
+
+def test_quality_components_align_training_has_higher_cost_than_non_align():
+    metrics = {"linear_identifiability_r2": 0.0, "approx_identifiability_proxy": 0.0}
+
+    align = quality_components(metrics, 0.0, {"output_dim": 2, "training": "align-cov-mean"})
+    non_align = quality_components(
+        metrics,
+        0.0,
+        {"output_dim": 2, "training": "deterministic-standardization"},
+    )
+
+    assert np.isclose(align["quality_cost"], 0.06)
+    assert np.isclose(non_align["quality_cost"], 0.03)
+    assert np.isclose(align["quality_cost"] - non_align["quality_cost"], 0.03)

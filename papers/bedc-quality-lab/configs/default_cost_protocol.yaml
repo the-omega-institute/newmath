@@ -1,0 +1,15 @@
+name: bedc-quality-lab-default-cost-protocol
+quality_formula:
+  id: quality_q
+  text: quality_benefit - quality_cost - quality_debt
+row_weights:
+  source/source-coverage: 0.18
+  source/mixing-family-coverage: 0.22
+  source/finite-sample-support: 0.20
+  source/transition-isotropy: 0.12
+  classifier/optimizer-certificate: 0.20
+  verification/theorem3-bound-margin: 0.20
+  generalization/global-claim-boundary: 0.20
+not_claimed:
+  global_boundary: [outside-declared-scope, untested-source-families, unproved-global-generalization]
+  treatment: Claims outside these boundary tokens are not included in quality_q closure credit.

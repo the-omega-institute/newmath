@@ -1,0 +1,141 @@
+{
+  "artifacts": {
+    "envelope": "reports/example_envelope.json",
+    "report": "reports/quality_report.md"
+  },
+  "bedc_refs": [
+    "papers/bedc/preamble.tex:closurestatus",
+    "papers/bedc/parts/project_governance/theory_amendment_policy.tex"
+  ],
+  "classifier_spec": {
+    "cert_actual_recovery_error": 0.3857092737100051,
+    "cert_bound": 0.46971135739303055,
+    "cert_bound_margin": 0.08400208368302547,
+    "cert_method": "theorem3-bound-margin",
+    "cert_reason": "positive theorem3 bound margin",
+    "cert_score": 0.08400208368302547,
+    "cert_status": "certified",
+    "cert_threshold": {
+      "max_recovery_error": 1.0,
+      "theorem3_bound": 0.46971135739303055
+    },
+    "eval_count": 115,
+    "eval_index_checksum": 1766546,
+    "name": "tiny-mlp-2-128-128-2",
+    "output_dim": 2,
+    "overlap_count": 0,
+    "split_policy": "train-eval-disjoint",
+    "train_count": 269,
+    "train_fraction": 0.7,
+    "train_index_checksum": 9161334,
+    "training": "align-cov-mean"
+  },
+  "debt_items": [
+    "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+    "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+    "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+    "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+    "kind=classifier; residue=optimizer-certificate; severity=high; status=open; score=0.200000",
+    "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+    "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+  ],
+  "ledger_gaps": [
+    "kind=classifier; residue=optimizer-certificate; severity=high; status=open",
+    "kind=source; residue=finite-sample-support; severity=high; status=open",
+    "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+    "kind=source; residue=source-coverage; severity=high; status=open"
+  ],
+  "metrics": {
+    "actual_recovery_error": 0.3857092737100051,
+    "alignment_gap_delta": 0.0,
+    "alignment_loss": 0.2930884155081842,
+    "approx_identifiability_proxy": 0.7957435899433731,
+    "bound_margin": 0.08400208368302547,
+    "covariance_deviation": 0.6853549134521694,
+    "linear_identifiability_r2": 0.9109840833533501,
+    "normalized_gap_d": 0.0,
+    "orthogonality_error": 0.1182845169138232,
+    "quality_benefit": 0.0,
+    "quality_cost": 0.06,
+    "quality_debt": 0.8,
+    "quality_margin": -0.8600000000000001,
+    "quality_q": -0.8600000000000001,
+    "quality_threshold": 0.0,
+    "theorem3_bound": 0.46971135739303055,
+    "theorem_bound_benefit": 0.0,
+    "theorem_bound_gap_penalty": 0.0,
+    "theorem_bound_recovery_pressure": 0.3857092737100051,
+    "theorem_bound_whitening_penalty": 0.6853549134521694,
+    "whitening_deviation_epsilon": 0.6853549134521694
+  },
+  "pattern_spec": {
+    "name": "latent-linear-recovery",
+    "target": "recover z from representation h by linear least squares"
+  },
+  "run_id": "gaussian-ou-lejepa-seed-23",
+  "schema_id": "bedc-quality-lab:evidence-envelope",
+  "source_spec": {
+    "latent_dim": 2,
+    "latent_distribution": "gaussian",
+    "mixing": "sinusoidal_shear",
+    "name": "gaussian-ou-toy-world",
+    "rho": 0.82,
+    "rho_by_axis": [
+      0.82,
+      0.82
+    ],
+    "sample_count": 384,
+    "transition_anisotropy_gap": 0.0,
+    "transition_isotropic": true,
+    "transition_kernel": {
+      "anisotropy_gap": 0.0,
+      "eigenvalue_interleaving": {
+        "adjacent_gaps": [
+          0.0
+        ],
+        "anisotropy_gap": 0.0,
+        "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+        "eigenvalues": [
+          0.82,
+          0.82
+        ],
+        "min_adjacent_gap": 0.0,
+        "operator": "diagonal-ou-transition",
+        "sorted_eigenvalues": [
+          0.82,
+          0.82
+        ]
+      },
+      "family": "ornstein-uhlenbeck",
+      "isotropic": true,
+      "noise_family": "gaussian",
+      "rho_by_axis": [
+        0.82,
+        0.82
+      ]
+    }
+  },
+  "stability_spec": {
+    "name": "fixed-seed-single-source",
+    "pair_process": "ornstein-uhlenbeck",
+    "seed": 23,
+    "transition_eigenvalue_interleaving": {
+      "adjacent_gaps": [
+        0.0
+      ],
+      "anisotropy_gap": 0.0,
+      "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+      "eigenvalues": [
+        0.82,
+        0.82
+      ],
+      "min_adjacent_gap": 0.0,
+      "operator": "diagonal-ou-transition",
+      "sorted_eigenvalues": [
+        0.82,
+        0.82
+      ]
+    },
+    "transition_noise_family": "gaussian"
+  }
+}
