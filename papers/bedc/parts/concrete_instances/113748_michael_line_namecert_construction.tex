@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\MichaelLineUp$}
+\label{ch:concrete-instances-michael-line-namecert}
+\origin{human}
+
+Following Michael and Kelley topology, the $\MichaelLineUp$ packet records the classical Michael-line presentation as a finite topology-adjacent NameCert object. It reads the real-order topology rows of \autoref{ch:concrete-instances-real-order-topology-namecert}, the indexed open-row discipline of \autoref{ch:concrete-instances-topology-namecert}, and the observable-open truth classifier of \autoref{ch:concrete-instances-sierpinski-space-namecert}. The packet names only the displayed real-order, distinguished-row, isolated-point, and observable-open handoff data needed by topology consumers; it does not import a host powerset, a choice-selected irrational subset, a quotient point equality, or an ambient completeness theorem for the real line.
+
+\begin{definition}[Michael line carrier]
+\label{def:michael-line-carrier}
+A $\MichaelLineUp$ carrier is a finite $\BHist$ packet
+$$
+M=(R,T,D,O,S,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealOrderTopologyUp$ source row, carrying the named real-order intervals and endpoint comparisons available from \autoref{ch:concrete-instances-real-order-topology-namecert}.
+\item $T$ is the $\TopologyUp$ source row, exposing indexed open rows, finite neighbourhood membership reads, and topology closure witnesses from \autoref{ch:concrete-instances-topology-namecert}.
+\item $D$ is the distinguished-row ledger marking the points whose singleton neighbourhood row is admitted by the Michael-line presentation.
+\item $O$ is the ordinary real-order open row used for points outside the distinguished ledger.
+\item $S$ is the $\SierpinskiSpaceUp$ observable-open truth row, recording whether the currently inspected named point is read through the ordinary open row or through the isolated singleton row.
+\item $L$ is the topology handoff row that exports the ordinary and isolated neighbourhood reads back to the indexed open surface of $T$.
+\item $H$ records componentwise $\hsame$ transport for the real-order source, topology source, distinguished ledger, ordinary open row, observable truth row, handoff row, continuation row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from point inspection to distinguished-row lookup, from lookup to observable-open truth, and from observable truth to the topology handoff.
+\item $P$ is the $\Pkg$ provenance over $\MichaelLineUp$, $\RealOrderTopologyUp$, $\TopologyUp$, $\SierpinskiSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MichaelLineUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $R,T,D,O,S,L,H,C,P,N$. It has no coordinate for an ambient powerset of reals, a selected subset outside the distinguished ledger, quotient equality of points, open-cover compactness, real completeness, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Michael line NameCert obligations]
+\label{thm:michael-line-namecert-obligations}
+For an accepted $\MichaelLineUp$ carrier $M=(R,T,D,O,S,L,H,C,P,N)$, the local $\NameCert_{\MichaelLineUp}$ surface has five obligations:
+\begin{enumerate}
+\item carrier exposure for the displayed tuple $R,T,D,O,S,L,H,C,P,N$;
+\item real-order source discipline, requiring ordinary neighbourhood reads to be supplied by $R$ and its interval rows;
+\item distinguished-row discipline, requiring isolated singleton reads to pass through the finite ledger $D$;
+\item observable-open truth, requiring the choice between ordinary and isolated reads to be witnessed by the $\SierpinskiSpaceUp$ row $S$;
+\item topology handoff and non-escape, requiring all exported open rows to pass through $L,H,C,P,N$ without host powersets, selected subsets, quotient point equality, open-cover compactness, real completeness, or a standard bridge.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:michael-line-carrier}. The real-order source $R$ and topology source $T$ are the only ambient sibling rows available to the packet.
+
+For an ordinary point read, the open neighbourhood is supplied by the real-order row $R$ and then routed through the topology handoff $L$. For an isolated read, the distinguished ledger $D$ must first display the singleton neighbourhood row.
+
+The $\SierpinskiSpaceUp$ row $S$ records the observable-open truth value separating those two routes. By \autoref{ch:concrete-instances-sierpinski-space-namecert}, this is a finite classifier read rather than a host-level predicate over all subsets of reals.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same handoff. Since the carrier has no coordinate for host powersets, selected subsets, quotient point equality, open-cover compactness, real completeness, or bridge data, the five obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Michael line Sierpinski topology handoff]
+\label{thm:michael-line-sierpinski-topology-handoff}
+Every accepted $\MichaelLineUp$ topology read reaches the public $\TopologyUp$ surface only after the $\SierpinskiSpaceUp$ observable-open row has selected one of the displayed real-order or isolated-neighbourhood routes. For
+$$
+M=(R,T,D,O,S,L,H,C,P,N),
+$$
+the exported open row is computed through
+$$
+R,D,O,S,H,C,P,N \longrightarrow L \longrightarrow T .
+$$
+No host powerset, choice-selected distinguished subset, quotient point equality, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or standard bridge supplies the handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:michael-line-carrier}. The only routes to a neighbourhood read are the ordinary real-order row $O$ sourced by $R$ and the isolated singleton route sourced by the distinguished ledger $D$.
+
+The observable-open row $S$ is read before the topology handoff. It records which finite route is visible for the inspected point and gives the handoff a displayed $\SierpinskiSpaceUp$ truth row instead of an ambient subset predicate.
+
+The row $L$ then exports the selected route to the indexed open surface $T$ of \autoref{ch:concrete-instances-topology-namecert}. Componentwise transport through $H$ and continuation replay through $C$ preserve the same ordinary-or-isolated decision, while $P$ and $N$ record provenance and local naming.
+
+Thus the handoff is a finite BEDC route through the sibling certificates \autoref{ch:concrete-instances-real-order-topology-namecert}, \autoref{ch:concrete-instances-sierpinski-space-namecert}, and \autoref{ch:concrete-instances-topology-namecert}. The excluded host objects have no carrier coordinate, so they cannot supply topology data to $\MichaelLineUp$.
+\end{proof}
+
+\closureat{MichaelLineUp}{seedStr}
+
+\begin{closurestatus}{\MichaelLineUp}
+  \constructivestory{A $\MichaelLineUp$ packet is generated from displayed real-order topology rows, indexed topology source rows, distinguished singleton rows, observable-open truth, topology handoff, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:michael-line-carrier}, \autoref{thm:michael-line-namecert-obligations}, and \autoref{thm:michael-line-sierpinski-topology-handoff} seed the finite Michael-line boundary over $\RealOrderTopologyUp$, $\TopologyUp$, and $\SierpinskiSpaceUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host powersets, choice-selected subsets, open-cover compactness, quotient point equality, ambient $\RealUp$ completeness, Lean verification, or standard bridges.}
+  \upgradepath{Obligation closure requires checked carrier admission, distinguished-row membership, observable-open truth, topology handoff, transport, replay, provenance, and no-escape for BEDC.Derived.MichaelLineUp.}
+\end{closurestatus}
