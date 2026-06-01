@@ -2939,6 +2939,7 @@ import BEDC.Derived.DecimalExpansionUp.RealSealFactorization
 import BEDC.Derived.DecimalExpansionUp.RealSealNonescape
 import BEDC.Derived.DecimalExpansionUp.RealWindowExhaustion
 import BEDC.Derived.DecimalExpansionUp.RealWindowExhaustionAuditRoute
+import BEDC.Derived.DecimalExpansionUp.RegSeqRatDensityUnblock
 import BEDC.Derived.DecimalExpansionUp.RegSeqRatHandoff
 import BEDC.Derived.DecimalExpansionUp.RegSeqRatPrefixCoverage
 import BEDC.Derived.DecimalExpansionUp.TailDigitStability
@@ -4078,6 +4079,7 @@ import BEDC.Derived.FunctorUp.StdBridge
 import BEDC.Derived.FunctorUp.VisibleMorphismStrictPrefix
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FundamentalGroupUp.TasteGate
+import BEDC.Derived.FundamentalTheoremCalculusUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
 import BEDC.Derived.GaloisExtUp.PublicInterfaceExport
@@ -4346,6 +4348,7 @@ import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperspaceUp.CarrierObligations
+import BEDC.Derived.HyperspaceUp.CauchyUniformNetHandoff
 import BEDC.Derived.HyperspaceUp.CompactCompleteHandoff
 import BEDC.Derived.HyperspaceUp.CompactHausdorffDistanceRoute
 import BEDC.Derived.HyperspaceUp.CompactSourceScope
@@ -4358,6 +4361,7 @@ import BEDC.Derived.HyperspaceUp.FiniteHitDirectedCover
 import BEDC.Derived.HyperspaceUp.FiniteNetCarrierExhaustion
 import BEDC.Derived.HyperspaceUp.FiniteNetHit
 import BEDC.Derived.HyperspaceUp.FiniteVietorisCarrier
+import BEDC.Derived.HyperspaceUp.HausdorffClassifierTransport
 import BEDC.Derived.HyperspaceUp.HausdorffObligationSurface
 import BEDC.Derived.HyperspaceUp.HitMissClassifier
 import BEDC.Derived.HyperspaceUp.HitMissDirectedRefinement
@@ -5490,6 +5494,7 @@ import BEDC.Derived.NormalFamilyUp.TasteGate
 import BEDC.Derived.NormalFormConsistencySealUp
 import BEDC.Derived.NormalFormConsistencySealUp.CandidateRoute
 import BEDC.Derived.NormalFormConsistencySealUp.ContinuationReplay
+import BEDC.Derived.NormalFormConsistencySealUp.LocalNamingBoundary
 import BEDC.Derived.NormalFormConsistencySealUp.ProvenanceExactness
 import BEDC.Derived.NormalSpaceUp
 import BEDC.Derived.NormalSpaceUp.ClosedSetSeparationRoute
@@ -5994,6 +5999,7 @@ import BEDC.Derived.PseudometricUp.LocatedMetricReadiness
 import BEDC.Derived.PseudometricUp.LocatedMetricSourceExhaustion
 import BEDC.Derived.PseudometricUp.ScopedKernelDependencySurface
 import BEDC.Derived.PseudometricUp.SeparatedCompletionSource
+import BEDC.Derived.PseudometricUp.SeparatedQuotientHandoff
 import BEDC.Derived.PseudometricUp.SeparatedReflectionExactness
 import BEDC.Derived.PseudometricUp.SeparatedReflectionKernelSaturation
 import BEDC.Derived.PseudometricUp.SeparatedReflectionSource
