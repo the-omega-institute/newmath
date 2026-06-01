@@ -377,7 +377,7 @@ def validate_conjecture(
             issues.append(f"reality contact not found: {contact}")
     for probe in probes:
         if not _is_id(probe):
-            issues.append(f"probe_refs contains invalid id: {probe}")
+            issues.append(_invalid_id_issue("probe_refs item", probe))
         elif probe not in probe_ids:
             issues.append(f"probe not found: {probe}")
 
@@ -911,6 +911,41 @@ def self_test() -> int:
     if any(f"contact_ref not found: {invalid_contact_id}" in issue for issue in invalid_contact_mismatch["issues"]):
         print(json.dumps(invalid_contact_mismatch_results, indent=2), file=sys.stderr)
         return 1
+    invalid_probe_ref_id = "leu_cun_uur_multi_organism_extension"
+    normalized_probe_ref_id = "leu-cun-uur-multi-organism-extension"
+    invalid_probe_ref_mismatch_results = gate_all(
+        [],
+        [contact],
+        [],
+        [
+            {
+                "mismatch_id": "leu-cun-uur-multi-organism-extension.eight-organism-contact-gap",
+                "probe_ref": invalid_probe_ref_id,
+                "contact_ref": "ncbi.standard.code",
+                "status": "underdetermined",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The packet cites an invalid probe id.",
+                "refinement_pressure": "Normalize the probe id before review.",
+                "blocked_claims": ["Do not review a mismatch against an invalid probe id."],
+                "null_reason": "",
+            }
+        ],
+    )
+    invalid_probe_ref_mismatch = next(
+        result
+        for result in invalid_probe_ref_mismatch_results
+        if result["packet_id"] == "leu-cun-uur-multi-organism-extension.eight-organism-contact-gap"
+    )
+    if invalid_probe_ref_mismatch["gate_status"] != "gate_blocked" or not any(
+        f"probe_ref: invalid id: {invalid_probe_ref_id}" in issue
+        and f"suggested normalized id: {normalized_probe_ref_id}" in issue
+        for issue in invalid_probe_ref_mismatch["issues"]
+    ):
+        print(json.dumps(invalid_probe_ref_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    if any(f"probe_ref not found: {invalid_probe_ref_id}" in issue for issue in invalid_probe_ref_mismatch["issues"]):
+        print(json.dumps(invalid_probe_ref_mismatch_results, indent=2), file=sys.stderr)
+        return 1
     invalid_required_contact_results = gate_all(
         [conjecture],
         [contact],
@@ -964,6 +999,34 @@ def self_test() -> int:
         for issue in result["issues"]
     ):
         print(json.dumps(invalid_conjecture_contact_ref_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_conjecture_probe_ref_results = gate_all(
+        [
+            {
+                **conjecture,
+                "conjecture_id": "codon.code.invalid-probe-ref",
+                "evidence_basis": ["derived_probe"],
+                "probe_refs": [invalid_probe_ref_id],
+            }
+        ],
+        [contact],
+        [],
+        [],
+    )
+    if not any(
+        "probe_refs item: invalid id" in issue
+        and f"suggested normalized id: {normalized_probe_ref_id}" in issue
+        for result in invalid_conjecture_probe_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_probe_ref_results, indent=2), file=sys.stderr)
+        return 1
+    if any(
+        issue == f"probe not found: {invalid_probe_ref_id}"
+        for result in invalid_conjecture_probe_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_probe_ref_results, indent=2), file=sys.stderr)
         return 1
     invalid_conjecture_id = "cross_organism.cun_uur_leu_gate.translation_realization"
     normalized_conjecture_id = "cross-organism.cun-uur-leu-gate.translation-realization"
@@ -1167,7 +1230,54 @@ def self_test() -> int:
             file=sys.stderr,
         )
         return 1
+    conjecture_probe_ref_pattern = (
+        conjecture_schema.get("properties", {}).get("probe_refs", {}).get("items", {}).get("pattern")
+    )
+    if conjecture_probe_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "conjecture.schema.json",
+                    "field": "probe_refs.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_probe_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
     mismatch_schema = json.loads((SCRIPT_DIR / "mismatch.schema.json").read_text(encoding="utf-8"))
+    mismatch_id_pattern = mismatch_schema.get("properties", {}).get("mismatch_id", {}).get("pattern")
+    if mismatch_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "mismatch.schema.json",
+                    "field": "mismatch_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": mismatch_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    mismatch_probe_ref_pattern = mismatch_schema.get("properties", {}).get("probe_ref", {}).get("pattern")
+    if mismatch_probe_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "mismatch.schema.json",
+                    "field": "probe_ref",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": mismatch_probe_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
     mismatch_contact_ref_pattern = mismatch_schema.get("properties", {}).get("contact_ref", {}).get("pattern")
     if mismatch_contact_ref_pattern != ID_PATTERN:
         print(
@@ -1276,6 +1386,21 @@ def self_test() -> int:
                     "field": "probe_id",
                     "expected_pattern": ID_PATTERN,
                     "actual_pattern": probe_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    conjecture_ref_pattern = probe_schema.get("properties", {}).get("conjecture_ref", {}).get("pattern")
+    if conjecture_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "conjecture_ref",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_ref_pattern,
                 },
                 indent=2,
             ),
