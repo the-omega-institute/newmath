@@ -67,10 +67,6 @@ STRENGTHS = ("seed", "paperCert", "checkedCert", "bridgeCert")
 @dataclass(frozen=True)
 class NameCert:
     name: str
-    source_spec: frozenset[Source]
-    pattern_spec: frozenset[Source]
-    classifier_spec: frozenset[tuple[Source, Source]]
-    stability_cert: frozenset[Source]
     ledger_policy: frozenset[LedgerRowKey]
     recorded_rows: frozenset[LedgerRowKey]
     certificate: Mapping[str, object] = field(default_factory=lambda: CERTIFIED)
@@ -78,7 +74,6 @@ class NameCert:
 
 @dataclass(frozen=True)
 class Package:
-    token: str
     source_rows: frozenset[LedgerRowKey]
     recorded_rows: frozenset[LedgerRowKey]
     token_sameness_grounded: bool
@@ -87,12 +82,10 @@ class Package:
 
 @dataclass(frozen=True)
 class EpistemicObject:
-    name: str
     namecert: NameCert
     witness_rows: frozenset[LedgerRowKey]
     strength: str = "paperCert"
     proof_strength_marked: bool = True
-    bare_truth_predicate: bool = False
 
 
 def powerset(values):
@@ -105,10 +98,6 @@ def powerset(values):
 def complete_namecert(*, recorded: frozenset[LedgerRowKey] = NAMECERT_ROWS) -> NameCert:
     return NameCert(
         name="ObjectN",
-        source_spec=frozenset(SOURCES),
-        pattern_spec=frozenset({"h0", "h1"}),
-        classifier_spec=frozenset({("h0", "h0"), ("h0", "h1"), ("h1", "h0"), ("h1", "h1")}),
-        stability_cert=frozenset({"h0", "h1"}),
         ledger_policy=NAMECERT_ROWS,
         recorded_rows=recorded,
     )
@@ -171,7 +160,6 @@ def classifier_passage(*, shifted: bool = True, rows: frozenset[LedgerRowKey] = 
 
 def package(*, recorded: frozenset[LedgerRowKey], grounded: bool = True, quotient: bool = False) -> Package:
     return Package(
-        token="pkg-h0",
         source_rows=frozenset({PACKAGE_ROW, GAP_ROW}),
         recorded_rows=recorded,
         token_sameness_grounded=grounded,
@@ -193,15 +181,12 @@ def knowledge_object(
     witnesses: frozenset[LedgerRowKey] = frozenset({WITNESS_ROW}),
     strength: str = "paperCert",
     marked: bool = True,
-    truth: bool = False,
 ) -> EpistemicObject:
     return EpistemicObject(
-        name="ObjectN",
         namecert=complete_namecert() if cert is None else cert,
         witness_rows=witnesses,
         strength=strength,
         proof_strength_marked=marked,
-        bare_truth_predicate=truth,
     )
 
 
@@ -248,7 +233,10 @@ def test_philosophy_anti_primitive_principle_exhaustive():
     for primitive, fields in product((False, True), powerset(FIELDS)):
         obj = knowledge_object(cert=namecert_with_fields(fields))
         if primitive:
-            assert not licensed_object(obj) or primitive
+            primitive_accepts = fields == frozenset(FIELDS)
+            assert licensed_object(obj) == primitive_accepts
+            if not primitive_accepts:
+                assert not scoped_resolved(scoped_certificate(obj.namecert))
         if not primitive and fields == frozenset(FIELDS):
             assert licensed_object(obj)
         if not primitive and fields != frozenset(FIELDS):
@@ -260,9 +248,10 @@ def test_philosophy_definitions_do_not_create_objects_exhaustive():
     """cor:philosophy-definitions-do-not-create-objects; Lean: BEDC.Meta.DiscoveryCertificate.NameCertFiveRows; primitive: ledger_gap, scoped_resolved."""
     for fields in powerset(FIELDS):
         cert = namecert_with_fields(fields)
-        has_definition_text = True
-        assert has_definition_text
+        definition_text_only = bool(fields)
         assert scoped_resolved(scoped_certificate(cert)) == (fields == frozenset(FIELDS))
+        if definition_text_only and fields != frozenset(FIELDS):
+            assert not scoped_resolved(scoped_certificate(cert))
         if ledger_gap(NAMECERT_ROWS, cert.recorded_rows):
             assert not scoped_resolved(scoped_certificate(cert))
     assert not scoped_resolved(scoped_certificate(namecert_with_fields(frozenset({"source", "pattern"}))))
@@ -329,7 +318,7 @@ def test_philosophy_paper_completion_not_machine_checking_exhaustive():
 def test_philosophy_knowledge_witness_not_bare_truth_exhaustive():
     """thm:philosophy-knowledge-witness-not-bare-truth; Lean: BEDC.FKernel.NameCert.semanticNameCert_pattern_ledger_witness; primitive: ledger_complete, scoped_resolved."""
     for truth, witnesses in product((False, True), powerset((WITNESS_ROW, LEDGER_ROW))):
-        obj = knowledge_object(witnesses=witnesses, truth=truth)
+        obj = knowledge_object(witnesses=witnesses)
         auditable = ledger_complete({WITNESS_ROW}, obj.witness_rows) and scoped_resolved(scoped_certificate(obj.namecert))
         assert auditable == (WITNESS_ROW in witnesses)
         if truth and WITNESS_ROW not in witnesses:
@@ -340,7 +329,7 @@ def test_philosophy_knowledge_witness_not_bare_truth_exhaustive():
 def test_philosophy_truth_meta_certificates_object_layer_exhaustive():
     """cor:philosophy-truth-meta-certificates-object-layer; Lean: BEDC.FKernel.NameCert.SemanticNameCert; primitive: scoped_resolved."""
     for has_cert, has_truth in product((False, True), repeat=2):
-        obj = knowledge_object(cert=complete_namecert() if has_cert else namecert_with_fields(frozenset()), truth=has_truth)
+        obj = knowledge_object(cert=complete_namecert() if has_cert else namecert_with_fields(frozenset()))
         object_layer_consumable = scoped_resolved(scoped_certificate(obj.namecert))
         assert object_layer_consumable == has_cert
         if has_truth and not has_cert:
@@ -481,17 +470,9 @@ def test_philosophy_bedc_epistemology_exhaustive():
 
 def test_philosophy_passage_to_logic_meta_loop_exhaustive():
     """cor:philosophy-passage-to-logic-meta-loop; Lean: BEDC.FKernel.NameCert.carrier_respects_equiv; primitive: ledger_gap, scoped_resolved."""
-    accepted = frozenset(
-        {
-            LedgerRowKey("logic-pattern", "fixed-carrier-contradiction"),
-            LedgerRowKey("logic-pattern", "constructor-no-confusion"),
-            LedgerRowKey("logic-pattern", "witness-preserving-transport"),
-        }
-    )
     for rejected in powerset(REJECTED_LOGIC_ROWS):
-        proof_rows = accepted | rejected
         discipline_preserved = not ledger_gap(REJECTED_LOGIC_ROWS, REJECTED_LOGIC_ROWS - rejected)
         assert discipline_preserved == (not rejected)
         if rejected:
-            assert proof_rows & REJECTED_LOGIC_ROWS
+            assert ledger_gap(REJECTED_LOGIC_ROWS, REJECTED_LOGIC_ROWS - rejected)
     assert scoped_resolved(scoped_certificate(complete_namecert()))
