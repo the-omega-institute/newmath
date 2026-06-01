@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -78,6 +79,18 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
     assert payload["reports"][0]["validation"]["required_key_validation"]["status"] == "pass"
     assert json.loads(index_path.read_text(encoding="utf-8")) == payload
     assert json.loads(summary_path.read_text(encoding="utf-8")) == payload
+
+
+def test_index_root_is_relative_and_host_path_free(tmp_path):
+    payload = canonical._index([])
+    index_path = tmp_path / "index.json"
+    index_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    json_text = index_path.read_text(encoding="utf-8")
+    root = payload.get("root")
+
+    assert root is None or not os.path.isabs(root)
+    assert "/Users/" not in json_text
+    assert ".worktrees" not in json_text
 
 
 def test_missing_artifact_fails_closed(tmp_path):

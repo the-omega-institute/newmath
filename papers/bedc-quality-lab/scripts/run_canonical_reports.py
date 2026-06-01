@@ -20,6 +20,7 @@ if str(ROOT) not in sys.path:
 CANONICAL_DIR = ROOT / "reports" / "canonical"
 INDEX_ARTIFACT = CANONICAL_DIR / "index.json"
 INDEX_SCHEMA_ID = "bedc-quality-lab:canonical-report-index"
+INDEX_ROOT = "papers/bedc-quality-lab"
 
 
 @dataclass(frozen=True)
@@ -178,7 +179,7 @@ def _index(results: Sequence[dict[str, Any]]) -> dict[str, Any]:
     return {
         "schema_id": INDEX_SCHEMA_ID,
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "root": str(ROOT),
+        "root": INDEX_ROOT,
         "reports": list(results),
     }
 
