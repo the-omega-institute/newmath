@@ -57,6 +57,7 @@ def _mirror_branch_default() -> str:
 
 BASE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", default="codex-auto-dev")
 MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", default="auto-dev")
+UPSTREAM_BRANCH = host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", default="dev")
 CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 DEFAULT_INTERVAL = 900  # 15 min
 
@@ -936,6 +937,21 @@ __LOG__
 - **Run ID**: __RUN_ID__
 - **Failing job/step (best guess)**: __JOB__
 
+## Important — the failure may NOT reproduce on this checkout
+
+This run may be a sync-PR / merge-to-upstream gate (head branch
+`auto-dev-sync-*`) whose defect is only `legacy` / non-blocking on THIS branch
+but `new` / BLOCKING in the merge target. Do NOT conclude "nothing to fix" just
+because `make precheck` / `audit` already pass here. **Fix the SPECIFIC defect
+named in the log tail above** (e.g. the unresolved `\\leantarget{X}` /
+`\\leanchecked{X}`, the duplicate label, the undefined macro, the oversized
+`.tex`) regardless of its local blocking status — a `legacy` unresolved marker
+is still a real defect to resolve (drop the marker / downgrade `\\formalstatus`
+to a level that needs no resolving target, or add the missing Lean decl). After
+fixing, the local gates must still pass. Only if, after carefully reading the
+log AND the named files, there is genuinely no defect present in the current
+tree (the run is stale and the defect was already fixed) do you make no commit.
+
 ## Your task
 
 1. Read the log tail above and identify the SINGLE most-load-bearing error.
@@ -1085,66 +1101,86 @@ def _classify_ci_unfixable(log_tail: str) -> str | None:
 
 
 def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
-    """Query GitHub Actions for recently-failed workflow runs on BASE_BRANCH
-    AND the sibling `auto-dev` branch (which receives every codex-auto-dev
-    sync from sync_with_auto_dev.py — CI primarily runs there because
-    `auto-dev` is the durable upstream branch with cache + permissions).
+    """Query GitHub Actions for recently-failed workflow runs across the whole
+    pipeline branch family — not just the two literal integration branch names.
 
-    Returns a list of {run_id, workflow, name, created_at, branch} dicts
-    ordered newest-first. Empty if `gh` CLI is unavailable, no runs in
-    the window failed, or any query error occurred (auto_heal stays
-    passive).
+    Family = the integration branches (`codex-auto-dev` / `auto-dev`), the
+    upstream (`dev`), AND the ephemeral sync-PR branches the sync daemon opens
+    toward upstream (`auto-dev-sync-<ts>` etc., matched by prefix). The two
+    integration branches host the BEDC Build + lake CI; but the sync daemon
+    also opens `auto-dev-sync-*` PRs toward `dev`, and THOSE run the full
+    precheck/PDF/Lean gate under a merge-to-dev change-set. A defect that is
+    only `legacy` (non-blocking) on the integration branch becomes a `new`
+    BLOCKING violation in that merge context, so its failure shows up solely
+    on the sync-PR branch's run. A per-`--branch` query against the two literal
+    names never lists it — so we query repo-wide and keep any run whose head
+    branch is in the family.
+
+    Returns a list of {run_id, workflow, name, created_at, branch} dicts.
+    Empty if `gh` CLI is unavailable, no runs in the window failed, or any
+    query error occurred (auto_heal stays passive).
     """
     if not shutil.which("gh"):
         return []
-    # Probe both branches: codex-auto-dev (integration) + auto-dev (CI host).
-    # bidirectional sync means a fix on codex-auto-dev reaches auto-dev
-    # within 10 min, so healing either side is equivalent.
-    branches_to_probe = [BASE_BRANCH, MIRROR_BRANCH]
+
+    def _in_family(head: str) -> bool:
+        # startswith(BASE_BRANCH) catches codex-auto-dev + any codex-auto-dev-*;
+        # startswith(MIRROR_BRANCH) catches auto-dev + auto-dev-sync-*; plus the
+        # bare upstream branch. This is origin/CI-side branch matching, so a
+        # loose prefix is correct (we never act blindly — heal_ci_failure still
+        # reproduces or branch-gates before dispatching codex).
+        if not head:
+            return False
+        return (
+            head == UPSTREAM_BRANCH
+            or head.startswith(BASE_BRANCH)
+            or head.startswith(MIRROR_BRANCH)
+        )
+
     failures: list[dict] = []
     cutoff = time.time() - window_minutes * 60
-    for branch in branches_to_probe:
+    try:
+        r = run([
+            "gh", "run", "list",
+            "--limit", "80",
+            "--json",
+            "status,conclusion,name,workflowName,databaseId,createdAt,headBranch",
+        ], check=False, capture=True, timeout=60)
+    except Exception:
+        return failures
+    if r.returncode != 0:
+        return failures
+    try:
+        rows = json.loads(r.stdout or "[]")
+    except Exception:
+        return failures
+    import calendar as _calendar
+    for row in rows:
+        if row.get("status") != "completed":
+            continue
+        if row.get("conclusion") != "failure":
+            continue
+        head = row.get("headBranch", "") or ""
+        if not _in_family(head):
+            continue
+        ts = row.get("createdAt", "")
+        # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
+        # time.mktime interprets strptime() output as LOCAL time, so a UTC
+        # timestamp would be read 8h in the past under CST/UTC+8 and dropped
+        # by the cutoff. Use calendar.timegm to parse the UTC timestamp.
         try:
-            r = run([
-                "gh", "run", "list",
-                "--branch", branch,
-                "--limit", "20",
-                "--json", "status,conclusion,name,workflowName,databaseId,createdAt",
-            ], check=False, capture=True, timeout=60)
+            t = _calendar.timegm(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
         except Exception:
+            t = time.time()
+        if t < cutoff:
             continue
-        if r.returncode != 0:
-            continue
-        try:
-            rows = json.loads(r.stdout or "[]")
-        except Exception:
-            continue
-        for row in rows:
-            if row.get("status") != "completed":
-                continue
-            if row.get("conclusion") != "failure":
-                continue
-            ts = row.get("createdAt", "")
-            # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
-            # time.mktime interprets strptime() output as LOCAL time, so a
-            # UTC 07:21 timestamp was being treated as local 07:21 — which
-            # in CST/UTC+8 sits 8h in the past and falls outside any
-            # reasonable cutoff window, silently dropping every failure.
-            # Use calendar.timegm to parse the UTC timestamp correctly.
-            import calendar as _calendar
-            try:
-                t = _calendar.timegm(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
-            except Exception:
-                t = time.time()
-            if t < cutoff:
-                continue
-            failures.append({
-                "run_id": int(row.get("databaseId", 0)),
-                "workflow": row.get("workflowName", "?"),
-                "name": row.get("name", "?"),
-                "created_at": ts,
-                "branch": branch,
-            })
+        failures.append({
+            "run_id": int(row.get("databaseId", 0)),
+            "workflow": row.get("workflowName", "?"),
+            "name": row.get("name", "?"),
+            "created_at": ts,
+            "branch": head,
+        })
     return failures
 
 
@@ -1178,6 +1214,7 @@ def heal_ci_failure(failure: dict) -> bool:
         _ci_mark_failed_attempt(run_id, failure, "empty CI log")
         return False
     unfixable = _classify_ci_unfixable(log_tail)
+    capacity_hint = ""
     if unfixable:
         payload = dict(failure)
         payload.update({
@@ -1191,10 +1228,22 @@ def heal_ci_failure(failure: dict) -> bool:
             category=unfixable,
             details=payload,
             cooldown_count=0,
-            note="CI 日志显示 TeX 引擎容量限制，codex 修改章节内容无法修复",
+            note="CI 日志显示 TeX 引擎容量限制；改为尝试抬高引擎容量配置（非章节内容）修复",
         )
-        _mark_ci_seen(run_id)
-        return False
+        # Do NOT give up: a TeX-capacity failure is fixable by raising the
+        # engine capacity knobs (config), not by editing chapter content.
+        # Append a capacity-specific instruction and fall through to the
+        # codex dispatch instead of marking seen and returning.
+        capacity_hint = (
+            "\n\n## 引擎容量超限（本次失败的根因）\n"
+            "日志显示 TeX 引擎容量超限（pool_size / main_memory / max_strings / "
+            "save_size / hash size / buffer 等之一）。优先**抬高引擎容量配置**而非删改"
+            "章节内容：编辑 `papers/bedc/Makefile` 与/或 `.github/workflows/"
+            "reusable-pdf.yml` 里传给 pdflatex 的容量参数（texmf.cnf 覆盖或环境变量，"
+            "如 pool_size / main_memory / max_strings / save_size），把超限的那项调高"
+            "到下一档。仅当日志明显是 runaway argument / 宏无限展开时，才转去定位并修"
+            "那个失控宏。不要为绕开容量而删除章节。\n"
+        )
     # Reproduce-on-BASE guard: do NOT dispatch a CI heal for a failure that
     # no longer reproduces on the current BASE. The CI-heal misfires observed
     # in practice are all non-reproducing: (a) STALE runs created before a fix
@@ -1207,13 +1256,26 @@ def heal_ci_failure(failure: dict) -> bool:
     # alert, burning a codex dispatch per cycle for nothing. Verify the current
     # BASE first; if it is already clean the GitHub run is stale -> mark seen
     # and skip. Only a failure that genuinely reproduces locally gets a heal.
-    repro_ok, _repro_err = verify_local_ci()
-    if repro_ok:
-        print(f"[heal] CI run {run_id} failure does not reproduce on current "
-              f"BASE (stale / noisy-red / external-churn); marking seen, "
-              f"skipping heal", file=sys.stderr, flush=True)
-        _mark_ci_seen(run_id)
-        return False
+    # SCOPE: this stale-skip applies ONLY to failures on the integration
+    # branches (codex-auto-dev / auto-dev), where the BEDC Build workflow
+    # rebuilds every mirrored SHA and a since-corrected SHA reports a stale
+    # failure. Sync-PR branches (auto-dev-sync-*) and the upstream run the gate
+    # in a merge-to-dev change-set: a BASE `legacy` (non-blocking) defect
+    # becomes a `new` BLOCKING violation there, so it legitimately does NOT
+    # reproduce on the narrow BASE `make precheck` yet is a real defect — heal
+    # it from the log. Engine-capacity failures (unfixable set) are
+    # deterministic config limits, not noisy-red SHA artifacts, so they also
+    # bypass the stale-skip.
+    branch = failure.get("branch", "")
+    is_integration = branch in (BASE_BRANCH, MIRROR_BRANCH)
+    if is_integration and not unfixable:
+        repro_ok, _repro_err = verify_local_ci()
+        if repro_ok:
+            print(f"[heal] CI run {run_id} failure does not reproduce on current "
+                  f"BASE (stale / noisy-red / external-churn); marking seen, "
+                  f"skipping heal", file=sys.stderr, flush=True)
+            _mark_ci_seen(run_id)
+            return False
     # Best-effort job guess: first line matching `<job>\t<step>\t...`.
     job_guess = "?"
     for line in log_tail.splitlines()[:5]:
@@ -1226,6 +1288,7 @@ def heal_ci_failure(failure: dict) -> bool:
               .replace("__WORKFLOW__", failure.get("workflow", "?"))
               .replace("__RUN_ID__", str(run_id))
               .replace("__JOB__", job_guess))
+    prompt += capacity_hint
     signature = _ci_fix_signature(log_tail, failure)
     if _recurring_fix_loop(signature, "CI fix", failure):
         _ci_mark_failed_attempt(run_id, failure, "recurring CI fix loop")
@@ -2248,6 +2311,108 @@ def heal_stale_index_lock() -> bool:
     return True
 
 
+def _stash_dirt_recoverable(tag: str) -> bool:
+    """Stash tracked+untracked dirt into a recoverable stash (never destroyed).
+    Uses run(check=False) so a stash returning rc!=0 does NOT crash the cycle —
+    the raising git() wrapper stranded the checkout once already."""
+    r = run(["git", "stash", "push", "-u", "-m",
+             f"auto_heal {tag} {os.getpid()}"], check=False, capture=True)
+    if r.returncode != 0:
+        out = ((r.stdout or "") + (r.stderr or ""))[-200:]
+        print(f"[heal] stash push failed (rc={r.returncode}): {out}",
+              file=sys.stderr)
+        return False
+    return True
+
+
+def _tracked_blocking(porcelain: str) -> list[str]:
+    """Tracked modifications that block a clean heal. Untracked (`??`) and the
+    autotune-owned `.pipeline_parallel.json` are tolerated."""
+    blocking = []
+    for raw in porcelain.splitlines():
+        if not raw:
+            continue
+        if raw[:2] == "??":
+            continue
+        path = raw[3:] if len(raw) > 3 else ""
+        if path == ".pipeline_parallel.json":
+            continue
+        blocking.append(raw)
+    return blocking
+
+
+def _prepare_clean_base_checkout() -> bool:
+    """Bring the main checkout to a healable state: on BASE_BRANCH and not
+    blocked by a dirty tree. Returns True when ready, False to skip this tick.
+
+    Replaces the old 'skip when stranded / skip when dirty' guards that let a
+    crashed sync (which left the checkout on the mirror branch with a dirty
+    tree) silence auto_heal indefinitely. '不被 dirty 污染':
+      - stranded off BASE -> stash dirt recoverably, then checkout BASE;
+      - dirty tracked tree -> stash recoverably and PROCEED this tick (nothing
+        is destroyed; the stash stays on the stack for recovery);
+      - the SAME dirt persisting >= STUCK_DIRT_THRESHOLD_TICKS (a generator
+        keeps re-dirtying it) -> escalate to codex root-cause triage instead of
+        piling up stashes (stash pileup was the engine behind a 394-deep stack).
+    """
+    # 1. Recover from a stranded branch.
+    try:
+        cur = git("rev-parse", "--abbrev-ref", "HEAD", capture=True).stdout.strip()
+    except Exception as e:
+        print(f"[heal] cannot read branch: {e}", file=sys.stderr)
+        return False
+    if cur != BASE_BRANCH:
+        print(f"[heal] stranded on {cur}; recovering to {BASE_BRANCH}",
+              file=sys.stderr)
+        porcelain = git("status", "--porcelain", capture=True).stdout
+        if _tracked_blocking(porcelain) and not _stash_dirt_recoverable("strand-recover"):
+            return False
+        r = run(["git", "checkout", BASE_BRANCH], check=False, capture=True)
+        if r.returncode != 0:
+            out = ((r.stdout or "") + (r.stderr or ""))[-200:]
+            print(f"[heal] checkout {BASE_BRANCH} failed: {out}", file=sys.stderr)
+            return False
+        print(f"[heal] recovered onto {BASE_BRANCH}", flush=True)
+    # 2. Handle a dirty tree without blocking the heal.
+    porcelain = git("status", "--porcelain", capture=True).stdout
+    derived_blocking = untracked_derived_dirs(porcelain)
+    if derived_blocking:
+        log_heal_alert(
+            category="UNTRACKED_DERIVED_DIRT",
+            details={"dirs": derived_blocking[:20]},
+            cooldown_count=0,
+            note="主 checkout 存在未跟踪 Derived 目录，本 tick 跳过避免污染工作树",
+        )
+        return False
+    blocking = _tracked_blocking(porcelain)
+    if not blocking:
+        _write_stuck_dirt_state(0, frozenset())
+        return True
+    dirt_set = frozenset(blocking)
+    stuck_count, prev_set = _read_stuck_dirt_state()
+    stuck_count = stuck_count + 1 if dirt_set == prev_set else 1
+    _write_stuck_dirt_state(stuck_count, dirt_set)
+    if stuck_count >= STUCK_DIRT_THRESHOLD_TICKS:
+        print(f"[heal] dirt persisted {stuck_count} tick(s); codex root-cause "
+              f"triage of {len(blocking)} file(s)", file=sys.stderr)
+        for b in blocking[:5]:
+            print(f"[heal]   {b}", file=sys.stderr)
+        if heal_stuck_dirt(blocking):
+            verify_then_push("stuck dirt")
+            _write_stuck_dirt_state(0, frozenset())
+        # Triage consumed this tick; heal CI next tick on a clean tree.
+        return False
+    # First sight of this dirt: stash recoverably and proceed THIS tick so a
+    # dirty tree never blocks CI healing.
+    print(f"[heal] {len(blocking)} tracked modification(s); stashing recoverably "
+          f"and proceeding", file=sys.stderr)
+    for b in blocking[:3]:
+        print(f"[heal]   {b}", file=sys.stderr)
+    if not _stash_dirt_recoverable("cycle-dirt"):
+        return False
+    return True
+
+
 def cycle() -> None:
     """One healing cycle: fetch, audit, heal if needed, push."""
     _reset_act_verify_cache()
@@ -2262,15 +2427,11 @@ def cycle() -> None:
         heal_stale_index_lock()
     except Exception as exc:
         print(f"[heal] heal_stale_index_lock crashed: {exc}", file=sys.stderr)
-    # Always work on codex-auto-dev (or skip if not).
-    try:
-        cur = git("rev-parse", "--abbrev-ref", "HEAD", capture=True).stdout.strip()
-    except Exception as e:
-        print(f"[heal] cannot read branch: {e}", file=sys.stderr)
-        return
-    if cur != BASE_BRANCH:
-        print(f"[heal] not on {BASE_BRANCH} (on {cur}); skipping cycle",
-              file=sys.stderr)
+    # Make the checkout healable instead of skipping: recover from a stranded
+    # branch and stash any dirt recoverably. '不被 dirty 污染' — a dirty tree or
+    # a stranded branch must NOT silence healing (that exact wedge muted
+    # auto_heal for hours after a crashed sync left the checkout on the mirror).
+    if not _prepare_clean_base_checkout():
         return
     # A stale `.git/index.lock` from a crashed git process blocks every
     # orchestrator merge (_sync_local_with_origin checkout) and this cycle's
@@ -2294,67 +2455,6 @@ def cycle() -> None:
     except Exception as exc:
         print(f"[heal] cooldown_analysis_phase crashed: {exc}",
               file=sys.stderr)
-    # Skip if working tree has TRACKED modifications, UNLESS the same
-    # dirt has been stuck for ≥ STUCK_DIRT_THRESHOLD_TICKS consecutive
-    # cycles. Untracked files (`?? path`) are tolerated.
-    # `.pipeline_parallel.json` is also tolerated (autotune rewrites
-    # every 300s; codex never touches it).
-    porcelain = git("status", "--porcelain", capture=True).stdout
-    derived_blocking = untracked_derived_dirs(porcelain)
-    if derived_blocking:
-        log_heal_alert(
-            category="UNTRACKED_DERIVED_DIRT",
-            details={"dirs": derived_blocking[:20]},
-            cooldown_count=0,
-            note="主 checkout 存在未跟踪 Derived 目录，本 tick 不执行会污染工作树的操作",
-        )
-        return
-    blocking = []
-    for raw in porcelain.splitlines():
-        if not raw:
-            continue
-        status = raw[:2]
-        path = raw[3:] if len(raw) > 3 else ""
-        if status == "??":
-            continue
-        if path == ".pipeline_parallel.json":
-            continue
-        blocking.append(raw)
-    if blocking:
-        # Check if same dirt has been stuck across consecutive ticks.
-        # If so, invoke codex to triage (commit-or-revert each file).
-        dirt_set = frozenset(blocking)
-        stuck_count, prev_set = _read_stuck_dirt_state()
-        if dirt_set == prev_set:
-            stuck_count += 1
-        else:
-            stuck_count = 1
-        _write_stuck_dirt_state(stuck_count, dirt_set)
-
-        if stuck_count >= STUCK_DIRT_THRESHOLD_TICKS:
-            print(f"[heal] working tree dirt stuck for {stuck_count} tick(s); "
-                  f"invoking codex to triage {len(blocking)} file(s)",
-                  file=sys.stderr)
-            for b in blocking[:5]:
-                print(f"[heal]   {b}", file=sys.stderr)
-            if heal_stuck_dirt(blocking):
-                verify_then_push("stuck dirt")
-                _write_stuck_dirt_state(0, frozenset())
-                return
-            else:
-                print(f"[heal] codex could not resolve stuck dirt; "
-                      f"will retry next tick", file=sys.stderr)
-                return
-        else:
-            print(f"[heal] working tree has {len(blocking)} tracked modification(s); "
-                  f"skipping cycle (stuck tick {stuck_count}/{STUCK_DIRT_THRESHOLD_TICKS})",
-                  file=sys.stderr)
-            for b in blocking[:3]:
-                print(f"[heal]   {b}", file=sys.stderr)
-            return
-    else:
-        # Tree clean; reset stuck-dirt counter.
-        _write_stuck_dirt_state(0, frozenset())
     # Fetch and try ff.
     acquire_push_lock = import_push_lock()
     try:
