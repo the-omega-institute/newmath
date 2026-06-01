@@ -28,6 +28,20 @@ completeness, the real-side read inherits only the displayed BEDC lattice
 surface.
 \end{proof}
 
+\begin{theorem}[IntUp dyadic real mantissa route]
+\label{thm:int-dyadic-real-mantissa-route}
+Every L10 consumer that reads an $\IntUp$ signed-pair coordinate as a $\DyadicRatCoreUp$ mantissa for $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ must pass through $\NatUp$, $\AddUp$, $\RatUp$ denominator normalization, $\DyadicRatCoreUp$ signed-exponent source determinacy, and the finite BEDC source uniqueness rows. The handoff exports a finite signed dyadic source only; it exports no host integer equality, quotient rational representative, primitive subtraction, selected limit, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:int-dyadic-mantissa-real-route}. It forces every Real-and-Completion mantissa read through the $\NatUp$, $\AddUp$, $\RatUp$, and $\DyadicRatCoreUp$ chapter surfaces before a downstream seal can inspect it.
+
+Apply \autoref{thm:int-dyadic-mantissa-zero-sign-normalization}. This places the signed-pair zero boundary before rational denominator normalization and before the dyadic mantissa route, so the written sign convention is already part of the finite source row.
+
+Now use \autoref{thm:int-dyadic-mantissa-l10-source-uniqueness} together with \autoref{thm:int-dyadicratcore-denominator-route-sibling-repair}, \autoref{thm:int-dyadicratcore-l10-denominator-handoff}, and \autoref{thm:dyadicratcore-scoped-source-boundary}. These rows bind the signed-pair source, rational denominator normalization, and dyadic signed-exponent determinacy before $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ can consume the coordinate.
+
+The resulting handoff is therefore a finite BEDC source route. Since the route contains no coordinate for host integer equality, quotient rational representatives, primitive subtraction, selected limits, or real completeness, none of those objects is exported to the L10 consumer.
+\end{proof}
+
 \begin{theorem}[IntUp dyadic mantissa zero-sign normalization]
 \label{thm:int-dyadic-mantissa-zero-sign-normalization}
 Every Real-and-Completion read that uses an $\IntUp$ signed-pair coordinate as
