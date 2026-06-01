@@ -1829,6 +1829,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPublicExport
 import BEDC.Derived.CauchyfiltercompletionUp.ChoicefreeCompletionRow
 import BEDC.Derived.CauchyfiltercompletionUp.CofinalRegularReadback
 import BEDC.Derived.CauchyfiltercompletionUp.CompletionFunctorFactorization
+import BEDC.Derived.CauchyfiltercompletionUp.CompletionHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.FilterConvergenceHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseAdmission
 import BEDC.Derived.CauchyfiltercompletionUp.FilterbaseHandoff
@@ -3439,6 +3440,7 @@ import BEDC.Derived.DyadicTailRadiusLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceScaleUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
+import BEDC.Derived.DyadicTotallyBoundedIntervalUp
 import BEDC.Derived.DyadicUp.TasteGate
 import BEDC.Derived.DyadicValuationUp
 import BEDC.Derived.DyadicValuationUp.TasteGate
