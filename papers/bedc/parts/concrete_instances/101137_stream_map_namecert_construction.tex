@@ -119,6 +119,20 @@ Apply the same theorem to the second carrier with that intermediate window servi
 Thus the composed route is the concatenation of the two finite-window routes. It reaches the regular rational handoff, dyadic ledger, or Real seal only after the first source window, first point-map row, intermediate window, second point-map row, and final target window have all been displayed.
 \end{proof}
 
+\begin{theorem}[Stream map pointwise composition]
+\label{thm:stream-map-pointwise-composition}
+Let $M_1$ and $M_2$ be accepted $\StreamMapUp$ carriers whose first target $\StreamNameUp$ window is the second source $\StreamNameUp$ window. Every $\RealUp$-facing consumer of the pointwise composite must read the first source window, the first point-map row, the intermediate target window, the second point-map row, the final target window, the shared $\DyadicRatCoreUp$ tolerance ledger, and the $\RegSeqRatUp$ handoff before any terminal Real seal is available.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:stream-map-finite-window-functoriality} to $M_1$. The first source window is opened through the first source $\StreamNameUp$ row, the first point-map row consumes only those displayed cells, and the intermediate target window is exposed as a finite $\StreamNameUp$ row.
+
+Apply \autoref{thm:stream-map-finite-window-functoriality} again to $M_2$. The second point-map row reads the same intermediate window as its source and exposes only the final displayed target window.
+
+Now use \autoref{thm:stream-map-composition-window-route}. It concatenates the two finite-window routes, so the composite can reach a downstream consumer only after both point-map rows and both source/target window boundaries are visible.
+
+Finally apply \autoref{thm:stream-map-tail-ledger-nonescape}. The dyadic tolerance ledger and $\RegSeqRatUp$ handoff remain downstream of the displayed windows, and the terminal Real seal cannot import host function extensionality, quotient streams, selected limits, countable choice, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[Stream map tail-window determinacy]
 \label{thm:stream-map-tail-window-determinacy}
 For an accepted $\StreamMapUp$ carrier $M=(S,T,F,W,Q,D,R,H,C,P,N)$, any $\RegSeqRatUp$ or $\RealUp$ consumer of the mapped stream must first read the same source $\StreamNameUp$ row $S$, point-map row $F$, target $\StreamNameUp$ row $T$, output-window row $W$, and $\DyadicRatCoreUp$ tolerance ledger $D$ fixed by the finite-window route. If two consumer reads agree on those rows, then they agree on the exposed tail-window handoff $Q$ before either terminal Real seal $R$ is read.
