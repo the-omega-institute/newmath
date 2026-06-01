@@ -1854,6 +1854,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.NonChoiceBoundary
 import BEDC.Derived.CauchyfiltercompletionUp.PublicNameCertExport
 import BEDC.Derived.CauchyfiltercompletionUp.PvariationWindowBound
 import BEDC.Derived.CauchyfiltercompletionUp.QuotientNonescape
+import BEDC.Derived.CauchyfiltercompletionUp.RealSealChoiceFreeTailTotality
 import BEDC.Derived.CauchyfiltercompletionUp.RealSealHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.RealSealNonescape
 import BEDC.Derived.CauchyfiltercompletionUp.RealSealRefusal
@@ -2080,6 +2081,7 @@ import BEDC.Derived.ClosedIntervalCompactNetUp.TasteGate
 import BEDC.Derived.ClosedIntervalFiniteIntersectionUp.TasteGate
 import BEDC.Derived.ClosedIntervalNestingUp.TasteGate
 import BEDC.Derived.ClosedIntervalTotalBoundedUp.TasteGate
+import BEDC.Derived.ClosedLamDomainSubjectReductionUp.TasteGate
 import BEDC.Derived.ClosedMetricBallUp.TasteGate
 import BEDC.Derived.ClosedNormalCanonicityUp.TasteGate
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
@@ -4366,6 +4368,7 @@ import BEDC.Derived.HyperspaceUp.CompactHausdorffDistanceRoute
 import BEDC.Derived.HyperspaceUp.CompactSourceScope
 import BEDC.Derived.HyperspaceUp.CompactSubsetRootAdmission
 import BEDC.Derived.HyperspaceUp.CompleteMetricCauchyLift
+import BEDC.Derived.HyperspaceUp.CompleteMetricHandoff
 import BEDC.Derived.HyperspaceUp.CompleteMetricNonescape
 import BEDC.Derived.HyperspaceUp.FiniteCoverLedger
 import BEDC.Derived.HyperspaceUp.FiniteHausdorffCarrier
