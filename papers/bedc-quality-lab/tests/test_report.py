@@ -33,3 +33,34 @@ def test_report_projection_uses_envelope_values():
     assert "gap-from-envelope" in report
     assert "debt-from-envelope" in report
     assert "reports/example_envelope.json" in report
+
+
+def test_report_includes_cost_protocol_section():
+    envelope = QualityEvidenceEnvelope(
+        schema_id=SCHEMA_ID,
+        run_id="protocol-projection-test",
+        source_spec={"name": "source-from-envelope"},
+        pattern_spec={"name": "pattern-from-envelope"},
+        classifier_spec={"name": "classifier-from-envelope"},
+        stability_spec={"name": "stability-from-envelope"},
+        metrics={
+            "quality_benefit": 0.3333333,
+            "quality_cost": 0.0444444,
+            "quality_debt": 0.1111111,
+            "quality_q": 0.1777778,
+        },
+    )
+
+    report = render_quality_report(envelope)
+
+    assert "## Cost Protocol" in report
+    assert "bedc-quality-lab-default-cost-protocol" in report
+    assert "`source/source-coverage`: 0.180000" in report
+    assert "`source/mixing-family-coverage`: 0.220000" in report
+    assert "`source/finite-sample-support`: 0.200000" in report
+    assert "`classifier/optimizer-certificate`: 0.200000" in report
+    assert "`generalization/global-claim-boundary`: 0.200000" in report
+    assert "`quality_q` = `quality_benefit - quality_cost - quality_debt`" in report
+    assert "`outside-declared-scope`" in report
+    assert "`untested-source-families`" in report
+    assert "`unproved-global-generalization`" in report

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from .cost_protocol import CostProtocol, format_cost_protocol_lines, load_cost_protocol
 from .schema import QualityEvidenceEnvelope
 
 
@@ -11,8 +12,9 @@ def _format_metric(value: float) -> str:
     return f"{value:.6f}"
 
 
-def render_quality_report(envelope: QualityEvidenceEnvelope) -> str:
+def render_quality_report(envelope: QualityEvidenceEnvelope, protocol: CostProtocol | None = None) -> str:
     metrics = envelope.metrics
+    cost_protocol = load_cost_protocol() if protocol is None else protocol
     lines = [
         "# BEDC Model Quality Lab 报告",
         "",
@@ -35,6 +37,9 @@ def render_quality_report(envelope: QualityEvidenceEnvelope) -> str:
         lines.extend(["", "## Q 投影", ""])
         for key in quality_keys:
             lines.append(f"- `{key}`：{_format_metric(metrics[key])}")
+
+    lines.extend(["", "## Cost Protocol", ""])
+    lines.extend(format_cost_protocol_lines(cost_protocol))
 
     lines.extend(["", "## Ledger gaps", ""])
     if envelope.ledger_gaps:
@@ -61,7 +66,11 @@ def render_quality_report(envelope: QualityEvidenceEnvelope) -> str:
     return "\n".join(lines) + "\n"
 
 
-def write_quality_report(envelope: QualityEvidenceEnvelope, path: str | Path) -> None:
+def write_quality_report(
+    envelope: QualityEvidenceEnvelope,
+    path: str | Path,
+    protocol: CostProtocol | None = None,
+) -> None:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(render_quality_report(envelope), encoding="utf-8")
+    target.write_text(render_quality_report(envelope, protocol=protocol), encoding="utf-8")
