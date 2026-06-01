@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\TypedGalleryContextProbeUp$}
+\label{ch:concrete-instances-typed-gallery-context-probe-namecert}
+\origin{ai}
+
+The $\TypedGalleryContextProbeUp$ packet realizes the typed-example context surface of \autoref{ch:metacic-typedexamples-audit-map} as finite NameCert data. It reads the gallery's sort-indexed contexts, Pi forms, applications, beta redexes, and Church examples as displayed rows rather than as an ambient test suite. The packet is a context probe for decidability and subject-reduction audit consumers; it does not prove global typechecking completeness, subject reduction, confluence, normalization, or conversion decidability.
+
+\begin{definition}[Typed gallery context-probe carrier]
+\label{def:typed-gallery-context-probe-carrier}
+A $\TypedGalleryContextProbeUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,B,A,R,C,K,D,Q,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the sort-indexed context row, listing the contexts used by the gallery examples.
+\item $B$ is the binder-shape row for Pi forms, shifted variables, dependent identity examples, and polymorphic identity examples.
+\item $A$ is the application row for ordinary applications, application tails, and projected applications.
+\item $R$ is the beta-redex row for the displayed reductions used by the gallery.
+\item $C$ is the Church-example row for booleans, natural numbers, pairs, options, lists, sums, and equality examples.
+\item $K$ is the checker-read row consumed by the MetaCIC decidability boundary and bounded typechecking budget surfaces.
+\item $D$ is the discharge-facing row consumed by the substitution spine and subject-reduction boundary surfaces.
+\item $Q$ records the boundary refusal: the probe supplies typed context data but does not supply a global preservation theorem.
+\item $H$ records componentwise $\hsame$ transport for gallery rows and structural rows.
+\item $T$ records displayed $\Cont$ replay from the typed gallery audit map through $S,B,A,R,C,K,D,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\TypedGalleryContextProbeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows together with the MetaCIC typed-gallery audit surface.
+\item $N$ is the local $\NameCert_{\TypedGalleryContextProbeUp}$ row.
+\end{enumerate}
+The classifier compares accepted probes only through $S,B,A,R,C,K,D,Q,H,T,P,N$. It has no coordinate for unrestricted typechecking completeness, unconditional subject reduction, global substitution soundness, confluence, normalization, conversion decidability, or a hidden checker oracle.
+\end{definition}
+
+\begin{theorem}[Typed gallery context-probe NameCert obligations]
+\label{thm:typed-gallery-context-probe-namecert-obligations}
+For every accepted $\TypedGalleryContextProbeUp$ carrier $G=(S,B,A,R,C,K,D,Q,H,T,P,N)$, the local $\NameCert_{\TypedGalleryContextProbeUp}$ surface consists exactly of sort-context admission, binder-shape admission, application admission, beta-redex admission, Church-example admission, checker-read exposure, discharge-facing exposure, boundary refusal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The proof-search and typechecking consumers receive a finite gallery probe, not an unrestricted metatheorem.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $G=(S,B,A,R,C,K,D,Q,H,T,P,N)$. The rows $S,B,A,R,C$ are the gallery-facing coordinates, so they give the only admitted context, binder, application, beta, and Church-example data.
+
+The consumer-facing rows are $K,D,Q$. The checker-read row $K$ is the route to decidability and bounded typechecking budget consumers, while $D$ is the route to substitution-spine and subject-reduction boundary consumers. The refusal row $Q$ records that these routes do not close the global metatheorems.
+
+Finally $H,T,P,N$ transport, replay, source, and name the same finite probe. Since no hidden checker oracle or unrestricted theorem coordinate is present, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Typed gallery context-probe binder handoff]
+\label{thm:typed-gallery-context-probe-binder-handoff}
+Every decidability, substitution-spine, or subject-reduction audit consumer of an accepted $\TypedGalleryContextProbeUp$ carrier receives binder data only through the route
+$$
+S,B,A,R,C
+\longmapsto
+K,D,Q
+\longmapsto
+\hsame,\Cont,\Pkg,\NameCert .
+$$
+In particular, sort-indexed contexts and Pi/application examples are exposed before the checker-read and discharge-facing rows are consumed.
+\end{theorem}
+\begin{proof}
+Start with $S$ and $B$. These rows display the sort-indexed contexts and binder shapes before any checker or discharge request is available.
+
+Read $A,R,C$ next. Application forms, beta redexes, and Church examples become probe data only as listed gallery rows, so the consumer cannot appeal to an ambient collection of examples.
+
+The handoff then passes through $K,D,Q$. The checker-facing row and discharge-facing row are both guarded by the refusal row, which prevents the probe from being read as a proof of global subject reduction or global decidability.
+
+Finally $H,T,P,N$ preserve the same route for replay and naming. Thus binder-sensitive audit consumers receive finite context probes with explicit boundaries.
+\end{proof}
+
+\falsifiablePrediction{A $\TypedGalleryContextProbeUp$ read is refuted if a typed-gallery, metacic-decidable-boundary, bounded-typechecking-budget, metacic-substitution-spine, or metacic-subject-reduction-boundary consumer obtains checker or discharge data without first displaying sort-context, binder-shape, application, beta-redex, Church-example, refusal, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{typed-gallery, metacic-decidable-boundary, bounded-typechecking-budget, metacic-substitution-spine, metacic-subject-reduction-boundary: none is bijective with $\TypedGalleryContextProbeUp$ because this packet jointly carries sort contexts, binder shapes, application forms, beta redexes, Church examples, checker-read data, discharge-facing data, refusal, transport, replay, provenance, and local NameCert.}
+
+The Lean TasteGate work for $\TypedGalleryContextProbeUp$ must provide $\mathsf{Nontrivial}\ \TypedGalleryContextProbeUp$ and $\mathsf{FieldFaithful}\ \TypedGalleryContextProbeUp$ instances preserving $S,B,A,R,C,K,D,Q,H,T,P,N$ as distinguishable rows.
+
+\closureat{TypedGalleryContextProbeUp}{seedStr}
+
+\begin{closurestatus}{\TypedGalleryContextProbeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:typed-gallery-context-probe-carrier}, \autoref{thm:typed-gallery-context-probe-namecert-obligations}, and \autoref{thm:typed-gallery-context-probe-binder-handoff} seed the finite typed-gallery context probe from sort contexts and binder rows through checker and discharge-facing boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global typechecking completeness, subject reduction, confluence, normalization, conversion decidability, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sort-context exposure, binder-shape exposure, application and beta-redex exposure, Church-example exposure, checker-read routing, discharge-facing routing, boundary refusal, Nontrivial and FieldFaithful TasteGate instances, transport, replay, provenance, and local naming for BEDC.Derived.TypedGalleryContextProbeUp.}
+  \constructivestory{A $\TypedGalleryContextProbeUp$ packet is generated from sort-indexed context rows, binder-shape rows, application rows, beta-redex rows, Church-example rows, checker-read rows, discharge-facing rows, boundary refusal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
