@@ -937,6 +937,21 @@ __LOG__
 - **Run ID**: __RUN_ID__
 - **Failing job/step (best guess)**: __JOB__
 
+## Important — the failure may NOT reproduce on this checkout
+
+This run may be a sync-PR / merge-to-upstream gate (head branch
+`auto-dev-sync-*`) whose defect is only `legacy` / non-blocking on THIS branch
+but `new` / BLOCKING in the merge target. Do NOT conclude "nothing to fix" just
+because `make precheck` / `audit` already pass here. **Fix the SPECIFIC defect
+named in the log tail above** (e.g. the unresolved `\\leantarget{X}` /
+`\\leanchecked{X}`, the duplicate label, the undefined macro, the oversized
+`.tex`) regardless of its local blocking status — a `legacy` unresolved marker
+is still a real defect to resolve (drop the marker / downgrade `\\formalstatus`
+to a level that needs no resolving target, or add the missing Lean decl). After
+fixing, the local gates must still pass. Only if, after carefully reading the
+log AND the named files, there is genuinely no defect present in the current
+tree (the run is stale and the defect was already fixed) do you make no commit.
+
 ## Your task
 
 1. Read the log tail above and identify the SINGLE most-load-bearing error.
@@ -2296,6 +2311,108 @@ def heal_stale_index_lock() -> bool:
     return True
 
 
+def _stash_dirt_recoverable(tag: str) -> bool:
+    """Stash tracked+untracked dirt into a recoverable stash (never destroyed).
+    Uses run(check=False) so a stash returning rc!=0 does NOT crash the cycle —
+    the raising git() wrapper stranded the checkout once already."""
+    r = run(["git", "stash", "push", "-u", "-m",
+             f"auto_heal {tag} {os.getpid()}"], check=False, capture=True)
+    if r.returncode != 0:
+        out = ((r.stdout or "") + (r.stderr or ""))[-200:]
+        print(f"[heal] stash push failed (rc={r.returncode}): {out}",
+              file=sys.stderr)
+        return False
+    return True
+
+
+def _tracked_blocking(porcelain: str) -> list[str]:
+    """Tracked modifications that block a clean heal. Untracked (`??`) and the
+    autotune-owned `.pipeline_parallel.json` are tolerated."""
+    blocking = []
+    for raw in porcelain.splitlines():
+        if not raw:
+            continue
+        if raw[:2] == "??":
+            continue
+        path = raw[3:] if len(raw) > 3 else ""
+        if path == ".pipeline_parallel.json":
+            continue
+        blocking.append(raw)
+    return blocking
+
+
+def _prepare_clean_base_checkout() -> bool:
+    """Bring the main checkout to a healable state: on BASE_BRANCH and not
+    blocked by a dirty tree. Returns True when ready, False to skip this tick.
+
+    Replaces the old 'skip when stranded / skip when dirty' guards that let a
+    crashed sync (which left the checkout on the mirror branch with a dirty
+    tree) silence auto_heal indefinitely. '不被 dirty 污染':
+      - stranded off BASE -> stash dirt recoverably, then checkout BASE;
+      - dirty tracked tree -> stash recoverably and PROCEED this tick (nothing
+        is destroyed; the stash stays on the stack for recovery);
+      - the SAME dirt persisting >= STUCK_DIRT_THRESHOLD_TICKS (a generator
+        keeps re-dirtying it) -> escalate to codex root-cause triage instead of
+        piling up stashes (stash pileup was the engine behind a 394-deep stack).
+    """
+    # 1. Recover from a stranded branch.
+    try:
+        cur = git("rev-parse", "--abbrev-ref", "HEAD", capture=True).stdout.strip()
+    except Exception as e:
+        print(f"[heal] cannot read branch: {e}", file=sys.stderr)
+        return False
+    if cur != BASE_BRANCH:
+        print(f"[heal] stranded on {cur}; recovering to {BASE_BRANCH}",
+              file=sys.stderr)
+        porcelain = git("status", "--porcelain", capture=True).stdout
+        if _tracked_blocking(porcelain) and not _stash_dirt_recoverable("strand-recover"):
+            return False
+        r = run(["git", "checkout", BASE_BRANCH], check=False, capture=True)
+        if r.returncode != 0:
+            out = ((r.stdout or "") + (r.stderr or ""))[-200:]
+            print(f"[heal] checkout {BASE_BRANCH} failed: {out}", file=sys.stderr)
+            return False
+        print(f"[heal] recovered onto {BASE_BRANCH}", flush=True)
+    # 2. Handle a dirty tree without blocking the heal.
+    porcelain = git("status", "--porcelain", capture=True).stdout
+    derived_blocking = untracked_derived_dirs(porcelain)
+    if derived_blocking:
+        log_heal_alert(
+            category="UNTRACKED_DERIVED_DIRT",
+            details={"dirs": derived_blocking[:20]},
+            cooldown_count=0,
+            note="主 checkout 存在未跟踪 Derived 目录，本 tick 跳过避免污染工作树",
+        )
+        return False
+    blocking = _tracked_blocking(porcelain)
+    if not blocking:
+        _write_stuck_dirt_state(0, frozenset())
+        return True
+    dirt_set = frozenset(blocking)
+    stuck_count, prev_set = _read_stuck_dirt_state()
+    stuck_count = stuck_count + 1 if dirt_set == prev_set else 1
+    _write_stuck_dirt_state(stuck_count, dirt_set)
+    if stuck_count >= STUCK_DIRT_THRESHOLD_TICKS:
+        print(f"[heal] dirt persisted {stuck_count} tick(s); codex root-cause "
+              f"triage of {len(blocking)} file(s)", file=sys.stderr)
+        for b in blocking[:5]:
+            print(f"[heal]   {b}", file=sys.stderr)
+        if heal_stuck_dirt(blocking):
+            verify_then_push("stuck dirt")
+            _write_stuck_dirt_state(0, frozenset())
+        # Triage consumed this tick; heal CI next tick on a clean tree.
+        return False
+    # First sight of this dirt: stash recoverably and proceed THIS tick so a
+    # dirty tree never blocks CI healing.
+    print(f"[heal] {len(blocking)} tracked modification(s); stashing recoverably "
+          f"and proceeding", file=sys.stderr)
+    for b in blocking[:3]:
+        print(f"[heal]   {b}", file=sys.stderr)
+    if not _stash_dirt_recoverable("cycle-dirt"):
+        return False
+    return True
+
+
 def cycle() -> None:
     """One healing cycle: fetch, audit, heal if needed, push."""
     _reset_act_verify_cache()
@@ -2310,15 +2427,11 @@ def cycle() -> None:
         heal_stale_index_lock()
     except Exception as exc:
         print(f"[heal] heal_stale_index_lock crashed: {exc}", file=sys.stderr)
-    # Always work on codex-auto-dev (or skip if not).
-    try:
-        cur = git("rev-parse", "--abbrev-ref", "HEAD", capture=True).stdout.strip()
-    except Exception as e:
-        print(f"[heal] cannot read branch: {e}", file=sys.stderr)
-        return
-    if cur != BASE_BRANCH:
-        print(f"[heal] not on {BASE_BRANCH} (on {cur}); skipping cycle",
-              file=sys.stderr)
+    # Make the checkout healable instead of skipping: recover from a stranded
+    # branch and stash any dirt recoverably. '不被 dirty 污染' — a dirty tree or
+    # a stranded branch must NOT silence healing (that exact wedge muted
+    # auto_heal for hours after a crashed sync left the checkout on the mirror).
+    if not _prepare_clean_base_checkout():
         return
     # A stale `.git/index.lock` from a crashed git process blocks every
     # orchestrator merge (_sync_local_with_origin checkout) and this cycle's
@@ -2342,67 +2455,6 @@ def cycle() -> None:
     except Exception as exc:
         print(f"[heal] cooldown_analysis_phase crashed: {exc}",
               file=sys.stderr)
-    # Skip if working tree has TRACKED modifications, UNLESS the same
-    # dirt has been stuck for ≥ STUCK_DIRT_THRESHOLD_TICKS consecutive
-    # cycles. Untracked files (`?? path`) are tolerated.
-    # `.pipeline_parallel.json` is also tolerated (autotune rewrites
-    # every 300s; codex never touches it).
-    porcelain = git("status", "--porcelain", capture=True).stdout
-    derived_blocking = untracked_derived_dirs(porcelain)
-    if derived_blocking:
-        log_heal_alert(
-            category="UNTRACKED_DERIVED_DIRT",
-            details={"dirs": derived_blocking[:20]},
-            cooldown_count=0,
-            note="主 checkout 存在未跟踪 Derived 目录，本 tick 不执行会污染工作树的操作",
-        )
-        return
-    blocking = []
-    for raw in porcelain.splitlines():
-        if not raw:
-            continue
-        status = raw[:2]
-        path = raw[3:] if len(raw) > 3 else ""
-        if status == "??":
-            continue
-        if path == ".pipeline_parallel.json":
-            continue
-        blocking.append(raw)
-    if blocking:
-        # Check if same dirt has been stuck across consecutive ticks.
-        # If so, invoke codex to triage (commit-or-revert each file).
-        dirt_set = frozenset(blocking)
-        stuck_count, prev_set = _read_stuck_dirt_state()
-        if dirt_set == prev_set:
-            stuck_count += 1
-        else:
-            stuck_count = 1
-        _write_stuck_dirt_state(stuck_count, dirt_set)
-
-        if stuck_count >= STUCK_DIRT_THRESHOLD_TICKS:
-            print(f"[heal] working tree dirt stuck for {stuck_count} tick(s); "
-                  f"invoking codex to triage {len(blocking)} file(s)",
-                  file=sys.stderr)
-            for b in blocking[:5]:
-                print(f"[heal]   {b}", file=sys.stderr)
-            if heal_stuck_dirt(blocking):
-                verify_then_push("stuck dirt")
-                _write_stuck_dirt_state(0, frozenset())
-                return
-            else:
-                print(f"[heal] codex could not resolve stuck dirt; "
-                      f"will retry next tick", file=sys.stderr)
-                return
-        else:
-            print(f"[heal] working tree has {len(blocking)} tracked modification(s); "
-                  f"skipping cycle (stuck tick {stuck_count}/{STUCK_DIRT_THRESHOLD_TICKS})",
-                  file=sys.stderr)
-            for b in blocking[:3]:
-                print(f"[heal]   {b}", file=sys.stderr)
-            return
-    else:
-        # Tree clean; reset stuck-dirt counter.
-        _write_stuck_dirt_state(0, frozenset())
     # Fetch and try ff.
     acquire_push_lock = import_push_lock()
     try:
