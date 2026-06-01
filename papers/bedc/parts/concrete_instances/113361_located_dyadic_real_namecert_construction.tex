@@ -61,6 +61,24 @@ The Real seal $R$ is therefore terminal only for this displayed route. It record
 The structural rows preserve this boundary under $\hsame$ transport, $\Cont$ replay, provenance, and local naming. Hence every Real-facing read factors through the stated finite route.
 \end{proof}
 
+\begin{theorem}[Located dyadic real comparison refinement]
+\label{thm:located-dyadic-real-comparison-refinement}
+Let $L=(D,S,Q,L_c,R,H,C,P,N)$ be an accepted $\LocatedDyadicRealUp$ packet. If the packet is reread at a narrower positive $\DyadicRatCoreUp$ tolerance recorded by the same $D$ ledger, then it exposes a refined $\StreamNameUp$ window and $\RegSeqRatUp$ row through the same route
+$$
+D,S,Q,L_c,R,H,C,P,N .
+$$
+The located comparison row $L_c$ remains the only classifier-facing handoff before the terminal $\RealUp$ row is read.
+\end{theorem}
+\begin{proof}
+Project the dyadic tolerance row $D$ and its halving ledger. A narrower positive tolerance is still a read of the same displayed ledger, so it cannot introduce an external comparison oracle or an ambient real-order principle.
+
+Replay $S$ and $Q$ through $\Cont$ at the narrower request. The replay exposes the refined finite StreamName window and the corresponding RegSeqRat readback before any terminal Real row is public.
+
+Transport the located comparison row componentwise by $\hsame$. The row $L_c$ therefore remains attached to the refined window and readback, and no other classifier-facing handoff is available in the carrier.
+
+Finally apply \autoref{thm:located-dyadic-real-terminal-seal}. Its terminal route excludes quotient streams, selected limits, trichotomy, and ambient $\RealUp$ completeness before $R$ is read.
+\end{proof}
+
 \falsifiablePrediction{A $\LocatedDyadicRealUp$ consumer that exports ambient Real completeness, a selected limit, or quotient stream equality after deleting $D$, $S$, $Q$, or $L_c$ refutes the carrier of \autoref{def:located-dyadic-real-carrier}.}
 
 \independenceWitness{Nearest siblings: dyadicratcore, streamname, regseqrat, locatedreal, and real. $\LocatedDyadicRealUp$ is not bijective to any one of them because it jointly carries dyadic tolerance, finite stream windows, regular rational readback, located comparison, terminal Real sealing, transport, replay, provenance, and local naming as one packet.}
