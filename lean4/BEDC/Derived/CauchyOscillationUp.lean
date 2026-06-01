@@ -251,4 +251,46 @@ theorem CauchyOscillationCarrier_ledger_transport [AskSetup] [PackageSetup]
   exact
     ⟨ledgerReadUnary, sameLedger, sealReadUnary, ledgerReadSealRoute, sealReadPkg⟩
 
+theorem CauchyOscillationCarrier_tail_window_exposure [AskSetup] [PackageSetup]
+    {tailWindow modulus tolerance ledger sealRow transport routes provenance nameCert windowRead
+      thresholdRead toleranceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyOscillationCarrier tailWindow modulus tolerance ledger sealRow transport routes provenance
+        nameCert bundle pkg →
+      Cont tailWindow modulus windowRead →
+        Cont windowRead tolerance thresholdRead →
+          Cont thresholdRead ledger toleranceRead →
+            Cont toleranceRead sealRow sealRead →
+              hsame sealRead (append (append (append (append tailWindow modulus) tolerance) ledger)
+                sealRow) ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg UnaryHistory
+  intro carrier tailModulusWindow windowToleranceThreshold thresholdLedgerTolerance
+    toleranceSealRead
+  obtain ⟨tailWindowUnary, modulusUnary, toleranceUnary, ledgerUnary, sealUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _nameCertUnary, _tailWindowModulus,
+    _modulusTolerance, _ledgerSeal, _routesNameCert, _provenancePkg⟩ := carrier
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed tailWindowUnary modulusUnary tailModulusWindow
+  have thresholdReadUnary : UnaryHistory thresholdRead :=
+    unary_cont_closed windowReadUnary toleranceUnary windowToleranceThreshold
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed thresholdReadUnary ledgerUnary thresholdLedgerTolerance
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed toleranceReadUnary sealUnary toleranceSealRead
+  have sameWindow : hsame windowRead (append tailWindow modulus) := tailModulusWindow
+  have sameThreshold :
+      hsame thresholdRead (append (append tailWindow modulus) tolerance) := by
+    cases sameWindow
+    exact windowToleranceThreshold
+  have sameTolerance :
+      hsame toleranceRead (append (append (append tailWindow modulus) tolerance) ledger) := by
+    cases sameThreshold
+    exact thresholdLedgerTolerance
+  have sameSeal :
+      hsame sealRead
+        (append (append (append (append tailWindow modulus) tolerance) ledger) sealRow) := by
+    cases sameTolerance
+    exact toleranceSealRead
+  exact ⟨sameSeal, sealReadUnary⟩
+
 end BEDC.Derived.CauchyOscillationUp

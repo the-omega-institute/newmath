@@ -303,4 +303,61 @@ theorem UltrametricSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, comparisonReadUnary, triangleReadUnary, ballReadUnary, exampleReadUnary⟩
 
+theorem UltrametricSpaceRootStrongTriangleWindow [AskSetup] [PackageSetup]
+    (U : UltrametricSpaceUp) {M V T B E H K P N comparisonRead triangleRead : BHist} :
+    ultrametricSpaceFields U = [M, V, T, B, E, H, K, P, N] ->
+      UnaryHistory M ->
+        UnaryHistory V ->
+          UnaryHistory T ->
+            Cont M V comparisonRead ->
+              Cont comparisonRead T triangleRead ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row triangleRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row M ∨ hsame row V ∨ hsame row T ∨
+                        Cont M V comparisonRead ∨ Cont comparisonRead T triangleRead)
+                    (fun row : BHist => UnaryHistory row ∧ hsame row triangleRead)
+                    hsame ∧
+                  UnaryHistory comparisonRead ∧ UnaryHistory triangleRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro _fields metricUnary comparisonUnary triangleUnary comparisonRoute triangleRoute
+  have comparisonReadUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed metricUnary comparisonUnary comparisonRoute
+  have triangleReadUnary : UnaryHistory triangleRead :=
+    unary_cont_closed comparisonReadUnary triangleUnary triangleRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row triangleRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row V ∨ hsame row T ∨
+              Cont M V comparisonRead ∨ Cont comparisonRead T triangleRead)
+          (fun row : BHist => UnaryHistory row ∧ hsame row triangleRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro triangleRead ⟨hsame_refl triangleRead, triangleReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inr triangleRoute)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, source.left⟩
+  }
+  exact ⟨cert, comparisonReadUnary, triangleReadUnary⟩
+
 end BEDC.Derived.UltrametricSpaceUp

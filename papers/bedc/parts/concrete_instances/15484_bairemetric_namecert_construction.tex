@@ -168,6 +168,24 @@ The dyadic radius row $D$ converts that window into the displayed radius compari
 Finally the $\UltrametricSpaceUp$ witness $U$ reads the same first-disagreement and radius rows to supply the strong max-radius route. Componentwise transport by $H$ and provenance by $P$ preserve this order, so no consumer-facing path bypasses the displayed BaireSpace, Nat, StreamName, DyadicRatCore, MetricSpace, and UltrametricSpace rows.
 \end{proof}
 
+\begin{theorem}[BaireMetric complete-ultrametric consumer readiness]
+\label{thm:bairemetric-complete-ultrametric-consumer-readiness}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ packet. Every $\CompleteMetricUp$, $\UltrametricSpaceUp$, or $\BaireSpaceUp$ consumer of $M$ must first read the displayed route
+$$
+S,B,W,D,R,U,H,C,P,N .
+$$
+The route schedules $\StreamNameUp$ reads before $\BaireSpaceUp$ prefix rows, reads the $\NatUp$ first-disagreement window before the $\DyadicRatCoreUp$ radius row, reads the parent $\MetricSpaceUp$ row before the $\UltrametricSpaceUp$ strong-triangle row, and reads transport, replay, provenance, and local naming before exporting any consumer-facing conclusion.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bairemetric-prefix-window-admission}. It places the $\StreamNameUp$ schedule $S$ before the $\BaireSpaceUp$ prefix packet $B$ and the $\NatUp$ first-disagreement window $W$ for every accepted distance read.
+
+Apply \autoref{thm:bairemetric-first-disagreement-dyadic-radius-exactness}. The dyadic radius row $D$ is read only after the displayed first-disagreement window, so a downstream consumer cannot obtain a radius without the finite prefix-window evidence.
+
+Apply \autoref{thm:bairemetric-parent-metricspace-handoff} and \autoref{thm:bairemetric-ultrametricspace-strong-triangle-handoff}. They order the parent $\MetricSpaceUp$ row $R$ before the $\UltrametricSpaceUp$ strong-triangle row $U$, with both rows using the same scheduled prefix, window, and radius data.
+
+Finally apply \autoref{thm:bairemetric-ultrametric-prefix-route}. It records that the consumer-facing prefix-distance route is finite and that componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve the same order before any $\CompleteMetricUp$, $\UltrametricSpaceUp$, or $\BaireSpaceUp$ conclusion is exported.
+\end{proof}
+
 \begin{theorem}[BaireMetric root prefix ultrametric package]
 \label{thm:bairemetric-root-prefix-ultrametric-package}
 Every accepted $\BaireMetricUp$ root package exposes exactly the route through $\BaireSpaceUp$, $\StreamNameUp$, $\NatUp$, $\DyadicRatCoreUp$, $\MetricSpaceUp$, and $\UltrametricSpaceUp$, together with the structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, before any PolishSpace, BaireSpace, or ultrametric consumer reads it. In the notation of \autoref{def:bairemetric-prefix-distance-carrier}, the package surface is the finite row family
