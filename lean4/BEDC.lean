@@ -2030,6 +2030,7 @@ import BEDC.Derived.ClassifierTypingUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.CliffordUp.TasteGate
+import BEDC.Derived.ClosedBallCompactnessUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalCompactUp
 import BEDC.Derived.ClosedBoundedIntervalCompactUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalDarbouxPartitionUp.TasteGate
@@ -3417,6 +3418,7 @@ import BEDC.Derived.DyadicCoverUp.LedgerNonescape
 import BEDC.Derived.DyadicCoverUp.RealEnvelopeCoverageExactness
 import BEDC.Derived.DyadicCoverUp.RefinementWitnessExhaustion
 import BEDC.Derived.DyadicCoverUp.TotalBoundedRadiusLedger
+import BEDC.Derived.DyadicDensityRealEmbeddingComparisonUp.TasteGate
 import BEDC.Derived.DyadicDivisionUp
 import BEDC.Derived.DyadicDivisionUp.TasteGate
 import BEDC.Derived.DyadicEmbeddingUniquenessUp.TasteGate
@@ -3603,6 +3605,7 @@ import BEDC.Derived.FareySequenceUp.DenominatorRefinement
 import BEDC.Derived.FareySequenceUp.DenominatorRefinementInduction
 import BEDC.Derived.FareySequenceUp.DenominatorToleranceControl
 import BEDC.Derived.FareySequenceUp.FiniteDensityRootPackage
+import BEDC.Derived.FareySequenceUp.LevelSuccessor
 import BEDC.Derived.FareySequenceUp.LevelSuccessorInduction
 import BEDC.Derived.FareySequenceUp.MediantDensityWindow
 import BEDC.Derived.FareySequenceUp.MediantRefinementStability
@@ -4137,6 +4140,7 @@ import BEDC.Derived.FunctorUp.VisibleMorphismStrictPrefix
 import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FundamentalGroupUp.TasteGate
 import BEDC.Derived.FundamentalTheoremCalculusUp
+import BEDC.Derived.GDeltaSetUp.TasteGate
 import BEDC.Derived.GaloisConnectionUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
@@ -4414,7 +4418,9 @@ import BEDC.Derived.HyperspaceUp.CauchyUniformCompleteHandoff
 import BEDC.Derived.HyperspaceUp.CauchyUniformNetHandoff
 import BEDC.Derived.HyperspaceUp.CompactCompleteHandoff
 import BEDC.Derived.HyperspaceUp.CompactHausdorffDistanceRoute
+import BEDC.Derived.HyperspaceUp.CompactMetricHandoff
 import BEDC.Derived.HyperspaceUp.CompactMetricVietorisUnblock
+import BEDC.Derived.HyperspaceUp.CompactSourceCarrierObligations
 import BEDC.Derived.HyperspaceUp.CompactSourceScope
 import BEDC.Derived.HyperspaceUp.CompactSubsetRootAdmission
 import BEDC.Derived.HyperspaceUp.CompleteMetricCauchyLift
@@ -5505,6 +5511,7 @@ import BEDC.Derived.MooreSmithConvergenceUp.DirectedWindowTotality
 import BEDC.Derived.MooreSmithConvergenceUp.LedgerRefusal
 import BEDC.Derived.MooreSmithConvergenceUp.TasteGate
 import BEDC.Derived.MooreSmithNetUp.TasteGate
+import BEDC.Derived.MorseTheoryUp.TasteGate
 import BEDC.Derived.MulUp.TasteGate
 import BEDC.Derived.MultiHistConfigUp
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
