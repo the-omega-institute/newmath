@@ -128,6 +128,26 @@ def test_fit_linear_slope_fails_closed_for_non_finite_and_insufficient_points():
     assert math.isnan(insufficient["slope"])
 
 
+def test_fit_linear_slope_fails_closed_for_constant_x():
+    fit = stats.fit_linear_slope(
+        [
+            {"debt_level": 1.0, "quality_q": 0.95},
+            {"debt_level": 1.0, "quality_q": 0.85},
+            {"debt_level": 1.0, "quality_q": 0.75},
+        ],
+        "debt_level",
+        "quality_q",
+    )
+
+    assert fit["status"] == "constant_x"
+    assert fit["n"] == 3
+    assert math.isnan(fit["slope"])
+    assert math.isnan(fit["intercept"])
+    assert math.isnan(fit["slope_standard_error"])
+    assert math.isnan(fit["slope_ci95_low"])
+    assert math.isnan(fit["slope_ci95_high"])
+
+
 def test_slope_ci_overlap_true_and_false():
     left = {"status": "ok", "slope_ci95_low": -0.7, "slope_ci95_high": -0.3}
     overlapping = {"status": "ok", "slope_ci95_low": -0.5, "slope_ci95_high": -0.1}
