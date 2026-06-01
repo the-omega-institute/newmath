@@ -13,6 +13,7 @@ namespace BEDC.Derived.UltrametricSpaceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -226,6 +227,28 @@ theorem UltrametricSpaceStrongTriangle_handoff (x : UltrametricSpaceUp) :
   · intro w m hw hm
     exact UltrametricSpaceStrongTriangle_handoff_flow_display
       (ultrametricSpaceFields x) w m hw hm
+
+theorem UltrametricSpaceRootNestedBallLedger (x : UltrametricSpaceUp) :
+    ∃ M V T B E H K P N : BHist,
+      x = UltrametricSpaceUp.mk M V T B E H K P N ∧
+      List.Mem B (ultrametricSpaceFields x) ∧
+      List.Mem T (ultrametricSpaceFields x) ∧
+      Cont T B (append T B) ∧
+      hsame (BHist.e0 B) (BHist.e0 B) := by
+  -- BEDC touchpoint anchor: BHist Cont append hsame
+  cases x with
+  | mk M V T B E H K P N =>
+      exact
+        ⟨M, V, T, B, E, H, K, P, N, rfl,
+          by
+            exact
+              List.Mem.tail M
+                (List.Mem.tail V
+                  (List.Mem.tail T (List.Mem.head [E, H, K, P, N]))),
+          by
+            exact List.Mem.tail M (List.Mem.tail V (List.Mem.head [B, E, H, K, P, N])),
+          rfl,
+          hsame_refl (BHist.e0 B)⟩
 
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle

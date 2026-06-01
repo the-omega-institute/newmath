@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\AssouadDimensionUp$}
+\label{ch:concrete-instances-assouad-dimension-namecert}
+\origin{human}
+
+Following Assouad and Heinonen, the $\AssouadDimensionUp$ packet records the finite metric-dimension surface by which a metric source, a scale ratio, and a uniformly bounded local cover become inspectable NameCert data. It sits over the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, reads local doubling cover rows from \autoref{ch:concrete-instances-doubling-metric-namecert}, routes radius and exponent comparisons through \autoref{ch:concrete-instances-real-namecert}, and exposes cover-refinement data to the covering-dimension sibling \autoref{ch:concrete-instances-coveringdimension-namecert}. The packet names a finite scale-cover ledger; it does not assert a host infimum of exponents, choose optimal covers, import Hausdorff measure, or identify metric spaces by ambient equality.
+
+\begin{definition}[Assouad dimension carrier]
+\label{def:assouad-dimension-carrier}
+An $\AssouadDimensionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,M,D,R,S,E,B,K,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the underlying point-history carrier and classifier row.
+\item $M$ is the inherited $\MetricUp$ distance row over $X$.
+\item $D$ is the $\DoublingMetricUp$ or $\DoublingMetricSpaceUp$ local cover row, exposing finite covers of displayed balls by smaller displayed balls.
+\item $R$ is the radius-ratio ledger. It names positive radii $0<r<R$ through $\RealUp$, $\RatUp$, or $\DyadicRatCoreUp$ readback rows and records the comparison needed for the scale ratio.
+\item $S$ is the exponent-bound row. It stores the displayed rational or real candidate $s$ and the coefficient row used in the Assouad cover estimate.
+\item $E$ is the local cover-count estimate row, recording that each displayed $R$-ball admits a finite $r$-ball cover whose count is bounded by the displayed coefficient and scale exponent.
+\item $B$ is the finite center-bundle row for the $r$-ball cover, carried as a closed $\mathsf{ProbeBundle}$ over $X$.
+\item $K$ is the covering-dimension handoff row. It exposes only the finite cover and refinement data readable by \autoref{ch:concrete-instances-coveringdimension-namecert}.
+\item $Q$ is the scale-comparison provenance row connecting $D,R,S,E,B,K$ without adding a host logarithm or an exponent infimum.
+\item $H$ records componentwise $\hsame$ transport for the metric row, doubling row, radius ledger, exponent row, cover-count row, center bundle, covering-dimension handoff, provenance row, replay row, package row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from each metric-ball cover request through
+$$
+X,M,D,R,S,E,B,K,Q \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\AssouadDimensionUp$, $\MetricUp$, $\DoublingMetricUp$, $\DoublingMetricSpaceUp$, $\CoveringDimensionUp$, $\RealUp$, $\RatUp$, $\DyadicRatCoreUp$, $\mathsf{ProbeBundle}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AssouadDimensionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a selected optimal cover, a least exponent, Hausdorff dimension, host logarithms, quotient metric-space equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Assouad dimension NameCert obligations]
+\label{thm:assouad-dimension-namecert-obligations}
+For every accepted $\AssouadDimensionUp$ carrier
+$$
+A=(X,M,D,R,S,E,B,K,Q,H,C,P,N),
+$$
+the local $\NameCert_{\AssouadDimensionUp}$ surface consists exactly of carrier admission for the point and metric rows; local doubling-cover admission through $D$; positive radius-ratio exposure through $R$; exponent-bound and coefficient exposure through $S$; finite cover-count exactness through $E$; center-bundle admission through $B$; covering-dimension handoff through $K$; scale-comparison provenance through $Q$; and componentwise transport, displayed replay, package provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:assouad-dimension-carrier}. The point row $X$, metric row $M$, doubling row $D$, radius-ratio ledger $R$, exponent-bound row $S$, cover-count estimate $E$, center bundle $B$, and covering-dimension handoff $K$ are all displayed before the local naming row is consumed.
+
+The cover obligation is read from $D,E,B$. The doubling row opens the relevant metric ball, the center bundle lists the finite $r$-ball centers, and the cover-count estimate records the displayed Assouad bound for the same radius pair.
+
+The scale obligation is read from $R,S,Q$. These rows carry positive radii, the candidate exponent, the coefficient, and the comparison route needed by the estimate without adding a host logarithm or a least exponent.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no row stores an optimal cover selector, Hausdorff-measure comparison, quotient metric equality, countable choice, or ambient real completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Assouad dimension doubling handoff]
+\label{thm:assouad-dimension-doubling-handoff}
+Every $\DoublingMetricUp$, $\DoublingMetricSpaceUp$, $\CoveringDimensionUp$, or $\RealUp$ consumer of an accepted $\AssouadDimensionUp$ packet reads the finite route
+$$
+\MetricUp,\quad \DoublingMetricUp,\quad \DoublingMetricSpaceUp,\quad \CoveringDimensionUp,\quad \RealUp,\quad \mathsf{ProbeBundle},\quad \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+through the rows $X,M,D,R,S,E,B,K,Q,H,C,P,N$. In particular, doubling consumers receive only the local ball-cover ledger, covering-dimension consumers receive only the finite cover and refinement handoff, and Real-facing consumers receive radius and exponent reads only after the displayed metric-cover route has been inspected.
+\end{theorem}
+\begin{proof}
+Start with a doubling consumer. The metric row $M$ and local doubling row $D$ expose the parent ball and the smaller-ball cover request, while $B$ records the finite center bundle and $E$ records the displayed cover-count estimate.
+
+Next consider a covering-dimension consumer. It reaches the packet through $K$, which is downstream of the same finite cover data $D,E,B$ and the scale-comparison provenance $Q$. Hence it reads refinement-ready cover data rather than a host dimension theorem.
+
+Finally inspect a Real-facing radius or exponent read. The rows $R$ and $S$ provide positive radii, the scale ratio, the candidate exponent, and the coefficient, but only along the route replayed by $C$ and transported by $H$.
+
+Thus every doubling, covering-dimension, or Real-facing use remains inside the displayed finite route and cannot import selected optimal covers, exponent infima, Hausdorff measure, quotient metric-space equality, countable choice, or ambient real completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\AssouadDimensionUp$ cover read displays one point-history carrier, one metric-distance row, one local doubling-cover row, one positive radius-ratio ledger, one exponent-bound row, one finite cover-count estimate, one center ProbeBundle, one covering-dimension handoff, scale-comparison provenance, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{metric, doublingmetric, coveringdimension, real: $\AssouadDimensionUp$ is not bijective to any listed sibling because it jointly carries a metric source, radius-ratio ledger, exponent-bound row, finite local cover-count estimate, center bundle, covering-dimension handoff, and Real-facing scale route in one finite packet.}
+
+\closureat{AssouadDimensionUp}{seedStr}
+
+\begin{closurestatus}{\AssouadDimensionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:assouad-dimension-carrier}, \autoref{thm:assouad-dimension-namecert-obligations}, and \autoref{thm:assouad-dimension-doubling-handoff} seed the finite Assouad dimension route over metric, doubling-metric, covering-dimension, and Real-facing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim optimal cover selection, a least exponent, Hausdorff dimension, host logarithm analysis, quotient metric-space equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, radius-ratio exposure, exponent-bound rows, finite local cover-count exactness, covering-dimension handoff, transport, replay, provenance, and local NameCert rows for BEDC.Derived.AssouadDimensionUp.}
+  \constructivestory{An $\AssouadDimensionUp$ packet is generated from a point-history carrier, a MetricUp distance row, a local doubling-cover row, positive radius-ratio data, an exponent-bound row, a finite cover-count estimate, a center ProbeBundle, a covering-dimension handoff row, scale-comparison provenance, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

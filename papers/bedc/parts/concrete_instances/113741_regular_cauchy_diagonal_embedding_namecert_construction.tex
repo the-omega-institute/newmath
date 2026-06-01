@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyDiagonalEmbeddingUp$}
+\label{ch:concrete-instances-regular-cauchy-diagonal-embedding-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyDiagonalEmbeddingUp$ packet records the finite diagonal route by which dyadic endpoint data becomes a regular-Cauchy name before any $\RealUp$ consumer may read it as a Real-facing presentation. It sits between the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real naming packet of \autoref{ch:concrete-instances-real-namecert}. The certificate is a displayed embedding route for constant and diagonal Cauchy names; it is not a quotient-sequence equality, selected limit, ambient completeness theorem, or host Real construction.
+
+\begin{definition}[Regular Cauchy diagonal embedding carrier]
+\label{def:regular-cauchy-diagonal-embedding-carrier}
+A $\RegularCauchyDiagonalEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,S,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint row, including the dyadic source value and the dyadic tolerance ledger inspected by the diagonal route.
+\item $S$ is the $\StreamNameUp$ window row recording the finite windows at which the diagonal name is read.
+\item $Q$ is the $\RegSeqRatUp$ readback row recording the regular-rational sequence obtained from the dyadic endpoint and window data.
+\item $R$ is the $\RealUp$ consumer row, available only as a named endpoint read of the displayed regular-Cauchy presentation.
+\item $H$ records componentwise $\hsame$ transport for the dyadic endpoint, stream windows, regular-rational readback, Real consumer row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from dyadic endpoint data through stream windows, regular-rational readback, the Real consumer row, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyDiagonalEmbeddingUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyDiagonalEmbeddingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,Q,R,H,C,P,N$. It has no coordinate for quotient sequence equality, selected representatives, an ambient Real limit, countable choice, or host equality of completed Real values.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy diagonal embedding NameCert obligations]
+\label{thm:regular-cauchy-diagonal-embedding-namecert-obligations}
+For every accepted $\RegularCauchyDiagonalEmbeddingUp$ carrier $E=(D,S,Q,R,H,C,P,N)$, the local $\NameCert_{\RegularCauchyDiagonalEmbeddingUp}$ surface consists exactly of carrier admission for the dyadic endpoint row, stream-window row, regular-rational readback row, Real consumer row, componentwise transport, displayed replay, provenance, and local naming. Every Real-facing read must expose $D,S,Q,H,C,P,N$ before it may consume $R$ as the public endpoint row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-diagonal-embedding-carrier}. The source row is $D$, the finite observation row is $S$, the regular-Cauchy readback row is $Q$, and the endpoint consumer row is $R$.
+
+The naming surface orders those rows. A Real-facing read starts from the dyadic endpoint and tolerance ledger, then opens the StreamName windows, then reads the RegSeqRat presentation produced by the diagonal route.
+
+The structural rows $H,C,P,N$ preserve this same route under transport, replay, provenance, and local naming. Since the carrier contains no quotient sequence equality, selected representative, ambient limit, countable-choice schedule, or host equality coordinate, the listed rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal embedding constant-sequence stability]
+\label{thm:regular-cauchy-diagonal-embedding-constant-sequence-stability}
+If two accepted $\RegularCauchyDiagonalEmbeddingUp$ packets have classifier-equivalent dyadic endpoint rows and are read through the same $\StreamNameUp$ windows, then their diagonal $\RegSeqRatUp$ readback rows remain componentwise $\hsame$ before the shared $\RealUp$ consumer row is public. Thus a constant dyadic endpoint cannot be separated by the diagonal embedding unless the displayed dyadic endpoint, stream-window, or regular-rational readback row is separated.
+\end{theorem}
+\begin{proof}
+Read both packets through \autoref{def:regular-cauchy-diagonal-embedding-carrier}. Classifier equivalence fixes the dyadic endpoint row $D$ and the shared windows fix the observation row $S$.
+
+The regular-rational readback row $Q$ is downstream of exactly those two rows. By \autoref{thm:regular-cauchy-diagonal-embedding-namecert-obligations}, a Real-facing read cannot inspect $R$ before the dyadic endpoint, stream windows, regular readback, transport, replay, provenance, and local naming rows have been displayed.
+
+The componentwise $\hsame$ row $H$ therefore transports the equality of the dyadic and window data to the regular-rational readback. Any separation of the constant diagonal presentation must be visible in $D$, $S$, or $Q$, not in a hidden quotient, selected representative, ambient Real limit, or host equality.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyDiagonalEmbeddingUp$ read exposes the $\DyadicRatCoreUp$ endpoint row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before any $\RealUp$ endpoint row is public.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: no listed sibling is bijective with $\RegularCauchyDiagonalEmbeddingUp$ because the packet jointly binds the dyadic endpoint, finite windows, diagonal regular-rational readback, Real consumer row, transport, replay, provenance, and local NameCert.}
+
+\closureat{RegularCauchyDiagonalEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyDiagonalEmbeddingUp}
+  \constructivestory{A $\RegularCauchyDiagonalEmbeddingUp$ packet is generated from a DyadicRatCore endpoint row, StreamName windows, RegSeqRat diagonal readback, a Real consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-diagonal-embedding-carrier}, \autoref{thm:regular-cauchy-diagonal-embedding-namecert-obligations}, and \autoref{thm:regular-cauchy-diagonal-embedding-constant-sequence-stability} seed the finite diagonal route from dyadic endpoints through stream windows and regular-rational readback to Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient sequence equality, selected representatives, ambient Real completeness, selected limits, countable choice, Lean verification, or bridge checking for $\RegularCauchyDiagonalEmbeddingUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal readback exactness, constant-sequence stability, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyDiagonalEmbeddingUp.}
+\end{closurestatus}

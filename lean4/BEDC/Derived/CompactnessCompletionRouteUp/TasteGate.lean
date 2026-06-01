@@ -1,4 +1,5 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
@@ -6,6 +7,7 @@ import BEDC.Meta.TasteGate
 namespace BEDC.Derived.CompactnessCompletionRouteUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
@@ -241,5 +243,105 @@ theorem CompactnessCompletionRouteCarrier_namecert_obligations
         exact source
       · intro _row source
         exact source
+
+theorem CompactnessCompletionRouteNonescape {M T C W R E H Q P N : BHist} :
+    SemanticNameCert
+        (fun row : BHist => hsame row (append (append M T) C))
+        (fun row : BHist =>
+          hsame row M ∨ hsame row T ∨ hsame row C ∨ hsame row W ∨
+            hsame row R ∨ hsame row E ∨ hsame row H ∨ hsame row Q ∨
+              hsame row P ∨ hsame row N ∨ hsame row (append (append M T) C))
+        (fun row : BHist =>
+          hsame row (append (append M T) C) ∧
+            Cont M T (append M T) ∧
+              Cont (append M T) C (append (append M T) C))
+        hsame ∧
+      Cont M T (append M T) ∧
+        Cont (append M T) C (append (append M T) C) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  refine ⟨?_, rfl, rfl⟩
+  refine
+    { core :=
+        { carrier_inhabited := ?_
+          equiv_refl := ?_
+          equiv_symm := ?_
+          equiv_trans := ?_
+          carrier_respects_equiv := ?_ }
+      pattern_sound := ?_
+      ledger_sound := ?_ }
+  · exact ⟨append (append M T) C, hsame_refl (append (append M T) C)⟩
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other same
+    exact hsame_symm same
+  · intro _row _other _third same₁ same₂
+    exact hsame_trans same₁ same₂
+  · intro _row _other same source
+    exact hsame_trans (hsame_symm same) source
+  · intro _row source
+    exact
+      Or.inr
+        (Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source)))))))))
+  · intro _row source
+    exact ⟨source, rfl, rfl⟩
+
+theorem CompactnessCompletionRouteFiniteNetHandoff {M T C W R E H Q P N : BHist} :
+    Cont T W (append T W) ∧
+      Cont (append T W) R (append (append T W) R) ∧
+        SemanticNameCert
+          (fun row : BHist => hsame row (append (append T W) R))
+          (fun row : BHist =>
+            hsame row M ∨ hsame row T ∨ hsame row C ∨ hsame row W ∨
+              hsame row R ∨ hsame row E ∨ hsame row H ∨ hsame row Q ∨
+                hsame row P ∨ hsame row N ∨ hsame row (append T W) ∨
+                  hsame row (append (append T W) R))
+          (fun row : BHist =>
+            hsame row (append (append T W) R) ∧
+              Cont T W (append T W) ∧
+                Cont (append T W) R (append (append T W) R))
+          hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  refine ⟨rfl, rfl, ?_⟩
+  refine
+    { core :=
+        { carrier_inhabited := ?_
+          equiv_refl := ?_
+          equiv_symm := ?_
+          equiv_trans := ?_
+          carrier_respects_equiv := ?_ }
+      pattern_sound := ?_
+      ledger_sound := ?_ }
+  · exact ⟨append (append T W) R, hsame_refl (append (append T W) R)⟩
+  · intro row _source
+    exact hsame_refl row
+  · intro _row _other same
+    exact hsame_symm same
+  · intro _row _other _third same₁ same₂
+    exact hsame_trans same₁ same₂
+  · intro _row _other same source
+    exact hsame_trans (hsame_symm same) source
+  · intro _row source
+    exact
+      Or.inr
+        (Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source))))))))))
+  · intro _row source
+    exact ⟨source, rfl, rfl⟩
 
 end BEDC.Derived.CompactnessCompletionRouteUp
