@@ -6981,6 +6981,7 @@ import BEDC.Derived.SeparatedCompletionReflectionUp.TasteGate
 import BEDC.Derived.SeparatedCompletionReflectorUp
 import BEDC.Derived.SeparatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.SeparatedCompletionUp
+import BEDC.Derived.SeparatedCompletionUp.DenseFactorization
 import BEDC.Derived.SeparatedLimitUniquenessUp.TasteGate
 import BEDC.Derived.SeparatedMetricCompletionUp.TasteGate
 import BEDC.Derived.SeparatedMetricReflectionUp.TasteGate
