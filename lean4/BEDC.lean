@@ -789,6 +789,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.IntervalNetObligation
 import BEDC.Derived.BolzanoWeierstrassUp.MonotoneSubsequenceWindow
 import BEDC.Derived.BolzanoWeierstrassUp.MonotoneWindowRegularity
 import BEDC.Derived.BolzanoWeierstrassUp.NameCertObligations
+import BEDC.Derived.BolzanoWeierstrassUp.PublicClusterExport
 import BEDC.Derived.BolzanoWeierstrassUp.PublicSelectorExport
 import BEDC.Derived.BolzanoWeierstrassUp.RealClusterSeal
 import BEDC.Derived.BolzanoWeierstrassUp.RegSeqRatClusterPackage
@@ -2974,6 +2975,7 @@ import BEDC.Derived.DenjoyIntegralUp.TasteGate
 import BEDC.Derived.DenseCauchyEmbeddingUp.TasteGate
 import BEDC.Derived.DenseExtensionMetricUp.TasteGate
 import BEDC.Derived.DenseImageCompletionUp.TasteGate
+import BEDC.Derived.DenseIsometryExtensionUp.TasteGate
 import BEDC.Derived.DenseUniformEmbeddingUp
 import BEDC.Derived.DenseUniformEmbeddingUp.CompletionConsumerRoute
 import BEDC.Derived.DenseUniformEmbeddingUp.TasteGate
@@ -5230,6 +5232,8 @@ import BEDC.Derived.MetricCompletionFunctorUp
 import BEDC.Derived.MetricCompletionFunctorUp.TasteGate
 import BEDC.Derived.MetricCompletionKleisliUp.TasteGate
 import BEDC.Derived.MetricCompletionMonadUp.TasteGate
+import BEDC.Derived.MetricCompletionMorphismUp.NameCertObligations
+import BEDC.Derived.MetricCompletionMorphismUp.TasteGate
 import BEDC.Derived.MetricCompletionReflectorUp
 import BEDC.Derived.MetricCompletionReflectorUp.TasteGate
 import BEDC.Derived.MetricCompletionUniquenessUp.TasteGate
