@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\DifferentialPrivacyUp$}
+\label{ch:concrete-instances-differential-privacy-namecert}
+\origin{human}
+
+Following Dwork and Roth on differential privacy, the $\DifferentialPrivacyUp$ packet records the finite randomized-mechanism surface through which a BEDC consumer may inspect adjacent inputs, paired output distributions, a rational privacy budget, privacy-loss comparisons, postprocessing, transport, replay, provenance, and local naming. It depends on the finite probability spaces of \autoref{ch:concrete-instances-probspace-namecert}, the random-variable rows of \autoref{ch:concrete-instances-randomvar-namecert}, the distribution readback surface of \autoref{ch:concrete-instances-distribution-namecert}, and the rational budget discipline of \autoref{ch:concrete-instances-rat-namecert}. The certificate is intentionally finite: it names only displayed rows and does not export measure-theoretic Radon--Nikodym derivatives, selected probability kernels, host function equality, or amplification theorems.
+
+\begin{definition}[DifferentialPrivacy carrier]
+\label{def:differential-privacy-carrier}
+A $\DifferentialPrivacyUp$ carrier is a finite $\BHist$ packet
+$$
+D=(A,M,O_0,O_1,E,L,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the adjacent-input relation row, naming the two displayed input histories, their finite database boundary, and the local adjacency witness used by the privacy comparison.
+\item $M$ is the randomized mechanism graph row, listing the inspected finite graph of input names, output names, and rational transition weights for the requested mechanism surface.
+\item $O_0$ and $O_1$ are the two $\DistributionUp$ output-distribution rows obtained by reading $M$ at the adjacent inputs displayed by $A$.
+\item $E$ is the positive rational epsilon-budget row, recorded through the $\RatUp$ comparison discipline and available only as the displayed privacy tolerance.
+\item $L$ is the privacy-loss comparison ledger, pairing every displayed output atom with the rational inequalities that compare the $O_0$ and $O_1$ masses against the budget $E$.
+\item $F$ is the postprocessing map row, naming the finite output relabeling or coarsening that may be applied after the mechanism has been read through $O_0$ and $O_1$.
+\item $H$ records componentwise $\hsame$ transport for $A,M,O_0,O_1,E,L,F,C,P,N$ and for the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from an adjacent-input request through the mechanism graph, paired distributions, privacy-loss ledger, postprocessing row, transport, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\DifferentialPrivacyUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DifferentialPrivacyUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for an ambient measurable space, a selected stochastic kernel, host equality of functions, Radon--Nikodym density, adaptive composition theorem, or privacy amplification principle.
+\end{definition}
+
+\begin{theorem}[DifferentialPrivacy NameCert obligations]
+\label{thm:differential-privacy-namecert-obligations}
+For every accepted $\DifferentialPrivacyUp$ carrier
+$D=(A,M,O_0,O_1,E,L,F,H,C,P,N)$, the local $\NameCert_{\DifferentialPrivacyUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the displayed packet $D$;
+\item adjacency exposure through $A$ and no other neighboring-input relation;
+\item paired distribution readback through $O_0$ and $O_1$ after reading the randomized mechanism graph $M$;
+\item epsilon privacy-loss bounding through the positive rational budget $E$ and the comparison ledger $L$;
+\item postprocessing non-escape through the displayed map row $F$;
+\item provenance exhaustion through componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local name row $N$.
+\end{enumerate}
+No consumer of the certificate receives a measure-theoretic density, an unlisted probability kernel, host function equality, adaptive composition, subsampling amplification, or an external privacy proof.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:differential-privacy-carrier}. The projection exposes exactly the adjacent-input row, mechanism graph, paired distribution rows, rational epsilon budget, privacy-loss ledger, postprocessing row, and structural certificate rows.
+
+The adjacency and readback obligations are $A,M,O_0,O_1$. The row $A$ names the only adjacent input pair, $M$ is the only randomized mechanism graph, and $O_0,O_1$ are the only output distributions read from that graph for the adjacent inputs.
+
+The privacy-loss obligation is $E,L$. The budget $E$ is a positive rational row, and $L$ records only the displayed output-atom comparisons against that budget, so the certificate cannot infer a density or an unlisted kernel.
+
+Finally $F,H,C,P,N$ preserve the same displayed packet under postprocessing, transport, replay, provenance, and local naming. Since the excluded analytic and semantic objects are absent from the carrier, these rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[DifferentialPrivacy postprocessing stability]
+\label{thm:differential-privacy-postprocessing-stability}
+Let $D=(A,M,O_0,O_1,E,L,F,H,C,P,N)$ be an accepted $\DifferentialPrivacyUp$ carrier. Any consumer that applies the displayed postprocessing row $F$ preserves the same epsilon privacy ledger $E,L$, because $F$ reads the mechanism only through the paired output-distribution rows $O_0,O_1$ and structural transport through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read $F$ from the carrier of \autoref{def:differential-privacy-carrier}. The postprocessing row is downstream of the mechanism graph and has access only to the output names already displayed in $O_0$ and $O_1$.
+
+Apply \autoref{thm:differential-privacy-namecert-obligations}. The epsilon budget and privacy-loss comparisons are fixed by $E,L$ before postprocessing is inspected, and the structural rows $H,C,P,N$ replay and source the same packet rather than adding a new probability comparison.
+
+Thus every displayed postprocessing read preserves the same privacy ledger. A consumer may relabel or coarsen the displayed outputs through $F$, but it cannot replace $E,L$ or strengthen the certificate into amplification, adaptive composition, selected kernel equality, or host measure theory.
+\end{proof}
+
+\closureat{DifferentialPrivacyUp}{seedStr}
+
+\begin{closurestatus}{\DifferentialPrivacyUp}
+  \constructivestory{A $\DifferentialPrivacyUp$ packet is generated from adjacent-input rows, a randomized mechanism graph, paired DistributionUp output rows, a positive RatUp epsilon budget, a displayed privacy-loss ledger, a postprocessing map row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:differential-privacy-carrier}, \autoref{thm:differential-privacy-namecert-obligations}, and \autoref{thm:differential-privacy-postprocessing-stability} seed the finite differential-privacy route over ProbSpaceUp, RandomVarUp, DistributionUp, RatUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim measure-theoretic Radon--Nikodym machinery, selected probability kernels, host function equality, privacy amplification, adaptive composition, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, adjacency exposure, paired distribution readback, epsilon privacy-loss bounding, postprocessing non-escape, provenance exhaustion, and local naming for BEDC.Derived.DifferentialPrivacyUp.}
+\end{closurestatus}
