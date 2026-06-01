@@ -2222,6 +2222,7 @@ import BEDC.Derived.CompactIntervalFixedPointUp.TasteGate
 import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
 import BEDC.Derived.CompactMetricCompletionUp.TasteGate
+import BEDC.Derived.CompactMetricContinuousImageUp.TasteGate
 import BEDC.Derived.CompactMetricProductUp.TasteGate
 import BEDC.Derived.CompactMetricSubspaceUp.TasteGate
 import BEDC.Derived.CompactMetricUp
@@ -4328,6 +4329,7 @@ import BEDC.Derived.HyperspaceUp.RootHausdorffFiniteWindow
 import BEDC.Derived.HyperspaceUp.RootVietorisNetBasis
 import BEDC.Derived.HyperspaceUp.TasteGate
 import BEDC.Derived.HyperspaceUp.ToleranceReadbackExhaustion
+import BEDC.Derived.HyperspaceUp.VietorisDownstreamDependency
 import BEDC.Derived.HyperspaceUp.VietorisLocatedRealDependency
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.HypothesisUp
@@ -5940,6 +5942,7 @@ import BEDC.Derived.PseudometricUp.ScopedKernelDependencySurface
 import BEDC.Derived.PseudometricUp.SeparatedCompletionSource
 import BEDC.Derived.PseudometricUp.SeparatedReflectionExactness
 import BEDC.Derived.PseudometricUp.SeparatedReflectionKernelSaturation
+import BEDC.Derived.PseudometricUp.SeparatedReflectionSource
 import BEDC.Derived.PseudometricUp.TasteGate
 import BEDC.Derived.PseudometricUp.TriangleLedgerObligation
 import BEDC.Derived.PseudometricUp.ZeroDistanceClassifierStability

@@ -129,14 +129,18 @@ instance cauchyChainCriterionChapterTasteGate :
     exact hxy (CauchyChainCriterionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 theorem CauchyChainCriterionTasteGate_single_carrier_alignment :
-    cauchyChainCriterionEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-      (∀ h : BHist,
-        cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist h) = h) ∧
-        Nonempty (BHistCarrier CauchyChainCriterionUp) ∧
-          Nonempty (ChapterTasteGate CauchyChainCriterionUp) := by
+    (∀ S L W R D E H C P N : BHist,
+      cauchyChainCriterionFields (CauchyChainCriterionUp.mk S L W R D E H C P N) =
+        [S, L, W, R, D, E, H, C, P, N]) ∧
+      cauchyChainCriterionEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+        (∀ h : BHist,
+          cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist h) = h) ∧
+          Nonempty (BHistCarrier CauchyChainCriterionUp) ∧
+            Nonempty (ChapterTasteGate CauchyChainCriterionUp) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨rfl, CauchyChainCriterionTasteGate_single_carrier_alignment_decode_encode,
+    ⟨by intro S L W R D E H C P N; rfl, rfl,
+      CauchyChainCriterionTasteGate_single_carrier_alignment_decode_encode,
       Nonempty.intro cauchyChainCriterionBHistCarrier,
       Nonempty.intro cauchyChainCriterionChapterTasteGate⟩
 
