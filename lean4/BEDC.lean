@@ -1876,6 +1876,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.RegulatedIntegralHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.RootCarrierAdmissionObligation
 import BEDC.Derived.CauchyfiltercompletionUp.RootDataExhaustion
 import BEDC.Derived.CauchyfiltercompletionUp.RootFilterRoutes
+import BEDC.Derived.CauchyfiltercompletionUp.RootFilterbaseAdmission
 import BEDC.Derived.CauchyfiltercompletionUp.RootLimitExistence
 import BEDC.Derived.CauchyfiltercompletionUp.RootRealSealHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.RootRealSealNoChoice
@@ -1891,6 +1892,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.UniformCompletionUniversalProperty
 import BEDC.Derived.CauchyfiltercompletionUp.UniformFilterReadback
 import BEDC.Derived.CauchyfiltercompletionUp.UniformHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.UniformLimitCompatibility
+import BEDC.Derived.CauchyfiltercompletionUp.UniformProvenanceExhaustion
 import BEDC.Derived.CauchyfiltercompletionUp.UniformReflectionNonescape
 import BEDC.Derived.CauchyfiltercompletionUp.UniversalRoutes
 import BEDC.Derived.CauchyfiltercompletionUp.WindowRealSealDeterminacy
@@ -2963,6 +2965,7 @@ import BEDC.Derived.DecimalExpansionUp.RegSeqRatDensityUnblock
 import BEDC.Derived.DecimalExpansionUp.RegSeqRatDigitReplay
 import BEDC.Derived.DecimalExpansionUp.RegSeqRatHandoff
 import BEDC.Derived.DecimalExpansionUp.RegSeqRatPrefixCoverage
+import BEDC.Derived.DecimalExpansionUp.SeparabilityDensityObligation
 import BEDC.Derived.DecimalExpansionUp.SignedWindowTransport
 import BEDC.Derived.DecimalExpansionUp.TailDigitStability
 import BEDC.Derived.DecimalExpansionUp.TasteGate
@@ -3582,6 +3585,7 @@ import BEDC.Derived.FareySequenceUp.ClassifierTransport
 import BEDC.Derived.FareySequenceUp.DenominatorBoundWindow
 import BEDC.Derived.FareySequenceUp.DenominatorRefinement
 import BEDC.Derived.FareySequenceUp.DenominatorRefinementInduction
+import BEDC.Derived.FareySequenceUp.DenominatorToleranceControl
 import BEDC.Derived.FareySequenceUp.FiniteDensityRootPackage
 import BEDC.Derived.FareySequenceUp.MediantDensityWindow
 import BEDC.Derived.FareySequenceUp.MediantRefinementStability
@@ -3770,6 +3774,7 @@ import BEDC.Derived.FieldUp.TwoSidedEmptySolution
 import BEDC.Derived.FilterBaseUp
 import BEDC.Derived.FilterBaseUp.TasteGate
 import BEDC.Derived.FilterConvergenceUp.TasteGate
+import BEDC.Derived.FilterRefinementUp.CauchyBaseDependency
 import BEDC.Derived.FilterRefinementUp.CauchyPreservation
 import BEDC.Derived.FilterRefinementUp.CompletionRoute
 import BEDC.Derived.FilterRefinementUp.TasteGate
@@ -4401,6 +4406,7 @@ import BEDC.Derived.HyperspaceUp.FiniteNetCarrierExhaustion
 import BEDC.Derived.HyperspaceUp.FiniteNetHit
 import BEDC.Derived.HyperspaceUp.FiniteVietorisCarrier
 import BEDC.Derived.HyperspaceUp.HausdorffClassifierTransport
+import BEDC.Derived.HyperspaceUp.HausdorffNetCompletenessHandoff
 import BEDC.Derived.HyperspaceUp.HausdorffObligationSurface
 import BEDC.Derived.HyperspaceUp.HausdorffUnionBoundary
 import BEDC.Derived.HyperspaceUp.HitMissClassifier
