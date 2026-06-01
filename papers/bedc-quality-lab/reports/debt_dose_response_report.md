@@ -9,6 +9,28 @@
 - Metrics: `quality_q`, `quality_debt`, `target_score`, `quality_benefit`, `quality_cost`, `linear_identifiability_r2`, `approx_identifiability_proxy`.
 - Monotonicity criterion: pass iff quality_q level means are strictly decreasing and the fitted slope 95% CI is below zero.
 
+## Applicability Boundary
+
+- Toy world: `Gaussian-OU hidden-debt dose surface`
+- Admitted family: `ornstein-uhlenbeck`
+- Model: `hidden-debt-dose-surface`
+- Behavior scope: `linear-identifiability`
+- Debt grid: `0.0, 0.1, 0.2, 0.3, 0.4`
+- Seeds per level: `24`
+- Sample counts by debt level: `0.0: 2048, 0.1: 2048, 0.2: 384, 0.3: 384, 0.4: 384`
+- quality_q range: `[0.0, 1.0]`
+- Debt injection model: deterministic finite-sample-support debt injection through dose-indexed source sample counts, classifier certification status, and stability scope.
+- Claim scope: Empirical monotonicity is claimed only for the generated Gaussian-OU toy world, the deterministic runner constants, and the listed debt grid.
+
+## Source Artifacts
+
+- Generator: `scripts/run_debt_dose_response.py`
+- Dependency chain:
+  - `bedc_quality_lab/metrics.py` (`bedc_quality_lab.metrics`): metric_bundle, classifier_certificate, quality_components
+  - `bedc_quality_lab/debt.py` (`bedc_quality_lab.debt`): assess_debt, format_debt_items
+  - `bedc_quality_lab/ledger.py` (`bedc_quality_lab.ledger`): derive_ledger_gaps, format_ledger_gaps
+  - `bedc_quality_lab/scope.py` (`bedc_quality_lab.scope`): Scope, scope_rows
+
 ## Dose Summary
 
 | debt level | measured debt | seeds | quality_q mean | std | 95% CI | target_score mean | quality_debt mean |

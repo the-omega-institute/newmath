@@ -568,6 +568,33 @@
     },
     "seed_count_per_level": 24
   },
+  "applicability_boundary": {
+    "admitted_family_id": "ornstein-uhlenbeck",
+    "behavior_id": "linear-identifiability",
+    "claim_scope": "Empirical monotonicity is claimed only for the generated Gaussian-OU toy world, the deterministic runner constants, and the listed debt grid.",
+    "debt_injection_model": "deterministic finite-sample-support debt injection through dose-indexed source sample counts, classifier certification status, and stability scope",
+    "debt_levels": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4
+    ],
+    "model_id": "hidden-debt-dose-surface",
+    "quality_q_range": [
+      0.0,
+      1.0
+    ],
+    "sample_count_by_debt_level": {
+      "0.0": 2048,
+      "0.1": 2048,
+      "0.2": 384,
+      "0.3": 384,
+      "0.4": 384
+    },
+    "seed_count_per_level": 24,
+    "toy_world": "Gaussian-OU hidden-debt dose surface"
+  },
   "artifact": "reports/debt_dose_response.json",
   "records": [
     {
@@ -9955,5 +9982,30 @@
       }
     }
   ],
-  "report": "reports/debt_dose_response_report.md"
+  "report": "reports/debt_dose_response_report.md",
+  "source_artifacts": {
+    "dependency_chain": [
+      {
+        "module": "bedc_quality_lab.metrics",
+        "path": "bedc_quality_lab/metrics.py",
+        "role": "metric_bundle, classifier_certificate, quality_components"
+      },
+      {
+        "module": "bedc_quality_lab.debt",
+        "path": "bedc_quality_lab/debt.py",
+        "role": "assess_debt, format_debt_items"
+      },
+      {
+        "module": "bedc_quality_lab.ledger",
+        "path": "bedc_quality_lab/ledger.py",
+        "role": "derive_ledger_gaps, format_ledger_gaps"
+      },
+      {
+        "module": "bedc_quality_lab.scope",
+        "path": "bedc_quality_lab/scope.py",
+        "role": "Scope, scope_rows"
+      }
+    ],
+    "script": "scripts/run_debt_dose_response.py"
+  }
 }

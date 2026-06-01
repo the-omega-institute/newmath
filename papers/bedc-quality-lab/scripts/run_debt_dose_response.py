@@ -36,6 +36,52 @@ METRICS = (
     "linear_identifiability_r2",
     "approx_identifiability_proxy",
 )
+APPLICABILITY_BOUNDARY = {
+    "toy_world": "Gaussian-OU hidden-debt dose surface",
+    "admitted_family_id": "ornstein-uhlenbeck",
+    "model_id": "hidden-debt-dose-surface",
+    "behavior_id": "linear-identifiability",
+    "debt_levels": list(DEBT_LEVELS),
+    "seed_count_per_level": SEED_COUNT,
+    "sample_count_by_debt_level": {
+        f"{level:.1f}": 384 if level >= 0.2 else 2048
+        for level in DEBT_LEVELS
+    },
+    "quality_q_range": [0.0, 1.0],
+    "debt_injection_model": (
+        "deterministic finite-sample-support debt injection through "
+        "dose-indexed source sample counts, classifier certification status, and stability scope"
+    ),
+    "claim_scope": (
+        "Empirical monotonicity is claimed only for the generated Gaussian-OU toy world, "
+        "the deterministic runner constants, and the listed debt grid."
+    ),
+}
+SOURCE_ARTIFACTS = {
+    "script": "scripts/run_debt_dose_response.py",
+    "dependency_chain": [
+        {
+            "module": "bedc_quality_lab.metrics",
+            "path": "bedc_quality_lab/metrics.py",
+            "role": "metric_bundle, classifier_certificate, quality_components",
+        },
+        {
+            "module": "bedc_quality_lab.debt",
+            "path": "bedc_quality_lab/debt.py",
+            "role": "assess_debt, format_debt_items",
+        },
+        {
+            "module": "bedc_quality_lab.ledger",
+            "path": "bedc_quality_lab/ledger.py",
+            "role": "derive_ledger_gaps, format_ledger_gaps",
+        },
+        {
+            "module": "bedc_quality_lab.scope",
+            "path": "bedc_quality_lab/scope.py",
+            "role": "Scope, scope_rows",
+        },
+    ],
+}
 
 
 @dataclass(frozen=True)
@@ -338,6 +384,35 @@ def _render_seed_table(records: list[dict[str, Any]]) -> list[str]:
     return lines
 
 
+def _render_applicability_boundary(boundary: dict[str, Any]) -> list[str]:
+    sample_counts = ", ".join(
+        f"{level}: {count}"
+        for level, count in boundary["sample_count_by_debt_level"].items()
+    )
+    quality_range = boundary["quality_q_range"]
+    return [
+        f"- Toy world: `{boundary['toy_world']}`",
+        f"- Admitted family: `{boundary['admitted_family_id']}`",
+        f"- Model: `{boundary['model_id']}`",
+        f"- Behavior scope: `{boundary['behavior_id']}`",
+        f"- Debt grid: `{', '.join(f'{level:.1f}' for level in boundary['debt_levels'])}`",
+        f"- Seeds per level: `{boundary['seed_count_per_level']}`",
+        f"- Sample counts by debt level: `{sample_counts}`",
+        f"- quality_q range: `[{quality_range[0]:.1f}, {quality_range[1]:.1f}]`",
+        f"- Debt injection model: {boundary['debt_injection_model']}.",
+        f"- Claim scope: {boundary['claim_scope']}",
+    ]
+
+
+def _render_source_artifacts(source_artifacts: dict[str, Any]) -> list[str]:
+    lines = [f"- Generator: `{source_artifacts['script']}`", "- Dependency chain:"]
+    for dependency in source_artifacts["dependency_chain"]:
+        lines.append(
+            f"  - `{dependency['path']}` (`{dependency['module']}`): {dependency['role']}"
+        )
+    return lines
+
+
 def _render_report(records: list[dict[str, Any]], aggregate: dict[str, Any]) -> str:
     monotonic = aggregate["monotonicity"]
     regression = aggregate["regression"]
@@ -353,6 +428,14 @@ def _render_report(records: list[dict[str, Any]], aggregate: dict[str, Any]) -> 
         f"- Record count: `{aggregate['record_count']}`",
         f"- Metrics: {', '.join(f'`{metric}`' for metric in METRICS)}.",
         f"- Monotonicity criterion: {monotonic['criterion']}.",
+        "",
+        "## Applicability Boundary",
+        "",
+        *_render_applicability_boundary(APPLICABILITY_BOUNDARY),
+        "",
+        "## Source Artifacts",
+        "",
+        *_render_source_artifacts(SOURCE_ARTIFACTS),
         "",
         "## Dose Summary",
         "",
@@ -384,6 +467,8 @@ def main() -> None:
     payload = {
         "artifact": JSON_ARTIFACT,
         "report": REPORT_ARTIFACT,
+        "applicability_boundary": APPLICABILITY_BOUNDARY,
+        "source_artifacts": SOURCE_ARTIFACTS,
         "records": records,
         "aggregate": aggregate,
     }
