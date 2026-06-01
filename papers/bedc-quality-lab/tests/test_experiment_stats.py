@@ -198,6 +198,17 @@ def test_prefix_metric_stats_fails_closed_for_empty_and_insufficient_points():
     assert math.isnan(single[0]["ci95_half_width"])
 
 
+def test_prefix_metric_stats_fails_closed_for_non_finite_prefix_values():
+    rows = stats.prefix_metric_stats([1.0, math.nan, 3.0], [2, 3])
+
+    assert rows[0]["status"] == "non_finite_value"
+    assert rows[0]["n"] == 2
+    assert rows[1]["status"] == "non_finite_value"
+    assert rows[1]["n"] == 3
+    assert math.isnan(rows[0]["mean"])
+    assert math.isnan(rows[1]["ci95_half_width"])
+
+
 def test_prefix_metric_stats_half_width_is_nonincreasing_for_synthetic_shrinkage():
     values = [1.0, 1.1, 0.95, 1.04, 1.02, 1.01, 0.99, 1.0]
     rows = stats.prefix_metric_stats(values, [2, 4, 8])
@@ -250,6 +261,31 @@ def test_fit_ci_halfwidth_decay_ignores_nonpositive_nonfinite_and_closed_rows():
     ]
 
 
+def test_fit_ci_halfwidth_decay_ignores_missing_invalid_half_width_and_invalid_k():
+    fit = stats.fit_ci_halfwidth_decay(
+        [
+            {"k": 2, "status": "ok", "ci95_half_width": 0.4},
+            {"k": 4, "status": "ok", "ci95_half_width": 0.2},
+            {"k": 8, "status": "ok"},
+            {"k": 16, "status": "ok", "ci95_half_width": "not-a-number"},
+            {"k": 0, "status": "ok", "ci95_half_width": 0.1},
+            {"k": -1, "status": "ok", "ci95_half_width": 0.1},
+            {"k": math.inf, "status": "ok", "ci95_half_width": 0.1},
+            {"k": 64, "status": "ok", "ci95_half_width": 0.1},
+        ]
+    )
+
+    assert fit["status"] == "ok"
+    assert [point["k"] for point in fit["usable_points"]] == [2, 4, 64]
+    assert [point["status"] for point in fit["ignored_points"]] == [
+        "missing_or_invalid_half_width",
+        "missing_or_invalid_half_width",
+        "non_positive_or_non_finite_k",
+        "non_positive_or_non_finite_k",
+        "non_positive_or_non_finite_k",
+    ]
+
+
 def test_estimate_min_k_for_ci_returns_observed_or_extrapolated_k():
     observed_rows = [
         {"k": 5, "status": "ok", "ci95_half_width": 0.04},
@@ -274,3 +310,37 @@ def test_estimate_min_k_for_ci_returns_observed_or_extrapolated_k():
     assert extrapolated["status"] == "extrapolated"
     assert extrapolated["estimated_k"] > 40
     assert not extrapolated["achieved_observed"]
+
+
+def test_estimate_min_k_for_ci_reports_unavailable_for_unusable_fit_data():
+    rows = [
+        {"k": 5, "status": "ok", "ci95_half_width": 0.05},
+        {"k": 10, "status": "insufficient_points", "ci95_half_width": math.nan},
+    ]
+
+    estimate = stats.estimate_min_k_for_ci(rows, target_ci95_half_width=0.01)
+
+    assert estimate["status"] == "unavailable"
+    assert estimate["estimated_k"] is None
+    assert not estimate["achieved_observed"]
+    assert estimate["reason"] == "insufficient_positive_std"
+
+
+def test_estimate_min_k_for_ci_reports_unavailable_for_non_decaying_fit():
+    rows = [
+        {"k": 5, "status": "ok", "ci95_half_width": 0.08},
+        {"k": 10, "status": "ok", "ci95_half_width": 0.07},
+        {"k": 20, "status": "ok", "ci95_half_width": 0.06},
+    ]
+    fit = {"status": "ok", "slope": 0.0, "intercept": -2.0}
+
+    estimate = stats.estimate_min_k_for_ci(
+        rows,
+        target_ci95_half_width=0.01,
+        decay_fit=fit,
+    )
+
+    assert estimate["status"] == "unavailable"
+    assert estimate["estimated_k"] is None
+    assert not estimate["achieved_observed"]
+    assert estimate["reason"] == "non_decaying_fit"
