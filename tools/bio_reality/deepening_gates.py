@@ -192,6 +192,10 @@ def _id(key: str, value: Any, issues: list[str]) -> None:
         issues.append(_invalid_id_issue(key, value))
 
 
+def _is_id(value: Any) -> bool:
+    return isinstance(value, str) and ID_RE.match(value) is not None
+
+
 def _id_repair_hint(value: Any) -> str:
     if not isinstance(value, str) or not value:
         return ""
@@ -268,7 +272,7 @@ def validate_probe(record: dict[str, Any], conjecture_by_id: dict[str, dict[str,
     _id("probe_id", record.get("probe_id"), issues)
     _id("conjecture_ref", record.get("conjecture_ref"), issues)
     conjecture = conjecture_by_id.get(str(record.get("conjecture_ref") or ""))
-    if conjecture is None:
+    if _is_id(record.get("conjecture_ref")) and conjecture is None:
         issues.append(f"conjecture_ref not found: {record.get('conjecture_ref')}")
     if record.get("probe_kind") not in PROBE_KINDS:
         issues.append("probe_kind is not recognized")
@@ -277,9 +281,9 @@ def validate_probe(record: dict[str, Any], conjecture_by_id: dict[str, dict[str,
         _nonempty(key, record.get(key), issues)
     contacts = _array("required_contacts", record.get("required_contacts"), issues)
     for contact in contacts:
-        if not ID_RE.match(contact):
+        if not _is_id(contact):
             issues.append(_invalid_id_issue("required_contacts item", contact))
-        if contact not in contact_ids:
+        elif contact not in contact_ids:
             issues.append(f"required contact not found: {contact}")
     _array("forbidden_interpretations", record.get("forbidden_interpretations"), issues, min_items=1)
     structural_probe_kinds = {
@@ -321,9 +325,9 @@ def validate_mismatch(record: dict[str, Any], probe_ids: set[str], contact_ids: 
     _id("mismatch_id", record.get("mismatch_id"), issues)
     _id("probe_ref", record.get("probe_ref"), issues)
     _id("contact_ref", record.get("contact_ref"), issues)
-    if record.get("probe_ref") not in probe_ids:
+    if _is_id(record.get("probe_ref")) and record.get("probe_ref") not in probe_ids:
         issues.append(f"probe_ref not found: {record.get('probe_ref')}")
-    if record.get("contact_ref") not in contact_ids:
+    if _is_id(record.get("contact_ref")) and record.get("contact_ref") not in contact_ids:
         issues.append(f"contact_ref not found: {record.get('contact_ref')}")
     if record.get("status") not in MISMATCH_STATUS:
         issues.append("status is not recognized")
@@ -367,14 +371,14 @@ def validate_conjecture(
     probes = _array("probe_refs", record.get("probe_refs"), issues)
     _array("forbidden_claims", record.get("forbidden_claims"), issues, min_items=1)
     for contact in contacts:
-        if not ID_RE.match(contact):
+        if not _is_id(contact):
             issues.append(_invalid_id_issue("reality_contact_refs item", contact))
-        if contact not in contact_by_id:
+        elif contact not in contact_by_id:
             issues.append(f"reality contact not found: {contact}")
     for probe in probes:
-        if not ID_RE.match(probe):
+        if not _is_id(probe):
             issues.append(f"probe_refs contains invalid id: {probe}")
-        if probe not in probe_ids:
+        elif probe not in probe_ids:
             issues.append(f"probe not found: {probe}")
 
     form = record.get("bedc_minimal_form")
@@ -722,6 +726,58 @@ def self_test() -> int:
         ):
             print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
             return 1
+    scalar_test_scope_results = gate_all(
+        [],
+        [
+            {
+                **contact,
+                "contact_id": "matched-mrna-abundance-control",
+                "can_test": "code_read layer",
+                "cannot_test": "translation realization",
+            }
+        ],
+        [],
+        [],
+    )
+    scalar_test_scope = next(
+        result for result in scalar_test_scope_results if result["packet_id"] == "matched-mrna-abundance-control"
+    )
+    if scalar_test_scope["gate_status"] != "gate_blocked" or not {
+        "can_test must be an array",
+        "cannot_test must be an array",
+    }.issubset(set(scalar_test_scope["issues"])):
+        print(json.dumps(scalar_test_scope_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_contact_scalar_scope_results = gate_all(
+        [],
+        [
+            {
+                **contact,
+                "contact_id": "matched_mRNA_abundance_control",
+                "can_test": "code_read layer",
+                "cannot_test": "translation realization",
+            }
+        ],
+        [],
+        [],
+    )
+    invalid_contact_scalar_scope = next(
+        result
+        for result in invalid_contact_scalar_scope_results
+        if result["packet_id"] == "matched_mRNA_abundance_control"
+    )
+    if invalid_contact_scalar_scope["gate_status"] != "gate_blocked" or not {
+        "can_test must be an array",
+        "cannot_test must be an array",
+    }.issubset(set(invalid_contact_scalar_scope["issues"])):
+        print(json.dumps(invalid_contact_scalar_scope_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        f"contact_id: invalid id: matched_mRNA_abundance_control" in issue
+        for issue in invalid_contact_scalar_scope["issues"]
+    ):
+        print(json.dumps(invalid_contact_scalar_scope_results, indent=2), file=sys.stderr)
+        return 1
     invalid_contact_id = "matched_mRNA_abundance_control"
     normalized_contact_id = invalid_contact_id_cases[invalid_contact_id]
     invalid_contact_mismatch_results = gate_all(
@@ -766,6 +822,9 @@ def self_test() -> int:
     ):
         print(json.dumps(invalid_contact_mismatch_results, indent=2), file=sys.stderr)
         return 1
+    if any(f"contact_ref not found: {invalid_contact_id}" in issue for issue in invalid_contact_mismatch["issues"]):
+        print(json.dumps(invalid_contact_mismatch_results, indent=2), file=sys.stderr)
+        return 1
     invalid_required_contact_results = gate_all(
         [conjecture],
         [contact],
@@ -786,6 +845,40 @@ def self_test() -> int:
     ):
         print(json.dumps(invalid_required_contact_results, indent=2), file=sys.stderr)
         return 1
+    if any(
+        f"required contact not found: {invalid_contact_id}" in issue
+        for result in invalid_required_contact_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_required_contact_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_conjecture_contact_ref_results = gate_all(
+        [
+            {
+                **conjecture,
+                "conjecture_id": "codon.code.invalid-contact-ref",
+                "reality_contact_refs": [invalid_contact_id],
+            }
+        ],
+        [contact],
+        [],
+        [],
+    )
+    if not any(
+        "reality_contact_refs item: invalid id" in issue
+        and f"suggested normalized id: {normalized_contact_id}" in issue
+        for result in invalid_conjecture_contact_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_contact_ref_results, indent=2), file=sys.stderr)
+        return 1
+    if any(
+        f"reality contact not found: {invalid_contact_id}" in issue
+        for result in invalid_conjecture_contact_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_contact_ref_results, indent=2), file=sys.stderr)
+        return 1
     contact_schema = json.loads((SCRIPT_DIR / "reality_contact.schema.json").read_text(encoding="utf-8"))
     contact_id_pattern = contact_schema.get("properties", {}).get("contact_id", {}).get("pattern")
     if contact_id_pattern != ID_PATTERN:
@@ -796,6 +889,24 @@ def self_test() -> int:
                     "field": "contact_id",
                     "expected_pattern": ID_PATTERN,
                     "actual_pattern": contact_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    conjecture_schema = json.loads((SCRIPT_DIR / "conjecture.schema.json").read_text(encoding="utf-8"))
+    conjecture_contact_ref_pattern = (
+        conjecture_schema.get("properties", {}).get("reality_contact_refs", {}).get("items", {}).get("pattern")
+    )
+    if conjecture_contact_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "conjecture.schema.json",
+                    "field": "reality_contact_refs.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_contact_ref_pattern,
                 },
                 indent=2,
             ),
@@ -831,6 +942,23 @@ def self_test() -> int:
         [],
     )
     if not any("not underscores or uppercase" in issue for result in invalid_probe_results for issue in result["issues"]):
+        print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        issue.startswith(
+            f"probe_id:1: probe_id: invalid id: cross_organism.cun_uur_sign_correlates_with_tRNA_Leu; "
+            f"ids must match {ID_PATTERN}"
+        )
+        for result in invalid_probe_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        "suggested normalized id: cross-organism.cun-uur-sign-correlates-with-trna-leu" in issue
+        for result in invalid_probe_results
+        for issue in result["issues"]
+    ):
         print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
         return 1
     probe_schema = json.loads((SCRIPT_DIR / "probe.schema.json").read_text(encoding="utf-8"))

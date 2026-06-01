@@ -454,6 +454,62 @@ semantic liminf data, quotient real equality, choice, compactness, or ambient
 completeness.
 \end{proof}
 
+\begin{definition}[LowerSemicontinuous closed-superlevel carrier]
+\label{def:lowersemicontinuous-closed-superlevel-carrier}
+A closed-superlevel row for the root packet
+$L_{\mathrm{root}}=(X,F,E,W,R,O,H,C,P,N)$ is a finite $\BHist$ packet
+$$
+S=(q,E_q,O_q,B_q,H_q,C_q,P_q,N_q)
+$$
+where $q$ is the rational threshold being tested, $E_q$ is the lower-real
+epigraph window read from $E$ at threshold $q$, $O_q$ is the $\RealUp$-seal and
+$\LocatedRealUp$ comparison route attached to the same threshold, $B_q$ is the
+$\BHist$ evidence that the complement of the displayed sublevel window remains
+stable under the shown $\hsame$ and $\Cont$ transports, and $H_q,C_q,P_q,N_q$
+transport, replay, source, and name the same threshold row. The row records a
+constructive complement boundary for the finite lower-real window; it does not
+assert classical topological closedness of a host superlevel set.
+\end{definition}
+
+\begin{theorem}[LowerSemicontinuous closed-superlevel stability]
+\label{thm:lowersemicontinuous-closed-superlevel-stability}
+For every accepted closed-superlevel row
+$$
+S=(q,E_q,O_q,B_q,H_q,C_q,P_q,N_q)
+$$
+attached to $L_{\mathrm{root}}$, transport by the displayed $\hsame$ rows and
+replay by the displayed $\Cont$ route preserves the finite superlevel
+complement boundary determined by $q$. Equivalently, a consumer that avoids the
+open-sublevel window at threshold $q$ may keep that avoidance only through the
+lower-real epigraph row $E_q$, the located readback route $O_q$, the $\RealUp$
+seal data, and the stability evidence $B_q$; it cannot replace them by host
+closedness, semantic liminf data, quotient real equality, countable choice,
+open-cover compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the closed-superlevel carrier. Its threshold is the displayed rational
+$q$, and all boundary information is stored in $E_q,O_q,B_q,H_q,C_q,P_q,N_q$.
+There is no coordinate for a host topological closed set.
+
+Apply \autoref{thm:lower-semicontinuous-lowerreal-epigraph-route}. The
+threshold row $E_q$ is read only through the lower-real epigraph window
+attached to the original root packet, after the scheduled source windows and
+regular rational value rows have been displayed.
+
+Use \autoref{thm:lower-semicontinuous-located-readback-stability}. The located
+comparison row $O_q$ remains on the same route under the componentwise
+$\hsame$ transport and the displayed $\Cont$ replay. Hence the complement of
+the open-sublevel window is carried by $B_q$ as finite transport evidence, not
+as a detached topological predicate.
+
+Finally apply \autoref{thm:lowersemicontinuous-open-sublevel-route} together
+with \autoref{thm:lower-semicontinuous-real-seal-nonescape}. The open-sublevel
+route identifies the boundary being avoided, and the real-seal nonescape row
+prevents the consumer from substituting classical closedness, semantic liminf
+data, quotient real equality, countable choice, compactness, or ambient
+completeness for the displayed finite boundary.
+\end{proof}
+
 \begin{closurestatus}{\LowerSemicontinuousUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:lower-semicontinuous-carrier}, \autoref{thm:lower-semicontinuous-namecert-obligation-surface}, and \autoref{thm:lower-semicontinuous-lowerreal-epigraph-route} seed the finite lower-semicontinuity certificate over lower-real epigraph windows, located readbacks, stream schedules, regular rational value rows, and the Real seal.}
