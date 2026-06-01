@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\GronwallBellmanUp$}
+\label{ch:concrete-instances-gronwall-bellman-namecert}
+\origin{human}
+
+Following Bellman's 1943 integral inequality and the standard Bishop--Bridges constructive analysis route, the $\GronwallBellmanUp$ packet records the finite integral-comparison surface used before Picard, stability, or completion consumers read a real bound. It sits after the displayed Gronwall comparison of \autoref{ch:concrete-instances-gronwall-inequality-namecert}, the finite integration surface of \autoref{ch:concrete-instances-riemannintegral-namecert}, the regular-product route of \autoref{ch:concrete-instances-regular-cauchy-multiplication-namecert}, the rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite partition, kernel-bound, majorant, product/exponential budget, error-budget, readback, seal, transport, replay, provenance, and local naming rows.
+
+\begin{definition}[Gronwall--Bellman carrier]
+\label{def:gronwall-bellman-carrier}
+A $\GronwallBellmanUp$ carrier is a finite $\BHist$ packet
+$$
+G=(I,K,M,P,E,R,Z,H,C,Q,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $I$ is the interval-partition row, recording the displayed time interval, finite ordered partition cells, endpoint names, and the tag or subinterval reads used by the integral comparison.
+\item $K$ is the kernel-bound row, displaying the nonnegative integral kernel or coefficient bound on each inspected cell and its finite comparison to the partition data in $I$.
+\item $M$ is the majorant row, storing the displayed initial bound and inhomogeneous comparison envelope whose reads are bounded through the Bellman route.
+\item $P$ is the finite product/exponential budget row, obtained from the kernel-bound row by a finite multiplication or exponential enclosure through $\RegularCauchyMultiplicationUp$ and the dyadic budget rows already exposed to the Real route.
+\item $E$ is the error-budget row, recording the local slack by which cellwise Riemann sums, product enclosures, and majorant reads are kept inside the displayed tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row for the partition endpoints, kernel bounds, majorant samples, product/exponential budget, and error-budget witnesses.
+\item $Z$ is the $\RealUp$ seal row for the final Bellman bound after the finite partition and readback rows have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the interval partition, kernel bound, majorant, product/exponential budget, error budget, readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+I,K,M,P,E,R \longmapsto Z \longmapsto \NameCert_{\GronwallBellmanUp}.
+$$
+\item $Q$ is the $\Pkg$ provenance over $\GronwallBellmanUp$, $\GronwallInequalityUp$, $\RiemannIntegralUp$, $\RegularCauchyMultiplicationUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\GronwallBellmanUp}$ row.
+\end{enumerate}
+The carrier predicate compares accepted packets only through these rows and their displayed transports. It has no coordinate for a host integral operator, selected limit, quotient stream equality, trichotomy, ambient $\RealUp$ completeness theorem, or Lean-verified theorem.
+\end{definition}
+
+\begin{theorem}[Gronwall--Bellman NameCert obligations]
+\label{thm:gronwall-bellman-namecert-obligations}
+For every accepted $\GronwallBellmanUp$ carrier $G=(I,K,M,P,E,R,Z,H,C,Q,N)$, the local $\NameCert_{\GronwallBellmanUp}$ surface consists exactly of carrier admission for the interval partition, kernel bound, majorant, finite product/exponential budget, error budget, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows. No obligation is discharged by a host integral, selected mesh limit, quotient stream equality, trichotomy, ambient $\RealUp$ completeness, or Lean verification.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:gronwall-bellman-carrier}. The rows $I,K,M,P,E,R,Z$ are the only analytic coordinates, and the structural rows $H,C,Q,N$ only transport, replay, source, and name those coordinates.
+
+The interval partition and kernel-bound rows determine the finite integral-comparison surface. The majorant row is read only over that same partition, while the product/exponential row records the finite enclosure produced from the kernel bounds.
+
+The error-budget and regular-rational rows then bind the comparison to displayed observations. The real seal $Z$ is exposed only after those finite rows have been replayed, so the local certificate cannot import a host integral, selected limit, quotient stream equality, trichotomy, ambient completeness theorem, or Lean verification.
+\end{proof}
+
+\begin{theorem}[Gronwall--Bellman finite partition handoff]
+\label{thm:gronwall-bellman-finite-partition-handoff}
+Every accepted $\GronwallBellmanUp$ carrier routes any integral-inequality read through the finite handoff
+$$
+\RiemannIntegralUp \longmapsto \GronwallBellmanUp \longmapsto \RegSeqRatUp \longmapsto \RealUp.
+$$
+The read opens the interval partition $I$, kernel-bound row $K$, majorant row $M$, finite product/exponential budget $P$, and error-budget row $E$ before the regular-rational readback $R$ or real seal $Z$ is available.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $G$. The only integration-facing source is the finite partition row $I$, and the only coefficient source is the kernel-bound row $K$ on that partition.
+
+Read the majorant and product/exponential rows next. The majorant row $M$ supplies the displayed comparison envelope, while $P$ supplies the finite multiplicative or exponential enclosure needed for Bellman's bound.
+
+The error row $E$ and readback row $R$ keep the handoff finite. Since $Z$ is sealed only after $I,K,M,P,E,R$ have been replayed, every integral-inequality consumer receives the stated route and cannot bypass it through host integration, selected mesh limits, quotient equality, trichotomy, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Gronwall--Bellman Real seal nonescape]
+\label{thm:gronwall-bellman-real-seal-nonescape}
+For every accepted $\GronwallBellmanUp$ carrier $G=(I,K,M,P,E,R,Z,H,C,Q,N)$, the $\RealUp$ seal row $Z$ exposes only the Bellman bound obtained from the finite partition, kernel-bound, majorant, product/exponential, error-budget, and $\RegSeqRatUp$ readback rows. It exports no host integral value, selected limit, quotient stream equality, trichotomy branch, ambient $\RealUp$ completeness result, or Lean-checked bridge.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:gronwall-bellman-namecert-obligations} to identify the full local obligation surface. The seal row is listed there only as the terminal read of the finite carrier rows.
+
+Use \autoref{thm:gronwall-bellman-finite-partition-handoff} to locate the route into $Z$. The handoff opens $I,K,M,P,E,R$ before the real seal is available, so the seal cannot be an independent host integral or selected limit.
+
+The structural rows $H,C,Q,N$ preserve this same route under transport, replay, provenance, and local naming. Therefore a consumer of $Z$ receives only the finite Bellman-bound packet and no quotient stream equality, trichotomy branch, ambient completeness theorem, or Lean-checked bridge.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\GronwallBellmanUp$ consumer that reads a real Bellman bound without the displayed interval partition, kernel-bound row, majorant row, finite product/exponential budget, error-budget row, RegSeqRat readback, transport, replay, provenance, and local NameCert rows refutes the packet surface.}
+
+\independenceWitness{gronwall-inequality, riemannintegral, regular-cauchy-multiplication, regseqrat, real: none is bijective to $\GronwallBellmanUp$ because this packet binds finite partition data, kernel bounds, majorant reads, product/exponential budgets, error budgets, regular-rational readback, Real seal, transport, replay, provenance, and local naming into one integral-inequality certificate.}
+
+\closureat{GronwallBellmanUp}{seedStr}
+
+\begin{closurestatus}{\GronwallBellmanUp}
+  \constructivestory{A $\GronwallBellmanUp$ packet is generated from one interval-partition row, one kernel-bound row, one majorant row, one finite product/exponential budget row, one error-budget row, one RegSeqRat readback row, one RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gronwall-bellman-carrier}, \autoref{thm:gronwall-bellman-namecert-obligations}, \autoref{thm:gronwall-bellman-finite-partition-handoff}, and \autoref{thm:gronwall-bellman-real-seal-nonescape} seed the finite Bellman integral-inequality packet over partition, kernel-bound, majorant, product/exponential, error-budget, regular-rational, real-seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host integrals, selected limits, quotient stream equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite partition handoff, kernel-bound stability, product/exponential budget accounting, error-budget accounting, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.GronwallBellmanUp.}
+\end{closurestatus}
