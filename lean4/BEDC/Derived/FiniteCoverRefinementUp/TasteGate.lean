@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.FiniteCoverRefinementUp.TasteGate
+namespace BEDC.Derived.FiniteCoverRefinementUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -13,19 +13,19 @@ inductive FiniteCoverRefinementUp : Type where
   | mk (K D F Q U W H C P N : BHist) : FiniteCoverRefinementUp
   deriving DecidableEq
 
-def finiteCoverRefinementEncodeBHist : BHist -> RawEvent
+def finiteCoverRefinementEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: finiteCoverRefinementEncodeBHist h
   | BHist.e1 h => BMark.b1 :: finiteCoverRefinementEncodeBHist h
 
-def finiteCoverRefinementDecodeBHist : RawEvent -> BHist
+def finiteCoverRefinementDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (finiteCoverRefinementDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (finiteCoverRefinementDecodeBHist tail)
 
-private theorem FiniteCoverRefinementTasteGate_single_carrier_alignment_decode :
+private theorem finiteCoverRefinementDecode_encode_bhist :
     ∀ h : BHist,
       finiteCoverRefinementDecodeBHist (finiteCoverRefinementEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -35,63 +35,38 @@ private theorem FiniteCoverRefinementTasteGate_single_carrier_alignment_decode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def finiteCoverRefinementFields : FiniteCoverRefinementUp -> List BHist
+def finiteCoverRefinementFields : FiniteCoverRefinementUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | FiniteCoverRefinementUp.mk K D F Q U W H C P N => [K, D, F, Q, U, W, H, C, P, N]
 
-def finiteCoverRefinementToEventFlow : FiniteCoverRefinementUp -> EventFlow
+def finiteCoverRefinementToEventFlow : FiniteCoverRefinementUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map finiteCoverRefinementEncodeBHist (finiteCoverRefinementFields x)
+  | x => (finiteCoverRefinementFields x).map finiteCoverRefinementEncodeBHist
 
-def finiteCoverRefinementFromEventFlow (ef : EventFlow) : Option FiniteCoverRefinementUp :=
+private def finiteCoverRefinementEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  match ef with
-  | [] => none
-  | K :: restK =>
-      match restK with
-      | [] => none
-      | D :: restD =>
-          match restD with
-          | [] => none
-          | F :: restF =>
-              match restF with
-              | [] => none
-              | Q :: restQ =>
-                  match restQ with
-                  | [] => none
-                  | U :: restU =>
-                      match restU with
-                      | [] => none
-                      | W :: restW =>
-                          match restW with
-                          | [] => none
-                          | H :: restH =>
-                              match restH with
-                              | [] => none
-                              | C :: restC =>
-                                  match restC with
-                                  | [] => none
-                                  | P :: restP =>
-                                      match restP with
-                                      | [] => none
-                                      | N :: restN =>
-                                          match restN with
-                                          | [] =>
-                                              some
-                                                (FiniteCoverRefinementUp.mk
-                                                  (finiteCoverRefinementDecodeBHist K)
-                                                  (finiteCoverRefinementDecodeBHist D)
-                                                  (finiteCoverRefinementDecodeBHist F)
-                                                  (finiteCoverRefinementDecodeBHist Q)
-                                                  (finiteCoverRefinementDecodeBHist U)
-                                                  (finiteCoverRefinementDecodeBHist W)
-                                                  (finiteCoverRefinementDecodeBHist H)
-                                                  (finiteCoverRefinementDecodeBHist C)
-                                                  (finiteCoverRefinementDecodeBHist P)
-                                                  (finiteCoverRefinementDecodeBHist N))
-                                          | _ :: _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => finiteCoverRefinementEventAtDefault index rest
 
-private theorem FiniteCoverRefinementTasteGate_single_carrier_alignment_round_trip :
+def finiteCoverRefinementFromEventFlow : EventFlow → Option FiniteCoverRefinementUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun ef =>
+    some
+      (FiniteCoverRefinementUp.mk
+        (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEventAtDefault 0 ef))
+        (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEventAtDefault 1 ef))
+        (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEventAtDefault 2 ef))
+        (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEventAtDefault 3 ef))
+        (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEventAtDefault 4 ef))
+        (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEventAtDefault 5 ef))
+        (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEventAtDefault 6 ef))
+        (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEventAtDefault 7 ef))
+        (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEventAtDefault 8 ef))
+        (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEventAtDefault 9 ef)))
+
+private theorem finiteCoverRefinement_round_trip :
     ∀ x : FiniteCoverRefinementUp,
       finiteCoverRefinementFromEventFlow (finiteCoverRefinementToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -112,20 +87,14 @@ private theorem FiniteCoverRefinementTasteGate_single_carrier_alignment_round_tr
             (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEncodeBHist P))
             (finiteCoverRefinementDecodeBHist (finiteCoverRefinementEncodeBHist N))) =
           some (FiniteCoverRefinementUp.mk K D F Q U W H C P N)
-      rw [FiniteCoverRefinementTasteGate_single_carrier_alignment_decode K,
-        FiniteCoverRefinementTasteGate_single_carrier_alignment_decode D,
-        FiniteCoverRefinementTasteGate_single_carrier_alignment_decode F,
-        FiniteCoverRefinementTasteGate_single_carrier_alignment_decode Q,
-        FiniteCoverRefinementTasteGate_single_carrier_alignment_decode U,
-        FiniteCoverRefinementTasteGate_single_carrier_alignment_decode W,
-        FiniteCoverRefinementTasteGate_single_carrier_alignment_decode H,
-        FiniteCoverRefinementTasteGate_single_carrier_alignment_decode C,
-        FiniteCoverRefinementTasteGate_single_carrier_alignment_decode P,
-        FiniteCoverRefinementTasteGate_single_carrier_alignment_decode N]
+      rw [finiteCoverRefinementDecode_encode_bhist K, finiteCoverRefinementDecode_encode_bhist D,
+        finiteCoverRefinementDecode_encode_bhist F, finiteCoverRefinementDecode_encode_bhist Q,
+        finiteCoverRefinementDecode_encode_bhist U, finiteCoverRefinementDecode_encode_bhist W,
+        finiteCoverRefinementDecode_encode_bhist H, finiteCoverRefinementDecode_encode_bhist C,
+        finiteCoverRefinementDecode_encode_bhist P, finiteCoverRefinementDecode_encode_bhist N]
 
-private theorem FiniteCoverRefinementTasteGate_single_carrier_alignment_injective
-    {x y : FiniteCoverRefinementUp} :
-    finiteCoverRefinementToEventFlow x = finiteCoverRefinementToEventFlow y -> x = y := by
+private theorem finiteCoverRefinementToEventFlow_injective {x y : FiniteCoverRefinementUp} :
+    finiteCoverRefinementToEventFlow x = finiteCoverRefinementToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -133,10 +102,8 @@ private theorem FiniteCoverRefinementTasteGate_single_carrier_alignment_injectiv
         finiteCoverRefinementFromEventFlow (finiteCoverRefinementToEventFlow y) :=
     congrArg finiteCoverRefinementFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (FiniteCoverRefinementTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (FiniteCoverRefinementTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (finiteCoverRefinement_round_trip x).symm
+      (Eq.trans hread (finiteCoverRefinement_round_trip y)))
 
 instance finiteCoverRefinementBHistCarrier : BHistCarrier FiniteCoverRefinementUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -148,39 +115,24 @@ instance finiteCoverRefinementChapterTasteGate : ChapterTasteGate FiniteCoverRef
   round_trip := by
     intro x
     change finiteCoverRefinementFromEventFlow (finiteCoverRefinementToEventFlow x) = some x
-    exact FiniteCoverRefinementTasteGate_single_carrier_alignment_round_trip x
+    exact finiteCoverRefinement_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (FiniteCoverRefinementTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (finiteCoverRefinementToEventFlow_injective heq)
 
 theorem FiniteCoverRefinementTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier FiniteCoverRefinementUp) ∧
-      Nonempty (ChapterTasteGate FiniteCoverRefinementUp) ∧
-        (∀ h : BHist,
-          finiteCoverRefinementDecodeBHist (finiteCoverRefinementEncodeBHist h) = h) ∧
-          (∀ x : FiniteCoverRefinementUp,
-            finiteCoverRefinementFromEventFlow (finiteCoverRefinementToEventFlow x) =
-              some x) ∧
-            finiteCoverRefinementEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-              finiteCoverRefinementEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨Nonempty.intro {
-        toEventFlow := finiteCoverRefinementToEventFlow
-        fromEventFlow := finiteCoverRefinementFromEventFlow
-      },
-      Nonempty.intro {
-        round_trip := by
-          intro x
-          change finiteCoverRefinementFromEventFlow (finiteCoverRefinementToEventFlow x) = some x
-          exact FiniteCoverRefinementTasteGate_single_carrier_alignment_round_trip x
-        layer_separation := by
-          intro x y hxy heq
-          exact hxy (FiniteCoverRefinementTasteGate_single_carrier_alignment_injective heq)
-      },
-      FiniteCoverRefinementTasteGate_single_carrier_alignment_decode,
-      FiniteCoverRefinementTasteGate_single_carrier_alignment_round_trip,
-      rfl,
-      rfl⟩
+    (forall h : BHist,
+      finiteCoverRefinementDecodeBHist (finiteCoverRefinementEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier FiniteCoverRefinementUp) ∧
+        Nonempty (ChapterTasteGate FiniteCoverRefinementUp) ∧
+          finiteCoverRefinementEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact finiteCoverRefinementDecode_encode_bhist
+  · constructor
+    · exact Nonempty.intro finiteCoverRefinementBHistCarrier
+    · constructor
+      · exact Nonempty.intro finiteCoverRefinementChapterTasteGate
+      · rfl
 
-end BEDC.Derived.FiniteCoverRefinementUp.TasteGate
+end BEDC.Derived.FiniteCoverRefinementUp

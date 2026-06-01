@@ -1,5 +1,77 @@
-\subsection{NameCert: h1.leave\_one\_code\_out.by\_family}
-\label{sec:namecert-h1_leave_one_code_out_by_family}
 \origin{ai}
 
-This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: forbidden\_pattern: literal\_backslash\_n\_escape\_in\_tex. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h1.leave\_one\_code\_out.by\_family and its experiment runs.
+\subsection{Family-resolved leave-one-code-out readback}
+\label{sec:leave-one-code-out-family-readback}
+
+\paragraph{Claim.}
+The family-resolved leave-one-code-out computation tests whether a window-six codon coordinate system continues to identify the local standard-code boundary after one alternative code table is withheld. The object under test is the standard-code codon table read as a six-bit codon cube $Q_6$, with labels supplied by a curated codon-to-amino-acid-or-stop table. The claim is deliberately narrow: the coordinate system may expose a local boundary tile in the code table, while the labels themselves remain empirical entries of the curated table. The layer is therefore code readback only.
+
+\paragraph{Finite codon boundary.}
+The distinguished boundary set has cardinality $13$. In the verified row it is exactly
+$$
+\begin{aligned}
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+\end{aligned}
+$$
+The same finite set is certified as a punctured-cube boundary with $f$-vector
+$$
+\begin{aligned}
+(f_0,f_1,f_2)=(13,16,4).
+\end{aligned}
+$$
+Thus the relevant object is not a diffuse visual pattern in the codon table. It is a thirteen-codon subcomplex, with sixteen one-dimensional incidences and four two-dimensional faces, read inside the six-coordinate codon display.
+
+\paragraph{Spectral scale.}
+The accompanying spectral row gives
+$$
+\begin{aligned}
+\lambda_M&=0.6752479308830213,\\
+\lambda_R&=0.4758352843197002,\\
+\mu&=3.051487585298128.
+\end{aligned}
+$$
+The radial cubic residual is $-6.224354365258478\cdot 10^{-12}$, the same value reported for the cubic-polynomial check. This places the finite tile on a numerically stable spectral scale: the computation is not merely counting labels, but also checking that the coordinate-derived region and the boundary region sit in the expected finite spectral relation.
+
+\paragraph{Shape significance.}
+Against the sampled null model for the shape computation, the run used $N=2000$ distinct samples after $57377$ distinct-sample attempts and $55377$ duplicate retries. There was $1$ exact shape match, giving $p=0.0005$. There were $25$ samples with Jaccard score at least $0.9$, giving $p=0.0125$. A second null model preserving amino-acid classes observed $M$-size $20$, with $0$ exact matches among $2000$ samples and $7$ samples in the lower tail at or below the observed size. The corresponding reported probabilities are
+$$
+\begin{aligned}
+p_{\mathrm{class\ exact}}&=0.0,\\
+p_{\mathrm{class\ lower\ tail}}&=0.0035.
+\end{aligned}
+$$
+These numbers support a local finite-row anomaly relative to the sampled controls. They do not, by themselves, identify a biological mechanism.
+
+\paragraph{Leave-one-code-out result.}
+The leave-one-code-out run evaluated $23$ code tables and $63$ targets. The baseline hit rate was $0.19821739130434785$. The hit rate above baseline was $0.9841269841269841$, the hit rate inside $M-T$ was $0.9365079365079365$, and the hit rate inside $M-T$ plus the boundary was $0.9841269841269841$. The family-resolved row splits this result into $5$ families. The above-baseline family hit rates were
+$$
+\begin{aligned}
+\mathrm{alternative\ yeast}&:0.8333333333333334,\\
+\mathrm{bacterial\ plastid}&:1.0,\\
+\mathrm{candidate\ other}&:1.0,\\
+\mathrm{mitochondrial}&:1.0,\\
+\mathrm{nuclear\ ciliate}&:1.0.
+\end{aligned}
+$$
+Thus four of the five named families are saturated at the measured resolution, while the alternative-yeast family remains high but not saturated. This is the chapter-specific content of the claim: withholding one code table still leaves a family-wise local signal concentrated around the same coordinate boundary.
+
+\paragraph{Leave-one-codon-out and module accounting.}
+The codon-level withholding row gives anchor count $0$, boundary count $5$, predictable count $8$, high closure coverage $8$, and recovery rate $1.0$. The thirteen boundary codons are also exhausted by the module classification. The modules are
+$$
+\begin{aligned}
+\mathrm{agr}&=\{\mathrm{AGA},\mathrm{AGG}\},\\
+\mathrm{ar\_lys}&=\{\mathrm{AAA}\},\\
+\mathrm{cun}&=\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
+\mathrm{ile\_met}&=\{\mathrm{AUA}\},\\
+\mathrm{ssn}&=\{\mathrm{UCA},\mathrm{UUA}\},\\
+\mathrm{stop\_trp}&=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{aligned}
+$$
+The classification reports $R$-size $13$, assigned count $13$, no extra module codons, no missing codons, and no unassigned codons. Every module has either predictable or boundary status in the recorded classification. This makes the family-wise result compatible with the codon-wise module decomposition rather than being a separate aggregate statistic with no codon-level witness.
+
+\paragraph{Reality contact.}
+The only empirical contact used here is the curated standard-code table assigning codons to amino-acid or stop labels. It can test code-layer readback and a local label split in the codon tile. It cannot test translation realization, folded structure, physical admissibility, or function. In particular, amino-acid label readback is not a protein-structure observation, and a CUN or UUR label pattern is not evidence for a folded conformation, a tRNA-copy mechanism, or biological function unless another measurement supplies that information.
+
+\paragraph{Boundary of interpretation.}
+The result should be read as a finite coordinate-and-label statement about a local codon table boundary. No translation process, folding claim, physical admissibility claim, functional claim, mechanistic claim, or universal biological law follows from these rows alone. Crossing any of those layers would require an additional contact: for example, a translation experiment for translation, a structure measurement or validated structure-prediction contact for folding, a biochemical admissibility assay for physical realization, or a functional assay for biological role. The present rows remain aligned precisely because they stop at code readback.
