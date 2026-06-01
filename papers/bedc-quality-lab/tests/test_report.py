@@ -59,6 +59,7 @@ def test_report_includes_cost_protocol_section():
     assert "`source/mixing-family-coverage`: 0.220000" in report
     assert "`source/finite-sample-support`: 0.200000" in report
     assert "`classifier/optimizer-certificate`: 0.200000" in report
+    assert "`verification/theorem3-bound-margin`: 0.200000" in report
     assert "`generalization/global-claim-boundary`: 0.200000" in report
     assert "`quality_q` = `quality_benefit - quality_cost - quality_debt`" in report
     assert "`outside-declared-scope`" in report
@@ -78,7 +79,9 @@ def test_report_identifiability_bound_section_projects_envelope_metrics_only():
             "linear_identifiability_r2": 0.1234567,
             "alignment_loss": 0.25,
             "theorem3_bound": 0.75,
+            "actual_recovery_error": 1.25,
             "bound_margin": -0.5,
+            "theorem_bound_benefit": 0.0,
             "quality_q": 0.1777778,
         },
     )
@@ -88,6 +91,7 @@ def test_report_identifiability_bound_section_projects_envelope_metrics_only():
     assert "## Identifiability Bound" in report
     assert "`alignment_loss`：0.250000" in report
     assert "`theorem3_bound`：0.750000" in report
+    assert "`actual_recovery_error`：1.250000" in report
     assert "`bound_margin`：-0.500000" in report
-    assert "`actual_recovery_error`" not in report
+    assert "`theorem_bound_benefit`：0.000000" in report
     assert report.index("## Identifiability Bound") < report.index("## Q 投影")

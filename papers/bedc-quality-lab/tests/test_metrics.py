@@ -7,6 +7,7 @@ from bedc_quality_lab.metrics import (
     linear_identifiability_r2,
     orthogonality_error,
     quality_components,
+    quality_components_from_bound,
 )
 
 
@@ -38,8 +39,8 @@ def test_quality_components_follow_identity_and_debt_monotonicity():
         **classifier_certificate(metrics),
     }
 
-    low_debt = quality_components(metrics, 0.10, classifier_spec)
-    high_debt = quality_components(metrics, 0.30, classifier_spec)
+    low_debt = quality_components_from_bound(metrics, 0.10, classifier_spec)
+    high_debt = quality_components_from_bound(metrics, 0.30, classifier_spec)
 
     assert np.isclose(
         low_debt["quality_q"],
@@ -52,9 +53,14 @@ def test_classifier_certificate_and_certified_quality_benefit():
     metrics = {
         "linear_identifiability_r2": 0.90,
         "approx_identifiability_proxy": 0.80,
+        "theorem3_bound": 1.0,
+        "actual_recovery_error": 0.20,
+        "bound_margin": 0.80,
+        "normalized_gap_d": 0.10,
+        "whitening_deviation_epsilon": 0.10,
     }
     certificate = classifier_certificate(metrics)
-    values = quality_components(metrics, 0.10, {"output_dim": 2, "training": "", **certificate})
+    values = quality_components_from_bound(metrics, 0.10, {"output_dim": 2, "training": "", **certificate})
 
     assert certificate["cert_method"] == "inline-threshold"
     assert certificate["cert_status"] == "certified"
@@ -122,9 +128,14 @@ def test_uncertified_classifier_floors_quality_benefit():
     metrics = {
         "linear_identifiability_r2": 0.90,
         "approx_identifiability_proxy": 0.60,
+        "theorem3_bound": 1.0,
+        "actual_recovery_error": 0.20,
+        "bound_margin": 0.80,
+        "normalized_gap_d": 0.10,
+        "whitening_deviation_epsilon": 0.10,
     }
     certificate = classifier_certificate(metrics)
-    values = quality_components(metrics, 0.10, {"output_dim": 2, "training": "", **certificate})
+    values = quality_components_from_bound(metrics, 0.10, {"output_dim": 2, "training": "", **certificate})
 
     assert certificate["cert_status"] == "uncertified"
     assert values["quality_benefit"] == 0.0
@@ -149,8 +160,16 @@ def test_missing_classifier_certificate_floors_quality_benefit():
 
 
 def test_quality_components_clamp_benefit_and_debt():
-    high_values = quality_components(
-        {"linear_identifiability_r2": 1.4, "approx_identifiability_proxy": 1.2},
+    high_values = quality_components_from_bound(
+        {
+            "linear_identifiability_r2": 1.4,
+            "approx_identifiability_proxy": 1.2,
+            "theorem3_bound": 2.0,
+            "actual_recovery_error": 0.0,
+            "bound_margin": 2.0,
+            "normalized_gap_d": 0.0,
+            "whitening_deviation_epsilon": 0.0,
+        },
         1.7,
         {
             "output_dim": 1,
@@ -158,7 +177,7 @@ def test_quality_components_clamp_benefit_and_debt():
             "cert_status": "certified",
         },
     )
-    low_values = quality_components(
+    low_values = quality_components_from_bound(
         {"linear_identifiability_r2": -0.4, "approx_identifiability_proxy": -0.2},
         -0.3,
         {"output_dim": 1, "training": ""},

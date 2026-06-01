@@ -19,6 +19,7 @@ SENTINEL_WEIGHTS = {
     LedgerRowKey("source", "mixing-family-coverage"): 0.37,
     LedgerRowKey("source", "finite-sample-support"): 0.41,
     LedgerRowKey("classifier", "optimizer-certificate"): 0.47,
+    LedgerRowKey("verification", "theorem3-bound-margin"): 0.49,
     LedgerRowKey("generalization", "global-claim-boundary"): 0.53,
 }
 
@@ -35,6 +36,7 @@ def protocol_body(*, omit: str | None = None, extra: str = "", formula_id: str =
         "source/mixing-family-coverage": "0.22",
         "source/finite-sample-support": "0.20",
         "classifier/optimizer-certificate": "0.20",
+        "verification/theorem3-bound-margin": "0.20",
         "generalization/global-claim-boundary": "0.20",
     }
     row_lines = "\n".join(f"  {key}: {value}" for key, value in rows.items() if key != omit)
@@ -68,6 +70,16 @@ def closed_specs():
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
     )
+
+
+def closed_metrics(**patch):
+    return {
+        "theorem3_bound": 1.0,
+        "actual_recovery_error": 0.25,
+        "bound_margin": 0.75,
+        "normalized_gap_d": 0.10,
+        "whitening_deviation_epsilon": 0.20,
+    } | patch
 
 
 def item_scores(assessment):
@@ -128,7 +140,7 @@ def test_debt_uses_injected_protocol_weights():
     protocol = cost_protocol(custom_weights)
 
     assessment = assess_debt(
-        {},
+        closed_metrics(),
         {"source_count": 1, "mixing": ["a", "b", "c"], "sample_count": 2048},
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
@@ -141,10 +153,11 @@ def test_debt_uses_injected_protocol_weights():
 
 
 @pytest.mark.parametrize(
-    ("row", "source_patch", "classifier_patch", "stability_patch", "expected_factor"),
+    ("row", "metrics_patch", "source_patch", "classifier_patch", "stability_patch", "expected_factor"),
     [
         (
             LedgerRowKey("source", "source-coverage"),
+            {},
             {"source_count": 1},
             {},
             {},
@@ -152,6 +165,7 @@ def test_debt_uses_injected_protocol_weights():
         ),
         (
             LedgerRowKey("source", "mixing-family-coverage"),
+            {},
             {"mixing": ["a", "b"]},
             {},
             {},
@@ -159,6 +173,7 @@ def test_debt_uses_injected_protocol_weights():
         ),
         (
             LedgerRowKey("source", "finite-sample-support"),
+            {},
             {"sample_count": 512},
             {},
             {},
@@ -167,12 +182,22 @@ def test_debt_uses_injected_protocol_weights():
         (
             LedgerRowKey("classifier", "optimizer-certificate"),
             {},
+            {},
             {"name": "standardized-observation", "training": "deterministic-standardization"},
             {},
             0.5,
         ),
         (
+            LedgerRowKey("verification", "theorem3-bound-margin"),
+            {"theorem3_bound": 1.0, "actual_recovery_error": 2.0, "bound_margin": -1.0},
+            {},
+            {},
+            {},
+            1.0,
+        ),
+        (
             LedgerRowKey("generalization", "global-claim-boundary"),
+            {},
             {"global_claim": True},
             {},
             {"multi_seed": False},
@@ -182,6 +207,7 @@ def test_debt_uses_injected_protocol_weights():
 )
 def test_assess_debt_derives_every_row_from_protocol_weight(
     row,
+    metrics_patch,
     source_patch,
     classifier_patch,
     stability_patch,
@@ -189,7 +215,7 @@ def test_assess_debt_derives_every_row_from_protocol_weight(
 ):
     source_spec, classifier_spec, stability_spec = closed_specs()
     assessment = assess_debt(
-        {},
+        closed_metrics(**metrics_patch),
         source_spec | source_patch,
         classifier_spec | classifier_patch,
         stability_spec | stability_patch,
@@ -197,11 +223,48 @@ def test_assess_debt_derives_every_row_from_protocol_weight(
     )
 
     scores = item_scores(assessment)
+    assert frozenset(scores) == REQUIRED_DEBT_ROWS
     expected_score = SENTINEL_WEIGHTS[row] * expected_factor
     assert scores[row] == pytest.approx(expected_score)
     assert assessment.debt_total == pytest.approx(expected_score)
     for other_row in REQUIRED_DEBT_ROWS - {row}:
         assert scores[other_row] == pytest.approx(0.0)
+
+
+def test_theorem_bound_margin_debt_item_tracks_negative_zero_positive_and_missing_metrics():
+    source_spec, classifier_spec, stability_spec = closed_specs()
+
+    positive = assess_debt(closed_metrics(bound_margin=0.25), source_spec, classifier_spec, stability_spec)
+    zero = assess_debt(
+        closed_metrics(theorem3_bound=1.0, actual_recovery_error=1.0, bound_margin=0.0),
+        source_spec,
+        classifier_spec,
+        stability_spec,
+    )
+    negative = assess_debt(
+        closed_metrics(theorem3_bound=1.0, actual_recovery_error=2.0, bound_margin=-1.0),
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        protocol=cost_protocol(),
+    )
+    missing = assess_debt({}, source_spec, classifier_spec, stability_spec, protocol=cost_protocol())
+
+    positive_item = next(item for item in positive.items if item.residue == "theorem3-bound-margin")
+    zero_item = next(item for item in zero.items if item.residue == "theorem3-bound-margin")
+    negative_item = next(item for item in negative.items if item.residue == "theorem3-bound-margin")
+    missing_item = next(item for item in missing.items if item.residue == "theorem3-bound-margin")
+
+    assert positive_item.status == "closed"
+    assert positive_item.score == pytest.approx(0.0)
+    assert zero_item.status == "closed"
+    assert zero_item.score == pytest.approx(0.0)
+    assert negative_item.status == "open"
+    assert negative_item.score == pytest.approx(SENTINEL_WEIGHTS[LedgerRowKey("verification", "theorem3-bound-margin")])
+    assert negative.debt_total == pytest.approx(negative_item.score)
+    assert missing_item.status == "open"
+    assert missing_item.score == pytest.approx(SENTINEL_WEIGHTS[LedgerRowKey("verification", "theorem3-bound-margin")])
+    assert missing.debt_total == pytest.approx(missing_item.score)
 
 
 def test_single_row_protocol_weight_change_changes_that_row_score():
@@ -212,8 +275,8 @@ def test_single_row_protocol_weight_change_changes_that_row_score():
     changed_weights = dict(SENTINEL_WEIGHTS)
     changed_weights[row] = 0.79
 
-    baseline = assess_debt({}, source_spec, classifier_spec, stability_spec, protocol=cost_protocol())
-    changed = assess_debt({}, source_spec, classifier_spec, stability_spec, protocol=cost_protocol(changed_weights))
+    baseline = assess_debt(closed_metrics(), source_spec, classifier_spec, stability_spec, protocol=cost_protocol())
+    changed = assess_debt(closed_metrics(), source_spec, classifier_spec, stability_spec, protocol=cost_protocol(changed_weights))
 
     assert item_scores(baseline)[row] == pytest.approx(0.5 * SENTINEL_WEIGHTS[row])
     assert item_scores(changed)[row] == pytest.approx(0.5 * changed_weights[row])
@@ -224,7 +287,7 @@ def test_single_row_protocol_weight_change_changes_that_row_score():
 def test_quality_q_public_recomputation_uses_protocol_formula():
     protocol = load_cost_protocol()
     assessment = assess_debt(
-        {},
+        closed_metrics(),
         {"source_count": 1, "mixing": "single-family", "sample_count": 384, "global_claim": True},
         {"name": "tiny-mlp", "training": "align-cov-mean", "cert_status": "certified", "output_dim": 2},
         {"multi_seed": False},

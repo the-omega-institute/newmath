@@ -18,7 +18,14 @@ def test_ledger_gaps_derive_from_debt_and_specs():
         "seed": 23,
         "pair_process": "ornstein-uhlenbeck",
     }
-    metrics = {"approx_identifiability_proxy": 0.8}
+    metrics = {
+        "approx_identifiability_proxy": 0.8,
+        "theorem3_bound": 1.0,
+        "actual_recovery_error": 0.4,
+        "bound_margin": 0.6,
+        "normalized_gap_d": 0.1,
+        "whitening_deviation_epsilon": 0.1,
+    }
     assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec)
 
     gaps = derive_ledger_gaps(metrics, source_spec, classifier_spec, stability_spec, assessment)
@@ -51,7 +58,14 @@ def test_ledger_keeps_single_seed_global_claim_boundary_gap_live():
     }
     classifier_spec = {"name": "certified-classifier", "training": "certified"}
     stability_spec = {"multi_seed": False}
-    metrics = {"approx_identifiability_proxy": 0.8}
+    metrics = {
+        "approx_identifiability_proxy": 0.8,
+        "theorem3_bound": 1.0,
+        "actual_recovery_error": 0.4,
+        "bound_margin": 0.6,
+        "normalized_gap_d": 0.1,
+        "whitening_deviation_epsilon": 0.1,
+    }
     assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec)
 
     gaps = derive_ledger_gaps(metrics, source_spec, classifier_spec, stability_spec, assessment)
@@ -70,26 +84,40 @@ def test_ledger_keeps_single_seed_global_claim_boundary_gap_live():
     ]
 
 
-def test_ledger_metric_gap_pins_partial_and_open_statuses_below_margin():
+def test_ledger_metric_gap_pins_partial_and_open_statuses_below_bound_margin():
     source_spec = {"source_count": 3, "sample_count": 2048, "mixing": ["a", "b", "c"]}
     classifier_spec = {"name": "certified-classifier", "training": "certified"}
     stability_spec = {"multi_seed": True}
-    assessment = assess_debt(
-        {"approx_identifiability_proxy": 0.8},
-        {**source_spec, "global_claim": True},
-        classifier_spec,
-        stability_spec,
-    )
+    closed_metrics = {
+        "theorem3_bound": 1.0,
+        "actual_recovery_error": 0.4,
+        "bound_margin": 0.6,
+        "normalized_gap_d": 0.1,
+        "whitening_deviation_epsilon": 0.1,
+    }
+    assessment = assess_debt(closed_metrics, {**source_spec, "global_claim": True}, classifier_spec, stability_spec)
 
     partial_gaps = derive_ledger_gaps(
-        {"approx_identifiability_proxy": 0.5},
+        {
+            "theorem3_bound": 1.0,
+            "actual_recovery_error": 1.0,
+            "bound_margin": 0.0,
+            "normalized_gap_d": 0.1,
+            "whitening_deviation_epsilon": 0.1,
+        },
         source_spec,
         classifier_spec,
         stability_spec,
         assessment,
     )
     open_gaps = derive_ledger_gaps(
-        {"approx_identifiability_proxy": 0.49},
+        {
+            "theorem3_bound": 1.0,
+            "actual_recovery_error": 1.1,
+            "bound_margin": -0.1,
+            "normalized_gap_d": 0.1,
+            "whitening_deviation_epsilon": 0.1,
+        },
         source_spec,
         classifier_spec,
         stability_spec,
@@ -99,7 +127,7 @@ def test_ledger_metric_gap_pins_partial_and_open_statuses_below_margin():
     assert partial_gaps == [
         type(partial_gaps[0])(
             kind="verification",
-            residue="identifiability-proxy-margin",
+            residue="theorem3-bound-margin",
             severity="medium",
             status="partial",
         )
@@ -107,7 +135,7 @@ def test_ledger_metric_gap_pins_partial_and_open_statuses_below_margin():
     assert open_gaps == [
         type(open_gaps[0])(
             kind="verification",
-            residue="identifiability-proxy-margin",
+            residue="theorem3-bound-margin",
             severity="high",
             status="open",
         )
@@ -123,7 +151,14 @@ def test_ledger_filters_closed_debt_items():
     }
     classifier_spec = {"name": "certified-classifier", "training": "certified"}
     stability_spec = {"multi_seed": True}
-    metrics = {"approx_identifiability_proxy": 0.8}
+    metrics = {
+        "approx_identifiability_proxy": 0.8,
+        "theorem3_bound": 1.0,
+        "actual_recovery_error": 0.4,
+        "bound_margin": 0.6,
+        "normalized_gap_d": 0.1,
+        "whitening_deviation_epsilon": 0.1,
+    }
     assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec)
 
     assert {item.status for item in assessment.items} == {"closed"}

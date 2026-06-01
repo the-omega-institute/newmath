@@ -3,6 +3,16 @@ import math
 from bedc_quality_lab.debt import assess_debt, format_debt_items
 
 
+def closed_metrics(**patch):
+    return {
+        "theorem3_bound": 1.0,
+        "actual_recovery_error": 0.25,
+        "bound_margin": 0.75,
+        "normalized_gap_d": 0.10,
+        "whitening_deviation_epsilon": 0.20,
+    } | patch
+
+
 def example_specs():
     return (
         {
@@ -23,10 +33,10 @@ def example_specs():
     )
 
 
-def test_debt_assessment_has_five_bounded_categories():
+def test_debt_assessment_has_required_bounded_categories():
     source_spec, classifier_spec, stability_spec = example_specs()
     assessment = assess_debt(
-        {"approx_identifiability_proxy": 0.8},
+        closed_metrics(approx_identifiability_proxy=0.8),
         source_spec,
         classifier_spec,
         stability_spec,
@@ -37,6 +47,7 @@ def test_debt_assessment_has_five_bounded_categories():
         "source",
         "source",
         "classifier",
+        "verification",
         "generalization",
     ]
     assert [item.residue for item in assessment.items] == [
@@ -44,6 +55,7 @@ def test_debt_assessment_has_five_bounded_categories():
         "mixing-family-coverage",
         "finite-sample-support",
         "optimizer-certificate",
+        "theorem3-bound-margin",
         "global-claim-boundary",
     ]
     assert all(0.0 <= item.score <= 1.0 for item in assessment.items)
@@ -76,7 +88,7 @@ def assert_residue(assessment, residue, *, kind, severity, status, score):
 
 def assess_case(source_spec, classifier_spec=None, stability_spec=None):
     return assess_debt(
-        {"approx_identifiability_proxy": 0.25},
+        closed_metrics(approx_identifiability_proxy=0.25),
         source_spec,
         classifier_spec or {"name": "align-classifier", "training": "align-cov-mean"},
         stability_spec or {"name": "single-seed"},
@@ -261,13 +273,69 @@ def test_global_claim_multi_seed_thresholds_pin_closed_partial_open_statuses():
     )
 
 
+def test_theorem_bound_margin_thresholds_pin_closed_and_open_statuses():
+    closed_assessment = assess_case({}, stability_spec={"multi_seed": True})
+    zero_assessment = assess_debt(
+        closed_metrics(theorem3_bound=1.0, actual_recovery_error=1.0, bound_margin=0.0),
+        {"source_count": 3, "mixing": ["a", "b", "c"], "sample_count": 2048},
+        {"name": "certified-search", "training": "certified"},
+        {"multi_seed": True},
+    )
+    open_assessment = assess_debt(
+        closed_metrics(theorem3_bound=1.0, actual_recovery_error=2.0, bound_margin=-1.0),
+        {"source_count": 3, "mixing": ["a", "b", "c"], "sample_count": 2048},
+        {"name": "certified-search", "training": "certified"},
+        {"multi_seed": True},
+    )
+    missing_assessment = assess_debt(
+        {},
+        {"source_count": 3, "mixing": ["a", "b", "c"], "sample_count": 2048},
+        {"name": "certified-search", "training": "certified"},
+        {"multi_seed": True},
+    )
+
+    assert_residue(
+        closed_assessment,
+        "theorem3-bound-margin",
+        kind="verification",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
+    assert_residue(
+        zero_assessment,
+        "theorem3-bound-margin",
+        kind="verification",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
+    assert_residue(
+        open_assessment,
+        "theorem3-bound-margin",
+        kind="verification",
+        severity="high",
+        status="open",
+        score=0.20,
+    )
+    assert_residue(
+        missing_assessment,
+        "theorem3-bound-margin",
+        kind="verification",
+        severity="high",
+        status="open",
+        score=0.20,
+    )
+    assert math.isclose(open_assessment.debt_total, 0.20, rel_tol=0.0, abs_tol=1e-12)
+
+
 def test_debt_formatter_emits_canonical_keys():
     source_spec, classifier_spec, stability_spec = example_specs()
-    assessment = assess_debt({}, source_spec, classifier_spec, stability_spec)
+    assessment = assess_debt(closed_metrics(), source_spec, classifier_spec, stability_spec)
 
     rows = format_debt_items(assessment)
 
-    assert len(rows) == 5
+    assert len(rows) == 6
     for row in rows:
         assert "kind=" in row
         assert "residue=" in row
