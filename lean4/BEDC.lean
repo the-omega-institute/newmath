@@ -812,6 +812,7 @@ import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.BoolUp.StdBridge
 import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BorelCantelliUp.TasteGate
+import BEDC.Derived.BorelFunctionUp.TasteGate
 import BEDC.Derived.BorelSetUp.TasteGate
 import BEDC.Derived.BornologyUp.TasteGate
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
@@ -4360,6 +4361,7 @@ import BEDC.Derived.HyperspaceUp.FiniteNetHit
 import BEDC.Derived.HyperspaceUp.FiniteVietorisCarrier
 import BEDC.Derived.HyperspaceUp.HausdorffClassifierTransport
 import BEDC.Derived.HyperspaceUp.HausdorffObligationSurface
+import BEDC.Derived.HyperspaceUp.HausdorffUnionBoundary
 import BEDC.Derived.HyperspaceUp.HitMissClassifier
 import BEDC.Derived.HyperspaceUp.HitMissDirectedRefinement
 import BEDC.Derived.HyperspaceUp.NameCertObligationSurface
@@ -4370,6 +4372,7 @@ import BEDC.Derived.HyperspaceUp.ToleranceReadbackExhaustion
 import BEDC.Derived.HyperspaceUp.VietorisDownstreamDependency
 import BEDC.Derived.HyperspaceUp.VietorisFiniteWindowObligations
 import BEDC.Derived.HyperspaceUp.VietorisLocatedRealDependency
+import BEDC.Derived.HyperspaceUp.VietorisRefinementFactorization
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.HypothesisUp
 import BEDC.Derived.IdealClassUp
@@ -5490,6 +5493,7 @@ import BEDC.Derived.NormalFamilyUp.TasteGate
 import BEDC.Derived.NormalFormConsistencySealUp
 import BEDC.Derived.NormalFormConsistencySealUp.CandidateRoute
 import BEDC.Derived.NormalFormConsistencySealUp.ContinuationReplay
+import BEDC.Derived.NormalFormConsistencySealUp.LocalNamingBoundary
 import BEDC.Derived.NormalFormConsistencySealUp.ProvenanceExactness
 import BEDC.Derived.NormalSpaceUp
 import BEDC.Derived.NormalSpaceUp.ClosedSetSeparationRoute
