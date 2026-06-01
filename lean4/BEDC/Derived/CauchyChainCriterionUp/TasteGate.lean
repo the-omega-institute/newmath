@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyChainCriterionUp
@@ -26,16 +27,14 @@ def cauchyChainCriterionDecodeBHist : RawEvent → BHist
   | BMark.b1 :: tail => BHist.e1 (cauchyChainCriterionDecodeBHist tail)
 
 private theorem CauchyChainCriterionTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist, cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist h) = h := by
+    ∀ h : BHist,
+      cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def cauchyChainCriterionFields : CauchyChainCriterionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -52,7 +51,8 @@ private def cauchyChainCriterionEventAtDefault : Nat → EventFlow → RawEvent
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => cauchyChainCriterionEventAtDefault index rest
 
-def cauchyChainCriterionFromEventFlow (ef : EventFlow) : Option CauchyChainCriterionUp :=
+def cauchyChainCriterionFromEventFlow
+    (ef : EventFlow) : Option CauchyChainCriterionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CauchyChainCriterionUp.mk
@@ -76,17 +76,17 @@ private theorem CauchyChainCriterionTasteGate_single_carrier_alignment_round_tri
   | mk S L W R D E H C P N =>
       change
         some
-          (CauchyChainCriterionUp.mk
-            (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist S))
-            (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist L))
-            (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist W))
-            (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist R))
-            (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist D))
-            (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist E))
-            (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist H))
-            (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist C))
-            (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist P))
-            (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist N))) =
+            (CauchyChainCriterionUp.mk
+              (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist S))
+              (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist L))
+              (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist W))
+              (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist R))
+              (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist D))
+              (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist E))
+              (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist H))
+              (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist C))
+              (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist P))
+              (cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist N))) =
           some (CauchyChainCriterionUp.mk S L W R D E H C P N)
       rw [CauchyChainCriterionTasteGate_single_carrier_alignment_decode_encode S,
         CauchyChainCriterionTasteGate_single_carrier_alignment_decode_encode L,
@@ -129,14 +129,19 @@ instance cauchyChainCriterionChapterTasteGate :
     exact hxy (CauchyChainCriterionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 theorem CauchyChainCriterionTasteGate_single_carrier_alignment :
-    ∀ S L W R D E H C P N : BHist,
+    (∀ S L W R D E H C P N : BHist,
       cauchyChainCriterionFields (CauchyChainCriterionUp.mk S L W R D E H C P N) =
-          [S, L, W, R, D, E, H, C, P, N] ∧
-        cauchyChainCriterionEncodeBHist BHist.Empty = [] ∧
+        [S, L, W, R, D, E, H, C, P, N]) ∧
+      cauchyChainCriterionEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+        (∀ h : BHist,
+          cauchyChainCriterionDecodeBHist (cauchyChainCriterionEncodeBHist h) = h) ∧
           Nonempty (BHistCarrier CauchyChainCriterionUp) ∧
             Nonempty (ChapterTasteGate CauchyChainCriterionUp) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  intro S L W R D E H C P N
-  exact ⟨rfl, rfl, ⟨cauchyChainCriterionBHistCarrier⟩, ⟨cauchyChainCriterionChapterTasteGate⟩⟩
+  exact
+    ⟨by intro S L W R D E H C P N; rfl, rfl,
+      CauchyChainCriterionTasteGate_single_carrier_alignment_decode_encode,
+      Nonempty.intro cauchyChainCriterionBHistCarrier,
+      Nonempty.intro cauchyChainCriterionChapterTasteGate⟩
 
 end BEDC.Derived.CauchyChainCriterionUp
