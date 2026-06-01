@@ -529,6 +529,32 @@ def _declaration_header_result_type(header: str) -> str | None:
     return " ".join(header_prefix[result_colon + 1:].strip().split())
 
 
+def _declaration_header_prefix_and_result_type(header: str) -> tuple[str, str | None]:
+    if ":" not in header:
+        return header, None
+    header_prefix = header
+    for delimiter in (":=", " where", "\nwhere"):
+        if delimiter in header_prefix:
+            header_prefix = header_prefix.split(delimiter, 1)[0]
+    depth = 0
+    result_colon: int | None = None
+    pairs = {"(": ")", "{": "}", "[": "]"}
+    closing = set(pairs.values())
+    for idx, ch in enumerate(header_prefix):
+        if ch in pairs:
+            depth += 1
+        elif ch in closing and depth > 0:
+            depth -= 1
+        elif ch == ":" and depth == 0:
+            result_colon = idx
+    if result_colon is None:
+        return header_prefix, None
+    return (
+        header_prefix[:result_colon],
+        " ".join(header_prefix[result_colon + 1:].strip().split()),
+    )
+
+
 def _result_type_mentions(pattern: re.Pattern[str], header: str) -> bool:
     result_type = _declaration_header_result_type(header)
     if result_type is None:
@@ -1651,6 +1677,27 @@ def _attach_violation_split(
     payload[f"{name}_legacy_count"] = len(legacy)
     payload[f"{name}_new"] = new
     payload[f"{name}_legacy"] = legacy
+
+
+def _attach_discovery_integrity_violation_split(
+    payload: dict[str, object],
+    results: list[dict[str, object]],
+    changed_files: set[str] | None,
+) -> None:
+    if changed_files is None:
+        payload["discovery_integrity_violations"] = results
+        payload["discovery_integrity_violations_count"] = len(results)
+        payload["discovery_integrity_violations_new_count"] = 0
+        payload["discovery_integrity_violations_legacy_count"] = len(results)
+        payload["discovery_integrity_violations_new"] = []
+        payload["discovery_integrity_violations_legacy"] = results
+        return
+    _attach_violation_split(
+        payload,
+        "discovery_integrity_violations",
+        results,
+        changed_files,
+    )
 
 
 def detect_concrete_instance_number_collisions() -> list[dict[str, object]]:
@@ -4244,6 +4291,40 @@ def _resolve_decl_refs_from_text(
     return sorted(refs)
 
 
+def _resolve_unambiguous_decl_refs_from_text(
+    text: str,
+    declaration_headers: dict[str, str],
+    local_to_qualified: dict[str, list[str]] | None = None,
+) -> tuple[list[str], list[str]]:
+    local_to_qualified = (
+        _local_to_qualified_index(declaration_headers)
+        if local_to_qualified is None else local_to_qualified
+    )
+    refs: set[str] = set()
+    ambiguous: set[str] = set()
+    dotted_refs = set(
+        re.findall(r"\b[A-Za-z][A-Za-z0-9_']*(?:\.[A-Za-z][A-Za-z0-9_']*)+\b", text)
+    )
+    refs.update(ref for ref in dotted_refs if ref in declaration_headers)
+    qualified_parts = {
+        part
+        for dotted in dotted_refs
+        if dotted in declaration_headers
+        for part in dotted.split(".")
+    }
+    for token in _identifier_tokens(text):
+        if token in qualified_parts:
+            continue
+        candidates = local_to_qualified.get(token, [])
+        if not candidates:
+            continue
+        if len(candidates) == 1:
+            refs.add(candidates[0])
+        elif token not in dotted_refs:
+            ambiguous.add(token)
+    return sorted(refs), sorted(ambiguous)
+
+
 def _classifier_shift_read_targets(
     target: str,
     declaration_headers: dict[str, str],
@@ -6038,6 +6119,10 @@ def _discovery_endpoint_reduced_fp(
 DISCOVERY_INTEGRITY_SEMANTICS = (
     "structural reconstruction check — negative only; does not certify positive discovery genuineness"
 )
+EXISTING_DISCOVERY_SURFACE_REGIONS = {
+    "PositiveInterpretabilityClassifierUp": "existing_positive_discovery_classifier_surface",
+    "ClassifierNoveltyLedgerUp": "existing_classifier_novelty_ledger_surface",
+}
 
 
 def _classifier_endpoint_names(declaration_headers: dict[str, str]) -> list[str]:
@@ -6048,12 +6133,63 @@ def _classifier_endpoint_names(declaration_headers: dict[str, str]) -> list[str]
     )
 
 
+def _existing_discovery_surface_sites(blocks: list[dict]) -> list[dict[str, object]]:
+    sites: list[dict[str, object]] = []
+    for block in blocks:
+        if block.get("error"):
+            continue
+        region = f"{block.get('region')}Up"
+        source = EXISTING_DISCOVERY_SURFACE_REGIONS.get(region)
+        if source is None:
+            continue
+        sites.append({
+            "file": block["file"],
+            "line": block["line"],
+            "region": region,
+            "chapter_key": _region_to_chapter_key(block.get("region")),
+            "claim_kind": "",
+            "sources": [source],
+            "ledger": "",
+            "shift_refs": [],
+            "before_classifiers": [],
+            "declared_new_classifiers": [],
+            "parse_notes": [],
+            "informational_only": True,
+        })
+    return sites
+
+
+def _merge_discovery_integrity_sites(
+    explicit_sites: list[dict[str, object]],
+    informational_sites: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    by_locus = {
+        (str(site.get("file")), int(site.get("line") or 0), str(site.get("region"))): site
+        for site in explicit_sites
+    }
+    for site in informational_sites:
+        key = (str(site.get("file")), int(site.get("line") or 0), str(site.get("region")))
+        if key in by_locus:
+            existing = by_locus[key]
+            sources = list(existing.get("sources", []))
+            for source in site.get("sources", []):
+                if source not in sources:
+                    sources.append(source)
+            existing["sources"] = sources
+            continue
+        by_locus[key] = site
+    return sorted(
+        by_locus.values(),
+        key=lambda site: (str(site.get("file")), int(site.get("line") or 0)),
+    )
+
+
 def _shift_classifier_refs_from_text(
     shift_text: str,
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
     local_to_qualified: dict[str, list[str]],
-) -> tuple[list[str], list[str], list[str]]:
+) -> tuple[list[str], list[str], list[str], list[dict[str, object]]]:
     shift_refs = [
         ref
         for ref in _resolve_decl_refs_from_text(
@@ -6072,25 +6208,37 @@ def _shift_classifier_refs_from_text(
 
     before_refs: set[str] = set()
     after_refs: set[str] = set()
+    parse_notes: list[dict[str, object]] = []
     for shift_body in shift_bodies:
         for field, out in (
             ("BeforeClassifier", before_refs),
             ("AfterClassifier", after_refs),
         ):
             field_text = _lean_field_assignment(shift_body, field)
-            out.update(_resolve_decl_refs_from_text(
+            resolved, ambiguous = _resolve_unambiguous_decl_refs_from_text(
                 field_text,
                 declaration_headers,
                 local_to_qualified,
-            ))
+            )
+            out.update(resolved)
+            if ambiguous:
+                parse_notes.append({
+                    "kind": "ambiguous_classifier_ref",
+                    "field": field,
+                    "tokens": ambiguous,
+                    "message": (
+                        f"{field} contains ambiguous unqualified classifier "
+                        "reference; cite the fully qualified Lean declaration"
+                    ),
+                })
 
     before = sorted(
-        ref for ref in before_refs if _is_classifier_endpoint(ref, declaration_headers)
+        ref for ref in before_refs if _is_classifier_endpoint_candidate(ref, declaration_headers)
     )
     after = sorted(
-        ref for ref in after_refs if _is_classifier_endpoint(ref, declaration_headers)
+        ref for ref in after_refs if _is_classifier_endpoint_candidate(ref, declaration_headers)
     )
-    return before, after, sorted(shift_refs)
+    return before, after, sorted(shift_refs), parse_notes
 
 
 def _ledger_classifier_shift_targets(
@@ -6098,11 +6246,11 @@ def _ledger_classifier_shift_targets(
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
     local_to_qualified: dict[str, list[str]],
-) -> tuple[list[str], list[str], list[str]]:
+) -> tuple[list[str], list[str], list[str], list[dict[str, object]]]:
     body = declaration_bodies.get(ledger_target, "")
     shift_text = _lean_field_assignment(body, "classifier_shift")
     if not shift_text or "some" not in shift_text:
-        return [], [], []
+        return [], [], [], []
     return _shift_classifier_refs_from_text(
         shift_text,
         declaration_headers,
@@ -6141,8 +6289,9 @@ def _declared_discovery_integrity_sites(
         before_targets: list[str] = []
         after_targets: list[str] = []
         shift_refs: list[str] = []
+        parse_notes: list[dict[str, object]] = []
         if ledger is not None and ledger.has_classifier_shift:
-            before_targets, after_targets, shift_refs = _ledger_classifier_shift_targets(
+            before_targets, after_targets, shift_refs, parse_notes = _ledger_classifier_shift_targets(
                 ledger.qualified_name,
                 declaration_headers,
                 declaration_bodies,
@@ -6152,7 +6301,6 @@ def _declared_discovery_integrity_sites(
         if claim_kind == "positiveDiscovery" and not after_targets:
             for target in (
                 _normalize_lean_target(open_fields.get("closuregate")),
-                _normalize_lean_target(open_fields.get("closureclassifierincrement")),
                 _normalize_lean_target(block.get("lean_target")),
             ):
                 if (
@@ -6174,6 +6322,7 @@ def _declared_discovery_integrity_sites(
             "shift_refs": shift_refs,
             "before_classifiers": before_targets,
             "declared_new_classifiers": after_targets,
+            "parse_notes": parse_notes,
         })
 
     return sites
@@ -6191,12 +6340,12 @@ def _discovery_provenance_entries(
         name
         for names in prior_index.values()
         for name in names
-        if name != candidate or name in explicit_priors
+        if name != candidate
     })
     reconstruction_priors = {
         name
         for name in prior_index.get(candidate_fp, [])
-        if name != candidate or name in explicit_priors
+        if name != candidate
     }
     entries: list[dict[str, object]] = []
     for prior in prior_names:
@@ -6207,6 +6356,10 @@ def _discovery_provenance_entries(
             "candidate": candidate,
             "prior": prior,
             "relation": "reconstruction" if prior in reconstruction_priors else "distinct",
+            "prior_scope": (
+                "explicit_before_classifier"
+                if prior in explicit_priors else "current_classifier_index"
+            ),
             "candidate_reduced_fp": candidate_fp,
             "reduced_fp": prior_fp,
         })
@@ -6219,17 +6372,21 @@ def discovery_integrity_payload(
 ) -> dict[str, object]:
     declaration_headers = lean_scan.declaration_headers
     declaration_bodies = lean_scan.declaration_bodies
-    sites = _declared_discovery_integrity_sites(
+    explicit_sites = _declared_discovery_integrity_sites(
         blocks,
         lean_scan.discovery_delta_ledgers,
         declaration_headers,
         declaration_bodies,
     )
+    informational_sites = _existing_discovery_surface_sites(blocks)
+    sites = _merge_discovery_integrity_sites(explicit_sites, informational_sites)
     classifier_names = _classifier_endpoint_names(declaration_headers)
-    requested = set(classifier_names)
+    requested: set[str] = set()
     for site in sites:
         requested.update(str(target) for target in site.get("declared_new_classifiers", []))
         requested.update(str(target) for target in site.get("before_classifiers", []))
+    if requested:
+        requested.update(classifier_names)
 
     expr_fingerprints = _run_structural_dna_expr_fingerprints(requested)
     prior_index = _prior_classifier_fingerprint_index(
@@ -6256,6 +6413,20 @@ def discovery_integrity_payload(
         site_record["semantics"] = DISCOVERY_INTEGRITY_SEMANTICS
         site_record["provenance"] = []
         site_record["unavailable"] = []
+        for note in site.get("parse_notes", []) or []:
+            if isinstance(note, dict):
+                unavailable_note = {
+                    "file": site["file"],
+                    "line": site["line"],
+                    "region": site["region"],
+                    "reason": note.get("kind", "classifier_ref_parse_note"),
+                    "field": note.get("field"),
+                    "tokens": note.get("tokens", []),
+                    "message": note.get("message", ""),
+                    "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
+                }
+                unavailable.append(unavailable_note)
+                site_record["unavailable"].append(unavailable_note)
 
         if not candidate_targets:
             note = {
@@ -6264,6 +6435,7 @@ def discovery_integrity_payload(
                 "region": site["region"],
                 "reason": "no_declared_new_classifier_resolved",
                 "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
+                "informational_only": bool(site.get("informational_only")),
             }
             unavailable.append(note)
             site_record["unavailable"].append(note)
@@ -6329,6 +6501,8 @@ def discovery_integrity_payload(
         "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
         "gate": "blocking_for_declared_discovery_reconstruction",
         "declared_discovery_chapter_count": len(sites),
+        "explicit_discovery_chapter_count": len(explicit_sites),
+        "informational_discovery_chapter_count": len(informational_sites),
         "checked_chapter_count": checked_chapters,
         "classifier_endpoint_count": len(classifier_names),
         "fingerprint_count": len(expr_fingerprints),
@@ -6375,15 +6549,42 @@ def _declaration_is_alias_or_wrapper(
 
 
 def _is_classifier_endpoint(name: str, declaration_headers: dict[str, str]) -> bool:
-    result_type = _declaration_header_result_type(declaration_headers.get(name, "")) or ""
+    header = declaration_headers.get(name, "")
+    prefix, parsed_result_type = _declaration_header_prefix_and_result_type(header)
+    result_type = parsed_result_type or ""
     compact = re.sub(r"\s+", "", result_type)
     local = _local_declaration_name(name)
+    if (
+        _binder_bhist_argument_count(prefix) >= 2
+        and re.fullmatch(r"(?:[A-Za-z0-9_'.]+\.)?Prop", result_type)
+    ):
+        return not re.search(
+            r"\b(?:DiscoveryTasteGate|DiscoveryDeltaLedger|PositiveDiscovery|DisagreementSupport)\b",
+            result_type,
+        )
     if local.endswith("Classifier"):
         return "→Prop" in compact or "->Prop" in compact
     return bool(re.search(r"(?:→|->)\s*Prop\b", result_type)) and not re.search(
         r"\b(?:DiscoveryTasteGate|DiscoveryDeltaLedger|PositiveDiscovery|DisagreementSupport)\b",
         result_type,
     )
+
+
+def _is_classifier_endpoint_candidate(
+    name: str,
+    declaration_headers: dict[str, str],
+) -> bool:
+    return name in declaration_headers and _is_classifier_endpoint(name, declaration_headers)
+
+
+def _binder_bhist_argument_count(prefix: str) -> int:
+    count = 0
+    for match in re.finditer(r"[\(\[\{]\s*([^:\]\)\}]+?)\s*:\s*([^()\[\]{}]+?)[\)\]\}]", prefix):
+        binder_names = re.findall(r"\b_?[A-Za-z][A-Za-z0-9_']*\b", match.group(1))
+        binder_type = match.group(2)
+        if re.search(r"\b(?:[A-Za-z0-9_'.]+\.)?BHist\b", binder_type):
+            count += len(binder_names)
+    return count
 
 
 def _candidate_fingerprint_names(
@@ -7837,9 +8038,8 @@ def audit_payload() -> dict[str, object]:
         closurestatus_open_warnings,
         changed_files,
     )
-    _attach_violation_split(
+    _attach_discovery_integrity_violation_split(
         payload,
-        "discovery_integrity_violations",
         list(discovery_integrity["violations"]),
         changed_files,
     )
