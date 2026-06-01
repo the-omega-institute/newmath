@@ -325,6 +325,8 @@ class ExprFingerprint:
     fingerprint: str
     type_fp: str
     value_fp: str
+    const_fp: str = ""
+    eta_value_fp: str = ""
 
 
 def read_text(path: Path) -> str:
@@ -4065,11 +4067,15 @@ def _run_structural_dna_expr_fingerprints(
         fingerprint = str(payload.get("fingerprint") or "")
         type_fp = str(payload.get("type_fp") or "")
         value_fp = str(payload.get("value_fp") or "")
+        const_fp = str(payload.get("const_fp") or "")
+        eta_value_fp = str(payload.get("eta_value_fp") or "")
         if fingerprint:
             out[str(decl)] = ExprFingerprint(
                 fingerprint=fingerprint,
                 type_fp=type_fp,
                 value_fp=value_fp,
+                const_fp=const_fp,
+                eta_value_fp=eta_value_fp,
             )
     return out
 
@@ -6015,19 +6021,131 @@ def _candidate_semantic_endpoint_classes(semantic_hits: Iterable[str]) -> list[s
     return sorted(classes)
 
 
+LEAN_IDENT_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_']*")
+
+
+def _split_top_level_ws(text: str) -> list[str]:
+    parts: list[str] = []
+    start: int | None = None
+    depth = 0
+    for idx, ch in enumerate(text):
+        if ch in "({[":
+            depth += 1
+        elif ch in ")}]" and depth > 0:
+            depth -= 1
+        if ch.isspace() and depth == 0:
+            if start is not None:
+                parts.append(text[start:idx])
+                start = None
+        elif start is None:
+            start = idx
+    if start is not None:
+        parts.append(text[start:])
+    return parts
+
+
+def _strip_balanced_outer(text: str) -> str:
+    text = text.strip()
+    pairs = {"(": ")", "{": "}", "[": "]"}
+    changed = True
+    while changed and len(text) >= 2:
+        changed = False
+        opening = text[0]
+        closing = pairs.get(opening)
+        if closing is None or text[-1] != closing:
+            continue
+        depth = 0
+        balanced_outer = True
+        for idx, ch in enumerate(text):
+            if ch == opening:
+                depth += 1
+            elif ch == closing:
+                depth -= 1
+                if depth == 0 and idx != len(text) - 1:
+                    balanced_outer = False
+                    break
+        if balanced_outer and depth == 0:
+            text = text[1:-1].strip()
+            changed = True
+    return text
+
+
+def _binder_names_from_chunk(chunk: str) -> list[str]:
+    chunk = _strip_balanced_outer(chunk)
+    if not chunk:
+        return []
+    if ":=" in chunk:
+        chunk = chunk.split(":=", 1)[0]
+    if ":" in chunk:
+        chunk = chunk.split(":", 1)[0]
+    if "←" in chunk:
+        chunk = chunk.split("←", 1)[0]
+    if "<-" in chunk:
+        chunk = chunk.split("<-", 1)[0]
+    return [
+        name for name in LEAN_IDENT_RE.findall(chunk)
+        if name not in {"_", "fun", "forall", "by", "let"}
+    ]
+
+
+def _lambda_binder_names(binder_text: str) -> list[str]:
+    names: list[str] = []
+    for chunk in _split_top_level_ws(binder_text):
+        names.extend(_binder_names_from_chunk(chunk))
+    return names
+
+
+def _application_head_and_args(expr: str) -> tuple[str, list[str]] | None:
+    expr = _strip_balanced_outer(expr)
+    if expr.startswith("@"):
+        expr = expr[1:].strip()
+    parts = _split_top_level_ws(expr)
+    if not parts:
+        return None
+    callee = _strip_balanced_outer(parts[0]).lstrip("@")
+    if not re.fullmatch(r"[A-Za-z0-9_'.]+", callee):
+        return None
+    args: list[str] = []
+    for part in parts[1:]:
+        arg = _strip_balanced_outer(part)
+        if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_']*", arg):
+            args.append(arg)
+        else:
+            return None
+    return callee, args
+
+
 def _eta_wrapper_target(body_no_ws: str) -> str | None:
     match = re.search(
-        r":=\s*fun\s+(?P<binders>.+?)\s*=>\s*(?P<callee>[A-Za-z0-9_'.]+)"
-        r"(?P<args>(?:\s+[A-Za-z_][A-Za-z0-9_']*)*)\s*$",
+        r":=\s*fun\s+(?P<binders>.+?)\s*=>\s*(?P<body>.+?)\s*$",
         body_no_ws,
     )
     if not match:
         return None
-    binders = re.findall(r"\b[A-Za-z_][A-Za-z0-9_']*\b", match.group("binders"))
-    args = re.findall(r"\b[A-Za-z_][A-Za-z0-9_']*\b", match.group("args"))
+    binders = _lambda_binder_names(match.group("binders"))
+    applied = _application_head_and_args(match.group("body"))
+    if applied is None:
+        return None
+    callee, args = applied
     if binders and binders == args:
-        return match.group("callee")
+        return callee
     return None
+
+
+def _eta_wrapper_by_fingerprint(
+    before: str,
+    after: str,
+    expr_fingerprints: dict[str, ExprFingerprint] | None,
+) -> bool:
+    if not expr_fingerprints:
+        return False
+    before_fp = expr_fingerprints.get(before)
+    after_fp = expr_fingerprints.get(after)
+    if before_fp is None or after_fp is None:
+        return False
+    before_const = before_fp.const_fp
+    after_eta = after_fp.eta_value_fp
+    return bool(before_const and after_eta and before_const == after_eta)
 
 
 def _declaration_is_alias_or_wrapper(
@@ -6035,8 +6153,11 @@ def _declaration_is_alias_or_wrapper(
     after: str,
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
+    expr_fingerprints: dict[str, ExprFingerprint] | None = None,
 ) -> bool:
     if before == after:
+        return True
+    if _eta_wrapper_by_fingerprint(before, after, expr_fingerprints):
         return True
     body = declaration_bodies.get(after, "")
     result_type = _declaration_header_result_type(declaration_headers.get(after, "")) or ""
@@ -6204,11 +6325,13 @@ def _candidate_endpoint_pairs(
                 after,
                 declaration_headers,
                 declaration_bodies,
+                expr_fingerprints,
             ) or _declaration_is_alias_or_wrapper(
                 after,
                 before,
                 declaration_headers,
                 declaration_bodies,
+                expr_fingerprints,
             ):
                 continue
             before_value_fp = _discovery_endpoint_value_fp(before, expr_fingerprints)
@@ -6325,6 +6448,57 @@ def _structural_dna_regression_checks() -> list[dict[str, object]]:
             "name": "applied_wrapper_rejected",
             "message": "eta-style applied wrapper must not enter A-tier endpoint pairs",
             "pairs": wrapper_pairs,
+        })
+
+    typed_wrapper_bodies = {
+        "BEDC.Prior.OldClassifier": (
+            "def OldClassifier : BHist → BHist → Prop := fun h k => SomeP h ∧ SomeQ k"
+        ),
+        "BEDC.Prior.FreshClassifier": (
+            "def FreshClassifier : BHist → BHist → Prop := "
+            "fun (h : BHist) (k : BHist) => OldClassifier h k"
+        ),
+    }
+    typed_wrapper_pairs = _candidate_endpoint_pairs(
+        wrapper_block,
+        "BEDC.Prior.FreshClassifier",
+        wrapper_headers,
+        typed_wrapper_bodies,
+        {
+            "BEDC.Prior.OldClassifier": ExprFingerprint("old-decl", "type", "old-value"),
+            "BEDC.Prior.FreshClassifier": ExprFingerprint("fresh-decl", "type", "fresh-value"),
+        },
+    )
+    if typed_wrapper_pairs:
+        failures.append({
+            "name": "typed_applied_wrapper_rejected",
+            "message": "typed-binder eta wrapper must not enter A-tier endpoint pairs",
+            "pairs": typed_wrapper_pairs,
+        })
+
+    genuinely_new_bodies = {
+        "BEDC.Prior.OldClassifier": (
+            "def OldClassifier : BHist → BHist → Prop := fun h k => SomeP h ∧ SomeQ k"
+        ),
+        "BEDC.Prior.FreshClassifier": (
+            "def FreshClassifier : BHist → BHist → Prop := "
+            "fun (h : BHist) (k : BHist) => SomeQ h ∧ SomeP k"
+        ),
+    }
+    genuinely_new_pairs = _candidate_endpoint_pairs(
+        wrapper_block,
+        "BEDC.Prior.FreshClassifier",
+        wrapper_headers,
+        genuinely_new_bodies,
+        {
+            "BEDC.Prior.OldClassifier": ExprFingerprint("old-decl", "type", "old-value"),
+            "BEDC.Prior.FreshClassifier": ExprFingerprint("fresh-decl", "type", "new-value"),
+        },
+    )
+    if not genuinely_new_pairs:
+        failures.append({
+            "name": "typed_new_classifier_preserved",
+            "message": "typed-binder classifier with a distinct body must still be eligible",
         })
 
     gate_headers = {

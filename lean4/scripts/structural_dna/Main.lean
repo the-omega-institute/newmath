@@ -94,7 +94,42 @@ structure DeclFingerprint where
   fingerprint : String
   typeFp : String
   valueFp : String
+  constFp : String
+  etaValueFp : String
 deriving Repr
+
+partial def collectLams : Expr → Nat × Expr
+  | .lam _ _ body _ =>
+      let (n, inner) := collectLams body
+      (n + 1, inner)
+  | .mdata _ e => collectLams e
+  | e => (0, e)
+
+partial def appHeadArgs : Expr → Expr × List Expr
+  | .app f a =>
+      let (head, args) := appHeadArgs f
+      (head, args ++ [a])
+  | .mdata _ e => appHeadArgs e
+  | e => (e, [])
+
+def isEtaArgSequenceFrom : List Expr → Nat → Nat → Bool
+  | [], _, idx => idx == 0
+  | arg :: rest, arity, idx =>
+      arg == Expr.bvar (idx - 1) && isEtaArgSequenceFrom rest arity (idx - 1)
+
+def isEtaArgSequence (args : List Expr) (arity : Nat) : Bool :=
+  args.length == arity && isEtaArgSequenceFrom args arity arity
+
+def etaReduceValue (e : Expr) : Expr :=
+  let (arity, body) := collectLams e
+  if arity == 0 then
+    e
+  else
+    let (head, args) := appHeadArgs body
+    if isEtaArgSequence args arity then
+      head
+    else
+      e
 
 def isTheoremConstant (info : ConstantInfo) : Bool :=
   match info with
@@ -111,6 +146,7 @@ def valueIsProof (env : Environment) (value : Expr) : IO Bool := do
 def declFingerprint (env : Environment) (info : ConstantInfo) : IO DeclFingerprint := do
   let params := info.levelParams
   let typeFp := exprFingerprint params info.type
+  let constFp := exprFingerprint params (.const info.name (params.map Level.param))
   let valueFp ←
     if isTheoremConstant info then
       pure ""
@@ -122,15 +158,34 @@ def declFingerprint (env : Environment) (info : ConstantInfo) : IO DeclFingerpri
           else
             pure (exprFingerprint params value)
       | none => pure ""
+  let etaValueFp ←
+    if isTheoremConstant info then
+      pure ""
+    else
+      match info.value? (allowOpaque := true) with
+      | some value =>
+          if ← valueIsProof env value then
+            pure ""
+          else
+            pure (exprFingerprint params (etaReduceValue value))
+      | none => pure ""
   let fingerprint :=
     stableHash (joinPayload "decl" [typeFp, valueFp])
-  return { fingerprint := fingerprint, typeFp := typeFp, valueFp := valueFp }
+  return {
+    fingerprint := fingerprint,
+    typeFp := typeFp,
+    valueFp := valueFp,
+    constFp := constFp,
+    etaValueFp := etaValueFp
+  }
 
 def jsonForDeclFingerprint (fp : DeclFingerprint) : Json :=
   Json.mkObj [
     ("fingerprint", Json.str fp.fingerprint),
     ("type_fp", Json.str fp.typeFp),
-    ("value_fp", Json.str fp.valueFp)
+    ("value_fp", Json.str fp.valueFp),
+    ("const_fp", Json.str fp.constFp),
+    ("eta_value_fp", Json.str fp.etaValueFp)
   ]
 
 def parseJsonStringArray (j : Json) (field : String) : Except String (Array String) := do
