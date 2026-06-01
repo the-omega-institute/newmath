@@ -5,16 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Mapping, Any
 
+from .cost_protocol import CostProtocol, REQUIRED_DEBT_ROWS, load_cost_protocol
 from .ledger import LedgerEntry, LedgerRowKey, ledger_debt, ledger_gap, recorded_rows, required_rows
-
-
-_ROW_WEIGHTS = {
-    LedgerRowKey("source", "source-coverage"): 0.18,
-    LedgerRowKey("source", "mixing-family-coverage"): 0.22,
-    LedgerRowKey("source", "finite-sample-support"): 0.20,
-    LedgerRowKey("classifier", "optimizer-certificate"): 0.20,
-    LedgerRowKey("generalization", "global-claim-boundary"): 0.20,
-}
 
 
 @dataclass(frozen=True)
@@ -59,8 +51,8 @@ def _positive_int(spec: Mapping[str, Any], key: str, default: int) -> int:
     return value if isinstance(value, int) and value > 0 else default
 
 
-def _source_score(source_spec: Mapping[str, Any]) -> float:
-    upper = _ROW_WEIGHTS[LedgerRowKey("source", "source-coverage")]
+def _source_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
+    upper = protocol.weight(LedgerRowKey("source", "source-coverage"))
     count = _positive_int(source_spec, "source_count", 1)
     if count <= 1:
         return upper
@@ -69,8 +61,8 @@ def _source_score(source_spec: Mapping[str, Any]) -> float:
     return 0.0
 
 
-def _distribution_score(source_spec: Mapping[str, Any]) -> float:
-    upper = _ROW_WEIGHTS[LedgerRowKey("source", "mixing-family-coverage")]
+def _distribution_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
+    upper = protocol.weight(LedgerRowKey("source", "mixing-family-coverage"))
     mixing = source_spec.get("mixing")
     if isinstance(mixing, (list, tuple, set)):
         count = len(mixing)
@@ -83,8 +75,8 @@ def _distribution_score(source_spec: Mapping[str, Any]) -> float:
     return 0.0
 
 
-def _finite_sample_score(source_spec: Mapping[str, Any]) -> float:
-    upper = _ROW_WEIGHTS[LedgerRowKey("source", "finite-sample-support")]
+def _finite_sample_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
+    upper = protocol.weight(LedgerRowKey("source", "finite-sample-support"))
     sample_count = _positive_int(source_spec, "sample_count", 0)
     if sample_count >= 2048:
         return 0.0
@@ -95,8 +87,8 @@ def _finite_sample_score(source_spec: Mapping[str, Any]) -> float:
     return upper
 
 
-def _optimization_score(classifier_spec: Mapping[str, Any]) -> float:
-    upper = _ROW_WEIGHTS[LedgerRowKey("classifier", "optimizer-certificate")]
+def _optimization_score(classifier_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
+    upper = protocol.weight(LedgerRowKey("classifier", "optimizer-certificate"))
     training = str(classifier_spec.get("training", ""))
     name = str(classifier_spec.get("name", ""))
     text = f"{name} {training}".lower()
@@ -107,8 +99,12 @@ def _optimization_score(classifier_spec: Mapping[str, Any]) -> float:
     return upper
 
 
-def _global_claim_score(source_spec: Mapping[str, Any], stability_spec: Mapping[str, Any]) -> float:
-    upper = _ROW_WEIGHTS[LedgerRowKey("generalization", "global-claim-boundary")]
+def _global_claim_score(
+    source_spec: Mapping[str, Any],
+    stability_spec: Mapping[str, Any],
+    protocol: CostProtocol,
+) -> float:
+    upper = protocol.weight(LedgerRowKey("generalization", "global-claim-boundary"))
     if source_spec.get("global_claim") is True and stability_spec.get("multi_seed") is True:
         return 0.0
     if source_spec.get("global_claim") is True:
@@ -116,8 +112,8 @@ def _global_claim_score(source_spec: Mapping[str, Any], stability_spec: Mapping[
     return 0.0
 
 
-def _item(row: LedgerRowKey, score: float) -> DebtItem:
-    upper = _ROW_WEIGHTS[row]
+def _item(row: LedgerRowKey, score: float, protocol: CostProtocol) -> DebtItem:
+    upper = protocol.weight(row)
     bounded = _bounded(score, upper)
     return DebtItem(
         kind=row.kind,
@@ -128,10 +124,10 @@ def _item(row: LedgerRowKey, score: float) -> DebtItem:
     )
 
 
-def _required_entries() -> tuple[LedgerEntry, ...]:
+def _required_entries(protocol: CostProtocol) -> tuple[LedgerEntry, ...]:
     return tuple(
         LedgerEntry(row=row, source_ref="quality-lab-cost-policy", weight=weight, critical=True)
-        for row, weight in _ROW_WEIGHTS.items()
+        for row, weight in protocol.row_weights.items()
     )
 
 
@@ -155,6 +151,7 @@ def assess_debt(
     source_spec: Mapping[str, Any],
     classifier_spec: Mapping[str, Any],
     stability_spec: Mapping[str, Any],
+    protocol: CostProtocol | None = None,
 ) -> DebtAssessment:
     """Assess canonical producer debt from the consensus producer surface.
 
@@ -162,17 +159,32 @@ def assess_debt(
     envelope fields; the present scoring consumes the current debt subset.
     """
     del metrics
+    cost_protocol = load_cost_protocol() if protocol is None else protocol
+    cost_protocol.validate_required_rows(REQUIRED_DEBT_ROWS)
     items = (
-        _item(LedgerRowKey("source", "source-coverage"), _source_score(source_spec)),
-        _item(LedgerRowKey("source", "mixing-family-coverage"), _distribution_score(source_spec)),
-        _item(LedgerRowKey("source", "finite-sample-support"), _finite_sample_score(source_spec)),
-        _item(LedgerRowKey("classifier", "optimizer-certificate"), _optimization_score(classifier_spec)),
+        _item(LedgerRowKey("source", "source-coverage"), _source_score(source_spec, cost_protocol), cost_protocol),
+        _item(
+            LedgerRowKey("source", "mixing-family-coverage"),
+            _distribution_score(source_spec, cost_protocol),
+            cost_protocol,
+        ),
+        _item(
+            LedgerRowKey("source", "finite-sample-support"),
+            _finite_sample_score(source_spec, cost_protocol),
+            cost_protocol,
+        ),
+        _item(
+            LedgerRowKey("classifier", "optimizer-certificate"),
+            _optimization_score(classifier_spec, cost_protocol),
+            cost_protocol,
+        ),
         _item(
             LedgerRowKey("generalization", "global-claim-boundary"),
-            _global_claim_score(source_spec, stability_spec),
+            _global_claim_score(source_spec, stability_spec, cost_protocol),
+            cost_protocol,
         ),
     )
-    required = required_rows(_required_entries())
+    required = required_rows(_required_entries(cost_protocol))
     recorded = recorded_rows(_recorded_entries(items))
     gap = ledger_gap(required, recorded)
     cost_map = {

@@ -5,6 +5,14 @@ from __future__ import annotations
 import numpy as np
 
 
+QUALITY_Q_FORMULA_ID = "quality_q"
+QUALITY_Q_FORMULA_TEXT = "quality_benefit - quality_cost - quality_debt"
+
+
+def quality_formula_description() -> str:
+    return QUALITY_Q_FORMULA_TEXT
+
+
 def _as_matrix(values: np.ndarray, name: str) -> np.ndarray:
     arr = np.asarray(values, dtype=np.float64)
     if arr.ndim != 2:
