@@ -125,13 +125,16 @@ def isEtaArgSequenceFrom : List Expr → Nat → Nat → Bool
 def isEtaArgSequence (args : List Expr) (arity : Nat) : Bool :=
   args.length == arity && isEtaArgSequenceFrom args arity arity
 
+def etaHeadClosedOverRemovedBinders (head : Expr) (arity : Nat) : Bool :=
+  !(List.range arity).any (fun i => head.hasLooseBVar i)
+
 def etaReduceValue (e : Expr) : Expr :=
   let (arity, body) := collectLams e
   if arity == 0 then
     e
   else
     let (head, args) := appHeadArgs body
-    if isEtaArgSequence args arity then
+    if isEtaArgSequence args arity && etaHeadClosedOverRemovedBinders head arity then
       head
     else
       e
@@ -285,6 +288,7 @@ def testDecls : Array String :=
     "BEDC.StructuralDna.TestTargets.C1LetEta",
     "BEDC.StructuralDna.TestTargets.C1MidEta",
     "BEDC.StructuralDna.TestTargets.C1MultiEta",
+    "BEDC.StructuralDna.TestTargets.HeadDependsClassifier",
     "BEDC.StructuralDna.TestTargets.Hollow",
     "BEDC.StructuralDna.TestTargets.SomeP",
     "BEDC.StructuralDna.TestTargets.ExplicitArrow",
@@ -333,6 +337,8 @@ unsafe def runSelfTest : IO UInt32 := do
   let c1LetEtaReduced ← getReducedFp! items "BEDC.StructuralDna.TestTargets.C1LetEta"
   let c1MidEtaReduced ← getReducedFp! items "BEDC.StructuralDna.TestTargets.C1MidEta"
   let c1MultiEtaReduced ← getReducedFp! items "BEDC.StructuralDna.TestTargets.C1MultiEta"
+  let headDependsReduced ←
+    getReducedFp! items "BEDC.StructuralDna.TestTargets.HeadDependsClassifier"
   let hollow ← getFp! items "BEDC.StructuralDna.TestTargets.Hollow"
   let someP ← getFp! items "BEDC.StructuralDna.TestTargets.SomeP"
   let explicitArrow ← getFp! items "BEDC.StructuralDna.TestTargets.ExplicitArrow"
@@ -368,7 +374,12 @@ unsafe def runSelfTest : IO UInt32 := do
     && c1Reduced == c1MultiEtaReduced
     && c1Reduced != c2Reduced
   )
-  return if [t1, t2, t3, t4, t5, t6, t7, t8, t10].all id then 0 else 1
+  let t11 ← printCheck "T11 eta head dependency preserved" (
+    headDependsReduced != someP
+    && headDependsReduced != c1Reduced
+    && headDependsReduced != c2Reduced
+  )
+  return if [t1, t2, t3, t4, t5, t6, t7, t8, t10, t11].all id then 0 else 1
 
 end BEDC.StructuralDna
 

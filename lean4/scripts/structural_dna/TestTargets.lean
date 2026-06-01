@@ -28,6 +28,13 @@ def C1MidEta : BHist → BHist → Prop := fun h k => C1 h k
 
 def C1MultiEta : BHist → BHist → Prop := fun h k => C1MidEta h k
 
+def HeadDependsClassifier : BHist → Prop :=
+  fun h =>
+    (match h with
+    | BHist.Empty => SomeP
+    | BHist.e0 _ => SomeQ
+    | BHist.e1 _ => SomeP) h
+
 def Hollow : BHist → Prop := fun _ => True
 
 def ExplicitArrow : Type := ∀ _ : BHist, BHist

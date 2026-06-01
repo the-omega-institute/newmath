@@ -6423,6 +6423,9 @@ def _structural_dna_regression_checks() -> list[dict[str, object]]:
         "BEDC.StructuralDna.TestTargets.C1MultiEta": (
             "def C1MultiEta : BHist → BHist → Prop :="
         ),
+        "BEDC.StructuralDna.TestTargets.HeadDependsClassifier": (
+            "def HeadDependsClassifier : BHist → Prop :="
+        ),
     }
     eta_bodies = {
         "BEDC.StructuralDna.TestTargets.C1": (
@@ -6443,6 +6446,10 @@ def _structural_dna_regression_checks() -> list[dict[str, object]]:
         "BEDC.StructuralDna.TestTargets.C1MultiEta": (
             "def C1MultiEta : BHist → BHist → Prop := fun h k => C1MidEta h k"
         ),
+        "BEDC.StructuralDna.TestTargets.HeadDependsClassifier": (
+            "def HeadDependsClassifier : BHist → Prop := fun h => "
+            "(match h with | BHist.Empty => SomeP | BHist.e0 _ => SomeQ | BHist.e1 _ => SomeP) h"
+        ),
     }
     eta_expr_fps = _run_structural_dna_expr_fingerprints(
         eta_headers,
@@ -6450,6 +6457,7 @@ def _structural_dna_regression_checks() -> list[dict[str, object]]:
     )
     eta_old = eta_expr_fps.get("BEDC.StructuralDna.TestTargets.C1")
     eta_new = eta_expr_fps.get("BEDC.StructuralDna.TestTargets.C2")
+    eta_head_depends = eta_expr_fps.get("BEDC.StructuralDna.TestTargets.HeadDependsClassifier")
     eta_wrappers = [
         "BEDC.StructuralDna.TestTargets.C1DirectEta",
         "BEDC.StructuralDna.TestTargets.C1LetEta",
@@ -6523,6 +6531,42 @@ def _structural_dna_regression_checks() -> list[dict[str, object]]:
                 "name": "reduced_distinct_classifier_preserved",
                 "message": "a distinct classifier must remain eligible after reduced-fingerprint gating",
             })
+        if eta_head_depends is None or not eta_head_depends.reduced_fingerprint:
+            failures.append({
+                "name": "eta_head_dependency_fingerprint_available",
+                "message": "structural_dna must emit a reduced fingerprint for head-dependent eta counterexamples",
+            })
+        else:
+            head_depends_reduced = eta_head_depends.reduced_fingerprint
+            if head_depends_reduced in {old_reduced, new_reduced}:
+                failures.append({
+                    "name": "eta_head_dependency_not_contracted",
+                    "message": "head-dependent applied lambdas must not be reduced to an existing classifier root",
+                })
+            head_depends_block = {
+                "raw_body": (
+                    r"\closureparents{BEDC.StructuralDna.TestTargets.C1} "
+                    r"\closuregate{BEDC.StructuralDna.TestTargets.HeadDependsClassifier}"
+                ),
+                "open_fields": {
+                    "closureparents": "BEDC.StructuralDna.TestTargets.C1",
+                    "closuregate": "BEDC.StructuralDna.TestTargets.HeadDependsClassifier",
+                },
+                "lean_target": "BEDC.StructuralDna.TestTargets.HeadDependsClassifier",
+            }
+            head_depends_pairs = _candidate_endpoint_pairs(
+                head_depends_block,
+                "BEDC.StructuralDna.TestTargets.HeadDependsClassifier",
+                eta_headers,
+                eta_bodies,
+                eta_expr_fps,
+            )
+            if not head_depends_pairs:
+                failures.append({
+                    "name": "eta_head_dependency_distinct_candidate_preserved",
+                    "message": "head-dependent applied lambdas must remain eligible as distinct classifiers",
+                    "pairs": head_depends_pairs,
+                })
 
     gate_headers = {
         "BEDC.Prior.OldClassifier": "def OldClassifier : BHist → Prop :=",
