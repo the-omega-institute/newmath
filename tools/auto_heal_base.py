@@ -503,6 +503,10 @@ def _with_fix_signature(prompt: str, signature: str) -> str:
 
 def _ci_fix_signature(log_tail: str, failure: dict) -> str:
     patterns = [
+        (
+            r"\\leantarget\s+'([^']+)'\s+does not resolve under lean4/BEDC/",
+            "closurestatus target",
+        ),
         (r"Undefined control sequence\.\s*(?:.*\n){0,3}.*?(\\[A-Za-z@]+)", "missing macro"),
         (r"Command\s+(\\[A-Za-z@]+)\s+already defined", "duplicate macro"),
         (r"LaTeX Error:\s*Command\s+(\\[A-Za-z@]+)\s+already defined", "duplicate macro"),
@@ -901,6 +905,12 @@ the defect was already fixed) do you make no commit.
    - **lake build `unknown identifier`** / `type mismatch` — find the
      theorem and either fix the proof, or if the upstream `def`/`theorem`
      was renamed, update callers. Do NOT introduce `sorry` or `axiom`.
+   - **`bedc_ci.py audit` `closurestatus block diagnostics` with
+     `\\leantarget 'X' does not resolve`** — inspect the closurestatus block.
+     If the block has `\\formalstatus{\\unformalizedV}` or another status
+     below theorem-checked, remove the stale `\\leantarget{X}`. If the block
+     genuinely claims theorem-checked status, add or rename the Lean target so
+     `X` resolves.
    - **`bedc_ci.py audit` `unresolved Lean marker`** — paper has
      `\\leanchecked{X}` for which `X` doesn't exist in `lean4/BEDC/`. Either
      add the missing Lean theorem OR change the paper marker to
@@ -1033,8 +1043,17 @@ def _classify_ci_unfixable(log_tail: str) -> str | None:
     return None
 
 
+def _ci_heal_branch_heads() -> tuple[str, ...]:
+    return (MIRROR_BRANCH, f"{MIRROR_BRANCH}-sync-")
+
+
+def _is_ci_heal_branch(head: str) -> bool:
+    mirror, sync_prefix = _ci_heal_branch_heads()
+    return head == mirror or head.startswith(sync_prefix)
+
+
 def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
-    """Query GitHub Actions for recently-failed runs on MIRROR_BRANCH only.
+    """Query GitHub Actions for recent failed mirror/sync-PR runs.
 
     Returns a list of {run_id, workflow, name, created_at, branch} dicts.
     Empty if `gh` CLI is unavailable, no runs in the window failed, or any
@@ -1048,7 +1067,6 @@ def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
     try:
         r = run([
             "gh", "run", "list",
-            "--branch", MIRROR_BRANCH,
             "--limit", "80",
             "--json",
             "status,conclusion,name,workflowName,databaseId,createdAt,headBranch",
@@ -1068,7 +1086,7 @@ def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
         if row.get("conclusion") != "failure":
             continue
         head = row.get("headBranch", "") or ""
-        if head != MIRROR_BRANCH:
+        if not _is_ci_heal_branch(head):
             continue
         ts = row.get("createdAt", "")
         # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
