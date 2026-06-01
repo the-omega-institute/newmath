@@ -644,6 +644,7 @@ import BEDC.Derived.BaireOneFunctionUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
 import BEDC.Derived.BaireSteinhausUp.TasteGate
+import BEDC.Derived.BaireUltrametricUp.CompletionHandoff
 import BEDC.Derived.BaireUltrametricUp.CylinderRefinement
 import BEDC.Derived.BaireUltrametricUp.TasteGate
 import BEDC.Derived.BanachAlaogluUp.TasteGate
@@ -1348,6 +1349,7 @@ import BEDC.Derived.CauchyFilterRegularizationUp.TasteGate
 import BEDC.Derived.CauchyFilterSpaceUp
 import BEDC.Derived.CauchyFilterSubbasisUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
+import BEDC.Derived.CauchyHadamardUp.TasteGate
 import BEDC.Derived.CauchyIntegralTestUp.TasteGate
 import BEDC.Derived.CauchyInterleavingCriterionUp.TasteGate
 import BEDC.Derived.CauchyInterleavingProductUp.TasteGate
@@ -1385,6 +1387,7 @@ import BEDC.Derived.CauchyLimitSealUp.StreamNameSynchronizerPullback
 import BEDC.Derived.CauchyLimitSealUp.SynchronizerFiniteWindow
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
+import BEDC.Derived.CauchyLocatedRealEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyLocatednessUp.TasteGate
 import BEDC.Derived.CauchyMajorantSeriesUp.TasteGate
 import BEDC.Derived.CauchyMetastabilityUp.TasteGate
@@ -2929,6 +2932,7 @@ import BEDC.Derived.DedekindCutCompletionUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindCutUp.TasteGate
 import BEDC.Derived.DedekindMacNeilleCompletionUp.CutClosure
+import BEDC.Derived.DedekindMacNeilleCompletionUp.NameCertObligations
 import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
 import BEDC.Derived.DedekindRealUp.TasteGate
 import BEDC.Derived.DedekindUp
