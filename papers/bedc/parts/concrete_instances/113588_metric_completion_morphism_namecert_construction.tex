@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\MetricCompletionMorphismUp$}
+\label{ch:concrete-instances-metric-completion-morphism-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive metric completion, the $\MetricCompletionMorphismUp$ packet records the finite morphism surface by which a map between displayed metric-completion presentations preserves Cauchy data before any completed point or host map is read. It sits after the metric source of \autoref{ch:concrete-instances-metric-namecert}, the complete-metric target of \autoref{ch:concrete-instances-completemetric-namecert}, the completion-functor route of \autoref{ch:concrete-instances-completionfunctor-namecert}, and the Cauchy-filter limit surface of \autoref{ch:concrete-instances-cauchyfilterlimit-namecert}. The packet names only finite completion-morphism rows; it does not assert quotient completion equality, choose representatives, import a host continuous map, use countable choice, or appeal to ambient completeness.
+
+\begin{definition}[Metric completion morphism carrier]
+\label{def:metric-completion-morphism-carrier}
+A $\MetricCompletionMorphismUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,T,W,R,D,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source metric row, recording the $\MetricSpaceUp$ carrier, distance readbacks, and the Cauchy source interface that the morphism may inspect.
+\item $T$ is the target completion row, recording the $\CompleteMetricUp$ and completion-functor data visible to target-side consumers.
+\item $W$ is the $\StreamNameUp$ window row, listing the finite source windows and target windows inspected by the morphism.
+\item $R$ is the $\RegSeqRatUp$ readback row for source distances, target distances, and modulus-scaled tolerance requests.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, naming the finite dyadic budgets used to compare source Cauchy windows with target Cauchy windows.
+\item $M$ is the modulus-preserving map row. It records the displayed map schedule and the finite checks that transport a source Cauchy tolerance into the target completion tolerance.
+\item $H$ records componentwise $\hsame$ transport for source metric, target completion, window, regular readback, dyadic tolerance, modulus-preserving map, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,T,M \longmapsto W,R,D \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetricCompletionMorphismUp$, $\MetricSpaceUp$, $\CompleteMetricUp$, $\CompletionFunctorUp$, $\CauchyFilterLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricCompletionMorphismUp}$ row.
+\end{enumerate}
+Accepted carriers are compared only through these rows. There is no carrier coordinate for quotient completions, chosen representatives, host maps, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Metric completion morphism NameCert obligations]
+\label{thm:metric-completion-morphism-namecert-obligations}
+For every accepted $\MetricCompletionMorphismUp$ carrier $G=(S,T,W,R,D,M,H,C,P,N)$, the local $\NameCert_{\MetricCompletionMorphismUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the source metric row, target completion row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, modulus-preserving map row, transport, replay, provenance, and local naming rows;
+\item source and target completion visibility, requiring $S$ and $T$ to be displayed before any completion-facing morphism read is exported;
+\item Cauchy-window preservation, requiring $W,R,D,M$ to show that finite source Cauchy windows are sent to target Cauchy windows at the recorded tolerance;
+\item modulus-stability under classifier transport, requiring $H$ and $C$ to preserve the same modulus row rather than replacing it by a host continuity theorem;
+\item ledger refusal of quotient completions, chosen representatives, host maps, countable choice, and ambient completeness.
+\end{enumerate}
+No metric-completion morphism obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-completion-morphism-carrier}. The source and target rows are $S,T$, the finite Cauchy-data rows are $W,R,D,M$, and the structural rows are $H,C,P,N$.
+
+The visibility clause follows because a morphism read cannot reach $M$ before both the source metric row and target completion row have been displayed. The Cauchy-window clause then reads $W,R,D,M$ in order: finite windows, regular rational readback, dyadic tolerance, and the modulus-preserving map schedule.
+
+Transport and replay preserve the same rows componentwise. Since the carrier has no field for quotient completions, selected representatives, host maps, countable-choice schedules, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Metric completion morphism composition replay]
+\label{thm:metric-completion-morphism-composition-replay}
+Let $G=(S,T,W,R,D,M,H,C,P,N)$ and $G'=(T,U,W',R',D',M',H',C',P',N')$ be accepted $\MetricCompletionMorphismUp$ carriers whose target row of $G$ is the source row exposed to $G'$ through componentwise $\hsame$. Then their composition is replayed by concatenating the displayed finite routes through $M$ and $M'$:
+$$
+S,T,U \longmapsto W,R,D,M \longmapsto W',R',D',M' \longmapsto H,H',C,C',P,P',N,N' .
+$$
+The replay preserves Cauchy windows and modulus budgets without adding quotient completion equality, chosen representatives, host maps, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the target-source agreement between the two carriers. Componentwise $\hsame$ identifies the completion row $T$ exported by $G$ with the row consumed by $G'$, so the second morphism can read only the target completion data already displayed by the first route.
+
+Apply the NameCert obligations of \autoref{thm:metric-completion-morphism-namecert-obligations} to each carrier. The first route sends source Cauchy windows through $W,R,D,M$, and the second route sends the resulting target windows through $W',R',D',M'$.
+
+Concatenate the replay rows $C,C'$ and transport rows $H,H'$. Provenance and local naming preserve the same finite route, so the composite read has no opportunity to introduce a quotient completion, a chosen representative, a host map, a countable-choice schedule, or an ambient completeness theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetricCompletionMorphismUp$ consumer that asks for a completion morphism must display the source metric row, target completion row, StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, modulus-preserving map row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before receiving any completion-facing output.}
+
+\independenceWitness{metric, completemetric, completionfunctor, cauchyfilterlimit: no listed sibling is bijective to $\MetricCompletionMorphismUp$ because the morphism packet jointly carries source metric data, target completion data, finite Cauchy windows, regular readbacks, dyadic tolerances, a modulus-preserving map row, transport, replay, provenance, and local naming.}
+
+\closureat{MetricCompletionMorphismUp}{seedStr}
+
+\begin{closurestatus}{\MetricCompletionMorphismUp}
+  \constructivestory{A $\MetricCompletionMorphismUp$ packet is generated from source MetricSpace data, target CompleteMetric and CompletionFunctor rows, CauchyFilterLimit-facing windows, StreamName observations, RegSeqRat readback, DyadicRatCore tolerance ledgers, a modulus-preserving map row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-completion-morphism-carrier}, \autoref{thm:metric-completion-morphism-namecert-obligations}, and \autoref{thm:metric-completion-morphism-composition-replay} seed the finite morphism route preserving metric-completion Cauchy data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient completion equality, chosen representatives, host maps, countable choice, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, source and target visibility, Cauchy-window preservation, modulus-stability under classifier transport, composition replay, ledger refusal, provenance, and local naming for BEDC.Derived.MetricCompletionMorphismUp.}
+\end{closurestatus}
