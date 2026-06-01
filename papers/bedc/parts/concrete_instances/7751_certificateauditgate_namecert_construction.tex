@@ -119,12 +119,28 @@ Finally \autoref{thm:certificate-audit-gate-nonescape} prevents the consumer fro
 
 \leanchecked{BEDC.Derived.CertificateAuditGateUp.taste\_gate}
 
+\begin{theorem}[CertificateAuditGate public export]
+\label{thm:certificateauditgate-public-export}
+An accepted $\CertificateAuditGateUp$ packet exports only the public rows
+$$
+I,S,R,D,A,H,C,P,N.
+$$
+Consumers may read gate input, checked surface, refusal, drift, axiom-purity, componentwise transport, displayed route, provenance, and local naming from the same finite packet. They may not export repository completeness, host-kernel completeness, semantic conservativity, quotient representatives, choice selectors, proposition equality, unresolved target replacement, or substrate-internal closure from a gate pass.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:certificate-audit-gate-carrier}. The displayed packet contains exactly the gate input, checked surface, refusal, drift, axiom-purity, transport, route, provenance, and naming rows.
+
+Apply \autoref{thm:certificate-audit-gate-obligation-surface}, \autoref{thm:certificate-audit-gate-drift-exactness}, and \autoref{thm:certificate-audit-gate-axiom-purity-exactness}. These identify the checked surface, drift row, and axiom-purity row as finite public audit rows rather than hidden correctness oracles.
+
+Apply \autoref{thm:certificate-audit-gate-nonescape} and \autoref{thm:certificate-audit-gate-kernel-scope}. The public export is therefore bounded by $I,S,R,D,A,H,C,P,N$ and cannot leave the local NameCert packet.
+\end{proof}
+
 \closureat{CertificateAuditGateUp}{scopedStr}
 
 \begin{closurestatus}{\CertificateAuditGateUp}
   \constructivestory{A $\CertificateAuditGateUp$ packet is generated from gate input, checked surface, refusal, drift, axiom-purity, componentwise transport, displayed route, provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:certificate-audit-gate-carrier}, \autoref{thm:certificate-audit-gate-obligation-surface}, \autoref{thm:certificate-audit-gate-soundness-boundary}, and \autoref{thm:certificate-audit-gate-nonescape} bind the finite audit-gate certificate surface and its local non-escape boundary.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:certificate-audit-gate-carrier}, \autoref{thm:certificate-audit-gate-obligation-surface}, \autoref{thm:certificate-audit-gate-soundness-boundary}, \autoref{thm:certificate-audit-gate-nonescape}, and \autoref{thm:certificateauditgate-public-export} bind the finite audit-gate certificate surface and its public non-escape boundary.}
   \formalstatus{\unformalizedV}
   \closureledger{BEDC.Meta.DiscoveryDeltaLedger.certificateAuditGateDeltaLedger}
   \bridgestatus{none}
