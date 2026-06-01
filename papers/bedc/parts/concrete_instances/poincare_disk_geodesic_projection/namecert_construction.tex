@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\PoincareDiskGeodesicProjectionUp$}
+\label{ch:concrete-instances-poincare-disk-geodesic-projection-namecert}
+\origin{human}
+
+Following classical Poincare disk geometry, the $\PoincareDiskGeodesicProjectionUp$ packet records the finite route by which displayed disk points are projected onto a boundary-determined geodesic before metric and phase-transport consumers read the result. It sits after the disk carrier of \autoref{ch:concrete-instances-unitdisk-namecert}, the hyperbolic metric rows of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the geodesic-boundary packet of \autoref{ch:concrete-instances-hyperbolic-geodesic-boundary-namecert}, the boundary-fixed transport packet of \autoref{ch:concrete-instances-poincare-boundary-fixed-transport-namecert}, and the disk phase-transport route of \autoref{ch:concrete-instances-poincare-disk-phase-transport-namecert}. The packet names a finite geodesic projection surface; it is not a completed hyperbolic plane, quotient ideal boundary, selected nearest point, host minimizer, physical horizon, or global compactification.
+
+\begin{definition}[Poincare disk geodesic projection carrier]
+\label{def:poincare-disk-geodesic-projection-carrier}
+A $\PoincareDiskGeodesicProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,B,M,T,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\UnitDiskUp$ disk-point row, recording the finite disk coordinates and source observations to be projected.
+\item $B$ is the boundary-geodesic row, recording the two displayed boundary endpoints or boundary-incidence data that determine the geodesic arc.
+\item $M$ is the $\HyperbolicMetricUp$ comparison row, exposing the metric reads used to compare the disk point with the geodesic boundary data.
+\item $T$ is the $\PoincareBoundaryFixedTransportUp$ row, carrying the boundary-fixed transport that preserves the displayed geodesic endpoints during the projection read.
+\item $J$ is the projection-join row, tying $D,B,M,T$ to the same finite source surface before any projected point or phase-transport consumer can read the packet.
+\item $H$ records componentwise $\hsame$ transport for disk points, boundary-geodesic data, hyperbolic-metric comparisons, boundary-fixed transport, projection join, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a projection request through $D,B,M,T,J,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\PoincareDiskGeodesicProjectionUp$, $\UnitDiskUp$, $\HyperbolicMetricUp$, $\HyperbolicGeodesicBoundaryUp$, $\PoincareBoundaryFixedTransportUp$, $\PoincareDiskPhaseTransportUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PoincareDiskGeodesicProjectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,B,M,T,J,H,C,P,N$. It has no coordinate for a completed disk, quotient boundary equality, selected nearest point, host minimizer, physical horizon, or global hyperbolic compactification.
+\end{definition}
+
+\begin{theorem}[Poincare disk geodesic projection NameCert obligations]
+\label{thm:poincare-disk-geodesic-projection-namecert-obligations}
+For every accepted $\PoincareDiskGeodesicProjectionUp$ carrier
+$$
+G=(D,B,M,T,J,H,C,P,N),
+$$
+the local $\NameCert_{\PoincareDiskGeodesicProjectionUp}$ surface consists exactly of disk-point admission, boundary-geodesic admission, hyperbolic-metric comparison, boundary-fixed transport, projection-join exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every projection consumer must read
+$$
+D,B,M,T \longmapsto J \longmapsto H,C,P,N
+$$
+before it can pass projected geodesic data to a phase-transport or metric consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:poincare-disk-geodesic-projection-carrier}. The only visible source rows are the disk point row $D$, boundary-geodesic row $B$, hyperbolic-metric comparison row $M$, boundary-fixed transport row $T$, and the structural rows $J,H,C,P,N$.
+
+The geodesic projection read is forced through $D,B,M,T$. Disk coordinates provide the source point, boundary-geodesic data provide the target arc, metric comparisons provide the displayed hyperbolic reading, and boundary-fixed transport preserves the endpoints while the request is replayed.
+
+The projection-join row $J$ binds those four rows to one finite source surface. Componentwise transport and displayed replay then preserve that same packet through $H$ and $C$.
+
+Finally $P$ and $N$ exhaust provenance and local naming. Since no completed disk, quotient boundary equality, selected nearest point, host minimizer, physical horizon, or global compactification row appears in the carrier, the projection remains a finite NameCert route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\PoincareDiskGeodesicProjectionUp$ read is refuted if a consumer obtains projected geodesic data without displaying the disk-point row, boundary-geodesic row, HyperbolicMetric comparison row, boundary-fixed transport row, projection join, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{unitdisk, hyperbolic-metric, hyperbolic-geodesic-boundary, poincare-boundary-fixed-transport, poincare-disk-phase-transport: no listed sibling is bijective to $\PoincareDiskGeodesicProjectionUp$ because this packet jointly carries disk points, boundary-geodesic data, metric comparisons, boundary-fixed transport, projection joining, transport, replay, provenance, and local naming as one finite route.}
+
+\closureat{PoincareDiskGeodesicProjectionUp}{seedStr}
+
+\begin{closurestatus}{\PoincareDiskGeodesicProjectionUp}
+  \constructivestory{A $\PoincareDiskGeodesicProjectionUp$ packet is generated from UnitDisk point rows, boundary-geodesic rows, HyperbolicMetric comparison rows, PoincareBoundaryFixedTransport rows, projection joining, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poincare-disk-geodesic-projection-carrier} and \autoref{thm:poincare-disk-geodesic-projection-namecert-obligations} seed the finite disk-point, boundary-geodesic, hyperbolic-metric, and phase-transport projection route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed hyperbolic-plane geometry, quotient ideal-boundary equality, selected nearest points, host minimizers, physical horizons, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked disk-point admission, boundary-geodesic admission, hyperbolic-metric comparison, boundary-fixed transport, projection-join exactness, transport, replay, provenance, and local naming for BEDC.Derived.PoincareDiskGeodesicProjectionUp.}
+\end{closurestatus}

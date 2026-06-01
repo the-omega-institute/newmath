@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\BoundedNormalizationFuelUp$}
+\label{ch:concrete-instances-bounded-normalization-fuel-namecert}
+\origin{ai}
+
+The $\BoundedNormalizationFuelUp$ packet realizes the bounded normalisation endpoint boundary of \autoref{ch:metacic-decidable-audit-map} as finite checker data. It sits beside the decidability boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, the budgeted checker route of \autoref{ch:concrete-instances-bounded-typechecking-budget-namecert}, the fuel-trace frontier of \autoref{ch:concrete-instances-metacic-normalization-fuel-boundary-namecert}, and the closed normal-confluence seal consumed when finished endpoints are visible. The packet records fuel-sensitive conversion endpoints without turning bounded computation into unrestricted beta-conversion decidability.
+
+\begin{definition}[Bounded normalization fuel carrier]
+\label{def:bounded-normalization-fuel-carrier}
+A $\BoundedNormalizationFuelUp$ carrier is a finite $\BHist$ packet
+$$
+F=(\Gamma,t,u,k,B,E,Z,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Gamma$ is the represented MetaCIC context row for the checker request.
+\item $t,u$ are the two closed or context-indexed term rows whose bounded normal forms are compared.
+\item $k$ is the visible natural fuel row, including the decrement ledger consumed by the normalizer.
+\item $B$ is the bounded normalizer row, exposing the two computed endpoint terms at fuel $k$.
+\item $E$ is the equality-check row, comparing the two bounded endpoints by structural same-term checking.
+\item $Z$ is the finished-normal row, present exactly when both bounded endpoints carry finished-normalisation evidence at the displayed fuel.
+\item $R$ is the refusal row, recording timeout, missing finished evidence, missing closedness evidence, or attempted fuel erasure.
+\item $H$ records componentwise $\hsame$ transport for $\Gamma,t,u,k,B,E,Z,R$.
+\item $C$ records displayed $\Cont$ replay from the checker request through fuel, bounded endpoints, equality, finished-normal evidence, refusal, and structural rows.
+\item $P$ is the $\Pkg$ provenance over $\BoundedNormalizationFuelUp$, $\MetaCICDecidableBoundaryUp$, $\BoundedTypecheckingBudgetUp$, $\MetaCICNormalizationFuelBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BoundedNormalizationFuelUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for unrestricted beta-conversion decidability, fuel-erased normalization, proof-irrelevant term equality, quotient syntax equality, host conversion, or closed consistency.
+\end{definition}
+
+\begin{theorem}[Bounded normalization fuel NameCert obligations]
+\label{thm:bounded-normalization-fuel-namecert-obligations}
+For every accepted $\BoundedNormalizationFuelUp$ carrier
+$$
+F=(\Gamma,t,u,k,B,E,Z,R,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedNormalizationFuelUp}$ surface consists exactly of finite rows for checker-context admission, term-row admission, fuel-ledger exposure, bounded endpoint computation, structural endpoint comparison, finished-normal evidence when present, refusal visibility, componentwise transport, displayed replay, provenance, and local naming. No obligation row may delete $k$, infer $Z$ from $B$ alone, hide $R$, or export unrestricted closed beta-conversion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-normalization-fuel-carrier}. The checker context, term rows, and fuel row are public before any endpoint comparison is read.
+
+The bounded endpoint row $B$ is fuel-sensitive. It records what the normalizer produced at the displayed fuel $k$, while the equality row $E$ compares only those bounded outputs.
+
+The finished-normal row $Z$ is separate. When it is present, it justifies the stronger endpoint reading named by the decidability audit map; when it is absent, the refusal row $R$ remains part of the same public packet.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the finite route. Since none of those rows contains an unrestricted normalizer or host conversion oracle, the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Bounded normalization fuel finished boundary]
+\label{thm:bounded-normalization-fuel-finished-boundary}
+Every public conversion-facing read of an accepted $\BoundedNormalizationFuelUp$ carrier factors through
+$$
+\Gamma,t,u,k,B,E,Z,R \longmapsto H,C,P,N .
+$$
+If $Z$ is displayed, the consumer may use the finished-normal endpoint handoff attached to the bounded equality row $E$. If $Z$ is absent, the refusal row $R$ blocks any export of unrestricted beta-conversion decidability, fuel-erased normalization, proof-irrelevant equality, quotient syntax equality, host conversion, or closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations in \autoref{thm:bounded-normalization-fuel-namecert-obligations}. They order the public route through context, terms, visible fuel, bounded endpoint computation, structural comparison, finished evidence, and refusal.
+
+When $Z$ is present, the endpoint evidence is still tied to the displayed fuel $k$ and the bounded endpoint row $B$. Thus the consumer receives a finished-boundary handoff, not a global conversion oracle.
+
+When $Z$ is absent, $R$ is mandatory. It records the timeout or missing endpoint evidence and prevents $E$ from being read as unrestricted beta-conversion decidability.
+
+Transport, replay, provenance, and local naming preserve the same distinction. The packet therefore has exactly the finite endpoint boundary stated above.
+\end{proof}
+
+\begin{theorem}[Bounded normalization fuel monotone readback]
+\label{thm:bounded-normalization-fuel-monotone-readback}
+If an accepted $\BoundedNormalizationFuelUp$ packet is reread at a larger displayed fuel, the public conversion-facing route must still expose the original context row, term rows, visible fuel row, bounded endpoint row, structural equality row, finished-normal row when present, and refusal row when absent. Increasing fuel may refine the bounded endpoint row, but it cannot delete fuel, infer finished evidence from bounded endpoints alone, hide refusal, or export unrestricted beta-conversion decidability.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-normalization-fuel-carrier}. The reread keeps the same $\Gamma,t,u$ request surface and replaces only the displayed fuel request by a larger visible fuel row.
+
+Apply \autoref{thm:bounded-normalization-fuel-namecert-obligations}. The endpoint row may be recomputed at the larger fuel, but the public route still has to display fuel, bounded endpoints, structural equality, finished-normal evidence when present, refusal when absent, and the structural rows.
+
+Now use \autoref{thm:bounded-normalization-fuel-finished-boundary}. A refined endpoint row does not by itself create finished-normal evidence; the finished case remains tied to $Z$, and the nonfinished case remains tied to $R$.
+
+Thus monotone fuel readback is still a bounded computation route. It can refine what the bounded endpoint row says at the larger fuel, but it cannot become an unrestricted conversion oracle.
+\end{proof}
+
+\falsifiablePrediction{A $\BoundedNormalizationFuelUp$ consumer that exports unrestricted closed beta-conversion decidability after deleting the fuel row $k$, the finished-normal row $Z$, or the refusal row $R$ refutes the carrier of \autoref{def:bounded-normalization-fuel-carrier}.}
+
+\independenceWitness{Nearest siblings: metacicdecidableboundary, bounded-typechecking-budget, metacic-normalization-fuel-boundary, and closed-normal-confluence-seal. $\BoundedNormalizationFuelUp$ is not bijective to any of them because it jointly carries checker context, two term rows, visible fuel, bounded endpoint computation, structural endpoint equality, finished-normal evidence, refusal, transport, replay, provenance, and local naming as one carrier.}
+
+The Lean TasteGate follow-up for this packet requires explicit $\mathsf{Nontrivial}\ \BoundedNormalizationFuelUp$ and $\mathsf{FieldFaithful}\ \BoundedNormalizationFuelUp$ instances in the corresponding TasteGate file. Nontriviality must separate accepted finished endpoint packets from timeout or missing-evidence packets, and field faithfulness must preserve $\Gamma,t,u,k,B,E,Z,R,H,C,P,N$ without erasing fuel or refusal rows.
+
+\closureat{BoundedNormalizationFuelUp}{seedStr}
+
+\begin{closurestatus}{\BoundedNormalizationFuelUp}
+  \constructivestory{A $\BoundedNormalizationFuelUp$ packet is generated from checker-context rows, term rows, visible fuel, bounded endpoint computation, structural endpoint comparison, finished-normal evidence, refusal rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-normalization-fuel-carrier}, \autoref{thm:bounded-normalization-fuel-namecert-obligations}, and \autoref{thm:bounded-normalization-fuel-finished-boundary} seed the finite endpoint boundary for bounded normal conversion reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unrestricted beta-conversion decidability, fuel-erased normalization, proof-irrelevant equality, quotient syntax equality, host conversion, closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fuel-ledger exactness, bounded endpoint computation, structural endpoint comparison, finished-normal boundary, refusal nonescape, TasteGate nontriviality, field faithfulness, and local naming for BEDC.Derived.BoundedNormalizationFuelUp.}
+\end{closurestatus}

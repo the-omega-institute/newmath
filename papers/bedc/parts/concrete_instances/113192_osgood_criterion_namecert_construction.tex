@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\OsgoodCriterionUp$}
+\label{ch:concrete-instances-osgood-criterion-namecert}
+\origin{human}
+
+Following Osgood and Bishop--Bridges constructive analysis, the $\OsgoodCriterionUp$ packet records the finite criterion surface by which an ODE uniqueness request reads a divergence modulus before it may be handed to a Picard--Lindelof or Real-facing consumer. It sits beside the ODE source of \autoref{ch:concrete-instances-ode-namecert}, the Picard--Lindelof handoff of \autoref{ch:concrete-instances-picard-lindelof-namecert}, the Gronwall comparison surface of \autoref{ch:concrete-instances-gronwall-inequality-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the criterion row that a uniqueness proof consumes; it is not a Lipschitz constant, not a Banach contraction theorem, not a selected solution curve, and not quotient equality of flows.
+
+\begin{definition}[OsgoodCriterion carrier]
+\label{def:osgood-criterion-carrier}
+An $\OsgoodCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,I,V,M,B,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\OdeUp$ source row, carrying the time-state window, differential-equation request, and local solution-read boundary.
+\item $I$ is the common initial-data row read by the two solution traces whose equality is being tested.
+\item $V$ is the displayed vector-field continuity row on the same ODE window.
+\item $M$ is the Osgood modulus row, listing positive rational radii and the monotone comparison schedule used by the criterion.
+\item $B$ is the finite divergence-budget ledger for the reciprocal-modulus comparison; it records the checked lower windows rather than a host improper integral.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance row used to compare radii, distances, reciprocal-modulus budgets, and finite error envelopes.
+\item $R$ is the $\RegSeqRatUp$ readback row for the solution-distance traces inspected by the criterion.
+\item $E$ is the terminal $\RealUp$ seal exposed only after $D,I,V,M,B,Q,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $D,I,V,M,B,Q,R,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from the Osgood criterion request through the ODE, initial-data, vector-field, modulus, budget, dyadic, regular-rational, and Real-seal rows.
+\item $P$ is the $\Pkg$ provenance over $\OsgoodCriterionUp$, $\OdeUp$, $\PicardLindelofUp$, $\GronwallInequalityUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OsgoodCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,I,V,M,B,Q,R,E,H,C,P,N$. It has no coordinate for a Lipschitz constant, contraction ratio, selected solution representative, host improper integral, quotient equality of curves, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.OsgoodCriterionUp.TasteGate.OsgoodCriterionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[OsgoodCriterion NameCert obligations]
+\label{thm:osgood-criterion-namecert-obligations}
+For every accepted $\OsgoodCriterionUp$ carrier
+$$
+K=(D,I,V,M,B,Q,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\OsgoodCriterionUp}$ surface consists exactly of carrier admission for the displayed rows, ODE-window visibility through $D$, common initial-data visibility through $I$, vector-field continuity visibility through $V$, Osgood modulus admission through $M$, finite divergence-budget exactness through $B$, dyadic tolerance exactness through $Q$, regular rational distance readback through $R$, terminal $\RealUp$ seal nonescape through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+
+These obligations bind the criterion route without adding a Lipschitz constant, Banach contraction, host Gronwall inequality, selected solution representative, quotient equality of curves, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:osgood-criterion-carrier}. The displayed rows $D,I,V,M,B,Q,R,E,H,C,P,N$ are the whole local surface, so carrier admission is exactly admission of those rows.
+
+The ODE and initial data are read before the criterion is inspected. The row $D$ fixes the local differential-equation window, while $I$ fixes the common initial point for the two compared solution traces.
+
+The criterion rows are then forced in order. The vector-field row $V$ supplies continuity on the displayed window, $M$ supplies the Osgood modulus schedule, and $B$ supplies only finite reciprocal-modulus budget checks. The dyadic row $Q$ and regular readback row $R$ turn those checks into displayed distance comparisons.
+
+Finally the Real seal and structural rows expose no extra analytic object. Since the carrier has no coordinate for a Lipschitz constant, contraction ratio, host improper integral, host Gronwall theorem, selected solution, quotient curve equality, countable-choice schedule, or ambient completeness theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[OsgoodCriterion Picard handoff]
+\label{thm:osgood-criterion-picard-handoff}
+Every Picard--Lindelof or ODE-uniqueness consumer of an accepted $\OsgoodCriterionUp$ packet must read the finite route
+$$
+\OdeUp,\ \PicardLindelofUp,\ \GronwallInequalityUp,\ M,\ B,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp
+$$
+as displayed by \autoref{def:osgood-criterion-carrier}. The route hands a divergence-modulus criterion to the downstream uniqueness read; it does not export a Lipschitz constant, a contraction certificate, a selected solution curve, a host integral theorem, or quotient equality between flows.
+\end{theorem}
+\begin{proof}
+Start with a Picard-facing uniqueness request. The only ODE source available in the carrier is $D$, and the only common initial-data coordinate is $I$, so the consumer is already confined to the displayed local ODE window.
+
+Read the comparison surface next. The Picard--Lindelof and Gronwall neighbours named in the provenance can consume the packet only after the vector-field row $V$, modulus row $M$, finite budget row $B$, dyadic row $Q$, and regular readback row $R$ have been displayed.
+
+The handoff reaches the Real seal $E$ only through those rows and the structural transport, replay, provenance, and naming rows. Therefore the consumer receives the stated finite criterion route and cannot replace it by a Lipschitz hypothesis, a contraction theorem, a host integral principle, a selected solution representative, or quotient equality of solution curves.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\OsgoodCriterionUp$ uniqueness read that reaches a $\RegSeqRatUp$ distance readback or $\RealUp$ seal displays the rows $D,I,V,M,B,Q,R,E,H,C,P,N$ first.}
+
+\independenceWitness{ode, picard-lindelof, gronwall-inequality, osgood-uniqueness, regseqrat, dyadicratcore, real: no listed sibling supplies the joint criterion packet containing an ODE source, common initial data, vector-field continuity row, Osgood modulus schedule, finite divergence-budget ledger, dyadic tolerance arithmetic, regular distance readback, Real seal, transport, replay, provenance, and local NameCert row.}
+
+\closureat{OsgoodCriterionUp}{seedStr}
+
+\begin{closurestatus}{\OsgoodCriterionUp}
+  \constructivestory{An $\OsgoodCriterionUp$ packet is generated from an ODE source row, common initial data, a vector-field continuity row, an Osgood modulus schedule, finite divergence-budget checks, DyadicRatCore tolerance arithmetic, RegSeqRat distance readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:osgood-criterion-carrier}, \autoref{thm:osgood-criterion-namecert-obligations}, and \autoref{thm:osgood-criterion-picard-handoff} seed the finite Osgood criterion route from displayed ODE data through Picard, Gronwall, modulus-budget, dyadic, regular-rational, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, Lipschitz uniqueness, Banach contraction, selected solution representatives, quotient equality of curves, countable choice, host improper-integral theorems, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, ODE-window visibility, common initial-data visibility, vector-field readback, Osgood modulus admission, divergence-budget exactness, dyadic tolerance exactness, regular readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.OsgoodCriterionUp.}
+\end{closurestatus}

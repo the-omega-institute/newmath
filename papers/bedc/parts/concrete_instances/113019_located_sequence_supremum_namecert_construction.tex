@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\LocatedSequenceSupremumUp$}
+\label{ch:concrete-instances-located-sequence-supremum-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedSequenceSupremumUp$ packet records the finite BEDC surface for taking a supremum of a located bounded real sequence. It sits over the sequence boundary of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the located-upper-bound route of \autoref{ch:concrete-instances-locatedsupremum-namecert}. The packet is sequence-level supremum data; it does not assert Dedekind completeness for arbitrary subsets, open-cover compactness, a selected maximizing index, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Located sequence supremum carrier]
+\label{def:located-sequence-supremum-carrier}
+A $\LocatedSequenceSupremumUp$ carrier is a finite $\BHist$ packet
+$$
+S=(B,W,R,L,U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BoundedRealSequenceUp$ source row, carrying the bounded sequence surface to be inspected.
+\item $W$ is the finite window ledger listing the sequence entries whose bound and approximation requests are currently visible.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed sequence windows.
+\item $L$ is the located upper-bound row, recording finite evidence that requested rational cuts are either below some displayed sequence value or above a displayed upper bound.
+\item $U$ is the $\LocatedSupremumUp$ handoff row, read only after $B,W,R,L$ have been exposed.
+\item $E$ is the $\RealUp$ seal row naming the supremum candidate after the located sequence data have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, window, readback, located-bound, handoff, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a rational bound request through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\LocatedSequenceSupremumUp$, $\BoundedRealSequenceUp$, $\RegSeqRatUp$, $\LocatedSupremumUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedSequenceSupremumUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for arbitrary subset completeness, a Dedekind-completeness principle, a selected maximizing index, quotient equality of real names, countable choice, or host-level supremum.
+\end{definition}
+\leanchecked{BEDC.Derived.LocatedSequenceSupremumUp.LocatedSequenceSupremumTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Located sequence supremum NameCert obligations]
+\label{thm:located-sequence-supremum-namecert-obligations}
+For every accepted $\LocatedSequenceSupremumUp$ carrier $S=(B,W,R,L,U,E,H,C,P,N)$, the local $\NameCert_{\LocatedSequenceSupremumUp}$ surface consists exactly of carrier admission for the bounded sequence source, finite windows, regular rational readback, located upper-bound row, located-supremum handoff, real seal, transport, replay, provenance, and local naming; window coverage requiring every supremum request to read $W$ before $R$; locatedness requiring $L$ to answer rational cut requests before $U$ is consumed; and nonescape excluding arbitrary subset completeness, selected maximizers, quotient real equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-sequence-supremum-carrier}. The accepted packet displays exactly $B,W,R,L,U,E,H,C,P,N$.
+
+The sequence read begins with $B$ and $W$. The bounded real sequence row supplies the source, while the finite window ledger specifies which sequence entries are available for the current rational request.
+
+The regular readback and locatedness rows are $R$ and $L$. They convert the displayed windows into $\RegSeqRatUp$ evidence and answer the lower-or-upper side of the located cut request before the $\LocatedSupremumUp$ handoff row $U$ is exposed.
+
+Finally, $E,H,C,P,N$ seal, transport, replay, source, and name the same data. Since the carrier has no coordinate for arbitrary subset data, selected maximizers, quotient equality, countable choice, or ambient completeness, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Located sequence supremum Real handoff]
+\label{thm:located-sequence-supremum-real-handoff}
+Every $\RealUp$ consumer of an accepted $\LocatedSequenceSupremumUp$ carrier receives the supremum candidate only through the route
+$$
+\BoundedRealSequenceUp,\ \RegSeqRatUp,\ \LocatedSupremumUp,\ \RealUp .
+$$
+In particular, the real seal $E$ is read only after the bounded sequence row $B$, finite window ledger $W$, regular readback row $R$, located upper-bound row $L$, and located-supremum handoff $U$ have been displayed through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $S=(B,W,R,L,U,E,H,C,P,N)$. A $\RealUp$ consumer has access to the real seal only at the row $E$.
+
+The row $E$ is downstream of the displayed sequence route. The consumer must first read the bounded source $B$, inspect finite windows $W$, convert them through $R$, and consume the located cut evidence $L$ before the $\LocatedSupremumUp$ handoff $U$ names a supremum candidate.
+
+Transport and replay through $H$ and $C$ preserve that order, while $P,N$ only record provenance and local naming. Thus the handoff reaches $\RealUp$ without importing an arbitrary-subset completeness principle or a selected maximizing index.
+\end{proof}
+
+\closureat{LocatedSequenceSupremumUp}{seedStr}
+
+\begin{closurestatus}{\LocatedSequenceSupremumUp}
+  \constructivestory{A $\LocatedSequenceSupremumUp$ packet is generated from a bounded real sequence row, finite sequence windows, RegSeqRat readback, a located upper-bound row, a LocatedSupremum handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-sequence-supremum-carrier}, \autoref{thm:located-sequence-supremum-namecert-obligations}, and \autoref{thm:located-sequence-supremum-real-handoff} seed the sequence-level located supremum route over bounded real sequences and Real-facing handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind completeness, arbitrary subset suprema, selected maximizing indices, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires carrier admission, finite-window coverage, RegSeqRat readback, located cut response, LocatedSupremum handoff, Real seal preservation, transport, replay, provenance, and local naming for BEDC.Derived.LocatedSequenceSupremumUp.}
+\end{closurestatus}

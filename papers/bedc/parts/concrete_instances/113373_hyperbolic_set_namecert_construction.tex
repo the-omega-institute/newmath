@@ -1,0 +1,169 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicSetUp$}
+\label{ch:concrete-instances-hyperbolic-set-namecert}
+\origin{human}
+
+Following Smale and Katok--Hasselblatt, the $\HyperbolicSetUp$ packet records
+the finite BEDC surface for an invariant set whose displayed tangent data split
+into stable and unstable rows with bounded contraction and expansion budgets.
+It sits over the finite routed dynamics of
+\autoref{ch:concrete-instances-dynsystem-namecert}, the metric observation
+surface of \autoref{ch:concrete-instances-metric-namecert}, the compact-metric
+source discipline of \autoref{ch:concrete-instances-compactmetric-namecert},
+and the stable-manifold consumer boundary of
+\autoref{ch:concrete-instances-stablemanifold-namecert}. The packet names a
+finite hyperbolic-set certificate; it does not assert global structural
+stability, shadowing, measure recurrence, or complete stable-manifold theory.
+
+\begin{definition}[Hyperbolic set carrier]
+\label{def:hyperbolic-set-carrier}
+A $\HyperbolicSetUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,D,M,K,E^s,E^u,\Lambda_s,\Lambda_u,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the invariant-set carrier row, naming the inspected subset and
+the finite membership windows through which it is read.
+\item $D$ is the $\DynSystemUp$ row whose displayed transition data preserve
+the invariant-set row $X$.
+\item $M$ is the $\MetricUp$ observation row for the source distances used by
+the finite estimates.
+\item $K$ is the $\CompactMetricUp$ support row, recording the compact metric
+windows on which the estimates are certified.
+\item $E^s$ and $E^u$ are the stable and unstable splitting rows, displaying
+the two named directions over the inspected invariant-set windows.
+\item $\Lambda_s$ is the finite contraction-budget row for stable directions,
+and $\Lambda_u$ is the finite expansion-budget row for unstable directions.
+\item $A$ is the $\StableManifoldUp$ handoff row, exposing only the local
+splitting data that a stable-manifold consumer may read.
+\item $H$ records componentwise $\hsame$ transport for invariant-set,
+dynamical-system, metric, compact-metric, splitting, budget, handoff,
+provenance, replay, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a hyperbolic-set request
+through $X,D,M,K,E^s,E^u,\Lambda_s,\Lambda_u,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicSetUp$, $\DynSystemUp$,
+$\MetricUp$, $\CompactMetricUp$, $\StableManifoldUp$, $\BHist$, $\hsame$,
+$\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicSetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no
+coordinate for global structural stability, shadowing, measure recurrence,
+complete stable-manifold theory, a host tangent bundle, or an ambient smooth
+manifold theorem.
+\end{definition}
+
+\begin{theorem}[Hyperbolic set NameCert obligations]
+\label{thm:hyperbolic-set-namecert-obligations}
+For every accepted $\HyperbolicSetUp$ carrier
+$Q=(X,D,M,K,E^s,E^u,\Lambda_s,\Lambda_u,A,H,C,P,N)$, the local
+$\NameCert_{\HyperbolicSetUp}$ surface is exhausted by the following
+obligation rows:
+\begin{enumerate}
+\item carrier admission for invariant-set, dynamical-system, metric,
+compact-metric, stable-splitting, unstable-splitting, contraction-budget,
+expansion-budget, handoff, transport, replay, provenance, and local naming
+rows;
+\item invariant-set preservation, requiring the displayed $\DynSystemUp$ row
+to preserve the inspected membership windows of $X$;
+\item metric and compact support, requiring $M$ and $K$ to expose the finite
+distance and compact-window data before any splitting estimate is read;
+\item splitting visibility, requiring $E^s$ and $E^u$ to remain separate named
+rows rather than aliases of the invariant-set or metric rows;
+\item budget exactness, requiring $\Lambda_s$ and $\Lambda_u$ to record finite
+contraction and expansion estimates for the displayed splitting rows;
+\item stable-manifold handoff, requiring $A$ to expose only the local
+splitting-and-budget data consumed by $\StableManifoldUp$;
+\item ledger nonescape, requiring $H,C,P,N$ to export no global structural
+stability, shadowing theorem, measure recurrence theorem, complete
+stable-manifold theory, host tangent bundle, or ambient smooth-manifold
+principle.
+\end{enumerate}
+No local NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-set-carrier}. The accepted
+rows are exactly $X,D,M,K,E^s,E^u,\Lambda_s,\Lambda_u,A,H,C,P,N$, so carrier
+admission exposes only finite invariant-set, dynamical-system, metric,
+compact-support, splitting, budget, handoff, transport, replay, provenance,
+and local naming data.
+
+The route first reads $X$ through $D$. Thus invariant-set preservation is a
+displayed $\DynSystemUp$ obligation, not a host theorem about all orbits of an
+ambient dynamical system.
+
+The metric and compact rows $M,K$ are then read before the splitting rows.
+They bind the stable and unstable estimates to finite distance windows and
+compact-metric support.
+
+Finally the separate rows $E^s,E^u,\Lambda_s,\Lambda_u$ provide the splitting
+and its budgets, while $A,H,C,P,N$ only hand off, transport, replay, source,
+and name that same finite packet. Since none of these rows adds global
+structural stability, shadowing, measure recurrence, complete stable-manifold
+theory, a host tangent bundle, or an ambient smooth-manifold theorem, the
+listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hyperbolic set splitting transport]
+\label{thm:hyperbolic-set-splitting-transport}
+Every stable-manifold or dynamical-systems consumer of an accepted
+$\HyperbolicSetUp$ packet factors through the displayed route
+$$
+\DynSystemUp,\MetricUp,\CompactMetricUp
+\longmapsto
+E^s,E^u,\Lambda_s,\Lambda_u
+\longmapsto
+\StableManifoldUp
+\longmapsto
+H,C,P,N .
+$$
+Thus the consumer may transport stable and unstable splitting data, finite
+contraction and expansion budgets, compact-metric support, componentwise
+$\hsame$, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. It
+obtains no global structural stability theorem, shadowing theorem, measure
+recurrence theorem, or complete stable-manifold theory.
+\end{theorem}
+\begin{proof}
+Begin with a downstream consumer. By
+\autoref{thm:hyperbolic-set-namecert-obligations}, the consumer must first
+read the invariant-set and $\DynSystemUp$ preservation rows, then the
+$\MetricUp$ and $\CompactMetricUp$ support rows.
+
+Next read $E^s,E^u,\Lambda_s,\Lambda_u$. These rows carry the stable and
+unstable splitting together with their finite budgets, so transport along
+$\hsame$ preserves the displayed splitting fields rather than replacing them
+by a host tangent-bundle construction.
+
+The $\StableManifoldUp$ handoff row $A$ is downstream of those displayed
+fields. It exposes local splitting-and-budget data only, while $C,P,N$ replay,
+source, and name the same packet.
+
+No row in the carrier is a global structural-stability argument, a shadowing
+principle, a recurrence theorem, or a complete stable-manifold construction.
+The transported surface is therefore exactly the finite BEDC route displayed
+above.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HyperbolicSetUp$ packet is refuted if a
+consumer obtains global structural stability, shadowing, measure recurrence,
+or complete stable-manifold theory without first displaying invariant-set,
+DynSystem, Metric, CompactMetric, stable-splitting, unstable-splitting,
+contraction-budget, expansion-budget, handoff, transport, replay, provenance,
+and local NameCert rows.}
+
+\independenceWitness{dynsystem, metric, compactmetric, stablemanifold: none is
+bijective to $\HyperbolicSetUp$ because this packet jointly carries invariant
+set preservation, metric and compact support, stable and unstable splitting,
+finite contraction and expansion budgets, stable-manifold handoff, transport,
+replay, package sourcing, and local NameCert rows.}
+
+\closureat{HyperbolicSetUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicSetUp}
+  \constructivestory{A $\HyperbolicSetUp$ packet is generated from an invariant-set carrier row, DynSystem transition data, Metric and CompactMetric support rows, stable and unstable splitting rows, finite contraction and expansion budgets, a StableManifold handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-set-carrier}, \autoref{thm:hyperbolic-set-namecert-obligations}, and \autoref{thm:hyperbolic-set-splitting-transport} seed the finite hyperbolic-set NameCert packet over invariant-set, dynamics, metric, compact-support, splitting, and budget rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global structural stability, shadowing, measure recurrence, complete stable-manifold theory, host tangent bundles, ambient smooth-manifold theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked invariant-set preservation, metric and compact support, splitting visibility, contraction and expansion budgets, stable-manifold handoff, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.HyperbolicSetUp.}
+\end{closurestatus}

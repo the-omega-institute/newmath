@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\EdelsteinContractionUp$}
+\label{ch:concrete-instances-edelstein-contraction-namecert}
+\origin{human}
+
+Following Edelstein and Bishop--Bridges constructive metric practice, the $\EdelsteinContractionUp$ packet records the strict compact-metric contraction surface before any fixed-point endpoint is read. It sits after the metric source of \autoref{ch:concrete-instances-metric-namecert}, the compact-metric finite inspection surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the contraction comparison discipline of \autoref{ch:concrete-instances-contractionmapping-namecert}, the displayed Picard orbit route of \autoref{ch:concrete-instances-picard-iteration-namecert}, and the endpoint consumer of \autoref{ch:concrete-instances-edelstein-fixed-point-namecert}. The packet names only the compact source, a self-map graph, the Picard-style orbit, strict distance-decrease rows, sequential-continuity transport, componentwise history transport, continuation replay, provenance, and local naming; it does not select a fixed point, assert a Banach contraction ratio, import quotient completion equality, or use host choice.
+
+\begin{definition}[EdelsteinContraction carrier]
+\label{def:edelstein-contraction-carrier}
+An $\EdelsteinContractionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(X,K,F,O,D,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricUp$ row carrying the inspected point and distance classifier;
+\item $K$ is the $\CompactMetricUp$ row exposing only the finite compact-metric inspection data used by the strict-decrease consumer;
+\item $F$ is the self-map graph row over the same metric carrier;
+\item $O$ is the $\PicardIterationUp$-style orbit row generated from the self-map graph and an initial displayed point;
+\item $D$ is the strict distance-decrease row, recording that every displayed non-diagonal comparison in the orbit is sent to a strictly smaller displayed distance;
+\item $S$ is the $\SequentialContinuityUp$ transport row carrying convergent subsequence and image-cluster reads for the same graph;
+\item $H$ records componentwise $\hsame$ transport for the metric, compact-metric, graph, orbit, strict-decrease, sequential-continuity, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay for the finite strict-contraction route;
+\item $P$ is the $\Pkg$ provenance over $\EdelsteinContractionUp$, $\MetricUp$, $\CompactMetricUp$, $\ContractionMappingUp$, $\PicardIterationUp$, $\EdelsteinFixedPointUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\EdelsteinContractionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected fixed point, a uniform Lipschitz constant, a quotient completion representative, host function extensionality, open-cover compactness, or an ambient $\RealUp$ completeness theorem.
+\end{definition}
+
+\begin{theorem}[EdelsteinContraction NameCert obligations]
+\label{thm:edelstein-contraction-namecert-obligations}
+For every accepted $\EdelsteinContractionUp$ carrier $E=(X,K,F,O,D,S,H,C,P,N)$, the local $\NameCert_{\EdelsteinContractionUp}$ surface consists exactly of metric carrier admission through $X$, compact-metric finite inspection through $K$, self-map graph exposure through $F$, Picard-style orbit exposure through $O$, strict distance-decrease exposure through $D$, sequential-continuity transport through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:edelstein-contraction-carrier}. The rows $X,K,F,O,D,S,H,C,P,N$ are the only rows available to the local certificate, so each admissible read must begin with the displayed metric, compact-metric, graph, orbit, strict-decrease, sequential-continuity, transport, replay, provenance, and naming coordinates.
+
+The compactness service is read only through $K$, and the distance service is read only through $X$. The self-map and orbit service is therefore constrained to the same source carrier before the strict decrease row $D$ can be consumed.
+
+Finally repack the rows through $H,C,P,N$. Componentwise transport, displayed replay, provenance, and local naming preserve exactly the listed rows and add no endpoint coordinate or host contraction principle.
+\end{proof}
+
+\begin{theorem}[EdelsteinContraction compact-metric route]
+\label{thm:edelstein-contraction-compactmetric-route}
+Every fixed-point-facing consumer of an accepted $\EdelsteinContractionUp$ packet must read the route
+$$
+\MetricUp,\CompactMetricUp,\ContractionMappingUp,\PicardIterationUp,\EdelsteinContractionUp
+$$
+through $X,K,F,O,D,S,H,C,P,N$ before the $\EdelsteinFixedPointUp$ endpoint packet may be cited. In particular, the strict compact-metric contraction surface supplies a standalone dependency route and cannot be replaced by a Banach ratio row, a selected endpoint, quotient completion equality, host choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $E=(X,K,F,O,D,S,H,C,P,N)$. The metric and compact-metric rows $X$ and $K$ supply the only distance and compactness reads, so any endpoint-facing consumer first exposes the same source carrier and finite inspection surface.
+
+Read the self-map graph $F$ and the Picard-style orbit $O$ next. The strict distance-decrease row $D$ is meaningful only for those displayed graph and orbit rows, while $S$ transports the sequential image and cluster reads along the same finite route.
+
+The endpoint packet $\EdelsteinFixedPointUp$ can therefore cite the contraction surface only through $H,C,P,N$ after the metric, compact-metric, graph, orbit, strict-decrease, and sequential-continuity rows have been displayed. Since no Banach ratio, selected endpoint, quotient completion representative, host choice operator, or ambient real-completeness row appears in the carrier, none is exported by the route.
+\end{proof}
+
+\falsifiablePrediction{Every $\EdelsteinContractionUp$ read factors through one MetricUp source row, one CompactMetricUp finite inspection row, one self-map graph row, one PicardIterationUp-style orbit row, one strict distance-decrease row, one SequentialContinuityUp transport row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any EdelsteinFixedPointUp endpoint consumer is available.}
+
+\independenceWitness{metric, compactmetric, contractionmapping, picard-iteration, edelstein-fixed-point: $\EdelsteinContractionUp$ is not bijective to any listed sibling because it jointly carries a compact-metric source, a self-map graph, an orbit row, a strict pointwise distance-decrease row, sequential-continuity transport, and endpoint-facing provenance without carrying an endpoint itself.}
+
+\closureat{EdelsteinContractionUp}{seedStr}
+
+\begin{closurestatus}{\EdelsteinContractionUp}
+  \constructivestory{An $\EdelsteinContractionUp$ packet is generated from a MetricUp source row, a CompactMetricUp finite inspection row, a self-map graph, a PicardIterationUp-style orbit row, a strict distance-decrease row, a SequentialContinuityUp transport row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:edelstein-contraction-carrier}, \autoref{thm:edelstein-contraction-namecert-obligations}, and \autoref{thm:edelstein-contraction-compactmetric-route} seed the strict compact-metric contraction surface feeding the Edelstein fixed-point endpoint route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close endpoint existence, endpoint uniqueness, Banach contraction ratios, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-metric inspection, self-map graph exposure, orbit exposure, strict distance-decrease preservation, sequential-continuity transport, replay, provenance, and local naming for BEDC.Derived.EdelsteinContractionUp.}
+\end{closurestatus}

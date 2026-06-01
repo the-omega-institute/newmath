@@ -43,6 +43,7 @@ Transport along $H$ preserves the same displayed rows componentwise. Thus every 
 \label{thm:cauchy-continuous-map-real-seal-handoff}
 For every accepted $\CauchyContinuousMapUp$ carrier $M=(W,R,D,E,H,C,P,N)$, any $\RealUp$ seal consumer must first read the finite stream windows $W$, the image regular-name row $R$, and the dyadic tolerance ledger $D$. Only after those rows are replayed can the consumer reach the seal handoff $E$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMap\_real\_seal\_handoff}
 \begin{proof}
 Read the carrier order in \autoref{def:cauchy-continuous-map-carrier}. The seal handoff row $E$ is not independent; it is listed as the handoff reached from the output regular name after the dyadic tolerance checks.
 
@@ -84,6 +85,31 @@ Transport stability is obtained by projecting the componentwise $\hsame$ rows in
 The refusal row follows from the carrier inventory. None of the displayed coordinates stores a full continuous-map object, metric-continuity proof, uniform-continuity modulus, quotient stream, host real function, or completeness principle.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMapPacket\_namecert\_obligations}
+
+\begin{theorem}[Window composition]
+\label{thm:cauchy-continuous-map-window-composition}
+Let $M_1=(W_1,R_1,D_1,E_1,H_1,C_1,P_1,N_1)$ and $M_2=(W_2,R_2,D_2,E_2,H_2,C_2,P_2,N_2)$ be accepted $\CauchyContinuousMapUp$ packets. A composite read is admitted only when the $\RealUp$ seal handoff exposed by $E_1$ is replayed as the source-side input window surface inspected by $W_2$, and the second packet then reopens its $\StreamNameUp$ windows, $\RegSeqRatUp$ image-readback row, and $\DyadicRatCoreUp$ tolerance ledger before exposing $E_2$. Thus composition is a finite replay of the first packet's Real-seal handoff through the second packet's stream-name and regular-rational-name rows, not a host-level composition theorem for $\ContinuousMapUp$.
+\end{theorem}
+\begin{proof}
+Project the two carriers from \autoref{def:cauchy-continuous-map-carrier}. The first packet can expose an output real only through $W_1,R_1,D_1$, and $E_1$, so there is no detached function value available to feed into the second packet.
+
+The second packet accepts input only through its own window row $W_2$. A composite read therefore starts by replaying the first seal handoff through the displayed continuation route $C_1$, then presenting that finite read as the source-side window data inspected by $W_2$.
+
+After that handoff, the second packet must still replay $R_2$ and $D_2$ before $E_2$ is visible. The structural rows $H_2,C_2,P_2,N_2$ preserve that order, so the composite remains a finite Cauchy-name replay rather than a full $\ContinuousMapUp$ composition principle.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMap\_window\_composition}
+
+\begin{theorem}[Regularity transport]
+\label{thm:cauchy-continuous-map-regularity-transport}
+For every accepted $\CauchyContinuousMapUp$ carrier $M=(W,R,D,E,H,C,P,N)$, componentwise $\hsame$ transport along $H$ preserves the $\RegSeqRatUp$ image-readback row and the $\DyadicRatCoreUp$ tolerance rows before any $\RealUp$ seal handoff is exposed. Consequently a transported packet can be consumed only by replaying the same finite $W,R,D$ regularity surface, and not by replacing it with a quotient stream, host real function, or full $\ContinuousMapUp$ object.
+\end{theorem}
+\begin{proof}
+Read the transport row $H$ in \autoref{def:cauchy-continuous-map-carrier}. It is componentwise: the stream window row $W$, the regular-rational image row $R$, the dyadic tolerance ledger $D$, and the real-seal handoff row $E$ are transported as named packet coordinates.
+
+Replay the consumer route $C$ after transport. The route can inspect the transported $W,R$, and $D$ rows before it reaches $E$, so regularity transport is witnessed at the finite $\RegSeqRatUp$ and $\DyadicRatCoreUp$ levels.
+
+Because no coordinate in the carrier stores a quotient stream, host function on reals, metric-continuity proof, or completeness datum, the transported read preserves only the displayed regularity surface before the $\RealUp$ seal is exposed.
+\end{proof}
 
 \begin{closurestatus}{\CauchyContinuousMapUp}
   \constructivestory{A $\CauchyContinuousMapUp$ packet is generated from finite $\StreamNameUp$ windows, a $\RegSeqRatUp$ image-readback row, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealUp$ seal handoff, displayed $\hsame$ transports, $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}

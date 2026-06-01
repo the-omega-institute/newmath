@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionBoundaryWitnessUp$}
+\label{ch:concrete-instances-real-completion-boundary-witness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealCompletionBoundaryWitnessUp$ packet records the finite boundary data used by a regular-sequence completion proof at the moment where diagonal-limit convergence and uniqueness are read back as a Real-facing handoff. It is anchored in the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet witnesses the boundary that a completion proof may consume; it does not assert a global completeness principle for $\RealUp$.
+
+\begin{definition}[Real completion boundary witness carrier]
+\label{def:real-completion-boundary-witness-carrier}
+A $\RealCompletionBoundaryWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(D,S,R,E,L,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the diagonal-limit comparison.
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected prefixes of the source streams.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational sequence obtained from those windows.
+\item $E$ is the terminal $\RealUp$ seal row read only after $D,S,R$ have been displayed.
+\item $L$ is the convergence-boundary row, recording the finite diagonal-limit evidence available to the completion proof.
+\item $U$ is the uniqueness-boundary row, recording the finite same-limit comparison available at the same boundary.
+\item $H$ records componentwise $\hsame$ transport for tolerance ledgers, windows, readbacks, Real seals, convergence boundary, uniqueness boundary, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a completion-boundary request through $D,S,R,E,L,U,H$.
+\item $P$ is the $\Pkg$ provenance over $\RealCompletionBoundaryWitnessUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCompletionBoundaryWitnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient completeness theorem, a quotient-real equality principle, countable choice, a selected representative stream, trichotomy, or host-level limit selection.
+\end{definition}
+
+\begin{theorem}[Real completion boundary witness NameCert obligations]
+\label{thm:real-completion-boundary-witness-namecert-obligations}
+For every accepted $\RealCompletionBoundaryWitnessUp$ carrier $W=(D,S,R,E,L,U,H,C,P,N)$, the local $\NameCert_{\RealCompletionBoundaryWitnessUp}$ obligations are exactly dyadic tolerance admission through $D$, finite StreamName window admission through $S$, RegSeqRat readback through $R$, Real seal admission through $E$, convergence-boundary display through $L$, uniqueness-boundary display through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-boundary-witness-carrier}. The source of the boundary is the finite triple $D,S,R$: dyadic tolerances, stream windows, and regular rational readback.
+
+The Real-facing row $E$ seals only that displayed readback. It therefore supplies a boundary handoff to $\RealUp$ without adding ambient completeness or quotient equality.
+
+Rows $L$ and $U$ are the two boundary witnesses. The first records convergence evidence for the diagonal-limit route, and the second records the uniqueness comparison available at the same finite boundary.
+
+Finally $H,C,P,N$ preserve, replay, source, and name those rows. Since the carrier has no coordinate for completeness, quotient equality, choice, representative selection, trichotomy, or host-level limit selection, the listed obligations exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Real completion boundary witness seal handoff]
+\label{thm:real-completion-boundary-witness-seal-handoff}
+Every completion proof that consumes a $\RealCompletionBoundaryWitnessUp$ packet reads convergence and uniqueness only through the displayed route
+$$
+D,S,R,E,L,U,H,C,P,N.
+$$
+In particular, the packet hands a diagonal-limit boundary to $\RealUp$ consumers after the DyadicRatCore, StreamName, and RegSeqRat rows are displayed, and it refuses ambient Real completeness, quotient real equality, countable choice, selected representatives, trichotomy, and host-level limit selection.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-completion-boundary-witness-namecert-obligations}. The theorem lists the only rows available to a consumer of the packet, with dyadic tolerance, StreamName window, and RegSeqRat readback preceding the Real seal.
+
+The boundary rows $L$ and $U$ are then read under the same seal. They expose convergence and uniqueness evidence as finite carrier data rather than as an external completeness theorem.
+
+The structural rows $H,C,P,N$ keep this route invariant under transport, replay, provenance, and local naming. Because no refused coordinate occurs in the carrier, the seal handoff is exactly the displayed finite boundary route.
+\end{proof}
+
+\closureat{RealCompletionBoundaryWitnessUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletionBoundaryWitnessUp}
+  \constructivestory{A $\RealCompletionBoundaryWitnessUp$ packet is generated from DyadicRatCore tolerance ledgers, StreamName windows, RegSeqRat readback rows, a RealUp seal, convergence-boundary rows, uniqueness-boundary rows, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-completion-boundary-witness-carrier}, \autoref{thm:real-completion-boundary-witness-namecert-obligations}, and \autoref{thm:real-completion-boundary-witness-seal-handoff} seed the finite diagonal-limit convergence and uniqueness boundary consumed before a RealUp seal is read.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ambient Real completeness, quotient real equality, countable choice, selected representative streams, trichotomy, host-level limit selection, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance exactness, StreamName window admission, RegSeqRat readback, Real seal nonescape, convergence and uniqueness boundary exactness, replay, provenance, and local naming for BEDC.Derived.RealCompletionBoundaryWitnessUp.}
+\end{closurestatus}

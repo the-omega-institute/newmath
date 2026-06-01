@@ -80,3 +80,59 @@ Finally the nonescape clause in
 order, quotient streams, selected limits, choice, host equality, ambient Real
 completeness, and separate completion data as alternative tolerance sources.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore common-exponent transport]
+\label{thm:dyadicratcore-common-exponent-transport}
+The halved tolerance refinement supplied by
+\autoref{thm:dyadicratcore-tolerance-halving-cover} preserves the
+common-exponent comparison ledger under componentwise $\hsame$ transport and
+displayed $\Cont$ replay. If a $\RegSeqRatUp$ regularity check or a
+$\StreamNameUp$ finite-window request consumes the original positive
+$\DyadicRatCoreUp$ tolerance row, then replacing that row by the carried
+half-tolerance row keeps the signed mantissa, denominator scale, doubled-radius
+comparison, and common-exponent classifier in the same finite BEDC ledger.
+
+The comparison is BEDC classifier data: it is replayed through displayed
+common-exponent rows, not reopened as host rational order, quotient equality,
+selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the positive tolerance row and its halved refinement from
+\autoref{thm:dyadicratcore-tolerance-halving-cover}. The refinement already
+carries the signed mantissa row, denominator ledger, common-exponent comparison,
+transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:dyadicratcore-scale-window-monotonicity} to move the read to
+the displayed successor scale window without changing the public dyadic
+components. Then apply
+\autoref{thm:dyadicratcore-common-scale-window-triangle-ledger}; it keeps the
+original row, the halved row, and the doubled-radius comparison inside one
+common finite exponent ledger.
+
+The downstream handoff is stable on both consuming faces.
+\autoref{thm:dyadicratcore-halving-cover-regseqrat-handoff} carries the same
+ledger to $\RegSeqRatUp$ regularity checks, while
+\autoref{thm:dyadicratcore-halving-cover-streamname-handoff} carries it to
+$\StreamNameUp$ finite-window requests. Componentwise $\hsame$ transport and
+displayed $\Cont$ replay therefore repeat the common-exponent classifier
+rather than creating a second comparison source.
+
+Since every comparison row used by the replacement is one of the displayed
+DyadicRatCore classifier rows, the construction never appeals to host rational
+order, quotient stream equality, selected limits, countable choice, host real
+equality, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore iterated halving budget]
+\label{thm:dyadicratcore-iterated-halving-budget}
+For every positive $\DyadicRatCoreUp$ tolerance row and every finite unary schedule of halving requests, there is a displayed finite budget whose final row refines the original tolerance row and whose every predecessor doubles classifier-below the previous row. The budget preserves the signed mantissa row, denominator ledger, common-exponent comparison, distance and radius rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ support at each displayed step.
+
+Every $\StreamNameUp$ finite-window request and every $\RegSeqRatUp$ regularity check may consume this iterated budget through the same finite dyadic ledger. The construction does not invoke host rational order, quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, or a separate completion coordinate.
+\end{theorem}
+\begin{proof}
+Induct over the finite unary schedule. In the empty case, the budget is the original positive tolerance row together with its displayed signed mantissa, denominator, common-exponent, distance, radius, transport, replay, provenance, and local naming rows.
+
+For the successor step, apply \autoref{thm:dyadicratcore-tolerance-halving-cover} to the current positive tolerance row. It supplies the next halved row in a finite refinement window and records that doubling the new row is classifier-below the previous row inside the DyadicRatCore comparison ledger.
+
+Use \autoref{thm:dyadicratcore-halving-cover-regseqrat-handoff} and \autoref{thm:dyadicratcore-halving-cover-streamname-handoff} to transport the accumulated budget to RegSeqRat regularity checks and StreamName finite-window requests. The induction preserves only displayed dyadic rows and support data, so no host rational order, quotient stream equality, selected limit, choice, host equality, ambient Real completeness, or completion coordinate is introduced.
+\end{proof}

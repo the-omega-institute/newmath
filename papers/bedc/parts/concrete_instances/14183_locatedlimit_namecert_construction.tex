@@ -50,6 +50,8 @@ The local $\NameCert_{\LocatedLimitUp}$ surface for the carrier of \autoref{def:
 \item Real-seal route: every $\RealUp$ limit read factors through $Q,E,H,C,P,N$ after the displayed rows $S,M,T$ have been read.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedLimitUp.LocatedLimitNameCertObligations}
+\leanvariant{BEDC.Derived.LocatedLimitUp.LocatedLimitCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from the packet $L=(S,M,T,Q,E,H,C,P,N)$. The sequence surface, modulus ledger, located schedule, regular readback, real seal, transport rows, replay routes, provenance, and local naming row are exactly the coordinates named by the carrier.
 
@@ -78,6 +80,75 @@ Read the limit request in finite order. A consumer first asks $T$ for the displa
 Only after that route is visible can the consumer read $E$. The transport and replay rows $H$ and $C$ preserve the same route, while $P$ and $N$ record provenance and local naming.
 
 Thus every $\RealUp$ limit read factors through $S,M,T,Q,E,H,C,P,N$. Since no other coordinate exists, the packet exports no real completeness theorem, selected host limit, quotient equality of streams, countable-choice schedule, trichotomy, or bridge-checked standard interpretation.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedLimitUp.LocatedLimit\_real\_seal\_route}
+
+\begin{theorem}[LocatedLimit window schedule exactness]
+\label{thm:located-limit-window-schedule-exactness}
+For every accepted $\LocatedLimitUp$ carrier $L=(S,M,T,Q,E,H,C,P,N)$, each limit-facing tolerance request reads the displayed schedule row $T$ and the modulus ledger $M$ before it reaches the $\RegSeqRatUp$ readback row $Q$ or the $\RealUp$ seal row $E$. The exactness claim is the finite routing statement of \autoref{def:located-limit-carrier} and \autoref{def:located-limit-classifier}, with the obligation order supplied by \autoref{thm:located-limit-namecert-obligations} and the terminal route supplied by \autoref{thm:located-limit-real-seal-route}.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocatedLimitUp.LocatedLimitWindowScheduleExactness}
+\begin{proof}
+Project the carrier of \autoref{def:located-limit-carrier}. The only rows that can answer a tolerance request before readback are the schedule row $T$ and the modulus ledger $M$.
+
+Use the classifier of \autoref{def:located-limit-classifier} to see that comparison is by shared finite windows and dyadic budgets, not by a host limit. Then apply \autoref{thm:located-limit-namecert-obligations}: modulus exactness is one of the named local obligations and it places $M$ and $T$ before every read of $Q$ or $E$.
+
+Finally apply the route of \autoref{thm:located-limit-real-seal-route}. Since $E$ is reached only after $S,M,T,Q$, every tolerance request has already passed through $T$ and $M$ before any regular readback or real seal can be exported.
+\end{proof}
+
+\begin{theorem}[LocatedLimit schedule monotonicity]
+\label{thm:located-limit-schedule-monotonicity}
+For every accepted $\LocatedLimitUp$ carrier $L=(S,M,T,Q,E,H,C,P,N)$, enlarging a displayed precision request refines the stored finite-window schedule through the same modulus ledger $M$ and schedule row $T$. The refined request may expose later sequence windows, stronger dyadic tolerances, and a downstream $\RegSeqRatUp$ readback row, but it may not replace $M$, allocate a new schedule row, or bypass the Real-seal route of \autoref{thm:located-limit-real-seal-route}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-limit-carrier}. The only rows that answer precision requests before readback are the modulus ledger $M$ and the finite-window schedule $T$.
+
+Use \autoref{def:located-limit-classifier} to compare the original request and the enlarged request through transported finite windows and dyadic budgets. The classifier has no host limit or quotient-stream coordinate, so the comparison remains inside $M$ and $T$.
+
+Apply \autoref{thm:located-limit-namecert-obligations} and \autoref{thm:located-limit-window-schedule-exactness}. Their modulus exactness clause places $M,T$ before every read of $Q$ or $E$, and the exactness theorem identifies this placement as the stored route for every displayed tolerance request.
+
+Finally use \autoref{thm:located-limit-real-seal-route}. Since the Real seal is reached only after $S,M,T,Q$, a stronger request can only refine the visible windows and tolerances in the same schedule; it cannot introduce a separate modulus or an independent seal.
+\end{proof}
+
+\begin{theorem}[LocatedLimit Real seal comparison]
+\label{thm:located-limit-real-seal-comparison}
+Let $L=(S,M,T,Q,E,H,C,P,N)$ and $L'=(S',M',T',Q',E',H',C',P',N')$ be accepted $\LocatedLimitUp$ carriers. If their transported schedule rows, modulus ledgers, $\RegSeqRatUp$ readback rows, and terminal $\RealUp$ seal rows match under the displayed $\hsame$ and $\Cont$ routes, then any comparison between the two accepted Real seals is exhausted by those rows. No comparison may appeal to host real equality, quotient equality of streams, a selected limit, countable choice, trichotomy, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocatedLimitUp.LocatedLimitCarrier\_real\_seal\_comparison}
+\begin{proof}
+Read both carriers through \autoref{def:located-limit-carrier}. The only comparison-facing rows are the sequence surfaces, modulus ledgers, schedule rows, regular readbacks, Real seals, transport rows, replay rows, provenance rows, and local naming rows.
+
+Apply the classifier of \autoref{def:located-limit-classifier}. It compares accepted carriers through shared finite windows, dyadic budgets, readback rows, and Real seal rows after componentwise transport; it does not expose host real equality or quotient stream equality.
+
+Use \autoref{thm:located-limit-namecert-obligations} to force the comparison through the transported schedule and modulus rows before any readback or seal is consumed. Then \autoref{thm:located-limit-window-schedule-exactness} identifies the finite-window route as the exact route for each displayed precision request.
+
+Finally apply \autoref{thm:located-limit-real-seal-route}. The terminal Real seal is reached only after $S,M,T,Q$ on one side and $S',M',T',Q'$ on the other. Therefore matching transported schedules, modulus ledgers, readbacks, and seal rows exhaust the accepted comparison, and the excluded external principles have no carrier coordinate from which to act.
+\end{proof}
+
+\begin{theorem}[LocatedLimit RegSeqRat readback stability]
+\label{thm:located-limit-regseqrat-readback-stability}
+For every accepted $\LocatedLimitUp$ carrier $L=(S,M,T,Q,E,H,C,P,N)$, the $\RegSeqRatUp$ readback row $Q$ is stable under the same componentwise $\hsame$ transports and displayed $\Cont$ replay rows $H,C$ that preserve the sequence surface $S$, modulus ledger $M$, located schedule $T$, and real seal $E$. The stability surface is the one described by \autoref{def:located-limit-carrier}, classified by \autoref{def:located-limit-classifier}, obligated by \autoref{thm:located-limit-namecert-obligations}, and consumed by \autoref{thm:located-limit-real-seal-route}.
+\end{theorem}
+\leanchecked{BEDC.Derived.LocatedLimitUp.LocatedLimit\_regseqrat\_readback\_stability}
+\begin{proof}
+Read the accepted packet through \autoref{def:located-limit-carrier}. The transport row $H$ is componentwise and includes the regular readback row $Q$ together with $S,M,T,E$.
+
+The classifier in \autoref{def:located-limit-classifier} compares only transported finite windows, dyadic budgets, regular readbacks, and real seals. Therefore a transported $Q$ is not compared through quotient stream equality or through a new host sequence.
+
+Apply the transport obligation in \autoref{thm:located-limit-namecert-obligations}. The replay row $C$ rereads the same consumer route after $H$ has moved the displayed coordinates. The Real-seal route of \autoref{thm:located-limit-real-seal-route} then consumes exactly that stable $Q$ before reaching $E$.
+\end{proof}
+\leanchecked{BEDC.Derived.LocatedLimitUp.LocatedLimitCarrier\_regseqrat\_readback\_stability}
+
+\begin{theorem}[LocatedLimit Real seal nonescape]
+\label{thm:located-limit-real-seal-nonescape}
+For every accepted $\LocatedLimitUp$ carrier $L=(S,M,T,Q,E,H,C,P,N)$, the $\RealUp$ seal row $E$ exports no selected host limit, no quotient stream equality, no countable-choice schedule, no trichotomy, and no ambient completeness principle. This nonescape is the carrier exclusion of \autoref{def:located-limit-carrier}, the classifier exclusion of \autoref{def:located-limit-classifier}, the Real-seal obligation of \autoref{thm:located-limit-namecert-obligations}, and the terminal factorization of \autoref{thm:located-limit-real-seal-route}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier in \autoref{def:located-limit-carrier}. The rows are $S,M,T,Q,E,H,C,P,N$, and none is a selected host limit, quotient equality of streams, countable-choice schedule, trichotomy witness, or ambient completeness field.
+
+The classifier of \autoref{def:located-limit-classifier} preserves the same boundary: it compares finite windows, dyadic budgets, regular readbacks, and real seals only after componentwise transport.
+
+Apply \autoref{thm:located-limit-namecert-obligations} to force every real-facing read through the named finite rows. Then \autoref{thm:located-limit-real-seal-route} identifies $E$ as the sole Real seal reached after $S,M,T,Q$. Since the excluded principles have no carrier coordinate and no classifier clause, they cannot escape through $E$.
 \end{proof}
 
 \begin{closurestatus}{\LocatedLimitUp}

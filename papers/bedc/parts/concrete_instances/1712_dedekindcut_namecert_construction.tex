@@ -102,15 +102,28 @@ Apply \autoref{thm:dedekindcut-located-rounded-cut-laws} and \autoref{thm:dedeki
 \end{proof}
 \leanchecked{BEDC.Derived.DedekindCutUp.DedekindCutCarrier\_quotient\_free\_boundary}
 
-\closureat{DedekindCutUp}{publicStr}[BEDC.Derived.DedekindCutUp.DedekindCutCarrier\_namecert\_obligation\_surface]
+\begin{theorem}[DedekindCut bridged Real comparison interface]
+\label{thm:dedekindcut-bridged-real-comparison-interface}
+The rounded located cut carrier, rational embedding boundary, and $\RealUp$ comparison handoff together form the BEDC-side bridge interface from lower and upper $\RatUp$ observation rows to $\RealUp$ comparison consumers. The interface exports no quotient cut, selected limit, ambient completeness, or host equality.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligation surface of \autoref{thm:dedekindcut-namecert-obligation-surface}. It fixes the carrier reads as lower and upper $\RatUp$ predicate rows, local law rows, rational embedding rows, transports, continuations, provenance, and local naming.
+
+Apply the rounded located cut laws of \autoref{thm:dedekindcut-located-rounded-cut-laws}. These laws make the lower and upper observation rows constructive enough for comparison consumers without introducing a quotient cut.
+
+Use the rational embedding boundary and the $\RealUp$ comparison handoff, \autoref{thm:dedekindcut-rational-embedding-boundary} and \autoref{thm:dedekindcut-realup-comparison-handoff}. Together they expose the bridge-facing comparison surface from rational observation rows to $\RealUp$ consumers while refusing selected limits, ambient completeness, and host equality.
+\end{proof}
+
+\closureat{DedekindCutUp}{matureStr}[BEDC.Derived.DedekindCutUp.DedekindCutCarrier\_realup\_comparison\_handoff]
 
 \begin{closurestatus}{\DedekindCutUp}
   \constructivestory{A $\DedekindCutUp$ packet is generated from lower and upper $\RatUp$ predicate rows, inhabitedness, roundedness, locatedness, disjointness, rational embedding rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ evidence.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:dedekindcut-bhist-source}, \autoref{thm:dedekindcut-namecert-obligation-surface}, \autoref{thm:dedekindcut-located-rounded-cut-laws}, \autoref{thm:dedekindcut-rational-embedding-boundary}, \autoref{thm:dedekindcut-realup-comparison-handoff}, and \autoref{thm:dedekindcut-quotient-free-boundary} bind the public lower and upper rational-observation NameCert surface over $\LocatedCutUp$ and $\RatUp$ rows.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:dedekindcut-bhist-source}, \autoref{thm:dedekindcut-namecert-obligation-surface}, \autoref{thm:dedekindcut-located-rounded-cut-laws}, \autoref{thm:dedekindcut-rational-embedding-boundary}, \autoref{thm:dedekindcut-realup-comparison-handoff}, \autoref{thm:dedekindcut-quotient-free-boundary}, and \autoref{thm:dedekindcut-bridged-real-comparison-interface} bind the bridge-facing lower and upper rational-observation NameCert surface over $\LocatedCutUp$, $\RatUp$, and $\RealUp$ comparison rows.}
+  \formalstatus{\auditCleanV}
+  \leantarget{BEDC.Derived.DedekindCutUp.DedekindCutCarrier\_realup\_comparison\_handoff}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient cuts, host real equality, selected limits, ambient real completeness, or bridge checking.}
-  \upgradepath{Public closure requires exposing the scoped rounded-cut surface through checked public consumer routes and bridge-ready provenance.}
+  \upgradepath{No further theory-axis upgrade remains; standard-model bridge checking is the remaining independent verification-axis work.}
 \end{closurestatus}

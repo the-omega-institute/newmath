@@ -4,7 +4,7 @@
 
 This chapter gives a concrete naming-certificate construction for \(\NatUp\) at the paper-proof level.
 
-The unary carrier and continuation facts recorded here are consumed by \autoref{ch:concrete-instances-add-namecert}. $\AddUp$ reads addition as continuation over $\NatUp$ unary histories, so the $\NatUp$ packet is the source spine for the addition certificate.
+The unary carrier and successor rows recorded here are consumed by \autoref{ch:concrete-instances-add-namecert} for continuation-based addition and by \autoref{ch:concrete-instances-int-namecert} for signed-pair balancing. $\AddUp$ reads addition as continuation over $\NatUp$ unary histories, while $\IntUp$ reads signed pairs by balancing two $\NatUp$ source spines.
 
 \section{Unary histories}
 
@@ -56,6 +56,7 @@ By closed generation for \(\mathsf{Unary}\), the only extension rule uses \(\Eon
 \label{thm:nat-unary-terminal-empty-classifier}
 Any accepted $\NatUp$ unary-history read whose displayed continuation tail is $\emp$ classifies to the empty endpoint route of the unary carrier. Conversely, any nonempty accepted $\NatUp$ read must arise through repeated $\Eone$ extension from the empty endpoint, never through an $\Ezero$ branch. Downstream $\AddUp$ source-spine reads therefore use this empty classifier as the base case before continuation tails are consumed as addition rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.NatUp.NatUnaryTerminal\_empty\_classifier}
 \begin{proof}
 For the terminal case, unfold the unary history judgment of \autoref{def:unary-history-judgment}. The displayed empty tail is the endpoint route, so the read exposes the base generator $\mathsf{Unary}(\emp)$ and no predecessor row.
 

@@ -123,6 +123,20 @@ carrier classifier.
 \end{proof}
 \leanchecked{BEDC.Derived.TreeUp.TreeVisibleCarrier\_root\_witness\_obligation}
 
+\begin{theorem}[Tree frontier readback as a List spine]
+\label{thm:tree-list-frontier-readback}
+For any accepted $\TreeUp$ carrier whose visible $\GraphUp$ package is finite and rooted, the frontier leaves admit a $\ListUp$ finite-spine readback. The entries of that spine are exactly the leaf endpoint rows transported by the $\TreeUp$ classifier, with incidence supplied by the $\GraphUp$ rows and finite-spine representation supplied by $\ListUp$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:treeup-carrier-obligation} to read the accepted carrier as a visible finite graph package with $\mathsf{GraphContEdge}$ incidence rows, and use \autoref{thm:treeup-root-witness-obligation} to select the rooted branch. The $\GraphUp$ incidence rows identify the displayed children of each node, while the $\ListUp$ finite-spine representation supplies the target format for the frontier.
+
+Induct over the displayed finite tree packet. In the leaf case, no displayed outgoing incidence row remains, so the frontier readback is the singleton $\ListUp$ spine whose entry is the leaf endpoint row.
+
+In the branch case, apply the induction hypothesis to the left and right displayed subpackets. Concatenate the two frontier spines through the $\ListUp$ spine route, preserving the left-to-right branch classifier rows as ledger data. The $\TreeUp$ classifier transports each leaf endpoint componentwise by $\hsame$, so the concatenated spine entries are exactly the transported leaf endpoint rows.
+
+Thus every visible frontier leaf contributes one displayed $\ListUp$ spine entry, and every entry of the spine comes from one such leaf endpoint. No host traversal order or host tree datatype is used.
+\end{proof}
+
 \begin{theorem}[TreeUp stability and ledger obligation]\label{thm:treeup-stability-ledger-obligation}
 The $\TreeUp$ stability ledger consists exactly of the hidden graph route data,
 the hidden root-choice data, and the hidden connectedness and acyclicity

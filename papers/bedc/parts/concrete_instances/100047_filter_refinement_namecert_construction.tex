@@ -51,22 +51,22 @@ Thus every refined request is answered by a finite target-row request followed b
 
 \begin{theorem}[FilterRefinement completion route]
 \label{thm:filter-refinement-completion-route}
-Let $R=(S,T,\rho,\lambda,H,C,P,N)$ be an accepted $\FilterRefinementUp$ carrier. Every $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ consumer that receives the refined route sees only the finite target base row $T$, the cofinal refinement row $\rho$, the optional reverse ledger $\lambda$ when route equivalence is needed, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\FilterRefinementUp}$ row.
+Let $R=(S,T,\rho,\lambda,H,C,P,N)$ be an accepted $\FilterRefinementUp$ carrier. Every $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ consumer that receives the refined route sees only the finite target base row $T$, the cofinal refinement row $\rho$, the optional reverse comparison ledger $\lambda$ when finite route equivalence is required, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\FilterRefinementUp}$ row.
 
 Equivalently, completion-facing reads factor through
 $$
 S \xleftarrow{\rho} T \longmapsto \lambda,H,C,P,N ,
 $$
-with $\lambda$ omitted for one-way refinement claims. The consumer does not receive a quotient filter, a selected completion point, countable choice, host equality, or ambient completeness.
+with $\lambda$ omitted for one-way refinement claims. When present, $\lambda$ records only the finite return comparisons needed to identify the displayed source and target routes; it is not quotient-filter equality, an ultrafilter row, a limit selector, a selected completion point, countable choice, host equality, or ambient completeness.
 \end{theorem}
 \begin{proof}
 Begin with a completion-facing consumer. Its route is required to read the refined base row $T$ before it can inspect Cauchy-filter or completion data, so the first public object is a displayed finite $\FilterBaseUp$ row.
 
-The row $\rho$ supplies the only comparison back to the source route. When a consumer must compare the refined route with the original route, it reads the optional ledger $\lambda$; otherwise the one-way cofinal refinement row is the entire comparison surface.
+The row $\rho$ supplies the only mandatory comparison back to the source route. When a consumer must compare the refined route with the original route, it reads the optional ledger $\lambda$ as a finite list of return comparisons for route equivalence; otherwise the one-way cofinal refinement row is the entire comparison surface.
 
 Transport and replay do not enlarge the route. The row $H$ moves the listed coordinates componentwise, and $C$ replays base requests through the same displayed refinement rows. The provenance row $P$ names the allowed completion consumers, while $N$ names the local certificate surface.
 
-Consequently $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCompletionUp$ consumers receive a finite refinement route and no hidden completion object. Quotient filters, selected completion points, countable-choice selectors, host equality, and ambient completeness are not coordinates of $R$.
+Consequently $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCompletionUp$ consumers receive a finite refinement route and no hidden completion object. Quotient-filter equality, ultrafilter data, selected completion points, limit selectors, countable-choice selectors, host equality, and ambient completeness are not coordinates of $R$, and $S,T,\rho,H,C,P,N$ remain the only mandatory route rows.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinementCompletionRoute}
 

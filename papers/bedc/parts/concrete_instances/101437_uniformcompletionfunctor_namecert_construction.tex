@@ -53,6 +53,101 @@ Universal-extension ordering is read from $E$, while readback and tolerance exac
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[UniformCompletionFunctor source factorization]
+\label{thm:uniform-completion-functor-source-factorization}
+Every completion-facing read of an accepted $\UniformCompletionFunctorUp$ carrier
+$$
+\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)
+$$
+factors through the $\UniformCompletionUp$ source row $U$ before the $\CauchyCompletionFunctorUp$ handoff row $F$ is public. Thus the functorial unit, bind, and classifier reads cannot be sourced from quotient completion equality, a selected limit, a host complete uniform space, or a choice-selected representative.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-completion-functor-carrier}. The row $U$ is the only source coordinate in the packet, and $F$ is displayed as the handoff row attached to that source.
+
+Apply \autoref{thm:uniform-completion-functor-namecert-obligations}. Its source-compatibility clause requires every completion-facing read to project $U$ before any functorial handoff is available, while handoff exactness confines $F$ to the same displayed source.
+
+Since the carrier and obligation surface contain no quotient completion row, selected limit row, host complete-uniform-space row, or choice row, no consumer can bypass the source factorization through $U$.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor extension ordering]
+\label{thm:uniform-completion-functor-extension-ordering}
+For every accepted $\UniformCompletionFunctorUp$ carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$, the universal-extension row $E$ is consumed after the source and functorial handoff rows $U,F$ and before the readback, window, dyadic, seal, transport, replay, provenance, and naming rows $R,W,D,S,H,C,P,N$. The ordered public route is therefore
+$$
+U \longmapsto F \longmapsto E \longmapsto R,W,D \longmapsto S,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Read the displayed carrier. The row $E$ is the only $\CompletionUniversalPropertyUp$ coordinate, and it sits between the source-handoff block $U,F$ and the downstream readback block $R,W,D,S$.
+
+Use the NameCert obligations of \autoref{thm:uniform-completion-functor-namecert-obligations}. Source compatibility and handoff exactness place $U,F$ before $E$, and universal-extension ordering places $E$ before any terminal $\RealUp$ seal can be exposed.
+
+The remaining rows preserve the same order. The readback and tolerance clause accounts for $R,W,D$, while $H,C,P,N$ only transport, replay, source, and name the displayed packet. Hence every public route has the stated ordering.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor readback seal exactness]
+\label{thm:uniform-completion-functor-readback-seal-exactness}
+In an accepted $\UniformCompletionFunctorUp$ carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$, the terminal $\RealUp$ seal $S$ is exact only for readbacks that first expose the $\RegSeqRatUp$ row $R$, the $\StreamNameUp$ row $W$, and the $\DyadicRatCoreUp$ row $D$. No completion-facing consumer may read $S$ as a host real value, a quotient completion seal, or a selected limit independent of $R,W,D$.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. The seal row $S$ appears downstream of $R,W,D$, and there is no second Real-facing coordinate in the packet.
+
+Apply \autoref{thm:uniform-completion-functor-namecert-obligations}. Its readback and tolerance exactness clause assigns all regular rational, finite-window, and dyadic precision requests to $R,W,D$, while universal-extension ordering keeps the seal downstream from $U,F,E$.
+
+Thus a consumer reaches $S$ only after the displayed readback surface has been consumed. The structural rows $H,C,P,N$ preserve and name that same route, so the seal cannot be replaced by a host real value, quotient completion seal, selected limit, open-cover compactness proof, or choice principle.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor root obligation lattice]
+\label{thm:uniform-completion-functor-root-obligation-lattice}
+For every accepted $\UniformCompletionFunctorUp$ carrier
+$$
+\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N),
+$$
+the root obligations form the ordered finite lattice
+$$
+U \longmapsto F \longmapsto E \longmapsto (R,W,D) \longmapsto S,H,C,P,N .
+$$
+The source row $U$ is the unique root, the functorial handoff $F$ is available only downstream of that root, the universal-extension row $E$ is available only downstream of the handoff, the readback-window-tolerance block $(R,W,D)$ is available only downstream of $E$, and the seal, transport, replay, provenance, and local naming rows are terminal consumers of the same displayed route. The lattice exports no quotient completion, selected limit, host complete uniform space, open-cover compactness theorem, or choice principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-completion-functor-carrier}. Its row order displays one source coordinate $U$, one handoff coordinate $F$, one universal-extension coordinate $E$, the downstream readback-window-tolerance block $R,W,D$, and then $S,H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:uniform-completion-functor-namecert-obligations}. Source compatibility places $U$ before any completion-facing handoff, handoff exactness places $F$ before any universal-extension read, universal-extension ordering places $E$ before the terminal seal, and readback and tolerance exactness place $R,W,D$ between $E$ and the terminal rows.
+
+Use the universal handoff theorem, \autoref{thm:uniform-completion-functor-universal-handoff}, to identify the same order as the only consumer-visible route. Since the carrier has no coordinate outside this lattice, none of the excluded completion, compactness, or choice principles can be projected from the packet.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor source-extension readback]
+\label{thm:uniform-completion-functor-source-extension-readback}
+Every $\RegSeqRatUp$ or $\StreamNameUp$ readback consumed from an accepted $\UniformCompletionFunctorUp$ carrier is downstream of both the $\UniformCompletionUp$ source row $U$ and the universal-extension row $E$. Concretely, each read of $R$ or $W$ factors through
+$$
+U \longmapsto F \longmapsto E \longmapsto R,W,D
+$$
+before the $\RealUp$ seal, transport, replay, provenance, or local naming rows are available.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The rows $R$ and $W$ occur in the same displayed packet as $U,F,E,D,S,H,C,P,N$, and no separate readback source is listed.
+
+The NameCert obligations force the source and universal-extension order. Source compatibility makes $U$ the first row for every completion-facing read, handoff exactness routes through $F$, and universal-extension ordering places $E$ before any terminal seal can be exposed.
+
+Now apply \autoref{thm:uniform-completion-functor-universal-handoff}. Its route sends every completion-facing consumer through $U,F,E$ before $R,W,D$. Hence a RegSeqRat or StreamName readback is a displayed downstream read of the UniformCompletion source and universal-extension ledger, not a quotient completion read, selected limit, host complete uniform space read, open-cover compactness proof, or choice-selected object.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor completion consumer frontier]
+\label{thm:uniform-completion-functor-completion-consumer-frontier}
+The completion-consumer frontier of an accepted $\UniformCompletionFunctorUp$ carrier is exactly the displayed row family
+$$
+U,F,E,R,W,D,S,H,C,P,N .
+$$
+A completion consumer may receive the source, handoff, universal-extension, readback, finite-window, dyadic, Real seal, transport, replay, provenance, and naming rows, and no further completion datum. In particular, quotient completions, selected limits, host complete uniform spaces, open-cover compactness, and choice are outside the frontier.
+\end{theorem}
+\begin{proof}
+Carrier projection gives the candidate frontier. The definition of \autoref{def:uniform-completion-functor-carrier} lists exactly $U,F,E,R,W,D,S,H,C,P,N$ as visible rows, so any consumer-visible datum must be one of these rows or a replay through them.
+
+The NameCert obligations identify how those rows are admitted. Carrier admission, source compatibility, handoff exactness, universal-extension ordering, readback and tolerance exactness, and ledger non-escape account for each row in the displayed family.
+
+Finally use \autoref{thm:uniform-completion-functor-universal-handoff}. It orders the same family as the completion-facing route and confirms that terminal structural rows only transport, replay, source, and name the displayed data. Because the carrier and its obligations contain no other coordinate, the excluded completion, compactness, and choice objects are not part of the consumer frontier.
+\end{proof}
+
 \begin{theorem}[UniformCompletionFunctor universal handoff]
 \label{thm:uniform-completion-functor-universal-handoff}
 Every completion-facing consumer of an accepted $\UniformCompletionFunctorUp$ carrier factors through the displayed route
@@ -61,6 +156,7 @@ U \longmapsto F \longmapsto E \longmapsto R,W,D \longmapsto S,H,C,P,N .
 $$
 Thus the consumer receives the uniform-completion source row, then the CauchyCompletionFunctor handoff, then the universal-extension ledger, and only then the regular rational, StreamName, DyadicRatCore, Real seal, transport, replay, provenance, and local naming rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorUniversalHandoff}
 \begin{proof}
 Start with an accepted carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$. The only uniform-completion source coordinate is $U$, so every completion-facing request begins by projecting the displayed $\UniformCompletionUp$ data.
 
@@ -97,6 +193,53 @@ The row $E$ is the only universal-extension coordinate, and the carrier places i
 Apply \autoref{thm:uniform-completion-functor-namecert-obligations}. The universal-extension ordering clause requires $E$ to be read after the source row and CauchyCompletionFunctor handoff, before any terminal Real seal is exposed.
 
 Apply \autoref{thm:uniform-completion-functor-universal-handoff}. The consumer-visible route is $U \longmapsto F \longmapsto E \longmapsto R,W,D \longmapsto S,H,C,P,N$, so uniqueness is consumed as part of that finite ledger. Since the packet has no coordinate for a host complete-uniform-space theorem, quotient completion equality, selected limit, or choice principle, no stronger uniqueness source is exported.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor RegSeqRat readback totality]
+\label{thm:uniform-completion-functor-regseqrat-readback-totality}
+Every accepted completion-facing read that reaches the $\RegSeqRatUp$ row $R$ of a $\UniformCompletionFunctorUp$ packet must first project the source row $U$, the functorial handoff row $F$, and the universal-extension row $E$, and must then expose the same $\StreamNameUp$ finite window $W$ used by the readback. Thus $R$ is a total displayed readback only for the route
+$$
+U,F,E,W,R,
+$$
+not for quotient completion equality, selected representatives, host complete uniform spaces, open-cover compactness, or choice.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-completion-functor-carrier}. The row $R$ occurs only after $U,F,E$ have been displayed, and its window source is the same row $W$ appearing in the carrier.
+
+Apply \autoref{thm:uniform-completion-functor-namecert-obligations}. Its readback and tolerance clauses make $R$ an obligation over the finite source, handoff, universal-extension, and window rows.
+
+Use \autoref{thm:uniform-completion-functor-universal-handoff} and \autoref{thm:uniform-completion-functor-universal-extension-uniqueness-route}. Together they route every completion-facing consumer through $U,F,E$ before any downstream readback row is inspected. Since no excluded completion or choice coordinate occurs in the carrier, the displayed readback route is total exactly over those rows.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor dyadic window stability]
+\label{thm:uniform-completion-functor-dyadic-window-stability}
+For every accepted $\UniformCompletionFunctorUp$ packet, the $\DyadicRatCoreUp$ row $D$ supplies the precision budget used by both the readback row $R$ and the finite-window row $W$. Under componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$, the same dyadic budget is preserved along the completion-facing route
+$$
+U,F,E,R,W,D,S .
+$$
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The rows $R,W,D$ occur together in the downstream part of $U,F,E,R,W,D,S,H,C,P,N$, so there is no separate tolerance source outside the displayed packet.
+
+The NameCert obligations identify $D$ as the tolerance row governing readback and window exactness. They also confine classifier-visible comparison to componentwise transport, which is the row $H$.
+
+Finally apply the universal handoff and universal-extension uniqueness route. They force the consumer to replay $R,W,D$ after $U,F,E$ and before $S$. The displayed replay row $C$ therefore preserves the same dyadic budget; no host complete-space or open-cover argument can replace it.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor Real seal nonescape]
+\label{thm:uniform-completion-functor-real-seal-nonescape}
+The terminal $\RealUp$ seal row $S$ of an accepted $\UniformCompletionFunctorUp$ packet is reachable only after the source, handoff, universal-extension, readback, window, and dyadic rows
+$$
+U,F,E,R,W,D
+$$
+have been displayed. The seal exports no quotient completion, selected limit, host complete uniform space, open-cover compactness, or choice principle.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and obligation surface. The seal row $S$ is downstream from $U,F,E,R,W,D$, and the local NameCert obligations attach seal nonescape to that displayed order.
+
+Use \autoref{thm:uniform-completion-functor-universal-handoff}. It gives the completion-facing route from the source row through the functorial and universal-extension rows before readback, windows, tolerance, and the terminal seal are consumed.
+
+Apply \autoref{thm:uniform-completion-functor-universal-extension-uniqueness-route}. Since uniqueness is already recorded as a finite ledger route before $S$, the seal cannot introduce a host completed object or selected limit. The excluded completion, compactness, and choice principles are not coordinates of the packet.
 \end{proof}
 
 \begin{theorem}[UniformCompletionFunctor ledger exactness]

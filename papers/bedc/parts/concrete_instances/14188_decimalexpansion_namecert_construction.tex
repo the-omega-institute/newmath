@@ -129,6 +129,7 @@ The transport row $H$ is componentwise through the same carrier coordinates. The
 \label{thm:decimal-expansion-rat-real-handoff}
 For every accepted $\DecimalExpansionUp$ packet $K=(D,W,V,Q,R,E,H,C,P,N)$, the rational place-value row $V$ must pass through the displayed $\DyadicRatCoreUp$ and rational comparison row $Q$, then through the $\RegSeqRatUp$ handoff row $R$, before the terminal $\RealUp$ seal row $E$ is public. No consumer can read a real-valued decimal prefix directly from $D,W,V$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionRatRealHandoff}
 \begin{proof}
 Read the carrier order in \autoref{def:decimal-expansion-carrier}. The rows list digit data, window data, place-value evaluation, dyadic/rational comparison, regular handoff, and real seal as $D,W,V,Q,R,E$.
 
@@ -139,6 +140,7 @@ Apply \autoref{thm:decimal-expansion-namecert-obligations}. Carrier admission an
 \label{thm:decimal-expansion-nonescape}
 Every accepted $\DecimalExpansionUp$ packet $K=(D,W,V,Q,R,E,H,C,P,N)$ exports exactly the finite decimal-prefix, dyadic comparison, regular handoff, real seal, transport, replay, provenance, and naming rows listed in \autoref{def:decimal-expansion-carrier}. It exports no infinite decimal, quotient real, endpoint selector, host trichotomy row, selected representative, or $\RealUp$ completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionNonescape}
 \begin{proof}
 Use ledger exhaustion from \autoref{thm:decimal-expansion-namecert-obligations}. The accepted packet has exactly the coordinates $D,W,V,Q,R,E,H,C,P,N$, so every public read is a projection or replay of those rows.
 
@@ -158,6 +160,7 @@ real seal. The packet supplies no Dedekind cut, quotient real, endpoint
 uniqueness convention, trichotomy principle, selected representative, or
 Real-completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionRealReadbackBoundary}
 \begin{proof}
 Start with an accepted carrier $K=(D,W,V,Q,R,E,H,C,P,N)$. The
 $\StreamNameUp$ observation is $W$ together with the digit rows of $D$ on that
@@ -190,6 +193,7 @@ of \autoref{def:decimal-expansion-carrier}. In particular, the packet exports
 no quotient real, endpoint representative, trichotomy row, selected decimal
 stream, or $\RealUp$ completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionRegSeqRatHandoff}
 \begin{proof}
 Project the carrier of \autoref{def:decimal-expansion-carrier}. The finite
 digit ledger $D$ is read together with the finite decimal-place windows $W$,
@@ -212,6 +216,7 @@ the structural rows $H,C,P,N$ preserving the same route.
 \begin{theorem}[DecimalExpansion window normalization obligation]\label{thm:decimal-expansion-window-normalization-obligation}
 Every accepted $\DecimalExpansionUp$ packet must display the finite digit ledger $D$ and finite window ledger $W$ before any place-value, dyadic-comparison, regular-rational, or real-seal row can be read. Equivalently, every public read of $V,Q,R,E$ factors through the finite decimal-prefix surface named in \autoref{def:decimal-expansion-carrier} and constrained by \autoref{thm:decimal-expansion-namecert-obligations}.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionWindowNormalizationObligation}
 \begin{proof}
 Project the carrier of \autoref{def:decimal-expansion-carrier}. The rows are ordered as $D,W,V,Q,R,E,H,C,P,N$, so digit admission and inspected-window admission are the visible source rows for the packet.
 
@@ -231,10 +236,12 @@ Use the window normalization obligation of \autoref{thm:decimal-expansion-window
 
 The $\StreamNameUp$ sibling of \autoref{ch:concrete-instances-streamname-namecert} supplies the finite-window discipline, and the structural row $H$ transports the same prefix componentwise through $\hsame$. The dyadic and regular-rational consumers of \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert} therefore receive the same place-value and tolerance route before the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert} is read.
 \end{proof}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionPrefixStability}
 
 \begin{theorem}[DecimalExpansion dyadic comparison handoff]\label{thm:decimal-expansion-dyadic-comparison-handoff}
 For every accepted $\DecimalExpansionUp$ packet, the place-value row $V$ reaches the $\RegSeqRatUp$ handoff only through the comparison row $Q$ and the $\DyadicRatCoreUp$ and rational comparison surface. No direct route from a decimal place-value sum to $R$ or $E$ is exported by the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionDyadicComparisonHandoff}
 \begin{proof}
 Read \autoref{def:decimal-expansion-carrier}. The row $V$ records the base-ten rational place-value sum, while $Q$ is the displayed $\DyadicRatCoreUp$ and rational comparison row.
 
@@ -256,6 +263,7 @@ Now use the dyadic comparison handoff of \autoref{thm:decimal-expansion-dyadic-c
 
 The terminal real read is the seal discipline of \autoref{ch:concrete-instances-real-namecert}, and the decimal normal-form consumer of \autoref{ch:concrete-instances-real-decimal-normal-form-namecert} reads only after this finite dyadic and regular-rational route has been displayed.
 \end{proof}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionDyadicRationalReadback}
 
 \begin{theorem}[DecimalExpansion RealSeparability density route]\label{thm:decimal-expansion-real-separability-density-route}
 For every accepted $\DecimalExpansionUp$ packet $K=(D,W,V,Q,R,E,H,C,P,N)$, the finite decimal prefix route contributes to the RealSeparability-facing density surface only through displayed countable dense readback along
@@ -278,6 +286,7 @@ Finally read the RealSeparability sibling of \autoref{ch:concrete-instances-real
 \begin{theorem}[DecimalExpansion countable dense consumer handoff]\label{thm:decimal-expansion-countable-dense-consumer-handoff}
 Every countable dense consumer that reads an accepted $\DecimalExpansionUp$ packet $K=(D,W,V,Q,R,E,H,C,P,N)$ must first pass through the finite $\StreamNameUp$ window $W$, the digit ledger $D$, the place-value row $V$, the $\DyadicRatCoreUp$ comparison row $Q$, the $\RegSeqRatUp$ readback row $R$, and the terminal $\RealUp$ seal $E$. The consumer handoff to \autoref{ch:concrete-instances-real-separability-namecert} is therefore a displayed dense readback route, not a decimal stream selector, quotient-real representative, endpoint convention, trichotomy decision, or completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionCountableDenseConsumerHandoff}
 \begin{proof}
 Use \autoref{thm:decimal-expansion-real-separability-density-route}. It identifies the only RealSeparability-facing route exported by the packet as the finite path through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
 
@@ -289,6 +298,7 @@ Thus a countable dense consumer receives exactly the finite prefix readback rout
 \begin{theorem}[DecimalExpansion prefix density exhaustion]\label{thm:decimal-expansion-prefix-density-exhaustion}
 For an accepted $\DecimalExpansionUp$ packet $K=(D,W,V,Q,R,E,H,C,P,N)$, all RealSeparability-facing density reads are exhausted by finite decimal prefixes and their displayed readback through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Once $D,W,V,Q,R,E,H,C,P,N$ have been read, the packet has no remaining row from which to choose a quotient real, select an endpoint convention, decide trichotomy, or assert a $\RealUp$ completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionPrefixDensityExhaustion}
 \begin{proof}
 Begin with the countable dense consumer handoff of \autoref{thm:decimal-expansion-countable-dense-consumer-handoff}. It routes every density consumer through the finite prefix ledger and the dyadic, regular-rational, and real-seal rows.
 
@@ -307,6 +317,7 @@ Apply \autoref{thm:decimal-expansion-dyadic-comparison-handoff}. It places $Q$ b
 
 Finally apply \autoref{thm:decimal-expansion-real-readback-boundary}. The terminal real read is reached only after finite windows, digit rows, dyadic tolerance, and regular rational readback have been displayed. This locks the decimal route to the dyadic, regular-Cauchy, stream-window, and real-seal sibling lattice named in the statement.
 \end{proof}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionDyadicNormalizationLock}
 
 \begin{theorem}[DecimalExpansion Real seal nonescape]\label{thm:decimal-expansion-real-seal-nonescape}
 The terminal row $E$ of an accepted $\DecimalExpansionUp$ packet exports only the displayed $\RealUp$ seal reached from $D,W,V,Q,R$. It exports no quotient real equality, endpoint resolver, trichotomy decision, selected digit stream, selected decimal stream, countable-choice selector, ambient $\RealUp$ completeness, or $\RealUp$ completeness witness.
@@ -318,10 +329,12 @@ Use \autoref{thm:decimal-expansion-dyadic-rational-readback} to keep the route t
 
 Finally project the excluded-coordinate clause of \autoref{def:decimal-expansion-carrier}. Since quotient reals, endpoint convention resolvers, trichotomy decisions, selected representatives, selected decimal streams, and completeness witnesses are absent from the displayed packet, none escapes through $E$.
 \end{proof}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionRealSealNonescape}
 
 \begin{theorem}[DecimalExpansion Real seal factorization]\label{thm:decimal-expansion-real-seal-factorization}
 Every accepted $\DecimalExpansionUp$ packet whose terminal row is read as a $\RealUp$ seal factors through finite decimal windows, dyadic comparison, the $\RegSeqRatUp$ handoff, and the $\RealSeparabilityUp$ countable-density route. Concretely, the seal read begins with the digit and window rows $D,W$, evaluates those rows through the decimal place-value row $V$, passes through the dyadic and rational comparison row $Q$, reaches the regular rational row $R$, and only then exposes the terminal seal $E$. The same finite decimal windows supply the countable dense readback interface named by \autoref{ch:concrete-instances-real-separability-namecert}; no direct decimal stream, quotient real, selected representative, or completeness witness is exported by the seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionRealSealFactorization}
 \begin{proof}
 Start with the dyadic normalization lock of \autoref{thm:decimal-expansion-dyadic-normalization-lock}. It forces every real-facing decimal value to pass through the digit-place tolerance ledger, finite window row, regular rational readback row, and terminal seal.
 
@@ -349,6 +362,7 @@ Next apply the dyadic normalization lock, \autoref{thm:decimal-expansion-dyadic-
 
 Finally use Real seal factorization, \autoref{thm:decimal-expansion-real-seal-factorization}. The terminal seal is downstream of $D,W,V,Q,R$, so equality of the displayed window and dyadic place-value ledger determines the readback route before $E$ is exposed. Since the carrier has no quotient-real, selected-representative, direct decimal-stream, or completeness coordinate, carry normalization exports no additional route beyond the finite ledger.
 \end{proof}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionDigitCarryDeterminacy}
 
 \begin{theorem}[DecimalExpansion separability density obligation]
 \label{thm:decimal-expansion-separability-density-obligation}
@@ -476,6 +490,7 @@ Apply \autoref{thm:decimal-expansion-endpoint-normalization-handoff}. Its handof
 
 The transport part is supplied by \autoref{thm:decimal-expansion-window-normalization-obligation} and \autoref{thm:decimal-expansion-finite-prefix-completeness}. Window refinement is componentwise through $H$, replay is through $C$, provenance through $P$, and the local name through $N$, so the endpoint window remains inside the displayed packet instead of selecting an external stream.
 \end{proof}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionEndpointWindowTransport}
 
 \begin{theorem}[DecimalExpansion RegSeqRat prefix coverage]
 \label{thm:decimal-expansion-regseqrat-prefix-coverage}
@@ -529,6 +544,7 @@ Finally apply \autoref{thm:decimal-expansion-real-readback-boundary} and \autore
 \label{thm:decimal-expansion-carry-normalization-totality}
 For every accepted $\DecimalExpansionUp$ finite digit-window packet $K=(D,W,V,Q,R,E,H,C,P,N)$, every carry or borrow read over the inspected decimal window has a normalized finite-window representative using only the rows $D,W,V,Q$. The normalized representative preserves the same $\RegSeqRatUp$ handoff row $R$ and the same terminal $\RealUp$ seal row $E$, and it introduces no selected decimal stream, endpoint convention, quotient real, trichotomy decision, or ambient $\RealUp$ completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionCarryNormalizationTotality}
 \begin{proof}
 Induct over the finite digit window named by $D,W$. The empty and one-place windows normalize by reading the displayed place-value row $V$ and leave $Q,R,E$ unchanged.
 

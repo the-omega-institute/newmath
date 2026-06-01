@@ -79,6 +79,32 @@ The target classifier $T$ and the output observations $W$ then package exactly t
 Thus every mapped finite-window read has the displayed factorization $S \longmapsto F \longmapsto T \longmapsto W$, and downstream consumers inherit that route rather than a quotient-stream or selected-limit principle.
 \end{proof}
 
+\begin{theorem}[Stream map window functoriality]
+\label{thm:stream-map-window-functoriality}
+For an accepted $\StreamMapUp$ carrier $M=(S,T,F,W,Q,D,R,H,C,P,N)$, the pointwise carrier transport of \autoref{def:stream-map-pointwise-carrier-transport} preserves finite $\StreamNameUp$ windows through the route of \autoref{thm:stream-map-finite-window-functoriality}. Consequently every $\RegSeqRatUp$ or $\RealUp$ handoff reads the mapped window through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route fixed by $S,F,T,W,Q,D,$ and $R$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stream-map-carrier} and the pointwise transport datum of \autoref{def:stream-map-pointwise-carrier-transport}. The only source cells available to the map are the finite $\StreamNameUp$ window cells exposed by $S$ and transported through $H$.
+
+Apply \autoref{thm:stream-map-finite-window-functoriality}. The mapped observation factors through $S,F,T,W$ before any regular rational, dyadic, or Real-facing row can be read.
+
+Finally apply \autoref{thm:stream-map-regseq-real-handoff}. The handoff to $\RegSeqRatUp$ or $\RealUp$ consumes the same mapped window route and the same structural rows $H,C,P,N$, so it cannot import host function extensionality, quotient streams, selected limits, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Stream map constant-window stability]
+\label{thm:stream-map-constant-window-stability}
+Let $M=(S,T,F,W,Q,D,R,H,C,P,N)$ be an accepted $\StreamMapUp$ carrier applied to a constant certified point stream. Then the displayed finite observation window is preserved by the point-map row: the constant point row read from $S$ is routed through $F$ to the same target-window shape in $T$ and $W$, and any downstream $\RegSeqRatUp$ consumer must first read the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
+\end{theorem}
+\begin{proof}
+Project the $\StreamMapUp$ carrier. The source classifier row $S$ exposes the constant point stream only through a displayed finite window and its point cells.
+
+Use the constant point row together with the finite-window row $W$. Since every source cell in the inspected window is the certified constant point, the point-map row $F$ produces a target row with the same displayed window shape before $Q,D,$ or $R$ is available.
+
+Componentwise transport is then read through $H$. The target cells, output observations, regular handoff, dyadic ledger, and Real seal boundary are moved only along the displayed source and target windows.
+
+Finally the replay and provenance rows $C,P,N$ preserve that route for downstream consumers. A $\RegSeqRatUp$ consumer therefore receives the mapped constant window only after the finite StreamMap support has been displayed, and cannot replace it by quotient stream equality, host function extensionality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[Stream map composition-window route]
 \label{thm:stream-map-composition-window-route}
 Let two accepted $\StreamMapUp$ carriers be composable by identifying the first target window with the second source window. The composed mapped stream can be exposed only through the first source $\StreamNameUp$ row, the first point-map row, the intermediate target/source window, the second point-map row, and the final target window before any $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ row is consumed.
@@ -146,6 +172,45 @@ Finite-window functoriality follows from \autoref{thm:stream-map-finite-window-f
 The tail-window handoff is the projection to $Q$. Since $Q$ is stored after $S,T,F,W$, it records the regular rational readback for the displayed windows and has no coordinate for choosing another stream representative.
 
 Finally, ledger non-escape is exhausted by $D,R,H,C,P,N$. These rows record tolerances, seal boundaries, componentwise transport, displayed replay, provenance, and local naming for the same finite route, and none stores quotient stream equality, host function extensionality, selected limits, countable choice, ambient Real completeness, or a detached host map.
+\end{proof}
+
+\begin{theorem}[Stream map obligation-closure package]
+\label{thm:stream-map-obligation-closure-package}
+For every accepted $\StreamMapUp$ carrier $M=(S,T,F,W,Q,D,R,H,C,P,N)$, the carrier row of \autoref{def:stream-map-carrier}, the pointwise stability of \autoref{thm:stream-map-pointwise-stability}, the carrier transport datum of \autoref{def:stream-map-pointwise-carrier-transport}, the carrier transport stability of \autoref{thm:stream-map-pointwise-carrier-transport-stability}, the finite-window functoriality of \autoref{thm:stream-map-finite-window-functoriality}, the composition-window route of \autoref{thm:stream-map-composition-window-route}, the tail-window determinacy of \autoref{thm:stream-map-tail-window-determinacy}, the tail-ledger nonescape of \autoref{thm:stream-map-tail-ledger-nonescape}, and the NameCert obligation surface of \autoref{thm:stream-map-namecert-obligation-surface} jointly form the obligation-closed finite $\StreamMapUp$ packet over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier row first. It displays exactly the source and target $\StreamNameUp$ rows, the point-map row, finite output windows, the $\RegSeqRatUp$ handoff, the $\DyadicRatCoreUp$ ledger, the $\RealUp$ seal, and the structural rows $H,C,P,N$.
+
+Apply the pointwise and transport clauses next. The rows cited in \autoref{thm:stream-map-pointwise-stability}, \autoref{def:stream-map-pointwise-carrier-transport}, and \autoref{thm:stream-map-pointwise-carrier-transport-stability} keep the map action inside displayed finite source and target cells.
+
+Now use the window and tail clauses. The route of \autoref{thm:stream-map-finite-window-functoriality}, \autoref{thm:stream-map-composition-window-route}, \autoref{thm:stream-map-tail-window-determinacy}, and \autoref{thm:stream-map-tail-ledger-nonescape} forces every downstream regular-rational, dyadic, or Real-facing consumer to pass through the same finite StreamMap window route before any tail or seal row is visible.
+
+Finally apply \autoref{thm:stream-map-namecert-obligation-surface}. Its listed rows exhaust the local $\NameCert_{\StreamMapUp}$ surface, so the paper closure claim here is an obligation package over the displayed finite rows only. It does not assert Lean verification, quotient stream equality, host function extensionality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Stream map RegSeqRat and Real handoff]
+\label{thm:stream-map-regseq-real-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of a mapped stream accepted by a $\StreamMapUp$ carrier must first read source-window exactness, pointwise map stability, finite-window functoriality, tail-window determinacy, and tail-ledger nonescape. The handoff is therefore a finite pointwise stream route from source windows to regular rational readback and the terminal real seal, not a quotient stream equality, selected limit, host function extensionality, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with pointwise stability from \autoref{thm:stream-map-pointwise-stability}. It keeps each target cell attached to the displayed source cell and point-map row rather than to a detached host function.
+
+Apply \autoref{thm:stream-map-finite-window-functoriality}. The mapped observation reaches the target window through the finite route $S,F,T,W$ before any downstream $Q,D,$ or $R$ row can be consumed.
+
+Now apply \autoref{thm:stream-map-tail-window-determinacy}. A regular rational or real-facing read that agrees on the source window, point-map row, target window, output window, and dyadic ledger must expose the same regular handoff before the terminal real seal is read.
+
+Finally apply \autoref{thm:stream-map-tail-ledger-nonescape}. The tail-facing consumer cannot bypass $S,F,T,W,D$ and cannot import quotient stream equality, selected limits, host function extensionality, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Stream map scoped closure package]\label{thm:stream-map-scoped-closure-package}
+Every accepted $\StreamMapUp$ packet routes pointwise map data through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before any $\RealUp$-facing consumer reads it. The scoped route is the finite package assembled by the obligation-closure theorem and the RegSeqRat/Real handoff theorem; it exports no quotient stream equality, host function extensionality, selected limit, countable choice, or ambient real-completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the obligation package of \autoref{thm:stream-map-obligation-closure-package}. It exposes the carrier row, source-window exactness, pointwise stability, carrier transport, finite-window functoriality, composition-window routing, tail-window determinacy, tail-ledger nonescape, and the local NameCert surface over the displayed $\StreamMapUp$ rows.
+
+Next apply \autoref{thm:stream-map-regseq-real-handoff}. That theorem places every regular-rational or Real-facing read behind the same source window, point-map row, target window, output observation, dyadic ledger, regular rational handoff, and terminal Real seal.
+
+The structural rows $H,C,P,N$ then preserve the scoped route as componentwise transport, displayed replay, provenance, and local naming. Since the carrier has no coordinate for quotient stream equality, host function extensionality, selected limits, countable choice, or ambient Real completeness, the scoped closure package is exactly the displayed finite route.
 \end{proof}
 
 \closureat{StreamMapUp}{seedStr}
