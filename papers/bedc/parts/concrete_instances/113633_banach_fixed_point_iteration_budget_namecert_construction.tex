@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\BanachFixedPointIterationBudgetUp$}
+\label{ch:concrete-instances-banach-fixed-point-iteration-budget-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges constructive analysis, the $\BanachFixedPointIterationBudgetUp$ packet records the finite budget surface that sits between displayed contraction iteration and the fixed-point endpoint seal. It consumes the finite orbit ledger of \autoref{ch:concrete-instances-fixed-point-iteration-namecert}, the contraction-map surface of \autoref{ch:concrete-instances-contractionmapping-namecert}, the complete-metric boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the regular Cauchy handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the endpoint-facing Banach certificate of \autoref{ch:concrete-instances-banach-fixed-point-namecert}. The packet names the tail budget a consumer must inspect before $\BanachFixedPointUp$ may read an endpoint.
+
+\begin{definition}[Banach fixed-point iteration budget carrier]
+\label{def:banach-fixed-point-iteration-carrier}
+A $\BanachFixedPointIterationBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,T,x_0,I,Q,R,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the metric source row, read through the carried metric and complete-metric surfaces before any orbit estimate is consumed.
+\item $T$ is the $\ContractionMappingUp$ self-map row, including the graph-read and strict contraction-ratio ledger.
+\item $x_0$ is the displayed initial-point row for the Picard orbit.
+\item $I$ is the finite Picard ledger supplied by $\FixedPointIterationUp$, listing only the displayed iterates and adjacent-step reads.
+\item $Q$ is the contraction-ratio and tail-budget row, recording the finite residual threshold attached to the displayed Picard ledger.
+\item $R$ is the $\RegSeqRatUp$ handoff row that receives the tail budget as regular Cauchy data.
+\item $K$ is the $\CompleteMetricUp$ boundary row; it records the separate completion service that must be supplied before an endpoint-facing read.
+\item $H$ records componentwise $\hsame$ transport for the metric source, contraction map, initial point, Picard ledger, tail budget, RegSeqRat handoff, complete-metric boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an endpoint request through $X,T,x_0,I,Q,R,K,H$.
+\item $P$ is the $\Pkg$ provenance over $\BanachFixedPointIterationBudgetUp$, $\FixedPointIterationUp$, $\ContractionMappingUp$, $\CompleteMetricUp$, $\RegSeqRatUp$, $\BanachFixedPointUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BanachFixedPointIterationBudgetUp}$ row.
+\end{enumerate}
+The classifier compares packets only through $X,T,x_0,I,Q,R,K,H,C,P,N$. It has no coordinate for a selected fixed point, completed Picard endpoint, host fixed-point equality, quotient map equality, countable choice, or ambient completeness outside the displayed $\CompleteMetricUp$ boundary.
+\end{definition}
+\leandef{BEDC.Derived.BanachFixedPointIterationBudgetUp.BanachFixedPointIterationBudgetUp}
+
+\begin{theorem}[Banach fixed-point contracting-step budget]
+\label{thm:banach-fixed-point-contracting-step-budget}
+For every accepted $\BanachFixedPointIterationBudgetUp$ carrier $B=(X,T,x_0,I,Q,R,K,H,C,P,N)$, each displayed Picard step in $I$ shrinks the residual budget through the contraction row $T$ and the ratio-tail ledger $Q$. A $\BanachFixedPointUp$ endpoint consumer may inspect only the finite route
+$$
+\ContractionMappingUp,\quad \FixedPointIterationUp,\quad \RegSeqRatUp,\quad \CompleteMetricUp
+$$
+before reading the endpoint-facing seal. Thus the packet exposes the finite tail-modulus route and no selected endpoint, host fixed-point equality, quotient-map equality, countable-choice selector, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The Picard ledger $I$ is finite, and every adjacent displayed step is read through the same metric source $X$, contraction graph $T$, and initial-point row $x_0$.
+
+The contraction budget is the row $Q$. It stores the strict ratio and the residual threshold attached to the displayed ledger, so each later Picard read can only decrease the residual request along the finite ledger already present in $I$.
+
+The completion-facing handoff is separate. The row $R$ repacks the tail budget as a $\RegSeqRatUp$ route, and the row $K$ records the $\CompleteMetricUp$ boundary that must be supplied before $\BanachFixedPointUp$ reads an endpoint.
+
+Finally, $H,C,P,N$ transport, replay, source, and name this same route. Since no carrier coordinate contains a selected endpoint, host fixed-point equality, quotient-map equality, choice selector, or ambient completeness theorem, none can be exported by the contracting-step budget packet.
+\end{proof}
+
+\closureat{BanachFixedPointIterationBudgetUp}{seedStr}
+
+\begin{closurestatus}{\BanachFixedPointIterationBudgetUp}
+  \constructivestory{A $\BanachFixedPointIterationBudgetUp$ packet is generated from a metric source row, a ContractionMapping self-map row, an initial point, a finite Picard ledger, a contraction-ratio and tail-budget row, a RegSeqRat handoff, a CompleteMetric boundary, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-fixed-point-iteration-carrier} and \autoref{thm:banach-fixed-point-contracting-step-budget} seed the finite budget surface between Picard iteration and Banach endpoint sealing.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.BanachFixedPointIterationBudgetUp.BanachFixedPointIterationBudgetUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected fixed points, completed Picard endpoints, host fixed-point equality, quotient-map equality, countable choice, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Picard-step budget shrinkage, RegSeqRat tail handoff, complete-metric boundary discipline, transport, replay, provenance, and local naming for BEDC.Derived.BanachFixedPointIterationBudgetUp.}
+\end{closurestatus}
