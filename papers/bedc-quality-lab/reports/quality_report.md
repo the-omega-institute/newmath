@@ -9,19 +9,43 @@
 
 ## 指标
 
-- `approx_identifiability_proxy`：0.896834
-- `covariance_deviation`：0.473880
-- `linear_identifiability_r2`：0.957419
-- `orthogonality_error`：0.005398
+- `approx_identifiability_proxy`：0.795744
+- `covariance_deviation`：0.685355
+- `linear_identifiability_r2`：0.910984
+- `orthogonality_error`：0.118285
+
+## Identifiability Bound
+
+- `alignment_loss`：0.293088
+- `alignment_gap_delta`：0.000000
+- `whitening_deviation_epsilon`：0.685355
+- `normalized_gap_d`：0.000000
+- `theorem3_bound`：0.469711
+- `actual_recovery_error`：0.385709
+- `bound_margin`：0.084002
 
 ## Q 投影
 
-- `quality_benefit`：0.927126
+- `quality_benefit`：0.853364
 - `quality_cost`：0.060000
 - `quality_debt`：0.800000
-- `quality_margin`：0.067126
-- `quality_q`：0.067126
+- `quality_margin`：-0.006636
+- `quality_q`：-0.006636
 - `quality_threshold`：0.000000
+
+## Cost Protocol
+
+- Protocol: `bedc-quality-lab-default-cost-protocol`
+- Formula: `quality_q` = `quality_benefit - quality_cost - quality_debt`
+- Row weights:
+  - `classifier/optimizer-certificate`: 0.200000
+  - `generalization/global-claim-boundary`: 0.200000
+  - `source/finite-sample-support`: 0.200000
+  - `source/mixing-family-coverage`: 0.220000
+  - `source/source-coverage`: 0.180000
+- Not claimed global boundary:
+  - tokens: `outside-declared-scope`, `untested-source-families`, `unproved-global-generalization`
+  - treatment: Claims outside these boundary tokens are not included in quality_q closure credit.
 
 ## Ledger gaps
 

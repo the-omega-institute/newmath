@@ -8,6 +8,17 @@ from .cost_protocol import CostProtocol, format_cost_protocol_lines, load_cost_p
 from .schema import QualityEvidenceEnvelope
 
 
+_IDENTIFIABILITY_BOUND_KEYS = (
+    "alignment_loss",
+    "alignment_gap_delta",
+    "whitening_deviation_epsilon",
+    "normalized_gap_d",
+    "theorem3_bound",
+    "actual_recovery_error",
+    "bound_margin",
+)
+
+
 def _format_metric(value: float) -> str:
     return f"{value:.6f}"
 
@@ -29,8 +40,14 @@ def render_quality_report(envelope: QualityEvidenceEnvelope, protocol: CostProto
         "",
     ]
     quality_keys = [key for key in sorted(metrics) if key.startswith("quality_")]
+    bound_keys = [key for key in _IDENTIFIABILITY_BOUND_KEYS if key in metrics]
     for key in sorted(metrics):
-        if key not in quality_keys:
+        if key not in quality_keys and key not in bound_keys:
+            lines.append(f"- `{key}`：{_format_metric(metrics[key])}")
+
+    if bound_keys:
+        lines.extend(["", "## Identifiability Bound", ""])
+        for key in bound_keys:
             lines.append(f"- `{key}`：{_format_metric(metrics[key])}")
 
     if quality_keys:

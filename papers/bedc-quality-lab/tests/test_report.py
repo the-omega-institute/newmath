@@ -64,3 +64,30 @@ def test_report_includes_cost_protocol_section():
     assert "`outside-declared-scope`" in report
     assert "`untested-source-families`" in report
     assert "`unproved-global-generalization`" in report
+
+
+def test_report_identifiability_bound_section_projects_envelope_metrics_only():
+    envelope = QualityEvidenceEnvelope(
+        schema_id=SCHEMA_ID,
+        run_id="bound-projection-test",
+        source_spec={"name": "source-from-envelope"},
+        pattern_spec={"name": "pattern-from-envelope"},
+        classifier_spec={"name": "classifier-from-envelope"},
+        stability_spec={"name": "stability-from-envelope"},
+        metrics={
+            "linear_identifiability_r2": 0.1234567,
+            "alignment_loss": 0.25,
+            "theorem3_bound": 0.75,
+            "bound_margin": -0.5,
+            "quality_q": 0.1777778,
+        },
+    )
+
+    report = render_quality_report(envelope)
+
+    assert "## Identifiability Bound" in report
+    assert "`alignment_loss`：0.250000" in report
+    assert "`theorem3_bound`：0.750000" in report
+    assert "`bound_margin`：-0.500000" in report
+    assert "`actual_recovery_error`" not in report
+    assert report.index("## Identifiability Bound") < report.index("## Q 投影")

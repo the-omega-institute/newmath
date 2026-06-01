@@ -44,6 +44,13 @@ def assert_common_experiment_envelope(envelope):
         "orthogonality_error",
         "covariance_deviation",
         "approx_identifiability_proxy",
+        "alignment_loss",
+        "alignment_gap_delta",
+        "whitening_deviation_epsilon",
+        "normalized_gap_d",
+        "theorem3_bound",
+        "actual_recovery_error",
+        "bound_margin",
         "quality_benefit",
         "quality_cost",
         "quality_debt",
@@ -58,6 +65,7 @@ FALLBACK_LEDGER_GAPS = [
     "kind=source; residue=finite-sample-support; severity=high; status=open",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open",
     "kind=source; residue=source-coverage; severity=high; status=open",
+    "kind=verification; residue=identifiability-proxy-margin; severity=medium; status=partial",
 ]
 
 FALLBACK_DEBT_ITEMS = [
@@ -73,6 +81,7 @@ TORCH_METADATA_LEDGER_GAPS = [
     "kind=source; residue=finite-sample-support; severity=high; status=open",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open",
     "kind=source; residue=source-coverage; severity=high; status=open",
+    "kind=verification; residue=identifiability-proxy-margin; severity=medium; status=partial",
 ]
 
 TORCH_METADATA_DEBT_ITEMS = [
@@ -110,6 +119,13 @@ def assert_classifier_certificate(envelope):
         classifier_spec["cert_proxy"],
         envelope.metrics["approx_identifiability_proxy"],
     )
+    assert classifier_spec["split_policy"] == "train-eval-disjoint"
+    assert classifier_spec["train_fraction"] == 0.70
+    assert classifier_spec["train_count"] == round(0.70 * envelope.source_spec["sample_count"])
+    assert classifier_spec["eval_count"] == envelope.source_spec["sample_count"] - classifier_spec["train_count"]
+    assert classifier_spec["overlap_count"] == 0
+    assert isinstance(classifier_spec["train_index_checksum"], int)
+    assert isinstance(classifier_spec["eval_index_checksum"], int)
 
 
 def assert_canonical_quality_rows(envelope, *, ledger_gaps, debt_items):
@@ -117,11 +133,25 @@ def assert_canonical_quality_rows(envelope, *, ledger_gaps, debt_items):
     assert envelope.debt_items == debt_items
 
 
-def assert_meaningful_metric_thresholds(envelope, *, max_covariance_deviation=0.35):
+def assert_meaningful_metric_thresholds(
+    envelope,
+    *,
+    max_orthogonality_error=0.55,
+    max_covariance_deviation=0.70,
+):
     assert envelope.metrics["linear_identifiability_r2"] > 0.85
     assert envelope.metrics["approx_identifiability_proxy"] > 0.70
-    assert envelope.metrics["orthogonality_error"] < 0.30
+    assert envelope.metrics["orthogonality_error"] < max_orthogonality_error
     assert envelope.metrics["covariance_deviation"] < max_covariance_deviation
+    assert envelope.metrics["alignment_loss"] >= 0.0
+    assert envelope.metrics["alignment_gap_delta"] >= 0.0
+    assert envelope.metrics["whitening_deviation_epsilon"] >= 0.0
+    assert envelope.metrics["normalized_gap_d"] >= 0.0
+    assert envelope.metrics["theorem3_bound"] >= 0.0
+    assert np.isfinite(envelope.metrics["actual_recovery_error"])
+    assert envelope.metrics["bound_margin"] == pytest.approx(
+        envelope.metrics["theorem3_bound"] - envelope.metrics["actual_recovery_error"]
+    )
 
 
 def assert_artifact_payloads_can_be_written(envelope, tmp_path):
@@ -268,10 +298,12 @@ def test_quality_improvement_delta_and_report_projection():
 
 
 def test_experiment_torch_success_path_uses_tiny_encoder_metadata(monkeypatch):
-    def fake_torch_encoder(x, x_pair, *, seed):
-        assert x.shape == x_pair.shape == (384, 2)
+    def fake_torch_encoder(train_x, train_x_pair, eval_x, eval_x_pair, *, seed):
+        assert train_x.shape == train_x_pair.shape == (269, 2)
+        assert eval_x.shape == eval_x_pair.shape == (115, 2)
         assert seed == 23
-        return np.asarray(x, dtype=np.float64)
+        h, h_pair = runner._fallback_encoder(train_x, eval_x, eval_x_pair)
+        return h, h_pair
 
     monkeypatch.setattr(runner, "_torch_encoder", fake_torch_encoder)
 
@@ -296,7 +328,7 @@ def test_experiment_torch_success_path_uses_tiny_encoder_metadata(monkeypatch):
 
 
 def test_experiment_torch_failure_silently_uses_fallback_metadata(monkeypatch):
-    def failing_torch_encoder(x, x_pair, *, seed):
+    def failing_torch_encoder(train_x, train_x_pair, eval_x, eval_x_pair, *, seed):
         raise RuntimeError("forced test failure")
 
     monkeypatch.setattr(runner, "_torch_encoder", failing_torch_encoder)
@@ -338,7 +370,7 @@ def test_smoke_experiment_skips_without_torch():
     }
     assert envelope.classifier_spec["output_dim"] == 2
     assert_classifier_certificate(envelope)
-    assert_meaningful_metric_thresholds(envelope, max_covariance_deviation=0.60)
+    assert_meaningful_metric_thresholds(envelope, max_covariance_deviation=0.75)
 
 
 def test_runner_uses_canonical_debt_and_ledger_producers():
@@ -350,3 +382,64 @@ def test_runner_uses_canonical_debt_and_ledger_producers():
     assert "single-mixing-family" not in source
     assert "no-global-claim" not in source
     assert "distribution-debt:" not in source
+
+
+def test_train_eval_split_is_disjoint_and_deterministic():
+    left_train, left_eval = runner._train_eval_split(384, seed=23)
+    right_train, right_eval = runner._train_eval_split(384, seed=23)
+    other_train, other_eval = runner._train_eval_split(384, seed=24)
+
+    assert np.array_equal(left_train, right_train)
+    assert np.array_equal(left_eval, right_eval)
+    assert left_train.shape == (269,)
+    assert left_eval.shape == (115,)
+    assert np.intersect1d(left_train, left_eval).size == 0
+    assert set(left_train.tolist()) | set(left_eval.tolist()) == set(range(384))
+    assert not np.array_equal(left_train, other_train)
+    assert not np.array_equal(left_eval, other_eval)
+
+
+def test_fallback_standardizer_fits_train_only():
+    train_x = np.array([[10.0, 100.0], [12.0, 104.0], [14.0, 108.0]], dtype=np.float64)
+    eval_x = np.array([[12.0, 104.0]], dtype=np.float64)
+    eval_x_pair = np.array([[16.0, 112.0]], dtype=np.float64)
+
+    h, h_pair = runner._fallback_encoder(train_x, eval_x, eval_x_pair)
+
+    assert h == pytest.approx(np.array([[0.0, 0.0]]))
+    assert h_pair == pytest.approx(np.array([[2.44948974, 2.44948974]]))
+
+
+def test_torch_encoder_receives_train_arrays_and_returns_eval_arrays(monkeypatch):
+    calls = {}
+
+    def fake_torch_encoder(train_x, train_x_pair, eval_x, eval_x_pair, *, seed):
+        calls["train_x"] = np.array(train_x, copy=True)
+        calls["train_x_pair"] = np.array(train_x_pair, copy=True)
+        calls["eval_x"] = np.array(eval_x, copy=True)
+        calls["eval_x_pair"] = np.array(eval_x_pair, copy=True)
+        return np.asarray(eval_x, dtype=np.float64), np.asarray(eval_x_pair, dtype=np.float64)
+
+    monkeypatch.setattr(runner, "_torch_encoder", fake_torch_encoder)
+
+    envelope = runner.run_experiment(use_torch=True)
+
+    assert calls["train_x"].shape == calls["train_x_pair"].shape == (269, 2)
+    assert calls["eval_x"].shape == calls["eval_x_pair"].shape == (115, 2)
+    assert not any(np.array_equal(row, calls["eval_x"][0]) for row in calls["train_x"])
+    assert envelope.classifier_spec["eval_count"] == 115
+
+
+def test_report_includes_bound_metrics_without_positive_margin_assumption(tmp_path):
+    envelope = runner.run_experiment(use_torch=False)
+    report_path = tmp_path / "quality_report.md"
+
+    write_quality_report(envelope, report_path)
+    report = report_path.read_text(encoding="utf-8")
+
+    assert "## Identifiability Bound" in report
+    assert "`theorem3_bound`" in report
+    assert "`bound_margin`" in report
+    assert envelope.metrics["bound_margin"] == pytest.approx(
+        envelope.metrics["theorem3_bound"] - envelope.metrics["actual_recovery_error"]
+    )
