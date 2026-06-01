@@ -79,6 +79,18 @@ The target classifier $T$ and the output observations $W$ then package exactly t
 Thus every mapped finite-window read has the displayed factorization $S \longmapsto F \longmapsto T \longmapsto W$, and downstream consumers inherit that route rather than a quotient-stream or selected-limit principle.
 \end{proof}
 
+\begin{theorem}[Stream map window functoriality]
+\label{thm:stream-map-window-functoriality}
+For an accepted $\StreamMapUp$ carrier $M=(S,T,F,W,Q,D,R,H,C,P,N)$, the pointwise carrier transport of \autoref{def:stream-map-pointwise-carrier-transport} preserves finite $\StreamNameUp$ windows through the route of \autoref{thm:stream-map-finite-window-functoriality}. Consequently every $\RegSeqRatUp$ or $\RealUp$ handoff reads the mapped window through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route fixed by $S,F,T,W,Q,D,$ and $R$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stream-map-carrier} and the pointwise transport datum of \autoref{def:stream-map-pointwise-carrier-transport}. The only source cells available to the map are the finite $\StreamNameUp$ window cells exposed by $S$ and transported through $H$.
+
+Apply \autoref{thm:stream-map-finite-window-functoriality}. The mapped observation factors through $S,F,T,W$ before any regular rational, dyadic, or Real-facing row can be read.
+
+Finally apply \autoref{thm:stream-map-regseq-real-handoff}. The handoff to $\RegSeqRatUp$ or $\RealUp$ consumes the same mapped window route and the same structural rows $H,C,P,N$, so it cannot import host function extensionality, quotient streams, selected limits, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[Stream map constant-window stability]
 \label{thm:stream-map-constant-window-stability}
 Let $M=(S,T,F,W,Q,D,R,H,C,P,N)$ be an accepted $\StreamMapUp$ carrier applied to a constant certified point stream. Then the displayed finite observation window is preserved by the point-map row: the constant point row read from $S$ is routed through $F$ to the same target-window shape in $T$ and $W$, and any downstream $\RegSeqRatUp$ consumer must first read the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
