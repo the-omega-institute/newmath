@@ -88,4 +88,27 @@ theorem EquicontinuityCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, radiusUnary, handoffUnary⟩
 
+theorem EquicontinuityCarrier_modulus_ledger_exactness [AskSetup] [PackageSetup]
+    {K F eps rho M T R P N radiusRead radiusRead' handoffRead handoffRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont K F radiusRead ->
+      Cont radiusRead rho handoffRead ->
+        Cont K F radiusRead' ->
+          Cont radiusRead' rho handoffRead' ->
+            PkgSig bundle P pkg ->
+              UnaryHistory K -> UnaryHistory F -> UnaryHistory rho ->
+                hsame radiusRead radiusRead' ∧ hsame handoffRead handoffRead' ∧
+                  UnaryHistory radiusRead' ∧ UnaryHistory handoffRead' := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro compactFamily radiusHandoff compactFamily' radiusHandoff' _pkgP unaryK unaryF unaryRho
+  have sameRadius : hsame radiusRead radiusRead' :=
+    cont_respects_hsame (hsame_refl K) (hsame_refl F) compactFamily compactFamily'
+  have sameHandoff : hsame handoffRead handoffRead' :=
+    cont_respects_hsame sameRadius (hsame_refl rho) radiusHandoff radiusHandoff'
+  have radiusReadUnary' : UnaryHistory radiusRead' :=
+    unary_cont_closed unaryK unaryF compactFamily'
+  have handoffReadUnary' : UnaryHistory handoffRead' :=
+    unary_cont_closed radiusReadUnary' unaryRho radiusHandoff'
+  exact ⟨sameRadius, sameHandoff, radiusReadUnary', handoffReadUnary'⟩
+
 end BEDC.Derived.EquicontinuityUp
