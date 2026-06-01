@@ -1,5 +1,5 @@
 import json
-import math
+from types import SimpleNamespace
 
 import pytest
 
@@ -67,6 +67,58 @@ def test_aggregate_passes_monotonic_scaling_on_synthetic_records(monkeypatch):
     assert variance["log_log_fit"]["slope"] == pytest.approx(-0.5, abs=0.02)
 
 
+def test_run_record_passes_canonical_runner_arguments_and_copies_record_fields(monkeypatch):
+    calls = []
+    metrics = {name: 10.0 + index for index, name in enumerate(scaling.METRIC_NAMES)}
+
+    def fake_run_experiment(**kwargs):
+        calls.append(kwargs)
+        return SimpleNamespace(
+            classifier_spec={"name": "fixture-classifier", "training": "fixture-training"},
+            metrics=metrics,
+            to_dict=lambda: {
+                "run_id": kwargs["run_id"],
+                "classifier_spec": {
+                    "name": "fixture-classifier",
+                    "training": "fixture-training",
+                },
+                "metrics": dict(metrics),
+                "artifacts": {
+                    "envelope": kwargs["envelope_artifact"],
+                    "report": kwargs["report_artifact"],
+                },
+            },
+        )
+
+    monkeypatch.setattr(scaling, "run_experiment", fake_run_experiment)
+
+    row = scaling._run_record(sample_count=192, seed=4242, seed_index=7, rho=0.41)
+
+    assert calls == [
+        {
+            "use_torch": scaling.USE_TORCH,
+            "sample_count": 192,
+            "seed": 4242,
+            "rho": 0.41,
+            "run_id": "sample-size-scaling-n192-seed-4242",
+            "envelope_artifact": scaling.JSON_ARTIFACT,
+            "report_artifact": scaling.REPORT_ARTIFACT,
+        }
+    ]
+    assert row["sample_count"] == 192
+    assert row["seed_index"] == 7
+    assert row["seed"] == 4242
+    assert row["rho"] == 0.41
+    assert row["run_id"] == "sample-size-scaling-n192-seed-4242"
+    assert row["classifier_name"] == "fixture-classifier"
+    assert row["classifier_training"] == "fixture-training"
+    assert row["metrics"] == metrics
+    assert row["envelope"]["artifacts"] == {
+        "envelope": scaling.JSON_ARTIFACT,
+        "report": scaling.REPORT_ARTIFACT,
+    }
+
+
 def test_aggregate_fails_closed_when_std_does_not_shrink(monkeypatch):
     monkeypatch.setattr(scaling, "SAMPLE_COUNTS", (100, 200, 400, 800, 1600))
     rows = records_from_offsets(
@@ -86,6 +138,44 @@ def test_aggregate_fails_closed_when_std_does_not_shrink(monkeypatch):
     assert variance["prediction_pass"] is False
 
 
+def test_metric_stats_reports_empty_metric_list_as_closed_nan_payload():
+    stats = scaling._metric_stats([])
+
+    assert stats["n"] == 0
+    assert math_is_nan(stats["mean"])
+    assert math_is_nan(stats["std"])
+    assert math_is_nan(stats["ci95_half_width"])
+
+
+def test_metric_stats_reports_single_record_zero_std_and_ci():
+    stats = scaling._metric_stats([0.73])
+
+    assert stats == {
+        "n": 1,
+        "mean": pytest.approx(0.73),
+        "std": 0.0,
+        "ci95_half_width": 0.0,
+    }
+
+
+def test_fit_log_log_slope_fails_closed_for_insufficient_positive_std_points():
+    fit = scaling._fit_log_log_slope(
+        [
+            {"sample_count": 100, "std": 0.0},
+            {"sample_count": 200, "std": 0.1},
+            {"sample_count": 400, "std": 0.0},
+            {"sample_count": 800, "std": 0.2},
+        ]
+    )
+
+    assert fit["status"] == "insufficient_positive_std"
+    assert fit["n"] == 2
+    assert math_is_nan(fit["slope"])
+    assert math_is_nan(fit["intercept"])
+    assert math_is_nan(fit["slope_ci95_low"])
+    assert math_is_nan(fit["slope_ci95_high"])
+
+
 def test_fit_log_log_slope_reports_ci():
     points = [
         {"sample_count": 100, "std": 0.2},
@@ -101,6 +191,25 @@ def test_fit_log_log_slope_reports_ci():
     assert fit["n"] == 5
     assert fit["slope"] == pytest.approx(-0.5, abs=0.001)
     assert fit["slope_ci95_low"] <= fit["slope"] <= fit["slope_ci95_high"]
+
+
+def test_aggregate_fails_closed_when_positive_std_points_are_insufficient(monkeypatch):
+    monkeypatch.setattr(scaling, "SAMPLE_COUNTS", (100, 200, 400, 800))
+    rows = records_from_offsets(
+        {
+            100: [0.00, 0.00],
+            200: [-0.10, 0.10],
+            400: [0.00, 0.00],
+            800: [-0.20, 0.20],
+        }
+    )
+
+    variance = scaling._aggregate(rows)["variance_scaling"]
+
+    assert variance["log_log_fit"]["status"] == "insufficient_positive_std"
+    assert variance["log_log_fit"]["n"] == 2
+    assert variance["slope_in_acceptance_interval"] is False
+    assert variance["prediction_pass"] is False
 
 
 def test_render_report_contains_required_sections(monkeypatch):
@@ -125,6 +234,29 @@ def test_render_report_contains_required_sections(monkeypatch):
     assert "## Source Artifacts" in report
     assert "| 100 | `linear_identifiability_r2` | 0.900000" in report
     assert "Prediction result: `pass`" in report
+
+
+def test_render_report_contains_negative_result_details(monkeypatch):
+    monkeypatch.setattr(scaling, "SAMPLE_COUNTS", (100, 200, 400, 800, 1600))
+    rows = records_from_offsets(
+        {
+            100: [-0.05, 0.00, 0.05],
+            200: [-0.08, 0.00, 0.08],
+            400: [-0.06, 0.00, 0.06],
+            800: [-0.07, 0.00, 0.07],
+            1600: [-0.09, 0.00, 0.09],
+        }
+    )
+    payload = scaling._payload(rows)
+
+    report = scaling._render_report(payload)
+
+    assert payload["aggregate"]["variance_scaling"]["monotonic_nonincreasing"] is False
+    assert payload["aggregate"]["variance_scaling"]["slope_in_acceptance_interval"] is False
+    assert payload["aggregate"]["variance_scaling"]["prediction_pass"] is False
+    assert "Monotonic std result: `fail`" in report
+    assert "Slope interval result: `fail`" in report
+    assert "Prediction result: `fail`" in report
 
 
 def test_main_writes_payload_shape(monkeypatch, tmp_path):
@@ -157,3 +289,6 @@ def test_main_writes_payload_shape(monkeypatch, tmp_path):
     assert payload["aggregate"]["variance_scaling"]["prediction_pass"]
     assert "Sample count range: `100` to `1600`." in report
 
+
+def math_is_nan(value):
+    return value != value

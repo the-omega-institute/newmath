@@ -235,14 +235,6 @@ def _format_float(value: float) -> str:
     return f"{value:.6f}"
 
 
-def _format_stat(row: dict[str, float | int]) -> str:
-    pm = "\u00b1"
-    return (
-        f"{_format_float(float(row['mean']))} {pm} {_format_float(float(row['std']))} "
-        f"(95% CI {pm} {_format_float(float(row['ci95_half_width']))}; n={int(row['n'])})"
-    )
-
-
 def _pass_label(value: bool) -> str:
     return "pass" if value else "fail"
 
