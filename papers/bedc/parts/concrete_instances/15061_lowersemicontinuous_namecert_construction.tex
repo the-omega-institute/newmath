@@ -58,6 +58,46 @@ operator, or completeness principle is a carrier coordinate.
 \end{definition}
 \leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousTasteGate\_single\_carrier\_alignment}
 
+\begin{definition}[LowerSemicontinuous BHist carrier row]
+\label{def:lowersemicontinuous-bhist-carrier-row}
+The root $\LowerSemicontinuousUp$ $\BHist$ row is
+$L=(X,F,E,W,R,O,H,C,P,N)$ of \autoref{def:lower-semicontinuous-carrier},
+read only as source histories, epigraph windows, $\StreamNameUp$ schedules,
+$\RegSeqRatUp$ value rows, located $\RealUp$ handoff data, $\hsame$ transport,
+$\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{definition}
+
+\begin{theorem}[LowerSemicontinuous kernel-source obligations]
+\label{thm:lowersemicontinuous-kernel-source-obligations}
+Every kernel-source read of an accepted $\LowerSemicontinuousUp$ carrier enters
+through \autoref{def:lowersemicontinuous-bhist-carrier-row}, then passes
+through $\StreamNameUp$, $\RegSeqRatUp$, located $\RealUp$ handoff, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows before reaching any lower-bound consumer.
+No carrier/classifier parameter transport is available outside that route.
+\end{theorem}
+\begin{proof}
+Project the root carrier row. A lower-bound request chooses a $\StreamNameUp$
+window, reads the $\RegSeqRatUp$ value row, passes the located $\RealUp$
+handoff, and uses $\hsame$ and $\Cont$ only to preserve the displayed packet;
+the final $\Pkg$ and $\NameCert$ rows source and name that finite route.
+\end{proof}
+
+\begin{theorem}[LowerSemicontinuous NameCert scope]
+\label{thm:lowersemicontinuous-namecert-scope}
+The $\NameCert_{\LowerSemicontinuousUp}$ scope for the root packet is exactly
+the finite $\BHist$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$,
+$\Cont$, $\Pkg$, and local naming route of
+\autoref{def:lowersemicontinuous-bhist-carrier-row}. It covers lower-bound
+windows and located handoff rows, but not parameter equivalence, host topology,
+semantic liminf data, quotient real equality, countable choice, compactness,
+or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply the carrier definition and the kernel-source obligations above. The
+$\NameCert$ row certifies only the listed finite route; parameter equivalence
+or host analytic structure would require an additional carrier coordinate.
+\end{proof}
+
 \begin{theorem}[LowerSemicontinuous NameCert obligation surface]
 \label{thm:lower-semicontinuous-namecert-obligation-surface}
 For an accepted $\LowerSemicontinuousUp$ carrier
