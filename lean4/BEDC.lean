@@ -1066,10 +1066,12 @@ import BEDC.Derived.CantorIntersectionUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp.WidthWindowTransport
 import BEDC.Derived.CantorSetUp.DeletedGapDensityRefusal
 import BEDC.Derived.CantorSetUp.DeletedGapLedgerExhaustion
+import BEDC.Derived.CantorSetUp.EndpointLedgerStability
 import BEDC.Derived.CantorSetUp.NameCertObligations
 import BEDC.Derived.CantorSetUp.NestedIntervalHandoff
 import BEDC.Derived.CantorSetUp.PrefixGapSeparation
 import BEDC.Derived.CantorSetUp.RealMembershipHandoff
+import BEDC.Derived.CantorSetUp.RealSealNonescape
 import BEDC.Derived.CantorSetUp.TasteGate
 import BEDC.Derived.CantorSetUp.TernaryPrefixClassifier
 import BEDC.Derived.CantorSetUp.TernaryPrefixDensity
@@ -1536,6 +1538,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.WindowMeetSealUnicity
 import BEDC.Derived.CauchyModulusRefinementUp.WindowSelectorThresholdExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.WindowToleranceExactness
 import BEDC.Derived.CauchyModulusSelectionUp.TasteGate
+import BEDC.Derived.CauchyModulusSpaceUp.TasteGate
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
@@ -4287,6 +4290,7 @@ import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperspaceUp.CompactSubsetRootAdmission
 import BEDC.Derived.HyperspaceUp.FiniteHausdorffRootObligations
 import BEDC.Derived.HyperspaceUp.FiniteHitDirectedCover
+import BEDC.Derived.HyperspaceUp.FiniteNetHit
 import BEDC.Derived.HyperspaceUp.TasteGate
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.HypothesisUp
@@ -4900,6 +4904,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
 import BEDC.Derived.MetaCICCriticalPathUp.L10ReadinessLocalMinimality
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
+import BEDC.Derived.MetaCICCriticalPathUp.LocalNameNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineDecidabilityHandoff
@@ -5407,6 +5412,7 @@ import BEDC.Derived.NormedSpaceUp.CompletionMetricRootUnblock
 import BEDC.Derived.NormedSpaceUp.CompletionTriad
 import BEDC.Derived.NormedSpaceUp.CompletionWindowNonescape
 import BEDC.Derived.NormedSpaceUp.FunctionalAnalysisHandoff
+import BEDC.Derived.NormedSpaceUp.FunctionalAnalysisRootPackage
 import BEDC.Derived.NormedSpaceUp.L10CompletionObligation
 import BEDC.Derived.NormedSpaceUp.MetricCompletionSource
 import BEDC.Derived.NormedSpaceUp.RealNormMetricFactorization
