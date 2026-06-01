@@ -1,0 +1,118 @@
+\chapter{A Concrete Naming Certificate for $\CompactRealIntervalSearchBasisUp$}
+\label{ch:concrete-instances-compact-real-interval-search-basis-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CompactRealIntervalSearchBasisUp$ packet records the finite search basis through which a compact real interval exposes located endpoint refinements, dyadic tolerances, finite stream windows, regular rational readback, and a terminal real-name seal. It sits after the compact real interval surface of \autoref{ch:concrete-instances-compact-real-interval-namecert}, the located refinement route of \autoref{ch:concrete-instances-located-interval-refinement-namecert}, the interval-completion route of \autoref{ch:concrete-instances-located-interval-completion-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite interval-search data; it does not assert Heine--Borel compactness, selected subcovers, countable choice, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Compact real interval search basis carrier]
+\label{def:compact-real-interval-search-basis-carrier}
+A $\CompactRealIntervalSearchBasisUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,L,F,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact real interval source row, read through $\CompactRealIntervalUp$ with its displayed lower and upper $\RealUp$ endpoint seals.
+\item $L$ is the located endpoint refinement row, using the located interval refinement surface to expose endpoint brackets and radius data at requested precisions.
+\item $F$ is the finite search and cover-basis row. It lists the displayed interval cells, membership tests, cover probes, and retained cells available to a finite search consumer.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, including the mesh budget, endpoint-read budget, and refinement depth used by $L$ and $F$.
+\item $W$ is the $\StreamNameUp$ finite-window row opened by the endpoint and tolerance requests.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those finite windows and dyadic tolerance data.
+\item $E$ is the $\RealUp$ seal row consumed only after the compact source, located refinement, finite search basis, dyadic tolerance, StreamName window, and RegSeqRat readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $K,L,F,D,W,R,E$.
+\item $C$ records displayed $\Cont$ replay for search requests through the route
+$$
+K,L,F,D \longmapsto W,R \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CompactRealIntervalSearchBasisUp$, $\CompactRealIntervalUp$, $\LocatedIntervalRefinementUp$, $\LocatedIntervalCompletionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompactRealIntervalSearchBasisUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,L,F,D,W,R,E,H,C,P,N$. It has no coordinate for an open-cover theorem, a selected finite subcover, countable choice, quotient real equality, host endpoint equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Compact real interval search basis obligations]
+\label{thm:compact-real-interval-search-basis-obligations}
+For every accepted $\CompactRealIntervalSearchBasisUp$ carrier $S=(K,L,F,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\CompactRealIntervalSearchBasisUp}$ surface is exhausted by the following finite obligations:
+\begin{enumerate}
+\item compact source admission for the $\CompactRealIntervalUp$ row $K$ and its displayed endpoint seals;
+\item located refinement admission for the endpoint brackets and radius data in $L$;
+\item finite search-basis admission for the cell list, probe list, and retained-cell ledger in $F$;
+\item dyadic tolerance exactness for the mesh, endpoint-read, and refinement-depth budgets in $D$;
+\item StreamName window exposure through $W$ at the endpoint and tolerance requests named by $K,L,D$;
+\item RegSeqRat readback through $R$, attached to the displayed windows rather than to quotient streams;
+\item Real seal routing through $E$, downstream of $K,L,F,D,W,R$;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No obligation exports open-cover compactness, selected subcovers, countable choice, host endpoint equality, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-real-interval-search-basis-carrier}. The projection exposes exactly the compact source, located refinement, finite search basis, dyadic tolerance, finite window, regular readback, real seal, transport, replay, provenance, and local naming rows.
+
+The compact source and located refinement obligations are upstream of every search read. A consumer cannot inspect a retained search cell until $K,L$ and the dyadic budget $D$ determine the displayed interval bracket and precision request.
+
+The finite search row then supplies the only cover-basis data available to the packet. StreamName and RegSeqRat rows read that data through finite windows and regular rational readback, while the Real seal is terminal only for this displayed route.
+
+The support rows $H,C,P,N$ transport, replay, source, and name the same packet. Since no row stores an open-cover theorem, selected subcover, choice schedule, quotient equality, host endpoint equality, or ambient completeness theorem, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Compact real interval search finite cover route]
+\label{thm:compact-real-interval-search-basis-finite-cover-route}
+Every finite-search consumer reading an accepted $\CompactRealIntervalSearchBasisUp$ carrier factors through the ordered route
+$$
+K,L,F,D,W,R,E,H,C,P,N .
+$$
+The consumer first displays the compact interval source and located endpoint refinement, then reads the finite search and cover-basis row against a dyadic tolerance budget, then opens StreamName windows, performs RegSeqRat readback, and only then reaches the $\RealUp$ seal. The route exports finite cover-basis data, not an unrestricted open-cover compactness theorem or a choice-selected subcover.
+\end{theorem}
+\begin{proof}
+Begin with the source and refinement rows $K,L$. These rows expose the compact real interval and the located endpoint brackets used by the search basis.
+
+Read the finite search row $F$ together with the tolerance row $D$. The listed cells, probes, retained-cell ledger, mesh budget, endpoint-read budget, and refinement-depth budget are all finite rows of the same packet.
+
+Next open the StreamName window $W$ and read it through the RegSeqRat row $R$. The consumer reaches the Real seal $E$ only after those finite observations have been displayed.
+
+Finally transport and replay through $H,C,P,N$. These rows preserve the same route and do not add open-cover compactness, selected subcovers, countable choice, host equality, quotient equality, or ambient completeness. Thus every finite-search read factors through the stated route.
+\end{proof}
+
+\begin{theorem}[Compact real interval search Real seal nonescape]
+\label{thm:compact-real-interval-search-basis-real-seal-nonescape}
+No accepted $\CompactRealIntervalSearchBasisUp$ carrier exposes a $\RealUp$ seal read that bypasses its located endpoint refinement, finite search basis, dyadic tolerance row, StreamName finite window, or RegSeqRat readback.
+
+Equivalently, every $\RealUp$-facing observation of the packet is downstream of $K,L,F,D,W,R$ and carries the displayed $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CompactRealIntervalSearchBasisUp}$ row.
+\end{theorem}
+\begin{proof}
+The seal coordinate in \autoref{def:compact-real-interval-search-basis-carrier} is $E$. Its inputs are the compact source, located refinement, finite search basis, dyadic tolerance, finite window, and regular readback rows.
+
+If a consumer asks for a Real-facing observation, \autoref{thm:compact-real-interval-search-basis-finite-cover-route} forces that observation through $K,L,F,D,W,R$ before $E$ is available.
+
+The remaining rows $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier has no coordinate for an alternate seal, hidden endpoint representative, selected subcover, choice schedule, or ambient completeness theorem, a bypass route is outside the accepted packet.
+\end{proof}
+
+\begin{theorem}[Compact real interval search basis NameCert surface]
+\label{thm:compact-real-interval-search-basis-namecert-surface}
+The public $\CompactRealIntervalSearchBasisUp$ surface consists exactly of the carrier in \autoref{def:compact-real-interval-search-basis-carrier}, the obligation list in \autoref{thm:compact-real-interval-search-basis-obligations}, the finite cover route in \autoref{thm:compact-real-interval-search-basis-finite-cover-route}, and the Real seal nonescape boundary in \autoref{thm:compact-real-interval-search-basis-real-seal-nonescape}.
+
+It is therefore a finite NameCert surface for compact real interval search data, not a proof of open-cover compactness, selected subcovers, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The carrier determines the coordinates available to the packet. The obligation theorem names the local NameCert checks for those coordinates and excludes additional compactness or choice data.
+
+The finite cover route then fixes the consumer order from compact source and located refinement through search basis, tolerance, finite windows, readback, seal, transport, replay, provenance, and local naming.
+
+The nonescape theorem closes the Real-facing boundary by ruling out any seal read that bypasses the displayed finite route. Combining these three surfaces gives exactly the advertised public NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every $\CompactRealIntervalSearchBasisUp$ finite-search read factors through one compact real interval source row, one located endpoint refinement row, one finite search-basis row, one DyadicRatCore tolerance row, one StreamName window row, one RegSeqRat readback row, one RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+
+\independenceWitness{Nearest siblings: compact-real-interval, located-interval-refinement, located-interval-completion, dyadicratcore, streamname, regseqrat, and real. $\CompactRealIntervalSearchBasisUp$ is not bijective to any listed sibling because it jointly carries compact interval source data, located endpoint refinement, finite search and cover-basis rows, dyadic tolerance budgets, finite stream windows, regular rational readback, a real seal, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{CompactRealIntervalSearchBasisUp}{seedStr}
+
+\begin{closurestatus}{\CompactRealIntervalSearchBasisUp}
+  \constructivestory{A $\CompactRealIntervalSearchBasisUp$ packet is generated from compact real interval source rows, located endpoint refinement rows, finite search and cover-basis rows, DyadicRatCore tolerance rows, StreamName finite windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-real-interval-search-basis-carrier}, \autoref{thm:compact-real-interval-search-basis-obligations}, \autoref{thm:compact-real-interval-search-basis-finite-cover-route}, \autoref{thm:compact-real-interval-search-basis-real-seal-nonescape}, and \autoref{thm:compact-real-interval-search-basis-namecert-surface} seed the finite compact real interval search-basis route over source, refinement, cover basis, tolerance, window, readback, seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected subcovers, countable choice, ambient $\RealUp$ completeness, Lean verification, bridge checking, host endpoint equality, or quotient real equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, located refinement exactness, finite search-basis admission, dyadic tolerance exactness, StreamName window replay, RegSeqRat readback, Real seal nonescape, classifier transport, and local naming for BEDC.Derived.CompactRealIntervalSearchBasisUp.}
+\end{closurestatus}
