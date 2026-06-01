@@ -249,4 +249,99 @@ theorem CompletionFunctorCarrier_composition_route_stability [AskSetup] [Package
       secondLedgerRow, compositeRouteRow, sameFirstLedger, sameSecondLedger,
       sameCompositeRoute, provenancePkg, namePkg⟩
 
+theorem CompletionFunctorCarrier_functoriality [AskSetup] [PackageSetup]
+    {monad universal realCompletion source target denseMap extension functorLedger transport
+      routes provenance name unitRead firstLedger secondLedger compositeRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionFunctorCarrier monad universal realCompletion source target denseMap extension
+        functorLedger transport routes provenance name bundle pkg ->
+      Cont source target unitRead ->
+        hsame unitRead denseMap ->
+          Cont denseMap extension firstLedger ->
+            hsame firstLedger functorLedger ->
+              Cont firstLedger transport secondLedger ->
+                hsame secondLedger routes ->
+                  Cont denseMap extension compositeRoute ->
+                    hsame compositeRoute functorLedger ->
+                      UnaryHistory unitRead ∧ UnaryHistory firstLedger ∧
+                        UnaryHistory secondLedger ∧ UnaryHistory compositeRoute ∧
+                          Cont source target denseMap ∧
+                            Cont denseMap extension functorLedger ∧
+                              Cont source target unitRead ∧
+                                Cont denseMap extension firstLedger ∧
+                                  Cont firstLedger transport secondLedger ∧
+                                    Cont denseMap extension compositeRoute ∧
+                                      hsame unitRead denseMap ∧
+                                        hsame firstLedger functorLedger ∧
+                                          hsame secondLedger routes ∧
+                                            hsame compositeRoute functorLedger ∧
+                                              PkgSig bundle provenance pkg ∧
+                                                PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier unitRoute sameUnit firstLedgerRoute sameFirstLedger secondLedgerRoute
+    sameSecondLedger compositeRouteRow sameCompositeRoute
+  obtain ⟨_monadUnary, _universalUnary, _realCompletionUnary, sourceUnary, targetUnary,
+    denseMapUnary, extensionUnary, _functorLedgerUnary, transportUnary, _routesUnary,
+    _provenanceUnary, _nameUnary, _monadUniversalRealCompletion, sourceTargetDenseMap,
+    denseMapExtensionFunctorLedger, _functorLedgerTransportRoutes,
+    _transportRoutesProvenance, provenancePkg, namePkg⟩ := carrier
+  have unitUnary : UnaryHistory unitRead :=
+    unary_cont_closed sourceUnary targetUnary unitRoute
+  have firstLedgerUnary : UnaryHistory firstLedger :=
+    unary_cont_closed denseMapUnary extensionUnary firstLedgerRoute
+  have secondLedgerUnary : UnaryHistory secondLedger :=
+    unary_cont_closed firstLedgerUnary transportUnary secondLedgerRoute
+  have compositeRouteUnary : UnaryHistory compositeRoute :=
+    unary_cont_closed denseMapUnary extensionUnary compositeRouteRow
+  exact
+    ⟨unitUnary, firstLedgerUnary, secondLedgerUnary, compositeRouteUnary,
+      sourceTargetDenseMap, denseMapExtensionFunctorLedger, unitRoute, firstLedgerRoute,
+      secondLedgerRoute, compositeRouteRow, sameUnit, sameFirstLedger, sameSecondLedger,
+      sameCompositeRoute, provenancePkg, namePkg⟩
+
+theorem CompletionFunctorCarrier_scoped_dependency_spine [AskSetup] [PackageSetup]
+    {monad universal realCompletion source target denseMap extension functorLedger transport
+      routes provenance name unitRead extensionRead identityRoute compositeRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionFunctorCarrier monad universal realCompletion source target denseMap extension
+        functorLedger transport routes provenance name bundle pkg ->
+      Cont source target unitRead ->
+        hsame unitRead denseMap ->
+          Cont denseMap extension extensionRead ->
+            hsame extensionRead functorLedger ->
+              Cont extensionRead transport identityRoute ->
+                hsame identityRoute routes ->
+                  Cont denseMap extension compositeRoute ->
+                    hsame compositeRoute functorLedger ->
+                      UnaryHistory monad ∧ UnaryHistory universal ∧
+                        UnaryHistory realCompletion ∧ UnaryHistory unitRead ∧
+                          UnaryHistory extensionRead ∧ UnaryHistory identityRoute ∧
+                            UnaryHistory compositeRoute ∧ Cont monad universal realCompletion ∧
+                              Cont source target denseMap ∧
+                                Cont denseMap extension functorLedger ∧
+                                  Cont functorLedger transport routes ∧
+                                    PkgSig bundle provenance pkg ∧
+                                      PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier unitRoute _sameUnit extensionReadRoute _sameExtensionRead identityRouteRow
+    _sameIdentityRoute compositeRouteRow _sameCompositeRoute
+  obtain ⟨monadUnary, universalUnary, realCompletionUnary, sourceUnary, targetUnary,
+    denseMapUnary, extensionUnary, _functorLedgerUnary, transportUnary, _routesUnary,
+    _provenanceUnary, _nameUnary, monadUniversalRealCompletion, sourceTargetDenseMap,
+    denseMapExtensionFunctorLedger, functorLedgerTransportRoutes,
+    _transportRoutesProvenance, provenancePkg, namePkg⟩ := carrier
+  have unitUnary : UnaryHistory unitRead :=
+    unary_cont_closed sourceUnary targetUnary unitRoute
+  have extensionReadUnary : UnaryHistory extensionRead :=
+    unary_cont_closed denseMapUnary extensionUnary extensionReadRoute
+  have identityRouteUnary : UnaryHistory identityRoute :=
+    unary_cont_closed extensionReadUnary transportUnary identityRouteRow
+  have compositeRouteUnary : UnaryHistory compositeRoute :=
+    unary_cont_closed denseMapUnary extensionUnary compositeRouteRow
+  exact
+    ⟨monadUnary, universalUnary, realCompletionUnary, unitUnary, extensionReadUnary,
+      identityRouteUnary, compositeRouteUnary, monadUniversalRealCompletion,
+      sourceTargetDenseMap, denseMapExtensionFunctorLedger, functorLedgerTransportRoutes,
+      provenancePkg, namePkg⟩
+
 end BEDC.Derived.CompletionFunctorUp
