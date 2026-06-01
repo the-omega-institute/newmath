@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalCompletionUp$}
+\label{ch:concrete-instances-located-interval-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real analysis, the $\LocatedIntervalCompletionUp$ packet records the finite interval-completion surface where endpoint real names, dyadic tolerance requests, finite stream windows, regular rational readback, and Cauchy modulus rows are bound before any completion consumer reads a sealed interval point. It sits after the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window route of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the Cauchy route of \autoref{ch:concrete-instances-cauchy-namecert}. The packet names located interval completion data as finite rows; it does not quotient streams, select representatives, invoke countable choice, use trichotomy, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Located interval completion carrier]
+\label{def:located-interval-completion-carrier}
+A $\LocatedIntervalCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(E_0,E_1,D,W,Q,M,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E_0$ and $E_1$ are the lower and upper $\RealUp$ endpoint rows. They are read as terminal real-name seals, not as host real representatives.
+\item $D$ is the positive $\DyadicRatCoreUp$ tolerance row, including the interval-width budget, endpoint tolerance budget, and halving ledger used by completion reads.
+\item $W$ is the $\StreamNameUp$ window row opened at the endpoint indices and tolerances displayed by $E_0,E_1,D$.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same finite windows and dyadic tolerance data.
+\item $M$ is the Cauchy modulus row. It records the finite schedule that makes the endpoint window reads Cauchy-compatible inside the located interval route.
+\item $R$ is the completion seal row, consumed only after the endpoint rows, dyadic tolerance row, StreamName windows, RegSeqRat readback, and Cauchy modulus row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $E_0,E_1,D,W,Q,M,R$.
+\item $C$ records displayed $\Cont$ replay for interval-completion requests through the finite route
+$$
+E_0,E_1,D \longmapsto W,Q,M \longmapsto R,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalCompletionUp$, $\RealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedIntervalCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E_0,E_1,D,W,Q,M,R,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located interval completion NameCert obligations]
+\label{thm:located-interval-completion-namecert-obligations}
+For every accepted $\LocatedIntervalCompletionUp$ carrier $L=(E_0,E_1,D,W,Q,M,R,H,C,P,N)$, the local $\NameCert_{\LocatedIntervalCompletionUp}$ surface is exhausted by the following finite obligations:
+\begin{enumerate}
+\item endpoint admission for the two $\RealUp$ rows and their displayed interval order context;
+\item dyadic tolerance admission for interval-width and endpoint-read budgets through $D$;
+\item finite StreamName window exposure through $W$ at the same endpoint and tolerance requests;
+\item RegSeqRat readback through $Q$, attached to the displayed windows rather than to quotient streams;
+\item Cauchy modulus compatibility through $M$, requiring the endpoint reads and the interval-width budget to share one finite schedule;
+\item completion sealing through $R$, downstream of $E_0,E_1,D,W,Q,M$;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No obligation exports a selected representative, quotient stream equality, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-interval-completion-carrier}. The projection exposes exactly the endpoint rows, dyadic tolerance row, finite windows, regular rational readback, Cauchy modulus, completion seal, and structural rows.
+
+The endpoint and tolerance obligations are upstream of every completion read. A consumer cannot inspect $R$ before $E_0,E_1$ and $D$ determine the displayed interval and its finite precision request.
+
+The window and readback obligations then follow the sibling routes of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}. The Cauchy modulus row $M$ binds those finite reads to the same dyadic budget supplied by \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+The completion seal is therefore terminal only for this displayed route. Since $H,C,P,N$ transport, replay, source, and name the same finite packet without adding a selector, quotient, choice schedule, trichotomy decision, host equality row, or ambient completeness theorem, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Located interval completion Cauchy seal route]
+\label{thm:located-interval-completion-cauchy-seal-route}
+Every Cauchy-facing completion read exported by an accepted $\LocatedIntervalCompletionUp$ carrier
+$$
+L=(E_0,E_1,D,W,Q,M,R,H,C,P,N)
+$$
+factors through the finite route
+$$
+E_0,E_1,D \longmapsto W,Q,M \longmapsto R,H,C,P,N .
+$$
+The read first displays the Real endpoint rows and dyadic tolerance budget; it then opens finite StreamName windows, reads them through RegSeqRat, checks the Cauchy modulus row, and only then consumes the completion seal. The route exports no selected limit, quotient stream equality, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the endpoint and tolerance rows named in \autoref{def:located-interval-completion-carrier}. A Cauchy-facing read has no access to the completion seal until the two $\RealUp$ endpoint rows and the dyadic budget row have been displayed.
+
+The finite observation route is fixed by those rows. The StreamName row supplies only the requested finite windows, the RegSeqRat row supplies the regular rational readback attached to those windows, and the Cauchy modulus row binds the readbacks to one completion schedule.
+
+Transport and replay do not create a second completion source. The rows $H$ and $C$ move and replay only the displayed coordinates, while $P$ and $N$ record provenance and local naming for the same packet.
+
+Thus every exported Cauchy-facing completion observation factors through $E_0,E_1,D,W,Q,M,R,H,C,P,N$. Since the carrier contains no coordinate for a selected limit, quotient stream equality, countable choice, trichotomy, host real equality, or ambient completeness, none of those principles is exported by the route.
+\end{proof}
+
+\falsifiablePrediction{Every $\LocatedIntervalCompletionUp$ Cauchy-facing read factors through two RealUp endpoint rows, one DyadicRatCore tolerance row, one StreamName window row, one RegSeqRat readback row, one Cauchy modulus row, one completion seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+
+\independenceWitness{Nearest siblings: real, regseqrat, streamname, dyadicratcore, and cauchy. $\LocatedIntervalCompletionUp$ is not bijective to any listed sibling because it jointly carries endpoint Real seals, dyadic tolerance data, finite windows, regular rational readback, Cauchy modulus scheduling, completion sealing, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{LocatedIntervalCompletionUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalCompletionUp}
+  \constructivestory{A $\LocatedIntervalCompletionUp$ packet is generated from RealUp endpoint rows, DyadicRatCore tolerance rows, StreamName windows, RegSeqRat readback, Cauchy modulus rows, a completion seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-completion-carrier}, \autoref{thm:located-interval-completion-namecert-obligations}, and \autoref{thm:located-interval-completion-cauchy-seal-route} seed the finite located interval completion route over endpoint, tolerance, window, readback, Cauchy modulus, seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exactness, dyadic tolerance exactness, StreamName window replay, RegSeqRat readback, Cauchy modulus compatibility, completion sealing, classifier transport, and local naming for BEDC.Derived.LocatedIntervalCompletionUp.}
+\end{closurestatus}
