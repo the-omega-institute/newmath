@@ -1082,6 +1082,7 @@ import BEDC.Derived.CantorIntersectionUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp.WidthWindowTransport
 import BEDC.Derived.CantorSetUp.DeletedGapDensityRefusal
 import BEDC.Derived.CantorSetUp.DeletedGapLedgerExhaustion
+import BEDC.Derived.CantorSetUp.DownstreamMembershipConsumer
 import BEDC.Derived.CantorSetUp.EndpointLedgerStability
 import BEDC.Derived.CantorSetUp.MiddleThirdWindowExhaustion
 import BEDC.Derived.CantorSetUp.NameCertObligations
@@ -3600,6 +3601,7 @@ import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.RealBracketConsumerLock
 import BEDC.Derived.FareySequenceUp.RealReadbackRootObligation
 import BEDC.Derived.FareySequenceUp.RefinementCoverage
+import BEDC.Derived.FareySequenceUp.RegSeqRatDensityInduction
 import BEDC.Derived.FareySequenceUp.RegSeqRatDensityRootObligation
 import BEDC.Derived.FareySequenceUp.SternBrocotHandoffLock
 import BEDC.Derived.FareySequenceUp.StreamWindowDenominatorLock
