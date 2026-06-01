@@ -4176,6 +4176,7 @@ import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
+import BEDC.Derived.HilbertBasisUp.TasteGate
 import BEDC.Derived.HilbertCubeUp.TasteGate
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
@@ -5362,6 +5363,7 @@ import BEDC.Derived.NormedSpaceUp.CompletionBudgetEnvelope
 import BEDC.Derived.NormedSpaceUp.CompletionMetricRootUnblock
 import BEDC.Derived.NormedSpaceUp.CompletionWindowNonescape
 import BEDC.Derived.NormedSpaceUp.FunctionalAnalysisHandoff
+import BEDC.Derived.NormedSpaceUp.L10CompletionObligation
 import BEDC.Derived.NormedSpaceUp.MetricCompletionSource
 import BEDC.Derived.NormedSpaceUp.RealNormMetricFactorization
 import BEDC.Derived.NormedSpaceUp.TasteGate
