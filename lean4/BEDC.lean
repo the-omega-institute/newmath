@@ -4403,6 +4403,7 @@ import BEDC.Derived.HyperspaceUp.RealSeparabilityForwardRoute
 import BEDC.Derived.HyperspaceUp.RootCompactSourceTotality
 import BEDC.Derived.HyperspaceUp.RootFiniteNetHitMiss
 import BEDC.Derived.HyperspaceUp.RootHausdorffFiniteWindow
+import BEDC.Derived.HyperspaceUp.RootHausdorffTransport
 import BEDC.Derived.HyperspaceUp.RootVietorisNetBasis
 import BEDC.Derived.HyperspaceUp.TasteGate
 import BEDC.Derived.HyperspaceUp.ToleranceReadbackExhaustion
