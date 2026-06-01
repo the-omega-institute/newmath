@@ -83,6 +83,87 @@ def fit_log_log_slope(points: Iterable[dict[str, float | int]]) -> dict[str, Any
     }
 
 
+def fit_linear_slope(
+    points: Iterable[dict[str, float | int]],
+    x_key: str,
+    y_key: str,
+) -> dict[str, Any]:
+    usable: list[tuple[float, float]] = []
+    for point in points:
+        try:
+            x = float(point[x_key])
+            y = float(point[y_key])
+        except (KeyError, TypeError, ValueError):
+            return {
+                "status": "non_finite_or_missing_value",
+                "n": len(usable),
+                "slope": math.nan,
+                "intercept": math.nan,
+                "slope_standard_error": math.nan,
+                "slope_ci95_low": math.nan,
+                "slope_ci95_high": math.nan,
+            }
+        if not math.isfinite(x) or not math.isfinite(y):
+            return {
+                "status": "non_finite_or_missing_value",
+                "n": len(usable),
+                "slope": math.nan,
+                "intercept": math.nan,
+                "slope_standard_error": math.nan,
+                "slope_ci95_low": math.nan,
+                "slope_ci95_high": math.nan,
+            }
+        usable.append((x, y))
+
+    n = len(usable)
+    if n < 3:
+        return {
+            "status": "insufficient_points",
+            "n": n,
+            "slope": math.nan,
+            "intercept": math.nan,
+            "slope_standard_error": math.nan,
+            "slope_ci95_low": math.nan,
+            "slope_ci95_high": math.nan,
+        }
+
+    xs = [point[0] for point in usable]
+    ys = [point[1] for point in usable]
+    x_mean = statistics.fmean(xs)
+    y_mean = statistics.fmean(ys)
+    sxx = sum((x - x_mean) ** 2 for x in xs)
+    if sxx <= 0.0 or not math.isfinite(sxx):
+        return {
+            "status": "constant_x",
+            "n": n,
+            "slope": math.nan,
+            "intercept": math.nan,
+            "slope_standard_error": math.nan,
+            "slope_ci95_low": math.nan,
+            "slope_ci95_high": math.nan,
+        }
+
+    slope = sum((x - x_mean) * (y - y_mean) for x, y in usable) / sxx
+    intercept = y_mean - slope * x_mean
+    residual_sse = sum((y - (intercept + slope * x)) ** 2 for x, y in usable)
+    df = n - 2
+    residual_var = residual_sse / df if df > 0 else 0.0
+    slope_se = math.sqrt(residual_var / sxx)
+    t95_by_df = {1: 12.706, 2: 4.303, 3: 3.182, 4: 2.776, 5: 2.571}
+    t95 = t95_by_df.get(df, 1.96)
+    low = slope - t95 * slope_se
+    high = slope + t95 * slope_se
+    return {
+        "status": "ok",
+        "n": n,
+        "slope": float(slope),
+        "intercept": float(intercept),
+        "slope_standard_error": float(slope_se),
+        "slope_ci95_low": float(low),
+        "slope_ci95_high": float(high),
+    }
+
+
 def _finite_interval(fit: dict[str, Any]) -> tuple[float, float] | None:
     if fit.get("status") != "ok":
         return None

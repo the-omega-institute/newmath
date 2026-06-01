@@ -82,6 +82,72 @@ def test_fit_log_log_slope_fails_closed_for_insufficient_positive_std_points():
     assert math.isnan(fit["slope_ci95_high"])
 
 
+def test_fit_linear_slope_reports_slope_and_ci():
+    points = [
+        {"debt_level": 0.0, "quality_q": 0.95},
+        {"debt_level": 0.1, "quality_q": 0.85},
+        {"debt_level": 0.2, "quality_q": 0.75},
+        {"debt_level": 0.3, "quality_q": 0.65},
+        {"debt_level": 0.4, "quality_q": 0.55},
+    ]
+
+    fit = stats.fit_linear_slope(points, "debt_level", "quality_q")
+
+    assert fit["status"] == "ok"
+    assert fit["n"] == 5
+    assert fit["slope"] == pytest.approx(-1.0)
+    assert fit["intercept"] == pytest.approx(0.95)
+    assert fit["slope_standard_error"] == pytest.approx(0.0)
+    assert fit["slope_ci95_low"] <= fit["slope"] <= fit["slope_ci95_high"]
+
+
+def test_fit_linear_slope_fails_closed_for_non_finite_and_insufficient_points():
+    non_finite = stats.fit_linear_slope(
+        [
+            {"debt_level": 0.0, "quality_q": 0.95},
+            {"debt_level": 0.1, "quality_q": math.inf},
+            {"debt_level": 0.2, "quality_q": 0.75},
+        ],
+        "debt_level",
+        "quality_q",
+    )
+    insufficient = stats.fit_linear_slope(
+        [
+            {"debt_level": 0.0, "quality_q": 0.95},
+            {"debt_level": 0.1, "quality_q": 0.85},
+        ],
+        "debt_level",
+        "quality_q",
+    )
+
+    assert non_finite["status"] == "non_finite_or_missing_value"
+    assert math.isnan(non_finite["slope"])
+    assert math.isnan(non_finite["slope_ci95_low"])
+    assert insufficient["status"] == "insufficient_points"
+    assert insufficient["n"] == 2
+    assert math.isnan(insufficient["slope"])
+
+
+def test_fit_linear_slope_fails_closed_for_constant_x():
+    fit = stats.fit_linear_slope(
+        [
+            {"debt_level": 1.0, "quality_q": 0.95},
+            {"debt_level": 1.0, "quality_q": 0.85},
+            {"debt_level": 1.0, "quality_q": 0.75},
+        ],
+        "debt_level",
+        "quality_q",
+    )
+
+    assert fit["status"] == "constant_x"
+    assert fit["n"] == 3
+    assert math.isnan(fit["slope"])
+    assert math.isnan(fit["intercept"])
+    assert math.isnan(fit["slope_standard_error"])
+    assert math.isnan(fit["slope_ci95_low"])
+    assert math.isnan(fit["slope_ci95_high"])
+
+
 def test_slope_ci_overlap_true_and_false():
     left = {"status": "ok", "slope_ci95_low": -0.7, "slope_ci95_high": -0.3}
     overlapping = {"status": "ok", "slope_ci95_low": -0.5, "slope_ci95_high": -0.1}
