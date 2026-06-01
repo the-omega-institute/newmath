@@ -1043,17 +1043,8 @@ def _classify_ci_unfixable(log_tail: str) -> str | None:
     return None
 
 
-def _ci_heal_branch_heads() -> tuple[str, ...]:
-    return (MIRROR_BRANCH, f"{MIRROR_BRANCH}-sync-")
-
-
-def _is_ci_heal_branch(head: str) -> bool:
-    mirror, sync_prefix = _ci_heal_branch_heads()
-    return head == mirror or head.startswith(sync_prefix)
-
-
 def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
-    """Query GitHub Actions for recent failed mirror/sync-PR runs.
+    """Query GitHub Actions for recently-failed runs on MIRROR_BRANCH only.
 
     Returns a list of {run_id, workflow, name, created_at, branch} dicts.
     Empty if `gh` CLI is unavailable, no runs in the window failed, or any
@@ -1067,6 +1058,7 @@ def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
     try:
         r = run([
             "gh", "run", "list",
+            "--branch", MIRROR_BRANCH,
             "--limit", "80",
             "--json",
             "status,conclusion,name,workflowName,databaseId,createdAt,headBranch",
@@ -1086,7 +1078,7 @@ def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
         if row.get("conclusion") != "failure":
             continue
         head = row.get("headBranch", "") or ""
-        if not _is_ci_heal_branch(head):
+        if head != MIRROR_BRANCH:
             continue
         ts = row.get("createdAt", "")
         # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
