@@ -75,13 +75,53 @@ The excluded objects require coordinates absent from $G$. Therefore continuation
 \end{proof}
 \leanchecked{BEDC.Derived.CertificateAuditGateUp.TasteGate.CertificateAuditGateNonescape}
 
+\begin{theorem}[CertificateAuditGate kernel scope]
+\label{thm:certificate-audit-gate-kernel-scope}
+Every accepted $\CertificateAuditGateUp$ read is kernel-scoped by the finite rows
+$$
+I,S,R,D,A,H,C,P,N.
+$$
+The carrier admission, checked-surface row, refusal row, drift row, axiom-purity row, transport row, route row, provenance row, and local naming row are all projected from the same packet, and no audit conclusion may be read outside that packet.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:certificate-audit-gate-carrier}. It gives the nine rows as coordinates of one finite $\BHist$ packet.
+
+Apply \autoref{thm:certificate-audit-gate-obligation-surface} to identify those coordinates as the local $\NameCert_{\CertificateAuditGateUp}$ surface. Apply \autoref{thm:certificate-audit-gate-nonescape} to rule out hidden audit oracles, unresolved target replacement, quotient representatives, choice selectors, proposition equality, and substrate-internal theorem export.
+
+Thus the audit read is exactly kernel-scoped by the displayed rows.
+\end{proof}
+
+\begin{theorem}[CertificateAuditGate drift exactness]
+\label{thm:certificate-audit-gate-drift-exactness}
+For every accepted $\CertificateAuditGateUp$ packet, the drift row $D$ is read exactly as paper-Lean marker resolution, duplicate-label checking, and name-resolution failure data for the same gate input $I$ and checked surface $S$. It is not a substitute Lean target, a hidden marker repair, or an external repository-correctness theorem.
+\end{theorem}
+\begin{proof}
+The carrier definition assigns $D$ precisely to marker resolution, duplicate-label checks, and name-resolution failures.
+
+Use \autoref{thm:certificate-audit-gate-obligation-surface} to keep the drift row attached to $I,S,R,A,H,C,P,N$ inside the same local NameCert surface. Then use \autoref{thm:certificate-audit-gate-soundness-boundary}: the pass row is local non-breach for the displayed rows rather than a global correctness theorem.
+
+The non-escape theorem excludes unresolved target replacement and hidden audit oracles, so the only drift information available to consumers is the exact row $D$.
+\end{proof}
+
+\begin{theorem}[CertificateAuditGate axiom-purity exactness]
+\label{thm:certificate-audit-gate-axiom-purity-exactness}
+For every accepted $\CertificateAuditGateUp$ packet, the axiom-purity row $A$ records exactly source-axiom refusal and dependency refusal for $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, and $\mathsf{propext}$. It does not assert semantic conservativity, host-kernel completeness, or a proof principle beyond the inspected finite audit row.
+\end{theorem}
+\begin{proof}
+Project $A$ from \autoref{def:certificate-audit-gate-carrier}. The row is defined as the finite axiom-purity ledger for source-axiom refusal and the named forbidden dependencies.
+
+Apply \autoref{thm:certificate-audit-gate-obligation-surface} and \autoref{thm:certificate-audit-gate-soundness-boundary}. Together they keep $A$ inside the local checked surface and prevent the pass row from becoming a semantic-conservativity or host-completeness theorem.
+
+Finally \autoref{thm:certificate-audit-gate-nonescape} prevents the consumer from escaping to a hidden source axiom, quotient representative, choice selector, or proposition equality. Hence the axiom-purity claim is exact for $A$ and no stronger.
+\end{proof}
+
 \leanchecked{BEDC.Derived.CertificateAuditGateUp.taste\_gate}
 
-\closureat{CertificateAuditGateUp}{obligationStr}
+\closureat{CertificateAuditGateUp}{scopedStr}
 
 \begin{closurestatus}{\CertificateAuditGateUp}
   \constructivestory{A $\CertificateAuditGateUp$ packet is generated from gate input, checked surface, refusal, drift, axiom-purity, componentwise transport, displayed route, provenance, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:certificate-audit-gate-carrier}, \autoref{thm:certificate-audit-gate-obligation-surface}, \autoref{thm:certificate-audit-gate-soundness-boundary}, and \autoref{thm:certificate-audit-gate-nonescape} bind the finite audit-gate certificate surface and its local non-escape boundary.}
   \formalstatus{\unformalizedV}
   \closureledger{BEDC.Meta.DiscoveryDeltaLedger.certificateAuditGateDeltaLedger}
