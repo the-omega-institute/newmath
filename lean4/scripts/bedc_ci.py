@@ -6015,6 +6015,21 @@ def _candidate_semantic_endpoint_classes(semantic_hits: Iterable[str]) -> list[s
     return sorted(classes)
 
 
+def _eta_wrapper_target(body_no_ws: str) -> str | None:
+    match = re.search(
+        r":=\s*fun\s+(?P<binders>.+?)\s*=>\s*(?P<callee>[A-Za-z0-9_'.]+)"
+        r"(?P<args>(?:\s+[A-Za-z_][A-Za-z0-9_']*)*)\s*$",
+        body_no_ws,
+    )
+    if not match:
+        return None
+    binders = re.findall(r"\b[A-Za-z_][A-Za-z0-9_']*\b", match.group("binders"))
+    args = re.findall(r"\b[A-Za-z_][A-Za-z0-9_']*\b", match.group("args"))
+    if binders and binders == args:
+        return match.group("callee")
+    return None
+
+
 def _declaration_is_alias_or_wrapper(
     before: str,
     after: str,
@@ -6033,6 +6048,8 @@ def _declaration_is_alias_or_wrapper(
         body_no_ws,
     ):
         return True
+    if _eta_wrapper_target(body_no_ws) in {before, before_local}:
+        return True
     if before_local and after_local:
         stripped_before = before_local.lower().removesuffix("classifier")
         stripped_after = after_local.lower().removesuffix("classifier")
@@ -6041,6 +6058,48 @@ def _declaration_is_alias_or_wrapper(
     if before in result_type and after_local in before_local:
         return True
     return False
+
+
+def _is_classifier_endpoint(name: str, declaration_headers: dict[str, str]) -> bool:
+    result_type = _declaration_header_result_type(declaration_headers.get(name, "")) or ""
+    compact = re.sub(r"\s+", "", result_type)
+    local = _local_declaration_name(name)
+    if local.endswith("Classifier"):
+        return "→Prop" in compact or "->Prop" in compact
+    return bool(re.search(r"(?:→|->)\s*Prop\b", result_type)) and not re.search(
+        r"\b(?:DiscoveryTasteGate|DiscoveryDeltaLedger|PositiveDiscovery|DisagreementSupport)\b",
+        result_type,
+    )
+
+
+def _candidate_fingerprint_names(
+    endpoints: Iterable[str],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> set[str]:
+    local_to_qualified = _local_to_qualified_index(declaration_headers)
+    out: set[str] = set()
+    queue: list[tuple[str, int]] = [
+        (endpoint, 0)
+        for endpoint in dict.fromkeys(endpoints)
+        if endpoint in declaration_headers
+    ]
+    while queue:
+        current, depth = queue.pop(0)
+        if current in out:
+            continue
+        out.add(current)
+        if depth >= 2:
+            continue
+        refs = _resolve_decl_refs_from_text(
+            _decl_text(current, declaration_headers, declaration_bodies),
+            declaration_headers,
+            local_to_qualified,
+        )
+        for ref in refs:
+            if ref not in out and _is_classifier_endpoint(ref, declaration_headers):
+                queue.append((ref, depth + 1))
+    return out
 
 
 def _discovery_endpoint_value_fp(
@@ -6107,14 +6166,32 @@ def _candidate_endpoint_pairs(
     ]
     before_sources.extend(mentioned)
     after_sources.extend(mentioned)
-    before_valid = [name for name in dict.fromkeys(before_sources) if name in declaration_headers]
-    after_valid = [name for name in dict.fromkeys(after_sources) if name in declaration_headers]
-    expr_fingerprints = expr_fingerprints or _run_structural_dna_expr_fingerprints(
-        set(before_valid) | set(after_valid)
+    before_valid = [
+        name for name in dict.fromkeys(before_sources)
+        if name in declaration_headers and _is_classifier_endpoint(name, declaration_headers)
+    ]
+    after_valid = [
+        name for name in dict.fromkeys(after_sources)
+        if name in declaration_headers and _is_classifier_endpoint(name, declaration_headers)
+    ]
+    all_endpoints = set(before_valid) | set(after_valid)
+    fingerprint_names = _candidate_fingerprint_names(
+        list(before_valid) + list(after_valid),
+        declaration_headers,
+        declaration_bodies,
     )
+    expr_fingerprints = dict(expr_fingerprints or {})
+    missing_fps = fingerprint_names - set(expr_fingerprints)
+    if missing_fps:
+        expr_fingerprints.update(_run_structural_dna_expr_fingerprints(missing_fps))
+    if any(name not in expr_fingerprints for name in fingerprint_names):
+        return []
     prior_classifier_fps = _prior_classifier_fingerprint_index(
-        before_valid,
-        after_valid,
+        [
+            name for name in fingerprint_names
+            if name != target and _is_classifier_endpoint(name, declaration_headers)
+        ],
+        [],
         expr_fingerprints,
     )
     pairs: list[tuple[str, str, str]] = []
@@ -6125,6 +6202,11 @@ def _candidate_endpoint_pairs(
             if _declaration_is_alias_or_wrapper(
                 before,
                 after,
+                declaration_headers,
+                declaration_bodies,
+            ) or _declaration_is_alias_or_wrapper(
+                after,
+                before,
                 declaration_headers,
                 declaration_bodies,
             ):
@@ -6203,6 +6285,115 @@ def _structural_dna_regression_checks() -> list[dict[str, object]]:
             "name": "prior_classifier_reconstruction_rejected",
             "message": "same-shape after-classifier must not enter A-tier endpoint pairs",
             "pairs": pairs,
+        })
+
+    wrapper_headers = {
+        "BEDC.Prior.OldClassifier": "def OldClassifier : BHist → BHist → Prop :=",
+        "BEDC.Prior.FreshClassifier": "def FreshClassifier : BHist → BHist → Prop :=",
+    }
+    wrapper_bodies = {
+        "BEDC.Prior.OldClassifier": (
+            "def OldClassifier : BHist → BHist → Prop := fun h k => SomeP h ∧ SomeQ k"
+        ),
+        "BEDC.Prior.FreshClassifier": (
+            "def FreshClassifier : BHist → BHist → Prop := fun h k => OldClassifier h k"
+        ),
+    }
+    wrapper_block = {
+        "raw_body": (
+            r"\closureparents{BEDC.Prior.OldClassifier} "
+            r"\closuregate{BEDC.Prior.FreshClassifier}"
+        ),
+        "open_fields": {
+            "closureparents": "BEDC.Prior.OldClassifier",
+            "closuregate": "BEDC.Prior.FreshClassifier",
+        },
+        "lean_target": "BEDC.Prior.FreshClassifier",
+    }
+    wrapper_pairs = _candidate_endpoint_pairs(
+        wrapper_block,
+        "BEDC.Prior.FreshClassifier",
+        wrapper_headers,
+        wrapper_bodies,
+        {
+            "BEDC.Prior.OldClassifier": ExprFingerprint("old-decl", "type", "old-value"),
+            "BEDC.Prior.FreshClassifier": ExprFingerprint("fresh-decl", "type", "fresh-value"),
+        },
+    )
+    if wrapper_pairs:
+        failures.append({
+            "name": "applied_wrapper_rejected",
+            "message": "eta-style applied wrapper must not enter A-tier endpoint pairs",
+            "pairs": wrapper_pairs,
+        })
+
+    gate_headers = {
+        "BEDC.Prior.OldClassifier": "def OldClassifier : BHist → Prop :=",
+        "BEDC.Target.Gate": "def Gate : DiscoveryTasteGate :=",
+    }
+    gate_bodies = {
+        "BEDC.Prior.OldClassifier": "def OldClassifier : BHist → Prop := fun h => SomeP h",
+        "BEDC.Target.Gate": "def Gate : DiscoveryTasteGate := by exact tasteGate",
+    }
+    gate_pairs = _candidate_endpoint_pairs(
+        {
+            "raw_body": (
+                r"\closureparents{BEDC.Prior.OldClassifier} "
+                r"\closuregate{BEDC.Target.Gate}"
+            ),
+            "open_fields": {
+                "closureparents": "BEDC.Prior.OldClassifier",
+                "closuregate": "BEDC.Target.Gate",
+            },
+            "lean_target": "BEDC.Target.Gate",
+        },
+        "BEDC.Target.Gate",
+        gate_headers,
+        gate_bodies,
+        {"BEDC.Prior.OldClassifier": ExprFingerprint("old-decl", "type", "old-value")},
+    )
+    if gate_pairs:
+        failures.append({
+            "name": "non_classifier_after_rejected",
+            "message": "gate or ledger endpoint must not be reported as after_classifier",
+            "pairs": gate_pairs,
+        })
+
+    mentioned_headers = {
+        "BEDC.Prior.OldClassifier": "def OldClassifier : BHist → Prop :=",
+        "BEDC.Prior.SameShapeClassifier": "def SameShapeClassifier : BHist → Prop :=",
+        "BEDC.Target.Gate": "def Gate : DiscoveryTasteGate :=",
+    }
+    mentioned_bodies = {
+        "BEDC.Prior.OldClassifier": "def OldClassifier : BHist → Prop := fun h => SomeP h",
+        "BEDC.Prior.SameShapeClassifier": "def SameShapeClassifier : BHist → Prop := fun z => SomeP z",
+        "BEDC.Target.Gate": (
+            "def Gate : DiscoveryTasteGate := by "
+            "exact uses BEDC.Prior.SameShapeClassifier"
+        ),
+    }
+    mentioned_pairs = _candidate_endpoint_pairs(
+        {
+            "raw_body": (
+                r"\closureparents{BEDC.Prior.OldClassifier} "
+                r"BEDC.Prior.SameShapeClassifier"
+            ),
+            "open_fields": {
+                "closureparents": "BEDC.Prior.OldClassifier",
+                "closuregate": "BEDC.Target.Gate",
+            },
+            "lean_target": "BEDC.Target.Gate",
+        },
+        "BEDC.Target.Gate",
+        mentioned_headers,
+        mentioned_bodies,
+        {"BEDC.Target.Gate": ExprFingerprint("gate-decl", "gate-type", "gate-value")},
+    )
+    if mentioned_pairs:
+        failures.append({
+            "name": "mentioned_endpoint_missing_fingerprint_rejected",
+            "message": "mentioned classifier endpoints without fingerprints must not enter A-tier pairs",
+            "pairs": mentioned_pairs,
         })
 
     return failures

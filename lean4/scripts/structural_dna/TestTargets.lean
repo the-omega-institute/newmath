@@ -32,6 +32,12 @@ def AlphaLamA : BHist → Prop := fun hist => SomeP hist
 
 def AlphaLamB : BHist → Prop := fun z => SomeP z
 
+def PropDefTrue : Prop := True
+
+def PropDefFalse : Prop := False
+
+def PropDefEq : Prop := BHist.Empty = BHist.Empty
+
 theorem ProofA : BHist.Empty = BHist.Empty := rfl
 
 theorem ProofB : BHist.Empty = BHist.Empty := Eq.refl _

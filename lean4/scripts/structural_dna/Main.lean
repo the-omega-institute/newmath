@@ -2,6 +2,7 @@ import Lean
 import scripts.structural_dna.TestTargets
 
 open Lean
+open Lean.Meta
 
 namespace BEDC.StructuralDna
 
@@ -95,24 +96,35 @@ structure DeclFingerprint where
   valueFp : String
 deriving Repr
 
-def isTheoremOrPropConstant (info : ConstantInfo) : Bool :=
+def isTheoremConstant (info : ConstantInfo) : Bool :=
   match info with
   | .thmInfo _ => true
-  | _ => info.type.isProp
+  | _ => false
 
-def declFingerprint (info : ConstantInfo) : DeclFingerprint :=
+def valueIsProof (env : Environment) (value : Expr) : IO Bool := do
+  let coreCtx : Core.Context := { fileName := "structural_dna", fileMap := default }
+  let coreState : Core.State := { env := env }
+  match ← ((Meta.isProof value).run {} {} |>.run coreCtx coreState).toIO' with
+  | .ok ((isProof, _), _) => return isProof
+  | .error _ => return false
+
+def declFingerprint (env : Environment) (info : ConstantInfo) : IO DeclFingerprint := do
   let params := info.levelParams
   let typeFp := exprFingerprint params info.type
-  let valueFp :=
-    if isTheoremOrPropConstant info then
-      ""
+  let valueFp ←
+    if isTheoremConstant info then
+      pure ""
     else
       match info.value? (allowOpaque := true) with
-      | some value => exprFingerprint params value
-      | none => ""
+      | some value =>
+          if ← valueIsProof env value then
+            pure ""
+          else
+            pure (exprFingerprint params value)
+      | none => pure ""
   let fingerprint :=
     stableHash (joinPayload "decl" [typeFp, valueFp])
-  { fingerprint := fingerprint, typeFp := typeFp, valueFp := valueFp }
+  return { fingerprint := fingerprint, typeFp := typeFp, valueFp := valueFp }
 
 def jsonForDeclFingerprint (fp : DeclFingerprint) : Json :=
   Json.mkObj [
@@ -162,7 +174,7 @@ unsafe def fingerprintsJson (imports decls : Array String) : IO Json := do
       let name := decl.toName
       match env.find? name with
       | some info =>
-          out := (decl, jsonForDeclFingerprint (declFingerprint info)) :: out
+          out := (decl, jsonForDeclFingerprint (← declFingerprint env info)) :: out
       | none =>
           throw (IO.userError s!"declaration not found: {decl}")
     return Json.mkObj out.reverse
@@ -185,6 +197,9 @@ def testDecls : Array String :=
     "BEDC.StructuralDna.TestTargets.InstanceArrow",
     "BEDC.StructuralDna.TestTargets.AlphaLamA",
     "BEDC.StructuralDna.TestTargets.AlphaLamB",
+    "BEDC.StructuralDna.TestTargets.PropDefTrue",
+    "BEDC.StructuralDna.TestTargets.PropDefFalse",
+    "BEDC.StructuralDna.TestTargets.PropDefEq",
     "BEDC.StructuralDna.TestTargets.ProofA",
     "BEDC.StructuralDna.TestTargets.ProofB"
   ]
@@ -203,7 +218,7 @@ unsafe def runSelfTest : IO UInt32 := do
     let mut out : List (String × DeclFingerprint) := []
     for decl in testDecls do
       match env.find? decl.toName with
-      | some info => out := (decl, declFingerprint info) :: out
+      | some info => out := (decl, ← declFingerprint env info) :: out
       | none => throw (IO.userError s!"test declaration not found: {decl}")
     return out
   let ta ← getFp! items "BEDC.StructuralDna.TestTargets.TA"
@@ -219,6 +234,9 @@ unsafe def runSelfTest : IO UInt32 := do
   let instanceArrow ← getFp! items "BEDC.StructuralDna.TestTargets.InstanceArrow"
   let alphaLamA ← getFp! items "BEDC.StructuralDna.TestTargets.AlphaLamA"
   let alphaLamB ← getFp! items "BEDC.StructuralDna.TestTargets.AlphaLamB"
+  let propDefTrue ← getFp! items "BEDC.StructuralDna.TestTargets.PropDefTrue"
+  let propDefFalse ← getFp! items "BEDC.StructuralDna.TestTargets.PropDefFalse"
+  let propDefEq ← getFp! items "BEDC.StructuralDna.TestTargets.PropDefEq"
   let proofA ← getFp! items "BEDC.StructuralDna.TestTargets.ProofA"
   let proofB ← getFp! items "BEDC.StructuralDna.TestTargets.ProofB"
   let t1 ← printCheck "T1 lam alpha" (ta == tb)
@@ -232,7 +250,12 @@ unsafe def runSelfTest : IO UInt32 := do
   )
   let t6 ← printCheck "T6 binder-name alpha" (alphaLamA == alphaLamB)
   let t7 ← printCheck "T7 theorem proof irrelevance" (proofA == proofB)
-  return if [t1, t2, t3, t4, t5, t6, t7].all id then 0 else 1
+  let t8 ← printCheck "T8 Prop-valued def distinction" (
+    propDefTrue != propDefFalse
+    && propDefTrue != propDefEq
+    && propDefFalse != propDefEq
+  )
+  return if [t1, t2, t3, t4, t5, t6, t7, t8].all id then 0 else 1
 
 end BEDC.StructuralDna
 
