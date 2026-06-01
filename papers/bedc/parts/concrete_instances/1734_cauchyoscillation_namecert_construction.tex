@@ -619,6 +619,22 @@ Use ledger transport and the RegSeqRat handoff, \autoref{thm:cauchy-oscillation-
 Finally apply the uniform-limit tail handoff, \autoref{thm:cauchy-oscillation-uniform-limit-tail-handoff}. It presents $W,M,Q,T,H,C,P,N$ as the finite source packet required before a uniform-limit or uniform-Cauchy consumer may reach the Real seal.
 \end{proof}
 
+\begin{theorem}[CauchyOscillation completion-frontier public readiness]
+\label{thm:cauchy-oscillation-completion-frontier-public-readiness}
+For every accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+every completion-frontier consumer must first read the finite source subpacket $W,M,Q,T,H,C,P,N$ and then the $\RealUp$ seal row $S$ through the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ route. The public surface exports no quotient stream, selected limit, host equality, countable choice, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Use the uniform-limit tail handoff, \autoref{thm:cauchy-oscillation-uniform-limit-tail-handoff}. It forces a uniform-limit or uniform-Cauchy reader to open the source subpacket $W,M,Q,T,H,C,P,N$ before any seal read.
+
+Apply completion-source exhaustion, \autoref{thm:cauchy-oscillation-completion-source-exhaustion}. The only completion-facing chain available to the packet runs through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the downstream $\RealUp$ seal.
+
+Finally use RegSeqRat uniform-threshold preservation, \autoref{thm:cauchy-oscillation-regseqrat-uniform-threshold}. It keeps transported consumers on the same finite threshold and tolerance route, so the completion frontier remains public readiness data rather than a quotient stream, selected limit, host equality, choice principle, or ambient completeness claim.
+\end{proof}
+
 \closureat{CauchyOscillationUp}{seedStr}
 
 \begin{closurestatus}{\CauchyOscillationUp}

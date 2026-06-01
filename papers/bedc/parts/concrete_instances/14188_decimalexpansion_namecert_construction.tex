@@ -518,11 +518,13 @@ Next apply \autoref{thm:decimal-expansion-dyadic-normalization-lock}. This preve
 
 Finally use \autoref{thm:decimal-expansion-real-readback-boundary}. The route reaches $E$ only after $D,W,V,Q,R$ have been inspected, so quotient reals, trichotomy, and ambient completeness are unavailable to the normalized prefix read.
 \end{proof}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionPrefixNormalizationTriad}
 
 \begin{theorem}[DecimalExpansion terminal carry refusal]
 \label{thm:decimal-expansion-terminal-carry-refusal}
 For every accepted $\DecimalExpansionUp$ packet, a terminal-carry read on finite digit windows $D,W$ must pass through the place-value row $V$, dyadic comparison row $Q$, $\RegSeqRatUp$ handoff $R$, and terminal $\RealUp$ seal $E$ as displayed packet data. It cannot discharge the carry by choosing a repeating-nine representative, selecting a decimal stream, invoking endpoint convention selectors, applying trichotomy, identifying quotient reals, or using Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionTerminalCarryRefusal}
 \begin{proof}
 Read the endpoint side through \autoref{thm:decimal-expansion-endpoint-window-transport}. Endpoint-sensitive finite windows remain attached to $D,W,Q,R,E$ and do not export a detached endpoint resolver.
 
@@ -535,6 +537,7 @@ The refusal clause follows from \autoref{thm:decimal-expansion-real-window-exhau
 \label{thm:decimal-expansion-regseqrat-density-unblock}
 The finite decimal-window route supplies the $\RegSeqRatUp$ density-facing read required by later real-name consumers: digit windows $D,W$ expose place-value data $V$, dyadic comparison $Q$ bounds the prefix against the regular rational row $R$, and the terminal seal $E$ records the Real handoff. This density-facing read is a finite BEDC route and not a quotient-real argument, selected decimal stream, endpoint selector, trichotomy decision, or Real-completeness application.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionRegSeqRatDensityUnblock}
 \begin{proof}
 Begin with \autoref{thm:decimal-expansion-regseqrat-handoff}. It routes decimal prefixes to $\RegSeqRatUp$ through displayed finite windows rather than through an infinite stream representative.
 
@@ -560,6 +563,7 @@ Finally use \autoref{thm:decimal-expansion-regseqrat-prefix-coverage} and \autor
 \label{thm:decimal-expansion-signed-window-transport}
 Let $K=(D,W,V,Q,R,E,H,C,P,N)$ be an accepted $\DecimalExpansionUp$ packet. If a signed decimal consumer attaches a displayed sign row to the same finite window and transports that signed read by the componentwise $\hsame$ row $H$, then the transported read preserves the digit ledger $D$, window row $W$, place-value row $V$, dyadic comparison row $Q$, $\RegSeqRatUp$ handoff $R$, and terminal $\RealUp$ seal $E$. The sign transport therefore remains a finite decimal-window route and does not create a second magnitude, selected signed expansion, quotient real, trichotomy decision, or detached Real seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionSignedWindowTransport}
 \begin{proof}
 Start from the componentwise transport row $H$ in \autoref{def:decimal-expansion-carrier}. It transports the displayed packet rows and has no independent coordinate for a second magnitude or a selected signed expansion.
 
