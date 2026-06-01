@@ -134,24 +134,4 @@ instance cauchyFilterCriterionChapterTasteGate : ChapterTasteGate CauchyFilterCr
     intro x y hxy heq
     exact hxy (CauchyFilterCriterionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-theorem CauchyFilterCriterionTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate CauchyFilterCriterionUp) ∧
-      (∀ h : BHist, cauchyFilterCriterionDecodeBHist (cauchyFilterCriterionEncodeBHist h) = h) ∧
-      (∀ x : CauchyFilterCriterionUp,
-        cauchyFilterCriterionFromEventFlow (cauchyFilterCriterionToEventFlow x) = some x) ∧
-      (∀ x y : CauchyFilterCriterionUp,
-        cauchyFilterCriterionToEventFlow x = cauchyFilterCriterionToEventFlow y → x = y) ∧
-      cauchyFilterCriterionEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact ⟨cauchyFilterCriterionChapterTasteGate⟩
-  constructor
-  · exact CauchyFilterCriterionTasteGate_single_carrier_alignment_decode
-  constructor
-  · exact CauchyFilterCriterionTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y
-    exact CauchyFilterCriterionTasteGate_single_carrier_alignment_toEventFlow_injective
-  · rfl
-
 end BEDC.Derived.CauchyFilterCriterionUp.TasteGate
