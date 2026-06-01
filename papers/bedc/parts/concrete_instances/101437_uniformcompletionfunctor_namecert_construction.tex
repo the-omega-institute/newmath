@@ -53,6 +53,49 @@ Universal-extension ordering is read from $E$, while readback and tolerance exac
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[UniformCompletionFunctor source factorization]
+\label{thm:uniform-completion-functor-source-factorization}
+Every completion-facing read of an accepted $\UniformCompletionFunctorUp$ carrier
+$$
+\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)
+$$
+factors through the $\UniformCompletionUp$ source row $U$ before the $\CauchyCompletionFunctorUp$ handoff row $F$ is public. Thus the functorial unit, bind, and classifier reads cannot be sourced from quotient completion equality, a selected limit, a host complete uniform space, or a choice-selected representative.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-completion-functor-carrier}. The row $U$ is the only source coordinate in the packet, and $F$ is displayed as the handoff row attached to that source.
+
+Apply \autoref{thm:uniform-completion-functor-namecert-obligations}. Its source-compatibility clause requires every completion-facing read to project $U$ before any functorial handoff is available, while handoff exactness confines $F$ to the same displayed source.
+
+Since the carrier and obligation surface contain no quotient completion row, selected limit row, host complete-uniform-space row, or choice row, no consumer can bypass the source factorization through $U$.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor extension ordering]
+\label{thm:uniform-completion-functor-extension-ordering}
+For every accepted $\UniformCompletionFunctorUp$ carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$, the universal-extension row $E$ is consumed after the source and functorial handoff rows $U,F$ and before the readback, window, dyadic, seal, transport, replay, provenance, and naming rows $R,W,D,S,H,C,P,N$. The ordered public route is therefore
+$$
+U \longmapsto F \longmapsto E \longmapsto R,W,D \longmapsto S,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Read the displayed carrier. The row $E$ is the only $\CompletionUniversalPropertyUp$ coordinate, and it sits between the source-handoff block $U,F$ and the downstream readback block $R,W,D,S$.
+
+Use the NameCert obligations of \autoref{thm:uniform-completion-functor-namecert-obligations}. Source compatibility and handoff exactness place $U,F$ before $E$, and universal-extension ordering places $E$ before any terminal $\RealUp$ seal can be exposed.
+
+The remaining rows preserve the same order. The readback and tolerance clause accounts for $R,W,D$, while $H,C,P,N$ only transport, replay, source, and name the displayed packet. Hence every public route has the stated ordering.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor readback seal exactness]
+\label{thm:uniform-completion-functor-readback-seal-exactness}
+In an accepted $\UniformCompletionFunctorUp$ carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$, the terminal $\RealUp$ seal $S$ is exact only for readbacks that first expose the $\RegSeqRatUp$ row $R$, the $\StreamNameUp$ row $W$, and the $\DyadicRatCoreUp$ row $D$. No completion-facing consumer may read $S$ as a host real value, a quotient completion seal, or a selected limit independent of $R,W,D$.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. The seal row $S$ appears downstream of $R,W,D$, and there is no second Real-facing coordinate in the packet.
+
+Apply \autoref{thm:uniform-completion-functor-namecert-obligations}. Its readback and tolerance exactness clause assigns all regular rational, finite-window, and dyadic precision requests to $R,W,D$, while universal-extension ordering keeps the seal downstream from $U,F,E$.
+
+Thus a consumer reaches $S$ only after the displayed readback surface has been consumed. The structural rows $H,C,P,N$ preserve and name that same route, so the seal cannot be replaced by a host real value, quotient completion seal, selected limit, open-cover compactness proof, or choice principle.
+\end{proof}
+
 \begin{theorem}[UniformCompletionFunctor root obligation lattice]
 \label{thm:uniform-completion-functor-root-obligation-lattice}
 For every accepted $\UniformCompletionFunctorUp$ carrier
