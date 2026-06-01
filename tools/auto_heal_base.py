@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Auto-heal codex-auto-dev BASE: detect stuck dup labels / dup conclusions
-and invoke codex to resolve in the main checkout.
+and invoke codex to resolve in a dedicated heal worktree.
 
 Without this daemon, a single round push that lands a duplicate paper
 label or a duplicate-conclusion theorem stalls every subsequent round
@@ -10,7 +10,7 @@ session: 36 SHALLOW + 9 cooldowns over 30 min until manual deletion
 of `TopologySingleton_boundary_open_laws` / `_diffform_derham_boundary_consumption.tex`.
 
 Cycle (every INTERVAL seconds):
-  1. cd to main checkout, ensure on `codex-auto-dev`, ff to origin.
+  1. reset the dedicated heal worktree to `origin/codex-auto-dev`.
   2. run `python3 lean4/scripts/bedc_ci.py audit`. If `duplicate
      paper labels: N (N > 0)` → invoke codex with HEAL_DUP_LABELS_PROMPT.
   3. compare round-side phase_d_lint logic against BASE: if BASE has
@@ -47,6 +47,8 @@ REPO_ROOT = host_path(
     "REPO_ROOT",
     default=Path(__file__).resolve().parent.parent,
 )
+HEAL_WT = host_path(REPO_ROOT, "AUTO_HEAL_WORKTREE", default="/tmp/bedc-auto-heal-wt")
+
 def _base_branch_default() -> str:
     return host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", default="codex-auto-dev")
 
@@ -227,111 +229,7 @@ Do NOT push. The heal daemon handles push.
 """
 
 
-HEAL_STUCK_DIRT_PROMPT = """You are healing a stuck working tree on the BEDC `codex-auto-dev` branch.
-
-The main checkout has had the same set of tracked modifications for __TICKS__ consecutive heal cycles (__MINUTES_TOTAL__ minutes total). This is NOT a human edit-in-progress — the dirt has not changed across two ticks. A daemon (paper_builder_daemon, sync_with_auto_dev, or a stray codex round that wrote to the main checkout instead of its worktree) left work uncommitted, and the dirt now blocks every other heal pathway (axiom-purity storm repair, dup-label repair, etc.).
-
-Your task: TRIAGE each modified file and bring the working tree back to a clean state, committing in pieces if the changes are genuinely-good work or `git checkout HEAD -- <file>` reverting if they are debris.
-
-**Modified files** (`git status --porcelain` output):
-
-```
-__PORCELAIN__
-```
-
-**Decision rules per file**:
-
-1. Inspect the diff with `git diff <file>`. If the change is a substantive addition (new theorem with proof, new chapter with NameCert obligations, new \\leanchecked marker matching a real Lean declaration), it is genuinely-good work — bundle related files (e.g., a Lean theorem + its paper-side \\leanchecked marker) into one commit with subject `auto-heal: 回收滞留工作 <brief description>` and a 1-2 sentence body explaining what was recovered.
-
-2. If the change is a deletion or partial-revert (a `\\input{...}` line removed without the chapter file also being removed, a `\\newcommand{\\<X>Up}{...}` removed without the chapter file referencing it being removed), it is debris from a half-finished revert. Either complete the revert (delete the chapter file too if it's no longer referenced anywhere) OR restore the deleted line (`git checkout HEAD -- <file>`).
-
-3. If the change is a marker `\\leanchecked{<X>}` whose `<X>` does not resolve to a real Lean declaration in `lean4/BEDC/`, the marker is stale — `git checkout HEAD -- <file>`.
-
-4. For any file you cannot triage with confidence in under 5 minutes, run `git checkout HEAD -- <file>` to revert. The daemon will pick the work back up via normal pipeline rounds if it was real.
-
-**Verification before commit**:
-
-- `python3 lean4/scripts/bedc_ci.py audit` must pass (if you committed paper-side changes)
-- `cd lean4 && python3 scripts/lake_gate.py build` must pass (if you committed Lean-side changes)
-- After all decisions, `git status --porcelain` must be EMPTY (no tracked modifications). Untracked `??` files are tolerated.
-
-Branch: codex-auto-dev. Do NOT push (the heal daemon handles push). Make one or more commits with the `auto-heal: 回收滞留工作` subject prefix; multiple commits are fine if the dirt naturally splits into multiple coherent groups.
-
-Stop after the working tree is clean.
-"""
-
-
-def _read_stuck_dirt_state() -> tuple[int, frozenset[str]]:
-    """Read previous stuck-dirt tick count + file set from /tmp."""
-    try:
-        if not STUCK_DIRT_STATE_FILE.exists():
-            return 0, frozenset()
-        data = json.loads(STUCK_DIRT_STATE_FILE.read_text())
-        return int(data.get("count", 0)), frozenset(data.get("files", []))
-    except Exception:
-        return 0, frozenset()
-
-
-def _write_stuck_dirt_state(count: int, files: frozenset[str]) -> None:
-    """Persist stuck-dirt state so consecutive ticks can detect persistence."""
-    try:
-        STUCK_DIRT_STATE_FILE.write_text(json.dumps({
-            "count": count,
-            "files": sorted(files),
-        }))
-    except Exception as exc:
-        print(f"[heal] could not persist stuck-dirt state: {exc}", file=sys.stderr)
-
-
-def heal_stuck_dirt(blocking: list[str]) -> bool:
-    """Invoke codex to triage a stuck working tree.
-
-    `blocking` is the list of git-status-porcelain lines describing
-    modified-but-uncommitted tracked files. Codex inspects each diff,
-    decides commit-or-revert per file, and commits any recovered work
-    under `auto-heal: 回收滞留工作` subjects. Returns True iff codex made
-    progress (at least one commit OR the tree ended up clean)."""
-    head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
-    porcelain_str = "\n".join(blocking)
-    minutes_total = STUCK_DIRT_THRESHOLD_TICKS * 15
-    # `.format()` would collide with literal `{...}` braces in the
-    # LaTeX-laden prompt template; substitute manually with `.replace()`.
-    prompt = (
-        HEAL_STUCK_DIRT_PROMPT
-        .replace("__TICKS__", str(STUCK_DIRT_THRESHOLD_TICKS))
-        .replace("__MINUTES_TOTAL__", str(minutes_total))
-        .replace("__PORCELAIN__", porcelain_str)
-    )
-    signature = "stuck dirt " + _short_hash(porcelain_str)
-    if _recurring_fix_loop(signature, "stuck dirt", {"blocking": blocking[:10]}):
-        return False
-    prompt = _with_fix_signature(prompt, signature)
-    rc = call_codex(prompt, timeout=1800)
-    head_after = git("rev-parse", "HEAD", capture=True).stdout.strip()
-    # Success criteria: commit OR clean tree.
-    if head_after != head_before:
-        return True
-    final_porcelain = git("status", "--porcelain", capture=True).stdout.strip()
-    # Filter same way we did at detection time
-    blocking_after = []
-    for raw in final_porcelain.splitlines():
-        if not raw or raw[:2] == "??":
-            continue
-        path = raw[3:] if len(raw) > 3 else ""
-        if path == ".pipeline_parallel.json":
-            continue
-        blocking_after.append(raw)
-    if not blocking_after:
-        return True
-    print(
-        f"[heal] stuck-dirt: codex made no commit (rc={rc}); "
-        f"{len(blocking_after)} file(s) still dirty",
-        file=sys.stderr,
-    )
-    return False
-
-
-def run(cmd, *, cwd=REPO_ROOT, check=True, capture=False, env=None, timeout=None):
+def run(cmd, *, cwd=HEAL_WT, check=True, capture=False, env=None, timeout=None):
     res = subprocess.run(
         cmd, cwd=cwd, env=env,
         capture_output=capture, text=True, timeout=timeout,
@@ -344,6 +242,58 @@ def run(cmd, *, cwd=REPO_ROOT, check=True, capture=False, env=None, timeout=None
 
 def git(*args, **kwargs):
     return run(["git", *args], **kwargs)
+
+
+def _seed_heal_lake_cache() -> None:
+    """Best-effort seed of the heal worktree's Lean cache."""
+    try:
+        src = REPO_ROOT / "lean4" / ".lake"
+        dst = HEAL_WT / "lean4" / ".lake"
+        if dst.exists() or not src.exists():
+            return
+        dst.mkdir(parents=True, exist_ok=True)
+        packages_src = src / "packages"
+        if packages_src.exists():
+            os.symlink(packages_src, dst / "packages", target_is_directory=True)
+        for name in ("build", "config"):
+            item_src = src / name
+            if not item_src.exists():
+                continue
+            run(["cp", "-c", "-R", str(item_src), str(dst / name)],
+                cwd=HEAL_WT, check=True, capture=True, timeout=300)
+    except Exception as exc:
+        print(f"[heal] could not seed heal .lake cache: {exc}", file=sys.stderr)
+
+
+def ensure_heal_worktree() -> bool:
+    """Ensure the dedicated detached heal worktree exists."""
+    if (HEAL_WT / ".git").exists():
+        _seed_heal_lake_cache()
+        return True
+    try:
+        HEAL_WT.parent.mkdir(parents=True, exist_ok=True)
+        fetch = run(["git", "fetch", "origin", BASE_BRANCH],
+                    cwd=REPO_ROOT, check=False, capture=True, timeout=120)
+        if fetch.returncode != 0:
+            out = ((fetch.stdout or "") + (fetch.stderr or ""))[-500:]
+            print(f"[heal] worktree seed fetch failed: {out}", file=sys.stderr)
+            return False
+        add = run(
+            ["git", "worktree", "add", "--detach", str(HEAL_WT), f"origin/{BASE_BRANCH}"],
+            cwd=REPO_ROOT,
+            check=False,
+            capture=True,
+            timeout=180,
+        )
+        if add.returncode != 0:
+            out = ((add.stdout or "") + (add.stderr or ""))[-500:]
+            print(f"[heal] worktree add failed: {out}", file=sys.stderr)
+            return False
+        _seed_heal_lake_cache()
+        return True
+    except Exception as exc:
+        print(f"[heal] ensure_heal_worktree failed: {exc}", file=sys.stderr)
+        return False
 
 
 def import_push_lock():
@@ -437,18 +387,18 @@ def verify_local_ci() -> tuple[bool, str | None]:
     # reverting otherwise-good codex heal commits. Local benchmarks show
     # axiom-purity normally 3-5 min under load; audit 1-3 min.
     checks = [
-        ("papers/bedc make precheck", ["make", "precheck"], REPO_ROOT / "papers" / "bedc", 600),
-        ("lean4 lake build", ["lake", "build"], REPO_ROOT / "lean4", 600),
+        ("papers/bedc make precheck", ["make", "precheck"], HEAL_WT / "papers" / "bedc", 600),
+        ("lean4 lake build", ["lake", "build"], HEAL_WT / "lean4", 600),
         (
             "bedc_ci audit",
             ["python3", "lean4/scripts/bedc_ci.py", "audit"],
-            REPO_ROOT,
+            HEAL_WT,
             300,
         ),
         (
             "bedc_ci axiom-purity --strict",
             ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"],
-            REPO_ROOT,
+            HEAL_WT,
             600,
         ),
     ]
@@ -476,17 +426,12 @@ def verify_local_ci() -> tuple[bool, str | None]:
         ok, err = _run_check(name, cmd, cwd, timeout)
         if ok:
             continue
-        # Retry once on failure. The builder daemon and sibling rounds mutate
-        # the main checkout's shared `.lake` concurrently; a `#print axioms`
-        # / audit / build that races a concurrent olean rebuild can fail
-        # spuriously (observed 2026-05-29: axiom-purity --strict rc=1 in
-        # verify_local_ci while a full-tree run was simultaneously pure=19653
-        # impure=0). A genuine failure reproduces on retry; a stale-artifact
-        # race does not. Resync oleans with a fresh lake build before the
-        # retry so the second run sees a consistent build.
+        # Retry once on failure. A genuine failure reproduces on retry; a
+        # stale artifact does not. Resync oleans with a fresh lake build before
+        # the retry so the second run sees a consistent build.
         print(f"[heal] verify_local_ci: {name} failed once; resyncing build "
               f"and retrying (transient .lake race guard)", flush=True)
-        run(["lake", "build"], cwd=REPO_ROOT / "lean4", check=False,
+        run(["lake", "build"], cwd=HEAL_WT / "lean4", check=False,
             capture=True, timeout=600)
         ok2, err2 = _run_check(name, cmd, cwd, timeout)
         if not ok2:
@@ -619,13 +564,6 @@ def verify_then_push(phase: str) -> bool:
 GATE_STORM_WINDOW_MINUTES = 30
 GATE_STORM_THRESHOLD = 5  # ≥5 rounds rejected by same gate in window = storm
 
-# Stuck-dirt threshold: after N consecutive ticks (~15min each) where
-# the same set of tracked files remains modified, treat the working
-# tree as stuck and invoke codex to triage each file (commit-or-revert).
-# 2 ticks ≈ 30 minutes; enough to ensure the dirt is not from an
-# in-progress edit but a daemon that crashed mid-way.
-STUCK_DIRT_THRESHOLD_TICKS = 2
-STUCK_DIRT_STATE_FILE = Path("/tmp/auto_heal_stuck_dirt_state.json")
 LEAN_ORCH_LOG = REPO_ROOT / "lean4" / "scripts" / "logs" / "orchestrator.log"
 PAPER_ORCH_LOG = REPO_ROOT / "papers" / "bedc" / "scripts" / "logs" / "orchestrator.log"
 COOLDOWN_ALERT_LOG = Path("/tmp/.bedc_heal_alerts.log")
@@ -722,7 +660,7 @@ def _run_phase_d_lint_current() -> subprocess.CompletedProcess[str]:
             "python3",
             "lean4/scripts/phase_d_lint.py",
             "--worktree",
-            str(REPO_ROOT),
+            str(HEAL_WT),
             "--base-branch",
             BASE_BRANCH,
             "--include-shallow",
@@ -738,15 +676,9 @@ def verify_propext_still_impure(theorem_fqn: str) -> bool:
     global _PROPEXT_VERIFY_OUTPUT
     if _PROPEXT_VERIFY_OUTPUT is None:
         try:
-            # Resync oleans before reading #print axioms. axiom-purity runs in
-            # the main checkout, where the builder daemon concurrently rebuilds
-            # the shared .lake; a #print-axioms read racing an in-flight rebuild
-            # reports phantom propext violations (observed 2026-05-29: this guard
-            # flagged HausdorffMetricTasteGate_single_carrier_alignment impure and
-            # dispatched per-theorem codex heals every cycle while a full-tree run
-            # was simultaneously pure=19661 impure=0). A fresh lake build pins a
-            # consistent olean set so the guard reads true state, not a race.
-            run(["lake", "build"], cwd=REPO_ROOT / "lean4", check=False,
+            # Resync oleans before reading #print axioms. A fresh lake build
+            # pins a consistent olean set so the guard reads true state.
+            run(["lake", "build"], cwd=HEAL_WT / "lean4", check=False,
                 capture=True, timeout=600)
             res = run(
                 [
@@ -815,7 +747,7 @@ def verify_phase_d_lint_still_rejects(cooldown_target: dict) -> bool:
     details = cooldown_target.get("details", {})
     if category == "LAKE_BUILD_STUCK_DUP":
         try:
-            res = run(["lake", "build"], cwd=REPO_ROOT / "lean4",
+            res = run(["lake", "build"], cwd=HEAL_WT / "lean4",
                       check=False, capture=True, timeout=600)
         except Exception:
             return False
@@ -854,7 +786,7 @@ def verify_gate_still_failing(gate_name: str, target_file: object) -> bool:
         return _phase_d_lint_output_matches(gate, target_file, _combined_output(res))
     if "lake build" in gate:
         try:
-            res = run(["lake", "build"], cwd=REPO_ROOT / "lean4",
+            res = run(["lake", "build"], cwd=HEAL_WT / "lean4",
                       check=False, capture=True, timeout=600)
         except Exception:
             return False
@@ -867,7 +799,7 @@ def verify_gate_still_failing(gate_name: str, target_file: object) -> bool:
             return False
         return res.returncode != 0
     if "OVERSIZED .TEX" in gate:
-        for tex in (REPO_ROOT / "papers" / "bedc" / "parts").rglob("*.tex"):
+        for tex in (HEAL_WT / "papers" / "bedc" / "parts").rglob("*.tex"):
             try:
                 if sum(1 for _ in tex.open("r", encoding="utf-8", errors="ignore")) > 800:
                     return True
@@ -1525,7 +1457,7 @@ def render_prompt_host_context(prompt: str) -> str:
     return out
 
 
-def call_codex(prompt: str, cwd: Path = REPO_ROOT, timeout: int = 1800) -> int:
+def call_codex(prompt: str, cwd: Path = HEAL_WT, timeout: int = 1800) -> int:
     """Invoke codex with the given prompt. Returns rc."""
     if not Path(CODEX_PATH).exists():
         print(f"[heal] codex CLI not found at {CODEX_PATH}", file=sys.stderr)
@@ -2250,7 +2182,7 @@ def push_to_origin() -> bool:
     acquire_push_lock = import_push_lock()
     try:
         with acquire_push_lock(BASE_BRANCH, timeout=120):
-            res = run(["git", "push", "origin", BASE_BRANCH],
+            res = run(["git", "push", "origin", f"HEAD:{BASE_BRANCH}"],
                       check=False, capture=True, timeout=60)
     except TimeoutError as exc:
         print(f"[heal] push lock timeout: {exc}", file=sys.stderr)
@@ -2271,24 +2203,14 @@ INDEX_LOCK_STALE_SECONDS = 600  # 10 min >> any real git index op
 
 
 def heal_stale_index_lock() -> bool:
-    """Remove a stale `.git/index.lock` left by a crashed git process.
-
-    Such a lock makes the orchestrators' `_sync_local_with_origin` checkout
-    of the BASE branch fail on EVERY round's merge step ("cannot checkout
-    codex-auto-dev ... remove the file manually"), freezing BASE for hours:
-    finished rounds + recovery all abort "unrecoverable", and this cycle's
-    own fetch/ff also blocks. Only removes when the lock is older than
-    INDEX_LOCK_STALE_SECONDS — far beyond any real index-mutating op — so a
-    live commit/checkout is never disturbed. Returns True iff removed.
-    (2026-05-30: a 5h-old index.lock froze BASE for 4h until manual rm.)
-    """
+    """Remove a stale `.git/index.lock` in the dedicated heal worktree."""
     try:
         gitdir_out = git("rev-parse", "--git-dir", capture=True).stdout.strip()
     except Exception:
         return False
     gitdir = Path(gitdir_out)
     if not gitdir.is_absolute():
-        gitdir = (REPO_ROOT / gitdir).resolve()
+        gitdir = (HEAL_WT / gitdir).resolve()
     lock = gitdir / "index.lock"
     try:
         age = time.time() - lock.stat().st_mtime
@@ -2306,109 +2228,34 @@ def heal_stale_index_lock() -> bool:
         print(f"[heal] could not remove stale index.lock: {exc}",
               file=sys.stderr)
         return False
-    print(f"[heal] removed stale {lock} (age={int(age)}s) — was blocking "
-          f"orchestrator merge checkout", flush=True)
+    print(f"[heal] removed stale {lock} (age={int(age)}s)", flush=True)
     return True
-
-
-def _stash_dirt_recoverable(tag: str) -> bool:
-    """Stash tracked+untracked dirt into a recoverable stash (never destroyed).
-    Uses run(check=False) so a stash returning rc!=0 does NOT crash the cycle —
-    the raising git() wrapper stranded the checkout once already."""
-    r = run(["git", "stash", "push", "-u", "-m",
-             f"auto_heal {tag} {os.getpid()}"], check=False, capture=True)
-    if r.returncode != 0:
-        out = ((r.stdout or "") + (r.stderr or ""))[-200:]
-        print(f"[heal] stash push failed (rc={r.returncode}): {out}",
-              file=sys.stderr)
-        return False
-    return True
-
-
-def _tracked_blocking(porcelain: str) -> list[str]:
-    """Tracked modifications that block a clean heal. Untracked (`??`) and the
-    autotune-owned `.pipeline_parallel.json` are tolerated."""
-    blocking = []
-    for raw in porcelain.splitlines():
-        if not raw:
-            continue
-        if raw[:2] == "??":
-            continue
-        path = raw[3:] if len(raw) > 3 else ""
-        if path == ".pipeline_parallel.json":
-            continue
-        blocking.append(raw)
-    return blocking
 
 
 def _prepare_clean_base_checkout() -> bool:
-    """Bring the main checkout to a healable state: on BASE_BRANCH and not
-    blocked by a dirty tree. Returns True when ready, False to skip this tick.
-
-    Replaces the old 'skip when stranded / skip when dirty' guards that let a
-    crashed sync (which left the checkout on the mirror branch with a dirty
-    tree) silence auto_heal indefinitely. '不被 dirty 污染':
-      - stranded off BASE -> stash dirt recoverably, then checkout BASE;
-      - dirty tracked tree -> stash recoverably and PROCEED this tick (nothing
-        is destroyed; the stash stays on the stack for recovery);
-      - the SAME dirt persisting >= STUCK_DIRT_THRESHOLD_TICKS (a generator
-        keeps re-dirtying it) -> escalate to codex root-cause triage instead of
-        piling up stashes (stash pileup was the engine behind a 394-deep stack).
-    """
-    # 1. Recover from a stranded branch.
+    """Reset the dedicated heal worktree to origin/BASE_BRANCH."""
+    if not ensure_heal_worktree():
+        return False
     try:
-        cur = git("rev-parse", "--abbrev-ref", "HEAD", capture=True).stdout.strip()
-    except Exception as e:
-        print(f"[heal] cannot read branch: {e}", file=sys.stderr)
+        heal_stale_index_lock()
+    except Exception as exc:
+        print(f"[heal] heal_stale_index_lock crashed: {exc}", file=sys.stderr)
+    fetch = run(["git", "fetch", "origin", BASE_BRANCH],
+                check=False, capture=True, timeout=120)
+    if fetch.returncode != 0:
+        out = ((fetch.stdout or "") + (fetch.stderr or ""))[-500:]
+        print(f"[heal] fetch origin/{BASE_BRANCH} failed: {out}", file=sys.stderr)
         return False
-    if cur != BASE_BRANCH:
-        print(f"[heal] stranded on {cur}; recovering to {BASE_BRANCH}",
-              file=sys.stderr)
-        porcelain = git("status", "--porcelain", capture=True).stdout
-        if _tracked_blocking(porcelain) and not _stash_dirt_recoverable("strand-recover"):
-            return False
-        r = run(["git", "checkout", BASE_BRANCH], check=False, capture=True)
-        if r.returncode != 0:
-            out = ((r.stdout or "") + (r.stderr or ""))[-200:]
-            print(f"[heal] checkout {BASE_BRANCH} failed: {out}", file=sys.stderr)
-            return False
-        print(f"[heal] recovered onto {BASE_BRANCH}", flush=True)
-    # 2. Handle a dirty tree without blocking the heal.
-    porcelain = git("status", "--porcelain", capture=True).stdout
-    derived_blocking = untracked_derived_dirs(porcelain)
-    if derived_blocking:
-        log_heal_alert(
-            category="UNTRACKED_DERIVED_DIRT",
-            details={"dirs": derived_blocking[:20]},
-            cooldown_count=0,
-            note="主 checkout 存在未跟踪 Derived 目录，本 tick 跳过避免污染工作树",
-        )
+    reset = run(["git", "reset", "--hard", f"origin/{BASE_BRANCH}"],
+                check=False, capture=True, timeout=120)
+    if reset.returncode != 0:
+        out = ((reset.stdout or "") + (reset.stderr or ""))[-500:]
+        print(f"[heal] reset origin/{BASE_BRANCH} failed: {out}", file=sys.stderr)
         return False
-    blocking = _tracked_blocking(porcelain)
-    if not blocking:
-        _write_stuck_dirt_state(0, frozenset())
-        return True
-    dirt_set = frozenset(blocking)
-    stuck_count, prev_set = _read_stuck_dirt_state()
-    stuck_count = stuck_count + 1 if dirt_set == prev_set else 1
-    _write_stuck_dirt_state(stuck_count, dirt_set)
-    if stuck_count >= STUCK_DIRT_THRESHOLD_TICKS:
-        print(f"[heal] dirt persisted {stuck_count} tick(s); codex root-cause "
-              f"triage of {len(blocking)} file(s)", file=sys.stderr)
-        for b in blocking[:5]:
-            print(f"[heal]   {b}", file=sys.stderr)
-        if heal_stuck_dirt(blocking):
-            verify_then_push("stuck dirt")
-            _write_stuck_dirt_state(0, frozenset())
-        # Triage consumed this tick; heal CI next tick on a clean tree.
-        return False
-    # First sight of this dirt: stash recoverably and proceed THIS tick so a
-    # dirty tree never blocks CI healing.
-    print(f"[heal] {len(blocking)} tracked modification(s); stashing recoverably "
-          f"and proceeding", file=sys.stderr)
-    for b in blocking[:3]:
-        print(f"[heal]   {b}", file=sys.stderr)
-    if not _stash_dirt_recoverable("cycle-dirt"):
+    clean = run(["git", "clean", "-fd"], check=False, capture=True, timeout=120)
+    if clean.returncode != 0:
+        out = ((clean.stdout or "") + (clean.stderr or ""))[-500:]
+        print(f"[heal] clean -fd failed: {out}", file=sys.stderr)
         return False
     return True
 
@@ -2418,28 +2265,8 @@ def cycle() -> None:
     _reset_act_verify_cache()
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
     print(f"[heal] {ts} tick", flush=True)
-    # A stale `.git/index.lock` from a crashed git process blocks every
-    # orchestrator merge (_sync_local_with_origin checkout of codex-auto-dev)
-    # AND can leave the main checkout stuck off codex-auto-dev — so sweep it
-    # BEFORE the branch check, else this cycle would skip and never reach it.
-    # Unlinking a >600s-old lock is safe on any branch.
-    try:
-        heal_stale_index_lock()
-    except Exception as exc:
-        print(f"[heal] heal_stale_index_lock crashed: {exc}", file=sys.stderr)
-    # Make the checkout healable instead of skipping: recover from a stranded
-    # branch and stash any dirt recoverably. '不被 dirty 污染' — a dirty tree or
-    # a stranded branch must NOT silence healing (that exact wedge muted
-    # auto_heal for hours after a crashed sync left the checkout on the mirror).
     if not _prepare_clean_base_checkout():
         return
-    # A stale `.git/index.lock` from a crashed git process blocks every
-    # orchestrator merge (_sync_local_with_origin checkout) and this cycle's
-    # own fetch/ff — sweep it before anything else.
-    try:
-        heal_stale_index_lock()
-    except Exception as exc:
-        print(f"[heal] heal_stale_index_lock crashed: {exc}", file=sys.stderr)
     # Cooldown cause analysis runs FIRST, observation-only / alert-only.
     # Previously this was at end of cycle but never reached because
     # every prior heal phase (dup labels / CI / propext / gate-storm)
@@ -2455,22 +2282,6 @@ def cycle() -> None:
     except Exception as exc:
         print(f"[heal] cooldown_analysis_phase crashed: {exc}",
               file=sys.stderr)
-    # Fetch and try ff.
-    acquire_push_lock = import_push_lock()
-    try:
-        with acquire_push_lock(BASE_BRANCH, timeout=120):
-            run(["git", "fetch", "origin", BASE_BRANCH], check=False, timeout=60)
-            run(["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
-                 check=False, timeout=30)
-    except TimeoutError as exc:
-        log_heal_alert(
-            category="PUSH_LOCK_TIMEOUT",
-            details={"operation": "fetch_ff", "error": str(exc)},
-            cooldown_count=0,
-            note="共享 push lock 超时，本 tick 跳过 fetch/ff",
-        )
-        return
-
     # Detect dup labels.
     dups = detect_dup_labels()
     if dups:
@@ -2612,6 +2423,10 @@ def main() -> int:
                   file=sys.stderr)
         cooldown_analysis_phase(dry_run=True, cooldowns_override=cooldowns)
         return 0
+
+    if not ensure_heal_worktree():
+        print("[heal] warning: dedicated heal worktree is not ready; cycle will retry",
+              file=sys.stderr)
 
     if args.once:
         cycle()
