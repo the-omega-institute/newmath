@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SimplicialApproximationUp
@@ -25,9 +26,9 @@ def simplicialApproximationDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (simplicialApproximationDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (simplicialApproximationDecodeBHist tail)
 
-private theorem simplicialApproximationDecode_encode_bhist :
-    ∀ h : BHist, simplicialApproximationDecodeBHist
-      (simplicialApproximationEncodeBHist h) = h := by
+private theorem SimplicialApproximationUpTasteGate_single_carrier_alignment_decode :
+    ∀ h : BHist,
+      simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -40,66 +41,35 @@ def simplicialApproximationFields : SimplicialApproximationUp → List BHist
   | SimplicialApproximationUp.mk K L S V F T B M H C P N =>
       [K, L, S, V, F, T, B, M, H, C, P, N]
 
-def simplicialApproximationToEventFlow : SimplicialApproximationUp → EventFlow
+def simplicialApproximationToEventFlow : SimplicialApproximationUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (simplicialApproximationFields x).map simplicialApproximationEncodeBHist
+  fun x => (simplicialApproximationFields x).map simplicialApproximationEncodeBHist
 
-def simplicialApproximationFromEventFlow : EventFlow → Option SimplicialApproximationUp
+private def simplicialApproximationEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | K :: rest0 =>
-      match rest0 with
-      | [] => none
-      | L :: rest1 =>
-          match rest1 with
-          | [] => none
-          | S :: rest2 =>
-              match rest2 with
-              | [] => none
-              | V :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | F :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | T :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | B :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | M :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | H :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | C :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | P :: rest10 =>
-                                              match rest10 with
-                                              | [] => none
-                                              | N :: rest11 =>
-                                                  match rest11 with
-                                                  | [] =>
-                                                      some
-                                                        (SimplicialApproximationUp.mk
-                                                          (simplicialApproximationDecodeBHist K)
-                                                          (simplicialApproximationDecodeBHist L)
-                                                          (simplicialApproximationDecodeBHist S)
-                                                          (simplicialApproximationDecodeBHist V)
-                                                          (simplicialApproximationDecodeBHist F)
-                                                          (simplicialApproximationDecodeBHist T)
-                                                          (simplicialApproximationDecodeBHist B)
-                                                          (simplicialApproximationDecodeBHist M)
-                                                          (simplicialApproximationDecodeBHist H)
-                                                          (simplicialApproximationDecodeBHist C)
-                                                          (simplicialApproximationDecodeBHist P)
-                                                          (simplicialApproximationDecodeBHist N))
-                                                  | _ :: _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => simplicialApproximationEventAtDefault index rest
 
-private theorem simplicialApproximation_round_trip :
+def simplicialApproximationFromEventFlow (ef : EventFlow) : Option SimplicialApproximationUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (SimplicialApproximationUp.mk
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 0 ef))
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 1 ef))
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 2 ef))
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 3 ef))
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 4 ef))
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 5 ef))
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 6 ef))
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 7 ef))
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 8 ef))
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 9 ef))
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 10 ef))
+      (simplicialApproximationDecodeBHist (simplicialApproximationEventAtDefault 11 ef)))
+
+private theorem SimplicialApproximationUpTasteGate_single_carrier_alignment_round_trip :
     ∀ x : SimplicialApproximationUp,
       simplicialApproximationFromEventFlow (simplicialApproximationToEventFlow x) =
         some x := by
@@ -109,34 +79,34 @@ private theorem simplicialApproximation_round_trip :
   | mk K L S V F T B M H C P N =>
       change
         some
-          (SimplicialApproximationUp.mk
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist K))
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist L))
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist S))
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist V))
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist F))
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist T))
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist B))
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist M))
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist H))
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist C))
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist P))
-            (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist N))) =
+            (SimplicialApproximationUp.mk
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist K))
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist L))
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist S))
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist V))
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist F))
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist T))
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist B))
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist M))
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist H))
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist C))
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist P))
+              (simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist N))) =
           some (SimplicialApproximationUp.mk K L S V F T B M H C P N)
-      rw [simplicialApproximationDecode_encode_bhist K,
-        simplicialApproximationDecode_encode_bhist L,
-        simplicialApproximationDecode_encode_bhist S,
-        simplicialApproximationDecode_encode_bhist V,
-        simplicialApproximationDecode_encode_bhist F,
-        simplicialApproximationDecode_encode_bhist T,
-        simplicialApproximationDecode_encode_bhist B,
-        simplicialApproximationDecode_encode_bhist M,
-        simplicialApproximationDecode_encode_bhist H,
-        simplicialApproximationDecode_encode_bhist C,
-        simplicialApproximationDecode_encode_bhist P,
-        simplicialApproximationDecode_encode_bhist N]
+      rw [SimplicialApproximationUpTasteGate_single_carrier_alignment_decode K,
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_decode L,
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_decode S,
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_decode V,
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_decode F,
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_decode T,
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_decode B,
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_decode M,
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_decode H,
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_decode C,
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_decode P,
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_decode N]
 
-private theorem simplicialApproximationToEventFlow_injective
+private theorem SimplicialApproximationUpTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : SimplicialApproximationUp} :
     simplicialApproximationToEventFlow x = simplicialApproximationToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -146,10 +116,12 @@ private theorem simplicialApproximationToEventFlow_injective
         simplicialApproximationFromEventFlow (simplicialApproximationToEventFlow y) :=
     congrArg simplicialApproximationFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (simplicialApproximation_round_trip x).symm
-      (Eq.trans hread (simplicialApproximation_round_trip y)))
+    (Eq.trans
+      (SimplicialApproximationUpTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (SimplicialApproximationUpTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem simplicialApproximation_fields_faithful :
+private theorem SimplicialApproximationUpTasteGate_single_carrier_alignment_fields :
     ∀ x y : SimplicialApproximationUp,
       simplicialApproximationFields x = simplicialApproximationFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -171,31 +143,53 @@ instance simplicialApproximationChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      simplicialApproximationFromEventFlow (simplicialApproximationToEventFlow x) =
-        some x
-    exact simplicialApproximation_round_trip x
+    change simplicialApproximationFromEventFlow (simplicialApproximationToEventFlow x) =
+      some x
+    exact SimplicialApproximationUpTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (simplicialApproximationToEventFlow_injective heq)
+    exact hxy
+      (SimplicialApproximationUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance simplicialApproximationFieldFaithful : FieldFaithful SimplicialApproximationUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := simplicialApproximationFields
-  field_faithful := simplicialApproximation_fields_faithful
+  field_faithful := SimplicialApproximationUpTasteGate_single_carrier_alignment_fields
 
 instance simplicialApproximationNontrivial : Nontrivial SimplicialApproximationUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨SimplicialApproximationUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      SimplicialApproximationUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty,
+      SimplicialApproximationUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
+
+def taste_gate : ChapterTasteGate SimplicialApproximationUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  simplicialApproximationChapterTasteGate
+
+theorem SimplicialApproximationUpTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      simplicialApproximationDecodeBHist (simplicialApproximationEncodeBHist h) = h) ∧
+      (∀ x : SimplicialApproximationUp,
+        simplicialApproximationFromEventFlow (simplicialApproximationToEventFlow x) =
+          some x) ∧
+        (∀ x y : SimplicialApproximationUp,
+          simplicialApproximationToEventFlow x = simplicialApproximationToEventFlow y →
+            x = y) ∧
+          simplicialApproximationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨SimplicialApproximationUpTasteGate_single_carrier_alignment_decode,
+      SimplicialApproximationUpTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        SimplicialApproximationUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 theorem SimplicialApproximationTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate SimplicialApproximationUp) ∧
@@ -216,9 +210,9 @@ theorem SimplicialApproximationTasteGate_single_carrier_alignment :
     · constructor
       · exact ⟨simplicialApproximationNontrivial⟩
       · constructor
-        · exact simplicialApproximationDecode_encode_bhist
+        · exact SimplicialApproximationUpTasteGate_single_carrier_alignment_decode
         · constructor
-          · exact simplicialApproximation_round_trip
+          · exact SimplicialApproximationUpTasteGate_single_carrier_alignment_round_trip
           · rfl
 
 end BEDC.Derived.SimplicialApproximationUp
