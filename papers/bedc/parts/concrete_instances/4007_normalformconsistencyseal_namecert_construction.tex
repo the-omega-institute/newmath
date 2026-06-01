@@ -124,6 +124,36 @@ stronger subject-reduction route.
 \end{proof}
 \leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealClosedNormalFrontier}
 
+\begin{theorem}[Normal-form consistency seal constructor frontier]
+\label{thm:normalformconsistencyseal-constructor-frontier}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
+$\NormalFormConsistencySealUp$ packet. The constructor frontier exported by
+$S$ is exactly the closed-normal contradiction route through
+$T,F,N,K,H,C,P,L$. The subject-reduction row $X$ remains a boundary citation:
+no beta, application, lambda, or Pi constructor discharge is internal to the
+seal.
+\end{theorem}
+\begin{proof}
+Read the carrier of
+\autoref{def:normal-form-consistency-seal-carrier}. The rows $T,F,N,K$
+provide the typed closed-normal false candidate and the checked
+closed-normal theorem row, while $H,C,P,L$ transport, replay, source, and
+name that same finite route.
+
+Apply the obligation theorem
+\autoref{thm:normal-form-consistency-seal-obligations}. Its readback clause
+keeps $K$ tied to the displayed typing, false-type, and beta-strong normality
+rows, and its non-escape clause prevents the boundary row $X$ from being read
+as a constructor discharge.
+
+Finally use the subject-reduction boundary and closed-normal frontier
+theorems, \autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}
+and \autoref{thm:normal-form-consistency-seal-closed-normal-frontier}. They
+leave beta, application, lambda, and Pi preservation obligations at the
+subject-reduction socket, so the seal exports only the closed-normal
+contradiction route and no internal discharge for those constructors.
+\end{proof}
+
 \begin{theorem}[Normal-form consistency seal finite-window determinacy]
 \label{thm:normal-form-consistency-seal-finite-window-determinacy}
 Let $S=(T,F,N,K,X,H,C,P,L)$ and $S'=(T',F',N',K',X',H',C',P',L')$ be accepted
@@ -185,6 +215,7 @@ the closed-normal theorem row is public inside the seal, while the lift to full
 closed consistency remains blocked until the subject-reduction socket is
 filled by its own discharge data.
 \end{theorem}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealVisionHandoff}
 \begin{proof}
 The vision chapter separates three items: the available closed-normal
 consistency theorem, the missing subject-reduction route, and the blocked full

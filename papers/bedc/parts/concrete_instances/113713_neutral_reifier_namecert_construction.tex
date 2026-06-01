@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\NeutralReifierUp$}
+\label{ch:concrete-instances-neutral-reifier-namecert}
+\origin{human}
+
+The $\NeutralReifierUp$ packet isolates the neutral-reflection and semantic readback component used by normalization-by-evaluation. It realizes the MetaCIC normalization audit route of \autoref{ch:metacic-normalization-audit-map} as finite neutral, semantic-value, readback, transport, replay, provenance, and local NameCert rows, while sitting beside the lambda-calculus certificate of \autoref{ch:concrete-instances-lambdacalc-namecert}, the candidate-mediated strong-normalization packet of \autoref{ch:concrete-instances-metacic-candidate-strong-normalization-namecert}, and the normalization-by-evaluation packet of \autoref{ch:concrete-instances-normalization-by-evaluation-namecert}. The packet names the reifier component only; it does not assert global normalization, unrestricted MetaCIC subject reduction, host evaluator soundness, or quotient equality of terms.
+
+\begin{definition}[NeutralReifier carrier]
+\label{def:neutral-reifier-carrier}
+A $\NeutralReifierUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,Z,V,U,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed neutral-term row, recording the context, type, and neutral spine presented to the reifier.
+\item $Z$ is the neutral-reflection row, naming variables, eliminator spines, and application heads that may be reflected into semantic values.
+\item $V$ is the semantic-value row produced by reflection or by a prior accepted evaluation packet.
+\item $U$ is the universe or type-level guard row controlling which readback shape is allowed for the displayed semantic value.
+\item $R$ is the readback row that produces a normal neutral or normal form from $Z,V,U$.
+\item $A$ is the audit-route row binding the packet to the candidate-mediated MetaCIC normalization route of \autoref{ch:metacic-normalization-audit-map}.
+\item $H$ records componentwise $\hsame$ transport for neutral terms, reflection rows, semantic values, type guards, readback rows, audit rows, replay, provenance, and local names.
+\item $C$ records displayed $\Cont$ replay from a requested reification read through $T,Z,V,U,R,A$.
+\item $P$ is the $\Pkg$ provenance over $\LambdaCalcUp$, $\MetaCICCandidateStrongNormalizationUp$, $\NormalizationByEvaluationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\NeutralReifierUp}$ row.
+\end{enumerate}
+The classifier accepts the packet only when neutral reflection and readback remain finite displayed rows tied to the audit route. It has no slot for a host normalizer, a semantic equality oracle, a quotient of terms, or an unconditional strong-normalization theorem.
+\end{definition}
+
+\begin{theorem}[NeutralReifier NameCert obligations]
+\label{thm:neutral-reifier-namecert-obligations}
+For every accepted $\NeutralReifierUp$ carrier $Q=(T,Z,V,U,R,A,H,C,P,N)$, the local $\NameCert_{\NeutralReifierUp}$ surface consists of the following six rows:
+\begin{enumerate}
+\item carrier admission for neutral terms, neutral reflection, semantic values, type guards, readback, audit-route, transport, replay, provenance, and local naming;
+\item neutral reflection, requiring every reflected variable or eliminator spine in $Z$ to be tied to the displayed context and typed neutral term row $T$;
+\item semantic value admission, requiring $V$ to arise from reflection or from an accepted evaluation packet named in the provenance row;
+\item guarded readback, requiring $R$ to read $Z,V,U$ before producing a normal neutral or normal form;
+\item transport and replay stability, requiring componentwise $\hsame$ and displayed $\Cont$ to preserve the same $T,Z,V,U,R,A$ route;
+\item audit nonescape, excluding host normalization oracles, semantic equality oracles, quotient syntax equality, unrestricted subject reduction, and evidence-free strong normalization.
+\end{enumerate}
+No consumer of the packet receives any stronger MetaCIC normalization claim than these rows display.
+\end{theorem}
+\begin{proof}
+Carrier admission is immediate from \autoref{def:neutral-reifier-carrier}. The tuple exposes neutral terms, reflection, semantic values, type guards, readback, the audit route, transport, replay, provenance, and local naming as the only rows.
+
+Neutral reflection is tied to $T$ and $Z$. Variables and eliminator spines are reflected only through the displayed context and typed neutral surface, so the packet cannot create a semantic value without a visible neutral source.
+
+Semantic admission and guarded readback then pass through $V,U,R$. The value row is either reflected from $Z$ or imported through an accepted evaluation packet named by $P$, and the readback row must consume the displayed type guard before producing syntax.
+
+Transport and replay stability use $H$ and $C$. These rows move the same neutral, semantic-value, type-guard, readback, and audit-route coordinates together, preserving the route into \autoref{ch:metacic-normalization-audit-map}.
+
+The audit row $A$, provenance $P$, and local name $N$ keep the packet at the reifier component boundary. Since the carrier has no coordinate for a host normalizer, semantic equality oracle, quotient syntax equality, unrestricted subject reduction, or evidence-free strong normalization, the obligation surface is exactly the six rows listed.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\NeutralReifierUp$ readback factors through the neutral-term row, neutral-reflection row, semantic-value row, type guard, readback row, MetaCIC audit-route row, componentwise transport, continuation replay, provenance, and local $\NameCert$ before any consumer may cite a normal neutral or normal form.}
+
+\independenceWitness{lambdacalc, metacic-candidate-strong-normalization, normalization-by-evaluation: $\NeutralReifierUp$ is not bijective to any listed sibling because it isolates neutral reflection, guarded readback, and MetaCIC audit-route replay as one packet. LambdaCalcUp has beta syntax without semantic reification; MetaCICCandidateStrongNormalizationUp has candidate evidence without reifier rows; NormalizationByEvaluationUp includes full evaluation and substitution stability beyond the neutral reifier component.}
+
+\closureat{NeutralReifierUp}{seedStr}
+
+\begin{closurestatus}{\NeutralReifierUp}
+  \constructivestory{A $\NeutralReifierUp$ packet is generated from a typed neutral-term row, neutral-reflection row, semantic-value row, type guard, readback row, MetaCIC audit-route row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:neutral-reifier-carrier} and \autoref{thm:neutral-reifier-namecert-obligations} seed the finite neutral-reflection and readback component for the MetaCIC normalization audit route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted MetaCIC normalization, subject reduction, global confluence, semantic equality, quotient syntax equality, host evaluator soundness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, neutral reflection, semantic-value admission, guarded readback, transport stability, and audit nonescape for BEDC.Derived.NeutralReifierUp.}
+\end{closurestatus}

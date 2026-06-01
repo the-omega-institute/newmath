@@ -103,6 +103,33 @@ structure DeclFingerprint where
   reducedFingerprint : String
 deriving Repr
 
+structure LambdaBinder where
+  binderInfo : String
+  typePayload : String
+deriving Repr, BEq
+
+structure ClassifierView where
+  name : String
+  params : List Name
+  reducedExpr : Expr
+  lambdaBinders : List LambdaBinder
+  body : Expr
+  bodyFp : String
+  fullReducedFp : String
+deriving Repr
+
+structure ConjunctLeaf where
+  path : String
+  expr : Expr
+  exprFp : String
+  isTrivial : Bool
+deriving Repr
+
+structure DedupConjuncts where
+  uniqueFps : List String
+  duplicateFps : List String
+deriving Repr
+
 partial def collectLams : Expr → Nat × Expr
   | .lam _ _ body _ =>
       let (n, inner) := collectLams body
@@ -150,11 +177,24 @@ partial def fixedPointReduce (fuel : Nat) (e : Expr) : MetaM Expr := do
       else
         fixedPointReduce fuel etaReduced
 
-def reducedValueFingerprint (env : Environment) (params : List Name) (value : Expr) : IO String := do
+def runMetaWithEnv {α : Type} (env : Environment) (x : MetaM α) : IO (Except Exception α) := do
   let coreCtx : Core.Context := { fileName := "structural_dna", fileMap := default }
   let coreState : Core.State := { env := env }
-  match ← ((fixedPointReduce 16 value).run {} {} |>.run coreCtx coreState).toIO' with
-  | .ok ((reduced, _), _) => return exprFingerprint params reduced
+  match ← (x.run {} {} |>.run coreCtx coreState).toIO' with
+  | .ok ((value, _), _) => return .ok value
+  | .error err => return .error err
+
+def canonicalValue (env : Environment) (info : ConstantInfo) : IO (Option Expr) := do
+  match info.value? (allowOpaque := true) with
+  | none => return none
+  | some value =>
+      match ← runMetaWithEnv env (fixedPointReduce 16 value) with
+      | .ok reduced => return some reduced
+      | .error _ => return some (etaReduceValue value)
+
+def reducedValueFingerprint (env : Environment) (params : List Name) (value : Expr) : IO String := do
+  match ← runMetaWithEnv env (fixedPointReduce 16 value) with
+  | .ok reduced => return exprFingerprint params reduced
   | .error _ => return exprFingerprint params (etaReduceValue value)
 
 def isTheoremConstant (info : ConstantInfo) : Bool :=
@@ -163,11 +203,241 @@ def isTheoremConstant (info : ConstantInfo) : Bool :=
   | _ => false
 
 def valueIsProof (env : Environment) (value : Expr) : IO Bool := do
-  let coreCtx : Core.Context := { fileName := "structural_dna", fileMap := default }
-  let coreState : Core.State := { env := env }
-  match ← ((Meta.isProof value).run {} {} |>.run coreCtx coreState).toIO' with
-  | .ok ((isProof, _), _) => return isProof
+  match ← runMetaWithEnv env (Meta.isProof value) with
+  | .ok isProof => return isProof
   | .error _ => return false
+
+partial def stripLeadingLambdas (params : List Name) (e : Expr) : List LambdaBinder × Expr :=
+  match e with
+  | .lam _ ty body bi =>
+      let (binders, inner) := stripLeadingLambdas params body
+      ({
+        binderInfo := binderInfoPayload bi,
+        typePayload := exprPayload params ty
+      } :: binders, inner)
+  | .mdata _ inner => stripLeadingLambdas params inner
+  | other => ([], other)
+
+def classifierView (env : Environment) (info : ConstantInfo) : IO (Option ClassifierView) := do
+  if isTheoremConstant info then
+    return none
+  else
+    match info.value? (allowOpaque := true) with
+    | none => return none
+    | some value =>
+        if ← valueIsProof env value then
+          return none
+        else
+          match ← canonicalValue env info with
+          | none => return none
+          | some reduced =>
+              let params := info.levelParams
+              let (binders, body) := stripLeadingLambdas params reduced
+              return some {
+                name := info.name.toString,
+                params := params,
+                reducedExpr := reduced,
+                lambdaBinders := binders,
+                body := body,
+                bodyFp := exprFingerprint params body,
+                fullReducedFp := exprFingerprint params reduced
+              }
+
+def isAndExpr (e : Expr) : Option (Expr × Expr) :=
+  let (head, args) := appHeadArgs e
+  match head, args with
+  | .const ``And _, [left, right] => some (left, right)
+  | _, _ => none
+
+def isClosedTerm (e : Expr) : Bool :=
+  !e.hasLooseBVars && !e.hasFVar && !e.hasExprMVar
+
+def isReflexiveEq (params : List Name) (e : Expr) : Bool :=
+  match appHeadArgs e with
+  | (.const ``Eq _, [_type, left, right]) => exprPayload params left == exprPayload params right
+  | _ => false
+
+partial def isConstantTrueBranch : Expr → Bool
+  | .mdata _ e => isConstantTrueBranch e
+  | .const ``True _ => true
+  | .lam _ _ body _ => isConstantTrueBranch body
+  | _ => false
+
+def isMatchTrueRecursorLeaf (e : Expr) : Bool :=
+  match appHeadArgs e with
+  | (.lam _ _ _ _, args) =>
+      args.length >= 3 && (args.drop 2).all isConstantTrueBranch
+  | (.const name _, args) =>
+      (`rec).isSuffixOf name && args.length >= 4 && (args.drop 1).dropLast.all isConstantTrueBranch
+  | _ => false
+
+partial def containsMatchTrueRecursorLeaf : Expr → Bool
+  | .mdata _ e => containsMatchTrueRecursorLeaf e
+  | .app f a =>
+      isMatchTrueRecursorLeaf (.app f a)
+        || containsMatchTrueRecursorLeaf f
+        || containsMatchTrueRecursorLeaf a
+  | .lam _ ty body _ =>
+      containsMatchTrueRecursorLeaf ty || containsMatchTrueRecursorLeaf body
+  | .forallE _ ty body _ =>
+      containsMatchTrueRecursorLeaf ty || containsMatchTrueRecursorLeaf body
+  | .letE _ ty val body _ =>
+      containsMatchTrueRecursorLeaf ty
+        || containsMatchTrueRecursorLeaf val
+        || containsMatchTrueRecursorLeaf body
+  | .proj _ _ e => containsMatchTrueRecursorLeaf e
+  | _ => false
+
+partial def isTrivialLeaf (params : List Name) : Expr → Bool
+  | .mdata _ e => isTrivialLeaf params e
+  | .sort _ => true
+  | .bvar _ => true
+  | .const ``True _ => true
+  | .const ``False _ => true
+  | other => isReflexiveEq params other || containsMatchTrueRecursorLeaf other
+
+partial def flattenAndWithPath (params : List Name) (path : String) (e : Expr) :
+    List ConjunctLeaf :=
+  match e with
+  | .mdata _ inner => flattenAndWithPath params path inner
+  | other =>
+      match isAndExpr other with
+      | some (left, right) =>
+          flattenAndWithPath params (path ++ ".and.left") left ++
+            flattenAndWithPath params (path ++ ".and.right") right
+      | none =>
+          [{
+            path := path,
+            expr := other,
+            exprFp := exprFingerprint params other,
+            isTrivial := isTrivialLeaf params other
+          }]
+
+def flattenAnd (view : ClassifierView) : List ConjunctLeaf :=
+  flattenAndWithPath view.params "body" view.body
+
+def containsString (items : List String) (item : String) : Bool :=
+  items.any (fun other => other == item)
+
+def pushUniqueString (items : List String) (item : String) : List String :=
+  if containsString items item then items else item :: items
+
+def uniqueStrings (items : List String) : List String :=
+  items.foldl pushUniqueString [] |>.reverse
+
+def dedupStrings (items : List String) : DedupConjuncts :=
+  let (seen, duplicates) := items.foldl
+    (fun (state : List String × List String) item =>
+      let (seen, duplicates) := state
+      if containsString seen item then
+        (seen, pushUniqueString duplicates item)
+      else
+        (item :: seen, duplicates))
+    ([], [])
+  { uniqueFps := seen.reverse, duplicateFps := duplicates.reverse }
+
+def leafFps (leaves : List ConjunctLeaf) : List String :=
+  uniqueStrings (leaves.map (·.exprFp))
+
+def nontrivialLeafFps (leaves : List ConjunctLeaf) : List String :=
+  uniqueStrings ((leaves.filter (fun leaf => !leaf.isTrivial)).map (·.exprFp))
+
+def binderSignatureFp (binders : List LambdaBinder) : String :=
+  stableHash (joinPayload "lambda-binders" (
+    binders.map (fun b => joinPayload "binder" [b.binderInfo, b.typePayload])
+  ))
+
+def normalizerJson : Json :=
+  Json.mkObj [
+    ("beta", Json.bool true),
+    ("eta", Json.bool true),
+    ("zeta", Json.bool true),
+    ("transparent_unfolding", Json.bool true),
+    ("fuel", toJson (16 : Nat))
+  ]
+
+def relationEvidenceJson
+    (candidate : ClassifierView)
+    (prior : ClassifierView)
+    (priorLeaves : List ConjunctLeaf)
+    (priorSet : DedupConjuncts)
+    (candidateSet : DedupConjuncts)
+    (matchedLeaves : List ConjunctLeaf)
+    (extraCount : Nat)
+    (candidateLeaves : List ConjunctLeaf) : Json :=
+  let matchedPaths := matchedLeaves.map (·.path)
+  let firstMatchedPath := matchedPaths.head?.getD ""
+  Json.mkObj [
+    ("normal_form", Json.str "reduced_value"),
+    ("binder_arity", toJson candidate.lambdaBinders.length),
+    ("binder_signature_fp", Json.str (binderSignatureFp candidate.lambdaBinders)),
+    ("prior_body_fp", Json.str prior.bodyFp),
+    ("candidate_body_fp", Json.str candidate.bodyFp),
+    ("matched_conjunct_path", Json.str firstMatchedPath),
+    ("matched_path", Json.str firstMatchedPath),
+    ("matched_conjunct_paths", toJson matchedPaths),
+    ("prior_conjunct_paths", toJson (priorLeaves.map (·.path))),
+    ("prior_conjunct_fps", toJson (leafFps priorLeaves)),
+    ("prior_unique_conjunct_fps", toJson priorSet.uniqueFps),
+    ("candidate_unique_conjunct_fps", toJson candidateSet.uniqueFps),
+    ("duplicate_conjunct", Json.bool (
+      !priorSet.duplicateFps.isEmpty || !candidateSet.duplicateFps.isEmpty)),
+    ("prior_duplicate_conjunct_fps", toJson priorSet.duplicateFps),
+    ("candidate_duplicate_conjunct_fps", toJson candidateSet.duplicateFps),
+    ("conjunct_semantics", Json.str "set_inclusion_after_dedup"),
+    ("trivial_filter_scope", Json.str
+      ("syntactic, definitional, and reduced reflexive equality by operand payload; "
+        ++ "general propositional triviality is undecidable and is not claimed complete")),
+    ("extra_conjunct_count", toJson extraCount),
+    ("candidate_conjunct_fps", toJson (candidateLeaves.map (·.exprFp)))
+  ]
+
+def conjunctiveRefinementJson
+    (candidateName priorName : String)
+    (candidate prior : ClassifierView) : Option Json :=
+  if candidate.lambdaBinders != prior.lambdaBinders then
+    none
+  else
+    let candidateLeaves := flattenAnd candidate
+    let priorLeaves := flattenAnd prior
+    if priorLeaves.any (fun leaf => leaf.isTrivial) then
+      none
+    else
+      let priorSet := dedupStrings (priorLeaves.map (·.exprFp))
+      let candidateSet := dedupStrings (
+        (candidateLeaves.filter (fun leaf => !leaf.isTrivial)).map (·.exprFp))
+      let priorFps := priorSet.uniqueFps
+      let candidateFps := candidateSet.uniqueFps
+      let includesPrior := priorFps.all (fun fp => containsString candidateFps fp)
+      let extraCount := (candidateFps.filter (fun fp => !containsString priorFps fp)).length
+      let matchedLeaves :=
+        (candidateLeaves.filter
+          (fun leaf => !leaf.isTrivial && containsString priorFps leaf.exprFp)).mergeSort
+          (fun a b => a.path < b.path)
+      match matchedLeaves with
+      | [] => none
+      | _ =>
+        if !includesPrior || extraCount == 0 then
+          none
+        else
+          some (Json.mkObj [
+            ("relation", Json.str "conjunctive_refinement"),
+            ("direction", Json.str "candidate_implies_prior"),
+            ("grade_semantics", Json.str "semantic_projection"),
+            ("provenance_semantics", Json.str
+              "positive provenance evidence; not a discovery certificate"),
+            ("prior", Json.str priorName),
+            ("candidate", Json.str candidateName),
+            ("evidence", relationEvidenceJson
+              candidate
+              prior
+              priorLeaves
+              priorSet
+              candidateSet
+              matchedLeaves
+              extraCount
+              candidateLeaves)
+          ])
 
 def declFingerprint (env : Environment) (info : ConstantInfo) : IO DeclFingerprint := do
   let params := info.levelParams
@@ -231,21 +501,53 @@ def parseJsonStringArray (j : Json) (field : String) : Except String (Array Stri
   let arr ← (← j.getObjVal? field).getArr?
   arr.mapM (fun item => item.getStr?)
 
-def readRequest (argv : List String) : IO (Array String × Array String) := do
+structure FingerprintRequest where
+  imports : Array String
+  decls : Array String
+
+structure RelationRequest where
+  imports : Array String
+  candidates : Array String
+  priors : Array String
+
+inductive Request where
+  | fingerprints : FingerprintRequest → Request
+  | relations : RelationRequest → Request
+
+def parseRelationRequest (j : Json) : Except String RelationRequest := do
+  let imports ←
+    match parseJsonStringArray j "imports" with
+    | .ok imports => pure imports
+    | .error _ => pure #["BEDC"]
+  let relationObj ←
+    match j.getObjVal? "relations" with
+    | .ok relationObj => pure relationObj
+    | .error _ => pure j
+  let candidates ← parseJsonStringArray relationObj "candidates"
+  let priors ← parseJsonStringArray relationObj "priors"
+  return { imports := imports, candidates := candidates, priors := priors }
+
+def readRequest (argv : List String) : IO Request := do
   if argv.length > 0 then
     let imports := ((argv.getD 0 "").splitOn ",").filter (· ≠ "")
     let decls := ((argv.getD 1 "").splitOn ",").filter (· ≠ "")
-    return (imports.toArray, decls.toArray)
+    return .fingerprints { imports := imports.toArray, decls := decls.toArray }
   else
     let stdin ← IO.getStdin
     let raw ← stdin.readToEnd
     match Json.parse raw with
     | .error err => throw (IO.userError s!"invalid JSON request: {err}")
     | .ok j =>
-        match parseJsonStringArray j "imports", parseJsonStringArray j "decls" with
-        | .ok imports, .ok decls => return (imports, decls)
-        | .error err, _ => throw (IO.userError s!"invalid imports field: {err}")
-        | _, .error err => throw (IO.userError s!"invalid decls field: {err}")
+        if (j.getObjVal? "relations").isOk || (j.getObjVal? "candidates").isOk then
+          match parseRelationRequest j with
+          | .ok request => return .relations request
+          | .error err => throw (IO.userError s!"invalid relations request: {err}")
+        else
+          match parseJsonStringArray j "imports", parseJsonStringArray j "decls" with
+          | .ok imports, .ok decls =>
+              return .fingerprints { imports := imports, decls := decls }
+          | .error err, _ => throw (IO.userError s!"invalid imports field: {err}")
+          | _, .error err => throw (IO.userError s!"invalid decls field: {err}")
 
 def importSpec (moduleName : String) : Import :=
   { module := moduleName.toName, importAll := false, isExported := true, isMeta := false }
@@ -273,6 +575,37 @@ unsafe def fingerprintsJson (imports decls : Array String) : IO Json := do
           throw (IO.userError s!"declaration not found: {decl}")
     return Json.mkObj out.reverse
 
+unsafe def relationsJson (request : RelationRequest) : IO Json := do
+  withImportModules (request.imports.map importSpec) Options.empty fun env => do
+    let mut views : List (String × ClassifierView) := []
+    let names := (request.candidates.toList ++ request.priors.toList).eraseDups
+    for decl in names do
+      match env.find? decl.toName with
+      | some info =>
+          match ← classifierView env info with
+          | some view => views := (decl, view) :: views
+          | none => pure ()
+      | none => throw (IO.userError s!"declaration not found: {decl}")
+    let findView? (name : String) : Option ClassifierView :=
+      match views.find? (fun item => item.fst == name) with
+      | some item => some item.snd
+      | none => none
+    let mut relations : List Json := []
+    for candidateName in request.candidates do
+      for priorName in request.priors do
+        if candidateName != priorName then
+          match findView? candidateName, findView? priorName with
+          | some candidate, some prior =>
+              match conjunctiveRefinementJson candidateName priorName candidate prior with
+              | some relation => relations := relation :: relations
+              | none => pure ()
+          | _, _ => pure ()
+    return Json.mkObj [
+      ("schema", Json.str "bedc.structural_dna.relations"),
+      ("normalizer", normalizerJson),
+      ("relations", Json.arr (relations.reverse.toArray))
+    ]
+
 def testImports : Array String :=
   #["scripts.structural_dna.TestTargets"]
 
@@ -288,8 +621,27 @@ def testDecls : Array String :=
     "BEDC.StructuralDna.TestTargets.C1LetEta",
     "BEDC.StructuralDna.TestTargets.C1MidEta",
     "BEDC.StructuralDna.TestTargets.C1MultiEta",
+    "BEDC.StructuralDna.TestTargets.BaseClassifier",
+    "BEDC.StructuralDna.TestTargets.ExtendedClassifier",
+    "BEDC.StructuralDna.TestTargets.ReorderedClassifier",
+    "BEDC.StructuralDna.TestTargets.SharedOnlyClassifier",
+    "BEDC.StructuralDna.TestTargets.FixedShapeClassifier",
+    "BEDC.StructuralDna.TestTargets.ExtendedEtaClassifier",
+    "BEDC.StructuralDna.TestTargets.PairPriorClassifier",
+    "BEDC.StructuralDna.TestTargets.TripleCandidateClassifier",
     "BEDC.StructuralDna.TestTargets.HeadDependsClassifier",
     "BEDC.StructuralDna.TestTargets.Hollow",
+    "BEDC.StructuralDna.TestTargets.HollowRefiner",
+    "BEDC.StructuralDna.TestTargets.DefinitionalTrue",
+    "BEDC.StructuralDna.TestTargets.DefinitionalTrueRefiner",
+    "BEDC.StructuralDna.TestTargets.ReflexiveEqPrior",
+    "BEDC.StructuralDna.TestTargets.ReflexiveEqRefiner",
+    "BEDC.StructuralDna.TestTargets.ParamReflexiveEqPrior",
+    "BEDC.StructuralDna.TestTargets.ParamReflexiveEqRefiner",
+    "BEDC.StructuralDna.TestTargets.MatchTruePrior",
+    "BEDC.StructuralDna.TestTargets.MatchTrueRefiner",
+    "BEDC.StructuralDna.TestTargets.DuplicatePriorClassifier",
+    "BEDC.StructuralDna.TestTargets.DuplicateCandidateClassifier",
     "BEDC.StructuralDna.TestTargets.SomeP",
     "BEDC.StructuralDna.TestTargets.ExplicitArrow",
     "BEDC.StructuralDna.TestTargets.ImplicitArrow",
@@ -316,6 +668,139 @@ def getReducedFp! (items : List (String × DeclFingerprint)) (name : String) : I
 def printCheck (label : String) (ok : Bool) : IO Bool := do
   IO.println s!"{label}: {if ok then "PASS" else "FAIL"}"
   return ok
+
+def hasRelation (relations : List Json) (candidate prior relationName : String) : Bool :=
+  relations.any (fun item =>
+    match item.getObjVal? "candidate", item.getObjVal? "prior", item.getObjVal? "relation" with
+    | .ok c, .ok p, .ok r =>
+        c.getStr?.toOption == some candidate
+          && p.getStr?.toOption == some prior
+          && r.getStr?.toOption == some relationName
+    | _, _, _ => false)
+
+def relationHasProvenanceSemantics (relations : List Json) : Bool :=
+  relations.any (fun item =>
+    match item.getObjVal? "provenance_semantics" with
+    | .ok value =>
+        value.getStr?.toOption ==
+          some "positive provenance evidence; not a discovery certificate"
+    | .error _ => false)
+
+def relationEvidenceHasSetSemantics (relations : List Json) (candidate prior : String) : Bool :=
+  relations.any (fun item =>
+    match item.getObjVal? "candidate", item.getObjVal? "prior", item.getObjVal? "evidence" with
+    | .ok c, .ok p, .ok evidence =>
+        c.getStr?.toOption == some candidate
+          && p.getStr?.toOption == some prior
+          && (match evidence.getObjVal? "conjunct_semantics" with
+              | .ok value => value.getStr?.toOption == some "set_inclusion_after_dedup"
+              | .error _ => false)
+          && (match evidence.getObjVal? "prior_unique_conjunct_fps" with
+              | .ok value =>
+                  match value.getArr? with
+                  | .ok arr => arr.size > 0
+                  | .error _ => false
+              | .error _ => false)
+          && (match evidence.getObjVal? "duplicate_conjunct" with
+              | .ok value => value.getBool?.toOption == some true
+              | .error _ => false)
+    | _, _, _ => false)
+
+unsafe def relationSelfTest : IO Bool := do
+  let req : RelationRequest := {
+    imports := testImports
+    candidates := #[
+      "BEDC.StructuralDna.TestTargets.ExtendedClassifier",
+      "BEDC.StructuralDna.TestTargets.ReorderedClassifier",
+      "BEDC.StructuralDna.TestTargets.SharedOnlyClassifier",
+      "BEDC.StructuralDna.TestTargets.FixedShapeClassifier",
+      "BEDC.StructuralDna.TestTargets.ExtendedEtaClassifier",
+      "BEDC.StructuralDna.TestTargets.TripleCandidateClassifier",
+      "BEDC.StructuralDna.TestTargets.HollowRefiner",
+      "BEDC.StructuralDna.TestTargets.DefinitionalTrueRefiner",
+      "BEDC.StructuralDna.TestTargets.ReflexiveEqRefiner",
+      "BEDC.StructuralDna.TestTargets.ParamReflexiveEqRefiner",
+      "BEDC.StructuralDna.TestTargets.MatchTrueRefiner",
+      "BEDC.StructuralDna.TestTargets.DuplicateCandidateClassifier"
+    ]
+    priors := #[
+      "BEDC.StructuralDna.TestTargets.BaseClassifier",
+      "BEDC.StructuralDna.TestTargets.ExtendedClassifier",
+      "BEDC.StructuralDna.TestTargets.PairPriorClassifier",
+      "BEDC.StructuralDna.TestTargets.Hollow",
+      "BEDC.StructuralDna.TestTargets.DefinitionalTrue",
+      "BEDC.StructuralDna.TestTargets.ReflexiveEqPrior",
+      "BEDC.StructuralDna.TestTargets.ParamReflexiveEqPrior",
+      "BEDC.StructuralDna.TestTargets.MatchTruePrior",
+      "BEDC.StructuralDna.TestTargets.DuplicatePriorClassifier"
+    ]
+  }
+  let raw ← relationsJson req
+  let relations :=
+    match raw.getObjVal? "relations" with
+    | .ok rels =>
+        match rels.getArr? with
+        | .ok arr => arr.toList
+        | .error _ => []
+    | .error _ => []
+  let base := "BEDC.StructuralDna.TestTargets.BaseClassifier"
+  let extended := "BEDC.StructuralDna.TestTargets.ExtendedClassifier"
+  let reordered := "BEDC.StructuralDna.TestTargets.ReorderedClassifier"
+  let sharedOnly := "BEDC.StructuralDna.TestTargets.SharedOnlyClassifier"
+  let fixedShape := "BEDC.StructuralDna.TestTargets.FixedShapeClassifier"
+  let extendedEta := "BEDC.StructuralDna.TestTargets.ExtendedEtaClassifier"
+  let pairPrior := "BEDC.StructuralDna.TestTargets.PairPriorClassifier"
+  let tripleCandidate := "BEDC.StructuralDna.TestTargets.TripleCandidateClassifier"
+  let hollow := "BEDC.StructuralDna.TestTargets.Hollow"
+  let hollowRefiner := "BEDC.StructuralDna.TestTargets.HollowRefiner"
+  let definitionalTrue := "BEDC.StructuralDna.TestTargets.DefinitionalTrue"
+  let definitionalTrueRefiner := "BEDC.StructuralDna.TestTargets.DefinitionalTrueRefiner"
+  let reflexiveEqPrior := "BEDC.StructuralDna.TestTargets.ReflexiveEqPrior"
+  let reflexiveEqRefiner := "BEDC.StructuralDna.TestTargets.ReflexiveEqRefiner"
+  let paramReflexiveEqPrior := "BEDC.StructuralDna.TestTargets.ParamReflexiveEqPrior"
+  let paramReflexiveEqRefiner := "BEDC.StructuralDna.TestTargets.ParamReflexiveEqRefiner"
+  let matchTruePrior := "BEDC.StructuralDna.TestTargets.MatchTruePrior"
+  let matchTrueRefiner := "BEDC.StructuralDna.TestTargets.MatchTrueRefiner"
+  let duplicatePrior := "BEDC.StructuralDna.TestTargets.DuplicatePriorClassifier"
+  let duplicateCandidate := "BEDC.StructuralDna.TestTargets.DuplicateCandidateClassifier"
+  let r1 ← printCheck "R1 conjunctive refinement extension" (
+    hasRelation relations extended base "conjunctive_refinement"
+  )
+  let r2 ← printCheck "R2 conjunctive refinement reordered" (
+    hasRelation relations reordered base "conjunctive_refinement"
+  )
+  let r3 ← printCheck "R3 disjunction not refinement" (
+    !hasRelation relations sharedOnly base "conjunctive_refinement"
+  )
+  let r4 ← printCheck "R4 fixed shape not refinement" (
+    !hasRelation relations fixedShape base "conjunctive_refinement"
+  )
+  let r5 ← printCheck "R5 eta wrapper not positive relation" (
+    !hasRelation relations extendedEta extended "conjunctive_refinement"
+  )
+  let r6 ← printCheck "R6 prior conjunction set inclusion" (
+    hasRelation relations tripleCandidate pairPrior "conjunctive_refinement"
+  )
+  let r7 ← printCheck "R7 vacuous prior not positive relation" (
+    !hasRelation relations hollowRefiner hollow "conjunctive_refinement"
+  )
+  let r8 ← printCheck "R8 relation payload provenance semantics" (
+    relationHasProvenanceSemantics relations
+  )
+  let r9 ← printCheck "R9 reduced and reflexive trivial priors rejected" (
+    !hasRelation relations definitionalTrueRefiner definitionalTrue "conjunctive_refinement"
+    && !hasRelation relations reflexiveEqRefiner reflexiveEqPrior "conjunctive_refinement"
+    && !hasRelation relations matchTrueRefiner matchTruePrior "conjunctive_refinement"
+  )
+  let r10 ← printCheck "R10 duplicate conjunct set semantics" (
+    hasRelation relations duplicateCandidate duplicatePrior "conjunctive_refinement"
+    && relationEvidenceHasSetSemantics relations duplicateCandidate duplicatePrior
+  )
+  let r11 ← printCheck "R11 open binder reflexive equality prior rejected" (
+    !hasRelation relations paramReflexiveEqRefiner paramReflexiveEqPrior
+      "conjunctive_refinement"
+  )
+  return [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11].all id
 
 unsafe def runSelfTest : IO UInt32 := do
   let items ← withImportModules (testImports.map importSpec) Options.empty fun env => do
@@ -379,7 +864,8 @@ unsafe def runSelfTest : IO UInt32 := do
     && headDependsReduced != c1Reduced
     && headDependsReduced != c2Reduced
   )
-  return if [t1, t2, t3, t4, t5, t6, t7, t8, t10, t11].all id then 0 else 1
+  let relationTests ← relationSelfTest
+  return if [t1, t2, t3, t4, t5, t6, t7, t8, t10, t11, relationTests].all id then 0 else 1
 
 end BEDC.StructuralDna
 
@@ -388,7 +874,10 @@ unsafe def main (argv : List String) : IO UInt32 := do
   match argv with
   | ["--self-test"] => BEDC.StructuralDna.runSelfTest
   | _ =>
-      let (imports, decls) ← BEDC.StructuralDna.readRequest argv
-      let json ← BEDC.StructuralDna.fingerprintsJson imports decls
+      let request ← BEDC.StructuralDna.readRequest argv
+      let json ←
+        match request with
+        | .fingerprints req => BEDC.StructuralDna.fingerprintsJson req.imports req.decls
+        | .relations req => BEDC.StructuralDna.relationsJson req
       IO.println json.compress
       return 0

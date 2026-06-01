@@ -4,6 +4,8 @@
 
 The $\ScopedExplanationLedgerUp$ packet realizes the scoped black-box certification principle of \autoref{sec:visions-philosophy-scoped-certification-principle} as finite NameCert data. It records an explanation scope, the classifier rows valid inside that scope, the behavior ledger they cover, the global-ledger refusal row for uncovered behavior families, transport, replay, provenance, and local naming. The packet is an interpretability boundary: it certifies scoped explanation rows without pretending that a single classifier or natural-language summary eliminates global behavior residue.
 
+The scoped ledger consumes relation rows from \autoref{ch:concrete-instances-layeredrelationsite-namecert} and certificate compilation rows from \autoref{ch:concrete-instances-certificatecompiler-namecert} before it records behavior-family residue. Those sibling surfaces supply the relation-site and compiled-certificate inputs that the scoped classifier reads; the ledger row keeps the uncovered behavior families visible instead of converting compilation into a global explanation claim.
+
 \begin{definition}[Scoped explanation ledger carrier]
 \label{def:scoped-explanation-ledger-carrier}
 A $\ScopedExplanationLedgerUp$ carrier is a finite $\BHist$ packet
@@ -54,6 +56,18 @@ The residue row $F$ names the uncovered behavior, transfer, semantic, and verifi
 Thus global behavior coverage is unavailable from this carrier. It requires a separate carrier whose rows actually display the covered behavior family and common global ledger.
 \end{proof}
 
+\begin{theorem}[Scoped explanation ledger cannot-claim dependency]
+\label{thm:scoped-explanation-ledger-cannot-claim-dependency}
+The global-ledger refusal row $G$ of an accepted $\ScopedExplanationLedgerUp$ packet is consumed as refusal/export gating through \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}. A consumer may export the scoped explanation rows $\Omega,B,E,Q$ only as scoped rows; any claim that removes the global-ledger refusal must present a separate global carrier and pass the cannot-claim export gate before it can be named as an exported target.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:scoped-explanation-ledger-global-nonescape}. The row $G$ is not decorative metadata: it is the displayed refusal that blocks global behavior coverage from being read out of the scoped classifier.
+
+The cannot-claim export gate supplies the sibling discipline for that refusal. Its registry, refusal, export-decision, target, audit, transport, continuation, provenance, and local naming rows force a refused claim to remain visible before any target export is named.
+
+Transport the scoped explanation packet through $T,R,P,N$. These structural rows preserve the same refusal boundary, so a consumer can export the packet only as a scoped explanation ledger unless a separate global carrier discharges the refused coverage claim through the gate.
+\end{proof}
+
 \begin{theorem}[Scoped explanation ledger sibling independence]
 \label{thm:scoped-explanation-ledger-sibling-independence}
 The $\ScopedExplanationLedgerUp$ carrier is not bijective with any single classifier packet, relation packet, compiler packet, no-global-synchronization ledger, or machine-interface socket. Its public route requires the combined scope, behavior boundary, explanation object, scoped classifier, global-ledger refusal, residue, transport, replay, provenance, and local naming rows.
@@ -77,7 +91,7 @@ Therefore none of those siblings is bijective with the scoped explanation ledger
 \begin{closurestatus}{\ScopedExplanationLedgerUp}
   \constructivestory{A $\ScopedExplanationLedgerUp$ packet is generated from an explanation scope, behavior-family boundary, explanation object, scoped classifier, global-ledger refusal, not-claimed residue, componentwise hsame transport, displayed Cont replay, package provenance, and local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:scoped-explanation-ledger-carrier}, \autoref{thm:scoped-explanation-ledger-namecert-obligations}, \autoref{thm:scoped-explanation-ledger-global-nonescape}, and \autoref{thm:scoped-explanation-ledger-sibling-independence} seed the scoped explanation, classifier, refusal, residue, transport, replay, provenance, and local naming surface.}
+  \scopeclosed{\autoref{def:scoped-explanation-ledger-carrier}, \autoref{thm:scoped-explanation-ledger-namecert-obligations}, \autoref{thm:scoped-explanation-ledger-global-nonescape}, \autoref{thm:scoped-explanation-ledger-cannot-claim-dependency}, and \autoref{thm:scoped-explanation-ledger-sibling-independence} seed the scoped explanation, classifier, refusal, export-gating dependency, residue, transport, replay, provenance, and local naming surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, global black-box resolution, a universal classifier, global synchronization, open-domain behavior coverage, or a standard bridge.}

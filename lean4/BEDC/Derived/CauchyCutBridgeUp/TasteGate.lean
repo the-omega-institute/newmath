@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchyCutBridgeUp
+namespace BEDC.Derived.CauchyCutBridgeUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -38,30 +38,52 @@ def cauchyCutBridgeFields : CauchyCutBridgeUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | CauchyCutBridgeUp.mk Q L D W E H C P N => [Q, L, D, W, E, H, C, P, N]
 
-def cauchyCutBridgeToEventFlow : CauchyCutBridgeUp → EventFlow :=
+def cauchyCutBridgeToEventFlow : CauchyCutBridgeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (cauchyCutBridgeFields x).map cauchyCutBridgeEncodeBHist
+  | x => List.map cauchyCutBridgeEncodeBHist (cauchyCutBridgeFields x)
 
-private def cauchyCutBridgeEventAtDefault : Nat → EventFlow → RawEvent
+def cauchyCutBridgeFromEventFlow : EventFlow → Option CauchyCutBridgeUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchyCutBridgeEventAtDefault index rest
-
-def cauchyCutBridgeFromEventFlow (ef : EventFlow) : Option CauchyCutBridgeUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (CauchyCutBridgeUp.mk
-      (cauchyCutBridgeDecodeBHist (cauchyCutBridgeEventAtDefault 0 ef))
-      (cauchyCutBridgeDecodeBHist (cauchyCutBridgeEventAtDefault 1 ef))
-      (cauchyCutBridgeDecodeBHist (cauchyCutBridgeEventAtDefault 2 ef))
-      (cauchyCutBridgeDecodeBHist (cauchyCutBridgeEventAtDefault 3 ef))
-      (cauchyCutBridgeDecodeBHist (cauchyCutBridgeEventAtDefault 4 ef))
-      (cauchyCutBridgeDecodeBHist (cauchyCutBridgeEventAtDefault 5 ef))
-      (cauchyCutBridgeDecodeBHist (cauchyCutBridgeEventAtDefault 6 ef))
-      (cauchyCutBridgeDecodeBHist (cauchyCutBridgeEventAtDefault 7 ef))
-      (cauchyCutBridgeDecodeBHist (cauchyCutBridgeEventAtDefault 8 ef)))
+  | [] => none
+  | Q :: restQ =>
+      match restQ with
+      | [] => none
+      | L :: restL =>
+          match restL with
+          | [] => none
+          | D :: restD =>
+              match restD with
+              | [] => none
+              | W :: restW =>
+                  match restW with
+                  | [] => none
+                  | E :: restE =>
+                      match restE with
+                      | [] => none
+                      | H :: restH =>
+                          match restH with
+                          | [] => none
+                          | C :: restC =>
+                              match restC with
+                              | [] => none
+                              | P :: restP =>
+                                  match restP with
+                                  | [] => none
+                                  | N :: restN =>
+                                      match restN with
+                                      | [] =>
+                                          some
+                                            (CauchyCutBridgeUp.mk
+                                              (cauchyCutBridgeDecodeBHist Q)
+                                              (cauchyCutBridgeDecodeBHist L)
+                                              (cauchyCutBridgeDecodeBHist D)
+                                              (cauchyCutBridgeDecodeBHist W)
+                                              (cauchyCutBridgeDecodeBHist E)
+                                              (cauchyCutBridgeDecodeBHist H)
+                                              (cauchyCutBridgeDecodeBHist C)
+                                              (cauchyCutBridgeDecodeBHist P)
+                                              (cauchyCutBridgeDecodeBHist N))
+                                      | _ :: _ => none
 
 private theorem CauchyCutBridgeTasteGate_single_carrier_alignment_round_trip :
     ∀ x : CauchyCutBridgeUp,
@@ -93,7 +115,7 @@ private theorem CauchyCutBridgeTasteGate_single_carrier_alignment_round_trip :
         CauchyCutBridgeTasteGate_single_carrier_alignment_decode P,
         CauchyCutBridgeTasteGate_single_carrier_alignment_decode N]
 
-private theorem CauchyCutBridgeTasteGate_single_carrier_alignment_injective
+private theorem CauchyCutBridgeTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyCutBridgeUp} :
     cauchyCutBridgeToEventFlow x = cauchyCutBridgeToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -103,10 +125,19 @@ private theorem CauchyCutBridgeTasteGate_single_carrier_alignment_injective
         cauchyCutBridgeFromEventFlow (cauchyCutBridgeToEventFlow y) :=
     congrArg cauchyCutBridgeFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (CauchyCutBridgeTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (CauchyCutBridgeTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (CauchyCutBridgeTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (CauchyCutBridgeTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem CauchyCutBridgeTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : CauchyCutBridgeUp, cauchyCutBridgeFields x = cauchyCutBridgeFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk Q₁ L₁ D₁ W₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk Q₂ L₂ D₂ W₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
 instance cauchyCutBridgeBHistCarrier : BHistCarrier CauchyCutBridgeUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -121,12 +152,33 @@ instance cauchyCutBridgeChapterTasteGate : ChapterTasteGate CauchyCutBridgeUp wh
     exact CauchyCutBridgeTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (CauchyCutBridgeTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (CauchyCutBridgeTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+instance cauchyCutBridgeFieldFaithful : FieldFaithful CauchyCutBridgeUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := cauchyCutBridgeFields
+  field_faithful := CauchyCutBridgeTasteGate_single_carrier_alignment_fields_faithful
+
+def taste_gate : ChapterTasteGate CauchyCutBridgeUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cauchyCutBridgeChapterTasteGate
 
 theorem CauchyCutBridgeTasteGate_single_carrier_alignment :
-    ChapterTasteGate CauchyCutBridgeUp ∧
-      cauchyCutBridgeEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact ⟨cauchyCutBridgeChapterTasteGate, rfl⟩
+    (∀ h : BHist, cauchyCutBridgeDecodeBHist (cauchyCutBridgeEncodeBHist h) = h) ∧
+      (∀ x : CauchyCutBridgeUp,
+        cauchyCutBridgeFromEventFlow (cauchyCutBridgeToEventFlow x) = some x) ∧
+        (∀ x y : CauchyCutBridgeUp,
+          cauchyCutBridgeToEventFlow x = cauchyCutBridgeToEventFlow y → x = y) ∧
+          cauchyCutBridgeFields
+              (CauchyCutBridgeUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+            [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+              BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨CauchyCutBridgeTasteGate_single_carrier_alignment_decode,
+      CauchyCutBridgeTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ h => CauchyCutBridgeTasteGate_single_carrier_alignment_toEventFlow_injective h),
+      rfl⟩
 
-end BEDC.Derived.CauchyCutBridgeUp
+end BEDC.Derived.CauchyCutBridgeUp.TasteGate
