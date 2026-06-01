@@ -1,52 +1,5 @@
+\subsection{NameCert: self.claim}
+\label{sec:namecert-self_claim}
 \origin{ai}
 
-\subsection{Self-check boundary for ORF eligibility from start and stop enumeration}
-\label{sec:bioreality-self-claim-orf-eligibility-boundary}
-
-\paragraph{Local object.}
-This record concerns the claim identifier \texttt{self.claim} for the layer \texttt{orf\_eligibility}.  The biological object is deliberately narrow: eligibility of an open-reading-frame interval as tested by start and stop codon enumeration.  The packet is not a claim that translation occurred, that a protein folded, that a molecule was physically admissible, that a biological function exists, that a mechanism has been identified, or that a universal biological law has been found.  Its role is to keep the enumerative codon geometry and the biological interval contact separate.  The local self-check reports three checked gates and records the boundary sentence that no codon geometry is promoted across biological layers.
-
-\paragraph{Finite codon geometry held inside the packet.}
-The finite codon data used by the self-check are explicit.  The motif-compressed set $R$ has thirteen codons,
-$$
-\begin{aligned}
-R = \{&\texttt{AAA},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{CUA},\texttt{CUC},\texttt{CUG},\texttt{CUU},\texttt{UAA},\texttt{UAG},\texttt{UCA},\texttt{UGA},\texttt{UUA}\}.
-\end{aligned}
-$$
-The larger enumerated set $M$ has cardinality $20$ and is exactly the union of the recorded WNR and CUN components:
-$$
-\begin{aligned}
-M = \{&\texttt{AAA},\texttt{AAG},\texttt{ACA},\texttt{ACG},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{AUG},\texttt{CUA},\texttt{CUC},\\
-&\texttt{CUG},\texttt{CUU},\texttt{UAA},\texttt{UAG},\texttt{UCA},\texttt{UCG},\texttt{UGA},\texttt{UGG},\texttt{UUA},\texttt{UUG}\}.
-\end{aligned}
-$$
-The third-face saturation of $R$ gives the eighteen-codon list
-$$
-\begin{aligned}
-\operatorname{Sat}_{f3}(R)=\{&\texttt{AAA},\texttt{AAG},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{AUG},\texttt{CUA},\texttt{CUC},\texttt{CUG},\texttt{CUU},\\
-&\texttt{UAA},\texttt{UAG},\texttt{UCA},\texttt{UCG},\texttt{UGA},\texttt{UGG},\texttt{UUA},\texttt{UUG}\},
-\end{aligned}
-$$
-with empty third-face boundary.  Adding the two remaining codons $\texttt{ACA}$ and $\texttt{ACG}$ recovers $M$.  Thus the enumerative side is closed as a finite combinatorial computation, but this closure is not yet a biological observation.
-
-\paragraph{Quotient geometry.}
-The packet also records the finite quotient geometry used by the enumeration.  The $M$-level face vector is $(20,38,26,8,1)$.  The quotient has ten points, fourteen edges, six two-faces, and one three-cell, so its face vector is $(10,14,6,1)$.  The quotient point list is
-$$
-\begin{aligned}
-\pi(M)=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),\\
-&(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1)\}.
-\end{aligned}
-$$
-These numbers certify that the coordinate-side computation is finite and reproducible.  They do not by themselves say that any nucleotide interval exists in a genome, that a transcript was present, or that translation used the interval.
-
-\paragraph{Start-stop enumeration contact.}
-A separate window-enumeration run loaded one external nucleotide-window manifest dated $2026$-$05$-$25$.  It contained one input window and the classifier placed that one window by start and stop enumeration, so the finite classification count was $1$ out of $1$.  The scope of that run was \texttt{external\_window\_start\_stop\_enumeration\_only}; the recorded layer was \texttt{orf\_eligibility\_only}.  This establishes only that the supplied window was handled by the declared start-stop rule.  It does not upgrade the rule into translation evidence, protein structure evidence, physical chemistry, or function.
-
-\paragraph{Curated interval contact.}
-A stronger curated interval run used a finite dataset of $168$ rows from NCBI RefSeq GenBank XML CDS intervals for \textit{Escherichia coli} K-12 MG1655 accession \texttt{NC\_000913.3}, with snapshot date $2026$-$05$-$30$.  The required classes were present: boundary cases, matched non-ORF decoys, and positive curated ORFs.  The classifier identifier was \texttt{orf\_start\_stop\_window\_eligibility}; its rules were recorded as unmodified, with classifier rules, input classes, held-out splits, and baselines frozen before the external observation time $2026$-$05$-$30\,10{:}29{:}31+00{:}00$.
-
-\paragraph{Finite statistical checks.}
-Within that curated interval contact, $72$ positive intervals were accepted, giving accept rate $1.0$ and exact one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$.  The matched decoy side rejected $72$ of $72$ decoys, again with rate $1.0$ and the same upper-tail value $2.117582368135751\times 10^{-22}$.  The predeclared paired baseline comparison had $72$ wins in $72$ pairs, win rate $1.0$, and the same exact one-sided value.  Boundary cases were not promoted: $24$ boundary cases yielded $0$ promotions, so the promoted fraction was $0.0$.  Three held-out splits were recorded.  In the left, middle, and right locus folds, each split had $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$.
-
-\paragraph{Boundary verdict.}
-The self-claim is therefore a local audit of separation.  The finite codon sets, the quotient geometry, the one-window start-stop classification, and the $168$-row curated interval contact can support an ORF-eligibility statement only at the stated layer and only for the finite supplied observations.  No inference to translation realization, folding, physical admissibility, biological function, mechanism, or universality is licensed by the coordinate data or by the interval classifier alone.  Any such stronger assertion would require a further contact that directly measures or curates that stronger biological layer.  The absence of mismatches in this row means only that the packet did not violate its own separation rule; it is not evidence that the separation rule can be ignored.
+This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: forbidden\_pattern: literal\_backslash\_n\_escape\_in\_tex. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim self.claim and its experiment runs.

@@ -1702,6 +1702,7 @@ import BEDC.Derived.CauchyProductUp.WindowProductNonescape
 import BEDC.Derived.CauchyProductUp.WindowProductReadback
 import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
+import BEDC.Derived.CauchyQuotientCriterionUp.TasteGate
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyRateComparisonUp.TasteGate
 import BEDC.Derived.CauchyRateDominanceUp.TasteGate
@@ -2907,6 +2908,7 @@ import BEDC.Derived.DecidableRefutationBoundaryUp.NameCertObligations
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
+import BEDC.Derived.DecimalExpansionUp.CarryNormalizationTotality
 import BEDC.Derived.DecimalExpansionUp.CountableDenseConsumerHandoff
 import BEDC.Derived.DecimalExpansionUp.DigitCarryDeterminacy
 import BEDC.Derived.DecimalExpansionUp.DyadicComparisonHandoff
@@ -4083,6 +4085,7 @@ import BEDC.Derived.GapFailureBridgeAuditUp.TasteGate
 import BEDC.Derived.GapSocketBoundaryUp.TasteGate
 import BEDC.Derived.GaugeIntegralUp
 import BEDC.Derived.GaugeIntegralUp.TasteGate
+import BEDC.Derived.GaussBonnetBoundaryUp.TasteGate
 import BEDC.Derived.GaussTestUp.TasteGate
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeneratingFunctionUp.TasteGate
@@ -4325,11 +4328,13 @@ import BEDC.Derived.HyperspaceUp.FiniteHitDirectedCover
 import BEDC.Derived.HyperspaceUp.FiniteNetCarrierExhaustion
 import BEDC.Derived.HyperspaceUp.FiniteNetHit
 import BEDC.Derived.HyperspaceUp.HausdorffObligationSurface
+import BEDC.Derived.HyperspaceUp.NameCertObligationSurface
 import BEDC.Derived.HyperspaceUp.RootHausdorffFiniteWindow
 import BEDC.Derived.HyperspaceUp.RootVietorisNetBasis
 import BEDC.Derived.HyperspaceUp.TasteGate
 import BEDC.Derived.HyperspaceUp.ToleranceReadbackExhaustion
 import BEDC.Derived.HyperspaceUp.VietorisDownstreamDependency
+import BEDC.Derived.HyperspaceUp.VietorisFiniteWindowObligations
 import BEDC.Derived.HyperspaceUp.VietorisLocatedRealDependency
 import BEDC.Derived.HypothesisTestUp
 import BEDC.Derived.HypothesisUp
@@ -4685,6 +4690,7 @@ import BEDC.Derived.LocatedLimitUp.NameCertObligations
 import BEDC.Derived.LocatedLimitUp.RealSealRoute
 import BEDC.Derived.LocatedLimitUp.RegSeqRatReadbackStability
 import BEDC.Derived.LocatedLimitUp.TasteGate
+import BEDC.Derived.LocatedLimitUp.WindowScheduleExactness
 import BEDC.Derived.LocatedMetricCompletionUp.TasteGate
 import BEDC.Derived.LocatedMetricUp
 import BEDC.Derived.LocatedMetricUp.TasteGate
@@ -4946,6 +4952,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
 import BEDC.Derived.MetaCICCriticalPathUp.L10ReadinessLocalMinimality
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
+import BEDC.Derived.MetaCICCriticalPathUp.LeanHandoffSurface
 import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNameNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
@@ -5782,6 +5789,7 @@ import BEDC.Derived.PolishspaceUp.CompleteMetricSeparableSynthesis
 import BEDC.Derived.PolishspaceUp.CompleteMetricSourceLock
 import BEDC.Derived.PolishspaceUp.CompleteSeparableHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableMetricRow
+import BEDC.Derived.PolishspaceUp.CompleteSeparableNonescape
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRegSeqRatRealHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRoute
@@ -6288,6 +6296,7 @@ import BEDC.Derived.RealUniformEmbeddingUp.TasteGate
 import BEDC.Derived.RealUniformEntourageBaseUp.TasteGate
 import BEDC.Derived.RealUniformEntourageBasisUp.TasteGate
 import BEDC.Derived.RealUniformEntourageRefinementUp.TasteGate
+import BEDC.Derived.RealUniformSpaceUp.TasteGate
 import BEDC.Derived.RealUniformStructureUp
 import BEDC.Derived.RealUniformStructureUp.TasteGate
 import BEDC.Derived.RealUniformTailComparisonUp.TasteGate
