@@ -91,6 +91,19 @@ Regrouping adjacent binary product folds therefore changes only the displayed pa
 Since $R$ and $E$ are downstream of the fixed rows $W,D,P$, the regrouped read preserves the same final $\RegSeqRatUp$ readback and $\RealUp$ seal. The argument is projection from the accepted carrier, so no host finite-product operation or quotient stream equality is introduced.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy finite product projection stability]\label{thm:regular-cauchy-finite-product-projection-stability}
+For every accepted $\RegularCauchyFiniteProductUp$ carrier $K=(I,S,W,D,P,R,E,H,C,Q,N)$, projecting any component slot from $K$ factors through the same finite index row $I$, source family $S$, synchronized $\StreamNameUp$ window family $W$, dyadic product-budget ledger $D,P$, final $\RegSeqRatUp$ readback $R$, and $\RealUp$ seal $E$. Component projection can expose a component readback only through this displayed route; it cannot bypass the budget ledger or invoke host finite products, quotient stream equality, selected component representatives, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:regular-cauchy-finite-product-carrier}. The component slot is named by $I$, its source is a row of $S$, and every read serving the projection must pass through the synchronized window family $W$.
+
+Apply the tail-budget theorem \autoref{thm:regular-cauchy-finite-product-tail-budget}. It places every product-facing read through $I,S,W,D,P,R,E,H,C,Q,N$ before a component-facing consumer can inspect the result.
+
+Use budget associativity from \autoref{thm:regular-cauchy-finite-product-budget-associativity}. Regrouping the displayed fold may expose the requested component slot, but it preserves the same dyadic observations, product-budget ledger, final regular readback, and Real seal.
+
+The structural rows $H,C,Q,N$ transport, replay, source, and name only that displayed route. Since the carrier has no host finite-product coordinate, quotient stream equality, selected component representative, trichotomy, or ambient completeness theorem, projection stability is exhausted by the finite-product packet itself.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy finite product Real seal non-escape]\label{thm:regular-cauchy-finite-product-real-seal-nonescape}
 For every accepted $\RegularCauchyFiniteProductUp$ carrier $K$, the $\RealUp$ seal row exposed by $K$ is a downstream seal for the displayed finite route
 $$

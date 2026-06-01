@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.UniformConvergenceUp
+namespace BEDC.Derived.UniformConvergenceUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,8 +25,9 @@ def uniformConvergenceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (uniformConvergenceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (uniformConvergenceDecodeBHist tail)
 
-private theorem UniformConvergenceTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist, uniformConvergenceDecodeBHist (uniformConvergenceEncodeBHist h) = h := by
+private theorem uniformConvergence_decode_encode_bhist :
+    ∀ h : BHist,
+      uniformConvergenceDecodeBHist (uniformConvergenceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -42,29 +43,28 @@ def uniformConvergenceToEventFlow : UniformConvergenceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (uniformConvergenceFields x).map uniformConvergenceEncodeBHist
 
-private def uniformConvergenceEventAtDefault : Nat → EventFlow → RawEvent
+private def uniformConvergenceEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => uniformConvergenceEventAtDefault index rest
+  | Nat.succ index, _event :: rest => uniformConvergenceEventAt index rest
 
-def uniformConvergenceFromEventFlow : EventFlow → Option UniformConvergenceUp :=
+def uniformConvergenceFromEventFlow (flow : EventFlow) : Option UniformConvergenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (UniformConvergenceUp.mk
-        (uniformConvergenceDecodeBHist (uniformConvergenceEventAtDefault 0 ef))
-        (uniformConvergenceDecodeBHist (uniformConvergenceEventAtDefault 1 ef))
-        (uniformConvergenceDecodeBHist (uniformConvergenceEventAtDefault 2 ef))
-        (uniformConvergenceDecodeBHist (uniformConvergenceEventAtDefault 3 ef))
-        (uniformConvergenceDecodeBHist (uniformConvergenceEventAtDefault 4 ef))
-        (uniformConvergenceDecodeBHist (uniformConvergenceEventAtDefault 5 ef))
-        (uniformConvergenceDecodeBHist (uniformConvergenceEventAtDefault 6 ef))
-        (uniformConvergenceDecodeBHist (uniformConvergenceEventAtDefault 7 ef))
-        (uniformConvergenceDecodeBHist (uniformConvergenceEventAtDefault 8 ef)))
+  some
+    (UniformConvergenceUp.mk
+      (uniformConvergenceDecodeBHist (uniformConvergenceEventAt 0 flow))
+      (uniformConvergenceDecodeBHist (uniformConvergenceEventAt 1 flow))
+      (uniformConvergenceDecodeBHist (uniformConvergenceEventAt 2 flow))
+      (uniformConvergenceDecodeBHist (uniformConvergenceEventAt 3 flow))
+      (uniformConvergenceDecodeBHist (uniformConvergenceEventAt 4 flow))
+      (uniformConvergenceDecodeBHist (uniformConvergenceEventAt 5 flow))
+      (uniformConvergenceDecodeBHist (uniformConvergenceEventAt 6 flow))
+      (uniformConvergenceDecodeBHist (uniformConvergenceEventAt 7 flow))
+      (uniformConvergenceDecodeBHist (uniformConvergenceEventAt 8 flow)))
 
-private theorem UniformConvergenceTasteGate_single_carrier_alignment_round_trip :
+private theorem uniformConvergence_round_trip :
     ∀ x : UniformConvergenceUp,
       uniformConvergenceFromEventFlow (uniformConvergenceToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -84,18 +84,17 @@ private theorem UniformConvergenceTasteGate_single_carrier_alignment_round_trip 
             (uniformConvergenceDecodeBHist (uniformConvergenceEncodeBHist P))
             (uniformConvergenceDecodeBHist (uniformConvergenceEncodeBHist N))) =
           some (UniformConvergenceUp.mk F W Q R T H C P N)
-      rw [UniformConvergenceTasteGate_single_carrier_alignment_decode F,
-        UniformConvergenceTasteGate_single_carrier_alignment_decode W,
-        UniformConvergenceTasteGate_single_carrier_alignment_decode Q,
-        UniformConvergenceTasteGate_single_carrier_alignment_decode R,
-        UniformConvergenceTasteGate_single_carrier_alignment_decode T,
-        UniformConvergenceTasteGate_single_carrier_alignment_decode H,
-        UniformConvergenceTasteGate_single_carrier_alignment_decode C,
-        UniformConvergenceTasteGate_single_carrier_alignment_decode P,
-        UniformConvergenceTasteGate_single_carrier_alignment_decode N]
+      rw [uniformConvergence_decode_encode_bhist F,
+        uniformConvergence_decode_encode_bhist W,
+        uniformConvergence_decode_encode_bhist Q,
+        uniformConvergence_decode_encode_bhist R,
+        uniformConvergence_decode_encode_bhist T,
+        uniformConvergence_decode_encode_bhist H,
+        uniformConvergence_decode_encode_bhist C,
+        uniformConvergence_decode_encode_bhist P,
+        uniformConvergence_decode_encode_bhist N]
 
-private theorem UniformConvergenceTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : UniformConvergenceUp} :
+private theorem uniformConvergenceToEventFlow_injective {x y : UniformConvergenceUp} :
     uniformConvergenceToEventFlow x = uniformConvergenceToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -104,58 +103,50 @@ private theorem UniformConvergenceTasteGate_single_carrier_alignment_toEventFlow
         uniformConvergenceFromEventFlow (uniformConvergenceToEventFlow y) :=
     congrArg uniformConvergenceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (UniformConvergenceTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (UniformConvergenceTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem UniformConvergenceTasteGate_single_carrier_alignment_field_faithful :
-    ∀ x y : UniformConvergenceUp,
-      uniformConvergenceFields x = uniformConvergenceFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk F W Q R T H C P N =>
-      cases y with
-      | mk F' W' Q' R' T' H' C' P' N' =>
-          cases hfields
-          rfl
+    (Eq.trans (uniformConvergence_round_trip x).symm
+      (Eq.trans hread (uniformConvergence_round_trip y)))
 
 instance uniformConvergenceBHistCarrier : BHistCarrier UniformConvergenceUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := uniformConvergenceToEventFlow
   fromEventFlow := uniformConvergenceFromEventFlow
 
-instance uniformConvergenceChapterTasteGate :
-    ChapterTasteGate UniformConvergenceUp where
+instance uniformConvergenceChapterTasteGate : ChapterTasteGate UniformConvergenceUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change uniformConvergenceFromEventFlow (uniformConvergenceToEventFlow x) = some x
-    exact UniformConvergenceTasteGate_single_carrier_alignment_round_trip x
+    exact uniformConvergence_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (UniformConvergenceTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-instance uniformConvergenceFieldFaithful : FieldFaithful UniformConvergenceUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := uniformConvergenceFields
-  field_faithful := UniformConvergenceTasteGate_single_carrier_alignment_field_faithful
+    exact hxy (uniformConvergenceToEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate UniformConvergenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   uniformConvergenceChapterTasteGate
 
 theorem UniformConvergenceTasteGate_single_carrier_alignment :
-    (∀ h : BHist, uniformConvergenceDecodeBHist (uniformConvergenceEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier UniformConvergenceUp) ∧
-        Nonempty (ChapterTasteGate UniformConvergenceUp) ∧
-          uniformConvergenceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+    Nonempty (BHistCarrier UniformConvergenceUp) ∧
+      Nonempty (ChapterTasteGate UniformConvergenceUp) ∧
+      (∀ h : BHist,
+        uniformConvergenceDecodeBHist (uniformConvergenceEncodeBHist h) = h) ∧
+      (∀ x : UniformConvergenceUp,
+        uniformConvergenceFromEventFlow (uniformConvergenceToEventFlow x) = some x) ∧
+      (∀ x y : UniformConvergenceUp,
+        uniformConvergenceToEventFlow x = uniformConvergenceToEventFlow y → x = y) ∧
+      uniformConvergenceEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   constructor
-  · exact UniformConvergenceTasteGate_single_carrier_alignment_decode
-  · constructor
-    · exact ⟨uniformConvergenceBHistCarrier⟩
-    · constructor
-      · exact ⟨uniformConvergenceChapterTasteGate⟩
-      · rfl
+  · exact ⟨uniformConvergenceBHistCarrier⟩
+  constructor
+  · exact ⟨uniformConvergenceChapterTasteGate⟩
+  constructor
+  · exact uniformConvergence_decode_encode_bhist
+  constructor
+  · exact uniformConvergence_round_trip
+  constructor
+  · intro x y heq
+    exact uniformConvergenceToEventFlow_injective heq
+  · rfl
 
-end BEDC.Derived.UniformConvergenceUp
+end BEDC.Derived.UniformConvergenceUp.TasteGate
