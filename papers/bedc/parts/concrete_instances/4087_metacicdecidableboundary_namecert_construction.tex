@@ -214,6 +214,20 @@ Apply \autoref{thm:metacic-decidable-boundary-sibling-provenance} and \autoref{t
 The classifier-stability theorem \autoref{thm:metacic-decidable-boundary-classifier-stability} transports the same displayed rows through $H,C$ without adding a new endpoint. Hence $T,S,B,F,R,H,C,P,N$ are exactly the obligation-closure package surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary conditional obligation]
+\label{thm:metacic-decidable-boundary-conditional-obligation}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, an accepted bounded comparison read is valid only under the displayed checker row $T$, structural equality row $S$, bounded normal row $B$, finished-normal side-condition row $F$, and refusal row $R$, with transport, replay, provenance, and naming rows $H,C,P,N$ still visible. The conditional route explicitly refuses standalone $\mathsf{ClosedAt}$ decidability, global beta-conversion, quotient equality over represented terms, and host evaluation.
+\end{theorem}
+\begin{proof}
+Start with bounded-comparison nonescape and window totality, \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape} and \autoref{thm:metacic-decidable-boundary-window-totality}. They make every accepted bounded comparison expose $T,S,B,F$ rather than a detached comparison oracle.
+
+Use candidate normal-form reads from \autoref{thm:metacic-decidable-boundary-candidate-normal-form}. Candidate inspection remains inside the same checker, structural equality, bounded normal, and finished-normal side-condition rows.
+
+Apply refusal exactness from \autoref{thm:metacic-decidable-boundary-refusal-exactness}. The row $R$ records the missing standalone $\mathsf{ClosedAt}$ decision and unrestricted beta-conversion endpoint, while leaving the bounded comparison route available only under its displayed conditions.
+
+Finally invoke ledger exactness and the obligation-closure package, \autoref{thm:metacic-decidable-boundary-ledger-exactness} and \autoref{thm:metacic-decidable-boundary-obligation-closure-package}. The ledger has no quotient equality over represented terms and no host evaluator, so the valid comparison surface is exactly $T,S,B,F,R,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[MetaCIC decidable boundary obligation scope lock]
 \label{thm:metacic-decidable-boundary-obligation-scope-lock}
 For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, every obligation-closure consumer must keep the checker row $T$, structural equality row $S$, bounded normal comparison row $B$, finished-normal side-condition row $F$, refusal row $R$, componentwise transport row $H$, displayed replay row $C$, provenance row $P$, and local name row $N$ together. In particular, bounded normal comparison cannot be read as global beta-conversion decidability, standalone $\mathsf{ClosedAt}$ decidability, quotient equality over represented terms, fuel-erased normalization, or host evaluation.
