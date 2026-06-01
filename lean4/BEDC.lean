@@ -4412,6 +4412,7 @@ import BEDC.Derived.HyperspaceUp.CauchyUniformCompleteHandoff
 import BEDC.Derived.HyperspaceUp.CauchyUniformNetHandoff
 import BEDC.Derived.HyperspaceUp.CompactCompleteHandoff
 import BEDC.Derived.HyperspaceUp.CompactHausdorffDistanceRoute
+import BEDC.Derived.HyperspaceUp.CompactMetricHandoff
 import BEDC.Derived.HyperspaceUp.CompactMetricVietorisUnblock
 import BEDC.Derived.HyperspaceUp.CompactSourceScope
 import BEDC.Derived.HyperspaceUp.CompactSubsetRootAdmission
@@ -5503,6 +5504,7 @@ import BEDC.Derived.MooreSmithConvergenceUp.DirectedWindowTotality
 import BEDC.Derived.MooreSmithConvergenceUp.LedgerRefusal
 import BEDC.Derived.MooreSmithConvergenceUp.TasteGate
 import BEDC.Derived.MooreSmithNetUp.TasteGate
+import BEDC.Derived.MorseTheoryUp.TasteGate
 import BEDC.Derived.MulUp.TasteGate
 import BEDC.Derived.MultiHistConfigUp
 import BEDC.Derived.MultiHistSuperpositionUp.TasteGate
