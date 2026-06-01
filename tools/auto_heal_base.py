@@ -268,6 +268,7 @@ def _seed_heal_lake_cache() -> None:
 def ensure_heal_worktree() -> bool:
     """Ensure the dedicated detached heal worktree exists."""
     if (HEAL_WT / ".git").exists():
+        _seed_heal_lake_cache()
         return True
     try:
         HEAL_WT.parent.mkdir(parents=True, exist_ok=True)
