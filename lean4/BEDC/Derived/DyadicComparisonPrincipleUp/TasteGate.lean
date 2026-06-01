@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DyadicComparisonPrincipleUp
@@ -25,10 +26,9 @@ def dyadicComparisonPrincipleDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (dyadicComparisonPrincipleDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (dyadicComparisonPrincipleDecodeBHist tail)
 
-private theorem dyadicComparisonPrincipleDecodeEncode :
+private theorem DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
-      dyadicComparisonPrincipleDecodeBHist
-        (dyadicComparisonPrincipleEncodeBHist h) = h := by
+      dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -38,64 +38,67 @@ private theorem dyadicComparisonPrincipleDecodeEncode :
 
 def dyadicComparisonPrincipleFields : DyadicComparisonPrincipleUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | DyadicComparisonPrincipleUp.mk D0 D1 W R O H C P N => [D0, D1, W, R, O, H, C, P, N]
+  | DyadicComparisonPrincipleUp.mk D0 D1 W R O H C P N =>
+      [D0, D1, W, R, O, H, C, P, N]
 
-def dyadicComparisonPrincipleToEventFlow : DyadicComparisonPrincipleUp → EventFlow
+def dyadicComparisonPrincipleToEventFlow : DyadicComparisonPrincipleUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (dyadicComparisonPrincipleFields x).map dyadicComparisonPrincipleEncodeBHist
+  fun x => (dyadicComparisonPrincipleFields x).map dyadicComparisonPrincipleEncodeBHist
 
-private def dyadicComparisonPrincipleEventAt : Nat → EventFlow → RawEvent
+private def dyadicComparisonPrincipleEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => dyadicComparisonPrincipleEventAt index rest
+  | Nat.succ index, _event :: rest => dyadicComparisonPrincipleEventAtDefault index rest
 
-def dyadicComparisonPrincipleFromEventFlow (ef : EventFlow) :
-    Option DyadicComparisonPrincipleUp :=
+def dyadicComparisonPrincipleFromEventFlow
+    (ef : EventFlow) : Option DyadicComparisonPrincipleUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (DyadicComparisonPrincipleUp.mk
-      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAt 0 ef))
-      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAt 1 ef))
-      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAt 2 ef))
-      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAt 3 ef))
-      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAt 4 ef))
-      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAt 5 ef))
-      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAt 6 ef))
-      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAt 7 ef))
-      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAt 8 ef)))
+      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAtDefault 0 ef))
+      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAtDefault 1 ef))
+      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAtDefault 2 ef))
+      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAtDefault 3 ef))
+      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAtDefault 4 ef))
+      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAtDefault 5 ef))
+      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAtDefault 6 ef))
+      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAtDefault 7 ef))
+      (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEventAtDefault 8 ef)))
 
-private theorem dyadicComparisonPrincipleRoundTrip (x : DyadicComparisonPrincipleUp) :
-    dyadicComparisonPrincipleFromEventFlow (dyadicComparisonPrincipleToEventFlow x) =
-      some x := by
+private theorem DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : DyadicComparisonPrincipleUp,
+      dyadicComparisonPrincipleFromEventFlow (dyadicComparisonPrincipleToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk D0 D1 W R O H C P N =>
       change
         some
-          (DyadicComparisonPrincipleUp.mk
-            (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist D0))
-            (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist D1))
-            (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist W))
-            (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist R))
-            (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist O))
-            (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist H))
-            (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist C))
-            (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist P))
-            (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist N))) =
+            (DyadicComparisonPrincipleUp.mk
+              (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist D0))
+              (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist D1))
+              (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist W))
+              (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist R))
+              (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist O))
+              (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist H))
+              (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist C))
+              (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist P))
+              (dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist N))) =
           some (DyadicComparisonPrincipleUp.mk D0 D1 W R O H C P N)
-      rw [dyadicComparisonPrincipleDecodeEncode D0,
-        dyadicComparisonPrincipleDecodeEncode D1,
-        dyadicComparisonPrincipleDecodeEncode W,
-        dyadicComparisonPrincipleDecodeEncode R,
-        dyadicComparisonPrincipleDecodeEncode O,
-        dyadicComparisonPrincipleDecodeEncode H,
-        dyadicComparisonPrincipleDecodeEncode C,
-        dyadicComparisonPrincipleDecodeEncode P,
-        dyadicComparisonPrincipleDecodeEncode N]
+      rw [DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_decode D0,
+        DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_decode D1,
+        DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_decode W,
+        DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_decode R,
+        DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_decode O,
+        DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_decode H,
+        DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_decode C,
+        DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_decode P,
+        DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_decode N]
 
-private theorem dyadicComparisonPrincipleToEventFlow_injective
+private theorem DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : DyadicComparisonPrincipleUp} :
     dyadicComparisonPrincipleToEventFlow x = dyadicComparisonPrincipleToEventFlow y →
       x = y := by
@@ -106,11 +109,24 @@ private theorem dyadicComparisonPrincipleToEventFlow_injective
         dyadicComparisonPrincipleFromEventFlow (dyadicComparisonPrincipleToEventFlow y) :=
     congrArg dyadicComparisonPrincipleFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (dyadicComparisonPrincipleRoundTrip x).symm
-      (Eq.trans hread (dyadicComparisonPrincipleRoundTrip y)))
+    (Eq.trans
+      (DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_round_trip y)))
 
-instance dyadicComparisonPrincipleBHistCarrier :
-    BHistCarrier DyadicComparisonPrincipleUp where
+private theorem DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_fields :
+    ∀ x y : DyadicComparisonPrincipleUp,
+      dyadicComparisonPrincipleFields x = dyadicComparisonPrincipleFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk D01 D11 W1 R1 O1 H1 C1 P1 N1 =>
+      cases y with
+      | mk D02 D12 W2 R2 O2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
+instance dyadicComparisonPrincipleBHistCarrier : BHistCarrier DyadicComparisonPrincipleUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := dyadicComparisonPrincipleToEventFlow
   fromEventFlow := dyadicComparisonPrincipleFromEventFlow
@@ -120,23 +136,50 @@ instance dyadicComparisonPrincipleChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      dyadicComparisonPrincipleFromEventFlow (dyadicComparisonPrincipleToEventFlow x) = some x
-    exact dyadicComparisonPrincipleRoundTrip x
+    change dyadicComparisonPrincipleFromEventFlow (dyadicComparisonPrincipleToEventFlow x) =
+      some x
+    exact DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (dyadicComparisonPrincipleToEventFlow_injective heq)
+    exact hxy
+      (DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-theorem DyadicComparisonPrincipleTasteGate_single_carrier_alignment :
+instance dyadicComparisonPrincipleFieldFaithful : FieldFaithful DyadicComparisonPrincipleUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := dyadicComparisonPrincipleFields
+  field_faithful := DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_fields
+
+instance dyadicComparisonPrincipleNontrivial : Nontrivial DyadicComparisonPrincipleUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨DyadicComparisonPrincipleUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      DyadicComparisonPrincipleUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate DyadicComparisonPrincipleUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  dyadicComparisonPrincipleChapterTasteGate
+
+theorem DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       dyadicComparisonPrincipleDecodeBHist (dyadicComparisonPrincipleEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier DyadicComparisonPrincipleUp) ∧
-        Nonempty (ChapterTasteGate DyadicComparisonPrincipleUp) ∧
+      (∀ x : DyadicComparisonPrincipleUp,
+        dyadicComparisonPrincipleFromEventFlow (dyadicComparisonPrincipleToEventFlow x) =
+          some x) ∧
+        (∀ x y : DyadicComparisonPrincipleUp,
+          dyadicComparisonPrincipleToEventFlow x = dyadicComparisonPrincipleToEventFlow y →
+            x = y) ∧
           dyadicComparisonPrincipleEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   exact
-    ⟨dyadicComparisonPrincipleDecodeEncode,
-      ⟨⟨dyadicComparisonPrincipleBHistCarrier⟩,
-        ⟨dyadicComparisonPrincipleChapterTasteGate⟩, rfl⟩⟩
+    ⟨DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_decode,
+      DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        DyadicComparisonPrincipleUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.DyadicComparisonPrincipleUp
