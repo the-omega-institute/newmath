@@ -42,23 +42,29 @@ def weakKonigBoundaryToEventFlow : WeakKonigBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (weakKonigBoundaryFields x).map weakKonigBoundaryEncodeBHist
 
-def weakKonigBoundaryFromEventFlow : EventFlow → Option WeakKonigBoundaryUp
+private def weakKonigBoundaryEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | K :: A :: F :: S :: Q :: R :: O :: H :: C :: P :: N :: [] =>
-      some
-        (WeakKonigBoundaryUp.mk
-          (weakKonigBoundaryDecodeBHist K)
-          (weakKonigBoundaryDecodeBHist A)
-          (weakKonigBoundaryDecodeBHist F)
-          (weakKonigBoundaryDecodeBHist S)
-          (weakKonigBoundaryDecodeBHist Q)
-          (weakKonigBoundaryDecodeBHist R)
-          (weakKonigBoundaryDecodeBHist O)
-          (weakKonigBoundaryDecodeBHist H)
-          (weakKonigBoundaryDecodeBHist C)
-          (weakKonigBoundaryDecodeBHist P)
-          (weakKonigBoundaryDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => weakKonigBoundaryEventAtDefault index rest
+
+def weakKonigBoundaryFromEventFlow : EventFlow → Option WeakKonigBoundaryUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun ef =>
+    some
+      (WeakKonigBoundaryUp.mk
+        (weakKonigBoundaryDecodeBHist (weakKonigBoundaryEventAtDefault 0 ef))
+        (weakKonigBoundaryDecodeBHist (weakKonigBoundaryEventAtDefault 1 ef))
+        (weakKonigBoundaryDecodeBHist (weakKonigBoundaryEventAtDefault 2 ef))
+        (weakKonigBoundaryDecodeBHist (weakKonigBoundaryEventAtDefault 3 ef))
+        (weakKonigBoundaryDecodeBHist (weakKonigBoundaryEventAtDefault 4 ef))
+        (weakKonigBoundaryDecodeBHist (weakKonigBoundaryEventAtDefault 5 ef))
+        (weakKonigBoundaryDecodeBHist (weakKonigBoundaryEventAtDefault 6 ef))
+        (weakKonigBoundaryDecodeBHist (weakKonigBoundaryEventAtDefault 7 ef))
+        (weakKonigBoundaryDecodeBHist (weakKonigBoundaryEventAtDefault 8 ef))
+        (weakKonigBoundaryDecodeBHist (weakKonigBoundaryEventAtDefault 9 ef))
+        (weakKonigBoundaryDecodeBHist (weakKonigBoundaryEventAtDefault 10 ef)))
 
 private theorem weakKonigBoundary_round_trip :
     ∀ x : WeakKonigBoundaryUp,
