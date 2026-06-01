@@ -107,6 +107,18 @@ PROBE_KINDS = {
     "known_special_case",
     "cross_layer_consistency",
 }
+PROBE_REQUIRED_FIELDS = {
+    "probe_id",
+    "conjecture_ref",
+    "probe_kind",
+    "derived_from",
+    "test_statement",
+    "support_condition",
+    "break_condition",
+    "required_contacts",
+    "forbidden_interpretations",
+    "null_reason",
+}
 DERIVED_FROM = {
     "bedc_coordinate",
     "bedc_closure",
@@ -180,6 +192,10 @@ def _id(key: str, value: Any, issues: list[str]) -> None:
         issues.append(_invalid_id_issue(key, value))
 
 
+def _is_id(value: Any) -> bool:
+    return isinstance(value, str) and ID_RE.match(value) is not None
+
+
 def _id_repair_hint(value: Any) -> str:
     if not isinstance(value, str) or not value:
         return ""
@@ -188,7 +204,8 @@ def _id_repair_hint(value: Any) -> str:
 
 
 def _invalid_id_issue(key: str, value: Any) -> str:
-    return f"{key} {ID_SYNTAX}{_id_repair_hint(value)}"
+    observed = f": {value}" if isinstance(value, str) and value else ""
+    return f"{key}: invalid id{observed}; {ID_SYNTAX}{_id_repair_hint(value)}"
 
 
 def _nonempty(key: str, value: Any, issues: list[str]) -> None:
@@ -249,25 +266,13 @@ def validate_contact(record: dict[str, Any]) -> list[str]:
 
 
 def validate_probe(record: dict[str, Any], conjecture_by_id: dict[str, dict[str, Any]], contact_ids: set[str]) -> list[str]:
-    required = {
-        "probe_id",
-        "conjecture_ref",
-        "probe_kind",
-        "derived_from",
-        "test_statement",
-        "support_condition",
-        "break_condition",
-        "required_contacts",
-        "forbidden_interpretations",
-        "null_reason",
-    }
-    issues = _missing(record, required)
+    issues = _missing(record, PROBE_REQUIRED_FIELDS)
     if issues:
         return issues
     _id("probe_id", record.get("probe_id"), issues)
     _id("conjecture_ref", record.get("conjecture_ref"), issues)
     conjecture = conjecture_by_id.get(str(record.get("conjecture_ref") or ""))
-    if conjecture is None:
+    if _is_id(record.get("conjecture_ref")) and conjecture is None:
         issues.append(f"conjecture_ref not found: {record.get('conjecture_ref')}")
     if record.get("probe_kind") not in PROBE_KINDS:
         issues.append("probe_kind is not recognized")
@@ -276,9 +281,9 @@ def validate_probe(record: dict[str, Any], conjecture_by_id: dict[str, dict[str,
         _nonempty(key, record.get(key), issues)
     contacts = _array("required_contacts", record.get("required_contacts"), issues)
     for contact in contacts:
-        if not ID_RE.match(contact):
-            issues.append(f"required_contacts contains invalid id: {contact}")
-        if contact not in contact_ids:
+        if not _is_id(contact):
+            issues.append(_invalid_id_issue("required_contacts item", contact))
+        elif contact not in contact_ids:
             issues.append(f"required contact not found: {contact}")
     _array("forbidden_interpretations", record.get("forbidden_interpretations"), issues, min_items=1)
     structural_probe_kinds = {
@@ -320,9 +325,9 @@ def validate_mismatch(record: dict[str, Any], probe_ids: set[str], contact_ids: 
     _id("mismatch_id", record.get("mismatch_id"), issues)
     _id("probe_ref", record.get("probe_ref"), issues)
     _id("contact_ref", record.get("contact_ref"), issues)
-    if record.get("probe_ref") not in probe_ids:
+    if _is_id(record.get("probe_ref")) and record.get("probe_ref") not in probe_ids:
         issues.append(f"probe_ref not found: {record.get('probe_ref')}")
-    if record.get("contact_ref") not in contact_ids:
+    if _is_id(record.get("contact_ref")) and record.get("contact_ref") not in contact_ids:
         issues.append(f"contact_ref not found: {record.get('contact_ref')}")
     if record.get("status") not in MISMATCH_STATUS:
         issues.append("status is not recognized")
@@ -366,14 +371,14 @@ def validate_conjecture(
     probes = _array("probe_refs", record.get("probe_refs"), issues)
     _array("forbidden_claims", record.get("forbidden_claims"), issues, min_items=1)
     for contact in contacts:
-        if not ID_RE.match(contact):
-            issues.append(f"reality_contact_refs contains invalid id: {contact}")
-        if contact not in contact_by_id:
+        if not _is_id(contact):
+            issues.append(_invalid_id_issue("reality_contact_refs item", contact))
+        elif contact not in contact_by_id:
             issues.append(f"reality contact not found: {contact}")
     for probe in probes:
-        if not ID_RE.match(probe):
-            issues.append(f"probe_refs contains invalid id: {probe}")
-        if probe not in probe_ids:
+        if not _is_id(probe):
+            issues.append(_invalid_id_issue("probe_refs item", probe))
+        elif probe not in probe_ids:
             issues.append(f"probe not found: {probe}")
 
     form = record.get("bedc_minimal_form")
@@ -446,7 +451,7 @@ def _index(records: list[dict[str, Any]], key: str) -> tuple[dict[str, dict[str,
     for index, record in enumerate(records, 1):
         value = str(record.get(key) or "")
         if not ID_RE.match(value):
-            issues.append(f"{key}:{index}: invalid id: {value}; {_invalid_id_issue(key, value)}")
+            issues.append(f"{key}:{index}: {_invalid_id_issue(key, value)}")
             continue
         if value in by_id:
             issues.append(f"{key}:{index}: duplicate id: {value}")
@@ -688,23 +693,475 @@ def self_test() -> int:
         [],
     )
     by_id = {str(result["packet_id"]): result for result in results}
-    invalid_contact_results = gate_all(
+    invalid_contact_id_cases = {
+        "matched_mRNA_abundance_control": "matched-mrna-abundance-control",
+        "tai_or_stai_weights": "tai-or-stai-weights",
+    }
+    for invalid_contact_id, normalized_contact_id in invalid_contact_id_cases.items():
+        invalid_contact_results = gate_all(
+            [],
+            [
+                {
+                    **contact,
+                    "contact_id": invalid_contact_id,
+                }
+            ],
+            [],
+            [],
+        )
+        if not any("not underscores or uppercase" in issue for result in invalid_contact_results for issue in result["issues"]):
+            print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+            return 1
+        if not any(
+            issue.startswith(f"contact_id: invalid id: {invalid_contact_id}; ids must match {ID_PATTERN}")
+            for result in invalid_contact_results
+            for issue in result["issues"]
+        ):
+            print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+            return 1
+        if not any(
+            f"suggested normalized id: {normalized_contact_id}" in issue
+            for result in invalid_contact_results
+            for issue in result["issues"]
+        ):
+            print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+            return 1
+    recurring_probe_failure_results = gate_all(
         [],
         [
+            {**contact, "contact_id": f"fixture.contact.{index}"}
+            for index in range(1, 8)
+        ]
+        + [
+            {
+                **contact,
+                "contact_id": "matched_mRNA_abundance_control",
+            }
+        ],
+        [
+            {
+                "probe_id": "b-star-q6-survival-matrix-break-condition",
+                "conjecture_ref": "b-star.q6.survival.matrix",
+                "derived_from": ["bedc_spectrum"],
+                "test_statement": "Check whether the survival matrix break condition has a bounded reality contact.",
+                "support_condition": "A separate curated biological contact supports the bounded claim.",
+                "break_condition": "The packet lacks the contact or promotes the matrix beyond its evidence layer.",
+                "forbidden_interpretations": [
+                    "Do not infer translation, structure, function, or global biological law from the matrix geometry alone."
+                ],
+            }
+        ],
+        [],
+    )
+    recurring_probe_failure = next(
+        result
+        for result in recurring_probe_failure_results
+        if result["packet_id"] == "b-star-q6-survival-matrix-break-condition"
+    )
+    recurring_probe_issues = set(recurring_probe_failure["issues"])
+    if recurring_probe_failure["gate_status"] != "gate_blocked" or not {
+        "missing required field: null_reason",
+        "missing required field: probe_kind",
+        "missing required field: required_contacts",
+    }.issubset(recurring_probe_issues):
+        print(json.dumps(recurring_probe_failure_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        issue.startswith("contact_id:8: contact_id: invalid id: matched_mRNA_abundance_control;")
+        and f"suggested normalized id: {invalid_contact_id_cases['matched_mRNA_abundance_control']}" in issue
+        for issue in recurring_probe_failure["issues"]
+    ):
+        print(json.dumps(recurring_probe_failure_results, indent=2), file=sys.stderr)
+        return 1
+    event_mismatch_failure_results = gate_all(
+        [],
+        [
+            {**contact, "contact_id": f"fixture.contact.{index}"}
+            for index in range(1, 8)
+        ]
+        + [
             {
                 **contact,
                 "contact_id": "matched_mRNA_abundance_control",
             }
         ],
         [],
+        [
+            {
+                "mismatch_id": "curated.standard.code_table.cross_organism_id_shape_boundary",
+                "probe_ref": "fixture.probe",
+                "contact_ref": "fixture.contact.1",
+                "status": "underdetermined",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The packet carries an invalid indexed contact id.",
+                "refinement_pressure": "Normalize the reality contact id before review.",
+                "blocked_claims": ["Do not review a mismatch against an invalid contact table."],
+                "null_reason": "",
+            }
+        ],
+    )
+    event_mismatch_failure = next(
+        result
+        for result in event_mismatch_failure_results
+        if result["packet_id"] == "curated.standard.code_table.cross_organism_id_shape_boundary"
+    )
+    if event_mismatch_failure["gate_status"] != "gate_blocked" or not any(
+        issue.startswith("contact_id:8: contact_id: invalid id: matched_mRNA_abundance_control;")
+        and f"suggested normalized id: {invalid_contact_id_cases['matched_mRNA_abundance_control']}" in issue
+        for issue in event_mismatch_failure["issues"]
+    ):
+        print(json.dumps(event_mismatch_failure_results, indent=2), file=sys.stderr)
+        return 1
+    scalar_test_scope_results = gate_all(
+        [],
+        [
+            {
+                **contact,
+                "contact_id": "matched-mrna-abundance-control",
+                "can_test": "code_read layer",
+                "cannot_test": "translation realization",
+            }
+        ],
+        [],
         [],
     )
-    if not any("not underscores or uppercase" in issue for result in invalid_contact_results for issue in result["issues"]):
-        print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+    scalar_test_scope = next(
+        result for result in scalar_test_scope_results if result["packet_id"] == "matched-mrna-abundance-control"
+    )
+    if scalar_test_scope["gate_status"] != "gate_blocked" or not {
+        "can_test must be an array",
+        "cannot_test must be an array",
+    }.issubset(set(scalar_test_scope["issues"])):
+        print(json.dumps(scalar_test_scope_results, indent=2), file=sys.stderr)
         return 1
-    if not any("suggested normalized id: matched-mrna-abundance-control" in issue for result in invalid_contact_results for issue in result["issues"]):
-        print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+    invalid_contact_scalar_scope_results = gate_all(
+        [],
+        [
+            {
+                **contact,
+                "contact_id": "matched_mRNA_abundance_control",
+                "can_test": "code_read layer",
+                "cannot_test": "translation realization",
+            }
+        ],
+        [],
+        [],
+    )
+    invalid_contact_scalar_scope = next(
+        result
+        for result in invalid_contact_scalar_scope_results
+        if result["packet_id"] == "matched_mRNA_abundance_control"
+    )
+    if invalid_contact_scalar_scope["gate_status"] != "gate_blocked" or not {
+        "can_test must be an array",
+        "cannot_test must be an array",
+    }.issubset(set(invalid_contact_scalar_scope["issues"])):
+        print(json.dumps(invalid_contact_scalar_scope_results, indent=2), file=sys.stderr)
         return 1
+    if not any(
+        f"contact_id: invalid id: matched_mRNA_abundance_control" in issue
+        for issue in invalid_contact_scalar_scope["issues"]
+    ):
+        print(json.dumps(invalid_contact_scalar_scope_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_contact_id = "matched_mRNA_abundance_control"
+    normalized_contact_id = invalid_contact_id_cases[invalid_contact_id]
+    invalid_contact_mismatch_results = gate_all(
+        [],
+        [
+            {
+                **contact,
+                "contact_id": invalid_contact_id,
+            }
+        ],
+        [],
+        [
+            {
+                "mismatch_id": "cross-organism.cun-uur-translation-boundary.no-promotion.scope-review",
+                "probe_ref": "boundary.probe.overreach",
+                "contact_ref": invalid_contact_id,
+                "status": "underdetermined",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The packet cites an invalid contact id.",
+                "refinement_pressure": "Normalize the contact id before review.",
+                "blocked_claims": ["Do not review a mismatch against an invalid reality contact id."],
+                "null_reason": "",
+            }
+        ],
+    )
+    invalid_contact_mismatch = next(
+        result
+        for result in invalid_contact_mismatch_results
+        if result["packet_id"] == "cross-organism.cun-uur-translation-boundary.no-promotion.scope-review"
+    )
+    if invalid_contact_mismatch["gate_status"] != "gate_blocked" or not any(
+        f"contact_id: invalid id: {invalid_contact_id}" in issue
+        and f"suggested normalized id: {normalized_contact_id}" in issue
+        for issue in invalid_contact_mismatch["issues"]
+    ):
+        print(json.dumps(invalid_contact_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        f"contact_ref: invalid id: {invalid_contact_id}" in issue
+        and f"suggested normalized id: {normalized_contact_id}" in issue
+        for issue in invalid_contact_mismatch["issues"]
+    ):
+        print(json.dumps(invalid_contact_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    if any(f"contact_ref not found: {invalid_contact_id}" in issue for issue in invalid_contact_mismatch["issues"]):
+        print(json.dumps(invalid_contact_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_probe_ref_id = "leu_cun_uur_multi_organism_extension"
+    normalized_probe_ref_id = "leu-cun-uur-multi-organism-extension"
+    invalid_probe_ref_mismatch_results = gate_all(
+        [],
+        [contact],
+        [],
+        [
+            {
+                "mismatch_id": "leu-cun-uur-multi-organism-extension.eight-organism-contact-gap",
+                "probe_ref": invalid_probe_ref_id,
+                "contact_ref": "ncbi.standard.code",
+                "status": "underdetermined",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The packet cites an invalid probe id.",
+                "refinement_pressure": "Normalize the probe id before review.",
+                "blocked_claims": ["Do not review a mismatch against an invalid probe id."],
+                "null_reason": "",
+            }
+        ],
+    )
+    invalid_probe_ref_mismatch = next(
+        result
+        for result in invalid_probe_ref_mismatch_results
+        if result["packet_id"] == "leu-cun-uur-multi-organism-extension.eight-organism-contact-gap"
+    )
+    if invalid_probe_ref_mismatch["gate_status"] != "gate_blocked" or not any(
+        f"probe_ref: invalid id: {invalid_probe_ref_id}" in issue
+        and f"suggested normalized id: {normalized_probe_ref_id}" in issue
+        for issue in invalid_probe_ref_mismatch["issues"]
+    ):
+        print(json.dumps(invalid_probe_ref_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    if any(f"probe_ref not found: {invalid_probe_ref_id}" in issue for issue in invalid_probe_ref_mismatch["issues"]):
+        print(json.dumps(invalid_probe_ref_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_required_contact_results = gate_all(
+        [conjecture],
+        [contact],
+        [
+            {
+                **b3_probe,
+                "required_contacts": [invalid_contact_id],
+                "conjecture_ref": "codon.code.read",
+            }
+        ],
+        [],
+    )
+    if not any(
+        "required_contacts item: invalid id" in issue
+        and f"suggested normalized id: {normalized_contact_id}" in issue
+        for result in invalid_required_contact_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_required_contact_results, indent=2), file=sys.stderr)
+        return 1
+    if any(
+        f"required contact not found: {invalid_contact_id}" in issue
+        for result in invalid_required_contact_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_required_contact_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_conjecture_contact_ref_results = gate_all(
+        [
+            {
+                **conjecture,
+                "conjecture_id": "codon.code.invalid-contact-ref",
+                "reality_contact_refs": [invalid_contact_id],
+            }
+        ],
+        [contact],
+        [],
+        [],
+    )
+    if not any(
+        "reality_contact_refs item: invalid id" in issue
+        and f"suggested normalized id: {normalized_contact_id}" in issue
+        for result in invalid_conjecture_contact_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_contact_ref_results, indent=2), file=sys.stderr)
+        return 1
+    if any(
+        f"reality contact not found: {invalid_contact_id}" in issue
+        for result in invalid_conjecture_contact_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_contact_ref_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_conjecture_probe_ref_results = gate_all(
+        [
+            {
+                **conjecture,
+                "conjecture_id": "codon.code.invalid-probe-ref",
+                "evidence_basis": ["derived_probe"],
+                "probe_refs": [invalid_probe_ref_id],
+            }
+        ],
+        [contact],
+        [],
+        [],
+    )
+    if not any(
+        "probe_refs item: invalid id" in issue
+        and f"suggested normalized id: {normalized_probe_ref_id}" in issue
+        for result in invalid_conjecture_probe_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_probe_ref_results, indent=2), file=sys.stderr)
+        return 1
+    if any(
+        issue == f"probe not found: {invalid_probe_ref_id}"
+        for result in invalid_conjecture_probe_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_probe_ref_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_conjecture_id = "cross_organism.cun_uur_leu_gate.translation_realization"
+    normalized_conjecture_id = "cross-organism.cun-uur-leu-gate.translation-realization"
+    invalid_conjecture_id_results = gate_all(
+        [
+            {**conjecture, "conjecture_id": "fixture.conjecture.1"},
+            {**conjecture, "conjecture_id": invalid_conjecture_id},
+        ],
+        [contact],
+        [],
+        [],
+    )
+    if not any(
+        issue.startswith(f"conjecture_id:2: conjecture_id: invalid id: {invalid_conjecture_id};")
+        and f"suggested normalized id: {normalized_conjecture_id}" in issue
+        for result in invalid_conjecture_id_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_id_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        issue.startswith(f"conjecture_id: invalid id: {invalid_conjecture_id};")
+        and f"suggested normalized id: {normalized_conjecture_id}" in issue
+        for result in invalid_conjecture_id_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_id_results, indent=2), file=sys.stderr)
+        return 1
+    mixed_invalid_id_results = gate_all(
+        [
+            {**conjecture, "conjecture_id": "fixture.conjecture.1"},
+            {**conjecture, "conjecture_id": "orf_eligibility.seed.boundary"},
+            {
+                **conjecture,
+                "conjecture_id": "cross_organism.cun_uur_leu_gate.translation_realization",
+            },
+            {
+                **conjecture,
+                "conjecture_id": "residual_basis.q6_topology_after_aa_quotient.translation_realization",
+            },
+            {
+                **conjecture,
+                "conjecture_id": "translation_survival.b_star_q6_survival_matrix.translation_realization",
+            },
+        ],
+        [
+            {**contact, "contact_id": "fixture.contact.1"},
+            {**contact, "contact_id": "fixture.contact.2"},
+            {**contact, "contact_id": "codon_usage_per_organism"},
+            {**contact, "contact_id": "fixture.contact.4"},
+            {**contact, "contact_id": "fixture.contact.5"},
+            {**contact, "contact_id": "ribosome_profiling_translation_efficiency"},
+        ],
+        [
+            {**b3_probe, "probe_id": f"fixture.probe.{index}", "conjecture_ref": "fixture.conjecture.1"}
+            for index in range(1, 5)
+        ]
+        + [
+            {
+                **b3_probe,
+                "probe_id": "cross_organism.cun_uur_sign_correlates_with_trna_leu",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "residual_basis.m_only_local_optimum_insufficiency",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "cross_organism.cun_uur_translation_boundary.no_promotion",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "residual_basis.translation_readout_boundary.no_promotion",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "b_star_q6_survival_matrix_break_condition",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "leu_cun_uur_multi_organism_extension",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+        ],
+        [],
+    )
+    mixed_invalid_id_expectations = {
+        "contact_id:3": ("codon_usage_per_organism", "codon-usage-per-organism"),
+        "contact_id:6": ("ribosome_profiling_translation_efficiency", "ribosome-profiling-translation-efficiency"),
+        "conjecture_id:2": ("orf_eligibility.seed.boundary", "orf-eligibility.seed.boundary"),
+        "conjecture_id:3": (
+            "cross_organism.cun_uur_leu_gate.translation_realization",
+            "cross-organism.cun-uur-leu-gate.translation-realization",
+        ),
+        "conjecture_id:4": (
+            "residual_basis.q6_topology_after_aa_quotient.translation_realization",
+            "residual-basis.q6-topology-after-aa-quotient.translation-realization",
+        ),
+        "conjecture_id:5": (
+            "translation_survival.b_star_q6_survival_matrix.translation_realization",
+            "translation-survival.b-star-q6-survival-matrix.translation-realization",
+        ),
+        "probe_id:5": (
+            "cross_organism.cun_uur_sign_correlates_with_trna_leu",
+            "cross-organism.cun-uur-sign-correlates-with-trna-leu",
+        ),
+        "probe_id:6": (
+            "residual_basis.m_only_local_optimum_insufficiency",
+            "residual-basis.m-only-local-optimum-insufficiency",
+        ),
+        "probe_id:7": (
+            "cross_organism.cun_uur_translation_boundary.no_promotion",
+            "cross-organism.cun-uur-translation-boundary.no-promotion",
+        ),
+        "probe_id:8": (
+            "residual_basis.translation_readout_boundary.no_promotion",
+            "residual-basis.translation-readout-boundary.no-promotion",
+        ),
+        "probe_id:9": ("b_star_q6_survival_matrix_break_condition", "b-star-q6-survival-matrix-break-condition"),
+        "probe_id:10": ("leu_cun_uur_multi_organism_extension", "leu-cun-uur-multi-organism-extension"),
+    }
+    mixed_invalid_id_issues = [issue for result in mixed_invalid_id_results for issue in result["issues"]]
+    for prefix, (invalid_id, normalized_id) in mixed_invalid_id_expectations.items():
+        if not any(
+            issue.startswith(f"{prefix}: {prefix.split(':', 1)[0]}: invalid id: {invalid_id};")
+            and f"suggested normalized id: {normalized_id}" in issue
+            for issue in mixed_invalid_id_issues
+        ):
+            print(json.dumps(mixed_invalid_id_results, indent=2), file=sys.stderr)
+            return 1
     contact_schema = json.loads((SCRIPT_DIR / "reality_contact.schema.json").read_text(encoding="utf-8"))
     contact_id_pattern = contact_schema.get("properties", {}).get("contact_id", {}).get("pattern")
     if contact_id_pattern != ID_PATTERN:
@@ -715,6 +1172,169 @@ def self_test() -> int:
                     "field": "contact_id",
                     "expected_pattern": ID_PATTERN,
                     "actual_pattern": contact_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    contact_schema_properties = contact_schema.get("properties", {})
+    for scope_field in ("can_test", "cannot_test"):
+        scope_schema = contact_schema_properties.get(scope_field, {})
+        if scope_schema.get("type") != "array" or scope_schema.get("minItems") != 1:
+            print(
+                json.dumps(
+                    {
+                        "schema": "reality_contact.schema.json",
+                        "field": scope_field,
+                        "expected_type": "array",
+                        "expected_minItems": 1,
+                        "actual_type": scope_schema.get("type"),
+                        "actual_minItems": scope_schema.get("minItems"),
+                    },
+                    indent=2,
+                ),
+                file=sys.stderr,
+            )
+            return 1
+    conjecture_schema = json.loads((SCRIPT_DIR / "conjecture.schema.json").read_text(encoding="utf-8"))
+    conjecture_id_pattern = conjecture_schema.get("properties", {}).get("conjecture_id", {}).get("pattern")
+    if conjecture_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "conjecture.schema.json",
+                    "field": "conjecture_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    conjecture_contact_ref_pattern = (
+        conjecture_schema.get("properties", {}).get("reality_contact_refs", {}).get("items", {}).get("pattern")
+    )
+    if conjecture_contact_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "conjecture.schema.json",
+                    "field": "reality_contact_refs.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_contact_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    conjecture_probe_ref_pattern = (
+        conjecture_schema.get("properties", {}).get("probe_refs", {}).get("items", {}).get("pattern")
+    )
+    if conjecture_probe_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "conjecture.schema.json",
+                    "field": "probe_refs.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_probe_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    probe_schema = json.loads((SCRIPT_DIR / "probe.schema.json").read_text(encoding="utf-8"))
+    probe_id_pattern = probe_schema.get("properties", {}).get("probe_id", {}).get("pattern")
+    if probe_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "probe_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": probe_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    probe_conjecture_ref_pattern = probe_schema.get("properties", {}).get("conjecture_ref", {}).get("pattern")
+    if probe_conjecture_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "conjecture_ref",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": probe_conjecture_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    probe_required_contact_pattern = (
+        probe_schema.get("properties", {}).get("required_contacts", {}).get("items", {}).get("pattern")
+    )
+    if probe_required_contact_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "required_contacts.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": probe_required_contact_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    mismatch_schema = json.loads((SCRIPT_DIR / "mismatch.schema.json").read_text(encoding="utf-8"))
+    mismatch_id_pattern = mismatch_schema.get("properties", {}).get("mismatch_id", {}).get("pattern")
+    if mismatch_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "mismatch.schema.json",
+                    "field": "mismatch_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": mismatch_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    mismatch_probe_ref_pattern = mismatch_schema.get("properties", {}).get("probe_ref", {}).get("pattern")
+    if mismatch_probe_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "mismatch.schema.json",
+                    "field": "probe_ref",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": mismatch_probe_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    mismatch_contact_ref_pattern = mismatch_schema.get("properties", {}).get("contact_ref", {}).get("pattern")
+    if mismatch_contact_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "mismatch.schema.json",
+                    "field": "contact_ref",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": mismatch_contact_ref_pattern,
                 },
                 indent=2,
             ),
@@ -736,7 +1356,75 @@ def self_test() -> int:
     if not any("not underscores or uppercase" in issue for result in invalid_probe_results for issue in result["issues"]):
         print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
         return 1
+    if not any(
+        issue.startswith(
+            f"probe_id:1: probe_id: invalid id: cross_organism.cun_uur_sign_correlates_with_tRNA_Leu; "
+            f"ids must match {ID_PATTERN}"
+        )
+        for result in invalid_probe_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        "suggested normalized id: cross-organism.cun-uur-sign-correlates-with-trna-leu" in issue
+        for result in invalid_probe_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    indexed_invalid_probe_results = gate_all(
+        [conjecture],
+        [contact],
+        [
+            {
+                **b3_probe,
+                "probe_id": f"fixture.probe.{index}",
+                "conjecture_ref": "codon.code.read",
+            }
+            for index in range(1, 5)
+        ]
+        + [
+            {
+                **b3_probe,
+                "probe_id": "cross_organism.cun_uur_sign_correlates_with_tRNA_Leu",
+                "conjecture_ref": "codon.code.read",
+            }
+        ],
+        [],
+    )
+    if not any(
+        issue.startswith(
+            f"probe_id:5: probe_id: invalid id: cross_organism.cun_uur_sign_correlates_with_tRNA_Leu; "
+            f"ids must match {ID_PATTERN}"
+        )
+        for result in indexed_invalid_probe_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(indexed_invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        "suggested normalized id: cross-organism.cun-uur-sign-correlates-with-trna-leu" in issue
+        for result in indexed_invalid_probe_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(indexed_invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
     probe_schema = json.loads((SCRIPT_DIR / "probe.schema.json").read_text(encoding="utf-8"))
+    probe_schema_required = set(probe_schema.get("required", []))
+    if probe_schema_required != PROBE_REQUIRED_FIELDS:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "expected_required": sorted(PROBE_REQUIRED_FIELDS),
+                    "actual_required": sorted(probe_schema_required),
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
     probe_id_pattern = probe_schema.get("properties", {}).get("probe_id", {}).get("pattern")
     if probe_id_pattern != ID_PATTERN:
         print(
@@ -746,6 +1434,36 @@ def self_test() -> int:
                     "field": "probe_id",
                     "expected_pattern": ID_PATTERN,
                     "actual_pattern": probe_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    conjecture_ref_pattern = probe_schema.get("properties", {}).get("conjecture_ref", {}).get("pattern")
+    if conjecture_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "conjecture_ref",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    required_contacts_pattern = probe_schema.get("properties", {}).get("required_contacts", {}).get("items", {}).get("pattern")
+    if required_contacts_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "required_contacts.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": required_contacts_pattern,
                 },
                 indent=2,
             ),

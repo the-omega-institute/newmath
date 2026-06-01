@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\CartanMatrixUp$}
+\label{ch:concrete-instances-cartan-matrix-namecert}
+\origin{human}
+
+Following Bourbaki and Humphreys, the $\CartanMatrixUp$ packet records the finite integer matrix row that sits between root-system pairings and Weyl or Coxeter consumers. It is read after the root-system surface of \autoref{ch:concrete-instances-rootsystem-namecert}, the Weyl-group boundary of \autoref{ch:concrete-instances-weylgroup-namecert}, the Coxeter-group relation surface of \autoref{ch:concrete-instances-coxeter-group-namecert}, the finite matrix rows of \autoref{ch:concrete-instances-matrix-namecert}, and the integer endpoint rows of \autoref{ch:concrete-instances-int-namecert}. The packet names the Cartan-pairing table as finite NameCert data; it does not import Lie-algebra classification, root-string completeness, ambient vector-space equality, or a host crystallographic oracle.
+
+\begin{definition}[Cartan matrix carrier]
+\label{def:cartan-matrix-carrier}
+A $\CartanMatrixUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,A,D,O,S,R,W,C,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index row, naming the simple-root positions whose pairings are recorded.
+\item $A$ is the integer matrix-entry row, read through $\MatrixUp$ and $\IntUp$, with an entry $a_{ij}$ for every displayed pair of indices.
+\item $D$ is the diagonal-two row, recording $a_{ii}\sim_{\IntUp}2$ for each displayed index $i$.
+\item $O$ is the nonpositive off-diagonal row, recording the inspected integer sign evidence for $a_{ij}$ when $i$ and $j$ are distinct.
+\item $S$ is the symmetrizability or finite-type sign row exposed by the carrier when such a row is claimed by the root-system source.
+\item $R$ is the $\RootSystemUp$ pairing provenance row, tying each $a_{ij}$ to the displayed coroot-pairing or reflection-pairing read.
+\item $W$ is the $\WeylGroupUp$ and $\CoxeterGroupUp$ consumer row, recording exactly which reflection or braid reads may consume $I,A,D,O,S,R$.
+\item $C$ records componentwise $\hsame$ transport for the index, entry, diagonal, off-diagonal, sign, pairing, consumer, replay, provenance, and naming rows.
+\item $H$ records displayed $\Cont$ replay for matrix-entry lookup, diagonal readback, off-diagonal sign readback, root-system pairing transport, and Weyl or Coxeter consumer handoff.
+\item $K$ is the package-local replay ledger that keeps every row of $A$ attached to the same index row $I$.
+\item $P$ is the $\Pkg$ provenance over $\CartanMatrixUp$, $\RootSystemUp$, $\WeylGroupUp$, $\CoxeterGroupUp$, $\MatrixUp$, $\IntUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CartanMatrixUp}$ row.
+\end{enumerate}
+The classifier compares two Cartan-matrix packets only by these displayed rows and their transports. It carries no host matrix equality, no hidden root datum, and no classification of finite type beyond the row $S$ explicitly supplied in the packet.
+\end{definition}
+
+\begin{theorem}[Cartan matrix NameCert obligations]
+\label{thm:cartan-matrix-namecert-obligations}
+For every accepted $\CartanMatrixUp$ carrier $M=(I,A,D,O,S,R,W,C,H,K,P,N)$, the local $\NameCert_{\CartanMatrixUp}$ surface consists exactly of carrier admission for the finite index and integer matrix rows, diagonal-two exactness, off-diagonal sign exposure, the optional symmetrizability or finite-type sign row, root-system pairing provenance, Weyl and Coxeter consumer exposure, componentwise transport, displayed replay, package-local row coherence, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cartan-matrix-carrier}. The rows $I,A,D,O,S$ supply the finite matrix data, while $R,W$ state how that data is sourced and consumed.
+
+Carrier admission reads $I$ and $A$ through the finite matrix and integer surfaces. Diagonal exactness is the displayed row $D$, and off-diagonal sign exposure is the displayed row $O$.
+
+The source and consumer boundaries are then forced by $R$ and $W$. The row $R$ ties entries to root-system pairings, while $W$ records the only Weyl or Coxeter reads that may consume the displayed Cartan table.
+
+Finally, $C,H,K,P,N$ preserve and name the same packet. Transport, replay, package-local row coherence, provenance, and local naming add no hidden root datum, host matrix equality, finite-type classification theorem, or ambient Lie-algebra object.
+\end{proof}
+
+\begin{theorem}[Cartan matrix root-system consumer]
+\label{thm:cartan-matrix-root-system-consumer}
+Every $\RootSystemUp$ consumer that exports a Cartan row through $\CartanMatrixUp$ must first expose the finite index row $I$, the integer entry row $A$, the diagonal-two row $D$, the off-diagonal sign row $O$, and the root-system pairing provenance row $R$. The exported table cannot be replaced by a prose pairing convention, a host bilinear form, or an unindexed family of integers.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $M=(I,A,D,O,S,R,W,C,H,K,P,N)$. The carrier lists the Cartan table as finite entries over the displayed index row, so no entry can be read without first reading $I$ and $A$.
+
+The Cartan-specific obligations are the diagonal and off-diagonal rows. The row $D$ supplies the diagonal value, and $O$ supplies the sign evidence for distinct indices.
+
+The root-system origin of the table is not inferred from the matrix shape. It is the row $R$, which ties each entry to the displayed $\RootSystemUp$ pairing route.
+
+Thus a root-system consumer receives a finite indexed table with visible integer entries and pairing provenance. The refused replacements are absent from the carrier and cannot be introduced by the transport or replay rows.
+\end{proof}
+
+\begin{theorem}[Cartan matrix Weyl-Coxeter boundary]
+\label{thm:cartan-matrix-weyl-coxeter-boundary}
+Every $\WeylGroupUp$ or $\CoxeterGroupUp$ read of an accepted $\CartanMatrixUp$ packet factors through the same finite route
+$$
+I,A,D,O,S,R,W,C,H,K,P,N .
+$$
+The consumer may use only the reflection-pairing, sign, and braid-facing rows recorded by $R,S,W$ and preserved by $C,H,K$. It cannot read an unrecorded Coxeter matrix, a host reflection representation, a root-system classification theorem, or a detached Weyl action from the Cartan packet alone.
+\end{theorem}
+\begin{proof}
+Read the consumer row $W$ from \autoref{def:cartan-matrix-carrier}. It is explicitly the boundary for Weyl and Coxeter consumers and is attached to the same $I,A,D,O,S,R$ rows as the Cartan table.
+
+The sign row $S$ and pairing row $R$ are the only rows that can feed reflection or braid-facing interpretations. If a consumer needs a Coxeter relation, it must obtain that relation through the displayed consumer route rather than by inventing a separate matrix.
+
+The transport, replay, and package-local coherence rows $C,H,K$ preserve the same indexed table under accepted comparisons. They do not add a representation space, a classification theorem, or an independent Weyl action.
+
+Therefore the public Weyl-Coxeter boundary of the Cartan packet is exactly the finite route displayed above, with the listed external objects outside the carrier.
+\end{proof}
+
+\closureat{CartanMatrixUp}{seedStr}
+
+\begin{closurestatus}{\CartanMatrixUp}
+  \constructivestory{A $\CartanMatrixUp$ packet is generated from a finite index row, integer matrix entries, diagonal-two rows, off-diagonal sign rows, an optional symmetrizability or finite-type sign row, RootSystem pairing provenance, Weyl and Coxeter consumer rows, componentwise hsame transport, displayed Cont replay, package-local row coherence, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cartan-matrix-carrier}, \autoref{thm:cartan-matrix-namecert-obligations}, \autoref{thm:cartan-matrix-root-system-consumer}, and \autoref{thm:cartan-matrix-weyl-coxeter-boundary} seed the finite Cartan matrix carrier, root-system source, and Weyl-Coxeter consumer surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, Lie-algebra classification, root-string completeness, a host root datum, ambient vector-space equality, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal exactness, off-diagonal sign exposure, root-system pairing provenance, Weyl-Coxeter consumer routing, transport, replay, package coherence, provenance, and local naming for BEDC.Derived.CartanMatrixUp.}
+\end{closurestatus}

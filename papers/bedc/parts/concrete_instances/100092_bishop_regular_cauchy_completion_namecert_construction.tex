@@ -103,6 +103,7 @@ The Real seal is therefore downstream of the displayed common-tail route. The pa
 \label{thm:bishop-regular-cauchy-completion-diagonal-window-stability}
 Let $B=(E,S,R,D,W,H,C,P,N)$ and $B'=(E',S',R',D,W,H',C',P',N')$ be accepted $\BishopRegularCauchyCompletionUp$ packets sharing the same displayed dyadic tail modulus $D$ and common-tail window $W$. Any diagonal comparison between the two packets must first read $D$, then $W$, then the $\StreamNameUp$ windows $S,S'$ and the $\RegSeqRatUp$ readback rows $R,R'$, before either terminal $\RealUp$ seal $E$ or $E'$ is available.
 \end{theorem}
+\leanchecked{BEDC.Derived.BishopRegularCauchyCompletionUp.BishopRegularCauchyCompletionCarrier\_diagonal\_window\_stability}
 \begin{proof}
 Project the carrier definition \autoref{def:bishop-regular-cauchy-completion-carrier}. The only comparison rows available to the diagonal read are the displayed tail modulus, common window, stream observations, regular readbacks, terminal seals, transport, replay, provenance, and naming rows.
 
@@ -251,9 +252,27 @@ Apply classifier transport and the Real-seal handoff from \autoref{thm:bishop-re
 Finally use nonescape exactness, the obligation package, and the public Real-seal export from \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}, \autoref{thm:bishop-regular-cauchy-completion-obligation-closure-package}, and \autoref{thm:bishop-regular-cauchy-completion-public-real-seal}. They identify the concrete rows as the whole local NameCert surface and exclude quotient streams, selected limits, countable choice, host equality, and detached Real-name equality from the bridge-facing route.
 \end{proof}
 
+\begin{theorem}[Bishop regular Cauchy completion mature route]
+\label{thm:bishop-regular-cauchy-completion-mature-route}
+Every mature completion-facing read of an accepted $\BishopRegularCauchyCompletionUp$ packet factors, in order, through the obligation package, the scoped kernel route, the public Real-seal export, and the abstract bridge route. The resulting consumer boundary is over
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+It exports the finite regular Cauchy completion route to $\CompletionUp$-facing consumers without exporting $\RealUp$ completeness, quotient stream equality, selected limits, countable choice, host real equality, or detached equality of Real names.
+\end{theorem}
+\begin{proof}
+First apply the obligation package of \autoref{thm:bishop-regular-cauchy-completion-obligation-closure-package}. It exhausts the local rows by carrier admission, regularity envelope, Real-seal handoff, classifier transport, shared tail budget, ledger nonescape, and terminal Real consumer routing.
+
+Next use the scoped kernel route of \autoref{thm:bishop-regular-cauchy-completion-scoped-kernel-route}. It fixes the displayed dependency surface as the rows $E,S,R,D,W,H,C,P,N$ over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Then apply the public Real-seal export of \autoref{thm:bishop-regular-cauchy-completion-public-real-seal}. This makes the terminal Real read public only as a quotient-free seal over the same dyadic endpoint, stream-window, regular readback, tail, transport, replay, provenance, and local naming rows.
+
+Finally apply the abstract bridge route of \autoref{thm:bishop-regular-cauchy-completion-abstract-bridge-route}. It sends the same concrete packet toward $\CompletionUp$ and adds no coordinate for Real completeness, quotient stream equality, selected limits, countable choice, host real equality, or detached equality of Real names.
+\end{proof}
+
 \begin{closurestatus}{\BishopRegularCauchyCompletionUp}
   \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:bishop-regular-cauchy-completion-carrier}, \autoref{thm:bishop-regular-cauchy-completion-regularity-envelope}, \autoref{thm:bishop-regular-cauchy-completion-seal-stability}, \autoref{thm:bishop-regular-cauchy-completion-classifier-transport}, \autoref{thm:bishop-regular-cauchy-completion-common-tail-modulus-stability}, \autoref{thm:bishop-regular-cauchy-completion-tail-determinacy}, \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}, \autoref{thm:bishop-regular-cauchy-completion-real-seal-consumer}, \autoref{thm:bishop-regular-cauchy-completion-obligation-closure-package}, \autoref{thm:bishop-regular-cauchy-completion-scoped-kernel-route}, \autoref{thm:bishop-regular-cauchy-completion-public-real-seal}, and \autoref{thm:bishop-regular-cauchy-completion-abstract-bridge-route} close the finite regular Cauchy completion dependency surface, public Real-seal export, and bridge-facing route to the abstract completion interface over displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \scopeclosed{\autoref{def:bishop-regular-cauchy-completion-carrier}, \autoref{thm:bishop-regular-cauchy-completion-regularity-envelope}, \autoref{thm:bishop-regular-cauchy-completion-seal-stability}, \autoref{thm:bishop-regular-cauchy-completion-classifier-transport}, \autoref{thm:bishop-regular-cauchy-completion-common-tail-modulus-stability}, \autoref{thm:bishop-regular-cauchy-completion-tail-determinacy}, \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}, \autoref{thm:bishop-regular-cauchy-completion-real-seal-consumer}, \autoref{thm:bishop-regular-cauchy-completion-obligation-closure-package}, \autoref{thm:bishop-regular-cauchy-completion-scoped-kernel-route}, \autoref{thm:bishop-regular-cauchy-completion-public-real-seal}, \autoref{thm:bishop-regular-cauchy-completion-abstract-bridge-route}, and \autoref{thm:bishop-regular-cauchy-completion-mature-route} close the finite regular Cauchy completion dependency surface, public Real-seal export, mature consumer boundary, and bridge-facing route to the abstract completion interface over displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.BishopRegularCauchyCompletionUp.BishopRegularCauchyCompletionObligationClosurePackage}
   \bridgestatus{none}

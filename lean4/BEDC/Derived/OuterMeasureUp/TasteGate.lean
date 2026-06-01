@@ -23,8 +23,8 @@ def outerMeasureEncodeBHist : BHist → RawEvent
 def outerMeasureDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => outerMeasureDecodeBHist tail |> BHist.e0
-  | BMark.b1 :: tail => outerMeasureDecodeBHist tail |> BHist.e1
+  | BMark.b0 :: tail => BHist.e0 (outerMeasureDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (outerMeasureDecodeBHist tail)
 
 private theorem OuterMeasureTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, outerMeasureDecodeBHist (outerMeasureEncodeBHist h) = h := by
@@ -41,52 +41,30 @@ def outerMeasureFields : OuterMeasureUp → List BHist
 
 def outerMeasureToEventFlow : OuterMeasureUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | OuterMeasureUp.mk X S Z M F B H C P N =>
-      [[BMark.b0],
-        outerMeasureEncodeBHist X,
-        [BMark.b1, BMark.b0],
-        outerMeasureEncodeBHist S,
-        [BMark.b1, BMark.b1, BMark.b0],
-        outerMeasureEncodeBHist Z,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        outerMeasureEncodeBHist M,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        outerMeasureEncodeBHist F,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        outerMeasureEncodeBHist B,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        outerMeasureEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        outerMeasureEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        outerMeasureEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        outerMeasureEncodeBHist N]
+  | x => (outerMeasureFields x).map outerMeasureEncodeBHist
 
-private def outerMeasureEventAtDefault : Nat → EventFlow → RawEvent
+private def outerMeasureEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => outerMeasureEventAtDefault index rest
+  | Nat.succ index, _event :: rest => outerMeasureEventAt index rest
 
-def outerMeasureFromEventFlow (ef : EventFlow) : Option OuterMeasureUp :=
+def outerMeasureFromEventFlow : EventFlow → Option OuterMeasureUp
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (OuterMeasureUp.mk
-      (outerMeasureDecodeBHist (outerMeasureEventAtDefault 1 ef))
-      (outerMeasureDecodeBHist (outerMeasureEventAtDefault 3 ef))
-      (outerMeasureDecodeBHist (outerMeasureEventAtDefault 5 ef))
-      (outerMeasureDecodeBHist (outerMeasureEventAtDefault 7 ef))
-      (outerMeasureDecodeBHist (outerMeasureEventAtDefault 9 ef))
-      (outerMeasureDecodeBHist (outerMeasureEventAtDefault 11 ef))
-      (outerMeasureDecodeBHist (outerMeasureEventAtDefault 13 ef))
-      (outerMeasureDecodeBHist (outerMeasureEventAtDefault 15 ef))
-      (outerMeasureDecodeBHist (outerMeasureEventAtDefault 17 ef))
-      (outerMeasureDecodeBHist (outerMeasureEventAtDefault 19 ef)))
+  | ef =>
+      some
+        (OuterMeasureUp.mk
+          (outerMeasureDecodeBHist (outerMeasureEventAt 0 ef))
+          (outerMeasureDecodeBHist (outerMeasureEventAt 1 ef))
+          (outerMeasureDecodeBHist (outerMeasureEventAt 2 ef))
+          (outerMeasureDecodeBHist (outerMeasureEventAt 3 ef))
+          (outerMeasureDecodeBHist (outerMeasureEventAt 4 ef))
+          (outerMeasureDecodeBHist (outerMeasureEventAt 5 ef))
+          (outerMeasureDecodeBHist (outerMeasureEventAt 6 ef))
+          (outerMeasureDecodeBHist (outerMeasureEventAt 7 ef))
+          (outerMeasureDecodeBHist (outerMeasureEventAt 8 ef))
+          (outerMeasureDecodeBHist (outerMeasureEventAt 9 ef)))
 
 private theorem OuterMeasureTasteGate_single_carrier_alignment_round_trip
     (x : OuterMeasureUp) :
@@ -130,10 +108,9 @@ private theorem OuterMeasureTasteGate_single_carrier_alignment_toEventFlow_injec
     congrArg outerMeasureFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (OuterMeasureTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (OuterMeasureTasteGate_single_carrier_alignment_round_trip y)))
+      (Eq.trans hread (OuterMeasureTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem OuterMeasureTasteGate_single_carrier_alignment_fields :
+private theorem OuterMeasureTasteGate_single_carrier_alignment_fields_faithful :
     ∀ x y : OuterMeasureUp, outerMeasureFields x = outerMeasureFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
@@ -141,7 +118,26 @@ private theorem OuterMeasureTasteGate_single_carrier_alignment_fields :
   | mk X₁ S₁ Z₁ M₁ F₁ B₁ H₁ C₁ P₁ N₁ =>
       cases y with
       | mk X₂ S₂ Z₂ M₂ F₂ B₂ H₂ C₂ P₂ N₂ =>
-          cases hfields
+          injection hfields with hX tail0
+          injection tail0 with hS tail1
+          injection tail1 with hZ tail2
+          injection tail2 with hM tail3
+          injection tail3 with hF tail4
+          injection tail4 with hB tail5
+          injection tail5 with hH tail6
+          injection tail6 with hC tail7
+          injection tail7 with hP tail8
+          injection tail8 with hN _
+          subst hX
+          subst hS
+          subst hZ
+          subst hM
+          subst hF
+          subst hB
+          subst hH
+          subst hC
+          subst hP
+          subst hN
           rfl
 
 instance outerMeasureBHistCarrier : BHistCarrier OuterMeasureUp where
@@ -162,7 +158,7 @@ instance outerMeasureChapterTasteGate : ChapterTasteGate OuterMeasureUp where
 instance outerMeasureFieldFaithful : FieldFaithful OuterMeasureUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := outerMeasureFields
-  field_faithful := OuterMeasureTasteGate_single_carrier_alignment_fields
+  field_faithful := OuterMeasureTasteGate_single_carrier_alignment_fields_faithful
 
 instance outerMeasureNontrivial : Nontrivial OuterMeasureUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -181,23 +177,17 @@ def OuterMeasureTasteGate_single_carrier_alignment_taste_gate :
   outerMeasureChapterTasteGate
 
 theorem OuterMeasureTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate OuterMeasureUp) ∧
-      Nonempty (FieldFaithful OuterMeasureUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.Nontrivial OuterMeasureUp) ∧
-      (∀ h : BHist, outerMeasureDecodeBHist (outerMeasureEncodeBHist h) = h) ∧
-      (∀ x : OuterMeasureUp, outerMeasureFromEventFlow (outerMeasureToEventFlow x) = some x) ∧
-      outerMeasureEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
-  constructor
-  · exact ⟨outerMeasureChapterTasteGate⟩
-  · constructor
-    · exact ⟨outerMeasureFieldFaithful⟩
-    · constructor
-      · exact ⟨outerMeasureNontrivial⟩
-      · constructor
-        · exact OuterMeasureTasteGate_single_carrier_alignment_decode_encode
-        · constructor
-          · exact OuterMeasureTasteGate_single_carrier_alignment_round_trip
-          · rfl
+    (∀ h : BHist, outerMeasureDecodeBHist (outerMeasureEncodeBHist h) = h) ∧
+      (∀ x : OuterMeasureUp,
+        outerMeasureFromEventFlow (outerMeasureToEventFlow x) = some x) ∧
+        (∀ x y : OuterMeasureUp,
+          outerMeasureToEventFlow x = outerMeasureToEventFlow y → x = y) ∧
+          outerMeasureEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨OuterMeasureTasteGate_single_carrier_alignment_decode_encode,
+      OuterMeasureTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => OuterMeasureTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.OuterMeasureUp

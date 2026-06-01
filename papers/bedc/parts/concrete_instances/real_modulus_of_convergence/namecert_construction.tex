@@ -129,6 +129,24 @@ Apply \autoref{thm:real-modulus-of-convergence-window-composition} and \autoref{
 The downstream rows $E,H,C,P,N$ are therefore read only as seal, transport, replay, provenance, and local naming for that route. Since the carrier excludes quotient streams, selected limits, countable choice, host Real equality, and ambient completeness, neither a $\RegSeqRatUp$ uniqueness consumer nor a $\RealUp$ seal consumer can read any further distinguishing datum.
 \end{proof}
 
+\begin{theorem}[Real modulus of convergence CauchyFilterLimit route]
+\label{thm:real-modulus-of-convergence-cauchyfilterlimit-route}
+Let $R=(D,W,Q,M,E,H,C,P,N)$ be an accepted $\RealModulusOfConvergenceUp$ packet. Every $\CauchyFilterLimitUp$ consumer of $R$ reads the convergence-modulus schedule only through the shared finite route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The modulus row supplies the filter-limit tolerance schedule, the finite window row supplies the basis inspected by the filter-limit request, and the regular rational readback row supplies the only pre-seal comparison. The route exports no quotient stream, selected host limit, countable-choice schedule, host Real equality, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Apply Theorem~\ref{thm:real-modulus-of-convergence-namecert-obligations}. Carrier admission exposes the dyadic tolerance row $D$, finite window row $W$, regular rational readback row $Q$, monotone modulus ledger $M$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Apply Theorem~\ref{thm:real-modulus-convergence-cauchy-modulus-handoff}. The modulus row is first consumed as the tolerance schedule for the filter-limit request, so the request cannot start from a selected host limit or from ambient completeness.
+
+Use Theorem~\ref{thm:real-modulus-of-convergence-tail-stability} and Theorem~\ref{thm:real-modulus-of-convergence-monotone-window-refinement}. These keep the filter-limit tolerance schedule on a weakly later $\StreamNameUp$ window while preserving the same $\RegSeqRatUp$ readback and $\DyadicRatCoreUp$ ledger.
+
+Finally apply Theorem~\ref{thm:real-modulus-convergence-regseqrat-uniqueness-handoff} and the regular seal handoff of \autoref{thm:cauchy-filter-limit-regular-seal-handoff}. The downstream consumer reaches the $\CauchyFilterLimitUp$ seal only through the same $\RealUp$ boundary and structural rows, and the carrier contains no quotient stream, selected host limit, countable-choice schedule, host Real equality, or ambient completeness coordinate.
+\end{proof}
+
 \begin{theorem}[Real modulus of convergence tail comparison route]
 \label{thm:real-modulus-of-convergence-tail-comparison-route}
 Let $R=(D,W,Q,M,E,H,C,P,N)$ and $R'=(D',W',Q',M',E',H',C',P',N')$ be accepted $\RealModulusOfConvergenceUp$ packets. Suppose their dyadic tolerance rows and monotone ledgers compare through the same $\CauchyModulusUp$ request, and suppose the later-tail comparison is read only after the displayed $\StreamNameUp$ window and $\RegSeqRatUp$ handoff rows are exposed. Then every later-tail comparison between $R$ and $R'$ routes through
@@ -145,6 +163,22 @@ Apply Theorem~\ref{thm:real-modulus-of-convergence-tail-stability}. Once the req
 Apply Theorem~\ref{thm:real-modulus-of-convergence-monotone-window-refinement}. The monotone ledgers keep the dyadic tolerance, finite window, readback, and modulus rows on one route before the Real-facing seal is reached.
 
 Finally apply Theorem~\ref{thm:real-modulus-convergence-regseqrat-uniqueness-handoff}. The identified pre-seal rows force every uniqueness-facing and Real-facing consumer to read the same downstream seal, transport, replay, provenance, and local naming rows. Since the carrier contains none of quotient streams, selected limits, countable choice, host Real equality, or ambient completeness, the later-tail comparison cannot export any such datum.
+\end{proof}
+
+\begin{theorem}[Real modulus of convergence Cauchy-tail exhaustion]
+\label{thm:real-modulus-of-convergence-cauchy-tail-exhaustion}
+Let $R=(D,W,Q,M,E,H,C,P,N)$ be an accepted $\RealModulusOfConvergenceUp$ packet. Every later-tail comparison accepted by $R$ is exhausted by the $\CauchyModulusUp$ request, the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ readback, the $\DyadicRatCoreUp$ tolerance ledger, the $\RealUp$ seal, and the structural rows $H,C,P,N$. No quotient stream equality, selected limit, countable-choice schedule, host Real equality, ambient $\RealUp$ completeness, or extra metric-completion row is exported by the comparison.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-of-convergence-carrier}. The only pre-seal rows available to a later-tail comparison are the dyadic tolerance row $D$, finite-window row $W$, regular rational readback row $Q$, and monotone ledger $M$.
+
+Apply Theorem~\ref{thm:real-modulus-convergence-cauchy-modulus-handoff}. The comparison must first be read as a $\CauchyModulusUp$ request, so it cannot begin from a selected limit or from an ambient Real equality.
+
+Use Theorem~\ref{thm:real-modulus-of-convergence-tail-stability}. Later requests move only to weakly later $\StreamNameUp$ windows and preserve the same $\RegSeqRatUp$ handoff route.
+
+Apply Theorem~\ref{thm:real-modulus-of-convergence-window-composition} and Theorem~\ref{thm:real-modulus-of-convergence-monotone-window-refinement}. These keep the dyadic tolerance ledger, finite window, readback row, and monotone comparison on one displayed route before the $\RealUp$ seal is consumed.
+
+Finally apply Theorem~\ref{thm:real-modulus-of-convergence-tail-comparison-route}. The downstream rows $E,H,C,P,N$ supply only the Real-facing seal, transport, replay, provenance, and local naming for that route. Since no carrier coordinate records quotient streams, selected limits, countable choice, host Real equality, ambient completeness, or a separate metric-completion row, the accepted later-tail comparison is exhausted by the stated data.
 \end{proof}
 
 \begin{theorem}[Real modulus of convergence tail dominance]
