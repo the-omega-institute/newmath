@@ -136,13 +136,19 @@ def assert_canonical_quality_rows(envelope, *, ledger_gaps, debt_items):
 def assert_meaningful_metric_thresholds(
     envelope,
     *,
-    max_orthogonality_error=0.53,
-    max_covariance_deviation=0.63,
+    expected_orthogonality_error=0.5223971685978388,
+    expected_covariance_deviation=0.6212575125938344,
 ):
     assert envelope.metrics["linear_identifiability_r2"] > 0.85
     assert envelope.metrics["approx_identifiability_proxy"] > 0.70
-    assert envelope.metrics["orthogonality_error"] < max_orthogonality_error
-    assert envelope.metrics["covariance_deviation"] < max_covariance_deviation
+    assert envelope.metrics["orthogonality_error"] == pytest.approx(
+        expected_orthogonality_error,
+        abs=1e-12,
+    )
+    assert envelope.metrics["covariance_deviation"] == pytest.approx(
+        expected_covariance_deviation,
+        abs=1e-12,
+    )
     assert envelope.metrics["alignment_loss"] >= 0.0
     assert envelope.metrics["alignment_gap_delta"] >= 0.0
     assert envelope.metrics["whitening_deviation_epsilon"] >= 0.0
@@ -370,7 +376,11 @@ def test_smoke_experiment_skips_without_torch():
     }
     assert envelope.classifier_spec["output_dim"] == 2
     assert_classifier_certificate(envelope)
-    assert_meaningful_metric_thresholds(envelope, max_covariance_deviation=0.69)
+    assert_meaningful_metric_thresholds(
+        envelope,
+        expected_orthogonality_error=0.1182845169138232,
+        expected_covariance_deviation=0.6853549134521694,
+    )
 
 
 def test_runner_uses_canonical_debt_and_ledger_producers():
