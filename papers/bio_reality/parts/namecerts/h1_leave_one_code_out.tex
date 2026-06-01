@@ -1,105 +1,71 @@
-\origin{ai}
-\subsection{Leave-One-Code-Out Readback for the Window-Six Codon Tile}
+\subsection{Leave-One-Code-Out Readback for a Window-Six Codon Tile}
 \label{sec:h1-leave-one-code-out}
+\origin{ai}
 
-\paragraph{Finite codon display.}
-The packet studies the standard-code codon table through a six-coordinate codon display.  Each codon is treated as a point of the codon cube $Q_6$, and the observed readback is only the curated assignment of codons to amino-acid or stop labels.  The finite row isolates a local tile boundary rather than a biological mechanism: the data may be read as a codon-label pattern, but it is not evidence that translation, folding, physical admissibility, function, or universality has been obtained.  Any claim beyond code-layer label readback would require an additional biological contact of the appropriate kind.
+\paragraph{Finite coordinate packet.}
+The packet studies the standard-code codon table through the finite six-bit codon cube $Q_6$. Each codon is treated as a coordinate in the cube, and the only biological labels admitted into the computation are the curated amino-acid or stop labels supplied by the standard-code table. The mathematical object is therefore a code-layer object: it has codon coordinates, local faces, a distinguished singleton-corner behavior, and three-point label classes, but it does not contain a translation apparatus, a folding model, a physical chemistry filter, a functional assay, or a cross-organism law.
 
-\paragraph{Distinguished residual set.}
-The residual set $R$ has cardinality $13$ and is recorded explicitly as
+The finite exceptional region $R$ has cardinality $13$ and is exactly
 $$
 \begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+R=\{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
+&UAA, UAG, UCA, UGA, UUA\}.
 \end{aligned}
 $$
-The same row reports the punctured-cube face count
+The punctured-cube computation gives the same codon set and records the local face vector
 $$
 \begin{aligned}
-(f_0,f_1,f_2)=(13,16,4),
+(f_0,f_1,f_2)=(13,16,4).
 \end{aligned}
 $$
-so the residual is not merely a cardinality statistic: it is a finite subcomplex with $13$ vertices, $16$ edges, and $4$ square faces inside the codon display.  This is the local tile object used by the leave-one-code-out probe.
+Thus the row is not only a list of codons: it carries a small finite incidence pattern inside $Q_6$. The module decomposition is complete on this same $13$-codon set. The modules are
+$$
+\begin{aligned}
+\mathrm{agr}&=\{AGA,AGG\}, & \mathrm{ar\_lys}&=\{AAA\},\\
+\mathrm{cun}&=\{CUA,CUC,CUG,CUU\}, & \mathrm{ile\_met}&=\{AUA\},\\
+\mathrm{ssn}&=\{UCA,UUA\}, & \mathrm{stop\_trp}&=\{UAA,UAG,UGA\}.
+\end{aligned}
+$$
+The classification reports $R$-size $13$, assigned count $13$, no extra module codons, no missing codons, and no unassigned codons. This closes the finite bookkeeping needed for the local code-read experiment.
 
-\paragraph{Spectral coordinates.}
-The associated spectral row gives
+\paragraph{Spectral and sampling checks.}
+The same coordinate packet records a spectral calculation with
 $$
 \begin{aligned}
-\lambda_M &= 0.6752479308830213,\\
-\lambda_R &= 0.4758352843197002,\\
-\mu &= 3.051487585298128.
+\lambda_M&=0.6752479308830213,\\
+\lambda_R&=0.4758352843197002,\\
+\mu&=3.051487585298128.
 \end{aligned}
 $$
-The recorded cubic or radial polynomial residual is $-6.224354365258478\times 10^{-12}$, which is numerically at tolerance scale for this finite computation.  The interpretation is restricted to the finite coordinate system: the spectrum is a compact numerical descriptor of the displayed tile and its complementing label geometry, not a physical law for molecules.
-
-\paragraph{Shape significance against row-preserving alternatives.}
-The shape-significance experiment used $N=2000$ sampled alternatives with seed $42$.  It required $57377$ distinct-sample attempts and incurred $55377$ duplicate retries.  Exactly one sampled alternative matched the observed shape, giving
+The cubic radial check evaluates to $-6.224354365258478\times 10^{-12}$, so within the numerical tolerance of the run the recorded spectral radius is $0.6752479308830213$. A randomized shape comparison with $N=2000$ samples, seed $42$, and $57377$ distinct-sample attempts found one exact shape match and $25$ samples with Jaccard score at least $0.9$. The resulting values are
 $$
 \begin{aligned}
-p_{\mathrm{exact}}=0.0005.
+p_{\mathrm{exact}}&=0.0005,\\
+p_{\mathrm{Jaccard}\geq 0.9}&=0.0125.
 \end{aligned}
 $$
-There were $25$ alternatives with Jaccard similarity at least $0.9$, giving
+The amino-acid-class-preserving null model uses the same sample count and seed. It records observed $M$-size $20$, zero exact matches, and seven samples in the lower tail at or below the observed $M$-size. Its reported values are
 $$
 \begin{aligned}
-p_{J\ge 0.9}=0.0125.
+p_{\mathrm{aa\ class\ exact}}&=0.0,\\
+p_{\mathrm{aa\ class\ lower\ tail}}&=0.0035.
 \end{aligned}
 $$
-Under the amino-acid-class-preserving null row, again with $N=2000$ and seed $42$, the observed $M$-size was $20$.  The finite data report no exact matches, so
-$$
-\begin{aligned}
-p_{\mathrm{aa\ class\ exact}}=0.0,
-\end{aligned}
-$$
-and $7$ sampled alternatives fell in the lower tail at or below the observed $M$-size, giving
-$$
-\begin{aligned}
-p_{\mathrm{aa\ class\ lower\ tail}}=0.0035.
-\end{aligned}
-$$
-These values support a finite combinatorial contrast for the local codon-tile readback.  They do not identify a translation apparatus, a folded structure, a biochemical pathway, or an organism-level necessity.
+These numbers support the claim that the window-six tile is a real finite pattern in the coded table, while still leaving the biological interpretation restricted to label readback.
 
 \paragraph{Leave-one-code-out recovery.}
-For the claim $\mathrm{h1.leave.one.code.out}$, the leave-one-code-out experiment evaluated $23$ code tables and $63$ targets.  The baseline hit rate was
+The leave-one-code-out row evaluates $23$ code tables and $63$ total targets. The baseline hit rate is $0.19821739130434785$. Against that baseline, the coordinate packet reports
 $$
 \begin{aligned}
-0.19821739130434785,
+\mathrm{hit\ rate\ above\ baseline}&=0.9841269841269841,\\
+\mathrm{hit\ rate\ in}\ M\setminus T&=0.9365079365079365,\\
+\mathrm{hit\ rate\ in}\ (M\setminus T)\cup\partial M&=0.9841269841269841.
 \end{aligned}
 $$
-whereas the hit rate above baseline was
-$$
-\begin{aligned}
-0.9841269841269841.
-\end{aligned}
-$$
-Inside $M-T$ the hit rate was $0.9365079365079365$, and inside $M-T$ plus the boundary it was again $0.9841269841269841$.  Thus the finite row says that nearly all leave-one-code-out targets are recovered once the local $M-T$ region is enlarged by the boundary component recorded by the tile.  This is the central code-layer observation of the chapter.
+The family-level row separates the same evidence into five code families. The hit rates above baseline are $0.8333333333333334$ for alternative yeast, $1.0$ for bacterial plastid, $1.0$ for candidate other, $1.0$ for mitochondrial, and $1.0$ for nuclear ciliate. This is the main finite content of the claim: after one code table is withheld, the local tile plus its boundary recovers nearly all targets that the baseline misses, and the only family below perfect recovery still remains far above the baseline rate.
 
-\paragraph{Family-level distribution.}
-The same finite run records five code-family classes.  Their hit rates above baseline are
-$$
-\begin{aligned}
-\mathrm{alternative\ yeast} &= 0.8333333333333334,\\
-\mathrm{bacterial\ plastid} &= 1.0,\\
-\mathrm{candidate\ other} &= 1.0,\\
-\mathrm{mitochondrial} &= 1.0,\\
-\mathrm{nuclear\ ciliate} &= 1.0.
-\end{aligned}
-$$
-The family table is useful because it prevents the result from being stated as a single undifferentiated aggregate.  The weaker alternative-yeast value still lies far above the baseline rate, while the other four classes are recorded as complete hits in this finite evaluation.
+\paragraph{Codon-withholding comparison.}
+The associated leave-one-codon-out row gives a sharper local diagnostic. It reports anchor count $0$, boundary count $5$, closure coverage high $8$, predictable count $8$, and recovery rate $1.0$. The same row records recovery rate above threshold $1.0$. In words, the codon-withholding experiment does not identify fixed anchors inside the tile; instead, the successful predictions are carried by closure and boundary membership. That is consistent with the face-vector description of $R$: the evidential object is local adjacency and boundary structure in the six-bit cube, not a universal rule that forces the genetic code to take its observed form.
 
-\paragraph{Codon-level boundary check.}
-The leave-one-codon-out row reports $8$ predictable codons, $5$ boundary codons, $0$ anchors, high closure coverage $8$, and recovery rate $1.0$.  The module classification assigns all $13$ residual codons and leaves no missing, extra, or unassigned codons.  The modules are
-$$
-\begin{aligned}
-\mathrm{agr} &= \{\mathrm{AGA},\mathrm{AGG}\},\\
-\mathrm{ar\_lys} &= \{\mathrm{AAA}\},\\
-\mathrm{cun} &= \{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
-\mathrm{ile\_met} &= \{\mathrm{AUA}\},\\
-\mathrm{ssn} &= \{\mathrm{UCA},\mathrm{UUA}\},\\
-\mathrm{stop\_trp} &= \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
-\end{aligned}
-$$
-The classification completeness row states $R$-size $13$, assigned count $13$, and empty lists for extra module codons, missing residual codons, and unassigned codons.  Hence every residual codon participates in one of the displayed local modules.
-
-\paragraph{Local conclusion and boundary.}
-The finite evidence supports a code-read claim: in the six-coordinate codon display, the residual tile $R$ and its boundary structure organize the leave-one-code-out readback with high recovery against the listed finite null rows.  The claim remains local to codon labels.  The curated standard-code table supplies the contact that makes codon-to-label readback meaningful, but it does not observe translation realization, folded protein structure, physical admissibility, biological function, a causal mechanism, or a universal biological law.  Those stronger assertions are outside this packet unless separate contacts are supplied for them.
+\paragraph{Scope of the conclusion.}
+The accepted conclusion is therefore narrow. The curated standard-code table supplies codon-to-label observations, and the window-six geometry organizes a finite local split in those observations. The row supports code-layer readback for the standard-code labels and for the listed leave-one-code-out and leave-one-codon-out tests. It does not show that translation is realized by this geometry, that amino-acid sequences fold, that any molecule is physically admissible, that a biological function follows, that a mechanism has been identified, or that all organisms must obey the same pattern. Any such higher-layer statement would require an additional contact of the appropriate kind, such as a translation experiment, a structural measurement, a physical admissibility test, or a functional assay. Without that separate contact, the chapter remains a finite code-read record attached to the curated codon-label table.
