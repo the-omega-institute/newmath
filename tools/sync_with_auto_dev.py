@@ -691,7 +691,22 @@ def main():
         print("[sync] working tree dirty; stashing with -u")
         try:
             with acquire_main_checkout_lock(timeout=120):
-                git("stash", "push", "-u", "-m", f"sync_with_auto_dev autostash {os.getpid()}")
+                push_res = run(["git", "stash", "push", "-u", "-m",
+                                f"sync_with_auto_dev autostash {os.getpid()}"],
+                               check=False, capture=True)
+                if push_res.returncode != 0:
+                    # A dirty tree that `git stash push -u` still refuses
+                    # (rc!=0) must NOT crash the whole sync via the raising
+                    # `git()` wrapper. A single crash here strands the main
+                    # checkout on whatever branch a prior partial tick left it
+                    # (observed: stuck on auto-dev, which makes auto_heal skip
+                    # every cycle with `not on codex-auto-dev`). Skip this tick
+                    # cleanly; the tree is untouched for the next tick.
+                    out = ((push_res.stdout or "") + (push_res.stderr or ""))[-200:]
+                    print(f"[sync] stash push failed (rc={push_res.returncode}); "
+                          f"skipping this tick without crashing: {out}",
+                          file=sys.stderr)
+                    return
                 res = git("rev-parse", "--verify", "--quiet", "stash@{0}",
                           check=False, capture=True)
         except TimeoutError as exc:
