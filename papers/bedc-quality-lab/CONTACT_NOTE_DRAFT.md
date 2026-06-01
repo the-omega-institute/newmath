@@ -69,18 +69,17 @@ contracts for `MiniGrid-DoorKey-8x8-v0`: the transition packet samples
 Gymnasium `image` observations with shape `(7, 7, 3)` and discrete MiniGrid
 actions, and the benchmark packet computes a DoorKey readback/gap metric
 contract with distinction accuracy, gap AUROC, unlogged error, certified
-coverage, and debt.  The current local environment does not have `gymnasium` /
-`minigrid` installed, so the public MiniGrid packets are recorded as
-unavailable rather than executed.  The lab now has an import command for an
-externally executed MiniGrid result, and an export command that writes the
-same flat schema when Gymnasium and MiniGrid are installed.  In this workspace
-the exported result records unavailable status rather than an executed public
-benchmark.
+coverage, and debt.  The public MiniGrid DoorKey packet has been executed in
+an isolated environment with Gymnasium and MiniGrid installed, then imported
+into the readiness-facing benchmark artifact.  The public MiniGrid result
+records distinction accuracy 1.000000, gap AUROC 1.000000, unlogged error
+0.000000, certified coverage 0.375000, and debt 0.062500 over 32 collected
+samples.
 
 The current readiness gate is `not_contact_ready`: torch objective seed sweep,
 local visual planning, and cluttered object-counterfactual gates pass, while
-public MiniGrid execution and public JEPA baseline comparison are still
-blocking gates.  The external run kit records the two result schemas, export
+public MiniGrid execution also passes.  The public JEPA baseline comparison is
+the remaining blocking gate.  The external run kit records the two result schemas, export
 commands, and import commands needed to close those gates without inventing
 evidence inside this workspace.
 

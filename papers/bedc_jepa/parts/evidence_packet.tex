@@ -66,34 +66,27 @@ distractors.  The remaining gaps are broader.  The planning rollouts are still
 local and synthetic rather than robot-control scale.
 
 \paragraph{Debt items.}
-The current debt items are scale debt, public-baseline debt, dependency debt,
-and artifact debt.  Scale debt means the learned-transition and
+The current debt items are scale debt, public-baseline debt, and artifact
+debt.  Scale debt means the learned-transition and
 object-intervention benchmarks are small.  Public-baseline debt means the
 comparison is local and not yet run against a public JEPA implementation.
-Dependency debt means the public MiniGrid packets have executable DoorKey
-contracts but record unavailable status in the current environment because
-\texttt{gymnasium} and \texttt{minigrid} are absent.  The transition packet
-samples Gymnasium image observations and discrete actions when the
-dependencies are present.  The benchmark packet computes a public DoorKey
-readback/gap metric contract with distinction accuracy, gap AUROC, unlogged
-error, certified coverage, and scope-relative debt.  Artifact debt means the
-current package is a research branch rather than a cleaned external review
-bundle.
-An export command is available in environments where Gymnasium and MiniGrid are
-installed.  It writes the flat result schema required by the import command.
-In the current workspace the exported result records unavailable status rather
-than an executed public benchmark.  The import command requires environment
-id, seed, requested and collected sample counts, and the five BEDC metrics
-before rewriting the benchmark packet as available.  No executed external
-result is present in this workspace.
+The public MiniGrid packets have executable DoorKey contracts.  The transition
+packet samples Gymnasium image observations and discrete actions.  The
+benchmark packet computes a public DoorKey readback/gap metric contract with
+distinction accuracy, gap AUROC, unlogged error, certified coverage, and
+scope-relative debt.  The public MiniGrid external result records an executed
+32-sample DoorKey packet with distinction accuracy $1.000000$, gap AUROC
+$1.000000$, unlogged error $0.000000$, certified coverage $0.375000$, and
+debt $0.062500$.  Artifact debt means the current package is a research branch
+rather than a cleaned external review bundle.
 
 \paragraph{External-contact readiness.}
 The readiness gate records \texttt{not\_contact\_ready}.  The local torch
-objective seed sweep, local visual planning benchmark, and cluttered
-object-counterfactual benchmark pass their evidence gates.  The blocking gates
-are public MiniGrid execution and public JEPA baseline comparison.  This paper
-therefore treats the current packet as an internal research branch, not yet as
-an external-contact bundle.
+objective seed sweep, local visual planning benchmark, cluttered
+object-counterfactual benchmark, and public MiniGrid execution pass their
+evidence gates.  The remaining blocking gate is public JEPA baseline
+comparison.  This paper therefore treats the current packet as an internal
+research branch, not yet as an external-contact bundle.
 The external run kit records the two result schemas, the MiniGrid export
 command, the public JEPA baseline boundary export command, and the import
 commands needed to close those blocking gates without inventing evidence

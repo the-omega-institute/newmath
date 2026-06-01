@@ -81,7 +81,12 @@ def _public_minigrid_gate(benchmark_packet: dict[str, Any] | None) -> dict[str, 
     if benchmark_packet is None:
         return _gate("missing", "reports/bedc_jepa_public_minigrid_benchmark_packet.json", "executed public MiniGrid benchmark")
     executed = benchmark_packet.get("status") == "available" and float(benchmark_packet["sample_count_collected"]) > 0.0
-    deps = _dependency_present("gymnasium") and _dependency_present("minigrid")
+    dependency_status = benchmark_packet.get("dependency_status", {})
+    external_executed = (
+        dependency_status.get("gymnasium") == "external-executed"
+        and dependency_status.get("minigrid") == "external-executed"
+    )
+    deps = external_executed or (_dependency_present("gymnasium") and _dependency_present("minigrid"))
     return _gate(
         "pass" if executed and deps else "missing",
         "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
