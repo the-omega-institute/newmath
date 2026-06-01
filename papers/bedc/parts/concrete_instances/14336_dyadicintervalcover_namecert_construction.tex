@@ -137,6 +137,55 @@ Use \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}. Ever
 The sibling dependencies are the dyadic arithmetic surface $\DyadicRatCoreUp$, the window surface $\StreamNameUp$, the readback surface $\RegSeqRatUp$, and the terminal seal $\RealUp$. Since none of those rows supplies open-cover compactness, a selected subcover, host equality, quotient equality, choice, or completeness, the accepted ledger cannot export any such principle.
 \end{proof}
 
+\begin{definition}[DyadicIntervalCover obligation surface]
+\label{def:dyadic-interval-cover-obligation-surface}
+For an accepted $\DyadicIntervalCoverUp$ packet
+$$
+I=(L,U,M,R,V,W,Q,A,H,C,P,N),
+$$
+the obligation surface is the finite ledger consisting of the $\DyadicRatCoreUp$ endpoint rows $L,U$, mesh row $M$, radius ledger $R$, cover-membership row $V$, $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $Q$, visible $\RealUp$ seal row $A$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$. This surface records finite mesh, refinement, membership, and real-window handoff data only; it contains no open-cover compactness coordinate and no selected-subcover coordinate.
+\end{definition}
+
+\begin{theorem}[DyadicIntervalCover mesh refinement obligation]
+\label{thm:dyadic-interval-cover-mesh-refinement-obligation}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Any mesh refinement obligation for $I$ is determined by the rows $L,U,M,R,V,H,C,P,N$ of \autoref{def:dyadic-interval-cover-obligation-surface}: the refined endpoint comparisons still read through $\DyadicRatCoreUp$, the refined mesh is still named by $M$ and $R$, and the transported membership witnesses remain inside $V$ with no appeal to open-cover compactness or selected subcovers.
+\end{theorem}
+\begin{proof}
+Project the obligation surface. The endpoint rows $L,U$ and the mesh-radius rows $M,R$ are the only rows that can refine dyadic cells, and the membership row $V$ is the only row that can record which displayed interval contains a listed cell.
+
+Transport and replay do not add a cover theorem. The rows $H,C,P,N$ preserve the same displayed endpoint, mesh, radius, and membership coordinates over $\DyadicRatCoreUp$.
+
+Therefore a refinement obligation is a finite row check. Since the carrier has no row for an arbitrary open cover or a selected finite subcover, refinement cannot supply compactness data beyond the displayed mesh ledger.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover subcover exclusion obligation]
+\label{thm:dyadic-interval-cover-subcover-exclusion-obligation}
+For every accepted $\DyadicIntervalCoverUp$ carrier $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$, the finite cover-membership row $V$ excludes any hidden selected-subcover obligation. A consumer may inspect $L,U,M,R,V$ and transport them through $H,C,P,N$, but the packet does not provide a row selecting a finite subcover from an arbitrary open cover and does not turn finite membership data into Heine--Borel compactness.
+\end{theorem}
+\begin{proof}
+Read the membership row in the carrier. The row $V$ lists finite membership witnesses for the already displayed dyadic endpoint and mesh rows, so its source is $L,U,M,R$ rather than an arbitrary family of open sets.
+
+Use \autoref{thm:dyadicintervalcover-ledger-exactness}. The ledger is exact for endpoint comparisons and regular-name windows, and it explicitly exports no open-cover compactness theorem or selected subcover.
+
+The structural rows cannot create a selector. They only transport and replay the finite rows already present in the packet, so the subcover principle remains absent from the obligation surface.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover real-window handoff obligation]
+\label{thm:dyadic-interval-cover-real-window-handoff-obligation}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Every real-window handoff obligation factors through the finite route
+$$
+W,Q \longmapsto M,R,V \longmapsto A
+$$
+over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. The handoff may compare the displayed regular-name windows with the mesh and membership ledger, but it does not supply open-cover compactness, selected subcovers, quotient real equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the window row $W$ and readback row $Q$. These rows expose only finite observations and regular rational approximants, so every Real-facing read begins inside the displayed $\StreamNameUp$ and $\RegSeqRatUp$ data.
+
+Next pass through the dyadic cover ledger. The mesh row $M$, radius ledger $R$, and membership row $V$ compare those approximants against the endpoint rows $L,U$ already certified by $\DyadicRatCoreUp$.
+
+Finally read the Real seal row $A$. The seal records the visible endpoint of the same finite route, and the structural rows $H,C,P,N$ preserve that route without adding compactness, a selector, quotient equality, choice, selected limits, or completeness.
+\end{proof}
+
 \begin{theorem}[DyadicIntervalCover membership transport]
 \label{thm:dyadic-interval-cover-membership-transport}
 Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Every cover-membership read through the row $V$ is transported only by the componentwise $\hsame$ row $H$ and the displayed $\Cont$ replay row $C$ over the endpoint rows $L,U$, mesh row $M$, radius ledger $R$, readback row $Q$, and membership row $V$. In particular, membership transport exports no host interval equality, selected subcover, quotient real equality, countable choice, or Real completeness row.
