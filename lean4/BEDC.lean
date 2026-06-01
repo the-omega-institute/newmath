@@ -4309,6 +4309,7 @@ import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperspaceUp.CompactSubsetRootAdmission
 import BEDC.Derived.HyperspaceUp.CompleteMetricNonescape
+import BEDC.Derived.HyperspaceUp.FiniteHausdorffCarrier
 import BEDC.Derived.HyperspaceUp.FiniteHausdorffRootObligations
 import BEDC.Derived.HyperspaceUp.FiniteHitDirectedCover
 import BEDC.Derived.HyperspaceUp.FiniteNetCarrierExhaustion
@@ -5436,6 +5437,7 @@ import BEDC.Derived.NormalSpaceUp.UrysohnLemmaConsumerExactness
 import BEDC.Derived.NormedSpaceUp
 import BEDC.Derived.NormedSpaceUp.AnalysisConsumerExhaustion
 import BEDC.Derived.NormedSpaceUp.BanachConsumerNonescape
+import BEDC.Derived.NormedSpaceUp.BanachHilbertConsumerRoute
 import BEDC.Derived.NormedSpaceUp.CarrierTransportCompletionService
 import BEDC.Derived.NormedSpaceUp.CompletionBudgetEnvelope
 import BEDC.Derived.NormedSpaceUp.CompletionMetricRootUnblock
@@ -5910,6 +5912,7 @@ import BEDC.Derived.PropextTransportBoundaryUp
 import BEDC.Derived.PropextTransportBoundaryUp.NameCertObligations
 import BEDC.Derived.PropextTransportBoundaryUp.TasteGate
 import BEDC.Derived.PseudometricUp
+import BEDC.Derived.PseudometricUp.ClassifierStability
 import BEDC.Derived.PseudometricUp.ClassifierTransportObligation
 import BEDC.Derived.PseudometricUp.CompletionNonescapeObligation
 import BEDC.Derived.PseudometricUp.DependencyReadyPackage
