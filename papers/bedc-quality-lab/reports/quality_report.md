@@ -18,15 +18,14 @@
 
 - `quality_benefit`：0.927126
 - `quality_cost`：0.060000
-- `quality_debt`：1.000000
-- `quality_margin`：-0.132874
-- `quality_q`：-0.132874
+- `quality_debt`：0.800000
+- `quality_margin`：0.067126
+- `quality_q`：0.067126
 - `quality_threshold`：0.000000
 
 ## Ledger gaps
 
 - kind=classifier; residue=optimizer-certificate; severity=high; status=open
-- kind=generalization; residue=global-claim-boundary; severity=high; status=open
 - kind=source; residue=finite-sample-support; severity=high; status=open
 - kind=source; residue=mixing-family-coverage; severity=high; status=open
 - kind=source; residue=source-coverage; severity=high; status=open
@@ -37,7 +36,7 @@
 - kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000
 - kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000
 - kind=classifier; residue=optimizer-certificate; severity=high; status=open; score=0.200000
-- kind=generalization; residue=global-claim-boundary; severity=high; status=open; score=0.200000
+- kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000
 
 ## Artifacts
 
