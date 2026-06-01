@@ -1,0 +1,4224 @@
+{
+  "applicability_boundary": {
+    "claimed_scope": "Gaussian 2D latent + Gaussian OU transition + canonical nonlinear observation mixing families.",
+    "latent_dim": 2,
+    "latent_family": "gaussian",
+    "mixing_families": [
+      "spiral",
+      "sinusoidal_shear",
+      "parabolic_shear",
+      "realnvp_coupling"
+    ],
+    "not_claimed": "This sweep does not claim non-Gaussian latent coverage, non-Gaussian transition noise, or non-canonical mixing closure.",
+    "transition_family": "ornstein-uhlenbeck",
+    "transition_noise_family": "gaussian"
+  },
+  "config": {
+    "families": [
+      "spiral",
+      "sinusoidal_shear",
+      "parabolic_shear",
+      "realnvp_coupling"
+    ],
+    "metric_names": [
+      "linear_identifiability_r2",
+      "approx_identifiability_proxy",
+      "alignment_loss",
+      "quality_benefit",
+      "quality_cost",
+      "quality_debt",
+      "quality_q",
+      "quality_margin",
+      "theorem3_bound",
+      "actual_recovery_error",
+      "bound_margin"
+    ],
+    "rho": 0.82,
+    "sample_count": 384,
+    "seed_base": 498,
+    "seed_count": 6,
+    "seed_floor": 6,
+    "seeds": [
+      498,
+      1530,
+      2644,
+      3840,
+      5118,
+      6478
+    ],
+    "use_torch": false
+  },
+  "coverage_item": {
+    "canonical_families": [
+      "spiral",
+      "sinusoidal_shear",
+      "parabolic_shear",
+      "realnvp_coupling"
+    ],
+    "covered_families": [
+      "spiral",
+      "sinusoidal_shear",
+      "parabolic_shear",
+      "realnvp_coupling"
+    ],
+    "debt_item": {
+      "kind": "source",
+      "residue": "mixing-family-coverage",
+      "score": "0.000000",
+      "severity": "none",
+      "status": "closed"
+    },
+    "kind": "source",
+    "missing_families": [],
+    "observed_values": [
+      "spiral",
+      "spiral",
+      "spiral",
+      "spiral",
+      "spiral",
+      "spiral",
+      "sinusoidal_shear",
+      "sinusoidal_shear",
+      "sinusoidal_shear",
+      "sinusoidal_shear",
+      "sinusoidal_shear",
+      "sinusoidal_shear",
+      "parabolic_shear",
+      "parabolic_shear",
+      "parabolic_shear",
+      "parabolic_shear",
+      "parabolic_shear",
+      "parabolic_shear",
+      "realnvp_coupling",
+      "realnvp_coupling",
+      "realnvp_coupling",
+      "realnvp_coupling",
+      "realnvp_coupling",
+      "realnvp_coupling"
+    ],
+    "residue": "mixing-family-coverage"
+  },
+  "family_aggregates": {
+    "parabolic_shear": {
+      "canonical_runner_mixing_debt": [
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        }
+      ],
+      "metrics": {
+        "actual_recovery_error": {
+          "ci95": 0.03650499941763673,
+          "mean": 0.23890392538492586,
+          "n": 6,
+          "std": 0.04562174573153421
+        },
+        "alignment_loss": {
+          "ci95": 0.023733392994190746,
+          "mean": 0.3915891129636237,
+          "n": 6,
+          "std": 0.02966056260240427
+        },
+        "approx_identifiability_proxy": {
+          "ci95": 0.031759145271730314,
+          "mean": 0.8801967893790944,
+          "n": 6,
+          "std": 0.039690663562583814
+        },
+        "bound_margin": {
+          "ci95": 0.1798039445068917,
+          "mean": 0.09804579095839201,
+          "n": 6,
+          "std": 0.2247081213171362
+        },
+        "linear_identifiability_r2": {
+          "ci95": 0.015651435288016314,
+          "mean": 0.9503570725792518,
+          "n": 6,
+          "std": 0.0195602194886891
+        },
+        "quality_benefit": {
+          "ci95": 0.08529309042002382,
+          "mean": 0.06131723951824272,
+          "n": 6,
+          "std": 0.10659415822149311
+        },
+        "quality_cost": {
+          "ci95": 0.0,
+          "mean": 0.03,
+          "n": 6,
+          "std": 0.0
+        },
+        "quality_debt": {
+          "ci95": 0.012333270972281598,
+          "mean": 0.7086182170713619,
+          "n": 6,
+          "std": 0.015413377929372083
+        },
+        "quality_margin": {
+          "ci95": 0.09076921836131867,
+          "mean": -0.6773009775531192,
+          "n": 6,
+          "std": 0.11343789251862071
+        },
+        "quality_q": {
+          "ci95": 0.09076921836131867,
+          "mean": -0.6773009775531192,
+          "n": 6,
+          "std": 0.11343789251862071
+        },
+        "theorem3_bound": {
+          "ci95": 0.18776750003257067,
+          "mean": 0.3369497163433179,
+          "n": 6,
+          "std": 0.23466049252950097
+        }
+      },
+      "ok_count": 6,
+      "seeds": [
+        498,
+        1530,
+        2644,
+        3840,
+        5118,
+        6478
+      ],
+      "source_mixing_values": [
+        "parabolic_shear",
+        "parabolic_shear",
+        "parabolic_shear",
+        "parabolic_shear",
+        "parabolic_shear",
+        "parabolic_shear"
+      ]
+    },
+    "realnvp_coupling": {
+      "canonical_runner_mixing_debt": [
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        }
+      ],
+      "metrics": {
+        "actual_recovery_error": {
+          "ci95": 0.011229781461978722,
+          "mean": 0.15060215987340672,
+          "n": 6,
+          "std": 0.014034303318782429
+        },
+        "alignment_loss": {
+          "ci95": 0.031096349152016724,
+          "mean": 0.3953394431677035,
+          "n": 6,
+          "std": 0.038862340962178235
+        },
+        "approx_identifiability_proxy": {
+          "ci95": 0.036262511027027544,
+          "mean": 0.8751200732559467,
+          "n": 6,
+          "std": 0.04531869837156421
+        },
+        "bound_margin": {
+          "ci95": 0.33836086183911857,
+          "mean": 0.33066549893639624,
+          "n": 6,
+          "std": 0.4228629900174474
+        },
+        "linear_identifiability_r2": {
+          "ci95": 0.0024271417698590435,
+          "mean": 0.9885898721777376,
+          "n": 6,
+          "std": 0.003033295341607314
+        },
+        "quality_benefit": {
+          "ci95": 0.20963654384248023,
+          "mean": 0.21105479491538562,
+          "n": 6,
+          "std": 0.2619911040074854
+        },
+        "quality_cost": {
+          "ci95": 0.0,
+          "mean": 0.03,
+          "n": 6,
+          "std": 0.0
+        },
+        "quality_debt": {
+          "ci95": 0.00629366786088668,
+          "mean": 0.7032110550310646,
+          "n": 6,
+          "std": 0.007865446362105136
+        },
+        "quality_margin": {
+          "ci95": 0.21219916317602422,
+          "mean": -0.522156260115679,
+          "n": 6,
+          "std": 0.2651937110341047
+        },
+        "quality_q": {
+          "ci95": 0.21219916317602422,
+          "mean": -0.522156260115679,
+          "n": 6,
+          "std": 0.2651937110341047
+        },
+        "theorem3_bound": {
+          "ci95": 0.34150713411156086,
+          "mean": 0.481267658809803,
+          "n": 6,
+          "std": 0.4267950112722181
+        }
+      },
+      "ok_count": 6,
+      "seeds": [
+        498,
+        1530,
+        2644,
+        3840,
+        5118,
+        6478
+      ],
+      "source_mixing_values": [
+        "realnvp_coupling",
+        "realnvp_coupling",
+        "realnvp_coupling",
+        "realnvp_coupling",
+        "realnvp_coupling",
+        "realnvp_coupling"
+      ]
+    },
+    "sinusoidal_shear": {
+      "canonical_runner_mixing_debt": [
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        }
+      ],
+      "metrics": {
+        "actual_recovery_error": {
+          "ci95": 0.028906056839598165,
+          "mean": 0.28554383931817107,
+          "n": 6,
+          "std": 0.03612504578209348
+        },
+        "alignment_loss": {
+          "ci95": 0.02718678854347802,
+          "mean": 0.4051059334093758,
+          "n": 6,
+          "std": 0.033976407998196234
+        },
+        "approx_identifiability_proxy": {
+          "ci95": 0.03406161967872155,
+          "mean": 0.8302479969272598,
+          "n": 6,
+          "std": 0.04256815715592351
+        },
+        "bound_margin": {
+          "ci95": 0.23074590981781487,
+          "mean": 0.18577438478038752,
+          "n": 6,
+          "std": 0.2883723159632193
+        },
+        "linear_identifiability_r2": {
+          "ci95": 0.014164226294806721,
+          "mean": 0.9287728026118746,
+          "n": 6,
+          "std": 0.017701595420198387
+        },
+        "quality_benefit": {
+          "ci95": 0.1365928425723546,
+          "mean": 0.12383954341011356,
+          "n": 6,
+          "std": 0.17070549327478574
+        },
+        "quality_cost": {
+          "ci95": 0.0,
+          "mean": 0.03,
+          "n": 6,
+          "std": 0.0
+        },
+        "quality_debt": {
+          "ci95": 0.009517390606413349,
+          "mean": 0.7052065578264252,
+          "n": 6,
+          "std": 0.011894260545137994
+        },
+        "quality_margin": {
+          "ci95": 0.14049546839109855,
+          "mean": -0.6113670144163116,
+          "n": 6,
+          "std": 0.17558275955689495
+        },
+        "quality_q": {
+          "ci95": 0.14049546839109855,
+          "mean": -0.6113670144163116,
+          "n": 6,
+          "std": 0.17558275955689495
+        },
+        "theorem3_bound": {
+          "ci95": 0.23559506246711245,
+          "mean": 0.47131822409855856,
+          "n": 6,
+          "std": 0.2944324943691602
+        }
+      },
+      "ok_count": 6,
+      "seeds": [
+        498,
+        1530,
+        2644,
+        3840,
+        5118,
+        6478
+      ],
+      "source_mixing_values": [
+        "sinusoidal_shear",
+        "sinusoidal_shear",
+        "sinusoidal_shear",
+        "sinusoidal_shear",
+        "sinusoidal_shear",
+        "sinusoidal_shear"
+      ]
+    },
+    "spiral": {
+      "canonical_runner_mixing_debt": [
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.220000",
+          "severity": "high",
+          "status": "open"
+        }
+      ],
+      "metrics": {
+        "actual_recovery_error": {
+          "ci95": 0.045036975216490645,
+          "mean": 0.30594125919679943,
+          "n": 6,
+          "std": 0.05628449430549696
+        },
+        "alignment_loss": {
+          "ci95": 0.03060497626549822,
+          "mean": 0.42596335576282446,
+          "n": 6,
+          "std": 0.03824825277574515
+        },
+        "approx_identifiability_proxy": {
+          "ci95": 0.0417187092521896,
+          "mean": 0.8397943276759823,
+          "n": 6,
+          "std": 0.05213752571193474
+        },
+        "bound_margin": {
+          "ci95": 0.35325593918023596,
+          "mean": 0.24338087253368246,
+          "n": 6,
+          "std": 0.441477958979197
+        },
+        "linear_identifiability_r2": {
+          "ci95": 0.027172955768377107,
+          "mean": 0.9123178533556685,
+          "n": 6,
+          "std": 0.033959120630479955
+        },
+        "quality_benefit": {
+          "ci95": 0.17820289307369944,
+          "mean": 0.13473313244046187,
+          "n": 6,
+          "std": 0.22270722383587457
+        },
+        "quality_cost": {
+          "ci95": 0.0,
+          "mean": 0.03,
+          "n": 6,
+          "std": 0.0
+        },
+        "quality_debt": {
+          "ci95": 0.013449503494225974,
+          "mean": 0.7068619915786867,
+          "n": 6,
+          "std": 0.01680837798705767
+        },
+        "quality_margin": {
+          "ci95": 0.18264129251827368,
+          "mean": -0.6021288591382249,
+          "n": 6,
+          "std": 0.2282540676694762
+        },
+        "quality_q": {
+          "ci95": 0.18264129251827368,
+          "mean": -0.6021288591382249,
+          "n": 6,
+          "std": 0.2282540676694762
+        },
+        "theorem3_bound": {
+          "ci95": 0.3528960436116985,
+          "mean": 0.5493221317304818,
+          "n": 6,
+          "std": 0.44102818321205134
+        }
+      },
+      "ok_count": 6,
+      "seeds": [
+        498,
+        1530,
+        2644,
+        3840,
+        5118,
+        6478
+      ],
+      "source_mixing_values": [
+        "spiral",
+        "spiral",
+        "spiral",
+        "spiral",
+        "spiral",
+        "spiral"
+      ]
+    }
+  },
+  "generated_at": "2026-06-01T22:41:20.846355+00:00",
+  "negative_result_summary": {
+    "any_negative_result": true,
+    "baseline_family": "spiral",
+    "cells": {
+      "parabolic_shear": {
+        "negative_result": true,
+        "quality_q_delta_vs_spiral": -0.07517211841489435
+      },
+      "realnvp_coupling": {
+        "negative_result": false,
+        "quality_q_delta_vs_spiral": 0.07997259902254594
+      },
+      "sinusoidal_shear": {
+        "negative_result": true,
+        "quality_q_delta_vs_spiral": -0.00923815527808669
+      },
+      "spiral": {
+        "negative_result": false,
+        "quality_q_delta_vs_spiral": 0.0
+      }
+    },
+    "comparison_metric": "quality_q_delta_vs_spiral"
+  },
+  "records": [
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.2503511491706185,
+          "cert_bound": 0.31704424520273333,
+          "cert_bound_margin": 0.06669309603211482,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.06669309603211482,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.31704424520273333
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1781083,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9120343,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.2503511491706185,
+          "alignment_loss": 0.414173081186504,
+          "approx_identifiability_proxy": 0.8931012338670256,
+          "bound_margin": 0.06669309603211482,
+          "linear_identifiability_r2": 0.9411821996721327,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.73,
+          "quality_q": -0.73,
+          "theorem3_bound": 0.31704424520273333
+        },
+        "run_id": "mixing-family-spiral-seed-498",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "spiral",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 498,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.2503511491706185,
+        "alignment_loss": 0.414173081186504,
+        "approx_identifiability_proxy": 0.8931012338670256,
+        "bound_margin": 0.06669309603211482,
+        "linear_identifiability_r2": 0.9411821996721327,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.73,
+        "quality_q": -0.73,
+        "theorem3_bound": 0.31704424520273333
+      },
+      "mixing": "spiral",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 498,
+      "source_mixing": "spiral",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.3809038258516568,
+          "cert_bound": 0.7969914354451415,
+          "cert_bound_margin": 0.41608760959348473,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.41608760959348473,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.7969914354451415
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1661317,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9408011,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.3809038258516568,
+          "alignment_loss": 0.4701743995666471,
+          "approx_identifiability_proxy": 0.7906187539911712,
+          "bound_margin": 0.41608760959348473,
+          "linear_identifiability_r2": 0.8611031874057195,
+          "quality_benefit": 0.2533431925006821,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.4766568074993178,
+          "quality_q": -0.4766568074993178,
+          "theorem3_bound": 0.7969914354451415
+        },
+        "run_id": "mixing-family-spiral-seed-1530",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "spiral",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 1530,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.3809038258516568,
+        "alignment_loss": 0.4701743995666471,
+        "approx_identifiability_proxy": 0.7906187539911712,
+        "bound_margin": 0.41608760959348473,
+        "linear_identifiability_r2": 0.8611031874057195,
+        "quality_benefit": 0.2533431925006821,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.4766568074993178,
+        "quality_q": -0.4766568074993178,
+        "theorem3_bound": 0.7969914354451415
+      },
+      "mixing": "spiral",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 1530,
+      "source_mixing": "spiral",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.2874229840453217,
+          "cert_bound": 1.33405948834945,
+          "cert_bound_margin": 1.0466365043041284,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.784550099485494,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 1.33405948834945
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1737867,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9222939,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.2874229840453217,
+          "alignment_loss": 0.4733208005988171,
+          "approx_identifiability_proxy": 0.797238077354415,
+          "bound_margin": 1.0466365043041284,
+          "linear_identifiability_r2": 0.9270230907643953,
+          "quality_benefit": 0.5408569731025816,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.18914302689741835,
+          "quality_q": -0.18914302689741835,
+          "theorem3_bound": 1.33405948834945
+        },
+        "run_id": "mixing-family-spiral-seed-2644",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "spiral",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 2644,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.2874229840453217,
+        "alignment_loss": 0.4733208005988171,
+        "approx_identifiability_proxy": 0.797238077354415,
+        "bound_margin": 1.0466365043041284,
+        "linear_identifiability_r2": 0.9270230907643953,
+        "quality_benefit": 0.5408569731025816,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.18914302689741835,
+        "quality_q": -0.18914302689741835,
+        "theorem3_bound": 1.33405948834945
+      },
+      "mixing": "spiral",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 2644,
+      "source_mixing": "spiral",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.35216841986175845,
+          "cert_bound": 0.1463086725011568,
+          "cert_bound_margin": -0.20585974736060164,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "non-positive theorem3 bound margin",
+          "cert_score": 0.0,
+          "cert_status": "not-certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.1463086725011568
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1788827,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9102015,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial; score=0.041172",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial",
+          "kind=verification; residue=theorem3-bound-margin; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.35216841986175845,
+          "alignment_loss": 0.3756983911115761,
+          "approx_identifiability_proxy": 0.8315781074807593,
+          "bound_margin": -0.20585974736060164,
+          "linear_identifiability_r2": 0.8890039956776413,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7411719494721203,
+          "quality_margin": -0.7711719494721203,
+          "quality_q": -0.7711719494721203,
+          "theorem3_bound": 0.1463086725011568
+        },
+        "run_id": "mixing-family-spiral-seed-3840",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "spiral",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 3840,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.35216841986175845,
+        "alignment_loss": 0.3756983911115761,
+        "approx_identifiability_proxy": 0.8315781074807593,
+        "bound_margin": -0.20585974736060164,
+        "linear_identifiability_r2": 0.8890039956776413,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7411719494721203,
+        "quality_margin": -0.7711719494721203,
+        "quality_q": -0.7711719494721203,
+        "theorem3_bound": 0.1463086725011568
+      },
+      "mixing": "spiral",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 3840,
+      "source_mixing": "spiral",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.3244830754407399,
+          "cert_bound": 0.34200840125323506,
+          "cert_bound_margin": 0.017525325812495163,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.017525325812495163,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.34200840125323506
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1723248,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9266220,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.3244830754407399,
+          "alignment_loss": 0.4083600632715646,
+          "approx_identifiability_proxy": 0.8113195974315512,
+          "bound_margin": 0.017525325812495163,
+          "linear_identifiability_r2": 0.9046563539420437,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.73,
+          "quality_q": -0.73,
+          "theorem3_bound": 0.34200840125323506
+        },
+        "run_id": "mixing-family-spiral-seed-5118",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "spiral",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 5118,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.3244830754407399,
+        "alignment_loss": 0.4083600632715646,
+        "approx_identifiability_proxy": 0.8113195974315512,
+        "bound_margin": 0.017525325812495163,
+        "linear_identifiability_r2": 0.9046563539420437,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.73,
+        "quality_q": -0.73,
+        "theorem3_bound": 0.34200840125323506
+      },
+      "mixing": "spiral",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 5118,
+      "source_mixing": "spiral",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.24031810081070115,
+          "cert_bound": 0.3595205476311744,
+          "cert_bound_margin": 0.11920244682047326,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.11920244682047326,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.3595205476311744
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1673014,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9383375,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.24031810081070115,
+          "alignment_loss": 0.41405339884183795,
+          "approx_identifiability_proxy": 0.9149101959309716,
+          "bound_margin": 0.11920244682047326,
+          "linear_identifiability_r2": 0.9509382926720784,
+          "quality_benefit": 0.014198629039507485,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.7158013709604925,
+          "quality_q": -0.7158013709604925,
+          "theorem3_bound": 0.3595205476311744
+        },
+        "run_id": "mixing-family-spiral-seed-6478",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "spiral",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 6478,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.24031810081070115,
+        "alignment_loss": 0.41405339884183795,
+        "approx_identifiability_proxy": 0.9149101959309716,
+        "bound_margin": 0.11920244682047326,
+        "linear_identifiability_r2": 0.9509382926720784,
+        "quality_benefit": 0.014198629039507485,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.7158013709604925,
+        "quality_q": -0.7158013709604925,
+        "theorem3_bound": 0.3595205476311744
+      },
+      "mixing": "spiral",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 6478,
+      "source_mixing": "spiral",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.2640512707678512,
+          "cert_bound": 0.2764931567682313,
+          "cert_bound_margin": 0.012441886000380098,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.012441886000380098,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.2764931567682313
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1781083,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9120343,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.2640512707678512,
+          "alignment_loss": 0.3835391203249914,
+          "approx_identifiability_proxy": 0.8149023292063668,
+          "bound_margin": 0.012441886000380098,
+          "linear_identifiability_r2": 0.939516514449147,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.73,
+          "quality_q": -0.73,
+          "theorem3_bound": 0.2764931567682313
+        },
+        "run_id": "mixing-family-sinusoidal_shear-seed-498",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "sinusoidal_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 498,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.2640512707678512,
+        "alignment_loss": 0.3835391203249914,
+        "approx_identifiability_proxy": 0.8149023292063668,
+        "bound_margin": 0.012441886000380098,
+        "linear_identifiability_r2": 0.939516514449147,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.73,
+        "quality_q": -0.73,
+        "theorem3_bound": 0.2764931567682313
+      },
+      "mixing": "sinusoidal_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 498,
+      "source_mixing": "sinusoidal_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.300023745971048,
+          "cert_bound": 0.7017548899524333,
+          "cert_bound_margin": 0.4017311439813853,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.4017311439813853,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.7017548899524333
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1661317,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9408011,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.300023745971048,
+          "alignment_loss": 0.46635776894227965,
+          "approx_identifiability_proxy": 0.8690746294674426,
+          "bound_margin": 0.4017311439813853,
+          "linear_identifiability_r2": 0.925173450386824,
+          "quality_benefit": 0.2556437675685409,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.4743562324314591,
+          "quality_q": -0.4743562324314591,
+          "theorem3_bound": 0.7017548899524333
+        },
+        "run_id": "mixing-family-sinusoidal_shear-seed-1530",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "sinusoidal_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 1530,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.300023745971048,
+        "alignment_loss": 0.46635776894227965,
+        "approx_identifiability_proxy": 0.8690746294674426,
+        "bound_margin": 0.4017311439813853,
+        "linear_identifiability_r2": 0.925173450386824,
+        "quality_benefit": 0.2556437675685409,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.4743562324314591,
+        "quality_q": -0.4743562324314591,
+        "theorem3_bound": 0.7017548899524333
+      },
+      "mixing": "sinusoidal_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 1530,
+      "source_mixing": "sinusoidal_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.30511712948840536,
+          "cert_bound": 0.9240181495120184,
+          "cert_bound_margin": 0.6189010200236131,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.6189010200236131,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.9240181495120184
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1737867,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9222939,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.30511712948840536,
+          "alignment_loss": 0.42146363624880734,
+          "approx_identifiability_proxy": 0.7691335717792507,
+          "bound_margin": 0.6189010200236131,
+          "linear_identifiability_r2": 0.9167400229295317,
+          "quality_benefit": 0.4073874271362875,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.3226125728637125,
+          "quality_q": -0.3226125728637125,
+          "theorem3_bound": 0.9240181495120184
+        },
+        "run_id": "mixing-family-sinusoidal_shear-seed-2644",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "sinusoidal_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 2644,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.30511712948840536,
+        "alignment_loss": 0.42146363624880734,
+        "approx_identifiability_proxy": 0.7691335717792507,
+        "bound_margin": 0.6189010200236131,
+        "linear_identifiability_r2": 0.9167400229295317,
+        "quality_benefit": 0.4073874271362875,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.3226125728637125,
+        "quality_q": -0.3226125728637125,
+        "theorem3_bound": 0.9240181495120184
+      },
+      "mixing": "sinusoidal_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 2644,
+      "source_mixing": "sinusoidal_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.3393059239220275,
+          "cert_bound": 0.1921000101957428,
+          "cert_bound_margin": -0.14720591372628472,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "non-positive theorem3 bound margin",
+          "cert_score": 0.0,
+          "cert_status": "not-certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.1921000101957428
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1788827,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9102015,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial; score=0.029441",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial",
+          "kind=verification; residue=theorem3-bound-margin; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.3393059239220275,
+          "alignment_loss": 0.37387839832246716,
+          "approx_identifiability_proxy": 0.8354342433965046,
+          "bound_margin": -0.14720591372628472,
+          "linear_identifiability_r2": 0.9013102641717469,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7294411827452569,
+          "quality_margin": -0.759441182745257,
+          "quality_q": -0.759441182745257,
+          "theorem3_bound": 0.1921000101957428
+        },
+        "run_id": "mixing-family-sinusoidal_shear-seed-3840",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "sinusoidal_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 3840,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.3393059239220275,
+        "alignment_loss": 0.37387839832246716,
+        "approx_identifiability_proxy": 0.8354342433965046,
+        "bound_margin": -0.14720591372628472,
+        "linear_identifiability_r2": 0.9013102641717469,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7294411827452569,
+        "quality_margin": -0.759441182745257,
+        "quality_q": -0.759441182745257,
+        "theorem3_bound": 0.1921000101957428
+      },
+      "mixing": "sinusoidal_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 3840,
+      "source_mixing": "sinusoidal_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.2661786764404999,
+          "cert_bound": 0.5039476699102021,
+          "cert_bound_margin": 0.2377689934697022,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.2377689934697022,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.5039476699102021
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1723248,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9266220,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.2661786764404999,
+          "alignment_loss": 0.3912089596819477,
+          "approx_identifiability_proxy": 0.807555269569105,
+          "bound_margin": 0.2377689934697022,
+          "linear_identifiability_r2": 0.9421129107365801,
+          "quality_benefit": 0.08000606575585298,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.649993934244147,
+          "quality_q": -0.649993934244147,
+          "theorem3_bound": 0.5039476699102021
+        },
+        "run_id": "mixing-family-sinusoidal_shear-seed-5118",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "sinusoidal_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 5118,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.2661786764404999,
+        "alignment_loss": 0.3912089596819477,
+        "approx_identifiability_proxy": 0.807555269569105,
+        "bound_margin": 0.2377689934697022,
+        "linear_identifiability_r2": 0.9421129107365801,
+        "quality_benefit": 0.08000606575585298,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.649993934244147,
+        "quality_q": -0.649993934244147,
+        "theorem3_bound": 0.5039476699102021
+      },
+      "mixing": "sinusoidal_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 5118,
+      "source_mixing": "sinusoidal_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.23858628931919454,
+          "cert_bound": 0.22959546825272364,
+          "cert_bound_margin": -0.008990821066470894,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "non-positive theorem3 bound margin",
+          "cert_score": 0.0,
+          "cert_status": "not-certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.22959546825272364
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1673014,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9383375,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial; score=0.001798",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial",
+          "kind=verification; residue=theorem3-bound-margin; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.23858628931919454,
+          "alignment_loss": 0.3941877169357615,
+          "approx_identifiability_proxy": 0.8853879381448895,
+          "bound_margin": -0.008990821066470894,
+          "linear_identifiability_r2": 0.9477836529974173,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7017981642132942,
+          "quality_margin": -0.7317981642132942,
+          "quality_q": -0.7317981642132942,
+          "theorem3_bound": 0.22959546825272364
+        },
+        "run_id": "mixing-family-sinusoidal_shear-seed-6478",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "sinusoidal_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 6478,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.23858628931919454,
+        "alignment_loss": 0.3941877169357615,
+        "approx_identifiability_proxy": 0.8853879381448895,
+        "bound_margin": -0.008990821066470894,
+        "linear_identifiability_r2": 0.9477836529974173,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7017981642132942,
+        "quality_margin": -0.7317981642132942,
+        "quality_q": -0.7317981642132942,
+        "theorem3_bound": 0.22959546825272364
+      },
+      "mixing": "sinusoidal_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 6478,
+      "source_mixing": "sinusoidal_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.1998148854660258,
+          "cert_bound": 0.243469770310222,
+          "cert_bound_margin": 0.04365488484419619,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.04365488484419619,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.243469770310222
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1781083,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9120343,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.1998148854660258,
+          "alignment_loss": 0.39105802150861474,
+          "approx_identifiability_proxy": 0.8916486133959214,
+          "bound_margin": 0.04365488484419619,
+          "linear_identifiability_r2": 0.9650868980550354,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.73,
+          "quality_q": -0.73,
+          "theorem3_bound": 0.243469770310222
+        },
+        "run_id": "mixing-family-parabolic_shear-seed-498",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "parabolic_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 498,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.1998148854660258,
+        "alignment_loss": 0.39105802150861474,
+        "approx_identifiability_proxy": 0.8916486133959214,
+        "bound_margin": 0.04365488484419619,
+        "linear_identifiability_r2": 0.9650868980550354,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.73,
+        "quality_q": -0.73,
+        "theorem3_bound": 0.243469770310222
+      },
+      "mixing": "parabolic_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 498,
+      "source_mixing": "parabolic_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.27114368686843277,
+          "cert_bound": 0.49680630730470277,
+          "cert_bound_margin": 0.22566262043627,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.22566262043627,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.49680630730470277
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1661317,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9408011,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.27114368686843277,
+          "alignment_loss": 0.4401038388400362,
+          "approx_identifiability_proxy": 0.9017436449582231,
+          "bound_margin": 0.22566262043627,
+          "linear_identifiability_r2": 0.9438156950406466,
+          "quality_benefit": 0.10695819768552417,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.6230418023144758,
+          "quality_q": -0.6230418023144758,
+          "theorem3_bound": 0.49680630730470277
+        },
+        "run_id": "mixing-family-parabolic_shear-seed-1530",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "parabolic_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 1530,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.27114368686843277,
+        "alignment_loss": 0.4401038388400362,
+        "approx_identifiability_proxy": 0.9017436449582231,
+        "bound_margin": 0.22566262043627,
+        "linear_identifiability_r2": 0.9438156950406466,
+        "quality_benefit": 0.10695819768552417,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.6230418023144758,
+        "quality_q": -0.6230418023144758,
+        "theorem3_bound": 0.49680630730470277
+      },
+      "mixing": "parabolic_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 1530,
+      "source_mixing": "parabolic_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.266140761576481,
+          "cert_bound": 0.7125700381047138,
+          "cert_bound_margin": 0.4464292765282328,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.4464292765282328,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.7125700381047138
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1737867,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9222939,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.266140761576481,
+          "alignment_loss": 0.40730689862108976,
+          "approx_identifiability_proxy": 0.8150966152274182,
+          "bound_margin": 0.4464292765282328,
+          "linear_identifiability_r2": 0.9359775585207173,
+          "quality_benefit": 0.2606343094797824,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.4693656905202176,
+          "quality_q": -0.4693656905202176,
+          "theorem3_bound": 0.7125700381047138
+        },
+        "run_id": "mixing-family-parabolic_shear-seed-2644",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "parabolic_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 2644,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.266140761576481,
+        "alignment_loss": 0.40730689862108976,
+        "approx_identifiability_proxy": 0.8150966152274182,
+        "bound_margin": 0.4464292765282328,
+        "linear_identifiability_r2": 0.9359775585207173,
+        "quality_benefit": 0.2606343094797824,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.4693656905202176,
+        "quality_q": -0.4693656905202176,
+        "theorem3_bound": 0.7125700381047138
+      },
+      "mixing": "parabolic_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 2644,
+      "source_mixing": "parabolic_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.29878686664400805,
+          "cert_bound": 0.10862671644819123,
+          "cert_bound_margin": -0.19016015019581683,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "non-positive theorem3 bound margin",
+          "cert_score": 0.0,
+          "cert_status": "not-certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.10862671644819123
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1788827,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9102015,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial; score=0.038032",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial",
+          "kind=verification; residue=theorem3-bound-margin; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.29878686664400805,
+          "alignment_loss": 0.3531869846136469,
+          "approx_identifiability_proxy": 0.8595810073966267,
+          "bound_margin": -0.19016015019581683,
+          "linear_identifiability_r2": 0.9215082184912005,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7380320300391634,
+          "quality_margin": -0.7680320300391634,
+          "quality_q": -0.7680320300391634,
+          "theorem3_bound": 0.10862671644819123
+        },
+        "run_id": "mixing-family-parabolic_shear-seed-3840",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "parabolic_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 3840,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.29878686664400805,
+        "alignment_loss": 0.3531869846136469,
+        "approx_identifiability_proxy": 0.8595810073966267,
+        "bound_margin": -0.19016015019581683,
+        "linear_identifiability_r2": 0.9215082184912005,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7380320300391634,
+        "quality_margin": -0.7680320300391634,
+        "quality_q": -0.7680320300391634,
+        "theorem3_bound": 0.10862671644819123
+      },
+      "mixing": "parabolic_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 3840,
+      "source_mixing": "parabolic_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.21080766981422724,
+          "cert_bound": 0.341882145896739,
+          "cert_bound_margin": 0.13107447608251174,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.13107447608251174,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.341882145896739
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1723248,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9266220,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.21080766981422724,
+          "alignment_loss": 0.3801611167389543,
+          "approx_identifiability_proxy": 0.881769001449544,
+          "bound_margin": 0.13107447608251174,
+          "linear_identifiability_r2": 0.9674716053262516,
+          "quality_benefit": 0.00031092994414975983,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.7296890700558502,
+          "quality_q": -0.7296890700558502,
+          "theorem3_bound": 0.341882145896739
+        },
+        "run_id": "mixing-family-parabolic_shear-seed-5118",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "parabolic_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 5118,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.21080766981422724,
+        "alignment_loss": 0.3801611167389543,
+        "approx_identifiability_proxy": 0.881769001449544,
+        "bound_margin": 0.13107447608251174,
+        "linear_identifiability_r2": 0.9674716053262516,
+        "quality_benefit": 0.00031092994414975983,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.7296890700558502,
+        "quality_q": -0.7296890700558502,
+        "theorem3_bound": 0.341882145896739
+      },
+      "mixing": "parabolic_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 5118,
+      "source_mixing": "parabolic_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.1867296819403802,
+          "cert_bound": 0.11834331999533848,
+          "cert_bound_margin": -0.06838636194504172,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "non-positive theorem3 bound margin",
+          "cert_score": 0.0,
+          "cert_status": "not-certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.11834331999533848
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1673014,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9383375,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial; score=0.013677",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial",
+          "kind=verification; residue=theorem3-bound-margin; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.1867296819403802,
+          "alignment_loss": 0.3777178174594003,
+          "approx_identifiability_proxy": 0.9313418538468337,
+          "bound_margin": -0.06838636194504172,
+          "linear_identifiability_r2": 0.9682824600416597,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7136772723890084,
+          "quality_margin": -0.7436772723890084,
+          "quality_q": -0.7436772723890084,
+          "theorem3_bound": 0.11834331999533848
+        },
+        "run_id": "mixing-family-parabolic_shear-seed-6478",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "parabolic_shear",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 6478,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.1867296819403802,
+        "alignment_loss": 0.3777178174594003,
+        "approx_identifiability_proxy": 0.9313418538468337,
+        "bound_margin": -0.06838636194504172,
+        "linear_identifiability_r2": 0.9682824600416597,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7136772723890084,
+        "quality_margin": -0.7436772723890084,
+        "quality_q": -0.7436772723890084,
+        "theorem3_bound": 0.11834331999533848
+      },
+      "mixing": "parabolic_shear",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 6478,
+      "source_mixing": "parabolic_shear",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.14200698546524135,
+          "cert_bound": 0.179043373531131,
+          "cert_bound_margin": 0.03703638806588966,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.03703638806588966,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.179043373531131
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1781083,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9120343,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.14200698546524135,
+          "alignment_loss": 0.3754638068976654,
+          "approx_identifiability_proxy": 0.8936039659885988,
+          "bound_margin": 0.03703638806588966,
+          "linear_identifiability_r2": 0.9880780768640692,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.73,
+          "quality_q": -0.73,
+          "theorem3_bound": 0.179043373531131
+        },
+        "run_id": "mixing-family-realnvp_coupling-seed-498",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "realnvp_coupling",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 498,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.14200698546524135,
+        "alignment_loss": 0.3754638068976654,
+        "approx_identifiability_proxy": 0.8936039659885988,
+        "bound_margin": 0.03703638806588966,
+        "linear_identifiability_r2": 0.9880780768640692,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.73,
+        "quality_q": -0.73,
+        "theorem3_bound": 0.179043373531131
+      },
+      "mixing": "realnvp_coupling",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 498,
+      "source_mixing": "realnvp_coupling",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.1338229603309677,
+          "cert_bound": 0.5230332321951616,
+          "cert_bound_margin": 0.38921027186419394,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.38921027186419394,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.5230332321951616
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1661317,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9408011,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.1338229603309677,
+          "alignment_loss": 0.4310551114905886,
+          "approx_identifiability_proxy": 0.8832673420365236,
+          "bound_margin": 0.38921027186419394,
+          "linear_identifiability_r2": 0.9906324797056903,
+          "quality_benefit": 0.2563730512225329,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.473626948777467,
+          "quality_q": -0.473626948777467,
+          "theorem3_bound": 0.5230332321951616
+        },
+        "run_id": "mixing-family-realnvp_coupling-seed-1530",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "realnvp_coupling",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 1530,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.1338229603309677,
+        "alignment_loss": 0.4310551114905886,
+        "approx_identifiability_proxy": 0.8832673420365236,
+        "bound_margin": 0.38921027186419394,
+        "linear_identifiability_r2": 0.9906324797056903,
+        "quality_benefit": 0.2563730512225329,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.473626948777467,
+        "quality_q": -0.473626948777467,
+        "theorem3_bound": 0.5230332321951616
+      },
+      "mixing": "realnvp_coupling",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 1530,
+      "source_mixing": "realnvp_coupling",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.15161352570712333,
+          "cert_bound": 1.181780624172054,
+          "cert_bound_margin": 1.0301670984649307,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.871707555018223,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 1.181780624172054
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1737867,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9222939,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.15161352570712333,
+          "alignment_loss": 0.4481223552296043,
+          "approx_identifiability_proxy": 0.8421251862226881,
+          "bound_margin": 1.0301670984649307,
+          "linear_identifiability_r2": 0.9838568544575499,
+          "quality_benefit": 0.636752351753705,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.09324764824629495,
+          "quality_q": -0.09324764824629495,
+          "theorem3_bound": 1.181780624172054
+        },
+        "run_id": "mixing-family-realnvp_coupling-seed-2644",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "realnvp_coupling",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 2644,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.15161352570712333,
+        "alignment_loss": 0.4481223552296043,
+        "approx_identifiability_proxy": 0.8421251862226881,
+        "bound_margin": 1.0301670984649307,
+        "linear_identifiability_r2": 0.9838568544575499,
+        "quality_benefit": 0.636752351753705,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.09324764824629495,
+        "quality_q": -0.09324764824629495,
+        "theorem3_bound": 1.181780624172054
+      },
+      "mixing": "realnvp_coupling",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 2644,
+      "source_mixing": "realnvp_coupling",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.14324012741357775,
+          "cert_bound": 0.046908476481639205,
+          "cert_bound_margin": -0.09633165093193855,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "non-positive theorem3 bound margin",
+          "cert_score": 0.0,
+          "cert_status": "not-certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.046908476481639205
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1788827,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9102015,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial; score=0.019266",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open",
+          "kind=verification; residue=theorem3-bound-margin; severity=low; status=partial",
+          "kind=verification; residue=theorem3-bound-margin; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.14324012741357775,
+          "alignment_loss": 0.34308034079219724,
+          "approx_identifiability_proxy": 0.9392964545136893,
+          "bound_margin": -0.09633165093193855,
+          "linear_identifiability_r2": 0.9864203390493382,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7192663301863877,
+          "quality_margin": -0.7492663301863878,
+          "quality_q": -0.7492663301863878,
+          "theorem3_bound": 0.046908476481639205
+        },
+        "run_id": "mixing-family-realnvp_coupling-seed-3840",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "realnvp_coupling",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 3840,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.14324012741357775,
+        "alignment_loss": 0.34308034079219724,
+        "approx_identifiability_proxy": 0.9392964545136893,
+        "bound_margin": -0.09633165093193855,
+        "linear_identifiability_r2": 0.9864203390493382,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7192663301863877,
+        "quality_margin": -0.7492663301863878,
+        "quality_q": -0.7492663301863878,
+        "theorem3_bound": 0.046908476481639205
+      },
+      "mixing": "realnvp_coupling",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 3840,
+      "source_mixing": "realnvp_coupling",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.1724198588005561,
+          "cert_bound": 0.7413683079363227,
+          "cert_bound_margin": 0.5689484491357666,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.5689484491357666,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.7413683079363227
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1723248,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9266220,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.1724198588005561,
+          "alignment_loss": 0.3978771444778125,
+          "approx_identifiability_proxy": 0.8075972478249819,
+          "bound_margin": 0.5689484491357666,
+          "linear_identifiability_r2": 0.9914063257172842,
+          "quality_benefit": 0.3732033665160759,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.3567966334839241,
+          "quality_q": -0.3567966334839241,
+          "theorem3_bound": 0.7413683079363227
+        },
+        "run_id": "mixing-family-realnvp_coupling-seed-5118",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "realnvp_coupling",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 5118,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.1724198588005561,
+        "alignment_loss": 0.3978771444778125,
+        "approx_identifiability_proxy": 0.8075972478249819,
+        "bound_margin": 0.5689484491357666,
+        "linear_identifiability_r2": 0.9914063257172842,
+        "quality_benefit": 0.3732033665160759,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.3567966334839241,
+        "quality_q": -0.3567966334839241,
+        "theorem3_bound": 0.7413683079363227
+      },
+      "mixing": "realnvp_coupling",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 5118,
+      "source_mixing": "realnvp_coupling",
+      "status": "ok"
+    },
+    {
+      "classifier_name": "standardized-nonlinear-observation",
+      "classifier_training": "deterministic-standardization",
+      "envelope_projection": {
+        "classifier_spec": {
+          "cert_actual_recovery_error": 0.160509501522974,
+          "cert_bound": 0.21547193854250918,
+          "cert_bound_margin": 0.05496243701953518,
+          "cert_method": "theorem3-bound-margin",
+          "cert_reason": "positive theorem3 bound margin",
+          "cert_score": 0.05496243701953518,
+          "cert_status": "certified",
+          "cert_threshold": {
+            "max_recovery_error": 1.0,
+            "theorem3_bound": 0.21547193854250918
+          },
+          "eval_count": 115,
+          "eval_index_checksum": 1673014,
+          "name": "standardized-nonlinear-observation",
+          "output_dim": 2,
+          "overlap_count": 0,
+          "split_policy": "train-eval-disjoint",
+          "train_count": 269,
+          "train_fraction": 0.7,
+          "train_index_checksum": 9383375,
+          "training": "deterministic-standardization"
+        },
+        "debt_items": [
+          "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+          "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+          "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
+          "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
+          "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000"
+        ],
+        "ledger_gaps": [
+          "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+          "kind=source; residue=finite-sample-support; severity=high; status=open",
+          "kind=source; residue=mixing-family-coverage; severity=high; status=open",
+          "kind=source; residue=source-coverage; severity=high; status=open"
+        ],
+        "metrics": {
+          "actual_recovery_error": 0.160509501522974,
+          "alignment_loss": 0.3764379001183527,
+          "approx_identifiability_proxy": 0.8848302429491988,
+          "bound_margin": 0.05496243701953518,
+          "linear_identifiability_r2": 0.9911451572724939,
+          "quality_benefit": 0.0,
+          "quality_cost": 0.03,
+          "quality_debt": 0.7,
+          "quality_margin": -0.73,
+          "quality_q": -0.73,
+          "theorem3_bound": 0.21547193854250918
+        },
+        "run_id": "mixing-family-realnvp_coupling-seed-6478",
+        "schema_id": "bedc-quality-lab:evidence-envelope",
+        "source_spec": {
+          "latent_dim": 2,
+          "latent_distribution": "gaussian",
+          "mixing": "realnvp_coupling",
+          "name": "gaussian-ou-toy-world",
+          "rho": 0.82,
+          "rho_by_axis": [
+            0.82,
+            0.82
+          ],
+          "sample_count": 384,
+          "transition_anisotropy_gap": 0.0,
+          "transition_isotropic": true,
+          "transition_kernel": {
+            "anisotropy_gap": 0.0,
+            "eigenvalue_interleaving": {
+              "adjacent_gaps": [
+                0.0
+              ],
+              "anisotropy_gap": 0.0,
+              "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+              "eigenvalues": [
+                0.82,
+                0.82
+              ],
+              "min_adjacent_gap": 0.0,
+              "operator": "diagonal-ou-transition",
+              "sorted_eigenvalues": [
+                0.82,
+                0.82
+              ]
+            },
+            "family": "ornstein-uhlenbeck",
+            "isotropic": true,
+            "noise_family": "gaussian",
+            "rho_by_axis": [
+              0.82,
+              0.82
+            ]
+          }
+        },
+        "stability_spec": {
+          "name": "fixed-seed-single-source",
+          "pair_process": "ornstein-uhlenbeck",
+          "seed": 6478,
+          "transition_eigenvalue_interleaving": {
+            "adjacent_gaps": [
+              0.0
+            ],
+            "anisotropy_gap": 0.0,
+            "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+            "eigenvalues": [
+              0.82,
+              0.82
+            ],
+            "min_adjacent_gap": 0.0,
+            "operator": "diagonal-ou-transition",
+            "sorted_eigenvalues": [
+              0.82,
+              0.82
+            ]
+          },
+          "transition_noise_family": "gaussian"
+        }
+      },
+      "metrics": {
+        "actual_recovery_error": 0.160509501522974,
+        "alignment_loss": 0.3764379001183527,
+        "approx_identifiability_proxy": 0.8848302429491988,
+        "bound_margin": 0.05496243701953518,
+        "linear_identifiability_r2": 0.9911451572724939,
+        "quality_benefit": 0.0,
+        "quality_cost": 0.03,
+        "quality_debt": 0.7,
+        "quality_margin": -0.73,
+        "quality_q": -0.73,
+        "theorem3_bound": 0.21547193854250918
+      },
+      "mixing": "realnvp_coupling",
+      "mixing_debt_item": {
+        "kind": "source",
+        "residue": "mixing-family-coverage",
+        "score": "0.220000",
+        "severity": "high",
+        "status": "open"
+      },
+      "sample_count": 384,
+      "seed": 6478,
+      "source_mixing": "realnvp_coupling",
+      "status": "ok"
+    }
+  ],
+  "source_artifacts": {
+    "canonical_runner": "scripts/run_gaussian_ou_lejepa.py",
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "debt_scorer": "bedc_quality_lab/debt.py",
+    "mixing_surface": "bedc_quality_lab/mixing.py",
+    "toy_world_surface": "bedc_quality_lab/toy_world.py"
+  }
+}
