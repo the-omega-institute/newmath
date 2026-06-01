@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\FiniteVolumeUp$}
+\label{ch:concrete-instances-finite-volume-namecert}
+\origin{human}
+
+Following LeVeque and Eymard--Gallouet--Herbin, the $\FiniteVolumeUp$ packet records conservative finite-mesh balance as BEDC-visible ledger data. It sits over the mesh cells of \autoref{ch:concrete-instances-finite-partition-mesh-namecert}, the gauge and sum interfaces of \autoref{ch:concrete-instances-riemann-sum-gauge-namecert} and \autoref{ch:concrete-instances-darboux-sum-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the PDE relation surface of \autoref{ch:concrete-instances-pde-namecert}. The packet names the finite conservation rows inspected by numerical PDE consumers; it does not import a host solution, mesh-limit convergence theorem, weak formulation quotient, solver trace, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite-volume carrier]
+\label{def:finite-volume-carrier}
+A $\FiniteVolumeUp$ carrier is a finite $\BHist$ packet
+$$
+V=(M,F,X,B,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\FinitePartitionMeshUp$ cell-mesh row, carrying finitely many control volumes with their displayed incidence names.
+\item $F$ is the face-incidence row, pairing each interior face with its two adjacent cells and each boundary face with its boundary tag.
+\item $X$ is the flux ledger, storing one oriented numerical flux entry for each displayed face incidence and the local stencil rows used to read it.
+\item $B$ is the boundary ledger, storing boundary flux, source, or trace data only along faces marked boundary by $F$.
+\item $S$ is the residual and conservation-balance row, recording for each cell the sum of incoming and outgoing face flux entries together with source and residual rows.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the cellwise flux, source, residual, and balance windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to compare paired face contributions and displayed residual budgets.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $M,F,X,B,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the mesh, incidence, flux, boundary, residual, regular readback, dyadic tolerance, Real seal, replay, provenance, and local naming rows.
+\item $C$ is the displayed $\Cont$ replay from a finite cell-balance request through $M,F,X,B,S,R,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteVolumeUp$, $\FinitePartitionMeshUp$, $\RiemannSumGaugeUp$, $\DarbouxSumUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\PdeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteVolumeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host PDE solution, unrestricted mesh refinement limit, quotient weak solution, selected trace, hidden solver state, or ambient real completeness theorem.
+\end{definition}
+
+\begin{theorem}[Finite-volume conservation balance]
+\label{thm:finite-volume-conservation-balance}
+For every accepted $\FiniteVolumeUp$ carrier
+$$
+V=(M,F,X,B,S,R,D,E,H,C,P,N),
+$$
+the aggregate conservation read over any displayed finite set of cells cancels every interior face flux that is paired by the incidence row $F$. The visible aggregate balance consists only of boundary-ledger contributions from $B$, displayed source rows, residual rows from $S$, and the downstream $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ seal data. It does not assert a host PDE solution, unrestricted convergence of a mesh family, selected weak trace, quotient equality of approximate solutions, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-volume-carrier}. The row $F$ is the only source of face incidence, so every interior face visible to the packet appears with exactly the two adjacent cell orientations recorded by that row.
+
+Read the oriented flux ledger $X$ through the same incidence data. In a cellwise aggregate, the contribution of an interior face is inspected once from each adjacent cell with opposite orientation, so those two displayed ledger entries cancel as a pair. Boundary faces have no second adjacent cell row, hence they remain visible through the boundary ledger $B$.
+
+The residual and conservation row $S$ then records exactly what remains after the paired interior cancellations: boundary contributions, displayed source rows, and residual rows. The $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ tolerance row $D$, and $\RealUp$ seal $E$ are downstream of this balance, while $H,C,P,N$ transport, replay, source, and name the same finite route. No excluded host solution, mesh-limit, quotient, trace, or completeness coordinate is present in the carrier.
+\end{proof}
+
+\closureat{FiniteVolumeUp}{seedStr}
+
+\begin{closurestatus}{\FiniteVolumeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-volume-carrier} and \autoref{thm:finite-volume-conservation-balance} seed the conservative finite-volume packet over mesh cells, face incidence, flux ledgers, boundary rows, residual balances, RegSeqRat readback, dyadic tolerance, RealUp seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host PDE solutions, unrestricted mesh-limit convergence, quotient weak-solution equality, selected traces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked mesh admission, face-incidence pairing, flux-ledger transport, boundary-ledger routing, residual-balance exactness, regular readback, dyadic tolerance, Real-seal admission, replay, provenance, and local naming for BEDC.Derived.FiniteVolumeUp.}
+  \constructivestory{A $\FiniteVolumeUp$ packet is generated from a FinitePartitionMeshUp cell mesh, face incidence rows, oriented flux ledgers, boundary ledgers, residual conservation balances, RegSeqRat readback, DyadicRatCore tolerance, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
