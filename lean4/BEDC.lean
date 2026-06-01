@@ -3579,6 +3579,7 @@ import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.RealBracketConsumerLock
 import BEDC.Derived.FareySequenceUp.RealReadbackRootObligation
 import BEDC.Derived.FareySequenceUp.RefinementCoverage
+import BEDC.Derived.FareySequenceUp.SternBrocotHandoffLock
 import BEDC.Derived.FareySequenceUp.StreamWindowStability
 import BEDC.Derived.FareySequenceUp.TasteGate
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
