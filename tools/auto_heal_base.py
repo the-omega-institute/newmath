@@ -503,6 +503,10 @@ def _with_fix_signature(prompt: str, signature: str) -> str:
 
 def _ci_fix_signature(log_tail: str, failure: dict) -> str:
     patterns = [
+        (
+            r"\\leantarget\s+'([^']+)'\s+does not resolve under lean4/BEDC/",
+            "closurestatus target",
+        ),
         (r"Undefined control sequence\.\s*(?:.*\n){0,3}.*?(\\[A-Za-z@]+)", "missing macro"),
         (r"Command\s+(\\[A-Za-z@]+)\s+already defined", "duplicate macro"),
         (r"LaTeX Error:\s*Command\s+(\\[A-Za-z@]+)\s+already defined", "duplicate macro"),
@@ -901,6 +905,12 @@ the defect was already fixed) do you make no commit.
    - **lake build `unknown identifier`** / `type mismatch` — find the
      theorem and either fix the proof, or if the upstream `def`/`theorem`
      was renamed, update callers. Do NOT introduce `sorry` or `axiom`.
+   - **`bedc_ci.py audit` `closurestatus block diagnostics` with
+     `\\leantarget 'X' does not resolve`** — inspect the closurestatus block.
+     If the block has `\\formalstatus{\\unformalizedV}` or another status
+     below theorem-checked, remove the stale `\\leantarget{X}`. If the block
+     genuinely claims theorem-checked status, add or rename the Lean target so
+     `X` resolves.
    - **`bedc_ci.py audit` `unresolved Lean marker`** — paper has
      `\\leanchecked{X}` for which `X` doesn't exist in `lean4/BEDC/`. Either
      add the missing Lean theorem OR change the paper marker to
