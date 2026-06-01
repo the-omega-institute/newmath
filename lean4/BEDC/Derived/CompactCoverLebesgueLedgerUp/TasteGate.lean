@@ -270,4 +270,39 @@ theorem CompactCoverLebesgueLedgerCarrier_namecert_obligations
             ⟨compactNet, pointwiseRadius, ratLedger, lowerBoundFold, uniformModulus,
               transport, route, provenance, name, rfl, rfl⟩
 
+theorem CompactCoverLebesgueLedgerCarrier_classifier_surface
+    (x : CompactCoverLebesgueLedgerUp) :
+    (∃ compactNet pointwiseRadius ratLedger lowerBoundFold uniformModulus transport route
+        provenance name : BHist,
+      x =
+          CompactCoverLebesgueLedgerUp.mk compactNet pointwiseRadius ratLedger lowerBoundFold
+            uniformModulus transport route provenance name ∧
+        compactCoverLebesgueLedgerFields x =
+          [compactNet, pointwiseRadius, ratLedger, lowerBoundFold, uniformModulus, transport,
+            route, provenance, name]) ∧
+      BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+        compactCoverLebesgueLedgerEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk compactNet pointwiseRadius ratLedger lowerBoundFold uniformModulus transport route
+      provenance name =>
+      constructor
+      · exact
+          ⟨compactNet, pointwiseRadius, ratLedger, lowerBoundFold, uniformModulus, transport,
+            route, provenance, name, rfl, rfl⟩
+      · constructor
+        · change
+            compactCoverLebesgueLedgerFromEventFlow
+              (compactCoverLebesgueLedgerToEventFlow
+                (CompactCoverLebesgueLedgerUp.mk compactNet pointwiseRadius ratLedger
+                  lowerBoundFold uniformModulus transport route provenance name)) =
+              some
+                (CompactCoverLebesgueLedgerUp.mk compactNet pointwiseRadius ratLedger
+                  lowerBoundFold uniformModulus transport route provenance name)
+          exact
+            compactCoverLebesgueLedger_round_trip
+              (CompactCoverLebesgueLedgerUp.mk compactNet pointwiseRadius ratLedger
+                lowerBoundFold uniformModulus transport route provenance name)
+        · rfl
+
 end BEDC.Derived.CompactCoverLebesgueLedgerUp

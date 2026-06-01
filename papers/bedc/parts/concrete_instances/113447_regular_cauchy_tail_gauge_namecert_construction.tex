@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailGaugeUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-gauge-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyTailGaugeUp$ packet records the finite tail-gauge row by which a regular rational Cauchy name exposes an explicit precision rate before a $\RealUp$ consumer reads the seal. It sits after the finite window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the rate-extraction sibling of \autoref{ch:concrete-instances-regular-cauchy-rate-extraction-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the displayed tail gauge itself; it does not assert quotient stream equality, host Cauchy completeness, selected moduli, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy tail-gauge carrier]
+\label{def:regular-cauchy-tail-gauge-carrier}
+A $\RegularCauchyTailGaugeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(W,R,D,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window row, recording the inspected windows, observation indices, and point cells used by the tail request.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic precision request, comparison budget, and endpoint cells used by $R$.
+\item $G$ is the explicit tail-gauge row, assigning each displayed precision request to the finite window after which the $R$ readback is certified within the $D$ tolerance.
+\item $E$ is the $\RealUp$ seal row reached only after $W,R,D,$ and $G$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for windows, readbacks, tolerance rows, tail gauges, Real seals, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail request through window inspection, regular readback, dyadic tolerance inspection, gauge selection, Real-seal consumption, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailGaugeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailGaugeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,R,D,G,E,H,C,P,N$. It has no coordinate for quotient streams, selected limits, host Cauchy completeness, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail-gauge NameCert obligations]
+\label{thm:regular-cauchy-tail-gauge-namecert-obligations}
+For every accepted $\RegularCauchyTailGaugeUp$ carrier
+$$
+T=(W,R,D,G,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyTailGaugeUp}$ surface consists exactly of carrier admission for the $\StreamNameUp$ window row, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ tolerance row, the explicit tail-gauge row, the $\RealUp$ seal row, componentwise transport, displayed replay, provenance, and local naming. No tail-gauge obligation is stored outside those finite rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-tail-gauge-carrier}. The analytic rows are $W,R,D,G,E$, and the structural rows are $H,C,P,N$.
+
+Read the window and regular-rational rows first. The $\StreamNameUp$ row fixes the finite observations available to the request, and the $\RegSeqRatUp$ row attaches the rational readback to those observations.
+
+The dyadic ledger and gauge row then provide the tolerance accounting. The row $D$ records the displayed precision budget, and $G$ records the finite tail stage after which that budget is met.
+
+Finally the seal and structural rows package the same route. Since the carrier has no coordinate for quotient streams, selected limits, host completeness, countable choice, trichotomy, or ambient Real completeness, none can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-gauge Real seal handoff]
+\label{thm:regular-cauchy-tail-gauge-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyTailGaugeUp$ packet must first read the finite route
+$$
+W \longmapsto R \longmapsto D \longmapsto G \longmapsto E
+$$
+together with the transport, replay, provenance, and local naming rows $H,C,P,N$. The handoff is therefore an explicit finite tail gauge over StreamName, RegSeqRat, and DyadicRatCore data, not a host completeness argument or a selected limit.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing read. Carrier admission exposes $W$ before any regular rational or Real-facing row can be consumed, so the read starts from displayed finite windows.
+
+Apply the readback and tolerance rows. The row $R$ supplies the regular rational observation for those windows, while $D$ supplies the dyadic precision ledger used by the request.
+
+Now use the tail-gauge row $G$. It is the only row that names the finite stage at which the requested tolerance is reached, and it is stored before the Real seal $E$ is exposed.
+
+The rows $H,C,P,N$ preserve and name the same dependency order. Thus the Real-facing consumer receives a finite tail-gauge route rather than quotient stream equality, a selected modulus outside the packet, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-gauge window determinacy]
+\label{thm:regular-cauchy-tail-gauge-window-determinacy}
+If two accepted $\RegularCauchyTailGaugeUp$ packets agree componentwise on their $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, and $\DyadicRatCoreUp$ tolerance rows through the displayed $\hsame$ transport, then their explicit tail-gauge rows name the same finite tail stage for every displayed precision request before either $\RealUp$ seal is read.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers and compare their $W,R,D$ rows. Agreement on $W$ fixes the finite observations, agreement on $R$ fixes the regular rational readback, and agreement on $D$ fixes the dyadic precision ledger.
+
+Read the gauge row next. Since $G$ is attached only to those displayed windows, readbacks, and tolerance rows, a matching $W,R,D$ route leaves no second tail stage for the classifier to choose.
+
+Finally inspect the seal boundary. The $\RealUp$ rows are downstream of $G$, and the structural rows transport only the displayed packet. Hence window, readback, and tolerance agreement determines the tail gauge before the Real seal is available.
+\end{proof}
+
+\closureat{RegularCauchyTailGaugeUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailGaugeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-gauge-carrier}, \autoref{thm:regular-cauchy-tail-gauge-namecert-obligations}, \autoref{thm:regular-cauchy-tail-gauge-real-seal-handoff}, and \autoref{thm:regular-cauchy-tail-gauge-window-determinacy} seed the finite tail-gauge route from StreamName windows through RegSeqRat readback, DyadicRatCore tolerance, explicit gauge rows, and the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, host Cauchy completeness, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window-readback exactness, dyadic tolerance compatibility, gauge determinacy, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyTailGaugeUp.}
+  \constructivestory{A $\RegularCauchyTailGaugeUp$ packet is generated from StreamName finite windows, RegSeqRat readbacks, DyadicRatCore tolerance ledgers, an explicit tail-gauge row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
