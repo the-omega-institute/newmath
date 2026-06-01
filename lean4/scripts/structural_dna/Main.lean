@@ -1,0 +1,205 @@
+import Lean
+import scripts.structural_dna.TestTargets
+
+open Lean
+
+namespace BEDC.StructuralDna
+
+/-!
+The structural DNA fingerprint is alpha-equivalence invariant and structurally faithful for
+elaborated Lean expressions. Binder display names and metadata are ignored, while constants keep
+their canonical names and bound variables keep their de Bruijn indices.
+
+This deliberately does not fold definitional-equality unfolding: `def A := B` and an inline copy of
+`B` may receive different fingerprints. Bounded-whnf or unfolding-aware comparison is a separate
+extension.
+-/
+
+def hashString (s : String) : UInt64 :=
+  s.toUTF8.foldl
+    (fun acc byte => (acc.xor (UInt64.ofNat byte.toNat)) * 1099511628211)
+    14695981039346656037
+
+def hex64 (h : UInt64) : String :=
+  let digits := Nat.toDigits 16 h.toNat
+  let padding := List.replicate (16 - digits.length) '0'
+  String.ofList (padding ++ digits)
+
+def stableHash (s : String) : String :=
+  hex64 (hashString s)
+
+def quoteToken (s : String) : String :=
+  toString (repr s)
+
+def joinPayload (tag : String) (parts : List String) : String :=
+  "(" ++ tag ++ parts.foldl (fun acc part => acc ++ "|" ++ part) "" ++ ")"
+
+def levelPayload (u : Level) (params : List Name) : String :=
+  match u with
+  | .zero => "(level|zero)"
+  | .succ v => joinPayload "level-succ" [levelPayload v params]
+  | .max a b => joinPayload "level-max" [levelPayload a params, levelPayload b params]
+  | .imax a b => joinPayload "level-imax" [levelPayload a params, levelPayload b params]
+  | .param name =>
+      let index := params.idxOf name
+      if index < params.length then
+        joinPayload "level-param" [toString index]
+      else
+        joinPayload "level-param-free" [quoteToken name.toString]
+  | .mvar id => joinPayload "level-mvar" [quoteToken id.name.toString]
+
+def literalPayload : Literal → String
+  | .natVal n => joinPayload "lit-nat" [toString n]
+  | .strVal s => joinPayload "lit-str" [quoteToken s]
+
+partial def exprPayload (params : List Name) : Expr → String
+  | .bvar i => joinPayload "bvar" [toString i]
+  | .fvar id => joinPayload "fvar" [quoteToken id.name.toString]
+  | .mvar id => joinPayload "mvar" [quoteToken id.name.toString]
+  | .sort u => joinPayload "sort" [levelPayload u params]
+  | .const name us =>
+      joinPayload "const" [
+        quoteToken name.toString,
+        toString us.length,
+        joinPayload "levels" (us.map (levelPayload · params))
+      ]
+  | .app f a => joinPayload "app" [exprPayload params f, exprPayload params a]
+  | .lam _ ty body _ => joinPayload "lam" [exprPayload params ty, exprPayload params body]
+  | .forallE _ ty body _ => joinPayload "forall" [exprPayload params ty, exprPayload params body]
+  | .letE _ ty val body _ =>
+      joinPayload "let" [exprPayload params ty, exprPayload params val, exprPayload params body]
+  | .lit lit => literalPayload lit
+  | .mdata _ e => exprPayload params e
+  | .proj structName idx e =>
+      joinPayload "proj" [quoteToken structName.toString, toString idx, exprPayload params e]
+
+def exprFingerprint (params : List Name) (e : Expr) : String :=
+  stableHash (exprPayload params e)
+
+structure DeclFingerprint where
+  fingerprint : String
+  typeFp : String
+  valueFp : String
+deriving Repr
+
+def declFingerprint (info : ConstantInfo) : DeclFingerprint :=
+  let params := info.levelParams
+  let typeFp := exprFingerprint params info.type
+  let valueFp :=
+    match info.value? (allowOpaque := true) with
+    | some value => exprFingerprint params value
+    | none => ""
+  let fingerprint :=
+    stableHash (joinPayload "decl" [typeFp, valueFp])
+  { fingerprint := fingerprint, typeFp := typeFp, valueFp := valueFp }
+
+def jsonForDeclFingerprint (fp : DeclFingerprint) : Json :=
+  Json.mkObj [
+    ("fingerprint", Json.str fp.fingerprint),
+    ("type_fp", Json.str fp.typeFp),
+    ("value_fp", Json.str fp.valueFp)
+  ]
+
+def parseJsonStringArray (j : Json) (field : String) : Except String (Array String) := do
+  let arr ← (← j.getObjVal? field).getArr?
+  arr.mapM (fun item => item.getStr?)
+
+def readRequest (argv : List String) : IO (Array String × Array String) := do
+  if argv.length > 0 then
+    let imports := ((argv.getD 0 "").splitOn ",").filter (· ≠ "")
+    let decls := ((argv.getD 1 "").splitOn ",").filter (· ≠ "")
+    return (imports.toArray, decls.toArray)
+  else
+    let stdin ← IO.getStdin
+    let raw ← stdin.readToEnd
+    match Json.parse raw with
+    | .error err => throw (IO.userError s!"invalid JSON request: {err}")
+    | .ok j =>
+        match parseJsonStringArray j "imports", parseJsonStringArray j "decls" with
+        | .ok imports, .ok decls => return (imports, decls)
+        | .error err, _ => throw (IO.userError s!"invalid imports field: {err}")
+        | _, .error err => throw (IO.userError s!"invalid decls field: {err}")
+
+def importSpec (moduleName : String) : Import :=
+  { module := moduleName.toName, importAll := false, isExported := true, isMeta := false }
+
+def initModuleSearchPath : IO Unit := do
+  let sysroot ←
+    match (← IO.getEnv "LEAN_SYSROOT") with
+    | some path => pure (System.FilePath.mk path)
+    | none => findSysroot
+  let leanPath :=
+    match (← IO.getEnv "LEAN_PATH") with
+    | some path => System.SearchPath.parse path
+    | none => []
+  initSearchPath sysroot leanPath
+
+unsafe def fingerprintsJson (imports decls : Array String) : IO Json := do
+  withImportModules (imports.map importSpec) Options.empty fun env => do
+    let mut out : List (String × Json) := []
+    for decl in decls do
+      let name := decl.toName
+      match env.find? name with
+      | some info =>
+          out := (decl, jsonForDeclFingerprint (declFingerprint info)) :: out
+      | none =>
+          throw (IO.userError s!"declaration not found: {decl}")
+    return Json.mkObj out.reverse
+
+def testImports : Array String :=
+  #["scripts.structural_dna.TestTargets"]
+
+def testDecls : Array String :=
+  #[
+    "BEDC.StructuralDna.TestTargets.TA",
+    "BEDC.StructuralDna.TestTargets.TB",
+    "BEDC.StructuralDna.TestTargets.FA",
+    "BEDC.StructuralDna.TestTargets.FB",
+    "BEDC.StructuralDna.TestTargets.C1",
+    "BEDC.StructuralDna.TestTargets.C2",
+    "BEDC.StructuralDna.TestTargets.Hollow",
+    "BEDC.StructuralDna.TestTargets.SomeP"
+  ]
+
+def getFp! (items : List (String × DeclFingerprint)) (name : String) : IO String := do
+  match items.find? (fun item => item.fst == name) with
+  | some item => return item.snd.fingerprint
+  | none => throw (IO.userError s!"test declaration missing: {name}")
+
+def printCheck (label : String) (ok : Bool) : IO Bool := do
+  IO.println s!"{label}: {if ok then "PASS" else "FAIL"}"
+  return ok
+
+unsafe def runSelfTest : IO UInt32 := do
+  let items ← withImportModules (testImports.map importSpec) Options.empty fun env => do
+    let mut out : List (String × DeclFingerprint) := []
+    for decl in testDecls do
+      match env.find? decl.toName with
+      | some info => out := (decl, declFingerprint info) :: out
+      | none => throw (IO.userError s!"test declaration not found: {decl}")
+    return out
+  let ta ← getFp! items "BEDC.StructuralDna.TestTargets.TA"
+  let tb ← getFp! items "BEDC.StructuralDna.TestTargets.TB"
+  let fa ← getFp! items "BEDC.StructuralDna.TestTargets.FA"
+  let fb ← getFp! items "BEDC.StructuralDna.TestTargets.FB"
+  let c1 ← getFp! items "BEDC.StructuralDna.TestTargets.C1"
+  let c2 ← getFp! items "BEDC.StructuralDna.TestTargets.C2"
+  let hollow ← getFp! items "BEDC.StructuralDna.TestTargets.Hollow"
+  let someP ← getFp! items "BEDC.StructuralDna.TestTargets.SomeP"
+  let t1 ← printCheck "T1 lam alpha" (ta == tb)
+  let t2 ← printCheck "T2 forall alpha" (fa == fb)
+  let t3 ← printCheck "T3 classifier distinction" (c1 != c2)
+  let t4 ← printCheck "T4 hollow distinction" (hollow != someP)
+  return if [t1, t2, t3, t4].all id then 0 else 1
+
+end BEDC.StructuralDna
+
+unsafe def main (argv : List String) : IO UInt32 := do
+  BEDC.StructuralDna.initModuleSearchPath
+  match argv with
+  | ["--self-test"] => BEDC.StructuralDna.runSelfTest
+  | _ =>
+      let (imports, decls) ← BEDC.StructuralDna.readRequest argv
+      let json ← BEDC.StructuralDna.fingerprintsJson imports decls
+      IO.println json.compress
+      return 0

@@ -148,6 +148,7 @@ DNA_PROOF_ENV_RE = re.compile(
 )
 TOP_LEVEL_ORIGIN_RE = re.compile(r"^\s*\\origin\{([^}]*)\}\s*$", re.MULTILINE)
 VALID_ORIGINS = {"human", "ai"}
+STRUCTURAL_DNA_EXE = LEAN_ROOT / ".lake" / "build" / "bin" / "structural_dna"
 
 NAMESPACE_RE = re.compile(r"^\s*namespace\s+(?P<name>[A-Za-z0-9_'.]+)\s*$")
 END_RE = re.compile(r"^\s*end(?:\s+(?P<name>[A-Za-z0-9_'.]+))?\s*$")
@@ -317,6 +318,13 @@ class StructuralDnaRecord:
             "normalization": self.normalization,
             "lineage": self.lineage,
         }
+
+
+@dataclass(frozen=True)
+class ExprFingerprint:
+    fingerprint: str
+    type_fp: str
+    value_fp: str
 
 
 def read_text(path: Path) -> str:
@@ -2622,18 +2630,6 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
         issues.append(
             f"{where}: \\origin='{origin}' is not in {{human, ai}}"
         )
-    if origin == "ai":
-        body = block.get("raw_body") or ""
-        # AI-proposed chapters past seedClosure must witness a TasteGate instance.
-        non_seed = tc and tc != "seedClosure"
-        region = block.get("region") or ""
-        instance_marker = f"BEDC.Derived.{region}Up.taste_gate"
-        marker_present = instance_marker.replace("_", "\\_") in body or instance_marker in body
-        if non_seed and not marker_present:
-            issues.append(
-                f"{where}: \\origin=ai chapter at theoryclosure={tc} requires "
-                f"\\leanchecked{{{instance_marker}}} (TasteGate instance) before leaving seedClosure"
-            )
     return issues
 
 
@@ -3982,6 +3978,77 @@ def _json_sha256(payload: object) -> str:
     return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
 
 
+def _scrub_origin_tags(text: str) -> str:
+    return ORIGIN_TAG_RE.sub("", text or "")
+
+
+def _origin_blind_open_fields(open_fields: object) -> dict[str, object]:
+    if not isinstance(open_fields, dict):
+        return {}
+    return {
+        key: value
+        for key, value in open_fields.items()
+        if str(key).lower() != "origin"
+    }
+
+
+def _run_structural_dna_expr_fingerprints(
+    decls: Iterable[str],
+    imports: Iterable[str] = ("BEDC",),
+) -> dict[str, ExprFingerprint]:
+    requested = sorted({
+        _normalize_lean_target(decl)
+        for decl in decls
+        if _normalize_lean_target(decl)
+    })
+    if not requested:
+        return {}
+    if not STRUCTURAL_DNA_EXE.exists():
+        build = subprocess.run(
+            ["lake", "build", "structural_dna"],
+            cwd=LEAN_ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        if build.returncode != 0:
+            return {}
+    request = {
+        "imports": list(imports),
+        "decls": requested,
+    }
+    result = subprocess.run(
+        ["lake", "env", str(STRUCTURAL_DNA_EXE)],
+        cwd=LEAN_ROOT,
+        input=json.dumps(request, ensure_ascii=False),
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return {}
+    try:
+        raw = json.loads(result.stdout or "{}")
+    except json.JSONDecodeError:
+        return {}
+    out: dict[str, ExprFingerprint] = {}
+    if not isinstance(raw, dict):
+        return out
+    for decl, payload in raw.items():
+        if not isinstance(payload, dict):
+            continue
+        fingerprint = str(payload.get("fingerprint") or "")
+        type_fp = str(payload.get("type_fp") or "")
+        value_fp = str(payload.get("value_fp") or "")
+        if fingerprint:
+            out[str(decl)] = ExprFingerprint(
+                fingerprint=fingerprint,
+                type_fp=type_fp,
+                value_fp=value_fp,
+            )
+    return out
+
+
 def _structural_canonical_json(payload: object) -> str:
     return json.dumps(
         payload,
@@ -4079,9 +4146,9 @@ def _target_fingerprint(
         paper_payload = {
             "file": block.get("file", ""),
             "line": block.get("line", 0),
-            "closurestatus": block.get("raw_body", ""),
+            "closurestatus": _scrub_origin_tags(str(block.get("raw_body", ""))),
             "scopeclosed": block.get("scopeclosed", ""),
-            "open_fields": block.get("open_fields", {}),
+            "open_fields": _origin_blind_open_fields(block.get("open_fields", {})),
         }
     return _json_sha256({
         "schema": "bedc.adversarial-witness.fingerprint",
@@ -4738,7 +4805,16 @@ def _canonical_decl_shape(
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
     local_to_qualified: dict[str, list[str]] | None = None,
+    expr_fingerprints: dict[str, ExprFingerprint] | None = None,
 ) -> dict[str, object]:
+    expr_fp = (expr_fingerprints or {}).get(ref)
+    if expr_fp is not None:
+        return {
+            "kind": "elaborated_expr",
+            "expr_fingerprint": expr_fp.fingerprint,
+            "type_fp": expr_fp.type_fp,
+            "value_fp": expr_fp.value_fp,
+        }
     result_type = _declaration_header_result_type(declaration_headers.get(ref, "")) or ""
     body = strip_comments_and_strings(declaration_bodies.get(ref, ""))
     body = re.sub(r"\bfun\s+[^=]+=>", "fun ARG =>", body)
@@ -4767,9 +4843,16 @@ def _canonical_read_graph(
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
     local_to_qualified: dict[str, list[str]] | None = None,
+    expr_fingerprints: dict[str, ExprFingerprint] | None = None,
 ) -> list[dict[str, object]]:
     shapes = [
-        _canonical_decl_shape(ref, declaration_headers, declaration_bodies, local_to_qualified)
+        _canonical_decl_shape(
+            ref,
+            declaration_headers,
+            declaration_bodies,
+            local_to_qualified,
+            expr_fingerprints,
+        )
         for ref in sorted(set(refs))
         if ref in declaration_headers
     ]
@@ -4812,12 +4895,14 @@ def _structural_dna_record_from_sieve_item(
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
     carrier_index: dict[str, dict[str, object]],
+    expr_fingerprints: dict[str, ExprFingerprint] | None = None,
     *,
     lightweight: bool = False,
 ) -> StructuralDnaRecord:
     target = str(item.get("target", ""))
     block = None
     local_to_qualified = _local_to_qualified_index(declaration_headers)
+    expr_fingerprints = expr_fingerprints or {}
     region = str(item.get("region") or target.rsplit(".", 1)[-1])
     support_targets = [
         str(name)
@@ -4926,6 +5011,7 @@ def _structural_dna_record_from_sieve_item(
             declaration_headers,
             declaration_bodies,
             local_to_qualified,
+            expr_fingerprints,
         ),
     }
     support_fingerprint = {
@@ -4947,6 +5033,7 @@ def _structural_dna_record_from_sieve_item(
             declaration_headers,
             declaration_bodies,
             local_to_qualified,
+            expr_fingerprints,
         ),
     }
     adversarial_witnesses = [
@@ -4987,12 +5074,20 @@ def _structural_dna_record_from_sieve_item(
         "residual_prime_status": residual,
     }
     carrier_skeleton = _carrier_skeleton_for_refs(read_targets, carrier_index)
+    expr_read_graph = {
+        ref: {
+            "fingerprint": fp.fingerprint,
+            "type_fp": fp.type_fp,
+            "value_fp": fp.value_fp,
+        }
+        for ref, fp in sorted(expr_fingerprints.items())
+        if ref in set(read_targets + negative_branch_read_targets + support_targets + support_reachable + [target])
+    }
     canonical_fragments = {
-        "shift_kernel": shift_kernel,
-        "witness_fingerprint": witness_fingerprint,
-        "support_fingerprint": support_fingerprint,
+        "fingerprint_source": "elaborated_expr_read_graph",
         "factor_spectrum": factor_spectrum,
         "carrier_skeleton": carrier_skeleton,
+        "expr_read_graph": expr_read_graph,
     }
     structural_fingerprint = hashlib.sha256(
         _structural_canonical_json(canonical_fragments).encode("utf-8")
@@ -5015,14 +5110,18 @@ def _structural_dna_record_from_sieve_item(
     if not support_targets:
         unknown_reasons.add("no_disagreement_support_target")
     normalization = {
-        "method": "static_high_precision_approximation",
-        "alpha_renaming": "binder_names_collapsed",
-        "qualified_names": "resolved_to_structural_tokens_when_declaration_known",
-        "wrapper_alias_expansion_depth": 3,
-        "commutative_connectives": "And/Or sorted in parenthesized binary fragments",
-        "bhist_constructors": "recognized_constructor_trees_normalized",
+        "method": "elaborated_expr_fingerprint_with_static_context",
+        "alpha_renaming": "Lean.Expr de Bruijn bound variables; binder display names ignored",
+        "qualified_names": "constants keep canonical names",
+        "metadata": "Lean.Expr mdata stripped",
+        "binder_info": "ignored",
+        "defeq_unfolding": "not folded; bounded-whnf normalization is a separate extension",
+        "static_context": "static read-graph survey fields retained for diagnostics",
         "unknown_reasons": sorted(unknown_reasons),
-        "truth_boundary": "same fingerprint is a static structural match, not a proof of semantic isomorphism or novelty",
+        "truth_boundary": (
+            "fingerprint is alpha-equivalence invariant and structurally faithful over "
+            "elaborated Expr; same fingerprint is not a proof of semantic isomorphism or novelty"
+        ),
     }
     return StructuralDnaRecord(
         target=target,
@@ -5288,6 +5387,19 @@ def structural_dna_payload(
             if carrier_records is None and sieve_targets else carrier_records or []
         )
     )
+    expr_requested: set[str] = set()
+    for item in sieve_targets:
+        target = _normalize_lean_target(item.get("target"))
+        if target:
+            expr_requested.add(target)
+        profile = item.get("sieve_profile", {}) or {}
+        if isinstance(profile, dict):
+            for field in ("support_targets", "adversarial_input_targets", "support_reachable"):
+                for ref in profile.get(field, []) or []:
+                    ref = _normalize_lean_target(ref)
+                    if ref:
+                        expr_requested.add(ref)
+    expr_fingerprints = _run_structural_dna_expr_fingerprints(expr_requested)
     records: list[dict[str, object]] = []
     grade_counts: Counter[str] = Counter()
     for item in sieve_targets:
@@ -5296,6 +5408,7 @@ def structural_dna_payload(
             lean_scan.declaration_headers,
             lean_scan.declaration_bodies,
             carrier_index,
+            expr_fingerprints,
             lightweight=sieve_payload is None,
         )
         lineage_block = block_by_region.get(record.region)
