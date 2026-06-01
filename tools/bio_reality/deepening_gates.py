@@ -722,6 +722,28 @@ def self_test() -> int:
         ):
             print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
             return 1
+    scalar_test_scope_results = gate_all(
+        [],
+        [
+            {
+                **contact,
+                "contact_id": "matched-mrna-abundance-control",
+                "can_test": "code_read layer",
+                "cannot_test": "translation realization",
+            }
+        ],
+        [],
+        [],
+    )
+    scalar_test_scope = next(
+        result for result in scalar_test_scope_results if result["packet_id"] == "matched-mrna-abundance-control"
+    )
+    if scalar_test_scope["gate_status"] != "gate_blocked" or not {
+        "can_test must be an array",
+        "cannot_test must be an array",
+    }.issubset(set(scalar_test_scope["issues"])):
+        print(json.dumps(scalar_test_scope_results, indent=2), file=sys.stderr)
+        return 1
     invalid_contact_id = "matched_mRNA_abundance_control"
     normalized_contact_id = invalid_contact_id_cases[invalid_contact_id]
     invalid_contact_mismatch_results = gate_all(
@@ -786,6 +808,27 @@ def self_test() -> int:
     ):
         print(json.dumps(invalid_required_contact_results, indent=2), file=sys.stderr)
         return 1
+    invalid_conjecture_contact_ref_results = gate_all(
+        [
+            {
+                **conjecture,
+                "conjecture_id": "codon.code.invalid-contact-ref",
+                "reality_contact_refs": [invalid_contact_id],
+            }
+        ],
+        [contact],
+        [],
+        [],
+    )
+    if not any(
+        "reality_contact_refs item: invalid id" in issue
+        and f"suggested normalized id: {normalized_contact_id}" in issue
+        and "reality contact not found" in " ".join(result["issues"])
+        for result in invalid_conjecture_contact_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_contact_ref_results, indent=2), file=sys.stderr)
+        return 1
     contact_schema = json.loads((SCRIPT_DIR / "reality_contact.schema.json").read_text(encoding="utf-8"))
     contact_id_pattern = contact_schema.get("properties", {}).get("contact_id", {}).get("pattern")
     if contact_id_pattern != ID_PATTERN:
@@ -796,6 +839,24 @@ def self_test() -> int:
                     "field": "contact_id",
                     "expected_pattern": ID_PATTERN,
                     "actual_pattern": contact_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    conjecture_schema = json.loads((SCRIPT_DIR / "conjecture.schema.json").read_text(encoding="utf-8"))
+    conjecture_contact_ref_pattern = (
+        conjecture_schema.get("properties", {}).get("reality_contact_refs", {}).get("items", {}).get("pattern")
+    )
+    if conjecture_contact_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "conjecture.schema.json",
+                    "field": "reality_contact_refs.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_contact_ref_pattern,
                 },
                 indent=2,
             ),
@@ -831,6 +892,13 @@ def self_test() -> int:
         [],
     )
     if not any("not underscores or uppercase" in issue for result in invalid_probe_results for issue in result["issues"]):
+        print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        "suggested normalized id: cross-organism.cun-uur-sign-correlates-with-trna-leu" in issue
+        for result in invalid_probe_results
+        for issue in result["issues"]
+    ):
         print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
         return 1
     probe_schema = json.loads((SCRIPT_DIR / "probe.schema.json").read_text(encoding="utf-8"))
