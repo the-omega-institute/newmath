@@ -1320,6 +1320,7 @@ import BEDC.Derived.CauchyCriterionUp.TerminalSelectorSealNochoiceExhaustion
 import BEDC.Derived.CauchyCriterionUp.UniformCriterionFiniteFamilyReduction
 import BEDC.Derived.CauchyCriterionUp.UniformSelectorSealCompatibility
 import BEDC.Derived.CauchyCriterionUp.VisibleTerminalClosure
+import BEDC.Derived.CauchyCutBridgeUp.TasteGate
 import BEDC.Derived.CauchyCutComparisonUp
 import BEDC.Derived.CauchyCutComparisonUp.TasteGate
 import BEDC.Derived.CauchyCutUp.TasteGate
@@ -6281,6 +6282,7 @@ import BEDC.Derived.RealPrefixDiagnosticUp
 import BEDC.Derived.RealPrefixDiagnosticUp.TasteGate
 import BEDC.Derived.RealRationalApproximationUp.TasteGate
 import BEDC.Derived.RealRationalApproximationUp.WindowExtraction
+import BEDC.Derived.RealReciprocalUp
 import BEDC.Derived.RealRootBracketUp.TasteGate
 import BEDC.Derived.RealRootExistenceUp.TasteGate
 import BEDC.Derived.RealRootIsolationUp.TasteGate
