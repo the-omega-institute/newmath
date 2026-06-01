@@ -382,6 +382,54 @@ Apply modulus-threshold exactness and dyadic tolerance stability, \autoref{thm:c
 Finally use ledger transport, \autoref{thm:cauchy-oscillation-ledger-transport}. The transported comparison is still over the displayed $\StreamNameUp$ or $\RegSeqRatUp$ row, the same $\DyadicRatCoreUp$ tolerance, and the same downstream $\RealUp$ seal route. Thus a $\UniformCauchyCriterionUp$ read receives the finite comparison obligation rather than a detached modulus witness.
 \end{proof}
 
+\begin{theorem}[CauchyOscillation tail-window carrier obligation]
+\label{thm:cauchyoscillation-tail-window-carrier-obligation}
+For every accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N),
+$$
+the finite tail-window packet $W,M,Q,T$ carries the visible $\DyadicRatCoreUp$ budget used by each oscillation comparison. A downstream $\RealUp$ or $\UniformCauchyCriterionUp$ consumer can read a tail-window comparison only through the displayed rows $W$ for observations, $M$ for the tail threshold, $Q$ for the dyadic bound, and $T$ for the finite comparison ledger, together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows of \autoref{def:cauchy-oscillation-carrier}. The only row containing a dyadic tolerance is $Q$, and the only row containing tail comparisons is $T$.
+
+The tail-window row $W$ supplies the finite StreamName or RegSeqRat observations, while $M$ selects the tail region in which those observations are compared. Thus a comparison row in $T$ cannot be read before the packet has displayed the observation window, threshold schedule, and dyadic budget.
+
+Componentwise transport through $H$ and replay through $C$ preserve these rows together. The package and local certificate rows $P,N$ only source and name the same finite route, so every consumer receives the displayed tail-window carrier rather than an external oscillation object.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation dyadic bound classifier obligation]
+\label{thm:cauchyoscillation-dyadic-bound-classifier-obligation}
+Let $O=(W,M,Q,T,S,H,C,P,N)$ and $O'=(W',M',Q',T',S',H',C',P',N')$ be accepted $\CauchyOscillationUp$ carriers. If the classifier identifies the displayed rows componentwise, then the oscillation budget transported from $O$ to $O'$ is the same visible $\DyadicRatCoreUp$ bound route through the $\RegSeqRatUp$ or $\StreamNameUp$ rows. In particular, classifier equality preserves the tail-window observations, threshold schedule, dyadic budget, oscillation ledger, and seal handoff as one finite dependency packet.
+\end{theorem}
+\begin{proof}
+Open the classifier described in \autoref{def:cauchy-oscillation-carrier}. It compares accepted carriers only by componentwise $\hsame$ rows, displayed $\Cont$ routes, package provenance, and local naming rows over the listed coordinates.
+
+The dyadic budget is therefore transported only as the $Q$ coordinate attached to the same $W,M,T$ rows. The classifier has no second tolerance coordinate, no alternate RegSeqRat readback row, and no detached StreamName window from which a different oscillation budget could be imported.
+
+Apply the transport clause in the NameCert obligations. The componentwise $\hsame$ rows preserve $W,M,Q,T,S$, and replay through $C$ and $C'$ reads the same displayed route. Hence classifier equality preserves the visible dyadic-bound route through the regular-rational or stream-window surface.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation uniform Cauchy consumer obligation]
+\label{thm:cauchyoscillation-uniform-cauchy-consumer-obligation}
+Every $\UniformCauchyCriterionUp$ consumer of an accepted $\CauchyOscillationUp$ carrier
+$$
+O=(W,M,Q,T,S,H,C,P,N)
+$$
+receives only the displayed finite budget route
+$$
+W,\ M,\ Q,\ T,\ H,\ C,\ P,\ N
+$$
+before the $\RealUp$ seal row $S$ is exposed. The consumer obtains no quotient stream, selected limit, host real equality, ambient completeness principle, or hidden uniform modulus beyond the finite tail-window and dyadic-budget rows.
+\end{theorem}
+\begin{proof}
+Start with the finite package in \autoref{thm:cauchyoscillation-tail-window-carrier-obligation}. It identifies $W,M,Q,T$ as the visible tail-window, threshold, dyadic-bound, and comparison-ledger route.
+
+Use the classifier obligation of \autoref{thm:cauchyoscillation-dyadic-bound-classifier-obligation}. Transport and replay preserve the same budget route under componentwise $\hsame$, so a uniform Cauchy consumer cannot replace the displayed dyadic budget by a hidden modulus.
+
+Finally combine the existing uniform criterion handoff and completion-frontier obligation, \autoref{thm:cauchy-oscillation-uniform-criterion-handoff} and \autoref{thm:cauchy-oscillation-completion-frontier-obligation}. They place the $\UniformCauchyCriterionUp$ read inside $W,M,Q,T,H,C,P,N$ before the terminal seal $S$, while the carrier nonescape clause excludes quotient streams, selected limits, host equality, ambient completeness, and hidden uniform data.
+\end{proof}
+
 \begin{theorem}[CauchyOscillation uniform criterion handoff]
 \label{thm:cauchy-oscillation-uniform-criterion-handoff}
 For every accepted $\CauchyOscillationUp$ carrier
