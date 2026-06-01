@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\LocatedDecimalStreamNormalUp$}
+\label{ch:concrete-instances-located-decimal-stream-normal-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis and the standard decimal-expansion normalization practice, the $\LocatedDecimalStreamNormalUp$ packet records the finite surface by which a located decimal stream is accepted in normal form before it is read as regular rational or Real-facing data. It sits downstream of the decimal stream carrier of \autoref{ch:concrete-instances-decimal-stream-namecert}, the signed decimal expansion route of \autoref{ch:concrete-instances-signed-decimal-expansion-namecert}, the endpoint normalization packet of \autoref{ch:concrete-instances-decimal-endpoint-normalization-namecert}, the finite-window naming discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names an L10 finite normalization interface only; it does not import quotient streams, selected limits, host real equality, digit-choice omniscience, or ambient $\RealUp$ completeness.
+
+\begin{definition}[LocatedDecimalStreamNormal carrier]
+\label{def:located-decimal-stream-normal-carrier}
+A $\LocatedDecimalStreamNormalUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(D,S,E,W,R,Y,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DecimalStreamUp$ source row, naming the inspected signed digit stream and the finite digit windows available to the packet.
+\item $S$ is the $\SignedDecimalExpansionUp$ sign-and-digit row, exposing the sign convention and digit ledger used by the same windows.
+\item $E$ is the $\DecimalEndpointNormalizationUp$ endpoint row, recording the finite trailing-nine or trailing-zero normalization decisions visible at the inspected endpoints.
+\item $W$ is the $\StreamNameUp$ schedule row, listing the finite stages, digit positions, and endpoint windows read before the normal-form request is accepted.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the normalized windows.
+\item $Y$ is the $\DyadicRatCoreUp$ tolerance row, carrying dyadic radii and endpoint residues attached to the readback row $R$.
+\item $T$ is the terminal $\RealUp$ seal row reached only after $D,S,E,W,R,Y$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for decimal streams, signed expansions, endpoint normalization, schedules, regular readbacks, dyadic tolerances, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a located decimal-stream normal-form request through $D,S,E,W,R,Y,T,H$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedDecimalStreamNormalUp$, $\DecimalStreamUp$, $\SignedDecimalExpansionUp$, $\DecimalEndpointNormalizationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedDecimalStreamNormalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient stream equality, a selected limiting real, host real equality, a hidden digit-choice principle, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[LocatedDecimalStreamNormal NameCert obligations]
+\label{thm:located-decimal-stream-normal-namecert-obligations}
+For every accepted $\LocatedDecimalStreamNormalUp$ carrier
+$$
+Q=(D,S,E,W,R,Y,T,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedDecimalStreamNormalUp}$ surface consists exactly of carrier admission for the decimal-stream source $D$, signed expansion exposure through $S$, endpoint normalization exposure through $E$, finite $\StreamNameUp$ schedule exposure through $W$, regular rational readback through $R$, dyadic tolerance access through $Y$, terminal $\RealUp$ seal admission through $T$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-decimal-stream-normal-carrier}. The decimal source is $D$, and the only signed digit data available to a consumer is the row $S$ attached to the same inspected stream windows.
+
+The endpoint and schedule rows then fix the normal-form boundary. The row $E$ records the finite endpoint normalization decisions, while $W$ lists the stages and positions at which those decisions are visible.
+
+The rational and real-facing rows are downstream of that boundary. The readback row $R$ is produced from the normalized windows, the dyadic ledger $Y$ records the tolerance data used by that readback, and the Real seal $T$ is reached only after the preceding rows have been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly the same finite packet. Since the carrier has no row for quotient stream equality, selected limits, host real equality, digit-choice omniscience, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[LocatedDecimalStreamNormal regular readback handoff]
+\label{thm:located-decimal-stream-normal-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ read exported by an accepted $\LocatedDecimalStreamNormalUp$ carrier factors through the finite route
+$$
+\DecimalStreamUp,\ \SignedDecimalExpansionUp,\ \DecimalEndpointNormalizationUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp .
+$$
+Thus a downstream completion or real-name consumer receives only the displayed decimal stream, signed digit ledger, endpoint normalization row, finite schedule, regular rational readback, dyadic tolerance ledger, Real seal, and structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the decimal and signed-expansion rows first. The source row $D$ supplies the inspected stream windows, and the row $S$ fixes the sign and digit ledger used by those same windows.
+
+The normal-form handoff cannot bypass endpoint normalization. The row $E$ records the finite trailing-endpoint decisions, and the schedule row $W$ records the stages and digit positions at which those decisions are visible.
+
+The downstream readback is therefore forced to pass through $R,Y,T$. The regular rational row $R$ is the only readback row in the carrier, the dyadic row $Y$ is the only tolerance ledger attached to it, and the terminal row $T$ is the only Real-facing seal.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same route. No refused object is a coordinate of the carrier, so no consumer can read quotient stream equality, a selected limit, host real equality, digit-choice omniscience, or ambient Real completeness through this handoff.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LocatedDecimalStreamNormalUp$ consumer that reads a regular rational or Real-facing row without first displaying the decimal stream, signed expansion, endpoint normalization, finite schedule, dyadic tolerance ledger, transport, replay, provenance, and local naming refutes the carrier surface.}
+
+\independenceWitness{decimal-stream, signed-decimal-expansion, decimal-endpoint-normalization, streamname, regseqrat, dyadicratcore, real: $\LocatedDecimalStreamNormalUp$ is not bijective to any listed sibling because it jointly carries decimal-stream source rows, signed expansion rows, endpoint normalization rows, finite StreamName schedules, RegSeqRat readbacks, DyadicRatCore tolerances, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+
+\closureat{LocatedDecimalStreamNormalUp}{seedStr}
+
+\begin{closurestatus}{\LocatedDecimalStreamNormalUp}
+  \constructivestory{A $\LocatedDecimalStreamNormalUp$ packet is generated from decimal-stream source rows, signed expansion rows, endpoint normalization rows, finite StreamName schedule rows, RegSeqRat readbacks, DyadicRatCore tolerance rows, RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-decimal-stream-normal-carrier}, \autoref{thm:located-decimal-stream-normal-namecert-obligations}, and \autoref{thm:located-decimal-stream-normal-regseqrat-handoff} seed the finite located decimal-stream normal-form route over decimal streams, signed expansions, endpoint normalization, schedules, regular readbacks, dyadic tolerances, Real seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, host real equality, digit-choice omniscience, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, signed expansion exposure, endpoint normalization exactness, RegSeqRat readback handoff, dyadic tolerance stability, Real seal nonescape, and structural transport for BEDC.Derived.LocatedDecimalStreamNormalUp.}
+\end{closurestatus}
