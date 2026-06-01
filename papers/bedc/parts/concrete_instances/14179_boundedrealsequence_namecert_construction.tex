@@ -323,6 +323,26 @@ The structural rows $H,C,P,N$ then transport, replay, source, and name the same 
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedRealSequenceUp.BoundedRealSequenceCarrier\_window\_factorization}
 
+\begin{theorem}[Bounded real sequence window localization]
+\label{thm:bounded-real-sequence-window-localization}
+Every accepted $\BoundedRealSequenceUp$ packet localizes each inspected finite $\StreamNameUp$ window through the displayed $\ClosedBoundedIntervalNetUp$ row and $\RegSeqRatUp$ readback before any $\BolzanoWeierstrassUp$ consumer may read the bounded source. More precisely, for
+$$
+B=(S,W,Q,R,I,H,C,P,N)
+$$
+each inspected window in $W$ is read through
+$$
+S,W \longmapsto Q \longmapsto R \longmapsto I \longmapsto H,C,P,N .
+$$
+The localization exports finite window bounds and regular readback only; it exports no host set of all sequence values, no choice-selected subsequence, no quotient stream equality, no open-cover compactness, and no ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier and use the finite-window net extraction of \autoref{thm:bounded-real-sequence-finite-window-net-extraction}. That result displays $S,W,Q,R,I,H,C,P,N$ as the finite net packet a consumer must read before bounded-source data are available.
+
+Apply regular-readback stability and dyadic-bound transport, \autoref{thm:bounded-real-sequence-regular-readback-stability} and \autoref{thm:bounded-real-sequence-dyadic-bound-transport}. They keep the $\RegSeqRatUp$ row $Q$ attached to the same stream window $W$, real seal $R$, and closed-bounded interval-net row $I$ under componentwise transport.
+
+Finally use the window factorization of \autoref{thm:bounded-real-sequence-window-factorization}. It forces every boundedness read to pass through the inspected finite window before reaching the interval-net row, so a Bolzano--Weierstrass consumer receives only the displayed local route and none of the excluded host-level data.
+\end{proof}
+
 \begin{theorem}[Bounded real sequence Bolzano source exactness]
 \label{thm:bounded-real-sequence-bolzano-source-exactness}
 Every $\BolzanoWeierstrassUp$ source read from an accepted $\BoundedRealSequenceUp$ packet is exactly the finite-window source
