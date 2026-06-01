@@ -109,11 +109,28 @@ def test_public_jepa_baseline_probe_records_dependency_and_repository_boundary()
     assert probe["repository_url"] == "https://github.com/facebookresearch/vjepa2"
     assert "torch" in probe["dependency_status"]
     assert "timm" in probe["dependency_status"]
-    assert probe["status"] in {"ready_to_execute", "unavailable"}
+    assert probe["status"] in {"structure_loaded", "ready_to_import_metrics", "unavailable"}
     assert "hub_cache_present" in probe
     assert "model_load_attempt" in probe
 
-    if probe["status"] == "ready_to_execute":
+    if probe["status"] == "ready_to_import_metrics":
         assert probe["cannot_execute"] == []
     else:
         assert probe["cannot_execute"]
+
+
+def test_public_jepa_baseline_probe_model_load_attempt_is_fail_closed():
+    probe = build_public_jepa_baseline_probe()
+    attempt = probe["model_load_attempt"]
+
+    assert attempt["status"] in {"not_attempted", "loaded", "failed"}
+    assert "stage" in attempt
+    if attempt["status"] == "not_attempted":
+        assert attempt["stage"] == "dependency_check"
+        assert "missing dependencies" in attempt["reason"]
+    if attempt["status"] == "loaded":
+        assert probe["status"] in {"structure_loaded", "ready_to_import_metrics"}
+        assert "model_type" in attempt
+    if attempt["status"] == "failed":
+        assert probe["status"] == "unavailable"
+        assert "exception_type" in attempt

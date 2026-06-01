@@ -244,9 +244,14 @@ def build_public_jepa_baseline_probe() -> dict[str, Any]:
         cannot_execute.append("V-JEPA2-AC structure load failed")
     if model_load_attempt["status"] == "loaded":
         cannot_execute.append("checkpoint evaluation metrics have not been executed")
+    status = "unavailable"
+    if model_load_attempt["status"] == "loaded" and head is not None:
+        status = "structure_loaded"
+    if model_load_attempt["status"] == "loaded" and head is not None and not cannot_execute:
+        status = "ready_to_import_metrics"
     return {
         "schema_id": "bedc-jepa-public-baseline-probe",
-        "status": "ready_to_execute" if model_load_attempt["status"] == "loaded" and head is not None else "unavailable",
+        "status": status,
         "candidate_id": registry["selected_candidate_id"],
         "repository_url": selected["repository_url"],
         "repository_head": head,
