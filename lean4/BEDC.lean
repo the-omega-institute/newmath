@@ -604,6 +604,7 @@ import BEDC.Derived.BHistDecaTupleNameCertUp
 import BEDC.Derived.BHistDodecaCarrierNameCertUp
 import BEDC.Derived.BHistDodecaSequenceNameCertUp
 import BEDC.Derived.BHistDodecaTupleNameCertUp
+import BEDC.Derived.BHistHendecaEventFlowNameCertUp
 import BEDC.Derived.BHistHendecaSequenceNameCertUp
 import BEDC.Derived.BHistHendecaTupleNameCertUp
 import BEDC.Derived.BHistHendecaTupleNameCertUp.TasteGate

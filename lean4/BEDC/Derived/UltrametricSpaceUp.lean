@@ -360,4 +360,64 @@ theorem UltrametricSpaceRootStrongTriangleWindow [AskSetup] [PackageSetup]
   }
   exact ⟨cert, comparisonReadUnary, triangleReadUnary⟩
 
+theorem UltrametricSpaceCarrier_root_nested_ball_ledger [AskSetup] [PackageSetup]
+    (U : UltrametricSpaceUp)
+    {M V T B E H K P N comparisonRead triangleRead ballRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ultrametricSpaceFields U = [M, V, T, B, E, H, K, P, N] ->
+      UnaryHistory M -> UnaryHistory V -> UnaryHistory T -> UnaryHistory B ->
+        Cont M V comparisonRead ->
+          Cont comparisonRead T triangleRead ->
+            Cont triangleRead B ballRead ->
+              PkgSig bundle P pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row ballRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row M ∨ hsame row V ∨ hsame row T ∨ hsame row B ∨
+                        hsame row ballRead)
+                    (fun row : BHist => PkgSig bundle P pkg ∧ hsame row ballRead)
+                    hsame ∧ UnaryHistory comparisonRead ∧ UnaryHistory triangleRead ∧
+                  UnaryHistory ballRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro _fields metricUnary comparisonUnary triangleUnary ballUnary comparisonRoute
+    triangleRoute ballRoute provenancePkg
+  have comparisonReadUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed metricUnary comparisonUnary comparisonRoute
+  have triangleReadUnary : UnaryHistory triangleRead :=
+    unary_cont_closed comparisonReadUnary triangleUnary triangleRoute
+  have ballReadUnary : UnaryHistory ballRead :=
+    unary_cont_closed triangleReadUnary ballUnary ballRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row ballRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row V ∨ hsame row T ∨ hsame row B ∨ hsame row ballRead)
+          (fun row : BHist => PkgSig bundle P pkg ∧ hsame row ballRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro ballRead ⟨hsame_refl ballRead, ballReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, source.left⟩
+  }
+  exact ⟨cert, comparisonReadUnary, triangleReadUnary, ballReadUnary⟩
+
 end BEDC.Derived.UltrametricSpaceUp
