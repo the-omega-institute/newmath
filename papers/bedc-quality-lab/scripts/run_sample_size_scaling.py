@@ -7,7 +7,6 @@ from datetime import datetime, timezone
 import json
 import math
 from pathlib import Path
-import statistics
 import sys
 from typing import Any
 
@@ -15,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.experiment_stats import fit_log_log_slope, metric_stats
 from scripts.run_gaussian_ou_lejepa import run_experiment
 
 
@@ -88,65 +88,6 @@ def _records() -> list[dict[str, Any]]:
     ]
 
 
-def _sample_std(values: list[float]) -> float:
-    if len(values) < 2:
-        return 0.0
-    return float(statistics.stdev(values))
-
-
-def _metric_stats(values: list[float]) -> dict[str, float | int]:
-    n = len(values)
-    if n == 0:
-        return {"n": 0, "mean": math.nan, "std": math.nan, "ci95_half_width": math.nan}
-    mean = float(statistics.fmean(values))
-    std = _sample_std(values)
-    ci95 = 0.0 if n < 2 else float(1.96 * std / math.sqrt(n))
-    return {"n": n, "mean": mean, "std": std, "ci95_half_width": ci95}
-
-
-def _fit_log_log_slope(points: list[dict[str, float | int]]) -> dict[str, Any]:
-    usable = [
-        (math.log(float(point["sample_count"])), math.log(float(point["std"])))
-        for point in points
-        if float(point["std"]) > 0.0
-    ]
-    n = len(usable)
-    if n < 3:
-        return {
-            "status": "insufficient_positive_std",
-            "n": n,
-            "slope": math.nan,
-            "intercept": math.nan,
-            "slope_ci95_low": math.nan,
-            "slope_ci95_high": math.nan,
-        }
-
-    xs = [point[0] for point in usable]
-    ys = [point[1] for point in usable]
-    x_mean = statistics.fmean(xs)
-    y_mean = statistics.fmean(ys)
-    sxx = sum((x - x_mean) ** 2 for x in xs)
-    slope = sum((x - x_mean) * (y - y_mean) for x, y in usable) / sxx
-    intercept = y_mean - slope * x_mean
-    residual_sse = sum((y - (intercept + slope * x)) ** 2 for x, y in usable)
-    df = n - 2
-    residual_var = residual_sse / df if df > 0 else 0.0
-    slope_se = math.sqrt(residual_var / sxx) if sxx > 0.0 else math.nan
-    t95_by_df = {1: 12.706, 2: 4.303, 3: 3.182, 4: 2.776, 5: 2.571}
-    t95 = t95_by_df.get(df, 1.96)
-    low = slope - t95 * slope_se
-    high = slope + t95 * slope_se
-    return {
-        "status": "ok",
-        "n": n,
-        "slope": float(slope),
-        "intercept": float(intercept),
-        "slope_standard_error": float(slope_se),
-        "slope_ci95_low": float(low),
-        "slope_ci95_high": float(high),
-    }
-
-
 def _aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
     by_sample_count: dict[str, Any] = {}
     for sample_count in SAMPLE_COUNTS:
@@ -156,7 +97,7 @@ def _aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
             "record_count": len(selected),
             "seeds": [int(record["seed"]) for record in selected],
             "metrics": {
-                name: _metric_stats([float(record["metrics"][name]) for record in selected])
+                name: metric_stats([float(record["metrics"][name]) for record in selected])
                 for name in METRIC_NAMES
             },
         }
@@ -172,7 +113,7 @@ def _aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
     monotonic_nonincreasing = all(
         later <= earlier for earlier, later in zip(std_values, std_values[1:])
     )
-    slope_fit = _fit_log_log_slope(scaling_points)
+    slope_fit = fit_log_log_slope(scaling_points)
     slope = float(slope_fit["slope"])
     low, high = SLOPE_ACCEPTANCE_INTERVAL
     slope_in_interval = bool(slope_fit["status"] == "ok" and low <= slope <= high)
