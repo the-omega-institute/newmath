@@ -176,4 +176,43 @@ For the induction step, assume a synchronized readback route has already been bu
 
 Apply \autoref{thm:regseqrat-tail-shift-window-stability} to keep the extended family on one finite window, and then use \autoref{thm:regseqrat-tail-shift-synchronized-readback} to repack the accumulated family and the next shifted window as one synchronized readback. No proof step introduces quotient stream equality, selected limits, choice, metric completeness, completion points, or ambient Real completeness.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-shift regularity refinement]
+\label{thm:regseqrat-tail-shift-regularity-refinement}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let
+$t_0,\ldots,t_k$ be a finite displayed family of unary tail shifts over the
+same $\StreamNameUp$ source and the same $\DyadicRatCoreUp$ tolerance budget.
+Suppose every shifted window exposes the transported endpoint rows,
+dyadic-radius rows, regularity ledgers, componentwise $\hsame$ rows, displayed
+$\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of $P$. Then the
+finite-section synchronized route preserves the regularity ledger on a common
+refinement before any $\RealUp$ seal is consumed.
+
+The refinement is internal to the displayed RegSeqRat source surface. It does
+not identify quotient streams, select limits, use choice, appeal to metric
+completeness, or import ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-shift-finite-section-induction} to the
+finite family of displayed tail shifts. This gives one synchronized finite
+readback route whose visible rows are the StreamName windows, dyadic budgets,
+regular-rational classifier rows, transport, replay, provenance, and local
+naming rows.
+
+Next apply \autoref{thm:regseqrat-tail-shift-diagonal-budget} along each
+shifted window as it enters the synchronized route. The dyadic tolerance row
+used by the downstream seal is the same componentwise budget row carried by
+the RegSeqRat regularity ledger, so synchronization does not replace the
+ledger with a selected limiting object.
+
+Finally compare the resulting common refinement with
+\autoref{thm:regseqrat-finite-cover-induction-diagonal}. The finite-cover
+diagonal induction reads the same displayed endpoint, radius, and regularity
+rows on every finite section, and therefore preserves the regularity ledger
+before the Real seal is opened.
+
+All rows used in the argument are finite BEDC rows of the packet. Thus no
+quotient stream equality, selected limit, choice principle, metric-completeness
+datum, completion point, or ambient Real-completeness coordinate is introduced.
+\end{proof}
 \closureat{RegSeqRatUp}{seedStr}
