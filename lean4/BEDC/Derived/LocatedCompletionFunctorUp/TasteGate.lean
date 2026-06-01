@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.LocatedCompletionFunctorUp.TasteGate
+namespace BEDC.Derived.LocatedCompletionFunctorUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -13,20 +14,24 @@ inductive LocatedCompletionFunctorUp : Type where
   | mk (L M U R E F H C P N : BHist) : LocatedCompletionFunctorUp
   deriving DecidableEq
 
-def locatedCompletionFunctorEncodeBHist : BHist -> List BMark
+def locatedCompletionFunctorFields : LocatedCompletionFunctorUp -> List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | LocatedCompletionFunctorUp.mk L M U R E F H C P N => [L, M, U, R, E, F, H, C, P, N]
+
+def locatedCompletionFunctorEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: locatedCompletionFunctorEncodeBHist h
   | BHist.e1 h => BMark.b1 :: locatedCompletionFunctorEncodeBHist h
 
-def locatedCompletionFunctorDecodeBHist : List BMark -> BHist
+def locatedCompletionFunctorDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (locatedCompletionFunctorDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (locatedCompletionFunctorDecodeBHist tail)
 
 private theorem LocatedCompletionFunctorTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist,
+    forall h : BHist,
       locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -35,36 +40,32 @@ private theorem LocatedCompletionFunctorTasteGate_single_carrier_alignment_decod
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def locatedCompletionFunctorFields : LocatedCompletionFunctorUp -> List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | LocatedCompletionFunctorUp.mk L M U R E F H C P N => [L, M, U, R, E, F, H, C, P, N]
-
 def locatedCompletionFunctorToEventFlow : LocatedCompletionFunctorUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map locatedCompletionFunctorEncodeBHist (locatedCompletionFunctorFields x)
+  | x => (locatedCompletionFunctorFields x).map locatedCompletionFunctorEncodeBHist
 
-private def locatedCompletionFunctorEventAt : Nat -> EventFlow -> List BMark
+private def locatedCompletionFunctorRawAt : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => locatedCompletionFunctorEventAt index rest
+  | 0, [] => []
+  | 0, event :: _ => event
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => locatedCompletionFunctorRawAt n rest
 
-def locatedCompletionFunctorFromEventFlow (ef : EventFlow) :
-    Option LocatedCompletionFunctorUp :=
+def locatedCompletionFunctorFromEventFlow
+    (flow : EventFlow) : Option LocatedCompletionFunctorUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (LocatedCompletionFunctorUp.mk
-      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEventAt 0 ef))
-      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEventAt 1 ef))
-      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEventAt 2 ef))
-      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEventAt 3 ef))
-      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEventAt 4 ef))
-      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEventAt 5 ef))
-      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEventAt 6 ef))
-      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEventAt 7 ef))
-      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEventAt 8 ef))
-      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEventAt 9 ef)))
+      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorRawAt 0 flow))
+      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorRawAt 1 flow))
+      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorRawAt 2 flow))
+      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorRawAt 3 flow))
+      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorRawAt 4 flow))
+      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorRawAt 5 flow))
+      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorRawAt 6 flow))
+      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorRawAt 7 flow))
+      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorRawAt 8 flow))
+      (locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorRawAt 9 flow)))
 
 private theorem LocatedCompletionFunctorTasteGate_single_carrier_alignment_round_trip
     (x : LocatedCompletionFunctorUp) :
@@ -111,6 +112,18 @@ private theorem LocatedCompletionFunctorTasteGate_single_carrier_alignment_toEve
       (Eq.trans hread
         (LocatedCompletionFunctorTasteGate_single_carrier_alignment_round_trip y)))
 
+private theorem LocatedCompletionFunctorTasteGate_single_carrier_alignment_fields_faithful :
+    forall x y : LocatedCompletionFunctorUp,
+      locatedCompletionFunctorFields x = locatedCompletionFunctorFields y -> x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk L1 M1 U1 R1 E1 F1 H1 C1 P1 N1 =>
+      cases y with
+      | mk L2 M2 U2 R2 E2 F2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance locatedCompletionFunctorBHistCarrier : BHistCarrier LocatedCompletionFunctorUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := locatedCompletionFunctorToEventFlow
@@ -121,32 +134,32 @@ instance locatedCompletionFunctorChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change locatedCompletionFunctorFromEventFlow
-      (locatedCompletionFunctorToEventFlow x) = some x
+    change locatedCompletionFunctorFromEventFlow (locatedCompletionFunctorToEventFlow x) = some x
     exact LocatedCompletionFunctorTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (LocatedCompletionFunctorTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (LocatedCompletionFunctorTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-def LocatedCompletionFunctorTasteGate_single_carrier_alignment_taste_gate :
-    ChapterTasteGate LocatedCompletionFunctorUp :=
+instance locatedCompletionFunctorFieldFaithful :
+    FieldFaithful LocatedCompletionFunctorUp where
   -- BEDC touchpoint anchor: BHist BMark
-  locatedCompletionFunctorChapterTasteGate
+  fields := locatedCompletionFunctorFields
+  field_faithful := LocatedCompletionFunctorTasteGate_single_carrier_alignment_fields_faithful
 
 theorem LocatedCompletionFunctorTasteGate_single_carrier_alignment :
-    (∃ encode : BHist -> List BMark, encode = locatedCompletionFunctorEncodeBHist) ∧
+    Nonempty (ChapterTasteGate LocatedCompletionFunctorUp) ∧
+      Nonempty (FieldFaithful LocatedCompletionFunctorUp) ∧
+      locatedCompletionFunctorEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] ∧
       (∀ h : BHist,
         locatedCompletionFunctorDecodeBHist (locatedCompletionFunctorEncodeBHist h) = h) ∧
-        Nonempty LocatedCompletionFunctorUp ∧ Nonempty (BHistCarrier LocatedCompletionFunctorUp) ∧
-          Nonempty (ChapterTasteGate LocatedCompletionFunctorUp) := by
-  -- BEDC touchpoint anchor: BHist BMark
+      (∀ x : LocatedCompletionFunctorUp,
+        locatedCompletionFunctorFromEventFlow (locatedCompletionFunctorToEventFlow x) = some x) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   exact
-    ⟨⟨locatedCompletionFunctorEncodeBHist, rfl⟩,
+    ⟨⟨locatedCompletionFunctorChapterTasteGate⟩,
+      ⟨locatedCompletionFunctorFieldFaithful⟩,
+      rfl,
       LocatedCompletionFunctorTasteGate_single_carrier_alignment_decode,
-      ⟨LocatedCompletionFunctorUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty⟩,
-      ⟨locatedCompletionFunctorBHistCarrier⟩,
-      ⟨locatedCompletionFunctorChapterTasteGate⟩⟩
+      LocatedCompletionFunctorTasteGate_single_carrier_alignment_round_trip⟩
 
-end BEDC.Derived.LocatedCompletionFunctorUp.TasteGate
+end BEDC.Derived.LocatedCompletionFunctorUp
