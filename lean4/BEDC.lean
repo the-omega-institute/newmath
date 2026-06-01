@@ -1776,6 +1776,7 @@ import BEDC.Derived.CauchyUniformContinuityPrincipleUp.TasteGate
 import BEDC.Derived.CauchyUniformNetUp.TasteGate
 import BEDC.Derived.CauchyUp
 import BEDC.Derived.CauchyUp.CompletionLeftExactnessAdmission
+import BEDC.Derived.CauchyUp.ModulusSpaceDiagonal
 import BEDC.Derived.CauchyUp.ModulusSpaceFilterHandoff
 import BEDC.Derived.CauchyUp.ModulusSpaceTail
 import BEDC.Derived.CauchyWindowTransducerUp.NameCertObligations
@@ -4885,6 +4886,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceBridgeDeferral
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceClosureReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceConsumerThreshold
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceDischargeReadiness
+import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceObligationClosurePackage
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceObligationNoncollapse
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourObjectLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourObjectReady
@@ -5397,6 +5399,7 @@ import BEDC.Derived.NormedSpaceUp.BanachConsumerNonescape
 import BEDC.Derived.NormedSpaceUp.CarrierTransportCompletionService
 import BEDC.Derived.NormedSpaceUp.CompletionBudgetEnvelope
 import BEDC.Derived.NormedSpaceUp.CompletionMetricRootUnblock
+import BEDC.Derived.NormedSpaceUp.CompletionTriad
 import BEDC.Derived.NormedSpaceUp.CompletionWindowNonescape
 import BEDC.Derived.NormedSpaceUp.FunctionalAnalysisHandoff
 import BEDC.Derived.NormedSpaceUp.L10CompletionObligation
