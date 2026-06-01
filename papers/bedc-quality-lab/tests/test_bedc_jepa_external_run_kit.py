@@ -28,3 +28,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
         baseline["export_command"]
         == "python scripts/export_public_jepa_baseline_result.py"
     )
+    assert (
+        baseline["probe_command"]
+        == "python scripts/probe_public_jepa_baseline.py"
+    )

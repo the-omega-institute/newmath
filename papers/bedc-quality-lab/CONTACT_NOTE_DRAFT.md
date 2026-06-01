@@ -92,7 +92,10 @@ artifact: it keeps baseline latent-prediction score, rollout/planning score,
 and reported benchmark name empty until an actual public baseline run supplies
 them.  The lab now has a boundary export command and an import command for an
 executed public baseline result, but no such result is present in this
-workspace.
+workspace.  The baseline probe resolves the selected public repository head
+`204698b45b3712590f06245fbfba32d3be539812` and records that local `torch` and
+`torchvision` are installed while `timm` and `einops` are missing; it therefore
+does not close the public JEPA baseline gate.
 
 Reproducible local commands:
 
@@ -104,6 +107,7 @@ python scripts/probe_public_minigrid.py
 python scripts/export_public_minigrid_benchmark_result.py
 python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>
 python scripts/build_public_jepa_baseline_registry.py
+python scripts/probe_public_jepa_baseline.py
 python scripts/export_public_jepa_baseline_result.py
 python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>
 python scripts/build_bedc_jepa_external_run_kit.py

@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import importlib.util
 import json
 from pathlib import Path
+import subprocess
 from typing import Any
 
 
@@ -161,16 +163,65 @@ def import_public_jepa_baseline_metrics(result: dict[str, Any]) -> dict[str, Any
     return comparison
 
 
-def build_public_jepa_baseline_external_result() -> dict[str, Any]:
+def _dependency_status(names: list[str]) -> dict[str, str]:
+    return {
+        name: "installed" if importlib.util.find_spec(name) is not None else "missing"
+        for name in names
+    }
+
+
+def _remote_head(url: str) -> str | None:
+    try:
+        completed = subprocess.run(
+            ["git", "ls-remote", url, "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+    except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
+        return None
+    line = completed.stdout.strip().splitlines()[0] if completed.stdout.strip() else ""
+    return line.split()[0] if line else None
+
+
+def build_public_jepa_baseline_probe() -> dict[str, Any]:
     registry = build_public_jepa_baseline_registry()
     selected = next(
         candidate for candidate in registry["candidates"] if candidate["candidate_id"] == registry["selected_candidate_id"]
     )
+    dependency_status = _dependency_status(["torch", "torchvision", "timm", "einops"])
+    head = _remote_head(selected["repository_url"])
+    missing = [name for name, status in dependency_status.items() if status != "installed"]
+    cannot_execute = []
+    if missing:
+        cannot_execute.append(f"missing dependencies: {', '.join(missing)}")
+    if head is None:
+        cannot_execute.append("public repository HEAD could not be resolved")
     return {
-        "status": "unavailable",
+        "schema_id": "bedc-jepa-public-baseline-probe",
+        "status": "ready_to_execute" if not cannot_execute else "unavailable",
         "candidate_id": registry["selected_candidate_id"],
         "repository_url": selected["repository_url"],
-        "baseline_role": selected["baseline_role"],
+        "repository_head": head,
+        "dependency_status": dependency_status,
+        "execution_contract": {
+            "model_load": "torch.hub.load('facebookresearch/vjepa2', 'vjepa2_ac_vit_giant')",
+            "requires_checkpoint_download": True,
+            "result_import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
+        },
+        "cannot_execute": cannot_execute,
+    }
+
+
+def build_public_jepa_baseline_external_result() -> dict[str, Any]:
+    probe = build_public_jepa_baseline_probe()
+    return {
+        "status": "unavailable",
+        "candidate_id": probe["candidate_id"],
+        "repository_url": probe["repository_url"],
+        "repository_head": probe["repository_head"],
+        "dependency_status": probe["dependency_status"],
         "cannot_export": ["public JEPA-family baseline was not executed in this workspace"],
     }
 
@@ -181,6 +232,14 @@ def write_public_jepa_baseline_external_result(path: str | Path) -> dict[str, An
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return result
+
+
+def write_public_jepa_baseline_probe(path: str | Path) -> dict[str, Any]:
+    probe = build_public_jepa_baseline_probe()
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(probe, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return probe
 
 
 def write_public_jepa_baseline_registry(path: str | Path) -> dict[str, Any]:

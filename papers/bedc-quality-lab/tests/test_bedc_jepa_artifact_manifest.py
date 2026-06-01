@@ -23,6 +23,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
         == "python scripts/build_public_jepa_baseline_registry.py"
     )
     assert (
+        manifest["commands"]["probe_public_jepa_baseline"]
+        == "python scripts/probe_public_jepa_baseline.py"
+    )
+    assert (
         manifest["commands"]["import_public_jepa_baseline_metrics"]
         == "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>"
     )
@@ -38,6 +42,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert manifest["external_run_kit"] == "reports/bedc_jepa_external_run_kit.json"
     assert manifest["public_baselines"]["jepa_comparison"] == "reports/bedc_jepa_public_baseline_comparison.json"
     assert manifest["public_baselines"]["jepa_registry"] == "reports/bedc_jepa_public_baseline_registry.json"
+    assert (
+        manifest["public_baselines"]["jepa_probe"]
+        == "reports/bedc_jepa_public_baseline_probe.json"
+    )
     assert (
         manifest["public_baselines"]["jepa_external_result"]
         == "reports/bedc_jepa_public_baseline_external_result.json"

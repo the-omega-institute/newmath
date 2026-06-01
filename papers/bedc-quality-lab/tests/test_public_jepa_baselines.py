@@ -1,5 +1,6 @@
 from bedc_quality_lab.public_jepa_baselines import (
     build_public_jepa_baseline_external_result,
+    build_public_jepa_baseline_probe,
     build_public_jepa_baseline_comparison,
     build_public_jepa_baseline_registry,
     import_public_jepa_baseline_metrics,
@@ -98,3 +99,19 @@ def test_public_jepa_baseline_external_result_records_execution_boundary():
         assert result["cannot_export"] == [
             "public JEPA-family baseline was not executed in this workspace"
         ]
+
+
+def test_public_jepa_baseline_probe_records_dependency_and_repository_boundary():
+    probe = build_public_jepa_baseline_probe()
+
+    assert probe["schema_id"] == "bedc-jepa-public-baseline-probe"
+    assert probe["candidate_id"] == "vjepa2-ac"
+    assert probe["repository_url"] == "https://github.com/facebookresearch/vjepa2"
+    assert "torch" in probe["dependency_status"]
+    assert "timm" in probe["dependency_status"]
+    assert probe["status"] in {"ready_to_execute", "unavailable"}
+
+    if probe["status"] == "ready_to_execute":
+        assert probe["cannot_execute"] == []
+    else:
+        assert probe["cannot_execute"]

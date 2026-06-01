@@ -17,6 +17,7 @@ $$
 \text{Public MiniGrid benchmark} & \texttt{bedc\_jepa\_public\_minigrid\_benchmark\_packet.json},\\
 \text{Public MiniGrid external result} & \texttt{bedc\_jepa\_public\_minigrid\_external\_result.json},\\
 \text{Public JEPA registry} & \texttt{bedc\_jepa\_public\_baseline\_registry.json},\\
+\text{Public JEPA probe} & \texttt{bedc\_jepa\_public\_baseline\_probe.json},\\
 \text{Public JEPA comparison} & \texttt{bedc\_jepa\_public\_baseline\_comparison.json},\\
 \text{Public JEPA external result} & \texttt{bedc\_jepa\_public\_baseline\_external\_result.json},\\
 \text{Readiness gate} & \texttt{bedc\_jepa\_readiness.json},\\
@@ -92,4 +93,9 @@ command, the public JEPA baseline boundary export command, and the import
 commands needed to close those blocking gates without inventing evidence
 inside this workspace.  The baseline external result currently records
 unavailable status for the selected V-JEPA 2-AC candidate rather than an
-executed checkpoint comparison.
+executed checkpoint comparison.  The baseline probe resolves the selected
+public repository head
+\texttt{204698b45b3712590f06245fbfba32d3be539812} and records that local
+\texttt{torch} and \texttt{torchvision} are present while \texttt{timm} and
+\texttt{einops} are absent.  It therefore does not close the public JEPA
+baseline gate.
