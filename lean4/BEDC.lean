@@ -2378,6 +2378,7 @@ import BEDC.Derived.CompletionTowerUp.TasteGate
 import BEDC.Derived.CompletionUniformFunctorialEnvelopeUp.TasteGate
 import BEDC.Derived.CompletionUniquenessUp
 import BEDC.Derived.CompletionUniquenessUp.TasteGate
+import BEDC.Derived.CompletionUnitComparisonUp.TasteGate
 import BEDC.Derived.CompletionUnitTriangleUp.TasteGate
 import BEDC.Derived.CompletionUniversalPropertyUp
 import BEDC.Derived.CompletionUniversalPropertyUp.TasteGate
@@ -8173,6 +8174,7 @@ import BEDC.Derived.ZnormalUp.RootTotalHostRefusal
 import BEDC.Derived.ZnormalUp.RootTotalHostRefusalLedger
 import BEDC.Derived.ZnormalUp.RootTotalHostSourcePacket
 import BEDC.Derived.ZnormalUp.RootUnaryCarryEntry
+import BEDC.Derived.ZnormalUp.RootUnblockCarrierExposure
 import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.RootVisibleSourcePackage
 import BEDC.Derived.ZnormalUp.RootZeckendorfHandoff
