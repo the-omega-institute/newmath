@@ -625,6 +625,7 @@ Consequently confluence and decidability uses are mediated by the same obstructi
 \label{thm:metacic-critical-path-normalization-obstruction-route-coverage}
 For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, every normalization-to-normal-form read from $S$ to $N$ keeps the obstruction row $O$ visible along the route. The read may reach the normal-form consistency row through $H,C,P,L$, but it cannot pass through the route while hiding $O$, filling $D$, or upgrading the normal-form endpoint to closed subject reduction or full closed consistency.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathNormalizationObstructionRouteCoverage}
 \begin{proof}
 Start with the consistency handoff of \autoref{thm:metacic-critical-path-consistency-handoff}. It permits a consumer to read from the closed-strong-normalization row $S$ to the normal-form consistency row $N$ only through the displayed route rows $H,C,P,L$.
 
@@ -677,6 +678,7 @@ Next read the confluence-frontier public handoff, \autoref{thm:metaciccriticalpa
 
 Finally use discharge-socket coverage and obstruction-socket separation, \autoref{thm:metacic-critical-path-discharge-socket-coverage} and \autoref{thm:metacic-critical-path-obstruction-socket-separation}. These keep SubjectReductionDischargeSocket visible but unfilled, so $D$ remains a socket coordinate rather than a closed subject-reduction proof or a source of the excluded global theorem exports.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPublicExport}
 
 \input{parts/concrete_instances/metaciccriticalpath/frontier_rank_surface}
 
