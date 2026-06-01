@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualContextCutUp$}
+\label{ch:concrete-instances-metacic-residual-context-cut-namecert}
+\origin{ai}
+
+The $\MetaCICResidualContextCutUp$ packet realizes the subject-reduction obstruction of \autoref{ch:metacic-subject-reduction-obstruction} as finite typed-context, residual-cut, candidate-boundary, and provenance rows. It sits beside the finite-window normalization audit of \autoref{ch:concrete-instances-finite-window-normalization-audit-namecert}, the MetaCIC critical path of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, and the subject-reduction discharge packets already attached to the obstruction map. The packet names a boundary where a reduction residual must preserve enough context data before a candidate-normalization or subject-reduction consumer may proceed.
+
+\begin{definition}[MetaCIC residual-context cut carrier]
+\label{def:metacic-residual-context-cut-carrier}
+A $\MetaCICResidualContextCutUp$ carrier is a finite $\BHist$ packet
+$$
+K=(G,R,B,A,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the typed-context row, recording the inspected context, binder boundary, closedness window, and typing judgement visible to the packet.
+\item $R$ is the residual-cut row, recording the beta or congruence residual whose source and target must remain attached to $G$.
+\item $B$ is the candidate-boundary row, recording the candidate-normalization evidence or refusal boundary available at the inspected residual.
+\item $A$ is the subject-reduction obstruction row, naming the four discharge obligations and the checked obstruction boundary read from \autoref{ch:metacic-subject-reduction-obstruction}.
+\item $O$ is the observation ledger, recording which typed-context, residual, candidate, and obstruction fields are public to downstream reads.
+\item $H$ records componentwise $\hsame$ transport for $G,R,B,A,O$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from typed-context inspection through residual cut, candidate boundary, obstruction row, observation ledger, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICResidualContextCutUp$, typed-context rows, residual-cut rows, candidate-normalization boundaries, subject-reduction obstruction rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICResidualContextCutUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,R,B,A,O,H,C,P,N$. It has no coordinate for an unconditional closed subject-reduction theorem, hidden substitution lemma, unrestricted normalization theorem, host equality of terms, or global conversion oracle.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual-context cut NameCert obligations]
+\label{thm:metacic-residual-context-cut-namecert-obligations}
+For every accepted $\MetaCICResidualContextCutUp$ carrier $K=(G,R,B,A,O,H,C,P,N)$, the local $\NameCert_{\MetaCICResidualContextCutUp}$ surface consists exactly of carrier admission for the typed-context row, residual-cut row, candidate-boundary row, subject-reduction obstruction row, observation ledger, componentwise transport, displayed replay, provenance, and local naming. Every accepted read factors through $G,R,B,A,O,H,C,P,N$ before it may cite the residual as a subject-reduction or normalization boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-context-cut-carrier}. The typed-context row $G$ fixes the visible context and judgement, and the residual-cut row $R$ fixes the source-target residual attached to that context.
+
+The candidate-boundary row $B$ and obstruction row $A$ are read next. They attach the residual to candidate-normalization evidence and to the four-obligation subject-reduction interface, without turning either surface into a hidden global theorem.
+
+The observation ledger $O$ records which fields are public. The structural rows $H,C,P,N$ then transport, replay, source, and name exactly the displayed route, so no unconditional closed subject-reduction theorem, hidden substitution lemma, unrestricted normalization theorem, host term equality, or conversion oracle can be exported.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-context cut subject-reduction obstruction]
+\label{thm:metacic-residual-context-cut-subject-reduction-obstruction}
+Every $\MetaCICResidualContextCutUp$ packet that is accepted as a subject-reduction boundary exposes the route
+$$
+G\longmapsto R\longmapsto B,A\longmapsto O\longmapsto H,C,P,N .
+$$
+Consequently the packet may name a residual-context obstruction, but it cannot supply an unconditional closed subject-reduction theorem unless the typed-context, residual-cut, candidate-boundary, and obstruction rows are replaced by checked discharge data outside this packet.
+\end{theorem}
+\begin{proof}
+Begin with an accepted subject-reduction boundary read. The carrier definition supplies the typed-context row $G$ and the residual-cut row $R$ as the only source of local context and reduction data.
+
+Apply \autoref{thm:metacic-residual-context-cut-namecert-obligations}. The candidate-boundary row $B$ and subject-reduction obstruction row $A$ must be displayed before the observation ledger or any downstream consumer can read the packet.
+
+The route closes through $O,H,C,P,N$. These rows expose, transport, replay, source, and name the boundary, but none of them contains the missing four discharge obligations as checked data. The packet therefore records the obstruction boundary rather than converting it into a closed subject-reduction theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICResidualContextCutUp$ read factors through typed-context, residual-cut, candidate-boundary, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any subject-reduction or normalization-boundary conclusion is public.}
+
+\independenceWitness{metacic-confluence-critical-pair-boundary, metacic-normalization-window-confluence, metacic-candidate-set-normalization, closed-pi-domain-subject-reduction: none is bijective with $\MetaCICResidualContextCutUp$ because this packet jointly binds the typed-context row, residual-cut row, candidate-boundary row, subject-reduction obstruction row, observation ledger, transport, replay, provenance, and local NameCert.}
+
+The Lean TasteGate surface for this packet must later provide explicit $\mathsf{Nontrivial}\ \MetaCICResidualContextCutUp$ and $\mathsf{FieldFaithful}\ \MetaCICResidualContextCutUp$ instances in $BEDC.Derived.MetaCICResidualContextCutUp.TasteGate$, preserving $G,R,B,A,O,H,C,P,N$ as distinct displayed rows before a checked target may cite the packet as a verified carrier-alignment theorem.
+
+\closureat{MetaCICResidualContextCutUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualContextCutUp}
+  \constructivestory{A $\MetaCICResidualContextCutUp$ packet is generated from a typed-context row, residual-cut row, candidate-boundary row, subject-reduction obstruction row, observation ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-context-cut-carrier}, \autoref{thm:metacic-residual-context-cut-namecert-obligations}, and \autoref{thm:metacic-residual-context-cut-subject-reduction-obstruction} seed the finite residual-context obstruction route over typed contexts, residual cuts, candidate boundaries, observation ledgers, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unconditional closed subject reduction, beta-substitution preservation, application-argument stability, lambda-domain preservation, Pi-domain preservation, global normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-context exactness, residual-cut exactness, candidate-boundary exposure, obstruction-row exposure, observation-ledger replay, and Nontrivial and FieldFaithful instances for BEDC.Derived.MetaCICResidualContextCutUp.}
+\end{closurestatus}
