@@ -2134,6 +2134,7 @@ import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.ClosureWitnessLedgerUp
+import BEDC.Derived.ClusterFilterUp.TasteGate
 import BEDC.Derived.CodonSixBitWindowUp.TasteGate
 import BEDC.Derived.CodonTransitionMatrixUp.TasteGate
 import BEDC.Derived.CodonWindowSpectralInverseUp.TasteGate
@@ -4808,6 +4809,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNConditionalBudget
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNDischargeRow
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontier
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontierCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontierDischargeCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNL10CompletionLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNL10Readback
@@ -4860,6 +4862,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FourFaceConfluenceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.FourFaceDeficiencyRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.FourFaceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.FourSourceOwnerNoncollapse
+import BEDC.Derived.MetaCICCriticalPathUp.FrontierBudgetFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankNameCertObligations
@@ -7629,6 +7632,7 @@ import BEDC.Derived.UniformContinuityUp.TasteGate
 import BEDC.Derived.UniformConvergenceSeriesUp.TasteGate
 import BEDC.Derived.UniformConvergenceSpaceUp.TasteGate
 import BEDC.Derived.UniformConvergenceTestUp.TasteGate
+import BEDC.Derived.UniformConvergenceUp.TasteGate
 import BEDC.Derived.UniformEmbeddingCompletionUp.TasteGate
 import BEDC.Derived.UniformEmbeddingUp
 import BEDC.Derived.UniformEmbeddingUp.TasteGate

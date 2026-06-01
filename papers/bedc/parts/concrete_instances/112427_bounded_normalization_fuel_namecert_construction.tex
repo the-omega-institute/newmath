@@ -63,6 +63,20 @@ When $Z$ is absent, $R$ is mandatory. It records the timeout or missing endpoint
 Transport, replay, provenance, and local naming preserve the same distinction. The packet therefore has exactly the finite endpoint boundary stated above.
 \end{proof}
 
+\begin{theorem}[Bounded normalization fuel monotone readback]
+\label{thm:bounded-normalization-fuel-monotone-readback}
+If an accepted $\BoundedNormalizationFuelUp$ packet is reread at a larger displayed fuel, the public conversion-facing route must still expose the original context row, term rows, visible fuel row, bounded endpoint row, structural equality row, finished-normal row when present, and refusal row when absent. Increasing fuel may refine the bounded endpoint row, but it cannot delete fuel, infer finished evidence from bounded endpoints alone, hide refusal, or export unrestricted beta-conversion decidability.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-normalization-fuel-carrier}. The reread keeps the same $\Gamma,t,u$ request surface and replaces only the displayed fuel request by a larger visible fuel row.
+
+Apply \autoref{thm:bounded-normalization-fuel-namecert-obligations}. The endpoint row may be recomputed at the larger fuel, but the public route still has to display fuel, bounded endpoints, structural equality, finished-normal evidence when present, refusal when absent, and the structural rows.
+
+Now use \autoref{thm:bounded-normalization-fuel-finished-boundary}. A refined endpoint row does not by itself create finished-normal evidence; the finished case remains tied to $Z$, and the nonfinished case remains tied to $R$.
+
+Thus monotone fuel readback is still a bounded computation route. It can refine what the bounded endpoint row says at the larger fuel, but it cannot become an unrestricted conversion oracle.
+\end{proof}
+
 \falsifiablePrediction{A $\BoundedNormalizationFuelUp$ consumer that exports unrestricted closed beta-conversion decidability after deleting the fuel row $k$, the finished-normal row $Z$, or the refusal row $R$ refutes the carrier of \autoref{def:bounded-normalization-fuel-carrier}.}
 
 \independenceWitness{Nearest siblings: metacicdecidableboundary, bounded-typechecking-budget, metacic-normalization-fuel-boundary, and closed-normal-confluence-seal. $\BoundedNormalizationFuelUp$ is not bijective to any of them because it jointly carries checker context, two term rows, visible fuel, bounded endpoint computation, structural endpoint equality, finished-normal evidence, refusal, transport, replay, provenance, and local naming as one carrier.}
