@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.ClusterFilterUp.TasteGate
+namespace BEDC.Derived.ClusterFilterUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +25,7 @@ def clusterFilterDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (clusterFilterDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (clusterFilterDecodeBHist tail)
 
-private theorem clusterFilter_decode_encode :
+private theorem clusterFilterDecode_encode_bhist :
     ∀ h : BHist, clusterFilterDecodeBHist (clusterFilterEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -38,60 +38,32 @@ def clusterFilterFields : ClusterFilterUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | ClusterFilterUp.mk F M T W R E A H C P N => [F, M, T, W, R, E, A, H, C, P, N]
 
-def clusterFilterToEventFlow : ClusterFilterUp → EventFlow
+def clusterFilterToEventFlow : ClusterFilterUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (clusterFilterFields x).map clusterFilterEncodeBHist
+  fun x => (clusterFilterFields x).map clusterFilterEncodeBHist
 
-def clusterFilterFromEventFlow : EventFlow → Option ClusterFilterUp
+private def clusterFilterEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | F :: rest0 =>
-      match rest0 with
-      | [] => none
-      | M :: rest1 =>
-          match rest1 with
-          | [] => none
-          | T :: rest2 =>
-              match rest2 with
-              | [] => none
-              | W :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | R :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | E :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | A :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | H :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | C :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | P :: rest9 =>
-                                          match rest9 with
-                                          | [] => none
-                                          | N :: rest10 =>
-                                              match rest10 with
-                                              | [] =>
-                                                  some
-                                                    (ClusterFilterUp.mk
-                                                      (clusterFilterDecodeBHist F)
-                                                      (clusterFilterDecodeBHist M)
-                                                      (clusterFilterDecodeBHist T)
-                                                      (clusterFilterDecodeBHist W)
-                                                      (clusterFilterDecodeBHist R)
-                                                      (clusterFilterDecodeBHist E)
-                                                      (clusterFilterDecodeBHist A)
-                                                      (clusterFilterDecodeBHist H)
-                                                      (clusterFilterDecodeBHist C)
-                                                      (clusterFilterDecodeBHist P)
-                                                      (clusterFilterDecodeBHist N))
-                                              | _ :: _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => clusterFilterEventAtDefault index rest
+
+def clusterFilterFromEventFlow (ef : EventFlow) : Option ClusterFilterUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (ClusterFilterUp.mk
+      (clusterFilterDecodeBHist (clusterFilterEventAtDefault 0 ef))
+      (clusterFilterDecodeBHist (clusterFilterEventAtDefault 1 ef))
+      (clusterFilterDecodeBHist (clusterFilterEventAtDefault 2 ef))
+      (clusterFilterDecodeBHist (clusterFilterEventAtDefault 3 ef))
+      (clusterFilterDecodeBHist (clusterFilterEventAtDefault 4 ef))
+      (clusterFilterDecodeBHist (clusterFilterEventAtDefault 5 ef))
+      (clusterFilterDecodeBHist (clusterFilterEventAtDefault 6 ef))
+      (clusterFilterDecodeBHist (clusterFilterEventAtDefault 7 ef))
+      (clusterFilterDecodeBHist (clusterFilterEventAtDefault 8 ef))
+      (clusterFilterDecodeBHist (clusterFilterEventAtDefault 9 ef))
+      (clusterFilterDecodeBHist (clusterFilterEventAtDefault 10 ef)))
 
 private theorem clusterFilter_round_trip :
     ∀ x : ClusterFilterUp, clusterFilterFromEventFlow (clusterFilterToEventFlow x) = some x := by
@@ -114,12 +86,12 @@ private theorem clusterFilter_round_trip :
             (clusterFilterDecodeBHist (clusterFilterEncodeBHist P))
             (clusterFilterDecodeBHist (clusterFilterEncodeBHist N))) =
           some (ClusterFilterUp.mk F M T W R E A H C P N)
-      rw [clusterFilter_decode_encode F, clusterFilter_decode_encode M,
-        clusterFilter_decode_encode T, clusterFilter_decode_encode W,
-        clusterFilter_decode_encode R, clusterFilter_decode_encode E,
-        clusterFilter_decode_encode A, clusterFilter_decode_encode H,
-        clusterFilter_decode_encode C, clusterFilter_decode_encode P,
-        clusterFilter_decode_encode N]
+      rw [clusterFilterDecode_encode_bhist F, clusterFilterDecode_encode_bhist M,
+        clusterFilterDecode_encode_bhist T, clusterFilterDecode_encode_bhist W,
+        clusterFilterDecode_encode_bhist R, clusterFilterDecode_encode_bhist E,
+        clusterFilterDecode_encode_bhist A, clusterFilterDecode_encode_bhist H,
+        clusterFilterDecode_encode_bhist C, clusterFilterDecode_encode_bhist P,
+        clusterFilterDecode_encode_bhist N]
 
 private theorem clusterFilterToEventFlow_injective {x y : ClusterFilterUp} :
     clusterFilterToEventFlow x = clusterFilterToEventFlow y → x = y := by
@@ -132,17 +104,6 @@ private theorem clusterFilterToEventFlow_injective {x y : ClusterFilterUp} :
   exact Option.some.inj
     (Eq.trans (clusterFilter_round_trip x).symm
       (Eq.trans hread (clusterFilter_round_trip y)))
-
-private theorem clusterFilter_field_faithful :
-    ∀ x y : ClusterFilterUp, clusterFilterFields x = clusterFilterFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk F₁ M₁ T₁ W₁ R₁ E₁ A₁ H₁ C₁ P₁ N₁ =>
-      cases y with
-      | mk F₂ M₂ T₂ W₂ R₂ E₂ A₂ H₂ C₂ P₂ N₂ =>
-          cases hfields
-          rfl
 
 instance clusterFilterBHistCarrier : BHistCarrier ClusterFilterUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -159,11 +120,6 @@ instance clusterFilterChapterTasteGate : ChapterTasteGate ClusterFilterUp where
     intro x y hxy heq
     exact hxy (clusterFilterToEventFlow_injective heq)
 
-instance clusterFilterFieldFaithful : FieldFaithful ClusterFilterUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := clusterFilterFields
-  field_faithful := clusterFilter_field_faithful
-
 instance clusterFilterNontrivial : Nontrivial ClusterFilterUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
@@ -175,20 +131,20 @@ instance clusterFilterNontrivial : Nontrivial ClusterFilterUp where
         intro h
         cases h⟩
 
-theorem ClusterFilterTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate ClusterFilterUp) ∧ Nonempty (FieldFaithful ClusterFilterUp) ∧
-      Nonempty (Nontrivial ClusterFilterUp) ∧
-        (∀ h : BHist, clusterFilterDecodeBHist (clusterFilterEncodeBHist h) = h) ∧
-          (∀ x : ClusterFilterUp,
-            clusterFilterFromEventFlow (clusterFilterToEventFlow x) = some x) ∧
-            clusterFilterEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
-  exact
-    ⟨⟨clusterFilterChapterTasteGate⟩,
-      ⟨clusterFilterFieldFaithful⟩,
-      ⟨clusterFilterNontrivial⟩,
-      clusterFilter_decode_encode,
-      clusterFilter_round_trip,
-      rfl⟩
+def taste_gate : ChapterTasteGate ClusterFilterUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  clusterFilterChapterTasteGate
 
-end BEDC.Derived.ClusterFilterUp.TasteGate
+theorem ClusterFilterUpTasteGate_single_carrier_alignment :
+    (∀ h : BHist, clusterFilterDecodeBHist (clusterFilterEncodeBHist h) = h) ∧
+      (∀ x : ClusterFilterUp,
+        clusterFilterFromEventFlow (clusterFilterToEventFlow x) = some x) ∧
+        (∀ x y : ClusterFilterUp,
+          clusterFilterToEventFlow x = clusterFilterToEventFlow y → x = y) ∧
+          clusterFilterEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate Nontrivial
+  exact
+    ⟨clusterFilterDecode_encode_bhist, clusterFilter_round_trip,
+      (fun _ _ heq => clusterFilterToEventFlow_injective heq), rfl⟩
+
+end BEDC.Derived.ClusterFilterUp

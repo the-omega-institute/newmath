@@ -393,6 +393,7 @@ The route inventory remains finite under replay. Use \autoref{thm:metacic-critic
 
 The remaining boundaries preserve the same nonescape claim. Apply \autoref{thm:metacic-critical-path-namecert-obligation-surface}, \autoref{thm:metacic-critical-path-obstruction-boundary}, and \autoref{thm:metacic-critical-path-discharge-row-visibility}. The obligation surface lists the local rows, the obstruction boundary keeps $O$ and $D$ visible, and discharge-row visibility prevents $L$ from naming a filled theorem in place of the displayed socket.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_local\_name\_nonescape}
 
 \begin{definition}[MetaCIC critical-path frontier slice]
 \label{def:metacic-critical-path-frontier-slice}
@@ -602,6 +603,7 @@ Now apply \autoref{thm:metacic-critical-path-discharge-socket-nonescape} and \au
 
 Thus a substitution-facing consumer can read the handoff only through the displayed packet coordinates $H,C,P,L$. The same read never supplies the missing discharge input, so it cannot close subject reduction.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathSubstitutionHandoffVisibility}
 
 \begin{theorem}[MetaCIC critical-path confluence-decidability socket]
 \label{thm:metacic-critical-path-confluence-decidability-socket}
@@ -631,165 +633,7 @@ Apply \autoref{thm:metacic-critical-path-normal-form-readback-boundary} and \aut
 The discharge socket is still separate by \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. Therefore every normalization-to-normal-form read carries the obstruction row through the route and stops short of the two excluded theorem exports.
 \end{proof}
 
-\begin{theorem}[MetaCIC critical-path frontier-rank NameCert obligations]
-\label{thm:metacic-critical-path-frontier-rank-namecert-obligations}
-For every accepted frontier-rank packet
-$$
-Q=(O,R,D,B,C,P,N),
-$$
-the local $\NameCert_{\MetaCICCriticalPathUp}$ surface consists exactly of seven row obligations: open-node visibility through $O$, dependency-ready visibility through $R$, downstream-rank visibility through $D$, obstruction-ledger visibility through $B$, replay-route visibility through $C$, package provenance through $P$, and local naming through $N$. It has no eighth obligation for scheduler state, host reachability, or an unledgered dependency edge.
-\end{theorem}
-\begin{proof}
-Project the accepted frontier-rank carrier of \autoref{def:metacic-critical-path-frontier-rank-carrier}. The displayed packet has the seven coordinates $O,R,D,B,C,P,N$, and the definition assigns one scheduler-facing role to each coordinate.
-
-Open-node exhaustion in \autoref{thm:metacic-critical-path-open-node-exhaustion} supplies the coverage step. Every accepted open-node read factors through the node row, the dependency-ready rows, the downstream rank, the obstruction ledger, the replay route, provenance, and the local name.
-
-Dependency-route nonescape in \autoref{thm:metacic-critical-path-dependency-route-nonescape} supplies the exclusion step. Dependency routing cannot appeal to hidden scheduler state, host graph reachability, or an unledgered dependency edge.
-
-The Lean handoff surface of \autoref{thm:metacic-critical-path-lean-handoff-surface} identifies the same seven coordinates as the formal target surface. Hence the local NameCert obligations are exactly the seven displayed rows and no extra scheduler-facing row.
-\end{proof}
-\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathFrontierRankNameCertObligations}
-
-\begin{theorem}[MetaCIC critical-path frontier-rank transport stability]
-\label{thm:metacic-critical-path-frontier-rank-transport-stability}
-For every accepted frontier-rank packet $Q=(O,R,D,B,C,P,N)$, componentwise $\hsame$ transport and replay along the displayed route $C$ preserve the seven NameCert obligation rows $O,R,D,B,C,P,N$. Transport cannot add scheduler state, host reachability, or an unledgered dependency edge.
-\end{theorem}
-\begin{proof}
-Start with the accepted carrier in \autoref{def:metacic-critical-path-frontier-rank-carrier}. Its route coordinate $C$ stores the $\Cont$ paths used by scheduler-facing consumers, while the remaining coordinates record the open node, readiness, rank, ledger, provenance, and local name.
-
-Open-node exhaustion keeps the transported read on the same finite packet. By \autoref{thm:metacic-critical-path-open-node-exhaustion}, there is no hidden frontier node and no unranked scheduling obligation available after the read is replayed.
-
-Dependency-route nonescape keeps the replayed dependency route inside the same ledgered surface. By \autoref{thm:metacic-critical-path-dependency-route-nonescape}, the route may use $R,B,C,P,N$ but cannot leave the packet for scheduler state, host reachability, or an unledgered edge.
-
-The obligation theorem above identifies the seven rows as the complete local NameCert surface. Therefore componentwise $\hsame$ transport and route replay preserve exactly those rows and introduce no additional dependency source.
-\end{proof}
-
-\begin{theorem}[MetaCIC critical-path frontier-rank consumer exactness]
-\label{thm:metacic-critical-path-frontier-rank-consumer-exactness}
-Every scheduler-facing consumer of the $\MetaCICCriticalPathUp$ root-unblock packet factors through the seven-row frontier-rank surface
-$$
-O,R,D,B,C,P,N.
-$$
-Such a consumer may read the open node, readiness row, downstream rank, obstruction ledger, replay route, provenance, and local name, but it cannot read a hidden dependency edge outside those rows.
-\end{theorem}
-\begin{proof}
-Project the consumer to an accepted open-node read. By \autoref{thm:metacic-critical-path-open-node-exhaustion}, that read factors through a frontier-rank packet $Q=(O,R,D,B,C,P,N)$ and has no coordinate for a hidden frontier node or unranked scheduling obligation.
-
-Now project any dependency route used by the consumer. By \autoref{thm:metacic-critical-path-dependency-route-nonescape}, routing is exhausted by the displayed readiness, ledger, replay, provenance, and naming rows, and it cannot appeal to hidden scheduler state, host graph reachability, or an unledgered edge.
-
-Finally use the Lean handoff and NameCert obligation surfaces. \autoref{thm:metacic-critical-path-lean-handoff-surface} makes the seven rows the exact root-unblock handoff, and \autoref{thm:metacic-critical-path-frontier-rank-namecert-obligations} makes them the complete local NameCert obligation list. Thus every scheduler-facing consumer factors through the seven rows and cannot read a hidden dependency edge.
-\end{proof}
-
-\begin{theorem}[MetaCIC critical-path frontier-rank soundness]
-\label{thm:metacic-critical-path-frontier-rank-soundness}
-The $\MetaCICCriticalPathUp$ frontier-rank carrier can rank only the displayed open-node row $O$, dependency-route row $R$, Lean-handoff row $D$, obstruction-ledger row $B$, replay-route row $C$, provenance row $P$, and local naming row $N$. It cannot rank hidden closed-consistency data, subject-reduction data, scheduler state, host reachability, or any dependency edge outside the displayed finite packet.
-\end{theorem}
-\begin{proof}
-Start with the frontier-rank carrier of \autoref{def:metacic-critical-path-frontier-rank-carrier}. Its rank coordinate is read together with the open node, dependency-ready routes, obstruction ledger, replay route, provenance, and local name, so the carrier provides no separate coordinate for closed-consistency or subject-reduction data.
-
-Open-node exhaustion and dependency-route nonescape give the two exclusions. By \autoref{thm:metacic-critical-path-open-node-exhaustion}, every ranked node is one of the displayed open nodes. By \autoref{thm:metacic-critical-path-dependency-route-nonescape}, every dependency used by the rank is routed through the ledgered finite rows and not through host reachability or an unledgered edge.
-
-Finally combine the Lean handoff, NameCert obligation, transport stability, and consumer exactness rows of \autoref{thm:metacic-critical-path-lean-handoff-surface}, \autoref{thm:metacic-critical-path-frontier-rank-namecert-obligations}, \autoref{thm:metacic-critical-path-frontier-rank-transport-stability}, and \autoref{thm:metacic-critical-path-frontier-rank-consumer-exactness}. These identify the same seven rows as the only downstream handoff surface, so the frontier rank is sound exactly for those displayed rows.
-\end{proof}
-
-\begin{theorem}[MetaCIC critical-path downstream-unblock coverage]
-\label{thm:metacic-critical-path-downstream-unblock-coverage}
-A downstream MetaCIC consumer is unblocked by a $\MetaCICCriticalPathUp$ frontier-rank packet only when every dependency route named by the packet is read through the displayed finite rows $O,R,D,B,C,P,N$. A route that asks for hidden closed-consistency data, subject-reduction data, scheduler state, host reachability, or an unledgered dependency edge is not covered by the unblock packet.
-\end{theorem}
-\begin{proof}
-Project the downstream consumer through \autoref{thm:metacic-critical-path-frontier-rank-consumer-exactness}. The consumer can receive only the open node, readiness row, downstream rank, obstruction ledger, replay route, provenance, and local name.
-
-Use dependency-route nonescape and frontier-rank soundness. The theorem \autoref{thm:metacic-critical-path-dependency-route-nonescape} forces every named dependency route through the displayed route and ledger rows, while \autoref{thm:metacic-critical-path-frontier-rank-soundness} prevents the rank from certifying hidden closed-consistency or subject-reduction data.
-
-The remaining rows are stable under transport and handoff. Apply \autoref{thm:metacic-critical-path-frontier-rank-transport-stability}, \autoref{thm:metacic-critical-path-lean-handoff-surface}, and \autoref{thm:metacic-critical-path-frontier-rank-namecert-obligations}. They keep the downstream unblock claim on the same seven finite rows, so any consumer whose dependency route leaves those rows is not unblocked by this packet.
-\end{proof}
-
-\begin{theorem}[MetaCIC critical-path Lean target intake]
-\label{thm:metacic-critical-path-lean-target-intake}
-For every accepted frontier-rank packet
-$$
-Q=(O,R,D,B,C,P,N),
-$$
-the Lean target intake surface is exactly the seven displayed rows: open-node visibility through $O$, dependency-ready visibility through $R$, downstream-rank visibility through $D$, obstruction-ledger visibility through $B$, replay-route visibility through $C$, package provenance through $P$, and local naming through $N$. It has no intake row for scheduler state, host graph reachability, hidden dependency edges, or theorem exports outside the displayed packet.
-\end{theorem}
-\begin{proof}
-Start from the carrier of \autoref{def:metacic-critical-path-frontier-rank-carrier}. The packet $Q$ displays precisely the seven coordinates $O,R,D,B,C,P,N$, and each coordinate has a named root-unblock role.
-
-Apply open-node exhaustion from \autoref{thm:metacic-critical-path-open-node-exhaustion}. It places every accepted open-node read inside this same packet and rules out a hidden frontier node or unranked scheduling obligation.
-
-Use dependency-route nonescape and the Lean handoff surface, \autoref{thm:metacic-critical-path-dependency-route-nonescape} and \autoref{thm:metacic-critical-path-lean-handoff-surface}. Together they make the dependency-ready row, obstruction ledger, replay route, provenance row, and local NameCert row the exact formal handoff surface.
-
-Finally invoke consumer exactness from \autoref{thm:metacic-critical-path-frontier-rank-consumer-exactness}. Since every scheduler-facing consumer factors through the seven displayed rows, the Lean intake has no remaining coordinate for scheduler state, host reachability, hidden edges, or outside theorem exports.
-\end{proof}
-
-\begin{theorem}[MetaCIC critical-path downstream unblock surface]
-\label{thm:metacic-critical-path-downstream-unblock-surface}
-Every downstream unblock read of an accepted $\MetaCICCriticalPathUp$ frontier-rank packet $Q=(O,R,D,B,C,P,N)$ must pass through the dependency-ready row $R$, obstruction ledger $B$, replay route $C$, package provenance $P$, and local $\NameCert_{\MetaCICCriticalPathUp}$ row $N$. The read may also inspect the open node $O$ and downstream rank $D$, but it cannot bypass $R,B,C,P,N$ by appealing to scheduler state, host graph reachability, a hidden edge, or an exported theorem outside the packet.
-\end{theorem}
-\begin{proof}
-Project the read to the displayed frontier-rank carrier. The dependency-ready row $R$, obstruction ledger $B$, replay route $C$, provenance row $P$, and local name $N$ are all coordinates of the same finite packet $Q$.
-
-Apply \autoref{thm:metacic-critical-path-dependency-route-nonescape}. Dependency routing is exhausted by those rows, so a downstream unblock cannot use a host scheduler convention or graph-reachability fact in place of the ledgered route.
-
-Use the Lean handoff surface of \autoref{thm:metacic-critical-path-lean-handoff-surface}. It identifies the same rows as the paper-to-Lean root-unblock surface and refuses additional scheduling coordinates.
-
-Finally apply \autoref{thm:metacic-critical-path-frontier-rank-consumer-exactness}. Every scheduler-facing consumer already factors through $O,R,D,B,C,P,N$, hence any downstream unblock read must pass through $R,B,C,P,N$ before it can be consumed.
-\end{proof}
-
-\begin{theorem}[MetaCIC critical-path audit frontier factorization]
-\label{thm:metacic-critical-path-audit-frontier-factorization}
-Every audit-frontier read of an accepted frontier-rank packet $Q=(O,R,D,B,C,P,N)$ factors through the displayed open-node row, dependency-ready row, downstream rank, obstruction ledger, replay route, package provenance, and local NameCert row. The factorization has no scheduler state, host graph reachability, hidden dependency edge, or theorem export outside the displayed packet.
-\end{theorem}
-\begin{proof}
-Read the frontier through \autoref{def:metacic-critical-path-frontier-rank-carrier}. The audit-facing packet is finite and names only $O,R,D,B,C,P,N$.
-
-Use \autoref{thm:metacic-critical-path-open-node-exhaustion}. It exhausts the open-node side of the audit frontier and prevents a hidden frontier node or unranked scheduling obligation from entering the factorization.
-
-Next apply \autoref{thm:metacic-critical-path-dependency-route-nonescape} and \autoref{thm:metacic-critical-path-frontier-rank-transport-stability}. These keep dependency routes and transported replay paths inside $R,B,C,P,N$ and preserve the same seven rows under componentwise $\hsame$ transport.
-
-Finally use \autoref{thm:metacic-critical-path-lean-handoff-surface} and \autoref{thm:metacic-critical-path-frontier-rank-consumer-exactness}. The formal handoff and every consumer read share the same seven-row packet, so the audit-frontier factorization cannot export scheduler state, host graph reachability, hidden edges, or theorem rows outside $Q$.
-\end{proof}
-
-\begin{theorem}[MetaCIC critical-path root-unblock carrier readiness]
-\label{thm:metacic-critical-path-root-unblock-carrier-readiness}
-For every accepted $\MetaCICCriticalPathUp$ root-unblock packet
-$$
-K=(S,N,O,U,D,H,C,P,L),
-$$
-the displayed rows expose carrier readiness through the source row $S$, local $\NameCert_{\MetaCICCriticalPathUp}$ row $N$, open-obstruction row $O$, unblock row $U$, discharge row $D$, componentwise $\hsame$ row $H$, continuation row $C$, package provenance row $P$, and local ledger row $L$. The readiness claim has no row for closed subject reduction, full consistency, hidden scheduler state, or host reachability outside the packet.
-\end{theorem}
-\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathRootUnblockCarrierReadiness}
-\begin{proof}
-Start with the carrier and NameCert rows of the accepted packet. The displayed source, local name, obstruction, unblock, discharge, transport, continuation, provenance, and ledger coordinates are the only coordinates available to a carrier-readiness read.
-
-Apply the carrier obligations and transport stability supplied by \autoref{thm:metacic-critical-path-frontier-rank-namecert-obligations} and \autoref{thm:metacic-critical-path-frontier-rank-transport-stability}. These keep the source and local naming rows tied to the same finite $\BHist$ packet and keep every transported read inside the displayed $\hsame$ row.
-
-Finally use \autoref{thm:metacic-critical-path-frontier-rank-soundness} and \autoref{thm:metacic-critical-path-audit-frontier-factorization}. They exclude closed-consistency data, subject-reduction data, scheduler state, and hidden dependency edges from the frontier packet, so carrier readiness is exactly the displayed finite surface.
-\end{proof}
-
-\begin{theorem}[MetaCIC critical-path root-unblock route readiness]
-\label{thm:metacic-critical-path-root-unblock-route-readiness}
-Every route replay accepted by a $\MetaCICCriticalPathUp$ root-unblock consumer is exhausted by the displayed obstruction, discharge socket, transport, continuation, provenance, and local naming rows of $K=(S,N,O,U,D,H,C,P,L)$. No replay step may replace those rows by a host scheduler edge, an unledgered dependency route, or a hidden theorem-export path.
-\end{theorem}
-\begin{proof}
-Project the route replay to the packet rows that can be consumed. The obstruction, discharge, $\hsame$ transport, $\Cont$ continuation, package provenance, and local naming rows are all present in the same finite root-unblock packet.
-
-Use route nonescape and the discharge socket boundary. The dependency-route nonescape theorem \autoref{thm:metacic-critical-path-dependency-route-nonescape} forces every routed dependency through the ledgered finite rows, while the downstream unblock surface of \autoref{thm:metacic-critical-path-downstream-unblock-surface} prevents a consumer from bypassing the displayed discharge and replay rows.
-
-The remaining replay data are fixed by the audit-frontier factorization. Applying \autoref{thm:metacic-critical-path-audit-frontier-factorization} with transport stability from \autoref{thm:metacic-critical-path-frontier-rank-transport-stability} leaves only obstruction, socket, transport, continuation, provenance, and local naming reads for the root-unblock route.
-\end{proof}
-
-\begin{theorem}[MetaCIC critical-path root-unblock consumer readiness]
-\label{thm:metacic-critical-path-root-unblock-consumer-readiness}
-Downstream MetaCIC consumers may depend on an accepted $\MetaCICCriticalPathUp$ root-unblock packet only through the displayed rows $S,N,O,U,D,H,C,P,L$. Such consumers cannot appeal to host scheduler state, undisplayed dependency edges, hidden route closures, closed subject reduction, or full consistency as part of the root-unblock packet.
-\end{theorem}
-\begin{proof}
-Begin with consumer exactness. By \autoref{thm:metacic-critical-path-frontier-rank-consumer-exactness}, every scheduler-facing consumer factors through the displayed finite packet rather than through host scheduler state.
-
-Next use downstream-unblock coverage and the audit-frontier factorization. Theorems \autoref{thm:metacic-critical-path-downstream-unblock-coverage} and \autoref{thm:metacic-critical-path-audit-frontier-factorization} restrict dependency reads to the packet rows and rule out hidden scheduler edges or theorem exports outside the packet.
-
-Finally combine carrier readiness and route readiness from \autoref{thm:metacic-critical-path-root-unblock-carrier-readiness} and \autoref{thm:metacic-critical-path-root-unblock-route-readiness}. These two surfaces account for the carrier, obstruction, discharge, transport, continuation, provenance, ledger, and local naming rows, so no downstream MetaCIC consumer has any additional root-unblock dependency to cite.
-\end{proof}
+\input{parts/concrete_instances/metaciccriticalpath/frontier_rank_surface}
 
 \input{parts/concrete_instances/metaciccriticalpath/public_route_obligations}
 \input{parts/concrete_instances/metaciccriticalpath/kernel_frontier_obligation_triad}
