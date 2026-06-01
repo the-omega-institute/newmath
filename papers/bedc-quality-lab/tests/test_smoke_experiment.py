@@ -136,8 +136,8 @@ def assert_canonical_quality_rows(envelope, *, ledger_gaps, debt_items):
 def assert_meaningful_metric_thresholds(
     envelope,
     *,
-    max_orthogonality_error=0.55,
-    max_covariance_deviation=0.70,
+    max_orthogonality_error=0.53,
+    max_covariance_deviation=0.63,
 ):
     assert envelope.metrics["linear_identifiability_r2"] > 0.85
     assert envelope.metrics["approx_identifiability_proxy"] > 0.70
@@ -370,7 +370,7 @@ def test_smoke_experiment_skips_without_torch():
     }
     assert envelope.classifier_spec["output_dim"] == 2
     assert_classifier_certificate(envelope)
-    assert_meaningful_metric_thresholds(envelope, max_covariance_deviation=0.75)
+    assert_meaningful_metric_thresholds(envelope, max_covariance_deviation=0.69)
 
 
 def test_runner_uses_canonical_debt_and_ledger_producers():
