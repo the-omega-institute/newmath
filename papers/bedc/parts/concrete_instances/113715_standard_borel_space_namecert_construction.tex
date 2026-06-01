@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\StandardBorelSpaceUp$}
+\label{ch:concrete-instances-standard-borel-space-namecert}
+\origin{human}
+
+Following Kechris' descriptive set theory, the $\StandardBorelSpaceUp$ packet records a Polish presentation together with a generated Borel event classifier. It sits over the Polish presentation surface of \autoref{ch:concrete-instances-polishspace-namecert}, the Borel-code classifier of \autoref{ch:concrete-instances-borel-set-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet is a measurable-name interface for probability and distribution consumers; it is not a host measurable-space import, quotient completion, selected point representation, or ambient sigma-algebra oracle.
+
+\begin{definition}[Standard Borel space carrier]
+\label{def:standard-borel-space-carrier}
+A $\StandardBorelSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(P,B,R,W,G,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\PolishSpaceUp$ presentation row, including the displayed complete separable metric data and dense naming discipline consumed by the packet.
+\item $B$ is the $\BorelSetUp$ code row generated from the topology carried by $P$.
+\item $R$ is the $\RealUp$ seal row used for real-valued observable boundaries.
+\item $W$ is the $\StreamNameUp$ finite-window row used to read presented points and event probes.
+\item $G$ is the $\RegSeqRatUp$ regular rational readback row used by real-valued event thresholds.
+\item $E$ is the event-classifier row assigning each displayed Borel code its finite membership-probe schedule over $W,G,R$.
+\item $H$ records componentwise $\hsame$ transport for $P,B,R,W,G,E,C,Q,N$.
+\item $C$ records displayed $\Cont$ replay from Polish presentation data through Borel-code generation to event-classifier reads.
+\item $Q$ is the $\Pkg$ provenance over $\StandardBorelSpaceUp$, $\PolishSpaceUp$, $\BorelSetUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StandardBorelSpaceUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose Borel event reads are generated from the displayed Polish presentation and whose real-valued observable thresholds pass through the stream, regular-rational, and real-seal rows. It has no coordinate for a host measurable space, unrestricted powerset sigma-algebra, quotient presentation, selected representative, or ambient probability measure.
+\end{definition}
+\leanstmt{BEDC.Derived.StandardBorelSpaceUp}
+
+\begin{theorem}[Standard Borel space NameCert obligations]
+\label{thm:standard-borel-space-namecert-obligations}
+For every accepted $\StandardBorelSpaceUp$ carrier
+$$
+S=(P,B,R,W,G,E,H,C,Q,N),
+$$
+the local $\NameCert_{\StandardBorelSpaceUp}$ surface consists exactly of carrier admission for the $\PolishSpaceUp$ presentation row, the generated $\BorelSetUp$ code row, the $\RealUp$ observable boundary, the $\StreamNameUp$ finite-window row, the $\RegSeqRatUp$ readback row, the event-classifier row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The event classifier may accept only Borel codes generated from $P$ and threshold reads routed through $W,G,R$. It exports no host measurable space, unrestricted sigma-algebra, selected point representation, quotient completion, probability measure, or ambient measurability oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:standard-borel-space-carrier}. The presentation and classifier data are exactly $P,B,E$, while $W,G,R$ are the only rows available for point windows and real-valued threshold reads.
+
+The Borel-code route is generated from $P$. The row $B$ records Borel codes over the topology displayed by the $\PolishSpaceUp$ presentation, and $E$ may classify only those codes against the finite window and regular-rational rows.
+
+The observable route is finite. A real-valued threshold read must pass through $W$ for stream windows, $G$ for regular rational readback, and $R$ for the terminal real-name seal before the classifier row can be consumed.
+
+Finally $H,C,Q,N$ transport, replay, source, and name the same displayed packet. Since the carrier has no coordinate for a host measurable space, powerset sigma-algebra, selected representative, quotient completion, probability measure, or ambient measurability oracle, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Standard Borel Polish-Borel handoff]
+\label{thm:standard-borel-space-polish-borel-handoff}
+Every accepted $\StandardBorelSpaceUp$ event read factors through the displayed route
+$$
+\PolishSpaceUp \longmapsto \BorelSetUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp.
+$$
+Thus a probability, distribution, or measurable-kernel consumer may inspect only generated Borel event codes and finite real-threshold readbacks; it may not replace the packet by a host measurable space, a selected Polish representative, quotient real equality, an unrestricted sigma-algebra, or an ambient probability object.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows of \autoref{def:standard-borel-space-carrier}. The only Borel row is $B$, and it is tied to the Polish presentation row $P$ rather than to an external measurable-space structure.
+
+Apply \autoref{thm:standard-borel-space-namecert-obligations}. It binds each event-classifier read to the generated Borel code and then routes real-valued probes through $W,G,R$.
+
+The structural rows $H,C,Q,N$ preserve that route under transport, replay, provenance, and local naming. A downstream consumer therefore receives a generated Borel classifier over the displayed Polish presentation, not an imported measurable-space object or an unrestricted sigma-algebra.
+\end{proof}
+
+\closureat{StandardBorelSpaceUp}{seedStr}
+
+\begin{closurestatus}{\StandardBorelSpaceUp}
+  \constructivestory{A $\StandardBorelSpaceUp$ packet is generated from a PolishSpace presentation, a BorelSet code row, a Real observable boundary, StreamName windows, RegSeqRat threshold readback, an event-classifier row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:standard-borel-space-carrier}, \autoref{thm:standard-borel-space-namecert-obligations}, and \autoref{thm:standard-borel-space-polish-borel-handoff} seed the generated Borel event-classifier interface over displayed Polish, Borel-code, stream, regular-rational, and Real rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host measurable spaces, unrestricted sigma-algebras, quotient presentations, selected point representatives, probability measures, Lean checking, or bridge checking for $\StandardBorelSpaceUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, generated Borel-code stability, event-classifier stability, real-threshold routing, transport, replay, provenance, and local naming for BEDC.Derived.StandardBorelSpaceUp.}
+\end{closurestatus}
