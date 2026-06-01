@@ -1174,6 +1174,7 @@ import BEDC.Derived.CauchyCompletenessCriterionUp.TasteGate
 import BEDC.Derived.CauchyCompletenessModulusUp.TasteGate
 import BEDC.Derived.CauchyCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionAssociativityUp
+import BEDC.Derived.CauchyCompletionAssociativityUp.FlatteningRoute
 import BEDC.Derived.CauchyCompletionAssociativityUp.TasteGate
 import BEDC.Derived.CauchyCompletionBoundaryUp.TasteGate
 import BEDC.Derived.CauchyCompletionComparisonNaturalityUp.TasteGate
@@ -2873,6 +2874,7 @@ import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
 import BEDC.Derived.DecimalExpansionUp.CountableDenseConsumerHandoff
+import BEDC.Derived.DecimalExpansionUp.DigitCarryDeterminacy
 import BEDC.Derived.DecimalExpansionUp.DyadicComparisonHandoff
 import BEDC.Derived.DecimalExpansionUp.DyadicNormalizationLock
 import BEDC.Derived.DecimalExpansionUp.DyadicRationalReadback
@@ -3483,6 +3485,7 @@ import BEDC.Derived.FanModulusBoundaryUp.TasteGate
 import BEDC.Derived.FanSpaceUp.TasteGate
 import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
+import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.ApproximationWindowFactorization
 import BEDC.Derived.FareySequenceUp.ClassifierTransport
 import BEDC.Derived.FareySequenceUp.DenominatorBoundWindow
