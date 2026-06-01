@@ -5130,6 +5130,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockSoundness
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealSourceObligations
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealStatusProductReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.ProvenanceNaming
+import BEDC.Derived.MetaCICCriticalPathUp.PublicConsumerSurface
 import BEDC.Derived.MetaCICCriticalPathUp.PublicExport
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionBudgetTriangle
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionFrontierFilter
