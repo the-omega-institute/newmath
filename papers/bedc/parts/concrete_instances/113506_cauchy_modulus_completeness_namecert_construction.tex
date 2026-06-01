@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusCompletenessUp$}
+\label{ch:concrete-instances-cauchy-modulus-completeness-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy completion, the $\CauchyModulusCompletenessUp$ packet records the finite handoff from an explicit Cauchy modulus to a completion-facing Real seal. It sits after the effective completion route of \autoref{ch:concrete-instances-effective-completion-namecert}, the convergence-modulus ledger of \autoref{ch:concrete-instances-real-modulus-of-convergence-namecert}, the criterion/modulus comparison of \autoref{ch:concrete-instances-cauchy-criterion-equivalence-namecert}, the real Cauchy criterion of \autoref{ch:concrete-instances-real-cauchy-criterion-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert route for modulus-controlled completion consumers; it is not an ambient completeness theorem for $\RealUp$ and it does not create quotient streams, selected limits, countable choice, trichotomy, or host real equality.
+
+\begin{definition}[CauchyModulusCompleteness carrier]
+\label{def:cauchy-modulus-completeness-carrier}
+A $\CauchyModulusCompletenessUp$ carrier is a finite $\BHist$ packet
+$$
+X=(M,E,K,W,R,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\CauchyModulusUp$ row, recording the finite modulus request and the threshold data accepted by the completion-facing read.
+\item $E$ is the $\EffectiveCompletionUp$ row, exposing the effective completion handoff through which the modulus data reaches a Real-facing consumer.
+\item $K$ is the $\CauchyCriterionEquivalenceUp$ or $\RealCauchyCriterionUp$ row, binding the same modulus request to a finite Cauchy-criterion read.
+\item $W$ is the $\StreamNameUp$ finite-window row opened by $M,E,K$ before any readback or Real seal is inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and consumed by the completion route.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording dyadic scales, split radii, slack, and comparison witnesses shared by $M,W,R$.
+\item $L$ is the terminal $\RealUp$ seal, reached only after $M,E,K,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for modulus, effective completion, criterion, window, readback, tolerance, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M,E,K \longmapsto W,D \longmapsto R \longmapsto L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusCompletenessUp$, $\CauchyModulusUp$, $\EffectiveCompletionUp$, $\CauchyCriterionEquivalenceUp$, $\RealCauchyCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusCompletenessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,E,K,W,R,D,L,H,C,P,N$. It has no coordinate for ambient $\RealUp$ completeness, quotient streams, selected limits, countable choice, trichotomy, host real equality, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[CauchyModulusCompleteness NameCert obligations]
+\label{thm:cauchy-modulus-completeness-namecert-obligations}
+For every accepted $\CauchyModulusCompletenessUp$ carrier
+$$
+X=(M,E,K,W,R,D,L,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyModulusCompletenessUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed Cauchy modulus, effective completion, criterion, finite-window, regular readback, tolerance, real-seal, transport, replay, provenance, and local naming rows;
+\item modulus visibility, requiring every completion-facing request to expose $M$ before any finite window, readback, or Real seal is consumed;
+\item criterion and completion compatibility, requiring $E$ and $K$ to bind the same modulus request, finite windows, regular readback, dyadic tolerance data, and terminal Real seal;
+\item window-readback-tolerance exactness, requiring every read used by $L$ to pass through the displayed $\StreamNameUp$ row $W$, $\RegSeqRatUp$ row $R$, and $\DyadicRatCoreUp$ row $D$;
+\item structural non-escape, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed route and to export no ambient $\RealUp$ completeness, quotient stream, selected limit, countable-choice schedule, trichotomy branch, host real equality, Lean verification credential, or bridge credential.
+\end{enumerate}
+No Cauchy modulus completeness obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-modulus-completeness-carrier}. The accepted packet displays exactly the Cauchy modulus, effective completion, criterion, finite-window, readback, tolerance, Real seal, and structural rows.
+
+The modulus-visibility clause is read from $M$. Since $W,R,D,L$ occur downstream of the displayed modulus route, a completion-facing consumer cannot inspect stream data, rational readback, dyadic tolerance, or a Real seal before the modulus request is visible.
+
+The compatibility and exactness clauses are read from $E,K,W,R,D,L$. The effective completion row $E$ and the criterion row $K$ bind the same request to finite windows $W$, regular readback $R$, and dyadic tolerance data $D$ before the terminal seal $L$ is reached.
+
+The structural clause is exhausted by $H,C,P,N$. These rows only transport, replay, source, and name the displayed route, and the carrier has no coordinate for the excluded completeness, quotient, selection, choice, trichotomy, host-equality, verification, or bridge data.
+\end{proof}
+
+\begin{theorem}[CauchyModulusCompleteness Real seal handoff]
+\label{thm:cauchy-modulus-completeness-real-seal-handoff}
+For every accepted $\CauchyModulusCompletenessUp$ carrier
+$$
+X=(M,E,K,W,R,D,L,H,C,P,N),
+$$
+every completion-facing consumer must pass through the displayed route
+$$
+M,E,K \longmapsto W,D \longmapsto R \longmapsto L
+$$
+with transport, replay, provenance, and local naming supplied only by $H,C,P,N$ before reading the terminal $\RealUp$ seal. The consumer receives no ambient $\RealUp$ completeness theorem, quotient stream equality, selected limit, countable-choice schedule, trichotomy branch, or host real equality.
+\end{theorem}
+\begin{proof}
+Fix a completion-facing consumer of $X$. The only terminal Real-facing coordinate is $L$, so any allowed read of a Real seal must reach that row through the displayed carrier route.
+
+Read the dependencies of $L$. The seal is downstream of the finite-window row $W$, the dyadic tolerance row $D$, and the regular readback row $R$.
+
+The source of those rows is fixed by $M,E,K$. The modulus row $M$ exposes the Cauchy-modulus request, $E$ carries the effective completion handoff, and $K$ records the criterion route binding the same request to the same finite data.
+
+The structural rows add no analytic data. Componentwise transport through $H$ preserves the displayed coordinates, replay through $C$ preserves the route order, and $P,N$ only source and name the same packet.
+
+Since no excluded object appears as a carrier coordinate, the consumer cannot obtain ambient Real completeness, quotient stream equality, a selected limit, countable choice, trichotomy, or host real equality. Thus every completion-facing consumer passes through the displayed modulus, window, readback, tolerance, and Real-seal route.
+\end{proof}
+
+\closureat{CauchyModulusCompletenessUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusCompletenessUp}
+  \constructivestory{A $\CauchyModulusCompletenessUp$ packet is generated from a CauchyModulus row, an EffectiveCompletion row, a CauchyCriterionEquivalence or RealCauchyCriterion row, StreamName finite windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-completeness-carrier}, \autoref{thm:cauchy-modulus-completeness-namecert-obligations}, and \autoref{thm:cauchy-modulus-completeness-real-seal-handoff} seed the finite modulus-controlled completion handoff from CauchyModulus data to a Real-facing seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ambient $\RealUp$ completeness, quotient streams, selected limits, countable choice, trichotomy, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus visibility, completion and criterion compatibility, window-readback-tolerance exactness, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyModulusCompletenessUp.}
+\end{closurestatus}
