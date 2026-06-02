@@ -3445,7 +3445,6 @@ import BEDC.Derived.DyadicBallUp.WindowRefinement
 import BEDC.Derived.DyadicBinarySearchUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
 import BEDC.Derived.DyadicBisectionUp.TasteGate
-import BEDC.Derived.DyadicCauchyCriterionUp
 import BEDC.Derived.DyadicCeilingUp.TasteGate
 import BEDC.Derived.DyadicCofinalTailSelectorUp.TasteGate
 import BEDC.Derived.DyadicCompactnessExtractorUp.TasteGate
@@ -5867,6 +5866,7 @@ import BEDC.Derived.OpenPhysicalFitUp.RefutationBoundary
 import BEDC.Derived.OpenPhysicalFitUp.TasteGate
 import BEDC.Derived.OperationalMembraneUp
 import BEDC.Derived.OperatorIdealUp
+import BEDC.Derived.OperatorNormUp.TasteGate
 import BEDC.Derived.OptimalTransportUp
 import BEDC.Derived.OptionUp
 import BEDC.Derived.OptionUp.AbsentNoPresent
