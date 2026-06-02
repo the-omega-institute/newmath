@@ -308,6 +308,7 @@ import BEDC.Derived.AuditMapTemplatePacketUp.TasteGate
 import BEDC.Derived.AuditMembraneUp
 import BEDC.Derived.AuditMembraneUp.TasteGate
 import BEDC.Derived.AuditReexportNamespaceUp.TasteGate
+import BEDC.Derived.AuditSystemUp
 import BEDC.Derived.AuditSystemUp.CertificateConflictDeterminacy
 import BEDC.Derived.AuditSystemUp.TasteGate
 import BEDC.Derived.AuditTranscriptEnvelopeUp.TasteGate
@@ -2185,6 +2186,7 @@ import BEDC.Derived.ClosedMetricBallUp.TasteGate
 import BEDC.Derived.ClosedNormalCanonicityUp.TasteGate
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
+import BEDC.Derived.ClosedNormalConsistencyWitnessUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointLedgerUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointTransportUp.TasteGate
 import BEDC.Derived.ClosedNormalRouteCertificateUp.TasteGate
@@ -2416,6 +2418,7 @@ import BEDC.Derived.CompactUniformContinuityUp.StandardBridgeObligationPackage
 import BEDC.Derived.CompactUniformContinuityUp.UniformPrecisionConsumerRoute
 import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
 import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
+import BEDC.Derived.CompactUniformFiniteCoverSelectorUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteNetRealizationUp.TasteGate
 import BEDC.Derived.CompactUniformModulusExtractorUp.TasteGate
 import BEDC.Derived.CompactUniformModulusStabilityUp.TasteGate
@@ -7593,6 +7596,7 @@ import BEDC.Derived.SmythCompletionUp
 import BEDC.Derived.SmythCompletionUp.TasteGate
 import BEDC.Derived.SmythPowerdomainUp.TasteGate
 import BEDC.Derived.SobolevEmbeddingUp.TasteGate
+import BEDC.Derived.SobolevTraceUp.TasteGate
 import BEDC.Derived.SobolevUp
 import BEDC.Derived.SobolevUp.BHistCarrierScope
 import BEDC.Derived.SobolevUp.ClassifierLocality
