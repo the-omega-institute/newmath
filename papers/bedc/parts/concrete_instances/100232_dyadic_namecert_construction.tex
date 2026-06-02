@@ -95,6 +95,22 @@ Now compare the two exponent-shift windows by common precision refinement. The r
 Finally apply \autoref{thm:dyadic-up-streamname-regseqrat-route}. The composed tolerance row reaches $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers only through the refined finite route, so it exposes no host quotient, selected limit, trichotomy, countable choice, or ambient Real completeness.
 \end{proof}
 
+\begin{theorem}[DyadicUp common-exponent normalization]
+\label{thm:dyadic-up-common-exponent-normalization}
+Let $D_0=(Q_0,S_0,R_0,E_0,H_0,C_0,P_0,N_0)$ and $D_1=(Q_1,S_1,R_1,E_1,H_1,C_1,P_1,N_1)$ be accepted $\DyadicUp$ carriers whose dyadic tolerance ledgers are read by a common $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer. Then the two accepted reads admit a finite common exponent window before the consumer inspects either terminal row.
+
+Concretely, the consumer first projects the dyadic core rows $Q_0,Q_1$, refines the displayed stream windows $S_0,S_1$ to one finite precision request, transports the regular rational readbacks $R_0,R_1$ across the componentwise $\hsame$ rows, and only then exposes $E_0,E_1$ to the terminal $\RealUp$ handoff. The normalization exports the shared finite exponent window; it does not add a selected binary expansion, quotient stream, host equality, trichotomy, countable choice, or ambient Real-completeness witness.
+\end{theorem}
+\begin{proof}
+Project the two carriers of \autoref{def:dyadic-up-carrier}. Each accepted read exposes its dyadic core row, finite stream window, regular rational readback, terminal real seal, and the structural rows that transport and replay that route.
+
+Apply \autoref{thm:dyadic-exponent-shift-composition} to the two dyadic core ledgers. The common exponent is obtained by finite precision refinement of the two displayed windows, so the construction remains inside the $\BHist$ rows already present in $D_0$ and $D_1$.
+
+Use \autoref{thm:dyadic-up-streamname-regseqrat-route} after the refinement. Both regular rational readbacks are attached to the common window before the consumer reaches either $\RealUp$ seal.
+
+Finally apply \autoref{thm:dyadic-up-real-seal-factorization}. Since the terminal rows are visible only after the refined finite route, the normalized handoff cannot read any quotient, choice, trichotomy, host-equality, selected-expansion, or ambient-completeness data outside the accepted packets.
+\end{proof}
+
 \begin{theorem}[DyadicUp terminal Real-seal boundary]
 \label{thm:dyadicup-terminal-real-seal-boundary}
 Let
