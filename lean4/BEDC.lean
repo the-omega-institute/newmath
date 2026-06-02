@@ -4887,6 +4887,7 @@ import BEDC.Derived.LocatedCutUp.PublicNameCertExport
 import BEDC.Derived.LocatedCutUp.RealSealBridgeExactness
 import BEDC.Derived.LocatedCutUp.RegularCauchyBridgeSource
 import BEDC.Derived.LocatedCutUp.TasteGate
+import BEDC.Derived.LocatedDyadicCompletionUp
 import BEDC.Derived.LocatedHeineBorelSubcoverUp.TasteGate
 import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
 import BEDC.Derived.LocatedIntervalBolzanoUp.TasteGate
