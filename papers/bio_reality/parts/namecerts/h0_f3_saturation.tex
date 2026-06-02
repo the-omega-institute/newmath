@@ -1,45 +1,49 @@
-\subsection{Finite saturation at the ORF-eligibility boundary}\label{sec:h0-f3-saturation}\origin{ai}
+\subsection{Third-face saturation and ORF-eligibility restraint}\label{subsec:h0-f3-saturation-or-f-eligibility-restraint}
+\origin{ai}
 
-\paragraph{Finite combinatorial packet.}
-This record concerns a finite codon calculation that is allowed to speak only about start--stop-window eligibility.  The verified saturation row has experiment id \texttt{f4eee68dd2c3} and timestamp \texttt{2026-06-02T18:21:30+00:00}.  Its ambient finite set $M$ has cardinality $20$ and is exactly
+\paragraph{Finite packet.}
+The packet indexed by $h0.f3.saturation$ records a finite codon-level saturation calculation and keeps it separate from any biological realization claim. The ambient set $M$ has cardinality $20$ and is exactly
 $$
 \begin{aligned}
-M=\{&\texttt{AAA},\texttt{AAG},\texttt{ACA},\texttt{ACG},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{AUG},\texttt{CUA},\texttt{CUC},\\
-&\texttt{CUG},\texttt{CUU},\texttt{UAA},\texttt{UAG},\texttt{UCA},\texttt{UCG},\texttt{UGA},\texttt{UGG},\texttt{UUA},\texttt{UUG}\}.
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
+& CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-The motif-compressed subset $R$ is the $13$-element set
+The motif-compressed set $R$ has $13$ listed codons,
 $$
 \begin{aligned}
-R=\{&\texttt{AAA},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{CUA},\texttt{CUC},\texttt{CUG},\texttt{CUU},\texttt{UAA},\\
-&\texttt{UAG},\texttt{UCA},\texttt{UGA},\texttt{UUA}\}.
+R=\{&AAA,AGA,AGG,AUA,CUA,CUC,CUG,CUU,UAA,UAG,\\
+& UCA,UGA,UUA\},
 \end{aligned}
 $$
-The compression audit reports no missing and no extra elements for this description of $R$.  The larger set $M$ is also independently recorded as the union named by the WNR--CUN calculation, with the same $20$ codons and no additional codons outside the displayed list.
-
-\paragraph{Saturation statement.}
-The $f_3$ saturation test does not produce an empirical ORF claim.  It verifies the finite identity that the saturated motif row reaches every codon of $M$ except the two boundary residues $\texttt{ACA}$ and $\texttt{ACG}$:
+and the compression audit reports no missing codons and no extra codons relative to the recorded motif union. The third-face saturation from $R$ reaches the following $18$ codons:
 $$
 \begin{aligned}
-\operatorname{Sat}_{f_3}(R)=\{&\texttt{AAA},\texttt{AAG},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{AUG},\texttt{CUA},\texttt{CUC},\texttt{CUG},\\
-&\texttt{CUU},\texttt{UAA},\texttt{UAG},\texttt{UCA},\texttt{UCG},\texttt{UGA},\texttt{UGG},\texttt{UUA},\texttt{UUG}\}
-= M\setminus\{\texttt{ACA},\texttt{ACG}\}.
+\operatorname{Sat}_{f3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+& UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-The recorded boundary list for the $f_3$ test is empty, written in the data as \texttt{f3\_boundary\_is\_zero = []}.  In this chapter that empty boundary means only that the finite codon enumeration closes internally under the named saturation check.  It does not mean that a nucleotide interval has been observed in a genome, that a transcript exists, or that a molecular event has occurred.
+Thus the finite calculation leaves precisely $ACA$ and $ACG$ outside this saturated list while the row also records $M=\operatorname{Med}(R)\cup\{ACA\}$ at the level of the enumerated finite certificate. The boundary term for the third face is empty: $f3\_boundary\_is\_zero=[]$. These are finite enumeration facts, not observations of transcripts, translated products, folded states, physical viability, or biological activity.
 
-\paragraph{Quotient geometry and finite shape.}
-A companion finite-geometry audit reports that the $M$ complex has face vector $(20,38,26,8,1)$ and that its quotient has face vector $(10,14,6,1)$.  The quotient image contains $10$ rows:
+\paragraph{Geometric content.}
+The quotient audit supplies a second finite check on the same coordinate system. The $M$-level face vector is $(20,38,26,8,1)$, and the quotient image has size $10$ with face vector $(10,14,6,1)$. The recorded quotient representatives are
 $$
 \begin{aligned}
-\pi(M)=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),\\
-&(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1)\}.
+\pi_M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
+&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,1,1),\\
+&(1,0,1,0,1),(1,0,1,1,1)\}.
 \end{aligned}
 $$
-These numbers give a compact description of the finite coordinate geometry used by the packet.  They are useful for checking that the saturation calculation has not drifted across codon lists, motif compression, or quotient projection.  They are not a biological readout by themselves.  The only biological layer discussed here is open-reading-frame eligibility from start/stop enumeration, and even that layer requires separate contact with a curated interval, sequence record, or transcript record before it can be asserted for a real biological object.
+Here the tuple $(1,0,1,1)$ is read as the four-entry representative exactly as recorded in the finite-row data, while the remaining representatives are five-entry rows. The data also record that $M$ matches the expected product decomposition and that the quotient matches its expected finite image. This gives a closed combinatorial description of the codon-coordinate packet, but it does not turn the coordinate packet into an ORF call. A start and stop pattern can describe an eligibility window only after a separate biological interval is supplied by sequence, transcript, or curated annotation evidence.
 
-\paragraph{External interval contact and retained boundary.}
-The finite start/stop-window enumeration row contains one input window, one classified window, and a scope explicitly limited to \texttt{external\_window\_start\_stop\_enumeration\_only}; the snapshot date is \texttt{2026-05-25}.  A later curated-interval contact uses \texttt{NCBI RefSeq GenBank XML CDS intervals from Escherichia coli K-12 MG1655 complete genome accession NC\_000913.3}, snapshot date \texttt{2026-05-30}.  That contact loads $168$ rows, divided into required input classes \texttt{boundary\_case}, \texttt{matched\_non\_orf\_decoy}, and \texttt{positive\_curated\_orf}.  The positive class has $72$ accepted cases out of $72$, and the matched decoy class has $72$ rejected cases out of $72$.  Both associated exact one-sided binomial upper-tail values are $2.117582368135751\times 10^{-22}$.  The predeclared paired baseline comparison also records $72$ wins in $72$ pairs with the same upper-tail value.  The three held-out splits each contain $24$ positives and $24$ decoys, with positive accept rate $1.0$ and decoy reject rate $1.0$ in every split.  The boundary-control block contains $24$ cases and promotes $0$ of them, for promoted fraction $0.0$.
+\paragraph{ORF-eligibility contact.}
+The start--stop enumeration contact records one external window manifest with $window\_count=1$, $input\_windows=1$, and $classified=1$ under the scope $external\_window\_start\_stop\_enumeration\_only$ on snapshot date $2026$-$05$-$25$. That contact explicitly remains at the $orf\_eligibility\_only$ layer. A stronger curated-interval contact then records $168$ rows from a RefSeq GenBank XML CDS-interval source for \emph{Escherichia coli} K-12 MG1655 accession $NC\_000913.3$, with snapshot date $2026$-$05$-$30$. The required classes present are boundary cases, matched non-ORF decoys, and positive curated ORFs. Across $72$ positive intervals, the accept rate is $1.0$ with $72$ accepted and one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$. Across $72$ matched decoys, the rejection rate is $1.0$ with $72$ rejected and the same one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$. The predeclared paired comparison has $72$ wins out of $72$ pairs, win rate $1.0$, and again $2.117582368135751\times 10^{-22}$ as the one-sided binomial upper-tail value.
 
-\paragraph{Local interpretation.}
-The data therefore support a narrow reading.  The finite $f_3$ calculation verifies a codon-level saturation identity, and the curated contact later shows that a frozen start/stop-window classifier can separate the recorded positive intervals from matched decoys inside the stated RefSeq-derived dataset.  The protocol row says the classifier rules, input classes, baselines, and held-out splits were fixed before the external evidence time \texttt{2026-05-30T10:29:31+00:00}, with the protocol freeze at \texttt{2026-05-29T19:11:13+00:00}.  The self-check row records three checked gates and states that no codon geometry is promoted across biological layers.  Accordingly, this chapter claims neither translation realization nor folded protein structure.  It also claims no physical admissibility, function, mechanism, organism-wide law, or universal rule for unobserved windows.  Those stronger statements would require additional reality contact designed for the relevant layer; the finite saturation row and the curated ORF-interval contact do not supply them.
+\paragraph{Held-out and boundary controls.}
+The curated contact reports three held-out splits. The left-locus fold has $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$. The middle-locus fold has the same $24$ positive and $24$ decoy counts with the same rates. The right-locus fold also has $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$. Boundary controls contain $24$ cases, of which $0$ are promoted, so the promoted fraction is $0.0$. The classifier identifier is $orf\_start\_stop\_window\_eligibility$, the classifier rules are recorded as unmodified, the protocol freeze time is $2026$-$05$-$29T19:11:13+00:00$, and the external evidence observation time is $2026$-$05$-$30T10:29:31+00:00$. The analysis is recorded as using no translation or structure input, with baselines, held-out splits, classifier rules, and input classes fixed before the later observation time.
+
+\paragraph{Local exclusion boundary.}
+The correct reading is therefore two-layered. The $h0.f3.saturation$ row proves a finite saturation statement about enumerated codon coordinates: $R$ has $13$ codons, $M$ has $20$ codons, the third-face saturation from $R$ has $18$ codons, and the recorded third-face boundary is empty. The ORF contacts, when present, test start--stop interval eligibility against curated biological annotation and decoy controls. Even with the curated contact, the conclusion remains interval eligibility only. No translation event, folded protein structure, physical admissibility, biological function, mechanistic explanation, or universal law follows from the saturation coordinate or from start--stop-window enumeration. Any such stronger claim requires an additional contact whose evidence is able to test that stronger biological layer directly.
+
+\paragraph{Self-check.}
+The self-check row records $checked\_gate\_count=3$ and states that no codon geometry is promoted across biological layers. This chapter therefore treats the finite saturation row as a precise codon-coordinate certificate and treats the curated interval rows as separate biological contacts. The scientific content is the disciplined conjunction of these facts: finite geometry can specify the candidate window discipline, while the curated contact can support only the stated ORF-eligibility layer within its $168$-row dataset and its matched controls.
