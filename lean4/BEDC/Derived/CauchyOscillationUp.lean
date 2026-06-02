@@ -426,4 +426,144 @@ theorem CauchyOscillationDyadicToleranceStability [AskSetup] [PackageSetup]
   }
   exact ⟨cert, replayUnary, sealReadUnary⟩
 
+theorem CauchyOscillationCarrier_real_completion_consumer [AskSetup] [PackageSetup]
+    {tailWindow modulus tolerance ledger sealRow transport routes provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyOscillationCarrier tailWindow modulus tolerance ledger sealRow transport routes provenance
+        nameCert bundle pkg ->
+      SemanticNameCert
+            (fun row : BHist => hsame row sealRow ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row tailWindow ∨ hsame row modulus ∨ hsame row tolerance ∨
+                hsame row ledger ∨ hsame row sealRow)
+            (fun row : BHist =>
+              UnaryHistory row ∧ Cont tailWindow modulus tolerance ∧
+                Cont modulus tolerance ledger ∧ Cont ledger sealRow routes ∧
+                  PkgSig bundle provenance pkg)
+            hsame ∧
+        UnaryHistory sealRow ∧ Cont ledger sealRow routes := by
+  -- BEDC touchpoint anchor: CauchyOscillationCarrier BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier
+  obtain ⟨_tailWindowUnary, _modulusUnary, _toleranceUnary, _ledgerUnary, sealUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _nameCertUnary, tailModulusTolerance,
+    modulusToleranceLedger, ledgerSealRoutes, _routesNameCert, provenancePkg⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRow ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row tailWindow ∨ hsame row modulus ∨ hsame row tolerance ∨
+              hsame row ledger ∨ hsame row sealRow)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont tailWindow modulus tolerance ∧
+              Cont modulus tolerance ledger ∧ Cont ledger sealRow routes ∧
+                PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRow ⟨hsame_refl sealRow, sealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, tailModulusTolerance, modulusToleranceLedger, ledgerSealRoutes,
+          provenancePkg⟩
+  }
+  exact ⟨cert, sealUnary, ledgerSealRoutes⟩
+
+theorem CauchyOscillationUniformLimitTailHandoff [AskSetup] [PackageSetup]
+    {W M Q T S H C P N sourceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyOscillationCarrier W M Q T S H C P N bundle pkg ->
+      Cont W M sourceRead ->
+        Cont sourceRead Q sealRead ->
+          PkgSig bundle P pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row sourceRead ∨ hsame row sealRead)
+                (fun row : BHist =>
+                  hsame row W ∨ hsame row M ∨ hsame row Q ∨ hsame row T ∨
+                    hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                      hsame row sourceRead ∨ hsame row sealRead)
+                (fun row : BHist =>
+                  PkgSig bundle P pkg ∧ (hsame row sourceRead ∨ hsame row sealRead))
+                hsame ∧
+              UnaryHistory sourceRead ∧ UnaryHistory sealRead ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: CauchyOscillationCarrier BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier sourceRoute sealRoute pkgSig
+  obtain ⟨wUnary, mUnary, qUnary, _tUnary, _sUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, _tailModulusTolerance, _modulusToleranceLedger, _ledgerSeal,
+    _routesNameCert, _carrierPkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed wUnary mUnary sourceRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed sourceUnary qUnary sealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sourceRead ∨ hsame row sealRead)
+          (fun row : BHist =>
+            hsame row W ∨ hsame row M ∨ hsame row Q ∨ hsame row T ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row sourceRead ∨ hsame row sealRead)
+          (fun row : BHist =>
+            PkgSig bundle P pkg ∧ (hsame row sourceRead ∨ hsame row sealRead))
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sourceRead (Or.inl (hsame_refl sourceRead))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row other sameRows source
+        cases source with
+        | inl sameSource =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) sameSource)
+        | inr sameSeal =>
+            exact Or.inr (hsame_trans (hsame_symm sameRows) sameSeal)
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | inl sameSource =>
+          exact Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr (Or.inr (Or.inl sameSource))))))))
+      | inr sameSeal =>
+          exact Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr (Or.inr (Or.inr sameSeal))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨pkgSig, source⟩
+  }
+  exact ⟨cert, sourceUnary, sealUnary, pkgSig⟩
+
 end BEDC.Derived.CauchyOscillationUp

@@ -28,7 +28,8 @@ def cauchyCompletenessWitnessObligationDecodeBHist : RawEvent → BHist
 private theorem CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       cauchyCompletenessWitnessObligationDecodeBHist
-        (cauchyCompletenessWitnessObligationEncodeBHist h) = h := by
+          (cauchyCompletenessWitnessObligationEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -36,7 +37,7 @@ private theorem CauchyCompletenessWitnessObligationTasteGate_single_carrier_alig
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private def cauchyCompletenessWitnessObligationFields :
+def cauchyCompletenessWitnessObligationFields :
     CauchyCompletenessWitnessObligationUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | CauchyCompletenessWitnessObligationUp.mk W A K R D S E H C P N =>
@@ -54,10 +55,11 @@ private def cauchyCompletenessWitnessObligationEventAt : Nat → EventFlow → R
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchyCompletenessWitnessObligationEventAt index rest
+  | Nat.succ index, _event :: rest =>
+      cauchyCompletenessWitnessObligationEventAt index rest
 
-def cauchyCompletenessWitnessObligationFromEventFlow (ef : EventFlow) :
-    Option CauchyCompletenessWitnessObligationUp :=
+def cauchyCompletenessWitnessObligationFromEventFlow
+    (ef : EventFlow) : Option CauchyCompletenessWitnessObligationUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CauchyCompletenessWitnessObligationUp.mk
@@ -87,7 +89,8 @@ def cauchyCompletenessWitnessObligationFromEventFlow (ef : EventFlow) :
 private theorem CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_round_trip
     (x : CauchyCompletenessWitnessObligationUp) :
     cauchyCompletenessWitnessObligationFromEventFlow
-      (cauchyCompletenessWitnessObligationToEventFlow x) = some x := by
+        (cauchyCompletenessWitnessObligationToEventFlow x) =
+      some x := by
   -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk W A K R D S E H C P N =>
@@ -133,7 +136,8 @@ private theorem CauchyCompletenessWitnessObligationTasteGate_single_carrier_alig
 private theorem CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyCompletenessWitnessObligationUp} :
     cauchyCompletenessWitnessObligationToEventFlow x =
-      cauchyCompletenessWitnessObligationToEventFlow y → x = y := by
+        cauchyCompletenessWitnessObligationToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -148,6 +152,20 @@ private theorem CauchyCompletenessWitnessObligationTasteGate_single_carrier_alig
       (Eq.trans hread
         (CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_round_trip y)))
 
+private theorem CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_fields :
+    ∀ x y : CauchyCompletenessWitnessObligationUp,
+      cauchyCompletenessWitnessObligationFields x =
+          cauchyCompletenessWitnessObligationFields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk W1 A1 K1 R1 D1 S1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk W2 A2 K2 R2 D2 S2 E2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance cauchyCompletenessWitnessObligationBHistCarrier :
     BHistCarrier CauchyCompletenessWitnessObligationUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -159,34 +177,64 @@ instance cauchyCompletenessWitnessObligationChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change cauchyCompletenessWitnessObligationFromEventFlow
-      (cauchyCompletenessWitnessObligationToEventFlow x) = some x
+    change
+      cauchyCompletenessWitnessObligationFromEventFlow
+          (cauchyCompletenessWitnessObligationToEventFlow x) =
+        some x
     exact CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_toEventFlow_injective
-        heq)
+      (CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+instance cauchyCompletenessWitnessObligationFieldFaithful :
+    FieldFaithful CauchyCompletenessWitnessObligationUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := cauchyCompletenessWitnessObligationFields
+  field_faithful :=
+    CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_fields
+
+instance cauchyCompletenessWitnessObligationNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial CauchyCompletenessWitnessObligationUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨CauchyCompletenessWitnessObligationUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      CauchyCompletenessWitnessObligationUp.mk (BHist.e1 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      cauchyCompletenessWitnessObligationDecodeBHist
-        (cauchyCompletenessWitnessObligationEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate CauchyCompletenessWitnessObligationUp) ∧
+      Nonempty (FieldFaithful CauchyCompletenessWitnessObligationUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial CauchyCompletenessWitnessObligationUp) ∧
+      (∀ h : BHist,
+        cauchyCompletenessWitnessObligationDecodeBHist
+            (cauchyCompletenessWitnessObligationEncodeBHist h) =
+          h) ∧
       (∀ x : CauchyCompletenessWitnessObligationUp,
         cauchyCompletenessWitnessObligationFromEventFlow
-          (cauchyCompletenessWitnessObligationToEventFlow x) = some x) ∧
+            (cauchyCompletenessWitnessObligationToEventFlow x) =
+          some x) ∧
       (∀ x y : CauchyCompletenessWitnessObligationUp,
         cauchyCompletenessWitnessObligationToEventFlow x =
-          cauchyCompletenessWitnessObligationToEventFlow y → x = y) ∧
-      cauchyCompletenessWitnessObligationEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_decode_encode
-  constructor
-  · exact CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y
-    exact CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_toEventFlow_injective
-  · rfl
+            cauchyCompletenessWitnessObligationToEventFlow y →
+          x = y) ∧
+      cauchyCompletenessWitnessObligationEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  exact
+    ⟨⟨cauchyCompletenessWitnessObligationChapterTasteGate⟩,
+      ⟨cauchyCompletenessWitnessObligationFieldFaithful⟩,
+      ⟨cauchyCompletenessWitnessObligationNontrivial⟩,
+      CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_decode_encode,
+      CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        CauchyCompletenessWitnessObligationTasteGate_single_carrier_alignment_toEventFlow_injective
+          heq),
+      rfl⟩
 
 end BEDC.Derived.CauchyCompletenessWitnessObligationUp

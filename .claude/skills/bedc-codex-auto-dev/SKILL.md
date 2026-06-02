@@ -183,6 +183,36 @@ Rule evolution path: the daemon handles at most one cluster per cycle (`MAX_AUTO
 
 Existing violations are not directly edited by the taste daemon. They are consumed organically when future P/R rounds touch the affected files: the new prompt rule or audit gate flags the pattern, then the orchestrator's post-rebase audit recovery invokes codex to repair the content as part of that round. Each successful rule evolution also **appends a Chinese section** to `docs/dossier/taste-evolutions.qmd` (Quarto page, rendered as part of the dossier site with navbar entry "Taste 演化") documenting 变更原因 / 意义 / 实施情况 / 元数据 — the visible self-improvement iteration log. Confirmed approvals in `papers/bedc/taste_approvals.json` use the same cluster rule-evolution path and are marked `done` or `failed` after the daemon attempt. No P/R orchestrator restart is needed because prompts are re-read each round and audit/lints run as subprocesses.
 
+Discovery radar daemon:
+
+```bash
+mkdir -p $REPO/tools/logs && \
+nohup python3 $REPO/tools/discovery_radar_daemon.py >> $REPO/tools/logs/discovery_radar.log 2>&1 &
+disown
+```
+
+`tools/discovery_radar_daemon.py` runs every 6h (`DISCOVERY_RADAR_INTERVAL_SECONDS` env override, default 21600s), runs full-mine `bedc_ci.py discovery-radar --json`, and writes the latest local ledger to `tools/logs/discovery_radar_ledger.json`. It is fault-isolated with a PID lock and per-cycle exception handling, surfaces only local log/ledger state, and never touches git.
+
+Discovery refutation publisher daemon:
+
+```bash
+mkdir -p $REPO/tools/logs && \
+nohup python3 $REPO/tools/discovery_refutation_publisher.py >> $REPO/tools/logs/discovery_refutation_publisher.log 2>&1 &
+disown
+```
+
+`tools/discovery_refutation_publisher.py` runs every 6h (`REFUTATION_PUBLISH_INTERVAL_SECONDS` env override, default 21600s), consumes only kernel-grounded sound refuted candidates from `bedc_ci.py discovery-radar --json`, writes the persistent dossier refutation ledger, commits from an isolated worktree, and only touches the ledger files.
+
+Discovery gate evolver daemon:
+
+```bash
+mkdir -p $REPO/tools/logs && \
+nohup python3 $REPO/tools/discovery_gate_evolver.py >> $REPO/tools/logs/discovery_gate_evolver.log 2>&1 &
+disown
+```
+
+`tools/discovery_gate_evolver.py` consumes `tools/logs/proven_pseudos.jsonl` and evolves only the negative witness registry for positive discovery assertions. It is PID-locked at `/tmp/.bedc_gate_evolver.pid`, works in `/tmp/bedc-gate-evolve-wt`, and is limited to `lean4/scripts/discovery_gate_witnesses.json` plus `lean4/scripts/test_closurestatus_audit.py`. It never edits G0-G6 logic, never adds pass rules, never touches paper content or `lean4/BEDC/`, and accepts only `kernel_grounded=true` negative witness data. Each accepted witness must pass py_compile, `lake build`, unit tests, audit monotonicity, `axiom-purity --strict`, and `make precheck`; otherwise it records the case in `tools/logs/gate_evolver_escalations.log`.
+
 ### Verify restart success (two-step, never skip)
 
 After launching, run **two sequential one-shot checks** before declaring the restart healthy. Skipping either check has bitten the operator.

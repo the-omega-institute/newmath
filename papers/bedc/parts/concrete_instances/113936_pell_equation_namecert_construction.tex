@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\PellEquationUp$}
+\label{ch:concrete-instances-pell-equation-namecert}
+\origin{human}
+
+Following Lagrange's continued-fraction treatment of Pell equations, the $\PellEquationUp$ packet records the finite certificate surface for integer solutions of $x^2-Dy^2=1$ with $D$ a positive nonsquare parameter. It is read against the integer row of \autoref{ch:concrete-instances-int-namecert}, the rational row of \autoref{ch:concrete-instances-rat-namecert}, the quadratic-form surface of \autoref{ch:concrete-instances-quadratic-form-namecert}, the convergent ledger of \autoref{ch:concrete-instances-continued-fraction-convergents-namecert}, and the period ledger of \autoref{ch:concrete-instances-periodic-continued-fraction-namecert}. The packet names the solution route; it does not choose an infinite continued fraction stream, assert unique minimality from a host theorem, import quotient equality of solution sets, or add an ambient number-theory oracle.
+
+\begin{definition}[Pell equation carrier]
+\label{def:pell-equation-carrier}
+A $\PellEquationUp$ carrier is a finite $\BHist$ packet
+$$
+P=(D,X,Y,N,Q,V,L,H,C,K,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the nonsquare parameter row. It records a positive $\IntUp$ value together with a displayed refusal of a square root inside the integer ledger.
+\item $X$ and $Y$ are integer solution rows, read through \autoref{ch:concrete-instances-int-namecert}, carrying the displayed candidate pair for the equation.
+\item $N$ is the quadratic norm row $x^2-Dy^2$, read through the $\QuadraticFormUp$ surface of \autoref{ch:concrete-instances-quadratic-form-namecert}.
+\item $Q$ is the rational comparison row, read through \autoref{ch:concrete-instances-rat-namecert}, used only to inspect finite convergent quotients and the equation value $1$.
+\item $V$ is the $\ContinuedFractionConvergentsUp$ row listing the finite convergents inspected by the certificate.
+\item $L$ is the $\PeriodicContinuedFractionUp$ period row displaying the repeated finite block attached to $\sqrt{D}$.
+\item $H$ records componentwise $\hsame$ transport for the parameter, integer solution rows, norm row, rational comparison row, convergent ledger, period ledger, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a Pell-equation request through $D,X,Y,N,Q,V,L,H$.
+\item $K$ is the $\Pkg$ provenance over $\PellEquationUp$, $\IntUp$, $\RatUp$, $\QuadraticFormUp$, $\ContinuedFractionConvergentsUp$, $\PeriodicContinuedFractionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $M$ is the local $\NameCert_{\PellEquationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. The carrier has no coordinate for a host-level solution set, selected infinite period stream, quotient equality of all solutions, or external decidability principle.
+\end{definition}
+\leanchecked{BEDC.Derived.PellEquationUp.PellEquationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Pell equation NameCert obligations]
+\label{thm:pell-equation-namecert-obligations}
+For every accepted $\PellEquationUp$ carrier
+$$
+P=(D,X,Y,N,Q,V,L,H,C,K,M),
+$$
+the local $\NameCert_{\PellEquationUp}$ surface consists exactly of nonsquare parameter admission through $D$, integer solution-row admission through $X,Y$, quadratic norm evaluation through $N$, rational comparison through $Q$, finite convergent exposure through $V$, finite period exposure through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $K$, and local naming through $M$.
+
+No Pell equation obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its analytic rows are exactly the nonsquare parameter, the two integer solution rows, the quadratic norm, the rational comparison row, the convergent ledger, and the period ledger.
+
+The equation check is read from the norm row $N$. Since $N$ is the displayed quadratic form $x^2-Dy^2$ and $Q$ compares its value with the rational unit, the certificate verifies the Pell equation only by inspecting rows already present in the packet.
+
+The continued-fraction data is finite. The convergent ledger $V$ and period ledger $L$ record the Lagrange route used to source candidate integer rows, but neither row supplies an infinite stream or a global selector.
+
+Finally, $H,C,K,M$ transport, replay, source, and name the same displayed route. Since the carrier has no remaining coordinate, the local NameCert obligations are exhausted by the listed rows.
+\end{proof}
+
+\begin{theorem}[Pell equation norm preservation]
+\label{thm:pell-equation-norm-preservation}
+Let $P=(D,X,Y,N,Q,V,L,H,C,K,M)$ be an accepted $\PellEquationUp$ carrier. Any $\hsame/\Cont$ replay of the packet that preserves the nonsquare parameter row, the two integer solution rows, the continued-fraction convergent row, and the period row preserves the displayed quadratic norm row $N$ and therefore preserves the public equation witness $x^2-Dy^2=1$.
+
+The preservation route factors through $\IntUp$, $\RatUp$, $\QuadraticFormUp$, $\ContinuedFractionConvergentsUp$, and $\PeriodicContinuedFractionUp$ before the local $\NameCert_{\PellEquationUp}$ row is read. It exports no host solution-set equality, selected infinite continued fraction, quotient class of solutions, or ambient number-theory decision oracle.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The norm row $N$ is tied to the displayed parameter and solution rows $D,X,Y$, so a replay preserving those rows also preserves the inputs to the quadratic-form evaluation.
+
+Use the finite Lagrange route next. The rows $V$ and $L$ show which finite convergents and period block were inspected before $X,Y$ were accepted. Preserving those rows keeps the same finite source for the solution witness.
+
+The rational comparison row $Q$ reads the displayed norm value against the unit. Since $H$ transports componentwise and $C$ replays the same displayed coordinates, the comparison remains attached to the same norm row.
+
+Thus the public witness $x^2-Dy^2=1$ is preserved as a finite NameCert route. No step introduces a host equality of solution sets, an infinite continued fraction object, a quotient class, or an external decision principle.
+\end{proof}
+
+\closureat{PellEquationUp}{seedStr}
+
+\begin{closurestatus}{\PellEquationUp}
+  \constructivestory{A $\PellEquationUp$ packet is generated from a nonsquare IntUp parameter row, two IntUp solution rows, a QuadraticFormUp norm row, a RatUp comparison row, ContinuedFractionConvergentsUp and PeriodicContinuedFractionUp rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pell-equation-carrier}, \autoref{thm:pell-equation-namecert-obligations}, and \autoref{thm:pell-equation-norm-preservation} seed the finite Pell-equation certificate surface over integer rows, rational comparison, quadratic norm evaluation, continued-fraction convergents, and periodic continued-fraction data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host solution-set equality, selected infinite continued fraction, quotient class of all Pell solutions, ambient number-theory decision oracle, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked parameter admission, integer solution-row admission, norm evaluation, convergent-period route, transport stability, replay stability, and nonescape for BEDC.Derived.PellEquationUp.}
+\end{closurestatus}
