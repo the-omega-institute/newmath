@@ -148,8 +148,12 @@ def registry_id(record: dict[str, Any]) -> str:
     if explicit:
         return explicit
     candidate = str(record.get("candidate") or record.get("target") or "").strip()
-    reduced_fp = str(record.get("reduced_fp") or record.get("candidate_reduced_fp") or "").strip()
-    return "gate-witness-" + safe_slug(candidate + "-" + reduced_fp)
+    canonical_payload = str(
+        record.get("canonical_payload")
+        or record.get("candidate_canonical_payload")
+        or ""
+    ).strip()
+    return "gate-witness-" + safe_slug(candidate + "-" + canonical_payload)
 
 
 def witness_from_record(record: dict[str, Any]) -> tuple[dict[str, Any] | None, str | None]:
@@ -172,7 +176,13 @@ def witness_from_record(record: dict[str, Any]) -> tuple[dict[str, Any] | None, 
         pattern["prior"] = pattern.get("prior_classifier")
     if "reduced_fp" not in pattern and "candidate_reduced_fp" in pattern:
         pattern["reduced_fp"] = pattern.get("candidate_reduced_fp")
-    for key in ("reduced_fp", "prior"):
+    if "canonical_payload" not in pattern:
+        for key in ("canonical_payload", "candidate_canonical_payload", "prior_canonical_payload"):
+            value = str(record.get(key) or "").strip()
+            if value:
+                pattern["canonical_payload"] = value
+                break
+    for key in ("canonical_payload", "reduced_fp", "prior"):
         value = str(record.get(key) or "").strip()
         if value and key not in pattern:
             pattern[key] = value
@@ -189,7 +199,7 @@ def witness_from_record(record: dict[str, Any]) -> tuple[dict[str, Any] | None, 
         "pattern": exact,
         "refutes_because": why,
         "kernel_grounded": True,
-        "soundness": "exact_reduced_fp_kernel_reverified",
+        "soundness": "canonical_payload_equal",
         "provenance": record.get("provenance") or record,
         "regression_candidate": str(record.get("regression_candidate") or candidate or registry_id(record)),
         "added": now_iso(),
@@ -232,7 +242,7 @@ def append_witness(registry_path: Path, witness: dict[str, Any]) -> bool:
     witness = dict(witness)
     witness["kernel_grounded"] = True
     witness["kernel_grounding"] = grounding
-    witness["soundness"] = "exact_reduced_fp_kernel_reverified"
+    witness["soundness"] = "canonical_payload_equal"
     witness_id = str(witness["id"])
     for item in raw:
         if isinstance(item, dict) and str(item.get("id") or "") == witness_id:
@@ -248,14 +258,14 @@ def append_witness(registry_path: Path, witness: dict[str, Any]) -> bool:
     exact_key = (
         str(exact.get("target") or ""),
         str(exact.get("prior") or ""),
-        str(exact.get("reduced_fp") or ""),
+        str(exact.get("canonical_payload") or ""),
     )
     if not any(
         isinstance(item.get("pattern"), dict)
         and (
             str(item["pattern"].get("target") or ""),
             str(item["pattern"].get("prior") or ""),
-            str(item["pattern"].get("reduced_fp") or ""),
+            str(item["pattern"].get("canonical_payload") or ""),
         ) == exact_key
         for item in loaded
         if isinstance(item, dict)
@@ -279,6 +289,7 @@ def regression_test_method(witness: dict[str, Any]) -> str:
     )
     pattern = witness.get("pattern") if isinstance(witness.get("pattern"), dict) else {}
     prior = str(pattern.get("prior") or pattern.get("prior_classifier") or "BEDC.Prior.Old")
+    canonical_payload = str(pattern.get("canonical_payload") or "synthetic-canonical-payload")
     reduced_fp = str(pattern.get("reduced_fp") or pattern.get("candidate_reduced_fp") or "synthetic-reduced-fp")
     return f'''
     def {method}(self) -> None:
@@ -299,6 +310,9 @@ def regression_test_method(witness: dict[str, Any]) -> str:
                     "relation": "reconstruction",
                     "candidate_reduced_fp": {reduced_fp!r},
                     "reduced_fp": {reduced_fp!r},
+                    "canonical_payload": {canonical_payload!r},
+                    "candidate_canonical_payload": {canonical_payload!r},
+                    "prior_canonical_payload": {canonical_payload!r},
                 }}],
             }}],
             "violations": [],
@@ -451,7 +465,7 @@ def verify(
     }
     if smoke_payload["asserted_count"] == 0:
         append_log("[escalate] asserted_count=0 makes monotonic smoke vacuous; not a soundness proof")
-    if smoke_payload["soundness_basis"] != "exact_reduced_fp_kernel_reverified":
+    if smoke_payload["soundness_basis"] != "canonical_payload_equal":
         raise RuntimeError("witness soundness is not exact+kernel reverified: " + repr(smoke_payload))
     if before_rc == 0 and after_rc != 0:
         gate = after_payload.get("discovery_assert_gate") or {}
