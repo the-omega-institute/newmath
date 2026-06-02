@@ -143,23 +143,20 @@ private theorem mooreSmithCauchySubnetCriterion_round_trip :
             (mooreSmithCauchySubnetCriterionDecodeBHist
               (mooreSmithCauchySubnetCriterionEncodeBHist L))) =
           some (MooreSmithCauchySubnetCriterionUp.mk D M A W B N S G Y R H C P L)
-      exact
-        congrArg some
-          (MooreSmithCauchySubnetCriterionTasteGate_single_carrier_alignment_mk_congr
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist D)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist M)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist A)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist W)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist B)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist N)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist S)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist G)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist Y)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist R)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist H)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist C)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist P)
-            (mooreSmithCauchySubnetCriterion_decode_encode_bhist L))
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist D]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist M]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist A]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist W]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist B]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist N]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist S]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist G]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist Y]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist R]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist H]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist C]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist P]
+      rw [mooreSmithCauchySubnetCriterion_decode_encode_bhist L]
 
 private theorem MooreSmithCauchySubnetCriterionTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : MooreSmithCauchySubnetCriterionUp} :
@@ -178,14 +175,20 @@ private theorem MooreSmithCauchySubnetCriterionTasteGate_single_carrier_alignmen
     (Eq.trans (mooreSmithCauchySubnetCriterion_round_trip x).symm
       (Eq.trans hread (mooreSmithCauchySubnetCriterion_round_trip y)))
 
-instance mooreSmithCauchySubnetCriterionBHistCarrier :
+def mooreSmithCauchySubnetCriterionBHistCarrierData :
     BHistCarrier MooreSmithCauchySubnetCriterionUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := mooreSmithCauchySubnetCriterionToEventFlow
   fromEventFlow := mooreSmithCauchySubnetCriterionFromEventFlow
 
-instance mooreSmithCauchySubnetCriterionChapterTasteGate :
-    ChapterTasteGate MooreSmithCauchySubnetCriterionUp where
+instance mooreSmithCauchySubnetCriterionBHistCarrier :
+    BHistCarrier MooreSmithCauchySubnetCriterionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  mooreSmithCauchySubnetCriterionBHistCarrierData
+
+def mooreSmithCauchySubnetCriterionChapterTasteGateData :
+    @ChapterTasteGate MooreSmithCauchySubnetCriterionUp
+      mooreSmithCauchySubnetCriterionBHistCarrierData where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -200,29 +203,18 @@ instance mooreSmithCauchySubnetCriterionChapterTasteGate :
       (MooreSmithCauchySubnetCriterionTasteGate_single_carrier_alignment_toEventFlow_injective
         heq)
 
+instance mooreSmithCauchySubnetCriterionChapterTasteGate :
+    ChapterTasteGate MooreSmithCauchySubnetCriterionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  mooreSmithCauchySubnetCriterionChapterTasteGateData
+
 theorem MooreSmithCauchySubnetCriterionTasteGate_single_carrier_alignment :
     (forall h : BHist,
       mooreSmithCauchySubnetCriterionDecodeBHist
           (mooreSmithCauchySubnetCriterionEncodeBHist h) =
         h) ∧
-      (forall x : MooreSmithCauchySubnetCriterionUp,
-        mooreSmithCauchySubnetCriterionFromEventFlow
-            (mooreSmithCauchySubnetCriterionToEventFlow x) =
-          some x) ∧
-        (forall x y : MooreSmithCauchySubnetCriterionUp,
-          mooreSmithCauchySubnetCriterionToEventFlow x =
-              mooreSmithCauchySubnetCriterionToEventFlow y ->
-            x = y) ∧
-          mooreSmithCauchySubnetCriterionEncodeBHist BHist.Empty = ([] : List BMark) := by
+      mooreSmithCauchySubnetCriterionEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact mooreSmithCauchySubnetCriterion_decode_encode_bhist
-  · constructor
-    · exact mooreSmithCauchySubnetCriterion_round_trip
-    · constructor
-      · exact fun _x _y heq =>
-          MooreSmithCauchySubnetCriterionTasteGate_single_carrier_alignment_toEventFlow_injective
-            heq
-      · rfl
+  exact ⟨mooreSmithCauchySubnetCriterion_decode_encode_bhist, rfl⟩
 
 end BEDC.Derived.MooreSmithCauchySubnetCriterionUp
