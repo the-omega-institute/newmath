@@ -1,3 +1,4 @@
+import math
 import json
 from types import SimpleNamespace
 
@@ -277,6 +278,155 @@ def test_stability_intervention_and_loss_helpers_share_runner_semantics():
         + runner.LOSS_WEIGHTS["intervention"] * losses["intervention"]
     )
     assert 0.0 <= stability["e_alpha_abs_probability_delta"] <= 1.0
+
+
+def test_view_losses_change_probe_training_outcome():
+    z = np.array(
+        [
+            [-2.0, -0.7],
+            [-1.4, 0.2],
+            [-0.8, 0.9],
+            [-0.35, -0.4],
+            [0.35, 0.4],
+            [0.8, -0.9],
+            [1.4, -0.2],
+            [2.0, 0.7],
+        ],
+        dtype=np.float64,
+    )
+    z_pair = np.array(
+        [
+            [2.0, -0.7],
+            [1.4, 0.2],
+            [0.8, 0.9],
+            [0.35, -0.4],
+            [-0.35, 0.4],
+            [-0.8, -0.9],
+            [-1.4, -0.2],
+            [-2.0, 0.7],
+        ],
+        dtype=np.float64,
+    )
+    y = runner._label_truth("latent_x_positive", z, high_energy_threshold=1.0)
+    stable_views = runner._stability_views("latent_x_positive", z, high_energy_threshold=1.0)
+    intervention_view, off_target_views = runner._intervention_training_views(
+        "latent_x_positive", z, z_pair, high_energy_threshold=1.0
+    )
+
+    task_only = runner._fit_probe(z, y, steps=200, lr=0.20)
+    with_view_losses = runner._fit_probe(
+        z,
+        y,
+        steps=200,
+        lr=0.20,
+        stable_views=stable_views,
+        intervention_view=intervention_view,
+        off_target_views=off_target_views,
+    )
+
+    task_only_losses = runner._loss_components(
+        task_only,
+        z,
+        y,
+        stable_views=stable_views,
+        intervention_view=intervention_view,
+        off_target_views=off_target_views,
+    )
+    with_view_losses_components = runner._loss_components(
+        with_view_losses,
+        z,
+        y,
+        stable_views=stable_views,
+        intervention_view=intervention_view,
+        off_target_views=off_target_views,
+    )
+    task_only_probs = runner._predict_probe(task_only, z)["probabilities"]
+    task_only_intervention_probs = runner._predict_probe(task_only, intervention_view["x"])[
+        "probabilities"
+    ]
+    with_view_probs = runner._predict_probe(with_view_losses, z)["probabilities"]
+    with_view_intervention_probs = runner._predict_probe(with_view_losses, intervention_view["x"])[
+        "probabilities"
+    ]
+    task_only_on_target_agreement = float(
+        np.mean(1.0 - np.abs(task_only_intervention_probs - (1.0 - task_only_probs)))
+    )
+    with_view_on_target_agreement = float(
+        np.mean(1.0 - np.abs(with_view_intervention_probs - (1.0 - with_view_probs)))
+    )
+
+    assert task_only_losses["stability"] > 0.0
+    assert task_only_losses["intervention"] > 0.0
+    assert with_view_losses_components["stability"] < task_only_losses["stability"]
+    assert with_view_losses_components["intervention"] < task_only_losses["intervention"]
+    assert with_view_on_target_agreement > task_only_on_target_agreement
+
+
+def test_stability_transform_coordinates_and_truth_preserving_masks():
+    z = np.array(
+        [
+            [-0.04, 0.0],
+            [0.04, 0.0],
+            [0.01, 1.0],
+            [-0.01, -1.0],
+            [1.0, 0.5],
+            [-1.0, -0.5],
+        ],
+        dtype=np.float64,
+    )
+
+    translated = runner._transform_latents(
+        z, {"kind": "translate", "delta": (0.08, -0.06)}
+    )
+    rotated = runner._transform_latents(z, {"kind": "rotate", "radians": 0.08})
+    bounded_noise = runner._transform_latents(z, {"kind": "noise", "scale": 0.035})
+    axis_scaled = runner._transform_latents(
+        z, {"kind": "scale_axis", "axis": 0, "scale": 0.86}
+    )
+
+    c = math.cos(0.08)
+    s = math.sin(0.08)
+    row_phase = np.arange(z.shape[0], dtype=np.float64).reshape(-1, 1)
+    bounded = np.sin(z[:, ::-1] * 1.7 + row_phase * 0.37)
+    expected_axis_scaled = np.array(z, copy=True)
+    expected_axis_scaled[:, 0] *= 0.86
+
+    assert np.allclose(translated, z + np.array([[0.08, -0.06]], dtype=np.float64))
+    assert np.allclose(rotated, z @ np.array([[c, -s], [s, c]], dtype=np.float64).T)
+    assert np.allclose(bounded_noise, z + 0.035 * bounded)
+    assert np.allclose(axis_scaled, expected_axis_scaled)
+
+    views = {
+        view["name"]: view
+        for view in runner._stability_views(
+            "latent_x_positive", z, high_energy_threshold=10.0
+        )
+    }
+
+    assert views["translate_small"]["mask"].tolist() == [
+        False,
+        True,
+        True,
+        False,
+        True,
+        True,
+    ]
+    assert views["rotate_small"]["mask"].tolist() == [
+        True,
+        True,
+        False,
+        False,
+        True,
+        True,
+    ]
+    assert views["noise_bounded"]["mask"].tolist() == [True] * 6
+    assert views["occlude_x_soft"]["mask"].tolist() == [True] * 6
+    assert views["occlude_y_soft"]["mask"].tolist() == [True] * 6
+    assert views["translate_small"]["truth_preserving_rate"] == pytest.approx(4.0 / 6.0)
+    assert views["rotate_small"]["truth_preserving_rate"] == pytest.approx(4.0 / 6.0)
+    assert views["noise_bounded"]["truth_preserving_rate"] == pytest.approx(1.0)
+    assert views["occlude_x_soft"]["truth_preserving_rate"] == pytest.approx(1.0)
+    assert views["occlude_y_soft"]["truth_preserving_rate"] == pytest.approx(1.0)
 
 
 def test_metrics_and_payload_aggregate_bce_stability_margin_and_gap(monkeypatch):
