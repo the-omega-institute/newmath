@@ -3644,6 +3644,7 @@ import BEDC.Derived.FanSpaceUp.TasteGate
 import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
+import BEDC.Derived.FareySequenceUp.AdjacencyObligation
 import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
 import BEDC.Derived.FareySequenceUp.ApproximationObligation
 import BEDC.Derived.FareySequenceUp.ApproximationWindowFactorization
@@ -4161,6 +4162,7 @@ import BEDC.Derived.FpsUp.StabilityFields
 import BEDC.Derived.FpsUp.StdBridge
 import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
+import BEDC.Derived.FractionalPartUp
 import BEDC.Derived.FractionalPartUp.TasteGate
 import BEDC.Derived.FrechetCompletionUp.TasteGate
 import BEDC.Derived.FredholmAlternativeUp.TasteGate
@@ -5044,6 +5046,7 @@ import BEDC.Derived.MeasureUp.RootPublicSurface
 import BEDC.Derived.MeasureUp.RootRealStreamRegularity
 import BEDC.Derived.MedianLeakageSpectrumUp.TasteGate
 import BEDC.Derived.MeirKeelerContractionUp.TasteGate
+import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp.SubjectReductionObstructionLedger
@@ -5068,6 +5071,7 @@ import BEDC.Derived.MetaCICCriticalPathUp
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedCheckerBudgetFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedCheckerFrontierSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedCheckerHandoffTotality
+import BEDC.Derived.MetaCICCriticalPathUp.BoundedCheckerReplaySeparation
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionCandidateBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionConsumerRoute
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionDischarge
@@ -6926,6 +6930,7 @@ import BEDC.Derived.RegularCauchyMapUp.TasteGate
 import BEDC.Derived.RegularCauchyMaxUp.TasteGate
 import BEDC.Derived.RegularCauchyMaximumUp.TasteGate
 import BEDC.Derived.RegularCauchyMeshUp.TasteGate
+import BEDC.Derived.RegularCauchyMetricUp
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyMinimumUp.TasteGate
