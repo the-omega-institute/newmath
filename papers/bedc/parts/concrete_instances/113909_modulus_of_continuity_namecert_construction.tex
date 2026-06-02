@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\ModulusOfContinuityUp$}
+\label{ch:concrete-instances-modulus-of-continuity-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive continuity, the $\ModulusOfContinuityUp$ packet records the finite data by which a pointwise continuity certificate exposes tolerance-to-precision information before Real, Completion, compactness, or uniform-continuity consumers inspect it. It sits between the source metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the continuous-map graph of \autoref{ch:concrete-instances-continuousmap-namecert}, and the uniform-modulus handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names the displayed modulus ledger itself; it is not a host theorem asserting continuity, a chosen global modulus, quotient equality of functions, or an ambient real-completeness principle.
+
+\begin{definition}[ModulusOfContinuityUp carrier]
+\label{def:modulus-of-continuity-carrier}
+A $\ModulusOfContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,Y,T,P,L,U,H,C,V,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricUp$ row, including the distance request surface and the source-point histories that the modulus may inspect.
+\item $Y$ is the $\RealUp$ target carrier or target metric row through which output tolerances are read.
+\item $T$ is the tolerance history, recording the requested positive rational or dyadic output tolerance.
+\item $P$ is the precision history, recording the source-radius response attached to the same request.
+\item $L$ is the pointwise modulus ledger, assigning the displayed precision row $P$ to the displayed tolerance row $T$ at the named source point.
+\item $U$ is an optional uniform ledger over a finite source packet, present exactly when the same precision row is licensed without rereading a source point.
+\item $H$ records componentwise $\hsame$ transport for the metric, real, tolerance, precision, pointwise, optional uniform, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $T,P,L$ and, when available, through $U$.
+\item $V$ is the $\Pkg$ provenance over $\ModulusOfContinuityUp$, $\MetricUp$, $\RealUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ModulusOfContinuityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host continuity theorem, a choice-selected modulus, quotient equality of functions, real trichotomy, countable choice, a completed function space, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[ModulusOfContinuityUp NameCert obligations]
+\label{thm:modulus-of-continuity-namecert-obligations}
+For every accepted $\ModulusOfContinuityUp$ carrier
+$$
+M=(X,Y,T,P,L,U,H,C,V,N),
+$$
+the local $\NameCert_{\ModulusOfContinuityUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source metric, target real or target metric, tolerance, precision, pointwise ledger, optional uniform ledger, transport, replay, provenance, and local naming rows;
+\item tolerance admission, requiring every output request to be read through $T$ before a precision response is visible;
+\item pointwise precision admission, requiring $P$ and $L$ to record the source-radius response attached to the same tolerance request and source history;
+\item optional uniform admission, requiring $U$ to be displayed before any consumer treats the precision row as source-point independent;
+\item continuous-map replay, requiring $C$ to factor the displayed request through the $\Cont$ route licensed by the continuous-map surface;
+\item transport stability, requiring $H$ to preserve the source, target, tolerance, precision, ledger, replay, provenance, and local naming rows componentwise;
+\item nonescape from host continuity theorems, choice-selected moduli, quotient function equality, real trichotomy, countable choice, completed function spaces, and ambient real completeness.
+\end{enumerate}
+No $\ModulusOfContinuityUp$ naming obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:modulus-of-continuity-carrier}. The accepted packet displays exactly the source metric row, target row, tolerance history, precision history, pointwise ledger, optional uniform ledger, and the structural rows $H,C,V,N$.
+
+Tolerance and pointwise precision admission follow from the displayed request order. A consumer first reads the requested output tolerance in $T$, then reads the source-radius response in $P$, and then checks that $L$ attaches that response to the same source history.
+
+If a uniform read is requested, inspect $U$. The carrier permits a source-point independent precision only when this row is present, so a compact-uniform-continuity consumer cannot infer uniformity from the pointwise ledger alone.
+
+Replay and transport are structural. The $\Cont$ row $C$ repeats the continuous-map request through the same tolerance and precision rows, while $H$ preserves each displayed coordinate componentwise.
+
+Finally inspect $V$ and $N$. Provenance and local naming mention only the displayed rows, so the excluded host theorem, selected modulus, quotient equality, trichotomy, choice, completed function-space, and ambient-completeness data have no projection from the packet.
+\end{proof}
+
+\begin{theorem}[ModulusOfContinuityUp uniformization handoff]
+\label{thm:modulus-of-continuity-uniformization-handoff}
+Let
+$$
+M=(X,Y,T,P,L,U,H,C,V,N)
+$$
+be an accepted $\ModulusOfContinuityUp$ carrier. Any compact-uniform-continuity, completion, or continuous-map consumer that reads a uniform precision from $M$ must first read the source metric row $X$, the target row $Y$, the tolerance history $T$, the precision history $P$, the pointwise ledger $L$, and the optional uniform ledger $U$ when source-point independence is claimed.
+
+Thus the handoff from pointwise continuity data to a $\UniformModulusUp$-facing ledger factors through finite BEDC rows over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. It does not export a host-selected modulus, function extensionality, quotient equality of functions, open-cover compactness, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:modulus-of-continuity-carrier}. The only rows that can answer a tolerance request are $T,P,L$ and, for a source-point independent read, $U$.
+
+Apply \autoref{thm:modulus-of-continuity-namecert-obligations}. The NameCert surface forces every read to pass through the displayed source metric and target rows, then through the tolerance and precision histories, and then through the pointwise ledger before any optional uniform row can be consumed.
+
+Now compare the sibling interfaces. The source distance and point histories are supplied by \autoref{ch:concrete-instances-metric-namecert}, target real-name reads by \autoref{ch:concrete-instances-real-namecert}, continuous replay by \autoref{ch:concrete-instances-continuousmap-namecert}, and the source-point independent handoff by \autoref{ch:concrete-instances-uniformmodulus-namecert}.
+
+The structural rows $H,C,V,N$ preserve, replay, source, and name exactly that route. Since the excluded host-continuity, selected-modulus, quotient, open-cover, choice, and completeness objects are absent from the carrier, a downstream consumer cannot recover them while claiming to read the same $\ModulusOfContinuityUp$ packet.
+\end{proof}
+
+\begin{closurestatus}{\ModulusOfContinuityUp}
+  \constructivestory{A $\ModulusOfContinuityUp$ packet is generated from source MetricUp rows, target RealUp or target metric rows, tolerance histories, precision histories, pointwise modulus ledgers, optional uniform ledgers, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulus-of-continuity-carrier}, \autoref{thm:modulus-of-continuity-namecert-obligations}, and \autoref{thm:modulus-of-continuity-uniformization-handoff} seed the finite pointwise-modulus route from metric and real rows through continuous replay into optional uniform-modulus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, a host-selected modulus, quotient equality of functions, open-cover compactness, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, pointwise ledger exactness, optional uniform-ledger handoff, transport, replay, provenance, and local naming for BEDC.Derived.ModulusOfContinuityUp.}
+\end{closurestatus}
