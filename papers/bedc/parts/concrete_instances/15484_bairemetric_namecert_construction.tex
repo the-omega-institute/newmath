@@ -38,6 +38,7 @@ For every accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$, the local
 \end{enumerate}
 No obligation is stored outside these rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.BaireMetricUp.BaireMetricNamecertObligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:bairemetric-prefix-distance-carrier}. The tuple lists exactly the BaireSpace prefix packet, first-disagreement window, dyadic radius row, parent metric row, ultrametric witness, stream schedule, transport, continuation, provenance, and local name.
 
@@ -93,6 +94,7 @@ Project the carrier of \autoref{def:bairemetric-prefix-distance-carrier}. The co
 
 The window row $W$ is the only Nat-valued inspection coordinate in the carrier. Thus the accepted comparison must name the inspected finite length and the displayed equality rows below any first disagreement before $D,R,$ or $U$ can be read.
 \end{proof}
+\leanchecked{BEDC.Derived.BaireMetricUp.BaireMetricCarrier\_prefix\_window\_admission}
 
 \begin{theorem}[BaireMetric ultrametric window obligations]
 \label{thm:bairemetric-ultrametric-window-obligations}
@@ -472,6 +474,39 @@ Start with a completeness-facing Cauchy request. By \autoref{thm:bairemetric-cau
 For each displayed radius, the schedule $S$ opens the relevant finite prefix window in $B$. The row $W$ records whether the inspected prefixes agree on that window or where the first displayed disagreement lies, and $D$ converts that finite branch into the dyadic radius read.
 
 The parent metric row $R$ and the ultrametric row $U$ consume the same window and radius data. Transport, replay, provenance, and naming keep the finite thread attached to $M$, so the Cauchy read never becomes a selected infinite stream.
+\end{proof}
+
+\begin{definition}[BaireMetric Cauchy-thread obligation surface]
+\label{def:bairemetric-cauchy-thread-obligation-surface}
+The $\BaireMetricUp$ Cauchy-thread obligation surface is the finite row inventory
+$$
+(S,B,W,D,R,U,H,C,P,N)
+$$
+read by every completeness-facing consumer after \autoref{thm:bairemetric-cauchy-prefix-thread}: prefix-window admission through $S,B$, first-disagreement or equality admission through $W$, dyadic radius exactness through $D$, parent $\MetricSpaceUp$ handoff through $R$, $\UltrametricSpaceUp$ strong-triangle handoff through $U$, and structural preservation through $H,C,P,N$. It explicitly has no coordinate for completed-stream equality, quotient Baire names, host real metrics, countable choice, or an external completeness theorem.
+\end{definition}
+
+\begin{theorem}[BaireMetric prefix Cauchy-thread completeness]
+\label{thm:bairemetric-prefix-cauchy-thread-completeness}
+For an accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$, every prefix Cauchy read that reaches a complete-ultrametric consumer is exhausted by the obligation surface of \autoref{def:bairemetric-cauchy-thread-obligation-surface}. The read factors through prefix-window admission, first-disagreement dyadic radius exactness, the parent $\MetricSpaceUp$ handoff, the $\UltrametricSpaceUp$ strong-triangle handoff, and the complete-ultrametric exhaustion row before any limit-window conclusion is exported.
+\end{theorem}
+\begin{proof}
+Start with the Cauchy read supplied by \autoref{thm:bairemetric-cauchy-prefix-thread}. It already fixes each displayed radius request to a finite $\StreamNameUp$ schedule, a $\BaireSpaceUp$ prefix packet, a $\NatUp$ first-disagreement or equality branch, and a $\DyadicRatCoreUp$ radius row.
+
+The metric and ultrametric handoffs consume exactly that data. Apply \autoref{thm:bairemetric-parent-metricspace-handoff} for the parent metric row $R$, and apply \autoref{thm:bairemetric-ultrametricspace-strong-triangle-handoff} for the strong-triangle row $U$.
+
+Finally use \autoref{thm:bairemetric-complete-ultrametric-exhaustion}. It says the complete-ultrametric surface has no remaining slot outside prefix coverage, Cauchy threading, the two handoffs, and $H,C,P,N$. Thus the prefix Cauchy read is complete at the displayed finite obligation surface and exports no completed stream, quotient name, host metric, countable-choice selector, or external completeness theorem.
+\end{proof}
+
+\begin{theorem}[BaireMetric prefix limit-window uniqueness]
+\label{thm:bairemetric-prefix-limit-window-uniqueness}
+For an accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$, two limit-window reads that agree on the finite Cauchy-thread obligation surface of \autoref{def:bairemetric-cauchy-thread-obligation-surface} agree as $\BaireMetricUp$ limit windows for every displayed prefix and dyadic radius. The uniqueness claim is window-local: it refuses completed-stream equality, quotient Baire-name equality, host real metrics, countable choice, and any external topological completeness principle.
+\end{theorem}
+\begin{proof}
+Fix two limit-window reads and compare their displayed prefix requests. By \autoref{thm:bairemetric-prefix-cylinder-coverage}, every such request is routed through $S,B,W,D$, so agreement on the obligation surface gives the same schedule, prefix packet, branch, and dyadic radius row.
+
+The handoff rows preserve this window agreement. The parent metric row $R$ and ultrametric row $U$ read only those displayed prefix and radius rows, and their compatibility is fixed by \autoref{thm:bairemetric-parent-metricspace-handoff} and \autoref{thm:bairemetric-ultrametricspace-strong-triangle-handoff}.
+
+Use \autoref{thm:bairemetric-complete-ultrametric-exhaustion} to close the route. Since all complete-ultrametric obligations are already exhausted by the finite prefix thread and structural rows $H,C,P,N$, there is no hidden coordinate where the two reads can diverge as limit windows. The conclusion is therefore finite-window uniqueness, not completed-stream equality or quotient equality.
 \end{proof}
 
 \begin{theorem}[BaireMetric complete-ultrametric exhaustion]

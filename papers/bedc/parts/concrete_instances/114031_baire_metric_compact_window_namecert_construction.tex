@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\BaireMetricCompactWindowUp$}
+\label{ch:concrete-instances-baire-metric-compact-window-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BaireMetricCompactWindowUp$ packet records finite prefix-cylinder windows for compact-uniform-continuity consumers over the Baire metric. It reads the prefix carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the metric radius route of \autoref{ch:concrete-instances-bairemetric-namecert}, compact inspection rows from \autoref{ch:concrete-instances-compactmetric-namecert}, stream schedules from \autoref{ch:concrete-instances-streamname-namecert}, and dyadic tolerances from \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet is a finite compact-window basis; it is not completed-stream equality, not quotient Baire-name equality, not open-cover compactness, not countable choice, and not a host real-valued metric.
+
+\begin{definition}[BaireMetric compact-window carrier]
+\label{def:baire-metric-compact-window-carrier}
+A $\BaireMetricCompactWindowUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,M,K_0,S,D,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BaireSpaceUp$ prefix-cylinder row, recording the inspected finite prefix family and cylinder-membership ledger.
+\item $M$ is the $\BaireMetricUp$ metric row, carrying first-disagreement data and dyadic radius exactness for the same prefix window.
+\item $K_0$ is the $\CompactMetricUp$ compact-window source row, exposing only the finite compact inspection data available to downstream uniform-continuity consumers.
+\item $S$ is the $\StreamNameUp$ schedule row, naming the finite prefix windows read from $B$ and $M$.
+\item $D$ is the $\DyadicRatCoreUp$ radius row, recording the displayed dyadic tolerance and comparison budget.
+\item $W$ is the compact-window consumer row, requiring every compact-uniform-continuity read to inspect $B,M,K_0,S,D$ before a modulus row is reached.
+\item $H$ records componentwise $\hsame$ transport for prefix cylinders, Baire metric radii, compact-window source data, stream schedules, dyadic tolerances, consumer windows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a compact-window request through $K_0$, then through $S,B,M,D$, and finally into the consumer row $W$.
+\item $P$ is the $\Pkg$ provenance over $\BaireMetricCompactWindowUp$, $\BaireSpaceUp$, $\BaireMetricUp$, $\CompactMetricUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BaireMetricCompactWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows, their transports, their displayed replay routes, their provenance, and their local names. It has no coordinate for completed streams, quotient Baire names, open-cover compactness, countable-choice selectors, or host real metrics.
+\end{definition}
+
+\begin{theorem}[BaireMetric compact-window NameCert obligations]
+\label{thm:baire-metric-compact-window-namecert-obligations}
+For every accepted $\BaireMetricCompactWindowUp$ carrier $K=(B,M,K_0,S,D,W,H,C,P,N)$, the local $\NameCert_{\BaireMetricCompactWindowUp}$ surface consists exactly of prefix-cylinder admission, BaireMetric radius admission, compact-window source exposure, stream schedule exposure, dyadic tolerance exactness, compact-window consumer ordering, transport, replay, provenance, and local naming. No obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier projection exposes $B,M,K_0,S,D,W,H,C,P,N$. These are the only coordinates available to a compact-window read.
+
+The prefix and metric obligations are tied together. The schedule $S$ selects a finite prefix window, $B$ supplies the corresponding cylinder ledger, $M$ supplies first-disagreement and radius data, and $D$ records the dyadic tolerance used by the same read.
+
+The compact source and consumer rows then fix the downstream route. The row $K_0$ exposes only finite compact inspection data, and $W$ can consume it only after the prefix and dyadic rows have been displayed.
+
+Transport, replay, provenance, and naming preserve that route. Since the carrier has no completed-stream, quotient, open-cover, countable-choice, or host-metric coordinate, the listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[BaireMetric compact-window cylinder route]
+\label{thm:baire-metric-compact-window-cylinder-route}
+Every compact-window consumer of an accepted $\BaireMetricCompactWindowUp$ packet factors through the finite route
+$$
+\StreamNameUp \longrightarrow \BaireSpaceUp \longrightarrow \BaireMetricUp \longrightarrow \DyadicRatCoreUp \longrightarrow \CompactMetricUp .
+$$
+The consumer reads a scheduled prefix cylinder, the corresponding first-disagreement radius, the displayed dyadic tolerance, and the compact-window source row before any uniform-continuity modulus is inspected.
+\end{theorem}
+\begin{proof}
+Start with the consumer row $W$. By the carrier definition, $W$ is downstream of the compact source $K_0$ and the prefix-metric rows $S,B,M,D$.
+
+Replay the route through $C$. The schedule $S$ opens the finite prefix window, $B$ records the cylinder ledger, $M$ reads the first-disagreement metric row, and $D$ supplies the dyadic radius budget attached to that same window.
+
+Only after this route is visible can $K_0$ be consumed as compact-window data. The structural rows $H,P,N$ keep the same route under transport and provenance, so no compact-window consumer can use completed-stream equality, quotient Baire names, open-cover compactness, countable choice, or a host real metric.
+\end{proof}
+
+\closureat{BaireMetricCompactWindowUp}{seedStr}
+
+\begin{closurestatus}{\BaireMetricCompactWindowUp}
+  \constructivestory{A $\BaireMetricCompactWindowUp$ packet is generated from finite BaireSpace prefix cylinders, BaireMetric first-disagreement radii, compact-window source rows, StreamName schedules, DyadicRatCore tolerances, compact-window consumer rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:baire-metric-compact-window-carrier}, \autoref{thm:baire-metric-compact-window-namecert-obligations}, and \autoref{thm:baire-metric-compact-window-cylinder-route} seed the finite prefix-cylinder basis consumed by compact-window uniform-continuity reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim completed-stream equality, quotient Baire-name equality, open-cover compactness, countable choice, host real metrics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked prefix-cylinder admission, BaireMetric radius exactness, compact-window source exposure, StreamName schedule exposure, DyadicRatCore tolerance exactness, consumer ordering, transport, replay, provenance, and local naming for BEDC.Derived.BaireMetricCompactWindowUp.}
+\end{closurestatus}
