@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\UniformDyadicMeshUp$}
+\label{ch:concrete-instances-uniform-dyadic-mesh-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style dyadic approximation, the $\UniformDyadicMeshUp$ packet records a finite uniform dyadic mesh certificate for the open Real and Completion route. It sits after the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the visible Real seal of \autoref{ch:concrete-instances-real-namecert}, and the downstream dyadic cover surface of \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}. The packet names a uniform finite mesh and its readback route; it is not an arbitrary open cover, a selected completion limit, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Uniform dyadic mesh carrier]
+\label{def:uniform-dyadic-mesh-carrier}
+A $\UniformDyadicMeshUp$ carrier is a finite $\BHist$ packet
+$$
+U=(L,R,J,\rho,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the dyadic lower-endpoint row, read through $\DyadicRatCoreUp$.
+\item $R$ is the dyadic upper-endpoint row, read through the same dyadic arithmetic core and paired with $L$ by the local interval classifier.
+\item $J$ is the mesh index row. It names the unary depth or finite dyadic scale at which all cells in the packet have the same dyadic length.
+\item $\rho$ is the radius ledger. It records the positive dyadic tolerance associated with each mesh cell and the finite containment checks visible at scale $J$.
+\item $S$ is the $\StreamNameUp$ finite-window row that schedules endpoint, mesh, radius, and containment reads.
+\item $Q$ is the $\RegSeqRatUp$ readback row that packages the scheduled dyadic endpoint and radius data as regular rational observations.
+\item $E$ is the $\RealUp$ seal row reached only after the endpoint rows, mesh index, radius ledger, finite window, and regular rational readback have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for endpoints, mesh index, radius ledger, StreamName windows, RegSeqRat readback, Real seal, continuation replay, provenance, and local naming.
+\item $C$ stores $\Cont$ replay from endpoint reads to the uniform mesh row, from mesh and radius reads to regular rational readback, and from that readback to the Real-facing seal and dyadic interval-cover handoff.
+\item $P$ is the $\Pkg$ provenance over $\UniformDyadicMeshUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicIntervalCoverUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformDyadicMeshUp}$ row.
+\end{enumerate}
+The classifier compares accepted mesh packets only through the displayed tuple $L,R,J,\rho,S,Q,E,H,C,P,N$. It has no coordinate for nonuniform cell choice, arbitrary open-cover data, selected completion limits, quotient equality of real names, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniform dyadic mesh refinement stability]
+\label{thm:uniform-dyadic-mesh-refinement-stability}
+Let $U=(L,R,J,\rho,S,Q,E,H,C,P,N)$ and $U'=(L',R',J',\rho',S',Q',E',H',C',P',N')$ be accepted $\UniformDyadicMeshUp$ carriers. Any displayed refinement from $U$ to $U'$ is stable exactly when the endpoint rows $L,R$ transport to $L',R'$, the mesh index row $J'$ refines $J$ by a finite dyadic scale comparison, the radius ledger $\rho'$ is obtained by finite subdivision of $\rho$, and the rows $S,Q,E,H,C,P,N$ replay the same StreamName, RegSeqRat, Real seal, transport, continuation, provenance, and local NameCert route. Refinement therefore changes only displayed dyadic mesh rows and never imports nonuniform cell choice, selected subcovers, quotient real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the two carrier tuples from \autoref{def:uniform-dyadic-mesh-carrier}. Endpoint compatibility is a finite $\DyadicRatCoreUp$ comparison on $L,R,L',R'$, and the refinement of $J$ is a displayed scale comparison rather than a host-level subdivision principle.
+
+The radius ledger is then read rowwise. Each cell of the refined packet is attached to a finite dyadic radius in $\rho'$, and the containment check is the replay of the corresponding coarser row in $\rho$ through the displayed continuation route.
+
+Finally, $S,Q,E,H,C,P,N$ preserve the same public route. The stream row schedules the finite reads, the regular rational row packages them, the Real seal is downstream from those reads, and the structural rows transport, replay, source, and name only the displayed mesh data. Thus refinement stability is a finite row statement over the carrier surface.
+\end{proof}
+
+\begin{theorem}[Uniform dyadic mesh Real-window handoff]
+\label{thm:uniform-dyadic-mesh-real-window-handoff}
+Every $\RealUp$ or $\DyadicIntervalCoverUp$ consumer reading an accepted $\UniformDyadicMeshUp$ carrier must first pass through
+$$
+L,R \longmapsto J,\rho \longmapsto S \longmapsto Q \longmapsto E
+$$
+and then through $H,C,P,N$. The exported handoff is the finite tuple $L,R,J,\rho,S,Q,E,H,C,P,N$: dyadic endpoint rows, a uniform mesh index, a radius ledger, finite StreamName windows, RegSeqRat readback, a Real seal, componentwise transport, displayed continuation replay, provenance, and the local NameCert row.
+\end{theorem}
+\begin{proof}
+Start with a consumer asking for a real-facing mesh window. The lower and upper dyadic endpoints are the first visible data, and the carrier gives no real name until those endpoint rows have been admitted through $\DyadicRatCoreUp$.
+
+Read the mesh index and radius ledger next. The row $J$ fixes a single dyadic scale for the packet, while $\rho$ records the finite tolerance and containment checks attached to that scale. These rows are the only data a dyadic interval-cover consumer may inspect before the finite readback rows appear.
+
+The rows $S$ and $Q$ schedule and package the reads, and $E$ seals the resulting regular rational observations as Real-facing data. Transport, replay, provenance, and naming through $H,C,P,N$ keep the handoff inside the same finite certificate surface, so no arbitrary open cover, selected limit, quotient equality, countable choice, or ambient completeness principle is exported.
+\end{proof}
+
+\falsifiablePrediction{Every $\UniformDyadicMeshUp$ consumer read factors through dyadic endpoint rows, a uniform mesh index, a radius ledger, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before dyadic cover or completion data is visible.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, dyadicintervalcover: $\UniformDyadicMeshUp$ is not bijective to any listed sibling because it jointly carries endpoint rows, a single mesh-scale row, a radius ledger, StreamName windows, RegSeqRat readback, a Real seal, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+
+\closureat{UniformDyadicMeshUp}{seedStr}
+
+\begin{closurestatus}{\UniformDyadicMeshUp}
+  \constructivestory{A $\UniformDyadicMeshUp$ packet is generated from dyadic endpoint rows, a uniform mesh index, a radius ledger, finite StreamName windows, RegSeqRat readbacks, a Real seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-dyadic-mesh-carrier}, \autoref{thm:uniform-dyadic-mesh-refinement-stability}, and \autoref{thm:uniform-dyadic-mesh-real-window-handoff} seed the finite uniform dyadic mesh handoff between dyadic arithmetic, regular rational readback, Real windows, and dyadic interval-cover consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary open-cover compactness, selected subcovers, selected completion limits, quotient real equality, countable choice, ambient $\RealUp$ completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint and mesh readback, radius-ledger stability, StreamName and RegSeqRat scheduling, Real seal handoff, dyadic interval-cover compatibility, and ledger non-escape for BEDC.Derived.UniformDyadicMeshUp.}
+\end{closurestatus}
