@@ -410,6 +410,46 @@ Apply \autoref{thm:bairemetric-prefix-window-admission}. It places all Baire pre
 Apply \autoref{thm:bairemetric-cauchy-window-completeness-handoff}. The completeness-facing route uses the same $S,B,W,D,R,U,H,C,P,N$ row family, so a prefix-density consumer cannot bypass the finite window when reading the complete ultrametric surface.
 \end{proof}
 
+\begin{theorem}[BaireMetric prefix-cylinder coverage]
+\label{thm:bairemetric-prefix-cylinder-coverage}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ carrier. Every prefix-cylinder read exported by $M$ is covered by the finite route
+$$
+S,B,W,D .
+$$
+The $\StreamNameUp$ schedule selects the inspected prefix window, the $\BaireSpaceUp$ row supplies the displayed cylinder base, the $\NatUp$ first-disagreement row records the inspected length and branch, and the $\DyadicRatCoreUp$ row records the matching radius. No cylinder coverage claim may use completed streams, quotient equality of Baire names, or an external topology.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only coordinates that can name a prefix cylinder before the metric rows are $S,B,W,D$.
+
+The schedule $S$ determines which finite prefixes are visible. The row $B$ supplies the accepted BaireSpace prefix packet, and $W$ records the finite length and first-disagreement branch inside that packet.
+
+The radius row $D$ then reads the branch named by $W$. Since $R,U,H,C,P,N$ are downstream of this finite window route, no exported prefix-cylinder coverage can bypass $S,B,W,D$.
+\end{proof}
+
+\begin{theorem}[BaireMetric Cauchy prefix thread]
+\label{thm:bairemetric-cauchy-prefix-thread}
+For an accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$, every $\CompleteMetricUp$ Cauchy read determines a finite prefix thread through the same $\StreamNameUp$ schedule. At each displayed radius request, the thread reads a scheduled $\BaireSpaceUp$ prefix window, a $\NatUp$ first-disagreement or equality branch, the corresponding $\DyadicRatCoreUp$ radius row, and then the parent $\MetricSpaceUp$ and $\UltrametricSpaceUp$ rows. The thread is not a completed stream and does not use countable choice.
+\end{theorem}
+\begin{proof}
+Start with a completeness-facing Cauchy request. By \autoref{thm:bairemetric-cauchy-window-completeness-handoff}, the request sees only the finite route $S,B,W,D,R,U,H,C,P,N$.
+
+For each displayed radius, the schedule $S$ opens the relevant finite prefix window in $B$. The row $W$ records whether the inspected prefixes agree on that window or where the first displayed disagreement lies, and $D$ converts that finite branch into the dyadic radius read.
+
+The parent metric row $R$ and the ultrametric row $U$ consume the same window and radius data. Transport, replay, provenance, and naming keep the finite thread attached to $M$, so the Cauchy read never becomes a selected infinite stream.
+\end{proof}
+
+\begin{theorem}[BaireMetric complete-ultrametric exhaustion]
+\label{thm:bairemetric-complete-ultrametric-exhaustion}
+Every complete-ultrametric obligation exported by an accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$ is exhausted by prefix-cylinder coverage, the Cauchy prefix thread, parent metric compatibility, ultrametric strong-triangle compatibility, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. There is no remaining obligation slot for a host real-valued metric, completed-stream equality, quotient Baire names, countable choice, or external topological completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bairemetric-prefix-cylinder-coverage} to identify every cylinder read with the finite $S,B,W,D$ route. This covers the prefix side of the complete-ultrametric surface.
+
+Use \autoref{thm:bairemetric-cauchy-prefix-thread} for the completeness-facing Cauchy reads. It keeps every displayed radius request on the same StreamName schedule, BaireSpace prefix packet, Nat window, and dyadic radius row.
+
+Finally apply \autoref{thm:bairemetric-parent-metricspace-handoff} and \autoref{thm:bairemetric-ultrametricspace-strong-triangle-handoff}. The rows $R$ and $U$ consume exactly that finite prefix data, while $H,C,P,N$ transport, replay, source, and name it. The listed rows exhaust the carrier, so no external completeness or host metric datum remains.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\BaireMetricUp$ distance comparison factors through the $\BaireSpaceUp$ prefix packet, $\StreamNameUp$ schedule, $\NatUp$ first-disagreement window, $\DyadicRatCoreUp$ radius row, parent $\MetricSpaceUp$ row, $\UltrametricSpaceUp$ witness, componentwise transport, continuation replay, provenance, and local $\NameCert$ before any consumer reads a metric or ultrametric conclusion.}
 
 \independenceWitness{bairespace, streamname, nat, dyadicratcore, metricspace, ultrametricspace: $\BaireMetricUp$ is not bijective to any listed sibling because it jointly carries prefix windows, first-disagreement evidence, dyadic radii, parent metric compatibility, ultrametric strong-triangle evidence, transport, replay, provenance, and local naming.}
