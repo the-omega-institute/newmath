@@ -1,4 +1,6 @@
 """Unit tests for the closurestatus block parser in bedc_ci.py."""
+from __future__ import annotations
+
 import sys
 import unittest
 from contextlib import redirect_stdout
@@ -21,6 +23,7 @@ from bedc_ci import (  # type: ignore[import-not-found]
     _structural_dna_relation_unavailable,
     _ledger_classifier_shift_targets,
     audit_payload,
+    cmd_audit,
     cmd_discovery_audit,
     collect_closurestatus_blocks,
     diagnose_closurestatus_block,
@@ -29,6 +32,7 @@ from bedc_ci import (  # type: ignore[import-not-found]
     discovery_assert_gate_payload,
     discovery_audit_payload,
     discovery_nonasserted_hygiene_payload,
+    discovery_production_radar_payload,
     parser as bedc_parser,
 )
 
@@ -747,6 +751,202 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(payload["asserted_count"], 0)
         self.assertEqual(payload["failure_count"], 0)
         self.assertEqual(payload["conjectured_count"], 1)
+
+    def _radar_payload(
+        self,
+        integrity: dict[str, object],
+        sieve: dict[str, object] | None = None,
+        assert_gate: dict[str, object] | None = None,
+    ) -> dict[str, object]:
+        return discovery_production_radar_payload(
+            [self._block()],
+            LeanSourceScan([], [], {}, {}, []),
+            discovery_integrity=integrity,
+            sieve_payload=sieve or {"targets": []},
+            discovery_assert_gate=assert_gate or {"asserted_sites": []},
+        )
+
+    def test_discovery_radar_refutes_prior_reconstruction(self) -> None:
+        integrity = {
+            "sites": [{
+                "file": "papers/bedc/parts/x.tex",
+                "line": 10,
+                "region": "FooUp",
+                "chapter_key": "foo",
+                "claim_kind": "positiveDiscovery",
+                "sources": ["DiscoveryDeltaLedger.classifier_shift"],
+                "ledger": "BEDC.Target.Ledger",
+                "before_classifiers": ["BEDC.Prior.Old"],
+                "declared_new_classifiers": ["BEDC.Target.New"],
+                "resolution_status": "resolved",
+                "provenance": [{
+                    "candidate": "BEDC.Target.New",
+                    "prior": "BEDC.Prior.Old",
+                    "relation": "reconstruction",
+                    "candidate_reduced_fp": "same",
+                    "reduced_fp": "same",
+                }],
+            }],
+            "violations": [{
+                "file": "papers/bedc/parts/x.tex",
+                "line": 10,
+                "region": "FooUp",
+                "kind": "structural_reconstruction_discovery_claim",
+                "candidate": "BEDC.Target.New",
+                "prior_classifier": "BEDC.Prior.Old",
+            }],
+        }
+        payload = self._radar_payload(integrity)
+        self.assertEqual(payload["refuted_count"], 1)
+        candidate = payload["candidates"][0]
+        self.assertEqual(candidate["state"], "refuted")
+        self.assertEqual(
+            candidate["phase_a"]["binary_novelty_signal"],
+            "reconstruction",
+        )
+        self.assertIn("phase_a_structural_reconstruction", candidate["evidence"])
+
+    def test_discovery_radar_marks_nontrivial_refinement_pass_as_assertion_eligible(self) -> None:
+        target = "BEDC.Target.New"
+        integrity = {
+            "sites": [{
+                "file": "papers/bedc/parts/x.tex",
+                "line": 10,
+                "region": "FooUp",
+                "chapter_key": "foo",
+                "claim_kind": "positiveDiscovery",
+                "sources": ["DiscoveryDeltaLedger.classifier_shift"],
+                "ledger": "BEDC.Target.Ledger",
+                "before_classifiers": ["BEDC.Prior.Old"],
+                "declared_new_classifiers": [target],
+                "resolution_status": "resolved",
+                "provenance": [{
+                    "candidate": target,
+                    "prior": "BEDC.Prior.Old",
+                    "relation": "conjunctive_refinement",
+                    "extra_conjunct_count": 2,
+                }],
+            }],
+            "violations": [],
+        }
+        assert_gate = {
+            "asserted_sites": [{
+                "file": "papers/bedc/parts/x.tex",
+                "line": 10,
+                "region": "FooUp",
+                "target": target,
+                "status": "PASS",
+                "gates": [{
+                    "gate": "G4",
+                    "status": "PASS",
+                    "details": {
+                        "checked_disagreement_supports": [{
+                            "support": "BEDC.Target.Support",
+                            "module": "BEDC.Target",
+                            "axioms": [],
+                        }],
+                    },
+                }],
+            }],
+        }
+        payload = self._radar_payload(integrity, assert_gate=assert_gate)
+        candidate = payload["candidates"][0]
+        self.assertEqual(candidate["state"], "assertion_eligible")
+        self.assertEqual(payload["assertion_eligible_count"], 1)
+        self.assertEqual(candidate["refinement_depth"], 2)
+        self.assertEqual(
+            candidate["disagreement_signal_tier"],
+            "kernel_checked_DisagreementSupport",
+        )
+        self.assertEqual(candidate["valid_use"], "discovery_candidate_surface_and_rank_only")
+
+    def test_discovery_radar_conjectures_signal_without_kernel_witness(self) -> None:
+        target = "BEDC.Target.New"
+        sieve = {
+            "targets": [{
+                "target": target,
+                "file": "papers/bedc/parts/x.tex",
+                "line": 10,
+                "region": "FooUp",
+                "sources": ["DiscoveryTasteGate"],
+                "sieve_profile": {
+                    "reason_tags": ["smoke_template_reuse"],
+                    "semantic_anchors": ["decode"],
+                    "support_targets": ["BEDC.Target.Support"],
+                },
+            }],
+        }
+        payload = self._radar_payload({"sites": [], "violations": []}, sieve=sieve)
+        candidate = payload["candidates"][0]
+        self.assertEqual(candidate["state"], "conjectured")
+        self.assertEqual(payload["conjectured_count"], 1)
+        self.assertIn("smoke_template_reuse", candidate["risk_tags"])
+        self.assertEqual(
+            candidate["disagreement_signal_tier"],
+            "text_reach_or_semantic_anchor",
+        )
+
+    def test_discovery_radar_is_informational_for_audit_exit_code(self) -> None:
+        payload = {
+            "inventory": {
+                "lean_files_scanned": 0,
+                "declarations_total": 0,
+                "part_labels_total": 0,
+                "lean_markers_total": 0,
+            },
+            "forbidden_constructs": [],
+            "forbidden_construct_count": 0,
+            "missing_marker_targets": [],
+            "missing_marker_targets_new_count": 0,
+            "missing_marker_targets_legacy_count": 0,
+            "duplicate_part_labels": {},
+            "case_collisions": [],
+            "case_collisions_new_count": 0,
+            "case_collisions_legacy_count": 0,
+            "preamble_duplicate_commands": [],
+            "preamble_duplicate_commands_new_count": 0,
+            "preamble_duplicate_commands_legacy_count": 0,
+            "concrete_number_collisions": [],
+            "concrete_number_collisions_new_count": 0,
+            "concrete_number_collisions_legacy_count": 0,
+            "concrete_missing_origin": [],
+            "concrete_missing_origin_new_count": 0,
+            "concrete_missing_origin_legacy_count": 0,
+            "paper_chapter_origin_tags": [],
+            "paper_chapter_origin_tags_new_count": 0,
+            "paper_chapter_origin_tags_legacy_count": 0,
+            "closurestatus_diagnostics": [],
+            "closurestatus_diagnostics_new_count": 0,
+            "closurestatus_open_errors": [],
+            "closurestatus_open_errors_new_count": 0,
+            "discovery_integrity_violations_new_count": 0,
+            "discovery_assert_gate_failure_count": 0,
+            "discovery_nonasserted_hygiene_failure_count": 0,
+            "orphan_concrete_subdirs": [],
+            "orphan_concrete_subdirs_new_count": 0,
+            "leanstmt_debt": {"violations": []},
+            "discovery_production_radar": {
+                "candidate_count": 1,
+                "refuted_count": 1,
+                "assertion_eligible_count": 0,
+                "conjectured_count": 0,
+                "candidates": [{"state": "refuted"}],
+            },
+        }
+        args = type("Args", (), {"json": True, "shape_saturation": False})()
+        with patch("bedc_ci.audit_payload", return_value=payload), redirect_stdout(StringIO()):
+            rc = cmd_audit(args)
+        self.assertEqual(rc, 0)
+
+    def test_current_repository_discovery_radar_is_present(self) -> None:
+        payload = audit_payload()
+        self.assertIn("discovery_production_radar", payload)
+        radar = payload["discovery_production_radar"]
+        self.assertTrue(radar["informational"])
+        self.assertEqual(
+            radar["semantics"]["valid_use"],
+            "discovery_candidate_surface_and_rank_only",
+        )
 
 
 if __name__ == "__main__":

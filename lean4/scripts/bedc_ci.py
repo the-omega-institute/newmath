@@ -3880,6 +3880,488 @@ def discovery_assert_gate_payload(
     }
 
 
+DISCOVERY_RADAR_SEMANTICS: dict[str, object] = {
+    "valid_use": "discovery_candidate_surface_and_rank_only",
+    "ranking": (
+        "heuristic surface-and-rank; passing or high rank is not a certified "
+        "discovery"
+    ),
+    "sound_boundary": "only refuted is sound negative evidence",
+    "novelty_distance": (
+        "novelty-distance ranking deferred; current novelty signal = binary "
+        "reconstruction-or-not from Phase A"
+    ),
+    "disagreement_tiers": {
+        "kernel_checked_DisagreementSupport": "sound",
+        "text_reach_or_semantic_anchor": "heuristic",
+    },
+    "side_effects": "informational only; does not emit or edit closureclaimkind",
+}
+
+DISCOVERY_RADAR_RISK_TAG_WEIGHTS = {
+    "smoke_template_reuse": 2.0,
+    "trivial_classifier": 2.0,
+    "target_substring_evidence": 1.5,
+    "duplicate_of_existing": 1.5,
+    "constructor_only_disagreement": 1.0,
+}
+
+DISCOVERY_RADAR_WEIGHTS = {
+    "refinement_depth": 2.0,
+    "nontriviality": 1.0,
+    "risk_penalty": 1.0,
+    "kernel_checked_disagreement_boost": 2.0,
+}
+
+DISCOVERY_RADAR_STATE_PRIORITY = {
+    "refuted": 0,
+    "assertion_eligible": 1,
+    "conjectured": 2,
+}
+
+
+def _radar_locus_key(item: dict[str, object]) -> tuple[str, int, str]:
+    return (
+        str(item.get("file") or item.get("file_paper") or ""),
+        int(item.get("line") or 0),
+        str(item.get("region") or ""),
+    )
+
+
+def _radar_profile_indexes(
+    sieve_payload: dict[str, object],
+) -> tuple[dict[str, dict[str, object]], dict[tuple[str, int, str], dict[str, object]]]:
+    by_target: dict[str, dict[str, object]] = {}
+    by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
+    for profile in sieve_payload.get("targets", []):
+        if not isinstance(profile, dict):
+            continue
+        target = str(profile.get("target") or "")
+        if target:
+            by_target.setdefault(target, profile)
+        locus = _radar_locus_key(profile)
+        if locus[0] and locus[1]:
+            by_locus.setdefault(locus, profile)
+    return by_target, by_locus
+
+
+def _radar_assert_gate_indexes(
+    assert_gate_payload: dict[str, object],
+) -> tuple[dict[str, dict[str, object]], dict[tuple[str, int, str], dict[str, object]]]:
+    by_target: dict[str, dict[str, object]] = {}
+    by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
+    for site in assert_gate_payload.get("asserted_sites", []):
+        if not isinstance(site, dict):
+            continue
+        target = str(site.get("target") or "")
+        if target:
+            by_target.setdefault(target, site)
+        locus = _radar_locus_key(site)
+        if locus[0] and locus[1]:
+            by_locus.setdefault(locus, site)
+    return by_target, by_locus
+
+
+def _radar_extra_conjunct_count(entry: dict[str, object]) -> int | None:
+    if "extra_conjunct_count" not in entry:
+        return None
+    try:
+        return int(entry.get("extra_conjunct_count") or 0)
+    except (TypeError, ValueError):
+        return None
+
+
+def _radar_provenance_summary(
+    provenance: Iterable[dict[str, object]],
+) -> dict[str, object]:
+    reconstruction_priors: set[str] = set()
+    zero_refinement_priors: set[str] = set()
+    nontrivial_refinements: list[dict[str, object]] = []
+    max_depth = 0
+    for entry in provenance:
+        relation = str(entry.get("relation") or "")
+        prior = str(entry.get("prior") or "")
+        extra_count = _radar_extra_conjunct_count(entry)
+        if relation == "reconstruction" and prior:
+            reconstruction_priors.add(prior)
+        if relation == "conjunctive_refinement":
+            if extra_count == 0 and prior:
+                zero_refinement_priors.add(prior)
+            elif extra_count is not None and extra_count > 0:
+                max_depth = max(max_depth, extra_count)
+                nontrivial_refinements.append(dict(entry))
+    return {
+        "reconstruction_priors": sorted(reconstruction_priors),
+        "zero_refinement_priors": sorted(zero_refinement_priors),
+        "refinement_depth": max_depth,
+        "nontrivial_refinements": nontrivial_refinements,
+    }
+
+
+def _radar_sieve_risk(profile: dict[str, object] | None) -> tuple[list[str], float]:
+    if not profile:
+        return [], 0.0
+    profile_data = profile.get("sieve_profile") or {}
+    reason_tags = list(profile_data.get("reason_tags", [])) if isinstance(profile_data, dict) else []
+    witness_tags = [
+        str(witness.get("reason_tag"))
+        for witness in profile.get("negative_witnesses", []) or []
+        if isinstance(witness, dict) and str(witness.get("reason_tag") or "")
+    ]
+    tags = sorted(set(str(tag) for tag in reason_tags + witness_tags if str(tag)))
+    penalty = sum(DISCOVERY_RADAR_RISK_TAG_WEIGHTS.get(tag, 0.0) for tag in tags)
+    return tags, penalty
+
+
+def _radar_checked_disagreement_supports(
+    assert_site: dict[str, object] | None,
+) -> list[dict[str, object]]:
+    if not assert_site:
+        return []
+    checked: list[dict[str, object]] = []
+    for gate in assert_site.get("gates", []) or []:
+        if not isinstance(gate, dict):
+            continue
+        if gate.get("gate") != "G4" or gate.get("status") != "PASS":
+            continue
+        details = gate.get("details") or {}
+        if not isinstance(details, dict):
+            continue
+        for support in details.get("checked_disagreement_supports", []) or []:
+            if isinstance(support, dict):
+                checked.append(dict(support))
+    return checked
+
+
+def _radar_has_heuristic_disagreement(profile: dict[str, object] | None) -> bool:
+    profile_data = (profile or {}).get("sieve_profile") or {}
+    if not isinstance(profile_data, dict):
+        return False
+    return any(
+        bool(profile_data.get(field))
+        for field in (
+            "support_targets",
+            "semantic_anchors",
+            "support_anchors",
+            "support_reachable",
+            "public_semantic_endpoint",
+        )
+    )
+
+
+def _radar_candidate_score(
+    refinement_depth: int,
+    nontriviality: float,
+    risk_penalty: float,
+    kernel_boost: float,
+) -> tuple[float, dict[str, object]]:
+    weights = DISCOVERY_RADAR_WEIGHTS
+    score = (
+        weights["refinement_depth"] * refinement_depth
+        + weights["nontriviality"] * nontriviality
+        + weights["kernel_checked_disagreement_boost"] * kernel_boost
+        - weights["risk_penalty"] * risk_penalty
+    )
+    return round(score, 4), {
+        "weights": dict(weights),
+        "refinement_depth": refinement_depth,
+        "nontriviality": nontriviality,
+        "kernel_checked_disagreement_boost": kernel_boost,
+        "risk_penalty": risk_penalty,
+    }
+
+
+def _radar_add_or_merge(
+    rows: dict[tuple[str, str, int, str], dict[str, object]],
+    row: dict[str, object],
+) -> None:
+    key = (
+        str(row.get("target") or ""),
+        str(row.get("file") or ""),
+        int(row.get("line") or 0),
+        str(row.get("region") or ""),
+    )
+    existing = rows.get(key)
+    if existing is None:
+        rows[key] = row
+        return
+    for field in ("sources", "before_classifiers", "candidate_classifiers", "evidence"):
+        current = existing.get(field)
+        incoming = row.get(field)
+        if isinstance(current, list) and isinstance(incoming, list):
+            merged: list[object] = []
+            for item in current + incoming:
+                if item not in merged:
+                    merged.append(item)
+            existing[field] = merged
+    for field in ("ledger", "chapter_key", "claim_kind"):
+        if not existing.get(field) and row.get(field):
+            existing[field] = row[field]
+
+
+def discovery_production_radar_payload(
+    blocks: list[dict],
+    lean_scan: LeanSourceScan,
+    *,
+    discovery_integrity: dict[str, object] | None = None,
+    sieve_payload: dict[str, object] | None = None,
+    discovery_assert_gate: dict[str, object] | None = None,
+) -> dict[str, object]:
+    sieve = sieve_payload or discovery_sieve_payload(
+        blocks,
+        lean_scan.discovery_delta_ledgers,
+        lean_scan.declaration_headers,
+        lean_scan.declaration_bodies,
+    )
+    integrity = discovery_integrity or discovery_integrity_payload(blocks, lean_scan)
+    assert_gate = discovery_assert_gate or discovery_assert_gate_payload(
+        blocks,
+        lean_scan,
+        integrity,
+        sieve_payload=sieve,
+    )
+    profile_by_target, profile_by_locus = _radar_profile_indexes(sieve)
+    assert_by_target, assert_by_locus = _radar_assert_gate_indexes(assert_gate)
+    rows: dict[tuple[str, str, int, str], dict[str, object]] = {}
+
+    for site in integrity.get("sites", []) or []:
+        if not isinstance(site, dict):
+            continue
+        locus = _radar_locus_key(site)
+        candidates = [
+            str(target)
+            for target in site.get("declared_new_classifiers", []) or []
+            if str(target)
+        ]
+        if not candidates:
+            ledger = str(site.get("ledger") or "")
+            if ledger:
+                candidates = [ledger]
+        for target in candidates:
+            provenance = [
+                dict(item)
+                for item in site.get("provenance", []) or []
+                if isinstance(item, dict)
+                and (
+                    not str(item.get("candidate") or "")
+                    or str(item.get("candidate") or "") == target
+                )
+            ]
+            _radar_add_or_merge(rows, {
+                "target": target,
+                "file": site.get("file") or "",
+                "line": int(site.get("line") or 0),
+                "region": str(site.get("region") or ""),
+                "chapter_key": site.get("chapter_key") or "",
+                "claim_kind": site.get("claim_kind") or "",
+                "ledger": site.get("ledger") or "",
+                "sources": list(site.get("sources", [])) + ["discovery_integrity"],
+                "before_classifiers": list(site.get("before_classifiers", [])),
+                "candidate_classifiers": list(site.get("declared_new_classifiers", [])),
+                "provenance": provenance,
+                "phase_a_resolution_status": site.get("resolution_status") or "",
+                "phase_a_locus": locus,
+            })
+
+    for profile in sieve.get("targets", []) or []:
+        if not isinstance(profile, dict):
+            continue
+        target = str(profile.get("target") or "")
+        if not target:
+            continue
+        _radar_add_or_merge(rows, {
+            "target": target,
+            "file": profile.get("file") or "",
+            "line": int(profile.get("line") or 0),
+            "region": str(profile.get("region") or ""),
+            "chapter_key": _region_to_chapter_key(profile.get("region")),
+            "claim_kind": "",
+            "ledger": "",
+            "sources": list(profile.get("sources", [])) + ["discovery_sieve"],
+            "before_classifiers": [],
+            "candidate_classifiers": [target],
+            "provenance": [],
+            "phase_a_resolution_status": "",
+            "phase_a_locus": _radar_locus_key(profile),
+        })
+
+    for site in assert_gate.get("asserted_sites", []) or []:
+        if not isinstance(site, dict):
+            continue
+        target = str(site.get("target") or "")
+        if not target:
+            continue
+        _radar_add_or_merge(rows, {
+            "target": target,
+            "file": site.get("file") or "",
+            "line": int(site.get("line") or 0),
+            "region": str(site.get("region") or ""),
+            "chapter_key": _region_to_chapter_key(site.get("region")),
+            "claim_kind": site.get("claim_kind") or "positiveDiscovery",
+            "ledger": "",
+            "sources": ["discovery_assert_gate"],
+            "before_classifiers": [],
+            "candidate_classifiers": [target],
+            "provenance": [],
+            "phase_a_resolution_status": "",
+            "phase_a_locus": _radar_locus_key(site),
+        })
+
+    violation_by_locus = _integrity_violations_by_locus(integrity)
+    candidates: list[dict[str, object]] = []
+    state_counts: Counter[str] = Counter()
+
+    for row in rows.values():
+        target = str(row.get("target") or "")
+        locus = (
+            str(row.get("file") or ""),
+            int(row.get("line") or 0),
+            str(row.get("region") or ""),
+        )
+        profile = profile_by_target.get(target) or profile_by_locus.get(locus)
+        assert_site = assert_by_target.get(target) or assert_by_locus.get(locus)
+        provenance = [
+            item for item in row.get("provenance", []) or []
+            if isinstance(item, dict)
+        ]
+        provenance_summary = _radar_provenance_summary(provenance)
+        reconstruction_priors = list(provenance_summary["reconstruction_priors"])
+        zero_refinement_priors = list(provenance_summary["zero_refinement_priors"])
+        structural_violations = [
+            violation for violation in violation_by_locus.get(locus, [])
+            if violation.get("kind") == "structural_reconstruction_discovery_claim"
+            and (
+                not str(violation.get("candidate") or "")
+                or str(violation.get("candidate") or "") == target
+            )
+        ]
+        for violation in structural_violations:
+            prior = str(violation.get("prior_classifier") or "")
+            if prior and prior not in reconstruction_priors:
+                reconstruction_priors.append(prior)
+        refinement_depth = int(provenance_summary["refinement_depth"])
+        risk_tags, risk_penalty = _radar_sieve_risk(profile)
+        checked_supports = _radar_checked_disagreement_supports(assert_site)
+        kernel_boost = 1.0 if checked_supports else 0.0
+        heuristic_disagreement = _radar_has_heuristic_disagreement(profile)
+        phase_a_resolved = str(row.get("phase_a_resolution_status") or "") == "resolved"
+        phase_a_nonreconstruction = (
+            phase_a_resolved and not reconstruction_priors and not zero_refinement_priors
+        )
+        nontriviality = 1.0 if (
+            refinement_depth > 0 or checked_supports or phase_a_nonreconstruction
+        ) else 0.0
+        score, score_components = _radar_candidate_score(
+            refinement_depth,
+            nontriviality,
+            risk_penalty,
+            kernel_boost,
+        )
+
+        evidence: list[str] = []
+        if reconstruction_priors:
+            evidence.append("phase_a_structural_reconstruction")
+        if zero_refinement_priors:
+            evidence.append("phase_b_zero_conjunct_refinement")
+        if refinement_depth > 0:
+            evidence.append("phase_b_nontrivial_conjunctive_refinement")
+        if checked_supports:
+            evidence.append("kernel_checked_DisagreementSupport")
+        if phase_a_nonreconstruction:
+            evidence.append("phase_a_binary_nonreconstruction")
+        if heuristic_disagreement:
+            evidence.append("text_reach_or_semantic_anchor")
+
+        if reconstruction_priors or zero_refinement_priors:
+            state = "refuted"
+            state_semantics = "sound negative: candidate is not a discovery"
+        elif (
+            assert_site is not None
+            and assert_site.get("status") == "PASS"
+            and (refinement_depth > 0 or checked_supports)
+        ):
+            state = "assertion_eligible"
+            state_semantics = (
+                "semi-sound surface only; eligible for human-facing review, "
+                "not an automatic positiveDiscovery assertion"
+            )
+        else:
+            state = "conjectured"
+            state_semantics = "heuristic candidate pool; no discovery assertion"
+
+        candidate = {
+            "state": state,
+            "state_semantics": state_semantics,
+            "target": target,
+            "file": row.get("file") or "",
+            "line": row.get("line") or 0,
+            "region": row.get("region") or "",
+            "chapter_key": row.get("chapter_key") or "",
+            "claim_kind": row.get("claim_kind") or "",
+            "sources": sorted(set(str(source) for source in row.get("sources", []) if str(source))),
+            "before_classifiers": row.get("before_classifiers", []),
+            "candidate_classifiers": row.get("candidate_classifiers", []),
+            "ledger": row.get("ledger") or "",
+            "score": score,
+            "score_semantics": "heuristic ranking only; not probability and not certification",
+            "score_components": score_components,
+            "refinement_depth": refinement_depth,
+            "risk_tags": risk_tags,
+            "risk_penalty": risk_penalty,
+            "disagreement_signal_tier": (
+                "kernel_checked_DisagreementSupport"
+                if checked_supports else (
+                    "text_reach_or_semantic_anchor" if heuristic_disagreement else "none"
+                )
+            ),
+            "checked_disagreement_supports": checked_supports,
+            "phase_a": {
+                "resolution_status": row.get("phase_a_resolution_status") or "",
+                "binary_novelty_signal": (
+                    "nonreconstruction"
+                    if phase_a_nonreconstruction else (
+                        "reconstruction" if reconstruction_priors else "not_evaluated"
+                    )
+                ),
+                "reconstruction_priors": sorted(reconstruction_priors),
+            },
+            "phase_b": {
+                "zero_refinement_priors": sorted(zero_refinement_priors),
+                "nontrivial_refinements": provenance_summary["nontrivial_refinements"],
+            },
+            "evidence": sorted(set(evidence)),
+            "valid_use": DISCOVERY_RADAR_SEMANTICS["valid_use"],
+        }
+        candidates.append(candidate)
+        state_counts[state] += 1
+
+    candidates.sort(
+        key=lambda item: (
+            DISCOVERY_RADAR_STATE_PRIORITY.get(str(item.get("state")), 99),
+            -float(item.get("score") or 0.0),
+            str(item.get("target") or ""),
+        )
+    )
+    for rank, item in enumerate(candidates, start=1):
+        item["rank"] = rank
+
+    return {
+        "informational": True,
+        "schema": "bedc.discovery_production_radar",
+        "semantics": DISCOVERY_RADAR_SEMANTICS,
+        "weights": DISCOVERY_RADAR_WEIGHTS,
+        "candidate_count": len(candidates),
+        "state_counts": {
+            state: int(state_counts.get(state, 0))
+            for state in ("refuted", "assertion_eligible", "conjectured")
+        },
+        "refuted_count": int(state_counts.get("refuted", 0)),
+        "assertion_eligible_count": int(state_counts.get("assertion_eligible", 0)),
+        "conjectured_count": int(state_counts.get("conjectured", 0)),
+        "candidates": candidates,
+    }
+
+
 CONSTRUCTOR_SEPARATION_TERMS = (
     "not_hsame_emp_e0",
     "not_hsame_emp_e1",
@@ -9281,6 +9763,13 @@ def audit_payload() -> dict[str, object]:
         discovery_integrity,
         sieve_payload=discovery_sieve,
     )
+    discovery_production_radar = discovery_production_radar_payload(
+        closurestatus_blocks,
+        lean_scan,
+        discovery_integrity=discovery_integrity,
+        sieve_payload=discovery_sieve,
+        discovery_assert_gate=discovery_assert_gate,
+    )
     discovery_nonasserted_hygiene = discovery_nonasserted_hygiene_payload(
         closurestatus_blocks,
     )
@@ -9318,6 +9807,7 @@ def audit_payload() -> dict[str, object]:
         "discovery_assert_gate": discovery_assert_gate,
         "discovery_assert_gate_failure_count": discovery_assert_gate["failure_count"],
         "discovery_assert_gate_failures": discovery_assert_gate["failures"],
+        "discovery_production_radar": discovery_production_radar,
         "discovery_nonasserted_hygiene": discovery_nonasserted_hygiene,
         "discovery_nonasserted_hygiene_failure_count": discovery_nonasserted_hygiene["failure_count"],
         "discovery_nonasserted_hygiene_failures": discovery_nonasserted_hygiene["failures"],
@@ -9657,6 +10147,15 @@ def cmd_audit(args: argparse.Namespace) -> int:
                     f"{item['file']}:{item['line']} {item['region']}: "
                     f"{item['reason']}"
                 )
+        radar = payload["discovery_production_radar"]
+        print(
+            "[bedc-ci] discovery radar:"
+            f" candidates={radar['candidate_count']}"
+            f" refuted={radar['refuted_count']}"
+            f" assertion_eligible={radar['assertion_eligible_count']}"
+            f" conjectured={radar['conjectured_count']}"
+            " (informational, surface-and-rank only)"
+        )
         hygiene = payload["discovery_nonasserted_hygiene"]
         if hygiene["site_count"] or hygiene["failure_count"]:
             print(
