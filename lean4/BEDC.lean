@@ -1661,6 +1661,7 @@ import BEDC.Derived.CauchyOscillationUp.RootUnblockRoute
 import BEDC.Derived.CauchyOscillationUp.RootWindowLock
 import BEDC.Derived.CauchyOscillationUp.SharedDyadicWindowScope
 import BEDC.Derived.CauchyOscillationUp.TailModulusComparisonObligation
+import BEDC.Derived.CauchyOscillationUp.TailWindowCofinality
 import BEDC.Derived.CauchyOscillationUp.UniformCriterionConsumer
 import BEDC.Derived.CauchyOscillationUp.UniformCriterionHandoff
 import BEDC.Derived.CauchyPairingUp
