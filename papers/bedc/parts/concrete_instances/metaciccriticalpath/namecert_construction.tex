@@ -694,6 +694,18 @@ Finally use discharge-socket coverage and obstruction-socket separation, \autore
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPublicExport}
 
+\begin{theorem}[MetaCIC critical-path candidate ledger public boundary]
+\label{thm:metacic-critical-path-candidate-ledger-public-boundary}
+Every public candidate-ledger read of an accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$ must pass through the L10 four-object exit rows already listed for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The ledger may expose CandidateMediatedSN, CandidateSNConfluenceBoundary, FiniteObservationConfluence, MetaCICNormalizationFrontier, SubjectReductionDischargeSocket, and the carrier route $S,N,O,U,D,H,C,P,L$, but it cannot claim global strong normalization, full confluence, global decidability, closed subject reduction, closed consistency, discharge of $D$, or Lean verification.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and read the public export theorem \autoref{thm:metacic-critical-path-public-export}. The export surface is already the finite candidate-mediated route through the carrier rows and the visible subject-reduction socket.
+
+Now project the L10 exit budget from \autoref{thm:metacic-critical-path-l10-four-object-exit-certificate}. Any public candidate-ledger read must pass through the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows before it reaches a downstream consumer.
+
+The two projections compose without adding theorem content. The candidate ledger records readiness rows and visible sockets over the four-object exit surface, while the excluded global SN, confluence, decidability, subject-reduction, consistency, socket-discharge, and Lean-verification claims remain outside the carrier.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path public consumer surface]
 \label{thm:metacic-critical-path-public-consumer-surface}
 Every public consumer of the $\MetaCICCriticalPathUp$ critical path must route through CandidateMediatedSN, CandidateSNConfluenceBoundary, FiniteObservationConfluence, MetaCICNormalizationFrontier, SubjectReductionDischargeSocket, and the carrier rows

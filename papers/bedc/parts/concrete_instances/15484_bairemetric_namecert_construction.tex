@@ -50,6 +50,40 @@ Ultrametric compatibility is read from $U$. Since the controlling radius is dete
 The structural rows $H,C,P,N$ transport, replay, source, and name only those coordinates. Hence no completed stream, quotient equality of infinite names, host real metric, countable-choice selector, or external topological datum can appear as a NameCert obligation.
 \end{proof}
 
+\begin{theorem}[BaireMetric root observation carrier]
+\label{thm:bairemetric-root-observation-carrier}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ root packet. Every root observation of $M$ is carried by finite $\BHist$ prefix windows: the consumer first reads the $\StreamNameUp$ schedule $S$, then the displayed prefix packet $B$, the finite first-disagreement window $W$, and the $\DyadicRatCoreUp$ radius row $D$, before any $\MetricSpaceUp$ row $R$, $\UltrametricSpaceUp$ row $U$, $\hsame$ transport $H$, $\Cont$ replay $C$, provenance row $P$, or local $\NameCert$ row $N$ is available. No root observation asserts equality of completed streams.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bairemetric-prefix-distance-carrier}. The only observation source is the finite prefix surface $S,B,W,D$, with $W$ recording inspected $\BHist$ prefix data and the displayed first-disagreement branch.
+
+The parent $\MetricSpaceUp$ and $\UltrametricSpaceUp$ rows are downstream of that prefix surface. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so a root observation has no coordinate from which to read completed-stream equality.
+\end{proof}
+
+\begin{theorem}[BaireMetric ultrametric window stability]
+\label{thm:bairemetric-ultrametric-window-stability}
+For an accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$, extending a scheduled finite $\BHist$ prefix window through the same $\StreamNameUp$ row preserves the ultrametric comparison route. The $\DyadicRatCoreUp$ radius row remains read from the displayed first-disagreement window, the parent $\MetricSpaceUp$ row $R$ and $\UltrametricSpaceUp$ row $U$ consume that same radius data, and $\hsame$ transport with $\Cont$ replay preserves the local $\NameCert$ surface. The extension never supplies a completed-stream equality claim.
+\end{theorem}
+\begin{proof}
+Start with a scheduled prefix read. By \autoref{thm:bairemetric-root-observation-carrier}, the read exposes only the finite window route $S,B,W,D$ before the parent metric and ultrametric rows are consumed.
+
+When the window is extended through the same schedule, the displayed first-disagreement branch is either preserved or moved to a later inspected coordinate. In both cases the dyadic radius is still read from $D$ and from no other source.
+
+The rows $R$ and $U$ consume that radius after the prefix window has been displayed. Componentwise $\hsame$ transport and $\Cont$ replay keep the route on the same carrier coordinates, while the local $\NameCert$ row names only that finite surface.
+\end{proof}
+
+\begin{theorem}[BaireMetric NameCert obligation surface]
+\label{thm:bairemetric-namecert-obligation-surface}
+Every root-level $\NameCert_{\BaireMetricUp}$ obligation for an accepted packet $M=(B,W,D,R,U,S,H,C,P,N)$ is exhausted by finite $\BHist$ prefix-window admission, $\StreamNameUp$ scheduling, $\DyadicRatCoreUp$ radius exactness, parent $\MetricSpaceUp$ compatibility, $\UltrametricSpaceUp$ strong-triangle compatibility, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No additional obligation asserts completed-stream equality, quotient equality of Baire names, a host real-valued metric, or external topology.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:bairemetric-namecert-obligations}. The carrier admission, prefix-distance admission, metric compatibility, ultrametric compatibility, and ledger refusal rows list the entire obligation surface.
+
+Use \autoref{thm:bairemetric-root-observation-carrier} to identify the root observation source with finite $\BHist$ prefix windows scheduled by $\StreamNameUp$ and measured by the $\DyadicRatCoreUp$ row. Then use \autoref{thm:bairemetric-ultrametric-window-stability} to keep parent metric and ultrametric consumers on the same finite route under window extension.
+
+The remaining rows are structural: $\hsame$ transports the displayed coordinates, $\Cont$ replays them, $\Pkg$ records provenance, and the local $\NameCert$ row names them. Since the carrier has no other coordinate, completed-stream equality and external metric data are outside the obligation surface.
+\end{proof}
+
 \begin{theorem}[BaireMetric prefix-window admission]
 \label{thm:bairemetric-prefix-window-admission}
 Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ carrier. Every accepted distance read admits a finite prefix window: before the dyadic radius row is inspected, the continuation row displays a $\StreamNameUp$ schedule $S$, an accepted $\BaireSpaceUp$ prefix packet $B$, and a $\NatUp$ window $W$ that records the inspected length and the equality rows below the first displayed separation.
