@@ -13,7 +13,13 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     markdown_artifacts = [spec.markdown_artifact for spec in canonical.CANONICAL_REPORTS]
 
     assert len(names) == len(set(names))
-    assert names == ["gap-head-on-h", "gap-head-discovery", "nongaussian-distribution-sweep"]
+    assert names == [
+        "gap-head-on-h",
+        "gap-head-discovery",
+        "nongaussian-distribution-sweep",
+        "certificate-guided-training",
+        "certificate-guided-discovery",
+    ]
     assert len(json_artifacts) == len(set(json_artifacts))
     assert len(markdown_artifacts) == len(set(markdown_artifacts))
     for spec in canonical.CANONICAL_REPORTS:
@@ -68,6 +74,24 @@ def test_canonical_reports_manifest_includes_distribution_sweep():
     }.issubset(set(spec.required_json_keys))
 
 
+def test_canonical_reports_manifest_includes_certificate_guided_projection():
+    training = canonical._specs_by_name()["certificate-guided-training"]
+    discovery = canonical._specs_by_name()["certificate-guided-discovery"]
+
+    assert training.command == ("python3", "scripts/run_certificate_guided_training.py")
+    assert training.json_artifact == "reports/canonical/certificate-guided-training.json"
+    assert training.markdown_artifact == "reports/canonical/certificate-guided-training.md"
+    assert discovery.command == ("python3", "scripts/run_certificate_guided_discovery.py")
+    assert discovery.json_artifact == "reports/canonical/certificate-guided-discovery.json"
+    assert discovery.markdown_artifact == "reports/canonical/certificate-guided-discovery.md"
+    assert {
+        "positive_discovery",
+        "net_information",
+        "matched_random_baseline",
+        "main_claim_status",
+    }.issubset(set(discovery.required_json_keys))
+
+
 def test_manifest_required_keys_cover_linked_control_evidence():
     for spec in canonical.CANONICAL_REPORTS:
         keys = set(spec.required_json_keys)
@@ -81,6 +105,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
     )
     assert {"claim_gate", "negative_result_ledger", "main_claim_status"}.issubset(
         set(canonical._specs_by_name()["nongaussian-distribution-sweep"].required_json_keys)
+    )
+    assert {"positive_discovery", "net_information", "matched_random_baseline", "main_claim_status"}.issubset(
+        set(canonical._specs_by_name()["certificate-guided-discovery"].required_json_keys)
     )
 
 
@@ -220,6 +247,12 @@ def test_index_markdown_lists_gap_head_reports():
                 "json_artifact": "reports/canonical/gap-head-discovery.json",
                 "markdown_artifact": "reports/canonical/gap-head-discovery.md",
             },
+            {
+                "name": "certificate-guided-discovery",
+                "status": "pass",
+                "json_artifact": "reports/canonical/certificate-guided-discovery.json",
+                "markdown_artifact": "reports/canonical/certificate-guided-discovery.md",
+            },
         ]
     )
     markdown = canonical._render_index_markdown(payload)
@@ -227,3 +260,4 @@ def test_index_markdown_lists_gap_head_reports():
     assert "gap-head-on-h" in markdown
     assert "gap-head-discovery" in markdown
     assert "nongaussian-distribution-sweep" in markdown
+    assert "certificate-guided-discovery" in markdown

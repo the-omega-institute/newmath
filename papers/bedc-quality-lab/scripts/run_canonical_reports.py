@@ -94,6 +94,38 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         ),
         estimated_seconds=20,
     ),
+    CanonicalReportSpec(
+        name="certificate-guided-training",
+        command=("python3", "scripts/run_certificate_guided_training.py"),
+        json_artifact="reports/canonical/certificate-guided-training.json",
+        markdown_artifact="reports/canonical/certificate-guided-training.md",
+        required_json_keys=(
+            "generated_at",
+            "cost_protocol",
+            "source_artifacts",
+            "objective",
+            "records",
+            "deltas",
+            "result",
+        ),
+        estimated_seconds=20,
+    ),
+    CanonicalReportSpec(
+        name="certificate-guided-discovery",
+        command=("python3", "scripts/run_certificate_guided_discovery.py"),
+        json_artifact="reports/canonical/certificate-guided-discovery.json",
+        markdown_artifact="reports/canonical/certificate-guided-discovery.md",
+        required_json_keys=(
+            "generated_at",
+            "source_artifacts",
+            "verdicts",
+            "positive_discovery",
+            "net_information",
+            "matched_random_baseline",
+            "main_claim_status",
+        ),
+        estimated_seconds=5,
+    ),
 )
 
 
@@ -142,6 +174,9 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
     _set_existing_attr(module, "USE_TORCH", False)
     if spec.name == "gap-head-discovery":
         _set_existing_attr(module, "SOURCE_JSON_ARTIFACT", "reports/canonical/gap-head-on-h.json")
+    if spec.name == "certificate-guided-discovery":
+        _set_existing_attr(module, "SOURCE_JSON_ARTIFACT", "reports/canonical/certificate-guided-training.json")
+        _set_existing_attr(module, "SOURCE_REPORT_ARTIFACT", "reports/canonical/certificate-guided-training.md")
 
 
 def _run_producer(spec: CanonicalReportSpec) -> None:

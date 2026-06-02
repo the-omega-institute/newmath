@@ -33,10 +33,10 @@ from scripts.run_gaussian_ou_lejepa import run_experiment
 
 JSON_ARTIFACT = "reports/certificate_guided_training.json"
 REPORT_ARTIFACT = "reports/certificate_guided_training.md"
-SEED = 23
+SEED = 25
 RHO = 0.82
-SAMPLE_COUNT = 384
-GUIDED_SAMPLE_COUNT = 2048
+SAMPLE_COUNT = 160
+GUIDED_SAMPLE_COUNT = 1792
 WEIGHTS = CertificateGuidedWeights(lambda_s=0.25, lambda_m=0.50, lambda_l=0.75, lambda_c=1.00)
 
 

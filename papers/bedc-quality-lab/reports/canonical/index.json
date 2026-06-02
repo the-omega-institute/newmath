@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-02T12:23:34.611784+00:00",
+  "generated_at": "2026-06-02T13:02:19.732668+00:00",
   "reports": [
     {
-      "duration_seconds": 2.397,
+      "duration_seconds": 2.203,
       "estimated_seconds": 90,
       "json_artifact": "reports/canonical/gap-head-on-h.json",
       "markdown_artifact": "reports/canonical/gap-head-on-h.md",
@@ -38,7 +38,7 @@
       }
     },
     {
-      "duration_seconds": 0.008,
+      "duration_seconds": 0.01,
       "estimated_seconds": 5,
       "json_artifact": "reports/canonical/gap-head-discovery.json",
       "markdown_artifact": "reports/canonical/gap-head-discovery.md",
@@ -69,7 +69,7 @@
       }
     },
     {
-      "duration_seconds": 0.04,
+      "duration_seconds": 0.038,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/nongaussian-distribution-sweep.json",
       "markdown_artifact": "reports/canonical/nongaussian-distribution-sweep.md",
@@ -92,6 +92,64 @@
           "main_claim_status",
           "negative_result_ledger",
           "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "duration_seconds": 1.173,
+      "estimated_seconds": 20,
+      "json_artifact": "reports/canonical/certificate-guided-training.json",
+      "markdown_artifact": "reports/canonical/certificate-guided-training.md",
+      "name": "certificate-guided-training",
+      "producer_command": [
+        "python3",
+        "scripts/run_certificate_guided_training.py"
+      ],
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "generated_at",
+          "cost_protocol",
+          "source_artifacts",
+          "objective",
+          "records",
+          "deltas",
+          "result"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "duration_seconds": 0.001,
+      "estimated_seconds": 5,
+      "json_artifact": "reports/canonical/certificate-guided-discovery.json",
+      "markdown_artifact": "reports/canonical/certificate-guided-discovery.md",
+      "name": "certificate-guided-discovery",
+      "producer_command": [
+        "python3",
+        "scripts/run_certificate_guided_discovery.py"
+      ],
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "generated_at",
+          "source_artifacts",
+          "verdicts",
+          "positive_discovery",
+          "net_information",
+          "matched_random_baseline",
+          "main_claim_status"
         ],
         "required_key_validation": {
           "missing_keys": [],
