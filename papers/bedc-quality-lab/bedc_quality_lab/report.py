@@ -6,7 +6,7 @@ from pathlib import Path
 
 from .cost_protocol import CostProtocol, format_cost_protocol_lines, load_cost_protocol
 from .schema import QualityEvidenceEnvelope
-from .tensor_namecert_candidate import from_quality_evidence_envelope
+from .tensor_namecert_candidate import closure_status_rows, from_quality_evidence_envelope
 
 
 _IDENTIFIABILITY_BOUND_KEYS = (
@@ -43,17 +43,19 @@ def render_quality_report(envelope: QualityEvidenceEnvelope, protocol: CostProto
         "",
         f"- Candidate：`{candidate.name}`",
         f"- Evidence envelope：`{candidate.evidence_envelope_ref['schema_id']}:{candidate.evidence_envelope_ref['run_id']}`",
-        f"- `source_spec` lab-local candidate closure：`{candidate.closure_status['source_spec']}`",
-        f"- `pattern_spec` lab-local candidate closure：`{candidate.closure_status['pattern_spec']}`",
-        f"- `classifier_spec` lab-local candidate closure：`{candidate.closure_status['classifier_spec']}`",
-        f"- `stab_cert` stability lab-local candidate closure：`{candidate.closure_status['stab_cert']}`",
-        f"- `ledger_policy` lab-local candidate closure：`{candidate.closure_status['ledger_policy']}`",
-        f"- `scope_seal` lab-local candidate closure：`{candidate.closure_status['scope_seal']}`",
-        f"- Scope seal：`{candidate.scope_seal['boundary']}`",
-        "",
-        "## 指标",
-        "",
     ]
+    for field, level, provenance in closure_status_rows(candidate):
+        lines.append(
+            f"- `{field}` lab-local candidate closure：`{level}` "
+            f"(provenance: `{provenance}`)"
+        )
+    lines.extend(
+        [
+            f"- Scope seal：`{candidate.scope_seal['boundary']}`",
+            "",
+        ]
+    )
+    lines.extend(["## 指标", ""])
     quality_keys = [key for key in sorted(metrics) if key.startswith("quality_")]
     bound_keys = [key for key in _IDENTIFIABILITY_BOUND_KEYS if key in metrics]
     for key in sorted(metrics):

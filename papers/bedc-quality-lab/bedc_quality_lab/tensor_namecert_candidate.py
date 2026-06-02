@@ -8,14 +8,6 @@ from typing import Any, Mapping
 
 from .schema import QualityEvidenceEnvelope
 
-
-_RAW_TO_CLOSURE = {
-    "missing": "warning",
-    "weak": "partial",
-    "sufficient": "closed",
-    "unused": "none",
-}
-
 _STATUS_KEYS = (
     "status",
     "cert_status",
@@ -23,23 +15,9 @@ _STATUS_KEYS = (
     "verification_status",
 )
 
-_SUFFICIENT_STATUS = {
-    "certified",
+_CLOSED_STATUS = {
     "closed",
-    "complete",
-    "kernel-checked",
-    "ok",
-    "passed",
     "sufficient",
-    "verified",
-}
-
-_UNUSED_STATUS = {
-    "absent",
-    "n/a",
-    "none",
-    "not-applicable",
-    "unused",
 }
 
 
@@ -82,14 +60,15 @@ def from_quality_evidence_envelope(envelope: QualityEvidenceEnvelope) -> TensorN
         "run_id": envelope.run_id,
     }
 
-    closure_status = {
-        "source_spec": _spec_closure(source_spec),
-        "pattern_spec": _spec_closure(pattern_spec),
-        "classifier_spec": _spec_closure(classifier_spec),
-        "stab_cert": _spec_closure(stab_cert),
-        "ledger_policy": _ledger_closure(ledger_policy),
-        "scope_seal": _closure_label("sufficient"),
-    }
+    closure_rows = _candidate_closure_rows(
+        source_spec,
+        pattern_spec,
+        classifier_spec,
+        stab_cert,
+        ledger_policy,
+        scope_seal,
+    )
+    closure_status = {field: level for field, level, _provenance in closure_rows}
 
     return TensorNameCertCandidate(
         name=f"TensorNameCertCandidate:{envelope.run_id}",
@@ -124,40 +103,124 @@ def _scope_seal_from_envelope(envelope: QualityEvidenceEnvelope) -> dict[str, An
         "source": envelope.schema_id,
         "formal_bedc_certificate": False,
         "candidate_json_artifact": False,
+        "bedc_closurestatus": False,
+        "evidence_envelope_schema_extension": False,
+        "not_claimed": [
+            "not a formal BEDC NameCert",
+            "not a BEDC closurestatus",
+            "not an evidence-envelope schema extension",
+        ],
     }
 
 
-def _spec_closure(spec: Mapping[str, Any]) -> str:
+def closure_status_rows(candidate: TensorNameCertCandidate) -> list[tuple[str, str, str]]:
+    return _candidate_closure_rows(
+        candidate.source_spec,
+        candidate.pattern_spec,
+        candidate.classifier_spec,
+        candidate.stab_cert,
+        candidate.ledger_policy,
+        candidate.scope_seal,
+    )
+
+
+def _candidate_closure_rows(
+    source_spec: Mapping[str, Any],
+    pattern_spec: Mapping[str, Any],
+    classifier_spec: Mapping[str, Any],
+    stab_cert: Mapping[str, Any],
+    ledger_policy: Mapping[str, Any],
+    scope_seal: Mapping[str, Any],
+) -> list[tuple[str, str, str]]:
+    return [
+        _spec_closure_row("source_spec", source_spec),
+        _spec_closure_row("pattern_spec", pattern_spec),
+        _spec_closure_row("classifier_spec", classifier_spec),
+        _spec_closure_row("stab_cert", stab_cert),
+        _ledger_closure_row(ledger_policy),
+        _scope_seal_closure_row(scope_seal),
+    ]
+
+
+def _spec_closure_row(field: str, spec: Mapping[str, Any]) -> tuple[str, str, str]:
     if not _has_required_name(spec):
-        return _closure_label("missing")
+        return (field, "missing", "missing_name")
+
+    if _has_critical_gaps(spec):
+        return (field, "partial", "critical_gaps")
 
     status = _explicit_status(spec)
     if status is None:
-        return _closure_label("sufficient")
-    if status in _UNUSED_STATUS:
-        return _closure_label("unused")
-    if status in _SUFFICIENT_STATUS:
-        return _closure_label("sufficient")
-    return _closure_label("weak")
+        return (field, "present", "name_only")
+    if status in _CLOSED_STATUS:
+        return (field, "closed", "explicit_status")
+    return (field, "partial", "explicit_status")
 
 
-def _ledger_closure(ledger_policy: Mapping[str, Any]) -> str:
+def _ledger_closure_row(ledger_policy: Mapping[str, Any]) -> tuple[str, str, str]:
+    if "ledger_gaps" not in ledger_policy or "debt_items" not in ledger_policy:
+        return ("ledger_policy", "missing", "missing_ledger_policy")
+
+    if _has_critical_gaps(ledger_policy):
+        return ("ledger_policy", "partial", "critical_gaps")
+
     rows = [
         *ledger_policy.get("ledger_gaps", []),
         *ledger_policy.get("debt_items", []),
     ]
     if not rows:
-        return _closure_label("unused")
+        return ("ledger_policy", "present", "explicit_empty_ledger_policy")
 
     row_statuses = [_status_from_ledger_row(row) for row in rows]
-    if row_statuses and all(status in _SUFFICIENT_STATUS for status in row_statuses):
-        return _closure_label("sufficient")
-    return _closure_label("weak")
+    if row_statuses and all(status in _CLOSED_STATUS for status in row_statuses):
+        return ("ledger_policy", "closed", "explicit_closed_ledger_rows")
+    return ("ledger_policy", "partial", "open_ledger_rows")
+
+
+def _scope_seal_closure_row(scope_seal: Mapping[str, Any]) -> tuple[str, str, str]:
+    level = _scope_seal_closure(scope_seal)
+    if level == "partial" and not _has_scope_boundary(scope_seal):
+        return ("scope_seal", "partial", "missing_scope_boundary")
+    if level == "partial":
+        return ("scope_seal", "partial", "missing_not_claimed")
+    return ("scope_seal", "closed", "explicit_scope_seal")
+
+
+def _scope_seal_closure(scope_seal: Mapping[str, Any]) -> str:
+    if not _has_scope_boundary(scope_seal):
+        return "partial"
+    if not _has_nonempty_value(scope_seal.get("not_claimed")):
+        return "partial"
+    return "closed"
 
 
 def _has_required_name(spec: Mapping[str, Any]) -> bool:
     name = spec.get("name")
     return isinstance(name, str) and bool(name.strip())
+
+
+def _has_critical_gaps(mapping: Mapping[str, Any]) -> bool:
+    return _has_nonempty_value(mapping.get("critical_gaps"))
+
+
+def _has_nonempty_value(value: Any) -> bool:
+    if isinstance(value, str):
+        return bool(value.strip())
+    if isinstance(value, (list, tuple, set, dict)):
+        return bool(value)
+    return value is not None and bool(value)
+
+
+def _has_scope_boundary(scope_seal: Mapping[str, Any]) -> bool:
+    return (
+        scope_seal.get("boundary") == "lab-local candidate projection"
+        and isinstance(scope_seal.get("source"), str)
+        and bool(scope_seal.get("source", "").strip())
+        and scope_seal.get("formal_bedc_certificate") is False
+        and scope_seal.get("candidate_json_artifact") is False
+        and scope_seal.get("bedc_closurestatus") is False
+        and scope_seal.get("evidence_envelope_schema_extension") is False
+    )
 
 
 def _explicit_status(spec: Mapping[str, Any]) -> str | None:
@@ -177,7 +240,3 @@ def _status_from_ledger_row(row: Any) -> str:
             value = part.removeprefix("status=").strip().lower()
             return value if value else "weak"
     return "weak"
-
-
-def _closure_label(raw_status: str) -> str:
-    return _RAW_TO_CLOSURE[raw_status]

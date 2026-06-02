@@ -4,6 +4,7 @@ import bedc_quality_lab
 from bedc_quality_lab.schema import SCHEMA_ID, QualityEvidenceEnvelope
 from bedc_quality_lab.tensor_namecert_candidate import (
     TensorNameCertCandidate,
+    closure_status_rows,
     from_quality_evidence_envelope,
 )
 
@@ -49,9 +50,9 @@ def test_tensor_namecert_candidate_projects_envelope_specs():
     }
     assert candidate.closure_status == {
         "source_spec": "closed",
-        "pattern_spec": "closed",
-        "classifier_spec": "closed",
-        "stab_cert": "closed",
+        "pattern_spec": "present",
+        "classifier_spec": "partial",
+        "stab_cert": "present",
         "ledger_policy": "closed",
         "scope_seal": "closed",
     }
@@ -65,9 +66,9 @@ def test_tensor_namecert_candidate_missing_fields_warn_without_parse_failure():
 
     candidate = TensorNameCertCandidate.from_quality_evidence_envelope(envelope)
 
-    assert candidate.closure_status["source_spec"] == "warning"
-    assert candidate.closure_status["stab_cert"] == "warning"
-    assert candidate.closure_status["pattern_spec"] == "closed"
+    assert candidate.closure_status["source_spec"] == "missing"
+    assert candidate.closure_status["stab_cert"] == "missing"
+    assert candidate.closure_status["pattern_spec"] == "present"
 
 
 def test_tensor_namecert_candidate_weak_classifier_cert_is_partial():
@@ -83,12 +84,12 @@ def test_tensor_namecert_candidate_weak_classifier_cert_is_partial():
     assert candidate.closure_status["ledger_policy"] == "partial"
 
 
-def test_tensor_namecert_candidate_unused_ledger_maps_to_none():
+def test_tensor_namecert_candidate_empty_ledger_maps_to_present():
     envelope = make_envelope(ledger_gaps=[], debt_items=[])
 
     candidate = from_quality_evidence_envelope(envelope)
 
-    assert candidate.closure_status["ledger_policy"] == "none"
+    assert candidate.closure_status["ledger_policy"] == "present"
     assert candidate.ledger_policy["active_gap_count"] == 0
     assert candidate.ledger_policy["debt_item_count"] == 0
 
@@ -104,6 +105,9 @@ def test_tensor_namecert_candidate_to_dict_is_json_ready():
         "schema_id": SCHEMA_ID,
         "run_id": "candidate-test",
     }
+    assert isinstance(data["closure_status"]["source_spec"], str)
+    assert data["closure_status"]["source_spec"] == "closed"
+    assert not isinstance(data["closure_status"]["source_spec"], dict)
     assert "schema_id" not in data
 
 
@@ -115,3 +119,19 @@ def test_tensor_namecert_candidate_stays_package_local_and_candidate_only():
     assert "TensorNameCert:" not in candidate.name
     assert candidate.scope_seal["formal_bedc_certificate"] is False
     assert candidate.scope_seal["candidate_json_artifact"] is False
+    assert candidate.scope_seal["bedc_closurestatus"] is False
+    assert candidate.scope_seal["evidence_envelope_schema_extension"] is False
+    assert candidate.scope_seal["not_claimed"]
+
+
+def test_closure_status_rows_provide_report_provenance():
+    candidate = from_quality_evidence_envelope(make_envelope(ledger_gaps=[], debt_items=[]))
+
+    rows = closure_status_rows(candidate)
+    row_map = {field: (level, provenance) for field, level, provenance in rows}
+
+    assert len(rows) == 6
+    assert row_map["source_spec"] == ("closed", "explicit_status")
+    assert row_map["pattern_spec"] == ("present", "name_only")
+    assert row_map["ledger_policy"] == ("present", "explicit_empty_ledger_policy")
+    assert candidate.to_dict()["closure_status"]["pattern_spec"] == "present"

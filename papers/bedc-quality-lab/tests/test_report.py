@@ -55,12 +55,13 @@ def test_report_includes_tensor_namecert_candidate_section():
     assert "## Tensor NameCert Candidate" in report
     assert "TensorNameCertCandidate:candidate-report-test" in report
     assert "bedc-quality-lab:evidence-envelope:candidate-report-test" in report
-    assert "`source_spec` lab-local candidate closure：`closed`" in report
-    assert "`pattern_spec` lab-local candidate closure：`closed`" in report
+    assert "`source_spec` lab-local candidate closure：`present` (provenance: `name_only`)" in report
+    assert "`pattern_spec` lab-local candidate closure：`present` (provenance: `name_only`)" in report
     assert "`classifier_spec` lab-local candidate closure：`partial`" in report
-    assert "`stab_cert` stability lab-local candidate closure：`closed`" in report
-    assert "`ledger_policy` lab-local candidate closure：`none`" in report
-    assert "`scope_seal` lab-local candidate closure：`closed`" in report
+    assert "(provenance: `explicit_status`)" in report
+    assert "`stab_cert` lab-local candidate closure：`present` (provenance: `name_only`)" in report
+    assert "`ledger_policy` lab-local candidate closure：`present` (provenance: `explicit_empty_ledger_policy`)" in report
+    assert "`scope_seal` lab-local candidate closure：`closed` (provenance: `explicit_scope_seal`)" in report
     assert "lab-local candidate projection" in report
 
 
