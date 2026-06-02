@@ -64,6 +64,24 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         ),
         estimated_seconds=30,
     ),
+    CanonicalReportSpec(
+        name="spectral-ablation-hinge",
+        command=("python3", "scripts/run_spectral_ablation_hinge.py"),
+        json_artifact="reports/canonical/spectral-ablation-hinge.json",
+        markdown_artifact="reports/canonical/spectral-ablation-hinge.md",
+        required_json_keys=(
+            "generated_at",
+            "config",
+            "source_artifacts",
+            "arms",
+            "hinge_ledger",
+            "rank_correlation",
+            "negative_control_summary",
+            "ledger_summary",
+            "applicability_boundary",
+        ),
+        estimated_seconds=30,
+    ),
 )
 
 

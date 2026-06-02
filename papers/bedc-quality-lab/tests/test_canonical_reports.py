@@ -23,15 +23,35 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         assert spec.required_json_keys
 
 
+def test_spectral_ablation_hinge_manifest_row_is_canonical_and_keyed():
+    spec = canonical._specs_by_name()["spectral-ablation-hinge"]
+
+    assert spec.command == ("python3", "scripts/run_spectral_ablation_hinge.py")
+    assert spec.json_artifact == "reports/canonical/spectral-ablation-hinge.json"
+    assert spec.markdown_artifact == "reports/canonical/spectral-ablation-hinge.md"
+    assert set(spec.required_json_keys) == {
+        "generated_at",
+        "config",
+        "source_artifacts",
+        "arms",
+        "hinge_ledger",
+        "rank_correlation",
+        "negative_control_summary",
+        "ledger_summary",
+        "applicability_boundary",
+    }
+    assert spec.estimated_seconds >= 20
+
+
 def test_artifact_path_rejects_non_canonical_paths():
     with pytest.raises(ValueError):
         canonical._artifact_path("reports/not-canonical.json")
 
 
 def test_only_selects_one_manifest_row_and_rejects_unknown():
-    selected = canonical._select_specs("mixing-family-sweep")
+    selected = canonical._select_specs("spectral-ablation-hinge")
 
-    assert [spec.name for spec in selected] == ["mixing-family-sweep"]
+    assert [spec.name for spec in selected] == ["spectral-ablation-hinge"]
     with pytest.raises(ValueError):
         canonical._select_specs("missing")
 
