@@ -62,6 +62,27 @@ def test_compression_verdict_covers_no_surface_delta_case():
     assert row["net_information"] == pytest.approx(0.0)
     assert row["verdict"] == "compression"
 
+def test_positive_verdict_when_projected_claim_has_positive_net_information():
+    payload = copy.deepcopy(_payload())
+    before = next(record for record in payload["records"] if record["role"] == runner.BEFORE_ROLE)
+    after = next(record for record in payload["records"] if record["role"] == runner.AFTER_ROLE)
+    for name in runner.METRIC_NAMES:
+        after[name] = before[name] + 0.25
+    payload["deltas"]["after_minus_before"]["benefit_delta"] = 5.0
+    payload["deltas"]["after_minus_before"]["cost_delta"] = 0.0
+    payload["deltas"]["after_minus_before"]["debt_delta"] = -1.0
+
+    projection = runner._project_pair(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE)
+    claim = projection["claim"]
+    assert positive_discovery(claim) is True
+    assert net_information(claim) > 0.0
+
+    row = runner._verdict_payload(payload)["verdicts"][0]
+    assert row["positive_discovery"] is True
+    assert row["net_information"] > 0.0
+    assert row["verdict"] == "positive"
+    _assert_row_matches_predicates(payload, row)
+
 def test_payload_uses_pointer_fields_without_schema_kind_fields():
     report = runner._verdict_payload(_payload())
 
