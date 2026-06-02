@@ -2315,6 +2315,7 @@ import BEDC.Derived.CompactOpenMetricUp
 import BEDC.Derived.CompactOpenMetricUp.TasteGate
 import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.TasteGate
+import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
 import BEDC.Derived.CompactTotallyBoundedUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityModulusUp.TasteGate
 import BEDC.Derived.CompactUniformContinuitySchemeUp.TasteGate
@@ -6951,6 +6952,7 @@ import BEDC.Derived.RegularCauchyScaleUp.UnitScalarBoundary
 import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySeparationUp.ModulusBoundary
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
+import BEDC.Derived.RegularCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.RegularCauchySequenceUp
 import BEDC.Derived.RegularCauchySequentialCompletenessUp.TasteGate
 import BEDC.Derived.RegularCauchyShiftEquivalenceUp.TasteGate
@@ -7491,6 +7493,7 @@ import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.SternBrocotApproximationUp.TasteGate
 import BEDC.Derived.SternBrocotIntervalUp.TasteGate
 import BEDC.Derived.SternBrocotUp.TasteGate
+import BEDC.Derived.StieltjesMeasureBoundaryUp.TasteGate
 import BEDC.Derived.StolzCesaroUp.TasteGate
 import BEDC.Derived.StoneCechCompactificationUp.TasteGate
 import BEDC.Derived.StoneDualityUp
