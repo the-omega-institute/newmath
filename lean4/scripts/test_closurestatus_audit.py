@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import sys
 import unittest
+import json
 from contextlib import redirect_stdout
 from io import StringIO
 from pathlib import Path
@@ -31,6 +32,7 @@ from bedc_ci import (  # type: ignore[import-not-found]
     diagnose_closurestatus_open_fields,
     discovery_integrity_payload,
     discovery_assert_gate_payload,
+    load_discovery_gate_witnesses,
     discovery_audit_payload,
     discovery_nonasserted_hygiene_payload,
     discovery_production_radar_payload,
@@ -757,6 +759,136 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(payload["asserted_count"], 0)
         self.assertEqual(payload["failure_count"], 0)
         self.assertEqual(payload["conjectured_count"], 1)
+
+    def _assert_gate_fixture(self, target: str = "BEDC.Target.Gate") -> tuple[dict, LeanSourceScan, KernelAssertionCheck]:
+        block = self._block(
+            open_fields={
+                "closureclaimkind": "positiveDiscovery",
+                "closuregate": target,
+                "closureledger": "ledger",
+                "closureclassifierincrement": "1",
+                "closurenamecert": "namecert",
+                "closureweightprofile": "weight",
+            },
+            scopeclosed="local scope",
+            has_scope=True,
+        )
+        headers = {target: "def Gate : PositiveDiscovery Foo :="}
+        bodies = {target: "def Gate : PositiveDiscovery Foo := witness"}
+        decls = [DeclarationRecord("BEDC.Target", "lean4/BEDC/Target.lean", 1, "def", "Gate", target)]
+        scan = LeanSourceScan(decls, [], headers, bodies, [])
+        kernel = KernelAssertionCheck(
+            target=target,
+            module="BEDC.Target",
+            module_reachable=True,
+            olean_exists=True,
+            check_ok=True,
+            axioms_parsed=True,
+            axioms=(),
+            forbidden_axioms=(),
+            returncode=0,
+        )
+        return block, scan, kernel
+
+    def test_discovery_gate_empty_witness_registry_does_not_add_gate(self) -> None:
+        target = "BEDC.Target.Gate"
+        block, scan, kernel = self._assert_gate_fixture(target)
+        with patch("bedc_ci._kernel_assertion_checks", return_value={target: kernel}), \
+                patch("bedc_ci.load_discovery_gate_witnesses", return_value=([], [])):
+            payload = discovery_assert_gate_payload(
+                [block],
+                scan,
+                {"sites": [], "violations": []},
+                sieve_payload={"targets": []},
+            )
+        site = payload["asserted_sites"][0]
+        self.assertNotIn("W", [gate["gate"] for gate in site["gates"]])
+        self.assertEqual(payload["witness_count"], 0)
+        self.assertEqual(payload["witness_registry_diagnostic_count"], 0)
+
+    def test_discovery_gate_witness_registry_blocks_matching_pseudo(self) -> None:
+        target = "BEDC.Target.Gate"
+        block, scan, kernel = self._assert_gate_fixture(target)
+        witness = {
+            "id": "test-target-reconstruction",
+            "kind": "reconstruction",
+            "pattern": {"target": target},
+            "refutes_because": "test target is a kernel-grounded reconstruction pseudo",
+            "kernel_grounded": True,
+            "provenance": {"source": "unit"},
+            "regression_candidate": target,
+            "added": "2026-06-02T00:00:00",
+        }
+        with patch("bedc_ci._kernel_assertion_checks", return_value={target: kernel}), \
+                patch("bedc_ci.load_discovery_gate_witnesses", return_value=([witness], [])):
+            payload = discovery_assert_gate_payload(
+                [block],
+                scan,
+                {"sites": [], "violations": []},
+                sieve_payload={"targets": []},
+            )
+        site = payload["asserted_sites"][0]
+        w_gate = [gate for gate in site["gates"] if gate["gate"] == "W"][0]
+        self.assertEqual(w_gate["status"], "FAIL")
+        self.assertEqual(site["status"], "FAIL")
+        self.assertIn("W", site["failed_gates"])
+        self.assertEqual(w_gate["details"]["witnesses"][0]["id"], witness["id"])
+
+    def test_discovery_gate_witness_registry_is_monotonic_negative(self) -> None:
+        target = "BEDC.Target.Gate"
+        block, scan, kernel = self._assert_gate_fixture(target)
+        witness = {
+            "id": "test-monotonic-reconstruction",
+            "kind": "reconstruction",
+            "pattern": {"target": target},
+            "refutes_because": "test target is a kernel-grounded reconstruction pseudo",
+            "kernel_grounded": True,
+            "provenance": {"source": "unit"},
+            "regression_candidate": target,
+            "added": "2026-06-02T00:00:00",
+        }
+        with patch("bedc_ci._kernel_assertion_checks", return_value={target: kernel}), \
+                patch("bedc_ci.load_discovery_gate_witnesses", return_value=([], [])):
+            before = discovery_assert_gate_payload(
+                [block],
+                scan,
+                {"sites": [], "violations": []},
+                sieve_payload={"targets": []},
+            )
+        with patch("bedc_ci._kernel_assertion_checks", return_value={target: kernel}), \
+                patch("bedc_ci.load_discovery_gate_witnesses", return_value=([witness], [])):
+            after = discovery_assert_gate_payload(
+                [block],
+                scan,
+                {"sites": [], "violations": []},
+                sieve_payload={"targets": []},
+            )
+        before_keys = {
+            (item["file"], item["line"], item["target"], item["gate"])
+            for item in before["failures"]
+        }
+        after_keys = {
+            (item["file"], item["line"], item["target"], item["gate"])
+            for item in after["failures"]
+        }
+        self.assertTrue(before_keys.issubset(after_keys))
+        self.assertIn(("papers/bedc/parts/x.tex", 10, target, "W"), after_keys)
+
+    def test_discovery_gate_witness_registry_loader_rejects_ungrounded_entries(self) -> None:
+        with TemporaryDirectory() as tmp:
+            path = Path(tmp) / "witnesses.json"
+            path.write_text(json.dumps([{
+                "id": "bad",
+                "kind": "reconstruction",
+                "pattern": {"target": "BEDC.Target.Gate"},
+                "kernel_grounded": False,
+            }]), encoding="utf-8")
+            witnesses, diagnostics = load_discovery_gate_witnesses(path)
+        self.assertEqual(witnesses, [])
+        self.assertEqual(diagnostics[0]["kind"], "ungrounded_discovery_gate_witness")
+
+    # BEGIN DISCOVERY GATE EVOLVER REGRESSION TESTS
+    # END DISCOVERY GATE EVOLVER REGRESSION TESTS
 
     def _radar_payload(
         self,

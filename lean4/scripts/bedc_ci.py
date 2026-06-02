@@ -27,6 +27,7 @@ PAPER_ROOT = REPO_ROOT / "papers" / "bedc"
 PAPER_PARTS_ROOT = PAPER_ROOT / "parts"
 TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
 LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
+DISCOVERY_GATE_WITNESS_REGISTRY_PATH = SCRIPT_DIR / "discovery_gate_witnesses.json"
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -3076,12 +3077,20 @@ DISCOVERY_ASSERT_GATE_RULES = (
     ("G4", "checked disagreement support links to resolved before/after endpoints"),
     ("G5", "not smoke or duplicate evidence"),
     ("G6", "scope is nonempty and sealed"),
+    ("W", "kernel-grounded negative witness registry has no match"),
 )
 
 DISCOVERY_ASSERT_GATE_SEMANTICS = (
     "cheap-negative refutation gate; passing ≠ certified genuine; "
     "conjectured ≠ asserted"
 )
+
+
+def _repo_display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
 
 
 def _assert_gate_item(
@@ -3105,6 +3114,282 @@ def _assert_gate_item(
     if details:
         item["details"] = details
     return item
+
+
+DISCOVERY_GATE_WITNESS_KINDS = {
+    "reconstruction",
+    "trivial_conjunct",
+    "duplicate_classifier",
+    "smoke_template",
+}
+
+DISCOVERY_GATE_WITNESS_PATTERN_KEYS = {
+    "target",
+    "candidate",
+    "candidate_target",
+    "region",
+    "file",
+    "kind",
+    "relation",
+    "reduced_fp",
+    "candidate_reduced_fp",
+    "prior",
+    "prior_classifier",
+    "reason_tag",
+    "reason_tags",
+}
+
+
+def load_discovery_gate_witnesses(
+    path: Path = DISCOVERY_GATE_WITNESS_REGISTRY_PATH,
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Load sound negative discovery witnesses from the data registry."""
+    if not path.exists():
+        return [], []
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return [], [{
+            "file": _repo_display_path(path) if path.is_absolute() else str(path),
+            "line": exc.lineno,
+            "kind": "invalid_discovery_gate_witness_registry_json",
+            "message": f"invalid discovery gate witness registry JSON: {exc.msg}",
+        }]
+    if not isinstance(raw, list):
+        return [], [{
+            "file": _repo_display_path(path) if path.is_absolute() else str(path),
+            "line": 1,
+            "kind": "invalid_discovery_gate_witness_registry_root",
+            "message": "discovery gate witness registry root must be a list",
+        }]
+
+    witnesses: list[dict[str, object]] = []
+    diagnostics: list[dict[str, object]] = []
+    for index, item in enumerate(raw):
+        if not isinstance(item, dict):
+            diagnostics.append({
+                "file": _repo_display_path(path) if path.is_absolute() else str(path),
+                "line": index + 1,
+                "kind": "invalid_discovery_gate_witness",
+                "message": "discovery gate witness entry must be an object",
+            })
+            continue
+        witness_id = str(item.get("id") or "").strip()
+        kind = str(item.get("kind") or "").strip()
+        pattern = item.get("pattern")
+        kernel_grounded = item.get("kernel_grounded")
+        unknown_keys: list[str] = []
+        if isinstance(pattern, dict):
+            unknown_keys = sorted(
+                str(key) for key in pattern
+                if str(key) not in DISCOVERY_GATE_WITNESS_PATTERN_KEYS
+            )
+        if not witness_id:
+            diagnostics.append({
+                "file": _repo_display_path(path) if path.is_absolute() else str(path),
+                "line": index + 1,
+                "kind": "missing_discovery_gate_witness_id",
+                "message": "discovery gate witness lacks id",
+            })
+            continue
+        if kind not in DISCOVERY_GATE_WITNESS_KINDS:
+            diagnostics.append({
+                "file": _repo_display_path(path) if path.is_absolute() else str(path),
+                "line": index + 1,
+                "kind": "invalid_discovery_gate_witness_kind",
+                "message": f"discovery gate witness {witness_id} has unsupported kind {kind}",
+            })
+            continue
+        if kernel_grounded is not True:
+            diagnostics.append({
+                "file": _repo_display_path(path) if path.is_absolute() else str(path),
+                "line": index + 1,
+                "kind": "ungrounded_discovery_gate_witness",
+                "message": f"discovery gate witness {witness_id} is not kernel-grounded",
+            })
+            continue
+        if not isinstance(pattern, dict) or not pattern:
+            diagnostics.append({
+                "file": _repo_display_path(path) if path.is_absolute() else str(path),
+                "line": index + 1,
+                "kind": "invalid_discovery_gate_witness_pattern",
+                "message": f"discovery gate witness {witness_id} lacks a nonempty pattern object",
+            })
+            continue
+        if unknown_keys:
+            diagnostics.append({
+                "file": _repo_display_path(path) if path.is_absolute() else str(path),
+                "line": index + 1,
+                "kind": "unsupported_discovery_gate_witness_pattern",
+                "message": (
+                    f"discovery gate witness {witness_id} uses unsupported pattern keys: "
+                    + ", ".join(unknown_keys)
+                ),
+            })
+            continue
+        witnesses.append(item)
+    return witnesses, diagnostics
+
+
+def _string_set(values: Iterable[object]) -> set[str]:
+    return {str(value).strip() for value in values if str(value).strip()}
+
+
+def _discovery_gate_witness_features(
+    block: dict,
+    target: str,
+    candidate_targets: list[str],
+    sieve_profile: dict[str, object] | None,
+    integrity_site: dict[str, object] | None,
+    integrity_violations: list[dict[str, object]],
+) -> dict[str, set[str]]:
+    open_fields = block.get("open_fields") or {}
+    if not isinstance(open_fields, dict):
+        open_fields = {}
+    profile_data = (sieve_profile or {}).get("sieve_profile") or {}
+    if not isinstance(profile_data, dict):
+        profile_data = {}
+    provenance = (integrity_site or {}).get("provenance", []) or []
+    if not isinstance(provenance, list):
+        provenance = []
+    feature_sets: dict[str, set[str]] = {
+        "target": _string_set([target]),
+        "candidate": _string_set([target]),
+        "candidate_target": _string_set([target, *candidate_targets]),
+        "region": _string_set([f"{block.get('region', '')}Up"]),
+        "file": _string_set([block.get("file", "")]),
+        "kind": set(),
+        "relation": set(),
+        "reduced_fp": set(),
+        "candidate_reduced_fp": set(),
+        "prior": set(),
+        "prior_classifier": set(),
+        "reason_tag": _string_set(profile_data.get("reason_tags", []) or []),
+        "reason_tags": _string_set(profile_data.get("reason_tags", []) or []),
+    }
+    feature_sets["candidate"].update(
+        _string_set((integrity_site or {}).get("declared_new_classifiers", []) or [])
+    )
+    feature_sets["prior"].update(
+        _string_set((integrity_site or {}).get("before_classifiers", []) or [])
+    )
+    feature_sets["prior_classifier"].update(feature_sets["prior"])
+    for item in provenance:
+        if not isinstance(item, dict):
+            continue
+        relation = str(item.get("relation") or "").strip()
+        if relation:
+            feature_sets["relation"].add(relation)
+            if relation == "reconstruction":
+                feature_sets["kind"].add("reconstruction")
+        feature_sets["candidate"].update(_string_set([
+            item.get("candidate"),
+            item.get("after_classifier"),
+        ]))
+        feature_sets["prior"].update(_string_set([
+            item.get("prior"),
+            item.get("before_classifier"),
+        ]))
+        feature_sets["prior_classifier"].update(_string_set([
+            item.get("prior"),
+            item.get("before_classifier"),
+        ]))
+        feature_sets["reduced_fp"].update(_string_set([
+            item.get("reduced_fp"),
+            item.get("candidate_reduced_fp"),
+        ]))
+        feature_sets["candidate_reduced_fp"].update(_string_set([
+            item.get("candidate_reduced_fp"),
+        ]))
+    for violation in integrity_violations:
+        if not isinstance(violation, dict):
+            continue
+        kind = str(violation.get("kind") or "").strip()
+        if kind == "structural_reconstruction_discovery_claim":
+            feature_sets["kind"].add("reconstruction")
+            feature_sets["relation"].add("reconstruction")
+        feature_sets["candidate"].update(_string_set([
+            violation.get("candidate"),
+            violation.get("after_classifier"),
+        ]))
+        feature_sets["prior"].update(_string_set([
+            violation.get("prior"),
+            violation.get("prior_classifier"),
+            violation.get("before_classifier"),
+        ]))
+        feature_sets["prior_classifier"].update(_string_set([
+            violation.get("prior"),
+            violation.get("prior_classifier"),
+            violation.get("before_classifier"),
+        ]))
+    for field in ("closuregate", "closureledger"):
+        normalized = _normalize_lean_target(open_fields.get(field))
+        if normalized:
+            feature_sets["candidate_target"].add(normalized)
+    return feature_sets
+
+
+def _pattern_values(value: object) -> set[str]:
+    if isinstance(value, list):
+        return _string_set(value)
+    return _string_set([value])
+
+
+def _discovery_gate_witness_matches_pattern(
+    pattern: dict[str, object],
+    features: dict[str, set[str]],
+) -> bool:
+    for key, value in pattern.items():
+        key_text = str(key)
+        if key_text not in DISCOVERY_GATE_WITNESS_PATTERN_KEYS:
+            return False
+        expected = _pattern_values(value)
+        if not expected:
+            return False
+        actual = features.get(key_text, set())
+        if key_text == "reason_tags":
+            if not expected.issubset(actual):
+                return False
+        elif actual.isdisjoint(expected):
+            return False
+    return True
+
+
+def discovery_gate_witness_hits(
+    block: dict,
+    target: str,
+    candidate_targets: list[str],
+    sieve_profile: dict[str, object] | None,
+    integrity_site: dict[str, object] | None,
+    integrity_violations: list[dict[str, object]],
+    witnesses: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    features = _discovery_gate_witness_features(
+        block,
+        target,
+        candidate_targets,
+        sieve_profile,
+        integrity_site,
+        integrity_violations,
+    )
+    hits: list[dict[str, object]] = []
+    for witness in witnesses:
+        if witness.get("kernel_grounded") is not True:
+            continue
+        pattern = witness.get("pattern")
+        if not isinstance(pattern, dict):
+            continue
+        if not _discovery_gate_witness_matches_pattern(pattern, features):
+            continue
+        hits.append({
+            "id": str(witness.get("id") or ""),
+            "kind": str(witness.get("kind") or ""),
+            "refutes_because": str(witness.get("refutes_because") or ""),
+            "provenance": witness.get("provenance"),
+            "regression_candidate": witness.get("regression_candidate"),
+            "pattern": pattern,
+        })
+    return hits
 
 
 def _positive_discovery_assertion_target(
@@ -3422,6 +3707,7 @@ def _discovery_assert_gate_site(
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
     kernel_checks: dict[str, KernelAssertionCheck],
+    gate_witnesses: list[dict[str, object]],
 ) -> dict[str, object]:
     gates: list[dict[str, object]] = []
     target_text = ""
@@ -3742,6 +4028,25 @@ def _discovery_assert_gate_site(
             "scopeclosed text and structured scope seal are present",
         ))
 
+    witness_hits = discovery_gate_witness_hits(
+        block,
+        target,
+        candidate_targets,
+        sieve_profile,
+        integrity_site,
+        integrity_violations,
+        gate_witnesses,
+    )
+    if witness_hits:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "W",
+            "FAIL",
+            "kernel-grounded negative witness registry refutes this positiveDiscovery assertion",
+            details={"witnesses": witness_hits},
+        ))
+
     failed = [gate for gate in gates if gate["status"] == "FAIL"]
     deferred = [gate for gate in gates if gate["status"] == "DEFERRED"]
     status = "FAIL" if failed else "PASS"
@@ -3773,6 +4078,7 @@ def discovery_assert_gate_payload(
     informational_sites: list[dict[str, object]] = []
     failures: list[dict[str, object]] = []
     status_counts: Counter[str] = Counter()
+    gate_witnesses, witness_diagnostics = load_discovery_gate_witnesses()
 
     for block in blocks:
         if block.get("error"):
@@ -3840,6 +4146,7 @@ def discovery_assert_gate_payload(
             declaration_headers,
             declaration_bodies,
             kernel_checks,
+            gate_witnesses,
         )
         asserted_sites.append(site)
         status_counts[str(site["status"])] += 1
@@ -3877,6 +4184,10 @@ def discovery_assert_gate_payload(
         "failures": failures,
         "asserted_sites": asserted_sites,
         "informational_sites": informational_sites,
+        "witness_registry_path": str(DISCOVERY_GATE_WITNESS_REGISTRY_PATH.relative_to(REPO_ROOT)),
+        "witness_count": len(gate_witnesses),
+        "witness_registry_diagnostics": witness_diagnostics,
+        "witness_registry_diagnostic_count": len(witness_diagnostics),
     }
 
 
@@ -10051,6 +10362,12 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         "discovery_assert_gate": discovery_assert_gate,
         "discovery_assert_gate_failure_count": discovery_assert_gate["failure_count"],
         "discovery_assert_gate_failures": discovery_assert_gate["failures"],
+        "discovery_gate_witness_registry_diagnostic_count": discovery_assert_gate[
+            "witness_registry_diagnostic_count"
+        ],
+        "discovery_gate_witness_registry_diagnostics": discovery_assert_gate[
+            "witness_registry_diagnostics"
+        ],
         "discovery_production_radar": discovery_production_radar,
         "discovery_nonasserted_hygiene": discovery_nonasserted_hygiene,
         "discovery_nonasserted_hygiene_failure_count": discovery_nonasserted_hygiene["failure_count"],
@@ -10101,6 +10418,12 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         payload,
         "discovery_assert_gate_failures",
         list(discovery_assert_gate["failures"]),
+        changed_files,
+    )
+    _attach_violation_split(
+        payload,
+        "discovery_gate_witness_registry_diagnostics",
+        list(discovery_assert_gate["witness_registry_diagnostics"]),
         changed_files,
     )
     _attach_violation_split(payload, "orphan_concrete_subdirs", orphan_concrete_subdirs, changed_files)
@@ -10374,6 +10697,14 @@ def cmd_audit(args: argparse.Namespace) -> int:
             f" refuted={assert_gate['refuted_count']}"
         )
         print(f"  semantics: {assert_gate['semantics']}")
+        if assert_gate.get("witness_registry_diagnostics"):
+            print(
+                "[bedc-ci] discovery gate witness registry diagnostics: "
+                f"{payload.get('discovery_gate_witness_registry_diagnostics_new_count', 0)} new (BLOCKING), "
+                f"{payload.get('discovery_gate_witness_registry_diagnostics_legacy_count', 0)} legacy (warning)"
+            )
+            for item in assert_gate.get("witness_registry_diagnostics", [])[:40]:
+                print(f"  {item['message']}")
         for site in assert_gate["asserted_sites"][:20]:
             failed = ",".join(site.get("failed_gates", [])) or "none"
             deferred = ",".join(site.get("deferred_gates", [])) or "none"
@@ -10483,6 +10814,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["closurestatus_open_errors_new_count"]
         + payload["discovery_integrity_violations_new_count"]
         + payload["discovery_assert_gate_failure_count"]
+        + int(payload.get("discovery_gate_witness_registry_diagnostics_new_count", 0))
         + payload["discovery_nonasserted_hygiene_failure_count"]
         + payload["orphan_concrete_subdirs_new_count"]
         + len(payload["leanstmt_debt"]["violations"])
