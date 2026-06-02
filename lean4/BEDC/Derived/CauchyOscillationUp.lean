@@ -356,4 +356,74 @@ theorem CauchyOscillationCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
   }
   exact ⟨regularUnary, cert⟩
 
+theorem CauchyOscillationDyadicToleranceStability [AskSetup] [PackageSetup]
+    {tailWindow modulus tolerance ledger sealRow transport routes provenance nameCert
+      toleranceReplay sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyOscillationCarrier tailWindow modulus tolerance ledger sealRow transport routes
+        provenance nameCert bundle pkg ->
+      Cont tolerance ledger toleranceReplay ->
+        Cont toleranceReplay sealRow sealRead ->
+          PkgSig bundle sealRead pkg ->
+            SemanticNameCert
+                  (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row tailWindow ∨ hsame row modulus ∨ hsame row tolerance ∨
+                      hsame row ledger ∨ hsame row toleranceReplay ∨ hsame row sealRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont tailWindow modulus tolerance ∧
+                      Cont modulus tolerance ledger ∧ Cont tolerance ledger toleranceReplay ∧
+                        Cont toleranceReplay sealRow sealRead ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle sealRead pkg)
+                  hsame ∧
+              UnaryHistory toleranceReplay ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: CauchyOscillationCarrier BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier replayRoute sealRoute sealPkg
+  obtain ⟨_tailWindowUnary, _modulusUnary, toleranceUnary, ledgerUnary, sealUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _nameCertUnary, tailModulusTolerance,
+    modulusToleranceLedger, _ledgerSeal, _routesNameCert, provenancePkg⟩ := carrier
+  have replayUnary : UnaryHistory toleranceReplay :=
+    unary_cont_closed toleranceUnary ledgerUnary replayRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed replayUnary sealUnary sealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row tailWindow ∨ hsame row modulus ∨ hsame row tolerance ∨
+              hsame row ledger ∨ hsame row toleranceReplay ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont tailWindow modulus tolerance ∧
+              Cont modulus tolerance ledger ∧ Cont tolerance ledger toleranceReplay ∧
+                Cont toleranceReplay sealRow sealRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle sealRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRead ⟨hsame_refl sealRead, sealReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, tailModulusTolerance, modulusToleranceLedger, replayRoute, sealRoute,
+          provenancePkg, sealPkg⟩
+  }
+  exact ⟨cert, replayUnary, sealReadUnary⟩
+
 end BEDC.Derived.CauchyOscillationUp
