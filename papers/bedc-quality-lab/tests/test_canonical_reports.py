@@ -205,6 +205,12 @@ def test_canonical_reports_manifest_includes_certificate_guided_projection():
     }.issubset(set(discovery.required_json_keys))
     assert discovery.bundle_role == "hg_p_core"
 
+def test_certificate_guided_discovery_required_keys_do_not_require_audit_fields():
+    discovery = canonical._specs_by_name()["certificate-guided-discovery"]
+
+    assert "audit_decision" not in discovery.required_json_keys
+    assert "audit_ledger" not in discovery.required_json_keys
+
 
 def test_manifest_required_keys_cover_linked_control_evidence():
     for spec in canonical.CANONICAL_REPORTS:
