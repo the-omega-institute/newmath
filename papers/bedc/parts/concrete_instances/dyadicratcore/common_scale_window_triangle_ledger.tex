@@ -161,6 +161,24 @@ Finally use \autoref{thm:dyadicratcore-common-scale-window-radius-monotone-compo
 The nonescape inventory is inherited from the triangle ledger, the four-face pullback correspondence, and the composition coherence theorem. None of those rows contains quotient rationals, quotient streams, selected endpoints, choice data, metric-completeness data, bridge rows, or ambient Real-completeness coordinates, so the stated invariant is exactly the displayed finite BEDC surface.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore common-scale order refinement]
+\label{thm:dyadicratcore-common-scale-order-refinement}
+Let two accepted $\DyadicRatCoreUp$ comparison windows be lifted to a common exponent scale, and suppose their displayed comparison row is consumed by a $\RegSeqRatUp$ finite window along the ordered route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+If that finite window is refined to any finer common scale carrying the same signed mantissa rows, refined positive-unary exponent rows, denominator ledgers, distance-window row, radius row, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ support, then the displayed dyadic order row is stable on the finer window. The RegSeqRat consumer reads the transported comparison row; it does not recompute order by selecting a new rational representative, quotient stream, host real comparison, or terminal $\RealUp$ endpoint.
+\end{theorem}
+\begin{proof}
+Begin with the common exponent presentation. Apply \autoref{thm:dyadicratcore-common-scale-window-triangle-ledger} to place the two comparison windows and the RegSeqRat finite-window consumer on one directed-meet scale ledger.
+
+Next use \autoref{thm:dyadicratcore-common-scale-distance-window}. The displayed distance-window comparison is invariant under the common scale ledger and through the terminal four-face route, so refining the scale preserves the comparison data already visible to the RegSeqRat window.
+
+Apply \autoref{thm:dyadicratcore-common-scale-tolerance-inversion} on the finer common scale. It recovers the same tolerance request from the refined radius and distance rows, which prevents the finer window from introducing a different comparison source.
+
+Finally transport the order row by the componentwise $\hsame$ coordinates carried by the refinement. Since the mantissa, exponent, denominator, distance, radius, continuation, provenance, and local naming rows are all retained, the RegSeqRat finite window consumes the transported order row rather than a new selector or host comparison. The exclusion clause follows from the same finite row inventory.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore four-face scale-window chain induction]
 \label{thm:dyadicratcore-four-face-scale-window-chain-induction}
 Let
