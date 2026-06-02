@@ -14,6 +14,10 @@ HEADER = (
     "\n"
 )
 
+AGGREGATE_IMPORT_OMIT = {
+    "BEDC.Derived.DyadicIntervalCoverUp",
+}
+
 
 def _find_root(start: Path) -> Path:
     for candidate in (start, *start.parents):
@@ -34,7 +38,7 @@ def _desired_content(root: Path) -> tuple[str, int]:
         _module_name(path, lean_root)
         for path in bedc_dir.rglob("*.lean")
         if path.is_file()
-    })
+    } - AGGREGATE_IMPORT_OMIT)
     imports = "".join(f"import {module}\n" for module in modules)
     return HEADER + imports, len(modules)
 
