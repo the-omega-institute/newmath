@@ -50,9 +50,33 @@ theorem ProperMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
   have locatedUnary : UnaryHistory locatedComplete :=
     unary_cont_closed KUnary LUnary locatedRoute
   exact
-    ⟨XUnary, BUnary, KUnary, LUnary, TUnary, HUnary, CUnary, QUnary, NUnary,
-      closedUnary, locatedUnary, metricClosedRoute, compactLocatedRoute, handoffRoute,
-      closedRoute, locatedRoute, properPkg, closedPkg, locatedPkg⟩
+      ⟨XUnary, BUnary, KUnary, LUnary, TUnary, HUnary, CUnary, QUnary, NUnary,
+        closedUnary, locatedUnary, metricClosedRoute, compactLocatedRoute, handoffRoute,
+        closedRoute, locatedRoute, properPkg, closedPkg, locatedPkg⟩
+
+theorem ProperMetricCarrier_radius_tolerance_obligation_surface [AskSetup] [PackageSetup]
+    {X B K L T H C Q N radiusRead toleranceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProperMetricCarrier X B K L T H C Q N bundle pkg ->
+      Cont B K radiusRead ->
+        Cont radiusRead T toleranceRead ->
+          PkgSig bundle toleranceRead pkg ->
+            UnaryHistory X ∧ UnaryHistory B ∧ UnaryHistory K ∧ UnaryHistory T ∧
+              UnaryHistory radiusRead ∧ UnaryHistory toleranceRead ∧ Cont X B K ∧
+                Cont B K radiusRead ∧ Cont radiusRead T toleranceRead ∧
+                  PkgSig bundle Q pkg ∧ PkgSig bundle toleranceRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier radiusRoute toleranceRoute tolerancePkg
+  obtain ⟨XUnary, BUnary, KUnary, _LUnary, TUnary, _HUnary, _CUnary, _QUnary,
+    _NUnary, metricClosedRoute, _compactLocatedRoute, _handoffRoute, properPkg⟩ :=
+    carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed BUnary KUnary radiusRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed radiusUnary TUnary toleranceRoute
+  exact
+    ⟨XUnary, BUnary, KUnary, TUnary, radiusUnary, toleranceUnary, metricClosedRoute,
+      radiusRoute, toleranceRoute, properPkg, tolerancePkg⟩
 
 theorem ProperMetricCarrier_closed_ball_compactness [AskSetup] [PackageSetup]
     {X B K L T H C Q N compactRead : BHist}
