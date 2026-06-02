@@ -158,6 +158,46 @@ By prefix-window admission in \autoref{thm:bairemetric-prefix-window-admission},
 If the extension exposes a later first displayed disagreement after an equality branch, the dyadic branch read from $D$ moves to that later index and is therefore no larger than the previous displayed prefix bound. Since $R$ and $U$ consume the same $D$ row, no downstream metric or ultrametric consumer can enlarge the radius.
 \end{proof}
 
+\begin{theorem}[BaireMetric root ultrametric cylinder carrier]
+\label{thm:bairemetric-root-ultrametric-cylinder-carrier}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ root carrier. The root cylinder surface of $M$ is the finite $\BHist$ route in which the $\StreamNameUp$ schedule $S$ reads the prefix packet $B$, the first-disagreement window $W$ reads that scheduled prefix, the $\DyadicRatCoreUp$ radius row $D$ reads $W$, the parent $\MetricSpaceUp$ row $R$ reads $D$, and the $\UltrametricSpaceUp$ row $U$ reads the same radius before the structural rows $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ are exposed through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bairemetric-prefix-distance-carrier}. The tuple $M=(B,W,D,R,U,S,H,C,P,N)$ lists the prefix packet, finite window, dyadic radius, metric handoff, ultrametric handoff, stream schedule, transport, replay, provenance, and local naming rows as the only available coordinates.
+
+Use prefix-window admission and prefix radius monotonicity. Together they force every root cylinder read to pass through $S,B,W,D$ before $R$ or $U$ can be consumed, and they keep every extension of the cylinder inside the same finite prefix schedule.
+
+Finally read the structural rows. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve the same order, so no root cylinder carrier can replace the displayed $\BHist$ packet by completed streams, quotient names, or a host metric.
+\end{proof}
+
+\begin{theorem}[BaireMetric root complete-metric nonescape]
+\label{thm:bairemetric-root-complete-metric-nonescape}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ root carrier. Any $\CompleteMetricUp$-facing read from $M$ must remain inside the displayed $\BHist$ route
+$$
+S,B,W,D,R,U,H,C,P,N .
+$$
+It reads $\StreamNameUp$, $\DyadicRatCoreUp$, $\MetricSpaceUp$, $\UltrametricSpaceUp$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows from that tuple, and it has no coordinate for completed Baire streams, host completeness, quotient equality, or countable-choice selectors.
+\end{theorem}
+\begin{proof}
+Start from a complete-metric handoff request. Carrier projection leaves only the tuple $M=(B,W,D,R,U,S,H,C,P,N)$, so every requested metric or completeness-facing row must be replayed through those displayed coordinates.
+
+Apply \autoref{thm:bairemetric-root-ultrametric-cylinder-carrier}. It routes the request through the $\StreamNameUp$ schedule, finite prefix packet, first-disagreement window, $\DyadicRatCoreUp$ radius, parent $\MetricSpaceUp$ handoff, and $\UltrametricSpaceUp$ strong-triangle row before any structural row is exported.
+
+The structural rows $H,C,P,N$ then preserve and name the same finite $\BHist$ route through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Since no coordinate outside the tuple is available, the complete-metric consumer cannot escape to completed streams, host completeness, quotient equality, or countable choice.
+\end{proof}
+
+\begin{theorem}[BaireMetric root StreamName prefix route]
+\label{thm:bairemetric-root-streamname-prefix-route}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ root carrier. Every root prefix read begins with the $\StreamNameUp$ schedule $S$ and then consumes $B,W,D,R,U,H,C,P,N$ in the displayed $\BHist$ route. In particular, the $\DyadicRatCoreUp$, $\MetricSpaceUp$, $\UltrametricSpaceUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are downstream of that scheduled prefix read, not independent root data.
+\end{theorem}
+\begin{proof}
+Read the prefix request through the tuple $M=(B,W,D,R,U,S,H,C,P,N)$. The schedule row $S$ is the only row that can select finite prefixes before the Baire prefix packet $B$ and first-disagreement window $W$ are inspected.
+
+Use \autoref{thm:bairemetric-prefix-window-admission} and \autoref{thm:bairemetric-first-disagreement-dyadic-radius-exactness}. They place $D$ after the scheduled window and ensure that each radius branch is read from the displayed finite prefix evidence.
+
+Then apply \autoref{thm:bairemetric-root-ultrametric-cylinder-carrier}. The parent $\MetricSpaceUp$ row $R$, $\UltrametricSpaceUp$ row $U$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row are all downstream of the scheduled prefix route, so none can introduce an unscheduled prefix comparison.
+\end{proof}
+
 \begin{theorem}[BaireMetric zero-radius branch confinement]
 \label{thm:bairemetric-zero-radius-branch}
 For an accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$, the zero-radius branch of $D$ is confined to displayed finite inspected-window equality. It is never a quotient equality of completed Baire streams, a global extensional equality theorem, or an ambient topological identification.
