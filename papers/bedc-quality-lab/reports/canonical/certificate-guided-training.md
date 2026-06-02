@@ -1,6 +1,6 @@
 # Certificate-Guided Training
 
-- Generated at: `2026-06-02T17:17:46.145749+00:00`
+- Generated at: `2026-06-02T17:30:19.495331+00:00`
 - Cost protocol: `bedc-quality-lab-default-cost-protocol`
 - Formula: `task_loss + lambda_s*stability + lambda_m*margin + lambda_l*ledger + lambda_c*coverage`
 - Result: `negative`
@@ -10,22 +10,22 @@
 
 | role | candidate | seed | loss | quality_q | debt | cost | benefit | unlogged | critical unlogged | deterministic fallback | torch arm |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |
-| `before` | `deterministic-baseline` | `18` | 2.376851 | -0.879052 | 0.940000 | 0.030000 | 0.090948 | 0.539130 | 0.539130 | `true` | `false` |
-| `after` | `certificate-guided-sample-support` | `18` | 1.162085 | -0.827207 | 0.797207 | 0.030000 | 0.000000 | 0.043478 | 0.000000 | `true` | `false` |
-| `control` | `torch-request-control` | `18` | 3.086462 | -1.060000 | 1.000000 | 0.060000 | 0.000000 | 0.539130 | 0.539130 | `false` | `true` |
-| `before` | `deterministic-baseline` | `25` | 2.310511 | -0.852619 | 0.940000 | 0.030000 | 0.117381 | 0.521739 | 0.521739 | `true` | `false` |
-| `after` | `certificate-guided-sample-support` | `25` | 1.093851 | -0.799426 | 0.790000 | 0.030000 | 0.020574 | 0.000000 | 0.000000 | `true` | `false` |
-| `control` | `torch-request-control` | `25` | 2.823691 | -1.060000 | 1.000000 | 0.060000 | 0.000000 | 0.521739 | 0.521739 | `false` | `true` |
-| `before` | `deterministic-baseline` | `36` | 2.076803 | -0.611910 | 0.940000 | 0.030000 | 0.358090 | 0.486957 | 0.486957 | `true` | `false` |
-| `after` | `certificate-guided-sample-support` | `36` | 1.031623 | -0.598924 | 0.790000 | 0.030000 | 0.221076 | 0.026087 | 0.000000 | `true` | `false` |
-| `control` | `torch-request-control` | `36` | 2.469730 | -0.672620 | 1.000000 | 0.060000 | 0.387380 | 0.486957 | 0.486957 | `false` | `true` |
+| `before` | `deterministic-baseline` | `18` | 2.520535 | -0.879052 | 0.940000 | 0.030000 | 0.090948 | 0.539130 | 0.539130 | `true` | `false` |
+| `after` | `certificate-guided-sample-support` | `18` | 1.249754 | -0.827207 | 0.797207 | 0.030000 | 0.000000 | 0.043478 | 0.000000 | `true` | `false` |
+| `control` | `torch-request-control` | `18` | 3.829161 | -1.060000 | 1.000000 | 0.060000 | 0.000000 | 0.539130 | 0.539130 | `false` | `true` |
+| `before` | `deterministic-baseline` | `25` | 2.450330 | -0.852619 | 0.940000 | 0.030000 | 0.117381 | 0.521739 | 0.521739 | `true` | `false` |
+| `after` | `certificate-guided-sample-support` | `25` | 1.165200 | -0.799426 | 0.790000 | 0.030000 | 0.020574 | 0.000000 | 0.000000 | `true` | `false` |
+| `control` | `torch-request-control` | `25` | 3.174606 | -1.060000 | 1.000000 | 0.060000 | 0.000000 | 0.521739 | 0.521739 | `false` | `true` |
+| `before` | `deterministic-baseline` | `36` | 2.139737 | -0.611910 | 0.940000 | 0.030000 | 0.358090 | 0.486957 | 0.486957 | `true` | `false` |
+| `after` | `certificate-guided-sample-support` | `36` | 1.116908 | -0.598924 | 0.790000 | 0.030000 | 0.221076 | 0.026087 | 0.000000 | `true` | `false` |
+| `control` | `torch-request-control` | `36` | 2.836331 | -0.672620 | 1.000000 | 0.060000 | 0.387380 | 0.486957 | 0.486957 | `false` | `true` |
 
 ## Deltas
 
 | comparison | debt | cost | benefit | quality_q | loss |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| `after_minus_before` | -0.147598 | 0.000000 | -0.108256 | 0.039342 | -1.158869 |
-| `control_minus_before` | 0.060000 | 0.030000 | -0.059679 | -0.149679 | 0.538573 |
+| `after_minus_before` | -0.147598 | 0.000000 | -0.108256 | 0.039342 | -1.192913 |
+| `control_minus_before` | 0.060000 | 0.030000 | -0.059679 | -0.149679 | 0.909832 |
 
 ## Scope
 

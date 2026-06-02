@@ -305,6 +305,32 @@ def test_hg_p_forbidden_claim_terms_are_absent_from_positive_claim_cells():
             assert term not in text
 
 
+def test_forbidden_term_at_positive_claim_pointer_is_caught(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    payload = _payload_for_spec(spec)
+    payload["coverage_item"] = {
+        "status": "positive",
+        "claim": "full-lejepa certification",
+    }
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+    monkeypatch.setattr(canonical, "_run_producer", lambda _spec: None)
+
+    result = canonical._run_spec(spec)
+
+    assert result["status"] == "fail"
+    assert result["producer_status"] == "completed"
+    assert result["validation"]["status"] == "pass"
+    assert result["discipline"]["positive_claim_pointer"] == "$.coverage_item"
+    assert result["discipline"]["forbidden_claim_terms_status"] == "fail"
+    assert result["discipline"]["forbidden_claim_term_hits"] == ["full-lejepa"]
+
+
 def test_literature_ledger_is_pointer_only_after_issue_548(tmp_path, monkeypatch):
     ledger = tmp_path / "docs" / "lit" / "literature_ledger.yaml"
     monkeypatch.setattr(canonical, "LITERATURE_LEDGER", ledger)
@@ -375,6 +401,31 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
     assert json.loads(index_path.read_text(encoding="utf-8")) == payload
     assert json.loads(summary_path.read_text(encoding="utf-8")) == payload
     assert "gap-head-on-h" in index_markdown
+
+
+def test_run_spec_producer_exception_fails_closed_even_with_valid_stale_artifact(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["gap-head-on-h"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+
+    def broken_producer(_spec):
+        raise RuntimeError("producer stopped")
+
+    monkeypatch.setattr(canonical, "_run_producer", broken_producer)
+
+    result = canonical._run_spec(spec)
+
+    assert result["status"] == "error"
+    assert result["status"] != "pass"
+    assert result["producer_status"] == "error"
+    assert result["validation"]["status"] == "pass"
+    assert result["validation"]["required_key_validation"]["status"] == "pass"
+    assert result["error"] == "producer stopped"
 
 
 def test_run_reports_certificate_guided_discovery_uses_canonical_training_source(tmp_path, monkeypatch):

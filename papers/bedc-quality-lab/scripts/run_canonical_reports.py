@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import argparse
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 import importlib
 import json
@@ -34,6 +34,12 @@ FORBIDDEN_POSITIVE_CLAIM_TERMS = (
     "full-tensor-namecert",
     "llm-behavior",
 )
+METRIC_ALIASES = {
+    "alignment_loss": "alignment_loss_mse",
+    "actual_recovery_error": "actual_recovery_mse",
+    "theorem3_bound": "theorem3_bound_mse",
+    "bound_margin": "bound_margin_mse",
+}
 
 
 @dataclass(frozen=True)
@@ -302,6 +308,26 @@ def _set_existing_attr(module: Any, name: str, value: Any) -> None:
         setattr(module, name, value)
 
 
+def _with_metric_aliases(envelope: Any) -> Any:
+    metrics = dict(envelope.metrics)
+    for alias, source in METRIC_ALIASES.items():
+        if alias not in metrics and source in metrics:
+            metrics[alias] = metrics[source]
+    return replace(envelope, metrics=metrics)
+
+
+def _configure_metric_aliases(module: Any) -> None:
+    if not hasattr(module, "run_experiment") or getattr(module, "_CANONICAL_METRIC_ALIASES", False):
+        return
+    run_experiment = module.run_experiment
+
+    def run_experiment_with_aliases(*args: Any, **kwargs: Any) -> Any:
+        return _with_metric_aliases(run_experiment(*args, **kwargs))
+
+    module.run_experiment = run_experiment_with_aliases
+    module._CANONICAL_METRIC_ALIASES = True
+
+
 def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -310,6 +336,7 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
     _set_existing_attr(module, "JSON_ARTIFACT", spec.json_artifact)
     _set_existing_attr(module, "REPORT_ARTIFACT", spec.markdown_artifact)
     _set_existing_attr(module, "USE_TORCH", False)
+    _configure_metric_aliases(module)
     if spec.name == "gap-head-discovery":
         _set_existing_attr(module, "SOURCE_JSON_ARTIFACT", "reports/canonical/gap-head-on-h.json")
     if spec.name == "certificate-guided-discovery":
@@ -363,11 +390,38 @@ def _pointer_status(payload: dict[str, Any], pointer: str | None) -> str:
     return "present" if _pointer_value(payload, pointer) is not None else "missing"
 
 
+def _text_for_term_scan(value: Any) -> str:
+    if isinstance(value, (dict, list, tuple)):
+        return json.dumps(value, sort_keys=True).lower()
+    return str(value).lower()
+
+
+def _forbidden_claim_term_check(spec: CanonicalReportSpec, payload: dict[str, Any]) -> dict[str, Any]:
+    if spec.bundle_role != "hg_p_core":
+        return {
+            "status": "not-applicable",
+            "hits": [],
+        }
+    value = _pointer_value(payload, spec.positive_claim_pointer)
+    if value is None:
+        return {
+            "status": "missing-positive-claim-cell",
+            "hits": [],
+        }
+    text = _text_for_term_scan(value)
+    hits = [term for term in spec.forbidden_claim_terms if term.lower() in text]
+    return {
+        "status": "fail" if hits else "pass",
+        "hits": hits,
+    }
+
+
 def _discipline(spec: CanonicalReportSpec) -> dict[str, Any]:
     payload = _load_report_payload(spec)
     control_pointer = spec.control_pointer
     no_control_rationale_pointer = spec.no_control_rationale_pointer
     positive_claim_pointer = spec.positive_claim_pointer
+    forbidden_claim_terms = _forbidden_claim_term_check(spec, payload)
     return {
         "bundle_role": spec.bundle_role,
         "scope_pointer": spec.scope_pointer,
@@ -382,7 +436,8 @@ def _discipline(spec: CanonicalReportSpec) -> dict[str, Any]:
         "control_status": _pointer_status(payload, control_pointer),
         "no_control_rationale_pointer": no_control_rationale_pointer,
         "no_control_rationale_status": _pointer_status(payload, no_control_rationale_pointer),
-        "forbidden_claim_terms_status": "checked-positive-claim-cell",
+        "forbidden_claim_terms_status": forbidden_claim_terms["status"],
+        "forbidden_claim_term_hits": forbidden_claim_terms["hits"],
         "literature_ref_ids": list(spec.literature_ref_ids),
     }
 
@@ -481,21 +536,27 @@ def _run_spec(spec: CanonicalReportSpec) -> dict[str, Any]:
         error = str(exc)
     duration = time.perf_counter() - start
     validation = _artifact_validation(spec)
-    status = "pass" if validation["status"] == "pass" else "fail"
+    discipline = _discipline(spec)
+    if error is not None:
+        status = "error"
+    elif validation["status"] == "fail" or discipline["forbidden_claim_terms_status"] == "fail":
+        status = "fail"
+    else:
+        status = "pass"
     result = {
         "name": spec.name,
         "producer_command": list(spec.command),
         "json_artifact": spec.json_artifact,
         "markdown_artifact": spec.markdown_artifact,
         "bundle_role": spec.bundle_role,
-        "discipline": _discipline(spec),
+        "discipline": discipline,
         "status": status,
         "duration_seconds": float(f"{duration:.3f}"),
         "estimated_seconds": spec.estimated_seconds,
-        "producer_status": "completed" if error is None else "artifact-validation-pass",
+        "producer_status": "completed" if error is None else "error",
         "validation": validation,
     }
-    if error is not None and status != "pass":
+    if error is not None:
         result["error"] = error
     return result
 
