@@ -6897,6 +6897,7 @@ import BEDC.Derived.RegularCauchyProductUp.TasteGate
 import BEDC.Derived.RegularCauchyQuotientRefusalUp.TasteGate
 import BEDC.Derived.RegularCauchyRateExtractionUp.TasteGate
 import BEDC.Derived.RegularCauchyRealReflectionUp.TasteGate
+import BEDC.Derived.RegularCauchyRealUp.TasteGate
 import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyReindexInvarianceUp.TasteGate
@@ -7684,6 +7685,7 @@ import BEDC.Derived.TopGroupUp.SourceProjectionNamecertCompatibility
 import BEDC.Derived.TopGroupUp.SourceRowsEmptyCoupled
 import BEDC.Derived.TopGroupUp.StdBridge
 import BEDC.Derived.TopVecSpaceUp
+import BEDC.Derived.TopologicalClosureUp.TasteGate
 import BEDC.Derived.TopologyUp
 import BEDC.Derived.TopologyUp.Core
 import BEDC.Derived.TopologyUp.FiniteBaseNeighborhood
