@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\LocalInterHistRateComparisonUp$}
+\label{ch:concrete-instances-local-interhist-rate-comparison-namecert}
+\origin{ai}
+
+The $\LocalInterHistRateComparisonUp$ packet realizes the local comparison surface of \autoref{ch:visions-inter-hist-locality} as finite configuration, causal-witness, maximum-rate, no-global-sync, observer-local transport, provenance, and NameCert rows. It sits after the multi-history configuration of \autoref{ch:concrete-instances-multihistconfig-namecert}, the cross-history causal witness surface of \autoref{ch:concrete-instances-crosshistcausal-namecert}, the unary maximum-rate packet of \autoref{ch:concrete-instances-maxcausalrate-namecert}, the no-global synchronization boundary of \autoref{ch:concrete-instances-noglobalsyncboundary-namecert}, and the observer-local transport route of \autoref{ch:concrete-instances-observer-locality-transport-namecert}. The packet compares finite causal-rate rows without a synchronized frame, real-valued speed, metric tensor, Lorentz coordinate, or global observer chart.
+
+\begin{definition}[Local inter-Hist rate comparison carrier]
+\label{def:local-interhist-rate-comparison-carrier}
+A $\LocalInterHistRateComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,X,R,B,G,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MultiHistConfigUp$ row displaying the finite family of observer histories and their local ledgers.
+\item $X$ is the finite $\CrossHistCausalUp$ witness-family row over selected ordered pairs and local slots from $M$.
+\item $R$ is the $\MaxCausalRateUp$ row recording the shared unary bound and finite comparison ledger for the selected causal witnesses.
+\item $B$ is the local comparison row, recording which displayed causal-rate reads are compared and in which local order.
+\item $G$ is the $\NoGlobalSyncBoundaryUp$ refusal row excluding synchronized clocks, privileged frames, and all-observer global charts.
+\item $T$ is the $\ObserverLocalityTransportUp$ row transporting the comparison through observer-local reindexings without changing the displayed configuration, causal witnesses, or bound row.
+\item $H$ records componentwise $\hsame$ transport for configuration, causal witnesses, maximum-rate data, comparison, refusal, observer-local transport, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the multi-Hist configuration through causal witnesses, maximum-rate comparison, no-global-sync refusal, observer-local transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\LocalInterHistRateComparisonUp$, $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\NoGlobalSyncBoundaryUp$, $\ObserverLocalityTransportUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocalInterHistRateComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,X,R,B,G,T,H,C,P,N$. It has no coordinate for a synchronized frame, real-valued speed, metric tensor, Lorentz geometry, global chart, quotient of histories, or host equality of observers.
+\end{definition}
+
+\begin{theorem}[Local inter-Hist rate comparison NameCert obligations]
+\label{thm:local-interhist-rate-comparison-namecert-obligations}
+For every accepted $\LocalInterHistRateComparisonUp$ carrier $L=(M,X,R,B,G,T,H,C,P,N)$, the local $\NameCert_{\LocalInterHistRateComparisonUp}$ surface consists exactly of multi-Hist configuration admission, cross-Hist causal-witness admission, maximum-rate bound readback, local comparison admission, no-global-sync refusal, observer-local transport, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every comparison read must expose $M,X,R,G,T,H,C,P,N$ before it may consume $B$ as local rate-comparison data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:local-interhist-rate-comparison-carrier}. The configuration row $M$ supplies the observer-history family, $X$ supplies selected causal witnesses over that family, and $R$ supplies the maximum-rate bound and finite comparison ledger attached to those witnesses.
+
+The comparison row $B$ is local because it is read only after the no-global-sync refusal row $G$ and observer-local transport row $T$ are displayed. Thus the comparison cannot appeal to a hidden synchronized clock or global observer frame.
+
+The structural rows $H,C,P,N$ preserve exactly the same finite route under transport, replay, provenance, and local naming. Since no real-valued speed, metric tensor, Lorentz coordinate, global chart, quotient of histories, or host observer equality is a carrier coordinate, the listed rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[Local inter-Hist rate comparison no-frame boundary]
+\label{thm:local-interhist-rate-comparison-no-frame-boundary}
+Any consumer of an accepted $\LocalInterHistRateComparisonUp$ packet reads rate comparison only as a finite row over $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\NoGlobalSyncBoundaryUp$, and $\ObserverLocalityTransportUp$. The consumer cannot turn the comparison into a synchronized frame, global clock, real-valued speed, Lorentz geometry, or global observer chart.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:local-interhist-rate-comparison-namecert-obligations}. It forces the comparison read through the displayed configuration, causal-witness family, maximum-rate bound, refusal row, observer-local transport, and structural rows.
+
+The refusal row $G$ keeps the comparison from becoming a global synchronization datum, while the transport row $T$ keeps observer-local reindexing attached to the same visible configuration and causal witnesses.
+
+The carrier contains no coordinate from which to build a metric tensor, Lorentz chart, real-valued speed, global clock, or quotient of histories. Therefore every accepted comparison remains a finite local BEDC row and nothing outside the listed surface is exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocalInterHistRateComparisonUp$ read exposes the $\MultiHistConfigUp$ configuration, $\CrossHistCausalUp$ witness family, $\MaxCausalRateUp$ bound row, $\NoGlobalSyncBoundaryUp$ refusal, $\ObserverLocalityTransportUp$ route, transport, replay, provenance, and local $\NameCert$ before any local comparison row is public.}
+
+\independenceWitness{multihistconfig, crosshistcausal, maxcausalrate, noglobalsyncboundary, observerlocalitytransport: no listed sibling is bijective with $\LocalInterHistRateComparisonUp$ because the packet jointly binds finite configuration, causal witnesses, maximum-rate bound, local comparison, no-global-sync refusal, observer-local transport, replay, provenance, and local NameCert.}
+
+The TasteGate file for $\LocalInterHistRateComparisonUp$ must require Lean `Nontrivial` and `FieldFaithful` instances before any positive discovery or classifier-shift gate is recorded in BEDC.Derived.LocalInterHistRateComparisonUp.TasteGate. Without those instances, this chapter records a finite NameCert packet and not a field-sensitive discovery claim.
+
+\closureat{LocalInterHistRateComparisonUp}{seedStr}
+
+\begin{closurestatus}{\LocalInterHistRateComparisonUp}
+  \constructivestory{A $\LocalInterHistRateComparisonUp$ packet is generated from MultiHistConfig rows, CrossHistCausal witness rows, MaxCausalRate bound rows, a local comparison row, a NoGlobalSyncBoundary refusal row, ObserverLocalityTransport rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:local-interhist-rate-comparison-carrier}, \autoref{thm:local-interhist-rate-comparison-namecert-obligations}, and \autoref{thm:local-interhist-rate-comparison-no-frame-boundary} seed the finite local causal-rate comparison surface without a synchronized frame.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close synchronized frames, global clocks, real-valued speeds, metric tensors, Lorentz geometry, host observer equality, Lean verification, or bridge checking for $\LocalInterHistRateComparisonUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, configuration locality, causal-witness handoff, maximum-rate bound readback, local comparison exactness, no-global-sync refusal, observer-local transport, replay, provenance, and local naming for BEDC.Derived.LocalInterHistRateComparisonUp.}
+\end{closurestatus}
