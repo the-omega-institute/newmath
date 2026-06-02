@@ -15,6 +15,20 @@ HG_P_CORE = {
     "certificate-guided-training",
     "certificate-guided-discovery",
 }
+QUALITY_SCORECARD_METRICS = {
+    "CertCov",
+    "DebtQ",
+    "CriticalDebt",
+    "LedgerCompleteness",
+    "ClassifierShiftCount",
+    "PositiveDiscoveryCount",
+    "AuditImprovementCount",
+    "NegativeResultCount",
+    "ScopeCompleteness",
+    "CostProtocolCompleteness",
+    "HardeningCoverage",
+    "OverclaimRate",
+}
 
 
 def _payload_for_spec(spec):
@@ -51,9 +65,60 @@ def _payload_for_spec(spec):
             "negative_result_ledger": [{"status": "fixture"}],
             "ledger_summary": {"status": "fixture"},
             "negative_control_summary": {"status": "fixture"},
+            "surface_delta_count": 2,
+            "positive_discovery": spec.name == "gap-head-discovery",
+            "classifier_state": {
+                "recorded_ledger_rows": 3,
+                "required_ledger_rows": 4,
+            },
+            "debt_terms": {"classifier_ledger_rows": 0.25},
+            "audit_decision": {"audit_status": "pass"},
         }
     )
+    if spec.name == "mixing-family-sweep":
+        payload["coverage_item"] = {
+            "canonical_families": ["a", "b", "c"],
+            "covered_families": ["a", "b"],
+            "debt_item": {"score": "0.125", "status": "partial"},
+        }
+        payload["negative_result_summary"] = {
+            "cells": {
+                "a": {"negative_result": True},
+                "b": {"negative_result": False},
+            }
+        }
+    if spec.name == "anisotropic-ou-sweep":
+        payload["negative_result_summary"] = {
+            "cells": {
+                "a": {"negative_result": True},
+                "b": {"negative_result": True},
+            }
+        }
+    if spec.name == "nongaussian-distribution-sweep":
+        payload["negative_result_ledger"] = [{"status": "negative"}, {"status": "negative"}]
     return payload
+
+
+def _walk_keys(value):
+    if isinstance(value, dict):
+        for key, cell in value.items():
+            yield key
+            yield from _walk_keys(cell)
+    elif isinstance(value, list):
+        for cell in value:
+            yield from _walk_keys(cell)
+
+
+def _write_payloads_for_all_specs(canonical_module, tmp_path):
+    canonical_module.ROOT = tmp_path
+    canonical_module.CANONICAL_DIR = tmp_path / "reports" / "canonical"
+    canonical_module.INDEX_ARTIFACT = tmp_path / "reports" / "canonical" / "index.json"
+    for spec in canonical_module.CANONICAL_REPORTS:
+        json_path = canonical_module._artifact_path(spec.json_artifact)
+        md_path = canonical_module._artifact_path(spec.markdown_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        md_path.write_text("# fixture\n", encoding="utf-8")
 
 
 def _index_row_for_spec(spec):
@@ -279,10 +344,11 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
     payload = canonical._index(reports)
     markdown = canonical._render_index_markdown(payload)
 
-    assert {"paper_outline", "claims_nonclaims", "honest_boundary", "literature_ledger"}.issubset(payload)
+    assert {"paper_outline", "claims_nonclaims", "honest_boundary", "literature_ledger", "quality_scorecard"}.issubset(payload)
     assert set(payload["paper_outline"]["core_reports"]) == HG_P_CORE
     assert "HG-P core reports" in markdown
     assert "Auxiliary reports" in markdown
+    assert "Quality scorecard" in markdown
     assert "Paper outline" in markdown
     assert "Claims and non-claims" in markdown
     assert "Literature ledger pointer" in markdown
@@ -370,6 +436,7 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
     canonical.ROOT = tmp_path
     canonical.CANONICAL_DIR = tmp_path / "reports" / "canonical"
     canonical.INDEX_ARTIFACT = tmp_path / "reports" / "canonical" / "index.json"
+    canonical_dir = canonical.CANONICAL_DIR
     index_path = canonical.INDEX_ARTIFACT
     summary_path = tmp_path / "summary.json"
     calls = []
@@ -407,6 +474,162 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
     assert json.loads(index_path.read_text(encoding="utf-8")) == payload
     assert json.loads(summary_path.read_text(encoding="utf-8")) == payload
     assert "gap-head-on-h" in index_markdown
+    assert (canonical_dir / "quality-scorecard.json").exists()
+    assert (canonical_dir / "quality-scorecard.md").exists()
+
+
+def test_quality_scorecard_has_exactly_twelve_metric_rows(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    old_index = canonical.INDEX_ARTIFACT
+    try:
+        _write_payloads_for_all_specs(canonical, tmp_path)
+        rows = canonical._build_quality_scorecard([], generated_at="fixture-time")["rows"]
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+        canonical.INDEX_ARTIFACT = old_index
+
+    assert [row["metric"] for row in rows] == list(canonical.QUALITY_SCORECARD_METRICS)
+    assert {row["metric"] for row in rows} == QUALITY_SCORECARD_METRICS
+    assert len(rows) == 12
+
+
+def test_quality_scorecard_is_generated_by_canonical_runner(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+
+    def fake_run_producer(spec):
+        json_path = canonical._artifact_path(spec.json_artifact)
+        md_path = canonical._artifact_path(spec.markdown_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        md_path.write_text("# fixture\n", encoding="utf-8")
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+    scorecard_json = canonical.CANONICAL_DIR / "quality-scorecard.json"
+    scorecard_md = canonical.CANONICAL_DIR / "quality-scorecard.md"
+
+    assert scorecard_json.exists()
+    assert scorecard_md.exists()
+    assert payload["quality_scorecard"]["json_artifact"] == "reports/canonical/quality-scorecard.json"
+    assert payload["quality_scorecard"]["markdown_artifact"] == "reports/canonical/quality-scorecard.md"
+    assert "Quality scorecard" in (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
+    assert "run_quality_scorecard.py" not in json.dumps(payload)
+
+
+def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    old_index = canonical.INDEX_ARTIFACT
+    try:
+        _write_payloads_for_all_specs(canonical, tmp_path)
+        payload = canonical._build_quality_scorecard([], generated_at="fixture-time")
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+        canonical.INDEX_ARTIFACT = old_index
+
+    by_metric = {row["metric"]: row for row in payload["rows"]}
+    cert = by_metric["CertCov"]
+    shift = by_metric["ClassifierShiftCount"]
+
+    assert cert["status"] == "ready"
+    assert cert["value"] == pytest.approx(2 / 3)
+    assert cert["source"] == {
+        "report": "mixing-family-sweep",
+        "artifact": "reports/canonical/mixing-family-sweep.json",
+        "pointer": "$.coverage_item",
+    }
+    assert shift["status"] == "ready"
+    assert shift["value"] == 2
+    assert shift["source"]["pointer"] == "$.surface_delta_count"
+
+
+def test_quality_scorecard_fails_closed_without_source_or_denominator(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    old_index = canonical.INDEX_ARTIFACT
+    try:
+        _write_payloads_for_all_specs(canonical, tmp_path)
+        spec = canonical._specs_by_name()["mixing-family-sweep"]
+        json_path = canonical._artifact_path(spec.json_artifact)
+        payload = json.loads(json_path.read_text(encoding="utf-8"))
+        payload["coverage_item"].pop("canonical_families")
+        json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+        scorecard = canonical._build_quality_scorecard([], generated_at="fixture-time")
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+        canonical.INDEX_ARTIFACT = old_index
+
+    cert = {row["metric"]: row for row in scorecard["rows"]}["CertCov"]
+    assert cert["status"] == "not-ready"
+    assert cert["dependency"] == "mixing-family-sweep:$.coverage_item"
+    assert "value" not in cert
+    assert "numerator" not in cert
+
+
+def test_quality_scorecard_excludes_report_schema_fields(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    old_index = canonical.INDEX_ARTIFACT
+    try:
+        _write_payloads_for_all_specs(canonical, tmp_path)
+        payload = canonical._build_quality_scorecard([], generated_at="fixture-time")
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+        canonical.INDEX_ARTIFACT = old_index
+
+    assert "report_schema_id" not in set(_walk_keys(payload))
+    assert "report_kind" not in set(_walk_keys(payload))
+
+
+def test_quality_scorecard_uses_caller_timestamp(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+
+    def fake_run_producer(spec):
+        json_path = canonical._artifact_path(spec.json_artifact)
+        md_path = canonical._artifact_path(spec.markdown_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        md_path.write_text("# fixture\n", encoding="utf-8")
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+    scorecard = json.loads((canonical.CANONICAL_DIR / "quality-scorecard.json").read_text(encoding="utf-8"))
+
+    assert payload["generated_at"] == "2030-01-01T00:00:00+00:00"
+    assert scorecard["generated_at"] == "2030-01-01T00:00:00+00:00"
+
+
+def test_quality_scorecard_has_no_weighted_total(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    old_index = canonical.INDEX_ARTIFACT
+    try:
+        _write_payloads_for_all_specs(canonical, tmp_path)
+        payload = canonical._build_quality_scorecard([], generated_at="fixture-time")
+        markdown = canonical._render_quality_scorecard_markdown(payload)
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+        canonical.INDEX_ARTIFACT = old_index
+
+    keys = set(_walk_keys(payload))
+    assert "weighted_total" not in keys
+    assert "total_score" not in keys
+    assert "grade" not in keys
+    assert "weight" not in keys
+    assert "weighted" not in json.dumps(payload).lower()
+    assert "weighted" not in markdown.lower()
 
 
 def test_run_spec_producer_exception_fails_closed_even_with_valid_stale_artifact(tmp_path, monkeypatch):

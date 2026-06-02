@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-02T17:30:19.502986+00:00`
+- Generated at: `2026-06-02T18:50:45.786072+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -20,6 +20,13 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `nongaussian-distribution-sweep` | `pass` | `reports/canonical/nongaussian-distribution-sweep.json` | `reports/canonical/nongaussian-distribution-sweep.md` | `$.coverage_item` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.main_claim_status` | `$.negative_result_ledger` |
 | `spectral-ablation-hinge` | `pass` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
+
+## Quality scorecard
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/quality-scorecard.json`
+- Markdown: `reports/canonical/quality-scorecard.md`
+- Metrics: `CertCov, DebtQ, CriticalDebt, LedgerCompleteness, ClassifierShiftCount, PositiveDiscoveryCount, AuditImprovementCount, NegativeResultCount, ScopeCompleteness, CostProtocolCompleteness, HardeningCoverage, OverclaimRate`
 
 ## Paper outline
 
