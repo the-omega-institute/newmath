@@ -1586,6 +1586,7 @@ import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
 import BEDC.Derived.CauchyNetCompletionUp.ChoiceFreeLimitBoundary
 import BEDC.Derived.CauchyNetCompletionUp.MooreSmithHandoff
+import BEDC.Derived.CauchyNetCompletionUp.NameCertObligations
 import BEDC.Derived.CauchyNetCompletionUp.TasteGate
 import BEDC.Derived.CauchyNetFilterCorrespondenceUp.TasteGate
 import BEDC.Derived.CauchyNetHausdorffUniquenessUp.TasteGate
@@ -3624,7 +3625,6 @@ import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.ApproximationObligation
 import BEDC.Derived.FareySequenceUp.ApproximationWindowFactorization
 import BEDC.Derived.FareySequenceUp.ClassifierTransport
-import BEDC.Derived.FareySequenceUp.ContinuedFractionWindow
 import BEDC.Derived.FareySequenceUp.DenominatorBoundWindow
 import BEDC.Derived.FareySequenceUp.DenominatorRefinement
 import BEDC.Derived.FareySequenceUp.DenominatorRefinementInduction
@@ -4812,6 +4812,7 @@ import BEDC.Derived.LocalTimeFiberUp.TasteGate
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.LocallyCompactUp.ClosedBallNeighborhoodBase
+import BEDC.Derived.LocallyCompactUp.CompactBallWindow
 import BEDC.Derived.LocallyCompactUp.LocatedCompactRoute
 import BEDC.Derived.LocallyCompactUp.TasteGate
 import BEDC.Derived.LocatedApartnessUp.TasteGate
