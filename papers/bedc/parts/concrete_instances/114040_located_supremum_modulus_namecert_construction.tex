@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\LocatedSupremumModulusUp$}
+\label{ch:concrete-instances-located-supremum-modulus-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\LocatedSupremumModulusUp$ packet records the finite data by which a located bounded subset of a constructive real line exposes a supremum-search modulus. It sits beside the dyadic tolerance route of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, the bounded-set carrier of \autoref{ch:concrete-instances-boundedset-namecert}, and the bracketing interval route of \autoref{ch:concrete-instances-finite-bracketing-interval-namecert}. The packet extracts located interval brackets and dyadic tolerances; it does not assert classical least-upper-bound completeness, trichotomy, quotient equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located supremum modulus carrier]
+\label{def:located-supremum-modulus-carrier}
+A $\LocatedSupremumModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(B,I,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BoundedSetUp$ row, recording the bounded-set membership window, upper-bound ledger, and nonempty witness surface used by the supremum search.
+\item $I$ is the $\FiniteBracketingIntervalUp$ row, storing located interval brackets $[l,u]$ and the side evidence that the set is below $u$ while values can be found inside any admitted lower window near $l$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, listing dyadic precision requests, refinement steps, and interval-width certificates.
+\item $R$ is the $\RegSeqRatUp$ readback row, translating dyadic bracket refinements into regular rational observations before the real seal is consumed.
+\item $E$ is the terminal $\RealUp$ seal row, reached only after bounded-set, bracket, tolerance, and readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for bounded-set data, interval brackets, dyadic tolerances, regular-rational readbacks, the seal row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a supremum-modulus request through $B,I,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedSupremumModulusUp$, $\BoundedSetUp$, $\FiniteBracketingIntervalUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedSupremumModulusUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed modulus route $B,I,D,R,E,H,C,P,N$. It has no coordinate for a classical supremum theorem, trichotomy, quotient equality of real names, countable choice, a selected maximizing sequence, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located supremum modulus NameCert obligations]
+\label{thm:located-supremum-modulus-namecert}
+For every accepted $\LocatedSupremumModulusUp$ carrier
+$$
+M=(B,I,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedSupremumModulusUp}$ surface consists exactly of bounded-set admission through $B$, located interval bracket exposure through $I$, dyadic tolerance exactness through $D$, regular rational readback through $R$, terminal $\RealUp$ seal nonescape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-supremum-modulus-carrier}. The analytic rows are exactly the bounded-set row, located-bracket row, dyadic tolerance row, regular rational readback row, and terminal Real seal row.
+
+The bracket row is read through the bounded-set row. The upper side records displayed upper-bound evidence, while the lower side records the located search window rather than a choice-selected maximizing sequence.
+
+The dyadic tolerance row supplies the modulus data. It refines bracket widths through $\DyadicRatCoreUp$ entries and then exposes those refinements as $\RegSeqRatUp$ readbacks before the $\RealUp$ seal may be consumed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since no carrier row stores trichotomy, quotient equality, countable choice, classical least-upper-bound completeness, or ambient Real completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+\leanstmt{BEDC.Derived.LocatedSupremumModulusUp}
+
+\falsifiablePrediction{A $\LocatedSupremumModulusUp$ consumer that exports a supremum-modulus read while omitting the bounded-set row, located interval bracket row, dyadic tolerance row, RegSeqRat readback row, Real seal row, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ row is not reading the carrier of \autoref{def:located-supremum-modulus-carrier}.}
+
+\independenceWitness{boundedset, finite-bracketing-interval, dyadicratcore, regseqrat, real: $\LocatedSupremumModulusUp$ jointly binds bounded-set data, located interval brackets, dyadic tolerance refinement, regular rational readback, and the Real seal into one modulus packet. Each sibling lacks at least one of those rows as a local supremum-modulus coordinate.}
+
+\closureat{LocatedSupremumModulusUp}{seedStr}
+
+\begin{closurestatus}{\LocatedSupremumModulusUp}
+  \constructivestory{A $\LocatedSupremumModulusUp$ packet is generated from bounded-set rows, located finite interval brackets, dyadic tolerance rows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-supremum-modulus-carrier} and \autoref{thm:located-supremum-modulus-namecert} seed the constructive located supremum-modulus packet over bounded-set, interval-bracket, dyadic tolerance, regular-rational readback, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim classical least-upper-bound completeness, trichotomy, quotient equality, countable choice, selected maximizing sequences, ambient Real completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bracket exactness, dyadic tolerance refinement, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedSupremumModulusUp.}
+\end{closurestatus}
