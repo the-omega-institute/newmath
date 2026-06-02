@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\FiniteVariationPartitionUp$}
+\label{ch:concrete-instances-finite-variation-partition-namecert}
+\origin{human}
+
+Following Jordan's finite-partition account of bounded variation and the Bishop--Bridges treatment of regulated integration, the $\FiniteVariationPartitionUp$ packet records the partition ledger that a variation or Riemann--Stieltjes consumer must inspect before reading a bounded-variation handoff. It sits between the bounded-variation certificate of \autoref{ch:concrete-instances-boundedvariation-namecert}, the total-variation functional of \autoref{ch:concrete-instances-total-variation-function-namecert}, the Riemann-sum row of \autoref{ch:concrete-instances-riemannsum-namecert}, and the regulated-integral route of \autoref{ch:concrete-instances-regulatedintegral-namecert}. The certificate is finite: it names endpoints, mesh order, edge-difference rows, transport, replay, provenance, and local naming rows, not an ambient partition lattice or a host-level variation supremum.
+
+\falsifiablePrediction{If a $\FiniteVariationPartitionUp$ packet is accepted, every bounded-variation or Riemann--Stieltjes consumer must read the displayed finite partition ledger before it can cite a variation bound; a route from a host partition selector directly to variation control refutes the packet.}
+
+\independenceWitness{boundedvariation, totalvariationfunction, riemannsum, regulatedintegral: none is bijective because $\FiniteVariationPartitionUp$ names a finite ordered ledger of partition points, endpoint rows, mesh comparisons, edge-difference rows, transport, replay, provenance, and local NameCert rows. $\BoundedVariationUp$ names the boundedness claim, $\TotalVariationFunctionUp$ names the accumulated variation functional, $\RiemannSumUp$ names tagged summation data, and $\RegulatedIntegralUp$ names the integral-facing route. None alone carries the finite partition ledger required here.}
+
+\begin{definition}[Finite variation partition carrier]
+\label{def:finite-variation-partition-carrier}
+A $\FiniteVariationPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+V=(I,E,P,M,D,S,T,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval or domain row on which variation is measured, exposing the endpoint type and order comparison used by the packet.
+\item $E$ is the endpoint row, naming the left and right boundary points and their admitted order.
+\item $P$ is the finite partition row, listing the accepted ordered points between the endpoints.
+\item $M$ is the mesh-comparison row, recording adjacent-point order and the finite successor relation inside $P$.
+\item $D$ is the edge-difference row, naming the finite family of adjacent absolute differences or metric differences attached to $P$.
+\item $S$ is the finite sum or ledger row that accumulates the entries of $D$ without taking an ambient supremum.
+\item $T$ is the sibling handoff row to $\BoundedVariationUp$, $\TotalVariationFunctionUp$, $\RiemannSumUp$, or $\RegulatedIntegralUp$, with an explicit empty row when no such consumer is claimed.
+\item $H$ records componentwise $\hsame$ transport for $I,E,P,M,D,S,T$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from endpoint admission through partition ordering, edge-difference summation, sibling handoff, provenance, and local naming.
+\item $Q$ is the $\Pkg$ provenance over $\FiniteVariationPartitionUp$, $\BoundedVariationUp$, $\TotalVariationFunctionUp$, $\RiemannSumUp$, $\RegulatedIntegralUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteVariationPartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these eleven rows. It has no coordinate for a host-selected partition family, a supremum over all partitions, open-cover compactness, countable choice, quotient equality, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Finite variation partition NameCert obligations]
+\label{thm:finite-variation-partition-namecert-obligations}
+For every accepted $\FiniteVariationPartitionUp$ carrier $V=(I,E,P,M,D,S,T,H,C,Q,N)$, the local $\NameCert_{\FiniteVariationPartitionUp}$ surface consists exactly of carrier admission, endpoint exposure, finite partition ordering, mesh comparison, edge-difference exposure, finite-sum ledger exposure, sibling handoff to the bounded-variation, total-variation, Riemann-sum, or regulated-integral rows when $T$ is present, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation in the packet asserts a host partition selector, a global total-variation supremum, countable choice, quotient equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its visible rows are the domain row, endpoint row, finite partition row, mesh-comparison row, edge-difference row, finite-sum ledger, sibling handoff, transport, replay, provenance, and local name.
+
+The partition obligation is finite. The row $P$ supplies only the displayed list of partition points, while $M$ records adjacent order and successor comparisons inside that list. No row ranges over all possible partitions.
+
+The variation obligation is ledgered through $D$ and $S$. A bounded-variation or total-variation consumer may read the adjacent edge differences and their finite sum, but the packet does not identify this finite ledger with a supremum over every refinement.
+
+The sibling handoff is exact. When $T$ cites $\BoundedVariationUp$, $\TotalVariationFunctionUp$, $\RiemannSumUp$, or $\RegulatedIntegralUp$, the read passes through $H,C,Q,N$; when $T$ is empty, the packet makes no downstream variation or integration claim.
+\end{proof}
+
+\begin{theorem}[Finite variation partition bounded-variation handoff]
+\label{thm:finite-variation-partition-bounded-variation-handoff}
+Every $\BoundedVariationUp$, $\TotalVariationFunctionUp$, $\RiemannSumUp$, or $\RegulatedIntegralUp$ consumer of an accepted $\FiniteVariationPartitionUp$ packet must first read
+$$
+I,E,P,M,D,S,T,H,C,Q,N.
+$$
+It receives the displayed endpoint, ordered finite partition, mesh-comparison, edge-difference, finite-sum, sibling handoff, transport, replay, provenance, and local NameCert rows. It receives no host-level partition choice, no hidden variation supremum, no unledgered refinement family, no countable choice, and no ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:finite-variation-partition-carrier}. The bounded-variation and integration-facing data occur only in the finite rows $P,M,D,S,T$ over the endpoint data $I,E$.
+
+Apply the NameCert obligations of \autoref{thm:finite-variation-partition-namecert-obligations}. They require every downstream handoff to expose the finite partition ordering, mesh comparison, edge-difference ledger, and finite sum before the sibling row $T$ is read.
+
+The structural rows preserve the same finite route. Transport $H$ is componentwise, replay $C$ follows the displayed ledger, provenance $Q$ names the sibling certificates, and $N$ names the local packet.
+
+Therefore a bounded-variation, total-variation, Riemann-sum, or regulated-integral consumer receives only the finite partition ledger. The absent coordinates for host partition choice, global supremum, refinement-family choice, and ambient completeness cannot be recovered from the packet.
+\end{proof}
+
+\closureat{$\FiniteVariationPartitionUp$}{seedStr}
+
+\begin{closurestatus}{\FiniteVariationPartitionUp}
+  \constructivestory{A $\FiniteVariationPartitionUp$ packet is generated from endpoint rows, a finite ordered partition row, mesh-comparison rows, edge-difference rows, a finite-sum ledger, a bounded-variation or integration-facing handoff, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-variation-partition-carrier}, \autoref{thm:finite-variation-partition-namecert-obligations}, and \autoref{thm:finite-variation-partition-bounded-variation-handoff} seed the finite partition ledger for bounded-variation, total-variation, Riemann-sum, and regulated-integral consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean theorem verification, bridge checking, host-selected partition families, global variation suprema, countable choice, quotient equality, or ambient Real completeness.}
+  \upgradepath{A formal route can encode the eleven-row carrier obligations and prove the finite bounded-variation handoff for BEDC.Derived.FiniteVariationPartitionUp.}
+\end{closurestatus}
