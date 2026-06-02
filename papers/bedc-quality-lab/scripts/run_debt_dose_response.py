@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.debt import assess_debt, format_debt_items
+from bedc_quality_lab.latent_distribution import CANONICAL_LATENT_DISTRIBUTION_KEYS, LatentDistributionSpec
 from bedc_quality_lab.ledger import derive_ledger_gaps, format_ledger_gaps
 from bedc_quality_lab.metrics import classifier_certificate, metric_bundle, quality_components
 from bedc_quality_lab.mixing import canonical_mixing_families
@@ -173,6 +174,8 @@ def _dose_surface(debt_level: float) -> _DoseSurface:
         "sample_count": 2048,
         "rho": 0.82,
         "mixing": canonical_mixing_families(),
+        "latent_distribution": LatentDistributionSpec.gaussian().to_source_spec(),
+        "latent_distribution_coverage_keys": list(CANONICAL_LATENT_DISTRIBUTION_KEYS),
         "global_claim": True,
     }
     classifier_spec_base = {

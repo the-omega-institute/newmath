@@ -75,6 +75,25 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         ),
         estimated_seconds=5,
     ),
+    CanonicalReportSpec(
+        name="nongaussian-distribution-sweep",
+        command=("python3", "scripts/run_nongaussian_distribution_sweep.py"),
+        json_artifact="reports/canonical/nongaussian-distribution-sweep.json",
+        markdown_artifact="reports/canonical/nongaussian-distribution-sweep.md",
+        required_json_keys=(
+            "generated_at",
+            "config",
+            "source_artifacts",
+            "records",
+            "family_aggregates",
+            "coverage_item",
+            "claim_gate",
+            "main_claim_status",
+            "negative_result_ledger",
+            "not_claimed",
+        ),
+        estimated_seconds=20,
+    ),
 )
 
 

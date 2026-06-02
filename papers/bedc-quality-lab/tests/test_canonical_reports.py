@@ -13,7 +13,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     markdown_artifacts = [spec.markdown_artifact for spec in canonical.CANONICAL_REPORTS]
 
     assert len(names) == len(set(names))
-    assert names == ["gap-head-on-h", "gap-head-discovery"]
+    assert names == ["gap-head-on-h", "gap-head-discovery", "nongaussian-distribution-sweep"]
     assert len(json_artifacts) == len(set(json_artifacts))
     assert len(markdown_artifacts) == len(set(markdown_artifacts))
     for spec in canonical.CANONICAL_REPORTS:
@@ -51,6 +51,23 @@ def test_gap_head_manifest_rows_are_canonical_and_keyed():
     }.issubset(set(discovery.required_json_keys))
 
 
+def test_canonical_reports_manifest_includes_distribution_sweep():
+    spec = canonical._specs_by_name()["nongaussian-distribution-sweep"]
+
+    assert spec.command == ("python3", "scripts/run_nongaussian_distribution_sweep.py")
+    assert spec.json_artifact == "reports/canonical/nongaussian-distribution-sweep.json"
+    assert spec.markdown_artifact == "reports/canonical/nongaussian-distribution-sweep.md"
+    assert {
+        "records",
+        "family_aggregates",
+        "coverage_item",
+        "claim_gate",
+        "main_claim_status",
+        "negative_result_ledger",
+        "not_claimed",
+    }.issubset(set(spec.required_json_keys))
+
+
 def test_manifest_required_keys_cover_linked_control_evidence():
     for spec in canonical.CANONICAL_REPORTS:
         keys = set(spec.required_json_keys)
@@ -61,6 +78,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
     )
     assert {"matched_random_control", "main_claim_status"}.issubset(
         set(canonical._specs_by_name()["gap-head-discovery"].required_json_keys)
+    )
+    assert {"claim_gate", "negative_result_ledger", "main_claim_status"}.issubset(
+        set(canonical._specs_by_name()["nongaussian-distribution-sweep"].required_json_keys)
     )
 
 
@@ -189,6 +209,12 @@ def test_index_markdown_lists_gap_head_reports():
                 "markdown_artifact": "reports/canonical/gap-head-on-h.md",
             },
             {
+                "name": "nongaussian-distribution-sweep",
+                "status": "pass",
+                "json_artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+                "markdown_artifact": "reports/canonical/nongaussian-distribution-sweep.md",
+            },
+            {
                 "name": "gap-head-discovery",
                 "status": "pass",
                 "json_artifact": "reports/canonical/gap-head-discovery.json",
@@ -200,3 +226,4 @@ def test_index_markdown_lists_gap_head_reports():
 
     assert "gap-head-on-h" in markdown
     assert "gap-head-discovery" in markdown
+    assert "nongaussian-distribution-sweep" in markdown

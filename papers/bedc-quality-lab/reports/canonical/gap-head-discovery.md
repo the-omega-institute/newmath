@@ -13,11 +13,11 @@
 
 ## Information
 
-- Benefit: `0.903188`
+- Benefit: `0.886087`
 - Score: `0.190000`
 - Debt: `0.350000`
 - Omitted debt: `0.000000`
-- Net: `0.363188`
+- Net: `0.346087`
 
 ## Boundary
 
@@ -30,8 +30,8 @@
 ## Cost Protocol
 
 - Benefit terms:
-  - `unlogged_error_reduction`: `0.391304`
-  - `critical_unlogged_error_reduction`: `0.511884`
+  - `unlogged_error_reduction`: `0.380870`
+  - `critical_unlogged_error_reduction`: `0.505217`
 - Score terms:
   - `h_only_feature_surface`: `0.150000`
   - `gap_channel_heads`: `0.040000`

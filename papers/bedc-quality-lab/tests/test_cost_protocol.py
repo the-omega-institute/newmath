@@ -10,6 +10,7 @@ from bedc_quality_lab.cost_protocol import (
     load_cost_protocol,
 )
 from bedc_quality_lab.debt import assess_debt
+from bedc_quality_lab.latent_distribution import CANONICAL_LATENT_DISTRIBUTION_KEYS
 from bedc_quality_lab.ledger import LedgerRowKey
 from bedc_quality_lab.metrics import QUALITY_Q_FORMULA_ID, quality_components, quality_formula_description
 from bedc_quality_lab.mixing import canonical_mixing_families
@@ -18,6 +19,8 @@ from bedc_quality_lab.mixing import canonical_mixing_families
 SENTINEL_WEIGHTS = {
     LedgerRowKey("source", "source-coverage"): 0.31,
     LedgerRowKey("source", "mixing-family-coverage"): 0.37,
+    LedgerRowKey("source", "latent-distribution-gaussianity"): 0.39,
+    LedgerRowKey("source", "distribution-family-coverage"): 0.40,
     LedgerRowKey("source", "finite-sample-support"): 0.41,
     LedgerRowKey("source", "transition-isotropy"): 0.43,
     LedgerRowKey("classifier", "optimizer-certificate"): 0.47,
@@ -36,6 +39,8 @@ def protocol_body(*, omit: str | None = None, extra: str = "", formula_id: str =
     rows = {
         "source/source-coverage": "0.18",
         "source/mixing-family-coverage": "0.22",
+        "source/latent-distribution-gaussianity": "0.16",
+        "source/distribution-family-coverage": "0.24",
         "source/finite-sample-support": "0.20",
         "source/transition-isotropy": "0.12",
         "classifier/optimizer-certificate": "0.20",
@@ -72,6 +77,8 @@ def closed_specs():
         {
             "source_count": 3,
             "mixing": canonical_mixing_families(),
+            "latent_distribution": {"family": "gaussian", "coverage_key": "gaussian"},
+            "latent_distribution_coverage_keys": list(CANONICAL_LATENT_DISTRIBUTION_KEYS),
             "sample_count": 2048,
             "global_claim": False,
         },
@@ -149,7 +156,13 @@ def test_debt_uses_injected_protocol_weights():
 
     assessment = assess_debt(
         closed_metrics(),
-        {"source_count": 1, "mixing": canonical_mixing_families(), "sample_count": 2048},
+        {
+            "source_count": 1,
+            "mixing": canonical_mixing_families(),
+            "latent_distribution": {"family": "gaussian", "coverage_key": "gaussian"},
+            "latent_distribution_coverage_keys": list(CANONICAL_LATENT_DISTRIBUTION_KEYS),
+            "sample_count": 2048,
+        },
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
         protocol=protocol,
@@ -175,6 +188,22 @@ def test_debt_uses_injected_protocol_weights():
             LedgerRowKey("source", "mixing-family-coverage"),
             {},
             {"mixing": canonical_mixing_families()[:2]},
+            {},
+            {},
+            0.5,
+        ),
+        (
+            LedgerRowKey("source", "latent-distribution-gaussianity"),
+            {},
+            {"latent_distribution": {"family": "laplace", "coverage_key": "laplace"}},
+            {},
+            {},
+            1.0,
+        ),
+        (
+            LedgerRowKey("source", "distribution-family-coverage"),
+            {},
+            {"latent_distribution_coverage_keys": ["gaussian", "laplace"]},
             {},
             {},
             0.5,

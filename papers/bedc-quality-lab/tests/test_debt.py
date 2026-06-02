@@ -1,6 +1,10 @@
 import math
 
 from bedc_quality_lab.debt import assess_debt, format_debt_items
+from bedc_quality_lab.latent_distribution import (
+    CANONICAL_LATENT_DISTRIBUTION_KEYS,
+    LatentDistributionSpec,
+)
 from bedc_quality_lab.mixing import canonical_mixing_families
 
 
@@ -16,7 +20,8 @@ def closed_metrics(**patch):
 
 def example_specs():
     return (
-        {
+        closed_source_spec()
+        | {
             "name": "gaussian-ou-toy-world",
             "sample_count": 384,
             "mixing": "sinusoidal_shear",
@@ -34,6 +39,17 @@ def example_specs():
     )
 
 
+def closed_source_spec():
+    return {
+        "source_count": 3,
+        "mixing": canonical_mixing_families(),
+        "latent_distribution": {"family": "gaussian", "coverage_key": "gaussian"},
+        "latent_distribution_coverage_keys": list(CANONICAL_LATENT_DISTRIBUTION_KEYS),
+        "sample_count": 2048,
+        "global_claim": False,
+    }
+
+
 def test_debt_assessment_has_required_bounded_categories():
     source_spec, classifier_spec, stability_spec = example_specs()
     assessment = assess_debt(
@@ -48,6 +64,8 @@ def test_debt_assessment_has_required_bounded_categories():
         "source",
         "source",
         "source",
+        "source",
+        "source",
         "classifier",
         "verification",
         "generalization",
@@ -55,6 +73,8 @@ def test_debt_assessment_has_required_bounded_categories():
     assert [item.residue for item in assessment.items] == [
         "source-coverage",
         "mixing-family-coverage",
+        "latent-distribution-gaussianity",
+        "distribution-family-coverage",
         "finite-sample-support",
         "transition-isotropy",
         "optimizer-certificate",
@@ -92,7 +112,7 @@ def assert_residue(assessment, residue, *, kind, severity, status, score):
 def assess_case(source_spec, classifier_spec=None, stability_spec=None):
     return assess_debt(
         closed_metrics(approx_identifiability_proxy=0.25),
-        source_spec,
+        closed_source_spec() | source_spec,
         classifier_spec or {"name": "align-classifier", "training": "align-cov-mean"},
         stability_spec or {"name": "single-seed"},
     )
@@ -208,6 +228,95 @@ def test_distribution_coverage_dedupes_and_never_closes_for_non_canonical_names(
     assert_residue(
         closed_assessment,
         "mixing-family-coverage",
+        kind="source",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
+
+
+def test_debt_latent_gaussianity_closed_for_gaussian_open_for_nongaussian():
+    gaussian = assess_case({"latent_distribution": LatentDistributionSpec.gaussian().to_source_spec()})
+    laplace = assess_case({"latent_distribution": LatentDistributionSpec.laplace().to_source_spec()})
+    missing_source = dict(closed_source_spec())
+    missing_source.pop("latent_distribution")
+    missing = assess_debt(
+        closed_metrics(),
+        missing_source,
+        {"name": "certified-search", "training": "certified"},
+        {"multi_seed": True},
+    )
+
+    assert_residue(
+        gaussian,
+        "latent-distribution-gaussianity",
+        kind="source",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
+    assert_residue(
+        laplace,
+        "latent-distribution-gaussianity",
+        kind="source",
+        severity="high",
+        status="open",
+        score=0.16,
+    )
+    assert_residue(
+        missing,
+        "latent-distribution-gaussianity",
+        kind="source",
+        severity="high",
+        status="open",
+        score=0.16,
+    )
+
+
+def test_debt_distribution_family_coverage_open_partial_closed():
+    gaussian = LatentDistributionSpec.gaussian().to_source_spec()
+    laplace = LatentDistributionSpec.laplace().to_source_spec()
+    all_families = [
+        {"coverage_key": key}
+        for key in CANONICAL_LATENT_DISTRIBUTION_KEYS
+    ]
+
+    open_source = dict(closed_source_spec())
+    open_source.pop("latent_distribution_coverage_keys")
+    partial_source = dict(open_source)
+    open_assessment = assess_debt(
+        closed_metrics(),
+        open_source | {"latent_distribution": gaussian},
+        {"name": "certified-search", "training": "certified"},
+        {"multi_seed": True},
+    )
+    partial_assessment = assess_debt(
+        closed_metrics(),
+        partial_source | {"latent_distribution": [gaussian, laplace]},
+        {"name": "certified-search", "training": "certified"},
+        {"multi_seed": True},
+    )
+    closed_assessment = assess_case({"latent_distribution": all_families})
+
+    assert_residue(
+        open_assessment,
+        "distribution-family-coverage",
+        kind="source",
+        severity="high",
+        status="open",
+        score=0.24,
+    )
+    assert_residue(
+        partial_assessment,
+        "distribution-family-coverage",
+        kind="source",
+        severity="medium",
+        status="partial",
+        score=0.12,
+    )
+    assert_residue(
+        closed_assessment,
+        "distribution-family-coverage",
         kind="source",
         severity="none",
         status="closed",
@@ -410,19 +519,19 @@ def test_theorem_bound_margin_thresholds_pin_closed_and_open_statuses():
     closed_assessment = assess_case({}, stability_spec={"multi_seed": True})
     zero_assessment = assess_debt(
         closed_metrics(theorem3_bound_mse=1.0, actual_recovery_mse=1.0, bound_margin_mse=0.0),
-        {"source_count": 3, "mixing": canonical_mixing_families(), "sample_count": 2048},
+        closed_source_spec(),
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
     )
     open_assessment = assess_debt(
         closed_metrics(theorem3_bound_mse=1.0, actual_recovery_mse=2.0, bound_margin_mse=-1.0),
-        {"source_count": 3, "mixing": canonical_mixing_families(), "sample_count": 2048},
+        closed_source_spec(),
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
     )
     missing_assessment = assess_debt(
         {},
-        {"source_count": 3, "mixing": canonical_mixing_families(), "sample_count": 2048},
+        closed_source_spec(),
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
     )
@@ -468,7 +577,7 @@ def test_debt_formatter_emits_canonical_keys():
 
     rows = format_debt_items(assessment)
 
-    assert len(rows) == 7
+    assert len(rows) == 9
     for row in rows:
         assert "kind=" in row
         assert "residue=" in row
