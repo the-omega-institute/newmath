@@ -21,6 +21,9 @@ CANONICAL_DIR = ROOT / "reports" / "canonical"
 INDEX_ARTIFACT = CANONICAL_DIR / "index.json"
 INDEX_SCHEMA_ID = "bedc-quality-lab:canonical-report-index"
 INDEX_ROOT = "papers/bedc-quality-lab"
+QUALITY_SCORECARD_JSON_ARTIFACT = "reports/canonical/quality-scorecard.json"
+QUALITY_SCORECARD_MARKDOWN_ARTIFACT = "reports/canonical/quality-scorecard.md"
+QUALITY_SCORECARD_ARTIFACT_ID = "bedc-quality-lab:quality-scorecard"
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -40,6 +43,20 @@ METRIC_ALIASES = {
     "theorem3_bound": "theorem3_bound_mse",
     "bound_margin": "bound_margin_mse",
 }
+QUALITY_SCORECARD_METRICS = (
+    "CertCov",
+    "DebtQ",
+    "CriticalDebt",
+    "LedgerCompleteness",
+    "ClassifierShiftCount",
+    "PositiveDiscoveryCount",
+    "AuditImprovementCount",
+    "NegativeResultCount",
+    "ScopeCompleteness",
+    "CostProtocolCompleteness",
+    "HardeningCoverage",
+    "OverclaimRate",
+)
 
 
 @dataclass(frozen=True)
@@ -384,6 +401,333 @@ def _pointer_value(payload: dict[str, Any], pointer: str | None) -> Any:
     return cursor
 
 
+def _report_payloads_by_name() -> dict[str, dict[str, Any]]:
+    return {spec.name: _load_report_payload(spec) for spec in CANONICAL_REPORTS}
+
+
+def _canonical_source(report: str, pointer: str) -> dict[str, str]:
+    spec = _specs_by_name()[report]
+    return {
+        "report": report,
+        "artifact": spec.json_artifact,
+        "pointer": pointer,
+    }
+
+
+def _metric_not_ready(metric: str, dependency: str, reason: str) -> dict[str, Any]:
+    return {
+        "metric": metric,
+        "status": "not-ready",
+        "dependency": dependency,
+        "reason": reason,
+    }
+
+
+def _metric_ready(
+    metric: str,
+    value: Any,
+    source: dict[str, str] | list[dict[str, str]],
+    *,
+    numerator: int | float | None = None,
+    denominator: int | float | None = None,
+) -> dict[str, Any]:
+    row: dict[str, Any] = {
+        "metric": metric,
+        "status": "ready",
+        "value": value,
+        "source": source,
+    }
+    if numerator is not None:
+        row["numerator"] = numerator
+    if denominator is not None:
+        row["denominator"] = denominator
+    return row
+
+
+def _sequence_len(value: Any) -> int | None:
+    if isinstance(value, (list, tuple)):
+        return len(value)
+    return None
+
+
+def _count_true_cells(value: Any, key: str) -> int | None:
+    if not isinstance(value, dict):
+        return None
+    total = 0
+    for cell in value.values():
+        if not isinstance(cell, dict) or key not in cell:
+            return None
+        if cell[key] is True:
+            total += 1
+    return total
+
+
+def _score_decimal(value: Any) -> float | None:
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _scorecard_cert_cov(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    report = "mixing-family-sweep"
+    pointer = "$.coverage_item"
+    cell = _pointer_value(payloads.get(report, {}), pointer)
+    if not isinstance(cell, dict):
+        return _metric_not_ready("CertCov", f"{report}:{pointer}", "missing source cell")
+    covered = _sequence_len(cell.get("covered_families"))
+    total = _sequence_len(cell.get("canonical_families"))
+    if covered is None or total is None or total <= 0:
+        return _metric_not_ready("CertCov", f"{report}:{pointer}", "missing coverage denominator")
+    return _metric_ready(
+        "CertCov",
+        covered / total,
+        _canonical_source(report, pointer),
+        numerator=covered,
+        denominator=total,
+    )
+
+
+def _scorecard_debt_q(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    report = "mixing-family-sweep"
+    pointer = "$.coverage_item.debt_item.score"
+    score = _score_decimal(_pointer_value(payloads.get(report, {}), pointer))
+    if score is None:
+        return _metric_not_ready("DebtQ", f"{report}:{pointer}", "missing debt score")
+    return _metric_ready("DebtQ", score, _canonical_source(report, pointer))
+
+
+def _scorecard_critical_debt(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    report = "gap-head-discovery"
+    pointer = "$.debt_terms"
+    cell = _pointer_value(payloads.get(report, {}), pointer)
+    if not isinstance(cell, dict) or "classifier_ledger_rows" not in cell:
+        return _metric_not_ready("CriticalDebt", f"{report}:{pointer}", "missing classifier debt term")
+    return _metric_ready("CriticalDebt", cell["classifier_ledger_rows"], _canonical_source(report, pointer))
+
+
+def _scorecard_ledger_completeness(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    report = "gap-head-discovery"
+    pointer = "$.classifier_state"
+    cell = _pointer_value(payloads.get(report, {}), pointer)
+    if not isinstance(cell, dict):
+        return _metric_not_ready("LedgerCompleteness", f"{report}:{pointer}", "missing classifier state")
+    recorded = cell.get("recorded_ledger_rows")
+    required = cell.get("required_ledger_rows")
+    if not isinstance(recorded, int) or not isinstance(required, int) or required <= 0:
+        return _metric_not_ready("LedgerCompleteness", f"{report}:{pointer}", "missing ledger denominator")
+    return _metric_ready(
+        "LedgerCompleteness",
+        recorded / required,
+        _canonical_source(report, pointer),
+        numerator=recorded,
+        denominator=required,
+    )
+
+
+def _scorecard_classifier_shift_count(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    report = "gap-head-discovery"
+    pointer = "$.surface_delta_count"
+    value = _pointer_value(payloads.get(report, {}), pointer)
+    if not isinstance(value, int):
+        return _metric_not_ready("ClassifierShiftCount", f"{report}:{pointer}", "missing shift count")
+    return _metric_ready("ClassifierShiftCount", value, _canonical_source(report, pointer))
+
+
+def _scorecard_positive_discovery_count(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    sources = [
+        ("gap-head-discovery", "$.positive_discovery"),
+        ("certificate-guided-discovery", "$.positive_discovery"),
+    ]
+    values = [_pointer_value(payloads.get(report, {}), pointer) for report, pointer in sources]
+    if any(not isinstance(value, bool) for value in values):
+        return _metric_not_ready("PositiveDiscoveryCount", "canonical discovery positive flags", "missing discovery flag")
+    return _metric_ready(
+        "PositiveDiscoveryCount",
+        sum(1 for value in values if value is True),
+        [_canonical_source(report, pointer) for report, pointer in sources],
+        numerator=sum(1 for value in values if value is True),
+        denominator=len(values),
+    )
+
+
+def _scorecard_audit_improvement_count(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    report = "certificate-guided-training"
+    pointer = "$.claim_gate.audit_improvement_tradeoff"
+    value = _pointer_value(payloads.get(report, {}), pointer)
+    if not isinstance(value, bool):
+        return _metric_not_ready("AuditImprovementCount", f"{report}:{pointer}", "missing audit improvement flag")
+    return _metric_ready(
+        "AuditImprovementCount",
+        1 if value else 0,
+        _canonical_source(report, pointer),
+        numerator=1 if value else 0,
+        denominator=1,
+    )
+
+
+def _scorecard_negative_result_count(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    sources = [
+        ("mixing-family-sweep", "$.negative_result_summary.cells"),
+        ("anisotropic-ou-sweep", "$.negative_result_summary.cells"),
+        ("nongaussian-distribution-sweep", "$.negative_result_ledger"),
+    ]
+    mixing = _count_true_cells(_pointer_value(payloads.get(sources[0][0], {}), sources[0][1]), "negative_result")
+    anisotropic = _count_true_cells(_pointer_value(payloads.get(sources[1][0], {}), sources[1][1]), "negative_result")
+    nongaussian = _sequence_len(_pointer_value(payloads.get(sources[2][0], {}), sources[2][1]))
+    if mixing is None or anisotropic is None or nongaussian is None:
+        return _metric_not_ready("NegativeResultCount", "canonical negative-result cells", "missing negative-result source")
+    return _metric_ready(
+        "NegativeResultCount",
+        mixing + anisotropic + nongaussian,
+        [_canonical_source(report, pointer) for report, pointer in sources],
+    )
+
+
+def _scorecard_scope_completeness(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    reports = [spec.name for spec in CANONICAL_REPORTS]
+    sources = [(spec.name, spec.scope_pointer) for spec in CANONICAL_REPORTS]
+    for spec in CANONICAL_REPORTS:
+        if _pointer_value(payloads.get(spec.name, {}), spec.scope_pointer) is None:
+            return _metric_not_ready(
+                "ScopeCompleteness",
+                f"{spec.name}:{spec.scope_pointer}",
+                "missing scope pointer",
+            )
+    present = len(reports)
+    denominator = len(reports)
+    if denominator <= 0:
+        return _metric_not_ready("ScopeCompleteness", "canonical report manifest", "missing manifest rows")
+    return _metric_ready(
+        "ScopeCompleteness",
+        present / denominator,
+        [_canonical_source(report, pointer) for report, pointer in sources],
+        numerator=present,
+        denominator=denominator,
+    )
+
+
+def _scorecard_cost_protocol_completeness(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    sources = [(spec.name, spec.cost_pointer) for spec in CANONICAL_REPORTS]
+    for spec in CANONICAL_REPORTS:
+        if _pointer_value(payloads.get(spec.name, {}), spec.cost_pointer) is None:
+            return _metric_not_ready(
+                "CostProtocolCompleteness",
+                f"{spec.name}:{spec.cost_pointer}",
+                "missing cost pointer",
+            )
+    present = len(CANONICAL_REPORTS)
+    denominator = len(CANONICAL_REPORTS)
+    if denominator <= 0:
+        return _metric_not_ready("CostProtocolCompleteness", "canonical report manifest", "missing manifest rows")
+    return _metric_ready(
+        "CostProtocolCompleteness",
+        present / denominator,
+        [_canonical_source(report, pointer) for report, pointer in sources],
+        numerator=present,
+        denominator=denominator,
+    )
+
+
+def _scorecard_hardening_coverage(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    report = "spectral-ablation-hinge"
+    pointer = "$.ledger_summary.basis.hardening_coverage"
+    cell = _pointer_value(payloads.get(report, {}), pointer)
+    if not isinstance(cell, dict):
+        return _metric_not_ready("HardeningCoverage", f"{report}:{pointer}", "missing hardening coverage cell")
+    recorded = cell.get("recorded")
+    required = cell.get("required")
+    if not isinstance(recorded, int) or not isinstance(required, int) or required <= 0:
+        return _metric_not_ready("HardeningCoverage", f"{report}:{pointer}", "missing hardening denominator")
+    return _metric_ready(
+        "HardeningCoverage",
+        recorded / required,
+        _canonical_source(report, pointer),
+        numerator=recorded,
+        denominator=required,
+    )
+
+
+def _scorecard_overclaim_rate(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    report = "certificate-guided-discovery"
+    pointer = "$.audit_decision.overclaim_rate"
+    value = _pointer_value(payloads.get(report, {}), pointer)
+    if not isinstance(value, (int, float)):
+        return _metric_not_ready("OverclaimRate", f"{report}:{pointer}", "missing explicit overclaim denominator")
+    return _metric_ready("OverclaimRate", float(value), _canonical_source(report, pointer))
+
+
+def _build_quality_scorecard(
+    reports: Sequence[dict[str, Any]],
+    *,
+    generated_at: str,
+) -> dict[str, Any]:
+    payloads = _report_payloads_by_name()
+    builders = (
+        _scorecard_cert_cov,
+        _scorecard_debt_q,
+        _scorecard_critical_debt,
+        _scorecard_ledger_completeness,
+        _scorecard_classifier_shift_count,
+        _scorecard_positive_discovery_count,
+        _scorecard_audit_improvement_count,
+        _scorecard_negative_result_count,
+        _scorecard_scope_completeness,
+        _scorecard_cost_protocol_completeness,
+        _scorecard_hardening_coverage,
+        _scorecard_overclaim_rate,
+    )
+    rows = [builder(payloads) for builder in builders]
+    return {
+        "artifact_id": QUALITY_SCORECARD_ARTIFACT_ID,
+        "generated_at": generated_at,
+        "root": INDEX_ROOT,
+        "producer": "scripts/run_canonical_reports.py",
+        "input_reports": [
+            {
+                "name": report["name"],
+                "json_artifact": report["json_artifact"],
+                "status": report["status"],
+            }
+            for report in reports
+        ],
+        "rows": rows,
+    }
+
+
+def _render_quality_scorecard_markdown(payload: dict[str, Any]) -> str:
+    lines = [
+        "# Quality Scorecard",
+        "",
+        f"- Generated at: `{payload['generated_at']}`",
+        f"- Artifact: `{payload['artifact_id']}`",
+        f"- Producer: `{payload['producer']}`",
+        "",
+        "| metric | status | value | source | dependency |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    for row in payload["rows"]:
+        source = row.get("source")
+        if isinstance(source, list):
+            source_text = ", ".join(f"{cell['artifact']}:{cell['pointer']}" for cell in source)
+        elif isinstance(source, dict):
+            source_text = f"{source['artifact']}:{source['pointer']}"
+        else:
+            source_text = ""
+        lines.append(
+            "| "
+            f"`{row['metric']}` | "
+            f"`{row['status']}` | "
+            f"`{row.get('value', '')}` | "
+            f"`{source_text}` | "
+            f"`{row.get('dependency', '')}` |"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
 def _pointer_status(payload: dict[str, Any], pointer: str | None) -> str:
     if pointer is None:
         return "not-applicable"
@@ -506,6 +850,17 @@ def _honest_boundary() -> dict[str, Any]:
     }
 
 
+def _quality_scorecard_index_section() -> dict[str, Any]:
+    return {
+        "status": "pointer-only",
+        "artifact_id": QUALITY_SCORECARD_ARTIFACT_ID,
+        "json_artifact": QUALITY_SCORECARD_JSON_ARTIFACT,
+        "markdown_artifact": QUALITY_SCORECARD_MARKDOWN_ARTIFACT,
+        "metric_count": len(QUALITY_SCORECARD_METRICS),
+        "metrics": list(QUALITY_SCORECARD_METRICS),
+    }
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -561,13 +916,15 @@ def _run_spec(spec: CanonicalReportSpec) -> dict[str, Any]:
     return result
 
 
-def _index(results: Sequence[dict[str, Any]]) -> dict[str, Any]:
+def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None) -> dict[str, Any]:
     reports = list(results)
+    timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     return {
         "schema_id": INDEX_SCHEMA_ID,
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": timestamp,
         "root": INDEX_ROOT,
         "reports": reports,
+        "quality_scorecard": _quality_scorecard_index_section(),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
         "honest_boundary": _honest_boundary(),
@@ -616,6 +973,13 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
     outline = payload["paper_outline"]
     lines.extend(
         [
+            "## Quality scorecard",
+            "",
+            f"- Status: `{payload['quality_scorecard']['status']}`",
+            f"- JSON: `{payload['quality_scorecard']['json_artifact']}`",
+            f"- Markdown: `{payload['quality_scorecard']['markdown_artifact']}`",
+            f"- Metrics: `{', '.join(payload['quality_scorecard']['metrics'])}`",
+            "",
             "## Paper outline",
             "",
             f"- Status: `{outline['status']}`",
@@ -679,10 +1043,15 @@ def run_reports(
     *,
     only: str | None = None,
     json_summary: str | None = None,
+    generated_at: str | None = None,
 ) -> dict[str, Any]:
     CANONICAL_DIR.mkdir(parents=True, exist_ok=True)
     results = [_run_spec(spec) for spec in _select_specs(only)]
-    payload = _index(results)
+    timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
+    payload = _index(results, generated_at=timestamp)
+    scorecard = _build_quality_scorecard(results, generated_at=timestamp)
+    _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
+    _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
     if json_summary is not None:

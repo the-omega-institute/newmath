@@ -1,0 +1,267 @@
+{
+  "artifact_id": "bedc-quality-lab:quality-scorecard",
+  "generated_at": "2026-06-02T18:50:45.786072+00:00",
+  "input_reports": [
+    {
+      "json_artifact": "reports/canonical/mixing-family-sweep.json",
+      "name": "mixing-family-sweep",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
+      "name": "anisotropic-ou-sweep",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/gap-head-on-h.json",
+      "name": "gap-head-on-h",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/gap-head-discovery.json",
+      "name": "gap-head-discovery",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+      "name": "nongaussian-distribution-sweep",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/certificate-guided-training.json",
+      "name": "certificate-guided-training",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/certificate-guided-discovery.json",
+      "name": "certificate-guided-discovery",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/spectral-ablation-hinge.json",
+      "name": "spectral-ablation-hinge",
+      "status": "pass"
+    }
+  ],
+  "producer": "scripts/run_canonical_reports.py",
+  "root": "papers/bedc-quality-lab",
+  "rows": [
+    {
+      "denominator": 4,
+      "metric": "CertCov",
+      "numerator": 4,
+      "source": {
+        "artifact": "reports/canonical/mixing-family-sweep.json",
+        "pointer": "$.coverage_item",
+        "report": "mixing-family-sweep"
+      },
+      "status": "ready",
+      "value": 1.0
+    },
+    {
+      "metric": "DebtQ",
+      "source": {
+        "artifact": "reports/canonical/mixing-family-sweep.json",
+        "pointer": "$.coverage_item.debt_item.score",
+        "report": "mixing-family-sweep"
+      },
+      "status": "ready",
+      "value": 0.0
+    },
+    {
+      "metric": "CriticalDebt",
+      "source": {
+        "artifact": "reports/canonical/gap-head-discovery.json",
+        "pointer": "$.debt_terms",
+        "report": "gap-head-discovery"
+      },
+      "status": "ready",
+      "value": 0.3
+    },
+    {
+      "denominator": 30,
+      "metric": "LedgerCompleteness",
+      "numerator": 30,
+      "source": {
+        "artifact": "reports/canonical/gap-head-discovery.json",
+        "pointer": "$.classifier_state",
+        "report": "gap-head-discovery"
+      },
+      "status": "ready",
+      "value": 1.0
+    },
+    {
+      "metric": "ClassifierShiftCount",
+      "source": {
+        "artifact": "reports/canonical/gap-head-discovery.json",
+        "pointer": "$.surface_delta_count",
+        "report": "gap-head-discovery"
+      },
+      "status": "ready",
+      "value": 30
+    },
+    {
+      "denominator": 2,
+      "metric": "PositiveDiscoveryCount",
+      "numerator": 1,
+      "source": [
+        {
+          "artifact": "reports/canonical/gap-head-discovery.json",
+          "pointer": "$.positive_discovery",
+          "report": "gap-head-discovery"
+        },
+        {
+          "artifact": "reports/canonical/certificate-guided-discovery.json",
+          "pointer": "$.positive_discovery",
+          "report": "certificate-guided-discovery"
+        }
+      ],
+      "status": "ready",
+      "value": 1
+    },
+    {
+      "denominator": 1,
+      "metric": "AuditImprovementCount",
+      "numerator": 1,
+      "source": {
+        "artifact": "reports/canonical/certificate-guided-training.json",
+        "pointer": "$.claim_gate.audit_improvement_tradeoff",
+        "report": "certificate-guided-training"
+      },
+      "status": "ready",
+      "value": 1
+    },
+    {
+      "metric": "NegativeResultCount",
+      "source": [
+        {
+          "artifact": "reports/canonical/mixing-family-sweep.json",
+          "pointer": "$.negative_result_summary.cells",
+          "report": "mixing-family-sweep"
+        },
+        {
+          "artifact": "reports/canonical/anisotropic-ou-sweep.json",
+          "pointer": "$.negative_result_summary.cells",
+          "report": "anisotropic-ou-sweep"
+        },
+        {
+          "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+          "pointer": "$.negative_result_ledger",
+          "report": "nongaussian-distribution-sweep"
+        }
+      ],
+      "status": "ready",
+      "value": 10
+    },
+    {
+      "denominator": 8,
+      "metric": "ScopeCompleteness",
+      "numerator": 8,
+      "source": [
+        {
+          "artifact": "reports/canonical/mixing-family-sweep.json",
+          "pointer": "$.applicability_boundary",
+          "report": "mixing-family-sweep"
+        },
+        {
+          "artifact": "reports/canonical/anisotropic-ou-sweep.json",
+          "pointer": "$.applicability_boundary",
+          "report": "anisotropic-ou-sweep"
+        },
+        {
+          "artifact": "reports/canonical/gap-head-on-h.json",
+          "pointer": "$.applicability_boundary",
+          "report": "gap-head-on-h"
+        },
+        {
+          "artifact": "reports/canonical/gap-head-discovery.json",
+          "pointer": "$.boundary_checks",
+          "report": "gap-head-discovery"
+        },
+        {
+          "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+          "pointer": "$.coverage_item",
+          "report": "nongaussian-distribution-sweep"
+        },
+        {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.objective.required_rows",
+          "report": "certificate-guided-training"
+        },
+        {
+          "artifact": "reports/canonical/certificate-guided-discovery.json",
+          "pointer": "$.applicability_boundary",
+          "report": "certificate-guided-discovery"
+        },
+        {
+          "artifact": "reports/canonical/spectral-ablation-hinge.json",
+          "pointer": "$.applicability_boundary",
+          "report": "spectral-ablation-hinge"
+        }
+      ],
+      "status": "ready",
+      "value": 1.0
+    },
+    {
+      "denominator": 8,
+      "metric": "CostProtocolCompleteness",
+      "numerator": 8,
+      "source": [
+        {
+          "artifact": "reports/canonical/mixing-family-sweep.json",
+          "pointer": "$.source_artifacts.cost_protocol",
+          "report": "mixing-family-sweep"
+        },
+        {
+          "artifact": "reports/canonical/anisotropic-ou-sweep.json",
+          "pointer": "$.source_artifacts.cost_protocol",
+          "report": "anisotropic-ou-sweep"
+        },
+        {
+          "artifact": "reports/canonical/gap-head-on-h.json",
+          "pointer": "$.control_protocol",
+          "report": "gap-head-on-h"
+        },
+        {
+          "artifact": "reports/canonical/gap-head-discovery.json",
+          "pointer": "$.score_terms",
+          "report": "gap-head-discovery"
+        },
+        {
+          "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+          "pointer": "$.source_artifacts.cost_protocol",
+          "report": "nongaussian-distribution-sweep"
+        },
+        {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.cost_protocol",
+          "report": "certificate-guided-training"
+        },
+        {
+          "artifact": "reports/canonical/certificate-guided-discovery.json",
+          "pointer": "$.claim_gate",
+          "report": "certificate-guided-discovery"
+        },
+        {
+          "artifact": "reports/canonical/spectral-ablation-hinge.json",
+          "pointer": "$.source_artifacts",
+          "report": "spectral-ablation-hinge"
+        }
+      ],
+      "status": "ready",
+      "value": 1.0
+    },
+    {
+      "dependency": "spectral-ablation-hinge:$.ledger_summary.basis.hardening_coverage",
+      "metric": "HardeningCoverage",
+      "reason": "missing hardening coverage cell",
+      "status": "not-ready"
+    },
+    {
+      "dependency": "certificate-guided-discovery:$.audit_decision.overclaim_rate",
+      "metric": "OverclaimRate",
+      "reason": "missing explicit overclaim denominator",
+      "status": "not-ready"
+    }
+  ]
+}

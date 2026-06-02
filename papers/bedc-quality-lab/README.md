@@ -19,6 +19,7 @@ python3 scripts/run_canonical_reports.py --help
 `make check` 是本目录的一键验证入口：先运行 lab-local pytest，再通过
 `scripts/run_canonical_reports.py` 生成 `reports/canonical/` 下的 canonical 报告和
 `reports/canonical/index.json`。
+同一 runner 也生成 `reports/canonical/quality-scorecard.{json,md}`。
 
 ## 依赖
 
