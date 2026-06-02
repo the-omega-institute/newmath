@@ -42,6 +42,7 @@ The remaining obligations are structural. The $\hsame$ row $H$ transports equal 
 \label{thm:dyadic-interval-cover-endpoint-row-admission}
 Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Endpoint admission for the lower and upper rows is exactly the finite projection from \autoref{def:dyadic-interval-cover-carrier} together with the local NameCert obligations of \autoref{thm:dyadic-interval-cover-namecert-obligations}: the rows $L,U$ are read as $\DyadicRatCoreUp$ endpoints, $M,R$ provide the displayed mesh and tolerance data, $V,W,Q,A$ remain the finite membership, StreamName, RegSeqRat, and Real-seal rows, and $H,C,P,N$ transport, replay, package, and name that same endpoint surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverEndpointRowAdmission}
 \begin{proof}
 Project the carrier row $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$. The definition places $L$ and $U$ in the dyadic endpoint slots and places $M$ and $R$ beside them as the only mesh and tolerance data available to endpoint comparisons.
 
@@ -100,6 +101,20 @@ Project the carrier of \autoref{def:dyadic-interval-cover-carrier}. The endpoint
 Apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}. It forces every regular-name cover read through $M,R,Q,V,A$ together with the finite window row $W$ before any cover decision is consumed. The L10 sibling dependencies are exactly the dyadic arithmetic of $\DyadicRatCoreUp$, the finite observation surface of $\StreamNameUp$, the regular-rational readback of $\RegSeqRatUp$, and the visible seal of $\RealUp$.
 
 Since the carrier contains no row beyond $L,U,M,R,V,W,Q,A,H,C,P,N$, the finite-window surface is exhausted by those rows.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover Bishop interval compact handoff]
+\label{thm:dyadicintervalcover-bishop-interval-compact-handoff}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Any consumer that hands its mesh-radius rows to $\BishopIntervalCompactUp$ must expose the full finite packet $L,U,M,R,V,W,Q,A,H,C,P,N$: the dyadic endpoint rows $L,U$ are read through $\DyadicRatCoreUp$, the mesh and radius rows $M,R$ govern the finite cover-membership row $V$, the real-name rows $W,Q,A$ supply the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ boundary, and $H,C,P,N$ transport, replay, source, and name the same handoff. The finite-net membership route passes through \autoref{ch:concrete-instances-bishop-interval-compact-namecert} only after those dyadic endpoint rows are displayed and before the $\RealUp$ seal is consumed. The route exports no open-cover compactness theorem, selected finite subcover, quotient stream, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:dyadic-interval-cover-carrier}. The rows $L,U,M,R,V$ provide the only dyadic endpoint, mesh, radius, and finite membership data available to a compact-interval consumer.
+
+Use \autoref{thm:dyadicintervalcover-finite-window-carrier}. It identifies $L,U,M,R,V,W,Q,A$ as the whole finite interval-window surface before the local $\NameCert_{\DyadicIntervalCoverUp}$ row is exported.
+
+Next apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion} and \autoref{thm:dyadic-interval-cover-real-seal-boundary}. The former keeps every regular-name cover read inside $W,Q,M,R,V,A$, while the latter places the visible $\RealUp$ seal after the finite window and endpoint rows.
+
+The $\BishopIntervalCompactUp$ sibling can therefore consume only the displayed finite-net route. Since $I$ has no row for arbitrary open covers, selected subcovers, quotient streams, host equality, countable choice, or ambient Real completeness, the handoff remains a finite mesh-radius obligation rather than a compactness principle.
 \end{proof}
 
 \begin{theorem}[DyadicIntervalCover refinement stability]
