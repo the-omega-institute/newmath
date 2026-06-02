@@ -220,6 +220,25 @@ Since the socket remains visible and the L10 faces remain explicit, the route ca
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathBoundedConversionDischarge}
 
+\begin{theorem}[MetaCIC bounded conversion socket budget]
+\label{thm:metacic-critical-path-bounded-conversion-socket-budget}
+Every bounded-conversion consumer of an accepted $\MetaCICCriticalPathUp$ packet must display the candidate row, the strong-normalization endpoint rows $S,N$, the open discharge socket $D$, the bounded checker budget row, and the four L10 faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+before it reads any conversion data. The socket remains open throughout the read, and the packet exports no subject reduction, global Church--Rosser theorem, beta-decision procedure, quotient equality, selected limit, host equality, or $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathBoundedConversionSocketBudget}
+\begin{proof}
+Start with the candidate-mediated obligation surface, \autoref{thm:metacic-confluence-candidate-mediated-sn-obligation-surface}. It places the endpoint rows, open socket, structural rows, and the four L10 faces before any conversion-facing budget can be inspected.
+
+Apply the candidate-discharge schedule exhaustion, \autoref{thm:metacic-critical-path-candidate-discharge-schedule-exhaustion}. The candidate row must remain attached to the same accepted packet, so the bounded-conversion consumer cannot read it as a detached normalization theorem.
+
+Use the bounded checker budget factorization, \autoref{thm:metacic-critical-path-bounded-checker-budget-factorization}. It separates the candidate row, endpoint rows, socket row, and L10 face row before the checker budget is read.
+
+Finally apply the bounded conversion discharge theorem, \autoref{thm:metacic-critical-path-bounded-conversion-discharge}. The conversion read is finite and conditional on the displayed socket, so none of the excluded subject-reduction, Church--Rosser, beta-decision, quotient-equality, selected-limit, host-equality, or Real-completeness data is exported.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path candidate-SN readiness]
 \label{thm:metacic-critical-path-candidate-sn-readiness}
 An accepted $\MetaCICCriticalPathUp$ packet is ready for candidate-mediated strong-normalization handoff precisely at the finite surface consisting of the $\CandidateMediatedSNUp$ row, the $\MetaCICNormalizationFrontierUp$ frontier row, the $\MetaCICCriticalPairLedgerUp$ ledger row, the endpoint row $S,N$, the open discharge socket $D$, the L10 four-object exit certificate rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row.
@@ -234,6 +253,23 @@ The normalization frontier and critical-pair ledger are then read as finite boun
 Finally apply \autoref{thm:metacic-critical-path-bounded-conversion-discharge}. The same displayed rows are exactly the finite discharge interface for bounded conversion, so candidate-SN readiness is a row-presence and factorization claim only.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateSNReadiness}
+
+\begin{theorem}[MetaCIC residual candidate-SN handoff]
+\label{thm:metacic-critical-path-residual-candidate-sn-handoff}
+An accepted $\MetaCICCriticalPathUp$ packet may pass candidate-mediated strong-normalization evidence to residual-substitution or confluence consumers only after it displays the $\CandidateMediatedSNUp$ row, the $\MetaCICNormalizationFrontierUp$ row, the $\MetaCICResidualSubstitutionBoundaryUp$ row, the $\MetaCICCriticalPairLedgerUp$ row, the endpoint rows $S,N$, the open discharge socket $D$, the four L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and the structural transport, replay, provenance, and local-name rows.
+
+The handoff is a finite consumer boundary. It permits residual-substitution and confluence consumers to read the candidate-mediated evidence only through the displayed socket and bounded-conversion discharge rows, and it does not export subject reduction, unrestricted confluence, global strong normalization, beta-conversion decidability, quotient term equality, selected limits, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathResidualCandidateSNHandoff}
+\begin{proof}
+Start with the candidate-mediated obligation surface. It places the candidate row, endpoint rows, open socket, structural rows, and the four L10 faces before any normalization or conversion consumer can inspect the evidence.
+
+Next apply the candidate-SN readiness theorem. Readiness supplies the finite row-presence and factorization condition, so the evidence remains attached to the accepted $\MetaCICCriticalPathUp$ packet rather than becoming a detached strong-normalization theorem.
+
+Use the premise split and bounded-conversion discharge rows. The premise split separates the candidate row from residual-substitution, frontier, pair-ledger, endpoint, socket, and L10 obligations, while the bounded-conversion discharge keeps the consumer route conditional on those displayed rows.
+
+Finally repack through the structural coordinates. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row preserve the same packet boundary; hence residual-substitution and confluence consumers receive only the displayed candidate-mediated handoff surface.
+\end{proof}
 
 \begin{theorem}[MetaCIC critical-path bounded conversion consumer route]
 \label{thm:metacic-critical-path-bounded-conversion-consumer-route}
@@ -263,3 +299,4 @@ Next read the L10 object status route. The four-object exit certificate of \auto
 
 Finally attach the completion boundary only as a finite exact-boundary read. The $\RealCompletionExactBoundaryUp$ packet supplies the displayed exact-boundary rows already governed by its local NameCert surface, so the SN-facing obligation may cite that boundary as status readback but cannot export Real completeness, host normalization, global confluence, quotient equality, selected limits, or a filled discharge socket.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathL10ObjectStatusReadback}

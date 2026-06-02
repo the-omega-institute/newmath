@@ -27,6 +27,7 @@ PAPER_ROOT = REPO_ROOT / "papers" / "bedc"
 PAPER_PARTS_ROOT = PAPER_ROOT / "parts"
 TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
 LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
+DISCOVERY_GATE_WITNESS_REGISTRY_PATH = SCRIPT_DIR / "discovery_gate_witnesses.json"
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -345,6 +346,7 @@ class ExprFingerprint:
     const_fp: str = ""
     eta_value_fp: str = ""
     reduced_fingerprint: str = ""
+    canonical_reduced_payload: str = ""
 
 
 def read_text(path: Path) -> str:
@@ -3076,12 +3078,20 @@ DISCOVERY_ASSERT_GATE_RULES = (
     ("G4", "checked disagreement support links to resolved before/after endpoints"),
     ("G5", "not smoke or duplicate evidence"),
     ("G6", "scope is nonempty and sealed"),
+    ("W", "kernel-grounded negative witness registry has no match"),
 )
 
 DISCOVERY_ASSERT_GATE_SEMANTICS = (
     "cheap-negative refutation gate; passing ≠ certified genuine; "
     "conjectured ≠ asserted"
 )
+
+
+def _repo_display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
 
 
 def _assert_gate_item(
@@ -3105,6 +3115,494 @@ def _assert_gate_item(
     if details:
         item["details"] = details
     return item
+
+
+DISCOVERY_GATE_WITNESS_KINDS = {
+    "reconstruction",
+}
+
+DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS = {
+    "target",
+    "prior",
+    "canonical_payload",
+}
+DISCOVERY_GATE_WITNESS_OPTIONAL_PATTERN_KEYS = {
+    "reduced_fp",
+    "candidate_reduced_fp",
+}
+DISCOVERY_GATE_WITNESS_MAX_ENTRIES = 2000
+DISCOVERY_GATE_WITNESS_MAX_BYTES = 2_000_000
+
+
+def _discovery_gate_registry_diag(
+    path: Path,
+    line: int,
+    kind: str,
+    message: str,
+    *,
+    witness_id: str = "",
+) -> dict[str, object]:
+    item: dict[str, object] = {
+        "file": _repo_display_path(path) if path.is_absolute() else str(path),
+        "line": line,
+        "kind": kind,
+        "message": message,
+    }
+    if witness_id:
+        item["id"] = witness_id
+    return item
+
+
+def _exact_witness_pattern(pattern: object) -> tuple[dict[str, str] | None, str]:
+    if not isinstance(pattern, dict):
+        return None, "pattern must be an object"
+    keys = {str(key) for key in pattern}
+    allowed = DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS | DISCOVERY_GATE_WITNESS_OPTIONAL_PATTERN_KEYS
+    if not DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS.issubset(keys) or not keys.issubset(allowed):
+        missing = sorted(DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS - keys)
+        extra = sorted(keys - allowed)
+        parts: list[str] = []
+        if missing:
+            parts.append("missing " + ",".join(missing))
+        if extra:
+            parts.append("unsupported " + ",".join(extra))
+        return None, "pattern must include exact {target, prior, canonical_payload}: " + "; ".join(parts)
+    out = {
+        key: str(pattern.get(key) or "").strip()
+        for key in DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS | DISCOVERY_GATE_WITNESS_OPTIONAL_PATTERN_KEYS
+        if key in pattern or key in DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS
+    }
+    if not out["target"] or not out["prior"] or not out["canonical_payload"]:
+        return None, "target, prior, and canonical_payload must be nonempty strings"
+    if not _normalize_lean_target(out["target"]) or not _normalize_lean_target(out["prior"]):
+        return None, "target and prior must be Lean declaration names"
+    if "*" in out["canonical_payload"] or out["canonical_payload"].lower() in {"any", "all", "wildcard"}:
+        return None, "canonical_payload must be concrete, not a wildcard"
+    return out, ""
+
+
+def discovery_gate_witness_kernel_grounding(
+    witness: dict[str, object],
+) -> tuple[bool, dict[str, object]]:
+    pattern, error = _exact_witness_pattern(witness.get("pattern"))
+    if pattern is None:
+        return False, {
+            "reason": "invalid_exact_pattern",
+            "message": error,
+        }
+    target = pattern["target"]
+    prior = pattern["prior"]
+    expected_payload = pattern["canonical_payload"]
+    expected_fp = pattern.get("reduced_fp") or pattern.get("candidate_reduced_fp") or ""
+    fps = _run_structural_dna_expr_fingerprints([target, prior])
+    target_fp = _discovery_endpoint_reduced_fp(target, fps)
+    prior_fp = _discovery_endpoint_reduced_fp(prior, fps)
+    target_payload = _discovery_endpoint_canonical_payload(target, fps)
+    prior_payload = _discovery_endpoint_canonical_payload(prior, fps)
+    fp_ok = not expected_fp or (target_fp == expected_fp and prior_fp == expected_fp)
+    ok = bool(target_payload and prior_payload and target_payload == expected_payload and prior_payload == expected_payload and fp_ok)
+    return ok, {
+        "target": target,
+        "prior": prior,
+        "evidence": "canonical_payload_equal",
+        "expected_canonical_payload": expected_payload,
+        "target_canonical_payload": target_payload,
+        "prior_canonical_payload": prior_payload,
+        "expected_reduced_fp": expected_fp,
+        "target_reduced_fp": target_fp,
+        "prior_reduced_fp": prior_fp,
+        "message": (
+            "target and prior structural-DNA canonical reduced payloads match"
+            if ok
+            else "target/prior structural-DNA canonical reduced payloads do not match witness"
+        ),
+    }
+
+
+def load_discovery_gate_witnesses(
+    path: Path = DISCOVERY_GATE_WITNESS_REGISTRY_PATH,
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Load sound negative discovery witnesses from the data registry."""
+    if not path.exists():
+        return [], []
+    try:
+        size = path.stat().st_size
+    except OSError:
+        size = 0
+    if size > DISCOVERY_GATE_WITNESS_MAX_BYTES:
+        return [], [_discovery_gate_registry_diag(
+            path,
+            1,
+            "oversized_discovery_gate_witness_registry",
+            (
+                "discovery gate witness registry exceeds size cap "
+                f"{DISCOVERY_GATE_WITNESS_MAX_BYTES} bytes"
+            ),
+        )]
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return [], [_discovery_gate_registry_diag(
+            path,
+            exc.lineno,
+            "invalid_discovery_gate_witness_registry_json",
+            f"invalid discovery gate witness registry JSON: {exc.msg}",
+        )]
+    if isinstance(raw, dict):
+        schema = str(raw.get("schema") or "").strip()
+        entries = raw.get("witnesses")
+        if schema != "bedc.discovery_gate_witness_registry":
+            return [], [_discovery_gate_registry_diag(
+                path,
+                1,
+                "invalid_discovery_gate_witness_registry_schema",
+                "discovery gate witness registry schema must be bedc.discovery_gate_witness_registry",
+            )]
+        if not isinstance(entries, list):
+            return [], [_discovery_gate_registry_diag(
+                path,
+                1,
+                "invalid_discovery_gate_witness_registry_root",
+                "discovery gate witness registry witnesses field must be a list",
+            )]
+        raw = entries
+    if not isinstance(raw, list):
+        return [], [_discovery_gate_registry_diag(
+            path,
+            1,
+            "invalid_discovery_gate_witness_registry_root",
+            "discovery gate witness registry root must be a list",
+        )]
+    if len(raw) > DISCOVERY_GATE_WITNESS_MAX_ENTRIES:
+        return [], [_discovery_gate_registry_diag(
+            path,
+            1,
+            "oversized_discovery_gate_witness_registry",
+            (
+                "discovery gate witness registry exceeds entry cap "
+                f"{DISCOVERY_GATE_WITNESS_MAX_ENTRIES}"
+            ),
+        )]
+
+    witnesses: list[dict[str, object]] = []
+    diagnostics: list[dict[str, object]] = []
+    seen_exact: dict[tuple[str, str], str] = {}
+    seen_target_prior: dict[tuple[str, str], str] = {}
+    for index, item in enumerate(raw):
+        if not isinstance(item, dict):
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "invalid_discovery_gate_witness",
+                "discovery gate witness entry must be an object",
+            ))
+            continue
+        witness_id = str(item.get("id") or "").strip()
+        kind = str(item.get("kind") or "").strip()
+        if not witness_id:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "missing_discovery_gate_witness_id",
+                "discovery gate witness lacks id",
+            ))
+            continue
+        if kind not in DISCOVERY_GATE_WITNESS_KINDS:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "invalid_discovery_gate_witness_kind",
+                f"discovery gate witness {witness_id} has unsupported kind {kind}",
+                witness_id=witness_id,
+            ))
+            continue
+        pattern, pattern_error = _exact_witness_pattern(item.get("pattern"))
+        if pattern is None:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "invalid_discovery_gate_witness_pattern",
+                f"discovery gate witness {witness_id} has invalid exact pattern: {pattern_error}",
+                witness_id=witness_id,
+            ))
+            continue
+        exact_key = (pattern["target"], pattern["canonical_payload"])
+        if exact_key in seen_exact:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "duplicate_discovery_gate_witness",
+                (
+                    f"discovery gate witness {witness_id} duplicates "
+                    f"{seen_exact[exact_key]} by target+canonical_payload"
+                ),
+                witness_id=witness_id,
+            ))
+            continue
+        target_prior_key = (pattern["target"], pattern["prior"])
+        prior_seen_fp = seen_target_prior.get(target_prior_key)
+        if prior_seen_fp is not None and prior_seen_fp != pattern["canonical_payload"]:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "conflicting_discovery_gate_witness",
+                (
+                    f"discovery gate witness {witness_id} conflicts with an earlier "
+                    "target+prior witness carrying a different canonical_payload"
+                ),
+                witness_id=witness_id,
+            ))
+            continue
+        grounded, grounding = discovery_gate_witness_kernel_grounding(item)
+        if not grounded:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "ungrounded_discovery_gate_witness",
+                (
+                    f"discovery gate witness {witness_id} failed independent "
+                    f"structural-DNA grounding: {grounding.get('message')}"
+                ),
+                witness_id=witness_id,
+            ))
+            diagnostics[-1]["grounding"] = grounding
+            continue
+        normalized = dict(item)
+        normalized["kind"] = "reconstruction"
+        normalized["pattern"] = pattern
+        normalized["kernel_grounded"] = True
+        normalized["kernel_grounding"] = grounding
+        normalized["soundness"] = "canonical_payload_equal"
+        witnesses.append(normalized)
+        seen_exact[exact_key] = witness_id
+        seen_target_prior[target_prior_key] = pattern["canonical_payload"]
+    return witnesses, diagnostics
+
+
+def _string_set(values: Iterable[object]) -> set[str]:
+    return {str(value).strip() for value in values if str(value).strip()}
+
+
+def _discovery_gate_witness_features(
+    block: dict,
+    target: str,
+    candidate_targets: list[str],
+    sieve_profile: dict[str, object] | None,
+    integrity_site: dict[str, object] | None,
+    integrity_violations: list[dict[str, object]],
+) -> dict[str, set[str]]:
+    open_fields = block.get("open_fields") or {}
+    if not isinstance(open_fields, dict):
+        open_fields = {}
+    profile_data = (sieve_profile or {}).get("sieve_profile") or {}
+    if not isinstance(profile_data, dict):
+        profile_data = {}
+    provenance = (integrity_site or {}).get("provenance", []) or []
+    if not isinstance(provenance, list):
+        provenance = []
+    feature_sets: dict[str, set[str]] = {
+        "target": _string_set([target]),
+        "candidate": _string_set([target]),
+        "candidate_target": _string_set([target, *candidate_targets]),
+        "region": _string_set([f"{block.get('region', '')}Up"]),
+        "file": _string_set([block.get("file", "")]),
+        "kind": set(),
+        "relation": set(),
+        "reduced_fp": set(),
+        "candidate_reduced_fp": set(),
+        "canonical_payload": set(),
+        "candidate_canonical_payload": set(),
+        "prior": set(),
+        "prior_classifier": set(),
+        "reason_tag": _string_set(profile_data.get("reason_tags", []) or []),
+        "reason_tags": _string_set(profile_data.get("reason_tags", []) or []),
+    }
+    feature_sets["candidate"].update(
+        _string_set((integrity_site or {}).get("declared_new_classifiers", []) or [])
+    )
+    feature_sets["prior"].update(
+        _string_set((integrity_site or {}).get("before_classifiers", []) or [])
+    )
+    feature_sets["prior_classifier"].update(feature_sets["prior"])
+    for item in provenance:
+        if not isinstance(item, dict):
+            continue
+        relation = str(item.get("relation") or "").strip()
+        if relation:
+            feature_sets["relation"].add(relation)
+            if relation == "reconstruction":
+                feature_sets["kind"].add("reconstruction")
+        feature_sets["candidate"].update(_string_set([
+            item.get("candidate"),
+            item.get("after_classifier"),
+        ]))
+        feature_sets["prior"].update(_string_set([
+            item.get("prior"),
+            item.get("before_classifier"),
+        ]))
+        feature_sets["prior_classifier"].update(_string_set([
+            item.get("prior"),
+            item.get("before_classifier"),
+        ]))
+        feature_sets["reduced_fp"].update(_string_set([
+            item.get("reduced_fp"),
+            item.get("candidate_reduced_fp"),
+        ]))
+        feature_sets["candidate_reduced_fp"].update(_string_set([
+            item.get("candidate_reduced_fp"),
+        ]))
+        feature_sets["canonical_payload"].update(_string_set([
+            item.get("canonical_payload"),
+            item.get("candidate_canonical_payload"),
+            item.get("prior_canonical_payload"),
+        ]))
+        feature_sets["candidate_canonical_payload"].update(_string_set([
+            item.get("candidate_canonical_payload"),
+        ]))
+    for violation in integrity_violations:
+        if not isinstance(violation, dict):
+            continue
+        kind = str(violation.get("kind") or "").strip()
+        if kind == "structural_reconstruction_discovery_claim":
+            feature_sets["kind"].add("reconstruction")
+            feature_sets["relation"].add("reconstruction")
+        feature_sets["candidate"].update(_string_set([
+            violation.get("candidate"),
+            violation.get("after_classifier"),
+        ]))
+        feature_sets["prior"].update(_string_set([
+            violation.get("prior"),
+            violation.get("prior_classifier"),
+            violation.get("before_classifier"),
+        ]))
+        feature_sets["prior_classifier"].update(_string_set([
+            violation.get("prior"),
+            violation.get("prior_classifier"),
+            violation.get("before_classifier"),
+        ]))
+        feature_sets["canonical_payload"].update(_string_set([
+            violation.get("canonical_payload"),
+            violation.get("candidate_canonical_payload"),
+            violation.get("prior_canonical_payload"),
+        ]))
+    for field in ("closuregate", "closureledger"):
+        normalized = _normalize_lean_target(open_fields.get(field))
+        if normalized:
+            feature_sets["candidate_target"].add(normalized)
+    return feature_sets
+
+
+def _pattern_values(value: object) -> set[str]:
+    if isinstance(value, list):
+        return _string_set(value)
+    return _string_set([value])
+
+
+def _discovery_gate_witness_matches_pattern(
+    pattern: dict[str, object],
+    features: dict[str, set[str]],
+) -> bool:
+    exact, _error = _exact_witness_pattern(pattern)
+    if exact is None:
+        return False
+    return (
+        exact["target"] in features.get("candidate", set())
+        and exact["prior"] in features.get("prior", set())
+        and exact["canonical_payload"] in features.get("canonical_payload", set())
+    )
+
+
+def _discovery_gate_witness_exact_triples(
+    target: str,
+    integrity_site: dict[str, object] | None,
+    integrity_violations: list[dict[str, object]],
+) -> set[tuple[str, str, str]]:
+    triples: set[tuple[str, str, str]] = set()
+    provenance = (integrity_site or {}).get("provenance", []) or []
+    if not isinstance(provenance, list):
+        provenance = []
+    for item in provenance:
+        if not isinstance(item, dict):
+            continue
+        candidates = _string_set([target, item.get("candidate"), item.get("after_classifier")])
+        priors = _string_set([item.get("prior"), item.get("before_classifier")])
+        canonical_payloads = _string_set([
+            item.get("canonical_payload"),
+            item.get("candidate_canonical_payload"),
+            item.get("prior_canonical_payload"),
+        ])
+        for candidate in candidates:
+            for prior in priors:
+                for canonical_payload in canonical_payloads:
+                    triples.add((candidate, prior, canonical_payload))
+    for violation in integrity_violations:
+        if not isinstance(violation, dict):
+            continue
+        candidates = _string_set([target, violation.get("candidate"), violation.get("after_classifier")])
+        priors = _string_set([
+            violation.get("prior"),
+            violation.get("prior_classifier"),
+            violation.get("before_classifier"),
+        ])
+        canonical_payloads = _string_set([
+            violation.get("canonical_payload"),
+            violation.get("candidate_canonical_payload"),
+            violation.get("prior_canonical_payload"),
+        ])
+        for candidate in candidates:
+            for prior in priors:
+                for canonical_payload in canonical_payloads:
+                    triples.add((candidate, prior, canonical_payload))
+    return triples
+
+
+def discovery_gate_witness_hits(
+    block: dict,
+    target: str,
+    candidate_targets: list[str],
+    sieve_profile: dict[str, object] | None,
+    integrity_site: dict[str, object] | None,
+    integrity_violations: list[dict[str, object]],
+    witnesses: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    features = _discovery_gate_witness_features(
+        block,
+        target,
+        candidate_targets,
+        sieve_profile,
+        integrity_site,
+        integrity_violations,
+    )
+    exact_triples = _discovery_gate_witness_exact_triples(
+        target,
+        integrity_site,
+        integrity_violations,
+    )
+    hits: list[dict[str, object]] = []
+    for witness in witnesses:
+        pattern = witness.get("pattern")
+        if not isinstance(pattern, dict):
+            continue
+        exact, _error = _exact_witness_pattern(pattern)
+        if exact is None:
+            continue
+        if (
+            exact["target"],
+            exact["prior"],
+            exact["canonical_payload"],
+        ) not in exact_triples:
+            continue
+        if not _discovery_gate_witness_matches_pattern(pattern, features):
+            continue
+        hits.append({
+            "id": str(witness.get("id") or ""),
+            "kind": str(witness.get("kind") or ""),
+            "refutes_because": str(witness.get("refutes_because") or ""),
+            "provenance": witness.get("provenance"),
+            "regression_candidate": witness.get("regression_candidate"),
+            "pattern": pattern,
+        })
+    return hits
 
 
 def _positive_discovery_assertion_target(
@@ -3422,6 +3920,7 @@ def _discovery_assert_gate_site(
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
     kernel_checks: dict[str, KernelAssertionCheck],
+    gate_witnesses: list[dict[str, object]],
 ) -> dict[str, object]:
     gates: list[dict[str, object]] = []
     target_text = ""
@@ -3557,7 +4056,7 @@ def _discovery_assert_gate_site(
             target,
             "G2",
             "FAIL",
-            "classifier reduced_fingerprint reconstructs a prior classifier",
+            "classifier canonical reduced payload reconstructs a prior classifier",
             details={"violations": structural_violations[:5]},
         ))
     elif integrity_site and str(integrity_site.get("resolution_status")) == "resolved":
@@ -3566,7 +4065,7 @@ def _discovery_assert_gate_site(
             target,
             "G2",
             "PASS",
-            "resolved structural check found no prior reduced_fingerprint hit",
+            "resolved structural check found no prior canonical payload hit",
         ))
     else:
         gates.append(_assert_gate_item(
@@ -3742,6 +4241,25 @@ def _discovery_assert_gate_site(
             "scopeclosed text and structured scope seal are present",
         ))
 
+    witness_hits = discovery_gate_witness_hits(
+        block,
+        target,
+        candidate_targets,
+        sieve_profile,
+        integrity_site,
+        integrity_violations,
+        gate_witnesses,
+    )
+    if witness_hits:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "W",
+            "FAIL",
+            "kernel-grounded negative witness registry refutes this positiveDiscovery assertion",
+            details={"witnesses": witness_hits},
+        ))
+
     failed = [gate for gate in gates if gate["status"] == "FAIL"]
     deferred = [gate for gate in gates if gate["status"] == "DEFERRED"]
     status = "FAIL" if failed else "PASS"
@@ -3773,6 +4291,7 @@ def discovery_assert_gate_payload(
     informational_sites: list[dict[str, object]] = []
     failures: list[dict[str, object]] = []
     status_counts: Counter[str] = Counter()
+    gate_witnesses, witness_diagnostics = load_discovery_gate_witnesses()
 
     for block in blocks:
         if block.get("error"):
@@ -3840,6 +4359,7 @@ def discovery_assert_gate_payload(
             declaration_headers,
             declaration_bodies,
             kernel_checks,
+            gate_witnesses,
         )
         asserted_sites.append(site)
         status_counts[str(site["status"])] += 1
@@ -3877,6 +4397,10 @@ def discovery_assert_gate_payload(
         "failures": failures,
         "asserted_sites": asserted_sites,
         "informational_sites": informational_sites,
+        "witness_registry_path": str(DISCOVERY_GATE_WITNESS_REGISTRY_PATH.relative_to(REPO_ROOT)),
+        "witness_count": len(gate_witnesses),
+        "witness_registry_diagnostics": witness_diagnostics,
+        "witness_registry_diagnostic_count": len(witness_diagnostics),
     }
 
 
@@ -3992,7 +4516,11 @@ def _radar_provenance_summary(
         relation = str(entry.get("relation") or "")
         prior = str(entry.get("prior") or "")
         extra_count = _radar_extra_conjunct_count(entry)
-        if relation == "reconstruction" and prior:
+        if (
+            relation == "reconstruction"
+            and prior
+            and str(entry.get("evidence") or "") == "canonical_payload_equal"
+        ):
             reconstruction_priors.add(prior)
         if relation == "conjunctive_refinement":
             if extra_count == 0 and prior:
@@ -4148,22 +4676,24 @@ def _radar_corpus_mined_rows(
     corpus_truncated = len(classifier_names_all) > len(corpus_names)
     expr_fingerprints = _run_structural_dna_expr_fingerprints(corpus_names) if corpus_names else {}
     fingerprint_names = sorted(
-        name for name in corpus_names if _discovery_endpoint_reduced_fp(name, expr_fingerprints)
+        name for name in corpus_names if _discovery_endpoint_canonical_payload(name, expr_fingerprints)
     )
     fp_buckets: dict[str, list[str]] = {}
     for name in fingerprint_names:
-        fp = _discovery_endpoint_reduced_fp(name, expr_fingerprints)
-        if fp:
-            fp_buckets.setdefault(fp, []).append(name)
+        payload = _discovery_endpoint_canonical_payload(name, expr_fingerprints)
+        if payload:
+            fp_buckets.setdefault(payload, []).append(name)
 
     rows: list[dict[str, object]] = []
     seen_targets: set[str] = set()
-    for fp, names in sorted(fp_buckets.items(), key=lambda item: (item[0], item[1])):
+    for canonical_payload, names in sorted(fp_buckets.items(), key=lambda item: (item[0], item[1])):
         if len(names) < 2:
             continue
         prior = sorted(names)[0]
         for target in sorted(names)[1:]:
             seen_targets.add(target)
+            target_fp = _discovery_endpoint_reduced_fp(target, expr_fingerprints)
+            prior_fp = _discovery_endpoint_reduced_fp(prior, expr_fingerprints)
             rows.append({
                 "target": target,
                 "file": "",
@@ -4172,18 +4702,22 @@ def _radar_corpus_mined_rows(
                 "chapter_key": "",
                 "claim_kind": "",
                 "ledger": "",
-                "sources": ["classifier_corpus.reduced_fingerprint"],
+                "sources": ["classifier_corpus.canonical_payload"],
                 "before_classifiers": [prior],
                 "candidate_classifiers": [target],
                 "provenance": [{
                     "candidate": target,
                     "prior": prior,
                     "relation": "reconstruction",
-                    "prior_scope": "classifier_corpus_reduced_fp_bucket",
-                    "candidate_reduced_fp": fp,
-                    "reduced_fp": fp,
+                    "prior_scope": "classifier_corpus_canonical_payload_bucket",
+                    "candidate_reduced_fp": target_fp,
+                    "reduced_fp": prior_fp,
+                    "candidate_canonical_payload": canonical_payload,
+                    "prior_canonical_payload": canonical_payload,
+                    "canonical_payload": canonical_payload,
+                    "evidence": "canonical_payload_equal",
                     "kernel_grounded": True,
-                    "soundness": "kernel_grounded_reduced_fingerprint_match",
+                    "soundness": "canonical_payload_equal",
                 }],
                 "phase_a_resolution_status": "resolved",
                 "phase_a_locus": ("", 0, ""),
@@ -4481,7 +5015,7 @@ def discovery_production_radar_payload(
         if reconstruction_priors:
             evidence.append("phase_a_structural_reconstruction")
             if row.get("corpus_mined"):
-                evidence.append("classifier_corpus_reduced_fingerprint_match")
+                evidence.append("classifier_corpus_canonical_payload_equal")
         if zero_refinement_priors:
             evidence.append("phase_b_zero_conjunct_refinement")
         if refinement_depth > 0:
@@ -4516,7 +5050,7 @@ def discovery_production_radar_payload(
             "refutation": {
                 "kernel_grounded": bool(reconstruction_priors),
                 "soundness": (
-                    "reconstruction=sound"
+                    "canonical_payload_equal"
                     if reconstruction_priors else "not_kernel_grounded_refutation"
                 ),
             } if state == "refuted" else {},
@@ -4553,6 +5087,7 @@ def discovery_production_radar_payload(
                 ),
                 "reconstruction_priors": sorted(reconstruction_priors),
             },
+            "provenance": provenance,
             "phase_b": {
                 "zero_refinement_priors": sorted(zero_refinement_priors),
                 "nontrivial_refinements": provenance_summary["nontrivial_refinements"],
@@ -5672,6 +6207,7 @@ def _run_structural_dna_expr_fingerprints(
         const_fp = str(payload.get("const_fp") or "")
         eta_value_fp = str(payload.get("eta_value_fp") or "")
         reduced_fingerprint = str(payload.get("reduced_fingerprint") or "")
+        canonical_reduced_payload = str(payload.get("canonical_reduced_payload") or "")
         if fingerprint:
             out[str(decl)] = ExprFingerprint(
                 fingerprint=fingerprint,
@@ -5680,6 +6216,7 @@ def _run_structural_dna_expr_fingerprints(
                 const_fp=const_fp,
                 eta_value_fp=eta_value_fp,
                 reduced_fingerprint=reduced_fingerprint,
+                canonical_reduced_payload=canonical_reduced_payload,
             )
     return out
 
@@ -7814,7 +8351,27 @@ def _discovery_endpoint_reduced_fp(
     fp = expr_fingerprints.get(name)
     if fp is None:
         return ""
-    return fp.reduced_fingerprint or fp.value_fp or fp.fingerprint
+    return fp.reduced_fingerprint
+
+
+def _discovery_endpoint_canonical_payload(
+    name: str,
+    expr_fingerprints: dict[str, ExprFingerprint],
+) -> str:
+    fp = expr_fingerprints.get(name)
+    if fp is None:
+        return ""
+    return fp.canonical_reduced_payload
+
+
+def _canonical_payloads_equal(
+    left: str,
+    right: str,
+    expr_fingerprints: dict[str, ExprFingerprint],
+) -> bool:
+    left_payload = _discovery_endpoint_canonical_payload(left, expr_fingerprints)
+    right_payload = _discovery_endpoint_canonical_payload(right, expr_fingerprints)
+    return bool(left_payload and right_payload and left_payload == right_payload)
 
 
 DISCOVERY_INTEGRITY_SEMANTICS = (
@@ -8151,6 +8708,7 @@ def _declared_discovery_integrity_sites(
 def _discovery_provenance_entries(
     candidate: str,
     candidate_fp: str,
+    candidate_payload: str,
     prior_index: dict[str, list[str]],
     expr_fingerprints: dict[str, ExprFingerprint],
     explicit_prior_targets: Iterable[str],
@@ -8164,25 +8722,36 @@ def _discovery_provenance_entries(
         if name != candidate
     })
     reconstruction_priors = {
-        name
-        for name in prior_index.get(candidate_fp, [])
-        if name != candidate
+        name for name in prior_index.get(candidate_payload, []) if name != candidate
     }
     entries: list[dict[str, object]] = []
     for prior in prior_names:
         prior_fp = _discovery_endpoint_reduced_fp(prior, expr_fingerprints)
-        if not prior_fp:
+        prior_payload = _discovery_endpoint_canonical_payload(prior, expr_fingerprints)
+        if not prior_payload:
             continue
+        relation = "reconstruction" if prior in reconstruction_priors else "distinct"
         entries.append({
             "candidate": candidate,
             "prior": prior,
-            "relation": "reconstruction" if prior in reconstruction_priors else "distinct",
+            "relation": relation,
             "prior_scope": (
                 "explicit_before_classifier"
                 if prior in explicit_priors else "current_classifier_index"
             ),
             "candidate_reduced_fp": candidate_fp,
             "reduced_fp": prior_fp,
+            "candidate_canonical_payload": candidate_payload,
+            "prior_canonical_payload": prior_payload,
+            "canonical_payload": candidate_payload if relation == "reconstruction" else "",
+            "evidence": (
+                "canonical_payload_equal"
+                if relation == "reconstruction" else "canonical_payload_distinct"
+            ),
+            "soundness": (
+                "canonical_payload_equal"
+                if relation == "reconstruction" else "not_reconstruction"
+            ),
         })
     existing_keys = {
         (str(item.get("candidate", "")), str(item.get("prior", "")), str(item.get("relation", "")))
@@ -8198,6 +8767,7 @@ def _discovery_provenance_entries(
         if key in existing_keys:
             continue
         prior_fp = _discovery_endpoint_reduced_fp(prior, expr_fingerprints)
+        prior_payload = _discovery_endpoint_canonical_payload(prior, expr_fingerprints)
         enriched = dict(relation)
         enriched.setdefault(
             "prior_scope",
@@ -8206,6 +8776,18 @@ def _discovery_provenance_entries(
         enriched.setdefault("candidate_reduced_fp", candidate_fp)
         if prior_fp:
             enriched.setdefault("reduced_fp", prior_fp)
+        if candidate_payload:
+            enriched.setdefault("candidate_canonical_payload", candidate_payload)
+        if prior_payload:
+            enriched.setdefault("prior_canonical_payload", prior_payload)
+        if candidate_payload and prior_payload and candidate_payload == prior_payload:
+            enriched["relation"] = "reconstruction"
+            enriched["canonical_payload"] = candidate_payload
+            enriched["evidence"] = "canonical_payload_equal"
+            enriched["soundness"] = "canonical_payload_equal"
+        elif str(enriched.get("relation") or "") == "reconstruction":
+            enriched["evidence"] = "fingerprint_only_untrusted"
+            enriched["soundness"] = "fingerprint_only_untrusted"
         entries.append(enriched)
         existing_keys.add(key)
     return entries
@@ -8378,13 +8960,14 @@ def discovery_integrity_payload(
         site_checked = False
         for candidate in candidate_targets:
             candidate_fp = _discovery_endpoint_reduced_fp(candidate, expr_fingerprints)
-            if not candidate_fp:
+            candidate_payload = _discovery_endpoint_canonical_payload(candidate, expr_fingerprints)
+            if not candidate_payload:
                 note = {
                     "file": site["file"],
                     "line": site["line"],
                     "region": site["region"],
                     "target": candidate,
-                    "reason": "structural_dna_reduced_fingerprint_unavailable",
+                    "reason": "structural_dna_canonical_payload_unavailable",
                     "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
                 }
                 unavailable.append(note)
@@ -8395,6 +8978,7 @@ def discovery_integrity_payload(
             provenance = _discovery_provenance_entries(
                 candidate,
                 candidate_fp,
+                candidate_payload,
                 prior_index,
                 expr_fingerprints,
                 before_targets,
@@ -8406,7 +8990,9 @@ def discovery_integrity_payload(
             )
             site_record["provenance"].extend(provenance)
             prior_matches = [
-                item for item in provenance if item.get("relation") == "reconstruction"
+                item for item in provenance
+                if item.get("relation") == "reconstruction"
+                and item.get("evidence") == "canonical_payload_equal"
             ]
             if not prior_matches:
                 continue
@@ -8429,6 +9015,8 @@ def discovery_integrity_payload(
                 "prior_classifier": first_prior,
                 "prior_classifiers": prior_names,
                 "reduced_fingerprint": candidate_fp,
+                "canonical_payload": candidate_payload,
+                "candidate_canonical_payload": candidate_payload,
                 "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
             })
         if site_checked:
@@ -8567,9 +9155,9 @@ def _prior_classifier_fingerprint_index(
 ) -> dict[str, list[str]]:
     out: dict[str, list[str]] = {}
     for name in before_valid:
-        value_fp = _discovery_endpoint_reduced_fp(name, expr_fingerprints)
-        if value_fp:
-            out.setdefault(value_fp, []).append(name)
+        payload = _discovery_endpoint_canonical_payload(name, expr_fingerprints)
+        if payload:
+            out.setdefault(payload, []).append(name)
     for names in out.values():
         names.sort()
     return out
@@ -8661,15 +9249,15 @@ def _candidate_endpoint_pairs(
                 expr_fingerprints,
             ):
                 continue
-            before_value_fp = _discovery_endpoint_reduced_fp(before, expr_fingerprints)
-            after_value_fp = _discovery_endpoint_reduced_fp(after, expr_fingerprints)
-            if after_value_fp and before_value_fp and after_value_fp == before_value_fp:
+            before_payload = _discovery_endpoint_canonical_payload(before, expr_fingerprints)
+            after_payload = _discovery_endpoint_canonical_payload(after, expr_fingerprints)
+            if after_payload and before_payload and after_payload == before_payload:
                 continue
             prior_matches = [
-                name for name in prior_classifier_fps.get(after_value_fp, [])
+                name for name in prior_classifier_fps.get(after_payload, [])
                 if name != after
             ]
-            if after_value_fp and prior_matches:
+            if after_payload and prior_matches:
                 continue
             pairs.append((before, after, "resolved_from_closure_or_lean_declaration"))
     return pairs[:8]
@@ -9399,13 +9987,15 @@ def discovery_candidate_payload(
         structural_grade = str(target_dna.get("grade", "unknown"))
         structural_fingerprint = str(target_dna.get("structural_fingerprint", ""))
         after_reduced_fp = _discovery_endpoint_reduced_fp(after, discovery_expr_fps)
+        after_canonical_payload = _discovery_endpoint_canonical_payload(after, discovery_expr_fps)
         provenance = _discovery_provenance_entries(
             after,
             after_reduced_fp,
+            after_canonical_payload,
             prior_classifier_fingerprint_index,
             discovery_expr_fps,
             [before],
-        ) if after_reduced_fp else []
+        ) if after_canonical_payload else []
         stable_key = "|".join([
             _region_to_chapter_key(block.get("region")),
             "classifier_shift_candidate",
@@ -9445,6 +10035,7 @@ def discovery_candidate_payload(
             "before_classifier": before,
             "after_classifier": after,
             "after_classifier_reduced_fingerprint": after_reduced_fp,
+            "after_classifier_canonical_payload": after_canonical_payload,
             "provenance": provenance,
             "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
             "endpoint_source": endpoint_source,
@@ -10050,6 +10641,12 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         "discovery_assert_gate": discovery_assert_gate,
         "discovery_assert_gate_failure_count": discovery_assert_gate["failure_count"],
         "discovery_assert_gate_failures": discovery_assert_gate["failures"],
+        "discovery_gate_witness_registry_diagnostic_count": discovery_assert_gate[
+            "witness_registry_diagnostic_count"
+        ],
+        "discovery_gate_witness_registry_diagnostics": discovery_assert_gate[
+            "witness_registry_diagnostics"
+        ],
         "discovery_production_radar": discovery_production_radar,
         "discovery_nonasserted_hygiene": discovery_nonasserted_hygiene,
         "discovery_nonasserted_hygiene_failure_count": discovery_nonasserted_hygiene["failure_count"],
@@ -10100,6 +10697,12 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         payload,
         "discovery_assert_gate_failures",
         list(discovery_assert_gate["failures"]),
+        changed_files,
+    )
+    _attach_violation_split(
+        payload,
+        "discovery_gate_witness_registry_diagnostics",
+        list(discovery_assert_gate["witness_registry_diagnostics"]),
         changed_files,
     )
     _attach_violation_split(payload, "orphan_concrete_subdirs", orphan_concrete_subdirs, changed_files)
@@ -10373,6 +10976,14 @@ def cmd_audit(args: argparse.Namespace) -> int:
             f" refuted={assert_gate['refuted_count']}"
         )
         print(f"  semantics: {assert_gate['semantics']}")
+        if assert_gate.get("witness_registry_diagnostics"):
+            print(
+                "[bedc-ci] discovery gate witness registry diagnostics: "
+                f"{payload.get('discovery_gate_witness_registry_diagnostics_new_count', 0)} new (BLOCKING), "
+                f"{payload.get('discovery_gate_witness_registry_diagnostics_legacy_count', 0)} legacy (warning)"
+            )
+            for item in assert_gate.get("witness_registry_diagnostics", [])[:40]:
+                print(f"  {item['message']}")
         for site in assert_gate["asserted_sites"][:20]:
             failed = ",".join(site.get("failed_gates", [])) or "none"
             deferred = ",".join(site.get("deferred_gates", [])) or "none"
@@ -10482,6 +11093,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["closurestatus_open_errors_new_count"]
         + payload["discovery_integrity_violations_new_count"]
         + payload["discovery_assert_gate_failure_count"]
+        + int(payload.get("discovery_gate_witness_registry_diagnostics_new_count", 0))
         + payload["discovery_nonasserted_hygiene_failure_count"]
         + payload["orphan_concrete_subdirs_new_count"]
         + len(payload["leanstmt_debt"]["violations"])

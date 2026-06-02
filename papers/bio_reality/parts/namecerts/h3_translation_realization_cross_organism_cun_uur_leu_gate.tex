@@ -1,50 +1,39 @@
+\subsection{Cross-organism CUN/UUR Leu gate}\label{subsec:h3-translation-realization-cross-organism-cun-uur-leu-gate}
 \origin{ai}
 
-\subsection{Cross-organism leucine codon gate}
-\label{sec:h3-translation-realization-cross-organism-cun-uur-leu-gate}
-
-\paragraph{Object of the record.}
-This record isolates the leucine codon pair formed by the CUN block and the UUR block as an organism-level translation-realization statistic.  The measured item is not a protein output and not a ribosome trace.  It is the paired finite datum consisting of a per-organism codon-usage residual for leucine and an organism-matched tRNA-Leu gene-copy ratio, with the organism label retained as part of the row.  The local coordinate is the signed quantity $\log(\#\mathrm{CUN}/\#\mathrm{UUR})$, interpreted only after amino-acid composition has been controlled by keeping the comparison inside the synonymous leucine class.
-
-\paragraph{Code-window anchor.}
-The finite coding window used by the packet has cardinality $20$.  The verified list is
+\paragraph{Finite packet.}
+This record concerns a three-organism Leu-module statistic rather than a protein-level or ribosome-level event.  The measured coordinate is the organism-indexed residual comparing the CUN Leu block with the UUR Leu block, paired with an organism label and a tRNA-Leu gene-copy ratio.  The finite codon support used by the linked code-table check has cardinality $20$:
 $$
 \begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\
+& CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-The CUN members visible in this list are $\mathrm{CUA}$, $\mathrm{CUC}$, $\mathrm{CUG}$, and $\mathrm{CUU}$, while the UUR members are $\mathrm{UUA}$ and $\mathrm{UUG}$.  Thus the local readout is not a free comparison across unrelated amino acids: it is a leucine-internal contrast whose sign can be asked separately in each organism.
+The CUN Leu part visible inside this support is $\{CUA,CUC,CUG,CUU\}$, while the UUR Leu part visible inside the same support is $\{UUA,UUG\}$.  The biological question is therefore not whether Leu exists in the genetic code, but whether the sign and magnitude of the organism-level statistic $\log(\#CUN/\#UUR)$ are aligned with the organism-level tRNA-Leu copy-number spectrum after amino-acid composition has been controlled.
 
-\paragraph{Finite organism rows.}
-The checked finite table contains three organism labels: $\mathrm{homo\_sapiens}$, $\mathrm{saccharomyces\_cerevisiae}$, and $\mathrm{escherichia\_coli\_k12}$.  For these three rows the recorded logarithmic CUN-over-UUR values are
+\paragraph{Observed rows.}
+The finite run loaded exactly three organism rows: Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K12.  The recorded log-ratios were
 $$
 \begin{aligned}
-(1.3514980212896148,\;-0.24869078488829677,\;1.0086640520051702).
+\ell_{human}&=1.3514980212896148,\\
+\ell_{yeast}&=-0.24869078488829677,\\
+\ell_{ecoli}&=1.0086640520051702.
 \end{aligned}
 $$
-The corresponding sign vector is
-$$
-\begin{aligned}
-(+1,\;-1,\;+1),
-\end{aligned}
-$$
-so the sign is not uniform across the measured organisms.  This is the central finite contrast: the yeast row carries the opposite sign from the human and bacterial rows in the supplied table.
+The associated sign vector was $(1,-1,1)$, so the sign is not constant across the three rows.  The run explicitly records $sign\_uniform=false$.  This matters because the packet is meant to separate an organism-indexed usage relation from a one-direction slogan: the same Leu module does not keep a single sign across these measured organisms.
 
-\paragraph{Paired tRNA-Leu contact.}
-The same run reports a positive organism-level association with the tRNA-Leu gene-copy ratio.  The ordinary Pearson value recorded for the paired statistic is $1.0$.  The amino-acid-composition-controlled statistic is a partial Pearson value of $1.0$ on $n=3$ rows.  In formula form, the finite result recorded here is
+\paragraph{Paired statistic.}
+The attached validation run reports a Pearson value of $1.0$ for the paired organism-level statistic available in the run.  It also reports a positive partial correlation with the tRNA-Leu ratio after the stated composition control:
 $$
 \begin{aligned}
-\operatorname{Pearson} &= 1.0,\\
-\operatorname{partialPearson}_{\mathrm{AA\ control}} &= 1.0,\\
 n&=3,\\
-\mathrm{signUniform} &= \mathrm{false}.
+r_{partial}&=1.0.
 \end{aligned}
 $$
-This supports only the narrow statement that, in the supplied three-row table, the CUN/UUR leucine residual is not sign-constant and is positively aligned with the organism-matched tRNA-Leu copy-ratio coordinate after the stated control.
+Within this finite table, the packet is therefore admissible as a bounded translation-layer readout: the CUN/UUR Leu codon-usage coordinate is not merely an isolated code-table label, since it is paired with an organism-level tRNA-Leu copy-number coordinate and the controlled statistic is recorded as positive.  The result is small-row and exact as reported; it should be read as a finite contact result, not as an asymptotic biological law.
 
-\paragraph{Layer discipline.}
-The classification of the record is $\mathrm{translation\_realization}$ only in the restricted sense of a codon-usage and tRNA-copy contact.  The row values do not observe ribosomal motion, do not measure translation speed, and do not identify a biochemical mechanism.  They also do not establish folded structure, physical admissibility, protein function, or any cross-organism law.  The sign reversal is therefore a context-sensitive finite observation, not a universal direction assigned to CUN or UUR.  Any stronger statement would require a separate measurement channel, such as direct ribosome profiling, protein-output data, structural evidence, or functional assays.
+\paragraph{Controls and exclusions.}
+The amino-acid composition control is part of the claim.  A raw CUN-over-UUR log-ratio alone is not enough for this packet, because raw synonymous usage can reflect sequence composition, sampling, annotation conventions, and organism-specific coding-content biases.  The claim becomes admissible only at the level where codon-usage tables and tRNA-Leu gene-copy spectra are paired per organism and then evaluated after the composition control.  The run also records that no promotion is made to protein folding, biological function, physical admissibility, or a global rule.  In particular, the sign reversal is context-dependent: it is not reported as universal directionality.
 
-\paragraph{Local conclusion.}
-Within the supplied finite rows, the packet passes its bounded test: the CUN/UUR leucine log-ratio has signs $+,-,+$ across the three named organisms, and the controlled tRNA-Leu association is recorded as positive with partial Pearson $1.0$.  The accepted content is exactly this organism-level paired statistic.  The record remains silent about mechanism, structure, function, physical feasibility, and universality.
+\paragraph{Local boundary.}
+The chapter establishes only the following finite statement: in the three-row table consisting of Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K12, the CUN/UUR Leu log-ratio signs are non-uniform, with values $1.3514980212896148$, $-0.24869078488829677$, and $1.0086640520051702$, and the paired controlled statistic with the tRNA-Leu copy ratio is recorded with partial Pearson correlation $1.0$ on $n=3$ rows.  No broader translation process, ribosome-mediated mechanism, folding state, physical admissibility condition, biological function, or universal cross-organism principle follows from this packet unless a separate measurement supplies that layer.  Codon-usage summaries and tRNA gene-copy annotations are sufficient for this bounded organism-level statistic; they are not sufficient for claims about dynamics, structure, function, or universality.
