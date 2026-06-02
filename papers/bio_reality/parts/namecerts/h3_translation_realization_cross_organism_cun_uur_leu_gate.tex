@@ -1,50 +1,45 @@
-\subsection{NameCert: h3.translation\_realization.cross\_organism.cun\_uur\_leu\_gate}
-\label{sec:namecert-h3_translation_realization_cross_organism_cun_uur_leu_gate}
+\subsection{Cross-organism CUN/UUR Leu usage as a bounded organism statistic}\label{subsec:h3-translation-realization-cross-organism-cun-uur-leu-gate}
 \origin{ai}
-\noindent\textit{Proposed by bio-namer; review status: draft.}
 
-\paragraph{NameCert chapter slug.}
-Proposed slug: `14107\_empirical\_codon\_spectrum\_cun\_uur\_leu\_gate\_namecert\_construction`.
+\paragraph{Finite carrier.}
+This record concerns the Leu codon pair split between the CUN block and the UUR block, read only at the level of organism-indexed sequence and annotation summaries. The carrier is a finite table whose rows are organisms and whose measured coordinate is the signed quantity $\log(\#\mathrm{CUN}/\#\mathrm{UUR})$, paired with an organism-level ratio of tRNA-Leu gene-copy support. The row labels used in the recorded run are $\mathrm{homo\_sapiens}$, $\mathrm{saccharomyces\_cerevisiae}$, and $\mathrm{escherichia\_coli\_k12}$, so the active table has $n=3$ organism rows. The associated code-window certificate also records the finite codon set
+$$
+\begin{aligned}
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+\end{aligned}
+$$
+with $|M|=20$. In this chapter the CUN/UUR Leu contrast is not treated as a protein statement. It is a finite organism-level residual: codon-usage summaries and tRNA-Leu copy spectra are compared after the synonymous-class control required by the amino-acid-composition restriction.
 
-The concept name is BioReality-namespaced as `EmpiricalCodonSpectrumCunUurLeuGate`, avoiding Loning's occupied `Codon64`, `Q\_6`, `M\textasciicircum{}\{star\}`, `StopCodonZeckendorfSuffix`, standard-code bridge row, and dna-window-six tile namespaces. The slug is intended as a concrete NameCert packet for a bounded cross-organism Leu codon-usage and tRNA-Leu copy contact, not as an extension of Loning's codon-window geometry.
+\paragraph{Observed row values.}
+The run identified the CUN-over-UUR log ratios
+$$
+\begin{aligned}
+(1.3514980212896148,\;-0.24869078488829677,\;1.0086640520051702),
+\end{aligned}
+$$
+with corresponding signs
+$$
+\begin{aligned}
+(+1,\;-1,\;+1).
+\end{aligned}
+$$
+Thus the sign is not uniform across the three recorded organisms. The recorded Boolean for uniformity is $\mathrm{false}$, and the experiment status is $\mathrm{passed}$. The organism table therefore realizes the intended finite contrast: the Leu CUN/UUR direction can reverse when the organism label and tRNA-Leu copy context are retained. Since the statistic is row-indexed, the yeast row is not a counterexample to the human or bacterial rows; rather, it is the row that prevents replacing the finite table by a single universal sign.
 
-\paragraph{Carrier.}
-Carrier name: `EmpiricalCodonSpectrumCunUurLeuGateUp`.
+\paragraph{Controlled relation.}
+The paired statistic reports Pearson correlation $1.0$ for the recorded finite comparison and a positive partial correlation with the tRNA-Leu copy ratio after the stated amino-acid-composition control. The controlled partial result is
+$$
+\begin{aligned}
+ r_{\mathrm{partial}}=1.0,\qquad n=3.
+\end{aligned}
+$$
+No $p$-value, confidence interval, or larger sampling distribution is recorded in this finite row, so the result is used here as an exact finite-table contact rather than as an asymptotic population inference. The support condition is consequently narrow: across the three loaded organisms, the sign and magnitude of $\log(\#\mathrm{CUN}/\#\mathrm{UUR})$ are compatible with the organism-level tRNA-Leu copy ratio under the recorded control. The chapter does not infer a law for unmeasured organisms from these three rows.
 
-BEDC 5-tuple description:
+\paragraph{Reality contact.}
+Two external contact types are attached to the row. The first is a per-organism codon-usage summary, which reports codon counts or frequencies from coding-sequence resources. The second is an organism-level tRNA-Leu gene-copy annotation, which reports copy-number spectra by anticodon family. These contacts are sufficient for the bounded question asked here: whether an organism-indexed CUN/UUR residual changes sign and whether the finite controlled statistic is positive against the tRNA-Leu copy-ratio coordinate. They are not measurements of ribosome traffic, translational kinetics, protein abundance, folding state, cellular phenotype, or biochemical activity.
 
-- Carrier: a finite per-organism ledger of CUN/UUR Leu codon-usage coordinates paired with matched tRNA-Leu copy-spectrum coordinates. - Distinctions: organism label, CUN-side coordinate, UUR-side coordinate, tRNA-Leu copy-ratio coordinate, amino-acid composition control, sign-context row, statistical-witness row, provenance row, and cannot-claim row. - Readback: a curated-data projection back to organism-matched codon-usage and tRNA-Leu copy sources, plus the passed experiment run that computed the contact. - Internal structure: finite coordinate, quotient-by-control bookkeeping, relation slot, and median/spectrum-style closure only as BEDC field separation. - Forbidden promotions: no translation event, folding, physical admissibility, function realization, mechanism, or universal biological law is certified by the carrier.
+\paragraph{Local scope of the claim.}
+The admissible conclusion is only that the finite organism table records a non-uniform CUN/UUR sign and a positive recorded partial correlation with tRNA-Leu copy ratio after the stated amino-acid-composition control. No claim about translation as an active cellular process follows from the codon-usage sign alone. No folding, physical admissibility, biological function, ribosome-mediated mechanism, or universal cross-organism rule follows from this row unless a separate contact supplies the relevant evidence. In particular, raw $\log(\#\mathrm{CUN}/\#\mathrm{UUR})$ without the organism label, the synonymous-class control, and the paired tRNA-Leu copy coordinate is not enough to promote the observation beyond this bounded sequence-and-annotation statistic.
 
-The carrier name starts with `Empirical` because the chapter is a reality-bound BioReality proposal. Its internal BEDC role is to keep the naming surface and field separation stable while leaving biological numbers in bridge and provenance fields.
-
-\paragraph{Distinctions.}
-- `organism\_label`: the external organism key under which the row is read. - `cun\_usage\_coordinate`: the CUN side of the Leu codon-usage contact. - `uur\_usage\_coordinate`: the UUR side of the Leu codon-usage contact. - `trna\_leu\_copy\_ratio\_coordinate`: the matched tRNA-Leu copy-spectrum comparison coordinate. - `amino\_acid\_composition\_control`: the control condition under which the codon-usage contact is interpreted. - `sign\_context\_row`: the row recording that the observed direction is organism-context dependent. - `statistical\_witness\_row`: the row pointing to the passed partial-correlation and sign-uniformity checks. - `curated\_source\_row`: the row pointing to Kazusa codon-usage data and GtRNAdb tRNA-Leu copy data. - `cannot\_claim\_row`: the explicit refusal of translation-event, structure, physical-admissibility, function, mechanism, and universality promotion.
-
-These distinctions enumerate the experiment-level packet. They do not turn codon/window geometry into translation, structure, admissibility, function, or global biological law.
-
-\paragraph{Readback.}
-The carrier reads back to observable data by loading the curated organism-matched codon-usage and tRNA-Leu copy records used by the experiment, applying the amino-acid composition control, and then reading the result through the claim registry entry `h3.translation\_realization.cross\_organism.cun\_uur\_leu\_gate`, the linked conjecture `cross\_organism.cun\_uur\_leu\_gate.translation\_realization`, and the latest passed experiment run `675fdddb3187`.
-
-The readback is external-reality contact, not BEDC derivation. Internally, BEDC sees only named rows and relations between rows; the external source files and computed biological/statistical values remain provenance and bridge fields.
-
-\paragraph{Derivation from coordinate, closure, spectrum, and relation.}
-The pure BEDC content is a finite naming certificate for an empirical codon-spectrum carrier. It may contain a coordinate object for the CUN/UUR comparison, a quotient-by-control bookkeeping object for the amino-acid composition condition, a relation object for the organism-indexed statistical witness, and a closure object stating that these fields are separated and read back through a bounded ledger.
-
-The internal derivation can certify that `EmpiricalCodonSpectrumCunUurLeuGateUp` has the intended carrier alignment, that each distinction is represented by a field rather than collapsed into another field, and that the cannot-claim boundary is part of the packet. It cannot certify the Kazusa tables, the GtRNAdb copy-spectrum rows, organism biology, translation realization as a molecular event, ribosome dynamics, folding, function, or a universal direction law.
-
-No external biological number is a kernel fact. Any count, ratio, sign, correlation, organism list, or data-source snapshot belongs to section 6 as bridge/provenance data.
-
-\paragraph{Curated reality contacts and observed facts.}
-- Curated codon-usage source family: Kazusa organism codon-usage records referenced by the experiment data files. - Curated tRNA-Leu copy source family: GtRNAdb organism tRNA-Leu copy records referenced by the experiment data files. - Claim registry pointer: `tools/bio\_reality/registries/claims.json`, record `h3.translation\_realization.cross\_organism.cun\_uur\_leu\_gate`. - Conjecture pointer: `tools/bio\_reality/inbox/conjectures.jsonl`, record `cross\_organism.cun\_uur\_leu\_gate.translation\_realization`. - Experiment provenance pointer: `tools/bio\_reality/state/experiment\_runs.jsonl`, latest matching passed run `675fdddb3187`. - Statistical witnesses by reference: the `sign\_not\_uniform\_across\_organisms` check, the `positive\_partial\_correlation\_with\_trna\_leu\_ratio` check, and the `no\_cross\_layer\_promotion\_to\_function\_or\_structure` check inside run `675fdddb3187`.
-
-These sources are cited as curated external-reality and reproducible-experiment references. Their biological and statistical contents remain bridge/provenance fields and are not internalized as BEDC kernel constants.
-
-\paragraph{Layer discipline and out-of-scope assertions.}
-- This chapter does not claim biological-code necessity. - This chapter does not claim ribosome-mediated translation realization beyond the attached codon-usage and tRNA-Leu copy contact. - This chapter does not claim that CUN/UUR codon-usage geometry determines protein folding. - This chapter does not claim protein structure, structural order, physical admissibility, or biochemical function. - This chapter does not claim a universal mechanism, universal sign direction, or global biological law. - This chapter does not claim that Loning's `Q\_6`, `Codon64`, `M\textasciicircum{}\{star\}`, support-nerve, stop-codon, or reassignment-spectrum constructions are extended or renamed here. - This chapter does not bypass the amino-acid composition control. - This chapter does not promote a bounded cross-organism statistical contact into population inference without a separate reality contact.
-
-\paragraph{Disclaimer on the bridge from coordinate to mechanism.}
-This proposal is a vision-level scientific-model bridge for BioReality writeback. It is not a CheckedCert claim about molecular biology, and it does not turn a BEDC coordinate, codon-window glyph, empirical spectrum row, or finite naming carrier into a biological base, translation event, folded structure, physical admissibility statement, functional realization, or biochemical law. The proposal records where curated external biological reality touches a BEDC-facing carrier while preserving the distinction between external source provenance and internal newmath/BEDC derivation.
-
-\paragraph{Lean-side statement target sketch.}
-Statement-only target sketch: `BEDC.Derived.EmpiricalCodonSpectrumCunUurLeuGateUp.TasteGate carrier alignment` with external Kazusa/GtRNAdb/run provenance kept outside Lean as bridge fields.
-
+\paragraph{Finite verdict.}
+Within the recorded data, the gate is open at the narrow translation-realization-statistic level: the run loaded three organisms, observed signs $(+1,-1,+1)$, recorded $\mathrm{sign\_uniform}=\mathrm{false}$, and reported $r_{\mathrm{partial}}=1.0$ for the tRNA-Leu ratio comparison with $n=3$. The same evidence keeps the stronger readings closed. The row is a controlled cross-organism Leu codon-usage contact, not a protein-structure result, not a functional assay, not a ribosome-dynamics experiment, and not a universal biological principle.

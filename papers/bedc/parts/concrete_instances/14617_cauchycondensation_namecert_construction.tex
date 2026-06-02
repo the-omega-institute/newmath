@@ -117,6 +117,22 @@ Apply \autoref{thm:cauchy-condensation-dyadic-block-handoff}. The handoff theore
 Finally apply \autoref{thm:cauchy-condensation-real-seal-nonescape} and \autoref{thm:cauchy-condensation-dyadic-block-tail-transport}. The Real seal receives its analytic input from the same handoff row and the same transported structural rows, so both reads meet the same boundary $E$ without an alternate quotient, selected-sum, choice, trichotomy, host-equality, or completeness discriminator.
 \end{proof}
 
+\begin{theorem}[Cauchy condensation test dyadic-block equivalence]
+\label{thm:cauchy-condensation-test-dyadic-block-equivalence}
+An accepted $\CauchyCondensationUp$ packet and a $\CauchyCondensationTestUp$ consumer agree exactly when the consumer reads the same displayed monotone source tail $S$, summand-window ledger $W$, dyadic block schedule $B$, block-sum ledger $L$, tail-bound row $T$, $\RegSeqRatUp$ handoff $R$, and $\RealUp$ seal route $E$ through the structural rows $H,C,P,N$. Equivalently, the consumer may use the condensation-test conclusion only through the finite dyadic-block route already carried by
+$$
+K=(S,W,B,L,T,R,E,H,C,P,N),
+$$
+and no quotient series equality, selected sum, countable-choice schedule, trichotomy oracle, host real equality, or $\RealUp$ completeness coordinate supplies a second route.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and apply \autoref{thm:cauchy-condensation-dyadic-block-handoff}. It identifies the displayed path from the monotone source tail through summand windows, dyadic schedule, block sums, and tail bounds to the regular readback.
+
+Use \autoref{thm:cauchy-condensation-dyadic-block-tail-transport}. Any consumer that preserves the source-tail windows, block schedule, block-sum ledger, and tail-bound row preserves the $\RegSeqRatUp$ handoff and the Real-seal boundary along the same route.
+
+Finally apply \autoref{thm:cauchy-condensation-tail-lock-uniqueness}. Two seal-facing reads with the same $W,B,L,T$ data cannot be distinguished by an alternate quotient, selected-sum, choice, trichotomy, host-equality, or completeness coordinate. Thus the condensation-test consumer agrees with the packet exactly on the displayed dyadic-block route.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\CauchyCondensationUp$ consumer that reaches a $\RealUp$ seal without reading the displayed summand windows, dyadic block schedule, block-sum ledger, tail-bound row, and $\RegSeqRatUp$ handoff refutes the carrier surface.}
 
 \independenceWitness{series, fastconvergentseries, regseqrat, real: no listed sibling supplies the whole eleven-row packet $K=(S,W,B,L,T,R,E,H,C,P,N)$, because each sibling contributes only a source, comparison budget, regular readback, or seal face while this chapter binds all four faces with dyadic block scheduling, block-sum ledgers, tail bounds, transports, replay, provenance, and local naming.}

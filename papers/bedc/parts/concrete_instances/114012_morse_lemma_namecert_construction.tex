@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\MorseLemmaUp$}
+\label{ch:concrete-instances-morse-lemma-namecert}
+\origin{human}
+
+Following Milnor's Morse theory treatment and the Bishop--Bridges constructive analysis of finite coordinate data, the $\MorseLemmaUp$ packet records the local quadratic normal-form route for a nondegenerate critical point as finite BEDC certificate data. It sits between the Morse-theory surface of \autoref{ch:concrete-instances-morse-theory-namecert}, the boundary packet of \autoref{ch:concrete-instances-morse-boundary-namecert}, the manifold chart rows of \autoref{ch:concrete-instances-manifold-namecert}, the derivative ledger of \autoref{ch:concrete-instances-derivative-namecert}, the implicit-function graph route of \autoref{ch:concrete-instances-implicitfunction-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the vector-space coordinate carrier of \autoref{ch:concrete-instances-vecspace-namecert}. The packet names only displayed chart, critical-point, Hessian-signature, local-coordinate, quadratic normal-form, transport, replay, provenance, and local naming rows; it does not import a host smooth-manifold theorem, a selected chart atlas, quotient germs, or analytic compactness.
+
+\begin{definition}[Morse lemma NameCert carrier]
+\label{def:morse-lemma-namecert-carrier}
+A $\MorseLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,C,Q,S,L,NF,H,R,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\ManifoldUp$ chart-source row, naming the displayed neighbourhood, chart window, coordinate dimension, and local domain in which the critical point is inspected.
+\item $C$ is the critical-point row, recording the point, the value row, and the derivative-vanishing witness exposed through the $\DerivativeUp$ ledger.
+\item $Q$ is the Hessian-signature row, storing the finite symmetric bilinear form, its nondegeneracy witness, and the positive and negative coordinate counts read through $\VecSpaceUp$.
+\item $S$ is the local-coordinate row, recording the coordinate transformation routed through the implicit-function packet and the finite neighbourhood on which it is admitted.
+\item $L$ is the quadratic normal-form row, displaying the equation that reads the function as the critical value plus the signed square sum determined by $Q$ after $S$ has been admitted.
+\item $NF$ is the normal-form transport row, recording how the chart, critical-point, Hessian, coordinate, and quadratic rows are transported componentwise under $\hsame$.
+\item $H$ records displayed $\Cont$ replay from a normal-form query through $X,C,Q,S,L,NF,P,A$.
+\item $R$ is the Real readback row, exposing the scalar values only after the chart, derivative, Hessian, coordinate, and quadratic rows have been displayed.
+\item $P$ is the $\Pkg$ provenance over $\MorseLemmaUp$, $\MorseTheoryUp$, $\MorseBoundaryUp$, $\ManifoldUp$, $\DerivativeUp$, $\ImplicitFunctionUp$, $\RealUp$, $\VecSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $A$ is the local $\NameCert_{\MorseLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,C,Q,S,L,NF,H,R,P,A$. It has no coordinate for a host smooth atlas, quotient germ equality, selected coordinate theorem, compactness principle, or ambient real manifold semantics.
+\end{definition}
+
+\begin{theorem}[Morse lemma critical-chart ledger]
+\label{thm:morse-lemma-critical-chart-ledger}
+For every accepted $\MorseLemmaUp$ carrier $M=(X,C,Q,S,L,NF,H,R,P,A)$, the critical-chart ledger exposes the chart-source row $X$, the derivative-vanishing critical-point row $C$, and the Hessian-signature row $Q$ before any local-coordinate row $S$ or quadratic normal-form row $L$ may be read. A consumer that omits one of $X,C,Q$ receives no accepted Morse-lemma packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:morse-lemma-namecert-carrier}. The chart-source, critical-point, and Hessian-signature data are separate rows, and no later coordinate stores a replacement for them.
+
+The coordinate row $S$ is downstream of these rows. It records a local transformation only after the chart window, derivative-vanishing witness, and nondegenerate Hessian signature have been displayed.
+
+The quadratic row $L$ is downstream again. Since $L$ reads the signed square decomposition determined by $Q$ inside the chart named by $X$ at the critical point named by $C$, the packet cannot admit a normal-form read with any of those rows missing.
+\end{proof}
+
+\begin{theorem}[Morse lemma Hessian normal-form obligation]
+\label{thm:morse-lemma-hessian-normal-form-obligation}
+For an accepted $\MorseLemmaUp$ carrier, every quadratic normal-form read factors through
+$$
+\ManifoldUp,\ \DerivativeUp,\ \VecSpaceUp
+\longmapsto
+X,C,Q
+\longmapsto
+S,L
+\longmapsto
+NF,H,R,P,A .
+$$
+The Hessian-signature row determines the positive and negative square counts in $L$, while $NF,H,R,P,A$ transport, replay, source, read back, and name the same finite route without adding a host Morse-lemma theorem.
+\end{theorem}
+\begin{proof}
+Begin with the displayed analytic rows. The manifold row supplies the local chart window, the derivative row supplies the critical-point witness, and the vector-space row supplies the finite coordinate carrier for the Hessian signature.
+
+Next read $S$ and $L$. The coordinate transformation $S$ is admitted only inside the displayed neighbourhood, and the normal-form row $L$ records the signed quadratic expression using the signature data in $Q$.
+
+Finally route the read through $NF,H,R,P,A$. These rows preserve and replay the same finite packet, expose scalar values only through the Real readback row, and bind the local NameCert. Because the carrier has no host-atlas, quotient-germ, or selected-theorem coordinate, the result is a BEDC normal-form obligation rather than an imported smooth-manifold theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MorseLemmaUp$ normal-form read exposes chart, critical-point, Hessian-signature, local-coordinate, quadratic normal-form, componentwise transport, displayed replay, Real readback, provenance, and local NameCert rows before any Morse-theory consumer reads the local quadratic model.}
+
+\independenceWitness{morse-theory, morse-boundary, manifold, derivative, implicitfunction, real, vecspace: $\MorseLemmaUp$ is not bijective to any listed sibling because it jointly carries a nondegenerate critical-point chart, Hessian signature, local coordinate transformation, quadratic normal-form row, transport, replay, Real readback, provenance, and local naming as one finite packet.}
+
+The Lean follow-up namespace is expected at \texttt{BEDC.Derived.MorseLemmaUp}. It must preserve the chart, critical-point, Hessian-signature, local-coordinate, quadratic normal-form, transport, replay, Real readback, provenance, and local NameCert rows before any checked marker may cite the packet.
+
+\closureat{MorseLemmaUp}{seedStr}
+
+\begin{closurestatus}{\MorseLemmaUp}
+  \constructivestory{A $\MorseLemmaUp$ packet is generated from manifold chart rows, critical-point derivative rows, Hessian-signature rows, local coordinate rows, quadratic normal-form rows, componentwise transport, displayed replay, Real readback, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:morse-lemma-namecert-carrier}, \autoref{thm:morse-lemma-critical-chart-ledger}, and \autoref{thm:morse-lemma-hessian-normal-form-obligation} seed the finite local quadratic normal-form route consumed by Morse-theory packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host smooth-manifold Morse theory, selected coordinate atlases, quotient germs, analytic compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, critical-chart ledger exactness, Hessian-signature normal-form coverage, transport stability, replay stability, Real readback, provenance exhaustion, and local naming for BEDC.Derived.MorseLemmaUp.}
+\end{closurestatus}

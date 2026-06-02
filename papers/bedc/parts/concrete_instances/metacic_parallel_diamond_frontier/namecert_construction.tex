@@ -120,6 +120,20 @@ Next use the handoff and route theorems, \autoref{thm:metacic-parallel-diamond-f
 Finally apply the residual-substitution scope theorem \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}. Since the local-diamond frontier remains scoped by the residual-substitution boundary and the obstruction row is still visible, the retained handoff cannot be retyped as any of the refused confluence endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond typed boundary]
+\label{thm:metacic-parallel-diamond-typed-boundary}
+Any accepted $\MetaCICParallelDiamondFrontierUp$ packet whose conditional local-diamond handoff is read under a typed-window premise must retain the typed window, residual-substitution premise row $P$, critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, closed-checker row $S$, closed-normal row $C$, bounded-check row $B$, and obstruction row $O$ before the handoff is consumed. The packet may not be cited as a premise-free parallel diamond, subject reduction, full Church--Rosser theorem, evaluator equality, quotient term equality, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Apply the obligations theorem \autoref{thm:metacic-parallel-diamond-frontier-obligations}. It lists the premise, critical-pair, candidate-join, residual-frontier, closed-checker, closed-normal, bounded-check, and obstruction rows as the confluence-facing surface of the accepted packet.
+
+Use the route theorem \autoref{thm:metacic-parallel-diamond-frontier-route}. A typed-window consumer can read the conditional handoff only after those rows have been exposed together with transport, replay, provenance, and local naming.
+
+Apply the residual-substitution scope theorem \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}. The typed window is read through the same residual-substitution boundary, confluence critical-pair boundary, and closed-normal fragment that scope the local join.
+
+Finally use premise retention, \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. The retained premise and obstruction rows prevent the handoff from being retyped as a premise-free diamond or any of the refused confluence, equality, or kernel endpoints.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond frontier discharge obstruction]
 \label{thm:metacic-parallel-diamond-frontier-discharge-obstruction}
 Any accepted $\MetaCICParallelDiamondFrontierUp$ packet consumed as a local-diamond handoff still exposes the residual-substitution premise row $P$ and obstruction row $O$. Unless a separate $\MetaCICResidualSubstitutionCompatibilityUp$ certificate is supplied through \autoref{ch:concrete-instances-metacic-residual-substitution-compatibility-namecert}, no consumer may read that handoff as a premise-free parallel diamond, full closed confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
