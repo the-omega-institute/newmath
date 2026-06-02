@@ -17,6 +17,7 @@ ENCODER_BINS    := $(ENCODER_DIR)/generate_r110 $(ENCODER_DIR)/generate_r110_alg
 TOOLS           := $(TOOLS_DIR)/manifest_exhaustiveness_audit
 BEDC_OPERATIONS_EXPORT := $(TOOLS_DIR)/bedc_operations_export
 VISUALIZATION_TOOL := $(TOOLS_DIR)/visualize_rule110
+ZECKENDORF_PROJECTION_TOOL := $(TOOLS_DIR)/r110_zeckendorf_projection
 TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_encoder $(TEST_DIR)/test_mark \
                    $(TEST_DIR)/test_cook_ether $(TEST_DIR)/test_cook_glider_A \
@@ -40,9 +41,10 @@ TESTS           := $(TEST_DIR)/test_rule110 $(TEST_DIR)/test_cyclic_tag \
                    $(TEST_DIR)/test_fold_up_audit \
                    $(TEST_DIR)/test_meta_cic_audit \
                    $(TEST_DIR)/test_topology_up_audit \
-                   $(TEST_DIR)/test_r110_round_trip
+                   $(TEST_DIR)/test_r110_round_trip \
+                   $(TEST_DIR)/test_r110_zeckendorf_projection
 
-.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-algo-size-guard test-collision-audit test-exhaustiveness test-scale visualizations regen-manifests bedc-data bedc-operations-data clean
+.PHONY: all test test-r110 test-algo-r110 test-algo-r110-semantic test-algo-r110-idempotent test-algo-size-guard test-collision-audit test-exhaustiveness test-scale zeckendorf-words18 visualizations regen-manifests bedc-data bedc-operations-data clean
 all: $(STANDALONE_BINS) $(ENCODER_BINS)
 
 # Generated manifests (.r110.ct, .algo.r110.ct) are encoder outputs — not in git.
@@ -275,6 +277,15 @@ $(TOOLS_DIR)/manifest_exhaustiveness_audit: $(TOOLS_DIR)/manifest_exhaustiveness
 	    $(TOOLS_DIR)/manifest_exhaustiveness_audit.c \
 	    $(ENCODER_DIR)/groundcompiler_encoding.c
 
+$(ZECKENDORF_PROJECTION_TOOL): $(TOOLS_DIR)/r110_zeckendorf_projection.c $(EVAL_DIR)/rule110.h $(ENCODER_DIR)/cook_decode.h
+	$(CC) $(CFLAGS) -I$(EVAL_DIR) -I$(ENCODER_DIR) -o $@ \
+	    $(TOOLS_DIR)/r110_zeckendorf_projection.c \
+	    $(EVAL_DIR)/rule110.c $(ENCODER_DIR)/cook_decode.c \
+	    $(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/cook_construction.c
+
+$(TEST_DIR)/test_r110_zeckendorf_projection: $(TEST_DIR)/test_r110_zeckendorf_projection.c $(ZECKENDORF_PROJECTION_TOOL)
+	$(CC) $(CFLAGS) -o $@ $(TEST_DIR)/test_r110_zeckendorf_projection.c
+
 $(VISUALIZATION_TOOL): $(TOOLS_DIR)/visualize_rule110.c \
 		$(EVAL_DIR)/rule110.c $(EVAL_DIR)/rule110.h \
 		$(ENCODER_DIR)/glider_phases.c $(ENCODER_DIR)/glider_phases.h \
@@ -321,6 +332,12 @@ test-algo-r110-idempotent: $(ENCODER_DIR)/generate_r110_algo
 test-algo-size-guard: $(ALGO_R110_GENERATED)
 	./$(TEST_DIR)/test_algo_r110_size_guard.sh
 
+test-zeckendorf-projection: $(TEST_DIR)/test_r110_zeckendorf_projection $(ALGO_R110_GENERATED)
+	./$(TEST_DIR)/test_r110_zeckendorf_projection
+
+zeckendorf-words18: $(ZECKENDORF_PROJECTION_TOOL) $(ALGO_R110_GENERATED)
+	./$(ZECKENDORF_PROJECTION_TOOL)
+
 test-collision-audit: $(TEST_DIR)/test_cook_collision_martinez
 	./$(TEST_DIR)/test_cook_collision_martinez --strict
 
@@ -328,7 +345,7 @@ test-exhaustiveness: $(TOOLS_DIR)/manifest_exhaustiveness_audit
 	./$(TOOLS_DIR)/manifest_exhaustiveness_audit --strict
 
 clean:
-	rm -f $(STANDALONE_BINS) $(ENCODER_BINS) $(TOOLS) $(BEDC_OPERATIONS_EXPORT) $(VISUALIZATION_TOOL) $(TESTS) $(SCALE_TESTS)
+	rm -f $(STANDALONE_BINS) $(ENCODER_BINS) $(TOOLS) $(BEDC_OPERATIONS_EXPORT) $(VISUALIZATION_TOOL) $(ZECKENDORF_PROJECTION_TOOL) $(TESTS) $(SCALE_TESTS)
 
 TESTS += $(TEST_DIR)/test_cook_glider_B \
          $(TEST_DIR)/test_cook_glider_C \
