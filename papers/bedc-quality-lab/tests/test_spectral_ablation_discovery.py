@@ -1,4 +1,5 @@
 import copy
+import json
 
 import pytest
 
@@ -11,12 +12,64 @@ def _payload():
     return runner._load_payload()
 
 
+def _write_payload(tmp_path, payload):
+    path = tmp_path / "payload.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    return path
+
+
 def _verdicts(payload=None):
     return runner._verdict_payload(_payload() if payload is None else payload)["verdicts"]
 
 
 def _row(name, payload=None):
     return next(row for row in _verdicts(payload) if row["arm"] == name)
+
+
+def test_payload_requires_vanilla_arm(tmp_path):
+    path = _write_payload(
+        tmp_path,
+        {
+            "config": {"metric_names": ["accuracy"]},
+            "arms": [{"name": "treatment", "envelope_projection": {"metrics": {"accuracy": 0.8}}}],
+        },
+    )
+
+    with pytest.raises(ValueError, match="^spectral-ablation payload must contain vanilla arm$"):
+        runner._load_payload(path)
+
+
+@pytest.mark.parametrize("config", [{}, {"metric_names": []}])
+def test_payload_requires_metric_names(tmp_path, config):
+    path = _write_payload(
+        tmp_path,
+        {
+            "config": config,
+            "arms": [{"name": runner.BEFORE_ARM, "envelope_projection": {"metrics": {"accuracy": 1.0}}}],
+        },
+    )
+
+    with pytest.raises(ValueError, match="^spectral-ablation payload must contain metric_names$"):
+        runner._load_payload(path)
+
+
+def test_payload_requires_projected_metrics_for_each_arm(tmp_path):
+    path = _write_payload(
+        tmp_path,
+        {
+            "config": {"metric_names": ["accuracy", "coverage"]},
+            "arms": [
+                {
+                    "name": runner.BEFORE_ARM,
+                    "envelope_projection": {"metrics": {"accuracy": 1.0, "coverage": 1.0}},
+                },
+                {"name": "treatment", "envelope_projection": {"metrics": {"accuracy": 0.8}}},
+            ],
+        },
+    )
+
+    with pytest.raises(ValueError, match="^arm lacks projected metrics: treatment$"):
+        runner._load_payload(path)
 
 
 def test_projection_reuses_existing_predicates():
