@@ -186,6 +186,38 @@ Apply \autoref{thm:bairemetric-parent-metricspace-handoff} and \autoref{thm:bair
 Finally apply \autoref{thm:bairemetric-ultrametric-prefix-route}. It records that the consumer-facing prefix-distance route is finite and that componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve the same order before any $\CompleteMetricUp$, $\UltrametricSpaceUp$, or $\BaireSpaceUp$ conclusion is exported.
 \end{proof}
 
+\begin{theorem}[BaireMetric root prefix schedule]
+\label{thm:bairemetric-root-prefix-schedule}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ root packet. The first read of the root packet exposes the finite prefix schedule
+$$
+S,B,W,D .
+$$
+Thus the consumer first reads the $\StreamNameUp$ schedule row $S$, the $\BaireSpaceUp$ prefix packet $B$, the $\NatUp$ first-disagreement window $W$, and the $\DyadicRatCoreUp$ radius row $D$ before it may inspect the parent metric row, the strong-triangle row, transport, replay, provenance, or local naming.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bairemetric-prefix-window-admission}. It places every accepted distance read behind the $\StreamNameUp$ schedule, the $\BaireSpaceUp$ prefix packet, and the finite first-disagreement window.
+
+Apply \autoref{thm:bairemetric-first-disagreement-dyadic-radius-exactness}. The dyadic radius row is determined only after that window is available, including the zero branch where the inspected prefixes remain equal on the displayed finite window.
+
+Finally use \autoref{thm:bairemetric-complete-ultrametric-consumer-readiness}. The complete-ultrametric route keeps the same prefix schedule as the initial root read and admits no earlier access to the metric, ultrametric, transport, replay, provenance, or local naming rows.
+\end{proof}
+
+\begin{theorem}[BaireMetric root strong-triangle route]
+\label{thm:bairemetric-root-strong-triangle-route}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ root packet. Every $\UltrametricSpaceUp$ consumer of the strong-triangle row $U$ must first read the same finite prefix route
+$$
+S,B,W,D,R .
+$$
+Only after this route has supplied the stream schedule, Baire prefix packet, Nat first-disagreement window, dyadic radius row, and parent metric row may the consumer read $U$ as the strong-triangle witness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bairemetric-root-prefix-schedule}. It fixes the initial root read as the finite $S,B,W,D$ schedule, so the strong-triangle consumer cannot start from completed streams, quotient names, or an external topology.
+
+Next apply \autoref{thm:bairemetric-parent-metricspace-handoff}. The parent metric row $R$ receives exactly the scheduled prefix, first-disagreement, and dyadic-radius data before exporting ordinary metric compatibility.
+
+Finally apply \autoref{thm:bairemetric-ultrametricspace-strong-triangle-handoff}. The strong-triangle row $U$ reads the same finite prefix and radius route after $R$, so the ultrametric consumer cannot replace the displayed root schedule by a separate strong-triangle path.
+\end{proof}
+
 \begin{theorem}[BaireMetric root prefix ultrametric package]
 \label{thm:bairemetric-root-prefix-ultrametric-package}
 Every accepted $\BaireMetricUp$ root package exposes exactly the route through $\BaireSpaceUp$, $\StreamNameUp$, $\NatUp$, $\DyadicRatCoreUp$, $\MetricSpaceUp$, and $\UltrametricSpaceUp$, together with the structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, before any PolishSpace, BaireSpace, or ultrametric consumer reads it. In the notation of \autoref{def:bairemetric-prefix-distance-carrier}, the package surface is the finite row family
