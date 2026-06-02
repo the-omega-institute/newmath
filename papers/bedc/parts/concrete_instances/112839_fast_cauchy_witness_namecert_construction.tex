@@ -66,12 +66,34 @@ The row $M$ records the fast dyadic budget as part of the finite packet rather t
 Since the carrier contains no quotient stream, selected infinite tail, choice row, host equality, or completeness coordinate, the normalization remains a finite NameCert witness.
 \end{proof}
 
+\begin{theorem}[Fast Cauchy witness window determinacy]
+\label{thm:fast-cauchy-witness-window-determinacy}
+For accepted $\FastCauchyWitnessUp$ packets
+$$
+F=(S,W,D,R,M,E,H,C,P,N)
+$$
+and
+$$
+F'=(S,W,D,R',M,E',H',C',P',N')
+$$
+sharing the same $\StreamNameUp$ source row, finite window ledger, $\DyadicRatCoreUp$ tolerance ledger, and fast modulus row, every Real-facing read through either packet uses the same displayed window and tolerance route before reaching its $\RealUp$ seal. The packets may differ in readback, seal, transport, replay, provenance, or local naming rows, but no Real-facing consumer can distinguish their displayed window budget before the seal is read.
+\end{theorem}
+\begin{proof}
+Project both carriers using \autoref{def:fast-cauchy-witness-carrier}. The shared rows $S,W,D,M$ are the only source, window, tolerance, and fast-modulus rows available to either accepted packet.
+
+Apply the NameCert obligations of \autoref{thm:fast-cauchy-witness-namecert-obligations}. They force every Real-facing route to read the StreamName source, finite window ledger, dyadic tolerance ledger, and fast modulus row before the terminal Real seal is exposed.
+
+Use modulus normalization, \autoref{thm:fast-cauchy-witness-modulus-normalization}. It keeps the Real seal downstream of the finite route through $S,W,D,M$, so the later rows $R,E,H,C,P,N$ and $R',E',H',C',P',N'$ cannot introduce a second displayed tail budget.
+
+Therefore both packets present the same window and tolerance route to every Real-facing read. Since neither carrier contains a quotient stream, selected tail, or ambient completeness row, no excluded object can distinguish the shared window before the Real seal.
+\end{proof}
+
 \closureat{FastCauchyWitnessUp}{seedStr}
 
 \begin{closurestatus}{\FastCauchyWitnessUp}
   \constructivestory{A $\FastCauchyWitnessUp$ packet is generated from a StreamName source row, finite windows, a DyadicRatCore tolerance ledger, a RegSeqRat readback row, a fast modulus row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:fast-cauchy-witness-carrier}, \autoref{thm:fast-cauchy-witness-namecert-obligations}, and \autoref{thm:fast-cauchy-witness-modulus-normalization} seed the finite fast-Cauchy witness route from StreamName windows through dyadic tolerance and RegSeqRat readback to a terminal RealUp seal.}
+  \scopeclosed{\autoref{def:fast-cauchy-witness-carrier}, \autoref{thm:fast-cauchy-witness-namecert-obligations}, \autoref{thm:fast-cauchy-witness-modulus-normalization}, and \autoref{thm:fast-cauchy-witness-window-determinacy} seed the finite fast-Cauchy witness route from StreamName windows through dyadic tolerance and RegSeqRat readback to a terminal RealUp seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected infinite tails, countable choice, host sequence equality, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
