@@ -232,4 +232,83 @@ theorem ProperMetricCarrier_radius_window_nonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, rootUnary⟩
 
+theorem ProperMetricCarrier_obligation_carrier [AskSetup] [PackageSetup]
+    {X B K L T H C Q N toleranceRead closedRead locatedRead completeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProperMetricCarrier X B K L T H C Q N bundle pkg ->
+      Cont B K closedRead ->
+        Cont K L locatedRead ->
+          Cont L T completeRead ->
+            PkgSig bundle toleranceRead pkg ->
+              PkgSig bundle Q pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row completeRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row X ∨ hsame row B ∨ hsame row K ∨ hsame row L ∨
+                        hsame row T ∨ hsame row H ∨ hsame row C ∨ hsame row Q ∨
+                          hsame row N ∨ hsame row toleranceRead ∨ hsame row closedRead ∨
+                            hsame row locatedRead ∨ hsame row completeRead)
+                    (fun row : BHist =>
+                      hsame row completeRead ∧ PkgSig bundle Q pkg ∧
+                        PkgSig bundle toleranceRead pkg)
+                    hsame ∧
+                  UnaryHistory X ∧ UnaryHistory B ∧ UnaryHistory K ∧ UnaryHistory L ∧
+                    UnaryHistory T ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory Q ∧
+                      UnaryHistory N ∧ UnaryHistory closedRead ∧ UnaryHistory locatedRead ∧
+                        UnaryHistory completeRead ∧ Cont X B K ∧ Cont K L T ∧
+                          Cont T H C ∧ Cont B K closedRead ∧ Cont K L locatedRead ∧
+                            Cont L T completeRead ∧ PkgSig bundle Q pkg ∧
+                              PkgSig bundle toleranceRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
+  intro carrier closedRoute locatedRoute completeRoute tolerancePkg properPkg
+  obtain ⟨XUnary, BUnary, KUnary, LUnary, TUnary, HUnary, CUnary, QUnary, NUnary,
+    metricClosedRoute, locatedStoredRoute, completeStoredRoute, _storedProperPkg⟩ := carrier
+  have closedUnary : UnaryHistory closedRead :=
+    unary_cont_closed BUnary KUnary closedRoute
+  have locatedUnary : UnaryHistory locatedRead :=
+    unary_cont_closed KUnary LUnary locatedRoute
+  have completeUnary : UnaryHistory completeRead :=
+    unary_cont_closed LUnary TUnary completeRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row completeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row B ∨ hsame row K ∨ hsame row L ∨
+              hsame row T ∨ hsame row H ∨ hsame row C ∨ hsame row Q ∨
+                hsame row N ∨ hsame row toleranceRead ∨ hsame row closedRead ∨
+                  hsame row locatedRead ∨ hsame row completeRead)
+          (fun row : BHist =>
+            hsame row completeRead ∧ PkgSig bundle Q pkg ∧ PkgSig bundle toleranceRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro completeRead ⟨hsame_refl completeRead, completeUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))))))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, properPkg, tolerancePkg⟩
+  }
+  exact
+    ⟨cert, XUnary, BUnary, KUnary, LUnary, TUnary, HUnary, CUnary, QUnary, NUnary,
+      closedUnary, locatedUnary, completeUnary, metricClosedRoute, locatedStoredRoute,
+      completeStoredRoute, closedRoute, locatedRoute, completeRoute, properPkg, tolerancePkg⟩
+
 end BEDC.Derived.ProperMetricUp
