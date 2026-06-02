@@ -19,7 +19,7 @@ open BEDC.FKernel.Unary
 def EquicontinuityCarrier [AskSetup] [PackageSetup]
     (K F eps rho M T R P N radiusRead handoffRead : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory K ∧ UnaryHistory F ∧ UnaryHistory rho ∧
+  UnaryHistory K ∧ UnaryHistory F ∧ UnaryHistory rho ∧ UnaryHistory M ∧
     Cont K F radiusRead ∧ Cont radiusRead rho handoffRead ∧
       PkgSig bundle P pkg ∧ PkgSig bundle N pkg
 
@@ -32,7 +32,8 @@ theorem EquicontinuityCarrier_shared_radius_stability [AskSetup] [PackageSetup]
           PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
   intro carrier
-  obtain ⟨unaryK, unaryF, unaryRho, compactFamily, radiusHandoff, pkgP, pkgN⟩ := carrier
+  obtain ⟨unaryK, unaryF, unaryRho, _unaryM, compactFamily, radiusHandoff, pkgP, pkgN⟩ :=
+    carrier
   have radiusUnary : UnaryHistory radiusRead :=
     unary_cont_closed unaryK unaryF compactFamily
   have handoffUnary : UnaryHistory handoffRead :=
@@ -122,11 +123,34 @@ theorem EquicontinuityCompactMetricRoute [AskSetup] [PackageSetup]
               PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
   intro carrier compactRoute handoffRoute
-  obtain ⟨unaryK, unaryF, unaryRho, _radiusRoute, _radiusHandoff, pkgP, pkgN⟩ := carrier
+  obtain ⟨unaryK, unaryF, unaryRho, _unaryM, _radiusRoute, _radiusHandoff, pkgP, pkgN⟩ :=
+    carrier
   have compactUnary : UnaryHistory compactRead :=
     unary_cont_closed unaryK unaryF compactRoute
   have handoffUnary : UnaryHistory handoffRead :=
     unary_cont_closed compactUnary unaryRho handoffRoute
   exact ⟨compactUnary, handoffUnary, compactRoute, handoffRoute, pkgP, pkgN⟩
+
+theorem EquicontinuityCarrier_uniform_modulus_handoff [AskSetup] [PackageSetup]
+    {K F eps rho M T R P N radiusRead handoffRead uniformRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityCarrier K F eps rho M T R P N radiusRead handoffRead bundle pkg ->
+      Cont radiusRead rho uniformRead ->
+        Cont uniformRead M handoffRead ->
+          UnaryHistory uniformRead ∧ UnaryHistory handoffRead ∧
+            Cont K F radiusRead ∧ Cont radiusRead rho uniformRead ∧
+              Cont uniformRead M handoffRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier radiusUniform uniformHandoff
+  obtain ⟨unaryK, unaryF, unaryRho, unaryM, compactFamily, _radiusHandoff, pkgP, pkgN⟩ :=
+    carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed unaryK unaryF compactFamily
+  have uniformUnary : UnaryHistory uniformRead :=
+    unary_cont_closed radiusUnary unaryRho radiusUniform
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed uniformUnary unaryM uniformHandoff
+  exact
+    ⟨uniformUnary, handoffUnary, compactFamily, radiusUniform, uniformHandoff, pkgP, pkgN⟩
 
 end BEDC.Derived.EquicontinuityUp
