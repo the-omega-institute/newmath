@@ -187,4 +187,19 @@ theorem DyadicIntervalCoverRealWindowHandoffObligation (x : DyadicIntervalCoverU
             (DyadicIntervalCoverUp.mk L U M R V W Q A H C P N),
           rfl, rfl⟩
 
+theorem DyadicIntervalCoverWindowMembershipTransport (x : DyadicIntervalCoverUp) :
+    ∃ L U M R V W Q A H C P N : BHist,
+      x = DyadicIntervalCoverUp.mk L U M R V W Q A H C P N ∧
+        dyadicIntervalCoverFields x = [L, U, M, R, V, W, Q, A, H, C, P, N] ∧
+          dyadicIntervalCoverFromEventFlow (dyadicIntervalCoverToEventFlow x) = some x ∧
+            dyadicIntervalCoverEncodeBHist (BHist.e1 BHist.Empty) = [BMark.b1] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk L U M R V W Q A H C P N =>
+      exact
+        ⟨L, U, M, R, V, W, Q, A, H, C, P, N, rfl, rfl,
+          DyadicIntervalCoverRealWindowHandoffObligation_round_trip
+            (DyadicIntervalCoverUp.mk L U M R V W Q A H C P N),
+          rfl⟩
+
 end BEDC.Derived.DyadicIntervalCoverUp
