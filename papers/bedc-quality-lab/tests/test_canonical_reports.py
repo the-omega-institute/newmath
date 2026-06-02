@@ -57,13 +57,19 @@ def _payload_for_spec(spec):
             "objective": {"required_rows": ["fixture"]},
             "cost_protocol": {"name": "fixture"},
             "not_claimed": ["fixture nonclaim"],
-            "claim_gate": {"status": "fixture"},
+            "claim_gate": {
+                "status": "fixture",
+                "audit_improvement_tradeoff": spec.name == "certificate-guided-training",
+            },
             "paired_seed_protocol": {"status": "fixture"},
             "main_claim_status": "fixture status",
             "final_main_claim_status": "fixture status",
             "matched_random_baseline": {"status": "fixture"},
             "negative_result_ledger": [{"status": "fixture"}],
-            "ledger_summary": {"status": "fixture"},
+            "ledger_summary": {
+                "status": "fixture",
+                "basis": {"hardening_coverage": {"recorded": 3, "required": 5}},
+            },
             "negative_control_summary": {"status": "fixture"},
             "surface_delta_count": 2,
             "positive_discovery": spec.name == "gap-head-discovery",
@@ -72,7 +78,7 @@ def _payload_for_spec(spec):
                 "required_ledger_rows": 4,
             },
             "debt_terms": {"classifier_ledger_rows": 0.25},
-            "audit_decision": {"audit_status": "pass"},
+            "audit_decision": {"audit_status": "pass", "overclaim_rate": 0.4},
         }
     )
     if spec.name == "mixing-family-sweep":
@@ -119,6 +125,14 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
         json_path.parent.mkdir(parents=True, exist_ok=True)
         json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
         md_path.write_text("# fixture\n", encoding="utf-8")
+
+
+def _mutate_payload(canonical_module, report_name, update):
+    spec = canonical_module._specs_by_name()[report_name]
+    json_path = canonical_module._artifact_path(spec.json_artifact)
+    payload = json.loads(json_path.read_text(encoding="utf-8"))
+    update(payload)
+    json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
 
 
 def _index_row_for_spec(spec):
@@ -533,44 +547,323 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
         canonical.CANONICAL_DIR = old_dir
         canonical.INDEX_ARTIFACT = old_index
 
-    by_metric = {row["metric"]: row for row in payload["rows"]}
-    cert = by_metric["CertCov"]
-    shift = by_metric["ClassifierShiftCount"]
-
-    assert cert["status"] == "ready"
-    assert cert["value"] == pytest.approx(2 / 3)
-    assert cert["source"] == {
-        "report": "mixing-family-sweep",
-        "artifact": "reports/canonical/mixing-family-sweep.json",
-        "pointer": "$.coverage_item",
+    expected = {
+        "CertCov": {
+            "value": pytest.approx(2 / 3),
+            "source": {
+                "report": "mixing-family-sweep",
+                "artifact": "reports/canonical/mixing-family-sweep.json",
+                "pointer": "$.coverage_item",
+            },
+            "numerator": 2,
+            "denominator": 3,
+        },
+        "DebtQ": {
+            "value": pytest.approx(0.125),
+            "source": {
+                "report": "mixing-family-sweep",
+                "artifact": "reports/canonical/mixing-family-sweep.json",
+                "pointer": "$.coverage_item.debt_item.score",
+            },
+        },
+        "CriticalDebt": {
+            "value": 0.25,
+            "source": {
+                "report": "gap-head-discovery",
+                "artifact": "reports/canonical/gap-head-discovery.json",
+                "pointer": "$.debt_terms",
+            },
+        },
+        "LedgerCompleteness": {
+            "value": pytest.approx(3 / 4),
+            "source": {
+                "report": "gap-head-discovery",
+                "artifact": "reports/canonical/gap-head-discovery.json",
+                "pointer": "$.classifier_state",
+            },
+            "numerator": 3,
+            "denominator": 4,
+        },
+        "ClassifierShiftCount": {
+            "value": 2,
+            "source": {
+                "report": "gap-head-discovery",
+                "artifact": "reports/canonical/gap-head-discovery.json",
+                "pointer": "$.surface_delta_count",
+            },
+        },
+        "PositiveDiscoveryCount": {
+            "value": 1,
+            "source": [
+                {
+                    "report": "gap-head-discovery",
+                    "artifact": "reports/canonical/gap-head-discovery.json",
+                    "pointer": "$.positive_discovery",
+                },
+                {
+                    "report": "certificate-guided-discovery",
+                    "artifact": "reports/canonical/certificate-guided-discovery.json",
+                    "pointer": "$.positive_discovery",
+                },
+            ],
+            "numerator": 1,
+            "denominator": 2,
+        },
+        "AuditImprovementCount": {
+            "value": 1,
+            "source": {
+                "report": "certificate-guided-training",
+                "artifact": "reports/canonical/certificate-guided-training.json",
+                "pointer": "$.claim_gate.audit_improvement_tradeoff",
+            },
+            "numerator": 1,
+            "denominator": 1,
+        },
+        "NegativeResultCount": {
+            "value": 5,
+            "source": [
+                {
+                    "report": "mixing-family-sweep",
+                    "artifact": "reports/canonical/mixing-family-sweep.json",
+                    "pointer": "$.negative_result_summary.cells",
+                },
+                {
+                    "report": "anisotropic-ou-sweep",
+                    "artifact": "reports/canonical/anisotropic-ou-sweep.json",
+                    "pointer": "$.negative_result_summary.cells",
+                },
+                {
+                    "report": "nongaussian-distribution-sweep",
+                    "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+                    "pointer": "$.negative_result_ledger",
+                },
+            ],
+        },
+        "ScopeCompleteness": {
+            "value": 1.0,
+            "source": [
+                {
+                    "report": "mixing-family-sweep",
+                    "artifact": "reports/canonical/mixing-family-sweep.json",
+                    "pointer": "$.applicability_boundary",
+                },
+                {
+                    "report": "anisotropic-ou-sweep",
+                    "artifact": "reports/canonical/anisotropic-ou-sweep.json",
+                    "pointer": "$.applicability_boundary",
+                },
+                {
+                    "report": "gap-head-on-h",
+                    "artifact": "reports/canonical/gap-head-on-h.json",
+                    "pointer": "$.applicability_boundary",
+                },
+                {
+                    "report": "gap-head-discovery",
+                    "artifact": "reports/canonical/gap-head-discovery.json",
+                    "pointer": "$.boundary_checks",
+                },
+                {
+                    "report": "nongaussian-distribution-sweep",
+                    "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+                    "pointer": "$.coverage_item",
+                },
+                {
+                    "report": "certificate-guided-training",
+                    "artifact": "reports/canonical/certificate-guided-training.json",
+                    "pointer": "$.objective.required_rows",
+                },
+                {
+                    "report": "certificate-guided-discovery",
+                    "artifact": "reports/canonical/certificate-guided-discovery.json",
+                    "pointer": "$.applicability_boundary",
+                },
+                {
+                    "report": "spectral-ablation-hinge",
+                    "artifact": "reports/canonical/spectral-ablation-hinge.json",
+                    "pointer": "$.applicability_boundary",
+                },
+            ],
+            "numerator": 8,
+            "denominator": 8,
+        },
+        "CostProtocolCompleteness": {
+            "value": 1.0,
+            "source": [
+                {
+                    "report": "mixing-family-sweep",
+                    "artifact": "reports/canonical/mixing-family-sweep.json",
+                    "pointer": "$.source_artifacts.cost_protocol",
+                },
+                {
+                    "report": "anisotropic-ou-sweep",
+                    "artifact": "reports/canonical/anisotropic-ou-sweep.json",
+                    "pointer": "$.source_artifacts.cost_protocol",
+                },
+                {
+                    "report": "gap-head-on-h",
+                    "artifact": "reports/canonical/gap-head-on-h.json",
+                    "pointer": "$.control_protocol",
+                },
+                {
+                    "report": "gap-head-discovery",
+                    "artifact": "reports/canonical/gap-head-discovery.json",
+                    "pointer": "$.score_terms",
+                },
+                {
+                    "report": "nongaussian-distribution-sweep",
+                    "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+                    "pointer": "$.source_artifacts.cost_protocol",
+                },
+                {
+                    "report": "certificate-guided-training",
+                    "artifact": "reports/canonical/certificate-guided-training.json",
+                    "pointer": "$.cost_protocol",
+                },
+                {
+                    "report": "certificate-guided-discovery",
+                    "artifact": "reports/canonical/certificate-guided-discovery.json",
+                    "pointer": "$.claim_gate",
+                },
+                {
+                    "report": "spectral-ablation-hinge",
+                    "artifact": "reports/canonical/spectral-ablation-hinge.json",
+                    "pointer": "$.source_artifacts",
+                },
+            ],
+            "numerator": 8,
+            "denominator": 8,
+        },
+        "HardeningCoverage": {
+            "value": pytest.approx(3 / 5),
+            "source": {
+                "report": "spectral-ablation-hinge",
+                "artifact": "reports/canonical/spectral-ablation-hinge.json",
+                "pointer": "$.ledger_summary.basis.hardening_coverage",
+            },
+            "numerator": 3,
+            "denominator": 5,
+        },
+        "OverclaimRate": {
+            "value": pytest.approx(0.4),
+            "source": {
+                "report": "certificate-guided-discovery",
+                "artifact": "reports/canonical/certificate-guided-discovery.json",
+                "pointer": "$.audit_decision.overclaim_rate",
+            },
+        },
     }
-    assert shift["status"] == "ready"
-    assert shift["value"] == 2
-    assert shift["source"]["pointer"] == "$.surface_delta_count"
+
+    by_metric = {row["metric"]: row for row in payload["rows"]}
+    for metric, fields in expected.items():
+        row = by_metric[metric]
+        assert row["status"] == "ready"
+        assert row["value"] == fields["value"]
+        assert row["source"] == fields["source"]
+        if "numerator" in fields:
+            assert row["numerator"] == fields["numerator"]
+        if "denominator" in fields:
+            assert row["denominator"] == fields["denominator"]
 
 
 def test_quality_scorecard_fails_closed_without_source_or_denominator(tmp_path):
     old_root = canonical.ROOT
     old_dir = canonical.CANONICAL_DIR
     old_index = canonical.INDEX_ARTIFACT
+    cases = [
+        (
+            "CertCov",
+            "mixing-family-sweep:$.coverage_item",
+            lambda: _mutate_payload(
+                canonical,
+                "mixing-family-sweep",
+                lambda payload: payload["coverage_item"].pop("canonical_families"),
+            ),
+        ),
+        (
+            "PositiveDiscoveryCount",
+            "canonical discovery positive flags",
+            lambda: _mutate_payload(
+                canonical,
+                "certificate-guided-discovery",
+                lambda payload: payload.update({"positive_discovery": "yes"}),
+            ),
+        ),
+        (
+            "NegativeResultCount",
+            "canonical negative-result cells",
+            lambda: _mutate_payload(
+                canonical,
+                "anisotropic-ou-sweep",
+                lambda payload: payload.update({"negative_result_summary": {"cells": "none"}}),
+            ),
+        ),
+        (
+            "ScopeCompleteness",
+            "certificate-guided-training:$.objective.required_rows",
+            lambda: _mutate_payload(
+                canonical,
+                "certificate-guided-training",
+                lambda payload: payload["objective"].pop("required_rows"),
+            ),
+        ),
+        (
+            "HardeningCoverage",
+            "spectral-ablation-hinge:$.ledger_summary.basis.hardening_coverage",
+            lambda: _mutate_payload(
+                canonical,
+                "spectral-ablation-hinge",
+                lambda payload: payload["ledger_summary"].pop("basis"),
+            ),
+        ),
+        (
+            "OverclaimRate",
+            "certificate-guided-discovery:$.audit_decision.overclaim_rate",
+            lambda: _mutate_payload(
+                canonical,
+                "certificate-guided-discovery",
+                lambda payload: payload["audit_decision"].pop("overclaim_rate"),
+            ),
+        ),
+    ]
+
+    try:
+        for metric, dependency, break_payload in cases:
+            _write_payloads_for_all_specs(canonical, tmp_path)
+            break_payload()
+            scorecard = canonical._build_quality_scorecard([], generated_at="fixture-time")
+            row = {item["metric"]: item for item in scorecard["rows"]}[metric]
+            assert row["status"] == "not-ready"
+            assert row["dependency"] == dependency
+            assert "value" not in row
+            assert "numerator" not in row
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+        canonical.INDEX_ARTIFACT = old_index
+
+
+def test_quality_scorecard_cost_protocol_completeness_fails_closed_without_manifest_pointer(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    old_index = canonical.INDEX_ARTIFACT
     try:
         _write_payloads_for_all_specs(canonical, tmp_path)
-        spec = canonical._specs_by_name()["mixing-family-sweep"]
-        json_path = canonical._artifact_path(spec.json_artifact)
-        payload = json.loads(json_path.read_text(encoding="utf-8"))
-        payload["coverage_item"].pop("canonical_families")
-        json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+        _mutate_payload(
+            canonical,
+            "gap-head-discovery",
+            lambda payload: payload.pop("score_terms"),
+        )
         scorecard = canonical._build_quality_scorecard([], generated_at="fixture-time")
     finally:
         canonical.ROOT = old_root
         canonical.CANONICAL_DIR = old_dir
         canonical.INDEX_ARTIFACT = old_index
 
-    cert = {row["metric"]: row for row in scorecard["rows"]}["CertCov"]
-    assert cert["status"] == "not-ready"
-    assert cert["dependency"] == "mixing-family-sweep:$.coverage_item"
-    assert "value" not in cert
-    assert "numerator" not in cert
+    row = {item["metric"]: item for item in scorecard["rows"]}["CostProtocolCompleteness"]
+    assert row["status"] == "not-ready"
+    assert row["dependency"] == "gap-head-discovery:$.score_terms"
+    assert "value" not in row
+    assert "numerator" not in row
 
 
 def test_quality_scorecard_excludes_report_schema_fields(tmp_path):

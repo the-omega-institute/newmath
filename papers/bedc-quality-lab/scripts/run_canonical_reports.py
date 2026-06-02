@@ -589,11 +589,14 @@ def _scorecard_negative_result_count(payloads: dict[str, dict[str, Any]]) -> dic
 def _scorecard_scope_completeness(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
     reports = [spec.name for spec in CANONICAL_REPORTS]
     sources = [(spec.name, spec.scope_pointer) for spec in CANONICAL_REPORTS]
-    present = sum(
-        1
-        for spec in CANONICAL_REPORTS
-        if _pointer_value(payloads.get(spec.name, {}), spec.scope_pointer) is not None
-    )
+    for spec in CANONICAL_REPORTS:
+        if _pointer_value(payloads.get(spec.name, {}), spec.scope_pointer) is None:
+            return _metric_not_ready(
+                "ScopeCompleteness",
+                f"{spec.name}:{spec.scope_pointer}",
+                "missing scope pointer",
+            )
+    present = len(reports)
     denominator = len(reports)
     if denominator <= 0:
         return _metric_not_ready("ScopeCompleteness", "canonical report manifest", "missing manifest rows")
@@ -608,11 +611,14 @@ def _scorecard_scope_completeness(payloads: dict[str, dict[str, Any]]) -> dict[s
 
 def _scorecard_cost_protocol_completeness(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
     sources = [(spec.name, spec.cost_pointer) for spec in CANONICAL_REPORTS]
-    present = sum(
-        1
-        for spec in CANONICAL_REPORTS
-        if _pointer_value(payloads.get(spec.name, {}), spec.cost_pointer) is not None
-    )
+    for spec in CANONICAL_REPORTS:
+        if _pointer_value(payloads.get(spec.name, {}), spec.cost_pointer) is None:
+            return _metric_not_ready(
+                "CostProtocolCompleteness",
+                f"{spec.name}:{spec.cost_pointer}",
+                "missing cost pointer",
+            )
+    present = len(CANONICAL_REPORTS)
     denominator = len(CANONICAL_REPORTS)
     if denominator <= 0:
         return _metric_not_ready("CostProtocolCompleteness", "canonical report manifest", "missing manifest rows")
