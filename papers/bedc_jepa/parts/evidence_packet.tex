@@ -20,6 +20,8 @@ $$
 \text{Public JEPA probe} & \texttt{bedc\_jepa\_public\_baseline\_probe.json},\\
 \text{Public JEPA comparison} & \texttt{bedc\_jepa\_public\_baseline\_comparison.json},\\
 \text{Public JEPA external result} & \texttt{bedc\_jepa\_public\_baseline\_external\_result.json},\\
+\text{Public AC Giant adapter} & \texttt{bedc\_jepa\_public\_ac\_giant\_adapter.json},\\
+\text{Public CUDA adapter comparison} & \texttt{bedc\_jepa\_public\_cuda\_adapter\_comparison.json},\\
 \text{Readiness gate} & \texttt{bedc\_jepa\_readiness.json},\\
 \text{External run kit} & \texttt{bedc\_jepa\_external\_run\_kit.json}.
 \end{array}
@@ -66,11 +68,42 @@ readback is also evaluated in a six-slot cluttered-object sweep with four
 distractors.  The remaining gaps are broader.  The planning rollouts are still
 local and synthetic rather than robot-control scale.
 
+\paragraph{Public JEPA-family adapter contact.}
+The public JEPA-family checkpoint-contact boundary now includes a CUDA run of
+the public V-JEPA2-AC Giant checkpoint.  The adapter loads
+\texttt{vjepa2\_ac\_vit\_giant} from the public V-JEPA2 hub with
+\texttt{pretrained=False}, because the observed hub source points its default
+\texttt{VJEPA\_BASE\_URL} at \texttt{localhost}.  The run then loads the
+public checkpoint
+\texttt{https://dl.fbaipublicfiles.com/vjepa2/vjepa2-ac-vitg.pt} explicitly.
+The CUDA environment records \texttt{torch} \texttt{2.5.1+cu121}, CUDA
+runtime \texttt{12.1}, and one \texttt{NVIDIA GeForce RTX 4060 Laptop GPU}
+with $8585216000$ bytes of device memory.
+
+The adapter maps the same boundary-gated tiny world into a two-frame
+$256 \times 256$ RGB video plus seven-float action and state contracts, runs
+the V-JEPA2-AC encoder and action-conditioned predictor, and trains only
+linear readout heads for the declared distinction and gap labels.  The public
+AC Giant adapter records train count $64$, test count $64$, distinction
+accuracy $0.718750$, gap AUROC $0.562842$, unlogged error $0.250000$,
+certified coverage $0.968750$, and debt $0.290557$.  The matching
+BEDC-objective row records distinction accuracy $0.988281$, gap AUROC
+$0.999223$, unlogged error $0.000000$, certified coverage $0.912760$, and
+debt $0.007459$.  The public AC Giant minus BEDC deltas are therefore
+$-0.269531$ for distinction accuracy, $-0.436381$ for gap AUROC,
+$0.250000$ for unlogged error, $0.055990$ for certified coverage, and
+$0.283098$ for debt.
+
+This closes the local V-JEPA2-AC Giant checkpoint-contact gap for the declared
+adapter scope.  It does not close public benchmark superiority, large-scale
+real-world world-modeling, or formal neural-network proof claims.
+
 \paragraph{Debt items.}
-The current debt items are scale debt, public-baseline debt, and artifact
+The current debt items are scale debt, public-benchmark debt, and artifact
 debt.  Scale debt means the learned-transition and
 object-intervention benchmarks are small.  Public-baseline debt means the
-comparison is local and not yet run against a public JEPA implementation.
+executed public JEPA-family comparison is an adapter-scope checkpoint contact,
+not a public benchmark reproduction or native task comparison.
 The public MiniGrid packets have executable DoorKey contracts.  The transition
 packet samples Gymnasium image observations and discrete actions.  The
 benchmark packet computes a public DoorKey readback/gap metric contract with
@@ -82,20 +115,16 @@ debt $0.062500$.  Artifact debt means the current package is a research branch
 rather than a cleaned external review bundle.
 
 \paragraph{External-contact readiness.}
-The readiness gate records \texttt{not\_contact\_ready}.  The local torch
-objective seed sweep, local visual planning benchmark, cluttered
-object-counterfactual benchmark, and public MiniGrid execution pass their
-evidence gates.  The remaining blocking gate is public JEPA baseline
-comparison.  This paper therefore treats the current packet as an internal
-research branch, not yet as an external-contact bundle.
+The readiness gate artifact predates the CUDA public adapter packet and still
+records \texttt{not\_contact\_ready}.  The local torch objective seed sweep,
+local visual planning benchmark, cluttered object-counterfactual benchmark,
+public MiniGrid execution, and public V-JEPA2-AC Giant adapter execution pass
+their declared local evidence contacts.  This paper therefore treats the
+current packet as an internal research branch with public checkpoint contact,
+not yet as an external-contact bundle.
 The external run kit records the two result schemas, the MiniGrid export
 command, the public JEPA baseline boundary export command, and the import
 commands needed to close those blocking gates without inventing evidence
-inside this workspace.  The baseline external result currently records
-unavailable status for the selected V-JEPA 2-AC candidate rather than an
-executed checkpoint comparison.  The baseline probe resolves the selected
-public repository head
-\texttt{204698b45b3712590f06245fbfba32d3be539812} and records that local
-\texttt{torch} and \texttt{torchvision} are present while \texttt{timm} and
-\texttt{einops} are absent.  It therefore does not close the public JEPA
-baseline gate.
+inside this workspace.  The older baseline external result remains an import
+boundary for public benchmark metrics.  The CUDA adapter packet is the
+executed checkpoint-contact artifact for the selected V-JEPA 2-AC candidate.

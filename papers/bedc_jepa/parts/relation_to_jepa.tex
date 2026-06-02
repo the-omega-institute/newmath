@@ -36,25 +36,33 @@ The paper therefore does not claim that BEDC explains an already trained
 LeJEPA representation.  It proposes a training target in which the distinction
 and the gap are outputs of the world model itself.
 
-\paragraph{Public baseline registry.}
+\paragraph{Public baseline registry and checkpoint contact.}
 The quality lab records a public JEPA-family baseline registry rather than
 treating the baseline choice as prose.  The selected first comparison target
 is V-JEPA 2-AC, because its public code is action-conditioned and therefore
 closest to a world-model setting with observation/action streams.  The second
 candidate is LeWorldModel with its LeJEPA-style baseline path, because it
 directly targets stable end-to-end JEPA world modeling from pixels.  The
-registry is currently contract-only: it fixes the expected observation/action
-input, latent prediction or rollout output, and BEDC comparison fields, but it
-does not claim that either public baseline has been executed in this
-workspace.
-The separate comparison packet is the readiness-facing artifact.  It reserves
-baseline metrics for latent prediction, rollout or planning score, and reported
-benchmark name, and it keeps the public JEPA gate missing until those fields
-come from an executed public baseline.
-The lab includes an import command for that case: it accepts a baseline-result
-JSON with candidate id, commit, checkpoint, benchmark name, latent-prediction
-score, and rollout or planning score, then rewrites the comparison packet as
-executed.  No such result is present in the current workspace.
+registry fixes the expected observation/action input, latent prediction or
+rollout output, and BEDC comparison fields.
+
+The current workspace also contains an executed checkpoint-contact adapter for
+the selected V-JEPA2-AC Giant target.  It loads the public
+\texttt{vjepa2-ac-vitg.pt} checkpoint, runs the encoder and action-conditioned
+predictor on a two-frame rendering of the boundary-gated world, and trains only
+linear readouts for the declared distinction and gap labels.  This contact is
+not a native public benchmark reproduction.  It asks whether the public
+action-conditioned checkpoint, under the same declared tiny-world adapter
+scope, already carries the distinction and gap readback needed by the BEDC
+evidence boundary.  In that scope, BEDC-JEPA records unlogged error
+$0.000000$ and debt $0.007459$, while the V-JEPA2-AC Giant adapter records
+unlogged error $0.250000$ and debt $0.290557$.
+
+The separate public-baseline comparison packet remains the import boundary for
+native public benchmark metrics: candidate id, commit, checkpoint, benchmark
+name, latent-prediction score, and rollout or planning score.  The AC Giant
+adapter closes checkpoint contact for the local BEDC evidence boundary; it
+does not claim public benchmark superiority.
 
 \paragraph{Contact with Issue 330 and the quality lab.}
 The local quality-lab material supplies an executable evidence envelope, not a
