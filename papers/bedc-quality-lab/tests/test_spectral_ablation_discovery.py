@@ -57,6 +57,23 @@ def test_negative_verdict_is_runner_local_net_negative_case():
     assert row["verdict"] == "negative"
 
 
+def test_positive_verdict_is_runner_local_positive_claim():
+    payload = _payload()
+    row = _row("tail-mixing-perturbation", payload)
+    projection = runner._project_arm(payload, "tail-mixing-perturbation")
+    delta = classifier_surface_delta(projection["passage"])
+
+    assert structural_discovery(projection["passage"]) is True
+    assert delta
+    assert row["surface_delta_count"] == len(delta)
+    assert row["surface_delta"]
+    assert net_information(projection["claim"]) > 0.0
+    assert row["net_information"] == pytest.approx(net_information(projection["claim"]))
+    assert positive_discovery(projection["claim"]) is True
+    assert row["positive_discovery"] is True
+    assert row["verdict"] == "positive"
+
+
 def test_compression_boundary_does_not_emit_positive_claim():
     payload = copy.deepcopy(_payload())
     vanilla_metrics = next(arm for arm in payload["arms"] if arm["name"] == runner.BEFORE_ARM)["envelope_projection"]["metrics"]
