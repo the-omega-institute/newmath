@@ -1376,6 +1376,7 @@ import BEDC.Derived.CauchyFilterRegularizationUp.TasteGate
 import BEDC.Derived.CauchyFilterSpaceUp
 import BEDC.Derived.CauchyFilterSubbasisUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
+import BEDC.Derived.CauchyFilterUp.TasteGate
 import BEDC.Derived.CauchyHadamardUp.TasteGate
 import BEDC.Derived.CauchyIntegralTestUp.TasteGate
 import BEDC.Derived.CauchyInterleavingComparisonUp.TasteGate
@@ -5499,6 +5500,7 @@ import BEDC.Derived.ModulusContinuityUp.UniformCauchyHandoff
 import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
 import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
 import BEDC.Derived.ModulusOfConvergenceUp
+import BEDC.Derived.ModulusOfConvergenceUp.DoubleTail
 import BEDC.Derived.MonadUp
 import BEDC.Derived.MonodromyUp
 import BEDC.Derived.MonodromyUp.TasteGate
@@ -7720,6 +7722,7 @@ import BEDC.Derived.TrieUp.PrefixBranchExactness
 import BEDC.Derived.TrieUp.PrefixSubledger
 import BEDC.Derived.TrieUp.TerminalPacket
 import BEDC.Derived.TrieUp.TerminalPrefixReadback
+import BEDC.Derived.TriebelLizorkinSpaceUp
 import BEDC.Derived.TriggerHypergraphReliabilityUp
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
