@@ -5673,7 +5673,9 @@ import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.StdBridge
 import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
 import BEDC.Derived.ModulusContinuityUp.CauchyRoute
+import BEDC.Derived.ModulusContinuityUp.CompositionAssociativityRoute
 import BEDC.Derived.ModulusContinuityUp.CompositionRoute
+import BEDC.Derived.ModulusContinuityUp.DoubleCompositionRoute
 import BEDC.Derived.ModulusContinuityUp.TasteGate
 import BEDC.Derived.ModulusContinuityUp.UniformCauchyHandoff
 import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
