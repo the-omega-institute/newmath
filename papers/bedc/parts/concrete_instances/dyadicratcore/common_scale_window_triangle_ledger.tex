@@ -81,6 +81,48 @@ Use \autoref{thm:streamname-regseqrat-triple-overlap-seal-cocycle} on the downst
 Finally apply \autoref{thm:regseqrat-streamname-dyadic-real-handoff-exactness}. The handoff exactness carries the downstream cocycle back across the $\DyadicRatCoreUp$ source and forward to the $\RealUp$ seal row, preserving the componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ coordinates. Thus both refinement paths determine the same terminal four-face surface, and the exclusion clause is inherited from the triangle ledger, four-face correspondence, triple-overlap seal, and handoff exactness results.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore common-scale choice-free triangle]
+\label{thm:dyadicratcore-common-scale-choice-free-triangle}
+Let three terminal L10 dyadic faces expose pairwise $\DyadicRatCoreUp$ scale
+windows over the route
+$$
+\DyadicRatCoreUp \to \StreamNameUp \to \RegSeqRatUp \to \RealUp .
+$$
+The common finite scale window obtained for the three faces is determined by
+directed finite refinement of the displayed signed mantissa rows, refined
+positive-unary exponent rows, denominator ledgers, common-exponent comparison
+rows, distance and radius rows, componentwise $\hsame$, displayed $\Cont$,
+$\Pkg$, and local $\NameCert$ support. It is not determined by choosing
+rational representatives, endpoints, host epsilon data, quotient streams, or
+selected RealUp limits.
+
+Thus every downstream StreamName, RegSeqRat, or Real terminal read of the
+triangle consumes the same common finite dyadic ledger.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:dyadicratcore-common-scale-window-triangle-ledger}.
+It constructs the common scale window as a directed finite meet of the three
+displayed dyadic faces, carrying exactly the mantissa, exponent, denominator,
+comparison, distance, radius, transport, replay, provenance, and local naming
+rows.
+
+Next use the directed meet and refinement handoff invoked in that ledger. Each
+refinement step keeps the same finite row inventory and has no coordinate for
+a selected rational representative, endpoint selector, host epsilon witness,
+quotient stream, or selected Real limit.
+
+Now apply
+\autoref{thm:dyadicratcore-common-scale-window-four-face-pullback-correspondence}.
+The common dyadic window is the source read by the downstream StreamName,
+RegSeqRat, and Real faces, so any alternate choice of representatives would
+have to produce a second four-face pullback over the same visible rows.
+
+Finally use \autoref{thm:dyadicratcore-four-face-window-refinement-cocycle}.
+The cocycle identifies the terminal four-face surface for all orders of
+finite refinement. Therefore the common-scale triangle is choice-free and is
+determined only by the directed finite refinement ledger displayed above.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore terminal Real exit has no fifth source]
 \label{thm:dyadicratcore-terminal-real-exit-no-fifth-source}
 Let an accepted Phase Real and Completion terminal $\RealUp$ exit be accepted through the route
