@@ -217,6 +217,41 @@ def test_accepted_does_not_pass_with_malformed_scorecard_rows():
     assert decision["evidence_basis"]["malformed_detail"] == "$.quality_scorecard.rows:metric-count"
 
 
+def test_scorecard_rows_non_list_fails_closed_to_rejected():
+    evidence = _payload()
+    evidence["quality_scorecard"]["rows"] = "not-a-row-list"
+    decision = _decide({"main_claim_status": "observed-negative"}, evidence)
+
+    assert decision["verdict"] == "rejected"
+    assert decision["reason"] == "malformed-evidence"
+    assert decision["evidence_basis"]["reason"] == "malformed-evidence"
+    assert decision["evidence_basis"]["malformed_detail"] == "$.quality_scorecard.rows:missing"
+
+
+def test_scorecard_non_mapping_row_fails_closed_to_rejected():
+    evidence = _payload()
+    evidence["quality_scorecard"]["rows"] = ["not-a-row-mapping", *_scorecard_rows()[1:]]
+    decision = _decide({"main_claim_status": "observed-negative"}, evidence)
+
+    assert decision["verdict"] == "rejected"
+    assert decision["reason"] == "malformed-evidence"
+    assert decision["evidence_basis"]["reason"] == "malformed-evidence"
+    assert decision["evidence_basis"]["malformed_detail"] == "$.quality_scorecard.rows:malformed-row"
+
+
+def test_scorecard_same_length_wrong_metric_order_fails_closed_to_rejected():
+    evidence = _payload()
+    rows = _scorecard_rows()
+    rows[0]["metric"], rows[1]["metric"] = rows[1]["metric"], rows[0]["metric"]
+    evidence["quality_scorecard"]["rows"] = rows
+    decision = _decide({"main_claim_status": "observed-negative"}, evidence)
+
+    assert decision["verdict"] == "rejected"
+    assert decision["reason"] == "malformed-evidence"
+    assert decision["evidence_basis"]["reason"] == "malformed-evidence"
+    assert decision["evidence_basis"]["malformed_detail"] == "$.quality_scorecard.rows:metric-set"
+
+
 def test_control_positive_rejection_is_terminal():
     evidence = _payload()
     _make_positive_main(evidence)
