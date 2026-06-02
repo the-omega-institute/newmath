@@ -67,6 +67,23 @@ The Real boundary and public packaging are downstream. The row $E$ records only 
 Therefore every downstream consumer reads the dense schedule, finite windows, tolerance ledger, regular readback, and complete-metric seal before the public packet. The excluded quotient, selected-point, choice, compactness, hidden-completion, and ambient-Real-completeness data have no coordinate in the carrier.
 \end{proof}
 
+\begin{theorem}[Complete separable metric finite-window density seal]\label{thm:complete-separable-metric-finite-window-density-seal}
+Every $\RealUp$-facing or $\PolishSpaceUp$-facing read of an accepted $\CompleteSeparableMetricUp$ carrier $Q=(M,K,D,W,T,R,E,H,C,P,N)$ must expose the finite-window route
+$$
+M,D \longmapsto W \longmapsto T \longmapsto R \longmapsto K \longmapsto E \longmapsto H,C,P,N .
+$$
+The row $E$ is only a terminal distance or limit-boundary row for the displayed route; it is not ambient $\RealUp$ completeness and cannot replace the complete-metric seal $K$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:complete-separable-metric-carrier}. The projection exposes the metric source $M$, dense schedule $D$, finite window $W$, tolerance ledger $T$, regular readback $R$, complete-metric seal $K$, Real boundary row $E$, and structural rows $H,C,P,N$.
+
+Apply \autoref{thm:complete-separable-metric-namecert-obligations}. Density requests must pass through $D$ and $W$, tolerance data must pass through $T$, and regular rational observations must pass through $R$ before either completion-facing or Real-facing data are available.
+
+Apply \autoref{thm:complete-separable-metric-density-completion-handoff}. The downstream consumer route already orders $M,D,W,T,R,K,E,H,C,P,N$, so every $\RealUp$ or $\PolishSpaceUp$ read inherits the same finite-window density seal.
+
+Finally inspect the role of $E$. The carrier assigns $E$ only to terminal distance or limit-boundary readings, while $K$ carries the complete-metric seal. Thus $E$ cannot be read as ambient $\RealUp$ completeness or as a substitute for $K$.
+\end{proof}
+
 \closureat{CompleteSeparableMetricUp}{seedStr}
 \begin{closurestatus}{\CompleteSeparableMetricUp}
   \theoryclosure{\seedClosure}

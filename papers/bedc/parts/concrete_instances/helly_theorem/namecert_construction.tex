@@ -4,6 +4,8 @@
 
 Following Helly and the finite-dimensional convexity tradition, the $\HellyTheoremUp$ packet records finite convex-intersection data as a BEDC naming surface. It consumes the convex-family rows of \autoref{ch:concrete-instances-convexset-namecert}, the finite witness rows of \autoref{ch:concrete-instances-polytope-namecert}, the ambient affine and vector rows of \autoref{ch:concrete-instances-affinespace-namecert} and \autoref{ch:concrete-instances-vecspace-namecert}, and the compact finite-read discipline of \autoref{ch:concrete-instances-compactmetric-namecert}. The chapter names only finite subfamily ledgers, displayed intersection witnesses, transport, continuation replay, provenance, and local naming; it does not assert a host separation theorem, choice-selected intersection point, quotient convex-set equality, or ambient standard-model convexity.
 
+The $\HellyTheoremUp$ packet also consumes $\ConvexSetUp$ carrier rows and the finite-subfamily rows of \autoref{ch:concrete-instances-finite-intersection-property-namecert} before any intersection conclusion is exposed.
+
 The finite subfamily ledger exported by $\HellyTheoremUp$ is consumed by \autoref{ch:concrete-instances-caratheodory-convex-hull-namecert} as the boundary that keeps convex-hull support rows finite before Caratheodory support reduction is read. That ledger is not available from the ambient affine row alone: it is read only after the $\ConvexSetUp$ membership rows of \autoref{ch:concrete-instances-convexset-namecert} and the $\PolytopeUp$ finite witness rows of \autoref{ch:concrete-instances-polytope-namecert} expose the subfamily boundary that the Caratheodory packet consumes.
 
 The same finite subfamily ledger is a reusable dependency for convex-hull and Caratheodory consumers: \autoref{ch:concrete-instances-caratheodory-convex-hull-namecert} may read the $\HellyTheoremUp$ row only after the $\ConvexSetUp$, $\PolytopeUp$, $\AffineSpaceUp$, $\VecSpaceUp$, and $\CompactMetricUp$ surfaces named above have fixed the displayed finite family boundary.
@@ -74,6 +76,17 @@ Read the carrier of \autoref{def:helly-theorem-carrier}. The first two coordinat
 The polytope witness row $W$ and the finite subfamily ledger $S$ supply the displayed intersection checks. The replay row $C$ presents them before the full-family row $I$ is exposed.
 
 Thus a consumer reaches $I$ only along the stated route. If any one of the ambient, convex-family, polytope-witness, or subfamily-ledger rows is missing, the packet has no finite coordinate from which the requested intersection row can be read.
+\end{proof}
+
+\begin{theorem}[Helly finite-intersection forward link]\label{thm:helly-theorem-finite-intersection-forward-link}
+Every finite convex-intersection request accepted by a $\HellyTheoremUp$ packet consumes the finite closed-family indexing discipline of \autoref{ch:concrete-instances-finite-intersection-property-namecert} before the full-family intersection row $I$ is exposed. The $\FiniteIntersectionPropertyUp$ sibling supplies the finite-family ledger boundary, while $\HellyTheoremUp$ supplies the convex and affine specialization over $A,V,F,W,S,I,T,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:helly-theorem-carrier}. The ambient and specialization rows are $A,V,F,W$, the finite subfamily ledger is $S$, the full-family intersection row is $I$, and $T,C,P,N$ transport, replay, source, and name the same packet.
+
+Apply \autoref{thm:helly-theorem-finite-intersection-route}. It requires the request to pass through the finite subfamily ledger $S$ before $I$ is available, so a consumer cannot read the full-family row directly from the ambient affine or convex-family rows.
+
+The finite intersection property sibling provides the closed finite-family indexing boundary named in \autoref{ch:concrete-instances-finite-intersection-property-namecert}. Helly contributes the convex, affine, vector, and polytope-witness specialization attached to that boundary, rather than replacing it by a second indexing principle.
 \end{proof}
 
 \closureat{HellyTheoremUp}{seedStr}

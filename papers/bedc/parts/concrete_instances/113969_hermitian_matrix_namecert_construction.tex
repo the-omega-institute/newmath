@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\HermitianMatrixUp$}
+\label{ch:concrete-instances-hermitian-matrix-namecert}
+\origin{human}
+
+Following Horn and Johnson on matrix analysis, the $\HermitianMatrixUp$ packet records the finite BEDC surface for a square complex matrix displayed together with its conjugate-transpose and self-adjointness rows. It sits after the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the complex scalar rows of \autoref{ch:concrete-instances-complex-namecert}, the vector-space source of \autoref{ch:concrete-instances-vecspace-namecert}, the field source of \autoref{ch:concrete-instances-field-namecert}, and the local naming discipline exemplified by \autoref{ch:concrete-instances-namecertmorphism-namecert}. The packet names finite Hermitian-matrix evidence; it does not assert a spectral theorem, diagonalization, eigenbasis selection, positive semidefiniteness, quotient matrix equality, or host matrix equality.
+
+\begin{definition}[Hermitian matrix carrier]
+\label{def:hermitian-matrix-carrier}
+A $\HermitianMatrixUp$ carrier is a finite $\BHist$ packet
+$$
+H=(D,F,V,M,K,T,S,E,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the finite dimension row naming the shared square index window for matrix entries.
+\item $F$ is the consumed $\FieldUp$ scalar-source row through which addition, multiplication, zero, and one are read.
+\item $V$ is the $\VecSpaceUp$ coordinate source over the same scalar rows.
+\item $M$ is the square $\MatrixUp$ entry ledger, indexed by $D \times D$ and carrying complex-valued entry histories.
+\item $K$ is the $\ComplexUp$ conjugation row used for each displayed entry of $M$.
+\item $T$ is the conjugate-transpose row, recording for every displayed index pair $(i,j)$ the row that reads $\overline{M_{j,i}}$ from $K$ and the transposed entry of $M$.
+\item $S$ is the self-adjoint equality row, identifying each displayed entry $M_{i,j}$ with the corresponding entry of $T$ through componentwise $\hsame$ transport.
+\item $E$ records componentwise transport for the dimension, field, vector-space, matrix-entry, conjugation, transpose, self-adjointness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from finite matrix-entry inspection through conjugation, transpose readback, and self-adjointness checking.
+\item $P$ is the $\Pkg$ provenance over $\HermitianMatrixUp$, $\MatrixUp$, $\ComplexUp$, $\VecSpaceUp$, $\FieldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\HermitianMatrixUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,F,V,M,K,T,S,E,C,P,L$. The carrier has no coordinate for spectral decomposition, eigenvalue ordering, positive-semidefinite witness, quotient matrix equality, selected basis, or ambient host equality.
+\end{definition}
+
+\begin{theorem}[Hermitian matrix NameCert obligations]
+\label{thm:hermitian-matrix-namecert-obligations}
+For every accepted $\HermitianMatrixUp$ carrier
+$$
+H=(D,F,V,M,K,T,S,E,C,P,L),
+$$
+the local $\NameCert_{\HermitianMatrixUp}$ surface consists exactly of carrier admission, finite square dimension exposure, scalar-field source readback, vector-space coordinate exposure, matrix-entry ledger admission, complex conjugation readback, conjugate-transpose display, self-adjoint entry comparison, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:hermitian-matrix-carrier}. The accepted packet exposes exactly the dimension, field, vector-space, matrix, conjugation, transpose, self-adjointness, transport, replay, provenance, and naming rows.
+
+The conjugate-transpose obligation is finite. The row $T$ is read entry by entry from $D$, the transposed matrix-entry row of $M$, and the complex conjugation row $K$.
+
+The self-adjointness obligation is also componentwise. The row $S$ compares each displayed $M_{i,j}$ with the displayed conjugate-transpose entry through $\hsame$, and $E$ transports only those rows.
+
+Finally $C,P,L$ keep every replay and downstream consumer behind the same finite packet. Since no carrier row stores eigenvalues, selected eigenvectors, positive-semidefinite data, quotient matrix equality, a basis selector, or host matrix equality, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Hermitian matrix self-adjointness boundary]
+\label{thm:hermitian-matrix-self-adjointness-boundary}
+Every consumer that reads an accepted $\HermitianMatrixUp$ packet as self-adjoint matrix data must pass through the displayed $\MatrixUp$ ledger $M$, the $\ComplexUp$ conjugation row $K$, the conjugate-transpose row $T$, and the componentwise self-adjointness row $S$ over the same finite dimension, field, and vector-space rows $D,F,V$. The packet alone cannot export spectral theorem data, diagonalization, eigenvalue selection, positive-semidefinite evidence, quotient matrix equality, selected basis data, or host matrix equality.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:hermitian-matrix-namecert-obligations}. They expose the matrix ledger, complex conjugation, conjugate-transpose readback, self-adjointness comparison, transport, replay, provenance, and local naming rows.
+
+Use the carrier definition to keep those rows over one square index window. The dimension row $D$ fixes the entry domain, while $F,V$ fix the scalar and coordinate sources through which matrix reads are typed.
+
+The self-adjointness read cannot bypass $T$ or $S$. The transpose row $T$ computes the conjugate-transpose entry from displayed rows, and $S$ is the only row comparing that entry with the original matrix entry.
+
+Thus any self-adjoint consumer receives only the finite Hermitian matrix packet. Spectral theorem data, diagonalization, selected eigenvectors, positive-semidefinite evidence, quotient matrix equality, selected bases, and host equality are absent from the carrier and cannot be recovered by replay.
+\end{proof}
+
+\closureat{HermitianMatrixUp}{seedStr}
+\begin{closurestatus}{\HermitianMatrixUp}
+  \constructivestory{A $\HermitianMatrixUp$ packet is generated from a finite square index row, scalar-field and vector-space sources, a complex matrix-entry ledger, a conjugation row, a conjugate-transpose row, componentwise self-adjointness evidence, $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hermitian-matrix-carrier}, \autoref{thm:hermitian-matrix-namecert-obligations}, and \autoref{thm:hermitian-matrix-self-adjointness-boundary} seed the finite Hermitian matrix packet over displayed $\MatrixUp$, $\ComplexUp$, $\VecSpaceUp$, $\FieldUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close spectral theorem data, diagonalization, eigenbasis selection, positive-semidefinite evidence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, conjugation readback, conjugate-transpose exactness, self-adjoint component comparison, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}

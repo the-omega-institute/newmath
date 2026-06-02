@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\OrdinalAnalysisUp$}
+\label{ch:concrete-instances-ordinal-analysis-namecert}
+\origin{human}
+
+Following Gentzen and proof-theoretic ordinal analysis, the $\OrdinalAnalysisUp$ packet records the finite ordinal-notation and descent-budget surface that a proof-normalization consumer may read before it reaches the MetaCIC normalization frontier. It sits beside the decidability boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the natural-deduction proof-tree surface of \autoref{ch:concrete-instances-natural-deduction-namecert}, the first-order syntax carrier of \autoref{ch:concrete-instances-firstorder-namecert}, and the lambda-calculus proof-term boundary of \autoref{ch:concrete-instances-lambdacalc-namecert}. The packet names only notation, descent, trace, consumer, refusal, transport, replay, provenance, and local naming rows; it does not assert global normalization, a host proof ordinal, or an unrestricted consistency theorem.
+
+\begin{definition}[Ordinal analysis carrier]
+\label{def:ordinal-analysis-carrier}
+An $\OrdinalAnalysisUp$ carrier is a finite $\BHist$ packet
+$$
+O=(A,B,C,U,L,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the ordinal-notation row, read as a finite notation code and comparison window rather than as a completed host ordinal.
+\item $B$ is the descent-budget row, recording the finite measure used by a cut-elimination or normalization trace.
+\item $C$ is the cut-elimination trace row, displaying the local reduction or cut-reduction steps whose budget is being consumed.
+\item $U$ is the normalization-consumer row, naming the $\MetaCICNormalizationFrontierUp$, $\NaturalDeductionUp$, $\FirstOrderUp$, or $\LambdaCalcUp$ reader that may inspect the trace.
+\item $L$ is the refusal ledger, recording absent global-normalization, host-ordinal, subject-reduction, confluence, and consistency coordinates.
+\item $H$ records componentwise $\hsame$ transport for the notation, budget, trace, consumer, refusal, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from ordinal notation and descent budget through the trace into the named consumer boundary.
+\item $P$ is the $\Pkg$ provenance over $\OrdinalAnalysisUp$, $\MetaCICDecidableBoundaryUp$, $\MetaCICNormalizationFrontierUp$, $\NaturalDeductionUp$, $\FirstOrderUp$, $\LambdaCalcUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OrdinalAnalysisUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient well-order theorem, a completed proof ordinal, a host consistency proof, a blanket cut-elimination theorem, or global MetaCIC normalization.
+\end{definition}
+
+\begin{theorem}[Ordinal analysis NameCert obligations]
+\label{thm:ordinal-analysis-namecert-obligations}
+For every accepted $\OrdinalAnalysisUp$ carrier $O=(A,B,C,U,L,H,R,P,N)$, the local $\NameCert_{\OrdinalAnalysisUp}$ surface consists exactly of carrier admission for ordinal notation, descent budget, cut-elimination trace, normalization consumer, refusal ledger, transport, replay, provenance, and local naming; descent exactness requiring the trace row $C$ to consume only the displayed budget $B$ over the notation row $A$; consumer compatibility requiring every $\MetaCICNormalizationFrontierUp$, $\MetaCICDecidableBoundaryUp$, $\NaturalDeductionUp$, $\FirstOrderUp$, or $\LambdaCalcUp$ read to pass through $U$; and nonescape excluding host proof ordinals, global normalization, unchecked subject reduction, unchecked confluence, and external consistency claims.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ordinal-analysis-carrier}. The displayed rows are exactly $A,B,C,U,L,H,R,P,N$, so the local certificate has no source outside this finite packet.
+
+Descent exactness is read from $A,B,C$. The notation row supplies the comparison window, the budget row supplies the finite descent measure, and the trace row records only the reduction steps charged to that budget.
+
+Consumer compatibility is read from $U,R,P,N$. Replay and provenance make the named MetaCIC, natural-deduction, first-order, and lambda-calculus readers consume the displayed route rather than a detached host proof.
+
+Finally, the refusal ledger $L$ and the absence of further carrier coordinates exclude ambient proof ordinals, unrestricted normalization, subject reduction, confluence, and consistency claims. Thus the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cut-elimination budget boundary]
+\label{thm:ordinal-analysis-cut-elimination-budget}
+Every cut-elimination or normalization-facing read of an accepted $\OrdinalAnalysisUp$ carrier must expose the route
+$$
+A,B,C,U,L,H,R,P,N
+$$
+before it can be consumed by $\MetaCICNormalizationFrontierUp$, $\MetaCICDecidableBoundaryUp$, $\NaturalDeductionUp$, $\FirstOrderUp$, or $\LambdaCalcUp$. The budget row $B$ is a finite BEDC descent ledger attached to the notation row $A$ and trace row $C$; it is not a host proof ordinal and does not by itself close global normalization.
+\end{theorem}
+\begin{proof}
+Read the analytic rows first. The notation row $A$ and descent-budget row $B$ precede the trace row $C$, so any cut-elimination consumer receives a finite charged trace rather than an unbounded ordinal argument.
+
+Next read the consumer row $U$. It records which sibling boundary is allowed to inspect the trace: the MetaCIC decidability and normalization frontiers, the natural-deduction proof-tree packet, the first-order syntax carrier, or the lambda-calculus proof-term carrier.
+
+The support rows $H,R,P,N$ transport, replay, source, and name the same route. Since $L$ records the refused readings and no carrier coordinate supplies a completed proof ordinal or global normalization theorem, the budget remains a boundary object for downstream consumers.
+\end{proof}
+
+\falsifiablePrediction{A packet claiming $\OrdinalAnalysisUp$ acceptance while omitting ordinal notation, descent budget, cut-elimination trace, normalization consumer, refusal ledger, transport, replay, provenance, or local NameCert rows fails local certification before any MetaCIC normalization-frontier read can begin.}
+
+\independenceWitness{metacicnormalizationfrontier, metacicdecidableboundary, natural-deduction, firstorder, lambdacalc: $\OrdinalAnalysisUp$ is not bijective to any listed sibling because it carries an ordinal-notation row, a descent-budget row, a cut-elimination trace row, a named normalization-consumer row, and a refusal ledger as one finite packet. The MetaCIC frontier chapters carry bounded normalization and decidability surfaces without a proof-theoretic descent ledger; NaturalDeductionUp carries proof trees without ordinal notation; FirstOrderUp carries syntax and deduction endpoints; LambdaCalcUp carries term reduction rows without the displayed ordinal-analysis budget.}
+
+\closureat{OrdinalAnalysisUp}{seedStr}
+
+\begin{closurestatus}{\OrdinalAnalysisUp}
+  \constructivestory{An $\OrdinalAnalysisUp$ packet is generated from ordinal notation, descent budget, cut-elimination trace, normalization-consumer, refusal-ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ordinal-analysis-carrier}, \autoref{thm:ordinal-analysis-namecert-obligations}, and \autoref{thm:ordinal-analysis-cut-elimination-budget} seed the finite proof-theoretic descent route consumed by MetaCIC and proof-calculus boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, global normalization, host proof ordinals, unrestricted cut elimination, subject reduction, confluence, or consistency for $\OrdinalAnalysisUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, descent-budget exactness, cut-elimination trace replay, normalization-consumer compatibility, refusal-ledger nonescape, transport, replay, provenance, and local naming for BEDC.Derived.OrdinalAnalysisUp.}
+\end{closurestatus}

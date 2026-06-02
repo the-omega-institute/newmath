@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\ClosedAppArgumentStabilityUp$}
+\label{ch:concrete-instances-closed-app-argument-stability-namecert}
+\origin{ai}
+
+The $\ClosedAppArgumentStabilityUp$ packet realizes the independent-codomain branch of the closed MetaCIC application-argument frontier as finite NameCert data. It sits beside the subject-reduction discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the discharge ledger of \autoref{ch:concrete-instances-subjectreductiondischargeledger-namecert}, the application-argument obstruction of \autoref{ch:metacic-subject-reduction-obstruction}, the closed lambda-domain packet of \autoref{ch:concrete-instances-closed-lam-domain-subject-reduction-namecert}, and the closed Pi-domain packet of \autoref{ch:concrete-instances-closed-pi-domain-subject-reduction-namecert}. The packet names the checked independent-codomain route; it does not turn the general dependent-codomain $\mathrm{AppArgTypeStable}$ obligation into an unconditional theorem.
+
+\begin{definition}[Closed application-argument stability carrier]
+\label{def:closed-app-argument-stability-carrier}
+A $\ClosedAppArgumentStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+A=(F,X,X',D,C,Y,Z,S,O,H,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the closed function row, naming a term typed by a displayed Pi type $\Pi D.\,C$.
+\item $X$ is the original argument row, typed by the displayed domain $D$.
+\item $X'$ is the reduced argument row, typed by the same displayed domain $D$.
+\item $D$ is the domain row read by the application typing rule.
+\item $C$ is the codomain row, together with the independent-codomain closedness boundary $ClosedAt(0,C)$.
+\item $Y$ is the typing row, recording the source and target application-argument typing premises consumed by the closed independent-codomain theorem.
+\item $Z$ is the closedness row for $F,X,C$ inside the empty-context MetaCIC boundary.
+\item $S$ is the beta-step row from $X$ to $X'$.
+\item $O$ is the obstruction boundary row, recording that the general dependent-codomain $\mathrm{AppArgTypeStable}$ discharge remains outside the packet.
+\item $H$ records componentwise $\hsame$ transport for $F,X,X',D,C,Y,Z,S,O,R,Q,N$.
+\item $R$ records displayed $\Cont$ replay from the application-argument congruence read through the independent-codomain stability theorem and the obstruction boundary.
+\item $Q$ is the $\Pkg$ provenance over $\ClosedAppArgumentStabilityUp$, $\SubjectReductionUp$, $\SubjectReductionDischargeSocketUp$, $\ClosedLamDomainSubjectReductionUp$, $\ClosedPiDomainSubjectReductionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedAppArgumentStabilityUp}$ row.
+\end{enumerate}
+The classifier accepts only packets displaying the closed function, original argument, reduced argument, domain, independent codomain, typing row, closedness row, beta step, obstruction boundary, transport, replay, provenance, and local naming. It has no coordinate for a general dependent-codomain discharge, host conversion, erased derivation semantics, quotient syntax equality, or a closed subject-reduction theorem.
+\end{definition}
+
+\begin{theorem}[Closed application-argument stability NameCert obligations]
+\label{thm:closed-app-argument-stability-namecert-obligations}
+For every accepted $\ClosedAppArgumentStabilityUp$ carrier $A=(F,X,X',D,C,Y,Z,S,O,H,R,Q,N)$, the local $\NameCert_{\ClosedAppArgumentStabilityUp}$ surface consists exactly of carrier admission for the displayed closed function, original argument, reduced argument, domain row, independent codomain row, typing row, closedness row, beta-step row, obstruction boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The application-argument read is accepted only when $C$ displays the independent-codomain closedness boundary and $O$ keeps the general dependent-codomain obstruction visible.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-app-argument-stability-carrier}. The rows $F,X,X',D,C$ display the application source, the argument step, and the Pi type whose codomain is inspected.
+
+Read $Y,Z,S$ next. These rows provide the typing premises, closedness premises, and beta-step premise needed by the closed independent-codomain theorem, while keeping all data inside the displayed empty-context boundary.
+
+The obstruction row $O$ is part of the same local surface. It prevents a consumer from replacing the independent-codomain equality by the general dependent-codomain $\mathrm{AppArgTypeStable}$ discharge row.
+
+Finally $H,R,Q,N$ transport, replay, source, and name only this finite packet. Since no row stores host conversion, erased derivation semantics, quotient syntax equality, a general application-argument discharge, or a closed subject-reduction theorem, the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Closed application-argument independent-codomain route]
+\label{thm:closed-app-argument-stability-independent-codomain-route}
+Every subject-reduction discharge consumer that reads an accepted $\ClosedAppArgumentStabilityUp$ packet as an application-argument handoff factors through the checked independent-codomain route
+$$
+F,\ X,\ X',\ D,\ C,\ Y,\ Z,\ S,\ O,\ H,\ R,\ Q,\ N .
+$$
+The handoff may cite the equality supplied by the closed independent-codomain theorem
+$\texttt{BEDC.MetaCIC.appArgTypeStable\_closed\_independent\_codomain}$, but only at the displayed $ClosedAt(0,C)$ boundary. It does not supply the general $\mathrm{AppArgTypeStable}$ field, the beta-substitution row, the lambda-domain row, the Pi-domain row, or an unconditional closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Start with an application-argument consumer. The rows $F,X,X',D,C,Y,Z,S$ match the closed independent-codomain theorem: the function has Pi type $\Pi D.\,C$, both arguments have type $D$, and the codomain row is closed at the binder boundary.
+
+Apply the independent-codomain route at that displayed codomain row. The result is the equality between the two substitutions of $C$, because a closed codomain ignores the argument readback.
+
+Now read the obstruction row $O$. It records that the dependent-codomain case remains on the obstruction side of the MetaCIC ledger and that the full $\mathrm{AppArgTypeStable}$ field is not generated by this packet.
+
+The structural rows $H,R,Q,N$ preserve the same handoff for downstream ledgers. Thus the consumer obtains the independent-codomain application-argument equality and no beta, lambda-domain, Pi-domain, general application-argument, or closed subject-reduction discharge.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ClosedAppArgumentStabilityUp$ read is refuted if an application-argument consumer reaches the independent-codomain substitution equality without displaying the closed function row, both argument typing rows, the closed codomain boundary, the beta-step row, the obstruction row, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{ClosedLamDomainSubjectReduction, ClosedPiDomainSubjectReduction, SubjectReductionDischargeSocket, SubjectReductionRouteClassifier, and MetaCICSubjectReductionObligation are not bijective with $\ClosedAppArgumentStabilityUp$ because only this packet jointly carries the closed application-argument row, independent-codomain equality route, obstruction boundary for the dependent-codomain case, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate file for $\ClosedAppArgumentStabilityUp$ must provide explicit $\mathsf{Nontrivial}\ \ClosedAppArgumentStabilityUp$ and $\mathsf{FieldFaithful}\ \ClosedAppArgumentStabilityUp$ instances preserving $F,X,X',D,C,Y,Z,S,O,H,R,Q,N$ as distinct rows.
+
+\closureat{ClosedAppArgumentStabilityUp}{seedStr}
+
+\begin{closurestatus}{\ClosedAppArgumentStabilityUp}
+  \constructivestory{A $\ClosedAppArgumentStabilityUp$ packet is generated from a closed function row, original argument row, reduced argument row, domain row, independent codomain row, typing row, closedness row, beta-step row, obstruction boundary, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-app-argument-stability-carrier}, \autoref{thm:closed-app-argument-stability-namecert-obligations}, and \autoref{thm:closed-app-argument-stability-independent-codomain-route} seed the finite independent-codomain application-argument packet for the closed MetaCIC discharge route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general AppArgTypeStable, beta-substitution preservation, lambda-domain preservation, Pi-domain preservation, unconditional closed subject reduction, host conversion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, independent-codomain closedness exactness, typing-row exposure, beta-step exposure, obstruction-boundary exposure, subject-reduction ledger handoff, and TasteGate field faithfulness for BEDC.Derived.ClosedAppArgumentStabilityUp.}
+\end{closurestatus}

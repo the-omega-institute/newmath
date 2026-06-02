@@ -87,3 +87,33 @@ Use \autoref{thm:cauchy-modulus-readback-route} to order the displayed read. The
 
 Finally apply \autoref{thm:cauchy-namecert-obligations}. The rows $H,C,P,N$ transport, replay, source, and name the same route, so they cannot insert quotient representatives, selected limits, host equality, countable choice, trichotomy, or ambient completeness between $\RegSeqRatUp$ and $\RealUp$.
 \end{proof}
+
+\begin{theorem}[Cauchy modulus transport stability]
+\label{thm:cauchy-core-modulus-transport-stability}
+Let
+$$
+X=(S,D,R,M,Q,E,H,C,P,N)
+$$
+and
+$$
+X'=(S',D',R',M',Q',E',H',C',P',N')
+$$
+be accepted $\CauchyUp$ packets. Suppose the stream row, dyadic tolerance row, modulus row, modulus/readback compatibility row, $\RegSeqRatUp$ readback row, $\RealUp$ seal row, replay row, provenance row, and local naming row are transported componentwise by the displayed $\hsame$ data in $H$ and $H'$, and suppose both packets are replayed through the same displayed $\Cont$ route. Then the public Cauchy readback route
+$$
+S,D,M \longmapsto Q \longmapsto R \longmapsto E \longmapsto H,C,P,N
+$$
+is the same BEDC route as
+$$
+S',D',M' \longmapsto Q' \longmapsto R' \longmapsto E' \longmapsto H',C',P',N' .
+$$
+In particular, componentwise transport of the modulus/readback surface cannot introduce quotient stream equality, a selected limit, host real equality, countable choice, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through \autoref{def:cauchy-carrier}. The only visible coordinates are the stream, dyadic tolerance, regular-rational readback, modulus, compatibility, seal, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:cauchy-modulus-readback-route} to $X$ and to $X'$. The two projected routes must read their displayed stream, dyadic, and modulus rows before their compatibility rows, and the shared $\Cont$ replay identifies these reads through the componentwise $\hsame$ data.
+
+Next use \autoref{thm:cauchy-core-streamname-regseqrat-window}. Access to $R$ and $R'$ is forced through the transported $S,D,M,Q$ and $S',D',M',Q'$ rows, so no other regular-rational readback path is available.
+
+Finally apply \autoref{thm:cauchy-core-regseqrat-real-seal}. The $\RealUp$ seal remains downstream of the transported $\RegSeqRatUp$ rows, and the structural rows $H,C,P,N$ and $H',C',P',N'$ only transport, replay, source, and name that path. Since neither carrier contains quotient streams, selected limits, host equality, choice, trichotomy, or ambient completeness, the two displays name the same BEDC route.
+\end{proof}

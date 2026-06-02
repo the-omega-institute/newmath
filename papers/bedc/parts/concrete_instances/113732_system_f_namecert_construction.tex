@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\SystemFUp$}
+\label{ch:concrete-instances-system-f-namecert}
+\origin{human}
+
+Following Girard and Reynolds, $\SystemFUp$ is read here as the finite NameCert surface for the polymorphic typed lambda calculus. It sits between the term-syntax carrier of \autoref{ch:concrete-instances-lambdacalc-namecert}, the first-order symbol and formula interface of \autoref{ch:concrete-instances-firstorder-namecert}, the computability boundary of \autoref{ch:concrete-instances-computable-namecert}, the type-like classifier surface of \autoref{ch:concrete-instances-typelike-namecert}, and the typed normalization packets of \autoref{ch:concrete-instances-normalization-by-evaluation-namecert} and \autoref{ch:concrete-instances-neutral-reifier-namecert}. The packet names polymorphic syntax and typing as displayed BEDC rows; it does not export an ambient host calculus, quotient syntax equality, impredicative set semantics, or a global normalization theorem.
+
+\begin{definition}[System F carrier]
+\label{def:system-f-carrier}
+A $\SystemFUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,A,L,E,T,B,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the term-variable row, naming de Bruijn or locally named term variables through finite $\BHist$ syntax endpoints.
+\item $A$ is the type-variable row, naming type variables separately from term variables and recording their binder depth.
+\item $L$ is the lambda row, carrying term abstraction and term application over the $\LambdaCalcUp$ syntax surface.
+\item $E$ is the type row, carrying type variables, arrow types, and universal type binders as displayed finite syntax.
+\item $T$ is the typing-context row, listing term-variable assumptions, type-variable assumptions, and the finite scope in which a judgment is read.
+\item $B$ is the beta and type-instantiation route row, recording term beta contraction and universal-type instantiation as ledgered source and endpoint rows.
+\item $I$ is the type-abstraction and type-application row, recording $\Lambda$-abstraction over type variables and application of polymorphic terms to displayed type rows.
+\item $H$ records componentwise $\hsame$ transport for term variables, type variables, lambda syntax, type syntax, contexts, beta and instantiation routes, abstraction/application rows, replay, provenance, and local names.
+\item $C$ records displayed $\Cont$ replay from a requested typing or reduction read through $X,A,L,E,T,B,I$.
+\item $P$ is the $\Pkg$ provenance over $\LambdaCalcUp$, $\FirstOrderUp$, $\ComputableUp$, $\TypeLikeUp$, $\NormalizationByEvaluationUp$, $\NeutralReifierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SystemFUp}$ row.
+\end{enumerate}
+The classifier accepts a packet only when term syntax, type syntax, typing context, beta routes, and type-instantiation routes are all displayed as finite rows. No coordinate may be a host parser, a host type checker, an external alpha-equivalence quotient, or an unlogged semantic model.
+\end{definition}
+
+\begin{theorem}[System F NameCert obligations]
+\label{thm:system-f-namecert-obligations}
+For every accepted $\SystemFUp$ carrier $F=(X,A,L,E,T,B,I,H,C,P,N)$, the local $\NameCert_{\SystemFUp}$ surface consists exactly of carrier admission, typing-surface exactness, type-abstraction stability, beta/type-instantiation nonescape, and provenance exhaustion over the displayed rows. In particular, every consumer of a $\SystemFUp$ typing, beta, or type-instantiation conclusion must first read the route
+$$
+X,A,L,E,T,B,I,H,C,P,N .
+$$
+The packet supplies polymorphic typed-lambda-calculus data, but it supplies no host-level type checker, quotient equality of terms or types, impredicative semantic universe, parametricity theorem, subject-reduction theorem beyond the displayed route, or global normalization result.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:system-f-carrier}. The tuple exposes term variables, type variables, lambda syntax, type syntax, typing context, beta/type-instantiation routes, type abstraction/application rows, transport, replay, provenance, and local naming as the only accepted coordinates.
+
+Typing-surface exactness follows by reading the context row $T$ together with the term and type syntax rows $X,A,L,E$. A typing judgment is accepted only when its variable assumptions, type assumptions, binder scopes, term endpoint, and type endpoint are all present in those displayed rows.
+
+Type-abstraction stability is the role of $I$. The type-variable row $A$ records the binder being abstracted, the context row $T$ records the extended scope, and componentwise transport $H$ preserves the same abstraction or type-application endpoint under $\hsame$.
+
+Beta and type-instantiation nonescape is enforced by $B$ and $C$. A term beta read must pass through the displayed lambda source and substitution endpoint, while a polymorphic instantiation read must pass through the displayed universal type binder and argument type row; replay cannot jump to a host evaluator or external substitution function.
+
+Provenance exhaustion is supplied by $P$ and $N$. The cited sibling chapters provide the finite syntax, typing-shape, computability, type-like, and normalization-facing surfaces consumed by the packet, and no additional row is available from which a consumer could recover quotient syntax equality, impredicative semantics, parametricity, subject reduction, or global normalization.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SystemFUp$ typing, beta, or type-instantiation read factors through the term-variable row, type-variable row, lambda syntax row, type syntax row, typing-context row, beta/type-instantiation route, type-abstraction/application row, componentwise transport, continuation replay, provenance, and local $\NameCert$ before any consumer may cite the conclusion.}
+
+\independenceWitness{lambdacalc, firstorder, computable, typelike, normalization-by-evaluation, neutral-reifier: $\SystemFUp$ is not bijective to any listed sibling because it jointly carries term variables, type variables, typed lambda syntax, universal type abstraction and application, typing contexts, beta routes, type-instantiation routes, transport, replay, provenance, and local naming.}
+
+\closureat{SystemFUp}{seedStr}
+
+\begin{closurestatus}{\SystemFUp}
+  \constructivestory{A $\SystemFUp$ packet is generated from term-variable rows, type-variable rows, lambda syntax rows, type syntax rows, typing-context rows, beta/type-instantiation route rows, type-abstraction/application rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:system-f-carrier} and \autoref{thm:system-f-namecert-obligations} seed the finite polymorphic typed-lambda-calculus packet and its NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient syntax equality, impredicative set semantics, parametricity, closed subject reduction, global normalization, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, typing-surface exactness, type-abstraction stability, beta/type-instantiation nonescape, and provenance exhaustion for BEDC.Derived.SystemFUp.}
+\end{closurestatus}

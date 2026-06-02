@@ -1,0 +1,49 @@
+\origin{ai}
+\subsection{B-star-Q6 residual coupling against translation-side contacts}
+\label{sec:b-star-q6-residual-coupling-translation-contacts}
+
+\paragraph{Object of the record.}
+This chapter records a finite BioReality computation for the claim that the nine residual coordinates of $B^*_{Q6}$ retain measurable coupling to translation-adjacent readouts after the amino-acid quotient has been imposed. The tested carrier is a $9 \times K$ matrix schema whose rows are the synonymous residual coordinates
+$$
+\begin{aligned}
+R = \{&\texttt{Arg\_AGR},\ \texttt{Ile\_AUA},\ \texttt{K\_AAA},\ \texttt{Leu\_CUN\_vs\_UUR},\ \texttt{Leu\_UUA\_vs\_UUG},\\
+&\texttt{Ser\_UCA\_vs\_UCG},\ \texttt{Ser\_UCR\_vs\_AGY},\ \texttt{Thr\_ACR\_vs\_ACY},\ \texttt{f3\_stress}\}.
+\end{aligned}
+$$
+The codon-count ambient space used by the computation has $61$ codon coordinates. The observed finite row currently attaches these residual coordinates to a proxy readout, namely the tRNA-Leu CUN-versus-UUR log-copy spectrum. It does not yet attach the full survival matrix to tAI, stAI, ribosome occupancy, translation efficiency, or protein-abundance rows.
+
+\paragraph{Finite computation.}
+For each residual row $q_i$ and the attached proxy readout direction $\ell$, the computation formed a synonymous projection and then evaluated the covariance coupling
+$$
+\begin{aligned}
+A_i = q_i^{T}\Sigma \ell^{\perp}.
+\end{aligned}
+$$
+The configured break condition was that all nine entries satisfy $|A_i| < 0.01$. That condition was not met. The recorded threshold was $0.01$, the number of above-threshold nonzero entries was $9$, and the largest absolute coupling was
+$$
+\begin{aligned}
+\max_i |A_i| = 1882464.1106377328.
+\end{aligned}
+$$
+Thus the finite row supports only a codon-usage-topology statement: every one of the nine residual coordinates has nonzero proxy coupling above the declared threshold against the tRNA-Leu CUN-versus-UUR log-copy spectrum. This is a coupling result $A_i$, not a controlled survival result $S_{ij}$.
+
+\paragraph{Organism scope.}
+The attached organism list is
+$$
+\begin{aligned}
+O = \{\texttt{homo\_sapiens},\ \texttt{saccharomyces\_cerevisiae},\ \texttt{escherichia\_coli\_k12}\}.
+\end{aligned}
+$$
+A related Leu CUN/UUR gate computation on the same three-organism contact reported Pearson correlation $1.0$ and partial Pearson correlation $1.0$ between the Leu CUN/UUR codon-side ratio and the tRNA-Leu copy-side ratio after the stated control. The corresponding log-ratio signs were $+1,-1,+1$, with numerical log-ratios
+$$
+\begin{aligned}
+(1.3514980212896148,\ -0.24869078488829677,\ 1.0086640520051702).
+\end{aligned}
+$$
+The sign is therefore not uniform across organisms. The row is finite and diagnostic, but it is not a population-level estimate and it does not determine a universal direction for the biological relation.
+
+\paragraph{Survival statistic still open.}
+The intended survival entry for a residual coordinate $q_i$ and a translation readout $r_j$ is a controlled score $S_{ij}=S_{q_i}(r_j\mid Z)$, where the control set includes amino-acid composition, organism context, GC3, coding-sequence length, and an $M$-density baseline. The current finite record does not contain organism-matched ribosome-profiling, stAI, tAI, protein-abundance, and matched mRNA rows with a completed partial-$R^2$ or description-length-improvement estimate. Consequently the present chapter may report $A_i$ proxy coupling, the $0.01$ threshold test, the $9$ nonzero entries, the maximum absolute coupling, the three loaded organisms, the Pearson $1.0$ Leu gate, and the sign reversal. It may not report a positive $S_{ij}$ entry.
+
+\paragraph{Local claim boundary.}
+The valid conclusion is bounded as follows. The finite data show that $B^*_{Q6}$ residual coordinates are not annihilated by the amino-acid quotient when tested against the attached tRNA-Leu copy-ratio proxy. They also show that the CUN/UUR Leu contact has a perfect three-row correlation in the recorded sample while retaining organism-dependent sign behavior. No ribosome-mediated translation realization follows from these rows alone. No folding claim, physical-admissibility claim, biological-function claim, biochemical-mechanism claim, protein-output claim, or universal biological law follows from the proxy coupling matrix or from the three-organism Leu gate. Each of those stronger assertions requires its own matched measurement contact and its own controlled statistic. In particular, a positive coupling $A_i$ is not promoted to positive survival $S_{ij}$ unless the declared controls $Z$ and the simpler-codon-baseline ablation have both been applied to a direct translation-side readout.

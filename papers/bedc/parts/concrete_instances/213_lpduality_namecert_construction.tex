@@ -625,6 +625,20 @@ $$
 This is the asserted classifier equality.
 \end{proof}
 
+\begin{theorem}[LPDuality Farkas finite-alternative handoff]
+\label{thm:lpduality-farkas-alternative-handoff}
+Let an $\LPDualityUp$ row over an ordered field be given as in \autoref{def:lpduality-finite-ordered-field-feasibility-row}. Suppose the same finite coefficient rows $A,b,c$ are equipped with a $\FarkasLemmaUp$ packet from \autoref{ch:concrete-instances-farkas-lemma-namecert}. Then the Farkas finite-alternative row supplies the nonnegative multiplier ledger consumed by the weak-duality comparison of \autoref{thm:lpduality-feasible-weak-duality}: feasibility branches become primal or dual feasible rows, and obstruction branches become the displayed multiplier comparison rows whose finite sums witness objective separation in the ordered-field ledger.
+\end{theorem}
+\begin{proof}
+Project the $\LPDualityUp$ row through \autoref{def:lpduality-finite-ordered-field-feasibility-row}. The weak-duality theorem consumes exactly finite row and column carriers, ordered-field scalar operations, nonnegative scalar predicates, finite-sum monotonicity, and the distributivity-interchange ledger.
+
+Project the $\FarkasLemmaUp$ packet through \autoref{def:farkas-lemma-carrier}. Its feasibility branch is already a finite row of inequalities over the same coefficient system, so classifier transport repacks it as the corresponding primal or dual feasibility row in the linear-programming surface.
+
+In the obstruction branch, the Farkas packet supplies a nonnegative multiplier row and the coefficient-annihilation equations. The $\PositiveConeUp$ nonnegative witnesses give the scalar monotonicity hypotheses used in weak duality, while the finite-sum equations identify the multiplier sum with the objective endpoint comparison read by the $\LPDualityUp$ ledger.
+
+Thus the handoff is row-for-row. The Farkas certificate contributes no optimizer, separation theorem, or strong-duality existence claim; it only names the finite multiplier ledger that the weak-duality comparison already consumes.
+\end{proof}
+
 \input{parts/concrete_instances/lpduality/dual_faces_and_objective_fibers}
 
 \closureat{LPDualityUp}{seedStr}[BEDC.Derived.LPDualityUp.LPDualityFeasibleWeakDuality\_prefix\_order]

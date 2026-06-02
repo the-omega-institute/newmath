@@ -1,9 +1,8 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
-import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.NestedIntervalCompletenessUp.TasteGate
+namespace BEDC.Derived.NestedIntervalCompletenessUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -11,25 +10,33 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive NestedIntervalCompletenessUp : Type where
-  | mk (B N C W R E H T P Q : BHist) : NestedIntervalCompletenessUp
+  | mk
+      (B N C W R E H T P Q : BHist) :
+      NestedIntervalCompletenessUp
   deriving DecidableEq
 
-def nestedIntervalCompletenessEncodeBHist : BHist → RawEvent
+def NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist :
+    BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: nestedIntervalCompletenessEncodeBHist h
-  | BHist.e1 h => BMark.b1 :: nestedIntervalCompletenessEncodeBHist h
+  | BHist.e0 h =>
+      BMark.b0 :: NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e1 h =>
+      BMark.b1 :: NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist h
 
-def nestedIntervalCompletenessDecodeBHist : RawEvent → BHist
+def NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist :
+    RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (nestedIntervalCompletenessDecodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (nestedIntervalCompletenessDecodeBHist tail)
+  | BMark.b0 :: tail =>
+      BHist.e0 (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b1 :: tail =>
+      BHist.e1 (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist tail)
 
-private theorem nestedIntervalCompleteness_decode_encode :
+private theorem NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
-      nestedIntervalCompletenessDecodeBHist
-          (nestedIntervalCompletenessEncodeBHist h) =
+      NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist h) =
         h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -38,150 +45,167 @@ private theorem nestedIntervalCompleteness_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def nestedIntervalCompletenessFields :
+def NestedIntervalCompletenessTasteGate_single_carrier_alignment_fields :
     NestedIntervalCompletenessUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | NestedIntervalCompletenessUp.mk B N C W R E H T P Q => [B, N, C, W, R, E, H, T, P, Q]
 
-def nestedIntervalCompletenessToEventFlow :
-    NestedIntervalCompletenessUp → EventFlow :=
+def NestedIntervalCompletenessTasteGate_single_carrier_alignment_toEventFlow :
+    NestedIntervalCompletenessUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (nestedIntervalCompletenessFields x).map nestedIntervalCompletenessEncodeBHist
+  | x =>
+      (NestedIntervalCompletenessTasteGate_single_carrier_alignment_fields x).map
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist
 
-def nestedIntervalCompletenessFromEventFlow :
-    EventFlow → Option NestedIntervalCompletenessUp :=
+def NestedIntervalCompletenessTasteGate_single_carrier_alignment_fromEventFlow :
+    EventFlow → Option NestedIntervalCompletenessUp
   -- BEDC touchpoint anchor: BHist BMark
-  fun
-  | B :: N :: C :: W :: R :: E :: H :: T :: P :: Q :: [] =>
+  | [B, N, C, W, R, E, H, T, P, Q] =>
       some
         (NestedIntervalCompletenessUp.mk
-          (nestedIntervalCompletenessDecodeBHist B)
-          (nestedIntervalCompletenessDecodeBHist N)
-          (nestedIntervalCompletenessDecodeBHist C)
-          (nestedIntervalCompletenessDecodeBHist W)
-          (nestedIntervalCompletenessDecodeBHist R)
-          (nestedIntervalCompletenessDecodeBHist E)
-          (nestedIntervalCompletenessDecodeBHist H)
-          (nestedIntervalCompletenessDecodeBHist T)
-          (nestedIntervalCompletenessDecodeBHist P)
-          (nestedIntervalCompletenessDecodeBHist Q))
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist B)
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist N)
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist C)
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist W)
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist R)
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist E)
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist H)
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist T)
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist P)
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist Q))
   | _ => none
 
-private theorem nestedIntervalCompleteness_round_trip :
+private theorem NestedIntervalCompletenessTasteGate_single_carrier_alignment_round_trip :
     ∀ x : NestedIntervalCompletenessUp,
-      nestedIntervalCompletenessFromEventFlow
-          (nestedIntervalCompletenessToEventFlow x) =
+      NestedIntervalCompletenessTasteGate_single_carrier_alignment_fromEventFlow
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_toEventFlow x) =
         some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
   | mk B N C W R E H T P Q =>
-      simp only [nestedIntervalCompletenessToEventFlow, nestedIntervalCompletenessFields,
-        nestedIntervalCompletenessFromEventFlow, List.map_cons, List.map_nil,
-        nestedIntervalCompleteness_decode_encode]
+      change
+        some
+          (NestedIntervalCompletenessUp.mk
+            (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+              (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist B))
+            (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+              (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist N))
+            (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+              (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist C))
+            (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+              (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist W))
+            (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+              (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist R))
+            (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+              (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist E))
+            (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+              (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist H))
+            (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+              (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist T))
+            (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+              (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist P))
+            (NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+              (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist Q))) =
+          some (NestedIntervalCompletenessUp.mk B N C W R E H T P Q)
+      rw [NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode B,
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode N,
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode C,
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode W,
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode R,
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode E,
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode H,
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode T,
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode P,
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode Q]
 
-private theorem nestedIntervalCompletenessToEventFlow_injective
+private theorem NestedIntervalCompletenessTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : NestedIntervalCompletenessUp} :
-    nestedIntervalCompletenessToEventFlow x = nestedIntervalCompletenessToEventFlow y →
+    NestedIntervalCompletenessTasteGate_single_carrier_alignment_toEventFlow x =
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_toEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro hxy
-  have optionEq : some x = some y := by
-    calc
-      some x =
-          nestedIntervalCompletenessFromEventFlow
-            (nestedIntervalCompletenessToEventFlow x) :=
-        (nestedIntervalCompleteness_round_trip x).symm
-      _ =
-          nestedIntervalCompletenessFromEventFlow
-            (nestedIntervalCompletenessToEventFlow y) :=
-        congrArg nestedIntervalCompletenessFromEventFlow hxy
-      _ = some y := nestedIntervalCompleteness_round_trip y
-  exact Option.some.inj optionEq
+  intro heq
+  have hread :
+      NestedIntervalCompletenessTasteGate_single_carrier_alignment_fromEventFlow
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_toEventFlow x) =
+        NestedIntervalCompletenessTasteGate_single_carrier_alignment_fromEventFlow
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_toEventFlow y) :=
+    congrArg NestedIntervalCompletenessTasteGate_single_carrier_alignment_fromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans
+      (NestedIntervalCompletenessTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (NestedIntervalCompletenessTasteGate_single_carrier_alignment_round_trip y)))
 
-instance nestedIntervalCompletenessBHistCarrier :
+private theorem NestedIntervalCompletenessTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : NestedIntervalCompletenessUp,
+      NestedIntervalCompletenessTasteGate_single_carrier_alignment_fields x =
+          NestedIntervalCompletenessTasteGate_single_carrier_alignment_fields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk B₁ N₁ C₁ W₁ R₁ E₁ H₁ T₁ P₁ Q₁ =>
+      cases y with
+      | mk B₂ N₂ C₂ W₂ R₂ E₂ H₂ T₂ P₂ Q₂ =>
+          cases hfields
+          rfl
+
+instance NestedIntervalCompletenessTasteGate_single_carrier_alignment_BHistCarrier :
     BHistCarrier NestedIntervalCompletenessUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := nestedIntervalCompletenessToEventFlow
-  fromEventFlow := nestedIntervalCompletenessFromEventFlow
+  toEventFlow := NestedIntervalCompletenessTasteGate_single_carrier_alignment_toEventFlow
+  fromEventFlow := NestedIntervalCompletenessTasteGate_single_carrier_alignment_fromEventFlow
 
-instance nestedIntervalCompletenessChapterTasteGate :
+instance NestedIntervalCompletenessTasteGate_single_carrier_alignment_ChapterTasteGate :
     ChapterTasteGate NestedIntervalCompletenessUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change
-      nestedIntervalCompletenessFromEventFlow
-          (nestedIntervalCompletenessToEventFlow x) =
+      NestedIntervalCompletenessTasteGate_single_carrier_alignment_fromEventFlow
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_toEventFlow x) =
         some x
-    exact nestedIntervalCompleteness_round_trip x
+    exact NestedIntervalCompletenessTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (nestedIntervalCompletenessToEventFlow_injective heq)
+    exact hxy
+      (NestedIntervalCompletenessTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-private theorem nestedIntervalCompleteness_mk_congr
-    {B0 N0 C0 W0 R0 E0 H0 T0 P0 Q0 B N C W R E H T P Q : BHist}
-    (hB : B0 = B) (hN : N0 = N) (hC : C0 = C) (hW : W0 = W) (hR : R0 = R)
-    (hE : E0 = E) (hH : H0 = H) (hT : T0 = T) (hP : P0 = P) (hQ : Q0 = Q) :
-    NestedIntervalCompletenessUp.mk B0 N0 C0 W0 R0 E0 H0 T0 P0 Q0 =
-      NestedIntervalCompletenessUp.mk B N C W R E H T P Q := by
+instance NestedIntervalCompletenessTasteGate_single_carrier_alignment_FieldFaithful :
+    FieldFaithful NestedIntervalCompletenessUp where
   -- BEDC touchpoint anchor: BHist BMark
-  cases hB
-  cases hN
-  cases hC
-  cases hW
-  cases hR
-  cases hE
-  cases hH
-  cases hT
-  cases hP
-  cases hQ
-  rfl
+  fields := NestedIntervalCompletenessTasteGate_single_carrier_alignment_fields
+  field_faithful :=
+    NestedIntervalCompletenessTasteGate_single_carrier_alignment_fields_faithful
+
+instance NestedIntervalCompletenessTasteGate_single_carrier_alignment_Nontrivial :
+    Nontrivial NestedIntervalCompletenessUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨NestedIntervalCompletenessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      NestedIntervalCompletenessUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem NestedIntervalCompletenessTasteGate_single_carrier_alignment :
-    nestedIntervalCompletenessDecodeBHist
-        (nestedIntervalCompletenessEncodeBHist BHist.Empty) =
-      BHist.Empty ∧
-      (∀ h : BHist,
-          nestedIntervalCompletenessDecodeBHist
-            (nestedIntervalCompletenessEncodeBHist h) =
-          h) ∧
-        (∀ B N C W R E H T P Q : BHist,
-          some
-              (NestedIntervalCompletenessUp.mk
-                (nestedIntervalCompletenessDecodeBHist (nestedIntervalCompletenessEncodeBHist B))
-                (nestedIntervalCompletenessDecodeBHist (nestedIntervalCompletenessEncodeBHist N))
-                (nestedIntervalCompletenessDecodeBHist (nestedIntervalCompletenessEncodeBHist C))
-                (nestedIntervalCompletenessDecodeBHist (nestedIntervalCompletenessEncodeBHist W))
-                (nestedIntervalCompletenessDecodeBHist (nestedIntervalCompletenessEncodeBHist R))
-                (nestedIntervalCompletenessDecodeBHist (nestedIntervalCompletenessEncodeBHist E))
-                (nestedIntervalCompletenessDecodeBHist (nestedIntervalCompletenessEncodeBHist H))
-                (nestedIntervalCompletenessDecodeBHist (nestedIntervalCompletenessEncodeBHist T))
-                (nestedIntervalCompletenessDecodeBHist (nestedIntervalCompletenessEncodeBHist P))
-                (nestedIntervalCompletenessDecodeBHist (nestedIntervalCompletenessEncodeBHist Q))) =
-            some (NestedIntervalCompletenessUp.mk B N C W R E H T P Q)) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+    (∀ h : BHist,
+      NestedIntervalCompletenessTasteGate_single_carrier_alignment_decodeBHist
+          (NestedIntervalCompletenessTasteGate_single_carrier_alignment_encodeBHist h) =
+        h) ∧
+      NestedIntervalCompletenessTasteGate_single_carrier_alignment_fields
+          (NestedIntervalCompletenessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+          BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
+  -- BEDC touchpoint anchor: BHist BMark
   constructor
+  · exact NestedIntervalCompletenessTasteGate_single_carrier_alignment_decode_encode
   · rfl
-  constructor
-  · intro h
-    induction h with
-    | Empty => rfl
-    | e0 h ih => exact congrArg BHist.e0 ih
-    | e1 h ih => exact congrArg BHist.e1 ih
-  · intro B N C W R E H T P Q
-    exact congrArg some
-      (nestedIntervalCompleteness_mk_congr
-        (nestedIntervalCompleteness_decode_encode B)
-        (nestedIntervalCompleteness_decode_encode N)
-        (nestedIntervalCompleteness_decode_encode C)
-        (nestedIntervalCompleteness_decode_encode W)
-        (nestedIntervalCompleteness_decode_encode R)
-        (nestedIntervalCompleteness_decode_encode E)
-        (nestedIntervalCompleteness_decode_encode H)
-        (nestedIntervalCompleteness_decode_encode T)
-        (nestedIntervalCompleteness_decode_encode P)
-        (nestedIntervalCompleteness_decode_encode Q))
 
-end BEDC.Derived.NestedIntervalCompletenessUp.TasteGate
+end BEDC.Derived.NestedIntervalCompletenessUp

@@ -79,6 +79,18 @@ The target classifier $T$ and the output observations $W$ then package exactly t
 Thus every mapped finite-window read has the displayed factorization $S \longmapsto F \longmapsto T \longmapsto W$, and downstream consumers inherit that route rather than a quotient-stream or selected-limit principle.
 \end{proof}
 
+\begin{theorem}[Stream map window functoriality]
+\label{thm:stream-map-window-functoriality}
+For an accepted $\StreamMapUp$ carrier $M=(S,T,F,W,Q,D,R,H,C,P,N)$, the pointwise carrier transport of \autoref{def:stream-map-pointwise-carrier-transport} preserves finite $\StreamNameUp$ windows through the route of \autoref{thm:stream-map-finite-window-functoriality}. Consequently every $\RegSeqRatUp$ or $\RealUp$ handoff reads the mapped window through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route fixed by $S,F,T,W,Q,D,$ and $R$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stream-map-carrier} and the pointwise transport datum of \autoref{def:stream-map-pointwise-carrier-transport}. The only source cells available to the map are the finite $\StreamNameUp$ window cells exposed by $S$ and transported through $H$.
+
+Apply \autoref{thm:stream-map-finite-window-functoriality}. The mapped observation factors through $S,F,T,W$ before any regular rational, dyadic, or Real-facing row can be read.
+
+Finally apply \autoref{thm:stream-map-regseq-real-handoff}. The handoff to $\RegSeqRatUp$ or $\RealUp$ consumes the same mapped window route and the same structural rows $H,C,P,N$, so it cannot import host function extensionality, quotient streams, selected limits, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[Stream map constant-window stability]
 \label{thm:stream-map-constant-window-stability}
 Let $M=(S,T,F,W,Q,D,R,H,C,P,N)$ be an accepted $\StreamMapUp$ carrier applied to a constant certified point stream. Then the displayed finite observation window is preserved by the point-map row: the constant point row read from $S$ is routed through $F$ to the same target-window shape in $T$ and $W$, and any downstream $\RegSeqRatUp$ consumer must first read the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows.
@@ -105,6 +117,20 @@ Apply \autoref{thm:stream-map-finite-window-functoriality} to the first carrier.
 Apply the same theorem to the second carrier with that intermediate window serving as its source window. The second point-map row consumes only the displayed cells of the intermediate window and exports only the final displayed target window.
 
 Thus the composed route is the concatenation of the two finite-window routes. It reaches the regular rational handoff, dyadic ledger, or Real seal only after the first source window, first point-map row, intermediate window, second point-map row, and final target window have all been displayed.
+\end{proof}
+
+\begin{theorem}[Stream map pointwise composition]
+\label{thm:stream-map-pointwise-composition}
+Let $M_1$ and $M_2$ be accepted $\StreamMapUp$ carriers whose first target $\StreamNameUp$ window is the second source $\StreamNameUp$ window. Every $\RealUp$-facing consumer of the pointwise composite must read the first source window, the first point-map row, the intermediate target window, the second point-map row, the final target window, the shared $\DyadicRatCoreUp$ tolerance ledger, and the $\RegSeqRatUp$ handoff before any terminal Real seal is available.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:stream-map-finite-window-functoriality} to $M_1$. The first source window is opened through the first source $\StreamNameUp$ row, the first point-map row consumes only those displayed cells, and the intermediate target window is exposed as a finite $\StreamNameUp$ row.
+
+Apply \autoref{thm:stream-map-finite-window-functoriality} again to $M_2$. The second point-map row reads the same intermediate window as its source and exposes only the final displayed target window.
+
+Now use \autoref{thm:stream-map-composition-window-route}. It concatenates the two finite-window routes, so the composite can reach a downstream consumer only after both point-map rows and both source/target window boundaries are visible.
+
+Finally apply \autoref{thm:stream-map-tail-ledger-nonescape}. The dyadic tolerance ledger and $\RegSeqRatUp$ handoff remain downstream of the displayed windows, and the terminal Real seal cannot import host function extensionality, quotient streams, selected limits, countable choice, or ambient Real completeness.
 \end{proof}
 
 \begin{theorem}[Stream map tail-window determinacy]

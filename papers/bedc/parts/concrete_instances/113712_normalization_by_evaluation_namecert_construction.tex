@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\NormalizationByEvaluationUp$}
+\label{ch:concrete-instances-normalization-by-evaluation-namecert}
+\origin{human}
+
+Following Berger and Schwichtenberg, normalization by evaluation is read as a finite semantic-evaluation and reification packet for typed terms. The $\NormalizationByEvaluationUp$ carrier sits beside the lambda-calculus certificate of \autoref{ch:concrete-instances-lambdacalc-namecert}, the first-order syntax interface of \autoref{ch:concrete-instances-firstorder-namecert}, and the candidate-mediated MetaCIC normalization audit of \autoref{ch:concrete-instances-metacic-candidate-strong-normalization-namecert}. It names only the displayed typed-term syntax, environment, semantic-value, neutral-reflection, readback, evaluation-ledger, transport, replay, provenance, and local NameCert rows needed for a readback consumer. It does not assert a host normalization function, unrestricted subject reduction, evidence-free MetaCIC strong normalization, quotient syntax equality, or a completed semantic model.
+
+\begin{definition}[NormalizationByEvaluation carrier]
+\label{def:normalization-by-evaluation-carrier}
+A $\NormalizationByEvaluationUp$ carrier is a finite $\BHist$ packet
+$$
+E=(T,G,V,NF,R,Ev,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed-term row, carrying the source term, its type, and the binder context visible to the readback consumer.
+\item $G$ is the environment row, recording finite semantic assignments for the free variables and context entries named by $T$.
+\item $V$ is the semantic-value row obtained by evaluating the displayed term under $G$ through the packet ledger.
+\item $NF$ is the neutral-reflection row, separating variables and neutral applications that are reflected into semantic values from already reified normal forms.
+\item $R$ is the normal-form readback row, turning accepted semantic values into displayed beta-normal eta-long syntax when the packet admits such readback.
+\item $Ev$ is the evaluation ledger, recording each semantic-evaluation step, reification step, substitution replay, and refusal boundary used by the carrier.
+\item $H$ records componentwise $\hsame$ transport for typed terms, environments, semantic values, neutral-reflection rows, readback rows, evaluation ledgers, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a requested typed-term read through $T,G,V,NF,R,Ev$.
+\item $P$ is the $\Pkg$ provenance over $\LambdaCalcUp$, $\FirstOrderUp$, $\MetaCICCandidateStrongNormalizationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\NormalizationByEvaluationUp}$ row.
+\end{enumerate}
+The classifier accepts the packet only when semantic evaluation and readback are both recorded as finite rows. No coordinate may be a host-language evaluator, a global normalization oracle, a quotient of syntax trees, or an unlogged semantic model.
+\end{definition}
+
+\begin{theorem}[NormalizationByEvaluation NameCert obligations]
+\label{thm:normalization-by-evaluation-namecert-obligations}
+For every accepted $\NormalizationByEvaluationUp$ carrier $E=(T,G,V,NF,R,Ev,H,C,P,N)$, the local $\NameCert_{\NormalizationByEvaluationUp}$ surface consists of the following six obligation rows:
+\begin{enumerate}
+\item carrier admission for the typed-term row, environment row, semantic-value row, neutral-reflection row, readback row, evaluation ledger, transport, replay, provenance, and local naming rows;
+\item semantic evaluation, requiring $V$ to be obtained from the displayed term and environment through the finite ledger $Ev$ rather than a hidden evaluator;
+\item neutral reflection, requiring reflected variables and neutral applications in $NF$ to remain tied to the binder context and semantic assignments named by $T,G$;
+\item reification and readback, requiring $R$ to read only accepted semantic values and neutral reflections before producing a displayed normal form;
+\item substitution stability, requiring context extension and substitution replay to pass through the same $T,G,V,NF,R,Ev$ route under componentwise $\hsame$ transport;
+\item no host normalization oracle, excluding external evaluators, quotient syntax equality, completed semantic models, unrestricted subject reduction, and evidence-free MetaCIC strong normalization.
+\end{enumerate}
+No accepted NameCert row is stored outside these finite coordinates.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:normalization-by-evaluation-carrier}. The tuple lists exactly the typed-term, environment, semantic-value, neutral-reflection, readback, ledger, transport, replay, provenance, and local-name rows.
+
+Semantic evaluation is confined to the ledger $Ev$. A consumer may inspect $V$ only after the displayed term $T$ and environment $G$ have been replayed, so the packet cannot consult a separate evaluator.
+
+Neutral reflection and readback are then separated by $NF$ and $R$. Reflection keeps variables and neutral applications attached to the visible context, while readback consumes accepted semantic values and neutral rows before producing normal-form syntax.
+
+Substitution stability is recorded by the same route. Componentwise transport $H$ and continuation replay $C$ move the typed-term context, environment assignments, semantic values, neutral rows, readback rows, and ledger rows together, so substitution cannot bypass the displayed evaluation packet.
+
+The provenance and local naming rows restrict the sibling imports to the lambda-calculus, first-order syntax, and candidate-mediated MetaCIC normalization surfaces cited above. Since no carrier coordinate stores a host evaluator, quotient syntax equality, completed semantic model, or evidence-free strong-normalization theorem, the listed rows are the whole NameCert obligation surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\NormalizationByEvaluationUp$ readback factors through the typed-term row, environment row, semantic-value row, neutral-reflection row, normal-form readback row, finite evaluation ledger, componentwise transport, continuation replay, provenance, and local $\NameCert$ before any consumer may cite a normal form.}
+
+\independenceWitness{lambdacalc, firstorder, metacic-candidate-strong-normalization: $\NormalizationByEvaluationUp$ is not bijective to any listed sibling because it jointly carries semantic evaluation, neutral reflection, readback, substitution replay, and no-oracle refusal rows. LambdaCalcUp carries beta syntax without the semantic-value/readback ledger; FirstOrderUp carries formula syntax without neutral reflection; MetaCICCandidateStrongNormalizationUp carries candidate evidence without an NBE readback packet.}
+
+\closureat{NormalizationByEvaluationUp}{seedStr}
+
+\begin{closurestatus}{\NormalizationByEvaluationUp}
+  \constructivestory{A $\NormalizationByEvaluationUp$ packet is generated from a typed-term row, environment row, semantic-value row, neutral-reflection row, normal-form readback row, finite evaluation ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:normalization-by-evaluation-carrier} and \autoref{thm:normalization-by-evaluation-namecert-obligations} seed the finite semantic-evaluation and readback packet for typed terms.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted MetaCIC normalization, subject reduction, global confluence, quotient syntax equality, host evaluator soundness, completed semantic models, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, semantic evaluation, neutral reflection, readback, substitution stability, and no-oracle refusal for BEDC.Derived.NormalizationByEvaluationUp.}
+\end{closurestatus}

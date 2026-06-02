@@ -59,6 +59,18 @@ The ledger $L$ is then the only exported positive handoff. It names the dependen
 Finally $H,C,P,N$ replay the route without adding theorem strength. Thus a consumer receives a precise boundary packet and a setup-facing row, not an unconditional subject-reduction theorem.
 \end{proof}
 
+\begin{theorem}[AppArgTypeStable boundary row]
+\label{thm:metacic-dependent-codomain-stability-boundary-app-arg-type-stable-row}
+For an accepted $\MetaCICDependentCodomainStabilityBoundaryUp$ carrier $S=(A,D,R,I,V,Q,L,H,C,P,N)$, the ledger row $L$ is the AppArgTypeStable-facing boundary: any application-argument reduction read must display the pre-step and post-step codomain observations in $D$ before it can feed the subject-reduction discharge request $R$.
+\end{theorem}
+\begin{proof}
+Project the rows $A,D,R,L$ from the accepted carrier. The row $A$ identifies the read as an application-argument reduction, while $D$ displays the dependent codomain before and after that step.
+
+Apply \autoref{thm:metacic-dependent-codomain-stability-boundary-handoff}. The only positive row exported toward the subject-reduction request is $L$, and the handoff reaches it only after $A,D,R$ have been displayed.
+
+Thus $L$ names the AppArgTypeStable-facing boundary for the later discharge witness. It records the required codomain-stability row without claiming unconditional subject reduction.
+\end{proof}
+
 \falsifiablePrediction{Any $\MetaCICDependentCodomainStabilityBoundaryUp$ packet lacking the dependent-codomain stability row $L$ cannot discharge the application-argument branch of subject reduction through the displayed MetaCIC discharge interface.}
 
 \independenceWitness{dependentcodomaininversionboundary, dependentcodomainclosurepreservation, metacicsubjectreductionboundary, closed-normal-consistency-boundary, metacic-open-problems: none is bijective with $\MetaCICDependentCodomainStabilityBoundaryUp$ because this packet jointly stores application-argument reduction, dependent codomain readback, discharge request, inversion boundary, closure-preservation transport, obstruction row, stability ledger, transport, replay, provenance, and local naming.}

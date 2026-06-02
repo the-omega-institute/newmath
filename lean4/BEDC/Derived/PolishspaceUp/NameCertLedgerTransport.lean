@@ -36,7 +36,7 @@ theorem PolishspaceNamecertLedgerTransport [AskSetup] [PackageSetup]
   obtain ⟨_metricUnary, _completeUnary, _separableUnary, _streamUnary, _readbackUnary,
     ledgerUnary, transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
     _metricCompleteLedger, _ledgerStreamReadback, _transportReplayProvenance,
-    _carrierPkg⟩ := carrier
+    _carrierPkg, _localPkg⟩ := carrier
   have transportedUnary : UnaryHistory transportedLedger :=
     unary_cont_closed transportUnary ledgerUnary transportLedgerRoute
   have sourceTransported :
