@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\PrueferSequenceUp$}
+\label{ch:concrete-instances-pruefer-sequence-namecert}
+\origin{human}
+
+Following Cayley and Pruefer, the $\PrueferSequenceUp$ packet records a finite labelled-tree code object as a BEDC NameCert row. It reads label lists from \autoref{ch:concrete-instances-list-namecert}, vertex counters from $\NatUp$, and finite tree-code rows from \autoref{ch:concrete-instances-tree-namecert}; the packet is meant for finite tree enumeration and graph-code consumers, not for quotient graph isomorphism or an ambient set-theoretic tree space.
+
+\begin{definition}[Pruefer sequence carrier]
+\label{def:prufer-sequence-carrier}
+A $\PrueferSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+P=(n,V,L,S,D,E,T,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $n$ is the $\NatUp$ vertex-count row for a labelled finite tree with labels in the visible interval $1,\ldots,n$;
+\item $V$ is the $\ListUp$ row listing the displayed labels without importing an ambient finite set;
+\item $L$ is the length row certifying that the code list has length $n-2$ when the two-leaf boundary is active;
+\item $S$ is the $\ListUp$ code row whose entries are labels from $V$;
+\item $D$ is the finite degree ledger obtained by scanning $S$ and the two remaining labels;
+\item $E$ is the edge-row ledger produced by the leaf-deletion reconstruction route;
+\item $T$ is the $\TreeUp$ tree-code row carrying the displayed vertex and edge rows after reconstruction;
+\item $H$ records componentwise $\hsame$ transport for $n,V,L,S,D,E,T$ and the naming support rows;
+\item $C$ records the displayed $\Cont$ replay from list scan to degree ledger, leaf deletion, edge ledger, and tree-code readback;
+\item $G$ is the $\Pkg$ provenance over $\NatUp$, $\ListUp$, $\TreeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\PrueferSequenceUp}$ row.
+\end{enumerate}
+The carrier stores no quotient by relabelling, no selected representative of a graph-isomorphism class, and no infinite tree object.
+\end{definition}
+
+\begin{theorem}[Pruefer sequence NameCert obligations]
+\label{thm:prufer-sequence-namecert-obligations}
+For every accepted $\PrueferSequenceUp$ carrier
+$$
+P=(n,V,L,S,D,E,T,H,C,G,N),
+$$
+the local $\NameCert_{\PrueferSequenceUp}$ surface consists exactly of carrier admission for the vertex-count row, visible label list, code-length row, code list, degree ledger, edge ledger, reconstructed tree-code row, componentwise transport, replay routes, provenance, and local naming row. The obligation route is finite list admission, natural-number length admission, degree-ledger scan, leaf-deletion edge construction, tree-code readback, and then the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packaging rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:prufer-sequence-carrier}. The tuple lists the vertex-count row, label list, code length, code list, degree ledger, edge ledger, tree-code readback, transport, replay, provenance, and local name; there is no further coordinate for graph isomorphism, relabelling, or an infinite object.
+
+Read the code list through \autoref{ch:concrete-instances-list-namecert}. Each entry of $S$ is checked against the visible label list $V$, and $L$ records the finite length boundary determined by $n$.
+
+Next scan $S$ to form $D$. The scan raises the displayed degree counter for each listed label and leaves the two-leaf boundary as finite counter data, so the reconstruction route has only displayed Nat and List rows to inspect.
+
+Finally replay the leaf-deletion construction. At each finite step the least available leaf in the displayed label list pairs with the next code entry, producing one edge row in $E$; the remaining two labels produce the terminal edge. Repacking $E$ as the $\TreeUp$ row $T$ and transporting it through $H,C,G,N$ gives exactly the stated NameCert surface.
+\end{proof}
+
+\begin{theorem}[Pruefer sequence tree-code route]
+\label{thm:prufer-sequence-tree-code-route}
+Every accepted $\PrueferSequenceUp$ carrier determines its downstream finite tree-code read solely from
+$$
+n,\quad V,\quad L,\quad S,\quad D,\quad E,\quad T.
+$$
+The read consumes the $\ListUp$ code row and $\NatUp$ counters first, then exports the $\TreeUp$ edge ledger through the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. It does not export a host graph, an isomorphism class, or a chosen representative outside the displayed labels.
+\end{theorem}
+\begin{proof}
+Begin with the list spine. The row $S$ supplies a finite sequence of labels and $L$ supplies its length boundary, both over the visible label list $V$.
+
+Use the degree ledger $D$ to drive the finite reconstruction. Every deletion step reads the next code entry and the least currently available displayed leaf, so each edge added to $E$ is determined by finite rows already present in the carrier.
+
+The terminal two-label edge completes the edge ledger. The tree-code row $T$ is then a repacking of the same displayed labels and edges through the sibling $\TreeUp$ surface, and $H,C,G,N$ preserve this read under transport, replay, provenance, and local naming.
+\end{proof}
+
+\begin{theorem}[Pruefer sequence Cayley consumer boundary]
+\label{thm:prufer-sequence-cayley-consumer-boundary}
+A finite enumeration consumer that uses $\PrueferSequenceUp$ for Cayley's labelled-tree count may consume the packet only through the visible list-code and tree-code rows of \autoref{def:prufer-sequence-carrier}. The consumer may count the $n^{n-2}$ code rows by reading $\NatUp$ exponent data and $\ListUp$ spines, then hand the reconstructed edge ledgers to $\TreeUp$ or $\GraphUp$ consumers. It may not identify trees up to relabelling, import a quotient classifier, or replace the displayed reconstruction route with an ambient bijection proof.
+\end{theorem}
+\begin{proof}
+The consumer first reads $n,V,L,S$. These rows expose exactly the finite label interval, the visible list spine, and the code-length boundary used to count code rows.
+
+It then invokes \autoref{thm:prufer-sequence-tree-code-route}. The reconstruction route supplies $D,E,T$ as displayed rows, so the consumer receives a tree-code ledger rather than a host graph object.
+
+The remaining rows $H,C,G,N$ preserve the same dependency boundary. Since the carrier has no quotient, relabelling representative, or ambient bijection coordinate, the Cayley-facing consumer boundary is exactly the finite code-to-tree route described above.
+\end{proof}
+
+\closureat{PrueferSequenceUp}{seedStr}
+
+\begin{closurestatus}{\PrueferSequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:prufer-sequence-carrier}, \autoref{thm:prufer-sequence-namecert-obligations}, \autoref{thm:prufer-sequence-tree-code-route}, and \autoref{thm:prufer-sequence-cayley-consumer-boundary} seed the finite labelled-tree code packet over displayed Nat, List, degree-ledger, edge-ledger, Tree, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient graph isomorphism, relabelling invariance, unlabelled tree enumeration, a host bijection proof, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, code-length exactness, degree-ledger scan, leaf-deletion reconstruction, tree-code readback, and Cayley-facing consumer boundary for the same finite packet.}
+  \constructivestory{A $\PrueferSequenceUp$ packet is generated from a displayed vertex count, visible label list, finite code list, degree counters, reconstructed edge rows, a tree-code row, componentwise transports, replay routes, provenance, and local NameCert evidence.}
+\end{closurestatus}

@@ -113,6 +113,51 @@ Use \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence} to bind the
 Then use \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}. It forces the selected windows through the fast-rate ledger, regular-subsequence handoff, and $\RegSeqRatUp$ readback before $E$ is consumed. The structural rows $H,C,P,N$ transport and name this route without adding another seal path.
 \end{proof}
 
+\begin{definition}[FastCauchySubsequence selection surface]
+\label{def:fast-cauchy-subsequence-selection-surface}
+The \emph{selection surface} of an accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$ is the finite $\BHist$ subpacket
+$$
+\Sigma_A=(M,Q,F,W,H,C,P,N)
+$$
+whose rows expose:
+\begin{enumerate}
+\item the inspected $\CauchyModulusUp$ bounds in $M$;
+\item the finite cofinal-window ledger in $Q$, with each displayed window tied to a source window of $S$;
+\item the $\FastCauchyUp$ rate row in $F$ read from those same inspected windows;
+\item the $\RegSeqRatUp$ readback row $W$ reached through the selected regular windows;
+\item the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows carried by $H,C,P,N$.
+\end{enumerate}
+The surface has no coordinate for an infinite subsequence object, a choice functional, host stream equality, or a selected limit.
+\end{definition}
+
+\begin{theorem}[FastCauchySubsequence cofinal finite window]
+\label{thm:fast-cauchy-subsequence-cofinal-window}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$ and every displayed target precision row consumed by the fast-rate route, the selection surface $\Sigma_A$ contains a finite cofinal window row in $Q$ whose source window is covered by the inspected $\CauchyModulusUp$ data in $M$ and whose transported radius data is read by $F$. The witness is a finite $\BHist$ row carried through $H,C,P,N$, not an infinite selected subsequence and not an appeal to countable choice.
+\end{theorem}
+\begin{proof}
+Project the selection surface of \autoref{def:fast-cauchy-subsequence-selection-surface}. The target precision row can be consumed only by the displayed fast-rate row $F$, and $F$ is listed downstream of the modulus row $M$ and cofinal-window ledger $Q$.
+
+Use the NameCert obligations of \autoref{thm:fast-cauchy-subsequence-namecert-obligations}. They require modulus coverage for every selected downstream window and require selector admission before the fast-rate readback is exposed.
+
+The row $Q$ is finite carrier data: it records a displayed monotone-cofinal ledger of windows rather than a host selector. Componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve that finite witness as the only available cofinal-window row.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence regular readback]
+\label{thm:fast-cauchy-subsequence-regular-readback}
+Every $\RegSeqRatUp$ readback from an accepted $\FastCauchySubsequenceUp$ carrier factors through the selection surface
+$$
+\Sigma_A=(M,Q,F,W,H,C,P,N).
+$$
+In particular, $W$ reads the same cofinal finite windows certified by $Q$, the same inspected modulus bounds certified by $M$, and the same fast-rate ledger certified by $F$ before any $\RealUp$ seal $E$ is visible. The readback exports no independent rational stream, no selected infinite subsequence, and no quotient Cauchy-class representative.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:fast-cauchy-subsequence-regular-route}. It places every real-facing route through $M,Q,F,R,W$ before $E$.
+
+Now restrict attention to the $\RegSeqRatUp$ row $W$. By \autoref{def:fast-cauchy-subsequence-selection-surface}, the rows available to $W$ inside the selection surface are exactly the inspected modulus row $M$, the cofinal finite-window ledger $Q$, the fast-rate row $F$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:fast-cauchy-subsequence-cofinal-window} to each displayed precision read. The cofinal witness is already a finite $\BHist$ window row transported through the same support rows, so the regular rational readback cannot be replaced by an independent stream, a choice-selected subsequence, or a quotient Cauchy representative.
+\end{proof}
+
 The downstream explicit-modulus sequence route of \autoref{ch:concrete-instances-effective-cauchy-sequence-namecert} may consume $\FastCauchySubsequenceUp$ when it needs finite fast-subsequence evidence: the inspected modulus data $M$ and cofinal selector rows $Q$ become the effective Cauchy sequence witness after the fast-rate and regular-subsequence handoff rows are displayed. The same relationship also feeds rate-realization consumers through the visible $F,R,W$ route, without selecting a limit and without invoking countable choice.
 
 \begin{closurestatus}{\FastCauchySubsequenceUp}
