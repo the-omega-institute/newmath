@@ -334,11 +334,13 @@ Apply \autoref{thm:cantor-set-nested-interval-handoff}. It places $I$ after $T$ 
 
 Use \autoref{thm:cantor-set-real-membership-handoff} to continue the route through $D,R,E,H,K,P,N$. The $\RegSeqRatUp$ handoff reads the same finite $\StreamNameUp$ window surface before the Real seal is consumed, so the scoped route remains a finite kernel route and not compactness, choice, quotient equality, selected branch, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.CantorSetUp.CantorSetScopedNestedIntervalRoute}
 
 \begin{theorem}[Cantor set scoped dyadic-branch route]
 \label{thm:cantorset-scoped-dyadic-branch-route}
 Every dyadic branch read of an accepted $\CantorSetUp$ packet $C=(T,G,I,D,R,E,H,K,P,N)$ is scoped by the finite rows $T,G,I,D,R,E,H,K,P,N$. The retained branch may be exposed to $\DyadicIntervalUp$ consumers through $D$ only after the $\NestedIntervalUp$ row $I$ has been read, and any downstream $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer must preserve the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CantorSetUp.CantorSetScopedDyadicBranchRoute}
 \begin{proof}
 Start with the prefix and gap rows. The ternary-prefix classifier and prefix-gap separation results force every retained branch to be a finite retained-third read from $T$ checked against the deleted-middle ledger $G$.
 
@@ -379,8 +381,8 @@ Thus the existing obligation rows acquire scoped kernel support through the list
 
 \begin{closurestatus}{\CantorSetUp}
   \constructivestory{A $\CantorSetUp$ packet is generated from a finite ternary retained-prefix ledger, a deleted-middle gap ledger, a retained NestedInterval row, a DyadicInterval or rational endpoint ledger, a RegSeqRat handoff, a RealUp seal, componentwise transport, continuation replay, provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cantor-set-carrier} and \autoref{thm:cantor-set-namecert-obligations} close the finite obligation surface for the middle-third Cantor subset through retained prefixes, deleted gaps, nested intervals, endpoint rows, and the $\RealUp$ seal.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cantor-set-carrier}, \autoref{thm:cantor-set-namecert-obligations}, finite-prefix induction, deleted-gap ledger exhaustion, Real membership handoff, prefix-gap separation, nested-interval handoff, and Real-seal nonescape bind the scoped kernel surface for the middle-third Cantor subset through retained prefixes, deleted gaps, nested intervals, endpoint rows, regular readback, and the $\RealUp$ seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close located compactness, open-cover compactness, host powerset equality, quotient real equality, selected infinite branches, ambient $\RealUp$ completeness, or Lean verification.}

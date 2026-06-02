@@ -111,6 +111,22 @@ Use \autoref{thm:dyadic-up-streamname-regseqrat-route} after the refinement. Bot
 Finally apply \autoref{thm:dyadic-up-real-seal-factorization}. Since the terminal rows are visible only after the refined finite route, the normalized handoff cannot read any quotient, choice, trichotomy, host-equality, selected-expansion, or ambient-completeness data outside the accepted packets.
 \end{proof}
 
+\begin{theorem}[Dyadic common-exponent totality for shared finite consumers]
+\label{thm:dyadic-common-exponent-totality}
+For any two accepted $\DyadicUp$ carriers read by the same $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer, the displayed finite windows determine a common exponent and tolerance window before either terminal $\RealUp$ seal is exposed. The total common window is read from the two dyadic core rows, the two finite stream windows, the two regular rational readbacks, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\DyadicUp}$ rows.
+
+The route excludes selected binary expansions, quotient streams, trichotomy, choice, host equality, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers through \autoref{def:dyadic-up-carrier}. The only rows available to the shared consumer are the two dyadic core ledgers, finite stream windows, regular rational readbacks, terminal seals, transport, replay, provenance, and local naming rows.
+
+Apply dyadic exponent-shift composition from \autoref{thm:dyadic-exponent-shift-composition}. The two displayed exponent-shift ledgers compose by finite precision refinement, so a common exponent and tolerance window is determined before any terminal seal can be read.
+
+Use common-exponent normalization, \autoref{thm:dyadic-up-common-exponent-normalization}. It places both $\StreamNameUp$ windows and both $\RegSeqRatUp$ readbacks over the common finite window and keeps the route inside componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+Finally apply the StreamName-RegSeqRat route of \autoref{thm:dyadic-up-streamname-regseqrat-route} and the real-seal factorization of \autoref{thm:dyadic-up-real-seal-factorization}. The shared consumer reaches the terminal Real seals only after the finite common window is visible, and no carrier row supplies a selected binary expansion, quotient stream, trichotomy, choice principle, host equality, or ambient Real-completeness witness.
+\end{proof}
+
 \begin{theorem}[DyadicUp terminal Real-seal boundary]
 \label{thm:dyadicup-terminal-real-seal-boundary}
 Let

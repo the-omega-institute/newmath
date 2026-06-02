@@ -261,6 +261,15 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def BanachOperatorGraphNormCarrier [AskSetup] [PackageSetup]
+    (X Y T Gamma A M Q L H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory X ∧ UnaryHistory Y ∧ UnaryHistory T ∧ UnaryHistory Gamma ∧
+    UnaryHistory A ∧ UnaryHistory M ∧ UnaryHistory Q ∧ UnaryHistory L ∧
+      UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+        PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
 theorem BanachOperatorGraphNormCompletionHandoff
     [AskSetup] [PackageSetup]
     {X Y T Gamma A M Q L H C P N graphRead normRead completionRead : BHist}
@@ -337,5 +346,94 @@ theorem BanachOperatorGraphNormCompletionHandoff
   }
   have _graphNormConsumerRead : UnaryHistory graphRead := graphReadUnary
   exact ⟨cert, completionReadUnary⟩
+
+theorem BanachOperatorGraphNormCarrier_namecert_obligations
+    [AskSetup] [PackageSetup]
+    {X Y T Gamma A M Q L H C P N graphRead normRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory X ->
+      UnaryHistory Y ->
+        UnaryHistory T ->
+          UnaryHistory Gamma ->
+            UnaryHistory A ->
+              UnaryHistory M ->
+                UnaryHistory Q ->
+                  UnaryHistory L ->
+                    Cont X Gamma graphRead ->
+                      Cont M Q normRead ->
+                        Cont L normRead completionRead ->
+                          PkgSig bundle P pkg ->
+                            SemanticNameCert
+                                (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  Cont X Gamma graphRead ∧ Cont M Q normRead ∧
+                                    Cont L normRead completionRead)
+                                (fun row : BHist =>
+                                  hsame row completionRead ∧ PkgSig bundle P pkg)
+                                hsame ∧
+                              UnaryHistory graphRead ∧ UnaryHistory normRead ∧
+                                UnaryHistory completionRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro unaryX _unaryY _unaryT unaryGamma _unaryA unaryM unaryQ unaryL graphRoute
+    normRoute completionRoute pkgSig
+  have graphReadUnary : UnaryHistory graphRead :=
+    unary_cont_closed unaryX unaryGamma graphRoute
+  have normReadUnary : UnaryHistory normRead :=
+    unary_cont_closed unaryM unaryQ normRoute
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed unaryL normReadUnary completionRoute
+  have source :
+      (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+        completionRead := by
+    exact ⟨hsame_refl completionRead, completionReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            Cont X Gamma graphRead ∧ Cont M Q normRead ∧
+              Cont L normRead completionRead)
+          (fun row : BHist => hsame row completionRead ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro completionRead source
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _sourceRow
+      exact ⟨graphRoute, normRoute, completionRoute⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, pkgSig⟩
+  }
+  exact ⟨cert, graphReadUnary, normReadUnary, completionReadUnary⟩
+
+theorem BanachOperatorGraphNorm_no_quotient_graph [AskSetup] [PackageSetup]
+    {X Y T Gamma A M Q L H C P N graphRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BanachOperatorGraphNormCarrier X Y T Gamma A M Q L H C P N bundle pkg ->
+      Cont Gamma A graphRead ->
+        PkgSig bundle N pkg ->
+          UnaryHistory Gamma ∧ UnaryHistory A ∧ UnaryHistory graphRead ∧
+            Cont Gamma A graphRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier graphRoute localNamePkg
+  obtain ⟨_xUnary, _yUnary, _tUnary, gammaUnary, aUnary, _mUnary, _qUnary, _lUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, provenancePkg, _carrierLocalPkg⟩ := carrier
+  have graphUnary : UnaryHistory graphRead :=
+    unary_cont_closed gammaUnary aUnary graphRoute
+  exact ⟨gammaUnary, aUnary, graphUnary, graphRoute, provenancePkg, localNamePkg⟩
 
 end BEDC.Derived.BanachOperatorGraphNormUp

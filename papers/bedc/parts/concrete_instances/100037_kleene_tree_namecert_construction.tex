@@ -74,6 +74,23 @@ The obstruction row $O$ is downstream of the same finite traversal. It records t
 The structural rows $H,C,P,N$ preserve and name that route. Therefore the finite data may be reused by CantorSpace, FanTheorem, RegSeqRat, or Real-facing consumers only as finite prefix information, never as quotient stream equality, an open-cover compactness principle, or a completeness theorem for $\RealUp$.
 \end{proof}
 
+\begin{theorem}[Kleene tree Specker boundary route]
+\label{thm:kleene-tree-specker-boundary-route}
+Every $\SpeckerSequenceBoundaryUp$ consumer using a $\KleeneTreeUp$ obstruction must first read the $\CantorSpaceUp$ prefix rows, $\FanTheoremUp$ finite-bar rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and the terminal $\RealUp$ boundary before it can consume the obstruction as a Specker-style boundary row. The public route factors through the Kleene carrier rows $S,L,B,T,O,H,C,P,N$ together with the Specker boundary route of \autoref{ch:concrete-instances-specker-sequence-boundary-namecert}.
+
+The consumer receives no branch selector, countable-choice schedule, quotient stream equality, selected Cantor point, path-coded real, ambient $\RealUp$ completeness, or open-cover compactness principle from the Kleene packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeSpeckerBoundaryRoute}
+\begin{proof}
+Start with the Kleene carrier of \autoref{def:kleene-tree-carrier}. Its public obstruction route is finite: $\StreamNameUp$ schedule $S$, List prefix spine $L$, Bool node ledger $B$, finite prefix tree $T$, obstruction row $O$, and structural rows $H,C,P,N$.
+
+Apply \autoref{thm:kleene-tree-streamname-path-boundary}. It forces every tree read to pass through finite StreamName windows, CantorSpace prefix data, and FanTheorem bar-facing tests before the obstruction row is interpreted. No infinite branch or selected Cantor point is exposed there.
+
+Now read the same obstruction through \autoref{ch:concrete-instances-specker-sequence-boundary-namecert}. The Specker boundary carrier consumes finite stream windows, DyadicRatCore tolerance rows, RegSeqRat readback, and a Real seal or refusal row before any completion-facing consumer can cite the nonlocated-supremum obstruction.
+
+Composing the two routes gives the advertised boundary. A Real or Completion obstruction consumer may cite the Kleene row only after the finite prefix, finite-bar, StreamName, RegSeqRat, and Real boundary rows are displayed. Since neither route contains a branch selector, countable-choice schedule, quotient stream equality, path-coded real, ambient Real completeness, or open-cover compactness, the composed Specker-facing read exports none of those objects.
+\end{proof}
+
 \begin{theorem}[Kleene tree prefix-induction closure]
 \label{thm:kleene-tree-prefix-induction-closure}
 Every accepted finite prefix-tree ledger in a $\KleeneTreeUp$ carrier is closed under displayed parent-prefix induction. Each accepted non-root listed word has its displayed parent in the $\ListUp$ prefix spine and its $\BoolUp$ node decision in the ledger, and $\hsame/\Cont$ replay preserves this finite closure without selecting an infinite branch. The induction uses only the $T,B,L,S,O,H,C,P,N$ carrier rows.

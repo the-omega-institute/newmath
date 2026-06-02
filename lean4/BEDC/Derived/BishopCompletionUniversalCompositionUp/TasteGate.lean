@@ -28,7 +28,8 @@ def bishopCompletionUniversalCompositionDecodeBHist : RawEvent → BHist
 private theorem BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       bishopCompletionUniversalCompositionDecodeBHist
-        (bishopCompletionUniversalCompositionEncodeBHist h) = h := by
+          (bishopCompletionUniversalCompositionEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -54,10 +55,11 @@ private def bishopCompletionUniversalCompositionEventAt : Nat → EventFlow → 
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => bishopCompletionUniversalCompositionEventAt index rest
+  | Nat.succ index, _event :: rest =>
+      bishopCompletionUniversalCompositionEventAt index rest
 
-def bishopCompletionUniversalCompositionFromEventFlow (ef : EventFlow) :
-    Option BishopCompletionUniversalCompositionUp :=
+def bishopCompletionUniversalCompositionFromEventFlow
+    (ef : EventFlow) : Option BishopCompletionUniversalCompositionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (BishopCompletionUniversalCompositionUp.mk
@@ -87,7 +89,8 @@ def bishopCompletionUniversalCompositionFromEventFlow (ef : EventFlow) :
 private theorem BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_round_trip
     (x : BishopCompletionUniversalCompositionUp) :
     bishopCompletionUniversalCompositionFromEventFlow
-      (bishopCompletionUniversalCompositionToEventFlow x) = some x := by
+        (bishopCompletionUniversalCompositionToEventFlow x) =
+      some x := by
   -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk U V E F R S D H T P N =>
@@ -130,11 +133,11 @@ private theorem BishopCompletionUniversalCompositionTasteGate_single_carrier_ali
         BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_decode_encode P,
         BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem
-    BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : BishopCompletionUniversalCompositionUp} :
     bishopCompletionUniversalCompositionToEventFlow x =
-      bishopCompletionUniversalCompositionToEventFlow y → x = y := by
+        bishopCompletionUniversalCompositionToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -149,6 +152,20 @@ private theorem
       (Eq.trans hread
         (BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_round_trip y)))
 
+private theorem BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_fields :
+    ∀ x y : BishopCompletionUniversalCompositionUp,
+      bishopCompletionUniversalCompositionFields x =
+          bishopCompletionUniversalCompositionFields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk U1 V1 E1 F1 R1 S1 D1 H1 T1 P1 N1 =>
+      cases y with
+      | mk U2 V2 E2 F2 R2 S2 D2 H2 T2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance bishopCompletionUniversalCompositionBHistCarrier :
     BHistCarrier BishopCompletionUniversalCompositionUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -162,30 +179,63 @@ instance bishopCompletionUniversalCompositionChapterTasteGate :
     intro x
     change
       bishopCompletionUniversalCompositionFromEventFlow
-        (bishopCompletionUniversalCompositionToEventFlow x) = some x
+          (bishopCompletionUniversalCompositionToEventFlow x) =
+        some x
     exact BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+      (BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_toEventFlow_injective
+        heq)
+
+instance bishopCompletionUniversalCompositionFieldFaithful :
+    FieldFaithful BishopCompletionUniversalCompositionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := bishopCompletionUniversalCompositionFields
+  field_faithful :=
+    BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_fields
+
+instance bishopCompletionUniversalCompositionNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial BishopCompletionUniversalCompositionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BishopCompletionUniversalCompositionUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      BishopCompletionUniversalCompositionUp.mk (BHist.e1 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      bishopCompletionUniversalCompositionDecodeBHist
-        (bishopCompletionUniversalCompositionEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate BishopCompletionUniversalCompositionUp) ∧
+      Nonempty (FieldFaithful BishopCompletionUniversalCompositionUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial BishopCompletionUniversalCompositionUp) ∧
+      (∀ h : BHist,
+        bishopCompletionUniversalCompositionDecodeBHist
+            (bishopCompletionUniversalCompositionEncodeBHist h) =
+          h) ∧
       (∀ x : BishopCompletionUniversalCompositionUp,
         bishopCompletionUniversalCompositionFromEventFlow
-          (bishopCompletionUniversalCompositionToEventFlow x) = some x) ∧
-        (∀ x y : BishopCompletionUniversalCompositionUp,
-          bishopCompletionUniversalCompositionToEventFlow x =
-            bishopCompletionUniversalCompositionToEventFlow y → x = y) ∧
-          bishopCompletionUniversalCompositionEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+            (bishopCompletionUniversalCompositionToEventFlow x) =
+          some x) ∧
+      (∀ x y : BishopCompletionUniversalCompositionUp,
+        bishopCompletionUniversalCompositionToEventFlow x =
+            bishopCompletionUniversalCompositionToEventFlow y →
+          x = y) ∧
+      bishopCompletionUniversalCompositionEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_decode_encode,
+    ⟨⟨bishopCompletionUniversalCompositionChapterTasteGate⟩,
+      ⟨bishopCompletionUniversalCompositionFieldFaithful⟩,
+      ⟨bishopCompletionUniversalCompositionNontrivial⟩,
+      BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_decode_encode,
       BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq =>
-        BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+        BishopCompletionUniversalCompositionTasteGate_single_carrier_alignment_toEventFlow_injective
+          heq),
       rfl⟩
 
 end BEDC.Derived.BishopCompletionUniversalCompositionUp
