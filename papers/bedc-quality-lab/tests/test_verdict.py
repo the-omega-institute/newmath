@@ -117,6 +117,17 @@ def test_accepted_when_consistent_ready_not_rejected_and_no_net_positive_signal(
     assert decision["evidence_basis"]["net_positive_signal"] is False
 
 
+def test_fallback_scorecard_key_counts_as_ready_scorecard():
+    evidence = _payload()
+    evidence["scorecard"] = evidence.pop("quality_scorecard")
+    decision = _decide({"main_claim_status": "observed-negative"}, evidence)
+
+    assert decision["verdict"] == "accepted"
+    assert decision["reason"] == "accepted"
+    assert decision["evidence_basis"]["malformed_detail"] is None
+    assert decision["evidence_basis"]["scorecard_ready"] is True
+
+
 def test_positive_discovery_requires_ready_scorecard_and_net_positive_signal():
     evidence = _payload()
     _make_positive_main(evidence)
