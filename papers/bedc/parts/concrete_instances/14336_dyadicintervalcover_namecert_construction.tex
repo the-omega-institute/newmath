@@ -186,6 +186,66 @@ $$
 the root obligation surface is the L10 tuple consisting of endpoint rows $L,U$, mesh and radius rows $M,R$, finite cover-membership row $V$, StreamName window row $W$, RegSeqRat readback row $Q$, Real seal row $A$, and structural rows $H,C,P,N$. It is the part of \autoref{def:dyadic-interval-cover-obligation-surface} exposed to root consumers that need interval-cover data without importing open-cover compactness, selected finite subcovers, quotient stream equality, host real equality, countable choice, or ambient Real completeness.
 \end{definition}
 
+\begin{theorem}[DyadicIntervalCover root finite-cover boundary]
+\label{thm:dyadic-interval-cover-root-finite-cover-boundary}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ $\BHist$ packet satisfying \autoref{def:dyadic-interval-cover-root-obligation-surface}. Every root finite-cover read of $I$ is bounded by the displayed endpoint rows $L,U$, mesh row $M$, radius ledger $R$, membership row $V$, StreamName window $W$, RegSeqRat readback $Q$, Real seal $A$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The boundary exports no arbitrary open cover, selected finite subcover, quotient stream equality, host real equality, countable-choice schedule, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the root surface. By \autoref{thm:dyadicintervalcover-finite-window-carrier}, the only cover-facing coordinates are $L,U,M,R,V,W,Q,A,H,C,P,N$.
+
+Use the Bishop interval compact handoff of \autoref{thm:dyadicintervalcover-bishop-interval-compact-handoff}. It places any compact-interval consumer behind the finite dyadic endpoint, mesh, radius, membership, window, readback, and seal rows before a local $\NameCert$ can be exported.
+
+The rows $H,C,P,N$ transport, replay, source, and name that same finite route. Since the accepted $\BHist$ packet has no coordinate for the excluded host or selection data, the root boundary is exactly the displayed finite-cover surface.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover root window coverage]
+\label{thm:dyadic-interval-cover-root-window-coverage}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ $\BHist$ packet satisfying \autoref{def:dyadic-interval-cover-root-obligation-surface}. Every root coverage request that begins from a $\StreamNameUp$ window row must read $W$ first, then the $\RegSeqRatUp$ readback $Q$, then the dyadic mesh and radius rows $M,R$ with membership row $V$, and only then the visible $\RealUp$ seal $A$ and structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the window and readback rows. The root surface contains $W$ as the only finite $\StreamNameUp$ window coordinate and $Q$ as the only $\RegSeqRatUp$ readback attached to it.
+
+Apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}. It forces every regular-name cover decision through $M,R,Q,V,A$ after the finite window has been opened.
+
+Finally use \autoref{thm:dyadicintervalcover-route-cover-stability}. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same route, while $P,N$ only source and name it. Thus root coverage cannot bypass the displayed window-readback-cover order.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover root compact handoff]
+\label{thm:dyadic-interval-cover-root-compact-handoff}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ $\BHist$ packet satisfying \autoref{def:dyadic-interval-cover-root-obligation-surface}. Any root consumer that hands $I$ to $\BishopIntervalCompactUp$ must expose the finite cover rows $L,U,M,R,V$, the real-window rows $W,Q,A$, and the structural rows $H,C,P,N$ as one packet before the compact consumer may read the cover. The handoff is finite packet data, not open-cover compactness, selected subcover extraction, quotient equality, choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:dyadicintervalcover-bishop-interval-compact-handoff}. It already identifies the $\BishopIntervalCompactUp$ consumer route as the displayed finite mesh-radius and real-window handoff.
+
+Next apply \autoref{thm:dyadicintervalcover-refinement-stability}. If the root consumer refines the dyadic cells before the compact read, the transported endpoint, mesh, radius, membership, window, readback, and seal rows remain in the same componentwise route.
+
+The local $\BHist$ packet is exhausted by $L,U,M,R,V,W,Q,A,H,C,P,N$. Therefore the compact handoff cannot acquire an open-cover theorem or a selected subcover outside the visible packet rows.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover root regular readback]
+\label{thm:dyadic-interval-cover-root-regular-readback}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ $\BHist$ packet satisfying \autoref{def:dyadic-interval-cover-root-obligation-surface}. Every root $\RegSeqRatUp$ readback used by the interval-cover packet is accounted for by $Q$ against the finite window row $W$, dyadic endpoint rows $L,U$, mesh row $M$, radius ledger $R$, membership ledger $V$, seal row $A$, and structural rows $H,C,P,N$. No later regular-sequence tail, quotient real equality, host real equality, countable choice, selected limit, or ambient completeness row can alter the root readback.
+\end{theorem}
+\begin{proof}
+Project the readback row $Q$ from the root surface. It is tied to the finite window row $W$ and the mesh-radius rows $M,R$ before any cover membership decision is read.
+
+Use \autoref{thm:dyadicintervalcover-ledger-exactness}. The ledger rows $R,V$ are exact for endpoint comparisons and regular-name windows against $L,U,M,W,Q,A,H,C,P,N$.
+
+Route-cover stability then keeps the same readback under $\hsame$ transport and $\Cont$ replay. Since no tail or quotient coordinate exists in the carrier, the regular readback is exhausted by the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover root nonescape]
+\label{thm:dyadic-interval-cover-root-nonescape}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ $\BHist$ packet satisfying \autoref{def:dyadic-interval-cover-root-obligation-surface}. Every root read exported by $I$ remains inside the finite route named by $L,U,M,R,V,W,Q,A,H,C,P,N$ and the local $\NameCert_{\DyadicIntervalCoverUp}$ row. In particular, neither the $\RealUp$ seal nor the compact handoff can escape to host real equality, quotient stream equality, selected limits, countable choice, arbitrary open-cover compactness, selected subcovers, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with carrier exhaustion from \autoref{thm:dyadicintervalcover-finite-window-carrier}. The root surface has only endpoint, mesh, radius, membership, window, readback, seal, transport, replay, provenance, and naming rows.
+
+Use \autoref{thm:dyadic-interval-cover-real-seal-boundary} for the Real-facing exit and \autoref{thm:dyadicintervalcover-bishop-interval-compact-handoff} for the compact-facing exit. Both routes keep the downstream read behind the same finite dyadic, stream, regular-rational, Real, transport, replay, provenance, and naming rows.
+
+Finally apply ledger exactness. The rows $R,V$ account for the finite endpoint and regular-window comparisons, so there is no remaining coordinate from which a root consumer could read an excluded host, quotient, choice, selected-subcover, or completeness object.
+\end{proof}
+
 \begin{theorem}[DyadicIntervalCover root unblock package]
 \label{thm:dyadic-interval-cover-root-unblock-package}
 Every accepted $\DyadicIntervalCoverUp$ packet satisfying \autoref{def:dyadic-interval-cover-root-obligation-surface} exports exactly the root L10 handoff through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\BishopIntervalCompactUp$. The package reads endpoint, mesh, membership, regular-window, seal, transport, replay, provenance, and local naming rows, and it exports no open-cover compactness, selected finite subcover, quotient stream, host real equality, countable choice, or ambient $\RealUp$ completeness.
