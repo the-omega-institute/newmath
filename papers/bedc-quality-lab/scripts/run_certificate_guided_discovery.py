@@ -180,6 +180,12 @@ def _write_payload(payload: dict[str, Any]) -> None:
     verdict = payload["verdicts"][0]
     baseline = payload["matched_random_baseline"]
     deltas = verdict["deltas"]
+    net = float(payload["net_information"])
+    net_line = (
+        f"- Net information cleared zero: `{net:.6f}`."
+        if net > 0.0
+        else f"- Net information did not clear zero: `{net:.6f}`."
+    )
     lines = [
         "# Certificate-Guided Discovery Projection",
         "",
@@ -193,7 +199,7 @@ def _write_payload(payload: dict[str, Any]) -> None:
         f"- Matched-random baseline: `{baseline['verdict']}` / net `{float(baseline['net_information']):.6f}` / positive `{str(baseline['positive_discovery']).lower()}`",
         f"- Benefit declined by `{float(deltas['benefit_delta']):.6f}` under the shared cost protocol.",
         f"- Debt declined by `{float(deltas['debt_delta']):.6f}` under the shared cost protocol.",
-        f"- Net information did not clear zero: `{float(payload['net_information']):.6f}`.",
+        net_line,
         f"- Quality-q delta: `{float(deltas['quality_q_delta']):.6f}`.",
         f"- Not claimed: `{'; '.join(payload['not_claimed'])}`",
         "",

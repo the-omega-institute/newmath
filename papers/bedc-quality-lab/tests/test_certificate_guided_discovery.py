@@ -195,6 +195,31 @@ def test_predicate_positive_does_not_make_main_claim_positive_without_training_g
     assert "training-positive-quality-gate-false" in report["claim_gate"]["blockers"]
     _assert_row_matches_predicates(payload, row)
 
+def test_tradeoff_training_payload_keeps_discovery_main_claim_non_positive():
+    payload = copy.deepcopy(_payload())
+    _shift_metrics_by_role(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE, 0.25)
+    records = payload["records"]
+    for before in _role_records(payload, runner.BEFORE_ROLE):
+        before["quality_benefit"] = 2.0
+        before["quality_debt"] = 1.0
+    for after in _role_records(payload, runner.AFTER_ROLE):
+        after["quality_benefit"] = 1.5
+        after["quality_debt"] = 0.5
+    payload["paired_delta_ci"] = training_runner._paired_delta_ci(records)
+    payload["claim_gate"] = training_runner._claim_gate(records, payload["paired_delta_ci"])
+    payload["not_claimed"] = training_runner._not_claimed(records, payload["paired_delta_ci"])
+    payload["deltas"]["after_minus_before"] = training_runner._mean_delta(records, runner.AFTER_ROLE, runner.BEFORE_ROLE)
+    payload["deltas"]["after_minus_before"]["cost_delta"] = 0.0
+
+    assert payload["paired_delta_ci"]["after_minus_before"]["quality_q_delta"]["ci95_low"] > 0.0
+    assert payload["claim_gate"]["audit_improvement_tradeoff"] is True
+    assert payload["claim_gate"]["positive_quality_improvement"] is False
+
+    report = runner._verdict_payload(payload)
+    assert report["main_claim_status"] != "positive"
+    assert report["claim_gate"]["positive_discovery_four_gate"] is False
+    assert "training-positive-quality-gate-false" in report["claim_gate"]["blockers"]
+
 def test_positive_status_requires_classifier_predicate_net_and_training_gate():
     payload = copy.deepcopy(_payload())
     _open_training_gate(payload)
@@ -264,4 +289,8 @@ def test_main_writes_report_artifacts(tmp_path, monkeypatch):
     assert "# Certificate-Guided Discovery Projection" in report
     assert f"Benefit declined by `{float(expected_deltas['benefit_delta']):.6f}`" in report
     assert f"Debt declined by `{float(expected_deltas['debt_delta']):.6f}`" in report
-    assert f"Net information did not clear zero: `{float(expected_row['net_information']):.6f}`" in report
+    if float(expected_row["net_information"]) > 0.0:
+        assert f"Net information cleared zero: `{float(expected_row['net_information']):.6f}`" in report
+        assert "Net information did not clear zero" not in report
+    else:
+        assert f"Net information did not clear zero: `{float(expected_row['net_information']):.6f}`" in report

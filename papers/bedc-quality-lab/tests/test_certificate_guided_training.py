@@ -127,15 +127,16 @@ def test_certificate_guided_training_closes_objective_and_report_loop(tmp_path):
     assert after_ci["status"] == "ok"
     assert after_ci["n"] == len(runner.SEEDS)
     assert payload["claim_gate"]["paired_ci_status"] == "ok"
-    assert payload["claim_gate"]["positive_quality_improvement"] is True
     assert payload["claim_gate"]["audit_improvement_tradeoff"] is True
-    assert payload["claim_gate"]["blockers"] == []
+    assert payload["claim_gate"]["positive_quality_improvement"] is False
+    assert "audit-improvement-tradeoff" in payload["claim_gate"]["blockers"]
     assert any("benefit decline" in item for item in payload["not_claimed"])
     assert "shared-protocol" in report
     assert "## Paired-Seed CI" in report
     assert "## Claim Gate" in report
     assert "Audit improvement tradeoff: `true`" in report
-    assert "Mechanical quality gate: `true`" in report
+    assert "Mechanical quality gate: `false`" in report
+    assert "Mechanical quality gate: `true`" not in report
     assert "positive quality wording is not claimed" in report
     assert not hasattr(bedc_quality_lab, "CertificateGuidedWeights")
     from bedc_quality_lab.schema import SCHEMA_ID
@@ -178,6 +179,27 @@ def test_claim_gate_turns_positive_only_for_same_cost_same_split_complete_positi
     mismatch_gate = runner._claim_gate(records, mismatch_ci)
     assert mismatch_gate["positive_quality_improvement"] is False
     assert "cost-protocol-mismatch" in mismatch_gate["blockers"]
+
+
+def test_claim_gate_blocks_positive_for_ci_positive_tradeoff():
+    records = []
+    for seed in (1, 2, 3):
+        before = _positive_ci_record("before", seed, 1.0)
+        after = _positive_ci_record("after", seed, 1.4)
+        control = _positive_ci_record("control", seed, 0.9)
+        before["quality_benefit"] = 2.0
+        before["quality_debt"] = 1.0
+        after["quality_benefit"] = 1.5
+        after["quality_debt"] = 0.5
+        records.extend([before, after, control])
+    paired_ci = runner._paired_delta_ci(records)
+    gate = runner._claim_gate(records, paired_ci)
+
+    assert paired_ci["after_minus_before"]["quality_q_delta"]["status"] == "ok"
+    assert paired_ci["after_minus_before"]["quality_q_delta"]["ci95_low"] > 0.0
+    assert gate["audit_improvement_tradeoff"] is True
+    assert gate["positive_quality_improvement"] is False
+    assert "audit-improvement-tradeoff" in gate["blockers"]
 
 
 def test_claim_gate_blocks_positive_for_split_or_shape_mismatch():

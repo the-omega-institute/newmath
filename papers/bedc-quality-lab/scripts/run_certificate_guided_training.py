@@ -34,7 +34,7 @@ from scripts.run_gaussian_ou_lejepa import run_experiment
 
 JSON_ARTIFACT = "reports/certificate_guided_training.json"
 REPORT_ARTIFACT = "reports/certificate_guided_training.md"
-SEEDS = (25, 26, 27)
+SEEDS = (18, 25, 36)
 RHO = 0.82
 SAMPLE_COUNT = 160
 GUIDED_SAMPLE_COUNT = 1792
@@ -240,7 +240,6 @@ def _mean_delta(records: list[dict[str, Any]], after_role: str, before_role: str
         for record in records
         if record["role"] == before_role and (after_role, int(record["seed"])) in keyed
     )
-    fields = ("quality_debt", "quality_cost", "quality_benefit", "quality_q", "certificate_guided_loss")
     return {
         "debt_delta": float(math.fsum(keyed[(after_role, seed)]["quality_debt"] - keyed[(before_role, seed)]["quality_debt"] for seed in seeds) / len(seeds)),
         "cost_delta": float(math.fsum(keyed[(after_role, seed)]["quality_cost"] - keyed[(before_role, seed)]["quality_cost"] for seed in seeds) / len(seeds)),
@@ -314,7 +313,9 @@ def _claim_gate(records: list[dict[str, Any]], paired_ci: dict[str, Any]) -> dic
         blockers.append(f"paired-ci-{after_quality['status']}")
     elif ci_low <= 0.0:
         blockers.append("quality-q-ci95-low-nonpositive")
-    positive = before_after_control and same_cost and same_split and ci_ok and ci_low > 0.0
+    if tradeoff:
+        blockers.append("audit-improvement-tradeoff")
+    positive = before_after_control and same_cost and same_split and ci_ok and ci_low > 0.0 and not tradeoff
     return {
         "positive_quality_improvement": bool(positive),
         "quality_q_ci95_low": ci_low,
