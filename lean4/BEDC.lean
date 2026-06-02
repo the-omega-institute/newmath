@@ -3648,6 +3648,7 @@ import BEDC.Derived.FareySequenceUp.RefinementCoverage
 import BEDC.Derived.FareySequenceUp.RegSeqRatDensityInduction
 import BEDC.Derived.FareySequenceUp.RegSeqRatDensityRootObligation
 import BEDC.Derived.FareySequenceUp.SternBrocotHandoffLock
+import BEDC.Derived.FareySequenceUp.StreamApproximationTotality
 import BEDC.Derived.FareySequenceUp.StreamWindowDenominatorLock
 import BEDC.Derived.FareySequenceUp.StreamWindowStability
 import BEDC.Derived.FareySequenceUp.TasteGate
