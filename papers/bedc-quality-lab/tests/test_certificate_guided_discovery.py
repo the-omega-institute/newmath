@@ -78,6 +78,30 @@ def test_nonpositive_net_information_forces_non_positive_discovery_on_classifier
     assert row["positive_discovery"] is False
     assert row["verdict"] == "negative"
 
+def test_zero_net_with_structural_surface_delta_reports_negative():
+    payload = copy.deepcopy(_payload())
+    before = next(record for record in payload["records"] if record["role"] == runner.BEFORE_ROLE)
+    after = next(record for record in payload["records"] if record["role"] == runner.AFTER_ROLE)
+    for name in runner.METRIC_NAMES:
+        after[name] = before[name]
+    after["quality_benefit"] = before["quality_benefit"] + 0.25
+
+    projection = runner._project_pair(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE)
+    delta_count = len(classifier_surface_delta(projection["passage"]))
+    payload["deltas"]["after_minus_before"]["benefit_delta"] = 0.01 * delta_count
+    payload["deltas"]["after_minus_before"]["cost_delta"] = 0.0
+    payload["deltas"]["after_minus_before"]["debt_delta"] = 0.0
+
+    report = runner._verdict_payload(payload)
+    row = report["verdicts"][0]
+    assert row["surface_delta_count"] > 0
+    assert row["structural_discovery"] is True
+    assert row["positive_discovery"] is False
+    assert row["net_information"] == pytest.approx(0.0)
+    assert row["verdict"] == "negative"
+    assert report["main_claim_status"] == "observed-negative"
+    _assert_row_matches_predicates(payload, row)
+
 def test_compression_verdict_covers_no_surface_delta_case():
     payload = copy.deepcopy(_payload())
     before = next(record for record in payload["records"] if record["role"] == runner.BEFORE_ROLE)
