@@ -370,4 +370,69 @@ theorem EquicontinuityCarrier_transport_replay_provenance [AskSetup] [PackageSet
   }
   exact ⟨cert, consumerUnary⟩
 
+theorem EquicontinuitySharedRadiusFamilyNonescape [AskSetup] [PackageSetup]
+    {K F eps rho M T R P N radiusRead handoffRead familyRead coverRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityCarrier K F eps rho M T R P N radiusRead handoffRead bundle pkg ->
+      UnaryHistory M ->
+        Cont radiusRead rho familyRead ->
+          Cont familyRead M coverRead ->
+            PkgSig bundle coverRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row coverRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row K ∨ hsame row F ∨ hsame row rho ∨ hsame row radiusRead ∨
+                      hsame row familyRead ∨ hsame row coverRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont K F radiusRead ∧
+                      Cont radiusRead rho familyRead ∧ Cont familyRead M coverRead ∧
+                        PkgSig bundle coverRead pkg)
+                  hsame ∧
+                UnaryHistory familyRead ∧ UnaryHistory coverRead := by
+  -- BEDC touchpoint anchor: EquicontinuityCarrier BHist ProbeBundle PkgSig Cont hsame SemanticNameCert UnaryHistory
+  intro carrier unaryM radiusFamily familyCover coverPkg
+  obtain ⟨unaryK, unaryF, unaryRho, _unaryR, radiusRoute, _handoffRoute, _pkgP,
+    _pkgN⟩ := carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed unaryK unaryF radiusRoute
+  have familyUnary : UnaryHistory familyRead :=
+    unary_cont_closed radiusUnary unaryRho radiusFamily
+  have coverUnary : UnaryHistory coverRead :=
+    unary_cont_closed familyUnary unaryM familyCover
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row coverRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row K ∨ hsame row F ∨ hsame row rho ∨ hsame row radiusRead ∨
+              hsame row familyRead ∨ hsame row coverRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont K F radiusRead ∧ Cont radiusRead rho familyRead ∧
+              Cont familyRead M coverRead ∧ PkgSig bundle coverRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro coverRead ⟨hsame_refl coverRead, coverUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, radiusRoute, radiusFamily, familyCover, coverPkg⟩
+  }
+  exact ⟨cert, familyUnary, coverUnary⟩
+
 end BEDC.Derived.EquicontinuityUp
