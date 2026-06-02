@@ -637,6 +637,20 @@ The discharge socket is still separate by \autoref{thm:metacic-critical-path-dis
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_normalization\_obstruction\_route\_coverage}
 
+\begin{theorem}[MetaCIC critical path candidate-mediated SN boundary]
+\label{thm:metaciccriticalpath-candidate-mediated-sn-boundary}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, a normalization-boundary read that displays CandidateMediatedSN evidence, the closed-term substitution boundary, FiniteObservationConfluence, the SubjectReductionDischargeSocket row, and MetaCIC closure-trace rows can be exposed only through those displayed rows together with the $\RealUp$, $\RegSeqRatUp$, and $\StreamNameUp$ support already carried by the chapter dependency route. The read is a finite boundary certificate; it is not global strong normalization, host confluence, semantic model completeness, closed subject reduction, or a filled discharge socket.
+\end{theorem}
+\begin{proof}
+Project the accepted critical-path packet. The rows $S,N,O,U,D,H,C,P,L$ are the only local coordinates, and the candidate-mediated normalization read begins at the displayed $S$ route rather than at a global normalization theorem.
+
+Attach the boundary rows in their finite order. Closed-term substitution and finite-observation confluence are read through the handoff row $U$, the subject-reduction socket remains the displayed row $D$, and closure-trace information is replayed only through $C$ with provenance and naming in $P,L$.
+
+Now use the L10 dependency route already recorded for the chapter. Its $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ support rows keep the boundary read attached to finite observation schedules, rational readback, and the terminal seal before any public consumer can inspect it.
+
+The obstruction and socket theorems keep the excluded conclusions out of the packet. The same projection that exposes the candidate-mediated boundary refuses global strong normalization, host confluence, semantic model completeness, closed subject reduction, and any completed discharge for $D$.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate-mediated SN public handoff]
 \label{thm:metaciccriticalpath-candidate-mediated-sn-public}
 For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, the public candidate-mediated strong-normalization handoff is the finite readiness surface formed by the candidate-mediated SN rows, the normalization-frontier rows, the confluence-decidability budget, and the subject-reduction discharge socket. A consumer may cite this surface only as a route through $S,N,O,U,D,H,C,P,L$ together with the displayed CandidateMediatedSN and CandidateSNConfluenceBoundary rows. It cannot cite the surface as full MetaCIC strong normalization, closed subject reduction, full confluence, full closed consistency, or a filled discharge bundle.
