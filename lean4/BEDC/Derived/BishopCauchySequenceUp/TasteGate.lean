@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BishopCauchySequenceUp
@@ -13,20 +14,22 @@ inductive BishopCauchySequenceUp : Type where
   | mk (S D X U R H C P N : BHist) : BishopCauchySequenceUp
   deriving DecidableEq
 
-def bishopCauchySequenceEncodeBHist : BHist → RawEvent
+def bishopCauchySequenceUpEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: bishopCauchySequenceEncodeBHist h
-  | BHist.e1 h => BMark.b1 :: bishopCauchySequenceEncodeBHist h
+  | BHist.e0 h => BMark.b0 :: bishopCauchySequenceUpEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: bishopCauchySequenceUpEncodeBHist h
 
-def bishopCauchySequenceDecodeBHist : RawEvent → BHist
+def bishopCauchySequenceUpDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0 (bishopCauchySequenceDecodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1 (bishopCauchySequenceDecodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (bishopCauchySequenceUpDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (bishopCauchySequenceUpDecodeBHist tail)
 
-private theorem bishopCauchySequenceDecode_encode_bhist :
-    ∀ h : BHist, bishopCauchySequenceDecodeBHist (bishopCauchySequenceEncodeBHist h) = h := by
+private theorem BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist,
+      bishopCauchySequenceUpDecodeBHist
+        (bishopCauchySequenceUpEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,108 +37,278 @@ private theorem bishopCauchySequenceDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def bishopCauchySequenceFields : BishopCauchySequenceUp → List BHist
+private theorem BishopCauchySequenceUpTasteGate_single_carrier_alignment_encode_injective
+    {h k : BHist} :
+    bishopCauchySequenceUpEncodeBHist h =
+      bishopCauchySequenceUpEncodeBHist k → h = k := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hdecode :
+      bishopCauchySequenceUpDecodeBHist
+          (bishopCauchySequenceUpEncodeBHist h) =
+        bishopCauchySequenceUpDecodeBHist
+          (bishopCauchySequenceUpEncodeBHist k) :=
+    congrArg bishopCauchySequenceUpDecodeBHist heq
+  exact
+    Eq.trans
+      (BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode h).symm
+      (Eq.trans hdecode
+        (BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode k))
+
+private theorem BishopCauchySequenceUpTasteGate_single_carrier_alignment_mk_congr
+    {S S' D D' X X' U U' R R' H H' C C' P P' N N' : BHist}
+    (hS : S' = S)
+    (hD : D' = D)
+    (hX : X' = X)
+    (hU : U' = U)
+    (hR : R' = R)
+    (hH : H' = H)
+    (hC : C' = C)
+    (hP : P' = P)
+    (hN : N' = N) :
+    BishopCauchySequenceUp.mk S' D' X' U' R' H' C' P' N' =
+      BishopCauchySequenceUp.mk S D X U R H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hS
+  cases hD
+  cases hX
+  cases hU
+  cases hR
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
+
+def bishopCauchySequenceUpFields :
+    BishopCauchySequenceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | BishopCauchySequenceUp.mk S D X U R H C P N => [S, D, X, U, R, H, C, P, N]
 
-def bishopCauchySequenceToEventFlow : BishopCauchySequenceUp → EventFlow
+def bishopCauchySequenceUpToEventFlow :
+    BishopCauchySequenceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (bishopCauchySequenceFields x).map bishopCauchySequenceEncodeBHist
+  | x => (bishopCauchySequenceUpFields x).map bishopCauchySequenceUpEncodeBHist
 
-private def bishopCauchySequenceEventAt : Nat → EventFlow → RawEvent
+def bishopCauchySequenceUpFromEventFlow :
+    EventFlow → Option BishopCauchySequenceUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => bishopCauchySequenceEventAt index rest
+  | [] => none
+  | S :: rest0 =>
+      match rest0 with
+      | [] => none
+      | D :: rest1 =>
+          match rest1 with
+          | [] => none
+          | X :: rest2 =>
+              match rest2 with
+              | [] => none
+              | U :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | R :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | H :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | C :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | P :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | N :: rest8 =>
+                                      match rest8 with
+                                      | [] =>
+                                          some
+                                            (BishopCauchySequenceUp.mk
+                                              (bishopCauchySequenceUpDecodeBHist S)
+                                              (bishopCauchySequenceUpDecodeBHist D)
+                                              (bishopCauchySequenceUpDecodeBHist X)
+                                              (bishopCauchySequenceUpDecodeBHist U)
+                                              (bishopCauchySequenceUpDecodeBHist R)
+                                              (bishopCauchySequenceUpDecodeBHist H)
+                                              (bishopCauchySequenceUpDecodeBHist C)
+                                              (bishopCauchySequenceUpDecodeBHist P)
+                                              (bishopCauchySequenceUpDecodeBHist N))
+                                      | _ :: _ => none
 
-def bishopCauchySequenceFromEventFlow (ef : EventFlow) :
-    Option BishopCauchySequenceUp :=
+private theorem BishopCauchySequenceUpTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : BishopCauchySequenceUp,
+      bishopCauchySequenceUpFromEventFlow
+        (bishopCauchySequenceUpToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (BishopCauchySequenceUp.mk
-      (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEventAt 0 ef))
-      (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEventAt 1 ef))
-      (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEventAt 2 ef))
-      (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEventAt 3 ef))
-      (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEventAt 4 ef))
-      (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEventAt 5 ef))
-      (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEventAt 6 ef))
-      (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEventAt 7 ef))
-      (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEventAt 8 ef)))
-
-private theorem bishopCauchySequence_round_trip (x : BishopCauchySequenceUp) :
-    bishopCauchySequenceFromEventFlow (bishopCauchySequenceToEventFlow x) = some x := by
-  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk S D X U R H C P N =>
       change
         some
           (BishopCauchySequenceUp.mk
-            (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEncodeBHist S))
-            (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEncodeBHist D))
-            (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEncodeBHist X))
-            (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEncodeBHist U))
-            (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEncodeBHist R))
-            (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEncodeBHist H))
-            (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEncodeBHist C))
-            (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEncodeBHist P))
-            (bishopCauchySequenceDecodeBHist (bishopCauchySequenceEncodeBHist N))) =
+            (bishopCauchySequenceUpDecodeBHist
+              (bishopCauchySequenceUpEncodeBHist S))
+            (bishopCauchySequenceUpDecodeBHist
+              (bishopCauchySequenceUpEncodeBHist D))
+            (bishopCauchySequenceUpDecodeBHist
+              (bishopCauchySequenceUpEncodeBHist X))
+            (bishopCauchySequenceUpDecodeBHist
+              (bishopCauchySequenceUpEncodeBHist U))
+            (bishopCauchySequenceUpDecodeBHist
+              (bishopCauchySequenceUpEncodeBHist R))
+            (bishopCauchySequenceUpDecodeBHist
+              (bishopCauchySequenceUpEncodeBHist H))
+            (bishopCauchySequenceUpDecodeBHist
+              (bishopCauchySequenceUpEncodeBHist C))
+            (bishopCauchySequenceUpDecodeBHist
+              (bishopCauchySequenceUpEncodeBHist P))
+            (bishopCauchySequenceUpDecodeBHist
+              (bishopCauchySequenceUpEncodeBHist N))) =
           some (BishopCauchySequenceUp.mk S D X U R H C P N)
-      rw [bishopCauchySequenceDecode_encode_bhist S,
-        bishopCauchySequenceDecode_encode_bhist D,
-        bishopCauchySequenceDecode_encode_bhist X,
-        bishopCauchySequenceDecode_encode_bhist U,
-        bishopCauchySequenceDecode_encode_bhist R,
-        bishopCauchySequenceDecode_encode_bhist H,
-        bishopCauchySequenceDecode_encode_bhist C,
-        bishopCauchySequenceDecode_encode_bhist P,
-        bishopCauchySequenceDecode_encode_bhist N]
+      exact
+        congrArg some
+          (BishopCauchySequenceUpTasteGate_single_carrier_alignment_mk_congr
+            (BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode S)
+            (BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode D)
+            (BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode X)
+            (BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode U)
+            (BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode R)
+            (BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode H)
+            (BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode C)
+            (BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode P)
+            (BishopCauchySequenceUpTasteGate_single_carrier_alignment_decode_encode N))
 
-private theorem bishopCauchySequenceToEventFlow_injective {x y : BishopCauchySequenceUp} :
-    bishopCauchySequenceToEventFlow x = bishopCauchySequenceToEventFlow y → x = y := by
+private theorem BishopCauchySequenceUpTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : BishopCauchySequenceUp} :
+    bishopCauchySequenceUpToEventFlow x =
+      bishopCauchySequenceUpToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
-  have hread :
-      bishopCauchySequenceFromEventFlow (bishopCauchySequenceToEventFlow x) =
-        bishopCauchySequenceFromEventFlow (bishopCauchySequenceToEventFlow y) :=
-    congrArg bishopCauchySequenceFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (bishopCauchySequence_round_trip x).symm
-      (Eq.trans hread (bishopCauchySequence_round_trip y)))
+  cases x with
+  | mk S₁ D₁ X₁ U₁ R₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk S₂ D₂ X₂ U₂ R₂ H₂ C₂ P₂ N₂ =>
+          injection heq with hS t0
+          injection t0 with hD t1
+          injection t1 with hX t2
+          injection t2 with hU t3
+          injection t3 with hR t4
+          injection t4 with hH t5
+          injection t5 with hC t6
+          injection t6 with hP t7
+          injection t7 with hN _
+          have eS :
+              S₁ = S₂ :=
+            BishopCauchySequenceUpTasteGate_single_carrier_alignment_encode_injective hS
+          have eD :
+              D₁ = D₂ :=
+            BishopCauchySequenceUpTasteGate_single_carrier_alignment_encode_injective hD
+          have eX :
+              X₁ = X₂ :=
+            BishopCauchySequenceUpTasteGate_single_carrier_alignment_encode_injective hX
+          have eU :
+              U₁ = U₂ :=
+            BishopCauchySequenceUpTasteGate_single_carrier_alignment_encode_injective hU
+          have eR :
+              R₁ = R₂ :=
+            BishopCauchySequenceUpTasteGate_single_carrier_alignment_encode_injective hR
+          have eH :
+              H₁ = H₂ :=
+            BishopCauchySequenceUpTasteGate_single_carrier_alignment_encode_injective hH
+          have eC :
+              C₁ = C₂ :=
+            BishopCauchySequenceUpTasteGate_single_carrier_alignment_encode_injective hC
+          have eP :
+              P₁ = P₂ :=
+            BishopCauchySequenceUpTasteGate_single_carrier_alignment_encode_injective hP
+          have eN :
+              N₁ = N₂ :=
+            BishopCauchySequenceUpTasteGate_single_carrier_alignment_encode_injective hN
+          cases eS
+          cases eD
+          cases eX
+          cases eU
+          cases eR
+          cases eH
+          cases eC
+          cases eP
+          cases eN
+          rfl
 
-instance bishopCauchySequenceBHistCarrier : BHistCarrier BishopCauchySequenceUp where
+private theorem BishopCauchySequenceUpTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : BishopCauchySequenceUp,
+      bishopCauchySequenceUpFields x =
+        bishopCauchySequenceUpFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := bishopCauchySequenceToEventFlow
-  fromEventFlow := bishopCauchySequenceFromEventFlow
+  intro x y hfields
+  cases x with
+  | mk S₁ D₁ X₁ U₁ R₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk S₂ D₂ X₂ U₂ R₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
 
-instance bishopCauchySequenceChapterTasteGate :
+instance bishopCauchySequenceUpBHistCarrier :
+    BHistCarrier BishopCauchySequenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  toEventFlow := bishopCauchySequenceUpToEventFlow
+  fromEventFlow := bishopCauchySequenceUpFromEventFlow
+
+instance bishopCauchySequenceUpChapterTasteGate :
     ChapterTasteGate BishopCauchySequenceUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change bishopCauchySequenceFromEventFlow (bishopCauchySequenceToEventFlow x) = some x
-    exact bishopCauchySequence_round_trip x
+    change
+      bishopCauchySequenceUpFromEventFlow
+        (bishopCauchySequenceUpToEventFlow x) = some x
+    exact BishopCauchySequenceUpTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (bishopCauchySequenceToEventFlow_injective heq)
+    exact hxy
+      (BishopCauchySequenceUpTasteGate_single_carrier_alignment_toEventFlow_injective
+        heq)
+
+instance bishopCauchySequenceUpFieldFaithful :
+    FieldFaithful BishopCauchySequenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := bishopCauchySequenceUpFields
+  field_faithful :=
+    BishopCauchySequenceUpTasteGate_single_carrier_alignment_fields_faithful
+
+instance bishopCauchySequenceUpNontrivial :
+    Nontrivial BishopCauchySequenceUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BishopCauchySequenceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BishopCauchySequenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 def taste_gate : ChapterTasteGate BishopCauchySequenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  bishopCauchySequenceChapterTasteGate
+  bishopCauchySequenceUpChapterTasteGate
 
-theorem BishopCauchySequenceTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier BishopCauchySequenceUp) ∧
-      Nonempty (ChapterTasteGate BishopCauchySequenceUp) ∧
-        ∀ x y : BishopCauchySequenceUp,
-          BHistCarrier.toEventFlow x = BHistCarrier.toEventFlow y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact ⟨bishopCauchySequenceBHistCarrier⟩
-  · constructor
-    · exact ⟨bishopCauchySequenceChapterTasteGate⟩
-    · intro x y heq
-      change bishopCauchySequenceToEventFlow x = bishopCauchySequenceToEventFlow y at heq
-      exact bishopCauchySequenceToEventFlow_injective heq
+theorem BishopCauchySequenceUpTasteGate_single_carrier_alignment :
+    (forall x : BishopCauchySequenceUp,
+      bishopCauchySequenceUpFromEventFlow
+        (bishopCauchySequenceUpToEventFlow x) = some x) ∧
+      (forall x y : BishopCauchySequenceUp,
+        bishopCauchySequenceUpToEventFlow x =
+          bishopCauchySequenceUpToEventFlow y → x = y) ∧
+        bishopCauchySequenceUpFields
+          (BishopCauchySequenceUp.mk BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+          [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+            BHist.Empty, BHist.Empty, BHist.Empty] := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨BishopCauchySequenceUpTasteGate_single_carrier_alignment_round_trip,
+      fun _ _ heq =>
+        BishopCauchySequenceUpTasteGate_single_carrier_alignment_toEventFlow_injective
+          heq,
+      rfl⟩
 
 end BEDC.Derived.BishopCauchySequenceUp
