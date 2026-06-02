@@ -66,6 +66,18 @@ The route row $R$ is the dependency witness. It records the Banach source rows, 
 The structural rows $H,C,P,N$ preserve and replay this route before the local NameCert is reached. Thus a public uniform-bound read is a window-to-ledger dependency read, not a direct export of an isolated host-level Banach-Steinhaus conclusion.
 \end{proof}
 
+\begin{theorem}[Uniform boundedness pointwise-to-uniform route]
+\label{thm:uniform-boundedness-principle-pointwise-to-uniform-bound}
+For every accepted $\UniformBoundednessPrincipleUp$ carrier $U=(B,F,W,L,R,H,C,P,N)$, any public uniform bound for the bounded-operator family $F$ over the Banach source $B$ must be obtained from the displayed pointwise windows $W$ over that same $B$ and $F$, then routed through the uniform ledger $L$, the dependency row $R$, componentwise transport $H$, continuation replay $C$, package provenance $P$, and the local naming row $N$. No accepted read may export $L$ as a uniform bound from a different source, a different operator family, an uninspected pointwise window, quotient equality of maps, countable choice, or ambient Banach completeness outside the carried row $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-boundedness-principle-carrier}. The rows $B,F,W$ are the only source, family, and pointwise-window coordinates available to the packet, while $L$ is the only uniform norm-bound ledger.
+
+Apply \autoref{thm:uniform-boundedness-principle-window-to-ledger}. It forces every public read of $L$ through the same Banach source, bounded-operator family, pointwise windows, and dependency row $R$ before the local certificate is reached.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name that same route. Since the carrier has no coordinate for alternate sources, alternate families, hidden pointwise witnesses, quotient map equality, countable choice, or ambient completeness outside $B$, the public uniform bound is exactly the displayed pointwise-to-uniform route.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\UniformBoundednessPrincipleUp$ consumer must expose a $\BanachUp$ source row, a $\BoundedLinearOperatorUp$ family row, pointwise boundedness windows, one $\RealUp$ and $\NormedRealLineUp$ uniform norm-bound ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before the uniform bound is public.}
 
 \independenceWitness{banach, boundedlinearoperator, real, normed-real-line: $\UniformBoundednessPrincipleUp$ is not bijective to any listed sibling because it jointly binds a Banach source, a bounded-operator family, pointwise boundedness windows, a single uniform norm-bound ledger, route data, transport, replay, provenance, and local NameCert rows.}
