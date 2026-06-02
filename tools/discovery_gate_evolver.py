@@ -143,6 +143,67 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
     return records
 
 
+def record_exact_key(record: dict[str, Any]) -> tuple[str, str, str]:
+    pattern = record.get("pattern") if isinstance(record.get("pattern"), dict) else {}
+    target = str(pattern.get("target") or record.get("candidate") or record.get("target") or "").strip()
+    prior = str(pattern.get("prior") or record.get("prior") or "").strip()
+    canonical_payload = str(
+        pattern.get("canonical_payload")
+        or record.get("canonical_payload")
+        or record.get("candidate_canonical_payload")
+        or ""
+    ).strip()
+    return target, prior, canonical_payload
+
+
+def validate_pseudo_record(record: dict[str, Any]) -> tuple[bool, str]:
+    if not isinstance(record, dict):
+        return False, "record is not an object"
+    if str(record.get("schema") or "") != "bedc.discovery_adversarial_generator.proven_pseudo":
+        return False, "schema must be bedc.discovery_adversarial_generator.proven_pseudo"
+    if str(record.get("soundness") or "") != "canonical_payload_equal":
+        return False, "soundness must be canonical_payload_equal"
+    if str(record.get("evidence") or "") != "canonical_payload_equal":
+        return False, "evidence must be canonical_payload_equal"
+    if str(record.get("true_gate_status") or "") not in {"PASS", "pass"}:
+        return False, "true_gate_status must be PASS"
+    target, prior, canonical_payload = record_exact_key(record)
+    if not target or not prior or not canonical_payload:
+        return False, "record must include exact target, prior, canonical_payload"
+    pattern = record.get("pattern") if isinstance(record.get("pattern"), dict) else {}
+    exact, error = bedc_ci_module()._exact_witness_pattern({
+        "target": target,
+        "prior": prior,
+        "canonical_payload": canonical_payload,
+        **(
+            {"reduced_fp": str(pattern.get("reduced_fp") or record.get("candidate_reduced_fp") or "").strip()}
+            if str(pattern.get("reduced_fp") or record.get("candidate_reduced_fp") or "").strip()
+            else {}
+        ),
+    })
+    if exact is None:
+        return False, error
+    if not str(record.get("candidate_canonical_payload") or canonical_payload).strip():
+        return False, "candidate canonical payload is empty"
+    return True, ""
+
+
+def dedup_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    seen: set[tuple[str, str, str]] = set()
+    for record in records:
+        ok, reason = validate_pseudo_record(record)
+        if not ok:
+            append_log(f"[escalate] invalid proven pseudo skipped: {reason}: {json.dumps(record, ensure_ascii=False)}")
+            continue
+        key = record_exact_key(record)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(record)
+    return out
+
+
 def registry_id(record: dict[str, Any]) -> str:
     explicit = str(record.get("id") or "").strip()
     if explicit:
@@ -440,12 +501,13 @@ def cleanup_worktree(worktree: Path) -> None:
 
 def verify(
     root: Path,
-    witness: dict[str, Any],
+    witnesses: dict[str, Any] | list[dict[str, Any]],
     *,
     no_push: bool,
     before_rc: int,
     before_failures: set[tuple[str, str, str, str]],
 ) -> None:
+    witness_list = witnesses if isinstance(witnesses, list) else [witnesses]
     require_ok(run_cmd(["python3", "-m", "py_compile", "lean4/scripts/bedc_ci.py", "tools/discovery_gate_evolver.py"], cwd=root), "py_compile")
     require_ok(run_cmd(["lake", "build"], cwd=root / "lean4"), "lake build")
     require_ok(run_cmd(["python3", "-m", "unittest", "lean4/scripts/test_closurestatus_audit.py"], cwd=root), "unittest")
@@ -461,11 +523,11 @@ def verify(
         "before_failure_count": len(before_failures),
         "after_failure_count": len(after_failures),
         "asserted_count": int((after_payload.get("discovery_assert_gate") or {}).get("asserted_count") or 0),
-        "soundness_basis": str(witness.get("soundness") or ""),
+        "soundness_basis": sorted({str(witness.get("soundness") or "") for witness in witness_list}),
     }
     if smoke_payload["asserted_count"] == 0:
         append_log("[escalate] asserted_count=0 makes monotonic smoke vacuous; not a soundness proof")
-    if smoke_payload["soundness_basis"] != "canonical_payload_equal":
+    if smoke_payload["soundness_basis"] != ["canonical_payload_equal"]:
         raise RuntimeError("witness soundness is not exact+kernel reverified: " + repr(smoke_payload))
     if before_rc == 0 and after_rc != 0:
         gate = after_payload.get("discovery_assert_gate") or {}
@@ -508,13 +570,24 @@ def commit_and_push(root: Path, *, no_push: bool) -> None:
     raise RuntimeError(f"push failed after retries: {short_output(push)}")
 
 
-def process_one(record: dict[str, Any], args: argparse.Namespace) -> bool:
-    witness, reason = witness_from_record(record)
-    if witness is None:
-        append_log(f"[escalate] {reason}: {json.dumps(record, ensure_ascii=False)}")
-        return False
+def process_records(records: list[dict[str, Any]], args: argparse.Namespace) -> tuple[int, int]:
+    if not records:
+        return 0, 0
+    witnesses: list[dict[str, Any]] = []
+    fail_count = 0
+    for record in records:
+        witness, reason = witness_from_record(record)
+        if witness is None:
+            append_log(f"[escalate] {reason}: {json.dumps(record, ensure_ascii=False)}")
+            fail_count += 1
+            continue
+        witnesses.append(witness)
+    if not witnesses:
+        return 0, fail_count
+
     worktree = Path(args.worktree)
     prepared = False
+    ok_count = 0
     try:
         try:
             prepare_worktree(worktree, args.base_ref)
@@ -523,38 +596,54 @@ def process_one(record: dict[str, Any], args: argparse.Namespace) -> bool:
             append_log(f"[escalate] worktree prep failed: {type(exc).__name__}: {exc}")
             if worktree.exists():
                 cleanup_worktree(worktree)
-            return False
+            return 0, fail_count + len(witnesses)
         registry_path = worktree / REGISTRY_REL
         test_path = worktree / TEST_REL
         before_rc, before_failures, _before_payload = audit_failures(worktree)
-        changed = append_witness(registry_path, witness)
-        append_regression_test(test_path, witness)
-        if not changed:
-            append_log(f"[heartbeat] witness already present: {witness['id']}")
+        applied_witnesses: list[dict[str, Any]] = []
+        for witness in witnesses:
+            try:
+                changed = append_witness(registry_path, witness)
+                append_regression_test(test_path, witness)
+                applied_witnesses.append(witness)
+                ok_count += 1
+                if not changed:
+                    append_log(f"[heartbeat] witness already present: {witness['id']}")
+            except Exception as exc:
+                append_log(f"[escalate] witness {witness.get('id')}: {type(exc).__name__}: {exc}")
+                fail_count += 1
+        if not applied_witnesses:
+            return ok_count, fail_count
         verify(
             worktree,
-            witness,
+            applied_witnesses,
             no_push=bool(args.no_push),
             before_rc=before_rc,
             before_failures=before_failures,
         )
         commit_and_push(worktree, no_push=bool(args.no_push))
-        return True
+        return ok_count, fail_count
     except Exception as exc:
-        append_log(f"[escalate] witness {witness.get('id')}: {type(exc).__name__}: {exc}")
-        return False
+        append_log(f"[escalate] batch failed: {type(exc).__name__}: {exc}")
+        return ok_count, fail_count + max(1, len(witnesses) - ok_count)
     finally:
         if prepared and not args.no_push:
             cleanup_worktree(worktree)
 
 
+def process_one(record: dict[str, Any], args: argparse.Namespace) -> bool:
+    ok_count, fail_count = process_records([record], args)
+    return ok_count == 1 and fail_count == 0
+
+
 def run_once(args: argparse.Namespace) -> int:
-    records = load_jsonl(Path(args.input))
+    records = dedup_records(load_jsonl(Path(args.input)))
     if not records:
         append_log("[heartbeat] no proven pseudos")
         return 0
-    ok = process_one(records[0], args)
-    return 0 if ok else 1
+    ok_count, fail_count = process_records(records, args)
+    append_log(f"[cycle] processed={len(records)} ok={ok_count} failed={fail_count}")
+    return 0 if fail_count == 0 else 1
 
 
 def parser() -> argparse.ArgumentParser:
@@ -574,7 +663,10 @@ def main() -> int:
         if args.once:
             return run_once(args)
         while True:
-            run_once(args)
+            try:
+                run_once(args)
+            except Exception as exc:
+                append_log(f"[escalate] cycle failed: {type(exc).__name__}: {exc}")
             time.sleep(max(1, int(args.interval)))
 
 
