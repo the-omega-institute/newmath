@@ -118,4 +118,33 @@ theorem KernelSourceChannelLedgerPacket_query_refusal_stability [AskSetup] [Pack
     ⟨queryUnary', refusalUnary', separationUnary', queryRefusalSeparation',
       generatedStampAccepted, namePkg⟩
 
+theorem KernelSourceChannelLedgerPacket_source_query_separation [AskSetup] [PackageSetup]
+    {generated stamp accepted ancestry query refusal trace route separation transport replay
+      provenance name sourceQuery queryBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelSourceChannelLedgerPacket generated stamp accepted ancestry query refusal trace route
+        separation transport replay provenance name bundle pkg ->
+      Cont accepted query sourceQuery ->
+        Cont sourceQuery refusal queryBoundary ->
+          PkgSig bundle queryBoundary pkg ->
+            UnaryHistory generated ∧ UnaryHistory accepted ∧ UnaryHistory query ∧
+              UnaryHistory refusal ∧ UnaryHistory sourceQuery ∧ UnaryHistory queryBoundary ∧
+                Cont generated stamp accepted ∧ Cont accepted query sourceQuery ∧
+                  Cont sourceQuery refusal queryBoundary ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle queryBoundary pkg := by
+  -- BEDC touchpoint anchor: KernelSourceChannelLedgerPacket BHist ProbeBundle Pkg Cont
+  intro packet acceptedQuery sourceQueryRefusal boundaryPkg
+  obtain ⟨generatedUnary, _stampUnary, acceptedUnary, _ancestryUnary, queryUnary,
+    refusalUnary, _traceUnary, _routeUnary, _separationUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _nameUnary, generatedStampAccepted, _queryRefusalSeparation,
+    _traceRouteTransport, _transportReplayProvenance, namePkg⟩ := packet
+  have sourceQueryUnary : UnaryHistory sourceQuery :=
+    unary_cont_closed acceptedUnary queryUnary acceptedQuery
+  have queryBoundaryUnary : UnaryHistory queryBoundary :=
+    unary_cont_closed sourceQueryUnary refusalUnary sourceQueryRefusal
+  exact
+    ⟨generatedUnary, acceptedUnary, queryUnary, refusalUnary, sourceQueryUnary,
+      queryBoundaryUnary, generatedStampAccepted, acceptedQuery, sourceQueryRefusal, namePkg,
+      boundaryPkg⟩
+
 end BEDC.Derived.KernelSourceChannelLedgerUp
