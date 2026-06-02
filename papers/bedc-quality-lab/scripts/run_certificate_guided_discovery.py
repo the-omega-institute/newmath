@@ -16,9 +16,6 @@ from bedc_quality_lab.claim_projection import (
     AFTER_ROLE,
     BEFORE_ROLE,
     CONTROL_ROLE,
-    METRIC_NAMES,
-    _main_claim_status,
-    _project_pair,
     project_certificate_guided_claim,
     require_certificate_guided_projection_source,
 )

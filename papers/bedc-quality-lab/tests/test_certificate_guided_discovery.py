@@ -2,6 +2,7 @@ import copy
 import json
 import pytest
 from bedc_quality_lab.classifier_shift import classifier_surface_delta, shift_information, structural_discovery
+from bedc_quality_lab.claim_projection import METRIC_NAMES, _project_pair
 from bedc_quality_lab.discovery import net_information, positive_discovery
 from scripts import run_certificate_guided_discovery as runner
 from scripts import run_certificate_guided_training as training_runner
@@ -34,18 +35,18 @@ def _copy_metrics_by_role(payload, source_role, target_role):
     sources = {record["seed"]: record for record in _role_records(payload, source_role)}
     for target in _role_records(payload, target_role):
         source = sources[target["seed"]]
-        for name in runner.METRIC_NAMES:
+        for name in METRIC_NAMES:
             target[name] = source[name]
 
 def _shift_metrics_by_role(payload, source_role, target_role, offset):
     sources = {record["seed"]: record for record in _role_records(payload, source_role)}
     for target in _role_records(payload, target_role):
         source = sources[target["seed"]]
-        for name in runner.METRIC_NAMES:
+        for name in METRIC_NAMES:
             target[name] = source[name] + offset
 
 def _assert_row_matches_predicates(payload, row):
-    projection = runner._project_pair(payload, row["before_role"], row["after_role"])
+    projection = _project_pair(payload, row["before_role"], row["after_role"])
     passage = projection["passage"]
     claim = projection["claim"]
     delta = classifier_surface_delta(passage)
@@ -141,7 +142,7 @@ def test_zero_net_with_structural_surface_delta_reports_negative():
     for after in _role_records(payload, runner.AFTER_ROLE):
         after["quality_benefit"] = before_by_seed[after["seed"]]["quality_benefit"] + 0.25
 
-    projection = runner._project_pair(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE)
+    projection = _project_pair(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE)
     delta_count = len(classifier_surface_delta(projection["passage"]))
     payload["deltas"]["after_minus_before"]["benefit_delta"] = 0.01 * delta_count
     payload["deltas"]["after_minus_before"]["cost_delta"] = 0.0
@@ -181,7 +182,7 @@ def test_predicate_positive_does_not_make_main_claim_positive_without_training_g
     payload["deltas"]["after_minus_before"]["cost_delta"] = 0.0
     payload["deltas"]["after_minus_before"]["debt_delta"] = -1.0
 
-    projection = runner._project_pair(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE)
+    projection = _project_pair(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE)
     claim = projection["claim"]
     assert positive_discovery(claim) is True
     assert net_information(claim) > 0.0
@@ -228,7 +229,7 @@ def test_positive_status_requires_classifier_predicate_net_and_training_gate():
     payload["deltas"]["after_minus_before"]["cost_delta"] = 0.0
     payload["deltas"]["after_minus_before"]["debt_delta"] = -1.0
 
-    projection = runner._project_pair(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE)
+    projection = _project_pair(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE)
     claim = projection["claim"]
     assert positive_discovery(claim) is True
     assert net_information(claim) > 0.0

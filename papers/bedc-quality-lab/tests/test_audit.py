@@ -128,6 +128,38 @@ def test_audit_unverifiable_when_projection_fields_are_missing(monkeypatch):
     assert decision["reason"] == "projection-fields-missing:main_verdict,matched_random_baseline,evidence_basis"
 
 
+def test_projection_failure_on_schema_valid_evidence_is_unverifiable():
+    evidence = _payload()
+    del evidence["claim_gate"]
+    decision = audit.audit_certified_claim(
+        {"main_claim_status": "mixed"},
+        evidence,
+        timestamp_iso=TIMESTAMP,
+    )
+
+    assert decision["audit_status"] == "unverifiable"
+    assert decision["recomputed_status"] is None
+    assert decision["reason"].startswith("projection-unavailable:")
+
+
+def test_recomputable_evidence_without_recorded_status_is_unverifiable():
+    evidence = _payload()
+    decision = audit.audit_certified_claim(
+        None,
+        evidence,
+        timestamp_iso=TIMESTAMP,
+    )
+
+    assert decision["audit_status"] == "unverifiable"
+    assert decision["audit_status"] not in {"consistent", "divergent"}
+    assert decision["recorded_status"] is None
+    assert decision["recomputed_status"] is None
+    assert decision["reason"] == "recorded-status-missing"
+    assert decision["evidence_basis"]
+    assert decision["evidence_basis"]["source_schema_id"] == SCHEMA_ID
+    assert decision["evidence_basis"]["main_pair"] == ["before", "after"]
+
+
 def test_audit_row_preserves_caller_timestamp_and_evidence_basis():
     evidence = _payload()
     decision = audit.audit_certified_claim(
