@@ -261,9 +261,9 @@ theorem ProperMetricObligationClosedBall [AskSetup] [PackageSetup]
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     ProperMetricCarrier X B K L T H C Q N bundle pkg ->
       Cont B K closedBall ->
-        Cont closedBall K compactRead ->
-          Cont compactRead L locatedRead ->
-            Cont locatedRead T completeRead ->
+      Cont closedBall K compactRead ->
+        Cont compactRead L locatedRead ->
+          Cont locatedRead T completeRead ->
               PkgSig bundle Q pkg ->
                 SemanticNameCert
                     (fun row : BHist => hsame row completeRead ∧ UnaryHistory row)
