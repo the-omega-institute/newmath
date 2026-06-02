@@ -1,6 +1,6 @@
 # Certificate-Guided Discovery Projection
 
-- Source JSON artifact: `reports/certificate_guided_training.json`
+- Source JSON artifact: `reports/canonical/certificate-guided-training.json`
 - Projection script: `scripts/run_certificate_guided_discovery.py`
 - Main claim status: `observed-negative`
 - Verdict: `negative` / net `-0.006806` / positive `false`

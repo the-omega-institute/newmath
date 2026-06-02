@@ -24,6 +24,13 @@ AFTER_ROLE = "after"
 CONTROL_ROLE = "control"
 METRIC_NAMES = ("quality_q", "quality_benefit", "quality_cost", "quality_debt", "certificate_guided_loss", "unlogged_error_rate", "critical_unlogged_error_rate")
 
+def _main_claim_status(row: dict[str, Any]) -> str:
+    if row["positive_discovery"]:
+        return "positive"
+    if row["surface_delta_count"] and row["net_information"] <= 0.0:
+        return "observed-negative"
+    return "mixed"
+
 def _load_payload(path: Path | None = None) -> dict[str, Any]:
     payload_path = ROOT / SOURCE_JSON_ARTIFACT if path is None else path
     payload = json.loads(payload_path.read_text(encoding="utf-8"))
@@ -83,11 +90,12 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
         structural = structural_discovery(passage)
         positive = positive_discovery(claim)
         net = net_information(claim)
-        verdict = "positive" if positive else "negative" if structural and delta and net < 0.0 else "compression"
+        verdict = "positive" if positive else "negative" if structural and delta and net <= 0.0 else "compression"
         return {"before_role": before_role, "after_role": after_role, "before_candidate_id": projection["before"]["candidate_id"], "after_candidate_id": projection["after"]["candidate_id"], "surface_delta_count": len(delta), "surface_delta": [list(pair) for pair in sorted(delta)], "shift_information": shift_information(passage), "structural_discovery": structural, "net_information": net, "positive_discovery": positive, "verdict": verdict, "deltas": projection["deltas"], "benefit_terms": dict(claim.benefit_terms), "score_terms": dict(claim.score_terms), "debt_terms": dict(claim.debt_terms)}
 
     main = row(BEFORE_ROLE, AFTER_ROLE)
     control = row(BEFORE_ROLE, CONTROL_ROLE)
+    main_claim_status = _main_claim_status(main)
     return {
         "artifact": JSON_ARTIFACT,
         "source_artifacts": {
@@ -101,6 +109,10 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "arms": [{"role": record["role"], "candidate_id": record["candidate_id"]} for record in payload["records"]],
         "verdicts": [main],
+        "surface_delta_count": main["surface_delta_count"],
+        "positive_discovery": main["positive_discovery"],
+        "net_information": main["net_information"],
+        "main_claim_status": main_claim_status,
         "matched_random_baseline": control,
         "applicability_boundary": {
             "claimed_scope": "certificate-guided versus vanilla projection on the existing finite lab report",
@@ -113,13 +125,19 @@ def _write_payload(payload: dict[str, Any]) -> None:
     report_path = ROOT / REPORT_ARTIFACT
     verdict = payload["verdicts"][0]
     baseline = payload["matched_random_baseline"]
+    deltas = verdict["deltas"]
     lines = [
         "# Certificate-Guided Discovery Projection",
         "",
         f"- Source JSON artifact: `{payload['source_artifacts']['source_json_artifact']}`",
         f"- Projection script: `{payload['projection_script']}`",
-        f"- Verdict: `{verdict['verdict']}` / net `{float(verdict['net_information']):.6f}` / positive `{str(verdict['positive_discovery']).lower()}`",
+        f"- Main claim status: `{payload['main_claim_status']}`",
+        f"- Verdict: `{verdict['verdict']}` / net `{float(payload['net_information']):.6f}` / positive `{str(payload['positive_discovery']).lower()}`",
         f"- Matched-random baseline: `{baseline['verdict']}` / net `{float(baseline['net_information']):.6f}` / positive `{str(baseline['positive_discovery']).lower()}`",
+        f"- Benefit declined by `{float(deltas['benefit_delta']):.6f}` under the shared cost protocol.",
+        f"- Debt declined by `{float(deltas['debt_delta']):.6f}` under the shared cost protocol.",
+        f"- Net information did not clear zero: `{float(payload['net_information']):.6f}`.",
+        f"- Quality-q delta: `{float(deltas['quality_q_delta']):.6f}`.",
         "",
     ]
     json_path.parent.mkdir(parents=True, exist_ok=True)

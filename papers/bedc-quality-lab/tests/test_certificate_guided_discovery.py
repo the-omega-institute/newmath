@@ -60,9 +60,47 @@ def test_certificate_guided_result_is_negative_when_net_is_negative_and_baseline
     assert row["surface_delta_count"] > 0
     assert row["net_information"] < 0.0
     assert (row["positive_discovery"], row["verdict"]) == (False, "negative")
+    assert report["surface_delta_count"] == row["surface_delta_count"]
+    assert report["net_information"] == row["net_information"]
+    assert report["positive_discovery"] is False
+    assert report["main_claim_status"] == "observed-negative"
     _assert_row_matches_predicates(payload, row)
     assert (baseline["before_role"], baseline["after_role"], baseline["after_candidate_id"]) == (runner.BEFORE_ROLE, runner.CONTROL_ROLE, "torch-request-control")
     _assert_row_matches_predicates(payload, baseline)
+
+def test_nonpositive_net_information_forces_non_positive_discovery_on_classifier_surface():
+    payload = _payload()
+    row = runner._verdict_payload(payload)["verdicts"][0]
+
+    assert row["structural_discovery"] is True
+    assert row["surface_delta_count"] > 0
+    assert row["net_information"] <= 0.0
+    assert row["positive_discovery"] is False
+    assert row["verdict"] == "negative"
+
+def test_zero_net_with_structural_surface_delta_reports_negative():
+    payload = copy.deepcopy(_payload())
+    before = next(record for record in payload["records"] if record["role"] == runner.BEFORE_ROLE)
+    after = next(record for record in payload["records"] if record["role"] == runner.AFTER_ROLE)
+    for name in runner.METRIC_NAMES:
+        after[name] = before[name]
+    after["quality_benefit"] = before["quality_benefit"] + 0.25
+
+    projection = runner._project_pair(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE)
+    delta_count = len(classifier_surface_delta(projection["passage"]))
+    payload["deltas"]["after_minus_before"]["benefit_delta"] = 0.01 * delta_count
+    payload["deltas"]["after_minus_before"]["cost_delta"] = 0.0
+    payload["deltas"]["after_minus_before"]["debt_delta"] = 0.0
+
+    report = runner._verdict_payload(payload)
+    row = report["verdicts"][0]
+    assert row["surface_delta_count"] > 0
+    assert row["structural_discovery"] is True
+    assert row["positive_discovery"] is False
+    assert row["net_information"] == pytest.approx(0.0)
+    assert row["verdict"] == "negative"
+    assert report["main_claim_status"] == "observed-negative"
+    _assert_row_matches_predicates(payload, row)
 
 def test_compression_verdict_covers_no_surface_delta_case():
     payload = copy.deepcopy(_payload())
@@ -72,10 +110,13 @@ def test_compression_verdict_covers_no_surface_delta_case():
         after[name] = before[name]
     for key in payload["deltas"]["after_minus_before"]:
         payload["deltas"]["after_minus_before"][key] = 0.0
-    row = runner._verdict_payload(payload)["verdicts"][0]
+    report = runner._verdict_payload(payload)
+    row = report["verdicts"][0]
     assert (row["surface_delta_count"], row["structural_discovery"]) == (0, False)
     assert row["net_information"] == pytest.approx(0.0)
+    assert row["positive_discovery"] is False
     assert row["verdict"] == "compression"
+    assert report["main_claim_status"] == "mixed"
 
 def test_positive_verdict_when_projected_claim_has_positive_net_information():
     payload = copy.deepcopy(_payload())
@@ -92,10 +133,12 @@ def test_positive_verdict_when_projected_claim_has_positive_net_information():
     assert positive_discovery(claim) is True
     assert net_information(claim) > 0.0
 
-    row = runner._verdict_payload(payload)["verdicts"][0]
+    report = runner._verdict_payload(payload)
+    row = report["verdicts"][0]
     assert row["positive_discovery"] is True
     assert row["net_information"] > 0.0
     assert row["verdict"] == "positive"
+    assert report["main_claim_status"] == "positive"
     _assert_row_matches_predicates(payload, row)
 
 def test_payload_uses_pointer_fields_without_schema_kind_fields():
@@ -110,6 +153,9 @@ def test_payload_uses_pointer_fields_without_schema_kind_fields():
 
 def test_main_writes_report_artifacts(tmp_path, monkeypatch):
     source_payload = _payload()
+    expected = runner._verdict_payload(source_payload)
+    expected_row = expected["verdicts"][0]
+    expected_deltas = expected_row["deltas"]
     monkeypatch.setattr(runner, "ROOT", tmp_path)
     (tmp_path / "reports").mkdir()
     (tmp_path / runner.SOURCE_JSON_ARTIFACT).write_text(json.dumps(source_payload), encoding="utf-8")
@@ -118,4 +164,10 @@ def test_main_writes_report_artifacts(tmp_path, monkeypatch):
     report = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
     assert payload["artifact"] == runner.JSON_ARTIFACT
     assert payload["matched_random_baseline"]["after_role"] == runner.CONTROL_ROLE
+    assert payload["positive_discovery"] is False
+    assert payload["net_information"] <= 0.0
+    assert payload["main_claim_status"] != "positive"
     assert "# Certificate-Guided Discovery Projection" in report
+    assert f"Benefit declined by `{float(expected_deltas['benefit_delta']):.6f}`" in report
+    assert f"Debt declined by `{float(expected_deltas['debt_delta']):.6f}`" in report
+    assert f"Net information did not clear zero: `{float(expected_row['net_information']):.6f}`" in report
