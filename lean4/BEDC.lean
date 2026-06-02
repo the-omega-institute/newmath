@@ -4813,6 +4813,7 @@ import BEDC.Derived.LambdaCalcUp.StandardBridge
 import BEDC.Derived.LambdaCalcUp.SubstitutionLedgerObligation
 import BEDC.Derived.LandauSymbolUp.TasteGate
 import BEDC.Derived.LanglandsUp
+import BEDC.Derived.LaplaceTransformUp.TasteGate
 import BEDC.Derived.LargeModelActivationOrbitUp.TasteGate
 import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
@@ -6676,6 +6677,7 @@ import BEDC.Derived.RealSequenceLimitUp.SubsequenceTailStability
 import BEDC.Derived.RealSequenceLimitUp.TailRefinementLedger
 import BEDC.Derived.RealSequenceLimitUp.TailWindowTransport
 import BEDC.Derived.RealSequenceLimitUp.TasteGate
+import BEDC.Derived.RealSequenceSpaceUp.TasteGate
 import BEDC.Derived.RealSeriesCauchyCriterionUp
 import BEDC.Derived.RealSeriesCauchyCriterionUp.TasteGate
 import BEDC.Derived.RealSeriesRatioTestUp.TasteGate
