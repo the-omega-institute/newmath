@@ -97,6 +97,59 @@ theorem BishopRegularCauchyCompletionCarrier_seal_stability [AskSetup] [PackageS
       sealReadUnary, tailCommon, commonObservations, observationsRegularity, regularitySeal,
       provenancePkg, sealPkg⟩
 
+theorem BishopRegularCauchyCompletionCarrier_tail_equivalence_quotient_free [AskSetup]
+    [PackageSetup]
+    {endpoint endpoint' observations observations' regularity regularity' tailModulus commonTail
+      transport replay provenance localName transport' replay' provenance' localName'
+      toleranceRead windowRead regularRead regularRead' sealRead sealRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
+    BishopRegularCauchyCompletionCarrier endpoint observations regularity tailModulus
+        commonTail transport replay provenance localName bundle pkg →
+      BishopRegularCauchyCompletionCarrier endpoint' observations' regularity' tailModulus
+          commonTail transport' replay' provenance' localName' bundle pkg' →
+        Cont tailModulus commonTail toleranceRead →
+          Cont toleranceRead observations windowRead →
+            Cont windowRead regularity regularRead →
+              Cont regularRead endpoint sealRead →
+                Cont toleranceRead observations' windowRead →
+                  Cont windowRead regularity' regularRead' →
+                    Cont regularRead' endpoint' sealRead' →
+                      PkgSig bundle sealRead pkg →
+                        PkgSig bundle sealRead' pkg' →
+                          UnaryHistory tailModulus ∧ UnaryHistory commonTail ∧
+                            UnaryHistory toleranceRead ∧ UnaryHistory windowRead ∧
+                              UnaryHistory regularRead ∧ UnaryHistory regularRead' ∧
+                                UnaryHistory sealRead ∧ UnaryHistory sealRead' ∧
+                                  PkgSig bundle provenance pkg ∧
+                                    PkgSig bundle provenance' pkg' ∧
+                                      PkgSig bundle sealRead pkg ∧
+                                        PkgSig bundle sealRead' pkg' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier carrier' tailCommon commonObservations observationsRegularity regularitySeal
+    commonObservations' observationsRegularity' regularitySeal' sealPkg sealPkg'
+  obtain ⟨endpointUnary, observationsUnary, regularityUnary, tailModulusUnary,
+    commonTailUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    provenancePkg, _localNamePkg⟩ := carrier
+  obtain ⟨endpointUnary', observationsUnary', regularityUnary', _tailModulusUnary',
+    _commonTailUnary', _transportUnary', _replayUnary', _provenanceUnary', _localNameUnary',
+    provenancePkg', _localNamePkg'⟩ := carrier'
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed tailModulusUnary commonTailUnary tailCommon
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed toleranceReadUnary observationsUnary commonObservations
+  have regularReadUnary : UnaryHistory regularRead :=
+    unary_cont_closed windowReadUnary regularityUnary observationsRegularity
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularReadUnary endpointUnary regularitySeal
+  have regularReadUnary' : UnaryHistory regularRead' :=
+    unary_cont_closed windowReadUnary regularityUnary' observationsRegularity'
+  have sealReadUnary' : UnaryHistory sealRead' :=
+    unary_cont_closed regularReadUnary' endpointUnary' regularitySeal'
+  exact
+    ⟨tailModulusUnary, commonTailUnary, toleranceReadUnary, windowReadUnary,
+      regularReadUnary, regularReadUnary', sealReadUnary, sealReadUnary', provenancePkg,
+      provenancePkg', sealPkg, sealPkg'⟩
+
 theorem BishopRegularCauchyCompletionNonescapeExactness [AskSetup] [PackageSetup]
     {endpoint observations regularity tailModulus commonTail transport replay provenance localName
       read : BHist}

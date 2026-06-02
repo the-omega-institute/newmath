@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\DarbouxSumsUp$}
+\label{ch:concrete-instances-darboux-sums-namecert}
+\origin{human}
+
+Following Darboux and Riemann constructive integration, the $\DarbouxSumsUp$ packet records the finite partition-indexed lower and upper sum surface before an integration consumer reads a limiting or Cauchy route. It sits after the real interval seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite partition surface of \autoref{ch:concrete-instances-partition-namecert}, the single Darboux comparison row of \autoref{ch:concrete-instances-darboux-sum-namecert}, and the Riemann integral consumer of \autoref{ch:concrete-instances-riemannintegral-namecert}. The packet gives Real and Completion routes a finite family of partition sums without treating integration, supremum, or real completeness as primitive.
+
+\begin{definition}[DarbouxSums carrier]
+\label{def:darboux-sums-carrier}
+A $\DarbouxSumsUp$ carrier is a finite $\BHist$ packet
+$$
+D=(I,P,L,U,SL,SU,G,R,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ interval-source row naming the endpoint seals and the orientation of the finite partition request.
+\item $P$ is the $\PartitionUp$ row naming the ordered finite cell list, adjacency data, and partition coverage.
+\item $L$ and $U$ are lower-value and upper-value ledgers over the cells of $P$, with every value read through the same displayed partition route.
+\item $SL$ and $SU$ are the finite lower and upper sum rows computed from the cell widths of $P$ and the displayed $L,U$ value ledgers.
+\item $G$ is the upper-minus-lower gap comparison row, exposed only after $P,L,U,SL,SU$ have been displayed.
+\item $R$ is the $\RegSeqRatUp$ readback row for rational sum observations attached to the same finite partition and value ledgers.
+\item $E$ is the terminal $\RealUp$ seal reachable only after $R$ and the finite Darboux rows have been projected.
+\item $H$ records componentwise $\hsame$ transport for interval, partition, value, finite-sum, gap, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the route
+$$
+I,P,L,U \longmapsto SL,SU \longmapsto G,R \longmapsto E .
+$$
+\item $Q$ is the $\Pkg$ provenance over $\DarbouxSumsUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\PartitionUp$, $\DarbouxSumUp$, $\RiemannIntegralUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DarbouxSumsUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,P,L,U,SL,SU,G,R,E,H,C,Q,N$. It has no coordinate for quotient functions, host suprema, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[DarbouxSums NameCert obligations]
+\label{thm:darboux-sums-namecert-obligations}
+For every accepted $\DarbouxSumsUp$ carrier $D=(I,P,L,U,SL,SU,G,R,E,H,C,Q,N)$, the local $\NameCert_{\DarbouxSumsUp}$ surface consists exactly of carrier admission for the $\RealUp$ interval source, finite $\PartitionUp$ row, lower and upper value ledgers, lower and upper finite sum rows, upper-minus-lower gap row, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. Every obligation is read through the displayed $\DyadicRatCoreUp$ cell-width arithmetic and the existing $\DarbouxSumUp$ comparison boundary before any $\RiemannIntegralUp$ consumer is available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:darboux-sums-carrier}. The interval, partition, lower-value, upper-value, finite-sum, gap, readback, and seal rows are the only analytic rows carried by the packet.
+
+The partition and arithmetic obligations are finite. Row $P$ supplies the ordered cell list, and $\DyadicRatCoreUp$ support in $Q$ supplies the displayed cell-width arithmetic used by $SL$ and $SU$.
+
+The Darboux comparison obligation is read through $G$. It is downstream of $P,L,U,SL,SU$ and agrees with the single $\DarbouxSumUp$ boundary cited by the provenance row.
+
+Finally $R,E,H,C,Q,N$ read back, seal, transport, replay, source, and name the same route. Since no coordinate stores quotient functions, host suprema, selected limits, countable choice, or real completeness, no NameCert obligation can export those objects.
+\end{proof}
+
+\begin{theorem}[DarbouxSums real partition scope]
+\label{thm:darboux-sums-real-partition-scope}
+Every $\RiemannIntegralUp$ or Real-facing consumer of an accepted $\DarbouxSumsUp$ packet must read the finite route
+$$
+\RealUp,\quad \PartitionUp,\quad \DyadicRatCoreUp,\quad \DarbouxSumUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+as exposed by $I,P,SL,SU,G,R,E,H,C,Q,N$. The route supplies lower and upper finite sums over displayed partition cells, but it refuses quotient functions, host suprema, selected limits, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the partition rows $I$ and $P$. They expose only a displayed real interval source and a finite partition surface, so a consumer receives cells, adjacency, and endpoint coverage rather than a completed function space.
+
+Use the finite sum rows $SL$ and $SU$ together with the gap row $G$. These rows compute lower and upper Darboux sums over the same displayed cells and route the comparison through the $\DarbouxSumUp$ boundary.
+
+The readback and seal rows $R$ and $E$ then attach the finite observations to $\RegSeqRatUp$ and $\RealUp$ only after the partition and Darboux rows are visible. The structural rows $H,C,Q,N$ preserve this order, so no Riemann or Real-facing consumer can bypass the finite partition route or import a refused host principle.
+\end{proof}
+
+\closureat{DarbouxSumsUp}{seedStr}
+
+\begin{closurestatus}{\DarbouxSumsUp}
+  \constructivestory{A $\DarbouxSumsUp$ packet is generated from a RealUp interval source, a finite PartitionUp cell row, displayed lower and upper value ledgers, lower and upper finite sum rows, a DarbouxSum gap comparison, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:darboux-sums-carrier}, \autoref{thm:darboux-sums-namecert-obligations}, and \autoref{thm:darboux-sums-real-partition-scope} seed the finite Darboux partition-sum route over RealUp, RegSeqRatUp, DyadicRatCoreUp, PartitionUp, DarbouxSumUp, and RiemannIntegralUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient functions, host suprema, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite partition coverage, lower and upper value stability, finite-sum exactness, Darboux gap readback, RegSeqRat handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.DarbouxSumsUp.}
+\end{closurestatus}
