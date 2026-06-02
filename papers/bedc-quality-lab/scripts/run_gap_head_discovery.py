@@ -151,6 +151,9 @@ def _build_gap_head_projection(
 ) -> GapHeadProjection:
     _validate_gap_head_payload(payload)
     records = payload["records"]
+    payload_source_artifacts = payload.get("source_artifacts", {})
+    source_json_artifact = payload_source_artifacts.get("json_artifact", SOURCE_JSON_ARTIFACT)
+    source_report_artifact = payload_source_artifacts.get("report_artifact", payload.get("report"))
     source_ids = frozenset(f"seed:{record['seed']}" for record in records)
     source_relation = frozenset(
         (f"seed:{record['seed']}", f"seed:{record['seed']}", _judgment(record["arms"][BEFORE_ARM]))
@@ -169,7 +172,7 @@ def _build_gap_head_projection(
         "representation_boundary": payload["representation_boundary"],
         "inference_no_ground_truth_z": payload["inference_no_ground_truth_z"],
         "common_source_record_count": len(records),
-        "source_artifact": SOURCE_JSON_ARTIFACT,
+        "source_artifact": source_json_artifact,
     }
     source = ClassifierState(
         source_ids=source_ids,
@@ -236,8 +239,8 @@ def _build_gap_head_projection(
         passage=passage,
         claim=claim,
         source_artifacts={
-            "source_json_artifact": SOURCE_JSON_ARTIFACT,
-            "source_report_artifact": payload.get("report"),
+            "source_json_artifact": source_json_artifact,
+            "source_report_artifact": source_report_artifact,
             "producer_script": payload.get("source_artifacts", {}).get("generation_script"),
             "projection_script": "scripts/run_gap_head_discovery.py",
         },

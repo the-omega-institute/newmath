@@ -111,6 +111,22 @@ def test_projection_has_source_artifacts_and_common_source():
     assert verdict["boundary_checks"]["inference_no_ground_truth_z"] is True
 
 
+def test_custom_source_artifacts_flow_into_projection():
+    payload = copy.deepcopy(_payload())
+    payload["source_artifacts"]["json_artifact"] = "reports/custom/source-payload.json"
+    payload["source_artifacts"]["report_artifact"] = "reports/custom/source-payload.md"
+    projection = runner._build_gap_head_projection(payload)
+    verdict = runner._verdict_payload(projection)
+
+    cert = projection.passage.target.certificate
+    assert cert["source_artifact"] == "reports/custom/source-payload.json"
+    assert projection.source_artifacts["source_json_artifact"] == "reports/custom/source-payload.json"
+    assert projection.source_artifacts["source_report_artifact"] == "reports/custom/source-payload.md"
+    assert verdict["source_artifacts"]["source_json_artifact"] == "reports/custom/source-payload.json"
+    assert verdict["source_artifacts"]["source_report_artifact"] == "reports/custom/source-payload.md"
+    assert verdict["source_artifacts"]["source_json_artifact"] != runner.SOURCE_JSON_ARTIFACT
+
+
 def test_positive_branch_matches_existing_predicate():
     projection = runner._build_gap_head_projection(_payload())
     verdict = runner._verdict_payload(projection)
