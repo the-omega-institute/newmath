@@ -17,6 +17,9 @@ from typing import Any, Literal, Sequence
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+
 CANONICAL_DIR = ROOT / "reports" / "canonical"
 INDEX_ARTIFACT = CANONICAL_DIR / "index.json"
 INDEX_SCHEMA_ID = "bedc-quality-lab:canonical-report-index"
@@ -30,12 +33,6 @@ HONEST_BOUNDARY_ROWS = (
     "Candidate is not full certification.",
     "Bound projection is not full proof.",
     "Hardening is not closure.",
-)
-FORBIDDEN_POSITIVE_CLAIM_TERMS = (
-    "full-lejepa",
-    "global-quality",
-    "full-tensor-namecert",
-    "llm-behavior",
 )
 METRIC_ALIASES = {
     "alignment_loss": "alignment_loss_mse",
