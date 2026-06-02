@@ -145,4 +145,49 @@ theorem ClaimRegistryLayer_mature_package_claim_index [AskSetup] [PackageSetup]
           packageSig⟩
   }
 
+theorem ClaimRegistryLayer_public_export_certificate [AskSetup] [PackageSetup]
+    {entry refusal closure formalTarget provenance verification transport package name exportRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClaimRegistryLayerCarrier entry refusal closure formalTarget provenance verification transport
+        package name →
+      Cont transport package exportRead →
+        PkgSig bundle exportRead pkg →
+          SemanticNameCert
+            (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+            (fun row : BHist => Cont transport package row)
+            (fun row : BHist => hsame row exportRead ∧ PkgSig bundle exportRead pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier exportRoute packageSig
+  obtain ⟨_unaryEntry, _unaryRefusal, _unaryFormalTarget, _unaryProvenance,
+    unaryTransport, unaryPackage, _closureRoute, _formalRoute, _nameRoute⟩ := carrier
+  have unaryExport : UnaryHistory exportRead :=
+    unary_cont_closed unaryTransport unaryPackage exportRoute
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro exportRead ⟨hsame_refl exportRead, unaryExport⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro row source
+      exact cont_result_hsame_transport exportRoute (hsame_symm source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, packageSig⟩
+  }
+
 end BEDC.Derived.ClaimRegistryLayerUp
