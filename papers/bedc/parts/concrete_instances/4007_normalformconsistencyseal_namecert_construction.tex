@@ -124,6 +124,41 @@ stronger subject-reduction route.
 \end{proof}
 \leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealClosedNormalFrontier}
 
+\begin{theorem}[Normal-form consistency seal critical-pair route]
+\label{thm:normal-form-consistency-seal-critical-pair-route}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted $\NormalFormConsistencySealUp$
+packet. Any critical-pair read, residual-discharge read, or preservation-facing
+consumer of $S$ must pass through the displayed finite route
+$$
+T,F,N,K,X,H,C,P,L .
+$$
+The route exposes the typing row, internal false row, beta-strong normality row,
+checked closed-normal theorem row, subject-reduction boundary row, transport,
+continuation replay, provenance, and local naming, but it does not discharge
+subject reduction internally.
+\end{theorem}
+\begin{proof}
+Project the carrier in
+\autoref{def:normal-form-consistency-seal-carrier}. Its only visible rows are
+$T,F,N,K,X,H,C,P,L$, so a critical-pair or residual-discharge consumer has no
+coordinate outside that displayed packet.
+
+Apply \autoref{thm:normal-form-consistency-seal-obligations}. The local
+NameCert obligations read the checked closed-normal theorem row $K$ with the
+typing, false, and beta-strong normality rows, while the row $X$ is recorded as
+the non-escaped subject-reduction boundary.
+
+Use
+\autoref{thm:normal-form-consistency-seal-subject-reduction-boundary} and
+\autoref{thm:normal-form-consistency-seal-closed-normal-frontier}. Together
+they identify the closed-normal contradiction route and keep arbitrary
+subject-reduction discharge outside the seal.
+
+Thus every preservation-facing read must expose $T,F,N,K,X,H,C,P,L$ before it
+can cite the open frontier, and the present packet cannot turn that citation
+into an internal subject-reduction proof.
+\end{proof}
+
 \begin{theorem}[Normal-form consistency seal constructor frontier]
 \label{thm:normalformconsistencyseal-constructor-frontier}
 Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
