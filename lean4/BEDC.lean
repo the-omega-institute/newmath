@@ -3647,6 +3647,7 @@ import BEDC.Derived.FareySequenceUp.MediantRefinementStability
 import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.NeighborDeterminacy
 import BEDC.Derived.FareySequenceUp.RealApproximationBoundary
+import BEDC.Derived.FareySequenceUp.RealApproximationHandoff
 import BEDC.Derived.FareySequenceUp.RealApproximationLedgerNonescape
 import BEDC.Derived.FareySequenceUp.RealBracketConsumerLock
 import BEDC.Derived.FareySequenceUp.RealReadbackRootObligation
@@ -4520,6 +4521,7 @@ import BEDC.Derived.IdealUp.QuotientKernelScope
 import BEDC.Derived.IdealUp.RingMapZeroFiber
 import BEDC.Derived.IdealUp.StdBridge
 import BEDC.Derived.IdealUp.SumClosure
+import BEDC.Derived.ImplicitFunctionTheoremUp
 import BEDC.Derived.ImplicitFunctionUp.TasteGate
 import BEDC.Derived.IndependenceUp
 import BEDC.Derived.InducedRepUp
@@ -4829,6 +4831,7 @@ import BEDC.Derived.LocallyCompactUp.LocalCompactNeighborhoodObligations
 import BEDC.Derived.LocallyCompactUp.LocatedCompactRoute
 import BEDC.Derived.LocallyCompactUp.LocatedHandoffBoundary
 import BEDC.Derived.LocallyCompactUp.PropernessComparisonNonescape
+import BEDC.Derived.LocallyCompactUp.PropernessLocalityRootBoundary
 import BEDC.Derived.LocallyCompactUp.TasteGate
 import BEDC.Derived.LocatedApartnessUp.TasteGate
 import BEDC.Derived.LocatedArchimedeanUp.TasteGate
@@ -6952,6 +6955,7 @@ import BEDC.Derived.RegularCauchyScaleUp.UnitScalarBoundary
 import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySeparationUp.ModulusBoundary
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
+import BEDC.Derived.RegularCauchySequenceSpaceUp
 import BEDC.Derived.RegularCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.RegularCauchySequenceUp
 import BEDC.Derived.RegularCauchySequentialCompletenessUp.TasteGate
@@ -7393,6 +7397,7 @@ import BEDC.Derived.SobolevUp.FiniteEnergyNameCertObligation
 import BEDC.Derived.SobolevUp.FiniteWindowClassifierSurface
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
 import BEDC.Derived.SobolevUp.HilbertCompletionDescent
+import BEDC.Derived.SobolevUp.HilbertNormReadbackScope
 import BEDC.Derived.SobolevUp.HilbertNormRootWindow
 import BEDC.Derived.SobolevUp.IntegralDerivativeTransportStability
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
