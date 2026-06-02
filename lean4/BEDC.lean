@@ -1765,6 +1765,7 @@ import BEDC.Derived.CauchyRegularityModulusUp.TasteGate
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRegularizationUp.TasteGate
 import BEDC.Derived.CauchyRemainderEstimateUp.TasteGate
+import BEDC.Derived.CauchyRepresentationUp.StreamRegSeqRatHandoff
 import BEDC.Derived.CauchyRepresentationUp.TasteGate
 import BEDC.Derived.CauchyRootCriterionUp.TasteGate
 import BEDC.Derived.CauchySchwarzRealUp.Carrier
@@ -3623,6 +3624,7 @@ import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.ApproximationObligation
 import BEDC.Derived.FareySequenceUp.ApproximationWindowFactorization
 import BEDC.Derived.FareySequenceUp.ClassifierTransport
+import BEDC.Derived.FareySequenceUp.ContinuedFractionWindow
 import BEDC.Derived.FareySequenceUp.DenominatorBoundWindow
 import BEDC.Derived.FareySequenceUp.DenominatorRefinement
 import BEDC.Derived.FareySequenceUp.DenominatorRefinementInduction
@@ -4730,6 +4732,7 @@ import BEDC.Derived.LieGroupUp.AdjointRep
 import BEDC.Derived.LieGroupUp.TasteGate
 import BEDC.Derived.LimitComparisonTestUp.TasteGate
 import BEDC.Derived.LimitSelectorUp
+import BEDC.Derived.LimitUp.BishopHandoff
 import BEDC.Derived.LimitUp.TasteGate
 import BEDC.Derived.LimsupUp.TasteGate
 import BEDC.Derived.LinearMapUp
