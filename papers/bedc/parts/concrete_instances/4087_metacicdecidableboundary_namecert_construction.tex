@@ -184,6 +184,30 @@ Now use refusal exactness and classifier stability, \autoref{thm:metacic-decidab
 Finally apply ledger exactness from \autoref{thm:metacic-decidable-boundary-ledger-exactness}. Since the ledger contains no unrecorded bounded-comparison row, quotient of represented terms, host evaluator, or global beta-conversion decider, the substitution window remains a finite bounded comparison surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary refusal substitution stability]
+\label{thm:metacic-decidable-boundary-refusal-substitution-stability}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, substitution-sensitive reads that ask for standalone $\mathsf{ClosedAt}$ decidability, global beta-conversion, quotient equality over represented terms, fuel-erased normalization, or host evaluator behavior are still routed to the refusal row $R$. The transport, replay, provenance, and naming rows $H,C,P,N$ preserve the finite substitution window, but they do not turn the refused requests into accepted endpoints.
+\end{theorem}
+\begin{proof}
+Begin with the substitution-window theorem \autoref{thm:metacic-decidable-boundary-substitution-window}. It keeps every substitution-sensitive bounded comparison inside $T,S,B,F,R,H,C,P,N$.
+
+Use refusal exactness from \autoref{thm:metacic-decidable-boundary-refusal-exactness}. The row $R$ is precisely the displayed refusal boundary for standalone $\mathsf{ClosedAt}$ decisions, global beta-conversion, quotient equality, fuel-erased normalization, and host evaluation.
+
+Finally apply ledger exactness from \autoref{thm:metacic-decidable-boundary-ledger-exactness}. Since the ledger contains no separate endpoint for those requests, transport and replay through $H,C,P,N$ can preserve only the finite boundary and must route the requests back to $R$.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable boundary candidate-normal substitution scope]
+\label{thm:metacic-decidable-boundary-candidate-normal-substitution-scope}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, candidate-normal comparison under substitution consumes only the checker row $T$, structural equality row $S$, bounded normal comparison row $B$, finished-normal side-condition row $F$, refusal row $R$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. No candidate-mediated read may add a hidden evaluator, quotient equality row, global beta-conversion decider, standalone $\mathsf{ClosedAt}$ decider, or fuel-free normalization endpoint.
+\end{theorem}
+\begin{proof}
+Start from candidate-normal-form reads in \autoref{thm:metacic-decidable-boundary-candidate-normal-form}. Candidate inspection is already tied to $T,S,B,F$ and cannot be detached from the displayed checker and side-condition rows.
+
+Apply the substitution-window theorem \autoref{thm:metacic-decidable-boundary-substitution-window}. It shows that substitution-sensitive comparison still passes through $R,H,C,P,N$ in addition to the checker, equality, comparison, and finished-normal rows.
+
+Use refusal exactness and ledger exactness, \autoref{thm:metacic-decidable-boundary-refusal-exactness} and \autoref{thm:metacic-decidable-boundary-ledger-exactness}. The refusal row accounts for the missing global endpoints, and the ledger has no unrecorded row beyond $T,S,B,F,R,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[MetaCIC decidable boundary candidate-substitution exhaustion]
 \label{thm:metacic-decidable-boundary-candidate-substitution-exhaustion}
 For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, every substitution-sensitive candidate comparison read must expose the checker row $T$, structural equality row $S$, bounded normal row $B$, finished-normal row $F$, refusal row $R$, and replay and provenance rows $H,C,P,N$. No consumer may infer standalone $\mathsf{ClosedAt}$ decidability, global beta-conversion, quotient equality over represented terms, or host evaluator behavior from such a candidate-mediated read.
@@ -212,6 +236,20 @@ Use \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape} and \a
 Apply \autoref{thm:metacic-decidable-boundary-sibling-provenance} and \autoref{thm:metacic-decidable-boundary-ledger-exactness}. Provenance contributes only the named sibling route, and the ledger supplies no unrecorded bounded-comparison row, quotient of represented terms, host evaluator, or global beta-conversion decider.
 
 The classifier-stability theorem \autoref{thm:metacic-decidable-boundary-classifier-stability} transports the same displayed rows through $H,C$ without adding a new endpoint. Hence $T,S,B,F,R,H,C,P,N$ are exactly the obligation-closure package surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable boundary conditional obligation]
+\label{thm:metacic-decidable-boundary-conditional-obligation}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, an accepted bounded comparison read is valid only under the displayed checker row $T$, structural equality row $S$, bounded normal row $B$, finished-normal side-condition row $F$, and refusal row $R$, with transport, replay, provenance, and naming rows $H,C,P,N$ still visible. The conditional route explicitly refuses standalone $\mathsf{ClosedAt}$ decidability, global beta-conversion, quotient equality over represented terms, and host evaluation.
+\end{theorem}
+\begin{proof}
+Start with bounded-comparison nonescape and window totality, \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape} and \autoref{thm:metacic-decidable-boundary-window-totality}. They make every accepted bounded comparison expose $T,S,B,F$ rather than a detached comparison oracle.
+
+Use candidate normal-form reads from \autoref{thm:metacic-decidable-boundary-candidate-normal-form}. Candidate inspection remains inside the same checker, structural equality, bounded normal, and finished-normal side-condition rows.
+
+Apply refusal exactness from \autoref{thm:metacic-decidable-boundary-refusal-exactness}. The row $R$ records the missing standalone $\mathsf{ClosedAt}$ decision and unrestricted beta-conversion endpoint, while leaving the bounded comparison route available only under its displayed conditions.
+
+Finally invoke ledger exactness and the obligation-closure package, \autoref{thm:metacic-decidable-boundary-ledger-exactness} and \autoref{thm:metacic-decidable-boundary-obligation-closure-package}. The ledger has no quotient equality over represented terms and no host evaluator, so the valid comparison surface is exactly $T,S,B,F,R,H,C,P,N$.
 \end{proof}
 
 \begin{theorem}[MetaCIC decidable boundary obligation scope lock]
@@ -303,6 +341,22 @@ Use the ClosedAt refusal route of \autoref{thm:metacic-decidable-boundary-closed
 Finally apply the conversion nonescape package \autoref{thm:metacic-decidable-boundary-conversion-nonescape-package}. It repacks the conversion-facing surface through $B,F,R,H,C,P,N$, so the normal-form decision envelope is exactly the positive checker, structural equality, bounded comparison, and finished-normal side-condition surface together with the refusal boundary in $R$.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary conversion refusal trichotomy]
+\label{thm:metacic-decidable-boundary-conversion-refusal-trichotomy}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, every conversion-facing request is classified by exactly one displayed route: bounded comparison through $B$ together with the finished-normal side condition $F$, finite refusal through $R$ when that side condition is absent, or structural replay through $H,C,P,N$ when the request is only transporting an already displayed boundary. None of the three routes exports global beta-conversion, fuel-erased normalization, quotient equality over represented terms, or host evaluation.
+\end{theorem}
+\begin{proof}
+Begin with the normal-form decision envelope \autoref{thm:metacic-decidable-boundary-normal-form-decision-envelope}. A positive conversion-facing read must expose the finite checker rows $T,S$, the bounded comparison row $B$, and the finished-normal side-condition row $F$ before any comparison result is available.
+
+If $F$ is absent, apply the ClosedAt refusal route \autoref{thm:metacic-decidable-boundary-closedat-refusal-route}. The request cannot be promoted to a standalone conversion decision, so it is routed to the finite refusal row $R$ rather than to a hidden normalizer or host evaluator.
+
+If the request is a replay of already displayed data, apply fuel-window replay \autoref{thm:metacic-decidable-boundary-fuel-window-replay}. The structural rows $H,C,P,N$ can transport, replay, source, and name the boundary, but they cannot erase fuel or add a new comparison endpoint.
+
+The candidate-substitution and refusal exactness rows separate these cases. A request with $B,F$ present is the bounded-comparison route; a request lacking the side condition is the refusal route through $R$; and a request that only reuses displayed data is the replay route through $H,C,P,N$.
+
+Finally use the conversion nonescape package \autoref{thm:metacic-decidable-boundary-conversion-nonescape-package}. Since the carrier has no coordinate for global beta-conversion, fuel-erased normalization, quotient equality, or host evaluation, the three displayed routes exhaust the conversion-facing classifier.
+\end{proof}
+
 \begin{definition}[MetaCIC decidable boundary endpoint subcarrier]
 \label{def:metacic-decidable-boundary-endpoint-subcarrier}
 For an accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, the endpoint subcarrier is the finite packet
@@ -326,17 +380,53 @@ Now project the endpoint subcarrier of \autoref{def:metacic-decidable-boundary-e
 If $B$ is read without this endpoint data, the route has only bounded comparison under a displayed window. The refusal row still blocks global beta-conversion decidability, quotient equality, fuel-erased normalization, and host evaluation.
 \end{proof}
 
-\closureat{MetaCICDecidableBoundaryUp}{seedStr}
+\begin{theorem}[MetaCIC decidable boundary conversion case split]
+\label{thm:metacic-decidable-boundary-conversion-case-split}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, each conversion request presented to the packet is split inside the displayed $\BHist$ route into an accepted finite case using $T,S,B,F$ or a refusal row in $R$. The split is preserved by componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\MetaCICDecidableBoundaryUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Use conversion refusal trichotomy. It classifies conversion-facing requests as bounded comparison with $B,F$, finite refusal through $R$, or structural replay through $H,C,P,N$.
+
+The normal-form decision envelope supplies the accepted finite cases through $T,S,B,F$. The ClosedAt refusal route supplies the negative rows in $R$ when the request asks for a standalone endpoint outside the packet.
+
+Transport and replay are componentwise by classifier stability. Hence the split is a $\BHist$ and $\NameCert$-facing route, not a parameter transport theorem and not a hidden global conversion decider.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable boundary critical-pair finiteness]
+\label{thm:metacic-decidable-boundary-critical-pair-finiteness}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet, every critical-pair check visible to the decidable-boundary surface is recorded as a finite ledger row inside $T,S,B,F,R,H,C,P,N$. The ledger records the inspected checker window, structural-equality comparison, bounded normal comparison, finished-normal side condition, refusal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming; it exports no unrecorded critical-pair search and no host evaluator.
+\end{theorem}
+\begin{proof}
+Start with window totality and ledger exactness. They make each bounded comparison a finite inspected window whose rows are $T,S,B,F$ together with the refusal and structural context $R,H,C,P,N$.
+
+Apply substitution window and candidate-substitution exhaustion. Critical-pair inspection is therefore read only through displayed checker, structural equality, bounded normal, finished-normal, refusal, replay, provenance, and naming rows.
+
+The bounded comparison nonescape theorem blocks promotion to unrestricted conversion, quotient equality, fuel-erased normalization, or host evaluation. Thus the critical-pair check is a finite ledger row of the packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable boundary normal-form readback]
+\label{thm:metacic-decidable-boundary-normal-form-readback}
+Every normal-form readback available from an accepted $\MetaCICDecidableBoundaryUp$ packet is routed through the displayed boundary packet $T,S,B,F,R,H,C,P,N$. The readback may expose candidate normal-form data, bounded comparison under finished-normal side conditions, and finite refusal rows, but it cannot bypass the packet to obtain fuel-erased normalization, quotient equality over represented terms, standalone $\mathsf{ClosedAt}$ decidability, or host evaluation.
+\end{theorem}
+\begin{proof}
+Begin with candidate normal-form reads and the normal-form decision envelope. Together they route readback through the checker row $T$, structural equality row $S$, bounded comparison row $B$, finished-normal side condition $F$, and refusal row $R$.
+
+Use fuel-window replay and the finished normal endpoint theorem. These keep readback tied to finite fuel and displayed endpoint rows before a conversion-facing read is accepted.
+
+Finally apply the conversion nonescape package. The structural rows $H,C,P,N$ only transport, replay, source, and name the displayed boundary, so readback cannot leave the packet for a fuel-erased normalizer, quotient equality, standalone ClosedAt decider, or host evaluator.
+\end{proof}
+
+\closureat{MetaCICDecidableBoundaryUp}{scopedStr}[BEDC.Derived.MetaCICDecidableBoundaryUp.MetaCICDecidableBoundaryFuelWindowReplay]
 
 \begin{closurestatus}{\MetaCICDecidableBoundaryUp}
   \constructivestory{A $\MetaCICDecidableBoundaryUp$ packet is generated from inferTypeCtx checking, checkSameTerm structural equality, bounded normal comparison, finished-normal side conditions, refusal rows for ClosedAt and global beta conversion, componentwise transport, continuation routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-decidable-boundary-carrier}, \autoref{thm:metacic-decidable-boundary-namecert-obligations}, \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}, \autoref{thm:metacic-decidable-boundary-refusal-exactness}, \autoref{thm:metacic-decidable-boundary-sibling-provenance}, \autoref{thm:metacic-decidable-boundary-window-totality}, \autoref{thm:metacic-decidable-boundary-classifier-stability}, and \autoref{thm:metacic-decidable-boundary-ledger-exactness} bind the finite checker, bounded-comparison, refusal, provenance, and local naming surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:metacic-decidable-boundary-carrier}, \autoref{thm:metacic-decidable-boundary-namecert-obligations}, \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}, \autoref{thm:metacic-decidable-boundary-refusal-exactness}, \autoref{thm:metacic-decidable-boundary-sibling-provenance}, \autoref{thm:metacic-decidable-boundary-fuel-obligation}, \autoref{thm:metacic-decidable-boundary-candidate-obligation}, \autoref{thm:metacic-decidable-boundary-replay-obligation}, and \autoref{thm:metacic-decidable-boundary-substitution-window} bind carrier admission, checker-row visibility, bounded-comparison nonescape, refusal exactness, sibling provenance, fuel-window obligation, candidate-normal read, replay obligation, and substitution window for the displayed packet.}
   \formalstatus{\theoremCheckedV}
   \closureledger{BEDC.Meta.DiscoveryDeltaLedger.metaCICDecidableBoundaryDeltaLedger}
   \leantarget{BEDC.Derived.MetaCICDecidableBoundaryUp.MetaCICDecidableBoundaryFuelWindowReplay}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a standalone ClosedAt decider, global beta-conversion decidability, fuel-erased normalisation, quotient equality over represented terms, or bridge checking.}
-  \upgradepath{Obligation closure requires checking carrier admission, checker-row visibility, bounded-comparison non-escape, refusal-row exactness, and sibling provenance for the displayed packet.}
+  \upgradepath{Scoped closure requires a public consumer boundary or bridge surface that preserves the same finite decidable-boundary rows without claiming confluence, global beta-conversion decidability, fuel-erased normalization, quotient equality, or host evaluation.}
 \end{closurestatus}

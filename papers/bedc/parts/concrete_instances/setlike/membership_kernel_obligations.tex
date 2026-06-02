@@ -1,0 +1,17 @@
+\begin{theorem}[SetLike membership kernel obligations]
+\label{thm:setlike-membership-kernel-obligations}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, every consumer that reads membership or subset data from $S$ must first expose the membership source $M$, displayed classifier $Q$, subset implication $I$, restricted comprehension $R$, extensional boundary $E$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\SetLikeUp}$ row $N$. The admissible read is therefore the concrete kernel route
+$$
+M,Q,I,R,E \longmapsto H,C,P,N ,
+$$
+and it cannot be replaced by an ambient powerset, unrestricted separation, quotient equality of sets, selected representatives, or a host universe.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:setlike-carrier}. Its membership-facing coordinates are exactly the source row $M$ and the classifier row $Q$, while subset and bounded family reads are carried only by $I$ and $R$.
+
+Use \autoref{thm:setlike-membership-carrier-admission}. A membership-facing consumer must admit $S_{\in}=(M,Q,H,C,P,N)$ before it can inspect element-in-set data, so the source and classifier are visible before the structural rows are replayed.
+
+Next apply \autoref{thm:setlike-classifier-transport-route}. The subset implication, restricted comprehension, and extensional boundary rows stay attached to the displayed classifier route $Q,I,R,E$ under $H,C,P,N$.
+
+It remains to exclude host-level replacements. The membership route theorem \autoref{thm:setlike-membership-route} and the bounded-comprehension and extensional-boundary obligations keep every membership, subset, comprehension, and comparison read inside $M,Q,I,R,E,H,C,P,N$. Since \autoref{def:setlike-carrier} has no powerset, unrestricted-separation, quotient-equality, representative-selection, or host-universe coordinate, every accepted consumer must expose the displayed kernel route before reading membership or subset data.
+\end{proof}

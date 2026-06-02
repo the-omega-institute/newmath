@@ -1,14 +1,22 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BishopCompletionModulusUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -202,5 +210,153 @@ theorem BishopCompletionModulusCarrier_l10_handoff {M S n k W D R E sealRead : B
   have hR : UnaryHistory R := unary_cont_closed hW hD regularRoute
   have hSeal : UnaryHistory sealRead := unary_cont_closed hR hE sealRoute
   exact ⟨hk, hW, hR, hSeal, sealRoute⟩
+
+def BishopCompletionModulusCarrier [AskSetup] [PackageSetup]
+    (M S n k W D R E H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory M ∧ UnaryHistory S ∧ UnaryHistory n ∧ UnaryHistory k ∧
+    UnaryHistory W ∧ UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory E ∧
+      UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+        Cont M n k ∧ Cont S k W ∧ Cont W D R ∧ Cont R E H ∧
+          PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem BishopCompletionModulusCarrier_rows_exposed [AskSetup] [PackageSetup]
+    {M S n k W D R E H C P N sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopCompletionModulusCarrier M S n k W D R E H C P N bundle pkg ->
+      Cont R E sealRead ->
+        SemanticNameCert
+            (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row M ∨ hsame row S ∨ hsame row n ∨ hsame row k ∨
+                hsame row W ∨ hsame row D ∨ hsame row R ∨ hsame row E ∨
+                  hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                    hsame row sealRead)
+            (fun row : BHist =>
+              UnaryHistory row ∧ Cont M n k ∧ Cont S k W ∧ Cont W D R ∧
+                Cont R E sealRead ∧ PkgSig bundle P pkg)
+            hsame ∧
+          UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier sealRoute
+  obtain ⟨unaryM, unaryS, _unaryN, _unaryK, _unaryW, _unaryD, unaryR, unaryE,
+    _unaryH, _unaryC, _unaryP, _unaryLocalName, modulusRoute, windowRoute,
+      handoffRoute, _carrierSealRoute, provenancePkg, _localNamePkg⟩ := carrier
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed unaryR unaryE sealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row S ∨ hsame row n ∨ hsame row k ∨ hsame row W ∨
+              hsame row D ∨ hsame row R ∨ hsame row E ∨ hsame row H ∨
+                hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont M n k ∧ Cont S k W ∧ Cont W D R ∧
+              Cont R E sealRead ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro sealRead ⟨hsame_refl sealRead, sealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, modulusRoute, windowRoute, handoffRoute, sealRoute,
+        provenancePkg⟩
+  }
+  exact ⟨cert, sealUnary⟩
+
+theorem BishopCompletionModulusCarrier_threshold_coherence [AskSetup] [PackageSetup]
+    {M S n k W D R E H C P N refinedK refinedW : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopCompletionModulusCarrier M S n k W D R E H C P N bundle pkg ->
+      Cont M n refinedK ->
+        Cont S refinedK refinedW ->
+          UnaryHistory refinedK ∧ UnaryHistory refinedW ∧ hsame refinedK k ∧
+            SemanticNameCert
+              (fun row : BHist => hsame row refinedW ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row M ∨ hsame row S ∨ hsame row n ∨ hsame row k ∨
+                  hsame row refinedK ∨ hsame row refinedW)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont M n refinedK ∧ Cont S refinedK refinedW ∧
+                  PkgSig bundle P pkg)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier refinedModulusRoute refinedWindowRoute
+  obtain ⟨unaryM, unaryS, unaryN, _unaryK, _unaryW, _unaryD, _unaryR, _unaryE,
+    _unaryH, _unaryC, _unaryP, _unaryLocalName, modulusRoute, _windowRoute,
+      _handoffRoute, _sealRoute, provenancePkg, _localNamePkg⟩ := carrier
+  have refinedKUnary : UnaryHistory refinedK :=
+    unary_cont_closed unaryM unaryN refinedModulusRoute
+  have refinedWUnary : UnaryHistory refinedW :=
+    unary_cont_closed unaryS refinedKUnary refinedWindowRoute
+  have sameRefinedK : hsame refinedK k :=
+    cont_respects_hsame (hsame_refl M) (hsame_refl n) refinedModulusRoute modulusRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row refinedW ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row M ∨ hsame row S ∨ hsame row n ∨ hsame row k ∨
+            hsame row refinedK ∨ hsame row refinedW)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont M n refinedK ∧ Cont S refinedK refinedW ∧
+            PkgSig bundle P pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro refinedW ⟨hsame_refl refinedW, refinedWUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, refinedModulusRoute, refinedWindowRoute, provenancePkg⟩
+  }
+  exact ⟨refinedKUnary, refinedWUnary, sameRefinedK, cert⟩
 
 end BEDC.Derived.BishopCompletionModulusUp

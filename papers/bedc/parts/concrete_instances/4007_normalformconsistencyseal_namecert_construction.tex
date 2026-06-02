@@ -124,6 +124,119 @@ stronger subject-reduction route.
 \end{proof}
 \leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealClosedNormalFrontier}
 
+\begin{theorem}[Normal-form consistency seal constructor frontier]
+\label{thm:normalformconsistencyseal-constructor-frontier}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
+$\NormalFormConsistencySealUp$ packet. The constructor frontier exported by
+$S$ is exactly the closed-normal contradiction route through
+$T,F,N,K,H,C,P,L$. The subject-reduction row $X$ remains a boundary citation:
+no beta, application, lambda, or Pi constructor discharge is internal to the
+seal.
+\end{theorem}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealConstructorFrontier}
+\begin{proof}
+Read the carrier of
+\autoref{def:normal-form-consistency-seal-carrier}. The rows $T,F,N,K$
+provide the typed closed-normal false candidate and the checked
+closed-normal theorem row, while $H,C,P,L$ transport, replay, source, and
+name that same finite route.
+
+Apply the obligation theorem
+\autoref{thm:normal-form-consistency-seal-obligations}. Its readback clause
+keeps $K$ tied to the displayed typing, false-type, and beta-strong normality
+rows, and its non-escape clause prevents the boundary row $X$ from being read
+as a constructor discharge.
+
+Finally use the subject-reduction boundary and closed-normal frontier
+theorems, \autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}
+and \autoref{thm:normal-form-consistency-seal-closed-normal-frontier}. They
+leave beta, application, lambda, and Pi preservation obligations at the
+subject-reduction socket, so the seal exports only the closed-normal
+contradiction route and no internal discharge for those constructors.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal critical-pair obligation]
+\label{thm:normal-form-consistency-seal-critical-pair-obligation}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
+$\NormalFormConsistencySealUp$ packet. Any constructor-facing read of $S$ that
+mentions beta, application, lambda, or Pi critical pairs must display the
+critical-pair boundary through $T,F,N,K,X,H,C,P,L$ before it may use the
+checked closed-normal theorem row $K$. The read cannot treat $K$ as an
+arbitrary confluence theorem or as a discharge of the subject-reduction
+boundary row $X$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:normal-form-consistency-seal-carrier}. The row $K$ is available
+only together with the typing row $T$, false row $F$, beta-strong normality
+row $N$, subject-reduction boundary row $X$, and the structural rows
+$H,C,P,L$.
+
+Use \autoref{thm:normalformconsistencyseal-constructor-frontier}. It states
+that beta, application, lambda, and Pi constructor discharges remain outside
+the seal. The constructor-facing read therefore sees those critical-pair
+cases only as boundary data.
+
+Finally apply
+\autoref{thm:normal-form-consistency-seal-obligations},
+\autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}, and
+\autoref{thm:normal-form-consistency-seal-closed-normal-frontier}. These rows
+permit use of $K$ only as the displayed closed-normal contradiction route, so
+no arbitrary confluence or subject-reduction discharge is exported.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal residual-context obligation]
+\label{thm:normal-form-consistency-seal-residual-context-obligation}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
+$\NormalFormConsistencySealUp$ packet. The empty-context row $T$ and the
+subject-reduction boundary row $X$ keep every residual context transport
+visible: a consumer must read residual context information through the
+displayed rows $T,X,H,C,P,L$ and cannot replace that route by host
+substitution or an ambient weakening theorem.
+\end{theorem}
+\begin{proof}
+Project the seal carrier. The row $T$ is the empty-context MetaCIC typing row,
+and $X$ is the visible subject-reduction boundary; neither row is a host
+substitution operation.
+
+Apply the subject-reduction boundary theorem
+\autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}. It
+forces preservation-facing data through the sibling discharge socket and keeps
+the closed-context read tied to the displayed finite rows.
+
+The obligation theorem and constructor frontier,
+\autoref{thm:normal-form-consistency-seal-obligations} and
+\autoref{thm:normalformconsistencyseal-constructor-frontier}, then route all
+transport through $H,C,P,L$. Hence residual contexts remain visible BEDC data
+rather than an implicit host substitution principle.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal joinability obligation]
+\label{thm:normal-form-consistency-seal-joinability-obligation}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
+$\NormalFormConsistencySealUp$ packet. Any joinability read must factor
+through all displayed rows $T,F,N,K,X,H,C,P,L$. It may use the closed-normal
+route named by $K$ only after the typing, false, normality, boundary,
+transport, replay, provenance, and local naming rows are visible, and it may
+not assert arbitrary confluence or arbitrary joinability for MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Read the carrier in
+\autoref{def:normal-form-consistency-seal-carrier}. The finite packet exposes
+exactly the rows $T,F,N,K,X,H,C,P,L$, so a joinability-facing consumer has no
+other coordinate to inspect.
+
+Use \autoref{thm:normal-form-consistency-seal-closed-normal-frontier}. The
+positive route is the closed-normal contradiction route through
+$T,F,N,K,H,C,P,L$, while $X$ remains the visible subject-reduction boundary.
+
+Now apply \autoref{thm:normalformconsistencyseal-constructor-frontier} and
+\autoref{thm:normal-form-consistency-seal-critical-pair-obligation}. The
+constructor and critical-pair cases are boundary obligations, not internal
+confluence data. Therefore any joinability read factors through the displayed
+seal rows and cannot export arbitrary confluence.
+\end{proof}
+
 \begin{theorem}[Normal-form consistency seal finite-window determinacy]
 \label{thm:normal-form-consistency-seal-finite-window-determinacy}
 Let $S=(T,F,N,K,X,H,C,P,L)$ and $S'=(T',F',N',K',X',H',C',P',L')$ be accepted
@@ -185,6 +298,7 @@ the closed-normal theorem row is public inside the seal, while the lift to full
 closed consistency remains blocked until the subject-reduction socket is
 filled by its own discharge data.
 \end{theorem}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealVisionHandoff}
 \begin{proof}
 The vision chapter separates three items: the available closed-normal
 consistency theorem, the missing subject-reduction route, and the blocked full
@@ -282,6 +396,7 @@ from being read as full closed consistency, closed subject reduction, hidden
 normalization transport, or host equality. Hence $L$ names the finite seal and
 nothing stronger.
 \end{proof}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealLocalNamingBoundary}
 
 \begin{theorem}[Normal-form consistency seal obligation closure]
 \label{thm:normal-form-consistency-seal-obligation-closure}
@@ -342,6 +457,41 @@ The boundary row $X$ and structural rows $H,C,P,L$ then fix the public reading
 of the packet. The subject-reduction boundary theorem and non-escape theorem
 exclude any hidden discharge, so the candidate route is exactly the displayed
 finite route through $T,F,N,K,X,H,C,P,L$.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal candidate-mediated SN handoff]
+\label{thm:normal-form-consistency-seal-candidate-mediated-sn-handoff}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
+$\NormalFormConsistencySealUp$ packet. Any read of $S$ that exports
+candidate-mediated strong-normalization evidence must first expose the closed
+typed-term row $T$, candidate row, normalization-frontier row, consistency-seal
+row $K$, $\hsame$ transport $H$, $\Cont$ replay $C$, provenance $P$, and local
+NameCert row $L$. The handoff cannot turn candidate-mediated SN into arbitrary
+closed subject reduction, full closed consistency, hidden normalization
+transport, or host equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealCandidateMediatedSNHandoff}
+\begin{proof}
+Project the seal carrier. The closed typed-term information is read through
+$T$, and the consistency-seal conclusion is read only through $K$ together
+with the finite rows carried by the packet.
+
+Use the candidate route
+\autoref{thm:normal-form-consistency-seal-candidate-route}. It forces any
+candidate-facing read of the closed-normal theorem row to pass through
+$T,F,N,K,X,H,C,P,L$ rather than through an arbitrary normalization endpoint.
+
+Use the MetaCIC discharge frontier
+\autoref{thm:normal-form-consistency-seal-metacic-discharge-frontier} together
+with the normalization-frontier chapter
+\autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. These
+references keep candidate-mediated SN attached to the displayed frontier and
+leave subject reduction at its separate discharge socket.
+
+Finally apply the non-escape theorem
+\autoref{thm:normal-form-consistency-seal-nonescape}. The structural rows
+$H,C,P,L$ preserve and name the same finite handoff, so no consumer can read a
+stronger consistency or normalization claim from the seal.
 \end{proof}
 
 \begin{theorem}[Normal-form consistency seal reduction determinacy]

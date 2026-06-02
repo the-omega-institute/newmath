@@ -53,6 +53,51 @@ Universal-extension ordering is read from $E$, while readback and tolerance exac
 \end{proof}
 \leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[UniformCompletionFunctor source obligation]
+\label{thm:uniformcompletionfunctor-source-obligation}
+Every accepted $\UniformCompletionFunctorUp$ carrier
+$$
+\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)
+$$
+must expose the $\UniformCompletionUp$ source row $U$ before any completion-facing consumer may read the functorial handoff, universal-extension ledger, regular readback, stream window, dyadic tolerance, Real seal, transport, replay, provenance, or local naming rows. A consumer that bypasses $U$ is not reading the displayed completion-functor packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorCarrier\_source\_factorization}
+\begin{proof}
+Project the displayed carrier of \autoref{def:uniform-completion-functor-carrier}. The source row $U$ is the only coordinate that supplies uniform-completion data to the packet.
+
+Apply the NameCert obligations of \autoref{thm:uniform-completion-functor-namecert-obligations}. Their source-compatibility row requires each completion-facing read to project $U$ before the handoff row $F$ or any downstream row is public.
+
+The sibling chapters named in the introduction supply the source and consumer surfaces: $\UniformCompletionUp$ supplies $U$, while $\CauchyCompletionFunctorUp$, $\CompletionUniversalPropertyUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ are downstream rows. Since no separate source coordinate exists, the source obligation is exactly the projection through $U$.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor Cauchy handoff]
+\label{thm:uniformcompletionfunctor-cauchy-handoff}
+Every $\CauchyCompletionFunctorUp$ handoff consumed from an accepted $\UniformCompletionFunctorUp$ carrier factors through the displayed rows
+$$
+U \longmapsto F \longmapsto E .
+$$
+The row $F$ may expose the unit, bind, and functorial classifier surface only for the same $\UniformCompletionUp$ source row $U$, and the universal-extension row $E$ is read only after that handoff has been displayed.
+\end{theorem}
+\begin{proof}
+Read the carrier rows $U,F,E$. The handoff row $F$ is not an independent completion object; it is displayed as the $\CauchyCompletionFunctorUp$ row attached to the source $U$.
+
+Use \autoref{thm:uniform-completion-functor-namecert-obligations}. Handoff exactness confines the unit, bind, and classifier rows to the same source, while universal-extension ordering places $E$ downstream of both $U$ and $F$.
+
+The introduction's CauchyCompletionFunctor and CompletionUniversalProperty siblings provide exactly those consumer surfaces. Nothing in the carrier adds quotient completion equality, a selected limit, host complete-uniform-space structure, or choice, so the Cauchy handoff is the displayed route $U \longmapsto F \longmapsto E$.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor Real seal nonescape from root rows]
+\label{thm:uniformcompletionfunctor-real-seal-nonescape}
+For every accepted $\UniformCompletionFunctorUp$ carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$, the terminal $\RealUp$ seal row $S$ can be consumed only after the rows $R,W,D$ have been displayed downstream of $U,F,E$. The rows $H,C,P,N$ may transport, replay, source, and name that same route, but they cannot turn $S$ into a quotient completion, selected limit, host complete uniform space, open-cover compactness proof, or choice principle.
+\end{theorem}
+\begin{proof}
+Project the carrier and isolate the terminal block $R,W,D,S,H,C,P,N$. The seal row $S$ appears only after the readback, finite-window, and dyadic rows that mediate real-facing completion reads.
+
+Apply \autoref{thm:uniform-completion-functor-namecert-obligations}. Readback and tolerance exactness assigns all regular rational, stream-window, and dyadic precision requests to $R,W,D$, while ledger non-escape confines the structural rows to the same packet.
+
+The Real sibling named in the introduction is therefore reached only as a terminal seal for the displayed completion-consumer route. Since the remaining rows $H,C,P,N$ preserve and name no additional coordinate, the excluded completion, compactness, and choice objects cannot escape from $S$.
+\end{proof}
+
 \begin{theorem}[UniformCompletionFunctor source factorization]
 \label{thm:uniform-completion-functor-source-factorization}
 Every completion-facing read of an accepted $\UniformCompletionFunctorUp$ carrier
@@ -106,14 +151,14 @@ the root obligations form the ordered finite lattice
 $$
 U \longmapsto F \longmapsto E \longmapsto (R,W,D) \longmapsto S,H,C,P,N .
 $$
-The source row $U$ is the unique root, the functorial handoff $F$ is available only downstream of that root, the universal-extension row $E$ is available only downstream of the handoff, the readback-window-tolerance block $(R,W,D)$ is available only downstream of $E$, and the seal, transport, replay, provenance, and local naming rows are terminal consumers of the same displayed route. The lattice exports no quotient completion, selected limit, host complete uniform space, open-cover compactness theorem, or choice principle.
+The source row $U$ is the unique root; carrier admission is the display of $\mathcal{F}$ as a single $\BHist$ packet; source compatibility requires every consumer to read $U$ before the handoff; the Cauchy handoff $F$ is available only downstream of that source; universal-extension ordering puts $E$ downstream of $F$ and upstream of all readback rows; readback and tolerance exactness put $R,W,D$ downstream of $E$ and upstream of $S$; Real-seal nonescape keeps $S$ terminal for the same route; and transport, replay, provenance, and local naming are exactly the terminal rows $H,C,P,N$. The lattice exports no quotient completion, selected limit, host complete uniform space, open-cover compactness theorem, or choice principle.
 \end{theorem}
 \begin{proof}
-Project the carrier of \autoref{def:uniform-completion-functor-carrier}. Its row order displays one source coordinate $U$, one handoff coordinate $F$, one universal-extension coordinate $E$, the downstream readback-window-tolerance block $R,W,D$, and then $S,H,C,P,N$.
+Project the carrier of \autoref{def:uniform-completion-functor-carrier}. Its row order displays one admitted $\BHist$ packet, one source coordinate $U$, one handoff coordinate $F$, one universal-extension coordinate $E$, the downstream readback-window-tolerance block $R,W,D$, and then $S,H,C,P,N$.
 
-Apply the NameCert obligations of \autoref{thm:uniform-completion-functor-namecert-obligations}. Source compatibility places $U$ before any completion-facing handoff, handoff exactness places $F$ before any universal-extension read, universal-extension ordering places $E$ before the terminal seal, and readback and tolerance exactness place $R,W,D$ between $E$ and the terminal rows.
+Apply the NameCert obligations of \autoref{thm:uniform-completion-functor-namecert-obligations}. Carrier admission accounts for the whole displayed packet. Source compatibility places $U$ before any completion-facing handoff, Cauchy handoff exactness places $F$ before any universal-extension read, universal-extension ordering places $E$ before the terminal seal, and readback and tolerance exactness place $R,W,D$ between $E$ and the terminal rows.
 
-Use the universal handoff theorem, \autoref{thm:uniform-completion-functor-universal-handoff}, to identify the same order as the only consumer-visible route. Since the carrier has no coordinate outside this lattice, none of the excluded completion, compactness, or choice principles can be projected from the packet.
+Use the universal handoff theorem, \autoref{thm:uniform-completion-functor-universal-handoff}, to identify the same order as the only consumer-visible route. The Real seal is read only as $S$ after $R,W,D$, while $H,C,P,N$ give transport, replay, provenance, and local naming for that route. Since the carrier has no coordinate outside this lattice, none of the excluded completion, compactness, or choice principles can be projected from the packet.
 \end{proof}
 
 \begin{theorem}[UniformCompletionFunctor source-extension readback]
@@ -165,6 +210,24 @@ The functorial handoff is then read through $F$. Its unit, bind, and classifier 
 The readback rows are downstream of the extension ledger. Regular rational readback uses $R$, finite observation uses $W$, dyadic precision uses $D$, and the terminal real-name seal is exposed only through $S$ after those requests have been replayed.
 
 Finally $H,C,P,N$ transport, replay, package, and name the same finite route. The carrier definition contains no coordinate for quotient completion equality, selected limits, host complete uniform spaces, open-cover compactness, or choice, so no completion-facing consumer can read such data from the handoff.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor Real seal route]
+\label{thm:uniform-completion-functor-real-seal-route}
+Every accepted $\UniformCompletionFunctorUp$ real-facing consumer must replay the $\DyadicRatCoreUp$ tolerance row, the $\StreamNameUp$ finite window row, the $\RegSeqRatUp$ readback row, and the terminal $\RealUp$ seal in that order before exporting a completion result. The export route is therefore
+$$
+D \longmapsto W \longmapsto R \longmapsto S \longmapsto H,C,P,N
+$$
+inside the accepted carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$, downstream of the source, handoff, and universal-extension rows $U,F,E$.
+
+No real-facing consumer may replace this route by a host complete-space theorem, open-cover compactness argument, quotient completion, selected limit, or choice principle.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:uniform-completion-functor-universal-handoff}. It forces every completion-facing consumer through $U,F,E$ before any readback, window, tolerance, or Real-seal row is available.
+
+Use the carrier and obligation surface of \autoref{def:uniform-completion-functor-carrier} and \autoref{thm:uniform-completion-functor-namecert-obligations}. The dyadic tolerance row $D$ supplies the precision budget for the subsequent finite-window read $W$; the window row then bounds the regular rational readback $R$; only after those rows have been displayed can the terminal Real seal $S$ be read.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same route. Since the carrier has no coordinate for host complete spaces, open-cover compactness, quotient completions, selected limits, or choice, none of those principles can be exported as a completion result.
 \end{proof}
 
 \begin{theorem}[UniformCompletionFunctor source-unit compatibility]
@@ -304,6 +367,116 @@ Start with the carrier row $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$. A completion c
 The universal handoff is mediated by $E$. Before a real-facing result is exposed, the consumer must read the finite $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $R$, and the $\DyadicRatCoreUp$ tolerance row $D$, after which $S$ supplies the terminal $\RealUp$ seal.
 
 The remaining structural rows keep the route inside the packet. The $\BHist$ carrier is the ambient finite packet, $H$ gives componentwise $\hsame$ transport, $C$ gives displayed $\Cont$ replay, $P$ gives $\Pkg$ provenance, and $N$ gives local $\NameCert$ naming. This is a constructive completion handoff by finite projections and route composition, not a source-equivalence transport.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor root obligation surface]
+\label{thm:uniformcompletionfunctor-root-obligation-surface}
+Before any completion consumer can read the functorial extension exported by an accepted $\UniformCompletionFunctorUp$ packet
+$$
+\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N),
+$$
+the packet must expose exactly the root obligation surface
+$$
+U,F,E,R,W,D,S,H,C,P,N .
+$$
+Here $U$ is the source uniformity row, $F$ is the Cauchy-completion unit and handoff row, $E$ is the universal-extension row, $R$ is the $\RegSeqRatUp$ readback row, $W$ is the $\StreamNameUp$ scheduling row, $D$ is the $\DyadicRatCoreUp$ tolerance-comparison row, $S$ is the terminal $\RealUp$ seal, $H$ is componentwise transport, $C$ is replay, $P$ is provenance, and $N$ is local naming. No completion consumer can read the functorial extension before this surface is displayed, and the ledger-exactness row excludes quotient completions, selected limits, host complete uniform spaces, open-cover compactness, and choice.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-completion-functor-carrier}. It displays the source row $U$, handoff row $F$, universal-extension row $E$, readback row $R$, scheduling row $W$, tolerance row $D$, seal row $S$, and the structural rows $H,C,P,N$ as one finite $\BHist$ packet.
+
+Apply \autoref{thm:uniform-completion-functor-namecert-obligations}. Its carrier admission, source compatibility, handoff exactness, universal-extension ordering, readback and tolerance exactness, and ledger non-escape clauses assign each required obligation to one of the displayed rows.
+
+Use \autoref{thm:uniform-completion-functor-universal-handoff} and \autoref{thm:uniform-completion-functor-completion-handoff}. Together they force every completion-facing read to pass through $U,F,E,R,W,D,S$ before transport, replay, provenance, and local naming are consumed.
+
+Finally apply \autoref{thm:uniform-completion-functor-ledger-exactness}. Since every exported route is a projection from the same row family and no excluded completion or choice datum has a carrier coordinate, the displayed rows are exactly the root obligation surface needed before the functorial extension can be read.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor unit root obligation]
+\label{thm:uniformcompletionfunctor-unit-root-obligation}
+The unit map of an accepted $\UniformCompletionFunctorUp$ completion route must expose the source carrier row $U$, the $\CauchyCompletionFunctorUp$ handoff row $F$, the Cauchy filter or $\RegSeqRatUp$ window row $R$, the terminal $\RealUp$ seal $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before any completed point is exported.
+\end{theorem}
+\begin{proof}
+Start with the source obligation of \autoref{thm:uniformcompletionfunctor-source-obligation}. It fixes the source carrier row $U$ as the first visible row of the completion route.
+
+Use the Cauchy handoff of \autoref{thm:uniformcompletionfunctor-cauchy-handoff}. The handoff row $F$ and readback row $R$ expose the Cauchy filter or regular rational window before the completed point is available.
+
+The Real seal nonescape theorem \autoref{thm:uniformcompletionfunctor-real-seal-nonescape} keeps the terminal row $S$ from becoming ambient completeness or a hidden selected limit. The root obligation surface of \autoref{thm:uniformcompletionfunctor-root-obligation-surface} then adds only $H,C,P,N$ for transport, replay, provenance, and local naming.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor extension root obligation]
+\label{thm:uniformcompletionfunctor-extension-root-obligation}
+Every uniformly continuous extension read exported by an accepted $\UniformCompletionFunctorUp$ packet factors through the displayed source-extension ledger
+$$
+U,F,E,R,W,D,S,H,C,P,N .
+$$
+The read exports no selected limit, quotient equality, host function extensionality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the universal-extension row $E$ from the carrier of \autoref{def:uniform-completion-functor-carrier}. It is downstream of the source row $U$ and the Cauchy handoff row $F$.
+
+Apply \autoref{thm:uniform-completion-functor-universal-handoff}. The extension read must pass through the source, handoff, readback, scheduling, tolerance, and Real seal rows before it reaches the structural rows.
+
+Use \autoref{thm:uniformcompletionfunctor-root-obligation-surface}. It identifies the same finite row family as the root surface, so the extension is a displayed source-extension ledger rather than a selected limit, quotient equality, host function-extensionality argument, or ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor functorial root obligation]
+\label{thm:uniformcompletionfunctor-functorial-root-obligation}
+Composition of two accepted $\UniformCompletionFunctorUp$ packets preserves the displayed source, completion, extension, transport, replay, and provenance rows. The composite route may read only the two source rows, the two Cauchy-completion handoff rows, the two universal-extension rows, the displayed readback and tolerance rows, componentwise transport, continuation replay, provenance, and local naming rows already present in the packets.
+\end{theorem}
+\begin{proof}
+Start with the functoriality theorem \autoref{thm:uniform-completion-functor-functoriality}. It states that unit, bind, and classifier routes are finite route compositions through the displayed carrier rows.
+
+For each packet, use the source obligation and Cauchy handoff, \autoref{thm:uniformcompletionfunctor-source-obligation} and \autoref{thm:uniformcompletionfunctor-cauchy-handoff}. These keep the source and completion rows visible before any composite extension is read.
+
+The extension root obligation above places uniformly continuous extension reads on the same $U,F,E,R,W,D,S,H,C,P,N$ route. Componentwise transport and displayed replay compose only those rows, while provenance records the two packet sources. Thus composition preserves the displayed source, completion, extension, transport, replay, and provenance data without importing an external completion principle.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor L10 source admission]
+\label{thm:uniform-completion-functor-l10-source-admission}
+An accepted $\UniformCompletionFunctorUp$ packet admits an L10 completion source only through the displayed finite route
+$$
+\UniformCompletionUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Concretely, a completion-facing source read must project the $\UniformCompletionUp$ row $U$, the $\DyadicRatCoreUp$ tolerance row $D$, the $\StreamNameUp$ finite-window row $W$, the $\RegSeqRatUp$ readback row $R$, the terminal $\RealUp$ seal $S$, the ambient $\BHist$ packet, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. It is not admitted by source-equivalence transport outside the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$. The source row $U$ is public only as a coordinate of the same finite $\BHist$ packet that carries $R,W,D,S,H,C,P,N$.
+
+Use \autoref{thm:uniform-completion-functor-source-factorization} for the first projection through $U$. Then use \autoref{thm:uniform-completion-functor-readback-seal-exactness} to force the L10 readback through $D,W,R$ before the Real seal $S$ is consumed.
+
+The structural rows finish the admission route. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the projected rows, while $\Pkg$ provenance and local $\NameCert$ naming record the same finite source. No external source-equivalence object is a coordinate of the packet, so it cannot admit the L10 source.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor finite-window functoriality]
+\label{thm:uniform-completion-functor-window-functoriality}
+Functorial composition of accepted $\UniformCompletionFunctorUp$ packets preserves the finite-window completion route through
+$$
+U,F,E,D,W,R,S,H,C,P,N .
+$$
+For each input packet, the composite may read only the $\UniformCompletionUp$ source row $U$, the Cauchy handoff row $F$, the universal-extension row $E$, the $\DyadicRatCoreUp$ tolerance row $D$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $R$, the terminal $\RealUp$ seal $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:uniform-completion-functor-functoriality}. It identifies functorial unit, bind, and classifier reads with finite route composition through the displayed carrier rows.
+
+For each composed packet, apply \autoref{thm:uniform-completion-functor-completion-handoff}. The route first projects $U,F,E$ and then reads the finite tolerance, window, and readback block $D,W,R$ before the terminal Real seal.
+
+It remains to check that composition does not add a hidden source. The rows $H$ and $C$ perform componentwise transport and replay over the same finite windows, while $P$ and $N$ preserve provenance and local naming. Thus functoriality is a finite-window induction over the displayed route, not transport from an external source-equivalence theorem.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor Real-seal consumer route]
+\label{thm:uniform-completion-functor-real-seal-consumer}
+Every Real-facing consumer of an accepted $\UniformCompletionFunctorUp$ packet must reach the $\RealUp$ seal by the concrete L10 route
+$$
+\UniformCompletionUp \longmapsto \DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp \longmapsto \RealUp \longmapsto \BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+The consumer receives a sealed completion read only after the dyadic tolerance, finite stream window, regular rational readback, componentwise transport, replay, provenance, and local naming rows have been projected.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:uniform-completion-functor-real-seal-route}. It places the Real seal downstream from the source, handoff, universal-extension, readback, window, and dyadic rows.
+
+Apply \autoref{thm:uniform-completion-functor-l10-source-admission}. The source is admitted only through the same $\BHist$ packet and the displayed $D,W,R,S,H,C,P,N$ rows.
+
+Finally use \autoref{thm:uniform-completion-functor-ledger-exactness}. The ledger has no coordinate for selected limits, quotient completion equality, host complete uniform spaces, open-cover compactness, or choice. Therefore every Real-facing consumer route is the finite L10 route through the displayed rows.
 \end{proof}
 
 \falsifiablePrediction{Every $\UniformCompletionFunctorUp$ completion-facing read factors through one $\UniformCompletionUp$ source row, one $\CauchyCompletionFunctorUp$ handoff row, one $\CompletionUniversalPropertyUp$ universal-extension row, one $\RegSeqRatUp$ readback row, one $\StreamNameUp$ finite-window row, one $\DyadicRatCoreUp$ tolerance row, one terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}

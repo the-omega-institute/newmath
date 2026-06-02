@@ -47,6 +47,7 @@ Now project any dependency route used by the consumer. By \autoref{thm:metacic-c
 
 Finally use the Lean handoff and NameCert obligation surfaces. \autoref{thm:metacic-critical-path-lean-handoff-surface} makes the seven rows the exact root-unblock handoff, and \autoref{thm:metacic-critical-path-frontier-rank-namecert-obligations} makes them the complete local NameCert obligation list. Thus every scheduler-facing consumer factors through the seven rows and cannot read a hidden dependency edge.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathFrontierRank\_consumer\_exactness}
 
 \begin{theorem}[MetaCIC critical-path frontier-rank soundness]
 \label{thm:metacic-critical-path-frontier-rank-soundness}
@@ -158,4 +159,16 @@ Begin with consumer exactness. By \autoref{thm:metacic-critical-path-frontier-ra
 Next use downstream-unblock coverage and the audit-frontier factorization. Theorems \autoref{thm:metacic-critical-path-downstream-unblock-coverage} and \autoref{thm:metacic-critical-path-audit-frontier-factorization} restrict dependency reads to the packet rows and rule out hidden scheduler edges or theorem exports outside the packet.
 
 Finally combine carrier readiness and route readiness from \autoref{thm:metacic-critical-path-root-unblock-carrier-readiness} and \autoref{thm:metacic-critical-path-root-unblock-route-readiness}. These two surfaces account for the carrier, obstruction, discharge, transport, continuation, provenance, ledger, and local naming rows, so no downstream MetaCIC consumer has any additional root-unblock dependency to cite.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-mediated SN obligation scope]
+\label{thm:metacic-critical-path-candidate-mediated-sn-scope}
+Any confluence-facing or decidability-facing consumer of candidate-mediated strong-normalization data through an accepted $\MetaCICCriticalPathUp$ root-unblock packet must expose typed-term carrier rows, reduction-candidate rows, substitution and reduction replay rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\MetaCICCriticalPathUp}$ row before it reads the strong-normalization boundary. The read is a finite obligation scope for the packet, not an unconditional confluence theorem, beta-conversion decision procedure, closed subject-reduction certificate, or host normalization principle.
+\end{theorem}
+\begin{proof}
+Begin with root-unblock consumer readiness. It forces downstream MetaCIC consumers through the displayed root-unblock rows $S,N,O,U,D,H,C,P,L$ before any confluence-facing or decidability-facing dependency is consumed.
+
+Use frontier-rank consumer exactness and downstream-unblock coverage. These surfaces keep the open node, dependency-ready row, obstruction ledger, replay route, provenance, and local name visible, so candidate-mediated SN data cannot be read through hidden scheduler state or an unledgered dependency edge.
+
+Finally compose the carrier and route readiness theorems. The typed-term carrier rows, reduction-candidate rows, substitution and reduction replay rows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local NameCert row are precisely the rows available at the boundary; no row supplies unconditional confluence, beta-decision, closed subject reduction, or host normalization.
 \end{proof}

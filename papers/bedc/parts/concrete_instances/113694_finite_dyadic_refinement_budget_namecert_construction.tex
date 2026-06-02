@@ -1,0 +1,108 @@
+\chapter{A Concrete Naming Certificate for $\FiniteDyadicRefinementBudgetUp$}
+\label{ch:concrete-instances-finite-dyadic-refinement-budget-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\FiniteDyadicRefinementBudgetUp$ packet records the finite mesh-budget surface used when a dyadic refinement is consumed by Real-facing and formal-ball consumers. It sits after the common-refinement route of \autoref{ch:concrete-instances-dyadic-cover-refinement-namecert}, the formal-ball window of \autoref{ch:concrete-instances-formalball-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite budget for mesh shrinkage and handoff; it does not assert open-cover compactness, selected limiting meshes, quotient equality of names, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite dyadic refinement budget carrier]
+\label{def:finite-dyadic-refinement-budget-carrier}
+A $\FiniteDyadicRefinementBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,F,Q,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicCoverRefinementUp$ common-refinement row whose source covers and restriction ledgers determine the dyadic cells being tightened.
+\item $F$ is the $\FormalBallUp$ center-radius window whose radius request consumes the mesh budget before any completion-facing read is available.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance ledger. It records the dyadic mesh scale, its endpoint arithmetic, and the finite comparison rows used to say that the refined mesh is small enough for the requested radius.
+\item $S$ is the $\StreamNameUp$ finite-window address at which the budget is read.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback that turns the stream-window and dyadic ledger into a scheduled tolerance row.
+\item $E$ is the terminal $\RealUp$ seal read by Real-facing consumers after $Q,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the refinement row, formal-ball window, dyadic ledger, stream address, regular rational readback, real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+D,F,Q,S,R,E \longmapsto H .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteDyadicRefinementBudgetUp$, $\DyadicCoverRefinementUp$, $\FormalBallUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteDyadicRefinementBudgetUp}$ row.
+\end{enumerate}
+The classifier of an accepted packet compares mesh-budget data only through these ten rows. It has no coordinate for open-cover compactness, selected subcovers, selected limiting meshes, quotient equality of streams or real names, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.FiniteDyadicRefinementBudgetUp.FiniteDyadicRefinementBudgetTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Finite dyadic refinement budget NameCert obligations]
+\label{thm:finite-dyadic-refinement-budget-namecert-obligations}
+For every accepted $\FiniteDyadicRefinementBudgetUp$ carrier
+$$
+B=(D,F,Q,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteDyadicRefinementBudgetUp}$ surface consists exactly of the following six rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\DyadicCoverRefinementUp$ row, $\FormalBallUp$ window, $\DyadicRatCoreUp$ ledger, $\StreamNameUp$ address, $\RegSeqRatUp$ readback, $\RealUp$ seal, transport, replay, provenance, and local naming;
+\item mesh-source exposure, requiring every budget request to name the common-refinement row $D$ before it names a refined mesh;
+\item formal-ball exposure, requiring the radius request in $F$ to be visible before the budget is consumed by a completion-facing route;
+\item dyadic scale exactness, requiring the mesh scale and endpoint comparisons to be read through $Q$;
+\item regular-readback exactness, requiring the finite stream address $S$ and regular rational row $R$ to mediate the tolerance schedule before the real seal $E$ is inspected;
+\item classifier transport through componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ naming, with no escape to open-cover compactness, selected subcovers, selected limiting meshes, quotient equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No local NameCert obligation is stored outside these six rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:finite-dyadic-refinement-budget-carrier}. The tuple displays the refinement row, formal-ball window, dyadic scale ledger, finite stream address, regular rational readback, real seal, and structural rows.
+
+Mesh-source exposure is forced by $D$. The carrier has no detached mesh field; a refined mesh is read only as a budget attached to the common dyadic refinement route.
+
+Formal-ball exposure is forced by $F$. The radius request that motivates the budget is part of the carrier, so a completion-facing consumer cannot read a budget before the formal-ball window has been displayed.
+
+Dyadic scale exactness is the role of $Q$. Endpoint arithmetic, mesh scale comparison, and tolerance narrowing all remain in the dyadic ledger. The stream and regular rational rows $S,R$ then mediate the scheduled tolerance before the terminal real seal $E$ is available.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, source, and name the same finite route. Since the carrier contains no field for open-cover compactness, selected subcovers, selected limiting meshes, quotient equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking, the classifier cannot export such data.
+\end{proof}
+
+\begin{theorem}[Finite dyadic refinement budget mesh handoff]
+\label{thm:finite-dyadic-refinement-budget-mesh-handoff}
+Let
+$$
+B=(D,F,Q,S,R,E,H,C,P,N)
+$$
+be an accepted $\FiniteDyadicRefinementBudgetUp$ carrier. Every consumer that receives a mesh-budget handoff from $B$ factors through the displayed route
+$$
+\DyadicCoverRefinementUp,\ \FormalBallUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+\longmapsto D,F,Q,S,R,E,H,C,P,N .
+$$
+Consequently the handoff exposes a finite common-refinement source, a formal-ball radius request, a dyadic mesh ledger, a finite stream address, a regular rational tolerance readback, a terminal real seal, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source of the mesh is $D$, and the consuming radius request is $F$; these are the only rows that connect the refinement route to formal-ball data.
+
+Read the scale data next. The dyadic ledger $Q$ supplies the mesh size and endpoint comparisons, while $S$ records the finite window at which that budget is read.
+
+The regular rational row $R$ and real seal $E$ are downstream of the finite window. Thus a Real-facing consumer sees the mesh budget only after the stream-window and scheduled-tolerance rows have already been displayed.
+
+The remaining rows $H,C,P,N$ preserve and name this route. Hence every mesh handoff factors through the finite packet and not through a detached compactness principle, selected mesh limit, quotient equality, choice schedule, or ambient real-completeness claim.
+\end{proof}
+
+\begin{theorem}[Finite dyadic refinement budget Real nonescape]
+\label{thm:finite-dyadic-refinement-budget-real-nonescape}
+Let $B=(D,F,Q,S,R,E,H,C,P,N)$ be an accepted $\FiniteDyadicRefinementBudgetUp$ carrier. A $\RealUp$ or completion-facing consumer of $B$ may inspect the terminal real seal $E$ only after the rows $D,F,Q,S,R$ have been displayed and replayed through $H,C,P,N$. In particular, the consumer cannot replace the finite budget route by open-cover compactness, a selected limiting mesh, quotient equality of names, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier rows preceding $E$. The refinement source $D$, formal-ball request $F$, dyadic ledger $Q$, stream address $S$, and regular rational readback $R$ are all explicit coordinates of the packet.
+
+The real seal is terminal in this route. It records the Real-facing tolerance read only after the finite dyadic and regular rational rows have been exposed.
+
+Transport and replay do not add analytic content. The rows $H,C,P,N$ preserve the displayed packet and name it locally. Because the carrier contains no coordinate for compactness, selected limiting meshes, quotient equality, choice, or ambient completeness, no Real-facing read can escape the finite budget surface.
+\end{proof}
+
+\closureat{FiniteDyadicRefinementBudgetUp}{seedStr}
+
+\begin{closurestatus}{\FiniteDyadicRefinementBudgetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-dyadic-refinement-budget-carrier}, \autoref{thm:finite-dyadic-refinement-budget-namecert-obligations}, \autoref{thm:finite-dyadic-refinement-budget-mesh-handoff}, and \autoref{thm:finite-dyadic-refinement-budget-real-nonescape} seed the finite dyadic mesh-budget route through refinement, formal-ball, dyadic, stream, regular rational, real-seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.FiniteDyadicRefinementBudgetUp.FiniteDyadicRefinementBudgetTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, Heine--Borel, selected subcovers, selected limiting meshes, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires a checked BEDC.Derived.FiniteDyadicRefinementBudgetUp carrier, NameCert rows, mesh handoff, and Real nonescape theorem.}
+  \constructivestory{A $\FiniteDyadicRefinementBudgetUp$ packet is generated from a DyadicCoverRefinement source, a FormalBall radius request, a DyadicRatCore mesh ledger, StreamName finite windows, RegSeqRat tolerance readback, a RealUp terminal seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

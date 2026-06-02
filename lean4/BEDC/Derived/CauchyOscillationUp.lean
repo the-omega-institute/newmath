@@ -222,4 +222,138 @@ theorem CauchyOscillationCarrier_seal_handoff_factorization [AskSetup] [PackageS
     }
   exact ⟨sealReadUnary, ledgerSealRoute, routesNameCertSealRead, sealReadPkg, cert⟩
 
+theorem CauchyOscillationCarrier_ledger_transport [AskSetup] [PackageSetup]
+    {tailWindow modulus tolerance ledger sealRow transport routes provenance nameCert ledgerRead
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyOscillationCarrier tailWindow modulus tolerance ledger sealRow transport routes provenance
+        nameCert bundle pkg ->
+      Cont tailWindow modulus tolerance ->
+        Cont modulus tolerance ledgerRead ->
+          Cont ledgerRead sealRow routes ->
+            Cont routes nameCert sealRead ->
+              PkgSig bundle sealRead pkg ->
+                UnaryHistory ledgerRead ∧ hsame ledger ledgerRead ∧ UnaryHistory sealRead ∧
+                  Cont ledgerRead sealRow routes ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier _tailModulusTolerance modulusToleranceLedgerRead ledgerReadSealRoute
+    routesNameCertSealRead sealReadPkg
+  obtain ⟨_tailWindowUnary, modulusUnary, toleranceUnary, _ledgerUnary, _sealUnary,
+    _transportUnary, routesUnary, _provenanceUnary, nameCertUnary, _tailWindowModulus,
+    modulusToleranceLedger, _ledgerSealRoute, _routesNameCert, _provenancePkg⟩ := carrier
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed modulusUnary toleranceUnary modulusToleranceLedgerRead
+  have sameLedger : hsame ledger ledgerRead :=
+    cont_respects_hsame (hsame_refl modulus) (hsame_refl tolerance) modulusToleranceLedger
+      modulusToleranceLedgerRead
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed routesUnary nameCertUnary routesNameCertSealRead
+  exact
+    ⟨ledgerReadUnary, sameLedger, sealReadUnary, ledgerReadSealRoute, sealReadPkg⟩
+
+theorem CauchyOscillationCarrier_tail_window_exposure [AskSetup] [PackageSetup]
+    {tailWindow modulus tolerance ledger sealRow transport routes provenance nameCert windowRead
+      thresholdRead toleranceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyOscillationCarrier tailWindow modulus tolerance ledger sealRow transport routes provenance
+        nameCert bundle pkg →
+      Cont tailWindow modulus windowRead →
+        Cont windowRead tolerance thresholdRead →
+          Cont thresholdRead ledger toleranceRead →
+            Cont toleranceRead sealRow sealRead →
+              hsame sealRead (append (append (append (append tailWindow modulus) tolerance) ledger)
+                sealRow) ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg UnaryHistory
+  intro carrier tailModulusWindow windowToleranceThreshold thresholdLedgerTolerance
+    toleranceSealRead
+  obtain ⟨tailWindowUnary, modulusUnary, toleranceUnary, ledgerUnary, sealUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _nameCertUnary, _tailWindowModulus,
+    _modulusTolerance, _ledgerSeal, _routesNameCert, _provenancePkg⟩ := carrier
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed tailWindowUnary modulusUnary tailModulusWindow
+  have thresholdReadUnary : UnaryHistory thresholdRead :=
+    unary_cont_closed windowReadUnary toleranceUnary windowToleranceThreshold
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed thresholdReadUnary ledgerUnary thresholdLedgerTolerance
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed toleranceReadUnary sealUnary toleranceSealRead
+  have sameWindow : hsame windowRead (append tailWindow modulus) := tailModulusWindow
+  have sameThreshold :
+      hsame thresholdRead (append (append tailWindow modulus) tolerance) := by
+    cases sameWindow
+    exact windowToleranceThreshold
+  have sameTolerance :
+      hsame toleranceRead (append (append (append tailWindow modulus) tolerance) ledger) := by
+    cases sameThreshold
+    exact thresholdLedgerTolerance
+  have sameSeal :
+      hsame sealRead
+        (append (append (append (append tailWindow modulus) tolerance) ledger) sealRow) := by
+    cases sameTolerance
+    exact toleranceSealRead
+  exact ⟨sameSeal, sealReadUnary⟩
+
+theorem CauchyOscillationCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {tailWindow modulus tolerance ledger sealRow transport routes provenance nameCert
+      regularRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyOscillationCarrier tailWindow modulus tolerance ledger sealRow transport routes
+        provenance nameCert bundle pkg ->
+      Cont tailWindow modulus tolerance ->
+        Cont tolerance ledger regularRead ->
+          PkgSig bundle provenance pkg ->
+            UnaryHistory regularRead ∧
+              SemanticNameCert
+                (fun row : BHist => hsame row regularRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row tailWindow ∨ hsame row modulus ∨ hsame row tolerance ∨
+                    hsame row ledger ∨ hsame row regularRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont tailWindow modulus tolerance ∧
+                    Cont tolerance ledger regularRead ∧ PkgSig bundle provenance pkg)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert UnaryHistory hsame
+  intro carrier tailModulusRoute toleranceLedgerRegular provenancePkg
+  obtain ⟨_tailWindowUnary, _modulusUnary, toleranceUnary, ledgerUnary, _sealUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _nameCertUnary, _tailWindowModulus,
+      _modulusTolerance, _ledgerSeal, _routesNameCert, _carrierPkg⟩ := carrier
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed toleranceUnary ledgerUnary toleranceLedgerRegular
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row regularRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row tailWindow ∨ hsame row modulus ∨ hsame row tolerance ∨
+            hsame row ledger ∨ hsame row regularRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont tailWindow modulus tolerance ∧
+            Cont tolerance ledger regularRead ∧ PkgSig bundle provenance pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro regularRead ⟨hsame_refl regularRead, regularUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, tailModulusRoute, toleranceLedgerRegular, provenancePkg⟩
+  }
+  exact ⟨regularUnary, cert⟩
+
 end BEDC.Derived.CauchyOscillationUp

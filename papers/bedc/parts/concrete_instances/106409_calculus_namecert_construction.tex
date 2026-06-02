@@ -4,6 +4,101 @@
 
 Following Cartan's local differential calculus and the Bishop--Bridges constructive treatment of limits, derivatives, and integrals, the $\CalculusUp$ packet records the finite analysis root used by later derivative and integration chapters. It sits beside the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the generic limit route of \autoref{ch:concrete-instances-limit-namecert}, the continuous-map surface used throughout the analysis region, the derivative carrier of \autoref{ch:concrete-instances-derivative-namecert}, the integral carrier, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names the common calculus substrate without importing a host function space, a global limit operator, quotient equality of functions, or an ambient completeness theorem.
 
+\begin{definition}[Calculus local-linearization carrier]
+\label{def:calculus-local-linearization-carrier}
+A $\CalculusUp$ local-linearization carrier is a finite $\BHist$ packet
+$$
+\Lambda=(E,R,D,L,J,H,C,P,N)
+$$
+whose rows are the terminal $\RealUp$ seal $E$, the $\RegSeqRatUp$ readback
+row $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\DerivativeUp$
+finite difference-quotient row $L$, the $\RiemannIntegralUp$ finite
+tagged-sum row $J$, componentwise $\hsame$ transport $H$, displayed $\Cont$
+replay $C$, $\Pkg$ provenance $P$, and the local
+$\NameCert_{\CalculusUp}$ row $N$. The classifier compares accepted packets
+only through these rows. It has no coordinate for a host differentiability
+theorem, selected antiderivative, quotient real equality, or ambient
+$\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Calculus derivative continuation obligation]
+\label{thm:calculus-derivative-continuation-obligation}
+Every accepted $\CalculusUp$ local-linearization carrier
+$\Lambda=(E,R,D,L,J,H,C,P,N)$ exposes a derivative-facing continuation only
+after the $\RealUp$ seal $E$, $\RegSeqRatUp$ readback $R$,
+$\DyadicRatCoreUp$ tolerance ledger $D$, $\DerivativeUp$ difference-quotient
+row $L$, $\hsame$ transport $H$, $\Cont$ replay $C$, provenance $P$, and local
+NameCert row $N$ have been displayed. The read cannot export a host
+differentiability theorem, quotient real equality, or ambient real
+completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:calculus-local-linearization-carrier}. The derivative-facing row
+is $L$, and its tolerance and value data are visible only together with the
+real seal $E$, regular-rational readback $R$, and dyadic ledger $D$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same
+finite packet. Since none of those rows contains a host differentiability
+theorem or quotient real equality, the continuation remains a displayed
+finite difference-quotient route.
+
+The Riemann row $J$ may coexist in the packet, but it does not supply
+derivative data. Thus every derivative consumer must read through
+$E,R,D,L,H,C,P,N$ before any derivative-facing conclusion is public.
+\end{proof}
+
+\begin{theorem}[Calculus integral finite-sum obligation]
+\label{thm:calculus-integral-finite-sum-obligation}
+Every accepted $\CalculusUp$ local-linearization carrier
+$\Lambda=(E,R,D,L,J,H,C,P,N)$ exposes an integral-facing read only through the
+$\RiemannIntegralUp$ finite tagged-sum row $J$ together with the $\RealUp$
+seal $E$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ tolerance ledger
+$D$, componentwise transport, replay, provenance, and local naming. The read
+does not select an antiderivative and does not import quotient real equality
+or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read $J$ from the carrier. It records the partition, tags, finite sum, and
+endpoint handoff as displayed calculus data, so an integral consumer cannot
+bypass the finite-sum route.
+
+The rows $E,R,D$ provide the real-facing seal, regular-rational comparison,
+and dyadic tolerance ledger used to interpret that sum. The structural rows
+$H,C,P,N$ preserve the same finite route under accepted transport and replay.
+
+The derivative row $L$ remains separate. Because no coordinate of
+$\Lambda$ contains a selected antiderivative, host integration functional,
+quotient real equality, or ambient completeness theorem, the integral
+obligation is exactly the finite-sum route through $J$ and the displayed
+support rows.
+\end{proof}
+
+\begin{theorem}[Calculus limit real-seal obligation]
+\label{thm:calculus-limit-real-seal-obligation}
+Every $\RealUp$-facing limit read exported by an accepted $\CalculusUp$
+local-linearization carrier factors through the displayed $\RegSeqRatUp$
+readback row $R$, $\DyadicRatCoreUp$ tolerance ledger $D$, derivative row $L$
+or Riemann finite-sum row $J$, terminal $\RealUp$ seal $E$, $\hsame$
+transport, $\Cont$ replay, provenance, and local NameCert rows. No such read
+may use a host limit theorem, quotient real equality, selected antiderivative,
+or ambient $\RealUp$ completeness as local data.
+\end{theorem}
+\begin{proof}
+Start from a Real-facing calculus read. The carrier exposes $E$ as the only
+terminal real seal, so every such read must arrive at $E$ through the displayed
+regular-rational and dyadic rows $R,D$.
+
+There are two calculus sources for that seal. A derivative read uses $L$ and
+the finite difference-quotient route; an integral read uses $J$ and the
+finite tagged-sum route. Both sources are transported and replayed only by
+$H$ and $C$, with provenance and local naming recorded by $P$ and $N$.
+
+Since the carrier has no coordinate for host limits, quotient real equality,
+selected antiderivatives, or ambient completeness, the real-seal obligation is
+confined to the displayed BEDC rows.
+\end{proof}
+
 \begin{definition}[Calculus carrier]
 \label{def:calculus-carrier}
 A $\CalculusUp$ carrier is a finite $\BHist$ packet
@@ -38,6 +133,42 @@ The local-linear approximation route is carried by $D$ and is read only after th
 The integral handoff is carried by $I$. Its partition, finite-sum, and endpoint rows are exposed before any real-facing value is consumed, and the same $Q$ row supplies the rational readback needed to compare finite sums with limit and derivative windows.
 
 Finally $H,T,P,N$ transport, replay, source, and name exactly the displayed rows. Since no coordinate contains host function-space equality, ambient completeness, a selected derivative operator, or an unbounded integral functional, every accepted read remains inside the finite calculus packet.
+\end{proof}
+
+\begin{theorem}[Calculus continuous-map graph replay obligation]
+\label{thm:calculus-continuous-map-graph-replay-obligation}
+For every accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, a continuous-map read is public only after the consumer has displayed the $\RealUp$ boundary $R$, the $\LimitUp$ window route $L$, the $\ContinuousMapUp$ graph row $C$, the $\RegSeqRatUp$ readback row $Q$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, provenance $P$, and the local $\NameCert_{\CalculusUp}$ row $N$. A derivative or integral consumer using that continuous-map read must therefore factor through $R,L,C,Q,H,T,P,N$ before reading $D$ or $I$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:calculus-carrier}. The only row that names a continuous-map graph is $C$, and its endpoint values are typed by the real boundary $R$ and compared through the regular-rational readback $Q$.
+
+The limit route $L$ supplies the finite convergence windows through which the graph row is replayed. The rows $H,T,P,N$ transport, replay, source, and name the same displayed graph data.
+
+Now apply \autoref{thm:calculus-namecert-obligations}. Since the derivative row $D$ and integral row $I$ are later consumers of the continuous-map graph, neither can use $C$ until the route through $R,L,C,Q,H,T,P,N$ is visible.
+\end{proof}
+
+\begin{theorem}[Calculus derivative-integral separation obligation]
+\label{thm:calculus-derivative-integral-separation-obligation}
+For every accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, the derivative row $D$ and the integral row $I$ are separate finite rows. The row $D$ may expose local difference-quotient and remainder data only through $R,L,C,Q,H,T,P,N$, while the row $I$ may expose finite-sum and endpoint handoff data only through those same support rows. Neither row supplies the other's conclusion, and the carrier contains no host fundamental theorem connecting them.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:calculus-carrier}. The derivative data is stored in $D$, and the integral data is stored in $I$; they are distinct coordinates of the finite packet.
+
+Use \autoref{thm:calculus-derivative-continuation-obligation} for the derivative-facing route and \autoref{thm:calculus-integral-finite-sum-obligation} for the integral-facing route. Each theorem reads its own calculus row together with the real, limit, continuous-map, regular-rational, transport, replay, provenance, and naming support.
+
+\autoref{thm:calculus-namecert-obligations} lists the full local surface and includes no coordinate for a host fundamental theorem. Hence a consumer cannot derive an integral conclusion from $D$, cannot derive a derivative conclusion from $I$, and cannot import a global theorem to identify the two reads.
+\end{proof}
+
+\begin{theorem}[Calculus RegSeqRat readback root obligation]
+\label{thm:calculus-regseqrat-readback-root-obligation}
+Every real-facing value exported by an accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$ must display the $\RegSeqRatUp$ readback row $Q$ together with the $\RealUp$ boundary $R$ and the dyadic tolerance route inherited by the regular-rational readback. This readback is required before any limit, derivative, or integral read is exported from $L$, $D$, or $I$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:calculus-carrier}. The terminal real boundary is $R$, and the common rational readback row is $Q$; no other coordinate converts limit, derivative, or integral data into a real-facing value.
+
+The earlier real-seal theorem \autoref{thm:calculus-limit-real-seal-obligation} already forces Real-facing limit reads through regular-rational and dyadic tolerance data. The derivative and integral obligations similarly keep their finite quotient and finite-sum reads attached to the displayed real and rational support rows.
+
+Finally use \autoref{thm:calculus-namecert-obligations}. The local NameCert surface lists regular-rational readback as a root obligation, so every export from $L,D,I$ must first pass through $Q$ with $R$ and the underlying dyadic tolerance route visible.
 \end{proof}
 
 \closureat{CalculusUp}{seedStr}
