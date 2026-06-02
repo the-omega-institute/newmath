@@ -160,9 +160,16 @@ def _reconstruction_provenance(candidate: dict[str, Any]) -> list[dict[str, Any]
             continue
         if item.get("kernel_grounded") is False:
             continue
-        candidate_fp = str(item.get("candidate_reduced_fp") or "")
-        prior_fp = str(item.get("reduced_fp") or "")
-        if not candidate_fp or not prior_fp or candidate_fp != prior_fp:
+        if str(item.get("evidence") or "") != "canonical_payload_equal":
+            continue
+        candidate_payload = str(item.get("candidate_canonical_payload") or "")
+        prior_payload = str(item.get("prior_canonical_payload") or "")
+        canonical_payload = str(item.get("canonical_payload") or "")
+        if not canonical_payload:
+            canonical_payload = candidate_payload if candidate_payload == prior_payload else ""
+        if not candidate_payload or not prior_payload or candidate_payload != prior_payload:
+            continue
+        if not canonical_payload:
             continue
         out.append(item)
     return out
@@ -185,7 +192,19 @@ def _evidence_reduced_fp(candidate: dict[str, Any]) -> str:
     return ""
 
 
-def _has_kernel_grounded_reduced_fp_twin(candidate: dict[str, Any]) -> bool:
+def _evidence_canonical_payload(candidate: dict[str, Any]) -> str:
+    for item in _reconstruction_provenance(candidate):
+        value = str(
+            item.get("canonical_payload")
+            or item.get("candidate_canonical_payload")
+            or ""
+        )
+        if value:
+            return value
+    return ""
+
+
+def _has_kernel_grounded_canonical_payload_twin(candidate: dict[str, Any]) -> bool:
     if str(candidate.get("state") or "") != "refuted":
         return False
     refutation = candidate.get("refutation")
@@ -195,24 +214,26 @@ def _has_kernel_grounded_reduced_fp_twin(candidate: dict[str, Any]) -> bool:
 
 
 def refutation_records_from_payload(payload: dict[str, Any], *, timestamp: str) -> list[dict[str, Any]]:
-    records: dict[tuple[str, str], dict[str, Any]] = {}
+    records: dict[tuple[str, tuple[str, ...]], dict[str, Any]] = {}
     for raw_candidate in payload.get("candidates", []) or []:
         if not isinstance(raw_candidate, dict):
             continue
-        if not _has_kernel_grounded_reduced_fp_twin(raw_candidate):
+        if not _has_kernel_grounded_canonical_payload_twin(raw_candidate):
             continue
         candidate = _candidate_name(raw_candidate)
         priors = _reconstruction_priors(raw_candidate)
         reduced_fp = _evidence_reduced_fp(raw_candidate)
-        if not candidate or not priors or not reduced_fp:
+        canonical_payload = _evidence_canonical_payload(raw_candidate)
+        if not candidate or not priors or not canonical_payload:
             continue
-        key = (candidate, reduced_fp)
-        why = "structural reconstruction (reduced_fp twin) of " + ", ".join(priors)
+        key = (candidate, tuple(priors))
+        why = "structural reconstruction (canonical payload equal) of " + ", ".join(priors)
         records[key] = {
             "candidate": candidate,
             "refuted_because": why,
             "evidence": {
                 "reduced_fp": reduced_fp,
+                "evidence": "canonical_payload_equal",
                 "prior": priors,
             },
             "kernel_grounded": True,
@@ -236,16 +257,22 @@ def load_existing_ledger(path: Path) -> list[dict[str, Any]]:
     return []
 
 
-def ledger_key(entry: dict[str, Any]) -> tuple[str, str]:
+def ledger_key(entry: dict[str, Any]) -> tuple[str, tuple[str, ...]]:
     evidence = entry.get("evidence")
-    reduced_fp = ""
+    priors: tuple[str, ...] = ()
     if isinstance(evidence, dict):
-        reduced_fp = str(evidence.get("reduced_fp") or "")
-    return (str(entry.get("candidate") or ""), reduced_fp)
+        raw_priors = evidence.get("prior")
+        if isinstance(raw_priors, list):
+            priors = tuple(sorted({str(item).strip() for item in raw_priors if str(item).strip()}))
+        else:
+            prior = str(raw_priors or "").strip()
+            if prior:
+                priors = (prior,)
+    return (str(entry.get("candidate") or ""), priors)
 
 
 def merge_records(existing: list[dict[str, Any]], current: list[dict[str, Any]], *, timestamp: str) -> list[dict[str, Any]]:
-    merged: dict[tuple[str, str], dict[str, Any]] = {}
+    merged: dict[tuple[str, tuple[str, ...]], dict[str, Any]] = {}
     for entry in existing:
         key = ledger_key(entry)
         if not key[0] or not key[1]:
