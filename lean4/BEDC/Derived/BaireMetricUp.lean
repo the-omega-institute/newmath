@@ -180,4 +180,30 @@ theorem BaireMetricRootObservationCarrier [AskSetup] [PackageSetup]
     ⟨radiusUnary, ultrametricUnary, radiusRoute, ultrametricRoute, provenancePkg,
       localNamePkg⟩
 
+theorem BaireMetricCarrier_ultrametric_window_stability [AskSetup] [PackageSetup]
+    {S B W D R U H C P N radiusRead ultrametricRead metricRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricPrefixDistanceCarrier S B W D R U H C P N radiusRead ultrametricRead
+        bundle pkg →
+      Cont ultrametricRead R metricRead →
+        PkgSig bundle metricRead pkg →
+          UnaryHistory radiusRead ∧ UnaryHistory ultrametricRead ∧
+            UnaryHistory metricRead ∧ Cont S B radiusRead ∧
+              Cont radiusRead D ultrametricRead ∧ Cont ultrametricRead R metricRead ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle metricRead pkg := by
+  -- BEDC touchpoint anchor: BaireMetricPrefixDistanceCarrier BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier metricRoute metricPkg
+  obtain ⟨unaryS, unaryB, _unaryW, unaryD, unaryR, _unaryU, _unaryH, _unaryC,
+    _unaryP, _unaryN, radiusRoute, ultrametricRoute, provenancePkg, _localNamePkg⟩ :=
+    carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed unaryS unaryB radiusRoute
+  have ultrametricUnary : UnaryHistory ultrametricRead :=
+    unary_cont_closed radiusUnary unaryD ultrametricRoute
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed ultrametricUnary unaryR metricRoute
+  exact
+    ⟨radiusUnary, ultrametricUnary, metricUnary, radiusRoute, ultrametricRoute,
+      metricRoute, provenancePkg, metricPkg⟩
+
 end BEDC.Derived.BaireMetricUp
