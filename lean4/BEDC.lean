@@ -4833,6 +4833,7 @@ import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedChoiceSequenceUp.TasteGate
 import BEDC.Derived.LocatedClosedIntervalFiniteNetUp.TasteGate
 import BEDC.Derived.LocatedCompactCompletionUp
+import BEDC.Derived.LocatedCompactIntervalOscillationBoundUp.TasteGate
 import BEDC.Derived.LocatedCompactUp.Carrier
 import BEDC.Derived.LocatedCompactUp.NameCert
 import BEDC.Derived.LocatedCompactUp.TasteGate
@@ -5421,6 +5422,7 @@ import BEDC.Derived.MetricEntourageUp
 import BEDC.Derived.MetricIdentificationUp.TasteGate
 import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
+import BEDC.Derived.MetricReflectionSandwichUp.TasteGate
 import BEDC.Derived.MetricReverseTriangleInequalityUp
 import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
 import BEDC.Derived.MetricSubspaceUp.TasteGate
