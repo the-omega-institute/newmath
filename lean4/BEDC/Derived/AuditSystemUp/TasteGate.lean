@@ -370,6 +370,79 @@ theorem AuditSystemCarrier_namecert_surface [AskSetup] [PackageSetup]
     }
   exact ⟨cert, exportUnary, closureUnary⟩
 
+theorem AuditSystemCarrier_certificate_conflict_determinacy [AskSetup] [PackageSetup]
+    {C P F R E L H K Q N blockedRead exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditSystemCarrier C P F R E L H K Q N bundle pkg →
+      Cont F R blockedRead →
+        Cont E L exportRead →
+          PkgSig bundle exportRead pkg →
+            SemanticNameCert
+                (fun row : BHist =>
+                  (hsame row blockedRead ∨ hsame row exportRead) ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row F ∨ hsame row R ∨ hsame row blockedRead ∨ hsame row E ∨
+                    hsame row L ∨ hsame row exportRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ PkgSig bundle exportRead pkg ∧ PkgSig bundle Q pkg)
+                hsame ∧
+              UnaryHistory blockedRead ∧ UnaryHistory exportRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro carrier blockedRoute exportRoute exportPkg
+  obtain ⟨_cUnary, _pUnary, fUnary, rUnary, eUnary, lUnary, _hUnary, _kUnary,
+    _qUnary, _nUnary, _failureRoute, _claimRoute, _ledgerRoute, qPkg⟩ := carrier
+  have blockedUnary : UnaryHistory blockedRead :=
+    unary_cont_closed fUnary rUnary blockedRoute
+  have exportUnary : UnaryHistory exportRead :=
+    unary_cont_closed eUnary lUnary exportRoute
+  have sourceExport :
+      (fun row : BHist =>
+        (hsame row blockedRead ∨ hsame row exportRead) ∧ UnaryHistory row) exportRead := by
+    exact ⟨Or.inr (hsame_refl exportRead), exportUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row blockedRead ∨ hsame row exportRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row F ∨ hsame row R ∨ hsame row blockedRead ∨ hsame row E ∨
+              hsame row L ∨ hsame row exportRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle exportRead pkg ∧ PkgSig bundle Q pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro exportRead sourceExport
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        constructor
+        · cases source.left with
+          | inl sameBlocked =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameBlocked)
+          | inr sameExport =>
+              exact Or.inr (hsame_trans (hsame_symm sameRows) sameExport)
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameBlocked =>
+          exact Or.inr (Or.inr (Or.inl sameBlocked))
+      | inr sameExport =>
+          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sameExport))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, exportPkg, qPkg⟩
+  }
+  exact ⟨cert, blockedUnary, exportUnary⟩
+
 theorem AuditSystemIndependenceWitness [AskSetup] [PackageSetup]
     {claim positive failure refusal «export» audit ledger : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
