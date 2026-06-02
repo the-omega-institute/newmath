@@ -47,6 +47,53 @@ def _assert_row_matches_predicates(payload, arm_name):
     return row, projection, delta
 
 
+def _minimal_source_payload():
+    return {
+        "applicability_boundary": {
+            "claimed_scope": "tmp-path Gaussian spectral source.",
+            "not_claimed": "No biological killed-walk coverage is claimed.",
+        },
+        "arms": [
+            {
+                "deletion_axes": [],
+                "envelope_projection": {"metrics": {"accuracy": 1.0, "coverage": 1.0}},
+                "family": "baseline",
+                "name": runner.BEFORE_ARM,
+                "observed_degradation_score": 0.0,
+            },
+            {
+                "deletion_axes": ["tail"],
+                "envelope_projection": {"metrics": {"accuracy": 0.8, "coverage": 0.9}},
+                "family": "hinge-treatment",
+                "name": "hinge-ranked-treatment",
+                "observed_degradation_score": 0.25,
+            },
+            {
+                "deletion_axes": ["random"],
+                "envelope_projection": {"metrics": {"accuracy": 0.95, "coverage": 0.92}},
+                "family": "matched-random-control",
+                "name": "matched-random-single-axis",
+                "observed_degradation_score": 0.05,
+            },
+        ],
+        "config": {"metric_names": ["accuracy", "coverage"]},
+        "generated_at": "2026-06-02T00:00:00+00:00",
+        "negative_control_summary": {
+            "max_control_score": 0.05,
+            "treatment_better_than_all_controls": True,
+            "treatment_score": 0.25,
+        },
+        "rank_correlation": {
+            "method": "source-hinge-order",
+            "pairs": [
+                {"arm": "hinge-ranked-treatment", "observed_degradation_score": 0.25},
+                {"arm": "matched-random-single-axis", "observed_degradation_score": 0.05},
+            ],
+            "spearman": 1.0,
+        },
+    }
+
+
 @pytest.mark.parametrize(
     "arms",
     [
@@ -271,3 +318,79 @@ def test_matched_random_baseline_is_reported_as_control():
     assert report["matched_random_baseline"]["source"] == payload["negative_control_summary"]
     assert controls
     assert {row["family"] for row in controls} == {"matched-random-control"}
+
+
+def test_write_payload_writes_json_and_markdown_from_same_payload(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+    (tmp_path / "reports").mkdir()
+    payload = runner._verdict_payload(_minimal_source_payload())
+
+    runner._write_payload(payload)
+
+    json_path = tmp_path / runner.JSON_ARTIFACT
+    md_path = tmp_path / runner.REPORT_ARTIFACT
+    assert json_path.exists()
+    assert md_path.exists()
+    written = json.loads(json_path.read_text(encoding="utf-8"))
+    report = md_path.read_text(encoding="utf-8")
+    treatment = next(row for row in written["verdicts"] if row["arm"] == "hinge-ranked-treatment")
+    control = next(row for row in written["verdicts"] if row["arm"] == "matched-random-single-axis")
+
+    assert written == payload
+    assert written["artifact"] == runner.JSON_ARTIFACT
+    assert written["report"] == runner.REPORT_ARTIFACT
+    assert written["rank_correlation"]["method"] == "hinge-observed-degradation-vs-discovery-net-information"
+    assert written["matched_random_baseline"]["source"]["treatment_score"] == pytest.approx(0.25)
+    assert written["applicability_boundary"]["claimed_scope"] == "tmp-path Gaussian spectral source."
+    assert f"| `{treatment['arm']}` | `{treatment['family']}` | {treatment['observed_degradation_score']:.6f} |" in report
+    assert f"{treatment['surface_delta_count']} | {treatment['shift_information']} | {treatment['net_information']:.6f}" in report
+    assert f"| `{control['arm']}` | `{control['family']}` | {control['observed_degradation_score']:.6f} |" in report
+    assert f"- Method: `{written['rank_correlation']['method']}`" in report
+    assert f"- Spearman: `{written['rank_correlation']['spearman']:.6f}`" in report
+    assert "- Treatment score: `0.250000`" in report
+    assert "- Max control score: `0.050000`" in report
+    assert "- Claimed scope: `tmp-path Gaussian spectral source.`" in report
+    assert "- Not claimed: No biological killed-walk coverage is claimed." in report
+
+
+def test_main_writes_json_and_markdown_discovery_projection(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+    source_path = tmp_path / runner.SOURCE_JSON_ARTIFACT
+    source_path.parent.mkdir(parents=True)
+    source_path.write_text(json.dumps(_minimal_source_payload()), encoding="utf-8")
+
+    runner.main()
+
+    json_path = tmp_path / runner.JSON_ARTIFACT
+    md_path = tmp_path / runner.REPORT_ARTIFACT
+    assert json_path.exists()
+    assert md_path.exists()
+    payload = json.loads(json_path.read_text(encoding="utf-8"))
+    report = md_path.read_text(encoding="utf-8")
+
+    assert payload["artifact"] == runner.JSON_ARTIFACT
+    assert payload["report"] == runner.REPORT_ARTIFACT
+    assert payload["source_artifacts"]["source_json_artifact"] == runner.SOURCE_JSON_ARTIFACT
+    assert payload["source_artifacts"]["source_report_artifact"] == runner.SOURCE_REPORT_ARTIFACT
+    assert payload["arms"] == [runner.BEFORE_ARM, "hinge-ranked-treatment", "matched-random-single-axis"]
+    assert {row["arm"] for row in payload["verdicts"]} == {"hinge-ranked-treatment", "matched-random-single-axis"}
+    assert {row["verdict"] for row in payload["verdicts"]}.issubset({"positive", "negative", "compression"})
+    assert payload["rank_correlation"]["method"] == "hinge-observed-degradation-vs-discovery-net-information"
+    assert payload["matched_random_baseline"]["source"]["treatment_better_than_all_controls"] is True
+    assert [row["arm"] for row in payload["matched_random_baseline"]["verdicts"]] == ["matched-random-single-axis"]
+    assert payload["applicability_boundary"]["claimed_scope"] == "tmp-path Gaussian spectral source."
+    assert payload["applicability_boundary"]["not_claimed"] == "No biological killed-walk coverage is claimed."
+
+    for row in payload["verdicts"]:
+        assert (
+            f"| `{row['arm']}` | `{row['family']}` | {row['observed_degradation_score']:.6f} | "
+            f"{row['surface_delta_count']} | {row['shift_information']} | {row['net_information']:.6f} | "
+            f"`{str(row['structural_discovery']).lower()}` | `{str(row['positive_discovery']).lower()}` | `{row['verdict']}` |"
+        ) in report
+    assert f"- Method: `{payload['rank_correlation']['method']}`" in report
+    assert f"- Spearman: `{payload['rank_correlation']['spearman']:.6f}`" in report
+    assert f"- Source hinge Spearman: `{payload['rank_correlation']['source_hinge']['spearman']:.6f}`" in report
+    assert f"- Treatment score: `{payload['matched_random_baseline']['source']['treatment_score']:.6f}`" in report
+    assert f"- Max control score: `{payload['matched_random_baseline']['source']['max_control_score']:.6f}`" in report
+    assert f"- Claimed scope: `{payload['applicability_boundary']['claimed_scope']}`" in report
+    assert f"- Not claimed: {payload['applicability_boundary']['not_claimed']}" in report
