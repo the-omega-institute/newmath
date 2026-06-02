@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\NagataSmirnovMetrizationUp$}
+\label{ch:concrete-instances-nagata-smirnov-metrization-namecert}
+\origin{human}
+
+Following Nagata and Smirnov on metrization, the $\NagataSmirnovMetrizationUp$ packet records the finite BEDC route by which a regular topological source with a displayed locally finite $\sigma$-cover basis exposes a metric handoff. It sits between the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the metric consumer surface of \autoref{ch:concrete-instances-metric-namecert}, the uniform-entourage handoff of \autoref{ch:concrete-instances-frink-metrization-namecert}, and the normal second-countable route of \autoref{ch:concrete-instances-urysohn-metrization-namecert}. The packet names only the displayed cover-family route to metric data; it does not assert $\RealUp$ completeness, choice-selected covers, host topology equality, or arbitrary point-set metrizability.
+
+\begin{definition}[Nagata--Smirnov metrization carrier]
+\label{def:nagata-smirnov-metrization-carrier}
+A $\NagataSmirnovMetrizationUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,R,L,S,B,E,D,M,F,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, recording the open-set classifier and finite neighbourhood requests read by the packet.
+\item $R$ is the regularity row for closed-neighbourhood separation requests presented by the topology source.
+\item $L$ is the locally finite cover-family ledger. It lists the inspected cover layers and the finite star-neighbourhood checks used by the metric route.
+\item $S$ is the $\sigma$-layer schedule row. It records the finite layer window through which cover-family requests are replayed.
+\item $B$ is the base-refinement row, tying each inspected neighbourhood request in $T$ to a displayed cover member in the locally finite schedule.
+\item $E$ is the entourage-shrink row exported to the $\FrinkMetrizationUp$ route after the local cover checks have been displayed.
+\item $D$ is the dyadic radius ledger used by the downstream metric handoff.
+\item $M$ is the $\MetricUp$ handoff row. It is available only after $T,R,L,S,B,E,D$ have been exposed.
+\item $F$ records finite compatibility between the metric-ball rows from $M$ and the source topology windows from $T$.
+\item $U$ records the comparison with the $\UrysohnMetrizationUp$ route on packets that also expose normal second-countable data.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay from a topology request through regularity, locally finite cover layers, entourage shrink, dyadic radius data, metric handoff, compatibility, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\NagataSmirnovMetrizationUp$, $\TopologyUp$, $\MetricUp$, $\FrinkMetrizationUp$, $\UrysohnMetrizationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\NagataSmirnovMetrizationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for $\RealUp$ completeness, choice-selected covers, host topology equality, arbitrary refinements, quotient point equality, or an ambient metric oracle.
+\end{definition}
+\leanstmt{BEDC.Derived.NagataSmirnovMetrizationUp}
+
+\begin{theorem}[Nagata--Smirnov metrization NameCert obligations]
+\label{thm:nagata-smirnov-metrization-namecert-obligations}
+For every accepted $\NagataSmirnovMetrizationUp$ carrier $G=(T,R,L,S,B,E,D,M,F,U,H,C,P,N)$, the local $\NameCert_{\NagataSmirnovMetrizationUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the topology source, regularity row, locally finite cover-family ledger, layer schedule, base-refinement row, entourage-shrink row, dyadic radius ledger, metric handoff, compatibility rows, transport, replay, provenance, and local naming row;
+\item cover-family readability, requiring every cover request to start at $T$ and pass through the locally finite ledger $L$ and layer schedule $S$ before any metric row is consumed;
+\item regularity and base-refinement compatibility, requiring $R$ and $B$ to expose the finite closed-neighbourhood and cover-refinement checks used by the shrink row $E$;
+\item metric handoff stability, requiring $E,D,M,F$ to keep the $\MetricUp$ ball rows downstream of the displayed cover-family route and comparable with the $\FrinkMetrizationUp$ and $\UrysohnMetrizationUp$ dependency anchors;
+\item refusal, requiring $P$ and $N$ to name only this finite packet and to refuse $\RealUp$ completeness, choice-selected covers, host topology equality, arbitrary refinements, quotient point equality, and ambient metric oracles.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:nagata-smirnov-metrization-carrier}. The projection exposes exactly the topology source, regularity row, locally finite cover ledger, layer schedule, base-refinement row, shrink row, dyadic ledger, metric handoff, compatibility rows, and the structural rows $H,C,P,N$.
+
+The cover-family route is forced by row order. A metric-facing request first reads neighbourhood data from $T$, then the locally finite cover ledger $L$, and then the finite layer schedule $S$ before a base-refinement row $B$ or shrink row $E$ can be inspected.
+
+The metric handoff is therefore downstream of $R,L,S,B,E,D$. The rows $F$ and $U$ only compare the resulting metric windows with the topology source and the neighbouring metrization packets; they do not supply a host metric or a new topology equality principle.
+
+Since the tuple contains no $\RealUp$ completeness, choice-selected cover, host topology equality, arbitrary refinement, quotient point equality, or ambient metric coordinate, the local NameCert cannot export those principles.
+\end{proof}
+
+\begin{theorem}[Nagata--Smirnov metric handoff]
+\label{thm:nagata-smirnov-metrization-metric-handoff}
+Every $\MetricUp$ consumer of an accepted $\NagataSmirnovMetrizationUp$ packet receives the finite route
+$$
+\TopologyUp,\ R,\ L,\ S,\ B,\ E,\ D,\ M,\ F,\ U,\ H,\ C,\ P,\ N .
+$$
+The metric row $M$ is consumed as a downstream handoff tied to the displayed locally finite cover family and its topology compatibility windows. It is not a host metric, not a selected cover metric, and not a claim that the source topology equals an external topology.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in order. The topology source, regularity row, locally finite cover ledger, layer schedule, base-refinement row, entourage shrink, and dyadic radius ledger are displayed before $M$ is available.
+
+The compatibility row $F$ binds the handoff back to finite topology windows, and $U$ records only the comparison with the Urysohn-style route when that sibling data is also present. Thus the metric consumer receives a named finite route from the original topology surface to the displayed metric row.
+
+Finally use the refusal surface in $P$ and $N$. Since no row stores $\RealUp$ completeness, selected covers, host topology equality, arbitrary refinements, quotient point equality, or an ambient metric oracle, the handoff remains the finite BEDC route named above.
+\end{proof}
+
+\closureat{NagataSmirnovMetrizationUp}{seedStr}
+\begin{closurestatus}{\NagataSmirnovMetrizationUp}
+  \constructivestory{A $\NagataSmirnovMetrizationUp$ packet is generated from a topology source row, regularity row, locally finite cover-family ledger, layer schedule, base-refinement row, entourage shrink, dyadic radius ledger, metric handoff, topology compatibility row, sibling metrization comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nagata-smirnov-metrization-carrier}, \autoref{thm:nagata-smirnov-metrization-namecert-obligations}, and \autoref{thm:nagata-smirnov-metrization-metric-handoff} seed the finite regular locally finite cover-family route to a displayed metric handoff.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, choice-selected covers, host topology equality, arbitrary refinements, quotient point equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cover-family readability, regularity and base-refinement compatibility, entourage-shrink exactness, metric handoff stability, transport, replay, provenance, and local naming for BEDC.Derived.NagataSmirnovMetrizationUp.}
+\end{closurestatus}

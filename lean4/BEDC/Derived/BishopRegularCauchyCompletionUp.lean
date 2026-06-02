@@ -97,4 +97,27 @@ theorem BishopRegularCauchyCompletionCarrier_seal_stability [AskSetup] [PackageS
       sealReadUnary, tailCommon, commonObservations, observationsRegularity, regularitySeal,
       provenancePkg, sealPkg⟩
 
+theorem BishopRegularCauchyCompletionNonescapeExactness [AskSetup] [PackageSetup]
+    {endpoint observations regularity tailModulus commonTail transport replay provenance localName
+      read : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopRegularCauchyCompletionCarrier endpoint observations regularity tailModulus
+        commonTail transport replay provenance localName bundle pkg →
+      Cont replay provenance read →
+        PkgSig bundle read pkg →
+          UnaryHistory endpoint ∧ UnaryHistory observations ∧ UnaryHistory regularity ∧
+            UnaryHistory tailModulus ∧ UnaryHistory commonTail ∧ UnaryHistory transport ∧
+              UnaryHistory replay ∧ UnaryHistory provenance ∧ UnaryHistory localName ∧
+                Cont replay provenance read ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle read pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier replayRead readPkg
+  obtain ⟨endpointUnary, observationsUnary, regularityUnary, tailModulusUnary,
+    commonTailUnary, transportUnary, replayUnary, provenanceUnary, localNameUnary,
+    provenancePkg, _localNamePkg⟩ := carrier
+  exact
+    ⟨endpointUnary, observationsUnary, regularityUnary, tailModulusUnary, commonTailUnary,
+      transportUnary, replayUnary, provenanceUnary, localNameUnary, replayRead, provenancePkg,
+      readPkg⟩
+
 end BEDC.Derived.BishopRegularCauchyCompletionUp
