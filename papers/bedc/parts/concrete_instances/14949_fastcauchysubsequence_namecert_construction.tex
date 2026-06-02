@@ -158,6 +158,50 @@ Now restrict attention to the $\RegSeqRatUp$ row $W$. By \autoref{def:fast-cauch
 Apply \autoref{thm:fast-cauchy-subsequence-cofinal-window} to each displayed precision read. The cofinal witness is already a finite $\BHist$ window row transported through the same support rows, so the regular rational readback cannot be replaced by an independent stream, a choice-selected subsequence, or a quotient Cauchy representative.
 \end{proof}
 
+\begin{theorem}[FastCauchySubsequence selector regularity pullback]
+\label{thm:fast-cauchy-subsequence-selector-regularity-pullback}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the $\RegularCauchySubsequenceUp$ row $R$ pulls its regularity witness back to the inspected $\CauchyModulusUp$ row $M$ and the $\CofinalSubsequenceUp$ selector row $Q$ before the $\RegSeqRatUp$ row $W$ is read. The pullback is the displayed route
+$$
+M,\quad Q,\quad F,\quad R,\quad W,\quad H,\quad C,\quad P,\quad N,
+$$
+and it exports no selected limit, quotient stream equality, host real equality, or countable-choice selector.
+\end{theorem}
+\begin{proof}
+Project the selection surface $\Sigma_A$ of \autoref{def:fast-cauchy-subsequence-selection-surface}. The only selector-facing rows available to the regular handoff are $M,Q,F,W,H,C,P,N$, with $R$ sitting in the carrier as the regular-subsequence handoff from those rows.
+
+Use the modulus-selector coherence theorem, \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence}. It fixes the selected windows by the displayed $M,Q$ pair before either the fast-rate row $F$ or the regular-subsequence handoff $R$ can be consumed.
+
+Apply \autoref{thm:fast-cauchy-subsequence-regular-readback}. The $\RegSeqRatUp$ row $W$ reads the same finite cofinal windows and inspected modulus bounds, so the regularity witness in $R$ is pulled back to the finite selector surface rather than to an independent stream or a selected limit.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence cofinal readback non-escape]
+\label{thm:fast-cauchy-subsequence-cofinal-readback-nonescape}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the cofinal readback route from the $\CofinalSubsequenceUp$ row $Q$ to the $\RegSeqRatUp$ row $W$ remains inside
+$$
+M,\quad Q,\quad F,\quad R,\quad W,\quad H,\quad C,\quad P,\quad N.
+$$
+It may feed $\CauchyModulusUp$, $\CofinalSubsequenceUp$, $\RegularCauchySubsequenceUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ consumers through the displayed rows, but it cannot escape as a selected limit, quotient stream equality, host real equality, arbitrary countable choice, or an independent rational stream.
+\end{theorem}
+\begin{proof}
+Begin with the cofinal finite-window theorem, \autoref{thm:fast-cauchy-subsequence-cofinal-window}. Each precision request receives a finite window row in $Q$ covered by the inspected modulus row $M$ and transported by $H,C,P,N$.
+
+Next apply the selector-window coverage theorem, \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}. The route from $Q$ to the regular rational readback passes through $F$ and $R$, so $W$ cannot be read from a separate stream or a host-level subsequence object.
+
+Finally use the Real-seal selector boundary of \autoref{thm:fast-cauchy-subsequence-real-seal-selector-boundary}. The $\RealUp$ seal $E$ is visible only after $M,Q,F,R,W$, and the carrier has no coordinate for selected limits, quotient stream equality, host real equality, countable choice, or an independent rational sequence.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence effective Cauchy consumer]
+\label{thm:fast-cauchy-subsequence-effective-cauchy-consumer}
+Any effective-Cauchy or $\RealUp$ consumer of an accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$ must consume the inspected $\CauchyModulusUp$ row $M$, the $\CofinalSubsequenceUp$ selector row $Q$, the fast-rate row $F$, the $\RegularCauchySubsequenceUp$ handoff $R$, and the $\RegSeqRatUp$ readback $W$ before the $\RealUp$ seal $E$ is exposed. The consumer receives finite evidence for an effective Cauchy route from $\StreamNameUp$ windows to regular rational readback; it receives no selected limit, quotient stream equality, host real equality, or countable-choice functional.
+\end{theorem}
+\begin{proof}
+Start with the regular route theorem, \autoref{thm:fast-cauchy-subsequence-regular-route}. It forces every real-facing read through $S,M,Q,F,R,W$ before the seal $E$.
+
+Use selector regularity pullback, \autoref{thm:fast-cauchy-subsequence-selector-regularity-pullback}. The regular handoff $R$ is not an independent regular subsequence; it is pulled back to the inspected modulus and cofinal selector rows.
+
+Now apply cofinal readback non-escape, \autoref{thm:fast-cauchy-subsequence-cofinal-readback-nonescape}. The readback route remains inside $M,Q,F,R,W,H,C,P,N$, so an effective-Cauchy consumer gets finite displayed evidence and cannot replace it by a selected limit, quotient stream equality, host real equality, or countable choice.
+\end{proof}
+
 The downstream explicit-modulus sequence route of \autoref{ch:concrete-instances-effective-cauchy-sequence-namecert} may consume $\FastCauchySubsequenceUp$ when it needs finite fast-subsequence evidence: the inspected modulus data $M$ and cofinal selector rows $Q$ become the effective Cauchy sequence witness after the fast-rate and regular-subsequence handoff rows are displayed. The same relationship also feeds rate-realization consumers through the visible $F,R,W$ route, without selecting a limit and without invoking countable choice.
 
 \begin{closurestatus}{\FastCauchySubsequenceUp}
