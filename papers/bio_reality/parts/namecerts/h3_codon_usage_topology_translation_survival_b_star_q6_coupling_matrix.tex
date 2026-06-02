@@ -1,64 +1,58 @@
-\subsection{Nine-coordinate B-star Q6 coupling screen for translation readouts}
-\label{sec:bioreality-b-star-q6-coupling-screen}
 \origin{ai}
+\subsection{Residual Codon Coordinates and Translation-Layer Survival Boundary}
+\label{sec:b-star-q6-translation-survival-coupling-audit}
 
 \paragraph{Record.}
-This BioReality record isolates a finite codon-usage screen for the nine synonymous residual coordinates associated with $B^{\ast}_{Q6}$.  The computed coordinate list is
+This BioReality record concerns the nine residual synonymous codon coordinates collected under the $B^*_{Q6}$ name and asks whether any one of them survives as a predictor of a translation-related readout after quotienting away amino-acid composition and ordinary contextual controls. The tested residual coordinate list is
 $$
 \begin{aligned}
 &\mathrm{Arg}_{AGR},\ \mathrm{Ile}_{AUA},\ K_{AAA},\ \mathrm{Leu}_{CUN/UUR},\ \mathrm{Leu}_{UUA/UUG},\\
-&\mathrm{Ser}_{UCA/UCG},\ \mathrm{Ser}_{UCR/AGY},\ \mathrm{Thr}_{ACR/ACY},\ f_{3}\text{-stress}.
+&\mathrm{Ser}_{UCA/UCG},\ \mathrm{Ser}_{UCR/AGY},\ \mathrm{Thr}_{ACR/ACY},\ f_3\text{-stress}.
 \end{aligned}
 $$
-The ambient codon-count space has dimension $61$.  The finite contact used here contains three organism rows: Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K-12.  The readout in the computed matrix is not a ribosome-profiling, stAI, tAI, or proteomics response.  It is the proxy spectrum given by the tRNA-Leu $CUN$-versus-$UUR$ log-copy contrast.  Thus the result is a codon-usage and tRNA-copy coupling calculation, not a completed translation-survival calculation.
+The intended survival matrix has entries $S_{ij}=S_{q_i}(r_j\mid Z)$, where $q_i$ ranges over these nine residual coordinates, $r_j$ ranges over translation-facing readouts such as tAI, stAI, ribosome occupancy, translation efficiency, or protein abundance, and $Z$ contains amino-acid composition, organism context, GC3, coding-sequence length, and the simpler $M$-density baseline. The current finite row does not yet contain that full matrix. It contains a proxy coupling audit against a tRNA-Leu CUN-versus-UUR log-copy spectrum and a separate three-organism Leu CUN/UUR association row.
 
-\paragraph{Residual projection.}
-The amino-acid quotient is kept explicit.  Each $q_i$ is evaluated only after removing the amino-acid-composition component, so the screen is not allowed to count amino-acid sequence composition as synonymous codon evidence.  For a proxy readout vector $\ell$, the finite-row coupling has the form
+\paragraph{Finite computation.}
+The codon count space in the coupling audit has size $61$. The loaded organism set is exactly
 $$
 \begin{aligned}
-A_i = q_i^{T}\Sigma \ell^{\perp},
+\{\mathrm{Homo\ sapiens},\ \mathrm{Saccharomyces\ cerevisiae},\ \mathrm{Escherichia\ coli\ K12}\}.
 \end{aligned}
 $$
-where $\ell^{\perp}$ denotes the readout component after the synonymous projection and $\Sigma$ is the residual count covariance over the finite organism contact.  The null condition for this screen was set as
+For the proxy readout, the break test was declared as follows: the proxy coupling row would be null if all nine residual coordinates had $|A_{ij}|<0.01$. That break condition was not met. The threshold was $0.01$, all $9$ residual coordinates had nonzero proxy entries, and the largest absolute coupling reported was
 $$
 \begin{aligned}
-|A_i| < 0.01 \quad \text{for all nine residual coordinates.}
+\max_{i,j}|A_{ij}|=1882464.1106377328.
 \end{aligned}
 $$
-The recorded run did not meet that null condition: all nine coordinates had nonzero entries above the threshold, and the largest absolute coupling was
-$$
-\begin{aligned}
-\max_i |A_i| = 1882464.1106377328.
-\end{aligned}
-$$
-Consequently, the finite proxy matrix shows that the nine-coordinate residual basis is not numerically silent against the Leu tRNA-copy contrast in this three-organism table.
+Thus the finite proxy audit says that the nine-dimensional $B^*_{Q6}$ residual family is not numerically invisible to the tRNA-Leu CUN/UUR copy-number contrast in this three-organism row. This is a codon-usage and tRNA-copy contact only: it is a coupling measurement $A_{ij}$, not a controlled survival estimate $S_{ij}$.
 
-\paragraph{Leu gate contact.}
-A separate finite check of the $CUN/UUR$ Leu gate used the same three organism names.  The reported Pearson correlation was $1.0$, and the amino-acid-controlled partial Pearson value was also $1.0$ with $n=3$.  The organism-level log-ratio signs were not uniform:
+\paragraph{Leu CUN/UUR gate.}
+The companion Leu CUN/UUR row uses the same three organisms and reports a Pearson value of $1.0$ for the finite comparison. The partial Pearson value recorded after the stated control is also $1.0$ with $n=3$. The organism-level log-ratio signs are not uniform:
 $$
 \begin{aligned}
 (1.3514980212896148,\ -0.24869078488829677,\ 1.0086640520051702),
 \end{aligned}
 $$
-with sign pattern
+with sign vector
 $$
 \begin{aligned}
 (+1,\ -1,\ +1).
 \end{aligned}
 $$
-This sign reversal is part of the record.  It prevents the three-row table from being read as a universal directionality claim, even though the finite partial correlation in that table is positive.
+The row therefore supports a finite association check for the Leu CUN/UUR codon-usage and tRNA-Leu copy-number interface, while simultaneously recording context dependence of sign. The value $1.0$ at $n=3$ is not treated as a stable population estimate, and the negative middle entry prevents any reading in which the sign is declared universal.
 
-\paragraph{Survival matrix target.}
-The intended survival matrix is a larger object.  For translation readouts $r_j$ such as tAI, stAI, ribosome occupancy, translation efficiency, or protein abundance, the target statistic is
+\paragraph{Survival matrix status.}
+The survival statement to be tested is stronger than the proxy result. It requires a direct translation-layer readout and the controlled statistic
 $$
 \begin{aligned}
-S_{ij}=S_{q_i}(r_j\mid Z),
+S_{ij}=S_{q_i}(r_j\mid \mathrm{AA},\ \mathrm{organism},\ \mathrm{GC3},\ \mathrm{length},\ M\text{-density})
 \end{aligned}
 $$
-where $Z$ contains amino-acid composition, organism context, GC3, sequence length, and an $M$-density baseline.  A positive survival entry would require a controlled partial-$R^2$ or description-length improvement after this full ablation.  The present computation does not contain such an $S_{ij}$ table.  It contains a proxy coupling matrix $A_i$ against tRNA-Leu copy contrast and a three-organism Leu gate correlation row.  Therefore the correct conclusion is narrower: the proxy contact survives the zero-coupling break condition, while the translation-survival claim remains conditional on organism-matched translation or protein readouts and the declared control set.
+for each residual coordinate and readout. In the present record, true tAI or stAI weights, ribosome-profiling translation efficiency, matched protein abundance, and matched mRNA abundance are listed as required contacts, but no organism-matched, control-adjusted $S_{ij}$ table is present. The proxy audit therefore licenses only the narrower statement that $B^*_{Q6}$ residual coordinates show nonzero finite coupling to the tRNA-Leu CUN/UUR copy-number contrast under the recorded three-organism contact. It does not license the claim that any entry has $S_{ij}>0$ under the full control set.
 
-\paragraph{Local interpretation boundary.}
-No ribosome-mediated translation realization follows from this finite proxy screen alone.  No protein folding, structural order, physical admissibility, biochemical function, pathway role, mechanism claim, or population-level biological law follows from the reported $A_i$ values, from the $n=3$ Pearson value, or from the tRNA gene-copy rows.  tRNA gene copy is treated only as an annotation-level copy-number spectrum; it is not used as tRNA abundance, charging state, ribosome occupancy, translation efficiency, or protein output.  A positive $A_i$ entry is also not promoted to a positive $S_{ij}$ entry.  That promotion would require direct readout rows and the explicit $Z$-controlled survival estimate.
+\paragraph{Local interpretation.}
+The finite data are best read as a ranked experimental target rather than as a completed biological conclusion. The nine residual coordinates have been computed; the proxy coupling threshold $0.01$ was exceeded; the maximum absolute proxy coupling was $1882464.1106377328$; and the Leu CUN/UUR side row reports Pearson $1.0$ and partial Pearson $1.0$ at $n=3$ with signs $(+1,-1,+1)$. These numbers make the translation-readout survival test worth carrying forward, because the residual coordinates are not erased by the available codon-usage and tRNA-copy contrast. They do not replace the missing ribosome, tAI, stAI, proteomics, or matched mRNA rows needed to compute the survival matrix itself.
 
-\paragraph{Finite conclusion.}
-The finite evidence supports the following bounded statement.  In a $61$-codon count space, after synonymous residualization, the nine $B^{\ast}_{Q6}$ residual coordinates have nonzero coupling to the Leu $CUN/UUR$ tRNA-copy proxy in the three-organism contact, with maximum absolute entry $1882464.1106377328$ and all nine entries above the $0.01$ zero-coupling threshold.  The associated Leu gate row has partial Pearson $1.0$ at $n=3$ but has nonuniform organism-level signs.  This is a concrete codon-usage topology contact and a translation-readout screening route.  It is not yet a completed survival matrix for translation realization.
+\paragraph{Boundary.}
+No translation-realization conclusion follows from this record unless a separate contact supplies the relevant direct translation readout and the declared $Z$-controlled statistic is computed. No ribosome-mediated mechanism follows from tRNA gene-copy counts alone. No tRNA abundance, tRNA charging, protein folding, physical admissibility, biological function, pathway participation, protein-output claim, or universal law follows from the proxy coupling matrix or from the three-organism Leu CUN/UUR row. The present result remains a finite codon-usage and tRNA-copy measurement with a clearly open survival-matrix test.

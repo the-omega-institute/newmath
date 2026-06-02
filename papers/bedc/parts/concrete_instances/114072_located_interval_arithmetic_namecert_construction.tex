@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalArithmeticUp$}
+\label{ch:concrete-instances-located-interval-arithmetic-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedIntervalArithmeticUp$ packet records finite interval arithmetic over located real endpoints while keeping every endpoint, tolerance, and enclosure read inside displayed BEDC rows. It sits after the dyadic endpoint core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the endpoint-plus-radius carrier of \autoref{ch:concrete-instances-located-real-interval-namecert}, and the real interval arithmetic packet of \autoref{ch:concrete-instances-real-interval-arithmetic-namecert}. The packet gives L10 Real and Completion arguments one finite enclosure service for located endpoint operations; it is not a quotient interval type, a trichotomy service, a selected-limit construction, an ambient completeness theorem, or a host interval algebra.
+
+\begin{definition}[Located interval arithmetic carrier]
+\label{def:located-interval-arithmetic-carrier}
+A $\LocatedIntervalArithmeticUp$ carrier is a finite $\BHist$ packet
+$$
+A=(I,J,D,R,Q,E,+_\ell,\cdot_\ell,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ and $J$ are input interval rows accepted by $\LocatedRealIntervalUp$, exposing lower and upper $\RealUp$ endpoint names, radius rows, locator reads, and locatedness moduli.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint ledger. It records the dyadic tolerances, endpoint probes, outward comparison rows, and scale refinements consumed by the interval operation.
+\item $R$ is the $\RegSeqRatUp$ readback row for the endpoint windows selected from $I,J,D$.
+\item $Q$ is the $\RealIntervalArithmeticUp$ enclosure row that packages the corresponding real-interval operation over the same displayed endpoint data.
+\item $E$ is the $\RealUp$ seal row reached by every exported endpoint and every width claim.
+\item $+_\ell$ is the located addition row, whose output interval enclosure is obtained from the displayed endpoint sums, dyadic tolerance ledger, regular-rational readback, and real enclosure row.
+\item $\cdot_\ell$ is the located multiplication row, whose output interval enclosure is obtained from displayed endpoint products, outward comparison rows, dyadic tolerance ledger, regular-rational readback, and real enclosure row.
+\item $W$ is the finite-width witness row. It records the requested enclosure width and the displayed tolerance route that bounds the exported interval.
+\item $H$ records componentwise $\hsame$ transport for the input intervals, dyadic ledger, regular-rational readback, real interval enclosure, real seal, operation rows, width witness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a requested located interval operation through $I,J,D,R,Q,E,+_\ell,\cdot_\ell,W,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalArithmeticUp$, $\LocatedRealIntervalUp$, $\RealIntervalArithmeticUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedIntervalArithmeticUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite located interval-operation packet. It has no coordinate for quotient interval equality, endpoint trichotomy, countable choice, selected limits, ambient $\RealUp$ completeness, host interval algebra, or detached real representatives.
+\end{definition}
+
+\begin{theorem}[Located interval arithmetic NameCert obligations]
+\label{thm:located-interval-arithmetic-namecert-obligations}
+For every accepted $\LocatedIntervalArithmeticUp$ carrier
+$$
+A=(I,J,D,R,Q,E,+_\ell,\cdot_\ell,W,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedIntervalArithmeticUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two located real interval inputs, dyadic endpoint ledger, regular-rational readback, real interval enclosure row, real seal, located addition row, located multiplication row, width witness, and structural rows $H,C,P,N$;
+\item endpoint route exactness, requiring each exported endpoint to originate in the displayed $\LocatedRealIntervalUp$ inputs and to pass through $D,R,Q,E$ before any Real or Completion consumer reads it;
+\item dyadic tolerance stability, requiring $D$ to be the only source of endpoint tolerances, outward comparisons, and scale refinements consumed by the operation rows;
+\item regular-rational readback stability, requiring $R$ to expose the same finite endpoint windows that $D$ and the input interval rows display;
+\item operation enclosure soundness, requiring $+_\ell$ and $\cdot_\ell$ to preserve located interval containment through the displayed endpoint arithmetic, tolerance ledger, readback row, and real enclosure row;
+\item seal non-escape, requiring $E$ to be the only $\RealUp$ handoff for exported endpoints and width claims;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the input interval rows, dyadic ledger, readback row, real enclosure row, seal, operation rows, width witness, provenance, and local name componentwise;
+\item exclusion, ruling out quotient interval equality, endpoint trichotomy, countable choice, selected limits, ambient $\RealUp$ completeness, host interval algebra, and detached real representatives as local data.
+\end{enumerate}
+No located interval arithmetic obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-interval-arithmetic-carrier}. The projection exposes exactly the two located real interval inputs, the dyadic endpoint ledger, regular-rational readback, real interval enclosure row, real seal, operation rows, width witness, and structural rows.
+
+Endpoint route exactness is the displayed chain
+$$
+I,J \longmapsto D \longmapsto R \longmapsto Q \longmapsto E .
+$$
+The input intervals supply the located endpoint rows, the dyadic ledger supplies tolerances and outward comparisons, the regular-rational row supplies the finite endpoint readback, the real interval arithmetic row packages the enclosure, and the seal row is the only terminal Real handoff.
+
+Dyadic tolerance stability and regular-rational readback stability are read from $D$ and $R$. The operation rows can inspect endpoint windows only through those two rows, so they cannot substitute a host endpoint comparison or an unrelated real representative.
+
+Operation enclosure soundness is supplied by $+_\ell$ and $\cdot_\ell$. Addition reads displayed endpoint sums, while multiplication reads displayed endpoint products and outward comparison rows; both operations then pass through $Q,E,W$ before any consumer receives the enclosure.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier inventory contains no quotient interval equality, endpoint trichotomy, countable-choice selector, selected limit, ambient Real completeness theorem, host interval algebra, or detached real representative, none of those objects can be exported.
+\end{proof}
+
+\begin{theorem}[Located interval arithmetic Real-seal non-escape]
+\label{thm:located-interval-arithmetic-real-seal-nonescape}
+Every exported endpoint, width claim, addition enclosure, or multiplication enclosure of an accepted $\LocatedIntervalArithmeticUp$ carrier factors through the displayed route
+$$
+I,J \longmapsto D \longmapsto R \longmapsto Q \longmapsto E \longmapsto +_\ell,\cdot_\ell,W \longmapsto H,C,P,N .
+$$
+Consequently every downstream $\RegSeqRatUp$, $\RealUp$, or Completion consumer receives only the located interval enclosure displayed by the $\LocatedRealIntervalUp$ inputs, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback row, and $\RealIntervalArithmeticUp$ enclosure row. The consumer cannot replace this route by quotient interval equality, endpoint trichotomy, countable choice, selected limits, ambient $\RealUp$ completeness, host interval algebra, or a detached real representative.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $A=(I,J,D,R,Q,E,+_\ell,\cdot_\ell,W,H,C,P,N)$. The only interval inputs are the two $\LocatedRealIntervalUp$ rows $I$ and $J$, so every exported operation begins with displayed located real endpoints and radius data.
+
+The dyadic ledger $D$ records the tolerances, endpoint probes, outward comparisons, and scale refinements. The readback row $R$ exposes the regular-rational endpoint windows that those dyadic rows select.
+
+The real interval arithmetic row $Q$ packages the corresponding enclosure over the same endpoints. The seal row $E$ is then the only route into $\RealUp$, so endpoint and width claims cannot bypass the displayed real-name surface.
+
+For addition, project $+_\ell$ and read the output enclosure from the displayed endpoint sums, tolerance ledger, readback, and real enclosure row. For multiplication, project $\cdot_\ell$ and read the output enclosure from displayed endpoint products, outward comparisons, tolerance ledger, readback, and real enclosure row. The width witness $W$ records the finite tolerance route used by both operations.
+
+Componentwise transport and displayed replay through $H$ and $C$, together with provenance and local naming in $P,N$, preserve the same route for downstream consumers. Therefore every exported read is exhausted by the displayed finite packet and no excluded quotient, order, choice, limit, completeness, host-algebra, or detached-representative coordinate is available.
+\end{proof}
+
+\closureat{LocatedIntervalArithmeticUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalArithmeticUp}
+  \constructivestory{A $\LocatedIntervalArithmeticUp$ packet is generated from two LocatedRealInterval input rows, a DyadicRatCore endpoint tolerance ledger, a RegSeqRat readback row, a RealIntervalArithmetic enclosure row, a terminal RealUp seal, displayed located addition and multiplication rows, a finite-width witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-arithmetic-carrier}, \autoref{thm:located-interval-arithmetic-namecert-obligations}, and \autoref{thm:located-interval-arithmetic-real-seal-nonescape} seed the finite located interval arithmetic enclosure packet over LocatedRealInterval, DyadicRatCore, RegSeqRat, RealIntervalArithmetic, and RealUp consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient interval equality, endpoint trichotomy, countable choice, selected limits, ambient $\RealUp$ completeness, host interval algebra, detached real representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint route exactness, dyadic tolerance stability, regular-rational readback stability, operation enclosure soundness, Real-seal non-escape, transport/replay/provenance coverage, and exclusion for BEDC.Derived.LocatedIntervalArithmeticUp.}
+\end{closurestatus}
