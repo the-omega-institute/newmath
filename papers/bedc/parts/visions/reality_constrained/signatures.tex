@@ -84,6 +84,140 @@ $$
 Equivalently, every mathematical identification licensed by $\sim_{\mathcal M}$ preserves the physical signature exposed by $\Pi$.
 \end{definition}
 
+\begin{definition}[Reality-constrained meaning]
+\label{def:reality-constrained-meaning}
+Let $C$ be a closed observational context, let $x$ be a displayed
+record or representation available to $C$, let $\ell$ be a label, and
+let $\kappa$ be a classifier with $\kappa(x)=\ell$. The label has
+reality-constrained meaning for $C$ relative to an observation bundle
+$\Pi$ when the assignment is carried by
+$$
+\operatorname{Meaning}_{C,\Pi}(x,\ell,\kappa)
+=
+(\operatorname{SourceRecord},
+\operatorname{Classifier},
+\operatorname{RealityConstraint},
+\operatorname{ContinuationConsequence},
+\operatorname{GapLedger}).
+$$
+The source record locates $x$ in the finite observation history, the
+classifier supplies the label, the reality constraint requires the
+classifier to preserve the $\Pi$-signature, the continuation
+consequence records which downstream modelling, prediction, action, or
+proof use depends on the label, and the gap ledger records the
+provenance and unclosed supply exposed by that dependence.
+\end{definition}
+
+\begin{theorem}[Classification alone does not supply meaning]
+\label{thm:classification-alone-not-meaning}
+A label assignment $\kappa(x)=\ell$ does not by itself supply
+reality-constrained meaning.
+\end{theorem}
+\begin{proof}
+By \autoref{def:reality-constrained-meaning}, reality-constrained
+meaning requires five fields: source record, classifier,
+reality-facing constraint, continuation consequence, and gap ledger.
+The equation $\kappa(x)=\ell$ supplies only the classifier field at the
+displayed record. It does not state that $\kappa$ is
+reality-constrained by $\Pi$ in the sense of
+\autoref{def:reality-constrained-classifier}; it does not specify the
+continuations for which the label is reused; and it does not record the
+provenance or unclosed residue exposed by that reuse. Hence the label
+assignment alone is insufficient.
+\end{proof}
+
+\begin{corollary}[Meaning is constrained continuation]
+\label{cor:meaning-constrained-continuation}
+Reality-constrained meaning is not an unsupported label attached to
+data. It is a classifier whose distinctions remain stable under the
+reality-facing continuations for which the label is used.
+\end{corollary}
+\begin{proof}
+The classifier field supplies the label, while the
+reality-constraint and continuation-consequence fields state why that
+label can be reused. If the relevant continuation exposes a signature
+separation, then \autoref{def:representation-gap} records a
+representation gap rather than a meaningful identification.
+\end{proof}
+
+\begin{principle}[Reality as meaning constraint]
+\label{prin:reality-as-meaning-constraint}
+Reality does not enter this interface as a representation, label, or
+classifier. It enters as the stable source of signatures that can
+support, refine, or break the classifier when the record is continued
+through admissible observation, intervention, prediction, or proof use.
+\end{principle}
+
+\begin{corollary}[Far-end supply is not an object equation]
+\label{cor:meaning-t-supply-not-object-equation}
+When the reason a reality-constrained classifier continues to hold
+exceeds the closed record available to $C$, the exposed boundary is a
+$T$-supply socket. This does not assert an object-level equation
+$T=\operatorname{Reality}$.
+\end{corollary}
+\begin{proof}
+The excess is recorded in the gap-ledger field of
+\autoref{def:reality-constrained-meaning}. By the socket discipline of
+\autoref{thm:philosophy-gap-t-boundary-synthesis}, a commitment
+exceeding closed records and closed-generation rules is exposed as a
+gap whose far end is the apophatic supply position $T$. This definition
+therefore permits the reading of $T$ as the far-end position
+of reality-facing constraint, while refusing to internalize $T$ as a
+system object, representation, or substrate axiom.
+\end{proof}
+
+\begin{theorem}[Formal consistency does not select actuality]
+\label{thm:formal-consistency-not-actuality}
+Internal consistency of a representation, classifier, or label
+assignment does not imply reality-constrained meaning relative to an
+observation bundle.
+\end{theorem}
+\begin{proof}
+Internal consistency says that the displayed syntax, rules, or
+classifier rows do not contradict the system's own formation
+discipline. Reality-constrained meaning requires the stronger fields
+of \autoref{def:reality-constrained-meaning}: preservation of the
+reality-facing signature, stable downstream use, and a ledger for
+provenance and unclosed supply. A classifier can be internally
+consistent while still producing a representation gap in the sense of
+\autoref{def:representation-gap}. Such a gap shows that the classifier
+is too coarse for the observation bundle. Hence formal possibility
+does not select actual physical order.
+\end{proof}
+
+\begin{corollary}[Logic licenses possibility, not physical order]
+\label{cor:logic-possibility-not-physical-order}
+Formal consistency licenses internal possibility. Physical order is
+reported only through signature preservation, continuation stability,
+and ledgered exposure of residue.
+\end{corollary}
+\begin{proof}
+The first clause is the internal consistency condition of
+\autoref{thm:formal-consistency-not-actuality}. The second clause is
+exactly the additional reality-facing and ledgered structure required
+by \autoref{def:reality-constrained-meaning}.
+\end{proof}
+
+\begin{theorem}[The supply loop is not circular proof]
+\label{thm:meaning-supply-loop-not-circular-proof}
+The passage from classifier use to reality-facing response, and then
+to ledger refinement or exposed $T$-socket, is not a proof of a
+classifier by that same classifier.
+\end{theorem}
+\begin{proof}
+A circular proof would use the same internal assertion as both support
+and conclusion. The reality-constrained passage has a different
+shape. If the continuation yields a stable signature, the record
+ledger is enlarged by evidence of preservation. If the continuation
+separates the signatures, \autoref{def:representation-gap} records a
+gap rather than a theorem. If the reason for continued preservation
+exceeds the available closed record, the gap-ledger field exposes the
+far-end supply position described in
+\autoref{cor:meaning-t-supply-not-object-equation}. In none of these
+cases is the classifier licensed merely by repeating its own label
+assignment.
+\end{proof}
+
 \concretizedIn{ch:concrete-instances-reality-constrained-signature-residue-namecert}{Reality-constrained signature residues realize the representation-gap row as a finite NameCert packet separating mathematical classifier agreement from physical adequacy.}
 \concretizedIn{ch:concrete-instances-reality-constrained-signature-descent-namecert}{Reality-constrained signature descents realize operation descent as a finite packet joining mathematical classifier transport, physical-signature exposure, GAP rows, representation certificates, and a descent witness.}
 \concretizedIn{ch:concrete-instances-external-supply-signature-seal-namecert}{External supply signature seals realize the reality-facing signature and no-free-transfer discipline as one finite GAP, descent, ledger, and NameCert packet.}
