@@ -37,7 +37,7 @@ theorem PolishSpaceCompletionObservationTriad [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro surface metricComplete metricSeparable streamReadback streamReadLedger triadPkg
   obtain ⟨metricUnary, completeUnary, separableUnary, streamUnary, readbackUnary,
-    ledgerUnary, _transportUnary, _metricCompleteRoot, _metricSeparableRoot,
+    ledgerUnary, _transportUnary, _localNameUnary, _metricCompleteRoot, _metricSeparableRoot,
     _ledgerTransportReplay, provenancePkg, _localNamePkg⟩ := surface
   have completionUnary : UnaryHistory completionRead :=
     unary_cont_closed metricUnary completeUnary metricComplete
