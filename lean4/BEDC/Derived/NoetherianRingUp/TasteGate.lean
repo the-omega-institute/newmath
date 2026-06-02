@@ -1,3 +1,4 @@
+import BEDC.Derived.NoetherianRingUp
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
