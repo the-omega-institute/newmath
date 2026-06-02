@@ -122,9 +122,16 @@ instance realDecimalNormalFormChapterTasteGate : ChapterTasteGate RealDecimalNor
     intro x y hxy heq
     exact hxy (RealDecimalNormalFormTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-theorem RealDecimalNormalFormTasteGate_single_carrier_alignment :
-    ChapterTasteGate RealDecimalNormalFormUp := by
+def RealDecimalNormalFormTasteGate_single_carrier_alignment :
+    (∀ x : RealDecimalNormalFormUp,
+      realDecimalNormalFormFromEventFlow (realDecimalNormalFormToEventFlow x) = some x) ∧
+      (∀ x y : RealDecimalNormalFormUp, x ≠ y →
+        realDecimalNormalFormToEventFlow x ≠ realDecimalNormalFormToEventFlow y) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact realDecimalNormalFormChapterTasteGate
+  constructor
+  · intro x
+    exact RealDecimalNormalFormTasteGate_single_carrier_alignment_round_trip x
+  · intro x y hxy heq
+    exact hxy (RealDecimalNormalFormTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 end BEDC.Derived.RealDecimalNormalFormUp

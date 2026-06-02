@@ -123,9 +123,16 @@ instance archimedeanRealDensityChapterTasteGate :
     intro x y hxy heq
     exact hxy (ArchimedeanRealDensityTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-theorem ArchimedeanRealDensityTasteGate_single_carrier_alignment :
-    ChapterTasteGate ArchimedeanRealDensityUp := by
+def ArchimedeanRealDensityTasteGate_single_carrier_alignment :
+    (∀ x : ArchimedeanRealDensityUp,
+      archimedeanRealDensityFromEventFlow (archimedeanRealDensityToEventFlow x) = some x) ∧
+      (∀ x y : ArchimedeanRealDensityUp, x ≠ y →
+        archimedeanRealDensityToEventFlow x ≠ archimedeanRealDensityToEventFlow y) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact archimedeanRealDensityChapterTasteGate
+  constructor
+  · intro x
+    exact ArchimedeanRealDensityTasteGate_single_carrier_alignment_round_trip x
+  · intro x y hxy heq
+    exact hxy (ArchimedeanRealDensityTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 end BEDC.Derived.ArchimedeanRealDensityUp
