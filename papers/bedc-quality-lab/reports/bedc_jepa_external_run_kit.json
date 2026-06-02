@@ -9,18 +9,18 @@
     "public_jepa_baseline": {
       "export_command": "python scripts/export_public_jepa_baseline_result.py",
       "import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
-      "pass_condition": "target artifact status is executed",
+      "pass_condition": "target artifact status is executed with S0/S1/S2/S3, baseline boundary, and nonzero planning high-gap reduction",
       "probe_command": "python scripts/probe_public_jepa_baseline.py",
       "readiness_gate": "native_public_jepa_benchmark",
       "required_fields": [
-        "candidate_id",
-        "commit",
-        "checkpoint",
-        "reported_benchmark_name",
-        "latent_prediction_score",
-        "rollout_or_planning_score"
+        "environment_id",
+        "systems",
+        "planning_lambda_sweep",
+        "jepa_family_baseline_boundary",
+        "deltas"
       ],
-      "target_artifact": "reports/bedc_jepa_public_baseline_comparison.json"
+      "run_command": "python scripts/run_public_minigrid_native_benchmark.py",
+      "target_artifact": "reports/bedc_jepa_public_native_minigrid_benchmark.json"
     },
     "public_jepa_checkpoint_contact": {
       "comparison_command": "python scripts/build_public_jepa_cuda_comparison.py",

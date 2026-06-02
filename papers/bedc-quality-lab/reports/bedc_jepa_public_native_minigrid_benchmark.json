@@ -1,0 +1,121 @@
+{
+  "action_contract": "MiniGrid discrete action id, action_count=7",
+  "benchmark_contract": "native-public-minigrid-doorkey-action-conditioned-readback",
+  "cannot_claim": [
+    "public benchmark superiority",
+    "native V-JEPA2-AC checkpoint reproduction",
+    "robotics benchmark result",
+    "large-scale real-world conclusion",
+    "formal neural-network proof"
+  ],
+  "deltas": {
+    "best_planning_lambda_g": 0.5,
+    "lambda_0_minus_best_high_gap_rate": 0.6875,
+    "lambda_0_minus_best_success_rate": 0.40625,
+    "s0_minus_s3_debt": 0.0025226846057572194,
+    "s0_minus_s3_unlogged_error": 0.125,
+    "s3_minus_s0_distinction_accuracy": 0.015625,
+    "s3_minus_s0_gap_auc": 0.09073842302878599
+  },
+  "dependency_status": {
+    "gymnasium": "installed",
+    "minigrid": "installed"
+  },
+  "environment_id": "MiniGrid-DoorKey-8x8-v0",
+  "input_contract": "current public MiniGrid image plus candidate action predicts next DoorKey readback and gap labels",
+  "jepa_family_baseline_boundary": {
+    "baseline_role": "latent/prediction-only JEPA-style control row on the same public observation/action stream",
+    "candidate_id": "public-minigrid-jepa-style-s0",
+    "comparison_scope": "same public MiniGrid observation/action stream; no public benchmark superiority claim",
+    "latent_prediction_score": 0.8359375,
+    "reported_benchmark_name": "MiniGrid-DoorKey-8x8-v0",
+    "rollout_or_planning_score": 0.96875,
+    "status": "executed"
+  },
+  "observation_contract": "MiniGrid image observation, shape 7x7x3",
+  "planning_contract": "two-step public MiniGrid candidate plans selected by distinction readout minus lambda times audited plan outcome gap label",
+  "planning_lambda_sweep": [
+    {
+      "high_gap_state_rate": 0.84375,
+      "lambda_g": 0.0,
+      "planning_state_count": 32.0,
+      "risk_adjusted_cost": 0.03125,
+      "success_rate": 0.96875
+    },
+    {
+      "high_gap_state_rate": 0.15625,
+      "lambda_g": 0.5,
+      "planning_state_count": 32.0,
+      "risk_adjusted_cost": 0.515625,
+      "success_rate": 0.5625
+    },
+    {
+      "high_gap_state_rate": 0.15625,
+      "lambda_g": 1.0,
+      "planning_state_count": 32.0,
+      "risk_adjusted_cost": 0.59375,
+      "success_rate": 0.5625
+    },
+    {
+      "high_gap_state_rate": 0.15625,
+      "lambda_g": 2.0,
+      "planning_state_count": 32.0,
+      "risk_adjusted_cost": 0.75,
+      "success_rate": 0.5625
+    },
+    {
+      "high_gap_state_rate": 0.15625,
+      "lambda_g": 4.0,
+      "planning_state_count": 32.0,
+      "risk_adjusted_cost": 1.0625,
+      "success_rate": 0.5625
+    }
+  ],
+  "planning_state_count_collected": 32.0,
+  "planning_state_count_requested": 32.0,
+  "sample_count_collected": 256.0,
+  "sample_count_requested": 256.0,
+  "schema_id": "bedc-jepa-public-native-minigrid-benchmark",
+  "seed": 20260602.0,
+  "status": "executed",
+  "systems": {
+    "S0": {
+      "bedc_debt_score": 0.16562500000000002,
+      "certified_coverage": 1.0,
+      "changes_training_objective": 0.0,
+      "distinction_accuracy": 0.8359375,
+      "gap_detection_auc": 0.5,
+      "system_name": "public-minigrid-jepa-style-latent-only",
+      "unlogged_error_rate": 0.1640625
+    },
+    "S1": {
+      "bedc_debt_score": 0.15937500000000002,
+      "certified_coverage": 1.0,
+      "changes_training_objective": 0.0,
+      "distinction_accuracy": 0.8515625,
+      "gap_detection_auc": 0.5,
+      "system_name": "public-minigrid-posthoc-probe",
+      "unlogged_error_rate": 0.1484375
+    },
+    "S2": {
+      "bedc_debt_score": 0.17877229349186485,
+      "certified_coverage": 0.953125,
+      "changes_training_objective": 0.0,
+      "distinction_accuracy": 0.8515625,
+      "gap_detection_auc": 0.41082603254067585,
+      "system_name": "public-minigrid-posthoc-evidence-envelope",
+      "unlogged_error_rate": 0.140625
+    },
+    "S3": {
+      "bedc_debt_score": 0.1631023153942428,
+      "certified_coverage": 0.34375,
+      "changes_training_objective": 1.0,
+      "distinction_accuracy": 0.8515625,
+      "gap_detection_auc": 0.590738423028786,
+      "system_name": "public-minigrid-trained-bedc-jepa-readout",
+      "unlogged_error_rate": 0.0390625
+    }
+  },
+  "test_count": 128.0,
+  "train_count": 128.0
+}

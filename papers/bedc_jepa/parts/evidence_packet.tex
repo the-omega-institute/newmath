@@ -16,6 +16,7 @@ $$
 \text{Public MiniGrid transition} & \texttt{bedc\_jepa\_public\_minigrid\_transition\_packet.json},\\
 \text{Public MiniGrid benchmark} & \texttt{bedc\_jepa\_public\_minigrid\_benchmark\_packet.json},\\
 \text{Public MiniGrid external result} & \texttt{bedc\_jepa\_public\_minigrid\_external\_result.json},\\
+\text{Public native MiniGrid benchmark} & \texttt{bedc\_jepa\_public\_native\_minigrid\_benchmark.json},\\
 \text{Public JEPA registry} & \texttt{bedc\_jepa\_public\_baseline\_registry.json},\\
 \text{Public JEPA probe} & \texttt{bedc\_jepa\_public\_baseline\_probe.json},\\
 \text{Public JEPA comparison} & \texttt{bedc\_jepa\_public\_baseline\_comparison.json},\\
@@ -111,23 +112,31 @@ distinction accuracy, gap AUROC, unlogged error, certified coverage, and
 scope-relative debt.  The public MiniGrid external result records an executed
 32-sample DoorKey packet with distinction accuracy $1.000000$, gap AUROC
 $1.000000$, unlogged error $0.000000$, certified coverage $0.375000$, and
-debt $0.062500$.  Artifact debt means the current package is a research branch
-rather than a cleaned external review bundle.
+debt $0.062500$.  The native public MiniGrid packet runs
+\texttt{MiniGrid-DoorKey-8x8-v0} with the same public image/action stream for
+S0/S1/S2/S3.  It records train count $128$, test count $128$, S0 unlogged
+error $0.164063$, S3 unlogged error $0.039063$, S0 debt $0.165625$, S3 debt
+$0.163102$, S0 gap AUROC $0.500000$, and S3 gap AUROC $0.590738$.  Its
+audited two-step planning sweep records high-gap state rate $0.843750$ and
+success $0.968750$ at $\lambda_g=0$, versus high-gap state rate $0.156250$
+and success $0.562500$ at the best recorded risk point $\lambda_g=0.5$.
+Artifact debt means the current package is a research branch rather than a
+cleaned external review bundle.
 
 \paragraph{External-contact readiness.}
-The readiness gate records closed checkpoint contact and an open native public
-benchmark boundary.  The local torch objective seed sweep, local visual
+The readiness gate records closed checkpoint contact and a closed native
+public benchmark boundary.  The local torch objective seed sweep, local visual
 planning benchmark, cluttered object-counterfactual benchmark, public MiniGrid
-execution, and public V-JEPA2-AC Giant CUDA checkpoint-contact adapter pass
-their declared evidence contacts.  The remaining blocking gates are the native
-public JEPA-family benchmark and the clean review artifact bundle.  This paper
-therefore treats the current packet as an internal research branch with public
-checkpoint contact, not yet as an external-contact bundle or public benchmark
-comparison.
-The external run kit records the MiniGrid export command, the public JEPA
-native benchmark import boundary, the AC Giant CUDA checkpoint-contact command
-pair, and the readiness command needed to evaluate the blocking gates without
+execution, public native MiniGrid S0/S1/S2/S3 benchmark, and public
+V-JEPA2-AC Giant CUDA checkpoint-contact adapter pass their declared evidence
+contacts.  The remaining blocking gate is the clean review artifact bundle.
+This paper therefore treats the current packet as an internal research branch
+with public checkpoint and native public benchmark contact, not yet as an
+external-contact bundle or public benchmark superiority claim.
+The external run kit records the MiniGrid export command, the public native
+MiniGrid benchmark command, the AC Giant CUDA checkpoint-contact command pair,
+and the readiness command needed to evaluate the blocking gates without
 inventing evidence inside this workspace.  The older baseline external result
-remains an import boundary for public benchmark metrics.  The CUDA adapter
-packet is the executed checkpoint-contact artifact for the selected V-JEPA
-2-AC candidate.
+remains an import boundary for external public benchmark metrics.  The CUDA
+adapter packet is the executed checkpoint-contact artifact for the selected
+V-JEPA 2-AC candidate.

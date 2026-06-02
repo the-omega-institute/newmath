@@ -94,6 +94,32 @@ def _public_minigrid_gate(benchmark_packet: dict[str, Any] | None) -> dict[str, 
     )
 
 
+def _native_public_benchmark_gate(packet: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_jepa_public_native_minigrid_benchmark.json"
+    if packet is None:
+        return _gate("missing", evidence, "native public MiniGrid S0/S1/S2/S3 benchmark")
+    systems = packet.get("systems", {})
+    deltas = packet.get("deltas", {})
+    baseline = packet.get("jepa_family_baseline_boundary", {})
+    passes = (
+        packet.get("status") == "executed"
+        and set(systems) == {"S0", "S1", "S2", "S3"}
+        and baseline.get("status") == "executed"
+        and float(packet.get("sample_count_collected", 0.0)) >= 128.0
+        and float(packet.get("planning_state_count_collected", 0.0)) >= 16.0
+        and len(packet.get("planning_lambda_sweep", [])) >= 5
+        and float(deltas.get("s0_minus_s3_unlogged_error", 0.0)) > 0.05
+        and float(deltas.get("s0_minus_s3_debt", 0.0)) > 0.0
+        and float(deltas.get("s3_minus_s0_gap_auc", 0.0)) > 0.05
+        and float(deltas.get("lambda_0_minus_best_high_gap_rate", 0.0)) > 0.05
+    )
+    return _gate(
+        "pass" if passes else "missing",
+        evidence,
+        "native public MiniGrid S0/S1/S2/S3 benchmark",
+    )
+
+
 def _public_jepa_gate(comparison: dict[str, Any] | None) -> dict[str, str]:
     evidence = (
         "reports/bedc_jepa_public_baseline_comparison.json"
@@ -147,6 +173,12 @@ def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, st
 def _decision(gates: dict[str, dict[str, str]], blocking: list[str]) -> str:
     if not blocking:
         return "external_bundle_ready"
+    if (
+        gates["public_jepa_checkpoint_contact"]["status"] == "pass"
+        and gates["native_public_jepa_benchmark"]["status"] == "pass"
+        and gates["artifact_review_bundle"]["status"] != "pass"
+    ):
+        return "native_public_benchmark_closed_artifact_bundle_open"
     local_contact = [
         "torch_objective_seed_sweep",
         "local_visual_planning",
@@ -163,6 +195,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     summary = _load_optional_json("bedc_jepa_four_system_experiment.json")
     torch_objective = _load_optional_json("bedc_jepa_torch_objective.json")
     public_minigrid = _load_optional_json("bedc_jepa_public_minigrid_benchmark_packet.json")
+    native_public_minigrid = _load_optional_json("bedc_jepa_public_native_minigrid_benchmark.json")
     public_jepa_comparison = _load_optional_json("bedc_jepa_public_baseline_comparison.json")
     public_cuda_comparison = _load_optional_json("bedc_jepa_public_cuda_adapter_comparison.json")
     run_kit = _load_optional_json("bedc_jepa_external_run_kit.json")
@@ -172,7 +205,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "object_counterfactual_clutter": _clutter_gate(summary),
         "public_minigrid_execution": _public_minigrid_gate(public_minigrid),
         "public_jepa_checkpoint_contact": _public_checkpoint_contact_gate(public_cuda_comparison),
-        "native_public_jepa_benchmark": _public_jepa_gate(public_jepa_comparison),
+        "native_public_jepa_benchmark": _native_public_benchmark_gate(native_public_minigrid),
         "artifact_review_bundle": _artifact_review_bundle_gate(run_kit),
     }
     blocking = [name for name, gate in gates.items() if gate["status"] != "pass"]

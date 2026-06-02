@@ -20,9 +20,11 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert checkpoint["comparison_command"] == "python scripts/build_public_jepa_cuda_comparison.py"
     assert "checkpoint_status is loaded" in checkpoint["pass_condition"]
     assert minigrid["import_command"] == "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>"
+    assert baseline["target_artifact"] == "reports/bedc_jepa_public_native_minigrid_benchmark.json"
+    assert baseline["run_command"] == "python scripts/run_public_minigrid_native_benchmark.py"
     assert baseline["import_command"] == "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>"
     assert "gap_detection_auc" in minigrid["required_fields"]
-    assert "latent_prediction_score" in baseline["required_fields"]
+    assert "jepa_family_baseline_boundary" in baseline["required_fields"]
     assert minigrid["readiness_gate"] == "public_minigrid_execution"
     assert baseline["readiness_gate"] == "native_public_jepa_benchmark"
     assert kit["readiness_command"] == "python scripts/build_bedc_jepa_readiness.py"

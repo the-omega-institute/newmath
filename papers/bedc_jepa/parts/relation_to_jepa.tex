@@ -58,11 +58,20 @@ evidence boundary.  In that scope, BEDC-JEPA records unlogged error
 $0.000000$ and debt $0.007459$, while the V-JEPA2-AC Giant adapter records
 unlogged error $0.250000$ and debt $0.290557$.
 
-The separate public-baseline comparison packet remains the import boundary for
-native public benchmark metrics: candidate id, commit, checkpoint, benchmark
-name, latent-prediction score, and rollout or planning score.  The AC Giant
-adapter closes checkpoint contact for the local BEDC evidence boundary; it
-does not claim public benchmark superiority.
+The public native MiniGrid packet closes a second boundary: it runs the
+S0/S1/S2/S3 ablation on \texttt{MiniGrid-DoorKey-8x8-v0} with the same public
+image/action stream and records a JEPA-style S0 control row beside BEDC
+readback metrics.  In that public setting, S0 records unlogged error
+$0.164063$ and debt $0.165625$, while S3 records unlogged error $0.039063$
+and debt $0.163102$.  The audited two-step planning sweep also exposes a
+risk-success tradeoff: the best recorded risk point lowers high-gap state
+selection by $0.687500$ while lowering success by $0.406250$.  The separate
+public-baseline comparison packet remains an import boundary for external
+benchmark metrics with candidate id, commit, checkpoint, benchmark name,
+latent-prediction score, and rollout or planning score.  The AC Giant adapter
+closes checkpoint contact, and the MiniGrid packet closes native public
+benchmark contact for the local BEDC evidence boundary; neither claim is a
+public benchmark superiority claim.
 
 \paragraph{Contact with Issue 330 and the quality lab.}
 The local quality-lab material supplies an executable evidence envelope, not a
