@@ -56,4 +56,20 @@ theorem DyadicIntervalCoverTasteGate_single_carrier_alignment :
     exact Option.some.inj (Eq.trans (hround x).symm (Eq.trans hread (hround y)))
   exact ⟨hdecode, hround, hinj, rfl⟩
 
+theorem DyadicIntervalCoverEndpointRowAdmission
+    (x : DyadicIntervalCoverUp) :
+    (∃ L U M R V W Q A H C P N : BHist,
+      x = DyadicIntervalCoverUp.mk L U M R V W Q A H C P N ∧
+      dyadicIntervalCoverFromEventFlow (dyadicIntervalCoverToEventFlow x) = some x) ∧
+      dyadicIntervalCoverEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+        dyadicIntervalCoverEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk L U M R V W Q A H C P N =>
+      exact
+        ⟨⟨L, U, M, R, V, W, Q, A, H, C, P, N, rfl,
+            (DyadicIntervalCoverTasteGate_single_carrier_alignment).right.left
+              (DyadicIntervalCoverUp.mk L U M R V W Q A H C P N)⟩,
+          rfl, rfl⟩
+
 end BEDC.Derived.DyadicIntervalCoverUp
