@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\NetConvergenceCriterionUp$}
+\label{ch:concrete-instances-net-convergence-criterion-namecert}
+\origin{human}
+
+Following Kelley, Moore--Smith, and Bourbaki, the $\NetConvergenceCriterionUp$ packet records the directed-net convergence test as finite L10 NameCert data rather than as an ambient filter or topological limit assertion. It reads directed indices from \autoref{ch:concrete-instances-directedset-namecert}, net windows from \autoref{ch:concrete-instances-moore-smith-net-namecert}, eventual-tail comparison through \autoref{ch:concrete-instances-filterbase-namecert}, uniform entourage control through \autoref{ch:concrete-instances-uniformspace-namecert}, and Cauchy-tail consumers through \autoref{ch:concrete-instances-cauchynet-namecert}. The packet is a nonquotient criterion surface for directed convergence; it is not a selected subnet, a host limit point, countable choice, quotient net equality, or ambient compactness.
+
+\begin{definition}[Net convergence criterion carrier]
+\label{def:net-convergence-criterion-carrier}
+A $\NetConvergenceCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(D,N,F,U,T,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DirectedSetUp$ index row, carrying the finite comparison and upper-bound witnesses that a tail request may inspect.
+\item $N$ is the $\MooreSmithNetUp$ observation row, recording the source net values opened at the displayed directed indices.
+\item $F$ is the $\FilterBaseUp$ eventual-tail row, translating a neighborhood or entourage request into a displayed tail base.
+\item $U$ is the $\UniformSpaceUp$ control row, exposing the entourage ledger against which the net values are compared.
+\item $T$ is the convergence-test row, pairing every accepted entourage request with a tail base and the finite net windows required on that tail.
+\item $E$ is the $\CauchyNetUp$ handoff row, available only after the directed, net, filter-base, uniform-space, and convergence-test rows have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for $D,N,F,U,T,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a convergence request through directed indices, net windows, filter-base tails, uniform entourages, and the Cauchy-net handoff.
+\item $P$ is the $\Pkg$ provenance over $\NetConvergenceCriterionUp$, $\DirectedSetUp$, $\MooreSmithNetUp$, $\FilterBaseUp$, $\UniformSpaceUp$, $\CauchyNetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\NetConvergenceCriterionUp}$ row.
+\end{enumerate}
+Accepted packets are compared only through $D,N,F,U,T,E,H,C,P,L$. No coordinate stores a host limit, a selected subnet, quotient equality of nets, countable choice, or an ambient compactness principle.
+\end{definition}
+
+\begin{theorem}[Net convergence criterion NameCert obligations]
+\label{thm:net-convergence-criterion-namecert-obligations}
+For every accepted $\NetConvergenceCriterionUp$ carrier $Q=(D,N,F,U,T,E,H,C,P,L)$, the local $\NameCert_{\NetConvergenceCriterionUp}$ surface consists exactly of directed-index admission, Moore--Smith net window exposure, filter-base eventual-tail exposure, uniform-space entourage accounting, convergence-test exactness, Cauchy-net handoff admission, componentwise transport, displayed replay, provenance, and local naming for the same displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:net-convergence-criterion-carrier}. The convergence request first exposes the directed index row $D$ and the Moore--Smith net row $N$, so every later tail read is tied to displayed directed data.
+
+The eventual and uniform parts are then fixed. The filter-base row $F$ supplies the admitted tail base, while $U$ supplies the entourage ledger against which the net windows are compared. The test row $T$ records only those paired tail and entourage checks.
+
+The handoff $E$ is downstream of those rows and may be consumed by Cauchy-net readers only after the criterion surface is visible. The structural rows $H,C,P,L$ transport, replay, source, and name the same finite packet. Since no carrier row stores a host limit, selected subnet, quotient equality, choice schedule, or compactness witness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Net convergence criterion filter handoff]
+\label{thm:net-convergence-criterion-filter-handoff}
+Every $\FilterBaseUp$ or $\CauchyNetUp$ consumer of an accepted $\NetConvergenceCriterionUp$ packet must read the route
+$$
+D,N \longmapsto F,U \longmapsto T \longmapsto E,H,C,P,L
+$$
+before it may inspect the convergence result. Thus the criterion hands off a displayed eventual-tail test over directed Moore--Smith net data, not a quotient filter, selected convergent subnet, host limit point, countable-choice schedule, or ambient compactness theorem.
+\end{theorem}
+\begin{proof}
+Start with the directed and net rows. The consumer can inspect only the index comparisons and finite net windows exposed by $D$ and $N$.
+
+Next read the filter and uniform rows. The row $F$ gives the tail base used for the request, and $U$ gives the entourage ledger. The convergence-test row $T$ binds those two rows to the same net windows.
+
+Finally the Cauchy-net handoff $E$ and the structural rows $H,C,P,L$ preserve that route for downstream readers. Because every public read factors through the displayed packet, the handoff cannot be replaced by a quotient filter, selected subnet, host limit, choice principle, or ambient compactness assertion.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\NetConvergenceCriterionUp$ reader that claims directed convergence while omitting the DirectedSet index row, Moore--Smith net windows, FilterBase tail row, UniformSpace entourage ledger, convergence-test row, CauchyNet handoff, hsame transport, Cont replay, Pkg provenance, or local NameCert has left the packet surface.}
+
+\independenceWitness{directedset, mooresmithnet, filterbase, uniformspace, cauchynet: $\NetConvergenceCriterionUp$ is not bijective with any listed sibling because it joins directed index comparison, net observation, eventual-tail filtering, entourage control, convergence testing, Cauchy-net handoff, transport, replay, provenance, and local naming as one finite criterion packet.}
+
+\closureat{NetConvergenceCriterionUp}{seedStr}
+
+\begin{closurestatus}{\NetConvergenceCriterionUp}
+  \constructivestory{A $\NetConvergenceCriterionUp$ packet is generated from DirectedSet index rows, Moore--Smith net windows, FilterBase eventual-tail rows, UniformSpace entourage ledgers, a convergence-test row, a CauchyNet handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:net-convergence-criterion-carrier}, \autoref{thm:net-convergence-criterion-namecert-obligations}, and \autoref{thm:net-convergence-criterion-filter-handoff} seed the displayed directed-net convergence criterion for completion and uniform-space consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host topological limit, selected subnet, quotient filter, quotient net equality, countable choice, ambient compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed-index exactness, Moore--Smith net window replay, filter-base tail exactness, uniform entourage accounting, convergence-test exactness, Cauchy-net handoff, transport, replay, provenance, and local naming for BEDC.Derived.NetConvergenceCriterionUp.}
+\end{closurestatus}
