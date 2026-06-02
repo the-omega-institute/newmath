@@ -1,0 +1,98 @@
+---
+title: "Structural Discovery DNA"
+subtitle: "Origin-blind structural fingerprints, reconstruction blocking, and positive provenance evidence for BEDC discovery claims."
+author: "The Omega Institute"
+date: 2026-06-02
+description: "Structural Discovery DNA gives BEDC a sound structural identity layer for discovery declarations. It detects reconstruction, exposes provenance, and stays separate from heuristic discovery grading."
+---
+
+```{=html}
+<div class="lang-switch"><a href="structural-discovery-dna.zh-CN.qmd">中文</a></div>
+```
+
+# Structural Discovery DNA
+
+## The Structural-DNA Engine
+
+Structural Discovery DNA starts with the `structural_dna` Lean executable at `lean4/scripts/structural_dna/Main.lean`. The executable asks the Lean kernel to elaborate declarations into `Lean.Expr`, then computes origin-blind fingerprints over the elaborated expression shape.
+
+The fingerprint is sound as a structural identity handle because it is computed after elaboration, not from surface text. It is origin-blind because it reads the expression, not the chapter lineage or the author's claim. It is alpha-invariant for de Bruijn bound variables, drops binder display names, preserves `binderInfo`, preserves canonical constant names and universe payloads, strips metadata, and treats theorem proof terms as irrelevant by hashing only the theorem type.
+
+At the executable layer the JSON is per declaration. `Main.lean` emits `fingerprint`, `type_fp`, `value_fp`, `const_fp`, `eta_value_fp`, and `reduced_fingerprint`; it does not emit the survey field `structural_fingerprint`.
+
+| Executable field | Role |
+|---|---|
+| `fingerprint` | Compact declaration handle over type and non-proof value fingerprints |
+| `type_fp` | Elaborated declaration type fingerprint |
+| `value_fp` | Non-proof value fingerprint, empty for theorem/proof declarations |
+| `const_fp` | Canonical constant-expression fingerprint |
+| `eta_value_fp` | Eta-reduced non-proof value fingerprint |
+| `reduced_fingerprint` | Normalizing non-proof value handle after beta, eta, zeta, and transparent unfolding normalization |
+
+The hash is not the mathematical content. The content is the canonical form being hashed. The hash is only a compact handle that lets the audit compare normalized structural identity without copying large expression payloads through JSON.
+
+`bedc_ci.py structural-dna` is the survey layer. It consumes the executable's expression fingerprints and combines the elaborated expression read graph with classifier-shift DNA fragments, factor spectrum, and carrier skeleton. That higher-level survey payload is where the field `structural_fingerprint` is assembled.
+
+The executable also has a relation-analysis mode. It can compare candidate and prior classifier declarations and emit `conjunctive_refinement` evidence through the schema `bedc.structural_dna.relations`; `bedc_ci.py` drives that mode when discovery integrity needs relation evidence.
+
+## Negative Gate: Reconstruction Integrity
+
+The structural reconstruction gate is negative. It is triggered by sincere discovery declarations, not by topic, chapter origin, filename, or other heuristics. The blocking declaration surfaces are:
+
+| Surface | What counts |
+|---|---|
+| Paper | `\closureclaimkind{positiveDiscovery}` with a resolvable ledger/classifier surface |
+| Lean | `DiscoveryDeltaLedger.classifier_shift = some ...` |
+
+Non-explicit paper marker sites that point to a `DiscoveryDeltaLedger.classifier_shift` may also appear as informational discovery-integrity sites in the audit payload. The blocking declaration story remains the explicit claim/ledger path.
+
+Once a sincere declaration is present, the audit must resolve a checkable classifier displacement: before-classifier endpoint and declared-new-classifier endpoint. If the declaration cannot be resolved into such a pair, it is blocking. If the declared new classifier has a `reduced_fingerprint` already present among prior classifier endpoints, it is a structural reconstruction or wrapper, not a new structure, and the gate reports a blocking violation.
+
+This is intentionally one-sided:
+
+> negative only; does not certify positive discovery genuineness
+
+Passing the gate means the declaration has not been decomposed as a prior structural reconstruction by this check. It does not prove the claim is a genuine discovery.
+
+## Positive Provenance: Conjunctive Refinement
+
+The relation layer gives positive provenance evidence for a sound fragment. A candidate classifier of the shape `fun x => ... ∧ P ∧ ...` can refine a prior classifier `fun x => P` by adding conjunctive conditions. The semantic direction is projection: from `A ∧ B` the kernel can eliminate `And` and recover `A`.
+
+The relation analysis normalizes classifier values, flattens conjunctions, compares the nontrivial conjunct set by inclusion, and records paths for matched conjuncts. It filters trivial priors in the decidable structural fragment it implements: syntactic triviality, definitional triviality, and reduced reflexive equality by operand payload.
+
+This evidence is also deliberately bounded:
+
+> positive provenance evidence; not a discovery certificate
+
+The system does not claim complete semantic coverage. General semantic implication and general propositional triviality are not decidable by this structural pass. The claim is only that the implemented conjunctive fragment is sound and does not rely on `Classical`, `propext`, or quotient principles.
+
+## Where It Runs
+
+`python3 lean4/scripts/bedc_ci.py audit` computes the `discovery_integrity` payload on every audit run. The printed audit line names it as the `discovery integrity structural-DNA gate`; new violations are blocking, while older violations are reported according to the audit's split policy.
+
+The standalone survey is:
+
+```bash
+python3 lean4/scripts/bedc_ci.py structural-dna [--json] [--verbose]
+```
+
+That command is informational. It reports the structural-DNA survey payload, regression status, and per-target detail when requested. The executable is built as the Lean target `structural_dna`, and `bedc_ci.py` invokes it for expression fingerprints and relation analysis.
+
+The current operating state is honestly empty-load for true declared discovery claims when the pipeline has no sincere declaration with a resolved before/after classifier pair. In that state the system is still active: it is waiting for a real declaration surface to inspect, not certifying that discovery exists.
+
+## Relation To The Discovery Quality Sieve
+
+Structural Discovery DNA and the [Discovery Quality Sieve](discovery-quality-sieve.qmd) answer different questions.
+
+| System | Question |
+|---|---|
+| Structural Discovery DNA | Is the declared classifier structurally identical to a prior after normalization, and is there sound provenance for a conjunctive refinement? |
+| Discovery Quality Sieve | How should the broader discovery claim be graded by static negative evidence, adversarial witnesses, support shape, and ranking signals? |
+
+Structural Discovery DNA is the sound structural identity, reconstruction-integrity, and positive-provenance layer. The Discovery Quality Sieve is the heuristic grading layer for discovery quality. They are complementary and coexist: one blocks known structural reconstructions, the other ranks and explains the quality of claims without turning grades into truth.
+
+## Boundary
+
+Structural Discovery DNA is not a novelty oracle. It does not inspect human intent, chapter theme, origin metadata, or prose emphasis. It also does not prove that a surviving claim is non-mechanical in every possible semantic model.
+
+Its commitment is narrower and stronger: for declarations it can resolve, it compares kernel-elaborated classifier structure through origin-blind normalization; for conjunctive refinements it emits a sound provenance relation inside a stated fragment; for unresolved sincere discovery declarations it refuses to let ambiguity masquerade as discovery.
