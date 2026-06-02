@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.ArzelaAscoliFiniteWindowDiagonalBridgeUp.TasteGate
+namespace BEDC.Derived.ArzelaAscoliFiniteWindowDiagonalBridgeUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -26,7 +26,7 @@ def arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist tail)
 
-private theorem ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode :
+private theorem ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
         (arzelaAscoliFiniteWindowDiagonalBridgeEncodeBHist h) = h := by
@@ -44,56 +44,52 @@ def arzelaAscoliFiniteWindowDiagonalBridgeFields :
       [K, E, Y, D, W, R, S, H, C, P, N]
 
 def arzelaAscoliFiniteWindowDiagonalBridgeToEventFlow :
-    ArzelaAscoliFiniteWindowDiagonalBridgeUp → EventFlow :=
+    ArzelaAscoliFiniteWindowDiagonalBridgeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (arzelaAscoliFiniteWindowDiagonalBridgeFields x).map
-      arzelaAscoliFiniteWindowDiagonalBridgeEncodeBHist
+  | x =>
+      (arzelaAscoliFiniteWindowDiagonalBridgeFields x).map
+        arzelaAscoliFiniteWindowDiagonalBridgeEncodeBHist
 
-private def arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault :
-    Nat → EventFlow → RawEvent
+private def arzelaAscoliFiniteWindowDiagonalBridgeEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault index rest
+  | Nat.succ index, _event :: rest => arzelaAscoliFiniteWindowDiagonalBridgeEventAt index rest
 
-def arzelaAscoliFiniteWindowDiagonalBridgeFromEventFlow :
-    EventFlow → Option ArzelaAscoliFiniteWindowDiagonalBridgeUp :=
+def arzelaAscoliFiniteWindowDiagonalBridgeFromEventFlow
+    (flow : EventFlow) : Option ArzelaAscoliFiniteWindowDiagonalBridgeUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (ArzelaAscoliFiniteWindowDiagonalBridgeUp.mk
-        (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-          (arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault 0 ef))
-        (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-          (arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault 1 ef))
-        (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-          (arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault 2 ef))
-        (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-          (arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault 3 ef))
-        (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-          (arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault 4 ef))
-        (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-          (arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault 5 ef))
-        (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-          (arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault 6 ef))
-        (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-          (arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault 7 ef))
-        (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-          (arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault 8 ef))
-        (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-          (arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault 9 ef))
-        (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-          (arzelaAscoliFiniteWindowDiagonalBridgeEventAtDefault 10 ef)))
+  some
+    (ArzelaAscoliFiniteWindowDiagonalBridgeUp.mk
+      (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+        (arzelaAscoliFiniteWindowDiagonalBridgeEventAt 0 flow))
+      (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+        (arzelaAscoliFiniteWindowDiagonalBridgeEventAt 1 flow))
+      (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+        (arzelaAscoliFiniteWindowDiagonalBridgeEventAt 2 flow))
+      (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+        (arzelaAscoliFiniteWindowDiagonalBridgeEventAt 3 flow))
+      (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+        (arzelaAscoliFiniteWindowDiagonalBridgeEventAt 4 flow))
+      (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+        (arzelaAscoliFiniteWindowDiagonalBridgeEventAt 5 flow))
+      (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+        (arzelaAscoliFiniteWindowDiagonalBridgeEventAt 6 flow))
+      (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+        (arzelaAscoliFiniteWindowDiagonalBridgeEventAt 7 flow))
+      (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+        (arzelaAscoliFiniteWindowDiagonalBridgeEventAt 8 flow))
+      (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+        (arzelaAscoliFiniteWindowDiagonalBridgeEventAt 9 flow))
+      (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+        (arzelaAscoliFiniteWindowDiagonalBridgeEventAt 10 flow)))
 
-private theorem ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : ArzelaAscoliFiniteWindowDiagonalBridgeUp,
-      arzelaAscoliFiniteWindowDiagonalBridgeFromEventFlow
-        (arzelaAscoliFiniteWindowDiagonalBridgeToEventFlow x) = some x := by
+private theorem ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_round_trip
+    (x : ArzelaAscoliFiniteWindowDiagonalBridgeUp) :
+    arzelaAscoliFiniteWindowDiagonalBridgeFromEventFlow
+      (arzelaAscoliFiniteWindowDiagonalBridgeToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk K E Y D W R S H C P N =>
       change
@@ -122,17 +118,18 @@ private theorem ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_a
             (arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
               (arzelaAscoliFiniteWindowDiagonalBridgeEncodeBHist N))) =
           some (ArzelaAscoliFiniteWindowDiagonalBridgeUp.mk K E Y D W R S H C P N)
-      rw [ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode K,
-        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode E,
-        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode Y,
-        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode D,
-        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode W,
-        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode R,
-        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode S,
-        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode H,
-        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode C,
-        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode P,
-        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode N]
+      rw [
+        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode K,
+        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode E,
+        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode Y,
+        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode D,
+        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode W,
+        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode R,
+        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode S,
+        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode H,
+        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode C,
+        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode P,
+        ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode N]
 
 private theorem ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : ArzelaAscoliFiniteWindowDiagonalBridgeUp} :
@@ -173,22 +170,18 @@ instance arzelaAscoliFiniteWindowDiagonalBridgeChapterTasteGate :
       (ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_toEventFlow_injective
         heq)
 
-def taste_gate : ChapterTasteGate ArzelaAscoliFiniteWindowDiagonalBridgeUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  arzelaAscoliFiniteWindowDiagonalBridgeChapterTasteGate
-
 theorem ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
-        (arzelaAscoliFiniteWindowDiagonalBridgeEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate ArzelaAscoliFiniteWindowDiagonalBridgeUp) ∧
       Nonempty (BHistCarrier ArzelaAscoliFiniteWindowDiagonalBridgeUp) ∧
-        Nonempty (ChapterTasteGate ArzelaAscoliFiniteWindowDiagonalBridgeUp) ∧
-          arzelaAscoliFiniteWindowDiagonalBridgeEncodeBHist BHist.Empty = ([] : List BMark) := by
+      (∀ h : BHist,
+        arzelaAscoliFiniteWindowDiagonalBridgeDecodeBHist
+          (arzelaAscoliFiniteWindowDiagonalBridgeEncodeBHist h) = h) ∧
+      arzelaAscoliFiniteWindowDiagonalBridgeEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode,
+    ⟨⟨arzelaAscoliFiniteWindowDiagonalBridgeChapterTasteGate⟩,
       ⟨arzelaAscoliFiniteWindowDiagonalBridgeBHistCarrier⟩,
-      ⟨arzelaAscoliFiniteWindowDiagonalBridgeChapterTasteGate⟩,
+      ArzelaAscoliFiniteWindowDiagonalBridgeTasteGate_single_carrier_alignment_decode_encode,
       rfl⟩
 
-end BEDC.Derived.ArzelaAscoliFiniteWindowDiagonalBridgeUp.TasteGate
+end BEDC.Derived.ArzelaAscoliFiniteWindowDiagonalBridgeUp

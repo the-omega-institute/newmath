@@ -3740,6 +3740,7 @@ import BEDC.Derived.FareySequenceUp.StreamWindowStability
 import BEDC.Derived.FareySequenceUp.TasteGate
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
 import BEDC.Derived.FastCauchyModulusUp.TasteGate
+import BEDC.Derived.FastCauchyNormalFormUp.TasteGate
 import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastCauchySequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySequenceUp.TasteGate
