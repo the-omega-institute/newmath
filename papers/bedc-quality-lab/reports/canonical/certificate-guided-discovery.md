@@ -6,6 +6,9 @@
 - Four-gate positive: `false`
 - Training quality gate: `false`
 - Gate blockers: `imported-positive-discovery-false, net-information-nonpositive, training-positive-quality-gate-false`
+- Revocation downgraded: `false`
+- Revocation reason: `no-certified-claim`
+- Revocation ledger rows: `0`
 - Verdict: `negative` / net `-0.020658` / positive `false`
 - Matched-random baseline: `negative` / net `-0.199679` / positive `false`
 - Benefit declined by `-0.108256` under the shared cost protocol.

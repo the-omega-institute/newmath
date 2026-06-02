@@ -95,6 +95,8 @@ def test_canonical_reports_manifest_includes_certificate_guided_projection():
         "net_information",
         "matched_random_baseline",
         "claim_gate",
+        "revocation_decision",
+        "revocation_ledger",
         "not_claimed",
         "main_claim_status",
     }.issubset(set(discovery.required_json_keys))
@@ -114,7 +116,7 @@ def test_manifest_required_keys_cover_linked_control_evidence():
     assert {"claim_gate", "negative_result_ledger", "main_claim_status"}.issubset(
         set(canonical._specs_by_name()["nongaussian-distribution-sweep"].required_json_keys)
     )
-    assert {"positive_discovery", "net_information", "matched_random_baseline", "claim_gate", "not_claimed", "main_claim_status"}.issubset(
+    assert {"positive_discovery", "net_information", "matched_random_baseline", "claim_gate", "revocation_decision", "revocation_ledger", "not_claimed", "main_claim_status"}.issubset(
         set(canonical._specs_by_name()["certificate-guided-discovery"].required_json_keys)
     )
 
@@ -219,6 +221,8 @@ def test_run_reports_certificate_guided_discovery_uses_canonical_training_source
                 "net_information": 1.25,
                 "matched_random_baseline": {"verdict": "negative"},
                 "claim_gate": {"positive_discovery_four_gate": True},
+                "revocation_decision": {"downgraded": False},
+                "revocation_ledger": [],
                 "not_claimed": ["fixture boundary"],
                 "main_claim_status": "positive",
             }
@@ -245,9 +249,60 @@ def test_run_reports_certificate_guided_discovery_uses_canonical_training_source
     assert report_payload["net_information"] == pytest.approx(1.25)
     assert report_payload["matched_random_baseline"] == {"verdict": "negative"}
     assert report_payload["claim_gate"] == {"positive_discovery_four_gate": True}
+    assert report_payload["revocation_decision"] == {"downgraded": False}
+    assert report_payload["revocation_ledger"] == []
     assert report_payload["not_claimed"] == ["fixture boundary"]
     assert report_payload["main_claim_status"] == "positive"
     assert report_markdown == "# stub discovery\n"
+
+
+def test_certificate_guided_discovery_validation_accepts_empty_revocation_ledger(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    canonical.ROOT = tmp_path
+    canonical.CANONICAL_DIR = tmp_path / "reports" / "canonical"
+    spec = canonical._specs_by_name()["certificate-guided-discovery"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(
+        json.dumps({key: [] if key == "revocation_ledger" else {"downgraded": False} if key == "revocation_decision" else "fixture" for key in spec.required_json_keys}) + "\n",
+        encoding="utf-8",
+    )
+    md_path.write_text("# fixture\n", encoding="utf-8")
+
+    try:
+        validation = canonical._artifact_validation(spec)
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+
+    assert validation["status"] == "pass"
+    assert validation["required_key_validation"]["missing_keys"] == []
+
+
+def test_certificate_guided_discovery_validation_fails_closed_on_missing_revocation_fields(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    canonical.ROOT = tmp_path
+    canonical.CANONICAL_DIR = tmp_path / "reports" / "canonical"
+    spec = canonical._specs_by_name()["certificate-guided-discovery"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {key: "fixture" for key in spec.required_json_keys if key not in {"revocation_decision", "revocation_ledger"}}
+    json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+
+    try:
+        validation = canonical._artifact_validation(spec)
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+
+    assert validation["status"] == "fail"
+    assert validation["required_key_validation"]["status"] == "fail"
+    assert set(validation["required_key_validation"]["missing_keys"]) == {"revocation_decision", "revocation_ledger"}
 
 
 def test_index_root_is_relative_and_host_path_free(tmp_path):
