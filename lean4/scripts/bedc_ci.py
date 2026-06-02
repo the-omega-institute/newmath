@@ -3896,7 +3896,17 @@ DISCOVERY_RADAR_SEMANTICS: dict[str, object] = {
         "text_reach_or_semantic_anchor": "heuristic",
     },
     "side_effects": "informational only; does not emit or edit closureclaimkind",
+    "corpus_boundary": (
+        "classifier endpoints detected from Lean declaration headers; full corpus "
+        "fingerprinting and pairwise refinement run only for audit --json and "
+        "discovery-radar"
+    ),
 }
+
+DISCOVERY_RADAR_CORPUS_SCAN_CAP = 2000
+DISCOVERY_RADAR_REFINEMENT_PAIR_CAP = 2500
+DISCOVERY_RADAR_CONJECTURED_CAP = 100
+DISCOVERY_RADAR_REFINEMENT_DEPTH_SCORE_CAP = 5
 
 DISCOVERY_RADAR_RISK_TAG_WEIGHTS = {
     "smoke_template_reuse": 2.0,
@@ -4009,8 +4019,32 @@ def _radar_sieve_risk(profile: dict[str, object] | None) -> tuple[list[str], flo
         if isinstance(witness, dict) and str(witness.get("reason_tag") or "")
     ]
     tags = sorted(set(str(tag) for tag in reason_tags + witness_tags if str(tag)))
-    penalty = sum(DISCOVERY_RADAR_RISK_TAG_WEIGHTS.get(tag, 0.0) for tag in tags)
+    penalty = sum(_radar_risk_tag_weight(tag) for tag in tags)
     return tags, penalty
+
+
+def _radar_normalized_tag(text: object) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", str(text or "").lower()).strip("_")
+
+
+def _radar_risk_tag_weight(tag: object) -> float:
+    normalized = _radar_normalized_tag(tag)
+    if not normalized:
+        return 0.0
+    weight = 0.0
+    for canonical, canonical_weight in DISCOVERY_RADAR_RISK_TAG_WEIGHTS.items():
+        normalized_canonical = _radar_normalized_tag(canonical)
+        if (
+            normalized == normalized_canonical
+            or normalized_canonical in normalized
+            or normalized in normalized_canonical
+        ):
+            weight = max(weight, canonical_weight)
+    if any(term in normalized for term in ("smoke", "template")):
+        weight = max(weight, DISCOVERY_RADAR_RISK_TAG_WEIGHTS["smoke_template_reuse"])
+    if "trivial" in normalized:
+        weight = max(weight, DISCOVERY_RADAR_RISK_TAG_WEIGHTS["trivial_classifier"])
+    return weight
 
 
 def _radar_checked_disagreement_supports(
@@ -4056,8 +4090,9 @@ def _radar_candidate_score(
     kernel_boost: float,
 ) -> tuple[float, dict[str, object]]:
     weights = DISCOVERY_RADAR_WEIGHTS
+    bounded_depth = min(max(refinement_depth, 0), DISCOVERY_RADAR_REFINEMENT_DEPTH_SCORE_CAP)
     score = (
-        weights["refinement_depth"] * refinement_depth
+        weights["refinement_depth"] * bounded_depth
         + weights["nontriviality"] * nontriviality
         + weights["kernel_checked_disagreement_boost"] * kernel_boost
         - weights["risk_penalty"] * risk_penalty
@@ -4065,6 +4100,8 @@ def _radar_candidate_score(
     return round(score, 4), {
         "weights": dict(weights),
         "refinement_depth": refinement_depth,
+        "bounded_refinement_depth": bounded_depth,
+        "refinement_depth_score_cap": DISCOVERY_RADAR_REFINEMENT_DEPTH_SCORE_CAP,
         "nontriviality": nontriviality,
         "kernel_checked_disagreement_boost": kernel_boost,
         "risk_penalty": risk_penalty,
@@ -4099,6 +4136,162 @@ def _radar_add_or_merge(
             existing[field] = row[field]
 
 
+def _radar_corpus_mined_rows(
+    lean_scan: LeanSourceScan,
+    *,
+    run_pairwise: bool,
+    corpus_scan_cap: int = DISCOVERY_RADAR_CORPUS_SCAN_CAP,
+    pair_cap: int = DISCOVERY_RADAR_REFINEMENT_PAIR_CAP,
+) -> tuple[list[dict[str, object]], dict[str, object]]:
+    classifier_names_all = _classifier_endpoint_names(lean_scan.declaration_headers)
+    corpus_names = classifier_names_all[:corpus_scan_cap]
+    corpus_truncated = len(classifier_names_all) > len(corpus_names)
+    expr_fingerprints = _run_structural_dna_expr_fingerprints(corpus_names) if corpus_names else {}
+    fingerprint_names = sorted(
+        name for name in corpus_names if _discovery_endpoint_reduced_fp(name, expr_fingerprints)
+    )
+    fp_buckets: dict[str, list[str]] = {}
+    for name in fingerprint_names:
+        fp = _discovery_endpoint_reduced_fp(name, expr_fingerprints)
+        if fp:
+            fp_buckets.setdefault(fp, []).append(name)
+
+    rows: list[dict[str, object]] = []
+    seen_targets: set[str] = set()
+    for fp, names in sorted(fp_buckets.items(), key=lambda item: (item[0], item[1])):
+        if len(names) < 2:
+            continue
+        prior = sorted(names)[0]
+        for target in sorted(names)[1:]:
+            seen_targets.add(target)
+            rows.append({
+                "target": target,
+                "file": "",
+                "line": 0,
+                "region": "",
+                "chapter_key": "",
+                "claim_kind": "",
+                "ledger": "",
+                "sources": ["classifier_corpus.reduced_fingerprint"],
+                "before_classifiers": [prior],
+                "candidate_classifiers": [target],
+                "provenance": [{
+                    "candidate": target,
+                    "prior": prior,
+                    "relation": "reconstruction",
+                    "prior_scope": "classifier_corpus_reduced_fp_bucket",
+                    "candidate_reduced_fp": fp,
+                    "reduced_fp": fp,
+                    "kernel_grounded": True,
+                    "soundness": "kernel_grounded_reduced_fingerprint_match",
+                }],
+                "phase_a_resolution_status": "resolved",
+                "phase_a_locus": ("", 0, ""),
+                "corpus_mined": True,
+            })
+
+    relation_entries: list[dict[str, object]] = []
+    relation_unavailable: dict[str, object] | None = None
+    pair_count = 0
+    pair_truncated = False
+    if run_pairwise and len(fingerprint_names) >= 2:
+        pair_count = len(fingerprint_names) * (len(fingerprint_names) - 1)
+        pair_truncated = pair_count > pair_cap
+        endpoint_cap = max(2, int(pair_cap ** 0.5))
+        relation_names = fingerprint_names[:endpoint_cap]
+        relation_entries, relation_unavailable = _run_structural_dna_relations(
+            relation_names,
+            relation_names,
+        )
+        for relation in relation_entries:
+            candidate = str(relation.get("candidate") or "")
+            prior = str(relation.get("prior") or "")
+            extra_count = _radar_extra_conjunct_count(relation)
+            if not candidate or not prior or candidate in seen_targets:
+                continue
+            if extra_count is None or extra_count <= 0:
+                continue
+            seen_targets.add(candidate)
+            rows.append({
+                "target": candidate,
+                "file": "",
+                "line": 0,
+                "region": "",
+                "chapter_key": "",
+                "claim_kind": "",
+                "ledger": "",
+                "sources": ["classifier_corpus.conjunctive_refinement"],
+                "before_classifiers": [prior],
+                "candidate_classifiers": [candidate],
+                "provenance": [dict(relation)],
+                "phase_a_resolution_status": "resolved",
+                "phase_a_locus": ("", 0, ""),
+                "corpus_mined": True,
+            })
+
+    meta: dict[str, object] = {
+        "classifier_endpoint_count": len(classifier_names_all),
+        "fingerprint_count": len(expr_fingerprints),
+        "source_surface_count": 0,
+        "corpus_mined_count": len(rows),
+        "corpus_scan_cap": corpus_scan_cap,
+        "corpus_truncated": corpus_truncated,
+        "pairwise_refinement_enabled": run_pairwise,
+        "pairwise_refinement_pair_count": pair_count,
+        "pairwise_refinement_pair_cap": pair_cap,
+        "pairwise_refinement_truncated": pair_truncated,
+    }
+    if relation_unavailable is not None:
+        meta["pairwise_refinement_unavailable"] = relation_unavailable
+    return rows, meta
+
+
+def _radar_conjectured_fingerprint(candidate: dict[str, object]) -> str:
+    phase_a = candidate.get("phase_a") if isinstance(candidate.get("phase_a"), dict) else {}
+    priors = phase_a.get("reconstruction_priors", []) if isinstance(phase_a, dict) else []
+    phase_b = candidate.get("phase_b") if isinstance(candidate.get("phase_b"), dict) else {}
+    refinements = phase_b.get("nontrivial_refinements", []) if isinstance(phase_b, dict) else []
+    evidence = candidate.get("evidence", [])
+    return hashlib.sha256(json.dumps({
+        "target": candidate.get("target", ""),
+        "candidate_classifiers": candidate.get("candidate_classifiers", []),
+        "risk_tags": candidate.get("risk_tags", []),
+        "disagreement_signal_tier": candidate.get("disagreement_signal_tier", ""),
+        "reconstruction_priors": priors,
+        "nontrivial_refinements": refinements,
+        "evidence": evidence,
+    }, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def _radar_cap_conjectured_candidates(
+    candidates: list[dict[str, object]],
+    *,
+    cap: int = DISCOVERY_RADAR_CONJECTURED_CAP,
+) -> tuple[list[dict[str, object]], int]:
+    non_conjectured = [
+        item for item in candidates if str(item.get("state")) != "conjectured"
+    ]
+    conjectured = [
+        item for item in candidates if str(item.get("state")) == "conjectured"
+    ]
+    unique_by_fp: dict[str, dict[str, object]] = {}
+    dropped = 0
+    for item in sorted(
+        conjectured,
+        key=lambda row: (-float(row.get("score") or 0.0), str(row.get("target") or "")),
+    ):
+        fp = _radar_conjectured_fingerprint(item)
+        if fp in unique_by_fp:
+            dropped += 1
+            continue
+        copied = dict(item)
+        copied["candidate_fingerprint"] = fp
+        unique_by_fp[fp] = copied
+    kept_conjectured = list(unique_by_fp.values())[:cap]
+    dropped += max(0, len(unique_by_fp) - cap)
+    return non_conjectured + kept_conjectured, dropped
+
+
 def discovery_production_radar_payload(
     blocks: list[dict],
     lean_scan: LeanSourceScan,
@@ -4106,6 +4299,7 @@ def discovery_production_radar_payload(
     discovery_integrity: dict[str, object] | None = None,
     sieve_payload: dict[str, object] | None = None,
     discovery_assert_gate: dict[str, object] | None = None,
+    full_corpus_scan: bool = False,
 ) -> dict[str, object]:
     sieve = sieve_payload or discovery_sieve_payload(
         blocks,
@@ -4163,6 +4357,8 @@ def discovery_production_radar_payload(
                 "phase_a_locus": locus,
             })
 
+    source_surface_count = len(rows)
+
     for profile in sieve.get("targets", []) or []:
         if not isinstance(profile, dict):
             continue
@@ -4207,9 +4403,32 @@ def discovery_production_radar_payload(
             "phase_a_locus": _radar_locus_key(site),
         })
 
+    source_surface_count = max(source_surface_count, len(rows))
+    if full_corpus_scan:
+        corpus_rows, corpus_meta = _radar_corpus_mined_rows(
+            lean_scan,
+            run_pairwise=True,
+        )
+        for row in corpus_rows:
+            _radar_add_or_merge(rows, row)
+    else:
+        classifier_names = _classifier_endpoint_names(lean_scan.declaration_headers)
+        corpus_meta = {
+            "classifier_endpoint_count": len(classifier_names),
+            "fingerprint_count": int(integrity.get("fingerprint_count", 0) or 0),
+            "source_surface_count": source_surface_count,
+            "corpus_mined_count": 0,
+            "corpus_scan_cap": DISCOVERY_RADAR_CORPUS_SCAN_CAP,
+            "corpus_truncated": len(classifier_names) > DISCOVERY_RADAR_CORPUS_SCAN_CAP,
+            "pairwise_refinement_enabled": False,
+            "pairwise_refinement_pair_count": 0,
+            "pairwise_refinement_pair_cap": DISCOVERY_RADAR_REFINEMENT_PAIR_CAP,
+            "pairwise_refinement_truncated": False,
+        }
+    corpus_meta["source_surface_count"] = source_surface_count
+
     violation_by_locus = _integrity_violations_by_locus(integrity)
     candidates: list[dict[str, object]] = []
-    state_counts: Counter[str] = Counter()
 
     for row in rows.values():
         target = str(row.get("target") or "")
@@ -4261,6 +4480,8 @@ def discovery_production_radar_payload(
         evidence: list[str] = []
         if reconstruction_priors:
             evidence.append("phase_a_structural_reconstruction")
+            if row.get("corpus_mined"):
+                evidence.append("classifier_corpus_reduced_fingerprint_match")
         if zero_refinement_priors:
             evidence.append("phase_b_zero_conjunct_refinement")
         if refinement_depth > 0:
@@ -4292,6 +4513,13 @@ def discovery_production_radar_payload(
         candidate = {
             "state": state,
             "state_semantics": state_semantics,
+            "refutation": {
+                "kernel_grounded": bool(reconstruction_priors),
+                "soundness": (
+                    "reconstruction=sound"
+                    if reconstruction_priors else "not_kernel_grounded_refutation"
+                ),
+            } if state == "refuted" else {},
             "target": target,
             "file": row.get("file") or "",
             "line": row.get("line") or 0,
@@ -4333,8 +4561,8 @@ def discovery_production_radar_payload(
             "valid_use": DISCOVERY_RADAR_SEMANTICS["valid_use"],
         }
         candidates.append(candidate)
-        state_counts[state] += 1
 
+    candidates, dropped_count = _radar_cap_conjectured_candidates(candidates)
     candidates.sort(
         key=lambda item: (
             DISCOVERY_RADAR_STATE_PRIORITY.get(str(item.get("state")), 99),
@@ -4344,12 +4572,26 @@ def discovery_production_radar_payload(
     )
     for rank, item in enumerate(candidates, start=1):
         item["rank"] = rank
+    state_counts = Counter(str(item.get("state") or "") for item in candidates)
 
     return {
         "informational": True,
         "schema": "bedc.discovery_production_radar",
         "semantics": DISCOVERY_RADAR_SEMANTICS,
         "weights": DISCOVERY_RADAR_WEIGHTS,
+        "classifier_endpoint_count": int(corpus_meta["classifier_endpoint_count"]),
+        "fingerprint_count": int(corpus_meta["fingerprint_count"]),
+        "source_surface_count": int(corpus_meta["source_surface_count"]),
+        "corpus_mined_count": int(corpus_meta["corpus_mined_count"]),
+        "corpus_scan_cap": int(corpus_meta["corpus_scan_cap"]),
+        "corpus_truncated": bool(corpus_meta["corpus_truncated"]),
+        "pairwise_refinement_enabled": bool(corpus_meta["pairwise_refinement_enabled"]),
+        "pairwise_refinement_pair_count": int(corpus_meta["pairwise_refinement_pair_count"]),
+        "pairwise_refinement_pair_cap": int(corpus_meta["pairwise_refinement_pair_cap"]),
+        "pairwise_refinement_truncated": bool(corpus_meta["pairwise_refinement_truncated"]),
+        "pairwise_refinement_unavailable": corpus_meta.get("pairwise_refinement_unavailable"),
+        "conjectured_cap": DISCOVERY_RADAR_CONJECTURED_CAP,
+        "dropped_count": dropped_count,
         "candidate_count": len(candidates),
         "state_counts": {
             state: int(state_counts.get(state, 0))
@@ -9694,7 +9936,7 @@ def discovery_nonasserted_hygiene_payload(blocks: list[dict]) -> dict[str, objec
     }
 
 
-def audit_payload() -> dict[str, object]:
+def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
     changed_files = _get_commit_changed_files()
     lean_scan = scan_lean_sources()
     declarations = lean_scan.declarations
@@ -9769,6 +10011,7 @@ def audit_payload() -> dict[str, object]:
         discovery_integrity=discovery_integrity,
         sieve_payload=discovery_sieve,
         discovery_assert_gate=discovery_assert_gate,
+        full_corpus_scan=full_radar_scan,
     )
     discovery_nonasserted_hygiene = discovery_nonasserted_hygiene_payload(
         closurestatus_blocks,
@@ -9937,7 +10180,7 @@ def report_shape_saturation(threshold: int = 3) -> int:
 def cmd_audit(args: argparse.Namespace) -> int:
     if getattr(args, "shape_saturation", False):
         return report_shape_saturation()
-    payload = audit_payload()
+    payload = audit_payload(full_radar_scan=bool(args.json))
     if args.json:
         print(json.dumps(payload, indent=2, ensure_ascii=False))
     else:
@@ -10150,10 +10393,15 @@ def cmd_audit(args: argparse.Namespace) -> int:
         radar = payload["discovery_production_radar"]
         print(
             "[bedc-ci] discovery radar:"
+            f" scanned={radar['classifier_endpoint_count']}"
             f" candidates={radar['candidate_count']}"
             f" refuted={radar['refuted_count']}"
             f" assertion_eligible={radar['assertion_eligible_count']}"
             f" conjectured={radar['conjectured_count']}"
+            f" dropped={radar.get('dropped_count', 0)}"
+            f" mined={radar.get('corpus_mined_count', 0)}"
+            f" cap={radar.get('corpus_scan_cap', 0)}"
+            f" truncated={radar.get('corpus_truncated', False)}"
             " (informational, surface-and-rank only)"
         )
         hygiene = payload["discovery_nonasserted_hygiene"]
@@ -11290,6 +11538,64 @@ def cmd_structural_dna(args: argparse.Namespace) -> int:
                 print(f"  ... and {len(payload['targets']) - 120} more")
 
 
+def cmd_discovery_radar(args: argparse.Namespace) -> int:
+    blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
+    lean_scan = scan_lean_sources()
+    discovery_sieve = discovery_sieve_payload(
+        blocks,
+        lean_scan.discovery_delta_ledgers,
+        lean_scan.declaration_headers,
+        lean_scan.declaration_bodies,
+    )
+    discovery_integrity = discovery_integrity_payload(blocks, lean_scan)
+    discovery_assert_gate = discovery_assert_gate_payload(
+        blocks,
+        lean_scan,
+        discovery_integrity,
+        sieve_payload=discovery_sieve,
+    )
+    payload = discovery_production_radar_payload(
+        blocks,
+        lean_scan,
+        discovery_integrity=discovery_integrity,
+        sieve_payload=discovery_sieve,
+        discovery_assert_gate=discovery_assert_gate,
+        full_corpus_scan=True,
+    )
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(
+            "[bedc-ci] discovery-radar (informational):"
+            f" scanned={payload['classifier_endpoint_count']}"
+            f" fingerprints={payload['fingerprint_count']}"
+            f" candidates={payload['candidate_count']}"
+            f" refuted={payload['refuted_count']}"
+            f" assertion_eligible={payload['assertion_eligible_count']}"
+            f" conjectured={payload['conjectured_count']}"
+            f" dropped={payload['dropped_count']}"
+            f" mined={payload['corpus_mined_count']}"
+            f" cap={payload['corpus_scan_cap']}"
+            f" truncated={payload['corpus_truncated']}"
+        )
+        if payload.get("pairwise_refinement_truncated"):
+            print(
+                "  pairwise refinement truncated:"
+                f" pairs={payload['pairwise_refinement_pair_count']}"
+                f" cap={payload['pairwise_refinement_pair_cap']}"
+            )
+        if args.verbose:
+            for item in payload["candidates"][:120]:
+                print(
+                    f"  {item['state']} score={item['score']}"
+                    f" target={item['target']}"
+                    f" evidence={','.join(item.get('evidence', [])) or 'none'}"
+                )
+            if len(payload["candidates"]) > 120:
+                print(f"  ... and {len(payload['candidates']) - 120} more")
+    return 0
+
+
 def cmd_discovery_candidates(args: argparse.Namespace) -> int:
     blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     lean_scan = scan_lean_sources()
@@ -11722,6 +12028,14 @@ def parser() -> argparse.ArgumentParser:
     structural_dna_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     structural_dna_p.add_argument("--verbose", "-v", action="store_true", help="Show per-target detail")
     structural_dna_p.set_defaults(func=cmd_structural_dna)
+
+    discovery_radar_p = sub.add_parser(
+        "discovery-radar",
+        help="Informational production radar over the classifier corpus (always exit 0)",
+    )
+    discovery_radar_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    discovery_radar_p.add_argument("--verbose", "-v", action="store_true", help="Show candidate detail")
+    discovery_radar_p.set_defaults(func=cmd_discovery_radar)
 
     discovery_candidates_p = sub.add_parser(
         "discovery-candidates",

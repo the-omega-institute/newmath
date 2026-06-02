@@ -33,6 +33,7 @@ from bedc_ci import (  # type: ignore[import-not-found]
     discovery_audit_payload,
     discovery_nonasserted_hygiene_payload,
     discovery_production_radar_payload,
+    cmd_discovery_radar,
     parser as bedc_parser,
 )
 
@@ -757,13 +758,16 @@ class DiscoveryAuditTests(unittest.TestCase):
         integrity: dict[str, object],
         sieve: dict[str, object] | None = None,
         assert_gate: dict[str, object] | None = None,
+        scan: LeanSourceScan | None = None,
+        full_corpus_scan: bool = False,
     ) -> dict[str, object]:
         return discovery_production_radar_payload(
             [self._block()],
-            LeanSourceScan([], [], {}, {}, []),
+            scan or LeanSourceScan([], [], {}, {}, []),
             discovery_integrity=integrity,
             sieve_payload=sieve or {"targets": []},
             discovery_assert_gate=assert_gate or {"asserted_sites": []},
+            full_corpus_scan=full_corpus_scan,
         )
 
     def test_discovery_radar_refutes_prior_reconstruction(self) -> None:
@@ -886,6 +890,141 @@ class DiscoveryAuditTests(unittest.TestCase):
             "text_reach_or_semantic_anchor",
         )
 
+    def test_discovery_radar_mines_corpus_reduced_fp_refutation_without_surface(self) -> None:
+        headers = {
+            "BEDC.Prior.OldClassifier": (
+                "def OldClassifier (h0 h1 : BEDC.Core.BHist) : Prop :="
+            ),
+            "BEDC.Target.NewClassifier": (
+                "def NewClassifier (h0 h1 : BEDC.Core.BHist) : Prop :="
+            ),
+        }
+        decls = [
+            DeclarationRecord("BEDC.Prior", "lean4/BEDC/Prior.lean", 1, "def",
+                              "OldClassifier", "BEDC.Prior.OldClassifier"),
+            DeclarationRecord("BEDC.Target", "lean4/BEDC/Target.lean", 1, "def",
+                              "NewClassifier", "BEDC.Target.NewClassifier"),
+        ]
+        scan = LeanSourceScan(decls, [], headers, {}, [])
+        fingerprints = {
+            "BEDC.Prior.OldClassifier": ExprFingerprint("old", "type", "same", reduced_fingerprint="same"),
+            "BEDC.Target.NewClassifier": ExprFingerprint("new", "type", "same", reduced_fingerprint="same"),
+        }
+        with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fingerprints), \
+             patch("bedc_ci._run_structural_dna_relations", return_value=([], None)):
+            payload = self._radar_payload(
+                {"sites": [], "violations": [], "fingerprint_count": 0},
+                scan=scan,
+                full_corpus_scan=True,
+            )
+        self.assertEqual(payload["classifier_endpoint_count"], 2)
+        self.assertEqual(payload["fingerprint_count"], 2)
+        self.assertEqual(payload["source_surface_count"], 0)
+        self.assertEqual(payload["corpus_mined_count"], 1)
+        self.assertEqual(payload["refuted_count"], 1)
+        candidate = payload["candidates"][0]
+        self.assertEqual(candidate["target"], "BEDC.Target.NewClassifier")
+        self.assertEqual(candidate["state"], "refuted")
+        self.assertTrue(candidate["refutation"]["kernel_grounded"])
+        self.assertIn("classifier_corpus_reduced_fingerprint_match", candidate["evidence"])
+
+    def test_discovery_radar_denominators_distinguish_empty_candidate_scan(self) -> None:
+        payload = audit_payload(full_radar_scan=True)
+        radar = payload["discovery_production_radar"]
+        self.assertGreater(radar["classifier_endpoint_count"], 0)
+        self.assertIn("fingerprint_count", radar)
+        self.assertIn("source_surface_count", radar)
+        self.assertIn("corpus_mined_count", radar)
+        self.assertIn("corpus_scan_cap", radar)
+        self.assertIn("corpus_truncated", radar)
+
+    def test_discovery_radar_conjectured_pool_is_capped_and_logs_drops(self) -> None:
+        targets = [f"BEDC.Target.Candidate{i}Classifier" for i in range(105)]
+        sieve = {
+            "targets": [
+                {
+                    "target": target,
+                    "file": "papers/bedc/parts/x.tex",
+                    "line": 10 + idx,
+                    "region": "FooUp",
+                    "sources": ["DiscoveryTasteGate"],
+                    "sieve_profile": {
+                        "reason_tags": [f"template smoke variant {idx}"],
+                        "semantic_anchors": [f"anchor{idx}"],
+                    },
+                }
+                for idx, target in enumerate(targets)
+            ],
+        }
+        payload = self._radar_payload({"sites": [], "violations": []}, sieve=sieve)
+        self.assertEqual(payload["conjectured_count"], 100)
+        self.assertEqual(payload["dropped_count"], 5)
+        self.assertEqual(payload["conjectured_cap"], 100)
+        self.assertEqual(payload["candidate_count"], 100)
+
+    def test_discovery_radar_light_audit_skips_pairwise_full_modes_run_it(self) -> None:
+        headers = {
+            "BEDC.Prior.OldClassifier": (
+                "def OldClassifier (h0 h1 : BEDC.Core.BHist) : Prop :="
+            ),
+            "BEDC.Target.NewClassifier": (
+                "def NewClassifier (h0 h1 : BEDC.Core.BHist) : Prop :="
+            ),
+        }
+        scan = LeanSourceScan([], [], headers, {}, [])
+        with patch("bedc_ci._run_structural_dna_expr_fingerprints") as fps, \
+             patch("bedc_ci._run_structural_dna_relations") as relations:
+            light = self._radar_payload(
+                {"sites": [], "violations": [], "fingerprint_count": 0},
+                scan=scan,
+                full_corpus_scan=False,
+            )
+        fps.assert_not_called()
+        relations.assert_not_called()
+        self.assertFalse(light["pairwise_refinement_enabled"])
+        self.assertEqual(light["classifier_endpoint_count"], 2)
+
+        fingerprints = {
+            "BEDC.Prior.OldClassifier": ExprFingerprint("old", "type", "old", reduced_fingerprint="old"),
+            "BEDC.Target.NewClassifier": ExprFingerprint("new", "type", "new", reduced_fingerprint="new"),
+        }
+        with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fingerprints), \
+             patch("bedc_ci._run_structural_dna_relations", return_value=([], None)) as relations:
+            full = self._radar_payload(
+                {"sites": [], "violations": [], "fingerprint_count": 0},
+                scan=scan,
+                full_corpus_scan=True,
+            )
+        relations.assert_called_once()
+        self.assertTrue(full["pairwise_refinement_enabled"])
+
+    def test_discovery_radar_subcommand_runs_full_corpus_scan(self) -> None:
+        radar_payload = {
+            "classifier_endpoint_count": 2,
+            "fingerprint_count": 2,
+            "candidate_count": 1,
+            "refuted_count": 1,
+            "assertion_eligible_count": 0,
+            "conjectured_count": 0,
+            "dropped_count": 0,
+            "corpus_mined_count": 1,
+            "corpus_scan_cap": 2000,
+            "corpus_truncated": False,
+            "pairwise_refinement_truncated": False,
+            "candidates": [{"state": "refuted", "score": 0, "target": "BEDC.Target", "evidence": []}],
+        }
+        args = type("Args", (), {"json": False, "verbose": False})()
+        with patch("bedc_ci.collect_closurestatus_blocks", return_value=[]), \
+             patch("bedc_ci.scan_lean_sources", return_value=LeanSourceScan([], [], {}, {}, [])), \
+             patch("bedc_ci.discovery_sieve_payload", return_value={"targets": []}), \
+             patch("bedc_ci.discovery_integrity_payload", return_value={"sites": [], "violations": []}), \
+             patch("bedc_ci.discovery_assert_gate_payload", return_value={"asserted_sites": []}), \
+             patch("bedc_ci.discovery_production_radar_payload", return_value=radar_payload) as radar, \
+             redirect_stdout(StringIO()):
+            rc = cmd_discovery_radar(args)
+        self.assertEqual(rc, 0)
+        self.assertTrue(radar.call_args.kwargs["full_corpus_scan"])
+
     def test_discovery_radar_is_informational_for_audit_exit_code(self) -> None:
         payload = {
             "inventory": {
@@ -937,6 +1076,129 @@ class DiscoveryAuditTests(unittest.TestCase):
         with patch("bedc_ci.audit_payload", return_value=payload), redirect_stdout(StringIO()):
             rc = cmd_audit(args)
         self.assertEqual(rc, 0)
+
+    def test_plain_audit_uses_light_radar_and_prints_scanned_denominator(self) -> None:
+        payload = {
+            "inventory": {
+                "lean_files_scanned": 0,
+                "declarations_total": 0,
+                "part_labels_total": 0,
+                "lean_markers_total": 0,
+            },
+            "forbidden_constructs": [],
+            "forbidden_construct_count": 0,
+            "missing_marker_targets": [],
+            "missing_marker_targets_new_count": 0,
+            "missing_marker_targets_legacy_count": 0,
+            "duplicate_part_labels": {},
+            "case_collisions": [],
+            "case_collisions_new_count": 0,
+            "case_collisions_legacy_count": 0,
+            "preamble_duplicate_commands": [],
+            "preamble_duplicate_commands_new_count": 0,
+            "preamble_duplicate_commands_legacy_count": 0,
+            "concrete_number_collisions": [],
+            "concrete_number_collisions_new_count": 0,
+            "concrete_number_collisions_legacy_count": 0,
+            "concrete_missing_origin": [],
+            "concrete_missing_origin_new_count": 0,
+            "concrete_missing_origin_legacy_count": 0,
+            "paper_chapter_origin_tags": [],
+            "paper_chapter_origin_tags_new_count": 0,
+            "paper_chapter_origin_tags_legacy_count": 0,
+            "closurestatus_diagnostics": [],
+            "closurestatus_diagnostics_new_count": 0,
+            "closurestatus_open_warnings": [],
+            "closurestatus_open_warnings_count": 0,
+            "closurestatus_open_errors": [],
+            "closurestatus_open_errors_new_count": 0,
+            "closurestatus_open_errors_legacy_count": 0,
+            "discovery_ledger_coverage": {
+                "ai_origin_chapter_count": 0,
+                "covered_count": 0,
+                "missing_count": 0,
+                "ledger_declaration_count": 0,
+                "stem_warning_count": 0,
+                "missing": [],
+                "covered": [],
+            },
+            "mechanical_optout_audit": {
+                "finding_count": 0,
+                "mechanical_optout_violation_count": 0,
+                "findings": [],
+            },
+            "classifier_shift_quality": {
+                "checked_target_count": 0,
+                "finding_count": 0,
+                "findings": [],
+            },
+            "discovery_integrity": {
+                "declared_discovery_chapter_count": 0,
+                "checked_chapter_count": 0,
+                "unavailable_count": 0,
+                "unresolved_count": 0,
+                "semantics": "structural",
+                "unresolved": [],
+                "unavailable": [],
+            },
+            "discovery_integrity_violations": [],
+            "discovery_integrity_violations_new_count": 0,
+            "discovery_integrity_violations_legacy_count": 0,
+            "discovery_assert_gate": {
+                "asserted_count": 0,
+                "status_counts": {},
+                "failure_count": 0,
+                "conjectured_count": 0,
+                "refuted_count": 0,
+                "semantics": "assert",
+                "asserted_sites": [],
+                "failures": [],
+                "informational_sites": [],
+            },
+            "discovery_assert_gate_failure_count": 0,
+            "discovery_nonasserted_hygiene": {
+                "site_count": 0,
+                "failure_count": 0,
+                "failures": [],
+            },
+            "discovery_nonasserted_hygiene_failure_count": 0,
+            "orphan_concrete_subdirs": [],
+            "orphan_concrete_subdirs_new_count": 0,
+            "orphan_concrete_subdirs_legacy_count": 0,
+            "theorem_dna_coverage": {
+                "covered_count": 0,
+                "chapters_total": 0,
+                "current_count": 0,
+            },
+            "theorem_dna_stale": {
+                "stale_count": 0,
+                "changed_chapters_count": 0,
+                "stale": [],
+            },
+            "leanstmt_debt": {
+                "live_sites": [],
+                "manifest_entries": [],
+                "violations": [],
+            },
+            "discovery_production_radar": {
+                "classifier_endpoint_count": 1743,
+                "candidate_count": 1,
+                "refuted_count": 1,
+                "assertion_eligible_count": 0,
+                "conjectured_count": 0,
+                "dropped_count": 0,
+                "corpus_mined_count": 0,
+                "corpus_scan_cap": 2000,
+                "corpus_truncated": False,
+                "candidates": [{"state": "refuted"}],
+            },
+        }
+        args = type("Args", (), {"json": False, "shape_saturation": False})()
+        with patch("bedc_ci.audit_payload", return_value=payload) as audit, redirect_stdout(StringIO()) as out:
+            rc = cmd_audit(args)
+        self.assertEqual(rc, 0)
+        self.assertFalse(audit.call_args.kwargs["full_radar_scan"])
+        self.assertIn("scanned=1743", out.getvalue())
 
     def test_current_repository_discovery_radar_is_present(self) -> None:
         payload = audit_payload()
