@@ -4,31 +4,31 @@ import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived
 
-inductive RealReciprocalUp : Type
+inductive RealDecimalNormalFormUp : Type
   | carrier
 
-namespace RealReciprocalUp
+namespace RealDecimalNormalFormUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 
-def RealReciprocalCarrier (R A D M H C P N : BHist) : Prop :=
+def RealDecimalNormalFormCarrier (S T R D W H C P N : BHist) : Prop :=
   -- BEDC touchpoint anchor: BHist Cont hsame Pkg NameCert
-  Cont R A D ∧ Cont D M H ∧ hsame C P ∧ hsame P N
+  Cont S T R ∧ Cont R D W ∧ hsame H C ∧ hsame P N
 
-theorem RealReciprocalCarrier_namecert_obligation_surface
-    {R A D M H C P N : BHist}
-    (carrier : RealReciprocalCarrier R A D M H C P N) :
-    Cont R A D ∧
+theorem RealDecimalNormalFormCarrier_namecert_obligation_surface
+    {S T R D W H C P N : BHist}
+    (carrier : RealDecimalNormalFormCarrier S T R D W H C P N) :
+    Cont S T R ∧
       SemanticNameCert
-        (fun row : BHist => RealReciprocalCarrier R A D M H C P row)
-        (fun row : BHist => RealReciprocalCarrier R A D M H C P row)
-        (fun row : BHist => RealReciprocalCarrier R A D M H C P row)
+        (fun row : BHist => RealDecimalNormalFormCarrier S T R D W H C P row)
+        (fun row : BHist => RealDecimalNormalFormCarrier S T R D W H C P row)
+        (fun row : BHist => RealDecimalNormalFormCarrier S T R D W H C P row)
         (fun h k : BHist => hsame h k) := by
   -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert Pkg NameCert
   obtain ⟨sourceRoute, handoffRoute, transportRow, nameRow⟩ := carrier
-  have sourceN : RealReciprocalCarrier R A D M H C P N :=
+  have sourceN : RealDecimalNormalFormCarrier S T R D W H C P N :=
     ⟨sourceRoute, handoffRoute, transportRow, nameRow⟩
   constructor
   · exact sourceRoute
@@ -59,5 +59,5 @@ theorem RealReciprocalCarrier_namecert_obligation_surface
         exact sourceRow
     }
 
-end RealReciprocalUp
+end RealDecimalNormalFormUp
 end BEDC.Derived
