@@ -7,11 +7,61 @@ import pytest
 from scripts import run_gaussian_ou_distinction_head as runner
 
 
+def fixture_record(seed=10, accuracy=1.0, bce=0.01):
+    return {
+        "seed": seed,
+        "per_distinction": {
+            name: {
+                "train": {"accuracy": accuracy, "bce": bce},
+                "eval": {"accuracy": accuracy, "bce": bce},
+                "stability": 0.08,
+                "margin": 4.0,
+                "margin_distribution": {
+                    "absolute_margin_mean": 4.0,
+                    "absolute_margin_p10": 2.5,
+                    "threshold_debt_rate": 0.0,
+                },
+                "generalization_gap": 0.0,
+                "train_loss_components": {
+                    "task_bce": bce,
+                    "stability": 0.03,
+                    "margin": 0.0,
+                    "intervention": 0.12,
+                    "objective_total": bce + 0.15 * 0.03 + 0.20 * 0.12,
+                },
+                "eval_loss_components": {
+                    "task_bce": bce,
+                    "stability": 0.08,
+                    "margin": 0.0,
+                    "intervention": 0.14,
+                    "objective_total": bce + 0.15 * 0.08 + 0.20 * 0.14,
+                },
+            }
+            for name in runner.DISTINCTIONS
+        },
+        "intervention": {
+            name: {
+                "on_target_flip_rate": 1.0,
+                "on_target_truth_flip_rate": 1.0,
+                "on_target_prediction_truth_flip_gap": 0.0,
+                "off_target_flip_rate": 0.0,
+            }
+            for name in runner.DISTINCTIONS
+        },
+    }
+
+
 def test_default_config_is_structural_consensus_scope():
     assert runner.SAMPLE_COUNT == 384
     assert runner.SEED_COUNT == 30
     assert runner.RHO == 0.82
     assert runner.USE_TORCH is False
+    assert runner.LOSS_WEIGHTS == {
+        "task": 1.0,
+        "stability": 0.15,
+        "margin": 0.05,
+        "intervention": 0.20,
+    }
     assert runner.DISTINCTIONS == (
         "latent_x_positive",
         "latent_y_positive",
@@ -132,39 +182,48 @@ def test_run_record_passes_canonical_runner_arguments_and_builds_distinction_row
     }
 
     x_row = record["per_distinction"]["latent_x_positive"]
-    assert x_row["truth"] == {
-        "label_positive_rate_train": 0.5,
-        "label_positive_rate_eval": 0.5,
-        "pair_label_positive_rate": 0.5,
-    }
+    assert x_row["truth"]["label_positive_rate_train"] == pytest.approx(0.5)
+    assert x_row["truth"]["label_positive_rate_eval"] == pytest.approx(0.5)
+    assert x_row["truth"]["pair_label_positive_rate"] == pytest.approx(0.5)
+    assert x_row["truth"]["ou_pair_truth_agreement_rate"] == pytest.approx(0.75)
     assert x_row["train"]["accuracy"] == pytest.approx(1.0)
     assert x_row["eval"]["accuracy"] == pytest.approx(1.0)
-    assert x_row["stability"] == pytest.approx(0.75)
+    assert 0.0 <= x_row["stability"] <= 1.0
+    assert set(x_row["train_loss_components"]) == {
+        "task_bce",
+        "stability",
+        "margin",
+        "intervention",
+        "objective_total",
+    }
+    assert set(x_row["eval_loss_components"]) == set(x_row["train_loss_components"])
+    assert "threshold_debt_rate" in x_row["margin_distribution"]
     assert x_row["generalization_gap"] == pytest.approx(0.0)
 
     y_row = record["per_distinction"]["latent_y_positive"]
     assert y_row["truth"]["label_positive_rate_eval"] == pytest.approx(0.5)
     assert y_row["eval"]["accuracy"] == pytest.approx(1.0)
-    assert y_row["stability"] == pytest.approx(1.0)
+    assert 0.0 <= y_row["stability"] <= 1.0
 
     energy_row = record["per_distinction"]["high_energy"]
-    assert energy_row["truth"] == {
-        "label_positive_rate_train": 0.0,
-        "label_positive_rate_eval": 0.0,
-        "pair_label_positive_rate": 0.0,
-    }
+    assert energy_row["truth"]["label_positive_rate_train"] == pytest.approx(0.0)
+    assert energy_row["truth"]["label_positive_rate_eval"] == pytest.approx(0.0)
+    assert energy_row["truth"]["pair_label_positive_rate"] == pytest.approx(0.0)
     assert energy_row["eval"]["prediction_positive_rate"] == pytest.approx(0.0)
 
     assert record["intervention"]["latent_x_positive"]["on_target_flip_rate"] == pytest.approx(1.0)
     assert record["intervention"]["latent_x_positive"]["off_target_flip_rate"] == pytest.approx(0.0)
     assert record["intervention"]["latent_x_positive"]["per_distinction"]["latent_y_positive"] == {
         "prediction_flip_rate": 0.0,
+        "truth_flip_rate": 0.0,
+        "prediction_truth_flip_gap": 0.0,
         "post_intervention_truth_positive_rate": 0.5,
         "post_intervention_accuracy": 1.0,
     }
     assert record["intervention"]["latent_y_positive"]["on_target_flip_rate"] == pytest.approx(1.0)
     assert record["intervention"]["high_energy"]["on_target_flip_rate"] == pytest.approx(0.0)
-    assert record["intervention"]["high_energy"]["off_target_flip_rate"] == pytest.approx(0.5)
+    assert record["intervention"]["high_energy"]["on_target_truth_flip_rate"] == pytest.approx(1.0)
+    assert record["intervention"]["high_energy"]["off_target_flip_rate"] == pytest.approx(0.0)
 
 
 def test_probe_training_interface_learns_separable_fixture():
@@ -180,37 +239,121 @@ def test_probe_training_interface_learns_separable_fixture():
     assert metrics["margin"] > 1.0
 
 
+def test_stability_intervention_and_loss_helpers_share_runner_semantics():
+    z = np.array([[2.0, 0.5], [-2.0, -0.5], [0.4, 0.2], [-0.4, -0.2]], dtype=np.float64)
+    z_pair = np.array([[0.2, 0.1], [0.3, -0.2], [2.0, 2.0], [-2.0, -2.0]], dtype=np.float64)
+    y = runner._label_truth("latent_x_positive", z, high_energy_threshold=1.0)
+    stable_views = runner._stability_views("latent_x_positive", z, high_energy_threshold=1.0)
+    intervention_view, off_target_views = runner._intervention_training_views(
+        "latent_x_positive", z, z_pair, high_energy_threshold=1.0
+    )
+
+    probe = runner._fit_probe(
+        z,
+        y,
+        steps=120,
+        lr=0.20,
+        stable_views=stable_views,
+        intervention_view=intervention_view,
+        off_target_views=off_target_views,
+    )
+    losses = runner._loss_components(
+        probe,
+        z,
+        y,
+        stable_views=stable_views,
+        intervention_view=intervention_view,
+        off_target_views=off_target_views,
+    )
+    stability = runner._stability_metric(probe, z, stable_views=stable_views)
+
+    assert len(stable_views) == len(runner._STABILITY_TRANSFORMS)
+    assert all("truth_preserving_rate" in view for view in stable_views)
+    assert losses["task_bce"] >= 0.0
+    assert losses["objective_total"] == pytest.approx(
+        runner.LOSS_WEIGHTS["task"] * losses["task_bce"]
+        + runner.LOSS_WEIGHTS["stability"] * losses["stability"]
+        + runner.LOSS_WEIGHTS["margin"] * losses["margin"]
+        + runner.LOSS_WEIGHTS["intervention"] * losses["intervention"]
+    )
+    assert 0.0 <= stability["e_alpha_abs_probability_delta"] <= 1.0
+
+
 def test_metrics_and_payload_aggregate_bce_stability_margin_and_gap(monkeypatch):
     monkeypatch.setattr(runner, "DISTINCTIONS", ("latent_x_positive", "latent_y_positive"))
     records = []
     for index, seed in enumerate((10, 11)):
         records.append(
-            {
-                "seed": seed,
-                "per_distinction": {
-                    "latent_x_positive": {
-                        "eval": {"accuracy": 0.9 + index * 0.02, "bce": 0.2},
-                        "stability": 0.8,
-                        "margin": 1.5,
-                        "generalization_gap": 0.03,
+                {
+                    "seed": seed,
+                    "per_distinction": {
+                        "latent_x_positive": {
+                            "train": {"accuracy": 0.95 + index * 0.02, "bce": 0.1},
+                            "eval": {"accuracy": 0.9 + index * 0.02, "bce": 0.2},
+                            "stability": 0.8,
+                            "margin": 1.5,
+                            "margin_distribution": {
+                                "absolute_margin_mean": 1.5,
+                                "absolute_margin_p10": 0.7,
+                                "threshold_debt_rate": 0.1,
+                            },
+                            "generalization_gap": 0.03,
+                            "train_loss_components": {
+                                "task_bce": 0.1,
+                                "stability": 0.2,
+                                "margin": 0.3,
+                                "intervention": 0.4,
+                                "objective_total": 0.225,
+                            },
+                            "eval_loss_components": {
+                                "task_bce": 0.2,
+                                "stability": 0.3,
+                                "margin": 0.4,
+                                "intervention": 0.5,
+                                "objective_total": 0.365,
+                            },
+                        },
+                        "latent_y_positive": {
+                            "train": {"accuracy": 0.76 + index * 0.02, "bce": 0.3},
+                            "eval": {"accuracy": 0.7 + index * 0.02, "bce": 0.4},
+                            "stability": 0.75,
+                            "margin": 1.1,
+                            "margin_distribution": {
+                                "absolute_margin_mean": 1.1,
+                                "absolute_margin_p10": 0.5,
+                                "threshold_debt_rate": 0.2,
+                            },
+                            "generalization_gap": 0.04,
+                            "train_loss_components": {
+                                "task_bce": 0.3,
+                                "stability": 0.2,
+                                "margin": 0.3,
+                                "intervention": 0.4,
+                                "objective_total": 0.425,
+                            },
+                            "eval_loss_components": {
+                                "task_bce": 0.4,
+                                "stability": 0.3,
+                                "margin": 0.4,
+                                "intervention": 0.5,
+                                "objective_total": 0.565,
+                            },
+                        },
                     },
-                    "latent_y_positive": {
-                        "eval": {"accuracy": 0.7 + index * 0.02, "bce": 0.4},
-                        "stability": 0.75,
-                        "margin": 1.1,
-                        "generalization_gap": 0.04,
+                    "intervention": {
+                        "latent_x_positive": {
+                            "on_target_flip_rate": 0.95,
+                            "on_target_truth_flip_rate": 1.0,
+                            "on_target_prediction_truth_flip_gap": -0.05,
+                            "off_target_flip_rate": 0.05,
+                        },
+                        "latent_y_positive": {
+                            "on_target_flip_rate": 0.90,
+                            "on_target_truth_flip_rate": 1.0,
+                            "on_target_prediction_truth_flip_gap": -0.10,
+                            "off_target_flip_rate": 0.10,
+                        },
                     },
-                },
-                "intervention": {
-                    "latent_x_positive": {
-                        "on_target_flip_rate": 0.95,
-                        "off_target_flip_rate": 0.05,
-                    },
-                    "latent_y_positive": {
-                        "on_target_flip_rate": 0.90,
-                        "off_target_flip_rate": 0.10,
-                    },
-                },
             }
         )
 
@@ -219,9 +362,11 @@ def test_metrics_and_payload_aggregate_bce_stability_margin_and_gap(monkeypatch)
     assert payload["aggregate"]["record_count"] == 2
     x_stats = payload["aggregate"]["per_distinction"]["latent_x_positive"]
     assert x_stats["eval_accuracy"]["mean"] == pytest.approx(0.91)
+    assert x_stats["train_accuracy"]["mean"] == pytest.approx(0.96)
     assert x_stats["eval_bce"]["mean"] == pytest.approx(0.2)
     assert x_stats["stability"]["mean"] == pytest.approx(0.8)
     assert x_stats["margin"]["mean"] == pytest.approx(1.5)
+    assert x_stats["eval_loss_components"]["objective_total"]["mean"] == pytest.approx(0.365)
     assert x_stats["generalization_gap"]["mean"] == pytest.approx(0.03)
     assert x_stats["intervention_separation"]["mean"] == pytest.approx(0.90)
 
@@ -233,6 +378,7 @@ def test_intervention_flips_target_and_bounds_off_target_fixture():
     flipped_x = runner._intervene("latent_x_positive", z, z_pair)
     flipped_y = runner._intervene("latent_y_positive", z, z_pair)
     paired = runner._intervene("high_energy", z, z_pair)
+    crossed = runner._intervene("high_energy", z, z_pair, high_energy_threshold=1.0)
 
     assert runner._label_truth("latent_x_positive", flipped_x, high_energy_threshold=1.0).tolist() == [
         0.0,
@@ -250,31 +396,18 @@ def test_intervention_flips_target_and_bounds_off_target_fixture():
         1.0,
     ]
     assert np.allclose(paired, z_pair)
+    assert runner._label_truth("high_energy", crossed, high_energy_threshold=1.0).tolist() == [
+        0.0,
+        0.0,
+        0.0,
+    ]
 
 
 def test_payload_contains_boundary_source_and_negative_result_fields():
-    payload = runner._payload(
-        [
-            {
-                "seed": 10,
-                "per_distinction": {
-                    name: {
-                        "eval": {"accuracy": 1.0, "bce": 0.01},
-                        "stability": 0.9,
-                        "margin": 4.0,
-                        "generalization_gap": 0.0,
-                    }
-                    for name in runner.DISTINCTIONS
-                },
-                "intervention": {
-                    name: {"on_target_flip_rate": 1.0, "off_target_flip_rate": 0.0}
-                    for name in runner.DISTINCTIONS
-                },
-            }
-        ]
-    )
+    payload = runner._payload([fixture_record()])
     report = runner._render_report(payload)
 
+    assert payload["config"]["loss_weights"] == runner.LOSS_WEIGHTS
     assert payload["source_artifacts"]["generation_script"] == (
         "scripts/run_gaussian_ou_distinction_head.py"
     )
@@ -286,6 +419,8 @@ def test_payload_contains_boundary_source_and_negative_result_fields():
     ]
     assert "## Applicability Boundary" in report
     assert "## Intervention Metrics" in report
+    assert "## Loss Components" in report
+    assert "## Margin Distribution" in report
     assert "## Negative Result Note" in report
 
 
@@ -294,24 +429,7 @@ def test_main_writes_json_and_markdown(monkeypatch, tmp_path):
     monkeypatch.setattr(
         runner,
         "_records",
-        lambda: [
-            {
-                "seed": 10,
-                "per_distinction": {
-                    name: {
-                        "eval": {"accuracy": 1.0, "bce": 0.01},
-                        "stability": 0.9,
-                        "margin": 4.0,
-                        "generalization_gap": 0.0,
-                    }
-                    for name in runner.DISTINCTIONS
-                },
-                "intervention": {
-                    name: {"on_target_flip_rate": 1.0, "off_target_flip_rate": 0.0}
-                    for name in runner.DISTINCTIONS
-                },
-            }
-        ],
+        lambda: [fixture_record()],
     )
 
     runner.main()

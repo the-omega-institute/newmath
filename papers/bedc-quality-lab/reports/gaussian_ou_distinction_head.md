@@ -1,6 +1,6 @@
 # Gaussian-OU Distinction-Head Experiment
 
-- Generated at: `2026-06-01T11:52:09.306661+00:00`
+- Generated at: `2026-06-02T05:52:42.832159+00:00`
 - Canonical runner: `scripts/run_gaussian_ou_lejepa.py::run_experiment`
 - Sample count: `384`
 - Seed count: `30`
@@ -8,23 +8,44 @@
 - Use torch: `false`
 - Distinctions: `latent_x_positive, latent_y_positive, high_energy`
 - Train/eval split: `0.70` train, deterministic per seed
+- Loss weights: `{"intervention": 0.2, "margin": 0.05, "stability": 0.15, "task": 1.0}`
+- Stability transforms: `translate_small, rotate_small, noise_bounded, occlude_x_soft, occlude_y_soft`
 - Total records: `30`
 
 ## Per-Distinction Metrics
 
-| distinction | eval accuracy | eval BCE | stability | margin | train/eval accuracy gap |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| `latent_x_positive` | 0.993333 +/- 0.009044 (95% CI +/- 0.003236) | 0.105829 +/- 0.014895 (95% CI +/- 0.005330) | 0.803559 +/- 0.021252 (95% CI +/- 0.007605) | 4.756486 +/- 0.331539 (95% CI +/- 0.118640) | -0.001264 +/- 0.008656 (95% CI +/- 0.003097) |
-| `latent_y_positive` | 0.988406 +/- 0.011718 (95% CI +/- 0.004193) | 0.108582 +/- 0.017518 (95% CI +/- 0.006269) | 0.801215 +/- 0.019384 (95% CI +/- 0.006936) | 4.689921 +/- 0.327932 (95% CI +/- 0.117349) | 0.003044 +/- 0.012160 (95% CI +/- 0.004351) |
-| `high_energy` | 0.530725 +/- 0.041388 (95% CI +/- 0.014811) | 0.698976 +/- 0.010595 (95% CI +/- 0.003791) | 0.723351 +/- 0.022094 (95% CI +/- 0.007906) | -0.002189 +/- 0.016536 (95% CI +/- 0.005917) | 0.035694 +/- 0.050662 (95% CI +/- 0.018129) |
+| distinction | train accuracy | eval accuracy | eval BCE | stability | margin | train/eval accuracy gap |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `latent_x_positive` | 0.998141 +/- 0.003201 (95% CI +/- 0.001145) | 0.996812 +/- 0.007032 (95% CI +/- 0.002516) | 0.101717 +/- 0.014026 (95% CI +/- 0.005019) | 0.013950 +/- 0.001356 (95% CI +/- 0.000485) | 4.899179 +/- 0.340669 (95% CI +/- 0.121907) | 0.001330 +/- 0.006206 (95% CI +/- 0.002221) |
+| `latent_y_positive` | 0.997893 +/- 0.004546 (95% CI +/- 0.001627) | 0.996812 +/- 0.005815 (95% CI +/- 0.002081) | 0.104180 +/- 0.016416 (95% CI +/- 0.005874) | 0.012550 +/- 0.001392 (95% CI +/- 0.000498) | 4.837453 +/- 0.341456 (95% CI +/- 0.122188) | 0.001082 +/- 0.006451 (95% CI +/- 0.002309) |
+| `high_energy` | 0.525774 +/- 0.091366 (95% CI +/- 0.032695) | 0.514493 +/- 0.080189 (95% CI +/- 0.028695) | 0.694895 +/- 0.007092 (95% CI +/- 0.002538) | 0.000973 +/- 0.001189 (95% CI +/- 0.000425) | 0.087474 +/- 0.053997 (95% CI +/- 0.019323) | 0.011282 +/- 0.058877 (95% CI +/- 0.021069) |
+
+## Loss Components
+
+| distinction | split | task BCE | stability | margin | intervention | objective |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| `latent_x_positive` | train | 0.106544 +/- 0.010018 (95% CI +/- 0.003585) | 0.014135 +/- 0.000981 (95% CI +/- 0.000351) | 0.065714 +/- 0.010180 (95% CI +/- 0.003643) | 0.027667 +/- 0.003770 (95% CI +/- 0.001349) | 0.117483 +/- 0.010702 (95% CI +/- 0.003830) |
+| `latent_x_positive` | eval | 0.101717 +/- 0.014026 (95% CI +/- 0.005019) | 0.013950 +/- 0.001356 (95% CI +/- 0.000485) | 0.059356 +/- 0.015571 (95% CI +/- 0.005572) | 0.027713 +/- 0.005298 (95% CI +/- 0.001896) | 0.112320 +/- 0.015242 (95% CI +/- 0.005454) |
+| `latent_y_positive` | train | 0.108069 +/- 0.010956 (95% CI +/- 0.003921) | 0.012740 +/- 0.000926 (95% CI +/- 0.000331) | 0.068330 +/- 0.013740 (95% CI +/- 0.004917) | 0.027817 +/- 0.003996 (95% CI +/- 0.001430) | 0.118959 +/- 0.012139 (95% CI +/- 0.004344) |
+| `latent_y_positive` | eval | 0.104180 +/- 0.016416 (95% CI +/- 0.005874) | 0.012550 +/- 0.001392 (95% CI +/- 0.000498) | 0.066521 +/- 0.019826 (95% CI +/- 0.007094) | 0.026798 +/- 0.003430 (95% CI +/- 0.001227) | 0.114748 +/- 0.017827 (95% CI +/- 0.006379) |
+| `high_energy` | train | 0.690556 +/- 0.004483 (95% CI +/- 0.001604) | 0.000955 +/- 0.001159 (95% CI +/- 0.000415) | 0.915281 +/- 0.048100 (95% CI +/- 0.017212) | 0.022962 +/- 0.018385 (95% CI +/- 0.006579) | 0.741055 +/- 0.003042 (95% CI +/- 0.001089) |
+| `high_energy` | eval | 0.694895 +/- 0.007092 (95% CI +/- 0.002538) | 0.000973 +/- 0.001189 (95% CI +/- 0.000425) | 0.912597 +/- 0.053738 (95% CI +/- 0.019230) | 0.023629 +/- 0.019569 (95% CI +/- 0.007003) | 0.745397 +/- 0.007910 (95% CI +/- 0.002830) |
+
+## Margin Distribution
+
+| distinction | absolute margin p10 | threshold debt rate |
+| --- | ---: | ---: |
+| `latent_x_positive` | 0.891085 +/- 0.233088 (95% CI +/- 0.083409) | 0.118551 +/- 0.028566 (95% CI +/- 0.010222) |
+| `latent_y_positive` | 0.821060 +/- 0.231463 (95% CI +/- 0.082828) | 0.128116 +/- 0.032929 (95% CI +/- 0.011784) |
+| `high_energy` | 0.034864 +/- 0.018549 (95% CI +/- 0.006638) | 0.999710 +/- 0.001588 (95% CI +/- 0.000568) |
 
 ## Intervention Metrics
 
-| target distinction | on-target flip rate | off-target flip rate | separation |
-| --- | ---: | ---: | ---: |
-| `latent_x_positive` | 0.985217 +/- 0.010747 (95% CI +/- 0.003846) | 0.284493 +/- 0.150087 (95% CI +/- 0.053708) | 0.700725 +/- 0.148780 (95% CI +/- 0.053240) |
-| `latent_y_positive` | 0.980580 +/- 0.017493 (95% CI +/- 0.006260) | 0.215652 +/- 0.153497 (95% CI +/- 0.054928) | 0.764928 +/- 0.153489 (95% CI +/- 0.054925) |
-| `high_energy` | 0.194203 +/- 0.037616 (95% CI +/- 0.013461) | 0.192609 +/- 0.023432 (95% CI +/- 0.008385) | 0.001594 +/- 0.031028 (95% CI +/- 0.011103) |
+| target distinction | on-target prediction flip | on-target truth flip | prediction/truth gap | off-target drift | separation |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `latent_x_positive` | 0.995072 +/- 0.009044 (95% CI +/- 0.003236) | 1.000000 +/- 0.000000 (95% CI +/- 0.000000) | -0.004928 +/- 0.009044 (95% CI +/- 0.003236) | 0.105072 +/- 0.157436 (95% CI +/- 0.056338) | 0.890000 +/- 0.158628 (95% CI +/- 0.056764) |
+| `latent_y_positive` | 0.994783 +/- 0.008421 (95% CI +/- 0.003014) | 1.000000 +/- 0.000000 (95% CI +/- 0.000000) | -0.005217 +/- 0.008421 (95% CI +/- 0.003014) | 0.073043 +/- 0.138390 (95% CI +/- 0.049522) | 0.921739 +/- 0.137670 (95% CI +/- 0.049265) |
+| `high_energy` | 0.091304 +/- 0.102577 (95% CI +/- 0.036707) | 1.000000 +/- 0.000000 (95% CI +/- 0.000000) | -0.908696 +/- 0.102577 (95% CI +/- 0.036707) | 0.052609 +/- 0.015999 (95% CI +/- 0.005725) | 0.038696 +/- 0.103698 (95% CI +/- 0.037108) |
 
 ## Applicability Boundary
 
@@ -41,6 +62,12 @@
 ## Negative Result Note
 
 The configured seed count, split, distinctions, threshold rule, and intervention operators are fixed before observing outcomes; weak or failed intervention separation is reported directly.
+
+## Negative Result Findings
+
+- `{"distinction": "high_energy", "eval_accuracy_mean": 0.5144927536231884, "finding": "intervention_insensitive", "off_target_drift_mean": 0.052608695652173916, "on_target_prediction_flip_rate_mean": 0.09130434782608696, "on_target_truth_flip_rate_mean": 1.0}`
+- `{"distinction": "high_energy", "eval_accuracy_mean": 0.5144927536231884, "finding": "held_out_accuracy_weak", "generalization_gap_mean": 0.01128171973492806}`
+- `{"absolute_margin_p10_mean": 0.03486418007737311, "distinction": "high_energy", "finding": "threshold_debt_high", "threshold_debt_rate_mean": 0.9997101449275363}`
 
 ## Source Artifacts
 
