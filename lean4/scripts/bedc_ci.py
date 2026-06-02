@@ -509,6 +509,10 @@ def _normalize_lean_target(text: object) -> str:
     return str(text or "").replace(r"\_", "_").strip()
 
 
+def _normalize_claim_kind(text: object) -> str:
+    return str(text or "").strip().lstrip("\\")
+
+
 def _declaration_header_result_type(header: str) -> str | None:
     if ":" not in header:
         return None
@@ -2420,9 +2424,23 @@ VALID_FORMAL_GRADES = {
     "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
     "axiomCleanV", "bridgeCheckedV",
 }
+VALID_CLOSURE_CLAIM_KINDS = {
+    "discovery",
+    "conjecturedDiscovery",
+    "refutedDiscovery",
+    "positiveDiscovery",
+    "mechanical_reconstruction",
+    "confirmed_composite",
+}
 GRADE_REQUIRES_LEAN_TARGET = {
     "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
     "axiomCleanV", "bridgeCheckedV",
+}
+ASSERTED_DISCOVERY_CLAIM_KINDS = {"positiveDiscovery"}
+DISCOVERY_STATUS_CLAIM_KINDS = {
+    "conjecturedDiscovery",
+    "refutedDiscovery",
+    "positiveDiscovery",
 }
 STRONG_CLOSURESTATUS_CLAIMS = {"discovery", "positiveDiscovery"}
 DISCOVERY_DECLARATION_CLAIM_KINDS = {"discovery", "positiveDiscovery"}
@@ -2684,6 +2702,13 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
         issues.append(
             f"{where}: \\origin='{origin}' is not in {{human, ai}}"
         )
+    claim_kind = _block_discovery_claim_kind(block)
+    if claim_kind and claim_kind not in VALID_CLOSURE_CLAIM_KINDS:
+        issues.append(
+            f"{where}: \\closureclaimkind='{claim_kind}' is not in "
+            "{discovery, conjecturedDiscovery, refutedDiscovery, "
+            "positiveDiscovery, mechanical_reconstruction, confirmed_composite}"
+        )
     return issues
 
 
@@ -2703,7 +2728,7 @@ def diagnose_closurestatus_open_fields(block: dict) -> tuple[list[dict[str, obje
     warnings: list[dict[str, object]] = []
     errors: list[dict[str, object]] = []
     open_fields = block.get("open_fields") or {}
-    claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+    claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
     if not claim_kind:
         return warnings, errors
 
@@ -2792,12 +2817,12 @@ def _block_discovery_claim_kind(block: dict) -> str:
     open_fields = block.get("open_fields") or {}
     if not isinstance(open_fields, dict):
         open_fields = {}
-    claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+    claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
     if claim_kind:
         return claim_kind
     body = str(block.get("raw_body", ""))
     match = re.search(r"\\closureclaimkind\{([^}]*)\}", body)
-    return match.group(1).strip() if match else ""
+    return _normalize_claim_kind(match.group(1)) if match else ""
 
 
 def _field_text(open_fields: dict, *names: str) -> str:
@@ -2996,56 +3021,498 @@ def _positive_discovery_evidence_kind(
     return None
 
 
-def positive_discovery_target_warnings(
-    blocks: list[dict],
-    declarations: list[DeclarationRecord],
-    declaration_headers: dict[str, str] | None = None,
-) -> list[dict[str, object]]:
-    symbol_kinds = _symbol_kind_map(declarations)
-    declaration_headers = (
-        collect_declaration_headers() if declaration_headers is None else declaration_headers
+DISCOVERY_ASSERT_GATE_RULES = (
+    ("G0", "resolved Lean assertion target"),
+    ("G1", "target reachable Lean source has no axiom/sorry"),
+    ("G2", "not a structural reconstruction of a prior classifier"),
+    ("G3", "classifier evidence is nontrivial"),
+    ("G4", "before/after disagreement has semantic support"),
+    ("G5", "not smoke or duplicate evidence"),
+    ("G6", "scope is nonempty and sealed"),
+)
+
+DISCOVERY_ASSERT_GATE_SEMANTICS = (
+    "cheap-negative refutation gate; passing ≠ certified genuine; "
+    "conjectured ≠ asserted"
+)
+
+
+def _assert_gate_item(
+    block: dict,
+    target: str,
+    gate: str,
+    status: str,
+    reason: str,
+    *,
+    details: dict[str, object] | None = None,
+) -> dict[str, object]:
+    item: dict[str, object] = {
+        "file": block["file"],
+        "line": block["line"],
+        "region": f"{block['region']}Up",
+        "target": target,
+        "gate": gate,
+        "status": status,
+        "reason": reason,
+    }
+    if details:
+        item["details"] = details
+    return item
+
+
+def _positive_discovery_assertion_target(
+    block: dict,
+    declaration_headers: dict[str, str],
+) -> tuple[str, list[str]]:
+    open_fields = block.get("open_fields") or {}
+    if not isinstance(open_fields, dict):
+        open_fields = {}
+    candidates = [
+        _normalize_lean_target(open_fields.get("closuregate")),
+        _normalize_lean_target(block.get("lean_target")),
+        _normalize_lean_target(open_fields.get("closureledger")),
+    ]
+    body = str(block.get("raw_body") or "")
+    candidates.extend(
+        _normalize_lean_target(target)
+        for macro, target in _latex_macro_args(
+            body,
+            {"leanchecked", "leantarget"},
+        )
+        if macro in {"leanchecked", "leantarget"}
     )
-    warnings: list[dict[str, object]] = []
+    candidates = [target for target in dict.fromkeys(candidates) if target]
+    resolved = next((target for target in candidates if target in declaration_headers), "")
+    return resolved, candidates
+
+
+def _reachable_assertion_text(
+    target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> tuple[str, list[str]]:
+    reachable = sorted(_reachable_declarations(
+        [target],
+        declaration_headers,
+        declaration_bodies,
+        max_depth=8,
+    ))
+    if target in declaration_headers and target not in reachable:
+        reachable.insert(0, target)
+    text = "\n".join(
+        _decl_text(name, declaration_headers, declaration_bodies)
+        for name in reachable
+    )
+    return text, reachable
+
+
+def _sieve_profiles_by_locus(
+    sieve_payload: dict[str, object],
+) -> tuple[dict[tuple[str, int, str], dict[str, object]], dict[str, dict[str, object]]]:
+    by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
+    by_target: dict[str, dict[str, object]] = {}
+    for profile in sieve_payload.get("targets", []):
+        if not isinstance(profile, dict):
+            continue
+        target = str(profile.get("target") or "")
+        if target:
+            by_target.setdefault(target, profile)
+        key = (
+            str(profile.get("file") or ""),
+            int(profile.get("line") or 0),
+            str(profile.get("region") or ""),
+        )
+        if key[0] and key[1]:
+            by_locus.setdefault(key, profile)
+    return by_locus, by_target
+
+
+def _integrity_sites_by_locus(
+    discovery_integrity: dict[str, object],
+) -> dict[tuple[str, int, str], dict[str, object]]:
+    out: dict[tuple[str, int, str], dict[str, object]] = {}
+    for site in discovery_integrity.get("sites", []):
+        if not isinstance(site, dict):
+            continue
+        key = (
+            str(site.get("file") or ""),
+            int(site.get("line") or 0),
+            str(site.get("region") or ""),
+        )
+        if key[0] and key[1]:
+            out.setdefault(key, site)
+    return out
+
+
+def _integrity_violations_by_locus(
+    discovery_integrity: dict[str, object],
+) -> dict[tuple[str, int, str], list[dict[str, object]]]:
+    out: dict[tuple[str, int, str], list[dict[str, object]]] = {}
+    for violation in discovery_integrity.get("violations", []):
+        if not isinstance(violation, dict):
+            continue
+        key = (
+            str(violation.get("file") or ""),
+            int(violation.get("line") or 0),
+            str(violation.get("region") or ""),
+        )
+        if key[0] and key[1]:
+            out.setdefault(key, []).append(violation)
+    return out
+
+
+def _discovery_assert_gate_site(
+    block: dict,
+    target: str,
+    candidate_targets: list[str],
+    sieve_profile: dict[str, object] | None,
+    integrity_site: dict[str, object] | None,
+    integrity_violations: list[dict[str, object]],
+    symbol_kinds: dict[str, str],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> dict[str, object]:
+    gates: list[dict[str, object]] = []
+    target_text = ""
+    reachable_targets: list[str] = []
+    evidence_kind = ""
+    if target:
+        evidence_kind = _positive_discovery_evidence_kind(
+            target,
+            symbol_kinds,
+            declaration_headers,
+        ) or ""
+        target_text, reachable_targets = _reachable_assertion_text(
+            target,
+            declaration_headers,
+            declaration_bodies,
+        )
+
+    if not target:
+        gates.append(_assert_gate_item(
+            block,
+            "",
+            "G0",
+            "FAIL",
+            "positiveDiscovery has no resolved Lean target",
+            details={"candidate_targets": candidate_targets},
+        ))
+    elif not evidence_kind:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G0",
+            "FAIL",
+            "resolved target is not a DiscoveryTasteGate or PositiveDiscovery declaration",
+            details={"candidate_targets": candidate_targets},
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G0",
+            "PASS",
+            "resolved assertion target",
+            details={"evidence_kind": evidence_kind},
+        ))
+
+    if target:
+        has_axiom = _body_mentions_axiom(target_text)
+        has_sorry = _body_mentions_sorry(target_text)
+        if has_axiom or has_sorry:
+            gates.append(_assert_gate_item(
+                block,
+                target,
+                "G1",
+                "FAIL",
+                "reachable Lean declaration text contains axiom/sorry",
+                details={
+                    "has_axiom": has_axiom,
+                    "has_sorry": has_sorry,
+                    "reachable_targets": reachable_targets[:40],
+                },
+            ))
+        else:
+            gates.append(_assert_gate_item(
+                block,
+                target,
+                "G1",
+                "PASS",
+                "reachable Lean source has no axiom/sorry tokens",
+                details={"reachable_target_count": len(reachable_targets)},
+            ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            "",
+            "G1",
+            "DEFERRED",
+            "no resolved target for dependency scan",
+        ))
+
+    structural_violations = [
+        violation for violation in integrity_violations
+        if violation.get("kind") == "structural_reconstruction_discovery_claim"
+    ]
+    if structural_violations:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G2",
+            "FAIL",
+            "classifier reduced_fingerprint reconstructs a prior classifier",
+            details={"violations": structural_violations[:5]},
+        ))
+    elif integrity_site and str(integrity_site.get("resolution_status")) == "resolved":
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G2",
+            "PASS",
+            "structural reconstruction check found no prior reduced_fingerprint hit",
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G2",
+            "DEFERRED",
+            "structural reconstruction check unavailable or unresolved",
+            details={"integrity_site": bool(integrity_site)},
+        ))
+
+    reason_tags = list(((sieve_profile or {}).get("sieve_profile") or {}).get("reason_tags", []))
+    support_targets = list(((sieve_profile or {}).get("sieve_profile") or {}).get("support_targets", []))
+    semantic_anchors = list(((sieve_profile or {}).get("sieve_profile") or {}).get("semantic_anchors", []))
+    support_anchors = list(((sieve_profile or {}).get("sieve_profile") or {}).get("support_anchors", []))
+    public_semantic_endpoint = bool(((sieve_profile or {}).get("sieve_profile") or {}).get("public_semantic_endpoint"))
+
+    if "trivial_classifier" in reason_tags:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G3",
+            "FAIL",
+            "sieve reports trivial classifier evidence",
+            details={"reason_tags": reason_tags},
+        ))
+    elif sieve_profile:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G3",
+            "PASS",
+            "sieve did not report trivial classifier evidence",
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G3",
+            "DEFERRED",
+            "discovery sieve profile unavailable",
+        ))
+
+    has_disagreement_support = bool(support_targets or semantic_anchors or support_anchors or public_semantic_endpoint)
+    if "constructor_only_disagreement" in reason_tags or "no_semantic_refs" in reason_tags or not has_disagreement_support:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G4",
+            "FAIL",
+            "before/after disagreement lacks accepted semantic support",
+            details={
+                "reason_tags": reason_tags,
+                "support_targets": support_targets,
+                "semantic_anchors": semantic_anchors,
+                "support_anchors": support_anchors,
+                "public_semantic_endpoint": public_semantic_endpoint,
+            },
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G4",
+            "PASS",
+            "sieve found semantic disagreement support",
+        ))
+
+    smoke_duplicate_tags = sorted(
+        set(reason_tags).intersection({
+            "smoke_template_reuse",
+            "target_substring_evidence",
+            "duplicate_of_existing",
+        })
+    )
+    if smoke_duplicate_tags:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G5",
+            "FAIL",
+            "sieve reports smoke or duplicate-like evidence",
+            details={"reason_tags": smoke_duplicate_tags},
+        ))
+    elif sieve_profile:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G5",
+            "PASS",
+            "sieve did not report smoke or duplicate-like evidence",
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G5",
+            "DEFERRED",
+            "discovery sieve profile unavailable",
+        ))
+
+    open_fields = block.get("open_fields") or {}
+    if not isinstance(open_fields, dict):
+        open_fields = {}
+    scope_text = str(block.get("scopeclosed") or "").strip()
+    if not block.get("has_scope") or not scope_text:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G6",
+            "FAIL",
+            "positiveDiscovery has empty scopeclosed text",
+        ))
+    elif not _has_structured_scope_seal(open_fields):
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G6",
+            "FAIL",
+            "positiveDiscovery lacks structured scope seal",
+            details={"scopeclosed": scope_text[:240]},
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G6",
+            "PASS",
+            "scopeclosed text and structured scope seal are present",
+        ))
+
+    failed = [gate for gate in gates if gate["status"] == "FAIL"]
+    deferred = [gate for gate in gates if gate["status"] == "DEFERRED"]
+    status = "FAIL" if failed else "PASS"
+    return {
+        "file": block["file"],
+        "line": block["line"],
+        "region": f"{block['region']}Up",
+        "claim_kind": "positiveDiscovery",
+        "target": target,
+        "candidate_targets": candidate_targets,
+        "status": status,
+        "gates": gates,
+        "failed_gates": [str(gate["gate"]) for gate in failed],
+        "deferred_gates": [str(gate["gate"]) for gate in deferred],
+    }
+
+
+def discovery_assert_gate_payload(
+    blocks: list[dict],
+    lean_scan: LeanSourceScan,
+    discovery_integrity: dict[str, object],
+    sieve_payload: dict[str, object] | None = None,
+) -> dict[str, object]:
+    declaration_headers = lean_scan.declaration_headers
+    declaration_bodies = lean_scan.declaration_bodies
+    symbol_kinds = _symbol_kind_map(lean_scan.declarations)
+    sieve = sieve_payload or discovery_sieve_payload(
+        blocks,
+        lean_scan.discovery_delta_ledgers,
+        declaration_headers,
+        declaration_bodies,
+    )
+    profiles_by_locus, profiles_by_target = _sieve_profiles_by_locus(sieve)
+    integrity_by_locus = _integrity_sites_by_locus(discovery_integrity)
+    integrity_violations = _integrity_violations_by_locus(discovery_integrity)
+
+    asserted_sites: list[dict[str, object]] = []
+    informational_sites: list[dict[str, object]] = []
+    failures: list[dict[str, object]] = []
+    status_counts: Counter[str] = Counter()
+
     for block in blocks:
         if block.get("error"):
             continue
-        open_fields = block.get("open_fields") or {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
-        if claim_kind != "positiveDiscovery":
+        claim_kind = _block_discovery_claim_kind(block)
+        if claim_kind in {"conjecturedDiscovery", "refutedDiscovery"}:
+            informational_sites.append({
+                "file": block["file"],
+                "line": block["line"],
+                "region": f"{block['region']}Up",
+                "claim_kind": claim_kind,
+                "target": _normalize_lean_target(block.get("lean_target")),
+                "reason": "not asserted; recorded for audit visibility only",
+                "gate_status": "informational",
+            })
             continue
-        targets: list[str] = []
-        gate = str(open_fields.get("closuregate", "")).replace(r"\_", "_").strip()
-        lean_target = str(block.get("lean_target") or "").replace(r"\_", "_").strip()
-        for raw in (gate, lean_target):
-            if raw and raw not in targets:
-                targets.append(raw)
-        matches = [
-            {
-                "target": target,
-                "evidence_kind": evidence_kind,
-            }
-            for target in targets
-            if (
-                evidence_kind := _positive_discovery_evidence_kind(
-                    target,
-                    symbol_kinds,
-                    declaration_headers,
-                )
-            )
-        ]
-        if matches:
+        if claim_kind not in ASSERTED_DISCOVERY_CLAIM_KINDS:
             continue
-        expected = " or ".join(("DiscoveryTasteGate", "PositiveDiscovery"))
-        target_text = ", ".join(targets) if targets else "(none)"
-        warnings.append(
-            _closurestatus_open_message(
-                block,
-                "\\closureclaimkind{positiveDiscovery} should cite a resolved "
-                f"{expected} declaration through \\closuregate or \\leantarget; "
-                f"observed {target_text}",
-            )
+        target, candidate_targets = _positive_discovery_assertion_target(
+            block,
+            declaration_headers,
         )
-    return warnings
+        locus = (block["file"], int(block["line"]), f"{block['region']}Up")
+        sieve_profile = profiles_by_locus.get(locus) or (profiles_by_target.get(target) if target else None)
+        site = _discovery_assert_gate_site(
+            block,
+            target,
+            candidate_targets,
+            sieve_profile,
+            integrity_by_locus.get(locus),
+            integrity_violations.get(locus, []),
+            symbol_kinds,
+            declaration_headers,
+            declaration_bodies,
+        )
+        asserted_sites.append(site)
+        status_counts[str(site["status"])] += 1
+        if site["status"] == "FAIL":
+            for gate in site["gates"]:
+                if gate.get("status") != "FAIL":
+                    continue
+                failure = dict(gate)
+                failure["message"] = (
+                    f"{gate['file']}:{gate['line']} {gate['region']} "
+                    f"positiveDiscovery assertion failed {gate['gate']}: {gate['reason']}"
+                )
+                failures.append(failure)
+
+    return {
+        "schema": "bedc.discovery_assert_gate",
+        "semantics": DISCOVERY_ASSERT_GATE_SEMANTICS,
+        "gate": "blocking_for_positiveDiscovery_assertions",
+        "rules": [
+            {"gate": gate, "description": description}
+            for gate, description in DISCOVERY_ASSERT_GATE_RULES
+        ],
+        "asserted_count": len(asserted_sites),
+        "conjectured_count": sum(
+            1 for item in informational_sites
+            if item["claim_kind"] == "conjecturedDiscovery"
+        ),
+        "refuted_count": sum(
+            1 for item in informational_sites
+            if item["claim_kind"] == "refutedDiscovery"
+        ),
+        "informational_count": len(informational_sites),
+        "status_counts": dict(sorted(status_counts.items())),
+        "failure_count": len(failures),
+        "failures": failures,
+        "asserted_sites": asserted_sites,
+        "informational_sites": informational_sites,
+    }
 
 
 CONSTRUCTOR_SEPARATION_TERMS = (
@@ -3960,7 +4427,7 @@ def _classifier_shift_target_names(
         if block.get("error"):
             continue
         open_fields = block.get("open_fields") or {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         gate = _normalize_lean_target(open_fields.get("closuregate"))
         lean_target = _normalize_lean_target(block.get("lean_target"))
         for target in (gate, lean_target):
@@ -5740,7 +6207,7 @@ def _discovery_sieve_sites(
         if block.get("error"):
             continue
         open_fields = block.get("open_fields") or {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         gate = _normalize_lean_target(open_fields.get("closuregate"))
         lean_target = _normalize_lean_target(block.get("lean_target"))
         ledger_target = _normalize_lean_target(open_fields.get("closureledger"))
@@ -5792,7 +6259,7 @@ def discovery_sieve_payload(
         block = blocks_for_target[0] if blocks_for_target else None
         open_fields = block.get("open_fields") if block else {}
         open_fields = open_fields if isinstance(open_fields, dict) else {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         region = f"{block['region']}Up" if block else (
             f"{ledger_by_name[target].chapter_region}Up" if target in ledger_by_name
             else target.rsplit(".", 1)[-1]
@@ -6524,7 +6991,7 @@ def _declared_discovery_integrity_sites(
         open_fields = block.get("open_fields") or {}
         if not isinstance(open_fields, dict):
             open_fields = {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         claim_declared = claim_kind in DISCOVERY_DECLARATION_CLAIM_KINDS
         ledger_target = ""
         ledger: DiscoveryDeltaLedgerRecord | None = None
@@ -7648,7 +8115,7 @@ def discovery_candidate_payload(
             continue
         open_fields = block.get("open_fields") or {}
         open_fields = open_fields if isinstance(open_fields, dict) else {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         if claim_kind in {"confirmed_composite", "mechanical_reconstruction"}:
             discarded += 1
             continue
@@ -7918,7 +8385,8 @@ def discovery_candidate_payload(
             "lineage_risk": "lineage_unknown",
             "allowed_outcomes": [
                 "positiveDiscovery",
-                "discovery",
+                "conjecturedDiscovery",
+                "refutedDiscovery",
                 "mechanical_reconstruction",
                 "reject_candidate",
             ],
@@ -7948,7 +8416,7 @@ def discovery_candidate_payload(
     falseish = int(grade_counts.get("confirmed_composite", 0)) + int(grade_counts.get("probable_composite", 0))
     mechanical_optout = sum(
         1 for block in blocks
-        if str((block.get("open_fields") or {}).get("closureclaimkind", "")).strip()
+        if _normalize_claim_kind((block.get("open_fields") or {}).get("closureclaimkind", ""))
         in {"mechanical_reconstruction", "confirmed_composite"}
     )
     inspected = declared_candidate + mechanical_optout
@@ -8037,7 +8505,7 @@ def mechanical_optout_audit_payload(
         open_fields = block.get("open_fields") or {}
         if not isinstance(open_fields, dict):
             continue
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         if claim_kind not in {"mechanical_reconstruction", "confirmed_composite"}:
             continue
         text = "\n".join(str(open_fields.get(field, "")) for field in CLOSURESTATUS_OPEN_FIELDS)
@@ -8213,7 +8681,7 @@ def discovery_audit_payload(blocks: list[dict]) -> dict[str, object]:
 
     for block in candidates:
         open_fields = block.get("open_fields") or {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         namecert = str(open_fields.get("closurenamecert", "")).strip()
         ledger = str(open_fields.get("closureledger", "")).strip()
         classifier_increment = str(open_fields.get("closureclassifierincrement", "")).strip()
@@ -8370,7 +8838,19 @@ def audit_payload() -> dict[str, object]:
         lean_scan.declaration_headers,
         lean_scan.declaration_bodies,
     )
+    discovery_sieve = discovery_sieve_payload(
+        closurestatus_blocks,
+        discovery_delta_ledgers,
+        lean_scan.declaration_headers,
+        lean_scan.declaration_bodies,
+    )
     discovery_integrity = discovery_integrity_payload(closurestatus_blocks, lean_scan)
+    discovery_assert_gate = discovery_assert_gate_payload(
+        closurestatus_blocks,
+        lean_scan,
+        discovery_integrity,
+        sieve_payload=discovery_sieve,
+    )
     closurestatus_diagnostics: list[str] = []
     closurestatus_open_warnings: list[dict[str, object]] = []
     closurestatus_open_errors: list[dict[str, object]] = []
@@ -8381,13 +8861,6 @@ def audit_payload() -> dict[str, object]:
         open_warnings, open_errors = diagnose_closurestatus_open_fields(block)
         closurestatus_open_warnings.extend(open_warnings)
         closurestatus_open_errors.extend(open_errors)
-    positive_discovery_warnings = positive_discovery_target_warnings(
-        closurestatus_blocks,
-        declarations,
-        lean_scan.declaration_headers,
-    )
-    closurestatus_open_warnings.extend(positive_discovery_warnings)
-
     orphan_concrete_subdirs = detect_orphan_concrete_subdirs()
 
     payload: dict[str, object] = {
@@ -8406,10 +8879,12 @@ def audit_payload() -> dict[str, object]:
         "mechanical_optout_audit": mechanical_optout_audit,
         "mechanical_optout_violation_count": mechanical_optout_audit["mechanical_optout_violation_count"],
         "classifier_shift_quality": classifier_shift_quality,
+        "discovery_sieve": discovery_sieve,
         "discovery_integrity": discovery_integrity,
         "discovery_integrity_violation_count": discovery_integrity["violation_count"],
-        "positive_discovery_target_warnings": positive_discovery_warnings,
-        "positive_discovery_target_warning_count": len(positive_discovery_warnings),
+        "discovery_assert_gate": discovery_assert_gate,
+        "discovery_assert_gate_failure_count": discovery_assert_gate["failure_count"],
+        "discovery_assert_gate_failures": discovery_assert_gate["failures"],
         "theorem_dna_coverage_count": theorem_dna_coverage["covered_count"],
         "theorem_dna_stale_count": theorem_dna_stale["stale_count"],
         "leanstmt_debt": leanstmt_debt,
@@ -8450,6 +8925,12 @@ def audit_payload() -> dict[str, object]:
     _attach_discovery_integrity_violation_split(
         payload,
         list(discovery_integrity["violations"]),
+        changed_files,
+    )
+    _attach_violation_split(
+        payload,
+        "discovery_assert_gate_failures",
+        list(discovery_assert_gate["failures"]),
         changed_files,
     )
     _attach_violation_split(payload, "orphan_concrete_subdirs", orphan_concrete_subdirs, changed_files)
@@ -8713,6 +9194,33 @@ def cmd_audit(args: argparse.Namespace) -> int:
                     f"  informational {item['file']}:{item['line']}"
                     f" {item['region']}: {item['reason']}{target}"
                 )
+        assert_gate = payload["discovery_assert_gate"]
+        print(
+            "[bedc-ci] discovery assertion gate:"
+            f" asserted={assert_gate['asserted_count']}"
+            f" pass={assert_gate['status_counts'].get('PASS', 0)}"
+            f" failures={assert_gate['failure_count']} (BLOCKING)"
+            f" conjectured={assert_gate['conjectured_count']}"
+            f" refuted={assert_gate['refuted_count']}"
+        )
+        print(f"  semantics: {assert_gate['semantics']}")
+        for site in assert_gate["asserted_sites"][:20]:
+            failed = ",".join(site.get("failed_gates", [])) or "none"
+            deferred = ",".join(site.get("deferred_gates", [])) or "none"
+            print(
+                f"  asserted {site['file']}:{site['line']} {site['region']}"
+                f" target={site.get('target') or '(unresolved)'}"
+                f" status={site['status']} failed={failed} deferred={deferred}"
+            )
+        for item in assert_gate["failures"][:40]:
+            print(f"  {item['message']}")
+        if assert_gate["informational_sites"]:
+            for item in assert_gate["informational_sites"][:20]:
+                print(
+                    f"  informational {item['claim_kind']} "
+                    f"{item['file']}:{item['line']} {item['region']}: "
+                    f"{item['reason']}"
+                )
         if payload["closurestatus_open_errors"]:
             print(
                 "[bedc-ci] closurestatus open-field errors: "
@@ -8781,6 +9289,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["closurestatus_diagnostics_new_count"]
         + payload["closurestatus_open_errors_new_count"]
         + payload["discovery_integrity_violations_new_count"]
+        + payload["discovery_assert_gate_failure_count"]
         + payload["orphan_concrete_subdirs_new_count"]
         + len(payload["leanstmt_debt"]["violations"])
     )
