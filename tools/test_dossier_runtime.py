@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 import yaml
+import tools.build_dossier_status as dossier_status
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -183,6 +184,28 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
         self.assertNotIn('"main","auto-dev"', text)
         self.assertNotIn('"feature/dossier","dev","main","auto-dev"', text)
 
+    def test_dossier_mathjax_macro_surface_is_site_wide(self) -> None:
+        quarto = load_workflow(REUSABLE)
+        site_text = "\n".join(str(step) for step in job_steps(quarto, "build_site"))
+        self.assertIn("python3 tools/build_dossier_status.py", site_text)
+
+        dossier_config = (ROOT / "docs" / "dossier" / "_quarto.yml").read_text(encoding="utf-8")
+        self.assertIn("include-before-body:", dossier_config)
+        self.assertIn("assets/dossier-mathjax.html", dossier_config)
+
+        header = ROOT / "docs" / "dossier" / "assets" / "dossier-mathjax.html"
+        header_text = header.read_text(encoding="utf-8")
+        self.assertIn("data/mathjax_macros.json", header_text)
+        self.assertIn("window.MathJax.tex.macros", header_text)
+        self.assertIn("RealityConstraint", header_text)
+
+        macros = dossier_status.extract_mathjax_macros()
+        self.assertEqual(macros["Hist"], r"\mathsf{Hist}")
+        self.assertEqual(macros["NatUp"], r"\mathsf{Nat}^{\uparrow}")
+        self.assertEqual(macros["CategoryUp"], r"\mathsf{Cat}^{\uparrow}")
+        self.assertEqual(macros["Classifier"], r"\mathsf{Classifier}")
+        self.assertEqual(macros["RealityConstraint"], r"\mathsf{RealityConstraint}")
+
     def test_deleted_runtime_references_do_not_return(self) -> None:
         text = workflow_text()
         forbidden = [
@@ -204,6 +227,11 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
         self.assertFalse((ROOT / ".github" / "workflows" / joined("dossier-render", "-runtime.yml")).exists())
         runtime_dir = ROOT / ".github" / "images" / joined("dossier", "-render")
         self.assertFalse(any(runtime_dir.rglob("*")) if runtime_dir.exists() else False)
+
+    def test_local_dossier_html_preview_outputs_are_ignored(self) -> None:
+        ignore_text = (ROOT / ".gitignore").read_text(encoding="utf-8")
+        self.assertIn("docs/dossier/*.html", ignore_text)
+        self.assertIn("docs/dossier/*_files/", ignore_text)
 
 
 if __name__ == "__main__":
