@@ -1,40 +1,73 @@
-\subsection{Finite proxy coupling for the $B^{*}_{Q6}$ translation-survival matrix}\label{sec:bioreality-b-star-q6-translation-survival-proxy}
+\subsection{B-star-Q6 residual coupling against translation-adjacent readouts}\label{subsec:b-star-q6-residual-coupling-translation-adjacent-readouts}
 \origin{ai}
 
-\paragraph{Record.}
-This record concerns the proposed survival matrix $S_{ij}=S_{q_i}(r_j\mid Z)$ for the nine synonymous residual coordinates of $B^{*}_{Q6}$ against translation-related readouts. The intended matrix has rows
-$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and the antisymmetric $f3$ stress coordinate. The readout side is meant to include tAI or stAI weights, ribosome occupancy or translation efficiency, and matched protein abundance when those measurements are actually attached. The control set is
-$$\begin{aligned}
-Z = (&\text{amino-acid composition},\ \text{organism context},\ GC3,\\
-     &\text{coding length},\ \text{and the }M\text{-density baseline}).
-\end{aligned}$$
-The finite computation currently available is not yet an $S_{ij}$ survival estimate. It is a proxy coupling computation over a 61-codon count space, using three organisms: Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K-12. The proxy readout is the tRNA-Leu $CUN$-versus-$UUR$ log-copy spectrum; direct tAI, stAI, ribosome-profiling, and protein-abundance rows are not present in this finite row.
+\paragraph{Object of record.}
+This record isolates the finite-row status of the proposed $B^*_{Q6}$ survival matrix before any promotion to a realized translation claim. The intended matrix has entries $S_{ij}=S_{q_i}(r_j\mid Z)$, where $q_i$ ranges over nine synonymous residual coordinates and $r_j$ ranges over translation-related readouts such as tAI, stAI, ribosome occupancy, translation efficiency, and protein abundance. The control family is
+$$
+\begin{aligned}
+Z=\{&\text{amino-acid composition},\ \text{organism context},\ \mathrm{GC3},\\
+&\text{coding-sequence length},\ \text{and the simpler }M\text{-density baseline}\}.
+\end{aligned}
+$$
+For a true survival entry, the readout must be directly attached and the residual improvement must be estimated after these controls. The present finite row does not yet contain such an $S_{ij}$ matrix. It records a proxy covariance coupling matrix $A_{ij}$ computed from codon-count data and a tRNA-Leu copy-number spectrum, together with the exact boundary that prevents this proxy from being read as translation survival.
 
-\paragraph{Finite computation.}
-For the observed proxy contact, the nine $B^{*}_{Q6}$ residual rows were all computed:
-$$\begin{aligned}
-R = (&Arg_{AGR},\ Ile_{AUA},\ K_{AAA},\ Leu_{CUN/UUR},\ Leu_{UUA/UUG},\\
-     &Ser_{UCA/UCG},\ Ser_{UCR/AGY},\ Thr_{ACR/ACY},\ f3\text{-stress}).
-\end{aligned}$$
-The reported coupling statistic is $A_{ij}=q_i^{T}\Sigma \ell_j^{\perp}$ after the synonymous projection that keeps the amino-acid quotient explicit. The break condition for the proxy run was that all nine rows satisfy $|A_{ij}|<0.01$. That break condition was not met: all $9$ entries were nonzero at the stated threshold, and the maximum absolute coupling was
-$$\begin{aligned}
-\max_{i,j}|A_{ij}| = 1882464.1106377328.
-\end{aligned}$$
-Thus the finite proxy contact shows that the $B^{*}_{Q6}$ residual basis is not numerically orthogonal to the tRNA-Leu $CUN/UUR$ log-copy spectrum in this three-organism table. This is a codon-usage and tRNA-copy coupling statement, not a survival statement.
+\paragraph{Finite carrier.}
+The computed residual basis contains the following nine coordinates:
+$$
+\begin{aligned}
+&\mathrm{Arg\_AGR},\ \mathrm{Ile\_AUA},\ \mathrm{K\_AAA},\ \mathrm{Leu\_CUN\_vs\_UUR},\\
+&\mathrm{Leu\_UUA\_vs\_UUG},\ \mathrm{Ser\_UCA\_vs\_UCG},\ \mathrm{Ser\_UCR\_vs\_AGY},\\
+&\mathrm{Thr\_ACR\_vs\_ACY},\ \mathrm{f3\_stress}.
+\end{aligned}
+$$
+The ambient codon-count space has $61$ coding codons. The cross-organism table contains exactly three organisms: \textit{Homo sapiens}, \textit{Saccharomyces cerevisiae}, and \textit{Escherichia coli} K-12. The run identifier for the coupling-matrix computation is $\mathrm{4a783972e74b}$, with verification time $2026$-$06$-$02$ $22{:}48{:}45+00{:}00$.
 
-\paragraph{Leucine gate row.}
-A related three-organism CUN/UUR Leu gate computation reports Pearson correlation $1.0$ and partial Pearson correlation $1.0$ with $n=3$ after the stated control route. The organism-level log-ratio signs were not uniform. The recorded log-ratios were
-$$\begin{aligned}
+\paragraph{Proxy coupling statistic.}
+For the finite proxy readout, the readout direction is the tRNA-Leu CUN-versus-UUR log-copy spectrum. This is a codon-usage and tRNA-copy contact, not a ribosome-occupancy, tAI, stAI, translation-efficiency, or protein-output measurement. The computed relation is of the form
+$$
+\begin{aligned}
+A_{ij}=q_i^{T}\Sigma\ell_j^{\perp},
+\end{aligned}
+$$
+where $\ell_j^{\perp}$ denotes the synonymous projection of the readout weight after the amino-acid quotient has been kept explicit. The registered break condition for the proxy was that the finite row would be null if all nine coordinates had $|A_{ij}|<0.01$ against the proxy readout. That break condition was not met: all $9$ entries were nonzero above the reporting threshold, and the largest absolute entry was
+$$
+\begin{aligned}
+\max_{i,j}|A_{ij}|=1882464.1106377328.
+\end{aligned}
+$$
+Thus the finite codon-count/tRNA-copy contact supports the narrower statement that the selected $B^*_{Q6}$ residual coordinates are not all orthogonal to this proxy Leu copy-number spectrum under the encoded synonymous projection. It does not compute $S_{ij}$, and it does not establish a positive partial $R^2$ for any direct translation readout.
+
+\paragraph{Leu CUN/UUR finite-row gate.}
+A linked three-organism check for the Leu CUN/UUR route used the same organism list and recorded run identifier $\mathrm{675fdddb3187}$. In that row, the Pearson correlation and the amino-acid-controlled partial Pearson statistic were both reported as $1.0$ with $n=3$:
+$$
+\begin{aligned}
+r&=1.0,\\
+\rho_{\mathrm{partial}}&=1.0,\\
+n&=3.
+\end{aligned}
+$$
+The organism-level log-ratio signs were not uniform. The observed log-ratio vector was
+$$
+\begin{aligned}
 (1.3514980212896148,\ -0.24869078488829677,\ 1.0086640520051702),
-\end{aligned}$$
-with signs $(1,-1,1)$. This makes the row useful as a finite contact for context dependence: it shows that the proxy association can be read in the table, while its direction is not a universal sign claim. The sample size is exactly three organisms, so the row is not a population estimate and is not a cross-organism law.
+\end{aligned}
+$$
+with sign vector
+$$
+\begin{aligned}
+(+1,\ -1,\ +1).
+\end{aligned}
+$$
+Consequently $\mathrm{sign\_uniform}=\mathrm{false}$. The value $r=1.0$ is therefore a finite three-row alignment, not a stable population estimate and not a universal directionality claim. The sign reversal is part of the observed finite table and must be retained in any later enlargement to at least eight organisms.
 
-\paragraph{Survival criterion.}
-The conjectural translation-survival claim would require at least one entry with
-$$\begin{aligned}
-S_{ij}=S_{q_i}(r_j\mid Z)>0
-\end{aligned}$$
-for a direct translation-layer or downstream abundance readout $r_j$, after controlling for amino-acid composition, organism context, $GC3$, length, and the $M$-density baseline. Equivalently, some $B^{*}_{Q6}$ residual row would have to improve the description of a real readout beyond the simpler model containing those controls. The current finite proxy row does not supply that estimate. It supplies $A_{ij}$ coupling against a tRNA-copy spectrum, and it records that the proxy threshold $0.01$ is exceeded. A positive $A_{ij}$ or a large $|A_{ij}|$ is not promoted to positive $S_{ij}$ unless the controlled partial-$R^2$ or description-length statistic is actually computed on the direct readout.
+\paragraph{Survival condition and current status.}
+The conjectural survival matrix would be supported only if at least one pair $(q_i,r_j)$ had
+$$
+\begin{aligned}
+S_{ij}>0
+\end{aligned}
+$$
+after amino-acid composition, organism context, $\mathrm{GC3}$, coding-sequence length, and the $M$-density baseline are all included, and after the simpler-codon baseline has been ablated. Equivalently, one would need a positive Z-controlled partial-$R^2$ or description-length improvement on a direct translation-related readout. The finite row currently lacks that statistic. Its positive information is the non-null proxy coupling $A_{ij}$ against the tRNA-Leu CUN-versus-UUR log-copy spectrum; its negative information is that this proxy cannot be upgraded into translation survival without organism-matched tAI, stAI, ribosome-profiling, translation-efficiency, proteomics, or equivalent readout rows.
 
-\paragraph{Local evidential boundary.}
-The finite row is therefore admissible as a bounded codon-usage and tRNA-copy contact for the $B^{*}_{Q6}$ residual coordinates. It is not, by itself, evidence for ribosome-mediated translation realization. It is also not evidence for protein folding, physical admissibility, biochemical function, pathway participation, mechanism, or universality. Matched ribosome-profiling or translation-efficiency rows would be needed for a translation-readout survival entry. Matched protein-abundance rows would be needed for downstream abundance mediation. Separate structural, physical, functional, or mechanistic contacts would be needed for any claim at those layers. The present record keeps the finite proxy signal, the missing controlled survival matrix, and the prohibited higher-layer readings separate.
+\paragraph{Local boundary.}
+No realized translation-layer survival follows from the proxy coupling alone. No folding statement, structural-order statement, physical-admissibility statement, biological-function statement, ribosome-mediated mechanism, protein-output statement, or universal biological law follows from these finite rows. tRNA gene-copy ratio is kept as a genome-annotation readout and is not identified with tRNA abundance, tRNA charging, ribosome occupancy, translation efficiency, or mature protein abundance. Matched mRNA abundance, when present, is only a covariate for translation-efficiency residualization. A future positive $S_{ij}$ entry must be computed from a direct readout under the full control family $Z$; it cannot be inferred from identifier routing, codon-window geometry, proxy covariance, or the three-organism Leu gate.
