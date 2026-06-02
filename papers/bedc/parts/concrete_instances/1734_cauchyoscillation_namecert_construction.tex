@@ -69,6 +69,7 @@ O=(W,M,Q,T,S,H,C,P,N)
 $$
 be an accepted $\CauchyOscillationUp$ carrier. Every oscillation comparison exposed by $T$ must first read the finite tail-window row $W$ before it reaches the modulus threshold row $M$, the dyadic tolerance row $Q$, or the downstream $\RealUp$ seal row $S$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCarrier\_tail\_window\_exposure}
 \begin{proof}
 Open the carrier of \autoref{def:cauchy-oscillation-carrier}. The comparison ledger $T$ is defined as the displayed tail-bound row comparing named observations, and those named observations live in the finite window $W$.
 
@@ -85,6 +86,7 @@ O=(W,M,Q,T,S,H,C,P,N),
 $$
 componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the dyadic tolerance row $Q$ together with the tail window $W$, the modulus threshold $M$, and the oscillation ledger $T$. A transported consumer therefore reads the same finite dependency packet $W,M,Q,T$ before any seal handoff.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationDyadicToleranceStability}
 \begin{proof}
 By \autoref{def:cauchy-oscillation-carrier}, the transport row $H$ and replay row $C$ are componentwise rows over $W,M,Q,T,S,H,C,P,N$. They do not contain a separate tolerance object or a separate tail ledger.
 
@@ -101,6 +103,7 @@ W,M,Q,T
 $$
 before it reads the $\RealUp$ seal row $S$. In particular, the threshold row $M$ is never read as a free modulus witness: it is paired with the displayed tail window $W$, dyadic tolerance $Q$, and oscillation ledger $T$ from the same packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCarrier\_modulus\_threshold\_exactness}
 \begin{proof}
 Start with the modulus-root package theorem \autoref{thm:cauchy-oscillation-modulus-root-package}. It packages the modulus-facing rows as the finite tail-window surface $W,M,Q,T$ and places the structural rows $H,C,P,N$ around the same packet.
 
@@ -119,6 +122,7 @@ O=(W,M,Q,T,S,H,C,P,N),
 $$
 the row $W$ is exposed as a $\StreamNameUp$ finite tail-window or as the finite tail-window read consumed by $\RegSeqRatUp$ before any oscillation comparison in $T$ is read. No consumer may inspect an oscillation comparison until the route through $W$, the threshold row $M$, and the dyadic tolerance row $Q$ has displayed the regular-rational tail surface used by the comparison.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCarrier\_regseqrat\_handoff}
 \begin{proof}
 Project the accepted carrier through \autoref{def:cauchy-oscillation-carrier}. The only stream-facing input is $W$, and the only comparison rows downstream of it are $M,Q,T$ before the seal handoff $S$.
 
@@ -133,6 +137,7 @@ Finally, \autoref{thm:cauchy-oscillation-namecert-obligations} keeps the carrier
 \label{thm:cauchy-oscillation-dyadic-tail-exactness}
 For every accepted $\CauchyOscillationUp$ carrier $O=(W,M,Q,T,S,H,C,P,N)$, each row of the oscillation ledger $T$ is exactly the $\DyadicTailBoundUp$ comparison over the same tail-window row $W$, modulus-threshold row $M$, and dyadic tolerance row $Q$. Componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$ preserve this dependence and do not create a second tolerance or tail-window source.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCarrier\_dyadic\_tail\_exactness}
 \begin{proof}
 Begin with the carrier projection of \autoref{def:cauchy-oscillation-carrier}. The row $T$ is listed only after $W,M,Q$, so its comparison data are not independent of the displayed tail-window, threshold, and tolerance rows.
 
@@ -147,6 +152,7 @@ The NameCert obligations of \autoref{thm:cauchy-oscillation-namecert-obligations
 \label{thm:cauchy-oscillation-real-seal-nonescape}
 For every accepted $\CauchyOscillationUp$ carrier $O=(W,M,Q,T,S,H,C,P,N)$, each $\RealUp$ seal read $S$ factors through $W,M,Q,T$ and exports no quotient stream equality, selected limit, countable choice, or ambient completeness principle. The public seal is therefore a routed oscillation-bound handoff, not a detached real-completion object.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCarrier\_real\_seal\_nonescape}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-oscillation-carrier}. The row $S$ appears only as the terminal seal after the tail-window row $W$, threshold row $M$, dyadic tolerance row $Q$, and oscillation ledger $T$.
 
@@ -192,6 +198,7 @@ O=(W,M,Q,T,S,H,C,P,N)
 $$
 be an accepted $\CauchyOscillationUp$ carrier consumed by a completion-facing $\RealUp$, $\RegSeqRatUp$, or tail-bound reader. Every such consumer must read the finite root package $W,M,Q,T$ before it can read the seal row $S$. The read cannot be replaced by a quotient stream, a selected limit, host real equality, or an ambient completeness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCarrier\_root\_window\_lock}
 \begin{proof}
 Start with the carrier definition, \autoref{def:cauchy-oscillation-carrier}. The rows $W,M,Q,T$ are the only finite source of the tail window, threshold schedule, dyadic tolerance, and oscillation ledger.
 
@@ -271,6 +278,7 @@ Apply dyadic tail exactness, \autoref{thm:cauchy-oscillation-dyadic-tail-exactne
 
 Finally use Real seal nonescape and seal-handoff factorization, \autoref{thm:cauchy-oscillation-real-seal-nonescape} and \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. They place $S$ downstream from the same finite prefix and exclude selected limits, host equality, countable choice, and ambient Real completeness from the accepted route.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationRootUnblockRoute}
 
 \begin{theorem}[CauchyOscillation L10 window admission]
 \label{thm:cauchy-oscillation-l10-window-admission}
@@ -289,6 +297,7 @@ Use dyadic tolerance stability, \autoref{thm:cauchy-oscillation-dyadic-tolerance
 
 Finally combine the RegSeqRat handoff and completion root route, \autoref{thm:cauchy-oscillation-regseqrat-handoff} and \autoref{thm:cauchy-oscillation-root-unblock-route}. They place the regular-rational handoff and the Real seal after the same displayed prefix, excluding detached completion and ambient equality reads.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationL10WindowAdmission}
 
 \begin{theorem}[CauchyOscillation RegSeqRat Real seal route]
 \label{thm:cauchy-oscillation-regseqrat-real-seal-route}
@@ -419,6 +428,7 @@ Use dyadic tolerance stability, \autoref{thm:cauchy-oscillation-dyadic-tolerance
 
 Finally apply the dyadic-tail Real-seal route, \autoref{thm:cauchy-oscillation-dyadic-tail-real-seal-route}. Since any Real-facing consumer reaches $S$ only after $W,M,Q,T$, there is no coordinate from which to import a ledger from another packet, an unstated dyadic tail-bound row, or ambient Real completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCarrier\_ledger\_transport}
 
 \begin{theorem}[CauchyOscillation tail-modulus comparison obligation]
 \label{thm:cauchy-oscillation-tail-modulus-comparison-obligation}
@@ -435,6 +445,7 @@ Apply modulus-threshold exactness and dyadic tolerance stability, \autoref{thm:c
 
 Finally use ledger transport, \autoref{thm:cauchy-oscillation-ledger-transport}. The transported comparison is still over the displayed $\StreamNameUp$ or $\RegSeqRatUp$ row, the same $\DyadicRatCoreUp$ tolerance, and the same downstream $\RealUp$ seal route. Thus a $\UniformCauchyCriterionUp$ read receives the finite comparison obligation rather than a detached modulus witness.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCarrier\_tail\_modulus\_comparison\_obligation}
 
 \begin{theorem}[CauchyOscillation tail-window carrier obligation]
 \label{thm:cauchyoscillation-tail-window-carrier-obligation}
@@ -635,11 +646,97 @@ Apply completion-source exhaustion, \autoref{thm:cauchy-oscillation-completion-s
 Finally use RegSeqRat uniform-threshold preservation, \autoref{thm:cauchy-oscillation-regseqrat-uniform-threshold}. It keeps transported consumers on the same finite threshold and tolerance route, so the completion frontier remains public readiness data rather than a quotient stream, selected limit, host equality, choice principle, or ambient completeness claim.
 \end{proof}
 
+\begin{theorem}[CauchyOscillation audit-clean obligation package]
+\label{thm:cauchy-oscillation-auditclean-obligation-package}
+Every accepted $\CauchyOscillationUp$ carrier supplies an audit-clean L10 root-unblock package
+$$
+W,M,Q,T,S,H,C,P,N
+$$
+whose rows expose the tail window, modulus threshold, dyadic tolerance, oscillation ledger, Real seal, componentwise transport, displayed replay, provenance, and local NameCert obligations. The package is consumed by $\UniformCauchyCriterionUp$, $\UniformLimitUp$, $\RegSeqRatUp$, and $\RealUp$ readers only through those displayed rows and exports no quotient stream, selected limit, host equality, countable choice, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-oscillation-namecert-obligations}. They project the accepted carrier into the visible rows $W,M,Q,T,S,H,C,P,N$ and identify carrier admission, exactness, transport, replay, provenance, and local naming as the whole certificate surface.
+
+Use tail-window exposure and dyadic tolerance stability, \autoref{thm:cauchy-oscillation-tail-window-exposure} and \autoref{thm:cauchy-oscillation-dyadic-tolerance-stability}. These force the comparison ledger to read the same finite tail window and dyadic tolerance under transport and replay.
+
+Apply the RegSeqRat handoff and Real seal nonescape, \autoref{thm:cauchy-oscillation-regseqrat-handoff} and \autoref{thm:cauchy-oscillation-real-seal-nonescape}. The regular-rational route and the terminal seal remain downstream of the displayed finite prefix.
+
+Finally use completion-frontier public readiness, \autoref{thm:cauchy-oscillation-completion-frontier-public-readiness}. It identifies the same rows as the public L10 completion frontier and excludes the refused host objects, so the displayed packet is the requested audit-clean obligation package.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation tail-window audit package]
+\label{thm:cauchy-oscillation-tail-window-audit-package}
+The tail-window audit package of an accepted $\CauchyOscillationUp$ carrier is exactly the finite subpacket
+$$
+W,M,Q,T,H,C,P,N.
+$$
+It records the $\StreamNameUp$ or $\RegSeqRatUp$ tail-window row, the $\CauchyModulusUp$ threshold row, the $\DyadicRatCoreUp$ tolerance ledger, the $\DyadicTailBoundUp$ oscillation comparison ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local NameCert rows before any $\RealUp$ seal handoff is read.
+\end{theorem}
+\begin{proof}
+Project the uniform-limit source subpacket of \autoref{def:cauchy-oscillation-uniform-limit-source}. By definition it contains $W,M,Q,T,H,C,P,N$ and leaves the seal row $S$ downstream.
+
+Apply tail-window exposure, RegSeqRat handoff, and dyadic-tail exactness, \autoref{thm:cauchy-oscillation-tail-window-exposure}, \autoref{thm:cauchy-oscillation-regseqrat-handoff}, and \autoref{thm:cauchy-oscillation-dyadic-tail-exactness}. These identify $W$ as the finite window route, $M$ as the threshold row, $Q$ as the tolerance row, and $T$ as the exact dyadic tail comparison ledger over those rows.
+
+Use ledger transport and RegSeqRat uniform-threshold preservation, \autoref{thm:cauchy-oscillation-ledger-transport} and \autoref{thm:cauchy-oscillation-regseqrat-uniform-threshold}. The structural rows $H,C,P,N$ preserve and name that same finite packet for uniform-limit and uniform-Cauchy consumers.
+
+The seal-handoff factorization theorem \autoref{thm:cauchy-oscillation-seal-handoff-factorization} keeps $S$ after this subpacket. Therefore the audit package is exactly $W,M,Q,T,H,C,P,N$ before any Real seal is public.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation Real completion audit handoff]
+\label{thm:cauchy-oscillation-real-completion-audit-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\CauchyOscillationUp$ carrier reaches the seal row $S$ only after consuming the audit package $W,M,Q,T,H,C,P,N$. The handoff factors through the displayed $\StreamNameUp$ or $\RegSeqRatUp$ window, $\DyadicRatCoreUp$ tolerance ledger, $\DyadicTailBoundUp$ oscillation ledger, transport, replay, provenance, and local NameCert rows, and it never exports quotient stream equality, selected limits, host real equality, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the tail-window audit package of \autoref{thm:cauchy-oscillation-tail-window-audit-package}. It fixes the finite source packet $W,M,Q,T,H,C,P,N$ before any Real-facing read is allowed.
+
+Use uniform-limit tail handoff and completion-source exhaustion, \autoref{thm:cauchy-oscillation-uniform-limit-tail-handoff} and \autoref{thm:cauchy-oscillation-completion-source-exhaustion}. These place $\UniformLimitUp$, $\UniformCauchyCriterionUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ consumers on the same finite source route.
+
+Apply Real seal nonescape and seal-handoff factorization, \autoref{thm:cauchy-oscillation-real-seal-nonescape} and \autoref{thm:cauchy-oscillation-seal-handoff-factorization}. They make $S$ a routed seal after $W,M,Q,T$ rather than an independent Real-completion object.
+
+Finally invoke completion-frontier public readiness, \autoref{thm:cauchy-oscillation-completion-frontier-public-readiness}. The public completion surface is exactly the displayed audit route plus the downstream seal, so no excluded host or quotient object is exported.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation common tail-window classifier]
+\label{thm:cauchy-oscillation-common-tail-window-classifier}
+Let $O=(W,M,Q,T,S,H,C,P,N)$ and $O'=(W',M',Q',T',S',H',C',P',N')$ be accepted $\CauchyOscillationUp$ carriers. A classifier comparison between them is common-tail only when it identifies the finite tail window $W$ with $W'$, the modulus schedule $M$ with $M'$, the dyadic tolerance row $Q$ with $Q'$, the oscillation ledger $T$ with $T'$, and the $\RealUp$ seal handoff $S$ with $S'$ through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No comparison may replace the common window by a quotient stream, selected limit, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the two carriers. Their classifier-visible rows are exactly the tail window, modulus, tolerance, ledger, seal, transport, replay, provenance, and local naming coordinates.
+
+The common-tail condition is therefore componentwise. The $\hsame$ rows compare $W,M,Q,T,S$ with their primed partners, while the $\Cont$ rows replay only those displayed comparisons.
+
+Finally $P,N$ and $P',N'$ source and name the same finite shape. Because neither carrier contains a quotient stream, selected limit, or ambient completeness row, the classifier cannot escape the common displayed tail window.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation ledger nonescape]
+\label{thm:cauchy-oscillation-ledger-nonescape}
+For every accepted $\CauchyOscillationUp$ carrier $O=(W,M,Q,T,S,H,C,P,N)$, an oscillation ledger read from $T$ can cite only the same finite tail window $W$, modulus schedule $M$, dyadic tolerance row $Q$, $\RealUp$ seal handoff $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\CauchyOscillationUp}$ row $N$. It cannot export a detached modulus, a second dyadic tolerance, quotient stream equality, selected limit, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read $T$ from the carrier. By definition it is the displayed oscillation ledger over the tail observations in $W$ beyond the threshold supplied by $M$ under the dyadic budget $Q$.
+
+Use tail-window audit package and Real completion audit handoff. These theorems keep $T$ inside the same $W,M,Q,H,C,P,N$ route before the seal row $S$ is available.
+
+The remaining exclusions follow from the absence of carrier coordinates. Since $O$ has no detached modulus, second tolerance, quotient-stream, selected-limit, host-equality, or completeness row, no ledger read can export one.
+\end{proof}
+
+\begin{theorem}[CauchyOscillation NameCert obligation scope]
+\label{thm:cauchy-oscillation-namecert-obligation-scope}
+The $\NameCert_{\CauchyOscillationUp}$ obligation scope for an accepted carrier $O=(W,M,Q,T,S,H,C,P,N)$ is exactly the finite package consisting of the tail window $W$, modulus schedule $M$, dyadic tolerance $Q$, oscillation ledger $T$, $\RealUp$ seal $S$, $\BHist$ carrier rows, $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and local naming. The scope includes common tail-window classification and ledger non-escape, and it excludes quotient streams, selected limits, host real equality, countable choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-oscillation-namecert-obligations}. They list carrier habitation, common classifier, oscillation-bound exactness, transport-replay stability, and ledger non-escape over $W,M,Q,T,S,H,C,P,N$.
+
+Apply common tail-window classifier and ledger nonescape above. The first fixes classifier comparisons to the same finite tail-window package, and the second prevents ledger reads from exporting detached completion data.
+
+Thus the obligation scope is the displayed finite package itself. The refused quotient, selected-limit, host-equality, choice, and completeness objects are not rows of the carrier and are not introduced by transport, replay, provenance, or naming.
+\end{proof}
+
 \closureat{CauchyOscillationUp}{seedStr}
 
 \begin{closurestatus}{\CauchyOscillationUp}
   \constructivestory{A $\CauchyOscillationUp$ packet is generated from a finite $\RegSeqRatUp$ or $\StreamNameUp$ tail window, a $\CauchyModulusUp$ threshold schedule, a $\DyadicRatCoreUp$ tolerance row, a $\DyadicTailBoundUp$ oscillation ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{The seed scope records the finite carrier, common tail-window classifier, oscillation-bound exactness, transport stability, tail-window exposure, dyadic tolerance stability, modulus-threshold exactness, seal-handoff factorization, modulus-root packaging, dyadic-tail Real-seal routing, and ledger non-escape for constructive Cauchy oscillation packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

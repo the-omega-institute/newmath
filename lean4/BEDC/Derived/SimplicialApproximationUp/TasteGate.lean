@@ -169,6 +169,11 @@ instance simplicialApproximationNontrivial : Nontrivial SimplicialApproximationU
         intro h
         cases h⟩
 
+def SimplicialApproximationTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate SimplicialApproximationUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  simplicialApproximationChapterTasteGate
+
 def taste_gate : ChapterTasteGate SimplicialApproximationUp :=
   -- BEDC touchpoint anchor: BHist BMark
   simplicialApproximationChapterTasteGate

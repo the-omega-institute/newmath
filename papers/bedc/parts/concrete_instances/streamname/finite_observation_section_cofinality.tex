@@ -14,3 +14,19 @@ Now pass to the RegSeqRat and Real handoff files already carried by the StreamNa
 
 Thus the finite section windows are cofinal for the L10 handoff route. Since each step is expressed through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, no quotient stream equality, selected limit, host real equality, or ambient completeness principle is introduced.
 \end{proof}
+
+\begin{theorem}[StreamName finite observation section public cofinality]
+\label{thm:streamname-finite-observation-section-public-cofinality}
+Every public $\RegSeqRatUp$ or $\RealUp$ handoff read through $\StreamNameUp$ factors through the finite observation section package of \autoref{thm:streamname-finite-observation-section-cofinality}. Any later refinement remains a finite section refinement over the same certified StreamName source, with the same index ledger, finite $\BHist$ window, pointwise classifier row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
+
+The public handoff surface therefore exports finite sections only. It contains no quotient stream equality, selected limit, countable-choice row, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with finite observation section cofinality, \autoref{thm:streamname-finite-observation-section-cofinality}. It already states that finite observation requests cofinally cover the RegSeqRat and Real handoff reads over the displayed StreamName source.
+
+Apply pointwise classifier stability, \autoref{thm:streamname-pointwise-classifier-stability}. The classifier row, finite $\BHist$ window, transport row, replay row, provenance row, and local naming row remain attached to the same source when the handoff is refined.
+
+The RegSeqRat and Real handoff inputs consume exactly those finite section rows before reading regular rational or real-seal data. Hence a public handoff cannot bypass the finite observation package; it may only request a larger finite section over the same source.
+
+Since the route never introduces quotient streams, selected limits, countable choice, host real equality, or ambient completeness, the public cofinality interface is the same finite-section interface already witnessed locally.
+\end{proof}

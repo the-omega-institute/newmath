@@ -16,6 +16,29 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def EquicontinuityCarrier [AskSetup] [PackageSetup]
+    (K F eps rho M T R P N radiusRead handoffRead : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory K ∧ UnaryHistory F ∧ UnaryHistory rho ∧
+    Cont K F radiusRead ∧ Cont radiusRead rho handoffRead ∧
+      PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem EquicontinuityCarrier_shared_radius_stability [AskSetup] [PackageSetup]
+    {K F eps rho M T R P N radiusRead handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityCarrier K F eps rho M T R P N radiusRead handoffRead bundle pkg ->
+      UnaryHistory radiusRead ∧ UnaryHistory handoffRead ∧
+        Cont K F radiusRead ∧ Cont radiusRead rho handoffRead ∧
+          PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier
+  obtain ⟨unaryK, unaryF, unaryRho, compactFamily, radiusHandoff, pkgP, pkgN⟩ := carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed unaryK unaryF compactFamily
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed radiusUnary unaryRho radiusHandoff
+  exact ⟨radiusUnary, handoffUnary, compactFamily, radiusHandoff, pkgP, pkgN⟩
+
 theorem EquicontinuityCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {K F eps rho M T R P N radiusRead handoffRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

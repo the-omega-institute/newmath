@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyNetUp$}
+\label{ch:concrete-instances-regular-cauchy-net-namecert}
+\origin{human}
+
+Following Kelley, Bourbaki, and Moore--Smith on directed nets, the $\RegularCauchyNetUp$ packet records the directed-tail form of a regular Cauchy real-seal route as finite NameCert data. It refines the generic Cauchy-net carrier of \autoref{ch:concrete-instances-cauchynet-namecert}, the net/filter comparison of \autoref{ch:concrete-instances-cauchy-net-filter-correspondence-namecert}, and the separated completion surface of \autoref{ch:concrete-instances-separated-cauchy-net-completion-namecert}. It also keeps the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert} visible before any completion consumer reads the route.
+
+\begin{definition}[Regular Cauchy net carrier]
+\label{def:regular-cauchy-net-carrier}
+A $\RegularCauchyNetUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,T,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the directed-index row, recording the finite directed preorder requests, comparison witnesses, and cofinal refinements used by the net route.
+\item $T$ is the tail-filter row, recording the finite tail neighborhoods and tail-containment reads induced by the directed indices.
+\item $W$ is the $\StreamNameUp$ window row, recording the finite observation windows inspected after a tail request has been fixed.
+\item $R$ is the $\RegSeqRatUp$ readback row, repacking the accepted window observations as regular rational Cauchy data.
+\item $E$ is the $\RealUp$ seal handoff row, visible only after $D,T,W,R$ have displayed the directed tail, filter read, window, and regular readback.
+\item $H$ stores componentwise $\hsame$ transport for directed indices, tail filters, StreamName windows, RegSeqRat readback, Real sealing, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from a Real-facing precision request through the directed tail, tail-filter row, finite window, regular readback, and terminal seal.
+\item $P$ records $\Pkg$ provenance over $\RegularCauchyNetUp$, $\CauchyNetUp$, $\CauchyNetFilterCorrespondenceUp$, $\SeparatedCauchyNetCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ data.
+\item $N$ is the local $\NameCert_{\RegularCauchyNetUp}$ row.
+\end{enumerate}
+Accepted carriers are compared only through $D,T,W,R,E,H,C,P,N$. There is no coordinate for a quotient of nets, a selected subnet, a selected limit, countable choice, ambient separated completion, or host equality of real names.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy net NameCert obligations]
+\label{thm:regular-cauchy-net-namecert-obligations}
+For every accepted $\RegularCauchyNetUp$ carrier $G=(D,T,W,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyNetUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the directed index row $D$, tail-filter row $T$, finite window row $W$, regular rational readback $R$, Real seal $E$, transport $H$, replay $C$, provenance $P$, and local naming $N$;
+\item directed-tail exactness, requiring every tail refinement read to use the same finite directed-index witnesses in $D$ and the same tail-filter row $T$;
+\item regular readback, requiring each $\RegSeqRatUp$ observation in $R$ to be downstream of the displayed $\StreamNameUp$ windows $W$ and the dyadic tolerance comparisons carried by the route;
+\item Real-seal nonescape, requiring the $\RealUp$ handoff $E$ to expose only the displayed directed-tail, window, readback, transport, replay, provenance, and naming rows;
+\item completion-consumer provenance, requiring every downstream completion read to cite the same packet $G$ rather than a quotient net, selected subnet, selected limit, countable-choice schedule, or host completion theorem.
+\end{enumerate}
+No other NameCert obligation is available from the regular Cauchy net packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:regular-cauchy-net-carrier}. The tuple lists the directed index, tail filter, finite window, regular rational readback, Real seal, transport, replay, provenance, and naming rows.
+
+Directed-tail exactness is carried by $D$ and $T$. A consumer first fixes the finite directed comparison witnesses, then reads the induced tail-filter row before asking for window or Real-facing data.
+
+Regular readback is downstream of $W$ and the tolerance data cited in the route. The row $R$ repacks only those displayed observations as $\RegSeqRatUp$ data, while $E$ seals the resulting Real-facing row without adding a completion principle.
+
+Finally $H,C,P,N$ transport, replay, cite, and name the same packet. Since no carrier coordinate stores quotient nets, selected subnets, selected limits, countable choice, or ambient separated completion, none of those objects can be exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy net tail stability]
+\label{thm:regular-cauchy-net-tail-stability}
+Let $G=(D,T,W,R,E,H,C,P,N)$ be an accepted $\RegularCauchyNetUp$ carrier. If a directed-tail refinement replaces the active tail request by a cofinal tail still recorded in $D$ and $T$, then every public completion read of the refined packet factors through the same $\StreamNameUp$ windows, the same $\RegSeqRatUp$ readback route, and the same terminal $\RealUp$ seal handoff. Thus directed-tail refinement preserves the regular rational readback and Real-facing seal route of $G$.
+\end{theorem}
+\begin{proof}
+Start with the refined tail request. By directed-tail exactness in \autoref{thm:regular-cauchy-net-namecert-obligations}, the refinement is still read through $D$ and $T$, so it has not left the accepted directed-index and tail-filter rows.
+
+The window row $W$ is downstream of those rows. The refined request therefore uses the same displayed finite StreamName windows, and the regular readback row $R$ can only repack observations from that window surface.
+
+The Real seal $E$ is terminal for the displayed route through $D,T,W,R$. Componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve that same packet. Hence the refinement keeps both the $\RegSeqRatUp$ readback and the $\RealUp$ seal handoff on the original finite route.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyNetUp$ Real-facing read factors through directed index rows, tail-filter rows, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{cauchynet, cauchy-net-filter-correspondence, separated-cauchy-net-completion, streamname, regseqrat, dyadicratcore, real: $\RegularCauchyNetUp$ binds directed-tail refinements, induced tail filters, finite observation windows, regular rational readback, terminal Real sealing, transport, replay, provenance, and local naming in one packet; each named sibling lacks at least one of these rows as a local directed-tail coordinate.}
+
+\closureat{RegularCauchyNetUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyNetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-net-carrier}, \autoref{thm:regular-cauchy-net-namecert-obligations}, and \autoref{thm:regular-cauchy-net-tail-stability} seed the finite directed-tail route from CauchyNet data through regular rational readback and the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient nets, selected subnets, selected limits, countable choice, ambient separated completion, host equality of real names, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed-tail exactness, regular readback, Real-seal nonescape, completion-consumer provenance, and tail-stability for BEDC.Derived.RegularCauchyNetUp.}
+  \constructivestory{A $\RegularCauchyNetUp$ packet is generated from directed index rows, tail-filter rows, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

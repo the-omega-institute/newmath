@@ -224,18 +224,25 @@ theorem ClosedLamDomainSubjectReductionTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       closedLamDomainSubjectReductionDecodeBHist
         (closedLamDomainSubjectReductionEncodeBHist h) = h) ∧
-      closedLamDomainSubjectReductionFields
-          (ClosedLamDomainSubjectReductionUp.mk BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty) =
-        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-          BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
-        Nonempty
-          (@FieldFaithful ClosedLamDomainSubjectReductionUp
-            closedLamDomainSubjectReductionBHistCarrier) := by
+      Nonempty (BHistCarrier ClosedLamDomainSubjectReductionUp) ∧
+        Nonempty (ChapterTasteGate ClosedLamDomainSubjectReductionUp) ∧
+          closedLamDomainSubjectReductionEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            closedLamDomainSubjectReductionFields
+                (ClosedLamDomainSubjectReductionUp.mk BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty) =
+              [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+                BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] ∧
+              Nonempty
+                (@FieldFaithful ClosedLamDomainSubjectReductionUp
+                  closedLamDomainSubjectReductionBHistCarrier) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨closedLamDomainSubjectReductionDecode_encode_bhist, rfl,
+    ⟨closedLamDomainSubjectReductionDecode_encode_bhist,
+      ⟨closedLamDomainSubjectReductionBHistCarrier⟩,
+      ⟨closedLamDomainSubjectReductionChapterTasteGate⟩,
+      rfl,
+      rfl,
       ⟨{
         fields := closedLamDomainSubjectReductionFields
         field_faithful := closedLamDomainSubjectReduction_fields_faithful

@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\CompactCauchyEquicontinuityUp$}
+\label{ch:concrete-instances-compact-cauchy-equicontinuity-namecert}
+\origin{human}
+
+Following Heine--Cantor and Arzela--Ascoli constructive analysis, the $\CompactCauchyEquicontinuityUp$ packet records the finite Cauchy/equicontinuity route behind \autoref{ch:visions-compact-uniform-continuity}. It reads compact finite-net data from \autoref{ch:concrete-instances-compactmetric-namecert}, displayed map rows from \autoref{ch:concrete-instances-continuousmap-namecert}, regular tolerance readback from \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic tolerance cells from \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal from \autoref{ch:concrete-instances-real-namecert}. The packet names the finite route used when a compact family has Cauchy-equicontinuity data before any $\RealUp$ consumer reads a completed value.
+
+\begin{definition}[Compact Cauchy equicontinuity carrier]
+\label{def:compact-cauchy-equicontinuity-carrier}
+A $\CompactCauchyEquicontinuityUp$ carrier is a finite $\BHist$ packet
+$$
+E=(K,F,M,W,D,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, including the finite-net centers, cover radii, and source metric observations used by the packet.
+\item $F$ is the finite $\ContinuousMapUp$ family row, with each inspected member routed through a displayed graph and pointwise-modulus packet.
+\item $M$ is the pointwise family-modulus ledger, assigning only displayed center/tolerance requests to local source-radius rows.
+\item $W$ is the finite window row for the compact-net centers and inspected family members.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, carrying positive dyadic requests, slack comparisons, and radius refinements.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns the displayed Cauchy/equicontinuity window into regular rational tolerance data.
+\item $S$ is the terminal $\RealUp$ seal row, available only after $K,F,M,W,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for compact source, family, pointwise modulus, windows, dyadic tolerance, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for every compact-uniform-continuity consumer route through $K,F,M,W,D,R,S,H$.
+\item $P$ is the $\Pkg$ provenance over $\CompactCauchyEquicontinuityUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactCauchyEquicontinuityUp}$ row.
+\end{enumerate}
+The classifier compares packets only through $K,F,M,W,D,R,S,H,C,P,N$. It has no coordinate for open-cover compactness, selected subcovers, selected limiting functions, quotient stream equality, countable choice, host equicontinuity, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.CompactCauchyEquicontinuityUp.CompactCauchyEquicontinuityUp}
+
+\begin{theorem}[Compact Cauchy equicontinuity finite route]
+\label{thm:compact-cauchy-equicontinuity-finite-route}
+For every accepted $\CompactCauchyEquicontinuityUp$ carrier $E=(K,F,M,W,D,R,S,H,C,P,N)$, any compact-uniform-continuity consumer that requests a later Cauchy tolerance must first read the finite route
+$$
+\CompactMetricUp,\quad \ContinuousMapUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+through the displayed rows $K,F,M,W,D,R,S$. The consumer receives a finite-net, pointwise-modulus, regular-tolerance, and real-seal handoff, and it receives no open-cover compactness, selected family limit, quotient stream equality, countable choice, host equicontinuity theorem, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The compact source row $K$ supplies only finite-net centers, cover radii, and source metric observations, while the family row $F$ supplies only the displayed $\ContinuousMapUp$ members available to the packet.
+
+The equicontinuity request is then forced through $M,W,D$. The row $M$ records the local pointwise-radius ledger, $W$ restricts the request to displayed finite windows, and $D$ carries the dyadic tolerance and slack comparisons that refine the requested budget.
+
+The Cauchy and Real-facing handoff is downstream. The row $R$ repacks the displayed window and dyadic tolerance as a $\RegSeqRatUp$ readback, and $S$ may be consumed only after that readback is present.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same route. Since no row stores open-cover compactness, a selected family limit, quotient stream equality, countable choice, host equicontinuity, or ambient real completeness, the finite route cannot export any of those objects.
+\end{proof}
+
+\closureat{CompactCauchyEquicontinuityUp}{seedStr}
+
+\begin{closurestatus}{\CompactCauchyEquicontinuityUp}
+  \constructivestory{A $\CompactCauchyEquicontinuityUp$ packet is generated from a CompactMetricUp source row, finite ContinuousMapUp family rows, pointwise family-modulus rows, finite windows, DyadicRatCoreUp tolerance rows, RegSeqRatUp readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-cauchy-equicontinuity-carrier} and \autoref{thm:compact-cauchy-equicontinuity-finite-route} seed the compact Cauchy/equicontinuity route for compact-uniform-continuity consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.CompactCauchyEquicontinuityUp.CompactCauchyEquicontinuityUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected subcovers, selected limiting functions, quotient stream equality, countable choice, host equicontinuity, ambient RealUp completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-net route discipline, pointwise family-modulus routing, dyadic tolerance refinement, RegSeqRat readback, RealUp seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.CompactCauchyEquicontinuityUp.}
+\end{closurestatus}

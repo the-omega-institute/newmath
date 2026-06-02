@@ -184,4 +184,89 @@ theorem CauchyFilterCompletionRootUnblockCarrier_semantic_name_certificate
                                               provenancePkg, namePkg⟩
   }
 
+theorem CauchyFilterCompletionRootObligationSurface [AskSetup] [PackageSetup]
+    {filter windows tolerance readback sealRow transport replay provenance name rootRead
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterCompletionPacket filter windows tolerance readback sealRow transport replay
+        provenance name bundle pkg →
+      Cont filter windows rootRead →
+        Cont rootRead readback sealRead →
+          PkgSig bundle sealRead pkg →
+            SemanticNameCert
+                (fun row : BHist =>
+                  (hsame row rootRead ∨ hsame row sealRead) ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row filter ∨ hsame row windows ∨ hsame row tolerance ∨
+                    hsame row readback ∨ hsame row sealRow ∨ hsame row transport ∨
+                      hsame row replay ∨ hsame row provenance ∨ hsame row name ∨
+                        hsame row rootRead ∨ hsame row sealRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont filter windows rootRead ∧
+                    Cont rootRead readback sealRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle sealRead pkg)
+                hsame ∧
+              UnaryHistory rootRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame SemanticNameCert
+  intro packet rootRoute sealRoute sealPkg
+  obtain ⟨filterUnary, windowsUnary, _toleranceUnary, readbackUnary, _sealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _nameUnary, _filterWindows,
+    _toleranceReadback, _transportReplay, provenancePkg, _namePkg⟩ := packet
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed filterUnary windowsUnary rootRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed rootUnary readbackUnary sealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row rootRead ∨ hsame row sealRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row filter ∨ hsame row windows ∨ hsame row tolerance ∨
+              hsame row readback ∨ hsame row sealRow ∨ hsame row transport ∨
+                hsame row replay ∨ hsame row provenance ∨ hsame row name ∨
+                  hsame row rootRead ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont filter windows rootRead ∧
+              Cont rootRead readback sealRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle sealRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro rootRead ⟨Or.inl (hsame_refl rootRead), rootUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        constructor
+        · cases source.left with
+          | inl sameRoot =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameRoot)
+          | inr sameSeal =>
+              exact Or.inr (hsame_trans (hsame_symm sameRows) sameSeal)
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameRoot =>
+          exact
+            Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+              Or.inr <| Or.inr <| Or.inr <| Or.inl sameRoot
+      | inr sameSeal =>
+          exact
+            Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+              Or.inr <| Or.inr <| Or.inr <| Or.inr sameSeal
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, rootRoute, sealRoute, provenancePkg, sealPkg⟩
+  }
+  exact ⟨cert, rootUnary, sealUnary⟩
+
 end BEDC.Derived.CauchyfiltercompletionUp

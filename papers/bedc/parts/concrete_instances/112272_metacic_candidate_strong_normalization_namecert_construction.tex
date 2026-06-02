@@ -57,6 +57,24 @@ Now read the negative route. The refusal row $R$ remains visible alongside the e
 Transport and replay do not alter the route. The rows $H,C,P,N,G$ preserve the same ordered packet, so a consumer cannot turn the endpoint into an evidence-free theorem or a fuel-free normal-form claim.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate strong-normalization fuel-refusal determinacy]
+\label{thm:metacic-candidate-strong-normalization-fuel-refusal-determinacy}
+For every accepted $\MetaCICCandidateStrongNormalizationUp$ carrier
+$$
+S=(T,K,F,E,R,A,H,C,P,N,G),
+$$
+if two strong-normalization reads expose the same closed typed term row $T$, candidate row $K$, fuel row $F$, endpoint row $E$, and refusal row $R$, then their exported finite endpoint surface is the same displayed packet route through $A,H,C,P,N,G$. No such read can split into an evidence-free endpoint, omit the refusal boundary, or export a different endpoint surface while keeping $T,K,F,E,R$ fixed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:metacic-candidate-strong-normalization-carrier}. The rows $T,K,F,E,R$ are the only displayed term, candidate, fuel, endpoint, and refusal coordinates available to a strong-normalization read.
+
+Compare the two reads on those five rows. Since the closed typed term, candidate evidence, fuel ledger, endpoint row, and refusal row are the same, both reads consume the same finite positive route and the same refusal boundary before any endpoint surface is public.
+
+It remains to inspect the structural rows. The audit row $A$ names the same sibling frontier, decidability, substitution, recursor, and normalization-audit sources; $H$ transports the same components; $C$ replays the same displayed route; $P$ records the same provenance; $N$ binds the same local name; and $G$ enforces the same TasteGate field order.
+
+Therefore the exported endpoint surface is componentwise identical through $A,H,C,P,N,G$. An evidence-free endpoint or a missing-refusal endpoint would require a coordinate outside $S$, and no such coordinate exists in the carrier.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate strong-normalization TasteGate boundary]
 \label{thm:metacic-candidate-strong-normalization-tastegate-boundary}
 Lean support for $\MetaCICCandidateStrongNormalizationUp$ must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{TasteGate.lean}. Nontriviality distinguishes a carrier with candidate, fuel, endpoint, and refusal rows from a closed-term endpoint without those rows; field faithfulness preserves the field order
@@ -79,7 +97,7 @@ Field faithfulness is the route-preservation condition. If a projection erases o
 
 \begin{closurestatus}{\MetaCICCandidateStrongNormalizationUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-candidate-strong-normalization-carrier}, \autoref{thm:metacic-candidate-strong-normalization-namecert-obligations}, \autoref{thm:metacic-candidate-strong-normalization-endpoint-refusal}, and \autoref{thm:metacic-candidate-strong-normalization-tastegate-boundary} seed the candidate-mediated finite strong-normalization boundary over term, candidate, fuel, endpoint, refusal, audit, transport, replay, provenance, TasteGate, and local naming rows.}
+  \scopeclosed{\autoref{def:metacic-candidate-strong-normalization-carrier}, \autoref{thm:metacic-candidate-strong-normalization-namecert-obligations}, \autoref{thm:metacic-candidate-strong-normalization-endpoint-refusal}, \autoref{thm:metacic-candidate-strong-normalization-fuel-refusal-determinacy}, and \autoref{thm:metacic-candidate-strong-normalization-tastegate-boundary} seed the candidate-mediated finite strong-normalization boundary over term, candidate, fuel, endpoint, refusal, audit, transport, replay, provenance, TasteGate, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close unconditional strong normalization for all closed MetaCIC terms, unrestricted subject reduction, arbitrary substitution preservation, global confluence, closed consistency, Lean verification, or bridge checking.}

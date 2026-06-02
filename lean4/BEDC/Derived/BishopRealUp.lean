@@ -187,4 +187,31 @@ theorem BishopRealPacket_regseqrat_readback [AskSetup] [PackageSetup]
     ⟨scheduleUnary, regularUnary, dyadicUnary, modulusUnary, realSealUnary, readbackUnary,
       regularScheduleReadback, provenancePkg, readbackPkg⟩
 
+theorem BishopRealPacket_regular_cauchy_located_real_seal [AskSetup] [PackageSetup]
+    {schedule regular dyadic modulus located apartness realSeal transport routes provenance
+      nameCert readback bridge : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopRealPacket schedule regular dyadic modulus located apartness realSeal transport routes
+        provenance nameCert bundle pkg ->
+      Cont regular schedule readback ->
+        PkgSig bundle readback pkg ->
+          Cont located apartness bridge ->
+            PkgSig bundle bridge pkg ->
+              UnaryHistory located ∧ UnaryHistory apartness ∧ UnaryHistory realSeal ∧
+                UnaryHistory readback ∧ Cont schedule regular dyadic ∧
+                  Cont dyadic modulus realSeal ∧ Cont regular schedule readback ∧
+                    Cont located apartness bridge ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle readback pkg ∧ PkgSig bundle bridge pkg := by
+  intro packet regularScheduleReadback readbackPkg locatedApartnessBridge bridgePkg
+  obtain ⟨scheduleUnary, regularUnary, _dyadicUnary, _modulusUnary, locatedUnary,
+    apartnessUnary, realSealUnary, _transportUnary, _routesUnary, _provenanceUnary,
+    _nameCertUnary, scheduleRegularDyadic, dyadicModulusSeal, _transportRoutesProvenance,
+    provenancePkg⟩ := packet
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed regularUnary scheduleUnary regularScheduleReadback
+  exact
+    ⟨locatedUnary, apartnessUnary, realSealUnary, readbackUnary, scheduleRegularDyadic,
+      dyadicModulusSeal, regularScheduleReadback, locatedApartnessBridge, provenancePkg,
+      readbackPkg, bridgePkg⟩
+
 end BEDC.Derived.BishopRealUp
