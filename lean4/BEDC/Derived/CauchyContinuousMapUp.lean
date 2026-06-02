@@ -217,6 +217,46 @@ theorem CauchyContinuousMap_real_seal_handoff (M : BEDC.Derived.CauchyContinuous
   · exact imageExact
   · exact sealRoute.trans (congrArg (fun row => append row M.realSealHandoff) imageExact)
 
+theorem CauchyContinuousMap_continuousmap_boundary
+    (M : BEDC.Derived.CauchyContinuousMapUp)
+    (windowsUnary : UnaryHistory M.windows)
+    (toleranceUnary : UnaryHistory M.toleranceLedger)
+    (imageReadbackUnary : UnaryHistory M.imageReadback)
+    (sealUnary : UnaryHistory M.realSealHandoff)
+    (nameUnary : UnaryHistory M.localName)
+    {windowTolerance imageRead sealRead publicRead : BHist} :
+    Cont M.windows M.toleranceLedger windowTolerance →
+      Cont windowTolerance M.imageReadback imageRead →
+        Cont imageRead M.realSealHandoff sealRead →
+          Cont sealRead M.localName publicRead →
+            hsame publicRead
+                (append (append (append M.windows
+                  (append M.toleranceLedger M.imageReadback)) M.realSealHandoff)
+                  M.localName) ∧
+              UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append UnaryHistory
+  intro windowRoute imageRoute sealRoute publicRoute
+  have sealFacts :
+      hsame imageRead (append M.windows (append M.toleranceLedger M.imageReadback)) ∧
+        hsame sealRead
+          (append (append M.windows (append M.toleranceLedger M.imageReadback))
+            M.realSealHandoff) :=
+    CauchyContinuousMap_real_seal_handoff M windowRoute imageRoute sealRoute
+  have publicExact :
+      hsame publicRead
+        (append (append (append M.windows (append M.toleranceLedger M.imageReadback))
+          M.realSealHandoff) M.localName) :=
+    publicRoute.trans (congrArg (fun row => append row M.localName) sealFacts.right)
+  have windowToleranceUnary : UnaryHistory windowTolerance :=
+    unary_cont_closed windowsUnary toleranceUnary windowRoute
+  have imageUnary : UnaryHistory imageRead :=
+    unary_cont_closed windowToleranceUnary imageReadbackUnary imageRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed imageUnary sealUnary sealRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealReadUnary nameUnary publicRoute
+  exact ⟨publicExact, publicUnary⟩
+
 theorem CauchyContinuousMap_regularity_transport (M : BEDC.Derived.CauchyContinuousMapUp)
     {windowTolerance imageRead transportedImage sealRead : BHist} :
     Cont M.windows M.toleranceLedger windowTolerance →
