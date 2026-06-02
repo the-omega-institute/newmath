@@ -307,7 +307,6 @@ import BEDC.Derived.AuditMapTemplatePacketUp.TasteGate
 import BEDC.Derived.AuditMembraneUp
 import BEDC.Derived.AuditMembraneUp.TasteGate
 import BEDC.Derived.AuditReexportNamespaceUp.TasteGate
-import BEDC.Derived.AuditSystemUp.CertificateConflictDeterminacy
 import BEDC.Derived.AuditSystemUp.TasteGate
 import BEDC.Derived.AuditTranscriptEnvelopeUp.TasteGate
 import BEDC.Derived.AuditWritingDisciplineUp.TasteGate
@@ -4029,6 +4028,7 @@ import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteLipschitzIterationUp.TasteGate
 import BEDC.Derived.FiniteLowerBoundFoldUp.TasteGate
 import BEDC.Derived.FiniteMapUp
+import BEDC.Derived.FiniteMetricSpaceUp.TasteGate
 import BEDC.Derived.FiniteModulusCompactnessUp.TasteGate
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
 import BEDC.Derived.FiniteNetEquicontinuityUp.TasteGate
@@ -4217,6 +4217,7 @@ import BEDC.Derived.FractionalPartUp
 import BEDC.Derived.FractionalPartUp.TasteGate
 import BEDC.Derived.FrechetCompletionUp.TasteGate
 import BEDC.Derived.FrechetDerivativeUp.TasteGate
+import BEDC.Derived.FrechetUrysohnUp.TasteGate
 import BEDC.Derived.FredholmAlternativeUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.FreeMonoidUp.TasteGate
@@ -4688,6 +4689,7 @@ import BEDC.Derived.JordanContentUp.TasteGate
 import BEDC.Derived.JordanVariationDecompositionUp.TasteGate
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
+import BEDC.Derived.KSpaceUp.TasteGate
 import BEDC.Derived.KakutaniFixedPointUp.TasteGate
 import BEDC.Derived.KalmanFilterUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
@@ -5298,7 +5300,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatCandidateNormalizationRoute
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatReadbackReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetDischargeFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualBudgetSocketRoute
-import BEDC.Derived.MetaCICCriticalPathUp.ResidualCandidateSNHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualConfluenceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.RootDischargeExactness
 import BEDC.Derived.MetaCICCriticalPathUp.RootRouteTotality
