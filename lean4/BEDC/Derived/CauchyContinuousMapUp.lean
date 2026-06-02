@@ -102,6 +102,88 @@ theorem CauchyContinuousMapPacket_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, imageReadUnary, sealReadUnary, publicReadUnary⟩
 
+theorem CauchyContinuousMapPacket_continuousmap_boundary [AskSetup] [PackageSetup]
+    {W R D E H C P N imageRead sealRead boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyContinuousMapPacket W R D E H C P N bundle pkg ->
+      Cont W D imageRead ->
+        Cont imageRead E sealRead ->
+          Cont sealRead C boundaryRead ->
+            PkgSig bundle boundaryRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row W ∨ hsame row R ∨ hsame row D ∨ hsame row E ∨
+                      hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                        hsame row boundaryRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont W D imageRead ∧
+                      Cont imageRead E sealRead ∧ Cont sealRead C boundaryRead ∧
+                        PkgSig bundle boundaryRead pkg)
+                  hsame ∧
+                UnaryHistory imageRead ∧ UnaryHistory sealRead ∧
+                  UnaryHistory boundaryRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont PkgSig SemanticNameCert UnaryHistory
+  intro packet imageRoute sealRoute boundaryRoute boundaryPkg
+  obtain ⟨windowsUnary, _regularUnary, toleranceUnary, sealUnary, _transportUnary,
+    replayUnary, _provenanceUnary, _localNameUnary, _provenancePkg⟩ := packet
+  have imageReadUnary : UnaryHistory imageRead :=
+    unary_cont_closed windowsUnary toleranceUnary imageRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed imageReadUnary sealUnary sealRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed sealReadUnary replayUnary boundaryRoute
+  have sourceBoundary :
+      (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row) boundaryRead := by
+    exact ⟨hsame_refl boundaryRead, boundaryReadUnary⟩
+  have core :
+      NameCert (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row) hsame := by
+    exact {
+      carrier_inhabited := Exists.intro boundaryRead sourceBoundary
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row W ∨ hsame row R ∨ hsame row D ∨ hsame row E ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row boundaryRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W D imageRead ∧ Cont imageRead E sealRead ∧
+              Cont sealRead C boundaryRead ∧ PkgSig bundle boundaryRead pkg)
+          hsame := by
+    exact {
+      core := core
+      pattern_sound := by
+        intro _row source
+        exact
+          Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left)))))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, imageRoute, sealRoute, boundaryRoute, boundaryPkg⟩
+    }
+  exact ⟨cert, imageReadUnary, sealReadUnary, boundaryReadUnary⟩
+
 theorem CauchyContinuousMap_regseqrat_image (M : BEDC.Derived.CauchyContinuousMapUp)
     {windowTolerance imageRead : BHist} :
     Cont M.windows M.toleranceLedger windowTolerance ->
