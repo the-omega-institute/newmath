@@ -15,6 +15,7 @@ import BEDC.Derived.AbelDirichletComparisonUp.TasteGate
 import BEDC.Derived.AbelLimitTheoremUp.TasteGate
 import BEDC.Derived.AbelPartialSummationUp.TasteGate
 import BEDC.Derived.AbelRuffiniUp
+import BEDC.Derived.AbelRuffiniUp.TasteGate
 import BEDC.Derived.AbelSummationUp.TasteGate
 import BEDC.Derived.AbelTestUp.TasteGate
 import BEDC.Derived.AbelianCatUp
@@ -3545,6 +3546,7 @@ import BEDC.Derived.DyadicTailBoundUp.ZeroPacket
 import BEDC.Derived.DyadicTailRadiusComparisonUp.TasteGate
 import BEDC.Derived.DyadicTailRadiusLedgerUp
 import BEDC.Derived.DyadicTailRadiusLedgerUp.TasteGate
+import BEDC.Derived.DyadicToleranceLadderUp.TasteGate
 import BEDC.Derived.DyadicToleranceScaleUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
@@ -3636,6 +3638,7 @@ import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.AdjacencyObligation
+import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
 import BEDC.Derived.FareySequenceUp.ApproximationObligation
 import BEDC.Derived.FareySequenceUp.ApproximationWindowFactorization
 import BEDC.Derived.FareySequenceUp.ClassifierTransport
@@ -5689,6 +5692,7 @@ import BEDC.Derived.NormalFormConsistencySealUp.JoinabilityObligation
 import BEDC.Derived.NormalFormConsistencySealUp.LocalNamingBoundary
 import BEDC.Derived.NormalFormConsistencySealUp.ProvenanceExactness
 import BEDC.Derived.NormalFormConsistencySealUp.ResidualContextObligation
+import BEDC.Derived.NormalFormConsistencySealUp.ResidualScheduleDischarge
 import BEDC.Derived.NormalFormConsistencySealUp.VisionHandoff
 import BEDC.Derived.NormalSpaceUp
 import BEDC.Derived.NormalSpaceUp.ClosedSetSeparationRoute
@@ -8001,6 +8005,7 @@ import BEDC.Derived.UniformCauchySubsequenceUp.TasteGate
 import BEDC.Derived.UniformClosureUp.TasteGate
 import BEDC.Derived.UniformCompleteSpaceUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyHandoff
+import BEDC.Derived.UniformCompletionFunctorUp.RealSealNonescape
 import BEDC.Derived.UniformCompletionFunctorUp.SourceFactorization
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.UniversalHandoff
