@@ -4827,6 +4827,7 @@ import BEDC.Derived.LocallyCompactUp.ClosedBallNeighborhoodBase
 import BEDC.Derived.LocallyCompactUp.CompactBallWindow
 import BEDC.Derived.LocallyCompactUp.CompactWindowRootAdmission
 import BEDC.Derived.LocallyCompactUp.LocalCompactNeighborhoodObligations
+import BEDC.Derived.LocallyCompactUp.LocalPropernessRadiusExhaustion
 import BEDC.Derived.LocallyCompactUp.LocatedCompactRoute
 import BEDC.Derived.LocallyCompactUp.LocatedHandoffBoundary
 import BEDC.Derived.LocallyCompactUp.PropernessComparisonNonescape
@@ -5045,6 +5046,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.BoundedCheckerBudgetFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedCheckerFrontierSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedCheckerHandoffTotality
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionCandidateBoundary
+import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionConsumerRoute
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedNormalizationCandidateLedger
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDeciderExhaustion
@@ -5674,6 +5676,7 @@ import BEDC.Derived.NormalFormConsistencySealUp.ConstructorFrontier
 import BEDC.Derived.NormalFormConsistencySealUp.ContinuationReplay
 import BEDC.Derived.NormalFormConsistencySealUp.CriticalPairObligation
 import BEDC.Derived.NormalFormConsistencySealUp.CriticalPairRoute
+import BEDC.Derived.NormalFormConsistencySealUp.JoinabilityObligation
 import BEDC.Derived.NormalFormConsistencySealUp.LocalNamingBoundary
 import BEDC.Derived.NormalFormConsistencySealUp.ProvenanceExactness
 import BEDC.Derived.NormalFormConsistencySealUp.ResidualContextObligation
