@@ -155,6 +155,88 @@ subject-reduction socket, so the seal exports only the closed-normal
 contradiction route and no internal discharge for those constructors.
 \end{proof}
 
+\begin{theorem}[Normal-form consistency seal critical-pair obligation]
+\label{thm:normal-form-consistency-seal-critical-pair-obligation}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
+$\NormalFormConsistencySealUp$ packet. Any constructor-facing read of $S$ that
+mentions beta, application, lambda, or Pi critical pairs must display the
+critical-pair boundary through $T,F,N,K,X,H,C,P,L$ before it may use the
+checked closed-normal theorem row $K$. The read cannot treat $K$ as an
+arbitrary confluence theorem or as a discharge of the subject-reduction
+boundary row $X$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:normal-form-consistency-seal-carrier}. The row $K$ is available
+only together with the typing row $T$, false row $F$, beta-strong normality
+row $N$, subject-reduction boundary row $X$, and the structural rows
+$H,C,P,L$.
+
+Use \autoref{thm:normalformconsistencyseal-constructor-frontier}. It states
+that beta, application, lambda, and Pi constructor discharges remain outside
+the seal. The constructor-facing read therefore sees those critical-pair
+cases only as boundary data.
+
+Finally apply
+\autoref{thm:normal-form-consistency-seal-obligations},
+\autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}, and
+\autoref{thm:normal-form-consistency-seal-closed-normal-frontier}. These rows
+permit use of $K$ only as the displayed closed-normal contradiction route, so
+no arbitrary confluence or subject-reduction discharge is exported.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal residual-context obligation]
+\label{thm:normal-form-consistency-seal-residual-context-obligation}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
+$\NormalFormConsistencySealUp$ packet. The empty-context row $T$ and the
+subject-reduction boundary row $X$ keep every residual context transport
+visible: a consumer must read residual context information through the
+displayed rows $T,X,H,C,P,L$ and cannot replace that route by host
+substitution or an ambient weakening theorem.
+\end{theorem}
+\begin{proof}
+Project the seal carrier. The row $T$ is the empty-context MetaCIC typing row,
+and $X$ is the visible subject-reduction boundary; neither row is a host
+substitution operation.
+
+Apply the subject-reduction boundary theorem
+\autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}. It
+forces preservation-facing data through the sibling discharge socket and keeps
+the closed-context read tied to the displayed finite rows.
+
+The obligation theorem and constructor frontier,
+\autoref{thm:normal-form-consistency-seal-obligations} and
+\autoref{thm:normalformconsistencyseal-constructor-frontier}, then route all
+transport through $H,C,P,L$. Hence residual contexts remain visible BEDC data
+rather than an implicit host substitution principle.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal joinability obligation]
+\label{thm:normal-form-consistency-seal-joinability-obligation}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
+$\NormalFormConsistencySealUp$ packet. Any joinability read must factor
+through all displayed rows $T,F,N,K,X,H,C,P,L$. It may use the closed-normal
+route named by $K$ only after the typing, false, normality, boundary,
+transport, replay, provenance, and local naming rows are visible, and it may
+not assert arbitrary confluence or arbitrary joinability for MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Read the carrier in
+\autoref{def:normal-form-consistency-seal-carrier}. The finite packet exposes
+exactly the rows $T,F,N,K,X,H,C,P,L$, so a joinability-facing consumer has no
+other coordinate to inspect.
+
+Use \autoref{thm:normal-form-consistency-seal-closed-normal-frontier}. The
+positive route is the closed-normal contradiction route through
+$T,F,N,K,H,C,P,L$, while $X$ remains the visible subject-reduction boundary.
+
+Now apply \autoref{thm:normalformconsistencyseal-constructor-frontier} and
+\autoref{thm:normal-form-consistency-seal-critical-pair-obligation}. The
+constructor and critical-pair cases are boundary obligations, not internal
+confluence data. Therefore any joinability read factors through the displayed
+seal rows and cannot export arbitrary confluence.
+\end{proof}
+
 \begin{theorem}[Normal-form consistency seal finite-window determinacy]
 \label{thm:normal-form-consistency-seal-finite-window-determinacy}
 Let $S=(T,F,N,K,X,H,C,P,L)$ and $S'=(T',F',N',K',X',H',C',P',L')$ be accepted
