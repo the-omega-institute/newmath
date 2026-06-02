@@ -2319,6 +2319,7 @@ import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.DownstreamConsumptionBridge
 import BEDC.Derived.CompactMetricUp.TasteGate
 import BEDC.Derived.CompactMetricUp.TotallyBoundedComponentBridge
+import BEDC.Derived.CompactMetricUp.UniformWindowConsumerRoute
 import BEDC.Derived.CompactModulusCoverUp
 import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.CompactNetModulusBudgetUp.NameCertObligations
@@ -2336,6 +2337,7 @@ import BEDC.Derived.CompactOpenMetricUp
 import BEDC.Derived.CompactOpenMetricUp.TasteGate
 import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.TasteGate
+import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
 import BEDC.Derived.CompactTotallyBoundedUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityModulusUp.TasteGate
@@ -3064,6 +3066,7 @@ import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DenjoyIntegralUp.TasteGate
 import BEDC.Derived.DenseCauchyEmbeddingUp.TasteGate
+import BEDC.Derived.DenseEmbeddingUp.TasteGate
 import BEDC.Derived.DenseExtensionMetricUp.TasteGate
 import BEDC.Derived.DenseImageCompletionUp.TasteGate
 import BEDC.Derived.DenseIsometryExtensionUp.TasteGate
@@ -3682,6 +3685,7 @@ import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.NeighborDeterminacy
 import BEDC.Derived.FareySequenceUp.Obligations
 import BEDC.Derived.FareySequenceUp.RationalCoverage
+import BEDC.Derived.FareySequenceUp.RationalSourceHandoffScope
 import BEDC.Derived.FareySequenceUp.RealApproximationBoundary
 import BEDC.Derived.FareySequenceUp.RealApproximationDensityRoute
 import BEDC.Derived.FareySequenceUp.RealApproximationHandoff
@@ -5113,6 +5117,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10BudgetLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10DischargeBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRegSeqRatHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateLedgerPublicBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierNormalFormDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierObstructionNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierSubjectReductionSocket

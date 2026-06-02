@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.FiniteCoverLebesgueNumberUp
+namespace BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,8 +10,10 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive FiniteCoverLebesgueNumberUp : Type where
-  | mk (K M V R L U H C P N : BHist) : FiniteCoverLebesgueNumberUp
-  deriving DecidableEq
+  | mk
+      (compactMetric metric finiteCover radiusLedger lemmaRoute uniformHandoff transport replay
+        provenance localName : BHist) :
+      FiniteCoverLebesgueNumberUp
 
 def finiteCoverLebesgueNumberEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -25,106 +27,130 @@ def finiteCoverLebesgueNumberDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (finiteCoverLebesgueNumberDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (finiteCoverLebesgueNumberDecodeBHist tail)
 
-private theorem FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode :
+private theorem finiteCoverLebesgueNumber_decode_encode_bhist :
     ∀ h : BHist,
-      finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist h) = h := by
+      finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-def finiteCoverLebesgueNumberFields : FiniteCoverLebesgueNumberUp → List BHist
+def finiteCoverLebesgueNumberFields :
+    FiniteCoverLebesgueNumberUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | FiniteCoverLebesgueNumberUp.mk K M V R L U H C P N =>
-      [K, M, V, R, L, U, H, C, P, N]
+  | FiniteCoverLebesgueNumberUp.mk compactMetric metric finiteCover radiusLedger lemmaRoute
+      uniformHandoff transport replay provenance localName =>
+      [compactMetric, metric, finiteCover, radiusLedger, lemmaRoute, uniformHandoff,
+        transport, replay, provenance, localName]
 
-def finiteCoverLebesgueNumberToEventFlow : FiniteCoverLebesgueNumberUp → EventFlow
+def finiteCoverLebesgueNumberToEventFlow :
+    FiniteCoverLebesgueNumberUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (finiteCoverLebesgueNumberFields x).map finiteCoverLebesgueNumberEncodeBHist
+  fun x => (finiteCoverLebesgueNumberFields x).map finiteCoverLebesgueNumberEncodeBHist
 
-private def finiteCoverLebesgueNumberEventAt : Nat → EventFlow → RawEvent
+private def finiteCoverLebesgueNumberEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => finiteCoverLebesgueNumberEventAt index rest
+  | Nat.succ index, _event :: rest =>
+      finiteCoverLebesgueNumberEventAtDefault index rest
 
-def finiteCoverLebesgueNumberFromEventFlow (ef : EventFlow) :
-    Option FiniteCoverLebesgueNumberUp :=
+def finiteCoverLebesgueNumberFromEventFlow
+    (flow : EventFlow) : Option FiniteCoverLebesgueNumberUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (FiniteCoverLebesgueNumberUp.mk
-      (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEventAt 0 ef))
-      (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEventAt 1 ef))
-      (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEventAt 2 ef))
-      (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEventAt 3 ef))
-      (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEventAt 4 ef))
-      (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEventAt 5 ef))
-      (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEventAt 6 ef))
-      (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEventAt 7 ef))
-      (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEventAt 8 ef))
-      (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEventAt 9 ef)))
+      (finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEventAtDefault 0 flow))
+      (finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEventAtDefault 1 flow))
+      (finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEventAtDefault 2 flow))
+      (finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEventAtDefault 3 flow))
+      (finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEventAtDefault 4 flow))
+      (finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEventAtDefault 5 flow))
+      (finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEventAtDefault 6 flow))
+      (finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEventAtDefault 7 flow))
+      (finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEventAtDefault 8 flow))
+      (finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEventAtDefault 9 flow)))
 
-private theorem FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_round_trip
-    (x : FiniteCoverLebesgueNumberUp) :
-    finiteCoverLebesgueNumberFromEventFlow (finiteCoverLebesgueNumberToEventFlow x) =
-      some x := by
+private theorem finiteCoverLebesgueNumber_round_trip :
+    ∀ x : FiniteCoverLebesgueNumberUp,
+      finiteCoverLebesgueNumberFromEventFlow
+        (finiteCoverLebesgueNumberToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
-  | mk K M V R L U H C P N =>
+  | mk compactMetric metric finiteCover radiusLedger lemmaRoute uniformHandoff transport
+      replay provenance localName =>
       change
         some
           (FiniteCoverLebesgueNumberUp.mk
-            (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist K))
-            (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist M))
-            (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist V))
-            (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist R))
-            (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist L))
-            (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist U))
-            (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist H))
-            (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist C))
-            (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist P))
-            (finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist N))) =
-          some (FiniteCoverLebesgueNumberUp.mk K M V R L U H C P N)
-      rw [FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode K,
-        FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode M,
-        FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode V,
-        FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode R,
-        FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode L,
-        FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode U,
-        FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode H,
-        FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode C,
-        FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode P,
-        FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode N]
+            (finiteCoverLebesgueNumberDecodeBHist
+              (finiteCoverLebesgueNumberEncodeBHist compactMetric))
+            (finiteCoverLebesgueNumberDecodeBHist
+              (finiteCoverLebesgueNumberEncodeBHist metric))
+            (finiteCoverLebesgueNumberDecodeBHist
+              (finiteCoverLebesgueNumberEncodeBHist finiteCover))
+            (finiteCoverLebesgueNumberDecodeBHist
+              (finiteCoverLebesgueNumberEncodeBHist radiusLedger))
+            (finiteCoverLebesgueNumberDecodeBHist
+              (finiteCoverLebesgueNumberEncodeBHist lemmaRoute))
+            (finiteCoverLebesgueNumberDecodeBHist
+              (finiteCoverLebesgueNumberEncodeBHist uniformHandoff))
+            (finiteCoverLebesgueNumberDecodeBHist
+              (finiteCoverLebesgueNumberEncodeBHist transport))
+            (finiteCoverLebesgueNumberDecodeBHist
+              (finiteCoverLebesgueNumberEncodeBHist replay))
+            (finiteCoverLebesgueNumberDecodeBHist
+              (finiteCoverLebesgueNumberEncodeBHist provenance))
+            (finiteCoverLebesgueNumberDecodeBHist
+              (finiteCoverLebesgueNumberEncodeBHist localName))) =
+          some
+            (FiniteCoverLebesgueNumberUp.mk compactMetric metric finiteCover radiusLedger
+              lemmaRoute uniformHandoff transport replay provenance localName)
+      rw [finiteCoverLebesgueNumber_decode_encode_bhist compactMetric,
+        finiteCoverLebesgueNumber_decode_encode_bhist metric,
+        finiteCoverLebesgueNumber_decode_encode_bhist finiteCover,
+        finiteCoverLebesgueNumber_decode_encode_bhist radiusLedger,
+        finiteCoverLebesgueNumber_decode_encode_bhist lemmaRoute,
+        finiteCoverLebesgueNumber_decode_encode_bhist uniformHandoff,
+        finiteCoverLebesgueNumber_decode_encode_bhist transport,
+        finiteCoverLebesgueNumber_decode_encode_bhist replay,
+        finiteCoverLebesgueNumber_decode_encode_bhist provenance,
+        finiteCoverLebesgueNumber_decode_encode_bhist localName]
 
-private theorem FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem finiteCoverLebesgueNumberToEventFlow_injective
     {x y : FiniteCoverLebesgueNumberUp} :
-    finiteCoverLebesgueNumberToEventFlow x = finiteCoverLebesgueNumberToEventFlow y →
-      x = y := by
+    finiteCoverLebesgueNumberToEventFlow x =
+      finiteCoverLebesgueNumberToEventFlow y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
-  have hread :
-      finiteCoverLebesgueNumberFromEventFlow (finiteCoverLebesgueNumberToEventFlow x) =
-        finiteCoverLebesgueNumberFromEventFlow (finiteCoverLebesgueNumberToEventFlow y) :=
+  have readEq :
+      finiteCoverLebesgueNumberFromEventFlow
+          (finiteCoverLebesgueNumberToEventFlow x) =
+        finiteCoverLebesgueNumberFromEventFlow
+          (finiteCoverLebesgueNumberToEventFlow y) :=
     congrArg finiteCoverLebesgueNumberFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : FiniteCoverLebesgueNumberUp,
-      finiteCoverLebesgueNumberFields x = finiteCoverLebesgueNumberFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk K₁ M₁ V₁ R₁ L₁ U₁ H₁ C₁ P₁ N₁ =>
-      cases y with
-      | mk K₂ M₂ V₂ R₂ L₂ U₂ H₂ C₂ P₂ N₂ =>
-          cases hfields
-          rfl
+  exact
+    Option.some.inj
+      (Eq.trans (finiteCoverLebesgueNumber_round_trip x).symm
+        (Eq.trans readEq (finiteCoverLebesgueNumber_round_trip y)))
 
 instance finiteCoverLebesgueNumberBHistCarrier :
     BHistCarrier FiniteCoverLebesgueNumberUp where
@@ -137,53 +163,35 @@ instance finiteCoverLebesgueNumberChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change finiteCoverLebesgueNumberFromEventFlow
-      (finiteCoverLebesgueNumberToEventFlow x) = some x
-    exact FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_round_trip x
+    change
+      finiteCoverLebesgueNumberFromEventFlow
+        (finiteCoverLebesgueNumberToEventFlow x) = some x
+    exact finiteCoverLebesgueNumber_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (finiteCoverLebesgueNumberToEventFlow_injective heq)
 
-instance finiteCoverLebesgueNumberFieldFaithful :
-    FieldFaithful FiniteCoverLebesgueNumberUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := finiteCoverLebesgueNumberFields
-  field_faithful :=
-    FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_fields_faithful
-
-instance finiteCoverLebesgueNumberNontrivial : Nontrivial FiniteCoverLebesgueNumberUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨FiniteCoverLebesgueNumberUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      FiniteCoverLebesgueNumberUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_taste_gate :
-    ChapterTasteGate FiniteCoverLebesgueNumberUp :=
+def taste_gate : ChapterTasteGate FiniteCoverLebesgueNumberUp :=
   -- BEDC touchpoint anchor: BHist BMark
   finiteCoverLebesgueNumberChapterTasteGate
 
 theorem FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      finiteCoverLebesgueNumberDecodeBHist (finiteCoverLebesgueNumberEncodeBHist h) = h) ∧
+      finiteCoverLebesgueNumberDecodeBHist
+        (finiteCoverLebesgueNumberEncodeBHist h) = h) ∧
       (∀ x : FiniteCoverLebesgueNumberUp,
-        finiteCoverLebesgueNumberFromEventFlow (finiteCoverLebesgueNumberToEventFlow x) =
-          some x) ∧
-      (∀ x y : FiniteCoverLebesgueNumberUp,
-        finiteCoverLebesgueNumberToEventFlow x = finiteCoverLebesgueNumberToEventFlow y →
-          x = y) ∧
-      finiteCoverLebesgueNumberEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+        finiteCoverLebesgueNumberFromEventFlow
+          (finiteCoverLebesgueNumberToEventFlow x) = some x) ∧
+        (∀ x y : FiniteCoverLebesgueNumberUp,
+          finiteCoverLebesgueNumberToEventFlow x =
+            finiteCoverLebesgueNumberToEventFlow y →
+              x = y) ∧
+          finiteCoverLebesgueNumberEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_decode_encode,
-      FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_round_trip,
-      fun _ _ heq =>
-        FiniteCoverLebesgueNumberTasteGate_single_carrier_alignment_toEventFlow_injective heq,
+    ⟨finiteCoverLebesgueNumber_decode_encode_bhist,
+      finiteCoverLebesgueNumber_round_trip,
+      (fun _ _ heq => finiteCoverLebesgueNumberToEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.FiniteCoverLebesgueNumberUp
+end BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
