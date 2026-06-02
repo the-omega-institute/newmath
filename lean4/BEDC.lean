@@ -4655,6 +4655,7 @@ import BEDC.Derived.IntervalBisectionTreeUp.TasteGate
 import BEDC.Derived.IntervalBisectionUp.TasteGate
 import BEDC.Derived.IntervalCauchyCompletenessUp.TasteGate
 import BEDC.Derived.IntervalDomainUp.TasteGate
+import BEDC.Derived.IntervalHalvingModulusUp.TasteGate
 import BEDC.Derived.IntervalLengthUp.TasteGate
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.InverseFunctionUp.TasteGate
