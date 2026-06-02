@@ -9,8 +9,9 @@ open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
-inductive NoetherianRingUp : Type where
-  | mk (C I A G H Q P N : BHist) : NoetherianRingUp
+inductive noetherian_ring_taste_gate_single_carrier_alignment_carrier : Type where
+  | mk (C I A G H Q P N : BHist) :
+      noetherian_ring_taste_gate_single_carrier_alignment_carrier
   deriving DecidableEq
 
 def noetherianRingEncodeBHist : BHist → RawEvent
@@ -47,8 +48,8 @@ private theorem noetherianRing_mk_congr
     (hQ : Q' = Q)
     (hP : P' = P)
     (hN : N' = N) :
-    NoetherianRingUp.mk C' I' A' G' H' Q' P' N' =
-      NoetherianRingUp.mk C I A G H Q P N := by
+    noetherian_ring_taste_gate_single_carrier_alignment_carrier.mk C' I' A' G' H' Q' P' N' =
+      noetherian_ring_taste_gate_single_carrier_alignment_carrier.mk C I A G H Q P N := by
   -- BEDC touchpoint anchor: BHist BMark
   cases hC
   cases hI
@@ -60,9 +61,10 @@ private theorem noetherianRing_mk_congr
   cases hN
   rfl
 
-def noetherianRingToEventFlow : NoetherianRingUp → EventFlow
+def noetherianRingToEventFlow :
+    noetherian_ring_taste_gate_single_carrier_alignment_carrier → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | NoetherianRingUp.mk C I A G H Q P N =>
+  | noetherian_ring_taste_gate_single_carrier_alignment_carrier.mk C I A G H Q P N =>
       [noetherianRingEncodeBHist C,
         noetherianRingEncodeBHist I,
         noetherianRingEncodeBHist A,
@@ -72,7 +74,8 @@ def noetherianRingToEventFlow : NoetherianRingUp → EventFlow
         noetherianRingEncodeBHist P,
         noetherianRingEncodeBHist N]
 
-def noetherianRingFromEventFlow : EventFlow → Option NoetherianRingUp
+def noetherianRingFromEventFlow :
+    EventFlow → Option noetherian_ring_taste_gate_single_carrier_alignment_carrier
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | C :: rest0 =>
@@ -100,7 +103,7 @@ def noetherianRingFromEventFlow : EventFlow → Option NoetherianRingUp
                                   match rest7 with
                                   | [] =>
                                       some
-                                        (NoetherianRingUp.mk
+                                        (noetherian_ring_taste_gate_single_carrier_alignment_carrier.mk
                                           (noetherianRingDecodeBHist C)
                                           (noetherianRingDecodeBHist I)
                                           (noetherianRingDecodeBHist A)
@@ -112,7 +115,7 @@ def noetherianRingFromEventFlow : EventFlow → Option NoetherianRingUp
                                   | _ :: _ => none
 
 private theorem noetherianRing_round_trip :
-    ∀ x : NoetherianRingUp,
+    ∀ x : noetherian_ring_taste_gate_single_carrier_alignment_carrier,
       noetherianRingFromEventFlow (noetherianRingToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -130,7 +133,8 @@ private theorem noetherianRing_round_trip :
             (noetherianRingDecode_encode_bhist P)
             (noetherianRingDecode_encode_bhist N))
 
-private theorem noetherianRingToEventFlow_injective {x y : NoetherianRingUp} :
+private theorem noetherianRingToEventFlow_injective
+    {x y : noetherian_ring_taste_gate_single_carrier_alignment_carrier} :
     noetherianRingToEventFlow x = noetherianRingToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -142,12 +146,14 @@ private theorem noetherianRingToEventFlow_injective {x y : NoetherianRingUp} :
     (Eq.trans (noetherianRing_round_trip x).symm
       (Eq.trans hread (noetherianRing_round_trip y)))
 
-instance noetherianRingBHistCarrier : BHistCarrier NoetherianRingUp where
+instance noetherianRingBHistCarrier :
+    BHistCarrier noetherian_ring_taste_gate_single_carrier_alignment_carrier where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := noetherianRingToEventFlow
   fromEventFlow := noetherianRingFromEventFlow
 
-instance noetherianRingChapterTasteGate : ChapterTasteGate NoetherianRingUp where
+instance noetherianRingChapterTasteGate :
+    ChapterTasteGate noetherian_ring_taste_gate_single_carrier_alignment_carrier where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -159,9 +165,9 @@ instance noetherianRingChapterTasteGate : ChapterTasteGate NoetherianRingUp wher
 
 theorem NoetherianRingTasteGate_single_carrier_alignment :
     (∀ h : BHist, noetherianRingDecodeBHist (noetherianRingEncodeBHist h) = h) ∧
-      (∀ x : NoetherianRingUp,
+      (∀ x : noetherian_ring_taste_gate_single_carrier_alignment_carrier,
         noetherianRingFromEventFlow (noetherianRingToEventFlow x) = some x) ∧
-        (∀ x y : NoetherianRingUp,
+        (∀ x y : noetherian_ring_taste_gate_single_carrier_alignment_carrier,
           noetherianRingToEventFlow x = noetherianRingToEventFlow y → x = y) ∧
           noetherianRingEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark
