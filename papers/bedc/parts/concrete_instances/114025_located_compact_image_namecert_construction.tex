@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCompactImageUp$}
+\label{ch:concrete-instances-located-compact-image-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedCompactImageUp$ packet records the finite-net image route for a uniformly continuous map whose source is a located compact metric packet. It sits over the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the metric rows of \autoref{ch:concrete-instances-metric-namecert}, the finite-net coverage row of \autoref{ch:concrete-instances-totallybounded-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the displayed image as a finite BEDC carrier; it does not assert open-cover compactness, countable choice, host image equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located compact image carrier]
+\label{def:located-compact-image-carrier}
+A $\LocatedCompactImageUp$ carrier is a finite $\BHist$ packet
+$$
+I=(K,X,Y,F,U,T,R,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $K$ is the source $\CompactMetricUp$ row, read only through displayed compact-metric and located finite-net data.
+\item $X$ is the source $\MetricUp$ row whose distance classifier supplies the finite-net coverage checks.
+\item $Y$ is the target $\MetricUp$ row in which image radii and target distances are inspected.
+\item $F$ is the $\ContinuousMapUp$ graph row for the displayed map from the source packet into the target packet.
+\item $U$ is the uniform-continuity or finite-modulus row attached to $F$ on the displayed compact source.
+\item $T$ is the $\TotallyBoundedUp$ finite-net image ledger obtained by transporting the displayed source net through $F$ and $U$.
+\item $R$ is the $\RealUp$ endpoint-radius row used only for displayed target-distance and radius readback.
+\item $H$ records componentwise $\hsame$ transport for the compact source, metric rows, map row, modulus row, finite-net image ledger, Real radius row, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from source-net coverage through the continuous-map row, target metric row, radius ledger, and image finite-net handoff.
+\item $P$ is the $\Pkg$ provenance over $\LocatedCompactImageUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\MetricUp$, $\TotallyBoundedUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedCompactImageUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,X,Y,F,U,T,R,H,C,P,N$. It has no coordinate for a selected image set in the host category, open-cover compactness, countable-choice enumeration, quotient point equality, host image equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located compact image NameCert obligations]
+\label{thm:located-compact-image-namecert-obligations}
+For every accepted $\LocatedCompactImageUp$ carrier $I=(K,X,Y,F,U,T,R,H,C,P,N)$, the local $\NameCert_{\LocatedCompactImageUp}$ surface consists exactly of carrier admission for the compact metric source, source and target metric rows, continuous-map row, modulus row, finite-net image ledger, Real radius row, transport, replay, provenance, and local naming; source-net coverage through $K,X$; map-value routing through $F$; modulus-accountable target-radius transport through $U,Y,R$; finite image-net handoff through $T$; and non-escape through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-compact-image-carrier}. The compact metric source $K$ and source metric row $X$ supply only displayed finite-net coverage data.
+
+The map row $F$ and modulus row $U$ transport the displayed source net into the target metric row $Y$. Target radii are read through $R$, so the image ledger is assembled from finite metric and real-name rows rather than from a host image object.
+
+The finite image-net row $T$ is therefore downstream from $K,X,Y,F,U,R$. Finally $H,C,P,N$ transport, replay, source, and name the same packet, so the listed obligations exhaust the certificate surface and no external compactness or choice datum is exported.
+\end{proof}
+
+\begin{theorem}[Located compact image finite-net handoff]
+\label{thm:located-compact-image-finite-net-handoff}
+Every $\TotallyBoundedUp$ consumer of an accepted $\LocatedCompactImageUp$ packet receives an image finite-net ledger only through the displayed route
+$$
+K,X,Y,F,U,T,R,H,C,P,N .
+$$
+The handoff transports the finite source net along the continuous-map and modulus rows, reads target distances and radii through $Y$ and $R$, and then exposes the finite image-net row $T$. It does not claim open-cover compactness, countable choice, host image equality, quotient point equality, selected image representatives, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the source-net coverage rows $K$ and $X$. They provide the finite source centers and coverage radii that can be inspected by a BEDC consumer.
+
+Next read the continuous-map row $F$ together with the modulus row $U$. These rows transport each displayed source center and the associated radius request into the target metric row $Y$, with endpoint-radius readback through $R$.
+
+The row $T$ then records exactly the transported target centers and radii as the image finite-net ledger. Structural rows $H,C,P,N$ keep the handoff componentwise, replayable, sourced, and locally named. Since the carrier has no host image coordinate, external subcover selector, quotient equality, countable-choice schedule, or completeness row, the consumer receives only the finite-net handoff stated above.
+\end{proof}
+
+\closureat{LocatedCompactImageUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCompactImageUp}
+  \constructivestory{A $\LocatedCompactImageUp$ packet is generated from a compact metric source, source and target metric rows, a continuous-map row, a uniform-modulus row, a totally bounded image ledger, Real radius readback, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-compact-image-carrier}, \autoref{thm:located-compact-image-namecert-obligations}, and \autoref{thm:located-compact-image-finite-net-handoff} seed the finite-net image route for uniformly continuous maps on located compact metric packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, open-cover compactness, countable choice, host image equality, quotient point equality, selected image representatives, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-net coverage, map-value routing, modulus-accountable target-radius transport, finite image-net handoff, transport, replay, provenance, and local naming for BEDC.Derived.LocatedCompactImageUp.}
+\end{closurestatus}
