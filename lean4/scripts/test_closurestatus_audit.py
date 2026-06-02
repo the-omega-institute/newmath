@@ -4,7 +4,7 @@ from __future__ import annotations
 import sys
 import unittest
 import json
-from contextlib import redirect_stdout
+from contextlib import nullcontext, redirect_stdout
 from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -1226,6 +1226,107 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertFalse(ok)
         cleanup.assert_not_called()
         self.assertTrue(any("worktree prep failed" in item for item in calls))
+
+    def test_discovery_adversarial_generator_once_load_error_is_nonzero(self) -> None:
+        import discovery_adversarial_generator  # type: ignore[import-not-found]
+
+        with patch.object(discovery_adversarial_generator, "pid_lock", return_value=nullcontext()), \
+                patch.object(
+                    discovery_adversarial_generator,
+                    "bedc_ci_module",
+                    side_effect=RuntimeError("bedc_ci unavailable"),
+                ), \
+                patch.object(discovery_adversarial_generator, "append_log"), \
+                patch.object(sys, "argv", ["discovery_adversarial_generator.py", "--once"]), \
+                redirect_stdout(StringIO()) as stdout:
+            rc = discovery_adversarial_generator.main()
+        self.assertNotEqual(rc, 0)
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(payload["status"], "error")
+        self.assertEqual(payload["error_type"], "RuntimeError")
+
+    def test_discovery_adversarial_generator_skips_output_covered_bucket(self) -> None:
+        import argparse
+        import discovery_adversarial_generator  # type: ignore[import-not-found]
+
+        class FakeCi:
+            def scan_lean_sources(self):
+                return object()
+
+        existing = {
+            "schema": "bedc.discovery_adversarial_generator.proven_pseudo",
+            "target": "BEDC.Target.First",
+            "prior": "BEDC.Prior.Old",
+            "canonical_payload": "payload-same",
+        }
+        with TemporaryDirectory() as tmp:
+            output = Path(tmp) / "proven_pseudos.jsonl"
+            output.write_text(json.dumps(existing) + "\n", encoding="utf-8")
+            args = argparse.Namespace(
+                output=str(output),
+                classifier_cap=20,
+                max_new_per_bucket=1,
+                max_records=10,
+            )
+            with patch.object(discovery_adversarial_generator, "bedc_ci_module", return_value=FakeCi()), \
+                    patch.object(discovery_adversarial_generator, "load_registry_keys", return_value=(set(), 0, 100)), \
+                    patch.object(
+                        discovery_adversarial_generator,
+                        "positive_discovery_assertion_target",
+                        return_value=("BEDC.Assert.Gate", ["BEDC.Support.Target"]),
+                    ), \
+                    patch.object(
+                        discovery_adversarial_generator,
+                        "classifier_payload_buckets",
+                        return_value=[{
+                            "canonical_payload": "payload-same",
+                            "names": ["BEDC.Prior.Old", "BEDC.Target.Second"],
+                            "reduced_fps": {
+                                "BEDC.Prior.Old": "same",
+                                "BEDC.Target.Second": "same",
+                            },
+                        }],
+                    ), \
+                    patch.object(discovery_adversarial_generator, "grounded_canonical_refutation") as grounding, \
+                    patch.object(discovery_adversarial_generator, "true_gate_passed") as gate_passed, \
+                    patch.object(discovery_adversarial_generator, "append_log"):
+                result = discovery_adversarial_generator.run_once(args)
+            lines = output.read_text(encoding="utf-8").splitlines()
+        self.assertEqual(result["status"], "no-hit")
+        self.assertEqual(result["emitted"], 0)
+        self.assertEqual(result["skipped_covered"], 1)
+        self.assertEqual(len(lines), 1)
+        grounding.assert_not_called()
+        gate_passed.assert_not_called()
+
+    def test_discovery_gate_evolver_verify_failure_does_not_count_ok(self) -> None:
+        import argparse
+        import discovery_gate_evolver  # type: ignore[import-not-found]
+
+        witness = {
+            "id": "exact",
+            "kind": "reconstruction",
+            "pattern": {
+                "target": "BEDC.Target.Gate",
+                "prior": "BEDC.Prior.Old",
+                "canonical_payload": "payload-same",
+            },
+            "soundness": "canonical_payload_equal",
+        }
+        args = argparse.Namespace(worktree="/tmp/bedc-test-verify-failure", base_ref="HEAD", no_push=True)
+        with patch.object(discovery_gate_evolver, "witness_from_record", return_value=(witness, None)), \
+                patch.object(discovery_gate_evolver, "prepare_worktree"), \
+                patch.object(discovery_gate_evolver, "audit_failures", return_value=(0, set(), {})), \
+                patch.object(discovery_gate_evolver, "registry_bucket_keys", return_value=set()), \
+                patch.object(discovery_gate_evolver, "append_witness", return_value=True), \
+                patch.object(discovery_gate_evolver, "append_regression_test"), \
+                patch.object(discovery_gate_evolver, "verify", side_effect=RuntimeError("verify failed")), \
+                patch.object(discovery_gate_evolver, "commit_and_push") as commit_and_push, \
+                patch.object(discovery_gate_evolver, "append_log"):
+            ok_count, fail_count = discovery_gate_evolver.process_records([{"id": "exact"}], args)
+        self.assertEqual(ok_count, 0)
+        self.assertEqual(fail_count, 1)
+        commit_and_push.assert_not_called()
 
     # BEGIN DISCOVERY GATE EVOLVER REGRESSION TESTS
     # END DISCOVERY GATE EVOLVER REGRESSION TESTS

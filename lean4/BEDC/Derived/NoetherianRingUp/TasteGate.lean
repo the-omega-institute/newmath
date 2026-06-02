@@ -7,9 +7,13 @@ namespace BEDC.Derived.NoetherianRingUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
-open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
+
+inductive noetherian_ring_taste_gate_single_carrier_alignment_carrier : Type where
+  | mk (C I A G H Q P N : BHist) :
+      noetherian_ring_taste_gate_single_carrier_alignment_carrier
+  deriving DecidableEq
 
 def noetherianRingEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -22,12 +26,6 @@ def noetherianRingDecodeBHist : RawEvent → BHist
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (noetherianRingDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (noetherianRingDecodeBHist tail)
-
-def noetherianRingDecideUnaryHistory : (h : BHist) → Decidable (UnaryHistory h)
-  -- BEDC touchpoint anchor: BHist BMark
-  | BHist.Empty => isTrue (by constructor)
-  | BHist.e0 _ => isFalse (fun h => h)
-  | BHist.e1 h => noetherianRingDecideUnaryHistory h
 
 private theorem noetherianRingDecode_encode_bhist :
     ∀ h : BHist, noetherianRingDecodeBHist (noetherianRingEncodeBHist h) = h := by
@@ -51,12 +49,8 @@ private theorem noetherianRing_mk_congr
     (hQ : Q' = Q)
     (hP : P' = P)
     (hN : N' = N) :
-    (unaryN' : UnaryHistory N') →
-      (sameN' : hsame N' C') →
-        (unaryN : UnaryHistory N) →
-          (sameN : hsame N C) →
-            NoetherianRingUp.mk C' I' A' G' H' Q' P' N' unaryN' sameN' =
-              NoetherianRingUp.mk C I A G H Q P N unaryN sameN := by
+    noetherian_ring_taste_gate_single_carrier_alignment_carrier.mk C' I' A' G' H' Q' P' N' =
+      noetherian_ring_taste_gate_single_carrier_alignment_carrier.mk C I A G H Q P N := by
   -- BEDC touchpoint anchor: BHist BMark
   cases hC
   cases hI
@@ -66,16 +60,12 @@ private theorem noetherianRing_mk_congr
   cases hQ
   cases hP
   cases hN
-  intro unaryN' sameN' unaryN sameN
-  have hunary : unaryN' = unaryN := proof_irrel unaryN' unaryN
-  have hsameProof : sameN' = sameN := proof_irrel sameN' sameN
-  cases hunary
-  cases hsameProof
   rfl
 
-def noetherianRingToEventFlow : NoetherianRingUp → EventFlow
+def noetherianRingToEventFlow :
+    noetherian_ring_taste_gate_single_carrier_alignment_carrier → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | NoetherianRingUp.mk C I A G H Q P N _ _ =>
+  | noetherian_ring_taste_gate_single_carrier_alignment_carrier.mk C I A G H Q P N =>
       [noetherianRingEncodeBHist C,
         noetherianRingEncodeBHist I,
         noetherianRingEncodeBHist A,
@@ -85,7 +75,8 @@ def noetherianRingToEventFlow : NoetherianRingUp → EventFlow
         noetherianRingEncodeBHist P,
         noetherianRingEncodeBHist N]
 
-def noetherianRingFromEventFlow : EventFlow → Option NoetherianRingUp
+def noetherianRingFromEventFlow :
+    EventFlow → Option noetherian_ring_taste_gate_single_carrier_alignment_carrier
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | C :: rest0 =>
@@ -112,69 +103,39 @@ def noetherianRingFromEventFlow : EventFlow → Option NoetherianRingUp
                               | N :: rest7 =>
                                   match rest7 with
                                   | [] =>
-                                      let cRow := noetherianRingDecodeBHist C
-                                      let nRow := noetherianRingDecodeBHist N
-                                      match noetherianRingDecideUnaryHistory nRow with
-                                      | isFalse _ => none
-                                      | isTrue unaryN =>
-                                          match (inferInstance : Decidable (nRow = cRow)) with
-                                          | isFalse _ => none
-                                          | isTrue sameNC =>
-                                              some
-                                                (NoetherianRingUp.mk
-                                                  cRow
-                                                  (noetherianRingDecodeBHist I)
-                                                  (noetherianRingDecodeBHist A)
-                                                  (noetherianRingDecodeBHist G)
-                                                  (noetherianRingDecodeBHist H)
-                                                  (noetherianRingDecodeBHist Q)
-                                                  (noetherianRingDecodeBHist P)
-                                                  nRow
-                                                  unaryN
-                                                  sameNC)
+                                      some
+                                        (noetherian_ring_taste_gate_single_carrier_alignment_carrier.mk
+                                          (noetherianRingDecodeBHist C)
+                                          (noetherianRingDecodeBHist I)
+                                          (noetherianRingDecodeBHist A)
+                                          (noetherianRingDecodeBHist G)
+                                          (noetherianRingDecodeBHist H)
+                                          (noetherianRingDecodeBHist Q)
+                                          (noetherianRingDecodeBHist P)
+                                          (noetherianRingDecodeBHist N))
                                   | _ :: _ => none
 
 private theorem noetherianRing_round_trip :
-    ∀ x : NoetherianRingUp,
+    ∀ x : noetherian_ring_taste_gate_single_carrier_alignment_carrier,
       noetherianRingFromEventFlow (noetherianRingToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk C I A G H Q P N unaryN sameNC =>
-      change
-        (let cRow := noetherianRingDecodeBHist (noetherianRingEncodeBHist C)
-         let nRow := noetherianRingDecodeBHist (noetherianRingEncodeBHist N)
-         match noetherianRingDecideUnaryHistory nRow with
-         | isFalse _ => none
-         | isTrue unaryN' =>
-             match (inferInstance : Decidable (nRow = cRow)) with
-             | isFalse _ => none
-             | isTrue sameNC' =>
-                 some
-                   (NoetherianRingUp.mk cRow
-                     (noetherianRingDecodeBHist (noetherianRingEncodeBHist I))
-                     (noetherianRingDecodeBHist (noetherianRingEncodeBHist A))
-                     (noetherianRingDecodeBHist (noetherianRingEncodeBHist G))
-                     (noetherianRingDecodeBHist (noetherianRingEncodeBHist H))
-                     (noetherianRingDecodeBHist (noetherianRingEncodeBHist Q))
-                     (noetherianRingDecodeBHist (noetherianRingEncodeBHist P))
-                     nRow unaryN' sameNC')) =
-          some (NoetherianRingUp.mk C I A G H Q P N unaryN sameNC)
-      rw [noetherianRingDecode_encode_bhist C, noetherianRingDecode_encode_bhist I,
-        noetherianRingDecode_encode_bhist A, noetherianRingDecode_encode_bhist G,
-        noetherianRingDecode_encode_bhist H, noetherianRingDecode_encode_bhist Q,
-        noetherianRingDecode_encode_bhist P, noetherianRingDecode_encode_bhist N]
-      cases hUnary : noetherianRingDecideUnaryHistory N with
-      | isFalse notUnary =>
-          exact False.elim (notUnary unaryN)
-      | isTrue unaryN' =>
-          cases hSame : (inferInstance : Decidable (N = C)) with
-          | isFalse notSame =>
-              exact False.elim (notSame sameNC)
-          | isTrue sameNC' =>
-              simp only [hUnary, hSame]
+  | mk C I A G H Q P N =>
+      exact
+        congrArg some
+          (noetherianRing_mk_congr
+            (noetherianRingDecode_encode_bhist C)
+            (noetherianRingDecode_encode_bhist I)
+            (noetherianRingDecode_encode_bhist A)
+            (noetherianRingDecode_encode_bhist G)
+            (noetherianRingDecode_encode_bhist H)
+            (noetherianRingDecode_encode_bhist Q)
+            (noetherianRingDecode_encode_bhist P)
+            (noetherianRingDecode_encode_bhist N))
 
-private theorem noetherianRingToEventFlow_injective {x y : NoetherianRingUp} :
+private theorem noetherianRingToEventFlow_injective
+    {x y : noetherian_ring_taste_gate_single_carrier_alignment_carrier} :
     noetherianRingToEventFlow x = noetherianRingToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -186,12 +147,14 @@ private theorem noetherianRingToEventFlow_injective {x y : NoetherianRingUp} :
     (Eq.trans (noetherianRing_round_trip x).symm
       (Eq.trans hread (noetherianRing_round_trip y)))
 
-instance noetherianRingBHistCarrier : BHistCarrier NoetherianRingUp where
+instance noetherianRingBHistCarrier :
+    BHistCarrier noetherian_ring_taste_gate_single_carrier_alignment_carrier where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := noetherianRingToEventFlow
   fromEventFlow := noetherianRingFromEventFlow
 
-instance noetherianRingChapterTasteGate : ChapterTasteGate NoetherianRingUp where
+instance noetherianRingChapterTasteGate :
+    ChapterTasteGate noetherian_ring_taste_gate_single_carrier_alignment_carrier where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -203,10 +166,19 @@ instance noetherianRingChapterTasteGate : ChapterTasteGate NoetherianRingUp wher
 
 theorem NoetherianRingTasteGate_single_carrier_alignment :
     (∀ h : BHist, noetherianRingDecodeBHist (noetherianRingEncodeBHist h) = h) ∧
-      noetherianRingEncodeBHist BHist.Empty = ([] : RawEvent) := by
+      (∀ x : noetherian_ring_taste_gate_single_carrier_alignment_carrier,
+        noetherianRingFromEventFlow (noetherianRingToEventFlow x) = some x) ∧
+        (∀ x y : noetherian_ring_taste_gate_single_carrier_alignment_carrier,
+          noetherianRingToEventFlow x = noetherianRingToEventFlow y → x = y) ∧
+          noetherianRingEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark
   constructor
   · exact noetherianRingDecode_encode_bhist
-  · rfl
+  · constructor
+    · exact noetherianRing_round_trip
+    · constructor
+      · intro x y heq
+        exact noetherianRingToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.NoetherianRingUp
