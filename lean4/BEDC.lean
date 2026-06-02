@@ -655,6 +655,7 @@ import BEDC.Derived.BaireMetricUp.CompleteMetricNonescape
 import BEDC.Derived.BaireMetricUp.FirstDisagreementDyadicRadiusExactness
 import BEDC.Derived.BaireMetricUp.PrefixRadiusMonotonicity
 import BEDC.Derived.BaireMetricUp.PrefixWindowAdmission
+import BEDC.Derived.BaireMetricUp.RootStreamNamePrefixRoute
 import BEDC.Derived.BaireMetricUp.RootUltrametricCylinderCarrier
 import BEDC.Derived.BaireMetricUp.StreamNameNameCertScope
 import BEDC.Derived.BaireMetricUp.UltrametricLimitRoute
@@ -781,6 +782,7 @@ import BEDC.Derived.BishopRealApartnessTopologyUp.TasteGate
 import BEDC.Derived.BishopRealComparisonUp
 import BEDC.Derived.BishopRealComparisonUp.CauchyDedekindBoundary
 import BEDC.Derived.BishopRealComparisonUp.TasteGate
+import BEDC.Derived.BishopRealCompletionUp.TasteGate
 import BEDC.Derived.BishopRealLineInterfaceUp
 import BEDC.Derived.BishopRealLineInterfaceUp.TasteGate
 import BEDC.Derived.BishopRealNormalizerUp.TasteGate
@@ -1664,6 +1666,7 @@ import BEDC.Derived.CauchyOscillationUp.RootUnblockRoute
 import BEDC.Derived.CauchyOscillationUp.RootWindowLock
 import BEDC.Derived.CauchyOscillationUp.SharedDyadicWindowScope
 import BEDC.Derived.CauchyOscillationUp.TailModulusComparisonObligation
+import BEDC.Derived.CauchyOscillationUp.TailTolerancePackage
 import BEDC.Derived.CauchyOscillationUp.TailWindowCofinality
 import BEDC.Derived.CauchyOscillationUp.UniformCriterionConsumer
 import BEDC.Derived.CauchyOscillationUp.UniformCriterionHandoff
@@ -1914,6 +1917,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.ForbiddenCoordinateExclusion
 import BEDC.Derived.CauchyWitnessLedgerUp.FormalTargetSurface
 import BEDC.Derived.CauchyWitnessLedgerUp.ObserverFilterBudgetSelectorLock
 import BEDC.Derived.CauchyWitnessLedgerUp.ReadbackTotality
+import BEDC.Derived.CauchyWitnessLedgerUp.RealCompletionLedgerHandoff
 import BEDC.Derived.CauchyWitnessLedgerUp.RegularRealDependencyScope
 import BEDC.Derived.CauchyWitnessLedgerUp.RootBudgetCoherence
 import BEDC.Derived.CauchyWitnessLedgerUp.RootConsumerExhaustion
@@ -4868,6 +4872,7 @@ import BEDC.Derived.LatticeUp.DistributivityModular
 import BEDC.Derived.LatticeUp.MeetAbsorption
 import BEDC.Derived.LatticeUp.ModularComparison
 import BEDC.Derived.LatticeUp.Monotonicity
+import BEDC.Derived.LatticeUp.OppositeAbsorption
 import BEDC.Derived.LatticeUp.StdBridge
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.LawCertificateUp.ContinuationScope
@@ -5849,6 +5854,7 @@ import BEDC.Derived.NoGlobalSynchronizationLedgerUp.NameCertObligations
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.TasteGate
 import BEDC.Derived.NoetherSymmetryUp
 import BEDC.Derived.NoetherianModuleUp
+import BEDC.Derived.NoetherianModuleUp.TasteGate
 import BEDC.Derived.NoetherianRingUp
 import BEDC.Derived.NoetherianRingUp.TasteGate
 import BEDC.Derived.NonAxiomAdmissionUp.TasteGate
@@ -6266,6 +6272,7 @@ import BEDC.Derived.PolishspaceUp.RootCompletionObligations
 import BEDC.Derived.PolishspaceUp.RootCompletionSeparabilityExhaustion
 import BEDC.Derived.PolishspaceUp.RootCompletionSeparabilityHandoff
 import BEDC.Derived.PolishspaceUp.RootCountableDenseCauchyReadback
+import BEDC.Derived.PolishspaceUp.RootRepresentationHandoff
 import BEDC.Derived.PolishspaceUp.RootUnblockSurface
 import BEDC.Derived.PolishspaceUp.RootUnblockWindowDiscipline
 import BEDC.Derived.PolishspaceUp.SeparableDenseScheduleHandoff
