@@ -2693,6 +2693,7 @@ import BEDC.Derived.ContinuationMonadUp.UnitCompositeReadbackTotality
 import BEDC.Derived.ContinuationMonadUp.UnitRouteLaws
 import BEDC.Derived.ContinuationMonadUp.UnitRouteNonescape
 import BEDC.Derived.ContinuationMonadUp.UnitTailEndpointPackage
+import BEDC.Derived.ContinuationReplayUp
 import BEDC.Derived.ContinuationTraceNormalFormUp
 import BEDC.Derived.ContinuationTraceNormalFormUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
@@ -4954,6 +4955,7 @@ import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.LocatedCauchyNetUp.TasteGate
 import BEDC.Derived.LocatedCauchyUp
 import BEDC.Derived.LocatedChoiceSequenceUp.TasteGate
+import BEDC.Derived.LocatedClosedBallUp.TasteGate
 import BEDC.Derived.LocatedClosedIntervalFiniteNetUp.TasteGate
 import BEDC.Derived.LocatedCompactCompletionUp
 import BEDC.Derived.LocatedCompactIntervalOscillationBoundUp.TasteGate
@@ -5156,6 +5158,8 @@ import BEDC.Derived.MetaCICConfluenceAuditPacketUp.ClosedSubstitutionBoundary
 import BEDC.Derived.MetaCICConfluenceAuditPacketUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceCriticalPairBoundaryUp.TasteGate
+import BEDC.Derived.MetaCICConfluenceDiamondBoundaryUp
+import BEDC.Derived.MetaCICConfluenceDiamondBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPairLedgerUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp
