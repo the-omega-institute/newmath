@@ -30,7 +30,6 @@ SOURCE_REPORT_ARTIFACT = "reports/spectral_ablation_hinge.md"
 JSON_ARTIFACT = "reports/spectral_ablation_discovery.json"
 REPORT_ARTIFACT = "reports/spectral_ablation_discovery.md"
 BEFORE_ARM = "vanilla"
-NEAR_ZERO = 1.0e-12
 
 
 def _load_payload(path: Path | None = None) -> dict[str, Any]:
@@ -107,10 +106,8 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
             verdict = "positive"
         elif structural and delta and net < 0.0:
             verdict = "negative"
-        elif not delta or abs(net) <= NEAR_ZERO:
-            verdict = "compression"
         else:
-            verdict = "predicate-miss"
+            verdict = "compression"
         verdicts.append(
             {
                 "arm": arm["name"],
