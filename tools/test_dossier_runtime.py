@@ -56,6 +56,7 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
         self.assertIn("tools/build_namecert_html.py", render_text)
         self.assertIn("--scope all", render_text)
         self.assertIn("--page-timeout 180", render_text)
+        self.assertIn("--page-cache-dir .cache/dossier-html-pages", render_text)
         self.assertIn("/opt/texlive/texdir/bin/x86_64-linuxmusl", render_text)
         self.assertIn("make4ht --version", render_text)
         self.assertNotIn("quarto render", render_text)
@@ -71,10 +72,11 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
         ]
         self.assertEqual(len(cache_steps), 1)
         cache_with = cache_steps[0]["with"]
-        self.assertIn("docs/dossier/namecert", cache_with["path"])
-        self.assertIn("docs/dossier/paper", cache_with["path"])
+        self.assertEqual(cache_with["path"], ".cache/dossier-html-pages")
         self.assertIn("dossier-html-pages-${{ runner.os }}-${{ inputs.checkout_ref }}", cache_with["key"])
         self.assertIn("dossier-html-pages-${{ runner.os }}-", cache_with["restore-keys"])
+        self.assertNotIn("docs/dossier/namecert", cache_with["path"])
+        self.assertNotIn("docs/dossier/paper", cache_with["path"])
 
         upload_steps = [
             step for step in self.render_steps

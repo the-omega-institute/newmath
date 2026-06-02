@@ -48,9 +48,7 @@ jobs:
       - name: Restore dossier HTML page cache
         uses: actions/cache@v4
         with:
-          path: |
-            docs/dossier/namecert
-            docs/dossier/paper
+          path: .cache/dossier-html-pages
           key: dossier-html-pages-${{ runner.os }}-${{ inputs.checkout_ref }}
           restore-keys: |
             dossier-html-pages-${{ runner.os }}-
@@ -66,6 +64,7 @@ jobs:
             --dependency docs/dossier/data/dependency.json
             --jobs 2
             --page-timeout 180
+            --page-cache-dir .cache/dossier-html-pages
           )
           if [ "${{ inputs.upload_pages_artifact }}" = "true" ]; then
             args+=(--allow-failures)
