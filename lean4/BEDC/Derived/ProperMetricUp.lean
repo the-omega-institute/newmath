@@ -232,4 +232,88 @@ theorem ProperMetricCarrier_radius_window_nonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, rootUnary⟩
 
+theorem ProperMetricObligationClosedBall [AskSetup] [PackageSetup]
+    {X B K L T H C Q N closedBall compactRead locatedRead completeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProperMetricCarrier X B K L T H C Q N bundle pkg ->
+      Cont B K closedBall ->
+        Cont closedBall K compactRead ->
+          Cont compactRead L locatedRead ->
+            Cont locatedRead T completeRead ->
+              PkgSig bundle Q pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row completeRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row X ∨ hsame row B ∨ hsame row K ∨ hsame row L ∨
+                        hsame row T ∨ hsame row closedBall ∨ hsame row compactRead ∨
+                          hsame row locatedRead ∨ hsame row completeRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont B K closedBall ∧
+                        Cont closedBall K compactRead ∧
+                          Cont compactRead L locatedRead ∧
+                            Cont locatedRead T completeRead ∧ PkgSig bundle Q pkg)
+                    hsame ∧ UnaryHistory closedBall ∧ UnaryHistory compactRead ∧
+                  UnaryHistory locatedRead ∧ UnaryHistory completeRead := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier closedRoute compactRoute locatedRoute completeRoute pkgSig
+  obtain ⟨_XUnary, BUnary, KUnary, LUnary, TUnary, _HUnary, _CUnary, _QUnary,
+    _NUnary, _metricClosedRoute, _compactLocatedRoute, _handoffRoute,
+    _properPkg⟩ := carrier
+  have closedUnary : UnaryHistory closedBall :=
+    unary_cont_closed BUnary KUnary closedRoute
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed closedUnary KUnary compactRoute
+  have locatedUnary : UnaryHistory locatedRead :=
+    unary_cont_closed compactUnary LUnary locatedRoute
+  have completeUnary : UnaryHistory completeRead :=
+    unary_cont_closed locatedUnary TUnary completeRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row completeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row B ∨ hsame row K ∨ hsame row L ∨
+              hsame row T ∨ hsame row closedBall ∨ hsame row compactRead ∨
+                hsame row locatedRead ∨ hsame row completeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont B K closedBall ∧ Cont closedBall K compactRead ∧
+              Cont compactRead L locatedRead ∧ Cont locatedRead T completeRead ∧
+                PkgSig bundle Q pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro completeRead ⟨hsame_refl completeRead, completeUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, closedRoute, compactRoute, locatedRoute, completeRoute,
+          pkgSig⟩
+  }
+  exact ⟨cert, closedUnary, compactUnary, locatedUnary, completeUnary⟩
+
 end BEDC.Derived.ProperMetricUp
