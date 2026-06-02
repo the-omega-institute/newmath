@@ -619,6 +619,78 @@ supplied by host compactness, a selected subcover, quotient real equality, or
 choice.
 \end{proof}
 
+\begin{theorem}[Equicontinuity source-family root obligation]
+\label{thm:equicontinuity-root-obligation-source-family}
+Every accepted $\EquicontinuityUp$ read exposes the $\CompactMetricUp$ source
+row $K$ and the $\ContinuousMapUp$ family row $F$ before the tolerance
+$\epsilon$, shared radius $\rho$, or modulus handoff $M$ can be consumed. The
+read is therefore rooted in the displayed source-family packet of
+\autoref{def:equicontinuity-carrier}, not in an ambient compact space or an
+unlisted family selector.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:equicontinuity-carrier}. Its first two rows
+are the compact metric source $K$ and the finite continuous-family ledger $F$,
+and \autoref{thm:equicontinuity-namecert-obligations} makes those rows part of
+the local NameCert surface.
+
+Next use the compact metric route of
+\autoref{thm:equicontinuity-compact-metric-route}. It sends every later
+tolerance, radius, and modulus read through the displayed $K,F$ source-family
+route.
+
+Finally apply \autoref{thm:equicontinuity-nonescape}. A consumer that asks for
+$\epsilon,\rho,M$ before the source and family rows has left the accepted
+packet rather than extracting a hidden compact-source or family coordinate.
+\end{proof}
+
+\begin{theorem}[Equicontinuity shared-radius root obligation]
+\label{thm:equicontinuity-root-obligation-shared-radius}
+The radius row $\rho$ of an accepted $\EquicontinuityUp$ carrier is a single
+shared radius row transported by the displayed $\hsame$ and $\Cont$ routes. It
+is not a memberwise selector indexed by the family row $F$, and it cannot be
+replaced by a choice schedule over individual maps.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and NameCert obligations of
+\autoref{def:equicontinuity-carrier} and
+\autoref{thm:equicontinuity-namecert-obligations}. They display one row
+$\rho$ between the tolerance row and the modulus handoff row.
+
+Use the compact metric route of
+\autoref{thm:equicontinuity-compact-metric-route}. The row $\rho$ is
+transported through the same $\hsame$ and $\Cont$ replay rows that preserve
+$K,F,\epsilon,M$.
+
+Apply nonescape by \autoref{thm:equicontinuity-nonescape}. Since the accepted
+packet has no coordinate for a family-indexed selector, a memberwise radius
+choice cannot be recovered from the shared-radius row.
+\end{proof}
+
+\begin{theorem}[Equicontinuity downstream nonescape root obligation]
+\label{thm:equicontinuity-root-obligation-nonescape}
+The $\EquicontinuityUp$ root surface contains no finite-net selector, no
+subsequence selector, no Arzela--Ascoli convergence row, no host-continuity
+oracle, and no ambient $\RealUp$ completeness coordinate. Those rows must be
+supplied by downstream chapters before a consumer may read compact-uniform
+consequences from an accepted equicontinuity packet.
+\end{theorem}
+\begin{proof}
+Project the displayed rows of \autoref{def:equicontinuity-carrier}. The local
+surface records $K,F,\epsilon,\rho,M,T,R,P,N$ and the NameCert obligations of
+\autoref{thm:equicontinuity-namecert-obligations}; it does not add selector,
+subsequence, convergence, host-continuity, or completeness rows.
+
+Next use the compact metric route of
+\autoref{thm:equicontinuity-compact-metric-route}. It keeps compact-source
+information visible as a finite route, while refusing to turn that route into
+open-cover compactness, selected finite nets, or selected subsequences.
+
+Finally apply \autoref{thm:equicontinuity-nonescape}. Any Arzela--Ascoli,
+host-continuity, or real-completeness read must therefore enter through a
+downstream certificate rather than through the root $\EquicontinuityUp$ packet.
+\end{proof}
+
 \closureat{EquicontinuityUp}{seedStr}
 
 \begin{closurestatus}{\EquicontinuityUp}
