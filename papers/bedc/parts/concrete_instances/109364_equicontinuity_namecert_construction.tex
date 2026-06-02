@@ -691,6 +691,42 @@ host-continuity, or real-completeness read must therefore enter through a
 downstream certificate rather than through the root $\EquicontinuityUp$ packet.
 \end{proof}
 
+\begin{theorem}[Equicontinuity shared-radius family nonescape]
+\label{thm:equicontinuity-shared-radius-family-nonescape}
+For every accepted $\EquicontinuityUp$ carrier $E=(K,F,\epsilon,\rho,M,T,R,P,N)$, the shared radius $\rho$ is read over the same $\CompactMetricUp$ source row $K$ and $\ContinuousMapUp$ family row $F$ through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. A consumer cannot split $\rho$ into memberwise radii, detach it from the $\UniformModulusUp$ handoff $M$, or read it outside the finite family packet.
+\end{theorem}
+\begin{proof}
+Project the carrier and use the shared-radius root obligation. The rows $K,F,\epsilon,\rho,M$ occur in one displayed packet, so the radius row is already tied to the compact source and continuous-family ledger.
+
+Apply shared-modulus handoff preservation. It makes the $\UniformModulusUp$ consumer preserve the same $\epsilon,\rho,M$ rows rather than replacing them by a memberwise or selected finite-net radius.
+
+Finally use transport replay provenance and nonescape. The rows $T,R,P,N$ only preserve the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route, so no extra family selector can escape the shared-radius packet.
+\end{proof}
+
+\begin{theorem}[Equicontinuity compact-net modulus readiness]
+\label{thm:equicontinuity-compact-net-modulus-readiness}
+Every $\FiniteNetEquicontinuityUp$ consumer of an accepted $\EquicontinuityUp$ packet must first read the $\CompactMetricUp$ source $K$, the finite $\ContinuousMapUp$ family ledger $F$, the shared tolerance-radius rows $\epsilon,\rho$, and the $\UniformModulusUp$ handoff $M$ through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface. The finite-net handoff is readiness data only; it does not choose a net or assert open-cover compactness.
+\end{theorem}
+\begin{proof}
+Begin with finite-net readiness and compact family-net readiness. Those results place any finite-net-facing read after the compact-source and continuous-family rows and before any downstream selector can be consumed.
+
+Use the uniform-modulus root obligation to keep $M$ attached to $\epsilon,\rho$ over the same $K,F$ route. The modulus handoff therefore arrives as part of the finite packet, not as a second compactness principle.
+
+The structural rows $T,R,P,N$ then replay only the displayed route. Nonescape excludes selected nets, open-cover compactness, host continuity, and ambient $\RealUp$ completeness from the readiness surface.
+\end{proof}
+
+\begin{theorem}[Equicontinuity Arzela--Ascoli consumer route]
+\label{thm:equicontinuity-arzela-ascoli-consumer-route}
+An Arzela--Ascoli-facing consumer may cite $\EquicontinuityUp$ only as the routed packet $K,F,\epsilon,\rho,M,T,R,P,N$: $\CompactMetricUp$ source data, finite $\ContinuousMapUp$ family data, shared $\UniformModulusUp$ readiness, finite-net handoff, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The consumer must supply its own subsequence, limiting map, convergence, and Real-facing certificate rows.
+\end{theorem}
+\begin{proof}
+Use the Arzela--Ascoli boundary readiness theorem. It presents $\EquicontinuityUp$ as a boundary over compact-source, continuous-family, shared-radius, and modulus-handoff rows.
+
+Next compose compact-net modulus readiness with the finite-net root boundary. This gives the downstream consumer a finite-net-ready route, but not the selected net, subsequence, limiting map, or convergence certificate.
+
+Finally apply downstream nonescape. Since the carrier has no ambient completeness or host-continuity coordinate, every Arzela--Ascoli conclusion must be supplied by a later packet over the same displayed structural rows.
+\end{proof}
+
 \closureat{EquicontinuityUp}{seedStr}
 
 \begin{closurestatus}{\EquicontinuityUp}
