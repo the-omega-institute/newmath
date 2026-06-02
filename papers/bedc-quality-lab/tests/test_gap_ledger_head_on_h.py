@@ -266,21 +266,56 @@ def test_run_record_wires_three_arms_same_eval_error_and_no_z_leak(monkeypatch):
 
     record = runner._run_record(seed=123, seed_index=7, config=_fixture_config())
 
-    assert captured["fit"] == 1
-    assert captured["predict"] == 1
+    assert captured["fit"] == 2
+    assert captured["predict"] == 2
     assert record["split"]["overlap_count"] == 0
     assert record["representation_boundary"] == "learned_h"
     assert record["inference_no_ground_truth_z"] is True
     assert record["feature_columns"] == runner._feature_columns(2)
     assert record["forbidden_inference_columns"] == list(runner.FORBIDDEN_INFERENCE_COLUMNS)
-    assert set(record["arms"]) == {"vanilla", "posthoc_report_only", "learned_gap_head_on_h"}
+    assert set(record["arms"]) == {
+        "vanilla",
+        "posthoc_report_only",
+        "learned_gap_head_on_h",
+        runner.MATCHED_RANDOM_ARM,
+    }
     assert record["arms"]["posthoc_report_only"]["inference"] is False
+    assert record["matched_random_control"]["arm"] == runner.MATCHED_RANDOM_ARM
+    assert record["matched_random_control"]["same_feature_columns"] is True
+    assert record["matched_random_control"]["same_split"] is True
+    assert record["matched_random_control"]["same_thresholds"] is True
+    assert record["matched_random_control"]["same_budget"] is True
+    assert record["matched_random_control"]["same_metric_helper"] is True
     vanilla = record["arms"]["vanilla"]
     posthoc = record["arms"]["posthoc_report_only"]["oracle_diagnostics"]
     learned = record["arms"]["learned_gap_head_on_h"]
+    control = record["arms"][runner.MATCHED_RANDOM_ARM]
     assert vanilla["prediction_error_rate"] == posthoc["prediction_error_rate"]
     assert vanilla["prediction_error_rate"] == learned["prediction_error_rate"]
+    assert vanilla["prediction_error_rate"] == control["prediction_error_rate"]
     assert "unlogged_error_rate_delta_learned_minus_vanilla" in record["comparison"]
+    assert "unlogged_error_rate_delta_matched_random_minus_vanilla" in record["comparison"]
+
+
+def test_matched_random_labels_are_deterministic_and_permuted():
+    labels = np.array(
+        [
+            [1.0, 0.0, 1.0, 0.0],
+            [0.0, 1.0, 0.0, 1.0],
+            [1.0, 1.0, 0.0, 0.0],
+            [0.0, 0.0, 1.0, 1.0],
+        ],
+        dtype=np.float64,
+    )
+
+    first = runner._matched_random_gap_labels(labels, seed=11)
+    second = runner._matched_random_gap_labels(labels, seed=11)
+    other = runner._matched_random_gap_labels(labels, seed=12)
+
+    np.testing.assert_array_equal(first, second)
+    assert not np.array_equal(first, other)
+    for index in range(labels.shape[1]):
+        assert sorted(first[:, index].tolist()) == sorted(labels[:, index].tolist())
 
 
 def test_posthoc_report_only_does_not_train(monkeypatch):
@@ -303,26 +338,33 @@ def test_posthoc_report_only_does_not_train(monkeypatch):
 
 
 def test_payload_and_markdown_share_boundary_fields():
+    def arm(value):
+        return {
+            "failure_detection_auroc": {"value": value},
+            "ece": {"value": 0.1},
+            "unlogged_error_rate": 0.2,
+            "critical_unlogged_error_rate": 0.2,
+            "prediction_error_rate": 0.3,
+            "primary_gap_sound": {
+                "low_gap_implies_error_within_epsilon": 0.4,
+                "error_above_epsilon_implies_gap_at_least_tau": 0.5,
+            },
+        }
+
     record = {
         "seed": 1,
         "arms": {
-            arm: {
-                "failure_detection_auroc": {"value": 0.5},
-                "ece": {"value": 0.1},
-                "unlogged_error_rate": 0.2,
-                "critical_unlogged_error_rate": 0.2,
-                "prediction_error_rate": 0.3,
-                "primary_gap_sound": {
-                    "low_gap_implies_error_within_epsilon": 0.4,
-                    "error_above_epsilon_implies_gap_at_least_tau": 0.5,
-                },
-            }
-            for arm in ("vanilla", "learned_gap_head_on_h")
+            "vanilla": arm(0.5),
+            "learned_gap_head_on_h": arm(0.8),
+            runner.MATCHED_RANDOM_ARM: arm(0.52),
         },
         "comparison": {
             "unlogged_error_rate_delta_learned_minus_vanilla": -0.1,
             "critical_unlogged_error_rate_delta_learned_minus_vanilla": -0.1,
             "failure_detection_auroc_delta_learned_minus_vanilla": 0.0,
+            "unlogged_error_rate_delta_matched_random_minus_vanilla": 0.0,
+            "critical_unlogged_error_rate_delta_matched_random_minus_vanilla": 0.0,
+            "failure_detection_auroc_delta_matched_random_minus_vanilla": 0.0,
         },
     }
 
@@ -334,9 +376,13 @@ def test_payload_and_markdown_share_boundary_fields():
     assert payload["inference_no_ground_truth_z"] is True
     assert payload["feature_columns"] == runner._feature_columns(2)
     assert payload["forbidden_inference_columns"] == list(runner.FORBIDDEN_INFERENCE_COLUMNS)
+    assert payload["forbidden_column_audit"]["status"] == "pass"
+    assert payload["control_protocol"]["control_arm"] == runner.MATCHED_RANDOM_ARM
+    assert payload["control_verdict"]["arm"] == runner.MATCHED_RANDOM_ARM
     assert "# Gap-Ledger Head on Learned h" in report
     assert "Representation boundary: `learned_h`" in report
     assert "Forbidden inference columns" in report
+    assert "Matched-Random Control" in report
 
 
 def test_gap_head_run_config_preserves_default_payload_boundary(monkeypatch, tmp_path):
@@ -348,7 +394,7 @@ def test_gap_head_run_config_preserves_default_payload_boundary(monkeypatch, tmp
             {
                 "seed": 1,
                 "arms": {
-                    arm: {
+                    arm_name: {
                         "failure_detection_auroc": {"value": 0.75},
                         "ece": {"value": 0.2},
                         "unlogged_error_rate": 0.1,
@@ -359,12 +405,15 @@ def test_gap_head_run_config_preserves_default_payload_boundary(monkeypatch, tmp
                             "error_above_epsilon_implies_gap_at_least_tau": 0.8,
                         },
                     }
-                    for arm in ("vanilla", "learned_gap_head_on_h")
+                    for arm_name in ("vanilla", "learned_gap_head_on_h", runner.MATCHED_RANDOM_ARM)
                 },
                 "comparison": {
                     "unlogged_error_rate_delta_learned_minus_vanilla": 0.0,
                     "critical_unlogged_error_rate_delta_learned_minus_vanilla": 0.0,
                     "failure_detection_auroc_delta_learned_minus_vanilla": 0.0,
+                    "unlogged_error_rate_delta_matched_random_minus_vanilla": 0.0,
+                    "critical_unlogged_error_rate_delta_matched_random_minus_vanilla": 0.0,
+                    "failure_detection_auroc_delta_matched_random_minus_vanilla": 0.0,
                 },
             }
         ],

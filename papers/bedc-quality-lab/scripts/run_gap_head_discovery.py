@@ -30,6 +30,7 @@ JSON_ARTIFACT = "reports/gap_head_discovery.json"
 REPORT_ARTIFACT = "reports/gap_head_discovery.md"
 BEFORE_ARM = "vanilla"
 AFTER_ARM = "learned_gap_head_on_h"
+CONTROL_ARM = "matched_random_gap_head"
 BOUNDARY = "learned_h"
 
 
@@ -37,6 +38,7 @@ BOUNDARY = "learned_h"
 class GapHeadProjection:
     passage: ClassifierPassage
     claim: DiscoveryClaim
+    source_payload: dict[str, Any]
     source_artifacts: dict[str, Any]
     boundary_checks: dict[str, Any]
     benefit_terms: dict[str, float]
@@ -78,8 +80,10 @@ def _validate_gap_head_payload(payload: dict[str, Any]) -> None:
             record.get("forbidden_inference_columns", []),
         )
         arms = record.get("arms", {})
-        if BEFORE_ARM not in arms or AFTER_ARM not in arms:
+        if BEFORE_ARM not in arms or AFTER_ARM not in arms or CONTROL_ARM not in arms:
             raise ValueError("before/after arms must share each record")
+        if record.get("matched_random_control", {}).get("arm") != CONTROL_ARM:
+            raise ValueError("matched-random control certificate missing")
         seed = record.get("seed")
         if seed in seeds:
             raise ValueError("common source seed ids must be unique")
@@ -111,13 +115,21 @@ def _judgment(arm: dict[str, Any]) -> str:
     )
 
 
-def _benefit_terms(payload: dict[str, Any]) -> dict[str, float]:
+def _comparison_suffix(after_arm: str) -> str:
+    if after_arm == AFTER_ARM:
+        return "learned_minus_vanilla"
+    if after_arm == CONTROL_ARM:
+        return "matched_random_minus_vanilla"
+    raise ValueError(f"unsupported after arm: {after_arm}")
+
+
+def _benefit_terms(payload: dict[str, Any], *, after_arm: str) -> dict[str, float]:
     comparison = payload["aggregate"]["comparison"]
     unlogged_drop = -float(
-        comparison["unlogged_error_rate_delta_learned_minus_vanilla"]["mean"]
+        comparison[f"unlogged_error_rate_delta_{_comparison_suffix(after_arm)}"]["mean"]
     )
     critical_drop = -float(
-        comparison["critical_unlogged_error_rate_delta_learned_minus_vanilla"]["mean"]
+        comparison[f"critical_unlogged_error_rate_delta_{_comparison_suffix(after_arm)}"]["mean"]
     )
     return {
         "unlogged_error_reduction": max(0.0, unlogged_drop),
@@ -144,12 +156,15 @@ def _debt_terms(delta_count: int, *, debt_scale: float) -> dict[str, float]:
 def _build_gap_head_projection(
     payload: dict[str, Any],
     *,
+    after_arm: str = AFTER_ARM,
     recorded_rows: frozenset[LedgerRowKey] | None = None,
     omitted_debt_terms: dict[str, float] | None = None,
     laundering_modes: frozenset[str] = frozenset(),
     debt_scale: float = 1.0,
 ) -> GapHeadProjection:
     _validate_gap_head_payload(payload)
+    if after_arm not in {AFTER_ARM, CONTROL_ARM}:
+        raise ValueError(f"unsupported after arm: {after_arm}")
     records = payload["records"]
     payload_source_artifacts = payload.get("source_artifacts", {})
     source_json_artifact = payload_source_artifacts.get("json_artifact", SOURCE_JSON_ARTIFACT)
@@ -160,7 +175,7 @@ def _build_gap_head_projection(
         for record in records
     )
     target_relation = frozenset(
-        (f"seed:{record['seed']}", f"seed:{record['seed']}", _judgment(record["arms"][AFTER_ARM]))
+        (f"seed:{record['seed']}", f"seed:{record['seed']}", _judgment(record["arms"][after_arm]))
         for record in records
     )
     surface_used = frozenset((source_id, source_id) for source_id in source_ids)
@@ -173,6 +188,7 @@ def _build_gap_head_projection(
         "inference_no_ground_truth_z": payload["inference_no_ground_truth_z"],
         "common_source_record_count": len(records),
         "source_artifact": source_json_artifact,
+        "after_arm": after_arm,
     }
     source = ClassifierState(
         source_ids=source_ids,
@@ -188,7 +204,7 @@ def _build_gap_head_projection(
     )
     target = ClassifierState(
         source_ids=source_ids,
-        pattern_id="gap-head-after-learned-h",
+        pattern_id=f"gap-head-after-{after_arm.replace('_', '-')}",
         ledger_policy=ledger_rows,
         relation=target_relation,
         certificate=cert,
@@ -200,7 +216,7 @@ def _build_gap_head_projection(
     )
     passage = ClassifierPassage(source=source, target=target, recorded_rows=rows_recorded)
     delta_count = len(classifier_surface_delta(passage))
-    benefit = _benefit_terms(payload)
+    benefit = _benefit_terms(payload, after_arm=after_arm)
     score = _score_terms(payload)
     debt = _debt_terms(delta_count, debt_scale=debt_scale)
     scope = Scope(
@@ -238,6 +254,7 @@ def _build_gap_head_projection(
     return GapHeadProjection(
         passage=passage,
         claim=claim,
+        source_payload=payload,
         source_artifacts={
             "source_json_artifact": source_json_artifact,
             "source_report_artifact": source_report_artifact,
@@ -250,7 +267,7 @@ def _build_gap_head_projection(
             "feature_columns": payload["feature_columns"],
             "forbidden_inference_columns": payload["forbidden_inference_columns"],
             "before_arm": BEFORE_ARM,
-            "after_arm": AFTER_ARM,
+            "after_arm": after_arm,
             "common_source_seed_order": payload["aggregate"]["seed_order"],
         },
         benefit_terms=benefit,
@@ -276,7 +293,7 @@ def _non_discovery_reason(claim: DiscoveryClaim, structural: bool, positive: boo
     return "positive_protocol_incomplete"
 
 
-def _verdict_payload(projection: GapHeadProjection) -> dict[str, Any]:
+def _projection_verdict(projection: GapHeadProjection) -> dict[str, Any]:
     passage = projection.passage
     claim = projection.claim
     delta = classifier_surface_delta(passage)
@@ -311,6 +328,56 @@ def _verdict_payload(projection: GapHeadProjection) -> dict[str, Any]:
     }
 
 
+def _control_summary(control: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "arm": control["boundary_checks"]["after_arm"],
+        "surface_delta_count": control["surface_delta_count"],
+        "shift_information": control["shift_information"],
+        "structural_discovery": control["structural_discovery"],
+        "positive_discovery": control["positive_discovery"],
+        "net_information": control["net_information"],
+        "non_discovery_reason": control["non_discovery_reason"],
+    }
+
+
+def _main_claim_status(treatment: dict[str, Any], *, control_positive: bool) -> str:
+    if control_positive:
+        return "unresolved"
+    if treatment["positive_discovery"]:
+        return "promoted"
+    return "not_promoted"
+
+
+def _source_control_verdict(payload: dict[str, Any], control: dict[str, Any]) -> dict[str, Any]:
+    source_verdict = payload.get("control_verdict", {})
+    positive = bool(source_verdict.get("positive", control["positive_discovery"]))
+    return {
+        "positive": positive,
+        "reason": "control_positive" if positive else "control_non_positive",
+        "source_positive": source_verdict.get("positive"),
+        "projection_positive_discovery": control["positive_discovery"],
+        "source_metrics": source_verdict.get("metrics", {}),
+    }
+
+
+def _verdict_payload(projection: GapHeadProjection) -> dict[str, Any]:
+    treatment = _projection_verdict(projection)
+    control_projection = _build_gap_head_projection(projection.source_payload, after_arm=CONTROL_ARM)
+    control = _projection_verdict(control_projection)
+    control_verdict = _source_control_verdict(projection.source_payload, control)
+    treatment["matched_random_control"] = {
+        "source_protocol": "source-json matched_random_control per record",
+        "control_projection": _control_summary(control),
+        "control_verdict": control_verdict,
+    }
+    treatment["main_claim_status"] = _main_claim_status(
+        treatment,
+        control_positive=control_verdict["positive"],
+    )
+    treatment["final_main_claim_status"] = treatment["main_claim_status"]
+    return treatment
+
+
 def _format_float(value: float) -> str:
     return f"{value:.6f}"
 
@@ -327,7 +394,9 @@ def _render_report(payload: dict[str, Any]) -> str:
         f"- Shift information: `{payload['shift_information']}`",
         f"- Structural discovery: `{str(payload['structural_discovery']).lower()}`",
         f"- Positive discovery: `{str(payload['positive_discovery']).lower()}`",
+        f"- Main claim status: `{payload['main_claim_status']}`",
         f"- Non-discovery reason: `{reason}`",
+        f"- Matched-random control positive: `{str(payload['matched_random_control']['control_verdict']['positive']).lower()}`",
         "",
         "## Information",
         "",

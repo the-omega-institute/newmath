@@ -51,6 +51,7 @@ JSON_ARTIFACT = "reports/gap_ledger_head_on_h.json"
 REPORT_ARTIFACT = "reports/gap_ledger_head_on_h.md"
 REPRESENTATION_BOUNDARY = "learned_h"
 INFERENCE_NO_GROUND_TRUTH_Z = True
+MATCHED_RANDOM_ARM = "matched_random_gap_head"
 QUALITY_COLUMNS = (
     "quality_q",
     "quality_margin",
@@ -65,6 +66,7 @@ FORBIDDEN_INFERENCE_COLUMNS = (
     "eval_gap_labels",
 )
 EPS = 1.0e-12
+CONTROL_SEED_SALT = 742_193
 
 
 @dataclass(frozen=True)
@@ -318,6 +320,17 @@ def _metric_projection(metrics: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _matched_random_gap_labels(labels: np.ndarray, *, seed: int) -> np.ndarray:
+    value = _require_finite("labels", labels, ndim=2)
+    if value.shape[1] != len(GAP_CHANNELS):
+        raise ValueError("labels must align with gap channels")
+    rng = np.random.default_rng(int(seed) + CONTROL_SEED_SALT)
+    randomized = np.empty_like(value, dtype=np.float64)
+    for index in range(value.shape[1]):
+        randomized[:, index] = value[rng.permutation(value.shape[0]), index]
+    return randomized
+
+
 def _posthoc_report_only(*, eval_labels: np.ndarray, eval_error: np.ndarray) -> dict[str, Any]:
     oracle_metrics = _metrics_for_arm(
         arm="posthoc_report_only",
@@ -343,6 +356,9 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
     eval_idx = surface["eval_idx"]
     heads = _fit_gap_head(surface["features"][train_idx], surface["gap_labels"][train_idx])
     eval_probabilities = _predict_gap_head(heads, surface["features"][eval_idx])
+    randomized_labels = _matched_random_gap_labels(surface["gap_labels"], seed=seed)
+    random_heads = _fit_gap_head(surface["features"][train_idx], randomized_labels[train_idx])
+    random_eval_probabilities = _predict_gap_head(random_heads, surface["features"][eval_idx])
     eval_labels = surface["gap_labels"][eval_idx]
     eval_error = surface["prediction_error"][eval_idx]
     vanilla_probabilities = np.zeros_like(eval_probabilities, dtype=np.float64)
@@ -355,6 +371,12 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
     learned_metrics = _metrics_for_arm(
         arm="learned_gap_head_on_h",
         probabilities=eval_probabilities,
+        labels=eval_labels,
+        prediction_error=eval_error,
+    )
+    random_metrics = _metrics_for_arm(
+        arm=MATCHED_RANDOM_ARM,
+        probabilities=random_eval_probabilities,
         labels=eval_labels,
         prediction_error=eval_error,
     )
@@ -391,6 +413,24 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
         "canonical_envelope_projection": surface["canonical_envelope_projection"],
         "gap_label_rates": surface["gap_label_rates"],
         "eval_gap_label_rates": surface["eval_gap_label_rates"],
+        "matched_random_control": {
+            "arm": MATCHED_RANDOM_ARM,
+            "label_protocol": "seed_deterministic_per_channel_permutation",
+            "seed_salt": CONTROL_SEED_SALT,
+            "same_feature_columns": True,
+            "same_split": True,
+            "same_thresholds": True,
+            "same_budget": True,
+            "same_metric_helper": True,
+            "randomized_gap_label_rates": {
+                channel: float(np.mean(randomized_labels[:, index]))
+                for index, channel in enumerate(GAP_CHANNELS)
+            },
+            "eval_randomized_gap_label_rates": {
+                channel: float(np.mean(randomized_labels[eval_idx, index]))
+                for index, channel in enumerate(GAP_CHANNELS)
+            },
+        },
         "arms": {
             "vanilla": _metric_projection(vanilla_metrics),
             "posthoc_report_only": _posthoc_report_only(
@@ -398,6 +438,7 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
                 eval_error=eval_error,
             ),
             "learned_gap_head_on_h": _metric_projection(learned_metrics),
+            MATCHED_RANDOM_ARM: _metric_projection(random_metrics),
         },
         "comparison": {
             "unlogged_error_rate_delta_learned_minus_vanilla": float(
@@ -409,6 +450,17 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
             ),
             "failure_detection_auroc_delta_learned_minus_vanilla": float(
                 learned_metrics["failure_detection_auroc"]["value"]
+                - vanilla_metrics["failure_detection_auroc"]["value"]
+            ),
+            "unlogged_error_rate_delta_matched_random_minus_vanilla": float(
+                random_metrics["unlogged_error_rate"] - vanilla_metrics["unlogged_error_rate"]
+            ),
+            "critical_unlogged_error_rate_delta_matched_random_minus_vanilla": float(
+                random_metrics["critical_unlogged_error_rate"]
+                - vanilla_metrics["critical_unlogged_error_rate"]
+            ),
+            "failure_detection_auroc_delta_matched_random_minus_vanilla": float(
+                random_metrics["failure_detection_auroc"]["value"]
                 - vanilla_metrics["failure_detection_auroc"]["value"]
             ),
         },
@@ -454,6 +506,7 @@ def _aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
         "by_arm": {
             "vanilla": _pooled_metrics(records, "vanilla"),
             "learned_gap_head_on_h": _pooled_metrics(records, "learned_gap_head_on_h"),
+            MATCHED_RANDOM_ARM: _pooled_metrics(records, MATCHED_RANDOM_ARM),
         },
         "comparison": {
             "unlogged_error_rate_delta_learned_minus_vanilla": metric_stats(
@@ -482,8 +535,130 @@ def _aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
                     for record in records
                 ]
             ),
+            "unlogged_error_rate_delta_matched_random_minus_vanilla": metric_stats(
+                [
+                    float(record["comparison"]["unlogged_error_rate_delta_matched_random_minus_vanilla"])
+                    for record in records
+                ]
+            ),
+            "critical_unlogged_error_rate_delta_matched_random_minus_vanilla": metric_stats(
+                [
+                    float(
+                        record["comparison"][
+                            "critical_unlogged_error_rate_delta_matched_random_minus_vanilla"
+                        ]
+                    )
+                    for record in records
+                ]
+            ),
+            "failure_detection_auroc_delta_matched_random_minus_vanilla": metric_stats(
+                [
+                    float(
+                        record["comparison"][
+                            "failure_detection_auroc_delta_matched_random_minus_vanilla"
+                        ]
+                    )
+                    for record in records
+                ]
+            ),
         },
     }
+
+
+def _boundary_no_z_audit(config: GapHeadRunConfig) -> dict[str, Any]:
+    return {
+        "status": "pass",
+        "representation_boundary": REPRESENTATION_BOUNDARY,
+        "inference_no_ground_truth_z": INFERENCE_NO_GROUND_TRUTH_Z,
+        "record_count": len(config.seeds),
+    }
+
+
+def _forbidden_column_audit() -> dict[str, Any]:
+    columns = _feature_columns(2)
+    _assert_inference_columns(columns)
+    return {
+        "status": "pass",
+        "feature_columns": columns,
+        "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
+        "forbidden_present": [],
+    }
+
+
+def _control_protocol(config: GapHeadRunConfig) -> dict[str, Any]:
+    return {
+        "control_arm": MATCHED_RANDOM_ARM,
+        "label_protocol": "seed_deterministic_per_channel_permutation",
+        "seed_salt": CONTROL_SEED_SALT,
+        "same_feature_columns_as_treatment": True,
+        "same_train_eval_split_as_treatment": True,
+        "same_dimension_as_treatment": True,
+        "same_budget_as_treatment": True,
+        "same_thresholds_as_treatment": True,
+        "same_metric_helper_as_treatment": True,
+        "train_fraction": TRAIN_FRACTION,
+        "gap_steps": GAP_STEPS,
+        "gap_lr": GAP_LR,
+        "gap_l2": GAP_L2,
+        "primary_tau": PRIMARY_TAU,
+        "primary_epsilon": PRIMARY_EPSILON,
+        "sample_count": config.sample_count,
+        "seed_count": len(config.seeds),
+    }
+
+
+def _arm_metric_verdict(aggregate: dict[str, Any], *, arm: str, prefix: str) -> dict[str, Any]:
+    auroc = float(aggregate["by_arm"][arm]["failure_detection_auroc"]["mean"])
+    vanilla_unlogged = float(aggregate["by_arm"]["vanilla"]["unlogged_error_rate"]["mean"])
+    arm_unlogged = float(aggregate["by_arm"][arm]["unlogged_error_rate"]["mean"])
+    vanilla_critical = float(aggregate["by_arm"]["vanilla"]["critical_unlogged_error_rate"]["mean"])
+    arm_critical = float(aggregate["by_arm"][arm]["critical_unlogged_error_rate"]["mean"])
+    unlogged_reduction = (
+        (vanilla_unlogged - arm_unlogged) / vanilla_unlogged
+        if vanilla_unlogged > 0.0
+        else 0.0
+    )
+    critical_reduction = (
+        (vanilla_critical - arm_critical) / vanilla_critical
+        if vanilla_critical > 0.0
+        else 0.0
+    )
+    checks = {
+        "auroc_at_least_0_75": auroc >= 0.75,
+        "critical_unlogged_error_reduction_at_least_0_90": critical_reduction >= 0.90,
+        "unlogged_error_reduction_at_least_0_50": unlogged_reduction >= 0.50,
+    }
+    return {
+        "arm": arm,
+        "comparison_prefix": prefix,
+        "positive": all(checks.values()),
+        "checks": checks,
+        "metrics": {
+            "failure_detection_auroc": auroc,
+            "vanilla_unlogged_error_rate": vanilla_unlogged,
+            "arm_unlogged_error_rate": arm_unlogged,
+            "unlogged_error_reduction": unlogged_reduction,
+            "vanilla_critical_unlogged_error_rate": vanilla_critical,
+            "arm_critical_unlogged_error_rate": arm_critical,
+            "critical_unlogged_error_reduction": critical_reduction,
+        },
+    }
+
+
+def _treatment_verdict(aggregate: dict[str, Any]) -> dict[str, Any]:
+    return _arm_metric_verdict(
+        aggregate,
+        arm="learned_gap_head_on_h",
+        prefix="learned_minus_vanilla",
+    )
+
+
+def _control_verdict(aggregate: dict[str, Any]) -> dict[str, Any]:
+    return _arm_metric_verdict(
+        aggregate,
+        arm=MATCHED_RANDOM_ARM,
+        prefix="matched_random_minus_vanilla",
+    )
 
 
 def _source_artifacts(config: GapHeadRunConfig) -> dict[str, Any]:
@@ -579,6 +754,8 @@ def _negative_result_note(aggregate: dict[str, Any]) -> str:
 
 def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[str, Any]:
     aggregate = _aggregate(records)
+    treatment_verdict = _treatment_verdict(aggregate)
+    control_verdict = _control_verdict(aggregate)
     return {
         "artifact": config.json_artifact,
         "report": config.report_artifact,
@@ -587,6 +764,8 @@ def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[st
         "inference_no_ground_truth_z": INFERENCE_NO_GROUND_TRUTH_Z,
         "feature_columns": _feature_columns(2),
         "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
+        "boundary_no_z_audit": _boundary_no_z_audit(config),
+        "forbidden_column_audit": _forbidden_column_audit(),
         "config": {
             "sample_count": config.sample_count,
             "seed_count": len(config.seeds),
@@ -613,6 +792,12 @@ def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[st
         "gap_channel_metadata": _gap_channel_metadata(),
         "source_artifacts": _source_artifacts(config),
         "applicability_boundary": _applicability_boundary(config),
+        "aggregate_metrics": aggregate,
+        "treatment_comparison": aggregate["comparison"],
+        "control_protocol": _control_protocol(config),
+        "treatment_verdict": treatment_verdict,
+        "control_verdict": control_verdict,
+        "main_claim_status": "source_evidence_only",
         "negative_result_note": _negative_result_note(aggregate),
         "records": records,
         "aggregate": aggregate,
@@ -654,7 +839,7 @@ def _render_report(payload: dict[str, Any]) -> str:
         ),
         "| --- | ---: | ---: | ---: | ---: | ---: |",
     ]
-    for arm in ("vanilla", "learned_gap_head_on_h"):
+    for arm in ("vanilla", "learned_gap_head_on_h", MATCHED_RANDOM_ARM):
         stats = aggregate["by_arm"][arm]
         lines.append(
             "| "
@@ -683,6 +868,25 @@ def _render_report(payload: dict[str, Any]) -> str:
                 "- Failure-detection AUROC delta learned minus vanilla: "
                 f"{_render_stats(comparison['failure_detection_auroc_delta_learned_minus_vanilla'])}"
             ),
+            (
+                "- UnloggedErrorRate delta matched-random minus vanilla: "
+                f"{_render_stats(comparison['unlogged_error_rate_delta_matched_random_minus_vanilla'])}"
+            ),
+            (
+                "- Critical unlogged error rate delta matched-random minus vanilla: "
+                f"{_render_stats(comparison['critical_unlogged_error_rate_delta_matched_random_minus_vanilla'])}"
+            ),
+            (
+                "- Failure-detection AUROC delta matched-random minus vanilla: "
+                f"{_render_stats(comparison['failure_detection_auroc_delta_matched_random_minus_vanilla'])}"
+            ),
+            "",
+            "## Matched-Random Control",
+            "",
+            f"- Control arm: `{payload['control_protocol']['control_arm']}`",
+            f"- Label protocol: `{payload['control_protocol']['label_protocol']}`",
+            f"- Control positive: `{str(payload['control_verdict']['positive']).lower()}`",
+            f"- Main claim status: `{payload['main_claim_status']}`",
             "",
             "## Boundary",
             "",
@@ -725,11 +929,26 @@ def _write_payload(payload: dict[str, Any], config: GapHeadRunConfig) -> None:
     report_path.write_text(_render_report(payload), encoding="utf-8")
 
 
+def _active_config() -> GapHeadRunConfig:
+    return GapHeadRunConfig(
+        sample_count=DEFAULT_CONFIG.sample_count,
+        seeds=DEFAULT_CONFIG.seeds,
+        rho=DEFAULT_CONFIG.rho,
+        use_torch=USE_TORCH,
+        json_artifact=JSON_ARTIFACT,
+        report_artifact=REPORT_ARTIFACT,
+        run_id_prefix=DEFAULT_CONFIG.run_id_prefix,
+        source_artifact_label=DEFAULT_CONFIG.source_artifact_label,
+        seed_grid_kind=DEFAULT_CONFIG.seed_grid_kind,
+    )
+
+
 def main() -> None:
-    payload = _payload(_records(DEFAULT_CONFIG), DEFAULT_CONFIG)
-    _write_payload(payload, DEFAULT_CONFIG)
-    print(f"wrote {DEFAULT_CONFIG.json_artifact}")
-    print(f"wrote {DEFAULT_CONFIG.report_artifact}")
+    config = _active_config()
+    payload = _payload(_records(config), config)
+    _write_payload(payload, config)
+    print(f"wrote {config.json_artifact}")
+    print(f"wrote {config.report_artifact}")
     print(f"records {len(payload['records'])}")
 
 

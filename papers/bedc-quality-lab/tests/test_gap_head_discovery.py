@@ -138,6 +138,58 @@ def test_positive_branch_matches_existing_predicate():
     assert verdict["net_positive_signal"] is True
     assert verdict["net_information"] == pytest.approx(net_information(projection.claim))
     assert verdict["non_discovery_reason"] is None
+    assert verdict["matched_random_control"]["control_verdict"]["positive"] is False
+    assert verdict["main_claim_status"] == "promoted"
+    assert verdict["final_main_claim_status"] == "promoted"
+
+
+def test_control_positive_forces_unresolved_main_claim():
+    payload = copy.deepcopy(_payload())
+    for record in payload["records"]:
+        record["arms"][runner.CONTROL_ARM] = copy.deepcopy(record["arms"][runner.AFTER_ARM])
+    payload["aggregate"]["by_arm"][runner.CONTROL_ARM] = copy.deepcopy(
+        payload["aggregate"]["by_arm"][runner.AFTER_ARM]
+    )
+    payload["aggregate"]["comparison"][
+        "unlogged_error_rate_delta_matched_random_minus_vanilla"
+    ] = copy.deepcopy(payload["aggregate"]["comparison"]["unlogged_error_rate_delta_learned_minus_vanilla"])
+    payload["aggregate"]["comparison"][
+        "critical_unlogged_error_rate_delta_matched_random_minus_vanilla"
+    ] = copy.deepcopy(
+        payload["aggregate"]["comparison"]["critical_unlogged_error_rate_delta_learned_minus_vanilla"]
+    )
+    payload["aggregate"]["comparison"][
+        "failure_detection_auroc_delta_matched_random_minus_vanilla"
+    ] = copy.deepcopy(
+        payload["aggregate"]["comparison"]["failure_detection_auroc_delta_learned_minus_vanilla"]
+    )
+    payload["control_verdict"] = copy.deepcopy(payload["treatment_verdict"])
+    payload["control_verdict"]["arm"] = runner.CONTROL_ARM
+    payload["control_verdict"]["positive"] = True
+
+    projection = runner._build_gap_head_projection(payload)
+    verdict = runner._verdict_payload(projection)
+
+    assert verdict["positive_discovery"] is True
+    assert verdict["matched_random_control"]["control_verdict"]["positive"] is True
+    assert verdict["main_claim_status"] == "unresolved"
+
+
+def test_control_non_positive_allows_treatment_promotion():
+    payload = copy.deepcopy(_payload())
+    for record in payload["records"]:
+        record["arms"][runner.CONTROL_ARM] = copy.deepcopy(record["arms"][runner.BEFORE_ARM])
+    payload["aggregate"]["by_arm"][runner.CONTROL_ARM] = copy.deepcopy(
+        payload["aggregate"]["by_arm"][runner.BEFORE_ARM]
+    )
+    payload["control_verdict"]["positive"] = False
+
+    projection = runner._build_gap_head_projection(payload)
+    verdict = runner._verdict_payload(projection)
+
+    assert verdict["positive_discovery"] is True
+    assert verdict["matched_random_control"]["control_verdict"]["positive"] is False
+    assert verdict["main_claim_status"] == "promoted"
 
 
 def test_ledger_incomplete_is_non_discovery_reason():
@@ -184,6 +236,7 @@ def test_structural_failure_without_ledger_gap_reports_structural_reason():
     payload = copy.deepcopy(_payload())
     for record in payload["records"]:
         record["arms"][runner.AFTER_ARM] = copy.deepcopy(record["arms"][runner.BEFORE_ARM])
+        record["arms"][runner.CONTROL_ARM] = copy.deepcopy(record["arms"][runner.BEFORE_ARM])
     projection = runner._build_gap_head_projection(payload)
     verdict = runner._verdict_payload(projection)
 
@@ -214,5 +267,7 @@ def test_main_writes_report_artifacts(tmp_path):
     assert payload["artifact"] == runner.JSON_ARTIFACT
     assert payload["source_artifacts"]["source_json_artifact"] == runner.SOURCE_JSON_ARTIFACT
     assert payload["net_positive_signal"] == payload["positive_discovery"]
+    assert "matched_random_control" in payload
+    assert "main_claim_status" in payload
     assert "# Gap-Head Discovery Verdict" in report
     assert "Source JSON artifact" in report
