@@ -57,4 +57,29 @@ theorem RegularCauchyMetricCarrier_namecert_obligations [AskSetup] [PackageSetup
       exact source
   }
 
+theorem RegularCauchyMetricCarrier_dyadic_closeness_route [AskSetup] [PackageSetup]
+    {R0 R1 W D Q E H C P N distanceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyMetricCarrier R0 R1 W D Q E H C P N bundle pkg ->
+      Cont W D distanceRead ->
+        Cont distanceRead E sealRead ->
+          PkgSig bundle sealRead pkg ->
+            UnaryHistory R0 ∧ UnaryHistory R1 ∧ UnaryHistory W ∧ UnaryHistory D ∧
+              UnaryHistory Q ∧ UnaryHistory E ∧ UnaryHistory distanceRead ∧
+                UnaryHistory sealRead ∧ Cont W D distanceRead ∧
+                  Cont distanceRead E sealRead ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier distanceRoute sealRoute sealPkg
+  obtain ⟨r0Unary, r1Unary, windowUnary, dyadicUnary, qUnary, eUnary, _hUnary,
+    _cUnary, _pUnary, _nUnary, _pairRoute, _dyadicRoute, _realRoute,
+      _structRoute, provenancePkg, _namePkg⟩ := carrier
+  have distanceUnary : UnaryHistory distanceRead :=
+    unary_cont_closed windowUnary dyadicUnary distanceRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed distanceUnary eUnary sealRoute
+  exact
+    ⟨r0Unary, r1Unary, windowUnary, dyadicUnary, qUnary, eUnary, distanceUnary,
+      sealUnary, distanceRoute, sealRoute, provenancePkg, sealPkg⟩
+
 end BEDC.Derived.RegularCauchyMetricUp
