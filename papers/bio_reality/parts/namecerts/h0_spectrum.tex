@@ -1,5 +1,65 @@
-\subsection{NameCert: h0.spectrum}
-\label{sec:namecert-h0_spectrum}
 \origin{ai}
+\subsection{Window-six spectrum for the standard-code boundary tile}
+\label{sec:bioreality-h0-spectrum}
 
-This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: forbidden\_pattern: literal\_backslash\_n\_escape\_in\_tex. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h0.spectrum and its experiment runs.
+\paragraph{Coordinate carrier and observed row.}
+The packet uses the six-bit codon cube as its finite carrier.  Each codon is read as a point in a window-six display, and the only biological contact used in this subsection is the curated standard-code assignment of codons to amino-acid or stop labels.  That contact is enough to test a local label split and a local boundary tile; it is not a test of translation chemistry, folded protein geometry, physical admissibility, organismal function, a mechanism of code formation, or a universal biological law.  The observed boundary row is the thirteen-codon set
+$$
+\begin{aligned}
+R=\{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
+&UAA, UAG, UCA, UGA, UUA\}.
+\end{aligned}
+$$
+The finite audit gives $|R|=13$ and the punctured-cube face count
+$$
+\begin{aligned}
+(f_0,f_1,f_2)=(13,16,4).
+\end{aligned}
+$$
+Thus the packet is not merely reporting that some codons are exceptional under the standard table.  It records a particular thirteen-vertex local tile with sixteen one-step adjacencies and four two-faces inside the six-bit cube.  The readback remains label-level: the row is formed after consulting the curated table, and the table supplies codon labels rather than a molecular pathway.
+
+\paragraph{Spectral finite row.}
+The spectrum row attached to this tile reports three scalar quantities.  The boundary-side value is $\lambda_R=0.4758352843197002$, the module-side value is $\lambda_M=0.6752479308830213$, and the radial parameter is $\mu=3.051487585298128$.  The cubic check is numerically closed at the recorded tolerance:
+$$
+\begin{aligned}
+P(\lambda_M,\lambda_R,\mu)&=-6.224354365258478\cdot 10^{-12},\\
+\rho_{\mathrm{recorded}}&=0.6752479308830213.
+\end{aligned}
+$$
+The small residual is used only as a finite numerical certificate for the row as computed.  It does not convert the coordinate geometry into a claim about ribosomal realization, folding, thermodynamic admissibility, protein function, or evolutionary necessity.  The scientific content is narrower: within this six-bit codon display, the standard-code labels expose a reproducible local spectral profile for the thirteen-codon boundary set.
+
+\paragraph{Shape tests against finite null rows.}
+Two independent finite randomization rows place the local tile in context.  In the unconstrained shape test, $N=2000$ samples were drawn with seed $42$.  The run required $57377$ distinct-sample attempts and encountered $55377$ duplicate retries.  Exactly one sample matched the observed shape, giving
+$$
+\begin{aligned}
+p_{\mathrm{exact}}&=0.0005,\\
+p_{J\geq 0.9}&=0.0125,
+\end{aligned}
+$$
+with $25$ samples at Jaccard similarity at least $0.9$.  In the amino-acid-class-preserving null row, again with $N=2000$ and seed $42$, the observed module size was $|M|=20$.  The exact-shape count was $0$, so the recorded exact-shape value is $p=0.0$, while the lower-tail count at or below the observed module size was $7$, giving
+$$
+\begin{aligned}
+p_{\mathrm{lower\ tail}}=0.0035.
+\end{aligned}
+$$
+These values support the statement that the observed local tile is uncommon under the stated finite resampling schemes.  They do not show that the tile is forced by biology; the null models are tests of coordinate-and-label structure, not of translation dynamics or protein-level outcomes.
+
+\paragraph{Leave-one readback rows.}
+The leave-one-code-out row evaluates $23$ alternative code tables and $63$ total targets.  Its baseline hit rate is $0.19821739130434785$, while the reported hit rate above baseline is $0.9841269841269841$.  The rate inside $M-T$ is $0.9365079365079365$, and the rate inside $M-T$ together with the boundary is $0.9841269841269841$.  By family, the above-baseline rates are $0.8333333333333334$ for the alternative-yeast family and $1.0$ for the bacterial-plastid, candidate-other, mitochondrial, and nuclear-ciliate families.  The leave-one-codon-out row has no anchors, $5$ boundary cases, $8$ predictable cases, $8$ high-coverage closure cases, and recovery rate $1.0$.  These rows say that the local coordinate packet has predictive readback behavior at the code-label layer.  They do not say that a missing codon is physically translated, structurally folded, functionally realized, or mechanistically explained by the cube geometry.
+
+\paragraph{Module partition.}
+The thirteen codons in $R$ are completely assigned to six named modules.  The recorded partition is
+$$
+\begin{aligned}
+\mathrm{AGR}&=\{AGA,AGG\},\\
+\mathrm{AR\_LYS}&=\{AAA\},\\
+\mathrm{CUN}&=\{CUA,CUC,CUG,CUU\},\\
+\mathrm{ILE\_MET}&=\{AUA\},\\
+\mathrm{SSN}&=\{UCA,UUA\},\\
+\mathrm{STOP\_TRP}&=\{UAA,UAG,UGA\}.
+\end{aligned}
+$$
+The module-classification row reports $R\_size=13$, $assigned\_count=13$, no extra module codons, no missing codons, and no unassigned codons.  It also reports that every module has either predictable or boundary status.  This complete finite assignment is the strongest local organizational claim made here: the coordinate tile, the curated labels, and the module partition agree on all thirteen listed codons.
+
+\paragraph{Local scope.}
+The packet is therefore ready as a code-read record.  It gives a six-bit coordinate carrier, a thirteen-codon punctured-cube boundary set, a finite spectral row with $\lambda_M=0.6752479308830213$, $\lambda_R=0.4758352843197002$, and $\mu=3.051487585298128$, uncommon shape behavior under the two stated null schemes, and complete module assignment for the boundary codons.  The claim stops at that level.  No conclusion about translation realization, folded structure, physical admissibility, biological function, mechanistic causation, or universality is licensed unless a separate contact measuring that higher layer is supplied.
