@@ -25,7 +25,7 @@ description: "发现质量筛是 BEDC 对发现声明的生产、过滤与观察
 
 生产表面由 `python3 lean4/scripts/bedc_ci.py discovery-candidates` 与 `lean4/scripts/critical_path.py` 的 `discovery_candidate_top` 驱动。候选检测器刻意高精度、低召回: 只有当 paper 与 Lean 表面同时暴露已解析 Lean target、before/after classifier endpoint、可达 disagreement support、非平凡 semantic endpoint, 且没有硬负证标签时, 目标才会被放行。
 
-硬拒绝包括 human-origin baseline 材料、已经闭合的 audit 状态、已检查的 bridge 状态、机械分类声明, 以及 `target_missing`, `target_axiom`, `target_sorry`, `smoke_template_reuse`, `trivial_classifier`, `target_substring_evidence` 等负证。放行候选的 `dispatch_intent` 是 `attempt_delta_ledger_or_mark_mechanical`: worker 可以尝试给出真实位移账本, 也可以诚实记录 `mechanical_reconstruction` 或拒绝候选。
+硬拒绝包括 human-origin baseline 材料、已经闭合的 audit 状态、已检查的 bridge 状态、机械分类声明, 以及 `target_missing`, `target_axiom`, `target_sorry`, `smoke_template_reuse`, `trivial_classifier`, `target_substring_evidence` 等负证。实时 `dispatch_intent` 与 `allowed_outcomes` 由 `python3 lean4/scripts/bedc_ci.py discovery-candidates --json` 以及 `lean4/scripts/critical_path.py` 输出的 `discovery_candidate_top` 行负责; 当这些实时 outcome 允许时, worker 可以尝试给出真实位移账本, 也可以诚实记录 `mechanical_reconstruction` 或拒绝候选。
 
 `critical_path.discovery_candidate_top` 把这些候选作为低权重 dispatch 来源接入工作流。这让候选被看见, 但不把"发现产量"变成调度目标。Lean 与 paper worker prompt 里的 Discovery Candidate Contract 同样要求真实 classifier 位移声明, 并允许诚实的 `mechanical_reconstruction` 与可审计 opt-out。
 

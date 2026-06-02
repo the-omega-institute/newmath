@@ -19,25 +19,33 @@ description: "发现结构 DNA 给 BEDC 的发现声明提供 sound 的结构身
 
 这个指纹作为结构身份把手是 sound 的, 因为它算在 elaboration 之后, 不是算在 surface text 上。它是 origin-blind 的, 因为它读 expression, 不读章节 lineage 或作者声明。它对 de Bruijn bound variable 保持 alpha 不变, 丢弃 binder 显示名, 保留 `binderInfo`, 保留 canonical constant name 与 universe payload, strip metadata, 并把 theorem proof term 视为无关, 只 hash theorem type。
 
-它有两个指纹:
+在 executable 层, JSON 是 per declaration 的。`Main.lean` 输出 `fingerprint`, `type_fp`, `value_fp`, `const_fp`, `eta_value_fp`, `reduced_fingerprint`; 它不输出 survey 字段 `structural_fingerprint`。
 
-| 指纹 | 作用 |
+| executable 字段 | 作用 |
 |---|---|
-| `structural_fingerprint` | elaborated structure 的忠实把手 |
-| `reduced_fingerprint` | beta、eta、zeta 与 transparent unfolding 归一后的把手 |
+| `fingerprint` | 由 type 与非 proof value 指纹得到的 compact declaration handle |
+| `type_fp` | elaborated declaration type 指纹 |
+| `value_fp` | 非 proof value 指纹; 对 theorem/proof declaration 为空 |
+| `const_fp` | canonical constant-expression 指纹 |
+| `eta_value_fp` | eta-reduced 非 proof value 指纹 |
+| `reduced_fingerprint` | beta、eta、zeta 与 transparent unfolding 归一后的非 proof value 把手 |
 
 hash 本身不是数学内容。真正有意义的是被 hash 的 canonical form。hash 只是紧凑把手, 让 audit 可以在 JSON 中比较归一后的结构身份, 而不用搬运大型 expression payload。
+
+`bedc_ci.py structural-dna` 是 survey 层。它消费 executable 产出的 expression 指纹, 再把 elaborated expression read graph、classifier-shift DNA fragments、factor spectrum 与 carrier skeleton 组合起来。更高层的 survey payload 里才组装字段 `structural_fingerprint`。
 
 这个 executable 也有 relation-analysis 模式。它可以比较 candidate 与 prior classifier 声明, 并通过 `bedc.structural_dna.relations` schema 输出 `conjunctive_refinement` evidence; 当 discovery integrity 需要 relation evidence 时, `bedc_ci.py` 驱动这条路径。
 
 ## 负向门: 结构重建完整性
 
-结构重建门是负向的。它只由真诚发现声明触发, 不由主题、章节 origin、文件名或其他启发式触发。两个声明表面是:
+结构重建门是负向的。它只由真诚发现声明触发, 不由主题、章节 origin、文件名或其他启发式触发。blocking 声明表面是:
 
 | 表面 | 认什么 |
 |---|---|
 | paper | 带可解析 ledger/classifier 表面的 `\closureclaimkind{positiveDiscovery}` |
 | Lean | `DiscoveryDeltaLedger.classifier_shift = some ...` |
+
+指向 `DiscoveryDeltaLedger.classifier_shift` 的非显式 paper marker site 也可能作为 informational discovery-integrity site 出现在 audit payload 里。blocking 声明故事仍然是显式 claim/ledger 路径。
 
 一旦出现真诚声明, audit 必须解析出可检查的 classifier displacement: before-classifier endpoint 与 declared-new-classifier endpoint。如果声明不能解析成这样的端点对, 就是 blocking。如果 declared new classifier 的 `reduced_fingerprint` 命中已有 prior classifier endpoint, 它就是结构重建或 wrapper, 不是新结构, 这个 gate 会报告 blocking violation。
 
