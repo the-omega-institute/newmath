@@ -135,6 +135,24 @@ Apply \autoref{thm:certificate-audit-gate-obligation-surface}, \autoref{thm:cert
 Apply \autoref{thm:certificate-audit-gate-nonescape} and \autoref{thm:certificate-audit-gate-kernel-scope}. The public export is therefore bounded by $I,S,R,D,A,H,C,P,N$ and cannot leave the local NameCert packet.
 \end{proof}
 
+\begin{theorem}[CertificateAuditGate bridge boundary]
+\label{thm:certificate-audit-gate-bridge-boundary}
+An accepted $\CertificateAuditGateUp$ public export through
+$$
+I,S,R,D,A,H,C,P,N
+$$
+remains a paper-side certificate surface until a separate standard bridge theorem is supplied. The pass row $S$ cannot be read as $\bridgeCheckedV$, repository completeness, host-kernel completeness, semantic conservativity, a quotient representative, a choice selector, proposition equality, unresolved target replacement, or substrate-internal closure.
+\end{theorem}
+\begin{proof}
+Begin with the public export of \autoref{thm:certificateauditgate-public-export}. It exposes exactly the rows $I,S,R,D,A,H,C,P,N$ and excludes repository completeness, host-kernel completeness, semantic conservativity, quotient representatives, choice selectors, proposition equality, unresolved target replacement, and substrate-internal closure.
+
+Apply the soundness boundary of \autoref{thm:certificate-audit-gate-soundness-boundary}. The pass row is local non-breach for the displayed audit rows, not a theorem about all manuscript, repository, host-kernel, or semantic behaviour.
+
+Use drift exactness from \autoref{thm:certificate-audit-gate-drift-exactness} and axiom-purity exactness from \autoref{thm:certificate-audit-gate-axiom-purity-exactness}. These keep $D$ and $A$ as exact finite audit rows rather than bridge certificates or external correctness principles.
+
+Finally apply non-escape and kernel scope, \autoref{thm:certificate-audit-gate-nonescape} and \autoref{thm:certificate-audit-gate-kernel-scope}. The public read remains inside the same local NameCert packet, so bridge-checked status requires a separate standard bridge theorem.
+\end{proof}
+
 \closureat{CertificateAuditGateUp}{scopedStr}
 
 \begin{closurestatus}{\CertificateAuditGateUp}
