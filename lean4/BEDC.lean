@@ -2211,8 +2211,10 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.CompilerScheduleLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerAuditTriad
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerFactorization
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerLedgerExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ConsumerRouteDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.DepthRowStability
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.FiniteReadinessSurface
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.FiniteTupleReadback
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.FormalSurfaceExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.KernelScopePackage
@@ -4768,6 +4770,7 @@ import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KleeneTreeUp.NameCertObligations
 import BEDC.Derived.KleeneTreeUp.PrefixInductionClosure
 import BEDC.Derived.KleeneTreeUp.RealCompletionNonescape
+import BEDC.Derived.KleeneTreeUp.SpeckerBoundaryRoute
 import BEDC.Derived.KleeneTreeUp.TasteGate
 import BEDC.Derived.KleisliTraceUp.TasteGate
 import BEDC.Derived.KnotUp
@@ -4934,6 +4937,7 @@ import BEDC.Derived.LocallyCompactUp.LocalPropernessRadiusExhaustion
 import BEDC.Derived.LocallyCompactUp.LocatedBallRealSealBoundary
 import BEDC.Derived.LocallyCompactUp.LocatedCompactRoute
 import BEDC.Derived.LocallyCompactUp.LocatedHandoffBoundary
+import BEDC.Derived.LocallyCompactUp.ProperMetricNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessComparisonNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessLocalityRootBoundary
 import BEDC.Derived.LocallyCompactUp.TasteGate
@@ -4943,6 +4947,7 @@ import BEDC.Derived.LocatedBoundedRealSequenceUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSetUp
 import BEDC.Derived.LocatedCauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterCompletionUp.TasteGate
+import BEDC.Derived.LocatedCauchyFilterUp.BasisRefinementRoute
 import BEDC.Derived.LocatedCauchyFilterUp.TasteGate
 import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
 import BEDC.Derived.LocatedCauchyNetUp.TasteGate
@@ -5786,6 +5791,9 @@ import BEDC.Derived.NoGlobalSynchronizationLedgerUp.ConsumerNonescape
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.NameCertObligations
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.TasteGate
 import BEDC.Derived.NoetherSymmetryUp
+import BEDC.Derived.NoetherianModuleUp
+import BEDC.Derived.NoetherianRingUp
+import BEDC.Derived.NoetherianRingUp.TasteGate
 import BEDC.Derived.NonAxiomAdmissionUp.TasteGate
 import BEDC.Derived.NonAxiomBoundaryFormUp.NameCertObligations
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
@@ -6472,6 +6480,7 @@ import BEDC.Derived.RealArchimedeanPropertyUp.TasteGate
 import BEDC.Derived.RealBaireCylinderUp.TasteGate
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealBolzanoUp.TasteGate
+import BEDC.Derived.RealBoundedIntervalUp.TasteGate
 import BEDC.Derived.RealBoundedSequenceUp.TasteGate
 import BEDC.Derived.RealBudgetTailMeetUp.TasteGate
 import BEDC.Derived.RealCauchyCompletenessUp.TasteGate
@@ -6573,6 +6582,7 @@ import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RealLineConnectedUp.TasteGate
+import BEDC.Derived.RealLocatedOrderUp
 import BEDC.Derived.RealLocatorUp.TasteGate
 import BEDC.Derived.RealLogarithmUp.TasteGate
 import BEDC.Derived.RealMetricLocatednessBracketUp.TasteGate
@@ -6688,6 +6698,7 @@ import BEDC.Derived.RealUniformEntourageBasisUp.TasteGate
 import BEDC.Derived.RealUniformEntourageRefinementUp.TasteGate
 import BEDC.Derived.RealUniformSpaceUp.TasteGate
 import BEDC.Derived.RealUniformStructureUp
+import BEDC.Derived.RealUniformStructureUp.CoverReadHandoff
 import BEDC.Derived.RealUniformStructureUp.EntourageShrink
 import BEDC.Derived.RealUniformStructureUp.EntourageShrinkStability
 import BEDC.Derived.RealUniformStructureUp.PositiveRadiusEntourageRefinement
