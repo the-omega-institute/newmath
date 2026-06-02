@@ -69,4 +69,4 @@ def test_main_writes_reports_without_helper_module(monkeypatch, tmp_path):
     payload_text = (tmp_path / runner.JSON_ARTIFACT).read_text(encoding="utf-8")
     assert "report_schema_id" not in payload_text and "report_kind" not in payload_text
     assert "# Dose-response discovery projection" in (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
-    assert not (tmp_path / "bedc_quality_lab/dose_discovery_projection.py").exists()
+    assert not (tmp_path / "bedc_quality_lab/dose_discovery_projection.py").exists(), "Dose discovery report projection is script-private: neither debt-dose nor rho-dose discovery may introduce bedc_quality_lab/dose_discovery_projection.py; package scope owns predicate primitives, not experiment-specific report/claim construction."
