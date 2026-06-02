@@ -10,10 +10,10 @@ inductive ThresholdSide where
 def allSides : List ThresholdSide :=
   [ThresholdSide.below, ThresholdSide.above]
 
-theorem side_mem_allSides (side : ThresholdSide) : side ∈ allSides := by
+private theorem side_mem_allSides (side : ThresholdSide) : side ∈ allSides := by
   cases side <;> simp [allSides]
 
-theorem allSides_complete (side : ThresholdSide) :
+private theorem allSides_complete (side : ThresholdSide) :
     side = ThresholdSide.below ∨ side = ThresholdSide.above := by
   cases side <;> simp
 
@@ -27,11 +27,11 @@ def markStable (before after : ThresholdSide) : Prop :=
 def perturbationWithinMargin (before after : ThresholdSide) : Prop :=
   MarginCertificate before after
 
-theorem below_certificate :
+private theorem below_certificate :
     perturbationWithinMargin ThresholdSide.below ThresholdSide.below := by
   exact MarginCertificate.below
 
-theorem above_certificate :
+private theorem above_certificate :
     perturbationWithinMargin ThresholdSide.above ThresholdSide.above := by
   exact MarginCertificate.above
 
@@ -40,12 +40,12 @@ theorem mark_stable_of_margin {before after : ThresholdSide}
     markStable before after := by
   cases h <;> rfl
 
-theorem margin_certificate_same_side {before after : ThresholdSide}
+private theorem margin_certificate_same_side {before after : ThresholdSide}
     (h : MarginCertificate before after) :
     before = after := by
   cases h <;> rfl
 
-theorem stable_side_same {before after : ThresholdSide}
+private theorem stable_side_same {before after : ThresholdSide}
     (h : MarginCertificate before after) :
     before = after ∧ after = before := by
   constructor

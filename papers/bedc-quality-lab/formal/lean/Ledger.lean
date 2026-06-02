@@ -21,19 +21,19 @@ def requiredRows : List RowKey :=
   , RowKey.missingEvidence
   ]
 
-theorem classifierEquivalence_required :
+private theorem classifierEquivalence_required :
     RowKey.classifierEquivalence ∈ requiredRows := by
   simp [requiredRows]
 
-theorem marginStability_required :
+private theorem marginStability_required :
     RowKey.marginStability ∈ requiredRows := by
   simp [requiredRows]
 
-theorem finiteCoverage_required :
+private theorem finiteCoverage_required :
     RowKey.finiteCoverage ∈ requiredRows := by
   simp [requiredRows]
 
-theorem missingEvidence_required :
+private theorem missingEvidence_required :
     RowKey.missingEvidence ∈ requiredRows := by
   simp [requiredRows]
 
@@ -51,11 +51,11 @@ def mem_required_decidable (key : RowKey) :
   unfold IsRequired
   exact inferInstanceAs (Decidable (key ∈ requiredRows))
 
-theorem required_or_not_required (key : RowKey) :
+private theorem required_or_not_required (key : RowKey) :
     IsRequired key ∨ ¬ IsRequired key := by
   exact @Decidable.em (IsRequired key) (mem_required_decidable key)
 
-theorem requiredRows_complete (key : RowKey) :
+private theorem requiredRows_complete (key : RowKey) :
     IsRequired key := by
   cases key <;> simp [IsRequired, requiredRows]
 

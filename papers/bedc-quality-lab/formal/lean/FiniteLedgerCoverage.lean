@@ -17,23 +17,23 @@ def missingEvidenceRows : List RecordedRow :=
   , { key := RowKey.finiteCoverage, label := "FiniteLedgerCoverage.coverage_of_recorded_witnesses" }
   ]
 
-theorem classifier_witness_recorded :
+private theorem classifier_witness_recorded :
     recordedContains recordedWitnesses RowKey.classifierEquivalence := by
   simp [recordedContains, recordedWitnesses]
 
-theorem margin_witness_recorded :
+private theorem margin_witness_recorded :
     recordedContains recordedWitnesses RowKey.marginStability := by
   simp [recordedContains, recordedWitnesses]
 
-theorem coverage_witness_recorded :
+private theorem coverage_witness_recorded :
     recordedContains recordedWitnesses RowKey.finiteCoverage := by
   simp [recordedContains, recordedWitnesses]
 
-theorem missing_witness_recorded :
+private theorem missing_witness_recorded :
     recordedContains recordedWitnesses RowKey.missingEvidence := by
   simp [recordedContains, recordedWitnesses]
 
-theorem missing_witness_absent :
+private theorem missing_witness_absent :
     ¬ recordedContains missingEvidenceRows RowKey.missingEvidence := by
   simp [recordedContains, missingEvidenceRows]
 

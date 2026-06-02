@@ -11,19 +11,19 @@ inductive Mark where
 def allMarks : List Mark :=
   [Mark.supported, Mark.conflicted, Mark.missing]
 
-theorem supported_mem_allMarks : Mark.supported ∈ allMarks := by
+private theorem supported_mem_allMarks : Mark.supported ∈ allMarks := by
   simp [allMarks]
 
-theorem conflicted_mem_allMarks : Mark.conflicted ∈ allMarks := by
+private theorem conflicted_mem_allMarks : Mark.conflicted ∈ allMarks := by
   simp [allMarks]
 
-theorem missing_mem_allMarks : Mark.missing ∈ allMarks := by
+private theorem missing_mem_allMarks : Mark.missing ∈ allMarks := by
   simp [allMarks]
 
-theorem mark_mem_allMarks (x : Mark) : x ∈ allMarks := by
+private theorem mark_mem_allMarks (x : Mark) : x ∈ allMarks := by
   cases x <;> simp [allMarks]
 
-theorem allMarks_complete (x : Mark) :
+private theorem allMarks_complete (x : Mark) :
     x = Mark.supported ∨ x = Mark.conflicted ∨ x = Mark.missing := by
   cases x <;> simp
 
@@ -48,12 +48,12 @@ theorem sameClass_equivalence : Equivalence sameClass where
   symm := @sameClass_symm
   trans := @sameClass_trans
 
-theorem sameClass_decidable (x y : Mark) :
+private theorem sameClass_decidable (x y : Mark) :
     sameClass x y ∨ ¬ sameClass x y := by
   unfold sameClass
   exact Decidable.em _
 
-theorem sameClass_eq {x y : Mark} :
+private theorem sameClass_eq {x y : Mark} :
     sameClass x y ↔ x = y := by
   rfl
 
