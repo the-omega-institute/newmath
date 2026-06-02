@@ -3681,6 +3681,7 @@ import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuityFiniteNetSelectorUp.TasteGate
 import BEDC.Derived.EquicontinuityUp
+import BEDC.Derived.EquicontinuityUp.SharedModulusHandoffPreservation
 import BEDC.Derived.EquicontinuityUp.TasteGate
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
 import BEDC.Derived.EquivCatUp
@@ -8222,6 +8223,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.L10SourceAdmission
 import BEDC.Derived.UniformCompletionFunctorUp.ReadbackToleranceTerminalRoute
 import BEDC.Derived.UniformCompletionFunctorUp.RealSealNonescape
 import BEDC.Derived.UniformCompletionFunctorUp.RegSeqRatRealSourceHandoff
+import BEDC.Derived.UniformCompletionFunctorUp.RouteObligations
 import BEDC.Derived.UniformCompletionFunctorUp.SourceExtensionReadback
 import BEDC.Derived.UniformCompletionFunctorUp.SourceFactorization
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
@@ -8235,6 +8237,7 @@ import BEDC.Derived.UniformCompletionReflectorUp.NameCertObligations
 import BEDC.Derived.UniformCompletionReflectorUp.TasteGate
 import BEDC.Derived.UniformCompletionSeparationKernelUp
 import BEDC.Derived.UniformCompletionSeparationKernelUp.TasteGate
+import BEDC.Derived.UniformCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.UniformCompletionUp.DirectedNetWitnessCertificate
 import BEDC.Derived.UniformCompletionUp.PublicFactorization
 import BEDC.Derived.UniformCompletionUp.TasteGate
