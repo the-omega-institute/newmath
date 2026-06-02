@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package.Core
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
@@ -13,6 +14,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
@@ -317,5 +319,72 @@ theorem RiemannStieltjesCarrier_bounded_variation_ledger [AskSetup] [PackageSetu
   exact
     ⟨variationUnary, jumpUnary, meshUnary, handoffReadUnary, terminalUnary, ledgerUnary,
       ledgerRoute, namePkg⟩
+
+theorem RiemannStieltjesCarrier_regulated_integrator_variation_exactness [AskSetup]
+    [PackageSetup]
+    {regulated variation tagged step handoff sealRow transportRow replayRow provenance nameRow
+      variationRead cellRead routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannStieltjesCarrier regulated variation tagged step handoff sealRow transportRow replayRow
+      provenance nameRow bundle pkg ->
+      Cont variation tagged variationRead ->
+        Cont variationRead step cellRead ->
+          Cont cellRead handoff routeRead ->
+            PkgSig bundle routeRead pkg ->
+              SemanticNameCert
+                (fun row : BHist => hsame row routeRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row variation ∨ hsame row tagged ∨ hsame row step ∨
+                    hsame row variationRead ∨ hsame row cellRead ∨ hsame row routeRead)
+                (fun row : BHist =>
+                  hsame row routeRead ∧ PkgSig bundle nameRow pkg ∧
+                    PkgSig bundle routeRead pkg)
+                hsame ∧ UnaryHistory variationRead ∧ UnaryHistory cellRead ∧
+                  UnaryHistory routeRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
+  intro carrier variationRoute cellRoute routeRoute routePkg
+  obtain ⟨_regulatedUnary, variationUnary, taggedUnary, stepUnary, handoffUnary,
+    _sealUnary, _transportUnary, _replayUnary, _provenanceUnary, _regulatedTaggedRoute,
+    _taggedStepRoute, _handoffSealRoute, namePkg⟩ := carrier
+  have variationReadUnary : UnaryHistory variationRead :=
+    unary_cont_closed variationUnary taggedUnary variationRoute
+  have cellReadUnary : UnaryHistory cellRead :=
+    unary_cont_closed variationReadUnary stepUnary cellRoute
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed cellReadUnary handoffUnary routeRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row routeRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row variation ∨ hsame row tagged ∨ hsame row step ∨
+            hsame row variationRead ∨ hsame row cellRead ∨ hsame row routeRead)
+        (fun row : BHist =>
+          hsame row routeRead ∧ PkgSig bundle nameRow pkg ∧ PkgSig bundle routeRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro routeRead ⟨hsame_refl routeRead, routeReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, namePkg, routePkg⟩
+  }
+  exact ⟨cert, variationReadUnary, cellReadUnary, routeReadUnary⟩
 
 end BEDC.Derived.RiemannStieltjesUp
