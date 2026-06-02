@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\UpperLowerRealEnclosureUp$}
+\label{ch:concrete-instances-upper-lower-real-enclosure-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\UpperLowerRealEnclosureUp$ packet records a constructive upper/lower rational enclosure for a real name on the L10 Real and Completion path. It sits between the rational tolerance service of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation schedules of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the located-name boundary of \autoref{ch:concrete-instances-located-real-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet exposes interval enclosure data as finite BEDC rows; it does not identify quotient real classes, select a completed limit, invoke trichotomy, or claim ambient $\RealUp$ completeness.
+
+\begin{definition}[Upper/lower real enclosure carrier]
+\label{def:upper-lower-real-enclosure-carrier}
+An $\UpperLowerRealEnclosureUp$ carrier is a finite $\BHist$ packet
+$$
+E=(L,U,W,S,R,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower rational bound row, read through the rational and dyadic tolerance surface used by $\DyadicRatCoreUp$;
+\item $U$ is the upper rational bound row for the same inspected real-name window;
+\item $W$ is the dyadic width row, displaying a tolerance certificate that $U-L$ is bounded by the named dyadic width and can be refined along the same finite schedule;
+\item $S$ is the $\StreamNameUp$ schedule row naming exactly the finite observation windows used to inspect the enclosure;
+\item $R$ is the $\RegSeqRatUp$ readback row translating those observations into regular rational approximants;
+\item $Z$ is the $\RealUp$ seal row reached only after the lower bound, upper bound, width, schedule, and readback rows have been displayed;
+\item $H$ records componentwise $\hsame$ transport for $L,U,W,S,R,Z$;
+\item $C$ records displayed $\Cont$ replay for bound inspection, width refinement, regular readback, located-name handoff, and Real sealing;
+\item $P$ is the $\Pkg$ provenance over $\UpperLowerRealEnclosureUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\LocatedRealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\UpperLowerRealEnclosureUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host real representative, quotient equality of names, selected limits, trichotomy of real order, or unrestricted completeness.
+\end{definition}
+
+\begin{theorem}[Upper/lower real enclosure NameCert obligations]
+\label{thm:upper-lower-real-enclosure-namecert-obligations}
+For every accepted $\UpperLowerRealEnclosureUp$ carrier $E=(L,U,W,S,R,Z,H,C,P,N)$, the local $\NameCert_{\UpperLowerRealEnclosureUp}$ surface consists exactly of five finite rows:
+\begin{enumerate}
+\item lower-bound admission, where $L$ is displayed as a rational bound over the same $\DyadicRatCoreUp$ tolerance ledger used by the inspected real-name window;
+\item upper-bound admission, where $U$ is displayed over the same ledger and is compared with $L$ only through dyadic rational order data;
+\item width control, where $W$ records the finite dyadic enclosure width and its refinement schedule;
+\item schedule/readback coherence, where $S$ and $R$ tie the bound rows to the same $\StreamNameUp$ windows and $\RegSeqRatUp$ regular rational observations;
+\item Real-seal nonescape, where $Z,H,C,P,N$ transport, replay, source, and name the displayed enclosure without exporting host representatives, quotient equality, selected limits, trichotomy, or ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The first two rows are precisely the rational bound rows $L$ and $U$, and both are read through the displayed dyadic tolerance ledger rather than through a host order on completed reals.
+
+The width row $W$ is part of the same finite packet. Its dyadic comparison is therefore a displayed tolerance certificate attached to $L$ and $U$, not an external metric completeness assertion.
+
+Next read the schedule and readback rows. The finite windows in $S$ determine which observations may be inspected, and $R$ translates only those observations into regular rational approximants. This keeps the enclosure on the L10 path through $\StreamNameUp$ and $\RegSeqRatUp$.
+
+Finally project the seal and structural rows. The $\RealUp$ row $Z$ is reached only after $L,U,W,S,R$ have been displayed, while $H,C,P,N$ transport, replay, source, and name the same finite data. Since the carrier has no coordinate for the excluded principles, the five rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Upper/lower real enclosure width shrink]
+\label{thm:upper-lower-real-enclosure-width-shrink}
+Let $E=(L,U,W,S,R,Z,H,C,P,N)$ be an accepted $\UpperLowerRealEnclosureUp$ carrier. Any refinement of the displayed $\StreamNameUp$ schedule $S$ that is replayed by $C$ and read back by $R$ may replace $W$ by a smaller displayed dyadic width $W'$ only through the same lower-bound row $L$, upper-bound row $U$, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ comparison ledger, and $\RealUp$ seal row $Z$. The shrink route exports a narrower finite enclosure row, but it does not export a selected limit point, quotient real equality, order trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. The only width coordinate is $W$, and every permitted inspection of $W$ is tied to the bound rows $L,U$, the finite schedule $S$, and the regular readback row $R$.
+
+A refinement of $S$ supplies a smaller finite observation window only when the replay row $C$ displays that refinement inside the same packet. The readback row $R$ then compares the resulting rational approximants through the dyadic ledger, so the proposed $W'$ is a new displayed width row rather than a semantic limit.
+
+The structural rows $H,P,N$ keep the refined enclosure attached to the original packet, and the terminal seal $Z$ is not reread as completeness. Therefore width shrink is a finite dyadic enclosure operation over the displayed rows and cannot yield any of the excluded host principles.
+\end{proof}
+
+\begin{theorem}[Upper/lower real enclosure Real-seal nonescape]
+\label{thm:upper-lower-real-enclosure-real-seal}
+Every $\RealUp$-facing consumer of an accepted $\UpperLowerRealEnclosureUp$ packet must first display the lower rational bound $L$, upper rational bound $U$, dyadic width $W$, $\StreamNameUp$ schedule $S$, $\RegSeqRatUp$ readback $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local name $N$ before reading the seal row $Z$. The seal may certify that the displayed enclosure is Real-facing, but it does not identify quotient real representatives, select a completed limit, prove arbitrary locatedness, invoke trichotomy, or supply ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the packet in the order forced by \autoref{def:upper-lower-real-enclosure-carrier}. The seal row $Z$ is one coordinate of the carrier and is not available before the bound, width, schedule, and readback rows have been displayed.
+
+The transport and replay rows keep the consumer on the same finite enclosure. They allow the listed rows to be moved and replayed componentwise, but they do not create a new representative of the real name or a completion operation.
+
+Finally inspect the provenance and local certificate. The $\Pkg$ row names the dependency corridor through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\LocatedRealUp$, and $\RealUp$, and the local $\NameCert$ row certifies only that corridor. Thus the Real seal is a nonescape boundary for the displayed enclosure packet.
+\end{proof}
+
+\closureat{UpperLowerRealEnclosureUp}{seedStr}
+
+\begin{closurestatus}{\UpperLowerRealEnclosureUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:upper-lower-real-enclosure-carrier}, \autoref{thm:upper-lower-real-enclosure-namecert-obligations}, \autoref{thm:upper-lower-real-enclosure-width-shrink}, and \autoref{thm:upper-lower-real-enclosure-real-seal} seed the upper/lower rational enclosure surface over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\LocatedRealUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real equality, selected completed limits, order trichotomy, arbitrary locatedness, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked lower-bound admission, upper-bound admission, width control, schedule/readback coherence, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.UpperLowerRealEnclosureUp.}
+  \constructivestory{An $\UpperLowerRealEnclosureUp$ packet is generated from lower and upper rational bound rows, a dyadic width row, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
