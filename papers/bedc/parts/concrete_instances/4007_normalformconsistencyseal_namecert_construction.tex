@@ -619,6 +619,7 @@ Finally apply \autoref{thm:normal-form-consistency-seal-metacic-discharge-fronti
 \label{thm:normal-form-consistency-seal-candidate-boundary}
 Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted $\NormalFormConsistencySealUp$ packet. Any normal endpoint read that consumes the seal must first expose the Candidate or ClosedCandidate evidence named by the candidate route, the closed-normal frontier rows $T,F,N,K,X$, the residual schedule rows used for candidate-mediated strong-normalization and confluence checking, componentwise $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local naming $L$. The boundary contains no coordinate for arbitrary reduction to a normal endpoint, global closed consistency, hidden subject reduction, evaluator equality, or quotient syntax equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealCandidateBoundary}
 \begin{proof}
 Start with the candidate route
 \autoref{thm:normal-form-consistency-seal-candidate-route}. It forces every candidate-facing read of the closed-normal theorem row to pass through $T,F,N,K,X,H,C,P,L$ before the seal can be consumed.
@@ -647,6 +648,7 @@ For confluence-facing packets, use \autoref{thm:normal-form-consistency-seal-res
 
 The non-escape, candidate-mediated handoff, and reduction determinacy theorems then rule out stronger readings. The seal supplies no row for evaluator equality, quotient syntax equality, arbitrary subject reduction, or global closed consistency, so every MetaCIC critical-path or confluence-facing read is confined to the stated boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealMetacicCriticalPathHandoff}
 
 \closureat{NormalFormConsistencySealUp}{seedStr}
 
