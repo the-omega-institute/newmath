@@ -10,6 +10,7 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parents[2] / "tools"))
 from bedc_ci import (  # type: ignore[import-not-found]
     CLOSURESTATUS_BEGIN_RE,
     CLOSURESTATUS_FIELD_RE,
@@ -35,6 +36,10 @@ from bedc_ci import (  # type: ignore[import-not-found]
     discovery_production_radar_payload,
     cmd_discovery_radar,
     parser as bedc_parser,
+)
+from discovery_refutation_publisher import (  # type: ignore[import-not-found]
+    merge_records,
+    refutation_records_from_payload,
 )
 
 
@@ -926,6 +931,7 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(candidate["target"], "BEDC.Target.NewClassifier")
         self.assertEqual(candidate["state"], "refuted")
         self.assertTrue(candidate["refutation"]["kernel_grounded"])
+        self.assertEqual(candidate["provenance"][0]["reduced_fp"], "same")
         self.assertIn("classifier_corpus_reduced_fingerprint_match", candidate["evidence"])
 
     def test_discovery_radar_denominators_distinguish_empty_candidate_scan(self) -> None:
@@ -1209,6 +1215,71 @@ class DiscoveryAuditTests(unittest.TestCase):
             radar["semantics"]["valid_use"],
             "discovery_candidate_surface_and_rank_only",
         )
+
+
+class DiscoveryRefutationPublisherTests(unittest.TestCase):
+    def test_refutation_publisher_consumes_only_reduced_fp_twins(self) -> None:
+        payload = {
+            "candidates": [
+                {
+                    "state": "refuted",
+                    "target": "BEDC.Target.Sound",
+                    "refutation": {"kernel_grounded": True},
+                    "phase_a": {"reconstruction_priors": ["BEDC.Prior.Old"]},
+                    "provenance": [{
+                        "relation": "reconstruction",
+                        "prior": "BEDC.Prior.Old",
+                        "candidate_reduced_fp": "same",
+                        "reduced_fp": "same",
+                    }],
+                },
+                {
+                    "state": "refuted",
+                    "target": "BEDC.Target.ZeroRefinementOnly",
+                    "refutation": {"kernel_grounded": True},
+                    "phase_b": {"zero_refinement_priors": ["BEDC.Prior.Old"]},
+                    "provenance": [{
+                        "relation": "conjunctive_refinement",
+                        "prior": "BEDC.Prior.Old",
+                    }],
+                },
+            ]
+        }
+        records = refutation_records_from_payload(payload, timestamp="2026-06-02T00:00:00")
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0]["candidate"], "BEDC.Target.Sound")
+        self.assertEqual(
+            records[0]["refuted_because"],
+            "structural reconstruction (reduced_fp twin) of BEDC.Prior.Old",
+        )
+        self.assertEqual(records[0]["evidence"], {
+            "reduced_fp": "same",
+            "prior": ["BEDC.Prior.Old"],
+        })
+        self.assertTrue(records[0]["kernel_grounded"])
+        self.assertEqual(records[0]["first_seen"], "2026-06-02T00:00:00")
+        self.assertNotIn("last_seen", records[0])
+
+    def test_refutation_publisher_preserves_first_seen_without_last_seen(self) -> None:
+        existing = [{
+            "candidate": "BEDC.Target.Sound",
+            "refuted_because": "old",
+            "evidence": {"reduced_fp": "same", "prior": ["BEDC.Prior.Old"]},
+            "kernel_grounded": True,
+            "first_seen": "2026-06-01T00:00:00",
+            "last_seen": "2026-06-01T01:00:00",
+        }]
+        current = [{
+            "candidate": "BEDC.Target.Sound",
+            "refuted_because": "structural reconstruction (reduced_fp twin) of BEDC.Prior.Old",
+            "evidence": {"reduced_fp": "same", "prior": ["BEDC.Prior.Old"]},
+            "kernel_grounded": True,
+            "first_seen": "2026-06-02T00:00:00",
+        }]
+        records = merge_records(existing, current, timestamp="2026-06-02T00:00:00")
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0]["first_seen"], "2026-06-01T00:00:00")
+        self.assertNotIn("last_seen", records[0])
 
 
 if __name__ == "__main__":
