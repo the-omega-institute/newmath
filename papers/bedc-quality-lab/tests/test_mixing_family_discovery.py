@@ -15,6 +15,52 @@ def _rows_by_family(payload):
     return {row["family"]: row for row in payload["verdicts"]}
 
 
+def _first_target_family(payload):
+    baseline = payload["negative_result_summary"]["baseline_family"]
+    return next(family for family in payload["config"]["families"] if family != baseline)
+
+
+def _record_map(payload):
+    return {(row["mixing"], int(row["seed"])): row for row in payload["records"]}
+
+
+def _set_certified(row):
+    row["envelope_projection"]["classifier_spec"]["cert_status"] = "certified"
+
+
+def _set_metric(row, metric, value):
+    row["metrics"][metric] = value
+    row["envelope_projection"]["metrics"][metric] = value
+
+
+def _set_debt(row, value):
+    row["mixing_debt_item"]["score"] = f"{value:.6f}"
+
+
+def _set_target_quality_shift(payload, target, *, quality_delta, debt_score):
+    baseline = payload["negative_result_summary"]["baseline_family"]
+    by_key = _record_map(payload)
+    for seed in payload["config"]["seeds"]:
+        baseline_row = by_key[(baseline, int(seed))]
+        target_row = by_key[(target, int(seed))]
+        _set_certified(baseline_row)
+        _set_certified(target_row)
+        _set_metric(target_row, "quality_q", float(baseline_row["metrics"]["quality_q"]) + quality_delta)
+        _set_debt(target_row, debt_score)
+
+
+def _copy_baseline_metrics_to_target(payload, target):
+    baseline = payload["negative_result_summary"]["baseline_family"]
+    by_key = _record_map(payload)
+    for seed in payload["config"]["seeds"]:
+        baseline_row = by_key[(baseline, int(seed))]
+        target_row = by_key[(target, int(seed))]
+        _set_certified(baseline_row)
+        _set_certified(target_row)
+        target_row["metrics"] = copy.deepcopy(baseline_row["metrics"])
+        target_row["envelope_projection"]["metrics"] = copy.deepcopy(baseline_row["envelope_projection"]["metrics"])
+
+
 def test_grid_validation_rejects_missing_family_seed_cell():
     payload = _payload()
     payload["records"] = payload["records"][:-1]
@@ -44,6 +90,46 @@ def test_h0_summary_pinned():
     assert summary["answer"] == "H0"
     assert summary["second_positive_probe_found"] is False
     assert summary["positive_families"] == []
+
+
+def test_positive_verdict_branch():
+    payload = _payload()
+    target = _first_target_family(payload)
+    _set_target_quality_shift(payload, target, quality_delta=10.0, debt_score=0.0)
+    projection = runner._project_family(payload, target)
+    row = runner._verdict_row(projection)
+    assert row["family"] == target
+    assert row["surface_delta_count"] > 0
+    assert row["net_information"] > 0.0
+    assert row["positive_discovery"] is True
+    assert positive_discovery(projection["claim"]) is True
+    assert row["verdict"] == "positive"
+
+
+def test_negative_verdict_branch():
+    payload = _payload()
+    target = _first_target_family(payload)
+    _set_target_quality_shift(payload, target, quality_delta=-1.0, debt_score=1.0)
+    projection = runner._project_family(payload, target)
+    row = runner._verdict_row(projection)
+    assert row["family"] == target
+    assert row["surface_delta_count"] > 0
+    assert row["structural_discovery"] is True
+    assert structural_discovery(projection["passage"]) is True
+    assert row["net_information"] < 0.0
+    assert row["positive_discovery"] is False
+    assert row["verdict"] == "negative"
+
+
+def test_h1_summary_when_any_family_positive():
+    payload = _payload()
+    target = _first_target_family(payload)
+    _set_target_quality_shift(payload, target, quality_delta=10.0, debt_score=0.0)
+    summary = runner._verdict_payload(payload)["positive_probe_summary"]
+    assert summary["answer"] == "H1"
+    assert summary["second_positive_probe_found"] is True
+    assert target in summary["positive_families"]
+    assert summary["positive_families"]
 
 
 def test_per_family_verdicts_and_blockers_pinned():
@@ -83,21 +169,28 @@ def test_matched_random_baseline_contract():
 
 def test_alternate_verdict_branch():
     payload = _payload()
-    baseline = payload["negative_result_summary"]["baseline_family"]
-    target = next(family for family in payload["config"]["families"] if family != baseline)
-    by_key = {(row["mixing"], int(row["seed"])): row for row in payload["records"]}
-    for seed in payload["config"]["seeds"]:
-        baseline_row = by_key[(baseline, int(seed))]
-        target_row = by_key[(target, int(seed))]
-        target_row["metrics"] = copy.deepcopy(baseline_row["metrics"])
-        target_row["envelope_projection"]["metrics"] = copy.deepcopy(baseline_row["envelope_projection"]["metrics"])
-        target_row["envelope_projection"]["classifier_spec"]["cert_status"] = "certified"
+    target = _first_target_family(payload)
+    _copy_baseline_metrics_to_target(payload, target)
     projection = runner._project_family(payload, target)
     row = runner._verdict_row(projection)
     assert row["family"] == target
     assert row["surface_delta_count"] == 0
     assert row["surface_delta"] == []
     assert row["verdict"] == "compression"
+
+
+def test_empty_surface_delta_blocker_emitted():
+    payload = _payload()
+    target = _first_target_family(payload)
+    _copy_baseline_metrics_to_target(payload, target)
+    projection = runner._project_family(payload, target)
+    row = runner._verdict_row(projection)
+    payload_row = _rows_by_family(runner._verdict_payload(payload))[target]
+    assert row["surface_delta_count"] == 0
+    assert row["verdict"] != "positive"
+    assert any(blocker["reason"] == "empty-surface-delta" for blocker in row["blockers"])
+    assert any(blocker["reason"] == "empty-surface-delta" for blocker in payload_row["blockers"])
+    assert any(blocker["reason"] == "empty-surface-delta" for blocker in runner._verdict_payload(payload)["certification_blockers"])
 
 
 def test_payload_fields_control_and_artifact_writes(tmp_path):
