@@ -102,6 +102,7 @@ def assert_common_experiment_envelope(envelope):
 
 FALLBACK_LEDGER_GAPS = [
     "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+    "kind=source; residue=distribution-family-coverage; severity=high; status=open",
     "kind=source; residue=finite-sample-support; severity=high; status=open",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open",
     "kind=source; residue=source-coverage; severity=high; status=open",
@@ -110,6 +111,8 @@ FALLBACK_LEDGER_GAPS = [
 FALLBACK_DEBT_ITEMS = [
     "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+    "kind=source; residue=latent-distribution-gaussianity; severity=none; status=closed; score=0.000000",
+    "kind=source; residue=distribution-family-coverage; severity=high; status=open; score=0.240000",
     "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
     "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
     "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
@@ -119,6 +122,7 @@ FALLBACK_DEBT_ITEMS = [
 
 TORCH_METADATA_LEDGER_GAPS = [
     "kind=classifier; residue=optimizer-certificate; severity=high; status=open",
+    "kind=source; residue=distribution-family-coverage; severity=high; status=open",
     "kind=source; residue=finite-sample-support; severity=high; status=open",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open",
     "kind=source; residue=source-coverage; severity=high; status=open",
@@ -127,6 +131,8 @@ TORCH_METADATA_LEDGER_GAPS = [
 TORCH_METADATA_DEBT_ITEMS = [
     "kind=source; residue=source-coverage; severity=high; status=open; score=0.180000",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open; score=0.220000",
+    "kind=source; residue=latent-distribution-gaussianity; severity=none; status=closed; score=0.000000",
+    "kind=source; residue=distribution-family-coverage; severity=high; status=open; score=0.240000",
     "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
     "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
     "kind=classifier; residue=optimizer-certificate; severity=high; status=open; score=0.200000",
@@ -178,8 +184,8 @@ def assert_canonical_quality_rows(envelope, *, ledger_gaps, debt_items):
 def assert_meaningful_metric_thresholds(
     envelope,
     *,
-    expected_orthogonality_error=0.5223971685978388,
-    expected_covariance_deviation=0.6212575125938344,
+    expected_orthogonality_error=0.5137803481122195,
+    expected_covariance_deviation=0.6110389109464073,
 ):
     assert envelope.metrics["linear_identifiability_r2"] > 0.85
     assert envelope.metrics["approx_identifiability_proxy"] > 0.70
@@ -450,8 +456,8 @@ def test_smoke_experiment_skips_without_torch():
     assert_classifier_certificate(envelope)
     assert_meaningful_metric_thresholds(
         envelope,
-        expected_orthogonality_error=0.1182845169138232,
-        expected_covariance_deviation=0.6853549134521694,
+        expected_orthogonality_error=0.2515126965487835,
+        expected_covariance_deviation=0.6698982086541138,
     )
 
 

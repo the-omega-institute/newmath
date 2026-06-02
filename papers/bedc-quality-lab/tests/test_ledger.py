@@ -1,6 +1,14 @@
 from bedc_quality_lab.debt import assess_debt
+from bedc_quality_lab.latent_distribution import CANONICAL_LATENT_DISTRIBUTION_KEYS, LatentDistributionSpec
 from bedc_quality_lab.ledger import derive_ledger_gaps, format_ledger_gaps
 from bedc_quality_lab.mixing import canonical_mixing_families
+
+
+def closed_latent_source():
+    return {
+        "latent_distribution": LatentDistributionSpec.gaussian().to_source_spec(),
+        "latent_distribution_coverage_keys": list(CANONICAL_LATENT_DISTRIBUTION_KEYS),
+    }
 
 
 def test_ledger_gaps_derive_from_debt_and_specs():
@@ -8,6 +16,7 @@ def test_ledger_gaps_derive_from_debt_and_specs():
         "name": "gaussian-ou-toy-world",
         "sample_count": 384,
         "mixing": "sinusoidal_shear",
+        **closed_latent_source(),
     }
     classifier_spec = {
         "name": "tiny-mlp-2-128-128-2",
@@ -56,6 +65,7 @@ def test_ledger_keeps_single_seed_global_claim_boundary_gap_live():
         "sample_count": 2048,
         "mixing": canonical_mixing_families(),
         "global_claim": True,
+        **closed_latent_source(),
     }
     classifier_spec = {"name": "certified-classifier", "training": "certified"}
     stability_spec = {"multi_seed": False}
@@ -86,7 +96,12 @@ def test_ledger_keeps_single_seed_global_claim_boundary_gap_live():
 
 
 def test_ledger_metric_gap_pins_partial_and_open_statuses_below_bound_margin_mse():
-    source_spec = {"source_count": 3, "sample_count": 2048, "mixing": canonical_mixing_families()}
+    source_spec = {
+        "source_count": 3,
+        "sample_count": 2048,
+        "mixing": canonical_mixing_families(),
+        **closed_latent_source(),
+    }
     classifier_spec = {"name": "certified-classifier", "training": "certified"}
     stability_spec = {"multi_seed": True}
     closed_metrics = {
@@ -149,6 +164,7 @@ def test_ledger_filters_closed_debt_items():
         "sample_count": 2048,
         "mixing": canonical_mixing_families(),
         "global_claim": True,
+        **closed_latent_source(),
     }
     classifier_spec = {"name": "certified-classifier", "training": "certified"}
     stability_spec = {"multi_seed": True}

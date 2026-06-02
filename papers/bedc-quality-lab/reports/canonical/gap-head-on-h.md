@@ -1,6 +1,6 @@
 # Gap-Ledger Head on Learned h
 
-- Generated at: `2026-06-02T11:36:43.469111+00:00`
+- Generated at: `2026-06-02T12:23:34.552678+00:00`
 - Representation boundary: `learned_h`
 - Inference no ground-truth z: `true`
 - Sample count: `384`
@@ -13,18 +13,18 @@
 
 | arm | failure-detection AUROC | ECE | UnloggedErrorRate | critical unlogged error rate | prediction error rate |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| `vanilla` | 0.500000 +/- 0.000000 (95% CI +/- 0.000000) | 0.513043 +/- 0.050343 (95% CI +/- 0.018015) | 0.513043 +/- 0.050343 (95% CI +/- 0.018015) | 0.513043 +/- 0.050343 (95% CI +/- 0.018015) | 0.513043 +/- 0.050343 (95% CI +/- 0.018015) |
-| `learned_gap_head_on_h` | 0.820217 +/- 0.047445 (95% CI +/- 0.016978) | 0.124272 +/- 0.026071 (95% CI +/- 0.009329) | 0.121739 +/- 0.062913 (95% CI +/- 0.022513) | 0.001159 +/- 0.003775 (95% CI +/- 0.001351) | 0.513043 +/- 0.050343 (95% CI +/- 0.018015) |
-| `matched_random_gap_head` | 0.493823 +/- 0.097903 (95% CI +/- 0.035034) | 0.114396 +/- 0.050620 (95% CI +/- 0.018114) | 0.251594 +/- 0.092279 (95% CI +/- 0.033022) | 0.000000 +/- 0.000000 (95% CI +/- 0.000000) | 0.513043 +/- 0.050343 (95% CI +/- 0.018015) |
+| `vanilla` | 0.500000 +/- 0.000000 (95% CI +/- 0.000000) | 0.505797 +/- 0.054620 (95% CI +/- 0.019545) | 0.505797 +/- 0.054620 (95% CI +/- 0.019545) | 0.505797 +/- 0.054620 (95% CI +/- 0.019545) | 0.505797 +/- 0.054620 (95% CI +/- 0.019545) |
+| `learned_gap_head_on_h` | 0.815589 +/- 0.044417 (95% CI +/- 0.015894) | 0.115027 +/- 0.029219 (95% CI +/- 0.010456) | 0.124928 +/- 0.063140 (95% CI +/- 0.022594) | 0.000580 +/- 0.002206 (95% CI +/- 0.000789) | 0.505797 +/- 0.054620 (95% CI +/- 0.019545) |
+| `matched_random_gap_head` | 0.493183 +/- 0.096779 (95% CI +/- 0.034632) | 0.122031 +/- 0.048069 (95% CI +/- 0.017201) | 0.262899 +/- 0.086164 (95% CI +/- 0.030833) | 0.000000 +/- 0.000000 (95% CI +/- 0.000000) | 0.505797 +/- 0.054620 (95% CI +/- 0.019545) |
 
 ## Comparison
 
-- UnloggedErrorRate delta learned minus vanilla: -0.391304 +/- 0.085627 (95% CI +/- 0.030641)
-- Critical unlogged error rate delta learned minus vanilla: -0.511884 +/- 0.049860 (95% CI +/- 0.017842)
-- Failure-detection AUROC delta learned minus vanilla: 0.320217 +/- 0.047445 (95% CI +/- 0.016978)
-- UnloggedErrorRate delta matched-random minus vanilla: -0.261449 +/- 0.113422 (95% CI +/- 0.040588)
-- Critical unlogged error rate delta matched-random minus vanilla: -0.513043 +/- 0.050343 (95% CI +/- 0.018015)
-- Failure-detection AUROC delta matched-random minus vanilla: -0.006177 +/- 0.097903 (95% CI +/- 0.035034)
+- UnloggedErrorRate delta learned minus vanilla: -0.380870 +/- 0.085639 (95% CI +/- 0.030646)
+- Critical unlogged error rate delta learned minus vanilla: -0.505217 +/- 0.054537 (95% CI +/- 0.019516)
+- Failure-detection AUROC delta learned minus vanilla: 0.315589 +/- 0.044417 (95% CI +/- 0.015894)
+- UnloggedErrorRate delta matched-random minus vanilla: -0.242899 +/- 0.099825 (95% CI +/- 0.035722)
+- Critical unlogged error rate delta matched-random minus vanilla: -0.505797 +/- 0.054620 (95% CI +/- 0.019545)
+- Failure-detection AUROC delta matched-random minus vanilla: -0.006817 +/- 0.096779 (95% CI +/- 0.034632)
 
 ## Matched-Random Control
 

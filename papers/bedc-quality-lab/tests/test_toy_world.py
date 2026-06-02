@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from bedc_quality_lab.mixing import DEFAULT_MIXING, canonical_mixing_families, mix_latents
+from bedc_quality_lab.latent_distribution import LatentDistributionSpec
 from bedc_quality_lab.toy_world import make_ou_pair, make_toy_batch
 from bedc_quality_lab.transition import TransitionKernelSpec, make_transition_pair
 
@@ -50,6 +51,14 @@ def test_make_toy_batch_routes_each_canonical_mixing_family():
 
         assert batch.x == pytest.approx(mix_latents(batch.z, family))
         assert batch.x_pair == pytest.approx(mix_latents(batch.z_pair, family))
+
+
+def test_make_toy_batch_accepts_latent_distribution_spec():
+    spec = LatentDistributionSpec.laplace()
+    batch = make_toy_batch(128, seed=707, latent_distribution=spec)
+
+    assert batch.z == pytest.approx(spec.sample(128, seed=707))
+    assert batch.x == pytest.approx(mix_latents(batch.z, DEFAULT_MIXING))
 
 
 def test_make_toy_batch_rejects_unknown_mixing_family():

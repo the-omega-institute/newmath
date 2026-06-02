@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Mapping, Any
 
 from .cost_protocol import CostProtocol, REQUIRED_DEBT_ROWS, load_cost_protocol
+from .latent_distribution import CANONICAL_LATENT_DISTRIBUTION_KEYS, covered_distribution_family_keys
 from .ledger import LedgerEntry, LedgerRowKey, ledger_debt, ledger_gap, recorded_rows, required_rows
 from .mixing import covered_canonical_mixing_families
 from .theorem_bound_quality import THEOREM_BOUND_ROW, _bound_values
@@ -71,6 +72,24 @@ def _distribution_score(source_spec: Mapping[str, Any], protocol: CostProtocol) 
     if count <= 1:
         return upper
     if count < 4:
+        return 0.5 * upper
+    return 0.0
+
+
+def _latent_gaussianity_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
+    upper = protocol.weight(LedgerRowKey("source", "latent-distribution-gaussianity"))
+    distribution = source_spec.get("latent_distribution")
+    family = distribution.get("family") if isinstance(distribution, Mapping) else distribution
+    return 0.0 if family == "gaussian" else upper
+
+
+def _latent_distribution_family_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
+    upper = protocol.weight(LedgerRowKey("source", "distribution-family-coverage"))
+    count = len(covered_distribution_family_keys(source_spec))
+    target = len(CANONICAL_LATENT_DISTRIBUTION_KEYS)
+    if count <= 1:
+        return upper
+    if count < target:
         return 0.5 * upper
     return 0.0
 
@@ -192,6 +211,16 @@ def assess_debt(
         _item(
             LedgerRowKey("source", "mixing-family-coverage"),
             _distribution_score(source_spec, cost_protocol),
+            cost_protocol,
+        ),
+        _item(
+            LedgerRowKey("source", "latent-distribution-gaussianity"),
+            _latent_gaussianity_score(source_spec, cost_protocol),
+            cost_protocol,
+        ),
+        _item(
+            LedgerRowKey("source", "distribution-family-coverage"),
+            _latent_distribution_family_score(source_spec, cost_protocol),
             cost_protocol,
         ),
         _item(

@@ -17,6 +17,8 @@ REQUIRED_DEBT_ROWS = frozenset(
     {
         LedgerRowKey("source", "source-coverage"),
         LedgerRowKey("source", "mixing-family-coverage"),
+        LedgerRowKey("source", "latent-distribution-gaussianity"),
+        LedgerRowKey("source", "distribution-family-coverage"),
         LedgerRowKey("source", "finite-sample-support"),
         LedgerRowKey("source", "transition-isotropy"),
         LedgerRowKey("classifier", "optimizer-certificate"),

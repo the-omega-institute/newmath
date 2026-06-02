@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from .latent_distribution import LatentDistributionSpec
 from .mixing import DEFAULT_MIXING, mix_latents
 from .transition import TransitionKernelSpec, make_transition_pair
 
@@ -18,9 +19,14 @@ class ToyBatch:
     x_pair: np.ndarray
 
 
-def make_latents(n: int, *, seed: int) -> np.ndarray:
-    rng = np.random.default_rng(seed)
-    return rng.normal(size=(n, 2)).astype(np.float64)
+def make_latents(
+    n: int,
+    *,
+    seed: int,
+    latent_distribution: LatentDistributionSpec | None = None,
+) -> np.ndarray:
+    spec = LatentDistributionSpec.gaussian() if latent_distribution is None else latent_distribution
+    return spec.sample(n, seed)
 
 
 def make_ou_pair(z: np.ndarray, *, rho: float, seed: int) -> np.ndarray:
@@ -37,8 +43,9 @@ def make_toy_batch(
     seed: int = 17,
     transition_kernel: TransitionKernelSpec | None = None,
     mixing: str = DEFAULT_MIXING,
+    latent_distribution: LatentDistributionSpec | None = None,
 ) -> ToyBatch:
-    z = make_latents(n, seed=seed)
+    z = make_latents(n, seed=seed, latent_distribution=latent_distribution)
     spec = transition_kernel if transition_kernel is not None else TransitionKernelSpec.isotropic(rho, latent_dim=z.shape[1])
     z_pair = make_transition_pair(z, spec, seed + 1)
     return ToyBatch(z=z, z_pair=z_pair, x=mix_latents(z, mixing), x_pair=mix_latents(z_pair, mixing))
