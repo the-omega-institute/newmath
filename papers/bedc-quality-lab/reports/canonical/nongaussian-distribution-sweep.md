@@ -1,6 +1,6 @@
 # Canonical latent distribution observed-debt sweep
 
-- Generated at: `2026-06-02T15:13:02.963366+00:00`
+- Generated at: `2026-06-02T17:30:17.635409+00:00`
 - Seed count: `6`
 - Sample count: `384`
 - Rho: `0.82`
