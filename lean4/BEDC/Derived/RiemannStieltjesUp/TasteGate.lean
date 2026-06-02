@@ -175,6 +175,22 @@ theorem RiemannStieltjesUpTasteGate_single_carrier_alignment :
       (fun _ _ heq => RiemannStieltjesUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
+instance riemannStieltjesInhabited : Inhabited RiemannStieltjesUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  default :=
+    RiemannStieltjesUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+
+theorem RiemannStieltjesTasteGate_single_carrier_alignment :
+    (∀ h : BHist, riemannStieltjesDecodeBHist (riemannStieltjesEncodeBHist h) = h) ∧
+      FieldFaithful.field_count RiemannStieltjesUp = 10 ∧
+        riemannStieltjesEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  exact
+    ⟨RiemannStieltjesUpTasteGate_single_carrier_alignment_decode,
+      rfl,
+      rfl⟩
+
 theorem RiemannStieltjesCarrier_regulated_integral_handoff
     {F A T S I E H C P N : BHist} :
     UnaryHistory F → UnaryHistory A → Cont F A T → UnaryHistory S → Cont T S I →
