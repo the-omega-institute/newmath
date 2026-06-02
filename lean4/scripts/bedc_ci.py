@@ -4553,6 +4553,7 @@ def discovery_production_radar_payload(
                 ),
                 "reconstruction_priors": sorted(reconstruction_priors),
             },
+            "provenance": provenance,
             "phase_b": {
                 "zero_refinement_priors": sorted(zero_refinement_priors),
                 "nontrivial_refinements": provenance_summary["nontrivial_refinements"],
