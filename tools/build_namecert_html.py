@@ -685,6 +685,58 @@ def output_root_for_row(row: dict) -> Path:
     return ROOT / "docs" / "dossier" / Path(*parts)
 
 
+def resolve_page_cache_dir(page_cache_dir: Path | None) -> Path | None:
+    if page_cache_dir is None:
+        return None
+    if page_cache_dir.is_absolute():
+        return page_cache_dir
+    return ROOT / page_cache_dir
+
+
+def page_cache_entry(page_cache_dir: Path | None, fingerprint: str) -> Path | None:
+    cache_dir = resolve_page_cache_dir(page_cache_dir)
+    if cache_dir is None:
+        return None
+    return cache_dir / fingerprint[:2] / fingerprint
+
+
+def restore_page_cache(page_cache_dir: Path | None, fingerprint: str, row: dict, out_dir: Path) -> bool:
+    entry = page_cache_entry(page_cache_dir, fingerprint)
+    if entry is None:
+        return False
+    stamp = entry / stamp_name(row)
+    index = entry / "index.html"
+    if not index.exists() or not stamp.exists():
+        return False
+    if stamp.read_text(encoding="utf-8", errors="ignore").strip() != fingerprint:
+        return False
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
+    out_dir.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(entry, out_dir)
+    return True
+
+
+def store_page_cache(page_cache_dir: Path | None, fingerprint: str, row: dict, out_dir: Path) -> None:
+    entry = page_cache_entry(page_cache_dir, fingerprint)
+    if entry is None:
+        return
+    stamp = out_dir / stamp_name(row)
+    index = out_dir / "index.html"
+    if not index.exists() or not stamp.exists():
+        return
+    if stamp.read_text(encoding="utf-8", errors="ignore").strip() != fingerprint:
+        return
+    tmp_entry = entry.with_name(entry.name + ".tmp")
+    if tmp_entry.exists():
+        shutil.rmtree(tmp_entry)
+    tmp_entry.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(out_dir, tmp_entry)
+    if entry.exists():
+        shutil.rmtree(entry)
+    tmp_entry.replace(entry)
+
+
 def region_fingerprint(
     row: dict,
     rows_by_region: dict[str, dict],
@@ -788,6 +840,7 @@ def run_make4ht(
     force: bool,
     macro_prelude: str,
     page_timeout: int,
+    page_cache_dir: Path | None = None,
 ) -> dict:
     slug = row["slug"]
     region = row.get("region") or normalize_region(slug)
@@ -817,6 +870,8 @@ def run_make4ht(
         cached = stamp.read_text(encoding="utf-8", errors="ignore").strip()
         if cached == fingerprint:
             return {"slug": slug, "ok": True, "cached": True, "error": "", "returncode": 0}
+    if not force and restore_page_cache(page_cache_dir, fingerprint, row, out_dir):
+        return {"slug": slug, "ok": True, "cached": True, "error": "", "returncode": 0}
 
     if out_dir.exists():
         shutil.rmtree(out_dir)
@@ -900,6 +955,8 @@ def run_make4ht(
         else:
             err = ""
             stamp.write_text(f"{fingerprint}\n", encoding="utf-8")
+        if ok:
+            store_page_cache(page_cache_dir, fingerprint, row, out_dir)
     else:
         err = (proc.stderr or proc.stdout)[-4000:] if proc else ""
         if not err:
@@ -978,6 +1035,12 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_PAGE_TIMEOUT,
         help=f"seconds before one make4ht page render is marked failed; default {DEFAULT_PAGE_TIMEOUT}",
     )
+    parser.add_argument(
+        "--page-cache-dir",
+        type=Path,
+        default=None,
+        help="repository-relative directory for per-page HTML caches keyed by source fingerprint",
+    )
     parser.add_argument("--write-manifest-only", action="store_true")
     return parser.parse_args()
 
@@ -1026,6 +1089,10 @@ def _prepare_render_context(
     rows_by_region = by_region(all_manifest_rows)
     NAMECERT_OUT_ROOT.mkdir(parents=True, exist_ok=True)
     PAPER_OUT_ROOT.mkdir(parents=True, exist_ok=True)
+    if args.page_cache_dir is not None:
+        resolved_cache_dir = resolve_page_cache_dir(args.page_cache_dir)
+        assert resolved_cache_dir is not None
+        resolved_cache_dir.mkdir(parents=True, exist_ok=True)
     macro_prelude = collect_macro_prelude(all_manifest_rows)
     return upstream, downstream, rows_by_region, macro_prelude, use_build_dir
 
@@ -1055,6 +1122,7 @@ def _render_selected_rows(
                 args.force,
                 macro_prelude,
                 max(1, args.page_timeout),
+                args.page_cache_dir,
             )
             for row in selected
         ]
