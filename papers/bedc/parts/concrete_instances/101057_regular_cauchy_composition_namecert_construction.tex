@@ -73,6 +73,60 @@ The tolerance ledger supplies the remaining compatibility condition. The cell in
 Transport and replay preserve the handoff because $H$ acts componentwise on $S,T,W,D,K,E,C,P,N$, while $C$ replays only the displayed order. Therefore every target-side stream read remains downstream of the accepted source cell and the displayed tolerance cell.
 \end{proof}
 
+\begin{definition}[Regular Cauchy composition modulus carrier]\label{def:regular-cauchy-composition-modulus-carrier}
+A modulus-refined $\RegularCauchyCompositionUp$ carrier is a finite $\BHist$ packet
+$$
+Q_\mu=(S_0,S_1,W,D,\mu,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two $\RegSeqRatUp$ rows whose regular rational observations are composed.
+\item $W$ is the shared $\StreamNameUp$ window schedule used by both regular rows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, displaying the outer tolerance, the intermediate tolerance, and the endpoint tolerance consumed by the composition.
+\item $\mu$ is the composed modulus row. It records the finite route from an outer precision request through the shared window schedule and both regular rational rows.
+\item $E$ is the terminal $\RealUp$ seal, reachable only after $S_0,S_1,W,D,\mu$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two regular rows, shared schedule, tolerance ledger, composed modulus row, seal, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from an outer composed-modulus request through $S_0,S_1,W,D,\mu,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCompositionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCompositionUp}$ row.
+\end{enumerate}
+The classifier compares modulus-refined packets only through the displayed tuple $S_0,S_1,W,D,\mu,E,H,C,P,N$. It has no coordinate for a host-level modulus function, quotient stream equality, selected limit, completed real equality, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy composition modulus stability]\label{thm:regular-cauchy-composition-modulus-stability}
+Let
+$$
+Q_\mu=(S_0,S_1,W,D,\mu,E,H,C,P,N)
+$$
+be an accepted modulus-refined $\RegularCauchyCompositionUp$ carrier. Componentwise $\hsame$ transport of the two $\RegSeqRatUp$ rows, the shared $\StreamNameUp$ schedule, the $\DyadicRatCoreUp$ tolerance ledger, and the terminal $\RealUp$ seal preserves the composed modulus route $\mu$. Hence every transported packet exposes the same finite outer-request to endpoint-read route through $S_0,S_1,W,D,\mu,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the modulus carrier of \autoref{def:regular-cauchy-composition-modulus-carrier}. The projection exposes the two regular rational rows, the shared window schedule, the tolerance ledger, the composed modulus row, and the terminal seal.
+
+Transport is componentwise by the row $H$. It moves the displayed histories of $S_0,S_1,W,D,\mu,E,C,P,N$ together, so the composed modulus row cannot be separated from the two source regular rows or from the dyadic tolerance cells that justify it.
+
+Replay is restricted by $C$. It repeats the displayed order from an outer composed-modulus request through the shared window schedule, both regular rows, the dyadic tolerance ledger, and the terminal seal.
+
+Therefore the transported packet still exposes the same finite composed modulus route. No host-level modulus function, quotient stream equality, selected limit, or completed real equality is introduced by the transport.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy composition modulus Real handoff]\label{thm:regular-cauchy-composition-modulus-real-handoff}
+Every $\RealUp$-facing read out of an accepted modulus-refined $\RegularCauchyCompositionUp$ carrier factors through the finite route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \mu \longmapsto \RealUp
+$$
+as displayed by the shared schedule, the two regular rational rows, the dyadic tolerance ledger, the composed modulus row, and the terminal seal. Thus every Real and Completion consumer reads the composed name through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\mu$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Take a Real-facing read admitted by the modulus-refined carrier. Projection of $Q_\mu$ gives no coordinate from an outer request directly to the terminal seal $E$.
+
+The read first opens the shared StreamName schedule and the two regular rational rows. The schedule $W$ fixes the finite windows, while $S_0$ and $S_1$ display the rational observations consumed at those windows.
+
+The tolerance and modulus rows then determine the Real-facing handoff. The ledger $D$ displays the outer, intermediate, and endpoint tolerances, and $\mu$ records the composed route through those cells.
+
+Only after those rows are displayed can $E$ be consumed. The structural rows $H,C,P,N$ preserve, replay, source, and name the same route, so every Real-facing read factors through the stated finite packet.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy composition Real seal route]\label{thm:regular-cauchy-composition-real-seal-route}
 Every $\RealUp$-facing read out of an accepted $\RegularCauchyCompositionUp$ carrier factors through the finite route
 $$
