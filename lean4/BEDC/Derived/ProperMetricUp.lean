@@ -99,6 +99,39 @@ theorem ProperMetricCarrier_complete_located_handoff [AskSetup] [PackageSetup]
       metricBallRoute, locatedRoute, completeRoute, locatedReadExact, completeReadExact,
       pkgSig⟩
 
+theorem ProperMetricCarrier_radius_window_root_soundness [AskSetup] [PackageSetup]
+    {X B K L T H C Q N radiusWindow compactRead locatedRead completeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProperMetricCarrier X B K L T H C Q N bundle pkg ->
+      Cont B K radiusWindow ->
+        Cont radiusWindow K compactRead ->
+          Cont K L locatedRead ->
+            Cont L T completeRead ->
+              PkgSig bundle Q pkg ->
+                UnaryHistory X ∧ UnaryHistory B ∧ UnaryHistory K ∧ UnaryHistory L ∧
+                  UnaryHistory T ∧ UnaryHistory radiusWindow ∧ UnaryHistory compactRead ∧
+                    UnaryHistory locatedRead ∧ UnaryHistory completeRead ∧ Cont X B K ∧
+                      Cont B K radiusWindow ∧ Cont radiusWindow K compactRead ∧
+                        Cont K L locatedRead ∧ Cont L T completeRead ∧
+                          PkgSig bundle Q pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier radiusRoute compactRoute locatedRoute completeRoute pkgSig
+  obtain ⟨XUnary, BUnary, KUnary, LUnary, TUnary, _HUnary, _CUnary, _QUnary,
+    _NUnary, metricBallRoute, _storedLocatedRoute, _storedCompleteRoute,
+    _storedPkgSig⟩ := carrier
+  have radiusWindowUnary : UnaryHistory radiusWindow :=
+    unary_cont_closed BUnary KUnary radiusRoute
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed radiusWindowUnary KUnary compactRoute
+  have locatedReadUnary : UnaryHistory locatedRead :=
+    unary_cont_closed KUnary LUnary locatedRoute
+  have completeReadUnary : UnaryHistory completeRead :=
+    unary_cont_closed LUnary TUnary completeRoute
+  exact
+    ⟨XUnary, BUnary, KUnary, LUnary, TUnary, radiusWindowUnary, compactReadUnary,
+      locatedReadUnary, completeReadUnary, metricBallRoute, radiusRoute, compactRoute,
+      locatedRoute, completeRoute, pkgSig⟩
+
 theorem ProperMetricCarrier_radius_window_nonescape [AskSetup] [PackageSetup]
     {X B K L T H C Q N closedCompact locatedComplete rootRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
