@@ -46,6 +46,105 @@ def test_metric_stats_reports_single_record_zero_std_and_ci():
     }
 
 
+def _paired_records(values, *, role="after", protocol="shared", split="same"):
+    records = []
+    for seed, (before, after) in enumerate(values, start=1):
+        records.append(
+            {
+                "role": "before",
+                "seed": seed,
+                "quality_q": before,
+                "cost_protocol_name": protocol,
+                "split_fingerprint": split,
+            }
+        )
+        records.append(
+            {
+                "role": role,
+                "seed": seed,
+                "quality_q": after,
+                "cost_protocol_name": protocol,
+                "split_fingerprint": split,
+            }
+        )
+    return records
+
+
+def test_paired_delta_stats_reports_paired_ci_for_happy_path():
+    summary = stats.paired_delta_stats(_paired_records([(1.0, 1.4), (2.0, 2.6), (3.0, 3.8)]), "quality_q")
+
+    assert summary["status"] == "ok"
+    assert summary["reason"] == "ok"
+    assert summary["n"] == 3
+    assert summary["mean"] == pytest.approx(0.6)
+    assert summary["std"] == pytest.approx(0.2)
+    assert summary["ci95_half_width"] == pytest.approx(1.96 * 0.2 / math.sqrt(3.0))
+    assert summary["ci95_low"] == pytest.approx(0.6 - 1.96 * 0.2 / math.sqrt(3.0))
+    assert summary["ci95_high"] == pytest.approx(0.6 + 1.96 * 0.2 / math.sqrt(3.0))
+
+
+def test_paired_delta_stats_fails_closed_for_missing_pair():
+    records = _paired_records([(1.0, 1.4), (2.0, 2.6)])
+    records.pop()
+
+    summary = stats.paired_delta_stats(records, "quality_q")
+
+    assert summary["status"] == "missing_pair"
+    assert summary["reason"].startswith("missing paired role")
+    assert math.isnan(summary["mean"])
+
+
+def test_paired_delta_stats_fails_closed_for_duplicate_role_seed():
+    records = _paired_records([(1.0, 1.4), (2.0, 2.6)])
+    records.append(dict(records[0]))
+
+    summary = stats.paired_delta_stats(records, "quality_q")
+
+    assert summary["status"] == "duplicate_role_seed"
+    assert "duplicate before record" in summary["reason"]
+    assert math.isnan(summary["ci95_low"])
+
+
+def test_paired_delta_stats_fails_closed_for_non_finite_metric():
+    records = _paired_records([(1.0, 1.4), (2.0, math.inf)])
+
+    summary = stats.paired_delta_stats(records, "quality_q")
+
+    assert summary["status"] == "non_finite_metric"
+    assert "quality_q" in summary["reason"]
+    assert math.isnan(summary["ci95_high"])
+
+
+def test_paired_delta_stats_fails_closed_for_insufficient_paired_seeds():
+    summary = stats.paired_delta_stats(_paired_records([(1.0, 1.4)]), "quality_q")
+
+    assert summary["status"] == "insufficient_paired_seeds"
+    assert summary["n"] == 1
+    assert math.isnan(summary["std"])
+
+
+def test_paired_delta_stats_fails_closed_for_cost_protocol_mismatch():
+    records = _paired_records([(1.0, 1.4), (2.0, 2.6)])
+    records[1]["cost_protocol_name"] = "other"
+
+    summary = stats.paired_delta_stats(records, "quality_q")
+
+    assert summary["status"] == "cost_protocol_mismatch"
+    assert "seed 1" in summary["reason"]
+    assert math.isnan(summary["mean"])
+
+
+def test_paired_delta_stats_fails_closed_for_split_mismatch():
+    records = _paired_records([(1.0, 1.4), (2.0, 2.6)])
+    records[1]["split_fingerprint"] = "other"
+
+    summary = stats.paired_delta_stats(records, "quality_q")
+
+    assert summary["status"] == "split_fingerprint_mismatch"
+    assert "seed 1" in summary["reason"]
+    assert math.isnan(summary["ci95_half_width"])
+
+
 def test_fit_log_log_slope_reports_ci():
     points = [
         {"sample_count": 100, "std": 0.2},

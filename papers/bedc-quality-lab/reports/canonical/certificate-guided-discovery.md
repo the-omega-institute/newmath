@@ -3,9 +3,13 @@
 - Source JSON artifact: `reports/canonical/certificate-guided-training.json`
 - Projection script: `scripts/run_certificate_guided_discovery.py`
 - Main claim status: `observed-negative`
-- Verdict: `negative` / net `-0.006806` / positive `false`
-- Matched-random baseline: `negative` / net `-0.257381` / positive `false`
-- Benefit declined by `-0.096806` under the shared cost protocol.
-- Debt declined by `-0.150000` under the shared cost protocol.
-- Net information did not clear zero: `-0.006806`.
-- Quality-q delta: `0.053194`.
+- Four-gate positive: `false`
+- Training quality gate: `false`
+- Gate blockers: `imported-positive-discovery-false, net-information-nonpositive, training-positive-quality-gate-false`
+- Verdict: `negative` / net `-0.020658` / positive `false`
+- Matched-random baseline: `negative` / net `-0.199679` / positive `false`
+- Benefit declined by `-0.108256` under the shared cost protocol.
+- Debt declined by `-0.147598` under the shared cost protocol.
+- Net information did not clear zero: `-0.020658`.
+- Quality-q delta: `0.039342`.
+- Not claimed: `formal BEDC closure is not claimed by this lab-local runner; global optimizer behavior is not claimed by this lab-local runner; positive quality improvement is not claimed unless the paired after-minus-before quality_q CI lower bound is above zero; positive quality wording is not claimed for debt reduction paired with benefit decline; positive discovery is not claimed unless classifier surface delta, imported positive_discovery, positive net information, and training positive quality gate all hold`

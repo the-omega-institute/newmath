@@ -27,13 +27,14 @@ from bedc_quality_lab.training.certificate_guided import (
     stability_loss,
     total_loss,
 )
+from scripts.experiment_stats import paired_delta_stats
 from scripts import run_gaussian_ou_gap_ledger_head as gap_runner
 from scripts.run_gaussian_ou_lejepa import run_experiment
 
 
 JSON_ARTIFACT = "reports/certificate_guided_training.json"
 REPORT_ARTIFACT = "reports/certificate_guided_training.md"
-SEED = 25
+SEEDS = (18, 25, 36)
 RHO = 0.82
 SAMPLE_COUNT = 160
 GUIDED_SAMPLE_COUNT = 1792
@@ -62,6 +63,19 @@ def _cost_protocol_payload(protocol: CostProtocol) -> dict[str, Any]:
             for row in sorted(protocol.row_weights)
         ],
     }
+
+
+def _split_fingerprint(envelope: Any) -> str:
+    source = envelope.source_spec
+    classifier = envelope.classifier_spec
+    return "|".join(
+        (
+            f"rho={RHO:.6f}",
+            f"source_count={source.get('source_count')}",
+            f"mixing={source.get('mixing')}",
+            f"output_dim={classifier.get('output_dim')}",
+        )
+    )
 
 
 def _debt_rows(assessment: DebtAssessment, protocol: CostProtocol) -> list[dict[str, Any]]:
@@ -171,8 +185,10 @@ def _record(
     return {
         "role": role,
         "candidate_id": candidate_id,
+        "seed": int(seed),
         "run_id": envelope.run_id,
         "cost_protocol_name": protocol.name,
+        "split_fingerprint": _split_fingerprint(envelope),
         "execution": execution,
         "performance": {
             "task_loss": task,
@@ -196,6 +212,17 @@ def _record(
     }
 
 
+def _records_by_role(records: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    by_role: dict[str, list[dict[str, Any]]] = {}
+    for record in records:
+        by_role.setdefault(str(record["role"]), []).append(record)
+    return by_role
+
+
+def _record_by_role_seed(records: list[dict[str, Any]]) -> dict[tuple[str, int], dict[str, Any]]:
+    return {(str(record["role"]), int(record["seed"])): record for record in records}
+
+
 def _delta(after: dict[str, Any], before: dict[str, Any]) -> dict[str, float]:
     return {
         "debt_delta": float(after["quality_debt"] - before["quality_debt"]),
@@ -206,9 +233,104 @@ def _delta(after: dict[str, Any], before: dict[str, Any]) -> dict[str, float]:
     }
 
 
+def _mean_delta(records: list[dict[str, Any]], after_role: str, before_role: str) -> dict[str, float]:
+    keyed = _record_by_role_seed(records)
+    seeds = sorted(
+        int(record["seed"])
+        for record in records
+        if record["role"] == before_role and (after_role, int(record["seed"])) in keyed
+    )
+    return {
+        "debt_delta": float(math.fsum(keyed[(after_role, seed)]["quality_debt"] - keyed[(before_role, seed)]["quality_debt"] for seed in seeds) / len(seeds)),
+        "cost_delta": float(math.fsum(keyed[(after_role, seed)]["quality_cost"] - keyed[(before_role, seed)]["quality_cost"] for seed in seeds) / len(seeds)),
+        "benefit_delta": float(math.fsum(keyed[(after_role, seed)]["quality_benefit"] - keyed[(before_role, seed)]["quality_benefit"] for seed in seeds) / len(seeds)),
+        "quality_q_delta": float(math.fsum(keyed[(after_role, seed)]["quality_q"] - keyed[(before_role, seed)]["quality_q"] for seed in seeds) / len(seeds)),
+        "loss_delta": float(math.fsum(keyed[(after_role, seed)]["certificate_guided_loss"] - keyed[(before_role, seed)]["certificate_guided_loss"] for seed in seeds) / len(seeds)),
+    }
+
+
+def _paired_delta_ci(records: list[dict[str, Any]]) -> dict[str, Any]:
+    return {
+        "after_minus_before": {
+            "quality_q_delta": paired_delta_stats(records, "quality_q", "before", "after"),
+        },
+        "control_minus_before": {
+            "quality_q_delta": paired_delta_stats(records, "quality_q", "before", "control"),
+        },
+    }
+
+
+def _shared_cost_protocol(records: list[dict[str, Any]]) -> bool:
+    return len({record.get("cost_protocol_name") for record in records}) == 1
+
+
+def _shared_split_class(records: list[dict[str, Any]]) -> bool:
+    by_seed: dict[int, set[str]] = {}
+    for record in records:
+        by_seed.setdefault(int(record["seed"]), set()).add(str(record.get("split_fingerprint")))
+    return bool(by_seed) and all(len(fingerprints) == 1 for fingerprints in by_seed.values())
+
+
+def _has_before_after_control(records: list[dict[str, Any]]) -> bool:
+    by_role = _records_by_role(records)
+    seeds = {int(record["seed"]) for record in records}
+    return all(len(by_role.get(role, [])) == len(seeds) for role in ("before", "after", "control"))
+
+
+def _not_claimed(records: list[dict[str, Any]], paired_ci: dict[str, Any]) -> list[str]:
+    claims = [
+        "formal BEDC closure is not claimed by this lab-local runner",
+        "global optimizer behavior is not claimed by this lab-local runner",
+        "positive quality improvement is not claimed unless the paired after-minus-before quality_q CI lower bound is above zero",
+    ]
+    guided = _mean_delta(records, "after", "before")
+    if guided["debt_delta"] < 0.0 and guided["benefit_delta"] < 0.0:
+        claims.append("positive quality wording is not claimed for debt reduction paired with benefit decline")
+    if paired_ci["after_minus_before"]["quality_q_delta"]["status"] != "ok":
+        claims.append("positive quality wording is not claimed without paired seed CI evidence")
+    elif float(paired_ci["after_minus_before"]["quality_q_delta"]["ci95_low"]) <= 0.0:
+        claims.append("positive quality wording is not claimed when the paired quality_q CI lower bound does not clear zero")
+    return claims
+
+
+def _claim_gate(records: list[dict[str, Any]], paired_ci: dict[str, Any]) -> dict[str, Any]:
+    after_quality = paired_ci["after_minus_before"]["quality_q_delta"]
+    before_after_control = _has_before_after_control(records)
+    same_cost = _shared_cost_protocol(records)
+    same_split = _shared_split_class(records)
+    ci_ok = after_quality["status"] == "ok"
+    ci_low = float(after_quality["ci95_low"]) if ci_ok else math.nan
+    guided = _mean_delta(records, "after", "before")
+    tradeoff = guided["debt_delta"] < 0.0 and guided["benefit_delta"] < 0.0
+    blockers: list[str] = []
+    if not before_after_control:
+        blockers.append("missing-before-after-control")
+    if not same_cost:
+        blockers.append("cost-protocol-mismatch")
+    if not same_split:
+        blockers.append("split-fingerprint-mismatch")
+    if not ci_ok:
+        blockers.append(f"paired-ci-{after_quality['status']}")
+    elif ci_low <= 0.0:
+        blockers.append("quality-q-ci95-low-nonpositive")
+    if tradeoff:
+        blockers.append("audit-improvement-tradeoff")
+    positive = before_after_control and same_cost and same_split and ci_ok and ci_low > 0.0 and not tradeoff
+    return {
+        "positive_quality_improvement": bool(positive),
+        "quality_q_ci95_low": ci_low,
+        "required_ci95_low_gt_zero": True,
+        "before_after_control_records": bool(before_after_control),
+        "shared_cost_protocol_name": bool(same_cost),
+        "shared_split_fingerprint_class": bool(same_split),
+        "paired_ci_status": after_quality["status"],
+        "audit_improvement_tradeoff": bool(tradeoff),
+        "blockers": blockers,
+    }
+
+
 def _result(records: list[dict[str, Any]]) -> dict[str, Any]:
-    by_role = {record["role"]: record for record in records}
-    guided_delta = _delta(by_role["after"], by_role["before"])
+    guided_delta = _mean_delta(records, "after", "before")
     negative = (
         guided_delta["debt_delta"] > 0.0
         or guided_delta["cost_delta"] > 0.0
@@ -219,53 +341,64 @@ def _result(records: list[dict[str, Any]]) -> dict[str, Any]:
         if negative
         else "certificate-guided candidate improved tracked debt/cost/benefit projection"
     )
+    by_role = _records_by_role(records)
     return {
         "status": "negative" if negative else "positive",
         "note": note,
-        "selected_after_candidate_id": by_role["after"]["candidate_id"],
+        "selected_after_candidate_id": by_role["after"][0]["candidate_id"],
         "ledger_rows_written": all(bool(record["ledger_rows"]) for record in records),
-        "shared_cost_protocol_name": len({record["cost_protocol_name"] for record in records}) == 1,
+        "shared_cost_protocol_name": _shared_cost_protocol(records),
+        "shared_split_fingerprint_class": _shared_split_class(records),
     }
 
 
 def _payload() -> dict[str, Any]:
     protocol = load_cost_protocol()
     protocol.validate_required_rows(REQUIRED_DEBT_ROWS)
-    gaps = _gap_metrics(SEED)
-    before = _record(
-        role="before",
-        candidate_id="deterministic-baseline",
-        use_torch=False,
-        sample_count=SAMPLE_COUNT,
-        seed=SEED,
-        protocol=protocol,
-        weights=WEIGHTS,
-        gap_metrics=gaps,
-        use_gap_head_metrics=False,
-    )
-    after = _record(
-        role="after",
-        candidate_id="certificate-guided-sample-support",
-        use_torch=False,
-        sample_count=GUIDED_SAMPLE_COUNT,
-        seed=SEED,
-        protocol=protocol,
-        weights=WEIGHTS,
-        gap_metrics=gaps,
-        use_gap_head_metrics=True,
-    )
-    control = _record(
-        role="control",
-        candidate_id="torch-request-control",
-        use_torch=True,
-        sample_count=SAMPLE_COUNT,
-        seed=SEED,
-        protocol=protocol,
-        weights=WEIGHTS,
-        gap_metrics=gaps,
-        use_gap_head_metrics=False,
-    )
-    records = [before, after, control]
+    records: list[dict[str, Any]] = []
+    for seed in SEEDS:
+        gaps = _gap_metrics(seed)
+        records.append(
+            _record(
+                role="before",
+                candidate_id="deterministic-baseline",
+                use_torch=False,
+                sample_count=SAMPLE_COUNT,
+                seed=seed,
+                protocol=protocol,
+                weights=WEIGHTS,
+                gap_metrics=gaps,
+                use_gap_head_metrics=False,
+            )
+        )
+        records.append(
+            _record(
+                role="after",
+                candidate_id="certificate-guided-sample-support",
+                use_torch=False,
+                sample_count=GUIDED_SAMPLE_COUNT,
+                seed=seed,
+                protocol=protocol,
+                weights=WEIGHTS,
+                gap_metrics=gaps,
+                use_gap_head_metrics=True,
+            )
+        )
+        records.append(
+            _record(
+                role="control",
+                candidate_id="torch-request-control",
+                use_torch=True,
+                sample_count=SAMPLE_COUNT,
+                seed=seed,
+                protocol=protocol,
+                weights=WEIGHTS,
+                gap_metrics=gaps,
+                use_gap_head_metrics=False,
+            )
+        )
+    paired_ci = _paired_delta_ci(records)
+    claim_gate = _claim_gate(records, paired_ci)
     return {
         "artifact": JSON_ARTIFACT,
         "report": REPORT_ARTIFACT,
@@ -280,6 +413,15 @@ def _payload() -> dict[str, Any]:
             "json_artifact": JSON_ARTIFACT,
             "report_artifact": REPORT_ARTIFACT,
         },
+        "paired_seed_protocol": {
+            "seeds": [int(seed) for seed in SEEDS],
+            "roles": ["before", "after", "control"],
+            "metric_key": "quality_q",
+            "paired_delta": "after minus before by seed",
+            "ci95": "1.96 * sample_std(delta) / sqrt(n)",
+            "split_fingerprint_key": "split_fingerprint",
+            "cost_protocol_key": "cost_protocol_name",
+        },
         "objective": {
             "formula": (
                 "task_loss + lambda_s*stability + lambda_m*margin + "
@@ -290,9 +432,12 @@ def _payload() -> dict[str, Any]:
         },
         "records": records,
         "deltas": {
-            "after_minus_before": _delta(after, before),
-            "control_minus_before": _delta(control, before),
+            "after_minus_before": _mean_delta(records, "after", "before"),
+            "control_minus_before": _mean_delta(records, "control", "before"),
         },
+        "paired_delta_ci": paired_ci,
+        "claim_gate": claim_gate,
+        "not_claimed": _not_claimed(records, paired_ci),
         "result": _result(records),
     }
 
@@ -301,6 +446,7 @@ def _render_record(record: dict[str, Any]) -> list[str]:
     return [
         (
             f"| `{record['role']}` | `{record['candidate_id']}` | "
+            f"`{int(record['seed'])}` | "
             f"{_format_float(record['certificate_guided_loss'])} | "
             f"{_format_float(record['quality_q'])} | "
             f"{_format_float(record['quality_debt'])} | "
@@ -327,10 +473,10 @@ def _render_report(payload: dict[str, Any]) -> str:
         "## Records",
         "",
         (
-            "| role | candidate | loss | quality_q | debt | cost | benefit | "
+            "| role | candidate | seed | loss | quality_q | debt | cost | benefit | "
             "unlogged | critical unlogged | deterministic fallback | torch arm |"
         ),
-        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |",
+        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |",
     ]
     for record in payload["records"]:
         lines.extend(_render_record(record))
@@ -349,6 +495,56 @@ def _render_report(payload: dict[str, Any]) -> str:
             f"{_format_float(row['cost_delta'])} | {_format_float(row['benefit_delta'])} | "
             f"{_format_float(row['quality_q_delta'])} | {_format_float(row['loss_delta'])} |"
         )
+    lines.extend(
+        [
+            "",
+            "## Scope",
+            "",
+            "- Claimed scope: `certificate-guided before-after-control projection on paired local seeds`",
+            f"- Seeds: `{', '.join(str(seed) for seed in payload['paired_seed_protocol']['seeds'])}`",
+            f"- Split fingerprint key: `{payload['paired_seed_protocol']['split_fingerprint_key']}`",
+            "",
+            "## Cost Protocol",
+            "",
+            f"- Name: `{payload['cost_protocol']['name']}`",
+            f"- Formula: `{payload['cost_protocol']['formula']['id']}`",
+            "",
+            "## Before-After-Control",
+            "",
+            f"- Records present: `{str(bool(payload['claim_gate']['before_after_control_records'])).lower()}`",
+            f"- Shared cost protocol: `{str(bool(payload['claim_gate']['shared_cost_protocol_name'])).lower()}`",
+            f"- Shared split fingerprint class: `{str(bool(payload['claim_gate']['shared_split_fingerprint_class'])).lower()}`",
+            "",
+            "## Paired-Seed CI",
+            "",
+            "| comparison | metric | status | n | mean | ci95 low | ci95 high |",
+            "| --- | --- | --- | ---: | ---: | ---: | ---: |",
+        ]
+    )
+    for comparison, metrics in payload["paired_delta_ci"].items():
+        for metric_name, row in metrics.items():
+            lines.append(
+                f"| `{comparison}` | `{metric_name}` | `{row['status']}` | "
+                f"{int(row['n'])} | {_format_float(float(row['mean']))} | "
+                f"{_format_float(float(row['ci95_low']))} | {_format_float(float(row['ci95_high']))} |"
+            )
+    lines.extend(
+        [
+            "",
+            "## Claim Gate",
+            "",
+            f"- Mechanical quality gate: `{str(bool(payload['claim_gate']['positive_quality_improvement'])).lower()}`",
+            f"- Required quality_q CI lower > 0: `{str(bool(payload['claim_gate']['required_ci95_low_gt_zero'])).lower()}`",
+            f"- Observed quality_q CI lower: `{_format_float(float(payload['claim_gate']['quality_q_ci95_low']))}`",
+            f"- Paired CI status: `{payload['claim_gate']['paired_ci_status']}`",
+            f"- Audit improvement tradeoff: `{str(bool(payload['claim_gate']['audit_improvement_tradeoff'])).lower()}`",
+            f"- Blockers: `{', '.join(payload['claim_gate']['blockers']) or 'none'}`",
+            "",
+            "## Not Claimed",
+            "",
+        ]
+    )
+    lines.extend(f"- {item}" for item in payload["not_claimed"])
     lines.extend(["", "## Ledger Rows", ""])
     for record in payload["records"]:
         open_rows = [

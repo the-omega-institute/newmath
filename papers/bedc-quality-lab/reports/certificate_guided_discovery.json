@@ -19,13 +19,48 @@
     {
       "candidate_id": "torch-request-control",
       "role": "control"
+    },
+    {
+      "candidate_id": "deterministic-baseline",
+      "role": "before"
+    },
+    {
+      "candidate_id": "certificate-guided-sample-support",
+      "role": "after"
+    },
+    {
+      "candidate_id": "torch-request-control",
+      "role": "control"
+    },
+    {
+      "candidate_id": "deterministic-baseline",
+      "role": "before"
+    },
+    {
+      "candidate_id": "certificate-guided-sample-support",
+      "role": "after"
+    },
+    {
+      "candidate_id": "torch-request-control",
+      "role": "control"
     }
   ],
   "artifact": "reports/certificate_guided_discovery.json",
-  "generated_at": "2026-06-02T13:02:09.802557+00:00",
+  "claim_gate": {
+    "blockers": [
+      "imported-positive-discovery-false",
+      "net-information-nonpositive",
+      "training-positive-quality-gate-false"
+    ],
+    "positive_discovery_four_gate": false,
+    "training_paired_ci_status": "ok",
+    "training_positive_quality_improvement": false,
+    "training_quality_q_ci95_low": 0.013501516113387572
+  },
+  "generated_at": "2026-06-02T15:13:00.247704+00:00",
   "generated_from": {
     "artifact": "reports/certificate_guided_training.json",
-    "generated_at": "2026-06-02T13:02:09.544673+00:00"
+    "generated_at": "2026-06-02T15:12:59.791456+00:00"
   },
   "main_claim_status": "observed-negative",
   "matched_random_baseline": {
@@ -38,17 +73,17 @@
       "quality_debt_reduction": 0.0
     },
     "debt_terms": {
-      "quality_benefit_loss": 0.11738061247642609,
+      "quality_benefit_loss": 0.0596794584467687,
       "quality_debt_increase": 0.06000000000000005
     },
     "deltas": {
-      "benefit_delta": -0.11738061247642609,
+      "benefit_delta": -0.0596794584467687,
       "cost_delta": 0.03,
       "debt_delta": 0.06000000000000005,
-      "loss_delta": 0.5131794935137561,
-      "quality_q_delta": -0.20738061247642614
+      "loss_delta": 0.5385728107217221,
+      "quality_q_delta": -0.1496794584467688
     },
-    "net_information": -0.25738061247642613,
+    "net_information": -0.19967945844676876,
     "positive_discovery": false,
     "score_terms": {
       "projection_surface_rows": 0.05,
@@ -81,7 +116,14 @@
     "surface_delta_count": 5,
     "verdict": "negative"
   },
-  "net_information": -0.006806195564126177,
+  "net_information": -0.020658466560950786,
+  "not_claimed": [
+    "formal BEDC closure is not claimed by this lab-local runner",
+    "global optimizer behavior is not claimed by this lab-local runner",
+    "positive quality improvement is not claimed unless the paired after-minus-before quality_q CI lower bound is above zero",
+    "positive quality wording is not claimed for debt reduction paired with benefit decline",
+    "positive discovery is not claimed unless classifier surface delta, imported positive_discovery, positive net information, and training positive quality gate all hold"
+  ],
   "positive_discovery": false,
   "projection_script": "scripts/run_certificate_guided_discovery.py",
   "report": "reports/certificate_guided_discovery.md",
@@ -99,20 +141,20 @@
       "before_role": "before",
       "benefit_terms": {
         "quality_benefit_gain": 0.0,
-        "quality_debt_reduction": 0.1499999999999999
+        "quality_debt_reduction": 0.14759756670976
       },
       "debt_terms": {
-        "quality_benefit_loss": 0.09680619556412609,
+        "quality_benefit_loss": 0.10825603327071077,
         "quality_debt_increase": 0.0
       },
       "deltas": {
-        "benefit_delta": -0.09680619556412609,
+        "benefit_delta": -0.10825603327071077,
         "cost_delta": 0.0,
-        "debt_delta": -0.1499999999999999,
-        "loss_delta": -1.2166607562623426,
-        "quality_q_delta": 0.05319380443587385
+        "debt_delta": -0.14759756670976,
+        "loss_delta": -1.1588689016885914,
+        "quality_q_delta": 0.03934153343904919
       },
-      "net_information": -0.006806195564126177,
+      "net_information": -0.020658466560950786,
       "positive_discovery": false,
       "score_terms": {
         "projection_surface_rows": 0.06,

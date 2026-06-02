@@ -31,7 +31,8 @@ def _rows(status="open"):
 
 
 def _envelope(run_id, sample_count, use_torch):
-    benefit = 0.40 if sample_count < 1000 else 0.38
+    seed = int(run_id.rsplit("-seed-", 1)[1])
+    benefit = 0.40 + 0.001 * seed if sample_count < 1000 else 0.38 + 0.001 * seed
     debt = 0.60 if sample_count < 1000 else 0.30
     cost = 0.03 if not use_torch else 0.06
     return SimpleNamespace(
@@ -57,6 +58,21 @@ def _envelope(run_id, sample_count, use_torch):
         },
         artifacts={"envelope": runner.JSON_ARTIFACT, "report": runner.REPORT_ARTIFACT},
     )
+
+
+def _positive_ci_record(role, seed, quality_q, *, protocol="shared", split="same"):
+    return {
+        "role": role,
+        "seed": seed,
+        "quality_q": quality_q,
+        "quality_benefit": quality_q + 1.0,
+        "quality_cost": 0.1,
+        "quality_debt": 0.2,
+        "certificate_guided_loss": 1.0 - quality_q,
+        "cost_protocol_name": protocol,
+        "split_fingerprint": split,
+        "ledger_rows": [{"kind": "k", "residue": "r"}],
+    }
 
 
 def test_certificate_guided_training_closes_objective_and_report_loop(tmp_path):
@@ -95,14 +111,111 @@ def test_certificate_guided_training_closes_objective_and_report_loop(tmp_path):
     report = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
     assert loaded["result"]["status"] == payload["result"]["status"] == "negative"
     assert {record["cost_protocol_name"] for record in payload["records"]} == {"shared-protocol"}
+    assert {record["role"] for record in payload["records"]} == {"before", "after", "control"}
+    assert len(payload["records"]) == 3 * len(runner.SEEDS)
+    for seed in runner.SEEDS:
+        assert [record["role"] for record in payload["records"] if record["seed"] == seed] == ["before", "after", "control"]
     assert all(record["ledger_rows"] for record in payload["records"])
+    assert len({record["split_fingerprint"] for record in payload["records"]}) == 1
     assert payload["deltas"]["after_minus_before"]["debt_delta"] < 0.0
     assert payload["deltas"]["after_minus_before"]["benefit_delta"] < 0.0
     assert payload["records"][1]["gap_metric_arm"] == "gap_head"
     assert payload["records"][0]["execution"]["deterministic_fallback"] is True
     assert payload["records"][2]["execution"]["torch_arm"] is True
+    assert payload["paired_seed_protocol"]["seeds"] == list(runner.SEEDS)
+    after_ci = payload["paired_delta_ci"]["after_minus_before"]["quality_q_delta"]
+    assert after_ci["status"] == "ok"
+    assert after_ci["n"] == len(runner.SEEDS)
+    assert payload["claim_gate"]["paired_ci_status"] == "ok"
+    assert payload["claim_gate"]["audit_improvement_tradeoff"] is True
+    assert payload["claim_gate"]["positive_quality_improvement"] is False
+    assert "audit-improvement-tradeoff" in payload["claim_gate"]["blockers"]
+    assert any("benefit decline" in item for item in payload["not_claimed"])
     assert "shared-protocol" in report
+    assert "## Paired-Seed CI" in report
+    assert "## Claim Gate" in report
+    assert "Audit improvement tradeoff: `true`" in report
+    assert "Mechanical quality gate: `false`" in report
+    assert "Mechanical quality gate: `true`" not in report
+    assert "positive quality wording is not claimed" in report
     assert not hasattr(bedc_quality_lab, "CertificateGuidedWeights")
     from bedc_quality_lab.schema import SCHEMA_ID
 
     assert SCHEMA_ID == "bedc-quality-lab:evidence-envelope"
+
+
+def test_claim_gate_requires_ci_lower_above_zero_even_when_mean_is_positive():
+    records = []
+    for seed, delta in enumerate([0.1, 0.1, 0.7], start=1):
+        records.append(_positive_ci_record("before", seed, 1.0))
+        records.append(_positive_ci_record("after", seed, 1.0 + delta))
+        records.append(_positive_ci_record("control", seed, 0.9))
+    paired_ci = runner._paired_delta_ci(records)
+    gate = runner._claim_gate(records, paired_ci)
+
+    assert paired_ci["after_minus_before"]["quality_q_delta"]["mean"] > 0.0
+    assert paired_ci["after_minus_before"]["quality_q_delta"]["ci95_low"] <= 0.0
+    assert gate["positive_quality_improvement"] is False
+    assert "quality-q-ci95-low-nonpositive" in gate["blockers"]
+
+
+def test_claim_gate_turns_positive_only_for_same_cost_same_split_complete_positive_ci():
+    records = []
+    for seed in (1, 2, 3):
+        records.append(_positive_ci_record("before", seed, 1.0))
+        records.append(_positive_ci_record("after", seed, 1.4))
+        records.append(_positive_ci_record("control", seed, 0.9))
+    paired_ci = runner._paired_delta_ci(records)
+
+    gate = runner._claim_gate(records, paired_ci)
+
+    assert paired_ci["after_minus_before"]["quality_q_delta"]["status"] == "ok"
+    assert paired_ci["after_minus_before"]["quality_q_delta"]["ci95_low"] > 0.0
+    assert gate["positive_quality_improvement"] is True
+    assert gate["blockers"] == []
+
+    records[1]["cost_protocol_name"] = "other"
+    mismatch_ci = runner._paired_delta_ci(records)
+    mismatch_gate = runner._claim_gate(records, mismatch_ci)
+    assert mismatch_gate["positive_quality_improvement"] is False
+    assert "cost-protocol-mismatch" in mismatch_gate["blockers"]
+
+
+def test_claim_gate_blocks_positive_for_ci_positive_tradeoff():
+    records = []
+    for seed in (1, 2, 3):
+        before = _positive_ci_record("before", seed, 1.0)
+        after = _positive_ci_record("after", seed, 1.4)
+        control = _positive_ci_record("control", seed, 0.9)
+        before["quality_benefit"] = 2.0
+        before["quality_debt"] = 1.0
+        after["quality_benefit"] = 1.5
+        after["quality_debt"] = 0.5
+        records.extend([before, after, control])
+    paired_ci = runner._paired_delta_ci(records)
+    gate = runner._claim_gate(records, paired_ci)
+
+    assert paired_ci["after_minus_before"]["quality_q_delta"]["status"] == "ok"
+    assert paired_ci["after_minus_before"]["quality_q_delta"]["ci95_low"] > 0.0
+    assert gate["audit_improvement_tradeoff"] is True
+    assert gate["positive_quality_improvement"] is False
+    assert "audit-improvement-tradeoff" in gate["blockers"]
+
+
+def test_claim_gate_blocks_positive_for_split_or_shape_mismatch():
+    records = []
+    for seed in (1, 2, 3):
+        records.append(_positive_ci_record("before", seed, 1.0))
+        records.append(_positive_ci_record("after", seed, 1.4))
+        records.append(_positive_ci_record("control", seed, 0.9))
+    records[1]["split_fingerprint"] = "other"
+    split_ci = runner._paired_delta_ci(records)
+    split_gate = runner._claim_gate(records, split_ci)
+
+    assert split_gate["positive_quality_improvement"] is False
+    assert "split-fingerprint-mismatch" in split_gate["blockers"]
+
+    incomplete = [record for record in records if not (record["role"] == "control" and record["seed"] == 3)]
+    shape_gate = runner._claim_gate(incomplete, runner._paired_delta_ci(incomplete))
+    assert shape_gate["positive_quality_improvement"] is False
+    assert "missing-before-after-control" in shape_gate["blockers"]

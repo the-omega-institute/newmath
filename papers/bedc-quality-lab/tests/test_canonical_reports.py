@@ -85,9 +85,17 @@ def test_canonical_reports_manifest_includes_certificate_guided_projection():
     assert discovery.json_artifact == "reports/canonical/certificate-guided-discovery.json"
     assert discovery.markdown_artifact == "reports/canonical/certificate-guided-discovery.md"
     assert {
+        "paired_seed_protocol",
+        "paired_delta_ci",
+        "claim_gate",
+        "not_claimed",
+    }.issubset(set(training.required_json_keys))
+    assert {
         "positive_discovery",
         "net_information",
         "matched_random_baseline",
+        "claim_gate",
+        "not_claimed",
         "main_claim_status",
     }.issubset(set(discovery.required_json_keys))
 
@@ -106,7 +114,7 @@ def test_manifest_required_keys_cover_linked_control_evidence():
     assert {"claim_gate", "negative_result_ledger", "main_claim_status"}.issubset(
         set(canonical._specs_by_name()["nongaussian-distribution-sweep"].required_json_keys)
     )
-    assert {"positive_discovery", "net_information", "matched_random_baseline", "main_claim_status"}.issubset(
+    assert {"positive_discovery", "net_information", "matched_random_baseline", "claim_gate", "not_claimed", "main_claim_status"}.issubset(
         set(canonical._specs_by_name()["certificate-guided-discovery"].required_json_keys)
     )
 
@@ -210,6 +218,8 @@ def test_run_reports_certificate_guided_discovery_uses_canonical_training_source
                 "positive_discovery": True,
                 "net_information": 1.25,
                 "matched_random_baseline": {"verdict": "negative"},
+                "claim_gate": {"positive_discovery_four_gate": True},
+                "not_claimed": ["fixture boundary"],
                 "main_claim_status": "positive",
             }
             cls.REPORT_JSON.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
@@ -234,6 +244,8 @@ def test_run_reports_certificate_guided_discovery_uses_canonical_training_source
     assert report_payload["positive_discovery"] is True
     assert report_payload["net_information"] == pytest.approx(1.25)
     assert report_payload["matched_random_baseline"] == {"verdict": "negative"}
+    assert report_payload["claim_gate"] == {"positive_discovery_four_gate": True}
+    assert report_payload["not_claimed"] == ["fixture boundary"]
     assert report_payload["main_claim_status"] == "positive"
     assert report_markdown == "# stub discovery\n"
 
