@@ -1583,6 +1583,7 @@ import BEDC.Derived.CauchyModulusSpaceUp.TasteGate
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
+import BEDC.Derived.CauchyNetCompletionUp.ChoiceFreeLimitBoundary
 import BEDC.Derived.CauchyNetCompletionUp.MooreSmithHandoff
 import BEDC.Derived.CauchyNetCompletionUp.TasteGate
 import BEDC.Derived.CauchyNetFilterCorrespondenceUp.TasteGate
@@ -4428,6 +4429,7 @@ import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.TasteGate
 import BEDC.Derived.HurwitzApproximationUp.TasteGate
 import BEDC.Derived.HyersUlamStabilityUp.TasteGate
+import BEDC.Derived.HyperbolicGeodesicFlowUp
 import BEDC.Derived.HyperbolicGeodesicFlowUp.TasteGate
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HyperbolicMetricUp.TasteGate
@@ -4458,6 +4460,7 @@ import BEDC.Derived.HyperspaceUp.FiniteNetCarrierExhaustion
 import BEDC.Derived.HyperspaceUp.FiniteNetHit
 import BEDC.Derived.HyperspaceUp.FiniteVietorisCarrier
 import BEDC.Derived.HyperspaceUp.FiniteVietorisObligationBasis
+import BEDC.Derived.HyperspaceUp.HausdorffClassifierExactness
 import BEDC.Derived.HyperspaceUp.HausdorffClassifierTransport
 import BEDC.Derived.HyperspaceUp.HausdorffNetCompletenessHandoff
 import BEDC.Derived.HyperspaceUp.HausdorffObligationSurface
@@ -4469,6 +4472,7 @@ import BEDC.Derived.HyperspaceUp.MetricCompactnessUnblock
 import BEDC.Derived.HyperspaceUp.NameCertObligationSurface
 import BEDC.Derived.HyperspaceUp.RealSeparabilityForwardRoute
 import BEDC.Derived.HyperspaceUp.RootCompactSourceTotality
+import BEDC.Derived.HyperspaceUp.RootCompleteTotallyBoundedHandoff
 import BEDC.Derived.HyperspaceUp.RootFiniteNetHitMiss
 import BEDC.Derived.HyperspaceUp.RootHausdorffFiniteWindow
 import BEDC.Derived.HyperspaceUp.RootHausdorffTransport
