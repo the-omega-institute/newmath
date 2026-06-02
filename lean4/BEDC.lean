@@ -1099,6 +1099,7 @@ import BEDC.Derived.CantorIntersectionUp.PublicCompletionConsumer
 import BEDC.Derived.CantorIntersectionUp.RegSeqRatHandoffExactness
 import BEDC.Derived.CantorIntersectionUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp.WidthWindowTransport
+import BEDC.Derived.CantorSetUp.ClosedIntervalNonescape
 import BEDC.Derived.CantorSetUp.DeletedGapDensityRefusal
 import BEDC.Derived.CantorSetUp.DeletedGapLedgerExhaustion
 import BEDC.Derived.CantorSetUp.DownstreamMembershipConsumer
@@ -3629,6 +3630,7 @@ import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
 import BEDC.Derived.EulerPolygonUp.TasteGate
 import BEDC.Derived.EulerTransformUp.TasteGate
+import BEDC.Derived.EvenOddCauchyCriterionUp.ParityTailFusion
 import BEDC.Derived.EvenOddCauchyCriterionUp.Route
 import BEDC.Derived.EvenOddCauchyCriterionUp.SharedModulusTransport
 import BEDC.Derived.EvenOddCauchyCriterionUp.TasteGate
@@ -7023,6 +7025,7 @@ import BEDC.Derived.RegularCauchyScaleUp.UnitScalarBoundary
 import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySeparationUp.ModulusBoundary
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
+import BEDC.Derived.RegularCauchySeparationUp.ZeroDistanceReflection
 import BEDC.Derived.RegularCauchySequenceSpaceUp
 import BEDC.Derived.RegularCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.RegularCauchySequenceUp
