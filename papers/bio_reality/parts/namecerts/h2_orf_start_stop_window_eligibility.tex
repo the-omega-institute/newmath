@@ -1,32 +1,51 @@
-\subsection{NameCert: h2.orf.start\_stop.window\_eligibility}
-\label{sec:namecert-h2_orf_start_stop_window_eligibility}
+\subsection{Start--Stop Window Eligibility as a Contact-Limited ORF Record}\label{subsec:h2-orf-start-stop-window-eligibility}
 \origin{ai}
-\noindent\textit{Proposed by bio-namer; review status: draft.}
 
-\paragraph{NameCert chapter slug.}
-Proposed slug: `14103\_curated\_genetic\_table\_orf\_window\_eligibility\_namecert\_construction`. The concept is BioReality-namespaced through a curated genetic-table and external-window eligibility ledger, avoids Loning's occupied `Codon64`, `Q\_6`, `M\textasciicircum{}star`, and stop-codon suffix namespaces, and uses the recommended `CuratedGeneticTableLedger` naming pattern without reusing Loning's chapter terms.
+\paragraph{Finite packet.}
+This record concerns the biological object ``open-reading-frame eligibility from start/stop codon enumeration'' at the layer $\mathrm{orf\_eligibility}$. The finite row under inspection is not a translation claim. It is a bounded enumeration claim about whether a supplied nucleotide window is classified by a start/stop rule after the window itself has been provided by an annotation input. In the verified run $\mathrm{c26a0d6656f7}$, the input manifest was loaded with value $1$, the number of supplied windows was $1$, and the classifier reported that all supplied windows were classified:
+$$
+\begin{aligned}
+\#\mathrm{windows} &= 1,\\
+\#\mathrm{classified} &= 1,\\
+\#\mathrm{input\ windows} &= 1.
+\end{aligned}
+$$
+The snapshot date recorded for this finite manifest is $2026$-$05$-$25$. Its stated scope is $\mathrm{external\_window\_start\_stop\_enumeration\_only}$, and the recorded layer guard is $\mathrm{orf\_eligibility\_only}$. Thus the packet says only that a curated finite nucleotide-window manifest was admitted as input and that the start/stop enumeration rule classified the one row supplied to it.
 
-\paragraph{Carrier.}
-Carrier name: `CuratedGeneticTableOrfWindowEligibilityLedger`. BEDC 5-tuple: `(carrier, distinctions, internal\_classifier\_packet, external\_reality\_bridge, cannot\_claim\_boundary)`, where the carrier is a finite ledger for externally supplied nucleotide-window records; distinctions separate window identity, declared genetic-code table, declared frame, start-hit, in-frame-stop-hit, terminal-stop-hit, and ambiguous-base status; internal\_classifier\_packet records only finite partitioning and start/stop enumeration as BEDC-adjacent bookkeeping; external\_reality\_bridge points to curated genetic-code tables, the external ORF-window manifest, and reproducible experiment runs; and cannot\_claim\_boundary prevents start/stop-window enumeration from being promoted to translation realization, folded structure, physical admissibility, function, mechanism, or universal biological law.
+\paragraph{Codon-level finite background.}
+The row is read against a finite codon universe already measured in the same audit bundle. The motif-compression fact records
+$$
+\begin{aligned}
+R = \{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\},
+\end{aligned}
+$$
+with no missing and no extra entries in the comparison. The larger finite set $M$ has cardinality $20$ and is exactly
+$$
+\begin{aligned}
+M = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\\
+&\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\\
+&\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+The saturation record gives $\mathrm{Sat}_{f3}(R)=M\setminus\{\mathrm{ACA},\mathrm{ACG}\}$, namely the $18$ codons
+$$
+\begin{aligned}
+\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\\
+&\mathrm{UUA},\mathrm{UUG}\},
+\end{aligned}
+$$
+and records the $f3$ boundary as the empty finite set. The quotient-geometry fact gives the $M$-level vector $(20,38,26,8,1)$, quotient size $10$, and quotient vector $(10,14,6,1)$. These numbers are useful as finite bookkeeping for the codon-side enumeration, but they do not by themselves make a biological interval observable.
 
-\paragraph{Distinctions.}
-- Externally supplied nucleotide-window records. - Declared genetic-code table identifier for each supplied window. - Declared frame offset for finite codon-stream partitioning. - Start-codon-hit field produced by the experiment's enumeration. - In-frame-stop-hit field produced by the experiment's enumeration. - Terminal-stop-hit field produced by the experiment's enumeration. - Ambiguous-base flag and ambiguous-codon separation. - ORF-eligibility-only classifier output for the supplied window scope. - Blocked-context distinction separating upstream codon topology, median closure, quotient geometry, and statistical witnesses from observed biological interval evidence.
+\paragraph{What the start--stop row establishes.}
+The verified row establishes a one-row classification event: a curated nucleotide-window input was present, and the start/stop enumeration procedure assigned that row inside the declared ORF-eligibility scope. This is a finite, contact-limited classification, not a claim that a cell translated the window, not a claim that a polypeptide exists, and not a claim about folding, energetics, regulation, or organismal role. The classifier is therefore best understood as a boundary-sensitive recognizer: it accepts a supplied window as eligible under start/stop enumeration only after the window has arrived from outside the codon geometry.
 
-\paragraph{Readback.}
-The carrier reads back to observable data by following the curated NCBI genetic-code table pointer, the external ORF-window manifest pointer, the claim record `h2.orf.start\_stop.window\_eligibility`, the linked conjecture `orf\_eligibility.seed.boundary`, and the latest passed `orf\_start\_stop\_window\_eligibility` experiment run. The readback surface is a finite provenance path from external window records to start/stop enumeration fields under a named table and declared frame. It records what the supplied manifest and classifier say at the ORF-eligibility layer only; it does not turn the codon/window geometry, upstream closure facts, or one-window enumeration result into translation, protein structure, physical admissibility, function, mechanism, or global biological law.
+\paragraph{Curated interval comparison.}
+A separate linked contact supplies stronger finite evidence for the same layer without changing the boundary. In run $\mathrm{7c9b30b02d46}$, the curated interval dataset at \texttt{tools/bio\_reality/data/curated\_orf\_interval\_contact\_dataset.json} contains $168$ rows from NCBI RefSeq GenBank XML CDS intervals for \emph{Escherichia coli} K-12 MG1655 accession $\mathrm{NC\_000913.3}$, snapshot date $2026$-$05$-$30$. The required input classes were present: boundary cases, matched non-ORF decoys, and positive curated ORFs. The frozen classifier identifier was $\mathrm{orf\_start\_stop\_window\_eligibility}$, with classifier rules recorded as unmodified. The positive interval test accepted $72$ of $72$ positives, with accept rate $1.0$ and one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$. The matched decoy test rejected $72$ of $72$ decoys, also with rate $1.0$ and the same binomial value $2.117582368135751\times 10^{-22}$. The predeclared paired baseline comparison reported $72$ wins in $72$ pairs, win rate $1.0$, and the same one-sided binomial value.
 
-\paragraph{Derivation from coordinate, closure, spectrum, and relation.}
-The internal content is a pure finite-record packet: a BioReality-facing carrier, a codon-stream partition slot, a named-table readback slot, a start/stop event-table slot, a finite eligibility-classifier slot, and a boundary slot separating internal enumeration from external curated biology. The internal packet may express median-closure, spectrum, quotient, and blocked upstream codon-topology context only as non-realizing BEDC structure. No curated genetic-code entry, nucleotide sequence, window count, codon count, start position, stop position, ORF annotation, table row, empirical statistic, or experiment output is a kernel fact. Those values remain bridge and provenance fields supplied by section 6.
+\paragraph{Held-out stability and boundary cases.}
+The interval contact also records three held-out splits. The left-locus, middle-locus, and right-locus folds each contain $24$ positives and $24$ decoys; each fold passed with positive accept rate $1.0$ and decoy reject rate $1.0$. Boundary cases were separately checked: $24$ boundary rows were tested and $0$ were promoted, so the promoted fraction was $0.0$. This matters because the row under this subsection is a start/stop-window eligibility row, not a license to treat every nearby boundary-like object as an ORF.
 
-\paragraph{Curated reality contacts and observed facts.}
-- Curated genetic-code source pointer: `tools/bio\_reality/data/ncbi\_genetic\_codes.json`. - External window manifest pointer: `tools/bio\_reality/data/orf\_window\_dataset.json`. - Claim pointer: `tools/bio\_reality/registries/claims.json` record `h2.orf.start\_stop.window\_eligibility`. - Conjecture pointer: `tools/bio\_reality/inbox/conjectures.jsonl` record `orf\_eligibility.seed.boundary`. - Experiment registry pointer: `tools/bio\_reality/registries/experiments.json` record `orf\_start\_stop\_window\_eligibility`. - Experiment provenance pointer: `tools/bio\_reality/state/experiment\_runs.jsonl` latest passed `experiment\_run\_id` `c26a0d6656f7` for claim `h2.orf.start\_stop.window\_eligibility`. - Gate/probe boundary pointer: probes `orf.eligibility.boundary.requires.contact` and `orf.eligibility.contact.gap.check`. - Statistical witness pointers: linked codon-topology, null-model, leave-one-code, leave-one-codon, median-closure, quotient, and spectrum witnesses are cited only by claim/run reference when needed; they remain blocked context or external provenance and are not imported as ORF evidence or internal carrier structure.
-
-\paragraph{Layer discipline and out-of-scope assertions.}
-- This chapter does not claim biological-code necessity. - This chapter does not claim that start/stop-window enumeration realizes translation. - This chapter does not claim that a supplied nucleotide window is a ribosome-mediated translation event. - This chapter does not claim folded protein structure, structural order, physical admissibility, biological function, biochemical mechanism, or universal mechanism. - This chapter does not claim that codon/window geometry, median closure, quotient geometry, spectrum, or statistical witnesses establish an observed ORF interval. - This chapter does not classify windows outside the supplied external manifest. - This chapter does not claim that curated genetic-code rows, window records, window counts, codon counts, start/stop positions, or ORF-eligibility outputs are BEDC kernel facts. - This chapter does not promote ORF eligibility to higher biological layers without separate reality contacts for those layers.
-
-\paragraph{Disclaimer on the bridge from coordinate to mechanism.}
-This proposal is a vision-level scientific-model bridge for a stable BioReality ORF start/stop-window eligibility claim. It is not a CheckedCert claim about molecular biology, and it does not turn a BEDC coordinate, a codon-window partition, a curated genetic-table lookup, an external window manifest, or a finite start/stop enumeration into translation realization, folded structure, physical admissibility, function realization, biological-code necessity, mechanism, or a universal biological law; the proposal records only an ORF-eligibility-layer readback from explicitly external curated inputs, while every higher biological layer remains blocked until separately contacted.
-
-\paragraph{Lean-side statement target sketch.}
-`BEDC.Derived.CuratedGeneticTableOrfWindowEligibilityLedgerUp.TasteGate` carrier alignment, with curated-table, external-window-manifest, experiment-run, conjecture-boundary, and statistical-witness evidence represented only as bridge/provenance fields.
-
+\paragraph{Local non-promotion rule.}
+No conclusion about translation, folded structure, physical admissibility, biological function, molecular mechanism, or universality follows from the one-window start/stop enumeration row. The linked curated interval contact improves the evidence for finite interval recognition at $\mathrm{orf\_eligibility}$, but it still does not assert translation, protein structure, physical admissibility, biological function, a global biological law, or classification outside the curated dataset. The self-check row records the same guard in compressed form: $3$ gates were checked, and no codon geometry was promoted across biological layers. Therefore the local mathematical status is exactly this: a supplied finite window can be classified by the start/stop enumeration rule inside the ORF-eligibility layer, while every higher biological interpretation requires a separate contact capable of testing that higher interpretation.
