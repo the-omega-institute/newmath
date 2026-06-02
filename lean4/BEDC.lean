@@ -15,6 +15,7 @@ import BEDC.Derived.AbelDirichletComparisonUp.TasteGate
 import BEDC.Derived.AbelLimitTheoremUp.TasteGate
 import BEDC.Derived.AbelPartialSummationUp.TasteGate
 import BEDC.Derived.AbelRuffiniUp
+import BEDC.Derived.AbelRuffiniUp.TasteGate
 import BEDC.Derived.AbelSummationUp.TasteGate
 import BEDC.Derived.AbelTestUp.TasteGate
 import BEDC.Derived.AbelianCatUp
@@ -1605,6 +1606,7 @@ import BEDC.Derived.CauchyOscillationCriterionUp.TasteGate
 import BEDC.Derived.CauchyOscillationUp
 import BEDC.Derived.CauchyOscillationUp.DyadicTailExactness
 import BEDC.Derived.CauchyOscillationUp.ModulusThresholdExactness
+import BEDC.Derived.CauchyOscillationUp.TailModulusComparisonObligation
 import BEDC.Derived.CauchyPairingUp
 import BEDC.Derived.CauchyPrecompletionUp.TasteGate
 import BEDC.Derived.CauchyProductAssociativityUp.TasteGate
@@ -3647,6 +3649,7 @@ import BEDC.Derived.FareySequenceUp.MediantRefinementStability
 import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.NeighborDeterminacy
 import BEDC.Derived.FareySequenceUp.RealApproximationBoundary
+import BEDC.Derived.FareySequenceUp.RealApproximationHandoff
 import BEDC.Derived.FareySequenceUp.RealApproximationLedgerNonescape
 import BEDC.Derived.FareySequenceUp.RealBracketConsumerLock
 import BEDC.Derived.FareySequenceUp.RealReadbackRootObligation
@@ -5680,6 +5683,7 @@ import BEDC.Derived.NormalFormConsistencySealUp.JoinabilityObligation
 import BEDC.Derived.NormalFormConsistencySealUp.LocalNamingBoundary
 import BEDC.Derived.NormalFormConsistencySealUp.ProvenanceExactness
 import BEDC.Derived.NormalFormConsistencySealUp.ResidualContextObligation
+import BEDC.Derived.NormalFormConsistencySealUp.ResidualScheduleDischarge
 import BEDC.Derived.NormalFormConsistencySealUp.VisionHandoff
 import BEDC.Derived.NormalSpaceUp
 import BEDC.Derived.NormalSpaceUp.ClosedSetSeparationRoute
@@ -6061,6 +6065,7 @@ import BEDC.Derived.PolishspaceUp.RegularCauchyRootWindow
 import BEDC.Derived.PolishspaceUp.RootBasisMetricSeparabilityDeterminacy
 import BEDC.Derived.PolishspaceUp.RootBasisNamecertExhaustion
 import BEDC.Derived.PolishspaceUp.RootBasisWindowExactness
+import BEDC.Derived.PolishspaceUp.RootCarrierRowsExposed
 import BEDC.Derived.PolishspaceUp.RootCauchyBasisCarrier
 import BEDC.Derived.PolishspaceUp.RootCauchyBasisObligations
 import BEDC.Derived.PolishspaceUp.RootCompleteSeparableSynthesis
@@ -6958,6 +6963,7 @@ import BEDC.Derived.RegularCauchyScaleUp.UnitScalarBoundary
 import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySeparationUp.ModulusBoundary
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
+import BEDC.Derived.RegularCauchySequenceSpaceUp
 import BEDC.Derived.RegularCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.RegularCauchySequenceUp
 import BEDC.Derived.RegularCauchySequentialCompletenessUp.TasteGate
