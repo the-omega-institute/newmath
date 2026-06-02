@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\SpectralGapUp$}
+\label{ch:concrete-instances-spectral-gap-namecert}
+\origin{human}
+
+Following Kato, the $\SpectralGapUp$ packet records spectral separation as a finite witnessed gap for bounded-operator and real-norm rows. It generalizes the matrix-level certificate of \autoref{ch:concrete-instances-finite-dimensional-spectral-gap-namecert} while staying anchored in the operator surface of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the norm ledger of \autoref{ch:concrete-instances-norm-namecert}, and the endpoint seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed separation data; it does not assert a spectral theorem, resolvent calculus, compactness of the spectrum, or a hidden eigenvector selection principle.
+
+\begin{definition}[SpectralGap carrier]
+\label{def:spectral-gap-carrier}
+A $\SpectralGapUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,B,N,R,S,\Delta,W,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the source $\BoundedLinearOperatorUp$ row naming the bounded operator whose spectrum-facing read is under inspection.
+\item $B$ is the boundedness ledger for $T$, including the operator-bound row and the finite replay path by which downstream consumers may inspect it.
+\item $N$ is the $\NormUp$ row used to read operator and vector bounds through the displayed norm carrier.
+\item $R$ is the $\RealUp$ row naming the real endpoint surface on which separation bounds and positive-radius witnesses are sealed.
+\item $S$ is the finite spectral-side row listing the inspected spectral cluster, complementary spectral window, and allowed localization probes.
+\item $\Delta$ is the positive gap row: a displayed real-norm lower bound separating $S$ from its complement by a finite witness.
+\item $W$ is the finite witness row recording the endpoint comparisons, norm comparisons, and probe windows that certify the gap row $\Delta$.
+\item $H$ stores componentwise $\hsame$ transport for bounded-operator, norm, real, spectral-side, gap, witness, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from the bounded-operator row through norm and real comparisons to the gap witness.
+\item $P$ is the $\Pkg$ provenance over $\SpectralGapUp$, $\BoundedLinearOperatorUp$, $\NormUp$, $\RealUp$, $\FiniteDimensionalSpectralGapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\SpectralGapUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,B,N,R,S,\Delta,W,H,C,P,L$. It has no coordinate for a global spectrum object, an unbounded operator, a chosen eigenbasis, a host Hilbert-space equality, a quotient of operators, or ambient classical spectral decomposition.
+\end{definition}
+
+\begin{theorem}[SpectralGap NameCert obligation surface]
+\label{thm:spectral-gap-namecert-obligation-surface}
+For an accepted $\SpectralGapUp$ carrier $G=(T,B,N,R,S,\Delta,W,H,C,P,L)$, the local $\NameCert_{\SpectralGapUp}$ surface consists exactly of five rows:
+\begin{enumerate}
+\item carrier admission for the displayed bounded-operator, norm, real, spectral-side, gap, witness, transport, replay, provenance, and local naming rows;
+\item bounded-operator dependency through $T,B$, requiring every operator read to pass through $\BoundedLinearOperatorUp$ before any gap witness is consumed;
+\item norm and real separation through $N,R,\Delta,W$, requiring the positive gap to be read as a finite real-norm inequality;
+\item finite-dimensional compatibility through the sibling $\FiniteDimensionalSpectralGapUp$ route whenever the inspected packet specializes to a displayed finite-dimensional window;
+\item no-escape from global spectral theorems, hidden eigenvector selection, host operator quotients, unbounded-operator data, and ambient classical decomposition.
+\end{enumerate}
+Thus every downstream consumer of the gap must read
+$$
+T,B,N,R,S,\Delta,W,H,C,P,L
+$$
+as one finite $\BHist$ packet before exporting the local certificate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The bounded-operator rows $T,B$ are the only source of operator data, while the norm and real rows $N,R$ are the only source of numerical comparison data.
+
+The positive separation is then read from $\Delta$ and $W$. These rows give a finite lower-bound witness and the endpoint, norm, and probe comparisons that certify it; they do not call on a global spectrum object.
+
+For finite-dimensional windows, the packet factors through the sibling surface of \autoref{ch:concrete-instances-finite-dimensional-spectral-gap-namecert}. That route supplies the specialized matrix-level gap read, while the present carrier keeps the general bounded-operator and norm rows visible.
+
+Finally $H,C,P,L$ transport, replay, source, and name the same packet. Since no excluded host object appears among the coordinates, the five displayed rows exhaust the local $\NameCert_{\SpectralGapUp}$ obligation surface.
+\end{proof}
+
+\closureat{SpectralGapUp}{seedStr}
+
+\begin{closurestatus}{\SpectralGapUp}
+  \constructivestory{A $\SpectralGapUp$ packet is generated from bounded-operator, boundedness, norm, real, spectral-side, positive-gap, finite-witness, componentwise transport, continuation replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:spectral-gap-carrier} and \autoref{thm:spectral-gap-namecert-obligation-surface} seed the finite bounded-operator spectral-gap surface over $\BoundedLinearOperatorUp$, $\NormUp$, $\RealUp$, and $\FiniteDimensionalSpectralGapUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close spectral theorem machinery, resolvent calculus, compactness of the spectrum, hidden eigenvector selection, Lean verification, or any standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-operator dependency, norm and real separation, finite-dimensional compatibility, transport, replay, provenance, and no-escape for BEDC.Derived.SpectralGapUp.}
+\end{closurestatus}
