@@ -75,6 +75,32 @@ def test_final_verdict_branches():
     assert noisy["aggregate"]["sample_count_groups"][1]["net_information"]["variance"] > 0.0
 
 
+def test_invalid_grid_verdict():
+    cells = _grid(lambda s, i: _cell(s, i, True, 0.75))
+    cells[0] = cells[0] | {
+        "valid_cell": False,
+        "positive_discovery": False,
+        "net_positive_signal": False,
+        "non_discovery_reason": "invalid_cell:ValueError",
+    }
+    payload = runner._payload(cells, elapsed_seconds=1.0)
+
+    assert payload["final_verdict"] == "invalid_grid"
+    assert payload["aggregate"]["invalid_cell_count"] == 1
+    assert payload["aggregate"]["valid_cell_count"] == len(cells) - 1
+
+
+def test_not_positive_verdict():
+    payload = runner._payload(
+        _grid(lambda s, i: _cell(s, i, False, -0.1, "net_information_nonpositive")),
+        elapsed_seconds=1.0,
+    )
+
+    assert payload["final_verdict"] == "not_positive"
+    assert payload["aggregate"]["positive_cell_count"] == 0
+    assert all(group["positive_seed_count"] == 0 for group in payload["aggregate"]["sample_count_groups"])
+
+
 def test_payload_validation_fail_closed(monkeypatch):
     sample_i, seed_i, config = runner._cell_configs()[0]
     monkeypatch.setattr(runner.producer, "_records", lambda c: [{"seed": c.seeds[0]}])
