@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.WeakStarCompactnessUp
+namespace BEDC.Derived.WeakStarCompactnessUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -26,7 +26,8 @@ def weakStarCompactnessDecodeBHist : RawEvent → BHist
   | BMark.b1 :: tail => BHist.e1 (weakStarCompactnessDecodeBHist tail)
 
 private theorem WeakStarCompactnessTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist, weakStarCompactnessDecodeBHist (weakStarCompactnessEncodeBHist h) = h := by
+    ∀ h : BHist,
+      weakStarCompactnessDecodeBHist (weakStarCompactnessEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -38,9 +39,9 @@ def weakStarCompactnessFields : WeakStarCompactnessUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | WeakStarCompactnessUp.mk E T B A C R H Q P N => [E, T, B, A, C, R, H, Q, P, N]
 
-def weakStarCompactnessToEventFlow : WeakStarCompactnessUp → EventFlow :=
+def weakStarCompactnessToEventFlow : WeakStarCompactnessUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (weakStarCompactnessFields x).map weakStarCompactnessEncodeBHist
+  | x => List.map weakStarCompactnessEncodeBHist (weakStarCompactnessFields x)
 
 private def weakStarCompactnessEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -96,7 +97,7 @@ private theorem WeakStarCompactnessTasteGate_single_carrier_alignment_round_trip
         WeakStarCompactnessTasteGate_single_carrier_alignment_decode P,
         WeakStarCompactnessTasteGate_single_carrier_alignment_decode N]
 
-private theorem WeakStarCompactnessTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem WeakStarCompactnessTasteGate_single_carrier_alignment_injective
     {x y : WeakStarCompactnessUp} :
     weakStarCompactnessToEventFlow x = weakStarCompactnessToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -108,7 +109,20 @@ private theorem WeakStarCompactnessTasteGate_single_carrier_alignment_toEventFlo
   exact Option.some.inj
     (Eq.trans
       (WeakStarCompactnessTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (WeakStarCompactnessTasteGate_single_carrier_alignment_round_trip y)))
+      (Eq.trans hread
+        (WeakStarCompactnessTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem WeakStarCompactnessTasteGate_single_carrier_alignment_fields :
+    ∀ x y : WeakStarCompactnessUp, weakStarCompactnessFields x = weakStarCompactnessFields y →
+      x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk E1 T1 B1 A1 C1 R1 H1 Q1 P1 N1 =>
+      cases y with
+      | mk E2 T2 B2 A2 C2 R2 H2 Q2 P2 N2 =>
+          cases hfields
+          rfl
 
 instance weakStarCompactnessBHistCarrier : BHistCarrier WeakStarCompactnessUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -123,21 +137,31 @@ instance weakStarCompactnessChapterTasteGate : ChapterTasteGate WeakStarCompactn
     exact WeakStarCompactnessTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (WeakStarCompactnessTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (WeakStarCompactnessTasteGate_single_carrier_alignment_injective heq)
+
+instance weakStarCompactnessFieldFaithful : FieldFaithful WeakStarCompactnessUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := weakStarCompactnessFields
+  field_faithful := WeakStarCompactnessTasteGate_single_carrier_alignment_fields
+
+instance weakStarCompactnessInhabited : Inhabited WeakStarCompactnessUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  default :=
+    WeakStarCompactnessUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+
+def taste_gate : ChapterTasteGate WeakStarCompactnessUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  weakStarCompactnessChapterTasteGate
 
 theorem WeakStarCompactnessTasteGate_single_carrier_alignment :
     (∀ h : BHist, weakStarCompactnessDecodeBHist (weakStarCompactnessEncodeBHist h) = h) ∧
-      (∀ x : WeakStarCompactnessUp,
-        weakStarCompactnessFromEventFlow (weakStarCompactnessToEventFlow x) = some x) ∧
-        (∀ x y : WeakStarCompactnessUp,
-          weakStarCompactnessToEventFlow x = weakStarCompactnessToEventFlow y → x = y) ∧
-          weakStarCompactnessEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+      FieldFaithful.field_count WeakStarCompactnessUp = 10 ∧
+        weakStarCompactnessEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   exact
     ⟨WeakStarCompactnessTasteGate_single_carrier_alignment_decode,
-      WeakStarCompactnessTasteGate_single_carrier_alignment_round_trip,
-      fun _x _y heq =>
-        WeakStarCompactnessTasteGate_single_carrier_alignment_toEventFlow_injective heq,
+      rfl,
       rfl⟩
 
-end BEDC.Derived.WeakStarCompactnessUp
+end BEDC.Derived.WeakStarCompactnessUp.TasteGate
