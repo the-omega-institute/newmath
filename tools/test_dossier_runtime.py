@@ -56,9 +56,27 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
         self.assertIn("tools/build_namecert_html.py", render_text)
         self.assertIn("--scope all", render_text)
         self.assertIn("--page-timeout 180", render_text)
+        self.assertIn("--page-cache-dir .cache/dossier-html-pages", render_text)
         self.assertIn("/opt/texlive/texdir/bin/x86_64-linuxmusl", render_text)
         self.assertIn("make4ht --version", render_text)
         self.assertNotIn("quarto render", render_text)
+        self.assertNotIn("rm -rf docs/dossier/namecert docs/dossier/paper", render_text)
+
+        names = [str(step.get("name", "")) for step in self.render_steps]
+        self.assertIn("Restore dossier HTML page cache", names)
+        self.assertIn("Build changed dossier HTML pages", names)
+
+        cache_steps = [
+            step for step in self.render_steps
+            if step.get("uses", "").startswith("actions/cache@")
+        ]
+        self.assertEqual(len(cache_steps), 1)
+        cache_with = cache_steps[0]["with"]
+        self.assertEqual(cache_with["path"], ".cache/dossier-html-pages")
+        self.assertIn("dossier-html-pages-${{ runner.os }}-${{ inputs.checkout_ref }}", cache_with["key"])
+        self.assertIn("dossier-html-pages-${{ runner.os }}-", cache_with["restore-keys"])
+        self.assertNotIn("docs/dossier/namecert", cache_with["path"])
+        self.assertNotIn("docs/dossier/paper", cache_with["path"])
 
         upload_steps = [
             step for step in self.render_steps
@@ -84,6 +102,7 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
         self.assertNotIn("make4ht", site_text)
         self.assertNotIn("texlive", site_text.lower())
         self.assertIn("quarto render docs/dossier/", site_text)
+        self.assertIn("rm -rf docs/dossier/namecert docs/dossier/paper", site_text)
         self.assertIn("cp -R dossier-html-artifact/namecert docs/dossier/namecert", site_text)
         self.assertIn("cp -R dossier-html-artifact/paper docs/dossier/paper", site_text)
 
@@ -156,6 +175,13 @@ class DossierDecoupledWorkflowTests(unittest.TestCase):
             dossier["jobs"]["build_dossier"]["uses"],
             "./.github/workflows/reusable-dossier-render.yml",
         )
+
+    def test_dossier_publish_is_limited_to_dev_and_feature_dossier(self) -> None:
+        text = DOSSIER.read_text(encoding="utf-8")
+        self.assertIn('contains(fromJSON(\'["feature/dossier","dev"]\')', text)
+        self.assertIn('case "$head_branch" in dev|feature/dossier)', text)
+        self.assertNotIn('"main","auto-dev"', text)
+        self.assertNotIn('"feature/dossier","dev","main","auto-dev"', text)
 
     def test_deleted_runtime_references_do_not_return(self) -> None:
         text = workflow_text()
