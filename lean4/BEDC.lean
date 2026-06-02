@@ -720,7 +720,6 @@ import BEDC.Derived.BisectionRootCauchySealUp.TasteGate
 import BEDC.Derived.BisectionRootIsolationUp.TasteGate
 import BEDC.Derived.BishopApproximationSequenceUp.TasteGate
 import BEDC.Derived.BishopCauchyApproximationUp.TasteGate
-import BEDC.Derived.BishopCauchyChoiceSequenceUp
 import BEDC.Derived.BishopCauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.BishopCauchyCriterionUp.TasteGate
 import BEDC.Derived.BishopCauchyLimitCriterionUp.TasteGate
@@ -1073,6 +1072,8 @@ import BEDC.Derived.BundleUp
 import BEDC.Derived.BurnsideOrbitCountUp.TasteGate
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CStarAlgUp
+import BEDC.Derived.CalculusUp.TasteGate
+import BEDC.Derived.CandidateEvidenceSNRouteUp.TasteGate
 import BEDC.Derived.CandidateSNConfluenceBoundaryUp.TasteGate
 import BEDC.Derived.CandidateSetNormalizationUp.TasteGate
 import BEDC.Derived.CannotClaimExportGateUp
@@ -2660,6 +2661,7 @@ import BEDC.Derived.ContinuedFractionConvergentsUp.TasteGate
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContinuedFractionUp.TasteGate
 import BEDC.Derived.ContinuityCarrierNameCertUp
+import BEDC.Derived.ContinuousImageCompactUp.TasteGate
 import BEDC.Derived.ContinuousIntervalImageUp.TasteGate
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.ContinuousMapUp.AssociativeDepth
@@ -7056,6 +7058,7 @@ import BEDC.Derived.RegularCauchyTailEstimateUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFiberUp
 import BEDC.Derived.RegularCauchyTailFiberUp.CompletionHandoffScope
 import BEDC.Derived.RegularCauchyTailFiberUp.TasteGate
+import BEDC.Derived.RegularCauchyTailFunctorUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFusionUp
 import BEDC.Derived.RegularCauchyTailFusionUp.SharedThresholdExhaustion
 import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
