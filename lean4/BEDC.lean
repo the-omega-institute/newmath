@@ -1643,6 +1643,7 @@ import BEDC.Derived.CauchyNullEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyOscillationCriterionUp
 import BEDC.Derived.CauchyOscillationCriterionUp.TasteGate
 import BEDC.Derived.CauchyOscillationUp
+import BEDC.Derived.CauchyOscillationUp.CommonTailWindowClassifier
 import BEDC.Derived.CauchyOscillationUp.CompletionConsumerBoundary
 import BEDC.Derived.CauchyOscillationUp.CompletionFrontierObligation
 import BEDC.Derived.CauchyOscillationUp.CompletionFrontierPublicReadiness
@@ -1660,6 +1661,7 @@ import BEDC.Derived.CauchyOscillationUp.RootUnblockRoute
 import BEDC.Derived.CauchyOscillationUp.RootWindowLock
 import BEDC.Derived.CauchyOscillationUp.SharedDyadicWindowScope
 import BEDC.Derived.CauchyOscillationUp.TailModulusComparisonObligation
+import BEDC.Derived.CauchyOscillationUp.TailWindowCofinality
 import BEDC.Derived.CauchyOscillationUp.UniformCriterionConsumer
 import BEDC.Derived.CauchyOscillationUp.UniformCriterionHandoff
 import BEDC.Derived.CauchyPairingUp
@@ -1931,6 +1933,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.BasisSeparatedReflector
 import BEDC.Derived.CauchyfiltercompletionUp.BasisUniformHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.BridgeFacingInterface
 import BEDC.Derived.CauchyfiltercompletionUp.CarrierLedgerPackage
+import BEDC.Derived.CauchyfiltercompletionUp.CauchyEquivalenceClassifierRoute
 import BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPublicExport
 import BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterLimitUniformLock
 import BEDC.Derived.CauchyfiltercompletionUp.ChoicefreeCompletionRow
@@ -7495,6 +7498,7 @@ import BEDC.Derived.SeriesTermTestUp.TasteGate
 import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
 import BEDC.Derived.SetlikeUp.MembershipKernel
+import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.SubsetLedger
 import BEDC.Derived.SetlikeUp.TasteGate
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
