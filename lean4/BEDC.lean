@@ -743,6 +743,7 @@ import BEDC.Derived.BishopCompletionModulusUp.TasteGate
 import BEDC.Derived.BishopCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.NameCertObligations
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.TasteGate
+import BEDC.Derived.BishopCompletionUniversalCompositionUp.TasteGate
 import BEDC.Derived.BishopEquicontinuityModulusUp
 import BEDC.Derived.BishopFanModulusUp
 import BEDC.Derived.BishopFanModulusUp.TasteGate
@@ -1233,6 +1234,7 @@ import BEDC.Derived.CauchyCompleteApartnessSpaceUp.TasteGate
 import BEDC.Derived.CauchyCompleteOrderedFieldUniquenessUp.TasteGate
 import BEDC.Derived.CauchyCompletenessCriterionUp.TasteGate
 import BEDC.Derived.CauchyCompletenessModulusUp.TasteGate
+import BEDC.Derived.CauchyCompletenessWitnessObligationUp.TasteGate
 import BEDC.Derived.CauchyCompletenessWitnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionApartnessUp.TasteGate
@@ -5260,6 +5262,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10FourObjectLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourObjectReady
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationDischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationFrontier
+import BEDC.Derived.MetaCICCriticalPathUp.L10ObjectStatusReadback
 import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
 import BEDC.Derived.MetaCICCriticalPathUp.L10ReadinessLocalMinimality
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
@@ -8228,6 +8231,7 @@ import BEDC.Derived.ValidatedNumericsUp
 import BEDC.Derived.ValidatedNumericsUp.FiniteWindowSealContainment
 import BEDC.Derived.ValidatedNumericsUp.RefinementCompositionContainment
 import BEDC.Derived.ValidatedNumericsUp.TasteGate
+import BEDC.Derived.VariationMeasureUp.TasteGate
 import BEDC.Derived.VariationOfConstantsUp.TasteGate
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.VectorBundleUp
@@ -8246,6 +8250,7 @@ import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
 import BEDC.Derived.WeakLawLargeNumbersUp.TasteGate
+import BEDC.Derived.WeakTopologyUp.NamecertObligations
 import BEDC.Derived.WeaklyCauchySequenceUp.TasteGate
 import BEDC.Derived.WeierstrassApproximationUp
 import BEDC.Derived.WeierstrassApproximationUp.PolynomialHandoff

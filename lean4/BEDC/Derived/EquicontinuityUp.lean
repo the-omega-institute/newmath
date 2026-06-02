@@ -111,4 +111,22 @@ theorem EquicontinuityCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, radiusUnary, handoffUnary⟩
 
+theorem EquicontinuityCompactMetricRoute [AskSetup] [PackageSetup]
+    {K F eps rho M T R P N radiusRead handoffRead compactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityCarrier K F eps rho M T R P N radiusRead handoffRead bundle pkg ->
+      Cont K F compactRead ->
+        Cont compactRead rho handoffRead ->
+          UnaryHistory compactRead ∧ UnaryHistory handoffRead ∧
+            Cont K F compactRead ∧ Cont compactRead rho handoffRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier compactRoute handoffRoute
+  obtain ⟨unaryK, unaryF, unaryRho, _radiusRoute, _radiusHandoff, pkgP, pkgN⟩ := carrier
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed unaryK unaryF compactRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed compactUnary unaryRho handoffRoute
+  exact ⟨compactUnary, handoffUnary, compactRoute, handoffRoute, pkgP, pkgN⟩
+
 end BEDC.Derived.EquicontinuityUp
