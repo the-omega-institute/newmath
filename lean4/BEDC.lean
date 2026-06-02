@@ -999,6 +999,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSelectorFactorization
 import BEDC.Derived.BoundedMonotoneConvergenceSealUp.TasteGate
 import BEDC.Derived.BoundedMonotoneSubsequenceUp.TasteGate
 import BEDC.Derived.BoundedNestedRealChoiceSealUp.TasteGate
+import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
 import BEDC.Derived.BoundedRealSequenceUp.BolzanoSourceExactness
@@ -3386,6 +3387,7 @@ import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.DivisibilityUp
+import BEDC.Derived.DnaWindowSixBoundaryTileUp.TasteGate
 import BEDC.Derived.DoCalculusUp
 import BEDC.Derived.DoCalculusUp.TasteGate
 import BEDC.Derived.DomainTruthCertificateUp.NameCertObligations
@@ -3445,6 +3447,7 @@ import BEDC.Derived.DyadicBallUp.WindowRefinement
 import BEDC.Derived.DyadicBinarySearchUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
 import BEDC.Derived.DyadicBisectionUp.TasteGate
+import BEDC.Derived.DyadicCauchyCriterionUp
 import BEDC.Derived.DyadicCeilingUp.TasteGate
 import BEDC.Derived.DyadicCofinalTailSelectorUp.TasteGate
 import BEDC.Derived.DyadicCompactnessExtractorUp.TasteGate
@@ -4496,11 +4499,13 @@ import BEDC.Derived.HyperspaceUp.CompleteMetricHandoff
 import BEDC.Derived.HyperspaceUp.CompleteMetricNonescape
 import BEDC.Derived.HyperspaceUp.CompleteTotallyBoundedObligations
 import BEDC.Derived.HyperspaceUp.CompletionBoundaryObligations
+import BEDC.Derived.HyperspaceUp.FiniteCarrierBasis
 import BEDC.Derived.HyperspaceUp.FiniteCoverLedger
 import BEDC.Derived.HyperspaceUp.FiniteCoverSelectorRefusal
 import BEDC.Derived.HyperspaceUp.FiniteHausdorffCarrier
 import BEDC.Derived.HyperspaceUp.FiniteHausdorffRootObligations
 import BEDC.Derived.HyperspaceUp.FiniteHitDirectedCover
+import BEDC.Derived.HyperspaceUp.FiniteNetCarrier
 import BEDC.Derived.HyperspaceUp.FiniteNetCarrierExhaustion
 import BEDC.Derived.HyperspaceUp.FiniteNetHit
 import BEDC.Derived.HyperspaceUp.FiniteVietorisCarrier
@@ -5173,6 +5178,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10ConsumerReadinessLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10DependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitDependencyBudget
+import BEDC.Derived.MetaCICCriticalPathUp.L10ExitScopeSeal
 import BEDC.Derived.MetaCICCriticalPathUp.L10FaceLeantargetLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceBridgeDeferral
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceClosureReadiness
