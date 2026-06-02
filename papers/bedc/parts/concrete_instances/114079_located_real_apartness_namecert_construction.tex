@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealApartnessUp$}
+\label{ch:concrete-instances-located-real-apartness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\LocatedRealApartnessUp$ packet records apartness of real names as a positive finite witness rather than as a trichotomy decision. It sits over the dyadic tolerance surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the apartness-to-order bridge of \autoref{ch:concrete-instances-real-apartness-order-bridge-namecert}, and the located-order packet of \autoref{ch:concrete-instances-real-located-order-namecert}. The chapter names the constructive apartness witness needed by Real and Completion consumers; it does not assert real trichotomy, quotient real equality, countable choice, selected limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located real apartness carrier]
+\label{def:located-real-apartness-carrier}
+A $\LocatedRealApartnessUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,Y,S,T,D,R,O,L,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RealUp$ name rows whose apartness is being witnessed.
+\item $S$ and $T$ are finite $\StreamNameUp$ window rows for $X$ and $Y$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the two displayed windows at one positive dyadic scale.
+\item $R$ is the paired $\RegSeqRatUp$ readback row, exposing the rational approximants of $X$ and $Y$ at the scale selected by $D$.
+\item $O$ is the located-order comparison row consumed from $\RealLocatedOrderUp$.
+\item $L$ is the positive separation row: it records a dyadic gap $\delta>0$ and the displayed rational-window comparison that places the two names at distance at least $\delta$ on the inspected branch.
+\item $B$ is the bridge row to $\RealApartnessOrderBridgeUp$, recording that the positive gap is read as apartness and not as a trichotomy of all comparisons.
+\item $H$ records componentwise $\hsame$ transport for the real names, stream windows, dyadic ledger, regular readback, located-order row, separation row, bridge row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an apartness request through $X,Y,S,T,D,R,O,L,B,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealApartnessUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealApartnessOrderBridgeUp$, $\RealLocatedOrderUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealApartnessUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one positive located-apartness certificate. It has no coordinate for total order trichotomy, host real equality, quotient stream equality, selected representatives, countable choice, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located real apartness NameCert obligations]
+\label{thm:located-real-apartness-namecert-obligations}
+For every accepted $\LocatedRealApartnessUp$ carrier
+$$
+A=(X,Y,S,T,D,R,O,L,B,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedRealApartnessUp}$ surface consists exactly of carrier admission, paired window admission, dyadic tolerance exactness, regular-rational readback stability, positive separation display, apartness-order bridge compatibility, componentwise transport, displayed replay, provenance, and local naming. Each obligation is checked by finite projection through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RealApartnessOrderBridgeUp$, $\RealLocatedOrderUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-real-apartness-carrier}. The real-name rows $X,Y$ are read only through the finite windows $S,T$, and the dyadic tolerance ledger $D$ selects the positive scale at which the two windows are compared.
+
+The paired readback row $R$ converts the displayed stream windows into regular rational approximants. The located-order row $O$ and the separation row $L$ then display a positive dyadic gap on the inspected branch.
+
+The bridge row $B$ records that this positive gap is consumed as apartness. It does not turn the packet into a global trichotomy service, because the carrier stores only the displayed separated branch and no exhaustive comparison row.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no excluded equality, choice, selected-limit, trichotomy, or completeness coordinate appears in the packet, the local NameCert obligations are exhausted by the stated rows.
+\end{proof}
+
+\begin{theorem}[Located real apartness finite-witness route]
+\label{thm:located-real-apartness-finite-witness-route}
+Every accepted $\LocatedRealApartnessUp$ packet exposes apartness through the finite route
+$$
+\RealUp,\RealUp \longmapsto \StreamNameUp,\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealLocatedOrderUp \longmapsto \RealApartnessOrderBridgeUp \longmapsto \NameCert_{\LocatedRealApartnessUp}.
+$$
+The exported witness is a displayed positive separation row, transported and replayed by $H,C,P,N$. It cannot be consumed as real trichotomy, host equality negation, quotient-name inequality, countable choice, selected representatives, selected limits, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with the two $\RealUp$ rows $X,Y$. A consumer cannot read them directly as a comparison theorem; it must first open the finite StreamName windows $S,T$ and the paired RegSeqRat readback row $R$.
+
+The dyadic tolerance ledger $D$ then fixes the scale of the comparison. The located-order row $O$ displays the chosen branch, and the separation row $L$ records the positive dyadic gap visible on that branch.
+
+The bridge row $B$ turns the displayed gap into the apartness witness consumed by the local NameCert row. Componentwise transport and continuation replay preserve the same rows, while the provenance row records the sibling surfaces involved in the read.
+
+Thus the route supplies a finite positive witness. Nothing in the carrier supplies an exhaustive comparison of all real names, a quotient-name equality test, a choice schedule, a selected representative, a selected limit, or a completeness principle.
+\end{proof}
+
+\closureat{LocatedRealApartnessUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealApartnessUp}
+  \constructivestory{A $\LocatedRealApartnessUp$ packet is generated from two RealUp name rows, paired StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a RealLocatedOrder comparison row, a positive separation row, a RealApartnessOrderBridge handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-apartness-carrier}, \autoref{thm:located-real-apartness-namecert-obligations}, and \autoref{thm:located-real-apartness-finite-witness-route} seed the finite positive apartness witness over Real, regular-rational, dyadic, located-order, and apartness-order bridge rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close real trichotomy, host real equality negation, quotient-name inequality, countable choice, selected representatives, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired-window admission, dyadic tolerance exactness, regular-rational readback stability, positive separation display, apartness-order bridge compatibility, transport, replay, provenance, and exclusion coverage for BEDC.Derived.LocatedRealApartnessUp.}
+\end{closurestatus}
