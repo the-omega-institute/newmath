@@ -101,6 +101,82 @@ theorem BaireMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, wUnary, dUnary, carrierNamePkg⟩
 
+theorem BaireMetricCarrier_complete_metric_handoff [AskSetup] [PackageSetup]
+    {B W D R U S H C P N prefixRead radiusRead metricRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricCarrier B W D R U S H C P N bundle pkg →
+      Cont S B prefixRead →
+        Cont prefixRead W radiusRead →
+          Cont radiusRead D metricRead →
+            PkgSig bundle metricRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row metricRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row S ∨ hsame row B ∨ hsame row W ∨ hsame row D ∨
+                      hsame row R ∨ hsame row U ∨ hsame row prefixRead ∨
+                        hsame row radiusRead ∨ hsame row metricRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont S B prefixRead ∧
+                      Cont prefixRead W radiusRead ∧ Cont radiusRead D metricRead ∧
+                        PkgSig bundle metricRead pkg)
+                  hsame ∧ UnaryHistory prefixRead ∧ UnaryHistory radiusRead ∧
+                UnaryHistory metricRead := by
+  -- BEDC touchpoint anchor: BaireMetricCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier prefixRoute radiusRoute metricRoute metricPkg
+  obtain ⟨bUnary, wUnary, dUnary, _rUnary, _uUnary, sUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, _carrierSBW, _carrierWDR, _carrierRUC, _carrierCNP,
+    _carrierPkg, _carrierNamePkg⟩ := carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed sUnary bUnary prefixRoute
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed prefixUnary wUnary radiusRoute
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed radiusUnary dUnary metricRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row metricRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row B ∨ hsame row W ∨ hsame row D ∨ hsame row R ∨
+              hsame row U ∨ hsame row prefixRead ∨ hsame row radiusRead ∨
+                hsame row metricRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S B prefixRead ∧ Cont prefixRead W radiusRead ∧
+              Cont radiusRead D metricRead ∧ PkgSig bundle metricRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro metricRead ⟨hsame_refl metricRead, metricUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, prefixRoute, radiusRoute, metricRoute, metricPkg⟩
+  }
+  exact ⟨cert, prefixUnary, radiusUnary, metricUnary⟩
+
 theorem BaireMetricCarrier_root_observation [AskSetup] [PackageSetup]
     {B W D R U S H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     BaireMetricCarrier B W D R U S H C P N bundle pkg ->
