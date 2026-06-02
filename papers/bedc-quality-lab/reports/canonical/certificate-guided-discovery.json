@@ -19,36 +19,67 @@
     {
       "candidate_id": "torch-request-control",
       "role": "control"
+    },
+    {
+      "candidate_id": "deterministic-baseline",
+      "role": "before"
+    },
+    {
+      "candidate_id": "certificate-guided-sample-support",
+      "role": "after"
+    },
+    {
+      "candidate_id": "torch-request-control",
+      "role": "control"
+    },
+    {
+      "candidate_id": "deterministic-baseline",
+      "role": "before"
+    },
+    {
+      "candidate_id": "certificate-guided-sample-support",
+      "role": "after"
+    },
+    {
+      "candidate_id": "torch-request-control",
+      "role": "control"
     }
   ],
   "artifact": "reports/canonical/certificate-guided-discovery.json",
-  "generated_at": "2026-06-02T13:02:19.732286+00:00",
+  "claim_gate": {
+    "blockers": [],
+    "positive_discovery_four_gate": true,
+    "training_paired_ci_status": "ok",
+    "training_positive_quality_improvement": true,
+    "training_quality_q_ci95_low": 0.007425127041402968
+  },
+  "generated_at": "2026-06-02T14:37:27.489857+00:00",
   "generated_from": {
     "artifact": "reports/canonical/certificate-guided-training.json",
-    "generated_at": "2026-06-02T13:02:19.731086+00:00"
+    "generated_at": "2026-06-02T14:37:27.488399+00:00"
   },
-  "main_claim_status": "observed-negative",
+  "main_claim_status": "positive",
   "matched_random_baseline": {
     "after_candidate_id": "torch-request-control",
     "after_role": "control",
     "before_candidate_id": "deterministic-baseline",
     "before_role": "before",
     "benefit_terms": {
-      "quality_benefit_gain": 0.0,
+      "quality_benefit_gain": 0.04317809975452535,
       "quality_debt_reduction": 0.0
     },
     "debt_terms": {
-      "quality_benefit_loss": 0.11738061247642609,
-      "quality_debt_increase": 0.06000000000000005
+      "quality_benefit_loss": 0.0,
+      "quality_debt_increase": 0.044666294055442424
     },
     "deltas": {
-      "benefit_delta": -0.11738061247642609,
+      "benefit_delta": 0.04317809975452535,
       "cost_delta": 0.03,
-      "debt_delta": 0.06000000000000005,
-      "loss_delta": 0.5131794935137561,
-      "quality_q_delta": -0.20738061247642614
+      "debt_delta": 0.044666294055442424,
+      "loss_delta": 0.5159071999860773,
+      "quality_q_delta": -0.03148819430091706
     },
-    "net_information": -0.25738061247642613,
+    "net_information": -0.08148819430091708,
     "positive_discovery": false,
     "score_terms": {
       "projection_surface_rows": 0.05,
@@ -81,8 +112,14 @@
     "surface_delta_count": 5,
     "verdict": "negative"
   },
-  "net_information": -0.006806195564126177,
-  "positive_discovery": false,
+  "net_information": 0.1204775688387186,
+  "not_claimed": [
+    "formal BEDC closure is not claimed by this lab-local runner",
+    "global optimizer behavior is not claimed by this lab-local runner",
+    "positive quality improvement is not claimed unless the paired after-minus-before quality_q CI lower bound is above zero",
+    "positive discovery is not claimed unless classifier surface delta, imported positive_discovery, positive net information, and training positive quality gate all hold"
+  ],
+  "positive_discovery": true,
   "projection_script": "scripts/run_certificate_guided_discovery.py",
   "report": "reports/canonical/certificate-guided-discovery.md",
   "source_artifacts": {
@@ -98,22 +135,22 @@
       "before_candidate_id": "deterministic-baseline",
       "before_role": "before",
       "benefit_terms": {
-        "quality_benefit_gain": 0.0,
-        "quality_debt_reduction": 0.1499999999999999
+        "quality_benefit_gain": 0.021438068279194766,
+        "quality_debt_reduction": 0.15903950055952384
       },
       "debt_terms": {
-        "quality_benefit_loss": 0.09680619556412609,
+        "quality_benefit_loss": 0.0,
         "quality_debt_increase": 0.0
       },
       "deltas": {
-        "benefit_delta": -0.09680619556412609,
+        "benefit_delta": 0.021438068279194766,
         "cost_delta": 0.0,
-        "debt_delta": -0.1499999999999999,
-        "loss_delta": -1.2166607562623426,
-        "quality_q_delta": 0.05319380443587385
+        "debt_delta": -0.15903950055952384,
+        "loss_delta": -1.2041947710370737,
+        "quality_q_delta": 0.1804775688387186
       },
-      "net_information": -0.006806195564126177,
-      "positive_discovery": false,
+      "net_information": 0.1204775688387186,
+      "positive_discovery": true,
       "score_terms": {
         "projection_surface_rows": 0.06,
         "quality_cost_increase": 0.0
@@ -147,7 +184,7 @@
         ]
       ],
       "surface_delta_count": 6,
-      "verdict": "negative"
+      "verdict": "positive"
     }
   ]
 }

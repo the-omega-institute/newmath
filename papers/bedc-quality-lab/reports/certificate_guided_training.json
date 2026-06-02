@@ -1,5 +1,16 @@
 {
   "artifact": "reports/certificate_guided_training.json",
+  "claim_gate": {
+    "audit_improvement_tradeoff": false,
+    "before_after_control_records": true,
+    "blockers": [],
+    "paired_ci_status": "ok",
+    "positive_quality_improvement": true,
+    "quality_q_ci95_low": 0.007425127041402968,
+    "required_ci95_low_gt_zero": true,
+    "shared_cost_protocol_name": true,
+    "shared_split_fingerprint_class": true
+  },
   "cost_protocol": {
     "formula": {
       "id": "quality_q",
@@ -56,27 +67,32 @@
   },
   "deltas": {
     "after_minus_before": {
-      "benefit_delta": -0.09680619556412609,
+      "benefit_delta": 0.021438068279194766,
       "cost_delta": 0.0,
-      "debt_delta": -0.1499999999999999,
-      "loss_delta": -1.2166607562623426,
-      "quality_q_delta": 0.05319380443587385
+      "debt_delta": -0.15903950055952384,
+      "loss_delta": -1.2041947710370737,
+      "quality_q_delta": 0.1804775688387186
     },
     "control_minus_before": {
-      "benefit_delta": -0.11738061247642609,
+      "benefit_delta": 0.04317809975452535,
       "cost_delta": 0.03,
-      "debt_delta": 0.06000000000000005,
-      "loss_delta": 0.5131794935137561,
-      "quality_q_delta": -0.20738061247642614
+      "debt_delta": 0.044666294055442424,
+      "loss_delta": 0.5159071999860773,
+      "quality_q_delta": -0.03148819430091706
     }
   },
-  "generated_at": "2026-06-02T13:02:09.544673+00:00",
+  "generated_at": "2026-06-02T14:37:14.381352+00:00",
   "lambda_weights": {
     "lambda_c": 1.0,
     "lambda_l": 0.75,
     "lambda_m": 0.5,
     "lambda_s": 0.25
   },
+  "not_claimed": [
+    "formal BEDC closure is not claimed by this lab-local runner",
+    "global optimizer behavior is not claimed by this lab-local runner",
+    "positive quality improvement is not claimed unless the paired after-minus-before quality_q CI lower bound is above zero"
+  ],
   "objective": {
     "formula": "task_loss + lambda_s*stability + lambda_m*margin + lambda_l*ledger + lambda_c*coverage",
     "ledger_weight_source": "CostProtocol.weight(row)",
@@ -91,6 +107,49 @@
       "source/transition-isotropy",
       "verification/theorem3-bound-margin"
     ]
+  },
+  "paired_delta_ci": {
+    "after_minus_before": {
+      "quality_q_delta": {
+        "ci95_half_width": 0.17305244179731563,
+        "ci95_high": 0.35353001063603423,
+        "ci95_low": 0.007425127041402968,
+        "mean": 0.1804775688387186,
+        "n": 3,
+        "reason": "ok",
+        "status": "ok",
+        "std": 0.15292633753408502
+      }
+    },
+    "control_minus_before": {
+      "quality_q_delta": {
+        "ci95_half_width": 0.2109511387542642,
+        "ci95_high": 0.17946294445334712,
+        "ci95_low": -0.24243933305518126,
+        "mean": -0.03148819430091706,
+        "n": 3,
+        "reason": "ok",
+        "status": "ok",
+        "std": 0.18641739297800897
+      }
+    }
+  },
+  "paired_seed_protocol": {
+    "ci95": "1.96 * sample_std(delta) / sqrt(n)",
+    "cost_protocol_key": "cost_protocol_name",
+    "metric_key": "quality_q",
+    "paired_delta": "after minus before by seed",
+    "roles": [
+      "before",
+      "after",
+      "control"
+    ],
+    "seeds": [
+      25,
+      26,
+      27
+    ],
+    "split_fingerprint_key": "split_fingerprint"
   },
   "records": [
     {
@@ -210,6 +269,8 @@
       "quality_q": -0.8526193875235739,
       "role": "before",
       "run_id": "certificate-guided-before-deterministic-baseline-seed-25",
+      "seed": 25,
+      "split_fingerprint": "rho=0.820000|source_count=None|mixing=sinusoidal_shear|output_dim=2",
       "unlogged_error_rate": 0.5217391304347826
     },
     {
@@ -329,6 +390,8 @@
       "quality_q": -0.7994255830877001,
       "role": "after",
       "run_id": "certificate-guided-after-certificate-guided-sample-support-seed-25",
+      "seed": 25,
+      "split_fingerprint": "rho=0.820000|source_count=None|mixing=sinusoidal_shear|output_dim=2",
       "unlogged_error_rate": 0.0
     },
     {
@@ -448,16 +511,745 @@
       "quality_q": -1.06,
       "role": "control",
       "run_id": "certificate-guided-control-torch-request-control-seed-25",
+      "seed": 25,
+      "split_fingerprint": "rho=0.820000|source_count=None|mixing=sinusoidal_shear|output_dim=2",
       "unlogged_error_rate": 0.5217391304347826
+    },
+    {
+      "artifacts": {
+        "envelope": "reports/certificate_guided_training.json",
+        "report": "reports/certificate_guided_training.md"
+      },
+      "candidate_id": "deterministic-baseline",
+      "certificate_guided_loss": 2.372841308872037,
+      "cost_protocol_name": "bedc-quality-lab-default-cost-protocol",
+      "critical_unlogged_error_rate": 0.48695652173913045,
+      "execution": {
+        "classifier_name": "standardized-nonlinear-observation",
+        "deterministic_fallback": true,
+        "torch_arm": false,
+        "use_torch_requested": false
+      },
+      "gap_metric_arm": "vanilla",
+      "gap_metric_source_run_id": "gaussian-ou-gap-ledger-head-seed-26",
+      "lambda_weights": {
+        "lambda_c": 1.0,
+        "lambda_l": 0.75,
+        "lambda_m": 0.5,
+        "lambda_s": 0.25
+      },
+      "ledger_rows": [
+        {
+          "kind": "source",
+          "residue": "source-coverage",
+          "score": 0.18,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.18
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": 0.22,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.22
+        },
+        {
+          "kind": "source",
+          "residue": "latent-distribution-gaussianity",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.16
+        },
+        {
+          "kind": "source",
+          "residue": "distribution-family-coverage",
+          "score": 0.24,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.24
+        },
+        {
+          "kind": "source",
+          "residue": "finite-sample-support",
+          "score": 0.2,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.2
+        },
+        {
+          "kind": "source",
+          "residue": "transition-isotropy",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.12
+        },
+        {
+          "kind": "classifier",
+          "residue": "optimizer-certificate",
+          "score": 0.1,
+          "severity": "medium",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "verification",
+          "residue": "theorem3-bound-margin",
+          "score": 0.03899715062691973,
+          "severity": "low",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "generalization",
+          "residue": "global-claim-boundary",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        }
+      ],
+      "loss_breakdown": {
+        "coverage": 0.9739130434782609,
+        "deterministic_fallback": true,
+        "ledger": 0.9789971506269198,
+        "margin": 1.0089971506269197,
+        "stability": 0.2539953712883063,
+        "torch_arm": false
+      },
+      "performance": {
+        "approx_identifiability_proxy": 0.8431265112943397,
+        "linear_identifiability_r2": 0.9033170157119501,
+        "quality_margin": -1.0089971506269197,
+        "task_loss": 0.09668298428804989
+      },
+      "quality_benefit": 0.0,
+      "quality_cost": 0.03,
+      "quality_debt": 0.9789971506269197,
+      "quality_q": -1.0089971506269197,
+      "role": "before",
+      "run_id": "certificate-guided-before-deterministic-baseline-seed-26",
+      "seed": 26,
+      "split_fingerprint": "rho=0.820000|source_count=None|mixing=sinusoidal_shear|output_dim=2",
+      "unlogged_error_rate": 0.48695652173913045
+    },
+    {
+      "artifacts": {
+        "envelope": "reports/certificate_guided_training.json",
+        "report": "reports/certificate_guided_training.md"
+      },
+      "candidate_id": "certificate-guided-sample-support",
+      "certificate_guided_loss": 1.0448204429930672,
+      "cost_protocol_name": "bedc-quality-lab-default-cost-protocol",
+      "critical_unlogged_error_rate": 0.0,
+      "execution": {
+        "classifier_name": "standardized-nonlinear-observation",
+        "deterministic_fallback": true,
+        "torch_arm": false,
+        "use_torch_requested": false
+      },
+      "gap_metric_arm": "gap_head",
+      "gap_metric_source_run_id": "gaussian-ou-gap-ledger-head-seed-26",
+      "lambda_weights": {
+        "lambda_c": 1.0,
+        "lambda_l": 0.75,
+        "lambda_m": 0.5,
+        "lambda_s": 0.25
+      },
+      "ledger_rows": [
+        {
+          "kind": "source",
+          "residue": "source-coverage",
+          "score": 0.18,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.18
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": 0.22,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.22
+        },
+        {
+          "kind": "source",
+          "residue": "latent-distribution-gaussianity",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.16
+        },
+        {
+          "kind": "source",
+          "residue": "distribution-family-coverage",
+          "score": 0.24,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.24
+        },
+        {
+          "kind": "source",
+          "residue": "finite-sample-support",
+          "score": 0.05,
+          "severity": "low",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "source",
+          "residue": "transition-isotropy",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.12
+        },
+        {
+          "kind": "classifier",
+          "residue": "optimizer-certificate",
+          "score": 0.1,
+          "severity": "medium",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "verification",
+          "residue": "theorem3-bound-margin",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        },
+        {
+          "kind": "generalization",
+          "residue": "global-claim-boundary",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        }
+      ],
+      "loss_breakdown": {
+        "coverage": 0.0,
+        "deterministic_fallback": true,
+        "ledger": 0.79,
+        "margin": 0.6588795995982897,
+        "stability": 0.17110220725528386,
+        "torch_arm": false
+      },
+      "performance": {
+        "approx_identifiability_proxy": 0.8684956351847403,
+        "linear_identifiability_r2": 0.9198949086198985,
+        "quality_margin": -0.6588795995982897,
+        "task_loss": 0.08010509138010147
+      },
+      "quality_benefit": 0.16112040040171038,
+      "quality_cost": 0.03,
+      "quality_debt": 0.79,
+      "quality_q": -0.6588795995982897,
+      "role": "after",
+      "run_id": "certificate-guided-after-certificate-guided-sample-support-seed-26",
+      "seed": 26,
+      "split_fingerprint": "rho=0.820000|source_count=None|mixing=sinusoidal_shear|output_dim=2",
+      "unlogged_error_rate": 0.0
+    },
+    {
+      "artifacts": {
+        "envelope": "reports/certificate_guided_training.json",
+        "report": "reports/certificate_guided_training.md"
+      },
+      "candidate_id": "torch-request-control",
+      "certificate_guided_loss": 3.1144836375631333,
+      "cost_protocol_name": "bedc-quality-lab-default-cost-protocol",
+      "critical_unlogged_error_rate": 0.48695652173913045,
+      "execution": {
+        "classifier_name": "tiny-mlp-2-128-128-2",
+        "deterministic_fallback": false,
+        "torch_arm": true,
+        "use_torch_requested": true
+      },
+      "gap_metric_arm": "vanilla",
+      "gap_metric_source_run_id": "gaussian-ou-gap-ledger-head-seed-26",
+      "lambda_weights": {
+        "lambda_c": 1.0,
+        "lambda_l": 0.75,
+        "lambda_m": 0.5,
+        "lambda_s": 0.25
+      },
+      "ledger_rows": [
+        {
+          "kind": "source",
+          "residue": "source-coverage",
+          "score": 0.18,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.18
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": 0.22,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.22
+        },
+        {
+          "kind": "source",
+          "residue": "latent-distribution-gaussianity",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.16
+        },
+        {
+          "kind": "source",
+          "residue": "distribution-family-coverage",
+          "score": 0.24,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.24
+        },
+        {
+          "kind": "source",
+          "residue": "finite-sample-support",
+          "score": 0.2,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.2
+        },
+        {
+          "kind": "source",
+          "residue": "transition-isotropy",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.12
+        },
+        {
+          "kind": "classifier",
+          "residue": "optimizer-certificate",
+          "score": 0.2,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.2
+        },
+        {
+          "kind": "verification",
+          "residue": "theorem3-bound-margin",
+          "score": 0.2,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.2
+        },
+        {
+          "kind": "generalization",
+          "residue": "global-claim-boundary",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        }
+      ],
+      "loss_breakdown": {
+        "coverage": 0.9739130434782609,
+        "deterministic_fallback": false,
+        "ledger": 1.24,
+        "margin": 1.06,
+        "stability": 1.0,
+        "torch_arm": true
+      },
+      "performance": {
+        "approx_identifiability_proxy": 0.33094066895210317,
+        "linear_identifiability_r2": 0.5694294059151278,
+        "quality_margin": -1.06,
+        "task_loss": 0.4305705940848722
+      },
+      "quality_benefit": 0.0,
+      "quality_cost": 0.06,
+      "quality_debt": 1.0,
+      "quality_q": -1.06,
+      "role": "control",
+      "run_id": "certificate-guided-control-torch-request-control-seed-26",
+      "seed": 26,
+      "split_fingerprint": "rho=0.820000|source_count=None|mixing=sinusoidal_shear|output_dim=2",
+      "unlogged_error_rate": 0.48695652173913045
+    },
+    {
+      "artifacts": {
+        "envelope": "reports/certificate_guided_training.json",
+        "report": "reports/certificate_guided_training.md"
+      },
+      "candidate_id": "deterministic-baseline",
+      "certificate_guided_loss": 2.2517063302861966,
+      "cost_protocol_name": "bedc-quality-lab-default-cost-protocol",
+      "critical_unlogged_error_rate": 0.48695652173913045,
+      "execution": {
+        "classifier_name": "standardized-nonlinear-observation",
+        "deterministic_fallback": true,
+        "torch_arm": false,
+        "use_torch_requested": false
+      },
+      "gap_metric_arm": "vanilla",
+      "gap_metric_source_run_id": "gaussian-ou-gap-ledger-head-seed-27",
+      "lambda_weights": {
+        "lambda_c": 1.0,
+        "lambda_l": 0.75,
+        "lambda_m": 0.5,
+        "lambda_s": 0.25
+      },
+      "ledger_rows": [
+        {
+          "kind": "source",
+          "residue": "source-coverage",
+          "score": 0.18,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.18
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": 0.22,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.22
+        },
+        {
+          "kind": "source",
+          "residue": "latent-distribution-gaussianity",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.16
+        },
+        {
+          "kind": "source",
+          "residue": "distribution-family-coverage",
+          "score": 0.24,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.24
+        },
+        {
+          "kind": "source",
+          "residue": "finite-sample-support",
+          "score": 0.2,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.2
+        },
+        {
+          "kind": "source",
+          "residue": "transition-isotropy",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.12
+        },
+        {
+          "kind": "classifier",
+          "residue": "optimizer-certificate",
+          "score": 0.1,
+          "severity": "medium",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "verification",
+          "residue": "theorem3-bound-margin",
+          "score": 0.007003967206753037,
+          "severity": "low",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "generalization",
+          "residue": "global-claim-boundary",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        }
+      ],
+      "loss_breakdown": {
+        "coverage": 0.9739130434782609,
+        "deterministic_fallback": true,
+        "ledger": 0.9470039672067531,
+        "margin": 0.9770039672067531,
+        "stability": 0.10694371615440974,
+        "torch_arm": false
+      },
+      "performance": {
+        "approx_identifiability_proxy": 0.8471882960335163,
+        "linear_identifiability_r2": 0.947697601239108,
+        "quality_margin": -0.9770039672067531,
+        "task_loss": 0.052302398760892044
+      },
+      "quality_benefit": 0.0,
+      "quality_cost": 0.03,
+      "quality_debt": 0.9470039672067531,
+      "quality_q": -0.9770039672067531,
+      "role": "before",
+      "run_id": "certificate-guided-before-deterministic-baseline-seed-27",
+      "seed": 27,
+      "split_fingerprint": "rho=0.820000|source_count=None|mixing=sinusoidal_shear|output_dim=2",
+      "unlogged_error_rate": 0.48695652173913045
+    },
+    {
+      "artifacts": {
+        "envelope": "reports/certificate_guided_training.json",
+        "report": "reports/certificate_guided_training.md"
+      },
+      "candidate_id": "certificate-guided-sample-support",
+      "certificate_guided_loss": 1.1838036393162874,
+      "cost_protocol_name": "bedc-quality-lab-default-cost-protocol",
+      "critical_unlogged_error_rate": 0.0,
+      "execution": {
+        "classifier_name": "standardized-nonlinear-observation",
+        "deterministic_fallback": true,
+        "torch_arm": false,
+        "use_torch_requested": false
+      },
+      "gap_metric_arm": "gap_head",
+      "gap_metric_source_run_id": "gaussian-ou-gap-ledger-head-seed-27",
+      "lambda_weights": {
+        "lambda_c": 1.0,
+        "lambda_l": 0.75,
+        "lambda_m": 0.5,
+        "lambda_s": 0.25
+      },
+      "ledger_rows": [
+        {
+          "kind": "source",
+          "residue": "source-coverage",
+          "score": 0.18,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.18
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": 0.22,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.22
+        },
+        {
+          "kind": "source",
+          "residue": "latent-distribution-gaussianity",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.16
+        },
+        {
+          "kind": "source",
+          "residue": "distribution-family-coverage",
+          "score": 0.24,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.24
+        },
+        {
+          "kind": "source",
+          "residue": "finite-sample-support",
+          "score": 0.05,
+          "severity": "low",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "source",
+          "residue": "transition-isotropy",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.12
+        },
+        {
+          "kind": "classifier",
+          "residue": "optimizer-certificate",
+          "score": 0.1,
+          "severity": "medium",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "verification",
+          "residue": "theorem3-bound-margin",
+          "score": 0.018882616155101128,
+          "severity": "low",
+          "status": "partial",
+          "weight": 0.2
+        },
+        {
+          "kind": "generalization",
+          "residue": "global-claim-boundary",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        }
+      ],
+      "loss_breakdown": {
+        "coverage": 0.043478260869565216,
+        "deterministic_fallback": true,
+        "ledger": 0.8088826161551012,
+        "margin": 0.8388826161551012,
+        "stability": 0.16206841116910037,
+        "torch_arm": false
+      },
+      "performance": {
+        "approx_identifiability_proxy": 0.8481678478780855,
+        "linear_identifiability_r2": 0.9262949945394292,
+        "quality_margin": -0.8388826161551012,
+        "task_loss": 0.0737050054605708
+      },
+      "quality_benefit": 0.0,
+      "quality_cost": 0.03,
+      "quality_debt": 0.8088826161551012,
+      "quality_q": -0.8388826161551012,
+      "role": "after",
+      "run_id": "certificate-guided-after-certificate-guided-sample-support-seed-27",
+      "seed": 27,
+      "split_fingerprint": "rho=0.820000|source_count=None|mixing=sinusoidal_shear|output_dim=2",
+      "unlogged_error_rate": 0.043478260869565216
+    },
+    {
+      "artifacts": {
+        "envelope": "reports/certificate_guided_training.json",
+        "report": "reports/certificate_guided_training.md"
+      },
+      "candidate_id": "torch-request-control",
+      "certificate_guided_loss": 2.544606108039576,
+      "cost_protocol_name": "bedc-quality-lab-default-cost-protocol",
+      "critical_unlogged_error_rate": 0.48695652173913045,
+      "execution": {
+        "classifier_name": "tiny-mlp-2-128-128-2",
+        "deterministic_fallback": false,
+        "torch_arm": true,
+        "use_torch_requested": true
+      },
+      "gap_metric_arm": "vanilla",
+      "gap_metric_source_run_id": "gaussian-ou-gap-ledger-head-seed-27",
+      "lambda_weights": {
+        "lambda_c": 1.0,
+        "lambda_l": 0.75,
+        "lambda_m": 0.5,
+        "lambda_s": 0.25
+      },
+      "ledger_rows": [
+        {
+          "kind": "source",
+          "residue": "source-coverage",
+          "score": 0.18,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.18
+        },
+        {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": 0.22,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.22
+        },
+        {
+          "kind": "source",
+          "residue": "latent-distribution-gaussianity",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.16
+        },
+        {
+          "kind": "source",
+          "residue": "distribution-family-coverage",
+          "score": 0.24,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.24
+        },
+        {
+          "kind": "source",
+          "residue": "finite-sample-support",
+          "score": 0.2,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.2
+        },
+        {
+          "kind": "source",
+          "residue": "transition-isotropy",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.12
+        },
+        {
+          "kind": "classifier",
+          "residue": "optimizer-certificate",
+          "score": 0.2,
+          "severity": "high",
+          "status": "open",
+          "weight": 0.2
+        },
+        {
+          "kind": "verification",
+          "residue": "theorem3-bound-margin",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        },
+        {
+          "kind": "generalization",
+          "residue": "global-claim-boundary",
+          "score": 0.0,
+          "severity": "none",
+          "status": "closed",
+          "weight": 0.2
+        }
+      ],
+      "loss_breakdown": {
+        "coverage": 0.9739130434782609,
+        "deterministic_fallback": false,
+        "ledger": 1.04,
+        "margin": 0.8130850882599978,
+        "stability": 0.47505018532485155,
+        "torch_arm": true
+      },
+      "performance": {
+        "approx_identifiability_proxy": 0.5926458638041212,
+        "linear_identifiability_r2": 0.7346120258998969,
+        "quality_margin": -0.8130850882599978,
+        "task_loss": 0.26538797410010306
+      },
+      "quality_benefit": 0.24691491174000213,
+      "quality_cost": 0.06,
+      "quality_debt": 1.0,
+      "quality_q": -0.8130850882599978,
+      "role": "control",
+      "run_id": "certificate-guided-control-torch-request-control-seed-27",
+      "seed": 27,
+      "split_fingerprint": "rho=0.820000|source_count=None|mixing=sinusoidal_shear|output_dim=2",
+      "unlogged_error_rate": 0.48695652173913045
     }
   ],
   "report": "reports/certificate_guided_training.md",
   "result": {
     "ledger_rows_written": true,
-    "note": "certificate-guided candidate did not improve every tracked projection",
+    "note": "certificate-guided candidate improved tracked debt/cost/benefit projection",
     "selected_after_candidate_id": "certificate-guided-sample-support",
     "shared_cost_protocol_name": true,
-    "status": "negative"
+    "shared_split_fingerprint_class": true,
+    "status": "positive"
   },
   "source_artifacts": {
     "canonical_runner": "scripts/run_gaussian_ou_lejepa.py::run_experiment",

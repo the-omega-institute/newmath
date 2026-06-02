@@ -39,6 +39,94 @@ def metric_stats(values: Iterable[float]) -> dict[str, float | int]:
     }
 
 
+def _closed_metric_result(status: str, reason: str, n: int = 0) -> dict[str, float | int | str]:
+    return {
+        "status": status,
+        "reason": reason,
+        "n": int(n),
+        "mean": math.nan,
+        "std": math.nan,
+        "ci95_half_width": math.nan,
+        "ci95_low": math.nan,
+        "ci95_high": math.nan,
+    }
+
+
+def paired_delta_stats(
+    records: Iterable[dict[str, Any]],
+    metric_key: str,
+    before_role: str = "before",
+    after_role: str = "after",
+    *,
+    seed_key: str = "seed",
+    cost_protocol_key: str = "cost_protocol_name",
+    split_key: str = "split_fingerprint",
+) -> dict[str, float | int | str]:
+    by_seed_role: dict[tuple[Any, str], dict[str, Any]] = {}
+    seen_roles_by_seed: dict[Any, set[str]] = {}
+    required_roles = {before_role, after_role}
+
+    for record in records:
+        role = str(record.get("role", ""))
+        if role not in required_roles:
+            continue
+        if seed_key not in record:
+            return _closed_metric_result("missing_seed", f"record missing {seed_key}")
+        seed = record[seed_key]
+        key = (seed, role)
+        if key in by_seed_role:
+            return _closed_metric_result("duplicate_role_seed", f"duplicate {role} record for seed {seed}")
+        by_seed_role[key] = record
+        seen_roles_by_seed.setdefault(seed, set()).add(role)
+
+    missing = [
+        seed
+        for seed, roles in sorted(seen_roles_by_seed.items(), key=lambda item: str(item[0]))
+        if roles != required_roles
+    ]
+    if missing:
+        return _closed_metric_result("missing_pair", f"missing paired role for seed {missing[0]}")
+
+    if len(seen_roles_by_seed) < 2:
+        return _closed_metric_result("insufficient_paired_seeds", "at least two paired seeds are required", len(seen_roles_by_seed))
+
+    deltas: list[float] = []
+    for seed in sorted(seen_roles_by_seed, key=str):
+        before = by_seed_role[(seed, before_role)]
+        after = by_seed_role[(seed, after_role)]
+
+        before_protocol = before.get(cost_protocol_key)
+        after_protocol = after.get(cost_protocol_key)
+        if before_protocol != after_protocol:
+            return _closed_metric_result("cost_protocol_mismatch", f"cost protocol mismatch for seed {seed}", len(deltas))
+
+        before_split = before.get(split_key)
+        after_split = after.get(split_key)
+        if before_split != after_split:
+            return _closed_metric_result("split_fingerprint_mismatch", f"split fingerprint mismatch for seed {seed}", len(deltas))
+
+        try:
+            before_value = float(before[metric_key])
+            after_value = float(after[metric_key])
+        except (KeyError, TypeError, ValueError):
+            return _closed_metric_result("non_finite_metric", f"missing or invalid {metric_key} for seed {seed}", len(deltas))
+        if not math.isfinite(before_value) or not math.isfinite(after_value):
+            return _closed_metric_result("non_finite_metric", f"non-finite {metric_key} for seed {seed}", len(deltas))
+        deltas.append(after_value - before_value)
+
+    summary = metric_stats(deltas)
+    return {
+        "status": "ok",
+        "reason": "ok",
+        "n": int(summary["n"]),
+        "mean": float(summary["mean"]),
+        "std": float(summary["std"]),
+        "ci95_half_width": float(summary["ci95_half_width"]),
+        "ci95_low": float(summary["ci95_low"]),
+        "ci95_high": float(summary["ci95_high"]),
+    }
+
+
 def _closed_prefix_row(k: int, n: int, status: str) -> dict[str, float | int | str]:
     return {
         "k": int(k),
