@@ -441,21 +441,7 @@ The approximation route is carried by $W,R,G,E$. A finite $\StreamNameUp$ window
 Componentwise transport and replay preserve the same factorization for classified packets. The provenance and local naming rows name the same finite inventory, so no quotient real equality, selected limit, ambient completeness, or independent representative can enter the route.
 \end{proof}
 
-\begin{theorem}[Farey sequence regular-readback approximation bridge]
-\label{thm:farey-sequence-regular-readback-approximation-bridge}
-For every accepted $\FareySequenceUp$ carrier
-$$
-F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
-$$
-the $\RegSeqRatUp$ readback row $R$ and the $\RealRationalApproximationUp$ handoff row $G$ are forced through the same ordered boundary row $B$, adjacency ledger $A$, denominator-bound row $L$, dyadic-tolerance row $T$, and stream-window row $W$. The bridge exports a regular rational readback and a real-approximation handoff only along this common finite boundary, not through a host sequence, selected approximant, quotient-real equality, countable choice, or ambient completion.
-\end{theorem}
-\begin{proof}
-Start from the carrier of \autoref{def:farey-sequence-carrier}. The regular readback $R$ and approximation handoff $G$ are not independent rows; they are read after the same boundary, adjacency, denominator, tolerance, and stream-window rows $B,A,L,T,W$ are displayed.
-
-Apply the approximation-window factorization of \autoref{thm:farey-sequence-approximation-window-factorization}. It routes each $\RealRationalApproximationUp$ read through the ordered boundary, determinant-one adjacency ledger, denominator and tolerance rows, stream window, regular readback, and approximation handoff before the terminal real seal is available.
-
-Use the RealRationalApproximation handoff theorem \autoref{thm:farey-sequence-real-approximation-handoff}. The handoff keeps $R$ and $G$ downstream of the same finite Farey packet, so the bridge cannot introduce a host sequence, selected approximant, quotient-real equality, countable-choice selector, or ambient completion coordinate.
-\end{proof}
+\input{parts/concrete_instances/fareysequence/regular_readback_approximation_bridge}
 
 \begin{theorem}[Farey sequence continued-fraction window]
 \label{thm:farey-sequence-continued-fraction-window}
@@ -512,21 +498,7 @@ The real-facing endpoint is then $G,E$. The handoff row $G$ supplies the $\RealR
 Finally $H,C,P,N$ transport, replay, source, and name the same inventory. Since \autoref{def:farey-sequence-carrier} contains no coordinate for host order, quotient Real equality, trichotomy, choice, selected best approximants, or ambient completeness, every Real approximation density read factors through exactly the displayed finite rows.
 \end{proof}
 
-\begin{theorem}[Farey sequence stream-window adjacency scope]
-\label{thm:farey-sequence-stream-window-adjacency-scope}
-For every accepted $\FareySequenceUp$ carrier
-$$
-F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
-$$
-the $\StreamNameUp$ window $W$ reads only the displayed ordered boundary row $B$ and the adjacency ledger $A$ when it exports a finite Farey window. In particular, every windowed entry request is classified by the displayed rational boundary row, every neighboring-pair request is classified by the determinant-one rows in $A$, and no host real order, quotient real comparison, selected branch, or ambient completion datum is available to the window classifier.
-\end{theorem}
-\begin{proof}
-Project the accepted packet to $B,A,W,H,C,P,N$. The row $W$ is a finite stream window whose entries are requested from the displayed boundary sequence $B$, so the entry classifier is already bounded by the ordered rational rows of $B$.
-
-Neighboring-pair reads then use $A$. Each adjacent request in the window points to the determinant-one ledger row for the displayed consecutive pair, not to a host-order comparison or to an external real representative.
-
-The rows $H,C,P,N$ transport, replay, package, and name the same finite data. Since the carrier has no coordinate for host real order, quotient real comparison, selected branches, or ambient completion, the stream-window classifier cannot escape $B,A,W,H,C,P,N$.
-\end{proof}
+\input{parts/concrete_instances/fareysequence/stream_window_adjacency_scope.tex}
 
 \begin{theorem}[Farey sequence rational-source handoff scope]
 \label{thm:farey-sequence-rational-source-handoff-scope}
@@ -703,6 +675,7 @@ F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
 $$
 every rational-window approximation consumer factors through the rows already present in the carrier: $\RatUp$ and $\DyadicRatCoreUp$ are read through $Q,T$, $\RationalStreamUp$ and $\StreamNameUp$ through $Q,W$, $\RegSeqRatUp$ through $R$, $\RealRationalApproximationUp$ through $G$, and $\RealUp$ through $E$, with $B,A,M,L,S,H,C,P,N$ preserving the finite Farey-neighbor context. The coverage statement adds no quotient-real equality, selected best approximant, trichotomy, choice, or Real-completeness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.FareySequenceUp.FareySequenceRationalCoverage}
 \begin{proof}
 Begin with the rational-source rows. Theorems~\ref{thm:farey-sequence-rational-source-handoff-scope}, \ref{thm:fareysequence-adjacent-dyadic-window}, and \ref{thm:farey-sequence-mediant-window-coverage} place $\RatUp$, $\DyadicRatCoreUp$, $\RationalStreamUp$, and $\StreamNameUp$ reads inside $Q,T,W$ over the same finite boundary and adjacency rows.
 
@@ -715,6 +688,7 @@ The context rows $B,A,M,L,S,H,C,P,N$ are preserved by carrier admission, classif
 \label{thm:fareysequence-denominator-monotone-coverage}
 For every accepted $\FareySequenceUp$ carrier $F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)$, the displayed denominator row $L$ covers each boundary entry of $B$ monotonically along the finite row order before any $W,R,G,E$ approximation consumer is read. The coverage is a $\BHist$ and $\NameCert_{\FareySequenceUp}$ fact over $B,A,M,L,T,H,C,P,N$, transported only by the displayed $\hsame$ rows and replayed only through the displayed $\Cont$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.FareySequenceUp.FareySequenceDenominatorMonotoneCoverage}
 \begin{proof}
 Induct over the displayed boundary row $B$. The first and last rows are read from carrier admission, while each adjacent step is checked by the determinant-one row $A$ and the denominator budget row $L$.
 
