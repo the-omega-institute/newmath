@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BaireMetricUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -139,5 +149,35 @@ theorem BaireMetricNamecertObligations (x : BaireMetricUp) :
   exact
     ⟨⟨baireMetricBHistCarrier⟩, ⟨baireMetricChapterTasteGate⟩, rfl,
       BaireMetricNamecertObligations_round_trip x⟩
+
+def BaireMetricPrefixDistanceCarrier [AskSetup] [PackageSetup]
+    (S B W D R U H C P N radiusRead ultrametricRead : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory S ∧ UnaryHistory B ∧ UnaryHistory W ∧ UnaryHistory D ∧
+    UnaryHistory R ∧ UnaryHistory U ∧ UnaryHistory H ∧ UnaryHistory C ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ Cont S B radiusRead ∧
+        Cont radiusRead D ultrametricRead ∧ PkgSig bundle P pkg ∧
+          PkgSig bundle N pkg
+
+theorem BaireMetricRootObservationCarrier [AskSetup] [PackageSetup]
+    {S B W D R U H C P N radiusRead ultrametricRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricPrefixDistanceCarrier S B W D R U H C P N radiusRead ultrametricRead
+        bundle pkg →
+      UnaryHistory radiusRead ∧ UnaryHistory ultrametricRead ∧ Cont S B radiusRead ∧
+        Cont radiusRead D ultrametricRead ∧ PkgSig bundle P pkg ∧
+          PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BaireMetricPrefixDistanceCarrier BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier
+  obtain ⟨unaryS, unaryB, _unaryW, unaryD, _unaryR, _unaryU, _unaryH, _unaryC,
+    _unaryP, _unaryN, radiusRoute, ultrametricRoute, provenancePkg, localNamePkg⟩ :=
+    carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed unaryS unaryB radiusRoute
+  have ultrametricUnary : UnaryHistory ultrametricRead :=
+    unary_cont_closed radiusUnary unaryD ultrametricRoute
+  exact
+    ⟨radiusUnary, ultrametricUnary, radiusRoute, ultrametricRoute, provenancePkg,
+      localNamePkg⟩
 
 end BEDC.Derived.BaireMetricUp

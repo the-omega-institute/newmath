@@ -3664,6 +3664,7 @@ import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuityFiniteNetSelectorUp.TasteGate
 import BEDC.Derived.EquicontinuityUp
+import BEDC.Derived.EquicontinuityUp.TasteGate
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.ErgodicUp
@@ -8183,6 +8184,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.CauchyHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.ExtensionOrdering
 import BEDC.Derived.UniformCompletionFunctorUp.RealSealNonescape
 import BEDC.Derived.UniformCompletionFunctorUp.RegSeqRatRealSourceHandoff
+import BEDC.Derived.UniformCompletionFunctorUp.SourceExtensionReadback
 import BEDC.Derived.UniformCompletionFunctorUp.SourceFactorization
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.UnitRootObligation
