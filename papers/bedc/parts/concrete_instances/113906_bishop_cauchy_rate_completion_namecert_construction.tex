@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyRateCompletionUp$}
+\label{ch:concrete-instances-bishop-cauchy-rate-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy completion, the $\BishopCauchyRateCompletionUp$ packet records a rate-bearing completion route for regular rational names as finite BEDC data. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the Bishop regular completion route of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. The packet names rates, windows, tolerances, readbacks, and Real-facing seals by displayed rows only; it does not quotient regular sequences, select limits, invoke countable choice, import host real equality, or assume ambient completeness.
+
+\begin{definition}[Bishop Cauchy rate completion carrier]
+\label{def:bishop-cauchy-rate-completion-carrier}
+A $\BishopCauchyRateCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,M,D,R,E,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected rational stream windows.
+\item $M$ is the Bishop rate row, recording the displayed modulus request by which later windows are compared with earlier windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the same rate request and window family.
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback obtained from $S,M,D$.
+\item $E$ is the terminal $\RealUp$ seal reached only after the stream windows, rate row, dyadic tolerance ledger, and regular-rational readback are displayed.
+\item $B$ is the Bishop regular Cauchy completion row read from \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}; it records that the rate-bearing readback is a completion-facing regular Cauchy name rather than a host limit.
+\item $H$ records componentwise $\hsame$ transport for $S,M,D,R,E,B$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from stream windows through rate requests, dyadic tolerances, regular-rational readback, Bishop completion handoff, terminal Real seal, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyRateCompletionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopCauchyRateCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,M,D,R,E,B,H,C,P,N$. It has no coordinate for quotient stream equality, a selected representative, a chosen limit, countable choice, host real equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy rate completion NameCert obligations]
+\label{thm:bishop-cauchy-rate-completion-namecert-obligations}
+For every accepted $\BishopCauchyRateCompletionUp$ carrier
+$$
+K=(S,M,D,R,E,B,H,C,P,N),
+$$
+the local $\NameCert_{\BishopCauchyRateCompletionUp}$ surface consists exactly of finite-window exposure through $S$, rate exposure through $M$, dyadic tolerance exposure through $D$, regular-rational readback through $R$, terminal Real seal exposure through $E$, Bishop regular completion handoff through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-cauchy-rate-completion-carrier}. Its content rows are the finite stream window, rate, dyadic tolerance, regular-rational readback, terminal Real seal, and Bishop completion handoff.
+
+Read the L10 dependency route in order. The $\StreamNameUp$ row $S$ exposes the finite observations, $M$ fixes the rate request against those observations, and the $\DyadicRatCoreUp$ row $D$ supplies the tolerance ledger used by that rate request.
+
+The $\RegSeqRatUp$ row $R$ is downstream of $S,M,D$, and the $\RealUp$ seal $E$ is downstream of $R$. The Bishop regular completion row $B$ names the completion-facing handoff of the same route, so it cannot replace the displayed windows, rates, tolerances, or readback by a selected limit.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no carrier coordinate remains outside $S,M,D,R,E,B,H,C,P,N$, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy rate regular readback]
+\label{thm:bishop-cauchy-rate-completion-regular-readback}
+Every accepted $\BishopCauchyRateCompletionUp$ consumer that reads a terminal $\RealUp$ seal from the packet must first read the same finite route
+$$
+\StreamNameUp(S),\quad \DyadicRatCoreUp(D),\quad \RegSeqRatUp(R)
+$$
+under the displayed Bishop rate row $M$ and the Bishop regular completion handoff $B$. The route exports no quotient stream equality, selected limit, countable-choice schedule, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:bishop-cauchy-rate-completion-namecert-obligations}. It places the Real seal $E$ after the stream window $S$, rate row $M$, dyadic tolerance row $D$, regular-rational readback $R$, and Bishop completion handoff $B$.
+
+The regular readback is fixed by the displayed window and tolerance route. A consumer therefore cannot read $R$ as an abstract quotient class or choose a representative outside $S,M,D$; the row $R$ is the named regular-rational readback of those finite observations.
+
+The Real-facing seal is also downstream from the same route. The row $E$ is reachable only after $R$ and $B$ have been exposed, and the structural rows $H,C,P,N$ preserve that ordering. Hence every accepted Real-facing read factors through the displayed rate-completion packet rather than through selected limits, host equality, choice, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BishopCauchyRateCompletionUp$ packet is refuted if a Real-facing completion read reaches the terminal seal without displaying the StreamName window, Bishop rate row, DyadicRatCore tolerance ledger, RegSeqRat readback, Bishop regular completion handoff, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, bishop-regular-cauchy-completion: none is bijective to $\BishopCauchyRateCompletionUp$ because only the present packet jointly carries finite windows, an explicit Bishop rate row, dyadic tolerances, regular-rational readback, terminal Real seal, Bishop completion handoff, transport, replay, provenance, and local naming.}
+
+\closureat{BishopCauchyRateCompletionUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyRateCompletionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-rate-completion-carrier}, \autoref{thm:bishop-cauchy-rate-completion-namecert-obligations}, and \autoref{thm:bishop-cauchy-rate-completion-regular-readback} seed the finite Bishop rate-completion route over StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, Real seals, and Bishop regular completion handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected representatives, selected limits, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rate exposure, dyadic tolerance exactness, regular-rational readback, terminal Real seal handoff, Bishop completion handoff, transport, replay, provenance, and local naming for BEDC.Derived.BishopCauchyRateCompletionUp.}
+  \constructivestory{A $\BishopCauchyRateCompletionUp$ packet is generated from finite StreamName windows, a Bishop rate row, DyadicRatCore tolerances, RegSeqRat readback, a terminal RealUp seal, Bishop regular completion handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
