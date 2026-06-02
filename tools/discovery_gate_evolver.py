@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Append kernel-grounded negative discovery witnesses under a monotonic gate."""
+"""Append exact kernel-reverified negative discovery witnesses."""
 
 from __future__ import annotations
 
 import argparse
 import contextlib
 import fcntl
+import importlib.util
 import json
 import os
 import re
@@ -32,6 +33,23 @@ GIT_TIMEOUT = 300
 DEFAULT_INTERVAL = 21600
 REGRESSION_BEGIN = "    # BEGIN DISCOVERY GATE EVOLVER REGRESSION TESTS\n"
 REGRESSION_END = "    # END DISCOVERY GATE EVOLVER REGRESSION TESTS\n"
+MAX_ESCALATION_LINES = 1000
+BEDC_CI_PATH = REPO_ROOT / "lean4" / "scripts" / "bedc_ci.py"
+
+_BEDC_CI = None
+
+
+def bedc_ci_module():
+    global _BEDC_CI
+    if _BEDC_CI is None:
+        spec = importlib.util.spec_from_file_location("bedc_ci_for_gate_evolver", BEDC_CI_PATH)
+        if spec is None or spec.loader is None:
+            raise RuntimeError(f"cannot load {BEDC_CI_PATH}")
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = module
+        spec.loader.exec_module(module)
+        _BEDC_CI = module
+    return _BEDC_CI
 
 
 def now_iso() -> str:
@@ -40,8 +58,14 @@ def now_iso() -> str:
 
 def append_log(message: str) -> None:
     LOG_DIR.mkdir(parents=True, exist_ok=True)
-    with ESCALATION_LOG.open("a", encoding="utf-8") as fh:
-        fh.write(f"{now_iso()} {message}\n")
+    old_lines = ESCALATION_LOG.read_text(encoding="utf-8").splitlines() if ESCALATION_LOG.exists() else []
+    normalized = re.sub(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\s+", "", message).strip()
+    for line in old_lines[-MAX_ESCALATION_LINES:]:
+        old_normalized = re.sub(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\s+", "", line).strip()
+        if old_normalized == normalized:
+            return
+    new_lines = old_lines[-(MAX_ESCALATION_LINES - 1):] + [f"{now_iso()} {message}"]
+    ESCALATION_LOG.write_text("\n".join(new_lines) + "\n", encoding="utf-8")
 
 
 @contextlib.contextmanager
@@ -129,12 +153,10 @@ def registry_id(record: dict[str, Any]) -> str:
 
 
 def witness_from_record(record: dict[str, Any]) -> tuple[dict[str, Any] | None, str | None]:
-    if record.get("kernel_grounded") is not True:
-        return None, "record is not kernel_grounded=true"
     kind = str(record.get("kind") or record.get("relation") or "").strip()
     if kind == "structural_reconstruction":
         kind = "reconstruction"
-    if kind not in {"reconstruction", "trivial_conjunct", "duplicate_classifier", "smoke_template"}:
+    if kind not in {"reconstruction"}:
         return None, f"unsupported witness kind {kind or '(missing)'}"
 
     candidate = str(record.get("candidate") or record.get("target") or "").strip()
@@ -144,36 +166,51 @@ def witness_from_record(record: dict[str, Any]) -> tuple[dict[str, Any] | None, 
     if pattern is None:
         pattern = {}
     pattern = dict(pattern)
-    if candidate and "target" not in pattern and "candidate" not in pattern:
+    if candidate and "target" not in pattern:
         pattern["target"] = candidate
-    for key in ("reduced_fp", "candidate_reduced_fp", "prior", "prior_classifier", "relation"):
+    if "prior" not in pattern and "prior_classifier" in pattern:
+        pattern["prior"] = pattern.get("prior_classifier")
+    if "reduced_fp" not in pattern and "candidate_reduced_fp" in pattern:
+        pattern["reduced_fp"] = pattern.get("candidate_reduced_fp")
+    for key in ("reduced_fp", "prior"):
         value = str(record.get(key) or "").strip()
         if value and key not in pattern:
             pattern[key] = value
-    if kind == "reconstruction":
-        pattern.setdefault("kind", "reconstruction")
-    if not pattern:
-        return None, "record cannot be represented as a data witness pattern"
+    exact, pattern_error = bedc_ci_module()._exact_witness_pattern(pattern)
+    if exact is None:
+        return None, f"record does not provide exact witness pattern: {pattern_error}"
 
     why = str(record.get("refutes_because") or "").strip()
     if not why:
         why = f"{candidate or registry_id(record)} is refuted by kernel-grounded negative witness data"
     witness = {
         "id": registry_id(record),
-        "kind": kind,
-        "pattern": pattern,
+        "kind": "reconstruction",
+        "pattern": exact,
         "refutes_because": why,
         "kernel_grounded": True,
+        "soundness": "exact_reduced_fp_kernel_reverified",
         "provenance": record.get("provenance") or record,
         "regression_candidate": str(record.get("regression_candidate") or candidate or registry_id(record)),
         "added": now_iso(),
     }
+    grounded, grounding = bedc_ci_module().discovery_gate_witness_kernel_grounding(witness)
+    if not grounded:
+        return None, "witness failed independent structural-DNA grounding: " + json.dumps(
+            grounding,
+            ensure_ascii=False,
+            sort_keys=True,
+        )
+    witness["kernel_grounding"] = grounding
     return witness, None
 
 
 def load_json(path: Path) -> Any:
     if not path.exists():
-        return []
+        return {
+            "schema": "bedc.discovery_gate_witness_registry",
+            "witnesses": [],
+        }
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -183,14 +220,53 @@ def write_json(path: Path, value: Any) -> None:
 
 def append_witness(registry_path: Path, witness: dict[str, Any]) -> bool:
     raw = load_json(registry_path)
+    envelope: dict[str, Any] | None = None
+    if isinstance(raw, dict):
+        envelope = dict(raw)
+        raw = envelope.get("witnesses")
     if not isinstance(raw, list):
         raise RuntimeError(f"{registry_path} root is not a list")
+    grounded, grounding = bedc_ci_module().discovery_gate_witness_kernel_grounding(witness)
+    if not grounded:
+        raise RuntimeError("witness failed independent kernel grounding before append: " + repr(grounding))
+    witness = dict(witness)
+    witness["kernel_grounded"] = True
+    witness["kernel_grounding"] = grounding
+    witness["soundness"] = "exact_reduced_fp_kernel_reverified"
     witness_id = str(witness["id"])
     for item in raw:
         if isinstance(item, dict) and str(item.get("id") or "") == witness_id:
             return False
     raw.append(witness)
-    write_json(registry_path, raw)
+    temp_path = registry_path.with_suffix(registry_path.suffix + ".tmp")
+    write_json(temp_path, raw)
+    loaded, diagnostics = bedc_ci_module().load_discovery_gate_witnesses(temp_path)
+    temp_path.unlink(missing_ok=True)
+    if diagnostics:
+        raise RuntimeError("registry hygiene rejected appended witness: " + repr(diagnostics[:5]))
+    exact = witness.get("pattern") if isinstance(witness.get("pattern"), dict) else {}
+    exact_key = (
+        str(exact.get("target") or ""),
+        str(exact.get("prior") or ""),
+        str(exact.get("reduced_fp") or ""),
+    )
+    if not any(
+        isinstance(item.get("pattern"), dict)
+        and (
+            str(item["pattern"].get("target") or ""),
+            str(item["pattern"].get("prior") or ""),
+            str(item["pattern"].get("reduced_fp") or ""),
+        ) == exact_key
+        for item in loaded
+        if isinstance(item, dict)
+    ):
+        raise RuntimeError("registry hygiene did not preserve appended exact witness")
+    if envelope is not None:
+        envelope["schema"] = "bedc.discovery_gate_witness_registry"
+        envelope["witnesses"] = raw
+        write_json(registry_path, envelope)
+    else:
+        write_json(registry_path, raw)
     return True
 
 
@@ -204,7 +280,6 @@ def regression_test_method(witness: dict[str, Any]) -> str:
     pattern = witness.get("pattern") if isinstance(witness.get("pattern"), dict) else {}
     prior = str(pattern.get("prior") or pattern.get("prior_classifier") or "BEDC.Prior.Old")
     reduced_fp = str(pattern.get("reduced_fp") or pattern.get("candidate_reduced_fp") or "synthetic-reduced-fp")
-    relation = str(pattern.get("relation") or "reconstruction")
     return f'''
     def {method}(self) -> None:
         target = {target!r}
@@ -221,7 +296,7 @@ def regression_test_method(witness: dict[str, Any]) -> str:
                 "provenance": [{{
                     "candidate": target,
                     "prior": {prior!r},
-                    "relation": {relation!r},
+                    "relation": "reconstruction",
                     "candidate_reduced_fp": {reduced_fp!r},
                     "reduced_fp": {reduced_fp!r},
                 }}],
@@ -287,6 +362,32 @@ def current_true_content_has_no_new_rejects(
     return not regressions, regressions
 
 
+def _clone_lake_cache(wt_path: Path) -> None:
+    src = REPO_ROOT / "lean4" / ".lake"
+    dst = wt_path / "lean4" / ".lake"
+    if not src.exists() or dst.exists():
+        return
+    try:
+        dst.mkdir(parents=True, exist_ok=True)
+        packages_src = src / "packages"
+        if packages_src.exists():
+            os.symlink(packages_src, dst / "packages", target_is_directory=True)
+        for name in ("build", "config"):
+            item_src = src / name
+            if not item_src.exists():
+                continue
+            clone = run_cmd(["cp", "-Rc", str(item_src), str(dst / name)], cwd=REPO_ROOT, timeout=600)
+            if clone.returncode != 0:
+                shutil.copytree(
+                    item_src,
+                    dst / name,
+                    symlinks=True,
+                    ignore=shutil.ignore_patterns("*.new_*", "*.tmp", "*.partial", ".DS_Store"),
+                )
+    except Exception as exc:
+        append_log(f"[escalate] could not seed evolver .lake cache: {type(exc).__name__}: {exc}")
+
+
 def changed_files(root: Path) -> set[str]:
     proc = run_cmd(["git", "diff", "--name-only"], cwd=root, timeout=GIT_TIMEOUT)
     require_ok(proc, "git diff --name-only")
@@ -314,6 +415,7 @@ def prepare_worktree(worktree: Path, base_ref: str) -> None:
         run_cmd(["git", "worktree", "add", "--detach", str(worktree), base_ref], cwd=REPO_ROOT, timeout=GIT_TIMEOUT),
         "git worktree add",
     )
+    _clone_lake_cache(worktree)
 
 
 def cleanup_worktree(worktree: Path) -> None:
@@ -335,10 +437,22 @@ def verify(
     require_ok(run_cmd(["python3", "-m", "unittest", "lean4/scripts/test_closurestatus_audit.py"], cwd=root), "unittest")
     after_rc, after_failures, after_payload = audit_failures(root)
     if not before_failures.issubset(after_failures):
-        raise RuntimeError("monotonic check failed: an existing audit failure disappeared")
+        raise RuntimeError("smoke-only monotonic check failed: an existing audit failure disappeared")
     ok, regressions = current_true_content_has_no_new_rejects(before_failures, after_failures)
     if not ok:
         raise RuntimeError("current content got new witness rejects: " + repr(sorted(regressions)))
+    smoke_payload = {
+        "check": "monotonic_current_content",
+        "semantics": "smoke-only, not soundness proof",
+        "before_failure_count": len(before_failures),
+        "after_failure_count": len(after_failures),
+        "asserted_count": int((after_payload.get("discovery_assert_gate") or {}).get("asserted_count") or 0),
+        "soundness_basis": str(witness.get("soundness") or ""),
+    }
+    if smoke_payload["asserted_count"] == 0:
+        append_log("[escalate] asserted_count=0 makes monotonic smoke vacuous; not a soundness proof")
+    if smoke_payload["soundness_basis"] != "exact_reduced_fp_kernel_reverified":
+        raise RuntimeError("witness soundness is not exact+kernel reverified: " + repr(smoke_payload))
     if before_rc == 0 and after_rc != 0:
         gate = after_payload.get("discovery_assert_gate") or {}
         witness_failures = [
@@ -386,8 +500,16 @@ def process_one(record: dict[str, Any], args: argparse.Namespace) -> bool:
         append_log(f"[escalate] {reason}: {json.dumps(record, ensure_ascii=False)}")
         return False
     worktree = Path(args.worktree)
-    prepare_worktree(worktree, args.base_ref)
+    prepared = False
     try:
+        try:
+            prepare_worktree(worktree, args.base_ref)
+            prepared = True
+        except Exception as exc:
+            append_log(f"[escalate] worktree prep failed: {type(exc).__name__}: {exc}")
+            if worktree.exists():
+                cleanup_worktree(worktree)
+            return False
         registry_path = worktree / REGISTRY_REL
         test_path = worktree / TEST_REL
         before_rc, before_failures, _before_payload = audit_failures(worktree)
@@ -408,7 +530,7 @@ def process_one(record: dict[str, Any], args: argparse.Namespace) -> bool:
         append_log(f"[escalate] witness {witness.get('id')}: {type(exc).__name__}: {exc}")
         return False
     finally:
-        if not args.no_push:
+        if prepared and not args.no_push:
             cleanup_worktree(worktree)
 
 

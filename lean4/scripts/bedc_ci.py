@@ -3118,26 +3118,90 @@ def _assert_gate_item(
 
 DISCOVERY_GATE_WITNESS_KINDS = {
     "reconstruction",
-    "trivial_conjunct",
-    "duplicate_classifier",
-    "smoke_template",
 }
 
-DISCOVERY_GATE_WITNESS_PATTERN_KEYS = {
+DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS = {
     "target",
-    "candidate",
-    "candidate_target",
-    "region",
-    "file",
-    "kind",
-    "relation",
-    "reduced_fp",
-    "candidate_reduced_fp",
     "prior",
-    "prior_classifier",
-    "reason_tag",
-    "reason_tags",
+    "reduced_fp",
 }
+DISCOVERY_GATE_WITNESS_MAX_ENTRIES = 2000
+DISCOVERY_GATE_WITNESS_MAX_BYTES = 2_000_000
+
+
+def _discovery_gate_registry_diag(
+    path: Path,
+    line: int,
+    kind: str,
+    message: str,
+    *,
+    witness_id: str = "",
+) -> dict[str, object]:
+    item: dict[str, object] = {
+        "file": _repo_display_path(path) if path.is_absolute() else str(path),
+        "line": line,
+        "kind": kind,
+        "message": message,
+    }
+    if witness_id:
+        item["id"] = witness_id
+    return item
+
+
+def _exact_witness_pattern(pattern: object) -> tuple[dict[str, str] | None, str]:
+    if not isinstance(pattern, dict):
+        return None, "pattern must be an object"
+    keys = {str(key) for key in pattern}
+    if keys != DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS:
+        missing = sorted(DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS - keys)
+        extra = sorted(keys - DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS)
+        parts: list[str] = []
+        if missing:
+            parts.append("missing " + ",".join(missing))
+        if extra:
+            parts.append("unsupported " + ",".join(extra))
+        return None, "pattern must be exact {target, prior, reduced_fp}: " + "; ".join(parts)
+    out = {
+        key: str(pattern.get(key) or "").strip()
+        for key in DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS
+    }
+    if not out["target"] or not out["prior"] or not out["reduced_fp"]:
+        return None, "target, prior, and reduced_fp must be nonempty strings"
+    if not _normalize_lean_target(out["target"]) or not _normalize_lean_target(out["prior"]):
+        return None, "target and prior must be Lean declaration names"
+    if "*" in out["reduced_fp"] or out["reduced_fp"].lower() in {"any", "all", "wildcard"}:
+        return None, "reduced_fp must be a concrete fingerprint, not a wildcard"
+    return out, ""
+
+
+def discovery_gate_witness_kernel_grounding(
+    witness: dict[str, object],
+) -> tuple[bool, dict[str, object]]:
+    pattern, error = _exact_witness_pattern(witness.get("pattern"))
+    if pattern is None:
+        return False, {
+            "reason": "invalid_exact_pattern",
+            "message": error,
+        }
+    target = pattern["target"]
+    prior = pattern["prior"]
+    expected = pattern["reduced_fp"]
+    fps = _run_structural_dna_expr_fingerprints([target, prior])
+    target_fp = _discovery_endpoint_reduced_fp(target, fps)
+    prior_fp = _discovery_endpoint_reduced_fp(prior, fps)
+    ok = bool(target_fp and prior_fp and target_fp == expected and prior_fp == expected)
+    return ok, {
+        "target": target,
+        "prior": prior,
+        "expected_reduced_fp": expected,
+        "target_reduced_fp": target_fp,
+        "prior_reduced_fp": prior_fp,
+        "message": (
+            "target and prior structural-DNA reduced fingerprints match"
+            if ok
+            else "target/prior structural-DNA reduced fingerprints do not match witness"
+        ),
+    }
 
 
 def load_discovery_gate_witnesses(
@@ -3147,87 +3211,156 @@ def load_discovery_gate_witnesses(
     if not path.exists():
         return [], []
     try:
+        size = path.stat().st_size
+    except OSError:
+        size = 0
+    if size > DISCOVERY_GATE_WITNESS_MAX_BYTES:
+        return [], [_discovery_gate_registry_diag(
+            path,
+            1,
+            "oversized_discovery_gate_witness_registry",
+            (
+                "discovery gate witness registry exceeds size cap "
+                f"{DISCOVERY_GATE_WITNESS_MAX_BYTES} bytes"
+            ),
+        )]
+    try:
         raw = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
-        return [], [{
-            "file": _repo_display_path(path) if path.is_absolute() else str(path),
-            "line": exc.lineno,
-            "kind": "invalid_discovery_gate_witness_registry_json",
-            "message": f"invalid discovery gate witness registry JSON: {exc.msg}",
-        }]
+        return [], [_discovery_gate_registry_diag(
+            path,
+            exc.lineno,
+            "invalid_discovery_gate_witness_registry_json",
+            f"invalid discovery gate witness registry JSON: {exc.msg}",
+        )]
+    if isinstance(raw, dict):
+        schema = str(raw.get("schema") or "").strip()
+        entries = raw.get("witnesses")
+        if schema != "bedc.discovery_gate_witness_registry":
+            return [], [_discovery_gate_registry_diag(
+                path,
+                1,
+                "invalid_discovery_gate_witness_registry_schema",
+                "discovery gate witness registry schema must be bedc.discovery_gate_witness_registry",
+            )]
+        if not isinstance(entries, list):
+            return [], [_discovery_gate_registry_diag(
+                path,
+                1,
+                "invalid_discovery_gate_witness_registry_root",
+                "discovery gate witness registry witnesses field must be a list",
+            )]
+        raw = entries
     if not isinstance(raw, list):
-        return [], [{
-            "file": _repo_display_path(path) if path.is_absolute() else str(path),
-            "line": 1,
-            "kind": "invalid_discovery_gate_witness_registry_root",
-            "message": "discovery gate witness registry root must be a list",
-        }]
+        return [], [_discovery_gate_registry_diag(
+            path,
+            1,
+            "invalid_discovery_gate_witness_registry_root",
+            "discovery gate witness registry root must be a list",
+        )]
+    if len(raw) > DISCOVERY_GATE_WITNESS_MAX_ENTRIES:
+        return [], [_discovery_gate_registry_diag(
+            path,
+            1,
+            "oversized_discovery_gate_witness_registry",
+            (
+                "discovery gate witness registry exceeds entry cap "
+                f"{DISCOVERY_GATE_WITNESS_MAX_ENTRIES}"
+            ),
+        )]
 
     witnesses: list[dict[str, object]] = []
     diagnostics: list[dict[str, object]] = []
+    seen_exact: dict[tuple[str, str], str] = {}
+    seen_target_prior: dict[tuple[str, str], str] = {}
     for index, item in enumerate(raw):
         if not isinstance(item, dict):
-            diagnostics.append({
-                "file": _repo_display_path(path) if path.is_absolute() else str(path),
-                "line": index + 1,
-                "kind": "invalid_discovery_gate_witness",
-                "message": "discovery gate witness entry must be an object",
-            })
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "invalid_discovery_gate_witness",
+                "discovery gate witness entry must be an object",
+            ))
             continue
         witness_id = str(item.get("id") or "").strip()
         kind = str(item.get("kind") or "").strip()
-        pattern = item.get("pattern")
-        kernel_grounded = item.get("kernel_grounded")
-        unknown_keys: list[str] = []
-        if isinstance(pattern, dict):
-            unknown_keys = sorted(
-                str(key) for key in pattern
-                if str(key) not in DISCOVERY_GATE_WITNESS_PATTERN_KEYS
-            )
         if not witness_id:
-            diagnostics.append({
-                "file": _repo_display_path(path) if path.is_absolute() else str(path),
-                "line": index + 1,
-                "kind": "missing_discovery_gate_witness_id",
-                "message": "discovery gate witness lacks id",
-            })
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "missing_discovery_gate_witness_id",
+                "discovery gate witness lacks id",
+            ))
             continue
         if kind not in DISCOVERY_GATE_WITNESS_KINDS:
-            diagnostics.append({
-                "file": _repo_display_path(path) if path.is_absolute() else str(path),
-                "line": index + 1,
-                "kind": "invalid_discovery_gate_witness_kind",
-                "message": f"discovery gate witness {witness_id} has unsupported kind {kind}",
-            })
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "invalid_discovery_gate_witness_kind",
+                f"discovery gate witness {witness_id} has unsupported kind {kind}",
+                witness_id=witness_id,
+            ))
             continue
-        if kernel_grounded is not True:
-            diagnostics.append({
-                "file": _repo_display_path(path) if path.is_absolute() else str(path),
-                "line": index + 1,
-                "kind": "ungrounded_discovery_gate_witness",
-                "message": f"discovery gate witness {witness_id} is not kernel-grounded",
-            })
+        pattern, pattern_error = _exact_witness_pattern(item.get("pattern"))
+        if pattern is None:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "invalid_discovery_gate_witness_pattern",
+                f"discovery gate witness {witness_id} has invalid exact pattern: {pattern_error}",
+                witness_id=witness_id,
+            ))
             continue
-        if not isinstance(pattern, dict) or not pattern:
-            diagnostics.append({
-                "file": _repo_display_path(path) if path.is_absolute() else str(path),
-                "line": index + 1,
-                "kind": "invalid_discovery_gate_witness_pattern",
-                "message": f"discovery gate witness {witness_id} lacks a nonempty pattern object",
-            })
-            continue
-        if unknown_keys:
-            diagnostics.append({
-                "file": _repo_display_path(path) if path.is_absolute() else str(path),
-                "line": index + 1,
-                "kind": "unsupported_discovery_gate_witness_pattern",
-                "message": (
-                    f"discovery gate witness {witness_id} uses unsupported pattern keys: "
-                    + ", ".join(unknown_keys)
+        exact_key = (pattern["target"], pattern["reduced_fp"])
+        if exact_key in seen_exact:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "duplicate_discovery_gate_witness",
+                (
+                    f"discovery gate witness {witness_id} duplicates "
+                    f"{seen_exact[exact_key]} by target+reduced_fp"
                 ),
-            })
+                witness_id=witness_id,
+            ))
             continue
-        witnesses.append(item)
+        target_prior_key = (pattern["target"], pattern["prior"])
+        prior_seen_fp = seen_target_prior.get(target_prior_key)
+        if prior_seen_fp is not None and prior_seen_fp != pattern["reduced_fp"]:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "conflicting_discovery_gate_witness",
+                (
+                    f"discovery gate witness {witness_id} conflicts with an earlier "
+                    "target+prior witness carrying a different reduced_fp"
+                ),
+                witness_id=witness_id,
+            ))
+            continue
+        grounded, grounding = discovery_gate_witness_kernel_grounding(item)
+        if not grounded:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "ungrounded_discovery_gate_witness",
+                (
+                    f"discovery gate witness {witness_id} failed independent "
+                    f"structural-DNA grounding: {grounding.get('message')}"
+                ),
+                witness_id=witness_id,
+            ))
+            diagnostics[-1]["grounding"] = grounding
+            continue
+        normalized = dict(item)
+        normalized["kind"] = "reconstruction"
+        normalized["pattern"] = pattern
+        normalized["kernel_grounded"] = True
+        normalized["kernel_grounding"] = grounding
+        normalized["soundness"] = "exact_reduced_fp_kernel_reverified"
+        witnesses.append(normalized)
+        seen_exact[exact_key] = witness_id
+        seen_target_prior[target_prior_key] = pattern["reduced_fp"]
     return witnesses, diagnostics
 
 
@@ -3339,20 +3472,50 @@ def _discovery_gate_witness_matches_pattern(
     pattern: dict[str, object],
     features: dict[str, set[str]],
 ) -> bool:
-    for key, value in pattern.items():
-        key_text = str(key)
-        if key_text not in DISCOVERY_GATE_WITNESS_PATTERN_KEYS:
-            return False
-        expected = _pattern_values(value)
-        if not expected:
-            return False
-        actual = features.get(key_text, set())
-        if key_text == "reason_tags":
-            if not expected.issubset(actual):
-                return False
-        elif actual.isdisjoint(expected):
-            return False
-    return True
+    exact, _error = _exact_witness_pattern(pattern)
+    if exact is None:
+        return False
+    return (
+        exact["target"] in features.get("candidate", set())
+        and exact["prior"] in features.get("prior", set())
+        and exact["reduced_fp"] in features.get("reduced_fp", set())
+    )
+
+
+def _discovery_gate_witness_exact_triples(
+    target: str,
+    integrity_site: dict[str, object] | None,
+    integrity_violations: list[dict[str, object]],
+) -> set[tuple[str, str, str]]:
+    triples: set[tuple[str, str, str]] = set()
+    provenance = (integrity_site or {}).get("provenance", []) or []
+    if not isinstance(provenance, list):
+        provenance = []
+    for item in provenance:
+        if not isinstance(item, dict):
+            continue
+        candidates = _string_set([target, item.get("candidate"), item.get("after_classifier")])
+        priors = _string_set([item.get("prior"), item.get("before_classifier")])
+        reduced_fps = _string_set([item.get("reduced_fp"), item.get("candidate_reduced_fp")])
+        for candidate in candidates:
+            for prior in priors:
+                for reduced_fp in reduced_fps:
+                    triples.add((candidate, prior, reduced_fp))
+    for violation in integrity_violations:
+        if not isinstance(violation, dict):
+            continue
+        candidates = _string_set([target, violation.get("candidate"), violation.get("after_classifier")])
+        priors = _string_set([
+            violation.get("prior"),
+            violation.get("prior_classifier"),
+            violation.get("before_classifier"),
+        ])
+        reduced_fps = _string_set([violation.get("reduced_fp"), violation.get("candidate_reduced_fp")])
+        for candidate in candidates:
+            for prior in priors:
+                for reduced_fp in reduced_fps:
+                    triples.add((candidate, prior, reduced_fp))
+    return triples
 
 
 def discovery_gate_witness_hits(
@@ -3372,12 +3535,24 @@ def discovery_gate_witness_hits(
         integrity_site,
         integrity_violations,
     )
+    exact_triples = _discovery_gate_witness_exact_triples(
+        target,
+        integrity_site,
+        integrity_violations,
+    )
     hits: list[dict[str, object]] = []
     for witness in witnesses:
-        if witness.get("kernel_grounded") is not True:
-            continue
         pattern = witness.get("pattern")
         if not isinstance(pattern, dict):
+            continue
+        exact, _error = _exact_witness_pattern(pattern)
+        if exact is None:
+            continue
+        if (
+            exact["target"],
+            exact["prior"],
+            exact["reduced_fp"],
+        ) not in exact_triples:
             continue
         if not _discovery_gate_witness_matches_pattern(pattern, features):
             continue
