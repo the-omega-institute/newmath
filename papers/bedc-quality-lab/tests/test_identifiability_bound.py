@@ -67,8 +67,8 @@ def test_nonlinear_mixing_has_positive_recovery_error():
     h = np.column_stack([z[:, 0], z[:, 1] ** 2])
     metrics = identifiability_bound_metrics(h, h, z, 0.82)
 
-    assert orthogonal_recovery_mse(h, z) > 0.0
-    assert metrics["actual_recovery_mse"] > 0.0
+    assert orthogonal_recovery_mse(h, z) > 0.25
+    assert metrics["actual_recovery_mse"] > 0.25
 
 
 def test_rho_denominator_fails_closed_near_zero_or_one():
