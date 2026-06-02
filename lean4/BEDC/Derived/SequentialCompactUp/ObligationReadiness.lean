@@ -156,4 +156,56 @@ theorem SequentialCompact_root_obligation_baire_window [AskSetup] [PackageSetup]
     unary_cont_closed bUnary wUnary selectedRoute
   exact ⟨bUnary, wUnary, selectedUnary, selectedRoute, provenancePkg, selectedPkg⟩
 
+theorem SequentialCompactCarrier_root_obligation_real_seal [AskSetup] [PackageSetup]
+    {K B S W R E H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SequentialCompactCarrier K B S W R E H C P N bundle pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row (append E H) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row E ∨ hsame row H ∨ hsame row (append E H) ∨ hsame row P)
+          (fun row : BHist =>
+            hsame row (append E H) ∧ Cont E H (append E H) ∧ PkgSig bundle P pkg)
+          hsame ∧ UnaryHistory (append E H) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  intro carrier
+  obtain ⟨_kUnary, _bUnary, _sUnary, _wUnary, _rUnary, eUnary, hUnary,
+    _cUnary, _pUnary, _nUnary, _compactBaireStream, _streamWindowRegular,
+    _regularSealTransport, _transportReplayProvenance, provenancePkg⟩ := carrier
+  have sealTransport : Cont E H (append E H) := rfl
+  have sealUnary : UnaryHistory (append E H) :=
+    unary_cont_closed eUnary hUnary sealTransport
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row (append E H) ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row E ∨ hsame row H ∨ hsame row (append E H) ∨ hsame row P)
+        (fun row : BHist =>
+          hsame row (append E H) ∧ Cont E H (append E H) ∧ PkgSig bundle P pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro (append E H) ⟨hsame_refl (append E H), sealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inl sourceRow.left))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, sealTransport, provenancePkg⟩
+  }
+  exact ⟨cert, sealUnary⟩
+
 end BEDC.Derived.SequentialCompactUp
