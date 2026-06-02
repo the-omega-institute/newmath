@@ -441,21 +441,7 @@ The approximation route is carried by $W,R,G,E$. A finite $\StreamNameUp$ window
 Componentwise transport and replay preserve the same factorization for classified packets. The provenance and local naming rows name the same finite inventory, so no quotient real equality, selected limit, ambient completeness, or independent representative can enter the route.
 \end{proof}
 
-\begin{theorem}[Farey sequence regular-readback approximation bridge]
-\label{thm:farey-sequence-regular-readback-approximation-bridge}
-For every accepted $\FareySequenceUp$ carrier
-$$
-F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
-$$
-the $\RegSeqRatUp$ readback row $R$ and the $\RealRationalApproximationUp$ handoff row $G$ are forced through the same ordered boundary row $B$, adjacency ledger $A$, denominator-bound row $L$, dyadic-tolerance row $T$, and stream-window row $W$. The bridge exports a regular rational readback and a real-approximation handoff only along this common finite boundary, not through a host sequence, selected approximant, quotient-real equality, countable choice, or ambient completion.
-\end{theorem}
-\begin{proof}
-Start from the carrier of \autoref{def:farey-sequence-carrier}. The regular readback $R$ and approximation handoff $G$ are not independent rows; they are read after the same boundary, adjacency, denominator, tolerance, and stream-window rows $B,A,L,T,W$ are displayed.
-
-Apply the approximation-window factorization of \autoref{thm:farey-sequence-approximation-window-factorization}. It routes each $\RealRationalApproximationUp$ read through the ordered boundary, determinant-one adjacency ledger, denominator and tolerance rows, stream window, regular readback, and approximation handoff before the terminal real seal is available.
-
-Use the RealRationalApproximation handoff theorem \autoref{thm:farey-sequence-real-approximation-handoff}. The handoff keeps $R$ and $G$ downstream of the same finite Farey packet, so the bridge cannot introduce a host sequence, selected approximant, quotient-real equality, countable-choice selector, or ambient completion coordinate.
-\end{proof}
+\input{parts/concrete_instances/fareysequence/regular_readback_approximation_bridge}
 
 \begin{theorem}[Farey sequence continued-fraction window]
 \label{thm:farey-sequence-continued-fraction-window}
@@ -701,6 +687,7 @@ The context rows $B,A,M,L,S,H,C,P,N$ are preserved by carrier admission, classif
 \label{thm:fareysequence-denominator-monotone-coverage}
 For every accepted $\FareySequenceUp$ carrier $F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)$, the displayed denominator row $L$ covers each boundary entry of $B$ monotonically along the finite row order before any $W,R,G,E$ approximation consumer is read. The coverage is a $\BHist$ and $\NameCert_{\FareySequenceUp}$ fact over $B,A,M,L,T,H,C,P,N$, transported only by the displayed $\hsame$ rows and replayed only through the displayed $\Cont$ rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.FareySequenceUp.FareySequenceDenominatorMonotoneCoverage}
 \begin{proof}
 Induct over the displayed boundary row $B$. The first and last rows are read from carrier admission, while each adjacent step is checked by the determinant-one row $A$ and the denominator budget row $L$.
 
