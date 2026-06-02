@@ -15,13 +15,49 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+inductive RealLocatedOrderUnaryRow : Type where
+  -- BEDC touchpoint anchor: BHist BMark
+  | empty
+  | e1 (tail : RealLocatedOrderUnaryRow)
+
+def RealLocatedOrderUnaryRow.toBHist : RealLocatedOrderUnaryRow → BHist
+  -- BEDC touchpoint anchor: BHist
+  | RealLocatedOrderUnaryRow.empty => BHist.Empty
+  | RealLocatedOrderUnaryRow.e1 tail => BHist.e1 tail.toBHist
+
+def RealLocatedOrderUnaryRow.toUnaryHistory (row : RealLocatedOrderUnaryRow) :
+    UnaryHistory row.toBHist :=
+  -- BEDC touchpoint anchor: BHist UnaryHistory
+  match row with
+  | RealLocatedOrderUnaryRow.empty => by
+      constructor
+  | RealLocatedOrderUnaryRow.e1 tail => tail.toUnaryHistory
+
+theorem RealLocatedOrderUnaryRow.toBHist_injective {x y : RealLocatedOrderUnaryRow} :
+    x.toBHist = y.toBHist → x = y := by
+  -- BEDC touchpoint anchor: BHist
+  intro h
+  induction x generalizing y with
+  | empty =>
+      cases y with
+      | empty =>
+          rfl
+      | e1 tail =>
+          cases h
+  | e1 tail ih =>
+      cases y with
+      | empty =>
+          cases h
+      | e1 ytail =>
+          injection h with htail
+          exact congrArg RealLocatedOrderUnaryRow.e1 (ih htail)
+
 inductive RealLocatedOrderUp : Type where
-  | mk (X Y R S D O A H C P N : BHist) :
-      UnaryHistory N → hsame N X → RealLocatedOrderUp
+  | mk (source : RealLocatedOrderUnaryRow) (Y R S D O A H C P : BHist)
 
 def realLocatedOrderFields : RealLocatedOrderUp → List BHist
-  | RealLocatedOrderUp.mk X Y R S D O A H C P N _ _ =>
-      [X, Y, R, S, D, O, A, H, C, P, N]
+  | RealLocatedOrderUp.mk source Y R S D O A H C P =>
+      [source.toBHist, Y, R, S, D, O, A, H, C, P, source.toBHist]
 
 theorem RealLocatedOrderCarrier_namecert_obligations [AskSetup] [PackageSetup]
     (L : RealLocatedOrderUp)
@@ -66,9 +102,29 @@ theorem RealLocatedOrderCarrier_namecert_obligations [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame
   intro fieldsEq unaryX unaryY unaryR unaryS unaryD unaryO unaryA unaryH unaryC xCont
     yCont windowCont toleranceCont apartnessCont replayCont pkgP
-  rcases L with
-    ⟨x0, y0, r0, s0, d0, o0, a0, h0, c0, p0, n0, unaryn0, nameToSource0⟩
-  cases fieldsEq
+  rcases L with ⟨sourceRow, y0, r0, s0, d0, o0, a0, h0, c0, p0⟩
+  injection fieldsEq with hX t1
+  injection t1 with hY t2
+  injection t2 with hR t3
+  injection t3 with hS t4
+  injection t4 with hD t5
+  injection t5 with hO t6
+  injection t6 with hA t7
+  injection t7 with hH t8
+  injection t8 with hC t9
+  injection t9 with hP t10
+  injection t10 with hN _
+  cases hX
+  cases hY
+  cases hR
+  cases hS
+  cases hD
+  cases hO
+  cases hA
+  cases hH
+  cases hC
+  cases hP
+  cases hN
   have xUnary : UnaryHistory xRead :=
     unary_cont_closed unaryX unaryR xCont
   have yUnary : UnaryHistory yRead :=
@@ -82,22 +138,23 @@ theorem RealLocatedOrderCarrier_namecert_obligations [AskSetup] [PackageSetup]
   have replayUnary : UnaryHistory replayRead :=
     unary_cont_closed unaryH unaryC replayCont
   have sourceN :
-          (fun row : BHist => hsame row N ∧ UnaryHistory row) N := by
-    exact ⟨hsame_refl N, unaryn0⟩
+          (fun row : BHist => hsame row sourceRow.toBHist ∧ UnaryHistory row)
+            sourceRow.toBHist := by
+    exact ⟨hsame_refl sourceRow.toBHist, sourceRow.toUnaryHistory⟩
   have cert :
           SemanticNameCert
-              (fun row : BHist => hsame row N ∧ UnaryHistory row)
+              (fun row : BHist => hsame row sourceRow.toBHist ∧ UnaryHistory row)
               (fun row : BHist =>
-                hsame row X ∨ hsame row Y ∨ hsame row R ∨ hsame row S ∨
-                  hsame row D ∨ hsame row O ∨ hsame row A ∨ Cont X R xRead ∨
-                    Cont Y R yRead ∨ Cont R S windowRead ∨
-                      Cont S D toleranceRead ∨ Cont O A apartnessRead ∨
-                        Cont H C replayRead)
-              (fun row : BHist => PkgSig bundle P pkg ∧ hsame row N)
+                hsame row sourceRow.toBHist ∨ hsame row Y ∨ hsame row R ∨
+                  hsame row S ∨ hsame row D ∨ hsame row O ∨ hsame row A ∨
+                    Cont sourceRow.toBHist R xRead ∨ Cont Y R yRead ∨
+                      Cont R S windowRead ∨ Cont S D toleranceRead ∨
+                        Cont O A apartnessRead ∨ Cont H C replayRead)
+              (fun row : BHist => PkgSig bundle P pkg ∧ hsame row sourceRow.toBHist)
               hsame := by
     exact {
       core := {
-            carrier_inhabited := Exists.intro N sourceN
+            carrier_inhabited := Exists.intro sourceRow.toBHist sourceN
             equiv_refl := by
               intro row _source
               exact hsame_refl row
@@ -115,7 +172,7 @@ theorem RealLocatedOrderCarrier_namecert_obligations [AskSetup] [PackageSetup]
           }
       pattern_sound := by
             intro _row source
-            exact Or.inl (hsame_trans source.left nameToSource0)
+            exact Or.inl source.left
       ledger_sound := by
             intro _row source
             exact ⟨pkgP, source.left⟩
@@ -153,7 +210,7 @@ theorem RealLocatedOrderCarrier_apartness_handoff [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
   intro fieldsEq unaryX unaryY unaryR unaryS unaryD unaryO unaryA xCont yCont windowCont
     toleranceCont locatedCont apartnessCont pkgP
-  rcases L with ⟨x0, y0, r0, s0, d0, o0, a0, h0, c0, p0, n0, _unaryN, _sameN⟩
+  rcases L with ⟨sourceRow, y0, r0, s0, d0, o0, a0, h0, c0, p0⟩
   cases fieldsEq
   have xUnary : UnaryHistory xRead :=
     unary_cont_closed unaryX unaryR xCont
