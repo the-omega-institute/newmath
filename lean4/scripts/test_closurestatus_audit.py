@@ -11,8 +11,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 from bedc_ci import (  # type: ignore[import-not-found]
     CLOSURESTATUS_BEGIN_RE,
     CLOSURESTATUS_FIELD_RE,
+    DeclarationRecord,
     DiscoveryDeltaLedgerRecord,
     ExprFingerprint,
+    KernelAssertionCheck,
     LeanSourceScan,
     _discovery_candidate_blocks,
     _is_classifier_endpoint,
@@ -24,7 +26,9 @@ from bedc_ci import (  # type: ignore[import-not-found]
     diagnose_closurestatus_block,
     diagnose_closurestatus_open_fields,
     discovery_integrity_payload,
+    discovery_assert_gate_payload,
     discovery_audit_payload,
+    discovery_nonasserted_hygiene_payload,
     parser as bedc_parser,
 )
 
@@ -629,6 +633,120 @@ class DiscoveryAuditTests(unittest.TestCase):
             "relation_analysis_unavailable",
         )
         self.assertEqual(payload["relation_diagnostics_count"], 1)
+
+    def test_positive_discovery_deferred_structural_check_fails_g2(self) -> None:
+        target = "BEDC.Target.Gate"
+        block = self._block(
+            open_fields={
+                "closureclaimkind": "positiveDiscovery",
+                "closuregate": target,
+                "closureledger": "ledger",
+                "closureclassifierincrement": "1",
+                "closurenamecert": "namecert",
+                "closureweightprofile": "weight",
+            },
+            scopeclosed="local scope",
+            has_scope=True,
+        )
+        headers = {target: "def Gate : PositiveDiscovery Foo :="}
+        bodies = {target: "def Gate : PositiveDiscovery Foo := witness"}
+        decls = [DeclarationRecord("BEDC.Target", "lean4/BEDC/Target.lean", 1, "def", "Gate", target)]
+        scan = LeanSourceScan(decls, [], headers, bodies, [])
+        kernel = KernelAssertionCheck(
+            target=target,
+            module="BEDC.Target",
+            module_reachable=True,
+            olean_exists=True,
+            check_ok=True,
+            axioms_parsed=True,
+            axioms=(),
+            forbidden_axioms=(),
+            returncode=0,
+        )
+        with patch("bedc_ci._kernel_assertion_checks", return_value={target: kernel}):
+            payload = discovery_assert_gate_payload(
+                [block],
+                scan,
+                {
+                    "sites": [{
+                        "file": block["file"],
+                        "line": block["line"],
+                        "region": "FooUp",
+                        "resolution_status": "unresolved",
+                    }],
+                    "violations": [],
+                },
+                sieve_payload={"targets": []},
+            )
+        site = payload["asserted_sites"][0]
+        g2 = [gate for gate in site["gates"] if gate["gate"] == "G2"][0]
+        self.assertEqual(g2["status"], "FAIL")
+        self.assertIn("unavailable or unresolved", g2["reason"])
+
+    def test_positive_discovery_unreachable_target_fails_g0(self) -> None:
+        target = "BEDC.Target.Gate"
+        block = self._block(
+            open_fields={
+                "closureclaimkind": "positiveDiscovery",
+                "closuregate": target,
+                "closureledger": "ledger",
+                "closureclassifierincrement": "1",
+                "closurenamecert": "namecert",
+                "closureweightprofile": "weight",
+            },
+            scopeclosed="local scope",
+            has_scope=True,
+        )
+        headers = {target: "def Gate : PositiveDiscovery Foo :="}
+        bodies = {target: "def Gate : PositiveDiscovery Foo := witness"}
+        decls = [DeclarationRecord("BEDC.Target", "lean4/BEDC/Target.lean", 1, "def", "Gate", target)]
+        scan = LeanSourceScan(decls, [], headers, bodies, [])
+        kernel = KernelAssertionCheck(
+            target=target,
+            module="BEDC.Target",
+            module_reachable=False,
+            olean_exists=False,
+            check_ok=False,
+            axioms_parsed=False,
+            axioms=(),
+            forbidden_axioms=(),
+            returncode=1,
+            message="target module is not reachable from import BEDC",
+        )
+        with patch("bedc_ci._kernel_assertion_checks", return_value={target: kernel}):
+            payload = discovery_assert_gate_payload(
+                [block],
+                scan,
+                {"sites": [], "violations": []},
+                sieve_payload={"targets": []},
+            )
+        g0 = [gate for gate in payload["asserted_sites"][0]["gates"] if gate["gate"] == "G0"][0]
+        self.assertEqual(g0["status"], "FAIL")
+        self.assertIn("kernel-checkable", g0["reason"])
+
+    def test_conjectured_refuted_missing_evidence_hygiene_fails(self) -> None:
+        payload = discovery_nonasserted_hygiene_payload([
+            self._block(open_fields={"closureclaimkind": "conjecturedDiscovery"}, lean_target=None),
+            self._block(open_fields={"closureclaimkind": "refutedDiscovery"}, lean_target=None),
+        ])
+        self.assertEqual(payload["site_count"], 2)
+        self.assertEqual(payload["failure_count"], 2)
+        self.assertTrue(all(item["gate_status"] == "FAIL" for item in payload["failures"]))
+
+    def test_assert_gate_is_lazy_without_positive_discovery(self) -> None:
+        block = self._block(open_fields={"closureclaimkind": "conjecturedDiscovery"})
+        scan = LeanSourceScan([], [], {}, {}, [])
+        with patch("bedc_ci._kernel_assertion_checks") as kernel_checks:
+            payload = discovery_assert_gate_payload(
+                [block],
+                scan,
+                {"sites": [], "violations": []},
+                sieve_payload={"targets": []},
+            )
+        kernel_checks.assert_not_called()
+        self.assertEqual(payload["asserted_count"], 0)
+        self.assertEqual(payload["failure_count"], 0)
+        self.assertEqual(payload["conjectured_count"], 1)
 
 
 if __name__ == "__main__":
