@@ -1599,6 +1599,8 @@ import BEDC.Derived.CauchyNullEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyOscillationCriterionUp
 import BEDC.Derived.CauchyOscillationCriterionUp.TasteGate
 import BEDC.Derived.CauchyOscillationUp
+import BEDC.Derived.CauchyOscillationUp.DyadicTailExactness
+import BEDC.Derived.CauchyOscillationUp.ModulusThresholdExactness
 import BEDC.Derived.CauchyPairingUp
 import BEDC.Derived.CauchyPrecompletionUp.TasteGate
 import BEDC.Derived.CauchyProductAssociativityUp.TasteGate
@@ -3632,6 +3634,7 @@ import BEDC.Derived.FareySequenceUp.MediantRefinementStability
 import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.NeighborDeterminacy
 import BEDC.Derived.FareySequenceUp.RealApproximationBoundary
+import BEDC.Derived.FareySequenceUp.RealApproximationLedgerNonescape
 import BEDC.Derived.FareySequenceUp.RealBracketConsumerLock
 import BEDC.Derived.FareySequenceUp.RealReadbackRootObligation
 import BEDC.Derived.FareySequenceUp.RefinementCoverage
@@ -6690,7 +6693,6 @@ import BEDC.Derived.RecursorBranchCompletenessUp.TasteGate
 import BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate
 import BEDC.Derived.RecursorGeneratorUp
 import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
-import BEDC.Derived.ReducedProductUp
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
 import BEDC.Derived.ReflectionGapBoundaryUp.Nonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
