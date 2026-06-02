@@ -3636,6 +3636,7 @@ import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
 import BEDC.Derived.EulerPolygonUp.TasteGate
 import BEDC.Derived.EulerTransformUp.TasteGate
+import BEDC.Derived.EvenOddCauchyCriterionUp.ParityTailFusion
 import BEDC.Derived.EvenOddCauchyCriterionUp.Route
 import BEDC.Derived.EvenOddCauchyCriterionUp.SharedModulusTransport
 import BEDC.Derived.EvenOddCauchyCriterionUp.TasteGate
@@ -4193,6 +4194,7 @@ import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.FractionalPartUp
 import BEDC.Derived.FractionalPartUp.TasteGate
 import BEDC.Derived.FrechetCompletionUp.TasteGate
+import BEDC.Derived.FrechetDerivativeUp.TasteGate
 import BEDC.Derived.FredholmAlternativeUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.FreeMonoidUp.TasteGate
@@ -5744,6 +5746,7 @@ import BEDC.Derived.NormalFormConsistencySealUp.CriticalPairObligation
 import BEDC.Derived.NormalFormConsistencySealUp.CriticalPairRoute
 import BEDC.Derived.NormalFormConsistencySealUp.JoinabilityObligation
 import BEDC.Derived.NormalFormConsistencySealUp.LocalNamingBoundary
+import BEDC.Derived.NormalFormConsistencySealUp.MetacicCriticalPathHandoff
 import BEDC.Derived.NormalFormConsistencySealUp.ProvenanceExactness
 import BEDC.Derived.NormalFormConsistencySealUp.ResidualContextObligation
 import BEDC.Derived.NormalFormConsistencySealUp.ResidualScheduleDischarge
@@ -7037,6 +7040,7 @@ import BEDC.Derived.RegularCauchyScaleUp.UnitScalarBoundary
 import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySeparationUp.ModulusBoundary
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
+import BEDC.Derived.RegularCauchySeparationUp.ZeroDistanceReflection
 import BEDC.Derived.RegularCauchySequenceSpaceUp
 import BEDC.Derived.RegularCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.RegularCauchySequenceUp
