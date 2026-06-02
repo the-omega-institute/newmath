@@ -1,18 +1,16 @@
 {
-  "blocking_gates": [
-    "artifact_review_bundle"
-  ],
-  "decision": "native_public_benchmark_closed_artifact_bundle_open",
+  "blocking_gates": [],
+  "decision": "external_bundle_ready",
   "evidence_boundary": {
-    "artifact_review_bundle": "open",
+    "artifact_review_bundle": "closed",
     "checkpoint_contact": "closed",
     "native_public_benchmark": "closed"
   },
   "gates": {
     "artifact_review_bundle": {
-      "evidence": "reports/bedc_jepa_external_run_kit.json",
+      "evidence": "reports/bedc_jepa_review_bundle.json",
       "requirement": "clean external review artifact bundle",
-      "status": "missing"
+      "status": "pass"
     },
     "local_visual_planning": {
       "evidence": "reports/bedc_jepa_four_system_experiment.json",
@@ -46,10 +44,10 @@
     }
   },
   "next_actions": [
-    "run a native public JEPA-family benchmark on a shared observation/action stream",
+    "run native V-JEPA2-AC latent-prediction or rollout protocol on the public MiniGrid observation/action stream",
     "record baseline commit, checkpoint, dataset, command line, and native metric contract",
-    "build a clean external review artifact bundle with exact reproduction commands",
-    "rerun the readiness gate after those evidence artifacts exist"
+    "strengthen public MiniGrid calibration with threshold sweeps and risk-success Pareto summaries",
+    "run a public object-interaction benchmark with natural clutter or control"
   ],
   "schema_id": "bedc-jepa-readiness"
 }

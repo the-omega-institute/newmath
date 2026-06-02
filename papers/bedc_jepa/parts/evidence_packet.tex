@@ -17,14 +17,17 @@ $$
 \text{Public MiniGrid benchmark} & \texttt{bedc\_jepa\_public\_minigrid\_benchmark\_packet.json},\\
 \text{Public MiniGrid external result} & \texttt{bedc\_jepa\_public\_minigrid\_external\_result.json},\\
 \text{Public native MiniGrid benchmark} & \texttt{bedc\_jepa\_public\_native\_minigrid\_benchmark.json},\\
+\text{Public native MiniGrid seed sweep} & \texttt{bedc\_jepa\_public\_native\_minigrid\_seed\_sweep.json},\\
 \text{Public JEPA registry} & \texttt{bedc\_jepa\_public\_baseline\_registry.json},\\
 \text{Public JEPA probe} & \texttt{bedc\_jepa\_public\_baseline\_probe.json},\\
 \text{Public JEPA comparison} & \texttt{bedc\_jepa\_public\_baseline\_comparison.json},\\
 \text{Public JEPA external result} & \texttt{bedc\_jepa\_public\_baseline\_external\_result.json},\\
 \text{Public AC Giant adapter} & \texttt{bedc\_jepa\_public\_ac\_giant\_adapter.json},\\
 \text{Public CUDA adapter comparison} & \texttt{bedc\_jepa\_public\_cuda\_adapter\_comparison.json},\\
+\text{V-JEPA2-AC native boundary} & \texttt{bedc\_jepa\_vjepa2\_ac\_native\_boundary.json},\\
 \text{Readiness gate} & \texttt{bedc\_jepa\_readiness.json},\\
-\text{External run kit} & \texttt{bedc\_jepa\_external\_run\_kit.json}.
+\text{External run kit} & \texttt{bedc\_jepa\_external\_run\_kit.json},\\
+\text{Review bundle} & \texttt{bedc\_jepa\_review\_bundle.json}.
 \end{array}
 $$
 The JSON artifacts are lab-local evidence boundaries.  They are not Python
@@ -100,11 +103,10 @@ adapter scope.  It does not close public benchmark superiority, large-scale
 real-world world-modeling, or formal neural-network proof claims.
 
 \paragraph{Debt items.}
-The current debt items are scale debt, public-benchmark debt, and artifact
-debt.  Scale debt means the learned-transition and
-object-intervention benchmarks are small.  Public-baseline debt means the
-executed public JEPA-family comparison is an adapter-scope checkpoint contact,
-not a public benchmark reproduction or native task comparison.
+The current debt items are scale debt and public-baseline debt.  Scale debt
+means the learned-transition and object-intervention benchmarks are small.
+Public-baseline debt means the executed public JEPA-family comparison is an
+adapter-scope checkpoint contact, not a native V-JEPA2-AC task comparison.
 The public MiniGrid packets have executable DoorKey contracts.  The transition
 packet samples Gymnasium image observations and discrete actions.  The
 benchmark packet computes a public DoorKey readback/gap metric contract with
@@ -120,23 +122,34 @@ $0.163102$, S0 gap AUROC $0.500000$, and S3 gap AUROC $0.590738$.  Its
 audited two-step planning sweep records high-gap state rate $0.843750$ and
 success $0.968750$ at $\lambda_g=0$, versus high-gap state rate $0.156250$
 and success $0.562500$ at the best recorded risk point $\lambda_g=0.5$.
-Artifact debt means the current package is a research branch rather than a
-cleaned external review bundle.
+The five-seed native MiniGrid sweep records mean S0-minus-S3 unlogged-error
+reduction $0.067188$, mean S3-minus-S0 gap AUROC gain $0.185662$, unlogged
+error win rate $0.600000$, and gap AUROC win rate $1.000000$.  It also records
+mean S0-minus-S3 debt change $-0.041377$ and debt win rate $0.400000$, so the
+public MiniGrid debt direction is not closed.  The same sweep records mean
+high-gap planning reduction $0.393750$ and mean success reduction $0.337500$,
+which treats gap-aware planning as a risk-success tradeoff rather than a free
+planning improvement.  The review bundle artifact is marked
+\texttt{review\_ready}; that status closes the clean artifact boundary for
+the declared packet, not the external baseline boundary.
 
 \paragraph{External-contact readiness.}
-The readiness gate records closed checkpoint contact and a closed native
-public benchmark boundary.  The local torch objective seed sweep, local visual
-planning benchmark, cluttered object-counterfactual benchmark, public MiniGrid
-execution, public native MiniGrid S0/S1/S2/S3 benchmark, and public
-V-JEPA2-AC Giant CUDA checkpoint-contact adapter pass their declared evidence
-contacts.  The remaining blocking gate is the clean review artifact bundle.
-This paper therefore treats the current packet as an internal research branch
-with public checkpoint and native public benchmark contact, not yet as an
-external-contact bundle or public benchmark superiority claim.
+The readiness gate records closed checkpoint contact, a closed native public
+benchmark boundary, and a closed artifact review bundle for the declared
+packet.  Its decision is \texttt{external\_bundle\_ready} with no blocking
+gates.  The local torch objective seed sweep, local visual planning benchmark,
+cluttered object-counterfactual benchmark, public MiniGrid execution, public
+native MiniGrid S0/S1/S2/S3 benchmark and seed sweep, and public V-JEPA2-AC
+Giant CUDA checkpoint-contact adapter pass their declared evidence contacts.
+The current packet is therefore an external-contact review bundle with public
+checkpoint and native public benchmark contact, not a public benchmark
+superiority claim.
 The external run kit records the MiniGrid export command, the public native
 MiniGrid benchmark command, the AC Giant CUDA checkpoint-contact command pair,
 and the readiness command needed to evaluate the blocking gates without
 inventing evidence inside this workspace.  The older baseline external result
 remains an import boundary for external public benchmark metrics.  The CUDA
 adapter packet is the executed checkpoint-contact artifact for the selected
-V-JEPA 2-AC candidate.
+V-JEPA 2-AC candidate.  The native V-JEPA2-AC boundary artifact is
+\texttt{not\_executed}: no native or near-native V-JEPA2-AC rollout or latent
+prediction protocol has been run on the MiniGrid stream.

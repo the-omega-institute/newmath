@@ -23,6 +23,7 @@ from bedc_quality_lab.bedc_jepa_metrics import (
 
 SYSTEM_CODES = ("S0", "S1", "S2", "S3")
 DEFAULT_ENVIRONMENT_ID = "MiniGrid-DoorKey-8x8-v0"
+DEFAULT_SWEEP_SEEDS = (20260602, 20260603, 20260604, 20260605, 20260606)
 
 
 @dataclass(frozen=True)
@@ -423,6 +424,105 @@ def build_public_minigrid_native_benchmark(
 
 def write_public_minigrid_native_benchmark(path: str | Path) -> dict[str, Any]:
     packet = build_public_minigrid_native_benchmark()
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(packet, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return packet
+
+
+def _mean_std(values: list[float]) -> dict[str, float]:
+    arr = np.asarray(values, dtype=np.float64)
+    return {
+        "mean": float(np.mean(arr)) if arr.size else 0.0,
+        "std": float(np.std(arr, ddof=0)) if arr.size else 0.0,
+    }
+
+
+def _win_rate(values: list[float], *, threshold: float = 0.0) -> float:
+    arr = np.asarray(values, dtype=np.float64)
+    if arr.size == 0:
+        return 0.0
+    return float(np.mean(arr > threshold))
+
+
+def build_public_minigrid_native_seed_sweep(
+    *,
+    seeds: tuple[int, ...] = DEFAULT_SWEEP_SEEDS,
+    train_count: int = 128,
+    test_count: int = 128,
+    planning_state_count: int = 32,
+    environment_id: str = DEFAULT_ENVIRONMENT_ID,
+) -> dict[str, Any]:
+    packets = [
+        build_public_minigrid_native_benchmark(
+            environment_id=environment_id,
+            train_count=train_count,
+            test_count=test_count,
+            planning_state_count=planning_state_count,
+            seed=seed,
+        )
+        for seed in seeds
+    ]
+    executed = [packet for packet in packets if packet.get("status") == "executed"]
+    if len(executed) != len(packets):
+        return {
+            "schema_id": "bedc-jepa-public-native-minigrid-seed-sweep",
+            "status": "unavailable",
+            "environment_id": environment_id,
+            "seed_count_requested": float(len(seeds)),
+            "seed_count_executed": float(len(executed)),
+            "seeds": [float(seed) for seed in seeds],
+            "packets": packets,
+            "summary": {},
+            "cannot_claim": ["native public MiniGrid seed sweep was not fully executed in this environment"],
+        }
+
+    delta_keys = [
+        "s0_minus_s3_unlogged_error",
+        "s3_minus_s0_gap_auc",
+        "s0_minus_s3_debt",
+        "lambda_0_minus_best_high_gap_rate",
+        "lambda_0_minus_best_success_rate",
+    ]
+    summary = {
+        f"{key}_{stat}": value
+        for key in delta_keys
+        for stat, value in _mean_std([float(packet["deltas"][key]) for packet in executed]).items()
+    }
+    summary.update(
+        {
+            "seed_count": float(len(executed)),
+            "unlogged_error_win_rate": _win_rate([float(packet["deltas"]["s0_minus_s3_unlogged_error"]) for packet in executed]),
+            "gap_auc_win_rate": _win_rate([float(packet["deltas"]["s3_minus_s0_gap_auc"]) for packet in executed]),
+            "debt_win_rate": _win_rate([float(packet["deltas"]["s0_minus_s3_debt"]) for packet in executed]),
+            "planning_high_gap_reduction_win_rate": _win_rate(
+                [float(packet["deltas"]["lambda_0_minus_best_high_gap_rate"]) for packet in executed]
+            ),
+        }
+    )
+    return {
+        "schema_id": "bedc-jepa-public-native-minigrid-seed-sweep",
+        "status": "executed",
+        "environment_id": environment_id,
+        "seed_count_requested": float(len(seeds)),
+        "seed_count_executed": float(len(executed)),
+        "seeds": [float(seed) for seed in seeds],
+        "train_count": float(train_count),
+        "test_count": float(test_count),
+        "planning_state_count": float(planning_state_count),
+        "summary": summary,
+        "packets": packets,
+        "cannot_claim": [
+            "public benchmark superiority",
+            "native V-JEPA2-AC checkpoint reproduction",
+            "robotics benchmark result",
+            "large-scale real-world conclusion",
+        ],
+    }
+
+
+def write_public_minigrid_native_seed_sweep(path: str | Path) -> dict[str, Any]:
+    packet = build_public_minigrid_native_seed_sweep()
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(packet, indent=2, sort_keys=True) + "\n", encoding="utf-8")

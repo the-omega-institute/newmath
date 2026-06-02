@@ -1,8 +1,7 @@
 {
   "cannot_claim_until_ready": [
-    "native public JEPA benchmark comparison",
-    "clean external review artifact bundle",
-    "public benchmark superiority"
+    "public benchmark superiority",
+    "native V-JEPA2-AC checkpoint reproduction"
   ],
   "readiness_command": "python scripts/build_bedc_jepa_readiness.py",
   "required_external_results": {
@@ -20,6 +19,7 @@
         "deltas"
       ],
       "run_command": "python scripts/run_public_minigrid_native_benchmark.py",
+      "seed_sweep_command": "python scripts/run_public_minigrid_native_seed_sweep.py",
       "target_artifact": "reports/bedc_jepa_public_native_minigrid_benchmark.json"
     },
     "public_jepa_checkpoint_contact": {
@@ -48,8 +48,9 @@
       "target_artifact": "reports/bedc_jepa_public_minigrid_benchmark_packet.json"
     }
   },
+  "review_bundle_command": "python scripts/build_bedc_jepa_review_bundle.py",
   "schema_id": "bedc-jepa-external-run-kit",
-  "status": "contract_only",
+  "status": "review_ready",
   "verification_commands": [
     "python -m pytest -q",
     "pdflatex -interaction=nonstopmode -halt-on-error main.tex"

@@ -15,6 +15,14 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
         == "python scripts/run_public_minigrid_native_benchmark.py"
     )
     assert (
+        manifest["commands"]["public_minigrid_native_seed_sweep"]
+        == "python scripts/run_public_minigrid_native_seed_sweep.py"
+    )
+    assert (
+        manifest["commands"]["vjepa2_ac_native_boundary"]
+        == "python scripts/build_vjepa2_ac_native_boundary.py"
+    )
+    assert (
         manifest["commands"]["import_public_minigrid_benchmark_metrics"]
         == "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>"
     )
@@ -47,12 +55,18 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
         == "python scripts/export_public_jepa_baseline_result.py"
     )
     assert manifest["commands"]["external_run_kit"] == "python scripts/build_bedc_jepa_external_run_kit.py"
+    assert manifest["commands"]["review_bundle"] == "python scripts/build_bedc_jepa_review_bundle.py"
     assert manifest["commands"]["readiness"] == "python scripts/build_bedc_jepa_readiness.py"
     assert manifest["commands"]["test"] == "python -m pytest -q"
     assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"
     assert manifest["readiness"] == "reports/bedc_jepa_readiness.json"
     assert manifest["external_run_kit"] == "reports/bedc_jepa_external_run_kit.json"
+    assert manifest["review_bundle"] == "reports/bedc_jepa_review_bundle.json"
     assert manifest["public_baselines"]["jepa_comparison"] == "reports/bedc_jepa_public_baseline_comparison.json"
+    assert (
+        manifest["public_baselines"]["jepa_ac_native_boundary"]
+        == "reports/bedc_jepa_vjepa2_ac_native_boundary.json"
+    )
     assert (
         manifest["public_baselines"]["jepa_ac_giant_adapter"]
         == "reports/bedc_jepa_public_ac_giant_adapter.json"
@@ -78,6 +92,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert (
         manifest["public_adapters"]["minigrid_native_benchmark"]
         == "reports/bedc_jepa_public_native_minigrid_benchmark.json"
+    )
+    assert (
+        manifest["public_adapters"]["minigrid_native_seed_sweep"]
+        == "reports/bedc_jepa_public_native_minigrid_seed_sweep.json"
     )
     assert (
         manifest["public_adapters"]["minigrid_external_result"]

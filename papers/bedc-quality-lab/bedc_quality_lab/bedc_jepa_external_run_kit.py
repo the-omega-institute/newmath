@@ -10,7 +10,7 @@ from typing import Any
 def build_external_run_kit() -> dict[str, Any]:
     return {
         "schema_id": "bedc-jepa-external-run-kit",
-        "status": "contract_only",
+        "status": "review_ready",
         "required_external_results": {
             "public_jepa_checkpoint_contact": {
                 "readiness_gate": "public_jepa_checkpoint_contact",
@@ -41,6 +41,7 @@ def build_external_run_kit() -> dict[str, Any]:
                 "readiness_gate": "native_public_jepa_benchmark",
                 "target_artifact": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
                 "run_command": "python scripts/run_public_minigrid_native_benchmark.py",
+                "seed_sweep_command": "python scripts/run_public_minigrid_native_seed_sweep.py",
                 "probe_command": "python scripts/probe_public_jepa_baseline.py",
                 "export_command": "python scripts/export_public_jepa_baseline_result.py",
                 "import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
@@ -55,14 +56,14 @@ def build_external_run_kit() -> dict[str, Any]:
             },
         },
         "readiness_command": "python scripts/build_bedc_jepa_readiness.py",
+        "review_bundle_command": "python scripts/build_bedc_jepa_review_bundle.py",
         "verification_commands": [
             "python -m pytest -q",
             "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
         ],
         "cannot_claim_until_ready": [
-            "native public JEPA benchmark comparison",
-            "clean external review artifact bundle",
             "public benchmark superiority",
+            "native V-JEPA2-AC checkpoint reproduction",
         ],
     }
 

@@ -5,7 +5,7 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     kit = build_external_run_kit()
 
     assert kit["schema_id"] == "bedc-jepa-external-run-kit"
-    assert kit["status"] == "contract_only"
+    assert kit["status"] == "review_ready"
     assert set(kit["required_external_results"]) == {
         "public_jepa_checkpoint_contact",
         "public_minigrid_execution",
@@ -22,12 +22,14 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert minigrid["import_command"] == "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>"
     assert baseline["target_artifact"] == "reports/bedc_jepa_public_native_minigrid_benchmark.json"
     assert baseline["run_command"] == "python scripts/run_public_minigrid_native_benchmark.py"
+    assert baseline["seed_sweep_command"] == "python scripts/run_public_minigrid_native_seed_sweep.py"
     assert baseline["import_command"] == "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>"
     assert "gap_detection_auc" in minigrid["required_fields"]
     assert "jepa_family_baseline_boundary" in baseline["required_fields"]
     assert minigrid["readiness_gate"] == "public_minigrid_execution"
     assert baseline["readiness_gate"] == "native_public_jepa_benchmark"
     assert kit["readiness_command"] == "python scripts/build_bedc_jepa_readiness.py"
+    assert kit["review_bundle_command"] == "python scripts/build_bedc_jepa_review_bundle.py"
     assert (
         minigrid["export_command"]
         == "python scripts/export_public_minigrid_benchmark_result.py"

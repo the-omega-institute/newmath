@@ -164,7 +164,7 @@ def _public_checkpoint_contact_gate(cuda_comparison: dict[str, Any] | None) -> d
 
 
 def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, str]:
-    evidence = "reports/bedc_jepa_external_run_kit.json"
+    evidence = "reports/bedc_jepa_review_bundle.json"
     if run_kit is not None and run_kit.get("status") == "review_ready":
         return _gate("pass", evidence, "clean external review artifact bundle")
     return _gate("missing", evidence, "clean external review artifact bundle")
@@ -198,7 +198,7 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
     native_public_minigrid = _load_optional_json("bedc_jepa_public_native_minigrid_benchmark.json")
     public_jepa_comparison = _load_optional_json("bedc_jepa_public_baseline_comparison.json")
     public_cuda_comparison = _load_optional_json("bedc_jepa_public_cuda_adapter_comparison.json")
-    run_kit = _load_optional_json("bedc_jepa_external_run_kit.json")
+    run_kit = _load_optional_json("bedc_jepa_review_bundle.json")
     gates = {
         "torch_objective_seed_sweep": _torch_objective_gate(torch_objective),
         "local_visual_planning": _local_visual_gate(summary),
@@ -220,10 +220,10 @@ def build_bedc_jepa_readiness() -> dict[str, Any]:
         "gates": gates,
         "blocking_gates": blocking,
         "next_actions": [
-            "run a native public JEPA-family benchmark on a shared observation/action stream",
+            "run native V-JEPA2-AC latent-prediction or rollout protocol on the public MiniGrid observation/action stream",
             "record baseline commit, checkpoint, dataset, command line, and native metric contract",
-            "build a clean external review artifact bundle with exact reproduction commands",
-            "rerun the readiness gate after those evidence artifacts exist",
+            "strengthen public MiniGrid calibration with threshold sweeps and risk-success Pareto summaries",
+            "run a public object-interaction benchmark with natural clutter or control",
         ],
     }
 

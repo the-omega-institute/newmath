@@ -19,21 +19,22 @@ def test_bedc_jepa_readiness_records_checkpoint_contact_and_open_native_gate():
     assert readiness["gates"]["public_minigrid_execution"]["status"] in {"pass", "missing"}
     assert readiness["gates"]["public_jepa_checkpoint_contact"]["status"] == "pass"
     assert readiness["gates"]["native_public_jepa_benchmark"]["status"] == "pass"
-    assert readiness["gates"]["artifact_review_bundle"]["status"] in {"pass", "missing"}
+    assert readiness["gates"]["artifact_review_bundle"]["status"] == "pass"
     if readiness["gates"]["public_minigrid_execution"]["status"] == "pass":
         assert "public_minigrid_execution" not in readiness["blocking_gates"]
     else:
         assert "public_minigrid_execution" in readiness["blocking_gates"]
     assert "public_jepa_checkpoint_contact" not in readiness["blocking_gates"]
     assert "native_public_jepa_benchmark" not in readiness["blocking_gates"]
-    assert "artifact_review_bundle" in readiness["blocking_gates"]
+    assert "artifact_review_bundle" not in readiness["blocking_gates"]
+    assert readiness["blocking_gates"] == []
     assert readiness["evidence_boundary"] == {
         "checkpoint_contact": "closed",
         "native_public_benchmark": "closed",
-        "artifact_review_bundle": "open",
+        "artifact_review_bundle": "closed",
     }
     assert (
-        "run a native public JEPA-family benchmark on a shared observation/action stream"
+        "run native V-JEPA2-AC latent-prediction or rollout protocol on the public MiniGrid observation/action stream"
         in readiness["next_actions"]
     )
 

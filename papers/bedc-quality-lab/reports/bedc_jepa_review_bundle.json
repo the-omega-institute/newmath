@@ -1,0 +1,39 @@
+{
+  "cannot_claim": [
+    "public benchmark superiority",
+    "native V-JEPA2-AC checkpoint reproduction",
+    "robotics benchmark result",
+    "large-scale real-world conclusion",
+    "formal neural-network proof"
+  ],
+  "checks": {
+    "ac_giant_checkpoint_status": "loaded",
+    "checkpoint_contact": "closed",
+    "native_planning_high_gap_reduction": 0.6875,
+    "native_public_benchmark": "closed",
+    "native_unlogged_error_reduction": 0.125,
+    "seed_sweep_count": 5.0,
+    "seed_sweep_unlogged_error_win_rate": 0.6
+  },
+  "failures": [],
+  "reproduction_commands": [
+    "python scripts/run_public_minigrid_native_benchmark.py",
+    "python scripts/run_public_minigrid_native_seed_sweep.py",
+    "python scripts/build_public_jepa_cuda_comparison.py",
+    "python scripts/build_bedc_jepa_artifact_manifest.py",
+    "python scripts/build_bedc_jepa_readiness.py",
+    "python scripts/build_bedc_jepa_review_bundle.py",
+    "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py",
+    "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
+  ],
+  "required_artifacts": {
+    "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
+    "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
+    "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
+    "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
+    "readiness": "reports/bedc_jepa_readiness.json"
+  },
+  "schema_id": "bedc-jepa-review-bundle",
+  "source_commit_at_build": "caab88fe2d5e3d67a4bf597e45fa661195f8dc99",
+  "status": "review_ready"
+}
