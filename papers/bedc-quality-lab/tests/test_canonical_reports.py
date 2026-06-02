@@ -7,6 +7,73 @@ import pytest
 from scripts import run_canonical_reports as canonical
 
 
+HG_P_CORE = {
+    "mixing-family-sweep",
+    "anisotropic-ou-sweep",
+    "gap-head-on-h",
+    "gap-head-discovery",
+    "certificate-guided-training",
+    "certificate-guided-discovery",
+}
+
+
+def _payload_for_spec(spec):
+    payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
+    payload.update(
+        {
+            "source_artifacts": {
+                "cost_protocol": "configs/default_cost_protocol.yaml",
+                "canonical_runner": "scripts/run_gaussian_ou_lejepa.py",
+            },
+            "applicability_boundary": {
+                "claimed_scope": "fixture scope",
+                "not_claimed": "fixture nonclaim",
+                "forbidden_inference_columns": ["z"],
+            },
+            "coverage_item": {"status": "fixture"},
+            "transition_debt_by_grid": {"cell": {"status": "fixture"}},
+            "config": {"arm": "baseline-only"},
+            "control_protocol": {"status": "fixture"},
+            "boundary_checks": {
+                "forbidden_inference_columns": ["z"],
+                "representation_boundary": "learned_h",
+            },
+            "score_terms": {"status": "fixture"},
+            "matched_random_control": {"status": "fixture"},
+            "objective": {"required_rows": ["fixture"]},
+            "cost_protocol": {"name": "fixture"},
+            "not_claimed": ["fixture nonclaim"],
+            "claim_gate": {"status": "fixture"},
+            "paired_seed_protocol": {"status": "fixture"},
+            "main_claim_status": "fixture status",
+            "final_main_claim_status": "fixture status",
+            "matched_random_baseline": {"status": "fixture"},
+            "negative_result_ledger": [{"status": "fixture"}],
+            "ledger_summary": {"status": "fixture"},
+            "negative_control_summary": {"status": "fixture"},
+        }
+    )
+    return payload
+
+
+def _index_row_for_spec(spec):
+    return {
+        "name": spec.name,
+        "bundle_role": spec.bundle_role,
+        "status": "pass",
+        "json_artifact": spec.json_artifact,
+        "markdown_artifact": spec.markdown_artifact,
+        "discipline": {
+            "scope_pointer": spec.scope_pointer,
+            "cost_pointer": spec.cost_pointer,
+            "not_claimed_pointer": spec.not_claimed_pointer,
+            "positive_claim_pointer": spec.positive_claim_pointer,
+            "control_pointer": spec.control_pointer,
+            "no_control_rationale_pointer": spec.no_control_rationale_pointer,
+        },
+    }
+
+
 def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     names = [spec.name for spec in canonical.CANONICAL_REPORTS]
     json_artifacts = [spec.json_artifact for spec in canonical.CANONICAL_REPORTS]
@@ -14,11 +81,14 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
 
     assert len(names) == len(set(names))
     assert names == [
+        "mixing-family-sweep",
+        "anisotropic-ou-sweep",
         "gap-head-on-h",
         "gap-head-discovery",
         "nongaussian-distribution-sweep",
         "certificate-guided-training",
         "certificate-guided-discovery",
+        "spectral-ablation-hinge",
     ]
     assert len(json_artifacts) == len(set(json_artifacts))
     assert len(markdown_artifacts) == len(set(markdown_artifacts))
@@ -28,6 +98,11 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         assert spec.json_artifact.endswith(".json")
         assert spec.markdown_artifact.endswith(".md")
         assert spec.required_json_keys
+        assert spec.bundle_role in {"hg_p_core", "auxiliary"}
+        assert spec.scope_pointer.startswith("$.")
+        assert spec.cost_pointer.startswith("$.")
+        assert spec.not_claimed_pointer.startswith("$.")
+        assert spec.positive_claim_pointer.startswith("$.")
 
 
 def test_gap_head_manifest_rows_are_canonical_and_keyed():
@@ -72,6 +147,33 @@ def test_canonical_reports_manifest_includes_distribution_sweep():
         "negative_result_ledger",
         "not_claimed",
     }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "auxiliary"
+
+
+def test_canonical_reports_manifest_includes_mixing_and_anisotropic_sweeps():
+    mixing = canonical._specs_by_name()["mixing-family-sweep"]
+    anisotropic = canonical._specs_by_name()["anisotropic-ou-sweep"]
+
+    assert mixing.command == ("python3", "scripts/run_mixing_family_sweep.py")
+    assert mixing.json_artifact == "reports/canonical/mixing-family-sweep.json"
+    assert mixing.markdown_artifact == "reports/canonical/mixing-family-sweep.md"
+    assert mixing.bundle_role == "hg_p_core"
+    assert {
+        "applicability_boundary",
+        "family_aggregates",
+        "coverage_item",
+        "negative_result_summary",
+    }.issubset(set(mixing.required_json_keys))
+    assert anisotropic.command == ("python3", "scripts/run_anisotropic_ou_sweep.py")
+    assert anisotropic.json_artifact == "reports/canonical/anisotropic-ou-sweep.json"
+    assert anisotropic.markdown_artifact == "reports/canonical/anisotropic-ou-sweep.md"
+    assert anisotropic.bundle_role == "hg_p_core"
+    assert {
+        "applicability_boundary",
+        "aggregates",
+        "transition_debt_by_grid",
+        "negative_result_summary",
+    }.issubset(set(anisotropic.required_json_keys))
 
 
 def test_canonical_reports_manifest_includes_certificate_guided_projection():
@@ -90,6 +192,7 @@ def test_canonical_reports_manifest_includes_certificate_guided_projection():
         "claim_gate",
         "not_claimed",
     }.issubset(set(training.required_json_keys))
+    assert training.bundle_role == "hg_p_core"
     assert {
         "positive_discovery",
         "net_information",
@@ -100,6 +203,7 @@ def test_canonical_reports_manifest_includes_certificate_guided_projection():
         "not_claimed",
         "main_claim_status",
     }.issubset(set(discovery.required_json_keys))
+    assert discovery.bundle_role == "hg_p_core"
 
 
 def test_manifest_required_keys_cover_linked_control_evidence():
@@ -119,6 +223,98 @@ def test_manifest_required_keys_cover_linked_control_evidence():
     assert {"positive_discovery", "net_information", "matched_random_baseline", "claim_gate", "revocation_decision", "revocation_ledger", "not_claimed", "main_claim_status"}.issubset(
         set(canonical._specs_by_name()["certificate-guided-discovery"].required_json_keys)
     )
+
+
+def test_hg_p_core_rows_are_exact_and_auxiliary_rows_cannot_substitute():
+    core = {
+        spec.name
+        for spec in canonical.CANONICAL_REPORTS
+        if spec.bundle_role == "hg_p_core"
+    }
+    auxiliary = {
+        spec.name
+        for spec in canonical.CANONICAL_REPORTS
+        if spec.bundle_role == "auxiliary"
+    }
+
+    assert core == HG_P_CORE
+    assert "nongaussian-distribution-sweep" in auxiliary
+    assert "spectral-ablation-hinge" in auxiliary
+    assert not HG_P_CORE.intersection(auxiliary)
+
+
+def test_every_core_row_has_scope_cost_not_claimed_and_claim_discipline_pointers(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    for spec in canonical.CANONICAL_REPORTS:
+        json_path = canonical._artifact_path(spec.json_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+
+    for spec in canonical.CANONICAL_REPORTS:
+        discipline = canonical._discipline(spec)
+        if spec.bundle_role != "hg_p_core":
+            continue
+        assert discipline["scope_status"] == "present"
+        assert discipline["cost_status"] == "present"
+        assert discipline["not_claimed_status"] == "present"
+        assert discipline["positive_claim_status"] == "present"
+
+
+def test_positive_claims_have_control_or_no_control_rationale():
+    for spec in canonical.CANONICAL_REPORTS:
+        has_control = spec.control_pointer is not None
+        has_rationale = spec.no_control_rationale_pointer is not None
+        assert has_control or has_rationale
+
+
+def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_sections():
+    reports = [_index_row_for_spec(spec) for spec in canonical.CANONICAL_REPORTS]
+    payload = canonical._index(reports)
+    markdown = canonical._render_index_markdown(payload)
+
+    assert {"paper_outline", "claims_nonclaims", "honest_boundary", "literature_ledger"}.issubset(payload)
+    assert set(payload["paper_outline"]["core_reports"]) == HG_P_CORE
+    assert "HG-P core reports" in markdown
+    assert "Auxiliary reports" in markdown
+    assert "Paper outline" in markdown
+    assert "Claims and non-claims" in markdown
+    assert "Literature ledger pointer" in markdown
+    assert "Honest boundary" in markdown
+
+
+def test_hg_p_forbidden_claim_terms_are_absent_from_positive_claim_cells():
+    reports = [
+        {
+            "name": spec.name,
+            "bundle_role": spec.bundle_role,
+            "discipline": {
+                "positive_claim_pointer": spec.positive_claim_pointer,
+                "control_pointer": spec.control_pointer,
+                "no_control_rationale_pointer": spec.no_control_rationale_pointer,
+            },
+        }
+        for spec in canonical.CANONICAL_REPORTS
+    ]
+    cells = canonical._claims_nonclaims(reports)["positive_claim_cells"]
+    forbidden = set(canonical.FORBIDDEN_POSITIVE_CLAIM_TERMS)
+
+    for cell in cells:
+        text = " ".join(str(value).lower() for value in cell.values())
+        for term in forbidden:
+            assert term not in text
+
+
+def test_literature_ledger_is_pointer_only_after_issue_548(tmp_path, monkeypatch):
+    ledger = tmp_path / "docs" / "lit" / "literature_ledger.yaml"
+    monkeypatch.setattr(canonical, "LITERATURE_LEDGER", ledger)
+
+    payload = canonical._literature_ledger()
+
+    assert payload["status"] == "not-ready"
+    assert payload["dependency"] == "#548"
+    assert payload["records"] == "not-loaded"
+    assert "record" not in payload
 
 
 def test_artifact_path_rejects_non_canonical_paths():
@@ -152,7 +348,7 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
         md_path = canonical._artifact_path(spec.markdown_artifact)
         json_path.parent.mkdir(parents=True, exist_ok=True)
         json_path.write_text(
-            json.dumps({key: f"fixture-{key}" for key in spec.required_json_keys}) + "\n",
+            json.dumps(_payload_for_spec(spec)) + "\n",
             encoding="utf-8",
         )
         md_path.write_text("# fixture\n", encoding="utf-8")
@@ -363,30 +559,10 @@ def test_required_key_failure_fails_closed(tmp_path):
 def test_index_markdown_lists_gap_head_reports():
     payload = canonical._index(
         [
-            {
-                "name": "gap-head-on-h",
-                "status": "pass",
-                "json_artifact": "reports/canonical/gap-head-on-h.json",
-                "markdown_artifact": "reports/canonical/gap-head-on-h.md",
-            },
-            {
-                "name": "nongaussian-distribution-sweep",
-                "status": "pass",
-                "json_artifact": "reports/canonical/nongaussian-distribution-sweep.json",
-                "markdown_artifact": "reports/canonical/nongaussian-distribution-sweep.md",
-            },
-            {
-                "name": "gap-head-discovery",
-                "status": "pass",
-                "json_artifact": "reports/canonical/gap-head-discovery.json",
-                "markdown_artifact": "reports/canonical/gap-head-discovery.md",
-            },
-            {
-                "name": "certificate-guided-discovery",
-                "status": "pass",
-                "json_artifact": "reports/canonical/certificate-guided-discovery.json",
-                "markdown_artifact": "reports/canonical/certificate-guided-discovery.md",
-            },
+            _index_row_for_spec(canonical._specs_by_name()["gap-head-on-h"]),
+            _index_row_for_spec(canonical._specs_by_name()["nongaussian-distribution-sweep"]),
+            _index_row_for_spec(canonical._specs_by_name()["gap-head-discovery"]),
+            _index_row_for_spec(canonical._specs_by_name()["certificate-guided-discovery"]),
         ]
     )
     markdown = canonical._render_index_markdown(payload)
