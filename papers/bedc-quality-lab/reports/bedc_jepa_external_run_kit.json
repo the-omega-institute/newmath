@@ -1,8 +1,8 @@
 {
   "cannot_claim_until_ready": [
-    "public JEPA implementation comparison",
-    "public MiniGrid execution",
-    "contact-ready external bundle"
+    "native public JEPA benchmark comparison",
+    "clean external review artifact bundle",
+    "public benchmark superiority"
   ],
   "readiness_command": "python scripts/build_bedc_jepa_readiness.py",
   "required_external_results": {
@@ -11,7 +11,7 @@
       "import_command": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
       "pass_condition": "target artifact status is executed",
       "probe_command": "python scripts/probe_public_jepa_baseline.py",
-      "readiness_gate": "public_jepa_baseline",
+      "readiness_gate": "native_public_jepa_benchmark",
       "required_fields": [
         "candidate_id",
         "commit",
@@ -21,6 +21,13 @@
         "rollout_or_planning_score"
       ],
       "target_artifact": "reports/bedc_jepa_public_baseline_comparison.json"
+    },
+    "public_jepa_checkpoint_contact": {
+      "comparison_command": "python scripts/build_public_jepa_cuda_comparison.py",
+      "pass_condition": "target artifact status is executed and AC Giant checkpoint_status is loaded under CUDA",
+      "readiness_gate": "public_jepa_checkpoint_contact",
+      "run_command": "python scripts/run_public_jepa_ac_giant_adapter.py",
+      "target_artifact": "reports/bedc_jepa_public_cuda_adapter_comparison.json"
     },
     "public_minigrid_execution": {
       "export_command": "python scripts/export_public_minigrid_benchmark_result.py",

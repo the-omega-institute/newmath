@@ -113,29 +113,84 @@ def _public_jepa_gate(comparison: dict[str, Any] | None) -> dict[str, str]:
     )
 
 
+def _public_checkpoint_contact_gate(cuda_comparison: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_jepa_public_cuda_adapter_comparison.json"
+    if cuda_comparison is None:
+        return _gate(
+            "missing",
+            evidence,
+            "public V-JEPA2-AC Giant CUDA checkpoint-contact adapter",
+        )
+    adapter = cuda_comparison.get("public_adapters", {}).get("ac_giant", {})
+    model = adapter.get("model", {})
+    cuda = adapter.get("cuda_environment", {})
+    loaded = (
+        cuda_comparison.get("status") == "executed"
+        and adapter.get("status") == "available"
+        and model.get("checkpoint_status") == "loaded"
+        and cuda.get("cuda_available") is True
+    )
+    return _gate(
+        "pass" if loaded else "missing",
+        evidence,
+        "public V-JEPA2-AC Giant CUDA checkpoint-contact adapter",
+    )
+
+
+def _artifact_review_bundle_gate(run_kit: dict[str, Any] | None) -> dict[str, str]:
+    evidence = "reports/bedc_jepa_external_run_kit.json"
+    if run_kit is not None and run_kit.get("status") == "review_ready":
+        return _gate("pass", evidence, "clean external review artifact bundle")
+    return _gate("missing", evidence, "clean external review artifact bundle")
+
+
+def _decision(gates: dict[str, dict[str, str]], blocking: list[str]) -> str:
+    if not blocking:
+        return "external_bundle_ready"
+    local_contact = [
+        "torch_objective_seed_sweep",
+        "local_visual_planning",
+        "object_counterfactual_clutter",
+        "public_minigrid_execution",
+        "public_jepa_checkpoint_contact",
+    ]
+    if all(gates[name]["status"] == "pass" for name in local_contact):
+        return "checkpoint_contact_closed_native_public_benchmark_open"
+    return "contact_boundary_open"
+
+
 def build_bedc_jepa_readiness() -> dict[str, Any]:
     summary = _load_optional_json("bedc_jepa_four_system_experiment.json")
     torch_objective = _load_optional_json("bedc_jepa_torch_objective.json")
     public_minigrid = _load_optional_json("bedc_jepa_public_minigrid_benchmark_packet.json")
     public_jepa_comparison = _load_optional_json("bedc_jepa_public_baseline_comparison.json")
+    public_cuda_comparison = _load_optional_json("bedc_jepa_public_cuda_adapter_comparison.json")
+    run_kit = _load_optional_json("bedc_jepa_external_run_kit.json")
     gates = {
         "torch_objective_seed_sweep": _torch_objective_gate(torch_objective),
         "local_visual_planning": _local_visual_gate(summary),
         "object_counterfactual_clutter": _clutter_gate(summary),
         "public_minigrid_execution": _public_minigrid_gate(public_minigrid),
-        "public_jepa_baseline": _public_jepa_gate(public_jepa_comparison),
+        "public_jepa_checkpoint_contact": _public_checkpoint_contact_gate(public_cuda_comparison),
+        "native_public_jepa_benchmark": _public_jepa_gate(public_jepa_comparison),
+        "artifact_review_bundle": _artifact_review_bundle_gate(run_kit),
     }
     blocking = [name for name, gate in gates.items() if gate["status"] != "pass"]
     return {
         "schema_id": "bedc-jepa-readiness",
-        "decision": "contact_ready" if not blocking else "not_contact_ready",
+        "decision": _decision(gates, blocking),
+        "evidence_boundary": {
+            "checkpoint_contact": "closed" if gates["public_jepa_checkpoint_contact"]["status"] == "pass" else "open",
+            "native_public_benchmark": "closed" if gates["native_public_jepa_benchmark"]["status"] == "pass" else "open",
+            "artifact_review_bundle": "closed" if gates["artifact_review_bundle"]["status"] == "pass" else "open",
+        },
         "gates": gates,
         "blocking_gates": blocking,
         "next_actions": [
-            "install gymnasium/minigrid or run on an environment where both are present",
-            "execute the public MiniGrid DoorKey benchmark packet",
-            "add a public JEPA or JEPA-style baseline artifact",
-            "rerun the readiness gate before external contact",
+            "run a native public JEPA-family benchmark on a shared observation/action stream",
+            "record baseline commit, checkpoint, dataset, command line, and native metric contract",
+            "build a clean external review artifact bundle with exact reproduction commands",
+            "rerun the readiness gate after those evidence artifacts exist",
         ],
     }
 

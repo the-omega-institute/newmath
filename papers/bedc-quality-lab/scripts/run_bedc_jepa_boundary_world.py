@@ -94,12 +94,12 @@ def run_protocol() -> QualityEvidenceEnvelope:
         ledger_gaps=[
             "no-gradient-bedc-jepa-training-yet",
             "one-boundary-family",
-            "no-gap-aware-planning-rollout-yet",
+            "public-scale-planning-rollout-open",
         ],
         debt_items=[
             "model-debt: this artifact defines the BEDC-JEPA target protocol before training the full objective",
             "gap-debt: boundary-gated ledger is radial and synthetic only",
-            "planning-debt: gap penalty theorem is specified in the directive but not experimentally tested here",
+            "planning-debt: gap-aware rollouts are local rather than public-scale or robot-control scale",
         ],
         artifacts={
             "envelope": "reports/bedc_jepa_boundary_envelope.json",

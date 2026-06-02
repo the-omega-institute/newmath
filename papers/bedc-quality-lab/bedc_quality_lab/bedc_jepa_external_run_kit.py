@@ -12,6 +12,13 @@ def build_external_run_kit() -> dict[str, Any]:
         "schema_id": "bedc-jepa-external-run-kit",
         "status": "contract_only",
         "required_external_results": {
+            "public_jepa_checkpoint_contact": {
+                "readiness_gate": "public_jepa_checkpoint_contact",
+                "target_artifact": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
+                "run_command": "python scripts/run_public_jepa_ac_giant_adapter.py",
+                "comparison_command": "python scripts/build_public_jepa_cuda_comparison.py",
+                "pass_condition": "target artifact status is executed and AC Giant checkpoint_status is loaded under CUDA",
+            },
             "public_minigrid_execution": {
                 "readiness_gate": "public_minigrid_execution",
                 "target_artifact": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
@@ -31,7 +38,7 @@ def build_external_run_kit() -> dict[str, Any]:
                 "pass_condition": "target artifact status is available and sample_count_collected is positive",
             },
             "public_jepa_baseline": {
-                "readiness_gate": "public_jepa_baseline",
+                "readiness_gate": "native_public_jepa_benchmark",
                 "target_artifact": "reports/bedc_jepa_public_baseline_comparison.json",
                 "probe_command": "python scripts/probe_public_jepa_baseline.py",
                 "export_command": "python scripts/export_public_jepa_baseline_result.py",
@@ -53,9 +60,9 @@ def build_external_run_kit() -> dict[str, Any]:
             "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
         ],
         "cannot_claim_until_ready": [
-            "public JEPA implementation comparison",
-            "public MiniGrid execution",
-            "contact-ready external bundle",
+            "native public JEPA benchmark comparison",
+            "clean external review artifact bundle",
+            "public benchmark superiority",
         ],
     }
 

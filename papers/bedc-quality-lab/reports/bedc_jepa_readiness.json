@@ -1,23 +1,39 @@
 {
   "blocking_gates": [
-    "public_jepa_baseline"
+    "native_public_jepa_benchmark",
+    "artifact_review_bundle"
   ],
-  "decision": "not_contact_ready",
+  "decision": "checkpoint_contact_closed_native_public_benchmark_open",
+  "evidence_boundary": {
+    "artifact_review_bundle": "open",
+    "checkpoint_contact": "closed",
+    "native_public_benchmark": "open"
+  },
   "gates": {
+    "artifact_review_bundle": {
+      "evidence": "reports/bedc_jepa_external_run_kit.json",
+      "requirement": "clean external review artifact bundle",
+      "status": "missing"
+    },
     "local_visual_planning": {
       "evidence": "reports/bedc_jepa_four_system_experiment.json",
       "requirement": "local visual planning with learned transition and risk-adjusted gain",
       "status": "pass"
+    },
+    "native_public_jepa_benchmark": {
+      "evidence": "reports/bedc_jepa_public_baseline_comparison.json",
+      "requirement": "public JEPA or JEPA-style baseline comparison",
+      "status": "missing"
     },
     "object_counterfactual_clutter": {
       "evidence": "reports/bedc_jepa_four_system_experiment.json",
       "requirement": "object-level counterfactual readback under clutter",
       "status": "pass"
     },
-    "public_jepa_baseline": {
-      "evidence": "reports/bedc_jepa_public_baseline_comparison.json",
-      "requirement": "public JEPA or JEPA-style baseline comparison",
-      "status": "missing"
+    "public_jepa_checkpoint_contact": {
+      "evidence": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
+      "requirement": "public V-JEPA2-AC Giant CUDA checkpoint-contact adapter",
+      "status": "pass"
     },
     "public_minigrid_execution": {
       "evidence": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
@@ -31,10 +47,10 @@
     }
   },
   "next_actions": [
-    "install gymnasium/minigrid or run on an environment where both are present",
-    "execute the public MiniGrid DoorKey benchmark packet",
-    "add a public JEPA or JEPA-style baseline artifact",
-    "rerun the readiness gate before external contact"
+    "run a native public JEPA-family benchmark on a shared observation/action stream",
+    "record baseline commit, checkpoint, dataset, command line, and native metric contract",
+    "build a clean external review artifact bundle with exact reproduction commands",
+    "rerun the readiness gate after those evidence artifacts exist"
   ],
   "schema_id": "bedc-jepa-readiness"
 }

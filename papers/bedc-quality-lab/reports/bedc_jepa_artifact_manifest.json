@@ -1,12 +1,14 @@
 {
   "artifact": "reports/bedc_jepa_four_system_experiment.json",
   "cannot_claim": [
-    "public JEPA implementation comparison",
+    "native public JEPA benchmark comparison",
+    "public benchmark superiority",
     "robotics benchmark result",
     "natural-video object interaction",
     "general autonomous intelligence"
   ],
   "commands": {
+    "build_public_jepa_cuda_comparison": "python scripts/build_public_jepa_cuda_comparison.py",
     "export_public_jepa_baseline_result": "python scripts/export_public_jepa_baseline_result.py",
     "export_public_minigrid_benchmark_result": "python scripts/export_public_minigrid_benchmark_result.py",
     "external_run_kit": "python scripts/build_bedc_jepa_external_run_kit.py",
@@ -18,6 +20,7 @@
     "public_jepa_baseline_registry": "python scripts/build_public_jepa_baseline_registry.py",
     "public_minigrid_probe": "python scripts/probe_public_minigrid.py",
     "readiness": "python scripts/build_bedc_jepa_readiness.py",
+    "run_public_jepa_ac_giant_adapter": "python scripts/run_public_jepa_ac_giant_adapter.py",
     "test": "python -m pytest -q",
     "torch_objective": "python scripts/run_torch_bedc_jepa.py"
   },
@@ -60,7 +63,9 @@
     "minigrid_transition_packet": "reports/bedc_jepa_public_minigrid_transition_packet.json"
   },
   "public_baselines": {
+    "jepa_ac_giant_adapter": "reports/bedc_jepa_public_ac_giant_adapter.json",
     "jepa_comparison": "reports/bedc_jepa_public_baseline_comparison.json",
+    "jepa_cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
     "jepa_external_result": "reports/bedc_jepa_public_baseline_external_result.json",
     "jepa_probe": "reports/bedc_jepa_public_baseline_probe.json",
     "jepa_registry": "reports/bedc_jepa_public_baseline_registry.json"

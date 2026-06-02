@@ -27,6 +27,14 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
         == "python scripts/probe_public_jepa_baseline.py"
     )
     assert (
+        manifest["commands"]["run_public_jepa_ac_giant_adapter"]
+        == "python scripts/run_public_jepa_ac_giant_adapter.py"
+    )
+    assert (
+        manifest["commands"]["build_public_jepa_cuda_comparison"]
+        == "python scripts/build_public_jepa_cuda_comparison.py"
+    )
+    assert (
         manifest["commands"]["import_public_jepa_baseline_metrics"]
         == "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>"
     )
@@ -41,6 +49,14 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert manifest["readiness"] == "reports/bedc_jepa_readiness.json"
     assert manifest["external_run_kit"] == "reports/bedc_jepa_external_run_kit.json"
     assert manifest["public_baselines"]["jepa_comparison"] == "reports/bedc_jepa_public_baseline_comparison.json"
+    assert (
+        manifest["public_baselines"]["jepa_ac_giant_adapter"]
+        == "reports/bedc_jepa_public_ac_giant_adapter.json"
+    )
+    assert (
+        manifest["public_baselines"]["jepa_cuda_adapter_comparison"]
+        == "reports/bedc_jepa_public_cuda_adapter_comparison.json"
+    )
     assert manifest["public_baselines"]["jepa_registry"] == "reports/bedc_jepa_public_baseline_registry.json"
     assert (
         manifest["public_baselines"]["jepa_probe"]
@@ -76,5 +92,6 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert claims["cluttered_object_gap_auc_gain_mean"] > 0.40
     assert claims["cluttered_object_unlogged_error_reduction_mean"] > 0.20
 
-    assert "public JEPA implementation comparison" in manifest["cannot_claim"]
+    assert "native public JEPA benchmark comparison" in manifest["cannot_claim"]
+    assert "public benchmark superiority" in manifest["cannot_claim"]
     assert "general autonomous intelligence" in manifest["cannot_claim"]
