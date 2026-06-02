@@ -1059,6 +1059,7 @@ import BEDC.Derived.BrouwerFixedPointUp.TasteGate
 import BEDC.Derived.BrouwerOperationUp.TasteGate
 import BEDC.Derived.BrouwerSpreadBarUp.TasteGate
 import BEDC.Derived.BrouwerSpreadUp.TasteGate
+import BEDC.Derived.BrouwerianCounterexampleUp.TasteGate
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.BudgetedRealSealRouteUp.NameCertObligations
 import BEDC.Derived.BudgetedRealSealRouteUp.TasteGate
@@ -3655,6 +3656,7 @@ import BEDC.Derived.FastCauchyUp.Tail
 import BEDC.Derived.FastCauchyUp.UniformStreamNameWindow
 import BEDC.Derived.FastCauchyUp.WindowExhaustion
 import BEDC.Derived.FastCauchyUp.WindowSynchronization
+import BEDC.Derived.FastCauchyWitnessUp.TasteGate
 import BEDC.Derived.FastConvergentRealSequenceUp.TasteGate
 import BEDC.Derived.FastConvergentSeriesUp
 import BEDC.Derived.FastConvergentSeriesUp.Classifier
@@ -6999,6 +7001,7 @@ import BEDC.Derived.RegularLimitUniquenessUp
 import BEDC.Derived.RegularLimitUniquenessUp.DyadicWindowSeparationPullback
 import BEDC.Derived.RegularLimitUniquenessUp.ScopedHandoff
 import BEDC.Derived.RegularLocatedCauchyRealUp.TasteGate
+import BEDC.Derived.RegularRealCauchySelectorUp.TasteGate
 import BEDC.Derived.RegularSequenceLimitUp.TasteGate
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RegularityModulusUp.CarrierSurface
