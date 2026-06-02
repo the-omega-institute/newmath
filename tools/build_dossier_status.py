@@ -1278,6 +1278,15 @@ def build_glossary() -> dict:
 
 
 PREAMBLE_PATH = ROOT / "papers" / "bedc" / "preamble.tex"
+DOSSIER_MATHJAX_MACROS = {
+    "Classifier": r"\mathsf{Classifier}",
+    "Inscription": r"\mathsf{Inscription}",
+    "Meaning": r"\mathsf{Meaning}",
+    "Reality": r"\mathsf{Reality}",
+    "RealityConstraint": r"\mathsf{RealityConstraint}",
+}
+TEX_INPUT_RE = re.compile(r"\\input\{([^}]+)\}")
+MATHJAX_MACRO_RE = re.compile(r"\\(?:newcommand|providecommand)\{\\([A-Za-z]+)\}\s*\{")
 
 # Drop these macro names: structural / non-math / multi-line bodies that
 # are unsafe to expose to MathJax even though they are syntactically simple
@@ -1285,8 +1294,49 @@ PREAMBLE_PATH = ROOT / "papers" / "bedc" / "preamble.tex"
 _MACRO_BODY_FORBIDDEN = (
     "\\par", "\\noindent", "\\color", "\\textsf{Lean",
     "\\StrSubstitute", "\\quad", "\\fancyhf", "\\rhead", "\\lhead",
-    "\\cfoot",
+    "\\cfoot", "\\textbf", "\\texttt", "\\href", "\\autoref",
+    "\\begin", "\\end", "\\label", "\\item",
 )
+
+
+def _resolve_tex_input(raw: str, source: Path) -> Path | None:
+    raw = raw.strip()
+    if not raw:
+        return None
+    direct = Path(raw)
+    bases = [source.parent, PREAMBLE_PATH.parent]
+    if direct.is_absolute():
+        bases = [Path("/")]
+    names = [raw] if Path(raw).suffix else [raw, f"{raw}.tex"]
+    for base in bases:
+        for name in names:
+            candidate = (base / name).resolve()
+            try:
+                candidate.relative_to(ROOT)
+            except ValueError:
+                continue
+            if candidate.is_file():
+                return candidate
+    return None
+
+
+def _read_tex_with_inputs(path: Path, seen: set[Path] | None = None) -> str:
+    seen = seen or set()
+    path = path.resolve()
+    if path in seen:
+        return ""
+    seen.add(path)
+    text = path.read_text(encoding="utf-8")
+    chunks: list[str] = []
+    last = 0
+    for m in TEX_INPUT_RE.finditer(text):
+        chunks.append(text[last:m.start()])
+        child = _resolve_tex_input(m.group(1), path)
+        if child is not None:
+            chunks.append(_read_tex_with_inputs(child, seen))
+        last = m.end()
+    chunks.append(text[last:])
+    return "\n".join(chunks)
 
 
 def _extract_braced(text: str, start: int) -> tuple[str, int]:
@@ -1312,19 +1362,19 @@ def _extract_braced(text: str, start: int) -> tuple[str, int]:
 
 
 def extract_mathjax_macros() -> dict[str, str]:
-    """Parse `papers/bedc/preamble.tex` and return a {name: body} dict of
-    arg-less `\\newcommand`s safe for MathJax. Strips `\\ensuremath{...}`
-    wrappers; drops macros whose body contains LaTeX-only constructs that
-    MathJax cannot render."""
-    text = PREAMBLE_PATH.read_text(encoding="utf-8")
-    pat = re.compile(r"\\newcommand\{\\([A-Za-z]+)\}\s*\{")
+    """Parse `papers/bedc/preamble.tex` and its input chain, returning a
+    {name: body} dict of arg-less command bodies safe for MathJax. Strips
+    `\\ensuremath{...}` wrappers; drops macros whose body contains LaTeX-only
+    constructs that MathJax cannot render."""
+    text = _read_tex_with_inputs(PREAMBLE_PATH)
     macros: dict[str, str] = {}
-    for m in pat.finditer(text):
+    for m in MATHJAX_MACRO_RE.finditer(text):
         name = m.group(1)
         try:
             body, _ = _extract_braced(text, m.end() - 1)
         except ValueError:
             continue
+        body = body.strip()
         # arg-less only: skip macros declared with [N]
         # (the regex doesn't match `\newcommand{\Foo}[1]{...}` because of the
         # `\s*\{` lookahead; this is just defense)
@@ -1340,6 +1390,8 @@ def extract_mathjax_macros() -> dict[str, str]:
         if e:
             body = e.group(1)
         macros[name] = body
+    for name, body in DOSSIER_MATHJAX_MACROS.items():
+        macros.setdefault(name, body)
     return macros
 
 
