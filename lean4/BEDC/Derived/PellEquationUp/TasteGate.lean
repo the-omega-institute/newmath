@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.PellEquationUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -175,5 +185,35 @@ theorem PellEquationTasteGate_single_carrier_alignment :
           BHist.Empty] := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
   exact ⟨PellEquationTasteGate_single_carrier_alignment_decode, rfl⟩
+
+def PellEquationCarrier [AskSetup] [PackageSetup]
+    (D X Y N Q V L H C K M : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory D ∧ UnaryHistory X ∧ UnaryHistory Y ∧ UnaryHistory N ∧
+    UnaryHistory Q ∧ UnaryHistory V ∧ UnaryHistory L ∧ UnaryHistory H ∧
+      UnaryHistory C ∧ UnaryHistory K ∧ UnaryHistory M ∧
+        PkgSig bundle K pkg ∧ PkgSig bundle M pkg
+
+theorem PellEquation_norm_preservation [AskSetup] [PackageSetup]
+    {D X Y N Q V L H C K M normRead witnessRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PellEquationCarrier D X Y N Q V L H C K M bundle pkg ->
+      Cont D X normRead ->
+        Cont normRead Y witnessRead ->
+          PkgSig bundle witnessRead pkg ->
+            UnaryHistory N ∧ UnaryHistory normRead ∧ UnaryHistory witnessRead ∧
+              Cont D X normRead ∧ Cont normRead Y witnessRead ∧
+                PkgSig bundle K pkg ∧ PkgSig bundle witnessRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier normRoute witnessRoute witnessPkg
+  obtain ⟨dUnary, xUnary, yUnary, nUnary, _qUnary, _vUnary, _lUnary, _hUnary, _cUnary,
+    _kUnary, _mUnary, provenancePkg, _localNamePkg⟩ := carrier
+  have normUnary : UnaryHistory normRead :=
+    unary_cont_closed dUnary xUnary normRoute
+  have witnessUnary : UnaryHistory witnessRead :=
+    unary_cont_closed normUnary yUnary witnessRoute
+  exact
+    ⟨nUnary, normUnary, witnessUnary, normRoute, witnessRoute, provenancePkg, witnessPkg⟩
 
 end BEDC.Derived.PellEquationUp
