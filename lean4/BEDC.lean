@@ -1766,6 +1766,7 @@ import BEDC.Derived.CauchyRegularityModulusUp.TasteGate
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRegularizationUp.TasteGate
 import BEDC.Derived.CauchyRemainderEstimateUp.TasteGate
+import BEDC.Derived.CauchyRepresentationUp.StreamRegSeqRatHandoff
 import BEDC.Derived.CauchyRepresentationUp.TasteGate
 import BEDC.Derived.CauchyRootCriterionUp.TasteGate
 import BEDC.Derived.CauchySchwarzRealUp.Carrier
@@ -4731,6 +4732,7 @@ import BEDC.Derived.LieGroupUp.AdjointRep
 import BEDC.Derived.LieGroupUp.TasteGate
 import BEDC.Derived.LimitComparisonTestUp.TasteGate
 import BEDC.Derived.LimitSelectorUp
+import BEDC.Derived.LimitUp.BishopHandoff
 import BEDC.Derived.LimitUp.TasteGate
 import BEDC.Derived.LimsupUp.TasteGate
 import BEDC.Derived.LinearMapUp
