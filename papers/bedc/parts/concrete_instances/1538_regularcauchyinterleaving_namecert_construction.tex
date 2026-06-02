@@ -306,6 +306,24 @@ Finally apply real-seal non-escape and the public Real seal export. These rows k
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyInterleavingUp.RegularCauchyInterleavingPacket\_regseqrat\_real\_consumer\_factorization}
 
+\begin{theorem}[Regular Cauchy interleaving even--odd subsequence seal]
+\label{thm:regular-cauchy-interleaving-even-odd-subsequence-seal}
+Let
+$$
+I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyInterleavingUp$ packet whose even reads use the source and schedule rows $A,S_A$ and whose odd reads use $B,S_B$. An even-subsequence consumer recovers the $A$-side $\RealUp$ seal route, and an odd-subsequence consumer recovers the $B$-side $\RealUp$ seal route. Both recoveries pass through the same selector parity row, combined modulus row, schedule-window coverage row, and Real seal non-escape row, so neither consumer exports quotient stream equality, host real equality, an ambient completeness principle, or a third schedule.
+\end{theorem}
+\begin{proof}
+Selector parity exactness separates the two subsequence requests. Apply \autoref{thm:regular-cauchy-interleaving-selector-parity-exactness}: even reads are routed through $A,S_A$, while odd reads are routed through $B,S_B$.
+
+Combined modulus exactness then fixes the matching ledger component for the selected side. Use \autoref{thm:regular-cauchy-interleaving-combined-modulus-exactness} so the even consumer reads the first component of $M$ and the odd consumer reads the second component.
+
+Schedule-window coverage rules out bypass routes. By \autoref{thm:regular-cauchy-interleaving-schedule-window-coverage}, every subsequence read must remain inside the displayed $S_A$ or $S_B$ window and cannot switch to a third schedule.
+
+Finally apply \autoref{thm:regular-cauchy-interleaving-real-seal-non-escape}. The selected subsequence seal remains downstream of the selected source row, selected schedule, selected modulus component, displayed $\hsame$ transport, displayed $\Cont$ route, package provenance, and local naming row. Thus the two parity consumers recover their side-specific Real seal routes and nothing outside the displayed packet.
+\end{proof}
+
 \closureat{RegularCauchyInterleavingUp}{seedStr}
 \closureat{RegularCauchyInterleavingUp}{obligationStr}
 \closureat{RegularCauchyInterleavingUp}{scopedStr}
