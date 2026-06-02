@@ -108,10 +108,15 @@ def test_report_identifiability_bound_section_projects_envelope_metrics_only():
         stability_spec={"name": "stability-from-envelope"},
         metrics={
             "linear_identifiability_r2": 0.1234567,
-            "alignment_loss": 0.25,
-            "theorem3_bound": 0.75,
-            "actual_recovery_error": 1.25,
-            "bound_margin": -0.5,
+            "alignment_loss_mse": 0.50,
+            "covariance_trace": 2.0,
+            "theorem3_bound_mse": 0.75,
+            "actual_recovery_mse": 1.25,
+            "bound_margin_mse": -0.5,
+            "alignment_loss_normalized": 0.25,
+            "theorem3_bound_normalized": 0.375,
+            "actual_recovery_normalized": 0.625,
+            "bound_margin_normalized": -0.25,
             "theorem_bound_benefit": 0.0,
             "quality_q": 0.1777778,
         },
@@ -119,10 +124,16 @@ def test_report_identifiability_bound_section_projects_envelope_metrics_only():
 
     report = render_quality_report(envelope)
 
-    assert "## Identifiability Bound" in report
-    assert "`alignment_loss`：0.250000" in report
-    assert "`theorem3_bound`：0.750000" in report
-    assert "`actual_recovery_error`：1.250000" in report
-    assert "`bound_margin`：-0.500000" in report
+    assert "## Identifiability Bound: MSE Scale" in report
+    assert "## Normalized Projection" in report
+    assert "`alignment_loss_mse`：0.500000" in report
+    assert "`theorem3_bound_mse`：0.750000" in report
+    assert "`actual_recovery_mse`：1.250000" in report
+    assert "`bound_margin_mse`：-0.500000" in report
+    assert "`alignment_loss_normalized`：0.250000" in report
+    assert "`theorem3_bound_normalized`：0.375000" in report
+    assert "`actual_recovery_normalized`：0.625000" in report
+    assert "actual_recovery_error" not in report
     assert "`theorem_bound_benefit`：0.000000" in report
-    assert report.index("## Identifiability Bound") < report.index("## Q 投影")
+    assert report.index("## Identifiability Bound: MSE Scale") < report.index("## Normalized Projection")
+    assert report.index("## Normalized Projection") < report.index("## Q 投影")

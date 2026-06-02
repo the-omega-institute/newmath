@@ -21,33 +21,42 @@
 
 ## 指标
 
-- `alignment_gap_delta`：0.000000
-- `alignment_loss`：0.293088
 - `approx_identifiability_proxy`：0.795744
 - `covariance_deviation`：0.685355
 - `linear_identifiability_r2`：0.910984
-- `normalized_gap_d`：0.000000
 - `orthogonality_error`：0.118285
-- `whitening_deviation_epsilon`：0.685355
 
-## Identifiability Bound
+## Identifiability Bound: MSE Scale
 
 - `cert_status`：`certified`
-- `theorem3_bound`：0.469711
-- `actual_recovery_error`：0.385709
-- `bound_margin`：0.084002
-- `theorem_bound_benefit`：0.000000
-- `theorem_bound_gap_penalty`：0.000000
+- `alignment_loss_mse`：0.586177
+- `covariance_trace`：1.064348
+- `alignment_gap_delta_mse`：0.203012
+- `normalized_gap_d_mse`：0.687709
+- `whitening_deviation_epsilon`：0.685355
+- `theorem3_bound_mse`：2.573014
+- `actual_recovery_mse`：0.311029
+- `bound_margin_mse`：2.261984
+- `theorem_bound_benefit`：0.535853
+- `theorem_bound_gap_penalty`：0.687709
 - `theorem_bound_whitening_penalty`：0.685355
-- `theorem_bound_recovery_pressure`：0.385709
+- `theorem_bound_recovery_pressure`：0.120881
+
+## Normalized Projection
+
+- `alignment_loss_normalized`：0.293088
+- `alignment_gap_delta_normalized`：0.000000
+- `actual_recovery_normalized`：0.147478
+- `theorem3_bound_normalized`：2.417457
+- `bound_margin_normalized`：2.269979
 
 ## Q 投影
 
-- `quality_benefit`：0.000000
+- `quality_benefit`：0.535853
 - `quality_cost`：0.060000
 - `quality_debt`：0.800000
-- `quality_margin`：-0.860000
-- `quality_q`：-0.860000
+- `quality_margin`：-0.324147
+- `quality_q`：-0.324147
 - `quality_threshold`：0.000000
 
 ## Cost Protocol

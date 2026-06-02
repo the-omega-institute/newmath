@@ -10,10 +10,10 @@ from .ledger import LedgerGap, LedgerRowKey
 
 THEOREM_BOUND_ROW = LedgerRowKey("verification", "theorem3-bound-margin")
 _REQUIRED_BOUND_KEYS = (
-    "theorem3_bound",
-    "actual_recovery_error",
-    "bound_margin",
-    "normalized_gap_d",
+    "theorem3_bound_mse",
+    "actual_recovery_mse",
+    "bound_margin_mse",
+    "normalized_gap_d_mse",
     "whitening_deviation_epsilon",
 )
 _EPS = 1.0e-12
@@ -38,9 +38,9 @@ def _bound_values(metrics: Mapping[str, float]) -> dict[str, float] | None:
             return None
         values[key] = value
     if (
-        values["theorem3_bound"] < 0.0
-        or values["actual_recovery_error"] < 0.0
-        or values["normalized_gap_d"] < 0.0
+        values["theorem3_bound_mse"] < 0.0
+        or values["actual_recovery_mse"] < 0.0
+        or values["normalized_gap_d_mse"] < 0.0
         or values["whitening_deviation_epsilon"] < 0.0
     ):
         return None
@@ -63,10 +63,10 @@ def theorem_bound_certificate(
     max_recovery_error: float = 1.0,
 ) -> dict[str, object]:
     values = _bound_values(metrics)
-    raw_bound = _finite(metrics.get("theorem3_bound"))
-    raw_margin = _finite(metrics.get("bound_margin"))
+    raw_bound = _finite(metrics.get("theorem3_bound_mse"))
+    raw_margin = _finite(metrics.get("bound_margin_mse"))
     threshold = {
-        "theorem3_bound": 0.0 if raw_bound is None else raw_bound,
+        "theorem3_bound_mse": 0.0 if raw_bound is None else raw_bound,
         "max_recovery_error": float(max_recovery_error),
     }
     if values is None or not math.isfinite(float(max_recovery_error)) or max_recovery_error <= 0.0:
@@ -74,24 +74,24 @@ def theorem_bound_certificate(
             "cert_method": "theorem3-bound-margin",
             "cert_status": "not-certified",
             "cert_score": 0.0,
-            "cert_bound": 0.0,
-            "cert_actual_recovery_error": 0.0,
-            "cert_bound_margin": 0.0 if raw_margin is None else raw_margin,
+            "cert_bound_mse": 0.0,
+            "cert_actual_recovery_mse": 0.0,
+            "cert_bound_margin_mse": 0.0 if raw_margin is None else raw_margin,
             "cert_threshold": threshold,
             "cert_reason": "missing or non-finite theorem-bound metric",
         }
 
-    margin = values["bound_margin"]
+    margin = values["bound_margin_mse"]
     certified = margin > 0.0
-    scale = max(_EPS, float(max_recovery_error), abs(values["theorem3_bound"]))
+    scale = max(_EPS, float(max_recovery_error), abs(values["theorem3_bound_mse"]))
     score = _clamp01(margin / scale) if certified else 0.0
     return {
         "cert_method": "theorem3-bound-margin",
         "cert_status": "certified" if certified else "not-certified",
         "cert_score": score,
-        "cert_bound": values["theorem3_bound"],
-        "cert_actual_recovery_error": values["actual_recovery_error"],
-        "cert_bound_margin": margin,
+        "cert_bound_mse": values["theorem3_bound_mse"],
+        "cert_actual_recovery_mse": values["actual_recovery_mse"],
+        "cert_bound_margin_mse": margin,
         "cert_threshold": threshold,
         "cert_reason": "positive theorem3 bound margin" if certified else "non-positive theorem3 bound margin",
     }
@@ -111,10 +111,10 @@ def theorem_bound_quality_components(
         whitening_penalty = 1.0
         recovery_pressure = 1.0
     else:
-        scale = max(_EPS, 1.0, abs(values["theorem3_bound"]))
-        recovery_pressure = _clamp01(values["actual_recovery_error"] / scale)
-        margin_score = _clamp01(values["bound_margin"] / scale)
-        gap_penalty = _clamp01(values["normalized_gap_d"])
+        scale = max(_EPS, 1.0, abs(values["theorem3_bound_mse"]))
+        recovery_pressure = _clamp01(values["actual_recovery_mse"] / scale)
+        margin_score = _clamp01(values["bound_margin_mse"] / scale)
+        gap_penalty = _clamp01(values["normalized_gap_d_mse"])
         whitening_penalty = _clamp01(values["whitening_deviation_epsilon"])
         theorem_bound_benefit = _clamp01(
             margin_score - 0.25 * gap_penalty - 0.25 * whitening_penalty
@@ -147,7 +147,7 @@ def theorem_bound_ledger_gap(metrics: Mapping[str, float]) -> LedgerGap | None:
             severity="high",
             status="open",
         )
-    margin = values["bound_margin"]
+    margin = values["bound_margin_mse"]
     if margin > 0.0:
         return None
     return LedgerGap(

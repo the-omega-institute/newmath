@@ -9,15 +9,27 @@ from .schema import QualityEvidenceEnvelope
 from .tensor_namecert_candidate import closure_status_rows, from_quality_evidence_envelope
 
 
-_IDENTIFIABILITY_BOUND_KEYS = (
-    "theorem3_bound",
-    "actual_recovery_error",
-    "bound_margin",
-    "cert_bound_margin",
+_IDENTIFIABILITY_BOUND_MSE_KEYS = (
+    "alignment_loss_mse",
+    "covariance_trace",
+    "alignment_gap_delta_mse",
+    "normalized_gap_d_mse",
+    "whitening_deviation_epsilon",
+    "theorem3_bound_mse",
+    "actual_recovery_mse",
+    "bound_margin_mse",
+    "cert_bound_margin_mse",
     "theorem_bound_benefit",
     "theorem_bound_gap_penalty",
     "theorem_bound_whitening_penalty",
     "theorem_bound_recovery_pressure",
+)
+_IDENTIFIABILITY_BOUND_NORMALIZED_KEYS = (
+    "alignment_loss_normalized",
+    "alignment_gap_delta_normalized",
+    "actual_recovery_normalized",
+    "theorem3_bound_normalized",
+    "bound_margin_normalized",
 )
 
 
@@ -57,17 +69,24 @@ def render_quality_report(envelope: QualityEvidenceEnvelope, protocol: CostProto
     )
     lines.extend(["## 指标", ""])
     quality_keys = [key for key in sorted(metrics) if key.startswith("quality_")]
-    bound_keys = [key for key in _IDENTIFIABILITY_BOUND_KEYS if key in metrics]
+    bound_mse_keys = [key for key in _IDENTIFIABILITY_BOUND_MSE_KEYS if key in metrics]
+    bound_normalized_keys = [key for key in _IDENTIFIABILITY_BOUND_NORMALIZED_KEYS if key in metrics]
+    bound_keys = set(bound_mse_keys) | set(bound_normalized_keys)
     for key in sorted(metrics):
         if key not in quality_keys and key not in bound_keys:
             lines.append(f"- `{key}`：{_format_metric(metrics[key])}")
 
-    if bound_keys:
-        lines.extend(["", "## Identifiability Bound", ""])
+    if bound_mse_keys:
+        lines.extend(["", "## Identifiability Bound: MSE Scale", ""])
         cert_status = envelope.classifier_spec.get("cert_status")
         if isinstance(cert_status, str) and cert_status:
             lines.append(f"- `cert_status`：`{cert_status}`")
-        for key in bound_keys:
+        for key in bound_mse_keys:
+            lines.append(f"- `{key}`：{_format_metric(metrics[key])}")
+
+    if bound_normalized_keys:
+        lines.extend(["", "## Normalized Projection", ""])
+        for key in bound_normalized_keys:
             lines.append(f"- `{key}`：{_format_metric(metrics[key])}")
 
     if quality_keys:

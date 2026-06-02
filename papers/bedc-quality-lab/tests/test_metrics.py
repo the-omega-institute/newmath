@@ -53,10 +53,10 @@ def test_classifier_certificate_and_certified_quality_benefit():
     metrics = {
         "linear_identifiability_r2": 0.90,
         "approx_identifiability_proxy": 0.80,
-        "theorem3_bound": 1.0,
-        "actual_recovery_error": 0.20,
-        "bound_margin": 0.80,
-        "normalized_gap_d": 0.10,
+        "theorem3_bound_mse": 1.0,
+        "actual_recovery_mse": 0.20,
+        "bound_margin_mse": 0.80,
+        "normalized_gap_d_mse": 0.10,
         "whitening_deviation_epsilon": 0.10,
     }
     certificate = classifier_certificate(metrics)
@@ -128,10 +128,10 @@ def test_uncertified_classifier_floors_quality_benefit():
     metrics = {
         "linear_identifiability_r2": 0.90,
         "approx_identifiability_proxy": 0.60,
-        "theorem3_bound": 1.0,
-        "actual_recovery_error": 0.20,
-        "bound_margin": 0.80,
-        "normalized_gap_d": 0.10,
+        "theorem3_bound_mse": 1.0,
+        "actual_recovery_mse": 0.20,
+        "bound_margin_mse": 0.80,
+        "normalized_gap_d_mse": 0.10,
         "whitening_deviation_epsilon": 0.10,
     }
     certificate = classifier_certificate(metrics)
@@ -164,10 +164,10 @@ def test_quality_components_clamp_benefit_and_debt():
         {
             "linear_identifiability_r2": 1.4,
             "approx_identifiability_proxy": 1.2,
-            "theorem3_bound": 2.0,
-            "actual_recovery_error": 0.0,
-            "bound_margin": 2.0,
-            "normalized_gap_d": 0.0,
+            "theorem3_bound_mse": 2.0,
+            "actual_recovery_mse": 0.0,
+            "bound_margin_mse": 2.0,
+            "normalized_gap_d_mse": 0.0,
             "whitening_deviation_epsilon": 0.0,
         },
         1.7,
