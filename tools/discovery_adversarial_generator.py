@@ -107,6 +107,11 @@ def pseudo_key(record: dict[str, Any]) -> tuple[str, str, str]:
     return target, prior, canonical_payload
 
 
+def pseudo_bucket_key(record: dict[str, Any]) -> tuple[str, str]:
+    _target, prior, canonical_payload = pseudo_key(record)
+    return prior, canonical_payload
+
+
 def load_registry_keys() -> tuple[set[tuple[str, str]], int, int]:
     ci = bedc_ci_module()
     witnesses, diagnostics = ci.load_discovery_gate_witnesses()
@@ -124,6 +129,16 @@ def load_registry_keys() -> tuple[set[tuple[str, str]], int, int]:
             keys.add((prior, payload))
     cap = int(getattr(ci, "DISCOVERY_GATE_WITNESS_MAX_ENTRIES"))
     return keys, len(witnesses), cap
+
+
+def covered_bucket_keys(output: Path) -> tuple[set[tuple[str, str]], int, int]:
+    registry_keys, witness_count, witness_cap = load_registry_keys()
+    output_keys = {
+        key
+        for key in (pseudo_bucket_key(record) for record in load_jsonl(output))
+        if key[0] and key[1]
+    }
+    return registry_keys.union(output_keys), witness_count, witness_cap
 
 
 def positive_discovery_assertion_target(lean_scan: Any) -> tuple[str, list[str]]:
@@ -361,22 +376,27 @@ def write_record(path: Path, record: dict[str, Any]) -> None:
         handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
 
 
-def run_once(args: argparse.Namespace) -> int:
+def run_once(args: argparse.Namespace) -> dict[str, Any]:
     ci = bedc_ci_module()
-    covered_buckets, witness_count, witness_cap = load_registry_keys()
+    output = Path(args.output)
+    covered_buckets, witness_count, witness_cap = covered_bucket_keys(output)
     if witness_count >= int(witness_cap * REGISTRY_NEAR_CAP_FRACTION):
         raise FailClosed(
             f"discovery gate witness registry near cap: {witness_count}/{witness_cap}; "
             "generator fails closed"
         )
 
-    output = Path(args.output)
     already_emitted = {pseudo_key(record) for record in load_jsonl(output)}
     lean_scan = ci.scan_lean_sources()
     assertion_target, support_targets = positive_discovery_assertion_target(lean_scan)
     if not assertion_target or not support_targets:
         append_log("[heartbeat] no real PositiveDiscovery declaration with checked support target; emitted=0")
-        return 0
+        return {
+            "status": "no-hit",
+            "emitted": 0,
+            "reason": "no_positive_discovery_assertion_target",
+            "output": str(output),
+        }
 
     buckets = classifier_payload_buckets(lean_scan, int(args.classifier_cap))
     emitted = 0
@@ -462,6 +482,7 @@ def run_once(args: argparse.Namespace) -> int:
             }
             write_record(output, record)
             already_emitted.add(record_key)
+            covered_buckets.add(bucket_key)
             per_bucket_new[bucket_key] = per_bucket_new.get(bucket_key, 0) + 1
             emitted += 1
             if emitted >= int(args.max_records):
@@ -476,7 +497,19 @@ def run_once(args: argparse.Namespace) -> int:
     )
     if emitted == 0:
         append_log("[heartbeat] no proven pseudos; current true gate/canonical payload coverage produced no sound adversarial hit")
-    return 0
+    return {
+        "status": "hit" if emitted else "no-hit",
+        "emitted": emitted,
+        "bucket_count": len(buckets),
+        "skipped_covered": skipped_covered,
+        "skipped_budget": skipped_budget,
+        "assertion_target": assertion_target,
+        "output": str(output),
+    }
+
+
+def print_once_result(result: dict[str, Any]) -> None:
+    sys.stdout.write(json.dumps(result, ensure_ascii=False, sort_keys=True) + "\n")
 
 
 def parser() -> argparse.ArgumentParser:
@@ -495,13 +528,17 @@ def main() -> int:
     with pid_lock():
         if args.once:
             try:
-                return run_once(args)
+                result = run_once(args)
+                print_once_result(result)
+                return 0
             except FailClosed as exc:
                 append_log(f"[fail-closed] {exc}")
+                print_once_result({"status": "fail-closed", "error": str(exc)})
                 return 1
             except Exception as exc:
                 append_log(f"[error] cycle failed: {type(exc).__name__}: {exc}")
-                return 0
+                print_once_result({"status": "error", "error_type": type(exc).__name__, "error": str(exc)})
+                return 2
         while True:
             try:
                 run_once(args)

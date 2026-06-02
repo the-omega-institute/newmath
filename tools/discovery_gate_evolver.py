@@ -156,6 +156,29 @@ def record_exact_key(record: dict[str, Any]) -> tuple[str, str, str]:
     return target, prior, canonical_payload
 
 
+def witness_bucket_key(witness: dict[str, Any]) -> tuple[str, str]:
+    pattern = witness.get("pattern") if isinstance(witness.get("pattern"), dict) else {}
+    prior = str(pattern.get("prior") or "").strip()
+    canonical_payload = str(pattern.get("canonical_payload") or "").strip()
+    return prior, canonical_payload
+
+
+def registry_bucket_keys(registry_path: Path) -> set[tuple[str, str]]:
+    raw = load_json(registry_path)
+    if isinstance(raw, dict):
+        raw = raw.get("witnesses")
+    if not isinstance(raw, list):
+        raise RuntimeError(f"{registry_path} root is not a list")
+    buckets: set[tuple[str, str]] = set()
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        key = witness_bucket_key(item)
+        if key[0] and key[1]:
+            buckets.add(key)
+    return buckets
+
+
 def validate_pseudo_record(record: dict[str, Any]) -> tuple[bool, str]:
     if not isinstance(record, dict):
         return False, "record is not an object"
@@ -587,7 +610,7 @@ def process_records(records: list[dict[str, Any]], args: argparse.Namespace) -> 
 
     worktree = Path(args.worktree)
     prepared = False
-    ok_count = 0
+    applied_preverify = 0
     try:
         try:
             prepare_worktree(worktree, args.base_ref)
@@ -600,20 +623,30 @@ def process_records(records: list[dict[str, Any]], args: argparse.Namespace) -> 
         registry_path = worktree / REGISTRY_REL
         test_path = worktree / TEST_REL
         before_rc, before_failures, _before_payload = audit_failures(worktree)
+        covered_buckets = registry_bucket_keys(registry_path)
         applied_witnesses: list[dict[str, Any]] = []
         for witness in witnesses:
             try:
+                bucket_key = witness_bucket_key(witness)
+                if bucket_key[0] and bucket_key[1] and bucket_key in covered_buckets:
+                    append_log(
+                        "[heartbeat] witness bucket already covered: "
+                        f"prior={bucket_key[0]} canonical_payload={bucket_key[1]}"
+                    )
+                    continue
                 changed = append_witness(registry_path, witness)
                 append_regression_test(test_path, witness)
                 applied_witnesses.append(witness)
-                ok_count += 1
+                if bucket_key[0] and bucket_key[1]:
+                    covered_buckets.add(bucket_key)
+                applied_preverify += 1
                 if not changed:
                     append_log(f"[heartbeat] witness already present: {witness['id']}")
             except Exception as exc:
                 append_log(f"[escalate] witness {witness.get('id')}: {type(exc).__name__}: {exc}")
                 fail_count += 1
         if not applied_witnesses:
-            return ok_count, fail_count
+            return 0, fail_count
         verify(
             worktree,
             applied_witnesses,
@@ -622,10 +655,11 @@ def process_records(records: list[dict[str, Any]], args: argparse.Namespace) -> 
             before_failures=before_failures,
         )
         commit_and_push(worktree, no_push=bool(args.no_push))
-        return ok_count, fail_count
+        accepted_postverify = len(applied_witnesses)
+        return accepted_postverify, fail_count
     except Exception as exc:
         append_log(f"[escalate] batch failed: {type(exc).__name__}: {exc}")
-        return ok_count, fail_count + max(1, len(witnesses) - ok_count)
+        return 0, fail_count + max(1, applied_preverify or len(witnesses))
     finally:
         if prepared and not args.no_push:
             cleanup_worktree(worktree)
