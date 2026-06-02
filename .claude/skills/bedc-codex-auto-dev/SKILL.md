@@ -203,6 +203,16 @@ disown
 
 `tools/discovery_refutation_publisher.py` runs every 6h (`REFUTATION_PUBLISH_INTERVAL_SECONDS` env override, default 21600s), consumes only kernel-grounded sound refuted candidates from `bedc_ci.py discovery-radar --json`, writes the persistent dossier refutation ledger, commits from an isolated worktree, and only touches the ledger files.
 
+Discovery gate evolver daemon:
+
+```bash
+mkdir -p $REPO/tools/logs && \
+nohup python3 $REPO/tools/discovery_gate_evolver.py >> $REPO/tools/logs/discovery_gate_evolver.log 2>&1 &
+disown
+```
+
+`tools/discovery_gate_evolver.py` consumes `tools/logs/proven_pseudos.jsonl` and evolves only the negative witness registry for positive discovery assertions. It is PID-locked at `/tmp/.bedc_gate_evolver.pid`, works in `/tmp/bedc-gate-evolve-wt`, and is limited to `lean4/scripts/discovery_gate_witnesses.json` plus `lean4/scripts/test_closurestatus_audit.py`. It never edits G0-G6 logic, never adds pass rules, never touches paper content or `lean4/BEDC/`, and accepts only `kernel_grounded=true` negative witness data. Each accepted witness must pass py_compile, `lake build`, unit tests, audit monotonicity, `axiom-purity --strict`, and `make precheck`; otherwise it records the case in `tools/logs/gate_evolver_escalations.log`.
+
 ### Verify restart success (two-step, never skip)
 
 After launching, run **two sequential one-shot checks** before declaring the restart healthy. Skipping either check has bitten the operator.
