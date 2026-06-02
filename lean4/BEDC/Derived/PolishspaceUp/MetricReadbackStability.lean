@@ -35,7 +35,7 @@ theorem PolishSpaceMetricReadbackStability [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
   intro surface metricCompleteReadback readbackStreamReplay localNamePkg
   obtain ⟨metricUnary, completeUnary, _separableUnary, streamUnary, _readbackUnary,
-    ledgerUnary, transportUnary, _metricCompleteAppend, _metricSeparableAppend,
+    ledgerUnary, transportUnary, _localNameUnary, _metricCompleteAppend, _metricSeparableAppend,
     ledgerTransportReplay, provenancePkg, _surfaceLocalNamePkg⟩ := surface
   have metricReadbackUnary : UnaryHistory metricReadback :=
     unary_cont_closed metricUnary completeUnary metricCompleteReadback
