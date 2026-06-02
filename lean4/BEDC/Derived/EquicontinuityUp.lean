@@ -202,4 +202,25 @@ theorem EquicontinuityFamilyWindowExposure [AskSetup] [PackageSetup]
         (append_assoc K F (append rho R))
   exact ⟨windowRoute, radiusUnary, handoffUnary, consumerUnary, pkgP, pkgN⟩
 
+theorem EquicontinuityUniformModulusHandoff [AskSetup] [PackageSetup]
+    {K F eps rho M T R P N radiusRead handoffRead uniformRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityCarrier K F eps rho M T R P N radiusRead handoffRead bundle pkg ->
+      UnaryHistory M ->
+        Cont handoffRead M uniformRead ->
+          PkgSig bundle uniformRead pkg ->
+            UnaryHistory radiusRead ∧ UnaryHistory handoffRead ∧
+              UnaryHistory uniformRead ∧ Cont K F radiusRead ∧
+                Cont radiusRead rho handoffRead ∧ Cont handoffRead M uniformRead ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle uniformRead pkg := by
+  -- BEDC touchpoint anchor: EquicontinuityCarrier BHist ProbeBundle PkgSig Cont UnaryHistory
+  intro carrier unaryM handoffUniform uniformPkg
+  obtain ⟨radiusUnary, handoffUnary, radiusRoute, handoffRoute, pkgP, _pkgN⟩ :=
+    EquicontinuityCarrier_shared_radius_stability carrier
+  have uniformUnary : UnaryHistory uniformRead :=
+    unary_cont_closed handoffUnary unaryM handoffUniform
+  exact
+    ⟨radiusUnary, handoffUnary, uniformUnary, radiusRoute, handoffRoute, handoffUniform,
+      pkgP, uniformPkg⟩
+
 end BEDC.Derived.EquicontinuityUp
