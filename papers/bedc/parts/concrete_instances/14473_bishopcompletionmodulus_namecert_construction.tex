@@ -78,6 +78,7 @@ M,n \longmapsto k \longmapsto W,D .
 $$
 The $\CauchyModulusUp$ row $M$ supplies the displayed threshold $k$ for the precision request $n$, the $\StreamNameUp$ row $S$ reads the finite window $W$ at that threshold, and the $\DyadicRatCoreUp$ row $D$ records the same threshold and tolerance scale. Componentwise $\hsame$ transport and displayed $\Cont$ replay may preserve this route, but they do not select limits or assert $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.BishopCompletionModulusUp.BishopCompletionModulusCarrier\_threshold\_coherence}
 \begin{proof}
 Project the carrier and read the modulus face. The rows $M,n,k$ are displayed before the finite window row, so the threshold used by the packet is the one selected from the visible $\CauchyModulusUp$ row.
 
@@ -90,6 +91,7 @@ The structural rows preserve coherence only componentwise. The rows $H,C,P,N$ tr
 \label{thm:bishop-completion-modulus-real-seal-ordering}
 For every accepted $\BishopCompletionModulusUp$ carrier $Q=(M,S,n,k,W,D,R,E,H,C,P,N)$, the $\RealUp$ seal row $E$ is ordered strictly after the $\RegSeqRatUp$ handoff row $R$. A consumer may reach $E$ only through the displayed sequence from $\CauchyModulusUp$ threshold selection to $\StreamNameUp$ window readback, $\DyadicRatCoreUp$ threshold ledger, and $\RegSeqRatUp$ handoff; the seal does not supply selected limits, quotient stream equality, host real equality, countable choice, or $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.BishopCompletionModulusUp.BishopCompletionModulusCarrier\_real\_seal\_ordering}
 \begin{proof}
 Start from \autoref{thm:bishop-completion-modulus-l10-handoff}. It displays the only route to the Real-facing row:
 $$
