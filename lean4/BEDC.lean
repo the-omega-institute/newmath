@@ -6690,6 +6690,7 @@ import BEDC.Derived.RecursorBranchCompletenessUp.TasteGate
 import BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate
 import BEDC.Derived.RecursorGeneratorUp
 import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
+import BEDC.Derived.ReducedProductUp
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
 import BEDC.Derived.ReflectionGapBoundaryUp.Nonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
