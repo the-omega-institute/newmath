@@ -1,12 +1,24 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyUniformityUp.TasteGate
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -198,3 +210,97 @@ theorem RegularCauchyUniformityTasteGate_single_carrier_alignment :
             · rfl
 
 end BEDC.Derived.RegularCauchyUniformityUp.TasteGate
+
+namespace BEDC.Derived.RegularCauchyUniformityUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def RegularCauchyUniformityCarrier [AskSetup] [PackageSetup]
+    (R W D E H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  UnaryHistory R ∧ UnaryHistory W ∧ UnaryHistory D ∧ UnaryHistory E ∧ UnaryHistory H ∧
+    UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧ Cont R W D ∧ Cont W D E ∧
+      Cont E H C ∧ PkgSig bundle P pkg
+
+theorem RegularCauchyUniformityCarrier_dyadic_entourage_stability [AskSetup] [PackageSetup]
+    {R W D E H C P N W1 W2 E1 E2 : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyUniformityCarrier R W D E H C P N bundle pkg ->
+      Cont W D W1 ->
+        Cont W D W2 ->
+          Cont W1 E E1 ->
+            Cont W2 E E2 ->
+              PkgSig bundle E2 pkg ->
+                SemanticNameCert
+                  (fun row : BHist => hsame row E2 ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row E ∨
+                      hsame row W1 ∨ hsame row W2 ∨ hsame row E2)
+                  (fun row : BHist =>
+                    hsame row E2 ∧ PkgSig bundle P pkg ∧ PkgSig bundle E2 pkg)
+                  hsame ∧ UnaryHistory W1 ∧ UnaryHistory W2 ∧ UnaryHistory E1 ∧
+                    UnaryHistory E2 ∧ hsame E1 E2 := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
+  intro carrier leftWindowRoute rightWindowRoute leftEntourageRoute rightEntourageRoute
+    e2Pkg
+  obtain ⟨_rUnary, wUnary, dUnary, eUnary, _hUnary, _cUnary, _pUnary, _nUnary,
+    _sourceWindowDyadic, _windowDyadicEntourage, _entourageTransportReplay,
+    provenancePkg⟩ := carrier
+  have w1Unary : UnaryHistory W1 :=
+    unary_cont_closed wUnary dUnary leftWindowRoute
+  have w2Unary : UnaryHistory W2 :=
+    unary_cont_closed wUnary dUnary rightWindowRoute
+  have e1Unary : UnaryHistory E1 :=
+    unary_cont_closed w1Unary eUnary leftEntourageRoute
+  have e2Unary : UnaryHistory E2 :=
+    unary_cont_closed w2Unary eUnary rightEntourageRoute
+  have sameWindow : hsame W1 W2 :=
+    cont_deterministic leftWindowRoute rightWindowRoute
+  have transportedLeftRoute : Cont W2 E E1 :=
+    by
+      cases sameWindow
+      exact leftEntourageRoute
+  have sameEntourage : hsame E1 E2 :=
+    cont_deterministic transportedLeftRoute rightEntourageRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row E2 ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row E ∨ hsame row W1 ∨
+            hsame row W2 ∨ hsame row E2)
+        (fun row : BHist =>
+          hsame row E2 ∧ PkgSig bundle P pkg ∧ PkgSig bundle E2 pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro E2 ⟨hsame_refl E2, e2Unary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, provenancePkg, e2Pkg⟩
+  }
+  exact ⟨cert, w1Unary, w2Unary, e1Unary, e2Unary, sameEntourage⟩
+
+end BEDC.Derived.RegularCauchyUniformityUp
