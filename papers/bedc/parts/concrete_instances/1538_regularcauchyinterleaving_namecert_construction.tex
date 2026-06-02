@@ -323,6 +323,25 @@ Schedule-window coverage rules out bypass routes. By \autoref{thm:regular-cauchy
 
 Finally apply \autoref{thm:regular-cauchy-interleaving-real-seal-non-escape}. The selected subsequence seal remains downstream of the selected source row, selected schedule, selected modulus component, displayed $\hsame$ transport, displayed $\Cont$ route, package provenance, and local naming row. Thus the two parity consumers recover their side-specific Real seal routes and nothing outside the displayed packet.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyInterleavingUp.RegularCauchyInterleavingPacket\_even\_odd\_subsequence\_seal}
+
+\begin{theorem}[Regular Cauchy interleaving completion selector nonescape]
+\label{thm:regular-cauchy-interleaving-completion-selector-nonescape}
+Let
+$$
+I=(A,B,S_A,S_B,\sigma,M,E_A,E_B,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyInterleavingUp$ packet. Every completion-facing consumer of $I$ must read the two source $\RegSeqRatUp$ rows $A,B$, the parity selector $\sigma$, the two $\StreamNameUp$ schedules $S_A,S_B$, the merged window schedule governed by $M$, the dyadic tail modulus selected from $M$, and the visible $\RealUp$ seal route through $E_A,E_B,E,H,C,P,N$ before it can consume any completion selector. The packet exports no quotient stream, hidden selected limit, host real equality, ambient completeness principle, or third schedule.
+\end{theorem}
+\begin{proof}
+Start with the classifier route. The selector parity exactness theorem separates every read into the even branch through $A,S_A$ and the odd branch through $B,S_B$.
+
+Apply combined modulus exactness and the finite-tail budget route. These rows place the merged window schedule and the selected dyadic tail budget inside $M$ before any diagonal or completion-facing consumer can inspect the interleaved seal.
+
+Use schedule-window coverage and the even--odd subsequence seal. The schedules $S_A,S_B$ are the only windows available, and each subsequence recovery remains downstream of the selected source row, selected schedule, selected modulus component, and Real seal non-escape route.
+
+Finally read $H,C,P,N$. These rows transport, replay, source, and name the same finite packet, but they add no selector coordinate. Therefore every completion selector remains inside the displayed interleaving route and cannot escape to quotient streams, hidden selected limits, host equality, ambient completeness, or a third schedule.
+\end{proof}
 
 \closureat{RegularCauchyInterleavingUp}{seedStr}
 \closureat{RegularCauchyInterleavingUp}{obligationStr}
