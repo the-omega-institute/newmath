@@ -662,6 +662,7 @@ import BEDC.Derived.BanachDualUp.TasteGate
 import BEDC.Derived.BanachFixedPointIterationBudgetUp
 import BEDC.Derived.BanachFixedPointStabilityUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
+import BEDC.Derived.BanachOperatorGraphNormUp.TasteGate
 import BEDC.Derived.BanachSpaceUp.TasteGate
 import BEDC.Derived.BanachSteinhausUp.TasteGate
 import BEDC.Derived.BanachUp
