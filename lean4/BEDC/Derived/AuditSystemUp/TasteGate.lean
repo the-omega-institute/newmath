@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AuditSystemUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -188,5 +200,174 @@ theorem AuditSystemTasteGate_single_carrier_alignment :
       · intro x y heq
         exact auditSystemToEventFlow_injective heq
       · rfl
+
+def AuditSystemCarrier [AskSetup] [PackageSetup]
+    (C P F R E L H K Q N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory F ∧ UnaryHistory R ∧
+    UnaryHistory E ∧ UnaryHistory L ∧ UnaryHistory H ∧ UnaryHistory K ∧
+      UnaryHistory Q ∧ UnaryHistory N ∧ Cont F R K ∧ Cont C P E ∧
+        Cont E L H ∧ PkgSig bundle Q pkg
+
+theorem AuditSystemCarrier_export_refusal_conflict [AskSetup] [PackageSetup]
+    {C P F R E L H K Q N conflict : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditSystemCarrier C P F R E L H K Q N bundle pkg →
+      Cont F R conflict →
+        PkgSig bundle conflict pkg →
+          UnaryHistory F ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory conflict ∧
+            Cont F R conflict ∧ PkgSig bundle Q pkg ∧ PkgSig bundle conflict pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier refusalRoute conflictPkg
+  obtain ⟨_cUnary, _pUnary, fUnary, rUnary, eUnary, _lUnary, _hUnary, _kUnary,
+    _qUnary, _nUnary, _failureRefusal, _claimPositive, _exportLedger, qPkg⟩ := carrier
+  have conflictUnary : UnaryHistory conflict :=
+    unary_cont_closed fUnary rUnary refusalRoute
+  exact ⟨fUnary, rUnary, eUnary, conflictUnary, refusalRoute, qPkg, conflictPkg⟩
+
+theorem AuditSystemLedgerClosure [AskSetup] [PackageSetup]
+    {C P F R E L H K Q N claimRead ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont C E claimRead →
+      Cont claimRead L ledgerRead →
+        PkgSig bundle Q pkg →
+          PkgSig bundle N pkg →
+            UnaryHistory C →
+              UnaryHistory E →
+                UnaryHistory L →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row C ∨ hsame row P ∨ hsame row F ∨ hsame row R ∨
+                          hsame row E ∨ hsame row L ∨ hsame row H ∨ hsame row K ∨
+                            hsame row Q ∨ hsame row N ∨ hsame row claimRead ∨
+                              hsame row ledgerRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont C E claimRead ∧
+                          Cont claimRead L ledgerRead ∧ PkgSig bundle Q pkg ∧
+                            PkgSig bundle N pkg)
+                      hsame ∧
+                    UnaryHistory claimRead ∧ UnaryHistory ledgerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory SemanticNameCert hsame
+  intro claimRoute ledgerRoute qPkg nPkg cUnary eUnary lUnary
+  have claimUnary : UnaryHistory claimRead :=
+    unary_cont_closed cUnary eUnary claimRoute
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed claimUnary lUnary ledgerRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row C ∨ hsame row P ∨ hsame row F ∨ hsame row R ∨
+              hsame row E ∨ hsame row L ∨ hsame row H ∨ hsame row K ∨
+                hsame row Q ∨ hsame row N ∨ hsame row claimRead ∨
+                  hsame row ledgerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont C E claimRead ∧ Cont claimRead L ledgerRead ∧
+              PkgSig bundle Q pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro ledgerRead ⟨hsame_refl ledgerRead, ledgerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact
+          ⟨hsame_trans (hsame_symm same) source.left,
+            unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr source.left))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, claimRoute, ledgerRoute, qPkg, nPkg⟩
+  }
+  exact ⟨cert, claimUnary, ledgerUnary⟩
+
+theorem AuditSystemCarrier_namecert_surface [AskSetup] [PackageSetup]
+    {C P F R E L H K Q N exportRead closureRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditSystemCarrier C P F R E L H K Q N bundle pkg ->
+      Cont C P exportRead ->
+        Cont exportRead L closureRead ->
+          PkgSig bundle Q pkg ->
+            SemanticNameCert
+              (fun row : BHist => hsame row closureRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row C ∨ hsame row P ∨ hsame row F ∨ hsame row R ∨
+                  hsame row E ∨ hsame row L ∨ hsame row H ∨ hsame row K ∨
+                    hsame row Q ∨ hsame row N ∨ hsame row exportRead ∨
+                      hsame row closureRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont C P exportRead ∧ Cont exportRead L closureRead ∧
+                  PkgSig bundle Q pkg)
+              hsame ∧ UnaryHistory exportRead ∧ UnaryHistory closureRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro carrier exportRoute closureRoute qPkg
+  obtain ⟨cUnary, pUnary, _fUnary, _rUnary, _eUnary, lUnary, _hUnary, _kUnary,
+    _qUnary, _nUnary, _failureRoute, _claimRoute, _ledgerRoute, _carrierPkg⟩ := carrier
+  have exportUnary : UnaryHistory exportRead :=
+    unary_cont_closed cUnary pUnary exportRoute
+  have closureUnary : UnaryHistory closureRead :=
+    unary_cont_closed exportUnary lUnary closureRoute
+  have sourceClosure :
+      (fun row : BHist => hsame row closureRead ∧ UnaryHistory row) closureRead :=
+    ⟨hsame_refl closureRead, closureUnary⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row closureRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row C ∨ hsame row P ∨ hsame row F ∨ hsame row R ∨
+            hsame row E ∨ hsame row L ∨ hsame row H ∨ hsame row K ∨
+              hsame row Q ∨ hsame row N ∨ hsame row exportRead ∨ hsame row closureRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont C P exportRead ∧ Cont exportRead L closureRead ∧
+            PkgSig bundle Q pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro closureRead sourceClosure
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact ⟨hsame_trans (hsame_symm same) source.left, unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          (Or.inr (Or.inr (Or.inr source.left))))))))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, exportRoute, closureRoute, qPkg⟩
+    }
+  exact ⟨cert, exportUnary, closureUnary⟩
 
 end BEDC.Derived.AuditSystemUp
