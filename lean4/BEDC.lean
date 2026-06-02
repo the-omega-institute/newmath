@@ -3584,6 +3584,7 @@ import BEDC.Derived.DyadicStepFunctionUp.WindowCarrier
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicSubdivisionUp.TasteGate
 import BEDC.Derived.DyadicSubsequenceUp.TasteGate
+import BEDC.Derived.DyadicSupremumUp.NameCertObligations
 import BEDC.Derived.DyadicSupremumUp.TasteGate
 import BEDC.Derived.DyadicTailBallUp.MonotoneInclusion
 import BEDC.Derived.DyadicTailBallUp.RadiusMonotoneContainment
@@ -5260,6 +5261,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10FourObjectLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourObjectReady
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationDischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationFrontier
+import BEDC.Derived.MetaCICCriticalPathUp.L10ObjectStatusReadback
 import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
 import BEDC.Derived.MetaCICCriticalPathUp.L10ReadinessLocalMinimality
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
@@ -6578,6 +6580,7 @@ import BEDC.Derived.RealObservationBudgetUp.NonEscape
 import BEDC.Derived.RealObservationBudgetUp.StdBridge
 import BEDC.Derived.RealObservationBudgetUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.WindowCoverage
+import BEDC.Derived.RealOneUp.NameCertObligations
 import BEDC.Derived.RealOneUp.RationalEmbeddingRoute
 import BEDC.Derived.RealOneUp.TasteGate
 import BEDC.Derived.RealOrderTopologyUp.TasteGate
@@ -8247,6 +8250,7 @@ import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
 import BEDC.Derived.WeakLawLargeNumbersUp.TasteGate
+import BEDC.Derived.WeakTopologyUp.NamecertObligations
 import BEDC.Derived.WeaklyCauchySequenceUp.TasteGate
 import BEDC.Derived.WeierstrassApproximationUp
 import BEDC.Derived.WeierstrassApproximationUp.PolynomialHandoff
