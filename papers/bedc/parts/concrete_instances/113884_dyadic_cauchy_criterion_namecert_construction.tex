@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCauchyCriterionUp$}
+\label{ch:concrete-instances-dyadic-cauchy-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicCauchyCriterionUp$ packet records the finite dyadic criterion bridge from dyadic tolerance data to regular rational readback. It sits between the dyadic endpoint and tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular Cauchy readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the equality-facing comparison boundary of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}. The packet names a criterion route for Real and Completion consumers before any completed real line is assumed.
+
+\begin{definition}[Dyadic Cauchy criterion carrier]
+\label{def:dyadic-cauchy-criterion-carrier}
+A $\DyadicCauchyCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,W,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and tolerance ledger, recording dyadic radii, comparison budgets, and common refinements.
+\item $W$ is the $\StreamNameUp$ finite-window row inspected by each tolerance request.
+\item $T$ is the dyadic Cauchy criterion row, asserting that every requested dyadic tolerance is discharged by some displayed finite window over $D$ and $W$.
+\item $R$ is the $\RegSeqRatUp$ regular readback row obtained from the criterion row $T$.
+\item $E$ is the equality-facing boundary row: it records $\CauchyEquivalenceSetoidUp$ comparison for the displayed regular readbacks and the terminal $\RealUp$ seal reached only after $D,W,T,R$ have been projected.
+\item $H$ records componentwise $\hsame$ transport for the dyadic, window, criterion, regular-readback, comparison, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for tolerance admission, finite-window inspection, criterion discharge, regular readback, comparison, and sealing.
+\item $P$ is the $\Pkg$ provenance over $\DyadicCauchyCriterionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyEquivalenceSetoidUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicCauchyCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,T,R,E,H,C,P,N$. It has no coordinate for quotient equality, selected limits, countable choice, trichotomy, host real equality, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic Cauchy criterion NameCert obligations]
+\label{thm:dyadic-cauchy-criterion-namecert-obligations}
+For every accepted $\DyadicCauchyCriterionUp$ carrier $K=(D,W,T,R,E,H,C,P,N)$, the local $\NameCert_{\DyadicCauchyCriterionUp}$ surface consists exactly of five finite obligation rows: dyadic tolerance admission through $D$; finite stream-window inspection through $W$; dyadic criterion discharge through $T$; regular rational readback through $R$; and comparison, seal, transport, replay, provenance, and local naming through $E,H,C,P,N$. No obligation row exports quotient equality, selected limits, countable choice, trichotomy, host real equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:dyadic-cauchy-criterion-carrier}. The first two rows are read through the sibling dyadic and stream surfaces \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-streamname-namecert}: the dyadic ledger supplies tolerances and common refinements, while the stream row supplies only finite windows.
+
+The criterion row $T$ is therefore local to the displayed finite data. It says that a requested dyadic tolerance has a displayed window witness, not that a global stream quotient or a selected limit has been chosen.
+
+The readback row $R$ is consumed through \autoref{ch:concrete-instances-regseqrat-namecert}. The equality-facing part of $E$ is read through \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}, and its terminal seal is read only through \autoref{ch:concrete-instances-real-namecert}.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same displayed packet. Since none of the projected rows contains quotient equality, selected limits, countable choice, trichotomy, host real equality, or $\RealUp$ completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic Cauchy criterion RegSeqRat handoff]
+\label{thm:dyadic-cauchy-criterion-regseqrat-handoff}
+Every $\RegSeqRatUp$ consumer of an accepted $\DyadicCauchyCriterionUp$ carrier must read the route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \DyadicCauchyCriterionUp \longmapsto \RegSeqRatUp .
+$$
+The handoff packages dyadic tolerance windows as a regular Cauchy readback while retaining only $\CauchyEquivalenceSetoidUp$ comparison and the downstream $\RealUp$ seal boundary. It does not export quotient equality, selected limits, countable choice, trichotomy, host real equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the dyadic source and finite-window source. By \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-streamname-namecert}, the rows $D$ and $W$ expose only dyadic budgets and bounded observations.
+
+Use the criterion row $T$ to bind these two sources. A $\RegSeqRatUp$ consumer may read $R$ only after the tolerance request has been discharged by a displayed finite window, so the handoff lands in \autoref{ch:concrete-instances-regseqrat-namecert} without choosing a limit representative.
+
+The comparison and seal remain downstream. The row $E$ cites the comparison boundary of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert} and reaches the terminal real-name boundary only as in \autoref{ch:concrete-instances-real-namecert}.
+
+The transport, replay, provenance, and naming rows preserve this route. They contain no quotient equality, selected limit, countable-choice schedule, trichotomy decision, host real equality, or $\RealUp$ completeness principle, so none is exported by the handoff.
+\end{proof}
+
+\begin{theorem}[Dyadic Cauchy criterion Real seal boundary]
+\label{thm:dyadic-cauchy-criterion-real-seal-boundary}
+Every Real or Completion consumer of an accepted $\DyadicCauchyCriterionUp$ carrier reaches $\RealUp$ only through the displayed rows $D,W,T,R,E,H,C,P,N$. The consumer may inspect the dyadic source of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window source of \autoref{ch:concrete-instances-streamname-namecert}, the regular readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the comparison boundary of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}; it receives no quotient equality, selected limits, countable choice, trichotomy, host real equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Unpack the accepted carrier. The value-facing route begins at $D$ and $W$, whose sibling chapters \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-streamname-namecert} expose finite dyadic and finite-window data rather than a host real object.
+
+The criterion and readback rows are next. The row $T$ records the finite dyadic Cauchy discharge, and the row $R$ is read through \autoref{ch:concrete-instances-regseqrat-namecert} as regular rational data.
+
+The seal row is last. Its comparison part is bounded by \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}, and its terminal real-name reading is the boundary supplied by \autoref{ch:concrete-instances-real-namecert}.
+
+Finally inspect $H,C,P,N$. These structural rows transport, replay, source, and name the same route; they do not add quotient equality, selected limits, countable choice, trichotomy, host real equality, or $\RealUp$ completeness. Hence Real and Completion consumers cannot escape the displayed criterion bridge.
+\end{proof}
+
+\closureat{DyadicCauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCauchyCriterionUp}
+  \constructivestory{A $\DyadicCauchyCriterionUp$ packet is generated from a DyadicRatCore tolerance ledger, StreamName finite windows, a dyadic criterion row, RegSeqRat readback, CauchyEquivalenceSetoid comparison, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-cauchy-criterion-carrier}, \autoref{thm:dyadic-cauchy-criterion-namecert-obligations}, \autoref{thm:dyadic-cauchy-criterion-regseqrat-handoff}, and \autoref{thm:dyadic-cauchy-criterion-real-seal-boundary} seed the finite dyadic criterion bridge over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyEquivalenceSetoidUp$, and $\RealUp$ rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.DyadicCauchyCriterionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality, selected limits, countable choice, trichotomy, host real equality, $\RealUp$ completeness, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked dyadic tolerance admission, finite stream-window inspection, criterion discharge, regular readback, comparison, terminal sealing, transport, replay, provenance, and local naming for BEDC.Derived.DyadicCauchyCriterionUp.}
+\end{closurestatus}
