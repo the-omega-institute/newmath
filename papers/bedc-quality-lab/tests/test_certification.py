@@ -1,3 +1,5 @@
+import pytest
+
 from bedc_quality_lab.certification import (
     CERTIFICATION_RECORD_KIND,
     issue_certification_record,
@@ -132,3 +134,131 @@ def test_issue_function_imports_from_module_but_not_package_all():
     assert imported is issue_certification_record
     assert "certification" not in bedc_quality_lab.__all__
     assert "issue_certification_record" not in bedc_quality_lab.__all__
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("timestamp_iso", "", "timestamp_iso must be a non-empty string"),
+        ("source_ref", "", "source_ref must be a non-empty string"),
+        (
+            "previous_certificate_id",
+            "",
+            "previous_certificate_id must be a non-empty string or None",
+        ),
+        (
+            "previous_certificate_id",
+            7,
+            "previous_certificate_id must be a non-empty string or None",
+        ),
+    ],
+)
+def test_public_string_inputs_raise_for_bad_values(field, value, message):
+    kwargs = {
+        "timestamp_iso": ISSUED_AT,
+        "source_ref": SOURCE_REF,
+        "previous_certificate_id": None,
+        field: value,
+    }
+
+    with pytest.raises(ValueError, match=message):
+        issue_certification_record(
+            _model_identity(),
+            _verdict_decision(),
+            **kwargs,
+        )
+
+
+def test_verdict_raises_for_unsupported_value():
+    with pytest.raises(ValueError, match="verdict must be one of"):
+        _record(verdict_decision=_verdict_decision(verdict="maybe"))
+
+
+def test_evidence_basis_raises_for_non_mapping_value():
+    with pytest.raises(TypeError, match="evidence_basis must be a mapping"):
+        _record(verdict_decision=_verdict_decision(evidence_basis=[]))
+
+
+def test_evidence_basis_raises_for_absent_key():
+    verdict_decision = _verdict_decision()
+    del verdict_decision["evidence_basis"]
+
+    with pytest.raises(KeyError, match="evidence_basis"):
+        _record(verdict_decision=verdict_decision)
+
+
+@pytest.mark.parametrize(
+    ("value", "exception_type", "message"),
+    [
+        (None, KeyError, "model_id"),
+        ("", ValueError, "model_id must be a non-empty string"),
+        (7, ValueError, "model_id must be a non-empty string"),
+    ],
+)
+def test_model_id_raises_for_absent_or_bad_values(
+    value,
+    exception_type,
+    message,
+):
+    model_identity = _model_identity()
+    if value is None:
+        del model_identity["model_id"]
+    else:
+        model_identity["model_id"] = value
+
+    with pytest.raises(exception_type, match=message):
+        _record(model_identity=model_identity)
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "exception_type", "message"),
+    [
+        ("verdict", None, KeyError, "verdict"),
+        ("verdict", "", ValueError, "verdict must be a non-empty string"),
+        ("verdict", 7, ValueError, "verdict must be a non-empty string"),
+        ("reason", None, KeyError, "reason"),
+        ("reason", "", ValueError, "reason must be a non-empty string"),
+        ("reason", 7, ValueError, "reason must be a non-empty string"),
+        ("decided_at", None, KeyError, "decided_at"),
+        ("decided_at", "", ValueError, "decided_at must be a non-empty string"),
+        ("decided_at", 7, ValueError, "decided_at must be a non-empty string"),
+    ],
+)
+def test_verdict_decision_string_fields_raise_for_absent_or_bad_values(
+    field,
+    value,
+    exception_type,
+    message,
+):
+    verdict_decision = _verdict_decision()
+    if value is None:
+        del verdict_decision[field]
+    else:
+        verdict_decision[field] = value
+
+    with pytest.raises(exception_type, match=message):
+        _record(verdict_decision=verdict_decision)
+
+
+@pytest.mark.parametrize("field", ["model_version", "classifier_id", "scope_id"])
+@pytest.mark.parametrize("value", ["", 7])
+def test_optional_identity_fields_raise_for_bad_values(field, value):
+    with pytest.raises(
+        ValueError,
+        match=f"{field} must be a non-empty string or None",
+    ):
+        _record(model_identity=_model_identity(**{field: value}))
+
+
+def test_optional_identity_fields_accept_none():
+    record = _record(
+        model_identity=_model_identity(
+            model_version=None,
+            classifier_id=None,
+            scope_id=None,
+        )
+    )
+
+    assert record["model_version"] is None
+    assert record["classifier_id"] is None
+    assert record["scope_id"] is None
