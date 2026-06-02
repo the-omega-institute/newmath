@@ -117,4 +117,76 @@ theorem MetaCICCriticalPathResidualConfluenceBudgetBridge [AskSetup] [PackageSet
   }
   exact ⟨cert, residualUnary, confluenceUnary, budgetUnary⟩
 
+theorem MetaCICCriticalPathPacket_residual_confluence_budget_bridge [AskSetup]
+    [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName residualRead boundedLedger : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg ->
+      Cont handoff dischargeSocket residualRead ->
+        Cont residualRead obstruction boundedLedger ->
+          PkgSig bundle residualRead pkg ->
+            PkgSig bundle boundedLedger pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row boundedLedger ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row handoff ∨ hsame row dischargeSocket ∨
+                      hsame row residualRead ∨ hsame row obstruction ∨
+                        hsame row boundedLedger)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle residualRead pkg ∧
+                      PkgSig bundle boundedLedger pkg ∧ PkgSig bundle provenance pkg)
+                  hsame ∧
+                UnaryHistory residualRead ∧ UnaryHistory boundedLedger ∧
+                  PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro packet handoffSocketResidual residualObstructionLedger residualPkg boundedPkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, handoffUnary,
+    dischargeSocketUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _localNameUnary, _strongNormNormalFormRoute, _handoffObstructionSocket,
+    _transportLocalName, provenancePkg⟩ := packet
+  have residualUnary : UnaryHistory residualRead :=
+    unary_cont_closed handoffUnary dischargeSocketUnary handoffSocketResidual
+  have boundedUnary : UnaryHistory boundedLedger :=
+    unary_cont_closed residualUnary obstructionUnary residualObstructionLedger
+  have sourceBounded :
+      (fun row : BHist => hsame row boundedLedger ∧ UnaryHistory row) boundedLedger := by
+    exact ⟨hsame_refl boundedLedger, boundedUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row boundedLedger ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row handoff ∨ hsame row dischargeSocket ∨ hsame row residualRead ∨
+              hsame row obstruction ∨ hsame row boundedLedger)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle residualRead pkg ∧
+              PkgSig bundle boundedLedger pkg ∧ PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro boundedLedger sourceBounded
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, residualPkg, boundedPkg, provenancePkg⟩
+  }
+  exact ⟨cert, residualUnary, boundedUnary, provenancePkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp

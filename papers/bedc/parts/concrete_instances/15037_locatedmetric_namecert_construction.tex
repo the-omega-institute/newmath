@@ -119,6 +119,42 @@ It remains to check that the route is stable under the BEDC structural operation
 
 \independenceWitness{metric, dyadicratcore, streamname, regseqrat, real, separatedmetric: $\LocatedMetricUp$ is not bijective to any listed sibling because it jointly carries a point carrier, metric distance witness, dyadic locatedness comparison, StreamName window schedule, RegSeqRat readback, RealUp seal, separated zero-distance boundary, componentwise transport, continuation replay, provenance, and local NameCert row.}
 
+\begin{theorem}[LocatedMetric radius-locality obligation]
+\label{thm:locatedmetric-radius-locality-obligation}
+For an accepted $\LocatedMetricUp$ carrier $L=(X,M,D,S,R,E,Z,H,C,P,N)$, every radius-locality read is a finite BEDC obligation over the existing carrier rows $M,D,S,R,H,C,P,N$. The metric row $M$ supplies the distance witness, the $\DyadicRatCoreUp$ row $D$ supplies the positive tolerance window, the $\StreamNameUp$ row $S$ selects the finite read, and the $\RegSeqRatUp$ row $R$ packages the readback before any $\RealUp$ seal is exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:located-metric-carrier}. A radius request has no independent real-valued coordinate; it first reads the finite metric evidence in $M$ and the dyadic locatedness window in $D$.
+
+The schedule and readback rows are then forced by $S$ and $R$. They keep the request inside a finite stream window and a regular rational package, while $H,C,P,N$ only transport, replay, source, and name that same route.
+
+Thus radius locality is a projection-and-replay obligation on the displayed rows. It is not supplied by quotient distance equality, a chosen radius representative, trichotomy on distances, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[LocatedMetric separated-zero obligation]
+\label{thm:locatedmetric-separated-zero-obligation}
+For an accepted $\LocatedMetricUp$ carrier $L=(X,M,D,S,R,E,Z,H,C,P,N)$, any zero-distance-to-point-classifier read is a finite obligation through the existing separated boundary row $Z$. The rows $M,D,S,R,E$ may display, locate, schedule, package, and seal the zero-distance evidence, but the point identification route must pass through $\SeparatedMetricUp$ as recorded by $Z$.
+\end{theorem}
+\begin{proof}
+Start with the zero-distance evidence. Rows $M,D,S,R,E$ expose it as metric evidence, dyadic locatedness, a finite window, a regular rational readback, and a real-facing seal.
+
+The carrier definition isolates point identification in $Z$. Since no other row contains the separated point-classifier boundary, projection from \autoref{def:located-metric-carrier} leaves $Z$ as the only admissible route from zero distance to point classification.
+
+The structural rows $H,C,P,N$ preserve the selected displayed route by transport, replay, provenance, and naming. They do not add quotient point equality or host equality, so the separated-zero obligation remains finite and local.
+\end{proof}
+
+\begin{theorem}[LocatedMetric Real-seal obligation]
+\label{thm:locatedmetric-real-seal-obligation}
+For an accepted $\LocatedMetricUp$ carrier $L=(X,M,D,S,R,E,Z,H,C,P,N)$, every $\RealUp$ distance seal read is a finite obligation over $M,D,S,R,E,H,C,P,N$ and the separated boundary $Z$ when zero-distance compatibility is requested. The seal row $E$ is consumed only after the $\MetricUp$ witness, $\DyadicRatCoreUp$ locatedness row, $\StreamNameUp$ finite window, and $\RegSeqRatUp$ readback have been displayed.
+\end{theorem}
+\begin{proof}
+Read the seal route in the order displayed by the carrier. The metric witness $M$ grounds the distance request, $D$ locates it at the requested dyadic tolerance, $S$ selects the finite observations, and $R$ packages the scheduled reads.
+
+Only after those rows are present can $E$ be consumed as a $\RealUp$ seal. If the same read is used to identify points at zero distance, $Z$ supplies the separated metric boundary before the point classifier is reached.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite rows. The obligation therefore records a BEDC seal route rather than quotient real equality, choice of limits, or an ambient completeness principle.
+\end{proof}
+
 \closureat{LocatedMetricUp}{seedStr}
 
 \begin{closurestatus}{\LocatedMetricUp}
