@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\DyadicBisectionTreeUp$}
+\label{ch:concrete-instances-dyadic-bisection-tree-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\DyadicBisectionTreeUp$ packet records the finite tree surface behind repeated dyadic bisection of a located interval. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the endpoint refinement route of \autoref{ch:concrete-instances-located-interval-refinement-namecert}. The packet is a finite carrier for L10 Real and Completion work: every displayed node is a bounded dyadic interval row with a parent link, a tolerance budget, and a retained-child certificate, while no infinite branch or completeness principle is selected.
+
+\begin{definition}[Dyadic bisection tree carrier]
+\label{def:dyadic-bisection-tree-carrier}
+A $\DyadicBisectionTreeUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,I,T,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ ledger of endpoints, midpoints, radii, and common dyadic refinements.
+\item $I$ is the $\LocatedIntervalRefinementUp$ source row, giving the initial located interval and the finite refinement witnesses used by each retained node.
+\item $T$ is the finite bisection-tree row: its nodes are addressed by finite binary words, every non-root node records its parent, and every retained child carries the half-interval selected by the displayed midpoint comparison.
+\item $W$ is the $\StreamNameUp$ finite-window row read by a consumer that asks for a node at a requested depth or tolerance.
+\item $R$ is the $\RegSeqRatUp$ regular-Cauchy readback row obtained from nested retained intervals whose dyadic diameters are bounded by the displayed depth budget.
+\item $E$ is the $\RealUp$ seal boundary, reachable only after $D,I,T,W,R$ have been projected.
+\item $H$ records componentwise $\hsame$ transport for the dyadic, located-interval, tree, window, regular-readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for endpoint admission, midpoint bisection, retained-child transport, finite-window inspection, regular readback, and terminal sealing.
+\item $P$ is the $\Pkg$ provenance over $\DyadicBisectionTreeUp$, $\DyadicRatCoreUp$, $\LocatedIntervalRefinementUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicBisectionTreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,I,T,W,R,E,H,C,P,N$. It has no coordinate for open-cover compactness, countable choice, a selected infinite branch, quotient equality of real names, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Nested regular-Cauchy readback from a dyadic bisection tree]
+\label{thm:dyadic-bisection-tree-nested-regular-cauchy}
+For every accepted $\DyadicBisectionTreeUp$ carrier $K=(D,I,T,W,R,E,H,C,P,N)$ and every displayed retained branch prefix in $T$, each unary depth request factors through the finite route
+$$
+\DyadicRatCoreUp,\ \LocatedIntervalRefinementUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The resulting $\RegSeqRatUp$ row is read from nested retained dyadic intervals with diameter bounded by the depth budget. The route does not assert real completeness, open-cover compactness, countable choice, a selected infinite branch, quotient equality, or any ambient equality of $\RealUp$ seals.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and project its dyadic and interval rows. The row $D$ supplies the endpoint arithmetic, midpoint, radius, and common-refinement data, while $I$ supplies the located refinement witness for the current retained interval.
+
+Read the branch prefix inside $T$. Because node addresses are finite binary words, the requested prefix exposes only finitely many parent links and child selections. Each retained child is justified by the displayed midpoint comparison and by the corresponding row of $D$ and $I$.
+
+The finite observation row $W$ records the window requested at the chosen depth. The diameter bound is computed from the bisection depth in $T$ and the dyadic radius ledger in $D$, so the handoff to $R$ is a regular-Cauchy readback over inspected finite intervals rather than a selected limit.
+
+Finally the seal row $E$ is downstream of $R$, and the structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no row contains an infinite-branch selector, open-cover compactness proof, countable-choice schedule, quotient-equality coordinate, or ambient completeness witness, the listed route is the full exported regular-Cauchy boundary.
+\end{proof}
+
+\closureat{DyadicBisectionTreeUp}{seedStr}
+
+\begin{closurestatus}{\DyadicBisectionTreeUp}
+  \constructivestory{A $\DyadicBisectionTreeUp$ packet is generated from a DyadicRatCore endpoint and tolerance ledger, a LocatedIntervalRefinement source row, a finite binary bisection-tree row, StreamName finite windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-bisection-tree-carrier} and \autoref{thm:dyadic-bisection-tree-nested-regular-cauchy} seed the finite dyadic bisection-tree carrier over $\DyadicRatCoreUp$, $\LocatedIntervalRefinementUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, open-cover compactness, countable choice, a selected infinite branch, quotient equality, theorem verification, axiom purity, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint arithmetic, located interval refinement, retained-child bisection, finite-window inspection, regular-Cauchy readback, terminal sealing, transport, replay, provenance, and local naming for BEDC.Derived.DyadicBisectionTreeUp.}
+\end{closurestatus}
