@@ -73,6 +73,46 @@ Apply the NameCert obligations of \autoref{thm:fast-cauchy-subsequence-namecert-
 The rows $H$, $C$, $P$, and $N$ carry the same dependency order under transport, replay, provenance, and local naming. Since no carrier coordinate stores host subsequence equality, arbitrary countable choice, quotient Cauchy classes, selected limits, trichotomy, or real completeness, every $\RealUp$-facing read factors through the displayed route.
 \end{proof}
 
+\begin{theorem}[FastCauchySubsequence modulus-selector coherence]
+\label{thm:fast-cauchy-subsequence-modulus-selector-coherence}
+For an accepted $\FastCauchySubsequenceUp$ packet $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the $\CauchyModulusUp$ row $M$ and the $\CofinalSubsequenceUp$ row $Q$ determine the same selected $\StreamNameUp$ windows before either the fast-rate row $F$ or the regular-subsequence handoff row $R$ is read. Thus the selected windows used downstream are fixed by the displayed modulus-selector pair and not by host subsequence equality or a countable-choice selector.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fast-cauchy-subsequence-carrier}. The only rows available before $F$ and $R$ are the source row $S$, the inspected modulus row $M$, and the cofinal selector row $Q$.
+
+Apply the NameCert obligations of \autoref{thm:fast-cauchy-subsequence-namecert-obligations}. They require modulus coverage before selection and selector admission before fast-rate readback, so the windows chosen by $Q$ must be windows whose bounds are already displayed in $M$.
+
+The regular route theorem, \autoref{thm:fast-cauchy-subsequence-regular-route}, then prevents any later row from changing that selection before $F$ or $R$ is consumed. Since the carrier has no coordinate for host subsequence equality or countable choice, coherence is exactly the displayed $M,Q$ agreement.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence selector-window coverage]
+\label{thm:fast-cauchy-subsequence-selector-window-coverage}
+Every selected window in an accepted $\FastCauchySubsequenceUp$ packet $A=(S,M,Q,F,R,W,E,H,C,P,N)$ is covered by the displayed cofinal selector $Q$ together with the dyadic and fast-rate ledger read through $M$ and $F$. The coverage route exposes only the finite selector ledger, inspected modulus data, fast-rate row, regular-subsequence handoff, and $\RegSeqRatUp$ readback; it does not import an independent subsequence function.
+\end{theorem}
+\begin{proof}
+Start with the selected windows named by $Q$. By carrier admission, these windows are rows of the finite packet and are read from the source row $S$ rather than from an external selector.
+
+Use \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence}. It binds the selected windows to the same inspected modulus row $M$ before the fast-rate row $F$ and the handoff row $R$ are visible.
+
+Apply the regular route theorem, \autoref{thm:fast-cauchy-subsequence-regular-route}. The route from $Q$ to $W$ passes through $F$ and $R$, so each selected window is covered by the displayed cofinal selector, dyadic radius data carried in the fast-rate ledger, and regular rational readback.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence Real-seal selector boundary]
+\label{thm:fast-cauchy-subsequence-real-seal-selector-boundary}
+Every $\RealUp$ seal consumer of an accepted $\FastCauchySubsequenceUp$ packet must pass through the modulus row $M$, cofinal selector row $Q$, fast-rate row $F$, regular-subsequence row $R$, and regular rational readback row $W$ before the seal row $E$ is visible. The seal boundary is therefore the displayed route
+$$
+M,\quad Q,\quad F,\quad R,\quad W,\quad E
+$$
+inside the packet $A=(S,M,Q,F,R,W,E,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:fast-cauchy-subsequence-regular-route}. It already places every $\RealUp$-facing read downstream of $S,M,Q,F,R,W$ and before the terminal row $E$.
+
+Use \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence} to bind the first two active rows of the boundary. The seal consumer cannot replace the displayed $M,Q$ window selection by host subsequence equality or a countable-choice selector.
+
+Then use \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}. It forces the selected windows through the fast-rate ledger, regular-subsequence handoff, and $\RegSeqRatUp$ readback before $E$ is consumed. The structural rows $H,C,P,N$ transport and name this route without adding another seal path.
+\end{proof}
+
 The downstream explicit-modulus sequence route of \autoref{ch:concrete-instances-effective-cauchy-sequence-namecert} may consume $\FastCauchySubsequenceUp$ when it needs finite fast-subsequence evidence: the inspected modulus data $M$ and cofinal selector rows $Q$ become the effective Cauchy sequence witness after the fast-rate and regular-subsequence handoff rows are displayed. The same relationship also feeds rate-realization consumers through the visible $F,R,W$ route, without selecting a limit and without invoking countable choice.
 
 \begin{closurestatus}{\FastCauchySubsequenceUp}
