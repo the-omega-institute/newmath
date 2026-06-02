@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyLocatedSplitUp$}
+\label{ch:concrete-instances-regular-cauchy-located-split-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyLocatedSplitUp$ packet records the finite boundary at which a regular Cauchy rational name exposes a located split before the terminal real-name seal is read. It sits between the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the located-real surface of \autoref{ch:concrete-instances-locatedreal-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the terminal Real naming packet of \autoref{ch:concrete-instances-real-namecert}, and the generator-internal closure discipline of \autoref{ch:visions-certificate-closure-and-generator-induction}. The packet is a displayed L10 split witness for Real and Completion consumers; it is not trichotomy, quotient real equality, countable choice, a selected limit, or an ambient completeness principle for $\RealUp$.
+
+\begin{definition}[Regular Cauchy located split carrier]
+\label{def:regular-cauchy-located-split-carrier}
+A $\RegularCauchyLocatedSplitUp$ carrier is a finite $\BHist$ packet
+$$
+S=(Q,L,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the regular Cauchy source row, recording the accepted $\RegSeqRatUp$ name whose split boundary is being read.
+\item $L$ is the located interval evidence row, recording the $\LocatedRealUp$ lower and upper side data used by the split request.
+\item $D$ is the positive dyadic split budget row, recording the $\DyadicRatCoreUp$ tolerance, slack, and positive-gap budget inspected at the split.
+\item $W$ is the $\StreamNameUp$ window row, recording the finite observation windows at which $Q$, $L$, and $D$ are compared.
+\item $R$ is the regular readback row, recording the $\RegSeqRatUp$ finite readback after the split budget has been applied to the visible windows.
+\item $E$ is the $\RealUp$ seal row, available only after the source, located evidence, dyadic budget, stream window, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $Q,L,D,W,R,E$ and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from a split request through the same source, located, dyadic, window, readback, Real-seal, transport, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyLocatedSplitUp$, $\RegSeqRatUp$, $\LocatedRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyLocatedSplitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,L,D,W,R,E,H,C,P,N$. It has no coordinate for trichotomy, quotient equality of completed reals, countable choice, an unbounded split search, a selected limit, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.RegularCauchyLocatedSplitUp}
+
+\begin{theorem}[Regular Cauchy located split NameCert obligations]
+\label{thm:regular-cauchy-located-split-namecert-obligations}
+For every accepted $\RegularCauchyLocatedSplitUp$ carrier $S=(Q,L,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyLocatedSplitUp}$ surface consists exactly of carrier admission for the regular Cauchy source row, located interval evidence row, positive dyadic split budget, stream window, regular readback, Real seal, componentwise transport, displayed replay, provenance, and local naming. Every split read must expose $Q,L,D,W,R,H,C,P,N$ before the terminal Real seal row $E$ is public.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-located-split-carrier}. The source row is $Q$, the located evidence row is $L$, the positive dyadic budget is $D$, the finite observation row is $W$, the regular readback is $R$, and the Real seal is $E$.
+
+The local certificate orders those rows. A split request first reads the regular Cauchy source, then the located interval evidence and dyadic budget at the finite windows where the readback is inspected.
+
+Finally transport, replay, provenance, and local naming are supplied by $H,C,P,N$. Since the carrier has no trichotomy coordinate, quotient real equality, countable-choice schedule, selected limit, or ambient completeness row, the listed projections exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy located split Real handoff]
+\label{thm:regular-cauchy-located-split-real-handoff}
+Every $\RealUp$-facing read exported by an accepted $\RegularCauchyLocatedSplitUp$ carrier factors through the displayed route
+$$
+\RegSeqRatUp,\ \LocatedRealUp,\ \DyadicRatCoreUp,\ \StreamNameUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The handoff exposes the regular Cauchy source, located interval evidence, positive dyadic split budget, finite stream window, regular readback, componentwise transport, replay, provenance, and local naming before the Real seal may be consumed.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:regular-cauchy-located-split-carrier}. The Real seal row $E$ is downstream of the source $Q$, located evidence $L$, dyadic budget $D$, finite windows $W$, and regular readback $R$.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-located-split-namecert-obligations}. They require any public Real-facing read to keep the same $Q,L,D,W,R,H,C,P,N$ rows visible before $E$ is opened.
+
+Thus the L10 handoff is a finite generator-internal split witness in the sense of \autoref{ch:visions-certificate-closure-and-generator-induction}. A consumer that asks for trichotomy, quotient real equality, countable choice, selected limits, or ambient completeness must leave this packet and cite a downstream certificate.
+\end{proof}
+
+\falsifiablePrediction{Deleting the positive dyadic split budget row while keeping the source and Real seal rows leaves no accepted $\RegularCauchyLocatedSplitUp$ route from $\RegSeqRatUp$ finite windows to a located Real handoff.}
+
+\independenceWitness{regseqrat, locatedreal, dyadicratcore, streamname, real: no listed sibling is bijective with $\RegularCauchyLocatedSplitUp$ because the packet jointly binds a source regular Cauchy name, located interval evidence, positive dyadic budget, finite windows, regular readback, Real seal, transport, replay, provenance, and local NameCert row.}
+
+\closureat{RegularCauchyLocatedSplitUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyLocatedSplitUp}
+  \constructivestory{A $\RegularCauchyLocatedSplitUp$ packet is generated from a regular Cauchy source row, located interval evidence, positive dyadic split budget, finite StreamName windows, regular readback, Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-located-split-carrier}, \autoref{thm:regular-cauchy-located-split-namecert-obligations}, and \autoref{thm:regular-cauchy-located-split-real-handoff} seed the finite located-split handoff from regular Cauchy names through dyadic and stream windows to Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegularCauchyLocatedSplitUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, quotient real equality, countable choice, selected limits, ambient Real completeness, theorem-level Lean verification, or bridge checking for $\RegularCauchyLocatedSplitUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive dyadic split exactness, located evidence stability, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyLocatedSplitUp.}
+\end{closurestatus}
