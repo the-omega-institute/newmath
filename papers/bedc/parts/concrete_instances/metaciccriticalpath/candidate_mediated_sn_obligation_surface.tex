@@ -212,3 +212,19 @@ The normalization frontier and critical-pair ledger are then read as finite boun
 Finally apply \autoref{thm:metacic-critical-path-bounded-conversion-discharge}. The same displayed rows are exactly the finite discharge interface for bounded conversion, so candidate-SN readiness is a row-presence and factorization claim only.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateSNReadiness}
+
+\begin{theorem}[MetaCIC critical-path bounded conversion consumer route]
+\label{thm:metacic-critical-path-bounded-conversion-consumer-route}
+Any confluence-facing or decidability-facing consumer that uses the accepted candidate-mediated strong-normalization packet of \autoref{thm:metacic-critical-path-candidate-sn-readiness} must first read the bounded normalization candidates, the candidate discharge schedules, the finite checker budgets, and the local $\NameCert_{\MetaCICCriticalPathUp}$ rows. Only after these rows are displayed may the consumer export a bounded conversion claim through the $\MetaCICNormalizationFrontierUp$ boundary, the $\MetaCICCriticalPairLedgerUp$ pair ledger, the endpoint rows $S,N$, the open discharge socket $D$, and the L10 four-object exit certificate over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+The route is a consumer discipline, not a global conversion theorem. It does not assert unrestricted confluence, global strong normalization, unbounded beta-conversion decidability, quotient term equality, selected limits, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated SN readiness surface. It exposes the candidate row, normalization frontier, critical-pair ledger, endpoint rows, open socket, L10 exit certificate, and the structural $H,C,P,L$ rows as the finite handoff boundary.
+
+Apply the candidate discharge schedule exhaustion. The consumer must read the bounded candidates together with the displayed discharge schedule before any conversion-facing export is formed.
+
+Use the conditional budget and bounded checker gates. These gates keep the checker budget finite and tied to the same frontier and pair-ledger rows, so confluence-facing and decidability-facing consumers receive a bounded conversion surface rather than an unrestricted theorem.
+
+Finally repack the local NameCert rows. The $\hsame$, $\Cont$, $\Pkg$, and naming coordinates preserve the accepted packet, while the socket and L10 rows prevent the route from becoming global strong normalization, unrestricted confluence, unbounded conversion decidability, quotient equality, selected limits, host equality, or Real completeness.
+\end{proof}
