@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowRegSeqRatHandoffUp$}
+\label{ch:concrete-instances-finite-window-regseqrat-handoff-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\FiniteWindowRegSeqRatHandoffUp$ packet records the finite-window handoff used when regular Cauchy data enter the Real-completion route. It realizes the regular-Cauchy vision of \autoref{sec:real-completeness-regular-cauchy} as concrete NameCert data over the finite StreamName window of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet does not import quotient streams, selected limits, countable choice, metric completeness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite-window RegSeqRat handoff carrier]
+\label{def:finite-window-regseqrat-handoff}
+A $\FiniteWindowRegSeqRatHandoffUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,D,R,Q,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row, exposing the inspected source indices and observation schedule.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic radius, common-scale comparison, and requested precision.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same finite window and tolerance row.
+\item $Q$ is the terminal $\RealUp$ seal row, reached only after $S,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the StreamName, DyadicRatCore, RegSeqRat, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+S,D \longmapsto R \longmapsto Q,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteWindowRegSeqRatHandoffUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteWindowRegSeqRatHandoffUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,R,Q,H,C,P,N$. It has no coordinate for quotient stream equality, a selected limit, a countable-choice schedule, metric completeness, or ambient real completeness.
+\end{definition}
+
+\leanstmt{BEDC.Derived.FiniteWindowRegSeqRatHandoffUp}
+
+\begin{theorem}[Finite-window RegSeqRat handoff NameCert obligations]
+\label{thm:finite-window-regseqrat-handoff-namecert-obligations}
+For every accepted $\FiniteWindowRegSeqRatHandoffUp$ carrier $W=(S,D,R,Q,H,C,P,N)$, the local $\NameCert_{\FiniteWindowRegSeqRatHandoffUp}$ surface consists exactly of finite StreamName window exposure through $S$, dyadic tolerance ordering through $D$, regular rational readback through $R$, terminal Real sealing through $Q$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$. Every Real-completion consumer must read these rows in that order, and no obligation row exports quotient streams, selected limits, countable choice, metric completeness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:finite-window-regseqrat-handoff}. The finite observation surface is $S$, and the requested tolerance is recorded by $D$, so a consumer first sees an explicit window and dyadic precision row.
+
+The regular rational readback is $R$. It is attached to the same finite window and tolerance row, so the handoff cannot replace the displayed data by quotient stream equality or by a selected limiting representative.
+
+The Real-facing boundary is terminal. Row $Q$ can be consumed only after $S,D,R$ have been projected, while $H,C,P,N$ transport, replay, source, and name the same finite packet.
+
+Since the carrier has no coordinate for choice, completeness, quotient equality, or selected limits, the listed rows exhaust the NameCert obligations and define the finite-window handoff used by Real-completion consumers.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteWindowRegSeqRatHandoffUp$ read exposes one StreamName finite window, one DyadicRatCore tolerance row, one RegSeqRat readback row, one RealUp seal, componentwise hsame, Cont replay, Pkg provenance, and a local NameCert row before any Real-completion consumer receives the packet.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real: $\FiniteWindowRegSeqRatHandoffUp$ is not bijective to any listed sibling because it jointly binds the finite observation window, tolerance row, regular readback, terminal Real seal, transport, replay, provenance, and local naming as one handoff packet.}
+
+\closureat{FiniteWindowRegSeqRatHandoffUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWindowRegSeqRatHandoffUp}
+  \constructivestory{A $\FiniteWindowRegSeqRatHandoffUp$ packet is generated from StreamName finite windows, DyadicRatCore tolerance rows, RegSeqRat readback, RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-window-regseqrat-handoff} and \autoref{thm:finite-window-regseqrat-handoff-namecert-obligations} seed the finite-window RegSeqRat handoff over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.FiniteWindowRegSeqRatHandoffUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, metric completeness, ambient $\RealUp$ completeness, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite-window exposure, dyadic tolerance ordering, regular rational readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteWindowRegSeqRatHandoffUp.}
+\end{closurestatus}
