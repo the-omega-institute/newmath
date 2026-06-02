@@ -77,10 +77,10 @@ def _metric_gap(metrics: Mapping[str, float]) -> LedgerGap | None:
     if not any(
         key in metrics
         for key in (
-            "theorem3_bound",
-            "actual_recovery_error",
-            "bound_margin",
-            "normalized_gap_d",
+            "theorem3_bound_mse",
+            "actual_recovery_mse",
+            "bound_margin_mse",
+            "normalized_gap_d_mse",
             "whitening_deviation_epsilon",
         )
     ):

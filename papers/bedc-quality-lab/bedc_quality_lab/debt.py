@@ -132,10 +132,10 @@ def _theorem_bound_score(metrics: Mapping[str, float], protocol: CostProtocol) -
     values = _bound_values(metrics)
     if values is None:
         return upper
-    margin = values["bound_margin"]
+    margin = values["bound_margin_mse"]
     if margin >= 0.0:
         return 0.0
-    scale = max(_EPS, 1.0, abs(values["theorem3_bound"]))
+    scale = max(_EPS, 1.0, abs(values["theorem3_bound_mse"]))
     return _bounded((-margin / scale) * upper, upper)
 
 

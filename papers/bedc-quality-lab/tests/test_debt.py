@@ -6,10 +6,10 @@ from bedc_quality_lab.mixing import canonical_mixing_families
 
 def closed_metrics(**patch):
     return {
-        "theorem3_bound": 1.0,
-        "actual_recovery_error": 0.25,
-        "bound_margin": 0.75,
-        "normalized_gap_d": 0.10,
+        "theorem3_bound_mse": 1.0,
+        "actual_recovery_mse": 0.25,
+        "bound_margin_mse": 0.75,
+        "normalized_gap_d_mse": 0.10,
         "whitening_deviation_epsilon": 0.20,
     } | patch
 
@@ -409,13 +409,13 @@ def test_global_claim_multi_seed_thresholds_pin_closed_partial_open_statuses():
 def test_theorem_bound_margin_thresholds_pin_closed_and_open_statuses():
     closed_assessment = assess_case({}, stability_spec={"multi_seed": True})
     zero_assessment = assess_debt(
-        closed_metrics(theorem3_bound=1.0, actual_recovery_error=1.0, bound_margin=0.0),
+        closed_metrics(theorem3_bound_mse=1.0, actual_recovery_mse=1.0, bound_margin_mse=0.0),
         {"source_count": 3, "mixing": canonical_mixing_families(), "sample_count": 2048},
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},
     )
     open_assessment = assess_debt(
-        closed_metrics(theorem3_bound=1.0, actual_recovery_error=2.0, bound_margin=-1.0),
+        closed_metrics(theorem3_bound_mse=1.0, actual_recovery_mse=2.0, bound_margin_mse=-1.0),
         {"source_count": 3, "mixing": canonical_mixing_families(), "sample_count": 2048},
         {"name": "certified-search", "training": "certified"},
         {"multi_seed": True},

@@ -82,10 +82,10 @@ def closed_specs():
 
 def closed_metrics(**patch):
     return {
-        "theorem3_bound": 1.0,
-        "actual_recovery_error": 0.25,
-        "bound_margin": 0.75,
-        "normalized_gap_d": 0.10,
+        "theorem3_bound_mse": 1.0,
+        "actual_recovery_mse": 0.25,
+        "bound_margin_mse": 0.75,
+        "normalized_gap_d_mse": 0.10,
         "whitening_deviation_epsilon": 0.20,
     } | patch
 
@@ -205,7 +205,7 @@ def test_debt_uses_injected_protocol_weights():
         ),
         (
             LedgerRowKey("verification", "theorem3-bound-margin"),
-            {"theorem3_bound": 1.0, "actual_recovery_error": 2.0, "bound_margin": -1.0},
+            {"theorem3_bound_mse": 1.0, "actual_recovery_mse": 2.0, "bound_margin_mse": -1.0},
             {},
             {},
             {},
@@ -250,15 +250,15 @@ def test_assess_debt_derives_every_row_from_protocol_weight(
 def test_theorem_bound_margin_debt_item_tracks_negative_zero_positive_and_missing_metrics():
     source_spec, classifier_spec, stability_spec = closed_specs()
 
-    positive = assess_debt(closed_metrics(bound_margin=0.25), source_spec, classifier_spec, stability_spec)
+    positive = assess_debt(closed_metrics(bound_margin_mse=0.25), source_spec, classifier_spec, stability_spec)
     zero = assess_debt(
-        closed_metrics(theorem3_bound=1.0, actual_recovery_error=1.0, bound_margin=0.0),
+        closed_metrics(theorem3_bound_mse=1.0, actual_recovery_mse=1.0, bound_margin_mse=0.0),
         source_spec,
         classifier_spec,
         stability_spec,
     )
     negative = assess_debt(
-        closed_metrics(theorem3_bound=1.0, actual_recovery_error=2.0, bound_margin=-1.0),
+        closed_metrics(theorem3_bound_mse=1.0, actual_recovery_mse=2.0, bound_margin_mse=-1.0),
         source_spec,
         classifier_spec,
         stability_spec,

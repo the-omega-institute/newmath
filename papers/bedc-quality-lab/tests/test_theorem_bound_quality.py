@@ -12,10 +12,10 @@ from bedc_quality_lab.theorem_bound_quality import (
 
 def metrics(**patch):
     base = {
-        "theorem3_bound": 1.0,
-        "actual_recovery_error": 0.25,
-        "bound_margin": 0.75,
-        "normalized_gap_d": 0.10,
+        "theorem3_bound_mse": 1.0,
+        "actual_recovery_mse": 0.25,
+        "bound_margin_mse": 0.75,
+        "normalized_gap_d_mse": 0.10,
         "whitening_deviation_epsilon": 0.20,
     }
     return base | patch
@@ -26,20 +26,23 @@ def classifier(**patch):
 
 
 def test_positive_margin_certifies_and_negative_margin_is_not_clipped():
-    certified = theorem_bound_certificate(metrics(bound_margin=0.10))
+    certified = theorem_bound_certificate(metrics(bound_margin_mse=0.10))
     not_certified = theorem_bound_certificate(
-        metrics(theorem3_bound=0.40, actual_recovery_error=0.70, bound_margin=-0.30)
+        metrics(theorem3_bound_mse=0.40, actual_recovery_mse=0.70, bound_margin_mse=-0.30)
     )
 
     assert certified["cert_status"] == "certified"
+    assert certified["cert_bound_mse"] == pytest.approx(1.0)
+    assert certified["cert_actual_recovery_mse"] == pytest.approx(0.25)
+    assert certified["cert_threshold"]["theorem3_bound_mse"] == pytest.approx(1.0)
     assert not_certified["cert_status"] == "not-certified"
-    assert not_certified["cert_bound_margin"] == pytest.approx(-0.30)
+    assert not_certified["cert_bound_margin_mse"] == pytest.approx(-0.30)
 
 
 def test_missing_bound_keys_fail_closed():
-    certificate = theorem_bound_certificate({"theorem3_bound": 1.0})
-    values = theorem_bound_quality_components({"theorem3_bound": 1.0}, 0.0, classifier())
-    gap = theorem_bound_ledger_gap({"theorem3_bound": 1.0})
+    certificate = theorem_bound_certificate({"theorem3_bound_mse": 1.0})
+    values = theorem_bound_quality_components({"theorem3_bound_mse": 1.0}, 0.0, classifier())
+    gap = theorem_bound_ledger_gap({"theorem3_bound_mse": 1.0})
 
     assert certificate["cert_status"] == "not-certified"
     assert values["theorem_bound_benefit"] == 0.0
@@ -59,17 +62,17 @@ def test_quality_q_identity_uses_theorem_bound_benefit():
 
 def test_benefit_drops_as_actual_error_reaches_and_exceeds_bound():
     low_error = theorem_bound_quality_components(
-        metrics(theorem3_bound=1.0, actual_recovery_error=0.20, bound_margin=0.80),
+        metrics(theorem3_bound_mse=1.0, actual_recovery_mse=0.20, bound_margin_mse=0.80),
         0.0,
         classifier(),
     )
     near_bound = theorem_bound_quality_components(
-        metrics(theorem3_bound=1.0, actual_recovery_error=0.90, bound_margin=0.10),
+        metrics(theorem3_bound_mse=1.0, actual_recovery_mse=0.90, bound_margin_mse=0.10),
         0.0,
         classifier(),
     )
     over_bound = theorem_bound_quality_components(
-        metrics(theorem3_bound=1.0, actual_recovery_error=1.10, bound_margin=-0.10),
+        metrics(theorem3_bound_mse=1.0, actual_recovery_mse=1.10, bound_margin_mse=-0.10),
         0.0,
         classifier(),
     )
@@ -81,17 +84,17 @@ def test_benefit_drops_as_actual_error_reaches_and_exceeds_bound():
 
 def test_gap_and_whitening_penalties_are_monotone_inside_clamp():
     low_penalty = theorem_bound_quality_components(
-        metrics(normalized_gap_d=0.10, whitening_deviation_epsilon=0.10),
+        metrics(normalized_gap_d_mse=0.10, whitening_deviation_epsilon=0.10),
         0.0,
         classifier(),
     )
     high_gap = theorem_bound_quality_components(
-        metrics(normalized_gap_d=0.50, whitening_deviation_epsilon=0.10),
+        metrics(normalized_gap_d_mse=0.50, whitening_deviation_epsilon=0.10),
         0.0,
         classifier(),
     )
     high_whitening = theorem_bound_quality_components(
-        metrics(normalized_gap_d=0.10, whitening_deviation_epsilon=0.50),
+        metrics(normalized_gap_d_mse=0.10, whitening_deviation_epsilon=0.50),
         0.0,
         classifier(),
     )
@@ -102,7 +105,7 @@ def test_gap_and_whitening_penalties_are_monotone_inside_clamp():
 
 def test_ledger_emits_theorem_bound_margin_not_proxy_row():
     gap = theorem_bound_ledger_gap(
-        metrics(theorem3_bound=0.40, actual_recovery_error=0.70, bound_margin=-0.30)
+        metrics(theorem3_bound_mse=0.40, actual_recovery_mse=0.70, bound_margin_mse=-0.30)
     )
 
     assert gap is not None
@@ -111,11 +114,11 @@ def test_ledger_emits_theorem_bound_margin_not_proxy_row():
 
 
 def test_positive_bound_margin_closes_ledger_gap():
-    assert theorem_bound_ledger_gap(metrics(bound_margin=0.01)) is None
+    assert theorem_bound_ledger_gap(metrics(bound_margin_mse=0.01)) is None
 
 
 def test_non_finite_bound_values_fail_closed():
-    bad = metrics(theorem3_bound=math.inf)
+    bad = metrics(theorem3_bound_mse=math.inf)
 
     assert theorem_bound_certificate(bad)["cert_status"] == "not-certified"
     assert theorem_bound_quality_components(bad, 0.0, classifier())["theorem_bound_benefit"] == 0.0

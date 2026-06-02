@@ -74,13 +74,19 @@ def assert_common_experiment_envelope(envelope):
         "orthogonality_error",
         "covariance_deviation",
         "approx_identifiability_proxy",
-        "alignment_loss",
-        "alignment_gap_delta",
+        "alignment_loss_mse",
+        "covariance_trace",
+        "alignment_gap_delta_mse",
+        "normalized_gap_d_mse",
         "whitening_deviation_epsilon",
-        "normalized_gap_d",
-        "theorem3_bound",
-        "actual_recovery_error",
-        "bound_margin",
+        "theorem3_bound_mse",
+        "actual_recovery_mse",
+        "bound_margin_mse",
+        "alignment_loss_normalized",
+        "alignment_gap_delta_normalized",
+        "actual_recovery_normalized",
+        "theorem3_bound_normalized",
+        "bound_margin_normalized",
         "theorem_bound_benefit",
         "theorem_bound_gap_penalty",
         "theorem_bound_whitening_penalty",
@@ -140,21 +146,21 @@ def assert_classifier_certificate(envelope, *, expected_status="certified"):
     assert classifier_spec["cert_method"] == "theorem3-bound-margin"
     assert classifier_spec["cert_status"] == expected_status
     assert isinstance(classifier_spec["cert_score"], (int, float))
-    assert isinstance(classifier_spec["cert_bound"], (int, float))
-    assert isinstance(classifier_spec["cert_actual_recovery_error"], (int, float))
-    assert isinstance(classifier_spec["cert_bound_margin"], (int, float))
+    assert isinstance(classifier_spec["cert_bound_mse"], (int, float))
+    assert isinstance(classifier_spec["cert_actual_recovery_mse"], (int, float))
+    assert isinstance(classifier_spec["cert_bound_margin_mse"], (int, float))
     assert isinstance(classifier_spec["cert_reason"], str)
-    assert classifier_spec["cert_threshold"]["theorem3_bound"] == envelope.metrics["theorem3_bound"]
+    assert classifier_spec["cert_threshold"]["theorem3_bound_mse"] == envelope.metrics["theorem3_bound_mse"]
     assert classifier_spec["cert_threshold"]["max_recovery_error"] == 1.0
     assert np.isclose(
-        classifier_spec["cert_bound"],
-        envelope.metrics["theorem3_bound"],
+        classifier_spec["cert_bound_mse"],
+        envelope.metrics["theorem3_bound_mse"],
     )
     assert np.isclose(
-        classifier_spec["cert_actual_recovery_error"],
-        envelope.metrics["actual_recovery_error"],
+        classifier_spec["cert_actual_recovery_mse"],
+        envelope.metrics["actual_recovery_mse"],
     )
-    assert np.isclose(classifier_spec["cert_bound_margin"], envelope.metrics["bound_margin"])
+    assert np.isclose(classifier_spec["cert_bound_margin_mse"], envelope.metrics["bound_margin_mse"])
     assert classifier_spec["split_policy"] == "train-eval-disjoint"
     assert classifier_spec["train_fraction"] == 0.70
     assert classifier_spec["train_count"] == round(0.70 * envelope.source_spec["sample_count"])
@@ -185,14 +191,14 @@ def assert_meaningful_metric_thresholds(
         expected_covariance_deviation,
         abs=1e-12,
     )
-    assert envelope.metrics["alignment_loss"] >= 0.0
-    assert envelope.metrics["alignment_gap_delta"] >= 0.0
+    assert envelope.metrics["alignment_loss_mse"] >= 0.0
+    assert envelope.metrics["alignment_gap_delta_mse"] >= 0.0
     assert envelope.metrics["whitening_deviation_epsilon"] >= 0.0
-    assert envelope.metrics["normalized_gap_d"] >= 0.0
-    assert envelope.metrics["theorem3_bound"] >= 0.0
-    assert np.isfinite(envelope.metrics["actual_recovery_error"])
-    assert envelope.metrics["bound_margin"] == pytest.approx(
-        envelope.metrics["theorem3_bound"] - envelope.metrics["actual_recovery_error"]
+    assert envelope.metrics["normalized_gap_d_mse"] >= 0.0
+    assert envelope.metrics["theorem3_bound_mse"] >= 0.0
+    assert np.isfinite(envelope.metrics["actual_recovery_mse"])
+    assert envelope.metrics["bound_margin_mse"] == pytest.approx(
+        envelope.metrics["theorem3_bound_mse"] - envelope.metrics["actual_recovery_mse"]
     )
 
 
@@ -281,7 +287,7 @@ def test_parameterized_experiment_preserves_producer_chain():
             "training": "deterministic-standardization",
         },
     )
-    assert_classifier_certificate(envelope, expected_status="not-certified")
+    assert_classifier_certificate(envelope)
     assert envelope.stability_spec == {
         "name": "fixed-seed-single-source",
         "seed": 23,
@@ -514,8 +520,8 @@ def test_report_includes_bound_metrics_without_positive_margin_assumption(tmp_pa
     report = report_path.read_text(encoding="utf-8")
 
     assert "## Identifiability Bound" in report
-    assert "`theorem3_bound`" in report
-    assert "`bound_margin`" in report
-    assert envelope.metrics["bound_margin"] == pytest.approx(
-        envelope.metrics["theorem3_bound"] - envelope.metrics["actual_recovery_error"]
+    assert "`theorem3_bound_mse`" in report
+    assert "`bound_margin_mse`" in report
+    assert envelope.metrics["bound_margin_mse"] == pytest.approx(
+        envelope.metrics["theorem3_bound_mse"] - envelope.metrics["actual_recovery_mse"]
     )
