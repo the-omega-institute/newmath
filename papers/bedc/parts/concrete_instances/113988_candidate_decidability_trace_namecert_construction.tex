@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\CandidateDecidabilityTraceUp$}
+\label{ch:concrete-instances-candidate-decidability-trace-namecert}
+\origin{ai}
+
+The $\CandidateDecidabilityTraceUp$ packet realizes the MetaCIC decidability audit map as finite local-checker data. It sits after the lambda-calculus syntax carrier of \autoref{ch:concrete-instances-lambdacalc-namecert}, the computability boundary of \autoref{ch:concrete-instances-computable-namecert}, the first-order coding surface of \autoref{ch:concrete-instances-firstorder-namecert}, and the MetaCIC audit routes named in \autoref{ch:metacic-decidable-audit-map}. The packet records accepted checker schedules, rejection ledgers, bounded normal-comparison endpoints, strong-normalisation handoff rows, confluence handoff rows, transport, replay, provenance, and local naming; it does not claim a global closed-term conversion decider, an unrestricted normalisation theorem, a confluence theorem, or a host proof search oracle.
+
+\begin{definition}[Candidate decidability trace carrier]
+\label{def:candidate-decidability-trace-carrier}
+A $\CandidateDecidabilityTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(\Gamma,t,A,S,J,B,F,R,N,C,H,K,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Gamma$ is the finite local context row used by the MetaCIC checker request.
+\item $t$ is the displayed candidate term row.
+\item $A$ is the displayed candidate type row.
+\item $S$ is the finite checker schedule, listing the syntax nodes, local context extensions, same-term reads, and bounded-conversion calls opened by the request.
+\item $J$ is the accepted-judgement row produced by the local checker when the schedule succeeds.
+\item $B$ is the bounded normal-comparison row, storing fuel, endpoint names, and equality-readback cells for every conversion subcall.
+\item $F$ is the refusal ledger for schedule branches that fail before a decidability read is exported.
+\item $R$ is the strong-normalisation handoff row, naming the endpoint obligations that a later SN packet must close.
+\item $N$ is the confluence handoff row, naming the join obligations that a later confluence packet must close.
+\item $C$ is the critical-path row binding the local checker schedule, rejection ledger, SN handoff, and confluence handoff into one audit trace.
+\item $H$ records componentwise $\hsame$ transport for context, term, type, schedule, judgement, bounded comparison, refusal, handoff, critical-path, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from local syntax reads through the checker schedule, rejection ledger, bounded comparison, and handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\CandidateDecidabilityTraceUp$, $\LambdaCalcUp$, $\ComputableUp$, $\FirstOrderUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\CandidateDecidabilityTraceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $\Gamma,t,A,S,J,B,F,R,N,C,H,K,P,L$. It has no coordinate for unrestricted decidability, global closed beta-conversion, an unbounded normalizer, an external confluence proof, a proof-search oracle, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Candidate decidability trace NameCert obligations]
+\label{thm:candidate-decidability-trace-namecert-obligations}
+For every accepted $\CandidateDecidabilityTraceUp$ carrier
+$$
+T=(\Gamma,t,A,S,J,B,F,R,N,C,H,K,P,L),
+$$
+the local $\NameCert_{\CandidateDecidabilityTraceUp}$ surface consists exactly of context admission, candidate term admission, candidate type admission, finite checker-schedule exposure, accepted-judgement exposure, bounded normal-comparison exposure, rejection-ledger exposure, strong-normalisation handoff, confluence handoff, critical-path binding, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the same displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:candidate-decidability-trace-carrier}. The local context, term, type, schedule, judgement, bounded comparison, rejection, handoff, critical-path, transport, replay, provenance, and naming rows are the only coordinates of the packet.
+
+The checker schedule $S$ is read before any decidability-facing result. It lists the local syntax inspections, context extensions, same-term reads, and bounded-conversion calls that the accepted trace exposes.
+
+The bounded comparison and rejection rows are then read together. The row $B$ records the finite fuel and endpoint data for successful bounded normal comparisons, while $F$ records the finite reasons why failed branches do not export a decidability read.
+
+The rows $R,N,C$ make the open boundary explicit. They point to the strong-normalisation and confluence obligations needed by later packets, but they do not close those obligations inside this carrier.
+
+Finally, $H,K,P,L$ transport, replay, source, and name the same finite trace. Since no further coordinate exists, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Candidate decidability trace checker-schedule precedence]
+\label{thm:candidate-decidability-trace-checker-schedule-precedence}
+Every accepted $\CandidateDecidabilityTraceUp$ read exposes the finite checker schedule $S$ before it exposes any accepted judgement $J$, bounded comparison row $B$, rejection ledger $F$, strong-normalisation handoff $R$, confluence handoff $N$, or critical-path row $C$. A consumer may therefore inspect a decidability candidate only through the displayed local-checker schedule and its finite ledger rows.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The rows $\Gamma,t,A$ name the local request, and $S$ is the first row that records how the request is checked.
+
+The judgement row $J$ and bounded comparison row $B$ depend on that schedule. Without the syntax-node order, context extensions, same-term reads, and conversion subcalls listed in $S$, neither row has a displayed local-checker route.
+
+The refusal ledger $F$ is also downstream of $S$. It records which schedule branches fail before any decidability read is exported, so it cannot be detached from the schedule that produced those branches.
+
+The handoff rows $R,N,C$ bind the same finite trace to later strong-normalisation and confluence work. Thus every accepted consumer first reads $S$, and no unrestricted decidability theorem or proof-search oracle is introduced.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CandidateDecidabilityTraceUp$ trace exposes a finite checker schedule before any decidability read, bounded normal-comparison export, rejection-ledger export, strong-normalisation handoff, confluence handoff, or critical-path row is consumed.}
+
+\independenceWitness{metaciccriticalpath, lambdacalc, computable, firstorder: $\CandidateDecidabilityTraceUp$ is not bijective to any listed sibling because it jointly carries local context, candidate term, candidate type, checker schedule, accepted judgement, bounded normal-comparison, rejection ledger, strong-normalisation handoff, confluence handoff, critical-path binding, transport, replay, provenance, and local naming as one finite decidability-audit trace.}
+
+\closureat{CandidateDecidabilityTraceUp}{seedStr}
+
+\begin{closurestatus}{\CandidateDecidabilityTraceUp}
+  \constructivestory{A $\CandidateDecidabilityTraceUp$ packet is generated from local context rows, candidate term rows, candidate type rows, finite checker schedules, accepted judgement rows, bounded normal-comparison rows, rejection ledgers, strong-normalisation handoff rows, confluence handoff rows, critical-path rows, componentwise hsame transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:candidate-decidability-trace-carrier}, \autoref{thm:candidate-decidability-trace-namecert-obligations}, and \autoref{thm:candidate-decidability-trace-checker-schedule-precedence} seed the finite MetaCIC decidability-audit trace over local checker schedules, rejection ledgers, bounded comparison, SN handoff, and confluence handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted decidability, global closed beta-conversion, strong normalisation, confluence, host proof search, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, checker-schedule precedence, bounded-comparison exposure, rejection-ledger exposure, SN handoff, confluence handoff, critical-path binding, Nontrivial and FieldFaithful TasteGate instances, transport, replay, provenance, and local naming for BEDC.Derived.CandidateDecidabilityTraceUp.}
+\end{closurestatus}
