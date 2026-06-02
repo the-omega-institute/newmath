@@ -35,52 +35,45 @@ class CanonicalReportSpec:
 
 CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
     CanonicalReportSpec(
-        name="mixing-family-sweep",
-        command=("python3", "scripts/run_mixing_family_sweep.py"),
-        json_artifact="reports/canonical/mixing-family-sweep.json",
-        markdown_artifact="reports/canonical/mixing-family-sweep.md",
+        name="gap-head-on-h",
+        command=("python3", "scripts/run_gap_ledger_head_on_h.py"),
+        json_artifact="reports/canonical/gap-head-on-h.json",
+        markdown_artifact="reports/canonical/gap-head-on-h.md",
         required_json_keys=(
             "generated_at",
+            "representation_boundary",
+            "inference_no_ground_truth_z",
+            "boundary_no_z_audit",
+            "forbidden_column_audit",
             "config",
             "source_artifacts",
             "records",
-            "family_aggregates",
-            "coverage_item",
+            "aggregate",
+            "aggregate_metrics",
+            "treatment_comparison",
+            "control_protocol",
+            "control_verdict",
+            "main_claim_status",
         ),
-        estimated_seconds=20,
+        estimated_seconds=90,
     ),
     CanonicalReportSpec(
-        name="anisotropic-ou-sweep",
-        command=("python3", "scripts/run_anisotropic_ou_sweep.py"),
-        json_artifact="reports/canonical/anisotropic-ou-sweep.json",
-        markdown_artifact="reports/canonical/anisotropic-ou-sweep.md",
+        name="gap-head-discovery",
+        command=("python3", "scripts/run_gap_head_discovery.py"),
+        json_artifact="reports/canonical/gap-head-discovery.json",
+        markdown_artifact="reports/canonical/gap-head-discovery.md",
         required_json_keys=(
             "generated_at",
-            "config",
             "source_artifacts",
-            "records",
-            "aggregates",
-            "transition_debt_by_grid",
+            "boundary_checks",
+            "surface_delta_count",
+            "benefit_terms",
+            "positive_discovery",
+            "matched_random_control",
+            "main_claim_status",
+            "final_main_claim_status",
         ),
-        estimated_seconds=30,
-    ),
-    CanonicalReportSpec(
-        name="spectral-ablation-hinge",
-        command=("python3", "scripts/run_spectral_ablation_hinge.py"),
-        json_artifact="reports/canonical/spectral-ablation-hinge.json",
-        markdown_artifact="reports/canonical/spectral-ablation-hinge.md",
-        required_json_keys=(
-            "generated_at",
-            "config",
-            "source_artifacts",
-            "arms",
-            "hinge_ledger",
-            "rank_correlation",
-            "negative_control_summary",
-            "ledger_summary",
-            "applicability_boundary",
-        ),
-        estimated_seconds=30,
+        estimated_seconds=5,
     ),
 )
 
@@ -128,6 +121,8 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
     _set_existing_attr(module, "JSON_ARTIFACT", spec.json_artifact)
     _set_existing_attr(module, "REPORT_ARTIFACT", spec.markdown_artifact)
     _set_existing_attr(module, "USE_TORCH", False)
+    if spec.name == "gap-head-discovery":
+        _set_existing_attr(module, "SOURCE_JSON_ARTIFACT", "reports/canonical/gap-head-on-h.json")
 
 
 def _run_producer(spec: CanonicalReportSpec) -> None:
@@ -202,10 +197,39 @@ def _index(results: Sequence[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def _render_index_markdown(payload: dict[str, Any]) -> str:
+    lines = [
+        "# Canonical Report Index",
+        "",
+        f"- Generated at: `{payload['generated_at']}`",
+        f"- Root: `{payload['root']}`",
+        "",
+        "| report | status | json | markdown |",
+        "| --- | --- | --- | --- |",
+    ]
+    for report in payload["reports"]:
+        lines.append(
+            "| "
+            f"`{report['name']}` | "
+            f"`{report['status']}` | "
+            f"`{report['json_artifact']}` | "
+            f"`{report['markdown_artifact']}` |"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
 def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
     tmp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    tmp.replace(path)
+
+
+def _write_text_atomic(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
     tmp.replace(path)
 
 
@@ -218,6 +242,7 @@ def run_reports(
     results = [_run_spec(spec) for spec in _select_specs(only)]
     payload = _index(results)
     _write_json_atomic(INDEX_ARTIFACT, payload)
+    _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
     if json_summary is not None:
         _write_json_atomic(Path(json_summary), payload)
     if any(result["status"] != "pass" for result in results):

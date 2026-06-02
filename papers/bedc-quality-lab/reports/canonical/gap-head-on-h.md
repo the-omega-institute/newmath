@@ -1,6 +1,6 @@
 # Gap-Ledger Head on Learned h
 
-- Generated at: `2026-06-02T11:31:56.733973+00:00`
+- Generated at: `2026-06-02T11:36:43.469111+00:00`
 - Representation boundary: `learned_h`
 - Inference no ground-truth z: `true`
 - Sample count: `384`
@@ -53,8 +53,8 @@ The learned h gap head reduced UnloggedErrorRate relative to vanilla under the p
 
 - Generation script: `scripts/run_gap_ledger_head_on_h.py`
 - Imported gap helper: `scripts/run_gaussian_ou_gap_ledger_head.py`
-- JSON artifact: `reports/gap_ledger_head_on_h.json`
-- Report artifact: `reports/gap_ledger_head_on_h.md`
+- JSON artifact: `reports/canonical/gap-head-on-h.json`
+- Report artifact: `reports/canonical/gap-head-on-h.md`
 - Import dependency chain:
   - `scripts/run_gap_ledger_head_on_h.py`
   - `scripts.run_gaussian_ou_gap_ledger_head`

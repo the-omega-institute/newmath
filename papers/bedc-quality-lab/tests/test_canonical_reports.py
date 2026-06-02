@@ -13,6 +13,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     markdown_artifacts = [spec.markdown_artifact for spec in canonical.CANONICAL_REPORTS]
 
     assert len(names) == len(set(names))
+    assert names == ["gap-head-on-h", "gap-head-discovery"]
     assert len(json_artifacts) == len(set(json_artifacts))
     assert len(markdown_artifacts) == len(set(markdown_artifacts))
     for spec in canonical.CANONICAL_REPORTS:
@@ -23,24 +24,44 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         assert spec.required_json_keys
 
 
-def test_spectral_ablation_hinge_manifest_row_is_canonical_and_keyed():
-    spec = canonical._specs_by_name()["spectral-ablation-hinge"]
+def test_gap_head_manifest_rows_are_canonical_and_keyed():
+    on_h = canonical._specs_by_name()["gap-head-on-h"]
+    discovery = canonical._specs_by_name()["gap-head-discovery"]
 
-    assert spec.command == ("python3", "scripts/run_spectral_ablation_hinge.py")
-    assert spec.json_artifact == "reports/canonical/spectral-ablation-hinge.json"
-    assert spec.markdown_artifact == "reports/canonical/spectral-ablation-hinge.md"
-    assert set(spec.required_json_keys) == {
-        "generated_at",
-        "config",
-        "source_artifacts",
-        "arms",
-        "hinge_ledger",
-        "rank_correlation",
-        "negative_control_summary",
-        "ledger_summary",
-        "applicability_boundary",
-    }
-    assert spec.estimated_seconds >= 20
+    assert on_h.command == ("python3", "scripts/run_gap_ledger_head_on_h.py")
+    assert on_h.json_artifact == "reports/canonical/gap-head-on-h.json"
+    assert on_h.markdown_artifact == "reports/canonical/gap-head-on-h.md"
+    assert discovery.command == ("python3", "scripts/run_gap_head_discovery.py")
+    assert discovery.json_artifact == "reports/canonical/gap-head-discovery.json"
+    assert discovery.markdown_artifact == "reports/canonical/gap-head-discovery.md"
+    assert {
+        "boundary_no_z_audit",
+        "forbidden_column_audit",
+        "aggregate_metrics",
+        "treatment_comparison",
+        "control_protocol",
+        "control_verdict",
+        "main_claim_status",
+    }.issubset(set(on_h.required_json_keys))
+    assert {
+        "boundary_checks",
+        "matched_random_control",
+        "main_claim_status",
+        "final_main_claim_status",
+    }.issubset(set(discovery.required_json_keys))
+
+
+def test_manifest_required_keys_cover_linked_control_evidence():
+    for spec in canonical.CANONICAL_REPORTS:
+        keys = set(spec.required_json_keys)
+        assert "generated_at" in keys
+        assert "source_artifacts" in keys
+    assert {"control_protocol", "control_verdict"}.issubset(
+        set(canonical._specs_by_name()["gap-head-on-h"].required_json_keys)
+    )
+    assert {"matched_random_control", "main_claim_status"}.issubset(
+        set(canonical._specs_by_name()["gap-head-discovery"].required_json_keys)
+    )
 
 
 def test_artifact_path_rejects_non_canonical_paths():
@@ -49,9 +70,9 @@ def test_artifact_path_rejects_non_canonical_paths():
 
 
 def test_only_selects_one_manifest_row_and_rejects_unknown():
-    selected = canonical._select_specs("spectral-ablation-hinge")
+    selected = canonical._select_specs("gap-head-discovery")
 
-    assert [spec.name for spec in selected] == ["spectral-ablation-hinge"]
+    assert [spec.name for spec in selected] == ["gap-head-discovery"]
     with pytest.raises(ValueError):
         canonical._select_specs("missing")
 
@@ -83,22 +104,24 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
 
     try:
         payload = canonical.run_reports(
-            only="mixing-family-sweep",
+            only="gap-head-on-h",
             json_summary=str(summary_path),
         )
+        index_markdown = (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
     finally:
         canonical.ROOT = old_root
         canonical.CANONICAL_DIR = old_dir
         canonical.INDEX_ARTIFACT = old_index
         canonical._run_producer = old_runner
 
-    assert calls == ["mixing-family-sweep"]
+    assert calls == ["gap-head-on-h"]
     assert payload["schema_id"] == canonical.INDEX_SCHEMA_ID
     assert len(payload["reports"]) == 1
     assert payload["reports"][0]["status"] == "pass"
     assert payload["reports"][0]["validation"]["required_key_validation"]["status"] == "pass"
     assert json.loads(index_path.read_text(encoding="utf-8")) == payload
     assert json.loads(summary_path.read_text(encoding="utf-8")) == payload
+    assert "gap-head-on-h" in index_markdown
 
 
 def test_index_root_is_relative_and_host_path_free(tmp_path):
@@ -153,12 +176,27 @@ def test_required_key_failure_fails_closed(tmp_path):
     assert validation["status"] == "fail"
     assert validation["missing_artifacts"] == []
     assert validation["required_key_validation"]["status"] == "fail"
-    assert "config" in validation["required_key_validation"]["missing_keys"]
+    assert "source_artifacts" in validation["required_key_validation"]["missing_keys"]
 
 
-def test_make_check_routes_through_pytest_and_canonical_runner():
-    makefile = Path("Makefile").read_text(encoding="utf-8")
+def test_index_markdown_lists_gap_head_reports():
+    payload = canonical._index(
+        [
+            {
+                "name": "gap-head-on-h",
+                "status": "pass",
+                "json_artifact": "reports/canonical/gap-head-on-h.json",
+                "markdown_artifact": "reports/canonical/gap-head-on-h.md",
+            },
+            {
+                "name": "gap-head-discovery",
+                "status": "pass",
+                "json_artifact": "reports/canonical/gap-head-discovery.json",
+                "markdown_artifact": "reports/canonical/gap-head-discovery.md",
+            },
+        ]
+    )
+    markdown = canonical._render_index_markdown(payload)
 
-    assert "check: test canonical-reports" in makefile
-    assert "python3 -m pytest -q" in makefile
-    assert "python3 scripts/run_canonical_reports.py" in makefile
+    assert "gap-head-on-h" in markdown
+    assert "gap-head-discovery" in markdown

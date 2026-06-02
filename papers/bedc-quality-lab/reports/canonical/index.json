@@ -1,26 +1,34 @@
 {
-  "generated_at": "2026-06-02T05:14:53.024382+00:00",
+  "generated_at": "2026-06-02T11:36:43.486673+00:00",
   "reports": [
     {
-      "duration_seconds": 0.046,
-      "estimated_seconds": 20,
-      "json_artifact": "reports/canonical/mixing-family-sweep.json",
-      "markdown_artifact": "reports/canonical/mixing-family-sweep.md",
-      "name": "mixing-family-sweep",
+      "duration_seconds": 2.272,
+      "estimated_seconds": 90,
+      "json_artifact": "reports/canonical/gap-head-on-h.json",
+      "markdown_artifact": "reports/canonical/gap-head-on-h.md",
+      "name": "gap-head-on-h",
       "producer_command": [
         "python3",
-        "scripts/run_mixing_family_sweep.py"
+        "scripts/run_gap_ledger_head_on_h.py"
       ],
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
         "required_json_keys": [
           "generated_at",
+          "representation_boundary",
+          "inference_no_ground_truth_z",
+          "boundary_no_z_audit",
+          "forbidden_column_audit",
           "config",
           "source_artifacts",
           "records",
-          "family_aggregates",
-          "coverage_item"
+          "aggregate",
+          "aggregate_metrics",
+          "treatment_comparison",
+          "control_protocol",
+          "control_verdict",
+          "main_claim_status"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -30,56 +38,28 @@
       }
     },
     {
-      "duration_seconds": 0.037,
-      "estimated_seconds": 30,
-      "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
-      "markdown_artifact": "reports/canonical/anisotropic-ou-sweep.md",
-      "name": "anisotropic-ou-sweep",
+      "duration_seconds": 0.01,
+      "estimated_seconds": 5,
+      "json_artifact": "reports/canonical/gap-head-discovery.json",
+      "markdown_artifact": "reports/canonical/gap-head-discovery.md",
+      "name": "gap-head-discovery",
       "producer_command": [
         "python3",
-        "scripts/run_anisotropic_ou_sweep.py"
+        "scripts/run_gap_head_discovery.py"
       ],
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
         "required_json_keys": [
           "generated_at",
-          "config",
           "source_artifacts",
-          "records",
-          "aggregates",
-          "transition_debt_by_grid"
-        ],
-        "required_key_validation": {
-          "missing_keys": [],
-          "status": "pass"
-        },
-        "status": "pass"
-      }
-    },
-    {
-      "duration_seconds": 0.004,
-      "estimated_seconds": 30,
-      "json_artifact": "reports/canonical/spectral-ablation-hinge.json",
-      "markdown_artifact": "reports/canonical/spectral-ablation-hinge.md",
-      "name": "spectral-ablation-hinge",
-      "producer_command": [
-        "python3",
-        "scripts/run_spectral_ablation_hinge.py"
-      ],
-      "status": "pass",
-      "validation": {
-        "missing_artifacts": [],
-        "required_json_keys": [
-          "generated_at",
-          "config",
-          "source_artifacts",
-          "arms",
-          "hinge_ledger",
-          "rank_correlation",
-          "negative_control_summary",
-          "ledger_summary",
-          "applicability_boundary"
+          "boundary_checks",
+          "surface_delta_count",
+          "benefit_terms",
+          "positive_discovery",
+          "matched_random_control",
+          "main_claim_status",
+          "final_main_claim_status"
         ],
         "required_key_validation": {
           "missing_keys": [],

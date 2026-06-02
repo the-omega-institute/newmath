@@ -1,0 +1,131 @@
+{
+  "artifact": "reports/canonical/gap-head-discovery.json",
+  "benefit_terms": {
+    "critical_unlogged_error_reduction": 0.5118840579710144,
+    "unlogged_error_reduction": 0.391304347826087
+  },
+  "boundary_checks": {
+    "after_arm": "learned_gap_head_on_h",
+    "before_arm": "vanilla",
+    "common_source_seed_order": [
+      3787384488,
+      710762332,
+      4167120010,
+      1271555634,
+      614003796,
+      2194464496,
+      1717970438,
+      3479488918,
+      3184052640,
+      831661604,
+      717283106,
+      2840917146,
+      2907596428,
+      917320952,
+      1165058014,
+      3650807614,
+      4079602456,
+      2451442540,
+      3061295162,
+      1614193026,
+      2405103428,
+      1139059072,
+      2111027254,
+      1026040678,
+      2179066640,
+      1275137844,
+      2609221586,
+      1886350570,
+      3401492092,
+      2859678856
+    ],
+    "feature_columns": [
+      "h:0",
+      "h:1",
+      "score:latent_x_positive",
+      "score:latent_y_positive",
+      "score:high_energy",
+      "margin:latent_x_positive",
+      "margin:latent_y_positive",
+      "margin:high_energy",
+      "transition_delta:latent_x_positive",
+      "transition_delta:latent_y_positive",
+      "transition_delta:high_energy",
+      "quality:quality_q",
+      "quality:quality_margin",
+      "quality:linear_identifiability_r2",
+      "quality:approx_identifiability_proxy"
+    ],
+    "forbidden_inference_columns": [
+      "z",
+      "z_pair",
+      "gap_label",
+      "prediction_error",
+      "eval_gap_labels"
+    ],
+    "inference_no_ground_truth_z": true,
+    "representation_boundary": "learned_h"
+  },
+  "classifier_state": {
+    "after_pattern_id": "gap-head-after-learned-gap-head-on-h",
+    "before_pattern_id": "gap-head-before-vanilla",
+    "feature_count": 15,
+    "recorded_ledger_rows": 30,
+    "required_ledger_rows": 30
+  },
+  "common_source_record_count": 30,
+  "debt_terms": {
+    "boundary_protocol": 0.05,
+    "classifier_ledger_rows": 0.3
+  },
+  "final_main_claim_status": "promoted",
+  "generated_at": "2026-06-02T11:36:43.485639+00:00",
+  "laundering_modes": [],
+  "main_claim_status": "promoted",
+  "matched_random_control": {
+    "control_projection": {
+      "arm": "matched_random_gap_head",
+      "net_information": 0.23449275362318855,
+      "non_discovery_reason": null,
+      "positive_discovery": true,
+      "shift_information": 30,
+      "structural_discovery": true,
+      "surface_delta_count": 30
+    },
+    "control_verdict": {
+      "positive": false,
+      "projection_positive_discovery": true,
+      "reason": "control_non_positive",
+      "source_metrics": {
+        "arm_critical_unlogged_error_rate": 0.0,
+        "arm_unlogged_error_rate": 0.2515942028985507,
+        "critical_unlogged_error_reduction": 1.0,
+        "failure_detection_auroc": 0.49382252387781017,
+        "unlogged_error_reduction": 0.5096045197740113,
+        "vanilla_critical_unlogged_error_rate": 0.5130434782608696,
+        "vanilla_unlogged_error_rate": 0.5130434782608696
+      },
+      "source_positive": false
+    },
+    "source_protocol": "source-json matched_random_control per record"
+  },
+  "net_information": 0.36318840579710143,
+  "net_positive_signal": true,
+  "non_discovery_reason": null,
+  "omitted_debt_terms": {},
+  "positive_discovery": true,
+  "report": "reports/canonical/gap-head-discovery.md",
+  "score_terms": {
+    "gap_channel_heads": 0.04,
+    "h_only_feature_surface": 0.15
+  },
+  "shift_information": 30,
+  "source_artifacts": {
+    "producer_script": "scripts/run_gap_ledger_head_on_h.py",
+    "projection_script": "scripts/run_gap_head_discovery.py",
+    "source_json_artifact": "reports/canonical/gap-head-on-h.json",
+    "source_report_artifact": "reports/canonical/gap-head-on-h.md"
+  },
+  "structural_discovery": true,
+  "surface_delta_count": 30
+}
