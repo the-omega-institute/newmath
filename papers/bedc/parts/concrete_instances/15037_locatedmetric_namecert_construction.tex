@@ -156,11 +156,27 @@ Only after those rows are present can $E$ be consumed as a $\RealUp$ seal. If th
 Finally, $H,C,P,N$ transport, replay, source, and name the same finite rows. The obligation therefore records a BEDC seal route rather than quotient real equality, choice of limits, or an ambient completeness principle.
 \end{proof}
 
+\begin{theorem}[LocatedMetric obligation closure package]
+\label{thm:locatedmetric-obligation-closure-package}
+For an accepted $\LocatedMetricUp$ carrier $L=(X,M,D,S,R,E,Z,H,C,P,N)$, the obligation surface of the chapter is the finite package consisting of carrier admission, the local $\NameCert_{\LocatedMetricUp}$ obligations, completion handoff, dyadic radius localization, separated zero route, Real seal readback, and ledger non-escape. Every public read factors through
+$$
+X\longmapsto M\longmapsto D\longmapsto S\longmapsto R\longmapsto E
+$$
+together with $Z,H,C,P,N$ before any completion-facing, radius-facing, zero-distance-facing, or Real-facing consumer may inspect the packet.
+\end{theorem}
+\begin{proof}
+Carrier admission and the local naming obligations are projections of \autoref{def:located-metric-carrier} and \autoref{thm:located-metric-namecert-obligations}. They expose the point carrier, metric-distance witness, dyadic locatedness row, stream schedule, regular rational readback, Real seal, separated boundary, transport, replay, provenance, and local NameCert row.
+
+The completion and radius routes are already finite obligation rows. Apply \autoref{thm:located-metric-completion-handoff} for the completion-facing consumer and \autoref{thm:located-metric-dyadic-radius-localization} together with \autoref{thm:locatedmetric-radius-locality-obligation} for radius-local reads.
+
+The zero-distance and Real-seal routes use the remaining displayed rows. Apply \autoref{thm:located-metric-separated-zero-route}, \autoref{thm:locatedmetric-separated-zero-obligation}, \autoref{thm:located-metric-real-seal-readback}, and \autoref{thm:locatedmetric-real-seal-obligation}. Since the carrier has no coordinate for quotient completion, selected limits, trichotomy, countable choice, open-cover compactness, or ambient $\RealUp$ completeness, the listed package exhausts the local obligation surface and supplies ledger non-escape.
+\end{proof}
+
 \closureat{LocatedMetricUp}{seedStr}
 
 \begin{closurestatus}{\LocatedMetricUp}
   \constructivestory{A $\LocatedMetricUp$ packet is generated from a point carrier, a MetricUp distance witness, a DyadicRatCore locatedness ledger, StreamName windows, RegSeqRat readbacks, a RealUp seal, a separated zero-distance boundary, componentwise transport, continuation replay, provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:located-metric-carrier}, \autoref{thm:located-metric-namecert-obligations}, \autoref{thm:located-metric-completion-handoff}, \autoref{thm:located-metric-dyadic-radius-localization}, \autoref{thm:located-metric-separated-zero-route}, and \autoref{thm:located-metric-real-seal-readback} seed the finite located-metric interface consumed by completion routes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
