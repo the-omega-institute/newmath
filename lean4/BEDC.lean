@@ -4809,6 +4809,7 @@ import BEDC.Derived.LocalTimeFiberUp.TasteGate
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.LocallyCompactUp.ClosedBallNeighborhoodBase
+import BEDC.Derived.LocallyCompactUp.CompactWindowRootAdmission
 import BEDC.Derived.LocallyCompactUp.LocatedCompactRoute
 import BEDC.Derived.LocallyCompactUp.TasteGate
 import BEDC.Derived.LocatedApartnessUp.TasteGate
