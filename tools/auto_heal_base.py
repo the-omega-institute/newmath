@@ -37,6 +37,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -524,6 +525,365 @@ def _ci_fix_signature(log_tail: str, failure: dict) -> str:
         return f"CI heal {prefix} {m.group(1)}"
     fallback = _short_hash(log_tail[-2000:])
     return f"CI heal {failure.get('workflow', '?')} {fallback}"
+
+
+@dataclass(frozen=True)
+class CiLogDefect:
+    kind: str
+    value: str
+    file: str = ""
+    line: int | None = None
+
+
+LEAN_MARKER_MACROS = ("leanchecked", "leanvariant", "leansorryd", "leanstmt", "leandef", "leantarget")
+
+
+def _dedupe_ci_defects(defects: list[CiLogDefect]) -> list[CiLogDefect]:
+    out: list[CiLogDefect] = []
+    seen: set[CiLogDefect] = set()
+    for defect in defects:
+        if defect in seen:
+            continue
+        seen.add(defect)
+        out.append(defect)
+    return out
+
+
+def _extract_noisy_red_defects(log_tail: str) -> list[CiLogDefect]:
+    """Best-effort extraction of log-named defects with cheap tree checks."""
+    defects: list[CiLogDefect] = []
+    tex_path = r"((?:papers/bedc/)?[^:\s]+\.tex)"
+    lean_target = r"([A-Za-z_][A-Za-z0-9_'.]*(?:\\_[A-Za-z0-9_'.]+)*)"
+
+    for m in re.finditer(
+        tex_path + rf":(\d+).*?\\leantarget\s+'([^']+)'\s+does not resolve under lean4/BEDC/",
+        log_tail,
+    ):
+        defects.append(CiLogDefect("unresolved_lean_marker", m.group(3), m.group(1), int(m.group(2))))
+    for m in re.finditer(
+        tex_path + rf":(\d+).*?\\(?:{'|'.join(LEAN_MARKER_MACROS)})\{{({lean_target})\}}.*?"
+        r"does not resolve",
+        log_tail,
+    ):
+        defects.append(CiLogDefect("unresolved_lean_marker", m.group(3), m.group(1), int(m.group(2))))
+    for m in re.finditer(r"^\s*" + tex_path + rf":(\d+)\s+\\[A-Za-z]+\s+->\s+({lean_target})\s*$",
+                         log_tail, flags=re.MULTILINE):
+        defects.append(CiLogDefect("unresolved_lean_marker", m.group(3), m.group(1), int(m.group(2))))
+
+    for m in re.finditer(r"duplicate paper labels?:\s*(?:\d+)?", log_tail, flags=re.IGNORECASE):
+        tail = log_tail[m.end():m.end() + 4000]
+        for lm in re.finditer(r"^\s*([A-Za-z]+:[A-Za-z0-9_.:-]+)\s+@", tail, flags=re.MULTILINE):
+            defects.append(CiLogDefect("duplicate_label", lm.group(1)))
+    for m in re.finditer(r"duplicate paper label\s+([A-Za-z]+:[A-Za-z0-9_.:-]+)", log_tail, flags=re.IGNORECASE):
+        defects.append(CiLogDefect("duplicate_label", m.group(1)))
+
+    for m in re.finditer(r"Undefined control sequence\.\s*(?:.*\n){0,4}?.*?(\\[A-Za-z@]+)", log_tail):
+        defects.append(CiLogDefect("undefined_macro", m.group(1)))
+
+    for m in re.finditer(
+        tex_path + r":(\d+)\s+\(region [^)]+\):\s+(.+)",
+        log_tail,
+    ):
+        defects.append(CiLogDefect("closurestatus_issue", m.group(3).strip(), m.group(1), int(m.group(2))))
+
+    for m in re.finditer(
+        tex_path + r":(\d+):\s*(?:Missing \$|Extra \}|Extra }, or forgotten|Runaway argument|LaTeX Error:)",
+        log_tail,
+    ):
+        defects.append(CiLogDefect("tex_line_issue", m.group(0).strip(), m.group(1), int(m.group(2))))
+    for m in re.finditer(
+        r"l\.(\d+)\s+(.+?)(?=\n|$).*?(Missing \$|Extra \}|Extra }, or forgotten)",
+        log_tail,
+        flags=re.DOTALL,
+    ):
+        defects.append(CiLogDefect("tex_line_issue", m.group(2).strip(), line=int(m.group(1))))
+
+    return _dedupe_ci_defects(defects)
+
+
+def _rel_tex_path(path: str) -> Path | None:
+    raw = path.strip()
+    if not raw:
+        return None
+    p = Path(raw)
+    if p.is_absolute():
+        try:
+            return p.relative_to(HEAL_WT)
+        except ValueError:
+            return None
+    if raw.startswith("papers/bedc/"):
+        return p
+    if raw.startswith("parts/"):
+        return Path("papers/bedc") / p
+    return p
+
+
+def _read_current_text(rel_path: Path) -> str:
+    try:
+        return (HEAL_WT / rel_path).read_text(encoding="utf-8", errors="ignore")
+    except Exception:
+        return ""
+
+
+def _iter_current_tex_files() -> list[Path]:
+    root = HEAL_WT / "papers" / "bedc"
+    if not root.exists():
+        return []
+    return [
+        path.relative_to(HEAL_WT)
+        for path in root.rglob("*.tex")
+        if path.is_file()
+    ]
+
+
+def _iter_current_lean_files() -> list[Path]:
+    root = HEAL_WT / "lean4" / "BEDC"
+    if not root.exists():
+        return []
+    return [
+        path.relative_to(HEAL_WT)
+        for path in root.rglob("*.lean")
+        if path.is_file()
+    ]
+
+
+def _lean_target_variants(target: str) -> set[str]:
+    raw = target.strip()
+    return {raw, raw.replace(r"\_", "_")}
+
+
+def _declared_lean_symbols_current() -> set[str]:
+    symbols: set[str] = set()
+    decl_re = re.compile(
+        r"^\s*(?:noncomputable\s+)?(?:private\s+|protected\s+)?"
+        r"(?:theorem|lemma|def|inductive|structure|class|instance)\s+"
+        r"([A-Za-z_][A-Za-z0-9_'.]*)"
+    )
+    namespace_re = re.compile(r"^\s*namespace\s+([A-Za-z_][A-Za-z0-9_'.]*)")
+    end_re = re.compile(r"^\s*end(?:\s+([A-Za-z_][A-Za-z0-9_'.]*))?\s*$")
+    for rel in _iter_current_lean_files():
+        stack: list[str] = []
+        for raw_line in _read_current_text(rel).splitlines():
+            line = raw_line.split("--", 1)[0].strip()
+            if not line:
+                continue
+            ns = namespace_re.match(line)
+            if ns:
+                stack.extend(part for part in ns.group(1).split(".") if part)
+                continue
+            end = end_re.match(line)
+            if end:
+                name = end.group(1)
+                if name:
+                    parts = [part for part in name.split(".") if part]
+                    if parts and stack[-len(parts):] == parts:
+                        del stack[-len(parts):]
+                    elif stack:
+                        stack.pop()
+                elif stack:
+                    stack.pop()
+                continue
+            decl = decl_re.match(line)
+            if not decl:
+                continue
+            name = decl.group(1)
+            symbols.add(name)
+            if "." in name:
+                symbols.add(name)
+            elif stack:
+                symbols.add(".".join([*stack, name]))
+    return symbols
+
+
+def _lean_target_exists_current(target: str) -> bool:
+    names = _lean_target_variants(target)
+    return bool(names & _declared_lean_symbols_current())
+
+
+def _paper_marker_present_current(target: str, rel_path: Path | None = None) -> bool:
+    targets = _lean_target_variants(target)
+    files = [rel_path] if rel_path else _iter_current_tex_files()
+    macro_alt = "|".join(re.escape(m) for m in LEAN_MARKER_MACROS)
+    for rel in files:
+        if rel is None:
+            continue
+        text = _read_current_text(rel)
+        if not text:
+            continue
+        for t in targets:
+            if re.search(rf"\\(?:{macro_alt})\{{{re.escape(t)}\}}", text):
+                return True
+    return False
+
+
+def _duplicate_label_still_present(label: str) -> bool:
+    count = 0
+    pattern = re.compile(rf"\\label\{{{re.escape(label)}\}}")
+    for rel in _iter_current_tex_files():
+        count += len(pattern.findall(_read_current_text(rel)))
+        if count >= 2:
+            return True
+    return False
+
+
+def _macro_defined_current(macro: str) -> bool:
+    name = re.escape(macro.lstrip("\\"))
+    patterns = [
+        rf"\\(?:newcommand|renewcommand|providecommand|DeclareRobustCommand)\s*\{{\\{name}\}}",
+        rf"\\(?:newcommand|renewcommand|providecommand|DeclareRobustCommand)\s*\\{name}\b",
+        rf"\\def\\{name}\b",
+    ]
+    for rel in _preamble_closure_files_current():
+        text = _read_current_text(rel)
+        if any(re.search(pattern, text) for pattern in patterns):
+            return True
+    return False
+
+
+def _preamble_closure_files_current() -> list[Path]:
+    root = Path("papers/bedc")
+    seen: set[Path] = set()
+    out: list[Path] = []
+
+    def visit(rel: Path) -> None:
+        if rel in seen:
+            return
+        seen.add(rel)
+        if not (HEAL_WT / rel).exists():
+            return
+        out.append(rel)
+        text = _read_current_text(rel)
+        for m in re.finditer(r"\\(?:input|include)\s*\{([^}]+)\}", text):
+            raw = m.group(1).strip()
+            if not raw:
+                continue
+            child = Path(raw)
+            if not child.suffix:
+                child = child.with_suffix(".tex")
+            if child.is_absolute():
+                try:
+                    child_rel = child.relative_to(HEAL_WT)
+                except ValueError:
+                    continue
+            elif str(child).startswith("papers/bedc/"):
+                child_rel = child
+            else:
+                child_rel = root / child
+            visit(child_rel)
+
+    visit(root / "preamble.tex")
+    return out
+
+
+def _macro_referenced_current(macro: str) -> bool:
+    pattern = re.compile(re.escape(macro) + r"\b")
+    for rel in _iter_current_tex_files():
+        if pattern.search(_read_current_text(rel)):
+            return True
+    return False
+
+
+def _line_text_current(rel_path: Path | None, line: int | None) -> str:
+    if rel_path is None or line is None:
+        return ""
+    text = _read_current_text(rel_path)
+    if not text:
+        return ""
+    lines = text.splitlines()
+    if line < 1 or line > len(lines):
+        return ""
+    return lines[line - 1].strip()
+
+
+def _defect_still_present(defect: CiLogDefect) -> bool:
+    rel_path = _rel_tex_path(defect.file) if defect.file else None
+    if defect.kind == "unresolved_lean_marker":
+        return (
+            _paper_marker_present_current(defect.value, rel_path)
+            and not _lean_target_exists_current(defect.value)
+        )
+    if defect.kind == "duplicate_label":
+        return _duplicate_label_still_present(defect.value)
+    if defect.kind == "undefined_macro":
+        return _macro_referenced_current(defect.value) and not _macro_defined_current(defect.value)
+    if defect.kind == "closurestatus_issue":
+        line = _line_text_current(rel_path, defect.line)
+        if "\\leantarget" in defect.value:
+            target = re.search(r"\\leantarget '([^']+)'", defect.value)
+            if target:
+                return (
+                    _paper_marker_present_current(target.group(1), rel_path)
+                    and not _lean_target_exists_current(target.group(1))
+                )
+        return bool(line)
+    if defect.kind == "tex_line_issue":
+        if rel_path is None or defect.line is None:
+            # A line-only TeX diagnostic is checkable only when the snippet still
+            # appears somewhere in the current paper tree.
+            snippet = defect.value.strip()
+            return bool(snippet and any(snippet in _read_current_text(rel) for rel in _iter_current_tex_files()))
+        return bool(_line_text_current(rel_path, defect.line))
+    return True
+
+
+def _ci_failure_is_noisy_red(log_tail: str) -> tuple[bool, list[CiLogDefect]]:
+    defects = _extract_noisy_red_defects(log_tail)
+    if not defects:
+        return False, []
+    still_present = [defect for defect in defects if _defect_still_present(defect)]
+    return not still_present, defects
+
+
+def run_noisy_red_self_test() -> int:
+    global HEAL_WT
+    old_heal_wt = HEAL_WT
+    try:
+        with tempfile.TemporaryDirectory(prefix="bedc-noisy-red-test-") as td:
+            HEAL_WT = Path(td)
+            (HEAL_WT / "papers" / "bedc" / "parts").mkdir(parents=True)
+            (HEAL_WT / "lean4" / "BEDC").mkdir(parents=True)
+            tex = HEAL_WT / "papers" / "bedc" / "parts" / "sample.tex"
+            tex.write_text(
+                "\\begin{closurestatus}{FooUp}\n"
+                "\\leantarget{BEDC.Missing.Target}\n"
+                "\\end{closurestatus}\n",
+                encoding="utf-8",
+            )
+            (HEAL_WT / "lean4" / "BEDC" / "Sample.lean").write_text(
+                "namespace BEDC\n"
+                "theorem ExistingTarget : True := True.intro\n"
+                "end BEDC\n",
+                encoding="utf-8",
+            )
+
+            gone_log = (
+                "papers/bedc/parts/sample.tex:2 (region FooUp): "
+                "\\leantarget 'BEDC.Gone.Target' does not resolve under lean4/BEDC/\n"
+            )
+            present_log = (
+                "papers/bedc/parts/sample.tex:2 (region FooUp): "
+                "\\leantarget 'BEDC.Missing.Target' does not resolve under lean4/BEDC/\n"
+            )
+            unknown_log = "fatal: runner exited before writing a structured diagnostic\n"
+
+            cases = [
+                ("gone", True, gone_log),
+                ("present", False, present_log),
+                ("unknown", False, unknown_log),
+            ]
+            ok = True
+            for name, expected, log in cases:
+                actual, defects = _ci_failure_is_noisy_red(log)
+                print(
+                    f"[heal] noisy-red self-test {name}: got {actual} "
+                    f"with {len(defects)} defect(s)",
+                    file=sys.stderr,
+                )
+                if actual != expected:
+                    ok = False
+            return 0 if ok else 1
+    finally:
+        HEAL_WT = old_heal_wt
 
 
 def verify_then_push(phase: str, target_branch: str | None = None) -> bool:
@@ -1177,9 +1537,28 @@ def heal_ci_failure(failure: dict) -> bool:
     if not unfixable:
         repro_ok, _repro_err = verify_local_ci()
         if repro_ok:
-            print(f"[heal] CI run {run_id} does not reproduce on current "
-                  f"{MIRROR_BRANCH}; continuing with log-guided heal",
-                  file=sys.stderr, flush=True)
+            noisy_red, defects = _ci_failure_is_noisy_red(log_tail)
+            if noisy_red:
+                _mark_ci_seen(run_id)
+                print(
+                    f"[heal] run {run_id} is noisy-red (log-named defect(s) "
+                    "absent from current tree); skipping",
+                    file=sys.stderr,
+                    flush=True,
+                )
+                return False
+            if defects:
+                print(
+                    f"[heal] CI run {run_id} does not reproduce on current "
+                    f"{MIRROR_BRANCH}, but log-named defect still exists; "
+                    "continuing with log-guided heal",
+                    file=sys.stderr,
+                    flush=True,
+                )
+            else:
+                print(f"[heal] CI run {run_id} does not reproduce on current "
+                      f"{MIRROR_BRANCH}; continuing with log-guided heal",
+                      file=sys.stderr, flush=True)
     # Best-effort job guess: first line matching `<job>\t<step>\t...`.
     job_guess = "?"
     for line in log_tail.splitlines()[:5]:
@@ -2397,7 +2776,7 @@ def main() -> int:
     p.add_argument("--dry-run", action="store_true",
                     help="Run cooldown detection/classification only; no codex, no alert writes")
     p.add_argument("--self-test", action="store_true",
-                    help="Run cooldown classifier self-tests and exit")
+                    help="Run cooldown classifier and noisy-red self-tests and exit")
     p.add_argument("--verify-only", action="store_true",
                     help="Detect log symptoms, verify current state, and exit without dispatch")
     args = p.parse_args()
@@ -2405,7 +2784,9 @@ def main() -> int:
     MIRROR_BRANCH = args.mirror_branch if args.mirror_branch is not None else _mirror_branch_default()
 
     if args.self_test:
-        return run_cooldown_self_test()
+        cooldown_rc = run_cooldown_self_test()
+        noisy_red_rc = run_noisy_red_self_test()
+        return 0 if cooldown_rc == 0 and noisy_red_rc == 0 else 1
 
     if args.verify_only:
         return run_verify_only()
