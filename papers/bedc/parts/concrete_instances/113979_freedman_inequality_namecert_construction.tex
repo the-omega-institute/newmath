@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\FreedmanInequalityUp$}
+\label{ch:concrete-instances-freedman-inequality-namecert}
+\origin{human}
+
+Following Freedman's martingale inequality, the $\FreedmanInequalityUp$ packet names the finite bounded-window concentration surface where martingale differences, bounded stopping decisions, and predictable variance budgets are read as BEDC rows before any tail estimate is exposed. It sits after the probability, random-variable, martingale, stopping-time, optional-stopping, and upcrossing packets of \autoref{ch:concrete-instances-probspace-namecert}, \autoref{ch:concrete-instances-randomvar-namecert}, \autoref{ch:concrete-instances-martingale-namecert}, \autoref{ch:concrete-instances-stoppingtime-namecert}, \autoref{ch:concrete-instances-optionalstopping-namecert}, and \autoref{ch:concrete-instances-upcrossing-namecert}. The chapter records the finite ledger boundary consumed by concentration estimates; it does not import completed filtrations, almost-sure quotient equality, exponential supermartingale limits, unbounded stopping choices, or ambient measure completion.
+
+\begin{definition}[Freedman inequality carrier]
+\label{def:freedman-inequality-carrier}
+A $\FreedmanInequalityUp$ carrier is a finite $\BHist$ packet
+$$
+F=(\Omega,X,M,T,O,U,B,V,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $\Omega$ is the $\ProbSpaceUp$ source row exposing the finite probability ledger.
+\item $X$ is the $\RandomVarUp$ martingale-difference family row, with every endpoint read routed through the random-variable preimage and total-readback surface.
+\item $M$ is the $\MartingaleUp$ finite-window row carrying adaptedness and zero-conditional-mean reads.
+\item $T$ is the $\StoppingTimeUp$ bounded decision row used to stop the inspected martingale window.
+\item $O$ is the $\OptionalStoppingUp$ stopped-read row, exposing stopped values only through bounded windows.
+\item $U$ is the $\UpcrossingUp$ crossing-control row used to keep the same finite martingale window visible to pathwise consumers.
+\item $B$ is the bounded-step row recording the displayed bound on each martingale difference.
+\item $V$ is the variance-budget row recording the predictable quadratic-variation budget inspected before a tail row is exposed.
+\item $H$ records componentwise $\hsame$ transport for the probability, random-variable, martingale, stopping, stopped-read, upcrossing, bounded-step, variance-budget, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a probability read through martingale differences, finite windows, bounded stopping, stopped reads, crossing control, bounded-step rows, variance budgets, and the local certificate.
+\item $P$ is the $\Pkg$ provenance over $\FreedmanInequalityUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\MartingaleUp$, $\StoppingTimeUp$, $\OptionalStoppingUp$, $\UpcrossingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FreedmanInequalityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $\Omega,X,M,T,O,U,B,V,H,C,P,N$. It has no coordinate for a completed sigma-algebra, host measurable functions, almost-sure quotient equality, selected exponential limits, unbounded stopping choices, countable choice, or ambient measure completion.
+\end{definition}
+
+\begin{theorem}[Freedman inequality NameCert obligations]
+\label{thm:freedman-inequality-namecert-obligations}
+For every accepted $\FreedmanInequalityUp$ carrier $F=(\Omega,X,M,T,O,U,B,V,H,C,P,N)$, the local $\NameCert_{\FreedmanInequalityUp}$ obligation surface consists exactly of carrier admission for the displayed probability, random-variable, martingale, stopping-time, optional-stopping, upcrossing, bounded-step, variance-budget, transport, replay, provenance, and local naming rows; martingale-difference exposure through $X,M$; bounded stopped-window exposure through $T,O$; crossing-control compatibility through $U$; variance-budget accountability through $V$; and ledger non-escape through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:freedman-inequality-carrier}. The accepted packet displays exactly the rows $\Omega,X,M,T,O,U,B,V,H,C,P,N$, so every local obligation is attached to one of those coordinates.
+
+The martingale-difference obligations are the rows $X,M$. The $\RandomVarUp$ endpoint family supplies finite random-variable reads, while the $\MartingaleUp$ row supplies adaptedness and conditional-expectation faces inside the inspected window.
+
+The bounded stopped-window obligations are $T,O,U$. The bounded stopping row determines which finite indices may be read, the optional-stopping row exposes stopped values only through those indices, and the upcrossing row keeps the same martingale window visible to crossing-control consumers.
+
+The concentration-specific obligations are $B,V$. The bounded-step row records the displayed step bound, and the variance-budget row records the predictable quadratic-variation budget before a tail estimate can be named.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for completed sigma-algebras, host measurable functions, almost-sure quotient equality, selected exponential limits, unbounded stopping choices, countable choice, or ambient measure completion, no NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[Freedman inequality martingale handoff]
+\label{thm:freedman-inequality-martingale-handoff}
+Every downstream concentration consumer of an accepted $\FreedmanInequalityUp$ packet receives its martingale data only after the route
+$$
+\ProbSpaceUp,\RandomVarUp,\MartingaleUp,\StoppingTimeUp,\OptionalStoppingUp,\UpcrossingUp
+\longmapsto
+\text{bounded-step and variance-budget rows}
+\longmapsto
+\hsame,\Cont,\Pkg,\NameCert
+$$
+has been displayed. Thus the packet hands off a finite bounded-window concentration ledger, not an ambient exponential-supermartingale theorem, completed filtration, almost-sure quotient, selected stopping time, or unbounded convergence principle.
+\end{theorem}
+\begin{proof}
+Begin with a concentration consumer. Projection from the carrier forces the consumer to read the probability source $\Omega$, the random-variable endpoint row $X$, and the finite martingale window $M$ before any tail-bound row is available.
+
+Bounded stopping is the next gate. The $\StoppingTimeUp$ row $T$ names the displayed finite stopping decisions, and \autoref{ch:concrete-instances-optionalstopping-namecert} supplies the stopped-read surface $O$ only over those bounded windows.
+
+Crossing control remains on the same finite path. The $\UpcrossingUp$ row $U$ records the crossing ledger consumed by martingale-window arguments, so the route cannot switch to an ambient almost-sure event or an unbounded stopping theorem.
+
+The Freedman-specific read is then $B,V$. The bounded-step row and predictable variance-budget row are inspected before the concentration row is exposed, and the structural rows $H,C,P,N$ replay and name that same finite ledger. Therefore the handoff contains no completed filtration, quotient equality, selected stopping choice, exponential-limit selector, or ambient convergence principle.
+\end{proof}
+
+\begin{closurestatus}{\FreedmanInequalityUp}
+  \constructivestory{A $\FreedmanInequalityUp$ packet is generated from probability, random-variable martingale-difference, finite martingale, bounded stopping-time, optional-stopping, upcrossing, bounded-step, predictable variance-budget, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:freedman-inequality-carrier}, \autoref{thm:freedman-inequality-namecert-obligations}, and \autoref{thm:freedman-inequality-martingale-handoff} seed the finite bounded-window martingale concentration packet for Freedman-style tail consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed filtrations, almost-sure quotient equality, exponential supermartingale limit selection, unbounded stopping choices, measure completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, martingale-difference exposure, bounded stopped-window exposure, upcrossing compatibility, predictable variance-budget accountability, and non-escape for BEDC.Derived.FreedmanInequalityUp.}
+\end{closurestatus}
