@@ -14,6 +14,7 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.classifier_shift import ClassifierPassage, ClassifierState, classifier_surface_delta, shift_information, structural_discovery
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
 from bedc_quality_lab.ledger import LedgerRowKey
+from bedc_quality_lab.revocation import reevaluate_certified_claim
 
 SOURCE_JSON_ARTIFACT = "reports/certificate_guided_training.json"
 SOURCE_REPORT_ARTIFACT = "reports/certificate_guided_training.md"
@@ -139,6 +140,27 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
         gate_blockers.append("net-information-nonpositive")
     if training_gate.get("positive_quality_improvement") is not True:
         gate_blockers.append("training-positive-quality-gate-false")
+    generated_at = datetime.now(timezone.utc).isoformat()
+    fresh_projection = {
+        "generated_at": generated_at,
+        "main_claim_status": main_claim_status,
+        "claim_gate": {
+            "training_positive_quality_improvement": bool(training_gate.get("positive_quality_improvement")),
+            "training_quality_q_ci95_low": training_gate.get("quality_q_ci95_low"),
+            "training_paired_ci_status": training_gate.get("paired_ci_status"),
+            "training_audit_improvement_tradeoff": bool(training_gate.get("audit_improvement_tradeoff")),
+            "positive_discovery_four_gate": main_claim_status == "positive",
+            "blockers": gate_blockers,
+        },
+    }
+    revocation_decision = reevaluate_certified_claim(
+        payload.get("certified_claim"),
+        fresh_projection,
+        timestamp_iso=fresh_projection["generated_at"],
+    )
+    final_main_claim_status = (
+        revocation_decision["new_status"] if revocation_decision["downgraded"] else main_claim_status
+    )
     return {
         "artifact": JSON_ARTIFACT,
         "source_artifacts": {
@@ -149,20 +171,16 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
         "report": REPORT_ARTIFACT,
         "projection_script": "scripts/run_certificate_guided_discovery.py",
         "generated_from": {"artifact": SOURCE_JSON_ARTIFACT, "generated_at": payload.get("generated_at")},
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": generated_at,
         "arms": [{"role": record["role"], "candidate_id": record["candidate_id"]} for record in payload["records"]],
         "verdicts": [main],
         "surface_delta_count": main["surface_delta_count"],
         "positive_discovery": main["positive_discovery"],
         "net_information": main["net_information"],
-        "main_claim_status": main_claim_status,
-        "claim_gate": {
-            "training_positive_quality_improvement": bool(training_gate.get("positive_quality_improvement")),
-            "training_quality_q_ci95_low": training_gate.get("quality_q_ci95_low"),
-            "training_paired_ci_status": training_gate.get("paired_ci_status"),
-            "positive_discovery_four_gate": main_claim_status == "positive",
-            "blockers": gate_blockers,
-        },
+        "main_claim_status": final_main_claim_status,
+        "claim_gate": fresh_projection["claim_gate"],
+        "revocation_decision": revocation_decision,
+        "revocation_ledger": [revocation_decision["ledger_row"]] if revocation_decision["downgraded"] else [],
         "matched_random_baseline": control,
         "not_claimed": list(payload.get("not_claimed", []))
         + [
@@ -195,6 +213,9 @@ def _write_payload(payload: dict[str, Any]) -> None:
         f"- Four-gate positive: `{str(bool(payload['claim_gate']['positive_discovery_four_gate'])).lower()}`",
         f"- Training quality gate: `{str(bool(payload['claim_gate']['training_positive_quality_improvement'])).lower()}`",
         f"- Gate blockers: `{', '.join(payload['claim_gate']['blockers']) or 'none'}`",
+        f"- Revocation downgraded: `{str(bool(payload['revocation_decision']['downgraded'])).lower()}`",
+        f"- Revocation reason: `{payload['revocation_decision']['reason']}`",
+        f"- Revocation ledger rows: `{len(payload['revocation_ledger'])}`",
         f"- Verdict: `{verdict['verdict']}` / net `{float(payload['net_information']):.6f}` / positive `{str(payload['positive_discovery']).lower()}`",
         f"- Matched-random baseline: `{baseline['verdict']}` / net `{float(baseline['net_information']):.6f}` / positive `{str(baseline['positive_discovery']).lower()}`",
         f"- Benefit declined by `{float(deltas['benefit_delta']):.6f}` under the shared cost protocol.",

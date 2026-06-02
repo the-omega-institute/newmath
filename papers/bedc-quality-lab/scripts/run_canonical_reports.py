@@ -127,6 +127,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "net_information",
             "matched_random_baseline",
             "claim_gate",
+            "revocation_decision",
+            "revocation_ledger",
             "not_claimed",
             "main_claim_status",
         ),

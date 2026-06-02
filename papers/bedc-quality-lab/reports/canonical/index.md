@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-02T15:13:05.702477+00:00`
+- Generated at: `2026-06-02T16:33:35.304635+00:00`
 - Root: `papers/bedc-quality-lab`
 
 | report | status | json | markdown |

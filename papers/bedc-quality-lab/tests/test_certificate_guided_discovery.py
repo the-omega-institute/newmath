@@ -243,6 +243,36 @@ def test_positive_status_requires_classifier_predicate_net_and_training_gate():
     assert report["claim_gate"]["blockers"] == []
     _assert_row_matches_predicates(payload, row)
 
+def test_stale_positive_certificate_cannot_survive_fresh_non_positive_gate():
+    payload = copy.deepcopy(_payload())
+    payload["certified_claim"] = {"main_claim_status": "positive", "source_artifact": "fixture"}
+    _open_training_gate(payload)
+    payload["claim_gate"]["quality_q_ci95_low"] = 0.0
+    payload["claim_gate"]["audit_improvement_tradeoff"] = False
+    payload["paired_delta_ci"]["after_minus_before"]["quality_q_delta"]["ci95_low"] = 0.0
+    payload["deltas"]["after_minus_before"]["benefit_delta"] = 0.0
+    payload["deltas"]["after_minus_before"]["cost_delta"] = 1.0
+    payload["deltas"]["after_minus_before"]["debt_delta"] = 0.0
+
+    report = runner._verdict_payload(payload)
+
+    assert report["main_claim_status"] == "observed-negative"
+    assert report["revocation_decision"]["downgraded"] is True
+    assert report["revocation_decision"]["old_status"] == "positive"
+    assert report["revocation_decision"]["new_status"] == "observed-negative"
+    assert report["revocation_decision"]["reason"] == "paired-quality-ci-weakened"
+    assert len(report["revocation_ledger"]) == 1
+    assert report["revocation_ledger"][0] == report["revocation_decision"]["ledger_row"]
+    assert report["revocation_ledger"][0]["timestamp"] == report["generated_at"]
+
+def test_absent_certificate_projects_empty_revocation_ledger():
+    report = runner._verdict_payload(copy.deepcopy(_payload()))
+
+    assert report["revocation_decision"]["downgraded"] is False
+    assert report["revocation_decision"]["reason"] == "no-certified-claim"
+    assert report["revocation_decision"]["ledger_row"] == {}
+    assert report["revocation_ledger"] == []
+
 def test_no_classifier_surface_delta_or_false_predicate_blocks_positive_status():
     no_surface = copy.deepcopy(_payload())
     _open_training_gate(no_surface)
@@ -268,6 +298,7 @@ def test_payload_uses_pointer_fields_without_schema_kind_fields():
     assert report["report"] == runner.REPORT_ARTIFACT
     assert report["projection_script"] == "scripts/run_certificate_guided_discovery.py"
     assert {"artifact", "source_artifacts", "generated_from", "arms", "verdicts"}.issubset(report)
+    assert {"revocation_decision", "revocation_ledger"}.issubset(report)
     assert "report_" + "schema_id" not in report
     assert "report_" + "kind" not in report
 
@@ -286,6 +317,7 @@ def test_main_writes_report_artifacts(tmp_path, monkeypatch):
     assert payload["artifact"] == runner.JSON_ARTIFACT
     assert payload["matched_random_baseline"]["after_role"] == runner.CONTROL_ROLE
     assert payload["main_claim_status"] != "positive"
+    assert payload["revocation_ledger"] == []
     assert "# Certificate-Guided Discovery Projection" in report
     assert f"Benefit declined by `{float(expected_deltas['benefit_delta']):.6f}`" in report
     assert f"Debt declined by `{float(expected_deltas['debt_delta']):.6f}`" in report
