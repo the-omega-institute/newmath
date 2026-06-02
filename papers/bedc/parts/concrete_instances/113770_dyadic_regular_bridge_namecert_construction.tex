@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\DyadicRegularBridgeUp$}
+\label{ch:concrete-instances-dyadic-regular-bridge-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers by regular Cauchy data, the $\DyadicRegularBridgeUp$ packet records the finite bridge from dyadic tolerance rows to regular rational readback and the terminal $\RealUp$ seal. It sits after the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the Cauchy modulus route of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The bridge gives Real and Completion consumers a displayed BEDC route from finite dyadic tolerances to regular Cauchy real seals, without using quotient stream equality, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic regular bridge carrier]
+\label{def:dyadic-regular-bridge-carrier}
+A $\DyadicRegularBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,W,Q,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, containing the dyadic radius and comparison rows used by the bridge.
+\item $W$ is the $\StreamNameUp$ finite-window schedule naming the inspected stream prefixes.
+\item $Q$ is the $\RegSeqRatUp$ readback row that interprets the scheduled windows as regular rational data.
+\item $M$ is the $\CauchyModulusUp$ scheduling row, matching dyadic tolerances to the finite windows that $Q$ reads.
+\item $E$ is the terminal $\RealUp$ seal reached only after $D,W,Q,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for dyadic, window, readback, modulus, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from dyadic tolerances to scheduled windows, from scheduled windows to regular readback, and from regular readback to the real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRegularBridgeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicRegularBridgeUp}$ row.
+\end{enumerate}
+The classifier accepts only those reads that pass through $D,W,Q,M,E,H,C,P,N$. It has no coordinate for a quotient of streams, a chosen limiting point, countable-choice selection, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic regular bridge NameCert obligations]
+\label{thm:dyadic-regular-bridge-namecert-obligations}
+For every accepted $\DyadicRegularBridgeUp$ carrier $B=(D,W,Q,M,E,H,C,P,N)$, the local $\NameCert_{\DyadicRegularBridgeUp}$ surface consists exactly of carrier admission, dyadic tolerance exposure, finite-window scheduling, regular rational readback, Cauchy modulus scheduling, terminal real-seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-regular-bridge-carrier}. The rows $D,W,Q,M,E,H,C,P,N$ are the full finite inventory available to a bridge consumer.
+
+The analytic part is ordered. The dyadic ledger $D$ supplies the finite tolerance rows; the schedule $W$ selects the inspected windows; the readback $Q$ interprets those windows as regular rational data; and the modulus row $M$ records which windows answer which dyadic tolerances.
+
+The terminal seal $E$ is reached only after those rows have been displayed. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so no quotient stream equality, selected limit, countable-choice schedule, host real equality, or ambient completeness theorem is available inside the packet.
+\end{proof}
+
+\begin{theorem}[Dyadic regular bridge Real seal route]
+\label{thm:dyadic-regular-bridge-real-seal-route}
+Every $\RealUp$-facing read exported by an accepted $\DyadicRegularBridgeUp$ carrier $B=(D,W,Q,M,E,H,C,P,N)$ factors through the dyadic tolerance ledger $D$, finite stream-window schedule $W$, regular rational readback $Q$, Cauchy modulus schedule $M$, terminal real seal $E$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$.
+\end{theorem}
+\begin{proof}
+Start from a Real-facing bridge read. The carrier contains exactly one terminal real-seal row, namely $E$, so any such read must arrive at $E$ through the displayed bridge rows.
+
+The source of the route is $D$. The finite window row $W$ and the modulus row $M$ make the tolerance schedule visible, while $Q$ supplies the regular rational readback consumed by the seal.
+
+Finally $H,C,P,N$ preserve the same route under transport, continuation replay, package provenance, and local naming. Since the carrier contains no quotient stream equality, chosen limit, countable-choice selector, host real equality, or ambient completeness row, the Real seal route is exactly the finite BEDC route through $D,W,Q,M,E,H,C,P,N$.
+\end{proof}
+
+\closureat{DyadicRegularBridgeUp}{seedStr}
+
+\begin{closurestatus}{\DyadicRegularBridgeUp}
+  \constructivestory{A $\DyadicRegularBridgeUp$ packet is generated from dyadic tolerance rows, finite StreamName windows, RegSeqRat readback, CauchyModulus scheduling, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-regular-bridge-carrier}, \autoref{thm:dyadic-regular-bridge-namecert-obligations}, and \autoref{thm:dyadic-regular-bridge-real-seal-route} seed the finite dyadic-to-regular-to-real bridge route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance exposure, finite-window scheduling, regular readback, Cauchy modulus scheduling, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.DyadicRegularBridgeUp.}
+\end{closurestatus}
