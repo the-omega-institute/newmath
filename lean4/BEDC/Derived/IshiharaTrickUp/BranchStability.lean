@@ -11,13 +11,6 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def IshiharaTrickCarrier [AskSetup] [PackageSetup]
-    (S R T W D E A H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
-    Prop :=
-  UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory T ∧ UnaryHistory W ∧ UnaryHistory D ∧
-    UnaryHistory E ∧ UnaryHistory A ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
-      UnaryHistory N ∧ Cont T W A ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
-
 theorem IshiharaTrickCarrier_branch_stability [AskSetup] [PackageSetup]
     {S R T W D E A H C P N S' R' T' W' D' E' A' H' C' P' N' branch branch' :
       BHist}
@@ -35,10 +28,11 @@ theorem IshiharaTrickCarrier_branch_stability [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: IshiharaTrickCarrier BHist ProbeBundle Pkg hsame Cont UnaryHistory
   intro sourceCarrier targetCarrier sameT sameW sourceBranch targetBranch branchPkg
   obtain ⟨_SUnary, _RUnary, TUnary, WUnary, _DUnary, _EUnary, _AUnary, _HUnary, _CUnary,
-    _PUnary, _NUnary, _sourceBoundary, sourcePkg, _sourceNamePkg⟩ := sourceCarrier
+    _PUnary, _NUnary, _sourceSchedule, _sourceBoundary, _sourceTest, _sourceReplay,
+    sourcePkg, _sourceNamePkg⟩ := sourceCarrier
   obtain ⟨_SUnary', _RUnary', TUnary', WUnary', _DUnary', _EUnary', _AUnary', _HUnary',
-    _CUnary', _PUnary', _NUnary', _targetBoundary, _targetPkg, _targetNamePkg⟩ :=
-    targetCarrier
+    _CUnary', _PUnary', _NUnary', _targetSchedule, _targetBoundary, _targetTest,
+    _targetReplay, _targetPkg, _targetNamePkg⟩ := targetCarrier
   have sameBranch : hsame branch branch' :=
     cont_respects_hsame sameT sameW sourceBranch targetBranch
   have branchUnary : UnaryHistory branch :=
