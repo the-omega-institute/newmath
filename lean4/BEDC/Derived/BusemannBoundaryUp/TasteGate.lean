@@ -14,20 +14,20 @@ inductive BusemannBoundaryUp : Type where
   | mk (X o R D L H C P N : BHist) : BusemannBoundaryUp
   deriving DecidableEq
 
-def busemannBoundaryEncodeBHist : BHist → RawEvent
+def busemannBoundaryEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: busemannBoundaryEncodeBHist h
   | BHist.e1 h => BMark.b1 :: busemannBoundaryEncodeBHist h
 
-def busemannBoundaryDecodeBHist : RawEvent → BHist
+def busemannBoundaryDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (busemannBoundaryDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (busemannBoundaryDecodeBHist tail)
 
-theorem BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist, busemannBoundaryDecodeBHist (busemannBoundaryEncodeBHist h) = h := by
+private theorem busemannBoundaryDecode_encode_bhist :
+    forall h : BHist, busemannBoundaryDecodeBHist (busemannBoundaryEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -35,28 +35,15 @@ theorem BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-theorem BusemannBoundaryTasteGate_single_carrier_alignment_encode_injective
-    {a b : BHist} :
-    busemannBoundaryEncodeBHist a = busemannBoundaryEncodeBHist b → a = b := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro h
-  have hd :
-      busemannBoundaryDecodeBHist (busemannBoundaryEncodeBHist a) =
-        busemannBoundaryDecodeBHist (busemannBoundaryEncodeBHist b) :=
-    congrArg busemannBoundaryDecodeBHist h
-  exact Eq.trans
-    (BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode a).symm
-    (Eq.trans hd (BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode b))
-
-def busemannBoundaryFields : BusemannBoundaryUp → List BHist
+def busemannBoundaryFields : BusemannBoundaryUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | BusemannBoundaryUp.mk X o R D L H C P N => [X, o, R, D, L, H, C, P, N]
 
-def busemannBoundaryToEventFlow : BusemannBoundaryUp → EventFlow
+def busemannBoundaryToEventFlow : BusemannBoundaryUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (busemannBoundaryFields x).map busemannBoundaryEncodeBHist
 
-def busemannBoundaryFromEventFlow : EventFlow → Option BusemannBoundaryUp
+def busemannBoundaryFromEventFlow : EventFlow -> Option BusemannBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
   | X :: rest0 =>
@@ -99,10 +86,11 @@ def busemannBoundaryFromEventFlow : EventFlow → Option BusemannBoundaryUp
                                               (busemannBoundaryDecodeBHist N))
                                       | _ :: _ => none
 
-theorem BusemannBoundaryTasteGate_single_carrier_alignment_round_trip
-    (x : BusemannBoundaryUp) :
-    busemannBoundaryFromEventFlow (busemannBoundaryToEventFlow x) = some x := by
+private theorem busemannBoundary_round_trip :
+    forall x : BusemannBoundaryUp,
+      busemannBoundaryFromEventFlow (busemannBoundaryToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk X o R D L H C P N =>
       change
@@ -118,53 +106,33 @@ theorem BusemannBoundaryTasteGate_single_carrier_alignment_round_trip
             (busemannBoundaryDecodeBHist (busemannBoundaryEncodeBHist P))
             (busemannBoundaryDecodeBHist (busemannBoundaryEncodeBHist N))) =
           some (BusemannBoundaryUp.mk X o R D L H C P N)
-      rw [BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode X,
-        BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode o,
-        BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode R,
-        BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode D,
-        BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode L,
-        BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode H,
-        BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode C,
-        BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode P,
-        BusemannBoundaryTasteGate_single_carrier_alignment_decode_encode N]
+      rw [busemannBoundaryDecode_encode_bhist X, busemannBoundaryDecode_encode_bhist o,
+        busemannBoundaryDecode_encode_bhist R, busemannBoundaryDecode_encode_bhist D,
+        busemannBoundaryDecode_encode_bhist L, busemannBoundaryDecode_encode_bhist H,
+        busemannBoundaryDecode_encode_bhist C, busemannBoundaryDecode_encode_bhist P,
+        busemannBoundaryDecode_encode_bhist N]
 
-theorem BusemannBoundaryTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : BusemannBoundaryUp} :
-    busemannBoundaryToEventFlow x = busemannBoundaryToEventFlow y → x = y := by
+private theorem busemannBoundaryToEventFlow_injective {x y : BusemannBoundaryUp} :
+    busemannBoundaryToEventFlow x = busemannBoundaryToEventFlow y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
-  cases x with
-  | mk X₁ o₁ R₁ D₁ L₁ H₁ C₁ P₁ N₁ =>
-      cases y with
-      | mk X₂ o₂ R₂ D₂ L₂ H₂ C₂ P₂ N₂ =>
-          injection heq with hX tailX
-          injection tailX with ho tailo
-          injection tailo with hR tailR
-          injection tailR with hD tailD
-          injection tailD with hL tailL
-          injection tailL with hH tailH
-          injection tailH with hC tailC
-          injection tailC with hP tailP
-          injection tailP with hN _
-          cases BusemannBoundaryTasteGate_single_carrier_alignment_encode_injective hX
-          cases BusemannBoundaryTasteGate_single_carrier_alignment_encode_injective ho
-          cases BusemannBoundaryTasteGate_single_carrier_alignment_encode_injective hR
-          cases BusemannBoundaryTasteGate_single_carrier_alignment_encode_injective hD
-          cases BusemannBoundaryTasteGate_single_carrier_alignment_encode_injective hL
-          cases BusemannBoundaryTasteGate_single_carrier_alignment_encode_injective hH
-          cases BusemannBoundaryTasteGate_single_carrier_alignment_encode_injective hC
-          cases BusemannBoundaryTasteGate_single_carrier_alignment_encode_injective hP
-          cases BusemannBoundaryTasteGate_single_carrier_alignment_encode_injective hN
-          rfl
+  have hread :
+      busemannBoundaryFromEventFlow (busemannBoundaryToEventFlow x) =
+        busemannBoundaryFromEventFlow (busemannBoundaryToEventFlow y) :=
+    congrArg busemannBoundaryFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (busemannBoundary_round_trip x).symm
+      (Eq.trans hread (busemannBoundary_round_trip y)))
 
-theorem BusemannBoundaryTasteGate_single_carrier_alignment_field_faithful :
-    ∀ x y : BusemannBoundaryUp, busemannBoundaryFields x = busemannBoundaryFields y → x = y := by
+private theorem busemannBoundary_fields_faithful :
+    forall x y : BusemannBoundaryUp, busemannBoundaryFields x = busemannBoundaryFields y ->
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk X₁ o₁ R₁ D₁ L₁ H₁ C₁ P₁ N₁ =>
+  | mk X1 o1 R1 D1 L1 H1 C1 P1 N1 =>
       cases y with
-      | mk X₂ o₂ R₂ D₂ L₂ H₂ C₂ P₂ N₂ =>
+      | mk X2 o2 R2 D2 L2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
@@ -178,15 +146,15 @@ instance busemannBoundaryChapterTasteGate : ChapterTasteGate BusemannBoundaryUp 
   round_trip := by
     intro x
     change busemannBoundaryFromEventFlow (busemannBoundaryToEventFlow x) = some x
-    exact BusemannBoundaryTasteGate_single_carrier_alignment_round_trip x
+    exact busemannBoundary_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (BusemannBoundaryTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (busemannBoundaryToEventFlow_injective heq)
 
 instance busemannBoundaryFieldFaithful : FieldFaithful BusemannBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := busemannBoundaryFields
-  field_faithful := BusemannBoundaryTasteGate_single_carrier_alignment_field_faithful
+  field_faithful := busemannBoundary_fields_faithful
 
 instance busemannBoundaryNontrivial : Nontrivial BusemannBoundaryUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -199,20 +167,21 @@ instance busemannBoundaryNontrivial : Nontrivial BusemannBoundaryUp where
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate BusemannBoundaryUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  busemannBoundaryChapterTasteGate
-
 theorem BusemannBoundaryTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier BusemannBoundaryUp) ∧
-      Nonempty (ChapterTasteGate BusemannBoundaryUp) ∧
-        Nonempty (FieldFaithful BusemannBoundaryUp) ∧
-          Nonempty (Nontrivial BusemannBoundaryUp) ∧
-            busemannBoundaryEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-              busemannBoundaryEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact
-    ⟨⟨busemannBoundaryBHistCarrier⟩, ⟨busemannBoundaryChapterTasteGate⟩,
-      ⟨busemannBoundaryFieldFaithful⟩, ⟨busemannBoundaryNontrivial⟩, rfl, rfl⟩
+    (forall h : BHist, busemannBoundaryDecodeBHist (busemannBoundaryEncodeBHist h) = h) ∧
+      (forall x : BusemannBoundaryUp,
+        busemannBoundaryFromEventFlow (busemannBoundaryToEventFlow x) = some x) ∧
+        (forall x y : BusemannBoundaryUp,
+          busemannBoundaryToEventFlow x = busemannBoundaryToEventFlow y -> x = y) ∧
+          busemannBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  constructor
+  · exact busemannBoundaryDecode_encode_bhist
+  · constructor
+    · exact busemannBoundary_round_trip
+    · constructor
+      · intro x y heq
+        exact busemannBoundaryToEventFlow_injective heq
+      · rfl
 
 end BEDC.Derived.BusemannBoundaryUp
