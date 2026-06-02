@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AuditSystemUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -188,5 +198,29 @@ theorem AuditSystemTasteGate_single_carrier_alignment :
       · intro x y heq
         exact auditSystemToEventFlow_injective heq
       · rfl
+
+def AuditSystemCarrier [AskSetup] [PackageSetup]
+    (C P F R E L H K Q N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory F ∧ UnaryHistory R ∧
+    UnaryHistory E ∧ UnaryHistory L ∧ UnaryHistory H ∧ UnaryHistory K ∧
+      UnaryHistory Q ∧ UnaryHistory N ∧ Cont F R K ∧ Cont C P E ∧
+        Cont E L H ∧ PkgSig bundle Q pkg
+
+theorem AuditSystemCarrier_export_refusal_conflict [AskSetup] [PackageSetup]
+    {C P F R E L H K Q N conflict : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditSystemCarrier C P F R E L H K Q N bundle pkg →
+      Cont F R conflict →
+        PkgSig bundle conflict pkg →
+          UnaryHistory F ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory conflict ∧
+            Cont F R conflict ∧ PkgSig bundle Q pkg ∧ PkgSig bundle conflict pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier refusalRoute conflictPkg
+  obtain ⟨_cUnary, _pUnary, fUnary, rUnary, eUnary, _lUnary, _hUnary, _kUnary,
+    _qUnary, _nUnary, _failureRefusal, _claimPositive, _exportLedger, qPkg⟩ := carrier
+  have conflictUnary : UnaryHistory conflict :=
+    unary_cont_closed fUnary rUnary refusalRoute
+  exact ⟨fUnary, rUnary, eUnary, conflictUnary, refusalRoute, qPkg, conflictPkg⟩
 
 end BEDC.Derived.AuditSystemUp
