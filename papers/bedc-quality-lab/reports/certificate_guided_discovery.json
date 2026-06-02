@@ -1,0 +1,149 @@
+{
+  "applicability_boundary": {
+    "claimed_scope": "certificate-guided versus vanilla projection on the existing finite lab report",
+    "not_claimed": [
+      "formal-bedc-closure",
+      "global optimizer behavior",
+      "new predicate formula"
+    ]
+  },
+  "arms": [
+    {
+      "candidate_id": "deterministic-baseline",
+      "role": "before"
+    },
+    {
+      "candidate_id": "certificate-guided-sample-support",
+      "role": "after"
+    },
+    {
+      "candidate_id": "torch-request-control",
+      "role": "control"
+    }
+  ],
+  "artifact": "reports/certificate_guided_discovery.json",
+  "generated_at": "2026-06-02T07:58:04.706466+00:00",
+  "generated_from": {
+    "artifact": "reports/certificate_guided_training.json",
+    "generated_at": "2026-06-01T21:29:37.667720+00:00"
+  },
+  "matched_random_baseline": {
+    "after_candidate_id": "torch-request-control",
+    "after_role": "control",
+    "before_candidate_id": "deterministic-baseline",
+    "before_role": "before",
+    "benefit_terms": {
+      "quality_benefit_gain": 0.0,
+      "quality_debt_reduction": 0.0
+    },
+    "debt_terms": {
+      "quality_benefit_loss": 0.10825812274815388,
+      "quality_debt_increase": 0.10000000000000009
+    },
+    "deltas": {
+      "benefit_delta": -0.10825812274815388,
+      "cost_delta": 0.03,
+      "debt_delta": 0.10000000000000009,
+      "loss_delta": 0.2641672616904245,
+      "quality_q_delta": -0.23825812274815406
+    },
+    "net_information": -0.288258122748154,
+    "positive_discovery": false,
+    "score_terms": {
+      "projection_surface_rows": 0.05,
+      "quality_cost_increase": 0.03
+    },
+    "shift_information": 5,
+    "structural_discovery": true,
+    "surface_delta": [
+      [
+        "metric:certificate_guided_loss",
+        "metric:certificate_guided_loss"
+      ],
+      [
+        "metric:quality_benefit",
+        "metric:quality_benefit"
+      ],
+      [
+        "metric:quality_cost",
+        "metric:quality_cost"
+      ],
+      [
+        "metric:quality_debt",
+        "metric:quality_debt"
+      ],
+      [
+        "metric:quality_q",
+        "metric:quality_q"
+      ]
+    ],
+    "surface_delta_count": 5,
+    "verdict": "negative"
+  },
+  "projection_script": "scripts/run_certificate_guided_discovery.py",
+  "report": "reports/certificate_guided_discovery.md",
+  "source_artifacts": {
+    "source_json_artifact": "reports/certificate_guided_training.json",
+    "source_report_artifact": "reports/certificate_guided_training.md",
+    "source_runner": "scripts/run_certificate_guided_training.py"
+  },
+  "verdicts": [
+    {
+      "after_candidate_id": "certificate-guided-sample-support",
+      "after_role": "after",
+      "before_candidate_id": "deterministic-baseline",
+      "before_role": "before",
+      "benefit_terms": {
+        "quality_benefit_gain": 0.0,
+        "quality_debt_reduction": 0.16186652404576007
+      },
+      "debt_terms": {
+        "quality_benefit_loss": 0.10825812274815388,
+        "quality_debt_increase": 0.0
+      },
+      "deltas": {
+        "benefit_delta": -0.10825812274815388,
+        "cost_delta": 0.0,
+        "debt_delta": -0.16186652404576007,
+        "loss_delta": -1.1803555650358963,
+        "quality_q_delta": 0.053608401297606134
+      },
+      "net_information": -0.006391598702393808,
+      "positive_discovery": false,
+      "score_terms": {
+        "projection_surface_rows": 0.06,
+        "quality_cost_increase": 0.0
+      },
+      "shift_information": 6,
+      "structural_discovery": true,
+      "surface_delta": [
+        [
+          "metric:certificate_guided_loss",
+          "metric:certificate_guided_loss"
+        ],
+        [
+          "metric:critical_unlogged_error_rate",
+          "metric:critical_unlogged_error_rate"
+        ],
+        [
+          "metric:quality_benefit",
+          "metric:quality_benefit"
+        ],
+        [
+          "metric:quality_debt",
+          "metric:quality_debt"
+        ],
+        [
+          "metric:quality_q",
+          "metric:quality_q"
+        ],
+        [
+          "metric:unlogged_error_rate",
+          "metric:unlogged_error_rate"
+        ]
+      ],
+      "surface_delta_count": 6,
+      "verdict": "negative"
+    }
+  ]
+}
