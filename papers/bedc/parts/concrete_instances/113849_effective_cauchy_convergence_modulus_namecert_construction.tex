@@ -1,0 +1,106 @@
+\chapter{A Concrete Naming Certificate for $\EffectiveCauchyConvergenceModulusUp$}
+\label{ch:concrete-instances-effective-cauchy-convergence-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\EffectiveCauchyConvergenceModulusUp$ packet records the finite modulus object used by constructive Cauchy convergence arguments before any Real-facing seal is consumed. It binds the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal seal boundary of \autoref{ch:concrete-instances-real-namecert}, and the monotone convergence ledger of \autoref{ch:concrete-instances-real-modulus-of-convergence-namecert}. The packet is a NameCert reconstruction of an effective Cauchy-modulus surface; it is not a Real completeness theorem, not a quotient of streams, and not a source of selected limits.
+
+\begin{definition}[Effective Cauchy convergence modulus carrier]
+\label{def:effective-cauchy-convergence-modulus-carrier}
+An $\EffectiveCauchyConvergenceModulusUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,W,R,S,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row naming the dyadic precision request and the comparison budget used by the modulus read.
+\item $W$ is the $\StreamNameUp$ finite-window row naming the bounded observations inspected at that precision.
+\item $R$ is the $\RegSeqRatUp$ regular readback row attached to $D$ and $W$.
+\item $S$ is the terminal $\RealUp$ seal row, available only after $D,W,R$ have been displayed.
+\item $M$ is the $\RealModulusOfConvergenceUp$ monotone ledger row, recording that later dyadic requests read weakly later finite windows without shortening the accepted tail.
+\item $H$ records componentwise $\hsame$ transport for the tolerance, window, readback, seal, modulus ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an effective Cauchy-modulus request through $D,W,R,S,M,H$.
+\item $P$ is the $\Pkg$ provenance over $\EffectiveCauchyConvergenceModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RealModulusOfConvergenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EffectiveCauchyConvergenceModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,R,S,M,H,C,P,N$. It has no coordinate for quotient stream equality, host real equality, selected representatives, selected limits, countable choice, metric completeness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Effective Cauchy modulus carrier admission]
+\label{thm:effective-cauchy-convergence-modulus-carrier-admission}
+Every accepted $\EffectiveCauchyConvergenceModulusUp$ packet exposes exactly the rows $D,W,R,S,M,H,C,P,N$ of \autoref{def:effective-cauchy-convergence-modulus-carrier} before any Real or Completion consumer may use its convergence claim. The admitted surface contains dyadic tolerances, finite stream windows, regular readback, a terminal Real seal, a monotone convergence ledger, componentwise transport, continuation replay, package provenance, and local naming, and nothing else.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The rows $D,W,R,S,M$ are the only analytic rows, while $H,C,P,N$ transport, replay, source, and name that same route.
+
+Since the classifier compares packets only through these coordinates, a consumer cannot read a hidden quotient stream, host equality, selected representative, selected limit, choice schedule, metric-completeness row, or ambient completeness row from the carrier.
+\end{proof}
+
+\begin{theorem}[Effective Cauchy monotone tail-window stability]
+\label{thm:effective-cauchy-convergence-modulus-monotone-tail-window-stability}
+Let $E=(D,W,R,S,M,H,C,P,N)$ be an accepted $\EffectiveCauchyConvergenceModulusUp$ packet. If a later dyadic tolerance request is transported through the monotone ledger $M$, then the accepted read moves only to a weakly later $\StreamNameUp$ finite window, preserves the same $\RegSeqRatUp$ readback route, and reaches the same terminal $\RealUp$ seal boundary before the convergence claim is consumed.
+\end{theorem}
+\begin{proof}
+Read the tolerance request through $D$ and the finite observation through $W$. The monotone ledger $M$ is the only row allowed to compare an earlier tolerance request with a later one.
+
+Apply the Real-modulus tail-stability route of \autoref{thm:real-modulus-of-convergence-tail-stability}. The later request must remain on a weakly later finite window and on the same regular readback path.
+
+The seal row $S$ is downstream of $D,W,R,M$. Thus the later-tail read cannot introduce a separate selected tail, quotient equality, countable-choice schedule, or ambient completeness witness.
+\end{proof}
+
+\begin{theorem}[Effective Cauchy RegSeqRat handoff]
+\label{thm:effective-cauchy-convergence-modulus-regseqrat-handoff}
+Every accepted $\EffectiveCauchyConvergenceModulusUp$ consumer that asks for a regular Cauchy read must pass through
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp
+$$
+before the $\RealModulusOfConvergenceUp$ ledger or the terminal $\RealUp$ seal can be used. The handoff exports no quotient stream equality, selected representative, host real equality, selected limit, or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $D,W,R,S,M,H,C,P,N$. The dyadic row $D$ supplies the precision budget, the stream row $W$ supplies only a finite observation window, and the regular readback row $R$ is the first row that can present the data as a regular Cauchy request.
+
+Use \autoref{thm:real-modulus-of-convergence-window-composition}. The Real-modulus ledger consumes the same dyadic tolerance, finite window, and regular readback surface before reaching a Real-facing seal.
+
+Therefore any regular Cauchy consumer must read $D,W,R$ first. The carrier contains no coordinate that could supply quotient stream equality, selected representatives, host equality, selected limits, or countable choice outside that route.
+\end{proof}
+
+\begin{theorem}[Effective Cauchy Real seal nonescape]
+\label{thm:effective-cauchy-convergence-modulus-real-seal-nonescape}
+For every accepted $\EffectiveCauchyConvergenceModulusUp$ packet $E=(D,W,R,S,M,H,C,P,N)$, the terminal $\RealUp$ seal row $S$ is reachable only after the dyadic tolerance row, finite stream window, regular readback row, and monotone convergence ledger have been displayed. The packet exports no Real completeness theorem, quotient stream equality, host real equality, selected limit, metric-completeness assertion, or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Carrier admission gives the displayed order of rows. The seal row $S$ is not an independent coordinate: it is listed after the dyadic, window, and regular readback rows and is controlled by the monotone ledger.
+
+Apply \autoref{thm:real-l10-route-sibling-exhaustion}. Any accepted Real terminal seal read on the L10 route factors through the displayed dyadic, stream, regular readback, and Real faces.
+
+The structural rows $H,C,P,N$ preserve that finite route. Since neither the carrier nor the Real L10 route contains a completeness coordinate, quotient stream, host equality row, selected limit, metric-completeness row, or choice schedule, the seal cannot export one.
+\end{proof}
+
+\begin{theorem}[Effective Cauchy Bishop interface consumer route]
+\label{thm:effective-cauchy-convergence-modulus-bishop-interface-consumer-route}
+Every $\BishopRealLineInterfaceUp$ consumer of an accepted $\EffectiveCauchyConvergenceModulusUp$ packet must read
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp,\quad \RealModulusOfConvergenceUp
+$$
+before using the effective modulus as real-line interface data. The route reaches the Bishop interface only as a finite tolerance, finite-window, regular-readback, Real-seal, and monotone-ledger surface; it does not assert quotient equality, trichotomy, selected limits, countable choice, host real equality, metric completeness, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier admission theorem. It exposes the dyadic tolerance row, finite window row, regular readback row, Real seal row, and monotone modulus ledger before any structural row can be used by a downstream consumer.
+
+Apply \autoref{thm:effective-cauchy-convergence-modulus-regseqrat-handoff} and \autoref{thm:effective-cauchy-convergence-modulus-real-seal-nonescape}. These two routes force the regular readback and terminal seal to remain on the displayed L10 surface.
+
+Now use the Bishop interface route of \autoref{thm:bishop-real-line-interface-modulus-comparison-handoff}. A Bishop real-line consumer may compare convergence-modulus data only after the dyadic, stream, regular readback, Real seal, and Cauchy-equivalence boundary are visible, and it receives the downstream $\RealModulusOfConvergenceUp$ ledger as finite evidence.
+
+Combining the routes gives the stated consumer surface. The exclusion clauses are inherited from the effective carrier, the Real seal nonescape theorem, and the Bishop interface handoff.
+\end{proof}
+
+\closureat{EffectiveCauchyConvergenceModulusUp}{seedStr}
+
+\begin{closurestatus}{\EffectiveCauchyConvergenceModulusUp}
+  \constructivestory{An $\EffectiveCauchyConvergenceModulusUp$ packet is generated from a DyadicRatCore tolerance row, finite StreamName windows, RegSeqRat readback, a terminal Real seal, a monotone RealModulusOfConvergence ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:effective-cauchy-convergence-modulus-carrier}, \autoref{thm:effective-cauchy-convergence-modulus-carrier-admission}, \autoref{thm:effective-cauchy-convergence-modulus-monotone-tail-window-stability}, \autoref{thm:effective-cauchy-convergence-modulus-regseqrat-handoff}, \autoref{thm:effective-cauchy-convergence-modulus-real-seal-nonescape}, and \autoref{thm:effective-cauchy-convergence-modulus-bishop-interface-consumer-route} seed the effective Cauchy-modulus boundary over the displayed dyadic, stream, regular-readback, Real-seal, monotone-ledger, transport, continuation, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, host real equality, trichotomy, countable choice, selected representatives, selected limits, metric completeness, or bridge checking.}
+  \upgradepath{Scoped closure requires binding the listed obligations to DyadicRatCore, StreamName, RegSeqRat, RealUp, RealModulusOfConvergence, BHist, hsame, Cont, Pkg, and NameCert rows for BEDC.Derived.EffectiveCauchyConvergenceModulusUp.}
+\end{closurestatus}
