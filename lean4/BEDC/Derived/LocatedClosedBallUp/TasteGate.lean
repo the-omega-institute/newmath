@@ -49,6 +49,39 @@ def locatedClosedBallToEventFlow : LocatedClosedBallUp → EventFlow
 
 def locatedClosedBallFromEventFlow : EventFlow → LocatedClosedBallUp
   -- BEDC touchpoint anchor: BHist BMark
+  | [] =>
+      LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  | _M :: [] =>
+      LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  | _M :: _c :: [] =>
+      LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  | _M :: _c :: _r :: [] =>
+      LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  | _M :: _c :: _r :: _D :: [] =>
+      LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  | _M :: _c :: _r :: _D :: _I :: [] =>
+      LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  | _M :: _c :: _r :: _D :: _I :: _R :: [] =>
+      LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  | _M :: _c :: _r :: _D :: _I :: _R :: _E :: [] =>
+      LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  | _M :: _c :: _r :: _D :: _I :: _R :: _E :: _H :: [] =>
+      LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  | _M :: _c :: _r :: _D :: _I :: _R :: _E :: _H :: _C :: [] =>
+      LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+  | _M :: _c :: _r :: _D :: _I :: _R :: _E :: _H :: _C :: _P :: [] =>
+      LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
   | M :: c :: r :: D :: I :: R :: E :: H :: C :: P :: N :: [] =>
       LocatedClosedBallUp.mk
         (locatedClosedBallDecodeBHist M)
@@ -62,16 +95,39 @@ def locatedClosedBallFromEventFlow : EventFlow → LocatedClosedBallUp
         (locatedClosedBallDecodeBHist C)
         (locatedClosedBallDecodeBHist P)
         (locatedClosedBallDecodeBHist N)
-  | _ =>
+  | _M :: _c :: _r :: _D :: _I :: _R :: _E :: _H :: _C :: _P :: _N :: _extra :: _rest =>
       LocatedClosedBallUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
 
 def locatedClosedBallFromEventFlowOption : EventFlow → Option LocatedClosedBallUp
   -- BEDC touchpoint anchor: BHist BMark
+  | [] => none
+  | _M :: [] => none
+  | _M :: _c :: [] => none
+  | _M :: _c :: _r :: [] => none
+  | _M :: _c :: _r :: _D :: [] => none
+  | _M :: _c :: _r :: _D :: _I :: [] => none
+  | _M :: _c :: _r :: _D :: _I :: _R :: [] => none
+  | _M :: _c :: _r :: _D :: _I :: _R :: _E :: [] => none
+  | _M :: _c :: _r :: _D :: _I :: _R :: _E :: _H :: [] => none
+  | _M :: _c :: _r :: _D :: _I :: _R :: _E :: _H :: _C :: [] => none
+  | _M :: _c :: _r :: _D :: _I :: _R :: _E :: _H :: _C :: _P :: [] => none
   | M :: c :: r :: D :: I :: R :: E :: H :: C :: P :: N :: [] =>
-      some (locatedClosedBallFromEventFlow
-        (M :: c :: r :: D :: I :: R :: E :: H :: C :: P :: N :: []))
-  | _ => none
+      some
+        (LocatedClosedBallUp.mk
+          (locatedClosedBallDecodeBHist M)
+          (locatedClosedBallDecodeBHist c)
+          (locatedClosedBallDecodeBHist r)
+          (locatedClosedBallDecodeBHist D)
+          (locatedClosedBallDecodeBHist I)
+          (locatedClosedBallDecodeBHist R)
+          (locatedClosedBallDecodeBHist E)
+          (locatedClosedBallDecodeBHist H)
+          (locatedClosedBallDecodeBHist C)
+          (locatedClosedBallDecodeBHist P)
+          (locatedClosedBallDecodeBHist N))
+  | _M :: _c :: _r :: _D :: _I :: _R :: _E :: _H :: _C :: _P :: _N :: _extra :: _rest =>
+      none
 
 private theorem locatedClosedBall_round_trip :
     ∀ x : LocatedClosedBallUp,
@@ -185,8 +241,17 @@ def taste_gate : ChapterTasteGate LocatedClosedBallUp :=
   locatedClosedBallChapterTasteGate
 
 theorem LocatedClosedBallTasteGate_single_carrier_alignment :
-    Function.LeftInverse locatedClosedBallFromEventFlow locatedClosedBallToEventFlow := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact locatedClosedBall_round_trip
+    (∀ h : BHist, locatedClosedBallDecodeBHist (locatedClosedBallEncodeBHist h) = h) ∧
+      (∀ x : LocatedClosedBallUp,
+        locatedClosedBallFromEventFlowOption (locatedClosedBallToEventFlow x) = some x) ∧
+        (∀ x y : LocatedClosedBallUp,
+          locatedClosedBallToEventFlow x = locatedClosedBallToEventFlow y → x = y) ∧
+          locatedClosedBallEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨locatedClosedBallDecode_encode_bhist,
+      locatedClosedBall_option_round_trip,
+      (fun _ _ heq => locatedClosedBallToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.LocatedClosedBallUp.TasteGate
