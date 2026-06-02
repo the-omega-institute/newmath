@@ -176,6 +176,29 @@ $$
 the obligation surface is the finite ledger consisting of the $\DyadicRatCoreUp$ endpoint rows $L,U$, mesh row $M$, radius ledger $R$, cover-membership row $V$, $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $Q$, visible $\RealUp$ seal row $A$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$. This surface records finite mesh, refinement, membership, and real-window handoff data only; it contains no open-cover compactness coordinate and no selected-subcover coordinate.
 \end{definition}
 
+\begin{definition}[DyadicIntervalCover root obligation surface]
+\label{def:dyadic-interval-cover-root-obligation-surface}
+For an accepted $\DyadicIntervalCoverUp$ packet
+$$
+I=(L,U,M,R,V,W,Q,A,H,C,P,N),
+$$
+the root obligation surface is the L10 tuple consisting of endpoint rows $L,U$, mesh and radius rows $M,R$, finite cover-membership row $V$, StreamName window row $W$, RegSeqRat readback row $Q$, Real seal row $A$, and structural rows $H,C,P,N$. It is the part of \autoref{def:dyadic-interval-cover-obligation-surface} exposed to root consumers that need interval-cover data without importing open-cover compactness, selected finite subcovers, quotient stream equality, host real equality, countable choice, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[DyadicIntervalCover root unblock package]
+\label{thm:dyadic-interval-cover-root-unblock-package}
+Every accepted $\DyadicIntervalCoverUp$ packet satisfying \autoref{def:dyadic-interval-cover-root-obligation-surface} exports exactly the root L10 handoff through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\BishopIntervalCompactUp$. The package reads endpoint, mesh, membership, regular-window, seal, transport, replay, provenance, and local naming rows, and it exports no open-cover compactness, selected finite subcover, quotient stream, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the root surface. Endpoint admission is supplied by \autoref{thm:dyadic-interval-cover-endpoint-row-admission}, while mesh and radius reads are bound by \autoref{thm:dyadic-interval-cover-mesh-refinement-obligation}. Thus every root interval cell is first read through the displayed $\DyadicRatCoreUp$ rows $L,U,M,R$ and the finite membership row $V$.
+
+The regular-name handoff is forced through the window and readback rows. Apply \autoref{thm:dyadic-interval-cover-regseqrat-route} to route every $\RegSeqRatUp$ consumer through $W,Q$ before it reaches the dyadic cover ledger.
+
+The Real-facing exit is sealed by \autoref{thm:dyadic-interval-cover-real-seal-nonescape}. Together with \autoref{thm:dyadic-interval-cover-tail-pullback-stability}, this keeps finite tail windows, regular readbacks, cover rows, the $\BishopIntervalCompactUp$ finite-net comparison, and $A,H,C,P,N$ inside one displayed L10 package.
+
+The excluded principles are absent from the carrier and from the cited rows. Therefore the root package exposes the finite interval-cover handoff and nothing beyond the displayed dyadic, stream, regular-rational, real, compact-interval, transport, replay, provenance, and naming surface.
+\end{proof}
+
 \begin{theorem}[DyadicIntervalCover mesh refinement obligation]
 \label{thm:dyadic-interval-cover-mesh-refinement-obligation}
 Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Any mesh refinement obligation for $I$ is determined by the rows $L,U,M,R,V,H,C,P,N$ of \autoref{def:dyadic-interval-cover-obligation-surface}: the refined endpoint comparisons still read through $\DyadicRatCoreUp$, the refined mesh is still named by $M$ and $R$, and the transported membership witnesses remain inside $V$ with no appeal to open-cover compactness or selected subcovers.
