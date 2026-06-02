@@ -1003,6 +1003,7 @@ import BEDC.Derived.BoundedNestedRealChoiceSealUp.TasteGate
 import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
+import BEDC.Derived.BoundedRealIntervalPartitionUp.TasteGate
 import BEDC.Derived.BoundedRealSequenceUp.BolzanoSourceExactness
 import BEDC.Derived.BoundedRealSequenceUp.DyadicBoundTransport
 import BEDC.Derived.BoundedRealSequenceUp.FiniteWindowNet
@@ -1049,6 +1050,7 @@ import BEDC.Derived.BoundedUniversalTraceUp.Carrier
 import BEDC.Derived.BoundedUniversalTraceUp.TasteGate
 import BEDC.Derived.BoundedVariationCompletionUp
 import BEDC.Derived.BoundedVariationCompletionUp.TasteGate
+import BEDC.Derived.BoundedVariationRealFunctionUp.TasteGate
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.BoundedVariationUp.CauchyConsumerBoundary
 import BEDC.Derived.BoundedVariationUp.JordanConsumerExhaustion
@@ -3678,6 +3680,7 @@ import BEDC.Derived.FareySequenceUp.NameCertObligations
 import BEDC.Derived.FareySequenceUp.NeighborDeterminacy
 import BEDC.Derived.FareySequenceUp.Obligations
 import BEDC.Derived.FareySequenceUp.RationalCoverage
+import BEDC.Derived.FareySequenceUp.RationalSourceHandoffScope
 import BEDC.Derived.FareySequenceUp.RealApproximationBoundary
 import BEDC.Derived.FareySequenceUp.RealApproximationDensityRoute
 import BEDC.Derived.FareySequenceUp.RealApproximationHandoff
@@ -7618,6 +7621,7 @@ import BEDC.Derived.StreamNameUp.TailWindowRealUpBoundary
 import BEDC.Derived.StronglyExtensionalRealMapUp.TasteGate
 import BEDC.Derived.StructuralAdjacencyUp.TasteGate
 import BEDC.Derived.SturmComparisonUp.TasteGate
+import BEDC.Derived.SturmRootCountUp.TasteGate
 import BEDC.Derived.SturmRootIsolationUp.SignVariationHandoff
 import BEDC.Derived.SturmRootIsolationUp.TasteGate
 import BEDC.Derived.SturmSequenceUp.TasteGate
