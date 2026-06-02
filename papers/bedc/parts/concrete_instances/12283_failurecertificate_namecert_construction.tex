@@ -52,7 +52,8 @@ None of those siblings carries the joint two-axis gate-blocking row of $A$ toget
 \end{proof}
 \leanchecked{BEDC.Derived.FailureCertificateUp.FailureCertificate\_axis\_row\_separation}
 
-The Lean TasteGate file must provide explicit $\Nontrivial\ \FailureCertificateUp$ and $\FieldFaithful\ \FailureCertificateUp$ instances in \texttt{lean4/BEDC/Derived/FailureCertificateUp/TasteGate.lean}. The field-faithfulness witness must keep $N_0,C,V,A,B,D,H,K,P,L$ distinct so the failed-axis row and blocked-gate row cannot be merged.
+The Lean TasteGate file provides explicit $\Nontrivial\ \FailureCertificateUp$ and $\FieldFaithful\ \FailureCertificateUp$ instances in \texttt{lean4/BEDC/Derived/FailureCertificateUp/TasteGate.lean}. The field-faithfulness witness keeps $N_0,C,V,A,B,D,H,K,P,L$ distinct so the failed-axis row and blocked-gate row cannot be merged.
+\leanchecked{BEDC.Derived.FailureCertificateUp.taste\_gate}
 
 \falsifiablePrediction{Removing either the failed-axis row or blocked-gate row breaks the gate-blocking theorem for an accepted packet.}
 
@@ -63,8 +64,8 @@ The Lean TasteGate file must provide explicit $\Nontrivial\ \FailureCertificateU
 
 \begin{closurestatus}{\FailureCertificateUp}
   \constructivestory{A $\FailureCertificateUp$ packet is generated from a named claim row, separate theory-closure and verification-status rows, a failed-axis row, a blocked-gate row, a diagnostic witness row, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:failure-certificate-carrier}, \autoref{thm:failure-certificate-gate-blocking}, and \autoref{thm:failure-certificate-axis-separation} bind the seed paper surface for the finite failure-certificate carrier, its gate-blocking row, and its axis-separation witness.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:failure-certificate-carrier}, \autoref{thm:failure-certificate-gate-blocking}, \autoref{thm:failure-certificate-axis-separation}, and the checked TasteGate witness bind the carrier, gate-blocking row, axis-separation row, TasteGate, Nontrivial, and FieldFaithful obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
