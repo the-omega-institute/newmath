@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\FarkasLemmaUp$}
+\label{ch:concrete-instances-farkas-lemma-namecert}
+\origin{human}
+
+Following Farkas and standard finite-dimensional convex analysis, the $\FarkasLemmaUp$ packet names the finite alternative row by which a displayed linear-inequality system is certified either by a feasible point or by a nonnegative multiplier obstruction. It sits between the convex carrier surface of \autoref{ch:concrete-instances-convexset-namecert}, the finite face carrier of \autoref{ch:concrete-instances-polytope-namecert}, the nonnegative comparison row of \autoref{ch:concrete-instances-positive-cone-namecert}, and the weak-duality ledger of \autoref{ch:concrete-instances-lpduality-namecert}. The packet is a finite certificate surface; it does not assert a separation theorem, a choice principle, a selected optimizer, or full strong duality.
+
+\begin{definition}[Farkas finite-alternative carrier]
+\label{def:farkas-lemma-carrier}
+A $\FarkasLemmaUp$ carrier over an ordered-field row consists of a finite $\BHist$ packet
+$$
+\mathcal F=(I,J,F,A,b,\rho,\nu,\eta,H,C,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $I$ and $J$ are finite row and column carriers, and $F$ is the scalar carrier equipped with the shared $\FieldUp$ and $\TotalOrderUp$ source rows used by the surrounding convex and linear-programming chapters.
+\item $A:I\times J\to F$ and $b:I\to F$ are the coefficient rows of a finite inequality system, with row evaluation
+$$
+\mathsf{Row}_{i}(x):=\sum_{j\in J}A_{ij}\cdot_F x_j .
+$$
+\item $\rho$ is the feasibility row, asserting that a displayed point $x:J\to F$ satisfies $\mathsf{Row}_{i}(x)\preceq_F b_i$ for every $i\in I$.
+\item $\nu$ is the nonnegative multiplier row, a finite vector $\lambda:I\to F$ with $\mathsf{NonNeg}_F(\lambda_i)$ for every $i\in I$, read through the $\PositiveConeUp$ comparison surface.
+\item $\eta$ is the infeasibility-alternative row, recording the classifier equations
+$$
+\sum_{i\in I}\lambda_i\cdot_F A_{ij}\sim_F0_F
+\qquad (j\in J)
+$$
+and the strict obstruction comparison
+$$
+\sum_{i\in I}\lambda_i\cdot_F b_i\prec_F0_F .
+$$
+\item $H$ records componentwise $\hsame$ transport for the finite row and column carriers, scalar operations, coefficient rows, right-hand-side row, feasibility witness, multiplier witness, obstruction witness, continuation, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from finite coefficient rows through row evaluation, multiplier summation, positive-cone comparison, and the final infeasibility alternative.
+\item $P$ is the $\Pkg$ provenance over $\FarkasLemmaUp$, $\ConvexSetUp$, $\PolytopeUp$, $\PositiveConeUp$, $\LPDualityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FarkasLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed finite rows. It has no coordinate for ambient matrix equality, quotient vector-space equality, topological separation, a selected optimizer, or full strong-duality existence.
+\end{definition}
+
+\begin{theorem}[FarkasLemma obligation surface]
+\label{thm:farkas-lemma-obligation-surface}
+For every accepted $\FarkasLemmaUp$ carrier $\mathcal F=(I,J,F,A,b,\rho,\nu,\eta,H,C,P,N)$, the local $\NameCert_{\FarkasLemmaUp}$ surface consists exactly of the following five finite obligations:
+\begin{enumerate}
+\item carrier admission for the ordered-field source, finite coefficient rows, right-hand-side row, feasibility row, multiplier row, obstruction row, transport, replay, provenance, and local naming row;
+\item classifier transport, requiring componentwise $\hsame$ in $H$ to preserve every finite scalar endpoint, row-evaluation equation, nonnegative multiplier witness, and obstruction comparison;
+\item positive-cone stability, requiring the multiplier row $\nu$ to be read only through the $\PositiveConeUp$ nonnegative classifier and the shared scalar order;
+\item finite-alternative exactness, requiring exactly one displayed branch to be exported to downstream consumers: either the feasibility row $\rho$ or the obstruction row $\eta$;
+\item ledger non-escape, requiring $P$ and $N$ to export no topological separation theorem, selected optimizer, quotient vector-space equality, ambient matrix equality, or full strong-duality existence.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier through \autoref{def:farkas-lemma-carrier}. Carrier admission is exactly the displayed finite row, column, scalar, coefficient, feasibility, multiplier, obstruction, transport, replay, provenance, and naming data.
+
+Classifier transport is componentwise. The $\hsame$ row in $H$ preserves each scalar endpoint and each finite row evaluation, while the displayed $\Cont$ replay in $C$ repeats the same coefficient-to-obstruction ledger after classified replacement.
+
+Positive-cone stability follows from the placement of $\nu$. A multiplier coordinate is usable only after its nonnegative witness has been read through the $\PositiveConeUp$ comparison surface over the shared ordered-field row.
+
+The finite-alternative exactness clause is the public branch boundary. A consumer may receive a feasible point row $\rho$ or an obstruction row $\eta$, but both are finite $\BHist$ rows tied to the same coefficient packet and neither introduces a detached separation principle.
+
+Finally, provenance is exhausted by $P$ and $N$. Since the carrier has no coordinate for topological separation, selected optimizers, quotient equality, ambient matrix equality, or full strong duality, the local certificate cannot export any such object.
+\end{proof}
+
+\begin{theorem}[Farkas finite alternative]
+\label{thm:farkas-lemma-finite-alternative}
+Let a $\FarkasLemmaUp$ carrier over a finite ordered-field row be accepted as in \autoref{def:farkas-lemma-carrier}. For the displayed coefficient system $A,b$, every downstream convex, polytope, positive-cone, or weak-duality consumer reads the alternative through a finite row:
+$$
+\rho
+\quad\text{or}\quad
+\eta .
+$$
+In the first branch the consumer receives a carried feasible point with all inequalities $\mathsf{Row}_{i}(x)\preceq_F b_i$. In the second branch it receives a carried nonnegative multiplier row whose finite row sums annihilate the left-hand coefficient rows and whose right-hand-side sum is strictly negative. The proof data are confined to finite row induction, scalar classifier transport, multiplier-ledger summation, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite row carrier $I$. In the empty row case the feasibility branch is immediate: the displayed coefficient ledger has no inequalities to check, and the multiplier row is the zero finite row.
+
+For the row-extension step, separate the last displayed inequality from the tail packet. Apply the induction hypothesis to the tail coefficient system, obtaining either a tail feasible row or a tail obstruction row.
+
+In the tail-feasible case, inspect the last row through the ordered-field comparison. If the displayed point satisfies the last inequality, reattach the row and obtain the full feasibility branch. If it fails, the finite scalar comparison supplies the one-row obstruction coefficient; the $\PositiveConeUp$ nonnegative row and the finite-sum ledger extend it to a multiplier packet over the enlarged carrier.
+
+In the tail-obstruction case, extend the multiplier by zero on the last row. Finite-sum transport preserves the coefficient annihilation equations, and scalar order stability preserves the strict right-hand-side obstruction.
+
+All transports are recorded in the visible ledger. The $H$ row moves scalar endpoints and coefficient sums by $\hsame$, the $C$ row replays the row induction and multiplier summation, and $P,N$ name the resulting branch as the same $\FarkasLemmaUp$ alternative. Therefore the consumer receives only the finite feasibility row or the finite obstruction row and no detached separation or optimization principle.
+\end{proof}
+
+\begin{closurestatus}{\FarkasLemmaUp}
+  \constructivestory{A $\FarkasLemmaUp$ packet is generated from finite row and column carriers, an ordered-field scalar surface, coefficient and right-hand-side rows, a feasibility branch, a nonnegative multiplier branch, an obstruction comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:farkas-lemma-carrier}, \autoref{thm:farkas-lemma-obligation-surface}, and \autoref{thm:farkas-lemma-finite-alternative} seed the finite-alternative certificate consumed by convex, polytope, cone, and weak-duality rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close topological separation, selected optimizers, full strong duality, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires carrier admission, classifier transport, positive-cone stability, finite-alternative exactness, and ledger non-escape proofs for the same packet.}
+\end{closurestatus}

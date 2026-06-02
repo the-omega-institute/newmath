@@ -206,6 +206,49 @@ stream, host function equality, ambient completeness coordinate, or second Real
 seal.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-modulus positive cofinality]
+\label{thm:regseqrat-tail-modulus-positive-cofinal}
+Let $S$ be an accepted $\RegSeqRatUp$ readback row carried by displayed
+$\StreamNameUp$ finite-window rows, a $\DyadicRatCoreUp$ positive-tolerance
+ledger, a $\RegSeqRatUp$ classifier row, a terminal $\RealUp$ seal, and the
+supporting $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert_{\RegSeqRatUp}$ rows. Suppose the displayed modulus schedule for
+$S$ dominates a later positive dyadic tolerance request $\varepsilon$. Then
+there is a finite later window whose $\RegSeqRatUp$ readback refines the
+earlier $\varepsilon$ request before the terminal $\RealUp$ seal is consumed.
+
+The refinement is read through the same four faces
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and through the same structural support rows. It introduces no quotient
+stream, selected limit, countable-choice row, ambient $\RealUp$ completeness,
+or independent Real seal.
+\end{theorem}
+\begin{proof}
+Start with the displayed positive dyadic request $\varepsilon$. Since it is
+dominated by the modulus schedule, the $\DyadicRatCoreUp$ ledger contains a
+finite later tolerance row whose request is at most $\varepsilon$ on the same
+StreamName support.
+
+Use the common-window transport route for $\RegSeqRatUp$ readbacks. The later
+window is transported along the displayed $\hsame$ row and replayed through
+$\Cont$, so the classifier remains on the same StreamName, DyadicRatCore, and
+RegSeqRat faces.
+
+Apply the finite-cover gluing used in
+\autoref{thm:regseqrat-uniform-continuity-modulus-fusion}. The gluing row
+places the later window and the earlier request on one finite support, and the
+dominance relation makes the later readback a refinement of the earlier
+positive request.
+
+Finally use the Real-seal handoff
+\autoref{thm:regseqrat-uniform-continuity-real-seal-handoff}. The terminal
+seal consumes only the displayed four-face route, so the cofinal later window
+is available before any Real seal read and no quotient stream, selected limit,
+choice schedule, ambient completeness, or second seal can enter the route.
+\end{proof}
+
 \begin{theorem}[RegSeqRat uniform-continuity composition terminal seal]
 \label{thm:regseqrat-uniform-continuity-composition-terminal-seal}
 Two displayed uniform-continuity packets over $\RegSeqRatUp$ compose to a

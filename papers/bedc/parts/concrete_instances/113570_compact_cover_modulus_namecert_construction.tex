@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CompactCoverModulusUp$}
+\label{ch:concrete-instances-compact-cover-modulus-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CompactCoverModulusUp$ packet records the finite-cover modulus route that turns compact-source coverage and local continuity radii into a uniform-modulus handoff. It sits between the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous-map rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the finite lower-bound fold of \autoref{ch:concrete-instances-finite-lower-bound-fold-namecert}, and the uniform-modulus consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names finite cover rows and lower-bound folds as BEDC histories; it does not choose an external modulus function, appeal to open-cover compactness, or import ambient real completeness.
+
+\begin{definition}[Compact cover modulus carrier]
+\label{def:compact-cover-modulus-carrier}
+A $\CompactCoverModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(K,C,L,F,R,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact metric source row, read through $\CompactMetricUp$.
+\item $C$ is the finite cover row, displaying the compact finite subcover or $\mathsf{ProbeBundle}$ spine used by the modulus construction.
+\item $L$ is the local modulus list row, one positive-radius ledger for each displayed cover member and continuous-map observation.
+\item $F$ is the finite lower-bound fold row, recording the certified positive lower bound consumed by $\UniformModulusUp$.
+\item $R$ is the uniform radius row exported to the downstream uniform-modulus consumer.
+\item $H$ records componentwise $\hsame$ transport for the compact source, cover, local moduli, fold, radius, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\CompactCoverModulusUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\FiniteLowerBoundFoldUp$, $\UniformModulusUp$, $\mathsf{ProbeBundle}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompactCoverModulusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an external choice of cover, a host finite minimum, a pointwise-only modulus selector, quotient equality of metric points, or ambient compactness outside the displayed source row.
+\end{definition}
+
+\begin{theorem}[Compact cover modulus NameCert obligations]
+\label{thm:compact-cover-modulus-namecert-obligations}
+For every accepted $\CompactCoverModulusUp$ carrier $M=(K,C,L,F,R,H,P,N)$, the local $\NameCert_{\CompactCoverModulusUp}$ surface consists exactly of carrier admission for compact metric source, finite cover, local modulus list, finite lower-bound fold, uniform radius, transport, provenance, and local naming; cover-source compatibility requiring $C$ to be a cover of the displayed compact metric row $K$; fold exactness requiring $F$ to read only the finite local-modulus list $L$ over that cover; uniform-radius handoff requiring $R$ to be exported only after the fold row is displayed; and nonescape excluding external cover choice, host finite minima, pointwise-only selector data, quotient point equality, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-cover-modulus-carrier}. The packet displays exactly $K,C,L,F,R,H,P,N$, so every local obligation must be read from these rows.
+
+Cover-source compatibility is the route from $K$ to $C$. The cover row is attached to the compact metric source row and cannot be interpreted over a detached source.
+
+Fold exactness is the route from $L$ to $F$ and then to $R$. The finite lower-bound fold consumes only the displayed local modulus list, and the uniform radius is exported only after that fold is present.
+
+The support rows $H,P,N$ transport, source, and name the same carrier. Since no row stores external cover choice, a host finite minimum, a pointwise-only selector, quotient point equality, or ambient completeness, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite subcover handoff]
+\label{thm:compact-cover-modulus-finite-subcover-handoff}
+Every compact-uniform-continuity consumer reading an accepted $\CompactCoverModulusUp$ carrier must pass through the ordered route
+$$
+K,C,L,F,R,H,P,N .
+$$
+The finite cover row $C$ and local modulus list $L$ are read before the finite lower-bound fold $F$, and the uniform radius row $R$ is available only after that fold. Thus the consumer receives a concrete finite-cover modulus packet rather than a narrative compactness argument or an external uniform-modulus selector.
+\end{theorem}
+\begin{proof}
+Read the compact source row $K$ and finite cover row $C$. These rows expose the source and the finite subcover or $\mathsf{ProbeBundle}$ spine used by the compact-uniform-continuity route.
+
+Next read the local modulus list $L$. Each entry is attached to a displayed cover member and a continuous-map observation, so the list is finite before the fold begins.
+
+Finally apply the fold and handoff rows $F,R$. Transport, provenance, and naming through $H,P,N$ preserve this route, while the carrier excludes external selectors, host minima, quotient point equality, and ambient completeness. The downstream $\UniformModulusUp$ consumer therefore reads the displayed finite-subcover handoff.
+\end{proof}
+
+\falsifiablePrediction{A compact-uniform-continuity packet that claims $\CompactCoverModulusUp$ acceptance while omitting compact source, finite cover, local modulus list, finite lower-bound fold, uniform radius, transport, provenance, or local NameCert rows fails local certification before a $\UniformModulusUp$ consumer may read it.}
+
+\independenceWitness{compactmetric, continuousmap, finite-lower-bound-fold, uniformmodulus: $\CompactCoverModulusUp$ is not bijective to any listed sibling because it carries the compact source, finite cover, local modulus list, finite lower-bound fold, and uniform-radius handoff as one packet. CompactMetricUp supplies the source without the continuous local modulus list; ContinuousMapUp supplies graph and local continuity rows without the finite compact cover; FiniteLowerBoundFoldUp supplies the fold without the source-cover handoff; UniformModulusUp consumes the radius without naming the finite cover that produced it.}
+
+\closureat{CompactCoverModulusUp}{seedStr}
+
+\begin{closurestatus}{\CompactCoverModulusUp}
+  \constructivestory{A $\CompactCoverModulusUp$ packet is generated from compact metric source, finite cover, local modulus list, finite lower-bound fold, uniform radius, componentwise hsame transport, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-cover-modulus-carrier}, \autoref{thm:compact-cover-modulus-namecert-obligations}, and \autoref{thm:compact-cover-modulus-finite-subcover-handoff} seed the finite-cover modulus handoff for compact uniform continuity.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, external modulus choice, host finite minima, quotient point equality, or ambient completeness for $\CompactCoverModulusUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, cover-source compatibility, local-modulus list admission, finite lower-bound fold exactness, uniform-radius handoff, transport, provenance, and local naming for BEDC.Derived.CompactCoverModulusUp.}
+\end{closurestatus}

@@ -64,6 +64,18 @@ The sibling handoffs preserve that boundary. The audit packet may read the confl
 No sibling read adds a hidden theorem row to $D$. Therefore the handoff remains finite diamond-boundary data and cannot be cited as unrestricted substitution compatibility, subject reduction, full confluence, evaluator equality, or kernel consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence-diamond typed-window nonescape]
+\label{thm:metacic-confluence-diamond-boundary-typed-window-nonescape}
+Any typed-window consumer of an accepted $\MetaCICConfluenceDiamondBoundaryUp$ packet must display the local peak row $K$, candidate join row $J$, residual-frontier row $R$, substitution-boundary row $S$, bounded-check row $B$, obstruction row $O$, and structural rows $H,C,P,N$ before reading the handoff. The typed window may feed the local-diamond witness and residual-checker siblings named above, but it cannot export subject reduction, full confluence, evaluator equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:metacic-confluence-diamond-boundary-carrier}. A typed-window read has no coordinate outside $K,J,R,S,B,O,H,C,P,N$, so it must expose the peak, join, residual, substitution, bounded-check, and obstruction rows before any structural replay or provenance row can name the handoff.
+
+Apply the obligation surface of \autoref{thm:metacic-confluence-diamond-boundary-obligations}. The local $\NameCert_{\MetaCICConfluenceDiamondBoundaryUp}$ row records exactly those visible obligations, including obstruction retention and the absence of unrestricted substitution compatibility, subject reduction, evaluator equality, and kernel consistency.
+
+Finally apply the handoff theorem \autoref{thm:metacic-confluence-diamond-boundary-handoff}. The local-diamond witness may consume $K,J$, and the residual checker may consume $R,S,B,O$, but neither sibling adds a theorem row to the typed window. Thus the exported data remain a typed local diamond boundary rather than a global confluence, subject-reduction, evaluator-equality, or kernel-consistency theorem.
+\end{proof}
+
 Lean follow-up for \texttt{BEDC.Derived.MetaCICConfluenceDiamondBoundaryUp} requires $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances at the displayed carrier surface.
 
 \closureat{MetaCICConfluenceDiamondBoundaryUp}{seedStr}

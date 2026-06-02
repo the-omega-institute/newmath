@@ -71,15 +71,27 @@ The shared bound row $L$ then feeds $V$. The downstream $\UniformModulusUp$ cons
 Because the carrier lacks coordinates for subsequence selection, open-cover compactness, quotient function equality, and hidden moduli, every compact-uniform or Arzela--Ascoli read factors through the displayed handoff.
 \end{proof}
 
+\begin{theorem}[Uniform Lipschitz-family obligation surface]
+\label{thm:uniform-lipschitz-family-obligation-surface}
+For every accepted $\UniformLipschitzFamilyUp$ carrier $U=(X,Y,I,F,L,V,H,C,P,N)$, the displayed rows jointly discharge the obligation surface needed for obligation closure: compact-source exposure, continuous-map exposure, shared-bound exactness, $\UniformModulusUp$ handoff, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $X,Y,I,F,L,V,H,C,P,N$. The compact-source and continuous-map obligations are exactly the exposure rows isolated in \autoref{thm:uniform-lipschitz-family-namecert-obligations}.
+
+The shared-bound and modulus obligations are then read through $L$ and $V$. Apply \autoref{thm:uniform-lipschitz-family-namecert-obligations} to identify the single common Lipschitz row and \autoref{thm:uniform-lipschitz-family-compact-uniform-handoff} to route that row into the $\UniformModulusUp$ handoff.
+
+Finally $H,C,P,N$ supply transport, replay, provenance, and local naming for the same displayed packet. No additional ambient function-space, subsequence, open-cover, quotient-equality, or hidden-modulus row remains to be discharged.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\UniformLipschitzFamilyUp$ read is refuted if a compact-uniform or Arzela--Ascoli consumer obtains a UniformModulusUp handoff without displaying the CompactMetric source row, target Metric row, finite family-index row, ContinuousMap rows, shared LipschitzConstant row, hsame transport, Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{metric, continuousmap, lipschitz-constant, compactmetric, uniformmodulus: no listed sibling is bijective with $\UniformLipschitzFamilyUp$ because the packet jointly carries a compact source, target metric, finite family index, displayed continuous-map list, one shared Lipschitz bound, a uniform-modulus handoff, transport, replay, provenance, and local NameCert.}
 
-\closureat{UniformLipschitzFamilyUp}{seedStr}
+\closureat{UniformLipschitzFamilyUp}{obligationStr}
 
 \begin{closurestatus}{\UniformLipschitzFamilyUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:uniform-lipschitz-family-carrier}, \autoref{thm:uniform-lipschitz-family-namecert-obligations}, and \autoref{thm:uniform-lipschitz-family-compact-uniform-handoff} seed the finite shared-Lipschitz family route from compact metric source data through continuous-map rows to a UniformModulus handoff.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:uniform-lipschitz-family-carrier}, \autoref{thm:uniform-lipschitz-family-namecert-obligations}, \autoref{thm:uniform-lipschitz-family-compact-uniform-handoff}, and \autoref{thm:uniform-lipschitz-family-obligation-surface} close the displayed obligation surface for the finite shared-Lipschitz family route from compact metric source data through continuous-map rows to a UniformModulus handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close ambient function-space compactness, selected subsequences, open-cover compactness, quotient function equality, non-displayed moduli, Lean verification, or bridge checking.}

@@ -3672,7 +3672,25 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
             attempts = attempt
             _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "attempt", "attempt": attempt, "rel_file": rel_file})
             # Deterministic pre-fix: unicode_char_not_set_up → 替换常见 Unicode 数学字符为 LaTeX 等价
+            # 如果 target file 没 unicode (file detection 错), fallback 扫描 ALL bio_reality namecerts
             if last_error.get("category") == "unicode_char_not_set_up":
+                _UNICODE_CHARS_SCAN = "≤≥×÷→←↔⇒⇐∞±∓≠≈≡∈∉⊂⊆∪∩∀∃αβγδλμσπωΔΣΠΩ−–—"
+                if not any(u in content for u in _UNICODE_CHARS_SCAN):
+                    # target file 没 unicode chars, scan whole namecerts dir
+                    namecerts_dir = paper_dir / "parts" / "namecerts"
+                    for cand in sorted(namecerts_dir.glob("*.tex")):
+                        try:
+                            cand_text = cand.read_text(encoding="utf-8")
+                        except OSError:
+                            continue
+                        if any(u in cand_text for u in _UNICODE_CHARS_SCAN):
+                            try:
+                                rel_file = str(cand.relative_to(repo_resolved))
+                                target = cand
+                                content = cand_text
+                                break
+                            except ValueError:
+                                continue
                 unicode_to_latex = {
                     "≤": r"$\leq$", "≥": r"$\geq$", "×": r"$\times$", "÷": r"$\div$",
                     "→": r"$\to$", "←": r"$\leftarrow$", "↔": r"$\leftrightarrow$",

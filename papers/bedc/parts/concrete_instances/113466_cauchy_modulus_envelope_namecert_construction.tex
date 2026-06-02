@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusEnvelopeUp$}
+\label{ch:concrete-instances-cauchy-modulus-envelope-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy moduli, the $\CauchyModulusEnvelopeUp$ packet records a finite majorant envelope for the modulus rows used by regular rational and real-name convergence arguments. It sits over the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names cofinal modulus majorants and finite-family merges before any $\RealUp$ seal is read; it is not a quotient of Cauchy streams, a selected completion point, countable choice, or an ambient real-completeness theorem.
+
+\begin{definition}[Cauchy modulus envelope carrier]
+\label{def:cauchy-modulus-envelope-carrier}
+A $\CauchyModulusEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,W,R,F,M,U,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to compare requested precision levels and dyadic tail bounds.
+\item $W$ is the $\StreamNameUp$ finite observation window containing the named sequence entries inspected by the envelope.
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row attached to the same window.
+\item $F$ is a finite family of displayed Cauchy-modulus rows whose thresholds are all read through $D,W,R$.
+\item $M$ is the finite majorant row assigning a single envelope threshold to each requested dyadic precision.
+\item $U$ is the finite merge row that combines a displayed finite subfamily of modulus rows into the same majorant envelope.
+\item $S$ is the downstream $\RealUp$ seal handoff available only after $D,W,R,F,M,U$ are accepted.
+\item $H$ records componentwise $\hsame$ transport for dyadic tolerances, stream windows, regular-rational readback, modulus rows, envelope majorants, finite merges, seal handoffs, replay, provenance, and naming.
+\item $C$ records displayed $\Cont$ replay from precision requests through the finite envelope route and then to the real-name seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusEnvelopeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusEnvelopeUp}$ row.
+\end{enumerate}
+Accepted carriers are compared only through $D,W,R,F,M,U,S,H,C,P,N$. There is no coordinate for an infinite modulus choice, a quotient stream equality, a selected limit, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus envelope NameCert obligations]
+\label{thm:cauchy-modulus-envelope-namecert-obligations}
+For every accepted $\CauchyModulusEnvelopeUp$ carrier $E=(D,W,R,F,M,U,S,H,C,P,N)$, the local $\NameCert_{\CauchyModulusEnvelopeUp}$ surface consists exactly of carrier admission for the dyadic tolerance row, finite stream window, regular-rational readback row, finite family of modulus rows, envelope majorant row, finite merge row, real-name seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-envelope-carrier}. Its analytic coordinates are exactly $D,W,R,F,M,U,S$, and its structural coordinates are exactly $H,C,P,N$.
+
+The dyadic, stream, and regular-rational rows supply the only observable precision and tail-window data. The modulus family $F$ and majorant row $M$ are read after those rows, so an envelope threshold cannot be supplied by an external modulus selector.
+
+The merge row $U$ is finite and stays attached to the same displayed family. Rows $H,C,P,N$ transport, replay, source, and name the same packet, with no additional coordinate for quotient streams, selected limits, countable choice, or ambient real completeness. Hence the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus envelope majorization]
+\label{thm:cauchy-modulus-envelope-modulus-majorization}
+Let $E=(D,W,R,F,M,U,S,H,C,P,N)$ be an accepted $\CauchyModulusEnvelopeUp$ carrier. Every modulus row in the displayed finite family $F$ is majorized only through the envelope row $M$ over the same dyadic tolerance row $D$, stream window $W$, and regular-rational readback row $R$. A consumer cannot read a threshold from $F$ without also reading the common envelope row $M$ and the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier. The finite family $F$ is not a free list of host functions; it is a displayed family of modulus rows attached to $D,W,R$.
+
+The envelope row $M$ is the only row that assigns a common threshold to the requested dyadic precision. Thus a majorization read must inspect $D,W,R$ first, then read the relevant modulus row from $F$, and then compare it with $M$ inside the same packet.
+
+Transport and replay through $H$ and $C$ preserve this dependency, while $P,N$ only source and name it. Since the carrier has no external modulus coordinate, every accepted majorization remains inside the finite envelope route.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus envelope finite-family merge]
+\label{thm:cauchy-modulus-envelope-finite-family-merge}
+For every accepted $\CauchyModulusEnvelopeUp$ carrier $E=(D,W,R,F,M,U,S,H,C,P,N)$, the merge row $U$ combines only finite displayed subfamilies of $F$ into the same envelope row $M$. The merge may reuse dyadic tolerance comparisons from $D$ and tail-window reads from $W,R$, but it exports no infinite family choice, no quotient equality of modulus functions, and no selected completion witness.
+\end{theorem}
+\begin{proof}
+Read $F$ and $U$ from the carrier. The family row is finite, and the merge row is listed as a row of that same finite packet rather than as an ambient operation over all moduli.
+
+Use the majorization theorem \autoref{thm:cauchy-modulus-envelope-modulus-majorization}. Each component modulus in the displayed family is compared with $M$ only after $D,W,R$ are visible.
+
+The merge row therefore combines already displayed comparisons. The structural rows $H,C,P,N$ preserve and name the finite merge route, but they add no infinite selector, quotient equality, selected limit, or completion object.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus envelope Real-seal nonescape]
+\label{thm:cauchy-modulus-envelope-real-seal-nonescape}
+Let $E=(D,W,R,F,M,U,S,H,C,P,N)$ be an accepted $\CauchyModulusEnvelopeUp$ carrier. Every downstream $\RealUp$ consumer of the seal row $S$ must first expose the dyadic tolerance row $D$, stream window $W$, regular-rational readback row $R$, finite modulus family $F$, envelope majorant row $M$, and finite merge row $U$. The seal exports no quotient Cauchy stream, selected real value, countable-choice modulus selection, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Project the seal row $S$ from the carrier. It appears only after $D,W,R,F,M,U$, so it is a handoff reached from the accepted finite envelope packet rather than an independent real object.
+
+Apply \autoref{thm:cauchy-modulus-envelope-modulus-majorization}. It keeps every threshold read tied to the same dyadic tolerance, stream window, regular-rational readback, and envelope row.
+
+Apply \autoref{thm:cauchy-modulus-envelope-finite-family-merge}. The merge route remains finite and displays the family members whose thresholds are being bounded.
+
+Rows $H,C,P,N$ transport, replay, source, and name only that finite route. Thus a real-name consumer must pass through the envelope packet before reading $S$, and none of the refused quotient, choice, selected-limit, or ambient-completeness data is exported.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyModulusEnvelopeUp$ read is refuted if a $\RealUp$ or Cauchy-convergence consumer exports a seal row without displaying DyadicRatCore tolerance, StreamName tail windows, RegSeqRat readback, finite modulus-family rows, a common envelope majorant, finite merge data, transport, replay, provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: none alone is bijective with $\CauchyModulusEnvelopeUp$ because the packet jointly carries dyadic precision, named tail windows, regular-rational readback, finite modulus families, envelope majorants, finite merges, Real seal handoff, transport, replay, provenance, and local NameCert.}
+
+\closureat{CauchyModulusEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusEnvelopeUp}
+  \constructivestory{A $\CauchyModulusEnvelopeUp$ packet is generated from DyadicRatCore tolerances, StreamName finite windows, RegSeqRat readback, finite Cauchy-modulus rows, a common majorant envelope, finite merge data, a RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-envelope-carrier}, \autoref{thm:cauchy-modulus-envelope-namecert-obligations}, \autoref{thm:cauchy-modulus-envelope-modulus-majorization}, \autoref{thm:cauchy-modulus-envelope-finite-family-merge}, and \autoref{thm:cauchy-modulus-envelope-real-seal-nonescape} seed the finite majorant-envelope surface for Cauchy moduli before Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient Cauchy completion, countable choice for moduli, selected real limits, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked dyadic tolerance exposure, finite stream-window readback, regular-rational dependency, majorant exactness, finite merge exactness, Real-seal nonescape, provenance, and local naming for BEDC.Derived.CauchyModulusEnvelopeUp.}
+\end{closurestatus}

@@ -1,0 +1,157 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyDensityUp$}
+\label{ch:concrete-instances-regular-cauchy-density-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers, the
+$\RegularCauchyDensityUp$ packet records the finite density route by which a
+dyadic rational approximation is read through regular Cauchy data before a
+terminal $\RealUp$ seal is exposed. It sits over the dyadic arithmetic of
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window
+surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular
+rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the
+terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, and the
+separable Real boundary of
+\autoref{ch:concrete-instances-real-separability-namecert}. The packet names a
+displayed approximation handoff for Real and Completion consumers; it is not a
+quotient equality of real names, a selected Cauchy representative, countable
+choice, trichotomy, a host density theorem, or ambient completeness of
+$\RealUp$.
+
+\begin{definition}[RegularCauchyDensity carrier]
+\label{def:regular-cauchy-density-carrier}
+A $\RegularCauchyDensityUp$ carrier is a finite $\BHist$ packet
+$$
+D=(Q,S,R,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\DyadicRatCoreUp$ row naming the dyadic rational candidate
+and the dyadic tolerance budget requested by the density read.
+\item $S$ is the $\StreamNameUp$ finite-window row exposing the inspected
+prefixes of the source real name at the precisions demanded by $Q$.
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row reached from the
+finite windows.
+\item $A$ is the approximation row stating that $Q$ is accepted only after the
+regular-rational comparison in $R$ displays the requested dyadic tolerance.
+\item $E$ is the terminal $\RealUp$ seal row, visible only after $Q,S,R,A$
+have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the dyadic candidate,
+stream windows, regular readback, approximation row, Real seal, replay,
+provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a density request through
+$Q,S,R,A,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyDensityUp$,
+$\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyDensityUp}$ row.
+\end{enumerate}
+The carrier stores only displayed finite rows. It has no coordinate for
+quotient equality of real names, selected representatives, countable choice,
+trichotomy, host density of rationals, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[RegularCauchyDensity NameCert obligations]
+\label{thm:regular-cauchy-density-namecert-obligations}
+For every accepted $\RegularCauchyDensityUp$ carrier
+$$
+D=(Q,S,R,A,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyDensityUp}$ surface consists exactly of
+carrier admission for the dyadic candidate, finite stream windows,
+regular-rational readback, approximation row, terminal Real seal,
+componentwise transport, displayed replay, provenance, and local naming. The
+obligation surface also requires dyadic-budget compatibility between $Q$ and
+$A$, window-readback exactness between $S$ and $R$, seal nonescape through
+$E$, and absence of quotient real equality, selected representatives,
+countable choice, trichotomy, host density, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-density-carrier}. The
+available analytic rows are $Q,S,R,A,E$, and the available structural rows are
+$H,C,P,N$.
+
+The budget compatibility row reads $Q$ before $A$. Thus an accepted density
+request cannot claim a dyadic approximation unless the requested dyadic
+tolerance is one of the displayed rows.
+
+The readback part then runs through $S$ and $R$. Finite stream windows expose
+the inspected prefixes, and the regular-rational row records the comparison
+data consumed by the approximation row.
+
+Finally $E$ seals the Real-facing output only after those rows have been
+displayed. The transport, replay, provenance, and naming rows preserve the
+same finite route, while the refused host objects are absent from the carrier
+inventory. Hence the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RegularCauchyDensity dyadic approximation]
+\label{thm:regular-cauchy-density-dyadic-approximation}
+Every Real-facing density read exported by an accepted
+$\RegularCauchyDensityUp$ carrier factors through the displayed route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp
+\longmapsto \RealUp
+$$
+as instantiated by $Q,S,R,A,E$. In particular, the dyadic candidate and
+tolerance budget are read first, the finite stream windows and
+regular-rational comparison are displayed next, and the terminal Real seal is
+available only after the approximation row has consumed those data.
+\end{theorem}
+\begin{proof}
+Start with an exported density read and project the accepted carrier. The
+only dyadic candidate row is $Q$, so the read begins at the displayed
+$\DyadicRatCoreUp$ surface.
+
+The finite observation route then passes through $S$ and $R$. The stream row
+opens the inspected windows, and the regular-rational row supplies the
+comparison surface needed to judge the dyadic budget.
+
+The approximation row $A$ is downstream of these rows and upstream of the
+terminal seal $E$. Since the carrier has no direct edge from $Q$ to $E$, a
+Real-facing consumer can receive the seal only through the displayed
+dyadic-window-readback route.
+
+The rows $H,C,P,N$ do not add another approximation source. They transport,
+replay, source, and name the same finite route, so every exported density read
+factors as claimed.
+\end{proof}
+
+\begin{theorem}[RegularCauchyDensity RegSeqRat handoff]
+\label{thm:regular-cauchy-density-regseqrat-handoff}
+An accepted $\RegularCauchyDensityUp$ carrier hands a dyadic approximation to
+the $\RealUp$ boundary only through the $\RegSeqRatUp$ row $R$. No Real-facing
+consumer of the packet receives a quotient representative, a selected Cauchy
+stream, a countable-choice schedule, trichotomy, a host rational-density
+theorem, or an ambient Real-completeness principle.
+\end{theorem}
+\begin{proof}
+Apply the dyadic approximation theorem. It forces every Real-facing density
+read to pass through $Q,S,R,A,E$ in that order, with $R$ as the unique
+regular-rational readback coordinate.
+
+It remains to inspect what the handoff can export. The carrier's structural
+rows $H,C,P,N$ only preserve the same displayed rows under transport, replay,
+provenance, and local naming.
+
+The refused objects are not coordinates of
+\autoref{def:regular-cauchy-density-carrier}. Therefore the handoff exports a
+finite RegSeqRat-mediated approximation route and none of the listed host or
+quotient principles.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyDensityUp$ density read factors through one DyadicRatCoreUp candidate-and-budget row, one StreamNameUp finite-window row, one RegSeqRatUp regular-rational readback row, one approximation row, one RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, real-separability: $\RegularCauchyDensityUp$ is not bijective to any listed sibling because it packages the dyadic approximation request, finite window opening, regular-rational readback, terminal Real seal, transport, replay, provenance, and local NameCert as one density certificate.}
+
+\closureat{RegularCauchyDensityUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyDensityUp}
+  \constructivestory{A $\RegularCauchyDensityUp$ packet is generated from a DyadicRatCoreUp candidate-and-budget row, StreamNameUp finite windows, RegSeqRatUp regular-rational readback, an approximation row, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-density-carrier}, \autoref{thm:regular-cauchy-density-namecert-obligations}, \autoref{thm:regular-cauchy-density-dyadic-approximation}, and \autoref{thm:regular-cauchy-density-regseqrat-handoff} seed the finite dyadic-density route from displayed dyadic budgets through regular-rational readback to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegularCauchyDensityUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of real names, selected Cauchy representatives, countable choice, trichotomy, host rational-density theorems, ambient Real completeness, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic-budget compatibility, window-readback exactness, RegSeqRat handoff, Real seal nonescape, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.RegularCauchyDensityUp.}
+\end{closurestatus}

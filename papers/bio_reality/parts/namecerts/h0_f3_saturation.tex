@@ -1,54 +1,32 @@
-\subsection{Third-face saturation and the ORF eligibility boundary}\label{subsec:h0-f3-saturation-or차-boundary}
+\subsection{NameCert: h0.f3.saturation}
+\label{sec:namecert-h0_f3_saturation}
 \origin{ai}
+\noindent\textit{Proposed by bio-namer; review status: draft.}
 
-\paragraph{Finite combinatorial packet.}
-The row named $h0.f3.saturation$ records a closed finite calculation on codon triples over the alphabet used by the packet.  Its verified run is $f4eee68dd2c3$, with verification time $2026$-$05$-$31T23{:}35{:}57{+}00{:}00$.  The calculation compares the motif-derived region $R$, the mediator-generated set $M$, and the saturation of $R$ along the third face operation $f_3$.  The motif compression run $338799579a87$ gives
-$$
-\begin{aligned}
-R = \{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU, UAA, UAG, UCA, UGA, UUA\}.
-\end{aligned}
-$$
-The mediator row $h0.M.equals.WNR.CUN$ verifies that $M$ has cardinality $20$ and is exactly
-$$
-\begin{aligned}
-M = \{&AAA, AAG, ACA, ACG, AGA, AGG, AUA, AUG, CUA, CUC, CUG, CUU,\\
-&UAA, UAG, UCA, UCG, UGA, UGG, UUA, UUG\}.
-\end{aligned}
-$$
-The saturation row verifies two sharper finite identities.  First, the mediator closure with the exceptional $ACA$ entry included recovers all of $M$:
-$$
-\begin{aligned}
-M = Med(R) \cup \{ACA\}.
-\end{aligned}
-$$
-Second, the third-face saturation of $R$ reaches every element of $M$ except precisely $ACA$ and $ACG$:
-$$
-\begin{aligned}
-Sat_{f_3}(R) = M \setminus \{ACA,ACG\}.
-\end{aligned}
-$$
-The recorded boundary residue for $f_3$ is the empty list, so no additional finite codon triple is left as an unaccounted third-face boundary item inside this packet.
+\paragraph{NameCert chapter slug.}
+Proposed slug: `14105\_reality\_bound\_codon\_topology\_f3\_saturation\_namecert\_construction`. The concept is BioReality-namespaced through `RealityBoundCodonTopology` and avoids Loning's occupied genetic-bridge namespaces by naming the packet as a reality-bound saturation ledger rather than reusing any documented Loning genetic-bridge label.
 
-\paragraph{Quotient geometry check.}
-The same finite object is compatible with the quotient geometry row $h0.quotient.geometry$, verified in run $fd0a506a0881$.  At the $M$ level, the face vector is $(20,38,26,8,1)$.  After quotienting, the recorded face vector is $(10,14,6,1)$, and the quotient has size $10$.  The quotient representatives are the ten binary rows
-$$
-\begin{aligned}
-&(0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\\
-&(0,1,0,0,0),\ (0,1,0,0,1),\ (1,0,0,0,1),\ (1,0,0,1,1),\\
-&(1,0,1,0,1),\ (1,0,1,1,1).
-\end{aligned}
-$$
-This confirms that the row is not merely a list of codons: it also carries a finite quotient profile.  That profile is still mathematical structure only.  It does not by itself say that a nucleotide interval exists in an organism, that a transcript is expressed, or that a ribosome realizes any protein product.
+\paragraph{Carrier.}
+Carrier name: `RealityBoundCodonTopologyFThreeSaturationLedger`. BEDC 5-tuple: `(carrier, distinctions, internal\_saturation\_packet, external\_reality\_bridge, cannot\_claim\_boundary)`, where the carrier is a finite codon-coordinate saturation ledger; distinctions separate the experiment's reassignment-source surface, median-closure surface, third-position saturation surface, named gap pair, and boundary check; internal\_saturation\_packet records only BEDC finite enumeration, median closure, quotient-compatible topology, and spectrum-compatible bookkeeping; external\_reality\_bridge points to curated biological tables and reproducible experiment runs; and cannot\_claim\_boundary prevents codon/window geometry from being promoted to translation, folding, physical admissibility, function, mechanism, or global biological law.
 
-\paragraph{Biological reading.}
-The biological object named by this row is open-reading-frame eligibility from start and stop codon enumeration.  The saturation identity is therefore read as a finite eligibility screen: it classifies which codon triples are reached by the declared third-face closure and which two mediator elements, $ACA$ and $ACG$, are outside that particular saturation image.  This is enough to describe a boundary for an ORF-eligibility test, but not enough to assert an observed ORF.  A start/stop pattern can define a candidate interval only after an outside sequence, transcript, or curated annotation contact supplies the biological interval being tested.
+\paragraph{Distinctions.}
+- Codons enumerated by the experiment as belonging to the BioReality reassignment-source surface `R`. - Codons enumerated by the experiment as belonging to the median-closure surface `M`. - Codons enumerated by the experiment as belonging to the third-position saturation surface `Sat\_f3\_R`. - The named gap-pair distinction separating the saturation surface from the median-closure surface. - The boundary-zero distinction recorded by the experiment as the local `f3` saturation boundary check. - The linked conjecture's `orf\_eligibility` boundary distinction between start/stop-window eligibility and translation realization. - The bridge distinction between curated code-label readback and internal BEDC coordinate, closure, quotient, and spectrum structure.
 
-The row explicitly carries that restriction.  The seed form says that the carrier, distinctions, and readback all remain awaiting contact with biological records, while the internal structure has no additional content.  The two probes make the same point operationally.  Probe $orf.eligibility.boundary.requires.contact$ breaks if the pipeline asserts ORF eligibility, translation realization, folded structure, physical admissibility, or biological function from start/stop enumeration alone.  Probe $orf.eligibility.contact.gap.check$ breaks if an ORF-eligibility claim is recorded while no sequence database, transcript evidence, or curated annotation can test the proposed interval.
+\paragraph{Readback.}
+The carrier reads back to observable data by following the curated genetic-code table pointer, the linked conjecture `orf\_eligibility.seed.boundary`, and the latest passed `check\_f3\_saturation` run for `h0.f3.saturation`. The readback surface is an experiment/provenance pointer into curated code-table comparisons and reproducible third-position saturation computation; the carrier itself records separated source, median-closure, saturation, gap, boundary, provenance, and refusal fields, not a biological mechanism.
 
-\paragraph{Contact comparison already available.}
-Two later finite contacts are present in the linked evidence and help delimit, rather than erase, the boundary.  The row $h2.orf.start_stop.window_eligibility$, run $c26a0d6656f7$, loads an outside window manifest with $1$ input window and classifies $1$ of $1$ windows by start/stop enumeration.  Its scope is explicitly external-window start/stop enumeration only, with snapshot date $2026$-$05$-$25$, and it records the classification as $orf\_eligibility\_only$.  This is a contact with a curated window record, not a promotion to translation or structure.
+\paragraph{Derivation from coordinate, closure, spectrum, and relation.}
+The internal content is a pure BEDC finite-coordinate packet: a RealityBound codon-topology carrier, an `R`-surface slot, an `M`-surface slot, a third-position saturation slot, a boundary-witness slot, a quotient-compatible ledger slot, and a TasteGate-style separation between internal coordinate structure and external readback. No curated genetic-code entry, codon list, saturation cardinality, gap-pair identity, translation table row, empirical frequency, start/stop role, ORF eligibility fact, or statistical conclusion is a kernel fact. Such values remain bridge and provenance fields supplied by section 6.
 
-The row $h2.orf_eligibility.curated_interval_contact$, run $7c9b30b02d46$, is larger.  It loads $168$ curated interval rows from NCBI RefSeq GenBank XML CDS intervals for \emph{Escherichia coli} K-$12$ MG1655 accession $NC\_000913.3$, with snapshot date $2026$-$05$-$30$.  The input classes are boundary cases, matched non-ORF decoys, and positive curated ORFs.  There are $72$ accepted positives out of $72$, with one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$; $72$ matched decoys are rejected out of $72$, with the same reported upper-tail value; and the predeclared paired comparison records $72$ wins out of $72$ pairs, again with $2.117582368135751\times 10^{-22}$.  The held-out stability check has three splits, each with $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$.  The $24$ boundary cases are not promoted, with promoted fraction $0.0$.
+\paragraph{Curated reality contacts and observed facts.}
+- Curated genetic-code source pointer: `tools/bio\_reality/data/ncbi\_genetic\_codes.json`. - Conjecture pointer: `tools/bio\_reality/inbox/conjectures.jsonl` record `orf\_eligibility.seed.boundary`. - Claim pointer: `tools/bio\_reality/registries/claims.json` record `h0.f3.saturation`. - Experiment provenance pointer: `tools/bio\_reality/state/experiment\_runs.jsonl` latest passed `experiment\_run\_id` `f4eee68dd2c3` for `check\_f3\_saturation`. - Gate/probe boundary pointer: probes `orf.eligibility.boundary.requires.contact` and `orf.eligibility.contact.gap.check`. - Statistical witness pointer: the linked conjecture and latest passed experiment run record their saturation, gap, and boundary witnesses by claim/run reference; those witnesses remain separate external provenance and are not imported into this carrier.
 
-\paragraph{Local boundary of the claim.}
-The finite identities for $R$, $M$, and $Sat_{f_3}(R)$ justify only a combinatorial eligibility boundary.  They do not imply translation, folding, physical admissibility, cellular function, biochemical mechanism, organism-level role, or a universal biological law.  The curated interval contact supplies evidence for its own declared dataset and protocol, but it also leaves the same limits in force: the classifier rules were frozen before external observation, the analysis did not use translation or structure input, and the contact does not classify windows outside that dataset.  Thus the scientific content of this subsection is a finite codon-geometry packet plus a separately testable ORF-eligibility interface.  Any stronger biological assertion requires a further contact that directly measures or curates the stronger layer.
+\paragraph{Layer discipline and out-of-scope assertions.}
+- This chapter does not claim biological-code necessity. - This chapter does not claim that third-position saturation realizes translation. - This chapter does not claim that a zero local saturation boundary establishes ORF eligibility. - This chapter does not claim that the named gap pair supplies a biochemical mechanism. - This chapter does not claim folded protein structure, physical admissibility, biological function, or universal mechanism. - This chapter does not claim that a curated table row, codon list, saturation count, gap-pair identity, start/stop role, or statistical witness is a BEDC kernel fact. - This chapter does not claim that local codon-window geometry is a global biological law. - This chapter does not claim evolution, causality, biochemical mechanism, or biological universality from the third-position saturation ledger.
+
+\paragraph{Disclaimer on the bridge from coordinate to mechanism.}
+This proposal is a vision-level scientific-model bridge for a stable BioReality third-position saturation code-read claim. It is not a CheckedCert claim about molecular biology, and it does not turn a BEDC codon coordinate, a local codon-topology surface, a median-closure computation, a third-position saturation witness, a named gap pair, or a boundary-zero check into ORF eligibility, translation realization, folded structure, physical admissibility, function realization, biological-code necessity, or a universal biological law; those require separate external reality contacts.
+
+\paragraph{Lean-side statement target sketch.}
+`BEDC.Derived.RealityBoundCodonTopologyFThreeSaturationLedgerUp.TasteGate` carrier alignment, with curated-table, experiment-run, conjecture-boundary, saturation-witness, gap-witness, boundary-witness, and statistical-witness evidence represented only as bridge/provenance fields.
+

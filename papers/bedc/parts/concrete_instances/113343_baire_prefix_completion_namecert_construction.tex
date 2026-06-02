@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\BairePrefixCompletionUp$}
+\label{ch:concrete-instances-baire-prefix-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive metric completion, and Brouwer together with Troelstra--van Dalen on spread and prefix semantics, the $\BairePrefixCompletionUp$ packet names the finite-prefix handoff from Baire streams to the completion-facing boundary. It sits after the finite prefix carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the common-prefix distance routes of \autoref{ch:concrete-instances-bairemetric-namecert} and \autoref{ch:concrete-instances-baire-ultrametric-namecert}, the finite-window readback of \autoref{ch:concrete-instances-streamname-namecert}, and before the limit-boundary packet of \autoref{ch:concrete-instances-complete-baire-space-namecert}. The chapter records the completion handoff as displayed finite data, not as host stream equality, a selected branch, quotient equality of streams, countable choice, or ambient completeness.
+
+\begin{definition}[Baire prefix completion carrier]\label{def:baire-prefix-completion-carrier}
+A $\BairePrefixCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(B,M,S,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BaireSpaceUp$ finite prefix row, naming the inspected prefix cylinder and the prefix length visible to the completion request.
+\item $M$ is the $\BaireMetricUp$ or $\BaireUltrametricUp$ distance row, recording the common-prefix dyadic distance used to compare displayed cylinders before a boundary read.
+\item $S$ is the $\StreamNameUp$ finite-window row, listing exactly the stream coordinates opened by the prefix request and the distance request.
+\item $E$ is the $\CompleteBaireSpaceUp$ boundary row, available only after $B,M,S$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the prefix, distance, window, boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same finite prefix windows through the completion-facing request.
+\item $P$ is the $\Pkg$ provenance over $\BairePrefixCompletionUp$, $\BaireSpaceUp$, $\BaireMetricUp$, $\BaireUltrametricUp$, $\StreamNameUp$, $\CompleteBaireSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BairePrefixCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,M,S,E,H,C,P,N$. It has no coordinate for host stream equality, quotient stream equality, a selected infinite branch, countable choice, ambient completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Baire prefix completion NameCert obligations]\label{thm:baire-prefix-completion-namecert-obligations}
+For every accepted $\BairePrefixCompletionUp$ carrier $L=(B,M,S,E,H,C,P,N)$, the local $\NameCert_{\BairePrefixCompletionUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed Baire prefix row, prefix-distance row, finite StreamName window row, completion boundary row, transport, replay, provenance, and local naming;
+\item prefix-window coverage, requiring every completion-facing read to expose the $\BaireSpaceUp$ prefix row $B$ and the $\StreamNameUp$ window row $S$ before any boundary row is inspected;
+\item distance compatibility, requiring the $\BaireMetricUp$ or $\BaireUltrametricUp$ row $M$ to compare only the displayed prefix cylinders and their finite common-prefix witnesses;
+\item completion-boundary ordering, requiring the $\CompleteBaireSpaceUp$ row $E$ to be downstream of $B,M,S$ and stable under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item nonescape, excluding host stream equality, quotient stream equality, selected branches, countable choice, ambient completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No BairePrefixCompletion obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:baire-prefix-completion-carrier}. The displayed tuple $B,M,S,E,H,C,P,N$ is the whole public surface, so carrier admission is exactly the admission of those rows.
+
+Prefix-window coverage is forced by $B$ and $S$. The prefix row names the inspected cylinder, while the StreamName row lists every coordinate opened by that request.
+
+Distance compatibility is read from $M$. Whether the consumer uses the metric or ultrametric sibling route, the distance row can compare only the prefix cylinders and finite common-prefix witnesses already displayed by $B$ and $S$.
+
+The boundary ordering is the role of $E,H,C$. The completion row is available only after the finite prefix, distance, and window rows, while transport and replay preserve that same route.
+
+The provenance and local naming rows cite no selector, quotient, host equality, countable-choice operation, ambient completeness theorem, Lean credential, or bridge credential. Therefore the five rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Baire prefix completion finite-window exhaustion]\label{thm:baire-prefix-completion-finite-window-exhaustion}
+Every $\CompleteBaireSpaceUp$ consumer reading a limit boundary from an accepted $\BairePrefixCompletionUp$ carrier $L=(B,M,S,E,H,C,P,N)$ must first expose the $\BaireSpaceUp$ finite prefix row $B$, the $\BaireMetricUp$ or $\BaireUltrametricUp$ distance row $M$, the $\StreamNameUp$ finite-window row $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$. Thus every completion-facing read exposes finite prefix windows before the boundary row $E$ can be consumed.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing read. By the carrier definition, the only rows upstream of the boundary row are the displayed prefix, distance, and finite-window rows, followed by the structural support rows.
+
+Apply the NameCert obligations of \autoref{thm:baire-prefix-completion-namecert-obligations}. Prefix-window coverage requires $B$ and $S$ before any boundary read, and distance compatibility places $M$ on the same finite prefix route.
+
+Use the completion-boundary ordering clause for $E,H,C$. The boundary row cannot be consumed until the finite rows have been displayed, and transport or replay can only carry the same displayed route.
+
+Finally $P$ and $N$ source and name this finite handoff. Since no excluded branch, quotient, choice, host equality, or ambient completeness coordinate exists in the carrier, the consumer receives finite prefix windows before any limit boundary.
+\end{proof}
+
+\falsifiablePrediction{Every $\BairePrefixCompletionUp$ completion-facing read factors through a displayed $\BaireSpaceUp$ prefix row, a $\BaireMetricUp$ or $\BaireUltrametricUp$ distance row, a finite $\StreamNameUp$ window row, a $\CompleteBaireSpaceUp$ boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{bairespace, bairemetric, baire-ultrametric, streamname, complete-baire-space: $\BairePrefixCompletionUp$ is not bijective to any listed sibling because it jointly carries finite Baire prefixes, prefix-distance comparison, finite StreamName windows, completion boundary ordering, transport, continuation, provenance, and local naming as one packet.}
+
+\closureat{BairePrefixCompletionUp}{seedStr}
+
+\begin{closurestatus}{\BairePrefixCompletionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:baire-prefix-completion-carrier}, \autoref{thm:baire-prefix-completion-namecert-obligations}, and \autoref{thm:baire-prefix-completion-finite-window-exhaustion} seed the finite-prefix completion handoff from Baire prefix cylinders through StreamName windows and prefix distance rows into the CompleteBaireSpace boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host stream equality, quotient stream equality, selected branches, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-window coverage, distance compatibility, completion-boundary ordering, finite-window exhaustion, and nonescape for BEDC.Derived.BairePrefixCompletionUp.}
+  \constructivestory{A $\BairePrefixCompletionUp$ packet is generated from finite Baire prefix rows, prefix-distance rows, StreamName finite windows, a CompleteBaireSpace boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

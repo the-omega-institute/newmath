@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyModulusAlgebraUp$}
+\label{ch:concrete-instances-regular-cauchy-modulus-algebra-namecert}
+\origin{human}
+
+Following Bishop--Bridges on regular Cauchy reals and constructive algebra, the $\RegularCauchyModulusAlgebraUp$ packet records the finite modulus surface that lets algebraic operations on regular Cauchy representatives be replayed as named BEDC data. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence rows of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal rows of \autoref{ch:concrete-instances-real-namecert}. The packet is an L10 completion-facing algebra ledger: it packages sum and product stability for displayed representatives, not Real completeness, quotient equality of real names, open-cover compactness, or host real algebra.
+
+\begin{definition}[RegularCauchyModulusAlgebra carrier]
+\label{def:regular-cauchy-modulus-algebra-carrier}
+A $\RegularCauchyModulusAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,W,Q,E,S,M,U,V,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ modulus ledger, exposing dyadic tolerances, comparison rows, and arithmetic tolerance requests used by every operation row;
+\item $W$ is the $\StreamNameUp$ window row, giving the finite input windows inspected before a tolerance request is answered;
+\item $Q$ is the $\RegSeqRatUp$ sequence row, carrying the regular rational representatives, their window readback, and the local regularity witnesses consumed by the operation rows;
+\item $E$ is the $\RealUp$ seal row reached after the regular rational readback is replayed through the displayed modulus rows;
+\item $S$ is the sum-stability row, recording a dyadic output tolerance, the two displayed input windows selected for that tolerance, the regular rational sum readback, and the resulting Real seal handoff;
+\item $M$ is the product-stability row, recording the bounded window data, dyadic tolerance split, rational product readback, and Real seal handoff required for multiplication of displayed regular representatives;
+\item $U$ is the transport row, recording componentwise $\hsame$ for $D,W,Q,E,S,M$ and for the replay, provenance, and naming rows;
+\item $V$ is the replay row, recording displayed $\Cont$ routes from dyadic tolerance requests through StreamName windows, RegSeqRat readback, sum stability, product stability, and Real seal rows;
+\item $H$ is the operation-history row, collecting the finite $\BHist$ traces for the input representatives, selected windows, rational operation rows, and output seals;
+\item $T$ is the provenance row, a $\Pkg$ ledger over $\RegularCauchyModulusAlgebraUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows;
+\item $P$ is the local operation package row, exposing the accepted sum and product packets as downstream consumable BEDC objects;
+\item $N$ is the local $\NameCert_{\RegularCauchyModulusAlgebraUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for Real completeness, quotient equality of Real names, open-cover compactness, a selected Cauchy limit, countable choice, or host real algebra.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyModulusAlgebraUp.RegularCauchyModulusAlgebraTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RegularCauchyModulusAlgebra NameCert obligations]
+\label{thm:regular-cauchy-modulus-algebra-namecert-obligations}
+For every accepted $\RegularCauchyModulusAlgebraUp$ carrier
+$$
+A=(D,W,Q,E,S,M,U,V,H,T,P,N),
+$$
+the local $\NameCert_{\RegularCauchyModulusAlgebraUp}$ surface consists exactly of carrier admission for $A$, dyadic modulus admission through $D$, finite StreamName window admission through $W$, RegSeqRat sequence admission through $Q$, Real seal admission through $E$, sum-stability admission through $S$, product-stability admission through $M$, componentwise $\hsame$ transport through $U$, displayed $\Cont$ replay through $V$, operation history through $H$, $\Pkg$ provenance through $T$, operation package export through $P$, and local naming through $N$.
+
+Consequently a downstream algebra consumer may use the packet only after reading the finite dyadic modulus rows, StreamName windows, RegSeqRat sequence rows, Real seal rows, sum and product operation-stability rows, transport, replay, provenance, and local NameCert data displayed in the carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-modulus-algebra-carrier}. The rows $D,W,Q,E,S,M,U,V,H,T,P,N$ are the only coordinates exposed by the packet.
+
+The analytic part is finite. Dyadic tolerance requests enter through $D$, are answered by StreamName windows in $W$, are read as regular rational representatives through $Q$, and reach the Real-facing seal row $E$ only after those displayed reads have occurred.
+
+The operation rows preserve the same discipline. The sum row $S$ records its selected input windows and rational sum readback before exporting an output seal, while the product row $M$ records bounded window data, tolerance split, and rational product readback before exporting its seal.
+
+The structural rows do not add external algebraic content. Componentwise $\hsame$ transport in $U$, displayed $\Cont$ replay in $V$, operation histories in $H$, $\Pkg$ provenance in $T$, operation package export in $P$, and the local naming row $N$ package the same finite surface. Since no other carrier coordinate is present, Real completeness, quotient equality, open-cover compactness, selected limits, choice, and host real algebra remain outside the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RegularCauchyModulusAlgebra operation replay]
+\label{thm:regular-cauchy-modulus-algebra-operation-replay}
+Every accepted $\RegularCauchyModulusAlgebraUp$ carrier
+$$
+A=(D,W,Q,E,S,M,U,V,H,T,P,N)
+$$
+exports sum and product data only through the finite route
+$$
+D,W,Q \longmapsto S,M \longmapsto E \longmapsto U,V,H,T,P,N .
+$$
+Thus operation stability is a replayable BEDC obligation over dyadic modulus rows, StreamName windows, RegSeqRat sequence rows, Real seal rows, transport, replay, provenance, and local NameCert data. It is not a claim of Real completeness, quotient equality, open-cover compactness, or host real algebra.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in operation order. The dyadic row $D$ states the output precision request, $W$ selects the finite input windows, and $Q$ supplies the regular rational representatives visible in those windows.
+
+For addition, the row $S$ records the selected windows and rational sum readback before the output seal can be read through $E$. For multiplication, the row $M$ records the bounded window data, tolerance split, and rational product readback before its output seal can be read through $E$.
+
+The rows $U,V,H,T,P,N$ then transport, replay, remember, package, export, and name the same operation traces. Because the route never opens a completeness theorem, quotient equality relation, open-cover argument, or host algebra object, the exported stability remains finite BEDC replay data.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims $\RegularCauchyModulusAlgebraUp$ operation stability while omitting the dyadic modulus row, StreamName window row, RegSeqRat sequence row, Real seal row, sum-stability row, product-stability row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, operation package export, or $\NameCert$ row refutes the carrier of \autoref{def:regular-cauchy-modulus-algebra-carrier}.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\RegularCauchyModulusAlgebraUp$ binds dyadic modulus requests, finite stream windows, regular rational readback, Real seal handoff, and explicit sum/product stability in one local NameCert packet; each named sibling lacks at least one of these operation-stability rows as a local algebra coordinate.}
+
+\closureat{RegularCauchyModulusAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyModulusAlgebraUp}
+  \constructivestory{A $\RegularCauchyModulusAlgebraUp$ packet is generated from dyadic modulus rows, StreamName windows, RegSeqRat sequence rows, Real seal rows, sum and product stability rows, componentwise hsame transport, displayed Cont replay, operation histories, Pkg provenance, operation package export, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-algebra-carrier}, \autoref{thm:regular-cauchy-modulus-algebra-namecert-obligations}, and \autoref{thm:regular-cauchy-modulus-algebra-operation-replay} seed the finite modulus algebra packet for regular Cauchy representative sum and product stability.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Real completeness, quotient equality of Real names, open-cover compactness, selected Cauchy limits, countable choice, or host real algebra.}
+  \upgradepath{Obligation closure requires checked carrier admission, sum-stability replay, product-stability replay, Real seal handoff, and a Lean realization for BEDC.Derived.RegularCauchyModulusAlgebraUp.}
+\end{closurestatus}

@@ -45,6 +45,17 @@ The filter-base row $F$ is downstream of the same directed tails. Since $F$ has 
 The completion row $U$ is reached after this route. Componentwise transport through $H$ and replay through $C$ preserve the same rows, while $P$ and $N$ name them as the local certificate surface. No listed coordinate can export quotient nets, selected limits, cofinal choice, ambient completeness, or host equality.
 \end{proof}
 
+\begin{theorem}[Moore--Smith net Cauchy completion handoff]\label{thm:moore-smith-net-cauchy-filter-handoff}
+Every completion-facing consumer of an accepted $\MooreSmithNetUp$ packet that needs Cauchy-style completion data first passes through the directed tails and filter-base handoff of \autoref{ch:concrete-instances-cauchynetcompletion-namecert} before the broader completion boundary of \autoref{ch:concrete-instances-moore-smith-completion-namecert} may be exposed. The route reads $D,V,T,F,U,H,C,P,N$ as finite net data, Cauchy-filter data, and Moore--Smith completion boundary data, and it does not introduce selected limits, quotient nets, cofinal choice, ambient completeness, or host equality.
+\end{theorem}
+\begin{proof}
+Start with the obligations of \autoref{thm:moore-smith-net-namecert-obligations}. They force every completion-facing read to inspect the directed-index row $D$, value window $V$, tail ledger $T$, and filter-base handoff $F$ before reaching the completion consumer row $U$.
+
+The Cauchy completion neighbour receives exactly that tail and filter route. Thus a reader of \autoref{ch:concrete-instances-cauchynetcompletion-namecert} consumes displayed Moore--Smith net data as a Cauchy-style completion surface rather than as a selected limit.
+
+Only after this Cauchy-filter route is visible can the Moore--Smith completion boundary of \autoref{ch:concrete-instances-moore-smith-completion-namecert} be named. Componentwise transport, replay, provenance, and local naming remain $H,C,P,N$, so the route cannot add quotient nets, cofinal choice, ambient completeness, or host equality.
+\end{proof}
+
 \begin{theorem}[Moore--Smith net uniform-completion handoff]\label{thm:moore-smith-net-uniform-completion-handoff}
 Every $\UniformCompletionUp$ consumer of an accepted $\MooreSmithNetUp$ packet factors through the finite route
 $$

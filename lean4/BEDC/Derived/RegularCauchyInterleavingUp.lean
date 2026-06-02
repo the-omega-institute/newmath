@@ -531,4 +531,56 @@ theorem RegularCauchyInterleavingPacket_public_bridge_readiness [AskSetup] [Pack
       modulusUnary, interleavedUnary, endpointUnary, publicReadUnary, bridgeReadUnary,
       finiteTailReadUnary, publicRoute, bridgeRoute, tailRoute, endpointPkg, tailPkg⟩
 
+theorem RegularCauchyInterleavingPacket_scoped_kernel_route [AskSetup] [PackageSetup]
+    {leftName rightName leftSchedule rightSchedule selector modulus leftSeal rightSeal
+      interleavedSeal transport routes provenance nameCert endpoint readSchedule readSeal
+      endpointRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyInterleavingPacket leftName rightName leftSchedule rightSchedule selector
+        modulus leftSeal rightSeal interleavedSeal transport routes provenance nameCert endpoint
+        bundle pkg ->
+      Cont selector readSchedule readSeal ->
+        (hsame leftSchedule readSchedule ∨ hsame rightSchedule readSchedule) ->
+          Cont interleavedSeal modulus endpointRead ->
+            Cont endpointRead provenance publicRead ->
+              PkgSig bundle publicRead pkg ->
+                (hsame leftSeal readSeal ∨ hsame rightSeal readSeal) ∧
+                  hsame endpoint endpointRead ∧ UnaryHistory publicRead ∧
+                    PkgSig bundle endpoint pkg ∧ PkgSig bundle publicRead pkg ∧
+                      Nonempty
+                        (SemanticNameCert
+                          (fun row : BHist =>
+                            RegularCauchyInterleavingPacket leftName rightName leftSchedule
+                              rightSchedule selector modulus leftSeal rightSeal interleavedSeal
+                              transport routes provenance nameCert endpoint bundle pkg ∧
+                              hsame row provenance)
+                          (fun row : BHist =>
+                            RegularCauchyInterleavingPacket leftName rightName leftSchedule
+                              rightSchedule selector modulus leftSeal rightSeal interleavedSeal
+                              transport routes provenance nameCert endpoint bundle pkg ∧
+                              hsame row provenance)
+                          (fun row : BHist =>
+                            RegularCauchyInterleavingPacket leftName rightName leftSchedule
+                              rightSchedule selector modulus leftSeal rightSeal interleavedSeal
+                              transport routes provenance nameCert endpoint bundle pkg ∧
+                              hsame row provenance)
+                          hsame) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame PkgSig SemanticNameCert UnaryHistory
+  intro packet readRoute scheduleSide endpointReadRoute publicRoute publicPkg
+  have scheduleCoverage :
+      hsame leftSeal readSeal ∨ hsame rightSeal readSeal :=
+    RegularCauchyInterleavingPacket_schedule_window_coverage packet readRoute scheduleSide
+  have modulusExact :=
+    RegularCauchyInterleavingPacket_combined_modulus_exactness packet endpointReadRoute
+  have sameEndpoint : hsame endpoint endpointRead := modulusExact.2.2.2.2.2.2.1
+  have obligationPackage :=
+    RegularCauchyInterleavingPacket_obligation_closure_package packet endpointReadRoute
+      publicRoute publicPkg
+  obtain ⟨_leftSealUnary, _rightSealUnary, _interleavedUnary, _endpointReadUnary, publicUnary,
+    _interleavedRoute, _endpointReadRoute, _publicRoute, _sameEndpointFromPackage, endpointPkg,
+    _publicPkgFromPackage⟩ := obligationPackage
+  exact
+    ⟨scheduleCoverage, sameEndpoint, publicUnary, endpointPkg, publicPkg,
+      ⟨RegularCauchyInterleavingPacket_namecert_obligations packet⟩⟩
+
 end BEDC.Derived.RegularCauchyInterleavingUp

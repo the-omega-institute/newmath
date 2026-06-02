@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionPushoutUp$}
+\label{ch:concrete-instances-cauchy-completion-pushout-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive completion and Mac Lane pushout terminology, the $\CauchyCompletionPushoutUp$ packet records the finite gluing surface for two completion legs over a shared dense source. It sits between the unit-and-bind schedule of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the extension uniqueness route of \autoref{ch:concrete-instances-completionuniversalproperty-namecert}, the metric completion carrier of \autoref{ch:concrete-instances-metriccompletion-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names completion gluing without quotienting Cauchy names, selecting representatives, invoking countable choice, or importing ambient completeness of $\RealUp$.
+
+\begin{definition}[Cauchy completion pushout carrier]
+\label{def:cauchy-completion-pushout-carrier}
+A $\CauchyCompletionPushoutUp$ carrier is a finite $\BHist$ packet
+$$
+X=(S,L,R,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the shared source row, naming the common metric or Cauchy source and the finite requests on which both completion legs are compared.
+\item $L$ is the left completion leg row, carrying the displayed dense entry, finite Cauchy windows, and completion-facing readback for the left side.
+\item $R$ is the right completion leg row, carrying the analogous displayed dense entry, finite Cauchy windows, and completion-facing readback for the right side.
+\item $Q$ is the compatibility-square row, recording that the two legs agree on the shared source through displayed $\StreamNameUp$ windows and $\RegSeqRatUp$ readback before any terminal seal is read.
+\item $E$ is the endpoint seal row, exposing the $\RealUp$ or completion-facing endpoint reached after $S,L,R,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $S,L,R,Q,E$ and for the structural rows.
+\item $C$ records displayed $\Cont$ replay from a shared source request through the two completion legs, the compatibility square, and the endpoint seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionPushoutUp$, $\CauchyCompletionMonadUp$, $\CompletionUniversalPropertyUp$, $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyCompletionPushoutUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient completion equality, a selected pushout representative, countable choice of approximants, host equality of completed points, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy completion pushout NameCert obligations]
+\label{thm:cauchy-completion-pushout-namecert-obligations}
+For every accepted $\CauchyCompletionPushoutUp$ carrier $X=(S,L,R,Q,E,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionPushoutUp}$ surface consists exactly of shared-source admission, left completion-leg admission, right completion-leg admission, compatibility-square admission, endpoint-seal admission, componentwise transport, displayed replay, provenance, and local naming for the rows $S,L,R,Q,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-pushout-carrier}. The analytic rows are $S,L,R,Q,E$, and the structural rows are $H,C,P,N$.
+
+The shared source row is read first. The left and right completion legs are then inspected against the same finite source request, using the finite-window and regular-readback routes already named by the StreamName and RegSeqRat siblings.
+
+The compatibility square $Q$ is available only after both legs have been displayed over $S$. The endpoint seal $E$ is downstream of that square, so a Real or Completion consumer cannot bypass the compatibility row.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no quotient equality, selected representative, countable-choice schedule, host equality, or ambient completeness row appears in the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy completion pushout nonescape]
+\label{thm:cauchy-completion-pushout-nonescape}
+Every public read from an accepted $\CauchyCompletionPushoutUp$ packet factors through
+$$
+S,L,R \longmapsto Q \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus completion functoriality and Real seal consumers receive a displayed gluing route, not quotient completion equality, selected pushout representatives, countable choice, host equality of completed points, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-completion-pushout-namecert-obligations}. They expose the source row and both completion legs before the compatibility square is readable.
+
+The endpoint seal is read only after the square. A consumer that reaches $E$ has therefore already consumed the shared-source row, the left and right leg rows, and the square witnessing their agreement on the source.
+
+The structural rows preserve this same order and add no analytic coordinate. Hence every public read factors through the displayed route and cannot export any of the excluded host-side or quotient data.
+\end{proof}
+
+\falsifiablePrediction{A $\CauchyCompletionPushoutUp$ consumer that reads a terminal $\RealUp$ or completion seal without first displaying one shared source row, two completion legs, one compatibility square, transport, replay, provenance, and local naming is not reading the carrier of \autoref{def:cauchy-completion-pushout-carrier}.}
+
+\independenceWitness{cauchycompletionmonad, completionuniversalproperty, metriccompletion, streamname, regseqrat, real: none is bijective to $\CauchyCompletionPushoutUp$ because the packet jointly carries a shared source, two completion legs, a compatibility square, endpoint seal, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyCompletionPushoutUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionPushoutUp}
+  \constructivestory{A $\CauchyCompletionPushoutUp$ packet is generated from a shared source row, left and right completion-leg rows, a compatibility-square row, an endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-pushout-carrier}, \autoref{thm:cauchy-completion-pushout-namecert-obligations}, and \autoref{thm:cauchy-completion-pushout-nonescape} seed the finite completion-gluing route over a shared source.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion equality, selected representatives, countable choice, host equality of completed points, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-leg compatibility, endpoint seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyCompletionPushoutUp.}
+\end{closurestatus}

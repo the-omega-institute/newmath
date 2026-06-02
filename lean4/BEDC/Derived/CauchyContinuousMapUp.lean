@@ -135,6 +135,54 @@ theorem CauchyContinuousMap_real_seal_handoff (M : BEDC.Derived.CauchyContinuous
   · exact imageExact
   · exact sealRoute.trans (congrArg (fun row => append row M.realSealHandoff) imageExact)
 
+theorem CauchyContinuousMap_regularity_transport (M : BEDC.Derived.CauchyContinuousMapUp)
+    {windowTolerance imageRead transportedImage sealRead : BHist} :
+    Cont M.windows M.toleranceLedger windowTolerance →
+      Cont windowTolerance M.imageReadback imageRead →
+        hsame imageRead transportedImage →
+          Cont transportedImage M.realSealHandoff sealRead →
+            hsame transportedImage (append M.windows (append M.toleranceLedger M.imageReadback)) ∧
+              hsame sealRead
+                (append (append M.windows (append M.toleranceLedger M.imageReadback))
+                  M.realSealHandoff) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append
+  intro windowRoute imageRoute imageTransport sealRoute
+  have imageExact :
+      hsame imageRead (append M.windows (append M.toleranceLedger M.imageReadback)) :=
+    imageRoute.trans
+      ((congrArg (fun row => append row M.imageReadback) windowRoute).trans
+        (append_assoc M.windows M.toleranceLedger M.imageReadback))
+  have transportedExact :
+      hsame transportedImage (append M.windows (append M.toleranceLedger M.imageReadback)) :=
+    hsame_trans (hsame_symm imageTransport) imageExact
+  constructor
+  · exact transportedExact
+  · exact sealRoute.trans (congrArg (fun row => append row M.realSealHandoff) transportedExact)
+
+theorem CauchyContinuousMap_window_composition
+    (M1 M2 : BEDC.Derived.CauchyContinuousMapUp)
+    {firstImage firstSeal secondWindow secondImage secondSeal : BHist} :
+    Cont M1.windows M1.imageReadback firstImage →
+      Cont firstImage M1.realSealHandoff firstSeal →
+        Cont firstSeal M2.windows secondWindow →
+          Cont secondWindow M2.imageReadback secondImage →
+            Cont secondImage M2.realSealHandoff secondSeal →
+              hsame secondSeal
+                (append (append (append (append M1.windows M1.imageReadback)
+                  M1.realSealHandoff) M2.windows)
+                  (append M2.imageReadback M2.realSealHandoff)) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append
+  intro firstImageRoute firstSealRoute secondWindowRoute secondImageRoute secondSealRoute
+  cases firstImageRoute
+  cases firstSealRoute
+  cases secondWindowRoute
+  cases secondImageRoute
+  cases secondSealRoute
+  exact append_assoc
+    (append (append (append M1.windows M1.imageReadback) M1.realSealHandoff) M2.windows)
+    M2.imageReadback
+    M2.realSealHandoff
+
 end CauchyContinuousMapUp
 
 end BEDC.Derived

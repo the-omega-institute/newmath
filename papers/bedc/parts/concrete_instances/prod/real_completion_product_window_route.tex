@@ -11,3 +11,15 @@ The finite-data sibling route supplies the window discipline. Apply \autoref{thm
 
 The Real and Completion consumers then read paired windows through \autoref{ch:concrete-instances-streamname-namecert} and paired regular coordinate rows through \autoref{ch:concrete-instances-regseqrat-namecert}. Since the product surface has no host tuple equality, quotient pair, selected projection, or hidden stream coordinate, the StreamName and RegSeqRat product-window reads remain downstream of $\ProdUp$.
 \end{proof}
+
+\begin{theorem}[Prod RegSeqRat and StreamName product window]
+\label{thm:prod-regseqrat-streamname-product-window}
+Whenever a completion-facing consumer reads a pair of stream coordinates or regular-Cauchy coordinates through $\ProdUp$, the read factors through the componentwise $\SemanticNameCert$ row, displayed-pair ledger endpoints, $\ProdHistoryClassifierUp$ descent, $\hsame$ and $\Cont$ transports, and source $\NameCert$ rows before $\StreamNameUp$ or $\RegSeqRatUp$ consumes the pair. The product window exports finite paired data only; it does not export host tuple equality, hidden projections, quotient pair representatives, or an ambient product stream.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:prod-finite-data-real-completion-sibling-route}. It already places Real-and-Completion product reads behind the $\ProdUp$ public finite-data surface before StreamName and RegSeqRat consumers inspect paired windows.
+
+Specialize the downstream readers to the two completion-facing cases. A $\StreamNameUp$ product-window read consumes paired stream coordinates through the displayed product endpoint rows, while a $\RegSeqRatUp$ read consumes regular coordinate pairs through the same finite product route.
+
+Now use consumer-row exhaustion from the public finite-data exit package. The componentwise $\SemanticNameCert$ row, displayed-pair ledger endpoints, $\ProdHistoryClassifierUp$ descent, source certificates, $\hsame$ transport, $\Cont$ continuation, and provenance rows are the whole product surface. Thus no host tuple equality, hidden projection, quotient representative, or ambient product stream remains for either downstream reader.
+\end{proof}

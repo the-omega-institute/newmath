@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\PrimitiveCertifiedRouteUp$}
+\label{ch:concrete-instances-primitive-certified-route-namecert}
+\origin{ai}
+
+The $\PrimitiveCertifiedRouteUp$ packet realizes the ordered route of \autoref{def:philosophy-primitive-certified-route} as one finite NameCert carrier. It sits beside the kernel-inductive acceptance surface of \autoref{ch:concrete-instances-kernelinductiveacceptance-namecert} and the audit-map family surface of \autoref{ch:concrete-instances-auditmapfamily-namecert}: those chapters name certificates and audit families, while this packet records the entire primitive-to-certified reading as one ordered carrier from generated distinction rows through the certified-object seal.
+
+\falsifiablePrediction{An accepted $\PrimitiveCertifiedRouteUp$ read is refuted if a CertifiedObject seal is exported without first displaying distinction, history, record, classifier, NameCert, ledger, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{namecert, auditmapfamily, machineinterfacesocket, groundcompilerauditmap, and certificategate: none is bijective to $\PrimitiveCertifiedRouteUp$ because only this packet records the ordered primitive-to-certified route as one carrier from generated distinction data through classifier, ledger, and certified-object seal.}
+
+\begin{definition}[Primitive-certified route carrier]
+\label{def:primitive-certified-route-carrier}
+A $\PrimitiveCertifiedRouteUp$ carrier is a finite $\BHist$ packet
+$$
+R=(D,H_0,A,Q,N_0,L,Z,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the generated distinction row, recording the primitive same-and-different boundary being certified.
+\item $H_0$ is the history row, displaying the finite route by which the distinction entered the packet.
+\item $A$ is the record row, naming the generated record inspected by the classifier.
+\item $Q$ is the classifier row, assigning the record to the stable classifier surface consumed by the certificate.
+\item $N_0$ is the inner $\NameCert$ row for the classified record.
+\item $L$ is the ledger row, recording the certificate-facing audit trail from $D,H_0,A,Q,N_0$.
+\item $Z$ is the CertifiedObject seal row exported only after the previous rows are displayed.
+\item $T$ records componentwise $\hsame$ transport for distinction, history, record, classifier, certificate, ledger, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the ordered route $D,H_0,A,Q,N_0,L,Z,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\PrimitiveCertifiedRouteUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PrimitiveCertifiedRouteUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the ordered rows $D,H_0,A,Q,N_0,L,Z,T,C,P,N$. It has no coordinate for a certified-object seal detached from the distinction, history, record, classifier, certificate, ledger, transport, replay, provenance, or local naming rows.
+\end{definition}
+
+\begin{theorem}[Primitive-certified route NameCert obligations]
+\label{thm:primitive-certified-route-namecert-obligations}
+For an accepted $\PrimitiveCertifiedRouteUp$ carrier $R=(D,H_0,A,Q,N_0,L,Z,T,C,P,N)$, the local $\NameCert_{\PrimitiveCertifiedRouteUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed distinction, history, record, classifier, certificate, ledger, seal, transport, replay, provenance, and local naming rows;
+\item primitive order, requiring $D,H_0,A$ to be read before the classifier row $Q$ is available;
+\item classifier certification, requiring $Q$ and $N_0$ to certify the same record before the ledger row $L$ is accepted;
+\item ledger seal ordering, requiring $Z$ to be downstream of $L$ rather than a standalone certified-object export;
+\item structural non-escape, requiring $T,C,P,N$ to transport, replay, source, and name only the ordered route already displayed.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:primitive-certified-route-carrier}. The listed rows are the whole surface available to an accepted read.
+
+The primitive order obligation forces a read through $D,H_0,A$ before the classifier row $Q$ can be consumed. Thus the classifier is attached to a displayed generated record rather than to an unnamed object.
+
+Classifier certification then binds $Q$ to the inner NameCert row $N_0$. The ledger row $L$ records that certification before the certified-object seal $Z$ can be exported.
+
+Finally $T,C,P,N$ only preserve this ordered route. Because the carrier has no detached seal coordinate, every accepted certified-object read remains inside the displayed primitive-to-certified packet.
+\end{proof}
+
+\begin{theorem}[Primitive-certified route classifier nonescape]
+\label{thm:primitive-certified-route-classifier-nonescape}
+Every classifier-facing read of an accepted $\PrimitiveCertifiedRouteUp$ packet factors through
+$$
+D,H_0,A,Q,N_0,L,Z,T,C,P,N .
+$$
+In particular, the classifier row cannot export a CertifiedObject seal without the preceding distinction, history, record, NameCert, ledger, transport, replay, provenance, and local naming rows, and no sibling packet supplies a bijective replacement for that ordered route.
+\end{theorem}
+\begin{proof}
+Start with the carrier row of \autoref{def:primitive-certified-route-carrier}. A classifier-facing read reaches $Q$ only after the distinction, history, and record rows have been displayed.
+
+Use the NameCert obligations of \autoref{thm:primitive-certified-route-namecert-obligations}. They force certification through $N_0$, ledger recording through $L$, and seal export through $Z$ in that order.
+
+The structural rows $T,C,P,N$ preserve the route but do not add a detached classifier or certified-object coordinate. The independence witness separates this packet from sibling NameCert, audit-map, interface, compiler, and gate packets because none of them stores the same ordered primitive-to-certified carrier.
+\end{proof}
+
+\closureat{PrimitiveCertifiedRouteUp}{seedStr}
+
+\begin{closurestatus}{\PrimitiveCertifiedRouteUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:primitive-certified-route-carrier}, \autoref{thm:primitive-certified-route-namecert-obligations}, and \autoref{thm:primitive-certified-route-classifier-nonescape} seed the ordered primitive-to-certified route from distinction rows through classifier, NameCert, ledger, and certified-object seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a detached certified-object seal, or a bijective replacement by NameCert, AuditMapFamily, MachineInterfaceSocket, GroundCompilerAuditMap, or CertificateGate packets.}
+  \upgradepath{Obligation closure requires checked carrier admission, primitive ordering, classifier certification, ledger seal ordering, structural non-escape, transport, replay, provenance, and local naming for BEDC.Derived.PrimitiveCertifiedRouteUp.}
+  \constructivestory{A $\PrimitiveCertifiedRouteUp$ packet is generated from distinction, history, record, classifier, NameCert, ledger, certified-object seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming rows.}
+\end{closurestatus}

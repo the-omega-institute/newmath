@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalUniformCauchyUp$}
+\label{ch:concrete-instances-located-interval-uniform-cauchy-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedIntervalUniformCauchyUp$ packet records the finite uniform-Cauchy surface for located compact intervals. It reads located endpoints through \autoref{ch:concrete-instances-locatedreal-namecert} and \autoref{ch:concrete-instances-locatedinterval-namecert}, interval containment through \autoref{ch:concrete-instances-bishop-compact-interval-namecert}, finite observations through \autoref{ch:concrete-instances-streamname-namecert}, rational readback through \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic tolerance through \autoref{ch:concrete-instances-dyadicratcore-namecert}, and terminal sealing through \autoref{ch:concrete-instances-real-namecert}. The packet names a compact-interval uniform-Cauchy route as finite certificate data; it is not a Heine--Borel theorem, an open-cover compactness theorem, a quotient completion, a selected limit, or a choice principle.
+
+\begin{definition}[Located interval uniform Cauchy carrier]
+\label{def:located-interval-uniform-cauchy-carrier}
+A $\LocatedIntervalUniformCauchyUp$ carrier is a finite $\BHist$ packet
+$$
+U=(L,I,K,W,R,D,M,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedRealUp$ endpoint row, carrying the lower and upper located real names used by the interval request.
+\item $I$ is the $\LocatedIntervalUp$ row, exposing located containment and interval-membership data for the same endpoints.
+\item $K$ is the $\BishopCompactIntervalUp$ row, read only as a finite compact-interval certificate surface for this displayed interval.
+\item $W$ is the $\StreamNameUp$ finite-window row opened at the interval indices requested by $L,I,K$.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same finite windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic mesh, refinement, and comparison budget used by uniform-Cauchy reads.
+\item $M$ is the uniform-Cauchy modulus row, requiring one dyadic tolerance budget to control all displayed interval windows accepted by $W$ and $R$.
+\item $S$ is the terminal $\RealUp$ seal row reached only after the located endpoint, located interval, compact-interval, window, readback, tolerance, and uniform-Cauchy modulus rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $L,I,K,W,R,D,M,S$.
+\item $C$ records displayed $\Cont$ replay through the finite route
+$$
+L,I,K \longmapsto W,R,D,M \longmapsto S,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalUniformCauchyUp$, $\LocatedRealUp$, $\LocatedIntervalUp$, $\BishopCompactIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedIntervalUniformCauchyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $L,I,K,W,R,D,M,S,H,C,P,N$. It has no coordinate for general Heine--Borel compactness, open-cover compactness, quotient completion equality, selected limits, countable choice, or host real equality.
+\end{definition}
+
+\begin{theorem}[Located interval uniform Cauchy NameCert obligations]
+\label{thm:located-interval-uniform-cauchy-namecert-obligations}
+For every accepted $\LocatedIntervalUniformCauchyUp$ carrier $U=(L,I,K,W,R,D,M,S,H,C,P,N)$, the local $\NameCert_{\LocatedIntervalUniformCauchyUp}$ surface consists exactly of located-real endpoint admission, located-interval containment admission, compact-interval certificate admission, finite StreamName window exposure, RegSeqRat readback, DyadicRatCore tolerance exactness, uniform-Cauchy modulus admission, Real seal admission, componentwise transport, displayed replay, provenance, and local naming for the same displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-interval-uniform-cauchy-carrier}. The projection exposes the endpoint row, located interval row, compact-interval row, finite windows, rational readback, dyadic tolerance, uniform-Cauchy modulus, seal, and structural rows.
+
+The endpoint and interval obligations are upstream of every uniform-Cauchy read. A consumer must first display $L,I,K$ before it can ask for the finite windows $W$ or the readback row $R$.
+
+The dyadic tolerance row $D$ and modulus row $M$ then bind all accepted interval windows to one uniform request. The terminal seal $S$ is downstream of those rows, while $H,C,P,N$ transport, replay, source, and name the same packet.
+
+Since the carrier has no coordinate for general compactness, quotient equality, selected limits, choice, or host real equality, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Located interval uniform Cauchy finite-net handoff]
+\label{thm:located-interval-uniform-cauchy-finite-net-handoff}
+Every finite-net consumer of an accepted $\LocatedIntervalUniformCauchyUp$ carrier factors through
+$$
+L,I,K \longmapsto W,R,D,M .
+$$
+The compact-interval row $K$ may hand off only the displayed located interval to the finite windows $W$, regular readback $R$, dyadic tolerance $D$, and uniform-Cauchy modulus $M$; it does not export an open-cover compactness theorem, a general Heine--Borel theorem, or a choice-selected net.
+\end{theorem}
+\begin{proof}
+Start from the displayed carrier. The finite-net request has no source other than the located endpoint, located interval, and compact-interval rows $L,I,K$.
+
+The window and readback rows are then read at the tolerances shown by $D$. The modulus row $M$ records that the same dyadic budget controls the displayed interval windows, so the finite-net handoff is a local route through $W,R,D,M$.
+
+The structural rows preserve the same route. Because no row stores an open cover, a selected finite subcover, or a hidden choice schedule, the handoff is exactly the displayed finite-net route.
+\end{proof}
+
+\begin{theorem}[Located interval uniform Cauchy Real seal]
+\label{thm:located-interval-uniform-cauchy-real-seal}
+For every accepted $\LocatedIntervalUniformCauchyUp$ carrier $U=(L,I,K,W,R,D,M,S,H,C,P,N)$, the terminal $\RealUp$ seal $S$ can be consumed only after the located endpoint, located interval, compact-interval, finite-window, regular-readback, dyadic-tolerance, and uniform-Cauchy modulus rows have been displayed. The seal is therefore a local real-name endpoint for the packet, not a quotient completion, selected limit, ambient completeness theorem, or host real representative.
+\end{theorem}
+\begin{proof}
+Read the carrier projection. The seal row $S$ appears after $L,I,K,W,R,D,M$, and the carrier lists no second real-facing coordinate.
+
+Apply the NameCert obligation surface of \autoref{thm:located-interval-uniform-cauchy-namecert-obligations}. It forces window exposure, regular readback, dyadic tolerance exactness, and uniform-Cauchy modulus admission before the seal is public.
+
+Finally use the non-escape content of the carrier: $H,C,P,N$ only transport, replay, source, and name the same finite packet. Thus a consumer may read $S$ only as the displayed terminal $\RealUp$ seal, not as any excluded completion, compactness, or choice object.
+\end{proof}
+
+\falsifiablePrediction{Every $\LocatedIntervalUniformCauchyUp$ read factors through located real endpoints, a located interval row, a compact interval row, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, a uniform-Cauchy modulus, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+
+\independenceWitness{Nearest siblings: locatedreal, locatedinterval, compactinterval, streamname, regseqrat, dyadicratcore, and real. $\LocatedIntervalUniformCauchyUp$ is not bijective to any listed sibling because it jointly carries located endpoints, interval containment, compact-interval admission, finite windows, rational readback, dyadic tolerance, uniform-Cauchy control, Real sealing, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{LocatedIntervalUniformCauchyUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalUniformCauchyUp}
+  \constructivestory{A $\LocatedIntervalUniformCauchyUp$ packet is generated from LocatedReal endpoint rows, a LocatedInterval containment row, a CompactInterval certificate row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, a uniform-Cauchy modulus row, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-uniform-cauchy-carrier}, \autoref{thm:located-interval-uniform-cauchy-namecert-obligations}, \autoref{thm:located-interval-uniform-cauchy-finite-net-handoff}, and \autoref{thm:located-interval-uniform-cauchy-real-seal} seed the finite compact-interval uniform-Cauchy route over located endpoints, interval containment, compact-interval admission, finite windows, readback, tolerance, modulus, seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim general Heine--Borel compactness, open-cover compactness, quotient completion, selected limits, countable choice, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located endpoint exactness, interval containment exactness, compact-interval admission, finite-window replay, RegSeqRat readback, dyadic tolerance exactness, uniform-Cauchy modulus exactness, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedIntervalUniformCauchyUp.}
+\end{closurestatus}

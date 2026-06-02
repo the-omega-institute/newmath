@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\SubstrateFlowInvariantUp$}
+\label{ch:concrete-instances-substrate-flow-invariant-namecert}
+\origin{ai}
+
+The $\SubstrateFlowInvariantUp$ packet realizes the cellular substrate reading of \autoref{ch:visions-cellular-automaton-substrate-reading} as finite orbit-window invariant data. It sits beside the trust-substrate row of \autoref{ch:concrete-instances-cellular-trust-substrate-namecert}, the orbit substrate of \autoref{ch:concrete-instances-cellularorbitsubstrate-namecert}, the classifier boundary of \autoref{ch:concrete-instances-cellular-substrate-classifier-boundary-namecert}, the trace invariant of \autoref{ch:concrete-instances-substrate-trace-invariant-namecert}, and the local Rule 110 observation rows of \autoref{ch:concrete-instances-rule110-local-stencil-observation-namecert}. The chapter names a finite flow-invariant surface for cellular substrate evolution without importing an infinite orbit, internal induction over time, or a semantic conservation theorem outside the packet.
+
+\begin{definition}[Substrate-flow-invariant carrier]
+\label{def:substrate-flow-invariant-carrier}
+A $\SubstrateFlowInvariantUp$ carrier is a finite $\BHist$ packet
+$$
+I=(U,O,F,A,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the cellular trust-substrate row naming the local update rule, manifest row, accepted alphabet, and substrate audit source.
+\item $O$ is the finite orbit-window row naming the inspected time interval, boundary convention, local stencils, and observed successor rows.
+\item $F$ is the flow-invariant ledger, recording the invariant tag, the row-window values before and after each displayed update, and the finite equality or monotone comparison witnessed at that window.
+\item $A$ is the audit-route row linking the local stencil observations, pattern-classifier rows, trace-invariant rows, and classifier-boundary rows used by $F$.
+\item $W$ is the $\StreamNameUp$ window row selecting the finite orbit prefixes, stencil windows, classifier tags, and invariant checks visible to a consumer.
+\item $H$ records componentwise $\hsame$ transport for trust-substrate rows, orbit windows, invariant ledgers, audit routes, stream windows, replay data, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a substrate-flow request to the same trust-substrate, orbit-window, invariant-ledger, audit-route, stream-window, transport, provenance, and naming rows.
+\item $P$ is the $\Pkg$ provenance over $\SubstrateFlowInvariantUp$, $\CellularTrustSubstrateUp$, $\CellularOrbitSubstrateUp$, $\CellularSubstrateClassifierBoundaryUp$, $\SubstrateTraceInvariantUp$, $\RuleOneTenLocalStencilObservationUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SubstrateFlowInvariantUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the finite local-rule, orbit-window, invariant-ledger, audit-route, stream-window, transport, replay, provenance, and naming rows. It has no coordinate for infinite orbits, internal induction over all time, semantic conservation laws, hidden classifier repair, or external cellular substrate trust.
+\end{definition}
+
+\begin{theorem}[Substrate-flow-invariant NameCert obligations]
+\label{thm:substrate-flow-invariant-namecert-obligations}
+For every accepted $\SubstrateFlowInvariantUp$ carrier $I=(U,O,F,A,W,H,C,P,N)$, the local $\NameCert_{\SubstrateFlowInvariantUp}$ surface consists exactly of carrier admission, local-rule trust, finite orbit-window exposure, invariant-ledger exactness, audit-route coverage, stream-window readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation is stored outside $U,O,F,A,W,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:substrate-flow-invariant-carrier}. The substrate row $U$, orbit row $O$, invariant ledger $F$, audit route $A$, and stream window row $W$ are the only data rows available before transport and replay.
+
+The invariant check is finite. Each comparison in $F$ is tied to an observed predecessor and successor window from $O$, and the relevant local stencil and classifier evidence is named by $A$.
+
+The consumer sees those windows through $W$. Transport, replay, provenance, and local naming are then exactly the rows $H,C,P,N$, so the packet cannot substitute an infinite orbit, internal induction principle, semantic conservation theorem, hidden classifier repair, or external trust source for the displayed rows.
+\end{proof}
+
+\falsifiablePrediction{A $\SubstrateFlowInvariantUp$ implementation should fail admission when a finite Rule 110 orbit-window update changes the displayed invariant tag while preserving the same trust-substrate and audit-route rows.}
+
+\independenceWitness{The packet is independent of any single cellular substrate sibling: it can cite \autoref{ch:concrete-instances-cellular-trust-substrate-namecert}, \autoref{ch:concrete-instances-cellularorbitsubstrate-namecert}, \autoref{ch:concrete-instances-substrate-trace-invariant-namecert}, \autoref{ch:concrete-instances-cellular-substrate-classifier-boundary-namecert}, and \autoref{ch:concrete-instances-rule110-local-stencil-observation-namecert} while requiring only their finite row surfaces.}
+
+\begin{theorem}[Substrate-flow-invariant Lean interface]
+\label{thm:substrate-flow-invariant-lean-interface}
+The Lean-facing surface for $\SubstrateFlowInvariantUp$ is expected to expose a nontrivial TasteGate over finite orbit-window invariant rows and FieldFaithful instances for the local-rule row, orbit-window row, invariant-ledger row, audit-route row, stream-window row, transport row, replay row, provenance row, and local NameCert row. The interface does not require an infinite orbit type or an induction principle over all time.
+\end{theorem}
+\begin{proof}
+Read the nine carrier rows of \autoref{def:substrate-flow-invariant-carrier}. A nontrivial TasteGate can distinguish at least one accepted finite invariant ledger from a ledger whose displayed before-and-after row values disagree on the same orbit window.
+
+FieldFaithful evidence is rowwise. Each field named in the carrier has a finite projection whose equality is checked by the packet classifier, and no projection ranges over an infinite orbit or a semantic conservation predicate.
+
+Thus the Lean interface is the row surface itself: nontriviality comes from finite disagreement of invariant ledgers, and faithfulness comes from the visible fields $U,O,F,A,W,H,C,P,N$.
+\end{proof}
+
+\closureat{SubstrateFlowInvariantUp}{seedStr}
+
+\begin{closurestatus}{\SubstrateFlowInvariantUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:substrate-flow-invariant-carrier} and \autoref{thm:substrate-flow-invariant-namecert-obligations} seed the substrate-flow-invariant certificate over local-rule trust, finite orbit windows, invariant ledgers, audit routes, stream windows, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim infinite orbit closure, internal induction over all time, semantic conservation outside finite rows, hidden classifier repair, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, local-rule trust, finite orbit-window exposure, invariant-ledger exactness, audit-route coverage, stream-window readback, transport, replay, provenance, nontrivial TasteGate evidence, and FieldFaithful row instances for BEDC.Derived.SubstrateFlowInvariantUp.}
+  \constructivestory{A $\SubstrateFlowInvariantUp$ packet is generated from cellular trust-substrate rows, finite orbit windows, invariant ledgers, audit routes, StreamName windows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

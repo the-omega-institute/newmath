@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\WijsmanTopologyUp$}
+\label{ch:concrete-instances-wijsman-topology-namecert}
+\origin{human}
+
+Following Wijsman and the Kelley hyperspace tradition, the $\WijsmanTopologyUp$ packet records the finite topology read induced by distance-to-set probes on a metric hyperspace. It starts from the closed-subset source of \autoref{ch:concrete-instances-hyperspace-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, and the distance comparison boundary of \autoref{ch:concrete-instances-hausdorff-distance-namecert}, while keeping explicit comparison rows to the hit/miss surfaces of \autoref{ch:concrete-instances-vietoris-topology-namecert} and \autoref{ch:concrete-instances-fell-topology-namecert}. The packet is a NameCert for the Wijsman distance-evaluation topology, not a host topology on a powerset of closed subsets, a quotient of closed-set equality, a selected nearest point, or an ambient completeness principle.
+
+\begin{definition}[Wijsman topology carrier]
+\label{def:wijsman-topology-carrier}
+A $\WijsmanTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+W=(M,H,D,S,R,E,V,F,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row. It supplies the only distance primitive available to the packet.
+\item $H$ is the closed-subset $\HyperspaceUp$ source row whose finite closed-set names are being inspected.
+\item $D$ is the finite distance-to-set evaluation row. Each entry records a displayed metric point, a displayed closed-subset name, and the bounded evaluation request for the corresponding distance value.
+\item $S$ is the $\StreamNameUp$ finite-window row used to replay point names, closed-subset names, and distance-evaluation probes.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the finite evaluation windows.
+\item $E$ is the terminal $\RealUp$ seal for the displayed distance comparisons.
+\item $V$ is the $\VietorisTopologyUp$ comparison row, recording which finite hit/miss reads are visible before distance-evaluation inspection begins.
+\item $F$ is the $\FellTopologyUp$ comparison row, recording which lower-hit and compact-miss reads remain separate from the Wijsman distance rows.
+\item $T$ records componentwise $\hsame$ transport for $M,H,D,S,R,E,V,F$.
+\item $C$ records displayed $\Cont$ replay of metric source admission, hyperspace source admission, distance-to-set evaluation, stream-window readback, regular rational readback, real comparison, Vietoris comparison, and Fell comparison.
+\item $P$ is the $\Pkg$ provenance over $\WijsmanTopologyUp$, $\MetricUp$, $\HyperspaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\VietorisTopologyUp$, $\FellTopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WijsmanTopologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,H,D,S,R,E,V,F,T,C,P,N$ and exports no host closed-set topology, quotient closed-set equality, selected nearest point, or ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Wijsman topology NameCert obligations]
+\label{thm:wijsman-topology-namecert-obligations}
+For every accepted $\WijsmanTopologyUp$ carrier
+$$
+W=(M,H,D,S,R,E,V,F,T,C,P,N),
+$$
+the local $\NameCert_{\WijsmanTopologyUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the metric source, closed-subset hyperspace source, finite distance-to-set evaluation probes, stream windows, regular rational readbacks, real comparisons, Vietoris comparison, Fell comparison, transport, replay, provenance, and local naming rows;
+\item distance-evaluation exposure, requiring each topology-facing read to display the metric point, closed-subset name, stream window, regular rational readback, and real comparison row used by its distance-to-set probe;
+\item metric-source compatibility, requiring every evaluation row in $D$ to read its distance primitive through the displayed $\MetricUp$ row $M$;
+\item comparison non-collapse, requiring the Vietoris row $V$ and Fell row $F$ to remain visible comparison rows rather than replacements for the Wijsman distance-evaluation classifier;
+\item componentwise $\hsame$ transport through $T$, displayed $\Cont$ replay through $C$, and $\Pkg$ provenance through $P$ for the same finite route;
+\item local naming through $N$, excluding host closed-set topologies, quotient closed-set equality, selected nearest points, and ambient completeness.
+\end{enumerate}
+No Wijsman topology obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:wijsman-topology-carrier}. The only source rows are the metric row $M$ and the closed-subset hyperspace row $H$, and the only topology-facing observation row is the finite distance-to-set ledger $D$.
+
+The evaluation row is read through finite windows. The rows $S,R,E$ force every distance-to-set probe to pass through $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before it becomes a topology-facing comparison.
+
+The comparison rows are kept separate. The Vietoris row $V$ and Fell row $F$ may be inspected as neighbouring hyperspace topologies, but they do not replace the distance-evaluation route $M,H,D,S,R,E$.
+
+Finally, $T,C,P,N$ transport, replay, source, and name that same route. Since the excluded host topology, quotient closed-set equality, selected nearest point, and ambient completeness coordinates are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Wijsman distance-evaluation handoff]
+\label{thm:wijsman-topology-distance-evaluation-handoff}
+Every topology-facing read from an accepted $\WijsmanTopologyUp$ carrier factors through
+$$
+\MetricUp,\ \HyperspaceUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \VietorisTopologyUp,\ \FellTopologyUp
+$$
+before a hyperspace topology consumer can inspect it. The exported read is the displayed metric source, closed-subset hyperspace source, finite distance-to-set evaluation probe, stream-window replay, regular rational readback, real comparison, neighbouring Vietoris comparison, neighbouring Fell comparison, transport, replay, provenance, and local naming route; it exports no host closed-set topology, quotient closed-set equality, selected nearest point, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:wijsman-topology-namecert-obligations}. Carrier admission places the metric source and closed-subset hyperspace source before any distance-evaluation row can be consumed.
+
+Next read the evaluation route. The finite distance-to-set row $D$ can expose a topology-facing comparison only after the stream window $S$, the regular rational readback $R$, and the real seal $E$ have been displayed.
+
+The surrounding hyperspace topology context is explicit. The rows $V$ and $F$ expose the Vietoris and Fell comparison surfaces as neighbours, while $T,C,P,N$ preserve the same finite route under transport, replay, provenance, and local naming. No unlisted host topology, closed-set quotient, nearest-point selector, or ambient completeness row can enter the handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\WijsmanTopologyUp$ topology read factors through $\MetricUp$, $\HyperspaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\VietorisTopologyUp$, and $\FellTopologyUp$ before any hyperspace topology consumer can inspect it.}
+
+\independenceWitness{metric, hyperspace, hausdorff-distance, vietoris-topology, fell-topology, streamname, regseqrat, real: $\WijsmanTopologyUp$ is not bijective to any listed sibling because it binds metric distance-to-set evaluation probes to closed-subset hyperspace names while keeping Vietoris and Fell comparison rows visible.}
+
+\closureat{WijsmanTopologyUp}{seedStr}
+
+\begin{closurestatus}{\WijsmanTopologyUp}
+  \constructivestory{A $\WijsmanTopologyUp$ packet is generated from a Metric row, a closed-subset Hyperspace row, finite distance-to-set evaluation probes, StreamName windows, RegSeqRat readbacks, Real comparison seals, Vietoris and Fell comparison rows, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:wijsman-topology-carrier}, \autoref{thm:wijsman-topology-namecert-obligations}, and \autoref{thm:wijsman-topology-distance-evaluation-handoff} seed the finite Wijsman distance-evaluation topology surface over Metric, Hyperspace, StreamName, RegSeqRat, Real, VietorisTopology, FellTopology, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host closed-set topologies, quotient closed-set equality, selected nearest points, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, distance-evaluation exposure, metric-source compatibility, comparison non-collapse, transport, replay, provenance, and local naming for BEDC.Derived.WijsmanTopologyUp.}
+\end{closurestatus}

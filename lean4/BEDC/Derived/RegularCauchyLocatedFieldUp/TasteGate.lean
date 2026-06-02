@@ -13,28 +13,22 @@ inductive RegularCauchyLocatedFieldUp : Type where
   | mk (S W D A M I Q E H C P N : BHist) : RegularCauchyLocatedFieldUp
   deriving DecidableEq
 
-def RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist :
-    BHist -> RawEvent
+def regularCauchyLocatedFieldEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h =>
-      BMark.b0 :: RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist h
-  | BHist.e1 h =>
-      BMark.b1 :: RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: regularCauchyLocatedFieldEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: regularCauchyLocatedFieldEncodeBHist h
 
-def RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist :
-    RawEvent -> BHist
+def regularCauchyLocatedFieldDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (regularCauchyLocatedFieldDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (regularCauchyLocatedFieldDecodeBHist tail)
 
-private theorem RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode :
-    forall h : BHist,
-      RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist h) = h := by
+private theorem RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode :
+    ∀ h : BHist,
+      regularCauchyLocatedFieldDecodeBHist
+        (regularCauchyLocatedFieldEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -42,66 +36,83 @@ private theorem RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_deco
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_toEventFlow :
-    RegularCauchyLocatedFieldUp -> EventFlow
+def regularCauchyLocatedFieldToEventFlow :
+    RegularCauchyLocatedFieldUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchyLocatedFieldUp.mk S W D A M I Q E H C P N =>
-      [RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist S,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist W,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist D,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist A,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist M,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist I,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist Q,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist E,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist H,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist C,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist P,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist N]
+      [[BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist S,
+        [BMark.b1, BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist W,
+        [BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist D,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist A,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist M,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist I,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist Q,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist E,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        regularCauchyLocatedFieldEncodeBHist N]
 
-private def RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault :
-    Nat -> EventFlow -> RawEvent
+private def regularCauchyLocatedFieldEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault index rest
+  | Nat.succ index, _event :: rest => regularCauchyLocatedFieldEventAtDefault index rest
 
-def RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_fromEventFlow
-    (ef : EventFlow) : Option RegularCauchyLocatedFieldUp :=
+def regularCauchyLocatedFieldFromEventFlow :
+    EventFlow → Option RegularCauchyLocatedFieldUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RegularCauchyLocatedFieldUp.mk
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 0 ef))
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 1 ef))
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 2 ef))
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 3 ef))
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 4 ef))
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 5 ef))
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 6 ef))
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 7 ef))
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 8 ef))
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 9 ef))
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 10 ef))
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_eventAtDefault 11 ef)))
+  fun ef =>
+    some
+      (RegularCauchyLocatedFieldUp.mk
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 1 ef))
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 3 ef))
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 5 ef))
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 7 ef))
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 9 ef))
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 11 ef))
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 13 ef))
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 15 ef))
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 17 ef))
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 19 ef))
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 21 ef))
+        (regularCauchyLocatedFieldDecodeBHist
+          (regularCauchyLocatedFieldEventAtDefault 23 ef)))
 
 private theorem RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_round_trip :
-    forall x : RegularCauchyLocatedFieldUp,
-      RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_fromEventFlow
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_toEventFlow x) = some x := by
+    ∀ x : RegularCauchyLocatedFieldUp,
+      regularCauchyLocatedFieldFromEventFlow
+        (regularCauchyLocatedFieldToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -109,84 +120,140 @@ private theorem RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_roun
       change
         some
           (RegularCauchyLocatedFieldUp.mk
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist S))
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist W))
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist D))
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist A))
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist M))
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist I))
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist Q))
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist E))
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist H))
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist C))
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist P))
-            (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decodeBHist
-              (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_encodeBHist N))) =
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist S))
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist W))
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist D))
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist A))
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist M))
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist I))
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist Q))
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist E))
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist H))
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist C))
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist P))
+            (regularCauchyLocatedFieldDecodeBHist
+              (regularCauchyLocatedFieldEncodeBHist N))) =
           some (RegularCauchyLocatedFieldUp.mk S W D A M I Q E H C P N)
-      rw [RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode S,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode W,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode D,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode A,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode M,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode I,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode Q,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode E,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode H,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode C,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode P,
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode_encode N]
+      rw [RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode S,
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode W,
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode D,
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode A,
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode M,
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode I,
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode Q,
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode E,
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode H,
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode C,
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode P,
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode N]
 
-private theorem RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_injective
     {x y : RegularCauchyLocatedFieldUp} :
-    RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_toEventFlow x =
-      RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_toEventFlow y -> x = y := by
+    regularCauchyLocatedFieldToEventFlow x =
+      regularCauchyLocatedFieldToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_fromEventFlow
-          (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_toEventFlow x) =
-        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_fromEventFlow
-          (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_toEventFlow y) :=
-    congrArg RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_fromEventFlow heq
+      regularCauchyLocatedFieldFromEventFlow
+          (regularCauchyLocatedFieldToEventFlow x) =
+        regularCauchyLocatedFieldFromEventFlow
+          (regularCauchyLocatedFieldToEventFlow y) :=
+    congrArg regularCauchyLocatedFieldFromEventFlow heq
   exact Option.some.inj
     (Eq.trans
       (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
         (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_round_trip y)))
 
+private def regularCauchyLocatedFieldFields :
+    RegularCauchyLocatedFieldUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegularCauchyLocatedFieldUp.mk S W D A M I Q E H C P N =>
+      [S, W, D, A, M, I, Q, E, H, C, P, N]
+
+private theorem RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_fields :
+    ∀ x y : RegularCauchyLocatedFieldUp,
+      regularCauchyLocatedFieldFields x = regularCauchyLocatedFieldFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk S1 W1 D1 A1 M1 I1 Q1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk S2 W2 D2 A2 M2 I2 Q2 E2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance regularCauchyLocatedFieldBHistCarrier :
     BHistCarrier RegularCauchyLocatedFieldUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_toEventFlow
-  fromEventFlow := RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_fromEventFlow
-
-theorem RegularCauchyLocatedFieldTasteGate_single_carrier_alignment :
-    ChapterTasteGate RegularCauchyLocatedFieldUp := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · intro x
-    change
-      RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_fromEventFlow
-        (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_toEventFlow x) = some x
-    exact RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_round_trip x
-  · intro x y hxy heq
-    exact hxy
-      (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+  toEventFlow := regularCauchyLocatedFieldToEventFlow
+  fromEventFlow := regularCauchyLocatedFieldFromEventFlow
 
 instance regularCauchyLocatedFieldChapterTasteGate :
-    ChapterTasteGate RegularCauchyLocatedFieldUp :=
+    ChapterTasteGate RegularCauchyLocatedFieldUp where
   -- BEDC touchpoint anchor: BHist BMark
-  RegularCauchyLocatedFieldTasteGate_single_carrier_alignment
+  round_trip := by
+    intro x
+    change
+      regularCauchyLocatedFieldFromEventFlow
+        (regularCauchyLocatedFieldToEventFlow x) = some x
+    exact RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_round_trip x
+  layer_separation := by
+    intro x y hxy heq
+    exact hxy (RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_injective heq)
+
+instance regularCauchyLocatedFieldFieldFaithful :
+    FieldFaithful RegularCauchyLocatedFieldUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := regularCauchyLocatedFieldFields
+  field_faithful := RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_fields
+
+instance regularCauchyLocatedFieldNontrivial :
+    Nontrivial RegularCauchyLocatedFieldUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RegularCauchyLocatedFieldUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      RegularCauchyLocatedFieldUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate RegularCauchyLocatedFieldUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  regularCauchyLocatedFieldChapterTasteGate
+
+theorem RegularCauchyLocatedFieldTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      regularCauchyLocatedFieldDecodeBHist
+        (regularCauchyLocatedFieldEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchyLocatedFieldUp,
+        regularCauchyLocatedFieldFromEventFlow
+          (regularCauchyLocatedFieldToEventFlow x) = some x) ∧
+        (∀ x y : RegularCauchyLocatedFieldUp,
+          regularCauchyLocatedFieldToEventFlow x =
+            regularCauchyLocatedFieldToEventFlow y → x = y) ∧
+          regularCauchyLocatedFieldEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_decode,
+      RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        RegularCauchyLocatedFieldTasteGate_single_carrier_alignment_injective heq),
+      rfl⟩
 
 end BEDC.Derived.RegularCauchyLocatedFieldUp

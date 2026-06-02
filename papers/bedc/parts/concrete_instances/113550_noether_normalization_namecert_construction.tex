@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\NoetherNormalizationUp$}
+\label{ch:concrete-instances-noether-normalization-namecert}
+\origin{human}
+
+Following Noether normalization in commutative algebra, the $\NoetherNormalizationUp$ packet records the finite row surface by which an affine algebra is displayed as integral over a polynomial coordinate subalgebra. It sits after the polynomial and affine-variety carriers of \autoref{ch:concrete-instances-polynomial-namecert} and \autoref{ch:concrete-instances-affinevar-namecert}, the algebraic source rows of \autoref{ch:concrete-instances-ring-namecert}, \autoref{ch:concrete-instances-module-namecert}, and \autoref{ch:concrete-instances-field-namecert}, and the reduction ledger supplied by \autoref{ch:concrete-instances-groebner-basis-namecert}. The packet names only displayed coordinate rows, monic dependence witnesses, finite module-spanning ledgers, transport, replay, provenance, and a local certificate; it does not construct quotient rings, select bases, assert dimension equality, or import a host algebraic-geometry category.
+
+\begin{definition}[Noether normalization carrier]
+\label{def:noether-normalization-carrier}
+A $\NoetherNormalizationUp$ carrier is a finite $\BHist$ packet
+$$
+N=(F,R,P,A,G,C,I,M,H,Q,K)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FieldUp$ source row over which the affine coordinate algebra is read.
+\item $R$ is the $\RingUp$ row naming the accepted finitely generated algebra surface.
+\item $P$ is the $\PolynomialUp$ coordinate row, including the displayed finite list of polynomial coordinates used for the independent subalgebra.
+\item $A$ is the $\AffineVarUp$ source row whose coordinate data is consumed by $R$ and $P$.
+\item $G$ is the $\GroebnerBasisUp$ reduction ledger used only as a finite dependency anchor for displayed polynomial reduction checks.
+\item $C$ is the coordinate-change ledger. It records the chosen finite coordinate rows and the replay order by which the polynomial subalgebra is presented before any dependence row is consumed.
+\item $I$ is the finite integral-dependence ledger. For each displayed algebra generator it records a monic polynomial equation over the coordinate subalgebra and the BEDC continuation path that reads its coefficients.
+\item $M$ is the $\ModuleUp$ finite-spanning ledger, recording the displayed list of module words read from the integral-dependence rows.
+\item $H$ records componentwise $\hsame$ transport for field, ring, polynomial, affine-variety, reduction, coordinate-change, integral-dependence, module-spanning, replay, provenance, and local naming rows.
+\item $Q$ records displayed $\Cont$ replay from an affine algebra request through $F,R,P,A,G,C,I,M,H$ and only then to provenance and naming.
+\item $K$ is the $\Pkg$ provenance together with the local $\NameCert_{\NoetherNormalizationUp}$ row.
+\end{enumerate}
+Accepted carriers are compared only through these rows. There is no coordinate for a quotient-ring construction, selected basis, external transcendence basis, dimension theorem, or ambient algebraic-geometry category.
+\end{definition}
+
+\begin{theorem}[Noether normalization NameCert obligations]
+\label{thm:noether-normalization-namecert-obligations}
+For every accepted $\NoetherNormalizationUp$ carrier $N=(F,R,P,A,G,C,I,M,H,Q,K)$, the local $\NameCert_{\NoetherNormalizationUp}$ surface consists exactly of carrier admission for the displayed $\FieldUp$, $\RingUp$, $\PolynomialUp$, $\AffineVarUp$, $\GroebnerBasisUp$, coordinate-change, integral-dependence, finite $\ModuleUp$-spanning, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:noether-normalization-carrier}. The algebraic source rows are $F,R,P,A,G$, the normalization rows are $C,I,M$, and the structural rows are $H,Q,K$.
+
+The coordinate-change row $C$ is read before any dependence row, so the polynomial coordinate subalgebra is a displayed BEDC dependency rather than a quotient construction. The integral-dependence row $I$ records only monic equations for the displayed generators over that coordinate surface.
+
+The module-spanning row $M$ is downstream of $I$ and supplies finite words produced from those monic equations. Transport, replay, provenance, and local naming do not add quotient rings, selected bases, dimension statements, or host categories, so the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Noether normalization finite integral-dependence route]
+\label{thm:noether-normalization-finite-integral-dependence-route}
+Every accepted finite integral-dependence read exported by a $\NoetherNormalizationUp$ carrier factors through the displayed route
+$$
+F,R,P,A,G,C \longmapsto I \longmapsto H,Q,K .
+$$
+The read first exposes the field, ring, polynomial-coordinate, affine-variety, and reduction rows, then the finite coordinate-change ledger, and only then the monic dependence equations. It exports no quotient-ring carrier, selected basis, or external algebraic closure.
+\end{theorem}
+\begin{proof}
+Start with an accepted dependence read. Carrier admission exposes the source algebra only through the rows $F,R,P,A$ and the finite reduction ledger $G$.
+
+The coordinate-change row $C$ fixes the displayed polynomial coordinate surface before the dependence ledger can be inspected. Hence the coefficients of each monic equation are read from the shown coordinate rows, not from an ambient quotient presentation.
+
+The integral-dependence row $I$ then supplies the monic equations, and $H,Q,K$ preserve that finite route under transport, replay, provenance, and naming. No extra coordinate can introduce selected bases, quotient rings, or host closure data.
+\end{proof}
+
+\begin{theorem}[Noether normalization finite module stability]
+\label{thm:noether-normalization-finite-module-stability}
+Let $N=(F,R,P,A,G,C,I,M,H,Q,K)$ and $N'=(F',R',P',A',G',C',I',M',H',Q',K')$ be accepted $\NoetherNormalizationUp$ carriers whose source, coordinate-change, and integral-dependence rows are related componentwise by $\hsame$. Then their finite $\ModuleUp$-spanning ledgers classify the same normalization boundary: a consumer reading $M$ may be transported to $M'$ through the same displayed dependence route, and no independent basis-selection row is required.
+\end{theorem}
+\begin{proof}
+The componentwise $\hsame$ hypotheses identify the accepted field, ring, polynomial, affine-variety, reduction, coordinate-change, and integral-dependence rows of the two packets. Transport by $H$ and $H'$ therefore aligns the monic equations used to produce the finite module words.
+
+The module ledgers $M$ and $M'$ are downstream of those equations. Their spanning reads are replayed through $Q$ and $Q'$ from the same displayed dependence route, so a consumer sees the same finite normalization boundary after transport.
+
+Since the carrier has no basis-selection coordinate, the stability claim cannot depend on choosing a free basis or a quotient-ring presentation. It depends only on the displayed integral-dependence and module-spanning rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\NoetherNormalizationUp$ consumer that reads integral dependence or finite module spanning must first display $\FieldUp$, $\RingUp$, $\PolynomialUp$, $\AffineVarUp$, $\GroebnerBasisUp$, coordinate-change, transport, replay, provenance, and local $\NameCert$ rows.}
+
+\independenceWitness{polynomial, affinevar, ring, module, field, groebnerbasis: $\NoetherNormalizationUp$ is not bijective to any listed sibling because it jointly carries coordinate-change rows, monic dependence witnesses, finite module-spanning ledgers, transport, replay, provenance, and local naming.}
+
+\closureat{NoetherNormalizationUp}{seedStr}
+
+\begin{closurestatus}{\NoetherNormalizationUp}
+  \constructivestory{A $\NoetherNormalizationUp$ packet is generated from FieldUp, RingUp, PolynomialUp, AffineVarUp, GroebnerBasisUp, coordinate-change, monic integral-dependence, finite ModuleUp-spanning, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:noether-normalization-carrier}, \autoref{thm:noether-normalization-namecert-obligations}, \autoref{thm:noether-normalization-finite-integral-dependence-route}, and \autoref{thm:noether-normalization-finite-module-stability} seed the finite normalization route from displayed affine coordinate data to integral-dependence and module-spanning ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient rings, selected bases, dimension equality, transcendence-basis existence, host algebraic geometry, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coordinate-change exposure, finite integral-dependence exactness, finite module-spanning stability, transport, replay, provenance, and local naming for BEDC.Derived.NoetherNormalizationUp.}
+\end{closurestatus}

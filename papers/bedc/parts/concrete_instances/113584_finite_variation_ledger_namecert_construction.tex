@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\FiniteVariationLedgerUp$}
+\label{ch:concrete-instances-finite-variation-ledger-namecert}
+\origin{human}
+
+Following Jordan, Rudin, and Folland, the $\FiniteVariationLedgerUp$ packet records the finite partition-sum object used before any bounded-variation or Riemann--Stieltjes consumer takes a supremum over partitions. It isolates the reusable finite ledger read by \autoref{ch:concrete-instances-boundedvariation-namecert}: interval rows, displayed partition rows, endpoint names, dyadic edge observations, finite sums, common refinements, transport, replay, provenance, and local naming. The packet is deliberately finite. It does not contain a host supremum over all partitions, a variation measure, a quotient function space, or ambient real completeness.
+
+\begin{definition}[Finite variation ledger carrier]
+\label{def:finite-variation-ledger-carrier}
+A $\FiniteVariationLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,\Pi,X,D,V,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval row, read through $\RationalIntervalUp$ or $\NestedIntervalUp$ when the source supplies rational or nested endpoints.
+\item $\Pi$ is the displayed finite ordered partition of $I$, including endpoint order and adjacent-edge rows.
+\item $X$ records the endpoint rows, either as $\RealUp$ names or as $\RegSeqRatUp$ regular rational representatives consumed before a real seal is read.
+\item $D$ records the $\DyadicRatCoreUp$ edge observations comparing the adjacent endpoint values on every displayed edge of $\Pi$.
+\item $V$ is the finite variation-sum ledger, obtained from exactly the edge observations displayed in $D$.
+\item $R$ records common-refinement rows comparing $\Pi$ with another displayed finite partition and transporting endpoint and edge-observation rows to the refinement.
+\item $H$ records componentwise $\hsame$ transport for the interval, partition, endpoint, edge-observation, finite-sum, common-refinement, package, and naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval request to partition endpoints, dyadic edge reads, finite-sum formation, refinement comparison, and consumer exposure.
+\item $P$ is the $\Pkg$ provenance over $\FiniteVariationLedgerUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteVariationLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed interval row, finite partition, endpoint rows, edge observations, finite sum, common refinement, and visible transport, replay, package, and naming rows.
+\end{definition}
+
+\begin{theorem}[Finite variation ledger NameCert obligations]
+\label{thm:finite-variation-ledger-namecert-obligations}
+For every accepted $\FiniteVariationLedgerUp$ carrier $L=(I,\Pi,X,D,V,R,H,C,P,N)$, the local $\NameCert_{\FiniteVariationLedgerUp}$ surface consists exactly of carrier admission for the interval and displayed finite partition, endpoint exposure through $\RealUp$ or $\RegSeqRatUp$, dyadic edge-observation exposure through $\DyadicRatCoreUp$, finite variation-sum exactness, common-refinement routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-variation-ledger-carrier}. The rows $I$ and $\Pi$ supply the interval and finite partition data, while $X,D,V$ supply the endpoint, dyadic edge, and finite sum rows.
+
+The finite variation obligation is therefore local to the displayed partition. Each edge contribution is read from $D$, and the row $V$ records the finite sum of precisely those edge observations.
+
+The refinement and stability obligations are carried by $R,H,C$. A consumer may move to a common refinement only through the displayed refinement row, with endpoint and edge data transported by the recorded $\hsame$ and replayed by the recorded $\Cont$ routes.
+
+Finally, $P$ and $N$ provide package provenance and the local NameCert row. No step introduces a supremum over all partitions, a measure-valued object, a quotient of functions, or ambient real completeness.
+\end{proof}
+
+\begin{theorem}[Finite variation ledger common-refinement route]
+\label{thm:finite-variation-ledger-common-refinement-route}
+Every common-refinement read of an accepted $\FiniteVariationLedgerUp$ packet factors through the finite route
+$$
+I,\Pi,X,D,V,R,H,C,P,N .
+$$
+The refined read may use only the displayed interval row, both displayed finite partitions, transported endpoint $\RealUp$ or $\RegSeqRatUp$ names, transported $\DyadicRatCoreUp$ edge observations, the finite variation-sum ledger, the common-refinement row, and the visible $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. It exports no host supremum over partitions, variation measure, quotient function, selected refinement outside $R$, or ambient real-completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the common-refinement row $R$ in \autoref{def:finite-variation-ledger-carrier}. It is attached to the same interval, partition, endpoint, dyadic, and finite-sum rows as the original ledger.
+
+Transport the endpoint and edge-observation rows along $H$, and replay the finite read order along $C$. The refined ledger therefore reuses the same finite BEDC rows rather than introducing a new partition family.
+
+The package and naming rows $P,N$ then repack the refined finite sum as the public consumer route. Since the carrier has no coordinate for a global supremum, variation measure, quotient function, selected external refinement, or completeness principle, none of those objects can be exported.
+\end{proof}
+
+\closureat{FiniteVariationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\FiniteVariationLedgerUp}
+  \constructivestory{A $\FiniteVariationLedgerUp$ packet is generated from an interval row, a displayed finite partition, endpoint RealUp or RegSeqRatUp rows, DyadicRatCoreUp edge observations, a finite variation-sum ledger, a common-refinement row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-variation-ledger-carrier}, \autoref{thm:finite-variation-ledger-namecert-obligations}, and \autoref{thm:finite-variation-ledger-common-refinement-route} seed the reusable finite partition-sum ledger for BoundedVariationUp and Real-facing integration consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, host suprema over all partitions, variation measures, quotient functions, selected global refinements, ambient Real completeness, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exposure, dyadic edge observation, finite-sum exactness, common-refinement routing, transport, replay, provenance, and local naming for BEDC.Derived.FiniteVariationLedgerUp.}
+\end{closurestatus}

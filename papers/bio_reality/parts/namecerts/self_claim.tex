@@ -1,52 +1,32 @@
+\subsection{NameCert: self.claim}
+\label{sec:namecert-self_claim}
 \origin{ai}
-\subsection{Self-claim boundary for start--stop ORF eligibility}
-\label{subsec:bioreality-self-claim-orf-eligibility}
+\noindent\textit{Proposed by bio-namer; review status: draft.}
 
-\paragraph{Finite record.}
-This record is a self-check for the BioReality layer called \emph{orf eligibility}.  Its biological object is the eligibility of an open-reading-frame interval as determined by explicit start/stop codon enumeration.  The row does not assert that the codon geometry is itself an observed biological interval.  The self-check reports three checked gates and records the boundary sentence: no codon geometry is promoted across biological layers.  Thus the admissible reading is narrow: start/stop enumeration may define a finite test condition for interval eligibility, while the biological interval itself must arrive through a separate curated sequence, transcript, or annotation contact.
+\paragraph{NameCert chapter slug.}
+Proposed slug: `14109\_reality\_bound\_bioreality\_self\_gate\_boundary\_namecert\_construction`. The concept is BioReality-namespaced through the `RealityBound` prefix, avoids Loning's occupied `Codon64`, `Q\_6`, `M\textasciicircum{}star`, and `StopCodonZeckendorfSuffix` names, and treats the payload as a gate-boundary packet rather than a codon-topology chapter.
 
-\paragraph{Codon geometry available to the row.}
-The finite codon substrate used by the linked checks is concrete.  The motif-compression check identifies the set $R$ as exactly
-$$
-\begin{aligned}
-R=\{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU, UAA, UAG, UCA, UGA, UUA\}.
-\end{aligned}
-$$
-The membership check for $M$ gives cardinality $20$ and lists
-$$
-\begin{aligned}
-M=\{&AAA, AAG, ACA, ACG, AGA, AGG, AUA, AUG, CUA, CUC, CUG, CUU,\\
-&UAA, UAG, UCA, UCG, UGA, UGG, UUA, UUG\}.
-\end{aligned}
-$$
-The saturation check reports
-$$
-\begin{aligned}
-\operatorname{Sat}_{f3}(R)=\{&AAA, AAG, AGA, AGG, AUA, AUG, CUA, CUC, CUG, CUU,\\
-&UAA, UAG, UCA, UCG, UGA, UGG, UUA, UUG\},
-\end{aligned}
-$$
-with empty $f3$ boundary, and the same finite audit records $M=\operatorname{Med}(R)\cup\{ACA,ACG\}$.  These facts describe a finite codon-level combinatorial object; they do not by themselves supply a biological observation.
+\paragraph{Carrier.}
+Carrier name: `RealityBoundBioRealitySelfGateBoundary`. BEDC 5-tuple: `(carrier, distinctions, internal\_gate\_packet, external\_reality\_bridge, cannot\_claim\_boundary)`, where the carrier is a finite self-check ledger for the BioReality automation lane; distinctions separate the checked gate components from the linked ORF-eligibility conjecture boundary; internal\_gate\_packet records only BEDC-style separation and admissibility bookkeeping; external\_reality\_bridge points to curated biological sources and reproducible experiment-run provenance when a linked biological claim needs them; and cannot\_claim\_boundary prevents gate success or codon/window geometry from being promoted into translation, folding, physical admissibility, function, mechanism, or global biological law.
 
-\paragraph{Quotient data.}
-The quotient-geometry check gives the $M$ face vector $(20,38,26,8,1)$ and the quotient face vector $(10,14,6,1)$.  The quotient image has size $10$ and is the finite collection
-$$
-\begin{aligned}
-\pi_M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
-&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),\\
-&(1,0,1,0,1),(1,0,1,1,1)\}.
-\end{aligned}
-$$
-This quotient information is useful for auditing the finite coordinate behavior of the codon packet.  It remains a geometric and combinatorial classification, not evidence that a cell translates an interval, that a peptide folds, that the product is physically admissible, or that a phenotype or function is present.
+\paragraph{Distinctions.}
+- The `deepening\_gates\_self\_test` check for deterministic boundary-gate behavior. - The `bio\_reality\_loop\_self\_test` check for the local conjecture-to-probe-to-contact-to-mismatch loop. - The `agent\_bus\_self\_test` check for event routing and NameCert proposal task formation. - The aggregate `self\_check` distinction that confirms the self-experiment passed as pipeline hygiene. - The linked conjecture `orf\_eligibility.seed.boundary`, whose current role is a boundary seed awaiting separate reality contact. - The separation between internal gate admissibility and external curated biological reality. - The refusal boundary that codon/window geometry is not ORF eligibility, translation realization, folded structure, physical admissibility, biological function, or universal mechanism by itself.
 
-\paragraph{Window contact and classifier scope.}
-The start/stop-window enumeration check loaded one external nucleotide-window record from a snapshot dated $2026$-$05$-$25$, and all one of the input windows was classified by the declared start/stop enumeration rule.  Its scope is explicitly restricted to external window start/stop enumeration, with the recorded classification layer marked as \texttt{orf\_eligibility\_only}.  This is the first local guardrail: the window classifier may say that a supplied nucleotide window satisfies the start/stop eligibility rule, but it may not convert that result into translation, molecular structure, physical viability, mechanism, function, or a general biological law.
+\paragraph{Readback.}
+The carrier reads back to observable data through the `self\_experiment` run record for `self.claim`, the linked conjecture record `orf\_eligibility.seed.boundary`, and the gate/probe records referenced by that conjecture. The readback surface is a provenance pointer showing that the BioReality automation gates passed while preserving the ORF-eligibility boundary; it is not a readback from BEDC coordinates to an empirical biological mechanism.
 
-\paragraph{Curated interval contact.}
-A stronger linked contact loaded a curated interval dataset with $168$ rows from NCBI RefSeq GenBank XML CDS intervals for \emph{Escherichia coli} K-12 MG1655 accession \texttt{NC\_000913.3}, snapshot date $2026$-$05$-$30$.  The protocol was frozen before external observation: the protocol time was $2026$-$05$-$29T19{:}11{:}13+00{:}00$, while the external evidence was observed at $2026$-$05$-$30T10{:}29{:}31+00{:}00$.  The analysis used no translation or structure input, and the baselines, classifier rules, held-out splits, and input classes were fixed before the observation.  The required input classes were \texttt{boundary\_case}, \texttt{matched\_non\_orf\_decoy}, and \texttt{positive\_curated\_orf}.  The classifier identifier was \texttt{orf\_start\_stop\_window\_eligibility}, and its rules were not modified during the check.
+\paragraph{Derivation from coordinate, closure, spectrum, and relation.}
+The internal content is a pure BEDC-style separation packet: a RealityBound carrier, a finite list of gate-check distinctions, a linked-conjecture boundary slot, a provenance slot, and a TasteGate-style alignment between internal admissibility and external readback fields. No curated genetic-code entry, codon list, closure cardinality, ORF-eligibility fact, translation table row, start/stop role, empirical frequency, or statistical conclusion is a kernel fact. Those values remain bridge and provenance fields supplied by section 6 when a linked biological claim requires them.
 
-\paragraph{Finite statistical checks.}
-The curated contact gives exact finite performance summaries.  Among $72$ positive curated intervals, $72$ were accepted, for accept rate $1.0$ and one-sided binomial upper-tail value $2.117582368135751\cdot 10^{-22}$.  Among $72$ matched non-ORF decoys, $72$ were rejected, for reject rate $1.0$ and the same upper-tail value $2.117582368135751\cdot 10^{-22}$.  The predeclared paired comparison had $72$ wins out of $72$ pairs, win rate $1.0$, and upper-tail value $2.117582368135751\cdot 10^{-22}$.  The boundary-case control had $24$ cases and promoted $0$ of them, so its promoted fraction was $0.0$.  Held-out split stability was checked in three folds: \texttt{refseq\_nc\_000913\_left\_locus\_fold}, \texttt{refseq\_nc\_000913\_middle\_locus\_fold}, and \texttt{refseq\_nc\_000913\_right\_locus\_fold}.  Each fold had $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$.
+\paragraph{Curated reality contacts and observed facts.}
+- Curated genetic-code source pointer for linked biological claims: `tools/bio\_reality/data/ncbi\_genetic\_codes.json`. - Claim pointer: `tools/bio\_reality/registries/claims.json` record `self.claim`. - Conjecture pointer: `tools/bio\_reality/inbox/conjectures.jsonl` record `orf\_eligibility.seed.boundary`. - Experiment provenance pointer: `tools/bio\_reality/state/experiment\_runs.jsonl` latest passed `experiment\_run\_id` `0f47d2f0cf41` for `self\_experiment`. - Gate provenance pointers: `deepening\_gates\_self\_test`, `bio\_reality\_loop\_self\_test`, `agent\_bus\_self\_test`, and `self\_check` inside `experiment\_run\_id` `0f47d2f0cf41`. - Statistical witness pointer: the linked conjecture records statistical witnesses only by claim/run reference; those witnesses remain separate external provenance and are not imported into this carrier.
 
-\paragraph{Local interpretation.}
-The row is therefore ready as a bounded BioReality record for ORF-eligibility auditing.  It combines a finite codon geometry, an explicitly scoped start/stop-window classifier, and a curated interval contact with $168$ rows and matched positive/decoy controls.  The admissible conclusion is only that, under this frozen protocol and this curated interval contact, the start/stop eligibility classifier separates the recorded positive intervals from the matched decoys and leaves boundary cases unpromoted.  No translation event, folded structure, physical admissibility, biological function, mechanism, or universal rule follows from this row.  Any such higher-layer claim would require its own contact data and its own audit, separate from the start/stop eligibility evidence recorded here.
+\paragraph{Layer discipline and out-of-scope assertions.}
+- This chapter does not claim biological-code necessity. - This chapter does not claim ORF eligibility from a gate pass. - This chapter does not claim translation realization from codon/window geometry. - This chapter does not claim folded protein structure, physical admissibility, biological function, or universal mechanism. - This chapter does not claim that a curated table row, codon list, closure count, start/stop role, gate count, or statistical witness is a BEDC kernel fact. - This chapter does not claim that local codon-window geometry is a global biological law. - This chapter does not claim evolution, causality, biochemical mechanism, or biological universality from BioReality pipeline self-tests.
+
+\paragraph{Disclaimer on the bridge from coordinate to mechanism.}
+This proposal is a vision-level scientific-model bridge for a stable BioReality self-check claim. It is not a CheckedCert claim about molecular biology, and it does not turn a BioReality gate pass, a BEDC window-six coordinate, a local codon tile, a linked ORF-eligibility seed, or an experiment-run provenance pointer into ORF eligibility, translation realization, folded structure, physical admissibility, function realization, biological-code necessity, or a universal biological law; those require separate external reality contacts.
+
+\paragraph{Lean-side statement target sketch.}
+`BEDC.Derived.RealityBoundBioRealitySelfGateBoundaryUp.TasteGate` carrier alignment, with curated-table, experiment-run, linked-conjecture, gate-check, and statistical-witness evidence represented only as bridge/provenance fields.
+

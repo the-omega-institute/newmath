@@ -54,6 +54,18 @@ For an admitted row, the handoff consumes candidate evidence from $\CandidateSet
 For a closed term outside that interface, the carrier has only $T$ and the obstruction row $O$ on the boundary. The structural rows $H,C,P,L$ transport, replay, source, and name the boundary, but they do not add subject reduction, host conversion equality, quotient reduction equality, or a global normalizer. Hence the handoff is candidate-scoped.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate-set public boundary]
+\label{thm:metacic-candidate-set-public-boundary}
+Any public no-infinite-reduction or strong-normalization read from an accepted $\MetaCICCandidateClosedProjectionBoundaryUp$ packet must cite candidate-set membership or soundness, router selection, and bounded-normal endpoint rows. A bare empty-context typed closed-term row $T$ is insufficient: the public boundary may expose $NF$ only downstream of the candidate-set facts named by $\mathsf{closed\_typed\_term\_sn\_from\_candidateSet}$, $\mathsf{candidateSet\_implies\_sn}$, and $\mathsf{canonicalCandidateSet\_sound}$ together with the router row $R$ and endpoint seal $E$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-candidate-set-closed-projection-frontier}. It places every normalization-facing read behind the candidate evidence row $K$, router row $R$, and endpoint seal $E$, and leaves the obstruction row $O$ as the only datum when candidate admission is absent.
+
+Next apply \autoref{thm:metacic-candidate-set-sn-handoff-boundary}. That theorem identifies the handoff as a candidate-interface handoff rather than a theorem about all empty-context closed typed rows. Thus the public $NF$ row cannot be projected from $T$ alone.
+
+Finally read the MetaCIC normalization audit map through the existing candidate-set facts $\mathsf{closed\_typed\_term\_sn\_from\_candidateSet}$, $\mathsf{candidateSet\_implies\_sn}$, and $\mathsf{canonicalCandidateSet\_sound}$. Those facts supply the candidate membership and soundness side of the route, while $R$ and $E$ supply the public router and endpoint rows. The resulting boundary is therefore candidate-mediated and evidence-bearing, not an unconditional closed-term normalizer.
+\end{proof}
+
 \falsifiablePrediction{A $\MetaCICCandidateClosedProjectionBoundaryUp$ consumer that exports strong normalization from $T$ without reading $K,R,E$ refutes the carrier surface.}
 
 \independenceWitness{candidate-set-normalization, metacicnormalizationcertificaterouter, metacicopenproblemledger: the candidate-set packet carries candidate evidence, the router selects the admissible normalization route, and the open-problem ledger records the frontier question; this packet binds those rows into a closed-projection boundary without adding an evidence-free normalization theorem.}
@@ -63,7 +75,7 @@ For a closed term outside that interface, the carrier has only $T$ and the obstr
 \begin{closurestatus}{\MetaCICCandidateClosedProjectionBoundaryUp}
   \constructivestory{A $\MetaCICCandidateClosedProjectionBoundaryUp$ packet is generated from an empty-context typed closed-term row, candidate-set evidence, normalization-router selection, bounded-normal endpoint seal, no-infinite-reduction row, obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-candidate-closed-projection-boundary-carrier}, \autoref{thm:metacic-candidate-set-closed-projection-frontier}, and \autoref{thm:metacic-candidate-set-sn-handoff-boundary} seed the finite closed-projection, candidate-evidence, router-selection, endpoint-seal, obstruction, transport, replay, provenance, and local naming surface.}
+  \scopeclosed{\autoref{def:metacic-candidate-closed-projection-boundary-carrier}, \autoref{thm:metacic-candidate-set-closed-projection-frontier}, \autoref{thm:metacic-candidate-set-sn-handoff-boundary}, and \autoref{thm:metacic-candidate-set-public-boundary} seed the finite closed-projection, candidate-evidence, router-selection, endpoint-seal, obstruction, public-boundary, transport, replay, provenance, and local naming surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, unconditional strong normalization for all closed typed MetaCIC terms, unrestricted subject reduction, host reduction equality, quotient conversion, or a global normalizer.}

@@ -1,0 +1,52 @@
+\chapter{A Concrete Naming Certificate for $\FiniteIntersectionCompactnessUp$}
+\label{ch:concrete-instances-finite-intersection-compactness-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive compactness practice and Kelley's finite-intersection formulation of compactness, the $\FiniteIntersectionCompactnessUp$ packet records the finite-window compactness data that a completion corridor may inspect without importing a general open-cover theorem. It sits beside the finite-intersection property row of \autoref{ch:concrete-instances-finite-intersection-property-namecert}, the compact metric certificate of \autoref{ch:concrete-instances-compactmetric-namecert}, the closed-interval Cauchy completion row of \autoref{ch:concrete-instances-closed-interval-cauchy-completion-namecert}, the finite epsilon-net row of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, and the Real seal of \autoref{ch:concrete-instances-real-namecert}. Those neighbors provide the traditional compactness vocabulary; this certificate keeps the usable claim finite, row-displayed, and local to the BEDC NameCert surface.
+
+\begin{definition}[Finite-intersection compactness carrier]
+\label{def:finite-intersection-compactness-carrier}
+A $\FiniteIntersectionCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,K,J,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite-intersection-property row read from \autoref{ch:concrete-instances-finite-intersection-property-namecert};
+\item $K$ is the compact-metric source row read from \autoref{ch:concrete-instances-compactmetric-namecert};
+\item $J$ is the closed-interval Cauchy-completion window read from \autoref{ch:concrete-instances-closed-interval-cauchy-completion-namecert};
+\item $E$ is the finite epsilon-net witness row read from \autoref{ch:concrete-instances-finite-epsilon-net-namecert};
+\item $R$ is the terminal Real-facing seal read from \autoref{ch:concrete-instances-real-namecert};
+\item $H$ stores componentwise $\hsame$ transport for finite-intersection rows, compact-metric rows, closed-interval completion windows, finite epsilon-net witnesses, Real seals, provenance, and local naming;
+\item $C$ stores displayed $\Cont$ replay for the same finite-window route;
+\item $P$ records $\Pkg$ provenance over $\FiniteIntersectionPropertyUp$, $\CompactMetricUp$, $\ClosedIntervalCauchyCompletionUp$, $\FiniteEpsilonNetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data;
+\item $N$ is the local $\NameCert_{\FiniteIntersectionCompactnessUp}$ row.
+\end{enumerate}
+The carrier records only finite-window compactness data. It contains no coordinate for general open-cover compactness, countable choice, quotient real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite-intersection compactness NameCert obligations]
+\label{thm:finite-intersection-compactness-namecert-obligations}
+For the carrier of \autoref{def:finite-intersection-compactness-carrier}, the local $\NameCert_{\FiniteIntersectionCompactnessUp}$ obligation surface consists exactly of the finite-intersection-property row $I$, compact-metric source row $K$, closed-interval Cauchy-completion window $J$, finite epsilon-net witness row $E$, Real seal row $R$, componentwise transport $H$, continuation replay $C$, provenance $P$, and local naming $N$. A consumer may cite the packet only as finite-window compactness data over those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple $F=(I,K,J,E,R,H,C,P,N)$. The finite-intersection, compact-metric, closed-interval completion, finite epsilon-net, and Real-facing rows are displayed as separate coordinates before any compactness read is available.
+
+Use \autoref{ch:concrete-instances-finite-intersection-property-namecert} for the finite-intersection row and \autoref{ch:concrete-instances-compactmetric-namecert} for the compact-metric source. These rows expose finite compatibility and the metric carrier without producing a general open-cover theorem.
+
+Use \autoref{ch:concrete-instances-closed-interval-cauchy-completion-namecert}, \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, and \autoref{ch:concrete-instances-real-namecert} for the completion window, finite search net, and terminal seal. They keep the read inside finite windows and Real-facing certificates rather than quotient equality or ambient completeness.
+
+The rows $H,C,P,N$ only transport, replay, cite, and name that same finite route. Since no coordinate stores countable choice, trichotomy, quotient real equality, ambient Real completeness, or open-cover compactness, none is exported by the NameCert obligations.
+\end{proof}
+
+\closureat{FiniteIntersectionCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\FiniteIntersectionCompactnessUp}
+  \constructivestory{A $\FiniteIntersectionCompactnessUp$ packet is generated from finite-intersection-property data, compact-metric source rows, closed-interval Cauchy-completion windows, finite epsilon-net witnesses, Real-facing seals, componentwise transport, continuation replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-intersection-compactness-carrier} and \autoref{thm:finite-intersection-compactness-namecert-obligations} seed finite-window compactness data over finite-intersection, compact-metric, closed-interval completion, finite epsilon-net, and Real-facing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim general open-cover compactness, countable choice, quotient real equality, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission and finite-window compactness obligations for BEDC.Derived.FiniteIntersectionCompactnessUp.}
+\end{closurestatus}

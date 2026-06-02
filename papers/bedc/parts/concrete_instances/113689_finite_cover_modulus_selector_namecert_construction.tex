@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCoverModulusSelectorUp$}
+\label{ch:concrete-instances-finite-cover-modulus-selector-namecert}
+\origin{human}
+
+Following Bishop--Bridges finite-cover compactness, the $\FiniteCoverModulusSelectorUp$ packet names the constructive selector sitting between displayed compact-cover data and a $\UniformModulusUp$ export. It reads the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the displayed map rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the output interface of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the positive finite-radius ledger of \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}. The packet records a finite-cover route to a modulus, not a selected subcover, host minimum, ambient compactness theorem, or hidden completeness principle.
+
+\begin{definition}[Finite-cover modulus selector carrier]
+\label{def:finite-cover-modulus-selector-carrier}
+A $\FiniteCoverModulusSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,F,R,L,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact finite-cover row, exposing the compact metric source, cover cells, and finite coverage ledger consumed by the selector.
+\item $F$ is the pointwise modulus row, assigning each displayed cover cell the local continuity data read from the $\ContinuousMapUp$ surface.
+\item $R$ is the rational lower-bound row, recording the positive comparison data obtained from the finite cover and pointwise radii.
+\item $L$ is the selector ledger, pairing the finite cover row with the pointwise modulus row and lower-bound row before any output is visible.
+\item $U$ is the $\UniformModulusUp$ output row produced by the displayed finite-cover route.
+\item $H$ records componentwise $\hsame$ transport for the compact cover, pointwise modulus, rational lower bound, selector ledger, output, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a target-tolerance request through $K,F,R,L,U,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteCoverModulusSelectorUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\FiniteLebesgueNumberUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteCoverModulusSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,F,R,L,U,H,C,P,N$. It has no coordinate for a selected subcover, selected Lebesgue number, choice schedule, host minimum, sequence extraction, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Finite-cover modulus selector NameCert obligations]
+\label{thm:finite-cover-modulus-selector-namecert-obligations}
+For an accepted $\FiniteCoverModulusSelectorUp$ carrier $S=(K,F,R,L,U,H,C,P,N)$, the local $\NameCert_{\FiniteCoverModulusSelectorUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the compact finite-cover row $K$, pointwise modulus row $F$, rational lower-bound row $R$, selector ledger $L$, output row $U$, and structural rows $H,C,P,N$;
+\item source compatibility, requiring $K$ and $F$ to read the same compact metric source before the selector ledger is formed;
+\item finite-cover accountability, requiring every output read to pass through the displayed finite cover in $K$ and the pointwise modulus data in $F$;
+\item rational lower-bound exactness, requiring $R$ to be the positive finite-radius comparison row consumed by $L$;
+\item output non-escape, requiring $U$ to export only the displayed $\UniformModulusUp$ row and no selected subcover, host minimum, selected Lebesgue number, choice schedule, or ambient completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-cover-modulus-selector-carrier}. The rows $K,F,R,L,U,H,C,P,N$ are the only rows available to an accepted selector read.
+
+The first two obligation rows bind carrier admission and source compatibility. The compact finite-cover row $K$ and pointwise modulus row $F$ must therefore share the same compact metric source before $L$ can be read.
+
+The next two rows force the finite-cover computation. The selector ledger $L$ consumes the displayed finite cover, pointwise radii, and rational lower-bound row $R$ rather than a host minimum or unrecorded cover choice.
+
+Finally the output row $U$ is downstream of that ledger. Componentwise transport, replay, provenance, and local naming preserve the same route, so the absent compactness and choice data have no carrier coordinate from which an accepted read could export them.
+\end{proof}
+
+\begin{theorem}[Finite-cover selector uniform output]
+\label{thm:finite-cover-modulus-selector-uniform-output}
+Let $S=(K,F,R,L,U,H,C,P,N)$ be an accepted $\FiniteCoverModulusSelectorUp$ carrier. Every $\UniformModulusUp$ output exported by $S$ factors through the finite-cover selector route
+$$
+\CompactMetricUp,\ \ContinuousMapUp,\ \FiniteLebesgueNumberUp
+\longmapsto
+\FiniteCoverModulusSelectorUp
+\longmapsto
+\UniformModulusUp .
+$$
+The exported read exposes the compact finite-cover row, pointwise modulus row, rational lower-bound row, selector ledger, transport, replay, provenance, and local naming. It exports no selected subcover, host minimum, selected Lebesgue number, choice schedule, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the output coordinate $U$. By the carrier definition, $U$ is not visible until the finite-cover row $K$, pointwise modulus row $F$, rational lower-bound row $R$, and selector ledger $L$ have all been displayed.
+
+Use the NameCert obligations of \autoref{thm:finite-cover-modulus-selector-namecert-obligations}. They bind the source, finite-cover accountability, and lower-bound exactness needed by a compact-uniform-continuity consumer.
+
+The route is then exactly the displayed BEDC path from compact metric and continuous-map data through the finite-radius ledger into the selector packet and the $\UniformModulusUp$ output. The structural rows $H,C,P,N$ only transport, replay, source, and name that route.
+
+Since selected subcovers, host minima, selected Lebesgue numbers, choice schedules, and ambient completeness do not occur among the carrier coordinates, no accepted output read can export them.
+\end{proof}
+
+\closureat{FiniteCoverModulusSelectorUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCoverModulusSelectorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cover-modulus-selector-carrier}, \autoref{thm:finite-cover-modulus-selector-namecert-obligations}, and \autoref{thm:finite-cover-modulus-selector-uniform-output} seed the finite-cover selector route from compact finite-cover data and pointwise moduli to UniformModulus output.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected subcovers, host minima, selected Lebesgue numbers, choice schedules, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source compatibility, finite-cover accountability, rational lower-bound exactness, output non-escape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteCoverModulusSelectorUp.}
+  \constructivestory{A $\FiniteCoverModulusSelectorUp$ packet is generated from compact finite-cover rows, pointwise modulus rows, rational lower-bound rows, a selector ledger, a UniformModulus output row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

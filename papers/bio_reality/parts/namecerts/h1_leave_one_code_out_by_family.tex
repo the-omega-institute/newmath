@@ -1,79 +1,32 @@
-\subsection{Family-resolved leave-one-code-out stability}\label{sec:h1-leave-one-code-out-by-family}
+\subsection{NameCert: h1.leave\_one\_code\_out.by\_family}
+\label{sec:namecert-h1_leave_one_code_out_by_family}
 \origin{ai}
+\noindent\textit{Proposed by bio-namer; review status: draft.}
 
-\paragraph{Claim.}
-This record concerns the standard genetic-code label table after it has been placed on the six-coordinate codon cube $Q_6$.  The object under test is not translation itself, nor any molecular mechanism.  It is the finite question of whether a local boundary tile obtained from the standard-code table continues to identify withheld code-table targets when alternate code families are left out by family.  The readout layer is therefore only the code-label layer: codons are read as amino-acid or stop labels by a curated standard-code table, and the geometry is tested against those labels.
+\paragraph{NameCert chapter slug.}
+Proposed slug: `14109\_bioreality\_q\_six\_family\_leave\_one\_boundary\_ledger\_namecert\_construction`. The concept is BioReality-namespaced, uses the `BioRealityQSix` prefix recommended by the Loning writeback pattern, and avoids Loning-occupied codon/window namespaces.
 
-\paragraph{Finite codon support.}
-The distinguished boundary set has cardinality $13$ and is exactly
-$$
-\begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
-\end{aligned}
-$$
-As a cubical subobject this same set is observed as a punctured-cube pattern with face-vector
-$$
-\begin{aligned}
-(f_0,f_1,f_2)=(13,16,4).
-\end{aligned}
-$$
-The associated module partition accounts for every member of $R$ and introduces no extra codons: $R$ has size $13$, the assigned count is $13$, and the missing, extra, and unassigned lists are all empty.  The modules are
-$$
-\begin{aligned}
-\mathrm{agr}&=\{\mathrm{AGA},\mathrm{AGG}\},\\
-\mathrm{ar\_lys}&=\{\mathrm{AAA}\},\\
-\mathrm{cun}&=\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
-\mathrm{ile\_met}&=\{\mathrm{AUA}\},\\
-\mathrm{ssn}&=\{\mathrm{UCA},\mathrm{UUA}\},\\
-\mathrm{stop\_trp}&=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
-\end{aligned}
-$$
-Each module has either a predictable recovery route or a boundary explanation in the leave-one-codon-out run.
+\paragraph{Carrier.}
+Carrier name: `BioRealityQSixFamilyLeaveOneBoundaryLedger`. BEDC 5-tuple: `(carrier, distinctions, internal\_boundary\_packet, external\_reality\_bridge, cannot\_claim\_boundary)`, where the carrier is a finite family-indexed leave-one-code packet; distinctions separate curated family groups, held-out table rows, target reassignment rows, median-minus-family membership, and local boundary-only membership; internal\_boundary\_packet records only BEDC coordinate, median closure, quotient, spectrum-compatible, and boundary bookkeeping; external\_reality\_bridge points to curated biological tables and reproducible experiment runs; and cannot\_claim\_boundary prevents codon/window geometry from being promoted to translation, folding, physical admissibility, function, mechanism, necessity, or global biological law.
 
-\paragraph{Spectral and sampling checks.}
-The local object is not merely a hand-picked list.  Its recorded spectral scalars are
-$$
-\begin{aligned}
-\lambda_M&=0.6752479308830213,\\
-\lambda_R&=0.4758352843197002,\\
-\mu&=3.051487585298128.
-\end{aligned}
-$$
-The radial cubic residual is $-6.224354365258478\times 10^{-12}$, the same value recorded for the cubic relation check, so the finite numerical relation is satisfied to the stated tolerance.  In the shape-randomization run with $N=2000$, there was $1$ exact shape match and $25$ samples with Jaccard similarity at least $0.9$.  Thus
-$$
-\begin{aligned}
-p_{\mathrm{exact}}&=0.0005,\\
-p_{\mathrm{Jaccard}\ge 0.9}&=0.0125.
-\end{aligned}
-$$
-The sampler required $57377$ distinct-sample attempts and encountered $55377$ duplicate retries with seed $42$.  Under the amino-acid-class-preserving null model, again with $N=2000$ and seed $42$, the observed $M$ size is $20$, the exact-shape count is $0$, and $7$ null samples fall in the lower tail at or below the observed $M$ size.  The corresponding values are
-$$
-\begin{aligned}
-p_{\mathrm{class\ exact}}&=0.0,\\
-p_{\mathrm{class\ lower\ tail}}&=0.0035.
-\end{aligned}
-$$
-These checks support the claim that the tile is a finite, nonrandom code-layer pattern, while leaving its biological interpretation limited to the label table actually supplied.
+\paragraph{Distinctions.}
+- The linked conjecture's six-bit codon display, local tile face, singleton label corner, three-point label class, coordinate, closure, spectrum, and relation distinctions. - The experiment's family-group distinction over curated NCBI genetic-code table rows. - The experiment's held-out-family distinction between the excluded family group and the retained comparison surface. - The experiment's target-reassignment distinction for codon rows whose curated labels differ across the held-out family comparison. - The experiment's median-minus-family distinction for targets read as lying inside the local median packet after family exclusion. - The experiment's boundary-minus-family distinction for targets read as local boundary-only witnesses after family exclusion. - The experiment's per-family hit-rate witness distinction, retained as external statistical evidence rather than an internal BEDC theorem premise. - The bridge distinction between curated genetic-code label readback and internal BEDC coordinate, median, quotient, spectrum, and local boundary structure.
 
-\paragraph{Leave-one-code-out family result.}
-The family-resolved run evaluated $5$ families.  The hit rate above the baseline was
-$$
-\begin{aligned}
-\mathrm{alternative\_yeast}&=0.8333333333333334,\\
-\mathrm{bacterial\_plastid}&=1.0,\\
-\mathrm{candidate\_other}&=1.0,\\
-\mathrm{mitochondrial}&=1.0,\\
-\mathrm{nuclear\_ciliate}&=1.0.
-\end{aligned}
-$$
-Thus every listed family exceeds the baseline, and four of the five families reach perfect above-baseline recovery in this finite table test.  The broader leave-one-code-out run evaluated $23$ tables and $63$ total targets.  Its baseline hit rate was $0.19821739130434785$, while the hit rate above baseline was $0.9841269841269841$.  Restricted to $M-T$ the hit rate was $0.9365079365079365$, and after adding the boundary contribution it returned to $0.9841269841269841$.  The family run is therefore consistent with the table-level result: the boundary tile remains informative after code-family withholding rather than being exhausted by a single code-family idiosyncrasy.
+\paragraph{Readback.}
+The carrier reads back to observable data by following the `curated.standard.code.table` reality contact, the linked conjecture `codon.window6.local.tile.boundary`, claim `h1.leave\_one\_code\_out.by\_family`, and latest passed `leave\_one\_code\_out\_by\_family` experiment run `7dda978c6c97`. The readback surface is a provenance pointer to curated family-group code-table comparisons and reproducible leave-one-family classifications; the carrier itself records separated field structure and readback discipline, not translation realization, mechanism, or a biological law.
 
-\paragraph{Leave-one-codon-out consistency.}
-The companion leave-one-codon-out record gives $0$ anchors, $5$ boundary cases, $8$ predictable cases, $8$ high-coverage closure cases, and recovery rate $1.0$.  This matters for the family result because the family-level recovery is not being treated as a black-box classifier.  It is backed by a finite codon-level decomposition in which all $13$ codons in $R$ are assigned to named modules, with no missing or extraneous module members.
+\paragraph{Derivation from coordinate, closure, spectrum, and relation.}
+The internal content is a pure BEDC finite-coordinate packet: a BioReality-namespaced window-six carrier, a family-index slot, a median-minus-family slot, a local boundary-minus-family slot, a quotient-compatible local tile slot, a spectrum-compatible bookkeeping slot, and a TasteGate-style separation between internal coordinate structure and external readback. The BEDC side may speak about finite distinctions, local closure membership, boundary membership, quotient-compatible carriers, spectrum-compatible bookkeeping, and field separation. No curated genetic-code entry, NCBI table identifier, family count, per-family rate, target count, codon list, amino-acid label, stop label, reassignment row, translation table entry, or biological conclusion is a kernel fact. Such values remain bridge and provenance fields supplied by section 6.
 
-\paragraph{Reality contact.}
-The only external contact used here is a curated standard-code table assigning codons to amino-acid or stop labels.  That contact can test code-label readback and the local codon-tile label split.  It does not observe ribosomal translation, folded protein structure, physical admissibility, biochemical function, or organism-level universality.  Consequently the verified numerical pattern is a code-table phenomenon: it licenses statements about the finite codon-label geometry reported above, not about how proteins are produced, fold, remain stable, acquire function, or become universal biological laws.
+\paragraph{Curated reality contacts and observed facts.}
+- Curated genetic-code source pointer: `tools/bio\_reality/data/ncbi\_genetic\_codes.json` and reality contact `curated.standard.code.table`. - Conjecture pointer: `tools/bio\_reality/inbox/conjectures.jsonl` record `codon.window6.local.tile.boundary`. - Claim pointer: `tools/bio\_reality/registries/claims.json` record `h1.leave\_one\_code\_out.by\_family`. - Experiment provenance pointer: `tools/bio\_reality/state/experiment\_runs.jsonl` latest passed `experiment\_run\_id` `7dda978c6c97` for `leave\_one\_code\_out\_by\_family`. - Statistical witness pointer: the event payload, linked conjecture verified-facts entry, and experiment run fields `family\_count`, `per\_family`, `family\_hit\_rate\_above\_baseline`, `hit\_rate\_in\_M`, `hit\_rate\_in\_M\_plus\_boundary`, `hit\_in\_M`, `hit\_in\_boundary\_only`, `target\_source\_tables`, and `targets`; these are referenced by field name and run ID, not imported into the internal BEDC carrier. - Gate/probe boundary pointer: probe `codon.local.tile.no.global.law` and the linked conjecture's forbidden claims.
 
-\paragraph{Boundary of the claim.}
-The result should be read as follows.  In the six-bit codon display, the $13$-codon boundary set forms a punctured-cube tile with stable module coverage and strong finite recovery statistics across the recorded leave-one-code-out families.  The observed family hit rates, the $23$-table and $63$-target aggregate, the spectral scalars, and the two null-model comparisons all support a code-layer regularity.  No higher-layer conclusion follows from these data alone.  Any future assertion about translation realization, folded structure, physical admissibility, biological function, mechanism, or universality must introduce a separate empirical contact that measures that layer directly.
+\paragraph{Layer discipline and out-of-scope assertions.}
+- This chapter does not claim biological-code necessity. - This chapter does not claim that window-six geometry realizes translation. - This chapter does not claim that leave-one-family recovery is a translation classifier. - This chapter does not claim that curated family grouping is derived by BEDC. - This chapter does not claim that median-minus-family or boundary-minus-family membership establishes folded protein structure, physical admissibility, biological function, biochemical mechanism, evolutionary necessity, or universal mechanism. - This chapter does not claim that a curated table row, family count, per-family hit rate, codon list, amino-acid label, stop label, reassignment row, NCBI table identifier, or statistical witness is a BEDC kernel fact. - This chapter does not claim that local codon-tile geometry is a global biological law. - This chapter does not claim causality, standard-code universality, reassignment necessity, biological inevitability, or a universal mechanism from the family leave-one packet.
+
+\paragraph{Disclaimer on the bridge from coordinate to mechanism.}
+This proposal is a vision-level scientific-model bridge for a stable BioReality code-read leave-one-family claim. It is not a CheckedCert claim about molecular biology, and it does not turn a BEDC window-six coordinate, a local codon tile, a median-closure packet, a family-group ledger, a boundary witness, a curated-table comparison, or an empirical statistical witness into translation realization, folded structure, physical admissibility, function realization, biological-code necessity, or a universal biological law; those require separate external reality contacts.
+
+\paragraph{Lean-side statement target sketch.}
+`BEDC.Derived.BioRealityQSixFamilyLeaveOneBoundaryLedgerUp.TasteGate` carrier alignment, with curated-table, family-group, experiment-run, conjecture-boundary, and statistical-witness evidence represented only as bridge/provenance fields.
+

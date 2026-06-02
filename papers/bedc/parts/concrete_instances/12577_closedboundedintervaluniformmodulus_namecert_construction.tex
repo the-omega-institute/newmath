@@ -88,15 +88,32 @@ The pointwise-modulus row $M$ is then read at the bundled centers selected by th
 The remaining rows $H,Q,P,N$ preserve the same handoff under componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. Hence the scoped dependencies are exactly $\RealUp$, $\IntervalUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\DyadicCoverUp$, $\FiniteLebesgueNumberUp$, $\UniformModulusUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{proof}
 
+\begin{theorem}[Closed bounded interval uniform-modulus consumer examples]
+\label{thm:closed-bounded-interval-uniform-modulus-consumer-examples}
+Every public consumer example for an accepted $\ClosedBoundedIntervalUniformModulusUp$ carrier reads the same finite Heine--Cantor route before it reaches its own output row. The $\ContinuousMapUp$ consumer supplies the pointwise modulus row, the $\CompactMetricUp$ consumer supplies the finite compact source, the $\FiniteLebesgueNumberUp$ consumer supplies the radius ledger, the $\UniformModulusUp$ consumer reads the produced tolerance-to-precision history, the $\DyadicCoverUp$ consumer supplies the cover mesh, and the $\RegSeqRatUp$ and $\RealUp$ consumers read the regular-rational and terminal real-name seals only after those rows are displayed.
+\end{theorem}
+\begin{proof}
+Begin with the Heine--Cantor route of \autoref{thm:closed-bounded-interval-uniform-modulus-heine-cantor-route}. It identifies the source interval, compact finite cover, dyadic cover, finite Lebesgue-number ledger, pointwise modulus, and uniform-modulus output as one finite route.
+
+Use the dyadic-cover scope theorem \autoref{thm:closed-bounded-interval-uniform-modulus-dyadic-cover-scope}. It places $\CompactMetricUp$ and $\DyadicCoverUp$ before any Lebesgue-number or uniform-modulus output can be read.
+
+Now apply the Lebesgue handoff scope \autoref{thm:closed-bounded-interval-uniform-modulus-lebesgue-handoff-scope}. The $\ContinuousMapUp$ row, $\FiniteLebesgueNumberUp$ ledger, and $\UniformModulusUp$ output form the handoff, while $\RegSeqRatUp$ and $\RealUp$ consumers remain downstream of the same displayed real-name route.
+
+Thus the named consumer examples are examples of the existing finite dependency route, not additional compactness, completeness, selected-minimum, quotient-real, or host-function-equality principles.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.ClosedBoundedIntervalUniformModulus\_consumer\_examples}
+
 \closureat{ClosedBoundedIntervalUniformModulusUp}{publicStr}
+\closureat{ClosedBoundedIntervalUniformModulusUp}{bridgedStr}
+\closureat{ClosedBoundedIntervalUniformModulusUp}{matureStr}
 
 \begin{closurestatus}{\ClosedBoundedIntervalUniformModulusUp}
   \constructivestory{The closed bounded interval uniform-modulus certificate is generated from the classical Heine--Cantor pattern, but its BEDC carrier reads only visible $BHist$ rows: closed interval bounds, finite dyadic cover data, bundled dyadic centers, pointwise continuity rows, finite Lebesgue-number ledger, and the uniform modulus row produced for the interval route. The $hsame$ relation transports those rows across equivalent histories without invoking host equality of functions or intervals. $\Cont$ allows the uniform-modulus evidence to be consumed downstream while preserving the same interval and continuity ledger. The chapter therefore records the constructive route expected of the theorem, while keeping compactness and completeness obligations explicit rather than importing them silently.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:closed-bounded-interval-uniform-modulus-heine-cantor-route}, \autoref{thm:closed-bounded-interval-uniform-modulus-dyadic-cover-scope}, and \autoref{thm:closed-bounded-interval-uniform-modulus-lebesgue-handoff-scope} bind the public Heine--Cantor interval route, the source-side dyadic-cover rows, and the Lebesgue-to-uniform-modulus handoff to the displayed dependency scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim a proved compactness theorem, ambient real completeness, open-cover minimum selection, or host-level function equality beyond the displayed route rows.}
-  \upgradepath{Scoped closure requires dependency alignment over $\RealUp$, $\IntervalUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\DyadicCoverUp$, $\FiniteLebesgueNumberUp$, $\UniformModulusUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{The mature paper route is closed over $\RealUp$, $\IntervalUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\DyadicCoverUp$, $\FiniteLebesgueNumberUp$, $\UniformModulusUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; Lean verification and a standard bridge remain outside this chapter.}
 \end{closurestatus}

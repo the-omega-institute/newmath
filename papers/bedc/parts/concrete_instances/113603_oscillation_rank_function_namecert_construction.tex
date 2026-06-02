@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\OscillationRankFunctionUp$}
+\label{ch:concrete-instances-oscillation-rank-function-namecert}
+\origin{human}
+
+Following Baire and Kechris, the $\OscillationRankFunctionUp$ packet records the finite certificate surface by which a Baire-one name exposes a displayed oscillation-rank comparison at a named stage. It reads Baire-one value-window data from \autoref{ch:concrete-instances-baireonefunction-namecert}, local oscillation rows from \autoref{ch:concrete-instances-oscillation-function-namecert}, pointwise oscillation bounds from \autoref{ch:concrete-instances-baire-pointwise-oscillation-namecert}, pointwise-limit provenance from \autoref{ch:concrete-instances-pointwise-limit-namecert}, and derivative-stage bookkeeping from \autoref{ch:concrete-instances-cantor-bendixson-namecert}. The packet names the finite rank-comparison ledger needed by downstream descriptive-analysis consumers; it is not a completed transfinite hierarchy and not a host quotient of function spaces.
+
+\begin{definition}[Oscillation rank function carrier]
+\label{def:oscillation-rank-function-carrier}
+An $\OscillationRankFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(F,O,B,L,D,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\BaireOneFunctionUp$ source row, including the pointwise-limit ledger and value-window provenance of the named function.
+\item $O$ is the $\OscillationFunctionUp$ row recording the local oscillation predicate whose threshold is being inspected.
+\item $B$ is the $\BairePointwiseOscillationUp$ bound row at the displayed source points and rational tolerance.
+\item $L$ is the $\PointwiseLimitUp$ lineage row that ties the approximant windows used by $F$ and $B$ to the same named source.
+\item $D$ is the finite $\CantorBendixsonUp$ derivative-stage ledger used as the displayed rank stage, including the current derivative row and its predecessor window.
+\item $S$ is the rank-successor comparison row saying whether the named oscillation set survives to the displayed derivative stage.
+\item $Q$ is the rational threshold readback row for the oscillation bound and the displayed comparison tolerance.
+\item $H$ records componentwise $\hsame$ transport for the function source, oscillation predicate, pointwise bound, limit lineage, derivative stage, rank comparison, rational threshold, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Baire-one name and tolerance request through the oscillation windows, derivative-stage ledger, rank comparison, and downstream handoff surface.
+\item $P$ is the $\Pkg$ provenance over $\OscillationRankFunctionUp$, $\BaireOneFunctionUp$, $\OscillationFunctionUp$, $\BairePointwiseOscillationUp$, $\PointwiseLimitUp$, $\CantorBendixsonUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OscillationRankFunctionUp}$ row.
+\end{enumerate}
+The carrier exports no completed transfinite hierarchy, no host function-space quotient, no arbitrary choice of ranks, and no ambient descriptive-set-theory theorem.
+\end{definition}
+
+\begin{theorem}[Oscillation rank function NameCert obligations]
+\label{thm:oscillation-rank-function-namecert-obligations}
+For every accepted $\OscillationRankFunctionUp$ carrier $R=(F,O,B,L,D,S,Q,H,C,P,N)$, the local $\NameCert_{\OscillationRankFunctionUp}$ surface consists exactly of carrier admission for the displayed rows; Baire-one source compatibility for $F$; oscillation-threshold compatibility for $O,B,Q$; pointwise-limit lineage compatibility for $L$; finite derivative-stage admission for $D$; rank-successor comparison exactness for $S$; transport stability through $H$; continuation replay through $C$; provenance and local naming through $P,N$; and ledger refusal for completed transfinite hierarchies, host function-space quotients, arbitrary rank selectors, and ambient descriptive-set-theory theorems.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:oscillation-rank-function-carrier}. The accepted packet exposes only the rows $F,O,B,L,D,S,Q,H,C,P,N$, so each local obligation must be read from those coordinates.
+
+The source and oscillation obligations are the routes through $F,O,B,Q$. The Baire-one source fixes the value-window provenance, the oscillation row fixes the inspected predicate, the pointwise bound supplies the local comparison data, and the rational threshold readback fixes the displayed tolerance.
+
+The rank-stage obligation is the route through $L,D,S$. The pointwise-limit lineage keeps the approximant windows attached to the same source, the Cantor--Bendixson row supplies only a displayed finite derivative stage, and the successor-comparison row records the survival test at that stage.
+
+Transport and replay do not add coordinates. The rows $H$ and $C$ preserve and replay the same source, oscillation, lineage, stage, threshold, and comparison data, while $P$ and $N$ source and name the packet. Since no row stores a completed hierarchy, function-space quotient, arbitrary selector, or ambient theorem, the listed obligations exhaust the certificate.
+\end{proof}
+
+\begin{theorem}[Baire-one oscillation-rank handoff]
+\label{thm:oscillation-rank-function-baire-one-handoff}
+Every Baire-one consumer row exported by an accepted $\OscillationRankFunctionUp$ carrier factors through the displayed route
+$$
+F,O,B,L,D,S,Q \longmapsto H,C,P,N .
+$$
+Thus a downstream consumer may read the named Baire-one function, the local oscillation predicate, the pointwise oscillation bound, the pointwise-limit lineage, the displayed Cantor--Bendixson derivative stage, and the finite rank comparison, but it receives no completed transfinite hierarchy, no host function-space quotient, no arbitrary choice of ranks, and no ambient descriptive-set-theory theorem.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the rank-comparison row. By carrier admission, the row $S$ is available only after the Baire-one source $F$, oscillation row $O$, pointwise bound $B$, pointwise-limit lineage $L$, derivative-stage row $D$, and threshold readback $Q$ have been displayed.
+
+Replay the continuation row $C$. The request first opens the Baire-one value-window provenance, then reads the oscillation predicate and pointwise bound, then checks the finite derivative-stage ledger, and only then exposes the rank comparison.
+
+The handoff is therefore a finite certificate route. Componentwise transport through $H$ preserves the displayed coordinates, and $P,N$ source and name only those coordinates. A downstream consumer cannot recover any excluded hierarchy, quotient, selector, or ambient theorem from the packet.
+\end{proof}
+
+\begin{closurestatus}{\OscillationRankFunctionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:oscillation-rank-function-carrier}, \autoref{thm:oscillation-rank-function-namecert-obligations}, and \autoref{thm:oscillation-rank-function-baire-one-handoff} seed the finite Baire-one oscillation-rank certificate from displayed oscillation windows and Cantor--Bendixson stage data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a completed transfinite hierarchy, host function-space quotient, arbitrary choice of ranks, ambient descriptive-set-theory theorems, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, Baire-one source compatibility, oscillation-threshold compatibility, pointwise-limit lineage compatibility, derivative-stage admission, rank comparison exactness, transport, replay, provenance, and local naming for BEDC.Derived.OscillationRankFunctionUp.}
+  \constructivestory{An $\OscillationRankFunctionUp$ packet is generated from BaireOneFunction, OscillationFunction, BairePointwiseOscillation, PointwiseLimit, CantorBendixson, RatUp, transport, continuation, provenance, and local NameCert rows.}
+\end{closurestatus}
