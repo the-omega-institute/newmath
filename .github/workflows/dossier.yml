@@ -30,7 +30,7 @@ jobs:
       github.event_name == 'workflow_dispatch' || (
         github.event.workflow_run.conclusion == 'success' &&
         github.event.workflow_run.event == 'push' &&
-        contains(fromJSON('["feature/dossier","dev","main","auto-dev"]'), github.event.workflow_run.head_branch)
+        contains(fromJSON('["feature/dossier","dev"]'), github.event.workflow_run.head_branch)
       )
     runs-on: ubuntu-latest
     outputs:
@@ -49,6 +49,7 @@ jobs:
             name="$(echo "$run_json" | jq -r '.name')"
             conclusion="$(echo "$run_json" | jq -r '.conclusion')"
             event="$(echo "$run_json" | jq -r '.event')"
+            head_branch="$(echo "$run_json" | jq -r '.head_branch')"
             head_sha="$(echo "$run_json" | jq -r '.head_sha')"
             head_repo="$(echo "$run_json" | jq -r '.head_repository.full_name')"
             if [ "$name" != "BEDC Build" ] || [ "$conclusion" != "success" ]; then
@@ -57,6 +58,10 @@ jobs:
             fi
             case "$event" in push|workflow_dispatch) ;; *)
               echo "::error::manual deploy refuses source event '$event'" >&2
+              exit 1
+            esac
+            case "$head_branch" in dev|feature/dossier) ;; *)
+              echo "::error::dossier deploy is allowed only from dev or feature/dossier, got '$head_branch'" >&2
               exit 1
             esac
             echo "run_id=$SOURCE_RUN_ID" >> "$GITHUB_OUTPUT"

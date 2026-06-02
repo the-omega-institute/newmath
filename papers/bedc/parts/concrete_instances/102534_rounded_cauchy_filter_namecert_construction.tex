@@ -67,6 +67,19 @@ Regular readback is forced through $Q$, and the tolerance accounting is forced t
 The structural rows $H,C,P,N$ transport, replay, source, and name the same route. No excluded quotient, representative sequence, ultrafilter, or completeness coordinate appears in the carrier, so the displayed factorization is the only completion-facing read.
 \end{proof}
 
+\begin{theorem}[Rounded Cauchy filter regular-sequence handoff]\label{thm:rounded-cauchy-filter-regular-sequence-handoff}
+Any accepted $\RoundedCauchyFilterUp$ packet whose completion-facing route reaches $\RegSeqRatUp$ must expose the rounded base row $R$, $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $Q$, $\DyadicRatCoreUp$ ledger $D$, $\CauchyFilterCompletionUp$ handoff $U$, and $\RealUp$ seal $E$ in that order. The handoff is a finite readback route over the displayed packet rows; it exports no quotient filter equality, ultrafilter extension, selected representative sequence, selected cluster point, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:rounded-cauchy-filter-carrier}. The only completion-facing route that reaches regular sequence data has to pass through $B,F,R,W,Q,D,U,E,H,C,P,N$.
+
+Apply \autoref{thm:rounded-cauchy-filter-namecert-obligations}. The obligation surface forces roundedness through $R$, finite observation through $W$, regular readback through $Q$, dyadic tolerance accounting through $D$, completion handoff through $U$, and real sealing through $E$.
+
+Now use \autoref{thm:rounded-cauchy-filter-regular-readback-route}. It orders the same rows before the structural transport, replay, provenance, and local naming coordinates $H,C,P,N$.
+
+Since the carrier contains no quotient-filter equality, ultrafilter, selected representative sequence, selected cluster point, or ambient completeness row, the regular-sequence handoff exports only the finite displayed route.
+\end{proof}
+
 \falsifiablePrediction{Every $\RoundedCauchyFilterUp$ completion-facing read factors through a FilterBaseUp row, a CauchyFilterUp row, a rounded-base refinement row, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a CauchyFilterCompletionUp handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{filterbase, cauchyfilter, filter-refinement, cauchyfiltercompletion, streamname, regseqrat, dyadicratcore, real: $\RoundedCauchyFilterUp$ is not bijective to any listed sibling because it jointly carries a filter base, Cauchy filter comparisons, a rounded-base refinement row, completion handoff, finite windows, regular readback, dyadic tolerance accounting, real sealing, transport, continuation, provenance, and local naming.}
