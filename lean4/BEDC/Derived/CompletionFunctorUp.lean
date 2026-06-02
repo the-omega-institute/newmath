@@ -497,4 +497,93 @@ theorem CompletionFunctorCarrier_cauchy_seal_composition [AskSetup] [PackageSetu
   }
   exact ⟨cert, firstSealUnary, secondSealUnary, composedSealUnary, provenancePkg⟩
 
+theorem CompletionFunctorCarrier_standard_bridge_surface [AskSetup] [PackageSetup]
+    {monad universal realCompletion source target denseMap extension functorLedger transport
+      routes provenance name unitRead extensionRead identityRoute compositeRoute firstSeal
+      secondSeal composedSeal publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionFunctorCarrier monad universal realCompletion source target denseMap extension
+        functorLedger transport routes provenance name bundle pkg →
+      Cont source target unitRead →
+        hsame unitRead denseMap →
+          Cont denseMap extension extensionRead →
+            hsame extensionRead functorLedger →
+              Cont extensionRead transport identityRoute →
+                hsame identityRoute routes →
+                  Cont denseMap extension compositeRoute →
+                    hsame compositeRoute functorLedger →
+                      Cont source target firstSeal →
+                        Cont firstSeal realCompletion secondSeal →
+                          Cont secondSeal target composedSeal →
+                            PkgSig bundle composedSeal pkg →
+                              Cont extensionRead routes publicRead →
+                                PkgSig bundle publicRead pkg →
+                                  SemanticNameCert
+                                      (fun row : BHist =>
+                                        hsame row publicRead ∧ UnaryHistory row)
+                                      (fun row : BHist =>
+                                        hsame row unitRead ∨ hsame row extensionRead ∨
+                                          hsame row publicRead ∨ hsame row provenance ∨
+                                            hsame row name)
+                                      (fun row : BHist =>
+                                        UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+                                          PkgSig bundle publicRead pkg)
+                                      hsame ∧
+                                    UnaryHistory identityRoute ∧
+                                      UnaryHistory compositeRoute ∧
+                                        UnaryHistory composedSeal ∧
+                                          PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig Cont hsame SemanticNameCert UnaryHistory
+  intro carrier unitRoute sameUnit extensionReadRoute sameExtensionRead identityRouteRow
+    sameIdentityRoute compositeRouteRow sameCompositeRoute firstSealRoute secondSealRoute
+    composedSealRoute composedPkg publicRoute publicPkg
+  have publicExport :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row unitRead ∨ hsame row extensionRead ∨ hsame row publicRead ∨
+              hsame row provenance ∨ hsame row name)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg)
+          hsame ∧
+        UnaryHistory unitRead ∧ UnaryHistory extensionRead ∧ UnaryHistory publicRead ∧
+          PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg :=
+    CompletionFunctorCarrier_public_completion_export carrier unitRoute sameUnit
+      extensionReadRoute sameExtensionRead publicRoute publicPkg
+  have identitySurface :
+      UnaryHistory denseMap ∧ UnaryHistory extension ∧ UnaryHistory extensionRead ∧
+        UnaryHistory identityRoute ∧ Cont denseMap extension extensionRead ∧
+          hsame extensionRead functorLedger ∧ Cont extensionRead transport identityRoute ∧
+            hsame identityRoute routes ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle name pkg :=
+    CompletionFunctorCarrier_identity_route_stability carrier extensionReadRoute
+      sameExtensionRead identityRouteRow sameIdentityRoute
+  have compositionSurface :
+      UnaryHistory extensionRead /\ UnaryHistory identityRoute /\
+        UnaryHistory compositeRoute /\ Cont denseMap extension extensionRead /\
+          Cont extensionRead transport identityRoute /\
+            Cont denseMap extension compositeRoute /\
+              hsame extensionRead functorLedger /\ hsame identityRoute routes /\
+                hsame compositeRoute functorLedger /\
+                  PkgSig bundle provenance pkg /\ PkgSig bundle name pkg :=
+    CompletionFunctorCarrier_composition_route_stability carrier extensionReadRoute
+      sameExtensionRead identityRouteRow sameIdentityRoute compositeRouteRow sameCompositeRoute
+  have sealSurface :
+      SemanticNameCert
+          (fun row : BHist => hsame row composedSeal ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row firstSeal ∨ hsame row secondSeal ∨ hsame row composedSeal ∨
+              hsame row realCompletion ∨ hsame row target)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle composedSeal pkg)
+          hsame ∧
+        UnaryHistory firstSeal ∧ UnaryHistory secondSeal ∧ UnaryHistory composedSeal ∧
+          PkgSig bundle provenance pkg :=
+    CompletionFunctorCarrier_cauchy_seal_composition carrier firstSealRoute secondSealRoute
+      composedSealRoute composedPkg
+  exact
+    ⟨publicExport.left, identitySurface.right.right.right.left,
+      compositionSurface.right.right.left, sealSurface.right.right.right.left,
+      publicExport.right.right.right.right.left⟩
+
 end BEDC.Derived.CompletionFunctorUp

@@ -83,4 +83,29 @@ theorem RiemannStieltjesCarrier_regulated_integrator_transport [AskSetup] [Packa
       taggedReadUnary, stepReadUnary, handoffReadUnary, integratorRoute, taggedRoute,
       stepRoute, handoffRoute, handoffPkg⟩
 
+theorem RiemannStieltjesCarrier_scope_ledger [AskSetup] [PackageSetup]
+    {regulated variation tagged step handoff sealRow transportRow replayRow provenance nameRow
+      ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannStieltjesCarrier regulated variation tagged step handoff sealRow transportRow replayRow
+      provenance nameRow bundle pkg ->
+      Cont tagged step ledgerRead ->
+        Cont ledgerRead handoff sealRow ->
+          UnaryHistory regulated ∧ UnaryHistory variation ∧ UnaryHistory tagged ∧
+            UnaryHistory step ∧ UnaryHistory handoff ∧ UnaryHistory ledgerRead ∧
+              UnaryHistory sealRow ∧ Cont regulated variation tagged ∧
+                Cont tagged step ledgerRead ∧ Cont ledgerRead handoff sealRow ∧
+                  Cont handoff sealRow replayRow ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier taggedStepLedger ledgerHandoffSeal
+  obtain ⟨regulatedUnary, variationUnary, taggedUnary, stepUnary, handoffUnary,
+    sealUnary, _transportUnary, _replayUnary, _provenanceUnary, regulatedVariationTagged,
+    _taggedStepHandoff, handoffSealReplay, namePkg⟩ := carrier
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed taggedUnary stepUnary taggedStepLedger
+  exact
+    ⟨regulatedUnary, variationUnary, taggedUnary, stepUnary, handoffUnary, ledgerUnary,
+      sealUnary, regulatedVariationTagged, taggedStepLedger, ledgerHandoffSeal,
+      handoffSealReplay, namePkg⟩
+
 end BEDC.Derived.RiemannStieltjesUp

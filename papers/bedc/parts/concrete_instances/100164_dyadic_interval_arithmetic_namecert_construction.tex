@@ -72,6 +72,22 @@ The enclosure-comparison row $E$ is the sole handoff to $\RationalIntervalUp$ an
 Finally $H,C,P,N$ package the route. Componentwise transport and continuation replay preserve the same endpoint and enclosure rows, while provenance records the dependency anchors. Since every exported operation is reached through this route, there is no remaining coordinate from which a quotient interval, selected real representative, trichotomy, countable-choice row, open-cover compactness row, or $\RealUp$ completeness witness could be read.
 \end{proof}
 
+\begin{theorem}[Dyadic interval arithmetic refinement monotonicity]\label{thm:dyadic-interval-arithmetic-refinement-monotonicity}
+Let $A=(L,U,O,+_\Delta,\cdot_\Delta,R,E,H,C,P,N)$ be an accepted $\DyadicIntervalArithmeticUp$ carrier. If the refinement row $R$ displays a later lower endpoint above $L$ and a later upper endpoint below $U$ through named $\DyadicRatCoreUp$ comparison rows, then every $\RationalIntervalUp$, $\MetricBallUp$, $\LocatedIntervalUp$, or $\RealIntervalEnclosureUp$ consumer reads a narrower or equal enclosure through the same endpoint arithmetic ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-interval-arithmetic-carrier}. The endpoint rows $L$ and $U$, the endpoint-order ledger $O$, the operation rows, the refinement row $R$, and the enclosure row $E$ are all visible before any downstream interval consumer is reached.
+
+Apply \autoref{thm:dyadic-interval-arithmetic-enclosure-soundness}. Every downstream $\RationalIntervalUp$, $\MetricBallUp$, $\LocatedIntervalUp$, or $\RealIntervalEnclosureUp$ read already factors through the displayed endpoint route
+$$
+L,U,O \longmapsto +_\Delta,\cdot_\Delta,R \longmapsto E \longmapsto H,C,P,N .
+$$
+
+The refinement row only strengthens the containment data. Moving the lower endpoint upward and the upper endpoint downward through displayed dyadic comparison rows leaves the old enclosure as an outer bound and presents the later pair as a narrower or equal bound.
+
+Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same endpoint arithmetic ledger and refinement comparisons. Therefore every listed consumer reads the refined enclosure through the original finite packet, with no quotient interval, selected real representative, trichotomy, countable choice, open-cover compactness, or Real completeness claim inserted.
+\end{proof}
+
 \closureat{DyadicIntervalArithmeticUp}{seedStr}
 
 \begin{closurestatus}{\DyadicIntervalArithmeticUp}
