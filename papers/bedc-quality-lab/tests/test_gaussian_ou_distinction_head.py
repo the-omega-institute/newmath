@@ -52,6 +52,33 @@ def fixture_record(seed=10, accuracy=1.0, bce=0.01):
     }
 
 
+def negative_result_record(
+    *,
+    distinction="latent_x_positive",
+    eval_accuracy=1.0,
+    generalization_gap=0.0,
+    on_target_prediction_flip_rate=1.0,
+    on_target_truth_flip_rate=1.0,
+    off_target_flip_rate=0.0,
+    threshold_debt_rate=0.0,
+    absolute_margin_p10=2.5,
+):
+    record = fixture_record()
+    row = record["per_distinction"][distinction]
+    row["eval"]["accuracy"] = eval_accuracy
+    row["generalization_gap"] = generalization_gap
+    row["margin_distribution"]["threshold_debt_rate"] = threshold_debt_rate
+    row["margin_distribution"]["absolute_margin_p10"] = absolute_margin_p10
+    intervention = record["intervention"][distinction]
+    intervention["on_target_flip_rate"] = on_target_prediction_flip_rate
+    intervention["on_target_truth_flip_rate"] = on_target_truth_flip_rate
+    intervention["on_target_prediction_truth_flip_gap"] = (
+        on_target_prediction_flip_rate - on_target_truth_flip_rate
+    )
+    intervention["off_target_flip_rate"] = off_target_flip_rate
+    return record
+
+
 def test_default_config_is_structural_consensus_scope():
     assert runner.SAMPLE_COUNT == 384
     assert runner.SEED_COUNT == 30
@@ -572,6 +599,66 @@ def test_payload_contains_boundary_source_and_negative_result_fields():
     assert "## Loss Components" in report
     assert "## Margin Distribution" in report
     assert "## Negative Result Note" in report
+
+
+def test_negative_result_findings_empty_for_high_accuracy_sensitive_record():
+    aggregate = runner._aggregate([fixture_record()])
+
+    assert runner._negative_result_findings(aggregate) == []
+
+
+def test_negative_result_findings_emit_intervention_insensitive_payload():
+    record = negative_result_record(
+        on_target_prediction_flip_rate=0.49,
+        on_target_truth_flip_rate=0.80,
+        off_target_flip_rate=0.07,
+    )
+    aggregate = runner._aggregate([record])
+
+    assert runner._negative_result_findings(aggregate) == [
+        {
+            "distinction": "latent_x_positive",
+            "finding": "intervention_insensitive",
+            "eval_accuracy_mean": 1.0,
+            "on_target_truth_flip_rate_mean": 0.80,
+            "on_target_prediction_flip_rate_mean": 0.49,
+            "off_target_drift_mean": 0.07,
+        }
+    ]
+
+
+def test_negative_result_findings_emit_held_out_accuracy_weak_payload():
+    record = negative_result_record(
+        eval_accuracy=0.69,
+        generalization_gap=0.12,
+    )
+    aggregate = runner._aggregate([record])
+
+    assert runner._negative_result_findings(aggregate) == [
+        {
+            "distinction": "latent_x_positive",
+            "finding": "held_out_accuracy_weak",
+            "eval_accuracy_mean": 0.69,
+            "generalization_gap_mean": 0.12,
+        }
+    ]
+
+
+def test_negative_result_findings_emit_threshold_debt_high_payload():
+    record = negative_result_record(
+        threshold_debt_rate=0.26,
+        absolute_margin_p10=0.19,
+    )
+    aggregate = runner._aggregate([record])
+
+    assert runner._negative_result_findings(aggregate) == [
+        {
+            "distinction": "latent_x_positive",
+            "finding": "threshold_debt_high",
+            "threshold_debt_rate_mean": 0.26,
+            "absolute_margin_p10_mean": 0.19,
+        }
+    ]
 
 
 def test_main_writes_json_and_markdown(monkeypatch, tmp_path):
