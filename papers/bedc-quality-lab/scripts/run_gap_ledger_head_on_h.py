@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from datetime import datetime, timezone
 import json
 import math
@@ -64,6 +65,30 @@ FORBIDDEN_INFERENCE_COLUMNS = (
     "eval_gap_labels",
 )
 EPS = 1.0e-12
+
+
+@dataclass(frozen=True)
+class GapHeadRunConfig:
+    sample_count: int
+    seeds: tuple[int, ...]
+    rho: float
+    use_torch: bool
+    json_artifact: str
+    report_artifact: str
+    run_id_prefix: str
+    source_artifact_label: str = "gap-ledger-head-on-h"
+    seed_grid_kind: str | None = None
+
+
+DEFAULT_CONFIG = GapHeadRunConfig(
+    sample_count=SAMPLE_COUNT,
+    seeds=tuple(int(seed) for seed in _seeds()),
+    rho=RHO,
+    use_torch=USE_TORCH,
+    json_artifact=JSON_ARTIFACT,
+    report_artifact=REPORT_ARTIFACT,
+    run_id_prefix="gap-ledger-head-on-h",
+)
 
 
 def _require_finite(name: str, array: np.ndarray, *, ndim: int | None = None) -> np.ndarray:
@@ -163,8 +188,8 @@ def _probe_blocks(
     }
 
 
-def _surface_for_seed(*, seed: int) -> dict[str, Any]:
-    batch = make_toy_batch(SAMPLE_COUNT, rho=RHO, seed=seed)
+def _surface_for_seed(*, seed: int, config: GapHeadRunConfig) -> dict[str, Any]:
+    batch = make_toy_batch(config.sample_count, rho=config.rho, seed=seed)
     z = distinction._require_finite("z", batch.z)
     z_pair = distinction._require_finite("z_pair", batch.z_pair)
     train_idx, eval_idx = distinction._train_eval_split(z.shape[0], seed=seed)
@@ -218,13 +243,13 @@ def _surface_for_seed(*, seed: int) -> dict[str, Any]:
         [prediction_error, low_margin, transition_unstable, off_target_intervention]
     ).astype(np.float64)
     quality = run_experiment(
-        use_torch=USE_TORCH,
-        sample_count=SAMPLE_COUNT,
+        use_torch=config.use_torch,
+        sample_count=config.sample_count,
         seed=seed,
-        rho=RHO,
-        run_id=f"gap-ledger-head-on-h-seed-{seed}",
-        envelope_artifact=JSON_ARTIFACT,
-        report_artifact=REPORT_ARTIFACT,
+        rho=config.rho,
+        run_id=f"{config.run_id_prefix}-seed-{seed}",
+        envelope_artifact=config.json_artifact,
+        report_artifact=config.report_artifact,
     )
     features, feature_columns = _build_inference_features(
         h=h,
@@ -312,8 +337,8 @@ def _posthoc_report_only(*, eval_labels: np.ndarray, eval_error: np.ndarray) -> 
     }
 
 
-def _run_record(*, seed: int, seed_index: int) -> dict[str, Any]:
-    surface = _surface_for_seed(seed=seed)
+def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict[str, Any]:
+    surface = _surface_for_seed(seed=seed, config=config)
     train_idx = surface["train_idx"]
     eval_idx = surface["eval_idx"]
     heads = _fit_gap_head(surface["features"][train_idx], surface["gap_labels"][train_idx])
@@ -337,15 +362,15 @@ def _run_record(*, seed: int, seed_index: int) -> dict[str, Any]:
         "seed_index": int(seed_index),
         "seed_sequence_position": int(seed_index + 1),
         "seed": int(seed),
-        "run_id": f"gap-ledger-head-on-h-seed-{seed}",
+        "run_id": f"{config.run_id_prefix}-seed-{seed}",
         "representation_boundary": REPRESENTATION_BOUNDARY,
         "inference_no_ground_truth_z": INFERENCE_NO_GROUND_TRUTH_Z,
         "feature_columns": list(surface["feature_columns"]),
         "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
         "config": {
-            "sample_count": SAMPLE_COUNT,
-            "rho": RHO,
-            "use_torch": USE_TORCH,
+            "sample_count": config.sample_count,
+            "rho": config.rho,
+            "use_torch": config.use_torch,
             "gap_channels": list(GAP_CHANNELS),
             "distinctions": list(DISTINCTIONS),
             "train_fraction": TRAIN_FRACTION,
@@ -390,8 +415,11 @@ def _run_record(*, seed: int, seed_index: int) -> dict[str, Any]:
     }
 
 
-def _records() -> list[dict[str, Any]]:
-    return [_run_record(seed=seed, seed_index=index) for index, seed in enumerate(_seeds())]
+def _records(config: GapHeadRunConfig) -> list[dict[str, Any]]:
+    return [
+        _run_record(seed=seed, seed_index=index, config=config)
+        for index, seed in enumerate(config.seeds)
+    ]
 
 
 def _pooled_metrics(records: list[dict[str, Any]], arm: str) -> dict[str, Any]:
@@ -458,16 +486,17 @@ def _aggregate(records: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def _source_artifacts() -> dict[str, Any]:
+def _source_artifacts(config: GapHeadRunConfig) -> dict[str, Any]:
     return {
+        "artifact_label": config.source_artifact_label,
         "generation_script": "scripts/run_gap_ledger_head_on_h.py",
         "imported_gap_ledger_head_runner": "scripts/run_gaussian_ou_gap_ledger_head.py",
         "canonical_runner": "scripts/run_gaussian_ou_lejepa.py::run_experiment",
         "distinction_head_runner": "scripts/run_gaussian_ou_distinction_head.py",
         "toy_world": "bedc_quality_lab.toy_world.make_toy_batch",
         "stats_helper": "scripts/experiment_stats.py",
-        "json_artifact": JSON_ARTIFACT,
-        "report_artifact": REPORT_ARTIFACT,
+        "json_artifact": config.json_artifact,
+        "report_artifact": config.report_artifact,
         "import_dependency_chain": [
             "scripts/run_gap_ledger_head_on_h.py",
             "scripts.run_gaussian_ou_gap_ledger_head",
@@ -504,15 +533,15 @@ def _gap_channel_metadata() -> list[dict[str, str]]:
     ]
 
 
-def _applicability_boundary() -> dict[str, Any]:
+def _applicability_boundary(config: GapHeadRunConfig) -> dict[str, Any]:
     return {
         "admitted_family": "Gaussian-OU toy world generated by the existing lab toy-world generator.",
         "representation_boundary": REPRESENTATION_BOUNDARY,
         "inference_no_ground_truth_z": INFERENCE_NO_GROUND_TRUTH_Z,
         "model": "Script-private numpy logistic gap heads over h-only inference features.",
-        "sample_count": SAMPLE_COUNT,
-        "seed_count": SEED_COUNT,
-        "rho": RHO,
+        "sample_count": config.sample_count,
+        "seed_count": len(config.seeds),
+        "rho": config.rho,
         "gap_channels": list(GAP_CHANNELS),
         "distinctions": list(DISTINCTIONS),
         "feature_columns": _feature_columns(2),
@@ -548,22 +577,25 @@ def _negative_result_note(aggregate: dict[str, Any]) -> str:
     )
 
 
-def _payload(records: list[dict[str, Any]]) -> dict[str, Any]:
+def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[str, Any]:
     aggregate = _aggregate(records)
     return {
-        "artifact": JSON_ARTIFACT,
-        "report": REPORT_ARTIFACT,
+        "artifact": config.json_artifact,
+        "report": config.report_artifact,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "representation_boundary": REPRESENTATION_BOUNDARY,
         "inference_no_ground_truth_z": INFERENCE_NO_GROUND_TRUTH_Z,
         "feature_columns": _feature_columns(2),
         "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
         "config": {
-            "sample_count": SAMPLE_COUNT,
-            "seed_count": SEED_COUNT,
-            "seeds": _seeds(),
-            "rho": RHO,
-            "use_torch": USE_TORCH,
+            "sample_count": config.sample_count,
+            "seed_count": len(config.seeds),
+            "seeds": list(config.seeds),
+            "rho": config.rho,
+            "use_torch": config.use_torch,
+            "run_id_prefix": config.run_id_prefix,
+            "source_artifact_label": config.source_artifact_label,
+            "seed_grid_kind": config.seed_grid_kind,
             "distinctions": list(DISTINCTIONS),
             "gap_channels": list(GAP_CHANNELS),
             "train_fraction": TRAIN_FRACTION,
@@ -576,11 +608,11 @@ def _payload(records: list[dict[str, Any]]) -> dict[str, Any]:
             "tau_grid": list(TAU_GRID),
             "epsilon_grid": list(EPSILON_GRID),
             "ece_bins": ECE_BINS,
-            "expected_record_count": SEED_COUNT,
+            "expected_record_count": len(config.seeds),
         },
         "gap_channel_metadata": _gap_channel_metadata(),
-        "source_artifacts": _source_artifacts(),
-        "applicability_boundary": _applicability_boundary(),
+        "source_artifacts": _source_artifacts(config),
+        "applicability_boundary": _applicability_boundary(config),
         "negative_result_note": _negative_result_note(aggregate),
         "records": records,
         "aggregate": aggregate,
@@ -685,19 +717,19 @@ def _render_report(payload: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def _write_payload(payload: dict[str, Any]) -> None:
-    json_path = ROOT / JSON_ARTIFACT
-    report_path = ROOT / REPORT_ARTIFACT
+def _write_payload(payload: dict[str, Any], config: GapHeadRunConfig) -> None:
+    json_path = ROOT / config.json_artifact
+    report_path = ROOT / config.report_artifact
     json_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     report_path.write_text(_render_report(payload), encoding="utf-8")
 
 
 def main() -> None:
-    payload = _payload(_records())
-    _write_payload(payload)
-    print(f"wrote {JSON_ARTIFACT}")
-    print(f"wrote {REPORT_ARTIFACT}")
+    payload = _payload(_records(DEFAULT_CONFIG), DEFAULT_CONFIG)
+    _write_payload(payload, DEFAULT_CONFIG)
+    print(f"wrote {DEFAULT_CONFIG.json_artifact}")
+    print(f"wrote {DEFAULT_CONFIG.report_artifact}")
     print(f"records {len(payload['records'])}")
 
 

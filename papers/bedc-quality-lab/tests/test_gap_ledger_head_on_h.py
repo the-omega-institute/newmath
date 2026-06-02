@@ -7,7 +7,23 @@ import pytest
 from scripts import run_gap_ledger_head_on_h as runner
 
 
-def _record_fixture(monkeypatch):
+def _fixture_config(**overrides):
+    values = {
+        "sample_count": 6,
+        "seeds": (123,),
+        "rho": runner.RHO,
+        "use_torch": runner.USE_TORCH,
+        "json_artifact": runner.JSON_ARTIFACT,
+        "report_artifact": runner.REPORT_ARTIFACT,
+        "run_id_prefix": "gap-ledger-head-on-h",
+    }
+    values.update(overrides)
+    return runner.GapHeadRunConfig(**values)
+
+
+def _record_fixture(monkeypatch, config=None):
+    expected = config or _fixture_config()
+    calls = {}
     sentinel = 987654321.0
     z = np.array(
         [
@@ -37,8 +53,9 @@ def _record_fixture(monkeypatch):
     eval_idx = np.array([4, 5], dtype=np.int64)
 
     def fake_batch(sample_count, *, rho, seed):
-        assert sample_count == 6
-        assert rho == runner.RHO
+        calls["batch"] = {"sample_count": sample_count, "rho": rho, "seed": seed}
+        assert sample_count == expected.sample_count
+        assert rho == expected.rho
         assert seed == 123
         return SimpleNamespace(z=z, z_pair=z_pair, x=x, x_pair=x_pair)
 
@@ -80,7 +97,8 @@ def _record_fixture(monkeypatch):
         }
 
     def fake_run_experiment(**kwargs):
-        assert kwargs["run_id"] == "gap-ledger-head-on-h-seed-123"
+        calls["experiment"] = kwargs
+        assert kwargs["run_id"] == f"{expected.run_id_prefix}-seed-123"
         return SimpleNamespace(
             run_id=kwargs["run_id"],
             source_spec={"name": "fixture-source"},
@@ -97,7 +115,6 @@ def _record_fixture(monkeypatch):
             },
         )
 
-    monkeypatch.setattr(runner, "SAMPLE_COUNT", 6)
     monkeypatch.setattr(runner, "make_toy_batch", fake_batch)
     monkeypatch.setattr(runner.distinction, "_train_eval_split", fake_split)
     monkeypatch.setattr(runner.distinction, "_high_energy_threshold", fake_high_threshold)
@@ -105,11 +122,16 @@ def _record_fixture(monkeypatch):
     monkeypatch.setattr(runner.distinction, "_fit_probe", fake_fit_probe)
     monkeypatch.setattr(runner.distinction, "_predict_probe", fake_predict_probe)
     monkeypatch.setattr(runner, "run_experiment", fake_run_experiment)
-    return {"sentinel": sentinel, "train_idx": train_idx, "eval_idx": eval_idx}
+    return {"sentinel": sentinel, "train_idx": train_idx, "eval_idx": eval_idx, "calls": calls}
 
 
 def test_default_boundary_and_gap_channels():
     assert runner.SEED_COUNT >= 20
+    assert runner.DEFAULT_CONFIG.sample_count == runner.SAMPLE_COUNT
+    assert runner.DEFAULT_CONFIG.seeds == tuple(runner._seeds())
+    assert runner.DEFAULT_CONFIG.json_artifact == runner.JSON_ARTIFACT
+    assert runner.DEFAULT_CONFIG.report_artifact == runner.REPORT_ARTIFACT
+    assert runner.DEFAULT_CONFIG.run_id_prefix == "gap-ledger-head-on-h"
     assert runner.REPRESENTATION_BOUNDARY == "learned_h"
     assert runner.INFERENCE_NO_GROUND_TRUTH_Z is True
     assert runner.GAP_CHANNELS == (
@@ -125,6 +147,47 @@ def test_default_boundary_and_gap_channels():
         "prediction_error",
         "eval_gap_labels",
     }
+
+
+def test_custom_config_flows_into_source_payload(monkeypatch):
+    config = _fixture_config(
+        sample_count=6,
+        seeds=(123,),
+        rho=0.37,
+        use_torch=True,
+        json_artifact="reports/custom_gap_head.json",
+        report_artifact="reports/custom_gap_head.md",
+        run_id_prefix="custom-gap-head",
+        source_artifact_label="custom-source",
+        seed_grid_kind="fixture_grid",
+    )
+    fixture = _record_fixture(monkeypatch, config)
+    calls = fixture["calls"]
+    monkeypatch.setattr(runner, "_fit_gap_head", lambda features, labels: {"heads": "fixture"})
+    monkeypatch.setattr(
+        runner,
+        "_predict_gap_head",
+        lambda heads, features: np.array([[0.9, 0.1, 0.2, 0.3], [0.1, 0.8, 0.7, 0.6]]),
+    )
+
+    record = runner._run_record(seed=123, seed_index=0, config=config)
+    payload = runner._payload([record], config)
+
+    assert fixture["eval_idx"].tolist() == [4, 5]
+    assert calls["batch"] == {"sample_count": 6, "rho": 0.37, "seed": 123}
+    assert calls["experiment"]["use_torch"] is True
+    assert calls["experiment"]["sample_count"] == 6
+    assert calls["experiment"]["rho"] == 0.37
+    assert calls["experiment"]["run_id"] == "custom-gap-head-seed-123"
+    assert calls["experiment"]["envelope_artifact"] == "reports/custom_gap_head.json"
+    assert record["run_id"] == "custom-gap-head-seed-123"
+    assert record["config"]["sample_count"] == 6
+    assert record["config"]["rho"] == 0.37
+    assert record["config"]["use_torch"] is True
+    assert record["canonical_envelope_projection"]["artifacts"]["envelope"] == "reports/custom_gap_head.json"
+    assert payload["artifact"] == "reports/custom_gap_head.json"
+    assert payload["source_artifacts"]["artifact_label"] == "custom-source"
+    assert payload["config"]["seed_grid_kind"] == "fixture_grid"
 
 
 def test_h_only_feature_builder_rejects_forbidden_columns():
@@ -163,7 +226,7 @@ def test_h_only_feature_builder_rejects_forbidden_columns():
 def test_surface_uses_disjoint_split_and_four_gap_channels(monkeypatch):
     fixture = _record_fixture(monkeypatch)
 
-    surface = runner._surface_for_seed(seed=123)
+    surface = runner._surface_for_seed(seed=123, config=_fixture_config())
 
     assert surface["features"].shape == (6, 15)
     assert surface["gap_labels"].shape == (6, 4)
@@ -201,7 +264,7 @@ def test_run_record_wires_three_arms_same_eval_error_and_no_z_leak(monkeypatch):
     monkeypatch.setattr(runner, "_fit_gap_head", fake_fit_gap_head)
     monkeypatch.setattr(runner, "_predict_gap_head", fake_predict_gap_head)
 
-    record = runner._run_record(seed=123, seed_index=7)
+    record = runner._run_record(seed=123, seed_index=7, config=_fixture_config())
 
     assert captured["fit"] == 1
     assert captured["predict"] == 1
@@ -263,7 +326,7 @@ def test_payload_and_markdown_share_boundary_fields():
         },
     }
 
-    payload = runner._payload([record])
+    payload = runner._payload([record], runner.DEFAULT_CONFIG)
     report = runner._render_report(payload)
 
     assert payload["artifact"] == runner.JSON_ARTIFACT
@@ -276,12 +339,12 @@ def test_payload_and_markdown_share_boundary_fields():
     assert "Forbidden inference columns" in report
 
 
-def test_main_writes_json_and_markdown(monkeypatch, tmp_path):
+def test_gap_head_run_config_preserves_default_payload_boundary(monkeypatch, tmp_path):
     monkeypatch.setattr(runner, "ROOT", tmp_path)
     monkeypatch.setattr(
         runner,
         "_records",
-        lambda: [
+        lambda config: [
             {
                 "seed": 1,
                 "arms": {
@@ -313,6 +376,10 @@ def test_main_writes_json_and_markdown(monkeypatch, tmp_path):
     report = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
 
     assert payload["aggregate"]["record_count"] == 1
+    assert payload["artifact"] == runner.JSON_ARTIFACT
+    assert payload["report"] == runner.REPORT_ARTIFACT
     assert payload["representation_boundary"] == "learned_h"
     assert payload["inference_no_ground_truth_z"] is True
+    assert payload["config"]["expected_record_count"] == runner.SEED_COUNT
+    assert payload["config"]["seeds"] == list(runner._seeds())
     assert "# Gap-Ledger Head on Learned h" in report
