@@ -31,6 +31,7 @@ The classifier compares accepted packets only through $T,K,A,S,I,P,F,H,C,G,N$. N
 \label{thm:metacic-normalization-audit-packet-namecert-obligations}
 For the carrier of \autoref{def:metacic-normalization-audit-packet-carrier}, the local $\NameCert_{\MetaCICNormalizationAuditPacketUp}$ surface consists exactly of carrier admission for $M=(T,K,A,S,I,P,F,H,C,G,N)$, closed typed term admission through $T$, candidate or candidate-set evidence admission through $K$, application adequacy through $A$, candidate-mediated SN projection through $S$, no-infinite-reduction projection through $I$, Pi-candidate adequacy through $P$, frontier retention through $F$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $G$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationAuditPacketUp.MetaCICNormalizationAuditPacketCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier. The only term source is $T$, and the only evidence source for a public SN read is the candidate row $K$.
 
@@ -99,7 +100,8 @@ Finally use row exhaustion for $F,H,C,G,N$. The frontier row records requests th
   \constructivestory{A $\MetaCICNormalizationAuditPacketUp$ packet is generated from a closed typed term row, candidate or candidate-set evidence, application and Pi adequacy rows, candidate-mediated strong-normalization projection, no-infinite-reduction projection, frontier retention, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:metacic-normalization-audit-packet-carrier}, \autoref{thm:metacic-normalization-audit-packet-namecert-obligations}, and \autoref{thm:metacic-normalization-audit-packet-candidate-handoff} seed the finite candidate-mediated normalization audit packet for public SN and no-infinite-reduction reads.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MetaCICNormalizationAuditPacketUp.MetaCICNormalizationAuditPacketCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, unconditional closed-term normalization, evidence-free strong normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluation soundness, or completed closed consistency.}
   \upgradepath{Obligation closure requires checked carrier admission, candidate-evidence exactness, application and Pi adequacy routing, SN projection, no-infinite-reduction projection, frontier retention, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICNormalizationAuditPacketUp.}

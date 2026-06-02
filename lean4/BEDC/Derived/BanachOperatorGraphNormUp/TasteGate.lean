@@ -261,6 +261,15 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def BanachOperatorGraphNormCarrier [AskSetup] [PackageSetup]
+    (X Y T Gamma A M Q L H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory X ∧ UnaryHistory Y ∧ UnaryHistory T ∧ UnaryHistory Gamma ∧
+    UnaryHistory A ∧ UnaryHistory M ∧ UnaryHistory Q ∧ UnaryHistory L ∧
+      UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+        PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
 theorem BanachOperatorGraphNormCompletionHandoff
     [AskSetup] [PackageSetup]
     {X Y T Gamma A M Q L H C P N graphRead normRead completionRead : BHist}
@@ -410,5 +419,21 @@ theorem BanachOperatorGraphNormCarrier_namecert_obligations
       exact ⟨sourceRow.left, pkgSig⟩
   }
   exact ⟨cert, graphReadUnary, normReadUnary, completionReadUnary⟩
+
+theorem BanachOperatorGraphNorm_no_quotient_graph [AskSetup] [PackageSetup]
+    {X Y T Gamma A M Q L H C P N graphRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BanachOperatorGraphNormCarrier X Y T Gamma A M Q L H C P N bundle pkg ->
+      Cont Gamma A graphRead ->
+        PkgSig bundle N pkg ->
+          UnaryHistory Gamma ∧ UnaryHistory A ∧ UnaryHistory graphRead ∧
+            Cont Gamma A graphRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier graphRoute localNamePkg
+  obtain ⟨_xUnary, _yUnary, _tUnary, gammaUnary, aUnary, _mUnary, _qUnary, _lUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, provenancePkg, _carrierLocalPkg⟩ := carrier
+  have graphUnary : UnaryHistory graphRead :=
+    unary_cont_closed gammaUnary aUnary graphRoute
+  exact ⟨gammaUnary, aUnary, graphUnary, graphRoute, provenancePkg, localNamePkg⟩
 
 end BEDC.Derived.BanachOperatorGraphNormUp

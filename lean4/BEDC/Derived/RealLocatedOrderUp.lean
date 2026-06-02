@@ -123,4 +123,52 @@ theorem RealLocatedOrderCarrier_namecert_obligations [AskSetup] [PackageSetup]
   exact
     ⟨cert, xUnary, yUnary, windowUnary, toleranceUnary, apartnessUnary, replayUnary⟩
 
+theorem RealLocatedOrderCarrier_apartness_handoff [AskSetup] [PackageSetup]
+    (L : RealLocatedOrderUp)
+    {X Y R S D O A H C P N xRead yRead windowRead toleranceRead locatedRead
+      apartnessRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    realLocatedOrderFields L = [X, Y, R, S, D, O, A, H, C, P, N] →
+      UnaryHistory X →
+        UnaryHistory Y →
+          UnaryHistory R →
+            UnaryHistory S →
+              UnaryHistory D →
+                UnaryHistory O →
+                  UnaryHistory A →
+                    Cont X R xRead →
+                      Cont Y R yRead →
+                        Cont R S windowRead →
+                          Cont S D toleranceRead →
+                            Cont toleranceRead O locatedRead →
+                              Cont locatedRead A apartnessRead →
+                                PkgSig bundle P pkg →
+                                  UnaryHistory xRead ∧ UnaryHistory yRead ∧
+                                    UnaryHistory windowRead ∧ UnaryHistory toleranceRead ∧
+                                      UnaryHistory locatedRead ∧
+                                        UnaryHistory apartnessRead ∧
+                                          Cont toleranceRead O locatedRead ∧
+                                            Cont locatedRead A apartnessRead ∧
+                                              PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro fieldsEq unaryX unaryY unaryR unaryS unaryD unaryO unaryA xCont yCont windowCont
+    toleranceCont locatedCont apartnessCont pkgP
+  rcases L with ⟨x0, y0, r0, s0, d0, o0, a0, h0, c0, p0, n0, _unaryN, _sameN⟩
+  cases fieldsEq
+  have xUnary : UnaryHistory xRead :=
+    unary_cont_closed unaryX unaryR xCont
+  have yUnary : UnaryHistory yRead :=
+    unary_cont_closed unaryY unaryR yCont
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed unaryR unaryS windowCont
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed unaryS unaryD toleranceCont
+  have locatedUnary : UnaryHistory locatedRead :=
+    unary_cont_closed toleranceUnary unaryO locatedCont
+  have apartnessUnary : UnaryHistory apartnessRead :=
+    unary_cont_closed locatedUnary unaryA apartnessCont
+  exact
+    ⟨xUnary, yUnary, windowUnary, toleranceUnary, locatedUnary, apartnessUnary, locatedCont,
+      apartnessCont, pkgP⟩
+
 end BEDC.Derived.RealLocatedOrderUp
