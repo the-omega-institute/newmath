@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\HeineBorelFiniteSubcoverUp$}
+\label{ch:concrete-instances-heine-borel-finite-subcover-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive finite-cover treatment, the $\HeineBorelFiniteSubcoverUp$ packet records the finite dyadic closed-interval subcover data that interval-cover and uniform-modulus consumers may inspect without importing a general Heine--Borel theorem for arbitrary $\RealUp$ subsets. It sits on the dyadic interval-cover route of \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}, the dyadic rational arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite scheduling surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The certificate is only a finite dyadic closed-interval subcover packet; it does not claim general Heine--Borel compactness for arbitrary $\RealUp$ subsets or arbitrary open covers.
+
+\begin{definition}[Heine--Borel finite subcover carrier]
+\label{def:heine-borel-finite-subcover-carrier}
+A $\HeineBorelFiniteSubcoverUp$ carrier is a finite $\BHist$ packet
+$$
+H=(I,D,W,R,S,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the dyadic closed-interval cover row read from \autoref{ch:concrete-instances-dyadic-interval-cover-namecert};
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and mesh-comparison row read from \autoref{ch:concrete-instances-dyadicratcore-namecert};
+\item $W$ is the $\StreamNameUp$ finite scheduling row that indexes the inspected cover windows;
+\item $R$ is the $\RegSeqRatUp$ readback row for endpoint, mesh, and inclusion comparisons;
+\item $S$ is the terminal $\RealUp$ seal for the closed interval endpoints and covered points;
+\item $T$ records componentwise $\hsame$ transport for cover rows, dyadic endpoint rows, stream windows, regular rational readback, Real seals, provenance, and local naming;
+\item $C$ records displayed $\Cont$ replay from an interval-cover request through $I,D,W,R,S$ to the finite subcover output;
+\item $P$ records $\Pkg$ provenance over $\HeineBorelFiniteSubcoverUp$, $\DyadicIntervalCoverUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data;
+\item $N$ is the local $\NameCert_{\HeineBorelFiniteSubcoverUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for arbitrary open covers, powerset compactness, countable choice, excluded middle, quotient Real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Heine--Borel finite subcover obligation surface]
+\label{thm:heine-borel-finite-subcover-obligation-surface}
+For the carrier of \autoref{def:heine-borel-finite-subcover-carrier}, the local $\NameCert_{\HeineBorelFiniteSubcoverUp}$ obligation surface consists exactly of carrier admission for $I,D,W,R,S,T,C,P,N$, cover-window exposure through $\DyadicIntervalCoverUp$ and $\StreamNameUp$, endpoint and mesh comparison through $\DyadicRatCoreUp$ and $\RegSeqRatUp$, terminal interval sealing through $\RealUp$, componentwise transport, replay stability, provenance, local naming, and ledger non-escape from non-finite compactness principles.
+\end{theorem}
+\begin{proof}
+Project the finite packet $H=(I,D,W,R,S,T,C,P,N)$. The dyadic interval-cover row, dyadic rational row, finite stream-window row, regular rational readback row, and Real seal are displayed before a subcover output can be read.
+
+Use \autoref{ch:concrete-instances-dyadic-interval-cover-namecert} for the cover request and \autoref{ch:concrete-instances-dyadicratcore-namecert} for endpoint arithmetic. These rows keep the cover finite and dyadic rather than an arbitrary open cover of an arbitrary subset.
+
+Use \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} for scheduling, rational comparison, and the terminal closed-interval seal. The rows $T,C,P,N$ only transport, replay, cite, and name the same finite route. Since no coordinate stores powerset compactness, arbitrary cover choice, quotient Real equality, or ambient completeness, none is exported by the obligation surface.
+\end{proof}
+
+\begin{theorem}[Heine--Borel finite subcover NameCert route]
+\label{thm:heine-borel-finite-subcover-namecert-route}
+Every accepted $\HeineBorelFiniteSubcoverUp$ packet routes a dyadic closed-interval cover request through
+$$
+\DyadicIntervalCoverUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The exported certificate is a finite subcover row for the named closed interval and the displayed dyadic cover windows, not a proof of arbitrary $\RealUp$ compactness.
+\end{theorem}
+\begin{proof}
+Start with the carrier admission of \autoref{def:heine-borel-finite-subcover-carrier}. It fixes the only readable source rows as $I,D,W,R,S$ and the structural rows as $T,C,P,N$.
+
+Apply the obligation surface of \autoref{thm:heine-borel-finite-subcover-obligation-surface}. Cover-window exposure, endpoint comparison, stream scheduling, rational readback, and Real sealing are each projections from the same finite packet.
+
+It remains to identify the exported object. The replay row $C$ can only replay the displayed route, and the provenance row $P$ names exactly the listed dependencies. Thus the consumer obtains a finite dyadic closed-interval subcover certificate and no general compactness principle.
+\end{proof}
+
+\falsifiablePrediction{Every $\HeineBorelFiniteSubcoverUp$ consumer read factors through a displayed $\DyadicIntervalCoverUp$ cover row, a $\DyadicRatCoreUp$ endpoint row, a $\StreamNameUp$ finite window, a $\RegSeqRatUp$ comparison row, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{dyadicintervalcover, dyadicratcore, streamname, regseqrat, real: $\HeineBorelFiniteSubcoverUp$ is not bijective to any listed sibling because it jointly carries the finite dyadic cover request, endpoint arithmetic, scheduling window, rational readback, Real seal, transport, replay, provenance, and local NameCert rows as one finite subcover packet.}
+
+\closureat{HeineBorelFiniteSubcoverUp}{seedStr}
+
+\begin{closurestatus}{\HeineBorelFiniteSubcoverUp}
+  \constructivestory{A $\HeineBorelFiniteSubcoverUp$ packet is generated from a dyadic closed-interval cover row, dyadic endpoint arithmetic, finite StreamName windows, RegSeqRat readbacks, a terminal Real seal, componentwise transport, continuation replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:heine-borel-finite-subcover-carrier}, \autoref{thm:heine-borel-finite-subcover-obligation-surface}, and \autoref{thm:heine-borel-finite-subcover-namecert-route} seed the finite dyadic closed-interval subcover certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary open-cover compactness, powerset compactness, countable choice, excluded middle, quotient Real equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission and NameCert obligation theorems for BEDC.Derived.HeineBorelFiniteSubcoverUp.}
+\end{closurestatus}

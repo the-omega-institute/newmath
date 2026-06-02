@@ -13,6 +13,7 @@ import BEDC.Derived.RealUp.SelectedContinuationEndpoint
 import BEDC.Derived.RealUp.SelectedContinuationFullShape
 import BEDC.Derived.RealUp.SelectedContextualEndpoint
 import BEDC.Derived.RealUp.SelectedTransportReadback
+import BEDC.Derived.RealUp.SeparabilityNameCertObligations
 import BEDC.Derived.RealUp.SynchronizedSelectedTransport
 import BEDC.Derived.RealUp.UnaryDenominatorContextShape
 import BEDC.Derived.RealUp.ReindexedStreamNameBridge
@@ -36,6 +37,8 @@ import BEDC.Derived.RealUp.TailClassifierPullback
 import BEDC.Derived.RealUp.RegseqratStreamCertificateSpine
 import BEDC.Derived.RealUp.L10DependencyLattice
 import BEDC.Derived.RealUp.L10FaceStatusNoncollapse
+import BEDC.Derived.RealUp.L10FaceLeantargetNoncollapse
+import BEDC.Derived.RealUp.L10FaceStatusProductReadback
 import BEDC.Derived.RealUp.L10CurrentPhaseExitLocalThreshold
 import BEDC.Derived.RealUp.L10ExitCertificateSupportNoConfusion
 import BEDC.Derived.RealUp.L10ExitCertificateFaceMinimality

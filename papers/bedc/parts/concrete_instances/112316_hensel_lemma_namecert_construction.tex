@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\HenselLemmaUp$}
+\label{ch:concrete-instances-hensel-lemma-namecert}
+\origin{human}
+
+Following Hensel and standard p-adic algebra, the $\HenselLemmaUp$ packet records the finite BEDC surface of a simple-root lifting certificate over displayed local arithmetic data. It sits downstream of the $p$-adic carrier of \autoref{ch:concrete-instances-padic-namecert}, the local-field source of \autoref{ch:concrete-instances-localfield-namecert}, the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the field schema of \autoref{ch:concrete-instances-field-namecert}, and the ring schema of \autoref{ch:concrete-instances-ring-namecert}. The packet names a finite lifting witness and its Newton-style nonescape ledger; it does not import quotient roots, a selected root function, countable choice, full algebraic closure, or ambient completeness beyond the displayed source rows.
+
+\begin{definition}[Hensel lemma carrier]
+\label{def:hensel-lemma-carrier}
+A $\HenselLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+H=(K,R,F,P,A,V,N,E,T,C,Q,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\PadicUp$ source row, exposing only the finite valuation and congruence windows inspected by the lifting packet.
+\item $R$ is the $\LocalFieldUp$ coefficient row, supplying the local-field arithmetic reads used by the polynomial and derivative windows.
+\item $F$ is the $\FieldUp$ compatibility row for the nonzero derivative and unit comparisons needed by the simple-root test.
+\item $P$ is the $\PolynomialUp$ row, listing the displayed polynomial, derivative, coefficient windows, and evaluation reads at the approximate root.
+\item $A$ is the approximate-root row, recording the chosen finite residue-window representative and the displayed smallness comparison for the polynomial value.
+\item $V$ is the valuation-separation row, recording that the derivative unit window and the polynomial-value window are separated enough to start the lifting route.
+\item $N$ is the Newton-correction ledger, listing the finite correction windows, derivative reads, and valuation gains that the packet promises to replay.
+\item $E$ is the nonescape row, asserting that every correction window stays inside the same displayed $p$-adic ball before any root conclusion is exposed.
+\item $T$ records componentwise $\hsame$ transport for the source, coefficient, polynomial, approximate-root, valuation, correction, and nonescape rows.
+\item $C$ records the displayed $\Cont$ replay route from source arithmetic through polynomial evaluation, correction, nonescape, provenance, and local naming.
+\item $Q$ is the $\Pkg$ provenance over $\HenselLemmaUp$, $\PadicUp$, $\LocalFieldUp$, $\PolynomialUp$, $\FieldUp$, $\RingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\HenselLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,R,F,P,A,V,N,E,T,C,Q,L$. It has no coordinate for selected roots, quotient roots, countable choice, a full algebraic closure, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Hensel lemma NameCert obligations]
+\label{thm:hensel-lemma-namecert-obligations}
+For every accepted $\HenselLemmaUp$ carrier $H=(K,R,F,P,A,V,N,E,T,C,Q,L)$, the local $\NameCert_{\HenselLemmaUp}$ surface consists exactly of carrier admission for the $p$-adic source row, local-field coefficient row, field-unit compatibility row, polynomial and derivative evaluation row, approximate-root row, valuation-separation row, Newton-correction ledger, nonescape row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every lifting read must expose these finite rows before it can be consumed as a Hensel-style certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hensel-lemma-carrier}. The arithmetic source is visible only through $K,R,F$, while the polynomial and derivative reads are visible only through $P$ and the approximate-root row $A$.
+
+The lifting route then passes through $V,N$, and $E$. The valuation-separation row starts the correction schedule, the Newton ledger records the displayed correction windows, and the nonescape row keeps those windows inside the same $p$-adic ball.
+
+The structural rows $T,C,Q,L$ transport, replay, source, and name the same finite packet. Since no further coordinate occurs in the carrier, the certificate cannot export a selected root function, quotient-root semantics, countable choice, full algebraic closure, or an ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Newton witness nonescape]
+\label{thm:hensel-lemma-newton-witness-nonescape}
+Every accepted $\HenselLemmaUp$ packet exposes a Newton witness only through the valuation-separation row $V$, the correction ledger $N$, and the nonescape row $E$. A consumer therefore receives a finite chain of displayed $p$-adic windows whose corrections stay inside the original ball before any root-lifting read is available.
+\end{theorem}
+\begin{proof}
+Read the dependency order in \autoref{def:hensel-lemma-carrier}. The correction ledger $N$ is not independent of the simple-root test; it is reached only after the source rows $K,R,F$, the polynomial row $P$, the approximate-root row $A$, and the valuation-separation row $V$ have been displayed.
+
+The row $E$ records the nonescape check for the same correction windows. Replaying $C$ can inspect the valuation gains and ball-membership comparisons, but it cannot detach them from the finite windows named by $K,R,P,A,V$, and $N$.
+
+Transport along $T$ preserves those rows componentwise. Hence the witness remains a finite Newton-style nonescape certificate and not a selected root, quotient-root object, choice sequence, algebraic-closure construction, or completeness theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HenselLemmaUp$ lifting read exposes the p-adic source, local-field coefficient row, field-unit compatibility row, polynomial and derivative windows, approximate-root row, valuation-separation row, Newton-correction ledger, nonescape row, componentwise hsame transport, Cont replay, Pkg provenance, and local naming before any Hensel-style consumer may use it.}
+
+\independenceWitness{padic, localfield, polynomial, field, ring: $\HenselLemmaUp$ is not bijective to any listed sibling because it jointly binds a simple-root valuation test, polynomial derivative windows, Newton-correction ledger, and nonescape witness in one finite lifting packet.}
+
+\closureat{HenselLemmaUp}{seedStr}
+
+\begin{closurestatus}{\HenselLemmaUp}
+  \constructivestory{A $\HenselLemmaUp$ packet is generated from p-adic source data, local-field coefficient rows, field-unit compatibility, polynomial and derivative evaluation windows, an approximate-root row, valuation separation, a Newton-correction ledger, nonescape checks, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hensel-lemma-carrier}, \autoref{thm:hensel-lemma-namecert-obligations}, and \autoref{thm:hensel-lemma-newton-witness-nonescape} seed the finite simple-root lifting route over p-adic, local-field, polynomial, field, and ring rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected roots, quotient roots, countable choice, full algebraic closure, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, simple-root valuation separation, polynomial derivative readback, Newton-correction ledger exactness, nonescape stability, transport, replay, provenance, and local naming for BEDC.Derived.HenselLemmaUp.}
+\end{closurestatus}

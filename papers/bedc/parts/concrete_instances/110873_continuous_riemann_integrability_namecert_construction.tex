@@ -76,12 +76,30 @@ The Darboux row $D$ is then read as lower and upper finite sums over those displ
 The terminal seal and structural rows $E,H,C,P,N$ preserve that route. No excluded object is stored in the carrier, so every consumer factors through the displayed finite partition and Darboux rows.
 \end{proof}
 
+\begin{theorem}[Continuous Riemann integrability uniform-modulus handoff]
+\label{thm:continuous-riemann-integrability-uniform-modulus-handoff}
+Every accepted $\ContinuousRiemannIntegrabilityUp$ carrier whose continuous row factors through a displayed uniform-modulus or composed-modulus route passes the Darboux gap and $\RiemannIntegrableUp$ handoff through the finite chain
+$$
+\ContinuousUp,\ \UniformContinuityCompositionUp,\ \TaggedRealPartitionUp,\ \DarbouxSumUp,\ \RiemannIntegrableUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The handoff therefore reads composed modulus data before the Darboux row and exports no host integral selector, quotient function equality, open-cover compactness argument, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:continuous-riemann-integrability-carrier}. The displayed rows are the continuous row $F$, tagged partition row $T$, Darboux row $D$, Riemann-integrable handoff $J$, weak interval selector $W$, StreamName windows $S$, RegSeqRat readbacks $R$, Real seal $E$, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:continuous-riemann-integrability-namecert-obligations} for row exhaustion. When the continuous row is supplied by a uniform-modulus or composed-modulus route, the only admitted modulus source is the displayed $\ContinuousUp$ row together with the $\UniformContinuityCompositionUp$ composed-modulus handoff of \autoref{ch:concrete-instances-uniform-continuity-composition-namecert}.
+
+Now apply \autoref{thm:continuous-riemann-integrability-darboux-handoff}. The tagged partition, Darboux lower and upper sums, and integrability row must be read after the same StreamName windows, RegSeqRat readbacks, and terminal Real seal, so the composed-modulus source cannot bypass the finite Darboux route.
+
+Since the carrier stores no host integral selector, quotient function equality, open-cover compactness proof, or ambient completeness object, the listed finite rows are the whole uniform-modulus handoff.
+\end{proof}
+
 \closureat{ContinuousRiemannIntegrabilityUp}{seedStr}
 
 \begin{closurestatus}{\ContinuousRiemannIntegrabilityUp}
   \constructivestory{A $\ContinuousRiemannIntegrabilityUp$ packet is generated from a Continuous row, TaggedRealPartition row, DarbouxSum row, RiemannIntegrable handoff row, WeaklyLocatedIntervalSelection row, StreamName windows, RegSeqRat readbacks, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:continuous-riemann-integrability-carrier}, \autoref{thm:continuous-riemann-integrability-namecert-obligations}, and \autoref{thm:continuous-riemann-integrability-darboux-handoff} seed the finite Darboux/Riemann integrability route for continuous functions on located closed real intervals.}
+  \scopeclosed{\autoref{def:continuous-riemann-integrability-carrier}, \autoref{thm:continuous-riemann-integrability-namecert-obligations}, \autoref{thm:continuous-riemann-integrability-darboux-handoff}, and \autoref{thm:continuous-riemann-integrability-uniform-modulus-handoff} seed the finite Darboux/Riemann integrability route for continuous functions on located closed real intervals.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close full integration theory, measure integration, open-cover compactness, quotient equality, selected limits, Lean verification, or bridge checking.}

@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCauchyIntervalRefinementUp$}
+\label{ch:concrete-instances-located-cauchy-interval-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedCauchyIntervalRefinementUp$ packet records the finite refinement point where a located real interval is read together with a regular Cauchy real name under one dyadic tolerance ledger. It sits beside the located interval surface of \autoref{ch:concrete-instances-located-real-interval-namecert}, the Bishop located Cauchy real packet of \autoref{ch:concrete-instances-bishop-located-cauchy-real-namecert}, and the four-object real-line interface of \autoref{ch:concrete-instances-bishop-real-line-interface-namecert}. The packet is an L10 Real and Completion naming certificate; it does not assert $\RealUp$ completeness, selected limits, quotient stream equality, trichotomy, countable choice, or bridge checking.
+
+\begin{definition}[Located Cauchy interval refinement carrier]
+\label{def:located-cauchy-interval-refinement-carrier}
+A $\LocatedCauchyIntervalRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+J=(I,B,D,S,R,A,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\LocatedRealIntervalUp$ row, supplying the interval endpoints, radius ledger, locator reads, locatedness modulus, and metric bracket route.
+\item $B$ is the $\BishopLocatedCauchyRealUp$ row, exposing the located Cauchy real interface that already binds the located interval and regular Cauchy readback surfaces.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and positive-tolerance ledger shared by interval refinement and regular Cauchy comparison.
+\item $S$ is the $\StreamNameUp$ finite-window row opened by the Cauchy name.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to the same stream windows and the same dyadic ledger $D$.
+\item $A$ is the $\RealRationalApproximationUp$ row comparing the regular rational readback with the located interval endpoints at the displayed tolerance.
+\item $W$ is the refinement witness row, recording that the interval width request and the regular Cauchy tail request consume the same dyadic tolerance before any terminal real-name seal is read.
+\item $H$ records componentwise $\hsame$ transport for the interval, located-Cauchy, dyadic, stream, regular-readback, approximation, witness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a refinement request through $I,B,D,S,R,A,W,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedCauchyIntervalRefinementUp$, $\LocatedRealIntervalUp$, $\BishopLocatedCauchyRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealRationalApproximationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedCauchyIntervalRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,B,D,S,R,A,W,H,C,P,N$. The carrier has no coordinate for $\RealUp$ completeness, selected limits, quotient stream equality, host real equality, trichotomy, countable choice, compactness, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Located Cauchy interval refinement NameCert obligations]
+\label{thm:located-cauchy-interval-refinement-namecert-obligations}
+For every accepted $\LocatedCauchyIntervalRefinementUp$ carrier $J=(I,B,D,S,R,A,W,H,C,P,N)$, the local $\NameCert_{\LocatedCauchyIntervalRefinementUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the located interval row $I$, located-Cauchy row $B$, shared dyadic ledger $D$, stream window $S$, regular readback $R$, rational approximation row $A$, refinement witness row $W$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$;
+\item located interval admission, requiring every endpoint, radius, locator, locatedness, and metric-bracket request to pass through the displayed $\LocatedRealIntervalUp$ row $I$;
+\item located Cauchy admission, requiring every Cauchy-facing read to pass through the $\BishopLocatedCauchyRealUp$ row $B$ together with $D,S,R,A,W$ before any comparison with the interval endpoints is consumed;
+\item shared tolerance discipline, requiring $D$ to be visible before both the interval refinement request and the regular Cauchy readback route are read;
+\item approximation compatibility, requiring $A$ to compare $R$ with the endpoints in $I$ only under the same dyadic row $D$;
+\item non-escape, requiring $P,N$ to export no $\RealUp$ completeness theorem, selected limit, quotient stream equality, host real equality, trichotomy, countable-choice selector, compactness principle, or bridge credential.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-cauchy-interval-refinement-carrier}. The accepted packet exposes exactly the located interval, located-Cauchy, dyadic, stream, regular-readback, approximation, witness, and structural rows.
+
+Located interval admission is supplied by $I$, using the sibling surface of \autoref{ch:concrete-instances-located-real-interval-namecert}. Located Cauchy admission is supplied by $B$, using the sibling surface of \autoref{ch:concrete-instances-bishop-located-cauchy-real-namecert}.
+
+The shared tolerance row is $D$. Since both the endpoint refinement and the Cauchy tail read cite $D$ before $S,R,A,W$ can be consumed, the packet has no route that compares interval data and Cauchy data under unrelated budgets.
+
+Approximation compatibility is the row $A$. It reads the regular rational approximation against the interval endpoints through the displayed tolerance, while $H,C,P,N$ preserve, replay, source, and name only the same finite packet.
+
+No excluded object occurs as a carrier coordinate. Hence the local NameCert surface cannot export completeness, a selected limit, quotient stream equality, host real equality, trichotomy, choice, compactness, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Located Cauchy interval refinement Cauchy route]
+\label{thm:located-cauchy-interval-refinement-cauchy-route}
+Every accepted $\LocatedCauchyIntervalRefinementUp$ packet that refines a located interval by a Cauchy readback factors through the route
+$$
+\LocatedRealIntervalUp,\ \BishopLocatedCauchyRealUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealRationalApproximationUp .
+$$
+The same dyadic row $D$ is consumed before the interval row $I$ is narrowed and before the regular Cauchy route $S,R,A$ is compared with the endpoints. The route may then replay componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ data, but it exports no selected limit, quotient stream equality, host real equality, trichotomy, countable choice, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $J=(I,B,D,S,R,A,W,H,C,P,N)$. Projection gives the located interval row $I$, the located-Cauchy row $B$, the dyadic tolerance ledger $D$, the stream window $S$, the regular readback row $R$, and the rational approximation row $A$.
+
+The interval side is read through \autoref{ch:concrete-instances-located-real-interval-namecert}. The Cauchy side is read through \autoref{ch:concrete-instances-bishop-located-cauchy-real-namecert}, with the real-line route of \autoref{ch:concrete-instances-bishop-real-line-interface-namecert} supplying the surrounding DyadicRatCore, StreamName, RegSeqRat, and Real seal discipline.
+
+The witness row $W$ records that the interval narrowing and the Cauchy tail comparison cite the same row $D$. Thus the route cannot split into one tolerance for locatedness and another tolerance for regular Cauchy readback.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the displayed route only. Since no excluded coordinate is present, the refinement packet remains a finite NameCert boundary rather than a completeness or limit-selection principle.
+\end{proof}
+
+\closureat{LocatedCauchyIntervalRefinementUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCauchyIntervalRefinementUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-cauchy-interval-refinement-carrier}, \autoref{thm:located-cauchy-interval-refinement-namecert-obligations}, and \autoref{thm:located-cauchy-interval-refinement-cauchy-route} seed the located Cauchy interval refinement boundary over $\LocatedRealIntervalUp$, $\BishopLocatedCauchyRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealRationalApproximationUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, selected limits, quotient stream equality, host real equality, trichotomy, countable choice, compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located interval admission, located Cauchy admission, shared tolerance discipline, approximation compatibility, and non-escape proofs for BEDC.Derived.LocatedCauchyIntervalRefinementUp.}
+  \constructivestory{A $\LocatedCauchyIntervalRefinementUp$ packet is generated from a LocatedRealInterval row, a BishopLocatedCauchyReal row, a shared DyadicRatCore tolerance ledger, StreamName finite windows, RegSeqRat regular readback, a RealRationalApproximation row, a refinement witness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

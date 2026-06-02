@@ -420,6 +420,29 @@ $$
 which is the claimed source-side affine-combination closure.
 \end{proof}
 
+\begin{theorem}[ConvexSet finite half-space intersection carrier]
+\label{thm:convexset-finite-halfspace-intersection-carrier}
+Let $F$ carry the shared ordered-field surface, let $V$ carry a $\VecSpaceUp(F,V)$ certificate, and let a finite family of carried affine half-spaces be presented by rows
+$$
+H_k(x)\Longleftrightarrow \ell_k(x)\preceq_F r_k
+\qquad (k\in K),
+$$
+where each $\ell_k$ is read through a carried affine or linear map and each comparison uses the $\PositiveConeUp$ nonnegative classifier over $F$. Then the finite intersection
+$$
+\mathsf{Half}(x)\Longleftrightarrow \forall k\in K.\;H_k(x)
+$$
+is admitted as a $\ConvexSetUp$ carrier. The same finite row supplies the face packet consumed by $\PolytopeUp$: every face witness is a subfamily of the displayed half-space rows together with its positive-cone comparison ledger.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite half-space row carrier $K$. In the empty case the carrier is the whole ambient carried vector-space surface, whose affine-combination closure is inherited from the $\VecSpaceUp$ and $\AffineSpaceUp$ rows used by the chapter's root convex carrier.
+
+For the step, write the intersection as a tail carrier $C$ together with one displayed half-space $H_k$. By the induction hypothesis, $C$ is a $\ConvexSetUp$ carrier. The half-space row is convex because affine or linear readback transports binary affine combinations to scalar affine combinations, and the $\PositiveConeUp$ comparison ledger preserves the nonnegative ordered-field inequality under those combinations.
+
+Apply the pointwise intersection closure of \autoref{thm:convexset-pointwise-intersection-affine-combination-closure} to $C$ and $H_k$. This admits the enlarged finite intersection as a $\ConvexSetUp$ carrier, with no separation theorem or compactness row.
+
+The face packet is read from the same finite ledger. A $\PolytopeUp$ consumer selects a subfamily of active half-space rows, and the positive-cone classifier transports the corresponding comparison witnesses. Thus the convex carrier and the polytope face packet share the displayed half-space rows rather than appealing to ambient polyhedral geometry.
+\end{proof}
+
 \begin{theorem}[ConvexSet pointwise intersection carrier commutativity]
 \label{thm:convexset-pointwise-intersection-carrier-commutative}
 Let two $\ConvexSetUp$ certificates be given as in \autoref{def:convexset-pointwise-intersection-carrier}. Write $C,D:V\to\mathsf{Prop}$ for their convex carriers, and write

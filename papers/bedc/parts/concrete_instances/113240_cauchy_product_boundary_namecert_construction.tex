@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\CauchyProductBoundaryUp$}
+\label{ch:concrete-instances-cauchy-product-boundary-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyProductBoundaryUp$ packet records the finite boundary row needed before a Cauchy product read is handed to the regular-rational and real-name consumers. It sits after the product modulus ledger of \autoref{ch:concrete-instances-cauchy-product-modulus-namecert}, the regular product criterion of \autoref{ch:concrete-instances-regular-cauchy-product-criterion-namecert}, and the synchronized criterion of \autoref{ch:concrete-instances-cauchy-product-criterion-namecert}. The packet names a finite product-modulus handoff surface, not completed-real multiplication, quotient stream equality, a selected product limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy product boundary carrier]
+\label{def:cauchy-product-boundary-carrier}
+A $\CauchyProductBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,B,W_A,W_B,D,M,K,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two accepted $\RegSeqRatUp$ source rows whose product is being read.
+\item $W_A$ and $W_B$ are synchronized $\StreamNameUp$ finite windows opened at the requested product tolerance.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-scaling row, recording the source-window tolerances, magnitude bounds, and cross-error budget needed by the product request.
+\item $M$ is the $\CauchyProductModulusUp$ budget row assigning the finite source-window budgets for the product read.
+\item $K$ is the $\RegularCauchyProductCriterionUp$ row certifying that the displayed regular source rows and budget data produce a regular Cauchy product handoff.
+\item $R$ is the $\CauchyProductCriterionUp$ real-seal handoff row.
+\item $E$ is the terminal $\RealUp$ seal row, read only after $M,K,R$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transports for the source rows, windows, dyadic budget, product-modulus row, criterion rows, seal, provenance, and local name.
+\item $C$ stores displayed $\Cont$ replay from a product precision request through the windows, dyadic scaling row, product modulus, regular criterion, real-seal criterion, and terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyProductBoundaryUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyProductModulusUp$, $\RegularCauchyProductCriterionUp$, $\CauchyProductCriterionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyProductBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,B,W_A,W_B,D,M,K,R,E,H,C,P,N$. It has no coordinate for host real multiplication, quotient stream equality, selected representatives, countable choice, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy product boundary bilinear modulus]
+\label{thm:cauchy-product-boundary-bilinear-modulus}
+For an accepted $\CauchyProductBoundaryUp$ carrier
+$$
+Q=(A,B,W_A,W_B,D,M,K,R,E,H,C,P,N),
+$$
+every bilinear product tolerance exported to a $\RegSeqRatUp$ or $\RealUp$ consumer factors through the finite boundary route
+$$
+A,B\longmapsto W_A,W_B\longmapsto D\longmapsto M\longmapsto K\longmapsto R\longmapsto E.
+$$
+Thus the product boundary supplies a modulus-mediated handoff from regular rational source rows to the terminal real seal, while refusing completed-real multiplication, quotient stream equality, selected product limits, countable choice, trichotomy, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-product-boundary-carrier}. The only source observations available to a product request are the two $\RegSeqRatUp$ source rows and the synchronized $\StreamNameUp$ finite windows $W_A,W_B$.
+
+Read the $\DyadicRatCoreUp$ row $D$. It performs the tolerance scaling for the bilinear product request by displaying the source tolerances, magnitude bounds, and cross-error budget inside finite dyadic data. The product request therefore cannot reach a downstream criterion before this scaling row is visible.
+
+Next apply the $\CauchyProductModulusUp$ budget row $M$. It allocates the finite source-window budgets consumed by the product read, so the regular criterion receives a displayed modulus row rather than an external choice of convergence rate.
+
+The $\RegularCauchyProductCriterionUp$ row $K$ turns the window and modulus data into the regular rational product handoff. The $\CauchyProductCriterionUp$ row $R$ then routes that handoff to the real-seal boundary, and $E$ is available only after this route has been displayed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite boundary. Since the carrier has no coordinate for quotient streams, selected limits, countable choice, trichotomy, host multiplication, or ambient completeness, every bilinear product tolerance exported by the packet remains inside the displayed route.
+\end{proof}
+
+\closureat{CauchyProductBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\CauchyProductBoundaryUp}
+  \constructivestory{A $\CauchyProductBoundaryUp$ packet is generated from two RegSeqRat source rows, synchronized StreamName windows, a DyadicRatCore tolerance-scaling row, a CauchyProductModulus budget row, RegularCauchyProductCriterion and CauchyProductCriterion handoff rows, a RealUp seal row, componentwise transport, displayed continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-product-boundary-carrier} and \autoref{thm:cauchy-product-boundary-bilinear-modulus} seed the finite boundary route from two regular rational source rows through StreamName windows, dyadic tolerance scaling, product modulus budgeting, product criteria, and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real multiplication, quotient stream equality, selected product limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, synchronized-window exposure, dyadic tolerance scaling, product-modulus budgeting, regular product criterion handoff, Cauchy product criterion handoff, Real seal non-escape, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}

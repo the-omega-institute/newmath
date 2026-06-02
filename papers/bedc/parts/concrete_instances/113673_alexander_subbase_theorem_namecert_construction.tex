@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\AlexanderSubbaseTheoremUp$}
+\label{ch:concrete-instances-alexander-subbase-theorem-namecert}
+\origin{human}
+
+Following Alexander and Kelley, the $\AlexanderSubbaseTheoremUp$ packet records a finite-subbase compactness route as BEDC naming data. It sits next to the compact metric finite-net surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite-product compactness route of \autoref{ch:concrete-instances-tychonoff-finite-product-namecert}, and the finite-subcover criterion of \autoref{ch:concrete-instances-finite-subcover-criterion-namecert}. The packet names only displayed subbase rows, finite obstruction ledgers, transport, replay, provenance, and local naming; it does not assert full choice-based compactness, arbitrary open-cover compactness, unrestricted Tychonoff compactness, quotient equality of covers, or a host subcover selector.
+
+\begin{definition}[AlexanderSubbaseTheorem carrier]
+\label{def:alexander-subbase-carrier}
+An $\AlexanderSubbaseTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,S,F,U,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the compactness-facing source row, read through the same finite-net discipline consumed by $\CompactMetricUp$ and $\FiniteSubcoverCriterionUp$.
+\item $S$ is the subbase row, recording the named subbasic opens available to the packet.
+\item $F$ is the finite subbase obstruction ledger, listing the finite subfamilies inspected before a cover-facing conclusion is exposed.
+\item $U$ is the finite cover-read row obtained from the displayed subbase ledger rather than from an arbitrary open cover.
+\item $B$ is the compact-product boundary row that may hand the packet to finite $\TychonoffFiniteProductUp$ consumers.
+\item $H$ records componentwise $\hsame$ transport for source, subbase, finite obstruction, finite cover, product-boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the source row through subbase rows, finite obstruction checks, finite cover reads, product-boundary handoff, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\AlexanderSubbaseTheoremUp$, $\CompactMetricUp$, $\TychonoffFiniteProductUp$, $\FiniteSubcoverCriterionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\AlexanderSubbaseTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,S,F,U,B,H,C,P,N$. It has no coordinate for a choice-selected ultrafilter, arbitrary open-cover compactness, unrestricted product compactness, quotient equality of cover families, or a host finite-subcover operation.
+\end{definition}
+
+\begin{theorem}[AlexanderSubbaseTheorem NameCert obligations]
+\label{thm:alexander-subbase-namecert-obligations}
+For every accepted $\AlexanderSubbaseTheoremUp$ carrier $A=(X,S,F,U,B,H,C,P,N)$, the local $\NameCert_{\AlexanderSubbaseTheoremUp}$ surface consists exactly of carrier admission, subbase exposure through $S$, finite obstruction exactness through $F$, finite cover-read exactness through $U$, finite product-boundary handoff through $B$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, local naming through $N$, and nonescape from full choice, arbitrary open-cover compactness, unrestricted Tychonoff compactness, quotient cover equality, and host subcover selection.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:alexander-subbase-carrier}. The only compactness-facing source is $X$, the only subbase data are in $S$, and the only finite inspection rows are $F$ and $U$.
+
+The finite-product handoff is the displayed row $B$. It can be consumed by the finite product compactness route of \autoref{ch:concrete-instances-tychonoff-finite-product-namecert}, but it does not add an unrestricted product theorem or a choice-selected product point.
+
+Transport, replay, provenance, and local naming are exactly $H,C,P,N$. Since the carrier has no coordinate for full choice, arbitrary open-cover compactness, unrestricted Tychonoff compactness, quotient cover equality, or a host subcover selector, none of those objects can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[AlexanderSubbaseTheorem finite-subcover route]
+\label{thm:alexander-subbase-finite-subcover-route}
+Every compactness-facing read from an accepted $\AlexanderSubbaseTheoremUp$ packet must display the source row $X$, the subbase row $S$, the finite obstruction ledger $F$, and the finite cover-read row $U$ before any product-boundary handoff $B$ or compactness consumer is exposed. The route factors through the finite-subcover criterion of \autoref{ch:concrete-instances-finite-subcover-criterion-namecert}, not through arbitrary open-cover compactness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier in \autoref{def:alexander-subbase-carrier}. Its compactness route is ordered by the displayed rows $X,S,F,U,B,H,C,P,N$.
+
+Apply the finite-subcover criterion of \autoref{ch:concrete-instances-finite-subcover-criterion-namecert}. The cover-facing read therefore consumes a finite criterion row before a compactness consumer can inspect the result.
+
+Use \autoref{thm:alexander-subbase-namecert-obligations} for nonescape. The packet has no arbitrary open-cover row, no host subcover operation, and no full-choice coordinate, so the exported route is the displayed finite-subbase route through $X,S,F,U$ and its structural rows.
+\end{proof}
+
+\closureat{AlexanderSubbaseTheoremUp}{seedStr}
+
+\begin{closurestatus}{\AlexanderSubbaseTheoremUp}
+  \constructivestory{An $\AlexanderSubbaseTheoremUp$ packet is generated from a compactness-facing source row, a displayed subbase row, a finite obstruction ledger, a finite cover-read row, a finite product-boundary handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:alexander-subbase-carrier}, \autoref{thm:alexander-subbase-namecert-obligations}, and \autoref{thm:alexander-subbase-finite-subcover-route} seed the finite-subbase compactness packet over compact metric, finite-product compactness, and finite-subcover criterion sibling rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full choice-based compactness, arbitrary open-cover compactness, unrestricted Tychonoff compactness, quotient equality of cover families, host finite-subcover selection, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subbase exposure, finite obstruction exactness, finite cover-read exactness, finite product-boundary handoff, transport, replay, provenance, and local naming for BEDC.Derived.AlexanderSubbaseTheoremUp.}
+\end{closurestatus}

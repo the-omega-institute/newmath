@@ -34,12 +34,30 @@ V=(I,R,S,W,H,C,P,N),
 $$
 the local $\NameCert_{\FiniteVitaliCoverUp}$ surface consists exactly of carrier admission for the finite located-interval row, dyadic radius row, selected disjoint subfamily row, shadow-coverage row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The shadow row must witness that every unselected candidate interval is covered by the controlled enlargement of a selected interval whose dyadic radius is comparable or larger, and every public cover read must pass through the route displayed by $C$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FiniteVitaliCoverUp.FiniteVitaliCoverCarrier\_namecert\_obligations}
 \begin{proof}
 Project the accepted carrier in \autoref{def:finite-vitali-cover-carrier}. The only mathematical data exposed to a cover consumer are the located interval row $I$, dyadic radius row $R$, selected subfamily row $S$, and shadow-coverage row $W$.
 
 The selected row records pairwise disjointness directly, while the shadow row records the finite witness from each unselected interval to a selected controlling interval. Thus the usual finite Vitali conclusion is read as a bounded finite shadow of the selected subfamily rather than as a measure-theoretic covering theorem.
 
 The rows $H,C,P,N$ transport, replay, source, and name exactly this finite surface. Since the carrier contains no coordinate for measure, countable choice, arbitrary open-cover compactness, host set equality, or an infinite ball family, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite Vitali cover Real-completion subcover route]\label{thm:finite-vitali-cover-real-completion-subcover-route}
+Every Real and Completion consumer of an accepted $\FiniteVitaliCoverUp$ packet factors through the finite located-interval row $I$, dyadic radius row $R$, selected finite subfamily row $S$, and shadow-coverage row $W$ before any $\RealUp$ seal is inspected. The route supplies finite shadow subcover evidence only and exports no measure estimate, arbitrary open-cover compactness, countable choice, host set equality, or global ball family.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier
+$$
+V=(I,R,S,W,H,C,P,N)
+$$
+from \autoref{def:finite-vitali-cover-carrier}. The rows $I,R,S,W$ are the only cover-facing rows available before the structural transport, replay, provenance, and naming rows are read.
+
+Use \autoref{thm:finite-vitali-cover-namecert-obligations}. The selected row $S$ supplies the finite disjoint subfamily, while the shadow row $W$ supplies, for each unselected candidate, a selected controlling interval with comparable or larger dyadic radius.
+
+Route every Real-facing read through located intervals and dyadic radii. The located row $I$ exposes the interval windows, the radius row $R$ exposes the dyadic comparisons, and $C$ replays this finite path before any downstream consumer may inspect a terminal real seal.
+
+The ledger is nonescaping because $H,C,P,N$ transport, replay, source, and name only the displayed rows. Since no row stores a measure estimate, arbitrary open-cover compactness, countable choice, host set equality, or a global ball family, the route exports exactly the finite shadow subcover evidence stated above.
 \end{proof}
 
 \closureat{FiniteVitaliCoverUp}{seedStr}

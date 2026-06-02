@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\ComplexPhaseSurfaceFiberUp$}
+\label{ch:concrete-instances-complex-phase-surface-fiber-namecert}
+\origin{ai}
+
+The $\ComplexPhaseSurfaceFiberUp$ packet realizes the complex phase surface of \autoref{def:hyperbolic-complex-phase-surface} as a finite source-fiber NameCert route. It sits beside the complex coordinate carrier of \autoref{ch:concrete-instances-complex-namecert}, the disk-coordinate surface of \autoref{ch:concrete-instances-unitdisk-namecert}, the reversible transport rows of \autoref{ch:concrete-instances-unitarygroup-namecert}, the finite flow surface of \autoref{ch:concrete-instances-dynsystem-namecert}, and the ledger-conservation packet of \autoref{ch:concrete-instances-liouville-ledger-conservation-namecert}. The source ledger remains primary: the visible complex phase token is a readout of finite source, coordinate, fiber, $\mathsf{GAP}$ residue, provenance, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, not a replacement source.
+
+\begin{definition}[Complex phase surface fiber carrier]
+\label{def:complex-phase-surface-fiber-carrier}
+A $\ComplexPhaseSurfaceFiberUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,Z,D,U,Y,L,G,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source ledger row, recording the focused finite $\Hist$ rows, selector rows, and source classifier data that make the phase readout visible.
+\item $Z$ is the $\ComplexUp$ coordinate row, exposing the visible complex token as rational-pair NameCert data.
+\item $D$ is the $\UnitDiskUp$ coordinate row when the readout is normalized to a disk-facing phase surface.
+\item $U$ is the $\UnitaryGroupUp$ reversible transport row, read only as displayed classifier-preserving transport.
+\item $Y$ is the $\DynSystemUp$ finite flow row, recording local record evolution without a hidden global dynamics.
+\item $L$ is the $\LiouvilleLedgerConservationUp$ row, requiring reversible transport to preserve source, classifier, and provenance distinctions before a conserved phase read is exported.
+\item $G$ is the $\mathsf{GAP}$ residue row, listing unresolved exits, omitted source distinctions, and boundary provenance that the visible complex token hides.
+\item $R$ is the fiber readback row. It records the exact route from $S,G$ to $Z,D,U,Y,L$ and back to the source ledger when the visible phase token is inspected.
+\item $H$ records componentwise $\hsame$ transport for source ledger, complex coordinate, disk coordinate, reversible transport, finite flow, conservation, $\mathsf{GAP}$ residue, fiber readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a phase-read request through $S,Z,D,U,Y,L,G,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ComplexPhaseSurfaceFiberUp$, $\ComplexUp$, $\UnitDiskUp$, $\UnitaryGroupUp$, $\DynSystemUp$, $\LiouvilleLedgerConservationUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ComplexPhaseSurfaceFiberUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $S,Z,D,U,Y,L,G,R,H,C,P,N$. It has no coordinate for treating a complex phase token as source equality, no hidden Hilbert-space state, no global dynamical solution, no erased $\mathsf{GAP}$ residue, no quotient phase equality, no Lean verification, and no bridge checking.
+\end{definition}
+
+\begin{theorem}[Complex phase surface fiber NameCert obligations]
+\label{thm:complex-phase-surface-fiber-namecert-obligations}
+For every accepted $\ComplexPhaseSurfaceFiberUp$ carrier
+$$
+F=(S,Z,D,U,Y,L,G,R,H,C,P,N),
+$$
+the local $\NameCert_{\ComplexPhaseSurfaceFiberUp}$ surface consists exactly of source-ledger admission, $\ComplexUp$ coordinate admission, optional $\UnitDiskUp$ coordinate admission, reversible $\UnitaryGroupUp$ transport admission, finite $\DynSystemUp$ flow admission, $\LiouvilleLedgerConservationUp$ preservation admission, $\mathsf{GAP}$ residue exposure, fiber readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The visible phase read can be exported only after the source ledger $S$, residue row $G$, and fiber readback row $R$ are displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:complex-phase-surface-fiber-carrier}. The tuple lists exactly the source, coordinate, transport, finite-flow, conservation, residue, readback, and structural rows, so the local classifier has no access to any detached phase object.
+
+The source route is upstream. The source ledger $S$ and $\mathsf{GAP}$ residue row $G$ must be visible before the complex coordinate $Z$ is interpreted as a phase readout.
+
+The representation route is finite. The rows $D,U,Y,L$ record disk normalization, reversible transport, finite flow, and ledger conservation only as displayed NameCert rows tied to $S$ and $G$.
+
+The fiber row $R$ records the return route from visible phase token to source ledger and residue. The structural rows $H,C,P,N$ preserve and name the same packet. Since the carrier has no row for source equality by phase equality, hidden Hilbert states, global dynamics, erased residue, or quotient phase equality, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Complex phase surface fiber readback discipline]
+\label{thm:complex-phase-surface-fiber-readback-discipline}
+Every accepted $\ComplexPhaseSurfaceFiberUp$ phase read factors through the finite route
+$$
+S,G,R
+\longmapsto
+\ComplexUp,\UnitDiskUp,\UnitaryGroupUp,\DynSystemUp,\LiouvilleLedgerConservationUp
+\longmapsto
+H,C,P,N .
+$$
+Consequently a downstream consumer receives a visible complex coordinate, optional disk coordinate, reversible transport, finite flow, conservation ledger, source-fiber readback, $\mathsf{GAP}$ residue, transport, replay, provenance, and local naming, and receives no source equality by phase equality, hidden global dynamics, ambient Hilbert state, erased residue, or quotient phase token.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:complex-phase-surface-fiber-namecert-obligations}. A phase consumer first reads the source ledger, the $\mathsf{GAP}$ residue, and the fiber readback row.
+
+The visible phase route then opens the coordinate and dynamics rows. The complex coordinate, disk coordinate, reversible transport, finite flow, and ledger-conservation rows are all downstream of the source-fiber data rather than independent replacements for it.
+
+Finally $H,C,P,N$ preserve that route for downstream consumers. Because the carrier has no coordinate for phase equality as source equality, hidden global dynamics, ambient Hilbert state, erased residue, or quotient phase tokens, none of those readings can be exported.
+\end{proof}
+
+\begin{theorem}[Complex phase surface TasteGate boundary]
+\label{thm:complex-phase-surface-fiber-tastegate-boundary}
+Any checked TasteGate promotion for $\ComplexPhaseSurfaceFiberUp$ must provide $\mathsf{Nontrivial}\ \ComplexPhaseSurfaceFiberUp$ and $\mathsf{FieldFaithful}\ \ComplexPhaseSurfaceFiberUp$ instances preserving the distinct rows
+$$
+S,Z,D,U,Y,L,G,R,H,C,P,N .
+$$
+Before those instances are present, the packet exports only the finite source-ledger, complex-coordinate, disk-coordinate, reversible-transport, finite-flow, ledger-conservation, $\mathsf{GAP}$ residue, fiber-readback, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:complex-phase-surface-fiber-carrier} separates source, coordinate, transport, flow, conservation, residue, and fiber-readback rows. A nontriviality instance must distinguish an accepted packet from a packet missing one of those source-fiber rows.
+
+Field faithfulness must preserve the row order rather than collapsing the visible complex coordinate into the source ledger or erasing the $\mathsf{GAP}$ residue. Thus the TasteGate boundary is exactly the requirement that future checked instances keep $S,Z,D,U,Y,L,G,R,H,C,P,N$ as distinct displayed fields.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ComplexPhaseSurfaceFiberUp$ consumer must display source ledger, $\ComplexUp$ coordinate, fiber readback, $\mathsf{GAP}$ residue, provenance, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before treating a phase token as readable output.}
+
+\independenceWitness{complex, unitdisk, unitarygroup, dynsystem, liouville-ledger-conservation: $\ComplexPhaseSurfaceFiberUp$ is not bijective to any listed sibling because it binds source ledger, visible complex coordinate, disk normalization, reversible transport, finite flow, ledger conservation, $\mathsf{GAP}$ residue, fiber readback, provenance, transport, replay, and local naming as one source-fiber packet.}
+
+\closureat{ComplexPhaseSurfaceFiberUp}{seedStr}
+
+\begin{closurestatus}{\ComplexPhaseSurfaceFiberUp}
+  \constructivestory{A $\ComplexPhaseSurfaceFiberUp$ packet is generated from source-ledger rows, a ComplexUp coordinate row, UnitDiskUp coordinate data, UnitaryGroupUp transport, DynSystemUp finite flow, LiouvilleLedgerConservationUp preservation, GAP residue, fiber readback, componentwise hsame, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:complex-phase-surface-fiber-carrier}, \autoref{thm:complex-phase-surface-fiber-namecert-obligations}, and \autoref{thm:complex-phase-surface-fiber-readback-discipline} seed the finite source-fiber phase readback route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close phase equality as source equality, hidden Hilbert-space state, global dynamical solutions, quotient phase tokens, erased GAP residue, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source-ledger admission, ComplexUp coordinate admission, fiber readback, GAP residue exposure, transport, finite-flow, conservation, Nontrivial and FieldFaithful TasteGate instances, replay, provenance, and local naming for BEDC.Derived.ComplexPhaseSurfaceFiberUp.}
+\end{closurestatus}

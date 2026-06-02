@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RuleOneTenGliderPhaseClassifierUp$}
+\label{ch:concrete-instances-rule110-glider-phase-classifier-namecert}
+\origin{ai}
+
+The $\RuleOneTenGliderPhaseClassifierUp$ packet realizes the glider-phase classifier branch of \autoref{ch:visions-cellular-automaton-substrate-reading} as finite Rule 110 NameCert data. It sits after the cellular automaton carrier of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the finite pattern catalog of \autoref{ch:concrete-instances-cellularpatterncatalog-namecert}, the Rule 110 pattern classifier of \autoref{ch:concrete-instances-rule110-pattern-classifier-namecert}, and the glider catalog of \autoref{ch:concrete-instances-rule110glidercatalog-namecert}. The packet names row windows, catalog tags, phase offsets, local-match witnesses, replay rows, provenance, and local naming; it does not assert an unbounded orbit classifier, a host visual recognizer, or a bijection between glider tags and phase-offset packets.
+
+\falsifiablePrediction{Every accepted $\RuleOneTenGliderPhaseClassifierUp$ packet exposes one finite local window, one catalog tag, one phase-offset row, one displayed local-match row, one replay row, provenance, and local $\NameCert$ data; a packet that assigns a phase without such a finite local window matching exactly one catalog tag is outside the carrier.}
+
+\independenceWitness{rule110-pattern-classifier, rule110glidercatalog, cellularpatterncatalog, cellularorbitsubstrate: none is bijective to $\RuleOneTenGliderPhaseClassifierUp$ because this packet adds a phase-offset row and a non-escape ledger to the finite glider-tag read. The pattern classifier carries broader Rule 110 tags, the glider catalog carries phase-period-displacement rows without the extra classifier seal, the cellular pattern catalog carries generic phase labels, and the cellular orbit substrate carries orbit observations without the local phase-offset classifier.}
+
+\begin{definition}[Rule 110 glider phase classifier carrier]
+\label{def:rule110-glider-phase-classifier-carrier}
+A $\RuleOneTenGliderPhaseClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+G=(R,W,K,O,M,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\CellularAutomatonUp$ Rule 110 rule-table and finite orbit-window source row.
+\item $W$ is the finite row-window row, including the start coordinate, width, time index, and bit string inspected by the classifier.
+\item $K$ is the $\RuleOneTenGliderCatalogUp$ catalog-tag row naming the glider or ether family whose local phase is being read.
+\item $O$ is the phase-offset row, recording the finite offset inside the chosen catalog period and the displayed phase string attached to that offset.
+\item $M$ is the local-match row, witnessing that the bits of $W$ match the phase string of $O$ under the neighbor discipline of $K$.
+\item $E$ is the $\RuleOneTenPatternClassifierUp$ and $\CellularPatternCatalogUp$ exposure row that keeps the broader tag classifier visible before the phase classifier exports its local mark.
+\item $L$ is the non-escape ledger excluding hidden orbit semantics, host visual recognition, phase choice outside $O$, and any second catalog tag for the same accepted local window.
+\item $H$ records componentwise $\hsame$ transport for the rule row, window, catalog tag, phase offset, local match, exposure row, non-escape ledger, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a phase-classification request through $R,W,K,O,M,E,L,H$.
+\item $P$ is the $\Pkg$ provenance over $\RuleOneTenGliderPhaseClassifierUp$, $\CellularAutomatonUp$, $\CellularPatternCatalogUp$, $\RuleOneTenPatternClassifierUp$, $\RuleOneTenGliderCatalogUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RuleOneTenGliderPhaseClassifierUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. Agreement of a glider tag without agreement of the phase-offset row $O$ is not enough to classify two accepted phase packets together.
+\end{definition}
+
+\begin{theorem}[Rule 110 glider phase classifier obligations]
+\label{thm:rule110-glider-phase-classifier-obligations}
+For every accepted $\RuleOneTenGliderPhaseClassifierUp$ carrier
+$$
+G=(R,W,K,O,M,E,L,H,C,P,N),
+$$
+the local $\NameCert_{\RuleOneTenGliderPhaseClassifierUp}$ surface consists exactly of carrier admission, catalog-tag exposure, phase-offset exactness, local-match exactness, replay discipline, provenance, non-escape, and local naming rows. Every accepted phase mark factors through
+$$
+R \longmapsto W \longmapsto K \longmapsto O \longmapsto M \longmapsto E
+$$
+with $L,H,C,P,N$ attached. The packet exports no hidden orbit classifier, no host visual recognizer, no second catalog tag for the same accepted local window, and no phase choice absent from the displayed offset row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rule110-glider-phase-classifier-carrier}. The displayed tuple lists the Rule 110 row, finite window, catalog tag, phase offset, local match, exposure, refusal, transport, replay, provenance, and local naming rows.
+
+The catalog-tag row $K$ must be read before the phase-offset row $O$, and the local-match row $M$ checks the bits of $W$ against that exact phase string. Thus a phase read cannot be detached from the catalog tag or from the finite window that witnessed it.
+
+The exposure row $E$ keeps the broader $\RuleOneTenPatternClassifierUp$ and $\CellularPatternCatalogUp$ routes visible. The non-escape ledger $L$ then excludes host visual recognition, hidden orbit semantics, and any second tag or phase source outside the displayed carrier.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this same route. Hence the rows listed in the statement exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Rule 110 glider phase classifier mark handoff]
+\label{thm:rule110-glider-phase-classifier-mark-handoff}
+Every $\RuleOneTenGliderPhaseClassifierUp$ handoff to the mark discipline exports a finite local classifier mark only after the $\CellularAutomatonUp$, $\CellularPatternCatalogUp$, $\RuleOneTenPatternClassifierUp$, and $\RuleOneTenGliderCatalogUp$ sibling rows have been displayed. The exported mark is the tuple of one local window, one catalog tag, one phase offset, one local-match witness, replay, provenance, and local $\NameCert$ row; it is not an infinite orbit fact, not an external catalog lookup, and not a host-side perceptual judgment.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $G=(R,W,K,O,M,E,L,H,C,P,N)$. The $\CellularAutomatonUp$ row $R$ supplies the local Rule 110 source, and the finite window $W$ is the only row inspected by the classifier.
+
+The pattern-catalog and Rule 110 pattern-classifier route is retained in $E$, while the glider-catalog row $K$ supplies the tag family. The phase-offset row $O$ and local-match row $M$ then refine that tag into one displayed phase mark.
+
+Finally $L,H,C,P,N$ preserve the non-escape ledger, replay route, provenance, and local name. The mark handoff therefore contains exactly the finite rows named in the statement.
+\end{proof}
+
+The Lean TasteGate namespace at \texttt{lean4/BEDC/Derived/RuleOneTenGliderPhaseClassifierUp/TasteGate.lean} must supply $\mathsf{Nontrivial}\ \RuleOneTenGliderPhaseClassifierUp$ and $\mathsf{FieldFaithful}\ \RuleOneTenGliderPhaseClassifierUp$ instances by exhibiting distinct accepted and refused phase packets and by matching on the rows $R,W,K,O,M,E,L,H,C,P,N$.
+
+\closureat{RuleOneTenGliderPhaseClassifierUp}{seedStr}
+
+\begin{closurestatus}{\RuleOneTenGliderPhaseClassifierUp}
+  \constructivestory{A $\RuleOneTenGliderPhaseClassifierUp$ packet is generated from a Rule 110 automaton row, a finite local window, a catalog tag, a phase-offset row, a displayed local-match row, pattern-catalog exposure, non-escape ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rule110-glider-phase-classifier-carrier}, \autoref{thm:rule110-glider-phase-classifier-obligations}, and \autoref{thm:rule110-glider-phase-classifier-mark-handoff} seed the finite glider-phase classifier packet for Rule 110 local windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unbounded Rule 110 orbit classification, host visual recognition, universality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, catalog-tag exposure, phase-offset exactness, local-match exactness, pattern-catalog exposure, non-escape, transport, replay, provenance, local naming, and TasteGate coverage for BEDC.Derived.RuleOneTenGliderPhaseClassifierUp.}
+\end{closurestatus}

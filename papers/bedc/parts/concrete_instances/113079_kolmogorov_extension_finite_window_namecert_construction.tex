@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\KolmogorovExtensionFiniteWindowUp$}
+\label{ch:concrete-instances-kolmogorov-extension-finite-window-namecert}
+\origin{human}
+
+Following Kolmogorov's consistency principle for finite-dimensional distributions, the $\KolmogorovExtensionFiniteWindowUp$ packet records only the finite-window surface that a BEDC probability consumer may inspect before any infinite product construction is requested. It sits over the probability carrier of \autoref{ch:concrete-instances-probspace-namecert}, the distribution ledger of \autoref{ch:concrete-instances-distribution-namecert}, the measurable random-variable rows of \autoref{ch:concrete-instances-randomvar-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names finite marginal windows and their compatibility rows; it does not import infinite product measures, countable choice, a host sigma-product construction, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Kolmogorov finite-window carrier]
+\label{def:kolmogorov-extension-finite-window-carrier}
+A $\KolmogorovExtensionFiniteWindowUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,W,\mu,\pi,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index-window ledger, naming the inspected coordinate set and its included subwindows.
+\item $W$ is the $\StreamNameUp$ observation schedule used to read the finite coordinate windows.
+\item $\mu$ is the family of finite $\DistributionUp$ rows over the displayed windows, read inside the probability context of $\ProbSpaceUp$.
+\item $\pi$ is the marginal-projection row, recording how a larger displayed window restricts to a smaller displayed window.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed probabilities and comparison tolerances.
+\item $H$ records componentwise $\hsame$ transport for $I,W,\mu,\pi,R$.
+\item $C$ records displayed $\Cont$ replay from a marginal request through window exposure, distribution readback, projection, and rational comparison.
+\item $P$ is the $\Pkg$ provenance over $\KolmogorovExtensionFiniteWindowUp$, $\ProbSpaceUp$, $\DistributionUp$, $\RandomVarUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KolmogorovExtensionFiniteWindowUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite sample space, product sigma algebra, countable selection of cylinder representatives, completed measure, host random process, or ambient real-completeness principle.
+\end{definition}
+
+\begin{theorem}[Kolmogorov finite-window NameCert obligations]
+\label{thm:kolmogorov-extension-finite-window-namecert-obligations}
+For every accepted $\KolmogorovExtensionFiniteWindowUp$ carrier $K=(I,W,\mu,\pi,R,H,C,P,N)$, the local $\NameCert_{\KolmogorovExtensionFiniteWindowUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed finite index windows, observation schedule, distribution rows, projection rows, readback rows, transports, replay, provenance, and local name;
+\item window exposure, requiring every marginal request to name a displayed subwindow of $I$ before a distribution row is read;
+\item distribution compatibility, requiring each finite window to read its probability data through $\DistributionUp$ and $\ProbSpaceUp$ rows;
+\item marginal projection exactness, requiring the row $\pi$ to compare larger-window distributions with smaller-window distributions through the same $\RegSeqRatUp$ readback $R$;
+\item nonescape, excluding infinite product measures, countable choice, host sigma-product construction, quotient random processes, and ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:kolmogorov-extension-finite-window-carrier}. The tuple displays exactly the finite rows that the local certificate may name.
+
+Window exposure follows from $I$ and $W$. A request that does not name a displayed window has no route to a distribution row.
+
+Distribution compatibility is the role of $\mu$ and $P$. The finite probability data are read through the existing $\DistributionUp$, $\ProbSpaceUp$, and $\RandomVarUp$ sibling surfaces rather than through a host probability space.
+
+Marginal projection exactness is recorded by $\pi$ and checked through $R$. The same regular-rational readback compares both the larger-window and smaller-window probability values.
+
+Finally, $H,C,P,N$ only transport, replay, source, and name those rows. Since no omitted object is a coordinate of $K$, the nonescape clause is part of the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Kolmogorov finite-window marginal consistency]
+\label{thm:kolmogorov-extension-finite-window-marginal-consistency}
+Let $K=(I,W,\mu,\pi,R,H,C,P,N)$ be an accepted $\KolmogorovExtensionFiniteWindowUp$ carrier. If a displayed window $J$ is included in a displayed window $L$ inside $I$, then every marginal read from the $L$-distribution row to the $J$-distribution row factors through
+$$
+I,W,\mu,\pi,R,H,C,P,N .
+$$
+Thus the finite-window packet supplies marginal consistency for displayed windows only, and it exports no infinite product measure, countable-choice selector, host sigma-product construction, quotient stochastic process, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the inclusion $J\subseteq L$ from the finite index-window ledger $I$. The observation schedule $W$ exposes exactly the coordinate windows that may be inspected.
+
+The distribution rows $\mu$ provide the probability data for $J$ and $L$. The projection row $\pi$ is the only row that relates the larger displayed distribution to the smaller displayed distribution.
+
+The comparison is read through $R$, then transported and replayed by $H$ and $C$. Provenance and local naming through $P,N$ preserve the same finite route.
+
+Because the carrier has no product sigma algebra, completed infinite product measure, countable selector, or host stochastic-process coordinate, the theorem closes only the displayed finite-window marginal consistency surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\KolmogorovExtensionFiniteWindowUp$ consumer that reads a smaller-window distribution without displaying the containing finite window, the projection row, and the $\RegSeqRatUp$ readback refutes the carrier surface.}
+
+\independenceWitness{probspace, distribution, randomvar, streamname, regseqrat: no listed sibling supplies the full finite-window consistency packet $K=(I,W,\mu,\pi,R,H,C,P,N)$, because each sibling contributes only probability context, finite distribution data, measurable random-variable reads, observation windows, or rational readback while this chapter binds them to marginal projection exactness and nonescape.}
+
+\closureat{KolmogorovExtensionFiniteWindowUp}{seedStr}
+
+\begin{closurestatus}{\KolmogorovExtensionFiniteWindowUp}
+  \constructivestory{A $\KolmogorovExtensionFiniteWindowUp$ packet is generated from finite index windows, stream observation rows, finite distribution rows, marginal projection rows, regular rational readback, componentwise hsame transport, displayed Cont replay, package provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kolmogorov-extension-finite-window-carrier}, \autoref{thm:kolmogorov-extension-finite-window-namecert-obligations}, and \autoref{thm:kolmogorov-extension-finite-window-marginal-consistency} seed the finite-window marginal-consistency surface over probability, distribution, random-variable, stream-window, and regular-rational rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite product measures, countable choice, host sigma-product construction, quotient random processes, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exposure, distribution compatibility, marginal projection exactness, readback stability, nonescape, transport, replay, provenance, and local naming for BEDC.Derived.KolmogorovExtensionFiniteWindowUp.}
+\end{closurestatus}

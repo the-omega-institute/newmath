@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\PicardLindelofLocalIterationUp$}
+\label{ch:concrete-instances-picard-lindelof-local-iteration-namecert}
+\origin{human}
+
+Following Picard, Lindelof, and Bishop--Bridges, the $\PicardLindelofLocalIterationUp$ packet records the local ODE approximation surface that lies between the finite $\PicardIterationUp$ ledger of \autoref{ch:concrete-instances-picard-iteration-namecert} and the local-flow endpoint of \autoref{ch:concrete-instances-picard-lindelof-local-flow-namecert}. It reads the ODE source of \autoref{ch:concrete-instances-ode-namecert}, the Lipschitz vector-field surface of \autoref{ch:concrete-instances-lipschitzmap-namecert}, and the completion-facing L10 route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names a local finite iteration handoff; it is not a host solution curve, a selected fixed point, a quotient path space, or an ambient $\RealUp$ completeness principle.
+
+\begin{definition}[Picard--Lindelof local iteration carrier]
+\label{def:picard-lindelof-local-iteration-carrier}
+A $\PicardLindelofLocalIterationUp$ carrier is a finite $\BHist$ packet
+$$
+P=(O,F,I,M,S,R,E,H,C,P_0,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ local time-state row, naming the initial cell, local interval, and state-window boundary used by all later reads.
+\item $F$ is the $\LipschitzMapUp$ vector-field row on the same local window, including the displayed graph reads and Lipschitz budget available to the Picard operator.
+\item $I$ is the $\PicardIterationUp$ finite iteration ledger, recording the inspected approximants and their one-step reads through $F$.
+\item $M$ is the $\CompleteMetricUp$ approximant-space row, exposing the Cauchy-modulus and late-comparison data needed before a completion-facing read is allowed.
+\item $S$ is the $\StreamNameUp$ row naming the visible approximation windows without replacing them by a host sequence object.
+\item $R$ is the $\RegSeqRatUp$ handoff row for the same windows, local radius budgets, and regular rational readbacks.
+\item $E$ is the terminal $\RealUp$ seal boundary reached only after $S$ and $R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the ODE source, Lipschitz ledger, Picard iteration ledger, complete-metric row, stream windows, regular rational readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$$
+O,F,I,M,S,R,E \longmapsto H,P_0,N .
+$$
+\item $P_0$ is the $\Pkg$ provenance over $\PicardLindelofLocalIterationUp$, $\OdeUp$, $\LipschitzMapUp$, $\PicardIterationUp$, $\CompleteMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PicardLindelofLocalIterationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,F,I,M,S,R,E,H,C,P_0,N$. It has no coordinate for a global solution, a maximal continuation interval, host function equality, selected limits, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Picard--Lindelof local iteration obligations]
+\label{thm:picard-lindelof-local-iteration-obligation-surface}
+For every accepted $\PicardLindelofLocalIterationUp$ carrier
+$$
+P=(O,F,I,M,S,R,E,H,C,P_0,N),
+$$
+the local $\NameCert_{\PicardLindelofLocalIterationUp}$ surface consists exactly of carrier admission for the displayed $\OdeUp$ row, $\LipschitzMapUp$ row, $\PicardIterationUp$ ledger, $\CompleteMetricUp$ approximant-space row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:picard-lindelof-local-iteration-carrier}. The ODE and vector-field rows are $O$ and $F$, so every approximation read first fixes the initial cell, local window, and displayed Lipschitz graph data.
+
+The finite iteration and completion-facing rows are $I$ and $M$. The row $I$ records only the Picard approximants inspected in the packet, while $M$ exposes the complete-metric Cauchy and late-comparison data needed before a completion-facing consumer can ask for a terminal read.
+
+The L10 readback rows are $S,R,E$. They route the visible approximants through finite stream windows, regular rational readbacks, and the real seal boundary of the same packet, so no host sequence, selected limit, quotient equality, or ambient completeness coordinate is introduced.
+
+Finally $H,C,P_0,N$ transport, replay, source, and name exactly the same rows. These structural rows cannot add a global solution, a maximal continuation interval, or host function equality, so the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[Picard--Lindelof RegSeqRat handoff]
+\label{thm:picard-lindelof-regseqrat-handoff}
+Every accepted $\PicardLindelofLocalIterationUp$ carrier hands its visible Picard approximants to the L10 completion route only through
+$$
+\PicardIterationUp \longmapsto \CompleteMetricUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Consequently the $\RegSeqRatUp$ row $R$ is downstream of the finite iteration ledger $I$, the complete-metric row $M$, and the stream-name row $S$, and upstream of the real-seal boundary $E$. The handoff exports no selected local solution, quotient stream equality, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the finite iteration ledger $I$. It is the only carrier row that stores Picard approximants, and every approximant in it is read from the same ODE row $O$ and Lipschitz row $F$.
+
+The complete-metric row $M$ is downstream of that ledger. It records the Cauchy-modulus and late-comparison surface for the displayed approximants, not a selected endpoint or an ambient completeness theorem.
+
+Now read the L10 rows $S,R,E$. The stream-name row $S$ names the finite approximation windows, the regular rational row $R$ reads those windows with their local budgets, and the real-seal boundary $E$ is visible only after both rows have been displayed.
+
+The structural rows $H,C,P_0,N$ preserve and name the same route. Since no coordinate stores a selected local solution, quotient stream equality, countable-choice schedule, host real equality, or ambient $\RealUp$ completeness, every RegSeqRat handoff remains inside the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\PicardLindelofLocalIterationUp$ read exposes one Ode local time-state row, one LipschitzMap vector-field row, one PicardIteration finite ledger, one CompleteMetric approximant-space row, one StreamName window row, one RegSeqRat readback row, one RealUp seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{picard-lindelof, picard-iteration, picard-lindelof-local-flow, streamname, regseqrat, dyadicratcore, real: $\PicardLindelofLocalIterationUp$ is not bijective to any listed sibling because it jointly carries the ODE local window, Lipschitz vector-field ledger, finite Picard iteration ledger, complete-metric approximation row, L10 stream and regular-rational readback rows, real seal boundary, transport, replay, provenance, and local naming.}
+
+\closureat{PicardLindelofLocalIterationUp}{seedStr}
+
+\begin{closurestatus}{\PicardLindelofLocalIterationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:picard-lindelof-local-iteration-carrier}, \autoref{thm:picard-lindelof-local-iteration-obligation-surface}, and \autoref{thm:picard-lindelof-regseqrat-handoff} seed the finite local Picard iteration packet between ODE Lipschitz data, complete-metric approximation, L10 readback, and the real seal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global ODE existence, maximal interval continuation, selected local solutions, quotient path or stream equality, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ODE local-window compatibility, Lipschitz vector-field stability, PicardIteration ledger visibility, CompleteMetric approximation routing, StreamName and RegSeqRat readback, Real seal discipline, transport, replay, provenance, and local naming for BEDC.Derived.PicardLindelofLocalIterationUp.}
+  \constructivestory{A $\PicardLindelofLocalIterationUp$ packet is generated from Ode, LipschitzMap, PicardIteration, CompleteMetric, StreamName, RegSeqRat, Real, componentwise hsame, displayed Cont, Pkg provenance, and local NameCert rows.}
+\end{closurestatus}

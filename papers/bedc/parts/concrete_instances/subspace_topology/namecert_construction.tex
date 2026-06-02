@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\SubspaceTopologyUp$}
+\label{ch:concrete-instances-subspace-topology-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley, the $\SubspaceTopologyUp$ packet records the induced topology on a displayed carrier inside an ambient topological space as finite BEDC naming data. It sits between the indexed-open topology surface of \autoref{ch:concrete-instances-topology-namecert}, the metric-subspace restriction packet of \autoref{ch:concrete-instances-metric-subspace-namecert}, and the existing $\mathsf{BHist}$ subspace-open surface in \autoref{def:topology-bhist-subspace-open-surface}. The packet gives compact-subspace, restriction-of-continuity, and relative-open consumers a general topology-level carrier, without forcing them through metric distance rows, host powersets, quotient subset equality, or selected ambient points.
+
+\begin{definition}[SubspaceTopology carrier]
+\label{def:subspace-topology-carrier}
+A $\SubspaceTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,A,O,R,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the ambient $\TopologyUp$ row, exposing the point classifier, indexed-open ledger, finite-intersection rows, arbitrary-union rows, boundary opens, and visible open-membership stability.
+\item $A$ is the displayed admission row for the subspace carrier. A point is available to the subspace packet only when it passes the ambient point classifier of $X$ and the admission row $A$.
+\item $O$ is the relative-open row. Each accepted subspace open is displayed as an ambient open row of $X$ together with restriction to admitted points.
+\item $R$ is the restriction-exactness row, recording that membership in a relative open is read only as simultaneous admission by $A$ and ambient membership in the corresponding open row of $X$.
+\item $B$ is the boundary and closure ledger, recording empty, whole-of-subspace, finite-intersection, and arbitrary-union rows obtained by restricting the corresponding ambient topology rows.
+\item $H$ records componentwise $\hsame$ transport for the ambient topology, admission row, relative-open row, restriction exactness, boundary and closure ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a relative-open request through $X,A,O,R,B,H$.
+\item $P$ is the $\Pkg$ provenance over $\SubspaceTopologyUp$, $\TopologyUp$, $\MetricSubspaceUp$, \autoref{def:topology-bhist-subspace-open-surface}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SubspaceTopologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,A,O,R,B,H,C,P,N$. It has no coordinate for host powersets, quotient subset equality, selected ambient representatives, independent open selectors, metric distance data, or a replacement topology.
+\end{definition}
+
+\begin{theorem}[SubspaceTopology NameCert obligations]
+\label{thm:subspace-topology-namecert-obligations}
+For every accepted $\SubspaceTopologyUp$ carrier $S=(X,A,O,R,B,H,C,P,N)$, the local $\NameCert_{\SubspaceTopologyUp}$ surface consists exactly of carrier admission for the ambient topology and admission rows, relative-open exposure, restriction exactness, boundary and closure rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every relative-open consumer must read the route
+$$
+\TopologyUp,A,O,R,B,H,C,P,N
+$$
+before treating a subspace open as public.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:subspace-topology-carrier}. The available rows are the ambient topology $X$, admission predicate $A$, relative-open row $O$, restriction exactness $R$, boundary and closure ledger $B$, and the structural rows $H,C,P,N$.
+
+Relative-open exposure is the role of $O$ and $R$. A public subspace membership read is not a host subset membership; it is the displayed conjunction of the admission row $A$ and an ambient open-membership row of $X$.
+
+The boundary and closure rows are inherited from the ambient topology. Empty and whole-of-subspace opens are obtained by restricting the corresponding boundary opens of $X$, finite intersections restrict the ambient meet row, and arbitrary unions restrict the ambient union row while keeping the same admission predicate.
+
+Transport and replay preserve the same route. The row $H$ aligns the ambient classifier and admission predicate, $C$ replays relative-open requests through the displayed rows, and $P,N$ source and name the packet.
+
+Since host powersets, quotient subset equality, selected representatives, independent open selectors, metric distance data, and replacement topologies are absent from the carrier, no local NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[SubspaceTopology neighbour compatibility]
+\label{thm:subspace-topology-neighbour-compatibility}
+Every $\SubspaceTopologyUp$ packet refines the ambient $\TopologyUp$ row by restriction to admitted points, and every $\MetricSubspaceUp$ topology consumer may read the same admission row through this topology-level packet before invoking metric distance data. In particular, the relative-open route factors as
+$$
+X,A \longmapsto O,R,B \longmapsto H,C,P,N ,
+$$
+so compact subspace, continuity restriction, and metric-subspace consumers can share the same displayed subspace carrier while keeping metric distances outside the general topology certificate.
+\end{theorem}
+\begin{proof}
+Start with an accepted $\SubspaceTopologyUp$ carrier and project the ambient topology row $X$ and admission row $A$. These two rows determine the carrier on which all relative-open reads take place.
+
+Use \autoref{thm:subspace-topology-namecert-obligations}. It forces every relative-open read through $O,R,B$ after the admission row has been displayed, and it keeps transport, replay, provenance, and local naming in $H,C,P,N$.
+
+A $\MetricSubspaceUp$ consumer supplies a compatible admission row and an inherited distance ledger, but those metric rows are not needed to form the relative opens. The topology-level packet can therefore be read first, and metric distance data can be invoked only by consumers that explicitly require it.
+
+Thus the packet is the common neighbour of the ambient topology and metric-subspace surfaces: it restricts opens by admission, names the induced topology, and does not add an independent metric or host subset coordinate.
+\end{proof}
+
+\closureat{SubspaceTopologyUp}{seedStr}
+
+\begin{closurestatus}{\SubspaceTopologyUp}
+  \constructivestory{A $\SubspaceTopologyUp$ packet is generated from an ambient TopologyUp row, displayed admission row, relative-open row, restriction-exactness row, boundary and closure ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subspace-topology-carrier}, \autoref{thm:subspace-topology-namecert-obligations}, and \autoref{thm:subspace-topology-neighbour-compatibility} seed the finite induced-topology interface over ambient topology, admission, relative opens, restriction exactness, closure rows, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host powerset topologies, quotient subset equality, selected ambient representatives, independent open selectors, metric distance construction, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, relative-open exposure, restriction exactness, inherited boundary and closure rows, neighbour compatibility with MetricSubspaceUp, transport, replay, provenance, and local naming for BEDC.Derived.SubspaceTopologyUp.}
+\end{closurestatus}

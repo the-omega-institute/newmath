@@ -1,0 +1,62 @@
+\chapter{Channel Termination Budget Certificate NameCert Construction}
+\label{ch:concrete-instances-channel-termination-budget-certificate-namecert}
+\origin{ai}
+
+The $\ChannelTerminationBudgetCertificateUp$ packet realizes the local channel terminator and global halting-boundary separation of \autoref{ch:visions-channel-termination-vs-halting-boundary} as finite budget-certificate NameCert data. It sits beside the existing channel boundary packet of \autoref{ch:concrete-instances-channel-termination-halting-boundary-namecert}, the termination refusal packet of \autoref{ch:concrete-instances-terminationrefusalboundary-namecert}, the certificate compiler surface of \autoref{ch:concrete-instances-certificatecompiler-namecert}, and the bounded checker-budget surface of \autoref{ch:concrete-instances-bounded-typechecking-budget-namecert}. The packet names a local event-delimiter budget and a refusal ledger for global certificate-level halting; it does not export a total halting classifier, an unbounded parser oracle, a host machine semantics theorem, proof-irrelevant equality, or a standard bridge.
+
+\begin{definition}[Channel termination budget-certificate carrier]\label{def:channel-termination-budget-certificate-carrier}
+A $\ChannelTerminationBudgetCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,L,Z,F,G,R,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $A$ is the active channel alphabet row. It records the binary source glyphs, the body fragments $0$ and $10$, and the displayed terminator $11$.
+\item $L$ is the legal-event row. It records that a channel event lies in $(0\mid 10)^{*}11$ and exposes the finite body fragments inspected before the terminator.
+\item $Z$ is the streaming scan budget row. It lists the finite positions inspected by the decoder until the first channel-level $11$ is reached.
+\item $F$ is the local finish row. It certifies that the first displayed $11$ ends the current legal event and that the body before it decodes to a source event.
+\item $G$ is the global-halting refusal row. It records that the finite local finish row is not a total classifier for arbitrary $\Cont_{P}$-chains.
+\item $R$ is the sibling route row through the channel boundary, termination refusal, certificate compiler, and bounded checker-budget packets.
+\item $H$ records componentwise $\hsame$ transport for $A,L,Z,F,G,R$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+A,L,Z \longmapsto F,G,R \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ChannelTerminationBudgetCertificateUp$, $\ChannelTerminationHaltingBoundaryUp$, $\TerminationRefusalBoundaryUp$, $\CertificateCompilerUp$, $\BoundedTypecheckingBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ChannelTerminationBudgetCertificateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,L,Z,F,G,R,H,C,P,N$. It has no coordinate for global halting decidability, an unbounded parser oracle, fuel-erased evaluation, host machine equality, proof irrelevance, or a bridge field.
+\end{definition}
+
+\begin{theorem}[Channel termination budget-certificate local-global boundary]\label{thm:channel-termination-budget-certificate-local-global-boundary}
+For every accepted $\ChannelTerminationBudgetCertificateUp$ carrier $B=(A,L,Z,F,G,R,H,C,P,N)$, a local channel-event read is certified by the finite route
+$$
+A,L,Z \longmapsto F
+$$
+while any attempted promotion to certificate-level halting must keep the refusal row $G$ and sibling route row $R$ in scope. Consequently the packet proves only that a legal channel event has a budgeted delimiter endpoint; it does not decide whether an arbitrary $\NameCert_{P}$ and history $h$ produce a terminating $\Cont_{P}$-chain.
+\end{theorem}
+\begin{proof}
+Project the local channel route first. The alphabet row $A$ names the fragments and terminator, $L$ confirms that the inspected event is legal, and $Z$ supplies the finite scan positions leading to the first channel-level $11$.
+
+The local finish row $F$ is then read. It certifies the delimiter endpoint for the current event and the body decode before that endpoint, matching the local termination theorem of \autoref{ch:visions-channel-termination-vs-halting-boundary}.
+
+The global boundary is separate. Row $G$ records that this finite delimiter budget is not a total classifier over arbitrary certificate histories, and $R$ routes that refusal through the channel-boundary, termination-refusal, compiler, and bounded-budget sibling packets.
+
+Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same separation, so no consumer may erase $G$ and read the local delimiter certificate as a global halting decision.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\ChannelTerminationBudgetCertificateUp$ consumer that exports a total certificate-level halting classifier while omitting the global-halting refusal row $G$ and sibling route row $R$ refutes the carrier of \autoref{def:channel-termination-budget-certificate-carrier}.}
+
+\independenceWitness{channel-termination-halting-boundary, terminationrefusalboundary, certificatecompiler, bounded-typechecking-budget: $\ChannelTerminationBudgetCertificateUp$ is not bijective to any listed sibling because it carries the joint active alphabet, legal-event, finite scan-budget, local finish, global-halting refusal, sibling route, transport, replay, provenance, and local NameCert rows. The channel-boundary sibling separates event and halting strata without the explicit scan-budget certificate; the termination-refusal sibling records refusal visibility without the local delimiter budget; the certificate compiler sibling records compiler graph rows without the channel endpoint budget; the bounded checker-budget sibling records typechecking fuel without the channel terminator route.}
+
+\closureat{ChannelTerminationBudgetCertificateUp}{seedStr}
+
+\begin{closurestatus}{\ChannelTerminationBudgetCertificateUp}
+  \constructivestory{A $\ChannelTerminationBudgetCertificateUp$ packet is generated from an active channel alphabet row, legal-event row, streaming scan-budget row, local finish row, global-halting refusal row, sibling route row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:channel-termination-budget-certificate-carrier} and \autoref{thm:channel-termination-budget-certificate-local-global-boundary} seed the finite local-delimiter budget certificate and its global-halting refusal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global halting decidability, unbounded parser or evaluator totality, host machine semantics, proof-irrelevant equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, legal-event budget exactness, local finish correctness, global-halting refusal nonescape, sibling route coverage, provenance, and local naming for BEDC.Derived.ChannelTerminationBudgetCertificateUp.}
+\end{closurestatus}

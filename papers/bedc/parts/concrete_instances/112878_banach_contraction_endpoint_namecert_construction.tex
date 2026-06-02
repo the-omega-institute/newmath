@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\BanachContractionEndpointUp$}
+\label{ch:concrete-instances-banach-contraction-endpoint-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges on constructive fixed-point iteration, the $\BanachContractionEndpointUp$ packet records the finite fixed-endpoint seal for a contraction orbit over a complete separated metric source. It sits after the contraction certificate of \autoref{ch:concrete-instances-banach-contraction-namecert}, the contraction-map surface of \autoref{ch:concrete-instances-contractionmapping-namecert}, the Picard orbit interface of \autoref{ch:concrete-instances-picard-iteration-namecert}, the complete metric service of \autoref{ch:concrete-instances-completemetric-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the endpoint read as displayed NameCert data; it is not a host-selected fixed point, a quotient completion, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Banach contraction endpoint carrier]
+\label{def:banach-contraction-endpoint-carrier}
+A $\BanachContractionEndpointUp$ carrier is a finite $\BHist$ packet
+$$
+E=(X,F,O,M,L,U,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the complete separated metric source row consumed by the contraction.
+\item $F$ is the contraction source row, naming the displayed $\BanachContractionUp$ and $\ContractionMappingUp$ data.
+\item $O$ is the $\PicardIterationUp$ orbit row generated from the displayed source and contraction data.
+\item $M$ is the Cauchy modulus row for the orbit, recording the finite tail budget used by the completion service.
+\item $L$ is the complete-metric endpoint row reached from the displayed orbit and modulus.
+\item $U$ is the separated uniqueness row, showing that any accepted endpoint read is forced through the same completion boundary.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the endpoint observations.
+\item $R$ is the terminal $\RealUp$ seal row, available only after $X,F,O,M,L,U,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source, contraction, orbit, modulus, endpoint, uniqueness, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for the same endpoint route.
+\item $P$ is the $\Pkg$ provenance over $\BanachContractionEndpointUp$, $\BanachContractionUp$, $\ContractionMappingUp$, $\PicardIterationUp$, $\CompleteMetricUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BanachContractionEndpointUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,F,O,M,L,U,Q,R,H,C,P,N$. It has no coordinate for a host-selected fixed point, quotient completion, ambient real completeness, countable choice, or a fixed-point theorem detached from the displayed orbit and endpoint seal.
+\end{definition}
+
+\begin{theorem}[Banach contraction endpoint NameCert obligations]
+\label{thm:banach-contraction-endpoint-namecert-obligations}
+For every accepted $\BanachContractionEndpointUp$ carrier
+$$
+E=(X,F,O,M,L,U,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\BanachContractionEndpointUp}$ surface consists exactly of complete separated metric admission through $X$, contraction-source exposure through $F$, Picard-orbit exposure through $O$, Cauchy-modulus exposure through $M$, complete-metric endpoint exposure through $L$, separated uniqueness through $U$, regular rational readback through $Q$, real seal exposure through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:banach-contraction-endpoint-carrier}. The endpoint-facing rows are $X,F,O,M,L,U,Q,R$, and the structural rows are $H,C,P,N$.
+
+The contraction route is read in order. Rows $X$ and $F$ provide the complete separated metric source and contraction data, $O$ records the Picard orbit, and $M$ supplies the finite Cauchy budget that lets the completion service expose $L$.
+
+The endpoint is then sealed only through $U,Q,R,H,C,P,N$. Separated uniqueness, regular rational readback, and the terminal real seal remain displayed rows of the same packet, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Banach contraction endpoint nonescape]
+\label{thm:banach-contraction-endpoint-nonescape}
+Every $\RealUp$ or fixed-endpoint consumer of an accepted $\BanachContractionEndpointUp$ packet reaches the endpoint only through
+$$
+\CompleteMetricUp,\ \BanachContractionUp,\ \ContractionMappingUp,\ \PicardIterationUp,\ \RegSeqRatUp,\ \RealUp
+$$
+as displayed by the rows $X,F,O,M,L,U,Q,R,H,C,P,N$. No consumer may replace that route by a host-selected fixed point, quotient completion, countable choice, ambient $\RealUp$ completeness, or a fixed-point theorem detached from the Picard orbit.
+\end{theorem}
+\begin{proof}
+Apply the obligations theorem \autoref{thm:banach-contraction-endpoint-namecert-obligations}. It requires every endpoint read to expose the complete source, contraction source, Picard orbit, Cauchy modulus, completion endpoint, separated uniqueness, readback, and seal rows.
+
+The terminal real seal $R$ is downstream of $Q$, and $Q$ is downstream of the displayed endpoint row $L$. Thus a Real-facing consumer cannot reach $R$ without first reading the orbit and completion route carried by $O,M,L$.
+
+Since the classifier has no coordinate for host-selected fixed points, quotient completion, countable choice, ambient completeness, or detached fixed-point theorems, those reads cannot be exported by an accepted packet.
+\end{proof}
+
+\closureat{BanachContractionEndpointUp}{seedStr}
+
+\begin{closurestatus}{\BanachContractionEndpointUp}
+  \constructivestory{A $\BanachContractionEndpointUp$ packet is generated from a complete separated metric source, contraction data, a Picard orbit, a Cauchy modulus, a complete-metric endpoint row, separated uniqueness, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-contraction-endpoint-carrier}, \autoref{thm:banach-contraction-endpoint-namecert-obligations}, and \autoref{thm:banach-contraction-endpoint-nonescape} seed the fixed-endpoint certificate for contraction orbits over complete separated metric sources.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host-selected fixed points, quotient completions, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, contraction-source routing, Picard orbit exposure, Cauchy-modulus exactness, complete-metric endpoint exposure, separated uniqueness, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BanachContractionEndpointUp.}
+\end{closurestatus}

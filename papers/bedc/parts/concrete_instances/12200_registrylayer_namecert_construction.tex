@@ -65,18 +65,18 @@ Suppose a consumer exhibits neither. Then the classifier row $F$ has no registry
 It follows that the local naming row $N$ names no exported claim in this case. The attempted prose-only reading therefore fails to escape the registry layer.
 \end{proof}
 
-The Lean follow-up must provide $\Nontrivial\ \RegistryLayerUp$ and $\FieldFaithful\ \RegistryLayerUp$ in \texttt{lean4/BEDC/Derived/RegistryLayerUp/TasteGate.lean}, preserving $C,T,G,D,S,K,U,F,H,P,N$ as separate displayed rows before $\mathsf{BEDC.Derived.RegistryLayerUp.taste\_gate}$ can be cited by a checked paper marker.
+The obligation boundary is anchored by the TasteGate carrier in \texttt{lean4/BEDC/Derived/RegistryLayerUp/TasteGate.lean}, preserving $C,T,G,D,S,K,U,F,H,P,N$ as separate displayed rows for $\mathsf{BEDC.Derived.RegistryLayerUp.taste\_gate}$.
 
 \falsifiablePrediction{If the cannot-claim row is removed, the packet cannot distinguish blocked export from unregistered absence; if the theorem-registry row is removed, theorem export cannot be audited.}
 
 \independenceWitness{selectorledger, focused-multi-hist-ledger, choicerecipeledger, axiomrequirementledger, witnesseddescentledger: none is bijective because RegistryLayer carries simultaneous admit/block/export rows, while those siblings carry selector, focused-record, recipe, axiom-requirement, or descent rows only.}
 
-\closureat{RegistryLayerUp}{seedStr}
+\closureat{RegistryLayerUp}{scopedStr}[BEDC.Derived.RegistryLayerUp.taste\_gate]
 
 \begin{closurestatus}{\RegistryLayerUp}
   \constructivestory{A $\RegistryLayerUp$ packet is generated from concept, theorem, gap, tradition-and-science, cannot-claim, upgrade, formalization-target, export-control, componentwise hsame transport, package provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:registry-layer-carrier}, \autoref{thm:registry-layer-namecert-obligations}, \autoref{thm:registry-layer-export-control-exactness}, and \autoref{thm:registry-layer-claim-nonescape} bind registry-layer export control to one finite NameCert packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:registry-layer-carrier}, \autoref{thm:registry-layer-namecert-obligations}, \autoref{thm:registry-layer-export-control-exactness}, and \autoref{thm:registry-layer-claim-nonescape} bind the carrier, NameCert obligations, export-control exactness, claim nonescape, TasteGate marker \leanchecked{BEDC.Derived.RegistryLayerUp.taste\_gate}, $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows for $C,T,G,D,S,K,U,F,H,P,N$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

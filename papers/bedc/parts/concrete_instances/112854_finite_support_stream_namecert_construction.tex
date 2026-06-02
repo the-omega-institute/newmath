@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSupportStreamUp$}
+\label{ch:concrete-instances-finite-support-stream-namecert}
+\origin{human}
+
+Following Bishop-style sequence spaces, the $\FiniteSupportStreamUp$ packet records the finite-support stream route by which a displayed sequence supplies bounded-window approximants before any $\RegSeqRatUp$ or $\RealUp$ consumer reads a seal. It sits after the StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the finite list carrier of \autoref{ch:concrete-instances-list-namecert}. The packet names an eventually-zero support bound as finite certificate data; it is not a quotient stream, countable choice schedule, selected limit, or ambient completeness principle.
+
+\begin{definition}[Finite-support stream carrier]
+\label{def:finite-support-stream-carrier}
+A $\FiniteSupportStreamUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,B,L,D,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row for the stream windows inspected by the packet.
+\item $B$ is the finite support-bound row, recording the displayed index after which all stream entries are the zero row.
+\item $L$ is the $\ListUp$ row listing the nonzero support entries and their finite window positions.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the displayed entries and tail-zero boundary.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the bounded stream windows and dyadic ledger.
+\item $Q$ is the terminal $\RealUp$ seal row available only after $S,B,L,D,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for $S,B,L,D,R,Q$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through the source stream, support bound, list row, dyadic ledger, regular rational readback, and real seal boundary.
+\item $P$ is the $\Pkg$ provenance over $\FiniteSupportStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\ListUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteSupportStreamUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite support oracle, quotient equality of streams, a selected limit, countable choice, or an ambient real-completeness theorem.
+\end{definition}
+
+\begin{theorem}[Finite-support stream NameCert obligations]
+\label{thm:finite-support-stream-namecert-obligations}
+For every accepted $\FiniteSupportStreamUp$ carrier
+$$
+F=(S,B,L,D,R,Q,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteSupportStreamUp}$ surface consists exactly of stream source admission, finite support-bound admission, finite nonzero-entry list admission, dyadic tolerance compatibility, regular rational readback, terminal Real seal access, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-support-stream-carrier}. The analytic rows are exactly $S,B,L,D,R,Q$, and the structural rows are exactly $H,C,P,N$.
+
+The support-bound row $B$ and finite list row $L$ force every inspected nonzero entry to be displayed before the tail-zero boundary is used. The dyadic ledger $D$ then records the tolerance budget for the listed entries and for the zero tail.
+
+The regular rational readback $R$ and Real seal $Q$ are downstream rows of that same finite route. Transport, replay, provenance, and local naming preserve the rows componentwise, so no quotient stream, selected limit, countable-choice schedule, or ambient completeness object is introduced.
+\end{proof}
+
+\begin{theorem}[Finite-support stream RegSeqRat handoff]
+\label{thm:finite-support-stream-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\FiniteSupportStreamUp$ packet must read the finite route
+$$
+S,B,L,D \longmapsto R,Q,H,C,P,N .
+$$
+Thus a finite-window approximant reaches regular rational readback and the Real seal only through the StreamName source, finite support bound, listed support entries, dyadic tolerance ledger, componentwise transport, displayed replay, provenance, and local NameCert rows.
+\end{theorem}
+\begin{proof}
+Begin with a regular rational read request. By \autoref{def:finite-support-stream-carrier}, the request first exposes the stream source $S$, support bound $B$, finite list row $L$, and dyadic tolerance ledger $D$.
+
+Apply the obligation surface of \autoref{thm:finite-support-stream-namecert-obligations}. It requires $R$ and $Q$ to appear only after the source, support, list, and tolerance rows have been accepted.
+
+Finally replay $H,C,P,N$. These rows preserve and name the same finite packet, so the handoff supplies bounded-window approximants to $\RegSeqRatUp$ and $\RealUp$ without quotient streams, selected limits, countable choice, or an ambient completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteSupportStreamUp$ read factors through one StreamName source row, one finite support-bound row, one finite ListUp support-entry row, one DyadicRatCore tolerance ledger, one RegSeqRat readback row, one RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, list: $\FiniteSupportStreamUp$ is not bijective to any listed sibling because it jointly carries a stream source, a finite support bound, a listed nonzero support surface, dyadic tolerance data, regular rational readback, a Real-facing seal, transport, replay, provenance, and local naming.}
+
+\closureat{FiniteSupportStreamUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSupportStreamUp}
+  \constructivestory{A $\FiniteSupportStreamUp$ packet is generated from a StreamName source row, a finite support-bound row, a finite ListUp support-entry row, a DyadicRatCore tolerance ledger, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-support-stream-carrier}, \autoref{thm:finite-support-stream-namecert-obligations}, and \autoref{thm:finite-support-stream-regseqrat-handoff} seed the finite-support stream route for bounded-window regular rational and real-facing reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, support-bound exactness, dyadic tolerance compatibility, regular rational readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteSupportStreamUp.}
+\end{closurestatus}

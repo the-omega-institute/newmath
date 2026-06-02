@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\CauchyMeshStabilityUp$}
+\label{ch:concrete-instances-cauchy-mesh-stability-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real analysis, the $\CauchyMeshStabilityUp$ packet records the finite mesh-refinement stability surface used before a regular rational name is sealed as a real. It sits over the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names mesh refinement as displayed BEDC data; it is not a quotient of Cauchy streams, a selected completion point, countable choice for refinements, or an ambient completeness theorem.
+
+\begin{definition}[Cauchy mesh stability carrier]
+\label{def:cauchy-mesh-stability-carrier}
+A $\CauchyMeshStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the mesh-source row, naming the finite refinement schedule whose entries are inspected by the packet.
+\item $W$ is the $\StreamNameUp$ finite-window row, recording the bounded stream observations read at the displayed mesh levels.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, supplying the dyadic comparison budget used to test whether two displayed mesh reads are stable at the requested precision.
+\item $R$ is the $\RegSeqRatUp$ readback row, repacking the accepted window and tolerance data as a regular rational name.
+\item $E$ is the downstream $\RealUp$ seal row, available only after $M,W,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the mesh source, finite windows, dyadic tolerances, regular rational readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a mesh-refinement request through $M,W,D,R$ and then to $E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyMeshStabilityUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyMeshStabilityUp}$ row.
+\end{enumerate}
+Accepted carriers are compared only through $M,W,D,R,E,H,C,P,N$. There is no coordinate for an infinite refinement selector, quotient stream equality, selected real value, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy mesh stability NameCert obligations]
+\label{thm:cauchy-mesh-stability-namecert-obligations}
+For every accepted $\CauchyMeshStabilityUp$ carrier $S=(M,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyMeshStabilityUp}$ surface consists exactly of carrier admission for the mesh source, finite stream window, dyadic tolerance row, regular rational readback row, real seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-mesh-stability-carrier}. The analytic rows are exactly $M,W,D,R,E$, and the structural rows are exactly $H,C,P,N$.
+
+The mesh source $M$ supplies the refinement schedule before any stream entry is consumed. The finite window $W$ then exposes only the bounded observations attached to that schedule, while the dyadic row $D$ supplies the precision budget used to compare those observations.
+
+The regular rational readback $R$ is downstream of $M,W,D$, and the real seal $E$ is downstream of $R$. Rows $H,C,P,N$ transport, replay, source, and name only that finite route, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy mesh stability Real-completion handoff]
+\label{thm:cauchy-mesh-stability-real-completion-handoff}
+Every Real or Completion consumer of an accepted $\CauchyMeshStabilityUp$ carrier factors through the finite route
+$$
+M,W,D \longmapsto R \longmapsto E,H,C,P,N .
+$$
+The consumer first reads the mesh source, then the finite stream window and dyadic tolerance budget, then the regular rational readback, and only then receives the real-name seal. The route exports mesh-stable readback data, not quotient Cauchy-stream equality, a selected completion point, countable choice for refinements, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with a Real or Completion consumer of $S$. The carrier exposes the mesh source only through $M$, and every bounded observation is read through the finite window $W$ attached to that same source.
+
+The dyadic tolerance row $D$ is the only precision coordinate available for stability comparisons. Thus a consumer cannot replace the displayed mesh comparison by an arbitrary refinement theorem or an external selector.
+
+The regular rational row $R$ repacks the accepted mesh-window and tolerance data before the real seal $E$ can be read. The structural rows $H,C,P,N$ preserve that route without adding quotient equality, selected limits, countable choice, or ambient completeness, so the handoff factors through the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{A $\CauchyMeshStabilityUp$ consumer that reads a $\RealUp$ seal without first displaying mesh-source data, finite StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, transport, replay, provenance, and local naming is not reading the carrier of \autoref{def:cauchy-mesh-stability-carrier}.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: none alone is bijective with $\CauchyMeshStabilityUp$ because the packet jointly carries mesh-source data, finite stream windows, dyadic tolerance comparisons, regular rational readback, Real seal handoff, componentwise transport, replay, provenance, and local NameCert.}
+
+\closureat{CauchyMeshStabilityUp}{seedStr}
+
+\begin{closurestatus}{\CauchyMeshStabilityUp}
+  \constructivestory{A $\CauchyMeshStabilityUp$ packet is generated from a mesh-source row, StreamName finite windows, DyadicRatCore tolerance comparisons, RegSeqRat readback, a RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-mesh-stability-carrier}, \autoref{thm:cauchy-mesh-stability-namecert-obligations}, and \autoref{thm:cauchy-mesh-stability-real-completion-handoff} seed the finite mesh-refinement stability route from displayed stream windows to Real-facing completion reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, quotient Cauchy-stream equality, selected completion points, countable choice for refinements, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh-source exposure, finite stream-window stability, dyadic tolerance exactness, regular rational readback, Real-seal handoff ordering, transport, replay, provenance, and local naming for BEDC.Derived.CauchyMeshStabilityUp.}
+\end{closurestatus}

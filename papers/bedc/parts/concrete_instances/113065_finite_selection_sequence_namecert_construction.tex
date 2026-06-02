@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSelectionSequenceUp$}
+\label{ch:concrete-instances-finite-selection-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\FiniteSelectionSequenceUp$ packet records the finite selector surface used when a Real or Completion argument inspects only bounded windows of a regular Cauchy route. It sits between the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The point of the packet is not to choose a sequence from an infinite family; it is to expose the already bounded selector rows that a diagonal or tail-budget consumer may read without countable choice.
+
+\begin{definition}[FiniteSelectionSequence carrier]
+\label{def:finite-selection-sequence-carrier}
+A $\FiniteSelectionSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,D,R,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is a finite list of selected $\StreamNameUp$ windows, each tagged by the request index and the bounded precision at which it is read.
+\item $D$ is the $\DyadicRatCoreUp$ threshold ledger for those windows.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $W$ and $D$.
+\item $T$ stores componentwise $\hsame$ transport for the window, dyadic, readback, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay for the finite request trace.
+\item $P$ is the $\Pkg$ provenance over $\FiniteSelectionSequenceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteSelectionSequenceUp}$ row.
+\end{enumerate}
+The classifier for accepted carriers compares only the displayed rows $W,D,R,T,C,P,N$. It has no coordinate for countable choice, an infinite selector, a selected subsequence, quotient streams, or an ambient Real completion principle.
+\end{definition}
+
+\begin{theorem}[FiniteSelectionSequence NameCert obligations]
+\label{thm:finite-selection-sequence-namecert-obligations}
+For every accepted $\FiniteSelectionSequenceUp$ carrier
+$$
+S=(W,D,R,T,C,P,N),
+$$
+the local $\NameCert_{\FiniteSelectionSequenceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed StreamName windows, dyadic thresholds, RegSeqRat readbacks, transport, replay, provenance, and local naming rows;
+\item classifier stability under componentwise $\hsame$ replacement of the displayed rows;
+\item finite window exhaustion, requiring every consumer read to occur at one of the listed request-index and precision pairs in $W$;
+\item no-choice nonescape, requiring the carrier to expose no countable selector, selected subsequence, quotient stream, or ambient completion datum;
+\item $\RealUp$ and $\RegSeqRatUp$ handoff, requiring any Real-facing read to pass through $R$ after the displayed StreamName and dyadic rows.
+\end{enumerate}
+No $\FiniteSelectionSequenceUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its coordinates are exactly $W,D,R,T,C,P,N$, so carrier admission and classifier stability are coordinatewise statements over the finite $\BHist$ packet.
+
+Every retained read is indexed in $W$, and every tolerance used by that read is listed in $D$. The readback row $R$ is downstream of those two rows, so a Real-facing consumer reaches $\RegSeqRatUp$ before it reaches any $\RealUp$ seal.
+
+Since the carrier has no field for a countable selector, selected subsequence, quotient stream, or ambient completion principle, transport, replay, provenance, and local naming cannot export such a field. This gives the advertised no-choice boundary.
+\end{proof}
+
+\begin{theorem}[FiniteSelectionSequence window exhaustion]
+\label{thm:finite-selection-sequence-window-exhaustion}
+Let $S=(W,D,R,T,C,P,N)$ be an accepted $\FiniteSelectionSequenceUp$ carrier. Any Real or Completion consumer that cites $S$ must read a finite route
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+through one of the displayed windows in $W$ and one of the displayed thresholds in $D$. It cannot introduce a later window, an unrecorded dyadic tolerance, a host-selected subsequence, or a countable-choice selector.
+\end{theorem}
+\begin{proof}
+The consumer request is replayed by $C$, and $C$ is part of the finite packet named by $N$. Therefore each request has a displayed row in $W$ and its tolerance is one of the rows of $D$.
+
+The $\RegSeqRatUp$ readback row $R$ is the only row connecting those finite observations to the Real-facing seal. The remaining coordinates $T,P,N$ transport, source, and name the same finite route, so they cannot add windows, tolerances, subsequences, or countable-choice selectors.
+\end{proof}
+
+\falsifiablePrediction{Every $\FiniteSelectionSequenceUp$ Real or Completion-facing read factors through displayed StreamName windows, dyadic thresholds, RegSeqRat readbacks, componentwise transport, replay, provenance, and local naming before reaching a $\RealUp$ seal.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: $\FiniteSelectionSequenceUp$ is not bijective to any listed sibling because it jointly carries the finite selector-window list, dyadic threshold ledger, RegSeqRat readback, transport, replay, provenance, and local naming while refusing countable choice, selected subsequences, quotient streams, and ambient completion.}
+
+\closureat{FiniteSelectionSequenceUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSelectionSequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-selection-sequence-carrier}, \autoref{thm:finite-selection-sequence-namecert-obligations}, and \autoref{thm:finite-selection-sequence-window-exhaustion} seed the finite selector-window route from StreamName windows through dyadic thresholds and RegSeqRat readbacks to Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, selected subsequences, quotient stream equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, finite window exhaustion, no-choice nonescape, RegSeqRat and Real handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteSelectionSequenceUp.}
+  \constructivestory{A $\FiniteSelectionSequenceUp$ packet is generated from finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ thresholds, $\RegSeqRatUp$ readbacks, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

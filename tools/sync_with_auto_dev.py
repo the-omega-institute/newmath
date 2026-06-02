@@ -435,12 +435,29 @@ def _origin_sha(branch: str) -> str | None:
 
 
 def _remove_validation_worktree() -> None:
+    """Tear down the scratch validation worktree so the next cycle recreates it
+    cleanly.
+
+    `git worktree remove --force` itself fails with "Directory not empty" when a
+    previous validation crashed mid-run and left untracked files (or an
+    inconsistent `.git/worktrees` entry). When that happens the subsequent
+    `git worktree add` collides with the leftover directory and fails, so
+    dev->auto-dev validation never even reaches the merge/regen/build steps and
+    the sync wedges every cycle FOREVER (the failure is deterministic, not
+    transient). Belt-and-suspenders: after the soft remove, unconditionally
+    `rm -rf` any remnant, prune the stale worktree metadata, and drop the
+    scratch branch — each step is harmless when already clean."""
     if VALIDATION_WORKTREE.exists():
         res = git("worktree", "remove", "--force", str(VALIDATION_WORKTREE),
                   check=False, capture=True)
         if res.returncode != 0:
-            print(f"[sync] dev->auto-dev validation: could not remove old "
-                  f"worktree: {((res.stdout or '') + (res.stderr or '')).strip()[:200]}")
+            print(f"[sync] dev->auto-dev validation: soft worktree remove failed "
+                  f"({((res.stdout or '') + (res.stderr or '')).strip()[:160]}); "
+                  f"forcing rm -rf + prune")
+    if VALIDATION_WORKTREE.exists():
+        run(["rm", "-rf", str(VALIDATION_WORKTREE)], check=False, capture=True)
+    git("worktree", "prune", check=False, capture=True)
+    git("branch", "-D", VALIDATION_BRANCH, check=False, capture=True)
 
 
 def _run_validation_gate(cmd: list[str], *, cwd: Path, label: str,
@@ -459,6 +476,38 @@ def _run_validation_gate(cmd: list[str], *, cwd: Path, label: str,
     tail = out[-1] if out else "no output"
     print(f"[sync] dev->auto-dev validation: {label} failed rc={res.returncode}: {tail[:240]}")
     return False
+
+
+def _regen_manifest(cwd: Path) -> None:
+    """Regenerate lean4/BEDC.lean from on-disk files after a merge, folding any
+    change into the just-created merge commit.
+
+    A conflict-free (clean) merge of BEDC.lean does NOT invoke the
+    `bedc-lean-regen` merge driver (git only runs a custom merge driver on a
+    file that actually conflicts). So when one side deleted a `.lean` file and
+    the other side's manifest still carried its `import` line, the textually
+    merged BEDC.lean keeps importing the now-missing module -> `lake build`
+    fails with "no such file or directory" -> dev->auto-dev validation fails
+    and the daemon skips forever ("waits for next passing tick"), since this
+    failure mode reproduces deterministically and is neither a textual conflict
+    (so codex-fallback never fires) nor transient. Regenerating from the actual
+    filesystem drops imports of deleted modules and adds new ones, making the
+    merged manifest consistent before the build gate runs."""
+    regen = run(["python3", "lean4/scripts/regenerate_bedc_lean.py"],
+                cwd=cwd, check=False, capture=True)
+    if regen.returncode != 0:
+        print(f"[sync] regenerate_bedc_lean failed rc={regen.returncode}: "
+              f"{((regen.stdout or '') + (regen.stderr or '')).strip()[:200]}",
+              file=sys.stderr)
+        return
+    status = run(["git", "status", "--porcelain", "lean4/BEDC.lean"],
+                 cwd=cwd, check=False, capture=True)
+    if (status.stdout or "").strip():
+        run(["git", "add", "lean4/BEDC.lean"], cwd=cwd, check=False, capture=True)
+        run(["git", "commit", "--amend", "--no-edit"], cwd=cwd,
+            check=False, capture=True)
+        print("[sync] regenerated BEDC.lean manifest after merge "
+              "(folded into merge commit)")
 
 
 def validate_dev_merge_in_worktree() -> tuple[bool, str | None, str | None]:
@@ -489,6 +538,8 @@ def validate_dev_merge_in_worktree() -> tuple[bool, str | None, str | None]:
             check=False, capture=True)
         print(f"[sync] dev->auto-dev validation: merge failed rc={merge.returncode}")
         return False, dev_sha, mirror_sha
+
+    _regen_manifest(VALIDATION_WORKTREE)
 
     if not _run_validation_gate(["make", "warn"],
                                 cwd=VALIDATION_WORKTREE / "papers" / "bedc",
@@ -537,6 +588,7 @@ def sync_dev_to_auto_dev_validated(*, no_push: bool) -> bool:
                 git("merge", "--abort", check=False, capture=True)
                 print("[sync] dev->auto-dev: validated merge failed in main checkout; retry next cycle")
                 return False
+            _regen_manifest(REPO_ROOT)
             push = run(["git", "push", "origin", f"HEAD:refs/heads/{MIRROR_BRANCH}"],
                        check=False, capture=True)
             if push.returncode != 0:
@@ -639,7 +691,22 @@ def main():
         print("[sync] working tree dirty; stashing with -u")
         try:
             with acquire_main_checkout_lock(timeout=120):
-                git("stash", "push", "-u", "-m", f"sync_with_auto_dev autostash {os.getpid()}")
+                push_res = run(["git", "stash", "push", "-u", "-m",
+                                f"sync_with_auto_dev autostash {os.getpid()}"],
+                               check=False, capture=True)
+                if push_res.returncode != 0:
+                    # A dirty tree that `git stash push -u` still refuses
+                    # (rc!=0) must NOT crash the whole sync via the raising
+                    # `git()` wrapper. A single crash here strands the main
+                    # checkout on whatever branch a prior partial tick left it
+                    # (observed: stuck on auto-dev, which makes auto_heal skip
+                    # every cycle with `not on codex-auto-dev`). Skip this tick
+                    # cleanly; the tree is untouched for the next tick.
+                    out = ((push_res.stdout or "") + (push_res.stderr or ""))[-200:]
+                    print(f"[sync] stash push failed (rc={push_res.returncode}); "
+                          f"skipping this tick without crashing: {out}",
+                          file=sys.stderr)
+                    return
                 res = git("rev-parse", "--verify", "--quiet", "stash@{0}",
                           check=False, capture=True)
         except TimeoutError as exc:

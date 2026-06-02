@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\ChurchRosserUp$}
+\label{ch:concrete-instances-church-rosser-namecert}
+\origin{human}
+
+Following Church and Rosser, the $\ChurchRosserUp$ packet records confluence as a named finite route from local join evidence to equality of normal forms, rather than as host syntax quotienting or evaluator equality. In the MetaCIC route it sits after the local-diamond witness of \autoref{ch:concrete-instances-metacic-local-diamond-witness-namecert}, the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the closed-normal fragment of \autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}, the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, and the dependency ledger of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. The packet gives a traditional Church--Rosser naming surface for the conditional MetaCIC confluence route; it refuses quotient syntax, host evaluator equality, arbitrary subject reduction, full consistency, and any claim that the current frontier rows already prove confluence for all closed terms.
+
+\begin{definition}[Church--Rosser carrier]
+\label{def:church-rosser-carrier}
+A $\ChurchRosserUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,L,S,NF,P,D,C,O,H,Q,G,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed source-term row whose confluence request is being named.
+\item $L$ is the local-diamond ledger row, read through $\MetaCICLocalDiamondWitnessUp$ and retaining the displayed peak and candidate-join evidence.
+\item $S$ is the residual-substitution row, read through $\MetaCICResidualSubstitutionBoundaryUp$ and any separate compatibility handoff available to the route.
+\item $NF$ is the closed-normal-fragment row, read through $\MetaCICConfluenceNormalFragmentUp$ before a normal-form comparison can be consumed.
+\item $P$ is the parallel-diamond frontier row, read through $\MetaCICParallelDiamondFrontierUp$ as conditional frontier data.
+\item $D$ is the critical-path dependency row, read through $\MetaCICCriticalPathUp$ and keeping subject reduction, normalization, confluence, decidability, and consistency boundaries visible as dependencies rather than as supplied theorems.
+\item $C$ is the Church--Rosser conclusion row: it records the bounded common-reduct or normal-form agreement certified by $L,S,NF,P,D$ for the displayed request.
+\item $O$ is the obstruction row naming endpoints not carried by this packet: quotient syntax, host evaluator equality, arbitrary subject reduction, full consistency, premise-free parallel diamond, and unconditional confluence for every closed term.
+\item $H$ records componentwise $\hsame$ transport for $T,L,S,NF,P,D,C,O$.
+\item $Q$ records displayed $\Cont$ replay for Church--Rosser requests through the same rows.
+\item $G$ is the $\Pkg$ provenance over $\ChurchRosserUp$, $\MetaCICLocalDiamondWitnessUp$, $\MetaCICResidualSubstitutionBoundaryUp$, $\MetaCICConfluenceNormalFragmentUp$, $\MetaCICParallelDiamondFrontierUp$, $\MetaCICCriticalPathUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $M$ is the local $\NameCert_{\ChurchRosserUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,L,S,NF,P,D,C,O,H,Q,G,M$. It has no coordinate for quotient syntax, host evaluator equality, arbitrary subject reduction, full consistency, premise-free parallel diamond, or an unrestricted confluence theorem over all closed MetaCIC terms.
+\end{definition}
+
+\begin{theorem}[Church--Rosser diamond ledger]
+\label{thm:church-rosser-diamond-ledger}
+For every accepted $\ChurchRosserUp$ carrier $R=(T,L,S,NF,P,D,C,O,H,Q,G,M)$, any Church--Rosser read must expose the local-diamond ledger $L$, residual-substitution row $S$, closed-normal-fragment row $NF$, parallel-diamond frontier row $P$, and MetaCIC critical-path row $D$ before the conclusion row $C$ is consumed. The conclusion is therefore ledger-scoped: it records the displayed join route for $T$ and does not export quotient syntax, host evaluator equality, arbitrary subject reduction, full consistency, or unrestricted closed-term confluence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:church-rosser-carrier}. The confluence-facing rows are $L,S,NF,P,D,C,O$, and the source row $T$ determines which closed request those rows address.
+
+The local-diamond and residual-substitution rows are read first. The row $L$ supplies only displayed local peaks and candidate joins, while $S$ keeps the substitution premise visible; neither row is allowed to erase its boundary into a premise-free global theorem.
+
+Next the closed-normal fragment and parallel-diamond frontier are read. The row $NF$ supplies the normal-source and atom-source fragment, and $P$ supplies conditional frontier data rather than a completed parallel diamond.
+
+Finally the critical-path row $D$ keeps the surrounding MetaCIC obligations visible before $C$ is consumed. Since the obstruction row $O$ remains part of the same packet and the structural rows $H,Q,G,M$ only transport, replay, source, and name the displayed route, no refused endpoint can be exported by the ledger.
+\end{proof}
+
+\begin{theorem}[Church--Rosser normal-form confluence]
+\label{thm:church-rosser-normal-form-confluence}
+If an accepted $\ChurchRosserUp$ carrier $R=(T,L,S,NF,P,D,C,O,H,Q,G,M)$ reaches a conclusion row $C$ whose endpoints are both displayed normal-form reads, then the normal-form agreement factors through the closed-normal fragment $NF$ and the same local-diamond, residual-substitution, parallel-frontier, and critical-path rows $L,S,P,D$. The agreement is a certified normal-form confluence read for the displayed source $T$; it is not host evaluator equality, quotient term equality, arbitrary subject reduction, full consistency, or an unrestricted Church--Rosser theorem for all closed terms.
+\end{theorem}
+\begin{proof}
+Begin with the diamond ledger of \autoref{thm:church-rosser-diamond-ledger}. It forces any read of $C$ through $L,S,NF,P,D$ and keeps the obstruction row $O$ in scope.
+
+The normal-form hypothesis only selects the $NF$ branch of that same ledger. Thus the agreement between endpoints is read through the closed-normal fragment together with the displayed local-diamond and residual-substitution rows, not through a host evaluator or a quotient of term syntax.
+
+The parallel frontier and critical path remain visible. They record which conditional confluence and dependency rows have been consumed before the normal-form agreement is named, so the result stays attached to the displayed source request $T$ and does not become a global subject-reduction, consistency, or unrestricted confluence theorem.
+\end{proof}
+
+\begin{theorem}[Church--Rosser MetaCIC route boundary]
+\label{thm:church-rosser-metacic-route-boundary}
+Every downstream MetaCIC consumer of an accepted $\ChurchRosserUp$ packet receives only the finite route
+$$
+T,L,S,NF,P,D,C,O,H,Q,G,M .
+$$
+In particular, the consumer may cite the packet as a Church--Rosser NameCert surface for the displayed local-diamond, residual-substitution, closed-normal-fragment, parallel-frontier, and critical-path route, but it may not reinterpret that surface as quotient syntax, host evaluator equality, arbitrary subject reduction, full consistency, or arbitrary closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{def:church-rosser-carrier}. The only rows available to a consumer are the displayed source, local-diamond, residual-substitution, closed-normal-fragment, parallel-frontier, critical-path, conclusion, obstruction, transport, replay, provenance, and local naming rows.
+
+Apply the diamond ledger to the confluence-facing part of the route, then apply the normal-form confluence theorem when the consumer asks for a normal-form endpoint comparison. Both reads keep $O$ visible and retain the same finite row order.
+
+The structural rows do not add semantic coordinates. They transport and replay the packet already named by $G$ and $M$, so a downstream consumer that claims quotient syntax, host evaluator equality, arbitrary subject reduction, full consistency, or arbitrary closed Church--Rosser has left the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ChurchRosserUp$ confluence read exposes local-diamond, residual-substitution, closed-normal-fragment, parallel-frontier, critical-path, and obstruction rows before its conclusion row is consumed.}
+
+\independenceWitness{metacic-local-diamond-witness, metacic-residual-substitution-boundary, metacic-confluence-normal-fragment, metacic-parallel-diamond-frontier, metacic-critical-path: these siblings respectively expose local peaks, substitution premises, closed-normal joins, conditional frontier data, and dependency pressure. None is bijective to a packet that jointly names the traditional Church--Rosser conclusion row together with all five route rows and an explicit obstruction row.}
+
+\closureat{ChurchRosserUp}{seedStr}
+
+\begin{closurestatus}{\ChurchRosserUp}
+  \constructivestory{A $\ChurchRosserUp$ packet is generated from a closed source row, local-diamond ledger, residual-substitution row, closed-normal-fragment row, parallel-diamond frontier row, MetaCIC critical-path row, conclusion row, obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:church-rosser-carrier}, \autoref{thm:church-rosser-diamond-ledger}, \autoref{thm:church-rosser-normal-form-confluence}, and \autoref{thm:church-rosser-metacic-route-boundary} seed the traditional Church--Rosser NameCert surface for the displayed MetaCIC local-diamond, residual-substitution, closed-normal-fragment, parallel-frontier, and critical-path route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient syntax, host evaluator equality, arbitrary subject reduction, full consistency, premise-free parallel diamond, arbitrary closed Church--Rosser, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, local-diamond ledger exposure, residual-substitution retention, closed-normal-fragment routing, parallel-frontier handoff, critical-path retention, conclusion-row exactness, obstruction-row exposure, transport, replay, provenance, and local naming for BEDC.Derived.ChurchRosserUp.}
+\end{closurestatus}

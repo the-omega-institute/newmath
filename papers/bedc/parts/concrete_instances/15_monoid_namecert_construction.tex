@@ -82,6 +82,18 @@ Apply \autoref{thm:concrete-history-monoid-laws}. The first two clauses are the 
 Finally use \autoref{thm:monoid-concrete-history-instance-unlock-surface}. Downstream algebra reads the same displayed carrier, multiplication, unit, classifier, $\BHist$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows, so the unit laws remain kernel continuation rows rather than external algebraic fields.
 \end{proof}
 
+\begin{theorem}[Unary Cont concrete monoid instance]
+\label{thm:monoid-unary-cont-concrete-instance}
+The displayed carrier $\mathsf{UnaryHistory}$, operation $\mathsf{append}$ witnessed by $\Cont$, unit $\emp$, and classifier $\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$ form the concrete $\MonoidUp$ instance consumed by downstream algebra schemas. Its multiplication rows are the unary append continuation rows, its unit rows are the two $\Cont$ replays through $\emp$, and its associativity row is the append associativity route on $\BHist$.
+\end{theorem}
+\begin{proof}
+Use the concrete carrier, operation, unit, and classifier of \autoref{def:concrete-history-monoid-instance}. The theorem fixes the same $\mathsf{UnaryHistory}$ surface, so the schema consumer sees append, $\emp$, and $\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$ directly.
+
+Apply \autoref{thm:concrete-history-monoid-laws}. Its associativity clause supplies append associativity, its unit clauses supply the left and right $\emp$ laws, and its classifier congruence keeps the operation inside the displayed unary-history classifier.
+
+Finally apply \autoref{thm:monoid-concrete-history-instance-unlock-surface} and \autoref{thm:monoid-unary-cont-unit-replay}. The unlock surface identifies the downstream $\MonoidUp$ packet, while the unit replay theorem pins the unit rows to concrete $\Cont$ data. No abstract carrier/classifier transport is introduced.
+\end{proof}
+
 The $\MonoidUp$ schema is instantiated by this concrete $BHist$ carrier and
 operation, so subsequent certificates can refer to this instance rather than
 only to abstract operator fields.

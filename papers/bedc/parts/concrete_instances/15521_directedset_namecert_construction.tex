@@ -162,15 +162,35 @@ Use the CauchyNet index handoff, \autoref{thm:directed-set-cauchynet-index-hando
 Use finite upper-window stability and upper-window exhaustion, \autoref{thm:directed-set-finite-upper-window-stability} and \autoref{thm:directed-set-upper-window-exhaustion}. These keep retained subledgers inside the same finite route and show that Moore--Smith and Cauchy-net consumers cannot extract cofinal selectors, quotient indices, total-order completions, infinite upper-bound selection, or choice functions.
 \end{proof}
 
+\begin{theorem}[DirectedSet mature consumer package]
+\label{thm:directed-set-mature-consumer-package}
+Let $D=(I,\preceq,W,U,H,C,P,N)$ be an accepted $\DirectedSetUp$ carrier. Every $\CauchyNetUp$, $\CauchyNetLimitUp$, and $\MooreSmithConvergenceUp$ consumer of $D$ reads the directed-index substrate only through
+$$
+I,\preceq,W,U,H,C,P,N .
+$$
+The package contains no cofinal sequence selector, quotient index object, total-order completion, infinite upper-bound selector, or choice function, and no mature consumer may replace the finite directed-window route by any such external object.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition, \autoref{def:directed-set-carrier}. Its only public rows are the finite index row $I$, preorder row $\preceq$, finite-window row $W$, upper-witness row $U$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$.
+
+Apply the NameCert obligations and the obligation closure package, \autoref{thm:directed-set-namecert-obligations} and \autoref{thm:directed-set-obligation-closure-package}. These identify the accepted directed-window boundary with exactly those rows and make the consumer-facing obligations exhaustive.
+
+Next use the CauchyNet handoff and upper-window results, \autoref{thm:directed-set-cauchynet-index-handoff}, \autoref{thm:directed-set-finite-upper-window-stability}, and \autoref{thm:directed-set-upper-window-exhaustion}. They show that Cauchy-net, Cauchy-net-limit, and Moore--Smith reads preserve the same finite route after restriction, handoff, and retained-window replay.
+
+Since the cited carrier and obligations contain no row for a cofinal sequence selector, quotient index, total-order completion, infinite upper-bound selector, or choice function, a mature consumer has no source from which to extract one. Thus all named consumers read only $I,\preceq,W,U,H,C,P,N$.
+\end{proof}
+
 \closureat{DirectedSetUp}{publicStr}
+\closureat{DirectedSetUp}{bridgedStr}
+\closureat{DirectedSetUp}{matureStr}
 
 \begin{closurestatus}{\DirectedSetUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:directed-set-carrier}, the NameCert obligations, \autoref{thm:directed-set-cauchynet-index-handoff}, finite-window stability, \autoref{thm:directed-set-upper-window-exhaustion}, and \autoref{thm:directed-set-obligation-closure-package} bind the public BEDC primitive boundary for the finite directed-index substrate consumed by Cauchy-net, Cauchy-net-limit, and Moore--Smith convergence packets.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:directed-set-carrier}, the NameCert obligations, \autoref{thm:directed-set-cauchynet-index-handoff}, finite-window stability, \autoref{thm:directed-set-upper-window-exhaustion}, \autoref{thm:directed-set-obligation-closure-package}, and \autoref{thm:directed-set-mature-consumer-package} bind the mature BEDC primitive boundary for the finite directed-index substrate consumed by Cauchy-net, Cauchy-net-limit, and Moore--Smith convergence packets.}
   \formalstatus{\auditCleanV}
   \leantarget{BEDC.Derived.DirectedSetUp.DirectedSetCarrier\_fields\_faithful}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient index objects, selected cofinal sequences, total-order completions, infinite choice principles, Lean verification, or bridge checking.}
-  \upgradepath{Public closure requires bridge-ready standard-schema rows and public consumer determinacy for the same directed-index packet.}
+  \upgradepath{Bridge checking requires a standard-schema bridge for the same directed-index packet.}
   \constructivestory{A $\DirectedSetUp$ packet is generated from a finite index row, displayed preorder comparisons, finite requested windows, common upper-window witnesses, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
 \end{closurestatus}

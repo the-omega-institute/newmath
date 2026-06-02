@@ -1,0 +1,39 @@
+\begin{theorem}[StreamName RegSeqRat Real budget cocycle]
+\label{thm:streamname-regseqrat-real-budget-cocycle}
+Let $\mathcal W$ be an accepted terminal finite $\StreamNameUp$ window on the
+L10 four-face route. Suppose its $\RegSeqRatUp$ readback and downstream
+$\RealUp$ seal are read through the same displayed $\DyadicRatCoreUp$ budget
+row and the same support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Then the terminal window, the RegSeqRat readback, and the Real seal form one
+budget cocycle: after terminal fusion, none of the three faces can be
+independently reindexed away from the shared budget row.
+
+The cocycle exposes no quotient stream equality, selected limit, host sequence
+equality, countable-choice schedule, metric-completeness datum, bridge row, or
+ambient $\RealUp$ completeness field.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-real-completion-terminal-window-fusion}. It
+constructs the terminal packet from the StreamName finite request window, the
+DyadicRatCore tolerance ledger, the RegSeqRat readback, the Real seal, and the
+displayed support rows.
+
+Next apply \autoref{thm:streamname-terminal-fusion-common-refinement-stability}
+and \autoref{thm:streamname-terminal-fusion-phase-exit-consumer-readback}. The
+common refinement and terminal consumer readback keep the RegSeqRat-facing and
+Real-facing reads on the same fused terminal surface.
+
+Use \autoref{thm:streamname-terminal-fusion-support-minimality}. Since deleting
+the budget-facing support or any of the four roadmap faces destroys the
+accepted packet, no separate reindexing row can replace the shared dyadic
+budget after the fusion is read.
+
+Finally apply \autoref{thm:streamname-terminal-window-fusion-nonescape}. The
+terminal consumer has no selected limit, quotient stream equality, host
+sequence equality, choice schedule, metric-completeness datum, bridge row, or
+ambient Real-completeness coordinate, so the shared budget row is the only
+readable route through the StreamName, RegSeqRat, and Real faces.
+\end{proof}

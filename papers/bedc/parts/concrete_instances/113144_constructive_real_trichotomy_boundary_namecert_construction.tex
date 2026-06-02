@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveRealTrichotomyBoundaryUp$}
+\label{ch:concrete-instances-constructive-real-trichotomy-boundary-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the $\ConstructiveRealTrichotomyBoundaryUp$ packet records the finite BEDC boundary at which a real-name consumer may see displayed comparison evidence without receiving trichotomy for constructive reals. It sits beside the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the apartness real boundary of \autoref{ch:concrete-instances-apartnessreal-namecert}, and the Markov-sensitive inspection refusal of \autoref{ch:concrete-instances-markov-principle-boundary-namecert}. The packet is a finite refusal object for Real and Completion consumers: it displays the rows that justify local apartness or equality readback, and it records that the missing third case is not filled by LPO, WLPO, Markov's principle, host equality, quotient stream equality, or selected limit data.
+
+\begin{definition}[Constructive real trichotomy boundary carrier]
+\label{def:constructive-real-trichotomy-boundary-carrier}
+A $\ConstructiveRealTrichotomyBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+T=(X,Y,S_X,S_Y,R_X,R_Y,D,A,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RealUp$ name rows being compared.
+\item $S_X$ and $S_Y$ are finite $\StreamNameUp$ observation windows for the two names.
+\item $R_X$ and $R_Y$ are the corresponding $\RegSeqRatUp$ regular-rational readbacks exposed inside the windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the comparison request.
+\item $A$ is the apartness-evidence row when a displayed dyadic gap separates the two readbacks.
+\item $E$ is the equality-readback row when the displayed regular-rational windows agree to the requested tolerance.
+\item $L$ is the refusal ledger used when neither a finite apartness row nor a finite equality-readback row is displayed.
+\item $H$ records componentwise $\hsame$ transport for the real names, stream windows, regular readbacks, dyadic ledger, apartness row, equality-readback row, refusal ledger, continuation, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a real comparison request through the finite windows, readbacks, tolerance ledger, and the visible boundary row among $A,E,L$.
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveRealTrichotomyBoundaryUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\ApartnessRealUp$, $\MarkovPrincipleBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveRealTrichotomyBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for constructive real trichotomy, LPO, WLPO, Markov's principle as an imported rule, host real equality, quotient stream equality, countable choice, selected representatives, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Constructive real trichotomy boundary NameCert obligations]
+\label{thm:constructive-real-trichotomy-boundary-namecert-obligations}
+For every accepted $\ConstructiveRealTrichotomyBoundaryUp$ carrier
+$$
+T=(X,Y,S_X,S_Y,R_X,R_Y,D,A,E,L,H,C,P,N),
+$$
+the local $\NameCert_{\ConstructiveRealTrichotomyBoundaryUp}$ surface consists exactly of the following rows:
+\begin{enumerate}
+\item carrier formation for the displayed real names, stream windows, regular-rational readbacks, dyadic tolerance ledger, boundary rows, transport, replay, provenance, and local name;
+\item classifier stability, requiring every comparison read to be transported componentwise through $H$ and replayed through $C$;
+\item apartness/equality handoff, allowing a consumer to use $A$ when a finite positive gap is displayed and $E$ when a finite equality readback is displayed;
+\item LPO-refusal, requiring the ledger $L$ whenever neither displayed finite side is present;
+\item non-escape, excluding constructive real trichotomy, LPO, WLPO, Markov's principle, host equality, quotient stream equality, countable choice, selected representatives, selected limits, and ambient real completeness from the exported certificate.
+\end{enumerate}
+No local naming obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier formation is projection from \autoref{def:constructive-real-trichotomy-boundary-carrier}. The tuple displays the two real seals, the finite stream windows, the regular readbacks, the dyadic tolerance ledger, and exactly the three boundary rows $A,E,L$.
+
+Classifier stability is componentwise. The row $H$ transports each visible coordinate, while $C$ replays the same finite comparison request after transport.
+
+The apartness/equality handoff is read only from the displayed boundary rows. A positive gap must cite $A$, and an equality readback must cite $E$; when neither row is present, the consumer receives the refusal ledger $L$ instead of a third global alternative.
+
+The non-escape clause follows from the carrier inventory. Since no excluded semi-classical or host-equality object occurs as a coordinate of $T$, no local $\NameCert$ row can export it.
+\end{proof}
+
+\begin{theorem}[Constructive real trichotomy LPO refusal]
+\label{thm:constructive-real-trichotomy-boundary-lpo-refusal}
+Let a Real or Completion consumer accept a $\ConstructiveRealTrichotomyBoundaryUp$ packet
+$$
+T=(X,Y,S_X,S_Y,R_X,R_Y,D,A,E,L,H,C,P,N).
+$$
+If the displayed rows do not expose an apartness witness in $A$ and do not expose an equality-readback witness in $E$, the consumer must read the refusal ledger $L$. It cannot replace the missing finite row by LPO, WLPO, Markov's principle, host real equality, quotient stream equality, selected representatives, selected limit data, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:constructive-real-trichotomy-boundary-carrier}. The only comparison-facing outputs are the apartness row $A$, the equality-readback row $E$, and the refusal ledger $L$.
+
+Apply \autoref{thm:constructive-real-trichotomy-boundary-namecert-obligations}. Its apartness/equality handoff clause permits a consumer to use $A$ or $E$ only when the corresponding finite row is displayed, and its LPO-refusal clause assigns the undecided finite situation to $L$.
+
+The excluded principles are absent from the tuple. Transport, replay, provenance, and local naming therefore preserve the same refusal boundary rather than supplying a host-side trichotomy consumer.
+\end{proof}
+
+\closureat{ConstructiveRealTrichotomyBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveRealTrichotomyBoundaryUp}
+  \constructivestory{A $\ConstructiveRealTrichotomyBoundaryUp$ packet is generated from two Real names, finite StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, displayed apartness or equality-readback evidence when available, a refusal ledger otherwise, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-real-trichotomy-boundary-carrier}, \autoref{thm:constructive-real-trichotomy-boundary-namecert-obligations}, and \autoref{thm:constructive-real-trichotomy-boundary-lpo-refusal} seed the finite Real/Completion boundary for displayed apartness, equality readback, and refusal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim constructive real trichotomy, LPO, WLPO, Markov's principle, host real equality, quotient stream equality, selected representatives, selected limits, countable choice, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, comparison classifier stability, apartness/equality handoff, refusal-ledger exactness, and non-escape for BEDC.Derived.ConstructiveRealTrichotomyBoundaryUp.}
+\end{closurestatus}

@@ -109,10 +109,28 @@ The Real completion handoff shows that every public consumer receives only the d
 The excluded objects are precisely the objects absent from the carrier: quotient completions, selected representatives, host completed metric spaces, host real equality, countable choice, ambient completeness, and bridge-axis evidence. Since no coordinate stores them, no public read of $I$ can export them.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionIdempotent Real completion consumer exactness]
+\label{thm:cauchy-completion-idempotent-real-completion-consumer-exactness}
+Let $I=(C_0,C_1,U,V,A,E,H,R,P,N)$ be an accepted $\CauchyCompletionIdempotentUp$ carrier. Every $\RealCauchyCompletionUp$, $\UniformCompletionUp$, or $\RealUp$ consumer of $I$ must read the rows
+$$
+C_0,C_1,U,V,A,E,H,R,P,N
+$$
+in that order. The same-route classifier $E$ is the only comparison surface between the first completion seal $C_0$ and the second completion seal $C_1$.
+
+No external completion equality, quotient completion, selected representative, host completed metric space, host real equality, countable-choice schedule, ambient completeness principle, or bridge-axis witness can replace $E$ or compare the two seals outside the displayed route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-idempotent-carrier}. The rows $C_0,C_1$ expose the two seals, $U,V,A$ expose the reflective route, $E$ compares the two reads, and $H,R,P,N$ transport, replay, package, and name the same route.
+
+Apply \autoref{thm:cauchy-completion-idempotent-real-completion-handoff}. It forces every Real-and-Completion consumer through the two seals, then through $U,V,A$, then through $E$, and finally through the structural rows.
+
+Use \autoref{thm:cauchy-completion-idempotent-reflector-comparison} to identify $E$ as the only displayed comparison surface, and use \autoref{thm:cauchy-completion-idempotent-ledger-nonescape} to rule out external completion equality, quotient data, selected representatives, ambient completion, host real equality, choice, and bridge evidence.
+\end{proof}
+
 \begin{closurestatus}{\CauchyCompletionIdempotentUp}
   \constructivestory{A $\CauchyCompletionIdempotentUp$ packet is generated from first and second completion seals, CauchyCompletionUnit and CauchyCompletionCounit rows, a CauchyCompletionAdjunction universal-property row, a same-route classifier, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cauchy-completion-idempotent-carrier}, \autoref{thm:cauchy-completion-idempotent-namecert-obligations}, \autoref{thm:cauchy-completion-idempotent-real-completion-handoff}, \autoref{thm:cauchy-completion-idempotent-reflector-comparison}, \autoref{thm:cauchy-completion-idempotent-unit-counit-loop}, and \autoref{thm:cauchy-completion-idempotent-ledger-nonescape} close the finite reflective-idempotence obligation surface for repeated L10 completion reads.}
+  \scopeclosed{\autoref{def:cauchy-completion-idempotent-carrier}, \autoref{thm:cauchy-completion-idempotent-namecert-obligations}, \autoref{thm:cauchy-completion-idempotent-real-completion-handoff}, \autoref{thm:cauchy-completion-idempotent-reflector-comparison}, \autoref{thm:cauchy-completion-idempotent-unit-counit-loop}, \autoref{thm:cauchy-completion-idempotent-ledger-nonescape}, and \autoref{thm:cauchy-completion-idempotent-real-completion-consumer-exactness} close the finite reflective-idempotence obligation surface for repeated L10 completion reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion equality, selected representatives, ambient completeness, host real equality, countable choice, public bridge evidence, or completeness of $\RealUp$.}

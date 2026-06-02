@@ -56,6 +56,24 @@ The threshold is the displayed $\CauchyModulusUp$ coordinate $M$. The existing $
 After $M$ is displayed, the handoff can read $R$ and $C$, and only then can it expose the endpoint-facing row $E$. The transport, replay, provenance, and local naming rows preserve this order, so the packet exports no selected fixed point, host equality, or ambient completeness theorem.
 \end{proof}
 
+\begin{theorem}[Banach fixed-point modulus endpoint seal determinacy]
+\label{thm:banach-fixed-point-modulus-endpoint-seal-determinacy}
+Let $K=(B,T,L,I,M,R,C,E,H,Q,P,N)$ be an accepted $\BanachFixedPointModulusUp$ carrier. Suppose two endpoint-facing reads use the same displayed route
+$$
+T,L,I\longmapsto M\longmapsto R,C\longmapsto E
+$$
+and their Picard, Lipschitz, modulus, regular-rational, complete-metric, and endpoint rows are compatible under the componentwise $\hsame$ transports carried by $H$. Then the two reads expose the same terminal $\RealUp$ seal classifier at $E$. The endpoint seal is determined by the shared $\CauchyModulusUp$ threshold, $\RegSeqRatUp$ readback, and $\CompleteMetricUp$ service rows before any fixed-point endpoint consumer can inspect it.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:banach-fixed-point-modulus-carrier}. Both endpoint-facing reads have the same contraction graph, Lipschitz ledger, Picard ledger, modulus threshold, regular-rational readback, complete-metric service row, and terminal seal coordinate.
+
+Apply \autoref{thm:banach-fixed-point-modulus-picard-handoff}. It forces every endpoint read through $T,L,I$ before $M$, and through $M$ before the $R,C,E$ handoff, so neither read can introduce an independent endpoint route.
+
+The shared $\RegSeqRatUp$ row and $\CompleteMetricUp$ service row are then read before the terminal $\RealUp$ seal. Componentwise transport through $H$ and replay through $Q$ identify the two reads along those same rows.
+
+Thus the terminal classifier at $E$ is fixed by the displayed route. No selected limit, quotient completion equality, host fixed-point equality, or ambient completeness principle is used to compare the endpoint seals.
+\end{proof}
+
 \closureat{BanachFixedPointModulusUp}{seedStr}
 
 \begin{closurestatus}{\BanachFixedPointModulusUp}

@@ -300,13 +300,14 @@ worker 现在 (≥ 2026-05-03) 已经有 `693fb128` / `001d0c3d` / `0cdf518c` �
 ## 命令模板 (codex 0.130+)
 
 ```bash
-codex exec --dangerously-bypass-approvals-and-sandbox -C <worktree-path> "$(cat /tmp/prompt-X.md)"
+codex exec --dangerously-bypass-approvals-and-sandbox -C <worktree-path> < /tmp/prompt-X.md > /tmp/codex-log-X.log 2>&1
 ```
 
 - `exec` = non-interactive, 不带就进 TUI
 - `--dangerously-bypass-approvals-and-sandbox` 跳所有 approval + sandbox (用户授权 "所有权限" 时用); 否则每个文件写卡确认
 - `-C <dir>` 让 codex 自己 chdir, **不要** `cd <wt> && codex`
-- 长 prompt 写到 `/tmp/prompt-X.md` 再 `$(cat ...)` 读, inline 长 arg 易 shell escape 出错
+- **prompt 必须从 stdin 文件喂 (`< /tmp/prompt-X.md`), 不要当命令行 arg 传 (`"$(cat ...)"`)**. 把 prompt 当 arg 时 codex 仍会读 stdin 找 *additional* input (日志 `Reading additional input from stdin...`); 在 detached / `run_in_background` 下 stdin 是个永不 EOF 的管道, codex **永久阻塞在 stdin read**: 0% CPU、无 API 连接、无文件写、进程活着但什么都不干, 看着像超时/网络挂其实都不是. 用 `< 文件` 喂 stdin, codex 打印 `Reading prompt from stdin...`, 拿到 prompt + 干净 EOF, 连 API 正常跑. arg 形式有时碰巧 stdin EOF 能跑通, 所以是 flaky 不是必挂 — 一律用 stdin 文件形式. (诊断挂死: rust `…/vendor/…/bin/codex` 那个 pid `lsof` 看**有没有 ESTABLISHED 连接** — 没有就是卡在 stdin, 跟健康 sibling worker 对比即知. 加 timeout 兜底只是掩盖, 不治本.)
+- input/output 都走文件: stdin `< /tmp/prompt-X.md`, stdout/stderr `> /tmp/codex-log-X.log 2>&1`
 
 ## Fan-out 流程
 
@@ -368,11 +369,13 @@ gh pr checks <PR> --watch --interval 30 > /tmp/pr<PR>-ci.log 2>&1
 **Worker 完成回调**: 最简单做法是直接用 Bash `run_in_background: true` 跑 `codex exec ...` (**不要**在尾部加 `&`). codex 本身阻塞执行 5-15 min, 退出时 harness 发 task-notification. 一个 worker 一个 Bash 调用, 3 个 worker 就并行 3 个 background Bash, 各自完成各自发回调.
 
 ```bash
-# Bash 调用, run_in_background: true, 不要内部 & 后台化
-codex exec --dangerously-bypass-approvals-and-sandbox -C /tmp/wt-X "$(cat /tmp/prompt-X.md)" > /tmp/codex-log-X.log 2>&1
+# Bash 调用, run_in_background: true, 不要内部 & 后台化; prompt 从 stdin 文件喂, 不当 arg
+codex exec --dangerously-bypass-approvals-and-sandbox -C /tmp/wt-X < /tmp/prompt-X.md > /tmp/codex-log-X.log 2>&1
 ```
 
-错误做法: `codex exec ... &` 在 Bash 里, bash 立即 fork+退出, 永远收不到 codex 完成事件. 也不要靠 ScheduleWakeup 固定 25 min 节奏 polling, 既不及时又烧 cache.
+错误做法 1: `codex exec ... &` 在 Bash 里, bash 立即 fork+退出, 永远收不到 codex 完成事件. 也不要靠 ScheduleWakeup 固定 25 min 节奏 polling, 既不及时又烧 cache.
+
+错误做法 2: 把 prompt 当 arg 传 `"$(cat /tmp/prompt-X.md)"` (见上节命令模板). detached 下 codex 卡在 stdin read 永久挂死, 不报错、不退出、收不到完成通知. 一律 `< /tmp/prompt-X.md` 从 stdin 文件喂.
 
 Monitor 工具留给"事件流"型监视 (CI 多个 check 状态变化, 日志新错误行). 单次"等命令完成"用 Bash background 就够.
 

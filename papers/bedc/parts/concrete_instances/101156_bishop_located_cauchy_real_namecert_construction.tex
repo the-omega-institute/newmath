@@ -71,6 +71,34 @@ The rational approximation row $A$ is read only after $D,S,R$ have been fixed. I
 Transport, replay, provenance, and local naming then preserve this route. Since the carrier has no selected limit, quotient equality, countable-choice schedule, host real equality, or completeness coordinate, the handoff remains a finite regular Cauchy interface rather than a Real-completeness assertion.
 \end{proof}
 
+\begin{theorem}[Bishop located Cauchy real shared-tolerance handoff]
+\label{thm:bishop-located-cauchy-real-shared-tolerance-handoff}
+Any accepted $\BishopLocatedCauchyRealUp$ packet $L=(I,B,D,S,R,A,W,H,C,P,N)$ that compares the regular Cauchy readback with the located interval endpoints must expose the same dyadic row $D$ before both the interval row $I$ and the regular route $B,S,R,A,W$ can be consumed. Thus the located side and the Cauchy side cannot be read under unrelated tolerance budgets.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only dyadic tolerance coordinate available to the packet is the row $D$ of \autoref{def:bishop-located-cauchy-real-carrier}.
+
+The regular Cauchy side is governed by \autoref{thm:bishop-located-cauchy-real-regular-cauchy-handoff}. That route reads $B,D,S,R$ before the approximation row $A$ and the witness row $W$ are consumed.
+
+The located side is governed by \autoref{thm:bishop-located-cauchy-real-located-interval-stability}. It keeps interval endpoint, radius, locator, locatedness-modulus, and metric-bracket data attached to the same displayed tolerance route through $D,S,R,A,W$.
+
+Finally apply non-escape through the carrier boundary: no second tolerance row, host interval equality, quotient representative, selected limit, or ambient Real completeness coordinate exists. Hence every comparison between the Cauchy readback and the interval endpoints uses the shared row $D$.
+\end{proof}
+
+\begin{theorem}[Bishop located Cauchy real shared-tolerance exactness]
+\label{thm:bishop-located-cauchy-real-shared-tolerance-exactness}
+For every accepted $\BishopLocatedCauchyRealUp$ packet $L=(I,B,D,S,R,A,W,H,C,P,N)$, any comparison between the regular Cauchy readback and the located interval endpoints is exhausted by the single displayed dyadic row $D$. The interval side may not substitute a second radius budget, and the Cauchy side may not substitute a second tail budget, host interval equality, quotient representative, selected limit, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only dyadic tolerance coordinate listed by \autoref{def:bishop-located-cauchy-real-carrier} is $D$, and both the regular Cauchy boundary row and the located interval row are attached to it through the witness ledger $W$.
+
+Apply the regular-Cauchy handoff of \autoref{thm:bishop-located-cauchy-real-regular-cauchy-handoff}. It forces the completion-facing side to read $B,D,S,R$ before the approximation row $A$ and the witness row $W$ can be consumed.
+
+Apply located-interval stability from \autoref{thm:bishop-located-cauchy-real-located-interval-stability}. Endpoint, radius, locator, locatedness-modulus, and metric-bracket data remain tied to the same displayed route through $I,B,D,S,R,A,W,H,C,P,N$ under componentwise transport.
+
+Finally use nonescape from \autoref{thm:bishop-located-cauchy-real-nonescape}. Since the accepted packet has no coordinate for a second tolerance ledger, host interval equality, quotient representative, selected limit, countable choice, trichotomy, compactness, or ambient Real completeness, the row $D$ is the whole comparison budget.
+\end{proof}
+
 \begin{theorem}[Bishop located Cauchy real located-interval stability]
 \label{thm:bishop-located-cauchy-real-located-interval-stability}
 Let $L=(I,B,D,S,R,A,W,H,C,P,N)$ and $L'=(I',B',D',S',R',A',W',H',C',P',N')$ be accepted $\BishopLocatedCauchyRealUp$ carriers. If $H$ records componentwise $\hsame$ transport from each row of $L$ to the corresponding row of $L'$, then the local classifier transports locatedness only through the displayed rows
@@ -107,7 +135,7 @@ Since no excluded object occurs as a coordinate or replay target, no located or 
 
 \begin{closurestatus}{\BishopLocatedCauchyRealUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bishop-located-cauchy-real-carrier}, \autoref{thm:bishop-located-cauchy-real-namecert-obligations}, \autoref{thm:bishop-located-cauchy-real-regular-cauchy-handoff}, \autoref{thm:bishop-located-cauchy-real-located-interval-stability}, and \autoref{thm:bishop-located-cauchy-real-nonescape} seed the finite located Cauchy real interface over $\LocatedRealIntervalUp$, $\BishopRegularCauchyCompletionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealRationalApproximationUp$, and $\CauchyRealCompletionInterfaceUp$ rows.}
+  \scopeclosed{\autoref{def:bishop-located-cauchy-real-carrier}, \autoref{thm:bishop-located-cauchy-real-namecert-obligations}, \autoref{thm:bishop-located-cauchy-real-regular-cauchy-handoff}, \autoref{thm:bishop-located-cauchy-real-shared-tolerance-handoff}, \autoref{thm:bishop-located-cauchy-real-shared-tolerance-exactness}, \autoref{thm:bishop-located-cauchy-real-located-interval-stability}, and \autoref{thm:bishop-located-cauchy-real-nonescape} seed the finite located Cauchy real interface over $\LocatedRealIntervalUp$, $\BishopRegularCauchyCompletionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealRationalApproximationUp$, and $\CauchyRealCompletionInterfaceUp$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close $\RealUp$ completeness, quotient stream equality, selected limits, countable choice, host real equality, trichotomy, compactness, Lean verification, or bridge checking.}

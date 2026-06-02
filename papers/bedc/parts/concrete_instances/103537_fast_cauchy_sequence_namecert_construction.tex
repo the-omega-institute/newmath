@@ -54,12 +54,24 @@ The dyadic row $D$ supplies the observed terms and tolerances, while $S$ selects
 Transport, replay, provenance, and local naming preserve that route without adding an alternate source for readback data. Hence the consumer reaches $R$ only after the displayed dyadic, stream, and modulus rows are present.
 \end{proof}
 
+\begin{theorem}[Fast Cauchy sequence prefix-window tightening]
+\label{thm:fast-cauchy-sequence-modulus-window-tightening}
+For every accepted $\FastCauchySequenceUp$ carrier $F=(D,S,M,R,H,C,P,N)$ and every displayed request level $k$, any finite $\StreamNameUp$ window retained by $S$ for the $k$-request reads its later-window comparison budget from the same modulus row $M$ and dyadic tolerance row $D$ before the $\RegSeqRatUp$ handoff row $R$ is available. Consequently the handoff exposes no selected limit, quotient-stream equality, trichotomy, countable-choice selector, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:fast-cauchy-sequence-carrier}. The retained finite window is a row of $S$, while the tolerance visible at request level $k$ is stored in the dyadic ledger $D$.
+
+The row $M$ is the displayed fast Cauchy modulus ledger. It is the only carrier coordinate that binds later-window comparisons to the tolerance selected at the same request level, so the $k$-window cannot draw a separate budget from $R$ or from an external completion surface.
+
+Now compose this projection with the route of \autoref{thm:fast-cauchy-sequence-regseqrat-handoff}. Since every $\RegSeqRatUp$ consumer reaches $R$ only after $D\longmapsto S\longmapsto M$ is present, the finite prefix-window tightening is consumed before the handoff and carries no additional limit, quotient, trichotomy, choice, or $\RealUp$ completeness coordinate.
+\end{proof}
+
 \closureat{FastCauchySequenceUp}{seedStr}
 
 \begin{closurestatus}{\FastCauchySequenceUp}
   \constructivestory{A $\FastCauchySequenceUp$ packet is generated from DyadicRatCore observations, StreamName windows, an explicit fast Cauchy modulus ledger, RegSeqRat handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:fast-cauchy-sequence-carrier}, \autoref{thm:fast-cauchy-sequence-namecert-obligations}, and \autoref{thm:fast-cauchy-sequence-regseqrat-handoff} seed the finite fast Cauchy sequence source object for the L10 Real and Completion route.}
+  \scopeclosed{\autoref{def:fast-cauchy-sequence-carrier}, \autoref{thm:fast-cauchy-sequence-namecert-obligations}, \autoref{thm:fast-cauchy-sequence-regseqrat-handoff}, and \autoref{thm:fast-cauchy-sequence-modulus-window-tightening} seed the finite fast Cauchy sequence source object for the L10 Real and Completion route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient streams, selected limits, trichotomy, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}

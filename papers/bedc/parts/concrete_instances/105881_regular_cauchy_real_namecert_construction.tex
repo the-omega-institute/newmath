@@ -73,6 +73,24 @@ The sibling routes determine the inputs to $K$. The schedule row $S$ gives the f
 Thus a completion-facing consumer cannot read $K$ as a standalone completeness principle. The only accepted handoff is the displayed finite route through $S,D,Q,K$, transported by $H$, replayed by $C$, and named by $P,N$.
 \end{proof}
 
+\begin{theorem}[RegularCauchyReal Cauchy-modulus source lock]
+\label{thm:regular-cauchy-real-cauchy-modulus-source-lock}
+Every accepted $\RegularCauchyRealUp$ packet must read its displayed Cauchy modulus or convergence budget before the $\RegSeqRatUp$ row can be sealed as $\RealUp$. Concretely, any Real-facing consumer of
+$$
+R=(S,D,Q,K,E,H,C,P,N)
+$$
+must expose the $\StreamNameUp$ schedule $S$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RegSeqRatUp$ readback $Q$, and the $\CauchyConvergenceCriterionUp$ budget row $K$, with the same source discipline as the $\CauchyModulusSpaceUp$ interface, before the terminal $\RealUp$ seal $E$ is consumed.
+\end{theorem}
+\begin{proof}
+Project the rows $S,D,Q,K,E,H,C,P,N$ from \autoref{def:regular-cauchy-real-carrier}. The stream schedule $S$ is the only row exposing finite observations, and $D$ is the only row exposing dyadic tolerance and late-window comparisons.
+
+The readback row $Q$ is therefore source-locked to $S$ and $D$. The convergence row $K$ records the displayed Cauchy budget for that readback, matching the modulus-source role of \autoref{ch:concrete-instances-cauchymodulus-namecert} while staying inside the carrier rows already present in the packet.
+
+Only after $S,D,Q,K$ have been read can the terminal row $E$ serve as the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The seal is not an independent limit selector; it is downstream of the StreamName, DyadicRatCore, RegSeqRat, and Cauchy-budget route.
+
+Finally $H,C,P,N$ transport, replay, source, and name this same route. Since the carrier contains no selected limit, quotient stream equality, countable-choice row, host equality, or ambient completeness coordinate, no such datum can enter the Real seal.
+\end{proof}
+
 \begin{theorem}[RegularCauchyReal non-escape]
 \label{thm:regular-cauchy-real-nonescape}
 An accepted $\RegularCauchyRealUp$ carrier exports no quotient stream equality, selected limit, countable-choice schedule, trichotomy principle, open-cover compactness proof, ambient $\RealUp$ completeness theorem, host real equality, Lean verification, or bridge credential. Every exported read is confined to $S,D,Q,K,E,H,C,P,N$.
@@ -89,7 +107,7 @@ None of the displayed coordinates stores quotient stream equality, selected limi
 
 \begin{closurestatus}{\RegularCauchyRealUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-real-carrier}, \autoref{thm:regular-cauchy-real-namecert-obligations}, \autoref{thm:regular-cauchy-real-seal-route}, \autoref{thm:regular-cauchy-real-cauchy-criterion-handoff}, and \autoref{thm:regular-cauchy-real-nonescape} seed the non-quotient regular Cauchy real-name packet over displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyConvergenceCriterionUp$, and $\RealUp$ rows.}
+  \scopeclosed{\autoref{def:regular-cauchy-real-carrier}, \autoref{thm:regular-cauchy-real-namecert-obligations}, \autoref{thm:regular-cauchy-real-seal-route}, \autoref{thm:regular-cauchy-real-cauchy-criterion-handoff}, \autoref{thm:regular-cauchy-real-cauchy-modulus-source-lock}, and \autoref{thm:regular-cauchy-real-nonescape} seed the non-quotient regular Cauchy real-name packet over displayed $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyConvergenceCriterionUp$, $\CauchyModulusSpaceUp$, and $\RealUp$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient real equality, selected limits, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, host real equality, Lean verification, or bridge checking.}

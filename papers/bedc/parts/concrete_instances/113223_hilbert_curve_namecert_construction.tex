@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\HilbertCurveUp$}
+\label{ch:concrete-instances-hilbert-curve-namecert}
+\origin{human}
+
+Beginning with Hilbert's classical space-filling curve construction, the $\HilbertCurveUp$ packet records the finite dyadic subdivision route by which interval addresses are folded into square-cell addresses. It sits beside the Peano surface of \autoref{ch:concrete-instances-peano-curve-namecert}, the compact uniform-modulus surface of \autoref{ch:concrete-instances-compact-uniform-modulus-namecert}, the graph carrier of \autoref{ch:concrete-instances-continuousmap-namecert}, and the compact metric completion route of \autoref{ch:concrete-instances-compact-metric-completion-namecert}. The packet names the recursive quadrant order, orientation bit, dyadic coordinate readback, and finite continuity budget; it does not claim an unrestricted function space, arbitrary pointwise choice, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Hilbert curve carrier]
+\label{def:hilbert-curve-carrier}
+A $\HilbertCurveUp$ carrier is a finite $\BHist$ packet
+$$
+H=(A,Q,O,F,X,Y,B,T,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the interval-address row. It records finite dyadic subintervals, their precision levels, and the associated $\StreamNameUp$ observation windows.
+\item $Q$ is the quadrant row. For each displayed address, it records the selected dyadic square quadrant and its horizontal and vertical dyadic endpoints.
+\item $O$ is the orientation row. It records the finite turn state used by Hilbert's recursive subdivision rule, including the two endpoint orientations needed to compare sibling cells.
+\item $F$ is the fold-coherence row. It checks that the four child quadrants of each displayed parent square are visited in the Hilbert order and that consecutive children share an edge or an endpoint at the displayed precision.
+\item $X$ and $Y$ are the coordinate readback rows. They expose the horizontal and vertical dyadic endpoints through $\DyadicRatCoreUp$, then through the regular rational and real-name support already used by continuous-map consumers.
+\item $B$ is the finite-window continuity row. A square precision request is answered by an interval precision, a dyadic diameter bound, and the fold-coherence witness needed before a $\ContinuousMapUp$ consumer reads the graph.
+\item $T$ is the compact-metric handoff row. It packages the finite square-cell cover and the dyadic diameter budget as compact metric data without using open-cover compactness.
+\item $C$ records componentwise $\hsame$ transport for interval addresses, quadrants, orientations, fold coherence, coordinate readbacks, continuity budgets, compact-metric handoffs, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay through
+$$
+A,Q,O,F \longmapsto X,Y,B,T \longmapsto C,K,N .
+$$
+\item $N$ is the local $\NameCert_{\HilbertCurveUp}$ row, sourced over $\HilbertCurveUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{enumerate}
+The classifier compares accepted packets only through $A,Q,O,F,X,Y,B,T,C,K,N$. It has no coordinate for a completed function space, arbitrary representative choice, quotient equality of real names, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or a bridge credential.
+\end{definition}
+
+\begin{theorem}[Hilbert curve NameCert obligations]
+\label{thm:hilbert-curve-namecert-obligations}
+For an accepted $\HilbertCurveUp$ carrier
+$$
+H=(A,Q,O,F,X,Y,B,T,C,K,N),
+$$
+the local $\NameCert_{\HilbertCurveUp}$ surface consists exactly of six finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the interval-address, quadrant, orientation, fold-coherence, coordinate readback, finite-window continuity, compact-metric handoff, transport, replay, provenance, and local naming rows;
+\item classifier exactness, requiring accepted packets to be compared only by the rows $A,Q,O,F,X,Y,B,T,C,K,N$;
+\item subdivision coherence, requiring the quadrant and orientation rows to display the Hilbert child order before any coordinate endpoint is exposed;
+\item finite-window continuity, requiring the fold-coherence and diameter-budget rows to answer every displayed graph request through a finite dyadic window;
+\item compact-metric handoff, requiring the square-cell cover and dyadic diameter budget to be consumed through compact metric data rather than open-cover compactness;
+\item ledger exhaustion, requiring $C,K,N$ to transport, replay, source, and name only the listed finite dyadic route.
+\end{enumerate}
+No NameCert obligation is stored outside these rows, and none exports a host-level function space, arbitrary pointwise choice, quotient equality of real names, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:hilbert-curve-carrier}. The accepted packet displays the interval-address row, quadrant row, orientation row, fold-coherence row, coordinate readback rows, finite-window continuity row, compact-metric handoff row, and structural rows.
+
+Classifier exactness follows because the definition gives the classifier no coordinate except $A,Q,O,F,X,Y,B,T,C,K,N$. Any attempted comparison through a function space, representative choice, quotient equality, open-cover compactness, completion principle, verification credential, or bridge credential therefore has no row to inspect.
+
+Subdivision coherence is read from $Q,O,F$. The quadrant row names the selected square cell, the orientation row records the finite turn state, and the fold-coherence row checks the four-child Hilbert order before $X$ or $Y$ can expose an endpoint.
+
+Finite-window continuity is read from $F$ and $B$. The fold-coherence row supplies the edge or endpoint adjacency check for neighboring interval cells, while the budget row supplies the dyadic diameter bound requested by a continuous-map consumer.
+
+The compact-metric handoff is read from $T$. It repackages the displayed finite square-cell cover and diameter budget as compact metric data, so no open-cover argument or ambient completeness principle is introduced.
+
+Finally $C,K,N$ add no analytic coordinate. They preserve, replay, source, and name the same finite route, which exhausts the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hilbert curve finite-window continuity]
+\label{thm:hilbert-curve-finite-window-continuity}
+Let
+$$
+H=(A,Q,O,F,X,Y,B,T,C,K,N)
+$$
+be an accepted $\HilbertCurveUp$ carrier. Every continuous-map or compact-metric consumer of $H$ receives the Hilbert curve through the finite route
+$$
+A,Q,O,F \longmapsto X,Y,B,T \longmapsto C,K,N .
+$$
+For each requested square precision, the route opens a finite $\StreamNameUp$ interval window, reads dyadic quadrant endpoints through $\DyadicRatCoreUp$, checks sibling fold coherence by $F$, answers the diameter budget by $B$, and then hands the resulting finite graph surface to $\ContinuousMapUp$ and compact metric support through $T$. Thus the dyadic window handoff stays inside the finite stream, dyadic rational, and continuous-map support named by the carrier.
+\end{theorem}
+\begin{proof}
+Fix a requested square precision. The interval-address row $A$ supplies only finitely many dyadic input windows, and the quadrant row $Q$ assigns each displayed address to a dyadic square cell.
+
+The coordinate readback is forced through $X$ and $Y$. Those rows expose the horizontal and vertical endpoints as dyadic rational data before any continuous-map consumer can read the graph.
+
+Sibling compatibility is a finite check. The orientation row $O$ records the turn state, and the fold-coherence row $F$ verifies that consecutive displayed child cells share an edge or endpoint at the requested precision.
+
+The budget row $B$ then supplies the diameter bound associated with the same displayed window. Consequently the graph read by $\ContinuousMapUp$ is a finite-window surface rather than a host-level function graph.
+
+The compact handoff is the row $T$. It carries the displayed square-cell cover and the same dyadic diameter budget into compact metric support, while $C,K,N$ preserve the route under transport, replay, provenance, and local naming.
+\end{proof}
+
+\closureat{HilbertCurveUp}{seedStr}
+
+\begin{closurestatus}{\HilbertCurveUp}
+  \constructivestory{A $\HilbertCurveUp$ packet is generated from finite dyadic interval addresses, quadrant cells, orientation states, fold-coherence rows, coordinate readbacks through DyadicRatCore support, finite-window continuity budgets, compact-metric handoffs, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hilbert-curve-carrier}, \autoref{thm:hilbert-curve-namecert-obligations}, and \autoref{thm:hilbert-curve-finite-window-continuity} seed the finite dyadic subdivision route for a Hilbert curve packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host-level function spaces, arbitrary pointwise choice, quotient equality of real names, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, subdivision coherence, finite-window continuity, compact-metric handoff, and ledger exhaustion for BEDC.Derived.HilbertCurveUp.}
+\end{closurestatus}

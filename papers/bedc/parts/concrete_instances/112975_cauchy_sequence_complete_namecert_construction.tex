@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceCompleteUp$}
+\label{ch:concrete-instances-cauchy-sequence-complete-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchySequenceCompleteUp$ packet records Cauchy-sequence completeness as finite BEDC NameCert data before any $\RealUp$ or complete-metric consumer receives an endpoint. It sits over the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the ordered Cauchy completion boundary of \autoref{ch:concrete-instances-cauchy-sequence-order-completeness-namecert}. The packet names the direct Cauchy-sequence completeness surface; it is not a quotient of Cauchy streams, a selected host limit, countable choice, or an ambient completion primitive.
+
+\begin{definition}[Cauchy sequence complete carrier]
+\label{def:cauchy-sequence-complete-carrier}
+A $\CauchySequenceCompleteUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,M,R,E,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ family of finite windows through which the sequence entries and tail comparisons are inspected.
+\item $M$ is the Cauchy-modulus ledger, recording the threshold assigned to each requested tolerance and the dominance checks needed by endpoint consumers.
+\item $R$ is the $\RegSeqRatUp$ readback row assembled from the windows in $S$ and the thresholds in $M$.
+\item $E$ is the $\RealUp$ seal reached only after the window, modulus, and regular readback rows have been displayed.
+\item $Q$ is the $\CompleteMetricUp$ endpoint row recording the finite completion-facing handoff visible after $S,M,R,E$.
+\item $H$ records componentwise $\hsame$ transport for the stream-window, modulus-ledger, readback, real-seal, complete-metric endpoint, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,M \longmapsto R \longmapsto E \longmapsto Q .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchySequenceCompleteUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CompleteMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySequenceCompleteUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,M,R,E,Q,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, countable choice, open-cover compactness, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy sequence complete NameCert obligations]
+\label{thm:cauchy-sequence-complete-namecert-obligations}
+For every accepted $\CauchySequenceCompleteUp$ carrier $K=(S,M,R,E,Q,H,C,P,N)$, the local $\NameCert_{\CauchySequenceCompleteUp}$ surface consists exactly of carrier admission for the finite $\StreamNameUp$ windows, Cauchy-modulus ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\CompleteMetricUp$ endpoint row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A completion-facing consumer may read the endpoint row $Q$ only after the same $S,M,R,E$ route has been exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-sequence-complete-carrier}. The accepted inventory is exactly $S,M,R,E,Q,H,C,P,N$, so every local obligation must be read from those rows.
+
+The finite windows and Cauchy-modulus ledger are upstream. A consumer cannot inspect the regular rational readback $R$ until the displayed window row $S$ and threshold row $M$ have supplied the requested tail data.
+
+The endpoint handoff is downstream of the real seal. The row $E$ seals the regular readback through $\RealUp$, and $Q$ records only the finite complete-metric endpoint visible after the same route has been transported and replayed.
+
+Since quotient equality, selected representatives, countable choice, open-cover compactness, host real equality, and ambient real completeness have no carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy sequence complete Real handoff]
+\label{thm:cauchy-sequence-complete-real-handoff}
+Every $\RealUp$ endpoint read exported by an accepted $\CauchySequenceCompleteUp$ carrier factors through the displayed route
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \CompleteMetricUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The handoff preserves the finite window and Cauchy-modulus route before the $\RealUp$ seal is exposed, and it is compatible with the ordered completion boundary of \autoref{ch:concrete-instances-cauchy-sequence-order-completeness-namecert} without importing that chapter's order-comparison rows as hidden endpoint data.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(S,M,R,E,Q,H,C,P,N)$. By the carrier definition, the only real-facing seal is $E$, and $E$ is downstream of the windows $S$, the modulus ledger $M$, and the regular readback $R$.
+
+The complete-metric endpoint row $Q$ is read only after $E$. Thus an endpoint consumer sees the same displayed sequence windows, thresholds, regular rational readback, real seal, and structural rows that generated the packet.
+
+The sibling ordered-completeness chapter supplies a comparison boundary, but this carrier does not add an order row, quotient stream equality, selected limit, or host completeness datum. The real handoff therefore remains the direct finite Cauchy-sequence completeness surface named by $S,M,R,E,Q,H,C,P,N$.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\CauchySequenceCompleteUp$ endpoint consumer that reaches a $\RealUp$ or $\CompleteMetricUp$ read without the displayed StreamName windows, Cauchy-modulus ledger, RegSeqRat readback, transport, replay, provenance, and local NameCert rows refutes the carrier.}
+
+\independenceWitness{StreamName, RegSeqRat, Real, CompleteMetric, and CauchySequenceOrderCompleteness are not individually bijective with $\CauchySequenceCompleteUp$ because the packet jointly carries finite sequence windows, an explicit Cauchy-modulus ledger, regular readback, a Real seal, a complete-metric endpoint row, transport, replay, provenance, and local naming.}
+
+\closureat{CauchySequenceCompleteUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequenceCompleteUp}
+  \constructivestory{A $\CauchySequenceCompleteUp$ packet is generated from finite StreamName windows, a Cauchy-modulus ledger, RegSeqRat readback, a RealUp seal, a CompleteMetric endpoint row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequence-complete-carrier}, \autoref{thm:cauchy-sequence-complete-namecert-obligations}, and \autoref{thm:cauchy-sequence-complete-real-handoff} seed the finite constructive Cauchy-sequence completeness surface over StreamName, RegSeqRat, Real, CompleteMetric, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, open-cover compactness, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Cauchy-modulus exposure, RegSeqRat readback exactness, Real-seal handoff, CompleteMetric endpoint exposure, transport, replay, provenance, and local naming for BEDC.Derived.CauchySequenceCompleteUp.}
+\end{closurestatus}

@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\DoublingMetricSpaceUp$}
+\label{ch:concrete-instances-doubling-metric-space-namecert}
+\origin{human}
+
+Following Heinonen's metric-geometry treatment of doubling spaces and Kelley's finite-cover language, the $\DoublingMetricSpaceUp$ packet records a displayed metric space whose balls admit uniformly bounded finite half-radius covers. It sits over the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, sends finite-cover data to \autoref{ch:concrete-instances-totallybounded-namecert}, provides compact-metric neighbourhood data for \autoref{ch:concrete-instances-compactmetric-namecert}, and routes every positive-radius and terminal distance read through \autoref{ch:concrete-instances-real-namecert}. The packet names only finite ball-cover rows, radius ledgers, center bundles, transport, replay, provenance, and local naming; it does not assert open-cover compactness, select global covers, or import a host doubling theorem.
+
+\begin{definition}[Doubling metric space carrier]
+\label{def:doubling-metric-space-carrier}
+A $\DoublingMetricSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+D=(X,M,B,R,K,E,T,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the underlying point-history carrier and classifier row.
+\item $M$ is the $\MetricSpaceUp$ or $\MetricUp$ distance row over $X$, read through the metric certificate of \autoref{ch:concrete-instances-metric-namecert}.
+\item $B$ is the parent-ball request row, naming a displayed center and positive radius.
+\item $R$ is the $\RealUp$, $\RatUp$, or $\DyadicRatCoreUp$ positive-radius ledger carrying the radius and its half-radius request.
+\item $K$ is a closed finite $\mathsf{ProbeBundle}$ of half-radius centers admitted by $X$.
+\item $E$ is the coverage ledger, recording that every displayed point of the parent ball in $B$ lies in one of the half-radius balls centered by $K$.
+\item $T$ is the $\TotallyBoundedUp$ handoff row, exposing the finite center bundle and coverage rows to total-bounded consumers.
+\item $S$ is the $\CompactMetricUp$ handoff row, making the same finite-cover data available to compact-metric consumers without adding open-cover compactness.
+\item $H$ records componentwise $\hsame$ transport for $X,M,B,R,K,E,T,S$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from metric-ball admission through the finite half-radius cover and the sibling handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\DoublingMetricSpaceUp$, $\MetricSpaceUp$, $\MetricUp$, $\TotallyBoundedUp$, $\CompactMetricUp$, $\RealUp$, $\RatUp$, $\DyadicRatCoreUp$, $\mathsf{ProbeBundle}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DoublingMetricSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for arbitrary open covers, selected subcovers, host compactness, quotient point equality, countable choice, ambient real completeness, or a semantic doubling-space theorem.
+\end{definition}
+
+\begin{theorem}[Doubling metric space NameCert obligations]
+\label{thm:doubling-metric-space-namecert-obligations}
+For every accepted $\DoublingMetricSpaceUp$ carrier
+$$
+D=(X,M,B,R,K,E,T,S,H,C,P,N),
+$$
+the local $\NameCert_{\DoublingMetricSpaceUp}$ surface consists exactly of carrier admission for the point and metric rows; positive-radius and half-radius exactness through $R$; parent-ball admission through $B$; finite center-bundle admission through $K$; half-radius coverage through $E$; total-bounded and compact-metric handoff through $T$ and $S$; componentwise transport, displayed replay, provenance, and local naming through $H,C,P,N$; and non-escape from open-cover compactness, choice-selected covers, quotient point equality, host compactness, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:doubling-metric-space-carrier}. The point row $X$, metric row $M$, parent-ball request $B$, radius ledger $R$, center bundle $K$, coverage ledger $E$, and handoff rows $T,S$ are displayed before the local naming row is consumed.
+
+Positive-radius and half-radius exactness are read from $R$. Parent-ball admission is read from $B$, while the finite center bundle is read from $K$ as a closed $\mathsf{ProbeBundle}$ over the same source.
+
+Coverage is the row $E$. Each displayed point in the parent ball is paired with a center from $K$ and a half-radius distance read through the same metric row $M$.
+
+The sibling handoffs $T$ and $S$ expose that cover only as total-bounded and compact-metric finite data. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so the excluded host principles cannot be recovered from the packet.
+\end{proof}
+
+\begin{theorem}[Doubling metric space total-bounded handoff]
+\label{thm:doubling-metric-space-total-bounded-handoff}
+Every $\TotallyBoundedUp$, $\CompactMetricUp$, or $\RealUp$ consumer of an accepted $\DoublingMetricSpaceUp$ packet reads the finite route
+$$
+\MetricSpaceUp,\quad \RealUp,\quad \mathsf{ProbeBundle},\quad \TotallyBoundedUp,\quad \CompactMetricUp,\quad \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+through the rows $X,M,B,R,K,E,T,S,H,C,P,N$. In particular, total-bounded consumers receive the half-radius center bundle and coverage ledger, compact-metric consumers receive only the same finite-cover handoff, and Real-facing consumers receive radius and distance rows only after that displayed route has been read.
+\end{theorem}
+\begin{proof}
+Start with a total-bounded consumer. The rows $K$ and $E$ supply the finite center bundle and coverage ledger, while $B$ and $R$ record the parent ball and the radius-to-half-radius step.
+
+Next consider a compact-metric consumer. It can read the packet only through $S$, which is downstream of the same $K,E,T$ finite-cover route. Thus it receives no open-cover compactness object, selected subcover, or host compactness theorem.
+
+Finally inspect a Real-facing radius or distance read. The metric row $M$ and radius ledger $R$ are replayed through $C$ and transported through $H$ before $P,N$ package the handoff. Therefore every total-bounded, compact-metric, or Real-facing use remains inside the displayed finite route and cannot import quotient point equality, countable choice, or ambient real completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted DoublingMetricSpaceUp cover read displays one point-history carrier, one metric-distance row, one parent-ball request, one positive-radius half-step, one finite ProbeBundle of centers, one half-radius coverage ledger, one TotallyBounded handoff, one CompactMetric handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{metric, totallybounded, compactmetric, real: $\DoublingMetricSpaceUp$ is not bijective to any listed sibling because it jointly carries a metric source, radius-halving ledger, parent-ball request, finite center bundle, half-radius coverage row, total-bounded handoff, compact-metric handoff, and Real-facing radius route in one finite packet.}
+
+\closureat{DoublingMetricSpaceUp}{seedStr}
+
+\begin{closurestatus}{\DoublingMetricSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:doubling-metric-space-carrier}, \autoref{thm:doubling-metric-space-namecert-obligations}, and \autoref{thm:doubling-metric-space-total-bounded-handoff} seed the finite doubling metric-space cover route over metric, total-bounded, compact-metric, and Real-facing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary open-cover compactness, selected subcovers, host compactness, quotient point equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, radius-halving exactness, parent-ball coverage, total-bounded handoff, compact-metric handoff, transport, replay, provenance, and local NameCert rows for BEDC.Derived.DoublingMetricSpaceUp.}
+  \constructivestory{A $\DoublingMetricSpaceUp$ packet is generated from point-history and metric rows, a parent-ball request, a positive-radius half-step, a finite center ProbeBundle, a half-radius coverage ledger, total-bounded and compact-metric handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

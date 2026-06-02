@@ -65,6 +65,20 @@ Use the shared-threshold and readback clauses of \autoref{thm:uniform-cauchy-fam
 Transport and replay do not add coordinates. The rows $H,C,P,N$ preserve the same finite route, so the extracted comparison has no access to a component-specific threshold, independent rational stream, or hidden host tolerance.
 \end{proof}
 
+\begin{theorem}[UniformCauchyFamily RegSeqRat handoff]
+\label{thm:uniform-cauchy-family-regseqrat-handoff}
+Let $U=(F,\sigma,R,D,T,E,H,C,P,N)$ be an accepted $\UniformCauchyFamilyUp$ packet. Every shared threshold window extracted from $U$ produces a rowwise $\RegSeqRatUp$ readback for each displayed family member before any $\CauchySequenceSpaceUp$ or $\RealUp$ seal consumer may read the family. The handoff uses the same family row $F$, shared $\StreamNameUp$ schedule $\sigma$, dyadic tolerance ledger $D$, accepted $\UniformCauchyCriterionUp$ row $T$, and transport route $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The finite family row $F$ lists the displayed members, the shared schedule $\sigma$ names the threshold window, and the row $R$ is the only $\RegSeqRatUp$ family readback coordinate.
+
+Apply common-window extraction from \autoref{thm:uniform-cauchy-family-common-window-extraction}. Each componentwise comparison factors through $F,\sigma,R,D,T,H,C,P,N$, so the same extracted window supplies the regular rational readback row for every displayed member.
+
+Use shared-threshold transport from \autoref{thm:uniform-cauchy-family-shared-threshold-transport}. The rows $H$ and $C$ move the schedule $\sigma$ and tolerance ledger $D$ together with $F,R,T$, preventing a transported component from acquiring a hidden threshold or an independent rational stream.
+
+The downstream boundary is therefore ordered. A $\CauchySequenceSpaceUp$ consumer or a $\RealUp$ seal consumer may read the family only after the rowwise $\RegSeqRatUp$ readbacks in $R$ have been displayed over the shared window and criterion route.
+\end{proof}
+
 \begin{theorem}[UniformCauchyFamily Real seal boundary]
 \label{thm:uniform-cauchy-family-real-seal-boundary}
 For an accepted $\UniformCauchyFamilyUp$ carrier $U=(F,\sigma,R,D,T,E,H,C,P,N)$, every $\RealUp$ seal read and every completion-facing consumer read of the family reaches $E$ only after passing through the finite family row $F$, shared $\StreamNameUp$ schedule $\sigma$, $\RegSeqRatUp$ family readbacks $R$, $\DyadicRatCoreUp$ tolerance ledger $D$, and accepted $\UniformCauchyCriterionUp$ row $T$. The boundary exports no quotient stream, selected host limit, host real equality, countable choice, or ambient completeness row.

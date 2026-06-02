@@ -1,0 +1,51 @@
+\section{Pointwise Certified Source}
+\label{sec:streamname-pointwise-certified-source}
+
+\begin{definition}[Pointwise certified NameCert source]
+\label{def:streamname-pointwise-namecert-source}
+A pointwise certified NameCert source for $\StreamNameUp$ is a finite packet
+$$
+W=(I,S,B,H,C,P,N)
+$$
+where $I$ is the requested index ledger, $S$ is the certified stream source row, $B$ is the opened $\BHist$ window at $I$, $H$ is componentwise $\hsame$ transport for the point row and classifier row, $C$ is displayed $\Cont$ replay for the finite request, $P$ is $\Pkg$ provenance over the StreamName, DyadicRatCore, RegSeqRat, and Real routes, and $N$ is the local $\NameCert_{\StreamNameUp}$ row.
+
+The classifier reads only the displayed point row and the opened finite window. It exposes no quotient stream equality, host sequence equality, selected limit, countable-choice row, or $\RealUp$ completeness assertion.
+\end{definition}
+
+\begin{theorem}[Pointwise classifier stability]
+\label{thm:streamname-pointwise-classifier-stability}
+Let $W_0=(I_0,S_0,B_0,H_0,C_0,P_0,N_0)$ and $W_1=(I_1,S_1,B_1,H_1,C_1,P_1,N_1)$ be pointwise certified NameCert sources for $\StreamNameUp$. If a displayed $\hsame$ route transports the requested index ledger, source row, opened $\BHist$ window, point classifier row, replay row, provenance row, and local naming row from $W_0$ to $W_1$, then every pointwise classifier read accepted at $W_0$ is accepted at $W_1$ with the transported finite request surface.
+
+The transported read remains a StreamName finite-window read that may be consumed by $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ only through their existing NameCert routes. It does not become quotient stream equality, a selected limit, host real equality, or a completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows of \autoref{def:streamname-pointwise-namecert-source}. The pointwise source has only the requested index ledger, certified stream row, opened $\BHist$ window, transport row, replay row, provenance row, and local naming row available.
+
+Use the displayed $\hsame$ route to move each row componentwise. The point certificate and classifier row are transported together with the opened window, so no host sequence or quotient stream coordinate is introduced during the comparison.
+
+Replay the transported request with the $\Cont$ row. The replay keeps the request inside the same finite StreamName surface, after which $\Pkg$ provenance records the permitted sibling route through $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Since the packet contains no selected limit, host equality, countable choice, or completeness row, stability cannot export one.
+\end{proof}
+
+\begin{theorem}[Constant certified point stream]
+\label{thm:streamname-constant-certified-point}
+For a constant rational point displayed as a $\StreamNameUp$ pointwise certified source, every accepted finite request section opens the same point row, the same $\BHist$ window shape, the same pointwise classifier row, the same $\hsame$ transport, the same $\Cont$ replay, the same $\Pkg$ provenance, and the same local $\NameCert$ row. The resulting constant stream is a certified point stream for the L10 route through $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, not a host sequence equality or quotient stream representative.
+\end{theorem}
+\begin{proof}
+Project the pointwise source of \autoref{def:streamname-pointwise-namecert-source}. Constancy is recorded as a displayed point row inside the finite request surface, so every request opens a finite $\BHist$ window of the same certificate shape.
+
+Transport identical requests by the $\hsame$ row and replay them by the $\Cont$ row. These rows preserve the point certificate, classifier row, provenance, and local naming row without adding any host function or quotient coordinate.
+
+Finally read the downstream route only through $\Pkg$ provenance. The consumer may pass the certified point stream to $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ as finite NameCert data, while selected limits, host real equality, countable choice, and $\RealUp$ completeness remain absent.
+\end{proof}
+
+\begin{theorem}[Pointwise constant finite request section]
+\label{thm:streamname-pointwise-certified-source-constant-section}
+A constant rational point displayed as a pointwise certified $\StreamNameUp$ NameCert source determines, for every accepted finite request, the same requested index ledger, certified source row, opened $\BHist$ window, point classifier row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. These rows form the finite request section available to any $\RegSeqRatUp$ or $\RealUp$ consumer before that consumer can read the constant point stream.
+\end{theorem}
+\begin{proof}
+Use the pointwise certified source of \autoref{def:streamname-pointwise-namecert-source}. Its displayed packet already separates the index ledger, certified source row, opened history window, transport row, replay row, provenance row, and local naming row from any downstream completion-facing interpretation.
+
+Apply \autoref{thm:streamname-constant-certified-point}. Constancy identifies the rational point row across accepted requests only inside the finite request surface, so the same classifier row and the same opened $\BHist$ window are replayed for each request.
+
+The section handed to $\RegSeqRatUp$ or $\RealUp$ is therefore exactly the displayed row package. Since neither \autoref{def:streamname-pointwise-namecert-source} nor \autoref{thm:streamname-constant-certified-point} supplies quotient stream equality, a selected limit, countable choice, or $\RealUp$ completeness, no downstream consumer can read such data from the constant section.
+\end{proof}

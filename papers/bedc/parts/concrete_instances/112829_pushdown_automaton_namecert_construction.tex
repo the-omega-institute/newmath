@@ -1,0 +1,134 @@
+\chapter{A Concrete Naming Certificate for $\PushdownAutomatonUp$}
+\label{ch:concrete-instances-pushdown-automaton-namecert}
+\origin{human}
+
+Following Hopcroft--Ullman and Sipser, the $\PushdownAutomatonUp$ packet
+records a finite-control recognizer with a visible stack ledger as displayed
+BEDC data. It sits between the finite run surface of
+\autoref{ch:concrete-instances-finite-automaton-namecert}, the accepted-word
+surface of \autoref{ch:concrete-instances-regularlanguage-namecert}, the
+finite derivation surface of
+\autoref{ch:concrete-instances-contextfreegrammar-namecert}, and the bounded
+machine-trace surface of
+\autoref{ch:concrete-instances-turingmachine-namecert}.
+
+The packet names one finite state carrier, one input word, one stack alphabet,
+one transition ledger, one finite run ledger, and one acceptance readback. It
+does not identify languages extensionally, select an infinite parse tree, or
+export an unbounded recognizer trace.
+
+\begin{definition}[PushdownAutomaton carrier]
+\label{def:pushdown-automaton-carrier}
+A $\PushdownAutomatonUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+A=(Q,\Sigma,\Gamma,\delta,q_0,Z_0,F,w,\rho,\sigma,e,\chi,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite control-state carrier row;
+\item $\Sigma$ is the finite input alphabet row;
+\item $\Gamma$ is the finite stack alphabet row;
+\item $\delta$ is the finite transition ledger, whose displayed entries read
+  a state row, an optional input-symbol row, and the top stack-symbol row, then
+  return the next state row and the finite stack-word replacement row;
+\item $q_0$ is the start-state row inside $Q$;
+\item $Z_0$ is the initial stack-symbol row inside $\Gamma$;
+\item $F$ is the accepting-state row inside $Q$;
+\item $w$ is the finite input word as a $\ListUp$ row over $\Sigma$;
+\item $\rho$ is the finite run ledger, beginning at $(q_0,Z_0)$ and consuming
+  $w$ through displayed transition rows;
+\item $\sigma$ is the stack-history ledger whose entries are finite $\ListUp$
+  rows over $\Gamma$;
+\item $e$ is the endpoint row of the run ledger;
+\item $\chi$ is the acceptance readback row, by final state or by displayed
+  empty-stack condition as named in the packet;
+\item $H$ stores componentwise $\hsame$ transports for state, input, stack,
+  transition, run, stack-history, endpoint, and classifier rows;
+\item $C$ stores the $\Cont$ replay routes for reading input symbols,
+  stack-top rows, transition entries, and the finite run ledger;
+\item $P$ stores the $\Pkg$ provenance naming $\FiniteAutomatonUp$,
+  $\RegularLanguageUp$, $\ContextFreeGrammarUp$, $\TuringMachineUp$,
+  $\ListUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ stores the local $\NameCert_{\PushdownAutomatonUp}$ rows.
+\end{enumerate}
+The carrier predicate is $\mathsf{PushdownAutomatonPacket}(A)$. It exports no
+host language set, grammar quotient, selected parse tree, infinite branch
+choice, or unbounded machine execution.
+\end{definition}
+
+\begin{theorem}[PushdownAutomaton NameCert obligations]
+\label{thm:pushdown-automaton-namecert-obligations}
+For every accepted $\PushdownAutomatonUp$ carrier
+$$
+A=(Q,\Sigma,\Gamma,\delta,q_0,Z_0,F,w,\rho,\sigma,e,\chi,H,C,P,N),
+$$
+the local $\NameCert_{\PushdownAutomatonUp}$ surface consists of carrier
+admission, finite transition replay, stack-row stability, endpoint classifier
+stability, componentwise $\hsame$ transport, $\Cont$ replay, and $\Pkg$
+provenance for the rows in
+\autoref{def:pushdown-automaton-carrier}. A consumer may project the finite
+control, alphabet, stack, transition, input, run, stack-history, endpoint, and
+local naming rows, but it obtains no regular-language quotient, context-free
+grammar quotient, selected parse tree, or unbounded $\TuringMachineUp$ trace.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $A$. The rows $Q,\Sigma,\Gamma,\delta,q_0,Z_0,F$
+name the finite control and stack presentation, while $w,\rho,\sigma,e,\chi$
+name the inspected input, run ledger, stack ledger, endpoint, and acceptance
+readback.
+
+Finite transition replay is obtained by reading $\rho$ one displayed step at a
+time. Each step consults the current state row, the next consumed input row
+when present, the top stack-symbol row, and one transition entry of $\delta$.
+
+The structural rows $H,C,P,N$ transport and replay exactly these coordinates.
+Since the carrier has no coordinate for a host language set, grammar quotient,
+selected parse tree, or unbounded machine trace, no consumer can extract such
+data from the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[PushdownAutomaton stack-transition stability]
+\label{thm:pushdown-automaton-stack-transition-stability}
+Let
+$$
+A=(Q,\Sigma,\Gamma,\delta,q_0,Z_0,F,w,\rho,\sigma,e,\chi,H,C,P,N)
+$$
+be an accepted $\PushdownAutomatonUp$ carrier. Every displayed transition step
+in $\rho$ transports the current stack row in $\sigma$ to the next stack row
+by popping the displayed top symbol and pushing the finite replacement
+$\ListUp$ row named by the corresponding transition entry. The transported
+step preserves the input cursor, endpoint readback, $\hsame$ rows, $\Cont$
+routes, and $\Pkg$ provenance, and it exports no hidden stack contents,
+epsilon-closure quotient, or infinite run branch.
+\end{theorem}
+\begin{proof}
+Read one step of the finite run ledger. The step exposes the current control
+state, the optional consumed input symbol, the current stack row, and the
+top-stack symbol read by the transition entry.
+
+Use the displayed transition entry of $\delta$ to form the next state and the
+finite replacement stack word. The next stack ledger entry in $\sigma$ is
+obtained by replacing the visible top symbol with that finite $\ListUp$ word
+and leaving the unreduced stack suffix as the displayed remainder row.
+
+The componentwise $\hsame$ rows transport the state, input cursor, stack row,
+transition entry, and endpoint readback. The $\Cont$ route then passes the
+remaining finite run ledger to the next step, and the $\Pkg$ row records the
+same finite-recognizer, grammar, and machine-boundary provenance.
+
+No other stack data is available. In particular, the packet contains no
+epsilon-closure quotient, selected infinite branch, hidden stack store, or
+unbounded machine trace.
+\end{proof}
+
+\closureat{PushdownAutomatonUp}{seedStr}
+
+\begin{closurestatus}{\PushdownAutomatonUp}
+  \constructivestory{A $\PushdownAutomatonUp$ packet is generated from finite control rows, input alphabet rows, stack alphabet rows, a transition ledger, start and initial-stack rows, accepting rows, a finite input word, a finite run ledger, a stack-history ledger, an endpoint readback, componentwise $\hsame$ transports, $\Cont$ replay routes, $\Pkg$ provenance, and local $\NameCert$ rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pushdown-automaton-carrier}, \autoref{thm:pushdown-automaton-namecert-obligations}, and \autoref{thm:pushdown-automaton-stack-transition-stability} seed the finite stack-recognizer carrier, local NameCert surface, and stack-transition stability boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, equivalence with all context-free grammars, language-set semantics, determinization, selected parse trees, infinite branch choice, or unbounded Turing-machine recognition.}
+  \upgradepath{Obligation closure requires checked carrier admission, transition replay, stack-row stability, acceptance readback, and ledger non-escape for BEDC.Derived.PushdownAutomatonUp.}
+\end{closurestatus}

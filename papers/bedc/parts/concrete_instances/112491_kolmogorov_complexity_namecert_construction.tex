@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\KolmogorovComplexityUp$}
+\label{ch:concrete-instances-kolmogorov-complexity-namecert}
+\origin{human}
+
+Following Kolmogorov and Chaitin, the $\KolmogorovComplexityUp$ packet records finite program-complexity evidence as displayed BEDC rows rather than as an oracle for uncomputable minima. It sits beside the machine interface of \autoref{ch:concrete-instances-turingmachine-namecert}, the bounded-computation surface of \autoref{ch:concrete-instances-computable-namecert}, the finite digest discipline of \autoref{ch:concrete-instances-hash-namecert}, the stream-prefix service of \autoref{ch:concrete-instances-streamname-namecert}, and the binary-code carrier of \autoref{ch:concrete-instances-binary-tree-namecert}. The chapter names a finite certificate that a displayed program has bounded length and produces a displayed observation under a displayed universal-machine row; it is not an uncomputable minimum selector, Chaitin incompleteness theorem, quotient program equality, or host semantic universality principle.
+
+\begin{definition}[Kolmogorov complexity carrier]
+\label{def:kolmogorov-complexity-carrier}
+A $\KolmogorovComplexityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(p,U,I,O,F,L,B,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $p$ is the program row, stored as finite binary or prefix-code data rather than as a host string.
+\item $U$ is the universal-machine row, read through $\TuringMachineUp$ and the bounded computation discipline of $\ComputableUp$.
+\item $I$ is the finite input-observation row.
+\item $O$ is the finite output-observation row produced by replaying $p$ on $U$ for the displayed input.
+\item $F$ is the finite prefix or code ledger, recording prefix admissibility and code parsing data through the stream-prefix and binary-code sibling rows.
+\item $L$ is the bounded-length certificate for $p$ and the visible code ledger.
+\item $B$ is the computable-enumeration provenance row, recording that the displayed program/code rows are reached by a finite enumeration route.
+\item $E$ is the bounded evaluation transcript row for the displayed input and output observations.
+\item $T$ records componentwise $\hsame$ transport for $p,U,I,O,F,L,B,E$.
+\item $C$ records displayed $\Cont$ replay of the same finite program, machine, code, length, enumeration, and evaluation rows.
+\item $P$ is the $\Pkg$ provenance over $\KolmogorovComplexityUp$, $\TuringMachineUp$, $\ComputableUp$, $\HashUp$, $\StreamNameUp$, $\BinaryTreeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KolmogorovComplexityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an uncomputable shortest-program selection, quotient equality of programs, host semantic universality, Chaitin incompleteness, or ambient real/stream completeness.
+\end{definition}
+
+\begin{theorem}[Kolmogorov complexity NameCert obligations]
+\label{thm:kolmogorov-complexity-namecert-obligations}
+For every accepted $\KolmogorovComplexityUp$ carrier
+$$
+K=(p,U,I,O,F,L,B,E,T,C,P,N),
+$$
+the local $\NameCert_{\KolmogorovComplexityUp}$ surface consists exactly of carrier admission, finite program-row exposure, universal-machine and $\TuringMachineUp$ row exposure, finite input and output observation rows, prefix/code ledger exposure, bounded-length certification, computable-enumeration provenance, bounded evaluation transcript, componentwise transport, displayed replay, package provenance, and local naming. The certificate may state that the displayed program has the displayed bounded length for the displayed observation, but it does not select an uncomputable minimum, identify quotient program semantics, prove Chaitin incompleteness, or assert host semantic universality.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:kolmogorov-complexity-carrier}. The rows $p,U,I,O,F,L,B,E$ are the only analytic data available to a complexity consumer, and the structural rows $T,C,P,N$ only transport, replay, source, and name those data.
+
+Read the machine route through the sibling interfaces. The program row and universal-machine row are consumed through $\TuringMachineUp$ and $\ComputableUp$, while the prefix/code ledger is a finite route through $\StreamNameUp$ and $\BinaryTreeUp$; the $\HashUp$ sibling supplies digest-style finite-output comparison discipline when a bounded transcript needs a visible finite output row.
+
+The length claim is bounded and displayed. The row $L$ certifies the length of the shown program/code ledger, and the row $E$ records only the finite evaluation transcript for the shown input and output observations.
+
+Since the carrier contains no row for shortest-program search, quotient program equality, host semantic universality, Chaitin incompleteness, or ambient completeness, the NameCert surface is exactly the displayed finite program-complexity packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted KolmogorovComplexityUp read factors through a displayed finite program row, a TuringMachineUp universal-machine row, finite input and output observations, a prefix/code ledger, a bounded-length certificate, computable-enumeration provenance, bounded evaluation replay, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{turingmachine, computable, hash, streamname, binarytree: $\KolmogorovComplexityUp$ is not bijective to any listed sibling because it binds program rows, universal-machine rows, finite observations, prefix/code ledgers, bounded-length certificates, computable-enumeration provenance, evaluation transcripts, transport, replay, provenance, and naming as one finite complexity packet.}
+
+\closureat{KolmogorovComplexityUp}{seedStr}
+
+\begin{closurestatus}{\KolmogorovComplexityUp}
+  \constructivestory{A $\KolmogorovComplexityUp$ packet is generated from finite program rows, a TuringMachineUp universal-machine row, finite input and output observation rows, prefix/code ledgers, bounded-length certificates, computable-enumeration provenance, bounded evaluation transcripts, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kolmogorov-complexity-carrier} and \autoref{thm:kolmogorov-complexity-namecert-obligations} seed the finite-program complexity packet over displayed program, machine, prefix/code, length, enumeration, evaluation, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close uncomputable minimum selection, Chaitin incompleteness, quotient program equality, host semantic universality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, program-row exposure, universal-machine row exposure, finite observation rows, prefix/code ledger exposure, bounded-length certification, computable-enumeration provenance, evaluation replay, transport, provenance, and local naming for BEDC.Derived.KolmogorovComplexityUp.}
+\end{closurestatus}

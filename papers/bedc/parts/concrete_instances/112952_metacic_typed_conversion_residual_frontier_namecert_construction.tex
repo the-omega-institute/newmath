@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICTypedConversionResidualFrontierUp$}
+\label{ch:concrete-instances-metacic-typed-conversion-residual-frontier-namecert}
+\origin{ai}
+
+The $\MetaCICTypedConversionResidualFrontierUp$ packet realizes the decidability-frontier question of \autoref{ch:metacic-open-problems} as finite BEDC data. It sits beside the decidability boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, the bounded-normal conversion bridge of \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert}, the conversion endpoint seal of \autoref{ch:concrete-instances-metacic-conversion-endpoint-seal-namecert}, the decidable conversion frontier of \autoref{ch:concrete-instances-metacic-decidable-conversion-frontier-namecert}, and the subject-reduction obstruction of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}. The packet names the residual frontier where bounded normal computation, typed conversion, and finished-normal evidence must remain visible together; it does not turn the bounded checker into an unrestricted closed conversion decider.
+
+\begin{definition}[MetaCIC typed-conversion residual-frontier carrier]
+\label{def:metacic-typed-conversion-residual-frontier-carrier}
+A $\MetaCICTypedConversionResidualFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+F=(W,R,B,E,Q,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the typed-window row, recording the closed typed terms, their type boundary, and the finite context window inspected by the conversion request.
+\item $R$ is the residual-frontier row, retaining the redex and subject-reduction obstruction data that cannot be erased by bounded computation.
+\item $B$ is the bounded-normal comparison row, recording the fuel, two bounded normalizer outputs, and the Boolean comparison accepted by the checker.
+\item $E$ is the finished-normal witness row, requiring the compared outputs to be finished closed normal forms before a conversion endpoint can be read.
+\item $Q$ is the refusal row, rejecting any conversion read that omits the typed window, residual frontier, bounded comparison, or finished-normal witness.
+\item $O$ is the endpoint-obstruction row, exposing the $\MetaCICConversionEndpointSealUp$ handoff while retaining the subject-reduction obstruction as a separate coordinate.
+\item $H$ records componentwise $\hsame$ transport for $W,R,B,E,Q,O$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from a typed conversion request through $W,R,B,E,Q,O,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICTypedConversionResidualFrontierUp$, $\MetaCICDecidableBoundaryUp$, $\BoundedNormalConversionBridgeUp$, $\MetaCICConversionEndpointSealUp$, $\MetaCICDecidableConversionFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICTypedConversionResidualFrontierUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,R,B,E,Q,O,H,C,P,N$. It has no coordinate for unrestricted closed beta-conversion, fuel-erased normalization, quotient syntax equality, evaluator equality, subject-reduction discharge, confluence, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC typed-conversion residual-frontier NameCert obligations]
+\label{thm:metacic-typed-conversion-residual-frontier-namecert-obligations}
+For every accepted $\MetaCICTypedConversionResidualFrontierUp$ carrier
+$$
+F=(W,R,B,E,Q,O,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICTypedConversionResidualFrontierUp}$ surface consists exactly of typed-window exposure through $W$, residual-frontier exposure through $R$, bounded-normal comparison through $B$, finished-normal witness exposure through $E$, refusal stability through $Q$, endpoint-obstruction routing through $O$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The visible rows are the typed window, residual frontier, bounded comparison, finished-normal witness, refusal, endpoint-obstruction route, and structural rows.
+
+The typed conversion obligations are $W,R,B,E$. The window fixes the typed closed terms under discussion, the residual frontier keeps the obstruction data visible, the bounded comparison records the finite normalizer outputs, and the finished-normal witness certifies that the endpoint read is not merely a fuel-bounded observation.
+
+The refusal and endpoint-obstruction rows preserve the boundary. They reject reads that omit any of the four typed conversion rows, and they keep the conversion endpoint seal separate from subject-reduction discharge. Since no carrier coordinate contains unrestricted conversion, fuel-erased normalization, quotient syntax equality, evaluator equality, confluence, or kernel consistency, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed-conversion endpoint frontier]
+\label{thm:metacic-typed-conversion-endpoint-frontier}
+Every typed conversion consumer of an accepted $\MetaCICTypedConversionResidualFrontierUp$ packet factors through the finite route
+$$
+\MetaCICDecidableBoundaryUp,\ \BoundedNormalConversionBridgeUp,\ \MetaCICConversionEndpointSealUp,\ \MetaCICDecidableConversionFrontierUp
+$$
+with $W,R,B,E,Q,O,H,C,P,N$ displayed. The route exports a residual-frontier packet for bounded normal comparison and finished-normal endpoint evidence; it does not export unrestricted closed conversion, subject-reduction discharge, confluence, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the typed window. The row $W$ fixes the closed typed terms and their finite context-facing boundary before any checker result is read.
+
+Next read the bounded and residual rows together. The row $B$ records the bounded normal comparison, while $R$ retains the residual and subject-reduction obstruction data that prevent the comparison from becoming an unrestricted conversion theorem.
+
+Finally consume the endpoint evidence. The row $E$ supplies the finished-normal witness, $O$ routes the endpoint seal while retaining the obstruction, and $Q$ rejects bypass reads. Transport, replay, provenance, and naming preserve the same finite route, so the consumer receives endpoint-frontier data only.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICTypedConversionResidualFrontierUp$ read displays typed-window, residual-frontier, bounded-normal comparison, finished-normal witness, refusal, endpoint-obstruction, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before a typed conversion endpoint is consumed.}
+
+\independenceWitness{metacicdecidableboundary, bounded-normal-conversion-bridge, metacic-conversion-endpoint-seal, metacic-decidable-conversion-frontier, metacic-subject-reduction-obstruction: the residual-frontier carrier is not bijective to any listed sibling because it binds typed-window data, residual obstruction, bounded normal comparison, finished-normal witness, endpoint refusal, endpoint seal routing, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{MetaCICTypedConversionResidualFrontierUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICTypedConversionResidualFrontierUp}
+  \constructivestory{A $\MetaCICTypedConversionResidualFrontierUp$ packet is generated from typed-window data, residual-frontier data, bounded-normal comparison, finished-normal witness, refusal, endpoint-obstruction routing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-typed-conversion-residual-frontier-carrier}, \autoref{thm:metacic-typed-conversion-residual-frontier-namecert-obligations}, and \autoref{thm:metacic-typed-conversion-endpoint-frontier} seed the finite residual frontier for typed MetaCIC conversion.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unrestricted closed beta-conversion, fuel-erased normalization, quotient syntax equality, evaluator equality, subject-reduction discharge, confluence, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked typed-window exposure, residual-frontier retention, bounded-normal comparison, finished-normal witness, endpoint refusal, endpoint-obstruction routing, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICTypedConversionResidualFrontierUp.}
+\end{closurestatus}

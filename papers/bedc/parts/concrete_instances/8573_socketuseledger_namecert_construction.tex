@@ -66,6 +66,7 @@ A,S,Q,V,R,H,C,P,N .
 $$
 It cannot be read as a detached visible-use event, an unmarked supply import, a gate-free refusal, a quotient collapse, or a host replacement for the apophatic boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.SocketUseLedgerUp.SocketUseLedgerCarrier\_public\_visible\_refusal}
 \begin{proof}
 Start with the carrier of \autoref{def:socket-use-ledger-carrier}. The name row $A$, socket row $S$, gate question $Q$, visible-use row $V$, refusal row $R$, and structural rows $H,C,P,N$ are the only displayed fields.
 
@@ -93,19 +94,33 @@ The visible-use non-escape theorem \autoref{thm:socket-use-ledger-visible-use-no
 
 \independenceWitness{Nearest siblings: apophaticname, apophaticsocket, externalitygate, negativenameboundary, and apophaticgatequestion. SocketUseLedgerUp is not bijective to any of them because it simultaneously carries an event-level visible-use row and a refusal row for the same socket-use read; each sibling lacks at least one of those event ledger coordinates.}
 
+\begin{theorem}[SocketUseLedger mature audit package]
+\label{thm:socket-use-ledger-mature-audit-package}
+The $\SocketUseLedgerUp$ mature audit package consists of the visible-use and refusal event surface $U=(A,S,Q,V,R,H,C,P,N)$, the apophatic sibling carriers $\ApophaticNameUp$, $\ApophaticSocketUp$, $\ExternalityGateUp$, $\NegativeNameBoundaryUp$, and $\ApophaticGateQuestionUp$, the falsifiable prediction above, the independence witness above, and the $\TasteGate$ target recorded by the local closure rows. Together these data bind the public socket-use event, its refusal boundary, its sibling-carrier route, and its audit-facing taste gate without exporting the requested outside supply.
+\end{theorem}
+\begin{proof}
+The public event surface is fixed by \autoref{thm:socket-use-ledger-public-event-surface}: the only exported rows are $A,S,Q,V,R,H,C,P,N$. The visible-use non-escape theorem \autoref{thm:socket-use-ledger-visible-use-nonescape} keeps every accepted read inside the apophatic name, socket, gate question, visible-use row, refusal ledger, and structural rows.
+
+The sibling-carrier route is supplied by the chapters named in the introduction and by \autoref{thm:socket-use-ledger-public-visible-refusal}. The falsifiable prediction identifies an observable failure mode for any audit read that skips this route, while the independence witness separates the packet from its nearest apophatic siblings by the simultaneous presence of visible-use and refusal event rows.
+
+Finally the closure rows record the local $\TasteGate$ target for the same packet. These ingredients are exactly the mature paper-side inventory: public surface, sibling route, falsifiable boundary, independence separation, and taste-gate target, with no coordinate for the requested outside supply.
+\end{proof}
+
 \closureat{SocketUseLedgerUp}{seedStr}
 \closureat{SocketUseLedgerUp}{obligationStr}[BEDC.Derived.SocketUseLedgerUp.SocketUseLedgerTasteGate\_single\_carrier\_alignment]
 \closureat{SocketUseLedgerUp}{scopedStr}[BEDC.Derived.SocketUseLedgerUp.taste\_gate]
 \closureat{SocketUseLedgerUp}{publicStr}[BEDC.Derived.SocketUseLedgerUp.taste\_gate]
+\closureat{SocketUseLedgerUp}{bridgedStr}[BEDC.Derived.SocketUseLedgerUp.taste\_gate]
+\closureat{SocketUseLedgerUp}{matureStr}[BEDC.Derived.SocketUseLedgerUp.taste\_gate]
 
 \begin{closurestatus}{\SocketUseLedgerUp}
   \constructivestory{A $\SocketUseLedgerUp$ packet is generated from an apophatic-name row, socket row, gate-question row, visible-use row, refusal ledger, componentwise transports, displayed continuations, package provenance, and local naming.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:socket-use-ledger-carrier}, \autoref{thm:socket-use-ledger-namecert-obligations}, \autoref{thm:socket-use-ledger-visible-use-nonescape}, and \autoref{thm:socket-use-ledger-public-event-surface} bind the finite public visible-use and refusal event ledger for apophatic socket consumption.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:socket-use-ledger-carrier}, \autoref{thm:socket-use-ledger-namecert-obligations}, \autoref{thm:socket-use-ledger-visible-use-nonescape}, and \autoref{thm:socket-use-ledger-public-event-surface} bind the bridge route from $\ApophaticNameUp$, $\ApophaticSocketUp$, $\ExternalityGateUp$, $\NegativeNameBoundaryUp$, $\ApophaticGateQuestionUp$, and the local visible-use/refusal ledger into the public socket-use event surface.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \leanchecked{BEDC.Derived.SocketUseLedgerUp.taste\_gate}
   \notclaimed{This chapter does not close Lean verification, bridge checking, existence of the requested outside supply, global audit completeness, or every possible socket-use grammar.}
-  \upgradepath{Bridge closure requires a standard bridge that transports the public event ledger into the acceptance schema.}
+  \upgradepath{no further paper-side theory upgrade -- chapter is mature on the closure axis pending formal-axis work.}
 \end{closurestatus}

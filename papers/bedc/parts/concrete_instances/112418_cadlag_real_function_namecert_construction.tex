@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\CadlagRealFunctionUp$}
+\label{ch:concrete-instances-cadlag-real-function-namecert}
+\origin{human}
+
+Following Skorokhod and Billingsley on right-continuous paths with left limits, the $\CadlagRealFunctionUp$ packet records a real-valued path through finite window data, one-sided regulated fragments, and displayed jump-boundary rows. It sits after the regulated-function interface of \autoref{ch:concrete-instances-regulated-function-namecert}, the bounded regulated envelope of \autoref{ch:concrete-instances-bounded-regulated-function-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate exposes a path-space boundary for stochastic-process and Skorokhod-topology consumers without importing selected limits, quotient path equality, measure-theoretic sample spaces, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cadlag real function carrier]
+\label{def:cadlag-real-function-carrier}
+A $\CadlagRealFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,B,S,R,D,J,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\RegulatedFunctionUp$ source row, exposing finite one-sided regulated windows on the displayed real-domain schedule.
+\item $B$ is the $\BoundedRegulatedFunctionUp$ envelope row available on each bounded window requested by a consumer.
+\item $S$ is the $\StreamNameUp$ finite observation schedule used to name right-hand windows and left-hand approach windows.
+\item $R$ is the $\RegSeqRatUp$ readback row for rational observations of the displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger controlling window radius, jump comparison, and real-name readback precision.
+\item $J$ is the cadlag boundary row. It records right-continuity and left-limit availability only as finite window obligations tied to $S,R,D$.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after the regulated source, bounded-window envelope, stream schedule, rational readback, tolerance ledger, and cadlag boundary row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, bounded envelope, stream schedule, rational readback, tolerance, cadlag boundary, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a path-window request through $F,B,S,R,D,J,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CadlagRealFunctionUp$, $\RegulatedFunctionUp$, $\BoundedRegulatedFunctionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CadlagRealFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,B,S,R,D,J,E,H,C,P,N$. It has no coordinate for selected limits, quotient path equality, measure-theoretic sample spaces, trichotomy, host path equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cadlag real function NameCert obligations]
+\label{thm:cadlag-real-function-namecert-obligations}
+For every accepted $\CadlagRealFunctionUp$ carrier $K=(F,B,S,R,D,J,E,H,C,P,N)$, the local $\NameCert_{\CadlagRealFunctionUp}$ surface consists exactly of carrier admission, regulated-source admission, bounded-window envelope admission, finite stream-window exposure, regular rational readback, dyadic tolerance control, right-continuity window obligation, left-limit window obligation, terminal real-seal nonescape, componentwise transport, displayed replay, package provenance, local naming, and ledger refusal for selected limits, quotient path equality, measure-theoretic sample spaces, trichotomy, host path equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $F,B,S,R,D,J,E$ are the only analytic rows before transport, replay, provenance, and local naming are read.
+
+The regulated-source and bounded-window obligations are supplied by the sibling $\RegulatedFunctionUp$ and $\BoundedRegulatedFunctionUp$ rows. The stream schedule $S$, rational readback $R$, and dyadic ledger $D$ provide the finite data on which the cadlag boundary row $J$ can state right-continuity and left-limit obligations.
+
+The terminal seal $E$ is downstream of these rows. Componentwise transport and displayed replay preserve the same finite route, and the provenance and naming rows record it as the local certificate surface.
+
+Since no carrier coordinate stores selected limits, quotient path equality, measure-theoretic sample spaces, trichotomy, host path equality, or ambient real completeness, none of those objects can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Cadlag real function regulated-window handoff]
+\label{thm:cadlag-real-function-regulated-window-handoff}
+Every path-window consumer of an accepted $\CadlagRealFunctionUp$ carrier must read the $\RegulatedFunctionUp$ source row, the $\BoundedRegulatedFunctionUp$ bounded-window envelope, the $\StreamNameUp$ schedule, the $\RegSeqRatUp$ readback row, and the $\DyadicRatCoreUp$ tolerance ledger before the cadlag boundary row can export a terminal $\RealUp$ seal. The handoff is therefore a finite regulated-window route, not a selected path limit, quotient path equality, measure-theoretic sample-space construction, trichotomy decision, or ambient completeness proof.
+\end{theorem}
+\begin{proof}
+Let $K=(F,B,S,R,D,J,E,H,C,P,N)$ be accepted. A path-window request first reaches the regulated source row $F$, then the bounded-window envelope $B$, then the stream schedule $S$, rational readback $R$, and dyadic tolerance ledger $D$.
+
+Only after those rows are displayed can the cadlag boundary row $J$ be consumed. The row $J$ records right-continuity and left-limit availability as finite window obligations tied to the already displayed schedule and tolerance data.
+
+The terminal $\RealUp$ seal $E$ is downstream of $J$, and transport through $H$ and replay through $C$ keep the same route visible to downstream consumers. Provenance $P$ and local naming $N$ then certify the route as a $\CadlagRealFunctionUp$ packet.
+
+Because selected limits, quotient path equality, measure-theoretic sample spaces, trichotomy, host path equality, and ambient $\RealUp$ completeness are absent from the carrier coordinates, no consumer can obtain them through the regulated-window handoff.
+\end{proof}
+
+\closureat{CadlagRealFunctionUp}{seedStr}
+
+\begin{closurestatus}{\CadlagRealFunctionUp}
+  \constructivestory{A $\CadlagRealFunctionUp$ packet is generated from a RegulatedFunction source row, BoundedRegulatedFunction window envelope, StreamName finite schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, cadlag boundary row, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cadlag-real-function-carrier}, \autoref{thm:cadlag-real-function-namecert-obligations}, and \autoref{thm:cadlag-real-function-regulated-window-handoff} seed the finite right-continuous-with-left-limits path route over regulated windows and terminal Real-facing seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected limits, quotient path equality, measure-theoretic sample spaces, trichotomy, host path equality, Lean verification, bridge checking, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, regulated-source admission, bounded-window envelope admission, stream-window exposure, rational readback, dyadic tolerance control, cadlag boundary obligations, transport, replay, provenance, and local naming for BEDC.Derived.CadlagRealFunctionUp.}
+\end{closurestatus}

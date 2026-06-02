@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMeasureUp$}
+\label{ch:concrete-instances-finite-measure-namecert}
+\origin{human}
+
+Following Halmos and Kolmogorov finite measure theory, the $\FiniteMeasureUp$ packet names the finite additive event-value ledger that measure-facing chapters use before invoking countable or completed measure structure. It sits after the event-family rows of \autoref{ch:concrete-instances-sigma-algebra-namecert}, the finite tally route of \autoref{ch:concrete-instances-counting-measure-namecert}, the finite-cell approximation surface of \autoref{ch:concrete-instances-simple-function-approximation-namecert}, the root event-value packet of \autoref{ch:concrete-instances-measure-namecert}, and the scalar readback of \autoref{ch:concrete-instances-real-namecert}. The packet records only finite event values and their displayed finite additivity route.
+
+\begin{definition}[Finite measure carrier]
+\label{def:finite-measure-carrier}
+A $\FiniteMeasureUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,E,V,A,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SigmaAlgebraUp$ event-family row, exposing the admitted measurable events and their displayed classifier.
+\item $E$ is the finite event ledger, listing the particular event rows whose values are visible to the packet.
+\item $V$ is the finite event-value ledger, assigning to every event in $E$ a displayed non-negative $\RealUp$ value.
+\item $A$ is the finite disjoint-additivity ledger, recording the binary and finite-family disjoint-union checks admitted by the packet.
+\item $T$ is the total-mass bound row, naming a displayed $\RealUp$ bound for the whole admitted event family.
+\item $R$ is the $\RealUp$ scalar readback row, routing event values, sums, and the total-mass bound through the same scalar certificate surface.
+\item $H$ records componentwise $\hsame$ transport for the event-family, finite event ledger, value ledger, additivity ledger, total-mass bound, scalar readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an event-value request through $S,E,V,A,T,R$ and then to the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\FiniteMeasureUp$, $\SigmaAlgebraUp$, $\CountingMeasureUp$, $\SimpleFunctionApproximationUp$, $\MeasureUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteMeasureUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for sigma-additive completion, host measure objects, quotient event equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[FiniteMeasure NameCert obligations]
+\label{thm:finite-measure-namecert-obligations}
+For every accepted $\FiniteMeasureUp$ carrier $F=(S,E,V,A,T,R,H,C,P,N)$, the local $\NameCert_{\FiniteMeasureUp}$ surface consists exactly of the sigma-algebra event-family row, finite event ledger, finite event-value ledger, finite disjoint-additivity ledger, total-mass bound, $\RealUp$ scalar readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A downstream $\MeasureUp$, $\RadonMeasureUp$, $\EgorovUp$, $\DominatedConvergenceUp$, $\CountingMeasureUp$, or $\SimpleFunctionApproximationUp$ consumer must expose those rows before treating the packet as a finite measure substrate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-measure-carrier}. The row $S$ is the only source of measurable-event admission, while $E$ restricts public values to the displayed finite event ledger.
+
+Read the value and additivity rows. The ledger $V$ supplies the visible event values, $A$ records exactly the finite disjoint-union checks available to consumers, and $T$ gives the displayed total-mass bound for the same event family.
+
+The row $R$ routes every value, finite sum, and bound through the $\RealUp$ scalar readback surface. Transport and replay are componentwise through $H$ and $C$, so no second event equality or hidden scalar completion is introduced.
+
+Finally $P$ and $N$ source and name this packet. Since the carrier contains no sigma-additive completion, host measure object, quotient event equality, countable-choice selector, or ambient Real-completeness coordinate, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[FiniteMeasure counting-measure handoff]
+\label{thm:finite-measure-counting-measure-handoff}
+Every accepted $\CountingMeasureUp$ packet whose finite support and event rows are read as finite event values can hand off to $\FiniteMeasureUp$ only through the displayed rows $S,E,V,A,T,R,H,C,P,N$. The handoff preserves the finite tally as a $\RealUp$ value row, exposes finite disjoint additivity through the ledger $A$, and exports no sigma-additive completion, host measure object, quotient event equality, countable-choice selector, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the finite support and tally rows supplied by $\CountingMeasureUp$. They determine event values only for the displayed finite event rows, so the target $\FiniteMeasureUp$ packet must first expose $S$ and $E$.
+
+The tally readback becomes a value row through $V$ and $R$. Finite disjoint unions are then routed through $A$, while the total mass is bounded by $T$ over the same event-family row.
+
+Transport, replay, provenance, and naming are carried by $H,C,P,N$. These rows preserve the counting route as finite event-value data and do not add countable unions, host measures, quotient event representatives, choice-selected supports, or ambient Real completeness.
+\end{proof}
+
+\closureat{FiniteMeasureUp}{seedStr}
+
+\begin{closurestatus}{\FiniteMeasureUp}
+  \constructivestory{A $\FiniteMeasureUp$ packet is generated from a SigmaAlgebraUp event-family row, finite event ledger, finite event-value ledger, finite disjoint-additivity ledger, total-mass bound, RealUp scalar readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-measure-carrier}, \autoref{thm:finite-measure-namecert-obligations}, and \autoref{thm:finite-measure-counting-measure-handoff} seed the finite additive event-value substrate consumed by MeasureUp, RadonMeasureUp, EgorovUp, DominatedConvergenceUp, CountingMeasureUp, and SimpleFunctionApproximationUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close sigma-additive completion, host measure objects, quotient event equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked event-family admission, finite event-value exactness, finite disjoint-additivity, total-mass bound readback, Real scalar transport, replay, provenance, and local naming for BEDC.Derived.FiniteMeasureUp.FiniteMeasureCarrier\_namecert\_obligations.}
+\end{closurestatus}

@@ -70,6 +70,20 @@ The Real-facing coordinate is also not free-standing. The row $e$ is downstream 
 Finally, $h,c,p,n$ preserve and name that route without adding a second precision coordinate. Since the carrier has no excluded coordinate, every RegSeqRat or Real consumer must pass through the dyadic scale row before readback and seal.
 \end{proof}
 
+\begin{theorem}[Dyadic tolerance scale precision-gate exhaustion]
+\label{thm:dyadic-tolerance-scale-precision-gate-exhaustion}
+Let $T=(s,d,w,r,m,e,h,c,p,n)$ be an accepted $\DyadicToleranceScaleUp$ carrier. Every $\RegSeqRatUp$ or $\RealUp$ consumer of $T$ must pass through the scale row $s$, the $\DyadicRatCoreUp$ tolerance ledger $d$, the $\StreamNameUp$ finite window $w$, the $\CauchyModulusUp$ threshold row $m$, the $\RegSeqRatUp$ readback row $r$, the $\RealUp$ seal $e$, and the structural rows $h,c,p,n$. No quotient stream equality, selected limit, host equality, countable choice, trichotomy, or ambient $\RealUp$ completeness coordinate is available to such a consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-tolerance-scale-carrier}. The visible rows are exactly the scale, dyadic ledger, finite window, regular readback, Cauchy threshold, Real seal, and structural rows $s,d,w,r,m,e,h,c,p,n$.
+
+Apply \autoref{thm:dyadic-tolerance-scale-namecert-obligations}. The scale monotonicity row must be read before any ledger, window, readback, threshold, or seal row, and the classifier transport exposes no hidden precision coordinate.
+
+Now apply \autoref{thm:dyadic-tolerance-scale-regseqrat-handoff}. It forces each RegSeqRat or Real consumer through the route from $s$ to $d$, then $w$, $r$, $m$, $e$, and finally $h,c,p,n$.
+
+Because the carrier and the handoff route contain no quotient, selected-limit, host-equality, choice, trichotomy, or completeness row, the scale row exhausts the precision gate for every accepted consumer.
+\end{proof}
+
 \closureat{DyadicToleranceScaleUp}{seedStr}
 
 \begin{closurestatus}{\DyadicToleranceScaleUp}

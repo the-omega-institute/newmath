@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MetricCauchyFilterBridgeUp$}
+\label{ch:concrete-instances-metric-cauchy-filter-bridge-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges, the $\MetricCauchyFilterBridgeUp$ packet records the finite bridge by which a metric Cauchy-filter presentation is read through StreamName windows, dyadic tolerance ledgers, RegSeqRat readback, and a terminal Real seal. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, the finite observation route of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The bridge names only the displayed finite handoff; it does not identify quotient filter classes or select a limit point.
+
+\begin{definition}[Metric Cauchy-filter bridge carrier]
+\label{def:metric-cauchy-filter-bridge-carrier}
+A $\MetricCauchyFilterBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,F,S,D,R,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $X$ is the metric source row, exposing only the displayed distance and finite ball-comparison data allowed by the $\MetricUp$ packet.
+\item $F$ is the filter-base row, listing the finite inhabited tails and refinement requests that witness the Cauchy-filter presentation.
+\item $S$ is the finite $\StreamNameUp$ window row extracted from the filter base.
+\item $D$ is the dyadic tolerance ledger read through $\DyadicRatCoreUp$ and attached to the displayed filter windows.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational tail windows produced from $S$ and $D$.
+\item $E$ is the terminal $\RealUp$ seal row reached from the displayed RegSeqRat readback.
+\item $H$ records componentwise $\hsame$ transport for the metric source, filter base, StreamName windows, dyadic ledger, RegSeqRat readback, and Real seal rows.
+\item $C$ records displayed $\Cont$ replay from a Cauchy-filter request through the finite StreamName, DyadicRatCore, RegSeqRat, and Real seal route.
+\item $P$ is the $\Pkg$ provenance over $\MetricCauchyFilterBridgeUp$, $\MetricUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetricCauchyFilterBridgeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filter equality, selected limits, countable-choice schedules, host real equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Metric Cauchy-filter bridge NameCert obligations]
+\label{thm:metric-cauchy-filter-bridge-namecert-obligations}
+Every accepted $\MetricCauchyFilterBridgeUp$ packet binds exactly the rows displayed in \autoref{def:metric-cauchy-filter-bridge-carrier}: metric source visibility for $X$, finite filter-base visibility for $F$, finite StreamName windows for $S$, dyadic tolerance ledger visibility for $D$, RegSeqRat readback for $R$, terminal Real seal visibility for $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, sibling provenance through $P$, and local naming through $N$.
+
+The obligation surface exports no quotient filter class, selected limit, countable-choice selector, host real equality, ambient metric completeness datum, or ambient Real completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $M=(X,F,S,D,R,E,H,C,P,N)$. The metric source row $X$ and filter-base row $F$ provide the only admissible Cauchy-filter data, and both are finite displayed rows.
+
+Read the completion route through $S,D,R,E$. The $\StreamNameUp$ row supplies finite windows, $\DyadicRatCoreUp$ supplies the dyadic tolerance ledger, $\RegSeqRatUp$ supplies regular rational readback, and $\RealUp$ supplies the terminal seal.
+
+The support rows $H,C,P,N$ transport, replay, source, and name those finite rows componentwise. Since no quotient, choice, selected-limit, host-equality, or completeness coordinate occurs in the carrier, the accepted packet binds exactly the displayed NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Metric Cauchy-filter bridge real-completion handoff]
+\label{thm:metric-cauchy-filter-bridge-real-completion-handoff}
+Every terminal completion consumer of an accepted $\MetricCauchyFilterBridgeUp$ packet receives its $\RealUp$ seal only through the finite route
+$$
+\MetricUp \longrightarrow \StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+The filter-base row can request narrower displayed tails and dyadic tolerances, but the handoff remains a finite StreamName, DyadicRatCore, RegSeqRat, and Real seal route transported by $\hsame$, replayed by $\Cont$, sourced by $\Pkg$, and named by the local $\NameCert_{\MetricCauchyFilterBridgeUp}$ row.
+
+The handoff refuses quotient filter classes, selected limits, countable choice, host real equality, selected Real endpoints, metric-completeness data, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only route from the metric Cauchy-filter rows to a real-name endpoint is the displayed sequence of $S,D,R,E$ rows, with $X$ and $F$ supplying the source and filter-base requests.
+
+Use the StreamName and DyadicRatCore rows to turn each accepted finite tail request into a dyadic tolerance window. The RegSeqRat row reads that window as a regular rational tail, and the Real row seals only that readback.
+
+Finally use the support rows. Componentwise $\hsame$ keeps the route stable under displayed comparison, $\Cont$ replays the finite handoff, $\Pkg$ records the sibling provenance, and the local NameCert row names the bridge. The excluded quotient, choice, selected-limit, host-equality, endpoint-selection, metric-completeness, and Real-completeness rows are absent from the carrier, so no completion consumer can read them.
+\end{proof}
+
+\closureat{MetricCauchyFilterBridgeUp}{seedStr}
+
+\begin{closurestatus}{\MetricCauchyFilterBridgeUp}
+  \constructivestory{A $\MetricCauchyFilterBridgeUp$ packet is generated from a MetricUp source row, a finite Cauchy-filter base row, StreamName windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-cauchy-filter-bridge-carrier}, \autoref{thm:metric-cauchy-filter-bridge-namecert-obligations}, and \autoref{thm:metric-cauchy-filter-bridge-real-completion-handoff} seed the finite metric Cauchy-filter bridge into the RegSeqRat and Real completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filter classes, selected limits, countable choice, host real equality, selected Real endpoints, ambient metric completeness, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked metric-source admission, filter-base window extraction, dyadic tolerance readback, RegSeqRat handoff, Real seal non-escape, and ledger stability for BEDC.Derived.MetricCauchyFilterBridgeUp.}
+\end{closurestatus}

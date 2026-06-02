@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CertifiedModelQualityUp$}
+\label{ch:concrete-instances-certified-model-quality-namecert}
+\origin{ai}
+
+The $\CertifiedModelQualityUp$ packet realizes the model-quality scope of \autoref{sec:visions-philosophy-certified-model-quality} as finite certificate rows. It reads classifier support, behavior coverage, score accounting, and debt gates from displayed ledgers before any consumer may call a model-state transition a certified quality improvement. The packet sits beside the classifier-formation surface of \autoref{ch:concrete-instances-classifier-forming-learning-namecert}, the GroundCompiler audit-map surface of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, the certificate gate of \autoref{ch:concrete-instances-certificateauditgate-namecert}, and the effective replacement ledger of \autoref{ch:concrete-instances-effective-replacement-ledger-namecert}.
+
+\begin{definition}[CertifiedModelQuality carrier]
+\label{def:certified-model-quality-carrier}
+A $\CertifiedModelQualityUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,B,L,W,D,A,G,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the declared model-quality scope row, naming the domain, model state, admitted transformations, critical behavior family, and public protocol.
+\item $B$ is the certified behavior coverage row, listing the finite critical behaviors whose classifier support and local $\NameCert$ rows are displayed.
+\item $L$ is the model-quality ledger row, recording benefit, cost, debt, failure cases, verification status, safety boundary, shortcut risk, and not-claimed scope.
+\item $W$ is the public score-accounting row, reading the weighted benefit, cost, and debt comparison from $L$.
+\item $D$ is the explicit debt row whose absence blocks certification of an improvement.
+\item $A$ is the audit-gate row, citing $\GroundCompilerAuditMapUp$ and $\CertificateAuditGateUp$ consumers for machine-readable checking.
+\item $G$ is the replacement and belief-separation row, citing $\EffectiveReplacementLedgerUp$ and $\BeliefUp$ only as sibling dependencies rather than as equivalent model-quality packets.
+\item $R$ is the quality-gate decision row, accepting only when coverage, critical debt, safety, transfer, and verification ledgers meet the public protocol.
+\item $H$ records componentwise $\hsame$ transport for scope, behavior coverage, ledger, score, debt, audit, sibling-separation, gate, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from scope inspection through coverage, ledger, score, debt, audit, sibling separation, gate, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\CertifiedModelQualityUp$, $\ClassifierFormingLearningUp$, $\GroundCompilerAuditMapUp$, $\CertificateAuditGateUp$, $\EffectiveReplacementLedgerUp$, $\BeliefUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CertifiedModelQualityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,B,L,W,D,A,G,R,H,C,P,N$. It has no coordinate for raw benchmark superiority, private evaluator preference, host semantic truth, hidden training success, unledgered classifier gain, or an equivalence between belief commitment and certified model quality.
+\end{definition}
+
+\begin{theorem}[CertifiedModelQuality NameCert obligations]
+\label{thm:certified-model-quality-namecert-obligations}
+For every accepted $\CertifiedModelQualityUp$ carrier
+$$
+Q=(S,B,L,W,D,A,G,R,H,C,P,N),
+$$
+the local $\NameCert_{\CertifiedModelQualityUp}$ surface consists exactly of scope exposure, certified behavior coverage, model-quality ledger accounting, public score comparison, explicit debt attachment, audit-gate handoff, sibling-separation handoff, quality-gate decision, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:certified-model-quality-carrier}. The accepted packet displays exactly the scope row $S$, behavior-coverage row $B$, ledger row $L$, score row $W$, debt row $D$, audit row $A$, sibling-separation row $G$, gate row $R$, and structural rows $H,C,P,N$.
+
+The ledger and score rows are inseparable. The score row $W$ may compare two model states only through the benefit, cost, and debt entries shown in $L$, and the debt row $D$ records the critical residue that must be accounted for before the comparison can be certified.
+
+The audit and sibling rows keep the packet public and non-bijective. The $\GroundCompilerAuditMapUp$ and $\CertificateAuditGateUp$ entries in $A$ make the quality read machine-checkable as audit data, while $G$ records that $\EffectiveReplacementLedgerUp$ and $\BeliefUp$ are neighboring dependencies, not substitutes for model-quality certification.
+
+Finally, $R,H,C,P,N$ accept, transport, replay, source, and name the same finite route. Since no excluded coordinate appears in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CertifiedModelQuality debt row gate]
+\label{thm:certified-model-quality-debt-row-gate}
+An accepted $\CertifiedModelQualityUp$ packet cannot certify a model-quality improvement when the debt row $D$ is absent from the displayed carrier. In that case the score comparison remains an uncertified performance, preference, or classifier-support observation rather than a certified model-quality improvement.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The quality score is read through $W$, and $W$ depends on the ledger row $L$ together with the explicit debt row $D$.
+
+If $D$ is absent, the packet has no displayed coordinate for black-box debt, ledger debt, stability debt, generalization debt, safety debt, shortcut debt, semantic debt, or verification debt. The quality gate $R$ therefore lacks the row it must inspect before accepting the comparison.
+
+The remaining rows still may record behavior coverage, audit handoff, or score movement, but none of them replaces $D$. Thus the packet refuses certification of improvement while preserving the weaker displayed observations.
+\end{proof}
+
+\falsifiablePrediction{A $\CertifiedModelQualityUp$ packet that claims certified model-quality improvement while omitting the debt row $D$ is rejected by the local NameCert surface.}
+
+\independenceWitness{GroundCompilerAuditMap, CertificateAuditGate, EffectiveReplacementLedger, Belief: none is bijective with $\CertifiedModelQualityUp$ because audit maps, gate passes, replacement ledgers, and belief commitments each omit at least one of the scope, behavior-coverage, score-accounting, debt, quality-gate, transport, replay, provenance, or local naming rows.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \CertifiedModelQualityUp$ and $\mathsf{FieldFaithful}\ \CertifiedModelQualityUp$ instances in \texttt{lean4/BEDC/Derived/CertifiedModelQualityUp/TasteGate.lean}. Those instances must preserve the rows $S,B,L,W,D,A,G,R,H,C,P,N$ so the checked TasteGate surface separates debt-aware model quality from score movement, audit-gate success, replacement-ledger availability, and belief commitment.
+
+\closureat{CertifiedModelQualityUp}{seedStr}
+
+\begin{closurestatus}{\CertifiedModelQualityUp}
+  \constructivestory{A $\CertifiedModelQualityUp$ packet is generated from model-quality scope, certified behavior coverage, ledger accounting, public score comparison, explicit debt, audit-gate handoff, sibling-separation handoff, quality-gate decision, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:certified-model-quality-carrier}, \autoref{thm:certified-model-quality-namecert-obligations}, and \autoref{thm:certified-model-quality-debt-row-gate} seed the finite certificate packet for debt-aware model-quality certification.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close benchmark validity, causal explanation, host semantic truth, hidden training success, global model safety, Lean checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, behavior coverage, ledger and score accounting, debt-row gate refusal, audit-gate handoff, sibling separation, transport, replay, provenance, local naming, and Nontrivial and FieldFaithful TasteGate instances for BEDC.Derived.CertifiedModelQualityUp.}
+\end{closurestatus}

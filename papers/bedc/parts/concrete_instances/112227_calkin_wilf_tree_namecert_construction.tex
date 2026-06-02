@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\CalkinWilfTreeUp$}
+\label{ch:concrete-instances-calkin-wilf-tree-namecert}
+\origin{human}
+
+Following Calkin--Wilf and Hardy--Wright, the $\CalkinWilfTreeUp$ packet records the finite binary tree route by which positive rational presentations are generated from $1/1$ through the child rules $a/b \mapsto a/(a+b)$ and $a/b \mapsto (a+b)/b$. It sits between the rational carrier of \autoref{ch:concrete-instances-rat-namecert}, the determinant-one tree boundary of \autoref{ch:concrete-instances-stern-brocot-namecert}, the adjacent rational ledger of \autoref{ch:concrete-instances-farey-sequence-namecert}, and the breadth-first stream surface of \autoref{ch:concrete-instances-calkin-wilf-enumeration-namecert}. The packet names a finite address-to-rational tree carrier; it is not a host enumeration of rational numbers, a quotient-rational equality theorem, a selected representative principle, or an ambient completion claim.
+
+\begin{definition}[Calkin--Wilf tree carrier]
+\label{def:calkin-wilf-tree-carrier}
+A $\CalkinWilfTreeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(A,Q,L,R,S,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the binary address row, recording the finite left/right word from the root address to the inspected node.
+\item $Q$ is the positive $\RatUp$ readback row at the inspected address, stored as displayed numerator and denominator histories.
+\item $L$ is the left-child row, recording the displayed transition from $a/b$ to $a/(a+b)$.
+\item $R$ is the right-child row, recording the displayed transition from $a/b$ to $(a+b)/b$.
+\item $S$ is the $\SternBrocotUp$ comparison row, sending the inspected address to the sibling finite tree boundary and mediant route.
+\item $F$ is the $\FareySequenceUp$ comparison row, recording the adjacent determinant-one rational window through which the inspected presentation is compared with Farey neighbors.
+\item $H$ stores componentwise $\hsame$ transport for the address, rational readback, child-step, Stern--Brocot comparison, Farey comparison, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from an address request through child-step inspection, rational readback, Stern--Brocot comparison, Farey-neighbor comparison, and downstream handoff.
+\item $P$ is the $\Pkg$ provenance over $\CalkinWilfTreeUp$, $\RatUp$, $\SternBrocotUp$, $\FareySequenceUp$, $\CalkinWilfEnumerationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CalkinWilfTreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,Q,L,R,S,F,H,C,P,N$. The carrier has no coordinate for host enumeration, quotient rational equality, selected representatives, signed-rational coverage, real order, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Calkin--Wilf tree NameCert obligations]
+\label{thm:calkin-wilf-tree-namecert-obligations}
+For every accepted $\CalkinWilfTreeUp$ carrier
+$$
+T=(A,Q,L,R,S,F,H,C,P,N),
+$$
+the local $\NameCert_{\CalkinWilfTreeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed binary address, positive rational readback, child-step, Stern--Brocot comparison, Farey comparison, transport, replay, provenance, and local naming rows;
+\item root admission, requiring the empty address in $A$ to expose the displayed positive rational row $1/1$ in $Q$;
+\item child-step exactness, requiring every left edge to be read through $L$ as $a/b \mapsto a/(a+b)$ and every right edge to be read through $R$ as $a/b \mapsto (a+b)/b$;
+\item Stern--Brocot comparison, requiring $S$ to compare the addressed node through the finite rational-tree route of \autoref{ch:concrete-instances-stern-brocot-namecert};
+\item Farey comparison, requiring $F$ to expose the adjacent determinant-one rational window before any consumer treats $Q$ as rational comparison data;
+\item enumeration handoff, requiring the breadth-first stream packet of \autoref{ch:concrete-instances-calkin-wilf-enumeration-namecert} to read only the displayed $A,Q,L,R$ route when it consumes tree nodes;
+\item non-escape, stating that host enumeration, quotient rational equality, selected representatives, signed-rational coverage, real order, and ambient completion are absent from the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:calkin-wilf-tree-carrier}. The accepted tuple exposes exactly the address row, rational readback row, two child-step rows, sibling comparison rows, and structural rows listed in the statement.
+
+Root admission is the base case of the displayed address row. At the empty address, the packet reads the positive $\RatUp$ presentation $1/1$ from $Q$, with no external enumeration or quotient comparison.
+
+For the successor step, inspect the next bit of $A$. A left bit uses $L$ and a right bit uses $R$; in both cases the numerator-denominator presentation remains positive and is written back to $Q$ as finite $\BHist$ data.
+
+The sibling comparison obligations are then read from $S$ and $F$. The Stern--Brocot row compares the addressed node with the finite tree boundary route, while the Farey row records the adjacent determinant-one window before rational comparison data can be consumed.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same finite inventory. Because the inventory has no coordinate for host enumeration, quotient rational equality, selected representatives, signed coverage, real order, or ambient completion, the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Calkin--Wilf tree rational-enumeration handoff]
+\label{thm:calkin-wilf-tree-rat-enumeration-handoff}
+Every $\CalkinWilfEnumerationUp$ read of an accepted $\CalkinWilfTreeUp$ carrier factors through the finite route
+$$
+A \longmapsto L,R \longmapsto Q \longmapsto S,F \longmapsto H,C,P,N .
+$$
+Consequently the enumeration sibling receives positive $\RatUp$ presentations generated by the displayed address row and child-step rows, while Stern--Brocot and Farey comparison data remain available as finite neighbor checks. The handoff does not export host rational enumeration, quotient equality, selected representatives, signed-rational coverage, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct on the displayed address row $A$. The empty address exposes $1/1$ through $Q$, and the enumeration sibling may read that root as the first positive rational presentation.
+
+For a successor address, the induction hypothesis supplies the parent presentation through the earlier prefix of $A$. The next bit selects exactly one of $L$ or $R$, so the child presentation is again computed inside the finite carrier before it is written to $Q$.
+
+The comparison rows are read after the child presentation is present. Row $S$ routes the same address to the Stern--Brocot boundary surface, and row $F$ records the Farey-neighbor comparison window for the displayed rational presentation.
+
+The enumeration handoff is therefore a projection of finite rows, not a separate enumeration principle. Transport, replay, provenance, and local naming preserve this route through $H,C,P,N$, so downstream rational-enumeration consumers receive no quotient equality, host selector, signed coverage, real order, or completion coordinate.
+\end{proof}
+
+\closureat{CalkinWilfTreeUp}{seedStr}
+\begin{closurestatus}{\CalkinWilfTreeUp}
+  \constructivestory{A $\CalkinWilfTreeUp$ packet is generated from a finite binary address row, a positive RatUp readback row, displayed left and right child-step rows, SternBrocot and FareySequence comparison rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:calkin-wilf-tree-carrier}, \autoref{thm:calkin-wilf-tree-namecert-obligations}, and \autoref{thm:calkin-wilf-tree-rat-enumeration-handoff} seed the finite Calkin--Wilf binary-tree packet between Rat, SternBrocot, FareySequence, and CalkinWilfEnumeration rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim host rational enumeration, quotient rational equality, selected representatives, signed-rational coverage, real order, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, root admission, child-step exactness, Stern--Brocot comparison, Farey comparison, enumeration handoff, transport, replay, provenance, and local naming for BEDC.Derived.CalkinWilfTreeUp.}
+\end{closurestatus}

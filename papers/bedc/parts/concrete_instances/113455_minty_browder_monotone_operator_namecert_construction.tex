@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MintyBrowderMonotoneOperatorUp$}
+\label{ch:concrete-instances-minty-browder-monotone-operator-namecert}
+\origin{human}
+
+Following Minty and Browder, the $\MintyBrowderMonotoneOperatorUp$ packet records the finite certificate surface for a monotone operator argument in Hilbert and functional-analysis settings. It reads the Hilbert carrier of \autoref{ch:concrete-instances-hilbert-namecert}, the functional-analysis ledger of \autoref{ch:concrete-instances-functionalanalysis-namecert}, the weak derivative boundary of \autoref{ch:concrete-instances-weak-derivative-namecert}, the PDE-facing route of \autoref{ch:concrete-instances-pde-namecert}, and the operator-ideal dependency of \autoref{ch:concrete-instances-operatorideal-namecert}. The packet names only the displayed monotone-operator and resolvent ledger rows; it does not assert host maximality, selected weak limits, spectral calculus, or ambient Hilbert-space compactness.
+
+\begin{definition}[Minty--Browder monotone-operator carrier]
+\label{def:minty-browder-monotone-operator-carrier}
+A $\MintyBrowderMonotoneOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,A,G,R,W,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\HilbertUp$ source row, including the inner-product, norm, and metric rows inspected by the monotonicity test.
+\item $A$ is the $\FunctionalAnalysisUp$ operator row carrying the displayed graph schedule, domain window, and action ledger.
+\item $G$ is the monotone graph row, listing the inspected pairs and the nonnegative pairing comparisons.
+\item $R$ is the resolvent ledger, recording the finite approximation route for the equation carried by $I+\lambda A$ at displayed positive rational parameters.
+\item $W$ is the $\WeakDerivativeUp$ compatibility row used when the same graph is read by weak-form PDE consumers.
+\item $D$ is the $\PdeUp$ boundary row that records forcing terms, weak test windows, and coercive estimate requests consumed downstream.
+\item $H$ stores componentwise $\hsame$ transport for Hilbert, operator, graph, resolvent, weak-derivative, PDE, replay, provenance, and naming rows.
+\item $C$ stores displayed $\Cont$ replay from Hilbert source data through the monotone graph and resolvent ledger to the PDE-facing rows.
+\item $P$ is the $\Pkg$ provenance over $\MintyBrowderMonotoneOperatorUp$, $\HilbertUp$, $\FunctionalAnalysisUp$, $\WeakDerivativeUp$, $\PdeUp$, $\OperatorIdealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MintyBrowderMonotoneOperatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,A,G,R,W,D,H,C,P,N$. It has no coordinate for a host-level maximal-monotone principle, choice-selected solution, quotient graph equality, spectral theorem, or compactness theorem.
+\end{definition}
+
+\begin{theorem}[Minty--Browder monotone-operator NameCert obligations]
+\label{thm:minty-browder-monotone-operator-namecert-obligations}
+For every accepted $\MintyBrowderMonotoneOperatorUp$ carrier $M=(X,A,G,R,W,D,H,C,P,N)$, the local $\NameCert_{\MintyBrowderMonotoneOperatorUp}$ surface consists exactly of carrier admission for the displayed Hilbert source row, functional-analysis operator row, monotone graph row, resolvent ledger, weak-derivative compatibility row, PDE boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:minty-browder-monotone-operator-carrier}. The analytic data are exactly the Hilbert row $X$, the operator row $A$, the monotone graph row $G$, the resolvent ledger $R$, and the weak-form rows $W,D$.
+
+The monotone graph and resolvent obligations are read before any PDE-facing consumer receives the packet. Thus the weak-derivative and forcing rows are downstream of the displayed graph comparisons and resolvent approximations, not independent host principles.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same route. Since no other coordinate occurs in the carrier, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Minty--Browder resolvent ledger]
+\label{thm:minty-browder-monotone-operator-resolvent-ledger}
+Every $\PdeUp$, $\WeakDerivativeUp$, $\FunctionalAnalysisUp$, or $\OperatorIdealUp$ consumer of an accepted $\MintyBrowderMonotoneOperatorUp$ packet reads the monotone-operator witness only through the finite route
+$$
+\HilbertUp,\FunctionalAnalysisUp \longmapsto G \longmapsto R \longmapsto \WeakDerivativeUp,\PdeUp,\OperatorIdealUp
+$$
+together with $H,C,P,N$. The route exports a resolvent ledger and monotonicity certificate, not a choice-selected weak solution, host graph equality, spectral decomposition, or ambient compactness claim.
+\end{theorem}
+\begin{proof}
+Start with the Hilbert and functional-analysis rows. They provide the source metric, pairing, operator graph schedule, and action ledger used by the monotonicity comparison.
+
+Read the monotone graph row $G$ next. Its finite pairing comparisons are the only admissible monotonicity evidence, so a downstream consumer cannot replace them by an unrecorded maximality or compactness theorem.
+
+The resolvent ledger $R$ is then consumed before the weak-derivative and PDE rows. Rows $W$ and $D$ therefore receive only the displayed approximation and forcing-route data, while $H,C,P,N$ preserve provenance and local naming without adding excluded solution-selection or spectral coordinates.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MintyBrowderMonotoneOperatorUp$ read is refuted if a PDE or operator-ideal consumer exports a monotone-operator conclusion without displaying Hilbert source rows, functional-analysis operator rows, monotone graph comparisons, a resolvent ledger, weak-derivative compatibility, PDE boundary rows, transport, replay, provenance, and local naming.}
+
+\independenceWitness{hilbert, functional-analysis, weak-derivative, pde, operator-ideal: none alone is bijective with $\MintyBrowderMonotoneOperatorUp$ because the packet jointly carries Hilbert source data, operator graph rows, monotonicity comparisons, resolvent ledgers, weak-form compatibility, PDE boundary rows, transport, replay, provenance, and local NameCert.}
+
+\closureat{MintyBrowderMonotoneOperatorUp}{seedStr}
+
+\begin{closurestatus}{\MintyBrowderMonotoneOperatorUp}
+  \constructivestory{A $\MintyBrowderMonotoneOperatorUp$ packet is generated from Hilbert source rows, functional-analysis operator rows, monotone graph comparisons, a resolvent ledger, weak-derivative compatibility, PDE boundary rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:minty-browder-monotone-operator-carrier}, \autoref{thm:minty-browder-monotone-operator-namecert-obligations}, and \autoref{thm:minty-browder-monotone-operator-resolvent-ledger} seed the finite monotone-operator and resolvent certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host maximal monotonicity, selected weak solutions, quotient graph equality, spectral calculus, or ambient compactness.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone graph stability, resolvent ledger exactness, weak-form compatibility, PDE boundary handoff, provenance, and local naming for BEDC.Derived.MintyBrowderMonotoneOperatorUp.}
+\end{closurestatus}

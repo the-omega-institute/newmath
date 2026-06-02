@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CauchyPastingUp$}
+\label{ch:concrete-instances-cauchy-pasting-namecert}
+\origin{human}
+
+Following Bishop and Bridges, compatible local Cauchy data may be pasted only through explicit moduli, overlap witnesses, and regular readback rows before a real-name seal is exposed. The $\CauchyPastingUp$ packet records that compatible-local-Cauchy route as finite NameCert data for the L10 Real-and-Completion spine. It consumes the $\RegularCauchyGluingUp$ route of \autoref{ch:concrete-instances-regular-cauchy-gluing-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\StreamNameUp$ finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ regular readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. It names a finite pasting carrier, not quotient stream equality, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy pasting carrier]
+\label{def:cauchy-pasting-carrier}
+A $\CauchyPastingUp$ carrier is a finite $\BHist$ packet
+$$
+P=(G,D,S,R,E,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the accepted $\RegularCauchyGluingUp$ source row for the compatible local Cauchy windows.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance row used to compare the local windows on their displayed overlap.
+\item $S$ is the $\StreamNameUp$ window row recording exactly the finite observations read by the pasting consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained after $G,D,S$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after the regular readback has been displayed.
+\item $H$ records componentwise $\hsame$ transport for source, tolerance, window, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the same pasting route.
+\item $K$ is the $\Pkg$ provenance over $\CauchyPastingUp$, $\RegularCauchyGluingUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyPastingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,D,S,R,E,H,C,K,N$. It has no coordinate for quotient stream equality, selected representatives, host real equality, countable choice, or a general completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Cauchy pasting NameCert obligations]
+\label{thm:cauchy-pasting-namecert-obligations}
+For every accepted $\CauchyPastingUp$ carrier
+$$
+P=(G,D,S,R,E,H,C,K,N),
+$$
+the local $\NameCert_{\CauchyPastingUp}$ surface consists exactly of carrier admission for the compatible $\RegularCauchyGluingUp$ source row, shared $\DyadicRatCoreUp$ tolerance display, finite $\StreamNameUp$ window display, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No pasting obligation is stored outside those finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-pasting-carrier}. The visible route is exhausted by $G,D,S,R,E,H,C,K,N$, so carrier admission and all pasting obligations must be read from those rows.
+
+The source row $G$ supplies the compatible local Cauchy gluing surface. The tolerance row $D$ and window row $S$ record the finite overlap data read by the consumer, while $R$ is the only regular rational readback row downstream of that finite data.
+
+The terminal seal $E$ is exposed only after $G,D,S,R$ have been displayed. The rows $H,C,K,N$ then transport, replay, source, and name the same route.
+
+Since the carrier has no further coordinate, quotient stream equality, selected representatives, countable choice, host equality, and ambient completeness cannot be obligations of the local certificate.
+\end{proof}
+
+\begin{theorem}[Cauchy pasting Real-seal nonescape]
+\label{thm:cauchy-pasting-real-seal-nonescape}
+Every $\RealUp$-facing consumer of an accepted $\CauchyPastingUp$ packet reaches the seal row $E$ only through the route
+$$
+G,D,S \longmapsto R \longmapsto E \longmapsto H,C,K,N .
+$$
+In particular, the consumer inherits the pasting nonescape boundary of \autoref{thm:regular-cauchy-gluing-pasting-nonescape}: it cannot export quotient stream equality, selected representatives, host real equality, countable choice, or ambient $\RealUp$ completeness as a coordinate of the accepted pasting read.
+\end{theorem}
+\begin{proof}
+Start with a $\RealUp$-facing read of the accepted packet. By \autoref{def:cauchy-pasting-carrier}, the only seal coordinate is $E$, and it is downstream of the source, tolerance, window, and regular readback rows.
+
+Apply \autoref{thm:cauchy-pasting-namecert-obligations}. The local certificate must expose $G,D,S,R$ before the seal and must preserve the same transport, replay, provenance, and naming rows $H,C,K,N$.
+
+Finally use \autoref{thm:regular-cauchy-gluing-pasting-nonescape} on the source row $G$. The gluing source cannot contribute quotient stream equality, selected representatives, host equality, choice, or ambient completeness, and the pasting carrier adds no coordinate of those kinds.
+\end{proof}
+
+\closureat{CauchyPastingUp}{seedStr}
+
+\begin{closurestatus}{\CauchyPastingUp}
+  \constructivestory{A $\CauchyPastingUp$ packet is generated from a compatible RegularCauchyGluing source row, DyadicRatCore tolerance row, StreamName window row, RegSeqRat readback row, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-pasting-carrier}, \autoref{thm:cauchy-pasting-namecert-obligations}, and \autoref{thm:cauchy-pasting-real-seal-nonescape} seed the finite compatible-local-Cauchy pasting route up to the terminal RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance exactness, StreamName window coverage, RegSeqRat readback, RealUp seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.CauchyPastingUp.}
+\end{closurestatus}

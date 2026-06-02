@@ -76,12 +76,34 @@ The labels in $L$ are tied to the carried $\ContinuousMapUp$ self-map surface. T
 Thus every fixed-point read factors through the named finite route and then through the structural rows $H,C,P,N$. Since none of the carrier coordinates is a host fixed-point choice, an open-cover compactness theorem, real trichotomy, quotient stream equality, a selected limit, or ambient Real completeness, none of those objects is exported.
 \end{proof}
 
+\begin{theorem}[Brouwer fixed-point finite residual stability]
+\label{thm:brouwer-fixed-point-finite-residual-stability}
+Let
+$$
+B=(K,S,D,L,W,E,H,C,P,N)
+$$
+and
+$$
+B'=(K',S',D',L',W',E',H',C',P',N')
+$$
+be accepted $\BrouwerFixedPointUp$ packets. If the displayed transport rows identify $K,S,D,L,W,E,H,C,P,N$ componentwise with $K',S',D',L',W',E',H',C',P',N'$ by $\hsame$, then the residual bounds read from $W$ are transported only through the same dyadic subdivision row $D$, the same Sperner labelling row $L$, the carried $\ContinuousMapUp$ self-map surface, and the terminal $\RealUp$ seal row $E$. In particular, no host fixed-point choice, selected limit, trichotomy datum, quotient stream equality, or ambient Real completeness row can alter the residual comparison.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The residual bounds occur only in the approximate fixed-simplex witness row $W$, and the carrier places that row downstream of the compact domain, subdivision, dyadic partition, and Sperner labelling rows.
+
+Use the Sperner handoff of \autoref{thm:brouwer-fixed-point-sperner-handoff}. It forces the labelled simplex in $W$ through the finite route from $\SpernerLemmaUp$ to $\SimplicialComplexUp$, $\DyadicPartitionUp$, $\DyadicCoverUp$, $\ContinuousMapUp$, and finally $\RealUp$.
+
+The rows $D$ and $L$ are read before $W$, so the dyadic subdivision and Sperner labels are fixed before any residual bound is public. Componentwise transport through $H$ carries those rows together with the witness row, and displayed replay through $C$ repeats the same finite route for downstream consumers.
+
+The terminal seal $E$ only records the $\RealUp$-facing readback inside the displayed compact convex domain. Since the carrier contains no coordinate for a host fixed point, selected limit, trichotomy, quotient stream equality, or ambient Real completeness, none of those objects can change the finite residual row.
+\end{proof}
+
 \closureat{BrouwerFixedPointUp}{seedStr}
 
 \begin{closurestatus}{\BrouwerFixedPointUp}
   \constructivestory{A $\BrouwerFixedPointUp$ packet is generated from a compact convex dyadic domain row, a SimplicialComplexUp subdivision row, DyadicPartitionUp and DyadicCoverUp rows, a Sperner-labelled boundary row, an approximate fixed-simplex witness row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:brouwer-fixed-point-carrier}, \autoref{thm:brouwer-fixed-point-namecert-obligations}, and \autoref{thm:brouwer-fixed-point-sperner-handoff} seed the finite Brouwer fixed-point route from dyadic compact-convex data through Sperner labelling, approximate fixed-simplex readback, RealUp sealing, transport, replay, provenance, and local naming.}
+  \scopeclosed{\autoref{def:brouwer-fixed-point-carrier}, \autoref{thm:brouwer-fixed-point-namecert-obligations}, \autoref{thm:brouwer-fixed-point-sperner-handoff}, and \autoref{thm:brouwer-fixed-point-finite-residual-stability} seed the finite Brouwer fixed-point route from dyadic compact-convex data through Sperner labelling, approximate fixed-simplex readback, residual stability, RealUp sealing, transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host fixed-point choice, open-cover compactness, real trichotomy, quotient stream equality, selected limits, ambient Real completeness, Lean verification, or a standard bridge.}

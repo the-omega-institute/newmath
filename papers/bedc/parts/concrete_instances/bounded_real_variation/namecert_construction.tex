@@ -1,0 +1,93 @@
+\chapter{Bounded Real Variation NameCert Construction}
+\label{ch:concrete-instances-bounded-real-variation-namecert}
+\origin{human}
+
+Following Jordan's finite-variation analysis and the Bishop--Bridges constructive treatment of real functions by explicit rational names, the $\BoundedRealVariationUp$ packet records bounded real variation as finite BEDC ledger data. It sits between the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic partition surface of \autoref{ch:concrete-instances-dyadic-partition-namecert}, the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the bounded-set control of \autoref{ch:concrete-instances-boundedset-namecert}. The packet is a finite partition-variation certificate; it is not a host function quotient, an equality principle for completed reals, an open-cover compactness theorem, a variation measure, a supremum over all partitions, or a selected limiting partition.
+
+\begin{definition}[Bounded real variation carrier]
+\label{def:bounded-real-variation-carrier}
+A $\BoundedRealVariationUp$ carrier is a finite $\BHist$ packet
+$$
+V=(I,\Pi,E,R,D,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ interval-source row naming the displayed domain endpoints only through terminal real seals.
+\item $\Pi$ is the finite partition row, recording the ordered endpoint windows and adjacency data inspected by the variation request.
+\item $E$ is the endpoint-read row. For every cell boundary in $\Pi$, it records the finite source coordinate by which the real-valued input is read.
+\item $R$ is the $\RegSeqRatUp$ readback row for the endpoint values displayed by $E$.
+\item $D$ is the $\DyadicRatCoreUp$ variation-bound ledger. It stores the rational absolute-difference rows, finite partial-sum rows, and the displayed dyadic upper bound for the partition variation.
+\item $B$ is the $\BoundedSetUp$ control row asserting that the endpoint reads used by $\Pi$ stay inside the displayed bounded real window consumed by the ledger $D$.
+\item $H$ records componentwise $\hsame$ transport for the interval source, partition rows, endpoint reads, regular rational readbacks, dyadic variation ledger, bounded-window row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from partition exposure through endpoint readback, dyadic variation accounting, bounded-window control, and the terminal real-name route.
+\item $P$ is the $\Pkg$ provenance over $\BoundedRealVariationUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicPartitionUp$, $\DyadicRatCoreUp$, $\BoundedSetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedRealVariationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,\Pi,E,R,D,B,H,C,P,N$. It has no coordinate for host real equality, arbitrary open covers, countable choice, a completed function-space quotient, a variation measure, or a supremum over unlisted partitions.
+\end{definition}
+\leanchecked{BEDC.Derived.BoundedRealVariationUp.BoundedRealVariationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bounded real variation NameCert obligations]
+\label{thm:bounded-real-variation-namecert-obligations}
+For every accepted $\BoundedRealVariationUp$ carrier
+$$
+V=(I,\Pi,E,R,D,B,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedRealVariationUp}$ surface consists exactly of carrier admission for the displayed real interval source $I$, finite partition exposure through $\Pi$, endpoint reads through $E$, $\RegSeqRatUp$ handoff through $R$, dyadic variation-bound accounting through $D$, bounded-window control through $B$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-real-variation-carrier}. Carrier admission is the assertion that the packet exposes only the rows $I,\Pi,E,R,D,B,H,C,P,N$.
+
+The analytic rows are finite. The partition row $\Pi$ lists the cells to be inspected, the endpoint-read row $E$ names the finite coordinates used at each cell boundary, and $R$ converts those reads into regular rational data before the dyadic ledger can sum any displayed difference.
+
+The variation-bound obligation is exactly $D$, with bounded-window control supplied by $B$. Transport, replay, provenance, and local naming are the structural rows $H,C,P,N$ over that same finite ledger.
+
+Since no carrier coordinate stores host real equality, open-cover compactness, a selected limiting partition, a function-space quotient, a variation measure, or a supremum over all partitions, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Bounded real variation RegSeqRat handoff]
+\label{thm:bounded-real-variation-regseqrat-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\BoundedRealVariationUp$ carrier reads endpoint values only through the finite route
+$$
+\DyadicPartitionUp,\quad
+\RegSeqRatUp,\quad
+\DyadicRatCoreUp,\quad
+\BoundedSetUp,\quad
+\RealUp,\quad
+\BHist,\quad
+\hsame,\quad
+\Cont,\quad
+\Pkg,\quad
+\NameCert_{\BoundedRealVariationUp}.
+$$
+In particular, the consumer must expose the partition row $\Pi$, endpoint-read row $E$, regular rational readback row $R$, variation-bound ledger $D$, and bounded-window row $B$ before the terminal real-name row $I$ can be used as a bounded-variation certificate.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of an accepted packet. By \autoref{def:bounded-real-variation-carrier}, the only displayed partition data are the ordered cells in $\Pi$, so every endpoint request is tied to that finite row.
+
+Endpoint values are then read through $E$ and $R$. The row $E$ selects the finite source coordinates, while $R$ provides the $\RegSeqRatUp$ readback visible to arithmetic consumers.
+
+The variation certificate is obtained only after the dyadic ledger $D$ and bounded-window row $B$ have been displayed. Thus a Real or Completion consumer receives a finite partition-variation route rather than host real equality, open-cover compactness, a selected limiting partition, a function-space quotient, or an ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Bounded real variation compactness refusal]
+\label{thm:bounded-real-variation-compactness-refusal}
+An accepted $\BoundedRealVariationUp$ packet exports no open-cover compactness, no host real equality, and no supremum principle over all finite partitions. Its public boundary is only the displayed partition ledger, $\RegSeqRatUp$ endpoint readback, $\DyadicRatCoreUp$ variation-bound ledger, bounded-window control, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\BoundedRealVariationUp}$ row.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates in \autoref{def:bounded-real-variation-carrier}. None of $I,\Pi,E,R,D,B,H,C,P,N$ is an open cover, a cover-refinement choice function, a host-real equality witness, a quotient of real-valued functions, or a supremum construction.
+
+The rows that can be consumed downstream are therefore the finite rows already named by the carrier: partition exposure, endpoint readback, dyadic variation accounting, bounded-window control, transport, replay, provenance, and naming. Any compactness or equality principle would require an additional coordinate, and the classifier ignores all such data.
+\end{proof}
+
+\closureat{BoundedRealVariationUp}{seedStr}
+
+\begin{closurestatus}{\BoundedRealVariationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-real-variation-carrier}, \autoref{thm:bounded-real-variation-namecert-obligations}, \autoref{thm:bounded-real-variation-regseqrat-handoff}, and \autoref{thm:bounded-real-variation-compactness-refusal} seed the finite bounded-real-variation route over partition rows, RegSeqRat endpoint reads, DyadicRatCore variation ledgers, bounded-window control, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host real equality, open-cover compactness, a completed function-space quotient, a variation measure, a supremum over all finite partitions, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, RegSeqRat endpoint handoff, dyadic variation-bound exactness, bounded-window control, refusal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BoundedRealVariationUp.}
+  \constructivestory{A $\BoundedRealVariationUp$ packet is generated from a RealUp interval-source row, finite DyadicPartition endpoint rows, RegSeqRat readbacks, a DyadicRatCore variation-bound ledger, BoundedSet control, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

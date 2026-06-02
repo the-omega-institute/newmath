@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFilterRealUp$}
+\label{ch:concrete-instances-regular-cauchy-filter-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a real completion interface may be presented by regular filters only when each tolerance read remains finite, rounded, and tied to an explicit rational window. The $\RegularCauchyFilterRealUp$ packet sits between the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}. It names a selection-free regular Cauchy filter route to a displayed real seal; it is not quotient filter equality, a chosen representative, a selected limit, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy filter real carrier]
+\label{def:regular-cauchy-filter-real-carrier}
+A $\RegularCauchyFilterRealUp$ carrier is a finite $\BHist$ packet
+$$
+R=(F,S,Q,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\CauchyFilterUp$ row, carrying the rounded filter base and its finite tolerance requests.
+\item $S$ is the $\StreamNameUp$ window row inspected at the displayed filter tolerance.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the same finite windows.
+\item $D$ is the dyadic or rational diameter ledger proving that the inspected filter windows are regular at the requested precision.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $F,S,Q,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the filter, window, readback, diameter, real-seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through the filter base, finite windows, regular rational readback, diameter ledger, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyFilterRealUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchyFilterRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has no coordinate for quotient filters, selected subfilters, chosen representatives, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy filter real NameCert obligations]
+\label{thm:regular-cauchy-filter-real-namecert-obligations}
+For every accepted $\RegularCauchyFilterRealUp$ carrier $R=(F,S,Q,D,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyFilterRealUp}$ surface consists exactly of carrier admission, rounded CauchyFilter admission, StreamName finite-window admission, RegSeqRat readback, regular diameter verification, Real seal admission, componentwise transport, displayed replay, provenance, and local naming for the displayed rows $F,S,Q,D,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-filter-real-carrier}. The analytic rows are precisely the rounded filter row $F$, the finite stream window row $S$, the regular rational readback $Q$, the diameter ledger $D$, and the terminal real seal $E$.
+
+The local certificate reads these rows in order. A filter tolerance request can reach a regular rational readback only through the finite window row, and the Real seal can be inspected only after the diameter ledger has witnessed the displayed regularity at the same request.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since they add no quotient, selector, chosen representative, selected limit, countable-choice schedule, host equality, or ambient completeness coordinate, the listed rows exhaust the local naming obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy filter real completion route]
+\label{thm:regular-cauchy-filter-real-completion-route}
+Every completion-facing read of an accepted $\RegularCauchyFilterRealUp$ packet factors through the finite route
+$$
+\CauchyFilterUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+More explicitly, the consumer reads $F$, then the finite windows $S$, then the regular rational readback $Q$ and diameter ledger $D$, and finally the Real seal $E$, with $H,C,P,N$ preserving the same route. The route supplies a filter-form completion boundary without quotient filter equality, selected subfilters, selected limits, chosen representatives, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:regular-cauchy-filter-real-namecert-obligations}. It exposes the rounded CauchyFilter row before any finite window or regular rational readback is available.
+
+The StreamName and RegSeqRat rows supply the finite observation route. The diameter ledger is attached to that same observation, so a completion-facing consumer cannot replace it by a quotient filter, a selected subfilter, or a chosen representative.
+
+Finally the Real seal is downstream of the displayed readback. Transport, replay, provenance, and local naming preserve the same packet, and the carrier contains no coordinate for selected limits, countable choice, host real equality, or ambient completeness. Hence every completion-facing read factors through the stated finite route.
+\end{proof}
+
+\falsifiablePrediction{A $\RegularCauchyFilterRealUp$ consumer that exports a selected limit, quotient filter equality, countable-choice schedule, host real equality, or ambient Real completeness after deleting $F$, $S$, $Q$, or $D$ refutes the carrier of \autoref{def:regular-cauchy-filter-real-carrier}.}
+
+\independenceWitness{Nearest siblings: StreamName, RegSeqRat, Real, and CauchyFilter. $\RegularCauchyFilterRealUp$ is not bijective to any one of them because it jointly carries rounded filter admission, finite windows, regular rational readback, a diameter ledger, Real sealing, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{RegularCauchyFilterRealUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFilterRealUp}
+  \constructivestory{A $\RegularCauchyFilterRealUp$ packet is generated from rounded CauchyFilter rows, StreamName finite windows, RegSeqRat readbacks, regular diameter ledgers, RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-filter-real-carrier}, \autoref{thm:regular-cauchy-filter-real-namecert-obligations}, and \autoref{thm:regular-cauchy-filter-real-completion-route} seed the finite filter-form route from rounded CauchyFilter requests to terminal Real reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filter equality, selected subfilters, selected limits, chosen representatives, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rounded filter exactness, StreamName window replay, RegSeqRat readback, diameter-ledger nonescape, Real seal admission, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyFilterRealUp.}
+\end{closurestatus}

@@ -80,6 +80,20 @@ before a subject-reduction consumer can read the finite handoff.
 The structural rows $H,R,G,M$ transport, replay, source, and name that route. Since the carrier has no coordinate for a host substitution theorem, quotient reduction equality, or hidden closed-consistency theorem, replacing $T$ by any such object exits the accepted packet.
 \end{proof}
 
+\begin{theorem}[MetacicSrKernelUp four-face totality]\label{thm:metacic-sr-kernel-four-face-totality}
+Let $K=(C,O,S,B,A,L,P,T,N,F,H,R,G,M)$ be an accepted $\MetacicSrKernelUp$ packet. The finite subject-reduction handoff row $F$ is readable only after the beta-substitution row $B$, application-argument row $A$, lambda-domain row $L$, and Pi-domain row $P$ have all been displayed through the shared obligation row $O$ and route-socket row $S$. No packet that omits any one of $B,A,L,P$ exports the subject-reduction handoff of $K$, and no three-face route can bypass the missing face through the closed-term boundary $T$, normalization-frontier boundary $N$, or handoff row $F$.
+\end{theorem}
+
+\begin{proof}
+Project the accepted carrier of \autoref{thm:metacic-sr-kernel-carrier}. The only discharge-face coordinates available to a consumer are $B,A,L,P$, and the only rows that display them to the kernel route are $O$ and $S$.
+
+Apply \autoref{thm:metacic-sr-kernel-namecert-obligations}. It lists the four faces as one obligation surface: beta-substitution, application-argument, lambda-domain, and Pi-domain exposure must all be present before the local naming row admits the handoff.
+
+Now apply \autoref{thm:metacic-sr-kernel-discharge-route}. The route orders the carrier read through $C$, then $O,S$, then the four discharge faces, then the boundary rows $T,N$, and only then the handoff row $F$ and local name row $M$.
+
+Finally use \autoref{thm:metacic-sr-kernel-closed-substitution-discharge}. It prevents a consumer from replacing the closed-term boundary by a host substitution theorem, quotient reduction equality, or hidden consistency result. Since $T,N,F$ are boundary and handoff rows rather than substitute discharge faces, a three-face packet has no coordinate from which to export the accepted handoff.
+\end{proof}
+
 \falsifiablePrediction{The Lean follow-up for $\MetacicSrKernelUp$ must provide \texttt{Nontrivial MetacicSrKernelUp} and \texttt{FieldFaithful MetacicSrKernelUp} in \texttt{TasteGate.lean}, and the instance audit must expose exactly four discharge-face fields before any finite subject-reduction handoff is admitted.}
 
 \independenceWitness{metaciccriticalpath, metacic-subject-reduction-obligation, subjectreductiondischargesocket, closedtermsubstitutionboundary, metacicnormalizationfrontier: MetacicSrKernelUp is not bijective to any listed sibling because it simultaneously carries the critical-path ledger, four discharge faces, route socket, closed-substitution boundary, normalization-frontier boundary, finite handoff row, transport, replay, provenance, and local NameCert naming.}

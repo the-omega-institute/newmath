@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MachineInterfaceFormalizationTargetUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -300,5 +312,124 @@ theorem MachineInterfaceFormalizationTargetTasteGate_single_carrier_alignment :
       ⟨machineInterfaceFormalizationTargetFieldFaithful⟩,
       ⟨machineInterfaceFormalizationTargetNontrivial⟩,
       rfl⟩
+
+theorem MachineInterfaceFormalizationTarget_namecert_obligations
+    (targetName namespaceRow registry statementSkeleton dependencyList expectedStatus auditGate
+      notClaimed transport continuation provenance localName : BHist) :
+    machineInterfaceFormalizationTargetFields
+        (MachineInterfaceFormalizationTargetUp.mk targetName namespaceRow registry
+          statementSkeleton dependencyList expectedStatus auditGate notClaimed transport
+          continuation provenance localName) =
+        [targetName, namespaceRow, registry, statementSkeleton, dependencyList, expectedStatus,
+          auditGate, notClaimed, transport, continuation, provenance, localName] ∧
+      SemanticNameCert
+        (fun row : BHist => hsame row localName)
+        (fun row : BHist =>
+          hsame row targetName ∨ hsame row namespaceRow ∨ hsame row registry ∨
+            hsame row statementSkeleton ∨ hsame row dependencyList ∨ hsame row expectedStatus ∨
+              hsame row auditGate ∨ hsame row notClaimed ∨ hsame row transport ∨
+                hsame row continuation ∨ hsame row provenance ∨ hsame row localName)
+        (fun row : BHist => hsame row localName)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame
+  constructor
+  · rfl
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro localName (hsame_refl localName)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact hsame_trans (hsame_symm sameRows) source
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          (Or.inr (Or.inr (Or.inr (Or.inr source))))))))))
+      ledger_sound := by
+        intro _row source
+        exact source
+    }
+
+theorem MachineInterfaceFormalizationTarget_audit_gate_locality [AskSetup] [PackageSetup]
+    {targetName namespaceRow registry statementSkeleton dependencyList expectedStatus auditGate
+      notClaimed transport continuation provenance localName auditRead queueRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont auditGate notClaimed auditRead →
+      Cont auditRead registry queueRead →
+        PkgSig bundle provenance pkg →
+          UnaryHistory auditGate →
+            UnaryHistory notClaimed →
+              UnaryHistory registry →
+                SemanticNameCert
+                    (fun row : BHist => hsame row queueRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row targetName ∨ hsame row namespaceRow ∨ hsame row registry ∨
+                        hsame row statementSkeleton ∨ hsame row dependencyList ∨
+                          hsame row expectedStatus ∨ hsame row auditGate ∨
+                            hsame row notClaimed ∨ hsame row auditRead ∨
+                              hsame row queueRead)
+                    (fun row : BHist => hsame row queueRead ∧ PkgSig bundle provenance pkg)
+                    hsame ∧
+                  UnaryHistory auditRead ∧ UnaryHistory queueRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro auditCont queueCont provenancePkg auditUnary notClaimedUnary registryUnary
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed auditUnary notClaimedUnary auditCont
+  have queueReadUnary : UnaryHistory queueRead :=
+    unary_cont_closed auditReadUnary registryUnary queueCont
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row queueRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row targetName ∨ hsame row namespaceRow ∨ hsame row registry ∨
+              hsame row statementSkeleton ∨ hsame row dependencyList ∨
+                hsame row expectedStatus ∨ hsame row auditGate ∨
+                  hsame row notClaimed ∨ hsame row auditRead ∨ hsame row queueRead)
+          (fun row : BHist => hsame row queueRead ∧ PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro queueRead ⟨hsame_refl queueRead, queueReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, provenancePkg⟩
+  }
+  exact ⟨cert, auditReadUnary, queueReadUnary⟩
 
 end BEDC.Derived.MachineInterfaceFormalizationTargetUp

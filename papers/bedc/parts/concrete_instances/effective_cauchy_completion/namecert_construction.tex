@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\EffectiveCauchyCompletionUp$}
+\label{ch:concrete-instances-effective-cauchy-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Weihrauch on constructive completion, the $\EffectiveCauchyCompletionUp$ packet records the finite L10 route by which regular rational Cauchy data becomes a completion-facing name without quotienting streams or selecting representatives. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the functorial Cauchy-completion route of \autoref{ch:concrete-instances-cauchycompletionfunctor-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate names the displayed effective completion surface only; it does not assert ambient completeness of $\RealUp$, quotient equality of Cauchy names, countable choice, selected limits, or host equality of completed objects.
+
+\begin{definition}[Effective Cauchy completion carrier]\label{def:effective-cauchy-completion-carrier}
+An $\EffectiveCauchyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(Q,W,R,D,F,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the rational source row, recording the finite rational object or rational metric source being completed.
+\item $W$ is the $\StreamNameUp$ window row, exposing the finite observation schedule used by completion consumers.
+\item $R$ is the $\RegSeqRatUp$ readback row, recording the regular rational Cauchy data visible on each requested window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, storing the dyadic error budget that certifies regularity and comparison.
+\item $F$ is the $\CauchyCompletionFunctorUp$ functorial route row, recording the displayed map from source data into completion-facing names.
+\item $S$ is the $\RealUp$ seal row, recording the terminal real-name boundary consumed by downstream L10 readers.
+\item $H$ records componentwise $\hsame$ transport for $Q,W,R,D,F,S,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a completion request through $Q,W,R,D,F,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\EffectiveCauchyCompletionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyCompletionFunctorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EffectiveCauchyCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient completion equality, selected stream representatives, selected limits, countable choice, host equality of completed objects, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Effective Cauchy completion NameCert obligations]\label{thm:effective-cauchy-completion-namecert-obligations}
+For every accepted $\EffectiveCauchyCompletionUp$ carrier
+$$
+E=(Q,W,R,D,F,S,H,C,P,N),
+$$
+the local $\NameCert_{\EffectiveCauchyCompletionUp}$ surface consists exactly of carrier admission for the rational source row, finite stream-window row, regular rational readback row, dyadic tolerance row, functorial completion route, terminal real-name seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. Every effective completion read must expose $Q,W,R,D,F,S$ before $H,C,P,N$ can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:effective-cauchy-completion-carrier}. Its displayed coordinates are exactly the rational source, stream-window, regular-readback, dyadic-tolerance, functorial-completion, real-seal, transport, replay, provenance, and local naming rows.
+
+The effective completion route is read through $Q,W,R,D,F,S$. The source row supplies the rational object, the window row supplies finite access, the regular readback row supplies Cauchy data, the dyadic row supplies the error budget, the functorial row records the completion passage, and the seal row presents the terminal real-name boundary.
+
+The remaining rows $H,C,P,N$ transport, replay, package, and name the same displayed route. Since quotient equality, selected representatives, selected limits, countable choice, host equality, and ambient completeness have no carrier coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Effective Cauchy completion regular readback]\label{thm:effective-cauchy-completion-regular-readback}
+For every accepted $\EffectiveCauchyCompletionUp$ carrier $E=(Q,W,R,D,F,S,H,C,P,N)$, any completion-facing query that asks for a regular Cauchy name must read the finite $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ row $R$, and the $\DyadicRatCoreUp$ tolerance row $D$ before it can consume the functorial completion route $F$ or the terminal real-name seal $S$. The readback is therefore finite, dyadic, and regular before any completed-real boundary is visible.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:effective-cauchy-completion-namecert-obligations}. It requires every effective completion read to expose the source, window, readback, tolerance, functorial, and seal rows before the structural rows are consumed.
+
+The requested regular Cauchy name is not a host-level limit. It is the displayed triple $W,R,D$: finite windows determine what is observed, regular rational data supplies the Cauchy values, and the dyadic tolerance row records the budget that makes the read regular.
+
+Only after this triple is visible can the functorial route $F$ and the real seal $S$ be consumed. Thus the completed boundary is reached through finite regular readback rather than through quotient completion or selected representatives.
+\end{proof}
+
+\begin{theorem}[Effective Cauchy completion real seal scope]\label{thm:effective-cauchy-completion-real-seal-scope}
+For every accepted $\EffectiveCauchyCompletionUp$ carrier $E=(Q,W,R,D,F,S,H,C,P,N)$, the $\RealUp$ row $S$ seals only the displayed regular-Cauchy route over $Q,W,R,D,F$. It does not identify all Cauchy names by quotient equality, does not choose a canonical representative, and does not supply ambient completeness for unrelated real-name consumers.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:effective-cauchy-completion-regular-readback}. The seal row is consumed only after the finite window, regular rational readback, dyadic tolerance, and functorial completion rows have been exposed.
+
+This confines the seal to the same displayed route. The carrier has no row for quotienting all Cauchy names, selecting a canonical representative, or proving an ambient completeness principle for arbitrary real-name consumers.
+
+Finally use \autoref{thm:effective-cauchy-completion-namecert-obligations}. The structural rows $H,C,P,N$ transport, replay, package, and name the route already bounded by $Q,W,R,D,F,S$; they do not add a second completion surface.
+\end{proof}
+
+\closureat{EffectiveCauchyCompletionUp}{seedStr}
+
+\begin{closurestatus}{\EffectiveCauchyCompletionUp}
+  \constructivestory{An $\EffectiveCauchyCompletionUp$ packet is generated from a rational source row, finite stream-window row, regular rational readback row, dyadic tolerance row, functorial Cauchy-completion route, terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:effective-cauchy-completion-carrier}, \autoref{thm:effective-cauchy-completion-namecert-obligations}, \autoref{thm:effective-cauchy-completion-regular-readback}, and \autoref{thm:effective-cauchy-completion-real-seal-scope} seed the finite effective-completion surface for L10 real and completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected representatives, selected limits, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, regular-readback exposure, dyadic tolerance confinement, functorial completion routing, terminal seal scope, transport, replay, provenance, and local naming for BEDC.Derived.EffectiveCauchyCompletionUp.}
+\end{closurestatus}

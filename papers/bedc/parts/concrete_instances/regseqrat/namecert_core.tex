@@ -276,6 +276,22 @@ Apply \autoref{thm:regseqrat-finite-window-transport-closure} to repack the sele
 All consumed coordinates are therefore finite BEDC rows of the original accepted packet. The tail construction has no coordinate from which to read quotient sequences, host real equality, metric completion, or a $\RealUp$ completeness row.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-shift classifier stability]
+\label{thm:regseqrat-tail-shift-classifier-stability}
+Let $P$ be an accepted $\RegSeqRatUp$ packet whose scheduled stream carrier, dyadic-tolerance classifier, regularity ledger, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ radius rows, and $\RealUp$ seal source are the displayed rows of \autoref{def:regseqrat-stream-carrier} and \autoref{def:regseqrat-classifier}. If a certified unary tail shift selects a later finite window and the shared tail window is transported by the recorded $\hsame$ comparisons and $\Cont$ routes, then the shifted packet preserves the same classifier route through the $\StreamNameUp$ finite windows, $\DyadicRatCoreUp$ radius rows, $\RegSeqRatUp$ readback, and $\RealUp$ seal.
+
+The shifted read exports no quotient sequence equality, host real equality, metric-completion object, selected limit, ambient completeness row, or additional seal datum.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regseqrat-shifted-tail-regularity-closure}. It repacks the shifted finite window as an accepted $\RegSeqRatUp$ packet over the original dyadic-tolerance classifier, using only transported rows from the source packet.
+
+Use \autoref{thm:regseqrat-finite-window-classifier-reflexivity} on the shared tail window. The finite $\StreamNameUp$ schedule, endpoint observations, $\DyadicRatCoreUp$ radius rows, regularity ledgers, classifier ledgers, $\hsame$ comparisons, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows are the same displayed finite surface before and after the tail shift.
+
+Apply \autoref{thm:regseqrat-shifted-tail-seal-determinacy}. It keeps the shifted $\RealUp$ seal source attached to the same transported classifier and finite-window rows whenever the shared tail window agrees under the recorded transport and replay data.
+
+Finally invoke \autoref{thm:regseqrat-real-seal-handoff}. The seal consumes exactly the finite regular-rational source surface already identified, so the classifier route through stream windows, dyadic radii, readback, and seal rows is stable under the tail shift and cannot acquire any hidden quotient, host-real, completion, or seal coordinate.
+\end{proof}
+
 \begin{theorem}[RegSeqRat shifted-tail seal determinacy]
 \label{thm:regseqrat-shifted-tail-seal-determinacy}
 Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $k$ be a certified unary tail index for its $\StreamNameUp$ schedule. For any finite $\StreamNameUp$ window read after shifting $P$ by $k$, the $\RealUp$ seal source read from that window is determined by the shifted scheduled window, the $\DyadicRatCoreUp$ endpoint rows, dyadic-radius rows, regularity ledgers, classifier ledgers, componentwise $\hsame$ rows, $\Cont$ routes, $\mathsf{Pkg}$ provenance, and $\NameCert$ rows already present in $P$.

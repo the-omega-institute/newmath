@@ -1,0 +1,16 @@
+\section{Finite Observation Section Cofinality}
+\label{sec:streamname-finite-observation-section-cofinality}
+
+\begin{theorem}[StreamName finite observation section cofinality]
+\label{thm:streamname-finite-observation-section-cofinality}
+Every finite observation request on a pointwise certified $\StreamNameUp$ source factors through a finite section window that is cofinal for $\RegSeqRatUp$ and $\RealUp$ handoff reads. Concretely, after the request opens its index ledger, certified source row, finite $\BHist$ window, pointwise classifier row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row, any later regular-rational or real-seal consumer may refine the request only by another finite section window over the same StreamName source. The handoff exposes finite BHist, hsame, Cont, and Pkg rows rather than quotient stream equality, selected limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-pointwise-classifier-stability}. It keeps every accepted pointwise classifier read attached to the requested index ledger, certified source row, opened $\BHist$ window, transport row, replay row, provenance row, and local naming row.
+
+Use \autoref{thm:streamname-pointwise-certified-source-constant-section} for the section shape. The finite request section is the row package visible to $\RegSeqRatUp$ and $\RealUp$ consumers before either consumer can read a constant or regular point stream.
+
+Now pass to the RegSeqRat and Real handoff files already carried by the StreamName hub. Their handoff reads consume finite windows and terminal seal rows through the same displayed StreamName source, so a larger downstream request is represented by a finite refinement of the same section window.
+
+Thus the finite section windows are cofinal for the L10 handoff route. Since each step is expressed through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, no quotient stream equality, selected limit, host real equality, or ambient completeness principle is introduced.
+\end{proof}

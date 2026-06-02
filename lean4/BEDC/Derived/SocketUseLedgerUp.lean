@@ -86,6 +86,29 @@ theorem SocketUseLedgerCarrier_namecert_obligations (x : SocketUseLedgerUp) :
               exact rowMember }
       · rfl
 
+theorem SocketUseLedgerCarrier_public_visible_refusal (x : SocketUseLedgerUp) :
+    (∃ A S Q V R H C P N : BHist,
+      x = SocketUseLedgerUp.mk A S Q V R H C P N ∧
+        SemanticNameCert
+          (fun row : BHist => row ∈ [A, S, Q, V, R, H, C, P, N])
+          (fun row : BHist => row ∈ [A, S, Q, V, R, H, C, P, N])
+          (fun row : BHist => row ∈ [A, S, Q, V, R, H, C, P, N])
+          hsame) ∧
+      (∀ A S Q H C P N : BHist,
+        BHistCarrier.toEventFlow
+          (SocketUseLedgerUp.mk A S Q (BHist.e0 BHist.Empty) BHist.Empty H C P N) ≠
+        BHistCarrier.toEventFlow
+          (SocketUseLedgerUp.mk A S Q BHist.Empty (BHist.e0 BHist.Empty) H C P N)) := by
+  -- BEDC touchpoint anchor: BHist BMark SemanticNameCert hsame
+  constructor
+  · cases x with
+    | mk A S Q V R H C P N =>
+        have certAndEmpty :=
+          SocketUseLedgerCarrier_namecert_obligations
+            (SocketUseLedgerUp.mk A S Q V R H C P N)
+        exact ⟨A, S, Q, V, R, H, C, P, N, rfl, certAndEmpty.left⟩
+  · exact SocketUseLedgerCarrier_visible_refusal_layer_separation.right
+
 theorem SocketUseLedgerCarrier_public_event_surface :
     (∀ event : List BMark,
         socketUseLedgerEncodeBHist (socketUseLedgerDecodeBHist event) = event) ∧

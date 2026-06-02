@@ -128,6 +128,22 @@ with no additional quotient, host, limit, choice, completeness, or bridge
 coordinate.
 \end{proof}
 
+\begin{theorem}[StreamName finite-window reindex stability]
+\label{thm:streamname-finite-window-reindex-stability}
+Let $R$ be an accepted public $\StreamNameUp$ finite-window reindex route. Suppose $R$ preserves the endpoint rows, unary observation rows, $\mathsf{InBundle}$ membership rows, pointwise rational classifier rows, componentwise $\hsame$ comparisons, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of the finite packet. Then $R$ preserves the public finite observation section presented to downstream $\RegSeqRatUp$ and $\RealUp$ consumers.
+
+The preserved section is exactly the displayed StreamName window with its endpoint, bundle, rational classifier, transport, replay, provenance, and naming rows. It exposes no quotient stream equality, host sequence equality, selected limit, countable choice, ambient Real completeness, metric-completeness data, or standard bridge row.
+\end{theorem}
+\begin{proof}
+Apply finite-window reindex determinacy, \autoref{thm:streamname-window-reindex-determinacy}. The preserved endpoint rows, unary observations, bundle membership, pointwise rational classifiers, and support rows determine one public finite observation section.
+
+Use the public identity law, \autoref{thm:streamname-public-reindexing-identity-law}, to identify unchanged windows with the same displayed section. This accounts for trivial reindex legs without adding host sequence equality.
+
+Next apply the public associative law, \autoref{thm:streamname-public-reindexing-associative-law}. Composable certified reindex routes therefore present the same finite section after repacking their displayed support rows.
+
+Finally use terminal coverage, \autoref{thm:streamname-reindex-terminal-coverage}. The downstream $\RegSeqRatUp$ readback and $\RealUp$ seal consume only that public finite section and its support rows, so the excluded quotient, choice, limit, completeness, metric, and bridge coordinates cannot alter the consumer-facing section.
+\end{proof}
+
 \begin{theorem}[StreamName public reindexing section cancellation]
 \label{thm:streamname-public-reindexing-section-cancellation}
 Let $R_0$ and $R_1$ be certified public $\StreamNameUp$ finite-window reindex

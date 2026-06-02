@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICCandidateNormalizationRouterUp$}
+\label{ch:concrete-instances-metacic-candidate-normalization-router-namecert}
+\origin{ai}
+
+The $\MetaCICCandidateNormalizationRouterUp$ packet realizes the candidate-mediated public route of \autoref{ch:metacic-normalization-audit-map} as finite closed-term routing data. It sits beside the candidate socket of \autoref{ch:concrete-instances-normalization-candidate-socket-namecert}, the redex frontier of \autoref{ch:concrete-instances-metacic-redex-frontier-namecert}, the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, and the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. The packet preserves candidate evidence as a visible row before any strong-normalization or no-infinite-reduction read is allowed.
+
+\begin{definition}[MetaCIC candidate normalization router carrier]
+\label{def:metacic-candidate-normalization-router-carrier}
+A $\MetaCICCandidateNormalizationRouterUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,A,W,S,M,U,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed term row, recording the empty-context typing and closedness data consumed by the public normalization read.
+\item $A$ is the candidate-evidence row, naming the supplied reducibility candidate, closed-candidate wrapper, or candidate-set membership witness.
+\item $W$ is the closed-candidate wrapper row, displaying the closedness side conditions that keep the candidate evidence attached to $T$.
+\item $S$ is the candidate-set membership row, used when the route is mediated by a finite candidate-set package rather than a single candidate witness.
+\item $M$ is the application and Pi adequacy handoff row, recording which adequacy lemma may be consumed before an application or Pi-shaped read reaches normalization evidence.
+\item $U$ is the closed-candidate strong-normalization and no-infinite-reduction readback row reached only after $T,A,W,S,M$ have been displayed.
+\item $O$ is the obstruction row refusing any closed-term strong-normalization read that bypasses candidate evidence.
+\item $H$ records componentwise $\hsame$ transport for the term, candidate, wrapper, membership, adequacy, readback, obstruction, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the audit-map request through $T,A,W,S,M,U,O,H$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICCandidateNormalizationRouterUp$, \autoref{ch:metacic-normalization-audit-map}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICCandidateNormalizationRouterUp}$ row.
+\end{enumerate}
+The classifier compares accepted router packets only through these rows. It has no coordinate for evidence-free strong normalization, an unconditional closed-term theorem, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, or completed closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC candidate normalization router obligations]
+\label{thm:metacic-candidate-normalization-router-obligations}
+For every accepted $\MetaCICCandidateNormalizationRouterUp$ carrier
+$$
+R=(T,A,W,S,M,U,O,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICCandidateNormalizationRouterUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the closed typed term, candidate evidence, closed-candidate wrapper, candidate-set membership, adequacy handoff, readback, obstruction, transport, replay, provenance, and local naming rows;
+\item candidate visibility, requiring every strong-normalization or no-infinite-reduction read to inspect $A$ and the relevant wrapper row $W$ or membership row $S$;
+\item adequacy handoff exactness, requiring application and Pi consumers to pass through $M$ before using candidate evidence to route a closed term;
+\item obstruction exactness, requiring $O$ to reject any route from $T$ to $U$ that bypasses candidate, wrapper, membership, or adequacy evidence;
+\item transport and replay closure, requiring $H,C,P,N$ to preserve the same candidate-mediated route.
+\end{enumerate}
+No router obligation is stored outside $T,A,W,S,M,U,O,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metacic-candidate-normalization-router-carrier}. The accepted packet exposes exactly the closed typed term, candidate, wrapper, membership, adequacy, readback, obstruction, transport, replay, provenance, and local naming rows.
+
+Candidate visibility follows from the audit-map route. The public closed-term read reaches $U$ only through the candidate evidence $A$ together with the displayed closed-candidate wrapper $W$ or candidate-set membership row $S$.
+
+Application and Pi reads are handled by $M$. That row records the adequacy handoff before the router treats candidate evidence as applicable to the closed term under inspection.
+
+The obstruction row $O$ records the negative boundary. Since no carrier coordinate supplies evidence-free strong normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, or completed closed consistency, $O$ rejects exactly the bypasses named in the statement.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same route, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Any $\MetaCICCandidateNormalizationRouterUp$ strong-normalization read that reaches a closed typed term without candidate evidence, a closed-candidate wrapper or candidate-set membership row, and the relevant adequacy handoff refutes the packet.}
+
+\independenceWitness{normalization-candidate-socket, metacicredexfrontier, bounded-normal-equality-checker, metaciccriticalpath: no listed sibling is bijective with $\MetaCICCandidateNormalizationRouterUp$ because this packet jointly carries closed typed term data, candidate evidence, closed-candidate or candidate-set routing, adequacy handoff, obstruction, transport, replay, provenance, and local $\NameCert$ rows.}
+
+\closureat{MetaCICCandidateNormalizationRouterUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICCandidateNormalizationRouterUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-candidate-normalization-router-carrier} and \autoref{thm:metacic-candidate-normalization-router-obligations} seed the candidate-mediated closed-term normalization route through candidate evidence, closed-candidate wrappers, candidate-set membership, adequacy handoff, obstruction, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close evidence-free strong normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, completed closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate visibility, adequacy handoff exactness, obstruction exactness, and transport-replay closure for BEDC.Derived.MetaCICCandidateNormalizationRouterUp.}
+  \constructivestory{A $\MetaCICCandidateNormalizationRouterUp$ packet is generated from a closed typed term row, candidate-evidence row, closed-candidate wrapper, candidate-set membership row, application and Pi adequacy handoff, readback row, obstruction row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

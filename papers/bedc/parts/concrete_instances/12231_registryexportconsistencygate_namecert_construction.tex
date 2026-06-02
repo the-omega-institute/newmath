@@ -25,11 +25,14 @@ with the following visible rows:
 \end{enumerate}
 The carrier contains no coordinate for an export grade that bypasses $S$, no private override of $B$, no machine target outside $F$, and no audit path outside $A$.
 \end{definition}
+\leandef{BEDC.Derived.RegistryExportConsistencyGateUp.RegistryExportConsistencyGateCarrier}
 
 \begin{definition}[Registry export consistency gate classifier]
 \label{def:registry-export-consistency-gate-classifier}
 The $\RegistryExportConsistencyGateUp$ classifier accepts exactly those packets of \autoref{def:registry-export-consistency-gate-carrier} in which the status-consistency row $S$ compares the same claim across $R$, the export grade, the closure-status reading, and the formal-target row $F$, while the audit row $A$ and no-smuggling row $U$ remain visible to the same local $\NameCert$ row $N$.
 \end{definition}
+\leandef{BEDC.Derived.RegistryExportConsistencyGateUp.RegistryExportConsistencyGateClassifierSpec}
+\leanchecked{BEDC.Derived.RegistryExportConsistencyGateUp.RegistryExportConsistencyGateClassifier\_semantic\_name\_certificate}
 
 \begin{theorem}[Registry export consistency gate NameCert obligations]
 \label{thm:registry-export-consistency-gate-namecert-obligations}
@@ -58,6 +61,7 @@ Finally $H,C,P,N$ transport, replay, package, and name these same rows. Since th
 \label{thm:registry-export-consistency-gate-no-conflict-export}
 If status consistency fails between a registry entry, its export grade, its closure-status reading, and its formalization target, then no accepted $\RegistryExportConsistencyGateUp$ packet exports the claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegistryExportConsistencyGateUp.RegistryExportConsistencyGateNoConflictExport}
 \begin{proof}
 Assume an accepted packet
 $$
@@ -74,6 +78,7 @@ The no-smuggling row $U$ rules out recovering the export from prose, host semant
 \label{thm:registry-export-consistency-gate-sibling-dependency}
 The $\RegistryExportConsistencyGateUp$ carrier is not bijective, under NameCert-row preservation, to $\ClaimRegistryLayerUp$, $\RegistryExportSurfaceUp$, $\MachineInterfaceSocketUp$, $\AxisZeckendorfCannotClaimUp$, or $\GroundCompilerRecognitionUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegistryExportConsistencyGateUp.RegistryExportConsistencyGateSiblingDependency}
 \begin{proof}
 Compare the displayed rows. $\ClaimRegistryLayerUp$ supplies claim-entry export control, while $\RegistryExportSurfaceUp$ binds registration, blocking, status, machine target, audit, and non-smuggling rows for export.
 
@@ -91,11 +96,12 @@ The Lean follow-up must provide explicit $\Nontrivial\ \RegistryExportConsistenc
 \closureat{RegistryExportConsistencyGateUp}{seedStr}
 \closureat{RegistryExportConsistencyGateUp}{obligationStr}
 \closureat{RegistryExportConsistencyGateUp}{scopedStr}
+\closureat{RegistryExportConsistencyGateUp}{publicStr}
 
 \begin{closurestatus}{\RegistryExportConsistencyGateUp}
   \constructivestory{A $\RegistryExportConsistencyGateUp$ packet is generated from registry entry, blocking, status-consistency, formal-target, audit-route, no-smuggling, transport, replay, provenance, and local naming rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:registry-export-consistency-gate-carrier}, \autoref{def:registry-export-consistency-gate-classifier}, \autoref{thm:registry-export-consistency-gate-namecert-obligations}, \autoref{thm:registry-export-consistency-gate-no-conflict-export}, \autoref{thm:registry-export-consistency-gate-sibling-dependency}, the falsifiablePrediction row, the independenceWitness row, and \texttt{BEDC.Derived.RegistryExportConsistencyGateUp.taste\_gate} bind the obligation surface for carrier admission, classifier acceptance, NameCert obligations, no-conflict export blocking, sibling separation, and checked field faithfulness.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:registry-export-consistency-gate-no-conflict-export} is the public export boundary: together with \autoref{def:registry-export-consistency-gate-carrier}, \autoref{def:registry-export-consistency-gate-classifier}, \autoref{thm:registry-export-consistency-gate-namecert-obligations}, \autoref{thm:registry-export-consistency-gate-sibling-dependency}, the falsifiablePrediction row, the independenceWitness row, and \texttt{BEDC.Derived.RegistryExportConsistencyGateUp.taste\_gate}, it binds carrier admission, classifier acceptance, NameCert obligations, no-conflict export blocking, sibling separation, and checked field faithfulness.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

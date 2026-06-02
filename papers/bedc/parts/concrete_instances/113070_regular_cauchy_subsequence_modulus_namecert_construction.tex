@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySubsequenceModulusUp$}
+\label{ch:concrete-instances-regular-cauchy-subsequence-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchySubsequenceModulusUp$ packet records the finite modulus surface that turns a displayed Cauchy source into a regular subsequence schedule before the $\RegSeqRatUp$ and $\RealUp$ handoff is read. It sits between the $\CauchyModulusUp$ source of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the accelerated source interface of \autoref{ch:concrete-instances-fast-cauchy-modulus-namecert}. The chapter makes the Cauchy-to-regular-real subsequence modulus explicit as NameCert data rather than treating it as an ambient extraction step.
+
+\begin{definition}[Regular Cauchy subsequence modulus carrier]
+\label{def:regular-cauchy-subsequence-modulus-carrier}
+A $\RegularCauchySubsequenceModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(Q,S,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the source $\CauchyModulusUp$ row, naming the Cauchy tail modulus from which the subsequence schedule is read.
+\item $S$ is the extracted subsequence schedule row, recording the monotone stage requests and their finite cofinality checks.
+\item $D$ is the $\DyadicRatCoreUp$ tail-budget ledger, carrying dyadic radii, slack comparisons, and the precision budget consumed by $S$.
+\item $W$ records the finite $\StreamNameUp$ windows inspected at the stages displayed by $S$.
+\item $R$ is the $\RegSeqRatUp$ handoff row opened only after $Q,S,D,W$ have been displayed.
+\item $E$ is the downstream $\RealUp$ seal row reached from the regular readback.
+\item $H$ records componentwise $\hsame$ transport for the source modulus, schedule, dyadic budget, stream windows, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Cauchy tail request through $Q,S,D,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchySubsequenceModulusUp$, $\CauchyModulusUp$, $\FastCauchyModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySubsequenceModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,S,D,W,R,E,H,C,P,N$. It has no coordinate for a choice-selected infinite subsequence, quotient stream equality, host sequence equality, host real equality, selected limits, ambient $\RealUp$ completeness, or a hidden fast-modulus oracle.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy subsequence modulus surface]
+\label{thm:regular-cauchy-subsequence-modulus-namecert-surface}
+For every accepted $\RegularCauchySubsequenceModulusUp$ carrier
+$$
+M=(Q,S,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchySubsequenceModulusUp}$ surface consists exactly of five obligation rows: source Cauchy modulus exposure through $Q$, extracted subsequence schedule exposure through $S$, dyadic tail-budget and finite-window precision through $D,W$, RegSeqRat and Real handoff through $R,E$, and structural transport with replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-subsequence-modulus-carrier}. The accepted packet displays only the source modulus row $Q$, schedule row $S$, dyadic budget row $D$, stream-window row $W$, regular readback $R$, Real seal $E$, and structural rows $H,C,P,N$.
+
+The precision argument is finite. Induct over the displayed tail-budget list in $D$: the empty budget exposes no stage, while the next dyadic request reads the corresponding source-modulus entry in $Q$, records the selected stage in $S$, and checks the retained window in $W$. The induction never asks for a global selector, because every step consumes one visible budget row.
+
+The handoff is therefore forced. The $\RegSeqRatUp$ row $R$ may only read the schedule and finite windows already justified by $Q,S,D,W$, and the $\RealUp$ seal $E$ appears downstream of $R$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since no coordinate stores quotient stream equality, selected subsequences, host equality, selected limits, ambient completeness, or a hidden $\FastCauchyModulusUp$ oracle, the five listed groups exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchySubsequenceModulusUp$ route to a RegSeqRat or Real boundary must display a source CauchyModulus row, extracted subsequence schedule, dyadic tail budget, finite StreamName windows, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{cauchymodulus, fastcauchymodulus, dyadicratcore, streamname, regseqrat, real: none is bijective with $\RegularCauchySubsequenceModulusUp$ because this packet jointly carries the source modulus, schedule extraction, dyadic precision ledger, finite windows, regular handoff, Real seal, transport, replay, provenance, and local naming for the same Cauchy-to-regular route.}
+
+\closureat{RegularCauchySubsequenceModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySubsequenceModulusUp}
+  \constructivestory{A $\RegularCauchySubsequenceModulusUp$ packet is generated from a source CauchyModulus row, extracted subsequence schedule, DyadicRatCore tail-budget ledger, finite StreamName windows, RegSeqRat handoff, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-subsequence-modulus-carrier} and \autoref{thm:regular-cauchy-subsequence-modulus-namecert-surface} seed the finite subsequence-modulus interface used by Cauchy-to-RegSeqRat and Real routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, choice-selected infinite subsequences, host sequence equality, host real equality, selected limits, ambient $\RealUp$ completeness, Lean checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source Cauchy modulus exposure, schedule extraction, dyadic precision induction, finite StreamName window routing, RegSeqRat and Real handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchySubsequenceModulusUp.}
+\end{closurestatus}

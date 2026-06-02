@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\FiniteApproximateFixedPointUp$}
+\label{ch:concrete-instances-finite-approximate-fixed-point-namecert}
+\origin{human}
+
+Following Brouwer, Schauder, and Bishop--Bridges finite approximation methods, the $\FiniteApproximateFixedPointUp$ packet records an approximate fixed-point witness as finite mesh, radius, and displacement data before any host fixed point is selected. It sits beside the Brouwer surface of \autoref{ch:concrete-instances-brouwer-fixed-point-namecert}, the Schauder surface of \autoref{ch:concrete-instances-schauder-fixed-point-namecert}, the compact-metric surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite-net carrier of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the metric-ball route of \autoref{ch:concrete-instances-metricball-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet exposes the finite approximation data consumed by fixed-point arguments; it is not a host fixed-point selector, quotient equality on points, open-cover compactness theorem, or ambient completeness principle.
+
+\begin{definition}[Finite approximate fixed-point carrier]
+\label{def:finite-approximate-fixed-point-carrier}
+A $\FiniteApproximateFixedPointUp$ carrier is a finite $\BHist$ packet
+$$
+A=(K,F,E,B,D,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row naming the compact metric object on which the approximation is inspected.
+\item $F$ is the map row, read only as a displayed continuous or uniformly controlled self-route over the same compact metric source.
+\item $E$ is the $\FiniteEpsilonNetUp$ row listing the finite mesh centers and the mesh radius requested by the approximation.
+\item $B$ is the $\MetricBallUp$ coverage row tying each inspected point to one displayed mesh ball.
+\item $D$ is the displacement ledger recording the finite comparisons between each mesh center and its image under $F$.
+\item $R$ is the $\RealUp$ radius and displacement seal row used for the numerical tolerance comparisons.
+\item $S$ is the approximate fixed-point handoff row asserting that an accepted mesh point meets the displayed displacement tolerance.
+\item $H$ records componentwise $\hsame$ transport for the compact source, self-map, finite net, ball coverage, displacement ledger, real seal, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a fixed-point request through $K,F,E,B,D,R,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteApproximateFixedPointUp$, $\BrouwerFixedPointUp$, $\SchauderFixedPointUp$, $\CompactMetricUp$, $\FiniteEpsilonNetUp$, $\MetricBallUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteApproximateFixedPointUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,F,E,B,D,R,S,H,C,P,N$. It has no coordinate for a selected fixed point, quotient point equality, arbitrary open covers, host compactness, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Finite approximate fixed-point NameCert obligations]
+\label{thm:finite-approximate-fixed-point-namecert-obligations}
+For every accepted $\FiniteApproximateFixedPointUp$ carrier
+$$
+A=(K,F,E,B,D,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteApproximateFixedPointUp}$ surface consists exactly of carrier admission for the compact metric source, displayed self-map route, finite $\varepsilon$-net, metric-ball coverage, displacement ledger, real-valued tolerance seals, approximate handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, sibling provenance, and local naming rows. Every approximate fixed-point consumer must expose the finite net $E$, the ball coverage $B$, and the displacement ledger $D$ before it reads the handoff row $S$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-approximate-fixed-point-carrier}. The displayed tuple is the whole public packet, so the local certificate can inspect only $K,F,E,B,D,R,S,H,C,P,N$.
+
+The compactness-facing part is finite. The compact metric row $K$ supplies the source, the self-map row $F$ supplies the only allowed map read, and the finite-net row $E$ with the metric-ball row $B$ supplies the bounded mesh coverage.
+
+The fixed-point-facing part is approximate. The ledger $D$ records finite displacement comparisons, the real row $R$ supplies the numerical tolerance seals, and the handoff row $S$ may be read only after those finite rows are accepted.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since no selected fixed point, quotient point equality, arbitrary open cover, host compactness object, countable-choice schedule, or ambient completeness row exists in the carrier, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite approximate fixed-point Brouwer--Schauder route]
+\label{thm:finite-approximate-fixed-point-brouwer-schauder-route}
+Every $\BrouwerFixedPointUp$ or $\SchauderFixedPointUp$ consumer that reads an accepted $\FiniteApproximateFixedPointUp$ packet receives only the finite route
+$$
+\CompactMetricUp,\ \FiniteEpsilonNetUp,\ \MetricBallUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The route exposes mesh centers, coverage balls, displacement tolerances, and the approximate handoff row. It exports no exact fixed-point selector, no global fixed-point theorem, no quotient point equality, no open-cover compactness object, and no ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:finite-approximate-fixed-point-namecert-obligations}. A fixed-point consumer must first read the compact metric source, self-map route, finite net, ball coverage, displacement ledger, and real tolerance rows.
+
+The Brouwer and Schauder siblings may consume that data only as a finite approximation surface. The provenance row $P$ records those siblings, but it does not add a row selecting an exact fixed point or proving a global fixed-point theorem.
+
+The structural rows $H,C,N$ preserve and name the same finite route. Because the carrier has no coordinate for quotient equality, arbitrary open-cover compactness, selected fixed points, or ambient completeness, the exported route is precisely the finite approximation packet displayed above.
+\end{proof}
+
+\closureat{FiniteApproximateFixedPointUp}{seedStr}
+
+\begin{closurestatus}{\FiniteApproximateFixedPointUp}
+  \constructivestory{A $\FiniteApproximateFixedPointUp$ packet is generated from compact metric source rows, displayed self-map rows, finite epsilon-net rows, metric-ball coverage, displacement ledgers, RealUp tolerance seals, approximate handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-approximate-fixed-point-carrier}, \autoref{thm:finite-approximate-fixed-point-namecert-obligations}, and \autoref{thm:finite-approximate-fixed-point-brouwer-schauder-route} seed the finite approximate fixed-point packet over compact metric, finite-net, metric-ball, RealUp, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close exact fixed-point selection, global Brouwer or Schauder fixed-point theorems, quotient point equality, arbitrary open-cover compactness, host compactness, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-net coverage, displacement-ledger exactness, Real tolerance handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteApproximateFixedPointUp.}
+\end{closurestatus}

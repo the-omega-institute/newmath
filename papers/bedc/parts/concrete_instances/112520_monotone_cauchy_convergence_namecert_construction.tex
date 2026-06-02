@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneCauchyConvergenceUp$}
+\label{ch:concrete-instances-monotone-cauchy-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\MonotoneCauchyConvergenceUp$ packet records the finite certificate surface for the usual bounded monotone Cauchy convergence argument. It sits over the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the density handoff of \autoref{ch:concrete-instances-archimedean-real-density-namecert}. The certificate keeps monotonicity, Cauchy control, bounds, density witnesses, and the Real-facing seal as displayed BEDC rows; it does not import least-upper-bound completeness, quotient stream equality, selected representatives, trichotomy, countable choice, or an ambient convergence theorem.
+
+\begin{definition}[Monotone Cauchy convergence carrier]
+\label{def:monotone-cauchy-convergence-carrier}
+A $\MonotoneCauchyConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,R,O,B,D,L,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row exposing the sampled rational stream windows.
+\item $R$ is the $\RegSeqRatUp$ readback row that records regular Cauchy control on the same windows.
+\item $O$ is the monotonicity row, recording the displayed order direction for the inspected window family.
+\item $B$ is the boundedness row, recording the finite upper or lower bound used by the monotone argument.
+\item $D$ is the $\ArchimedeanRealDensityUp$ density row used to choose rational brackets around the displayed bound gap.
+\item $L$ is the local convergence ledger, recording the finite tolerance request and the response window.
+\item $E$ is the terminal $\RealUp$ seal exposed only after $S,R,O,B,D,L$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the analytic rows and structural rows.
+\item $C$ records the displayed $\Cont$ replay by which a consumer reads the stream, regularity, order, boundedness, density, ledger, and Real-seal rows.
+\item $P$ records $\Pkg$ provenance over $\MonotoneCauchyConvergenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\ArchimedeanRealDensityUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneCauchyConvergenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a supremum object, quotient equality of streams, selected representative sequence, excluded-middle trichotomy, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Monotone Cauchy convergence NameCert obligations]
+\label{thm:monotone-cauchy-convergence-namecert-obligations}
+For every accepted $\MonotoneCauchyConvergenceUp$ carrier $M=(S,R,O,B,D,L,E,H,C,P,N)$, the local $\NameCert_{\MonotoneCauchyConvergenceUp}$ surface consists exactly of finite-window exposure through $S$, regular-rational readback through $R$, displayed monotonicity through $O$, boundedness through $B$, Archimedean density bracketing through $D$, convergence-ledger response through $L$, terminal $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:monotone-cauchy-convergence-carrier}. The analytic rows $S,R,O,B,D,L,E$ are the only coordinates from which a convergence consumer can read the source stream, regularity, order, bound, density bracket, tolerance response, and Real-facing seal.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name those same rows. Since the carrier contains no supremum coordinate, representative selector, quotient stream equality, trichotomy, choice principle, or ambient completeness coordinate, the local certificate obligations are exhausted by the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Monotone convergence Real seal route]
+\label{thm:monotone-cauchy-convergence-real-seal-route}
+Every accepted $\RealUp$ read through a $\MonotoneCauchyConvergenceUp$ packet factors through the finite route
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \ArchimedeanRealDensityUp,\ \RealUp
+$$
+as displayed by the rows $S,R,D,E,H,C,P,N$. The monotonicity row $O$, boundedness row $B$, and convergence ledger $L$ may refine the route, but they cannot replace the $\RegSeqRatUp$ readback or the terminal $\RealUp$ seal by a host limit.
+\end{theorem}
+\begin{proof}
+Begin with the carrier tuple $M=(S,R,O,B,D,L,E,H,C,P,N)$. A Real-facing consumer can reach the seal row $E$ only after the stream windows $S$, regular readback $R$, density row $D$, and ledger response $L$ have been displayed.
+
+The monotonicity and boundedness rows are controls on the same finite windows. They do not form a separate completion object, and the replay row $C$ exposes them only together with $S,R,D,E$.
+
+Transport by $H$ and provenance through $P,N$ keep the same route visible. Thus the accepted Real read is a BEDC handoff through the displayed rows, not a host limit, quotient stream, or selected representative.
+\end{proof}
+
+\begin{theorem}[Monotone Cauchy convergence nonescape]
+\label{thm:monotone-cauchy-convergence-nonescape}
+No consumer of an accepted $\MonotoneCauchyConvergenceUp$ packet can extract least-upper-bound completeness, quotient equality of streams, selected representatives, trichotomy, countable choice, or an ambient convergence theorem from the packet. Every accepted convergence read remains bounded by the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ route named in \autoref{def:monotone-cauchy-convergence-carrier}.
+\end{theorem}
+\begin{proof}
+The nonescape claim is carrier projection. The packet exposes only the rows $S,R,O,B,D,L,E,H,C,P,N$.
+
+The convergence route of \autoref{thm:monotone-cauchy-convergence-real-seal-route} identifies the only Real-facing handoff: stream windows, regular-rational readback, density bracketing, convergence ledger, and terminal seal. None of these rows is a supremum object, a quotient constructor, a representative selector, or a global completeness principle.
+
+Therefore any accepted consumer stays inside the finite route preserved by $H$ and replayed by $C$. The excluded principles require coordinates absent from the packet, so they cannot be read from $\MonotoneCauchyConvergenceUp$.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims a $\MonotoneCauchyConvergenceUp$ convergence read while omitting the $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, monotonicity row, boundedness row, $\ArchimedeanRealDensityUp$ density bracket, convergence ledger, $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, or local $\NameCert$ row refutes the carrier of \autoref{def:monotone-cauchy-convergence-carrier}.}
+
+\independenceWitness{streamname, regseqrat, real, archimedeanrealdensity: $\MonotoneCauchyConvergenceUp$ is not bijective to any listed sibling because it jointly carries finite windows, regular Cauchy readback, monotonicity, boundedness, density bracketing, a convergence ledger, and a terminal Real seal. StreamNameUp carries windows without regularity or convergence; RegSeqRatUp carries regular rational readback without monotone boundedness; RealUp supplies the terminal seal without the convergence ledger; ArchimedeanRealDensityUp supplies density brackets without the monotone Cauchy route.}
+
+\closureat{MonotoneCauchyConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneCauchyConvergenceUp}
+  \constructivestory{A $\MonotoneCauchyConvergenceUp$ packet is generated from finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, monotonicity and boundedness rows, $\ArchimedeanRealDensityUp$ density bracketing, a convergence ledger, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-cauchy-convergence-carrier}, \autoref{thm:monotone-cauchy-convergence-namecert-obligations}, \autoref{thm:monotone-cauchy-convergence-real-seal-route}, and \autoref{thm:monotone-cauchy-convergence-nonescape} seed the finite constructive monotone Cauchy convergence route over $\StreamNameUp$, $\RegSeqRatUp$, $\ArchimedeanRealDensityUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim least-upper-bound completeness, quotient stream equality, selected representatives, trichotomy, countable choice, Lean verification, bridge checking, or ambient completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular readback routing, monotone boundedness stability, density-ledger exactness, and Real-seal nonescape for BEDC.Derived.MonotoneCauchyConvergenceUp.}
+\end{closurestatus}

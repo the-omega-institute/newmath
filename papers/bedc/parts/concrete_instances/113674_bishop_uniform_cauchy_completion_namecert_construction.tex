@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\BishopUniformCauchyCompletionUp$}
+\label{ch:concrete-instances-bishop-uniform-cauchy-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley, the $\BishopUniformCauchyCompletionUp$ packet records the finite uniform-Cauchy completion route by which regular rational names, finite windows, and dyadic tolerances are read before any Real or Completion consumer may inspect a completed endpoint. It sits beside the uniform-Cauchy packet of \autoref{ch:concrete-instances-uniform-cauchy-completion-namecert}, the window and readback surfaces of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, the tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, the Cauchy sequence space of \autoref{ch:concrete-instances-cauchysequencespace-namecert}, and the theorem-level completion handoff of \autoref{ch:concrete-instances-bishop-completion-theorem-namecert}. The packet is a displayed NameCert interface for Bishop-style uniform Cauchy completion, not a quotient completion object, selected limit, countable-choice schedule, or ambient $\RealUp$ completeness theorem.
+
+\begin{definition}[Bishop uniform-Cauchy completion carrier]
+\label{def:bishop-uniform-cauchy-completion-carrier}
+A $\BishopUniformCauchyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+U=(A,W,R,D,E,S,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the uniform-Cauchy source row, naming the inspected uniform family, entourage request, and finite tail schedule admitted from the $\UniformCauchyCompletionUp$ surface.
+\item $W$ is the $\StreamNameUp$ window row whose finite observations open the source and tail data.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that records the dyadic precision at which $W$ and $R$ are compared.
+\item $E$ is the $\RealUp$ seal row, available only after the source, window, readback, and tolerance rows have been displayed.
+\item $S$ is the $\CauchySequenceSpaceUp$ handoff row recording how the same windowed readback is consumed by the space of Cauchy names.
+\item $B$ is the $\BishopCompletionTheoremUp$ handoff row recording the theorem-level completion route generated from the displayed uniform-Cauchy source.
+\item $H$ records componentwise $\hsame$ transport for $A,W,R,D,E,S,B,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the route from the source row through the window, readback, tolerance, Real seal, CauchySequenceSpace handoff, and BishopCompletionTheorem handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\BishopUniformCauchyCompletionUp$, $\UniformCauchyCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchySequenceSpaceUp$, $\BishopCompletionTheoremUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopUniformCauchyCompletionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient names, selected representatives, a limit selector, countable choice, host real equality, hidden completion points, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Bishop uniform-Cauchy completion NameCert obligations]
+\label{thm:bishop-uniform-cauchy-completion-namecert-obligations}
+For every accepted $\BishopUniformCauchyCompletionUp$ carrier $U=(A,W,R,D,E,S,B,H,C,P,N)$, the local $\NameCert_{\BishopUniformCauchyCompletionUp}$ surface consists exactly of the uniform-Cauchy source row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ tolerance ledger, $\RealUp$ seal row, $\CauchySequenceSpaceUp$ handoff, $\BishopCompletionTheoremUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every completion consumer of the packet must expose those rows before it may read a Real seal or completion-facing endpoint.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-uniform-cauchy-completion-carrier}. The only analytic rows are $A,W,R,D,E,S,B$, and the only structural rows are $H,C,P,N$.
+
+The source row $A$ supplies the uniform-Cauchy request, but it is not itself a completed point. The finite window row $W$, readback row $R$, and dyadic tolerance row $D$ are the displayed data that make the source inspectable.
+
+The endpoint rows are downstream of those displays. The Real seal $E$, the CauchySequenceSpace handoff $S$, and the BishopCompletionTheorem handoff $B$ can be read only after $A,W,R,D$ have been projected.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same rows componentwise. Since the carrier contains no quotient, selector, choice schedule, host equality, or ambient completeness coordinate, the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Bishop uniform-Cauchy completion Real seal handoff]
+\label{thm:bishop-uniform-cauchy-completion-real-seal-handoff}
+Every $\RealUp$, $\CauchySequenceSpaceUp$, or $\BishopCompletionTheoremUp$ consumer read exported by an accepted $\BishopUniformCauchyCompletionUp$ carrier factors through the displayed finite route
+$$
+\UniformCauchyCompletionUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp
+$$
+before it reaches the Real seal row $E$, the CauchySequenceSpace handoff row $S$, or the BishopCompletionTheorem handoff row $B$. The route exports no quotient completion, selected limit, countable-choice schedule, host real equality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Read the source side first. The accepted carrier displays $A$ as the uniform-Cauchy source and then exposes it through the finite window, regular readback, and dyadic tolerance rows $W,R,D$.
+
+The seal and completion rows are therefore not primitive endpoints. The row $E$ is a Real-facing seal read after $A,W,R,D$, while $S$ and $B$ record the sibling CauchySequenceSpace and BishopCompletionTheorem handoffs over the same displayed data.
+
+The structural rows $H,C,P,N$ preserve that order under transport and replay. Thus every downstream read factors through the named finite route and cannot obtain any excluded completion mechanism from the packet.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\BishopUniformCauchyCompletionUp$ consumer that reaches $\RealUp$, $\CauchySequenceSpaceUp$, or $\BishopCompletionTheoremUp$ without displaying the $\UniformCauchyCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows refutes the carrier.}
+
+\independenceWitness{uniform-cauchy-completion, streamname, regseqrat, dyadicratcore, real, cauchysequencespace, bishop-completion-theorem: no listed sibling is bijective to $\BishopUniformCauchyCompletionUp$ because the packet jointly carries the uniform-Cauchy source, finite windows, regular readback, dyadic tolerance, Real seal, CauchySequenceSpace handoff, BishopCompletionTheorem handoff, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{BishopUniformCauchyCompletionUp}{seedStr}
+
+\begin{closurestatus}{\BishopUniformCauchyCompletionUp}
+  \constructivestory{A $\BishopUniformCauchyCompletionUp$ packet is generated from a uniform-Cauchy source row, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, Real seal rows, CauchySequenceSpace and BishopCompletionTheorem handoffs, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-uniform-cauchy-completion-carrier}, \autoref{thm:bishop-uniform-cauchy-completion-namecert-obligations}, and \autoref{thm:bishop-uniform-cauchy-completion-real-seal-handoff} seed the finite Bishop uniform-Cauchy completion route from displayed source rows through windows, readbacks, tolerances, Real seal, CauchySequenceSpace handoff, and BishopCompletionTheorem handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking for $\BishopUniformCauchyCompletionUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window readback, dyadic tolerance exactness, Real seal nonescape, CauchySequenceSpace handoff, BishopCompletionTheorem handoff, transport, replay, provenance, and local naming for BEDC.Derived.BishopUniformCauchyCompletionUp.}
+\end{closurestatus}

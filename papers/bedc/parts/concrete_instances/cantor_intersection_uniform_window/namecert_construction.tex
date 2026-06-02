@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\CantorIntersectionUniformWindowUp$}
+\label{ch:concrete-instances-cantor-intersection-uniform-window-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive nested-interval treatment, the $\CantorIntersectionUniformWindowUp$ packet records the finite uniform-window handoff for the L10 nested compact interval route. It sits over the nested interval surface of \autoref{ch:concrete-instances-nestedinterval-namecert}, the dyadic interval nesting route of \autoref{ch:concrete-instances-dyadic-interval-nesting-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the metric Cantor-intersection packet of \autoref{ch:concrete-instances-cantor-intersection-metric-namecert}. The packet exposes only the finite window needed by a Real or Completion consumer; it does not assert Heine--Borel compactness, choose an intersection point, quotient streams, countable choice, host equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CantorIntersectionUniformWindow carrier]
+\label{def:cantor-intersection-uniform-window-carrier}
+A $\CantorIntersectionUniformWindowUp$ carrier is a finite $\BHist$ packet
+$$
+U=(N,D,M,W,R,E,J,H,C,P,K)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the $\NestedIntervalUp$ source row, exposing the nested compact interval family and the requested finite depth.
+\item $D$ is the $\DyadicIntervalNestingUp$ row, recording dyadic endpoint budgets and containment checks for the same depth.
+\item $M$ is the $\CantorIntersectionMetricUp$ metric row, read only as a bounded diameter and overlap witness for the displayed interval family.
+\item $W$ is the uniform finite-window row, assigning one inspection window to every precision request visible in $N,D,M$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the dyadic endpoints and the uniform window family.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $N,D,M,W,R$ have been displayed.
+\item $J$ is the L10 handoff row that routes finite interval windows toward Real and Completion consumers.
+\item $H$ records componentwise $\hsame$ transport for the nested source, dyadic ledger, metric row, windows, readbacks, seal, handoff, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+N,D,M \longmapsto W \longmapsto R \longmapsto E \longmapsto J .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CantorIntersectionUniformWindowUp$, $\NestedIntervalUp$, $\DyadicIntervalNestingUp$, $\CantorIntersectionMetricUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $K$ is the local $\NameCert_{\CantorIntersectionUniformWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $N,D,M,W,R,E,J,H,C,P,K$. It has no coordinate for a selected intersection point, unrestricted compactness, quotient stream equality, countable choice, host endpoint equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CantorIntersectionUniformWindow NameCert obligations]
+\label{thm:cantor-intersection-uniform-window-namecert-obligations}
+For every accepted $\CantorIntersectionUniformWindowUp$ carrier
+$$
+U=(N,D,M,W,R,E,J,H,C,P,K),
+$$
+the local $\NameCert_{\CantorIntersectionUniformWindowUp}$ surface consists exactly of the following seed obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed nested source, dyadic ledger, metric Cantor row, finite uniform windows, regular rational readback, terminal real seal, L10 handoff, transport, replay, provenance, and local name;
+\item nested-source exposure, requiring every interval read to pass through $N$ before a dyadic or metric row is consumed;
+\item dyadic containment visibility, requiring $D$ to supply the finite endpoint and containment checks used by $W$ and $R$;
+\item uniform-window exactness, requiring the same finite window family $W$ to serve every visible precision request before the $\RegSeqRatUp$ handoff is read;
+\item real-seal nonescape, requiring $E$ and $J$ to remain downstream of $N,D,M,W,R$;
+\item structural transport, replay, provenance, and local naming through $H,C,P,K$.
+\end{enumerate}
+No Cantor intersection uniform-window obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cantor-intersection-uniform-window-carrier}. The displayed tuple lists the nested source, dyadic ledger, metric Cantor row, uniform windows, regular rational readback, real seal, L10 handoff, and structural rows.
+
+The nested and dyadic obligations are read in order. A consumer first sees $N$, then $D$, and only then the metric row $M$ and window row $W$; none of these rows exports a selected point or an unrestricted compactness theorem.
+
+The uniform-window exactness obligation is the route through $W$ and $R$. The row $W$ fixes the finite inspection family, and $R$ reads only the rational data exposed by that family and the dyadic endpoint ledger.
+
+Finally, $E,J,H,C,P,K$ preserve the same route. Since the carrier has no coordinate for the excluded principles, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CantorIntersectionUniformWindow L10 handoff]
+\label{thm:cantor-intersection-uniform-window-l10-handoff}
+Every L10 Real or Completion consumer of an accepted $\CantorIntersectionUniformWindowUp$ carrier factors through
+$$
+N,D,M,W,R,E,J,H,C,P,K .
+$$
+The consumer may inspect the nested interval source, dyadic endpoint ledger, metric Cantor row, finite uniform windows, $\RegSeqRatUp$ readback, $\RealUp$ seal, L10 handoff, transport, replay, provenance, and local name. It cannot bypass this route to obtain general Heine--Borel compactness, a selected intersection point, quotient streams, countable choice, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an L10 consumer asking for a Real-facing window from the packet. The only source coordinate is $N$, so the consumer must retain the nested interval family and requested finite depth.
+
+The dyadic and metric rows then fix the window discipline. The row $D$ records endpoint budgets and containment checks, while $M$ supplies only the bounded diameter and overlap information needed by the displayed finite window.
+
+The readback and seal rows are downstream of that discipline. The row $W$ displays the uniform finite windows, $R$ reads them as regular rational data, and $E,J$ expose the terminal seal and L10 handoff without adding a selector.
+
+The rows $H,C,P,K$ transport, replay, source, and name the same finite route. Therefore no consumer can extract the excluded compactness, choice, quotient, equality, or ambient completeness data from the packet.
+\end{proof}
+
+\closureat{CantorIntersectionUniformWindowUp}{seedStr}
+
+\begin{closurestatus}{\CantorIntersectionUniformWindowUp}
+  \constructivestory{A $\CantorIntersectionUniformWindowUp$ packet is generated from nested interval data, dyadic interval nesting rows, a CantorIntersectionMetric row, finite uniform windows, RegSeqRat readback, a RealUp seal, an L10 handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-intersection-uniform-window-carrier}, \autoref{thm:cantor-intersection-uniform-window-namecert-obligations}, and \autoref{thm:cantor-intersection-uniform-window-l10-handoff} seed the finite uniform-window route from nested compact interval data through dyadic endpoint budgets, CantorIntersectionMetric rows, RegSeqRat readback, RealUp sealing, and L10 handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general Heine--Borel compactness, selected intersection points, quotient streams, countable choice, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nested-source exposure, dyadic containment visibility, uniform-window exactness, RegSeqRat handoff, RealUp seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CantorIntersectionUniformWindowUp.}
+\end{closurestatus}

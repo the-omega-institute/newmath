@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\CompactUniformTriangleLedgerUp$}
+\label{ch:concrete-instances-compact-uniform-triangle-ledger-namecert}
+\origin{human}
+
+Following Bishop--Bridges and the Heine--Cantor compact metric proof, the $\CompactUniformTriangleLedgerUp$ packet records the proof-critical triangle handoff that turns pointwise modulus rows on a finite compact net into one uniform-modulus row. It sits over the compact finite-net carrier of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous-map pointwise rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the rational tolerance surface of \autoref{ch:concrete-instances-rat-namecert}, the metric source and target ledgers of \autoref{ch:concrete-instances-metric-namecert}, the finite lower-bound fold of \autoref{ch:concrete-instances-finitenetminimumfold-namecert}, the final triangle estimate of \autoref{ch:concrete-instances-metric-triangle-uniform-estimate-namecert}, and the downstream $\UniformModulusUp$ consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names only displayed finite-net, radius, pointwise-modulus, source-triangle, target-triangle, transport, replay, provenance, and local naming rows.
+
+\begin{definition}[Compact uniform triangle ledger carrier]
+\label{def:compact-uniform-triangle-ledger-carrier}
+A $\CompactUniformTriangleLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(K,X,Y,F,\varepsilon,B,R,\mu,S,T,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ finite-net source row for the compact metric carrier.
+\item $X$ is the source $\MetricSpaceUp$ distance row used to compare an input point with the selected net center and with a second input point.
+\item $Y$ is the target $\MetricSpaceUp$ distance row used by the final triangle estimate.
+\item $F$ is the $\ContinuousMapUp$ pointwise-modulus packet over the same source metric and target metric.
+\item $\varepsilon$ is the positive $\RatUp$ tolerance row carried by the compact-uniform request.
+\item $B$ is the finite bundled-center ledger read from $K$, listing the inspected centers, radius histories, and coverage rows.
+\item $R$ is the rational lower-bound row obtained from the bundled radius histories and read through the $\RatUp$ order surface.
+\item $\mu$ is the tolerance-only precision row selected from $R$ for the uniform-modulus consumer.
+\item $S$ is the source-triangle ledger showing that the selected center remains within the pointwise radius for both compared source points.
+\item $T$ is the target-triangle ledger joining the two pointwise estimates at the selected center into the final target-distance estimate.
+\item $U$ is the $\UniformModulusUp$ handoff row produced from $\mu,S,T$.
+\item $H$ records componentwise $\hsame$ transport for compact, metric, continuous, rational, source-triangle, target-triangle, uniform-modulus, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay along
+$$
+K,X,Y,F,\varepsilon,B,R,\mu \longmapsto S,T,U \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CompactUniformTriangleLedgerUp$, $\CompactMetricUp$, $\MetricSpaceUp$, $\ContinuousMapUp$, $\RatUp$, $\FiniteNetMinimumFoldUp$, $\MetricTriangleUniformEstimateUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompactUniformTriangleLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host compactness theorem, selected global modulus, hidden center outside the finite bundle, quotient equality of points or functions, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Compact uniform triangle ledger NameCert obligations]
+\label{thm:compact-uniform-triangle-ledger-namecert-obligations}
+For every accepted $\CompactUniformTriangleLedgerUp$ carrier $L=(K,X,Y,F,\varepsilon,B,R,\mu,S,T,U,H,C,P,N)$, the local $\NameCert_{\CompactUniformTriangleLedgerUp}$ surface consists of compact finite-net admission, source and target metric admission, continuous pointwise-modulus admission, rational tolerance admission, bundled radius lower-bound readback, source-triangle handoff, target-triangle handoff, uniform-modulus export, componentwise transport, displayed replay, package provenance, and local naming. Every public consumer of the packet reads through those rows and through no host compactness, external modulus selector, hidden center, quotient equality, choice schedule, or ambient completeness object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-uniform-triangle-ledger-carrier}. The rows $K,X,Y,F,\varepsilon,B,R,\mu,S,T,U,H,C,P,N$ are the whole public surface.
+
+The compact and rational source data are read first. The finite bundle $B$ comes from the compact metric row $K$, and the lower-bound row $R$ is the rational fold over the displayed radius histories for the tolerance row $\varepsilon$.
+
+The source-triangle handoff is then forced through $S$. It uses the selected precision $\mu$, the compact-net coverage row, and the source metric row $X$ before the pointwise modulus packet $F$ may be applied to both compared source points.
+
+The target-triangle handoff is forced through $T$. The two pointwise estimates supplied by $F$ at the same selected center are joined by the target metric row $Y$, and the result is repacked as the $\UniformModulusUp$ row $U$.
+
+Finally $H,C,P,N$ transport, replay, source, and locally name the same finite route. Since the carrier contains no coordinate for host compactness, an external modulus selector, a hidden center, quotient equality, choice, or ambient completeness, the listed rows exhaust the certificate.
+\end{proof}
+
+\begin{theorem}[Compact uniform triangle ledger handoff]
+\label{thm:compact-uniform-triangle-ledger-handoff}
+Every $\UniformModulusUp$ read from an accepted $\CompactUniformTriangleLedgerUp$ packet factors through the finite route
+$$
+\CompactMetricUp,\ \MetricSpaceUp,\ \ContinuousMapUp,\ \RatUp
+\longmapsto
+\FiniteNetMinimumFoldUp
+\longmapsto
+\MetricTriangleUniformEstimateUp
+\longmapsto
+\UniformModulusUp .
+$$
+The route records the compact finite-net bundle, rational lower-bound precision, source-triangle ledger, target-triangle ledger, transport, replay, provenance, and local naming rows as one packet.
+\end{theorem}
+\begin{proof}
+Start with the compact finite-net data. The rows $K$ and $B$ display the finite bundle of centers and coverage rows, while $\varepsilon$ and $R$ display the positive rational tolerance and the lower-bound fold used to produce $\mu$.
+
+Use the source metric row $X$ and the source-triangle ledger $S$. These rows certify that the selected center can be used for both compared source points before the pointwise-modulus row $F$ is consumed.
+
+Use the target metric row $Y$ and the target-triangle ledger $T$. The two pointwise estimates at the selected center are joined inside the displayed metric triangle estimate, and the result is exactly the row exported to $U$.
+
+The structural rows $H,C,P,N$ keep this route componentwise stable and locally named. No host compactness theorem, external selector, hidden center, quotient equality, choice schedule, or real-completeness row is available to the consumer.
+\end{proof}
+
+\closureat{CompactUniformTriangleLedgerUp}{seedStr}
+
+\begin{closurestatus}{\CompactUniformTriangleLedgerUp}
+  \constructivestory{A $\CompactUniformTriangleLedgerUp$ packet is generated from CompactMetric finite-net rows, MetricSpace source and target rows, ContinuousMap pointwise-modulus rows, RatUp tolerance rows, finite lower-bound folds, source-triangle and target-triangle ledgers, UniformModulus handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-uniform-triangle-ledger-carrier}, \autoref{thm:compact-uniform-triangle-ledger-namecert-obligations}, and \autoref{thm:compact-uniform-triangle-ledger-handoff} seed the compact finite-net triangle ledger that carries pointwise moduli into a uniform-modulus row.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host compactness theorem, selected global modulus, hidden center outside the finite bundle, quotient equality, choice schedule, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-net admission, rational lower-bound readback, source-triangle handoff, target-triangle handoff, uniform-modulus export, replay stability, provenance exhaustion, and local naming for BEDC.Derived.CompactUniformTriangleLedgerUp.}
+\end{closurestatus}

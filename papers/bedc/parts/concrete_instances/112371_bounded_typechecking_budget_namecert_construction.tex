@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\BoundedTypecheckingBudgetUp$}
+\label{ch:concrete-instances-bounded-typechecking-budget-namecert}
+\origin{ai}
+
+The $\BoundedTypecheckingBudgetUp$ packet realizes the MetaCIC decidability audit map of \autoref{ch:metacic-decidable-audit-map} as finite checker rows with visible refusal boundaries. It packages the type-inference checker, structural same-term checker, bounded normal-equality checker, finished-normalization evidence, and gallery audit rows into a NameCert object that can be consumed without claiming a global conversion oracle. It is adjacent to $\MetaCICDecidableBoundaryUp$ of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, $\NormalFalseExclusionUp$ of \autoref{ch:concrete-instances-normalfalseexclusion-namecert}, and $\ClosedNormalConfluenceSealUp$ of \autoref{ch:concrete-instances-closednormalconfluenceseal-namecert}: the first names the decidability boundary, the second records normal-false exclusion discipline, and the third records the closed normal-confluence seal consumed when bounded equality has endpoint evidence.
+
+\begin{definition}[Bounded typechecking budget carrier]
+\label{def:bounded-typechecking-budget-carrier}
+A $\BoundedTypecheckingBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(\Gamma,T,Q,N,F,G,R,H,C,P,L)
+$$
+with the following rows:
+\begin{enumerate}
+\item $\Gamma$ is the represented context row for the MetaCIC checker.
+\item $T$ is the option-valued type-inference row, exposing \texttt{inferTypeCtx} and its closed wrapper as finite checker data.
+\item $Q$ is the same-term row, exposing structural equality and \texttt{checkSameTerm} rather than proof-irrelevant equality.
+\item $N$ is the bounded normalizer row, carrying a visible fuel value and the bounded normal-form outputs used by \texttt{decideClosedBetaConv}.
+\item $F$ is the finished-normalization witness row. It is present only when the bounded normalizer has the endpoint evidence required by the audit map.
+\item $G$ is the gallery row, recording the executable sanity witnesses for Boolean, natural-number, pair, option, list, sum, and polymorphic examples.
+\item $R$ is the refusal-boundary row, recording that closedness and global beta-conversion decidability are not exported when the relevant endpoint data is absent.
+\item $H$ records componentwise $\hsame$ transport for $\Gamma,T,Q,N,F,G,R$ and the structural rows.
+\item $C$ records $\Cont$ replay from a typechecking request through inference, same-term checking, bounded normal comparison, finished evidence, gallery rows, and refusal boundaries.
+\item $P$ is the $\Pkg$ provenance over $\BoundedTypecheckingBudgetUp$, $\MetaCICDecidableBoundaryUp$, $\NormalFalseExclusionUp$, $\ClosedNormalConfluenceSealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\BoundedTypecheckingBudgetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unrestricted beta-conversion decidability, fuel-erased normalization, proof-irrelevant term equality, external closedness decision, hidden oracle, or host typechecker.
+\end{definition}
+
+\begin{theorem}[Bounded typechecking budget NameCert obligations]
+\label{thm:bounded-typechecking-budget-namecert-obligations}
+For every accepted $\BoundedTypecheckingBudgetUp$ carrier $B=(\Gamma,T,Q,N,F,G,R,H,C,P,L)$, the local $\NameCert_{\BoundedTypecheckingBudgetUp}$ surface consists exactly of context admission through $\Gamma$, type-inference exposure through $T$, structural same-term exposure through $Q$, bounded-normalizer exposure through $N$, finished-endpoint evidence through $F$ when present, gallery audit exposure through $G$, refusal-boundary exposure through $R$, componentwise $\hsame$ stability through $H$, $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bounded-typechecking-budget-carrier}. The represented context row $\Gamma$ and inference row $T$ are the only typechecking entry points.
+
+The same-term checker $Q$ and bounded normalizer $N$ provide the equality-facing data. The finished row $F$ is read only when endpoint evidence exists, while $R$ records the refusal of a global conversion claim when that evidence is absent.
+
+The gallery row $G$ is audit-facing evidence for the executable examples, not a source of a general theorem. Componentwise transport $H$, replay $C$, provenance $P$, and local naming $L$ preserve the same finite route, so the NameCert obligations cannot import a hidden oracle, host typechecker, or unrestricted conversion decision.
+\end{proof}
+
+\begin{theorem}[Bounded typechecking budget MetaCIC decidable handoff]
+\label{thm:bounded-typechecking-budget-metacic-decidable-handoff}
+Every consumer that cites the MetaCIC decidability audit map through an accepted $\BoundedTypecheckingBudgetUp$ packet must factor through the finite route
+$$
+\Gamma,T,Q,N,F,G,R \longmapsto H,C,P,L .
+$$
+Consequently type inference is public at the checker interface, structural same-term equality is public through $Q$, bounded normal equality is public through $N$, and full closed beta-conversion is public only under the finished endpoint row $F$; otherwise the refusal row $R$ remains visible.
+\end{theorem}
+\begin{proof}
+Begin with the typechecking side. The context row $\Gamma$ and inference row $T$ expose the checker interface described by \autoref{ch:metacic-decidable-audit-map}; they do not expose a host typechecker.
+
+Move to equality. The row $Q$ supplies structural same-term checking, while $N$ supplies the bounded normalizer comparison at a displayed fuel. These rows are enough for bounded normal equality and for the soundness statements named by the audit map.
+
+The endpoint condition is separate. If $F$ is present, the consumer may read the finished-normalization handoff to the closed normal-confluence seal. If $F$ is absent, the refusal row $R$ is part of the same public packet and blocks any claim of global closed beta-conversion decidability.
+
+Finally replay $H,C,P,L$. These rows transport, replay, source, and name the exact budget route, so every MetaCIC decidability handoff remains a finite checker-row handoff rather than an unrestricted oracle.
+\end{proof}
+
+\begin{theorem}[Bounded typechecking budget refusal boundary]
+\label{thm:bounded-typechecking-budget-refusal-boundary}
+For every accepted $\BoundedTypecheckingBudgetUp$ carrier $B=(\Gamma,T,Q,N,F,G,R,H,C,P,L)$, any consumer that has $\Gamma,T,Q,N,G,H,C,P,L$ but lacks the finished endpoint row $F$ must keep the refusal-boundary row $R$ in scope. Such a consumer may cite type-inference soundness and completeness, same-term correctness, gallery sanity, and bounded-normalizer output equality, but it may not export fuel-erased normalization, unrestricted beta-conversion decidability, or a closedness decision theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier and remove only the endpoint row $F$ from the consumer-visible route. The rows $\Gamma,T,Q,N,G$ still expose the context, inference checker, same-term checker, bounded normalizer, and gallery audit surface.
+
+The missing row matters exactly at the conversion boundary. Without $F$, the bounded normalizer output row $N$ does not assert that the displayed fuel has reached finished closed normal forms, so the stronger conversion claim is not available.
+
+The refusal row $R$ is therefore mandatory. Transport $H$, replay $C$, provenance $P$, and local naming $L$ preserve the same absence, preventing the consumer from replacing the missing endpoint by a host oracle, proof irrelevance, or fuel-erased normalization theorem.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\BoundedTypecheckingBudgetUp$ consumer that exports global closed beta-conversion decidability while omitting the finished endpoint row $F$ and refusal-boundary row $R$ refutes the carrier of \autoref{def:bounded-typechecking-budget-carrier}.}
+
+\independenceWitness{metacic-decidable-boundary, normal-false-exclusion, closed-normal-confluence-seal: $\BoundedTypecheckingBudgetUp$ is not bijective to any listed sibling because it carries the joint context, inference, same-term, bounded-normalizer, finished-endpoint, gallery, refusal, transport, replay, provenance, and local NameCert rows. The decidable-boundary sibling names the audit edge; the normal-false-exclusion sibling controls false normal reads; the closed-normal-confluence seal supplies endpoint compatibility when $F$ is present.}
+
+\closureat{BoundedTypecheckingBudgetUp}{seedStr}
+
+\begin{closurestatus}{\BoundedTypecheckingBudgetUp}
+  \constructivestory{A $\BoundedTypecheckingBudgetUp$ packet is generated from a represented context row, type-inference checker row, same-term checker row, bounded-normalizer row, finished endpoint row, gallery audit row, refusal-boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-typechecking-budget-carrier}, \autoref{thm:bounded-typechecking-budget-namecert-obligations}, and \autoref{thm:bounded-typechecking-budget-metacic-decidable-handoff} seed the finite checker-budget handoff for the MetaCIC decidability audit map.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unrestricted beta-conversion decidability, fuel-erased normalization, an external closedness decision theorem, proof-irrelevant term equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, inference checker exactness, same-term checker exactness, bounded-normalizer exactness, finished-endpoint handoff, gallery coverage, and refusal-boundary nonescape for BEDC.Derived.BoundedTypecheckingBudgetUp.}
+\end{closurestatus}

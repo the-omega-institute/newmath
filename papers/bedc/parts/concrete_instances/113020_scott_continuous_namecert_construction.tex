@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\ScottContinuousUp$}
+\label{ch:concrete-instances-scott-continuous-namecert}
+\origin{human}
+
+Following Scott's domain-theoretic treatment of continuous maps and the later domain-theory accounts of directed-complete orders, the $\ScottContinuousUp$ packet records morphisms that preserve directed suprema and Scott-open observation as finite BEDC naming data. It sits over the domain carrier of \autoref{ch:concrete-instances-scott-domain-namecert}, the directed-complete order surface of \autoref{ch:concrete-instances-dcpo-namecert}, the lattice-facing supremum discipline of \autoref{ch:concrete-instances-complete-lattice-namecert}, and the Scott-open interface of \autoref{ch:concrete-instances-scott-topology-namecert}. The packet names a displayed continuity carrier; it does not assert a host function space, quotient map equality, selected pointwise supremum proof, arbitrary topological inverse image, or semantic completeness theorem.
+
+\begin{definition}[ScottContinuous carrier]
+\label{def:scott-continuous-carrier}
+A $\ScottContinuousUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,T,G,D,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\DcpoUp$ or $\ScottDomainUp$ row, exposing the source order, directed-family schedule, supremum row, compact-basis data when present, and local NameCert surface.
+\item $T$ is the target $\DcpoUp$ or $\ScottDomainUp$ row, exposing the target order, directed-family schedule, supremum row, compact-basis data when present, and local NameCert surface.
+\item $G$ is the graph row, recording the finite source-target read used by the continuity packet rather than a host function object.
+\item $D$ is the directed-supremum preservation ledger. For every displayed directed schedule admitted by $S$, it records that the graph read in $G$ carries the source supremum row to the target supremum row visible in $T$.
+\item $O$ is the Scott-open inverse-image row. Every accepted Scott-open observation on the target is replayed through \autoref{ch:concrete-instances-scott-topology-namecert} as a Scott-open observation on the source.
+\item $H$ records componentwise $\hsame$ transport for the source row, target row, graph row, directed-supremum ledger, inverse-image row, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a source read, target read, directed-supremum preservation request, or Scott-open inverse-image request through $S,T,G,D,O,H$.
+\item $P$ is the $\Pkg$ provenance over $\ScottContinuousUp$, $\ScottDomainUp$, $\DcpoUp$, $\CompleteLatticeUp$, $\ScottTopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ScottContinuousUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,G,D,O,H,C,P,N$. It has no coordinate for a host exponential object, quotient equality of maps, pointwise choice of directed suprema, arbitrary inverse-image topology, or unrecorded semantic continuity proof.
+\end{definition}
+
+\begin{theorem}[ScottContinuous NameCert obligations]
+\label{thm:scott-continuous-namecert-obligations}
+For every accepted $\ScottContinuousUp$ carrier $F=(S,T,G,D,O,H,C,P,N)$, the local $\NameCert_{\ScottContinuousUp}$ surface consists exactly of source admission, target admission, graph-row admission, directed-supremum preservation through $D$, Scott-open inverse-image replay through $O$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every continuity consumer must read $S,T,G,D,O,H,C,P,N$ before treating the morphism as public.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:scott-continuous-carrier}. The source and target order data are $S$ and $T$, the finite morphism presentation is $G$, the continuity ledgers are $D$ and $O$, and the structural rows are $H,C,P,N$.
+
+The directed-supremum obligation reads the directed schedule and supremum row exposed by $S$, then checks the target supremum row exposed by $T$ through the graph row $G$. Thus preservation is attached to displayed dcpo or domain data and not to a host function space.
+
+The Scott-open obligation reads target opens through the Scott-topology packet and replays their inverse image as source Scott-open data. The replay uses the same graph row and the same directed-supremum ledger, so it cannot introduce an arbitrary topological inverse-image operation.
+
+Rows $H,C,P,N$ transport, replay, source, and name this finite packet. Since quotient map equality, selected supremum witnesses, host exponentials, and semantic completeness are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[ScottContinuous directed-supremum stability]
+\label{thm:scott-continuous-directed-sup-stability}
+Every accepted $\ScottContinuousUp$ packet preserves directed-supremum visibility under componentwise transport and continuation replay. If a consumer reads a directed source schedule through $S$ and the preservation ledger $D$, any transported or replayed read of the same continuity packet factors again through
+$$
+S,T,G,D,O,H,C,P,N.
+$$
+Thus directed-supremum preservation remains a finite ledger over displayed dcpo or domain rows and never exposes a host function equality, selected pointwise lub proof, or hidden target supremum oracle.
+\end{theorem}
+\begin{proof}
+Start with a directed-supremum preservation read. By \autoref{def:scott-continuous-carrier}, the read reaches $D$ only after the source row $S$, target row $T$, and graph row $G$ are displayed.
+
+Use \autoref{thm:scott-continuous-namecert-obligations}. Componentwise transport through $H$ preserves the same carrier rows, and $\Cont$ replay through $C$ repeats the displayed route rather than generating a second continuity source.
+
+The provenance and local naming rows $P,N$ identify the same packet after the replay. Because selected pointwise lub proofs, host function equality, and hidden supremum oracles are not coordinates of $S,T,G,D,O,H,C,P,N$, the transported read remains the same finite directed-supremum ledger.
+\end{proof}
+
+\begin{theorem}[ScottContinuous domain handoff]
+\label{thm:scott-continuous-domain-handoff}
+Let $F=(S,T,G,D,O,H,C,P,N)$ be an accepted $\ScottContinuousUp$ carrier whose source and target rows are $\ScottDomainUp$ packets. Any downstream domain-semantic consumer of $F$ must first read the source domain row, target domain row, graph row, directed-supremum preservation ledger, Scott-open inverse-image row, transport, replay, provenance, and local naming rows. The handoff exports no host domain morphism, quotient map equality, selected basis enumeration, or ambient semantic interpretation.
+\end{theorem}
+\begin{proof}
+Project the source and target coordinates. The domain-facing information available to the consumer is precisely the pair of $\ScottDomainUp$ rows $S,T$ plus the graph and continuity rows $G,D,O$.
+
+Apply the NameCert obligations of \autoref{thm:scott-continuous-namecert-obligations}. They force every public continuity read through $S,T,G,D,O,H,C,P,N$ before a downstream consumer can use it as a morphism of domain packets.
+
+Finally use the Scott-domain and Scott-topology sibling surfaces cited at the chapter start. They provide directed-supremum and Scott-open observation rows as finite NameCert data. Since the continuity carrier merely links those rows and lacks a host morphism coordinate, the handoff is the displayed finite packet rather than an ambient semantic interpretation.
+\end{proof}
+
+\closureat{ScottContinuousUp}{seedStr}
+
+\begin{closurestatus}{\ScottContinuousUp}
+  \constructivestory{A $\ScottContinuousUp$ packet is generated from source and target dcpo or domain rows, a graph row, directed-supremum preservation, Scott-open inverse-image replay, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:scott-continuous-carrier}, \autoref{thm:scott-continuous-namecert-obligations}, \autoref{thm:scott-continuous-directed-sup-stability}, and \autoref{thm:scott-continuous-domain-handoff} seed the finite Scott-continuity interface over dcpo, domain, complete-lattice, and Scott-topology rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function spaces, quotient map equality, selected directed-supremum witnesses, arbitrary inverse-image topology, semantic completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed-supremum preservation, Scott-open inverse-image replay, transport, replay, provenance, local naming, and a concrete Lean target for BEDC.Derived.ScottContinuousUp.}
+\end{closurestatus}

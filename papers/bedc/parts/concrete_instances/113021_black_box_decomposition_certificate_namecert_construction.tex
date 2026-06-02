@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\BlackBoxDecompositionCertificateUp$}
+\label{ch:concrete-instances-black-box-decomposition-certificate-namecert}
+\origin{ai}
+
+The $\BlackBoxDecompositionCertificateUp$ packet realizes the decomposition surface of \autoref{sec:visions-philosophy-black-box-decomposition} as finite NameCert data. It sits beside the classifier-preserving route of \autoref{ch:concrete-instances-classifiermorphism-namecert}, the classifier-typing surface of \autoref{ch:concrete-instances-classifiertyping-namecert}, the self-classifier row of \autoref{ch:concrete-instances-theoryselfclassifier-namecert}, and the smuggling-pattern refusal classifier of \autoref{ch:concrete-instances-smugglingpatternclassifier-namecert}. The packet names a certificate-deficit carrier for supported behavior; it is not a host interpretability theorem, not a semantic explanation oracle, not a model-internals extractor, and not a verification-hardening certificate.
+
+\begin{definition}[BlackBoxDecompositionCertificate carrier]
+\label{def:black-box-decomposition-certificate-carrier}
+A $\BlackBoxDecompositionCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(B,S,C,F,M,L,D,E,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the behavior row, recording the displayed behavior, scope, evidence packet, observation protocol, and stability claim being decomposed.
+\item $S$ is the support-candidate row, naming the classifier candidate that supports the behavior through prediction, correlation, intervention, formal constraint, or hybrid evidence.
+\item $C$ is the classifier row, read through $\ClassifierTypingUp$, $\ClassifierMorphismUp$, or $\TheorySelfClassifierUp$ before the support claim is public.
+\item $F$ is the certificate-field row, listing source, pattern, classifier, stability, and ledger-policy fields visible for the support claim.
+\item $M$ is the missing-field row, recording exactly which certificate fields are absent or incomplete for the declared scope.
+\item $L$ is the ledger row, recording attached ledger evidence, required residue, recorded residue, and ledger-policy status.
+\item $D$ is the deficit row, measuring unrecorded or incomplete critical residue in the decomposition.
+\item $E$ is the closed-explanation state row, requiring NameCert-completeness, ledger-completeness, scope seal, and not-claimed boundary before a behavior is no longer black-box relative to the support candidate.
+\item $H$ records componentwise $\hsame$ transport for behavior, support, classifier, field, missing-field, ledger, deficit, explanation-state, replay, provenance, and naming rows.
+\item $R$ records displayed $\Cont$ replay from a black-box query through $B,S,C,F,M,L,D,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\BlackBoxDecompositionCertificateUp$, \autoref{sec:visions-philosophy-black-box-decomposition}, $\ClassifierTypingUp$, $\ClassifierMorphismUp$, $\TheorySelfClassifierUp$, $\SmugglingPatternClassifierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BlackBoxDecompositionCertificateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,S,C,F,M,L,D,E,H,R,P,N$. It has no coordinate for hidden model semantics, unrecorded classifier support, host explanation equality, oracle access to internal weights, or a formal-verification verdict.
+\end{definition}
+
+\begin{theorem}[BlackBoxDecompositionCertificate NameCert obligations]
+\label{thm:black-box-decomposition-certificate-namecert-obligations}
+For every accepted $\BlackBoxDecompositionCertificateUp$ carrier $Q=(B,S,C,F,M,L,D,E,H,R,P,N)$, the local $\NameCert_{\BlackBoxDecompositionCertificateUp}$ surface consists exactly of behavior admission, support-candidate admission, classifier-row exposure, certificate-field exposure, missing-field exposure, ledger exposure, deficit exposure, closed-explanation-state exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A downstream black-box-decomposition consumer must read all twelve rows before claiming that a behavior has reached closed-explanation state.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:black-box-decomposition-certificate-carrier}. The behavior and support rows are $B,S$, the classifier-facing row is $C$, the certificate and ledger rows are $F,M,L,D,E$, and the structural rows are $H,R,P,N$.
+
+The classifier row is read through the sibling classifier surfaces named in the chapter introduction. Thus support for the behavior cannot be treated as an unrecorded semantic relation or host interpretability judgment.
+
+The field, missing-field, ledger, and deficit rows separate certificate completeness from ledger completeness. The closed-explanation state row $E$ can be public only after those rows are displayed together with the scope seal and not-claimed boundary.
+
+Rows $H,R,P,N$ transport, replay, source, and name the same finite packet. Since hidden model semantics, internal-weight oracles, host explanation equality, and verification-hardening verdicts are absent from the carrier, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[BlackBoxDecompositionCertificate deficit non-closure]
+\label{thm:black-box-decomposition-certificate-deficit-nonclosure}
+Let $Q=(B,S,C,F,M,L,D,E,H,R,P,N)$ be an accepted $\BlackBoxDecompositionCertificateUp$ carrier. If the missing-field row $M$ is empty and the deficit row $D$ records nonempty ledger deficit, then the closed-explanation state row $E$ cannot be read as satisfied. The packet remains a ledger-deficit black-box certificate rather than a closed explanation.
+\end{theorem}
+\begin{proof}
+Read the carrier rows. Empty $M$ records certificate-field completeness, while nonempty $D$ records remaining ledger deficit for the same support claim.
+
+Use \autoref{thm:black-box-decomposition-certificate-namecert-obligations}. The closed-explanation state row $E$ requires both certificate completeness and ledger completeness before a consumer can leave black-box status on the sealed scope.
+
+The hypotheses supply only the first condition and deny the second. Therefore the accepted packet cannot expose $E$ as satisfied; it remains a certificate with ledger deficit, not a closed explanation.
+\end{proof}
+
+\begin{theorem}[BlackBoxDecompositionCertificate classifier handoff]
+\label{thm:black-box-decomposition-certificate-classifier-handoff}
+Every accepted $\BlackBoxDecompositionCertificateUp$ packet hands its support-candidate row to downstream consumers through the displayed classifier rows $C,H,R,P,N$. The handoff may cite classifier typing, classifier morphism, theory self-classification, and smuggling-pattern refusal surfaces, but it exports no host interpretability relation, hidden model semantics, selected explanation object, or formal-verification verdict.
+\end{theorem}
+\begin{proof}
+Project the classifier row $C$. By \autoref{def:black-box-decomposition-certificate-carrier}, it is the only row that connects the behavior support candidate to classifier-facing siblings.
+
+Apply the NameCert obligations of \autoref{thm:black-box-decomposition-certificate-namecert-obligations}. They require the classifier row to remain attached to behavior, support, field, missing-field, ledger, deficit, and explanation-state rows before any public handoff.
+
+Finally use the classifier-morphism, classifier-typing, theory-self-classifier, and smuggling-pattern-classifier sibling references in the chapter introduction. They provide finite classifier and refusal surfaces, not semantic access to model internals. Thus the handoff is a finite NameCert route through $C,H,R,P,N$ and not a hidden explanation oracle.
+\end{proof}
+
+\falsifiablePrediction{Any accepted BlackBoxDecompositionCertificateUp packet with empty missing-field family and nonempty ledger deficit cannot satisfy closed-explanation state.}
+
+\independenceWitness{classifiertyping, classifiermorphism, theoryselfclassifier, and smugglingpatternclassifier are non-bijective siblings: none alone carries the complete behavior, support-candidate, certificate-field, missing-field, ledger-deficit, closed-explanation-state, transport, replay, provenance, and NameCert surface exposed by $\BlackBoxDecompositionCertificateUp$.}
+
+The Lean follow-up must provide $\mathsf{Nontrivial}\ \BlackBoxDecompositionCertificateUp$ and $\mathsf{FieldFaithful}\ \BlackBoxDecompositionCertificateUp$ instances for the displayed carrier before any checked TasteGate marker can support a closure upgrade.
+
+\closureat{BlackBoxDecompositionCertificateUp}{seedStr}
+
+\begin{closurestatus}{\BlackBoxDecompositionCertificateUp}
+  \constructivestory{A $\BlackBoxDecompositionCertificateUp$ packet is generated from behavior, support-candidate, classifier, certificate-field, missing-field, ledger, deficit, closed-explanation-state, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:black-box-decomposition-certificate-carrier}, \autoref{thm:black-box-decomposition-certificate-namecert-obligations}, \autoref{thm:black-box-decomposition-certificate-deficit-nonclosure}, and \autoref{thm:black-box-decomposition-certificate-classifier-handoff} seed the finite certificate-deficit surface for black-box decomposition.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close hidden model semantics, host interpretability relations, selected explanation objects, formal-verification verdicts, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier-row exposure, missing-field exactness, ledger-deficit non-closure, closed-explanation-state boundary, transport, replay, provenance, local naming, Nontrivial, and FieldFaithful rows for BEDC.Derived.BlackBoxDecompositionCertificateUp.}
+\end{closurestatus}

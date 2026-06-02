@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\PoincareVisualRadiusLadderUp$}
+\label{ch:concrete-instances-poincare-visual-radius-ladder-namecert}
+\origin{human}
+
+Following classical Poincare disk geometry, the $\PoincareVisualRadiusLadderUp$ packet records a finite visual-radius ladder for observer-side disk readouts. It refines the disk carrier of \autoref{ch:concrete-instances-unitdisk-namecert}, the metric surface of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the boundary-shadow rows of \autoref{ch:concrete-instances-hyperbolic-boundary-shadow-namecert}, the visual metric rows of \autoref{ch:concrete-instances-hyperbolic-visual-shadow-metric-namecert}, the observer-shadow rows of \autoref{ch:concrete-instances-hyperbolic-observer-shadow-metric-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real seal of \autoref{ch:concrete-instances-real-namecert}. The packet exposes finite disk radii, boundary shadows, visual-metric readbacks, and real seals; it does not assert a completed hyperbolic boundary or a global observer geometry.
+
+\begin{definition}[PoincareVisualRadiusLadder carrier]
+\label{def:poincare-visual-radius-ladder-carrier}
+A $\PoincareVisualRadiusLadderUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D,R,B,V,O,S,Q,E,T,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\UnitDiskUp$ disk-coordinate row naming the displayed Poincare disk point and its finite admissibility data.
+\item $R$ is the visual-radius ladder row, a finite ordered ledger of disk radii and radial comparison requests.
+\item $B$ is the $\HyperbolicBoundaryShadowUp$ row that records which boundary-shadow windows are visible at the displayed radii.
+\item $V$ is the $\HyperbolicVisualShadowMetricUp$ row that reads the boundary shadow through the visual metric at each radius level.
+\item $O$ is the $\HyperbolicObserverShadowMetricUp$ row tying the visual-radius readback to the observer-facing shadow metric.
+\item $S$ is the $\StreamNameUp$ window row, recording the finite stream intervals from which the radius ladder may be replayed.
+\item $Q$ is the $\RegSeqRatUp$ rational readback row for the visual-radius and shadow-metric values.
+\item $E$ is the $\RealUp$ seal row reached only after $S$ and $Q$ have displayed the requested finite readback.
+\item $T$ is the finite transport row moving radius levels, boundary-shadow windows, visual-metric rows, observer-shadow rows, stream windows, rational readbacks, and real seals together.
+\item $A$ is the replay row for radius comparison, shadow inclusion, visual-metric readback, observer-shadow compatibility, and real-seal exposure.
+\item $H$ records componentwise $\hsame$ transport for every displayed row.
+\item $C$ records displayed $\Cont$ replay through
+$$
+D,R,B,V,O,S,Q \longmapsto E,T,A,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\PoincareVisualRadiusLadderUp$, $\UnitDiskUp$, $\HyperbolicMetricUp$, $\HyperbolicBoundaryShadowUp$, $\HyperbolicVisualShadowMetricUp$, $\HyperbolicObserverShadowMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PoincareVisualRadiusLadderUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $D,R,B,V,O,S,Q,E,T,A,H,C,P,N$. It has no coordinate for a completed boundary, ambient hyperbolic manifold, global observer metric, arbitrary real representative, choice, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[PoincareVisualRadiusLadder NameCert obligations]
+\label{thm:poincare-visual-radius-ladder-namecert-obligations}
+For an accepted $\PoincareVisualRadiusLadderUp$ carrier
+$$
+L=(D,R,B,V,O,S,Q,E,T,A,H,C,P,N),
+$$
+the local $\NameCert_{\PoincareVisualRadiusLadderUp}$ surface consists exactly of carrier admission; disk-radius admissibility for $D$ and $R$; boundary-shadow visibility for $B$; visual-metric readback for $V$; observer-shadow compatibility for $O$; stream and regular-rational readback through $S$ and $Q$; real-seal ordering through $E$; transport and replay stability through $T,A,H,C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:poincare-visual-radius-ladder-carrier}. The accepted packet displays disk coordinates, a finite radius ladder, boundary-shadow rows, visual-metric rows, observer-shadow rows, stream windows, rational readbacks, the real seal, and structural rows.
+
+Disk-radius admissibility is finite. The row $D$ supplies the disk surface, while $R$ lists only the radius levels visible to the packet.
+
+The shadow and metric obligations are read in order. Boundary-shadow windows come from $B$, visual-metric values from $V$, and observer-facing compatibility from $O$.
+
+The readback rows then force the seal route. Stream windows $S$ and regular-rational data $Q$ must be displayed before the real seal $E$ can be inspected.
+
+Finally $T,A,H,C,P,N$ transport, replay, source, and name the same finite ladder, so no completed boundary, global geometry, choice principle, or bridge credential is added.
+\end{proof}
+
+\begin{theorem}[PoincareVisualRadiusLadder shadow handoff]
+\label{thm:poincare-visual-radius-ladder-shadow-handoff}
+Every boundary-shadow, visual-metric, observer-shadow, regular-rational, or real-name consumer of an accepted $\PoincareVisualRadiusLadderUp$ carrier must factor through the finite route
+$$
+\UnitDiskUp,\ \HyperbolicMetricUp,\ \HyperbolicBoundaryShadowUp
+\longmapsto
+\HyperbolicVisualShadowMetricUp,\ \HyperbolicObserverShadowMetricUp
+\longmapsto
+\StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+At each displayed radius level, the consumer reads disk data, boundary-shadow windows, visual-metric values, observer-shadow compatibility, stream windows, rational readbacks, and only then the real seal. The route exports no completed boundary, global observer metric, arbitrary real representative, or ambient hyperbolic manifold.
+\end{theorem}
+\begin{proof}
+Start with a consumer request at a displayed radius level. The disk row $D$ and radius row $R$ determine the finite Poincare disk surface and the visual-radius level that may be inspected.
+
+The boundary and metric rows are then forced. The row $B$ supplies the boundary-shadow window, $V$ reads it through the visual metric, and $O$ ties the same readback to the observer-shadow surface.
+
+The numeric readback is downstream. The stream window $S$ and regular-rational row $Q$ expose the finite value route before the real seal $E$ is available.
+
+Transport, replay, provenance, and local naming preserve this order through $T,A,H,C,P,N$. Since the carrier has no row for a completed boundary or global observer metric, every consumer receives only the finite shadow handoff.
+\end{proof}
+
+\closureat{PoincareVisualRadiusLadderUp}{seedStr}
+
+\begin{closurestatus}{\PoincareVisualRadiusLadderUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poincare-visual-radius-ladder-carrier}, \autoref{thm:poincare-visual-radius-ladder-namecert-obligations}, and \autoref{thm:poincare-visual-radius-ladder-shadow-handoff} seed the finite Poincare disk visual-radius ladder and shadow handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a completed hyperbolic boundary, ambient hyperbolic manifold, global observer metric, arbitrary real representative, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked disk-radius admission, boundary-shadow visibility, visual-metric readback, observer-shadow compatibility, stream and regular-rational readback, real-seal ordering, provenance, and local naming for BEDC.Derived.PoincareVisualRadiusLadderUp.}
+  \constructivestory{A $\PoincareVisualRadiusLadderUp$ packet is generated from disk-coordinate rows, finite visual radii, boundary-shadow windows, visual-metric values, observer-shadow compatibility, stream windows, regular-rational readbacks, Real seals, transport, replay, componentwise hsame rows, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

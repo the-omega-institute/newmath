@@ -75,10 +75,43 @@ The handoff is exact because $Q$ names only the cited sibling certificates and $
 \end{proof}
 \leanchecked{BEDC.Derived.ProperMetricUp.ProperMetricCarrier\_complete\_located\_handoff}
 
+\begin{definition}[ProperMetric radius-window root]
+\label{def:proper-metric-radius-window-root}
+For an accepted $\ProperMetricUp$ packet $P=(X,B,K,L,T,H,C,Q,N)$, the radius-window root surface is the finite row family
+$$
+R_P(c,r)=\bigl(X,\ B(c,r),\ K(c,r),\ L(c,r),\ T(c,r),\ H,\ C,\ Q,\ N\bigr)
+$$
+indexed by the displayed center-radius windows of the carrier. A root row is accepted only when $B(c,r)$ is the $\MetricClosedBallUp$ row over the $\MetricUp$ source $X$, $K(c,r)$ is the paired $\CompactMetricUp$ witness, $L(c,r)$ is the paired $\LocatedCompactUp$ handoff, $T(c,r)$ is the paired $\CompleteMetricUp$ handoff, and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows certify the componentwise route.
+\end{definition}
+
+\begin{theorem}[ProperMetric radius-window root soundness]
+\label{thm:proper-metric-radius-window-root-soundness}
+For every accepted $\ProperMetricUp$ packet $P=(X,B,K,L,T,H,C,Q,N)$ and every displayed radius-window row $(c,r)$, the root row $R_P(c,r)$ is a valid finite obligation surface for closed-ball properness. Its consumers may read the $\MetricUp$ source, the $\MetricClosedBallUp$ membership row, the $\CompactMetricUp$ witness, the $\LocatedCompactUp$ handoff, the $\CompleteMetricUp$ handoff, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and no other properness datum.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:proper-metric-carrier}. The displayed window $(c,r)$ supplies $B(c,r)$, and the carrier pairs that row with $K(c,r)$, $L(c,r)$, and $T(c,r)$.
+
+Apply \autoref{thm:proper-metric-closed-ball-compactness}. It makes the route from the $\MetricClosedBallUp$ membership row to the $\CompactMetricUp$ witness a displayed finite route, transported by $H$ and replayed by $C$.
+
+Apply \autoref{thm:proper-metric-complete-located-handoff}. The located compact and complete metric consumers remain attached to the same closed-ball and compact-witness rows. The provenance row $Q$ and local naming row $N$ then exhaust the accepted root row.
+\end{proof}
+
+\begin{theorem}[ProperMetric radius-window non-escape]
+\label{thm:proper-metric-radius-window-nonescape}
+No accepted radius-window root row $R_P(c,r)$ exports arbitrary properness beyond the displayed window. In particular, it does not provide an open-cover compactness theorem, a general Heine--Borel theorem, host choice of centers or radii, quotient equality on metric points, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:proper-metric-radius-window-root}. The root row contains only $X,B(c,r),K(c,r),L(c,r),T(c,r),H,C,Q,N$, all indexed by the displayed center-radius window.
+
+Use \autoref{thm:proper-metric-radius-window-root-soundness}. It identifies exactly which rows a consumer may read from the root surface, and all of them are already components of the accepted $\ProperMetricUp$ packet.
+
+The carrier of \autoref{def:proper-metric-carrier} explicitly lacks open-cover compactness, host-selected centers, quotient equality, and ambient real-completeness coordinates. Since $Q$ and $N$ name only the same finite rows, none of the excluded principles can escape from the radius-window surface.
+\end{proof}
+
 \begin{closurestatus}{\ProperMetricUp}
   \constructivestory{The construction starts from a certified metric carrier, attaches finite center-radius closed-ball rows, pairs each displayed ball with a compact-metric witness, and routes located compactness and complete-metric consumers through the same displayed transport and continuation ledgers.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:proper-metric-carrier}, \autoref{thm:proper-metric-namecert-obligations}, \autoref{thm:proper-metric-closed-ball-compactness}, and \autoref{thm:proper-metric-complete-located-handoff} seed the constructive proper-metric interface as displayed closed-ball compact witnesses with complete and located handoff rows.}
+  \scopeclosed{\autoref{def:proper-metric-carrier}, \autoref{thm:proper-metric-namecert-obligations}, \autoref{thm:proper-metric-closed-ball-compactness}, \autoref{thm:proper-metric-complete-located-handoff}, \autoref{def:proper-metric-radius-window-root}, \autoref{thm:proper-metric-radius-window-root-soundness}, and \autoref{thm:proper-metric-radius-window-nonescape} seed the constructive proper-metric interface as displayed closed-ball compact witnesses with finite radius-window root rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{General Heine--Borel compactness, open-cover compactness, arbitrary properness beyond the displayed closed-ball compact witnesses, host-selected centers, quotient equality, and ambient real completeness are not claimed.}

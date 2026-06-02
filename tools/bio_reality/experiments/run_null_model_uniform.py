@@ -14,6 +14,8 @@ import sys
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DATA_DIR = REPO_ROOT / "tools" / "bio_reality" / "data"
 DATA_PATH = DATA_DIR / "ncbi_genetic_codes.json"
+MIN_UNIFORM_SAMPLES = 50000
+MIN_POSITION_SAMPLES = 20000
 sys.path.insert(0, str(DATA_DIR))
 
 from codon_topology_refs import all_codons, median, median_closure, reassignment_set  # noqa: E402
@@ -25,8 +27,8 @@ def now_iso() -> str:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--samples", type=int, default=50000)
-    parser.add_argument("--position-samples", type=int, default=10000)
+    parser.add_argument("--samples", type=int, default=MIN_UNIFORM_SAMPLES)
+    parser.add_argument("--position-samples", type=int, default=MIN_POSITION_SAMPLES)
     parser.add_argument("--seed", type=int, default=42)
     return parser.parse_args()
 
@@ -110,6 +112,18 @@ def main() -> int:
         p_position_lower_tail = position_le_observed / float(args.position_samples)
 
         checks = [
+            {
+                "name": "uniform_null_sample_floor",
+                "passed": args.samples >= MIN_UNIFORM_SAMPLES,
+                "actual": args.samples,
+                "expected_greater_equal": MIN_UNIFORM_SAMPLES,
+            },
+            {
+                "name": "position_preserving_null_sample_floor",
+                "passed": args.position_samples >= MIN_POSITION_SAMPLES,
+                "actual": args.position_samples,
+                "expected_greater_equal": MIN_POSITION_SAMPLES,
+            },
             {
                 "name": "p_value_uniform_lower_tail_significant",
                 "passed": p_uniform_lower_tail < 0.01,

@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteVitaliCoverUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -171,5 +173,53 @@ theorem FiniteVitaliCoverTasteGate_single_carrier_alignment :
     · constructor
       · exact finiteVitaliCover_decode_encode_bhist
       · rfl
+
+theorem FiniteVitaliCoverCarrier_namecert_obligations :
+    SemanticNameCert
+      (fun row : BHist => ∃ x : FiniteVitaliCoverUp,
+        finiteVitaliCoverToEventFlow x =
+          [finiteVitaliCoverTag, finiteVitaliCoverEncodeBHist row,
+            finiteVitaliCoverEncodeBHist row, finiteVitaliCoverEncodeBHist row,
+            finiteVitaliCoverEncodeBHist row, finiteVitaliCoverEncodeBHist row,
+            finiteVitaliCoverEncodeBHist row, finiteVitaliCoverEncodeBHist row,
+            finiteVitaliCoverEncodeBHist row])
+      (fun row : BHist => ∃ x : FiniteVitaliCoverUp,
+        finiteVitaliCoverFromEventFlow (finiteVitaliCoverToEventFlow x) = some x ∧ hsame row row)
+      (fun row : BHist => hsame row row ∧
+        finiteVitaliCoverEncodeBHist BHist.Empty = ([] : List BMark))
+      hsame := by
+  -- BEDC touchpoint anchor: BHist BMark hsame SemanticNameCert
+  exact {
+    core := {
+      carrier_inhabited := by
+        exact
+          ⟨BHist.Empty,
+            ⟨FiniteVitaliCoverUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty, rfl⟩⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row row' sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro row _source
+      exact
+        ⟨FiniteVitaliCoverUp.mk row row row row row row row row,
+          finiteVitaliCover_round_trip
+            (FiniteVitaliCoverUp.mk row row row row row row row row),
+          hsame_refl row⟩
+    ledger_sound := by
+      intro row _source
+      exact ⟨hsame_refl row, rfl⟩
+  }
 
 end BEDC.Derived.FiniteVitaliCoverUp

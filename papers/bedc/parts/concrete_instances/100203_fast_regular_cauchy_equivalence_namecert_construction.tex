@@ -38,6 +38,7 @@ For every accepted $\FastRegularCauchyEquivalenceUp$ carrier $K=(F,S,D,Q,E,H,C,P
 \end{enumerate}
 No NameCert obligation is stored outside those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastRegularCauchyEquivalenceUp.FastRegularCauchyEquivalenceNameCert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:fast-cauchy-regular-equivalence-carrier}. The tuple displays exactly the fast name, shared stream windows, dyadic tolerance ledger, regular readback, real seal, transport, replay, provenance, and local name.
 
@@ -57,6 +58,7 @@ Every accepted $\FastRegularCauchyEquivalenceUp$ carrier $K=(F,S,D,Q,E,H,C,P,N)$
 \end{enumerate}
 Both directions reach the $\RealUp$ seal only through $E$ and the completion-facing provenance of $\RealCauchyCompletionUp$. The route constructs no quotient streams, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, or hidden completion object.
 \end{theorem}
+\leanchecked{BEDC.Derived.FastRegularCauchyEquivalenceUp.FastRegularCauchyEquivalenceTwoWayRoute}
 \begin{proof}
 The forward direction begins with the fast row $F$. Its precision schedule selects finite observations in $S$ and dyadic tolerance rows in $D$; the regular readback row $Q$ is precisely the repackaging of those displayed rows.
 
@@ -67,6 +69,18 @@ Transport and replay do not change the route. The rows $H$ and $C$ preserve the 
 Finally, the $\RealUp$ seal is terminal. A completion-facing consumer may cite the $\RealCauchyCompletionUp$ provenance but receives only the displayed route through $E$, so no quotient stream, selected limit, countable choice, host real equality, or ambient completeness principle is exported.
 \end{proof}
 
+\begin{theorem}[Fast regular Cauchy schedule lock]
+\label{thm:fast-regular-cauchy-equivalence-regular-schedule-lock}
+Every accepted $\FastRegularCauchyEquivalenceUp$ carrier $K=(F,S,D,Q,E,H,C,P,N)$ that serves either a $\FastCauchyRealUp$ consumer or a $\RegSeqRatUp$ consumer must read the same displayed $S,D$ rows before $Q$ or $E$ may be consumed. Thus no consumer may substitute a detached fast schedule, quotient stream, selected limit, or hidden completion representative for the finite $\StreamNameUp$ windows and $\DyadicRatCoreUp$ tolerance ledger carried by $K$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fast-cauchy-regular-equivalence-carrier}. The schedule row $S$ and dyadic ledger $D$ are the only rows connecting the fast dyadic-modulus name $F$ to the regular readback $Q$.
+
+Use the obligation surface of \autoref{thm:fast-cauchy-regular-equivalence-namecert-obligations}. Its fast-to-regular and regular-to-fast clauses both require reads to pass through the displayed $S,D$ rows before the regular readback or real seal is available.
+
+Apply the two-way route of \autoref{thm:fast-cauchy-regular-equivalence-two-way-route}. Since both directions recover their schedules from the same $S,D$ rows and the carrier has no quotient stream, selected limit, detached fast schedule, or hidden completion coordinate, every accepted consumer is locked to the displayed schedule.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\FastRegularCauchyEquivalenceUp$ consumer that obtains a $\RegSeqRatUp$ readback from $\FastCauchyRealUp$ data without the displayed $\StreamNameUp$ window and $\DyadicRatCoreUp$ tolerance rows refutes the carrier surface.}
 
 \independenceWitness{fastcauchyreal, regseqrat, streamname, dyadicratcore, real, real-cauchy-completion: no listed sibling supplies the whole nine-row packet $K=(F,S,D,Q,E,H,C,P,N)$, because each sibling contributes only a fast name, regular readback, finite window, dyadic ledger, seal, or completion-facing boundary while this chapter binds both readback directions with transport, replay, provenance, and local naming.}
@@ -74,7 +88,7 @@ Finally, the $\RealUp$ seal is terminal. A completion-facing consumer may cite t
 \begin{closurestatus}{\FastRegularCauchyEquivalenceUp}
   \constructivestory{A $\FastRegularCauchyEquivalenceUp$ packet is generated from a $\FastCauchyRealUp$ fast dyadic-modulus row, a shared $\StreamNameUp$ finite-window row, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ regular readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:fast-cauchy-regular-equivalence-carrier}, \autoref{thm:fast-cauchy-regular-equivalence-namecert-obligations}, and \autoref{thm:fast-cauchy-regular-equivalence-two-way-route} seed the finite two-way readback bridge between fast dyadic-modulus real names and regular Cauchy rational names.}
+  \scopeclosed{\autoref{def:fast-cauchy-regular-equivalence-carrier}, \autoref{thm:fast-cauchy-regular-equivalence-namecert-obligations}, \autoref{thm:fast-cauchy-regular-equivalence-two-way-route}, and \autoref{thm:fast-regular-cauchy-equivalence-regular-schedule-lock} seed the finite two-way readback bridge between fast dyadic-modulus real names and regular Cauchy rational names.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.FastRegularCauchyEquivalenceUp.TasteGate.FastRegularCauchyEquivalenceTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}

@@ -19,7 +19,12 @@
   "properties": {
     "conjecture_id": {
       "type": "string",
-      "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+      "description": "Lowercase BioReality conjecture id; use dotted/kebab tokens, not underscores or uppercase.",
+      "examples": [
+        "orf-eligibility.seed.boundary",
+        "cross-organism.cun-uur-leu-gate.translation-realization"
+      ],
+      "pattern": "^[a-z0-9][a-z0-9.:-]*$"
     },
     "biological_object": {
       "type": "string",
@@ -106,14 +111,20 @@
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+        "description": "Reality contact id reference; use dotted/kebab tokens, not underscores or uppercase.",
+        "pattern": "^[a-z0-9][a-z0-9.:-]*$"
       }
     },
     "probe_refs": {
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+        "description": "Probe id reference; use dotted/kebab tokens, not underscores or uppercase.",
+        "examples": [
+          "cross-organism.cun-uur-sign-correlates-with-trna-leu",
+          "b-star-q6-survival-matrix-break-condition"
+        ],
+        "pattern": "^[a-z0-9][a-z0-9.:-]*$"
       }
     },
     "forbidden_claims": {

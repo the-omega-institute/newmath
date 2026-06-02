@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\SingularValueDecompositionUp$}
+\label{ch:concrete-instances-singular-value-decomposition-namecert}
+\origin{human}
+
+Following Golub--Van Loan and Horn--Johnson, the $\SingularValueDecompositionUp$ packet records the finite spectral certificate by which a displayed matrix is factored through two finite orthonormal frames and a nonnegative diagonal spectrum. It consumes the finite matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the inner-product rows of \autoref{ch:concrete-instances-innerproduct-namecert}, the finite orthonormal-basis packet of \autoref{ch:concrete-instances-finite-orthonormal-basis-namecert}, the Frobenius ledger of \autoref{ch:concrete-instances-frobenius-norm-namecert}, the rank accounting of \autoref{ch:concrete-instances-rank-nullity-namecert}, and the triangular factorization route of \autoref{ch:concrete-instances-qr-decomposition-namecert}. The chapter names only finite displayed rows: it is not a host spectral theorem, not a choice of bases outside the packet, not quotient matrix equality, and not an ambient completeness claim.
+
+\begin{definition}[Singular-value decomposition carrier]
+\label{def:singular-value-decomposition-carrier}
+A $\SingularValueDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,U,V,D,L,R,F,Q,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the input $\MatrixUp$ row, exposing the finite row-column table, scalar endpoint ledger, and shape data of the matrix being decomposed.
+\item $U$ is the left finite orthonormal frame row, read through $\FiniteOrthonormalBasisUp$ and the source $\InnerProductUp$ rows.
+\item $V$ is the right finite orthonormal frame row, read through the same finite orthonormal-basis and inner-product discipline on the domain side.
+\item $D$ is the nonnegative diagonal spectrum row, listing the displayed singular-value endpoints, diagonal-slot witnesses, zero off-diagonal witnesses, and ordering ledger.
+\item $L$ is the finite multiplication witness
+$$
+A = U D V^{\ast}
+$$
+read as an equality of displayed $\MatrixUp$ multiplication rows, not as a quotient equality in a host matrix algebra.
+\item $R$ is the $\RankNullityUp$ row identifying the nonzero diagonal slots with the displayed rank ledger.
+\item $F$ is the $\FrobeniusNormUp$ row that reads the square-sum of entries through the displayed diagonal spectrum ledger.
+\item $Q$ is the $\QRDecompositionUp$ handoff row used by constructive factorization consumers before the orthonormal-frame and diagonal rows are sealed.
+\item $T$ records refusal rows for host spectral calculus, selected eigenbasis data, quotient matrix equality, ambient completeness, and any basis choice not displayed in $U$ or $V$.
+\item $H$ records componentwise $\hsame$ transport for the matrix, the two frames, the diagonal spectrum, the multiplication witness, the rank and norm rows, the QR handoff, refusal rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a matrix-factorization request through $A,U,V,D,L,R,F,Q,T,H$.
+\item $P$ is the $\Pkg$ provenance over $\SingularValueDecompositionUp$, $\MatrixUp$, $\InnerProductUp$, $\FiniteOrthonormalBasisUp$, $\FrobeniusNormUp$, $\RankNullityUp$, $\QRDecompositionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SingularValueDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. In particular, changing a host basis, replacing the displayed diagonal list by an extensionally equal external spectrum, or reading equality outside the multiplication witness $L$ is invisible to the carrier.
+\end{definition}
+
+\begin{theorem}[Singular-value decomposition NameCert obligations]
+\label{thm:singular-value-decomposition-namecert-obligations}
+For every accepted $\SingularValueDecompositionUp$ carrier
+$$
+S=(A,U,V,D,L,R,F,Q,T,H,C,P,N),
+$$
+the local $\NameCert_{\SingularValueDecompositionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\MatrixUp$ row $A$, the left and right finite orthonormal frame rows $U,V$, and the nonnegative diagonal spectrum row $D$;
+\item classifier comparison through the same matrix, frame, diagonal, multiplication, rank, norm, QR, refusal, transport, replay, provenance, and local naming rows;
+\item stability under componentwise $\hsame$ transport, preserving the frame rows, diagonal slots, multiplication witness, and non-escape ledger;
+\item exactness of the displayed multiplication witness $L$, requiring each consumer to read the finite matrix route $A=UDV^{\ast}$ before exporting a factorization claim;
+\item ledger obligations through $R,F,Q,T,C,P,N$, recording rank, Frobenius square-sum, constructive factorization, refusal, replay, source, and local naming without importing host spectral data.
+\end{enumerate}
+No singular-value-decomposition obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:singular-value-decomposition-carrier}. The displayed matrix row $A$, orthonormal frame rows $U,V$, and diagonal spectrum row $D$ are the only admissible factor data.
+
+The classifier is componentwise on the listed rows. Transport through $H$ can replace displayed endpoints only when the corresponding $\MatrixUp$, $\InnerProductUp$, and finite-frame classifiers already recognize the replacement.
+
+The exactness obligation is the multiplication row $L$. A consumer therefore receives the factorization only after the finite matrix multiplication witnesses have replayed the route $A=UDV^{\ast}$.
+
+The remaining rows expose the rank ledger, Frobenius ledger, QR handoff, refusal boundary, replay, provenance, and local naming. Since each of these rows is already part of the carrier, the five listed obligations exhaust the certificate.
+\end{proof}
+
+\begin{theorem}[Finite MatrixUp handoff for singular-value decomposition]
+\label{thm:singular-value-decomposition-finite-matrix-handoff}
+Every accepted $\SingularValueDecompositionUp$ packet exports a finite $\MatrixUp$ handoff only through the route
+$$
+\MatrixUp \longrightarrow \InnerProductUp \longrightarrow \FiniteOrthonormalBasisUp \longrightarrow \FrobeniusNormUp \longrightarrow \RankNullityUp \longrightarrow \QRDecompositionUp .
+$$
+The handoff exposes the input matrix, left and right finite orthonormal frames, nonnegative diagonal spectrum, multiplication witness, norm ledger, rank ledger, and QR-facing construction row. It exports no host spectral theorem, no selected basis outside the packet, no quotient matrix equality, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $S=(A,U,V,D,L,R,F,Q,T,H,C,P,N)$. The matrix endpoint is $A$, so every factorization read begins at the displayed $\MatrixUp$ table.
+
+The rows $U$ and $V$ are read through $\InnerProductUp$ and $\FiniteOrthonormalBasisUp$, making both frames finite packet data rather than external basis choices. The diagonal spectrum row $D$ is then tied to those frames by the multiplication witness $L$.
+
+The Frobenius row $F$ and rank row $R$ read the diagonal ledger as finite square-sum and nonzero-slot data. The QR row $Q$ records the constructive factorization route consumed before the SVD packet is sealed.
+
+The refusal ledger $T$ and structural rows $H,C,P,N$ keep the route inside the named finite packet. Thus the exported handoff is exactly the finite MatrixUp route described in the statement.
+\end{proof}
+
+\closureat{SingularValueDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\SingularValueDecompositionUp}
+  \constructivestory{A $\SingularValueDecompositionUp$ packet is generated from a displayed MatrixUp table, left and right finite orthonormal frame rows, InnerProductUp comparisons, a nonnegative diagonal spectrum row, a finite matrix multiplication witness, RankNullityUp and FrobeniusNormUp ledgers, a QRDecompositionUp handoff, refusal rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:singular-value-decomposition-carrier}, \autoref{thm:singular-value-decomposition-namecert-obligations}, and \autoref{thm:singular-value-decomposition-finite-matrix-handoff} seed the finite matrix spectral certificate over displayed orthonormal frames and diagonal spectrum rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host spectral theorem, selected bases outside the packet, quotient matrix equality, infinite-dimensional singular-value theory, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier comparison, transport stability, multiplication exactness, rank and norm ledgers, QR handoff, refusal non-escape, replay, provenance, and local naming for BEDC.Derived.SingularValueDecompositionUp.}
+\end{closurestatus}

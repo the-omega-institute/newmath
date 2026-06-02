@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\EilenbergSteenrodAxiomsUp$}
+\label{ch:concrete-instances-eilenberg-steenrod-axioms-namecert}
+\origin{human}
+
+Following Eilenberg and Steenrod, the $\EilenbergSteenrodAxiomsUp$ packet records the finite NameCert surface by which a homology-style theory exposes dimension, exactness, excision, homotopy invariance, and naturality obligations without importing an ambient theorem oracle. It sits over the homology carrier of \autoref{ch:concrete-instances-homology-namecert}, the cohomology comparison surface of \autoref{ch:concrete-instances-cohomology-namecert}, the finite simplicial source of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, and the homotopy route of \autoref{ch:concrete-instances-homotopy-namecert}. The packet supplies a classical axiom ledger that downstream homology and cohomology chapters can consume as displayed rows rather than as host mathematical background.
+
+\begin{definition}[Eilenberg--Steenrod axioms carrier]
+\label{def:eilenberg-steenrod-axioms-carrier}
+An $\EilenbergSteenrodAxiomsUp$ carrier is a finite $\BHist$ packet
+$$
+A=(H,C,S,T,D,X,E,I,Nt,R,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\HomologyUp$ target row whose groups, boundaries, cycles, and quotient-facing claims are read only through the displayed packet;
+\item $C$ is the $\CohomologyUp$ comparison row, recording the contravariant consumer surface and coefficient-facing requests;
+\item $S$ is the $\SimplicialComplexUp$ finite source row used when the axiom ledger is instantiated on finite complexes;
+\item $T$ is the $\HomotopyUp$ route row for maps, homotopies, and homotopy-class reads;
+\item $D$ is the dimension row, naming the point object and coefficient landing used by the theory;
+\item $X$ is the exactness row for the boundary, kernel, image, and connecting-map obligations;
+\item $E$ is the excision row, naming the finite subobject and removal route on which the comparison is valid;
+\item $I$ is the homotopy-invariance row, recording the displayed route through $T$ rather than a host equality of maps;
+\item $Nt$ is the naturality row for maps of pairs and induced homology or cohomology reads;
+\item $R$ is the refusal ledger for host exactness, quotient-object equality, selected representatives, unbounded chain complexes, and ambient abelian-category or topological-space oracles;
+\item $P$ records $\Pkg$ provenance over $\EilenbergSteenrodAxiomsUp$, $\HomologyUp$, $\CohomologyUp$, $\SimplicialComplexUp$, $\HomotopyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $L$ is the local $\NameCert_{\EilenbergSteenrodAxiomsUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an external homology theory, global exactness theorem, quotient equality of chain representatives, countable choice of cycles, or ambient topological completeness principle.
+\end{definition}
+
+\begin{theorem}[Eilenberg--Steenrod exactness obligation]
+\label{thm:eilenberg-steenrod-exactness-obligation}
+For an accepted $\EilenbergSteenrodAxiomsUp$ carrier
+$$
+A=(H,C,S,T,D,X,E,I,Nt,R,P,L),
+$$
+the exactness obligation visible to a downstream $\HomologyUp$ or $\CohomologyUp$ consumer is precisely the displayed row $X$ together with the source rows $H,C,S$, the homotopy route $T$, the refusal ledger $R$, provenance $P$, and local name $L$. A consumer may request boundary, kernel, image, and connecting-map data only through this finite $\BHist$ route, and may not replace it by host exactness, quotient-object equality, selected chain representatives, countable choice, or an ambient abelian-category oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:eilenberg-steenrod-axioms-carrier}. The only exactness coordinate is $X$, and it is displayed alongside the homology, cohomology, simplicial-source, and homotopy-route rows.
+
+The downstream consumer therefore reads exactness after the source rows have been exposed. The row $H$ supplies the homology-facing target, $C$ supplies the cohomology-facing comparison, $S$ supplies the finite simplicial carrier, and $T$ supplies the homotopy route on which induced maps are compared.
+
+The refusal ledger $R$ closes the non-displayed alternatives. Since $R$ excludes host exactness, quotient-object equality, selected representatives, countable choice, and ambient categorical oracles, the exactness obligation remains the finite row $X$ named by the local $\NameCert$ row $L$.
+\end{proof}
+
+\begin{theorem}[Eilenberg--Steenrod homotopy invariance ledger]
+\label{thm:eilenberg-steenrod-homotopy-invariance-ledger}
+For an accepted $\EilenbergSteenrodAxiomsUp$ carrier
+$$
+A=(H,C,S,T,D,X,E,I,Nt,R,P,L),
+$$
+the homotopy-invariance claim is the ledger row $I$ read after the $\HomotopyUp$ route $T$ and before the naturality row $Nt$. It records equality of induced homology or cohomology reads only as displayed NameCert data over $H,C,S,T,I,Nt,R,P,L$; it does not export host equality of maps, quotient equality of chain representatives, selected homotopy representatives, global topological equivalence, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the homotopy route row $T$. It is the only row in the carrier that names maps and homotopies, so a homotopy-invariance read cannot begin from a host equality of maps.
+
+Next read the ledger row $I$. The row records the invariance obligation over the already displayed homology, cohomology, simplicial-source, and homotopy-route data, while $Nt$ keeps the induced-map comparison on the same finite route.
+
+Finally inspect the refusal and naming rows. The ledger $R$ rejects quotient representatives, selected homotopies, global equivalence, and ambient completeness, and $P,L$ only source and name the displayed packet. Hence the homotopy-invariance claim is a finite NameCert ledger entry, not an external theorem import.
+\end{proof}
+
+\falsifiablePrediction{A homology or cohomology consumer that proves exactness or homotopy invariance without reading the displayed $X,T,I,Nt,R,P,L$ rows is not consuming an accepted EilenbergSteenrodAxiomsUp packet.}
+
+\independenceWitness{homology, cohomology, simplicialcomplex, and homotopy are non-bijective siblings: none alone carries the complete finite ledger of dimension, exactness, excision, homotopy invariance, naturality, refusal, provenance, and local NameCert data exposed by $\EilenbergSteenrodAxiomsUp$.}
+
+\closureat{EilenbergSteenrodAxiomsUp}{seedStr}
+
+\begin{closurestatus}{\EilenbergSteenrodAxiomsUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eilenberg-steenrod-axioms-carrier}, \autoref{thm:eilenberg-steenrod-exactness-obligation}, \autoref{thm:eilenberg-steenrod-homotopy-invariance-ledger}, the falsifiable prediction, and the independence witness seed the finite Eilenberg--Steenrod axiom ledger for homology and cohomology consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, full classical homology theory, quotient chain equality, selected representatives, arbitrary topological spaces, countable choice, or ambient exactness or completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, dimension, exactness, excision, homotopy-invariance, naturality, refusal-ledger, provenance, and local NameCert rows for BEDC.Derived.EilenbergSteenrodAxiomsUp.}
+  \constructivestory{An $\EilenbergSteenrodAxiomsUp$ packet is generated from homology and cohomology rows, a finite simplicial source, a homotopy route, dimension, exactness, excision, homotopy-invariance, naturality, refusal, provenance, and local naming rows.}
+\end{closurestatus}
