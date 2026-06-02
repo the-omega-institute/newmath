@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-import hashlib
-import json
 from typing import Any, Mapping
+
+from .canonical_digest import canonical_json_digest
 
 
 CERTIFICATION_RECORD_KIND = "certification-record"
@@ -15,16 +15,6 @@ _VALID_VERDICTS = {
     "ledger-only",
     "positive-discovery",
 }
-
-
-def _canonical_json_digest(payload: Mapping[str, Any]) -> str:
-    canonical = json.dumps(
-        payload,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=False,
-    )
-    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
 def _required_string(mapping: Mapping[str, Any], key: str) -> str:
@@ -78,10 +68,10 @@ def issue_certification_record(
         "reason": _required_string(verdict_decision, "reason"),
         "decided_at": _required_string(verdict_decision, "decided_at"),
         "issued_at": timestamp_iso,
-        "evidence_basis_digest": _canonical_json_digest(evidence_basis),
+        "evidence_basis_digest": canonical_json_digest(evidence_basis),
         "previous_certificate_id": previous_certificate_id,
     }
     return {
-        "certificate_id": _canonical_json_digest(record),
+        "certificate_id": canonical_json_digest(record),
         **record,
     }
