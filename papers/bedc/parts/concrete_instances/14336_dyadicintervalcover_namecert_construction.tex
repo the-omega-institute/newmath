@@ -122,6 +122,20 @@ Apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion} to 
 Thus refinement changes only the displayed finite interval rows and their transported membership witnesses. It does not create an open-cover compactness row, a selected subcover, a host equality test, a quotient stream, a choice functional, or a Real-completeness witness.
 \end{proof}
 
+\begin{theorem}[DyadicIntervalCover route-cover stability]
+\label{thm:dyadicintervalcover-route-cover-stability}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ and $I'=(L',U',M',R',V',W',Q',A',H',C',P',N')$ be accepted $\DyadicIntervalCoverUp$ packets. If a displayed refinement preserves the endpoint rows $L,U$, the mesh and radius rows $M,R$, the finite cover-membership rows $V$, the $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readbacks $Q$, the $\RealUp$ seal rows $A$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming, then $I$ and $I'$ expose the same finite cover route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Project both carriers. The only cover-facing coordinates are the endpoint, mesh, radius, membership, window, readback, seal, transport, replay, provenance, and local naming rows displayed in \autoref{def:dyadic-interval-cover-carrier}.
+
+Apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}. It exhausts each regular-name cover read by the finite rows $M,R,Q,V,A$ after the $\StreamNameUp$ window has been opened, so no later regular-sequence tail or ambient real-name equality can affect the route.
+
+Now apply \autoref{thm:dyadicintervalcover-refinement-stability}. The refinement preserves the endpoint, mesh, radius, membership, window, readback, and seal rows through componentwise $\hsame$ data and the displayed $\Cont$ replay.
+
+The provenance and local naming rows $P,N$ and $P',N'$ keep the transported route inside the same packet boundary. Therefore the refinement preserves the finite cover route and cannot introduce open-cover compactness, a selected subcover, quotient equality, countable choice, or Real completeness.
+\end{proof}
+
 \begin{theorem}[DyadicIntervalCover ledger exactness]
 \label{thm:dyadicintervalcover-ledger-exactness}
 The $\DyadicIntervalCoverUp$ cover ledger is exact for the displayed finite windows. In an accepted carrier
@@ -179,6 +193,7 @@ W,Q \longmapsto M,R,V \longmapsto A
 $$
 over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. The handoff may compare the displayed regular-name windows with the mesh and membership ledger, but it does not supply open-cover compactness, selected subcovers, quotient real equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRealWindowHandoffObligation}
 \begin{proof}
 Start with the window row $W$ and readback row $Q$. These rows expose only finite observations and regular rational approximants, so every Real-facing read begins inside the displayed $\StreamNameUp$ and $\RegSeqRatUp$ data.
 
