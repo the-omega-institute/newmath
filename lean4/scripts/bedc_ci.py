@@ -252,6 +252,20 @@ class LeanSourceScan:
 
 
 @dataclass(frozen=True)
+class KernelAssertionCheck:
+    target: str
+    module: str
+    module_reachable: bool
+    olean_exists: bool
+    check_ok: bool
+    axioms_parsed: bool
+    axioms: tuple[str, ...]
+    forbidden_axioms: tuple[str, ...]
+    returncode: int
+    message: str = ""
+
+
+@dataclass(frozen=True)
 class TheoremStatusEnvironment:
     kind: str
     title: str | None
@@ -360,6 +374,39 @@ def module_name(path: Path) -> str:
 
 def module_olean_path(module: str) -> Path:
     return LEAN_ROOT / ".lake" / "build" / "lib" / "lean" / Path(*module.split(".")).with_suffix(".olean")
+
+
+def _lean_imports_from_path(path: Path) -> list[str]:
+    stripped = strip_comments_and_strings(read_text(path))
+    imports: list[str] = []
+    for match in re.finditer(r"(?m)^\s*import\s+([A-Za-z0-9_'.]+)\s*$", stripped):
+        imports.append(match.group(1))
+    return imports
+
+
+def _bedc_root_reachable_modules() -> set[str]:
+    root = LEAN_ROOT / "BEDC.lean"
+    if not root.exists():
+        return set()
+    module_to_path = {
+        module_name(path): path
+        for path in lean_files()
+    }
+    module_to_path["BEDC"] = root
+    reachable: set[str] = set()
+    queue = ["BEDC"]
+    while queue:
+        module = queue.pop(0)
+        if module in reachable:
+            continue
+        reachable.add(module)
+        path = module_to_path.get(module)
+        if path is None:
+            continue
+        for imported in _lean_imports_from_path(path):
+            if imported.startswith("BEDC") and imported not in reachable:
+                queue.append(imported)
+    return reachable
 
 
 def strip_comments_and_strings(text: str) -> str:
@@ -3022,11 +3069,11 @@ def _positive_discovery_evidence_kind(
 
 
 DISCOVERY_ASSERT_GATE_RULES = (
-    ("G0", "resolved Lean assertion target"),
-    ("G1", "target reachable Lean source has no axiom/sorry"),
-    ("G2", "not a structural reconstruction of a prior classifier"),
-    ("G3", "classifier evidence is nontrivial"),
-    ("G4", "before/after disagreement has semantic support"),
+    ("G0", "resolved, import-reachable, kernel-checkable Lean assertion target"),
+    ("G1", "target has no forbidden transitive axiom dependency"),
+    ("G2", "resolved structural check shows no prior classifier reconstruction"),
+    ("G3", "positive nontrivial classifier evidence is present"),
+    ("G4", "checked disagreement support links to resolved before/after endpoints"),
     ("G5", "not smoke or duplicate evidence"),
     ("G6", "scope is nonempty and sealed"),
 )
@@ -3106,6 +3153,155 @@ def _reachable_assertion_text(
     return text, reachable
 
 
+def _module_for_declaration(target: str, lean_scan: LeanSourceScan) -> str:
+    for decl in lean_scan.declarations:
+        if decl.qualified_name == target:
+            return decl.module
+    return ""
+
+
+def _kernel_assertion_probe(
+    target: str,
+    module: str,
+    reachable_modules: set[str],
+    *,
+    forbidden_axioms: Iterable[str] | None = None,
+) -> KernelAssertionCheck:
+    forbidden_set = set(STRICT_FORBIDDEN_AXIOMS if forbidden_axioms is None else forbidden_axioms)
+    module_reachable = bool(module and module in reachable_modules)
+    olean_exists = bool(module and module_olean_path(module).exists())
+    if not target:
+        return KernelAssertionCheck(
+            target=target,
+            module=module,
+            module_reachable=module_reachable,
+            olean_exists=olean_exists,
+            check_ok=False,
+            axioms_parsed=False,
+            axioms=(),
+            forbidden_axioms=(),
+            returncode=1,
+            message="empty target",
+        )
+    if not module:
+        return KernelAssertionCheck(
+            target=target,
+            module=module,
+            module_reachable=False,
+            olean_exists=False,
+            check_ok=False,
+            axioms_parsed=False,
+            axioms=(),
+            forbidden_axioms=(),
+            returncode=1,
+            message="target has no scanned Lean module",
+        )
+    if not module_reachable:
+        return KernelAssertionCheck(
+            target=target,
+            module=module,
+            module_reachable=False,
+            olean_exists=olean_exists,
+            check_ok=False,
+            axioms_parsed=False,
+            axioms=(),
+            forbidden_axioms=(),
+            returncode=1,
+            message="target module is not reachable from import BEDC",
+        )
+    if not olean_exists:
+        return KernelAssertionCheck(
+            target=target,
+            module=module,
+            module_reachable=True,
+            olean_exists=False,
+            check_ok=False,
+            axioms_parsed=False,
+            axioms=(),
+            forbidden_axioms=(),
+            returncode=1,
+            message="target module has no compiled .olean",
+        )
+
+    lean_source = f"import {module}\n\n#check @{target}\n#print axioms {target}\n"
+    result = subprocess.run(
+        ["lake", "env", "lean", "--stdin"],
+        cwd=LEAN_ROOT,
+        input=lean_source,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    output = (result.stdout or "") + "\n" + (result.stderr or "")
+    unknown = re.search(r"unknown (?:constant|identifier)", output, re.IGNORECASE) is not None
+    check_ok = result.returncode == 0 and not unknown
+    axioms: tuple[str, ...] = ()
+    parsed = False
+    for match in PRINT_AXIOMS_RE.finditer(output):
+        if match.group(1) != target:
+            continue
+        parsed = True
+        raw_axioms = match.group(2)
+        axioms = tuple(a.strip() for a in (raw_axioms or "").split(",") if a.strip())
+        break
+    forbidden_hits = tuple(sorted(forbidden_set.intersection(axioms)))
+    message = ""
+    if not check_ok:
+        message = _text_snippet(output, target)
+    elif not parsed:
+        message = "no parsed #print axioms result"
+    return KernelAssertionCheck(
+        target=target,
+        module=module,
+        module_reachable=module_reachable,
+        olean_exists=olean_exists,
+        check_ok=check_ok,
+        axioms_parsed=parsed,
+        axioms=axioms,
+        forbidden_axioms=forbidden_hits,
+        returncode=result.returncode,
+        message=message,
+    )
+
+
+def _kernel_assertion_checks(
+    targets: Iterable[str],
+    lean_scan: LeanSourceScan,
+) -> dict[str, KernelAssertionCheck]:
+    normalized = sorted({
+        _normalize_lean_target(target)
+        for target in targets
+        if _normalize_lean_target(target)
+    })
+    if not normalized:
+        return {}
+    reachable_modules = _bedc_root_reachable_modules()
+    return {
+        target: _kernel_assertion_probe(
+            target,
+            _module_for_declaration(target, lean_scan),
+            reachable_modules,
+        )
+        for target in normalized
+    }
+
+
+def _kernel_check_details(check: KernelAssertionCheck | None) -> dict[str, object]:
+    if check is None:
+        return {}
+    return {
+        "module": check.module,
+        "module_reachable": check.module_reachable,
+        "olean_exists": check.olean_exists,
+        "check_ok": check.check_ok,
+        "axioms_parsed": check.axioms_parsed,
+        "axioms": list(check.axioms),
+        "forbidden_axioms": list(check.forbidden_axioms),
+        "returncode": check.returncode,
+        "message": check.message,
+    }
+
+
 def _sieve_profiles_by_locus(
     sieve_payload: dict[str, object],
 ) -> tuple[dict[tuple[str, int, str], dict[str, object]], dict[str, dict[str, object]]]:
@@ -3161,6 +3357,60 @@ def _integrity_violations_by_locus(
     return out
 
 
+def _integrity_endpoint_pair(integrity_site: dict[str, object] | None) -> tuple[list[str], list[str]]:
+    if not integrity_site:
+        return [], []
+    before = [
+        str(target)
+        for target in integrity_site.get("before_classifiers", []) or []
+        if str(target)
+    ]
+    after = [
+        str(target)
+        for target in integrity_site.get("declared_new_classifiers", []) or []
+        if str(target)
+    ]
+    return before, after
+
+
+def _checked_disagreement_supports(
+    target: str,
+    support_targets: list[str],
+    kernel_checks: dict[str, KernelAssertionCheck],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> list[dict[str, object]]:
+    checked: list[dict[str, object]] = []
+    for support_target in support_targets:
+        check = kernel_checks.get(support_target)
+        if check is None or not check.check_ok or not check.axioms_parsed or check.forbidden_axioms:
+            continue
+        if not _declares_disagreement_support(declaration_headers.get(support_target, "")):
+            continue
+        if not _support_disagreement_assignment_reaches_target(
+            support_target,
+            target,
+            declaration_headers,
+            declaration_bodies,
+        ):
+            continue
+        seeds, anchors, reachable = _support_disagreement_read_model(
+            support_target,
+            target,
+            declaration_headers,
+            declaration_bodies,
+        )
+        checked.append({
+            "support": support_target,
+            "module": check.module,
+            "axioms": list(check.axioms),
+            "seeds": sorted(seeds),
+            "anchors": sorted(anchors),
+            "reachable": sorted(reachable),
+        })
+    return checked
+
+
 def _discovery_assert_gate_site(
     block: dict,
     target: str,
@@ -3171,6 +3421,7 @@ def _discovery_assert_gate_site(
     symbol_kinds: dict[str, str],
     declaration_headers: dict[str, str],
     declaration_bodies: dict[str, str],
+    kernel_checks: dict[str, KernelAssertionCheck],
 ) -> dict[str, object]:
     gates: list[dict[str, object]] = []
     target_text = ""
@@ -3187,6 +3438,7 @@ def _discovery_assert_gate_site(
             declaration_headers,
             declaration_bodies,
         )
+    kernel_check = kernel_checks.get(target)
 
     if not target:
         gates.append(_assert_gate_item(
@@ -3206,14 +3458,29 @@ def _discovery_assert_gate_site(
             "resolved target is not a DiscoveryTasteGate or PositiveDiscovery declaration",
             details={"candidate_targets": candidate_targets},
         ))
+    elif kernel_check is None or not kernel_check.check_ok:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G0",
+            "FAIL",
+            "resolved target is not import-reachable and kernel-checkable",
+            details={
+                "candidate_targets": candidate_targets,
+                "kernel": _kernel_check_details(kernel_check),
+            },
+        ))
     else:
         gates.append(_assert_gate_item(
             block,
             target,
             "G0",
             "PASS",
-            "resolved assertion target",
-            details={"evidence_kind": evidence_kind},
+            "resolved import-reachable assertion target checked by Lean kernel",
+            details={
+                "evidence_kind": evidence_kind,
+                "kernel": _kernel_check_details(kernel_check),
+            },
         ))
 
     if target:
@@ -3232,14 +3499,44 @@ def _discovery_assert_gate_site(
                     "reachable_targets": reachable_targets[:40],
                 },
             ))
+        elif kernel_check is None or not kernel_check.check_ok:
+            gates.append(_assert_gate_item(
+                block,
+                target,
+                "G1",
+                "FAIL",
+                "kernel axiom check unavailable for assertion target",
+                details={"kernel": _kernel_check_details(kernel_check)},
+            ))
+        elif not kernel_check.axioms_parsed:
+            gates.append(_assert_gate_item(
+                block,
+                target,
+                "G1",
+                "FAIL",
+                "#print axioms result was not parsed for assertion target",
+                details={"kernel": _kernel_check_details(kernel_check)},
+            ))
+        elif kernel_check.forbidden_axioms:
+            gates.append(_assert_gate_item(
+                block,
+                target,
+                "G1",
+                "FAIL",
+                "target has forbidden transitive axiom dependency",
+                details={"kernel": _kernel_check_details(kernel_check)},
+            ))
         else:
             gates.append(_assert_gate_item(
                 block,
                 target,
                 "G1",
                 "PASS",
-                "reachable Lean source has no axiom/sorry tokens",
-                details={"reachable_target_count": len(reachable_targets)},
+                "kernel #print axioms has no forbidden dependency",
+                details={
+                    "reachable_target_count": len(reachable_targets),
+                    "kernel": _kernel_check_details(kernel_check),
+                },
             ))
     else:
         gates.append(_assert_gate_item(
@@ -3269,14 +3566,14 @@ def _discovery_assert_gate_site(
             target,
             "G2",
             "PASS",
-            "structural reconstruction check found no prior reduced_fingerprint hit",
+            "resolved structural check found no prior reduced_fingerprint hit",
         ))
     else:
         gates.append(_assert_gate_item(
             block,
             target,
             "G2",
-            "DEFERRED",
+            "FAIL",
             "structural reconstruction check unavailable or unresolved",
             details={"integrity_site": bool(integrity_site)},
         ))
@@ -3286,6 +3583,21 @@ def _discovery_assert_gate_site(
     semantic_anchors = list(((sieve_profile or {}).get("sieve_profile") or {}).get("semantic_anchors", []))
     support_anchors = list(((sieve_profile or {}).get("sieve_profile") or {}).get("support_anchors", []))
     public_semantic_endpoint = bool(((sieve_profile or {}).get("sieve_profile") or {}).get("public_semantic_endpoint"))
+    before_endpoints, after_endpoints = _integrity_endpoint_pair(integrity_site)
+    endpoint_pair_resolved = bool(before_endpoints and after_endpoints)
+    checked_supports = _checked_disagreement_supports(
+        target,
+        support_targets,
+        kernel_checks,
+        declaration_headers,
+        declaration_bodies,
+    ) if target else []
+    structural_nonreconstruction_evidence = (
+        endpoint_pair_resolved
+        and bool(integrity_site)
+        and str(integrity_site.get("resolution_status")) == "resolved"
+        and not structural_violations
+    )
 
     if "trivial_classifier" in reason_tags:
         gates.append(_assert_gate_item(
@@ -3296,37 +3608,60 @@ def _discovery_assert_gate_site(
             "sieve reports trivial classifier evidence",
             details={"reason_tags": reason_tags},
         ))
-    elif sieve_profile:
+    elif checked_supports or structural_nonreconstruction_evidence:
         gates.append(_assert_gate_item(
             block,
             target,
             "G3",
             "PASS",
-            "sieve did not report trivial classifier evidence",
+            "positive nontrivial endpoint evidence is present",
+            details={
+                "before_classifiers": before_endpoints,
+                "after_classifiers": after_endpoints,
+                "checked_disagreement_supports": checked_supports,
+                "no_negative_sieve_hit": "trivial_classifier" not in reason_tags,
+            },
         ))
     else:
         gates.append(_assert_gate_item(
             block,
             target,
             "G3",
-            "DEFERRED",
-            "discovery sieve profile unavailable",
+            "FAIL",
+            "positive nontrivial classifier evidence is absent",
+            details={
+                "reason_tags": reason_tags,
+                "before_classifiers": before_endpoints,
+                "after_classifiers": after_endpoints,
+                "support_targets": support_targets,
+            },
         ))
 
-    has_disagreement_support = bool(support_targets or semantic_anchors or support_anchors or public_semantic_endpoint)
-    if "constructor_only_disagreement" in reason_tags or "no_semantic_refs" in reason_tags or not has_disagreement_support:
+    has_heuristic_disagreement_support = bool(
+        support_targets or semantic_anchors or support_anchors or public_semantic_endpoint
+    )
+    if (
+        "constructor_only_disagreement" in reason_tags
+        or "no_semantic_refs" in reason_tags
+        or not endpoint_pair_resolved
+        or not checked_supports
+    ):
         gates.append(_assert_gate_item(
             block,
             target,
             "G4",
             "FAIL",
-            "before/after disagreement lacks accepted semantic support",
+            "before/after disagreement lacks checked support tied to resolved endpoints",
             details={
                 "reason_tags": reason_tags,
                 "support_targets": support_targets,
                 "semantic_anchors": semantic_anchors,
                 "support_anchors": support_anchors,
                 "public_semantic_endpoint": public_semantic_endpoint,
+                "heuristic_semantic_support_present": has_heuristic_disagreement_support,
+                "before_classifiers": before_endpoints,
+                "after_classifiers": after_endpoints,
+                "checked_disagreement_supports": checked_supports,
             },
         ))
     else:
@@ -3335,7 +3670,13 @@ def _discovery_assert_gate_site(
             target,
             "G4",
             "PASS",
-            "sieve found semantic disagreement support",
+            "checked DisagreementSupport reaches the asserted classifier disagreement",
+            details={
+                "before_classifiers": before_endpoints,
+                "after_classifiers": after_endpoints,
+                "checked_disagreement_supports": checked_supports,
+                "heuristic_semantic_support_present": has_heuristic_disagreement_support,
+            },
         ))
 
     smoke_duplicate_tags = sorted(
@@ -3360,7 +3701,7 @@ def _discovery_assert_gate_site(
             target,
             "G5",
             "PASS",
-            "sieve did not report smoke or duplicate-like evidence",
+            "no negative sieve hit for smoke or duplicate-like evidence",
         ))
     else:
         gates.append(_assert_gate_item(
@@ -3427,16 +3768,7 @@ def discovery_assert_gate_payload(
     declaration_headers = lean_scan.declaration_headers
     declaration_bodies = lean_scan.declaration_bodies
     symbol_kinds = _symbol_kind_map(lean_scan.declarations)
-    sieve = sieve_payload or discovery_sieve_payload(
-        blocks,
-        lean_scan.discovery_delta_ledgers,
-        declaration_headers,
-        declaration_bodies,
-    )
-    profiles_by_locus, profiles_by_target = _sieve_profiles_by_locus(sieve)
-    integrity_by_locus = _integrity_sites_by_locus(discovery_integrity)
-    integrity_violations = _integrity_violations_by_locus(discovery_integrity)
-
+    positive_blocks: list[tuple[dict, str, list[str], tuple[str, int, str]]] = []
     asserted_sites: list[dict[str, object]] = []
     informational_sites: list[dict[str, object]] = []
     failures: list[dict[str, object]] = []
@@ -3464,6 +3796,38 @@ def discovery_assert_gate_payload(
             declaration_headers,
         )
         locus = (block["file"], int(block["line"]), f"{block['region']}Up")
+        positive_blocks.append((block, target, candidate_targets, locus))
+
+    profiles_by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
+    profiles_by_target: dict[str, dict[str, object]] = {}
+    integrity_by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
+    integrity_violations: dict[tuple[str, int, str], list[dict[str, object]]] = {}
+    kernel_checks: dict[str, KernelAssertionCheck] = {}
+    if positive_blocks:
+        sieve = sieve_payload or discovery_sieve_payload(
+            blocks,
+            lean_scan.discovery_delta_ledgers,
+            declaration_headers,
+            declaration_bodies,
+        )
+        profiles_by_locus, profiles_by_target = _sieve_profiles_by_locus(sieve)
+        integrity_by_locus = _integrity_sites_by_locus(discovery_integrity)
+        integrity_violations = _integrity_violations_by_locus(discovery_integrity)
+        kernel_targets: set[str] = {
+            target for _block, target, _candidates, _locus in positive_blocks if target
+        }
+        for _block, target, _candidates, locus in positive_blocks:
+            profile = profiles_by_locus.get(locus) or (profiles_by_target.get(target) if target else None)
+            profile_data = (profile or {}).get("sieve_profile") or {}
+            if isinstance(profile_data, dict):
+                kernel_targets.update(
+                    str(support)
+                    for support in profile_data.get("support_targets", []) or []
+                    if str(support)
+                )
+        kernel_checks = _kernel_assertion_checks(kernel_targets, lean_scan)
+
+    for block, target, candidate_targets, locus in positive_blocks:
         sieve_profile = profiles_by_locus.get(locus) or (profiles_by_target.get(target) if target else None)
         site = _discovery_assert_gate_site(
             block,
@@ -3475,6 +3839,7 @@ def discovery_assert_gate_payload(
             symbol_kinds,
             declaration_headers,
             declaration_bodies,
+            kernel_checks,
         )
         asserted_sites.append(site)
         status_counts[str(site["status"])] += 1
@@ -8782,6 +9147,71 @@ def discovery_audit_payload(blocks: list[dict]) -> dict[str, object]:
     }
 
 
+def discovery_nonasserted_hygiene_payload(blocks: list[dict]) -> dict[str, object]:
+    failures: list[dict[str, object]] = []
+    sites: list[dict[str, object]] = []
+    absent_re = re.compile(
+        r"\b(?:target|leantarget|lean target)\s*(?:absent|none|unencoded|unformalized)\b",
+        re.IGNORECASE,
+    )
+    for block in blocks:
+        if block.get("error"):
+            continue
+        claim_kind = _block_discovery_claim_kind(block)
+        if claim_kind not in {"conjecturedDiscovery", "refutedDiscovery"}:
+            continue
+        open_fields = block.get("open_fields") or {}
+        if not isinstance(open_fields, dict):
+            open_fields = {}
+        target = _normalize_lean_target(block.get("lean_target"))
+        raw_body = str(block.get("raw_body") or "")
+        target_rationale_state = "resolved" if target else (
+            "explicit_absent" if absent_re.search(raw_body) else "missing"
+        )
+        namecert = str(open_fields.get("closurenamecert", "")).strip()
+        ledger = str(open_fields.get("closureledger", "")).strip()
+        structured_rationale = str(open_fields.get("closurelineage", "")).strip()
+        if claim_kind == "refutedDiscovery":
+            structured_rationale = structured_rationale or str(open_fields.get("closureparents", "")).strip()
+        has_row_or_rationale = bool(namecert or ledger or structured_rationale)
+        gate_status = "PASS" if target_rationale_state != "missing" and has_row_or_rationale else "FAIL"
+        site = {
+            "file": block["file"],
+            "line": block["line"],
+            "region": f"{block['region']}Up",
+            "claim_kind": claim_kind,
+            "target": target,
+            "target_rationale_state": target_rationale_state,
+            "has_namecert_or_ledger_row": bool(namecert or ledger),
+            "has_structured_rationale": bool(structured_rationale),
+            "gate_status": gate_status,
+        }
+        sites.append(site)
+        if gate_status == "FAIL":
+            reasons: list[str] = []
+            if target_rationale_state == "missing":
+                reasons.append("target rationale is neither resolved nor explicitly absent")
+            if not has_row_or_rationale:
+                reasons.append("no NameCert/ledger row or structured refutation rationale")
+            failures.append({
+                **site,
+                "reason": "; ".join(reasons),
+                "message": (
+                    f"{block['file']}:{block['line']} {block['region']}Up "
+                    f"{claim_kind} lacks minimum evidence hygiene: {'; '.join(reasons)}"
+                ),
+            })
+    return {
+        "schema": "bedc.discovery_nonasserted_hygiene",
+        "gate": "blocking_hygiene_for_conjectured_and_refuted_discovery",
+        "semantics": "non-asserted discovery status hygiene; does not certify discovery truth",
+        "site_count": len(sites),
+        "failure_count": len(failures),
+        "failures": failures,
+        "sites": sites,
+    }
+
+
 def audit_payload() -> dict[str, object]:
     changed_files = _get_commit_changed_files()
     lean_scan = scan_lean_sources()
@@ -8851,6 +9281,9 @@ def audit_payload() -> dict[str, object]:
         discovery_integrity,
         sieve_payload=discovery_sieve,
     )
+    discovery_nonasserted_hygiene = discovery_nonasserted_hygiene_payload(
+        closurestatus_blocks,
+    )
     closurestatus_diagnostics: list[str] = []
     closurestatus_open_warnings: list[dict[str, object]] = []
     closurestatus_open_errors: list[dict[str, object]] = []
@@ -8885,6 +9318,9 @@ def audit_payload() -> dict[str, object]:
         "discovery_assert_gate": discovery_assert_gate,
         "discovery_assert_gate_failure_count": discovery_assert_gate["failure_count"],
         "discovery_assert_gate_failures": discovery_assert_gate["failures"],
+        "discovery_nonasserted_hygiene": discovery_nonasserted_hygiene,
+        "discovery_nonasserted_hygiene_failure_count": discovery_nonasserted_hygiene["failure_count"],
+        "discovery_nonasserted_hygiene_failures": discovery_nonasserted_hygiene["failures"],
         "theorem_dna_coverage_count": theorem_dna_coverage["covered_count"],
         "theorem_dna_stale_count": theorem_dna_stale["stale_count"],
         "leanstmt_debt": leanstmt_debt,
@@ -9221,6 +9657,15 @@ def cmd_audit(args: argparse.Namespace) -> int:
                     f"{item['file']}:{item['line']} {item['region']}: "
                     f"{item['reason']}"
                 )
+        hygiene = payload["discovery_nonasserted_hygiene"]
+        if hygiene["site_count"] or hygiene["failure_count"]:
+            print(
+                "[bedc-ci] discovery non-asserted hygiene:"
+                f" sites={hygiene['site_count']}"
+                f" failures={hygiene['failure_count']} (BLOCKING)"
+            )
+            for item in hygiene["failures"][:40]:
+                print(f"  {item['message']}")
         if payload["closurestatus_open_errors"]:
             print(
                 "[bedc-ci] closurestatus open-field errors: "
@@ -9290,6 +9735,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["closurestatus_open_errors_new_count"]
         + payload["discovery_integrity_violations_new_count"]
         + payload["discovery_assert_gate_failure_count"]
+        + payload["discovery_nonasserted_hygiene_failure_count"]
         + payload["orphan_concrete_subdirs_new_count"]
         + len(payload["leanstmt_debt"]["violations"])
     )
