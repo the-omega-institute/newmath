@@ -169,6 +169,7 @@ Finally use \autoref{thm:bairemetric-complete-metric-handoff}. The structural ro
 \label{thm:bairemetric-streamname-namecert-scope}
 For every accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$, the $\StreamNameUp$ row $S$ controls the local $\NameCert_{\BaireMetricUp}$ scope: every distance, ultrametric, or complete-metric read must pass through $S$ before $B,W,D,R,U,H,C,P,N$ are inspected. Thus the certificate scope is a scheduled finite-prefix surface, not an equality theory of completed Baire names.
 \end{theorem}
+\leanchecked{BEDC.Derived.BaireMetricUp.BaireMetricStreamNameNameCertScope}
 \begin{proof}
 Project the carrier of \autoref{def:bairemetric-prefix-distance-carrier}. The schedule row is the only coordinate authorizing finite prefix inspection by a consumer.
 
@@ -188,11 +189,13 @@ In the equality branch, $W$ exposes only the inspected finite equality window. T
 
 Because $R$ and $U$ are downstream consumers of $D$, neither can introduce an independent radius value. Exactness is consequently a projection of the single dyadic row attached to the first-disagreement window.
 \end{proof}
+\leanchecked{BEDC.Derived.BaireMetricUp.BaireMetricFirstDisagreementDyadicRadiusExactness}
 
 \begin{theorem}[BaireMetric prefix radius monotonicity]
 \label{thm:bairemetric-prefix-radius-monotonicity}
 Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ carrier. Extending the displayed inspected prefix through the same $\StreamNameUp$ schedule can only preserve the dyadic radius branch already read from $W,D$ or move it to a smaller displayed dyadic branch. The extension cannot replace the first-disagreement route by a larger radius, a host metric, or a completed-stream comparison.
 \end{theorem}
+\leanchecked{BEDC.Derived.BaireMetricUp.BaireMetricCarrier\_prefix\_radius\_monotonicity}
 \begin{proof}
 Use carrier admission from \autoref{def:bairemetric-prefix-distance-carrier} and the NameCert obligations of \autoref{thm:bairemetric-namecert-obligations}. Every distance read is routed through the scheduled prefix packet $S,B$ and the finite window $W$ before the dyadic row $D$ is inspected.
 
