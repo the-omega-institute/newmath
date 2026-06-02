@@ -1,34 +1,50 @@
-\subsection{Motif Compression as an ORF-Eligibility Boundary Record}\label{subsec:h0-r-motif-compression}\origin{ai}
+\subsection{Motif Compression and ORF-Eligibility Boundary}\label{subsec:h0-r-motif-compression-orf-boundary}
+\origin{ai}
 
-\paragraph{Finite motif packet.}
-The packet named $h0.R.motif.compression$ records a finite codon-level compression fact, not a biological realization. Its verified motif row states that the set $R$ is exactly the following thirteen codons:
-$$
-\begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
-\end{aligned}
-$$
-The same run reports no missing elements and no surplus elements: the finite comparison fields $\mathrm{no\_missing}$ and $\mathrm{no\_extra}$ are both empty. This makes the row a closed enumeration certificate for the motif compression itself. It does not say that any nucleotide interval in a genome, transcript, or experiment realizes the compressed pattern.
+\paragraph{Finite packet.}\label{par:h0-r-motif-finite-packet}
+The row records a finite codon-level packet whose immediate certified content is the compression of the set $R$ by an explicitly enumerated motif union. The observed equality is not an interpretive biological conclusion; it is a finite equality over RNA codon strings. The certified list is
+$$\begin{aligned}
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
+&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+\end{aligned}$$
+The audit row reports no missing codons and no extra codons in this equality: $\mathrm{no\_missing}=\varnothing$ and $\mathrm{no\_extra}=\varnothing$. Thus the claim carried by this row is a thirteen-element combinatorial identity for $R$, verified in experiment run $338799579a87$ at timestamp $2026$-$06$-$01T07:28:18+00:00$. The biological object attached to the same packet is open-reading-frame eligibility from start/stop codon enumeration, but the minimal form explicitly has no internal biological realization: its carrier, distinction list, and readback are all still waiting for a separate contact with biological data, and its internal structure is recorded as none.
 
-\paragraph{Relation to the larger codon census.}
-A linked finite census verifies that the ambient motif universe $M$ has cardinality $20$ and is exactly the union named $WNR \cup CUN$ in the row. The listed elements are
-$$
-\begin{aligned}
+\paragraph{Ambient codon universe.}\label{par:h0-r-motif-ambient-universe}
+The packet is compared with a larger finite codon universe $M$ of cardinality $20$. The certified equality $M=WNR\cup CUN$ gives
+$$\begin{aligned}
 M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\\
 &\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\\
 &\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-Thus the local compression row occupies $13$ of the $20$ codons in the verified ambient census. A second linked closure computation reports that $\mathrm{Sat}_{f3}(R)$ contains $18$ codons, namely all members of $M$ except $\mathrm{ACA}$ and $\mathrm{ACG}$, and that the recorded $f3$ boundary is empty. These numbers are useful for the internal geometry of the motif table: $13$ initial compressed members, $18$ members after the recorded saturation operation, and $20$ members in the ambient census. They are not observations of expression, translation, folding, molecular stability, or organismal role.
+\end{aligned}$$
+This list fixes the finite background against which $R$ is read. In the same finite setting, the saturation fact for $f_3$ gives
+$$\begin{aligned}
+\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\\
+&\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+\end{aligned}$$
+so the saturation omits $\mathrm{ACA}$ and $\mathrm{ACG}$ from $M$. The row also records $f_3\text{-boundary}=\varnothing$, and it verifies
+$$\begin{aligned}
+M=\operatorname{Med}(R)\cup\{\mathrm{ACA}\}.
+\end{aligned}$$
+These are finite closure and boundary facts about codon strings. They say which strings are present in the enumerated sets and which finite closure calculation succeeds; they do not say that a biological interval has been observed.
 
-\paragraph{Quotient geometry.}
-The same finite neighborhood records a quotient check for $M$. The verified $f$-vector for $M$ is $(20,38,26,8,1)$, while the quotient has $10$ vertices and $f$-vector $(10,14,6,1)$. The quotient representatives are ten binary rows, and the row count $10$ is explicitly reported as $\pi_M$ size. These data show that the motif census admits a finite combinatorial compression under the recorded quotient map. They do not add biological semantics to $R$; they only sharpen the internal account of how the codon enumeration has been grouped.
+\paragraph{Quotient geometry.}\label{par:h0-r-motif-quotient-geometry}
+The quotient audit supplies a second finite summary. For $M$, the verified $f$-vector is $(20,38,26,8,1)$. The quotient image has size $10$, with quotient $f$-vector $(10,14,6,1)$. The verified quotient points are
+$$\begin{aligned}
+\pi_M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
+&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),\\
+&(1,0,1,0,1),(1,0,1,1,1)\}.
+\end{aligned}$$
+The quotient data are useful because they show that the codon packet has a reproducible finite geometry, not merely an informal list. Nevertheless, the quotient is still an internal finite classification of codon strings. It is not a sequence assay, not a transcript observation, not a curated interval annotation, and not a measurement of translation or folding.
 
-\paragraph{ORF-eligibility reading.}
-The biological phrase attached to this packet is open-reading-frame eligibility from start and stop codon enumeration. In this chapter that phrase is deliberately read as a boundary test. A start--stop window can be enumerated as a candidate interval pattern, but the enumeration alone is not an observed open reading frame. The local carrier remains at the status of awaiting contact with sequence, transcript, or curated interval evidence. Consequently, the codon motif row may define what would be checked, but it does not by itself certify that a biological interval exists.
+\paragraph{Boundary for ORF eligibility.}\label{par:h0-r-motif-orf-boundary}
+The ORF-eligibility seed is therefore deliberately weaker than an ORF claim. The packet can ask whether start and stop windows would be eligible under an enumeration rule, but it cannot assert that a real biological interval exists unless an additional biological contact supplies such an interval. The separate start/stop-window audit loaded one external window dataset with $1$ input window and classified $1$ of $1$ windows by start/stop enumeration. Its scope was explicitly limited to external-window start/stop enumeration, with snapshot date $2026$-$05$-$25$, and it recorded the layer as $\mathrm{orf\_eligibility\_only}$. That finite row is compatible with the present boundary: enumeration can classify a window once a window is externally supplied, but geometry alone does not create the supplied interval.
 
-\paragraph{Separate finite contact rows.}
-The linked start--stop-window row reports one loaded window and one classified window, with scope restricted to external-window start--stop enumeration and a snapshot date of $2026$-$05$-$25$. A stronger linked interval row reports a curated interval dataset with $168$ rows from RefSeq accession $\mathrm{NC\_000913.3}$, split into $72$ positive curated ORF intervals, $72$ matched non-ORF decoys, and $24$ boundary cases. In that row the positive accept rate is $1.0$ over $72$ positives, the matched decoy rejection rate is $1.0$ over $72$ decoys, and the exact one-sided binomial upper-tail value is $2.117582368135751\times 10^{-22}$ for both the positive and decoy tests. Three held-out splits are also recorded; each split has $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$. These finite contact rows are relevant evidence for their own interval task, but they remain distinct from the motif compression row. They do not retroactively turn the $13$-codon compression fact into translation, folding, physical admissibility, biological function, mechanism, or a universal biological law.
+\paragraph{Curated interval contact.}\label{par:h0-r-motif-curated-contact}
+A stronger linked contact row uses curated intervals rather than bare codon geometry. It loaded $168$ rows from a curated ORF interval contact dataset based on NCBI RefSeq GenBank XML CDS intervals for the Escherichia coli K-12 MG1655 complete genome accession NC\_000913.3, with snapshot date $2026$-$05$-$30$. The input classes present were boundary cases, matched non-ORF decoys, and positive curated ORFs. The frozen classifier was $\mathrm{orf\_start\_stop\_window\_eligibility}$, with classifier rules unmodified after protocol freeze. The contact row reports $72$ accepted positives out of $72$, with exact one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$, and $72$ rejected matched decoys out of $72$, again with upper-tail value $2.117582368135751\times 10^{-22}$. Its paired baseline sign-test advantage was $72$ wins in $72$ pairs, with the same reported upper-tail value. Boundary controls had $24$ cases and $0$ promotions, so the promoted fraction was $0.0$.
 
-\paragraph{Local boundary.}
-The present chapter therefore claims exactly this: the finite row for $h0.R.motif.compression$ verifies a precise motif union for $R$, with no missing or extra codons, inside a $20$-codon ambient census and alongside linked saturation and quotient summaries. The chapter does not claim that the motif is translated, that any protein folds from it, that the resulting molecule is physically admissible, that it has a biological function, that it explains a mechanism, or that it holds universally across biological systems. Any such statement would require an additional contact row that supplies the relevant observed biological interval and a protocol appropriate to that higher layer. The self-check row is consistent with this reading: it reports three checked gates and states that no codon geometry is promoted across biological layers.
+\paragraph{Held-out stability.}\label{par:h0-r-motif-heldout-stability}
+The curated contact also reports three held-out split checks. In the left-locus fold, $24$ positives had accept rate $1.0$ and $24$ decoys had reject rate $1.0$. In the middle-locus fold, $24$ positives again had accept rate $1.0$ and $24$ decoys had reject rate $1.0$. In the right-locus fold, the same counts and rates appear: $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$. These numbers support the contact row as a finite curated-interval test of ORF eligibility under the declared classifier. They do not retroactively turn the motif-compression row into a biological observation. The present row has an empty contact list, so its own status remains a boundary seed until a contact is attached to it.
+
+\paragraph{Local non-promotion rule.}\label{par:h0-r-motif-non-promotion}
+The local scientific boundary is part of the claim. From the equality for $R$, the twenty-codon universe $M$, the $f_3$ saturation calculation, and the quotient geometry, one may report only finite codon-set structure and the resulting start/stop-window question. No translation event, protein folding fact, physical admissibility judgment, biological function, molecular mechanism, or universal biological law follows from these finite rows by themselves. Such conclusions require a distinct contact capable of testing the relevant layer. The self-check row states the same discipline in operational form: $3$ gates were checked, and no codon geometry was promoted across biological layers. Therefore the ready content of this subsection is a sharply bounded finite record: $R$ is exactly the thirteen-codon motif union listed above, $M$ is the twenty-codon ambient universe listed above, the stated saturation and quotient summaries are verified, and ORF eligibility remains conditional on separately supplied biological interval evidence.
