@@ -2474,6 +2474,7 @@ import BEDC.Derived.CompressionLedgerFunctorUp.TasteGate
 import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.ConcaveModulusUp.NameCertObligations
+import BEDC.Derived.ConcaveModulusUp.SubadditiveHandoff
 import BEDC.Derived.ConcaveModulusUp.TasteGate
 import BEDC.Derived.ConceptRegistryObligationUp.TasteGate
 import BEDC.Derived.ConceptRegistrySurfaceUp.TasteGate
@@ -7086,6 +7087,7 @@ import BEDC.Derived.RiemannSumUp
 import BEDC.Derived.RiemannSumUp.MatureFiniteMeshExamples
 import BEDC.Derived.RiemannSumUp.TasteGate
 import BEDC.Derived.RiemannianMetricUp
+import BEDC.Derived.RieszLemmaUp.NormedSeparationWitness
 import BEDC.Derived.RieszLemmaUp.TasteGate
 import BEDC.Derived.RieszMarkovUp.TasteGate
 import BEDC.Derived.RieszRepresentationUp.TasteGate
@@ -7311,6 +7313,7 @@ import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SierpinskiSpaceUp.TasteGate
+import BEDC.Derived.SigmaCompactUp.ProperMetricExhaustion
 import BEDC.Derived.SigmaCompactUp.TasteGate
 import BEDC.Derived.SignedBinaryExpansionUp
 import BEDC.Derived.SignedBinaryExpansionUp.TasteGate

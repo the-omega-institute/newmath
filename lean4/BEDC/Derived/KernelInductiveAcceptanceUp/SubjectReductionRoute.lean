@@ -132,4 +132,26 @@ theorem KernelInductiveAcceptanceUp_subject_reduction_route [AskSetup] [PackageS
     ⟨subjectUnary, subjectCont, subjectPkg, signaturesListed, eliminatorsListed,
       recursionListed⟩
 
+theorem KernelInductiveAcceptanceSubjectReductionRoute [AskSetup] [PackageSetup]
+    {emitted accepted trace subjectRead reductionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory accepted ->
+      UnaryHistory emitted ->
+        UnaryHistory trace ->
+          Cont accepted emitted subjectRead ->
+            Cont subjectRead trace reductionRead ->
+              PkgSig bundle reductionRead pkg ->
+                UnaryHistory accepted ∧ UnaryHistory emitted ∧ UnaryHistory subjectRead ∧
+                  UnaryHistory reductionRead ∧ Cont accepted emitted subjectRead ∧
+                    Cont subjectRead trace reductionRead ∧ PkgSig bundle reductionRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro acceptedUnary emittedUnary traceUnary subjectRoute reductionRoute reductionPkg
+  have subjectUnary : UnaryHistory subjectRead :=
+    unary_cont_closed acceptedUnary emittedUnary subjectRoute
+  have reductionUnary : UnaryHistory reductionRead :=
+    unary_cont_closed subjectUnary traceUnary reductionRoute
+  exact
+    ⟨acceptedUnary, emittedUnary, subjectUnary, reductionUnary, subjectRoute,
+      reductionRoute, reductionPkg⟩
+
 end BEDC.Derived.KernelInductiveAcceptanceUp
