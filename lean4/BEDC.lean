@@ -753,6 +753,7 @@ import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletionUp.TasteGate
+import BEDC.Derived.BishopMetricSpaceUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
 import BEDC.Derived.BishopMonotoneRealLimitUp.TasteGate
@@ -4196,6 +4197,7 @@ import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.FractionalPartUp
 import BEDC.Derived.FractionalPartUp.TasteGate
 import BEDC.Derived.FrechetCompletionUp.TasteGate
+import BEDC.Derived.FrechetDerivativeUp.TasteGate
 import BEDC.Derived.FredholmAlternativeUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.FreeMonoidUp.TasteGate
@@ -4641,6 +4643,7 @@ import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.IntervalBisectionTreeUp.TasteGate
 import BEDC.Derived.IntervalBisectionUp.TasteGate
+import BEDC.Derived.IntervalCauchyCompletenessUp.TasteGate
 import BEDC.Derived.IntervalDomainUp.TasteGate
 import BEDC.Derived.IntervalLengthUp.TasteGate
 import BEDC.Derived.IntervalUp
@@ -4910,6 +4913,7 @@ import BEDC.Derived.LocatedCompactIntervalOscillationBoundUp.TasteGate
 import BEDC.Derived.LocatedCompactUp.Carrier
 import BEDC.Derived.LocatedCompactUp.NameCert
 import BEDC.Derived.LocatedCompactUp.TasteGate
+import BEDC.Derived.LocatedCompleteIntervalUp.TasteGate
 import BEDC.Derived.LocatedCompleteMetricUp.TasteGate
 import BEDC.Derived.LocatedCompletionCriterionUp.TasteGate
 import BEDC.Derived.LocatedCompletionFunctorUp.TasteGate
@@ -5747,6 +5751,7 @@ import BEDC.Derived.NormalFormConsistencySealUp.CriticalPairObligation
 import BEDC.Derived.NormalFormConsistencySealUp.CriticalPairRoute
 import BEDC.Derived.NormalFormConsistencySealUp.JoinabilityObligation
 import BEDC.Derived.NormalFormConsistencySealUp.LocalNamingBoundary
+import BEDC.Derived.NormalFormConsistencySealUp.MetacicCriticalPathHandoff
 import BEDC.Derived.NormalFormConsistencySealUp.ProvenanceExactness
 import BEDC.Derived.NormalFormConsistencySealUp.ResidualContextObligation
 import BEDC.Derived.NormalFormConsistencySealUp.ResidualScheduleDischarge
