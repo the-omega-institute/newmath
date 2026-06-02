@@ -193,6 +193,16 @@ disown
 
 `tools/discovery_radar_daemon.py` runs every 6h (`DISCOVERY_RADAR_INTERVAL_SECONDS` env override, default 21600s), runs full-mine `bedc_ci.py discovery-radar --json`, and writes the latest local ledger to `tools/logs/discovery_radar_ledger.json`. It is fault-isolated with a PID lock and per-cycle exception handling, surfaces only local log/ledger state, and never touches git.
 
+Discovery refutation publisher daemon:
+
+```bash
+mkdir -p $REPO/tools/logs && \
+nohup python3 $REPO/tools/discovery_refutation_publisher.py >> $REPO/tools/logs/discovery_refutation_publisher.log 2>&1 &
+disown
+```
+
+`tools/discovery_refutation_publisher.py` runs every 6h (`REFUTATION_PUBLISH_INTERVAL_SECONDS` env override, default 21600s), consumes only kernel-grounded sound refuted candidates from `bedc_ci.py discovery-radar --json`, writes the persistent dossier refutation ledger, commits from an isolated worktree, and only touches the ledger files.
+
 ### Verify restart success (two-step, never skip)
 
 After launching, run **two sequential one-shot checks** before declaring the restart healthy. Skipping either check has bitten the operator.

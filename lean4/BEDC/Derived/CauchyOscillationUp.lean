@@ -426,6 +426,66 @@ theorem CauchyOscillationDyadicToleranceStability [AskSetup] [PackageSetup]
   }
   exact ⟨cert, replayUnary, sealReadUnary⟩
 
+theorem CauchyOscillationCarrier_real_completion_consumer [AskSetup] [PackageSetup]
+    {tailWindow modulus tolerance ledger sealRow transport routes provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyOscillationCarrier tailWindow modulus tolerance ledger sealRow transport routes provenance
+        nameCert bundle pkg ->
+      SemanticNameCert
+            (fun row : BHist => hsame row sealRow ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row tailWindow ∨ hsame row modulus ∨ hsame row tolerance ∨
+                hsame row ledger ∨ hsame row sealRow)
+            (fun row : BHist =>
+              UnaryHistory row ∧ Cont tailWindow modulus tolerance ∧
+                Cont modulus tolerance ledger ∧ Cont ledger sealRow routes ∧
+                  PkgSig bundle provenance pkg)
+            hsame ∧
+        UnaryHistory sealRow ∧ Cont ledger sealRow routes := by
+  -- BEDC touchpoint anchor: CauchyOscillationCarrier BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier
+  obtain ⟨_tailWindowUnary, _modulusUnary, _toleranceUnary, _ledgerUnary, sealUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _nameCertUnary, tailModulusTolerance,
+    modulusToleranceLedger, ledgerSealRoutes, _routesNameCert, provenancePkg⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRow ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row tailWindow ∨ hsame row modulus ∨ hsame row tolerance ∨
+              hsame row ledger ∨ hsame row sealRow)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont tailWindow modulus tolerance ∧
+              Cont modulus tolerance ledger ∧ Cont ledger sealRow routes ∧
+                PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRow ⟨hsame_refl sealRow, sealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, tailModulusTolerance, modulusToleranceLedger, ledgerSealRoutes,
+          provenancePkg⟩
+  }
+  exact ⟨cert, sealUnary, ledgerSealRoutes⟩
+
 theorem CauchyOscillationUniformLimitTailHandoff [AskSetup] [PackageSetup]
     {W M Q T S H C P N sourceRead sealRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
