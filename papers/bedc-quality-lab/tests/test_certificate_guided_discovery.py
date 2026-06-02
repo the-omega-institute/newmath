@@ -36,6 +36,21 @@ def test_load_payload_requires_projection_source_shape(tmp_path):
     with pytest.raises(ValueError, match="record ledger rows"):
         runner._load_payload(path)
 
+def test_loader_rejects_when_shared_cost_protocol_name_not_true(tmp_path):
+    payload = copy.deepcopy(_payload())
+    payload["result"]["shared_cost_protocol_name"] = False
+    path = _write_payload(tmp_path, payload)
+    with pytest.raises(ValueError, match="certificate-guided payload must share a cost protocol"):
+        runner._load_payload(path)
+
+def test_loader_rejects_when_record_lacks_ledger_rows(tmp_path):
+    payload = copy.deepcopy(_payload())
+    after = next(record for record in payload["records"] if record["role"] == runner.AFTER_ROLE)
+    after["ledger_rows"] = []
+    path = _write_payload(tmp_path, payload)
+    with pytest.raises(ValueError, match="record lacks ledger rows: after"):
+        runner._load_payload(path)
+
 def test_certificate_guided_result_is_negative_when_net_is_negative_and_baseline_is_recorded():
     payload = _payload()
     report = runner._verdict_payload(payload)
