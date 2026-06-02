@@ -171,6 +171,73 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
     assert "gap-head-on-h" in index_markdown
 
 
+def test_run_reports_certificate_guided_discovery_uses_canonical_training_source(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    source_json = canonical.CANONICAL_DIR / "certificate-guided-training.json"
+    source_report = canonical.CANONICAL_DIR / "certificate-guided-training.md"
+    source_json.parent.mkdir(parents=True, exist_ok=True)
+    source_json.write_text(json.dumps({"training_marker": "canonical-source"}), encoding="utf-8")
+    source_report.write_text("# canonical training\n", encoding="utf-8")
+    observed = []
+
+    class StubDiscoveryProducer:
+        REPORT_JSON = None
+        REPORT_MD = None
+        JSON_ARTIFACT = "reports/certificate_guided_discovery.json"
+        REPORT_ARTIFACT = "reports/certificate_guided_discovery.md"
+        SOURCE_JSON_ARTIFACT = "reports/certificate_guided_training.json"
+        SOURCE_REPORT_ARTIFACT = "reports/certificate_guided_training.md"
+        USE_TORCH = True
+
+        @classmethod
+        def main(cls):
+            assert cls.JSON_ARTIFACT == "reports/canonical/certificate-guided-discovery.json"
+            assert cls.REPORT_ARTIFACT == "reports/canonical/certificate-guided-discovery.md"
+            assert cls.SOURCE_JSON_ARTIFACT == "reports/canonical/certificate-guided-training.json"
+            assert cls.SOURCE_REPORT_ARTIFACT == "reports/canonical/certificate-guided-training.md"
+            assert cls.USE_TORCH is False
+            source_payload = json.loads((canonical.ROOT / cls.SOURCE_JSON_ARTIFACT).read_text(encoding="utf-8"))
+            observed.append(source_payload["training_marker"])
+            payload = {
+                "generated_at": "fixture",
+                "source_artifacts": {
+                    "source_json_artifact": cls.SOURCE_JSON_ARTIFACT,
+                    "source_report_artifact": cls.SOURCE_REPORT_ARTIFACT,
+                },
+                "verdicts": [{"verdict": "positive"}],
+                "positive_discovery": True,
+                "net_information": 1.25,
+                "matched_random_baseline": {"verdict": "negative"},
+                "main_claim_status": "positive",
+            }
+            cls.REPORT_JSON.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+            cls.REPORT_MD.write_text("# stub discovery\n", encoding="utf-8")
+
+    def fake_import_module(module_name):
+        assert module_name == "scripts.run_certificate_guided_discovery"
+        return StubDiscoveryProducer
+
+    monkeypatch.setattr(canonical.importlib, "import_module", fake_import_module)
+
+    payload = canonical.run_reports(only="certificate-guided-discovery")
+    report_payload = json.loads((canonical.CANONICAL_DIR / "certificate-guided-discovery.json").read_text(encoding="utf-8"))
+    report_markdown = (canonical.CANONICAL_DIR / "certificate-guided-discovery.md").read_text(encoding="utf-8")
+
+    assert observed == ["canonical-source"]
+    assert payload["reports"][0]["name"] == "certificate-guided-discovery"
+    assert payload["reports"][0]["status"] == "pass"
+    assert payload["reports"][0]["validation"]["required_key_validation"]["status"] == "pass"
+    assert report_payload["source_artifacts"]["source_json_artifact"] == "reports/canonical/certificate-guided-training.json"
+    assert report_payload["source_artifacts"]["source_report_artifact"] == "reports/canonical/certificate-guided-training.md"
+    assert report_payload["positive_discovery"] is True
+    assert report_payload["net_information"] == pytest.approx(1.25)
+    assert report_payload["matched_random_baseline"] == {"verdict": "negative"}
+    assert report_payload["main_claim_status"] == "positive"
+    assert report_markdown == "# stub discovery\n"
+
+
 def test_index_root_is_relative_and_host_path_free(tmp_path):
     payload = canonical._index([])
     index_path = tmp_path / "index.json"

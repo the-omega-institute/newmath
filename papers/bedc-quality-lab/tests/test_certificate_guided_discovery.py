@@ -86,11 +86,13 @@ def test_compression_verdict_covers_no_surface_delta_case():
         after[name] = before[name]
     for key in payload["deltas"]["after_minus_before"]:
         payload["deltas"]["after_minus_before"][key] = 0.0
-    row = runner._verdict_payload(payload)["verdicts"][0]
+    report = runner._verdict_payload(payload)
+    row = report["verdicts"][0]
     assert (row["surface_delta_count"], row["structural_discovery"]) == (0, False)
     assert row["net_information"] == pytest.approx(0.0)
     assert row["positive_discovery"] is False
     assert row["verdict"] == "compression"
+    assert report["main_claim_status"] == "mixed"
 
 def test_positive_verdict_when_projected_claim_has_positive_net_information():
     payload = copy.deepcopy(_payload())
@@ -107,10 +109,12 @@ def test_positive_verdict_when_projected_claim_has_positive_net_information():
     assert positive_discovery(claim) is True
     assert net_information(claim) > 0.0
 
-    row = runner._verdict_payload(payload)["verdicts"][0]
+    report = runner._verdict_payload(payload)
+    row = report["verdicts"][0]
     assert row["positive_discovery"] is True
     assert row["net_information"] > 0.0
     assert row["verdict"] == "positive"
+    assert report["main_claim_status"] == "positive"
     _assert_row_matches_predicates(payload, row)
 
 def test_payload_uses_pointer_fields_without_schema_kind_fields():
