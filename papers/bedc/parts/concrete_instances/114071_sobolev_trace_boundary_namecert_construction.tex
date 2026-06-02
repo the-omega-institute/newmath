@@ -1,0 +1,69 @@
+\chapter{Sobolev trace boundary NameCert construction}
+\label{ch:concrete-instances-sobolev-trace-boundary-namecert}
+\origin{human}
+
+Following Adams--Fournier on Sobolev spaces and Evans on PDE boundary traces, the $\SobolevTraceBoundaryUp$ packet records finite BEDC boundary trace data rather than a host trace theorem. It sits beside the Sobolev source of \autoref{ch:concrete-instances-sobolev-space-namecert}, the trace packet of \autoref{ch:concrete-instances-sobolev-trace-namecert}, the embedding packet of \autoref{ch:concrete-instances-sobolev-embedding-namecert}, the compact witness of \autoref{ch:concrete-instances-compact-namecert}, and the complete-metric readback surface of \autoref{ch:concrete-instances-completemetric-namecert}.
+
+\begin{definition}[Sobolev trace boundary package]
+\label{def:sobolev-trace-boundary-package}
+A $\SobolevTraceBoundaryUp$ package is a finite $\BHist$ packet
+$$
+Q=(S,B,T,K,M,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the interior Sobolev carrier row, read from $\SobolevSpaceUp$ or the Sobolev source row named by \autoref{ch:concrete-instances-sobolev-space-namecert}.
+\item $B$ is the boundary carrier row. It records the displayed boundary chart, collar, normal-window, or finite boundary-read ledger on which trace values are inspected.
+\item $T$ is the trace operator row. It is only the finite trace-read arrow from the interior Sobolev row to the boundary carrier row; it is not an ambient operator on a completed quotient space.
+\item $K$ is the compact boundary window row, read through \autoref{ch:concrete-instances-compact-namecert} and the compact-facing Sobolev neighbour \autoref{ch:concrete-instances-sobolev-embedding-namecert}.
+\item $M$ is the complete-metric readback row, exposing the displayed Cauchy and distance checks supplied by \autoref{ch:concrete-instances-completemetric-namecert}.
+\item $X$ is the classifier row. It distinguishes interior-source reads, boundary-carrier reads, compact-window reads, and complete-metric readbacks, but has no coordinate for a host extension theorem or quotient boundary class.
+\item $H$ stores componentwise $\hsame$ transport for $S,B,T,K,M,X$ and the structural rows.
+\item $C$ stores the displayed $\Cont$ replay from a boundary-trace request through the interior Sobolev row, the trace row, the compact boundary window, and the complete-metric readback row.
+\item $P$ is the $\Pkg$ provenance over $\SobolevTraceBoundaryUp$, $\SobolevSpaceUp$, $\SobolevTraceUp$, $\SobolevEmbeddingUp$, $\CompactUp$, $\CompleteMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SobolevTraceBoundaryUp}$ row.
+\end{enumerate}
+The package exports a finite boundary-readback bridge for consumers of Sobolev trace theory. It does not include a selected extension operator, an unrestricted trace theorem, quotient equality of boundary functions, or ambient compactness.
+\end{definition}
+
+\begin{theorem}[Sobolev trace boundary exactness]
+\label{thm:sobolev-trace-boundary-exactness}
+For every accepted $\SobolevTraceBoundaryUp$ package $Q=(S,B,T,K,M,X,H,C,P,N)$, each accepted consumer reads the interior Sobolev row $S$ before the trace row $T$. Boundary readback is reachable only through the compact boundary window $K$ and the complete-metric row $M$, with $H,C,P,N$ preserving and naming that same finite route.
+\end{theorem}
+\begin{proof}
+Project the accepted package. The carrier order exposes $S$ as the only interior Sobolev source row, so every trace request must enter through $S$ before it can read $T$.
+
+The boundary row $B$ supplies the displayed boundary carrier, but it does not by itself export a boundary value. The trace row $T$ merely routes the request from the already-read interior row to the displayed boundary carrier.
+
+The readback rows are $K$ and $M$. Thus a consumer reaches a boundary value only after the compact boundary window and complete-metric Cauchy readback have been fixed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same row order. Since the classifier row has no host extension, quotient boundary class, or ambient compactness coordinate, no accepted consumer can bypass $S,T,K,M$.
+\end{proof}
+
+\begin{theorem}[Sobolev trace finite replay]
+\label{thm:sobolev-trace-finite-replay}
+The $\SobolevTraceBoundaryUp$ package exports finite replay data for boundary trace reads. It does not export a host trace theorem, unrestricted extension operator, quotient boundary class, selected boundary representative, or ambient compactness theorem.
+\end{theorem}
+\begin{proof}
+The replay surface is the displayed $\Cont$ row $C$ together with the provenance and naming rows $P,N$. These rows can replay only the finite route through $S,B,T,K,M,X,H$.
+
+The compact information is confined to $K$, and the metric information is confined to $M$. Therefore replay can cite compact-window and complete-metric readback data, but it cannot manufacture a host compactness theorem or a global completion theorem.
+
+The classifier row $X$ excludes extension operators, quotient boundary classes, and selected representatives from the package coordinates. Hence the exported object is exactly finite replay data for the named boundary-readback route.
+\end{proof}
+
+\falsifiablePrediction{Every $\SobolevTraceBoundaryUp$ boundary-readback consumer reads displayed SobolevSpaceUp, SobolevTraceUp, SobolevEmbeddingUp, CompactUp, CompleteMetricUp, BHist, hsame, Cont, Pkg, and NameCert rows before receiving a boundary trace value.}
+
+\independenceWitness{sobolev-space, sobolev-trace, sobolev-embedding, compact, completemetric: $\SobolevTraceBoundaryUp$ is not bijective to any listed sibling because it jointly carries an interior Sobolev row, boundary carrier, trace-read row, compact boundary window, complete-metric readback, classifier, componentwise transport, replay, provenance, and local naming.}
+
+\closureat{SobolevTraceBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\SobolevTraceBoundaryUp}
+  \constructivestory{A $\SobolevTraceBoundaryUp$ packet is generated from an interior Sobolev carrier row, boundary carrier row, trace-read row, compact boundary window, complete-metric readback row, classifier, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sobolev-trace-boundary-package}, \autoref{thm:sobolev-trace-boundary-exactness}, and \autoref{thm:sobolev-trace-finite-replay} seed the finite boundary-readback bridge over Sobolev space, Sobolev trace, Sobolev embedding, compact, and complete-metric neighbours.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host trace theorem, unrestricted extension operator, quotient boundary class, selected representative, ambient compactness theorem, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, trace-row ordering, compact boundary window exactness, complete-metric readback, classifier nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SobolevTraceBoundaryUp.}
+\end{closurestatus}
