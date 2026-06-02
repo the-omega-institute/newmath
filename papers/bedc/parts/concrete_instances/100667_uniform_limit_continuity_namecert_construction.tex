@@ -77,6 +77,20 @@ Apply \autoref{thm:uniform-limit-continuity-continuousmap-handoff} to the endpoi
 The remaining rows $H,C,P,N$ do not introduce a second route. They transport, replay, package, and name the same carrier path, so they preserve the modulus handoff rather than bypassing it.
 \end{proof}
 
+\begin{theorem}[UniformLimitContinuity Cauchy criterion handoff]
+\label{thm:uniform-limit-continuity-cauchy-criterion-handoff}
+Every accepted $\UniformLimitContinuityUp$ carrier $K=(F,M,T,R,E,G,U,H,C,P,N)$ sends its shared modulus row $M$ and tail ledger $T$ through the $\UniformLimitUp$ row, the $\UniformCauchyCriterionUp$ or $\CauchyCriterionUp$ surface, the $\RegSeqRatUp$ readback row $R$, and the terminal $\RealUp$ seal $E$ before any $\ContinuousMapUp$ or $\UniformModulusUp$ consumer reads continuity. The route exports no pointwise-only convergence theorem and no selected host limit.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:uniform-limit-continuity-carrier}. The rows $F,M,T,R,E$ are the only uniform-limit, shared-modulus, tail-ledger, regular-readback, and Real-seal coordinates available before the continuity-facing rows $G$ and $U$.
+
+Apply \autoref{thm:uniform-limit-continuity-modulus-handoff}. It forces every $\UniformModulusUp$ or uniform-continuity consumer to read $M$ before $T,R,E,G,U$ can be used.
+
+Apply \autoref{thm:uniform-limit-continuity-continuousmap-handoff}. That handoff places the endpoint-facing continuity read after the route through $F,M,T,R,E$, so a $\ContinuousMapUp$ consumer also waits for the shared modulus, tail ledger, regular readback, and Real seal.
+
+The $\UniformCauchyCriterionUp$ or $\CauchyCriterionUp$ surface reads the same tail ledger and regular-seal route rather than a second limit object. Since the carrier has no coordinate for pointwise-only convergence or a selected host limit, those excluded objects cannot mediate the continuity read.
+\end{proof}
+
 \begin{theorem}[UniformLimitContinuity nonescape boundary]
 \label{thm:uniform-limit-continuity-nonescape}
 An accepted $\UniformLimitContinuityUp$ carrier exports only the displayed uniform-limit family row, shared modulus row, tail ledger, regular handoff, real seal, continuous-map graph, uniform-continuity consumer row, componentwise transports, continuation replay, package provenance, and local naming row of \autoref{def:uniform-limit-continuity-carrier}. It exports no pointwise-only convergence theorem, no host limit selector, no quotient function equality, no open-cover compactness principle, and no ambient $\RealUp$ completeness theorem.
