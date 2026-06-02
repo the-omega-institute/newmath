@@ -138,4 +138,22 @@ theorem SequentialCompactCarrier_window_transport [AskSetup] [PackageSetup]
   }
   exact ⟨cert, transportedStreamUnary, transportedWindowUnary, terminalReadUnary⟩
 
+theorem SequentialCompact_root_obligation_baire_window [AskSetup] [PackageSetup]
+    {K B S W R E H C P N selectedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SequentialCompactCarrier K B S W R E H C P N bundle pkg ->
+      Cont B W selectedRead ->
+        PkgSig bundle selectedRead pkg ->
+          UnaryHistory B ∧ UnaryHistory W ∧ UnaryHistory selectedRead ∧
+            Cont B W selectedRead ∧ PkgSig bundle P pkg ∧
+              PkgSig bundle selectedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier selectedRoute selectedPkg
+  obtain ⟨_kUnary, bUnary, _sUnary, wUnary, _rUnary, _eUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, _compactBaireStream, _streamWindowRegular, _regularSealTransport,
+    _transportReplayProvenance, provenancePkg⟩ := carrier
+  have selectedUnary : UnaryHistory selectedRead :=
+    unary_cont_closed bUnary wUnary selectedRoute
+  exact ⟨bUnary, wUnary, selectedUnary, selectedRoute, provenancePkg, selectedPkg⟩
+
 end BEDC.Derived.SequentialCompactUp
