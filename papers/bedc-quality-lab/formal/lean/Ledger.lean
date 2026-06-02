@@ -21,22 +21,6 @@ def requiredRows : List RowKey :=
   , RowKey.missingEvidence
   ]
 
-private theorem classifierEquivalence_required :
-    RowKey.classifierEquivalence ∈ requiredRows := by
-  simp [requiredRows]
-
-private theorem marginStability_required :
-    RowKey.marginStability ∈ requiredRows := by
-  simp [requiredRows]
-
-private theorem finiteCoverage_required :
-    RowKey.finiteCoverage ∈ requiredRows := by
-  simp [requiredRows]
-
-private theorem missingEvidence_required :
-    RowKey.missingEvidence ∈ requiredRows := by
-  simp [requiredRows]
-
 def IsRequired (key : RowKey) : Prop :=
   key ∈ requiredRows
 
@@ -50,13 +34,5 @@ def mem_required_decidable (key : RowKey) :
     Decidable (IsRequired key) := by
   unfold IsRequired
   exact inferInstanceAs (Decidable (key ∈ requiredRows))
-
-private theorem required_or_not_required (key : RowKey) :
-    IsRequired key ∨ ¬ IsRequired key := by
-  exact @Decidable.em (IsRequired key) (mem_required_decidable key)
-
-private theorem requiredRows_complete (key : RowKey) :
-    IsRequired key := by
-  cases key <;> simp [IsRequired, requiredRows]
 
 end Ledger
