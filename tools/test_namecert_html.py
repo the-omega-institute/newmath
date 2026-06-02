@@ -509,6 +509,120 @@ class NamecertHtmlTests(unittest.TestCase):
         self.assertIn("make4ht timeout after 3s", result["error"])
         self.assertFalse(stamp_exists)
 
+    def test_run_make4ht_restores_page_from_fingerprint_cache(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            paper = root / "papers" / "bedc"
+            paper.mkdir(parents=True)
+            src = paper / "source.tex"
+            src.write_text("\\chapter{Cached}\n", encoding="utf-8")
+            (paper / "preamble.tex").write_text("", encoding="utf-8")
+            (paper / "make4ht-dossier.cfg").write_text("", encoding="utf-8")
+            row = {
+                "scope": "paper",
+                "slug": "cached",
+                "region": "cached",
+                "source": "papers/bedc/source.tex",
+                "html_url": "paper/cached/",
+            }
+
+            old_root = build_namecert_html.ROOT
+            old_paper = build_namecert_html.PAPER_DIR
+            build_namecert_html.ROOT = root
+            build_namecert_html.PAPER_DIR = paper
+            try:
+                nav = build_namecert_html.nav_html(row, {"cached": row}, [], [])
+                fingerprint = build_namecert_html.region_fingerprint(row, {"cached": row}, {}, {}, "", False, nav, src, "")
+                cache = root / ".cache" / "dossier-html-pages"
+                entry = build_namecert_html.page_cache_entry(cache, fingerprint)
+                assert entry is not None
+                entry.mkdir(parents=True)
+                (entry / "index.html").write_text("<html>cached page</html>", encoding="utf-8")
+                (entry / ".paper-stamp").write_text(f"{fingerprint}\n", encoding="utf-8")
+
+                with mock.patch("build_namecert_html.subprocess.run", side_effect=AssertionError("make4ht should not run")):
+                    result = build_namecert_html.run_make4ht(
+                        row,
+                        {"cached": row},
+                        {},
+                        {},
+                        "",
+                        False,
+                        False,
+                        False,
+                        "",
+                        30,
+                        cache,
+                    )
+                out_index = root / "docs" / "dossier" / "paper" / "cached" / "index.html"
+                out_html = out_index.read_text(encoding="utf-8")
+            finally:
+                build_namecert_html.ROOT = old_root
+                build_namecert_html.PAPER_DIR = old_paper
+
+        self.assertTrue(result["ok"])
+        self.assertTrue(result["cached"])
+        self.assertEqual(out_html, "<html>cached page</html>")
+
+    def test_run_make4ht_stores_successful_page_in_fingerprint_cache(self) -> None:
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            paper = root / "papers" / "bedc"
+            paper.mkdir(parents=True)
+            src = paper / "source.tex"
+            src.write_text("\\chapter{Built}\n", encoding="utf-8")
+            (paper / "preamble.tex").write_text("", encoding="utf-8")
+            (paper / "make4ht-dossier.cfg").write_text("", encoding="utf-8")
+            row = {
+                "scope": "paper",
+                "slug": "built",
+                "region": "built",
+                "source": "papers/bedc/source.tex",
+                "html_url": "paper/built/",
+            }
+            proc = build_namecert_html.subprocess.CompletedProcess(["make4ht"], 0, "", "")
+
+            def fake_run(*args: object, **kwargs: object) -> object:
+                out_dir = root / "docs" / "dossier" / "paper" / "built"
+                out_dir.mkdir(parents=True, exist_ok=True)
+                (out_dir / "index.html").write_text("<html><head></head><body>built page</body></html>", encoding="utf-8")
+                return proc
+
+            old_root = build_namecert_html.ROOT
+            old_paper = build_namecert_html.PAPER_DIR
+            build_namecert_html.ROOT = root
+            build_namecert_html.PAPER_DIR = paper
+            try:
+                cache = root / ".cache" / "dossier-html-pages"
+                with mock.patch("build_namecert_html.subprocess.run", side_effect=fake_run):
+                    result = build_namecert_html.run_make4ht(
+                        row,
+                        {"built": row},
+                        {},
+                        {},
+                        "",
+                        False,
+                        False,
+                        False,
+                        "",
+                        30,
+                        cache,
+                    )
+                nav = build_namecert_html.nav_html(row, {"built": row}, [], [])
+                fingerprint = build_namecert_html.region_fingerprint(row, {"built": row}, {}, {}, "", False, nav, src, "")
+                entry = build_namecert_html.page_cache_entry(cache, fingerprint)
+                assert entry is not None
+                cached_index_exists = (entry / "index.html").exists()
+                cached_stamp = (entry / ".paper-stamp").read_text(encoding="utf-8").strip()
+            finally:
+                build_namecert_html.ROOT = old_root
+                build_namecert_html.PAPER_DIR = old_paper
+
+        self.assertTrue(result["ok"])
+        self.assertFalse(result["cached"])
+        self.assertTrue(cached_index_exists)
+        self.assertEqual(cached_stamp, fingerprint)
+
 
 if __name__ == "__main__":
     unittest.main()

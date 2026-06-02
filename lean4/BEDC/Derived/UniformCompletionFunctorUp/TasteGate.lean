@@ -196,4 +196,21 @@ theorem UniformCompletionFunctorTasteGate_single_carrier_alignment :
         UniformCompletionFunctorTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
+theorem UniformCompletionFunctorRealSealRoute (x : UniformCompletionFunctorUp) :
+    ∃ U F E R W D S H C P N : BHist,
+      x = UniformCompletionFunctorUp.mk U F E R W D S H C P N ∧
+        uniformCompletionFunctorFields x = [U, F, E, R, W, D, S, H, C, P, N] ∧
+          uniformCompletionFunctorFromEventFlow (uniformCompletionFunctorToEventFlow x) =
+            some x ∧
+            uniformCompletionFunctorEncodeBHist BHist.Empty = ([] : RawEvent) ∧
+              uniformCompletionFunctorEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk U F E R W D S H C P N =>
+      exact
+        ⟨U, F, E, R, W, D, S, H, C, P, N, rfl, rfl,
+          UniformCompletionFunctorTasteGate_single_carrier_alignment_round_trip
+            (UniformCompletionFunctorUp.mk U F E R W D S H C P N),
+          rfl, rfl⟩
+
 end BEDC.Derived.UniformCompletionFunctorUp

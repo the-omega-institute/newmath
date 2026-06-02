@@ -1630,6 +1630,7 @@ import BEDC.Derived.CauchyPrecompletionUp.TasteGate
 import BEDC.Derived.CauchyProductAssociativityUp.TasteGate
 import BEDC.Derived.CauchyProductCommutativityUp.NameCertObligations
 import BEDC.Derived.CauchyProductCommutativityUp.TasteGate
+import BEDC.Derived.CauchyProductConvergenceUp.TasteGate
 import BEDC.Derived.CauchyProductMertensUp.TasteGate
 import BEDC.Derived.CauchyProductMetricUp.TasteGate
 import BEDC.Derived.CauchyProductModulusUp
@@ -5735,6 +5736,7 @@ import BEDC.Derived.NormUp
 import BEDC.Derived.NormalConvergenceUp.TasteGate
 import BEDC.Derived.NormalFamilyUp.TasteGate
 import BEDC.Derived.NormalFormConsistencySealUp
+import BEDC.Derived.NormalFormConsistencySealUp.CandidateBoundary
 import BEDC.Derived.NormalFormConsistencySealUp.CandidateMediatedSNHandoff
 import BEDC.Derived.NormalFormConsistencySealUp.CandidateRoute
 import BEDC.Derived.NormalFormConsistencySealUp.ConstructorFrontier
@@ -8077,6 +8079,7 @@ import BEDC.Derived.UniformClosureUp.TasteGate
 import BEDC.Derived.UniformCompleteSpaceUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.RealSealNonescape
+import BEDC.Derived.UniformCompletionFunctorUp.RegSeqRatRealSourceHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.SourceFactorization
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.UniversalHandoff

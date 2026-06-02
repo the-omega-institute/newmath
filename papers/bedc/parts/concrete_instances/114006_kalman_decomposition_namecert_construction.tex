@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\KalmanDecompositionUp$}
+\label{ch:concrete-instances-kalman-decomposition-namecert}
+\origin{human}
+
+Following Kalman, the $\KalmanDecompositionUp$ packet records the finite block-splitting rows that separate a linear control system into controllable/observable, controllable/unobservable, uncontrollable/observable, and residual components. It sits after the finite reachability surface of \autoref{ch:concrete-instances-controlcontrollability-namecert}, the observation surface of \autoref{ch:concrete-instances-controlobservability-namecert}, the matrix-ledger rows of \autoref{ch:concrete-instances-matrix-namecert}, the vector-space carrier rows of \autoref{ch:concrete-instances-vecspace-namecert}, and the regulator-facing rows of \autoref{ch:concrete-instances-lqr-namecert}. The packet names only finite plant, basis, block, transition, transport, replay, provenance, and local naming data; it does not claim a canonical host quotient, analytic minimal realization, transfer-function equality, or stochastic filtering law.
+
+\begin{definition}[KalmanDecomposition carrier]
+\label{def:kalman-decomposition-carrier}
+A $\KalmanDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,U,Y,A,B,C,S,Q,O,Z_{co},Z_{cu},Z_{uo},Z_{ur},M,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the finite state-space row, $U$ is the input row, and $Y$ is the output row, each read through displayed $\VecSpaceUp$ and $\MatrixUp$ coordinates.
+\item $A:X\to X$, $B:U\to X$, and $C:X\to Y$ are the finite transition, input, and output rows of the plant.
+\item $S$ is the displayed change-of-basis ledger whose columns are finite state rows and whose inverse-readback is recorded through $\MatrixUp$.
+\item $Q$ is the controllability row consumed from $\ControlControllabilityUp$, and $O$ is the observability row consumed from $\ControlObservabilityUp$.
+\item $Z_{co}$ is the controllable/observable block, $Z_{cu}$ is the controllable/unobservable block, $Z_{uo}$ is the uncontrollable/observable block, and $Z_{ur}$ is the residual block.
+\item $M$ is the matrix transition ledger recording the displayed block reads of $S^{-1}AS$, $S^{-1}B$, and $CS$ together with the zero-pattern entries that witness the decomposition route.
+\item $H$ records componentwise $\hsame$ transport for state, input, output, plant, basis, controllability, observability, block, matrix-transition, replay, provenance, and naming rows.
+\item $T$ records displayed $\Cont$ replay for the finite route
+$$
+X,U,Y,A,B,C,S,Q,O \longmapsto Z_{co},Z_{cu},Z_{uo},Z_{ur},M,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\KalmanDecompositionUp$, $\ControlControllabilityUp$, $\ControlObservabilityUp$, $\MatrixUp$, $\VecSpaceUp$, $\LQRUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KalmanDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,U,Y,A,B,C,S,Q,O,Z_{co},Z_{cu},Z_{uo},Z_{ur},M,H,T,P,N$. It has no coordinate for a host quotient state space, a canonical ambient basis, analytic transfer-function equality, stochastic covariance data, or an infinite-dimensional realization theorem.
+\end{definition}
+
+\begin{theorem}[KalmanDecomposition NameCert obligations]
+\label{thm:kalman-decomposition-namecert-obligations}
+For every accepted $\KalmanDecompositionUp$ carrier
+$$
+K=(X,U,Y,A,B,C,S,Q,O,Z_{co},Z_{cu},Z_{uo},Z_{ur},M,H,T,P,N),
+$$
+the local $\NameCert_{\KalmanDecompositionUp}$ surface consists exactly of finite state, input, and output admission through $X,U,Y$, plant admission through $A,B,C$, basis-ledger admission through $S$, controllability admission through $Q$, observability admission through $O$, block admission through $Z_{co},Z_{cu},Z_{uo},Z_{ur}$, matrix transition readback through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kalman-decomposition-carrier}. The rows $X,U,Y,A,B,C,S$ supply the finite plant and basis data, and the rows $Q,O$ attach the displayed controllability and observability certificates.
+
+The four block rows $Z_{co},Z_{cu},Z_{uo},Z_{ur}$ are read only after $Q,O$ and $S$ have exposed the finite splitting ledger. The row $M$ then records the block transition, input, and output matrices over that same basis route rather than over an ambient quotient or selected canonical form.
+
+Finally $H,T,P,N$ transport, replay, source, and name exactly the displayed rows. Since the carrier has no coordinate for host quotient semantics, analytic transfer equality, stochastic covariance, or an infinite-dimensional realization theorem, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[KalmanDecomposition controllable-observable split]
+\label{thm:kalman-decomposition-controllable-observable-split}
+Every downstream control consumer that reads an accepted $\KalmanDecompositionUp$ packet as a controllable/observable splitting must pass first through the displayed finite route
+$$
+\VecSpaceUp,\MatrixUp,\ControlControllabilityUp,\ControlObservabilityUp
+\longmapsto
+Z_{co},Z_{cu},Z_{uo},Z_{ur},M .
+$$
+The exported splitting consists only of the finite state, input, output, plant, basis, controllability, observability, block, transition-ledger, transport, replay, provenance, and local $\NameCert$ rows of \autoref{def:kalman-decomposition-carrier}.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:kalman-decomposition-namecert-obligations}. It exposes the plant rows and the basis ledger before either the controllability or observability rows can be used.
+
+The controllable side is read through $Q$ and \autoref{ch:concrete-instances-controlcontrollability-namecert}, while the observable side is read through $O$ and \autoref{ch:concrete-instances-controlobservability-namecert}. Both rows are finite control certificates over the same $\MatrixUp$ and $\VecSpaceUp$ surface, so the consumer cannot replace them by an unlogged reachable quotient or unobservable quotient.
+
+The four block rows and the matrix transition ledger then provide the only public splitting data. The structural rows $H,T,P,N$ preserve that finite route under transport, replay, provenance, and local naming, so the consumer receives the displayed Kalman decomposition packet rather than a host canonical-form theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\KalmanDecompositionUp$ packet is refuted by any control consumer that reads a controllable/observable block, residual block, or block transition ledger while bypassing the displayed basis row $S$, the controllability row $Q$, the observability row $O$, or the matrix transition ledger $M$.}
+
+\independenceWitness{controlcontrollability, controlobservability, matrix, vecspace, lqr: none is bijective to $\KalmanDecompositionUp$ because the decomposition packet jointly carries plant, basis, controllability, observability, four block rows, matrix transition ledger, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{KalmanDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\KalmanDecompositionUp}
+  \constructivestory{A $\KalmanDecompositionUp$ packet is generated from finite state, input, output, plant, basis, controllability, observability, four block, matrix-transition, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kalman-decomposition-carrier}, \autoref{thm:kalman-decomposition-namecert-obligations}, \autoref{thm:kalman-decomposition-controllable-observable-split}, the displayed falsifiable prediction, and the displayed independence witness seed the finite control decomposition NameCert surface over controllability, observability, matrix, vector-space, and regulator-facing rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.KalmanDecompositionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, canonical host quotient semantics, analytic minimal realization, transfer-function equality, stochastic covariance laws, or infinite-dimensional realization theory.}
+  \upgradepath{Obligation closure requires checked carrier admission, basis-ledger admission, controllability and observability admission, block admission, matrix-transition exactness, transport, replay, provenance, and local naming for BEDC.Derived.KalmanDecompositionUp.}
+\end{closurestatus}
