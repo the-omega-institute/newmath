@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -7,6 +8,7 @@ namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -215,6 +217,21 @@ theorem StreamMapTasteGate_single_carrier_alignment :
   · intro x y heq
     exact streamMapToEventFlow_injective heq
   · rfl
+
+theorem StreamMapFiniteWindow_functoriality (S T F W Q D R H C P N : BHist) :
+    streamMapFields (StreamMapUp.mk S T F W Q D R H C P N) =
+        [S, T, F, W, Q, D, R, H, C, P, N] ∧
+      ∃ sourceRoute targetRoute outputRoute : BHist,
+        Cont S F sourceRoute ∧ Cont sourceRoute T targetRoute ∧
+          Cont targetRoute W outputRoute ∧ hsame sourceRoute (append S F) ∧
+            hsame targetRoute (append sourceRoute T) ∧
+              hsame outputRoute (append targetRoute W) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  constructor
+  · rfl
+  · exact
+      ⟨append S F, append (append S F) T, append (append (append S F) T) W,
+        rfl, rfl, rfl, rfl, rfl, rfl⟩
 
 end TasteGate
 end BEDC.Derived.StreamMapUp

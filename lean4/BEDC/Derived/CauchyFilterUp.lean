@@ -3,6 +3,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Cont.Cancellation
+import BEDC.FKernel.Cont.Units
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -306,5 +307,22 @@ theorem CauchyFilterPacket_refinement_transport [AskSetup] [PackageSetup]
     _thresholdEndpointRow, _compatTransportRow, _endpointCompatRow, _transportConsumerRow,
     _provenanceNamecertRow, pkgRow⟩ := packet
   exact ⟨commonRow, pkgRow⟩
+
+theorem CauchyFilterCarrier_directed_refinement_endpoint_surface [AskSetup] [PackageSetup]
+    {observations window threshold endpoints compatibility transport consumer provenance nameRow
+      endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterRefinementPacket observations window threshold endpoints compatibility transport
+        consumer provenance nameRow endpoint bundle pkg ->
+      Cont observations window threshold ∧ Cont threshold endpoints compatibility ∧
+        Cont compatibility transport consumer ∧ Cont consumer provenance nameRow ∧
+          hsame endpoint nameRow ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg
+  intro packet
+  obtain ⟨observationRow, thresholdRow, compatibilityRow, provenanceRow, endpointRow,
+    pkgRow⟩ := packet
+  exact
+    ⟨observationRow, thresholdRow, compatibilityRow, provenanceRow,
+      cont_right_unit_result endpointRow, pkgRow⟩
 
 end BEDC.Derived.CauchyFilterUp

@@ -237,4 +237,44 @@ theorem LPDualityFeasibleRegion_face_exhaustion [AskSetup] [PackageSetup]
     ⟨feasibleUnary, fieldUnary, orderUnary, objectiveUnary, endpointUnary, faceUnary,
       classifierRow, routeRow, endpointRow, faceRow, endpointPkg, facePkg⟩
 
+theorem LPDualityFiniteOrderedFieldFeasibilityRow_primal_objective_binary_affine_readback
+    [AskSetup] [PackageSetup]
+    {feasible field order objective classifier route provenance endpoint alpha beta primal primal' left
+      right affine : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LPDualityFiniteOrderedFieldFeasibilityRow feasible field order objective classifier route
+        provenance endpoint bundle pkg ->
+      UnaryHistory alpha ->
+        UnaryHistory beta ->
+          UnaryHistory primal ->
+            UnaryHistory primal' ->
+              Cont endpoint primal left ->
+                Cont endpoint primal' right ->
+                  Cont left right affine ->
+                    UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory affine ∧
+                      hsame affine (append (append endpoint primal) (append endpoint primal')) ∧
+                        PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory ProbeBundle Pkg
+  intro row _alphaUnary _betaUnary primalUnary primalUnary' leftRow rightRow affineRow
+  obtain ⟨feasibleUnary, fieldUnary, orderUnary, objectiveUnary, _provenanceUnary,
+    classifierRow, routeRow, endpointRow, endpointPkg⟩ := row
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed feasibleUnary fieldUnary classifierRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed classifierUnary orderUnary routeRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed routeUnary objectiveUnary endpointRow
+  have leftUnary : UnaryHistory left :=
+    unary_cont_closed endpointUnary primalUnary leftRow
+  have rightUnary : UnaryHistory right :=
+    unary_cont_closed endpointUnary primalUnary' rightRow
+  have affineUnary : UnaryHistory affine :=
+    unary_cont_closed leftUnary rightUnary affineRow
+  have affineReadback : hsame affine (append (append endpoint primal) (append endpoint primal')) := by
+    cases leftRow
+    cases rightRow
+    cases affineRow
+    rfl
+  exact ⟨leftUnary, rightUnary, affineUnary, affineReadback, endpointPkg⟩
+
 end BEDC.Derived.LPDualityUp
