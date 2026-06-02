@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.BaireTwoFunctionUp
+namespace BEDC.Derived.BaireTwoFunctionUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +25,7 @@ def baireTwoFunctionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (baireTwoFunctionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (baireTwoFunctionDecodeBHist tail)
 
-private theorem BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode :
+private theorem BaireTwoFunctionTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, baireTwoFunctionDecodeBHist (baireTwoFunctionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -34,15 +34,13 @@ private theorem BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def BaireTwoFunctionTasteGate_single_carrier_alignment_fields :
-    BaireTwoFunctionUp → List BHist
+def baireTwoFunctionFields : BaireTwoFunctionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | BaireTwoFunctionUp.mk B A S Q R H C P N => [B, A, S, Q, R, H, C, P, N]
 
-def baireTwoFunctionToEventFlow : BaireTwoFunctionUp → EventFlow
+def baireTwoFunctionToEventFlow : BaireTwoFunctionUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (BaireTwoFunctionTasteGate_single_carrier_alignment_fields x).map
-      baireTwoFunctionEncodeBHist
+  fun x => (baireTwoFunctionFields x).map baireTwoFunctionEncodeBHist
 
 private def baireTwoFunctionEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -84,15 +82,15 @@ private theorem BaireTwoFunctionTasteGate_single_carrier_alignment_round_trip
             (baireTwoFunctionDecodeBHist (baireTwoFunctionEncodeBHist P))
             (baireTwoFunctionDecodeBHist (baireTwoFunctionEncodeBHist N))) =
           some (BaireTwoFunctionUp.mk B A S Q R H C P N)
-      rw [BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode B,
-        BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode A,
-        BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode S,
-        BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode Q,
-        BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode R,
-        BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode H,
-        BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode C,
-        BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode P,
-        BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode N]
+      rw [BaireTwoFunctionTasteGate_single_carrier_alignment_decode B,
+        BaireTwoFunctionTasteGate_single_carrier_alignment_decode A,
+        BaireTwoFunctionTasteGate_single_carrier_alignment_decode S,
+        BaireTwoFunctionTasteGate_single_carrier_alignment_decode Q,
+        BaireTwoFunctionTasteGate_single_carrier_alignment_decode R,
+        BaireTwoFunctionTasteGate_single_carrier_alignment_decode H,
+        BaireTwoFunctionTasteGate_single_carrier_alignment_decode C,
+        BaireTwoFunctionTasteGate_single_carrier_alignment_decode P,
+        BaireTwoFunctionTasteGate_single_carrier_alignment_decode N]
 
 private theorem BaireTwoFunctionTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : BaireTwoFunctionUp} :
@@ -104,9 +102,20 @@ private theorem BaireTwoFunctionTasteGate_single_carrier_alignment_toEventFlow_i
         baireTwoFunctionFromEventFlow (baireTwoFunctionToEventFlow y) :=
     congrArg baireTwoFunctionFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (BaireTwoFunctionTasteGate_single_carrier_alignment_round_trip x).symm
+    (Eq.trans (BaireTwoFunctionTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (BaireTwoFunctionTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem BaireTwoFunctionTasteGate_single_carrier_alignment_fields :
+    ∀ x y : BaireTwoFunctionUp,
+      baireTwoFunctionFields x = baireTwoFunctionFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk B1 A1 S1 Q1 R1 H1 C1 P1 N1 =>
+      cases y with
+      | mk B2 A2 S2 Q2 R2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
 
 instance baireTwoFunctionBHistCarrier : BHistCarrier BaireTwoFunctionUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -123,19 +132,42 @@ instance baireTwoFunctionChapterTasteGate : ChapterTasteGate BaireTwoFunctionUp 
     intro x y hxy heq
     exact hxy (BaireTwoFunctionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+instance baireTwoFunctionFieldFaithful : FieldFaithful BaireTwoFunctionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := baireTwoFunctionFields
+  field_faithful := BaireTwoFunctionTasteGate_single_carrier_alignment_fields
+
+instance baireTwoFunctionNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial BaireTwoFunctionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BaireTwoFunctionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BaireTwoFunctionUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem BaireTwoFunctionTasteGate_single_carrier_alignment :
-    (∀ h : BHist, baireTwoFunctionDecodeBHist (baireTwoFunctionEncodeBHist h) = h) ∧
+    Nonempty (ChapterTasteGate BaireTwoFunctionUp) ∧
+      Nonempty (FieldFaithful BaireTwoFunctionUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial BaireTwoFunctionUp) ∧
+      (∀ h : BHist, baireTwoFunctionDecodeBHist (baireTwoFunctionEncodeBHist h) = h) ∧
       (∀ x : BaireTwoFunctionUp,
         baireTwoFunctionFromEventFlow (baireTwoFunctionToEventFlow x) = some x) ∧
-        (∀ x y : BaireTwoFunctionUp,
-          baireTwoFunctionToEventFlow x = baireTwoFunctionToEventFlow y → x = y) ∧
-          baireTwoFunctionEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+      (∀ x y : BaireTwoFunctionUp,
+        baireTwoFunctionToEventFlow x = baireTwoFunctionToEventFlow y → x = y) ∧
+      baireTwoFunctionEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨BaireTwoFunctionTasteGate_single_carrier_alignment_decode_encode,
+    ⟨⟨baireTwoFunctionChapterTasteGate⟩,
+      ⟨baireTwoFunctionFieldFaithful⟩,
+      ⟨baireTwoFunctionNontrivial⟩,
+      BaireTwoFunctionTasteGate_single_carrier_alignment_decode,
       BaireTwoFunctionTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq =>
         BaireTwoFunctionTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.BaireTwoFunctionUp
+end BEDC.Derived.BaireTwoFunctionUp.TasteGate
