@@ -1,4 +1,5 @@
 import inspect
+import math
 
 from bedc_quality_lab.latent_distribution import CANONICAL_LATENT_DISTRIBUTION_ARMS
 from scripts import run_nongaussian_distribution_sweep as sweep
@@ -47,6 +48,104 @@ def test_nongaussian_sweep_uses_paired_seeds():
             if record["distribution_key"] == spec.distribution_family_key()
         ]
         assert selected == seeds
+
+
+def test_run_arm_record_nongaussian_production_path():
+    sample_count = 32
+    seed = sweep.derive_seeds(base_seed=123, count=1)[0]
+    spec = next(
+        spec
+        for spec in CANONICAL_LATENT_DISTRIBUTION_ARMS
+        if spec.distribution_family_key() == "laplace"
+    )
+    gaussian_spec = CANONICAL_LATENT_DISTRIBUTION_ARMS[0]
+
+    record = sweep.run_arm_record(spec, seed=seed, sample_count=sample_count)
+    gaussian_record = sweep.run_arm_record(gaussian_spec, seed=seed, sample_count=sample_count)
+
+    assert record["distribution_key"] == spec.distribution_family_key()
+    for metric_name in sweep.METRIC_NAMES:
+        assert math.isfinite(record["metrics"][metric_name])
+    for metric_name in (
+        "linear_identifiability_r2",
+        "actual_recovery_mse",
+        "theorem3_bound_mse",
+        "latent_distribution_debt",
+        "quality_q",
+    ):
+        assert math.isfinite(record[metric_name])
+
+    assert record["source_spec"]["sample_count"] == sample_count
+    assert record["source_spec"]["latent_dim"] == spec.latent_dim
+    assert record["source_spec"]["latent_distribution"] == spec.to_source_spec()
+
+    classifier_spec = record["classifier_spec"]
+    assert classifier_spec["train_count"] + classifier_spec["eval_count"] == sample_count
+    assert classifier_spec["train_count"] > 0
+    assert classifier_spec["eval_count"] > 0
+    assert classifier_spec["overlap_count"] == 0
+
+    latent_debt = record["latent_distribution_debt_item"]
+    gaussian_debt = gaussian_record["latent_distribution_debt_item"]
+    assert latent_debt["residue"] == "latent-distribution-gaussianity"
+    assert latent_debt["status"] == "open"
+    assert float(latent_debt["score"]) > 0.0
+    assert gaussian_debt["status"] == "closed"
+    assert float(gaussian_debt["score"]) == 0.0
+
+    coverage_debt = record["distribution_family_coverage_debt_item"]
+    assert coverage_debt["residue"] == "distribution-family-coverage"
+    assert coverage_debt["status"] == "closed"
+
+
+def test_payload_generates_one_record_per_arm_per_seed():
+    sample_count = 24
+    seeds = sweep.derive_seeds(base_seed=321, count=2)
+    records = [
+        sweep.run_arm_record(spec, seed=seed, sample_count=sample_count)
+        for seed in seeds
+        for spec in CANONICAL_LATENT_DISTRIBUTION_ARMS
+    ]
+
+    payload = sweep._payload(records, seeds)
+    arm_keys = [spec.distribution_family_key() for spec in CANONICAL_LATENT_DISTRIBUTION_ARMS]
+
+    assert len(records) == len(CANONICAL_LATENT_DISTRIBUTION_ARMS) * len(seeds)
+    assert sorted({record["distribution_key"] for record in records}) == sorted(arm_keys)
+    for key in arm_keys:
+        selected = [record for record in records if record["distribution_key"] == key]
+        assert [record["paired_seed_id"] for record in selected] == seeds
+
+    assert payload["records"] == records
+    assert payload["coverage_item"]["covered_distribution_keys"] == arm_keys
+    assert payload["coverage_item"]["missing_distribution_keys"] == []
+    assert set(payload["family_aggregates"]) == set(arm_keys)
+    assert set(payload["claim_gate"]["cells"]) == set(arm_keys) - {"gaussian"}
+
+    expected_report_keys = {
+        "distribution",
+        "shape_parameter",
+        "linear_identifiability_r2",
+        "actual_recovery_mse",
+        "theorem3_bound_mse",
+        "latent_distribution_debt",
+        "quality_q",
+        "not_claimed",
+    }
+    for record in payload["records"]:
+        assert expected_report_keys <= record.keys()
+    markdown = sweep._render_markdown(payload)
+    for key in {
+        "distribution",
+        "shape_parameter",
+        "linear_identifiability_r2",
+        "actual_recovery_mse",
+        "theorem3_bound_mse",
+        "latent_distribution_debt",
+        "quality_q",
+    }:
+        assert key in markdown
+    assert "not claimed" in markdown.lower()
 
 
 def test_ci_gate_controls_gaussian_optimality_claim():
