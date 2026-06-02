@@ -391,6 +391,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamRouteDeterminacy
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RouteFactorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RouteFactorizationAndBoundary
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceRowAdmission
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceTriadObstructionCertificate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceTriadPublicExport
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10SourceTriadStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.LedgerNonescapeSurface
@@ -3170,6 +3171,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.RootReadbackSelectorDeterminacy
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootReadbackTransportReplay
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRealSealReadbackLock
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRequestSelectorExhaustion
+import BEDC.Derived.DiagonallimitcompatibilityUp.RootRequestSelectorPackage
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteBudgetSourceTotality
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteBudgetTerminalExhaustion
 import BEDC.Derived.DiagonallimitcompatibilityUp.RootRouteCauchyRefinementConsumerCorrespondence
@@ -4825,6 +4827,7 @@ import BEDC.Derived.LocallyCompactUp.LocalCompactNeighborhoodObligations
 import BEDC.Derived.LocallyCompactUp.LocatedCompactRoute
 import BEDC.Derived.LocallyCompactUp.LocatedHandoffBoundary
 import BEDC.Derived.LocallyCompactUp.PropernessComparisonNonescape
+import BEDC.Derived.LocallyCompactUp.PropernessLocalityRootBoundary
 import BEDC.Derived.LocallyCompactUp.TasteGate
 import BEDC.Derived.LocatedApartnessUp.TasteGate
 import BEDC.Derived.LocatedArchimedeanUp.TasteGate
@@ -7387,6 +7390,7 @@ import BEDC.Derived.SobolevUp.FiniteEnergyNameCertObligation
 import BEDC.Derived.SobolevUp.FiniteWindowClassifierSurface
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
 import BEDC.Derived.SobolevUp.HilbertCompletionDescent
+import BEDC.Derived.SobolevUp.HilbertNormReadbackScope
 import BEDC.Derived.SobolevUp.HilbertNormRootWindow
 import BEDC.Derived.SobolevUp.IntegralDerivativeTransportStability
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
