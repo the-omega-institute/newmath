@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NadlerFixedPointUp.TasteGate
@@ -43,24 +44,29 @@ def nadlerFixedPointToEventFlow : NadlerFixedPointUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
   fun x => (nadlerFixedPointFields x).map nadlerFixedPointEncodeBHist
 
-def nadlerFixedPointFromEventFlow : EventFlow → Option NadlerFixedPointUp
+private def nadlerFixedPointEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [X, K, F, V, D, L, O, R, H, C, P, Q] =>
-      some
-        (NadlerFixedPointUp.mk
-          (nadlerFixedPointDecodeBHist X)
-          (nadlerFixedPointDecodeBHist K)
-          (nadlerFixedPointDecodeBHist F)
-          (nadlerFixedPointDecodeBHist V)
-          (nadlerFixedPointDecodeBHist D)
-          (nadlerFixedPointDecodeBHist L)
-          (nadlerFixedPointDecodeBHist O)
-          (nadlerFixedPointDecodeBHist R)
-          (nadlerFixedPointDecodeBHist H)
-          (nadlerFixedPointDecodeBHist C)
-          (nadlerFixedPointDecodeBHist P)
-          (nadlerFixedPointDecodeBHist Q))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => nadlerFixedPointEventAtDefault index rest
+
+def nadlerFixedPointFromEventFlow (ef : EventFlow) : Option NadlerFixedPointUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (NadlerFixedPointUp.mk
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 0 ef))
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 1 ef))
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 2 ef))
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 3 ef))
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 4 ef))
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 5 ef))
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 6 ef))
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 7 ef))
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 8 ef))
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 9 ef))
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 10 ef))
+      (nadlerFixedPointDecodeBHist (nadlerFixedPointEventAtDefault 11 ef)))
 
 private theorem nadlerFixedPoint_round_trip :
     ∀ x : NadlerFixedPointUp,
