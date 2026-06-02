@@ -229,4 +229,18 @@ Use \autoref{thm:regseqrat-tail-shift-regularity-refinement} to preserve the reg
 
 When the terminal radius is read by a Real-facing consumer, apply \autoref{thm:dyadicratcore-terminal-radius-half-step-inversion}. The half-radius row is already determined by the finite DyadicRatCore common-scale refinement, so the RegSeqRat route has no need for a selected limit, quotient stream equality, countable-choice schedule, completion point, metric-completeness datum, or ambient Real completeness.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-shift regularity]
+\label{thm:regseqrat-tail-shift-regularity}
+Let $P$ be an accepted $\RegSeqRatUp$ packet and let $t_0,\ldots,t_k$ be a finite displayed family of tail shifts over the same $\StreamNameUp$ schedule and the same $\DyadicRatCoreUp$ tolerance budget. Suppose every shifted finite window preserves the scheduled endpoint rows, dyadic-radius rows, regularity ledgers, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of $P$. Then every inspected tail window preserves the regular Cauchy inequality witnessed by the RegSeqRat regularity ledger before any downstream $\RealUp$ seal is consumed.
+
+The regularity preservation is choice-free: it uses only the displayed finite windows and does not introduce a new selector, quotient stream equality, terminal Real seal, metric-completeness datum, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-shift-finite-section-induction} to the finite family of scheduled tail shifts. This builds one synchronized finite readback route whose rows are the shifted StreamName windows, DyadicRatCore tolerance budgets, regular-rational classifier rows, transport, replay, provenance, and local naming.
+
+Next use \autoref{thm:regseqrat-tail-shift-synchronized-readback}. The synchronized route keeps every inspected tail window on the same RegSeqRat readback row, so the regularity ledger is read from one finite source surface rather than from a selected limit.
+
+Finally apply \autoref{thm:regseqrat-tail-shift-choice-free-window}. The choice-free finite-window theorem keeps the downstream Real-facing read inside the displayed StreamName schedule and DyadicRatCore tolerance budget. Therefore the regular Cauchy inequality carried by the RegSeqRat ledger is preserved on all inspected tail windows, with no new selector or terminal Real seal.
+\end{proof}
 \closureat{RegSeqRatUp}{seedStr}
