@@ -2027,6 +2027,7 @@ import BEDC.Derived.CertifiedUseProcessUp.TasteGate
 import BEDC.Derived.CesaroConvergenceUp.TasteGate
 import BEDC.Derived.CevaUp.TasteGate
 import BEDC.Derived.ChainConnectedMetricUp.TasteGate
+import BEDC.Derived.CharacterTableUp.TasteGate
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ChebyshevPolynomialUp.TasteGate
 import BEDC.Derived.ChernWeilUp
@@ -6290,6 +6291,7 @@ import BEDC.Derived.RatioCauchyTransferUp.TasteGate
 import BEDC.Derived.RationalBallUp
 import BEDC.Derived.RationalBallUp.TasteGate
 import BEDC.Derived.RationalBestApproximationUp.TasteGate
+import BEDC.Derived.RationalBracketRefinementUp.TasteGate
 import BEDC.Derived.RationalBracketingUp.TasteGate
 import BEDC.Derived.RationalCauchyGapUp.TasteGate
 import BEDC.Derived.RationalDensityRealUp.TasteGate
