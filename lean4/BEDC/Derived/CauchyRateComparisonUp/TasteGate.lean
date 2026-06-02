@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyRateComparisonUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -200,5 +203,32 @@ theorem CauchyRateComparisonTasteGate_single_carrier_alignment :
   · intro x y heq
     exact cauchyRateComparisonToEventFlow_injective heq
   · rfl
+
+theorem CauchyRateComparisonCommonRefinement
+    {R0 R1 W D Q E H C P N leftRead rightRead dyadicRead readbackRead sealRead : BHist} :
+    UnaryHistory R0 → UnaryHistory R1 → UnaryHistory W → UnaryHistory D →
+      UnaryHistory Q → UnaryHistory E → Cont R0 W leftRead → Cont R1 W rightRead →
+        Cont W D dyadicRead → Cont dyadicRead Q readbackRead →
+          Cont readbackRead E sealRead →
+            cauchyRateComparisonFields
+                (CauchyRateComparisonUp.mk R0 R1 W D Q E H C P N) =
+              [R0, R1, W, D, Q, E, H, C, P, N] ∧
+              UnaryHistory leftRead ∧ UnaryHistory rightRead ∧
+                UnaryHistory dyadicRead ∧ UnaryHistory readbackRead ∧
+                  UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro unaryR0 unaryR1 unaryW unaryD unaryQ unaryE
+  intro leftRoute rightRoute dyadicRoute readbackRoute sealRoute
+  have leftUnary : UnaryHistory leftRead :=
+    unary_cont_closed unaryR0 unaryW leftRoute
+  have rightUnary : UnaryHistory rightRead :=
+    unary_cont_closed unaryR1 unaryW rightRoute
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed unaryW unaryD dyadicRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed dyadicUnary unaryQ readbackRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary unaryE sealRoute
+  exact ⟨rfl, leftUnary, rightUnary, dyadicUnary, readbackUnary, sealUnary⟩
 
 end BEDC.Derived.CauchyRateComparisonUp
