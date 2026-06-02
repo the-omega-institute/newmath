@@ -6,6 +6,9 @@
 - Four-gate positive: `false`
 - Training quality gate: `false`
 - Gate blockers: `imported-positive-discovery-false, net-information-nonpositive, training-positive-quality-gate-false`
+- Audit status: `unverifiable`
+- Audit reason: `missing-schema-id`
+- Audit ledger rows: `1`
 - Revocation downgraded: `false`
 - Revocation reason: `no-certified-claim`
 - Revocation ledger rows: `0`

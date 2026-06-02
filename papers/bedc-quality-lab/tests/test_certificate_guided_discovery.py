@@ -302,6 +302,43 @@ def test_payload_uses_pointer_fields_without_schema_kind_fields():
     assert "report_" + "schema_id" not in report
     assert "report_" + "kind" not in report
 
+def test_discovery_payload_contains_audit_decision_and_audit_ledger():
+    report = runner._verdict_payload(_payload())
+
+    assert {"audit_decision", "audit_ledger"}.issubset(report)
+    assert report["audit_decision"]["audit_status"] in {"consistent", "divergent", "unverifiable"}
+    assert report["audit_ledger"] == [report["audit_decision"]["audit_row"]]
+    assert report["audit_ledger"][0]["timestamp"] == report["generated_at"]
+
+def test_discovery_markdown_prints_audit_status(tmp_path, monkeypatch):
+    payload = runner._verdict_payload(_payload())
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+
+    runner._write_payload(payload)
+
+    report = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
+    assert f"Audit status: `{payload['audit_decision']['audit_status']}`" in report
+    assert f"Audit reason: `{payload['audit_decision']['reason']}`" in report
+    assert f"Audit ledger rows: `{len(payload['audit_ledger'])}`" in report
+
+def test_audit_decision_does_not_replace_revocation_decision_or_final_status():
+    payload = copy.deepcopy(_payload())
+    payload["certified_claim"] = {"main_claim_status": "positive", "source_artifact": "fixture"}
+    _open_training_gate(payload)
+    payload["claim_gate"]["quality_q_ci95_low"] = 0.0
+    payload["claim_gate"]["audit_improvement_tradeoff"] = False
+    payload["paired_delta_ci"]["after_minus_before"]["quality_q_delta"]["ci95_low"] = 0.0
+    payload["deltas"]["after_minus_before"]["benefit_delta"] = 0.0
+    payload["deltas"]["after_minus_before"]["cost_delta"] = 1.0
+    payload["deltas"]["after_minus_before"]["debt_delta"] = 0.0
+
+    report = runner._verdict_payload(payload)
+
+    assert report["audit_decision"]["audit_status"] == "unverifiable"
+    assert report["revocation_decision"]["downgraded"] is True
+    assert report["revocation_decision"]["new_status"] == "observed-negative"
+    assert report["main_claim_status"] == "observed-negative"
+
 def test_main_writes_report_artifacts(tmp_path, monkeypatch):
     source_payload = _payload()
     _close_training_gate(source_payload)
