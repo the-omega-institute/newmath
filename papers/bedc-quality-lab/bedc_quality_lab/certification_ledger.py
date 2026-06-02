@@ -33,9 +33,7 @@ _ENTRY_KEYS = {
 
 
 def empty_certification_ledger(*, source_ref: str | None = None) -> dict[str, Any]:
-    if source_ref is not None and (
-        not isinstance(source_ref, str) or not source_ref
-    ):
+    if source_ref is not None and not _is_non_empty_string(source_ref):
         raise ValueError("source_ref must be a non-empty string or None")
     return {
         "ledger_kind": CERTIFICATION_LEDGER_KIND,
@@ -73,7 +71,7 @@ def publish_certification_record(
 
     previous_certificate_id = certificate_record.get("previous_certificate_id")
     if previous_certificate_id is not None and (
-        not isinstance(previous_certificate_id, str) or not previous_certificate_id
+        not _is_non_empty_string(previous_certificate_id)
     ):
         raise ValueError("previous_certificate_id must be a non-empty string or None")
     certificate_source_ref = _require_non_empty_string(
@@ -126,7 +124,7 @@ def audit_certification_ledger(ledger_state: Mapping[str, Any]) -> list[str]:
     if ledger_state.get("ledger_kind") != CERTIFICATION_LEDGER_KIND:
         errors.append("ledger kind mismatch")
     source_ref = ledger_state.get("source_ref")
-    if source_ref is not None and (not isinstance(source_ref, str) or not source_ref):
+    if source_ref is not None and not _is_non_empty_string(source_ref):
         errors.append("ledger source_ref must be a non-empty string or None")
 
     entries_value = ledger_state.get("entries")
@@ -154,7 +152,7 @@ def audit_certification_ledger(ledger_state: Mapping[str, Any]) -> list[str]:
             errors.append(f"entry {index} kind mismatch")
 
         certificate_id = entry.get("certificate_id")
-        if not isinstance(certificate_id, str) or not certificate_id:
+        if not _is_non_empty_string(certificate_id):
             errors.append(f"entry {index} certificate_id must be a non-empty string")
             certificate_id = None
         elif certificate_id in seen:
@@ -164,8 +162,7 @@ def audit_certification_ledger(ledger_state: Mapping[str, Any]) -> list[str]:
 
         entry_previous_certificate_id = entry.get("previous_certificate_id")
         if entry_previous_certificate_id is not None and (
-            not isinstance(entry_previous_certificate_id, str)
-            or not entry_previous_certificate_id
+            not _is_non_empty_string(entry_previous_certificate_id)
         ):
             errors.append(
                 f"entry {index} previous_certificate_id must be a non-empty string or None"
@@ -175,7 +172,7 @@ def audit_certification_ledger(ledger_state: Mapping[str, Any]) -> list[str]:
 
         entry_previous_digest = entry.get("previous_entry_digest")
         if entry_previous_digest is not None and (
-            not isinstance(entry_previous_digest, str) or not entry_previous_digest
+            not _is_non_empty_string(entry_previous_digest)
         ):
             errors.append(
                 f"entry {index} previous_entry_digest must be a non-empty string or None"
@@ -185,16 +182,16 @@ def audit_certification_ledger(ledger_state: Mapping[str, Any]) -> list[str]:
 
         for key in ("published_at", "source_ref", "certificate_source_ref"):
             value = entry.get(key)
-            if not isinstance(value, str) or not value:
+            if not _is_non_empty_string(value):
                 errors.append(f"entry {index} {key} must be a non-empty string")
-        if isinstance(entry.get("published_at"), str) and entry.get("published_at"):
+        if _is_non_empty_string(entry.get("published_at")):
             try:
                 _require_timestamp(entry["published_at"])
             except ValueError:
                 errors.append(f"entry {index} published_at must be an ISO timestamp")
 
         entry_digest = entry.get("entry_digest")
-        if not isinstance(entry_digest, str) or not entry_digest:
+        if not _is_non_empty_string(entry_digest):
             errors.append(f"entry {index} entry_digest must be a non-empty string")
         else:
             digest_basis = dict(entry)
@@ -202,18 +199,21 @@ def audit_certification_ledger(ledger_state: Mapping[str, Any]) -> list[str]:
             if canonical_json_digest(digest_basis) != entry_digest:
                 errors.append(f"entry {index} entry digest mismatch")
 
-        if isinstance(certificate_id, str):
+        if _is_non_empty_string(certificate_id):
             head_certificate_id = certificate_id
             previous_certificate_id = certificate_id
         else:
             previous_certificate_id = None
-        if isinstance(entry_digest, str):
+        if _is_non_empty_string(entry_digest):
             head_entry_digest = entry_digest
             previous_entry_digest = entry_digest
         else:
             previous_entry_digest = None
 
-    if ledger_state.get("entry_count") != len(entries):
+    entry_count = ledger_state.get("entry_count")
+    if type(entry_count) is not int:
+        errors.append("entry_count must be an integer")
+    elif entry_count != len(entries):
         errors.append("entry_count mismatch")
     if ledger_state.get("head_certificate_id") != head_certificate_id:
         errors.append("head_certificate_id mismatch")
@@ -223,9 +223,13 @@ def audit_certification_ledger(ledger_state: Mapping[str, Any]) -> list[str]:
 
 
 def _require_non_empty_string(value: Any, key: str) -> str:
-    if not isinstance(value, str) or not value:
+    if not _is_non_empty_string(value):
         raise ValueError(f"{key} must be a non-empty string")
     return value
+
+
+def _is_non_empty_string(value: Any) -> bool:
+    return type(value) is str and bool(value)
 
 
 def _require_timestamp(value: Any) -> str:
