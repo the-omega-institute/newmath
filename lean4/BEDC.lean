@@ -20,6 +20,7 @@ import BEDC.Derived.AbelSummationUp.TasteGate
 import BEDC.Derived.AbelTestUp.TasteGate
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.AbelianCatUp.TasteGate
+import BEDC.Derived.AbsoluteContinuityUp.TasteGate
 import BEDC.Derived.AbsoluteConvergenceUp.TasteGate
 import BEDC.Derived.AbsolutelyContinuousFunctionUp.TasteGate
 import BEDC.Derived.ActionCommitmentUp.TasteGate
@@ -2444,6 +2445,7 @@ import BEDC.Derived.CompletionExtractorUp
 import BEDC.Derived.CompletionExtractorUp.TasteGate
 import BEDC.Derived.CompletionFunctorUp
 import BEDC.Derived.CompletionFunctorUp.NonEscape
+import BEDC.Derived.CompletionFunctorUp.TasteGate
 import BEDC.Derived.CompletionIdempotenceUp.TasteGate
 import BEDC.Derived.CompletionModulusCategoryUp.TasteGate
 import BEDC.Derived.CompletionPreservesSeparableUp.TasteGate
