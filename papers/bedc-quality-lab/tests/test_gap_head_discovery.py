@@ -12,11 +12,16 @@ def _payload():
     return runner._load_gap_head_payload()
 
 
+def _write_payload(tmp_path, payload):
+    path = tmp_path / "bad.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    return path
+
+
 def test_load_gap_head_payload_rejects_no_z_leak_failure(tmp_path):
     payload = _payload()
     payload["feature_columns"] = list(payload["feature_columns"]) + ["z"]
-    path = tmp_path / "bad.json"
-    path.write_text(json.dumps(payload), encoding="utf-8")
+    path = _write_payload(tmp_path, payload)
 
     with pytest.raises(ValueError, match="forbidden inference column"):
         runner._load_gap_head_payload(path)
@@ -25,11 +30,72 @@ def test_load_gap_head_payload_rejects_no_z_leak_failure(tmp_path):
 def test_load_gap_head_payload_rejects_record_count_mismatch(tmp_path):
     payload = _payload()
     payload["aggregate"]["record_count"] = len(payload["records"]) + 1
-    path = tmp_path / "bad.json"
-    path.write_text(json.dumps(payload), encoding="utf-8")
+    path = _write_payload(tmp_path, payload)
 
     with pytest.raises(ValueError, match="record count is incomplete"):
         runner._load_gap_head_payload(path)
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (
+            lambda payload: payload.__setitem__("representation_boundary", "source_h"),
+            "learned_h representation boundary",
+        ),
+        (
+            lambda payload: payload.__setitem__("inference_no_ground_truth_z", False),
+            "no ground-truth z inference",
+        ),
+        (
+            lambda payload: payload.pop("inference_no_ground_truth_z"),
+            "no ground-truth z inference",
+        ),
+    ],
+)
+def test_load_gap_head_payload_rejects_top_level_boundary_certificates(tmp_path, mutate, message):
+    payload = copy.deepcopy(_payload())
+    mutate(payload)
+    path = _write_payload(tmp_path, payload)
+
+    with pytest.raises(ValueError, match=message):
+        runner._load_gap_head_payload(path)
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (
+            lambda payload: payload["records"][0].__setitem__("representation_boundary", "source_h"),
+            "record representation boundary mismatch",
+        ),
+        (
+            lambda payload: payload["records"][0].pop("inference_no_ground_truth_z"),
+            "record no-z inference certificate missing",
+        ),
+        (
+            lambda payload: payload["records"][0]["arms"].pop(runner.BEFORE_ARM),
+            "before/after arms must share each record",
+        ),
+        (
+            lambda payload: payload["records"][0]["arms"].pop(runner.AFTER_ARM),
+            "before/after arms must share each record",
+        ),
+        (
+            lambda payload: payload["records"][1].__setitem__(
+                "seed",
+                payload["records"][0]["seed"],
+            ),
+            "common source seed ids must be unique",
+        ),
+    ],
+)
+def test_build_gap_head_projection_rejects_record_certificates(mutate, message):
+    payload = copy.deepcopy(_payload())
+    mutate(payload)
+
+    with pytest.raises(ValueError, match=message):
+        runner._build_gap_head_projection(payload)
 
 
 def test_projection_has_source_artifacts_and_common_source():
