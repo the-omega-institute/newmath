@@ -216,6 +216,18 @@ Use the obligation surface, transport row stability, local naming exhaustion, an
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_obstruction\_ledger\_exhaustion}
 
+\begin{theorem}[MetaCIC critical-path substitution-confluence socket ledger]
+\label{thm:metacic-critical-path-substitution-confluence-socket-ledger}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, any consumer that combines closed substitution, conditional confluence, and bounded decidability must read the handoff row $U$ together with the obstruction row $O$ and discharge socket $D$ before it may use the normal-form row $N$. The route cannot promote $U$ into closed subject reduction, global Church--Rosser, or full consistency.
+\end{theorem}
+\begin{proof}
+Start with the consistency handoff, \autoref{thm:metacic-critical-path-consistency-handoff}. It lets a consumer reach the normal-form row $N$ only along the displayed packet route and leaves the subject-reduction discharge socket separate.
+
+Next attach the obstruction and socket rows. Theorems~\ref{thm:metacic-critical-path-obstruction-boundary} and \ref{thm:metacic-critical-path-discharge-socket-nonescape} keep $O$ visible and keep $D$ as a socket rather than a supplied closed subject-reduction theorem.
+
+Finally use \autoref{thm:metacic-critical-path-obstruction-ledger-exhaustion}. Since the obstruction ledger is exhausted by the visible $O,D$ boundary, a substitution, confluence, and decidability consumer can use $U$ only as a bounded handoff row before $N$ is read. Thus the socket ledger has no route to closed subject reduction, global Church--Rosser, or full consistency.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path normal-form route coverage]
 \label{thm:metacic-critical-path-normal-form-route-coverage}
 Every normal-form readback route accepted by a $\MetaCICCriticalPathUp$ root-unblock packet factors through $S \to N$ with the obstruction row $O$, discharge socket $D$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $L$ still visible. Such a route cannot drop the blocked subject-reduction rows while preserving the accepted packet.
