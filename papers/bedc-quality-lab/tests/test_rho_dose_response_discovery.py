@@ -50,6 +50,34 @@ def test_projection_predicates_payload_and_rank_control():
     assert runner._monotonicity_conclusion([{"positive_discovery": v > 0, "net_information": v} for v in (0, 0.4, 0.8)], {"spearman": 1.0, "kendall_tau": 1.0}, {"observed_exceeds_quantile95": True})["result"] == "monotonic"
 
 
+def test_categorical_h0_branch():
+    payload = runner._verdict_payload(_source((-0.1, -0.2, 1.0, 0.7)))
+    conclusion = payload["monotonicity_conclusion"]
+    assert [row["positive_discovery"] for row in payload["per_rho_verdicts"]] == [False, False, True, True]
+    assert conclusion["result"] == "categorical"
+    assert conclusion["h0_debt_dose_specific"] is True
+    assert conclusion["h1_monotonic_dose_response_universal"] is False
+    assert conclusion["net_information_nondecreasing"] is False
+
+
+def test_generated_report_carries_categorical_conclusion(tmp_path):
+    original_root = runner.ROOT
+    runner.ROOT = tmp_path
+    (tmp_path / runner.SOURCE_JSON_ARTIFACT).parent.mkdir(parents=True)
+    (tmp_path / runner.SOURCE_JSON_ARTIFACT).write_text(json.dumps(_source((-0.1, -0.2, 1.0, 0.7))), encoding="utf-8")
+    try:
+        runner.main()
+    finally:
+        runner.ROOT = original_root
+    payload = json.loads((tmp_path / runner.JSON_ARTIFACT).read_text(encoding="utf-8"))
+    conclusion = payload["monotonicity_conclusion"]
+    assert conclusion["result"] == "categorical"
+    assert conclusion["h0_debt_dose_specific"] is True
+    assert conclusion["h1_monotonic_dose_response_universal"] is False
+    assert conclusion["net_information_nondecreasing"] is False
+    assert "- Conclusion: `categorical`" in (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
+
+
 def test_main_writes_reports_without_helper_module(tmp_path):
     original_root = runner.ROOT
     runner.ROOT = tmp_path
