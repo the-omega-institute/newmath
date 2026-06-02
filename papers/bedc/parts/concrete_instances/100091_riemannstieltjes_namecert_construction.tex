@@ -249,6 +249,24 @@ Use \autoref{thm:riemann-stieltjes-bounded-variation-partition-coverage} to keep
 The induction hypothesis applies to the remaining cells, and the stated preservation clause applies to the subdivided cell. Since $I$ consumes only finite refinements produced by this ledger, every displayed refinement-window read satisfies the property.
 \end{proof}
 
+\begin{theorem}[Riemann--Stieltjes scoped ledger]
+\label{thm:riemann-stieltjes-scope-ledger}
+For every accepted $\RiemannStieltjesUp$ carrier $R=(F,A,T,S,I,E,H,C,P,N)$, every integral-facing consumer of the tagged-partition result factors through the concrete BEDC dependency ledger
+$$
+\BoundedVariationUp,\DyadicStepFunctionUp,\RealUp,\RegulatedIntegralUp,\RiemannSumUp,\BHist,\hsame,\Cont,\Pkg,\NameCert
+$$
+before the endpoint seal $E$ is public. In particular, the carrier read cannot bypass the bounded-variation integrator row $A$, the dyadic step row $S$, the tagged $\RiemannSumUp$ row $T$, the regulated-integral handoff row $I$, componentwise transport $H$, replay $C$, provenance $P$, or the local naming row $N$.
+\end{theorem}
+\begin{proof}
+Begin with the regulated-integral handoff theorem. It places every endpoint-facing read behind the ordered rows $F,A,T,S,I$, so a consumer cannot reach $E$ directly from a tagged partition or from an ambient real object.
+
+Next use the Darboux mesh-refinement and bounded-variation ledger rows. Mesh refinement confines the partition read to $T$ and $S$, while the ledger theorem forces every jump, variation read, and endpoint contribution used by the sum to be a visible row inside $A$ before it is transported downstream.
+
+The exactness rows keep the calculation local. Step-integrator exactness computes each dyadic step contribution from $S,T,A$, and regulated-integrator variation exactness determines the variation contribution through $A,T,S,H,C,P,N$ rather than through a measure-space integral or selected limiting partition.
+
+Finally apply tagged-partition induction over the finite $\BHist$ refinement ledger. The base row and each subdivision step preserve the same $\RiemannSumUp$, $\DyadicStepFunctionUp$, $\BoundedVariationUp$, $\RegulatedIntegralUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route, so every integral-facing consumer reads the tagged-partition result only through the stated dependency ledger.
+\end{proof}
+
 \closureat{RiemannStieltjesUp}{seedStr}
 
 \begin{closurestatus}{\RiemannStieltjesUp}
