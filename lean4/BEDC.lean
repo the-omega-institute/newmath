@@ -723,6 +723,7 @@ import BEDC.Derived.BishopCompactnessCriterionUp.TasteGate
 import BEDC.Derived.BishopCompleteMetricUp.TasteGate
 import BEDC.Derived.BishopCompletionCriterionUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
+import BEDC.Derived.BishopCompletionModulusUp.RealSealOrdering
 import BEDC.Derived.BishopCompletionModulusUp.TasteGate
 import BEDC.Derived.BishopCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.NameCertObligations
@@ -3622,6 +3623,7 @@ import BEDC.Derived.FareySequenceUp.LevelSuccessorInduction
 import BEDC.Derived.FareySequenceUp.MediantDensityWindow
 import BEDC.Derived.FareySequenceUp.MediantRefinementStability
 import BEDC.Derived.FareySequenceUp.NameCertObligations
+import BEDC.Derived.FareySequenceUp.NeighborDeterminacy
 import BEDC.Derived.FareySequenceUp.RealApproximationBoundary
 import BEDC.Derived.FareySequenceUp.RealBracketConsumerLock
 import BEDC.Derived.FareySequenceUp.RealReadbackRootObligation
@@ -7722,7 +7724,6 @@ import BEDC.Derived.TrieUp.PrefixBranchExactness
 import BEDC.Derived.TrieUp.PrefixSubledger
 import BEDC.Derived.TrieUp.TerminalPacket
 import BEDC.Derived.TrieUp.TerminalPrefixReadback
-import BEDC.Derived.TriebelLizorkinSpaceUp
 import BEDC.Derived.TriggerHypergraphReliabilityUp
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
