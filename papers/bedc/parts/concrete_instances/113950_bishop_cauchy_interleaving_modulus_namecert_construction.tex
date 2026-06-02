@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyInterleavingModulusUp$}
+\label{ch:concrete-instances-bishop-cauchy-interleaving-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopCauchyInterleavingModulusUp$ packet records the finite certificate that two inspected Cauchy names share one displayed interleaving modulus before either route is allowed to reach a real seal. It sits downstream of the regular interleaving certificate of \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}, the fast subsequence selector of \autoref{ch:concrete-instances-fastcauchysubsequence-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream naming surface of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+The certificate is a traditional constructive-analysis object in BEDC form: a modulus is public only as a finite row shared by the two named streams and by the displayed dyadic comparison ledger. It does not identify quotient real classes, choose a limit, invoke countable choice, use trichotomy, or appeal to ambient $\RealUp$ completeness.
+
+\begin{definition}[BishopCauchyInterleavingModulus carrier]
+\label{def:bishop-cauchy-interleaving-modulus-carrier}
+A $\BishopCauchyInterleavingModulusUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,B,S_A,S_B,Q,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two inspected Cauchy-name source rows;
+\item $S_A$ and $S_B$ are the corresponding $\StreamNameUp$ window ledgers;
+\item $Q$ is the shared cofinal selector used to interleave later windows from both streams;
+\item $M$ is the common Bishop-style Cauchy modulus row, read before either stream is sealed;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the interleaved dyadic windows and the common modulus;
+\item $E$ is the terminal $\RealUp$-facing seal row available only after $R$ is displayed;
+\item $H$ records componentwise $\hsame$ transport for the source, stream, selector, modulus, readback, seal, and support rows;
+\item $C$ records the displayed $\Cont$ replay from the two source names through the shared selector and modulus into the regular rational handoff;
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyInterleavingModulusUp$, $\RegularCauchyInterleavingUp$, $\FastCauchySubsequenceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\BishopCauchyInterleavingModulusUp}$ row.
+\end{enumerate}
+The classifier compares carriers only through these rows. It has no coordinate for quotient real equality, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BishopCauchyInterleavingModulus NameCert obligations]
+\label{thm:bishop-cauchy-interleaving-modulus-namecert-obligations}
+For every accepted $\BishopCauchyInterleavingModulusUp$ carrier $K=(A,B,S_A,S_B,Q,M,R,E,H,C,P,N)$, the local $\NameCert_{\BishopCauchyInterleavingModulusUp}$ surface consists exactly of carrier admission, two stream-window admissions, shared selector admission, common modulus coverage, regular rational handoff, Real-seal ordering, componentwise transport, replay, package provenance, and local naming.
+
+The common modulus coverage obligation says that the same row $M$ controls every selected comparison window from $S_A$ and $S_B$ before the handoff row $R$ is read. The selector obligation says that $Q$ is displayed as finite cofinal interleaving data, not as a host-level choice functional.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $A,B,S_A,S_B,Q,M,R,E,H,C,P,N$ are the only available fields, so every local certificate read must be assembled from those rows.
+
+The two stream-window admissions come from $S_A$ and $S_B$. The shared selector row $Q$ names the interleaving windows, while the common modulus row $M$ supplies the displayed Bishop-style bound for both streams before any regular rational handoff is consumed.
+
+The handoff and seal obligations then follow the carrier order. The row $R$ reads only the selected windows and the common modulus ledger, and $E$ is downstream of $R$. Transport through $H$, replay through $C$, provenance through $P$, and naming through $N$ preserve the same dependency route.
+
+Since no coordinate stores quotient equality, a selected limit, countable choice, trichotomy, or ambient completeness, none of those principles can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[BishopCauchyInterleavingModulus RegSeqRat handoff]
+\label{thm:bishop-cauchy-interleaving-modulus-regseqrat-handoff}
+Every $\RegSeqRatUp$ consumer of an accepted $\BishopCauchyInterleavingModulusUp$ packet first displays the two source rows, the two $\StreamNameUp$ ledgers, the shared selector, and the common modulus:
+$$
+A,\quad B,\quad S_A,\quad S_B,\quad Q,\quad M,\quad R.
+$$
+Only after this route is displayed may the consumer inspect the $\RealUp$-facing seal row $E$, and the route remains mediated by $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to locate the $\RegSeqRatUp$ handoff row. The row $R$ occurs after both source names, both stream ledgers, the shared selector, and the common modulus.
+
+Apply the NameCert obligations of \autoref{thm:bishop-cauchy-interleaving-modulus-namecert-obligations}. They require $Q$ to be displayed as finite cofinal interleaving data and require $M$ to cover the selected windows from both streams before $R$ is read.
+
+The terminal row $E$ is downstream of $R$, and the structural rows $H,C,P,N$ carry only transport, replay, provenance, and local naming for the same route. Thus a regular rational consumer receives a finite interleaving-modulus handoff, not a quotient real equality proof or a chosen limit.
+\end{proof}
+
+\closureat{BishopCauchyInterleavingModulusUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyInterleavingModulusUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-interleaving-modulus-carrier}, \autoref{thm:bishop-cauchy-interleaving-modulus-namecert-obligations}, and \autoref{thm:bishop-cauchy-interleaving-modulus-regseqrat-handoff} seed the shared interleaving-modulus route from two displayed Cauchy-name streams through selector, modulus, regular rational handoff, and Real-seal ordering.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, or a standard bridge.}
+  \upgradepath{A verification route can encode the twelve-row carrier and prove shared selector admission, common modulus coverage, regular rational handoff ordering, Real-seal ordering, transport, replay, provenance, and local naming for the same finite packet.}
+  \constructivestory{A $\BishopCauchyInterleavingModulusUp$ packet is generated from two Cauchy-name rows, two StreamName window ledgers, one shared cofinal selector, one common Bishop modulus, a RegSeqRat handoff, a RealUp seal, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+\end{closurestatus}
