@@ -3720,24 +3720,31 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
                         target.write_text(content, encoding="utf-8")
                     except OSError:
                         pass
-            # Deterministic pre-fix: missing_dollar 经常是 \texttt{...} 内有 unescaped _ 触发的
-            # (LaTeX text mode 里 _ 被解释为 subscript 报 missing $). Try regex replace _→\_
-            # 仅在 \texttt{...} 内部, 不动 math mode 或已转义.
+            # Deterministic pre-fix: missing_dollar 经常是 text mode 里 unescaped _ 触发的
+            # (_ 被解释为 subscript 报 missing $). 两类已知 bio-W 来源:
+            #   1. \texttt{...} 内部的 _
+            #   2. 反引号-单引号文本引用 `..._..' 内部的 _ (路径 / 标识符 token)
+            # 两处都只在 text-mode span 内把 raw _ → \_, 不动 math mode 或已转义.
             if last_error.get("category") == "missing_dollar":
                 def _escape_texttt_underscores(match: "re.Match[str]") -> str:
                     inner = match.group(1)
                     fixed_inner = re.sub(r"(?<!\\)_", r"\\_", inner)
                     return r"\texttt{" + fixed_inner + "}"
+                def _escape_backtick_quote_underscores(match: "re.Match[str]") -> str:
+                    inner = match.group(1)
+                    fixed_inner = re.sub(r"(?<!\\)_", r"\\_", inner)
+                    return "`" + fixed_inner + "'"
                 prefixed_content = re.sub(r"\\texttt\{([^{}]*)\}", _escape_texttt_underscores, content)
+                prefixed_content = re.sub(r"`([^`']*)'", _escape_backtick_quote_underscores, prefixed_content)
                 if prefixed_content != content:
                     try:
                         target.write_text(prefixed_content, encoding="utf-8")
                         returncode, output = _run_writeback_make_check(paper_dir)
                         if returncode == 0:
-                            _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "healed", "attempt": attempt, "rel_file": rel_file, "fix_kind": "deterministic_texttt_underscore"})
+                            _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "healed", "attempt": attempt, "rel_file": rel_file, "fix_kind": "deterministic_text_underscore"})
                             pdf_returncode, _pdf_output = _run_writeback_make_pdf(paper_dir)
                             pdf_rebuilt = "ok" if pdf_returncode == 0 else "failed"
-                            return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "pdf_rebuilt": pdf_rebuilt, "fix_kind": "deterministic_texttt_underscore"}
+                            return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "pdf_rebuilt": pdf_rebuilt, "fix_kind": "deterministic_text_underscore"}
                         # 没修好, 回滚 content 让 codex 试
                         target.write_text(content, encoding="utf-8")
                     except OSError:
