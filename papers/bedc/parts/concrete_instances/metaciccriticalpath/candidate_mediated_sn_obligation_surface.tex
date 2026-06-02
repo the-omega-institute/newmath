@@ -130,6 +130,27 @@ Finally read the frontier separation theorem, \autoref{thm:metacic-critical-path
 
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathBoundedCheckerBudgetFactorization}
 
+\begin{theorem}[MetaCIC bounded checker replay separation]
+\label{thm:metacic-critical-path-bounded-checker-replay-separation}
+Every replay of a bounded-checker budget read from an accepted $\MetaCICCriticalPathUp$ packet must preserve four separate premise rows throughout the replay:
+\begin{enumerate}
+\item the candidate row $K$;
+\item the strong-normalization endpoint row $S,N$;
+\item the open discharge socket row $D$;
+\item the L10 face row over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{enumerate}
+The replay may then read the handoff, transport, displayed continuation, provenance, local naming, and bounded budget rows, but it cannot compress the four premise rows into closed subject reduction, global confluence, beta-conversion decidability, quotient equality, selected limits, host equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the candidate-mediated obligation surface of \autoref{thm:metacic-confluence-candidate-mediated-sn-obligation-surface}. It exposes the endpoint, socket, handoff, transport, replay, provenance, local name, and four L10 faces before any checker-facing budget is read.
+
+Use schedule exhaustion from \autoref{thm:metacic-critical-path-candidate-discharge-schedule-exhaustion}. The candidate row remains attached to the displayed finite route, so replay cannot detach $K$ from the same accepted packet.
+
+Apply the conditional budget theorem, \autoref{thm:metacic-critical-path-candidate-mediated-sn-conditional-budget}, together with the four-face bounded checker gate, \autoref{thm:metacic-critical-path-four-face-bounded-checker-gate}. These rows keep the socket open and require the dyadic, stream, regular-rational, and real faces to appear as checker premises.
+
+Finally apply \autoref{thm:metacic-critical-path-bounded-checker-budget-factorization}. Its factorization is stable under replay because the replay rows are read after the four premise rows, so the bounded checker receives only the displayed conditional budget and none of the excluded closed MetaCIC, quotient, selected-limit, host-equality, or completeness claims.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate-mediated SN frontier coverage]
 \label{thm:metaciccriticalpath-candidate-mediated-sn-frontier-coverage}
 Any accepted $\MetaCICCriticalPathUp$ consumer crossing from candidate-mediated strong-normalization evidence into confluence-facing or decidability-facing use must display the whole frontier before the handoff is read:
@@ -212,3 +233,20 @@ The normalization frontier and critical-pair ledger are then read as finite boun
 Finally apply \autoref{thm:metacic-critical-path-bounded-conversion-discharge}. The same displayed rows are exactly the finite discharge interface for bounded conversion, so candidate-SN readiness is a row-presence and factorization claim only.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateSNReadiness}
+
+\begin{theorem}[MetaCIC critical-path bounded conversion consumer route]
+\label{thm:metacic-critical-path-bounded-conversion-consumer-route}
+Any confluence-facing or decidability-facing consumer that uses the accepted candidate-mediated strong-normalization packet of \autoref{thm:metacic-critical-path-candidate-sn-readiness} must first read the bounded normalization candidates, the candidate discharge schedules, the finite checker budgets, and the local $\NameCert_{\MetaCICCriticalPathUp}$ rows. Only after these rows are displayed may the consumer export a bounded conversion claim through the $\MetaCICNormalizationFrontierUp$ boundary, the $\MetaCICCriticalPairLedgerUp$ pair ledger, the endpoint rows $S,N$, the open discharge socket $D$, and the L10 four-object exit certificate over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+The route is a consumer discipline, not a global conversion theorem. It does not assert unrestricted confluence, global strong normalization, unbounded beta-conversion decidability, quotient term equality, selected limits, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated SN readiness surface. It exposes the candidate row, normalization frontier, critical-pair ledger, endpoint rows, open socket, L10 exit certificate, and the structural $H,C,P,L$ rows as the finite handoff boundary.
+
+Apply the candidate discharge schedule exhaustion. The consumer must read the bounded candidates together with the displayed discharge schedule before any conversion-facing export is formed.
+
+Use the conditional budget and bounded checker gates. These gates keep the checker budget finite and tied to the same frontier and pair-ledger rows, so confluence-facing and decidability-facing consumers receive a bounded conversion surface rather than an unrestricted theorem.
+
+Finally repack the local NameCert rows. The $\hsame$, $\Cont$, $\Pkg$, and naming coordinates preserve the accepted packet, while the socket and L10 rows prevent the route from becoming global strong normalization, unrestricted confluence, unbounded conversion decidability, quotient equality, selected limits, host equality, or Real completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathBoundedConversionConsumerRoute}

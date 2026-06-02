@@ -1,0 +1,75 @@
+\chapter{Kernel Budget Flow NameCert Construction}
+\label{ch:concrete-instances-kernel-budget-flow-namecert}
+\origin{ai}
+
+The $\KernelBudgetFlowUp$ packet realizes the finite kernel-budget flow suggested by the kernel vision hub \autoref{ch:visions-subhub-kernel} as concrete NameCert rows. It sits beside the governance route of \autoref{ch:project-governance-roadmap}, the kernel audit witness of \autoref{ch:concrete-instances-kernel-audit-witness-namecert}, the kernel acceptance witness of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, the finite multihist packet of \autoref{ch:concrete-instances-finite-multihist-packet-namecert}, and the kernel inductive acceptance row of \autoref{ch:concrete-instances-kernelinductiveacceptance-namecert}. The packet exposes BMark, BHist, Cont, Pkg, Gap, ledger, and NameCert rows as a finite flow boundary; it does not certify the host kernel, assert global soundness, hide an acceptance trace, or supply a theorem proof.
+
+\begin{definition}[Kernel budget flow carrier]
+\label{def:kernel-budget-flow-carrier}
+A $\KernelBudgetFlowUp$ carrier is a finite packet
+$$
+F=(B,H,K,G,L,C,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $B$ is the $\BMark$ budget row, naming the finite kernel-facing request and the bounded inspection scope.
+\item $H$ is the $\BHist$ flow row, recording the ordered budget events accepted by the packet.
+\item $K$ is the kernel-scope row, naming the accepted kernel witness or audit witness that the flow is allowed to inspect.
+\item $G$ is the $\Gap$ row, recording refused, absent, or not-yet-certified budget edges without erasing them.
+\item $L$ is the ledger row, pairing every visible budget event with the source, acceptance, gap, and consumer rows it may reach.
+\item $C$ is the displayed $\Cont$ replay row from budget request through history, kernel scope, gap accounting, ledger readback, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\KernelBudgetFlowUp$, $\KernelAuditWitnessUp$, $\KernelAcceptanceWitnessUp$, $\KernelInductiveAcceptanceUp$, $\FiniteMultiHistPacketUp$, $\BMark$, $\BHist$, $\Gap$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KernelBudgetFlowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,H,K,G,L,C,P,N$. It has no coordinate for host-kernel soundness, unrestricted proof checking, hidden traces, unbounded fuel, erased gap rows, or theorem-proof evidence.
+\end{definition}
+
+\begin{theorem}[Kernel budget flow NameCert obligations]
+\label{thm:kernel-budget-flow-namecert-obligations}
+For every accepted $\KernelBudgetFlowUp$ carrier $F=(B,H,K,G,L,C,P,N)$, the local $\NameCert_{\KernelBudgetFlowUp}$ surface consists exactly of carrier admission for the BMark budget row, BHist flow row, kernel-scope row, Gap row, ledger row, displayed Cont replay, Pkg provenance, and local naming.
+
+The flow obligation requires each budget event in $H$ to be accounted for by $L$ before a downstream consumer reads it. The gap obligation requires refused or unavailable edges to remain visible in $G$ rather than being reclassified as accepted kernel evidence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kernel-budget-flow-carrier}. The rows $B,H,K,G,L$ are the budget-flow data, while $C,P,N$ replay, source, and name the same data.
+
+The BMark row bounds the request, and the BHist row orders the events. The kernel-scope row says which accepted witness may be inspected, while the Gap row keeps unavailable or refused edges visible.
+
+The ledger row is the exact accounting surface. Every downstream read of a budget event must pass through $L$, so the packet cannot replace the ledger by a hidden trace or a host-kernel endorsement.
+
+Finally, $C,P,N$ preserve and name the displayed route. Since no excluded object is a carrier coordinate, no local NameCert obligation can export unrestricted proof checking, host soundness, unbounded fuel, or theorem-proof evidence.
+\end{proof}
+
+\begin{theorem}[Kernel budget flow finite realization]
+\label{thm:kernel-budget-flow-finite-realization}
+Every accepted $\KernelBudgetFlowUp$ read factors through displayed
+$$
+\BMark,\ \BHist,\ \Cont,\ \Pkg,\ \Gap,\ L,\ \NameCert
+$$
+rows, with $L$ the finite ledger of budget-event accountability. Thus the packet realizes kernel-budget flow as finite BEDC data rather than as an ambient kernel theorem, an untracked execution trace, or a hidden proof object.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:kernel-budget-flow-namecert-obligations}. They expose the BMark request, BHist flow, kernel-scope witness, Gap row, ledger, replay, provenance, and local naming.
+
+The budget and history rows fix the finite event surface. The kernel-scope row restricts which accepted witness the flow may inspect, and the gap row preserves refused or missing edges.
+
+The ledger row $L$ is then the only route from events to consumers. The replay and provenance rows do not create additional events; they preserve the finite route already displayed.
+
+Therefore the realization is finite and row-local. It exports no ambient kernel theorem, hidden trace, theorem proof, or unbounded budget source.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\KernelBudgetFlowUp$ read must expose BMark budget data, BHist event flow, kernel-scope evidence, Gap accounting, finite ledger rows, displayed Cont replay, Pkg provenance, and a local NameCert row; Lean TasteGate work must later supply Nontrivial and FieldFaithful instances for this carrier.}
+
+\independenceWitness{kernel-audit-witness, kernelacceptancewitness, kernelinductiveacceptance, finite-multihist-packet, metacicclosuretrace: $\KernelBudgetFlowUp$ is not bijective to any listed sibling because it binds bounded kernel request data, event history, accepted-witness scope, gap accounting, finite ledger readback, replay, provenance, and local naming in one flow packet.}
+
+\closureat{KernelBudgetFlowUp}{seedStr}
+
+\begin{closurestatus}{\KernelBudgetFlowUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kernel-budget-flow-carrier}, \autoref{thm:kernel-budget-flow-namecert-obligations}, and \autoref{thm:kernel-budget-flow-finite-realization} seed finite kernel-budget flow as displayed BMark, BHist, Cont, Pkg, Gap, ledger, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host-kernel soundness, unrestricted proof checking, hidden acceptance traces, unbounded fuel, erased gap rows, theorem-proof evidence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked carrier admission, flow accountability, gap visibility, finite ledger exactness, Nontrivial and FieldFaithful TasteGate instances, and local naming for BEDC.Derived.KernelBudgetFlowUp.}
+  \constructivestory{A $\KernelBudgetFlowUp$ packet is generated from BMark budget rows, BHist event flow, kernel-scope evidence, Gap accounting, finite ledger rows, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
