@@ -144,6 +144,22 @@ Now apply the obligation-closure package. It routes the remaining rows through $
 Therefore a candidate-mediated normalization packet may use this carrier as a closedness-preservation ledger, but the candidate evidence required for strong normalization must arrive from the candidate router or frontier. Since no such evidence is a coordinate of $T$, the route cannot state a strong-normalization conclusion from $\MetaCICClosureTraceUp$ alone.
 \end{proof}
 
+\begin{theorem}[MetaCICClosureTrace residual frontier]
+\label{thm:metacic-closure-trace-residual-frontier}
+Every residual-frontier consumer of an accepted $\MetaCICClosureTraceUp$ carrier $T=(S,U,V,B,R,G,K,H,C,P,N)$ may read the ClosurePreservation rows
+$$
+S,U,V,B,R,G,K,H,C,P,N
+$$
+only as closedness-preservation evidence. Any confluence, residual, candidate, strong-normalization, subject-reduction, or conversion-soundness conclusion must import the corresponding diamond, residual, and candidate data from a separate MetaCIC frontier packet before it is claimed.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated SN route. It permits downstream normalization packets to consume the closure trace only through the displayed shift, substitution, beta-step, finite beta-chain, generator, kernel-ledger, transport, replay, provenance, and local-name rows.
+
+Use the kernel-ledger boundary next. The row $K$ records acceptance accounting for ClosurePreservation declarations, not a hidden proof of subject reduction, confluence, normalization, residual determinacy, or conversion soundness.
+
+Thus a residual-frontier consumer may forward $S,U,V,B,R,G,K,H,C,P,N$ as a closedness-preservation ledger. Since the carrier contains no diamond, residual, or candidate evidence row, every stronger MetaCIC conclusion must be supplied by a separate frontier packet before the consumer can claim it.
+\end{proof}
+
 \begin{theorem}[MetaCICClosureTrace obligation-closure forwarder]
 \label{thm:metacicclosuretrace-obligation-closure-forwarder}
 For every accepted $\MetaCICClosureTraceUp$ carrier $T=(S,U,V,B,R,G,K,H,C,P,N)$, the rows $S,U,V,B,R,G,K,H,C,P,N$ jointly form the obligation-closure surface exported to closure-preservation consumers. The exported surface consists only of shift closedness, variable-substitution closedness, full-substitution closedness, one-step beta closedness, finite beta-chain closedness, generator readback, kernel-trace ledger accounting, componentwise transport, replay, provenance, and local naming. It refuses typing preservation, conversion, confluence, normalization, subject reduction, and hidden kernel soundness.
