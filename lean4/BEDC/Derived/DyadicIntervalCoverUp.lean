@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DyadicIntervalCoverUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -201,5 +211,24 @@ theorem DyadicIntervalCoverWindowMembershipTransport (x : DyadicIntervalCoverUp)
           DyadicIntervalCoverRealWindowHandoffObligation_round_trip
             (DyadicIntervalCoverUp.mk L U M R V W Q A H C P N),
           rfl⟩
+
+theorem DyadicIntervalCoverRealSealBoundary [AskSetup] [PackageSetup]
+    {L U M R V W Q A H C P N sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (UnaryHistory L ∧ UnaryHistory U ∧ UnaryHistory M ∧ UnaryHistory R ∧
+        UnaryHistory V ∧ UnaryHistory W ∧ UnaryHistory Q ∧ UnaryHistory A ∧
+          UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+            PkgSig bundle P pkg) ->
+      Cont Q A sealRead ->
+        PkgSig bundle sealRead pkg ->
+          UnaryHistory Q ∧ UnaryHistory A ∧ UnaryHistory sealRead ∧
+            Cont Q A sealRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrierRows sealRoute sealPkg
+  obtain ⟨_unaryL, _unaryU, _unaryM, _unaryR, _unaryV, _unaryW, unaryQ, unaryA,
+    _unaryH, _unaryC, _unaryP, _unaryN, provenancePkg⟩ := carrierRows
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed unaryQ unaryA sealRoute
+  exact ⟨unaryQ, unaryA, sealUnary, sealRoute, provenancePkg, sealPkg⟩
 
 end BEDC.Derived.DyadicIntervalCoverUp
