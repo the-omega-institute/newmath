@@ -204,6 +204,19 @@ Next apply premise retention, \autoref{thm:metacic-parallel-diamond-frontier-pre
 Finally use the confluence handoff theorem itself. Its exported route is exactly the conditional path through $P,K,J,R,S,C,B,O,H,T,G,N$, so any consumer that drops $P$ or reads the route as one of the refused endpoints has left the packet described by the carrier.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond residual budget]\label{thm:metacic-parallel-diamond-frontier-budget}
+Any exported $\MetaCICParallelDiamondFrontierUp$ parallel-diamond budget that feeds candidate-normalization or audit-packet consumers must consume the retained residual-substitution premise row $P$, critical-pair row $K$, residual-frontier row $R$, closed-checker row $S$, closed-normal row $C$, obstruction row $O$, and structural rows $H,T,G,N$ before the consumer receives the handoff. The budget cannot omit $P$ or $O$, and it cannot be read as a premise-free parallel diamond, residual-substitution theorem, full Church--Rosser theorem, subject-reduction theorem, evaluator equality, quotient equality of terms, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Start from the carrier obligations \autoref{thm:metacic-parallel-diamond-frontier-obligations}. They keep the residual-substitution premise, critical-pair, residual-frontier, closed-checker, closed-normal, obstruction, transport, replay, provenance, and naming rows inside the accepted packet.
+
+Use the route and premise-retention theorems, \autoref{thm:metacic-parallel-diamond-frontier-route} and \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. They require the premise row $P$ to remain visible when a local-diamond handoff is consumed.
+
+Next apply discharge obstruction and the sibling route, \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction} and \autoref{thm:metacic-parallel-diamond-frontier-sibling-route}. The candidate-normalization and audit-packet consumers receive only the retained premise, critical-pair, residual-frontier, obstruction, and structural rows named by the frontier.
+
+Finally use premise preservation \autoref{thm:metacic-parallel-diamond-frontier-premise-preservation}. Since its full spine includes $P,K,J,R,S,C,B,O,H,T,G,N$, any exported budget that forgets $P$ or $O$ has left the displayed packet and cannot be consumed as a BEDC parallel-diamond frontier.
+\end{proof}
+
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
 
 \closureat{MetaCICParallelDiamondFrontierUp}{seedStr}

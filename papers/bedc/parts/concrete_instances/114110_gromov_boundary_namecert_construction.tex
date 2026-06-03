@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\GromovBoundaryUp$}
+\label{ch:concrete-instances-gromov-boundary-namecert}
+\origin{human}
+
+Following Gromov's hyperbolic-boundary construction, the $\GromovBoundaryUp$ packet records finite boundary-equivalence data for hyperbolic rays before a visual or cocycle consumer reads the boundary. It sits after the visual-boundary packet of \autoref{ch:concrete-instances-hyperbolic-visual-boundary-namecert}, the basepointed product packet of \autoref{ch:concrete-instances-hyperbolic-gromov-product-namecert}, the visual-metric packet of \autoref{ch:concrete-instances-hyperbolic-visual-metric-namecert}, the Busemann cocycle route of \autoref{ch:concrete-instances-hyperbolic-busemann-cocycle-namecert}, and the boundary-shadow expansion route of \autoref{ch:concrete-instances-boundary-shadow-expansion-cocycle-namecert}. The packet names a displayed boundary carrier rather than a completed quotient of rays, selected geodesic representatives, host compactification, or ambient hyperbolic space.
+
+\begin{definition}[Gromov boundary carrier]\label{def:gromov-boundary-carrier}
+A $\GromovBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+G=(B,P,V,M,C,Q,E,S,T,H,R,N)
+$$
+where:
+\begin{itemize}
+\item $B$ is the $\HyperbolicVisualBoundaryUp$ boundary row;
+\item $P$ is the $\HyperbolicGromovProductUp$ basepointed product row;
+\item $V$ is the $\HyperbolicVisualMetricUp$ visual-metric row;
+\item $M$ is the $\HyperbolicBusemannCocycleUp$ cocycle row;
+\item $C$ is the $\BoundaryShadowExpansionCocycleUp$ boundary-shadow expansion row;
+\item $Q$ records finite ray-equivalence comparisons;
+\item $E$ records endpoint admission for the accepted boundary token;
+\item $S$ records visual-cocycle stability under the displayed equivalence row;
+\item $T,H,R,N$ are displayed $\Cont$ replay, componentwise $\hsame$ transport, $\Pkg$ provenance, and the local $\NameCert_{\GromovBoundaryUp}$ row.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Gromov boundary NameCert obligations]\label{thm:gromov-boundary-namecert-obligations}
+For every accepted $\GromovBoundaryUp$ carrier $G=(B,P,V,M,C,Q,E,S,T,H,R,N)$, the local $\NameCert_{\GromovBoundaryUp}$ surface consists exactly of visual-boundary admission, Gromov-product readback, visual-metric comparison, Busemann-cocycle comparison, boundary-shadow expansion, finite ray-equivalence exposure, endpoint admission, visual-cocycle stability, displayed replay, componentwise transport, provenance, and local naming. A consumer that reads a boundary token without one of those rows is outside the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:gromov-boundary-carrier}. The visual boundary, Gromov product, visual metric, Busemann cocycle, and boundary-shadow expansion rows are all explicit coordinates of the accepted packet.
+
+The ray-equivalence row $Q$ and endpoint row $E$ provide the boundary token only as displayed finite data. The packet therefore exposes equivalence information before any visual metric or cocycle consumer receives the boundary.
+
+Finally, $S,T,H,R,N$ record stability, replay, transport, provenance, and naming. Since no carrier row supplies a host quotient of rays, selected geodesic representative, completed compactification, or ambient hyperbolic model, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Gromov boundary visual-cocycle stability]\label{thm:gromov-boundary-visual-cocycle-stability}
+Every accepted $\GromovBoundaryUp$ packet whose boundary token is consumed by a visual-metric, Busemann-cocycle, or boundary-shadow-expansion consumer must retain the ray-equivalence row $Q$ through the $\HyperbolicGromovProductUp$ row $P$, $\HyperbolicVisualMetricUp$ row $V$, $\HyperbolicBusemannCocycleUp$ row $M$, and $\BoundaryShadowExpansionCocycleUp$ row $C$. The stability row $S$ transports those displayed comparisons without turning the packet into a completed ray quotient or global boundary compactification.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:gromov-boundary-namecert-obligations}. It keeps $B,P,V,M,C,Q,E,S,T,H,R,N$ visible for every accepted boundary read.
+
+The product row $P$ and ray-equivalence row $Q$ determine which boundary token is being transported. The visual metric, Busemann cocycle, and boundary-shadow expansion rows then read that token through their own displayed comparison surfaces.
+
+The stability row $S$ preserves those comparisons through $T,H,R,N$. Because the carrier has no coordinate for a selected ray representative or host quotient, the handoff remains a finite BEDC boundary-equivalence packet.
+\end{proof}
+
+\closureat{GromovBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\GromovBoundaryUp}
+  \constructivestory{A $\GromovBoundaryUp$ packet is generated from HyperbolicVisualBoundaryUp rows, HyperbolicGromovProductUp rows, HyperbolicVisualMetricUp rows, HyperbolicBusemannCocycleUp rows, BoundaryShadowExpansionCocycleUp rows, finite ray-equivalence rows, endpoint rows, visual-cocycle stability rows, displayed Cont replay, componentwise hsame transport, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gromov-boundary-carrier}, \autoref{thm:gromov-boundary-namecert-obligations}, and \autoref{thm:gromov-boundary-visual-cocycle-stability} seed the finite boundary-equivalence packet over visual-boundary, Gromov-product, visual-metric, Busemann-cocycle, and boundary-shadow expansion rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a completed quotient of rays, selected geodesic representatives, host compactification, ambient hyperbolic space, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, visual-boundary admission, Gromov-product readback, visual-metric comparison, Busemann-cocycle comparison, boundary-shadow expansion, ray-equivalence exposure, visual-cocycle stability, transport, replay, provenance, and local naming for BEDC.Derived.GromovBoundaryUp.}
+\end{closurestatus}
