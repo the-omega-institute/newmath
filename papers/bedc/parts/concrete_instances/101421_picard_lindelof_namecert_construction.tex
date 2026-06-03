@@ -81,6 +81,24 @@ The convergence and locality checks are then read from $R$ and $U$. The row $R$ 
 Finally expose $Q$ only as the classifier row. The structural rows $H,C,G,N$ transport, replay, source, and name the same local route, and no row supplies global continuation or a selected solution object.
 \end{proof}
 
+\begin{theorem}[Picard--Lindelof Gronwall--Osgood nonescape stability]
+\label{thm:picard-lindelof-gronwall-osgood-nonescape}
+Let
+$$
+P=(I,F,L,R,Q,U,H,C,G,N)
+$$
+be an accepted $\PicardLindelofUp$ carrier. If the Lipschitz ledger $F$ is accompanied by a displayed $\GronwallInequalityUp$ comparison row and the uniqueness classifier $Q$ is accompanied by a displayed $\OsgoodCriterionUp$ modulus row, then every endpoint read classified by $Q$ remains inside the same nonescape window $U$. The exported endpoint still factors through $I,F,L,R,Q,U,H,C,G,N$ and through the comparison rows; it does not introduce a host solver, a selected solution curve, an ambient completeness assertion, or a global continuation coordinate.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:picard-lindelof-picard-iteration-route}. The endpoint read first passes through the initial cell, Lipschitz vector-field ledger, Picard iteration route, complete-metric convergence row, and nonescape window $U$ before the classifier $Q$ is exposed.
+
+Apply \autoref{thm:gronwall-inequality-picard-handoff} to the displayed Lipschitz ledger. The Gronwall row bounds the finite comparison envelope inside the same Picard-facing route, so it can tighten the read within $U$ but cannot replace $U$ by a new ambient interval or a host solution object.
+
+Apply \autoref{thm:osgood-criterion-picard-handoff} to the uniqueness modulus. The Osgood row constrains competing endpoint reads through the same displayed ODE and Picard route, so the uniqueness comparison remains attached to the nonescape window already carried by $P$.
+
+Finally replay the structural rows $H,C,G,N$. They transport, replay, source, and name the same finite certificate, and no row supplies a selected solution, host solver, ambient completeness principle, or continuation beyond $U$.
+\end{proof}
+
 \falsifiablePrediction{Every $\PicardLindelofUp$ local endpoint read factors through one initial time-state cell, one Lipschitz vector-field ledger, one PicardContraction route, one CompleteMetric convergence row, one local uniqueness classifier, one nonescape window row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{ode, lipschitzmap, completemetric, picardcontraction, banachfixedpoint: $\PicardLindelofUp$ is not bijective to any listed sibling because it jointly carries the initial time-state cell, vector-field Lipschitz ledger, Picard iteration route, complete-metric convergence row, local uniqueness classifier, nonescape window, and the transport/replay/provenance rows tying them together.}

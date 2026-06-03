@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\GateauxDerivativeUp$}
+\label{ch:concrete-instances-gateaux-derivative-namecert}
+\origin{human}
+
+Following Gateaux, Bourbaki, and Bishop--Bridges constructive analysis, the $\GateauxDerivativeUp$ packet records directional differentiability as a finite NameCert surface. It sits between the pointwise derivative interface of \autoref{ch:concrete-instances-derivative-namecert} and the full linear approximation interface of \autoref{ch:concrete-instances-frechet-derivative-namecert}. Its displayed route consumes the linear direction row of \autoref{ch:concrete-instances-linearmap-namecert}, the norm comparison row of \autoref{ch:concrete-instances-norm-namecert}, and the real-tolerance seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a derivative read in one displayed direction; it is not a host function-extensionality principle, not a chosen limit, not quotient equality of germs, and not ambient completeness of the real line.
+
+\section{Directional carrier}
+\label{sec:gateaux-derivative-carrier}
+
+\begin{definition}[Gateaux derivative carrier]
+\label{def:gateaux-derivative-carrier}
+A $\GateauxDerivativeUp$ carrier is a finite $\BHist$ packet
+$$
+G=(X,A,V,Q,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the normed source-and-target row through which points, steps, and error sizes are read.
+\item $A$ records the base point and the finite admissible window in which directional probes are accepted.
+\item $V$ is the displayed direction row. It names one admissible direction over $X$ and exposes no global tangent bundle.
+\item $Q$ is the directional difference-quotient row. It records the finite quotients obtained by probing the function along the displayed direction $V$ inside the window $A$.
+\item $T$ is the $\RealUp$ tolerance-agreement row. It compares accepted quotient reads against one candidate directional derivative value by finite real-name tolerance data.
+\item $H$ records componentwise $\hsame$ transport for $X,A,V,Q,T$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a directional derivative request through the source, point-window, direction, quotient, and tolerance rows.
+\item $P$ is the $\Pkg$ provenance over $\GateauxDerivativeUp$, $\DerivativeUp$, $\FrechetDerivativeUp$, $\LinearMapUp$, $\NormUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\GateauxDerivativeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed direction row $V$ and the real-tolerance agreement row $T$, together with the structural transport and replay rows. It has no coordinate for host function equality, unrecorded limits, quotient equality of directional germs, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Gateaux derivative classifier adequacy]
+\label{thm:gateaux-derivative-classifier-adequacy}
+For accepted $\GateauxDerivativeUp$ carriers
+$$
+G=(X,A,V,Q,T,H,C,P,N)
+\quad\text{and}\quad
+G'=(X',A',V',Q',T',H',C',P',N'),
+$$
+the public classifier identifies $G$ with $G'$ exactly when the source rows, point-window rows, displayed direction rows, directional quotient rows, real-tolerance rows, transport rows, replay rows, provenance rows, and local naming rows are componentwise $\hsame$-stable, and the direction read $V$ and tolerance agreement $T$ transport to $V'$ and $T'$ over the same source row. The comparison does not inspect host functions, chosen limits, quotient germs, or completeness witnesses outside the packet.
+\end{theorem}
+\begin{proof}
+Project the two carrier tuples. Every accepted row is displayed in the finite packet, so componentwise $\hsame$ transport gives the only data available to the public classifier.
+
+The direction clause is read from $V$ and $V'$. Because these rows are attached to the same transported source row, a classifier equality can compare the direction displays without importing a tangent-space quotient or a host vector equality.
+
+The tolerance clause is read from $T$ and $T'$. It compares the quotient rows against the candidate derivative values only through $\RealUp$ tolerance data, so the classifier remains finite and local.
+
+Conversely, the listed componentwise transport data reconstructs the accepted packet row by row. The provenance row records that no additional host coordinate is part of the name, hence the displayed rows exhaust the classifier.
+\end{proof}
+
+\begin{theorem}[Gateaux derivative NameCert obligations]
+\label{thm:gateaux-derivative-namecert-obligations}
+For every accepted $\GateauxDerivativeUp$ carrier $G=(X,A,V,Q,T,H,C,P,N)$, the local $\NameCert_{\GateauxDerivativeUp}$ surface consists exactly of carrier admission for the normed source row, point-window row, displayed direction row, directional difference-quotient row, $\RealUp$ tolerance-agreement row, componentwise transport, displayed replay, provenance, and local naming; classifier stability under $\hsame$ transport of all displayed rows; direction-row exposure before any derivative read is public; tolerance agreement through the same $\RealUp$ row for every accepted quotient request; and ledger non-escape from host function extensionality, chosen limits, quotient equality, and ambient real completeness.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:gateaux-derivative-carrier}. The tuple $X,A,V,Q,T,H,C,P,N$ is the whole accepted packet, so the carrier-admission obligations are direct projections.
+
+The direction exposure clause is the read of $V$ over the source row $X$ and point window $A$. This keeps the Gateaux derivative directional: no Frechet-style full linear approximation is exported unless a separate $\FrechetDerivativeUp$ packet supplies it.
+
+The quotient and tolerance clauses are the reads of $Q$ and $T$. The quotient row records finite directional probes, while the tolerance row compares them through $\RealUp$ data already present in the packet.
+
+Classifier stability is the componentwise transport row $H$, replay is the continuation row $C$, and source accounting is the package row $P$. Since no coordinate names any excluded host object, the local certificate exports only the displayed directional derivative route.
+\end{proof}
+
+\begin{theorem}[Gateaux derivative local non-escape]
+\label{thm:gateaux-derivative-local-nonescape}
+An accepted $\GateauxDerivativeUp$ packet cannot be used to read host function extensionality, a chosen limiting value, quotient equality of directional germs, or ambient $\RealUp$ completeness. Any consumer of the packet must first pass through the finite route
+$$
+\DerivativeUp,\ \FrechetDerivativeUp,\ \LinearMapUp,\ \NormUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Within that route, $\GateauxDerivativeUp$ contributes only the displayed direction row, finite directional difference quotients, and real-tolerance agreement.
+\end{theorem}
+\begin{proof}
+Read a consumer request through the continuation row $C$. The replay exposes the source row $X$, the point-window row $A$, and the displayed direction row $V$ before any quotient or derivative value is visible.
+
+Next read the quotient row $Q$ and the tolerance row $T$. These rows provide finite directional probes and $\RealUp$ tolerance agreement, not a selected limit object.
+
+Finally read the provenance row $P$ and the local naming row $N$. Their dependency route lists the neighbouring derivative, Frechet derivative, linear-map, norm, real, history, transport, continuation, package, and NameCert rows. Since host function extensionality, quotient-germ equality, chosen limits, and ambient completeness do not occur in that route, they are not exported by the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\GateauxDerivativeUp$ packet must expose a displayed direction row, a directional difference-quotient row, and a $\RealUp$ tolerance-agreement row before any directional derivative read is public.}
+
+\independenceWitness{derivative, frechet, linearmap, norm, real: $\GateauxDerivativeUp$ is not bijective to any listed sibling because it binds one displayed direction and finite real-tolerance agreement without requiring a full Frechet linear approximation or a host derivative operator.}
+
+\closureat{GateauxDerivativeUp}{seedStr}
+
+\begin{closurestatus}{\GateauxDerivativeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gateaux-derivative-carrier}, \autoref{thm:gateaux-derivative-classifier-adequacy}, \autoref{thm:gateaux-derivative-namecert-obligations}, and \autoref{thm:gateaux-derivative-local-nonescape} seed the finite Gateaux directional-derivative route over Derivative, FrechetDerivative, LinearMap, Norm, Real, BHist, hsame, Cont, Pkg, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host differentiability, full Frechet differentiability, global tangent bundles, quotient germ equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, direction-row exposure, directional quotient readback, real-tolerance agreement, classifier stability, local non-escape, provenance exhaustion, and TasteGate field faithfulness for BEDC.Derived.GateauxDerivativeUp.}
+  \constructivestory{A $\GateauxDerivativeUp$ packet is generated from a normed source row, a point-window row, a displayed direction row, a directional quotient row, a Real tolerance-agreement row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+\end{closurestatus}

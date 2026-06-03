@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedCauchyCompletionStabilityUp$}
+\label{ch:concrete-instances-bishop-located-cauchy-completion-stability-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopLocatedCauchyCompletionStabilityUp$ packet records the finite stability surface needed when a located Cauchy completion proof is replayed through dyadic tolerances, stream windows, regular rational readback, locatedness evidence, and the terminal real seal. It is anchored in the DyadicRatCore ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite StreamName surface of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the LocatedReal observation row of \autoref{ch:concrete-instances-located-real-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, and the located-real completion route of \autoref{ch:concrete-instances-bishop-located-real-completion-namecert}. The packet witnesses stability of displayed completion data; it does not introduce quotient streams, host limits, choice, trichotomy, or ambient completeness.
+
+\begin{definition}[Bishop located Cauchy completion stability carrier]
+\label{def:bishop-located-cauchy-completion-stability-carrier}
+A $\BishopLocatedCauchyCompletionStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(D,S,R,L,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-window ledger naming the radii and comparison budgets used by the stability check.
+\item $S$ is the $\StreamNameUp$ finite-window row inspected at those tolerances.
+\item $R$ is the $\RegSeqRatUp$ regular Cauchy readback row obtained from the same displayed windows.
+\item $L$ is the $\LocatedRealUp$ locatedness row attached to that readback.
+\item $E$ is the terminal $\RealUp$ seal reached only after $D,S,R,L$ have been displayed.
+\item $T$ records componentwise $\hsame$ transport for tolerance windows, stream windows, readback rows, locatedness rows, the Real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from each stability request through $D,S,R,L,E,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedCauchyCompletionStabilityUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\LocatedRealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedCauchyCompletionStabilityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient-stream representatives, host-level limits, selected representatives, countable choice, trichotomy, apartness by host equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop located Cauchy completion tolerance-window stability]
+\label{thm:bishop-located-cauchy-completion-tolerance-window-stability}
+For every accepted $\BishopLocatedCauchyCompletionStabilityUp$ carrier $Q=(D,S,R,L,E,T,C,P,N)$, any replay of a completion request keeps the DyadicRatCore tolerance row $D$ fixed before reading the StreamName window $S$, the RegSeqRat readback $R$, the LocatedReal row $L$, and the terminal $\RealUp$ seal $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-cauchy-completion-stability-carrier}. The first displayed analytic row is the tolerance ledger $D$, and every later analytic row is indexed by the same completion request.
+
+Apply the located-real completion route of \autoref{thm:bishop-located-real-completion-tolerance-window-exactness}. It identifies the order $D,S,R,L,E$ for displayed completion data.
+
+The stability packet adds $T,C,P,N$ only for transport, replay, provenance, and local naming. Since none of those rows contains a second tolerance ledger or a host limit selector, replay cannot change the tolerance window while preserving the same packet.
+\end{proof}
+
+\begin{theorem}[Bishop located Cauchy completion readback stability]
+\label{thm:bishop-located-cauchy-completion-readback-stability}
+For every accepted $\BishopLocatedCauchyCompletionStabilityUp$ carrier $Q=(D,S,R,L,E,T,C,P,N)$, the regular Cauchy readback exposed to a completion consumer is the row $R$ read from the displayed $D,S$ window route. No consumer can replace $R$ by a quotient-stream representative, selected host limit, or ambient equality witness while remaining inside the local $\NameCert_{\BishopLocatedCauchyCompletionStabilityUp}$ surface.
+\end{theorem}
+\begin{proof}
+Read $D$ and $S$ from the carrier and then the readback row $R$. These are finite rows of the same $\BHist$ packet.
+
+Apply \autoref{thm:located-real-completion-cauchy-representation}. The Bishop located-real completion chapter exposes its Cauchy representation only through $D,S,R,L$ before the terminal seal.
+
+The stability rows $T,C,P,N$ preserve and replay that displayed readback. Because the carrier has no quotient-stream, selected-limit, or host-equality coordinate, replacing $R$ by such data would change the packet rather than witnessing stability.
+\end{proof}
+
+\begin{theorem}[Bishop located Cauchy completion locatedness preservation]
+\label{thm:bishop-located-cauchy-completion-locatedness-preservation}
+For every accepted $\BishopLocatedCauchyCompletionStabilityUp$ carrier $Q=(D,S,R,L,E,T,C,P,N)$, locatedness is preserved only as the displayed row $L$ attached to the same $D,S,R$ readback route. A replay may transport $L$ through $T$ and $C$, but it cannot derive locatedness from trichotomy, host apartness, choice, or an external order-completeness principle.
+\end{theorem}
+\begin{proof}
+Project $L$ from the carrier after the tolerance, window, and readback rows. The row is part of the same finite packet and is not a detached located-real object.
+
+Apply \autoref{thm:bishop-located-real-completion-located-cauchy-handoff}. It forces every located-real completion consumer through $D,S,R,L$ before the Real seal.
+
+Rows $T$ and $C$ transport and replay that row, while $P$ and $N$ source and name it. The refused trichotomy, host apartness, choice, and external completeness objects are absent from the carrier, so they cannot supply locatedness inside the certificate.
+\end{proof}
+
+\begin{theorem}[Bishop located Cauchy completion Real seal nonescape]
+\label{thm:bishop-located-cauchy-completion-real-seal-nonescape}
+Every $\RealUp$ seal exported by an accepted $\BishopLocatedCauchyCompletionStabilityUp$ packet factors through the finite route $D,S,R,L,E,T,C,P,N$. The seal exports stability of the displayed located Cauchy completion data, but it exports no quotient stream, selected host limit, host real equality test, countable-choice selector, trichotomy split, apartness shortcut, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier and isolate the terminal seal row $E$. It occurs after the displayed tolerance, window, readback, and locatedness rows.
+
+Apply \autoref{thm:bishop-located-real-completion-real-seal-nonescape}. The underlying located-real completion seal cannot be read as quotient equality, selected host limits, choice, trichotomy, or ambient completeness.
+
+The stability packet preserves the same seal through $T,C,P,N$. Since no refused object has a carrier coordinate, the exported $\RealUp$ row remains the finite stability seal for $D,S,R,L$.
+\end{proof}
+
+\begin{theorem}[Bishop located Cauchy completion transport replay provenance]
+\label{thm:bishop-located-cauchy-completion-transport-replay-provenance}
+For every accepted $\BishopLocatedCauchyCompletionStabilityUp$ carrier $Q=(D,S,R,L,E,T,C,P,N)$, all stability claims are invariant only through the displayed transport row $T$, continuation replay row $C$, package provenance row $P$, and local naming row $N$. These rows preserve the finite route $D,S,R,L,E$ and do not add analytic content beyond the displayed completion data.
+\end{theorem}
+\begin{proof}
+Project the structural rows $T,C,P,N$ from the carrier. They are listed after the analytic rows and are therefore read as preservation, replay, provenance, and naming data for $D,S,R,L,E$.
+
+Apply the preceding four stability theorems. Each one identifies the analytic route that must be preserved: fixed tolerances, regular readback, locatedness, and the terminal Real seal.
+
+Thus $T,C,P,N$ certify replay of the same finite route rather than a broader completion theorem. Any additional quotient, host-limit, choice, trichotomy, apartness, or ambient-completeness claim would require a carrier coordinate not present in $Q$.
+\end{proof}
+
+\closureat{BishopLocatedCauchyCompletionStabilityUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedCauchyCompletionStabilityUp}
+  \constructivestory{A $\BishopLocatedCauchyCompletionStabilityUp$ packet is generated from DyadicRatCore tolerance windows, StreamName finite windows, RegSeqRat regular Cauchy readback, LocatedReal locatedness rows, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-cauchy-completion-stability-carrier}, \autoref{thm:bishop-located-cauchy-completion-tolerance-window-stability}, \autoref{thm:bishop-located-cauchy-completion-readback-stability}, \autoref{thm:bishop-located-cauchy-completion-locatedness-preservation}, \autoref{thm:bishop-located-cauchy-completion-real-seal-nonescape}, and \autoref{thm:bishop-located-cauchy-completion-transport-replay-provenance} seed the finite stability route from displayed located Cauchy completion data to the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient-stream completion, host-level limits, selected representatives, countable choice, trichotomy, host apartness, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance-window stability, regular Cauchy readback stability, locatedness preservation, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopLocatedCauchyCompletionStabilityUp.}
+\end{closurestatus}

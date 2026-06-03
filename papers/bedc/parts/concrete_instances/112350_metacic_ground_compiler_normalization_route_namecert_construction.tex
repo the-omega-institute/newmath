@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICGroundCompilerNormalizationRouteUp$}
+\label{ch:concrete-instances-metacic-ground-compiler-normalization-route-namecert}
+\origin{ai}
+
+The $\MetaCICGroundCompilerNormalizationRouteUp$ packet realizes the normalization audit map as finite ground-compiler data. It consumes the critical-path reading of \autoref{ch:concrete-instances-metaciccriticalpath-namecert} and the candidate-mediated normalization interface recorded in \autoref{ch:metacic-normalization-audit-map}. The packet names generated closed terms, candidate evidence, candidate-set membership, no-infinite-reduction readback, compiler replay, obstruction boundary rows, transport, provenance, and local naming without turning candidate evidence into an unconditional global normalization oracle.
+
+\begin{definition}[MetaCIC ground-compiler normalization route carrier]
+\label{def:metacic-ground-compiler-normalization-route-carrier}
+A $\MetaCICGroundCompilerNormalizationRouteUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,A,S,Q,N,R,O,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the generated closed-term row emitted by the ground compiler.
+\item $A$ is the typing and closedness audit row for the generated term.
+\item $S$ is the candidate-evidence row, recording the reducibility candidate, closed candidate, or candidate-set membership route consumed by the normalization proof.
+\item $Q$ is the Pi/application adequacy row that keeps the candidate evidence stable across the inspected compiler route.
+\item $N$ is the strong-normalization readback row obtained from the candidate evidence.
+\item $R$ is the no-infinite-reduction readback row obtained from the same evidence.
+\item $O$ is the obstruction-boundary row recording that no unconditional closed-term normalization theorem is being claimed.
+\item $H$ records componentwise $\hsame$ transport for generated terms, audit rows, candidate rows, adequacy rows, normalization readback, no-infinite-reduction readback, obstruction rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for the finite route
+$$
+T,A,S,Q \longmapsto N,R,O .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetaCICGroundCompilerNormalizationRouteUp$, $\MetaCICCriticalPathUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MetaCICGroundCompilerNormalizationRouteUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unconditional normalization of all closed MetaCIC terms, subject-reduction closure, confluence closure, hidden compiler trust, or host-level termination.
+\end{definition}
+
+\begin{theorem}[MetaCIC ground-compiler normalization route NameCert obligations]
+\label{thm:metacic-ground-compiler-normalization-route-namecert-obligations}
+For an accepted $\MetaCICGroundCompilerNormalizationRouteUp$ carrier
+$$
+G=(T,A,S,Q,N,R,O,H,C,P,L),
+$$
+the local $\NameCert_{\MetaCICGroundCompilerNormalizationRouteUp}$ surface consists exactly of generated closed-term admission through $T$, typing and closedness audit through $A$, candidate-evidence exposure through $S$, Pi/application adequacy routing through $Q$, strong-normalization readback through $N$, no-infinite-reduction readback through $R$, obstruction-boundary recording through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-ground-compiler-normalization-route-carrier}. The accepted packet exposes generated term data, typing and closedness audit data, candidate evidence, adequacy routing, normalization readback, no-infinite-reduction readback, obstruction boundary, and the structural rows $H,C,P,L$.
+
+The normalization face is read through $S,Q,N,R$. Candidate evidence is displayed before any strong-normalization or no-infinite-reduction conclusion is consumed, and the adequacy row records the Pi/application routing needed by the compiler path.
+
+The boundary row $O$ is part of the same packet. It records that the route is evidence-bearing and does not erase the candidate input into a blanket theorem for every closed term.
+
+Finally $H,C,P,L$ transport, replay, source, and name exactly this route. Since the carrier has no coordinate for subject-reduction closure, confluence closure, hidden compiler trust, or host termination, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC ground-compiler candidate non-escape]
+\label{thm:metacic-ground-compiler-normalization-route-candidate-nonescape}
+Every normalization-facing consumer read of an accepted $\MetaCICGroundCompilerNormalizationRouteUp$ packet factors through the finite route
+$$
+T,A,S,Q \longmapsto N,R,O \longmapsto H,C,P,L .
+$$
+Thus strong-normalization and no-infinite-reduction readbacks remain tied to generated closed-term audit rows, candidate evidence, and Pi/application adequacy rows. The packet cannot export unconditional normalization for all closed MetaCIC terms, subject-reduction closure, confluence closure, hidden compiler trust, or host-level termination.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:metacic-ground-compiler-normalization-route-carrier}. The rows $N$ and $R$ occur only after the generated term audit $T,A$ and the candidate route $S,Q$ have been displayed.
+
+Apply \autoref{thm:metacic-ground-compiler-normalization-route-namecert-obligations}. It forces every normalization-facing read to expose the generated closed term, its typing and closedness audit, the candidate evidence, and the adequacy route before reading normalization or no-infinite-reduction consequences.
+
+The obstruction row $O$ keeps the boundary visible, and the rows $H,C,P,L$ only transport, replay, source, and name the same packet. Therefore the consumer cannot detach $N$ or $R$ from candidate evidence or promote the route to a global MetaCIC normalization theorem.
+\end{proof}
+
+\closureat{MetaCICGroundCompilerNormalizationRouteUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICGroundCompilerNormalizationRouteUp}
+  \constructivestory{A $\MetaCICGroundCompilerNormalizationRouteUp$ packet is generated from ground-compiler closed-term rows, typing and closedness audit rows, candidate-evidence rows, Pi/application adequacy rows, normalization readback rows, no-infinite-reduction rows, obstruction-boundary rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-ground-compiler-normalization-route-carrier}, \autoref{thm:metacic-ground-compiler-normalization-route-namecert-obligations}, and \autoref{thm:metacic-ground-compiler-normalization-route-candidate-nonescape} seed the finite ground-compiler normalization route over candidate evidence.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close unconditional normalization for all closed MetaCIC terms, subject reduction, confluence, hidden compiler trust, host termination, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked generated-term admission, typing and closedness audit, candidate-evidence routing, Pi/application adequacy routing, strong-normalization readback, no-infinite-reduction readback, obstruction-boundary recording, transport stability, replay stability, provenance, and local naming for BEDC.Derived.MetaCICGroundCompilerNormalizationRouteUp.}
+\end{closurestatus}

@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceInterleavingUp$}
+\label{ch:concrete-instances-cauchy-sequence-interleaving-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchySequenceInterleavingUp$ packet records the finite interleaving surface used when two Cauchy-name routes must be inspected against one shared tolerance ledger. It sits between the $\StreamNameUp$ window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the fast-subsequence route of \autoref{ch:concrete-instances-fastcauchysubsequence-namecert}.
+
+The packet is a source-route object for Real and Completion arguments. It interleaves two displayed Cauchy sequences by finite request windows, parity rows, dyadic error budgets, and readback rows; it consumes the regular-subsequence finite reindexing surface of \autoref{ch:concrete-instances-regular-cauchy-subsequence-namecert} when alternating or interleaving tail windows. It does not quotient streams, select a limit, compare host reals, invoke trichotomy, use countable choice, or assert ambient completeness.
+
+\begin{definition}[CauchySequenceInterleaving carrier]
+\label{def:cauchy-sequence-interleaving-carrier}
+A $\CauchySequenceInterleavingUp$ carrier is a finite $\BHist$ packet
+$$
+I=(X,Y,W,P,D,R,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two source $\StreamNameUp$ rows whose windows are interleaved;
+\item $W$ is the finite window ledger recording which requests of $X$ and $Y$ are inspected;
+\item $P$ is the parity and provenance row identifying the left and right legs of each interleaved request;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row attached to the inspected requests;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same windows and dyadic tolerances;
+\item $E$ is the terminal $\RealUp$ seal row reached only after $W,D,R$ have been projected;
+\item $H$ records componentwise $\hsame$ transport for the two source rows, window ledger, parity row, tolerance row, readback row, seal row, and support rows;
+\item $C$ records displayed $\Cont$ replay from source windows to interleaved requests, dyadic tolerance readback, regular rational readback, and real-name sealing;
+\item $Q$ is the optional $\FastCauchySubsequenceUp$ handoff row used when a downstream diagonal argument asks for a cofinal fast window;
+\item $N$ is the local $\NameCert_{\CauchySequenceInterleavingUp}$ row.
+\end{enumerate}
+The classifier compares two carriers only through these displayed rows. It stores no quotient stream equality, host equality between infinite sequences, selected limit, countable-choice selector, trichotomy row, or ambient $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[CauchySequenceInterleaving NameCert obligations]
+\label{thm:cauchy-sequence-interleaving-namecert-obligations}
+For an accepted $\CauchySequenceInterleavingUp$ carrier $I=(X,Y,W,P,D,R,E,H,C,Q,N)$, the local $\NameCert_{\CauchySequenceInterleavingUp}$ obligation surface consists exactly of carrier admission for the displayed rows, source-window admission for $X$ and $Y$, finite interleaving admission for $W$, parity and provenance admission for $P$, dyadic tolerance admission through $D$, regular rational readback through $R$, terminal Real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, optional fast-subsequence handoff through $Q$, and local naming through $N$.
+
+Every Real-facing or Completion-facing consumer of the packet must therefore read the sibling StreamName, DyadicRatCore, RegSeqRat, Real, and FastCauchySubsequence rows in the displayed route. No obligation exports quotient stream equality, host real equality, selected limits, arbitrary choice of subsequences, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-sequence-interleaving-carrier}. The only analytic rows available to a consumer are the two source StreamName rows, the finite interleaving window ledger, parity provenance, dyadic tolerance data, regular rational readback, Real seal, optional fast-subsequence handoff, and the structural support rows.
+
+Read the source route first. The rows $X,Y,W,P$ determine which finite windows are inspected and which leg of the interleaving each request belongs to, without choosing infinite representatives or quotienting streams.
+
+Read the tolerance and seal route next. The rows $D,R,E$ force every Real-facing or Completion-facing exit through dyadic tolerances, regular rational readback, and the terminal Real seal. The support rows $H,C,Q,N$ transport, replay, optionally hand off, and name only that displayed finite route.
+\end{proof}
+
+\begin{theorem}[CauchySequenceInterleaving RegSeqRat handoff]
+\label{thm:cauchy-sequence-interleaving-regseqrat-handoff}
+Every accepted $\CauchySequenceInterleavingUp$ carrier $I=(X,Y,W,P,D,R,E,H,C,Q,N)$ hands its interleaved finite-window data to $\RegSeqRatUp$ through the route
+$$
+X,\quad Y,\quad W,\quad P,\quad D,\quad R,\quad E .
+$$
+If a downstream diagonal or Cauchy-window argument asks for a cofinal fast window, the handoff may continue through the displayed $\FastCauchySubsequenceUp$ row $Q$, but it must still keep the StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, and Real seal visible before any public comparison data is exposed.
+\end{theorem}
+\begin{proof}
+Begin with the finite interleaving ledger. The rows $X,Y,W,P$ determine the accepted left and right windows and their parity provenance, so the packet has no coordinate for an untracked infinite merge of the two sources.
+
+Apply the NameCert obligation surface of \autoref{thm:cauchy-sequence-interleaving-namecert-obligations}. It requires $D$ before $R$ and requires $R$ before the terminal seal $E$, giving the displayed RegSeqRat handoff route.
+
+For a fast cofinal request, use the $Q$ row only after the regular readback route has been exposed. Since $Q$ is an optional displayed handoff row rather than a choice functional, it cannot bypass $X,Y,W,P,D,R,E$ or create a selected limit.
+\end{proof}
+
+\begin{closurestatus}{\CauchySequenceInterleavingUp}
+  \constructivestory{A $\CauchySequenceInterleavingUp$ packet is generated from two displayed StreamName source rows, finite interleaving windows, parity provenance, dyadic tolerances, regular rational readback, a terminal Real seal, optional fast-subsequence handoff, componentwise transport, replay, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequence-interleaving-carrier}, \autoref{thm:cauchy-sequence-interleaving-namecert-obligations}, and \autoref{thm:cauchy-sequence-interleaving-regseqrat-handoff} define the finite source-route packet and its RegSeqRat handoff surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a Lean theorem, bridge checking, quotient stream equality, host real equality, selected limits, countable choice, trichotomy, or ambient completeness.}
+  \upgradepath{The next obligation is a Lean theorem for the carrier and handoff clauses, followed by a standard bridge only after the source route has a checked public surface.}
+\end{closurestatus}

@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\KleeneBrouwerOrderUp$}
+\label{ch:concrete-instances-kleene-brouwer-order-namecert}
+\origin{human}
+
+Following Kleene and Troelstra--van Dalen on well-founded tree orderings in constructive bar and spread arguments, the $\KleeneBrouwerOrderUp$ packet records the finite order surface on displayed tree nodes. It sits beside the prefix-tree boundary of \autoref{ch:concrete-instances-kleene-tree-namecert}, the finite bar route of \autoref{ch:concrete-instances-fantheorem-namecert}, the bar-induction packet of \autoref{ch:concrete-instances-brouwer-bar-induction-namecert}, the spread-law admission surface of \autoref{ch:concrete-instances-spread-law-namecert}, the finite fan theorem packet of \autoref{ch:concrete-instances-finite-fan-theorem-namecert}, and the finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}. The packet names only finite node, prefix, and first-disagreement rows; it does not select an infinite branch, import classical well-ordering, decide global tree equality, or invoke countable choice.
+
+\begin{definition}[Kleene--Brouwer order carrier]
+\label{def:kleene-brouwer-order-carrier}
+A $\KleeneBrouwerOrderUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,N,P,F,L,A,H,C,Q,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite tree-node row, listing the displayed nodes and their admission decisions in the inspected prefix tree.
+\item $N$ is the node-code row, recording each inspected word as a finite $\ListUp$ of $\NatUp$ entries, with the empty word and parent-prefix witnesses exposed.
+\item $P$ is the prefix row, recording the displayed prefix relation between listed nodes and the finite parent spine used by tree induction.
+\item $F$ is the first-disagreement row, recording the first coordinate at which two incomparable listed nodes differ, together with the left/right $\NatUp$ comparison visible at that coordinate.
+\item $L$ is the $\NatUp/\ListUp$ prefix ledger used to traverse lengths, heads, tails, and coordinate comparisons without reading a host sequence.
+\item $A$ is the order-admission row, classifying a displayed comparison by the Kleene--Brouwer rule: later extensions are below their prefixes, and incomparable nodes are ordered by the first displayed disagreement.
+\item $H$ records componentwise $\hsame$ transport for tree nodes, node codes, prefix rows, first-disagreement rows, ledgers, order admission, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a comparison request through $T,N,P,F,L,A,H$.
+\item $Q$ is the $\Pkg$ provenance over $\KleeneBrouwerOrderUp$, $\KleeneTreeUp$, $\FanTheoremUp$, $\FiniteFanTheoremUp$, $\BrouwerBarInductionUp$, $\SpreadLawUp$, $\StreamNameUp$, $\NatUp$, $\ListUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $M$ is the local $\NameCert_{\KleeneBrouwerOrderUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for an infinite branch, a host total order on all sequences, quotient equality of streams, classical well-ordering, a bar-induction conclusion, a spread choice functional, or countable choice.
+\end{definition}
+
+\begin{theorem}[Kleene--Brouwer order NameCert obligation surface]
+\label{thm:kleene-brouwer-order-namecert-obligation-surface}
+For every accepted $\KleeneBrouwerOrderUp$ carrier $K=(T,N,P,F,L,A,H,C,Q,M)$, the local $\NameCert_{\KleeneBrouwerOrderUp}$ surface consists exactly of finite tree-node admission through $T$, finite node coding through $N$, prefix exposure through $P$, first-disagreement exposure through $F$, $\NatUp/\ListUp$ prefix-ledger traversal through $L$, Kleene--Brouwer comparison admission through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $Q$, and local naming through $M$.
+
+Every $\KleeneTreeUp$, $\FanTheoremUp$, $\FiniteFanTheoremUp$, $\BrouwerBarInductionUp$, $\SpreadLawUp$, or $\StreamNameUp$ consumer that reads this order must expose those rows before treating a displayed comparison as a well-founded tree-order step. The packet exports no infinite path, global branch selector, quotient stream equality, host well-ordering, countable-choice functional, or completed bar-induction proof.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kleene-brouwer-order-carrier}. The only tree data available to a consumer are the displayed node rows $T,N$ and the finite prefix row $P$.
+
+For comparable nodes, the order read is forced through the prefix ledger. The row $L$ supplies the $\NatUp$ lengths and $\ListUp$ parent spines, and the row $A$ records the Kleene--Brouwer convention that a proper extension is ordered below its prefix.
+
+For incomparable nodes, the read is forced through $F$. The first-disagreement coordinate and its two $\NatUp$ entries are displayed before $A$ may classify the comparison, so no host comparison of completed streams is used.
+
+The structural rows $H,C,Q,M$ then transport, replay, source, and name the same finite comparison route. Since none of the carrier coordinates stores an infinite branch, a selected bar, quotient stream equality, a host well-ordering, or countable choice, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\closureat{KleeneBrouwerOrderUp}{seedStr}
+
+\begin{closurestatus}{\KleeneBrouwerOrderUp}
+  \constructivestory{A $\KleeneBrouwerOrderUp$ packet is generated from finite tree-node rows, List/Nat node-code rows, prefix rows, first-disagreement rows, prefix ledgers, order-admission rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kleene-brouwer-order-carrier} and \autoref{thm:kleene-brouwer-order-namecert-obligation-surface} seed the finite Kleene--Brouwer comparison surface consumed by tree, fan, bar, spread, and StreamName routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global well-foundedness, Brouwer bar induction, fan compactness, selected infinite branches, quotient stream equality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix exactness, first-disagreement exactness, finite order classification, transport stability, replay stability, provenance exhaustion, and local naming for BEDC.Derived.KleeneBrouwerOrderUp.}
+\end{closurestatus}

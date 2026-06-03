@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedMeasureUp$}
+\label{ch:concrete-instances-regulated-measure-namecert}
+\origin{human}
+
+Following Riemann, Stieltjes, and the Bishop--Bridges constructive treatment of regulated functions and bounded variation, the $\RegulatedMeasureUp$ packet records finite regulated partition-measure data. It sits between the displayed regulated-function rows of \autoref{ch:concrete-instances-regulated-function-namecert}, the partition-variation surface of \autoref{ch:concrete-instances-boundedvariation-namecert}, the tagged-sum route of \autoref{ch:concrete-instances-riemannstieltjes-namecert}, the dyadic partition rows of \autoref{ch:concrete-instances-dyadic-partition-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite partition-measure certificate; it is not a sigma-measure, a measure completion, a Lebesgue integration object, a host-function quotient, countable choice, or an ambient $\RealUp$ completeness principle.
+
+\begin{definition}[RegulatedMeasure carrier]
+\label{def:regulated-measure-carrier}
+A $\RegulatedMeasureUp$ carrier is a finite $\BHist$ packet
+$$
+M=(F,V,\Pi,\Delta,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\RegulatedFunctionUp$ source row, inspected only through finite step-window and oscillation-control data.
+\item $V$ is the $\BoundedVariationUp$ control row, recording the partition-variation budget that bounds all displayed interval contributions.
+\item $\Pi$ is the $\DyadicPartitionUp$ row, naming the ordered cells and refinement witnesses on which the packet is read.
+\item $\Delta$ is the $\DyadicRatCoreUp$ interval-mass ledger, assigning finite rational mass rows to the cells of $\Pi$ under the displayed variation budget.
+\item $R$ is the $\RegSeqRatUp$ readback row that exposes the regulated finite measure values at the requested windows.
+\item $E$ is the downstream $\RealUp$ seal reached only after $F,V,\Pi,\Delta,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the regulated source, variation budget, partition, mass ledger, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from regulated-function partition reads through bounded-variation control, dyadic mass ledgers, regular rational readback, and the terminal real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedMeasureUp$, $\RegulatedFunctionUp$, $\BoundedVariationUp$, $\RiemannStieltjesUp$, $\DyadicPartitionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedMeasureUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,V,\Pi,\Delta,R,E,H,C,P,N$. It has no coordinate for countable additivity, a sigma-algebra completion, a host measure quotient, selected limits, countable choice, Lebesgue integration, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[RegulatedMeasure NameCert obligations]
+\label{thm:regulated-measure-namecert-obligations}
+For every accepted $\RegulatedMeasureUp$ carrier
+$$
+M=(F,V,\Pi,\Delta,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegulatedMeasureUp}$ surface consists exactly of carrier admission for the regulated source $F$, bounded-variation control through $V$, dyadic partition exposure through $\Pi$, interval-mass exactness through $\Delta$, regular rational readback through $R$, terminal real sealing through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-measure-carrier}. The source rows $F,V,\Pi$ are finite regulated-function, bounded-variation, and dyadic partition data, so carrier admission begins from displayed rows rather than from an ambient measure space.
+
+The interval-mass obligation is the dyadic ledger $\Delta$. Its cells are exactly the cells of $\Pi$, and its allowed values are constrained by the variation budget $V$ before any downstream readback is visible.
+
+The readback and seal obligations are $R$ and $E$. They route the finite mass ledger through regular rational windows and then through the terminal real seal, while $H,C,P,N$ preserve transport, replay, provenance, and local naming for the same packet.
+
+Since no omitted object is a carrier coordinate, the listed rows exhaust the NameCert surface and exclude sigma-measure completion, host quotient equality, selected limits, countable choice, and ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[RegulatedMeasure Stieltjes handoff]
+\label{thm:regulated-measure-stieltjes-handoff}
+Every $\RiemannStieltjesUp$ consumer of an accepted $\RegulatedMeasureUp$ packet reads the measure-facing contribution only through the displayed route
+$$
+\RegulatedFunctionUp,\quad
+\BoundedVariationUp,\quad
+\DyadicPartitionUp,\quad
+\RegSeqRatUp,\quad
+\RealUp,\quad
+\BHist,\quad
+\hsame,\quad
+\Cont,\quad
+\Pkg,\quad
+\NameCert_{\RegulatedMeasureUp}.
+$$
+Concretely, the consumer must expose the regulated source row $F$, the bounded-variation budget $V$, the dyadic partition $\Pi$, the interval-mass ledger $\Delta$, and the regular rational readback $R$ before the $\RealUp$ seal $E$ is read.
+\end{theorem}
+\begin{proof}
+Begin with the regulated source and variation rows. The regulated-function surface supplies finite step-window data, and the bounded-variation surface supplies the finite budget controlling interval contributions.
+
+Next expose the dyadic partition and mass ledger. The $\DyadicPartitionUp$ row fixes the cells that a Stieltjes-facing consumer may inspect, and $\Delta$ assigns only finite dyadic mass rows to those cells.
+
+Finally pass through regular rational readback and the real seal. The $\RegSeqRatUp$ row reads the displayed finite ledger, and $E$ seals that same readback as a terminal $\RealUp$ row. No row in the route supplies countable additivity, sigma-measure completion, selected limits, host quotient equality, Lebesgue integration, or ambient real completeness.
+\end{proof}
+
+\closureat{RegulatedMeasureUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedMeasureUp}
+  \constructivestory{A $\RegulatedMeasureUp$ packet is generated from a regulated-function source row, a bounded-variation control row, a dyadic partition row, an interval-mass DyadicRatCore ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-measure-carrier}, \autoref{thm:regulated-measure-namecert-obligations}, and \autoref{thm:regulated-measure-stieltjes-handoff} seed the finite regulated partition-measure packet consumed by Riemann--Stieltjes and real-name routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim sigma-measure completion, countable additivity, Lebesgue integration, host-function quotient equality, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-variation control, dyadic partition exposure, interval-mass exactness, regular rational readback, real-seal routing, transport, replay, provenance, and local naming for BEDC.Derived.RegulatedMeasureUp.}
+\end{closurestatus}

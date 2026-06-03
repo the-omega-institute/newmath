@@ -364,4 +364,34 @@ theorem BoundedRealSequenceBolzano_frontier
     ⟨sourceReadUnary, readbackReadUnary, sealReadUnary, boundReadUnary, frontierReadUnary,
       rfl⟩
 
+theorem BoundedRealSequenceObligation_carrier_admission
+    {S W Q R I H C P N routeRead sealRead boundRead admittedRead : BHist} :
+    UnaryHistory S ->
+      UnaryHistory W ->
+        UnaryHistory R ->
+          UnaryHistory I ->
+            UnaryHistory H ->
+              Cont S W Q ->
+                Cont Q R sealRead ->
+                  Cont sealRead I boundRead ->
+                    Cont boundRead H admittedRead ->
+                      UnaryHistory Q ∧ UnaryHistory sealRead ∧ UnaryHistory boundRead ∧
+                        UnaryHistory admittedRead ∧
+                          BHistCarrier.toEventFlow
+                              (BoundedRealSequenceUp.mk S W Q R I H C P N) =
+                            BoundedRealSequenceTasteGate_single_carrier_alignment_to_event_flow
+                              (BoundedRealSequenceUp.mk S W Q R I H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  intro sourceUnary windowUnary realUnary intervalUnary transportUnary sourceWindow
+    sealRoute boundRoute admittedRoute
+  have readbackUnary : UnaryHistory Q :=
+    unary_cont_closed sourceUnary windowUnary sourceWindow
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary realUnary sealRoute
+  have boundUnary : UnaryHistory boundRead :=
+    unary_cont_closed sealUnary intervalUnary boundRoute
+  have admittedUnary : UnaryHistory admittedRead :=
+    unary_cont_closed boundUnary transportUnary admittedRoute
+  exact ⟨readbackUnary, sealUnary, boundUnary, admittedUnary, rfl⟩
+
 end BEDC.Derived.BoundedRealSequenceUp

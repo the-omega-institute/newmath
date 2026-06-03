@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\DyadicToleranceCompositionUp$}
+\label{ch:concrete-instances-dyadic-tolerance-composition-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicToleranceCompositionUp$ packet records the finite epsilon-budget composition route used when two local tolerance handoffs must be chained before a downstream real-name or completion-facing consumer reads the final bound. It sits over the split-budget surface of \autoref{ch:concrete-instances-dyadic-error-budget-namecert}, the scale discipline of \autoref{ch:concrete-instances-dyadic-tolerance-scale-namecert}, the triangle ledger of \autoref{ch:concrete-instances-dyadic-tolerance-triangle-ledger-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives diagonal, Cauchy, and completion routes a named finite tolerance-composition carrier rather than forcing each consumer to restate the same two-step budget handoff.
+
+\begin{definition}[Dyadic tolerance-composition carrier]
+\label{def:dyadic-tolerance-composition-carrier}
+A $\DyadicToleranceCompositionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(Q,S_0,S_1,B_0,B_1,Q',W_0,W_1,R_0,R_1,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the request tolerance row presented to the downstream consumer before local budgets are inspected.
+\item $S_0$ and $S_1$ are the two $\DyadicToleranceScaleUp$ rows that expose the input and output precision scales for the two local tolerance stages.
+\item $B_0$ and $B_1$ are the two local $\DyadicErrorBudgetUp$ rows consumed by the first and second tolerance stages.
+\item $Q'$ is the composed tolerance row, recording the final dyadic request after the two scale and budget rows have been chained.
+\item $W_0$ and $W_1$ are the $\StreamNameUp$ finite-window rows from which the two local reads are opened.
+\item $R_0$ and $R_1$ are the $\RegSeqRatUp$ readback rows attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic ledger recording the displayed dyadic sum, comparison slack, and final bound behind $Q'$.
+\item $E$ is the $\RealUp$ seal row reached only after the composed tolerance route has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the request, two scale rows, two budget rows, composed tolerance row, windows, readbacks, dyadic arithmetic ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the request through the two scale rows, two local budgets, composed tolerance, windows, readbacks, dyadic ledger, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicToleranceCompositionUp$, $\DyadicErrorBudgetUp$, $\DyadicToleranceScaleUp$, $\DyadicToleranceTriangleLedgerUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicToleranceCompositionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, host real equality, selected limits, countable choice, trichotomy, detached completion evidence, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic tolerance-composition NameCert obligations]
+\label{thm:dyadic-tolerance-composition-namecert-obligations}
+For every accepted $\DyadicToleranceCompositionUp$ carrier $T=(Q,S_0,S_1,B_0,B_1,Q',W_0,W_1,R_0,R_1,D,E,H,C,P,N)$, the local $\NameCert_{\DyadicToleranceCompositionUp}$ surface consists exactly of carrier admission for the request tolerance, two scale rows, two local budget rows, composed tolerance row, stream windows, regular-rational readbacks, dyadic arithmetic ledger, Real seal, transport, replay, provenance, and local naming; scale-budget handoff exactness requiring $S_0,B_0$ and $S_1,B_1$ to be consumed in order; composed-tolerance exactness requiring $Q'$ to be read through $D$; Real-seal compatibility requiring $E$ to be downstream of the composed route; and nonescape excluding quotient streams, selected limits, host equality, countable choice, trichotomy, detached completion evidence, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-tolerance-composition-carrier}. The packet displays exactly the request row, the two scale rows, the two local budget rows, the composed tolerance row, the two windows, the two readbacks, the dyadic ledger, the Real seal, and the support rows.
+
+Scale-budget handoff exactness is read from $S_0,B_0$ and $S_1,B_1$. The carrier gives each local stage one scale row and one budget row, so a consumer cannot insert an unrecorded tolerance stage between them.
+
+Composed-tolerance exactness is the role of $Q'$ and $D$. The final bound is visible only through the dyadic arithmetic ledger, which records the displayed sum and comparison slack before the Real seal is consumed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier omits quotient streams, host equality, selected limits, countable choice, trichotomy, detached completion evidence, and ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic tolerance-composition scale-budget handoff]
+\label{thm:dyadic-tolerance-composition-scale-budget-handoff}
+Every $\RegSeqRatUp$, $\RealUp$, diagonal, Cauchy, or completion-facing consumer of an accepted $\DyadicToleranceCompositionUp$ carrier must read the finite route
+$$
+Q \longmapsto S_0,B_0 \longmapsto S_1,B_1 \longmapsto Q',D \longmapsto W_0,W_1,R_0,R_1,E,H,C,P,N .
+$$
+Thus the first local tolerance stage, the second local tolerance stage, and the composed dyadic bound are displayed before the Real seal is available.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the request row $Q$. The only local tolerance-stage rows attached to it are $S_0,B_0$ and $S_1,B_1$.
+
+Use the sibling surfaces named in the carrier. The $\DyadicToleranceScaleUp$ rows expose the precision scales, while the $\DyadicErrorBudgetUp$ rows expose the two local budget consumptions.
+
+The row $D$ composes those local reads into the final row $Q'$. The stream windows and regular-rational readbacks $W_0,W_1,R_0,R_1$ then provide the finite observation route before $E$ seals the real-name boundary.
+
+Transport, replay, provenance, and local naming preserve the same order. Since no unrecorded scale, budget, selected limit, or completeness row is present, every listed consumer receives exactly this handoff.
+\end{proof}
+
+\begin{theorem}[Dyadic tolerance-composition nonescape]
+\label{thm:dyadic-tolerance-composition-nonescape}
+An accepted $\DyadicToleranceCompositionUp$ carrier exports only the finite composition rows
+$$
+Q,S_0,S_1,B_0,B_1,Q',W_0,W_1,R_0,R_1,D,E,H,C,P,N .
+$$
+It cannot export quotient stream equality, host real equality, selected limits, countable choice, trichotomy, detached completion evidence, ambient $\RealUp$ completeness, or a hidden third tolerance stage.
+\end{theorem}
+\begin{proof}
+The carrier definition lists the full public inventory. Its analytic rows are the request tolerance, two scale rows, two local budget rows, composed tolerance, finite windows, regular-rational readbacks, dyadic arithmetic ledger, and Real seal.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name those analytic rows. They do not add a selector, quotient, host equality predicate, trichotomy decision, completion witness, or independent tolerance stage.
+
+Therefore downstream diagonal, Cauchy, and completion routes must obtain any stronger principle from separate chapters after reading this packet. The $\DyadicToleranceCompositionUp$ surface supplies only the displayed finite epsilon-budget composition route.
+\end{proof}
+
+\closureat{DyadicToleranceCompositionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicToleranceCompositionUp}
+  \constructivestory{A $\DyadicToleranceCompositionUp$ packet is generated from one request tolerance, two DyadicToleranceScale rows, two DyadicErrorBudget rows, one composed tolerance row, two StreamName windows, two RegSeqRat readbacks, one DyadicRatCore arithmetic ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-tolerance-composition-carrier}, \autoref{thm:dyadic-tolerance-composition-namecert-obligations}, \autoref{thm:dyadic-tolerance-composition-scale-budget-handoff}, and \autoref{thm:dyadic-tolerance-composition-nonescape} seed the finite epsilon-budget composition packet over two local tolerance stages and one composed Real-facing bound.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, selected limits, countable choice, trichotomy, detached completion evidence, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\DyadicToleranceCompositionUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, scale-budget handoff exactness, composed-tolerance exactness, stream-window readback, Real-seal compatibility, transport, replay, provenance, and local naming for BEDC.Derived.DyadicToleranceCompositionUp.}
+\end{closurestatus}

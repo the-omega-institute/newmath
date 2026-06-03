@@ -299,6 +299,9 @@ instance axiomRequirementLedgerChapterTasteGate :
     intro x y hxy heq
     exact hxy (axiomRequirementLedgerToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate AxiomRequirementLedgerUp :=
+  axiomRequirementLedgerChapterTasteGate
+
 def axiomRequirementLedgerFields : AxiomRequirementLedgerUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | AxiomRequirementLedgerUp.mk claim mode witness required refusal transport route provenance

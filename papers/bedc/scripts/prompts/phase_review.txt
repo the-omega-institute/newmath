@@ -1,7 +1,7 @@
 You are the THEORY REVIEW phase for BEDC paper revision worker <WORKER_ID>.
 
 ## Prompts version
-v4.53 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.54 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## EMISSION RULE (read this BEFORE candidate_pool / target selection)
 
@@ -23,11 +23,17 @@ Allocate your 5 review targets approximately matching these weights:
 
 Source meanings:
 - top: `critical_path.top[0..N]` where N = `critical_path.dispatch_window.paper` (existing primary)
+- sieve_clearance_top: `critical_path.sieve_clearance_top` entries with small, local static-sieve gaps; use only when the listed clearance can be discharged by real paper/Lean evidence, not by renaming
+- discovery_candidate_top: `critical_path.discovery_candidate_top` entries are low-priority classifier-shift inspection targets. Include at most one after hard gates. The target kind is `discovery_candidate`, landing kind `existing_chapter_ledger_row`, and it must carry `candidate_reasons`, `mechanical_risk`, before/after classifier names, and `suggested_landing`. Do not select human-origin NameCert reconstructions or `confirmed_composite` entries as discovery candidates.
 - top_root_unblocks: `critical_path.top_root_unblocks` (root chapters needing theorem support)
 - closure_mark: closurestatus/token work from `critical_path.drift_chapters`, `bridge_sync_pending`, and `top_transitions`
 - carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket in `carrier_isomorphism`
 - human_derivation_gap: `critical_path.human_derivation_gap` chapters with `\origin{human}`, canonical exclusions, and no visible induction-style derivation proof
 - metacic_priority: `critical_path.metacic_priority` chapters or imports on the MetaCIC path
+
+`critical_path.sieve_demote` is not a review source. It is a low-priority signal already applied to matching `top` scores; do not select extra paper work merely because a target appears there.
+
+For `discovery_candidate_top`, the emitted target must ask for a classification decision, not a positive claim. Allowed outcomes are `positiveDiscovery`, `discovery`, `mechanical_reconstruction`, or `reject_candidate`. A positive outcome requires resolved Lean evidence: non-smoke ledger/gate, concrete before/after classifier disagreement, classifier increment, and a weight profile. A mechanical outcome must name one reason from `known_math_namecert`, `carrier_only`, `classifier_unchanged`, `bridge_only`, `marker_sync_only`, `human_chapter_reconstruction`, `insufficient_evidence`, `duplicate_of_existing`, plus `nearest_existing_target` and `checked_by_worker`.
 
 If `dispatch_weights.paper.capstone_candidate` is non-null, you have a pre-picked carrier-isomorphism abstraction candidate. Use the suggested name and slug from that object — do NOT pick your own bucket or invent a different name (the rotation picks the next bucket each cycle so you don't need to choose).
 

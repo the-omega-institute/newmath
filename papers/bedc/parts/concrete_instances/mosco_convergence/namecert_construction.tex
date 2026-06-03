@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\MoscoConvergenceUp$}
+\label{ch:concrete-instances-mosco-convergence-namecert}
+\origin{human}
+
+Following Mosco's variational convergence theorem, the $\MoscoConvergenceUp$ packet records the finite certificate surface by which lower-semicontinuous convex functionals converge through weak-liminf and strong-recovery clauses. It sits downstream of the weak-topology route of \autoref{ch:concrete-instances-weak-star-topology-namecert}, the convex-support surface of \autoref{ch:concrete-instances-convexset-namecert}, the completion handoff of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the terminal real readback of \autoref{ch:concrete-instances-real-namecert}. The packet is a NameCert for variational convergence data, not a host Hilbert-space theorem, a selected minimizer, quotient equality of functionals, compactness by choice, or an ambient dual-space completion principle.
+
+\begin{definition}[MoscoConvergence carrier]
+\label{def:mosco-convergence-carrier}
+A $\MoscoConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(F,W,L,R,C,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the lower-semicontinuity row for the source functionals, exposing only finite sublevel probes, scalar readbacks, and closedness checks.
+\item $W$ is the weak-topology row, naming the finite weak neighborhoods and convergence probes used by liminf consumers.
+\item $L$ is the weak-liminf ledger, recording each lower-bound comparison through $F,W$ and the terminal real readback.
+\item $R$ is the strong recovery-sequence row, displaying the finite approximation schedule, strong convergence probes, and scalar upper-bound witnesses.
+\item $C$ is the convex-set support row, binding the admissible-domain and sublevel convexity data used by both $L$ and $R$.
+\item $H$ is the completion handoff row, available only after $F,W,L,R,C$ have been displayed and only for the completion route named by this packet.
+\item $T$ stores componentwise $\hsame$ transport for lower-semicontinuity, weak topology, liminf, recovery, convex support, completion, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\MoscoConvergenceUp$, weak topology, convex support, completion handoff, lower-semicontinuity, recovery-sequence, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MoscoConvergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,W,L,R,C,H,T,P,N$. It has no coordinate for host epigraph convergence, a selected minimizer, quotient equality of functionals, global compactness, countable choice, or ambient Hilbert-space completeness.
+\end{definition}
+
+\begin{theorem}[MoscoConvergence NameCert obligations]
+\label{thm:mosco-convergence-namecert-obligations}
+For every accepted $\MoscoConvergenceUp$ carrier
+$$
+M=(F,W,L,R,C,H,T,P,N),
+$$
+the local $\NameCert_{\MoscoConvergenceUp}$ surface consists exactly of carrier admission for the lower-semicontinuity row $F$, weak-topology row $W$, weak-liminf ledger $L$, recovery-sequence row $R$, convex support row $C$, completion handoff $H$, componentwise transport $T$, package provenance $P$, and local naming $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:mosco-convergence-carrier}. The convergence data visible to the classifier are precisely the lower-semicontinuity row $F$, weak-topology row $W$, weak-liminf ledger $L$, recovery row $R$, convex support row $C$, and completion handoff $H$.
+
+The liminf obligation is forced through $F,W,L$. A consumer cannot read a weak lower-bound comparison until the weak neighborhood probes and lower-semicontinuity readbacks have both been displayed.
+
+The recovery obligation is separate and positive. The row $R$ supplies only finite strong-approximation schedules and scalar upper-bound witnesses, while $C$ records the convex support on which those schedules are allowed to live.
+
+Finally read $H,T,P,N$. These rows route completion handoff, transport, provenance, and local naming for the same finite packet. Since no host convergence theorem or selected minimizer is a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MoscoConvergence liminf-limsup scope]
+\label{thm:mosco-convergence-liminf-limsup-scope}
+Every variational-convergence consumer of an accepted $\MoscoConvergenceUp$ packet must read the weak-liminf route through $F,W,L$ and the recovery route through $R,C$ before it may use the completion handoff $H$ or the structural rows $T,P,N$. The packet supplies a finite liminf--recovery certificate; it does not supply epi-convergence as a host theorem, Gamma-convergence equivalence, selected minimizers, quotient equality of functionals, compactness by countable choice, or ambient Hilbert-space completeness.
+\end{theorem}
+\begin{proof}
+Begin with the weak-liminf request. The only available lower-bound route is $F,W,L$, so the request must expose lower-semicontinuity probes, weak-topology neighborhoods, and the displayed real-valued comparison ledger.
+
+Next read the recovery side. The row $R$ supplies finite strong-approximation data, and $C$ records the convex support needed to keep those approximants inside the admissible packet.
+
+The completion handoff $H$ is downstream of both routes. Transport, provenance, and local naming through $T,P,N$ preserve the same displayed rows but add no global variational-convergence theorem. Thus the packet closes only the finite Mosco liminf--limsup scope named by the carrier.
+\end{proof}
+
+\closureat{MoscoConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\MoscoConvergenceUp}
+  \constructivestory{A $\MoscoConvergenceUp$ packet is generated from lower-semicontinuity rows, weak-topology probes, a weak-liminf ledger, recovery-sequence data, convex support, completion handoff, componentwise hsame transport, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mosco-convergence-carrier}, \autoref{thm:mosco-convergence-namecert-obligations}, and \autoref{thm:mosco-convergence-liminf-limsup-scope} seed the finite Mosco convergence carrier through lower-semicontinuity, weak topology, recovery, convex support, and completion handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host epigraph convergence, Gamma-convergence equivalence, selected minimizers, quotient equality of functionals, global compactness, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower-semicontinuity visibility, weak-liminf exactness, recovery-sequence coverage, convex-support routing, completion handoff, transport, provenance, and local naming for BEDC.Derived.MoscoConvergenceUp.}
+\end{closurestatus}

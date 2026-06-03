@@ -1,0 +1,111 @@
+---
+title: "Discovery Quality Sieve"
+subtitle: "Putting BEDC discovery claims into one quality loop for candidates, static negative evidence, adversarial witnesses, and Lean Meta carriers."
+author: "The Omega Institute"
+date: 2026-06-02
+description: "The discovery quality sieve is BEDC's production, filtering, and observation system for discovery claims. It emits static grades and ranking signals; it does not judge truth or genuine discovery."
+---
+
+```{=html}
+<div class="lang-switch"><a href="discovery-quality-sieve.zh-CN.qmd">中文</a></div>
+```
+
+# Discovery Quality Sieve
+
+## What It Is
+
+The Discovery Quality Sieve is BEDC's quality loop for discovery claims. It decomposes the question "is this a substantive classifier shift?" into three checkable surfaces: production sends only high-precision candidates into the worker flow, filtering lowers the rank of hollow claims through static negative evidence and deterministic adversarial witnesses, and observation exposes classifier shifts, discovery ledgers, mechanical classifications, and coverage as informational audit lines.
+
+The name is a dossier-level reading. Code command names, JSON fields, Lean namespaces, and prompt terms stay literal: `discovery-candidates`, `discovery-sieve`, `discovery-adversarial`, `critical_path.discovery_candidate_top`, `DiscoveryDeltaLedger`, and `DisagreementSupport`.
+
+## Three Linked Surfaces
+
+### Production
+
+The production surface is driven by `python3 lean4/scripts/bedc_ci.py discovery-candidates` and by `lean4/scripts/critical_path.py` through `discovery_candidate_top`. The candidate detector is deliberately high-precision and low-recall: it admits a target only when the paper and Lean surfaces expose a resolved Lean target, before/after classifier endpoints, reachable disagreement support, nontrivial semantic endpoints, and no hard negative tag.
+
+Hard rejection includes human-origin baseline material, already-closed audit states, checked bridge states, mechanical classifier claims, and negative witnesses such as `target_missing`, `target_axiom`, `target_sorry`, `smoke_template_reuse`, `trivial_classifier`, and `target_substring_evidence`. The live `dispatch_intent` and `allowed_outcomes` are owned by `python3 lean4/scripts/bedc_ci.py discovery-candidates --json` and the `discovery_candidate_top` rows emitted by `lean4/scripts/critical_path.py`; the worker may try to supply a real displacement ledger, or may honestly record `mechanical_reconstruction` or reject the candidate when those live outcomes allow it.
+
+`critical_path.discovery_candidate_top` connects these candidates as a low-weight dispatch source. This makes candidates visible without turning "discovery volume" into the scheduling objective. The Discovery Candidate Contract in the Lean and paper worker prompts likewise requires a real classifier displacement claim while allowing honest `mechanical_reconstruction` and auditable opt-out.
+
+Production metrics are survivor-based: `declared_candidate`, `sieve_survivor`, and `certified_prime`. They do not reward the raw number of claims, because claim count is not a proxy for discovery quality.
+
+### Filtering
+
+The filtering surface is driven by `python3 lean4/scripts/bedc_ci.py discovery-sieve`, `python3 lean4/scripts/bedc_ci.py discovery-adversarial`, and the `critical_path` views `sieve_clearance_top` and `sieve_demote`.
+
+`discovery-sieve` runs a multi-pass static negative-evidence screen over discovery targets. It accumulates `reason_tags`, records `negative_witnesses`, `missing_support`, and `clearance_requirements`, and assigns one of four grades:
+
+| Grade | Meaning |
+|---|---|
+| `certified_prime` | No static negative witness, with nontrivial classifier shift, complete rows, and independent support |
+| `probable_prime` | No static negative witness, or visible semantic anchors, but not the stronger support surface |
+| `probable_composite` | Suspicious negative evidence, or insufficient evidence shape |
+| `confirmed_composite` | Determinate negative evidence such as missing target, axiom, sorry, name-substring evidence, or absent discovery row |
+
+These words are a sieve metaphor, not a truth judgment. The payload says this explicitly through `grade_semantics = static_sieve_only_not_truth`.
+
+`discovery-adversarial` emits deterministic adversarial witnesses for the same target family. The static families include lenses for prior-classifier wrappers or same-shape reconstruction, constructor-normal-form deepening, and cost-ledger reduction.
+
+Each `AdversarialWitness` carries a `target_fingerprint`. The fingerprint binds the target header and body, support, adversarial input graph, witness read graph, and paper `closurestatus` content. When the evidence graph changes, the old snapshot no longer speaks for the current graph. `adversarial_resistance_score` is only a ranking signal; `score_semantics` is `ranking_only_not_probability`.
+
+`critical_path.sieve_clearance_top` selects small-gap targets where local evidence could clear a static objection. `critical_path.sieve_demote` lowers the weight of low-quality static targets; it is not a separate source of discovery work.
+
+### Observation
+
+The observation surface connects sieve results back to `bedc_ci.py audit` while keeping informational semantics. The audit exposes:
+
+| Audit line | What it observes |
+|---|---|
+| `classifier shift quality` | Whether classifier-shift targets are graded as probable or confirmed composite |
+| `discovery ledger coverage` | Whether an AI-origin chapter has a corresponding `DiscoveryDeltaLedger` declaration |
+| `mechanical opt-out audit` | Whether `mechanical_reconstruction` or `confirmed_composite` gives a reason, nearest target, and worker check record |
+
+These lines help the operator read quality trends. They do not turn the audit into a truth oracle.
+
+## Prime Metaphor And Honest Boundary
+
+The sieve uses a prime/composite/pseudoprime lens to organize workflow:
+
+| Metaphor | BEDC reading |
+|---|---|
+| Genuine discovery as prime | A classifier displacement not decomposed by known mechanical routes |
+| Mechanical reconstruction as composite | Known-mathematics NameCert work, carrier-only work, bridge-only work, marker sync, duplicate work, and other decomposable routes |
+| Pseudodiscovery as pseudoprime | A surface that looks like discovery but decomposes under static negative evidence or adversarial witnesses |
+
+This lens does not assert genuine primeness. The system does not certify "true discovery", emit probabilities, or prove that a target is indecomposable. It emits an adversarial-undecomposed degree: under the current static reading model, support graph, and adversarial families, the target has not yet decomposed to a mechanical explanation. That degree is a ranking signal, not truth.
+
+## Design Rationale
+
+Soft incentives come before hard demand. If a worker must produce discovery, the easy failure mode is to forge a classifier shift, treat constructor disequality as a semantic endpoint, or launder a claim through an empty ledger. Low-weight candidates, `mechanical_reconstruction`, and `reject_candidate` make honest classification a valid result.
+
+Survivorship is not volume. Real classifier shifts are sparse. A high-precision detector can legitimately have no admitted candidate for a while. Idle waiting is more reliable than treating declaration count as the goal.
+
+Anti-gaming works in both directions. Sieve and adversarial witnesses block false positives: missing targets, sorry, axioms, smoke templates, name-substring evidence, trivial classifiers, constructor-only disagreement, absent semantic references, and bare row-count margins are recorded as negative evidence. Mechanical opt-out audit blocks false negatives: a worker cannot mark a difficult target as mechanical without an accepted reason, nearest existing target, and check record.
+
+Fingerprints give adversarial witnesses a time boundary. `target_fingerprint` binds the target, support, read graph, and paper `closurestatus`; once that evidence graph changes, the old adversarial snapshot is no longer a permanent verdict.
+
+## Live Interfaces
+
+| Surface | Interface |
+|---|---|
+| Production command | `python3 lean4/scripts/bedc_ci.py discovery-candidates [--json] [--verbose] [--max-a N]` |
+| Filtering command | `python3 lean4/scripts/bedc_ci.py discovery-sieve [--json] [--verbose]` |
+| Adversarial command | `python3 lean4/scripts/bedc_ci.py discovery-adversarial [--json] [--verbose]` |
+| Audit survey | `python3 lean4/scripts/bedc_ci.py discovery-audit [--json] [--verbose]` |
+| Critical path views | `discovery_candidate_top`, `sieve_clearance_top`, `sieve_demote` |
+| Lean Meta carriers | `BEDC.Meta.DiscoveryDeltaLedger`, `BEDC.Meta.DisagreementSupport`, `BEDC.Meta.TheoremDNA` |
+| Prompt contract | Discovery Candidate Contract in the Lean and paper worker prompts |
+| Informational audit lines | `classifier shift quality`, `discovery ledger coverage`, `mechanical opt-out audit` |
+
+`DiscoveryDeltaLedger` is the per-chapter discovery ledger. It carries `ChapterTasteGate`, row accounting, and `classifier_shift : Option DiscoveryShift`. `none` means there is no actual before/after displacement; `some shift` enters the structural discovery ledger path.
+
+`DisagreementSupport` is the independent carrier for disagreement support. It separates classifier source families from observable families. Observable families may come from decode, readback, ledger, or role witness, and the carrier requires stable semantic separation plus observable NameCert.
+
+`TheoremDNA` supplies theorem-level content roles: statement, dependencies, proof, certificates, ledger, status, canonical site, and closing seal. Chapter DNA content hashes use it to keep the evidence graph reading tied to the live theorem surface.
+
+## Current Boundary
+
+The discovery quality sieve is connected to the production, filtering, and observation loop. Its candidate detector is intentionally high-precision and low-recall; when no target satisfies the before/after endpoint, reachable support, semantic endpoint, and hard-negative filters, the honest reading is idle waiting, not failure.
+
+The current system provides static grading, deterministic adversarial witnesses, fingerprint time boundaries, and ranking signals. It has not turned the adversary itself into a Lean-checked proof object.

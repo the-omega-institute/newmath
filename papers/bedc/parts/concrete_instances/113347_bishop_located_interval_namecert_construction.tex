@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedIntervalUp$}
+\label{ch:concrete-instances-bishop-located-interval-namecert}
+\origin{human}
+
+Bishop and Bridges-style located interval practice treats an interval as a finite endpoint and locatedness interface rather than as an ambient completeness principle. The $\BishopLocatedIntervalUp$ packet records that interface for the L10 Real and Completion route: it reads the dyadic bracket ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the located-real endpoint surface of \autoref{ch:concrete-instances-locatedreal-namecert}. It does not assert Heine--Borel compactness, selected finite subcovers, quotient stream equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop located interval carrier]
+\label{def:bishop-located-interval-carrier}
+A $\BishopLocatedIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,D,Q,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower endpoint row, a $\LocatedRealUp$ packet displayed before any interval-facing request is accepted.
+\item $U$ is the upper endpoint row, a $\LocatedRealUp$ packet displayed in the same history as $L$.
+\item $D$ is the $\DyadicRatCoreUp$ bracket ledger, carrying the lower and upper dyadic cells, tolerance budget, visible slack, and comparison rows used to inspect $L$ and $U$.
+\item $Q$ is the locatedness witness row: for each accepted finite probe it displays which endpoint bracket, dyadic subcell, or visible gap row answers the probe.
+\item $S$ is the $\StreamNameUp$ finite observation row opened at the dyadic indices recorded in $D$ and $Q$.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the same StreamName windows and dyadic bracket ledger.
+\item $E$ is the terminal $\RealUp$ seal consumed only after the endpoint rows, bracket ledger, locatedness witness, finite observation row, and regular rational handoff have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the endpoint rows, dyadic bracket ledger, locatedness witness, StreamName observations, RegSeqRat handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for finite located-interval requests through $L,U,D,Q,S,R,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedIntervalUp$, $\LocatedRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedIntervalUp}$ row.
+\end{enumerate}
+The classifier reads only these rows. In particular, it has no coordinate for selected subcovers, global compactness, host real equality, quotient stream equality, countable choice, or a completeness assertion for all $\RealUp$ Cauchy data.
+\end{definition}
+
+\begin{theorem}[Bishop located interval NameCert obligations]
+\label{thm:bishop-located-interval-namecert-obligations}
+For every accepted $\BishopLocatedIntervalUp$ carrier $I=(L,U,D,Q,S,R,E,H,C,P,N)$, the local $\NameCert_{\BishopLocatedIntervalUp}$ surface is exhausted by the following obligations:
+\begin{enumerate}
+\item endpoint admission: the lower and upper endpoint rows $L,U$ are displayed $\LocatedRealUp$ packets in the same finite history;
+\item interval order and bracket visibility: the dyadic ledger $D$ exposes the endpoint order comparison, tolerance budget, bracket cells, and slack rows before an interval request can read them;
+\item locatedness: the witness row $Q$ answers each accepted finite probe by a displayed endpoint bracket, subcell, or visible gap row;
+\item dyadic refinement stability: refining the accepted dyadic budget transports $D,Q,S,R$ componentwise through the same $\hsame$ and $\Cont$ rows;
+\item $\RegSeqRatUp$ and $\RealUp$ seal nonescape: any regular rational or real-facing read must pass through $S,R,E,H,C,P,N$ and cannot export quotient stream equality, a selected limit, countable choice, Heine--Borel data, or ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bishop-located-interval-carrier}. The endpoint rows are $L$ and $U$, and the only order or bracket data visible to an interval request is the dyadic ledger $D$ together with the locatedness witness $Q$.
+
+The finite observation and completion route is forced through $S,R,E$. The StreamName row $S$ opens only the requested finite windows, the RegSeqRat row $R$ reads back the regular rational handoff from those windows, and the terminal Real row $E$ is sealed behind the same displayed route.
+
+Transport and replay remain row-local. The rows $H,C,P,N$ carry the endpoint, bracket, locatedness, observation, handoff, and seal data componentwise, so a refinement can only repack the same finite NameCert surface. Since the carrier contains no row for selected subcovers, quotient stream equality, countable choice, chosen limits, or ambient completeness, no such principle can be exported by the certificate.
+\end{proof}
+
+\closureat{BishopLocatedIntervalUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedIntervalUp}
+  \constructivestory{A $\BishopLocatedIntervalUp$ packet is generated from lower and upper LocatedReal endpoint rows, a DyadicRatCore bracket ledger, a locatedness witness, StreamName finite observation, RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-interval-carrier} and \autoref{thm:bishop-located-interval-namecert-obligations} seed the finite located-interval carrier and obligation surface over $\LocatedRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Heine--Borel compactness, selected finite subcovers, quotient stream equality, countable choice, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint admission, bracket visibility, locatedness, dyadic refinement stability, RegSeqRat handoff, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.BishopLocatedIntervalUp.}
+\end{closurestatus}

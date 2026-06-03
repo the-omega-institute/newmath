@@ -12,6 +12,20 @@ Closedness preservation is carried separately by $Q$. Each trace edge may be rea
 Finally, $H,C,P,N$ transport, replay, package, and name exactly these displayed rows. Since no strong-normalization certificate is a coordinate of the bounded route, the socket boundary refuses any consumer that tries to read strong normalization from fuel alone.
 \end{proof}
 
+\begin{theorem}[Normalization candidate socket fuel-erasure refusal]
+\label{thm:normalization-candidate-socket-fuel-erasure-refusal}
+Every $\NormalizationCandidateSocketUp$ no-infinite-reduction read or closed strong-normalization read that crosses the socket fuel boundary must preserve the candidate rows $K,D,E$ and the candidate-set fuel route before reading the no-infinite-reduction row $I$ or frontier refusal row $F$. Erasing $K,D,E$ from such a read turns the socket into an unconditional normalization endpoint over the closed typed term window $M$ and fuel row $U$, but the carrier has no coordinate for that endpoint. The erased route is therefore refused at $F$ rather than exported as evidence-free normalization.
+\end{theorem}
+\begin{proof}
+Project the carrier rows and use the fuel boundary of \autoref{thm:normalization-candidate-socket-fuel-boundary}. The fuel row $U$ and trace row $T$ expose only bounded computation data, while the candidate rows $K,D,E$ remain the visible evidence rows for strong-normalization and no-infinite-reduction reads.
+
+Now apply the candidate-set fuel route of \autoref{thm:normalization-candidate-socket-candidate-set-fuel-route}. A read that reaches candidate-set evidence must pass through $E$, the App and Pi adequacy rows, the bounded trace, the closedness-preservation row, and the structural rows before any public normalization-facing consequence is named.
+
+Use the fuel-boundary candidate gate, \autoref{thm:normalization-candidate-socket-fuel-boundary-candidate-gate}. If $K,D,E$ are erased, the fuel boundary cannot be lowered into a strong-normalization or no-infinite-reduction export; the only admissible output is the frontier refusal row $F$.
+
+Finally specialize the candidate-set readback theorem, \autoref{thm:normalization-candidate-socket-candidate-set-readback}. It places the no-infinite-reduction row $I$ downstream of $M,E,A,B$ and the structural route. Thus reading $I$ or $F$ after deleting $K,D,E$ would assert an endpoint that the carrier does not store, so the socket refuses the erased route.
+\end{proof}
+
 \begin{theorem}[Normalization candidate socket candidate-set fuel route]
 \label{thm:normalization-candidate-socket-candidate-set-fuel-route}
 If an accepted $\NormalizationCandidateSocketUp$ packet exposes the candidate-set row $E$ and bounded fuel row $U$, then every bounded normalization read factors through candidate evidence, the closedness-preservation trace, App and Pi adequacy rows, the bounded trace, and the structural rows $H,C,P,N$. The route uses the candidate-set readback row $E$, the App adequacy row $A$, the Pi adequacy row $B$, the bounded trace row $T$, the closedness-preservation row $Q$, and the fuel row $U$; it does not export global strong normalization or completed closed consistency.

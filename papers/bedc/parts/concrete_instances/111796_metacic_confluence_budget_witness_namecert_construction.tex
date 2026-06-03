@@ -59,6 +59,20 @@ The downstream rows keep the audit boundary intact. Residual envelope, substitut
 The structural rows preserve the route without adding endpoint proof data. Thus a confluence-facing consumer receives finite budget evidence and no coordinate for the refused global claims.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence-budget residual coverage]
+\label{thm:metacic-confluence-budget-witness-residual-coverage}
+Every accepted $\MetaCICConfluenceBudgetWitnessUp$ packet that is consumed as residual-substitution evidence factors through the residual-budget row $R$, candidate-join row $J$, residual-envelope row $E$, substitution-boundary row $S$, closed-premise ledger $L$, local-diamond row $D$, and obstruction row $O$. It cannot be read as full parallel diamond, arbitrary closed Church--Rosser, or unguarded substitution compatibility; residual-substitution consumers must keep the guarded input shape of \autoref{ch:concrete-instances-metacic-residual-substitution-compatibility-namecert} visible.
+\end{theorem}
+\begin{proof}
+Project the carrier $W=(T,F,R,J,E,S,L,D,O,H,C,P,N)$ from \autoref{def:metacic-confluence-budget-witness-carrier}. The residual-facing coordinates are displayed as $R,J,E,S,L,D,O$, with transport, replay, provenance, and naming downstream.
+
+Apply \autoref{thm:metacic-confluence-budget-witness-namecert-obligations}. The NameCert surface requires residual-budget accounting, candidate-join recording, residual-envelope handoff, substitution-boundary visibility, closed-premise-ledger handoff, local-diamond handoff, and obstruction retention as separate rows.
+
+The refused endpoints are fixed by \autoref{thm:metacic-confluence-budget-witness-endpoint-boundary}. That theorem prevents the same packet from being read as full parallel diamond, arbitrary closed Church--Rosser, or an unguarded substitution theorem.
+
+Finally, the guarded input shape is the one recorded by \autoref{ch:concrete-instances-metacic-residual-substitution-compatibility-namecert}. Thus a residual-substitution consumer receives only the displayed budgeted rows and the explicit boundary, not an endpoint confluence claim.
+\end{proof}
+
 \falsifiablePrediction{A packet omitting either the residual-budget row $R$ or the obstruction-retention row $O$ is rejected as a $\MetaCICConfluenceBudgetWitnessUp$ packet, even when it carries typed-window, local-diamond, or residual-envelope rows.}
 
 \independenceWitness{metacic-local-diamond-witness, metacic-confluence-residual-envelope, metacic-confluence-substitution-boundary, closed-parallel-diamond-premise-ledger, metacic-diamond-residual-budget: $\MetaCICConfluenceBudgetWitnessUp$ is not bijective to any listed sibling because it jointly binds typed windows, redex frontiers, residual budgets, candidate joins, residual envelopes, substitution boundaries, closed-premise ledgers, local diamonds, obstruction retention, transport, replay, provenance, and local NameCert data.}

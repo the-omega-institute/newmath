@@ -74,6 +74,22 @@ The separated-reflection row $R_i$ then supplies the classifier route used by th
 The comparison ledger $Q$ is downstream of both sidewise routes. The transport and continuation rows $H,C$ preserve the same route, while $P,N$ record provenance and local naming. Hence the exported comparison factors through the displayed separated route and nothing else.
 \end{proof}
 
+\begin{theorem}[MetricCompletionUniqueness separated classifier exactness]
+\label{thm:metric-completion-uniqueness-classifier}
+Let
+$$
+U=(M,E_0,F_0,R_0,S_0,E_1,F_1,R_1,S_1,Q,H,C,P,N)
+$$
+be an accepted $\MetricCompletionUniquenessUp$ packet. Every uniqueness-facing comparison is classifier-exact only when both presentations read, in order, the common source row $M$, their dense embedding rows $E_0,E_1$, their finite handoff rows $F_0,F_1$, their separated-reflection classifier routes $R_0,R_1$, their separated-completion boundaries $S_0,S_1$, and the comparison ledger $Q,H,C,P,N$. Thus the two completion presentations are compared through the same separated zero-distance classifier route, not through quotient completion equality or host equality of completed points.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:metric-completion-uniqueness-namecert-obligations}. They require common-source agreement at $M$, dense-to-finite order along each $E_i,F_i$ side, classifier-before-uniqueness order along each $R_i,S_i$ side, and comparison exactness through $Q,H,C,P,N$.
+
+Use the separated route theorem, \autoref{thm:metric-completion-uniqueness-separated-route}. It orders every exported comparison through the two displayed sidewise routes over the same source before the comparison ledger and structural rows can be consumed.
+
+Finally invoke the non-escape theorem, \autoref{thm:metric-completion-uniqueness-nonescape}. Since quotient completion, selected representatives, host equality of completed points, choice, compactness, ambient completeness, Lean evidence, and bridge evidence are not carrier coordinates, classifier exactness is exhausted by the shared separated zero-distance routes $R_0,R_1$ and the displayed comparison ledger.
+\end{proof}
+
 \begin{theorem}[MetricCompletionUniqueness non-escape]
 \label{thm:metric-completion-uniqueness-nonescape}
 An accepted $\MetricCompletionUniquenessUp$ packet exports no quotient completion, no selected representative, no host equality of completed points, no countable-choice schedule, no open-cover compactness row, no ambient $\RealUp$ completeness theorem, no Lean verification, and no bridge checking. Every uniqueness-facing read is confined to the displayed rows

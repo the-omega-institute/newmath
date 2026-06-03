@@ -1,0 +1,37 @@
+\begin{theorem}[Closed-term substitution boundary audit-boundary factorization]
+\label{thm:closed-term-substitution-boundary-audit-boundary-factorization}
+Every audit-visible consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet factors through the carrier, ledger non-escape, shift-substitution ledger lock, and $\NameCert$ export totality. Consequently the audit boundary is the finite route over
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+and not an appeal to host substitution semantics, subject reduction, a host syntax quotient, hidden evaluator state, or compiler state outside the displayed packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryAuditBoundaryFactorization}
+\begin{proof}
+First read the carrier of \autoref{def:closed-term-substitution-boundary-carrier}. It supplies the finite $\BHist$ packet and the surrounding $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}. The ledger route has no coordinate for unregistered free variables, hidden host equality, unchecked compiler state, or ambient subject reduction.
+
+Next apply \autoref{thm:closed-term-substitution-boundary-shift-substitution-ledger-lock}. It forces operation reads through $C_{\mathsf{src}}$, $C_{\mathsf{val}}$, $Q$, $R$, $L$, and $A$ before any exported closed shift or closed substitution boundary is visible.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-namecert-export-totality}. The local certificate exports exactly the displayed finite rows, so every audit-visible consumer factors through that boundary and no host substitution surface is added.
+\end{proof}
+
+\begin{theorem}[Closed-term substitution boundary root audit totality]
+\label{thm:closed-term-substitution-boundary-root-audit-totality}
+Every root audit consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet factors through the finite route over
+
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+
+The root audit surface is therefore exhausted by the displayed term rows, closed-value rows, depth row, closedness rows, closed shift and substitution rows, ledger rows, audit row, componentwise transports, continuation routes, package provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:closed-term-substitution-boundary-audit-route-coverage}. It identifies every audit-visible closed shift or substitute-closed read with the finite carrier, classifier, closedness rows, transport rows, route rows, package row, and naming row of the accepted packet.
+
+Next use \autoref{thm:closed-term-substitution-boundary-namecert-export-totality}. The local $\NameCert$ exports exactly $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ and has no additional coordinate for host substitution semantics, host equality, hidden compiler state, or ambient subject reduction.
+
+Finally apply \autoref{thm:closed-term-substitution-boundary-audit-boundary-factorization}. Since every audit-visible consumer factors through the same carrier and export boundary, every root audit consumer is total over the displayed route and nowhere else.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRootAuditTotality}

@@ -19,7 +19,12 @@
   "properties": {
     "contact_id": {
       "type": "string",
-      "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+      "description": "Lowercase BioReality contact id; use dotted/kebab tokens, not underscores or uppercase.",
+      "examples": [
+        "codon-usage-per-organism",
+        "matched-mrna-abundance-control"
+      ],
+      "pattern": "^[a-z0-9][a-z0-9.:-]*$"
     },
     "source_kind": {
       "type": "string",
@@ -33,6 +38,7 @@
         "physical_assay",
         "functional_assay",
         "phenotype_assay",
+        "perturbation_data",
         "curated_annotation",
         "manual_observation"
       ]
@@ -61,7 +67,8 @@
       "minItems": 1,
       "items": {
         "type": "string",
-        "minLength": 1
+        "minLength": 1,
+        "pattern": "\\S"
       }
     },
     "cannot_test": {
@@ -69,7 +76,8 @@
       "minItems": 1,
       "items": {
         "type": "string",
-        "minLength": 1
+        "minLength": 1,
+        "pattern": "\\S"
       }
     },
     "null_reason": {

@@ -111,6 +111,50 @@ ambient completeness, countable-choice, and bridge rows are not part of the
 pullback.
 \end{proof}
 
+\begin{theorem}[StreamName finite-request cofinal section]
+\label{thm:streamname-finite-request-cofinal-section}
+Let $Q_0$ and $Q_1$ be terminal L10 finite requests on the
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ route. Suppose the two
+requests have a common finite observation bound for their StreamName windows,
+DyadicRatCore endpoint-radius ledgers, RegSeqRat readbacks, Real seal
+boundaries, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$
+provenance, and local $\NameCert$ rows. Then there is a common
+$\StreamNameUp$ finite-request section $S$ refining both $Q_0$ and $Q_1$.
+The section $S$ carries the same DyadicRatCore endpoint-radius ledger,
+RegSeqRat readback, Real seal boundary, componentwise $\hsame$, displayed
+$\Cont$, $\Pkg$, and local $\NameCert$ rows as its two terminal restrictions.
+
+The cofinal section is a finite readback object on the displayed L10 route. It
+does not introduce quotient streams, selected limits, countable choice, host
+sequence equality, ambient completion points, or a detached $\RealUp$
+completeness datum.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-finite-request-section-pullback} to the two
+terminal requests and the common finite observation bound. This places both
+requests inside one displayed StreamName section with the same dyadic,
+regular-rational, Real-seal, transport, replay, provenance, and local naming
+rows.
+
+Next use \autoref{thm:streamname-regseqrat-real-finite-request-section-lock}.
+The lock keeps the RegSeqRat readback and Real seal boundary attached to the
+same finite section, so refining the StreamName schedule cannot add quotient
+stream equality, a selected limit, or an ambient completion point.
+
+Now apply
+\autoref{thm:streamname-finite-request-section-classifier-pullback}. The
+classifier verdict of each terminal restriction is read from the same
+four-face section, hence the common section refines both requests without
+changing the DyadicRatCore endpoint-radius ledger or the RegSeqRat readback.
+
+Finally use the Real terminal-budget exhaustion supplied by
+\autoref{thm:real-regseqrat-terminal-budget-exhaustion}. Since every terminal
+Real request has already spent its budget on the displayed finite faces and
+support rows, the common refinement is cofinal among such finite requests and
+has no coordinate for quotient streams, selected limits, countable choice, or
+Real completeness.
+\end{proof}
+
 \begin{theorem}[StreamName finite-request section pullback exactness]
 \label{thm:streamname-finite-request-section-pullback-exactness}
 Let $Q$ and $Q'$ be RealUp-facing finite requests on the terminal L10

@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\MinimalDfaUp$}
+\label{ch:concrete-instances-minimal-dfa-namecert}
+\origin{human}
+
+Following Hopcroft and Ullman, the $\MinimalDfaUp$ packet records the canonical deterministic finite automaton presentation obtained from the finite right-congruence rows of \autoref{ch:concrete-instances-myhill-nerode-namecert}. It consumes accepted-language observations from \autoref{ch:concrete-instances-regularlanguage-namecert}, displayed finite control from \autoref{ch:concrete-instances-finite-automaton-namecert}, and the minimization handoff supplied by \autoref{ch:concrete-instances-myhill-nerode-namecert}. The packet names the minimal deterministic presentation as finite NameCert data; it does not identify arbitrary external automata, choose nondeterministic branches, import a host quotient of all words, or assert regular-expression equivalence.
+
+\begin{definition}[MinimalDfaUp carrier]
+\label{def:minimal-dfa-carrier}
+A $\MinimalDfaUp$ carrier is a finite $\BHist$ packet
+$$
+D=(\Sigma,L,E,C,W,Q,\delta,q_0,F,A,\alpha,\eta,\kappa,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Sigma$ is the finite alphabet row.
+\item $L$ is the accepted-word observation ledger supplied by a $\RegularLanguageUp$ packet.
+\item $E$ is the finite right-congruence table supplied by a $\MyhillNerodeUp$ packet.
+\item $C$ is the suffix-stability replay row for $E$.
+\item $W$ is the distinguishability-witness ledger separating distinct rows of $E$.
+\item $Q$ is the finite state carrier whose states are the displayed $E$-classes.
+\item $\delta$ is the deterministic transition row induced by appending one alphabet symbol and returning to the displayed class.
+\item $q_0$ is the class of the empty word.
+\item $F$ is the accepting-class row determined by $L$.
+\item $A$ is the $\FiniteAutomatonUp$ presentation assembled from $Q,\Sigma,\delta,q_0,F$ and its finite replay rows.
+\item $\alpha$ is the reachability ledger naming a representative word for each displayed state class.
+\item $\eta$ is the separation ledger naming a displayed suffix witness for every pair of distinct displayed state classes.
+\item $\kappa$ is the canonicality row binding accepted $\MinimalDfaUp$ packets with the same $E,C,W$ rows to the same displayed automaton rows.
+\item $H$ records componentwise $\hsame$ transport for alphabet, language, congruence, suffix-stability, distinguishability, state, transition, start, accepting, automaton, reachability, separation, and canonicality rows.
+\item $R$ records displayed $\Cont$ replay from accepted-word queries through the right-congruence table and into the deterministic transition row.
+\item $P$ records $\Pkg$ provenance over $\RegularLanguageUp$, $\FiniteAutomatonUp$, $\MyhillNerodeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MinimalDfaUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the displayed rows $\Sigma,L,E,C,W,Q,\delta,q_0,F,A,\alpha,\eta,\kappa,H,R,P,N$. The carrier has no coordinate for a hidden automaton presentation, nondeterministic recognizer, infinite language quotient, regular-expression proof, or external state renaming oracle.
+\end{definition}
+
+\begin{theorem}[MinimalDfaUp NameCert obligations]
+\label{thm:minimal-dfa-namecert-obligations}
+For every accepted $\MinimalDfaUp$ carrier
+$$
+D=(\Sigma,L,E,C,W,Q,\delta,q_0,F,A,\alpha,\eta,\kappa,H,R,P,N),
+$$
+the local $\NameCert_{\MinimalDfaUp}$ surface consists exactly of finite alphabet exposure, accepted-word observation, right-congruence exposure, suffix-stability replay, distinguishability witnesses, quotient-state exposure, induced deterministic transition replay, start-class exposure, accepting-class exposure, finite-automaton presentation, reachability representatives, pairwise separation witnesses, canonicality transport, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:minimal-dfa-carrier}. The rows $\Sigma,L,E,C,W$ expose the finite observation table inherited from the regular-language and Myhill--Nerode packets.
+
+The rows $Q,\delta,q_0,F,A$ repackage that table as the deterministic finite automaton presentation consumed by $\FiniteAutomatonUp$. Reachability is recorded by $\alpha$, and pairwise separation is recorded by $\eta$; these rows are the finite witnesses that no displayed state is unreachable and no two displayed states can be merged by the accepted-word classifier.
+
+The rows $\kappa,H,R,P,N$ keep canonicality, transport, replay, provenance, and local naming attached to the same finite packet. Since the carrier has no hidden presentation, nondeterministic branch, host quotient, regular-expression proof, or state-renaming oracle coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MinimalDfaUp Myhill--Nerode canonicality]
+\label{thm:minimal-dfa-myhill-nerode-canonicality}
+Let $D$ and $D'$ be accepted $\MinimalDfaUp$ packets over the same displayed alphabet, accepted-word ledger, right-congruence table, suffix-stability row, and distinguishability-witness ledger. If their $\MyhillNerodeUp$ rows agree componentwise, then their finite state carriers, induced transition rows, start classes, accepting-class rows, reachability ledgers, separation ledgers, and $\FiniteAutomatonUp$ presentations agree through the canonicality rows of the two packets. Thus a $\RegularLanguageUp$ consumer reading through the Myhill--Nerode minimization handoff can obtain only the displayed minimal deterministic presentation named by the $\MinimalDfaUp$ packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:minimal-dfa-namecert-obligations} to project both accepted packets to their displayed right-congruence data. Agreement of the $\MyhillNerodeUp$ rows identifies the same finite class table, the same suffix-stability replay, and the same distinguishability witnesses.
+
+The state carrier $Q$ is exactly the displayed class carrier of that table. The transition row $\delta$ is forced by appending one displayed alphabet symbol and returning to the corresponding class, while $q_0$ and $F$ are read from the empty-word class and the accepted-word ledger.
+
+Reachability and separation are finite ledgers over the same displayed classes. The canonicality rows $\kappa$ and $\kappa'$ therefore transport the assembled $\FiniteAutomatonUp$ presentations componentwise. No further automaton can be selected because hidden presentations, state-renaming oracles, nondeterministic branches, and host quotients are absent from the carrier.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MinimalDfaUp$ read is refuted if a minimization consumer obtains a deterministic automaton row without displaying the finite alphabet, accepted-word ledger, right-congruence table, suffix-stability row, distinguishability witnesses, quotient-state row, induced transition row, start class, accepting-class row, reachability ledger, separation ledger, canonicality row, transport rows, replay rows, provenance row, and local naming row.}
+
+\independenceWitness{RegularLanguage, FiniteAutomaton, and MyhillNerode: none is bijective to $\MinimalDfaUp$. The regular-language packet records accepted-word observation without a canonical finite presentation, the finite-automaton packet records one presentation without the Myhill--Nerode separation ledger, and the Myhill--Nerode packet records the minimization handoff without owning the downstream minimal deterministic automaton NameCert.}
+
+\closureat{MinimalDfaUp}{seedStr}
+\begin{closurestatus}{\MinimalDfaUp}
+  \constructivestory{A $\MinimalDfaUp$ packet is generated from a finite alphabet row, accepted-word ledger, right-congruence table, suffix-stability replay, distinguishability witnesses, quotient-state row, induced transition row, start class, accepting-class row, finite automaton presentation, reachability representatives, pairwise separation witnesses, canonicality transport, componentwise hsame transport, displayed continuation replay, package provenance over RegularLanguageUp, FiniteAutomatonUp, and MyhillNerodeUp, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:minimal-dfa-carrier}, \autoref{thm:minimal-dfa-namecert-obligations}, and \autoref{thm:minimal-dfa-myhill-nerode-canonicality} seed the minimal deterministic automaton packet over finite right-congruence data, deterministic replay, reachability, separation, canonicality, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary automaton equivalence, nondeterministic minimization, regular-expression conversion, external state-renaming quotients, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, right-congruence replay, distinguishability coverage, finite-automaton assembly, reachability, separation, canonicality, transport, replay, provenance, and local naming for BEDC.Derived.MinimalDfaUp.}
+\end{closurestatus}

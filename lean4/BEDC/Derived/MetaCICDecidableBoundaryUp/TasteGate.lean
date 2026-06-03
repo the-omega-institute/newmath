@@ -289,4 +289,46 @@ theorem MetaCICDecidableBoundaryTasteGate_single_carrier_alignment :
         exact metaCICDecidableBoundaryToEventFlow_injective heq
       · rfl
 
+theorem MetaCICDecidableBoundary_bounded_comparison_nonescape
+    (checker structural boundedNormal finished refusal transport replay provenance
+      localName : BHist) :
+    BHistCarrier.fromEventFlow
+        (BHistCarrier.toEventFlow
+          (MetaCICDecidableBoundaryUp.mk checker structural boundedNormal finished refusal
+            transport replay provenance localName)) =
+      some
+        (MetaCICDecidableBoundaryUp.mk checker structural boundedNormal finished refusal
+          transport replay provenance localName) ∧
+      metaCICDecidableBoundaryDecodeBHist
+          (metaCICDecidableBoundaryEncodeBHist boundedNormal) =
+        boundedNormal ∧
+        metaCICDecidableBoundaryDecodeBHist
+            (metaCICDecidableBoundaryEncodeBHist finished) =
+          finished ∧
+          metaCICDecidableBoundaryDecodeBHist
+              (metaCICDecidableBoundaryEncodeBHist refusal) =
+            refusal ∧
+            metaCICDecidableBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · change
+      metaCICDecidableBoundaryFromEventFlow
+          (metaCICDecidableBoundaryToEventFlow
+            (MetaCICDecidableBoundaryUp.mk checker structural boundedNormal finished refusal
+              transport replay provenance localName)) =
+        some
+          (MetaCICDecidableBoundaryUp.mk checker structural boundedNormal finished refusal
+            transport replay provenance localName)
+    exact
+      metaCICDecidableBoundary_round_trip
+        (MetaCICDecidableBoundaryUp.mk checker structural boundedNormal finished refusal
+          transport replay provenance localName)
+  · constructor
+    · exact metaCICDecidableBoundary_decode_encode_bhist boundedNormal
+    · constructor
+      · exact metaCICDecidableBoundary_decode_encode_bhist finished
+      · constructor
+        · exact metaCICDecidableBoundary_decode_encode_bhist refusal
+        · rfl
+
 end BEDC.Derived.MetaCICDecidableBoundaryUp

@@ -32,7 +32,7 @@ theorem PolishSpaceCompletionNonescape [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
   intro carrier completeStreamCompletion provenancePkgInput
   obtain ⟨_metricUnary, completeUnary, _separableUnary, streamUnary, _readbackUnary,
-    _ledgerUnary, _alignmentUnary, _transportUnary, _metricCompleteAlignment,
+    _ledgerUnary, _alignmentUnary, _transportUnary, _localNameUnary, _metricCompleteAlignment,
     _alignmentStreamReadback, _ledgerTransportRoute, _provenancePkg⟩ := carrier
   have completionUnary : UnaryHistory completionRead :=
     unary_cont_closed completeUnary streamUnary completeStreamCompletion

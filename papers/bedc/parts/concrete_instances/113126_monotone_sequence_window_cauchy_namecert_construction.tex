@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneSequenceWindowCauchyUp$}
+\label{ch:concrete-instances-monotone-sequence-window-cauchy-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\MonotoneSequenceWindowCauchyUp$ packet records the finite handoff by which inspected monotone bounded real-sequence windows are read as regular rational Cauchy data before any $\RealUp$ seal is exposed. It sits beside the monotone-real-sequence surface of \autoref{ch:concrete-instances-monotone-real-sequence-namecert}, the located bounded real-sequence surface of \autoref{ch:concrete-instances-located-bounded-real-sequence-namecert}, the stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite monotone-window route; it does not import host monotone convergence, ambient real completeness, or selected limits.
+
+\begin{definition}[Monotone sequence window Cauchy carrier]
+\label{def:monotone-sequence-window-cauchy-carrier}
+A $\MonotoneSequenceWindowCauchyUp$ carrier is a finite $\BHist$ packet
+$$
+W=(M,B,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MonotoneRealSequenceUp$ window row, displaying the finite monotonicity comparisons available to the packet.
+\item $B$ is the $\BoundedRealSequenceUp$ row, displaying the inspected boundedness interval for the same windows.
+\item $S$ is the $\StreamNameUp$ row, naming the finite stream positions and readback order consumed by the handoff.
+\item $R$ is the $\RegSeqRatUp$ handoff row produced from the displayed monotone, bounded, and stream-name data.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic rational tolerances used to witness the regular Cauchy readback.
+\item $E$ is the $\RealUp$ seal row reached only after $M,B,S,R,D$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for $M,B,S,R,D,E$.
+\item $C$ records displayed $\Cont$ replay from monotone windows through boundedness, stream naming, dyadic tolerances, regular readback, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneSequenceWindowCauchyUp$, $\MonotoneRealSequenceUp$, $\BoundedRealSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneSequenceWindowCauchyUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for trichotomy, an uninspected supremum, countable choice, quotient equality, selected limits, or ambient $\RealUp$ completeness outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Monotone-window regular Cauchy handoff]
+\label{thm:monotone-sequence-window-regular-cauchy-handoff}
+For every accepted $\MonotoneSequenceWindowCauchyUp$ carrier $W=(M,B,S,R,D,E,H,C,P,N)$, monotone bounded finite windows determine the $\RegSeqRatUp$ handoff only through displayed dyadic tolerance rows. More precisely, every consumer of $R$ must first display the monotone comparison row $M$, the boundedness row $B$, the stream-name row $S$, and the dyadic tolerance row $D$ over the same finite $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:monotone-sequence-window-cauchy-carrier}. The rows $M$ and $B$ provide only finite monotonicity and boundedness observations, and $S$ fixes the inspected stream positions on which those observations are read.
+
+The handoff row $R$ is not an independent completion theorem. It is a displayed regular rational readback whose tolerance witnesses are recorded in $D$. Thus a consumer cannot reach $R$ from monotonicity alone, boundedness alone, or an uninspected limit claim.
+
+The structural rows $H,C,P,N$ preserve the same packet through transport, replay, provenance, and local naming. Therefore the regular Cauchy handoff is forced to pass through $M,B,S,D$ before $R$ is available.
+\end{proof}
+
+\begin{theorem}[Monotone-window Real seal nonescape]
+\label{thm:monotone-sequence-window-real-seal-nonescape}
+For every accepted $\MonotoneSequenceWindowCauchyUp$ carrier $W=(M,B,S,R,D,E,H,C,P,N)$, the $\RealUp$ seal row $E$ is reached only after the monotone-window row $M$, boundedness row $B$, $\StreamNameUp$ row $S$, $\RegSeqRatUp$ row $R$, and $\DyadicRatCoreUp$ row $D$ have been displayed in the same packet.
+\end{theorem}
+\begin{proof}
+Read the seal coordinate in \autoref{def:monotone-sequence-window-cauchy-carrier}. The definition places $E$ downstream from the monotone-window, boundedness, stream-name, regular rational, and dyadic tolerance rows.
+
+Since $P$ sources the packet through those sibling surfaces and $C$ replays their displayed route, no consumer can interpret $E$ as an ambient completeness principle or as a selected limit. The Real seal names the terminal row of the finite route and nothing outside it.
+\end{proof}
+
+\begin{closurestatus}{\MonotoneSequenceWindowCauchyUp}
+  \constructivestory{A $\MonotoneSequenceWindowCauchyUp$ packet is generated from monotone real-sequence windows, boundedness rows, stream-name rows, RegSeqRat handoff, dyadic tolerance rows, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-sequence-window-cauchy-carrier}, \autoref{thm:monotone-sequence-window-regular-cauchy-handoff}, and \autoref{thm:monotone-sequence-window-real-seal-nonescape} seed the finite monotone-window Cauchy packet over monotone windows, boundedness, stream naming, dyadic tolerances, regular readback, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, selected limits, countable choice, quotient equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\MonotoneSequenceWindowCauchyUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone-window exactness, boundedness display, stream-name compatibility, dyadic tolerance handoff, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.MonotoneSequenceWindowCauchyUp.}
+\end{closurestatus}

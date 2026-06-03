@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\MachineExportBoundaryUp$}
+\label{ch:concrete-instances-machine-export-boundary-namecert}
+\origin{ai}
+
+The $\MachineExportBoundaryUp$ packet realizes the machine-facing export side of \autoref{sec:visions-philosophy-machine-interface} as one finite NameCert boundary. It sits beside the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert}, the machine-readable audit interface of \autoref{ch:concrete-instances-machine-readable-audit-interface-namecert}, the cannot-claim export gate of \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert}, and the certificate-preserving morphism route of \autoref{ch:concrete-instances-namecertmorphism-namecert}. Those siblings expose registry status, audit readback, refusal, and morphism preservation separately; this packet binds target, audit, refusal, transport, replay, provenance, and local NameCert rows before a machine export may be read.
+
+\begin{definition}[Machine export boundary carrier]
+\label{def:machine-export-boundary-carrier}
+A $\MachineExportBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+E=(R,T,A,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegistryExportSurfaceUp$ row, recording the exported, blocked, horizon-facing, or formal-target registry status.
+\item $T$ is the machine target row, recording the exact machine-facing target that may read the export.
+\item $A$ is the $\MachineReadableAuditInterfaceUp$ row, recording the schema, checker, audit report, and non-evidence boundary for the export.
+\item $F$ is the $\CannotClaimExportGateUp$ refusal row, recording any blocked claim that must remain visible before export.
+\item $H$ stores componentwise $\hsame$ transport for registry status, target, audit, refusal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from registry lookup to target routing, audit readback, refusal inspection, and local NameCert exposure.
+\item $P$ is the $\Pkg$ provenance over $\MachineExportBoundaryUp$, $\RegistryExportSurfaceUp$, $\MachineReadableAuditInterfaceUp$, $\CannotClaimExportGateUp$, $\NameCertMorphismUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MachineExportBoundaryUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for an unregistered export, unchecked theorem evidence, refused-claim erasure, hidden transport, replay outside the displayed continuation row, provenance outside $P$, or a local name not carried by $N$.
+\end{definition}
+
+\begin{theorem}[Machine export boundary NameCert obligations]
+\label{thm:machine-export-boundary-namecert-obligations}
+For an accepted packet $E=(R,T,A,F,H,C,P,N)$, the local $\NameCert_{\MachineExportBoundaryUp}$ obligations are exhausted by registry export admission through $R$, target exposure through $T$, audit readback through $A$, refusal preservation through $F$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-export-boundary-carrier}. The registry export row $R$, target row $T$, audit row $A$, and refusal row $F$ are displayed before a machine consumer reaches local naming.
+
+Read the sibling routes in order. The registry export surface fixes the public status, the machine-readable audit interface fixes the audit report and non-evidence boundary, and the cannot-claim export gate keeps refused rows visible.
+
+Finally use $H,C,P,N$. These rows transport, replay, package, and name the same export route, with $\NameCertMorphismUp$ present only as provenance for certificate-preserving handoff. Since the carrier has no hidden export or proof-producing report coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Any machine export omitting target, audit, refusal, transport, replay, provenance, or local NameCert rows refutes the $\MachineExportBoundaryUp$ carrier.}
+
+\independenceWitness{registryexportsurface, machinereadableauditinterface, cannotclaimexportgate, namecertmorphism: none is bijective to MachineExportBoundaryUp because the boundary jointly carries registry export status, machine target, audit readback, refusal preservation, transport, replay, provenance, and local NameCert rows.}
+
+The Lean follow-up must provide explicit $\Nontrivial\ \MachineExportBoundaryUp$ and $\FieldFaithful\ \MachineExportBoundaryUp$ instances in \texttt{lean4/BEDC/Derived/MachineExportBoundaryUp/TasteGate.lean}. The field-faithfulness witness must preserve $R,T,A,F,H,C,P,N$ as distinct rows before a checked target can cite the packet.
+
+\closureat{MachineExportBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MachineExportBoundaryUp}
+  \constructivestory{A $\MachineExportBoundaryUp$ packet is generated from registry export status, a machine target row, a machine-readable audit row, a cannot-claim refusal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:machine-export-boundary-carrier} and \autoref{thm:machine-export-boundary-namecert-obligations} seed the finite machine export boundary over RegistryExportSurfaceUp, MachineReadableAuditInterfaceUp, CannotClaimExportGateUp, NameCertMorphismUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unchecked theorem evidence, unregistered export, refusal erasure, hidden transport, off-packet replay, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked registry export admission, target exposure, audit readback, refusal preservation, transport, replay, provenance, local naming, and TasteGate field faithfulness for BEDC.Derived.MachineExportBoundaryUp.}
+\end{closurestatus}

@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\RuleOneTenLocalStencilObservationUp$}
+\label{ch:concrete-instances-rule110-local-stencil-observation-namecert}
+\origin{ai}
+
+The $\RuleOneTenLocalStencilObservationUp$ packet realizes the local-rule observation branch of \autoref{ch:visions-cellular-automaton-substrate-reading} as finite Rule 110 NameCert data. It specializes the local-stencil surface of \autoref{ch:concrete-instances-local-stencil-observation-namecert} to the eight-entry Rule 110 transition table, sits beside the cellular automaton carrier of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the cellular row-classifier surface of \autoref{ch:concrete-instances-cellularrowclassifier-namecert}, and the Rule 110 pattern classifier of \autoref{ch:concrete-instances-rule110-pattern-classifier-namecert}. The packet names one finite neighborhood read and its observed next-cell row; it is not an infinite orbit trace, a glider classification theorem, a universality proof, or a host evaluator semantics.
+
+\begin{definition}[Rule 110 local-stencil observation carrier]
+\label{def:rule110-local-stencil-observation-carrier}
+A $\RuleOneTenLocalStencilObservationUp$ carrier is a finite $\BHist$ packet
+$$
+L=(W,T,S,O,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite window row, naming the inspected left, center, and right cells together with the row coordinate at which the stencil is read.
+\item $T$ is the Rule 110 transition-table row, exposing the eight binary neighborhood cases and the selected case for $W$.
+\item $S$ is the local-stencil row inherited from $\LocalStencilObservationUp$, binding $W$ and $T$ as one displayed observation.
+\item $O$ is the observed next-cell row, recording the output cell certified by the selected Rule 110 case.
+\item $K$ is the classifier-adjacency row, exposing how the observed local output may be consumed by $\CellularRowClassifierUp$ or $\RuleOneTenPatternClassifierUp$ only after $W,T,S,O$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for window, table, stencil, observed output, classifier-adjacency, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a local Rule 110 observation request through $W,T,S,O,K,H$.
+\item $P$ is the $\Pkg$ provenance over $\RuleOneTenLocalStencilObservationUp$, $\LocalStencilObservationUp$, $\CellularAutomatonUp$, $\CellularRowClassifierUp$, $\RuleOneTenPatternClassifierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RuleOneTenLocalStencilObservationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,T,S,O,K,H,C,P,N$. It has no coordinate for an unbounded orbit, global glider catalog, universality witness, hidden evaluator, quotient row equality, or a completed substrate semantics.
+\end{definition}
+
+\begin{theorem}[Rule 110 local-stencil observation NameCert obligations]
+\label{thm:rule110-local-stencil-observation-namecert-obligations}
+For every accepted $\RuleOneTenLocalStencilObservationUp$ carrier
+$$
+L=(W,T,S,O,K,H,C,P,N),
+$$
+the local $\NameCert_{\RuleOneTenLocalStencilObservationUp}$ surface consists exactly of finite window admission through $W$, Rule 110 transition-table exposure through $T$, local-stencil binding through $S$, observed next-cell exposure through $O$, classifier-adjacency routing through $K$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rule110-local-stencil-observation-carrier}. The finite observation rows are exactly the window $W$, transition-table row $T$, local-stencil binding $S$, observed output $O$, classifier-adjacency row $K$, and the structural rows $H,C,P,N$.
+
+The transition-table read is local. Row $T$ selects one of the eight displayed Rule 110 cases for the three-cell window $W$, and row $S$ records that this read is a local-stencil observation rather than a whole-orbit computation.
+
+The observed cell $O$ is then the only output exposed to classifier consumers. The row $K$ lets a cellular row classifier or the Rule 110 pattern classifier consume that output only after the local window, table, stencil, and output rows are visible.
+
+Finally $H,C,P,N$ preserve and name the same route. Since the excluded objects are absent from the carrier, no local NameCert obligation can be discharged by an unbounded orbit, glider catalog, universality witness, hidden evaluator, quotient row equality, or completed substrate semantics.
+\end{proof}
+
+\begin{theorem}[Rule 110 local-stencil classifier route]
+\label{thm:rule110-local-stencil-observation-classifier-route}
+Every classifier-facing read of an accepted $\RuleOneTenLocalStencilObservationUp$ packet factors through
+$$
+\LocalStencilObservationUp,\ \CellularAutomatonUp,\ \CellularRowClassifierUp,\ \RuleOneTenPatternClassifierUp
+$$
+by first exposing the finite local route
+$$
+W,T,S,O \longmapsto K \longmapsto H,C,P,N .
+$$
+The route exports one observed Rule 110 transition-table cell to downstream classifiers; it does not export an orbit prefix, global pattern catalog, glider classification, universality theorem, or host evaluator semantics.
+\end{theorem}
+\begin{proof}
+Start with the local rows $W,T,S,O$. The finite window and selected transition-table case determine the observed next-cell row before any classifier-facing consumer can read the packet.
+
+Apply \autoref{thm:rule110-local-stencil-observation-namecert-obligations}. It keeps classifier adjacency in $K$ downstream of the local window, table, stencil, and output rows, so the classifier receives exactly the displayed local observation.
+
+The sibling chapters named in the statement supply the surrounding surfaces. $\LocalStencilObservationUp$ supplies the generic local-stencil discipline, $\CellularAutomatonUp$ supplies the whole-rule provenance, $\CellularRowClassifierUp$ supplies the row-classifier consumer, and $\RuleOneTenPatternClassifierUp$ supplies the Rule 110 pattern consumer.
+
+None of those siblings is an internal coordinate of this packet before $K,H,C,P,N$ are displayed. The exported route therefore remains a finite local-stencil observation rather than a global cellular or universality claim.
+\end{proof}
+
+\falsifiablePrediction{A purported $\RuleOneTenLocalStencilObservationUp$ read is outside the packet if it classifies a Rule 110 row without first exposing the finite three-cell window, the selected transition-table case, the local-stencil binding, the observed next-cell row, classifier adjacency, transport, replay, provenance, and local naming.}
+
+\independenceWitness{local-stencil-observation, cellularautomaton, cellularrowclassifier, rule110-pattern-classifier: $\RuleOneTenLocalStencilObservationUp$ is not bijective to any listed sibling because it jointly binds the Rule 110 transition table, one selected local stencil, one observed output cell, classifier adjacency, transport, replay, provenance, and local naming rows.}
+
+\closureat{RuleOneTenLocalStencilObservationUp}{seedStr}
+
+\begin{closurestatus}{\RuleOneTenLocalStencilObservationUp}
+  \constructivestory{A $\RuleOneTenLocalStencilObservationUp$ packet is generated from a finite three-cell Rule 110 window, the selected transition-table row, a local-stencil binding, an observed next-cell row, classifier adjacency, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rule110-local-stencil-observation-carrier}, \autoref{thm:rule110-local-stencil-observation-namecert-obligations}, and \autoref{thm:rule110-local-stencil-observation-classifier-route} seed the finite Rule 110 local-stencil observation packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite orbit replay, global pattern catalogs, glider classification, universality, host evaluator semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite-window admission, transition-table exposure, local-stencil binding, observed-output exactness, classifier-adjacency routing, transport, replay, provenance, and local naming for BEDC.Derived.RuleOneTenLocalStencilObservationUp.}
+\end{closurestatus}

@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\LegendrePolynomialUp$}
+\label{ch:concrete-instances-legendre-polynomial-namecert}
+\origin{human}
+
+Following Legendre's polynomial family and Szego's orthogonal-polynomial presentation, the $\LegendrePolynomialUp$ packet names the finite recurrence, normalization, and interval-weight rows for the displayed family $P_n$ without importing a host function space. It sits after the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the orthogonal-family surface of \autoref{ch:concrete-instances-orthogonal-polynomial-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic endpoint and coefficient ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the adjacent recurrence model of \autoref{ch:concrete-instances-chebyshev-polynomial-namecert}.
+
+\begin{definition}[Legendre polynomial carrier]
+\label{def:legendre-polynomial-carrier}
+A $\LegendrePolynomialUp$ carrier is a finite $\BHist$ packet
+$$
+L=(d,P_0,P_1,R,N,O,W,Q,E,H,C,\Pi,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $d$ is the unary degree-window row.
+\item $P_0$ and $P_1$ are the displayed seed polynomial rows for $1$ and $x$ inside $\PolynomialUp$.
+\item $R$ is the finite recurrence ledger for $(n+1)P_{n+1}=(2n+1)xP_n-nP_{n-1}$, including the dyadic coefficient rows needed for each inspected step.
+\item $N$ is the normalization row recording $P_n(1)=1$ on the displayed window.
+\item $O$ is the $\OrthogonalPolynomialUp$ handoff row for the interval-weight and finite moment ledger over the real interval endpoints.
+\item $W$ is the finite evaluation-window row.
+\item $Q$ is the $\RegSeqRatUp$ readback row for inspected evaluations and coefficients.
+\item $E$ is the terminal $\RealUp$ seal row for the endpoint and evaluation reads.
+\item $H$ records componentwise $\hsame$ transport for the displayed rows.
+\item $C$ records displayed $\Cont$ replay of recurrence, normalization, orthogonality, and readback requests.
+\item $\Pi$ is the $\Pkg$ provenance over $\LegendrePolynomialUp$, $\PolynomialUp$, $\OrthogonalPolynomialUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\ChebyshevPolynomialUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $A$ is the local $\NameCert_{\LegendrePolynomialUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host function-space equality, analytic completeness, selected infinite expansions, classical completeness, quotient real equality, or arbitrary choice of an orthogonal basis.
+\end{definition}
+
+\begin{theorem}[Legendre polynomial NameCert obligations]
+\label{thm:legendre-polynomial-namecert-obligations}
+For every accepted $\LegendrePolynomialUp$ carrier $L=(d,P_0,P_1,R,N,O,W,Q,E,H,C,\Pi,A)$, the local $\NameCert_{\LegendrePolynomialUp}$ surface consists exactly of carrier admission for the degree window, seed polynomials, finite recurrence ledger, normalization row, orthogonal-polynomial handoff, evaluation window, regular rational readback, Real seal, componentwise transport, displayed replay, package provenance, and local naming. The certificate exports no host function-space equality, analytic completeness, selected infinite expansion, classical completeness, or ambient basis theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:legendre-polynomial-carrier}. The rows $d,P_0,P_1,R,N$ display the finite Legendre recurrence and its normalization over the inspected degree window.
+
+Read the orthogonal-family row $O$ next. It is a handoff to $\OrthogonalPolynomialUp$ over the real interval and finite moment ledger, so the packet names only the displayed orthogonality surface rather than a host function space.
+
+The consumer-facing rows $W,Q,E$ then provide finite evaluation windows, regular rational readback, and the terminal $\RealUp$ seal. The structural rows $H,C,\Pi,A$ transport, replay, source, and name the same packet, and the excluded analytic and choice principles have no coordinate in the carrier.
+\end{proof}
+
+\begin{theorem}[Legendre polynomial orthogonal-family route]
+\label{thm:legendre-polynomial-orthogonal-route}
+Every accepted $\LegendrePolynomialUp$ orthogonality read factors through
+$$
+d,P_0,P_1,R,N \longmapsto O \longmapsto W,Q,E \longmapsto H,C,\Pi,A .
+$$
+Thus the Legendre packet reaches $\OrthogonalPolynomialUp$ through a finite recurrence and normalization ledger before any downstream approximation or spectral-basis consumer may read the orthogonal-family row. The route may cite the neighboring Chebyshev recurrence surface as a sibling recurrence anchor, but it does not identify the two families or import selected infinite expansions, host function-space equality, analytic completeness, or classical completeness.
+\end{theorem}
+\begin{proof}
+Begin with the finite recurrence rows $d,P_0,P_1,R$. These rows display the degree window, the two seeds, and each inspected recurrence step using $\PolynomialUp$ and $\DyadicRatCoreUp$ coefficient data.
+
+The normalization row $N$ and the orthogonal-family row $O$ then form the route into $\OrthogonalPolynomialUp$. This is the only row that a downstream orthogonal-polynomial consumer may read, and it is still tied to the displayed recurrence ledger.
+
+The rows $W,Q,E$ provide evaluation windows, regular rational readback, and the $\RealUp$ seal. Transport, replay, provenance, and local naming through $H,C,\Pi,A$ preserve the same route without adding a host function space, an infinite expansion selector, analytic completeness, or classical completeness.
+\end{proof}
+
+\falsifiablePrediction{Every $\LegendrePolynomialUp$ read factors through one degree window, two seed polynomial rows, one finite recurrence ledger, one normalization row, one OrthogonalPolynomialUp handoff, finite evaluation windows, RegSeqRat readback, RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+
+\independenceWitness{polynomial, orthogonal-polynomial, real, regseqrat, dyadicratcore, chebyshev-polynomial: $\LegendrePolynomialUp$ is not bijective to any listed sibling because it jointly carries the Legendre seeds, recurrence coefficients, normalization row, orthogonal-family handoff, finite evaluation windows, regular readback, Real seal, transport, replay, provenance, and local naming as one certificate.}
+
+\closureat{LegendrePolynomialUp}{seedStr}
+
+\begin{closurestatus}{\LegendrePolynomialUp}
+  \constructivestory{A $\LegendrePolynomialUp$ packet is generated from a unary degree window, seed polynomial rows, a finite Legendre recurrence ledger, normalization at the real unit endpoint, an OrthogonalPolynomial handoff row, finite evaluation windows, RegSeqRat readback, Real seals, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:legendre-polynomial-carrier}, \autoref{thm:legendre-polynomial-namecert-obligations}, and \autoref{thm:legendre-polynomial-orthogonal-route} seed the finite Legendre recurrence certificate and its orthogonal-family route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function-space equality, analytic completeness, selected infinite expansions, classical completeness, quotient real equality, Lean verification, or bridge checking for $\LegendrePolynomialUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, recurrence ledger exactness, normalization exactness, orthogonal-family handoff, finite evaluation windows, regular readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LegendrePolynomialUp.}
+\end{closurestatus}

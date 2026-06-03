@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MetacicCandidateSnHandoffUp$}
+\label{ch:concrete-instances-metacic-candidate-sn-handoff-namecert}
+\origin{ai}
+
+The $\MetacicCandidateSnHandoffUp$ packet realizes the normalization audit map of \autoref{ch:metacic-normalization-audit-map} as a finite candidate-mediated strong-normalization handoff. It sits beside the finite-window diamond envelope of \autoref{ch:concrete-instances-finite-window-metacic-diamond-envelope-namecert}, the subject-reduction obstruction of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, and the typed conversion residual frontier of \autoref{ch:concrete-instances-metacic-typed-conversion-residual-frontier-namecert}. The packet records the supplied candidate row, closed typed term row, no-infinite-reduction projection, obstruction handoff, confluence boundary, transport, replay, provenance, and local naming data without claiming unconditional strong normalization for all closed MetaCIC terms.
+
+\begin{definition}[MetaCIC candidate SN handoff carrier]
+\label{def:metacic-candidate-sn-handoff-carrier}
+A $\MetacicCandidateSnHandoffUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,A,S,N,O,D,F,H,C,P,L)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $T$ is the closed typed MetaCIC term row.
+\item $A$ is the candidate or candidate-set membership row supplied to the SN projection.
+\item $S$ is the candidate-mediated strong-normalization projection row.
+\item $N$ is the no-infinite-reduction row obtained from the same candidate evidence.
+\item $O$ is the subject-reduction obstruction handoff row.
+\item $D$ is the finite-window diamond-envelope row.
+\item $F$ is the confluence audit and typed conversion frontier row.
+\item $H$ records componentwise $\hsame$ transport for term, candidate, SN, no-infinite-reduction, obstruction, confluence, frontier, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a normalization-audit query through $T,A,S,N,O,D,F,H,P,L$.
+\item $P$ is $\Pkg$ provenance over the normalization audit map, the finite-window diamond envelope, the subject-reduction obstruction, the confluence audit packet, the typed conversion residual frontier, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MetacicCandidateSnHandoffUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It contains no coordinate for candidate-free closed-term SN, unconditional subject reduction, unrestricted confluence, full substitution compatibility, typed conversion decidability, or closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC candidate SN handoff obligations]
+\label{thm:metacic-candidate-sn-handoff-obligations}
+For every accepted $\MetacicCandidateSnHandoffUp$ carrier $K=(T,A,S,N,O,D,F,H,C,P,L)$, the local $\NameCert_{\MetacicCandidateSnHandoffUp}$ surface consists exactly of closed typed term exposure through $T$, candidate evidence through $A$, SN projection through $S$, no-infinite-reduction projection through $N$, subject-reduction obstruction through $O$, finite-window diamond-envelope handoff through $D$, confluence and typed-conversion frontier routing through $F$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-sn-handoff-carrier}. Each public row is displayed as one finite coordinate, and the SN row $S$ is attached to the candidate row $A$ rather than to the closed term row $T$ alone.
+
+Read the no-infinite-reduction row from the same candidate evidence. This keeps the termination consequence on the candidate-mediated route named by \autoref{ch:metacic-normalization-audit-map}.
+
+The remaining rows route neighboring audit consumers. The obstruction row $O$ points to \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}, the diamond row $D$ points to \autoref{ch:concrete-instances-finite-window-metacic-diamond-envelope-namecert}, and the frontier row $F$ points to \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert} and \autoref{ch:concrete-instances-metacic-typed-conversion-residual-frontier-namecert}. Since no row stores candidate-free SN, unconditional subject reduction, unrestricted confluence, full substitution compatibility, typed conversion decidability, or closed consistency, the NameCert surface is exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate SN nonescape]
+\label{thm:metacic-candidate-sn-handoff-nonescape}
+Every normalization-audit read of an accepted $\MetacicCandidateSnHandoffUp$ packet must pass through the supplied candidate row $A$ before it may cite the strong-normalization row $S$ or the no-infinite-reduction row $N$. The handoff may route that finite evidence to the subject-reduction obstruction, finite-window diamond envelope, confluence audit packet, and typed conversion residual frontier, but it does not promote the evidence to candidate-free strong normalization, closed subject reduction, unrestricted confluence, full substitution compatibility, typed conversion decidability, or closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows $T,A,S,N$. The closed typed term row $T$ is visible, but the termination rows $S$ and $N$ are displayed as consequences of $A$.
+
+Use componentwise transport $H$ and replay $C$ to move the same evidence through a consumer request. Transport preserves the attachment of $S$ and $N$ to $A$, so a replayed request cannot drop the candidate row.
+
+Finally inspect the sibling routes $O,D,F$. They hand the finite candidate-mediated evidence to the subject-reduction, diamond-envelope, confluence, and typed-conversion boundaries as audit data only. Those siblings are boundary packets, so the handoff exports no candidate-free SN theorem, no unconditional subject-reduction theorem, no unrestricted confluence theorem, no full substitution-compatibility theorem, no typed conversion decider, and no closed-consistency endpoint.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization audit map realization]
+\label{thm:metacic-candidate-sn-handoff-normalization-audit-realization}
+The $\MetacicCandidateSnHandoffUp$ packet is the finite NameCert realization of the candidate-mediated branch of \autoref{ch:metacic-normalization-audit-map}: it packages exactly the closed typed term, supplied candidate evidence, SN projection, no-infinite-reduction projection, subject-reduction obstruction handoff, finite-window diamond envelope, confluence audit boundary, typed conversion residual frontier, transport, replay, provenance, and local naming rows that a normalization-audit consumer may inspect.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-candidate-sn-handoff-obligations}. It lists every carrier row and identifies the candidate row as the required source of the SN and no-infinite-reduction projections.
+
+Apply \autoref{thm:metacic-candidate-sn-handoff-nonescape}. It prevents a consumer from erasing the candidate evidence or replacing the boundary siblings by unconditional subject-reduction, confluence, substitution, typed-conversion, or consistency theorems.
+
+Thus the vision label is realized by finite NameCert data: the handoff names the candidate-mediated SN route and the adjacent audit boundaries, while refusing the unconditional all-closed-terms reading.
+\end{proof}
+
+\closureat{MetacicCandidateSnHandoffUp}{seedStr}
+
+\begin{closurestatus}{\MetacicCandidateSnHandoffUp}
+  \constructivestory{A $\MetacicCandidateSnHandoffUp$ packet is generated from a closed typed MetaCIC term row, candidate evidence row, SN projection, no-infinite-reduction projection, subject-reduction obstruction handoff, diamond-envelope row, confluence and typed-conversion frontier row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-candidate-sn-handoff-carrier}, \autoref{thm:metacic-candidate-sn-handoff-obligations}, \autoref{thm:metacic-candidate-sn-handoff-nonescape}, and \autoref{thm:metacic-candidate-sn-handoff-normalization-audit-realization} seed the finite candidate-mediated SN handoff for the normalization audit map and its subject-reduction, confluence, diamond-envelope, and typed-conversion boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close candidate-free strong normalization, unconditional subject reduction, unrestricted confluence, full substitution compatibility, typed conversion decidability, closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-mediated SN projection, no-infinite-reduction projection, sibling-boundary handoff, non-escape, provenance, and local naming for BEDC.MetaCIC.closed\_typed\_term\_sn\_from\_candidateSet and BEDC.Derived.MetacicCandidateSnHandoffUp.}
+\end{closurestatus}

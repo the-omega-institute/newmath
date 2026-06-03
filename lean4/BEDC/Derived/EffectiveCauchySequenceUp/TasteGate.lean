@@ -1,11 +1,17 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.EffectiveCauchySequenceUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -202,6 +208,84 @@ theorem EffectiveCauchySequenceTasteGate_single_carrier_alignment :
         intro x y heq
         exact effectiveCauchySequenceToEventFlow_injective heq,
       rfl⟩
+
+theorem EffectiveCauchySequenceCarrier_namecert_obligations
+    (x : EffectiveCauchySequenceUp) :
+    SemanticNameCert
+      (fun row : BHist =>
+        exists S M W D Q E H C P N : BHist,
+          x = EffectiveCauchySequenceUp.mk S M W D Q E H C P N ∧ hsame row N)
+      (fun row : BHist =>
+        exists S M W D Q E H C P N : BHist,
+          x = EffectiveCauchySequenceUp.mk S M W D Q E H C P N ∧ hsame row N)
+      (fun row : BHist =>
+        exists S M W D Q E H C P N : BHist,
+          x = EffectiveCauchySequenceUp.mk S M W D Q E H C P N ∧ hsame row N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  cases x with
+  | mk S M W D Q E H C P N =>
+      have core :
+          NameCert
+            (fun row : BHist =>
+              exists S' M' W' D' Q' E' H' C' P' N' : BHist,
+                EffectiveCauchySequenceUp.mk S M W D Q E H C P N =
+                    EffectiveCauchySequenceUp.mk S' M' W' D' Q' E' H' C' P' N' ∧
+                  hsame row N')
+            hsame := {
+        carrier_inhabited := by
+          exact ⟨N, S, M, W, D, Q, E, H, C, P, N, rfl, hsame_refl N⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro row row' sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro row row' row'' sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row row' sameRows source
+          cases sameRows
+          exact source
+      }
+      exact {
+        core := core
+        pattern_sound := by
+          intro row source
+          exact source
+        ledger_sound := by
+          intro row source
+          exact source
+      }
+
+theorem EffectiveCauchySequenceCarrier_regseqrat_handoff
+    {S M W D Q E H C P N readM readW readD readQ : BHist} :
+    Cont S M readM ->
+      Cont readM W readW ->
+        Cont readW D readD ->
+          Cont readD Q readQ ->
+            UnaryHistory S ->
+              UnaryHistory M ->
+                UnaryHistory W ->
+                  UnaryHistory D ->
+                    UnaryHistory Q ->
+                      UnaryHistory readM ∧ UnaryHistory readW ∧ UnaryHistory readD ∧
+                        UnaryHistory readQ ∧ Cont S M readM ∧ Cont readM W readW ∧
+                          Cont readW D readD ∧ Cont readD Q readQ := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro routeM routeW routeD routeQ unaryS unaryM unaryW unaryD unaryQ
+  have unaryReadM : UnaryHistory readM :=
+    unary_cont_closed unaryS unaryM routeM
+  have unaryReadW : UnaryHistory readW :=
+    unary_cont_closed unaryReadM unaryW routeW
+  have unaryReadD : UnaryHistory readD :=
+    unary_cont_closed unaryReadW unaryD routeD
+  have unaryReadQ : UnaryHistory readQ :=
+    unary_cont_closed unaryReadD unaryQ routeQ
+  exact
+    ⟨unaryReadM, unaryReadW, unaryReadD, unaryReadQ, routeM, routeW, routeD,
+      routeQ⟩
 
 namespace TasteGate
 

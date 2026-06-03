@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\UniformCompletionKleisliUp$}
+\label{ch:concrete-instances-uniform-completion-kleisli-namecert}
+\origin{human}
+
+Following Mac Lane on Kleisli categories and Bishop--Bridges and Bourbaki on constructive uniform completion, the $\UniformCompletionKleisliUp$ packet records the L10 interface where a displayed uniform-completion unit and a completion-valued arrow compose without exposing a quotient completion object. It sits after the uniform completion carrier of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the Cauchy completion monad surface of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the completion universal property of \autoref{ch:concrete-instances-completionuniversalproperty-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only a finite Kleisli route for displayed completion data; it does not assert quotient completion equality, selected limits, countable choice, host equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop completion Kleisli carrier]
+\label{def:bishop-completion-kleisli-carrier}
+A $\UniformCompletionKleisliUp$ carrier is a finite $\BHist$ packet
+$$
+K=(U,A,B,M,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformCompletionUp$ unit row, naming the source-to-completion admission route.
+\item $A$ is the Kleisli arrow row, recording a displayed source request and a completion-valued response route.
+\item $B$ is the bind row, recording composition of two completion-valued arrows through the same unit and arrow surfaces.
+\item $M$ is the modulus row, recording the finite uniform-continuity budgets needed by $A$ and $B$.
+\item $S$ is the $\StreamNameUp$ window row inspected by the completion-valued route.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and moduli.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $U,A,B,M,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the unit, Kleisli arrow, bind, modulus, stream-window, readback, Real seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from each Kleisli request through $U,A,B,M,S,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\UniformCompletionKleisliUp$, $\UniformCompletionUp$, $\CauchyCompletionMonadUp$, $\CompletionUniversalPropertyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformCompletionKleisliUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion equality, selected representatives, selected limits, countable choice, host equality of completed objects, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop completion Kleisli NameCert obligations]
+\label{thm:bishop-completion-kleisli-namecert-obligations}
+For every accepted $\UniformCompletionKleisliUp$ carrier $K=(U,A,B,M,S,R,E,H,C,P,N)$, the local $\NameCert_{\UniformCompletionKleisliUp}$ surface consists exactly of carrier admission for the uniform-completion unit, the displayed Kleisli arrow and modulus, bind, associativity ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every completion-facing consumer must read $U,A,B,M,S,R$ before the terminal seal and structural rows $E,H,C,P,N$ are consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-completion-kleisli-carrier}. Its rows are exactly the unit, arrow, bind, modulus, stream-window, readback, seal, transport, replay, provenance, and local naming coordinates.
+
+The dependency anchors fix the intended route. The unit row is read through \autoref{ch:concrete-instances-uniformcompletion-namecert}; the bind and associativity ledger is the completion-valued part of the Cauchy monad surface in \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}; and the extension route is constrained by \autoref{ch:concrete-instances-completionuniversalproperty-namecert}.
+
+Finally the readback rows pass through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Since the carrier contains no quotient, selector, choice, host-equality, or ambient-completeness row, those objects are not exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop completion Kleisli unit route]
+\label{thm:bishop-completion-kleisli-unit-route}
+Every source object admitted by an accepted $\UniformCompletionKleisliUp$ packet enters the completion-facing route through the displayed unit row $U$ before any Kleisli arrow $A$, bind row $B$, modulus row $M$, readback row $R$, or Real seal row $E$ is inspected. The unit route is a finite $\UniformCompletionUp$ handoff, not a selected point of a quotient completion.
+\end{theorem}
+\begin{proof}
+Read the unit coordinate $U$ from the carrier. By \autoref{def:bishop-completion-kleisli-carrier}, every completion-facing row is downstream of the same finite packet.
+
+Apply the obligation theorem \autoref{thm:bishop-completion-kleisli-namecert-obligations}. It places $U$ before the arrow, bind, modulus, stream-window, and readback rows.
+
+The remaining rows transport, replay, package, and name that route. They cannot supply a quotient representative or selected completion point because no such coordinate occurs in the carrier.
+\end{proof}
+
+\begin{theorem}[Bishop completion Kleisli associative bind]
+\label{thm:bishop-completion-kleisli-associative-bind}
+For every accepted $\UniformCompletionKleisliUp$ carrier $K=(U,A,B,M,S,R,E,H,C,P,N)$, two successive completion-valued arrows compose only through the displayed bind row $B$ together with the same unit row $U$, modulus row $M$, stream-window row $S$, regular readback row $R$, and Real seal row $E$. The two parenthesizations of the Kleisli composite have the same componentwise $\hsame$ transport and displayed $\Cont$ replay route through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the bind coordinate $B$ and the rows it depends on. The carrier records no second completion object and no host composition operator.
+
+Use the monad dependency in \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}. It supplies the finite unit-and-bind schedule that the Kleisli packet records as $U$ and $B$.
+
+Now compare the two parenthesizations componentwise. Both read the same $U,M,S,R,E$ route before transport and replay, so the comparison is witnessed by the displayed $\hsame$ row $H$ and replayed by $C$. The provenance and local naming rows record that the associativity claim stays inside the finite packet.
+\end{proof}
+
+\begin{theorem}[Bishop completion Kleisli Real route]
+\label{thm:bishop-completion-kleisli-real-route}
+Every $\RealUp$-facing consumer of an accepted $\UniformCompletionKleisliUp$ packet receives its terminal seal only through
+$$
+\UniformCompletionUp \longrightarrow \CauchyCompletionMonadUp \longrightarrow \CompletionUniversalPropertyUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+The route exports the displayed unit, Kleisli arrow, modulus, bind, associativity, transport, replay, provenance, and local NameCert rows; it exports no quotient completion, selected limit, countable-choice schedule, host equality, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the unit-route theorem \autoref{thm:bishop-completion-kleisli-unit-route}. It places every source admission behind the displayed $\UniformCompletionUp$ unit row.
+
+Apply the associative-bind theorem \autoref{thm:bishop-completion-kleisli-associative-bind}. It confines completion-valued composition to the finite bind row and its shared modulus, window, readback, and seal route.
+
+The completion universal property contributes only the extension-facing ledger named in provenance; the StreamName, RegSeqRat, and Real sibling chapters supply the terminal readback chain. Because all excluded objects are absent from $K$, the Real-facing consumer receives the finite Kleisli route and nothing stronger.
+\end{proof}
+
+\closureat{UniformCompletionKleisliUp}{seedStr}
+
+\begin{closurestatus}{\UniformCompletionKleisliUp}
+  \constructivestory{A $\UniformCompletionKleisliUp$ packet is generated from a UniformCompletion unit row, a Kleisli arrow and modulus row, a bind row, finite StreamName windows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-completion-kleisli-carrier}, \autoref{thm:bishop-completion-kleisli-namecert-obligations}, \autoref{thm:bishop-completion-kleisli-unit-route}, \autoref{thm:bishop-completion-kleisli-associative-bind}, and \autoref{thm:bishop-completion-kleisli-real-route} seed the finite Kleisli interface for displayed uniform completion data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected representatives, selected limits, countable choice, host equality of completed objects, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, unit-route exposure, Kleisli arrow and modulus exposure, bind associativity, componentwise transport, replay, provenance, and local naming for BEDC.Derived.UniformCompletionKleisliUp.}
+\end{closurestatus}

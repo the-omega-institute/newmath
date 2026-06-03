@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\NestedRadicalConvergenceUp$}
+\label{ch:concrete-instances-nested-radical-convergence-namecert}
+\origin{human}
+
+Following Herschfeld and Bishop--Bridges constructive analysis, the $\NestedRadicalConvergenceUp$ packet records bounded nested-radical convergence as finite NameCert data. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a displayed route from radical coefficients and finite tail bounds to a regular Cauchy handoff without invoking ambient $\RealUp$ completeness, quotient streams, selected limits, or host square-root convergence.
+
+\begin{definition}[Nested radical convergence carrier]
+\label{def:nested-radical-convergence-carrier}
+A $\NestedRadicalConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,S,D,W,T,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the radical-coefficient row, listing the finite prefix of nonnegative dyadic or rational coefficients requested by the consumer.
+\item $S$ is the finite stage row, recording the stagewise radical approximants built by the displayed arithmetic route.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, including the comparison and refinement budgets used to measure adjacent stages.
+\item $W$ is the $\StreamNameUp$ window row, exposing only finite windows of the approximation stream.
+\item $T$ is the tail-control row, recording the Herschfeld-style boundedness and finite tail estimates visible at the requested precision.
+\item $Q$ is the $\RegSeqRatUp$ readback row, presenting the finite windows and dyadic tolerances as a regular rational sequence.
+\item $H$ records componentwise $\hsame$ transport for $A,S,D,W,T,Q$.
+\item $C$ records displayed $\Cont$ replay from coefficient rows through stage construction, tolerance checking, finite windows, tail control, and regular readback.
+\item $P$ is the $\Pkg$ provenance over $\NestedRadicalConvergenceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\NestedRadicalConvergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for a host infinite radical, quotient equality of streams, selected limiting representative, countable choice, trichotomy, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Nested radical convergence NameCert obligations]
+\label{thm:nested-radical-convergence-namecert-obligations}
+For every accepted $\NestedRadicalConvergenceUp$ carrier
+$$
+R=(A,S,D,W,T,Q,H,C,P,N),
+$$
+the local $\NameCert_{\NestedRadicalConvergenceUp}$ surface consists exactly of finite rows for coefficient admission, stage construction, dyadic tolerance checking, StreamName window exposure, tail-control exposure, RegSeqRat readback, componentwise transport, displayed replay, provenance, and local naming. No obligation row may replace $T$ by an unbounded convergence theorem, bypass $D$ and $W$, or export a completed real without the terminal $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:nested-radical-convergence-carrier}. The coefficient row $A$ and finite stage row $S$ are the only source of radical approximants.
+
+The tolerance and window rows are explicit. The dyadic ledger $D$ supplies the requested comparison budget, while $W$ restricts every read to a finite StreamName window.
+
+The tail row $T$ is the convergence-facing datum. It records the bounded nested-radical estimates used at the requested precision, but it is not a global host theorem about infinite radicals.
+
+Finally $Q,H,C,P,N$ read the finite data as a regular rational sequence, transport the same rows, replay the construction, record provenance, and name the packet. Since every public read factors through those rows, the NameCert surface cannot import quotient streams, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Nested radical convergence RegSeqRat handoff]
+\label{thm:nested-radical-convergence-regseqrat-handoff}
+Every $\RegSeqRatUp$ consumer of an accepted $\NestedRadicalConvergenceUp$ carrier must read the finite route
+$$
+A,S,D,W,T \longmapsto Q \longmapsto H,C,P,N
+$$
+before any $\RealUp$ seal may be consumed. The handoff exposes radical coefficients, finite stage approximants, dyadic tolerances, StreamName windows, and tail-control rows as a regular rational sequence; it does not assert Real completeness, quotient equality of approximation streams, selected limits, countable choice, trichotomy, or host square-root convergence.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:nested-radical-convergence-namecert-obligations}. They place coefficient admission, stage construction, dyadic tolerance checking, finite windows, and tail control before the readback row.
+
+The $\RegSeqRatUp$ row $Q$ is therefore downstream of $A,S,D,W,T$. It can read only the displayed finite approximants and the dyadic tolerance ledger, so it cannot replace the carrier by a quotient stream or by a selected limiting representative.
+
+Transport, replay, provenance, and local naming occur after the handoff. The terminal $\RealUp$ seal can be cited only as a consumer of the regular rational route, not as an ambient completeness principle that creates the route.
+\end{proof}
+
+\closureat{NestedRadicalConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\NestedRadicalConvergenceUp}
+  \constructivestory{A $\NestedRadicalConvergenceUp$ packet is generated from radical coefficient rows, finite stage approximants, dyadic tolerance rows, StreamName windows, tail-control estimates, RegSeqRat readback, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nested-radical-convergence-carrier}, \autoref{thm:nested-radical-convergence-namecert-obligations}, and \autoref{thm:nested-radical-convergence-regseqrat-handoff} seed the finite nested-radical route into regular rational readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ambient Real completeness, quotient stream equality, selected limits, countable choice, trichotomy, host square-root convergence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, stage construction, dyadic tolerance exactness, StreamName window exposure, tail-control replay, RegSeqRat handoff, Real-seal nonescape, transport, provenance, and local naming for BEDC.Derived.NestedRadicalConvergenceUp.}
+\end{closurestatus}

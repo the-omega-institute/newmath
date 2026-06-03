@@ -36,3 +36,19 @@ stability theorem. Since no coordinate stores quotient stream equality,
 selected representatives, host real equality, choice, or ambient completeness,
 the L10 sibling route remains a finite local NameCert route.
 \end{proof}
+
+\begin{theorem}[Regular Cauchy gluing pasting nonescape]
+\label{thm:regular-cauchy-gluing-pasting-nonescape}
+Every accepted pasting consumer of a $\RegularCauchyGluingUp$ packet must read the finite route of \autoref{def:regular-cauchy-gluing-carrier}, satisfy the local obligations of \autoref{thm:regular-cauchy-gluing-namecert-obligations}, and pass through the L10 sibling route of \autoref{thm:regular-cauchy-gluing-l10-sibling-route} before it exports any NameCert row. In particular, the consumer must display the $\DyadicRatCoreUp$ tolerance rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\CauchyReindexingUp$ handoff, and terminal $\RealUp$ seal.
+
+Consequently no such pasting consumer exports quotient stream equality, selected representatives, host real equality, countable choice, or ambient $\RealUp$ completeness as a coordinate of the $\RegularCauchyGluingUp$ read.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier in \autoref{def:regular-cauchy-gluing-carrier}. Its displayed route already contains the common dyadic ledger, finite StreamName observations, glued RegSeqRat readback, Real seal, and the support rows for transport, replay, provenance, and naming.
+
+Apply \autoref{thm:regular-cauchy-gluing-namecert-obligations}. A pasting consumer can export a local NameCert row only by preserving exactly those displayed rows, so the consumer has no separate entry point around the dyadic, stream, regular readback, or seal coordinates.
+
+Apply \autoref{thm:regular-cauchy-gluing-l10-sibling-route}. The L10 route orders the same rows through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyReindexingUp$, and $\RealUp$ before export.
+
+The refused objects are absent from the carrier and absent from the sibling route. Thus quotient stream equality, selected representatives, host real equality, countable choice, and ambient completeness cannot be repacked as a pasting consumer of the accepted $\RegularCauchyGluingUp$ packet.
+\end{proof}

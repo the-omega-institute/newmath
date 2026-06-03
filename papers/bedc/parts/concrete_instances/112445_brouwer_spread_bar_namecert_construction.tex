@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerSpreadBarUp$}
+\label{ch:concrete-instances-brouwer-spread-bar-namecert}
+\origin{human}
+
+Following Brouwer and Bishop on spreads, bars, and finite choice-sequence observation, the $\BrouwerSpreadBarUp$ packet records the finite route by which an admitted spread prefix, a decidable bar row, and a lawless boundary read are handed to Real and Completion-facing consumers. It sits between the spread carrier of \autoref{ch:concrete-instances-brouwer-spread-namecert}, the barred-spread induction surface of \autoref{ch:concrete-instances-brouwer-bar-induction-namecert}, and the finite observation boundary of \autoref{ch:concrete-instances-lawlesssequence-namecert}. The packet names finite bar/spread data only; it does not select an infinite branch, assert countable choice, identify quotient stream tails, close fan compactness, or supply ambient $\RealUp$ completeness.
+
+\begin{definition}[Brouwer spread-bar carrier]
+\label{def:brouwer-spread-bar-carrier}
+A $\BrouwerSpreadBarUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,B,R,L,W,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the accepted $\BrouwerSpreadUp$ finite prefix row, including its decidable prefix-tree admission and StreamName scheduling.
+\item $B$ is the finite bar row over the prefixes displayed by $S$, with explicit $\BoolUp$ bar decisions and monotone extension checks.
+\item $R$ is the barred-spread replay row inherited from $\BrouwerBarInductionUp$, restricted to the finite children displayed in $S$.
+\item $L$ is the lawless boundary row. It records only finite observed prefixes and refuses a law selecting all future answers.
+\item $W$ is the $\StreamNameUp$ window opened by the common spread/bar/lawless route.
+\item $A$ is the analytic handoff row through $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the terminal $\RealUp$ seal when a Real or Completion consumer reads the packet.
+\item $H$ stores componentwise $\hsame$ transport for the spread prefix, bar decision, induction replay, lawless boundary, window, analytic handoff, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a finite prefix request through
+$$
+S,B,R,L \longmapsto W \longmapsto A .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BrouwerSpreadBarUp$, $\BrouwerSpreadUp$, $\BrouwerBarInductionUp$, $\LawlessSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrouwerSpreadBarUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,B,R,L,W,A,H,C,P,N$. It has no coordinate for completed branches, countable-choice selectors, quotient stream equality, fan compactness, selected limits, or ambient Real completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.BrouwerSpreadBarUp.BrouwerSpreadBarTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Brouwer spread-bar NameCert obligations]
+\label{thm:brouwer-spread-bar-namecert-obligations}
+For every accepted $\BrouwerSpreadBarUp$ carrier
+$$
+K=(S,B,R,L,W,A,H,C,P,N),
+$$
+the local $\NameCert_{\BrouwerSpreadBarUp}$ surface consists exactly of carrier admission for the displayed spread prefix, finite bar row, barred-spread replay, lawless boundary row, StreamName window, analytic handoff, transport, continuation, provenance, and local naming rows; classifier agreement on the same rows; and non-escape requiring every public read to factor through $S,B,R,L,W,A,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple of \autoref{def:brouwer-spread-bar-carrier}. The accepted packet exposes only the spread prefix, bar decision, barred-spread replay, lawless boundary, window, handoff, transport, continuation, provenance, and local naming rows.
+
+Classifier agreement is therefore rowwise agreement over the same tuple. The spread component is read through \autoref{ch:concrete-instances-brouwer-spread-namecert}, the bar replay through \autoref{ch:concrete-instances-brouwer-bar-induction-namecert}, and the lawless boundary through \autoref{ch:concrete-instances-lawlesssequence-namecert}.
+
+The non-escape clause follows from the absence of any additional coordinate. Since the carrier does not store a completed branch, a choice selector, quotient stream equality, compactness, selected limits, or ambient completeness, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Brouwer spread-bar finite bar handoff]
+\label{thm:brouwer-spread-bar-finite-bar-handoff}
+Every Real or Completion-facing read of an accepted $\BrouwerSpreadBarUp$ carrier must first display the finite route
+$$
+S,B,R,L \longmapsto W \longmapsto A,H,C,P,N .
+$$
+Thus the consumer receives only a finite barred-prefix handoff from the spread row, bar row, barred-spread replay row, and lawless boundary row before any $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ seal is read.
+\end{theorem}
+\begin{proof}
+Start with a public read of the packet. The only route to the analytic handoff row $A$ passes through the continuation row $C$.
+
+Replay $C$. It first exposes the spread prefix $S$, then the finite bar decisions $B$, the barred-spread replay $R$, and the lawless boundary row $L$. Only after these rows are displayed can the read open the StreamName window $W$ and the analytic handoff $A$.
+
+Transport and provenance are supplied by $H,P,N$. Since the carrier lacks any branch-selection or quotient-stream coordinate, the handoff is exactly the finite route stated above.
+\end{proof}
+
+\begin{theorem}[Brouwer spread-bar lawless boundary]
+\label{thm:brouwer-spread-bar-lawless-boundary}
+The lawless component of an accepted $\BrouwerSpreadBarUp$ carrier is boundary data for finite observations only. It may certify that the currently displayed prefixes meet the bar route, but it cannot be used to construct a law for all future values, a completed spread branch, a countable-choice schedule, or a Real-completeness witness.
+\end{theorem}
+\begin{proof}
+Read the lawless row $L$ inside the carrier. By definition it contains only the finite observed prefixes already synchronized with the spread row $S$ and bar row $B$.
+
+Use the finite handoff theorem, \autoref{thm:brouwer-spread-bar-finite-bar-handoff}. Every downstream read must pass from $S,B,R,L$ to the finite StreamName and analytic rows before exporting a Real or Completion-facing conclusion.
+
+The packet has no coordinate for a future-value law, completed branch, countable-choice schedule, or completeness witness. Therefore the lawless component is a finite boundary row and not a generator of the excluded data.
+\end{proof}
+
+\closureat{BrouwerSpreadBarUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerSpreadBarUp}
+  \constructivestory{A $\BrouwerSpreadBarUp$ packet is generated from a Brouwer spread finite prefix row, a finite bar row, barred-spread replay, a lawless finite-observation boundary, StreamName windows, analytic handoff rows, componentwise transport, displayed continuation replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwer-spread-bar-carrier}, \autoref{thm:brouwer-spread-bar-namecert-obligations}, \autoref{thm:brouwer-spread-bar-finite-bar-handoff}, and \autoref{thm:brouwer-spread-bar-lawless-boundary} seed the finite spread-bar route from Brouwer spread prefixes and bar replay to lawless finite observations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed branches, countable choice, quotient stream equality, fan compactness, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier agreement, finite bar handoff, lawless-boundary nonescape, transport, continuation, provenance, and local naming for BEDC.Derived.BrouwerSpreadBarUp.}
+\end{closurestatus}

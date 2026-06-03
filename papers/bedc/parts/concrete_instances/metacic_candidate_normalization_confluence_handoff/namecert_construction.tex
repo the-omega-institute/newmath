@@ -69,6 +69,34 @@ Apply \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}.
 The structural rows $T,R,P,L$ do not add another route. They preserve the same carrier under componentwise transport, replay it for downstream consumers, record provenance, and name the packet locally. The absent global theorems cannot be projected from those rows.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate normalization residual progress]
+\label{thm:metacic-candidate-normalization-residual-progress}
+An accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet consumes residual data only as a progress ledger. Every admitted candidate-normalization row read through $A,K,N,F,C,D,B,T,R,P,L$ either forwards a retained premise through the candidate and frontier rows $K,F$ or emits a residual obstruction row through $C$ and $B$, with the residual boundary read against \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}. The packet does not assert full confluence, unrestricted subject reduction, unconditional strong normalization, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. The candidate-normalization data are $A,K,N,F$, the residual and decidability boundary rows are $C,D,B$, and the structural rows are $T,R,P,L$.
+
+Apply \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. The candidate gate forces any normalization row to expose $K$ and $F$ before a normal endpoint is consumed, so a retained premise remains visible when the row is forwarded.
+
+If the row cannot be forwarded as a retained premise, the same boundary theorem routes the read through $C$ and $B$. The residual envelope is then consumed as a ledger compatible with \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}, while the blocked-edge row records the obstruction rather than discharging it.
+
+Finally use \autoref{thm:metacic-candidate-normalization-confluence-handoff-consumer-boundary}. The public consumer receives only the candidate-mediated route, residual-envelope visibility, decidable-boundary routing, blocked-edge retention, and structural rows. Since the excluded global endpoints are not carrier coordinates, the progress ledger cannot be read as a full confluence or strong-normalization theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate normalization confluence handoff decider boundary]
+\label{thm:metacic-candidate-normalization-confluence-handoff-decider-boundary}
+Any bounded conversion comparison exported through the decidable-boundary row $D$ of an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier $H=(A,K,N,F,C,D,B,T,R,P,L)$ must first expose candidate evidence $K$, normal endpoint data $N$, the normalization frontier row $F$, the residual-envelope row $C$, the blocked-edge row $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $L$. The exported comparison is only a bounded comparison boundary. It is not global conversion decidability, full Church--Rosser, unrestricted subject reduction, evaluator equality, quotient syntax equality, or closed consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. The only conversion-facing coordinate is $D$, and it is displayed alongside the candidate, endpoint, frontier, residual-envelope, blocked-edge, and structural rows.
+
+Apply \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. Its candidate-gate exactness forces $K,F,N$ to appear before a normal endpoint can be consumed, and its confluence handoff discipline keeps $C$ and $B$ visible before any residual or join read is offered.
+
+Next use \autoref{thm:metacic-candidate-normalization-confluence-handoff-consumer-boundary}. A public consumer receives the bounded comparison only through the same carrier route and through $T,R,P,L$; the structural rows do not create a second decider surface.
+
+Finally apply \autoref{thm:metacic-candidate-normalization-residual-progress}. Residual data remain progress ledger entries or obstruction rows, so the bounded comparison exported through $D$ cannot be promoted to the excluded global conversion, confluence, subject-reduction, evaluator-equality, quotient-equality, or consistency claims.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ read that exports a normal endpoint, residual-envelope row, or bounded conversion comparison without first exposing candidate evidence, the normalization frontier, the confluence residual envelope, the decidable boundary, blocked-edge retention, transport, replay, provenance, and local naming is outside the carrier surface.}
 
 \independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacic-confluence-residual-envelope, metacicdecidableboundary, metacic-normalization-confluence-bridge: no listed sibling supplies the joint handoff containing candidate evidence, bounded normal endpoint data, residual-envelope visibility, decidable-boundary routing, blocked-edge retention, transport, replay, provenance, and local NameCert rows while refusing unconditional SN and Church--Rosser.}

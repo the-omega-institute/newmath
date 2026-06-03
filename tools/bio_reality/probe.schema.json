@@ -19,11 +19,17 @@
   "properties": {
     "probe_id": {
       "type": "string",
-      "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+      "description": "Lowercase BioReality probe id; use dotted/kebab tokens, not underscores or uppercase.",
+      "examples": [
+        "cross-organism.cun-uur-sign-correlates-with-trna-leu",
+        "b-star-q6-survival-matrix-break-condition"
+      ],
+      "pattern": "^[a-z0-9][a-z0-9.:-]*$"
     },
     "conjecture_ref": {
       "type": "string",
-      "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+      "description": "Conjecture id reference; use dotted/kebab tokens, not underscores or uppercase.",
+      "pattern": "^[a-z0-9][a-z0-9.:-]*$"
     },
     "probe_kind": {
       "type": "string",
@@ -70,7 +76,8 @@
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+        "description": "Reality contact id reference; use dotted/kebab tokens, not underscores or uppercase.",
+        "pattern": "^[a-z0-9][a-z0-9.:-]*$"
       }
     },
     "forbidden_interpretations": {

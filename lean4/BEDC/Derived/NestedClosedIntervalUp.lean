@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -149,6 +153,37 @@ theorem NestedClosedIntervalTasteGate_single_carrier_alignment :
     ⟨⟨nestedClosedIntervalBHistCarrier⟩, ⟨nestedClosedIntervalChapterTasteGate⟩,
       NestedClosedIntervalTasteGate_single_carrier_alignment_decode,
       NestedClosedIntervalTasteGate_single_carrier_alignment_round_trip, rfl⟩
+
+theorem NestedClosedIntervalCarrier_seed_boundary
+    {I D S R E H C P N intervalDyadic dyadicStream streamReadback readbackReal : BHist} :
+    Cont I D intervalDyadic ->
+      Cont intervalDyadic S dyadicStream ->
+        Cont dyadicStream R streamReadback ->
+          Cont streamReadback E readbackReal ->
+            UnaryHistory I ->
+              UnaryHistory D ->
+                UnaryHistory S ->
+                  UnaryHistory R ->
+                    UnaryHistory E ->
+                      UnaryHistory intervalDyadic ∧ UnaryHistory dyadicStream ∧
+                        UnaryHistory streamReadback ∧ UnaryHistory readbackReal ∧
+                          Cont I D intervalDyadic ∧
+                            Cont intervalDyadic S dyadicStream ∧
+                              Cont dyadicStream R streamReadback ∧
+                                Cont streamReadback E readbackReal := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro intervalRoute streamRoute readbackRoute realRoute unaryI unaryD unaryS unaryR unaryE
+  have unaryIntervalDyadic : UnaryHistory intervalDyadic :=
+    unary_cont_closed unaryI unaryD intervalRoute
+  have unaryDyadicStream : UnaryHistory dyadicStream :=
+    unary_cont_closed unaryIntervalDyadic unaryS streamRoute
+  have unaryStreamReadback : UnaryHistory streamReadback :=
+    unary_cont_closed unaryDyadicStream unaryR readbackRoute
+  have unaryReadbackReal : UnaryHistory readbackReal :=
+    unary_cont_closed unaryStreamReadback unaryE realRoute
+  exact
+    ⟨unaryIntervalDyadic, unaryDyadicStream, unaryStreamReadback, unaryReadbackReal,
+      intervalRoute, streamRoute, readbackRoute, realRoute⟩
 
 end NestedClosedIntervalUp
 

@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\SobolevSpaceUp$}
+\label{ch:concrete-instances-sobolev-space-namecert}
+\origin{human}
+
+Following Sobolev and Adams--Fournier, the $\SobolevSpaceUp$ packet records a finite constructive-analysis surface for functions whose weak derivatives and norm budgets are visible as named BEDC rows. It sits downstream of the weak-derivative interface of \autoref{ch:concrete-instances-weak-derivative-namecert}, the norm carrier of \autoref{ch:concrete-instances-norm-namecert}, the metric-completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the real seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies PDE, variational, and compactness-facing consumers with a displayed Sobolev-space carrier rather than a host function quotient, an ambient Banach theorem, or a selected completion point.
+
+\begin{definition}[SobolevSpace carrier]
+\label{def:sobolev-space-carrier}
+A $\SobolevSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,D,N_0,I,M,R,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the source-function row, listing the finite function-name windows, domain probes, boundary tags, and scalar readbacks exposed to this Sobolev-space packet.
+\item $D$ is the $\WeakDerivativeUp$ row, recording the displayed weak derivative actions, derivative-coordinate tags, test-action windows, and candidate derivative readbacks attached to $F$.
+\item $N_0$ is the $\NormUp$ budget row. It binds the source-function row and each displayed weak-derivative row to the finite integrability, exponent, and seminorm ledger used by the carrier.
+\item $I$ is the integrability and local-domain budget row, naming the finite measurable-window, power-budget, and comparison data that justify the accepted norm reads.
+\item $M$ is the $\MetricCompletionUp$ handoff row, available only after $F,D,N_0,I$ have been displayed and only for the completion route named by this carrier.
+\item $R$ is the $\RealUp$ readback row for norm values, integrability budgets, weak-derivative action values, and completion-facing estimates.
+\item $H$ stores componentwise $\hsame$ transport for source-function, weak-derivative, norm, integrability, completion, Real readback, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from every Sobolev-space request through $F,D,N_0,I,M,R,H,P,L$.
+\item $P$ is the $\Pkg$ provenance over $\SobolevSpaceUp$, $\WeakDerivativeUp$, $\NormUp$, $\MetricCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\SobolevSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,D,N_0,I,M,R,H,C,P,L$. It has no coordinate for quotient equality of functions, a host distribution space, global measurability completion, countable choice, compact embedding, trace theory, PDE solvability, or an ambient Banach-space theorem.
+\end{definition}
+
+\begin{theorem}[SobolevSpace NameCert obligations]
+\label{thm:sobolev-space-namecert-obligations}
+For every accepted $\SobolevSpaceUp$ carrier
+$$
+S=(F,D,N_0,I,M,R,H,C,P,L),
+$$
+the local $\NameCert_{\SobolevSpaceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source-function, weak-derivative, norm-budget, integrability, completion-handoff, Real readback, transport, replay, provenance, and local naming rows;
+\item weak-derivative coverage, requiring every derivative read to pass through the displayed $\WeakDerivativeUp$ row $D$ before it can contribute to a Sobolev-space norm budget;
+\item norm and integrability exactness, requiring every norm, exponent, and local-domain budget read to factor through $N_0,I$ before it reaches the $\RealUp$ row $R$;
+\item completion nonescape, requiring the $\MetricCompletionUp$ handoff row $M$ to be downstream of $F,D,N_0,I,R$ and not detachable as a selected completion point;
+\item structural stability under $H,C,P,L$, which transports, replays, sources, and names only the displayed finite route.
+\end{enumerate}
+No $\SobolevSpaceUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sobolev-space-carrier}. The analytic data visible to the classifier are exactly the source row $F$, weak-derivative row $D$, norm-budget row $N_0$, integrability row $I$, completion handoff $M$, and Real readback $R$.
+
+The weak-derivative obligation is forced before any norm read. A consumer cannot inspect a derivative budget unless it first reads $D$, and $D$ exposes only the finite test-action and candidate derivative surface inherited from $\WeakDerivativeUp$.
+
+The norm and integrability obligations are then attached to $N_0,I,R$. Norm values, exponent budgets, and local-domain comparisons reach the Real seal only through those displayed rows, so they cannot be replaced by quotient function equality or global measurability completion.
+
+Finally read $H,C,P,L$. These rows transport, replay, source, and name the same finite packet, while $M$ remains downstream of the displayed analytic rows. Hence the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[SobolevSpace completion handoff]
+\label{thm:sobolev-space-completion-handoff}
+Every completion-facing read exported by an accepted $\SobolevSpaceUp$ carrier factors through the finite route
+$$
+F,D,N_0,I \longmapsto R \longmapsto M \longmapsto H,C,P,L.
+$$
+The handoff supplies only displayed source-function windows, weak-derivative actions, norm and integrability budgets, Real readbacks, completion routing, transport, replay, provenance, and local naming. It does not supply a quotient of functions, a selected equivalence class, a global distribution dual, compact embedding, trace theory, PDE solvability, countable choice, or an ambient Banach-space completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing request for an accepted carrier. The request must first expose the source-function row $F$ and the weak-derivative row $D$, because those rows determine which function windows and derivative actions can enter the Sobolev norm.
+
+Next the request reads $N_0$ and $I$. These rows bind the norm, exponent, and local integrability budgets to the same displayed function and derivative data, and the Real readback row $R$ is the only scalar seal available to the route.
+
+The completion handoff $M$ is read after those rows. Transport and replay through $H,C$ preserve the route, while $P,L$ record provenance and local naming. Since the excluded host objects are not carrier coordinates, no completion-facing consumer can bypass the displayed route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SobolevSpaceUp$ completion-facing read that reaches $\MetricCompletionUp$ without first exposing source-function windows, WeakDerivativeUp rows, NormUp and integrability budgets, RealUp readbacks, hsame transport, Cont replay, Pkg provenance, and local naming refutes the carrier surface of \autoref{def:sobolev-space-carrier}.}
+
+\independenceWitness{weak-derivative, norm, metric-completion, real: no listed sibling is bijective to $\SobolevSpaceUp$ because this packet jointly binds source-function windows, weak-derivative actions, norm and integrability budgets, completion handoff, Real readback, transport, replay, provenance, and local naming in one Sobolev-space carrier.}
+
+\closureat{SobolevSpaceUp}{seedStr}
+
+\begin{closurestatus}{\SobolevSpaceUp}
+  \constructivestory{A $\SobolevSpaceUp$ packet is generated from source-function windows, WeakDerivativeUp rows, NormUp and integrability budgets, MetricCompletionUp handoff data, RealUp readbacks, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sobolev-space-carrier}, \autoref{thm:sobolev-space-namecert-obligations}, and \autoref{thm:sobolev-space-completion-handoff} seed the finite Sobolev-space carrier downstream of weak derivatives, norm budgets, completion handoff, and Real readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of functions, global measurability completion, distribution duality, compact embedding, trace theory, PDE solvability, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, weak-derivative coverage, norm and integrability exactness, completion nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SobolevSpaceUp.}
+\end{closurestatus}

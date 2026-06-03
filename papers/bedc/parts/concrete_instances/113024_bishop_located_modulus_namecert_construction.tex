@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedModulusUp$}
+\label{ch:concrete-instances-bishop-located-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located constructive reals and explicit moduli for Cauchy approximation, the $\BishopLocatedModulusUp$ packet records the finite BEDC surface at which a located comparison row supplies an inspectable modulus schedule. It sits after the located-real boundary of \autoref{ch:concrete-instances-located-real-namecert}, the Cauchy-modulus ledger of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the stream-name observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the constructive route from located comparison data to an explicit modulus row; it does not assert trichotomy, a selected real representative, quotient stream equality, ambient completeness, or a host least-bound principle.
+
+\begin{definition}[Bishop located-modulus carrier]
+\label{def:bishop-located-modulus-carrier}
+A $\BishopLocatedModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(L,\mu,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedRealUp$ comparison row, recording the finite apartness or interval-decision data available to the modulus request.
+\item $\mu$ is the $\CauchyModulusUp$ schedule row extracted from that located comparison surface.
+\item $S$ is the $\StreamNameUp$ observation-window row opened by $\mu$ at the requested tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row for the inspected regular rational window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that indexes the requested precision and bounds the inspected stream window.
+\item $E$ is the terminal $\RealUp$ seal row consumed only after $L,\mu,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for located comparison, modulus, stream-window, regular readback, dyadic tolerance, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the located comparison request through modulus extraction, finite stream inspection, regular rational readback, dyadic tolerance, and the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedModulusUp$, $\LocatedRealUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedModulusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host real value, countable choice over tolerances, quotient stream equality, trichotomy, ambient completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Bishop located-modulus NameCert obligations]
+\label{thm:bishop-located-modulus-namecert-obligations}
+For every accepted $\BishopLocatedModulusUp$ carrier
+$$
+M=(L,\mu,S,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopLocatedModulusUp}$ surface consists exactly of located comparison exposure through $L$, explicit Cauchy-modulus exposure through $\mu$, finite stream-window admission through $S$, regular rational readback through $R$, dyadic tolerance exactness through $D$, terminal Real seal non-escape through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The tuple displays the located comparison row, the extracted modulus schedule, the finite stream window, the regular rational readback, the dyadic tolerance ledger, the terminal Real seal, and the structural rows.
+
+The analytic obligations are ordered by the carrier. A consumer first reads $L$, then the schedule $\mu$, then the window $S$, readback $R$, and tolerance ledger $D$ before the Real seal $E$ may be consumed.
+
+The structural rows $H,C,P,N$ preserve that same route under transport, replay, provenance, and local naming. Since the carrier has no coordinate for host real values, tolerance choice, quotient stream equality, trichotomy, ambient completeness, Lean verification, or bridge checking, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop located-modulus Real-seal boundary]
+\label{thm:bishop-located-modulus-real-seal-boundary}
+Every $\RealUp$ or completion-facing consumer of an accepted $\BishopLocatedModulusUp$ packet must factor through the displayed route
+$$
+\LocatedRealUp \longrightarrow \CauchyModulusUp \longrightarrow \DyadicRatCoreUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp
+$$
+before it can use the local certificate. The route exports an explicit finite modulus schedule and its inspected rational windows; it exports no selected representative, quotient real equality, countable-choice selector, trichotomy row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the located comparison row $L$. It is the only source of comparison data admitted by the carrier, so the consumer cannot begin from a host real value or a detached order decision.
+
+Next read the modulus and tolerance rows. The schedule $\mu$ opens only the finite windows requested by the dyadic ledger $D$, and $S$ records those windows as StreamName data.
+
+Then pass through the regular readback and seal. The row $R$ transports the inspected window into the regular rational route, and $E$ seals the result as $\RealUp$ only after the displayed route has been read.
+
+Finally use $H,C,P,N$ to preserve the same finite package. No row in the carrier contains a selected representative, quotient equality, choice selector, trichotomy, or ambient completeness witness, so the Real-seal boundary cannot export any of those objects.
+\end{proof}
+
+\falsifiablePrediction{A $\BishopLocatedModulusUp$ packet is rejected whenever a Real or completion-facing consumer claims a modulus without displaying the located comparison row, CauchyModulus schedule, DyadicRatCore tolerance, StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{located-real, cauchymodulus, streamname, regseqrat, dyadicratcore, real: no listed sibling is bijective to $\BishopLocatedModulusUp$ because this packet jointly carries the located comparison source, explicit modulus schedule, dyadic tolerance, finite observation window, regular rational readback, terminal Real seal, transport, replay, provenance, and local naming rows.}
+
+\closureat{BishopLocatedModulusUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedModulusUp}
+  \constructivestory{A $\BishopLocatedModulusUp$ packet is generated from a LocatedReal comparison row, CauchyModulus schedule, StreamName finite window, RegSeqRat readback, DyadicRatCore tolerance ledger, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-modulus-carrier}, \autoref{thm:bishop-located-modulus-namecert-obligations}, and \autoref{thm:bishop-located-modulus-real-seal-boundary} seed the finite located-modulus route from located comparison data to explicit modulus schedules and terminal Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected real representatives, quotient real equality, countable choice over tolerances, trichotomy, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located comparison exposure, modulus extraction, dyadic tolerance exactness, stream-window admission, RegSeqRat readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopLocatedModulusUp.}
+\end{closurestatus}

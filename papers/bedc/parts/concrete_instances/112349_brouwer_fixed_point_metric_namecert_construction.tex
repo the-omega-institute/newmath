@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerFixedPointMetricUp$}
+\label{ch:concrete-instances-brouwer-fixed-point-metric-namecert}
+\origin{human}
+
+Following Brouwer and constructive fixed-point treatments, the $\BrouwerFixedPointMetricUp$ packet records finite metric approximations to the fixed-point route on compact convex metric data. It consumes the compact finite-net discipline of \autoref{ch:concrete-instances-compactmetric-namecert} and the modulus-facing map discipline of \autoref{ch:concrete-instances-continuousmap-namecert}. The packet names mesh stages, approximate self-map witnesses, finite residual bounds, transport, replay, provenance, and local naming; it does not assert an unrestricted classical Brouwer fixed-point theorem.
+
+\begin{definition}[Brouwer fixed-point metric carrier]
+\label{def:brouwer-fixed-point-metric-carrier}
+A $\BrouwerFixedPointMetricUp$ carrier is a finite $\BHist$ packet
+$$
+F=(K,X,M,G,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact metric source row, read through the finite-cover and finite-net surface of $\CompactMetricUp$.
+\item $X$ is the convex-cell ledger naming the finite simplex or box cells inspected at the current mesh scale.
+\item $M$ is the $\ContinuousMapUp$ row for the self-map whose finite modulus is being used.
+\item $G$ is the mesh-stage ledger, recording the finite grid, adjacency, and boundary-face rows inspected at that stage.
+\item $E$ is the approximate fixed-point evidence row, recording a cell, mesh point, or finite witness whose residual is bounded at the displayed tolerance.
+\item $R$ is the residual-bound row, comparing the map value and witness through metric radii available from $K,M,G$.
+\item $H$ records componentwise $\hsame$ transport for compact metric data, convex-cell rows, continuous-map rows, mesh stages, evidence rows, residual rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for the finite route
+$$
+K,X,M,G \longmapsto E,R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BrouwerFixedPointMetricUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\MetricSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrouwerFixedPointMetricUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host-selected exact fixed point, unrestricted compactness, quotient equality of completions, countable choice, or a global real-valued existence theorem.
+\end{definition}
+
+\begin{theorem}[Brouwer fixed-point metric NameCert obligations]
+\label{thm:brouwer-fixed-point-metric-namecert-obligations}
+For an accepted $\BrouwerFixedPointMetricUp$ carrier
+$$
+F=(K,X,M,G,E,R,H,C,P,N),
+$$
+the local $\NameCert_{\BrouwerFixedPointMetricUp}$ surface consists exactly of compact metric admission through $K$, convex-cell exposure through $X$, continuous-map modulus access through $M$, finite mesh-stage discipline through $G$, approximate witness exposure through $E$, residual-bound readback through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:brouwer-fixed-point-metric-carrier}. The accepted packet exposes only compact metric data, convex-cell data, a continuous self-map row, finite mesh-stage rows, approximate witness rows, residual-bound rows, and the structural rows $H,C,P,N$.
+
+The compact and map faces are read through $K$ and $M$. The compact metric row supplies only finite-net and radius information, while the continuous-map row supplies only the displayed finite modulus data needed by the mesh stage.
+
+The approximation face is read through $G,E,R$. The mesh row names the finite grid and boundary checks, the evidence row names the finite approximate witness, and the residual row records the metric comparison available at that tolerance.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no exact host fixed point or unrestricted choice principle appears among the rows, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Brouwer fixed-point metric finite-approximation non-escape]
+\label{thm:brouwer-fixed-point-metric-finite-approximation-nonescape}
+Every consumer read of an accepted $\BrouwerFixedPointMetricUp$ packet factors through the finite approximation route
+$$
+K,X,M,G \longmapsto E,R \longmapsto H,C,P,N .
+$$
+The consumer may read compact finite-net data, convex-cell rows, continuous-map modulus data, finite mesh stages, approximate witness rows, residual bounds, transport, replay, provenance, and local naming. It cannot read an unrestricted exact fixed point, a host compactness oracle, quotient-completion equality, countable choice, or an ambient $\RealUp$ completeness principle from the packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:brouwer-fixed-point-metric-carrier}. The only route from compact metric and continuous-map data to a fixed-point-facing conclusion is the displayed finite mesh route through $K,X,M,G,E,R$.
+
+Apply \autoref{thm:brouwer-fixed-point-metric-namecert-obligations}. The local NameCert forces every consumer to inspect compact metric admission, convex-cell exposure, continuous-map access, and mesh-stage discipline before the approximate witness or residual bound can be read.
+
+Transport and replay do not add a stronger theorem. The rows $H$ and $C$ preserve the same finite approximation route, while $P$ and $N$ record provenance and local naming. Hence the packet exports finite approximate fixed-point evidence only, not the classical unrestricted Brouwer assertion.
+\end{proof}
+
+\closureat{BrouwerFixedPointMetricUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerFixedPointMetricUp}
+  \constructivestory{A $\BrouwerFixedPointMetricUp$ packet is generated from compact metric rows, convex-cell rows, continuous self-map modulus rows, finite mesh-stage rows, approximate witness rows, residual-bound rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwer-fixed-point-metric-carrier}, \autoref{thm:brouwer-fixed-point-metric-namecert-obligations}, and \autoref{thm:brouwer-fixed-point-metric-finite-approximation-nonescape} seed the finite metric approximation packet for Brouwer-style fixed-point consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close an unrestricted exact Brouwer fixed-point theorem, countable choice, host compactness, quotient-completion equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact metric routing, continuous-map modulus routing, mesh-stage discipline, approximate witness exposure, residual-bound readback, transport stability, replay stability, provenance, and local naming for BEDC.Derived.BrouwerFixedPointMetricUp.}
+\end{closurestatus}

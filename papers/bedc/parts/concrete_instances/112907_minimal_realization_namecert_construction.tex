@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\MinimalRealizationUp$}
+\label{ch:concrete-instances-minimal-realization-namecert}
+\origin{human}
+
+Following Kalman on finite-dimensional realization theory, the $\MinimalRealizationUp$ packet records the displayed finite control-system rows that witness a realization with no smaller state ledger carrying the same input-output behavior. It sits after the observation surface of \autoref{ch:concrete-instances-controlobservability-namecert}, the reachability surface of \autoref{ch:concrete-instances-controlcontrollability-namecert}, the reachability Gramian of \autoref{ch:concrete-instances-reachabilitygramian-namecert}, the observability Gramian of \autoref{ch:concrete-instances-observability-gramian-namecert}, and the finite $\LinearMapUp$ and $\MatrixUp$ rows of \autoref{ch:concrete-instances-linearmap-namecert} and \autoref{ch:concrete-instances-matrix-namecert}. The packet names only finite plant, input, output, transport, replay, provenance, and local naming rows; it does not import a host quotient state space, a canonical Kalman decomposition, or an analytic transfer-function equality.
+
+\begin{definition}[MinimalRealization carrier]
+\label{def:minimal-realization-carrier}
+A $\MinimalRealizationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(X,U,Y,A,B,C,D,Q,O,G_o,G_r,n,m,I,L,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the finite plant state row, $U$ is the input row, and $Y$ is the output row, each read through displayed $\MatrixUp$ or $\LinearMapUp$ coordinates;
+\item $A:X\to X$, $B:U\to X$, $C:X\to Y$, and $D:U\to Y$ are the finite transition, input, output, and feedthrough rows of the plant;
+\item $Q$ is the reachability row consumed from $\ControlControllabilityUp$ and $\ReachabilityGramianUp$;
+\item $O$ is the observability row consumed from $\ControlObservabilityUp$ and $\ObservabilityGramianUp$;
+\item $G_o$ is the state-dimension ledger and $G_r$ is the reduced-state ledger, both recorded as finite natural rows with matrix-rank readback;
+\item $n$ is the displayed state-dimension row and $m$ is the reduced-state candidate row compared against it;
+\item $I$ is the isomorphism witness between any accepted reduced realization at dimension $n$ and the displayed realization rows;
+\item $L$ records the minimality ledger saying that every realization with the same displayed finite input-output rows has reduced-state ledger $m$ admitting a transport into $n$;
+\item $T$ records componentwise $\hsame$ transport and displayed $\Cont$ replay for the plant, input, output, reachability, observability, dimension, reduced-state, isomorphism, and minimality rows;
+\item $P$ is the $\Pkg$ provenance over $\MinimalRealizationUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\ReachabilityGramianUp$, $\ObservabilityGramianUp$, $\LinearMapUp$, $\MatrixUp$, $\BHist$, $\msame$, $\hsame$, $\psame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\MinimalRealizationUp}$ row.
+\end{enumerate}
+\end{definition}
+\leanchecked{BEDC.Derived.MinimalRealizationUp.MinimalRealizationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[MinimalRealization NameCert obligations]
+\label{thm:minimal-realization-namecert-obligations}
+For the carrier of \autoref{def:minimal-realization-carrier}, the local $\NameCert_{\MinimalRealizationUp}$ surface consists exactly of finite plant admission for $X,U,Y,A,B,C,D$, reachability admission through $Q$, observability admission through $O$, state-dimension and reduced-state ledger admission through $G_o,G_r,n,m$, isomorphism-witness admission through $I$, minimality-ledger admission through $L$, componentwise $\hsame$ and $\msame$ transport through $T$, displayed $\Cont$ replay through $T$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:minimal-realization-carrier}. The plant rows $X,U,Y,A,B,C,D$ are finite $\MatrixUp$ and $\LinearMapUp$ reads, so the local certificate begins with displayed finite control-system data.
+
+The rows $Q$ and $O$ are consumed from \autoref{ch:concrete-instances-controlcontrollability-namecert}, \autoref{ch:concrete-instances-controlobservability-namecert}, \autoref{ch:concrete-instances-reachabilitygramian-namecert}, and \autoref{ch:concrete-instances-observability-gramian-namecert}. They provide the reachability and observability witnesses used by the minimality ledger without introducing a host reachable quotient or hidden unobservable subspace.
+
+Finally $G_o,G_r,n,m,I,L,T,P,N$ record finite dimension comparison, reduced-state comparison, the displayed isomorphism witness, transport, replay, provenance, and local naming. Repacking those rows gives the stated NameCert obligation surface and no additional coordinate is available.
+\end{proof}
+
+\begin{theorem}[Controllability-observability minimality]
+\label{thm:minimal-realization-controllability-observability-minimality}
+Let $R=(X,U,Y,A,B,C,D,Q,O,G_o,G_r,n,m,I,L,T,P,N)$ be an accepted $\MinimalRealizationUp$ packet. Any downstream realization consumer that reads $R$ as a minimal finite realization must pass first through the displayed $\ControlControllabilityUp$ row $Q$, the displayed $\ControlObservabilityUp$ row $O$, the finite Gramian rows named by $\ReachabilityGramianUp$ and $\ObservabilityGramianUp$, the state-dimension and reduced-state ledgers $G_o,G_r,n,m$, the isomorphism witness $I$, the minimality ledger $L$, componentwise transport and replay through $T$, package provenance through $P$, and the local $\NameCert_{\MinimalRealizationUp}$ row $N$.
+
+The exported minimality claim supplies no host quotient state space, no selected canonical realization, no unbounded trajectory semantics, and no transfer-function equality outside the displayed finite plant rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:minimal-realization-namecert-obligations}. It exposes exactly the plant, reachability, observability, dimension, reduced-state, isomorphism, minimality, transport, replay, provenance, and local naming rows.
+
+The controllability side is read through $Q$ and the reachability Gramian route, while the observability side is read through $O$ and the observability Gramian route. These are finite $\BHist$ rows over $\MatrixUp$ and $\LinearMapUp$, so the consumer cannot replace them by an ambient state-space quotient.
+
+The ledger $L$ compares every same-input-output realization against the displayed dimension rows $n,m$, and $I$ is the only isomorphism witness exported at the same dimension. Therefore the minimality read is the finite BEDC route named by $R$, not a host canonical-form assertion or analytic transfer-function identification.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MinimalRealizationUp$ packet is refuted by any realization consumer that claims minimality while bypassing either the displayed reachability row $Q$, the displayed observability row $O$, the dimension comparison rows $G_o,G_r,n,m$, or the isomorphism and minimality ledgers $I,L$.}
+
+\independenceWitness{controlobservability, controlcontrollability, reachabilitygramian, observability-gramian, linearmap, matrix: none is bijective to $\MinimalRealizationUp$ because the minimal-realization packet jointly carries plant, input, output, reachability, observability, dimension, reduced-state, isomorphism, minimality, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{MinimalRealizationUp}{seedStr}
+
+\begin{closurestatus}{\MinimalRealizationUp}
+  \constructivestory{A $\MinimalRealizationUp$ packet is generated from finite plant, input, output, reachability, observability, dimension, reduced-state, isomorphism, minimality, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:minimal-realization-carrier}, \autoref{thm:minimal-realization-namecert-obligations}, \autoref{thm:minimal-realization-controllability-observability-minimality}, the displayed falsifiable prediction, and the displayed independence witness seed the finite minimal-realization NameCert surface over control, Gramian, linear-map, and matrix rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, canonical Kalman decomposition, transfer-function equality, or host quotient state-space semantics.}
+  \upgradepath{Obligation closure requires checked carrier admission, reachability and observability admission, dimension and reduced-state comparison, isomorphism-witness transport, minimality-ledger exactness, continuation replay, package provenance, and local NameCert exhaustion for BEDC.Derived.MinimalRealizationUp.}
+\end{closurestatus}

@@ -1,0 +1,51 @@
+\chapter{A Concrete Naming Certificate for $\LuenbergerObserverUp$}
+\label{ch:concrete-instances-luenberger-observer-namecert}
+\origin{human}
+
+Following Luenberger's observer construction for finite-dimensional linear systems, the $\LuenbergerObserverUp$ packet records a deterministic state-estimate correction row rather than a stochastic filter. It consumes the observed-output surface of $\ControlObservabilityUp$ in \autoref{ch:concrete-instances-controlobservability-namecert}, the reachability-side finite-control surface of $\ControlControllabilityUp$ in \autoref{ch:concrete-instances-controlcontrollability-namecert}, the finite dual readback of $\ObservabilityGramianUp$ in \autoref{ch:concrete-instances-observability-gramian-namecert}, the estimator boundary of $\KalmanFilterUp$ in \autoref{ch:concrete-instances-kalman-filter-namecert}, and the linear-map carrier of $\LinearMapUp$ in \autoref{ch:concrete-instances-linearmap-namecert}. The chapter names the displayed observer ledger used by downstream estimator and observer-based-control packets; it does not identify the deterministic observer with a Kalman update.
+
+\begin{definition}[LuenbergerObserverUp BHist carrier]
+\label{def:luenberger-observer-carrier}
+A $\LuenbergerObserverUp$ carrier is a finite $\BHist$ packet
+$$
+\begin{gathered}
+L=(A,C,Y,G,R,E,H,T,P,N).
+\end{gathered}
+$$
+Here $A$ is the plant-dynamics row, read as the finite transition surface shared with $\LinearMapUp$ and the control-system certificates; $C$ is the output-map row consumed through $\ControlObservabilityUp$; $Y$ is the displayed measured-output and predicted-output comparison row; $G$ is the observer-gain row, with its finite matrix or linear-map provenance separated from any Kalman covariance update; $R$ is the residual row naming $y-C\widehat{x}$ as a finite output discrepancy; $E$ is the error-propagation ledger recording the closed observer error route governed by the displayed plant, output, and gain rows; $H$ is componentwise $\hsame$ transport for all observer rows; $T$ is displayed $\Cont$ replay for residual formation and error-propagation reads; $P$ is the $\Pkg$ provenance over $\LuenbergerObserverUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\ObservabilityGramianUp$, $\KalmanFilterUp$, $\LinearMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$; and $N$ is the local $\NameCert_{\LuenbergerObserverUp}$ row.
+
+The classifier compares observer packets only through $A,C,Y,G,R,E,H,T,P,N$. It has no coordinate for stochastic covariance recursion, optimal filtering, asymptotic convergence rate, pole-placement completeness, unobserved trajectory semantics, or a hidden analytic state space.
+\end{definition}
+
+\begin{theorem}[LuenbergerObserverUp NameCert obligations]
+\label{thm:luenberger-observer-namecert-obligations}
+For every accepted $\LuenbergerObserverUp$ carrier $L=(A,C,Y,G,R,E,H,T,P,N)$, the local $\NameCert_{\LuenbergerObserverUp}$ surface consists exactly of plant-dynamics admission through $A$, output-map admission through $C$, measured/predicted output comparison through $Y$, observer-gain admission through $G$, residual formation through $R$, error-propagation exposure through $E$, componentwise transport through $H$, displayed continuation replay through $T$, package provenance through $P$, and local naming through $N$.
+
+A downstream deterministic estimator, observer-based controller, or control-diagnostic packet may read this surface only after the plant dynamics, output map, observer gain, residual, and error-propagation ledger have all been displayed. The packet exports no Kalman covariance update, no stochastic innovation law, no host convergence theorem, no pole-placement theorem, and no analytic state-trajectory object.
+\end{theorem}
+
+\begin{proof}
+Project the accepted carrier of \autoref{def:luenberger-observer-carrier}. The rows $A,C,Y,G,R,E$ are the observer-facing data, while $H,T,P,N$ transport, replay, source, and name the same finite packet.
+
+The output row is read through $\ControlObservabilityUp$ and the transition/gain rows through the displayed finite linear-map surface. The observability Gramian and controllability packets can be used only as named provenance for finite control rows; they do not add an unrecorded analytic observer theorem.
+
+The Kalman-filter sibling is present only as an estimator boundary. Since the carrier separates the deterministic gain row $G$ and residual row $R$ from any covariance update, a consumer cannot reinterpret the observer certificate as stochastic filtering data.
+
+Thus the listed rows exhaust the local NameCert surface. Any read that demands a convergence theorem, pole-placement completeness theorem, covariance recursion, or host trajectory semantics leaves the accepted carrier.
+\end{proof}
+
+\falsifiablePrediction{Every future consumer of $\LuenbergerObserverUp$ must expose the plant row, output row, observer-gain row, residual row, and error-propagation ledger before it reads a deterministic observer handoff; no consumer may obtain a Kalman covariance update from this packet.}
+
+\independenceWitness{controlobservability, controlcontrollability, observability-gramian, kalman-filter, linearmap: none is bijective to $\LuenbergerObserverUp$ because the observer packet jointly carries plant dynamics, output map, observer gain, residual, deterministic error propagation, transport, replay, provenance, and local NameCert rows while excluding stochastic covariance update and host convergence semantics.}
+
+\closureat{LuenbergerObserverUp}{seedStr}
+
+\begin{closurestatus}{\LuenbergerObserverUp}
+  \constructivestory{A $\LuenbergerObserverUp$ packet is generated from displayed plant dynamics, output map, observer gain, measured/predicted output comparison, residual, deterministic error-propagation ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:luenberger-observer-carrier} and \autoref{thm:luenberger-observer-namecert-obligations} seed the deterministic observer carrier and its local NameCert obligation surface over displayed control and linear-map rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove observer convergence, pole-placement completeness, stochastic optimality, Kalman covariance update laws, analytic trajectory semantics, Lean verification, or a bridge-checked public schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, plant-dynamics exposure, output-map exposure, observer-gain exactness, residual exactness, error-propagation ledger coverage, transport stability, replay stability, provenance exhaustion, and local naming for BEDC.Derived.LuenbergerObserverUp.}
+\end{closurestatus}

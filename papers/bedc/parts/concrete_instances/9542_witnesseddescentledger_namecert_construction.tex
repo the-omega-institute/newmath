@@ -30,6 +30,7 @@ with the following displayed rows:
 The carrier has no coordinate for a stratum collapse, host identity between source and target, reducibility principle, quotient equality, proof-irrelevance shortcut, or unrecorded downward read.
 \end{definition}
 \leandef{BEDC.Derived.WitnessedDescentLedgerUp.WitnessedDescentLedgerUp}
+\leanchecked{BEDC.Derived.WitnessedDescentLedgerUp.WitnessedDescentLedgerTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Witnessed-descent NameCert obligations]
 \label{thm:witnessed-descent-ledger-namecert-obligations}
@@ -77,16 +78,54 @@ The witnessed-descent ledger projects only the descent route. Its carrier names 
 Therefore no sibling is collapsed into this packet and this packet is not a full Russell boundary. It is the concrete descent ledger that later consumers may cite when an upward name is read downward.
 \end{proof}
 
-Lean follow-up must provide $\mathsf{Nontrivial}\ \WitnessedDescentLedgerUp$ and $\mathsf{FieldFaithful}\ \WitnessedDescentLedgerUp$ instances together with the corresponding taste-gate alignment under the future namespace $\mathsf{BEDC.Derived.WitnessedDescentLedgerUp}$.
+\begin{theorem}[Displayed witness accountability]
+\label{thm:witnessed-descent-ledger-displayed-witness-accountability}
+Every accepted $\WitnessedDescentLedgerUp$ carrier $L=(S,B,D,W,H,C,P,N)$ accounts for a downward read only through the displayed witness row $W$. The TasteGate-facing carrier alignment records that the single carrier exposed to downstream consumers is the same finite packet whose rows display the source, bridge, descent request, witness, transport, replay, provenance, and local naming data.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:witnessed-descent-ledger-carrier}. The descent request row $D$ records the requested downward use, while $W$ is the only row licensing that particular use.
 
-\closureat{WitnessedDescentLedgerUp}{seedStr}
+The checked TasteGate alignment keeps the public carrier from being replaced by a detached event-flow presentation. Thus every consumer that reads the carrier reads the same displayed $W$ row before any downward name is available.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name this route. Since the carrier omits unrecorded downward reads and proof-irrelevance shortcuts, witness accountability is exactly the displayed-row obligation.
+\end{proof}
+
+\begin{theorem}[Witnessed-descent noncollapse transport]
+\label{thm:witnessed-descent-ledger-noncollapse-transport}
+Componentwise $\hsame$ transport for an accepted $\WitnessedDescentLedgerUp$ packet preserves the separation between the source row $S$, bridge row $B$, descent-request row $D$, and witness row $W$. It never identifies the upward source stratum with the downward consumer boundary, and it never converts the witness row into quotient equality or proof-irrelevant reducibility.
+\end{theorem}
+\begin{proof}
+Read transport through the row $H$ in \autoref{def:witnessed-descent-ledger-carrier}. It is componentwise: source, bridge, request, witness, continuation, provenance, and local name rows are transported as separate displayed coordinates.
+
+The non-collapse claim follows from this row separation. Transport can preserve the finite route from $S$ through $B,D,W$, but it has no coordinate that turns the bridge into identity between strata.
+
+Finally replay through $C$ and source through $P,N$. The omitted coordinates exclude quotient equality, proof irrelevance, and reducibility, so the transported packet remains a witnessed descent ledger rather than a collapse principle.
+\end{proof}
+
+\begin{theorem}[Witnessed-descent bridge-readback exhaustion]
+\label{thm:witnessed-descent-ledger-bridge-readback-exhaustion}
+Every bridge-readback consumer of an accepted $\WitnessedDescentLedgerUp$ packet must inspect the finite route
+$$
+S,B,D,W,H,C,P,N
+$$
+before it can consume the downward name. The route exhausts the readback surface: there is no additional bridge row, hidden witness selector, global descent rule, quotient equality, or identity between upward and downward strata available to the consumer.
+\end{theorem}
+\begin{proof}
+Start from the public readback theorem \autoref{thm:witnessed-descent-ledger-public-readback}. It already forces every public downward read through the source, bridge, descent request, witness, transport, replay, provenance, and local NameCert rows.
+
+For a bridge-readback consumer, the bridge row $B$ is therefore not optional. The consumer reaches the requested downward use only after $D$ and the displayed witness $W$ have been inspected.
+
+The remaining rows $H,C,P,N$ close the route inside the packet. Since no second bridge row, selector, global rule, quotient equality, or stratum identity coordinate exists, the listed route exhausts the bridge-readback surface.
+\end{proof}
+
+\closureat{WitnessedDescentLedgerUp}{scopedStr}
 
 \begin{closurestatus}{\WitnessedDescentLedgerUp}
   \constructivestory{A $\WitnessedDescentLedgerUp$ packet is generated from a source upward-name row, a bridge row, a descent-request row, a witness row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:witnessed-descent-ledger-carrier}, \autoref{thm:witnessed-descent-ledger-namecert-obligations}, \autoref{thm:witnessed-descent-ledger-public-readback}, and \autoref{thm:witnessed-descent-ledger-sibling-boundary} bind the finite source, bridge, request, witness, transport, replay, provenance, and local naming rows for downward use of upward names.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:witnessed-descent-ledger-carrier}, \autoref{thm:witnessed-descent-ledger-namecert-obligations}, \autoref{thm:witnessed-descent-ledger-public-readback}, \autoref{thm:witnessed-descent-ledger-sibling-boundary}, \autoref{thm:witnessed-descent-ledger-displayed-witness-accountability}, \autoref{thm:witnessed-descent-ledger-noncollapse-transport}, and \autoref{thm:witnessed-descent-ledger-bridge-readback-exhaustion} bind the finite source, bridge, request, witness, noncollapse transport, readback exhaustion, provenance, and local naming rows for downward use of upward names.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not prove Lean-side formal verification, a standard bridge, a global descent rule, a reducibility principle, quotient equality, proof irrelevance, or identity between upward and downward strata.}
-  \upgradepath{Obligation closure requires checked carrier admission, witness-row exactness, public readback factorization, sibling noncollapse, and Nontrivial and FieldFaithful instances for the displayed packet.}
+  \upgradepath{Scoped closure requires Lean-side verification of carrier admission, witness-row exactness, public readback factorization, sibling noncollapse, noncollapse transport, and bridge-readback exhaustion for the displayed packet.}
 \end{closurestatus}

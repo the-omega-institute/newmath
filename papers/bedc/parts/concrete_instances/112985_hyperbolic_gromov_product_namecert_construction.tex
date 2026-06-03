@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicGromovProductUp$}
+\label{ch:concrete-instances-hyperbolic-gromov-product-namecert}
+\origin{ai}
+
+The $\HyperbolicGromovProductUp$ packet realizes the boundary-shadow and visual-metric comparison route of \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion} as finite basepointed NameCert data. It sits after the visual-metric packet of \autoref{ch:concrete-instances-hyperbolic-visual-metric-namecert}, the Busemann-boundary packet of \autoref{ch:concrete-instances-hyperbolic-busemann-boundary-namecert}, the boundary-shadow packet of \autoref{ch:concrete-instances-hyperbolic-boundary-shadow-namecert}, and the observer-expansion packet of \autoref{ch:concrete-instances-hyperbolic-observer-expansion-namecert}. The packet names only a displayed Gromov-product comparison surface; it does not complete the boundary, select geodesic representatives, import a host hyperbolic space, or identify visual metrics by quotient equality.
+
+\begin{definition}[Hyperbolic Gromov product carrier]
+\label{def:hyperbolic-gromov-product-carrier}
+A $\HyperbolicGromovProductUp$ carrier is a finite $\BHist$ packet
+$$
+G=(B,V,U,S,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the basepoint row naming the finite observer base from which the product is read.
+\item $V$ is the $\HyperbolicVisualMetricUp$ comparison row.
+\item $U$ is the $\HyperbolicBusemannBoundaryUp$ boundary-distance row.
+\item $S$ is the $\HyperbolicBoundaryShadowUp$ visual-boundary shadow row.
+\item $E$ is the $\HyperbolicObserverExpansionUp$ observer-expansion row tying the comparison to the focused route.
+\item $R$ is the Gromov-product readback row, recording the finite basepointed comparison extracted from $B,V,U,S,E$.
+\item $H$ records componentwise $\hsame$ transport for basepoint, visual-metric, Busemann-boundary, boundary-shadow, observer-expansion, readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from basepoint admission through visual-boundary shadow comparison to the Gromov-product readback.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicGromovProductUp$, $\HyperbolicVisualMetricUp$, $\HyperbolicBusemannBoundaryUp$, $\HyperbolicBoundaryShadowUp$, $\HyperbolicObserverExpansionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicGromovProductUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $B,V,U,S,E,R,H,C,P,N$. It has no coordinate for a completed ideal boundary, a selected geodesic-ray quotient, a host hyperbolic group action, or a global visual metric.
+\end{definition}
+
+\begin{theorem}[Hyperbolic Gromov product NameCert obligations]
+\label{thm:hyperbolic-gromov-product-namecert-obligations}
+For every accepted $\HyperbolicGromovProductUp$ carrier $G=(B,V,U,S,E,R,H,C,P,N)$, the local $\NameCert_{\HyperbolicGromovProductUp}$ surface consists exactly of basepoint admission through $B$, visual-metric comparison through $V$, Busemann-boundary exposure through $U$, visual-boundary shadow admission through $S$, observer-expansion anchoring through $E$, Gromov-product readback through $R$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-gromov-product-carrier}. The geometric data are exactly the basepoint, visual metric, Busemann boundary, boundary shadow, observer-expansion, and readback rows.
+
+The obligation surface reads each geometric coordinate once. Row $B$ admits the basepoint, $V$ supplies the visual comparison, $U$ supplies the Busemann boundary face, $S$ supplies the visible shadow row, $E$ anchors the observer-expansion route, and $R$ records the product readback.
+
+The remaining rows are structural. Transport is componentwise through $H$, replay is displayed through $C$, and $P,N$ provide provenance and local naming. Since no carrier coordinate contains a completed boundary, selected quotient, host hyperbolic action, or global visual metric, the NameCert obligations do not export those objects.
+\end{proof}
+
+\begin{theorem}[Hyperbolic Gromov product boundary-shadow handoff]
+\label{thm:hyperbolic-gromov-product-boundary-shadow-handoff}
+Every boundary-shadow or visual-metric consumer of an accepted $\HyperbolicGromovProductUp$ packet factors its Gromov-product read through the displayed rows
+$$
+B,V,U,S,E,R,H,C,P,N .
+$$
+The handoff preserves the basepoint row, visual-metric comparison, Busemann-boundary exposure, boundary-shadow row, observer-expansion route, product readback, transport, replay, provenance, and local name; it exports no completed boundary, quotient geodesic equality, host hyperbolic group action, or global visual metric.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier. Its basepointed comparison is not read from a host metric space; it is the displayed row $R$ over $B,V,U,S,E$.
+
+Apply \autoref{thm:hyperbolic-gromov-product-namecert-obligations}. The visual-metric and boundary-shadow information enters only through $V$ and $S$, while the Busemann and observer-expansion rows $U,E$ keep the boundary comparison attached to the focused route.
+
+Finally transport and replay the same rows through $H,C,P,N$. The carrier has no coordinate for completed boundaries, quotient geodesic equality, host group actions, or global visual metrics, so the handoff remains finite and local.
+\end{proof}
+
+\falsifiablePrediction{A $\HyperbolicGromovProductUp$ read is rejected whenever its basepoint row or visual-boundary shadow row is absent.}
+
+\independenceWitness{hyperbolic-visual-metric, hyperbolic-busemann-boundary, hyperbolic-boundary-shadow, hyperbolic-observer-expansion: no listed sibling is bijective to $\HyperbolicGromovProductUp$ because this packet jointly carries basepoint admission, visual-metric comparison, Busemann-boundary exposure, boundary-shadow readback, observer-expansion anchoring, product readback, transport, replay, provenance, and local naming rows.}
+
+The Lean follow-up for this packet must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances in \texttt{lean4/BEDC/Derived/HyperbolicGromovProductUp/TasteGate.lean}; the paper packet records the finite NameCert surface those instances must preserve.
+
+\closureat{HyperbolicGromovProductUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicGromovProductUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-gromov-product-carrier}, \autoref{thm:hyperbolic-gromov-product-namecert-obligations}, and \autoref{thm:hyperbolic-gromov-product-boundary-shadow-handoff} seed the finite basepointed Gromov-product packet over visual-metric, Busemann-boundary, boundary-shadow, observer-expansion, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed ideal boundaries, quotient geodesic equality, host hyperbolic group actions, global visual metrics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked basepoint admission, visual-metric comparison, Busemann-boundary exposure, boundary-shadow readback, observer-expansion anchoring, product readback, transport, replay, provenance, local naming, and TasteGate field faithfulness for BEDC.Derived.HyperbolicGromovProductUp.}
+  \constructivestory{A $\HyperbolicGromovProductUp$ packet is generated from a basepoint row, HyperbolicVisualMetricUp row, HyperbolicBusemannBoundaryUp row, HyperbolicBoundaryShadowUp row, HyperbolicObserverExpansionUp row, Gromov-product readback, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+\end{closurestatus}

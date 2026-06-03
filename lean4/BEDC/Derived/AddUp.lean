@@ -241,4 +241,13 @@ theorem AddUpNatUp_sibling_dependency_route {x y result : BHist} :
   have resultUnary : UnaryHistory result := unary_cont_closed unaryX unaryY route
   exact ⟨unaryX, unaryY, resultUnary, route⟩
 
+theorem AddUnaryZeroResult_one_way_boundary {h k z : BHist} :
+    UnaryHistory h -> UnaryHistory k ->
+      ¬ ((Cont h k (BHist.e0 z) -> False) -> Cont h k (BHist.e0 z)) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro unaryH unaryK reverseRule
+  have zeroAbsent : Cont h k (BHist.e0 z) -> False :=
+    unary_cont_e0_result_absurd unaryH unaryK
+  exact zeroAbsent (reverseRule zeroAbsent)
+
 end BEDC.Derived.AddUp

@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\BinaryTreeUp$}
+\label{ch:concrete-instances-binary-tree-namecert}
+\origin{human}
+
+Following Knuth and Cormen--Leiserson--Rivest--Stein, the binary-tree packet treats a tree node as a finite record with at most one left branch and at most one right branch. The certificate is a finite-data neighbor of $\ListUp$ (\autoref{ch:concrete-instances-list-namecert}), $\TreeUp$ (\autoref{ch:concrete-instances-tree-namecert}), $\GraphUp$ (\autoref{ch:concrete-instances-graph-namecert}), and $\FinSetUp$ (\autoref{ch:concrete-instances-finset-namecert}): it uses list-style finite spines for node positions, graph-style incidence rows for branches, and tree-style rooted transport without importing a host datatype.
+
+\section{Carrier definition}
+\label{sec:binary-tree-carrier}
+
+\begin{definition}[BinaryTree finite carrier]
+\label{def:binary-tree-carrier}
+A $\BinaryTreeUp$ carrier row is a finite $\mathsf{BHist}$ packet
+$$
+\mathsf{BinaryTreePacket}(h)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item a root history $r$ carried by the same $\Pkg$ provenance as $h$;
+\item a finite-node position carrier $\mathsf{NodePos}(h)$ with readback $\mathsf{node}_h:\mathsf{NodePos}(h)\to\mathsf{BHist}$ and root position $p_r$ satisfying $\mathsf{node}_h(p_r)\hsame r$;
+\item partial branch classifiers $\mathsf{left}_h$ and $\mathsf{right}_h$ from node positions to node positions, each represented by a finite incidence row rather than by a host function;
+\item a branch classifier saying that any displayed branch row is either left or right and that a node has at most one displayed left target and at most one displayed right target up to $\hsame$ transport;
+\item $\hsame$ transport rows for the root, every node position, and every left/right branch row;
+\item $\Cont$ replay rows that read the same packet after transporting along the displayed $\hsame$ witnesses;
+\item $\Pkg$ provenance for the root, node spine, branch rows, and local certificate rows;
+\item local $\NameCert$ rows for the carried root, node-position spine, and left/right incidence classifiers.
+\end{enumerate}
+The carrier exports exactly these finite rows. It does not export a host recursive datatype, a hidden traversal order, or an unrecorded quotient of node labels.
+\end{definition}
+
+\section{Obligation surface}
+\label{sec:binary-tree-obligation-surface}
+
+\begin{theorem}[BinaryTree NameCert obligation surface]
+\label{thm:binary-tree-namecert-obligation-surface}
+The $\BinaryTreeUp$ certificate obligations are exactly the carrier, classifier, and ledger obligations displayed in \autoref{def:binary-tree-carrier}. Carrier coverage says that an accepted history exposes a root, a finite node-position spine, finite left/right branch rows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. Classifier stability says that two accepted packets classify together precisely when their roots, node positions, and left/right branch rows are transported componentwise by the displayed $\hsame$ witnesses. Ledger exactness says that branch-choice evidence, finite-node enumeration evidence, and replay evidence remain ledger rows and never become host equality.
+\end{theorem}
+\begin{proof}
+Read an accepted packet through \autoref{def:binary-tree-carrier}. The carrier projection gives the root, node-position spine, left/right branch incidence rows, transport rows, replay rows, provenance rows, and local naming rows.
+
+For classifier stability, compare two packets componentwise. The root comparison is the displayed $\hsame$ row, node comparisons use the finite-position readback, and branch comparisons use the left/right incidence rows transported along the same provenance.
+
+For ledger exactness, isolate the data that justifies the visible rows: branch-choice witnesses, finite enumeration witnesses, and replay witnesses. Since each of these is consumed only to justify or transport a visible row, none is exported as host equality or as a hidden traversal order. This is exactly the carrier/classifier/ledger surface claimed above.
+\end{proof}
+
+\begin{theorem}[BinaryTree induction readback]
+\label{thm:binary-tree-induction-readback}
+Let $\mathsf{BinaryTreePacket}(h)$ be an accepted $\BinaryTreeUp$ carrier row. If a predicate $Q$ on displayed node positions holds at the root position and is stable under each displayed left and right branch row, then $Q$ holds at every node position in $\mathsf{NodePos}(h)$. Equivalently, structural induction over a binary tree is read back from the finite root and branch rows of the packet.
+\end{theorem}
+\begin{proof}
+Induct over the displayed finite node-position spine. The root case is the supplied root witness $Q(p_r)$.
+
+For a node reached by a displayed left branch, apply the left-branch stability clause to the predecessor position and transport the resulting witness along the branch classifier row. The right-branch case is identical with the right-branch stability clause.
+
+Every position in the finite packet is either the root position or appears as the target of a finite sequence of displayed left/right branch rows from the root, because the packet is accepted only after the branch incidence ledger has been replayed through the rooted $\TreeUp$ and finite $\GraphUp$ rows. Repeatedly applying the two branch steps therefore yields $Q$ at the chosen position. Componentwise $\hsame$ transport carries the witness across equivalent packet presentations.
+\end{proof}
+
+\begin{closurestatus}{\BinaryTreeUp}
+  \constructivestory{A binary tree is accepted only after a visible finite packet records a root row, finite node-position rows, left and right branch incidence rows, classifier transport, replay, provenance, and local naming rows. The construction reads ordinary binary-tree branching as displayed $\mathsf{BHist}$ data: root and branch rows are public, while traversal choices and replay witnesses remain ledger data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter names the finite carrier, classifier, induction readback, and ledger boundary for binary-tree packets over $\mathsf{BHist}$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a checked Lean implementation, a standard bridge, balancing invariants, search-order invariants, or host recursive tree equality.}
+  \upgradepath{A checked carrier namespace and finite branch-row induction theorem would raise the verification axis.}
+\end{closurestatus}

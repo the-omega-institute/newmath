@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\OptionalSamplingUp$}
+\label{ch:concrete-instances-optional-sampling-namecert}
+\origin{human}
+
+Following Doob, the $\OptionalSamplingUp$ packet names the bounded optional-sampling surface that sits between the finite optional-stopping certificate of \autoref{ch:concrete-instances-optionalstopping-namecert} and the martingale-convergence preparation route of \autoref{ch:concrete-instances-martingale-convergence-namecert}. It consumes the probability, random-variable, conditional-expectation, martingale, stopping-time, and optional-stopping rows already displayed by those siblings, and it exports only a bounded stopped-window handoff. It does not introduce unbounded stopping-time choice, almost-sure quotient equality, or a completed measure carrier.
+
+\begin{definition}[Optional sampling carrier]
+\label{def:optional-sampling-carrier}
+An $\OptionalSamplingUp$ carrier is a finite $\BHist$ packet
+$$
+S=(P,X,E,M,T,O,B,L,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the consumed $\ProbSpaceUp$ probability-source row.
+\item $X$ is the finite $\RandomVarUp$ endpoint family read by the stopped window.
+\item $E$ is the $\CondExpUp$ conditional-expectation face used by the martingale law.
+\item $M$ is the finite $\MartingaleUp$ adapted-window row.
+\item $T$ is the bounded $\StoppingTimeUp$ decision row.
+\item $O$ is the $\OptionalStoppingUp$ stopped-window row over the same martingale and bound.
+\item $B$ is the bounded sampling-window row, displaying the lower and upper stopping indices and the finite horizon in which both are read.
+\item $L$ is the martingale-law handoff row, recording that the sampled endpoint comparison is read through $E,M,T,O,B$.
+\item $H$ records componentwise $\hsame$ transport for the displayed probability, random-variable, conditional-expectation, martingale, stopping-time, optional-stopping, sampling-window, and law rows.
+\item $C$ records displayed $\Cont$ replay from the bounded stopping decision to the sampled-window comparison.
+\item $Q$ is the $\Pkg$ provenance over $\OptionalSamplingUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\CondExpUp$, $\MartingaleUp$, $\StoppingTimeUp$, $\OptionalStoppingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OptionalSamplingUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $P,X,E,M,T,O,B,L,H,C,Q,N$. No coordinate names an unbounded stopping theorem, a selected almost-sure representative, a completed measure space, or an ambient martingale convergence theorem.
+\end{definition}
+
+\begin{theorem}[Optional sampling NameCert obligations]
+\label{thm:optional-sampling-namecert-obligations}
+For every accepted $\OptionalSamplingUp$ carrier $S=(P,X,E,M,T,O,B,L,H,C,Q,N)$, the local $\NameCert_{\OptionalSamplingUp}$ surface consists exactly of carrier admission for $P,X,E,M,T,O,B,L$, classifier transport through $H$, bounded stopped-window exactness through $O,B,C$, martingale-law handoff through $E,M,L$, provenance-local-name exhaustion through $Q,N$, and no-escape from the displayed bounded stopping rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:optional-sampling-carrier}. The probability, random-variable, conditional-expectation, martingale, stopping-time, optional-stopping, bounded-window, and law-handoff rows are the only mathematical coordinates of the packet.
+
+Carrier and classifier obligations are immediate from those coordinates. Rows $P,X,E,M,T,O,B,L$ admit the bounded sampling surface, while $H$ transports it componentwise and $C$ replays the same finite route.
+
+The stopped-window exactness is bounded because $O$ and $B$ expose the finite horizon before the handoff row $L$ is read. The martingale-law handoff is therefore consumed through $E,M,T,O,B,L$, not through a host stopping theorem.
+
+Finally $Q,N$ exhaust the provenance and local naming rows. Since no carrier coordinate contains unbounded stopping-time choice, almost-sure quotient equality, completed measure data, or convergence, the NameCert surface exports none of those objects.
+\end{proof}
+
+\begin{theorem}[Optional sampling bounded stopping handoff]
+\label{thm:optional-sampling-bounded-stopping-handoff}
+Every optional-sampling read consumed by $\MartingaleConvergenceUp$ factors through the displayed bounded stopping rows $T,O,B,L$ of an accepted $\OptionalSamplingUp$ carrier. The handoff exports the finite stopped-window comparison over $\ProbSpaceUp$, $\RandomVarUp$, $\CondExpUp$, and $\MartingaleUp$ rows, and exports no unbounded stopping-time choice, almost-sure quotient equality, completed measure carrier, or ambient convergence theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted $\OptionalSamplingUp$ carrier. The stopping decision is the bounded row $T$, and the stopped process is exposed only through the $\OptionalStoppingUp$ row $O$ inside the finite sampling window $B$.
+
+The martingale-law handoff is $L$. By \autoref{thm:optional-sampling-namecert-obligations}, $L$ is read after the conditional-expectation and martingale rows $E,M$ and after the bounded stopped-window rows $T,O,B$.
+
+Thus a downstream $\MartingaleConvergenceUp$ consumer receives only the displayed finite route. The packet has no coordinate for unbounded stopping-time choice, almost-sure quotient equality, measure completion, or convergence, so the handoff cannot export any of them.
+\end{proof}
+
+\closureat{OptionalSamplingUp}{seedStr}
+
+\begin{closurestatus}{\OptionalSamplingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:optional-sampling-carrier}, \autoref{thm:optional-sampling-namecert-obligations}, and \autoref{thm:optional-sampling-bounded-stopping-handoff} seed the bounded optional-sampling packet over displayed probability, random-variable, conditional-expectation, martingale, stopping-time, optional-stopping, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unbounded optional sampling, almost-sure quotient equality, completed measure carriers, martingale convergence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, bounded stopped-window exactness, martingale-law handoff, provenance exhaustion, no-escape, and TasteGate field faithfulness for BEDC.Derived.OptionalSamplingUp.}
+  \constructivestory{An $\OptionalSamplingUp$ packet is generated from displayed ProbSpaceUp, RandomVarUp, CondExpUp, MartingaleUp, StoppingTimeUp, OptionalStoppingUp, bounded sampling-window, martingale-law handoff, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+\end{closurestatus}

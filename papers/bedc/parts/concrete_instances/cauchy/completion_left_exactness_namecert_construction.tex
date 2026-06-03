@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through these rows. It has no coordinate for quotient completion equality, selected representatives, selected finite limits, countable choice, host equality of completed objects, or ambient $\RealUp$ completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchyCompletionLeftExactnessUp.TasteGate.CauchyCompletionLeftExactnessTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Cauchy completion left-exactness NameCert obligations]
 \label{thm:cauchy-completion-left-exactness-namecert-obligations}
@@ -50,6 +51,7 @@ L=(S,U,D,K,E,H,C,P,N),
 $$
 the source finite-limit row $S$, completion unit row $U$, dense image row $D$, kernel-pair preservation row $K$, extension ledger $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, provenance row $P$, and local $\NameCert$ row $N$ are all admitted as finite coordinates of the same packet. No completion-facing read may treat one of these rows as ambient host data detached from the carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyUp.CauchyCompletionLeftExactness\_carrier\_admission}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-completion-left-exactness-carrier}. Its coordinates are exactly $S,U,D,K,E,H,C,P,N$, so each named row is admitted by carrier membership.
 
@@ -62,6 +64,7 @@ Since quotient completion equality, selected representatives, selected finite li
 \label{thm:cauchy-completion-left-exactness-unit-density-route}
 Every displayed finite-limit comparison read through an accepted $\CauchyCompletionLeftExactnessUp$ carrier factors first through the source finite-limit row $S$, then through the completion unit row $U$, and then through the dense image row $D$ before the extension ledger $E$ and structural rows $H,C,P,N$ are inspected. This route records the finite source-to-completion passage without selecting representatives of completed objects or invoking countable choice.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyUp.CauchyCompletionLeftExactnessUnitDensityRoute}
 \begin{proof}
 Begin with the carrier admission theorem \autoref{thm:cauchy-completion-left-exactness-carrier-admission}. It keeps $S,U,D$ as visible coordinates of the same finite packet.
 
@@ -80,6 +83,37 @@ Project the kernel-pair coordinate $K$ from the carrier. By definition, $K$ reco
 Use the unit-density route theorem \autoref{thm:cauchy-completion-left-exactness-unit-density-route}. It places every completion-facing finite-limit comparison behind $S,U,D$, so the kernel-pair row is read as part of the same source-to-completion passage.
 
 Finally apply \autoref{thm:cauchy-completion-left-exactness-namecert-obligations}. The rows $E,H,C,P,N$ only extend, transport, replay, package, and name the displayed comparison. They add no coordinate for quotient completion equality, selected finite limits, or ambient equality of completed objects, so preservation remains confined to $K$ and its source, unit, and dense-image context.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyUp.CauchyCompletionLeftExactnessKernelPairPreservation}
+
+\begin{theorem}[Cauchy completion left-exactness regular-limit pullback]
+\label{thm:cauchy-completion-left-exactness-regular-limit-pullback}
+For every accepted $\CauchyCompletionLeftExactnessUp$ carrier $L=(S,U,D,K,E,H,C,P,N)$, any regular Cauchy limit read used by a finite-limit comparison factors through the source finite-limit row $S$, the completion unit row $U$, the dense image row $D$, the kernel-pair row $K$, the $\RegSeqRatUp$ readback surface, and the terminal $\RealUp$ seal before the extension ledger $E$ is consumed. Thus the regular-limit comparison is a pullback of displayed source, unit, dense-image, kernel-pair, regular-readback, and real-seal rows, not a quotient completion or a selected representative of a completed object.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $S,U,D,K,E,H,C,P,N$ are the only admitted coordinates, so a finite-limit comparison cannot begin from a hidden completed object or a host-level limit.
+
+Apply \autoref{thm:cauchy-completion-left-exactness-unit-density-route}. It places every completion-facing finite-limit comparison behind the source finite-limit row, the completion unit row, and the dense image row before the extension ledger and structural rows are inspected.
+
+Next apply \autoref{thm:cauchy-completion-left-exactness-kernel-pair-preservation}. Equalizer, pullback, and kernel-pair comparisons remain confined to the displayed kernel-pair row together with the same source, unit, and dense-image context.
+
+The regular Cauchy limit read is then exposed through the sibling $\RegSeqRatUp$ readback surface named in the chapter introduction, and the resulting endpoint is sealed only through the sibling $\RealUp$ boundary. Since those sibling rows are read after $S,U,D,K$ and before $E$, the comparison has the announced displayed pullback route. No coordinate remains for quotient completion equality, selected representatives, selected finite limits, or ambient $\RealUp$ completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyUp.CauchyCompletionLeftExactnessRegularLimitPullback}
+
+\begin{theorem}[Cauchy completion left-exactness RegSeqRat unit pullback]
+\label{thm:cauchy-completion-left-exactness-regseqrat-unit-pullback}
+For every accepted $\CauchyCompletionLeftExactnessUp$ carrier $L=(S,U,D,K,E,H,C,P,N)$, any finite-limit comparison whose completion unit route reaches a $\RegSeqRatUp$ readback factors first through the source finite-limit row $S$, completion unit row $U$, dense image row $D$, and kernel-pair row $K$. It then reads the $\RegSeqRatUp$ surface and terminal $\RealUp$ seal before the extension ledger and structural rows $E,H,C,P,N$ are consumed. Componentwise $\hsame$ transport preserves that order, so the exported comparison contains no quotient completion, selected representative, selected finite limit, host equality, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyUp.CauchyCompletionLeftExactnessRegSeqRatUnitPullback}
+\begin{proof}
+Start with the carrier admission theorem \autoref{thm:cauchy-completion-left-exactness-carrier-admission}. It keeps $S,U,D,K,E,H,C,P,N$ as finite coordinates of one accepted packet, so the comparison cannot begin from an external completed object.
+
+Apply the unit-density route theorem \autoref{thm:cauchy-completion-left-exactness-unit-density-route}. This places every completion-facing finite-limit comparison behind $S,U,D$ before the extension ledger and structural rows are inspected.
+
+Next apply the kernel-pair preservation theorem \autoref{thm:cauchy-completion-left-exactness-kernel-pair-preservation}. Pullback and equalizer comparisons remain confined to $K$ together with the same source, unit, and dense-image context.
+
+Finally use the regular-limit pullback theorem \autoref{thm:cauchy-completion-left-exactness-regular-limit-pullback}. Its readback route inserts the $\RegSeqRatUp$ surface and the terminal $\RealUp$ seal after $S,U,D,K$ and before $E,H,C,P,N$. Componentwise $\hsame$ transport therefore preserves the displayed order, while the excluded quotient, selection, choice, host-equality, and ambient-completeness rows remain absent from the carrier.
 \end{proof}
 
 \closureat{CauchyCompletionLeftExactnessUp}{seedStr}

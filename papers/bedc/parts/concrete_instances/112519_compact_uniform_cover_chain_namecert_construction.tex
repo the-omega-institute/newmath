@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\CompactUniformCoverChainUp$}
+\label{ch:concrete-instances-compact-uniform-cover-chain-namecert}
+\origin{ai}
+
+The $\CompactUniformCoverChainUp$ packet realizes the compact-uniform cover-chain route as finite NameCert data. It sits between subordinate finite-cover packets, the compact uniform modulus row of \autoref{ch:concrete-instances-compact-uniform-modulus-namecert}, the compact Lebesgue-number row of \autoref{ch:concrete-instances-compact-lebesgue-number-namecert}, the finite-cover radius stability row of \autoref{ch:concrete-instances-finite-cover-radius-stability-namecert}, and the composed uniform-continuity consumer of \autoref{ch:concrete-instances-uniform-continuity-composition-namecert}. The packet records a cover-chain handoff; it does not assert a host modulus selector or global compactness principle.
+
+\falsifiablePrediction{Every accepted $\CompactUniformCoverChainUp$ packet must expose the compact-uniform cover-chain route through subordinate finite-cover rows, radius ledgers, pointwise-modulus rows, finite lower-bound folds, uniform-modulus handoff rows, transport, replay, provenance, and local naming data before any compact-uniform consumer may read it.}
+
+\independenceWitness{$\CompactUniformModulusUp$, $\CompactLebesgueNumberUp$, $\FiniteCoverRadiusStabilityUp$, and $\UniformContinuityCompositionUp$: these siblings respectively expose a uniform-modulus ledger, a Lebesgue-number radius row, finite-cover radius stability, and composed uniform-continuity handoff; none is bijective with a packet that chains all four through one subordinate finite-cover route.}
+
+\begin{definition}[CompactUniformCoverChain carrier]
+\label{def:compact-uniform-cover-chain-carrier}
+A $\CompactUniformCoverChainUp$ carrier is a finite $\BHist$ packet
+$$
+G=(K,V,L,R,A,U,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact source row, exposing only the finite compact-metric or compact-cover data inspected by the route.
+\item $V$ is the subordinate finite-cover row, listing the displayed cover cells and their finite refinement relation over $K$.
+\item $L$ is the compact Lebesgue-number or finite lower-bound ledger attached to the displayed cover cells.
+\item $R$ is the finite-cover radius-stability row, keeping the radius ledger stable under the cover refinements consumed by the chain.
+\item $A$ is the pointwise-modulus row for the continuous map or family currently being tested against the cover.
+\item $U$ is the compact uniform-modulus handoff row generated from $V,L,R,A$.
+\item $T$ is the uniform-continuity composition row that consumes the produced uniform-modulus request without replacing it by a host-side modulus.
+\item $H$ records componentwise $\hsame$ transport for compact source, cover, lower-bound, radius-stability, pointwise-modulus, uniform-modulus, composition, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay along
+$$
+K,V,L,R,A \longmapsto U,T \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CompactUniformCoverChainUp$, $\CompactUniformModulusUp$, $\CompactLebesgueNumberUp$, $\FiniteCoverRadiusStabilityUp$, $\UniformContinuityCompositionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompactUniformCoverChainUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host compactness theorem, an unrecorded Lebesgue number, a selected global modulus, quotient equality of maps, or a hidden cover refinement.
+\end{definition}
+
+\begin{theorem}[CompactUniformCoverChain NameCert obligations]
+\label{thm:compact-uniform-cover-chain-namecert-obligations}
+For every accepted $\CompactUniformCoverChainUp$ carrier $G=(K,V,L,R,A,U,T,H,C,P,N)$, the local $\NameCert_{\CompactUniformCoverChainUp}$ surface consists exactly of compact-source admission, subordinate finite-cover admission, lower-bound or Lebesgue-number ledger admission, finite-cover radius stability, pointwise-modulus admission, uniform-modulus handoff, uniform-continuity composition handoff, componentwise transport, displayed replay, provenance, and local naming. No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-uniform-cover-chain-carrier}. The only public rows are $K,V,L,R,A,U,T,H,C,P,N$.
+
+The cover-chain route begins with the compact source and subordinate finite-cover rows. The rows $K$ and $V$ determine which finite cover cells and refinements can be inspected.
+
+The radius part is then forced through $L$ and $R$. The lower-bound or Lebesgue-number ledger supplies positive radius data, and the finite-cover radius-stability row keeps that data synchronized with the displayed refinement.
+
+Pointwise modulus data enters only at $A$, and the uniform-modulus consumer reads $U$ after the cover and radius rows. The composition row $T$ consumes that generated handoff rather than selecting a separate host-side modulus.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite chain. Since the carrier contains no host compactness theorem, hidden Lebesgue number, selected global modulus, quotient equality of maps, or unrecorded refinement, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[CompactUniformCoverChain uniform-modulus handoff]
+\label{thm:compact-uniform-cover-chain-uniform-modulus-handoff}
+Every uniform-modulus read from an accepted $\CompactUniformCoverChainUp$ packet factors through the finite route
+$$
+K,V,L,R,A \longmapsto U,T \longmapsto H,C,P,N .
+$$
+The route supplies subordinate finite-cover data, a radius ledger, pointwise-modulus evidence, and a uniform-continuity composition consumer, but it supplies no host modulus selector or ambient compactness theorem.
+\end{theorem}
+\begin{proof}
+Use the obligations of \autoref{thm:compact-uniform-cover-chain-namecert-obligations}. A uniform-modulus read must first consume compact-source and subordinate finite-cover data from $K,V$.
+
+The lower-bound and radius-stability rows $L,R$ are then displayed before the pointwise-modulus row $A$ can be folded into a uniform request. The generated uniform-modulus handoff is the row $U$.
+
+The composition consumer $T$ is downstream of $U$. Transport and replay through $H,C$ preserve this order, while $P,N$ name the route without adding a separate host-side selector or compactness principle.
+\end{proof}
+
+The Lean obligation for this packet is to provide
+\texttt{Nontrivial CompactUniformCoverChainUp} and
+\texttt{FieldFaithful CompactUniformCoverChainUp} TasteGate instances when the
+carrier is formalized. Those instances must check that the subordinate cover,
+radius ledger, pointwise-modulus, uniform-modulus, and composition rows are
+genuine fields of the carrier and not aliases for a single compact-uniform
+modulus row.
+
+\closureat{CompactUniformCoverChainUp}{seedStr}
+
+\begin{closurestatus}{\CompactUniformCoverChainUp}
+  \constructivestory{A $\CompactUniformCoverChainUp$ packet is generated from compact-source, subordinate finite-cover, lower-bound, radius-stability, pointwise-modulus, uniform-modulus, uniform-continuity composition, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-uniform-cover-chain-carrier}, \autoref{thm:compact-uniform-cover-chain-namecert-obligations}, and \autoref{thm:compact-uniform-cover-chain-uniform-modulus-handoff} seed the compact-uniform cover-chain route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host compactness theorem, selected global modulus, hidden cover refinement, quotient map equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subordinate-cover admission, radius-ledger stability, pointwise-modulus handoff, uniform-modulus handoff, composition consumption, and TasteGate nontriviality and field faithfulness for BEDC.Derived.CompactUniformCoverChainUp.}
+\end{closurestatus}

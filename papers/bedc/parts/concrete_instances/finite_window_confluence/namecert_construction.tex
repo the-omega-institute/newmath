@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowConfluenceUp$}
+\label{ch:concrete-instances-finite-window-confluence-namecert}
+\origin{ai}
+
+The $\FiniteWindowConfluenceUp$ packet realizes the MetaCIC normalization audit map of \autoref{ch:metacic-normalization-audit-map} as finite beta-window confluence data. It sits beside the redex-frontier packet of \autoref{ch:concrete-instances-metacic-redex-frontier-namecert}, the local join ledger of \autoref{ch:concrete-instances-metacic-local-join-ledger-namecert}, the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the closed normal seal of \autoref{ch:concrete-instances-closednormalconfluenceseal-namecert}, and the normal-fragment confluence packet of \autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}. The carrier records a bounded beta-window peak, local join evidence, substitution-boundary retention, and closed-normal endpoint rows without claiming unrestricted global confluence, quotient conversion equality, arbitrary subject reduction, or kernel consistency.
+
+\falsifiablePrediction{A $\FiniteWindowConfluenceUp$ packet whose beta window omits the residual-substitution boundary row is rejected even when its local join ledger and closed-normal endpoint rows are present.}
+
+\independenceWitness{metacic-redex-frontier, metacic-local-join-ledger, metacic-residual-substitution-boundary, closednormalconfluenceseal, metacicconfluencenormalfragment: none is bijective with $\FiniteWindowConfluenceUp$ because this packet jointly carries the beta-window peak, redex-frontier read, local join ledger, residual-substitution boundary, closed-normal endpoint, TasteGate readiness, transport, replay, provenance, and local naming rows.}
+
+\begin{definition}[FiniteWindowConfluence carrier]
+\label{def:finite-window-confluence-carrier}
+A $\FiniteWindowConfluenceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,R,J,S,N,W,G,H,C,P,K)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bounded beta-window row, naming the source term, window radius, and two outgoing beta observations.
+\item $R$ is the $\MetaCICRedexFrontierUp$ row, exposing the redex-frontier discharge data consumed by the window.
+\item $J$ is the $\MetaCICLocalJoinLedgerUp$ row, recording the local peak and candidate join ledger for the same bounded window.
+\item $S$ is the $\MetaCICResidualSubstitutionBoundaryUp$ row, retained whenever the join read depends on residual substitution data.
+\item $N$ is the $\ClosedNormalConfluenceSealUp$ endpoint row, available only for closed normal endpoint reads.
+\item $W$ is the $\MetaCICConfluenceNormalFragmentUp$ window-fragment row, keeping the closed-normal finite fragment separate from unrestricted global confluence.
+\item $G$ is the $\TasteGate$ readiness row for later $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances over this packet.
+\item $H$ records componentwise $\hsame$ transport for beta windows, redex frontiers, local joins, residual-substitution boundaries, closed-normal endpoints, normal fragments, TasteGate readiness, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a normalization-audit query through $B,R,J,S,N,W,G,H,P,K$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteWindowConfluenceUp$, $\MetaCICRedexFrontierUp$, $\MetaCICLocalJoinLedgerUp$, $\MetaCICResidualSubstitutionBoundaryUp$, $\ClosedNormalConfluenceSealUp$, $\MetaCICConfluenceNormalFragmentUp$, $\BHist$, $\hsame$, $\Cont$, $\TasteGate$, and $\NameCert$.
+\item $K$ is the local $\NameCert_{\FiniteWindowConfluenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $B,R,J,S,N,W,G,H,C,P,K$. It contains no coordinate for unrestricted MetaCIC confluence, global Church--Rosser, quotient conversion equality, arbitrary subject reduction, evaluator equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[FiniteWindowConfluence NameCert obligations]
+\label{thm:finite-window-confluence-namecert-obligations}
+For every accepted $\FiniteWindowConfluenceUp$ carrier
+$$
+F=(B,R,J,S,N,W,G,H,C,P,K),
+$$
+the local $\NameCert_{\FiniteWindowConfluenceUp}$ surface consists exactly of bounded beta-window exposure through $B$, redex-frontier readback through $R$, local-join ledger exposure through $J$, residual-substitution boundary retention through $S$, closed-normal endpoint exposure through $N$, normal-fragment separation through $W$, TasteGate readiness through $G$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $K$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-confluence-carrier}. Rows $B,R,J,S,N,W$ are the confluence-facing finite data, while $G,H,C,P,K$ are the structural certificate data.
+
+The beta-window read starts with $B$ and $R$. The source, radius, and two outgoing observations are bounded by $B$, and the redex-frontier row $R$ keeps the required discharge data visible before a join can be consumed.
+
+The local join is then read through $J$ while retaining $S$. The residual-substitution boundary is a row of the same packet, so the local join cannot be detached into a global confluence theorem or a substitution oracle.
+
+Closed-normal endpoints are read only through $N$ and $W$. These rows expose the normal fragment and the closed-normal seal, but they do not supply arbitrary closed-term Church--Rosser or quotient conversion equality.
+
+Finally $G,H,C,P,K$ reserve the TasteGate instance surface, transport the rows, replay the audit query, source the packet, and name it. Since no carrier coordinate contains unrestricted confluence, subject reduction, evaluator equality, or kernel consistency, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[FiniteWindowConfluence normalization-audit handoff]
+\label{thm:finite-window-confluence-normalization-audit-handoff}
+Every normalization-audit consumer of an accepted $\FiniteWindowConfluenceUp$ carrier factors through
+$$
+B,R,J,S,N,W,G,H,C,P,K .
+$$
+The consumer may inspect the bounded beta window, redex frontier, local join ledger, residual-substitution boundary, closed-normal endpoint, normal fragment, TasteGate readiness, transport, replay, provenance, and local name. It cannot bypass this route to obtain unrestricted MetaCIC confluence, global Church--Rosser, quotient conversion equality, arbitrary subject reduction, evaluator equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with a normalization-audit query. The only beta-window entrance is $B$, and the only redex-facing discharge surface is $R$, so the query must retain the bounded source, outgoing beta observations, and redex-frontier data.
+
+The local join route is then constrained by $J$ and $S$. Row $J$ records the candidate join ledger, while $S$ keeps the residual-substitution boundary visible as an input rather than as a solved global theorem.
+
+The endpoint route is constrained by $N$ and $W$. A closed-normal read may use the closed-normal seal and normal-fragment packet, but those rows remain finite endpoint data, not an unrestricted confluence theorem.
+
+The structural rows $G,H,C,P,K$ preserve the same packet under TasteGate readiness, transport, replay, provenance, and local naming. Hence every normalization-audit consumer remains inside the displayed finite route.
+\end{proof}
+
+\begin{theorem}[FiniteWindowConfluence TasteGate readiness]
+\label{thm:finite-window-confluence-tastegate-readiness}
+The later Lean side must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ $\TasteGate$ instances for $\FiniteWindowConfluenceUp$ at the displayed finite carrier surface
+$$
+B,R,J,S,N,W,G,H,C,P,K .
+$$
+Those instances must certify that the packet is neither empty nor field-forgetting: every accepted carrier visibly retains the bounded beta window, redex frontier, local join ledger, residual-substitution boundary, closed-normal endpoint, normal-fragment row, transport, replay, provenance, and local NameCert data.
+\end{theorem}
+\begin{proof}
+The readiness row $G$ in \autoref{def:finite-window-confluence-carrier} is tied to the whole finite-window packet, not to the local join ledger alone.
+
+Nontriviality must exhibit an accepted packet with all displayed rows present. FieldFaithfulness must show that deleting any of $B,R,J,S,N,W,H,C,P,K$ changes the readable carrier surface. Thus the TasteGate burden remains exactly at the finite beta-window confluence boundary.
+\end{proof}
+
+\closureat{FiniteWindowConfluenceUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWindowConfluenceUp}
+  \constructivestory{A $\FiniteWindowConfluenceUp$ packet is generated from a bounded beta-window row, MetaCICRedexFrontier row, MetaCICLocalJoinLedger row, MetaCICResidualSubstitutionBoundary row, ClosedNormalConfluenceSeal endpoint row, MetaCICConfluenceNormalFragment row, Nontrivial and FieldFaithful TasteGate readiness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-window-confluence-carrier}, \autoref{thm:finite-window-confluence-namecert-obligations}, \autoref{thm:finite-window-confluence-normalization-audit-handoff}, and \autoref{thm:finite-window-confluence-tastegate-readiness} seed the finite beta-window confluence packet for MetaCIC normalization-audit consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted MetaCIC confluence, global Church--Rosser, quotient conversion equality, arbitrary subject reduction, evaluator equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, beta-window exposure, redex-frontier readback, local-join exactness, residual-substitution boundary retention, closed-normal endpoint exposure, normal-fragment separation, TasteGate nontriviality, FieldFaithful coverage, transport, replay, provenance, and local naming for BEDC.Derived.FiniteWindowConfluenceUp.}
+\end{closurestatus}

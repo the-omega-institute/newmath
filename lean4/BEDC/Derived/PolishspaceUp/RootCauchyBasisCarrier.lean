@@ -21,8 +21,8 @@ def PolishspaceRootCauchyBasisCarrier [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
   UnaryHistory metric ∧ UnaryHistory complete ∧ UnaryHistory separable ∧
     UnaryHistory stream ∧ UnaryHistory readback ∧ UnaryHistory ledger ∧
-      UnaryHistory alignment ∧ UnaryHistory transport ∧ Cont metric complete alignment ∧
-        Cont alignment stream readback ∧ Cont ledger transport route ∧
-          PkgSig bundle provenance pkg
+      UnaryHistory alignment ∧ UnaryHistory transport ∧ UnaryHistory localName ∧
+        Cont metric complete alignment ∧ Cont alignment stream readback ∧
+          Cont ledger transport route ∧ PkgSig bundle provenance pkg
 
 end BEDC.Derived.PolishspaceUp

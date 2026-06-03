@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\RealModulusArithmeticUp$}
+\label{ch:concrete-instances-real-modulus-arithmetic-namecert}
+\origin{human}
+
+Following Bishop and Bridges, explicit real arithmetic with displayed moduli is a finite consumer route rather than an operation on host equality classes. The $\RealModulusArithmeticUp$ packet sits over the Cauchy-modulus arithmetic surface of \autoref{ch:concrete-instances-cauchymodulusarithmetic-namecert}, the shared meet surface of \autoref{ch:concrete-instances-cauchymodulusmeet-namecert}, the regular addition and multiplication consumers of \autoref{ch:concrete-instances-regularcauchysum-namecert} and \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It gives later Real algebra packets one finite route for reading arithmetic moduli without importing quotient streams, selected limits, host real equality, trichotomy, countable choice, or ambient completeness.
+
+\begin{definition}[Real-modulus arithmetic carrier]
+\label{def:real-modulus-arithmetic-carrier}
+A $\RealModulusArithmeticUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X_0,X_1,\mu_0,\mu_1,A,U,D,W,R,\Sigma,\Pi,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X_0$ and $X_1$ are the two $\RealCauchyModulusUp$ source rows, each exposing a real-name seal together with the modulus schedule used to read it.
+\item $\mu_0$ and $\mu_1$ are the two displayed $\CauchyModulusUp$ schedules attached to those real-name rows.
+\item $A$ is the $\CauchyModulusArithmeticUp$ row combining the two source schedules into the arithmetic-modulus surface.
+\item $U$ is the shared $\CauchyModulusMeetUp$ row used by both source schedules and by both arithmetic consumers.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for source precision requests, shared-meet requests, sum tolerances, and product tolerances.
+\item $W$ is the finite $\StreamNameUp$ window ledger naming the inspected source observations and the arithmetic consumer windows.
+\item $R$ stores the $\RegSeqRatUp$ readbacks obtained from the source windows, dyadic tolerances, displayed schedules, and shared meet row.
+\item $\Sigma$ and $\Pi$ are the $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ consumer rows reached through $A,U,D,W,R$.
+\item $E$ is the $\RealUp$ seal row for the arithmetic readback, reached only after the sum or product consumer row has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the real-modulus source rows, Cauchy-modulus schedules, arithmetic row, shared meet, dyadic ledger, windows, readbacks, sum and product consumers, Real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a real arithmetic precision request through the two source schedules, the shared meet row, $D,W,R$, and then through $\Sigma$ or $\Pi$ to the terminal seal $E$.
+\item $P$ is the $\Pkg$ provenance over $\RealModulusArithmeticUp$, $\CauchyModulusArithmeticUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealModulusArithmeticUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $X_0,X_1,\mu_0,\mu_1,A,U,D,W,R,\Sigma,\Pi,E,H,C,P,N$. It has no coordinate for quotient streams, selected limits, host real equality, trichotomy, countable choice, or an ambient $\RealUp$ completeness theorem.
+\end{definition}
+
+\begin{theorem}[Real-modulus arithmetic NameCert obligations]
+\label{thm:real-modulus-arithmetic-namecert-obligations}
+For every accepted $\RealModulusArithmeticUp$ carrier
+$$
+M=(X_0,X_1,\mu_0,\mu_1,A,U,D,W,R,\Sigma,\Pi,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealModulusArithmeticUp}$ surface consists exactly of carrier admission, the two real-modulus source rows, the two Cauchy-modulus schedules, arithmetic-modulus routing, shared-meet routing, dyadic tolerance exactness, finite stream windows, regular rational readback, sum and product consumer rows, Real seal nonescape, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-arithmetic-carrier}. Its displayed coordinates list the two real-modulus sources, their Cauchy-modulus schedules, the arithmetic and meet rows, the tolerance ledger, windows, readbacks, arithmetic consumers, seal, and structural rows.
+
+The source and arithmetic rows are read before any Real-facing consumer can inspect a result. The rows $X_0,X_1,\mu_0,\mu_1,A,U$ place the two source schedules on the common modulus-arithmetic surface supplied by the Cauchy layer.
+
+The ledger, window, and readback rows $D,W,R$ then provide the finite observations consumed by $\Sigma$ and $\Pi$. The seal $E$ is downstream of those consumers, and $H,C,P,N$ only transport, replay, source, and name the same finite route.
+
+Since the carrier has no coordinate for quotient streams, selected limits, host real equality, trichotomy, countable choice, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Real-modulus arithmetic consumer boundary]
+\label{thm:real-modulus-arithmetic-consumer-boundary}
+Every $\RealUp$ or Real-algebra consumer of an accepted $\RealModulusArithmeticUp$ packet factors through the displayed route
+$$
+X_0,X_1,\mu_0,\mu_1,A,U,D,W,R,\Sigma,\Pi,E,H,C,P,N.
+$$
+The consumer may read the regular sum row $\Sigma$ or product row $\Pi$ and then the terminal seal $E$, but it receives no quotient stream equality, selected limit, host real equality, trichotomy witness, countable-choice selector, ambient $\RealUp$ completeness coordinate, Lean verification, or bridge row from the packet.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for real arithmetic. The carrier exposes the source real names only through $X_0,X_1$ and their displayed schedules $\mu_0,\mu_1$.
+
+The arithmetic-modulus row $A$ and shared-meet row $U$ are then read before the dyadic ledger, finite windows, and regular rational readbacks can be consumed. Thus any sum or product read reaches $\Sigma$ or $\Pi$ only through $A,U,D,W,R$.
+
+The terminal real seal $E$ is downstream of $\Sigma$ and $\Pi$. The rows $H,C,P,N$ preserve the same displayed route under transport, replay, provenance, and local naming, so they do not add another consumer-facing object.
+
+No unlisted coordinate belongs to the packet. Hence quotient streams, selected limits, host real equality, trichotomy, countable choice, ambient completeness, Lean verification, and bridge checking remain outside the consumer boundary.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealModulusArithmeticUp$ arithmetic read exposes two real-modulus source rows, two Cauchy-modulus schedules, a $\CauchyModulusArithmeticUp$ row, a shared $\CauchyModulusMeetUp$ row, dyadic tolerance data, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\RegularCauchySumUp$ or $\RegularCauchyProductUp$ consumer row, and a terminal $\RealUp$ seal before any Real-algebra consumer reads the packet.}
+
+\independenceWitness{cauchymodulusarithmetic, cauchymodulusmeet, regularcauchysum, regularcauchyproduct, real: no listed sibling supplies the whole real-modulus arithmetic packet with two real-modulus source rows, two displayed schedules, arithmetic routing, shared meet, dyadic tolerance ledger, finite windows, regular rational readback, sum and product consumers, terminal Real seal, transport, replay, provenance, and local NameCert naming.}
+
+\closureat{RealModulusArithmeticUp}{seedStr}
+
+\begin{closurestatus}{\RealModulusArithmeticUp}
+  \constructivestory{A $\RealModulusArithmeticUp$ packet is generated from two real-modulus source rows, two $\CauchyModulusUp$ schedules, one $\CauchyModulusArithmeticUp$ row, one $\CauchyModulusMeetUp$ shared-meet row, a $\DyadicRatCoreUp$ tolerance ledger, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ consumer rows, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-modulus-arithmetic-carrier}, \autoref{thm:real-modulus-arithmetic-namecert-obligations}, and \autoref{thm:real-modulus-arithmetic-consumer-boundary} seed the finite Real-facing arithmetic-modulus boundary over $\CauchyModulusArithmeticUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, selected limits, host real equality, trichotomy, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove the finite NameCert obligation surface and Real consumer boundary for BEDC.Derived.RealModulusArithmeticUp.}
+\end{closurestatus}

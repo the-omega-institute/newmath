@@ -2420,14 +2420,19 @@ def detect_new_leanvariant_markers(wt: WorktreeInfo) -> list[str]:
 
 
 def detect_markers_not_backed_by_new_decls(wt: WorktreeInfo) -> list[str]:
-    new_decls = set(collect_added_lean_declarations(wt))
+    # A marker is legitimate when its target exists ANYWHERE under lean4/BEDC/,
+    # not only in this round's diff: paper-catchup rounds register a marker for a
+    # Lean declaration finalized in an earlier round. Restricting to this round's
+    # additions falsely flags every such marker (the decl lives on BASE), which
+    # `bedc_ci.py audit` — the authoritative resolver — already treats as resolved.
+    backing_decls = set(collect_added_lean_declarations(wt)) | _collect_all_lean_declarations(wt)
     violations: list[str] = []
     for rel, kind, name in _added_marker_lines(wt):
         if kind not in {"leanchecked", "leanstmt", "leandef"}:
             continue
-        if name in new_decls:
+        if name in backing_decls:
             continue
-        violations.append(f"{rel}: {kind} marker {name} does not reference a Lean declaration added by this round")
+        violations.append(f"{rel}: {kind} marker {name} does not reference any Lean declaration under lean4/BEDC/")
     return violations
 
 

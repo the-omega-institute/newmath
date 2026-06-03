@@ -1,0 +1,11 @@
+\begin{theorem}[StreamName finite request obligation surface]
+\label{thm:streamname-finite-request-obligation-surface}
+A finite request section of an accepted $\StreamNameUp$ packet must expose the requested index, opened $\BHist$ window, point certificate row, pointwise classifier row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before any $\RegSeqRatUp$ or $\RealUp$ consumer may read the stream. The downstream consumer receives only that finite request surface, not quotient stream equality, host sequence equality, selected limits, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with the finite request vocabulary already used by the StreamName child files. A request section names one index, opens the corresponding finite $\BHist$ window, and records the point certificate and pointwise classifier rows attached to that window.
+
+The structural rows then keep the request local. The $\hsame$ row transports the opened window and classifier componentwise, the $\Cont$ row replays the finite request, and the $\Pkg$ and $\NameCert$ rows record provenance and local naming.
+
+Only after these rows are visible may a $\RegSeqRatUp$ consumer read the stream as a regular rational source, and only after that downstream handoff may a $\RealUp$ consumer inspect a seal route. Since the section contains no quotient stream equality, host sequence equality, selected limit, choice, or ambient completeness coordinate, those data cannot enter through the finite request surface.
+\end{proof}

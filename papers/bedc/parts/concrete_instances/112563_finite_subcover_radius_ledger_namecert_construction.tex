@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSubcoverRadiusLedgerUp$}
+\label{ch:concrete-instances-finite-subcover-radius-ledger-namecert}
+\origin{human}
+
+Following Lebesgue and Heine--Cantor, the $\FiniteSubcoverRadiusLedgerUp$ packet records the finite radius ledger extracted from a compact metric subcover before a uniform-modulus consumer reads it. It sits over the compact metric carrier of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite-subcover criterion of \autoref{ch:concrete-instances-finite-subcover-criterion-namecert}, the compact-cover Lebesgue ledger of \autoref{ch:concrete-instances-compact-cover-lebesgue-ledger-namecert}, the rational lower-bound fold of \autoref{ch:concrete-instances-finite-lower-bound-fold-namecert}, and the uniform-modulus surface of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet exposes the compact finite-cover lower-bound route as BEDC data without host compactness, choice-selected centers, arbitrary open-cover compactness, semantic continuity, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite subcover radius ledger carrier]
+\label{def:finite-subcover-radius-ledger-carrier}
+A $\FiniteSubcoverRadiusLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(K,F,G,R,B,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, exposing only the metric carrier, finite-net, and total-bounded inspection rows available to compact-metric consumers.
+\item $F$ is the $\FiniteSubcoverCriterionUp$ row. It records the finite selected subcover spine and the displayed coverage witnesses over the compact metric source.
+\item $G$ is the compact-cover Lebesgue ledger row. It stores the positive radius candidates attached to the displayed subcover entries and the local containment clauses they support.
+\item $R$ is the $\RatUp$ lower-bound fold row, obtained by primitive recursion over the finite subcover spine and read only as a positive rational history.
+\item $B$ is the uniform radius bound row. It records that the folded lower bound is below each displayed local radius and therefore may be consumed by the compact-uniform route.
+\item $U$ is the $\UniformModulusUp$ handoff row reached only after $K,F,G,R,B$ have been projected.
+\item $H$ records componentwise $\hsame$ transport for compact-metric rows, finite-subcover rows, Lebesgue-ledger rows, rational lower-bound folds, uniform-radius bounds, uniform-modulus handoffs, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a compact-cover request through $K,F,G,R,B,U,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteSubcoverRadiusLedgerUp$, $\CompactMetricUp$, $\FiniteSubcoverCriterionUp$, $\CompactCoverLebesgueLedgerUp$, $\RatUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteSubcoverRadiusLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,F,G,R,B,U,H,C,P,N$. It has no coordinate for host compactness, selected centers outside the displayed subcover, arbitrary open-cover compactness, semantic continuity, external finite minima, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Finite subcover radius ledger NameCert obligations]
+\label{thm:finite-subcover-radius-ledger-namecert-obligations}
+For every accepted $\FiniteSubcoverRadiusLedgerUp$ carrier
+$$
+L=(K,F,G,R,B,U,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteSubcoverRadiusLedgerUp}$ surface consists exactly of $\CompactMetricUp$ source exposure through $K$, $\FiniteSubcoverCriterionUp$ coverage exposure through $F$, CompactCoverLebesgueLedger radius exposure through $G$, $\RatUp$ lower-bound fold exactness through $R$, uniform radius-bound routing through $B$, $\UniformModulusUp$ handoff through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-subcover-radius-ledger-carrier}. The rows $K,F,G,R,B,U,H,C,P,N$ are the only displayed coordinates, so every compact-uniform consumer begins with the compact metric source and the finite subcover spine.
+
+Rows $F$ and $G$ supply the coverage and local positive-radius data. The subcover is already finite as a displayed $\BHist$ spine, and the Lebesgue ledger gives radius candidates only for those displayed entries.
+
+Row $R$ folds those rational candidates by the $\RatUp$ lower-bound route, and $B$ records that the folded bound is below each local radius. The $\UniformModulusUp$ handoff $U$ is downstream of that finite bound rather than a separate compactness theorem.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since no coordinate stores host compactness, selected centers outside the subcover, arbitrary open-cover compactness, semantic continuity, an external finite minimum, or ambient $\RealUp$ completeness, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\closureat{FiniteSubcoverRadiusLedgerUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSubcoverRadiusLedgerUp}
+  \constructivestory{A $\FiniteSubcoverRadiusLedgerUp$ packet is generated from a CompactMetric source row, a FiniteSubcoverCriterion coverage row, a compact-cover Lebesgue radius ledger, a RatUp lower-bound fold, a uniform radius-bound row, a UniformModulus handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-subcover-radius-ledger-carrier} and \autoref{thm:finite-subcover-radius-ledger-namecert-obligations} seed the finite subcover lower-bound route consumed by compact-uniform-modulus arguments.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host compactness, selected centers outside the displayed subcover, arbitrary open-cover compactness, semantic continuity, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, CompactMetric source exposure, FiniteSubcoverCriterion coverage, compact-cover Lebesgue radius exposure, RatUp lower-bound fold exactness, UniformModulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteSubcoverRadiusLedgerUp.}
+\end{closurestatus}

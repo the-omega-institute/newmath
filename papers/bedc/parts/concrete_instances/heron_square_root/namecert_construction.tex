@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-heron-square-root-namecert}
 \origin{human}
 
-From Heron's classical square-root iteration and Bishop-style constructive convergence, the $\HeronSquareRootUp$ packet records the finite dyadic evidence needed to run the Babylonian recurrence inside the L10 Real and Completion route. It refines the square-root service of \autoref{ch:concrete-instances-regular-cauchy-square-root-namecert} by exposing seed positivity, reciprocal accounting, contraction estimates, $\RegSeqRatUp$ readback, and the terminal $\RealUp$ seal as named rows. The packet sits beside $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and $\NewtonIterationUp$; it is not a host square-root function, quotient-real equality, a selected completed limit, or an ambient completeness theorem.
+From Heron's classical square-root iteration and Bishop-style constructive convergence, the $\HeronSquareRootUp$ packet records the finite dyadic evidence needed to run the Babylonian recurrence inside the L10 Real and Completion route. It refines the square-root service of \autoref{ch:concrete-instances-regular-cauchy-square-root-namecert} by exposing seed positivity, reciprocal accounting, contraction estimates, $\RegSeqRatUp$ readback, and the terminal $\RealUp$ seal as named rows. The dependency route passes through \autoref{ch:concrete-instances-regular-cauchy-square-root-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-newtoniteration-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}; it is not a host square-root function, quotient-real equality, a selected completed limit, or an ambient completeness theorem.
 
 \begin{definition}[Heron square-root carrier]
 \label{def:heron-square-root-carrier}
@@ -81,7 +81,7 @@ The handoff theorem separates the finite dyadic ledger from the regular-Cauchy r
 
 \begin{theorem}[Heron square-root regular-Cauchy sibling route]
 \label{thm:heron-square-root-regular-cauchy-sibling-route}
-Every accepted $\HeronSquareRootUp$ read factors through the sibling route from \autoref{ch:concrete-instances-regular-cauchy-square-root-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-newtoniteration-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} before any $\RealUp$-facing square-root consumer receives the result. For a carrier
+Every accepted $\HeronSquareRootUp$ read factors through the sibling chain from \autoref{ch:concrete-instances-regular-cauchy-square-root-namecert} to \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-newtoniteration-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} before any $\RealUp$-facing square-root consumer receives the result. For a carrier
 $$
 H=(A,S,R,L,W,D,K,Q,E,T,C,P,N),
 $$
@@ -95,6 +95,28 @@ Apply \autoref{thm:heron-square-root-regular-cauchy-handoff}. It forces every Re
 Use \autoref{thm:heron-square-root-contraction-window-stability}. The finite window and contraction estimate survive componentwise transport, so the sibling route cannot be replaced by a host square-root operation, quotient-real equality, selected completed limit, arbitrary trichotomy, or ambient completeness theorem.
 
 Thus the accepted read is a regular-Cauchy square-root route: it moves through the displayed dyadic, Newton, regular rational, and Real siblings before any Real-facing consumer can use the square-root result.
+\end{proof}
+
+\begin{theorem}[Heron square-root Real seal boundary]
+\label{thm:heron-square-root-real-seal-boundary}
+Every $\RealUp$-facing read from an accepted $\HeronSquareRootUp$ packet first exposes the positive dyadic radicand, seed, reciprocal ledger, Heron ledger, finite window, contraction estimate, Newton provenance, and $\RegSeqRatUp$ readback rows
+$$
+A,S,R,L,W,D,K,Q
+$$
+and only then exposes the $\RealUp$ seal, transport, replay, provenance, and local naming rows
+$$
+E,T,C,P,N .
+$$
+In particular, the read cannot bypass $\RegSeqRatUp$ with a host square-root function, quotient-real equality, selected limit, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $H=(A,S,R,L,W,D,K,Q,E,T,C,P,N)$. The first eight rows are the dyadic Heron and regular-rational route, while $E,T,C,P,N$ are the terminal seal and structural rows.
+
+Invoke the regular-Cauchy handoff of \autoref{thm:heron-square-root-regular-cauchy-handoff}. It places $Q$ downstream of $A,S,R,L,W,D,K$ and places $E$ downstream of $Q$.
+
+Use contraction-window stability from \autoref{thm:heron-square-root-contraction-window-stability}. Transport preserves the finite window $W$ and contraction estimate $D$ before any regular readback or Real seal can be inspected.
+
+Apply the sibling route of \autoref{thm:heron-square-root-regular-cauchy-sibling-route}. The terminal $E$ row is therefore downstream of $\RegSeqRatUp$ readback $Q$, so no host square-root function, quotient-real equality, selected limit, trichotomy, or ambient completeness coordinate can replace the displayed L10 route.
 \end{proof}
 
 \falsifiablePrediction{Every accepted HeronSquareRootUp Real-facing read factors through positive DyadicRatCoreUp radicand and seed rows, a reciprocal and division ledger, a finite Heron window, dyadic contraction estimates, NewtonIterationUp provenance, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}

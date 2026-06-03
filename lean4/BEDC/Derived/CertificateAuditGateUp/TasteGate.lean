@@ -373,9 +373,91 @@ end BEDC.Derived.CertificateAuditGateUp.TasteGate
 
 namespace BEDC.Derived.CertificateAuditGateUp
 
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.Derived.CertificateAuditGateUp.TasteGate
+
 def taste_gate :
     BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.CertificateAuditGateUp :=
   -- BEDC touchpoint anchor: BHist BMark
   TasteGate.taste_gate
+
+theorem CertificateAuditGateKernelScope
+    (gateInput checkedSurface refusal drift axiomPurity transport continuation provenance
+      name scopeRead hostTail : BHist)
+    (scopeRoute : Cont gateInput transport scopeRead) :
+    certificateAuditGateFields
+        (CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity
+          transport continuation provenance name) =
+        [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
+          provenance, name] /\
+      hsame scopeRead (append gateInput transport) /\
+        (Cont scopeRead (BHist.e0 hostTail) gateInput -> False) /\
+          (Cont scopeRead (BHist.e1 hostTail) gateInput -> False) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · rfl
+  · constructor
+    · exact scopeRoute
+    · constructor
+      · intro back
+        exact cont_mutual_extension_right_tail_absurd.left scopeRoute back
+      · intro back
+        exact cont_mutual_extension_right_tail_absurd.right scopeRoute back
+
+theorem CertificateAuditGateDriftExactness
+    (gateInput checkedSurface refusal drift axiomPurity transport continuation provenance
+      name driftRead hostTail : BHist)
+    (driftRoute : Cont gateInput drift driftRead) :
+    certificateAuditGateFields
+        (CertificateAuditGateUp.mk gateInput checkedSurface refusal drift axiomPurity
+          transport continuation provenance name) =
+        [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
+          provenance, name] /\
+      hsame driftRead (append gateInput drift) /\
+        Cont drift axiomPurity (append drift axiomPurity) /\
+          (Cont driftRead (BHist.e0 hostTail) gateInput -> False) /\
+            (Cont driftRead (BHist.e1 hostTail) gateInput -> False) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  constructor
+  · rfl
+  · constructor
+    · exact driftRoute
+    · constructor
+      · rfl
+      · constructor
+        · intro back
+          exact cont_mutual_extension_right_tail_absurd.left driftRoute back
+        · intro back
+          exact cont_mutual_extension_right_tail_absurd.right driftRoute back
+
+theorem CertificateAuditGatePublicExport
+    (gateInput checkedSurface refusal drift axiomPurity transport continuation provenance
+      name exportRead hostTail : BHist)
+    (exportRoute : Cont (append gateInput checkedSurface) provenance exportRead) :
+    certificateAuditGateFields
+        (TasteGate.CertificateAuditGateUp.mk gateInput checkedSurface refusal drift
+          axiomPurity transport continuation provenance name) =
+        [gateInput, checkedSurface, refusal, drift, axiomPurity, transport, continuation,
+          provenance, name] /\
+      hsame exportRead (append (append gateInput checkedSurface) provenance) /\
+        Cont exportRead name (append exportRead name) /\
+          (Cont exportRead (BHist.e0 hostTail) gateInput -> False) /\
+            (Cont exportRead (BHist.e1 hostTail) gateInput -> False) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  have exportComposite : Cont gateInput (append checkedSurface provenance) exportRead := by
+    cases exportRoute
+    exact append_assoc gateInput checkedSurface provenance
+  constructor
+  · rfl
+  · constructor
+    · exact exportRoute
+    · constructor
+      · rfl
+      · constructor
+        · intro back
+          exact cont_mutual_extension_right_tail_absurd.left exportComposite back
+        · intro back
+          exact cont_mutual_extension_right_tail_absurd.right exportComposite back
 
 end BEDC.Derived.CertificateAuditGateUp

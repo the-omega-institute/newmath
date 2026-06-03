@@ -1,0 +1,13 @@
+\begin{theorem}[Forward socket ledger MetaCIC candidate-discharge route]
+\label{thm:forward-socket-ledger-metacic-candidate-discharge-route}
+Let $F=(K,R,A,G,T,H,C,P,N)$ be an accepted $\ForwardSocketLedgerUp$ carrier. Any forward socket export consumed by the MetaCIC candidate-discharge frontier of \autoref{ch:concrete-instances-metaciccriticalpath-namecert} must expose the forward rows $K,R,A,G,T,H,C,P,N$ before the MetaCIC discharge socket $D$ can be read. The forward rows are dependency data for the socket consumer; they are not a concealed subject-reduction discharge and do not fill $D$ by themselves.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:forward-socket-ledger-carrier}. The rows $K,R,A,G,T,H,C,P,N$ expose the socket kind, requested shape, non-internalization marker, gap ledger, far-end boundary, transport, replay, provenance, and local naming before any export is available.
+
+Now read the candidate-discharge frontier of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. Its packet keeps the discharge socket $D$ visible while candidate-mediated strong-normalization, confluence-facing, bounded-conversion, and source-readiness rows are consumed.
+
+A MetaCIC consumer that receives a forward socket export therefore receives dependency data already ordered by the forward carrier. Since the forward packet contains no subject-reduction certificate row and no coordinate that identifies the far-end boundary with a typing proof, the export can only feed the visible socket route.
+
+Thus the MetaCIC discharge socket may read the forward rows as dependency surface, but $D$ remains a separate socket row until an explicit subject-reduction certificate is displayed.
+\end{proof}

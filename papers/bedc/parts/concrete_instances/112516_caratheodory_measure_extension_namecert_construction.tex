@@ -1,0 +1,125 @@
+\chapter{A Concrete Naming Certificate for $\CaratheodoryMeasureExtensionUp$}
+\label{ch:concrete-instances-caratheodory-measure-extension-namecert}
+\origin{human}
+
+Following Caratheodory and the standard extension theorem for premeasures, the
+$\CaratheodoryMeasureExtensionUp$ packet records the finite BEDC route by
+which displayed premeasure event-value rows are handed through an outer-measure
+boundary and returned as $\MeasureUp$ rows. It sits after the measurable-event
+schedule of \autoref{ch:concrete-instances-sigma-algebra-namecert}, the
+outer-measure boundary of
+\autoref{ch:concrete-instances-outer-measure-namecert}, and the root
+premeasure rows of \autoref{ch:concrete-instances-measure-namecert}. The
+packet names only the finite carrier data required to replay the extension
+read; it does not assert a completed measure space, a host powerset, quotient
+event equality, countable choice, or Lebesgue completion.
+
+\begin{definition}[Caratheodory measure-extension carrier]
+\label{def:caratheodory-measure-extension-carrier}
+A $\CaratheodoryMeasureExtensionUp$ carrier is a finite $\BHist$ packet
+$$
+X=(A,S,O,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the premeasure event-value row, including the displayed event
+family, the finite disjoint-union ledgers already accepted by the
+$\MeasureUp$ root premeasure surface, and the $\RealUp$ value names attached
+to those events.
+\item $S$ is the $\SigmaAlgebraUp$ schedule row that records which generated
+measurable-event rows are admissible before the extension read reaches the
+target measure row.
+\item $O$ is the $\OuterMeasureUp$ boundary row that carries the cover-valued
+outer-measure read and the visible handoff from premeasure event values to
+outer-measure approximants.
+\item $M$ is the $\MeasureUp$ target value row exposed after the schedule and
+outer-measure boundary have been read.
+\item $E$ is the extension exactness ledger, stating that every accepted target
+value read agrees with the displayed premeasure row on the admitted source
+events and with the outer-measure boundary on generated measurable events.
+\item $H$ records componentwise $\hsame$ transport for the premeasure,
+schedule, outer-measure, target-value, exactness, replay, provenance, and local
+name rows.
+\item $C$ records displayed $\Cont$ replay from an extension request through
+$A,S,O,M,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\OuterMeasureUp$, $\SigmaAlgebraUp$,
+$\MeasureUp$, $\RealUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and
+sibling $\NameCert$ rows.
+\item $N$ is the local
+$\NameCert_{\CaratheodoryMeasureExtensionUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a completed measure space, a host
+powerset of events, quotient event equality, a countable-choice selector, or
+Lebesgue completion.
+\end{definition}
+
+\begin{theorem}[Caratheodory measure-extension NameCert obligations]
+\label{thm:caratheodory-measure-extension-namecert-obligations}
+For every accepted $\CaratheodoryMeasureExtensionUp$ carrier
+$X=(A,S,O,M,E,H,C,P,N)$, the local
+$\NameCert_{\CaratheodoryMeasureExtensionUp}$ surface consists exactly of
+carrier admission, premeasure compatibility, sigma-algebra schedule admission,
+outer-measure boundary handoff, $\MeasureUp$ nonescape, componentwise
+$\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local
+naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:caratheodory-measure-extension-carrier}. The displayed rows are
+precisely the premeasure event-value row $A$, the sigma-algebra schedule $S$,
+the outer-measure boundary $O$, the target value row $M$, the exactness ledger
+$E$, and the structural rows $H,C,P,N$.
+
+Premeasure compatibility is read from $A$ and $E$: the ledger compares target
+values only against source events already displayed in the premeasure row.
+Schedule admission is read from $S$, so generated measurable-event requests
+cannot bypass the sigma-algebra schedule.
+
+The handoff to outer measure is the row $O$. It is consumed before $M$, and
+$E$ records the agreement between the outer-measure boundary and the target
+$\MeasureUp$ value row. Thus a consumer cannot obtain a measure-extension read
+without the premeasure, schedule, and outer-measure rows already visible.
+
+Finally replay $H,C,P,N$. These rows transport, continue, source, and locally
+name the same finite packet. Since no carrier coordinate stores completed
+measure spaces, host powersets, quotient event equality, countable choice, or
+Lebesgue completion, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Caratheodory measure-extension outer-measure handoff]
+\label{thm:caratheodory-measure-extension-outer-measure-handoff}
+Every accepted $\CaratheodoryMeasureExtensionUp$ extension read passes through
+$\OuterMeasureUp$, $\SigmaAlgebraUp$, $\MeasureUp$, $\RealUp$,
+$\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+No accepted read can be completed by a completed measure space, host powerset,
+quotient event equality, countable choice, or Lebesgue completion.
+\end{theorem}
+\begin{proof}
+Start from an accepted extension read. Carrier projection exposes the
+premeasure event-value row $A$, whose event and value names are read through
+$\RealUp$, $\StreamNameUp$, and the finite $\BHist$ rows already present in
+the packet.
+
+The generated-event part of the read is then routed through the
+$\SigmaAlgebraUp$ schedule row $S$ and the $\OuterMeasureUp$ boundary row $O$.
+The target measure value $M$ is not public until those two rows and the
+extension exactness ledger $E$ have been displayed.
+
+The structural route is fixed by $H,C,P,N$. Componentwise $\hsame$ transport,
+displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row
+preserve exactly the same finite handoff. Therefore every accepted read passes
+through the listed BEDC rows and cannot appeal to any absent completion,
+host-powerset, quotient-equality, choice, or Lebesgue-completion coordinate.
+\end{proof}
+
+\closureat{CaratheodoryMeasureExtensionUp}{seedStr}
+
+\begin{closurestatus}{\CaratheodoryMeasureExtensionUp}
+  \constructivestory{A $\CaratheodoryMeasureExtensionUp$ packet is generated from a displayed premeasure event-value row, a SigmaAlgebra schedule, an OuterMeasure boundary row, a Measure target row, an extension exactness ledger, hsame transport, Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:caratheodory-measure-extension-carrier}, \autoref{thm:caratheodory-measure-extension-namecert-obligations}, and \autoref{thm:caratheodory-measure-extension-outer-measure-handoff} seed the finite extension carrier from premeasure rows through SigmaAlgebra, OuterMeasure, Measure, Real, StreamName, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim completed measure spaces, host powersets, quotient event equality, countable choice, Lebesgue completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, premeasure compatibility, sigma-algebra scheduling, outer-measure handoff, Measure nonescape, extension exactness, transport, replay, provenance, and local naming for BEDC.Derived.CaratheodoryMeasureExtensionUp.}
+\end{closurestatus}

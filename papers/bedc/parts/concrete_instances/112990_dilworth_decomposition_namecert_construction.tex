@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\DilworthDecompositionUp$}
+\label{ch:concrete-instances-dilworth-decomposition-namecert}
+\origin{human}
+
+Following Dilworth, the $\DilworthDecompositionUp$ packet records the finite-order decomposition theorem as a BEDC NameCert carrier: a finite $\PosetUp$ row, an antichain-width witness, a chain-cover ledger, and a matching or network-flow dual certificate are read as one finite certificate surface. It is anchored in the partial-order carrier of \autoref{ch:concrete-instances-poset-namecert}, the bipartite matching surface of \autoref{ch:concrete-instances-matching-namecert}, and the max-flow/min-cut route of \autoref{ch:concrete-instances-networkflow-namecert}. The packet exports only displayed finite rows, not a host poset, not quotient order equality, and not a selected global decomposition outside the ledger.
+
+\begin{definition}[Dilworth decomposition carrier]
+\label{def:dilworth-decomposition-carrier}
+A $\DilworthDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+D=(O,A,K,M,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the finite $\PosetUp$ order row, including the carried elements, the displayed order comparison ledger, and the classifier used to compare repeated element reads.
+\item $A$ is the antichain-width witness row, recording a displayed antichain spine and a finite proof ledger that no larger displayed antichain is admitted by the same $\PosetUp$ order rows.
+\item $K$ is the chain-cover row, recording a finite list of chains whose union covers the carried elements and whose internal comparisons are justified by $O$.
+\item $M$ is the $\MatchingUp$ dual-certificate row for the standard bipartite split graph of the finite order, reading augmenting-path and cover data only through the matching packet.
+\item $F$ is the optional $\NetworkFlowUp$ dual-certificate row for the same split graph, exposing the max-flow/min-cut handoff as a second route to the same width-cover equality.
+\item $H$ is componentwise $\hsame$ transport for the order row, antichain row, chain-cover row, matching or flow certificate rows, replay, provenance, and local naming.
+\item $C$ is the displayed $\Cont$ replay route
+$$
+O,A,K,M,F \longmapsto H \longmapsto P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DilworthDecompositionUp$, $\PosetUp$, $\MatchingUp$, $\NetworkFlowUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DilworthDecompositionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient host partial order, quotient order equality, an unlisted chain cover, a selected maximum antichain outside $A$, countable choice, or an infinite decomposition principle.
+\end{definition}
+
+\begin{theorem}[Dilworth decomposition NameCert obligations]
+\label{thm:dilworth-decomposition-namecert-obligations}
+For an accepted $\DilworthDecompositionUp$ carrier $D=(O,A,K,M,F,H,C,P,N)$, the local $\NameCert_{\DilworthDecompositionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the finite $\PosetUp$ order row, antichain-width witness row, chain-cover row, dual certificate rows, transport, replay, provenance, and local naming;
+\item order exposure, requiring every chain, antichain, matching, and flow read to use the same displayed $O$ row and its classifier;
+\item antichain-width exposure, requiring width claims to be read through $A$ and not through an external cardinality oracle;
+\item chain-cover exposure, requiring every cover claim to be read through the listed chain ledger $K$;
+\item dual-certificate handoff, requiring the equality between width and minimum chain cover size to factor through the $\MatchingUp$ row $M$ or the $\NetworkFlowUp$ row $F$;
+\item structural replay, requiring $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows to preserve the same finite decomposition route;
+\item nonescape, excluding host posets, quotient order equality, unlisted chain covers, selected maximum antichains outside the carrier, countable choice, and infinite-order decomposition data.
+\end{enumerate}
+No $\DilworthDecompositionUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dilworth-decomposition-carrier}. The finite order is $O$, the width witness is $A$, the chain-cover ledger is $K$, and the dual certificate rows are $M$ and $F$.
+
+The order exposure obligation is rowwise. Since the antichain, chain-cover, matching, and flow rows are all carried over $O$, a consumer cannot combine the antichain from one order with the chain cover or split-graph certificate from another.
+
+The width and cover obligations are the two visible halves of the decomposition. The row $A$ supplies the displayed antichain-width witness, while $K$ supplies the displayed chain cover and its coverage ledger.
+
+The dual-certificate handoff is the finite proof route. A matching-facing consumer reads $M$ through \autoref{ch:concrete-instances-matching-namecert}; a flow-facing consumer reads $F$ through \autoref{ch:concrete-instances-networkflow-namecert}. Both routes are tied back to the same order row $O$ and the same width and cover rows $A,K$.
+
+Finally $H,C,P,N$ transport, replay, record provenance for, and name exactly this finite packet. Since the carrier fields are exhausted by $O,A,K,M,F,H,C,P,N$, the excluded host order, quotient equality, unlisted cover, selected antichain, choice, and infinite decomposition principles have no row in the certificate.
+\end{proof}
+
+\begin{theorem}[Dilworth chain-antichain handoff]
+\label{thm:dilworth-decomposition-chain-antichain-handoff}
+Let $D=(O,A,K,M,F,H,C,P,N)$ be an accepted $\DilworthDecompositionUp$ carrier. Every chain-cover or antichain-width consumer exported by $D$ factors through the displayed route
+$$
+\PosetUp,\ \MatchingUp,\ \NetworkFlowUp
+$$
+by reading $O,A,K,M,F,H,C,P,N$ in order. The route identifies the width row and the chain-cover row only through the displayed matching or network-flow dual certificate, and it exports no host summability of sizes, quotient order equality, selected external cover, countable choice, or infinite poset theorem.
+\end{theorem}
+\begin{proof}
+First read the finite order row. The $\PosetUp$ packet supplies the carried elements, comparison ledger, and classifier needed before either an antichain or a chain can be inspected.
+
+Next read the two decomposition rows. The antichain row $A$ records the width witness, and the chain-cover row $K$ records the finite cover together with its internal comparison checks.
+
+The equality route is then supplied by the dual certificate. The matching row $M$ exposes the bipartite split-graph handoff, while the network-flow row $F$ exposes the equivalent cut route. A consumer may use either displayed certificate, but both remain downstream of $O,A,K$.
+
+Transport by $H$, replay by $C$, and packaging by $P,N$ preserve this same finite route. Therefore the public handoff is the listed BEDC packet and not an ambient Dilworth theorem over a host poset.
+\end{proof}
+
+\closureat{DilworthDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\DilworthDecompositionUp}
+  \constructivestory{A $\DilworthDecompositionUp$ packet is generated from a finite Poset row, an antichain-width witness, a chain-cover ledger, Matching and NetworkFlow dual-certificate rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dilworth-decomposition-carrier}, \autoref{thm:dilworth-decomposition-namecert-obligations}, and \autoref{thm:dilworth-decomposition-chain-antichain-handoff} seed the finite chain-antichain decomposition certificate over Poset, Matching, and NetworkFlow rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host partial orders, quotient order equality, selected external chain covers, countable choice, infinite posets, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, order exposure, antichain-width exposure, chain-cover exposure, dual-certificate handoff, transport, replay, provenance, and local naming for BEDC.Derived.DilworthDecompositionUp.}
+\end{closurestatus}

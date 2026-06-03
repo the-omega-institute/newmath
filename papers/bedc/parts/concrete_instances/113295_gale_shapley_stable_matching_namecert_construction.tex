@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\GaleShapleyStableMatchingUp$}
+\label{ch:concrete-instances-gale-shapley-stable-matching-namecert}
+\origin{human}
+
+Following Gale and Shapley on stable marriage and deferred acceptance, the $\GaleShapleyStableMatchingUp$ packet records the finite NameCert data behind a stable matching construction. It sits after the graph matching surface of \autoref{ch:concrete-instances-matching-namecert}, the graph carrier of \autoref{ch:concrete-instances-graph-namecert}, the finite-set enumeration machinery of \autoref{ch:concrete-instances-finset-namecert}, the preference order rows of \autoref{ch:concrete-instances-totalorder-namecert}, and the proposal-list discipline of \autoref{ch:concrete-instances-list-namecert}. The packet names the stable-matching construction as finite deferred-acceptance data; it does not import host marriage-market equality, selected optimality outside the ledger, or an unrecorded global search.
+
+\begin{definition}[Gale-Shapley stable-matching carrier]
+\label{def:gale-shapley-stable-matching-carrier}
+A $\GaleShapleyStableMatchingUp$ carrier is a finite $\BHist$ packet
+$$
+G=(U,V,P_U,P_V,L,T,R,B,M,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ and $V$ are finite $\FinSetUp$ rows for the two sides of the market.
+\item $P_U$ and $P_V$ are $\TotalOrderUp$ preference-profile rows over the finite candidate lists named by $U$ and $V$.
+\item $L$ is a $\ListUp$ proposal ledger recording the ordered proposal events of the deferred-acceptance run.
+\item $T$ is the tentative-matching ledger, recording at each proposal stage the currently held pairs as a $\MatchingUp$ edge predicate in the bipartite $\GraphUp$ carrier.
+\item $R$ is the rejection-history ledger, recording every rejected proposal together with the displayed preference comparison that caused it.
+\item $B$ is the blocking-pair refusal row: every displayed unmatched pair is refused by the proposer-exhaustion row, the held-partner preference row, or the rejection-history row.
+\item $M$ is the terminal $\MatchingUp$ export row read by stable-matching consumers.
+\item $H$ records componentwise $\hsame$ transport for the two finite sides, the two preference profiles, proposal ledger, tentative ledger, rejection history, blocking-pair refusal row, matching export, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a stable-matching query through $U,V,P_U,P_V,L,T,R,B,M,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\GaleShapleyStableMatchingUp$, $\MatchingUp$, $\GraphUp$, $\FinSetUp$, $\TotalOrderUp$, $\ListUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GaleShapleyStableMatchingUp}$ row.
+\end{enumerate}
+The carrier predicate compares accepted packets only through these rows. It has no coordinate for host tuple matching, undisplayed preference functions, unbounded search, selected optimality outside the proposal ledger, quotient equality of matchings, or a stability proof detached from the blocking-pair refusal row.
+\end{definition}
+
+\begin{theorem}[Gale-Shapley stable-matching NameCert obligations]
+\label{thm:gale-shapley-stable-matching-namecert-obligations}
+For every accepted $\GaleShapleyStableMatchingUp$ carrier $G=(U,V,P_U,P_V,L,T,R,B,M,H,C,Q,N)$, the local $\NameCert_{\GaleShapleyStableMatchingUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for $U,V,P_U,P_V,L,T,R,B,M,H,C,Q,N$;
+\item finite-market exposure, requiring both sides to be read through $U$ and $V$ before any preference or matching row is consumed;
+\item preference-profile exactness, requiring $P_U$ and $P_V$ to supply the displayed total-order comparisons used by proposal, holding, and rejection rows;
+\item proposal-ledger accountability, requiring every proposal event consumed by the construction to occur in $L$ with its current finite prefix;
+\item tentative-matching compatibility, requiring every stage row in $T$ to be a $\MatchingUp$ edge predicate over the displayed bipartite $\GraphUp$ carrier;
+\item rejection-history exactness, requiring $R$ to pair each rejection with the preference comparison that justifies keeping or replacing a tentative partner;
+\item blocking-pair refusal, requiring $B$ to expose one displayed refusal reason for every finite candidate pair not exported by $M$;
+\item structural stability, requiring $H,C,Q,N$ to transport, replay, source, and name only the rows already listed.
+\end{enumerate}
+No stable-matching obligation for this packet is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $G=(U,V,P_U,P_V,L,T,R,B,M,H,C,Q,N)$. The finite-market rows $U$ and $V$ are read first, so every participant and every candidate edge is already inside the displayed $\FinSetUp$ and $\GraphUp$ surfaces.
+
+The preference rows $P_U$ and $P_V$ supply the only comparisons used by the construction. Thus proposal ordering, tentative holding, and rejection justifications cannot consult an undisplayed preference function.
+
+Next read the dynamic rows. The proposal ledger $L$ records the finite event order, $T$ records the tentative $\MatchingUp$ predicate at each stage, and $R$ records the rejected proposal together with its preference comparison. These rows are enough to reconstruct the deferred-acceptance trace as finite $\BHist$ data.
+
+Finally inspect $B,M,H,C,Q,N$. The row $B$ refuses blocking pairs from the displayed trace, $M$ exports the terminal matching row, and the structural rows preserve the same finite route. Since no hidden matching, preference, search, or quotient coordinate occurs in the carrier, the listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Gale-Shapley deferred-acceptance route]
+\label{thm:gale-shapley-stable-matching-deferred-acceptance-route}
+Every stable-matching consumer of an accepted $\GaleShapleyStableMatchingUp$ carrier factors through the finite deferred-acceptance route
+$$
+\FinSetUp,\ \TotalOrderUp,\ \ListUp
+\longmapsto
+\GraphUp,\ \MatchingUp
+\longmapsto
+\GaleShapleyStableMatchingUp .
+$$
+The consumer receives a terminal matching together with proposal, tentative-matching, rejection, and blocking-pair refusal rows. It receives no host marriage-market object, unrecorded search trace, external optimality selector, quotient matching representative, or stability assertion outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of the terminal matching row $M$. By the obligation theorem, the read is not available until the finite sides $U,V$ and preference profiles $P_U,P_V$ have been exposed.
+
+The proposal sequence is then forced through $L$. Each proposal event has a finite prefix, and every tentative change reads its matching predicate through $T$ in the displayed $\GraphUp$ and $\MatchingUp$ surfaces.
+
+The rejection ledger $R$ and blocking-pair refusal row $B$ supply the stability-facing part of the route. A pair not present in $M$ is rejected because one side exhausted the proposal row, a held partner is preferred by a displayed total-order comparison, or the rejection history records the relevant event.
+
+The structural rows $H,C,Q,N$ keep this route componentwise. Therefore any stable-matching consumer factors through the finite deferred-acceptance packet and cannot obtain any excluded host-level matching, search, optimality, quotient, or detached-stability datum.
+\end{proof}
+
+\closureat{GaleShapleyStableMatchingUp}{seedStr}
+
+\begin{closurestatus}{\GaleShapleyStableMatchingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gale-shapley-stable-matching-carrier}, \autoref{thm:gale-shapley-stable-matching-namecert-obligations}, and \autoref{thm:gale-shapley-stable-matching-deferred-acceptance-route} seed the finite deferred-acceptance NameCert route from finite preference profiles to a terminal MatchingUp export.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host marriage-market equality, global optimality outside the displayed ledger, quotient matching representatives, unrestricted search, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-market exposure, preference-profile exactness, proposal-ledger accountability, tentative-matching compatibility, rejection-history exactness, blocking-pair refusal, transport, replay, provenance, and local naming for BEDC.Derived.GaleShapleyStableMatchingUp.}
+  \constructivestory{A $\GaleShapleyStableMatchingUp$ packet is generated from two FinSetUp side rows, two TotalOrderUp preference-profile rows, a ListUp proposal ledger, a MatchingUp tentative ledger over a GraphUp carrier, rejection history, blocking-pair refusal, a terminal matching export, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

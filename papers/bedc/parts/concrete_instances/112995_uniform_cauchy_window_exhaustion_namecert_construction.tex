@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\UniformCauchyWindowExhaustionUp$}
+\label{ch:concrete-instances-uniform-cauchy-window-exhaustion-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\UniformCauchyWindowExhaustionUp$ packet records the finite Cauchy-window exhaustion surface used by real-completion consumers before any completed real object is exposed. It sits over the uniform Cauchy criterion of \autoref{ch:concrete-instances-uniformcauchycriterion-namecert}, the finite stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite exhaustion data, not quotient streams, selected limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Uniform Cauchy window exhaustion carrier]
+\label{def:uniform-cauchy-window-exhaustion-carrier}
+A $\UniformCauchyWindowExhaustionUp$ carrier is a finite $\BHist$ packet
+$$
+U=(S,T,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ row of finite stream windows inspected by the exhaustion request.
+\item $T$ is the uniform threshold row, assigning each displayed tolerance request a single threshold that governs all later windows named by $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic radii, dominance checks, and comparison budgets used by $T$.
+\item $R$ is the $\RegSeqRatUp$ handoff row assembled from the window observations in $S$ after the threshold and dyadic rows have been displayed.
+\item $E$ is the $\RealUp$ seal row reached only after $S,T,D,R$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the stream-window, threshold, dyadic-ledger, regular-readback, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+S,T,D \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\UniformCauchyWindowExhaustionUp$, $\UniformCauchyCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformCauchyWindowExhaustionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, a selected limit, a countable-choice selector, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniform Cauchy window exhaustion NameCert obligations]
+\label{thm:uniform-cauchy-window-exhaustion}
+For every accepted $\UniformCauchyWindowExhaustionUp$ carrier $U=(S,T,D,R,E,H,C,P,N)$, the local $\NameCert_{\UniformCauchyWindowExhaustionUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed stream-window row, uniform threshold row, dyadic tolerance ledger, regular rational handoff, real seal, transport, replay, provenance, and local naming row;
+\item finite-window exposure, requiring every exhaustion read to inspect the $\StreamNameUp$ row $S$ before it can consult $T,D,R,E$;
+\item uniform-threshold exactness, requiring the threshold row $T$ to govern all later windows named by $S$ for the same displayed tolerance request;
+\item dyadic-to-regular handoff, requiring the $\DyadicRatCoreUp$ ledger $D$ to feed the $\RegSeqRatUp$ row $R$ before the $\RealUp$ seal $E$ is visible;
+\item ledger refusal, excluding quotient streams, selected limits, countable choice, host real equality, and ambient real completeness as certificate data.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-cauchy-window-exhaustion-carrier}. The accepted inventory is exactly $S,T,D,R,E,H,C,P,N$, so every local obligation must be read from those rows.
+
+The finite-window and uniform-threshold rows are upstream. A consumer cannot read a regular rational handoff until the displayed stream windows $S$, the threshold row $T$, and the dyadic tolerance ledger $D$ have supplied the requested tail comparison.
+
+The real seal is downstream of the regular handoff. The row $R$ records the $\RegSeqRatUp$ readback assembled from the same windows and budgets, and $E$ seals only that displayed readback.
+
+Transport by $H$, replay by $C$, provenance by $P$, and local naming by $N$ preserve the same route. Since quotient stream equality, selected limits, countable choice, host real equality, and ambient real completeness have no carrier coordinate, the five listed rows exhaust the local certificate surface.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\UniformCauchyWindowExhaustionUp$ consumer that reaches a $\RegSeqRatUp$ or $\RealUp$ read without the displayed StreamName windows, uniform threshold row, DyadicRatCore tolerance ledger, transport, replay, provenance, and local NameCert rows refutes the carrier.}
+
+\independenceWitness{UniformCauchyCriterion, StreamName, RegSeqRat, DyadicRatCore, and Real are not individually bijective with $\UniformCauchyWindowExhaustionUp$ because the packet jointly carries finite windows, one uniform threshold row, a dyadic tolerance ledger, a regular rational handoff, a Real seal, componentwise transport, replay, provenance, and local naming.}
+
+\closureat{UniformCauchyWindowExhaustionUp}{seedStr}
+
+\begin{closurestatus}{\UniformCauchyWindowExhaustionUp}
+  \constructivestory{A $\UniformCauchyWindowExhaustionUp$ packet is generated from finite StreamName windows, a uniform threshold row, a DyadicRatCore tolerance ledger, RegSeqRat handoff, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-cauchy-window-exhaustion-carrier} and \autoref{thm:uniform-cauchy-window-exhaustion} seed the finite uniform Cauchy-window exhaustion surface over StreamName, threshold, dyadic tolerance, RegSeqRat, Real, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, uniform-threshold exactness, dyadic tolerance routing, RegSeqRat handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.UniformCauchyWindowExhaustionUp.}
+\end{closurestatus}

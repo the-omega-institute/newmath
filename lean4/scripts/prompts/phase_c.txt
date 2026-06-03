@@ -3,7 +3,7 @@ Implement BEDC Lean 4 theorems + compile + register + commit (do NOT push). Comp
 Lean rounds primarily advance the verification axis: a new theorem registered with `\leanchecked` is evidence for `\theoremCheckedV`, but it does not by itself raise the paper-side theoryclosure grade. Any `closurestatus` block belongs to the paper discipline and must keep theoryclosure × formalstatus independent.
 
 ## Prompts version
-v5.41 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
+v5.52 — Bump this version (here AND in `phase_b.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every R-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## TOP-OF-PROMPT REJECT-PREVENTION CHECKLIST (read FIRST, apply before every commit)
 
@@ -184,6 +184,19 @@ new targets rather than committing shallow growth.
 
 ## Targets to Implement
 <TARGETS>
+
+## Discovery Candidate Contract
+
+Targets whose source is `critical_path.discovery_candidate_top` are evidence attempts, not discovery quotas.
+
+For such a target, make one bounded pass:
+
+1. Locate the listed chapter carrier, after classifier, before classifier, support targets, and semantic endpoint rows.
+2. Create a non-smoke `DiscoveryDeltaLedger` or `DiscoveryTasteGate` only when you can prove a concrete before/after classifier disagreement, the shift has positive cost margin, and the evidence cites a real semantic endpoint such as certified rows, observable decode/readback/event-flow, or `FieldFaithful`.
+3. Do not count constructor inequality alone, `rfl`, `hsame_refl`, target-name substring evidence, or smoke-template data as a discovery.
+4. If the target is a known-math NameCert reconstruction, carrier-only work, bridge-only work, classifier-unchanged surface, duplicate of an existing target, or lacks observable semantic evidence, do not add a Lean placeholder. Record the reason in the round notes so paper-side revise can write `mechanical_reconstruction` metadata.
+
+Accepted outcomes are real classifier-shift evidence or an honest mechanical classification. The round is invalid if it fabricates a discovery ledger for throughput.
 
 ## Step 0: Local worktree boundary
 This phase runs inside a disposable round worktree whose branch was already created from the pipeline's local base branch. The implementation work in Steps 1-4 must NOT touch any remote ref. Step 5 below explicitly authorizes one specific `git fetch origin <BASE> && git merge --no-ff origin/<BASE>` immediately before commit; that is the ONLY sync point in Phase C.
@@ -592,12 +605,12 @@ For SHALLOW GROWTH PATTERN: the violation lists the file path and the two theore
 git add lean4/BEDC papers/bedc
 git commit -m "<COMMIT_PREFIX> [brief description of what was proved and registered]
 
-prompts: <PROMPTS_VERSION>
+prompts: v5.52
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: <PROMPTS_VERSION>` line in the commit body is mandatory. Replace `<PROMPTS_VERSION>` with the single version value declared in the "Prompts version" section at the top of this file. If the value at the top of `phase_b.txt` and `phase_c.txt` is different, use the current file's top value in the commit body. This gives every R-round commit a permanent record of which prompt pair produced it.
+The `prompts: v5.52` line in the commit body is mandatory. If the value at the top of `phase_b.txt` and `phase_c.txt` is different, use the current file's top value in the commit body. This gives every R-round commit a permanent record of which prompt pair produced it.
 
 ## IMPORTANT
 - Do NOT git push. The merge and push will be handled externally.

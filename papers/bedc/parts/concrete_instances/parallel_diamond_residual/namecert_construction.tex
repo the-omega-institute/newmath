@@ -59,6 +59,22 @@ The local-join ledger $L$ and bounded checker $B$ then record candidate common r
 Finally the obstruction row $O$ and structural rows $H,T,G,N$ preserve the same conditional boundary. They do not add a global confluence theorem, so the export remains a residual local-join packet for a later bridge.
 \end{proof}
 
+\begin{theorem}[ParallelDiamondResidual obstruction retention]
+\label{thm:parallel-diamond-residual-obstruction-retention}
+While the obstruction row $O$ remains displayed in an accepted $\ParallelDiamondResidualUp$ packet
+$$
+J=(P,F,S,L,B,C,O,H,T,G,N),
+$$
+no consumer may read the packet as a premise-free parallel diamond, a full Church--Rosser theorem, an arbitrary closed-term confluence theorem, an unconditional substitution-compatibility theorem, a quotienting of terms, or a global parallel-diamond theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:parallel-diamond-residual-carrier}. The rows $P,F,S,L,B,C,O,H,T,G,N$ are displayed coordinates of the same accepted packet, and $O$ is one of the confluence-facing rows rather than a surrounding note.
+
+Apply the NameCert obligations theorem \autoref{thm:parallel-diamond-residual-namecert-obligations}. It requires the residual frontier $F$, substitution boundary $S$, local-join ledger $L$, bounded checker $B$, compatibility handoff $C$, and obstruction row $O$ to remain visible before the residual local-join packet can be consumed.
+
+Finally use the conditional handoff theorem \autoref{thm:parallel-diamond-residual-conditional-handoff}. Since that handoff supplies only finite residual-frontier, local-join, bounded-checker, compatibility, and obstruction data, any consumer that removes $O$ and reads the packet as one of the refused endpoints has left the displayed $\NameCert_{\ParallelDiamondResidualUp}$ surface.
+\end{proof}
+
 \falsifiablePrediction{Every $\ParallelDiamondResidualUp$ handoff reaches $\MetacicResidualSubstitutionCompatibilityUp$ only through displayed parallel peaks, residual frontiers, $\MetacicResidualSubstitutionBoundaryUp$, $\MetacicLocalJoinLedgerUp$, bounded residual checks, obstruction rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
 \independenceWitness{metacic-residual-substitution-boundary, metacic-residual-substitution-compatibility, metacic-local-join-ledger: $\ParallelDiamondResidualUp$ is not bijective to any listed sibling because it jointly carries parallel peaks, residual frontiers, boundary rows, local-join ledgers, bounded checks, compatibility handoffs, obstruction rows, transport, replay, provenance, and local naming.}

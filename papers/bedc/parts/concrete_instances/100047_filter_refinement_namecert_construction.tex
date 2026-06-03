@@ -4,6 +4,8 @@
 
 Following Kelley and Bourbaki on finer filters, cofinal subfilters, and refinement of directed bases, the $\FilterRefinementUp$ packet names the finite L10 bridge by which a completion route replaces one displayed filter base by a cofinal refinement. It sits after the finite base surface of \autoref{ch:concrete-instances-filterbase-namecert}, refines the Cauchy-filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, and keeps the completion-facing consumers of \autoref{ch:concrete-instances-uniformcompletion-namecert}, \autoref{ch:concrete-instances-metriccompletion-namecert}, and \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert} on the displayed finite route. The packet records cofinal comparison rows only; it is not a quotient filter, not an ultrafilter, not a selected limit, not countable choice, and not an ambient completeness principle.
 
+The same cofinal-replacement row is consumed by the Real-induced uniformity route of \autoref{ch:concrete-instances-real-uniform-structure-namecert}: when a $\RealUniformStructureUp$ packet replaces a Cauchy-filter basis by a cofinal basis, it reads the displayed $\FilterRefinementUp$ source, target, and refinement rows before any completion-facing Real-uniform consumer sees the new basis.
+
 \begin{definition}[FilterRefinement NameCert surface]
 \label{def:filter-refinement-namecert-surface}
 A $\FilterRefinementUp$ carrier is a finite $\BHist$ packet
@@ -51,24 +53,38 @@ Thus every refined request is answered by a finite target-row request followed b
 
 \begin{theorem}[FilterRefinement completion route]
 \label{thm:filter-refinement-completion-route}
-Let $R=(S,T,\rho,\lambda,H,C,P,N)$ be an accepted $\FilterRefinementUp$ carrier. Every $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ consumer that receives the refined route sees only the finite target base row $T$, the cofinal refinement row $\rho$, the optional reverse ledger $\lambda$ when route equivalence is needed, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\FilterRefinementUp}$ row.
+Let $R=(S,T,\rho,\lambda,H,C,P,N)$ be an accepted $\FilterRefinementUp$ carrier. Every $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ consumer that receives the refined route sees only the finite target base row $T$, the cofinal refinement row $\rho$, the optional reverse comparison ledger $\lambda$ when finite route equivalence is required, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\FilterRefinementUp}$ row.
 
 Equivalently, completion-facing reads factor through
 $$
 S \xleftarrow{\rho} T \longmapsto \lambda,H,C,P,N ,
 $$
-with $\lambda$ omitted for one-way refinement claims. The consumer does not receive a quotient filter, a selected completion point, countable choice, host equality, or ambient completeness.
+with $\lambda$ omitted for one-way refinement claims. When present, $\lambda$ records only the finite return comparisons needed to identify the displayed source and target routes; it is not quotient-filter equality, an ultrafilter row, a limit selector, a selected completion point, countable choice, host equality, or ambient completeness.
 \end{theorem}
 \begin{proof}
 Begin with a completion-facing consumer. Its route is required to read the refined base row $T$ before it can inspect Cauchy-filter or completion data, so the first public object is a displayed finite $\FilterBaseUp$ row.
 
-The row $\rho$ supplies the only comparison back to the source route. When a consumer must compare the refined route with the original route, it reads the optional ledger $\lambda$; otherwise the one-way cofinal refinement row is the entire comparison surface.
+The row $\rho$ supplies the only mandatory comparison back to the source route. When a consumer must compare the refined route with the original route, it reads the optional ledger $\lambda$ as a finite list of return comparisons for route equivalence; otherwise the one-way cofinal refinement row is the entire comparison surface.
 
 Transport and replay do not enlarge the route. The row $H$ moves the listed coordinates componentwise, and $C$ replays base requests through the same displayed refinement rows. The provenance row $P$ names the allowed completion consumers, while $N$ names the local certificate surface.
 
-Consequently $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCompletionUp$ consumers receive a finite refinement route and no hidden completion object. Quotient filters, selected completion points, countable-choice selectors, host equality, and ambient completeness are not coordinates of $R$.
+Consequently $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCompletionUp$ consumers receive a finite refinement route and no hidden completion object. Quotient-filter equality, ultrafilter data, selected completion points, limit selectors, countable-choice selectors, host equality, and ambient completeness are not coordinates of $R$, and $S,T,\rho,H,C,P,N$ remain the only mandatory route rows.
 \end{proof}
 \leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinementCompletionRoute}
+
+\begin{theorem}[FilterRefinement Cauchy base dependency]
+\label{thm:filter-refinement-cauchy-base-dependency}
+Every refinement accepted by $\FilterRefinementUp$ consumes the finite Cauchy filter base carrier of \autoref{ch:concrete-instances-cauchy-filter-base-namecert} before it may replay completion-facing cofinality. The refined route therefore exposes a $\CauchyFilterBaseUp$ basis row, a cofinal comparison through $\rho$, and the same transport, replay, provenance, and local naming rows $H,C,P,N$ before any $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ consumer reads the refinement.
+\end{theorem}
+\leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinementCarrier\_cauchy\_base\_dependency}
+\begin{proof}
+Start from the accepted carrier $R=(S,T,\rho,\lambda,H,C,P,N)$ of \autoref{def:filter-refinement-namecert-surface}. The source and target rows are displayed filter-base rows, so a completion-facing refinement can only be consumed after the relevant Cauchy-filter base has been exposed.
+
+Use the Cauchy-base carrier of \autoref{ch:concrete-instances-cauchy-filter-base-namecert} as the finite basis row read by the Cauchy route. The cofinal map $\rho$ then sends target-base requests back to the source Cauchy base, while $H$ and $C$ transport and replay the same finite comparison.
+
+Finally apply \autoref{thm:filter-refinement-completion-route}. It permits completion consumers to read only $T,\rho,\lambda,H,C,P,N$, so the Cauchy-base dependency is a displayed prerequisite for cofinality replay rather than a quotient filter, selected limit, countable-choice selector, or ambient completeness principle.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterRefinementUp.FilterRefinementCauchyBaseDependency}
 
 The completion-route theorem is read as a sibling dependency rule: a $\FilterRefinementUp$ packet consumes the $\FilterBaseUp$ carrier of \autoref{ch:concrete-instances-filterbase-namecert} and the $\CauchyFilterUp$ route of \autoref{ch:concrete-instances-cauchyfilter-namecert} before any $\UniformCompletionUp$ consumer from \autoref{ch:concrete-instances-uniformcompletion-namecert}, $\MetricCompletionUp$ consumer, or $\CauchyFilterCompletionUp$ consumer may read the refined route.
 

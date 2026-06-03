@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\EffectiveCoverCompactnessUp$}
+\label{ch:concrete-instances-effective-cover-compactness-namecert}
+\origin{human}
+
+Following Lebesgue and Bishop--Bridges constructive compactness, the $\EffectiveCoverCompactnessUp$ packet records the finite BEDC surface by which a compact metric carrier exposes cover data only through explicit finite subcovers, mesh bounds, and Lebesgue-number handoffs. It sits after the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite-cover refinement surface of \autoref{ch:concrete-instances-finite-cover-refinement-namecert}, and the Lebesgue-number finite-cover route of \autoref{ch:concrete-instances-lebesgue-number-finite-cover-namecert}, while supplying the compact-uniform modulus consumer of \autoref{ch:concrete-instances-compact-uniform-modulus-namecert} and the vision corridor of \autoref{ch:visions-compact-uniform-continuity}. The chapter names effective finite-cover compactness, not arbitrary open-cover compactness.
+
+\begin{definition}[Effective cover compactness carrier]
+\label{def:effective-cover-compactness-carrier}
+An $\EffectiveCoverCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+E=(K,O,R,L,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, carrying the inspected compact metric name, metric balls, and finite request windows.
+\item $O$ is the cover row, listing the finitely observed basic opens and their metric radii.
+\item $R$ is the $\FiniteCoverRefinementUp$ row, recording the finite refinement and subcover choices that remain visible to downstream consumers.
+\item $L$ is the $\LebesgueNumberFiniteCoverUp$ row, supplying the displayed Lebesgue-number witness for the same finite cover.
+\item $M$ is the compact-uniform handoff row consumed by $\CompactUniformModulusUp$.
+\item $H$ records componentwise $\hsame$ transport for compact metric data, cover rows, refinement rows, Lebesgue-number rows, compact-uniform handoff, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a cover or modulus request through $K,O,R,L,M,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\EffectiveCoverCompactnessUp$, $\CompactMetricUp$, $\FiniteCoverRefinementUp$, $\LebesgueNumberFiniteCoverUp$, $\CompactUniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EffectiveCoverCompactnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,O,R,L,M,H,C,P,N$. It has no coordinate for arbitrary open-cover compactness, countable subcover extraction, choice of centers outside the displayed cover, ambient completeness, or a selected global modulus.
+\end{definition}
+
+\begin{theorem}[Effective cover compactness NameCert obligations]
+\label{thm:effective-cover-compactness-namecert-obligations}
+For every accepted $\EffectiveCoverCompactnessUp$ carrier
+$$
+E=(K,O,R,L,M,H,C,P,N),
+$$
+the local $\NameCert_{\EffectiveCoverCompactnessUp}$ surface consists exactly of carrier admission for the compact metric row, cover row, finite refinement row, Lebesgue-number witness row, compact-uniform handoff row, componentwise transport, displayed replay, provenance, and local naming. Every cover-facing consumer must read $K$ and $O$ before $R$, read $R$ before $L$, and read $L$ before the compact-uniform handoff $M$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:effective-cover-compactness-carrier}. The visible coordinates are exactly the compact metric source, cover ledger, finite refinement, Lebesgue-number witness, compact-uniform handoff, and structural rows.
+
+The obligation order is forced by those coordinates. The finite refinement row $R$ is meaningful only over the displayed cover row $O$ and compact metric row $K$, while the Lebesgue-number row $L$ is read from that same finite cover surface.
+
+Finally $M,H,C,P,N$ only hand off, transport, replay, source, and name the displayed finite-cover data. Since no other carrier coordinate exists, the local NameCert surface cannot export arbitrary open-cover compactness, a countable subcover selector, hidden centers, ambient completeness, or a selected global modulus.
+\end{proof}
+
+\begin{theorem}[Effective cover compactness finite-cover handoff]
+\label{thm:effective-cover-compactness-finite-cover-handoff}
+Every compact-uniform consumer of an accepted $\EffectiveCoverCompactnessUp$ packet factors through the finite route
+$$
+\CompactMetricUp \longmapsto \FiniteCoverRefinementUp \longmapsto \LebesgueNumberFiniteCoverUp \longmapsto \CompactUniformModulusUp .
+$$
+Thus the consumer sees the compact metric source row, displayed cover row, finite refinement row, Lebesgue-number witness, compact-uniform handoff, componentwise transport, replay, provenance, and local naming before any modulus-facing conclusion is available.
+\end{theorem}
+\begin{proof}
+Begin with a compact-uniform consumer and apply \autoref{thm:effective-cover-compactness-namecert-obligations}. The consumer must first display the compact metric source and the finite cover row.
+
+Next it reads the finite-cover refinement and Lebesgue-number rows. These are the existing finite-cover surfaces of \autoref{ch:concrete-instances-finite-cover-refinement-namecert} and \autoref{ch:concrete-instances-lebesgue-number-finite-cover-namecert}, so the handoff remains a finite certificate rather than an arbitrary open-cover principle.
+
+The compact-uniform row $M$ is downstream of the same finite route. The structural rows $H,C,P,N$ preserve and name that route only, so the consumer receives no hidden subcover choice, no countable cover extraction, no ambient completeness, and no selected global modulus outside the displayed certificate.
+\end{proof}
+
+\closureat{EffectiveCoverCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\EffectiveCoverCompactnessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:effective-cover-compactness-carrier}, \autoref{thm:effective-cover-compactness-namecert-obligations}, and \autoref{thm:effective-cover-compactness-finite-cover-handoff} seed the finite-cover compactness surface from compact metric data through finite refinement, Lebesgue-number witnesses, compact-uniform handoff, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary open-cover compactness, countable subcover extraction, hidden center choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-cover refinement visibility, Lebesgue-number exactness, compact-uniform handoff, transport, replay, provenance, and local naming for BEDC.Derived.EffectiveCoverCompactnessUp.}
+  \constructivestory{An $\EffectiveCoverCompactnessUp$ packet is generated from a CompactMetric source row, displayed cover row, finite refinement row, Lebesgue-number witness row, compact-uniform handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

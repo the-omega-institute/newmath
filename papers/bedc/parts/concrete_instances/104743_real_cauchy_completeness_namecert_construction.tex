@@ -28,6 +28,7 @@ $$
 \end{enumerate}
 The classifier accepts only packets that display the finite windows, explicit modulus, dyadic budgets, diagonal readback, limit-seal handoff, real seal, transport, replay, provenance, and local naming. It has no coordinate for quotient streams, selected limits, countable choice, open-cover compactness, host convergence, or ambient $\RealUp$ completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.RealCauchyCompletenessUp.RealCauchyCompletenessTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Real Cauchy completeness NameCert obligations]
 \label{thm:real-cauchy-completeness-namecert-obligations}
@@ -59,6 +60,20 @@ The row $L$ consumes the diagonal readback $R$. That readback is itself downstre
 Thus any $\RealUp$ consumer reaches the seal only through $S,M,D,R,L,E$ and the structural rows $H,C,P,N$. The excluded host-side data have no carrier coordinate, so they cannot be introduced by the handoff.
 \end{proof}
 
+\begin{theorem}[Real Cauchy completeness uniform-tail seal]
+\label{thm:real-cauchy-completeness-uniform-tail-seal}
+Let $K=(S,M,D,R,L,E,H,C,P,N)$ be an accepted $\RealCauchyCompletenessUp$ carrier. Suppose a consumer reads $K$ through a $\UniformConvergenceUp$ shared threshold whose tail schedule dominates the explicit Cauchy-modulus row $M$ and whose Cauchy-facing handoff is served by the $\UniformConvergenceCauchyCriterionUp$ route of \autoref{ch:concrete-instances-uniform-convergence-cauchy-criterion-namecert}. Then every $\RealUp$ endpoint read factors through the displayed $\StreamNameUp$ windows $S$, the $\UniformConvergenceUp$ tail row, the $\UniformConvergenceCauchyCriterionUp$ handoff, the $\RegSeqRatUp$ readback $R$, and the $\CauchyLimitSealUp$ row $L$ before the Real seal $E$ is exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:real-cauchy-completeness-carrier}. The only endpoint row is $E$, and \autoref{thm:real-cauchy-completeness-seal-nonescape} places $E$ downstream of $S,M,D,R,L$.
+
+The shared threshold is read through the $\UniformConvergenceUp$ tail surface of \autoref{ch:concrete-instances-uniform-convergence-namecert}. The dominance assumption says that this tail schedule cannot be consumed before it covers the explicit modulus row $M$ already present in $K$.
+
+The Cauchy-facing handoff is then the $\UniformConvergenceCauchyCriterionUp$ route. It binds the same uniform tail row to a finite Cauchy comparison before the regular readback $R$ and the limit-seal row $L$ are available to the endpoint consumer.
+
+Thus the row order is $S,M,D$ first, then the shared uniform tail and Cauchy-criterion handoff, then $R,L,E$. Since the carrier has no quotient coordinate, choice coordinate, or second endpoint row, every $\RealUp$ read follows this displayed route.
+\end{proof}
+
 \falsifiablePrediction{Any accepted $\RealCauchyCompletenessUp$ consumer reaching a $\RealUp$ read without the displayed StreamName windows, explicit Cauchy modulus, DyadicRatCore ledger, RegSeqRat diagonal readback, and CauchyLimitSeal row refutes the carrier.}
 
 \independenceWitness{DyadicRatCore, StreamName, RegSeqRat, CauchyLimitSeal, and Real are not individually bijective with $\RealCauchyCompletenessUp$ because the packet carries the ordered completion route across all five surfaces together with transport, replay, provenance, and local naming.}
@@ -68,8 +83,9 @@ Thus any $\RealUp$ consumer reaches the seal only through $S,M,D,R,L,E$ and the 
 \begin{closurestatus}{\RealCauchyCompletenessUp}
   \constructivestory{A $\RealCauchyCompletenessUp$ packet is generated from finite StreamName windows, an explicit Cauchy-modulus row, a DyadicRatCore tolerance ledger, a RegSeqRat diagonal readback, a CauchyLimitSeal handoff, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-cauchy-completeness-carrier}, \autoref{thm:real-cauchy-completeness-namecert-obligations}, and \autoref{thm:real-cauchy-completeness-seal-nonescape} seed the finite constructive Cauchy-completeness route through StreamName, RegSeqRat, DyadicRatCore, CauchyLimitSeal, Real, transport, replay, provenance, and local NameCert rows.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{\autoref{def:real-cauchy-completeness-carrier}, \autoref{thm:real-cauchy-completeness-namecert-obligations}, \autoref{thm:real-cauchy-completeness-seal-nonescape}, and \autoref{thm:real-cauchy-completeness-uniform-tail-seal} seed the finite constructive Cauchy-completeness route through StreamName, RegSeqRat, DyadicRatCore, CauchyLimitSeal, UniformConvergence, UniformConvergenceCauchyCriterion, Real, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealCauchyCompletenessUp.RealCauchyCompletenessTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, open-cover compactness, host convergence, ambient Real completeness, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, explicit Cauchy-modulus exposure, diagonal limit handoff, classifier stability, and ledger non-escape for BEDC.Derived.RealCauchyCompletenessUp.}

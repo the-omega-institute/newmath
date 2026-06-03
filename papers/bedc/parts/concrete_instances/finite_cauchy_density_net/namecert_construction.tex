@@ -1,0 +1,70 @@
+\chapter{Finite Cauchy Density Net NameCert Construction}
+\label{ch:concrete-instances-finite-cauchy-density-net-namecert}
+\origin{human}
+
+Following Bishop and Bridges, finite density data for real completion is represented by explicit dyadic finite nets and moduli, not by selected representatives or quotient completions. The $\FiniteCauchyDensityNetUp$ packet sits between the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It gives L10 completion consumers a finite density witness object without asserting ambient completeness of $\RealUp$.
+
+\begin{definition}[Finite Cauchy density-net packet]
+\label{def:finite-cauchy-density-net-packet}
+A $\FiniteCauchyDensityNetUp$ carrier is a finite $\BHist$ packet
+$$
+N=(D,W,R,E,M,T,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ finite-net ledger, listing the dyadic centers, dyadic radii, and finite containment comparisons used by the density read.
+\item $W$ is the $\StreamNameUp$ finite-window row that records exactly which prefixes of an inspected Cauchy name are opened before the net row is consulted.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed window and dyadic ledger.
+\item $E$ is the terminal $\RealUp$ seal row, exposed only after $D,W,R$ have all been displayed.
+\item $M$ is the modulus row, recording the finite precision budget that makes the displayed dyadic net adequate for the requested readback.
+\item $T$ records componentwise $\hsame$ transport for dyadic net rows, stream windows, regular readback rows, Real seals, modulus rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a density-net request through $D,W,R,E,M,T$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteCauchyDensityNetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\FiniteCauchyDensityNetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, a selected representative of a completed real, countable choice over nets, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite Cauchy density-net extraction]
+\label{thm:finite-cauchy-density-net-extraction}
+For every accepted $\FiniteCauchyDensityNetUp$ carrier $N=(D,W,R,E,M,T,C,P,L)$, every density-net read extracts exactly the displayed finite dyadic net rows $D$, the finite $\StreamNameUp$ observation row $W$, the $\RegSeqRatUp$ readback row $R$, the terminal $\RealUp$ seal route $E$, and the modulus row $M$, preserved by $T,C,P,L$. The extraction supplies a finite L10 density witness for Real-facing completion routes, but it does not claim $\RealUp$ completeness, quotient representatives, selected limits, countable choice, trichotomy, or host real equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-cauchy-density-net-packet}. The dyadic net row $D$ is the only row carrying centers, radii, and finite containment comparisons, while $W$ is the only row opening inspected stream prefixes.
+
+The readback row $R$ is downstream of $D,W$ and the modulus row $M$. Thus any density read reaches the regular rational surface through displayed finite data rather than through a detached sequence or host completion object.
+
+The terminal row $E$ seals only that readback route as a $\RealUp$ handoff. Rows $T,C,P,L$ transport, replay, source, and name the same finite route. Since the carrier contains no coordinate for quotient streams, selected representatives, countable choice, trichotomy, host real equality, or ambient Real completeness, the listed rows exhaust the extraction surface.
+\end{proof}
+
+\begin{theorem}[Finite Cauchy density-net Real seal nonescape]
+\label{thm:finite-cauchy-density-net-real-seal-nonescape}
+Every $\RealUp$ consumer of an accepted $\FiniteCauchyDensityNetUp$ packet must read the finite route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+$$
+through the displayed carrier rows $D,W,R,E,M,T,C,P,L$. The packet can be cited as a finite density witness by separability, completion, and compactness consumers, but it exports no completed-real theorem and no selector for representatives or limits.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finite-cauchy-density-net-extraction}. The extraction theorem identifies the dyadic net ledger, finite stream window, regular readback, Real seal, and modulus rows as the whole analytic route.
+
+The structural rows $T,C,P,L$ preserve that route under componentwise transport, continuation replay, provenance, and local naming. They do not add a second completion-facing row.
+
+Therefore a Real-facing consumer receives only the displayed finite density packet. Any claim of completed Real separability, ambient completeness, quotient representatives, selected limits, or countable-choice net selection lies outside the local carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteCauchyDensityNetUp$ read exposes a DyadicRatCore finite-net ledger, a StreamName finite-window row, a RegSeqRat readback row, a terminal RealUp seal, a finite modulus row, componentwise transport, continuation replay, provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\FiniteCauchyDensityNetUp$ is not identical to any listed sibling because it binds dyadic finite-net rows and a modulus row before the regular rational readback and terminal RealUp seal.}
+
+\closureat{FiniteCauchyDensityNetUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCauchyDensityNetUp}
+  \constructivestory{A $\FiniteCauchyDensityNetUp$ packet is generated from a DyadicRatCore finite-net ledger, a StreamName finite-window row, a RegSeqRat readback row, a RealUp seal, a finite modulus row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cauchy-density-net-packet}, \autoref{thm:finite-cauchy-density-net-extraction}, and \autoref{thm:finite-cauchy-density-net-real-seal-nonescape} seed the finite dyadic density-net route from displayed Cauchy windows to the terminal RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim RealUp completeness, completed-real separability, compactness, quotient representatives, selected limits, countable choice, trichotomy, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic finite-net exactness, StreamName window admission, RegSeqRat readback, Real seal nonescape, finite modulus stability, replay, provenance, and local naming for BEDC.Derived.FiniteCauchyDensityNetUp.}
+\end{closurestatus}

@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\RiemannUniformMeshUp$}
+\label{ch:concrete-instances-riemann-uniform-mesh-namecert}
+\origin{human}
+
+Following Riemann and Bishop--Bridges constructive analysis, the $\RiemannUniformMeshUp$ packet records the finite equal-width dyadic mesh rows used before a Riemann-sum or completion-facing consumer reads an integral approximation. It sits after the dyadic endpoint discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the tagged finite-sum consumer of \autoref{ch:concrete-instances-riemannsum-namecert}, and the displayed finite partition mesh of \autoref{ch:concrete-instances-finite-partition-mesh-namecert}. It also uses the dyadic selector route of \autoref{ch:concrete-instances-cofinal-dyadic-mesh-namecert} to keep mesh depth finite and visible.
+
+\begin{definition}[Riemann uniform mesh NameCert carrier]
+\label{def:riemann-uniform-mesh-namecert}
+A $\RiemannUniformMeshUp$ carrier is a finite $\BHist$ packet
+$$
+U=(P,D,W,R,S,E,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite partition-mesh row, exposing interval endpoints, cell order, adjacency, and common-refinement evidence through the $\FinitePartitionMeshUp$ surface.
+\item $D$ is the dyadic mesh scale row, recording the $\DyadicRatCoreUp$ endpoint and equal-width dyadic scale used by every cell.
+\item $W$ is the $\StreamNameUp$ finite-window row opened at the displayed mesh scale.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same window and dyadic tolerance.
+\item $S$ is the $\RiemannSumUp$ consumer row, reading tag values, cell widths, and the finite sum only after $P,D,W,R$ are visible.
+\item $E$ is the $\RealUp$ seal row available only as the terminal handoff for the displayed finite approximation.
+\item $H$ records componentwise $\hsame$ transport for partition mesh, dyadic scale, finite window, regular readback, Riemann-sum handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the partition row through the dyadic scale, finite window, regular readback, Riemann-sum row, and Real seal.
+\item $G$ is the $\Pkg$ provenance over $\RiemannUniformMeshUp$, $\FinitePartitionMeshUp$, $\DyadicRatCoreUp$, $\DyadicMeshUp$, $\CofinalDyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RiemannSumUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannUniformMeshUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,D,W,R,S,E,H,C,G,N$. It contains no host interval continuum, no quotient completion, no selected limiting mesh family, no unrestricted tag-choice principle, and no ambient $\RealUp$ completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Riemann uniform mesh NameCert obligations]
+\label{thm:riemann-uniform-mesh-namecert-obligations}
+For every accepted $\RiemannUniformMeshUp$ carrier $U=(P,D,W,R,S,E,H,C,G,N)$, the local $\NameCert_{\RiemannUniformMeshUp}$ surface consists exactly of carrier admission; finite partition-mesh exposure through $P$; dyadic mesh exactness through $D$ together with the dyadic mesh siblings; Riemann-sum handoff through $S$ after $W$ and $R$; Real-seal non-escape through $E$; componentwise transport through $H$; displayed replay through $C$; package provenance through $G$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-uniform-mesh-namecert}. The partition row $P$ supplies the only finite mesh carrier, and the dyadic row $D$ supplies the equal-width scale and endpoint ledger used by each cell.
+
+The finite readback rows then determine the consumer window. The row $W$ opens the $\StreamNameUp$ window at the displayed scale, while $R$ records the $\RegSeqRatUp$ readback attached to that same dyadic budget.
+
+The Riemann-sum handoff is forced through $S$. A consumer may read tag values, cell widths, and the finite sum only after $P,D,W,R$ are present, so the handoff is the finite tagged-sum route of \autoref{ch:concrete-instances-riemannsum-namecert}, not a limiting integration claim.
+
+Finally the Real seal $E$ is terminal. Transport, replay, provenance, and local naming are exactly the rows $H,C,G,N$, and the carrier has no coordinate for host intervals, quotient completions, selected limiting mesh families, unrestricted tag choice, or ambient completeness. Thus the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{If the dyadic scale row $D$ is removed, a Riemann-sum consumer can still read a finite partition row but can no longer force equal-width dyadic exactness before the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows are opened.}
+
+\independenceWitness{finite-partition-mesh, dyadicratcore, streamname, regseqrat, riemannsum, real, cofinal-dyadic-mesh: no listed sibling is bijective to $\RiemannUniformMeshUp$ because this packet jointly carries the finite partition mesh, equal dyadic scale, finite observation window, regular rational readback, tagged-sum handoff, terminal Real seal, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{RiemannUniformMeshUp}{seedStr}
+
+\begin{closurestatus}{\RiemannUniformMeshUp}
+  \constructivestory{A $\RiemannUniformMeshUp$ packet is generated from finite partition mesh rows, a dyadic mesh scale, StreamName finite windows, RegSeqRat readback, a RiemannSum consumer row, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-uniform-mesh-namecert} and \autoref{thm:riemann-uniform-mesh-namecert-obligations} seed the finite equal-width dyadic mesh packet consumed by Riemann-sum, Real, and Completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Riemann integrability, limiting mesh convergence, host interval continua, quotient completion, selected tag families, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic mesh exactness, Riemann-sum handoff, Real-seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.RiemannUniformMeshUp.}
+\end{closurestatus}

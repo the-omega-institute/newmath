@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneBarModulusUp$}
+\label{ch:concrete-instances-monotone-bar-modulus-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen on monotone bars, fan bounds, and constructive choice sequences, the $\MonotoneBarModulusUp$ packet records the finite handoff by which a displayed monotone bar yields a modulus surface for current Real and Completion consumers. It sits after the fan-bound certificate of \autoref{ch:concrete-instances-fantheorem-namecert}, the barred-spread replay of \autoref{ch:concrete-instances-brouwer-bar-induction-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite $\BHist$ route from bar evidence to requested windows; it is not countable choice, open-cover compactness, branch selection, quotient stream equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Monotone bar modulus carrier]
+\label{def:monotone-bar-modulus-carrier}
+A $\MonotoneBarModulusUp$ carrier is a finite packet
+$$
+K=(T,B,D,W,R,E,H,C,P,N)
+$$
+whose rows have the following roles:
+\begin{enumerate}
+\item $T$ is the monotone bar row. It records displayed prefix decisions and the rule that a barred prefix remains barred along every displayed extension.
+\item $B$ is the finite fan-depth ledger. It records the bounded depth obtained from the admitted fan surface, as finite data rather than as an open cover or an infinite branch search.
+\item $D$ is the modulus handoff row. It translates the visible bar-depth ledger into the index budget requested by downstream readers.
+\item $W$ is the $\StreamNameUp$ window row through which Real and Completion consumers request finite observations.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same requested windows.
+\item $E$ is the $\RealUp$ seal row reached only after the bar, fan-depth, modulus, window, and readback rows have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the monotone bar, fan-depth ledger, modulus handoff, StreamName windows, RegSeqRat readback, Real seal, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from monotone-bar inspection through the fan-depth ledger, modulus handoff, StreamName windows, RegSeqRat readback, and the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneBarModulusUp$, $\FanTheoremUp$, $\BrouwerBarInductionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneBarModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,B,D,W,R,E,H,C,P,N$. It has no coordinate for countable choice, open-cover compactness, selected branches, quotient equality of streams, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Monotone bar modulus nonescape]
+\label{thm:monotone-bar-modulus-nonescape}
+Every $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or Completion-facing read of an accepted $\MonotoneBarModulusUp$ carrier factors through
+$$
+T,B,D,W,R,E,H,C,P,N.
+$$
+The read may use the displayed monotone bar and its finite fan-depth ledger to obtain a modulus budget, but it cannot extract countable choice, open-cover compactness, a selected branch, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:monotone-bar-modulus-carrier}. The only analytic-facing rows are the StreamName window $W$, the RegSeqRat readback $R$, and the Real seal $E$.
+
+Replay the continuation row $C$. It first exposes the monotone bar row $T$, then the finite fan-depth ledger $B$, then the modulus handoff row $D$. Only after those rows are visible can a consumer open $W$, read $R$, and reach $E$.
+
+The rows $H,P,N$ preserve and name the same route. Since no carrier coordinate stores a branch selector, quotient stream equality, an open-cover compactness principle, countable choice, or ambient completeness, none of those principles can be exported by the packet.
+\end{proof}
+
+\begin{theorem}[Monotone bar modulus NameCert obligations]
+\label{thm:monotone-bar-modulus-namecert-obligations}
+For every accepted $\MonotoneBarModulusUp$ carrier $K=(T,B,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\MonotoneBarModulusUp}$ surface consists exactly of the following finite rows:
+\begin{enumerate}
+\item carrier admission for the monotone bar, fan-depth ledger, modulus handoff, StreamName window, RegSeqRat readback, Real seal, transport, continuation, provenance, and naming rows;
+\item monotone bar stability, requiring extension reads to stay inside the displayed bar row $T$;
+\item finite fan-depth extraction, requiring the depth budget to be read from $B$ through the fan surface of \autoref{ch:concrete-instances-fantheorem-namecert};
+\item modulus handoff exactness, requiring every downstream budget request to pass through $D$ before reaching $W,R,E$;
+\item analytic boundary nonescape, requiring every Real or Completion-facing read to use the route of \autoref{thm:monotone-bar-modulus-nonescape}.
+\end{enumerate}
+No local obligation is stored outside these five rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple displayed in \autoref{def:monotone-bar-modulus-carrier}. The classifier can inspect only the listed coordinates, so the first obligation is exactly the projection of $T,B,D,W,R,E,H,C,P,N$.
+
+The monotone bar and fan-depth clauses are read directly from $T$ and $B$. The bar row gives only displayed prefix decisions and extension preservation, while the fan-depth ledger supplies only the bounded depth exposed by the finite fan certificate.
+
+The modulus handoff clause is the row $D$. It is placed before $W,R,E$ in the continuation route, so every downstream window or readback request consumes the displayed budget before reaching a Real-facing seal.
+
+The analytic boundary is \autoref{thm:monotone-bar-modulus-nonescape}. It forces every StreamName, RegSeqRat, Real, or Completion consumer through the displayed finite rows and prevents escape through the excluded principles.
+\end{proof}
+
+\begin{theorem}[Monotone bar modulus Real handoff]
+\label{thm:monotone-bar-modulus-real-handoff}
+An accepted $\MonotoneBarModulusUp$ carrier supplies Real and Completion consumers with only the following handoff:
+$$
+\BrouwerBarInductionUp,\FanTheoremUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \MonotoneBarModulusUp \longmapsto \RealUp .
+$$
+The handoff records the finite passage from monotone bar evidence and a fan-depth ledger to StreamName windows, RegSeqRat readback, and a Real seal; it does not provide a separate compactness or choice principle.
+\end{theorem}
+\begin{proof}
+Read the provenance row $P$ together with the continuation row $C$. The source side names the monotone bar evidence against the barred-spread surface of \autoref{ch:concrete-instances-brouwer-bar-induction-namecert} and the bounded fan surface of \autoref{ch:concrete-instances-fantheorem-namecert}.
+
+The middle of the route is exactly the window and readback pair $W,R$, which points to \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}. The terminal row $E$ points to \autoref{ch:concrete-instances-real-namecert}.
+
+Thus the handoff is a named finite route through the displayed rows of the carrier. The excluded principles are not fields of the tuple, so the Real and Completion consumers receive only the stated finite modulus surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MonotoneBarModulusUp$ Real or Completion-facing read factors through a displayed monotone bar row, finite fan-depth ledger, modulus handoff row, StreamName window, RegSeqRat readback, Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{fantheorem, brouwer-bar-induction, streamname, regseqrat, real: $\MonotoneBarModulusUp$ is not bijective to any listed sibling because it jointly carries monotone bar evidence, a finite fan-depth ledger, a modulus handoff, analytic windows, readback, terminal sealing, transport, continuation, provenance, and local naming while refusing choice, compactness, branch selection, quotient streams, and ambient completeness.}
+
+\closureat{MonotoneBarModulusUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneBarModulusUp}
+  \constructivestory{A $\MonotoneBarModulusUp$ packet is generated from a displayed monotone bar row, a finite fan-depth ledger, a modulus handoff row, StreamName windows, RegSeqRat readback, a Real seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-bar-modulus-carrier}, \autoref{thm:monotone-bar-modulus-nonescape}, \autoref{thm:monotone-bar-modulus-namecert-obligations}, and \autoref{thm:monotone-bar-modulus-real-handoff} seed the finite monotone-bar-to-modulus handoff for Real and Completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.MonotoneBarModulusUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, open-cover compactness, branch selection, quotient stream equality, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone bar stability, finite fan-depth extraction, modulus handoff exactness, analytic boundary nonescape, and TasteGate field faithfulness for BEDC.Derived.MonotoneBarModulusUp.}
+\end{closurestatus}

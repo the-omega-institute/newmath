@@ -1,0 +1,52 @@
+\chapter{A Concrete Naming Certificate for $\FreudenthalEndUp$}
+\label{ch:concrete-instances-freudenthal-end-namecert}
+\origin{human}
+
+Following Freudenthal and the classical theory of ends of locally compact spaces, the $\FreudenthalEndUp$ packet records escaping components of a displayed locally compact or proper metric source as finite NameCert data. It reads the compact-neighbourhood surface of \autoref{ch:concrete-instances-locallycompact-namecert}, the closed-ball compactness route of \autoref{ch:concrete-instances-propermetric-namecert}, the compact metric witness of \autoref{ch:concrete-instances-compactmetric-namecert}, and the metric carrier of \autoref{ch:concrete-instances-metric-namecert}. The packet names the tail-equivalence boundary of escaping rays without importing a host compactification, an ideal point selector, open-cover compactness, quotient end space, or choice-selected ray representative.
+
+\begin{definition}[FreudenthalEnd carrier]
+\label{def:freudenthal-end-carrier}
+A $\FreudenthalEndUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,E,C_0,C_1,T,R,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source metric or locally compact row, including the $\MetricSpaceUp$, $\LocallyCompactUp$, and optional $\ProperMetricUp$ support used by the packet.
+\item $E$ is the exhaustion row by compact metric subsets. Each inspected stage exposes a compact witness through $\CompactMetricUp$ and, in the proper metric case, through the displayed closed-ball route of $\ProperMetricUp$.
+\item $C_0$ and $C_1$ are component rows for complements outside compact stages. A row records only the finite component identifier, the compact stage it avoids, and the displayed adjacency data needed to replay the complement read.
+\item $T$ is the tail-comparison ledger. It records that the two component rows eventually enter the same complement component after passing to a later compact stage.
+\item $R$ is the escaping-ray ledger. It records finite ray prefixes together with the compact stages already avoided and exposes no selected infinite ray object.
+\item $H$ records componentwise $\hsame$ transport for the source, exhaustion, complement-component rows, tail ledger, ray prefixes, provenance, and local naming rows.
+\item $Q$ records displayed $\Cont$ replay from an end request through $X,E,C_0,C_1,T,R,H$.
+\item $P$ is the $\Pkg$ provenance over $\FreudenthalEndUp$, $\LocallyCompactUp$, $\ProperMetricUp$, $\CompactMetricUp$, $\MetricSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FreudenthalEndUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host compactification, an ideal boundary point, a quotient space of ends, open-cover compactness, a selected infinite ray, or countable-choice enumeration of components.
+\end{definition}
+
+\begin{theorem}[FreudenthalEnd NameCert obligation surface]
+\label{thm:freudenthal-end-namecert-obligation-surface}
+For every accepted $\FreudenthalEndUp$ carrier $F=(X,E,C_0,C_1,T,R,H,Q,P,N)$, the local $\NameCert_{\FreudenthalEndUp}$ surface consists exactly of source admission, compact-exhaustion admission, complement-component stability, tail-equivalence readback, escaping-ray prefix replay, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A downstream end consumer must read the compact exhaustion $E$ before either complement row is public, must read both $C_0$ and $C_1$ before the tail ledger $T$ is public, and must keep the ray-prefix ledger $R$ separate from any host-selected ideal point.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:freudenthal-end-carrier}. The only source data are the displayed metric, locally compact, and proper metric rows in $X$, and the only compact boundary data are the finite compact stages in $E$.
+
+The complement rows $C_0$ and $C_1$ can therefore be inspected only after the compact stage they avoid has been displayed. The tail ledger $T$ compares those component rows by passing to later compact stages, so it is a finite readback of eventual component agreement rather than a quotient end object.
+
+The ray-prefix row $R$ supplies only finite escaping prefixes and the compact stages already avoided. Transport through $H$ and replay through $Q$ preserve the same source, exhaustion, component, tail, and prefix rows.
+
+Finally $P$ and $N$ name precisely this displayed packet. Since no carrier coordinate stores a compactification point, quotient end space, open-cover compactness proof, selected infinite ray, or countable-choice component enumeration, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\closureat{FreudenthalEndUp}{seedStr}
+
+\begin{closurestatus}{\FreudenthalEndUp}
+  \constructivestory{A $\FreudenthalEndUp$ packet is generated from a locally compact or proper metric source, a compact metric exhaustion row, complement-component rows outside displayed compact stages, a tail-equivalence readback ledger, escaping-ray finite prefixes, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:freudenthal-end-carrier} and \autoref{thm:freudenthal-end-namecert-obligation-surface} seed the Freudenthal end carrier over LocallyCompact, ProperMetric, CompactMetric, MetricSpace, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host compactification, quotient end topology, selected ideal points, selected infinite rays, countable-choice component enumeration, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-exhaustion stability, complement-component stability, tail-equivalence readback, escaping-prefix replay, transport, replay, provenance, and local naming for BEDC.Derived.FreudenthalEndUp.}
+\end{closurestatus}

@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\RationalCauchyTelescopeUp$}
+\label{ch:concrete-instances-rational-cauchy-telescope-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy real names, the $\RationalCauchyTelescopeUp$ packet records the finite telescoping route by which rational step rows become a regular Cauchy readback before any completed-real assertion is available. It sits after rational rows from \autoref{ch:concrete-instances-rat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite L10 route for Real and Completion consumers; it does not assert quotient streams, selected limits, trichotomy, choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RationalCauchyTelescope carrier]
+\label{def:rational-cauchy-telescope-carrier}
+A $\RationalCauchyTelescopeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(Q,D,W,R,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite $\RatUp$ rational-step ledger, indexed by the same observation stages that the downstream stream window reads.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that bounds the visible tail of the rational step rows.
+\item $W$ is the $\StreamNameUp$ finite-window row exposing exactly the observation stages used by $Q$ and $D$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained by summing the displayed rational step rows over the windows in $W$.
+\item $M$ is the telescoping modulus row saying that every accepted tail comparison is discharged by the dyadic budget in $D$.
+\item $H$ records componentwise $\hsame$ transport for $Q,D,W,R,M,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the finite telescoping computation and its tail comparisons.
+\item $P$ is the $\Pkg$ provenance over $\RationalCauchyTelescopeUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalCauchyTelescopeUp}$ row.
+\end{enumerate}
+The carrier contains no quotient stream equality, selected limit, trichotomy decision, choice principle, or ambient $\RealUp$ completeness coordinate.
+\end{definition}
+
+\begin{theorem}[RationalCauchyTelescope NameCert obligations]
+\label{thm:rational-cauchy-telescope-namecert-obligations}
+For every accepted $\RationalCauchyTelescopeUp$ carrier
+$$
+T=(Q,D,W,R,M,H,C,P,N),
+$$
+the local $\NameCert_{\RationalCauchyTelescopeUp}$ surface consists exactly of rational-step admission, dyadic tolerance visibility, finite-window exposure, regular rational readback, telescoping-modulus discharge, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every obligation is read through the finite route
+$$
+\RatUp,\quad \DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rational-cauchy-telescope-carrier}. The only mathematical rows available to a consumer are $Q,D,W,R,M$ together with the structural rows $H,C,P,N$.
+
+The rational-step ledger $Q$ supplies the finite addends, while $W$ supplies the observation stages on which those addends may be read. The dyadic row $D$ fixes the tolerance budget for tail comparisons on the same windows.
+
+The readback row $R$ is obtained by displayed finite summation over $Q$ and $W$. The modulus row $M$ then records that every accepted telescoping tail comparison is bounded by the dyadic budget from $D$.
+
+Transport, replay, provenance, and local naming are confined to $H,C,P,N$. Since no quotient-stream, selected-limit, trichotomy, choice, or completeness coordinate occurs in the packet, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[RationalCauchyTelescope RegSeqRat factorization]
+\label{thm:rational-cauchy-telescope-regseqrat-factorization}
+Every Real-facing or Completion-facing read of an accepted $\RationalCauchyTelescopeUp$ packet factors through the displayed chain
+$$
+Q \longmapsto W \longmapsto D \longmapsto M \longmapsto R,
+$$
+before it can expose a $\RealUp$ seal. Thus the $\RegSeqRatUp$ readback is sourced by finite rational step rows, finite StreamName windows, and a dyadic telescoping modulus, not by quotient streams, selected representatives, trichotomy, choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $T=(Q,D,W,R,M,H,C,P,N)$. The rational step rows $Q$ can be inspected only through the finite windows $W$, and the same windows carry the dyadic tolerance row $D$.
+
+The telescoping modulus $M$ is read after $Q,W,D$. It is the row that converts finite step sums into tail comparisons suitable for the regular rational readback.
+
+Finally the readback row $R$ is the only $\RegSeqRatUp$ coordinate in the packet. Any Real-facing seal therefore receives its regular rational name through $R$ after the finite telescoping route has been displayed.
+
+Because the carrier has no further coordinate for quotient stream equality, selected representatives, trichotomy, choice, or ambient completeness, no completion consumer can bypass the displayed factorization.
+\end{proof}
+
+\closureat{RationalCauchyTelescopeUp}{seedStr}
+
+\begin{closurestatus}{\RationalCauchyTelescopeUp}
+  \constructivestory{A $\RationalCauchyTelescopeUp$ packet is generated from RatUp rational step rows, a DyadicRatCoreUp tolerance ledger, StreamName finite windows, a RegSeqRatUp readback, a telescoping modulus row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-cauchy-telescope-carrier}, \autoref{thm:rational-cauchy-telescope-namecert-obligations}, and \autoref{thm:rational-cauchy-telescope-regseqrat-factorization} seed the finite telescoping route from rational step rows to regular rational readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, selected limits, trichotomy, choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked rational-step admission, dyadic tolerance stability, finite-window exposure, regular rational readback, telescoping-modulus discharge, and ledger non-escape for BEDC.Derived.RationalCauchyTelescopeUp.}
+\end{closurestatus}

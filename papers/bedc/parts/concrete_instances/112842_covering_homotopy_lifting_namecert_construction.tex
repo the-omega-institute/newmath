@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\CoveringHomotopyLiftingUp$}
+\label{ch:concrete-instances-covering-homotopy-lifting-namecert}
+\origin{human}
+
+Hatcher and Spanier treat the covering homotopy lifting property as the homotopy-level continuation of path lifting over evenly covered neighborhoods. The $\CoveringHomotopyLiftingUp$ packet records that classical object as finite BEDC sheet-window data: it consumes the path-lifting route of \autoref{ch:concrete-instances-covering-space-path-lifting-namecert}, the homotopy rows of \autoref{ch:concrete-instances-homotopy-namecert}, the circle and interval endpoint surfaces of \autoref{ch:concrete-instances-s1-namecert}, the topology and continuous-map carriers of \autoref{ch:concrete-instances-topology-namecert} and \autoref{ch:concrete-instances-continuousmap-namecert}, and the finite metric observation boundary of \autoref{ch:concrete-instances-metric-namecert}. It names homotopy lifting as a rectangle of base-time windows and sheet seals; it does not import a universal cover, quotient path space, monodromy action, fundamental-group representation, or global sheet choice.
+
+\begin{definition}[CoveringHomotopyLifting carrier]
+\label{def:covering-homotopy-lifting-carrier}
+A $\CoveringHomotopyLiftingUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(F,\pi,\tilde f_0,I,U,W,\Sigma,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the base homotopy row, read through $\HomotopyUp$ from a displayed source surface and time interval into the base $\TopologyUp$ row.
+\item $\pi$ is the covering projection row, a $\ContinuousMapUp$ packet from a displayed total-space topology to the base topology.
+\item $\tilde f_0$ is the initial lifted slice row, together with the endpoint comparison showing that $\pi \circ \tilde f_0$ is the initial time-slice of $F$.
+\item $I$ is the source-time cell ledger. It lists the finite domain cells and adjacent time strips on which the homotopy request is inspected.
+\item $U$ is the evenly covered base-window ledger. Each cell-time window has a named base open, a lifted sheet window, and a local projection-readback row.
+\item $W$ is the lifted homotopy window ledger. It records the lifted cell strips, their face-gluing rows, and the displayed $\Cont$ reads showing that projection follows $F$ on each window.
+\item $\Sigma$ is the sheet-window classifier. It compares lifted strips by the initial slice, the evenly covered window row, and face gluing, not by host-level equality of lifted maps.
+\item $E$ is the terminal slice seal. It records the final lifted time-slice and exposes only the projected comparison back to the base homotopy.
+\item $H$ records componentwise $\hsame$ transport for the base homotopy, projection, initial slice, source-time cells, evenly covered windows, lifted windows, sheet classifier, terminal seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a homotopy-lifting request through $F,\pi,\tilde f_0,I,U,W,\Sigma,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CoveringHomotopyLiftingUp$, $\CoveringSpacePathLiftingUp$, $\HomotopyUp$, $\SOneUp$, $\TopologyUp$, $\ContinuousMapUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CoveringHomotopyLiftingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a universal covering space, quotient path space, selected global sheet, monodromy action, fundamental-group representation, host homotopy equality, or ambient uniqueness theorem.
+\end{definition}
+
+\begin{theorem}[CoveringHomotopyLifting NameCert obligations]
+\label{thm:covering-homotopy-lifting-namecert-obligations}
+For every accepted $\CoveringHomotopyLiftingUp$ carrier
+$$
+Q=(F,\pi,\tilde f_0,I,U,W,\Sigma,E,H,C,P,N),
+$$
+the local $\NameCert_{\CoveringHomotopyLiftingUp}$ surface consists exactly of carrier admission, base-homotopy admission through $\HomotopyUp$, covering-projection admission through $\ContinuousMapUp$ over $\TopologyUp$, initial slice exactness, source-time cell coverage, evenly covered window exactness, lifted window gluing, sheet-window classifier stability, terminal slice readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every homotopy-lifting consumer can inspect $F,\pi,\tilde f_0,I,U,W,\Sigma,E,H,C,P,N$, but cannot replace them by a universal cover, quotient path space, selected global sheet, monodromy action, or fundamental-group representation.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:covering-homotopy-lifting-carrier}. The accepted tuple displays the base homotopy, covering projection, initial lifted slice, source-time cell ledger, evenly covered windows, lifted window ledger, sheet classifier, terminal seal, transport, replay, provenance, and local naming rows.
+
+The base and projection obligations are inherited by reading $F$ through $\HomotopyUp$ and $\pi$ through $\ContinuousMapUp$ over the displayed $\TopologyUp$ rows. The prior path-lifting certificate of \autoref{ch:concrete-instances-covering-space-path-lifting-namecert} supplies the one-dimensional boundary route on each cell edge; the present carrier stores only the finite cell-time extension data needed to glue those routes across adjacent strips.
+
+Initial slice exactness, source-time coverage, evenly covered window exactness, and lifted window gluing are the roles of $\tilde f_0,I,U,W$. Each lifted strip is attached to a visible evenly covered window, and each face-gluing row records the next boundary before the adjacent time strip is consumed.
+
+The sheet-window classifier and terminal seal are then inventory checks on $\Sigma$ and $E$. Since $H,C,P,N$ only transport, replay, source, and name the same finite rows, the local certificate has no remaining place to store a universal cover, quotient path space, global sheet selector, monodromy action, or fundamental-group representation.
+\end{proof}
+
+\begin{theorem}[CoveringHomotopyLifting sheet-window determinacy]
+\label{thm:covering-homotopy-lifting-sheet-window-determinacy}
+Let
+$$
+Q=(F,\pi,\tilde f_0,I,U,W,\Sigma,E,H,C,P,N)
+$$
+and
+$$
+Q'=(F,\pi,\tilde f_0,I,U,W',\Sigma',E',H',C',P',N')
+$$
+be accepted $\CoveringHomotopyLiftingUp$ packets with the same displayed base homotopy, covering projection, initial lifted slice, source-time cell ledger, and evenly covered base-window ledger. If both lifted window ledgers are admitted by the same sheet-window classifier route over $I$ and $U$, then every terminal slice and intermediate strip read of $Q$ and $Q'$ factors through the same finite route
+$$
+F,\ \pi,\ \tilde f_0,\ I,\ U,\ \Sigma,\ E,\ H,\ C,\ P,\ N .
+$$
+Thus homotopy lifting determinacy is recorded as sheet-window determinacy over displayed cell-time windows, not as host equality of lifted homotopies, quotient path-space equality, or a selected global sheet.
+\end{theorem}
+\begin{proof}
+Start with the common rows $F,\pi,\tilde f_0,I,U$. They fix the base homotopy, the projection surface, the initial lifted slice, the source-time cell schedule, and the sequence of evenly covered base windows visible to both packets.
+
+Read the first lifted cell strip through the sheet-window classifier. Because both packets use the same initial slice and the same first evenly covered window, $\Sigma$ admits only the displayed strip row compatible with the local projection readback.
+
+Proceed over the finite source-time cell ledger. At each adjacent face, the previous strip boundary is already sealed by the gluing row, so the same sheet-window classifier route determines the next lifted strip read. This is a finite induction over the listed cells of $I$ and windows of $U$, not an appeal to a completed path space.
+
+The final slice rows $E$ and $E'$ are therefore read through the same sequence of window and sheet rows. Replaying and transporting by $H,C,P,N$ preserves that route and exports no global sheet selector, quotient path-space equality, monodromy action, or fundamental-group representation.
+\end{proof}
+
+\closureat{CoveringHomotopyLiftingUp}{seedStr}
+
+\begin{closurestatus}{\CoveringHomotopyLiftingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:covering-homotopy-lifting-carrier}, \autoref{thm:covering-homotopy-lifting-namecert-obligations}, and \autoref{thm:covering-homotopy-lifting-sheet-window-determinacy} seed the finite base-homotopy, covering-projection, source-time cell, evenly covered window, lifted strip, sheet-classifier, and terminal-slice surface for homotopy lifting.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close universal covers, quotient path spaces, monodromy actions, fundamental-group representations, host homotopy equality, selected global sheets, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-time coverage, window exactness, lifted strip gluing, sheet-window determinacy, terminal slice readback, transport, replay, provenance, and local naming for BEDC.Derived.CoveringHomotopyLiftingUp.}
+  \constructivestory{A $\CoveringHomotopyLiftingUp$ packet is generated from a base homotopy, a covering projection, an initial lifted slice, source-time cells, evenly covered base windows, lifted strip rows, a sheet-window classifier, a terminal slice seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

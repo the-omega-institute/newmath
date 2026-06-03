@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\ClosedConsistencyReductionObstructionUp$}
+\label{ch:concrete-instances-closed-consistency-reduction-obstruction-namecert}
+\origin{ai}
+
+The $\ClosedConsistencyReductionObstructionUp$ packet realizes the blocked lift in \autoref{ch:closed-metacic-consistency-assembly} as finite NameCert data. It sits between the closed-normal consistency boundary of \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert}, the reduction-boundary packet of \autoref{ch:concrete-instances-closed-consistency-reduction-boundary-namecert}, the route classifier of \autoref{ch:concrete-instances-subject-reduction-route-classifier-namecert}, and the closed-normal packet ledger of \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}. The packet records endpoint, discharge, obstruction, transport, replay, provenance, and local naming rows for the unavailable reduction edge; it does not turn closed-normal consistency into full closed consistency.
+
+\begin{definition}[Closed-consistency reduction obstruction carrier]
+\label{def:closed-consistency-reduction-obstruction-carrier}
+A $\ClosedConsistencyReductionObstructionUp$ carrier is a finite $\BHist$ packet
+$$
+O=(L,E,D,B,R,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the closed source proof row, naming the arbitrary closed false-proof candidate submitted to the reduction route.
+\item $E$ is the endpoint row, recording the beta-strong normal endpoint that would be read by a closed-normal consistency consumer.
+\item $D$ is the subject-reduction discharge row whose absence blocks the arbitrary closed-proof lift.
+\item $B$ is the boundary row inherited from $\ClosedConsistencyReductionBoundaryUp$.
+\item $R$ is the route-classifier row inherited from $\SubjectReductionRouteClassifierUp$, recording that any accepted route must expose the obstruction before the endpoint is consumed.
+\item $K$ is the closed-normal consistency consumer row, available only after the endpoint and discharge boundary have both been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, endpoint, discharge, boundary, route-classifier, consumer, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for every read from the closed source row to the endpoint, obstruction ledger, and closed-normal consumer.
+\item $P$ is the $\Pkg$ provenance over $\ClosedConsistencyReductionObstructionUp$, $\ClosedNormalConsistencyBoundaryUp$, $\ClosedConsistencyReductionBoundaryUp$, $\SubjectReductionRouteClassifierUp$, $\ClosedNormalConsistencyPacketUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedConsistencyReductionObstructionUp}$ row.
+\end{enumerate}
+The carrier contains no full closed consistency theorem, no closed subject-reduction theorem, no hidden false-type transport, no host reduction semantics, and no endpoint read detached from the obstruction row.
+\end{definition}
+
+\begin{theorem}[Closed-consistency reduction obstruction NameCert obligations]
+\label{thm:closed-consistency-reduction-obstruction-namecert-obligations}
+For an accepted $\ClosedConsistencyReductionObstructionUp$ carrier $O=(L,E,D,B,R,K,H,C,P,N)$, the local $\NameCert_{\ClosedConsistencyReductionObstructionUp}$ surface consists exactly of source exposure, endpoint exposure, subject-reduction discharge exposure, reduction-boundary inheritance, route-classifier exposure, closed-normal consumer handoff, obstruction-ledger accounting, componentwise transport, displayed replay, provenance accounting, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-consistency-reduction-obstruction-carrier}. The rows $L,E,D,B,R,K$ are the analytic rows, and $H,C,P,N$ are the structural transport, replay, provenance, and naming rows.
+
+The boundary and classifier rows are mandatory. The reduction-boundary row $B$ names the blocked lift from an arbitrary closed source to the normal endpoint, while $R$ records the subject-reduction route class that must be inspected before any endpoint consumer reads the packet.
+
+The closed-normal consumer row $K$ is therefore downstream of the endpoint and obstruction rows. It cannot be read as full closed consistency, because the discharge row $D$ remains displayed as an obstruction rather than as a closed subject-reduction theorem.
+
+No other row is available. Hence the local NameCert obligations are exactly the source, endpoint, discharge, boundary, classifier, consumer, obstruction, transport, replay, provenance, and naming rows listed in the statement.
+\end{proof}
+
+\begin{theorem}[Closed-consistency reduction obstruction frontier nonescape]
+\label{thm:closed-consistency-reduction-obstruction-frontier-nonescape}
+Every accepted $\ClosedConsistencyReductionObstructionUp$ packet forces a closed-consistency reduction read through the displayed obstruction route
+$$
+L\longmapsto B,R,D\longmapsto E\longmapsto K
+$$
+before any closed-normal consistency consumer reads the endpoint. No consumer can bypass $B,R,D$ to obtain full closed consistency, a closed subject-reduction theorem, host conversion semantics, or hidden false-type transport.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows. The closed source row $L$ has no direct route to the consumer row $K$; the intervening rows are the reduction boundary $B$, route classifier $R$, discharge row $D$, and endpoint row $E$.
+
+The displayed continuation row $C$ replays that same route. It records reads from $L$ through the boundary and classifier rows before the endpoint is presented to the closed-normal consumer.
+
+The structural rows do not add a shortcut. Componentwise transport preserves the same row inventory, provenance names the same sibling packets, and local naming records the packet rather than a theorem outside it.
+
+Thus the frontier cannot escape. Any attempted bypass of $B,R,D$ asks for data absent from the carrier and is outside the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Closed-consistency reduction obstruction TasteGate surface]
+\label{thm:closed-consistency-reduction-obstruction-tastegate-surface}
+The $\ClosedConsistencyReductionObstructionUp$ packet exposes a finite TasteGate surface for the blocked edge: source row, endpoint row, subject-reduction discharge row, reduction-boundary row, route-classifier row, closed-normal consumer row, transport, replay, provenance, and local naming. Lean follow-up for this surface must supply $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in $\mathsf{lean4/BEDC/Derived/ClosedConsistencyReductionObstructionUp/TasteGate.lean}$ before any checked TasteGate claim is recorded in the paper.
+\end{theorem}
+\begin{proof}
+The carrier inventory gives the source, endpoint, discharge, boundary, classifier, and consumer rows. These are exactly the fields inspected by the chapter-level taste surface.
+
+The rows $H,C,P,N$ provide the structural evidence used by NameCert packets: componentwise transport, continuation replay, provenance, and local naming. They make the surface finite and auditable without adding a closed subject-reduction theorem.
+
+The Lean follow-up named in the statement is therefore a field-faithfulness and nontriviality task for this displayed carrier. Until those instances exist, this chapter records the paper-side finite surface only and does not claim a checked TasteGate theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ClosedConsistencyReductionObstructionUp$ packet routes through the displayed subject-reduction obstruction row $D$ and the route-classifier row $R$ before any closed-normal consistency consumer reads the endpoint row $E$.}
+
+\independenceWitness{closed-normal-consistency-boundary, closed-consistency-reduction-boundary, subject-reduction-route-classifier, metacic-open-obligation-ledger: $\ClosedConsistencyReductionObstructionUp$ is not bijective to any listed sibling because it jointly carries arbitrary closed-source exposure, endpoint readback, the subject-reduction obstruction row, route classification, closed-normal consumer handoff, transport, replay, provenance, and local naming in one finite packet.}
+
+\closureat{ClosedConsistencyReductionObstructionUp}{seedStr}
+
+\begin{closurestatus}{\ClosedConsistencyReductionObstructionUp}
+  \constructivestory{A $\ClosedConsistencyReductionObstructionUp$ packet is generated from an arbitrary closed false-proof source row, beta-strong endpoint row, subject-reduction discharge obstruction, reduction-boundary row, route-classifier row, closed-normal consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-consistency-reduction-obstruction-carrier}, \autoref{thm:closed-consistency-reduction-obstruction-namecert-obligations}, \autoref{thm:closed-consistency-reduction-obstruction-frontier-nonescape}, and \autoref{thm:closed-consistency-reduction-obstruction-tastegate-surface} seed the finite obstruction packet for the blocked closed-consistency reduction edge.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full closed consistency, closed subject reduction, hidden false-type transport, host conversion semantics, bridge checking, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint readback, subject-reduction obstruction routing, route-classifier handoff, closed-normal consumer handoff, TasteGate instances, and local naming for BEDC.Derived.ClosedConsistencyReductionObstructionUp.}
+\end{closurestatus}
