@@ -812,7 +812,6 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp.DiagonalWindowStability
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ObligationClosurePackage
 import BEDC.Derived.BishopRegularCauchyCompletionUp.RealSealConsumer
 import BEDC.Derived.BishopRegularCauchyCompletionUp.RegularityEnvelope
-import BEDC.Derived.BishopRegularCauchyCompletionUp.ScopedKernelRoute
 import BEDC.Derived.BishopRegularCauchyCompletionUp.TailDeterminacy
 import BEDC.Derived.BishopRegularCauchyCompletionUp.TasteGate
 import BEDC.Derived.BishopRegularCauchyLimitSealUp.TasteGate
@@ -5171,6 +5170,7 @@ import BEDC.Derived.LocatednessModulusUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
 import BEDC.Derived.LowerRealUp.DedekindCutAdmission
+import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RootRegularReadbackHandoff
@@ -5821,6 +5821,7 @@ import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
 import BEDC.Derived.ModulusIndexedTailCoverUp.TasteGate
 import BEDC.Derived.ModulusOfConvergenceUp
 import BEDC.Derived.ModulusOfConvergenceUp.DoubleTail
+import BEDC.Derived.ModulusOfSequentialContinuityUp.TasteGate
 import BEDC.Derived.MonadUp
 import BEDC.Derived.MonodromyUp
 import BEDC.Derived.MonodromyUp.TasteGate
@@ -6858,7 +6859,6 @@ import BEDC.Derived.RealUniformStructureUp.CoverReadHandoff
 import BEDC.Derived.RealUniformStructureUp.EntourageShrink
 import BEDC.Derived.RealUniformStructureUp.EntourageShrinkStability
 import BEDC.Derived.RealUniformStructureUp.PositiveRadiusEntourageRefinement
-import BEDC.Derived.RealUniformStructureUp.RealEqualityFilterBoundary
 import BEDC.Derived.RealUniformStructureUp.TasteGate
 import BEDC.Derived.RealUniformTailComparisonUp.TasteGate
 import BEDC.Derived.RealUp
@@ -7213,7 +7213,6 @@ import BEDC.Derived.RegularCauchyMaxUp.TasteGate
 import BEDC.Derived.RegularCauchyMaximumUp.TasteGate
 import BEDC.Derived.RegularCauchyMeshUp.TasteGate
 import BEDC.Derived.RegularCauchyMetricUp
-import BEDC.Derived.RegularCauchyMetricUp.ScopedKernelRoute
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyMinimumUp.TasteGate
