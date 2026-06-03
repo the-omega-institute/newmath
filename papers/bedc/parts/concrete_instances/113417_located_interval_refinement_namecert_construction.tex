@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalRefinementUp$}
+\label{ch:concrete-instances-located-interval-refinement-namecert}
+\origin{human}
+
+Bishop-style interval refinement treats nested located intervals as finite endpoint, mesh, and containment data before any real-completion argument reads a limit. The $\LocatedIntervalRefinementUp$ packet records that route for the L10 Real and Completion surface: it refines the located interval carrier of \autoref{ch:concrete-instances-locatedinterval-namecert}, uses the dyadic one-step route of \autoref{ch:concrete-instances-dyadic-interval-refinement-namecert}, inherits the bisection discipline of \autoref{ch:concrete-instances-bishop-interval-halving-namecert}, reads endpoint tolerances through \autoref{ch:concrete-instances-located-real-namecert}, and keeps the arithmetic budget inside \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet supplies a finite refinement surface for interval, compactness, and regular-Cauchy consumers without importing open-cover compactness, quotient equality, selected branches, or ambient completeness.
+
+\begin{definition}[Located interval refinement carrier]
+\label{def:located-interval-refinement-carrier}
+A $\LocatedIntervalRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(L,U,M,F,Q,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower located-endpoint row, a $\LocatedRealUp$ packet visible before any refinement request is accepted.
+\item $U$ is the upper located-endpoint row, a $\LocatedRealUp$ packet displayed in the same history as $L$.
+\item $M$ is the dyadic mesh row supplied by $\DyadicRatCoreUp$; it records the active mesh cells, radius budget, midpoint cells, slack, and comparison tolerances used by the refinement.
+\item $F$ is the refinement map row, sending each accepted parent located interval cell to its displayed child cells through the finite $\DyadicIntervalRefinementUp$ route.
+\item $Q$ is the containment witness row, recording parent-to-child inclusion, endpoint order, and visible gap checks for every accepted finite refinement request.
+\item $A$ is the apartness and tolerance ledger, tying endpoint apartness, mesh diameter, positive slack, and requested completion tolerance to the same $\DyadicRatCoreUp$ budget.
+\item $H$ records componentwise $\hsame$ transport for located endpoints, dyadic mesh, refinement map, containment witnesses, apartness and tolerance ledgers, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for finite refinement requests through $L,U,M,F,Q,A,H$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalRefinementUp$, $\LocatedIntervalUp$, $\DyadicIntervalRefinementUp$, $\BishopIntervalHalvingUp$, $\LocatedRealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedIntervalRefinementUp}$ row.
+\end{enumerate}
+The classifier reads only these rows. It has no coordinate for open-cover compactness, quotient equality of real names, selected branches of an infinite bisection tree, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Located interval refinement cover transport]
+\label{thm:located-interval-refinement-cover-transport}
+For every accepted $\LocatedIntervalRefinementUp$ carrier $R=(L,U,M,F,Q,A,H,C,P,N)$, any interval-cover or compactness-facing consumer that transports a refinement cover must expose the located endpoint rows $L,U$, the dyadic mesh row $M$, the refinement map $F$, the containment witnesses $Q$, and the apartness and tolerance ledger $A$ before reading the transported cover. The transport is componentwise along $H$ and replayed by $C$; it exports no host open cover, selected finite subcover, quotient endpoint equality, or ambient compactness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-interval-refinement-carrier}. The endpoints $L,U$ supply the only located-real boundary, and the dyadic mesh $M$ supplies the only finite scale at which a refinement can be inspected.
+
+The refinement map and containment witnesses are then read as $F$ and $Q$. Thus a transported cover first sees the same parent cell, child cells, endpoint order, and visible gap checks that are already present in the finite refinement packet.
+
+Finally the ledger $A$ binds the apartness and tolerance reads to the same dyadic budget. Componentwise transport through $H$ and replay through $C$ can only repack these displayed rows, so no host open-cover compactness, selected subcover, quotient endpoint equality, or ambient compactness coordinate can enter the transported cover.
+\end{proof}
+
+\begin{theorem}[Located interval refinement NameCert obligations]
+\label{thm:located-interval-refinement-namecert-obligations}
+For every accepted $\LocatedIntervalRefinementUp$ carrier $R=(L,U,M,F,Q,A,H,C,P,N)$, the local $\NameCert_{\LocatedIntervalRefinementUp}$ surface consists exactly of located endpoint admission, dyadic mesh admission, refinement-map admission, containment witness admission, apartness and tolerance ledger admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the displayed rows $L,U,M,F,Q,A,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-interval-refinement-carrier}. The endpoint rows are $L,U$, the finite arithmetic surface is $M$, the one-step refinement route is $F$, and the containment and tolerance evidence is $Q,A$.
+
+The sibling routes determine how these rows may be consumed. The $\LocatedIntervalUp$ packet supplies endpoint and interval-cell visibility, $\DyadicIntervalRefinementUp$ supplies the child-cell refinement row, $\BishopIntervalHalvingUp$ supplies the bisection reading discipline, $\LocatedRealUp$ supplies the endpoint tolerance surface, and $\DyadicRatCoreUp$ supplies the arithmetic ledger.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no row for selected branches, open-cover compactness, quotient equality, countable choice, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{LocatedIntervalRefinementUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalRefinementUp}
+  \constructivestory{A $\LocatedIntervalRefinementUp$ packet is generated from located endpoint rows, a DyadicRatCore mesh, a finite refinement map, containment witnesses, an apartness and tolerance ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-refinement-carrier}, \autoref{thm:located-interval-refinement-cover-transport}, and \autoref{thm:located-interval-refinement-namecert-obligations} seed the finite located-interval refinement surface over $\LocatedIntervalUp$, $\DyadicIntervalRefinementUp$, $\BishopIntervalHalvingUp$, $\LocatedRealUp$, and $\DyadicRatCoreUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected finite subcovers, selected refinement branches, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint admission, dyadic mesh admission, refinement-map coverage, containment witnesses, tolerance ledger exactness, cover transport, replay, provenance, and local naming for BEDC.Derived.LocatedIntervalRefinementUp.}
+\end{closurestatus}

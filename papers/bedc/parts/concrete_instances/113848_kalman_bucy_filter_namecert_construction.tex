@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\KalmanBucyFilterUp$}
+\label{ch:concrete-instances-kalman-bucy-filter-namecert}
+\origin{human}
+
+Following Kalman and Bucy's continuous-time filtering theory, the $\KalmanBucyFilterUp$ packet records the finite BEDC certificate rows for a state estimator whose prediction, observation, covariance, gain, and replay data are all displayed before any downstream control consumer reads the filter. It sits beside the discrete $\KalmanFilterUp$ packet of \autoref{ch:concrete-instances-kalman-filter-namecert}, the regulator rows of $\LQRUp$ in \autoref{ch:concrete-instances-lqr-namecert}, the Gramian rows of $\ObservabilityGramianUp$ in \autoref{ch:concrete-instances-observability-gramian-namecert}, and the finite observation and reachability certificates of $\ControlObservabilityUp$ and $\ControlControllabilityUp$ in \autoref{ch:concrete-instances-controlobservability-namecert} and \autoref{ch:concrete-instances-controlcontrollability-namecert}. The packet names only the displayed finite ledger used by continuous-time estimator consumers; it does not claim a host stochastic process, analytic convergence theorem, or infinite-dimensional filtering semantics.
+
+\begin{definition}[KalmanBucyFilter carrier]
+\label{def:kalman-bucy-filter-carrier}
+A $\KalmanBucyFilterUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,Y,A,C,Q,R,P,L,\widehat{x},\Phi,\Omega,G,E,T,H,Pkg,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the state row and $Y$ is the observation row, each read through displayed $\VecSpaceUp$ and $\MatrixUp$ coordinates;
+\item $A$ is the state-flow row and $C$ is the observation-flow row consumed from finite $\DynSystemUp$ and $\ControlObservabilityUp$ packets;
+\item $Q$ and $R$ are the displayed process and observation covariance rows, and $P$ is the Riccati covariance ledger row;
+\item $L$ is the gain row determined by the covariance, observation, and measurement-covariance ledgers;
+\item $\widehat{x}$ is the estimator row, $\Phi$ is the state-flow replay row, $\Omega$ is the observation-flow replay row, and $G$ is the innovation replay row;
+\item $E$ records estimator readback through the sibling $\KalmanFilterUp$ and $\LQRUp$ consumer surfaces without identifying the continuous-time packet with either one;
+\item $T$ records componentwise $\hsame$ transport for state-flow, observation-flow, covariance, gain, estimator, and replay rows;
+\item $H$ records displayed $\Cont$ replay for finite time slices and accepted row concatenation;
+\item $Pkg$ is the $\Pkg$ provenance naming $\KalmanBucyFilterUp$, $\KalmanFilterUp$, $\LQRUp$, $\ObservabilityGramianUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\MatrixUp$, $\VecSpaceUp$, $\DynSystemUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\KalmanBucyFilterUp}$ row.
+\end{enumerate}
+No host Brownian motion, selected sample path, analytic stochastic integral, convergence rate, or external observer object is part of the carrier.
+\end{definition}
+
+\begin{theorem}[KalmanBucyFilter NameCert obligations]
+\label{thm:kalman-bucy-filter-namecert-obligations}
+For the carrier of \autoref{def:kalman-bucy-filter-carrier}, the local $\NameCert_{\KalmanBucyFilterUp}$ surface consists exactly of state-flow admission through $X,A,\Phi$, observation-flow admission through $Y,C,\Omega$, covariance and Riccati-ledger admission through $Q,R,P$, gain admission through $L$, estimator replay through $\widehat{x}$ and $G$, sibling readback through the $\KalmanFilterUp$, $\LQRUp$, $\ObservabilityGramianUp$, $\ControlObservabilityUp$, and $\ControlControllabilityUp$ package rows, componentwise $\hsame$ transport through $T$, displayed $\Cont$ replay through $H$, package provenance through $Pkg$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:kalman-bucy-filter-carrier}. The state-flow and observation-flow rows are displayed finite coordinates, so their reads pass through the same matrix, vector-space, dynamic-system, and observability certificates named by the package row.
+
+The covariance and gain rows are the Riccati-style ledger face of the packet. They are consumed as finite $\BHist$ data: $Q,R,P$ expose the covariance route, while $L$ exposes the gain row read by the estimator replay.
+
+The estimator replay rows $\widehat{x},\Phi,\Omega,G$ are then transported by $T$ and replayed by $H$. The sibling package rows identify exactly which $\KalmanFilterUp$, $\LQRUp$, $\ObservabilityGramianUp$, $\ControlObservabilityUp$, and $\ControlControllabilityUp$ surfaces are available to downstream readers, so no hidden stochastic process or analytic filtering object can be recovered from the certificate.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\KalmanBucyFilterUp$ packet is refuted by any estimator consumer that reads a gain or covariance row while bypassing the displayed Riccati ledger $Q,R,P$, the observation-flow row $C,\Omega$, the estimator replay rows $\widehat{x},\Phi,G$, or the package provenance naming the sibling Kalman, regulator, Gramian, observability, and controllability certificates.}
+
+\independenceWitness{kalman-filter, lqr, observability-gramian, controlobservability, controlcontrollability: none is bijective to $\KalmanBucyFilterUp$ because the continuous-time filter packet jointly carries state-flow, observation-flow, covariance/Riccati ledger, gain, estimator replay, transport, continuation replay, provenance, and local NameCert rows.}
+
+\closureat{KalmanBucyFilterUp}{seedStr}
+
+\begin{closurestatus}{\KalmanBucyFilterUp}
+  \constructivestory{A $\KalmanBucyFilterUp$ packet is generated from finite state-flow, observation-flow, covariance, Riccati, gain, estimator replay, transport, continuation, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kalman-bucy-filter-carrier}, \autoref{thm:kalman-bucy-filter-namecert-obligations}, the displayed falsifiable prediction, and the displayed independence witness seed the finite continuous-time filtering NameCert surface over Kalman, regulator, Gramian, observability, controllability, matrix, vector-space, and dynamic-system rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, stochastic integral semantics, analytic convergence, infinite-horizon optimality, or host continuous-time probability semantics.}
+  \upgradepath{Obligation closure requires checked carrier admission, state-flow and observation-flow replay, covariance and Riccati-ledger exactness, gain admission, estimator replay, componentwise transport, continuation replay, package provenance, and local NameCert exhaustion for BEDC.Derived.KalmanBucyFilterUp.}
+\end{closurestatus}

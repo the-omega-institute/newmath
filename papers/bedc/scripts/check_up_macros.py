@@ -11,13 +11,13 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFINITION_RE = re.compile(
     r"\\(?:providecommand|newcommand|renewcommand)\s*\{\s*\\([A-Za-z][A-Za-z0-9]*Up)\s*\}"
 )
+COMMAND_DEFINITION_RE = re.compile(
+    r"\\(?:providecommand|newcommand|renewcommand)\*?\s*\{\s*\\([A-Za-z][A-Za-z0-9]*)\s*\}"
+)
 USE_RE = re.compile(r"\\([A-Z][A-Za-z0-9]*Up)\b")
 
 SOURCE_GLOBS = [
-    "preamble*.tex",
-    "parts/**/*.tex",
-    "appendices/**/*.tex",
-    "frontmatter/**/*.tex",
+    "**/*.tex",
 ]
 
 
@@ -34,6 +34,23 @@ def defined_up_macros(files: list[Path]) -> set[str]:
         text = path.read_text(encoding="utf-8", errors="ignore")
         defined.update(match.group(1) for match in DEFINITION_RE.finditer(text))
     return defined
+
+
+def command_names_with_digits(files: list[Path]) -> list[str]:
+    errors: list[str] = []
+    for path in files:
+        text = strip_comments(path.read_text(encoding="utf-8", errors="ignore"))
+        for match in COMMAND_DEFINITION_RE.finditer(text):
+            name = match.group(1)
+            if not any(char.isdigit() for char in name):
+                continue
+            line = text.count("\n", 0, match.start()) + 1
+            rel = path.relative_to(ROOT)
+            errors.append(
+                f"{rel}:{line}: macro name '\\{name}' contains digits — "
+                "TeX control words must be letters only"
+            )
+    return errors
 
 
 def strip_comments(text: str) -> str:
@@ -55,7 +72,7 @@ def strip_comments(text: str) -> str:
 def main() -> int:
     files = tex_files()
     defined = defined_up_macros(files)
-    errors: list[str] = []
+    errors: list[str] = command_names_with_digits(files)
 
     for path in files:
         text = strip_comments(path.read_text(encoding="utf-8", errors="ignore"))

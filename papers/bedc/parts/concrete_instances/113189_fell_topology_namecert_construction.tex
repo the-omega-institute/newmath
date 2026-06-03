@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\FellTopologyUp$}
+\label{ch:concrete-instances-fell-topology-namecert}
+\origin{human}
+
+Following Fell and Kelley, the $\FellTopologyUp$ packet records the finite lower-hit and compact-miss topology read on closed-subset hyperspace names. It sits over the compact-subset and closed-subset surface of \autoref{ch:concrete-instances-hyperspace-namecert}, compares its hit/miss classifiers with the Vietoris carrier of \autoref{ch:concrete-instances-vietoris-topology-namecert}, and exposes only the compact metric source rows needed by downstream convergence consumers. The packet is a BEDC NameCert for a hyperspace-facing topology object; it is not a host powerset topology, not a selected closed set, not an ambient quotient of closed subsets, and not an open-cover compactness principle.
+
+\begin{definition}[Fell topology carrier]
+\label{def:fell-topology-carrier}
+A $\FellTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+F=(H,L,U,V,K,W,S,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the displayed closed-subset hyperspace source. It reads every closed-subset request through the finite $\HyperspaceUp$ carrier before a topology consumer can inspect it.
+\item $L$ is the lower-hit witness row. It records finite windows showing that a displayed closed-subset name hits a displayed open probe row.
+\item $U$ is the upper compact-miss finite-cover witness row. It records compact source data, a displayed compact test row, and a finite cover certificate showing that the inspected closed-subset name misses that compact row.
+\item $V$ is the $\VietorisTopologyUp$ comparison row. It records the overlap with the finite Vietoris hit/miss surface and marks which compact-miss reads are Fell-specific.
+\item $K$ is the $\CompactMetricUp$ source row, including the $\MetricUp$ distance witnesses and finite-net schedules on which the compact miss tests are evaluated.
+\item $W$ is the $\StreamNameUp$ finite-window row used to replay closed-subset names, compact tests, and hit witnesses through a bounded inspection surface.
+\item $S$ is componentwise $\hsame$ transport for $H,L,U,V,K,W$.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+H,L,U,V,K,W,S \longmapsto \FellTopologyUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FellTopologyUp$, $\HyperspaceUp$, $\VietorisTopologyUp$, $\CompactMetricUp$, $\MetricUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FellTopologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $H,L,U,V,K,W,S,C,P,N$. It has no coordinate for a host powerset of closed subsets, selected closed-set representatives, ambient subset equality, quotient hyperspaces, or open-cover compactness.
+\end{definition}
+
+\begin{theorem}[FellTopologyUp NameCert obligations]
+\label{thm:fell-topology-namecert-obligations}
+For every accepted $\FellTopologyUp$ carrier
+$$
+F=(H,L,U,V,K,W,S,C,P,N),
+$$
+the local $\NameCert_{\FellTopologyUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the closed-subset hyperspace source, lower-hit witnesses, upper compact-miss finite-cover witnesses, Vietoris comparison row, compact metric source, stream-name finite windows, transport row, replay row, provenance row, and local naming row;
+\item hit and miss classifier stability, requiring the lower-hit row $L$ and compact-miss row $U$ to be transported through the same $\BHist$ route before their tests are compared;
+\item compact-source exposure, requiring every compact miss test to reveal the $\CompactMetricUp$ source and the $\MetricUp$ distance witnesses carried by $K$;
+\item componentwise $\hsame$ transport through $S$ for all topology-facing rows;
+\item displayed $\Cont$ replay through $C$ for the accepted hit/miss inspection route;
+\item $\Pkg$ provenance through $P$ for every dependency named by the carrier;
+\item ledger nonescape through $N$, excluding host powersets, selected closed-set representatives, ambient subset equality, quotient hyperspaces, and open-cover compactness.
+\end{enumerate}
+No Fell topology obligation is stored outside these rows.
+\end{theorem}
+
+\begin{theorem}[Fell topology hyperspace handoff]
+\label{thm:fell-topology-vietoris-hyperspace-handoff}
+Every $\FellTopologyUp$ read from an accepted carrier $F=(H,L,U,V,K,W,S,C,P,N)$ factors through $\HyperspaceUp$, $\VietorisTopologyUp$, $\CompactMetricUp$, $\MetricUp$, and $\StreamNameUp$ before any closed-set topology consumer can inspect it. The consumer receives only the displayed closed-subset hyperspace source, finite lower-hit windows, compact-miss finite-cover witnesses, compact metric source data, stream-name finite windows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Start with the carrier coordinates of \autoref{def:fell-topology-carrier}. A closed-set topology consumer can enter only through $H$, and $H$ is already a displayed $\HyperspaceUp$ source row.
+
+The topology classifier then splits into the lower-hit witnesses $L$ and the compact-miss finite-cover witnesses $U$. The comparison row $V$ records the shared Vietoris hit/miss part, while $K$ supplies the $\CompactMetricUp$ and $\MetricUp$ data needed for the compact miss tests.
+
+It remains to account for finite inspection. The row $W$ bounds the closed-subset names, compact tests, and hit witnesses by $\StreamNameUp$ windows. Transport through $S$, replay through $C$, packaging through $P$, and local naming through $N$ preserve that route and add no host powerset, selected closed-set representative, quotient hyperspace, or ambient subset equality coordinate.
+\end{proof}
+
+\closureat{FellTopologyUp}{seedStr}
+
+\begin{closurestatus}{\FellTopologyUp}
+  \constructivestory{A $\FellTopologyUp$ packet is generated from a closed-subset hyperspace source, lower-hit witnesses, compact-miss finite-cover witnesses, Vietoris comparison, CompactMetric and Metric source rows, StreamName finite windows, hsame transport, Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fell-topology-carrier}, \autoref{thm:fell-topology-namecert-obligations}, and \autoref{thm:fell-topology-vietoris-hyperspace-handoff} seed the finite Fell hit and compact-miss topology surface over Hyperspace, VietorisTopology, CompactMetric, Metric, StreamName, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host powersets, selected closed-set representatives, ambient subset equality, quotient hyperspaces, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, hit and compact-miss classifier stability, compact-source exposure, stream-window replay, transport, provenance, local naming, and ledger nonescape for BEDC.Derived.FellTopologyUp.}
+\end{closurestatus}

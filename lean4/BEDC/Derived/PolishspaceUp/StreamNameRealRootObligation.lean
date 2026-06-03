@@ -31,7 +31,7 @@ theorem PolishSpaceStreamNameRealRootObligation [AskSetup] [PackageSetup]
   intro carrier streamRoute realRoute realPkg
   obtain ⟨_mUnary, _kUnary, _dUnary, sUnary, rUnary, wUnary, _hUnary, _cUnary,
     _gUnary, _nUnary, _metricCompleteLedger, _ledgerStreamReadback,
-    _transportReplayProvenance, provenancePkg⟩ := carrier
+    _transportReplayProvenance, provenancePkg, _localPkg⟩ := carrier
   have streamUnary : UnaryHistory streamRead :=
     unary_cont_closed sUnary rUnary streamRoute
   have realUnary : UnaryHistory realRead :=

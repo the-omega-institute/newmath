@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\GaloisConnectionUp$}
+\label{ch:concrete-instances-galois-connection-namecert}
+\origin{human}
+
+Following Birkhoff and Ore on Galois connections, the $\GaloisConnectionUp$ packet records an order-theoretic adjunction between two displayed ordered carriers as finite NameCert data. It sits over the preorder substrate of \autoref{ch:concrete-instances-preorder-namecert}, the antisymmetric carrier discipline of \autoref{ch:concrete-instances-poset-namecert}, the lattice consumers of \autoref{ch:concrete-instances-lattice-namecert}, and the order comparison surface of \autoref{ch:concrete-instances-order-namecert}. The packet names monotone maps and the adjunction equivalence only through displayed rows; it does not import quotient posets, powerset closure, host implication, or choice-selected fixed points.
+
+\begin{definition}[Galois connection carrier]
+\label{def:galois-connection-carrier}
+A $\GaloisConnectionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(P,Q,F,G,M,A,T,R,L,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $P$ is the source preorder or poset carrier, read through the $\PreorderUp$ and $\PosetUp$ sibling surfaces.
+\item $Q$ is the target preorder or poset carrier, read through the same ordered-carrier discipline.
+\item $F$ is the displayed monotone map row from $P$ to $Q$.
+\item $G$ is the displayed monotone map row from $Q$ to $P$.
+\item $M$ records the two monotonicity ledgers: $x\leq_P x'$ implies $F(x)\leq_Q F(x')$, and $y\leq_Q y'$ implies $G(y)\leq_P G(y')$.
+\item $A$ records the adjunction inequality equivalence, namely that each displayed pair of histories satisfies $F(x)\leq_Q y$ exactly when $x\leq_P G(y)$ through the carried order rows.
+\item $T$ records componentwise $\hsame$ transport for $P,Q,F,G,M,A,R,L,N$.
+\item $R$ records displayed $\Cont$ replay for source-order reads, target-order reads, monotonicity reads, adjunction reads, and downstream closure or kernel consumers.
+\item $L$ is the $\Pkg$ provenance over $\GaloisConnectionUp$, $\PreorderUp$, $\PosetUp$, $\LatticeUp$, $\OrderUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\GaloisConnectionUp}$ row.
+\end{enumerate}
+The classifier compares packets only by the displayed ordered carriers, the two map rows, the monotonicity ledger, the adjunction equivalence, structural transport, replay, provenance, and local naming. It has no coordinate for an external order completion, quotient carrier, powerset universe, selected fixed point, or host-level implication principle.
+\end{definition}
+
+\begin{theorem}[Galois connection NameCert obligations]
+\label{thm:galois-connection-namecert-obligations}
+For every accepted $\GaloisConnectionUp$ carrier $K=(P,Q,F,G,M,A,T,R,L,N)$, the local $\NameCert_{\GaloisConnectionUp}$ surface consists exactly of carrier admission for the ordered source and target rows, monotone-map exposure for $F$ and $G$, monotonicity ledger exposure through $M$, adjunction-equivalence exposure through $A$, componentwise transport through $T$, displayed replay through $R$, provenance through $L$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:galois-connection-carrier}. The rows $P,Q$ supply the ordered carriers, while $F,G$ supply only displayed map rows between those carriers.
+
+The monotonicity ledger $M$ is required before either map can be read as order preserving. The adjunction row $A$ is required before a consumer may translate an inequality $F(x)\leq_Q y$ into $x\leq_P G(y)$ or conversely.
+
+Transport, replay, provenance, and local naming preserve the same finite packet. Since the carrier has no quotient order, powerset universe, choice-selected fixed point, or host implication coordinate, the NameCert obligations are exactly the listed rows.
+\end{proof}
+
+\begin{theorem}[Galois connection closure operator]
+\label{thm:galois-connection-closure-operator}
+Let $K=(P,Q,F,G,M,A,T,R,L,N)$ be an accepted $\GaloisConnectionUp$ carrier. Any closure-operator consumer on $P$ may read the composite $G\circ F$ only through the displayed route
+$$
+P \longrightarrow F \longrightarrow Q \longrightarrow G \longrightarrow P
+$$
+together with the monotonicity ledger $M$ and adjunction ledger $A$. The packet supplies the inflationary and monotone closure-facing boundary for that composite; it does not supply arbitrary suprema, a Moore-family representation, quotient fixed points, compactness, or a host powerset closure theorem.
+\end{theorem}
+\begin{proof}
+Start with the source row $P$ and the map rows $F,G$. The composite $G\circ F$ is readable only by first applying the displayed $F$ row and then the displayed $G$ row.
+
+Use the two monotonicity entries in $M$ for the monotone part of the closure-facing boundary. A consumer cannot obtain monotonicity from the maps alone, because the maps are accepted as order maps only through $M$.
+
+Use the adjunction row $A$ for the inflationary direction. The equivalence specializes the inequality comparison so that the unit-style order read $x\leq_P G(F(x))$ is obtained from the displayed source and target order rows, not from host implication.
+
+The structural rows $T,R,L,N$ preserve this composite route. They do not add suprema, Moore-family data, quotient fixed points, compactness, or powerset closure, so the closure-operator consumer receives only the displayed finite boundary.
+\end{proof}
+
+\begin{theorem}[Galois connection kernel stability]
+\label{thm:galois-connection-kernel-stability}
+For an accepted $\GaloisConnectionUp$ carrier $K=(P,Q,F,G,M,A,T,R,L,N)$, any kernel or fixed-row consumer of the composite $F\circ G$ on $Q$ must pass through the same two-map route, monotonicity ledger, and adjunction-equivalence ledger. The packet preserves the kernel-facing stability of the composite under $\hsame$ transport, but it does not identify the kernel with a chosen fixed-point set, a quotient lattice, or an interior operator unless a separate finite carrier supplies those rows.
+\end{theorem}
+\begin{proof}
+Read the target side first. A kernel-facing consumer begins with $Q$, then reaches the composite $F\circ G$ only through $G$ followed by $F$.
+
+The monotonicity ledger $M$ transports order comparisons along both maps, and the adjunction ledger $A$ records the inequality equivalence that controls the composite. These rows are part of the carrier and remain visible to the consumer.
+
+Now apply componentwise transport through $T$ and replay through $R$. If the ordered carriers, map rows, monotonicity rows, and adjunction rows are transported by $\hsame$, the same finite kernel-facing boundary is replayed through $L$ and named by $N$.
+
+No coordinate of $K$ contains a chosen fixed-point set, quotient lattice, or interior-operator carrier. Those structures can consume the Galois-connection packet, but they must bring their own finite carrier rows before they can be named.
+\end{proof}
+
+\falsifiablePrediction{Deleting the adjunction row $A$ leaves two monotone maps but no route that translates inequalities between $P$ and $Q$.}
+
+\independenceWitness{preorder, poset, lattice, order: none is bijective to $\GaloisConnectionUp$. The preorder and poset siblings supply ordered carriers without paired adjoint maps; the lattice sibling supplies meet/join consumers without the two-map adjunction row; the order sibling supplies comparison rows without the provenance, transport, replay, and local NameCert packet for $P,Q,F,G,M,A,T,R,L,N$.}
+
+\closureat{GaloisConnectionUp}{seedStr}
+
+\begin{closurestatus}{\GaloisConnectionUp}
+  \constructivestory{A $\GaloisConnectionUp$ packet is generated from two displayed ordered carrier rows, two monotone map rows, a monotonicity ledger, an adjunction-equivalence ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:galois-connection-carrier}, \autoref{thm:galois-connection-namecert-obligations}, \autoref{thm:galois-connection-closure-operator}, and \autoref{thm:galois-connection-kernel-stability} seed the finite order-adjunction surface over displayed ordered carriers, monotone maps, adjunction equivalence, closure-facing consumers, kernel-facing consumers, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.GaloisConnectionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, quotient order completion, arbitrary suprema, Moore-family representation, chosen fixed points, compactness, host powerset closure, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotonicity ledgers, adjunction-equivalence transport, closure-operator boundary, kernel-stability boundary, replay, provenance, and local naming for BEDC.Derived.GaloisConnectionUp.}
+\end{closurestatus}

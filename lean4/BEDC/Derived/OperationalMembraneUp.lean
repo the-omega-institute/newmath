@@ -115,6 +115,29 @@ theorem OperationalMembranePacket_ledger_exactness [AskSetup] [PackageSetup]
       importBoundaryDriftImportRead, driftLedgerDriftRead, ledgerNameLedgerRead,
       sourceReadPkg, purityReadPkg, importReadPkg, driftReadPkg, ledgerReadPkg⟩
 
+theorem OperationalMembranePacket_drift_resolution [AskSetup] [PackageSetup]
+    {sourceScan ancestry importBoundary drift transport routes provenance ledger name driftRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OperationalMembranePacket sourceScan ancestry importBoundary drift transport routes
+        provenance ledger name bundle pkg ->
+      Cont importBoundary drift driftRead ->
+        PkgSig bundle driftRead pkg ->
+          UnaryHistory importBoundary ∧ UnaryHistory drift ∧ UnaryHistory driftRead ∧
+            Cont importBoundary drift driftRead ∧ PkgSig bundle name pkg ∧
+              PkgSig bundle driftRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet importBoundaryDriftRead driftReadPkg
+  obtain ⟨_sourceScanUnary, _ancestryUnary, importBoundaryUnary, driftUnary, _transportUnary,
+    _routesUnary, _provenanceUnary, _ledgerUnary, _nameUnary, _sourceScanAncestryTransport,
+    _importBoundaryDriftRoutes, _transportRoutesProvenance, _provenanceLedgerName,
+    namePkg⟩ := packet
+  have driftReadUnary : UnaryHistory driftRead :=
+    unary_cont_closed importBoundaryUnary driftUnary importBoundaryDriftRead
+  exact
+    ⟨importBoundaryUnary, driftUnary, driftReadUnary, importBoundaryDriftRead, namePkg,
+      driftReadPkg⟩
+
 theorem OperationalMembraneUp_StdBridge [AskSetup] [PackageSetup]
     {sourceScan ancestry importBoundary drift transport routes provenance ledger name
       sourceRead driftRead ledgerRead bridgeRead : BHist}

@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\ItoIntegralUp$}
+\label{ch:concrete-instances-ito-integral-namecert}
+\origin{human}
+
+Following Ito and standard constructive stochastic-integration presentations, the $\ItoIntegralUp$ packet records the finite adapted-step surface by which a Brownian cell-difference row calculation may be named before any host measure completion, almost-sure quotient, or selected limiting integral is invoked. It sits over the probability-space rows of $\ProbSpaceUp$ in \autoref{ch:concrete-instances-probspace-namecert}, the random-variable rows of $\RandomVarUp$ in \autoref{ch:concrete-instances-randomvar-namecert}, the adapted-sequence ledger of $\MartingaleUp$ in \autoref{ch:concrete-instances-martingale-namecert}, and the finite Brownian prefix rows of $\BrownianUp$ in \autoref{ch:concrete-instances-brownian-namecert}. The certificate names only displayed partitions, step integrand values, Brownian cell-difference rows, finite sums, martingale transport, replay, provenance, and local naming rows.
+
+\begin{definition}[ItoIntegral carrier]
+\label{def:ito-integral-carrier}
+An $\ItoIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+I=(\Omega,X,B,\Pi,A,\Delta,S,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the $\ProbSpaceUp$ source row on which all probability-facing data are read.
+\item $X$ is a finite family of adapted step-integrand $\RandomVarUp$ rows over the displayed filtration schedule.
+\item $B$ is the $\BrownianUp$ finite-prefix row whose adjacent Brownian cell-difference rows are available on the same schedule.
+\item $\Pi$ is a rational partition row, with each cell endpoint named through the rational and dyadic-rational ledger already visible to the packet.
+\item $A$ records adaptedness of each step-integrand value before the matching Brownian cell-difference row is consumed.
+\item $\Delta$ records the Brownian cell-difference rows associated to the cells of $\Pi$.
+\item $S$ is the finite sum row pairing each adapted step value with its displayed Brownian cell-difference row.
+\item $M$ is the martingale transport row exposing the finite martingale comparison for the step-integral sums.
+\item $H$ records componentwise $\hsame$ transport for the probability, random-variable, Brownian, partition, adaptedness, cell-difference, finite-sum, and martingale rows.
+\item $C$ is the displayed $\Cont$ replay row for the same finite packet.
+\item $P$ is the $\Pkg$ provenance over $\ItoIntegralUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\MartingaleUp$, $\BrownianUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ItoIntegralUp}$ row.
+\end{enumerate}
+
+The carrier exports no host stochastic process equality, no almost-sure quotient, no selected refining partition, no measure-theoretic completion, no $L^2$ completion theorem, and no ambient stochastic-integral object beyond the displayed finite sum route.
+\end{definition}
+
+\begin{theorem}[ItoIntegral NameCert obligations]
+\label{thm:ito-integral-namecert-obligations}
+For every accepted $\ItoIntegralUp$ carrier
+$I=(\Omega,X,B,\Pi,A,\Delta,S,M,H,C,P,N)$, the local $\NameCert_{\ItoIntegralUp}$ surface consists exactly of carrier admission through $\Omega,X,B,\Pi$, adapted finite step exposure through $A$, Brownian cell-difference row exposure through $\Delta$, finite-sum exposure through $S$, martingale transport through $M$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+
+Any consumer of the packet must read the integrand value, the matching Brownian cell-difference row, and the finite sum row before it can inspect the martingale transport row. The packet therefore names the finite Ito step integral route, not a completed stochastic integral in an ambient measure model.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ito-integral-carrier}. Its only probability-facing source is $\Omega$, its only integrand rows are the adapted step rows $X,A$, and its only Brownian data are the finite-prefix and cell-difference rows $B,\Delta$.
+
+The finite sum row $S$ is indexed by the same rational partition $\Pi$. Each summand pairs one adapted step value with the Brownian cell-difference row displayed on that partition cell, so the certificate cannot replace the visible step sum by a selected limiting partition or a host stochastic-integral object.
+
+The martingale-facing read is mediated by $M$. Since $M$ is transported through $H$ and replayed through $C$ inside the same provenance row $P$, it preserves the finite sum route already named by $S$ rather than adding an almost-sure quotient, measure completion, $L^2$ completion, or ambient Brownian path equality.
+
+Thus the NameCert obligations are exactly the listed carrier, adaptedness, cell-difference, finite-sum, martingale-transport, replay, provenance, and naming rows.
+\end{proof}
+
+\closureat{ItoIntegralUp}{seedStr}
+
+\begin{closurestatus}{\ItoIntegralUp}
+  \constructivestory{An $\ItoIntegralUp$ packet is generated from a ProbSpaceUp source row, adapted finite-step RandomVarUp integrand rows, BrownianUp finite-prefix cell-difference rows, rational partition rows, finite sums, martingale transport, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ito-integral-carrier} and \autoref{thm:ito-integral-namecert-obligations} seed the finite adapted-step Ito integral NameCert route over ProbSpaceUp, RandomVarUp, MartingaleUp, BrownianUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host stochastic process equality, almost-sure quotients, selected refining partitions, measure completion, L2 completion, Lean verification, standard bridges, or an ambient stochastic-integral object.}
+  \upgradepath{Obligation closure requires checked carrier admission, adapted finite-step exposure, Brownian cell-difference row exposure, rational partition accountability, finite-sum exactness, martingale transport, replay, provenance, and local naming for BEDC.Derived.ItoIntegralUp.}
+\end{closurestatus}

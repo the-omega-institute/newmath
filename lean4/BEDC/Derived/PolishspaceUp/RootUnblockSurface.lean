@@ -20,9 +20,10 @@ def PolishSpaceRootUnblockSurface [AskSetup] [PackageSetup]
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory metric ∧ UnaryHistory complete ∧ UnaryHistory separable ∧
     UnaryHistory stream ∧ UnaryHistory readback ∧ UnaryHistory ledger ∧
-      UnaryHistory transport ∧ Cont metric complete (append metric complete) ∧
-        Cont metric separable (append metric separable) ∧
-          Cont ledger transport replay ∧ PkgSig bundle provenance pkg ∧
-            PkgSig bundle localName pkg
+      UnaryHistory transport ∧ UnaryHistory localName ∧
+        Cont metric complete (append metric complete) ∧
+          Cont metric separable (append metric separable) ∧
+            Cont ledger transport replay ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle localName pkg
 
 end BEDC.Derived.PolishspaceUp

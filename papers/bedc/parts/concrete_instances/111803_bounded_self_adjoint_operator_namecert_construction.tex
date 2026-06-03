@@ -58,6 +58,20 @@ Apply the NameCert obligations above. They require $S$ to be displayed as the ro
 The spectral boundary row $R$ is downstream of this symmetry check. Transport, replay, provenance, and local naming through $T,C,P,L$ preserve the same route, so no consumer can replace the displayed adjoint symmetry by a host operator equality, spectral decomposition, compactness claim, or functional-calculus object.
 \end{proof}
 
+\begin{theorem}[Bounded self-adjoint spectral-measure consumer boundary]
+\label{thm:bounded-self-adjoint-spectral-measure-consumer-boundary}
+Every consumer that asks for spectral-measure, functional-calculus, or spectral-theorem data from an accepted $\BoundedSelfAdjointOperatorUp$ packet must first pass through the displayed bounded operator graph $G$, operator-norm row $N$, adjoint witness $J$, and self-adjoint symmetry row $S$ over the same Hilbert and inner-product rows $H,I$. Projection-valued measure data is then available only through the finite projection-ledger boundary of $\SpectralMeasureUp$ in \autoref{ch:concrete-instances-spectral-measure-namecert}. The bounded self-adjoint packet alone cannot export projection-valued measure data, spectral projections, functional-calculus rows, selected decompositions, or a spectral theorem proof.
+\end{theorem}
+\begin{proof}
+Start with the local NameCert obligations of \autoref{thm:bounded-self-adjoint-operator-namecert-obligations}. They expose the bounded operator graph, norm row, adjoint witness, self-adjoint symmetry, spectral-consumer boundary, transport, replay, provenance, and local naming rows, and they include no projection-valued-measure coordinate.
+
+Use the adjoint-symmetry theorem \autoref{thm:bounded-self-adjoint-operator-adjoint-symmetry}. It forces every normal-operator or spectral-radius read through $G,J,S$ over the same $H,I$ rows before the spectral boundary row $R$ can be consumed.
+
+For a projection-valued-measure read, the consumer must enter the separate $\SpectralMeasureUp$ packet of \autoref{ch:concrete-instances-spectral-measure-namecert}. Its public consumer boundary supplies the finite projection ledger, scalar measure windows, transport, replay, provenance, and local naming rows required before spectral-theorem or functional-calculus data may be read.
+
+Thus the bounded self-adjoint packet provides only the graph, norm, adjoint, and symmetry source surface. The projection-valued measure surface belongs to $\SpectralMeasureUp$, so a consumer cannot extract spectral measures, functional calculus, selected decompositions, or spectral-theorem data from $\BoundedSelfAdjointOperatorUp$ alone.
+\end{proof}
+
 \closureat{BoundedSelfAdjointOperatorUp}{seedStr}
 \begin{closurestatus}{\BoundedSelfAdjointOperatorUp}
   \constructivestory{A $\BoundedSelfAdjointOperatorUp$ packet is generated from a Hilbert carrier, an inner-product row, a bounded operator graph, an operator-norm bound, an adjoint witness, a self-adjoint symmetry row, a spectral-consumer boundary, componentwise transport, displayed replay, provenance, and a local NameCert row.}

@@ -73,14 +73,14 @@ The sibling dependencies remain sources rather than replacements. $\ScientificOb
 
 The Lean TasteGate file \texttt{lean4/BEDC/Derived/TruthResidueLedgerUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \TruthResidueLedgerUp$ and $\mathsf{FieldFaithful}\ \TruthResidueLedgerUp$ instances over the same carrier. The instances must preserve $O,I,B,P,F,G,H,C,Q,N$ and must keep conservative fit, prediction-gap, falsification, and non-finality rows as separate fields.
 
-\closureat{TruthResidueLedgerUp}{seedStr}
+\closureat{TruthResidueLedgerUp}{scopedStr}
 
 \begin{closurestatus}{\TruthResidueLedgerUp}
   \constructivestory{A $\TruthResidueLedgerUp$ packet is generated from observation records, invariant rows, conservative model-bridge rows, prediction-gap rows, falsification rows, non-finality rows, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:truth-residue-ledger-carrier}, \autoref{thm:truth-residue-ledger-namecert-obligations}, \autoref{thm:truth-residue-ledger-falsifiable-boundary}, and \autoref{thm:truth-residue-ledger-field-coverage} bind scientific truth as audited stability through a finite residue ledger.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:truth-residue-ledger-carrier}, \autoref{thm:truth-residue-ledger-namecert-obligations}, \autoref{thm:truth-residue-ledger-falsifiable-boundary}, and \autoref{thm:truth-residue-ledger-field-coverage} close the scoped route over the carrier, obligation, falsifiable-boundary, field-coverage, $\hsame$, $\Cont$, $\Pkg$, and local NameCert rows for scientific truth as audited stability.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, final correspondence, model--world identity, ambient completeness, or falsification-free truth.}
-  \upgradepath{Lean closure requires Nontrivial TruthResidueLedgerUp and FieldFaithful TruthResidueLedgerUp instances in \texttt{lean4/BEDC/Derived/TruthResidueLedgerUp/TasteGate.lean}.}
+  \upgradepath{Lean closure requires checked Nontrivial TruthResidueLedgerUp and FieldFaithful TruthResidueLedgerUp coverage for the enumerated carrier, obligation, falsifiable-boundary, and field-coverage rows.}
 \end{closurestatus}

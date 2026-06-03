@@ -184,6 +184,33 @@ theorem InnerProductRoot_vecspace_scalar_exposure {x y : BHist} :
     exact RealConstantHistoryClassifier_e1_iff_rat.mpr ratClassifier
   exact And.intro carrierX (And.intro carrierY realClassifier)
 
+theorem InnerProductNormSquared_carrier_row {x x' : BHist} :
+    VecSpaceSingletonCarrier x ->
+      VecSpaceSingletonClassifier x x' ->
+        RealConstantHistoryClassifier (InnerProductSingletonForm x x)
+            (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          RealConstantHistoryClassifier (InnerProductSingletonForm x' x')
+            (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro carrierX classifiedXX'
+  have sourceExposure := InnerProductRoot_vecspace_scalar_exposure carrierX carrierX
+  have carrierX' : VecSpaceSingletonCarrier x' := classifiedXX'.right.left
+  have targetExposure := InnerProductRoot_vecspace_scalar_exposure carrierX' carrierX'
+  exact And.intro sourceExposure.right.right targetExposure.right.right
+
+theorem InnerProductRoot_scalar_projection_transport {x y x' y' : BHist} :
+    VecSpaceSingletonClassifier x x' ->
+      VecSpaceSingletonClassifier y y' ->
+        RealConstantHistoryClassifier (InnerProductSingletonForm x y)
+            (BHist.e1 (BHist.e1 BHist.Empty)) ∧
+          RealConstantHistoryClassifier (InnerProductSingletonForm x' y')
+            (BHist.e1 (BHist.e1 BHist.Empty)) := by
+  intro classifiedXX' classifiedYY'
+  obtain ⟨carrierX, carrierX', _sameXX'⟩ := classifiedXX'
+  obtain ⟨carrierY, carrierY', _sameYY'⟩ := classifiedYY'
+  have sourceExposure := InnerProductRoot_vecspace_scalar_exposure carrierX carrierY
+  have targetExposure := InnerProductRoot_vecspace_scalar_exposure carrierX' carrierY'
+  exact And.intro sourceExposure.right.right targetExposure.right.right
+
 theorem InnerProductRoot_form_law_exposure {x y : BHist} :
     VecSpaceSingletonCarrier x -> VecSpaceSingletonCarrier y ->
       InnerProductSingletonOrthogonal x y ∧ InnerProductSingletonOrthogonal y x ∧

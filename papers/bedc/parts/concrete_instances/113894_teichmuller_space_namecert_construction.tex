@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\TeichmullerSpaceUp$}
+\label{ch:concrete-instances-teichmuller-space-namecert}
+\origin{human}
+
+Following Teichmuller and Ahlfors-Bers, the $\TeichmullerSpaceUp$ packet records a finite moduli-facing NameCert surface for marked conformal structures on a displayed surface. It sits after the charted carrier of \autoref{ch:concrete-instances-manifold-namecert}, the complex-structure rows of \autoref{ch:concrete-instances-complex-namecert}, the metric-read surface of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, and the structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ anchors used throughout the concrete-instance corpus. The packet names the finite marking, complex-row, hyperbolic-metric, deformation-ledger, transport, replay, provenance, and local naming data; it does not complete analytic moduli, identify quotient surfaces by host equality, or choose representatives of equivalence classes.
+
+\begin{definition}[Teichmuller space carrier]
+\label{def:teichmuller-space-carrier}
+A $\TeichmullerSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,M,J,G,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the underlying oriented surface row, read through the $\ManifoldUp$ chart and incidence carrier.
+\item $M$ is the marking row: a finite boundary, generator, or triangulation comparison that records how the named surface is related to the reference surface.
+\item $J$ is the $\ComplexUp$ row carrying the displayed conformal or complex-chart compatibility data.
+\item $G$ is the $\HyperbolicMetricUp$ row when the finite surface window carries the negative-curvature metric read used by the moduli route.
+\item $D$ is the deformation ledger. It records displayed Beltrami, quasiconformal, or chart-transition evidence only as finite witness rows attached to $S,M,J,G$.
+\item $E$ is the equivalence-facing classifier row. It compares accepted packets by componentwise agreement of the surface, marking, complex row, metric row, and deformation ledger through $\hsame$, not by host quotient equality of surfaces.
+\item $H$ records componentwise $\hsame$ transport for the surface, marking, complex, hyperbolic-metric, deformation, classifier, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from marked surface data through complex and hyperbolic metric reads to the deformation classifier.
+\item $P$ is the $\Pkg$ provenance over $\TeichmullerSpaceUp$, $\ManifoldUp$, $\ComplexUp$, $\HyperbolicMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TeichmullerSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,M,J,G,D,E,H,C,P,N$. It has no coordinate for analytic moduli completion, quotient surface equality, selected representatives, universal curves, measurable Beltrami class equality, or host Teichmuller metric completion.
+\end{definition}
+
+\begin{theorem}[Teichmuller space NameCert obligations]
+\label{thm:teichmuller-space-namecert-obligations}
+For every accepted $\TeichmullerSpaceUp$ carrier $T=(S,M,J,G,D,E,H,C,P,N)$, the local $\NameCert_{\TeichmullerSpaceUp}$ obligation surface consists exactly of carrier admission for the marked manifold row; complex-structure exposure; hyperbolic-metric readback when present; deformation-ledger admission; equivalence-facing classifier stability through $\hsame$; displayed $\Cont$ replay of the marked complex route; $\Pkg$ provenance over the sibling certificates; and local naming by $N$.
+
+Every consumer of the packet must therefore read the route
+$$
+\ManifoldUp,\quad \ComplexUp,\quad \HyperbolicMetricUp,\quad \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+through $S,M,J,G,D,E,H,C,P,N$, and no consumer receives analytic moduli completion, quotient surface equality, or choice-selected representatives.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:teichmuller-space-carrier}. The surface row $S$, marking row $M$, complex row $J$, hyperbolic metric row $G$, deformation ledger $D$, and classifier row $E$ are displayed before the local naming row is consumed.
+
+The moduli-facing comparison is the row $E$. It is transported only by $H$ and replayed only by $C$, so equality-sensitive movement is componentwise over the same finite surface, marking, complex, metric, and deformation rows.
+
+The provenance row $P$ names only the cited sibling packets and $N$ names only the local $\TeichmullerSpaceUp$ carrier. Since no excluded analytic or quotient coordinate appears in the carrier, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\TeichmullerSpaceUp$ packet displays a ManifoldUp surface row, marking row, ComplexUp conformal row, HyperbolicMetricUp read when present, deformation ledger, classifier row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row before a moduli-facing consumer reads it.}
+
+\independenceWitness{manifold, complex, hyperbolicmetric: $\TeichmullerSpaceUp$ is not bijective to any listed sibling because it jointly carries a marked surface row, complex-structure row, hyperbolic-metric read, deformation ledger, classifier transport, replay, provenance, and local naming in one finite moduli packet.}
+
+\closureat{TeichmullerSpaceUp}{seedStr}
+
+\begin{closurestatus}{\TeichmullerSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:teichmuller-space-carrier} and \autoref{thm:teichmuller-space-namecert-obligations} seed the finite Teichmuller-space NameCert surface over marked manifold, complex, hyperbolic-metric, deformation, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{Analytic moduli completion, quotient surface equality, choice-selected representatives, universal curves, measurable Beltrami class equality, host Teichmuller metric completion, Lean verification, and bridge checking are not claimed.}
+  \upgradepath{Obligation closure requires checked carrier admission, marked-surface classifier stability, complex and hyperbolic metric readback, deformation-ledger exactness, transport, replay, provenance, and local NameCert rows for BEDC.Derived.TeichmullerSpaceUp.}
+  \constructivestory{A $\TeichmullerSpaceUp$ packet is generated from a ManifoldUp surface row, a marking row, ComplexUp conformal data, a HyperbolicMetricUp read when present, a finite deformation ledger, classifier transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

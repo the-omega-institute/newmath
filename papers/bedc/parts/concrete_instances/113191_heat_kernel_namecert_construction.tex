@@ -1,0 +1,157 @@
+\chapter{A Concrete Naming Certificate for $\HeatKernelUp$}
+\label{ch:concrete-instances-heat-kernel-namecert}
+\origin{human}
+
+Following Evans and Friedman on heat kernels and Bishop--Bridges constructive
+analysis, the $\HeatKernelUp$ packet records only the finite kernel-window
+surface inspected by BEDC consumers. It is adjacent to the finite heat-equation
+stencil of
+\autoref{ch:concrete-instances-heat-equation-finite-stencil-namecert}: the
+stencil sibling names displayed difference rows, while this chapter names the
+finite kernel-window packet that a downstream $\PdeUp$ consumer may inspect
+after the kernel source, semigroup row, rational readback, $\RealUp$ seal,
+$\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local
+$\NameCert$ row have all been displayed. The packet uses $\RegSeqRatUp$,
+$\CauchyUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ anchors for finite
+readback and tolerance discipline; it does not export global analytic
+heat-kernel existence, a host integral kernel, quotient equality of functions,
+countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[HeatKernel carrier]
+\label{def:heat-kernel-carrier}
+A $\HeatKernelUp$ carrier is a finite $\BHist$ packet
+$$
+K=(W,S,G,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the inspected kernel-window row, listing the finite time windows,
+spatial windows, boundary tags, and dyadic tolerances requested by the
+consumer.
+\item $S$ is the finite heat-equation stencil source row, linked to the
+$\HeatEquationFiniteStencilUp$ sibling and exposing only displayed source,
+mesh, time-step, and boundary reads.
+\item $G$ is the semigroup-composition row, recording the finite pair of
+kernel windows and the displayed intermediate-window budget used to compose
+them.
+\item $Q$ is the $\RegSeqRatUp$ readback row for every kernel value,
+intermediate value, and stencil value inspected by $W,S,G$.
+\item $R$ is the $\RealUp$ seal row reached only after the regular rational,
+$\CauchyUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ rows have been read.
+\item $H$ records componentwise $\hsame$ transport for $W,S,G,Q,R,C,P,N$ and
+for the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from the requested kernel windows
+through source-stencil, semigroup, readback, and real-seal rows.
+\item $P$ is the $\Pkg$ provenance over $\HeatKernelUp$,
+$\HeatEquationFiniteStencilUp$, $\PdeUp$, $\RegSeqRatUp$, $\RealUp$,
+$\CauchyUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$,
+and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HeatKernelUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $W,S,G,Q,R,H,C,P,N$.
+It has no coordinate for global analytic kernel existence, host integral
+operators, function-space quotient equality, selected infinite partitions,
+countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[HeatKernel NameCert obligations]
+\label{thm:heat-kernel-namecert-obligations}
+For an accepted $\HeatKernelUp$ carrier
+$K=(W,S,G,Q,R,H,C,P,N)$, the local $\NameCert_{\HeatKernelUp}$ surface consists
+exactly of carrier admission, kernel-window admission, finite stencil-source
+admission, semigroup-row exactness, regular rational readback, real-seal
+nonescape, componentwise transport, displayed continuation replay, provenance,
+and local naming. These obligations are discharged along the finite route
+$$
+W,S,G\longmapsto Q\longmapsto R
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:heat-kernel-carrier}. The
+projection exposes the inspected kernel windows, finite stencil source,
+semigroup row, readback row, real seal, transport rows, replay rows,
+provenance row, and local name.
+
+The kernel-window and stencil-source obligations are $W$ and $S$. The row $W$
+contains only the finite time, spatial, boundary, and tolerance windows that
+the consumer requested, and $S$ routes those requests through the displayed
+finite heat-equation stencil surface of
+\autoref{ch:concrete-instances-heat-equation-finite-stencil-namecert}.
+
+The semigroup obligation is $G$. It records the finite pair of kernel windows,
+the displayed intermediate-window budget, and the requested composition row;
+it is not an integral over a host continuum and does not select an infinite
+partition.
+
+The readback and seal obligations are downstream. The row $Q$ reads the
+displayed values through $\RegSeqRatUp$, $\CauchyUp$, $\StreamNameUp$, and
+$\DyadicRatCoreUp$, and $R$ exposes the $\RealUp$ seal only after those finite
+rows have been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since
+the carrier contains no row for global analytic kernel existence, host
+integral operators, quotient function equality, selected infinite partitions,
+countable choice, or ambient real completeness, the listed rows exhaust the
+local certificate surface.
+\end{proof}
+
+\begin{theorem}[HeatKernel semigroup handoff]
+\label{thm:heat-kernel-semigroup-handoff}
+Every $\PdeUp$ consumer of an accepted $\HeatKernelUp$ packet reaches a
+semigroup-composition read only through
+$$
+\HeatEquationFiniteStencilUp \longmapsto \HeatKernelUp
+\longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+inside the displayed finite window package. The consumer receives no global
+fundamental solution, host integral kernel, quotient equality of functions,
+countable-choice schedule, selected limiting partition, or ambient $\RealUp$
+completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the finite stencil-source row $S$. It names the source, mesh,
+time-step, and boundary data that the sibling
+\autoref{ch:concrete-instances-heat-equation-finite-stencil-namecert} exposes,
+so the $\PdeUp$ consumer cannot read a kernel row detached from the finite
+heat-equation source.
+
+Next read the inspected kernel windows $W$ and the semigroup row $G$. The
+handoff composes only the displayed pair of windows over the displayed
+intermediate-window budget, with every requested value still recorded as a
+finite row.
+
+The route then passes through $\RegSeqRatUp$ readback $Q$ and terminal
+$\RealUp$ seal $R$, while $H,C,P,N$ preserve the same packet under transport,
+replay, provenance, and local naming. Because the excluded analytic objects
+are absent from the carrier, every semigroup handoff remains a finite
+NameCert route rather than a claim of global heat-kernel existence.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HeatKernelUp$ consumer that reaches a
+$\PdeUp$, $\RegSeqRatUp$, or $\RealUp$ row without reading the displayed kernel
+windows, finite heat-equation stencil source, semigroup-composition row,
+$\CauchyUp$ and $\StreamNameUp$ schedules, $\DyadicRatCoreUp$ tolerance rows,
+componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$
+provenance, and local $\NameCert$ row refutes the carrier surface.}
+
+\independenceWitness{heat-equation-finite-stencil, pde, regseqrat, real,
+cauchy, streamname, dyadicratcore: no listed sibling supplies the whole
+heat-kernel packet $K=(W,S,G,Q,R,H,C,P,N)$, because each sibling contributes
+only a stencil source, PDE consumer interface, rational readback, real seal,
+Cauchy discipline, stream schedule, or dyadic tolerance ledger while this
+chapter binds them into one finite semigroup-window route and local naming
+surface.}
+
+\closureat{HeatKernelUp}{seedStr}
+
+\begin{closurestatus}{\HeatKernelUp}
+  \constructivestory{A $\HeatKernelUp$ packet is generated from inspected kernel windows, a finite heat-equation stencil source row, a semigroup-composition row, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:heat-kernel-carrier}, \autoref{thm:heat-kernel-namecert-obligations}, and \autoref{thm:heat-kernel-semigroup-handoff} seed the finite heat-kernel window boundary over finite stencil sources, semigroup-composition rows, $\PdeUp$ consumers, $\RegSeqRatUp$ readback, $\CauchyUp$ and $\StreamNameUp$ schedules, $\DyadicRatCoreUp$ tolerances, and the $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.HeatKernelUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global analytic heat-kernel existence, host integral kernels, quotient equality of functions, selected infinite partitions, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove the finite NameCert obligation surface and semigroup handoff.}
+\end{closurestatus}
