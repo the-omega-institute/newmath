@@ -2058,6 +2058,7 @@ import BEDC.Derived.CellularTrustSubstrateUp.SiblingScopeBinding
 import BEDC.Derived.CellularTrustSubstrateUp.StrictObstructionLocality
 import BEDC.Derived.CellularTrustSubstrateUp.TasteGate
 import BEDC.Derived.CellularVerbRealignmentUp.TasteGate
+import BEDC.Derived.CellularWindowTraceUp.TasteGate
 import BEDC.Derived.CertificateAuditGateUp
 import BEDC.Derived.CertificateAuditGateUp.TasteGate
 import BEDC.Derived.CertificateCompilerUp
@@ -4611,6 +4612,8 @@ import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.TasteGate
 import BEDC.Derived.HurwitzApproximationUp.TasteGate
 import BEDC.Derived.HyersUlamStabilityUp.TasteGate
+import BEDC.Derived.HyperbolicExpansionLedgerUp.TasteGate
+import BEDC.Derived.HyperbolicGeodesicBoundaryUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicFlowUp
 import BEDC.Derived.HyperbolicGeodesicFlowUp.TasteGate
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
@@ -4735,6 +4738,7 @@ import BEDC.Derived.InterHistTransportSealUp.TasteGate
 import BEDC.Derived.InterInscriptionCoherenceUp.TasteGate
 import BEDC.Derived.IntermediateValueBisectionUp
 import BEDC.Derived.IntermediateValueBisectionUp.TasteGate
+import BEDC.Derived.IntermediateValueTheoremUp.TasteGate
 import BEDC.Derived.IntermediateValueUp.BisectionNesting
 import BEDC.Derived.IntermediateValueUp.BisectionWindowScope
 import BEDC.Derived.IntermediateValueUp.LocatedSignScope
