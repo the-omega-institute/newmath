@@ -1315,6 +1315,7 @@ import BEDC.Derived.CauchyCompletionUnitUp.TasteGate
 import BEDC.Derived.CauchyCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.CauchyCompletionUniversalReflectorUp
 import BEDC.Derived.CauchyCompletionUniversalReflectorUp.ExtensionFactorization
+import BEDC.Derived.CauchyCompletionUniversalReflectorUp.NameCertObligations
 import BEDC.Derived.CauchyCompressionUp.TasteGate
 import BEDC.Derived.CauchyCondensationRealSeriesUp.TasteGate
 import BEDC.Derived.CauchyCondensationTestUp.TasteGate
@@ -3805,6 +3806,7 @@ import BEDC.Derived.FastCauchyNormalFormUp.TasteGate
 import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastCauchySequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySequenceUp.TasteGate
+import BEDC.Derived.FastCauchySubsequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchyUp
 import BEDC.Derived.FastCauchyUp.Core
 import BEDC.Derived.FastCauchyUp.ExplicitRateSealWindow
