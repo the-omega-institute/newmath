@@ -1,23 +1,40 @@
 \origin{ai}
 
-\subsection{Window-six spectral readback for the standard code}
+\subsection{Window-six spectral boundary for the standard codon table}
 \label{sec:bioreality-h0-spectrum}
 
-\paragraph{Finite carrier and observed contact.}
-This record treats the standard-code codon table as a finite code-layer contact, not as a mechanism for translation or as a physical model of protein formation.  The coordinate carrier is the six-bit codon cube $Q_6$, with each codon displayed as a finite binary-window address and then read against the curated standard-code assignment of codons to amino-acid or stop labels.  The table contact is therefore a label contact: it says which label is attached to each codon in the standard code, and it allows local boundary checks inside the codon cube.  It does not by itself observe ribosomal realization, folded structure, admissible chemistry, biological function, a universal law, or any organism-wide mechanism.
+\paragraph{Finite object under test.}
+This record concerns the standard-code codon table only at the code-read layer.  The finite carrier is the six-bit codon cube $Q_6$, read through a curated codon-to-label table whose entries assign each codon to an amino-acid label or a stop label.  The distinctions used here are coordinate distinctions in the codon display, local tile faces in the cube, singleton label corners, and three-point label classes.  The biological contact is therefore narrow: it is a checked label table, not a measurement of translation dynamics, folded structure, thermodynamic admissibility, cellular function, evolutionary necessity, or a universal mechanism.
 
-\paragraph{The thirteen-codon boundary row.}
-The finite boundary set $R$ has cardinality $13$.  The verified row is
+\paragraph{Boundary set.}
+The verified boundary set $R$ has cardinality $13$.  Its members are
 $$
 \begin{aligned}
-R=\{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
-&UAA, UAG, UCA, UGA, UUA\}.
+R = \{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
 \end{aligned}
 $$
-The same computation identifies this row as a punctured-cube pattern with $f$-vector $(13,16,4)$.  Thus the contact is not merely a list of exceptional labels: it is a finite cubical shape in the window-six address system, with thirteen vertices, sixteen one-dimensional incidences, and four square faces after the relevant local deletion.  This is the concrete boundary object used by the spectral calculation.
+The same row verifies that this set is the punctured-cube boundary object for the local tile under consideration, with face-count vector
+$$
+\begin{aligned}
+f(R)=(13,16,4).
+\end{aligned}
+$$
+Thus the local configuration is not merely a name for thirteen listed codons: it also carries a finite cubical incidence profile.  The codons split into recognizable modules.  The complete module assignment is
+$$
+\begin{aligned}
+\mathrm{agr}&=\{\mathrm{AGA},\mathrm{AGG}\}, &
+\mathrm{ar\_lys}&=\{\mathrm{AAA}\},\\
+\mathrm{cun}&=\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\}, &
+\mathrm{ile\_met}&=\{\mathrm{AUA}\},\\
+\mathrm{ssn}&=\{\mathrm{UCA},\mathrm{UUA}\}, &
+\mathrm{stop\_trp}&=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{aligned}
+$$
+The classification is exact in the finite row: $R$ has size $13$, the assigned count is $13$, and there are no extra module codons, missing module codons, or unassigned codons.
 
 \paragraph{Spectral row.}
-For the verified spectral run $1026324eff41$, the observed spectral quantities are
+The spectral measurement attached to this tile records three scalar values,
 $$
 \begin{aligned}
 \lambda_M &= 0.6752479308830213,\\
@@ -25,34 +42,32 @@ $$
 \mu &= 3.051487585298128.
 \end{aligned}
 $$
-The same run reports a cubic residual of $-6.224354365258478\times 10^{-12}$ and an identical radial-polynomial residual of $-6.224354365258478\times 10^{-12}$.  At the precision of the finite computation, this places the spectral radius at $0.6752479308830213$ within the stated tolerance.  The point of the row is local: the spectral calculation is evidence that the codon-window geometry and the curated code labels meet in a rigid finite pattern.  It is not evidence that geometry alone causes the biological code.
+The evaluated radial relation is numerically closed to floating-point tolerance: both the cubic residual and the radial residual are $-6.224354365258478\times 10^{-12}$.  The recorded spectral-radius value is again $0.6752479308830213$.  This is evidence for a reproducible finite spectral profile of the local codon tile.  It is not evidence that biological translation must obey this geometry, and it is not evidence that any amino-acid sequence produced by label readback has a particular fold or activity.
 
 \paragraph{Shape significance.}
-The finite randomization check used $N=2000$ samples with seed $42$.  It required $57377$ distinct-sample attempts and encountered $55377$ duplicate retries.  In that sample, exact shape agreement occurred once, giving
+The observed $M$-shape row records $2000$ sampled null trials with seed $42$.  The run required $57377$ distinct-sample attempts and incurred $55377$ duplicate retries.  Among those trials, the exact-shape count was $1$, giving
 $$
 \begin{aligned}
-p_{\mathrm{exact}} &= 0.0005,\\
-p_{J\geq 0.9} &= 0.0125.
+p_{\mathrm{exact}} &= 0.0005.
 \end{aligned}
 $$
-The high-Jaccard count was $25$, so the near-match tail is larger than the exact-match row but still small on this finite sample.  A second null model preserving amino-acid classes used $N=2000$ samples with seed $42$, observed $M$-size $20$, found zero exact matches, and placed only $7$ samples in the lower tail at or below the observed $M$-size.  Its reported values are $p_{\mathrm{class,exact}}=0.0$ and $p_{\mathrm{class,lower\ tail}}=0.0035$.  These numbers support a code-layer shape anomaly relative to the tested finite null models; they do not license a claim about folding, fitness, or biochemical necessity.
-
-\paragraph{Leave-out behavior.}
-The leave-one-code-out row evaluated $23$ code tables and $63$ total targets.  Its baseline hit rate was $0.19821739130434785$, while the hit rate above baseline was $0.9841269841269841$.  The hit rate inside $M-T$ was $0.9365079365079365$, and the hit rate inside $M-T$ plus boundary was $0.9841269841269841$.  The leave-one-codon-out row reports boundary count $5$, anchor count $0$, predictable count $8$, high closure coverage $8$, and recovery rate $1.0$.  The finite reading is that the local coordinate system has strong recovery behavior for the tested code-layer omissions.  The reading remains confined to codon-label recovery.
-
-\paragraph{Family and module rows.}
-The family stratification contains $5$ families.  Their hit rates above baseline are $0.8333333333333334$ for alternative yeast and $1.0$ for bacterial plastid, candidate other, mitochondrial, and nuclear ciliate families.  The module classification is complete on the thirteen-codon row: $R$-size is $13$, assigned count is $13$, and there are no extra module codons, no missing codons, and no unassigned codons.  The assigned modules are
+The number of samples with Jaccard similarity at least $0.9$ was $25$, giving
 $$
 \begin{aligned}
-\mathrm{agr} &= \{AGA, AGG\},\\
-\mathrm{ar\_lys} &= \{AAA\},\\
-\mathrm{cun} &= \{CUA, CUC, CUG, CUU\},\\
-\mathrm{ile\_met} &= \{AUA\},\\
-\mathrm{ssn} &= \{UCA, UUA\},\\
-\mathrm{stop\_trp} &= \{UAA, UAG, UGA\}.
+p_{J\ge 0.9} &= 0.0125.
 \end{aligned}
 $$
-Every listed module has predictable or boundary status in the finite classifier.  This is a useful local decomposition of the standard-code label row, especially around arginine, lysine, leucine, isoleucine-methionine, serine-like, and stop-tryptophan neighborhoods.  It remains a decomposition of codon labels, not a measurement of tRNA populations, translation kinetics, protein structure, or organismal adaptation.
+A second null row preserves amino-acid class structure.  In that row the observed $M$ size is $20$, the exact-match count is $0$ among $2000$ trials, and the lower-tail count at or below the observed $M$ size is $7$.  The corresponding values are
+$$
+\begin{aligned}
+p_{\mathrm{class\ exact}} &= 0.0,\\
+p_{\mathrm{class\ lower\ tail}} &= 0.0035.
+\end{aligned}
+$$
+These finite null comparisons support the claim that the displayed local shape is not typical under the sampled controls.  They do not identify a biochemical cause, a translation apparatus, a structural fold, or a function-bearing mechanism.
 
-\paragraph{Scope verdict.}
-The claim is ready at the code-read layer.  The finite rows jointly support the following statement: window-six codon coordinates expose a stable local boundary-tile pattern in the standard-code label table, with a thirteen-codon punctured-cube row, spectral radius $0.6752479308830213$, small exact-shape null probability $0.0005$, amino-acid-class-preserving lower-tail probability $0.0035$, and strong leave-out recovery.  The same evidence also fixes the stopping point.  No translation realization, folded structure, physical admissibility, biological function, mechanism, or universality follows from these rows unless an additional contact is supplied that directly measures the higher layer.
+\paragraph{Readback tests.}
+The leave-one-code-out row evaluated $23$ code tables and $63$ total targets.  The baseline hit rate was $0.19821739130434785$.  The hit rate in $M\setminus T$ was $0.9365079365079365$, and the hit rate after adding the boundary was $0.9841269841269841$.  The row records the same value, $0.9841269841269841$, as the hit rate above baseline.  Family-level checks split into five families: alternative yeast has hit rate $0.8333333333333334$, while bacterial/plastid, candidate-other, mitochondrial, and nuclear-ciliate families each have hit rate $1.0$ above baseline.  The leave-one-codon-out row records $0$ anchors, $5$ boundary codons, $8$ high-coverage closure cases, $8$ predictable cases, and recovery rate $1.0$.
+
+\paragraph{Interpretation at the code layer.}
+The finite evidence supports a precise local statement: the window-six codon coordinates expose a boundary-tile organization whose boundary set, module decomposition, spectral scalars, and readback recovery rates are all recorded by finite rows.  The curated standard code supplies the label contact that lets this tile be read as codon labels.  The contact does not observe ribosomal realization, protein folding, physical admissibility, biological function, or universality across mechanisms.  Any claim crossing from code labels into translation, structure, admissibility, function, mechanism, or universal biological law requires a separate empirical contact designed for that layer.  Without that separate contact, amino-acid label sequences remain code-layer outputs, not folded proteins and not function-bearing objects.
