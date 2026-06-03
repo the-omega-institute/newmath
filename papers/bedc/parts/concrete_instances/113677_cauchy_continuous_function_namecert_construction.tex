@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\CauchyContinuousFunctionUp$}
+\label{ch:concrete-instances-cauchy-continuous-function-namecert}
+\origin{human}
+
+Following Bishop and Bridges, constructive analysis treats a continuous function on real names through a displayed rule on regular Cauchy representatives together with the modulus data that preserves regularity. The $\CauchyContinuousFunctionUp$ packet records that surface as finite BEDC data. It consumes the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the graph-and-modulus rows of \autoref{ch:concrete-instances-continuousmap-namecert}, and the tolerance-only handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The chapter names the map object used by Real and Completion consumers without adding host function equality, quotient representatives, selected limits, or ambient completeness to the carrier.
+
+\begin{definition}[CauchyContinuousFunction carrier]
+\label{def:cauchy-continuous-function-carrier}
+A $\CauchyContinuousFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,R,D,M,U,J,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window source row for regular Cauchy real-name observations.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those source windows, including the regularity budget used by downstream image requests.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for source and target precision requests.
+\item $M$ is the $\ContinuousMapUp$ graph-and-local-modulus row; it records the displayed map rule only through finite source observations and target requests.
+\item $U$ is the $\UniformModulusUp$ handoff row that turns each target tolerance into a displayed source tolerance when uniform control is supplied.
+\item $J$ is the image-name production row, read only after $S,R,D,M,U$ have fixed the finite source and tolerance route.
+\item $E$ is the terminal $\RealUp$ seal for the produced regular Cauchy real name.
+\item $H$ records componentwise $\hsame$ transport for $S,R,D,M,U,J,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay forcing every consumer to read the packet in the order $S,R,D,M,U,J,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyContinuousFunctionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyContinuousFunctionUp}$ row.
+\end{enumerate}
+The carrier classifies functions only by these displayed rows. It has no coordinate for host function extensionality, quotient equality of real names, a selected representative sequence, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[CauchyContinuousFunction NameCert obligations]
+\label{thm:cauchy-continuous-function-namecert-obligations}
+For every accepted $\CauchyContinuousFunctionUp$ carrier
+$$
+F=(S,R,D,M,U,J,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyContinuousFunctionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the StreamName source windows, RegSeqRat readback, DyadicRatCore tolerance ledger, ContinuousMap graph row, UniformModulus handoff, image-name row, Real seal, transport, replay, provenance, and local naming rows;
+\item source-name exactness, requiring every map request to read the source only through $S$ and $R$ before any image-name row is available;
+\item tolerance compatibility, requiring $D$ to be the shared dyadic ledger consumed by the source readback, the continuous-map row, the uniform-modulus handoff, and the image-name production row;
+\item continuity control, requiring $M$ and $U$ to answer each target precision request by a displayed source precision request before $J$ may be read;
+\item regular-image sealing, requiring $J$ and $E$ to expose only the produced regular Cauchy real name downstream of $S,R,D,M,U$;
+\item componentwise transport, displayed replay, provenance, local naming, and nonescape for the same displayed route through $H,C,P,N$.
+\end{enumerate}
+No CauchyContinuousFunction obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-continuous-function-carrier}. The accepted packet displays exactly the source windows $S$, regular readback $R$, dyadic ledger $D$, continuous-map row $M$, uniform-modulus handoff $U$, image-name row $J$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Source-name exactness reads the first two coordinates. A consumer opens the finite StreamName observations and then the RegSeqRat readback attached to those observations; the image-name side has no available row before this source route is fixed.
+
+Tolerance compatibility and continuity control are the middle of the route. The DyadicRatCore ledger $D$ supplies the common precision arithmetic, while $M$ and $U$ convert each requested target tolerance into a displayed source tolerance before the image-name row is admitted.
+
+Regular-image sealing is terminal. The row $J$ records only the produced regular Cauchy name generated from $S,R,D,M,U$, and $E$ seals that name as a Real-facing datum only after those rows have been displayed.
+
+Finally, $H,C,P,N$ transport, replay, package, and name the same finite route. Since host function equality, quotient real-name equality, selected representatives, countable choice, ambient Real completeness, Lean verification, and bridge checking are absent from the carrier, no local obligation can export them.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyContinuousFunctionUp$ read factors through one StreamName source-window row, one RegSeqRat readback row, one DyadicRatCore tolerance ledger, one ContinuousMap graph-and-local-modulus row, one UniformModulus handoff row, one image-name row, one terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, continuousmap, uniformmodulus: $\CauchyContinuousFunctionUp$ is not bijective to any listed sibling because it jointly carries the regular Cauchy source route, the displayed map row, the uniform precision handoff, and the produced real-name seal as one map object.}
+
+\closureat{CauchyContinuousFunctionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyContinuousFunctionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-continuous-function-carrier} and \autoref{thm:cauchy-continuous-function-namecert-obligations} seed the finite map object over regular Cauchy real names through StreamName windows, RegSeqRat readback, DyadicRatCore tolerance arithmetic, ContinuousMap graph data, UniformModulus handoff, image-name production, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, quotient equality of real names, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-name exactness, tolerance compatibility, continuity control, regular-image sealing, transport, replay, provenance, and nonescape for BEDC.Derived.CauchyContinuousFunctionUp.}
+  \constructivestory{A $\CauchyContinuousFunctionUp$ packet is generated from StreamName source windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a ContinuousMap graph row, a UniformModulus handoff, an image-name row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

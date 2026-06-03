@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\BanachOperatorGraphNormUp$}
+\label{ch:concrete-instances-banach-operator-graph-norm-namecert}
+\origin{human}
+
+Following Banach and Rudin on closed operators between Banach spaces, the $\BanachOperatorGraphNormUp$ packet records the graph norm of a displayed operator as finite NameCert data. It sits over the Banach carrier of \autoref{ch:concrete-instances-banach-namecert}, the public bounded-linear-operator surface of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the closed-graph route of \autoref{ch:concrete-instances-closed-graph-theorem-namecert}, the metric rows of \autoref{ch:concrete-instances-metric-namecert}, the complete-metric witness rows of \autoref{ch:concrete-instances-completemetric-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the displayed domain graph and its norm-sum route without replacing the graph by a quotient carrier or a host function-space object.
+
+\begin{definition}[Banach operator graph-norm carrier]
+\label{def:banach-operator-graph-norm-carrier}
+A $\BanachOperatorGraphNormUp$ carrier is a finite $\BHist$ packet
+$$
+G=(X,Y,T,\Gamma,A,M,Q,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\BanachUp$ row, including the source norm, metric, complete-metric, and real-seal reads.
+\item $Y$ is the target $\BanachUp$ row, including the target norm, metric, complete-metric, and real-seal reads.
+\item $T$ is the operator action row, read either through a displayed $\BoundedLinearOperatorUp$ packet or through a graph-closed operator row whose closedness is audited by $\ClosedGraphTheoremUp$.
+\item $\Gamma$ is the graph row, recording source endpoints, target endpoints, and graph-membership witnesses for the displayed action.
+\item $A$ is the graph-admission row, stating that only source endpoints whose graph membership is displayed in $\Gamma$ are admitted to the graph-norm domain.
+\item $M$ is the metric readback row, routing source and target distance requests through $\MetricUp$ and $\CompleteMetricUp$ data.
+\item $Q$ is the norm-sum row, recording the exact graph-norm expression $\|x\|_X+\|T x\|_Y$ as a displayed $\RealUp$ read.
+\item $L$ is the completion handoff row, recording the Cauchy-to-limit route for graph-norm Cauchy data through $X$, $Y$, $\Gamma$, $M$, and $Q$.
+\item $H$ records componentwise $\hsame$ transport for source, target, operator, graph, admission, metric, norm-sum, completion handoff, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from graph admission through metric readback, norm-sum exactness, graph-closedness stability, and completion handoff.
+\item $P$ is the $\Pkg$ provenance over $\BanachOperatorGraphNormUp$, $\BanachUp$, $\BoundedLinearOperatorUp$, $\ClosedGraphTheoremUp$, $\MetricUp$, $\CompleteMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BanachOperatorGraphNormUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotienting the graph, selecting host representatives, importing an ambient operator space, or replacing the displayed norm-sum by an external equality theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.BanachOperatorGraphNormUp.TasteGate.BanachOperatorGraphNormTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Banach operator graph-norm obligations]
+\label{thm:banach-operator-graph-norm-obligations}
+For every accepted $\BanachOperatorGraphNormUp$ carrier $G=(X,Y,T,\Gamma,A,M,Q,L,H,C,P,N)$, the local $\NameCert_{\BanachOperatorGraphNormUp}$ surface consists exactly of graph-norm carrier admission, graph-closedness stability, norm-sum exactness, completion handoff, and refusal of quotient graph export.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachOperatorGraphNormUp.BanachOperatorGraphNormCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier admission is projection from \autoref{def:banach-operator-graph-norm-carrier}. The accepted graph-norm domain is read through $A$ and $\Gamma$, so a source endpoint is admitted only when its graph-membership row is displayed.
+
+Graph-closedness stability is read through $T,\Gamma,L,H,C$. The operator action is either already bounded-linear through \autoref{ch:concrete-instances-boundedlinearoperator-namecert} or is routed through the closed-graph certificate of \autoref{ch:concrete-instances-closed-graph-theorem-namecert}; in both cases transport by $H$ and replay by $C$ preserve the same graph rows.
+
+Norm-sum exactness is the role of $Q$. The source and target norm reads are measured through the metric and complete-metric rows $M$ and sealed as $\RealUp$ data, so the graph norm is exactly the displayed sum $\|x\|_X+\|T x\|_Y$.
+
+Completion handoff is the role of $L$. A graph-norm Cauchy read supplies compatible Cauchy data in $X$ and $Y$, replays graph membership through $\Gamma$, and returns a displayed graph limit through the complete-metric rows.
+
+Finally, the carrier inventory rules out quotient graph export. No row of $G$ stores a graph quotient, selected representative, ambient operator-space point, or host equality theorem, so every consumer remains inside the displayed NameCert surface.
+\end{proof}
+
+\begin{theorem}[Banach operator graph-norm completion handoff]
+\label{thm:banach-operator-graph-norm-completion-handoff}
+Every completion-facing consumer of an accepted $\BanachOperatorGraphNormUp$ packet factors through
+$$
+X,Y,T,\Gamma,A,M,Q,L,H,C,P,N .
+$$
+The handoff reads source completeness, target completeness, graph membership, the exact norm-sum row, and the graph-closedness row before exporting graph-norm completion data.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachOperatorGraphNormUp.BanachOperatorGraphNormCompletionHandoff}
+\begin{proof}
+Start with the Banach source and target rows $X$ and $Y$. Their metric and complete-metric data provide the only Cauchy and limit witnesses available to the graph-norm packet.
+
+Next read the graph rows $T,\Gamma,A$. The action row and graph-membership row determine which source endpoints are in the graph-norm domain, and the admission row prevents a consumer from reading outside the displayed graph.
+
+Use $M$ and $Q$ for the graph norm itself. Metric readback supplies the source and target distances, while the norm-sum row records the exact real-valued graph-norm expression.
+
+Finally apply $L,H,C,P,N$. The completion handoff replays graph-closedness through the same rows, then transport, continuation, provenance, and local naming preserve the packet. No quotient graph or external selector is exported.
+\end{proof}
+
+\begin{theorem}[Banach operator graph-norm no quotient graph]
+\label{thm:banach-operator-graph-norm-no-quotient-graph}
+No accepted $\BanachOperatorGraphNormUp$ consumer can replace the displayed graph row $\Gamma$ by a quotient graph, host function graph, or selected representative while retaining the local $\NameCert_{\BanachOperatorGraphNormUp}$ read.
+\end{theorem}
+\leanchecked{BEDC.Derived.BanachOperatorGraphNormUp.BanachOperatorGraphNorm\_no\_quotient\_graph}
+\begin{proof}
+Project an accepted carrier $G=(X,Y,T,\Gamma,A,M,Q,L,H,C,P,N)$. The only graph coordinate is $\Gamma$, and graph-domain admission is mediated by $A$.
+
+The metric and completion rows do not add another graph object. They only measure source and target reads, seal the norm-sum value, and replay graph-closedness through the completion handoff.
+
+Transport, continuation, provenance, and local naming preserve the same displayed coordinates. Since the carrier contains no quotient graph, host function graph, or selected representative row, replacing $\Gamma$ by such an object leaves the accepted NameCert surface.
+\end{proof}
+
+\closureat{BanachOperatorGraphNormUp}{seedStr}
+
+\begin{closurestatus}{\BanachOperatorGraphNormUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-operator-graph-norm-carrier}, \autoref{thm:banach-operator-graph-norm-obligations}, \autoref{thm:banach-operator-graph-norm-completion-handoff}, and \autoref{thm:banach-operator-graph-norm-no-quotient-graph} seed the graph-norm packet over displayed Banach source and target rows, operator graph rows, metric readback, exact norm-sum data, and completion handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, closed-operator calculus, inverse mapping, quotient graph equality, host operator spaces, or selected representatives.}
+  \upgradepath{Obligation closure requires checked carrier admission, graph-closedness stability, norm-sum exactness, completion handoff, and no-quotient-graph nonescape for BEDC.Derived.BanachOperatorGraphNormUp.}
+  \constructivestory{A $\BanachOperatorGraphNormUp$ packet is generated from Banach source and target rows, an operator action row, displayed graph membership, graph-domain admission, metric readback, an exact RealUp norm-sum row, completion handoff, componentwise transport, continuation replay, provenance, and local naming.}
+\end{closurestatus}

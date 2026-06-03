@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\TukeyOrderUp$}
+\label{ch:concrete-instances-tukey-order-namecert}
+\origin{human}
+
+Following Tukey's theory of cofinal maps and the Moore--Smith reading of nets, the $\TukeyOrderUp$ packet records finite directed-comparison data for net and filter completion routes. It sits over the directed-system surface of \autoref{ch:concrete-instances-directedset-namecert}, the Moore--Smith net surface of \autoref{ch:concrete-instances-moore-smith-net-namecert}, the Cauchy-net route of \autoref{ch:concrete-instances-cauchynet-namecert}, the filter-base route of \autoref{ch:concrete-instances-filterbase-namecert}, and the Cauchy-filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}. The packet compares displayed presentations by cofinal response rows; it is not a quotient of nets, not a quotient of filters, not a selected subnet, not a selected limit, and not a countable-choice principle.
+
+\begin{definition}[Tukey-order carrier]
+\label{def:tukey-order-carrier}
+A $\TukeyOrderUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,Q,\rho,\lambda,M,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source directed-system row, read through $\DirectedSetUp$ and the source $\MooreSmithNetUp$ or $\CauchyNetUp$ presentation.
+\item $Q$ is the target directed-system row, read through $\DirectedSetUp$ and the target $\FilterBaseUp$ or $\CauchyFilterUp$ presentation.
+\item $\rho$ is the cofinal response map. For each displayed target request it names a source request and the finite containment or late-tail witness that answers the target request from the source route.
+\item $\lambda$ is the reverse comparison ledger when present. It records displayed return comparisons for two-way route comparison, but a one-way Tukey comparison may leave this row empty.
+\item $M$ is the net-side handoff row, naming the $\MooreSmithNetUp$ and $\CauchyNetUp$ windows consumed by the comparison.
+\item $F$ is the filter-side handoff row, naming the $\FilterBaseUp$ and $\CauchyFilterUp$ packets consumed by the comparison.
+\item $H$ records componentwise $\hsame$ transport for the source system, target system, cofinal response map, reverse ledger, net handoff, filter handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from any target request through $\rho$ and, when present, through $\lambda$.
+\item $P$ is the $\Pkg$ provenance over $\TukeyOrderUp$, $\DirectedSetUp$, $\MooreSmithNetUp$, $\CauchyNetUp$, $\FilterBaseUp$, $\CauchyFilterUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TukeyOrderUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,Q,\rho,\lambda,M,F,H,C,P,N$. It has no coordinate for quotient net equality, quotient filter equality, selected subnets, selected cofinal families, selected limits, countable choice, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Tukey-order NameCert obligations]
+\label{thm:tukey-order-namecert-obligations}
+For every accepted $\TukeyOrderUp$ carrier $T=(S,Q,\rho,\lambda,M,F,H,C,P,N)$, the local $\NameCert_{\TukeyOrderUp}$ surface consists exactly of source directed-system admission through $S$, target directed-system admission through $Q$, cofinal response coverage through $\rho$, optional reverse comparison coverage through $\lambda$, net-side handoff through $M$, filter-side handoff through $F$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+No Tukey-order obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tukey-order-carrier}. The accepted packet is exhausted by the two directed-system rows, the cofinal response map, the optional reverse ledger, the net and filter handoff rows, and the structural rows $H,C,P,N$.
+
+The comparison route starts with a target request in $Q$. The row $\rho$ answers it by naming a source request in $S$ together with the displayed late-tail or containment witness needed by the source route. When a two-way comparison is required, $\lambda$ supplies only finite return comparisons between the same displayed rows.
+
+The net-side and filter-side handoffs do not add hidden comparison data. The rows $M$ and $F$ merely record which $\MooreSmithNetUp$, $\CauchyNetUp$, $\FilterBaseUp$, and $\CauchyFilterUp$ presentations are being compared, while $H,C,P,N$ transport, replay, source, and name the same finite packet.
+\end{proof}
+
+\begin{theorem}[Tukey-order net-filter handoff]
+\label{thm:tukey-order-net-filter-handoff}
+Every net/filter completion consumer of an accepted $\TukeyOrderUp$ carrier factors through the finite directed-comparison route
+$$
+Q \xrightarrow{\rho} S \longmapsto M,F,H,C,P,N ,
+$$
+with $\lambda$ inserted only when the consumer requests a displayed reverse comparison. Consequently a $\MooreSmithNetUp$ or $\CauchyNetUp$ presentation can be compared with a $\FilterBaseUp$ or $\CauchyFilterUp$ presentation without quotienting nets or filters, selecting subnets, selecting cofinal families, selecting limits, invoking countable choice, or importing ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing net/filter consumer. The carrier definition exposes the target directed-system row $Q$ and the source directed-system row $S$ before any comparison can be read.
+
+Replay the consumer request through $\rho$. The cofinal response map turns each displayed target request into a displayed source request and records the required late-tail or containment witness. If the route asks for equivalence rather than one-way comparison, the reverse ledger $\lambda$ supplies a finite list of return comparisons over the same visible rows.
+
+Finally read the handoff rows $M$ and $F$. They keep the consumer inside the named $\MooreSmithNetUp$, $\CauchyNetUp$, $\FilterBaseUp$, and $\CauchyFilterUp$ presentations, while $H,C,P,N$ preserve the same finite comparison packet. Since no excluded coordinate appears in the carrier, the handoff cannot export quotient equality, selected subnets, selected limits, countable choice, host equality, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{A net/filter completion route that compares a Cauchy-net presentation with a Cauchy-filter presentation after deleting $S$, $Q$, $\rho$, $M$, or $F$ refutes the carrier of \autoref{def:tukey-order-carrier}.}
+
+\independenceWitness{directedset, moore-smith-net, cauchynet, filterbase, cauchyfilter: $\TukeyOrderUp$ is not bijective to any listed sibling because it jointly carries source and target directed-system rows, a cofinal response map, an optional reverse comparison ledger, net-side and filter-side handoffs, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming in one packet.}
+
+\closureat{TukeyOrderUp}{seedStr}
+
+\begin{closurestatus}{\TukeyOrderUp}
+  \constructivestory{A $\TukeyOrderUp$ packet is generated from source and target directed-system rows, a cofinal response map, an optional reverse comparison ledger, MooreSmithNet and CauchyNet handoffs, FilterBase and CauchyFilter handoffs, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tukey-order-carrier}, \autoref{thm:tukey-order-namecert-obligations}, and \autoref{thm:tukey-order-net-filter-handoff} seed the finite Tukey comparison surface for net and filter completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient net equality, quotient filter equality, selected subnets, selected cofinal families, selected limits, countable choice, host real equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source and target directed-system admission, cofinal response coverage, reverse comparison coverage, net and filter handoff exactness, transport stability, replay stability, provenance exhaustion, and local naming for BEDC.Derived.TukeyOrderUp.}
+\end{closurestatus}

@@ -81,6 +81,24 @@ The completion-facing route then passes through $D,W,R,E$. The dyadic tolerance 
 The structural rows $H,C,P,N$ preserve this ordered handoff for downstream consumers. Since the packet contains no open-cover, quotient, choice, or ambient-completeness coordinate, no stronger compactness principle is exported.
 \end{proof}
 
+\begin{theorem}[Bishop compact interval finite-net extraction]
+\label{thm:bishop-compact-interval-finite-net-extraction}
+Every Real- or Completion-facing consumer of an accepted $\BishopCompactIntervalUp$ packet
+$$
+K=(I,L,F,W,R,D,E,H,C,P,N)
+$$
+can extract the displayed $\ClosedBoundedIntervalCompactUp$ finite-net row $F$ only after reading the interval-source rows $I,L$, the dyadic ledger $D$, the stream-window row $W$, the regular readback row $R$, the Real seal $E$, and the structural rows $H,C,P,N$. The extraction supplies the finite-net row as part of the displayed compact-interval route; it does not supply open-cover compactness, selected subcovers, quotient endpoint equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bishop-compact-interval-carrier}. The tuple displays $F$ only together with the interval source, located endpoint, dyadic, stream, regular, Real, transport, replay, provenance, and local naming rows.
+
+Use the local NameCert obligations of \autoref{thm:bishop-compact-interval-namecert-obligations}. Interval-source compatibility binds $I$ and $L$ before compact data is exposed, and finite-net admission confines compactness-facing access to the displayed row $F$.
+
+Apply the handoff theorem \autoref{thm:bishop-compact-interval-finite-net-handoff}. It orders the same rows for Real- and Completion-facing consumers, placing finite-net coverage after the interval source and before dyadic tolerance, finite windows, regular readback, and terminal Real sealing.
+
+Since the carrier has no coordinate for open covers, selected subcovers, quotient endpoint equality, choice schedules, or ambient completeness, extracting $F$ cannot export any of those stronger objects.
+\end{proof}
+
 \begin{theorem}[Bishop compact interval completion readback]
 \label{thm:bishop-compact-interval-completion-readback}
 Any completion-facing read from an accepted $\BishopCompactIntervalUp$ packet reaches $\RealUp$ only through $\ClosedBoundedIntervalUp$, $\LocatedRealIntervalUp$, $\ClosedBoundedIntervalCompactUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows. The readback exposes the closed-bounded interval source, located endpoint route, finite compact-interval coverage, dyadic tolerance ledger, finite stream windows, regular rational readback, Real sealing, transport, replay, provenance, and local naming, but it cannot be read as ambient $\RealUp$ completeness, selected subcover compactness, quotient endpoint equality, countable choice, or an unrestricted host limit.

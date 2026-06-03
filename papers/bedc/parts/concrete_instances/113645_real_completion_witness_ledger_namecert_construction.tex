@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionWitnessLedgerUp$}
+\label{ch:concrete-instances-real-completion-witness-ledger-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real completion, the $\RealCompletionWitnessLedgerUp$ packet records the finite witness rows by which StreamName observations, regular rational readback, dyadic tolerance, and a Real seal are read as completion data. It sits over the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the nested interval completeness route of \autoref{ch:concrete-instances-nested-interval-completeness-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a witness ledger for finite completion reads, not a quotient construction, selected limit, countable-choice schedule, or ambient completeness theorem.
+
+\begin{definition}[Real completion witness ledger carrier]
+\label{def:real-completion-witness-ledger-carrier}
+A $\RealCompletionWitnessLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,R,D,K,E,H,T,A,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row, carrying the requested windows and the observed stream entries used by the completion read.
+\item $R$ is the $\RegSeqRatUp$ regular readback row assembled from those same finite windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic comparison radii that certify compatibility of the window and readback data.
+\item $K$ is the nested-interval or Cauchy handoff row, displaying the finite bridge by which the regular readback is admitted as completion-facing data.
+\item $E$ is the terminal $\RealUp$ seal row, visible only after $S,R,D,K$.
+\item $H$ records componentwise $\hsame$ transport for the stream windows, regular readback, dyadic tolerance, handoff, Real seal, replay, provenance, and local naming rows.
+\item $T$ is the displayed $\Cont$ replay from a finite completion request through $S,R,D,K,E,H,P,N$.
+\item $A$ is the provenance and replay ledger, recording which finite windows and tolerance rows were inspected before the seal was consumed.
+\item $P$ is the $\Pkg$ provenance over $\RealCompletionWitnessLedgerUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\NestedIntervalCompletenessUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCompletionWitnessLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient stream equality, a host-selected representative, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real completion witness ledger seal]
+\label{thm:real-completion-witness-ledger-seal}
+Every completion-facing $\RealUp$ read exported by an accepted $\RealCompletionWitnessLedgerUp$ carrier factors through a finite route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \NestedIntervalCompletenessUp \longmapsto \RealUp .
+$$
+More explicitly, the seal $E$ can be consumed only after the finite window row $S$, regular readback row $R$, dyadic tolerance row $D$, and nested-interval or Cauchy handoff row $K$ have been displayed and transported componentwise. The packet exports no quotient stream equality, selected limit representative, countable-choice schedule, trichotomy, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completion-witness-ledger-carrier}. The first visible data are the finite StreamName windows $S$ and the regular rational readback $R$ assembled from the same observations.
+
+Read the dyadic tolerance row $D$ and the completion handoff row $K$. These rows certify that the finite windows and regular readback are compatible before any completion-facing seal is available; the handoff may be nested-interval shaped or Cauchy shaped, but in either case it is displayed as a finite row.
+
+The terminal Real seal $E$ is downstream of $S,R,D,K$, and the rows $H,T,A,P,N$ only transport, replay, source, and name that route. Since the carrier has no quotient, selected representative, choice, trichotomy, or host-completeness coordinate, every exported completion read is exactly the displayed finite witness-ledger seal.
+\end{proof}
+
+\closureat{RealCompletionWitnessLedgerUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletionWitnessLedgerUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-completion-witness-ledger-carrier} and \autoref{thm:real-completion-witness-ledger-seal} seed the finite StreamName, RegSeqRat, DyadicRatCore, completion-handoff, RealUp seal, transport, replay, provenance, and local naming witness ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, host-selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked StreamName window admission, RegSeqRat readback, DyadicRatCore tolerance, nested-interval or Cauchy handoff, Real-seal admission, transport, replay, provenance, and local naming for BEDC.Derived.RealCompletionWitnessLedgerUp.}
+  \constructivestory{A $\RealCompletionWitnessLedgerUp$ packet is generated from finite StreamName windows, RegSeqRat regular readback, DyadicRatCore tolerance rows, a nested-interval or Cauchy handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, provenance rows, Pkg sourcing, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\BishopRegularSequenceUp$}
+\label{ch:concrete-instances-bishop-regular-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\BishopRegularSequenceUp$ packet records the lawlike regular rational sequence before it is sealed as a $\RealUp$ name. It sits between the dyadic observation core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the Cauchy-modulus schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names finite observations, windows, regularity rows, tail schedules, seal handoff, transport, replay, provenance, and a local certificate; it does not allocate quotient streams, selected representatives, countable-choice schedules, host real equality, or ambient completeness.
+
+\begin{definition}[Bishop regular-sequence carrier]
+\label{def:bishop-regular-sequence-carrier}
+A $\BishopRegularSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,W,R,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ observation row, naming the dyadic rational values and tolerance comparisons available to the sequence.
+\item $W$ is the $\StreamNameUp$ finite-window row, exposing the inspected prefixes and tail windows of the lawlike sequence.
+\item $R$ is the $\RegSeqRatUp$ regularity row attached to the same windows and dyadic observations.
+\item $M$ is the $\CauchyModulusUp$ schedule row, recording the finite tail threshold supplied for each dyadic tolerance request.
+\item $E$ is the $\RealUp$ seal handoff, available only after $D,W,R,M$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the observation, window, regularity, modulus, seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from observations and windows through regularity and modulus data to the seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\BishopRegularSequenceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRegularSequenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected limits, hidden representatives, countable choice, host real equality, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Bishop regular-sequence NameCert obligations]
+\label{thm:bishop-regular-sequence-namecert-obligations}
+For every accepted $\BishopRegularSequenceUp$ carrier $B=(D,W,R,M,E,H,C,P,N)$, the local $\NameCert_{\BishopRegularSequenceUp}$ surface consists of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet $D,W,R,M,E,H,C,P,N$;
+\item observation and window exposure through $\DyadicRatCoreUp$ and $\StreamNameUp$;
+\item regularity and tail-modulus exposure through $\RegSeqRatUp$ and $\CauchyModulusUp$;
+\item terminal $\RealUp$ seal handoff through $E$ after the observation, window, regularity, and modulus rows are visible;
+\item structural stability through $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert$ row.
+\end{enumerate}
+No accepted obligation row may be discharged by quotient streams, a selected limit, countable choice, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-regular-sequence-carrier}. The analytic rows are exactly $D,W,R,M,E$, and the structural rows are exactly $H,C,P,N$.
+
+The observation and window rows are read first. The $\DyadicRatCoreUp$ row supplies dyadic values and tolerance comparisons, while the $\StreamNameUp$ row supplies the finite inspected windows.
+
+Next read the regularity and modulus rows. The $\RegSeqRatUp$ row states the displayed regularity of the same windows, and the $\CauchyModulusUp$ row supplies the finite tail threshold for each dyadic tolerance request.
+
+Finally the seal handoff and structural rows are consumed. The $\RealUp$ row $E$ is downstream of $D,W,R,M$, and $H,C,P,N$ transport, replay, source, and name that same finite route. Since the carrier has no coordinate for the refused host-level data, the five obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop regular-sequence tail-modulus induction]
+\label{thm:bishop-regular-sequence-tail-modulus-induction}
+For every accepted $\BishopRegularSequenceUp$ carrier $B=(D,W,R,M,E,H,C,P,N)$ and every finite dyadic tolerance request read through $D$, primitive induction on the displayed tail schedule $M$ produces a window threshold in $W$ such that all later inspected windows preserve the $\RegSeqRatUp$ regularity row $R$ before the $\RealUp$ seal handoff $E$ is exposed. The induction stays inside the route
+$$
+D \longmapsto M \longmapsto W \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+It does not select an external infinite tail, quotient two streams, choose a representative, or invoke ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a dyadic tolerance request in $D$. The request is finite BEDC data, so it can be passed to the displayed $\CauchyModulusUp$ schedule row $M$ without invoking an external selector.
+
+Induct on the finite tail schedule carried by $M$. The base case exposes the first admissible window in $W$ for the requested tolerance. The successor step refines the inspected window while preserving the same dyadic tolerance row and the same $\StreamNameUp$ route.
+
+Use the regularity row $R$ after the window threshold is displayed. The $\RegSeqRatUp$ row is attached to $D$ and $W$, so every later inspected window remains a regular rational readback inside the same packet.
+
+Finally expose $E,H,C,P,N$. The $\RealUp$ seal is reached only after the induced tail threshold and regularity row are visible, and the structural rows replay the same finite route. Thus the induction provides a tail-modulus handoff for the public seal without quotient streams, selected limits, hidden representatives, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\BishopRegularSequenceUp$ consumer that reaches a $\RealUp$ seal without displaying $\DyadicRatCoreUp$ observations, $\StreamNameUp$ windows, $\RegSeqRatUp$ regularity, and a $\CauchyModulusUp$ tail schedule refutes the carrier.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, cauchymodulus, real: no listed sibling is bijective to $\BishopRegularSequenceUp$ because the packet jointly carries dyadic observations, finite sequence windows, regularity rows, tail-modulus schedules, Real seal handoff, transport, replay, provenance, and local naming.}
+
+\closureat{BishopRegularSequenceUp}{seedStr}
+
+\begin{closurestatus}{\BishopRegularSequenceUp}
+  \constructivestory{A $\BishopRegularSequenceUp$ packet is generated from DyadicRatCore observations, StreamName finite windows, RegSeqRat regularity rows, a CauchyModulus tail schedule, a RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-sequence-carrier}, \autoref{thm:bishop-regular-sequence-namecert-obligations}, and \autoref{thm:bishop-regular-sequence-tail-modulus-induction} seed the finite regular-sequence route from dyadic observations and windows to the Real seal handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking for $\BishopRegularSequenceUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, observation and window exposure, regularity readback, tail-modulus induction, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.BishopRegularSequenceUp.}
+\end{closurestatus}

@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyEqualityCriterionUp$}
+\label{ch:concrete-instances-regular-cauchy-equality-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\RegularCauchyEqualityCriterionUp$ packet records the finite tail-tolerance criterion by which two regular rational names are compared before a $\RealUp$ consumer reads an equality boundary. It sits after the $\StreamNameUp$ finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names equality by displayed dyadic radii and cofinal regular-sequence tails, not by quotient classes, selected representatives, trichotomy, or choice.
+
+\begin{definition}[Regular Cauchy equality criterion carrier]
+\label{def:regular-cauchy-equality-criterion-carrier}
+A $\RegularCauchyEqualityCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S_0,S_1,R_0,R_1,D,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two $\StreamNameUp$ finite-window rows opened for the compared regular Cauchy names.
+\item $R_0$ and $R_1$ are the corresponding $\RegSeqRatUp$ readback rows, binding each opened window to rational observations.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the displayed radii, half-radius splits, and comparison cells used by the test.
+\item $T$ is the common finite tail row, recording that both regular names are read past the displayed tail stage for the same dyadic tolerance request.
+\item $E$ is the $\RealUp$ equality-boundary read, available only after the two windows, the two regular readbacks, the dyadic ledger, and the common tail row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two windows, two readbacks, dyadic ledger, tail row, equality boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S_0,S_1,R_0,R_1,D \longmapsto T \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyEqualityCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyEqualityCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S_0,S_1,R_0,R_1,D,T,E,H,C,P,N$. It has no coordinate for quotient equality of Cauchy names, a selected representative, real trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.RegularCauchyEqualityCriterionUp}
+
+\begin{theorem}[Regular Cauchy equality criterion NameCert obligations]
+\label{thm:regular-cauchy-equality-criterion-namecert-obligations}
+For every accepted $\RegularCauchyEqualityCriterionUp$ carrier
+$$
+Q=(S_0,S_1,R_0,R_1,D,T,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyEqualityCriterionUp}$ surface consists exactly of carrier admission, two StreamName window exposures, two RegSeqRat readbacks, one DyadicRatCore tolerance ledger, one common tail row, ordered $\RealUp$ equality-boundary access, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. A consumer that reads equality of the two regular Cauchy names must pass through those rows before it may cite the Real-facing equality boundary.
+\end{theorem}
+\begin{proof}
+Project the accepted finite $\BHist$ packet. Carrier admission exposes exactly the two windows, two regular readbacks, dyadic tolerance ledger, common tail row, equality-boundary row, transport row, replay row, provenance row, and local naming row.
+
+The two readback sides are symmetric but not quotient data. The rows $S_0,R_0$ and $S_1,R_1$ provide only displayed finite windows and regular rational observations.
+
+The dyadic and tail stages are ordered. The row $D$ supplies the displayed radii and comparison cells, and $T$ records the common tail stage at which both regular names are read for that request.
+
+The equality-boundary row $E$ is downstream of $S_0,S_1,R_0,R_1,D,T$. Since the remaining rows $H,C,P,N$ only transport, replay, source, and name the same route, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy equality criterion dyadic tail route]
+\label{thm:regular-cauchy-equality-criterion-dyadic-tail-route}
+Let
+$$
+Q=(S_0,S_1,R_0,R_1,D,T,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyEqualityCriterionUp$ carrier. Every $\RegSeqRatUp$ or $\RealUp$ consumer that reads the equality criterion for the two regular Cauchy names factors through the finite route
+$$
+S_0,S_1 \longmapsto R_0,R_1 \longmapsto D \longmapsto T \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the criterion routes through displayed dyadic radii and regular-sequence tails: the consumer receives the two StreamName windows, two RegSeqRat readbacks, the DyadicRatCore tolerance ledger, the common tail row, the equality-boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data. It receives no quotient class of Cauchy names, selected representative, trichotomy decision, countable-choice schedule, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier and project the two window rows $S_0,S_1$. These are the only observation windows available to a consumer of the compared names.
+
+Next read the two regular rational rows $R_0,R_1$. They bind the observations to regular-sequence data for the same consumer request, so the route has not introduced an external representative or quotient object.
+
+The dyadic tolerance row $D$ is then read before the common tail row $T$. This makes the radius and the tail stage displayed together, with the tail request determined by the same finite ledger.
+
+Finally read the equality-boundary row $E$ and the structural rows $H,C,P,N$. The route therefore reaches any $\RegSeqRatUp$ or $\RealUp$ equality consumer only through the displayed dyadic radii and regular-sequence tails, and the carrier has no coordinate from which the excluded quotient, selection, order, choice, host-equality, or completeness principles could be recovered.
+\end{proof}
+
+\closureat{RegularCauchyEqualityCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyEqualityCriterionUp}
+  \constructivestory{A $\RegularCauchyEqualityCriterionUp$ packet is generated from two StreamName windows, two RegSeqRat readback rows, one DyadicRatCore tolerance ledger, one common tail row, a RealUp equality-boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-equality-criterion-carrier}, \autoref{thm:regular-cauchy-equality-criterion-namecert-obligations}, and \autoref{thm:regular-cauchy-equality-criterion-dyadic-tail-route} seed the finite tail-tolerance equality route for regular Cauchy names over displayed dyadic radii.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.RegularCauchyEqualityCriterionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of Cauchy names, selected representatives, trichotomy, countable choice, host real equality, ambient $\RealUp$ completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired readback exactness, dyadic tolerance exposure, common-tail exactness, ordered equality-boundary access, and structural stability for BEDC.Derived.RegularCauchyEqualityCriterionUp.}
+\end{closurestatus}

@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RieszRepresentationUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -135,5 +145,32 @@ theorem RieszRepresentationTasteGate_single_carrier_alignment :
       (fun _ _ heq =>
         RieszRepresentationTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+def RieszRepresentationCarrier [AskSetup] [PackageSetup]
+    (source target functional representing ledger boundary provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory functional ∧
+    UnaryHistory representing ∧ UnaryHistory ledger ∧ UnaryHistory boundary ∧
+      UnaryHistory provenance ∧ UnaryHistory localName ∧
+        Cont functional representing ledger ∧ Cont source target boundary ∧
+          PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+
+theorem RieszRepresentationNameCertObligations [AskSetup] [PackageSetup]
+    {source target functional representing ledger boundary provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RieszRepresentationCarrier source target functional representing ledger boundary provenance
+        localName bundle pkg →
+      UnaryHistory source ∧ UnaryHistory functional ∧ UnaryHistory representing ∧
+        UnaryHistory ledger ∧ Cont functional representing ledger ∧
+          PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨sourceUnary, _targetUnary, functionalUnary, representingUnary, ledgerUnary,
+    _boundaryUnary, _provenanceUnary, _localNameUnary, representationRoute, _boundaryRoute,
+    provenancePkg, localNamePkg⟩ := carrier
+  exact
+    ⟨sourceUnary, functionalUnary, representingUnary, ledgerUnary, representationRoute,
+      provenancePkg, localNamePkg⟩
 
 end BEDC.Derived.RieszRepresentationUp

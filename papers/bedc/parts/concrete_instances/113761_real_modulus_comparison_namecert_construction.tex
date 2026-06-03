@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\RealModulusComparisonUp$}
+\label{ch:concrete-instances-real-modulus-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers with explicit moduli of convergence, the $\RealModulusComparisonUp$ packet records how two Real-facing convergence-modulus certificates are compared without quotienting streams or selecting representatives. It sits after the comparison surface of \autoref{ch:concrete-instances-cauchymoduluscomparison-namecert}, the convergence ledger of \autoref{ch:concrete-instances-real-modulus-of-convergence-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert bridge between rate certificates; it is not a selected limit, a quotient equality of real names, a countable-choice schedule, or an ambient completeness principle.
+
+\begin{definition}[Real modulus comparison carrier]
+\label{def:real-modulus-comparison-carrier}
+A $\RealModulusComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+K=(C,M_0,M_1,S,R,D,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\CauchyModulusComparisonUp$ comparison row naming the cofinal comparison between the two displayed schedules.
+\item $M_0$ and $M_1$ are $\RealModulusOfConvergenceUp$ ledger rows for the two Real-facing convergence certificates under comparison.
+\item $S$ is the $\StreamNameUp$ finite-window schedule shared by the requested comparison read.
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row reached from the same finite windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that names the requested precision and the dyadic comparison budget.
+\item $E$ is the terminal $\RealUp$ seal row, available only after the two modulus ledgers, finite windows, readback row, tolerance row, and comparison row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the comparison row, both modulus ledgers, stream schedule, readback row, dyadic tolerance row, Real seal, replay, provenance, and local naming.
+\item $T$ records displayed $\Cont$ replay from a comparison request through $S,R,D,M_0,M_1,C,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealModulusComparisonUp$, $\CauchyModulusComparisonUp$, $\RealModulusOfConvergenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealModulusComparisonUp}$ row.
+\end{enumerate}
+Accepted packets are compared only through $C,M_0,M_1,S,R,D,E,H,T,P,N$. There is no coordinate for selected limits, quotient stream equality, countable choice, host Real equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Real modulus comparison NameCert obligations]
+\label{thm:real-modulus-comparison-namecert-obligations}
+For every accepted $\RealModulusComparisonUp$ carrier
+$$
+K=(C,M_0,M_1,S,R,D,E,H,T,P,N),
+$$
+the local $\NameCert_{\RealModulusComparisonUp}$ surface consists exactly of carrier admission for $K$, dyadic tolerance exposure through $D$, finite-window handoff through $S$, regular-rational readback through $R$, cofinal modulus comparison through $C,M_0,M_1$, Real-seal nonescape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, package provenance through $P$, and local naming through $N$. Every Real or Completion consumer must read these rows before it may use comparison data between convergence-modulus packets.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-comparison-carrier}. The rows $M_0,M_1$ are the only Real-facing convergence-modulus ledgers, and $C$ is the only comparison row between them.
+
+The finite observation route is ordered by $S,R,D$. A comparison request first opens the displayed $\StreamNameUp$ windows, then reads regular rational data through $R$, and then names the requested dyadic tolerance through $D$ before the cofinal comparison row can be consumed.
+
+The Real seal $E$ is terminal for this packet. It is reached only after the two modulus ledgers and their comparison row have been displayed, while $H,T,P,N$ transport, replay, source, and name that same route.
+
+Since the carrier has no coordinate for selected limits, quotient stream equality, countable choice, host Real equality, or ambient Real completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealModulusComparisonUp$ comparison read factors through one $\CauchyModulusComparisonUp$ row, two $\RealModulusOfConvergenceUp$ ledger rows, one $\StreamNameUp$ finite-window schedule, one $\RegSeqRatUp$ readback row, one $\DyadicRatCoreUp$ tolerance row, one $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before any Real or Completion consumer may use the comparison.}
+
+\independenceWitness{cauchymoduluscomparison, realmodulusofconvergence, streamname, regseqrat, dyadicratcore, real: $\RealModulusComparisonUp$ is not bijective to any listed sibling because it jointly carries the comparison row, two Real-modulus ledgers, finite stream schedule, regular readback, dyadic tolerance, Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{RealModulusComparisonUp}{seedStr}
+
+\begin{closurestatus}{\RealModulusComparisonUp}
+  \constructivestory{A $\RealModulusComparisonUp$ packet is generated from a CauchyModulusComparisonUp row, two RealModulusOfConvergenceUp ledger rows, StreamNameUp finite windows, RegSeqRatUp readback, DyadicRatCoreUp tolerances, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-modulus-comparison-carrier} and \autoref{thm:real-modulus-comparison-namecert-obligations} seed the finite comparison surface for Real-facing convergence-modulus certificates.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient stream equality, countable choice, host Real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance exposure, finite-window handoff, regular-rational readback, cofinal modulus comparison, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RealModulusComparisonUp.}
+\end{closurestatus}

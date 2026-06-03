@@ -121,6 +121,20 @@ Use \autoref{thm:nested-interval-intersection-finite-diagonal-handoff} to identi
 The remaining coordinates are bookkeeping rows: $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and the local naming certificate. None of them contains a compactness theorem, a point-selection operator, a uniqueness claim, or a host real equality row. Therefore the real-seal boundary is precisely the finite surface stated above.
 \end{proof}
 
+\begin{theorem}[Nested interval intersection public export]
+\label{thm:nested-interval-intersection-public-export}
+The public $\NestedIntervalIntersectionUp$ interface exports exactly the finite diagonal selector, the selected endpoint enclosure, the $\RegSeqRatUp$ handoff row, the $\RealUp$ seal-facing boundary, the displayed $\hsame$ and $\Cont$ transports, the $\Pkg$ provenance, and the local $\NameCert_{\NestedIntervalIntersectionUp}$ row named in \autoref{thm:nested-interval-intersection-finite-diagonal-handoff} and \autoref{thm:nested-interval-intersection-real-seal-boundary}.
+
+Every public consumer read of the packet therefore factors through the same selected finite interval row and cannot read a hidden chain tail, a chosen intersection point, open-cover compactness, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the finite diagonal handoff. By \autoref{thm:nested-interval-intersection-finite-diagonal-handoff}, a public precision request exposes one selected interval row, its endpoint packet, its dyadic endpoint reads, and the displayed width or regularity witness for that request.
+
+Pass next through the real-seal boundary. By \autoref{thm:nested-interval-intersection-real-seal-boundary}, the only rows added at the public boundary are the displayed transports, replay routes, provenance, and local naming row.
+
+No carrier coordinate remains outside these two surfaces. The exported interface is therefore exactly the finite diagonal route plus its seal-facing bookkeeping, with no point-selection, compactness, host equality, or completeness datum.
+\end{proof}
+
 \begin{theorem}[Nested interval dyadic selector coverage]
 \label{thm:nested-interval-dyadic-selector-coverage}
 Every $\RealUp$-facing consumer read of an accepted $\NestedIntervalIntersectionUp$ packet is covered by one selected finite interval row. The selected row has lower and upper endpoint reads in $\DyadicRatCoreUp$, its displayed width or $\RegularityModulusUp$ row supplies the requested $\RegSeqRatUp$ handoff, and its provenance is exactly the recorded $\Pkg$ and local $\NameCert_{\NestedIntervalIntersectionUp}$ route transported through the visible $\hsame$ and $\Cont$ rows.
@@ -183,12 +197,12 @@ Finally route the handoff through \autoref{thm:nested-interval-intersection-real
 
 \begin{closurestatus}{\NestedIntervalIntersectionUp}
   \constructivestory{A $\NestedIntervalIntersectionUp$ packet is generated from a finite $\NestedIntervalUp$ or $\NestedDyadicIntervalUp$ chain, displayed $\DyadicIntervalUp$ endpoint packets, $\DyadicRatCoreUp$ endpoint reads, width or $\RegularityModulusUp$ rows, a finite diagonal selector, $\RegSeqRatUp$ handoff rows, a $\RealUp$ seal-facing surface, displayed $\hsame$ and $\Cont$ transports, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The seed scope registers the carrier, finite-window classifier, five-row naming-certificate obligation surface, finite diagonal handoff, and real-seal boundary for nested interval intersection readback over $\NestedIntervalUp$, $\NestedDyadicIntervalUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RegularityModulusUp$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public scope registers the carrier, finite-window classifier, five-row naming-certificate obligation surface, finite diagonal handoff, real-seal boundary, and public export theorem for nested interval intersection readback over $\NestedIntervalUp$, $\NestedDyadicIntervalUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RegularityModulusUp$.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.NestedIntervalIntersectionUp.NestedIntervalIntersectionCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Cantor nested-interval convergence, open-cover compactness, point extraction, uniqueness of an intersection element, or host real equality.}
-  \upgradepath{The next paper grade is a public export theorem for the finite diagonal intersection surface.}
+  \upgradepath{The next paper grade is a checked bridge from the public finite diagonal export to the standard bridge surface.}
 \end{closurestatus}

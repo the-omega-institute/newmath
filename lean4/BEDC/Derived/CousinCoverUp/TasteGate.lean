@@ -70,22 +70,37 @@ private def cousinCoverEventAtDefault : Nat -> EventFlow -> RawEvent
   | Nat.succ _, [] => []
   | Nat.succ index, _ :: rest => cousinCoverEventAtDefault index rest
 
+private def cousinCoverLengthEq : Nat -> EventFlow -> Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => cousinCoverLengthEq n rest
+
 def cousinCoverFromEventFlow : EventFlow -> Option CousinCoverUp
   -- BEDC touchpoint anchor: BHist BMark
   | flow =>
-      some
-        (CousinCoverUp.mk
-          (cousinCoverDecodeBHist (cousinCoverEventAtDefault 1 flow))
-          (cousinCoverDecodeBHist (cousinCoverEventAtDefault 3 flow))
-          (cousinCoverDecodeBHist (cousinCoverEventAtDefault 5 flow))
-          (cousinCoverDecodeBHist (cousinCoverEventAtDefault 7 flow))
-          (cousinCoverDecodeBHist (cousinCoverEventAtDefault 9 flow))
-          (cousinCoverDecodeBHist (cousinCoverEventAtDefault 11 flow))
-          (cousinCoverDecodeBHist (cousinCoverEventAtDefault 13 flow))
-          (cousinCoverDecodeBHist (cousinCoverEventAtDefault 15 flow))
-          (cousinCoverDecodeBHist (cousinCoverEventAtDefault 17 flow))
-          (cousinCoverDecodeBHist (cousinCoverEventAtDefault 19 flow))
-          (cousinCoverDecodeBHist (cousinCoverEventAtDefault 21 flow)))
+      match cousinCoverLengthEq 22 flow with
+      | true =>
+          some
+            (CousinCoverUp.mk
+              (cousinCoverDecodeBHist (cousinCoverEventAtDefault 1 flow))
+              (cousinCoverDecodeBHist (cousinCoverEventAtDefault 3 flow))
+              (cousinCoverDecodeBHist (cousinCoverEventAtDefault 5 flow))
+              (cousinCoverDecodeBHist (cousinCoverEventAtDefault 7 flow))
+              (cousinCoverDecodeBHist (cousinCoverEventAtDefault 9 flow))
+              (cousinCoverDecodeBHist (cousinCoverEventAtDefault 11 flow))
+              (cousinCoverDecodeBHist (cousinCoverEventAtDefault 13 flow))
+              (cousinCoverDecodeBHist (cousinCoverEventAtDefault 15 flow))
+              (cousinCoverDecodeBHist (cousinCoverEventAtDefault 17 flow))
+              (cousinCoverDecodeBHist (cousinCoverEventAtDefault 19 flow))
+              (cousinCoverDecodeBHist (cousinCoverEventAtDefault 21 flow)))
+      | false => none
+
+theorem CousinCoverTasteGate_single_carrier_alignment_short_flow_rejected :
+    cousinCoverFromEventFlow ([] : EventFlow) = none := by
+  -- BEDC touchpoint anchor: BHist BMark
+  rfl
 
 private theorem cousinCover_round_trip :
     forall x : CousinCoverUp,

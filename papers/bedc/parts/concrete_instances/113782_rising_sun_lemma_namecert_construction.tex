@@ -1,0 +1,56 @@
+\chapter{Rising Sun Lemma NameCert Construction}
+\label{ch:concrete-instances-rising-sun-lemma-namecert}
+\origin{human}
+
+Following Riesz's rising sun lemma, the $\RisingSunLemmaUp$ packet records the finite BEDC surface for decomposing a located real interval into exposed and shaded subinterval windows for an upper-envelope comparison. It is a neighbour of the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the located-real route of \autoref{ch:concrete-instances-locatedreal-namecert}, the dyadic interval rows of \autoref{ch:concrete-instances-dyadicinterval-namecert}, and the compact interval maximum route of \autoref{ch:concrete-instances-compact-interval-maximum-namecert}. The chapter isolates only the finite interval-decomposition certificate consumed by later $\RealUp$ analysis; it does not import a host measurable decomposition, selected family of open intervals, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[RisingSunLemma carrier]
+\label{def:rising-sun-carrier}
+A $\RisingSunLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{RisingSunLemma}(I,F,E,M,S,T,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $I$ is the compact located interval row, read through the displayed $\RealUp$ endpoint names and the dyadic-interval subdivision ledger;
+\item $F$ is the located upper-envelope observation row on the interval;
+\item $E$ is the exposed-window ledger, listing finite dyadic subintervals on which the observation sits below a later envelope read;
+\item $M$ is the compact interval maximum handoff row used to certify the local envelope bound on each displayed closed window;
+\item $S$ is the shaded-window complement ledger, recording the remaining finite interval pieces after the exposed windows are read;
+\item $T$ is the terminal $\RealUp$ handoff row through which downstream consumers read the endpoint and envelope seals;
+\item $H$ is the componentwise $\hsame$ transport over the interval, observation, maximum, exposed-window, shaded-window, and terminal rows;
+\item $C$ is the displayed $\Cont$ replay route for the same rows;
+\item $P$ is the $\Pkg$ provenance over $\RisingSunLemmaUp$, $\RealUp$, $\LocatedRealUp$, $\DyadicIntervalUp$, $\CompactIntervalMaximumUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RisingSunLemmaUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[RisingSunLemma NameCert obligations]
+\label{thm:rising-sun-namecert-obligations}
+For every accepted $\RisingSunLemmaUp$ carrier
+$$
+R=\mathsf{RisingSunLemma}(I,F,E,M,S,T,H,C,P,N),
+$$
+the local $\NameCert_{\RisingSunLemmaUp}$ surface consists exactly of compact located interval admission through $I$, located upper-envelope readback through $F$, exposed-window visibility through $E$, compact interval maximum handoff through $M$, shaded-window complement visibility through $S$, terminal $\RealUp$ seal readback through $T$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+The obligation rows are finite. The $\BHist$ row stores only displayed dyadic subinterval packets and real-name observations; the $\hsame$ row transports the interval, envelope, maximum, exposed-window, shaded-window, and terminal rows componentwise; the $\Cont$ row replays the same finite inspection route; the $\Pkg$ row records provenance through the Real, located-real, dyadic-interval, and compact-maximum siblings; and the $\NameCert$ row admits no extra decomposition datum outside these rows.
+\end{theorem}
+\begin{proof}
+Start from the carrier rows in \autoref{def:rising-sun-carrier}. The interval and endpoint data are already displayed as $\RealUp$ and located-real rows, while the subdivision data are finite dyadic interval rows.
+
+Apply the compact interval maximum handoff to each displayed closed window in the finite dyadic ledger. This binds the envelope comparison to $M$ before the exposed and shaded ledgers are consumed by any downstream real-analysis route.
+
+The remaining structural rows are bookkeeping over the same finite packet. Componentwise $\hsame$ transport preserves each displayed interval and envelope row, $\Cont$ replay keeps the finite inspection order, $\Pkg$ records the sibling provenance, and $N$ names the resulting local surface. Since the carrier contains no selected open family, no quotient real equality, no countable-choice row, and no ambient completeness coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RisingSunLemma stopping-time handoff]
+\label{thm:rising-sun-stopping-time-handoff}
+Every downstream stopping-time or finite-sweep consumer of an accepted $\RisingSunLemmaUp$ carrier factors through the exposed-window ledger $E$, the compact interval maximum handoff $M$, the shaded-window complement ledger $S$, and the terminal $\RealUp$ row $T$ before it can read an interval-decomposition result. The handoff is therefore a finite interval decomposition over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, not a selected countable union of open intervals, not quotient equality of real endpoints, and not an appeal to ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier in the order displayed by the packet. A stopping-time consumer first sees the compact located interval row and the finite dyadic subdivision ledger, so every candidate exposed window is already a finite interval row.
+
+The envelope comparison is then routed through the compact interval maximum handoff. This supplies the local maximum row used to certify whether a window is exposed or remains in the shaded complement, without selecting an external family of intervals.
+
+Finally the downstream consumer reads the terminal $\RealUp$ handoff through the displayed transport, replay, provenance, and naming rows. Thus every stopping-time read is a finite handoff through $E,M,S,T,H,C,P,N$, and no unlisted choice, quotient, bridge, or completeness datum can supply an alternate decomposition.
+\end{proof}

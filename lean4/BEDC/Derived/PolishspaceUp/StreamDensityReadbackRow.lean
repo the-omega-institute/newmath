@@ -32,7 +32,7 @@ theorem PolishSpaceStreamDensityReadbackRow [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro surface separableStreamDense denseReadbackStreamDensity
   obtain ⟨_metricUnary, _completeUnary, separableUnary, streamUnary, readbackUnary,
-    _ledgerUnary, _transportUnary, _metricComplete, _metricSeparable,
+    _ledgerUnary, _transportUnary, _localNameUnary, _metricComplete, _metricSeparable,
     _ledgerTransportReplay, provenancePkg, localNamePkg⟩ := surface
   have denseReadUnary : UnaryHistory denseRead :=
     unary_cont_closed separableUnary streamUnary separableStreamDense

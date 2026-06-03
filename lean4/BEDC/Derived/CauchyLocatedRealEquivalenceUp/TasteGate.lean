@@ -11,25 +11,33 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CauchyLocatedRealEquivalenceUp : Type where
-  | mk (C L U W R D E H Ct P N : BHist) : CauchyLocatedRealEquivalenceUp
-  deriving DecidableEq
+  | packet
+      (cauchy locatedLower locatedUpper window readback decision equivalence transport
+        continuation provenance nameRow : BHist) :
+      CauchyLocatedRealEquivalenceUp
 
-def cauchyLocatedRealEquivalenceEncodeBHist : BHist → RawEvent
+def CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist :
+    BHist → List BMark
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: cauchyLocatedRealEquivalenceEncodeBHist h
-  | BHist.e1 h => BMark.b1 :: cauchyLocatedRealEquivalenceEncodeBHist h
+  | BHist.e0 h =>
+      BMark.b0 ::
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e1 h =>
+      BMark.b1 ::
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist h
 
-def cauchyLocatedRealEquivalenceDecodeBHist : RawEvent → BHist
+def cauchyLocatedRealEquivalenceDecodeBHist : List BMark → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (cauchyLocatedRealEquivalenceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyLocatedRealEquivalenceDecodeBHist tail)
 
-private theorem CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode :
+private theorem CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       cauchyLocatedRealEquivalenceDecodeBHist
-          (cauchyLocatedRealEquivalenceEncodeBHist h) = h := by
+          (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -40,100 +48,124 @@ private theorem CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_d
 def cauchyLocatedRealEquivalenceFields :
     CauchyLocatedRealEquivalenceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | CauchyLocatedRealEquivalenceUp.mk C L U W R D E H Ct P N =>
-      [C, L, U, W, R, D, E, H, Ct, P, N]
+  | CauchyLocatedRealEquivalenceUp.packet cauchy locatedLower locatedUpper window readback
+      decision equivalence transport continuation provenance nameRow =>
+      [cauchy, locatedLower, locatedUpper, window, readback, decision, equivalence,
+        transport, continuation, provenance, nameRow]
 
 def cauchyLocatedRealEquivalenceToEventFlow :
     CauchyLocatedRealEquivalenceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (cauchyLocatedRealEquivalenceFields x).map
-      cauchyLocatedRealEquivalenceEncodeBHist
+  | x =>
+      (cauchyLocatedRealEquivalenceFields x).map
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
 
-private def cauchyLocatedRealEquivalenceEventAt :
-    Nat → EventFlow → RawEvent
+private def cauchyLocatedRealEquivalenceRawAt : Nat → EventFlow → List BMark
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => cauchyLocatedRealEquivalenceEventAt index rest
+  | 0, [] => []
+  | 0, raw :: _ => raw
+  | Nat.succ _, [] => []
+  | Nat.succ index, _ :: rest => cauchyLocatedRealEquivalenceRawAt index rest
 
 def cauchyLocatedRealEquivalenceFromEventFlow
-    (ef : EventFlow) : Option CauchyLocatedRealEquivalenceUp :=
+    (flow : EventFlow) : Option CauchyLocatedRealEquivalenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
-    (CauchyLocatedRealEquivalenceUp.mk
+    (CauchyLocatedRealEquivalenceUp.packet
       (cauchyLocatedRealEquivalenceDecodeBHist
-        (cauchyLocatedRealEquivalenceEventAt 0 ef))
+        (cauchyLocatedRealEquivalenceRawAt 0 flow))
       (cauchyLocatedRealEquivalenceDecodeBHist
-        (cauchyLocatedRealEquivalenceEventAt 1 ef))
+        (cauchyLocatedRealEquivalenceRawAt 1 flow))
       (cauchyLocatedRealEquivalenceDecodeBHist
-        (cauchyLocatedRealEquivalenceEventAt 2 ef))
+        (cauchyLocatedRealEquivalenceRawAt 2 flow))
       (cauchyLocatedRealEquivalenceDecodeBHist
-        (cauchyLocatedRealEquivalenceEventAt 3 ef))
+        (cauchyLocatedRealEquivalenceRawAt 3 flow))
       (cauchyLocatedRealEquivalenceDecodeBHist
-        (cauchyLocatedRealEquivalenceEventAt 4 ef))
+        (cauchyLocatedRealEquivalenceRawAt 4 flow))
       (cauchyLocatedRealEquivalenceDecodeBHist
-        (cauchyLocatedRealEquivalenceEventAt 5 ef))
+        (cauchyLocatedRealEquivalenceRawAt 5 flow))
       (cauchyLocatedRealEquivalenceDecodeBHist
-        (cauchyLocatedRealEquivalenceEventAt 6 ef))
+        (cauchyLocatedRealEquivalenceRawAt 6 flow))
       (cauchyLocatedRealEquivalenceDecodeBHist
-        (cauchyLocatedRealEquivalenceEventAt 7 ef))
+        (cauchyLocatedRealEquivalenceRawAt 7 flow))
       (cauchyLocatedRealEquivalenceDecodeBHist
-        (cauchyLocatedRealEquivalenceEventAt 8 ef))
+        (cauchyLocatedRealEquivalenceRawAt 8 flow))
       (cauchyLocatedRealEquivalenceDecodeBHist
-        (cauchyLocatedRealEquivalenceEventAt 9 ef))
+        (cauchyLocatedRealEquivalenceRawAt 9 flow))
       (cauchyLocatedRealEquivalenceDecodeBHist
-        (cauchyLocatedRealEquivalenceEventAt 10 ef)))
+        (cauchyLocatedRealEquivalenceRawAt 10 flow)))
 
 private theorem CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_round_trip
     (x : CauchyLocatedRealEquivalenceUp) :
     cauchyLocatedRealEquivalenceFromEventFlow
-        (cauchyLocatedRealEquivalenceToEventFlow x) = some x := by
+        (cauchyLocatedRealEquivalenceToEventFlow x) =
+      some x := by
   -- BEDC touchpoint anchor: BHist BMark
   cases x with
-  | mk C L U W R D E H Ct P N =>
+  | packet cauchy locatedLower locatedUpper window readback decision equivalence transport
+      continuation provenance nameRow =>
       change
         some
-          (CauchyLocatedRealEquivalenceUp.mk
+          (CauchyLocatedRealEquivalenceUp.packet
             (cauchyLocatedRealEquivalenceDecodeBHist
-              (cauchyLocatedRealEquivalenceEncodeBHist C))
+              (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+                cauchy))
             (cauchyLocatedRealEquivalenceDecodeBHist
-              (cauchyLocatedRealEquivalenceEncodeBHist L))
+              (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+                locatedLower))
             (cauchyLocatedRealEquivalenceDecodeBHist
-              (cauchyLocatedRealEquivalenceEncodeBHist U))
+              (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+                locatedUpper))
             (cauchyLocatedRealEquivalenceDecodeBHist
-              (cauchyLocatedRealEquivalenceEncodeBHist W))
+              (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+                window))
             (cauchyLocatedRealEquivalenceDecodeBHist
-              (cauchyLocatedRealEquivalenceEncodeBHist R))
+              (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+                readback))
             (cauchyLocatedRealEquivalenceDecodeBHist
-              (cauchyLocatedRealEquivalenceEncodeBHist D))
+              (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+                decision))
             (cauchyLocatedRealEquivalenceDecodeBHist
-              (cauchyLocatedRealEquivalenceEncodeBHist E))
+              (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+                equivalence))
             (cauchyLocatedRealEquivalenceDecodeBHist
-              (cauchyLocatedRealEquivalenceEncodeBHist H))
+              (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+                transport))
             (cauchyLocatedRealEquivalenceDecodeBHist
-              (cauchyLocatedRealEquivalenceEncodeBHist Ct))
+              (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+                continuation))
             (cauchyLocatedRealEquivalenceDecodeBHist
-              (cauchyLocatedRealEquivalenceEncodeBHist P))
+              (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+                provenance))
             (cauchyLocatedRealEquivalenceDecodeBHist
-              (cauchyLocatedRealEquivalenceEncodeBHist N))) =
-          some (CauchyLocatedRealEquivalenceUp.mk C L U W R D E H Ct P N)
-      rw [CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode C,
-        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode L,
-        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode U,
-        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode W,
-        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode R,
-        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode D,
-        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode E,
-        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode H,
-        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode Ct,
-        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode P,
-        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode N]
+              (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+                nameRow))) =
+          some
+            (CauchyLocatedRealEquivalenceUp.packet cauchy locatedLower locatedUpper window
+              readback decision equivalence transport continuation provenance nameRow)
+      rw [CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode cauchy,
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode
+          locatedLower,
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode
+          locatedUpper,
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode window,
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode readback,
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode decision,
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode
+          equivalence,
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode
+          transport,
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode
+          continuation,
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode
+          provenance,
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode nameRow]
 
-private theorem CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_injective
+private theorem CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyLocatedRealEquivalenceUp} :
     cauchyLocatedRealEquivalenceToEventFlow x =
-      cauchyLocatedRealEquivalenceToEventFlow y → x = y := by
+      cauchyLocatedRealEquivalenceToEventFlow y →
+    x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -148,19 +180,6 @@ private theorem CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_i
       (Eq.trans hread
         (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_fields :
-    ∀ x y : CauchyLocatedRealEquivalenceUp,
-      cauchyLocatedRealEquivalenceFields x =
-        cauchyLocatedRealEquivalenceFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk C₁ L₁ U₁ W₁ R₁ D₁ E₁ H₁ Ct₁ P₁ N₁ =>
-      cases y with
-      | mk C₂ L₂ U₂ W₂ R₂ D₂ E₂ H₂ Ct₂ P₂ N₂ =>
-          cases hfields
-          rfl
-
 instance cauchyLocatedRealEquivalenceBHistCarrier :
     BHistCarrier CauchyLocatedRealEquivalenceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -174,64 +193,41 @@ instance cauchyLocatedRealEquivalenceChapterTasteGate :
     intro x
     change
       cauchyLocatedRealEquivalenceFromEventFlow
-          (cauchyLocatedRealEquivalenceToEventFlow x) = some x
+          (cauchyLocatedRealEquivalenceToEventFlow x) =
+        some x
     exact CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_injective heq)
+      (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_toEventFlow_injective
+        heq)
 
-instance cauchyLocatedRealEquivalenceFieldFaithful :
-    FieldFaithful CauchyLocatedRealEquivalenceUp where
+def taste_gate : ChapterTasteGate CauchyLocatedRealEquivalenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fields := cauchyLocatedRealEquivalenceFields
-  field_faithful :=
-    CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_fields
-
-instance cauchyLocatedRealEquivalenceNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial CauchyLocatedRealEquivalenceUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨CauchyLocatedRealEquivalenceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      CauchyLocatedRealEquivalenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+  cauchyLocatedRealEquivalenceChapterTasteGate
 
 theorem CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate CauchyLocatedRealEquivalenceUp) ∧
+    (∀ h : BHist,
+      cauchyLocatedRealEquivalenceDecodeBHist
+          (CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist h) =
+        h) ∧
       (∀ x : CauchyLocatedRealEquivalenceUp,
-        ∃ e : EventFlow, BHistCarrier.fromEventFlow e = some x) ∧
-        ∃ x y : CauchyLocatedRealEquivalenceUp,
-          x ≠ y ∧
-            FieldFaithful.fields x =
-              [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-                BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-                BHist.Empty] ∧
-              FieldFaithful.fields y =
-                [BHist.e0 BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-                  BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-                  BHist.Empty, BHist.Empty] := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
-  constructor
-  · exact ⟨cauchyLocatedRealEquivalenceChapterTasteGate⟩
-  · constructor
-    · intro x
-      exact ChapterTasteGate.no_hidden_input x
-    · refine
-        ⟨CauchyLocatedRealEquivalenceUp.mk BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty,
-          CauchyLocatedRealEquivalenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty, ?_, ?_, ?_⟩
-      · intro h
-        cases h
-      · rfl
-      · rfl
+        cauchyLocatedRealEquivalenceFromEventFlow
+            (cauchyLocatedRealEquivalenceToEventFlow x) =
+          some x) ∧
+        (∀ x y : CauchyLocatedRealEquivalenceUp,
+          cauchyLocatedRealEquivalenceToEventFlow x =
+            cauchyLocatedRealEquivalenceToEventFlow y →
+          x = y) ∧
+          CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_encodeBHist
+            BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_decode_encode,
+      CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_round_trip,
+      fun _ _ heq =>
+        CauchyLocatedRealEquivalenceTasteGate_single_carrier_alignment_toEventFlow_injective
+          heq,
+      rfl⟩
 
 end BEDC.Derived.CauchyLocatedRealEquivalenceUp.TasteGate

@@ -495,6 +495,67 @@ countable choice, metric or ambient completeness data, aggregate formalstatus
 rows, and bridge rows.
 \end{proof}
 
+\begin{definition}[Real terminal-route modulus extraction packet]
+\label{def:real-terminal-route-modulus-extraction}
+A Real terminal-route modulus extraction packet is a finite $\BHist$ read
+attached to an accepted $\RealUp$ terminal seal presentation. It contains
+exactly the terminal four-face support rows
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support, plus a visible $\RealModulusOfConvergenceUp$ row that is
+read only through that same terminal support surface. The packet has no
+coordinate for quotient streams, selected limits, host real equality,
+countable choice, metric completeness, ambient Real completeness, aggregate
+formalstatus rows, or bridge tokens.
+\end{definition}
+
+\begin{theorem}[Real terminal-route modulus extraction]
+\label{thm:real-terminal-route-modulus-extraction}
+Every accepted $\RealUp$ terminal seal read that exposes a
+$\RealModulusOfConvergenceUp$ row factors that row through the same four-face
+support surface
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+and through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows of the Real L10 route. Thus terminal-route modulus extraction
+is a finite packet in the sense of
+\autoref{def:real-terminal-route-modulus-extraction}; it does not export
+quotient streams, selected limits, host real equality, countable choice,
+metric completeness, ambient Real completeness, aggregate formalstatus rows,
+or bridge tokens.
+\end{theorem}
+\begin{proof}
+First read the accepted terminal seal through
+\autoref{thm:real-l10-route-sibling-exhaustion}. This places every terminal
+Real-facing read on the four sibling certificates $\DyadicRatCoreUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$, carried by the displayed
+support rows.
+
+Apply
+\autoref{thm:real-l10-terminal-four-face-support-minimality-pullback}. The
+same carrier and classifier verdicts cannot be preserved after deleting any
+one of the four faces or any one of the displayed $\BHist$, $\hsame$, $\Cont$,
+$\Pkg$, and $\NameCert$ rows.
+
+Use \autoref{thm:real-l10-terminal-route-support-bicriterion} to compare the
+terminal cover that carries the seal with the cover that carries the exposed
+$\RealModulusOfConvergenceUp$ row. The bicriterion says that equality of the
+public route read is exactly equality of the four faces and the displayed
+support rows, so the modulus row cannot be read on a separate support surface.
+
+Finally project the $\RealModulusOfConvergenceUp$ carrier from
+\autoref{def:real-modulus-of-convergence-carrier}. Its dyadic tolerance,
+finite window, regular readback, monotone ledger, and Real seal rows are
+already among the terminal four faces or downstream of them. Since both the
+Real route and the modulus carrier exclude quotient streams, selected limits,
+host real equality, countable choice, metric completeness, ambient
+completeness, aggregate formalstatus rows, and bridge tokens, the extraction
+packet exports none of those objects.
+\end{proof}
+
 \begin{theorem}[Real L10 terminal route support obstruction]
 \label{thm:real-l10-terminal-route-support-obstruction}
 Let $\mathcal{U}$ be a finite Real-facing terminal cover at the current Phase

@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\EulerCharacteristicUp$}
+\label{ch:concrete-instances-euler-characteristic-namecert}
+\origin{human}
+
+Following Euler and Poincare, the $\EulerCharacteristicUp$ packet records the finite alternating-simplex ledger by which a finite simplicial complex receives its Euler characteristic. It sits over the finite face inventory of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, the finite chain rows of \autoref{ch:concrete-instances-finite-simplicial-chain-namecert}, the homology provenance of \autoref{ch:concrete-instances-homology-namecert}, the natural-number row of \autoref{ch:concrete-instances-nat-namecert}, and the integer row of \autoref{ch:concrete-instances-int-namecert}. The packet names only a finite count-and-transport certificate; it does not import quotient chain complexes, selected triangulation equivalence, host cardinality, or infinite CW-complex semantics.
+
+\begin{definition}[Euler characteristic finite-complex carrier]
+\label{def:euler-characteristic-finite-complex-carrier}
+An $\EulerCharacteristicUp$ carrier is a finite $\BHist$ packet
+$$
+E=(K,S,Q,A,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the source $\SimplicialComplexUp$ row, including the finite simplex inventory, face relation, and dimension grading.
+\item $S$ is the simplex-count ledger. For each displayed dimension $n$, it records the $\NatUp$ count of $n$-simplices admitted by $K$.
+\item $Q$ is the finite-support row stating that only finitely many entries of $S$ are nonzero, so the alternating sum is a finite ledger.
+\item $A$ is the $\IntUp$ alternating-sum row, recording the signed total $\sum_n (-1)^n S_n$ by finite integer addition.
+\item $B$ is the subdivision ledger boundary row. It records the finite count changes produced by a displayed elementary subdivision and the matching cancellation rows for faces inserted on both sides of the alternating sum.
+\item $H$ records componentwise $\hsame$ transport for the simplicial complex row, simplex-count rows, finite-support row, integer sum row, subdivision ledger, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a request for the Euler characteristic through $K,S,Q,A,B,H$.
+\item $P$ is the $\Pkg$ provenance over $\EulerCharacteristicUp$, $\SimplicialComplexUp$, $\FiniteSimplicialChainUp$, $\HomologyUp$, $\NatUp$, $\IntUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EulerCharacteristicUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,S,Q,A,B,H,C,P,N$. It has no coordinate for host cardinality, quotient chain-complex equality, an unrestricted homotopy-invariance theorem, selected triangulation equivalence, or an infinite CW-complex.
+\end{definition}
+
+\begin{theorem}[Euler characteristic subdivision ledger boundary]
+\label{thm:euler-characteristic-subdivision-ledger-boundary}
+For every accepted $\EulerCharacteristicUp$ carrier $E=(K,S,Q,A,B,H,C,P,N)$, a displayed elementary subdivision of the finite $\SimplicialComplexUp$ row may be consumed by an Euler-characteristic read only through the subdivision ledger boundary $B$. The row $B$ pairs the inserted simplex-count changes in adjacent dimensions, transports them through $H$, replays the same finite route through $C$, and leaves the integer alternating-sum row $A$ with the same $\IntUp$ value. Consequently every $\HomologyUp$ or finite-chain consumer that reads the Euler characteristic receives a finite count ledger, not a quotient homology computation, host cardinality argument, or infinite complex invariant.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:euler-characteristic-finite-complex-carrier}. The simplex source $K$ supplies a finite dimension-graded inventory, while $S$ records the $\NatUp$ count in each displayed dimension and $Q$ states that the alternating sum is finite.
+
+Read the integer row $A$. It is built from the finite list $S$ by alternating signs and $\IntUp$ addition, so a consumer can inspect only the displayed ledger
+$$
+\sum_n (-1)^n S_n .
+$$
+
+Now apply the subdivision row $B$. An elementary subdivision changes the finite simplex counts only by the inserted rows recorded in $B$, and those inserted rows are paired across adjacent dimensions with opposite signs in $A$.
+
+Transport and replay preserve that pairing. The $\hsame$ row $H$ carries the same simplex-count and cancellation rows to classified replacements, and $C$ replays the Euler-characteristic request through $K,S,Q,A,B$ in the same order.
+
+Finally read provenance. The $\FiniteSimplicialChainUp$ and $\HomologyUp$ entries in $P$ identify the downstream consumers of the finite ledger, but they do not add quotient chain groups, selected homotopy data, host cardinality, or infinite CW-complex rows. Thus the subdivision boundary is a local finite ledger statement about $A$, not an ambient invariance theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\EulerCharacteristicUp$ read must expose the finite SimplicialComplex row, simplex-count ledger, finite-support row, integer alternating-sum row, subdivision ledger boundary, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{simplicialcomplex, finite-simplicial-chain, homology, nat, int: $\EulerCharacteristicUp$ is not bijective to any listed sibling because it jointly carries finite simplex counts, finite-support evidence, an integer alternating-sum ledger, subdivision cancellation rows, transport, replay, provenance, and local naming.}
+
+\closureat{EulerCharacteristicUp}{seedStr}
+
+\begin{closurestatus}{\EulerCharacteristicUp}
+  \constructivestory{An $\EulerCharacteristicUp$ packet is generated from a finite SimplicialComplex row, Nat simplex-count rows, a finite-support ledger, an Int alternating-sum row, subdivision cancellation rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:euler-characteristic-finite-complex-carrier} and \autoref{thm:euler-characteristic-subdivision-ledger-boundary} seed the finite Euler-characteristic count ledger and its subdivision-boundary cancellation route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full homotopy invariance, quotient chain complexes, host cardinality, infinite CW-complex invariance, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked finite simplex counting, integer alternating-sum exactness, subdivision cancellation, Homology-facing provenance, replay stability, transport exactness, and local naming for BEDC.Derived.EulerCharacteristicUp.}
+\end{closurestatus}

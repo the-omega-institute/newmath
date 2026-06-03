@@ -79,6 +79,119 @@ theorem MetaCICCriticalPathConfluenceDecidabilityHandoffExhaustion [AskSetup] [P
   }
   exact ⟨cert, provenancePkg⟩
 
+theorem MetaCICCriticalPathPacket_confluence_decidability_socket [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName confluenceRead decidabilityRead socketRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg ->
+      Cont handoff transport confluenceRead ->
+        Cont confluenceRead dischargeSocket decidabilityRead ->
+          Cont decidabilityRead obstruction socketRead ->
+            PkgSig bundle socketRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    (hsame row confluenceRead ∨ hsame row decidabilityRead ∨
+                      hsame row socketRead) ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row handoff ∨ hsame row transport ∨
+                      hsame row dischargeSocket ∨ hsame row obstruction ∨
+                        hsame row confluenceRead ∨ hsame row decidabilityRead ∨
+                          hsame row socketRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle socketRead pkg)
+                  hsame ∧
+                UnaryHistory confluenceRead ∧ UnaryHistory decidabilityRead ∧
+                  UnaryHistory socketRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro packet handoffTransportConfluence confluenceDischargeDecidability
+    decidabilityObstructionSocket socketReadPkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, handoffUnary,
+    dischargeSocketUnary, transportUnary, _routeUnary, _provenanceUnary, _localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    provenancePkg⟩ := packet
+  have confluenceUnary : UnaryHistory confluenceRead :=
+    unary_cont_closed handoffUnary transportUnary handoffTransportConfluence
+  have decidabilityUnary : UnaryHistory decidabilityRead :=
+    unary_cont_closed confluenceUnary dischargeSocketUnary confluenceDischargeDecidability
+  have socketUnary : UnaryHistory socketRead :=
+    unary_cont_closed decidabilityUnary obstructionUnary decidabilityObstructionSocket
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row confluenceRead ∨ hsame row decidabilityRead ∨
+              hsame row socketRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row handoff ∨ hsame row transport ∨ hsame row dischargeSocket ∨
+              hsame row obstruction ∨ hsame row confluenceRead ∨
+                hsame row decidabilityRead ∨ hsame row socketRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle socketRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro socketRead ⟨Or.inr (Or.inr (hsame_refl socketRead)), socketUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        constructor
+        · cases source.left with
+          | inl sameConfluence =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameConfluence)
+          | inr rest =>
+              cases rest with
+              | inl sameDecidability =>
+                  exact
+                    Or.inr
+                      (Or.inl (hsame_trans (hsame_symm sameRows) sameDecidability))
+              | inr sameSocket =>
+                  exact
+                    Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) sameSocket))
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameConfluence =>
+          right
+          right
+          right
+          right
+          left
+          exact sameConfluence
+      | inr rest =>
+          cases rest with
+          | inl sameDecidability =>
+              right
+              right
+              right
+              right
+              right
+              left
+              exact sameDecidability
+          | inr sameSocket =>
+              right
+              right
+              right
+              right
+              right
+              right
+              exact sameSocket
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, provenancePkg, socketReadPkg⟩
+  }
+  exact ⟨cert, confluenceUnary, decidabilityUnary, socketUnary⟩
+
 theorem MetaCICCriticalPathCandidateSNFourFaceAuditPrecondition [AskSetup] [PackageSetup]
     {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
       localName dyadic stream regseq realSeal auditRead : BHist}

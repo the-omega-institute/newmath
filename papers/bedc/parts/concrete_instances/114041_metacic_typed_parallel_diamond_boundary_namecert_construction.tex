@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICTypedParallelDiamondBoundaryUp$}
+\label{ch:concrete-instances-metacic-typed-parallel-diamond-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICTypedParallelDiamondBoundaryUp$ packet realizes the typed-window boundary of \autoref{ch:metacic-confluence-audit-map} as finite confluence-facing NameCert data. It sits beside the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the critical-pair boundary of \autoref{ch:concrete-instances-metacic-confluence-critical-pair-boundary-namecert}, the residual checker of \autoref{ch:concrete-instances-metacic-confluence-residual-checker-namecert}, the local-join ledger of \autoref{ch:concrete-instances-metacic-local-join-ledger-namecert}, and the existing parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. The packet records typed windows, residual-substitution premises, critical pairs, local joins, checker rows, obstruction rows, transport, replay, provenance, and local naming without claiming subject reduction, full Church--Rosser, premise-free parallel diamond, evaluator equality, quotient term equality, or kernel consistency.
+
+\begin{definition}[MetaCIC typed parallel-diamond boundary carrier]
+\label{def:metacic-typed-parallel-diamond-boundary-carrier}
+A $\MetaCICTypedParallelDiamondBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+T=(W,S,K,J,R,C,N,B,O,H,Q,P,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the typed-window row, recording context, closedness, binder-depth, and type-checker visibility for the local peak.
+\item $S$ is the residual-substitution premise row, naming the substitution-compatibility input retained by the confluence audit map.
+\item $K$ is the critical-pair row, exposing the two branch observations and the local peak boundary.
+\item $J$ is the local-join row, recording the candidate common reduct and the finite branch-local join evidence.
+\item $R$ is the residual-frontier row, listing residual descendants, residual budget, and branch-local substitution windows.
+\item $C$ is the closed-checker row, recording bounded checker acceptance before the typed handoff is consumed.
+\item $N$ is the closed-normal row, recording the already available normal-source and atom-source fragments.
+\item $B$ is the bounded-check row over typed-window visibility, residual budget, closed checker, and local-join compatibility.
+\item $O$ is the obstruction row, retaining the endpoints not supplied by the packet: residual-substitution discharge, subject reduction, full Church--Rosser, premise-free parallel diamond, evaluator equality, quotient term equality, and kernel consistency.
+\item $H$ records componentwise $\hsame$ transport for typed-window, premise, critical-pair, local-join, residual, checker, normal, bounded-check, obstruction, replay, provenance, and local naming rows.
+\item $Q$ records displayed $\Cont$ replay from a typed confluence query through $W,S,K,J,R,C,N,B,O,H,P,M$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICTypedParallelDiamondBoundaryUp$, the MetaCIC residual and critical-pair siblings, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $M$ is the local $\NameCert_{\MetaCICTypedParallelDiamondBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for subject reduction, full closed Church--Rosser, a premise-free parallel diamond, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC typed parallel-diamond boundary obligations]
+\label{thm:metacic-typed-parallel-diamond-boundary-obligations}
+For every accepted $\MetaCICTypedParallelDiamondBoundaryUp$ carrier
+$$
+T=(W,S,K,J,R,C,N,B,O,H,Q,P,M),
+$$
+the local $\NameCert_{\MetaCICTypedParallelDiamondBoundaryUp}$ surface consists exactly of typed-window exposure through $W$, residual-substitution premise retention through $S$, critical-pair exposure through $K$, local-join exposure through $J$, residual-frontier exposure through $R$, closed-checker handoff through $C$, closed-normal fragment exposure through $N$, bounded-check exactness through $B$, obstruction retention through $O$, componentwise transport through $H$, displayed replay through $Q$, provenance through $P$, and local naming through $M$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typed-parallel-diamond-boundary-carrier}. The confluence-facing rows are $W,S,K,J,R,C,N,B,O$, and the structural rows are $H,Q,P,M$.
+
+The typed window is first-class. It records the finite context and checker visibility under which the local peak is read, while $S$ keeps the residual-substitution premise visible rather than discharged.
+
+Rows $K,J,R,C,N,B$ then expose the critical pair, candidate join, residual frontier, closed checker, closed-normal fragment, and bounded checks. The obstruction row $O$ remains attached to the same packet.
+
+Finally $H,Q,P,M$ transport, replay, source, and name the displayed rows. Since the carrier has no row for subject reduction, full Church--Rosser, premise-free parallel diamond, evaluator equality, quotient term equality, or kernel consistency, the listed rows exhaust the local obligations.
+\end{proof}
+\leanstmt{BEDC.Derived.MetaCICTypedParallelDiamondBoundaryUp}
+
+\begin{theorem}[MetaCIC typed parallel-diamond boundary nonescape]
+\label{thm:metacic-typed-parallel-diamond-boundary-nonescape}
+Every typed confluence consumer of an accepted $\MetaCICTypedParallelDiamondBoundaryUp$ packet must keep $W,S,K,J,R,C,N,B,O,H,Q,P,M$ visible before citing the packet as a local parallel-diamond boundary. The consumer may feed the conditional frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, but it may not cite the packet as subject reduction, full Church--Rosser, a premise-free parallel diamond, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply the obligation theorem \autoref{thm:metacic-typed-parallel-diamond-boundary-obligations}. It keeps the typed window, residual-substitution premise, critical pair, local join, residual frontier, checker, normal fragment, bounded-check, and obstruction rows visible.
+
+Use the existing frontier boundary of \autoref{thm:metacic-parallel-diamond-typed-boundary}. That theorem permits a typed-window consumer to read a conditional handoff only while retaining the premise, residual, checker, bounded-check, and obstruction rows.
+
+The transport, replay, provenance, and local naming rows preserve the same route for downstream audit consumers. They do not add a row that discharges residual substitution or converts the typed boundary into any stronger confluence theorem.
+
+Therefore the packet can only be cited as a typed boundary feeding the conditional parallel-diamond frontier. A consumer that erases $S$ or $O$, or reads the handoff as one of the refused endpoints, has left the carrier surface.
+\end{proof}
+
+\falsifiablePrediction{A MetaCIC confluence read that cites $\MetaCICTypedParallelDiamondBoundaryUp$ while omitting the typed-window row, residual-substitution premise row, critical-pair row, local-join row, residual-frontier row, checker row, obstruction row, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ rows refutes the carrier of \autoref{def:metacic-typed-parallel-diamond-boundary-carrier}.}
+
+\independenceWitness{metacic-residual-substitution-boundary, metacic-confluence-critical-pair-boundary, metacic-confluence-residual-checker, metacic-local-join-ledger, metacic-parallel-diamond-frontier: these siblings respectively expose premise retention, peak data, residual checking, local joins, and a conditional frontier. None is bijective with the packet that jointly binds typed-window visibility, all four confluence rows, checker and normal rows, bounded checks, obstruction retention, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate surface must include both $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the finite carrier: nontriviality separates accepted typed-boundary packets from obstruction-only packets, and field faithfulness matches exactly the rows $W,S,K,J,R,C,N,B,O,H,Q,P,M$.
+
+\closureat{MetaCICTypedParallelDiamondBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICTypedParallelDiamondBoundaryUp}
+  \constructivestory{A $\MetaCICTypedParallelDiamondBoundaryUp$ packet is generated from typed-window rows, residual-substitution premise rows, critical-pair rows, local-join rows, residual-frontier rows, checker rows, closed-normal rows, bounded-check rows, obstruction rows, componentwise hsame transport, displayed Cont replay, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-typed-parallel-diamond-boundary-carrier}, \autoref{thm:metacic-typed-parallel-diamond-boundary-obligations}, and \autoref{thm:metacic-typed-parallel-diamond-boundary-nonescape} seed the typed parallel-diamond boundary packet for MetaCIC confluence audit consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim residual-substitution compatibility, subject reduction, full Church--Rosser, premise-free parallel diamond, evaluator equality, quotient term equality, kernel consistency, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked typed-window exposure, residual-substitution premise retention, critical-pair exposure, local-join exactness, residual-frontier coverage, checker and closed-normal routing, bounded-check exactness, obstruction retention, TasteGate nontriviality, FieldFaithful coverage, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICTypedParallelDiamondBoundaryUp.}
+\end{closurestatus}
