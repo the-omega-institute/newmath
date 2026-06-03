@@ -264,6 +264,71 @@ def dedup_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return out
 
 
+def build_grounding_payload_cache(records: list[dict[str, Any]]) -> dict[str, Any]:
+    names: set[str] = set()
+    for record in records:
+        target, prior, _canonical_payload = record_exact_key(record)
+        if target:
+            names.add(target)
+        if prior:
+            names.add(prior)
+    if not names:
+        return {}
+    return bedc_ci_module()._run_structural_dna_expr_fingerprints(names)
+
+
+def _witness_names(witness: dict[str, Any]) -> set[str]:
+    pattern = witness.get("pattern") if isinstance(witness.get("pattern"), dict) else {}
+    return {
+        value
+        for value in (
+            str(pattern.get("target") or "").strip(),
+            str(pattern.get("prior") or "").strip(),
+        )
+        if value
+    }
+
+
+def _ensure_payload_cache_for_witnesses(witnesses: list[Any], payload_cache: dict[str, Any]) -> None:
+    names: set[str] = set()
+    for witness in witnesses:
+        if not isinstance(witness, dict):
+            continue
+        names.update(_witness_names(witness))
+    missing = sorted(name for name in names if name not in payload_cache)
+    if missing:
+        payload_cache.update(bedc_ci_module()._run_structural_dna_expr_fingerprints(missing))
+
+
+def _load_discovery_gate_witnesses_with_cache(
+    path: Path,
+    payload_cache: dict[str, Any] | None,
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    module = bedc_ci_module()
+    if payload_cache is None:
+        return module.load_discovery_gate_witnesses(path)
+    original = module._run_structural_dna_expr_fingerprints
+
+    def cached_expr_fingerprints(decls: Any, imports: Any = ("BEDC",)) -> dict[str, Any]:
+        if tuple(imports) != ("BEDC",):
+            return original(decls, imports=imports)
+        requested = sorted({
+            module._normalize_lean_target(decl)
+            for decl in decls
+            if module._normalize_lean_target(decl)
+        })
+        missing = [name for name in requested if name not in payload_cache]
+        if missing:
+            payload_cache.update(original(missing))
+        return {name: payload_cache[name] for name in requested if name in payload_cache}
+
+    module._run_structural_dna_expr_fingerprints = cached_expr_fingerprints
+    try:
+        return module.load_discovery_gate_witnesses(path)
+    finally:
+        module._run_structural_dna_expr_fingerprints = original
+
+
 def registry_id(record: dict[str, Any]) -> str:
     explicit = str(record.get("id") or "").strip()
     if explicit:
@@ -277,7 +342,10 @@ def registry_id(record: dict[str, Any]) -> str:
     return "gate-witness-" + safe_slug(candidate + "-" + canonical_payload)
 
 
-def witness_from_record(record: dict[str, Any]) -> tuple[dict[str, Any] | None, str | None]:
+def witness_from_record(
+    record: dict[str, Any],
+    payload_cache: dict[str, Any] | None = None,
+) -> tuple[dict[str, Any] | None, str | None]:
     kind = str(record.get("kind") or record.get("relation") or "").strip()
     if kind == "structural_reconstruction":
         kind = "reconstruction"
@@ -325,7 +393,10 @@ def witness_from_record(record: dict[str, Any]) -> tuple[dict[str, Any] | None, 
         "regression_candidate": str(record.get("regression_candidate") or candidate or registry_id(record)),
         "added": now_iso(),
     }
-    grounded, grounding = bedc_ci_module().discovery_gate_witness_kernel_grounding(witness)
+    grounded, grounding = bedc_ci_module().discovery_gate_witness_kernel_grounding(
+        witness,
+        payload_cache=payload_cache,
+    )
     if not grounded:
         return None, "witness failed independent structural-DNA grounding: " + json.dumps(
             grounding,
@@ -349,7 +420,11 @@ def write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
-def append_witness(registry_path: Path, witness: dict[str, Any]) -> bool:
+def append_witness(
+    registry_path: Path,
+    witness: dict[str, Any],
+    payload_cache: dict[str, Any] | None = None,
+) -> bool:
     raw = load_json(registry_path)
     envelope: dict[str, Any] | None = None
     if isinstance(raw, dict):
@@ -357,7 +432,10 @@ def append_witness(registry_path: Path, witness: dict[str, Any]) -> bool:
         raw = envelope.get("witnesses")
     if not isinstance(raw, list):
         raise RuntimeError(f"{registry_path} root is not a list")
-    grounded, grounding = bedc_ci_module().discovery_gate_witness_kernel_grounding(witness)
+    grounded, grounding = bedc_ci_module().discovery_gate_witness_kernel_grounding(
+        witness,
+        payload_cache=payload_cache,
+    )
     if not grounded:
         raise RuntimeError("witness failed independent kernel grounding before append: " + repr(grounding))
     witness = dict(witness)
@@ -371,7 +449,9 @@ def append_witness(registry_path: Path, witness: dict[str, Any]) -> bool:
     raw.append(witness)
     temp_path = registry_path.with_suffix(registry_path.suffix + ".tmp")
     write_json(temp_path, raw)
-    loaded, diagnostics = bedc_ci_module().load_discovery_gate_witnesses(temp_path)
+    if payload_cache is not None:
+        _ensure_payload_cache_for_witnesses(raw, payload_cache)
+    loaded, diagnostics = _load_discovery_gate_witnesses_with_cache(temp_path, payload_cache)
     temp_path.unlink(missing_ok=True)
     if diagnostics:
         raise RuntimeError("registry hygiene rejected appended witness: " + repr(diagnostics[:5]))
@@ -551,6 +631,8 @@ def _best_effort_worktree_cleanup(worktree: Path) -> None:
         try:
             proc = run_cmd(cmd, cwd=REPO_ROOT, timeout=GIT_TIMEOUT)
             if proc.returncode != 0:
+                if label == "git worktree remove --force" and "not a working tree" in short_output(proc):
+                    continue
                 append_log(f"[escalate] {label} during evolver worktree prep failed: {short_output(proc)}")
         except Exception as exc:
             append_log(f"[escalate] {label} during evolver worktree prep raised: {type(exc).__name__}: {exc}")
@@ -655,10 +737,11 @@ def commit_and_push(root: Path, *, no_push: bool) -> None:
 def process_records(records: list[dict[str, Any]], args: argparse.Namespace) -> tuple[int, int]:
     if not records:
         return 0, 0
+    payload_cache = build_grounding_payload_cache(records)
     witnesses: list[dict[str, Any]] = []
     fail_count = 0
     for record in records:
-        witness, reason = witness_from_record(record)
+        witness, reason = witness_from_record(record, payload_cache=payload_cache)
         if witness is None:
             append_log(f"[escalate] {reason}: {json.dumps(record, ensure_ascii=False)}")
             fail_count += 1
@@ -699,7 +782,7 @@ def process_records(records: list[dict[str, Any]], args: argparse.Namespace) -> 
                         f"target={exact_key[0]} prior={exact_key[1]} canonical_payload={exact_key[2]}"
                     )
                     continue
-                changed = append_witness(registry_path, witness)
+                changed = append_witness(registry_path, witness, payload_cache=payload_cache)
                 append_regression_test(test_path, witness)
                 applied_witnesses.append(witness)
                 if all(exact_key):

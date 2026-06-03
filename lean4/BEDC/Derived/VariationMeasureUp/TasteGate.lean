@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.VariationMeasureUp
@@ -143,6 +144,10 @@ instance variationMeasureChapterTasteGate : ChapterTasteGate VariationMeasureUp 
   layer_separation := by
     intro x y hxy heq
     exact hxy (VariationMeasureTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+def taste_gate : ChapterTasteGate VariationMeasureUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  variationMeasureChapterTasteGate
 
 instance variationMeasureFieldFaithful : FieldFaithful VariationMeasureUp where
   -- BEDC touchpoint anchor: BHist BMark
