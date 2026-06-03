@@ -1,0 +1,1117 @@
+{
+  "artifact": "runs/gap_head_multisurface_debt_transfer.json",
+  "artifact_id": "bedc-quality-lab:gap-head-multisurface-debt-transfer",
+  "boundary_ledger": [
+    {
+      "evidence_pointer": "bedc_quality_lab.latent_distribution.LatentDistributionSpec.student_t",
+      "kind": "deferred",
+      "reason": "student-t latent is declared in the registry but deferred outside the first-pass HG-A2-2 countable pool",
+      "surface_id": "student-t-latent"
+    },
+    {
+      "evidence_pointer": "bedc_quality_lab.mixing.mix_latents",
+      "kind": "boundary_only",
+      "reason": "the legal source API accepts one mixing family; two-stage realnvp-to-spiral composition would require a sidecar implementation boundary and is recorded only",
+      "surface_id": "realnvp-spiral-mixing"
+    },
+    {
+      "evidence_pointer": "scripts/run_gap_head_observed_debt_transfer.py::_boundary_ledger",
+      "kind": "not_runnable",
+      "reason": "no legal training-budget knob exists in the reused gap-head-on-h producer; this points to the existing C2 observed-debt exclusion",
+      "surface_id": "undertrain-boundary"
+    }
+  ],
+  "config": {
+    "auroc_positive_threshold": 0.75,
+    "control_arm": "matched_random_gap_head",
+    "countable_surface_count": 4,
+    "countable_surface_threshold": 2,
+    "matched_random_auroc_ceiling": 0.6,
+    "registry_surface_count": 7,
+    "same_split_threshold_budget_metric_helper": true,
+    "transfer_status_pointer": "$.gap_head_multisurface_debt_transfer.multi_surface_status"
+  },
+  "d5m_status": "not_claimed",
+  "forbidden_claim_term_audit": {
+    "forbidden_positive_claim_terms_pointer": "bedc_quality_lab.claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS",
+    "hits": [],
+    "reason": "no forbidden positive claim terms in claim fields",
+    "status": "pass"
+  },
+  "gap_head_multisurface_debt_transfer": {
+    "countable_surface_count": 4,
+    "d5m_status": "not_claimed",
+    "discovery_map_pointer": "$.gap_head_multisurface_debt_transfer.multi_surface_status",
+    "mechanism_status": "not_claimed",
+    "multi_surface_status": "pass",
+    "pass_surface_count": 3,
+    "registry_surface_count": 7
+  },
+  "generated_at": "2026-06-03T21:29:55.093571+00:00",
+  "hardgate_evidence": {
+    "HG-A2-1": {
+      "criterion": "each countable runnable surface has learned AUROC CI-low above matched-random CI-high with forbidden-feature audit pass",
+      "status": "fail",
+      "surface_statuses": [
+        {
+          "status": "pass",
+          "surface_id": "clean-gaussian-ou"
+        },
+        {
+          "status": "pass",
+          "surface_id": "anisotropic-rho-0p95-0p30"
+        },
+        {
+          "status": "fail",
+          "surface_id": "laplace-latent"
+        },
+        {
+          "status": "pass",
+          "surface_id": "sample-count-1024"
+        }
+      ]
+    },
+    "HG-A2-2": {
+      "countable_surface_count": 4,
+      "criterion": "multi_surface_status is pass iff at least two countable runnable surfaces pass HG-A2-1",
+      "pass_surface_count": 3,
+      "pass_surface_ids": [
+        "clean-gaussian-ou",
+        "anisotropic-rho-0p95-0p30",
+        "sample-count-1024"
+      ],
+      "status": "pass"
+    },
+    "HG-A2-3": {
+      "criterion": "each deferred, boundary_only, or not_runnable registry row appears in boundary_ledger",
+      "ledger_pointer": "$.boundary_ledger",
+      "status": "pass"
+    }
+  },
+  "mechanism_status": "not_claimed",
+  "not_claimed": [
+    "no mechanism closure claim",
+    "no D5-M promotion",
+    "no global quality conclusion",
+    "no full LeJEPA conclusion",
+    "no claim outside the listed countable runnable surfaces",
+    "no inference-time use of z, z_pair, gap_label, prediction_error, or eval_gap_labels"
+  ],
+  "report": "runs/gap_head_multisurface_debt_transfer.md",
+  "source_artifacts": {
+    "claim_terms": "bedc_quality_lab.claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS",
+    "gap_head_surface_owner": "scripts/run_gap_ledger_head_on_h.py",
+    "gap_head_training": "scripts/run_gap_ledger_head_on_h.py::_fit_gap_head",
+    "generation_script": "scripts/run_gap_head_multisurface_debt_transfer.py",
+    "latent_distribution": "bedc_quality_lab.latent_distribution.LatentDistributionSpec",
+    "matched_random_control": "scripts/run_gap_ledger_head_on_h.py::_matched_random_gap_labels",
+    "metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
+    "mixing": "bedc_quality_lab.mixing.mix_latents",
+    "single_surface_transfer_reference": "scripts/run_gap_head_observed_debt_transfer.py",
+    "stats_helper": "scripts.experiment_stats.metric_stats",
+    "toy_world": "bedc_quality_lab.toy_world.make_toy_batch",
+    "transition_kernel": "bedc_quality_lab.transition.TransitionKernelSpec"
+  },
+  "status": "pointer-only",
+  "surface_registry": [
+    {
+      "boundary_reason": null,
+      "countable_hg_a2_2": true,
+      "evidence_pointer": "bedc_quality_lab.toy_world.make_toy_batch",
+      "latent_distribution": {
+        "coverage_key": "gaussian",
+        "family": "gaussian",
+        "latent_dim": 2,
+        "report_label": "gaussian",
+        "shape_parameter": null
+      },
+      "mixing": "sinusoidal_shear",
+      "rho": 0.82,
+      "role": "runnable",
+      "sample_count": 4096,
+      "seed_count": 10,
+      "surface_id": "clean-gaussian-ou",
+      "transition_kernel": null
+    },
+    {
+      "boundary_reason": null,
+      "countable_hg_a2_2": true,
+      "evidence_pointer": "bedc_quality_lab.transition.TransitionKernelSpec",
+      "latent_distribution": {
+        "coverage_key": "gaussian",
+        "family": "gaussian",
+        "latent_dim": 2,
+        "report_label": "gaussian",
+        "shape_parameter": null
+      },
+      "mixing": "sinusoidal_shear",
+      "rho": 0.82,
+      "role": "runnable",
+      "sample_count": 4096,
+      "seed_count": 10,
+      "surface_id": "anisotropic-rho-0p95-0p30",
+      "transition_kernel": {
+        "anisotropy_gap": 0.6499999999999999,
+        "eigenvalue_interleaving": {
+          "adjacent_gaps": [
+            0.6499999999999999
+          ],
+          "anisotropy_gap": 0.6499999999999999,
+          "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+          "eigenvalues": [
+            0.95,
+            0.3
+          ],
+          "min_adjacent_gap": 0.6499999999999999,
+          "operator": "diagonal-ou-transition",
+          "sorted_eigenvalues": [
+            0.95,
+            0.3
+          ]
+        },
+        "family": "ornstein-uhlenbeck",
+        "isotropic": false,
+        "noise_family": "gaussian",
+        "rho_by_axis": [
+          0.95,
+          0.3
+        ]
+      }
+    },
+    {
+      "boundary_reason": null,
+      "countable_hg_a2_2": true,
+      "evidence_pointer": "bedc_quality_lab.latent_distribution.LatentDistributionSpec.laplace",
+      "latent_distribution": {
+        "coverage_key": "laplace",
+        "family": "laplace",
+        "latent_dim": 2,
+        "report_label": "laplace",
+        "shape_parameter": null
+      },
+      "mixing": "sinusoidal_shear",
+      "rho": 0.82,
+      "role": "runnable",
+      "sample_count": 4096,
+      "seed_count": 10,
+      "surface_id": "laplace-latent",
+      "transition_kernel": null
+    },
+    {
+      "boundary_reason": null,
+      "countable_hg_a2_2": true,
+      "evidence_pointer": "scripts/run_observed_debt_sweep.py::C3 sample_count surface",
+      "latent_distribution": {
+        "coverage_key": "gaussian",
+        "family": "gaussian",
+        "latent_dim": 2,
+        "report_label": "gaussian",
+        "shape_parameter": null
+      },
+      "mixing": "sinusoidal_shear",
+      "rho": 0.82,
+      "role": "runnable",
+      "sample_count": 1024,
+      "seed_count": 10,
+      "surface_id": "sample-count-1024",
+      "transition_kernel": null
+    },
+    {
+      "boundary_reason": "student-t latent is declared in the registry but deferred outside the first-pass HG-A2-2 countable pool",
+      "countable_hg_a2_2": false,
+      "evidence_pointer": "bedc_quality_lab.latent_distribution.LatentDistributionSpec.student_t",
+      "latent_distribution": {
+        "coverage_key": "student_t:3",
+        "family": "student_t",
+        "latent_dim": 2,
+        "report_label": "student_t(df=3)",
+        "shape_parameter": 3.0
+      },
+      "mixing": "sinusoidal_shear",
+      "rho": 0.82,
+      "role": "deferred",
+      "sample_count": 4096,
+      "seed_count": 10,
+      "surface_id": "student-t-latent",
+      "transition_kernel": null
+    },
+    {
+      "boundary_reason": "the legal source API accepts one mixing family; two-stage realnvp-to-spiral composition would require a sidecar implementation boundary and is recorded only",
+      "countable_hg_a2_2": false,
+      "evidence_pointer": "bedc_quality_lab.mixing.mix_latents",
+      "latent_distribution": {
+        "coverage_key": "gaussian",
+        "family": "gaussian",
+        "latent_dim": 2,
+        "report_label": "gaussian",
+        "shape_parameter": null
+      },
+      "mixing": "realnvp_coupling",
+      "rho": 0.82,
+      "role": "boundary_only",
+      "sample_count": 4096,
+      "seed_count": 10,
+      "surface_id": "realnvp-spiral-mixing",
+      "transition_kernel": null
+    },
+    {
+      "boundary_reason": "no legal training-budget knob exists in the reused gap-head-on-h producer; this points to the existing C2 observed-debt exclusion",
+      "countable_hg_a2_2": false,
+      "evidence_pointer": "scripts/run_gap_head_observed_debt_transfer.py::_boundary_ledger",
+      "latent_distribution": {
+        "coverage_key": "gaussian",
+        "family": "gaussian",
+        "latent_dim": 2,
+        "report_label": "gaussian",
+        "shape_parameter": null
+      },
+      "mixing": "sinusoidal_shear",
+      "rho": 0.82,
+      "role": "not_runnable",
+      "sample_count": 4096,
+      "seed_count": 10,
+      "surface_id": "undertrain-boundary",
+      "transition_kernel": null
+    }
+  ],
+  "surfaces": [
+    {
+      "countable_hg_a2_2": true,
+      "hardgates": {
+        "HG-A2-1": {
+          "criterion": "learned AUROC ci95_low > matched-random AUROC ci95_high, learned AUROC mean >= 0.75, matched-random AUROC ci95_high <= 0.6, and forbidden-feature audit pass",
+          "forbidden_feature_audit": {
+            "forbidden_inference_columns": [
+              "z",
+              "z_pair",
+              "gap_label",
+              "prediction_error",
+              "eval_gap_labels"
+            ],
+            "forbidden_present": [],
+            "producer_forbidden_column_audit": {
+              "feature_columns": [
+                "h:0",
+                "h:1",
+                "score:latent_x_positive",
+                "score:latent_y_positive",
+                "score:high_energy",
+                "margin:latent_x_positive",
+                "margin:latent_y_positive",
+                "margin:high_energy",
+                "transition_delta:latent_x_positive",
+                "transition_delta:latent_y_positive",
+                "transition_delta:high_energy",
+                "quality:quality_q",
+                "quality:quality_margin",
+                "quality:linear_identifiability_r2",
+                "quality:approx_identifiability_proxy"
+              ],
+              "forbidden_inference_columns": [
+                "z",
+                "z_pair",
+                "gap_label",
+                "prediction_error",
+                "eval_gap_labels"
+              ],
+              "forbidden_present": [],
+              "status": "pass"
+            },
+            "seed_feature_audit_count": 10,
+            "status": "pass"
+          },
+          "learned_auroc": {
+            "ci95_half_width": 0.007186336323336222,
+            "ci95_high": 0.8579986614621807,
+            "ci95_low": 0.8436259888155083,
+            "mean": 0.8508123251388445,
+            "n": 10,
+            "std": 0.0115944851090524
+          },
+          "matched_random_auroc": {
+            "ci95_half_width": 0.055996839804639514,
+            "ci95_high": 0.5676823479824729,
+            "ci95_low": 0.4556886683731938,
+            "mean": 0.5116855081778333,
+            "n": 10,
+            "std": 0.09034569160930563
+          },
+          "status": "pass"
+        }
+      },
+      "latent_distribution": {
+        "coverage_key": "gaussian",
+        "family": "gaussian",
+        "latent_dim": 2,
+        "report_label": "gaussian",
+        "shape_parameter": null
+      },
+      "metrics": {
+        "learned_gap_head_on_h": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.0008571752203235777,
+            "ci95_high": 0.003298184170689729,
+            "ci95_low": 0.0015838337300425737,
+            "mean": 0.0024410089503661514,
+            "n": 10,
+            "std": 0.001382972474530183
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.007186336323336222,
+            "ci95_high": 0.8579986614621807,
+            "ci95_low": 0.8436259888155083,
+            "mean": 0.8508123251388445,
+            "n": 10,
+            "std": 0.0115944851090524
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.008250728940518058,
+            "ci95_high": 0.5258259933831544,
+            "ci95_low": 0.5093245355021183,
+            "mean": 0.5175752644426364,
+            "n": 10,
+            "std": 0.013311783575869887
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.01278047081591308,
+            "ci95_high": 0.10147046267921657,
+            "ci95_low": 0.07590952104739042,
+            "mean": 0.0886899918633035,
+            "n": 10,
+            "std": 0.020620100687548916
+          }
+        },
+        "matched_random_gap_head": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "std": 0.0
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.055996839804639514,
+            "ci95_high": 0.5676823479824729,
+            "ci95_low": 0.4556886683731938,
+            "mean": 0.5116855081778333,
+            "n": 10,
+            "std": 0.09034569160930563
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.008250728940518058,
+            "ci95_high": 0.5258259933831544,
+            "ci95_low": 0.5093245355021183,
+            "mean": 0.5175752644426364,
+            "n": 10,
+            "std": 0.013311783575869887
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.053955156477795,
+            "ci95_high": 0.19561504256404397,
+            "ci95_low": 0.08770472960845396,
+            "mean": 0.14165988608624897,
+            "n": 10,
+            "std": 0.08705162550031652
+          }
+        },
+        "vanilla": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.008250728940518058,
+            "ci95_high": 0.5258259933831544,
+            "ci95_low": 0.5093245355021183,
+            "mean": 0.5175752644426364,
+            "n": 10,
+            "std": 0.013311783575869887
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.5,
+            "ci95_low": 0.5,
+            "mean": 0.5,
+            "n": 10,
+            "std": 0.0
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.008250728940518058,
+            "ci95_high": 0.5258259933831544,
+            "ci95_low": 0.5093245355021183,
+            "mean": 0.5175752644426364,
+            "n": 10,
+            "std": 0.013311783575869887
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.008250728940518058,
+            "ci95_high": 0.5258259933831544,
+            "ci95_low": 0.5093245355021183,
+            "mean": 0.5175752644426364,
+            "n": 10,
+            "std": 0.013311783575869887
+          }
+        }
+      },
+      "mixing": "sinusoidal_shear",
+      "rho": 0.82,
+      "role": "runnable",
+      "sample_count": 4096,
+      "seed_count": 10,
+      "seeds": [
+        3968097252,
+        891475096,
+        52865478,
+        1452268398,
+        794716560,
+        2375177260,
+        1898683202,
+        3660201682,
+        3364765404,
+        1012374368
+      ],
+      "surface_id": "clean-gaussian-ou",
+      "transition_kernel": null,
+      "verdict": {
+        "failed_gates": [],
+        "passed_gates": [
+          "HG-A2-1"
+        ],
+        "reason": "HG-A2-1 passed",
+        "status": "pass"
+      }
+    },
+    {
+      "countable_hg_a2_2": true,
+      "hardgates": {
+        "HG-A2-1": {
+          "criterion": "learned AUROC ci95_low > matched-random AUROC ci95_high, learned AUROC mean >= 0.75, matched-random AUROC ci95_high <= 0.6, and forbidden-feature audit pass",
+          "forbidden_feature_audit": {
+            "forbidden_inference_columns": [
+              "z",
+              "z_pair",
+              "gap_label",
+              "prediction_error",
+              "eval_gap_labels"
+            ],
+            "forbidden_present": [],
+            "producer_forbidden_column_audit": {
+              "feature_columns": [
+                "h:0",
+                "h:1",
+                "score:latent_x_positive",
+                "score:latent_y_positive",
+                "score:high_energy",
+                "margin:latent_x_positive",
+                "margin:latent_y_positive",
+                "margin:high_energy",
+                "transition_delta:latent_x_positive",
+                "transition_delta:latent_y_positive",
+                "transition_delta:high_energy",
+                "quality:quality_q",
+                "quality:quality_margin",
+                "quality:linear_identifiability_r2",
+                "quality:approx_identifiability_proxy"
+              ],
+              "forbidden_inference_columns": [
+                "z",
+                "z_pair",
+                "gap_label",
+                "prediction_error",
+                "eval_gap_labels"
+              ],
+              "forbidden_present": [],
+              "status": "pass"
+            },
+            "seed_feature_audit_count": 10,
+            "status": "pass"
+          },
+          "learned_auroc": {
+            "ci95_half_width": 0.008482641982757463,
+            "ci95_high": 0.8558842819583322,
+            "ci95_low": 0.8389189979928172,
+            "mean": 0.8474016399755747,
+            "n": 10,
+            "std": 0.013685953694530783
+          },
+          "matched_random_auroc": {
+            "ci95_half_width": 0.0556526123295659,
+            "ci95_high": 0.5716547589436338,
+            "ci95_low": 0.46034953428450204,
+            "mean": 0.516002146614068,
+            "n": 10,
+            "std": 0.08979031260193752
+          },
+          "status": "pass"
+        }
+      },
+      "latent_distribution": {
+        "coverage_key": "gaussian",
+        "family": "gaussian",
+        "latent_dim": 2,
+        "report_label": "gaussian",
+        "shape_parameter": null
+      },
+      "metrics": {
+        "learned_gap_head_on_h": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.0006745216159284259,
+            "ci95_high": 0.002871429671257962,
+            "ci95_low": 0.0015223864394011103,
+            "mean": 0.002196908055329536,
+            "n": 10,
+            "std": 0.0010882778761995596
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.008482641982757463,
+            "ci95_high": 0.8558842819583322,
+            "ci95_low": 0.8389189979928172,
+            "mean": 0.8474016399755747,
+            "n": 10,
+            "std": 0.013685953694530783
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.008250728940518058,
+            "ci95_high": 0.5258259933831544,
+            "ci95_low": 0.5093245355021183,
+            "mean": 0.5175752644426364,
+            "n": 10,
+            "std": 0.013311783575869887
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.013783555504745361,
+            "ci95_high": 0.10418225363330516,
+            "ci95_low": 0.07661514262381444,
+            "mean": 0.0903986981285598,
+            "n": 10,
+            "std": 0.02223848451548324
+          }
+        },
+        "matched_random_gap_head": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "std": 0.0
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.0556526123295659,
+            "ci95_high": 0.5716547589436338,
+            "ci95_low": 0.46034953428450204,
+            "mean": 0.516002146614068,
+            "n": 10,
+            "std": 0.08979031260193752
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.008250728940518058,
+            "ci95_high": 0.5258259933831544,
+            "ci95_low": 0.5093245355021183,
+            "mean": 0.5175752644426364,
+            "n": 10,
+            "std": 0.013311783575869887
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.05690437808471204,
+            "ci95_high": 0.20369038296672995,
+            "ci95_low": 0.08988162679730585,
+            "mean": 0.1467860048820179,
+            "n": 10,
+            "std": 0.09180992019543878
+          }
+        },
+        "vanilla": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.008250728940518058,
+            "ci95_high": 0.5258259933831544,
+            "ci95_low": 0.5093245355021183,
+            "mean": 0.5175752644426364,
+            "n": 10,
+            "std": 0.013311783575869887
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.5,
+            "ci95_low": 0.5,
+            "mean": 0.5,
+            "n": 10,
+            "std": 0.0
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.008250728940518058,
+            "ci95_high": 0.5258259933831544,
+            "ci95_low": 0.5093245355021183,
+            "mean": 0.5175752644426364,
+            "n": 10,
+            "std": 0.013311783575869887
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.008250728940518058,
+            "ci95_high": 0.5258259933831544,
+            "ci95_low": 0.5093245355021183,
+            "mean": 0.5175752644426364,
+            "n": 10,
+            "std": 0.013311783575869887
+          }
+        }
+      },
+      "mixing": "sinusoidal_shear",
+      "rho": 0.82,
+      "role": "runnable",
+      "sample_count": 4096,
+      "seed_count": 10,
+      "seeds": [
+        3968097252,
+        891475096,
+        52865478,
+        1452268398,
+        794716560,
+        2375177260,
+        1898683202,
+        3660201682,
+        3364765404,
+        1012374368
+      ],
+      "surface_id": "anisotropic-rho-0p95-0p30",
+      "transition_kernel": {
+        "anisotropy_gap": 0.6499999999999999,
+        "eigenvalue_interleaving": {
+          "adjacent_gaps": [
+            0.6499999999999999
+          ],
+          "anisotropy_gap": 0.6499999999999999,
+          "boundary": "Gaussian latent + anisotropic transition; transition noise is Gaussian.",
+          "eigenvalues": [
+            0.95,
+            0.3
+          ],
+          "min_adjacent_gap": 0.6499999999999999,
+          "operator": "diagonal-ou-transition",
+          "sorted_eigenvalues": [
+            0.95,
+            0.3
+          ]
+        },
+        "family": "ornstein-uhlenbeck",
+        "isotropic": false,
+        "noise_family": "gaussian",
+        "rho_by_axis": [
+          0.95,
+          0.3
+        ]
+      },
+      "verdict": {
+        "failed_gates": [],
+        "passed_gates": [
+          "HG-A2-1"
+        ],
+        "reason": "HG-A2-1 passed",
+        "status": "pass"
+      }
+    },
+    {
+      "countable_hg_a2_2": true,
+      "hardgates": {
+        "HG-A2-1": {
+          "criterion": "learned AUROC ci95_low > matched-random AUROC ci95_high, learned AUROC mean >= 0.75, matched-random AUROC ci95_high <= 0.6, and forbidden-feature audit pass",
+          "forbidden_feature_audit": {
+            "forbidden_inference_columns": [
+              "z",
+              "z_pair",
+              "gap_label",
+              "prediction_error",
+              "eval_gap_labels"
+            ],
+            "forbidden_present": [],
+            "producer_forbidden_column_audit": {
+              "feature_columns": [
+                "h:0",
+                "h:1",
+                "score:latent_x_positive",
+                "score:latent_y_positive",
+                "score:high_energy",
+                "margin:latent_x_positive",
+                "margin:latent_y_positive",
+                "margin:high_energy",
+                "transition_delta:latent_x_positive",
+                "transition_delta:latent_y_positive",
+                "transition_delta:high_energy",
+                "quality:quality_q",
+                "quality:quality_margin",
+                "quality:linear_identifiability_r2",
+                "quality:approx_identifiability_proxy"
+              ],
+              "forbidden_inference_columns": [
+                "z",
+                "z_pair",
+                "gap_label",
+                "prediction_error",
+                "eval_gap_labels"
+              ],
+              "forbidden_present": [],
+              "status": "pass"
+            },
+            "seed_feature_audit_count": 10,
+            "status": "pass"
+          },
+          "learned_auroc": {
+            "ci95_half_width": 0.014126843615792436,
+            "ci95_high": 0.7315286504142985,
+            "ci95_low": 0.7032749631827137,
+            "mean": 0.7174018067985061,
+            "n": 10,
+            "std": 0.022792347946384038
+          },
+          "matched_random_auroc": {
+            "ci95_half_width": 0.031650934099774965,
+            "ci95_high": 0.5366514599333676,
+            "ci95_low": 0.4733495917338177,
+            "mean": 0.5050005258335927,
+            "n": 10,
+            "std": 0.05106583766692855
+          },
+          "status": "fail"
+        }
+      },
+      "latent_distribution": {
+        "coverage_key": "laplace",
+        "family": "laplace",
+        "latent_dim": 2,
+        "report_label": "laplace",
+        "shape_parameter": null
+      },
+      "metrics": {
+        "learned_gap_head_on_h": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.001616790691535735,
+            "ci95_high": 0.010160322017817264,
+            "ci95_low": 0.006926740634745795,
+            "mean": 0.00854353132628153,
+            "n": 10,
+            "std": 0.002608541369903898
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.014126843615792436,
+            "ci95_high": 0.7315286504142985,
+            "ci95_low": 0.7032749631827137,
+            "mean": 0.7174018067985061,
+            "n": 10,
+            "std": 0.022792347946384038
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.011100590944234368,
+            "ci95_high": 0.5152503061598568,
+            "ci95_low": 0.4930491242713881,
+            "mean": 0.5041497152156225,
+            "n": 10,
+            "std": 0.017909770794703957
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.02155986729354979,
+            "ci95_high": 0.21236540024717063,
+            "ci95_low": 0.16924566566007107,
+            "mean": 0.19080553295362085,
+            "n": 10,
+            "std": 0.03478484015234051
+          }
+        },
+        "matched_random_gap_head": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "std": 0.0
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.031650934099774965,
+            "ci95_high": 0.5366514599333676,
+            "ci95_low": 0.4733495917338177,
+            "mean": 0.5050005258335927,
+            "n": 10,
+            "std": 0.05106583766692855
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.011100590944234368,
+            "ci95_high": 0.5152503061598568,
+            "ci95_low": 0.4930491242713881,
+            "mean": 0.5041497152156225,
+            "n": 10,
+            "std": 0.017909770794703957
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.07032496538871454,
+            "ci95_high": 0.3052313933789505,
+            "ci95_low": 0.16458146260152146,
+            "mean": 0.23490642799023598,
+            "n": 10,
+            "std": 0.11346278928614616
+          }
+        },
+        "vanilla": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.011100590944234368,
+            "ci95_high": 0.5152503061598568,
+            "ci95_low": 0.4930491242713881,
+            "mean": 0.5041497152156225,
+            "n": 10,
+            "std": 0.017909770794703957
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.5,
+            "ci95_low": 0.5,
+            "mean": 0.5,
+            "n": 10,
+            "std": 0.0
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.011100590944234368,
+            "ci95_high": 0.5152503061598568,
+            "ci95_low": 0.4930491242713881,
+            "mean": 0.5041497152156225,
+            "n": 10,
+            "std": 0.017909770794703957
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.011100590944234368,
+            "ci95_high": 0.5152503061598568,
+            "ci95_low": 0.4930491242713881,
+            "mean": 0.5041497152156225,
+            "n": 10,
+            "std": 0.017909770794703957
+          }
+        }
+      },
+      "mixing": "sinusoidal_shear",
+      "rho": 0.82,
+      "role": "runnable",
+      "sample_count": 4096,
+      "seed_count": 10,
+      "seeds": [
+        3968097252,
+        891475096,
+        52865478,
+        1452268398,
+        794716560,
+        2375177260,
+        1898683202,
+        3660201682,
+        3364765404,
+        1012374368
+      ],
+      "surface_id": "laplace-latent",
+      "transition_kernel": null,
+      "verdict": {
+        "failed_gates": [
+          "HG-A2-1"
+        ],
+        "passed_gates": [],
+        "reason": "HG-A2-1 failed",
+        "status": "failed"
+      }
+    },
+    {
+      "countable_hg_a2_2": true,
+      "hardgates": {
+        "HG-A2-1": {
+          "criterion": "learned AUROC ci95_low > matched-random AUROC ci95_high, learned AUROC mean >= 0.75, matched-random AUROC ci95_high <= 0.6, and forbidden-feature audit pass",
+          "forbidden_feature_audit": {
+            "forbidden_inference_columns": [
+              "z",
+              "z_pair",
+              "gap_label",
+              "prediction_error",
+              "eval_gap_labels"
+            ],
+            "forbidden_present": [],
+            "producer_forbidden_column_audit": {
+              "feature_columns": [
+                "h:0",
+                "h:1",
+                "score:latent_x_positive",
+                "score:latent_y_positive",
+                "score:high_energy",
+                "margin:latent_x_positive",
+                "margin:latent_y_positive",
+                "margin:high_energy",
+                "transition_delta:latent_x_positive",
+                "transition_delta:latent_y_positive",
+                "transition_delta:high_energy",
+                "quality:quality_q",
+                "quality:quality_margin",
+                "quality:linear_identifiability_r2",
+                "quality:approx_identifiability_proxy"
+              ],
+              "forbidden_inference_columns": [
+                "z",
+                "z_pair",
+                "gap_label",
+                "prediction_error",
+                "eval_gap_labels"
+              ],
+              "forbidden_present": [],
+              "status": "pass"
+            },
+            "seed_feature_audit_count": 10,
+            "status": "pass"
+          },
+          "learned_auroc": {
+            "ci95_half_width": 0.010561659991441253,
+            "ci95_high": 0.8370193023421059,
+            "ci95_low": 0.8158959823592234,
+            "mean": 0.8264576423506647,
+            "n": 10,
+            "std": 0.01704025583940247
+          },
+          "matched_random_auroc": {
+            "ci95_half_width": 0.035010860064874756,
+            "ci95_high": 0.49162655287698237,
+            "ci95_low": 0.42160483274723287,
+            "mean": 0.4566156928121076,
+            "n": 10,
+            "std": 0.05648676563593608
+          },
+          "status": "pass"
+        }
+      },
+      "latent_distribution": {
+        "coverage_key": "gaussian",
+        "family": "gaussian",
+        "latent_dim": 2,
+        "report_label": "gaussian",
+        "shape_parameter": null
+      },
+      "metrics": {
+        "learned_gap_head_on_h": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.0013626627041659484,
+            "ci95_high": 0.0023398614012343525,
+            "ci95_low": -0.0003854640070975444,
+            "mean": 0.000977198697068404,
+            "n": 10,
+            "std": 0.002198529503943169
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.010561659991441253,
+            "ci95_high": 0.8370193023421059,
+            "ci95_low": 0.8158959823592234,
+            "mean": 0.8264576423506647,
+            "n": 10,
+            "std": 0.01704025583940247
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.02270616998042504,
+            "ci95_high": 0.5386670820325424,
+            "ci95_low": 0.49325474207169234,
+            "mean": 0.5159609120521174,
+            "n": 10,
+            "std": 0.036634292896471424
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.01986804120155332,
+            "ci95_high": 0.1364804190517162,
+            "ci95_low": 0.09674433664860956,
+            "mean": 0.11661237785016287,
+            "n": 10,
+            "std": 0.03205523614437602
+          }
+        },
+        "matched_random_gap_head": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.0,
+            "ci95_low": 0.0,
+            "mean": 0.0,
+            "n": 10,
+            "std": 0.0
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.035010860064874756,
+            "ci95_high": 0.49162655287698237,
+            "ci95_low": 0.42160483274723287,
+            "mean": 0.4566156928121076,
+            "n": 10,
+            "std": 0.05648676563593608
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.02270616998042504,
+            "ci95_high": 0.5386670820325424,
+            "ci95_low": 0.49325474207169234,
+            "mean": 0.5159609120521174,
+            "n": 10,
+            "std": 0.036634292896471424
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.04088209677664939,
+            "ci95_high": 0.28974203163006956,
+            "ci95_low": 0.20797783807677078,
+            "mean": 0.24885993485342017,
+            "n": 10,
+            "std": 0.0659594598661429
+          }
+        },
+        "vanilla": {
+          "critical_unlogged_error_rate": {
+            "ci95_half_width": 0.02270616998042504,
+            "ci95_high": 0.5386670820325424,
+            "ci95_low": 0.49325474207169234,
+            "mean": 0.5159609120521174,
+            "n": 10,
+            "std": 0.036634292896471424
+          },
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.5,
+            "ci95_low": 0.5,
+            "mean": 0.5,
+            "n": 10,
+            "std": 0.0
+          },
+          "prediction_error_rate": {
+            "ci95_half_width": 0.02270616998042504,
+            "ci95_high": 0.5386670820325424,
+            "ci95_low": 0.49325474207169234,
+            "mean": 0.5159609120521174,
+            "n": 10,
+            "std": 0.036634292896471424
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.02270616998042504,
+            "ci95_high": 0.5386670820325424,
+            "ci95_low": 0.49325474207169234,
+            "mean": 0.5159609120521174,
+            "n": 10,
+            "std": 0.036634292896471424
+          }
+        }
+      },
+      "mixing": "sinusoidal_shear",
+      "rho": 0.82,
+      "role": "runnable",
+      "sample_count": 1024,
+      "seed_count": 10,
+      "seeds": [
+        3968097252,
+        891475096,
+        52865478,
+        1452268398,
+        794716560,
+        2375177260,
+        1898683202,
+        3660201682,
+        3364765404,
+        1012374368
+      ],
+      "surface_id": "sample-count-1024",
+      "transition_kernel": null,
+      "verdict": {
+        "failed_gates": [],
+        "passed_gates": [
+          "HG-A2-1"
+        ],
+        "reason": "HG-A2-1 passed",
+        "status": "pass"
+      }
+    }
+  ]
+}
