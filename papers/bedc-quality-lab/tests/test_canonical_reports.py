@@ -1212,6 +1212,33 @@ def test_quality_scorecard_hardening_coverage_fails_closed_for_unresolved_pointe
     assert scorecard_row["dependency"] == "formal_hardening:$.coverage"
 
 
+def test_quality_scorecard_hardening_coverage_falsy_resolved_value_stays_not_ready(monkeypatch):
+    evidence_pointer = "reports/canonical/spectral-ablation-hinge.json:$.ledger_summary.basis.hardening_coverage.items[2].recorded"
+    item = formal_hardening._HardeningItem(
+        item_id="falsy-pointer",
+        name="falsy pointer",
+        row=formal_hardening.LedgerRowKey("formal-hardening", "falsy-pointer"),
+        source_pointer="reports/canonical/spectral-ablation-hinge.json:$.ledger_summary.basis.hardening_coverage.items[2]",
+        evidence_pointer=evidence_pointer,
+        formal_pointer="fixture.formal",
+        gap="missing evidence",
+        trust_boundary="pointer-only evidence ledger",
+    )
+    monkeypatch.setattr(formal_hardening, "_ITEMS", (item,))
+    payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
+    monkeypatch.setattr(canonical, "_build_formal_hardening_payload", lambda generated_at=None: payload)
+
+    scorecard_row = canonical._scorecard_hardening_coverage({})
+    ledger_row = payload["verification_ledger"][0]
+
+    assert ledger_row["status"] == "missing"
+    assert ledger_row["recorded"] is False
+    assert ledger_row["evidence_resolved"] is False
+    assert payload["ready"] is False
+    assert scorecard_row["status"] == "not-ready"
+    assert scorecard_row["dependency"] == "formal_hardening:$.coverage"
+
+
 def test_quality_scorecard_cost_protocol_completeness_fails_closed_without_manifest_pointer(tmp_path):
     old_root = canonical.ROOT
     old_dir = canonical.CANONICAL_DIR

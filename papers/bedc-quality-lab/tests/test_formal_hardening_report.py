@@ -87,6 +87,30 @@ def test_formal_hardening_report_fails_closed_for_bogus_pointer(monkeypatch):
     assert payload["coverage"]["ready"] is False
 
 
+def test_formal_hardening_report_falsy_resolved_value_stays_missing(monkeypatch):
+    evidence_pointer = "reports/canonical/spectral-ablation-hinge.json:$.ledger_summary.basis.hardening_coverage.items[2].recorded"
+    item = formal_hardening._HardeningItem(
+        item_id="falsy-pointer",
+        name="falsy pointer",
+        row=formal_hardening.LedgerRowKey("formal-hardening", "falsy-pointer"),
+        source_pointer="reports/canonical/spectral-ablation-hinge.json:$.ledger_summary.basis.hardening_coverage.items[2]",
+        evidence_pointer=evidence_pointer,
+        formal_pointer="fixture.formal",
+        gap="missing evidence",
+        trust_boundary="pointer-only evidence ledger",
+    )
+    monkeypatch.setattr(formal_hardening, "_ITEMS", (item,))
+
+    payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
+    row = payload["verification_ledger"][0]
+
+    assert row["status"] == "missing"
+    assert row["recorded"] is False
+    assert row["evidence_resolved"] is False
+    assert payload["ready"] is False
+    assert payload["coverage"]["ready"] is False
+
+
 def test_formal_hardening_report_fails_closed_for_self_pointer(monkeypatch):
     item = formal_hardening._HardeningItem(
         item_id="self-pointer",
