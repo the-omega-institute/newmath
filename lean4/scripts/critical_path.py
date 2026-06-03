@@ -687,6 +687,52 @@ _discovery_candidate_cache: dict | None = None
 _bedc_ci_scan_cache: tuple[object, object] | None = None
 
 
+# Time-staleness disk cache for slow-moving discovery dispatch signals.
+# carrier_isomorphism / discovery_sieve / discovery_candidate each run ~34s of
+# structural_dna analysis, but only change meaningfully on the discovery
+# pipeline's ~6h cadence. critical_path is a fresh subprocess on every autotune
+# tick / round dispatch, so recomputing them every call is pure waste. Reuse a
+# published value if younger than the staleness window; otherwise compute once
+# and publish for the next few hours of calls.
+import os as _os
+import time as _time
+
+_DISCOVERY_PAYLOAD_CACHE_PATH = Path("/tmp/.bedc_cp_discovery_payload_cache.json")
+_DISCOVERY_PAYLOAD_STALENESS_S = float(_os.environ.get("BEDC_CP_DISCOVERY_STALENESS", "10800"))  # 3h
+
+
+def _disk_cached_payload(key: str, compute):
+    """Reuse a published payload if younger than the staleness window, else
+    compute fresh and publish. Only successful payloads are persisted — a
+    transient failure (available=False) is never frozen for hours."""
+    if _os.environ.get("BEDC_CP_DISCOVERY_CACHE", "1") == "0":
+        return compute()
+    now = _time.time()
+    try:
+        if _DISCOVERY_PAYLOAD_CACHE_PATH.exists():
+            store = json.loads(_DISCOVERY_PAYLOAD_CACHE_PATH.read_text())
+            entry = store.get(key) if isinstance(store, dict) else None
+            if isinstance(entry, dict) and (now - float(entry.get("ts", 0))) < _DISCOVERY_PAYLOAD_STALENESS_S:
+                return entry.get("value")
+    except Exception:
+        pass
+    value = compute()
+    if isinstance(value, dict) and value.get("available") is not False:
+        try:
+            store = {}
+            if _DISCOVERY_PAYLOAD_CACHE_PATH.exists():
+                existing = json.loads(_DISCOVERY_PAYLOAD_CACHE_PATH.read_text())
+                if isinstance(existing, dict):
+                    store = existing
+            store[key] = {"ts": now, "value": value}
+            tmp = _DISCOVERY_PAYLOAD_CACHE_PATH.with_suffix(".tmp")
+            tmp.write_text(json.dumps(store))
+            tmp.replace(_DISCOVERY_PAYLOAD_CACHE_PATH)
+        except Exception:
+            pass
+    return value
+
+
 def _load_bedc_ci_scan() -> tuple[object, object]:
     global _bedc_ci_scan_cache
     if _bedc_ci_scan_cache is not None:
@@ -884,95 +930,94 @@ def _get_carrier_isomorphism_summary() -> dict:
     if _carrier_isomorphism_cache is not None:
         return _carrier_isomorphism_cache
 
-    try:
-        result = subprocess.run(
-            ["python3", str(ROOT / "lean4" / "scripts" / "bedc_ci.py"),
-             "carrier-isomorphism", "--json"],
-            cwd=str(ROOT),
-            capture_output=True,
-            text=True,
-            check=False,
-            timeout=30,
+    def _compute() -> dict:
+        try:
+            result = subprocess.run(
+                ["python3", str(ROOT / "lean4" / "scripts" / "bedc_ci.py"),
+                 "carrier-isomorphism", "--json"],
+                cwd=str(ROOT),
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=30,
+            )
+        except subprocess.TimeoutExpired:
+            return {
+                "available": False,
+                "reason": "carrier-isomorphism timed out after 30s",
+            }
+        except Exception as exc:
+            return {
+                "available": False,
+                "reason": f"carrier-isomorphism failed to start: {exc}",
+            }
+
+        if result.returncode != 0:
+            stderr = (result.stderr or result.stdout or "").strip()
+            return {
+                "available": False,
+                "reason": stderr[:500] or f"carrier-isomorphism exited {result.returncode}",
+            }
+
+        try:
+            payload = json.loads(result.stdout)
+        except Exception as exc:
+            return {
+                "available": False,
+                "reason": f"carrier-isomorphism JSON parse failed: {exc}",
+            }
+
+        buckets = payload.get("phase2_buckets", [])
+        if not isinstance(buckets, list):
+            buckets = []
+        ranked = sorted(
+            enumerate(buckets, start=1),
+            key=lambda item: len(item[1].get("members", [])) if isinstance(item[1], dict) else 0,
+            reverse=True,
         )
-    except subprocess.TimeoutExpired:
-        _carrier_isomorphism_cache = {
-            "available": False,
-            "reason": "carrier-isomorphism timed out after 30s",
-        }
-        return _carrier_isomorphism_cache
-    except Exception as exc:
-        _carrier_isomorphism_cache = {
-            "available": False,
-            "reason": f"carrier-isomorphism failed to start: {exc}",
-        }
-        return _carrier_isomorphism_cache
+        phase2_buckets = []
+        for bucket_id, bucket in ranked:
+            if not isinstance(bucket, dict):
+                continue
+            fingerprint = bucket.get("fingerprint", {})
+            if not isinstance(fingerprint, dict):
+                fingerprint = {}
+            members = bucket.get("members", [])
+            if not isinstance(members, list):
+                members = []
+            names = [
+                str(member.get("name"))
+                for member in members
+                if isinstance(member, dict) and member.get("name")
+            ]
+            phase2_buckets.append({
+                "bucket_id": bucket_id,
+                "arity": fingerprint.get("arity"),
+                "shape_summary": _shape_summary(fingerprint.get("shape")),
+                "member_count": len(members),
+                "members_sample": names[:8],
+            })
+        top_buckets = []
+        for bucket in phase2_buckets[:10]:
+            members_preview = list(bucket["members_sample"][:5])
+            if bucket["member_count"] > 5:
+                members_preview.append("...")
+            top_buckets.append({
+                "bucket_id": bucket["bucket_id"],
+                "arity": bucket["arity"],
+                "shape_summary": bucket["shape_summary"],
+                "member_count": bucket["member_count"],
+                "members_preview": members_preview,
+            })
 
-    if result.returncode != 0:
-        stderr = (result.stderr or result.stdout or "").strip()
-        _carrier_isomorphism_cache = {
-            "available": False,
-            "reason": stderr[:500] or f"carrier-isomorphism exited {result.returncode}",
+        return {
+            "available": True,
+            "carriers_scanned": payload.get("carriers_scanned"),
+            "phase2_buckets": phase2_buckets,
+            "phase2_top_buckets": top_buckets,
         }
-        return _carrier_isomorphism_cache
 
-    try:
-        payload = json.loads(result.stdout)
-    except Exception as exc:
-        _carrier_isomorphism_cache = {
-            "available": False,
-            "reason": f"carrier-isomorphism JSON parse failed: {exc}",
-        }
-        return _carrier_isomorphism_cache
-
-    buckets = payload.get("phase2_buckets", [])
-    if not isinstance(buckets, list):
-        buckets = []
-    ranked = sorted(
-        enumerate(buckets, start=1),
-        key=lambda item: len(item[1].get("members", [])) if isinstance(item[1], dict) else 0,
-        reverse=True,
-    )
-    phase2_buckets = []
-    for bucket_id, bucket in ranked:
-        if not isinstance(bucket, dict):
-            continue
-        fingerprint = bucket.get("fingerprint", {})
-        if not isinstance(fingerprint, dict):
-            fingerprint = {}
-        members = bucket.get("members", [])
-        if not isinstance(members, list):
-            members = []
-        names = [
-            str(member.get("name"))
-            for member in members
-            if isinstance(member, dict) and member.get("name")
-        ]
-        phase2_buckets.append({
-            "bucket_id": bucket_id,
-            "arity": fingerprint.get("arity"),
-            "shape_summary": _shape_summary(fingerprint.get("shape")),
-            "member_count": len(members),
-            "members_sample": names[:8],
-        })
-    top_buckets = []
-    for bucket in phase2_buckets[:10]:
-        members_preview = list(bucket["members_sample"][:5])
-        if bucket["member_count"] > 5:
-            members_preview.append("...")
-        top_buckets.append({
-            "bucket_id": bucket["bucket_id"],
-            "arity": bucket["arity"],
-            "shape_summary": bucket["shape_summary"],
-            "member_count": bucket["member_count"],
-            "members_preview": members_preview,
-        })
-
-    _carrier_isomorphism_cache = {
-        "available": True,
-        "carriers_scanned": payload.get("carriers_scanned"),
-        "phase2_buckets": phase2_buckets,
-        "phase2_top_buckets": top_buckets,
-    }
+    _carrier_isomorphism_cache = _disk_cached_payload("carrier_isomorphism", _compute)
     return _carrier_isomorphism_cache
 
 
@@ -981,24 +1026,27 @@ def _get_discovery_sieve_payload() -> dict:
     if _discovery_sieve_cache is not None:
         return _discovery_sieve_cache
 
-    try:
-        import bedc_ci  # type: ignore
+    def _compute() -> dict:
+        try:
+            import bedc_ci  # type: ignore
 
-        blocks, lean_scan = _load_bedc_ci_scan()
-        _discovery_sieve_cache = bedc_ci.discovery_sieve_payload(
-            blocks,
-            lean_scan.discovery_delta_ledgers,
-            lean_scan.declaration_headers,
-            lean_scan.declaration_bodies,
-        )
-    except Exception as exc:
-        _discovery_sieve_cache = {
-            "informational": True,
-            "available": False,
-            "reason": str(exc)[:500],
-            "targets": [],
-            "grade_counts": {},
-        }
+            blocks, lean_scan = _load_bedc_ci_scan()
+            return bedc_ci.discovery_sieve_payload(
+                blocks,
+                lean_scan.discovery_delta_ledgers,
+                lean_scan.declaration_headers,
+                lean_scan.declaration_bodies,
+            )
+        except Exception as exc:
+            return {
+                "informational": True,
+                "available": False,
+                "reason": str(exc)[:500],
+                "targets": [],
+                "grade_counts": {},
+            }
+
+    _discovery_sieve_cache = _disk_cached_payload("discovery_sieve", _compute)
     return _discovery_sieve_cache
 
 
@@ -1007,24 +1055,27 @@ def _get_discovery_candidate_payload() -> dict:
     if _discovery_candidate_cache is not None:
         return _discovery_candidate_cache
 
-    try:
-        import bedc_ci  # type: ignore
+    def _compute() -> dict:
+        try:
+            import bedc_ci  # type: ignore
 
-        blocks, lean_scan = _load_bedc_ci_scan()
-        _discovery_candidate_cache = bedc_ci.discovery_candidate_payload(
-            blocks,
-            lean_scan,
-            sieve_payload=_get_discovery_sieve_payload(),
-        )
-    except Exception as exc:
-        _discovery_candidate_cache = {
-            "informational": True,
-            "available": False,
-            "reason": str(exc)[:500],
-            "candidates": [],
-            "diagnostic_notes": [],
-            "metrics": {},
-        }
+            blocks, lean_scan = _load_bedc_ci_scan()
+            return bedc_ci.discovery_candidate_payload(
+                blocks,
+                lean_scan,
+                sieve_payload=_get_discovery_sieve_payload(),
+            )
+        except Exception as exc:
+            return {
+                "informational": True,
+                "available": False,
+                "reason": str(exc)[:500],
+                "candidates": [],
+                "diagnostic_notes": [],
+                "metrics": {},
+            }
+
+    _discovery_candidate_cache = _disk_cached_payload("discovery_candidate", _compute)
     return _discovery_candidate_cache
 
 
