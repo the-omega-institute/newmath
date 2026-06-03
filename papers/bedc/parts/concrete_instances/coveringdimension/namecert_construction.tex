@@ -99,6 +99,34 @@ The structural rows $H,T,P,N$ preserve and expose these displayed rows. They do 
 Therefore any consumer that exports a dimension-bound claim without reading $K,E,C,R,O,L,H,T,P,N$ leaves the carrier surface and is not reading a $\CoveringDimensionUp$ certificate.
 \end{proof}
 
+\begin{theorem}[CoveringDimension nerve order bound]
+\label{thm:coveringdimension-nerve-order-bound}
+An accepted $\CoveringDimensionUp$ finite cover-refinement packet may export an order-bound ledger to $\SimplicialComplexUp$ only through displayed finite cover members, refinement rows, overlap and multiplicity rows, and a finite face inventory. In carrier coordinates, the route from $D=(K,E,C,R,O,L,H,T,P,N)$ to a nerve consumer first reads the $\CompactMetricUp$ source $K$, $\FiniteEpsilonNetUp$ row $E$, finite cover row $C$, refinement map $R$, order-bound ledger $O$, and $\CompactCoverLebesgueLedgerUp$ row $L$ before the $\SimplicialComplexUp$ face rows can receive a dimension bound.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The compact metric source $K$ and finite epsilon-net row $E$ are the only rows from which cover members can be sampled.
+
+The cover and refinement rows are then opened as finite data. The row $C$ supplies displayed cover members, and $R$ assigns each refined member to a parent row before any overlap count is meaningful.
+
+The order ledger $O$ counts only overlaps among those displayed refined members. Hence the nerve face inventory sent to $\SimplicialComplexUp$ is finite: its vertices are cover rows, and its faces are exactly the inspected nonempty overlap rows bounded by $O$.
+
+Finally $L,H,T,P,N$ keep the compact-cover Lebesgue ledger, transport, replay, provenance, and local naming attached to the same finite route. The density and completion neighbours, $\RealSeparabilityUp$ and $\MetricCompletionUp$, may be cited only through their displayed finite rows, so the nerve export remains non-parametric and concrete.
+\end{proof}
+
+\begin{theorem}[CoveringDimension compact-cover nerve nonescape]
+\label{thm:coveringdimension-compact-cover-nerve-nonescape}
+No accepted $\CoveringDimensionUp$ nerve route can export ambient open-cover compactness, a selected subcover, or a host dimension predicate to $\SimplicialComplexUp$. Every compact-cover nerve read must remain inside the displayed $\CompactMetricUp$, $\FiniteEpsilonNetUp$, $\CompactCoverLebesgueLedgerUp$, $\RealSeparabilityUp$, $\MetricCompletionUp$, finite cover, refinement, overlap, multiplicity, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:covering-dimension-ledger-non-escape}. It rules out replacing the carrier rows by arbitrary open-cover compactness, choice-selected refinements, host multiplicity oracles, or classical dimension theorems.
+
+Now read the nerve route of \autoref{thm:coveringdimension-nerve-order-bound}. The $\SimplicialComplexUp$ consumer receives only the finite face inventory determined by displayed cover members, refinement rows, overlap rows, and the order-bound ledger.
+
+The compactness source is still the compact metric finite route. $\CompactMetricUp$, $\FiniteEpsilonNetUp$, and $\CompactCoverLebesgueLedgerUp$ provide sampled cover data and positive-radius ledger rows, while $\RealSeparabilityUp$ and $\MetricCompletionUp$ may contribute only their finite density or completion-facing rows when the read asks for them.
+
+Since no carrier coordinate stores an ambient open cover, a selected subcover, or a host dimension predicate, none of those objects can be exported to the nerve. Any such export leaves the accepted $\CoveringDimensionUp$ surface.
+\end{proof}
+
 \begin{theorem}[Covering dimension finite-density route]
 \label{thm:real-separability-coveringdimension-finite-density-route}
 Every compact metric cover-refinement consumer that uses dense $\RealUp$ witnesses to read a $\CoveringDimensionUp$ packet must consume $\RealSeparabilityUp$ only through finite rational and dyadic density rows before the order-bound ledger is exposed. For an accepted carrier
