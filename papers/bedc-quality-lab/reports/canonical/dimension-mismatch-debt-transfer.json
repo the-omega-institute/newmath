@@ -1,0 +1,985 @@
+{
+  "artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
+  "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer",
+  "boundary_ledger": {
+    "d5_shortcut": false,
+    "failed_gates": [],
+    "projection": "scoped D4",
+    "reason": "pass is capped at scoped D4; failed status emits no positive D4/D5 fields",
+    "scope": "encoder_dim grid against producer reference latent dimension",
+    "status": "recorded"
+  },
+  "config": {
+    "auroc_positive_threshold": 0.75,
+    "axis_label": "encoder_output_dim",
+    "encoder_dim_grid": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "observed_debt_axis": "C1",
+    "reference_latent_dim": 2,
+    "rho": 0.82,
+    "sample_count": 4096,
+    "seed_count": 10,
+    "seeds": [
+      2469051680,
+      3687396820,
+      2848787202,
+      4248190122,
+      3590638284,
+      876131688,
+      399637630,
+      2161156110,
+      1865719832,
+      3808296092
+    ],
+    "transfer_status_pointer": "$.dimension_mismatch_debt_transfer.status"
+  },
+  "control_protocol": {
+    "control_arm": "matched_random_gap_head",
+    "fold_count": 10,
+    "label_protocol": "seed_deterministic_per_channel_permutation",
+    "same_budget_as_treatment": true,
+    "same_feature_columns_as_treatment": true,
+    "same_metric_helper_as_treatment": true,
+    "same_train_eval_split_as_treatment": true
+  },
+  "dimension_mismatch_debt_transfer": {
+    "discovery_level": "D4",
+    "discovery_map_pointer": "$.dimension_mismatch_debt_transfer.status",
+    "pass_surface_count": 1,
+    "reason": "all dimension-mismatch transfer hardgates passed",
+    "scope": "encoder_dim grid against producer reference latent dimension",
+    "status": "pass",
+    "status_code": "scoped-d4-boundary",
+    "total_surface_count": 1
+  },
+  "generated_at": "2026-06-03T17:02:52.815675+00:00",
+  "hardgate_evidence": {
+    "HG-B1": {
+      "criterion": "each result row has a non-empty reason and status code",
+      "reason": "all evidence rows carry explicit boundary reasons and status codes",
+      "status": "pass"
+    },
+    "HG-B2": {
+      "criterion": "matched-random control exists and produces per-arm AUROC",
+      "matched_random_auroc": {
+        "ci95_half_width": 0.20940388774593727,
+        "ci95_high": 0.8302735967406463,
+        "ci95_low": 0.4114658212487717,
+        "mean": 0.620869708994709,
+        "n": 10,
+        "std": 0.33785369192417575
+      },
+      "reason": "matched-random control arm is present in every fold",
+      "status": "pass"
+    },
+    "HG-B3": {
+      "criterion": "learned AUROC ci95_low > matched-random AUROC ci95_high, delta ci95_low > 0, and matched-random is not positive",
+      "learned_auroc": {
+        "ci95_half_width": 0.0,
+        "ci95_high": 1.0,
+        "ci95_low": 1.0,
+        "mean": 1.0,
+        "n": 10,
+        "std": 0.0
+      },
+      "learned_minus_matched_random_auroc": {
+        "ci95_half_width": 0.20940388774593727,
+        "ci95_high": 0.5885341787512284,
+        "ci95_low": 0.1697264032593538,
+        "mean": 0.37913029100529105,
+        "n": 10,
+        "std": 0.33785369192417575
+      },
+      "matched_random_auroc": {
+        "ci95_half_width": 0.20940388774593727,
+        "ci95_high": 0.8302735967406463,
+        "ci95_low": 0.4114658212487717,
+        "mean": 0.620869708994709,
+        "n": 10,
+        "std": 0.33785369192417575
+      },
+      "matched_random_positive": false,
+      "reason": "learned h-summary head separates the dimension-mismatch label beyond matched-random control",
+      "status": "pass"
+    },
+    "HG-B4": {
+      "audit": {
+        "actual_model_input_columns": [
+          "h_mean",
+          "h_std",
+          "h_l2_mean",
+          "h_l2_std",
+          "h_abs_mean",
+          "h_abs_max",
+          "h_abs_q25",
+          "h_abs_q50",
+          "h_abs_q75",
+          "h_pair_delta_l2_mean",
+          "h_pair_delta_l2_std"
+        ],
+        "actual_model_input_width": 11,
+        "declared_h_only_allowlist": [
+          "h_mean",
+          "h_std",
+          "h_l2_mean",
+          "h_l2_std",
+          "h_abs_mean",
+          "h_abs_max",
+          "h_abs_q25",
+          "h_abs_q50",
+          "h_abs_q75",
+          "h_pair_delta_l2_mean",
+          "h_pair_delta_l2_std"
+        ],
+        "declared_h_only_width": 11,
+        "forbidden_feature_columns": [
+          "encoder_dim",
+          "reference_latent_dim",
+          "abs_encoder_dim_minus_reference_dim",
+          "is_reference_encoder_dim",
+          "linear_identifiability_r2",
+          "quality_debt",
+          "debt_delta",
+          "ledger_status",
+          "ledger_row_status",
+          "gap_status",
+          "source_metric",
+          "envelope_metric",
+          "truth_label",
+          "label",
+          "gap_label",
+          "prediction_error",
+          "row_index",
+          "raw_h",
+          "raw_z",
+          "h",
+          "z",
+          "z_pair",
+          "representation_payload",
+          "envelope_record"
+        ],
+        "forbidden_present": [],
+        "reason": "actual model input width and columns exactly match the declared h-only allowlist",
+        "status": "pass"
+      },
+      "criterion": "actual model input width and columns equal the declared h-only representation-summary allowlist",
+      "reason": "actual model input width and columns exactly match the declared h-only allowlist",
+      "status": "pass"
+    },
+    "HG-B5": {
+      "audit": {
+        "forbidden_positive_claim_terms": [
+          "full-lejepa",
+          "global-quality",
+          "full-tensor-namecert",
+          "llm-behavior"
+        ],
+        "hits": [],
+        "reason": "no forbidden positive claim terms in main claim text",
+        "status": "pass"
+      },
+      "criterion": "artifact claim text has no forbidden positive claim terms",
+      "reason": "no forbidden positive claim terms in main claim text",
+      "status": "pass"
+    }
+  },
+  "metrics": {
+    "by_arm": {
+      "learned_h_summary_head": {
+        "failure_detection_auroc": {
+          "ci95_half_width": 0.0,
+          "ci95_high": 1.0,
+          "ci95_low": 1.0,
+          "mean": 1.0,
+          "n": 10,
+          "std": 0.0
+        }
+      },
+      "matched_random_gap_head": {
+        "failure_detection_auroc": {
+          "ci95_half_width": 0.20940388774593727,
+          "ci95_high": 0.8302735967406463,
+          "ci95_low": 0.4114658212487717,
+          "mean": 0.620869708994709,
+          "n": 10,
+          "std": 0.33785369192417575
+        }
+      },
+      "vanilla": {
+        "failure_detection_auroc": {
+          "ci95_half_width": 0.0,
+          "ci95_high": 0.5,
+          "ci95_low": 0.5,
+          "mean": 0.5,
+          "n": 10,
+          "std": 0.0
+        }
+      }
+    },
+    "comparison": {
+      "failure_detection_auroc_delta_learned_minus_matched_random": {
+        "ci95_half_width": 0.20940388774593727,
+        "ci95_high": 0.5885341787512284,
+        "ci95_low": 0.1697264032593538,
+        "mean": 0.37913029100529105,
+        "n": 10,
+        "std": 0.33785369192417575
+      },
+      "failure_detection_auroc_delta_learned_minus_vanilla": {
+        "ci95_half_width": 0.0,
+        "ci95_high": 0.5,
+        "ci95_low": 0.5,
+        "mean": 0.5,
+        "n": 10,
+        "std": 0.0
+      }
+    }
+  },
+  "not_claimed": [
+    "no global quality conclusion",
+    "no full LeJEPA conclusion",
+    "no claim outside the listed encoder_dim-grid debt-transfer surface",
+    "no non-trivial debt-transfer mechanism independent of encoder-dimension information recoverable from h summaries",
+    "no inference-time use of config metadata, quality-debt summary, ledger/gap status, truth labels, prediction error, or raw h/z",
+    "fail status blocks any D4/D5 promotion through this boundary ledger"
+  ],
+  "report": "reports/canonical/dimension-mismatch-debt-transfer.md",
+  "representation_boundary": {
+    "actual_model_input_columns": [
+      "h_mean",
+      "h_std",
+      "h_l2_mean",
+      "h_l2_std",
+      "h_abs_mean",
+      "h_abs_max",
+      "h_abs_q25",
+      "h_abs_q50",
+      "h_abs_q75",
+      "h_pair_delta_l2_mean",
+      "h_pair_delta_l2_std"
+    ],
+    "declared_h_only_allowlist": [
+      "h_mean",
+      "h_std",
+      "h_l2_mean",
+      "h_l2_std",
+      "h_abs_mean",
+      "h_abs_max",
+      "h_abs_q25",
+      "h_abs_q50",
+      "h_abs_q75",
+      "h_pair_delta_l2_mean",
+      "h_pair_delta_l2_std"
+    ],
+    "excluded_from_model_input": [
+      "config metadata",
+      "quality/debt summary",
+      "debt delta",
+      "ledger row presence/status",
+      "gap status",
+      "source metrics",
+      "envelope aggregate metrics",
+      "truth labels",
+      "prediction error",
+      "row index",
+      "raw h",
+      "raw z",
+      "raw representation payload",
+      "envelope record"
+    ],
+    "status": "h-only representation-summary"
+  },
+  "source_artifacts": {
+    "claim_terms": "bedc_quality_lab.claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS",
+    "gap_head_training": "scripts/run_gap_ledger_head_on_h.py::_fit_gap_head",
+    "generation_script": "scripts/run_dimension_mismatch_debt_transfer.py",
+    "h_projection": "scripts/run_observed_debt_sweep.py::_standardized_projection",
+    "matched_random_control": "scripts/run_gap_ledger_head_on_h.py::_matched_random_gap_labels",
+    "metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
+    "observed_debt_surface": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+    "observed_debt_surface_owner": "scripts/run_observed_debt_sweep.py",
+    "toy_world": "bedc_quality_lab.toy_world.make_toy_batch"
+  },
+  "status": "pointer-only",
+  "surfaces": [
+    {
+      "discovery_level": "D4",
+      "hardgates": {
+        "HG-B1": {
+          "criterion": "each result row has a non-empty reason and status code",
+          "reason": "all evidence rows carry explicit boundary reasons and status codes",
+          "status": "pass"
+        },
+        "HG-B2": {
+          "criterion": "matched-random control exists and produces per-arm AUROC",
+          "matched_random_auroc": {
+            "ci95_half_width": 0.20940388774593727,
+            "ci95_high": 0.8302735967406463,
+            "ci95_low": 0.4114658212487717,
+            "mean": 0.620869708994709,
+            "n": 10,
+            "std": 0.33785369192417575
+          },
+          "reason": "matched-random control arm is present in every fold",
+          "status": "pass"
+        },
+        "HG-B3": {
+          "criterion": "learned AUROC ci95_low > matched-random AUROC ci95_high, delta ci95_low > 0, and matched-random is not positive",
+          "learned_auroc": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 1.0,
+            "ci95_low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "std": 0.0
+          },
+          "learned_minus_matched_random_auroc": {
+            "ci95_half_width": 0.20940388774593727,
+            "ci95_high": 0.5885341787512284,
+            "ci95_low": 0.1697264032593538,
+            "mean": 0.37913029100529105,
+            "n": 10,
+            "std": 0.33785369192417575
+          },
+          "matched_random_auroc": {
+            "ci95_half_width": 0.20940388774593727,
+            "ci95_high": 0.8302735967406463,
+            "ci95_low": 0.4114658212487717,
+            "mean": 0.620869708994709,
+            "n": 10,
+            "std": 0.33785369192417575
+          },
+          "matched_random_positive": false,
+          "reason": "learned h-summary head separates the dimension-mismatch label beyond matched-random control",
+          "status": "pass"
+        },
+        "HG-B4": {
+          "audit": {
+            "actual_model_input_columns": [
+              "h_mean",
+              "h_std",
+              "h_l2_mean",
+              "h_l2_std",
+              "h_abs_mean",
+              "h_abs_max",
+              "h_abs_q25",
+              "h_abs_q50",
+              "h_abs_q75",
+              "h_pair_delta_l2_mean",
+              "h_pair_delta_l2_std"
+            ],
+            "actual_model_input_width": 11,
+            "declared_h_only_allowlist": [
+              "h_mean",
+              "h_std",
+              "h_l2_mean",
+              "h_l2_std",
+              "h_abs_mean",
+              "h_abs_max",
+              "h_abs_q25",
+              "h_abs_q50",
+              "h_abs_q75",
+              "h_pair_delta_l2_mean",
+              "h_pair_delta_l2_std"
+            ],
+            "declared_h_only_width": 11,
+            "forbidden_feature_columns": [
+              "encoder_dim",
+              "reference_latent_dim",
+              "abs_encoder_dim_minus_reference_dim",
+              "is_reference_encoder_dim",
+              "linear_identifiability_r2",
+              "quality_debt",
+              "debt_delta",
+              "ledger_status",
+              "ledger_row_status",
+              "gap_status",
+              "source_metric",
+              "envelope_metric",
+              "truth_label",
+              "label",
+              "gap_label",
+              "prediction_error",
+              "row_index",
+              "raw_h",
+              "raw_z",
+              "h",
+              "z",
+              "z_pair",
+              "representation_payload",
+              "envelope_record"
+            ],
+            "forbidden_present": [],
+            "reason": "actual model input width and columns exactly match the declared h-only allowlist",
+            "status": "pass"
+          },
+          "criterion": "actual model input width and columns equal the declared h-only representation-summary allowlist",
+          "reason": "actual model input width and columns exactly match the declared h-only allowlist",
+          "status": "pass"
+        },
+        "HG-B5": {
+          "audit": {
+            "forbidden_positive_claim_terms": [
+              "full-lejepa",
+              "global-quality",
+              "full-tensor-namecert",
+              "llm-behavior"
+            ],
+            "hits": [],
+            "reason": "no forbidden positive claim terms in main claim text",
+            "status": "pass"
+          },
+          "criterion": "artifact claim text has no forbidden positive claim terms",
+          "reason": "no forbidden positive claim terms in main claim text",
+          "status": "pass"
+        }
+      },
+      "learned_auroc": {
+        "ci95_half_width": 0.0,
+        "ci95_high": 1.0,
+        "ci95_low": 1.0,
+        "mean": 1.0,
+        "n": 10,
+        "std": 0.0
+      },
+      "matched_random_auroc": {
+        "ci95_half_width": 0.20940388774593727,
+        "ci95_high": 0.8302735967406463,
+        "ci95_low": 0.4114658212487717,
+        "mean": 0.620869708994709,
+        "n": 10,
+        "std": 0.33785369192417575
+      },
+      "reason": "all dimension-mismatch transfer hardgates passed",
+      "result_rows": [
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 1,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.49350146622713265,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 2,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9250163923164806,
+          "reason": "encoder output dimension equals the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": false,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "reference-dimension"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 3,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9250163923164806,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 4,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9250163923164806,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 1,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.48113667036216434,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 2,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9285451129540179,
+          "reason": "encoder output dimension equals the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": false,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "reference-dimension"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 3,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9285451129540179,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 4,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9285451129540179,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 1,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.4677952696263722,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 2,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9216605263677862,
+          "reason": "encoder output dimension equals the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": false,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "reference-dimension"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 3,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9216605263677862,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 4,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9216605263677862,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 1,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.48194967569120395,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 2,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9274299232692254,
+          "reason": "encoder output dimension equals the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": false,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "reference-dimension"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 3,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9274299232692254,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 4,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9274299232692254,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 1,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.4555410369615065,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 2,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9327525171132824,
+          "reason": "encoder output dimension equals the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": false,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "reference-dimension"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 3,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9327525171132824,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 4,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9327525171132824,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 1,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.49103557382836294,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 2,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9237740940131198,
+          "reason": "encoder output dimension equals the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": false,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "reference-dimension"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 3,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9237740940131198,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 4,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9237740940131198,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 1,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.442777807746776,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 2,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.926111633228307,
+          "reason": "encoder output dimension equals the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": false,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "reference-dimension"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 3,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.926111633228307,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 4,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.926111633228307,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 1,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.46847428592069473,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 2,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9241156445865105,
+          "reason": "encoder output dimension equals the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": false,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "reference-dimension"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 3,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9241156445865105,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 4,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9241156445865105,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 1,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.49201149608802897,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 2,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9239400565666359,
+          "reason": "encoder output dimension equals the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": false,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "reference-dimension"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 3,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9239400565666359,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 4,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9239400565666359,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 1,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.48648486944790903,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 2,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9237154287848447,
+          "reason": "encoder output dimension equals the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": false,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "reference-dimension"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 3,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9237154287848447,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        },
+        {
+          "axis": "C1",
+          "axis_label": "encoder_output_dim",
+          "axis_value": 4,
+          "metric": "linear_identifiability_r2",
+          "metric_value": 0.9237154287848447,
+          "reason": "encoder output dimension differs from the producer reference latent dimension",
+          "row": "source/dimension-match",
+          "row_gap": true,
+          "row_present": true,
+          "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
+          "status_code": "dimension-mismatch-surface"
+        }
+      ],
+      "status": "pass",
+      "status_code": "scoped-d4-boundary",
+      "surface_id": "observed-debt-c1-encoder-dim-grid"
+    }
+  ]
+}

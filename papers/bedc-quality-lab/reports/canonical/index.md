@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-03T11:47:36.569572+00:00`
+- Generated at: `2026-06-03T17:08:52.430894+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -35,7 +35,15 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
-- Rows: `10`
+- Rows: `11`
+
+## Dimension mismatch debt transfer
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/dimension-mismatch-debt-transfer.json`
+- Markdown: `reports/canonical/dimension-mismatch-debt-transfer.md`
+- Transfer status: `pass`
+- Discovery level: `D4`
 
 ## Quality baseline pointers
 
@@ -58,7 +66,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `17`
+- Rows: `18`
 
 ## Formal hardening
 

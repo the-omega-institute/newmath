@@ -152,6 +152,43 @@ def _discovery_row(report, artifact, level, pointer="$.positive_discovery"):
     return row
 
 
+def _dimension_mismatch_discovery_row(level="D4"):
+    row = _discovery_row(
+        "dimension-mismatch-debt-transfer",
+        "reports/canonical/dimension-mismatch-debt-transfer.json",
+        level,
+        pointer="$.dimension_mismatch_debt_transfer.status",
+    )
+    row["control_pointer"] = "$.control_protocol"
+    if level == "DN":
+        row["failed_gate"] = "$.dimension_mismatch_debt_transfer.status"
+    return row
+
+
+def _dimension_mismatch_payload(*, status="pass", forbidden_claim=None):
+    claim = {
+        "status": status,
+        "status_code": "scoped-d4-boundary" if status == "pass" else "failed-boundary",
+        "reason": "fixture",
+        "scope": "encoder_dim grid against producer reference latent dimension",
+        "discovery_level": "D4" if status == "pass" else "DN",
+        "pass_surface_count": 1 if status == "pass" else 0,
+        "total_surface_count": 1,
+        "discovery_map_pointer": "$.dimension_mismatch_debt_transfer.status",
+    }
+    if forbidden_claim is not None:
+        claim["claim"] = forbidden_claim
+    return {
+        "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer",
+        "artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
+        "status": "pointer-only",
+        "source_artifacts": {"cost_protocol": "configs/default_cost_protocol.yaml"},
+        "control_protocol": {"control_arm": "matched_random", "same_feature_columns_as_treatment": True},
+        "dimension_mismatch_debt_transfer": claim,
+        "not_claimed": ["fixture"],
+    }
+
+
 def test_all_eight_claim_verdict_names_are_reachable(tmp_path, monkeypatch):
     rows = [
         _discovery_row("d4", "reports/canonical/d4.json", "D4"),
@@ -261,6 +298,69 @@ def test_scope_laundering_cell_rejects_with_real_pointer(tmp_path, monkeypatch):
     assert verdict["claim_verdict"] == "rejected_due_to_scope_laundering"
     assert verdict["reason"] == "scope-discipline-failed"
     assert verdict["ledger_pointer"] == "reports/canonical/gap-head-discovery.json:$.laundering_modes"
+
+
+def test_noncanonical_dimension_mismatch_discovery_row_emits_claim_verdict(tmp_path, monkeypatch):
+    rows = [_dimension_mismatch_discovery_row()]
+    _fixture_root(tmp_path, monkeypatch, rows, ())
+    _write_json(
+        tmp_path / "reports/canonical/dimension-mismatch-debt-transfer.json",
+        _dimension_mismatch_payload(),
+    )
+
+    verdicts = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+    by_claim = {row["claim_id"]: row for row in verdicts}
+    verdict = by_claim["claim:dimension-mismatch-debt-transfer"]
+
+    assert "dimension-mismatch-debt-transfer.json" not in {
+        Path(spec.json_artifact).name for spec in canonical.CANONICAL_REPORTS
+    }
+    assert verdict["claim_verdict"] == "accepted_positive_discovery"
+    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["source"] == (
+        "reports/canonical/dimension-mismatch-debt-transfer.json:"
+        "$.dimension_mismatch_debt_transfer.status"
+    )
+    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
+    discovery_map = json.loads((tmp_path / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
+    assert discovery_map["rows"][0]["discovery_level"] == "D4"
+
+
+def test_noncanonical_dimension_mismatch_fails_closed_when_scorecard_not_ready(tmp_path, monkeypatch):
+    rows = [_dimension_mismatch_discovery_row()]
+    _fixture_root(tmp_path, monkeypatch, rows, ())
+    _write_json(
+        tmp_path / "reports/canonical/dimension-mismatch-debt-transfer.json",
+        _dimension_mismatch_payload(),
+    )
+    _write_json(tmp_path / "reports/canonical/quality-scorecard.json", _scorecard(status="not-ready"))
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:dimension-mismatch-debt-transfer"
+    assert verdict["claim_verdict"] == "rejected_due_to_hidden_debt"
+    assert verdict["reason"] == "scorecard-not-ready"
+    assert verdict["ledger_pointer"] == "reports/canonical/quality-scorecard.json:$.rows"
+
+
+def test_noncanonical_dimension_mismatch_forbidden_claim_rejects_with_pointer(tmp_path, monkeypatch):
+    rows = [_dimension_mismatch_discovery_row()]
+    _fixture_root(tmp_path, monkeypatch, rows, ())
+    term = FORBIDDEN_POSITIVE_CLAIM_TERMS[0]
+    _write_json(
+        tmp_path / "reports/canonical/dimension-mismatch-debt-transfer.json",
+        _dimension_mismatch_payload(forbidden_claim=term),
+    )
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:dimension-mismatch-debt-transfer"
+    assert verdict["claim_verdict"] == "rejected_due_to_scope_laundering"
+    assert verdict["reason"] == "forbidden-overclaim"
+    assert verdict["ledger_pointer"] == (
+        "reports/canonical/dimension-mismatch-debt-transfer.json:"
+        "$.dimension_mismatch_debt_transfer"
+    )
 
 
 def test_cli_writes_jsonl(tmp_path, monkeypatch):

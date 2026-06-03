@@ -36,6 +36,14 @@ DOWNGRADE_VERDICTS = frozenset(
     }
 )
 POSITIVE_LEVELS = frozenset({"D4", "D5"})
+DIMENSION_MISMATCH_REPORT = "dimension-mismatch-debt-transfer"
+DIMENSION_MISMATCH_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
+DIMENSION_MISMATCH_STATUS_POINTER = "$.dimension_mismatch_debt_transfer.status"
+DIMENSION_MISMATCH_SCOPE_POINTER = "$.dimension_mismatch_debt_transfer.scope"
+DIMENSION_MISMATCH_COST_POINTER = "$.source_artifacts"
+DIMENSION_MISMATCH_NOT_CLAIMED_POINTER = "$.not_claimed"
+DIMENSION_MISMATCH_POSITIVE_CLAIM_POINTER = "$.dimension_mismatch_debt_transfer"
+DIMENSION_MISMATCH_CONTROL_POINTER = "$.control_protocol"
 
 
 @dataclass(frozen=True)
@@ -113,6 +121,24 @@ def _specs_by_name() -> dict[str, CanonicalReportSpec]:
     return {spec.name: spec for spec in CANONICAL_REPORTS}
 
 
+def _dimension_mismatch_pointer_spec() -> CanonicalReportSpec:
+    return CanonicalReportSpec(
+        name=DIMENSION_MISMATCH_REPORT,
+        command=("python3", "scripts/run_dimension_mismatch_debt_transfer.py"),
+        json_artifact=DIMENSION_MISMATCH_ARTIFACT,
+        markdown_artifact="reports/canonical/dimension-mismatch-debt-transfer.md",
+        required_json_keys=("dimension_mismatch_debt_transfer", "control_protocol", "not_claimed"),
+        estimated_seconds=20,
+        bundle_role="hg_p_core",
+        scope_pointer=DIMENSION_MISMATCH_SCOPE_POINTER,
+        cost_pointer=DIMENSION_MISMATCH_COST_POINTER,
+        not_claimed_pointer=DIMENSION_MISMATCH_NOT_CLAIMED_POINTER,
+        positive_claim_pointer=DIMENSION_MISMATCH_POSITIVE_CLAIM_POINTER,
+        control_pointer=DIMENSION_MISMATCH_CONTROL_POINTER,
+        no_control_rationale_pointer=None,
+    )
+
+
 def _text_for_term_scan(value: Any) -> str:
     if isinstance(value, (dict, list, tuple)):
         return json.dumps(value, sort_keys=True).lower()
@@ -165,6 +191,33 @@ def _control_positive(verdict_payload: Mapping[str, Any]) -> bool:
     return assign_discovery_level(verdict_payload).control_positive is True
 
 
+def _dimension_mismatch_projection_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
+    projected = dict(payload)
+    status = pointer_value(payload, DIMENSION_MISMATCH_STATUS_POINTER)
+    if status == "pass":
+        projected["positive_discovery"] = True
+        projected["net_positive_signal"] = True
+        projected["net_information"] = 1.0
+        projected["matched_random_control"] = {"control_verdict": {"positive": False}}
+    elif status == "failed":
+        projected["verdict"] = "rejected"
+    return projected
+
+
+def _projected_payload(
+    *,
+    spec: CanonicalReportSpec,
+    payload: Mapping[str, Any],
+    scorecard: Mapping[str, Any] | None,
+) -> dict[str, Any]:
+    if spec.name == DIMENSION_MISMATCH_REPORT:
+        projected = _dimension_mismatch_projection_payload(payload)
+    else:
+        projected = projection_payload(spec, payload)
+    projected["quality_scorecard"] = scorecard or {}
+    return projected
+
+
 def _claim_source(row: Mapping[str, Any], fallback_pointer: str | None = None) -> ClaimSource:
     pointer = fallback_pointer
     if pointer is None:
@@ -180,6 +233,19 @@ def _claim_source(row: Mapping[str, Any], fallback_pointer: str | None = None) -
     )
 
 
+def _discovery_map_row_pointer(root: Path, row: Mapping[str, Any]) -> str:
+    rows = _load_discovery_rows(root, generated_at=None)
+    for index, candidate in enumerate(rows):
+        if (
+            candidate.get("report") == row.get("report")
+            and candidate.get("json_artifact") == row.get("json_artifact")
+        ):
+            if candidate.get("discovery_level") is None:
+                raise ValueError(f"discovery map row lacks discovery_level cell: {row['report']}")
+            return f"reports/canonical/discovery_map.json:$.rows[{index}].discovery_level"
+    raise ValueError(f"discovery map ledger row missing for claim: {row['report']}")
+
+
 def _row(
     *,
     claim_id: str,
@@ -190,8 +256,8 @@ def _row(
 ) -> dict[str, Any]:
     if not reason:
         raise ValueError(f"claim verdict reason must be non-empty: {claim_id}")
-    if claim_verdict in DOWNGRADE_VERDICTS and not ledger_pointer:
-        raise ValueError(f"downgrade/reject/revoke verdict needs a ledger pointer: {claim_id}")
+    if not ledger_pointer:
+        raise ValueError(f"claim verdict needs a ledger pointer: {claim_id}")
     source_text = source.as_text() if isinstance(source, ClaimSource) else source
     item = {
         "claim_id": claim_id,
@@ -217,7 +283,13 @@ def _mapped_discovery_row(
     level = str(row.get("discovery_level", "D0"))
     if level == "D0":
         return None
-    spec = _specs_by_name()[report]
+    specs = _specs_by_name()
+    if report == DIMENSION_MISMATCH_REPORT and str(row.get("json_artifact")) == DIMENSION_MISMATCH_ARTIFACT:
+        spec = _dimension_mismatch_pointer_spec()
+    elif report in specs:
+        spec = specs[report]
+    else:
+        return None
     payload = _load_payload(root, str(row["json_artifact"]))
     source = _claim_source(row)
     claim_id = f"claim:{report}"
@@ -244,8 +316,7 @@ def _mapped_discovery_row(
             ledger_pointer=f"{row['json_artifact']}:{laundering_pointer}",
         )
 
-    projected = projection_payload(spec, payload)
-    projected["quality_scorecard"] = _load_scorecard(root) or {}
+    projected = _projected_payload(spec=spec, payload=payload, scorecard=_load_scorecard(root))
     terminal = synthesize_certification_verdict(None, projected, timestamp_iso=generated_at)
     projected_verdict = assign_discovery_level(projected)
 
@@ -288,7 +359,7 @@ def _mapped_discovery_row(
                 claim_verdict="accepted_positive_discovery",
                 reason="positive-discovery-gates-pass",
                 source=source,
-                ledger_pointer=None,
+                ledger_pointer=_discovery_map_row_pointer(root, row),
             )
         return _row(
             claim_id=claim_id,
@@ -304,7 +375,7 @@ def _mapped_discovery_row(
             claim_verdict="audit_improvement_only",
             reason="discovery-level-D1",
             source=source,
-            ledger_pointer=None,
+            ledger_pointer=_discovery_map_row_pointer(root, row),
         )
     if level == "D2":
         return _row(
@@ -312,7 +383,7 @@ def _mapped_discovery_row(
             claim_verdict="discovery_candidate",
             reason="discovery-level-D2",
             source=source,
-            ledger_pointer=None,
+            ledger_pointer=_discovery_map_row_pointer(root, row),
         )
     if level == "D3":
         return _row(
@@ -320,7 +391,7 @@ def _mapped_discovery_row(
             claim_verdict="certified_discovery_not_positive",
             reason="discovery-level-D3",
             source=source,
-            ledger_pointer=None,
+            ledger_pointer=_discovery_map_row_pointer(root, row),
         )
     if level == "DN":
         pointer = row.get("failed_gate") or row.get("debt_row_pointer") or row.get("evidence_pointer")
