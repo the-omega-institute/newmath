@@ -171,8 +171,8 @@ def check_certificate_guided_boundary(docs: dict[Path, str]) -> CheckResult:
     status_lines = certificate_guided_training_status_lines(docs)
     positive_lines = [
         hit
-        for hit in training_lines + status_lines
-        if has_positive_framing(hit)
+        for hit in non_positive_positive_framing_hits(docs)
+        if "certificate-guided-training" in hit.lower()
     ]
     if positive_lines:
         return CheckResult(
@@ -225,6 +225,21 @@ def has_simple_negation(hit: str) -> bool:
     return bool(NEGATION_RE.search(hit))
 
 
+def non_positive_positive_framing_hits(docs: dict[Path, str]) -> list[str]:
+    hits: list[str] = []
+    for path, text in docs.items():
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            lowered = line.lower()
+            mentioned = [name for name in NON_POSITIVE_REPORTS if name in lowered]
+            if not mentioned:
+                continue
+            if not has_positive_framing(line) or has_simple_negation(line):
+                continue
+            names = ",".join(mentioned)
+            hits.append(f"{path.relative_to(ROOT)}:{line_no}:{names}:{line.strip()}")
+    return hits
+
+
 def check_unique_positive_prototype(docs: dict[Path, str]) -> CheckResult:
     hits = lines_with_phrase(docs, POSITIVE_PROTOTYPE_PHRASE)
     bad_hits = [hit for hit in hits if UNIQUE_POSITIVE_REPORT not in hit]
@@ -238,12 +253,7 @@ def check_unique_positive_prototype(docs: dict[Path, str]) -> CheckResult:
         for hit in hits
         if UNIQUE_POSITIVE_REPORT in hit and not has_simple_negation(hit)
     ]
-    non_positive_bad: list[str] = []
-    for hit in hits:
-        lowered = hit.lower()
-        for name in NON_POSITIVE_REPORTS:
-            if name in lowered:
-                non_positive_bad.append(hit)
+    non_positive_bad = non_positive_positive_framing_hits(docs)
     if bad_hits or non_positive_bad:
         details = bad_hits + non_positive_bad
         return CheckResult(
