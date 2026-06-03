@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetacicAppArgumentStabilityLedgerUp$}
+\label{ch:concrete-instances-metacic-app-argument-stability-ledger-namecert}
+\origin{ai}
+
+The $\MetacicAppArgumentStabilityLedgerUp$ packet realizes the dependent-codomain frontier in the MetaCIC subject-reduction obstruction map as finite BEDC rows. It sits between the application typing row of \autoref{ch:concrete-instances-metacic-subject-reduction-frontier-namecert}, the discharge-obligation socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the beta-substitution handoff of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, and the closed-substitution boundary of \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}. The packet names the smaller ledger that keeps an application argument type attached to the codomain route; it does not assert global subject reduction, unrestricted substitution, quotient syntax equality, or a completed MetaCIC model.
+
+\begin{definition}[MetaCIC app-argument stability ledger carrier]
+\label{def:metacic-app-argument-stability-ledger-carrier}
+A $\MetacicAppArgumentStabilityLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+A=(F,X,Y,D,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the application typing frontier row, exposing the function type, argument type, and application result request.
+\item $X$ is the argument-type row that must remain attached to the application typing route.
+\item $Y$ is the dependent-codomain row, naming the codomain expression after the argument row has been displayed.
+\item $D$ is the discharge-obligation row consumed by the subject-reduction socket.
+\item $S$ is the closed-substitution boundary row that records the finite substitution route used by the codomain readback.
+\item $R$ is the reduction-readback row for the application step under the same argument-type boundary.
+\item $H$ records componentwise $\hsame$ transport for the frontier, argument, codomain, discharge, substitution, readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an application request through $F,X,Y,D,S,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetacicAppArgumentStabilityLedgerUp$, MetaCIC application typing rows, discharge-obligation rows, closed-substitution boundary rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetacicAppArgumentStabilityLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,X,Y,D,S,R,H,C,P,N$. It has no coordinate for global subject reduction, unrestricted substitution, quotient syntax equality, host evaluator soundness, proof irrelevance, or a completed MetaCIC semantics.
+\end{definition}
+
+\begin{theorem}[MetaCIC app-argument stability ledger NameCert obligations]
+\label{thm:metacic-app-argument-stability-ledger-namecert-obligations}
+For every accepted $\MetacicAppArgumentStabilityLedgerUp$ carrier
+$$
+A=(F,X,Y,D,S,R,H,C,P,N),
+$$
+the local $\NameCert_{\MetacicAppArgumentStabilityLedgerUp}$ surface consists exactly of carrier exposure for the application typing frontier, argument-type row, dependent-codomain row, discharge-obligation row, closed-substitution boundary row, reduction-readback row, componentwise transport, displayed replay, provenance, and local naming; stability of the argument-type row before the codomain route is read; compatibility with the subject-reduction discharge socket; and non-escape for global subject reduction, unrestricted substitution, quotient syntax equality, host evaluator soundness, proof irrelevance, and completed MetaCIC semantics.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-app-argument-stability-ledger-carrier}. The application-facing data are exactly $F,X,Y,D,S,R$.
+
+The argument-type row $X$ is consumed before the dependent-codomain row $Y$. The discharge row $D$, closed-substitution row $S$, and reduction-readback row $R$ can only replay that same ordering.
+
+Transport through $H$ and replay through $C$ preserve the ordering, while $P$ and $N$ source and name the packet. Since the refused global principles have no carrier coordinate, the NameCert surface remains finite.
+\end{proof}
+
+\begin{theorem}[MetaCIC app-argument dependent-codomain route]
+\label{thm:metacic-app-argument-stability-ledger-dependent-codomain-route}
+Every subject-reduction discharge consumer of an accepted $\MetacicAppArgumentStabilityLedgerUp$ packet reads the dependent-codomain route only through
+$$
+F,X,Y,D,S,R,H,C,P,N .
+$$
+The argument-type row $X$ is displayed before the codomain row $Y$, and the closed-substitution and reduction-readback rows $S,R$ preserve that attachment. The route exports no global subject-reduction theorem, unrestricted substitution calculus, quotient syntax equality, host evaluator soundness, proof-irrelevance principle, or completed MetaCIC model.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They place the application frontier, argument type, dependent codomain, discharge row, substitution boundary, and readback row on one finite route.
+
+The subject-reduction socket consumes $D$ only after the argument row $X$ and codomain row $Y$ have been displayed. The closed-substitution row $S$ and readback row $R$ preserve that same dependency rather than exposing a general substitution theorem.
+
+Finally read the structural rows $H,C,P,N$. They transport, replay, source, and name the route without adding any of the refused host-side or global MetaCIC objects.
+\end{proof}
+
+\falsifiablePrediction{Every $\MetacicAppArgumentStabilityLedgerUp$ discharge read factors through displayed application-frontier rows, argument-type rows, dependent-codomain rows, discharge-obligation rows, closed-substitution boundary rows, reduction-readback rows, hsame transport, Cont replay, Pkg provenance, and local NameCert data.}
+
+\independenceWitness{subject-reduction-frontier, discharge-obligation-socket, beta-substitution-preservation, closed-substitution-boundary: $\MetacicAppArgumentStabilityLedgerUp$ is not bijective to any listed sibling because it jointly carries argument-type stability, dependent-codomain routing, discharge compatibility, closed-substitution readback, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{MetacicAppArgumentStabilityLedgerUp}{seedStr}
+
+\begin{closurestatus}{\MetacicAppArgumentStabilityLedgerUp}
+  \constructivestory{A $\MetacicAppArgumentStabilityLedgerUp$ packet is generated from MetaCIC application-frontier rows, argument-type rows, dependent-codomain rows, discharge-obligation rows, closed-substitution boundary rows, reduction-readback rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-app-argument-stability-ledger-carrier}, \autoref{thm:metacic-app-argument-stability-ledger-namecert-obligations}, and \autoref{thm:metacic-app-argument-stability-ledger-dependent-codomain-route} seed the finite application-argument stability ledger for the MetaCIC subject-reduction obstruction route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global subject reduction, unrestricted substitution, quotient syntax equality, host evaluator soundness, proof irrelevance, completed MetaCIC semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, argument-type stability, dependent-codomain routing, discharge compatibility, closed-substitution readback, transport, replay, provenance, and non-escape for BEDC.Derived.MetacicAppArgumentStabilityLedgerUp.}
+\end{closurestatus}
