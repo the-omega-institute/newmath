@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization worker <WORKER_ID>.
 
 ## Prompts version
-v5.52 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.53 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Source priority weights (critical_path dispatch_weights)
 
@@ -20,6 +20,7 @@ Source meanings:
 - formal_axis_top: `critical_path.formal_axis_top` (theory-grade-high + formal-grade-low)
 - unformalized_top: `critical_path.unformalized_top` (theorem-level unformalized)
 - carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket from `carrier_isomorphism` field
+- taste_repair_top: only appears when `BEDC_TASTE_REPAIR_ENABLED=1`. This is a low-priority repair lane for carriers flagged by TasteGate structural distinctness. Select at most one, only when ordinary formalization supply is light. If you select it, emit exactly one target with `"kind": "taste_repair"`, preserving the `carrier`, `prior`, and `target_file` fields from critical_path. Phase C will use the dedicated faithful-recoding repair prompt instead of the normal formalization prompt.
 
 `critical_path.sieve_demote` is not a dispatch source. It is a low-priority signal already applied to matching `top` scores; do not select extra work merely because a target appears there.
 
