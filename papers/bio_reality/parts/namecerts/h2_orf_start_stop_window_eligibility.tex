@@ -1,55 +1,53 @@
 \origin{ai}
 
-\subsection{Start--stop window eligibility as a bounded ORF annotation record}
-\label{sec:bioreality-orf-start-stop-window-eligibility}
+\subsection{Cross-organism CUN/UUR leucine usage gate}
+\label{subsec:bior-h3-translation-realization-cross-organism-cun-uur-leu-gate}
 
-\paragraph{Question.}
-This record isolates a narrow biological predicate: whether a finite nucleotide window is eligible at the level of start and stop codon enumeration. The object under examination is not translation, not protein realization, and not a cellular mechanism. It is the much smaller question of whether an externally supplied nucleotide interval can be classified by a fixed start--stop rule without importing downstream biological conclusions. The finite run for this record loaded one curated nucleotide-window manifest, with $\mathrm{window\_count}=1$, $\mathrm{external\_window\_dataset\_loaded}=1$, and snapshot date $2026$-$05$-$25$. The run classified all supplied windows by start--stop enumeration:
+\paragraph{Finite object.}
+This packet concerns the leucine synonymous split between the CUN codon block and the UUR codon pair, read organism by organism through codon-usage summaries and matched tRNA-Leu gene-copy annotations. The finite carrier is the residual coordinate whose visible coordinates are $\log(\#CUN/\#UUR)$, the organism label, the tRNA-Leu gene-copy ratio, and an amino-acid-composition control. The admissible biological reading is therefore narrow: the packet tests whether the sign and magnitude of the CUN-over-UUR log ratio vary with the organism-level tRNA-Leu copy spectrum after controlling for amino-acid composition. It is not a direct observation of ribosome motion, peptide production, folding, cellular role, or molecular feasibility.
+
+\paragraph{Code support row.}
+The linked code-table check fixes the finite codon set used by the packet. The verified support set has cardinality $20$ and is exactly
 $$
 \begin{aligned}
-\mathrm{classified} &= 1,\\
-\mathrm{input\_windows} &= 1.
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
+& CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-The recorded scope is exactly external-window start--stop enumeration. The source statement identifies the row as a curated finite nucleotide-window manifest for BioReality ORF start/stop enumeration, with the records treated as annotation inputs to the experiment rather than as consequences of the BEDC coordinate system.
+The recorded size is $|M|=20$. This row is a codon-label and finite-support check only. It does not, by itself, say anything about organismal expression, translation, protein geometry, selective function, or a universal biological regularity. Its role in this chapter is to keep the CUN and UUR symbols attached to an explicit finite codon vocabulary before any organism-level statistic is evaluated.
 
-\paragraph{Finite codon background.}
-The codon-level bookkeeping used beside this record is finite and explicit. The motif compression row gives
+\paragraph{Organism rows.}
+The validation run loaded three organism rows: $homo\_sapiens$, $saccharomyces\_cerevisiae$, and $escherichia\_coli\_k12$. For these rows, the recorded CUN-over-UUR log ratios are
 $$
 \begin{aligned}
-R = \{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\},
+(1.3514980212896148,\;-0.24869078488829677,\;1.0086640520051702).
 \end{aligned}
 $$
-with no missing and no extra motif elements in that finite comparison. A second finite row records $|M|=20$ and
+The corresponding signs are
 $$
 \begin{aligned}
-M = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\\
-&\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\\
-&\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+(+1,\;-1,\;+1),
 \end{aligned}
 $$
-The saturation row records $M=\mathrm{Med}(R)\cup\{\mathrm{ACA},\mathrm{ACG}\}$ and gives the finite saturated list
+so the uniform-sign hypothesis is false in the finite table: $sign\_uniform=false$. The yeast row is negative while the human and bacterial rows are positive. This is the first reality contact carried by the packet: the leucine codon split is not represented here as a single direction that survives unchanged across the three organism labels.
+
+\paragraph{Paired tRNA-copy statistic.}
+The same validation run reports a positive association between the CUN/UUR coordinate and the tRNA-Leu copy-number ratio. The ordinary Pearson statistic recorded for the three loaded rows is
 $$
 \begin{aligned}
-\mathrm{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\\
-&\mathrm{UUA},\mathrm{UUG}\},
+r=1.0.
 \end{aligned}
 $$
-with $f_3$ boundary list empty. The quotient-geometry row gives the finite vector for $M$ as $(20,38,26,8,1)$ and the quotient vector as $(10,14,6,1)$, with quotient size $10$. These codon and quotient data are relevant only as finite enumerative context: they do not themselves turn a window into an observed ORF.
+After the amino-acid-composition control named by the packet, the recorded partial statistic is
+$$
+\begin{aligned}
+r_{partial}=1.0,\qquad n=3.
+\end{aligned}
+$$
+Thus the finite result is not merely that the signs differ; it is that, in this three-row table, the controlled CUN/UUR coordinate is perfectly positively ordered with the tRNA-Leu copy-ratio coordinate. Because $n=3$, the statistical content is small and should be treated as a bounded organism-table contact, not as a population-level law. No $p$-value, confidence interval, permutation score, likelihood ratio, or independent replication row is recorded in the finite data supplied here.
 
-\paragraph{Classification result.}
-For the present record, the realized statement is that the supplied one-row window table was fully classified by the start--stop-window rule. The resulting layer is explicitly $\mathrm{orf\_eligibility\_only}$. Thus the row supports the following bounded implication: if the input is an externally provided nucleotide window from the recorded manifest, then the fixed start--stop enumeration can decide the ORF-eligibility predicate for that window. The statement is intentionally local to that manifest and to that classifier. It does not assert that every genome-scale interval has been searched, that all possible boundary cases have been resolved, or that the classifier has any authority outside the finite input table.
+\paragraph{What the row establishes.}
+The chapter records a constrained cross-organism translation-layer statistic: in the available three-organism table, the CUN/UUR leucine-usage log ratio changes sign across organisms and has a recorded positive controlled correlation with the tRNA-Leu gene-copy ratio. The contacts used are per-organism codon-usage summaries and organism-level tRNA-Leu gene-copy annotations. These contacts are suitable for testing a codon-usage distribution paired with a tRNA-copy spectrum. They are not suitable for testing folded structure, physical admissibility, biological function, or a global rule about all organisms.
 
-\paragraph{Independent interval contact.}
-A related curated-interval contact supplies a broader finite check, still at the same limited biological layer. That contact loaded $168$ rows from a curated interval dataset derived from NCBI RefSeq GenBank XML CDS intervals for \textit{Escherichia coli} K-12 MG1655 accession NC\_000913.3, with snapshot date $2026$-$05$-$30$. It records the required input classes $\mathrm{boundary\_case}$, $\mathrm{matched\_non\_orf\_decoy}$, and $\mathrm{positive\_curated\_orf}$. The positive curated intervals had $72$ acceptances out of $72$, with exact one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$. The matched decoys had $72$ rejections out of $72$, with the same recorded upper-tail value $2.117582368135751\times 10^{-22}$. The predeclared paired baseline comparison records $72$ wins in $72$ pairs, also with upper-tail value $2.117582368135751\times 10^{-22}$. Boundary cases were not promoted: $24$ cases, $0$ promoted, promoted fraction $0.0$.
-
-\paragraph{Held-out stability.}
-The interval contact also records three held-out splits. The left-locus split has $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$. The middle-locus split has the same counts and rates. The right-locus split also has $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$. The classifier identifier is $\mathrm{orf\_start\_stop\_window\_eligibility}$, and the row records that the classifier rules were not modified. The protocol facts state that classifier rules, input classes, held-out splits, and baselines were fixed before the external observation time $2026$-$05$-$30\,10{:}29{:}31+00{:}00$. These rows strengthen the finite annotation contact, but they still remain a contact-level assessment of ORF-interval eligibility, not a demonstration of translation or function.
-
-\paragraph{Boundary of interpretation.}
-The BioReality self-check records that three gates were checked and that no codon geometry is promoted across biological layers. For this chapter, the prohibition is local and explicit. Start/stop enumeration may mark a supplied interval as eligible under the finite rule, but no translation event, folded molecular structure, physical admissibility, biological function, mechanistic explanation, or universal biological law follows from that enumeration. Such conclusions would require an additional observation or curated biological contact able to test that stronger layer. Likewise, the quotient vector $(10,14,6,1)$, the finite codon set $M$, the motif set $R$, and the empty $f_3$ boundary row are not substitutes for transcript evidence, protein evidence, structural evidence, or functional assay evidence.
-
-\paragraph{Conclusion.}
-The claim is ready at the level of bounded ORF-window eligibility. The finite row with $\mathrm{window\_count}=1$ shows complete classification of the supplied window by start--stop enumeration, and the linked curated-interval contact supplies a larger finite annotation check with $168$ rows, $72/72$ positive acceptance, $72/72$ matched-decoy rejection, $24/24$ boundary non-promotion, and stable held-out split behavior across three folds. The correct reading is therefore narrow: a fixed finite classifier can decide ORF-eligibility for the externally supplied interval records in the stated manifests. Nothing in the record licenses promotion to translation, folding, physical admissibility, biological function, mechanism, or universality without a further contact aimed at that stronger claim.
+\paragraph{Local boundary.}
+No realized translation event follows from this row unless a separate measurement supplies it. No ribosome-mediated mechanism follows from this row unless ribosome profiling, stAI, or another direct translation-process contact is added. No folded protein structure, physical admissibility, cellular function, or universal cross-organism law follows from the CUN/UUR sign pattern or from the tRNA-Leu copy-ratio association. The sign reversal is recorded as context dependent within the loaded organisms, and the positive controlled statistic is a finite paired-table result. Raw CUN/UUR ratios without the amino-acid-composition control are not treated here as a translation claim.
