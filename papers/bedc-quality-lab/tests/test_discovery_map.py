@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -81,6 +82,10 @@ def _write_json_artifact(root: Path, artifact: str, payload):
     path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
 
 
+def _read_json_artifact(root: Path, artifact: str):
+    return json.loads((root / artifact).read_text(encoding="utf-8"))
+
+
 def _robustness_context_payload():
     return {
         "final_status": "pass",
@@ -134,6 +139,35 @@ def _write_gap_head_d5_context(root: Path, *, transfer_metric=False, witness_cou
         discovery_map.OBSERVED_DEBT_ARTIFACT,
         _observed_debt_context_payload(transfer_metric=transfer_metric),
     )
+
+
+def _rewrite_gap_head_d5_artifact(root: Path, artifact: str, mutate):
+    payload = _read_json_artifact(root, artifact)
+    mutate(payload)
+    _write_json_artifact(root, artifact, payload)
+
+
+def _without_key(key):
+    def mutate(payload):
+        payload.pop(key, None)
+
+    return mutate
+
+
+def _set_nested(path, value):
+    def mutate(payload):
+        target = payload
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+
+    return mutate
+
+
+def _add_gate_breaking_witness(payload):
+    mutated_witnesses = deepcopy(payload["witnesses"])
+    mutated_witnesses[0]["terminal_verdict"] = "accepted"
+    payload["witnesses"] = mutated_witnesses
 
 
 def _row_by_report(payload):
@@ -208,6 +242,122 @@ def test_gap_head_on_h_projects_to_d5_when_all_readiness_pointers_pass(tmp_path)
     assert row["discovery_level"] == "D5"
     assert row["audit_status"] == "valid"
     assert {criterion["status"] for criterion in row["d5_readiness"].values()} == {"pass"}
+
+
+@pytest.mark.parametrize(
+    ("criterion", "artifact", "mutate", "expected_status"),
+    [
+        (
+            "threshold",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _without_key("A1_threshold_sweep"),
+            "missing",
+        ),
+        (
+            "threshold",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A1_threshold_sweep", "treatment_verdict", "positive"), False),
+            "missing",
+        ),
+        (
+            "threshold",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A1_threshold_sweep", "treatment_verdict", "positive"), "incomplete"),
+            "missing",
+        ),
+        (
+            "ablation",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _without_key("A2_feature_ablation"),
+            "missing",
+        ),
+        (
+            "ablation",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A2_feature_ablation", "status"), "failed"),
+            "missing",
+        ),
+        (
+            "ablation",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A2_feature_ablation", "status"), "incomplete"),
+            "missing",
+        ),
+        (
+            "seed_expansion",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _without_key("A3_seed_expansion"),
+            "missing",
+        ),
+        (
+            "seed_expansion",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A3_seed_expansion", "status"), "incomplete"),
+            "missing",
+        ),
+        (
+            "seed_expansion",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A3_seed_expansion", "final_verdict"), "failed"),
+            "missing",
+        ),
+        (
+            "adversarial",
+            discovery_map.NEGATIVE_WITNESSES_ARTIFACT,
+            _without_key("witnesses"),
+            "failed",
+        ),
+        (
+            "adversarial",
+            discovery_map.NEGATIVE_WITNESSES_ARTIFACT,
+            _set_nested(("expected_kind_count",), 7),
+            "failed",
+        ),
+        (
+            "adversarial",
+            discovery_map.NEGATIVE_WITNESSES_ARTIFACT,
+            _add_gate_breaking_witness,
+            "failed",
+        ),
+        (
+            "observed_debt_transfer",
+            discovery_map.OBSERVED_DEBT_ARTIFACT,
+            _without_key("gap_head_on_h_observed_debt_transfer"),
+            "missing",
+        ),
+        (
+            "observed_debt_transfer",
+            discovery_map.OBSERVED_DEBT_ARTIFACT,
+            _set_nested(("gap_head_on_h_observed_debt_transfer", "status"), "failed"),
+            "missing",
+        ),
+        (
+            "observed_debt_transfer",
+            discovery_map.OBSERVED_DEBT_ARTIFACT,
+            _set_nested(("gap_head_on_h_observed_debt_transfer", "status"), "incomplete"),
+            "missing",
+        ),
+    ],
+)
+def test_gap_head_on_h_d5_readiness_fails_closed_per_real_criterion(
+    tmp_path,
+    criterion,
+    artifact,
+    mutate,
+    expected_status,
+):
+    _write_all_payloads(tmp_path)
+    _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+    _rewrite_gap_head_d5_artifact(tmp_path, artifact, mutate)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["gap-head-on-h"]
+
+    statuses = {name: value["status"] for name, value in row["d5_readiness"].items()}
+    assert row["discovery_level"] == "D4"
+    assert row["audit_status"] == "valid"
+    assert statuses[criterion] == expected_status
+    assert {name for name, status in statuses.items() if status != "pass"} == {criterion}
 
 
 def test_gap_head_on_h_d5_claim_with_unresolved_pointer_is_invalid(monkeypatch):
