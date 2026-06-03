@@ -23,3 +23,17 @@ Apply coordinate stability from \autoref{thm:regular-cauchy-finite-product-coord
 
 The restricted subwindow is therefore a local view of the displayed finite-product packet. It cannot introduce a host finite product, selected representative, quotient stream equality, trichotomy, or ambient completeness datum.
 \end{proof}
+
+\begin{theorem}[Regular Cauchy finite product coordinate pairing]
+\label{thm:regular-cauchy-finite-product-coordinate-pairing}
+Let two coordinate reads be displayed from the same accepted $\RegularCauchyFiniteProductUp$ packet. If the two reads share the synchronized $\StreamNameUp$ window family, the same $\DyadicRatCoreUp$ product-budget ledger, and the finite index rows naming their coordinate slots, then they form a jointly $\RegSeqRatUp$-compatible pair. The pair is read only through the product-projection dependency route of \autoref{ch:concrete-instances-regular-cauchy-product-projection-namecert}; it exports no host product coordinates, selected component representatives, quotient stream equality, trichotomy, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the two displayed coordinate reads from the same finite-product packet. Apply coordinate stability, \autoref{thm:regular-cauchy-finite-product-coordinate-stability}, to each read along the common product source, synchronized windows, product-budget ledger, regular-rational readback, and projection route.
+
+Next apply the window restriction theorem, \autoref{thm:regular-cauchy-finite-product-window-restriction}. Because both reads share the same $\StreamNameUp$ window family and $\DyadicRatCoreUp$ product-budget ledger, restricting to any displayed common subwindow preserves the regular-rational readback for each coordinate.
+
+Finally use the product-projection dependency route in \autoref{ch:concrete-instances-regular-cauchy-product-projection-namecert}. The finite index rows keep the two coordinate slots named inside the same packet, so the two preserved readbacks assemble as a jointly $\RegSeqRatUp$-compatible pair.
+
+The assembled pair contains only the displayed product packet, synchronized windows, dyadic budget, finite index rows, projection route, and regular-rational handoffs. No host product coordinate, selected representative, quotient stream equality, trichotomy, or ambient completeness row is introduced.
+\end{proof}
