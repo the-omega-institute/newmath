@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\FaberSchauderSystemUp$}
+\label{ch:concrete-instances-faber-schauder-system-namecert}
+\origin{human}
+
+Following Schauder's basis construction and constructive approximation analysis, the $\FaberSchauderSystemUp$ packet records the dyadic hat functions that generate finite piecewise-linear approximation rows. It sits over the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the uniform-modulus route of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the sequence-level basis surface of \autoref{ch:concrete-instances-schauder-basis-namecert}. The packet stores dyadic levels, midpoint hats, finite support intervals, coefficient readbacks, uniform-error budgets, transport, replay, provenance, and naming, but it does not claim convergence of an arbitrary infinite series or a host Banach-space basis theorem.
+
+\begin{definition}[Faber--Schauder system carrier]
+\label{def:faber-schauder-system-carrier}
+A $\FaberSchauderSystemUp$ carrier is a finite $\BHist$ packet
+$$
+F=(D,H,S,C,U,R,T,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ level row, recording the displayed dyadic grid, parent interval endpoints, and midpoint name used by a hat function;
+\item $H$ is the hat-profile row, recording the piecewise-linear rise and fall from the two endpoints through the midpoint;
+\item $S$ is the finite support row, recording the closed dyadic interval on which the hat can be nonzero and the exterior zero reads;
+\item $C$ is the coefficient row, recording the displayed scalar readback assigned to the hat;
+\item $U$ is the $\UniformModulusUp$ row, recording the finite tolerance budget for a partial approximation request;
+\item $R$ records componentwise $\hsame$ transport for the dyadic level, hat profile, support, coefficient, modulus, replay, provenance, and naming rows;
+\item $T$ records displayed $\Cont$ replay from a finite approximation request through dyadic-grid inspection, hat-support readback, coefficient multiplication, and uniform-modulus budget inspection;
+\item $P$ is the $\Pkg$ provenance over $\FaberSchauderSystemUp$, $\DyadicRatCoreUp$, $\RealUp$, $\UniformModulusUp$, $\SchauderBasisUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FaberSchauderSystemUp}$ row binding the paper-visible name to the finite packet.
+\end{enumerate}
+The carrier has no coordinate for quotient real equality, selected infinite coefficients, trichotomy, countable choice, ambient completeness of $\RealUp$, or convergence of an infinite expansion.
+\end{definition}
+\leanstmt{BEDC.Derived.FaberSchauderSystemUp}
+
+\begin{theorem}[Faber--Schauder system NameCert obligations]
+\label{thm:faber-schauder-system-namecert-obligations}
+For every accepted $\FaberSchauderSystemUp$ carrier
+$$
+F=(D,H,S,C,U,R,T,P,N),
+$$
+the local $\NameCert_{\FaberSchauderSystemUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic level, hat profile, support, coefficient, modulus, transport, replay, provenance, and local naming rows;
+\item dyadic-grid exactness, requiring $D$ to expose the parent endpoints and midpoint through $\DyadicRatCoreUp$ before the hat row is read;
+\item hat-support locality, requiring $S$ to name the finite dyadic support and exterior zero reads before any coefficient or real-facing approximation row is consumed;
+\item uniform-budget compatibility, requiring $U$ to provide the finite tolerance row used by partial sums before the packet reaches $\RealUp$ or $\SchauderBasisUp$ consumers;
+\item non-escape, requiring $R,T,P,N$ to preserve the same displayed rows under transport, replay, provenance, and naming, with no quotient real equality, selected infinite coefficient stream, trichotomy, choice, or ambient completeness coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:faber-schauder-system-carrier}. The accepted packet exposes only the dyadic level, hat profile, support, coefficient, uniform budget, transport, replay, provenance, and naming rows.
+
+The analytic rows are $D,H,S,C,U$. The dyadic row fixes the grid and midpoint, the hat row records the piecewise-linear profile, the support row confines the nonzero region, the coefficient row records the displayed scalar, and the modulus row supplies the finite approximation budget.
+
+The structural rows are $R,T,P,N$. They transport the same packet, replay the finite request, record provenance, and bind the local name. Since no other coordinate exists, the excluded quotient, selection, trichotomy, choice, completeness, and infinite-expansion objects cannot enter the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Faber--Schauder dyadic hat support]
+\label{thm:faber-schauder-system-dyadic-hat-support}
+Every accepted $\FaberSchauderSystemUp$ carrier $F=(D,H,S,C,U,R,T,P,N)$ determines a finite dyadic hat-support route
+$$
+D \longrightarrow H \longrightarrow S \longrightarrow C \longrightarrow U
+$$
+before any $\RealUp$ or $\SchauderBasisUp$ consumer reads the packet. The support row $S$ confines the hat to the displayed dyadic parent interval, records exterior zero reads, and keeps the coefficient and uniform-modulus rows inside the same finite $\BHist$ route.
+\end{theorem}
+\begin{proof}
+Start with the dyadic row $D$. It names the parent endpoints and midpoint through $\DyadicRatCoreUp$, so the hat row has a finite grid before any real-facing read occurs.
+
+Next read $H$ and $S$. The hat profile rises and falls only across the displayed dyadic interval, and the support row records the exterior zero reads that prevent the packet from exporting a host support predicate.
+
+Finally pass through $C$ and $U$. The coefficient and uniform budget are attached to the same displayed support, while $R,T,P,N$ preserve that route under transport, replay, provenance, and naming. Thus a Real or Schauder-basis consumer receives a finite hat-support certificate and no selected infinite coefficient stream, quotient equality, trichotomy, choice, or ambient completeness principle.
+\end{proof}
+
+\closureat{FaberSchauderSystemUp}{seedStr}
+
+\begin{closurestatus}{\FaberSchauderSystemUp}
+  \constructivestory{A $\FaberSchauderSystemUp$ packet is generated from dyadic grid rows, finite hat profiles, support intervals, coefficient readbacks, uniform-modulus budgets, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:faber-schauder-system-carrier}, \autoref{thm:faber-schauder-system-namecert-obligations}, and \autoref{thm:faber-schauder-system-dyadic-hat-support} seed the finite dyadic hat system certificate over dyadic levels, support intervals, coefficient rows, uniform budgets, provenance, and naming.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close convergence of arbitrary infinite Faber--Schauder expansions, uniqueness of coefficients, quotient real equality, trichotomy, countable choice, or completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic-grid exactness, hat-support locality, uniform-budget compatibility, transport, replay, provenance, and local naming for BEDC.Derived.FaberSchauderSystemUp.}
+\end{closurestatus}

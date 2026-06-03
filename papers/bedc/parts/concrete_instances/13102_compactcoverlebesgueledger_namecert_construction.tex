@@ -70,6 +70,23 @@ Apply the lower-bound fold $F$. Because $F$ is a $\FiniteNetMinimumFoldUp$ row o
 
 The $\UniformModulusUp$ row $U$ can read that precision only through $H,T,P,N$. These structural rows preserve and route the finite ledger; they do not add a direct pointwise-to-uniform selector or a hidden compactness theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.CompactCoverLebesgueLedgerUp.CompactCoverLebesgueLedgerCarrier\_uniform\_modulus\_handoff}
+
+\begin{theorem}[Compact cover Lebesgue ledger finite-net radius exhaustion]
+\label{thm:compact-cover-lebesgue-ledger-finite-net-radius-exhaustion}
+Every uniform precision exported by an accepted $\CompactCoverLebesgueLedgerUp$ packet is exhausted by the displayed finite-net radius ledger. Concretely, if
+$$
+L=(K,C,R,F,U,H,T,P,N)
+$$
+exports a precision to $U$, then the export is read from the finite net row $K$, the pointwise radius row $C$, the positive rational ledger $R$, the lower-bound fold $F$, and the structural rows $H,T,P,N$. No exported precision may depend on an open-cover oracle, a host minimum over radii, a selected center outside $K$, quotient metric equality, or an external modulus function.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:compact-cover-lebesgue-ledger-carrier}. The only rows that can supply radius data are $K,C,R,F$: the finite net names the displayed centers, the pointwise ledger attaches local radii to those centers, the rational row records positive lower-bound candidates, and the fold row reads the same finite list.
+
+Apply \autoref{thm:compact-cover-lebesgue-ledger-uniform-modulus-handoff}. It places every $\UniformModulusUp$ export downstream of $K,C,R,F$ and the structural rows $H,T,P,N$.
+
+The classifier-surface theorem then excludes every other source of precision. Since the carrier has no coordinate for an open-cover compactness oracle, host minimum, external center selector, quotient metric equality, or external modulus function, the finite-net ledger exhausts the exported precision.
+\end{proof}
 
 \falsifiablePrediction{A consumer that exports a $\UniformModulusUp$ precision from a compact-continuous packet without reading the compact finite-net row, continuous pointwise-radius row, positive $\RatUp$ lower-bound fold, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows refutes the $\CompactCoverLebesgueLedgerUp$ carrier.}
 

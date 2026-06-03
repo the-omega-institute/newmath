@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ExtFunctorUp$}
+\label{ch:concrete-instances-ext-functor-namecert}
+\origin{human}
+
+Following Cartan--Eilenberg and Weibel on derived functors over abelian categories, the $\ExtFunctorUp$ packet names the boundary where right-derived Hom data becomes a finite BEDC NameCert surface. It sits after the abelian-category carrier of \autoref{ch:concrete-instances-abeliancat-namecert}, the derived-functor spine of \autoref{ch:concrete-instances-derivedfunctor-namecert}, and the cycle-boundary readback of \autoref{ch:concrete-instances-cohomology-namecert} and \autoref{ch:concrete-instances-homology-namecert}. The packet records Ext as a displayed derived-functor route through resolution, Hom-row, cohomology, transport, replay, provenance, and local naming rows; it is not a host quotient of complexes, not a chosen injective or projective resolution outside the ledger, not an abelian-category oracle, and not a classical exactness theorem hidden behind the name.
+
+\begin{definition}[ExtFunctor carrier]
+\label{def:ext-functor-carrier}
+An $\ExtFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+E=(A,X,Y,R,\mathcal{H},C^\bullet,Z,B,D,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\AbelianCatUp$ source row naming the abelian-category carrier in which objects, morphisms, kernels, cokernels, and exactness reads are interpreted.
+\item $X$ and $Y$ are the two object rows for the traditional $\operatorname{Ext}^n(X,Y)$ request.
+\item $R$ is the displayed resolution row. It may be read as an injective resolution of $Y$ or a projective resolution of $X$, but the carrier records the chosen side explicitly as finite $\BHist$ data.
+\item $\mathcal{H}$ is the displayed Hom-complex row obtained by applying the Hom request to the resolution row inside the same abelian-category source.
+\item $C^\bullet$ is the cochain ledger whose differential and degree rows are consumed by $\CohomologyUp$.
+\item $Z$ and $B$ are the cycle and boundary rows at the displayed degree.
+\item $D$ is the $\DerivedFunctorUp$ handoff row identifying the Ext read as the right-derived Hom route rather than as a separate quotient object.
+\item $H$ records componentwise $\hsame$ transport for the abelian source, object rows, resolution row, Hom-complex row, cochain ledger, cycle-boundary rows, derived-functor handoff, continuation rows, provenance, and local naming.
+\item $T$ records displayed $\Cont$ replay from the Ext request through $A,X,Y,R,\mathcal{H},C^\bullet,Z,B,D,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ExtFunctorUp$, $\AbelianCatUp$, $\DerivedFunctorUp$, $\CohomologyUp$, $\HomologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ExtFunctorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,X,Y,R,\mathcal{H},C^\bullet,Z,B,D,H,T,P,N$. It has no coordinate for host quotient equality of complexes, unrecorded resolution replacement, selected representatives of cohomology classes, global abelian-category exactness, countable choice, or an ambient derived-category oracle.
+\end{definition}
+
+\begin{theorem}[ExtFunctor NameCert obligations]
+\label{thm:ext-functor-namecert-obligations}
+For every accepted $\ExtFunctorUp$ carrier $E=(A,X,Y,R,\mathcal{H},C^\bullet,Z,B,D,H,T,P,N)$, the local $\NameCert_{\ExtFunctorUp}$ surface consists exactly of carrier admission for the abelian source $A$, object rows $X,Y$, displayed resolution row $R$, Hom-complex row $\mathcal{H}$, cochain ledger $C^\bullet$, cycle and boundary rows $Z,B$, derived-functor handoff $D$, componentwise transport $H$, displayed replay $T$, package provenance $P$, and local naming row $N$.
+
+Every Ext consumer reads the public class through the displayed chain
+$$
+\AbelianCatUp \longmapsto (X,Y,R) \longmapsto \mathcal{H} \longmapsto C^\bullet \longmapsto (Z,B) \longmapsto \DerivedFunctorUp .
+$$
+The certificate exports no quotient complex, unrecorded resolution, selected cohomology representative, global exactness oracle, countable-choice schedule, or ambient derived-category equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ext-functor-carrier}. The first visible rows are the abelian source, the two object rows, and the resolution row, so any Hom-complex request is already tied to displayed abelian-category data.
+
+Read the Hom-complex row $\mathcal{H}$ and the cochain ledger $C^\bullet$ next. The cycle and boundary rows $Z,B$ are consumed by the cohomology or homology certificate at the displayed degree, and the handoff row $D$ records that the resulting class is the right-derived Hom read inside $\DerivedFunctorUp$.
+
+Finally $H,T,P,N$ transport, replay, source, and name exactly those rows. Since the carrier has no excluded coordinate, the listed rows exhaust the local NameCert surface and no hidden quotient, selected representative, exactness oracle, choice object, or ambient derived-category equality can enter the Ext read.
+\end{proof}
+
+\begin{theorem}[ExtFunctor derived-functor handoff]
+\label{thm:ext-functor-derived-functor-handoff}
+Every $\DerivedFunctorUp$, $\CohomologyUp$, or $\HomologyUp$ consumer of an accepted $\ExtFunctorUp$ packet receives only the displayed abelian source $A$, object rows $X,Y$, resolution row $R$, Hom-complex row $\mathcal{H}$, cochain ledger $C^\bullet$, cycle-boundary rows $Z,B$, derived-functor handoff $D$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
+
+In particular, a consumer may change from an injective-resolution presentation to a projective-resolution presentation only by displaying a finite comparison ledger through $R,\mathcal{H},C^\bullet,Z,B,D,H,T,P,N$. Such a comparison is a BEDC route equivalence; it is not host equality of resolutions, not a selected quasi-isomorphism inverse, and not an imported derived-category isomorphism.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:ext-functor-namecert-obligations}. It places the Ext read behind the abelian-category source, object rows, displayed resolution, Hom-complex row, cochain ledger, cycle-boundary rows, and derived-functor handoff.
+
+For the ordinary derived-functor direction, project $D$. This row identifies the accepted packet as the derived Hom route and hands the same cycle-boundary data to the downstream $\DerivedFunctorUp$ consumer.
+
+For a change of resolution side, the carrier must expose the comparison as finite data in the resolution, Hom-complex, cochain, cycle-boundary, and replay rows. The comparison can therefore be consumed by $\CohomologyUp$ or $\HomologyUp$ only after those rows are displayed.
+
+Thus every downstream consumer sees the same finite ledger and no hidden resolution equality, selected inverse, quotient complex, global exactness theorem, countable-choice schedule, or ambient derived-category oracle.
+\end{proof}
+
+\closureat{ExtFunctorUp}{seedStr}
+
+\begin{closurestatus}{\ExtFunctorUp}
+  \constructivestory{An $\ExtFunctorUp$ packet is generated from an AbelianCat source row, two object rows, a displayed resolution row, a Hom-complex row, a cochain ledger, cycle and boundary rows, a DerivedFunctor handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ext-functor-carrier}, \autoref{thm:ext-functor-namecert-obligations}, and \autoref{thm:ext-functor-derived-functor-handoff} seed the finite Ext derived-functor boundary over abelian, cohomology, homology, and derived-functor rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host quotient equality of complexes, unrecorded resolution comparison, selected cohomology representatives, global abelian-category exactness, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, resolution-side comparison coverage, Hom-complex ledger exactness, cycle-boundary classifier stability, derived-functor handoff confinement, transport stability, replay, and provenance nonescape for BEDC.Derived.ExtFunctorUp.}
+\end{closurestatus}

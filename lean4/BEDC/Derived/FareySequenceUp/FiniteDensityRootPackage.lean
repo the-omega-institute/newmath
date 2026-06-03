@@ -132,4 +132,92 @@ theorem FareySequenceFiniteDensityRootPackage [AskSetup] [PackageSetup]
     ⟨cert, boundaryUnary, levelUnary, toleranceUnary, sternUnary, densityUnary,
       rationalUnary, windowUnary, regseqUnary, approxUnary, sealedUnary, namedUnary⟩
 
+theorem FareySequenceCarrier_root_unblock_package [AskSetup] [PackageSetup]
+    {B A M L T S D Q W R G E H C P N rootRead approxRead densityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FareySequenceCarrier B A M L T S D Q W R G E H C P N bundle pkg →
+      Cont W R approxRead →
+        Cont D Q densityRead →
+          Cont approxRead densityRead rootRead →
+            PkgSig bundle rootRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row rootRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row B ∨ hsame row A ∨ hsame row M ∨ hsame row L ∨
+                      hsame row T ∨ hsame row S ∨ hsame row D ∨ hsame row Q ∨
+                        hsame row W ∨ hsame row R ∨ hsame row G ∨ hsame row E ∨
+                          hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                            hsame row rootRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont W R approxRead ∧ Cont D Q densityRead ∧
+                      Cont approxRead densityRead rootRead ∧ PkgSig bundle rootRead pkg)
+                  hsame ∧
+                UnaryHistory approxRead ∧ UnaryHistory densityRead ∧
+                  UnaryHistory rootRead := by
+  -- BEDC touchpoint anchor: FareySequenceCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier approxRoute densityRoute rootRoute rootPkg
+  obtain ⟨_bUnary, _aUnary, _mUnary, _lUnary, _tUnary, _sUnary, dUnary, qUnary,
+    wUnary, rUnary, _gUnary, _eUnary, _hUnary, _cUnary, _pUnary, _nUnary,
+    _aEmpty, _sEmpty, _mEmpty, _gEmpty, _eEmpty, _carrierPkg⟩ := carrier
+  have approxUnary : UnaryHistory approxRead :=
+    unary_cont_closed wUnary rUnary approxRoute
+  have densityUnary : UnaryHistory densityRead :=
+    unary_cont_closed dUnary qUnary densityRoute
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed approxUnary densityUnary rootRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row rootRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row A ∨ hsame row M ∨ hsame row L ∨
+              hsame row T ∨ hsame row S ∨ hsame row D ∨ hsame row Q ∨
+                hsame row W ∨ hsame row R ∨ hsame row G ∨ hsame row E ∨
+                  hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                    hsame row rootRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W R approxRead ∧ Cont D Q densityRead ∧
+              Cont approxRead densityRead rootRead ∧ PkgSig bundle rootRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro rootRead ⟨hsame_refl rootRead, rootUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr source.left)))))))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, approxRoute, densityRoute, rootRoute, rootPkg⟩
+  }
+  exact ⟨cert, approxUnary, densityUnary, rootUnary⟩
+
 end BEDC.Derived.FareySequenceUp

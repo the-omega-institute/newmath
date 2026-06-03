@@ -107,6 +107,26 @@ $$
 so the L10 row is precisely the StreamName, DyadicRatCore, and RegSeqRat readback surface downstream of the Real-uniform and completion rows.
 \end{proof}
 
+\begin{theorem}[BishopRealUniformCompletion density handoff]
+\label{thm:bishop-real-uniform-completion-density}
+Every accepted $\BishopRealUniformCompletionUp$ packet whose $\RealUp$ endpoint row is read through a dyadic or regular-rational dense approximation route exposes that route through
+$$
+R,U,J,T,S,D,Q,H,C,P,N
+$$
+before the completion seal is public. The packet therefore records the density handoff needed by completion consumers, but it does not claim ambient $\RealUp$ completeness, a selected limit, a quotient stream, host equality, countable choice, metric-completeness data, or a bridge credential.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier of \autoref{def:bishop-real-uniform-completion-carrier}. The endpoint row $R$ is not read in isolation; the Real-uniform entourage row $U$, reflective completion route $J$, and triangle route $T$ determine how a completion-facing consumer reaches it.
+
+Apply \autoref{thm:bishop-real-uniform-completion-namecert-obligations}. The obligation rows require L10 handoff through $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$, so any dyadic or regular-rational dense approximation route must be displayed through $S,D,Q$ before the endpoint row is public.
+
+Apply \autoref{thm:bishop-real-uniform-completion-l10-handoff} and \autoref{thm:bishop-real-uniform-completion-diagonal-seal-ledger}. Together they identify the route
+$$
+R\longmapsto U\longmapsto J\longmapsto T\longmapsto S,D,Q\longmapsto H,C,P,N .
+$$
+The structural rows then transport, replay, source, and name the displayed density handoff, while the carrier still contains no coordinate for completeness, selected limits, quotient streams, host equality, countable choice, metric-completeness data, or bridge credentials.
+\end{proof}
+
 \begin{closurestatus}{\BishopRealUniformCompletionUp}
   \constructivestory{A $\BishopRealUniformCompletionUp$ packet is generated from a Real endpoint and seal row, a RealUniformStructure entourage row, a CauchyCompletionReflectiveSubcategory inclusion row, a CauchyCompletionTriangleIdentity route row, StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}

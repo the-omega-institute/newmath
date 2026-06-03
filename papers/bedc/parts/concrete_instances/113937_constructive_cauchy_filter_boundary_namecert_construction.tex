@@ -1,0 +1,56 @@
+\chapter{Constructive Cauchy-Filter Boundary NameCert Construction}
+\label{ch:concrete-instances-constructive-cauchy-filter-boundary-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ConstructiveCauchyFilterBoundaryUp$ packet records the finite boundary surface through which Cauchy-filter completion reads enter the Real and Completion route. It is deliberately placed between the Cauchy-filter carrier of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the finite StreamName observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational schedules of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives completion consumers a finite boundary object without importing quotient streams, countable choice, a selected limit, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Constructive Cauchy-filter boundary]\label{def:constructive-cauchy-filter-boundary}
+A $\ConstructiveCauchyFilterBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(F,S,R,D,Q,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $F$ is the $\CauchyFilterUp$ source row. It records the accepted filter request, its directed finite neighbourhood ledger, and the displayed Cauchy-filter admission data.
+\item $S$ is the $\StreamNameUp$ window row exposed when a completion consumer asks for a named finite observation of the filter.
+\item $R$ is the $\RegSeqRatUp$ readback row. It records the regular rational schedule read from the finite StreamName windows before any Real-facing seal is consumed.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It records the dyadic precision, radius, and comparison data used by the RegSeqRat readback.
+\item $Q$ is the terminal $\RealUp$ seal row reached only after $F,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $F,S,R,D,Q$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+F \longmapsto S,D \longmapsto R \longmapsto Q,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveCauchyFilterBoundaryUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ConstructiveCauchyFilterBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,S,R,D,Q,H,C,P,N$. It has no coordinate for quotient stream equality, countable choice, a selected limit, host real equality, real trichotomy, or ambient Real completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.ConstructiveCauchyFilterBoundaryUp}
+
+\begin{theorem}[Constructive Cauchy-filter boundary NameCert obligations]\label{thm:constructive-cauchy-filter-boundary-namecert-obligations}
+For every accepted $\ConstructiveCauchyFilterBoundaryUp$ carrier $B=(F,S,R,D,Q,H,C,P,N)$, Cauchy-filter completion reads are exhausted by the displayed route
+$$
+F \longmapsto S,D \longmapsto R \longmapsto Q .
+$$
+The source row $F$ is read through the Cauchy-filter packet of \autoref{ch:concrete-instances-cauchyfilter-namecert}; finite observations pass through the StreamName window row of \autoref{ch:concrete-instances-streamname-namecert}; regular rational schedules pass through the RegSeqRat readback row of \autoref{ch:concrete-instances-regseqrat-namecert}; dyadic tolerances pass through the DyadicRatCore row; and the Real-facing boundary is sealed only by $Q$. The structural rows $H,C,P,N$ preserve that route and do not export quotient streams, countable choice, a selected limit, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-cauchy-filter-boundary}. The only source-facing row is $F$, so the completion request first exposes the accepted Cauchy-filter ledger and cannot begin from a quotient stream or a selected limit.
+
+The finite observation stage is routed through $S,D,R$. The StreamName row supplies the finite window, the DyadicRatCore row supplies the precision and radius comparisons, and the RegSeqRat row supplies the regular rational readback consumed by a Real-facing route.
+
+Finally project $Q,H,C,P,N$. The terminal Real seal is downstream of the finite rows, while componentwise transport, continuation replay, provenance, and local naming preserve the same carrier. Since none of the excluded coordinates occurs in the packet, the boundary cannot be used as an ambient completeness principle.
+\end{proof}
+
+\closureat{ConstructiveCauchyFilterBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveCauchyFilterBoundaryUp}
+  \constructivestory{A $\ConstructiveCauchyFilterBoundaryUp$ packet is generated from CauchyFilter source rows, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance rows, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-cauchy-filter-boundary} and \autoref{thm:constructive-cauchy-filter-boundary-namecert-obligations} seed the finite Cauchy-filter boundary carrier for Real and Completion reads.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host real equality, trichotomy, ambient Real completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window routing, RegSeqRat readback, DyadicRatCore tolerance ordering, Real seal nonescape, provenance, and local naming for BEDC.Derived.ConstructiveCauchyFilterBoundaryUp.}
+\end{closurestatus}
