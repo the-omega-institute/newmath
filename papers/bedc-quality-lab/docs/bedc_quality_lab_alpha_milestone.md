@@ -37,7 +37,8 @@ Selected alpha milestone pointers are:
 
 | evidence class | pointer |
 | --- | --- |
-| `D4` | selected examples: `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h]`; full set: `reports/canonical/discovery_map.json:$.rows[*].discovery_level` |
+| `D5` | scoped candidate: `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h]`; transfer surface: `reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status` |
+| `D4` | full set: `reports/canonical/discovery_map.json:$.rows[*].discovery_level` |
 | `DN` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery]` |
 | `D1` | `reports/canonical/discovery_map.json:$.rows[report=nongaussian-distribution-sweep]`; `reports/canonical/discovery_map.json:$.rows[report=anisotropic-ou-sweep]` |
 

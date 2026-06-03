@@ -1,14 +1,14 @@
 {
   "artifact_id": "bedc-quality-lab:discovery-map",
-  "generated_at": "2026-06-03T13:00:37.417129+00:00",
+  "generated_at": "2026-06-03T15:47:35.771561+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
     "D0": 1,
     "D1": 3,
     "D2": 0,
     "D3": 0,
-    "D4": 2,
-    "D5": 0,
+    "D4": 1,
+    "D5": 1,
     "DN": 4,
     "DR": 0
   },
@@ -57,7 +57,8 @@
       "audit_status": "valid",
       "classifier_reasons": [
         "positive_discovery=true",
-        "robustness evidence absent"
+        "acceptance_gates.status=pass",
+        "final_status=pass"
       ],
       "control_pointer": "$.control_protocol",
       "d5_readiness": {
@@ -76,11 +77,11 @@
           "status": "pass"
         },
         "observed_debt_transfer": {
-          "artifact": "reports/canonical/observed-debt-sweep.json",
+          "artifact": "reports/canonical/gap-head-observed-debt-transfer.json",
           "name": "observed_debt_transfer",
           "pointer": "$.gap_head_on_h_observed_debt_transfer.status",
-          "reason": "Observed-debt sweep covers observed-debt surfaces but has no gap-head-on-h observed-debt transfer metric.",
-          "status": "missing"
+          "reason": "Observed-debt transfer metric for gap-head-on-h passes.",
+          "status": "pass"
         },
         "seed_expansion": {
           "artifact": "reports/canonical/gap-head-robustness-sweep.json",
@@ -97,11 +98,11 @@
           "status": "pass"
         }
       },
-      "discovery_level": "D4",
+      "discovery_level": "D5",
       "evidence_pointer": "$.treatment_verdict.positive",
       "json_artifact": "reports/canonical/gap-head-on-h.json",
       "markdown_artifact": "reports/canonical/gap-head-on-h.md",
-      "observed_debt_transfer_pointer": "reports/canonical/observed-debt-sweep.json:$.gap_head_on_h_observed_debt_transfer.status",
+      "observed_debt_transfer_pointer": "reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status",
       "projection_status": "projected",
       "report": "gap-head-on-h",
       "robustness_pointer": "reports/canonical/gap-head-robustness-sweep.json:$.A1_threshold_sweep.treatment_verdict.positive",

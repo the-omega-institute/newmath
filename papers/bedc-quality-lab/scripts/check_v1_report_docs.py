@@ -42,6 +42,8 @@ BEDC_BODY_MARKERS = [
 SELECTED_WORKED_CASE_PHRASE = "selected positive worked case"
 SELECTED_WORKED_CASE_REPORT = "gap-head-on-h"
 D4_DISCOVERY_LEVEL = "D4"
+SELECTED_WORKED_CASE_DISCOVERY_LEVEL = "D5"
+POSITIVE_DISCOVERY_LEVELS = frozenset({"D4", "D5"})
 NON_POSITIVE_REPORTS = [
     "certificate-guided-training",
     "certificate-guided-discovery",
@@ -49,17 +51,17 @@ NON_POSITIVE_REPORTS = [
 ]
 EXCLUSIVE_SELECTED_WORKED_CASE_RE = re.compile(
     r"(?:"
-    r"\b(?:only|unique|sole|single)\s+(?:positive|d4|discovery)(?:\s+(?:row|report|case|artifact|finding|signal))?\b"
+    r"\b(?:only|unique|sole|single)\s+(?:positive|d[45]|discovery)(?:\s+(?:row|report|case|artifact|finding|signal))?\b"
     r"|"
-    r"\b(?:only|unique|sole|single)\s+(?:positive|d4)\s+discovery\b"
+    r"\b(?:only|unique|sole|single)\s+(?:positive|d[45])\s+discovery\b"
     r"|"
-    r"\bgap-head-on-h\s+(?:alone|is\s+(?:the\s+)?(?:only|unique|sole|single)\s+(?:positive|d4|discovery))\b"
+    r"\bgap-head-on-h\s+(?:alone|is\s+(?:the\s+)?(?:only|unique|sole|single)\s+(?:positive|d[45]|discovery))\b"
     r"|"
-    r"\bgap-head-on-h\s+alone\s+is\s+d4\b"
+    r"\bgap-head-on-h\s+alone\s+is\s+d[45]\b"
     r"|"
-    r"\bthe\s+only\s+d4\b"
+    r"\bthe\s+only\s+d[45]\b"
     r"|"
-    r"唯一\s*(?:d4|正|正向|阳性|positive|discovery|发现)"
+    r"唯一\s*(?:d[45]|正|正向|阳性|positive|discovery|发现)"
     r")",
     re.IGNORECASE,
 )
@@ -273,13 +275,13 @@ def check_selected_positive_worked_case(docs: dict[Path, str]) -> CheckResult:
     ]
     if not selected_rows:
         return CheckResult("HG-V1-Report-5", "FAIL", "gap-head-on-h row missing from discovery map")
-    if selected_rows[0].get("discovery_level") != D4_DISCOVERY_LEVEL:
-        return CheckResult("HG-V1-Report-5", "FAIL", "gap-head-on-h is not D4 in discovery map")
+    if selected_rows[0].get("discovery_level") != SELECTED_WORKED_CASE_DISCOVERY_LEVEL:
+        return CheckResult("HG-V1-Report-5", "FAIL", "gap-head-on-h is not D5 in discovery map")
     return CheckResult("HG-V1-Report-5", "PASS", "gap-head-on-h is the selected positive worked case")
 
 
 def exclusive_positive_worked_case_hits(docs: dict[Path, str]) -> list[str]:
-    if d4_discovery_report_count() < 2:
+    if positive_discovery_report_count() < 2:
         return []
     hits: list[str] = []
     for path, text in docs.items():
@@ -289,7 +291,7 @@ def exclusive_positive_worked_case_hits(docs: dict[Path, str]) -> list[str]:
     return hits
 
 
-def d4_discovery_report_count() -> int:
+def positive_discovery_report_count() -> int:
     if not DISCOVERY_MAP_PATH.exists():
         return 0
     payload = json.loads(DISCOVERY_MAP_PATH.read_text(encoding="utf-8"))
@@ -299,7 +301,7 @@ def d4_discovery_report_count() -> int:
     return sum(
         1
         for row in rows
-        if isinstance(row, dict) and row.get("discovery_level") == D4_DISCOVERY_LEVEL
+        if isinstance(row, dict) and row.get("discovery_level") in POSITIVE_DISCOVERY_LEVELS
     )
 
 

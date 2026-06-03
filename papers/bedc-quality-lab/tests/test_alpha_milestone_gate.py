@@ -44,7 +44,10 @@ def test_hg_amg_discovery_map_levels_are_baselined():
     assert "## Quality baseline pointers" in (CANONICAL / "index.md").read_text(encoding="utf-8")
 
     rows = _discovery_rows_by_report()
-    assert rows["gap-head-on-h"]["discovery_level"] == "D4"
+    assert rows["gap-head-on-h"]["discovery_level"] == "D5"
+    assert rows["gap-head-on-h"]["observed_debt_transfer_pointer"] == (
+        "reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status"
+    )
     assert rows["certificate-guided-discovery"]["discovery_level"] == "DN"
     assert rows["nongaussian-distribution-sweep"]["discovery_level"] == "D1"
     assert rows["anisotropic-ou-sweep"]["discovery_level"] == "D1"

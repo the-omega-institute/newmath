@@ -40,11 +40,11 @@ Pointers: `reports/canonical/index.json` `$.reports[*].name`; `reports/canonical
 
 ## 7. Selected positive worked case: gap-head-on-h
 
-`gap-head-on-h` is the selected positive worked case for this report frame; positive-discovery classification is read from `reports/canonical/discovery_map.json:$.rows[*]`, so this section does not claim uniqueness among positive rows.
+`gap-head-on-h` is the selected positive worked case for this report frame; positive-discovery classification is read from `reports/canonical/discovery_map.json:$.rows[*]`, so this section does not claim uniqueness among positive rows. Its current D5-candidate status is scoped to observed-debt transfer surfaces.
 
 This navigation section follows the selected row into its canonical report payload and boundary fields. It does not summarize the discovery map or restate the complete set of positive and non-positive cells.
 
-Pointers: `reports/canonical/discovery_map.json` `$.rows[report=gap-head-on-h]`; `reports/canonical/gap-head-on-h.json` `$.main_claim_status`; `reports/canonical/gap-head-on-h.json` `$.control_verdict`; `reports/canonical/gap-head-on-h.json` `$.treatment_comparison`; `reports/canonical/gap-head-on-h.json` `$.applicability_boundary`.
+Pointers: `reports/canonical/discovery_map.json` `$.rows[report=gap-head-on-h]`; `reports/canonical/gap-head-observed-debt-transfer.json` `$.gap_head_on_h_observed_debt_transfer.status`; `reports/canonical/gap-head-on-h.json` `$.main_claim_status`; `reports/canonical/gap-head-on-h.json` `$.control_verdict`; `reports/canonical/gap-head-on-h.json` `$.treatment_comparison`; `reports/canonical/gap-head-on-h.json` `$.applicability_boundary`.
 
 ## 8. Negative: certificate-guided
 
