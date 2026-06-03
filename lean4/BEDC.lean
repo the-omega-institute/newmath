@@ -2405,6 +2405,7 @@ import BEDC.Derived.CommutativeCStarUp.TasteGate
 import BEDC.Derived.CompactBaireUp.TasteGate
 import BEDC.Derived.CompactCauchyCoverUp.TasteGate
 import BEDC.Derived.CompactCauchyEquicontinuityUp
+import BEDC.Derived.CompactCompletionExtensionModulusUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.FiniteNetRadiusExhaustion
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.UniformModulusHandoff
@@ -3185,6 +3186,7 @@ import BEDC.Derived.DenseImageCompletionUp.TasteGate
 import BEDC.Derived.DenseIsometryExtensionUp.TasteGate
 import BEDC.Derived.DenseUniformEmbeddingUp
 import BEDC.Derived.DenseUniformEmbeddingUp.CompletionConsumerRoute
+import BEDC.Derived.DenseUniformEmbeddingUp.LedgerNonescape
 import BEDC.Derived.DenseUniformEmbeddingUp.TasteGate
 import BEDC.Derived.DensityMatrixUp
 import BEDC.Derived.DependentCodomainClosurePreservationUp
@@ -5176,6 +5178,7 @@ import BEDC.Derived.LocatednessModulusUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
 import BEDC.Derived.LowerRealUp.DedekindCutAdmission
+import BEDC.Derived.LowerRealUp.LocatedCutLedger
 import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
@@ -5467,6 +5470,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualCandidateSNHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualConfluenceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualConfluenceBudgetBridge
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualPublicHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualSubstitutionFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualSubstitutionNormalizationFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.RootDischargeExactness
 import BEDC.Derived.MetaCICCriticalPathUp.RootRouteTotality
@@ -5857,6 +5861,7 @@ import BEDC.Derived.MonotoneSequenceConvergenceUp.TasteGate
 import BEDC.Derived.MonotoneSubsequenceTheoremUp.TasteGate
 import BEDC.Derived.MonotoneSubsequenceUp.TasteGate
 import BEDC.Derived.MontelTheoremUp.TasteGate
+import BEDC.Derived.MooreAronszajnKernelUp
 import BEDC.Derived.MooreOsgoodUp.TasteGate
 import BEDC.Derived.MooreSmithCauchyNetFilterBridgeUp.TasteGate
 import BEDC.Derived.MooreSmithCauchySubnetCriterionUp.TasteGate
@@ -6207,6 +6212,7 @@ import BEDC.Derived.OracleResponseLedgerUp.TasteGate
 import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
 import BEDC.Derived.OrderUp
 import BEDC.Derived.OrderUp.TasteGate
+import BEDC.Derived.OresmeHarmonicDivergenceUp.TasteGate
 import BEDC.Derived.OrthogonalPolynomialUp.TasteGate
 import BEDC.Derived.OrthogonalProjectionTheoremUp.TasteGate
 import BEDC.Derived.OscillationModulusUp.TasteGate
@@ -7225,6 +7231,7 @@ import BEDC.Derived.RegularCauchyMetricUp
 import BEDC.Derived.RegularCauchyMetricUp.ScopedKernelRoute
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
+import BEDC.Derived.RegularCauchyMinimumUp.LeftBound
 import BEDC.Derived.RegularCauchyMinimumUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusAlgebraUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusCompressionUp.TasteGate
@@ -7863,6 +7870,7 @@ import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
+import BEDC.Derived.StreamMapUp.CompositionWindowRoute
 import BEDC.Derived.StreamMapUp.TasteGate
 import BEDC.Derived.StreamMergeUp.TasteGate
 import BEDC.Derived.StreamNameUp
@@ -8414,6 +8422,7 @@ import BEDC.Derived.UniformSequentialContinuityUp.TasteGate
 import BEDC.Derived.UniformSpaceCompletionUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UniformlyCauchySequenceUp.TasteGate
+import BEDC.Derived.UniformlyContinuousCompletionExtensionUp.TasteGate
 import BEDC.Derived.UniformlyConvexSpaceUp.TasteGate
 import BEDC.Derived.UniformlyLocatedFiniteCoverUp.TasteGate
 import BEDC.Derived.UniqueChoicePrincipleUp.DeterministicReadback
