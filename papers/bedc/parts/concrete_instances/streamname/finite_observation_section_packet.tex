@@ -185,6 +185,22 @@ section packet without opening any quotient stream, host-index, selected
 limit, second-source, or ambient-completeness row.
 \end{proof}
 
+\begin{theorem}[StreamName finite-observation selected transport]
+\label{thm:streamname-finite-observation-selected-transport}
+If a certified finite $\StreamNameUp$ observation section is transported componentwise by displayed $\hsame$ rows and replayed through the same $\Cont$ route, then every $\RegSeqRatUp$ or $\RealUp$ consumer reads the transported section through the same four-object Phase Real and Completion route
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+The transport exports no quotient stream equality, host-index equality, selected limit, second dyadic source, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:streamname-finite-observation-section}. A certified finite observation section is exhausted by the finite bundle, membership, unary-history, rational-history classifier, componentwise $\hsame$, displayed $\Cont$, provenance, and local naming rows.
+
+Apply \autoref{thm:streamname-finite-observation-real-exit-handoff}. It identifies the StreamName contribution to the Phase Real and Completion exit surface as the same finite section before the DyadicRatCore, RegSeqRat, and Real-facing rows are consumed.
+
+Finally use \autoref{thm:streamname-finite-observation-section-reindex-coverage}. Certified reindexing and componentwise transport preserve the same section packet and the same four-object route, so a transported consumer cannot open quotient stream equality, host-index equality, selected limits, second dyadic sources, or ambient completeness rows.
+\end{proof}
+
 \begin{theorem}[StreamName finite-observation diagonal selector boundary]
 \label{thm:streamname-finite-observation-diagonal-selector-boundary}
 Every diagonal-limit or Real-completion consumer that reads a finite
