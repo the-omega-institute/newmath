@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import re
 import sys
 from typing import Any, Mapping
 
@@ -90,13 +91,63 @@ def _row_id(row: LedgerRowKey) -> str:
     return f"{row.kind}:{row.residue}"
 
 
-def _entry_for_item(item: _HardeningItem) -> LedgerRowKey | None:
-    return item.row if item.evidence_pointer else None
+_JSONPATH_PART = re.compile(r"([A-Za-z_][A-Za-z0-9_-]*)(?:\[(\d+)\])?")
 
 
-def _profile(items: tuple[_HardeningItem, ...]) -> HardeningProfile:
+def _truthy_evidence(value: Any) -> bool:
+    return bool(value)
+
+
+def _resolve_jsonpath(payload: Any, jsonpath: str) -> Any:
+    if not jsonpath.startswith("$."):
+        raise ValueError("unsupported jsonpath")
+    cursor = payload
+    for raw_part in jsonpath[2:].split("."):
+        match = _JSONPATH_PART.fullmatch(raw_part)
+        if match is None:
+            raise ValueError("unsupported jsonpath part")
+        key, raw_index = match.groups()
+        if not isinstance(cursor, dict) or key not in cursor:
+            raise KeyError(key)
+        cursor = cursor[key]
+        if raw_index is not None:
+            index = int(raw_index)
+            if not isinstance(cursor, list):
+                raise TypeError("jsonpath index on non-list")
+            cursor = cursor[index]
+    return cursor
+
+
+def _resolve_evidence_pointer(pointer: str | None, *, root: Path) -> bool:
+    if not isinstance(pointer, str) or not pointer.strip():
+        return False
+    try:
+        artifact, jsonpath = pointer.split(":", 1)
+        artifact_path = Path(artifact)
+        if artifact_path.is_absolute():
+            return False
+        canonical_prefix = Path("reports") / "canonical"
+        if (
+            artifact_path.parent != canonical_prefix
+            or artifact_path.suffix != ".json"
+            or ".." in artifact_path.parts
+        ):
+            return False
+        if artifact_path == Path(FORMAL_HARDENING_JSON_ARTIFACT):
+            return False
+        payload = json.loads((root / artifact_path).read_text(encoding="utf-8"))
+        return _truthy_evidence(_resolve_jsonpath(payload, jsonpath))
+    except Exception:
+        return False
+
+
+def _entry_for_item(item: _HardeningItem, *, root: Path) -> LedgerRowKey | None:
+    return item.row if _resolve_evidence_pointer(item.evidence_pointer, root=root) else None
+
+
+def _profile(items: tuple[_HardeningItem, ...], *, root: Path) -> HardeningProfile:
     required = required_rows(item.row for item in items if item.required)
-    recorded = recorded_rows(entry for item in items for entry in (_entry_for_item(item),) if entry is not None)
+    recorded = recorded_rows(entry for item in items for entry in (_entry_for_item(item, root=root),) if entry is not None)
     return HardeningProfile(
         certificate={"cert_status": "certified"},
         mode_rows=required,
@@ -111,8 +162,8 @@ def _profile(items: tuple[_HardeningItem, ...]) -> HardeningProfile:
     )
 
 
-def _ledger_rows(items: tuple[_HardeningItem, ...]) -> tuple[dict[str, Any], ...]:
-    profile = _profile(items)
+def _ledger_rows(items: tuple[_HardeningItem, ...], *, root: Path) -> tuple[dict[str, Any], ...]:
+    profile = _profile(items, root=root)
     backend = HardeningBackend("formal-hardening", frozenset(item.row for item in items if item.required))
     hardening_gap = critical_hardening_gap(profile, backend)
     row_gap = ledger_gap(profile.ledger_required_rows, profile.ledger_recorded_rows)
@@ -120,12 +171,14 @@ def _ledger_rows(items: tuple[_HardeningItem, ...]) -> tuple[dict[str, Any], ...
     for item in items:
         recorded = item.row in profile.ledger_recorded_rows
         missing = item.row in row_gap or item.row in hardening_gap
+        evidence_resolved = recorded
         rows.append(
             {
                 "item_id": item.item_id,
                 "name": item.name,
                 "status": "missing" if missing else "verified",
                 "recorded": recorded,
+                "evidence_resolved": evidence_resolved,
                 "required": item.required,
                 "source_pointer": item.source_pointer,
                 "evidence_pointer": item.evidence_pointer,
@@ -142,9 +195,9 @@ def build_formal_hardening_report(
     root: Path | None = None,
     generated_at: str | None = None,
 ) -> dict[str, Any]:
-    del root
+    base = _root(root)
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
-    rows = list(_ledger_rows(_ITEMS))
+    rows = list(_ledger_rows(_ITEMS, root=base))
     required = sum(1 for row in rows if row["required"] is True)
     recorded = sum(1 for row in rows if row["recorded"] is True)
     gap_count = sum(1 for row in rows if row["status"] != "verified")
@@ -154,6 +207,7 @@ def build_formal_hardening_report(
         and all(
             row["status"] == "verified"
             and row["recorded"] is True
+            and row["evidence_resolved"] is True
             and isinstance(row["evidence_pointer"], str)
             and bool(row["evidence_pointer"].strip())
             for row in rows
@@ -193,8 +247,8 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         "",
         "## Verification ledger",
         "",
-        "| item | status | recorded | evidence | gap |",
-        "| --- | --- | --- | --- | --- |",
+        "| item | status | recorded | resolved | evidence | gap |",
+        "| --- | --- | --- | --- | --- | --- |",
     ]
     for row in payload["verification_ledger"]:
         evidence = row["evidence_pointer"] if row["evidence_pointer"] is not None else ""
@@ -204,6 +258,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             f"`{row['item_id']}` | "
             f"`{row['status']}` | "
             f"`{row['recorded']}` | "
+            f"`{row['evidence_resolved']}` | "
             f"`{evidence}` | "
             f"`{gap}` |"
         )

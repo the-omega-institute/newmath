@@ -726,8 +726,7 @@ def _scorecard_hardening_coverage(payloads: dict[str, dict[str, Any]]) -> dict[s
         isinstance(row, dict)
         and row.get("status") == "verified"
         and row.get("recorded") is True
-        and isinstance(row.get("evidence_pointer"), str)
-        and bool(row["evidence_pointer"].strip())
+        and row.get("evidence_resolved") is True
         for row in ledger
     )
     if payload.get("ready") is not True or recorded != required or not rows_verified:

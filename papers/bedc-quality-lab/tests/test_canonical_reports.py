@@ -131,7 +131,18 @@ def _payload_for_spec(spec):
             "negative_result_ledger": [{"status": "fixture"}],
             "ledger_summary": {
                 "status": "negative" if spec.name == "spectral-ablation-hinge" else "fixture",
-                "basis": {"hardening_coverage": {"recorded": 5, "required": 5}},
+                "basis": {
+                    "hardening_coverage": {
+                        "recorded": 3,
+                        "required": 4,
+                        "items": [
+                            {"name": "sameClass equivalence", "recorded": True},
+                            {"name": "margin stability", "recorded": True},
+                            {"name": "finite ledger coverage", "recorded": False},
+                            {"name": "missing-row negative example", "recorded": True},
+                        ],
+                    }
+                },
             },
             "negative_control_summary": {"status": "fixture", "treatment_better_than_all_controls": False},
             "surface_delta_count": 2,
@@ -1086,14 +1097,14 @@ def test_quality_scorecard_hardening_coverage_uses_current_formal_payload(tmp_pa
 
 def test_quality_scorecard_hardening_coverage_ready_iff_all_rows_verified(monkeypatch):
     payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
+    evidence_pointer = "reports/canonical/spectral-ablation-hinge.json:$.ledger_summary.basis.hardening_coverage.items[0].recorded"
     verified_rows = []
     for row in payload["verification_ledger"]:
         ready_row = dict(row)
         ready_row["status"] = "verified"
         ready_row["recorded"] = True
-        ready_row["evidence_pointer"] = ready_row["evidence_pointer"] or (
-            "reports/canonical/formal_hardening.json:$.verification_ledger"
-        )
+        ready_row["evidence_resolved"] = True
+        ready_row["evidence_pointer"] = ready_row["evidence_pointer"] or evidence_pointer
         ready_row["gap"] = None
         verified_rows.append(ready_row)
     payload.update(
@@ -1134,18 +1145,20 @@ def test_quality_scorecard_hardening_coverage_ready_iff_all_rows_verified(monkey
         lambda payload: payload.update({"ready": False}),
         lambda payload: payload["verification_ledger"][0].update({"status": "missing"}),
         lambda payload: payload["verification_ledger"][0].update({"recorded": False}),
-        lambda payload: payload["verification_ledger"][0].update({"evidence_pointer": ""}),
+        lambda payload: payload["verification_ledger"][0].update({"evidence_resolved": False}),
         lambda payload: payload["coverage"].update({"recorded": payload["coverage"]["required"] - 1}),
     ],
 )
 def test_quality_scorecard_hardening_coverage_fails_closed_for_any_unverified_cell(monkeypatch, mutate):
     payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
+    evidence_pointer = "reports/canonical/spectral-ablation-hinge.json:$.ledger_summary.basis.hardening_coverage.items[0].recorded"
     rows = []
     for row in payload["verification_ledger"]:
         ready_row = dict(row)
         ready_row["status"] = "verified"
         ready_row["recorded"] = True
-        ready_row["evidence_pointer"] = ready_row["evidence_pointer"] or "reports/canonical/formal_hardening.json:$.x"
+        ready_row["evidence_resolved"] = True
+        ready_row["evidence_pointer"] = ready_row["evidence_pointer"] or evidence_pointer
         rows.append(ready_row)
     payload.update(
         {
@@ -1163,6 +1176,40 @@ def test_quality_scorecard_hardening_coverage_fails_closed_for_any_unverified_ce
 
     assert row["status"] == "not-ready"
     assert row["dependency"] == "formal_hardening:$.coverage"
+
+
+@pytest.mark.parametrize(
+    "evidence_pointer",
+    [
+        "reports/canonical/spectral-ablation-hinge.json:$.does_not_exist",
+        "reports/canonical/formal_hardening.json:$.verification_ledger",
+        "reports/canonical/missing-artifact.json:$.recorded",
+    ],
+)
+def test_quality_scorecard_hardening_coverage_fails_closed_for_unresolved_pointer(monkeypatch, evidence_pointer):
+    item = formal_hardening._HardeningItem(
+        item_id="unresolved-pointer",
+        name="unresolved pointer",
+        row=formal_hardening.LedgerRowKey("formal-hardening", "unresolved-pointer"),
+        source_pointer=evidence_pointer,
+        evidence_pointer=evidence_pointer,
+        formal_pointer="fixture.formal",
+        gap="missing evidence",
+        trust_boundary="pointer-only evidence ledger",
+    )
+    monkeypatch.setattr(formal_hardening, "_ITEMS", (item,))
+    payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
+    monkeypatch.setattr(canonical, "_build_formal_hardening_payload", lambda generated_at=None: payload)
+
+    scorecard_row = canonical._scorecard_hardening_coverage({})
+    ledger_row = payload["verification_ledger"][0]
+
+    assert ledger_row["status"] == "missing"
+    assert ledger_row["recorded"] is False
+    assert ledger_row["evidence_resolved"] is False
+    assert payload["ready"] is False
+    assert scorecard_row["status"] == "not-ready"
+    assert scorecard_row["dependency"] == "formal_hardening:$.coverage"
 
 
 def test_quality_scorecard_cost_protocol_completeness_fails_closed_without_manifest_pointer(tmp_path):

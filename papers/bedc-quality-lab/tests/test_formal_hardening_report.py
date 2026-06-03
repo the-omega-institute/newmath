@@ -9,6 +9,7 @@ LEDGER_FIELDS = {
     "name",
     "status",
     "recorded",
+    "evidence_resolved",
     "required",
     "source_pointer",
     "evidence_pointer",
@@ -53,6 +54,7 @@ def test_delete_1_finite_ledger_coverage_is_currently_missing():
 
     assert row["status"] == "missing"
     assert row["recorded"] is False
+    assert row["evidence_resolved"] is False
     assert row["required"] is True
     assert row["evidence_pointer"] is None
     assert row["gap"] == "delete-1 has no recorded finite ledger coverage evidence"
@@ -60,6 +62,73 @@ def test_delete_1_finite_ledger_coverage_is_currently_missing():
     assert payload["required"] == 4
     assert payload["gap_count"] == 1
     assert payload["coverage"]["gap_rows"] == ["finite-ledger-coverage"]
+
+
+def test_formal_hardening_report_fails_closed_for_bogus_pointer(monkeypatch):
+    item = formal_hardening._HardeningItem(
+        item_id="bogus-pointer",
+        name="bogus pointer",
+        row=formal_hardening.LedgerRowKey("formal-hardening", "bogus-pointer"),
+        source_pointer="reports/canonical/spectral-ablation-hinge.json:$.ledger_summary.basis.hardening_coverage.items[0]",
+        evidence_pointer="reports/canonical/spectral-ablation-hinge.json:$.does_not_exist",
+        formal_pointer="fixture.formal",
+        gap="missing evidence",
+        trust_boundary="pointer-only evidence ledger",
+    )
+    monkeypatch.setattr(formal_hardening, "_ITEMS", (item,))
+
+    payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
+    row = payload["verification_ledger"][0]
+
+    assert row["status"] == "missing"
+    assert row["recorded"] is False
+    assert row["evidence_resolved"] is False
+    assert payload["ready"] is False
+    assert payload["coverage"]["ready"] is False
+
+
+def test_formal_hardening_report_fails_closed_for_self_pointer(monkeypatch):
+    item = formal_hardening._HardeningItem(
+        item_id="self-pointer",
+        name="self pointer",
+        row=formal_hardening.LedgerRowKey("formal-hardening", "self-pointer"),
+        source_pointer="reports/canonical/formal_hardening.json:$.verification_ledger",
+        evidence_pointer="reports/canonical/formal_hardening.json:$.verification_ledger",
+        formal_pointer="fixture.formal",
+        gap="missing evidence",
+        trust_boundary="pointer-only evidence ledger",
+    )
+    monkeypatch.setattr(formal_hardening, "_ITEMS", (item,))
+
+    payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
+    row = payload["verification_ledger"][0]
+
+    assert row["status"] == "missing"
+    assert row["recorded"] is False
+    assert row["evidence_resolved"] is False
+    assert payload["ready"] is False
+
+
+def test_formal_hardening_report_fails_closed_for_missing_artifact(monkeypatch):
+    item = formal_hardening._HardeningItem(
+        item_id="missing-artifact",
+        name="missing artifact",
+        row=formal_hardening.LedgerRowKey("formal-hardening", "missing-artifact"),
+        source_pointer="reports/canonical/missing-artifact.json:$.recorded",
+        evidence_pointer="reports/canonical/missing-artifact.json:$.recorded",
+        formal_pointer="fixture.formal",
+        gap="missing evidence",
+        trust_boundary="pointer-only evidence ledger",
+    )
+    monkeypatch.setattr(formal_hardening, "_ITEMS", (item,))
+
+    payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
+    row = payload["verification_ledger"][0]
+
+    assert row["status"] == "missing"
+    assert row["recorded"] is False
+    assert row["evidence_resolved"] is False
+    assert payload["ready"] is False
 
 
 def test_formal_hardening_report_has_no_forbidden_claim_or_hidden_weight_terms():
