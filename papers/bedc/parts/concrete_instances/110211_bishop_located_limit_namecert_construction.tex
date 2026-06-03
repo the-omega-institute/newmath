@@ -43,6 +43,52 @@ The limit side is then read through $L$ and $E$. The row $L$ supplies the locate
 Transport through $H$ and replay through $C$ preserve the same ordering, while $P$ and $N$ record provenance and local naming. Since the carrier contains no quotient stream equality, selected limit, countable-choice schedule, trichotomy decision, or ambient-completeness row, the listed projections exhaust the NameCert obligations.
 \end{proof}
 
+\begin{theorem}[Bishop located-limit regular-Cauchy readback]
+\label{thm:bishop-located-limit-regular-cauchy-readback}
+Every $\RealUp$ or Completion consumer of an accepted $\BishopLocatedLimitUp$ carrier $B=(S,D,R,L,E,H,C,P,N)$ must read, in order, the $\StreamNameUp$ schedule $S$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RegSeqRatUp$ readback $R$, the $\LocatedLimitUp$ witness $L$, the $\LocatedRealUp$ enclosure route carried by the same displayed limit data, and the terminal $\RealUp$ seal $E$, followed by the structural rows $H,C,P,N$. In particular, the consumer cannot bypass the regular-Cauchy boundary $R$ by appealing directly to a host located limit, quotient stream equality, selected real, countable choice, trichotomy, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-limit-carrier}. The schedule and tolerance rows $S,D$ precede the readback row $R$, and the located-limit and seal rows $L,E$ are downstream of that readback.
+
+Apply \autoref{thm:bishop-located-limit-namecert-obligations}. The theorem states that every Real or Completion consumer must read the finite route $S,D \longmapsto R \longmapsto L \longmapsto E$ together with the structural rows before treating the packet as a Bishop located limit.
+
+The $\LocatedRealUp$ enclosure is therefore read only as part of the same located-limit witness and Real-seal path. Since no carrier coordinate stores a direct host limit, quotient stream equality, selected real, choice schedule, trichotomy decision, or ambient completeness theorem, the regular-Cauchy readback $R$ is the mandatory boundary.
+\end{proof}
+
+\begin{theorem}[Bishop located-limit tail-modulus induction]
+\label{thm:bishop-located-limit-tail-modulus-induction}
+Let $B=(S,D,R,L,E,H,C,P,N)$ be an accepted $\BishopLocatedLimitUp$ carrier. Any later located-limit precision request is discharged by induction over the same finite $\StreamNameUp$ schedule $S$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\RegSeqRatUp$ readback $R$, located-limit witness $L$, and terminal $\RealUp$ seal $E$, with $H,C,P,N$ preserving the route.
+
+Thus a later request may narrow the displayed tolerance window, but it cannot replace the route by quotient stream equality, a selected host limit, countable choice, trichotomy, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:bishop-located-limit-carrier}. The later request has access only to the schedule $S$, tolerance ledger $D$, readback row $R$, located-limit witness $L$, Real seal $E$, and the structural rows.
+
+Use the displayed schedule and tolerance ordering. A later precision request is a later finite window inside the same $\StreamNameUp$ schedule and is budgeted by the same $\DyadicRatCoreUp$ ledger before the $\RegSeqRatUp$ readback can be inspected.
+
+Induct over the finite request schedule. The initial request is the regular-Cauchy readback route of \autoref{thm:bishop-located-limit-regular-cauchy-readback}; the step narrows the tolerance row and reuses the same readback, located witness, and seal rows.
+
+Finally repack through $H,C,P,N$. Since every step stays inside the displayed finite route, no quotient stream equality, selected host limit, countable choice, trichotomy, or ambient Real completeness is exported.
+\end{proof}
+
+\begin{theorem}[Bishop located-limit window determinacy]
+\label{thm:bishop-located-limit-window-determinacy}
+For every accepted $\BishopLocatedLimitUp$ carrier $B=(S,D,R,L,E,H,C,P,N)$, any two Real or Completion consumer reads that classify the same precision request must factor through the same finite route
+$$
+S,D \longmapsto R \longmapsto L \longmapsto E
+$$
+and the same structural rows $H,C,P,N$. No such read may switch to quotient stream equality, a selected host limit, countable choice, trichotomy, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-limit-carrier}. The only rows available to the classifier are the displayed schedule, tolerance ledger, regular rational readback, located-limit witness, terminal Real seal, transport, replay, provenance, and local naming data.
+
+Apply \autoref{thm:bishop-located-limit-namecert-obligations}. Any Real or Completion consumer must read the route $S,D \longmapsto R \longmapsto L \longmapsto E$ together with $H,C,P,N$ before treating the packet as a Bishop located limit.
+
+Apply \autoref{thm:bishop-located-limit-regular-cauchy-readback}. The readback row $R$ is the mandatory $\RegSeqRatUp$ boundary, so two reads of the same precision request cannot replace it by host located-limit equality or by a selected Real value.
+
+It remains only to compare the available coordinates. Since the carrier has no coordinate for quotient stream equality, selected host limits, countable choice, trichotomy, or ambient Real completeness, there is no second route through which either read can classify the request. Both reads are therefore determined by the same finite window route and by the same structural rows.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\BishopLocatedLimitUp$ read used by a Real or Completion consumer displays one $\StreamNameUp$ schedule, one $\DyadicRatCoreUp$ tolerance ledger, one $\RegSeqRatUp$ readback row, one located-limit witness, one terminal $\RealUp$ seal row, and the structural rows $H,C,P,N$.}
 
 \independenceWitness{streamname, dyadicratcore, regseqrat, locatedlimit, locatedreal, real: $\BishopLocatedLimitUp$ is not bijective to any listed sibling because it binds the Bishop located-limit witness to the same finite schedule, dyadic tolerance ledger, regular rational readback, and terminal Real seal.}

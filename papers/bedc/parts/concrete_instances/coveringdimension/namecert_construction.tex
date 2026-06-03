@@ -67,6 +67,24 @@ The order-bound row $O$ counts only refined members that are already visible thr
 The Lebesgue-ledger row $L$ supplies the positive radius readback compatible with the same finite cover route. Transport, replay, provenance, and naming through $H,T,P,N$ preserve that route for the dimension consumer.
 \end{proof}
 
+\begin{theorem}[Covering dimension compact-metric dependency]
+\label{thm:coveringdimension-compactmetric-dependency}
+Every finite-cover refinement read exported as a $\CoveringDimensionUp$ dimension bound must expose the $\MetricUp$ and $\CompactMetricUp$ carrier rows, the finite cover row, the finite refinement row, the order-bound row, any $\RealSeparabilityUp$ or $\MetricCompletionUp$ rows used by the read, and the local $\NameCert_{\CoveringDimensionUp}$ provenance before the bound is exported. In carrier terms, an accepted packet
+$$
+D=(K,E,C,R,O,L,H,T,P,N)
+$$
+is consumed through compact metric source $K$, finite-net row $E$, finite cover row $C$, refinement row $R$, order row $O$, compact Lebesgue ledger $L$, transport $H$, replay $T$, package provenance $P$, and local naming $N$, with the dependency routes of the compact-metric and metric siblings remaining visible.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:covering-dimension-carrier}. The rows $K,E,C,R,O,L,H,T,P,N$ are the only compact source, finite-net, cover, refinement, order, Lebesgue-ledger, transport, replay, provenance, and naming rows available to the dimension consumer.
+
+Use the compact metric route and metric dependency route, \autoref{thm:covering-dimension-metric-dependency} together with the displayed route in \texttt{compact\_metric\_dependency\_route.tex}. They force the cover-refinement read through $\CompactMetricUp$ finite-net data and $\MetricUp$ ball observations before the refinement map and order ledger are inspected.
+
+If the read uses dense real witnesses or completion-facing metric data, apply \autoref{thm:real-separability-coveringdimension-finite-density-route} and the completion dependency child routes. Those routes place $\RealSeparabilityUp$ and $\MetricCompletionUp$ rows before the order-bound export rather than after it.
+
+Finally $H,T,P,N$ keep the route componentwise stable, replayed, sourced, and locally named. Since no carrier row stores arbitrary open-cover compactness, a choice-selected refinement, a host dimension theorem, quotient real equality, or an external multiplicity oracle, a dimension bound can be exported only after the listed dependency rows are visible.
+\end{proof}
+
 \begin{theorem}[Covering dimension ledger non-escape]
 \label{thm:covering-dimension-ledger-non-escape}
 No accepted $\CoveringDimensionUp$ packet can replace its finite rows $K,E,C,R,O,L,H,T,P,N$ by arbitrary open-cover compactness, choice-selected refinements, a host multiplicity oracle, or a classical dimension theorem. Any exported dimension-bound claim must be read through the displayed cover, refinement, order-bound, Lebesgue-ledger, transport, replay, provenance, and local naming rows.
@@ -79,6 +97,34 @@ The only cover data are the finite cover row $C$ and the refinement map row $R$.
 The structural rows $H,T,P,N$ preserve and expose these displayed rows. They do not add an open-cover family, a choice operator, a host overlap counter, or an external theorem.
 
 Therefore any consumer that exports a dimension-bound claim without reading $K,E,C,R,O,L,H,T,P,N$ leaves the carrier surface and is not reading a $\CoveringDimensionUp$ certificate.
+\end{proof}
+
+\begin{theorem}[CoveringDimension nerve order bound]
+\label{thm:coveringdimension-nerve-order-bound}
+An accepted $\CoveringDimensionUp$ finite cover-refinement packet may export an order-bound ledger to $\SimplicialComplexUp$ only through displayed finite cover members, refinement rows, overlap and multiplicity rows, and a finite face inventory. In carrier coordinates, the route from $D=(K,E,C,R,O,L,H,T,P,N)$ to a nerve consumer first reads the $\CompactMetricUp$ source $K$, $\FiniteEpsilonNetUp$ row $E$, finite cover row $C$, refinement map $R$, order-bound ledger $O$, and $\CompactCoverLebesgueLedgerUp$ row $L$ before the $\SimplicialComplexUp$ face rows can receive a dimension bound.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The compact metric source $K$ and finite epsilon-net row $E$ are the only rows from which cover members can be sampled.
+
+The cover and refinement rows are then opened as finite data. The row $C$ supplies displayed cover members, and $R$ assigns each refined member to a parent row before any overlap count is meaningful.
+
+The order ledger $O$ counts only overlaps among those displayed refined members. Hence the nerve face inventory sent to $\SimplicialComplexUp$ is finite: its vertices are cover rows, and its faces are exactly the inspected nonempty overlap rows bounded by $O$.
+
+Finally $L,H,T,P,N$ keep the compact-cover Lebesgue ledger, transport, replay, provenance, and local naming attached to the same finite route. The density and completion neighbours, $\RealSeparabilityUp$ and $\MetricCompletionUp$, may be cited only through their displayed finite rows, so the nerve export remains non-parametric and concrete.
+\end{proof}
+
+\begin{theorem}[CoveringDimension compact-cover nerve nonescape]
+\label{thm:coveringdimension-compact-cover-nerve-nonescape}
+No accepted $\CoveringDimensionUp$ nerve route can export ambient open-cover compactness, a selected subcover, or a host dimension predicate to $\SimplicialComplexUp$. Every compact-cover nerve read must remain inside the displayed $\CompactMetricUp$, $\FiniteEpsilonNetUp$, $\CompactCoverLebesgueLedgerUp$, $\RealSeparabilityUp$, $\MetricCompletionUp$, finite cover, refinement, overlap, multiplicity, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:covering-dimension-ledger-non-escape}. It rules out replacing the carrier rows by arbitrary open-cover compactness, choice-selected refinements, host multiplicity oracles, or classical dimension theorems.
+
+Now read the nerve route of \autoref{thm:coveringdimension-nerve-order-bound}. The $\SimplicialComplexUp$ consumer receives only the finite face inventory determined by displayed cover members, refinement rows, overlap rows, and the order-bound ledger.
+
+The compactness source is still the compact metric finite route. $\CompactMetricUp$, $\FiniteEpsilonNetUp$, and $\CompactCoverLebesgueLedgerUp$ provide sampled cover data and positive-radius ledger rows, while $\RealSeparabilityUp$ and $\MetricCompletionUp$ may contribute only their finite density or completion-facing rows when the read asks for them.
+
+Since no carrier coordinate stores an ambient open cover, a selected subcover, or a host dimension predicate, none of those objects can be exported to the nerve. Any such export leaves the accepted $\CoveringDimensionUp$ surface.
 \end{proof}
 
 \begin{theorem}[Covering dimension finite-density route]

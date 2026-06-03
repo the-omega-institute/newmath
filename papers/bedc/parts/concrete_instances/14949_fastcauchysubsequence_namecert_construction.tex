@@ -56,6 +56,7 @@ Next use the fast-rate and regular-subsequence rows. The row $F$ reads the chose
 
 Finally read the regular rational and real-facing rows. The row $W$ is tied to the same selected windows, while $E$ is placed after $R$ and $W$ in the carrier. The transport, replay, package, and local naming rows preserve that order componentwise, and the carrier has no remaining coordinate for host equality, countable choice, quotient classes, selected limits, trichotomy, or completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.FastCauchySubsequenceUp.FastCauchySubsequenceNamecertObligations}
 
 \begin{theorem}[FastCauchySubsequence regular route]
 \label{thm:fast-cauchy-subsequence-regular-route}
@@ -113,6 +114,39 @@ Use \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence} to bind the
 Then use \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}. It forces the selected windows through the fast-rate ledger, regular-subsequence handoff, and $\RegSeqRatUp$ readback before $E$ is consumed. The structural rows $H,C,P,N$ transport and name this route without adding another seal path.
 \end{proof}
 
+\begin{definition}[FastCauchySubsequence source surface]
+\label{def:fast-cauchy-subsequence-source-surface}
+The \emph{source surface} of an accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$ is the finite $\BHist$ route
+$$
+\Theta_A=(S,M,Q,F,R,W,E,H,C,P,N)
+$$
+read in the following order: source windows $S$, inspected $\CauchyModulusUp$ bounds $M$, $\CofinalSubsequenceUp$ selector rows $Q$, $\FastCauchyUp$ rate rows $F$, $\RegularCauchySubsequenceUp$ handoff rows $R$, $\RegSeqRatUp$ readback rows $W$, terminal $\RealUp$ seal rows $E$, and structural support $H,C,P,N$. Every Real-facing read of the source surface must pass through all six analytic rows $M,Q,F,R,W,E$ after the source row $S$ and before public data is named by $N$.
+\end{definition}
+
+\begin{theorem}[FastCauchySubsequence cofinal-window obligation]
+\label{thm:fast-cauchy-subsequence-cofinal-window-obligation}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, every cofinal window accepted by the source surface is a finite $\BHist$ row whose readback passes through the $\CauchyModulusUp$ row $M$, $\CofinalSubsequenceUp$ row $Q$, $\FastCauchyUp$ row $F$, $\RegularCauchySubsequenceUp$ row $R$, $\RegSeqRatUp$ row $W$, and terminal $\RealUp$ row $E$. The obligation rejects any route that reads a Real-facing comparison from $Q$ alone, from an independent subsequence function, or from a host-level choice selector.
+\end{theorem}
+\begin{proof}
+Project the source surface of \autoref{def:fast-cauchy-subsequence-source-surface}. The carrier displays $S,M,Q,F,R,W,E$ before the support rows, so a cofinal window entering through $Q$ is still tied to source access and inspected modulus data.
+
+Use \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence} for the front of the route. It binds selector admission to the inspected modulus row, preventing a consumer from replacing $M,Q$ by an external selector.
+
+Apply \autoref{thm:fast-cauchy-subsequence-regular-route} and \autoref{thm:fast-cauchy-subsequence-real-seal-selector-boundary} for the downstream route. They force the selected window through $F,R,W,E$ before any Real-facing public read is exposed, while $H,C,P,N$ only transport, replay, source, and name the same finite rows.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence Real seal nonescape]
+\label{thm:fast-cauchy-subsequence-real-seal-nonescape}
+Let $A=(S,M,Q,F,R,W,E,H,C,P,N)$ be an accepted $\FastCauchySubsequenceUp$ carrier. No Real-facing read can escape the source surface before consuming the Cauchy-modulus, cofinal-selector, fast-rate, regular-subsequence, regular-rational, and Real-seal rows $M,Q,F,R,W,E$. In particular, a consumer that reaches $E$ still receives only the finite route named by $S,M,Q,F,R,W,E,H,C,P,N$, not a selected limit, quotient Cauchy class, host real equality, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the Real-seal selector boundary. It places the seal row $E$ behind $M,Q,F,R,W$ and denies a direct path from the selector row to a Real-facing observation.
+
+Use the cofinal-window obligation above for every selected finite window. Each such window remains a $\BHist$ row in the source surface and is read through the displayed CauchyModulus, CofinalSubsequence, FastCauchy, RegularCauchySubsequence, RegSeqRat, and Real rows.
+
+Finally apply the NameCert obligations of \autoref{thm:fast-cauchy-subsequence-namecert-obligations}. The support rows $H,C,P,N$ preserve componentwise transport, replay, provenance, and local naming only for the displayed finite route, so the forbidden host-level data has no coordinate through which it could escape.
+\end{proof}
+
 \begin{definition}[FastCauchySubsequence selection surface]
 \label{def:fast-cauchy-subsequence-selection-surface}
 The \emph{selection surface} of an accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$ is the finite $\BHist$ subpacket
@@ -142,6 +176,46 @@ Use the NameCert obligations of \autoref{thm:fast-cauchy-subsequence-namecert-ob
 The row $Q$ is finite carrier data: it records a displayed monotone-cofinal ledger of windows rather than a host selector. Componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve that finite witness as the only available cofinal-window row.
 \end{proof}
 
+\begin{theorem}[FastCauchySubsequence window nonescape]
+\label{thm:fast-cauchy-subsequence-window-nonescape}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, every selected window used by the packet is read first through the source row $S$, inspected $\CauchyModulusUp$ row $M$, and cofinal selector row $Q$ before the fast-rate row $F$, regular-subsequence handoff $R$, regular rational readback $W$, and terminal seal $E$ are available. The support rows $H,C,P,N$ transport, replay, source, and name that same finite-window route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fast-cauchy-subsequence-carrier}. Its selected-window data begins at $S,M,Q$, while $F,R,W,E$ are downstream consumer rows.
+
+Use the NameCert obligations of \autoref{thm:fast-cauchy-subsequence-namecert-obligations}. They require modulus coverage before selection and selector admission before fast-rate readback, so no selected window can be consumed outside the displayed $S,M,Q$ front.
+
+Finally apply the regular route theorem, \autoref{thm:fast-cauchy-subsequence-regular-route}. The rows $F,R,W,E$ read the same inspected windows in order, and $H,C,P,N$ preserve the route without adding an independent selector, selected limit, or choice functional.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence cofinal RegSeqRat coverage]
+\label{thm:fast-cauchy-subsequence-cofinal-regseqrat-coverage}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, each cofinal selected window that reaches $\RegSeqRatUp$ reaches it only through the fast-rate row $F$, regular-subsequence handoff $R$, and regular rational readback row $W$. The route keeps the source and modulus rows $S,M,Q$ visible and uses $H,C,P,N$ only as structural support.
+\end{theorem}
+\begin{proof}
+Begin with the cofinal finite-window theorem above. It gives each precision request a finite window in $Q$ already covered by inspected data in $M$ and source access in $S$.
+
+Use the regular route theorem. It places every $\RegSeqRatUp$ readback behind $F,R,W$, so a cofinal selected window cannot jump from $Q$ directly to a rational sequence or a terminal seal.
+
+The NameCert obligations close the coverage claim. They force fast-rate exactness before the regular-subsequence handoff and the regular rational readback before any Real-facing row, while $H,C,P,N$ transport and name the same finite route.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence modulus regular handoff]
+\label{thm:fast-cauchy-subsequence-modulus-regular-handoff}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the inspected modulus row $M$ and regular-subsequence handoff $R$ form one route to the $\RealUp$ seal:
+$$
+S,\quad M,\quad Q,\quad F,\quad R,\quad W,\quad E,\quad H,\quad C,\quad P,\quad N .
+$$
+Thus the modulus witness, cofinal selector, fast-rate evidence, regular-subsequence handoff, and $\RegSeqRatUp$ readback are consumed as one finite package before the terminal seal is visible.
+\end{theorem}
+\begin{proof}
+Project $A$ and read the displayed carrier order. The modulus row $M$ is not separate from the selector row $Q$ or the handoff row $R$; it is the inspected source of the selected windows later consumed by $F,R,W$.
+
+Apply \autoref{thm:fast-cauchy-subsequence-namecert-obligations} and \autoref{thm:fast-cauchy-subsequence-regular-route}. Together they order modulus coverage, selector admission, fast-rate exactness, regular-subsequence handoff, regular rational readback, and terminal Real sealing along one route.
+
+Finally use the existing source and structural support rows $S,H,C,P,N$. They preserve the same route under source access, componentwise transport, displayed replay, provenance, and local naming, so the handoff cannot be split into an external subsequence, quotient stream, selected limit, or countable-choice datum.
+\end{proof}
+
 \begin{theorem}[FastCauchySubsequence regular readback]
 \label{thm:fast-cauchy-subsequence-regular-readback}
 Every $\RegSeqRatUp$ readback from an accepted $\FastCauchySubsequenceUp$ carrier factors through the selection surface
@@ -158,7 +232,252 @@ Now restrict attention to the $\RegSeqRatUp$ row $W$. By \autoref{def:fast-cauch
 Apply \autoref{thm:fast-cauchy-subsequence-cofinal-window} to each displayed precision read. The cofinal witness is already a finite $\BHist$ window row transported through the same support rows, so the regular rational readback cannot be replaced by an independent stream, a choice-selected subsequence, or a quotient Cauchy representative.
 \end{proof}
 
+\begin{theorem}[FastCauchySubsequence selector regularity pullback]
+\label{thm:fast-cauchy-subsequence-selector-regularity-pullback}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the $\RegularCauchySubsequenceUp$ row $R$ pulls its regularity witness back to the inspected $\CauchyModulusUp$ row $M$ and the $\CofinalSubsequenceUp$ selector row $Q$ before the $\RegSeqRatUp$ row $W$ is read. The pullback is the displayed route
+$$
+M,\quad Q,\quad F,\quad R,\quad W,\quad H,\quad C,\quad P,\quad N,
+$$
+and it exports no selected limit, quotient stream equality, host real equality, or countable-choice selector.
+\end{theorem}
+\begin{proof}
+Project the selection surface $\Sigma_A$ of \autoref{def:fast-cauchy-subsequence-selection-surface}. The only selector-facing rows available to the regular handoff are $M,Q,F,W,H,C,P,N$, with $R$ sitting in the carrier as the regular-subsequence handoff from those rows.
+
+Use the modulus-selector coherence theorem, \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence}. It fixes the selected windows by the displayed $M,Q$ pair before either the fast-rate row $F$ or the regular-subsequence handoff $R$ can be consumed.
+
+Apply \autoref{thm:fast-cauchy-subsequence-regular-readback}. The $\RegSeqRatUp$ row $W$ reads the same finite cofinal windows and inspected modulus bounds, so the regularity witness in $R$ is pulled back to the finite selector surface rather than to an independent stream or a selected limit.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence cofinal readback non-escape]
+\label{thm:fast-cauchy-subsequence-cofinal-readback-nonescape}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the cofinal readback route from the $\CofinalSubsequenceUp$ row $Q$ to the $\RegSeqRatUp$ row $W$ remains inside
+$$
+M,\quad Q,\quad F,\quad R,\quad W,\quad H,\quad C,\quad P,\quad N.
+$$
+It may feed $\CauchyModulusUp$, $\CofinalSubsequenceUp$, $\RegularCauchySubsequenceUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ consumers through the displayed rows, but it cannot escape as a selected limit, quotient stream equality, host real equality, arbitrary countable choice, or an independent rational stream.
+\end{theorem}
+\begin{proof}
+Begin with the cofinal finite-window theorem, \autoref{thm:fast-cauchy-subsequence-cofinal-window}. Each precision request receives a finite window row in $Q$ covered by the inspected modulus row $M$ and transported by $H,C,P,N$.
+
+Next apply the selector-window coverage theorem, \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}. The route from $Q$ to the regular rational readback passes through $F$ and $R$, so $W$ cannot be read from a separate stream or a host-level subsequence object.
+
+Finally use the Real-seal selector boundary of \autoref{thm:fast-cauchy-subsequence-real-seal-selector-boundary}. The $\RealUp$ seal $E$ is visible only after $M,Q,F,R,W$, and the carrier has no coordinate for selected limits, quotient stream equality, host real equality, countable choice, or an independent rational sequence.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence effective Cauchy consumer]
+\label{thm:fast-cauchy-subsequence-effective-cauchy-consumer}
+Any effective-Cauchy or $\RealUp$ consumer of an accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$ must consume the inspected $\CauchyModulusUp$ row $M$, the $\CofinalSubsequenceUp$ selector row $Q$, the fast-rate row $F$, the $\RegularCauchySubsequenceUp$ handoff $R$, and the $\RegSeqRatUp$ readback $W$ before the $\RealUp$ seal $E$ is exposed. The consumer receives finite evidence for an effective Cauchy route from $\StreamNameUp$ windows to regular rational readback; it receives no selected limit, quotient stream equality, host real equality, or countable-choice functional.
+\end{theorem}
+\begin{proof}
+Start with the regular route theorem, \autoref{thm:fast-cauchy-subsequence-regular-route}. It forces every real-facing read through $S,M,Q,F,R,W$ before the seal $E$.
+
+Use selector regularity pullback, \autoref{thm:fast-cauchy-subsequence-selector-regularity-pullback}. The regular handoff $R$ is not an independent regular subsequence; it is pulled back to the inspected modulus and cofinal selector rows.
+
+Now apply cofinal readback non-escape, \autoref{thm:fast-cauchy-subsequence-cofinal-readback-nonescape}. The readback route remains inside $M,Q,F,R,W,H,C,P,N$, so an effective-Cauchy consumer gets finite displayed evidence and cannot replace it by a selected limit, quotient stream equality, host real equality, or countable choice.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence source carrier obligation]
+\label{thm:fast-cauchy-subsequence-source-carrier}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the source carrier obligation binds the displayed source row $S$ to inspected $\CauchyModulusUp$ data $M$ and $\FastCauchyUp$ rate data $F$ before any cofinal readback is exported. The obligation is witnessed inside the finite $\BHist$ route
+$$
+S,\quad M,\quad Q,\quad F,\quad H,\quad C,\quad P,\quad N,
+$$
+where $H$ supplies componentwise $\hsame$ transport, $C$ supplies displayed $\Cont$ replay, $P$ supplies provenance over $\DyadicRatCoreUp$ and $\StreamNameUp$ support, and $N$ supplies the local $\NameCert_{\FastCauchySubsequenceUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fast-cauchy-subsequence-carrier}. The only source-facing rows available before regular readback are $S,M,Q,F$ and the support rows $H,C,P,N$.
+
+Use the NameCert obligations and modulus-selector coherence. They bind each selected source window to inspected Cauchy-modulus data in $M$ before the fast-rate row $F$ can be consumed.
+
+The support rows preserve the same finite route: $\hsame$ transport is componentwise through $H$, $\Cont$ replay is displayed by $C$, provenance is recorded by $P$, and local naming is recorded by $N$. Since the carrier has no selected-limit or countable-choice coordinate, the source obligation is exactly the displayed $\BHist$ route.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence root obligation]
+\label{thm:fast-cauchy-subsequence-root-obligation}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the root obligation surface is the complete finite route over the inspected source row $S$, $\CauchyModulusUp$ row $M$, $\CofinalSubsequenceUp$ selector row $Q$, $\FastCauchyUp$ rate row $F$, $\RegularCauchySubsequenceUp$ handoff row $R$, $\RegSeqRatUp$ readback row $W$, terminal $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\FastCauchySubsequenceUp}$ row $N$. Every downstream effective-Cauchy, regular-rational, or real-facing consumer must read this surface before using the packet; no coordinate exports a selected limit, quotient Cauchy class, host real equality, arbitrary countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the source carrier theorem, \autoref{thm:fast-cauchy-subsequence-source-carrier}. It binds $S,M,Q,F,H,C,P,N$ as the source-facing route before any cofinal readback is exported.
+
+Add the regular readback obligation, \autoref{thm:fast-cauchy-subsequence-regular-readback-obligation}. It forces $R$ and $W$ to consume the same displayed selector and fast-rate rows rather than an independent subsequence or rational stream.
+
+Finally apply the Real-seal handoff and Real seal theorems, \autoref{thm:fast-cauchy-subsequence-real-seal-handoff} and \autoref{thm:fast-cauchy-subsequence-real-seal}. They place the terminal seal $E$ after $S,M,Q,F,R,W$ and keep $H,C,P,N$ as structural support. Since the carrier lists no escape coordinate, the displayed rows exhaust the root obligation surface.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence modulus-selector obligation]
+\label{thm:fast-cauchy-subsequence-modulus-selector-obligation}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$ and every selector window read by a downstream consumer, the inspected $\CauchyModulusUp$ row $M$ covers that window before $\FastCauchyUp$ rate data, $\RegularCauchySubsequenceUp$ handoff data, or $\RegSeqRatUp$ readback data are consumed. The selector row $Q$ therefore acts only as a finite cofinal-window ledger attached to $M$; it is not a countable-choice functional, a host subsequence object, or a quotient Cauchy representative.
+\end{theorem}
+\begin{proof}
+Start with modulus-selector coherence, \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence}. It identifies each selector window with inspected modulus data already present in $M$.
+
+Use selector-window coverage and modulus-threshold extraction, \autoref{thm:fast-cauchy-subsequence-selector-window-coverage} and \autoref{thm:fast-cauchy-subsequence-modulus-threshold-extraction}. These keep every selected window and every threshold request inside $S,M,Q,H,C,P,N$ before the regular route is read.
+
+Now apply selector regularity pullback and cofinal readback non-escape. The regular-subsequence handoff $R$ and readback row $W$ consume the same $M,Q,F$ route, so no later consumer can reinterpret $Q$ as an external choice selector or as an independent rational stream.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence Real-seal obligation]
+\label{thm:fast-cauchy-subsequence-real-seal-obligation}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the $\RealUp$ seal $E$ is exposed only after the inspected modulus row $M$, selector row $Q$, fast-rate row $F$, regular-subsequence handoff row $R$, and regular rational readback row $W$ have all been displayed. The seal is a terminal row of the finite selector route; it does not supply a selected limit, quotient stream equality, host real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the Real-seal selector boundary, \autoref{thm:fast-cauchy-subsequence-real-seal-selector-boundary}. It already prevents a real-facing consumer from reaching $E$ before $M,Q,F,R,W$.
+
+Use the effective Cauchy consumer theorem and the Real-seal handoff obligation. Together they keep every effective-Cauchy or real-facing read downstream of the inspected modulus, cofinal selector, fast-rate, regular-subsequence, and readback rows.
+
+Finally apply the root obligation above. The structural rows $H,C,P,N$ preserve and name the same route, while the carrier has no coordinate for selected limits, quotient classes, choice functionals, host equality, trichotomy, or completeness. Thus the Real seal is exposed only as the terminal row of the displayed route.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence cofinal tail stability]
+\label{thm:fast-cauchy-subsequence-cofinal-tail-stability}
+Let $A=(S,M,Q,F,R,W,E,H,C,P,N)$ be an accepted $\FastCauchySubsequenceUp$ carrier. If a finite tail-window comparison preserves the inspected $S,M,Q,F$ rows by $\hsame$, then every cofinal selector read used by $R$ and $W$ remains in the same displayed tail route
+$$
+M,\quad Q,\quad F,\quad R,\quad W,\quad H,\quad C,\quad P,\quad N.
+$$
+Thus selector stability is a finite tail-window fact over $\CauchyModulusUp$, $\CofinalSubsequenceUp$, $\FastCauchyUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows, not a host subsequence equality and not a countable-choice principle.
+\end{theorem}
+\begin{proof}
+Start from the finite tail-window comparison. The hypothesis says that the inspected source, modulus, selector, and fast-rate rows are preserved by $\hsame$ before the regular handoff is read.
+
+Apply selector-window coverage and selector regularity pullback. These force the selected cofinal windows used by $R$ and $W$ to be the same windows certified by $M,Q,F$, with the dyadic and stream-window support carried through the displayed route.
+
+Finally use cofinal readback non-escape. The $\RegSeqRatUp$ readback cannot leave $M,Q,F,R,W,H,C,P,N$, and the carrier has no coordinate for host subsequence equality or countable choice. Stability is therefore the finite $\hsame$-tail statement over the displayed rows.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence Real-seal handoff obligation]
+\label{thm:fast-cauchy-subsequence-real-seal-handoff}
+Every $\RealUp$ seal handoff from an accepted $\FastCauchySubsequenceUp$ carrier consumes only the displayed finite selector route
+$$
+S,\quad M,\quad Q,\quad F,\quad R,\quad W,\quad E,\quad H,\quad C,\quad P,\quad N.
+$$
+The route opens $\StreamNameUp$ windows, inspected $\CauchyModulusUp$ rows, $\DyadicRatCoreUp$ radius support, $\RegularCauchySubsequenceUp$ handoff rows, and $\RegSeqRatUp$ readback before the seal $E$; it does not claim a selected limit, quotient stream equality, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the effective Cauchy consumer theorem above. It places every effective-Cauchy or real-facing consumer downstream of $M,Q,F,R,W$ before $E$ is exposed.
+
+Use source carrier obligation and cofinal tail stability. The first binds the source to inspected modulus and fast-rate rows, while the second keeps the cofinal selector route inside the same finite tail-window package.
+
+The terminal row $E$ is therefore reached only after the $\RegSeqRatUp$ readback $W$ and the structural rows $H,C,P,N$ preserve the displayed route. Since no carrier row stores a selected limit, quotient stream equality, host real equality, choice functional, or completeness principle, the $\RealUp$ handoff consumes only that finite route.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence modulus-threshold extraction]
+\label{thm:fast-cauchy-subsequence-modulus-threshold-extraction}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$ and every downstream precision request visible to the packet, the threshold row used by the cofinal selector is extracted from the inspected $\CauchyModulusUp$ row $M$ before the selector row $Q$ is consumed. Thus an effective consumer can cite the finite route
+$$
+S,\quad M,\quad Q,\quad H,\quad C,\quad P,\quad N
+$$
+as displayed modulus-threshold evidence, without appealing to a selected subsequence, quotient Cauchy class, countable choice, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier and the NameCert obligations. The row $M$ is listed before $Q$, and the obligations require modulus coverage for every selected downstream window before selector admission is read.
+
+Use the regular route and modulus-selector coherence. They identify the windows consumed by $Q$ with windows already covered by the inspected bounds in $M$, while $H,C,P,N$ preserve the same finite source replay and local naming route.
+
+The Real-seal handoff theorem keeps all real-facing consumption downstream of $M,Q,F,R,W$. Hence the threshold needed by an effective consumer is exported from $M$ before $Q$ and never from an ambient choice functional or a completed real object.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence cofinal selector strict growth]
+\label{thm:fast-cauchy-subsequence-cofinal-selector-strict-growth}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the $\CofinalSubsequenceUp$ row $Q$ exposes a finite strict-growth ledger for the selected windows used by $F,R$, and $W$. Each later selected window is certified as a strictly later inspected source window, and the ledger is cofinal in the precision requests visible to the packet.
+\end{theorem}
+\begin{proof}
+Begin with the cofinal finite-window theorem. It supplies a finite selector row in $Q$ for each precision request and binds that row to the inspected bounds in $M$.
+
+Apply selector-window coverage and cofinal tail stability. Coverage prevents $Q$ from skipping outside the displayed modulus data, and tail stability records that later selector reads stay in the same $\hsame$-preserved finite route.
+
+The regular-subsequence handoff $R$ and regular rational readback $W$ consume only those selected windows. Therefore strict selector growth and cofinality are exported as finite data in $Q$, not as host subsequence equality or countable choice.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence dyadic tail budget]
+\label{thm:fast-cauchy-subsequence-dyadic-tail-budget}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the fast-rate row $F$ exposes the dyadic tail budget used by downstream regular consumers through $\DyadicRatCoreUp$ support before the regular-subsequence handoff $R$ and the readback row $W$ are consumed. The visible budget route is
+$$
+M,\quad Q,\quad F,\quad R,\quad W,\quad H,\quad C,\quad P,\quad N.
+$$
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations for fast-rate exactness. They force $F$ to be read from the modulus coverage row along the selected cofinal windows supplied by $Q$.
+
+Next apply the selector regularity pullback. The handoff $R$ repacks the same selected windows and transported dyadic radius data rather than introducing an independent regular subsequence.
+
+Finally use cofinal readback non-escape. The $\RegSeqRatUp$ row $W$ reads the same dyadic and selector route through $M,Q,F,R,H,C,P,N$, so the tail budget remains visible to effective consumers as $\DyadicRatCoreUp$ data.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence source replay exhaustion]
+\label{thm:fast-cauchy-subsequence-source-replay-exhaustion}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the structural rows $S,H,C,P,N$ exhaust the source replay needed by any effective Cauchy consumer. Every read from source windows to modulus inspection, selector growth, fast-rate routing, regular-subsequence handoff, regular rational readback, and the terminal seal factors through these displayed rows.
+\end{theorem}
+\begin{proof}
+Start with the source carrier obligation. It binds the displayed source row $S$ to the inspected modulus and fast-rate rows before any cofinal readback can be exported.
+
+Use $H,C,P,N$ in their carrier order. The row $H$ supplies componentwise $\hsame$ transport, $C$ supplies displayed $\Cont$ replay, $P$ records provenance over $\DyadicRatCoreUp$ and $\StreamNameUp$ support, and $N$ records the local NameCert row.
+
+The Real-seal handoff theorem places all real-facing consumption after the same replay route. Since the carrier has no coordinate for a selected limit, quotient Cauchy class, countable-choice functional, or real completeness proof, $S,H,C,P,N$ exhaust the source replay surface.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence effective consumer export]
+\label{thm:fast-cauchy-subsequence-effective-consumer-export}
+Every effective-Cauchy, regular-rational, or $\RealUp$ consumer of an accepted $\FastCauchySubsequenceUp$ carrier may export exactly the finite consumer package
+$$
+M,\quad Q,\quad F,\quad R,\quad W,\quad E.
+$$
+The package gives inspected modulus thresholds, strict cofinal selector growth, dyadic fast-rate budgets, regular-subsequence handoff, regular rational readback, and the terminal real-name seal; it does not export selected subsequences, quotient Cauchy classes, countable-choice functionals, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Combine modulus-threshold extraction with cofinal selector strict growth. These two facts give the finite $M,Q$ front of the package consumed by effective Cauchy sequence routes.
+
+Add the dyadic tail-budget theorem. It supplies the $F,R,W$ readback surface over $\DyadicRatCoreUp$ and regular rational data, with no independent stream or selected limit.
+
+Use source replay exhaustion only to justify that the package has already passed through the displayed source support. The exported consumer interface is therefore $M,Q,F,R,W,E$; the structural rows certify the route but do not enlarge it with choice, quotient equality, or completeness data.
+\end{proof}
+
 The downstream explicit-modulus sequence route of \autoref{ch:concrete-instances-effective-cauchy-sequence-namecert} may consume $\FastCauchySubsequenceUp$ when it needs finite fast-subsequence evidence: the inspected modulus data $M$ and cofinal selector rows $Q$ become the effective Cauchy sequence witness after the fast-rate and regular-subsequence handoff rows are displayed. The same relationship also feeds rate-realization consumers through the visible $F,R,W$ route, without selecting a limit and without invoking countable choice.
+
+\begin{theorem}[FastCauchySubsequence regular readback obligation]
+\label{thm:fast-cauchy-subsequence-regular-readback-obligation}
+Every accepted $\FastCauchySubsequenceUp$ packet exposes the inspected modulus row $M$, cofinal selector row $Q$, fast-rate row $F$, regular-subsequence row $R$, $\RegSeqRatUp$ readback row $W$, and the source $\StreamNameUp$ window rows before any $\RealUp$, effective-Cauchy, or regular-rational consumer may read it. The obligation is the finite route
+$$
+S,\quad M,\quad Q,\quad F,\quad R,\quad W,\quad H,\quad C,\quad P,\quad N,
+$$
+not an independent subsequence, quotient Cauchy class, selected limit, or countable-choice functional.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$. The carrier order displays the source windows, inspected modulus data, selector ledger, fast-rate row, regular-subsequence handoff, regular rational readback, and structural support rows before the real seal row can be consumed.
+
+Use the NameCert obligations to bind the early route. Modulus coverage is read through $M$, selector admission through $Q$, and fast-rate exactness through $F$; no later consumer can introduce an unseen selector or an independent rational stream.
+
+The regular-subsequence and readback rows then consume the same finite route. The handoff row $R$ repacks the selected windows, and $W$ reads those windows as regular rational data, while $H,C,P,N$ only transport, replay, source, and name the displayed package.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence Real seal]
+\label{thm:fast-cauchy-subsequence-real-seal}
+For an accepted $\FastCauchySubsequenceUp$ carrier, the $\RealUp$ seal is reached only after the finite route through inspected modulus data, cofinal selection, fast-rate evidence, regular-subsequence handoff, regular rational readback, source-window support, componentwise transport, displayed replay, provenance, and local naming has been displayed. Thus any Real-facing read factors through the same root obligation surface before the seal row $E$ is visible.
+\end{theorem}
+\begin{proof}
+Begin with the Real-seal selector boundary. It already places every $\RealUp$ seal consumer downstream of $M,Q,F,R,W$.
+
+Add the source and structural rows from the carrier. The source row $S$ supplies the inspected windows, while $H,C,P,N$ preserve the route under componentwise transport, replay, provenance, and local naming.
+
+Apply the regular readback obligation above. It identifies the complete root surface that a Real-facing read must traverse, so the seal cannot be reached by quotient stream equality, selected limits, arbitrary countable choice, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence Phase Real and Completion exit route]
+\label{thm:fast-cauchy-subsequence-phase-real-completion-exit-route}
+Every accepted $\FastCauchySubsequenceUp$ consumer that exports a Phase Real and Completion exit read must factor through the finite route
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp,
+$$
+together with the displayed cofinal-selector and modulus rows of the carrier. More precisely, the exit read first consumes the $\DyadicRatCoreUp$ tolerance budget in $F$, the $\StreamNameUp$ source-window schedule in $S$, the cofinal selector row $Q$, the inspected modulus row $M$, the regular readback row $W$, the regular-subsequence handoff $R$, and the terminal seal $E$ before it may be used by a Real or Completion downstream packet. It cannot pass through quotient streams, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the Real seal theorem \autoref{thm:fast-cauchy-subsequence-real-seal}. It places every Real-facing read after the inspected modulus data, cofinal selection, fast-rate evidence, regular-subsequence handoff, regular rational readback, source-window support, transport, replay, provenance, and local naming rows.
+
+Read the dyadic and selector components next. The dyadic tail budget theorem \autoref{thm:fast-cauchy-subsequence-dyadic-tail-budget} exposes the $\DyadicRatCoreUp$ tolerance budget through $F,R,W$, while the cofinal selector strict-growth theorem \autoref{thm:fast-cauchy-subsequence-cofinal-selector-strict-growth} keeps the selected windows inside the displayed $\StreamNameUp$ source schedule and the inspected modulus row $M$.
+
+Apply the effective consumer export theorem \autoref{thm:fast-cauchy-subsequence-effective-consumer-export}. It identifies the consumer-visible package as $M,Q,F,R,W,E$, with structural support from $S,H,C,P,N$ and without an independent rational stream.
+
+Thus a Phase Real and Completion exit read has already traversed the finite dyadic tolerance budget, source-window schedule, regular rational readback, and terminal Real seal before it is exported. Since the carrier has no coordinate for quotient streams, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness, none of those routes can supply the exit.
+\end{proof}
 
 \begin{closurestatus}{\FastCauchySubsequenceUp}
   \theoryclosure{\seedClosure}

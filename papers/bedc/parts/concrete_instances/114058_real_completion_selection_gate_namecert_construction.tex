@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletionSelectionGateUp$}
+\label{ch:concrete-instances-real-completion-selection-gate-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealCompletionSelectionGateUp$ packet records the finite gate that separates allowed Real-completion reads from off-table completeness claims. It realizes the four-object route of \autoref{ch:visions-real-completeness} as displayed rows over \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}, with comparison discipline inherited from \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}. The gate permits finite selection windows and regular rational readback; it does not certify quotient completion, selected limits, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Real completion selection gate carrier]
+\label{def:real-completion-selection-gate-carrier}
+A $\RealCompletionSelectionGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,W,R,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and comparison ledger for the requested Real-completion precision.
+\item $W$ is the $\StreamNameUp$ finite observation row, storing only the bounded windows read by the gate.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to $D$ and $W$.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $D,W,R$ have been displayed.
+\item $T$ records componentwise $\hsame$ transport for the four value-facing rows and for the replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real-completion request through $D,W,R,E,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealCompletionSelectionGateUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCompletionSelectionGateUp}$ row.
+\end{enumerate}
+The classifier compares accepted gates only through $D,W,R,E,T,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, global Cauchy choice, host real equality, trichotomy, metric completeness, open-cover compactness, or full $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real completion selection gate four-object route]
+\label{thm:real-completion-selection-gate-four-object-route}
+Every accepted $\RealCompletionSelectionGateUp$ carrier routes an allowed Real-completion read through the ordered four-object chain
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The gate exposes no completion-facing value before the dyadic tolerance ledger, finite StreamName window, regular rational readback, and terminal Real seal have all been displayed.
+\end{theorem}
+\begin{proof}
+Project the accepted gate $G=(D,W,R,E,T,C,P,N)$. The value-facing rows are exactly $D,W,R,E$.
+
+The continuation row $C$ fixes the reading order. A Real-completion request first consumes the dyadic precision ledger, then the bounded stream observations, then the regular rational readback, and only then the terminal Real seal.
+
+Rows $T,P,N$ transport, source, and name the same route. Since no other value-facing row exists in the carrier, every allowed completion read factors through the four-object chain.
+\end{proof}
+
+\begin{theorem}[Real completion selection gate transport replay]
+\label{thm:real-completion-selection-gate-transport-replay}
+For every accepted $\RealCompletionSelectionGateUp$ carrier $G=(D,W,R,E,T,C,P,N)$, componentwise transport and displayed replay preserve the same four-object route. Transport cannot replace the finite StreamName window by a quotient stream, and replay cannot introduce a selected limit or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+The transport row $T$ is componentwise over $D,W,R,E,C,P,N$. It can identify two displayed gates only by transporting the same dyadic ledger, finite window, regular readback, Real seal, replay, provenance, and local name.
+
+The replay row $C$ records the route from a Real-completion request through those same displayed rows. Thus replay reuses the already named four-object chain rather than adding a second completion source.
+
+Because neither $T$ nor $C$ has a coordinate for quotient streams, selected representatives, selected limits, or choice schedules, the transported and replayed gate remains inside the finite route of \autoref{thm:real-completion-selection-gate-four-object-route}.
+\end{proof}
+
+\begin{theorem}[Real completion selection gate nonescape]
+\label{thm:real-completion-selection-gate-nonescape}
+Every consumer of an accepted $\RealCompletionSelectionGateUp$ packet receives only dyadic tolerance data, finite StreamName observations, RegSeqRat readback, a terminal $\RealUp$ seal, componentwise transport, displayed replay, provenance, and local naming. The packet exports no quotient completion, no selected representative, no selected limit, no host real equality, no trichotomy, no countable choice, no metric completeness theorem, no open-cover compactness theorem, and no ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:real-completion-selection-gate-carrier}. The accepted packet is exhausted by $D,W,R,E,T,C,P,N$.
+
+The value-facing rows give the four-object completion route, and the structural rows preserve that route under transport, replay, provenance, and local naming. None of these rows stores a detached completion object or a global selection principle.
+
+Therefore every consumer remains inside the finite gate. Any claim requiring quotient completion, selected representatives, selected limits, host equality, trichotomy, countable choice, metric completeness, open-cover compactness, or ambient Real completeness asks for a row absent from the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealCompletionSelectionGateUp$ Real-completion read factors through one DyadicRatCore tolerance ledger, one StreamName finite-window row, one RegSeqRat readback row, one terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, cauchy-selection-principle: $\RealCompletionSelectionGateUp$ is not bijective to any listed sibling because it packages the four-object route as a gate with transport, replay, provenance, and local NameCert rows that reject off-table completion claims.}
+
+\closureat{RealCompletionSelectionGateUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletionSelectionGateUp}
+  \constructivestory{A $\RealCompletionSelectionGateUp$ packet is generated from a DyadicRatCore tolerance ledger, StreamName finite windows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-completion-selection-gate-carrier}, \autoref{thm:real-completion-selection-gate-four-object-route}, \autoref{thm:real-completion-selection-gate-transport-replay}, and \autoref{thm:real-completion-selection-gate-nonescape} seed the four-object Real-completion gate and its nonescape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, selected limits, host real equality, trichotomy, countable choice, metric completeness, open-cover compactness, full $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-object route exactness, transport replay, nonescape, provenance, and local naming for BEDC.Derived.RealCompletionSelectionGateUp.}
+\end{closurestatus}

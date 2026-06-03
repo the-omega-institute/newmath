@@ -57,6 +57,20 @@ If $R$ is active, the packet records explicit refusal. Again $P$ cannot by itsel
 Thus the accepted packet exposes a certificate conflict. It may be audited as a blocked or refused claim, but it is not an exportable claim.
 \end{proof}
 
+\begin{theorem}[Audit system certificate conflict determinacy]
+\label{thm:audit-system-certificate-conflict-determinacy}
+Let $A=(C,P,F,R,E,L,H,K,Q,N)$ be an accepted $\AuditSystemUp$ packet. If the same claim site has active $F$ or active $R$, then every export-grade read through $E,L,H,K,Q,N$ is classified as the same blocked or refused claim boundary, and no second export route can be produced by replaying $P$ alone.
+\end{theorem}
+\leanchecked{BEDC.Derived.AuditSystemUp.AuditSystemCertificateConflictDeterminacy}
+\begin{proof}
+Project the accepted carrier of \autoref{def:audit-system-carrier}. The negative rows $F$ and $R$ share the same claim site as $C$, and the export-grade row $E$ is read together with those rows before ledger closure.
+
+Apply \autoref{thm:audit-system-export-refusal}. An active $F$ yields a certificate conflict, and an active $R$ yields explicit refusal; in either case the packet is classified at the blocked or refused claim boundary rather than as an exportable claim.
+
+Now use \autoref{thm:audit-system-ledger-closure}. Rows $L,H,K,Q,N$ close, transport, replay, source, and name the same displayed negative boundary. Since the carrier has no coordinate for a second export grade and $P$ is not readable outside $F,R,E,L$, replaying $P$ alone cannot produce another export route.
+\end{proof}
+\leanchecked{BEDC.Derived.AuditSystemUp.AuditSystemCarrier\_certificate\_conflict\_determinacy}
+
 \begin{theorem}[Audit system ledger closure]
 \label{thm:audit-system-ledger-closure}
 Every exported claim admitted by $\AuditSystemUp$ is ledger-closed by the same finite packet that displays its admissible-claim row, certificate row, negative rows, export grade, transport, replay, provenance, and local NameCert row.

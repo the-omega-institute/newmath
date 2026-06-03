@@ -4,7 +4,9 @@ from __future__ import annotations
 import sys
 import unittest
 import json
-from contextlib import redirect_stdout
+import threading
+import time
+from contextlib import nullcontext, redirect_stdout
 from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -41,6 +43,7 @@ from bedc_ci import (  # type: ignore[import-not-found]
     parser as bedc_parser,
 )
 from discovery_refutation_publisher import (  # type: ignore[import-not-found]
+    ledger_content_signature,
     merge_records,
     refutation_records_from_payload,
 )
@@ -468,10 +471,12 @@ class DiscoveryAuditTests(unittest.TestCase):
         block = self._block(raw_body=r"\leanchecked{BEDC.Target.Ledger}")
         fps = {
             "BEDC.A.C": ExprFingerprint(
-                "a", "type", "a", reduced_fingerprint="old"
+                "a", "type", "a", reduced_fingerprint="old",
+                canonical_reduced_payload="payload-old",
             ),
             "BEDC.B.D": ExprFingerprint(
-                "b", "type", "b", reduced_fingerprint="fresh"
+                "b", "type", "b", reduced_fingerprint="fresh",
+                canonical_reduced_payload="payload-fresh",
             ),
         }
         with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
@@ -519,10 +524,12 @@ class DiscoveryAuditTests(unittest.TestCase):
         scan = LeanSourceScan([], [], headers, bodies, [ledger])
         fps = {
             "BEDC.Prior.OldRel": ExprFingerprint(
-                "old", "type", "old", reduced_fingerprint="same"
+                "old", "type", "old", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
             ),
             "BEDC.Target.NewRel": ExprFingerprint(
-                "new", "type", "new", reduced_fingerprint="same"
+                "new", "type", "new", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
             ),
         }
         with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
@@ -533,6 +540,106 @@ class DiscoveryAuditTests(unittest.TestCase):
             payload["violations"][0]["kind"],
             "structural_reconstruction_discovery_claim",
         )
+        self.assertEqual(payload["violations"][0]["canonical_payload"], "payload-same")
+
+    def test_discovery_integrity_does_not_reconstruct_on_fingerprint_only_collision(self) -> None:
+        headers = {
+            "BEDC.Prior.OldRel": "inductive OldRel : BHist → Prop",
+            "BEDC.Target.NewRel": "inductive NewRel : BHist → Prop",
+            "BEDC.Target.Ledger": "def Ledger : DiscoveryDeltaLedger X :=",
+        }
+        bodies = {
+            "BEDC.Target.Ledger": (
+                "def Ledger : DiscoveryDeltaLedger X where\n"
+                "  classifier_shift := some {\n"
+                "    BeforeClassifier := BEDC.Prior.OldRel\n"
+                "    AfterClassifier := BEDC.Target.NewRel\n"
+                "  }"
+            ),
+        }
+        block = self._block(
+            open_fields={
+                "closureclaimkind": "positiveDiscovery",
+                "closureledger": "BEDC.Target.Ledger",
+            },
+        )
+        ledger = DiscoveryDeltaLedgerRecord(
+            "Ledger",
+            "BEDC.Target.Ledger",
+            "lean4/BEDC/Target.lean",
+            1,
+            "Target",
+            "target",
+            True,
+        )
+        scan = LeanSourceScan([], [], headers, bodies, [ledger])
+        fps = {
+            "BEDC.Prior.OldRel": ExprFingerprint(
+                "coarse", "type", "", reduced_fingerprint="same64",
+                canonical_reduced_payload="(inductive|OldRel|ctors=1)",
+            ),
+            "BEDC.Target.NewRel": ExprFingerprint(
+                "coarse", "type", "", reduced_fingerprint="same64",
+                canonical_reduced_payload="(inductive|NewRel|ctors=2)",
+            ),
+        }
+        with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
+            payload = discovery_integrity_payload([block], scan)
+        self.assertEqual(payload["checked_chapter_count"], 1)
+        self.assertEqual(payload["violation_count"], 0)
+        reconstruction = [
+            item for item in payload["sites"][0]["provenance"]
+            if item.get("relation") == "reconstruction"
+        ]
+        self.assertEqual(reconstruction, [])
+
+    def test_discovery_integrity_empty_payload_does_not_emit_reconstruction(self) -> None:
+        headers = {
+            "BEDC.Prior.OldRel": "def OldRel (x y : BHist) : Prop :=",
+            "BEDC.Target.NewRel": "def NewRel (x y : BHist) : Prop :=",
+            "BEDC.Target.Ledger": "def Ledger : DiscoveryDeltaLedger X :=",
+        }
+        bodies = {
+            "BEDC.Target.Ledger": (
+                "def Ledger : DiscoveryDeltaLedger X where\n"
+                "  classifier_shift := some {\n"
+                "    BeforeClassifier := BEDC.Prior.OldRel\n"
+                "    AfterClassifier := BEDC.Target.NewRel\n"
+                "  }"
+            ),
+        }
+        block = self._block(
+            open_fields={
+                "closureclaimkind": "positiveDiscovery",
+                "closureledger": "BEDC.Target.Ledger",
+            },
+        )
+        ledger = DiscoveryDeltaLedgerRecord(
+            "Ledger",
+            "BEDC.Target.Ledger",
+            "lean4/BEDC/Target.lean",
+            1,
+            "Target",
+            "target",
+            True,
+        )
+        scan = LeanSourceScan([], [], headers, bodies, [ledger])
+        fps = {
+            "BEDC.Prior.OldRel": ExprFingerprint(
+                "old", "type", "old", reduced_fingerprint="same",
+            ),
+            "BEDC.Target.NewRel": ExprFingerprint(
+                "new", "type", "new", reduced_fingerprint="same",
+            ),
+        }
+        with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
+            payload = discovery_integrity_payload([block], scan)
+        self.assertEqual(payload["checked_chapter_count"], 0)
+        self.assertEqual(payload["violation_count"], 0)
+        self.assertTrue(any(
+            item.get("reason") == "structural_dna_canonical_payload_unavailable"
+            for item in payload["unavailable"]
+        ))
 
     def test_discovery_integrity_keeps_qualified_same_local_names_distinct(self) -> None:
         headers = {
@@ -569,10 +676,12 @@ class DiscoveryAuditTests(unittest.TestCase):
         scan = LeanSourceScan([], [], headers, bodies, [ledger])
         fps = {
             "BEDC.A.C": ExprFingerprint(
-                "a", "type", "a", reduced_fingerprint="ra"
+                "a", "type", "a", reduced_fingerprint="ra",
+                canonical_reduced_payload="payload-a",
             ),
             "BEDC.B.C": ExprFingerprint(
-                "b", "type", "b", reduced_fingerprint="rb"
+                "b", "type", "b", reduced_fingerprint="rb",
+                canonical_reduced_payload="payload-b",
             ),
         }
         with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
@@ -617,10 +726,12 @@ class DiscoveryAuditTests(unittest.TestCase):
         scan = LeanSourceScan([], [], headers, bodies, [ledger])
         fps = {
             "BEDC.A.C": ExprFingerprint(
-                "a", "type", "a", reduced_fingerprint="ra"
+                "a", "type", "a", reduced_fingerprint="ra",
+                canonical_reduced_payload="payload-a",
             ),
             "BEDC.B.C": ExprFingerprint(
-                "b", "type", "b", reduced_fingerprint="rb"
+                "b", "type", "b", reduced_fingerprint="rb",
+                canonical_reduced_payload="payload-b",
             ),
         }
         unavailable = _structural_dna_relation_unavailable("forced_unavailable")
@@ -793,24 +904,35 @@ class DiscoveryAuditTests(unittest.TestCase):
         )
         return block, scan, kernel
 
-    def _exact_witness(self, target: str = "BEDC.Target.Gate", reduced_fp: str = "same") -> dict:
+    def _exact_witness(
+        self,
+        target: str = "BEDC.Target.Gate",
+        canonical_payload: str = "payload-same",
+        reduced_fp: str = "same",
+    ) -> dict:
         return {
             "id": "test-target-reconstruction",
             "kind": "reconstruction",
             "pattern": {
                 "target": target,
                 "prior": "BEDC.Prior.Old",
+                "canonical_payload": canonical_payload,
                 "reduced_fp": reduced_fp,
             },
             "refutes_because": "test target is an exact kernel-grounded reconstruction pseudo",
             "kernel_grounded": True,
-            "soundness": "exact_reduced_fp_kernel_reverified",
+            "soundness": "canonical_payload_equal",
             "provenance": {"source": "unit"},
             "regression_candidate": target,
             "added": "2026-06-02T00:00:00",
         }
 
-    def _exact_integrity(self, target: str = "BEDC.Target.Gate", reduced_fp: str = "same") -> dict:
+    def _exact_integrity(
+        self,
+        target: str = "BEDC.Target.Gate",
+        canonical_payload: str = "payload-same",
+        reduced_fp: str = "same",
+    ) -> dict:
         return {
             "sites": [{
                 "file": "papers/bedc/parts/x.tex",
@@ -825,6 +947,10 @@ class DiscoveryAuditTests(unittest.TestCase):
                     "relation": "reconstruction",
                     "candidate_reduced_fp": reduced_fp,
                     "reduced_fp": reduced_fp,
+                    "canonical_payload": canonical_payload,
+                    "candidate_canonical_payload": canonical_payload,
+                    "prior_canonical_payload": canonical_payload,
+                    "evidence": "canonical_payload_equal",
                 }],
             }],
             "violations": [],
@@ -916,18 +1042,25 @@ class DiscoveryAuditTests(unittest.TestCase):
             with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
                 witnesses, diagnostics = load_discovery_gate_witnesses(path)
         self.assertEqual(witnesses, [])
-        self.assertEqual(diagnostics[0]["kind"], "ungrounded_discovery_gate_witness")
+        self.assertEqual(diagnostics[0]["kind"], "invalid_discovery_gate_witness_pattern")
 
     def test_discovery_gate_witness_kernel_grounding_recomputes_exact_match(self) -> None:
-        witness = self._exact_witness("BEDC.Target.Gate", "same")
+        witness = self._exact_witness("BEDC.Target.Gate", "payload-same", "same")
         fps = {
-            "BEDC.Target.Gate": ExprFingerprint("target", "type", "value", reduced_fingerprint="same"),
-            "BEDC.Prior.Old": ExprFingerprint("prior", "type", "value", reduced_fingerprint="same"),
+            "BEDC.Target.Gate": ExprFingerprint(
+                "target", "type", "value", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
+            ),
+            "BEDC.Prior.Old": ExprFingerprint(
+                "prior", "type", "value", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
+            ),
         }
         with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
             grounded, details = discovery_gate_witness_kernel_grounding(witness)
         self.assertTrue(grounded)
         self.assertEqual(details["target_reduced_fp"], "same")
+        self.assertEqual(details["evidence"], "canonical_payload_equal")
 
     def test_discovery_gate_witness_registry_loader_rejects_wide_pattern(self) -> None:
         with TemporaryDirectory() as tmp:
@@ -947,7 +1080,7 @@ class DiscoveryAuditTests(unittest.TestCase):
             path = Path(tmp) / "witnesses.json"
             path.write_text(json.dumps({
                 "schema": "bedc.discovery_gate_witness_registry",
-                "witness_schema": {"pattern": {"target": "", "prior": "", "reduced_fp": ""}},
+                "witness_schema": {"pattern": {"target": "", "prior": "", "canonical_payload": ""}},
                 "witnesses": [],
             }), encoding="utf-8")
             witnesses, diagnostics = load_discovery_gate_witnesses(path)
@@ -958,12 +1091,18 @@ class DiscoveryAuditTests(unittest.TestCase):
         with TemporaryDirectory() as tmp:
             duplicate_path = Path(tmp) / "duplicates.json"
             duplicate_path.write_text(json.dumps([
-                self._exact_witness("BEDC.Target.Gate", "same"),
-                {**self._exact_witness("BEDC.Target.Gate", "same"), "id": "dup"},
+                self._exact_witness("BEDC.Target.Gate", "payload-same", "same"),
+                {**self._exact_witness("BEDC.Target.Gate", "payload-same", "same"), "id": "dup"},
             ]), encoding="utf-8")
             fps = {
-                "BEDC.Target.Gate": ExprFingerprint("target", "type", "value", reduced_fingerprint="same"),
-                "BEDC.Prior.Old": ExprFingerprint("prior", "type", "value", reduced_fingerprint="same"),
+                "BEDC.Target.Gate": ExprFingerprint(
+                    "target", "type", "value", reduced_fingerprint="same",
+                    canonical_reduced_payload="payload-same",
+                ),
+                "BEDC.Prior.Old": ExprFingerprint(
+                    "prior", "type", "value", reduced_fingerprint="same",
+                    canonical_reduced_payload="payload-same",
+                ),
             }
             with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
                 witnesses, diagnostics = load_discovery_gate_witnesses(duplicate_path)
@@ -972,8 +1111,8 @@ class DiscoveryAuditTests(unittest.TestCase):
 
             conflict_path = Path(tmp) / "conflicts.json"
             conflict_path.write_text(json.dumps([
-                self._exact_witness("BEDC.Target.Gate", "same"),
-                {**self._exact_witness("BEDC.Target.Gate", "other"), "id": "conflict"},
+                self._exact_witness("BEDC.Target.Gate", "payload-same", "same"),
+                {**self._exact_witness("BEDC.Target.Gate", "payload-other", "same"), "id": "conflict"},
             ]), encoding="utf-8")
             with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps):
                 witnesses, diagnostics = load_discovery_gate_witnesses(conflict_path)
@@ -992,37 +1131,49 @@ class DiscoveryAuditTests(unittest.TestCase):
             "kernel_grounded": True,
         }
         fps = {
-            "BEDC.Target.Gate": ExprFingerprint("target", "type", "value", reduced_fingerprint="actual-target"),
-            "BEDC.Prior.Old": ExprFingerprint("prior", "type", "value", reduced_fingerprint="actual-prior"),
+            "BEDC.Target.Gate": ExprFingerprint(
+                "target", "type", "value", reduced_fingerprint="actual-target",
+                canonical_reduced_payload="target-payload",
+            ),
+            "BEDC.Prior.Old": ExprFingerprint(
+                "prior", "type", "value", reduced_fingerprint="actual-prior",
+                canonical_reduced_payload="prior-payload",
+            ),
         }
         with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps), \
                 patch.object(discovery_gate_evolver, "_BEDC_CI", sys.modules["bedc_ci"]):
             witness, reason = discovery_gate_evolver.witness_from_record(record)
         self.assertIsNone(witness)
-        self.assertIn("independent structural-DNA grounding", str(reason))
+        self.assertIn("canonical_payload", str(reason))
 
     def test_discovery_gate_evolver_append_rechecks_kernel_grounding(self) -> None:
         import discovery_gate_evolver  # type: ignore[import-not-found]
 
-        witness = self._exact_witness("BEDC.Target.Gate", "same")
+        witness = self._exact_witness("BEDC.Target.Gate", "payload-same", "same")
         with TemporaryDirectory() as tmp:
             path = Path(tmp) / "witnesses.json"
             path.write_text("[]\n", encoding="utf-8")
             fps = {
-                "BEDC.Target.Gate": ExprFingerprint("target", "type", "value", reduced_fingerprint="same"),
-                "BEDC.Prior.Old": ExprFingerprint("prior", "type", "value", reduced_fingerprint="same"),
+                "BEDC.Target.Gate": ExprFingerprint(
+                    "target", "type", "value", reduced_fingerprint="same",
+                    canonical_reduced_payload="payload-same",
+                ),
+                "BEDC.Prior.Old": ExprFingerprint(
+                    "prior", "type", "value", reduced_fingerprint="same",
+                    canonical_reduced_payload="payload-same",
+                ),
             }
             with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps), \
                     patch.object(discovery_gate_evolver, "_BEDC_CI", sys.modules["bedc_ci"]):
                 self.assertTrue(discovery_gate_evolver.append_witness(path, witness))
             loaded = json.loads(path.read_text(encoding="utf-8"))
-        self.assertEqual(loaded[0]["soundness"], "exact_reduced_fp_kernel_reverified")
+        self.assertEqual(loaded[0]["soundness"], "canonical_payload_equal")
         self.assertEqual(loaded[0]["kernel_grounding"]["target_reduced_fp"], "same")
 
     def test_discovery_gate_evolver_vacuous_monotonic_only_escalates(self) -> None:
         import discovery_gate_evolver  # type: ignore[import-not-found]
 
-        witness = self._exact_witness("BEDC.Target.Gate", "same")
+        witness = self._exact_witness("BEDC.Target.Gate", "payload-same", "same")
         payload = {"discovery_assert_gate": {"asserted_count": 0, "failures": []}}
         calls: list[str] = []
         with TemporaryDirectory() as tmp:
@@ -1054,11 +1205,18 @@ class DiscoveryAuditTests(unittest.TestCase):
             "kind": "reconstruction",
             "target": "BEDC.Target.Gate",
             "prior": "BEDC.Prior.Old",
+            "canonical_payload": "payload-same",
             "reduced_fp": "same",
         }
         fps = {
-            "BEDC.Target.Gate": ExprFingerprint("target", "type", "value", reduced_fingerprint="same"),
-            "BEDC.Prior.Old": ExprFingerprint("prior", "type", "value", reduced_fingerprint="same"),
+            "BEDC.Target.Gate": ExprFingerprint(
+                "target", "type", "value", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
+            ),
+            "BEDC.Prior.Old": ExprFingerprint(
+                "prior", "type", "value", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
+            ),
         }
         calls: list[str] = []
         args = argparse.Namespace(worktree="/tmp/bedc-test-prep-failure", base_ref="HEAD", no_push=False)
@@ -1071,6 +1229,108 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertFalse(ok)
         cleanup.assert_not_called()
         self.assertTrue(any("worktree prep failed" in item for item in calls))
+
+    def test_discovery_adversarial_generator_once_load_error_is_nonzero(self) -> None:
+        import discovery_adversarial_generator  # type: ignore[import-not-found]
+
+        with patch.object(discovery_adversarial_generator, "pid_lock", return_value=nullcontext()), \
+                patch.object(
+                    discovery_adversarial_generator,
+                    "bedc_ci_module",
+                    side_effect=RuntimeError("bedc_ci unavailable"),
+                ), \
+                patch.object(discovery_adversarial_generator, "append_log"), \
+                patch.object(sys, "argv", ["discovery_adversarial_generator.py", "--once"]), \
+                redirect_stdout(StringIO()) as stdout:
+            rc = discovery_adversarial_generator.main()
+        self.assertNotEqual(rc, 0)
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(payload["status"], "error")
+        self.assertEqual(payload["error_type"], "RuntimeError")
+
+    def test_discovery_adversarial_generator_skips_output_covered_bucket(self) -> None:
+        import argparse
+        import discovery_adversarial_generator  # type: ignore[import-not-found]
+
+        class FakeCi:
+            def scan_lean_sources(self):
+                return object()
+
+        existing = {
+            "schema": "bedc.discovery_adversarial_generator.proven_pseudo",
+            "target": "BEDC.Target.First",
+            "prior": "BEDC.Prior.Old",
+            "canonical_payload": "payload-same",
+        }
+        with TemporaryDirectory() as tmp:
+            output = Path(tmp) / "proven_pseudos.jsonl"
+            output.write_text(json.dumps(existing) + "\n", encoding="utf-8")
+            args = argparse.Namespace(
+                output=str(output),
+                classifier_cap=20,
+                max_new_per_bucket=1,
+                max_records=10,
+            )
+            with patch.object(discovery_adversarial_generator, "ensure_structural_dna_build", return_value=None), \
+                    patch.object(discovery_adversarial_generator, "bedc_ci_module", return_value=FakeCi()), \
+                    patch.object(discovery_adversarial_generator, "load_registry_keys", return_value=(set(), 0, 100)), \
+                    patch.object(
+                        discovery_adversarial_generator,
+                        "positive_discovery_assertion_target",
+                        return_value=("BEDC.Assert.Gate", ["BEDC.Support.Target"]),
+                    ), \
+                    patch.object(
+                        discovery_adversarial_generator,
+                        "classifier_payload_buckets",
+                        return_value=[{
+                            "canonical_payload": "payload-same",
+                            "names": ["BEDC.Prior.Old", "BEDC.Target.Second"],
+                            "reduced_fps": {
+                                "BEDC.Prior.Old": "same",
+                                "BEDC.Target.Second": "same",
+                            },
+                        }],
+                    ), \
+                    patch.object(discovery_adversarial_generator, "grounded_canonical_refutation") as grounding, \
+                    patch.object(discovery_adversarial_generator, "true_gate_passed") as gate_passed, \
+                    patch.object(discovery_adversarial_generator, "append_log"):
+                result = discovery_adversarial_generator.run_once(args)
+            lines = output.read_text(encoding="utf-8").splitlines()
+        self.assertEqual(result["status"], "no-hit")
+        self.assertEqual(result["emitted"], 0)
+        self.assertEqual(result["skipped_covered"], 1)
+        self.assertEqual(len(lines), 1)
+        grounding.assert_not_called()
+        gate_passed.assert_not_called()
+
+    def test_discovery_gate_evolver_verify_failure_does_not_count_ok(self) -> None:
+        import argparse
+        import discovery_gate_evolver  # type: ignore[import-not-found]
+
+        witness = {
+            "id": "exact",
+            "kind": "reconstruction",
+            "pattern": {
+                "target": "BEDC.Target.Gate",
+                "prior": "BEDC.Prior.Old",
+                "canonical_payload": "payload-same",
+            },
+            "soundness": "canonical_payload_equal",
+        }
+        args = argparse.Namespace(worktree="/tmp/bedc-test-verify-failure", base_ref="HEAD", no_push=True)
+        with patch.object(discovery_gate_evolver, "witness_from_record", return_value=(witness, None)), \
+                patch.object(discovery_gate_evolver, "prepare_worktree"), \
+                patch.object(discovery_gate_evolver, "audit_failures", return_value=(0, set(), {})), \
+                patch.object(discovery_gate_evolver, "registry_bucket_keys", return_value=set()), \
+                patch.object(discovery_gate_evolver, "append_witness", return_value=True), \
+                patch.object(discovery_gate_evolver, "append_regression_test"), \
+                patch.object(discovery_gate_evolver, "verify", side_effect=RuntimeError("verify failed")), \
+                patch.object(discovery_gate_evolver, "commit_and_push") as commit_and_push, \
+                patch.object(discovery_gate_evolver, "append_log"):
+            ok_count, fail_count = discovery_gate_evolver.process_records([{"id": "exact"}], args)
+        self.assertEqual(ok_count, 0)
+        self.assertEqual(fail_count, 1)
+        commit_and_push.assert_not_called()
 
     # BEGIN DISCOVERY GATE EVOLVER REGRESSION TESTS
     # END DISCOVERY GATE EVOLVER REGRESSION TESTS
@@ -1229,8 +1489,14 @@ class DiscoveryAuditTests(unittest.TestCase):
         ]
         scan = LeanSourceScan(decls, [], headers, {}, [])
         fingerprints = {
-            "BEDC.Prior.OldClassifier": ExprFingerprint("old", "type", "same", reduced_fingerprint="same"),
-            "BEDC.Target.NewClassifier": ExprFingerprint("new", "type", "same", reduced_fingerprint="same"),
+            "BEDC.Prior.OldClassifier": ExprFingerprint(
+                "old", "type", "same", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
+            ),
+            "BEDC.Target.NewClassifier": ExprFingerprint(
+                "new", "type", "same", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
+            ),
         }
         with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fingerprints), \
              patch("bedc_ci._run_structural_dna_relations", return_value=([], None)):
@@ -1249,7 +1515,7 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(candidate["state"], "refuted")
         self.assertTrue(candidate["refutation"]["kernel_grounded"])
         self.assertEqual(candidate["provenance"][0]["reduced_fp"], "same")
-        self.assertIn("classifier_corpus_reduced_fingerprint_match", candidate["evidence"])
+        self.assertIn("classifier_corpus_canonical_payload_equal", candidate["evidence"])
 
     def test_discovery_radar_denominators_distinguish_empty_candidate_scan(self) -> None:
         payload = audit_payload(full_radar_scan=True)
@@ -1308,8 +1574,14 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(light["classifier_endpoint_count"], 2)
 
         fingerprints = {
-            "BEDC.Prior.OldClassifier": ExprFingerprint("old", "type", "old", reduced_fingerprint="old"),
-            "BEDC.Target.NewClassifier": ExprFingerprint("new", "type", "new", reduced_fingerprint="new"),
+            "BEDC.Prior.OldClassifier": ExprFingerprint(
+                "old", "type", "old", reduced_fingerprint="old",
+                canonical_reduced_payload="payload-old",
+            ),
+            "BEDC.Target.NewClassifier": ExprFingerprint(
+                "new", "type", "new", reduced_fingerprint="new",
+                canonical_reduced_payload="payload-new",
+            ),
         }
         with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fingerprints), \
              patch("bedc_ci._run_structural_dna_relations", return_value=([], None)) as relations:
@@ -1548,6 +1820,10 @@ class DiscoveryRefutationPublisherTests(unittest.TestCase):
                         "prior": "BEDC.Prior.Old",
                         "candidate_reduced_fp": "same",
                         "reduced_fp": "same",
+                        "canonical_payload": "payload-same",
+                        "candidate_canonical_payload": "payload-same",
+                        "prior_canonical_payload": "payload-same",
+                        "evidence": "canonical_payload_equal",
                     }],
                 },
                 {
@@ -1567,36 +1843,289 @@ class DiscoveryRefutationPublisherTests(unittest.TestCase):
         self.assertEqual(records[0]["candidate"], "BEDC.Target.Sound")
         self.assertEqual(
             records[0]["refuted_because"],
-            "structural reconstruction (reduced_fp twin) of BEDC.Prior.Old",
+            "structural reconstruction (canonical payload equal) of BEDC.Prior.Old",
         )
-        self.assertEqual(records[0]["evidence"], {
-            "reduced_fp": "same",
-            "prior": ["BEDC.Prior.Old"],
-        })
+        self.assertEqual(records[0]["evidence"]["reduced_fp"], "same")
+        self.assertEqual(records[0]["evidence"]["evidence"], "canonical_payload_equal")
+        self.assertEqual(records[0]["evidence"]["prior"], ["BEDC.Prior.Old"])
+        self.assertNotIn("canonical_payload_sha256", records[0]["evidence"])
         self.assertTrue(records[0]["kernel_grounded"])
         self.assertEqual(records[0]["first_seen"], "2026-06-02T00:00:00")
         self.assertNotIn("last_seen", records[0])
+
+    def test_refutation_publisher_dedups_by_candidate_and_prior(self) -> None:
+        payload = {
+            "candidates": [
+                {
+                    "state": "refuted",
+                    "target": "BEDC.Target.Sound",
+                    "refutation": {"kernel_grounded": True},
+                    "provenance": [{
+                        "relation": "reconstruction",
+                        "prior": "BEDC.Prior.Old",
+                        "reduced_fp": f"same-{idx}",
+                        "canonical_payload": f"payload-{idx}",
+                        "candidate_canonical_payload": f"payload-{idx}",
+                        "prior_canonical_payload": f"payload-{idx}",
+                        "evidence": "canonical_payload_equal",
+                    }],
+                }
+                for idx in range(2)
+            ]
+        }
+        records = refutation_records_from_payload(payload, timestamp="2026-06-02T00:00:00")
+        self.assertEqual(len(records), 1)
+        self.assertEqual(records[0]["candidate"], "BEDC.Target.Sound")
+        self.assertEqual(records[0]["evidence"]["prior"], ["BEDC.Prior.Old"])
+        self.assertNotIn("canonical_payload_sha256", records[0]["evidence"])
 
     def test_refutation_publisher_preserves_first_seen_without_last_seen(self) -> None:
         existing = [{
             "candidate": "BEDC.Target.Sound",
             "refuted_because": "old",
-            "evidence": {"reduced_fp": "same", "prior": ["BEDC.Prior.Old"]},
+            "evidence": {"reduced_fp": "old", "evidence": "reduced_fp_only", "prior": ["BEDC.Prior.Old"]},
             "kernel_grounded": True,
             "first_seen": "2026-06-01T00:00:00",
             "last_seen": "2026-06-01T01:00:00",
         }]
         current = [{
             "candidate": "BEDC.Target.Sound",
-            "refuted_because": "structural reconstruction (reduced_fp twin) of BEDC.Prior.Old",
-            "evidence": {"reduced_fp": "same", "prior": ["BEDC.Prior.Old"]},
+            "refuted_because": "structural reconstruction (canonical payload equal) of BEDC.Prior.Old",
+            "evidence": {
+                "reduced_fp": "same",
+                "evidence": "canonical_payload_equal",
+                "prior": ["BEDC.Prior.Old"],
+            },
             "kernel_grounded": True,
             "first_seen": "2026-06-02T00:00:00",
         }]
         records = merge_records(existing, current, timestamp="2026-06-02T00:00:00")
         self.assertEqual(len(records), 1)
         self.assertEqual(records[0]["first_seen"], "2026-06-01T00:00:00")
+        self.assertEqual(records[0]["evidence"]["evidence"], "canonical_payload_equal")
+        self.assertEqual(records[0]["evidence"]["reduced_fp"], "same")
         self.assertNotIn("last_seen", records[0])
+
+    def test_refutation_publisher_replace_semantics_purges_absent_entries(self) -> None:
+        existing = [
+            {
+                "candidate": "BEDC.Target.Sound",
+                "refuted_because": "old",
+                "evidence": {
+                    "reduced_fp": "old",
+                    "evidence": "reduced_fp_only",
+                    "prior": ["BEDC.Prior.Old"],
+                },
+                "kernel_grounded": True,
+                "first_seen": "2026-06-01T00:00:00",
+            },
+            {
+                "candidate": "BEDC.Target.Absent",
+                "refuted_because": "old false positive",
+                "evidence": {
+                    "reduced_fp": "absent",
+                    "evidence": "reduced_fp_only",
+                    "prior": ["BEDC.Prior.Old"],
+                },
+                "kernel_grounded": True,
+                "first_seen": "2026-06-01T00:00:00",
+            },
+        ]
+        current = [{
+            "candidate": "BEDC.Target.Sound",
+            "refuted_because": "structural reconstruction (canonical payload equal) of BEDC.Prior.Old",
+            "evidence": {
+                "reduced_fp": "same",
+                "evidence": "canonical_payload_equal",
+                "prior": ["BEDC.Prior.Old"],
+            },
+            "kernel_grounded": True,
+            "first_seen": "2026-06-02T00:00:00",
+        }]
+        records = merge_records(existing, current, timestamp="2026-06-02T00:00:00")
+        self.assertEqual([record["candidate"] for record in records], ["BEDC.Target.Sound"])
+        self.assertEqual(records[0]["first_seen"], "2026-06-01T00:00:00")
+        self.assertEqual(records[0]["evidence"]["evidence"], "canonical_payload_equal")
+
+    def test_refutation_publisher_content_signature_detects_evidence_change(self) -> None:
+        old = [{
+            "candidate": "BEDC.Target.Sound",
+            "refuted_because": "structural reconstruction (canonical payload equal) of BEDC.Prior.Old",
+            "evidence": {
+                "reduced_fp": "old",
+                "evidence": "reduced_fp_only",
+                "prior": ["BEDC.Prior.Old"],
+            },
+            "kernel_grounded": True,
+            "first_seen": "2026-06-01T00:00:00",
+        }]
+        new = [{
+            **old[0],
+            "evidence": {
+                "reduced_fp": "same",
+                "evidence": "canonical_payload_equal",
+                "prior": ["BEDC.Prior.Old"],
+            },
+        }]
+        self.assertNotEqual(ledger_content_signature(old), ledger_content_signature(new))
+
+    def test_structural_dna_ensure_build_rebuilds_when_source_newer(self) -> None:
+        import structural_dna_build  # type: ignore[import-not-found]
+        from subprocess import CompletedProcess
+
+        calls: list[str] = []
+        with patch.object(structural_dna_build, "structural_dna_source_newer_than_exe", return_value=True), \
+                patch.object(
+                    structural_dna_build,
+                    "run_lake_build",
+                    return_value=CompletedProcess(["lake", "build", "structural_dna"], 0, "", ""),
+                ) as build, \
+                patch.object(
+                    structural_dna_build,
+                    "structural_dna_probe",
+                    return_value=CompletedProcess(
+                        ["structural_dna"],
+                        0,
+                        json.dumps({
+                            "BEDC.StructuralDna.TestTargets.AlphaLamA": {
+                                "canonical_reduced_payload": "payload"
+                            }
+                        }),
+                        "",
+                    ),
+                ):
+            reason = structural_dna_build.ensure_structural_dna_build(append_log=calls.append, label="test")
+        self.assertIsNone(reason)
+        build.assert_called_once()
+
+    def test_structural_dna_ensure_build_retries_empty_canonical_payload(self) -> None:
+        import structural_dna_build  # type: ignore[import-not-found]
+        from subprocess import CompletedProcess
+
+        empty = CompletedProcess(["structural_dna"], 0, json.dumps({
+            "BEDC.StructuralDna.TestTargets.AlphaLamA": {"canonical_reduced_payload": ""}
+        }), "")
+        filled = CompletedProcess(["structural_dna"], 0, json.dumps({
+            "BEDC.StructuralDna.TestTargets.AlphaLamA": {"canonical_reduced_payload": "payload"}
+        }), "")
+        with patch.object(structural_dna_build, "structural_dna_source_newer_than_exe", return_value=False), \
+                patch.object(
+                    structural_dna_build,
+                    "run_lake_build",
+                    return_value=CompletedProcess(["lake", "build", "structural_dna"], 0, "", ""),
+                ) as build, \
+                patch.object(structural_dna_build, "structural_dna_probe", side_effect=[empty, filled]):
+            reason = structural_dna_build.ensure_structural_dna_build(label="test")
+        self.assertIsNone(reason)
+        build.assert_called_once()
+
+    def test_structural_dna_build_lock_serializes_callers(self) -> None:
+        import structural_dna_build  # type: ignore[import-not-found]
+
+        entered: list[str] = []
+        second_attempted = threading.Event()
+        first_can_release = threading.Event()
+        second_entered = threading.Event()
+        errors: list[BaseException] = []
+
+        def first() -> None:
+            try:
+                with structural_dna_build.structural_dna_build_lock(label="first", timeout=5):
+                    entered.append("first")
+                    second_attempted.wait(2)
+                    time.sleep(0.1)
+                    self.assertFalse(second_entered.is_set())
+                    first_can_release.set()
+            except BaseException as exc:
+                errors.append(exc)
+
+        def second() -> None:
+            try:
+                second_attempted.set()
+                with structural_dna_build.structural_dna_build_lock(label="second", timeout=5):
+                    entered.append("second")
+                    second_entered.set()
+            except BaseException as exc:
+                errors.append(exc)
+
+        with TemporaryDirectory() as tmp, \
+                patch.object(structural_dna_build, "STRUCTURAL_DNA_BUILD_LOCK", Path(tmp) / "build.lock"):
+            first_thread = threading.Thread(target=first)
+            second_thread = threading.Thread(target=second)
+            first_thread.start()
+            deadline = time.monotonic() + 2
+            while entered != ["first"] and time.monotonic() < deadline and not errors:
+                time.sleep(0.01)
+            self.assertEqual(entered, ["first"])
+            second_thread.start()
+            self.assertTrue(first_can_release.wait(2))
+            first_thread.join(2)
+            second_thread.join(2)
+            self.assertFalse(first_thread.is_alive())
+            self.assertFalse(second_thread.is_alive())
+            if errors:
+                raise errors[0]
+            self.assertEqual(entered, ["first", "second"])
+
+    def test_discovery_gate_evolver_exact_keys_do_not_collapse_same_bucket(self) -> None:
+        import discovery_gate_evolver  # type: ignore[import-not-found]
+
+        with TemporaryDirectory() as tmp:
+            path = Path(tmp) / "witnesses.json"
+            path.write_text(json.dumps({
+                "schema": "bedc.discovery_gate_witness_registry",
+                "witnesses": [
+                    {
+                        "id": "one",
+                        "kind": "reconstruction",
+                        "pattern": {
+                            "target": "BEDC.Target.One",
+                            "prior": "BEDC.Prior.Old",
+                            "canonical_payload": "payload-same",
+                        },
+                    },
+                    {
+                        "id": "two",
+                        "kind": "reconstruction",
+                        "pattern": {
+                            "target": "BEDC.Target.Two",
+                            "prior": "BEDC.Prior.Old",
+                            "canonical_payload": "payload-same",
+                        },
+                    },
+                ],
+            }), encoding="utf-8")
+            with patch.object(discovery_gate_evolver, "_BEDC_CI", sys.modules["bedc_ci"]):
+                exact_keys, count, cap = discovery_gate_evolver.registry_exact_keys_and_count(path)
+        self.assertEqual(count, 2)
+        self.assertGreater(cap, count)
+        self.assertIn(("BEDC.Target.One", "BEDC.Prior.Old", "payload-same"), exact_keys)
+        self.assertIn(("BEDC.Target.Two", "BEDC.Prior.Old", "payload-same"), exact_keys)
+
+    def test_discovery_gate_evolver_capacity_fails_closed_near_cap(self) -> None:
+        import discovery_gate_evolver  # type: ignore[import-not-found]
+
+        with self.assertRaises(discovery_gate_evolver.FailClosed):
+            discovery_gate_evolver.ensure_registry_capacity(1900, 2000, 1)
+
+    def test_discovery_gate_evolver_daemon_processes_before_sleep(self) -> None:
+        import discovery_gate_evolver  # type: ignore[import-not-found]
+
+        events: list[str] = []
+
+        def fake_sleep(_seconds: float) -> None:
+            events.append("sleep")
+            raise KeyboardInterrupt
+
+        with patch.object(sys, "argv", ["discovery_gate_evolver.py", "--interval", "999"]), \
+                patch.object(discovery_gate_evolver, "pid_lock", return_value=nullcontext()), \
+                patch.object(discovery_gate_evolver, "append_log", side_effect=events.append), \
+                patch.object(discovery_gate_evolver, "run_once", side_effect=lambda _args: events.append("run") or 0), \
+                patch.object(discovery_gate_evolver.time, "sleep", side_effect=fake_sleep):
+            with self.assertRaises(KeyboardInterrupt):
+                discovery_gate_evolver.main()
+        self.assertIn("[gate-evolver] daemon start interval=999s", events)
+        self.assertLess(events.index("run"), events.index("sleep"))
 
 
 if __name__ == "__main__":

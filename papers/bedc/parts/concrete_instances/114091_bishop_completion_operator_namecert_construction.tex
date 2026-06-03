@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\BishopCompletionOperatorUp$}
+\label{ch:concrete-instances-bishop-completion-operator-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive completion, the $\BishopCompletionOperatorUp$ packet names the finite operator route that turns displayed regular rational Cauchy data into a Real-facing completion seal. It sits after the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet records only the operator rows needed by the L10 completion route; it does not quotient Cauchy names, select representatives, use countable choice, or assert that $\RealUp$ is complete.
+
+\begin{definition}[BishopCompletionOperator carrier]
+\label{def:bishop-completion-operator-carrier}
+A $\BishopCompletionOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+O=(S,R,D,E,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row naming the observed Cauchy-name windows.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used for every precision request.
+\item $E$ is the $\RealUp$ seal row reached only after $S,R,D$ have been exposed.
+\item $U$ is the Bishop completion extension and universal-boundary row, recording the finite handoff by which a completion consumer reads the operator output.
+\item $H$ records componentwise $\hsame$ transport for stream windows, regular readbacks, dyadic tolerances, Real seals, extension rows, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $S,R,D$, then through $E$ and $U$.
+\item $P$ is the $\Pkg$ provenance over $\BishopCompletionOperatorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCompletionOperatorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient Cauchy equality, selected representatives, countable choice, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[BishopCompletionOperator NameCert obligations]
+\label{thm:bishop-completion-operator-namecert-obligations}
+For every accepted $\BishopCompletionOperatorUp$ carrier $O=(S,R,D,E,U,H,C,P,N)$, the local $\NameCert_{\BishopCompletionOperatorUp}$ surface consists exactly of carrier admission, stream-window exposure, regular rational readback, dyadic tolerance exposure, ordered $\RealUp$ seal access, Bishop extension and universal-boundary exposure through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. A public completion-operator read must pass through those rows before it may cite the Real-facing seal or the universal-boundary row.
+\end{theorem}
+\begin{proof}
+Project the accepted finite $\BHist$ packet. The visible carrier rows are precisely $S,R,D,E,U,H,C,P,N$, so carrier admission exposes stream windows, regular readback, dyadic tolerance data, the ordered Real seal, and the extension boundary as displayed data.
+
+The operator read is ordered. A precision request first reaches the finite $\StreamNameUp$ windows, then the $\RegSeqRatUp$ readback, then the $\DyadicRatCoreUp$ tolerance row, and only afterward the $\RealUp$ seal and the universal-boundary row $U$.
+
+Transport and replay are structural. The row $H$ moves the listed coordinates componentwise by $\hsame$, while $C$ replays the displayed continuation route and $P,N$ source and name the same packet. Since no quotient Cauchy equality, selected representative, countable-choice schedule, host real equality, or $\RealUp$ completeness coordinate appears in the tuple, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[BishopCompletionOperator Real-seal factorization]
+\label{thm:bishop-completion-operator-real-seal-factorization}
+Every $\BishopCompletionOperatorUp$ consumer that reads the Real-facing output of an accepted carrier $O=(S,R,D,E,U,H,C,P,N)$ factors through the finite route
+$$
+S\longmapsto R\longmapsto D\longmapsto E\longmapsto U\longmapsto H,C,P,N .
+$$
+Thus the operator output reaches $\RealUp$ only through finite stream windows, regular rational readback, dyadic tolerances, the displayed seal row, and the Bishop completion extension boundary. It does not export quotient Cauchy equality, selected representatives, countable choice, host real equality, or any claim that $\RealUp$ is complete.
+\end{theorem}
+\begin{proof}
+Start with a consumer request for the operator output. The carrier definition gives the request access to the finite window row $S$, so the request begins with displayed Cauchy-name observations rather than an external Cauchy quotient.
+
+Next read the regular and dyadic rows. The readback row $R$ and tolerance row $D$ supply the regular rational and precision data used to reach the Real-facing seal $E$.
+
+Finally read the extension boundary $U$ and replay the structural rows $H,C,P,N$. The route is therefore the displayed finite chain from stream windows to the Real seal and universal boundary. Because the packet contains no additional coordinate, the factorization cannot produce quotient Cauchy equality, selected representatives, countable choice, host real equality, or completeness of $\RealUp$.
+\end{proof}
+
+\closureat{BishopCompletionOperatorUp}{seedStr}
+
+\begin{closurestatus}{\BishopCompletionOperatorUp}
+  \constructivestory{A $\BishopCompletionOperatorUp$ packet is generated from StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, a RealUp seal, a Bishop extension and universal-boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-completion-operator-carrier}, \autoref{thm:bishop-completion-operator-namecert-obligations}, and \autoref{thm:bishop-completion-operator-real-seal-factorization} seed the finite non-quotient completion-operator route from stream windows and regular rational readback to the Real-facing seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Cauchy equality, selected representatives, countable choice, host real equality, Lean verification, bridge checking, or any assertion that $\RealUp$ is complete.}
+  \upgradepath{Obligation closure requires checked carrier admission, ordered Real-seal factorization, universal-boundary exposure, transport stability, and non-escape for BEDC.Derived.BishopCompletionOperatorUp.}
+\end{closurestatus}
