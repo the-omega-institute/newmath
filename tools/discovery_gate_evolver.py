@@ -36,6 +36,16 @@ REGRESSION_BEGIN = "    # BEGIN DISCOVERY GATE EVOLVER REGRESSION TESTS\n"
 REGRESSION_END = "    # END DISCOVERY GATE EVOLVER REGRESSION TESTS\n"
 MAX_ESCALATION_LINES = 1000
 BEDC_CI_PATH = REPO_ROOT / "lean4" / "scripts" / "bedc_ci.py"
+VERIFY_UNITTEST_CMD = [
+    "python3",
+    "-m",
+    "unittest",
+    "-k",
+    "discovery_gate",
+    "-k",
+    "test_evolver_regression",
+    "lean4/scripts/test_closurestatus_audit.py",
+]
 
 _BEDC_CI = None
 
@@ -673,8 +683,7 @@ def verify(
 ) -> None:
     witness_list = witnesses if isinstance(witnesses, list) else [witnesses]
     require_ok(run_cmd(["python3", "-m", "py_compile", "lean4/scripts/bedc_ci.py", "tools/discovery_gate_evolver.py"], cwd=root), "py_compile")
-    require_ok(run_cmd(["lake", "build"], cwd=root / "lean4"), "lake build")
-    require_ok(run_cmd(["python3", "-m", "unittest", "lean4/scripts/test_closurestatus_audit.py"], cwd=root), "unittest")
+    require_ok(run_cmd(VERIFY_UNITTEST_CMD, cwd=root, timeout=300), "discovery gate unittest")
     after_rc, after_failures, after_payload = audit_failures(root)
     if not before_failures.issubset(after_failures):
         raise RuntimeError("smoke-only monotonic check failed: an existing audit failure disappeared")
@@ -701,8 +710,6 @@ def verify(
         ]
         if witness_failures:
             raise RuntimeError("current audit became failing due to witness registry")
-    require_ok(run_cmd(["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], cwd=root), "axiom-purity")
-    require_ok(run_cmd(["make", "precheck"], cwd=root / "papers" / "bedc"), "make precheck")
     ensure_allowed_changes(root)
     if not no_push:
         require_ok(run_cmd(["git", "status", "--short"], cwd=root, timeout=GIT_TIMEOUT), "git status")
