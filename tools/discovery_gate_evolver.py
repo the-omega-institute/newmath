@@ -31,12 +31,17 @@ ALLOWED_RELS = {str(REGISTRY_REL), str(TEST_REL)}
 COMMAND_TIMEOUT = 2400
 GIT_TIMEOUT = 300
 DEFAULT_INTERVAL = 21600
+REGISTRY_NEAR_CAP_FRACTION = 0.95
 REGRESSION_BEGIN = "    # BEGIN DISCOVERY GATE EVOLVER REGRESSION TESTS\n"
 REGRESSION_END = "    # END DISCOVERY GATE EVOLVER REGRESSION TESTS\n"
 MAX_ESCALATION_LINES = 1000
 BEDC_CI_PATH = REPO_ROOT / "lean4" / "scripts" / "bedc_ci.py"
 
 _BEDC_CI = None
+
+
+class FailClosed(RuntimeError):
+    pass
 
 
 def bedc_ci_module():
@@ -177,6 +182,38 @@ def registry_bucket_keys(registry_path: Path) -> set[tuple[str, str]]:
         if key[0] and key[1]:
             buckets.add(key)
     return buckets
+
+
+def registry_exact_keys_and_count(registry_path: Path) -> tuple[set[tuple[str, str, str]], int, int]:
+    raw = load_json(registry_path)
+    if isinstance(raw, dict):
+        raw = raw.get("witnesses")
+    if not isinstance(raw, list):
+        raise RuntimeError(f"{registry_path} root is not a list")
+    exact_keys: set[tuple[str, str, str]] = set()
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        pattern = item.get("pattern") if isinstance(item.get("pattern"), dict) else {}
+        key = (
+            str(pattern.get("target") or "").strip(),
+            str(pattern.get("prior") or "").strip(),
+            str(pattern.get("canonical_payload") or "").strip(),
+        )
+        if all(key):
+            exact_keys.add(key)
+    cap = int(getattr(bedc_ci_module(), "DISCOVERY_GATE_WITNESS_MAX_ENTRIES"))
+    return exact_keys, len(raw), cap
+
+
+def ensure_registry_capacity(current_count: int, cap: int, requested: int) -> None:
+    near_cap = int(cap * REGISTRY_NEAR_CAP_FRACTION)
+    if current_count >= near_cap:
+        raise FailClosed(f"discovery gate witness registry near cap: {current_count}/{cap}")
+    if current_count + requested > cap:
+        raise FailClosed(
+            f"discovery gate witness registry would exceed cap: {current_count}+{requested}>{cap}"
+        )
 
 
 def validate_pseudo_record(record: dict[str, Any]) -> tuple[bool, str]:
@@ -623,22 +660,28 @@ def process_records(records: list[dict[str, Any]], args: argparse.Namespace) -> 
         registry_path = worktree / REGISTRY_REL
         test_path = worktree / TEST_REL
         before_rc, before_failures, _before_payload = audit_failures(worktree)
-        covered_buckets = registry_bucket_keys(registry_path)
+        covered_exact_keys, witness_count, witness_cap = registry_exact_keys_and_count(registry_path)
+        ensure_registry_capacity(witness_count, witness_cap, len(witnesses))
         applied_witnesses: list[dict[str, Any]] = []
         for witness in witnesses:
             try:
-                bucket_key = witness_bucket_key(witness)
-                if bucket_key[0] and bucket_key[1] and bucket_key in covered_buckets:
+                pattern = witness.get("pattern") if isinstance(witness.get("pattern"), dict) else {}
+                exact_key = (
+                    str(pattern.get("target") or "").strip(),
+                    str(pattern.get("prior") or "").strip(),
+                    str(pattern.get("canonical_payload") or "").strip(),
+                )
+                if all(exact_key) and exact_key in covered_exact_keys:
                     append_log(
-                        "[heartbeat] witness bucket already covered: "
-                        f"prior={bucket_key[0]} canonical_payload={bucket_key[1]}"
+                        "[heartbeat] exact witness already covered: "
+                        f"target={exact_key[0]} prior={exact_key[1]} canonical_payload={exact_key[2]}"
                     )
                     continue
                 changed = append_witness(registry_path, witness)
                 append_regression_test(test_path, witness)
                 applied_witnesses.append(witness)
-                if bucket_key[0] and bucket_key[1]:
-                    covered_buckets.add(bucket_key)
+                if all(exact_key):
+                    covered_exact_keys.add(exact_key)
                 applied_preverify += 1
                 if not changed:
                     append_log(f"[heartbeat] witness already present: {witness['id']}")
