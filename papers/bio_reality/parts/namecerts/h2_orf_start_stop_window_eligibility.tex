@@ -1,67 +1,53 @@
 \origin{ai}
 
-\subsection{Start--Stop Window Eligibility as an External Interval Test}
-\label{sec:bioreality-orf-start-stop-window-eligibility}
+\subsection{Cross-organism CUN/UUR leucine usage gate}
+\label{subsec:bior-h3-translation-realization-cross-organism-cun-uur-leu-gate}
 
-\paragraph{Claim type.}
-The record $\mathrm{h2.orf.start\_stop.window\_eligibility}$ concerns a narrow layer: whether a finite nucleotide window is eligible under a start/stop-codon enumeration test. The biological object is not a translated protein, not a folded molecule, and not a functional locus. It is a finite external interval record on which a frozen classifier asks whether the observed window has the start/stop pattern required for open-reading-frame eligibility. The verified run $\mathrm{c26a0d6656f7}$ loaded one curated finite nucleotide-window record, used the snapshot dated $2026$-$05$-$25$, and classified all loaded windows by start/stop enumeration:
+\paragraph{Finite object.}
+This packet concerns the leucine synonymous split between the CUN codon block and the UUR codon pair, read organism by organism through codon-usage summaries and matched tRNA-Leu gene-copy annotations. The finite carrier is the residual coordinate whose visible coordinates are $\log(\#CUN/\#UUR)$, the organism label, the tRNA-Leu gene-copy ratio, and an amino-acid-composition control. The admissible biological reading is therefore narrow: the packet tests whether the sign and magnitude of the CUN-over-UUR log ratio vary with the organism-level tRNA-Leu copy spectrum after controlling for amino-acid composition. It is not a direct observation of ribosome motion, peptide production, folding, cellular role, or molecular feasibility.
+
+\paragraph{Code support row.}
+The linked code-table check fixes the finite codon set used by the packet. The verified support set has cardinality $20$ and is exactly
 $$
 \begin{aligned}
-\mathrm{input\_windows} &= 1,\\
-\mathrm{classified} &= 1,\\
-\mathrm{window\_count} &= 1,\\
-\mathrm{external\_window\_dataset\_loaded} &= 1.
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
+& CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-The source statement for this row is a curated finite nucleotide-window manifest for BioReality ORF start/stop enumeration. The records are external annotation inputs to the experiment. They are not produced by the codon-coordinate geometry alone.
+The recorded size is $|M|=20$. This row is a codon-label and finite-support check only. It does not, by itself, say anything about organismal expression, translation, protein geometry, selective function, or a universal biological regularity. Its role in this chapter is to keep the CUN and UUR symbols attached to an explicit finite codon vocabulary before any organism-level statistic is evaluated.
 
-\paragraph{Finite codon background.}
-The lower-level codon packet supplies the finite alphabetic context in which the window enumeration is expressed. The verified set $M$ has cardinality $20$ and is exactly
+\paragraph{Organism rows.}
+The validation run loaded three organism rows: $homo\_sapiens$, $saccharomyces\_cerevisiae$, and $escherichia\_coli\_k12$. For these rows, the recorded CUN-over-UUR log ratios are
 $$
 \begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\\
-&\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\\
-&\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+(1.3514980212896148,\;-0.24869078488829677,\;1.0086640520051702).
 \end{aligned}
 $$
-The compressed motif set $R$ is the following $13$-element subcollection:
+The corresponding signs are
 $$
 \begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
-&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+(+1,\;-1,\;+1),
 \end{aligned}
 $$
-The run reports no missing and no extra elements in this compression check. A separate saturation computation gives
+so the uniform-sign hypothesis is false in the finite table: $sign\_uniform=false$. The yeast row is negative while the human and bacterial rows are positive. This is the first reality contact carried by the packet: the leucine codon split is not represented here as a single direction that survives unchanged across the three organism labels.
+
+\paragraph{Paired tRNA-copy statistic.}
+The same validation run reports a positive association between the CUN/UUR coordinate and the tRNA-Leu copy-number ratio. The ordinary Pearson statistic recorded for the three loaded rows is
 $$
 \begin{aligned}
-\mathrm{Sat}_{f_3}(R)=M\setminus\{\mathrm{ACA},\mathrm{ACG}\},
+r=1.0.
 \end{aligned}
 $$
-so the enumerated saturation contains $18$ codons, and the reported $f_3$ boundary is empty. The quotient-geometry audit records the finite vector $(20,38,26,8,1)$ for $M$, a quotient size $10$, and quotient vector $(10,14,6,1)$. These numbers describe the combinatorial codon geometry available to the classifier, but they do not themselves assert that any genomic interval has been biologically observed.
-
-\paragraph{External interval contact.}
-The stronger contact record $\mathrm{h2.orf\_eligibility.curated\_interval\_contact}$ supplies the independent biological rows needed to test the start/stop-window rule against curated intervals. Its dataset has $168$ rows from NCBI RefSeq GenBank XML CDS intervals for \emph{Escherichia coli} K-12 MG1655 complete genome accession $\mathrm{NC\_000913.3}$, snapshot date $2026$-$05$-$30$. The required input classes are all present: boundary cases, matched non-ORF decoys, and positive curated ORFs. The classifier identifier is $\mathrm{orf\_start\_stop\_window\_eligibility}$, and the audit states that its rules were not modified after the protocol was fixed.
-
-\paragraph{Held-out behavior.}
-The curated-interval contact reports three held-out folds. Each fold contains $24$ positive rows and $24$ matched decoy rows. In all three folds, the positive acceptance rate is $1.0$ and the decoy rejection rate is $1.0$:
+After the amino-acid-composition control named by the packet, the recorded partial statistic is
 $$
 \begin{aligned}
-\mathrm{positive\_n} &= 24, & \mathrm{positive\_accept\_rate} &= 1.0,\\
-\mathrm{decoy\_n} &= 24, & \mathrm{decoy\_reject\_rate} &= 1.0.
+r_{partial}=1.0,\qquad n=3.
 \end{aligned}
 $$
-Across the full curated contact, the positive exact one-sided binomial statistic has $72$ accepted positives out of $72$, with upper-tail value $2.117582368135751\times 10^{-22}$. The matched decoy statistic has $72$ rejected decoys out of $72$, with the same upper-tail value. The predeclared paired comparison likewise records $72$ wins in $72$ pairs, again with upper-tail value $2.117582368135751\times 10^{-22}$. The boundary-case audit contains $24$ boundary cases and promotes none of them:
-$$
-\begin{aligned}
-\mathrm{boundary\_n} &= 24,\\
-\mathrm{boundary\_promoted} &= 0,\\
-\mathrm{boundary\_promoted\_fraction} &= 0.0.
-\end{aligned}
-$$
-Thus the finite contact supports only the statement that, on this curated finite dataset and under the frozen start/stop-window rule, positive annotated intervals and matched decoys are separated exactly in the reported rows.
+Thus the finite result is not merely that the signs differ; it is that, in this three-row table, the controlled CUN/UUR coordinate is perfectly positively ordered with the tRNA-Leu copy-ratio coordinate. Because $n=3$, the statistical content is small and should be treated as a bounded organism-table contact, not as a population-level law. No $p$-value, confidence interval, permutation score, likelihood ratio, or independent replication row is recorded in the finite data supplied here.
 
-\paragraph{Layer discipline.}
-The verified scope is $\mathrm{external\_window\_start\_stop\_enumeration\_only}$ for the one-window run and $\mathrm{external\_orf\_interval\_contact\_only}$ for the curated-interval run. The recorded promotion field is $\mathrm{orf\_eligibility\_only}$. Consequently, the chapter makes no claim that the accepted intervals are translated in vivo, no claim that any protein fold is realized, no claim of physical admissibility, no claim of biological function, no mechanism claim, and no universal biological law. Such stronger assertions would require a different contact supplying the relevant kind of observation. The start/stop enumeration is a finite eligibility test on externally supplied interval records; it is not a route from codon geometry to translation, structure, function, mechanism, or universality.
+\paragraph{What the row establishes.}
+The chapter records a constrained cross-organism translation-layer statistic: in the available three-organism table, the CUN/UUR leucine-usage log ratio changes sign across organisms and has a recorded positive controlled correlation with the tRNA-Leu gene-copy ratio. The contacts used are per-organism codon-usage summaries and organism-level tRNA-Leu gene-copy annotations. These contacts are suitable for testing a codon-usage distribution paired with a tRNA-copy spectrum. They are not suitable for testing folded structure, physical admissibility, biological function, or a global rule about all organisms.
 
-\paragraph{Local conclusion.}
-The packet is therefore ready at the ORF-eligibility layer. The evidence consists of one loaded finite-window enumeration record, a $168$-row curated interval contact, $72/72$ positive acceptances, $72/72$ matched decoy rejections, $24/24$ boundary non-promotions, and three stable held-out folds. The lower codon facts fix the finite alphabetic and quotient-geometric setting: $|M|=20$, $|R|=13$, $|\mathrm{Sat}_{f_3}(R)|=18$, quotient size $10$, and the listed finite vectors. These facts are sufficient for the stated eligibility-layer conclusion and insufficient for any higher biological interpretation without an additional observation source tailored to that higher layer.
+\paragraph{Local boundary.}
+No realized translation event follows from this row unless a separate measurement supplies it. No ribosome-mediated mechanism follows from this row unless ribosome profiling, stAI, or another direct translation-process contact is added. No folded protein structure, physical admissibility, cellular function, or universal cross-organism law follows from the CUN/UUR sign pattern or from the tRNA-Leu copy-ratio association. The sign reversal is recorded as context dependent within the loaded organisms, and the positive controlled statistic is a finite paired-table result. Raw CUN/UUR ratios without the amino-acid-composition control are not treated here as a translation claim.
