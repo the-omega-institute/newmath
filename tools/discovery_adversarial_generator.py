@@ -92,10 +92,23 @@ def pseudo_bucket_key(record: dict[str, Any]) -> tuple[str, str]:
 def load_registry_keys() -> tuple[set[tuple[str, str]], int, int]:
     ci = bedc_ci_module()
     witnesses, diagnostics = ci.load_discovery_gate_witnesses()
-    if diagnostics:
+    # Transient diagnostics (e.g. a structural-DNA payload that came back empty
+    # because the batched pass raced the builder's .lake rebuild) are not sound
+    # staleness verdicts; skip them with a warning instead of failing the whole
+    # generator stage. Only genuinely blocking diagnostics (real payload
+    # mismatch, malformed/oversized registry) abort the stage.
+    transient = [d for d in diagnostics if str(d.get("severity") or "blocking") == "transient"]
+    blocking = [d for d in diagnostics if str(d.get("severity") or "blocking") != "transient"]
+    if transient:
+        sys.stderr.write(
+            "[generator] skipping transient witness diagnostics: "
+            + json.dumps(transient[:5], ensure_ascii=False, sort_keys=True)
+            + "\n"
+        )
+    if blocking:
         raise RuntimeError(
             "discovery gate witness registry diagnostics are blocking for generator: "
-            + json.dumps(diagnostics[:5], ensure_ascii=False, sort_keys=True)
+            + json.dumps(blocking[:5], ensure_ascii=False, sort_keys=True)
         )
     keys: set[tuple[str, str]] = set()
     for witness in witnesses:
