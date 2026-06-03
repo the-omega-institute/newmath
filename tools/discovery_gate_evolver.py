@@ -739,12 +739,14 @@ def main() -> int:
     with pid_lock():
         if args.once:
             return run_once(args)
+        interval = max(1, int(args.interval))
+        append_log(f"[gate-evolver] daemon start interval={interval}s")
         while True:
             try:
                 run_once(args)
             except Exception as exc:
                 append_log(f"[escalate] cycle failed: {type(exc).__name__}: {exc}")
-            time.sleep(max(1, int(args.interval)))
+            time.sleep(interval)
 
 
 if __name__ == "__main__":
