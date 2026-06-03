@@ -143,6 +143,46 @@ Use the NameCert obligations of \autoref{thm:fast-cauchy-subsequence-namecert-ob
 The row $Q$ is finite carrier data: it records a displayed monotone-cofinal ledger of windows rather than a host selector. Componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve that finite witness as the only available cofinal-window row.
 \end{proof}
 
+\begin{theorem}[FastCauchySubsequence window nonescape]
+\label{thm:fast-cauchy-subsequence-window-nonescape}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, every selected window used by the packet is read first through the source row $S$, inspected $\CauchyModulusUp$ row $M$, and cofinal selector row $Q$ before the fast-rate row $F$, regular-subsequence handoff $R$, regular rational readback $W$, and terminal seal $E$ are available. The support rows $H,C,P,N$ transport, replay, source, and name that same finite-window route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fast-cauchy-subsequence-carrier}. Its selected-window data begins at $S,M,Q$, while $F,R,W,E$ are downstream consumer rows.
+
+Use the NameCert obligations of \autoref{thm:fast-cauchy-subsequence-namecert-obligations}. They require modulus coverage before selection and selector admission before fast-rate readback, so no selected window can be consumed outside the displayed $S,M,Q$ front.
+
+Finally apply the regular route theorem, \autoref{thm:fast-cauchy-subsequence-regular-route}. The rows $F,R,W,E$ read the same inspected windows in order, and $H,C,P,N$ preserve the route without adding an independent selector, selected limit, or choice functional.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence cofinal RegSeqRat coverage]
+\label{thm:fast-cauchy-subsequence-cofinal-regseqrat-coverage}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, each cofinal selected window that reaches $\RegSeqRatUp$ reaches it only through the fast-rate row $F$, regular-subsequence handoff $R$, and regular rational readback row $W$. The route keeps the source and modulus rows $S,M,Q$ visible and uses $H,C,P,N$ only as structural support.
+\end{theorem}
+\begin{proof}
+Begin with the cofinal finite-window theorem above. It gives each precision request a finite window in $Q$ already covered by inspected data in $M$ and source access in $S$.
+
+Use the regular route theorem. It places every $\RegSeqRatUp$ readback behind $F,R,W$, so a cofinal selected window cannot jump from $Q$ directly to a rational sequence or a terminal seal.
+
+The NameCert obligations close the coverage claim. They force fast-rate exactness before the regular-subsequence handoff and the regular rational readback before any Real-facing row, while $H,C,P,N$ transport and name the same finite route.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence modulus regular handoff]
+\label{thm:fast-cauchy-subsequence-modulus-regular-handoff}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the inspected modulus row $M$ and regular-subsequence handoff $R$ form one route to the $\RealUp$ seal:
+$$
+S,\quad M,\quad Q,\quad F,\quad R,\quad W,\quad E,\quad H,\quad C,\quad P,\quad N .
+$$
+Thus the modulus witness, cofinal selector, fast-rate evidence, regular-subsequence handoff, and $\RegSeqRatUp$ readback are consumed as one finite package before the terminal seal is visible.
+\end{theorem}
+\begin{proof}
+Project $A$ and read the displayed carrier order. The modulus row $M$ is not separate from the selector row $Q$ or the handoff row $R$; it is the inspected source of the selected windows later consumed by $F,R,W$.
+
+Apply \autoref{thm:fast-cauchy-subsequence-namecert-obligations} and \autoref{thm:fast-cauchy-subsequence-regular-route}. Together they order modulus coverage, selector admission, fast-rate exactness, regular-subsequence handoff, regular rational readback, and terminal Real sealing along one route.
+
+Finally use the existing source and structural support rows $S,H,C,P,N$. They preserve the same route under source access, componentwise transport, displayed replay, provenance, and local naming, so the handoff cannot be split into an external subsequence, quotient stream, selected limit, or countable-choice datum.
+\end{proof}
+
 \begin{theorem}[FastCauchySubsequence regular readback]
 \label{thm:fast-cauchy-subsequence-regular-readback}
 Every $\RegSeqRatUp$ readback from an accepted $\FastCauchySubsequenceUp$ carrier factors through the selection surface

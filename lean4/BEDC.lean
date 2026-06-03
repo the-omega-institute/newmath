@@ -5402,6 +5402,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.RootUnblockConsumerReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RouteExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.RouteLedgerTotality
 import BEDC.Derived.MetaCICCriticalPathUp.RouteReplay
+import BEDC.Derived.MetaCICCriticalPathUp.RouteReplayCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.SNConfluenceDecidabilityBudget
 import BEDC.Derived.MetaCICCriticalPathUp.SNConfluenceDecidabilityHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.SNDischargeFrontier
