@@ -7468,6 +7468,7 @@ import BEDC.Derived.SelectionFreeCauchyRealUp.TasteGate
 import BEDC.Derived.SelectorLedgerUp
 import BEDC.Derived.SelfReferenceTruthBranchUp.TasteGate
 import BEDC.Derived.SelfTheoryReflectionLoopUp.TasteGate
+import BEDC.Derived.SemidecidableOpenUp
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.SemiringUp
