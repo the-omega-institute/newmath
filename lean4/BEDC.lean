@@ -653,6 +653,8 @@ import BEDC.Derived.BaireCategoryUp.TasteGate
 import BEDC.Derived.BaireMetricUp
 import BEDC.Derived.BaireMetricUp.CompleteMetricNonescape
 import BEDC.Derived.BaireMetricUp.FirstDisagreementDyadicRadiusExactness
+import BEDC.Derived.BaireMetricUp.ObligationCompleteMetricConsumer
+import BEDC.Derived.BaireMetricUp.ParentMetricSpaceHandoff
 import BEDC.Derived.BaireMetricUp.PrefixRadiusMonotonicity
 import BEDC.Derived.BaireMetricUp.PrefixWindowAdmission
 import BEDC.Derived.BaireMetricUp.RootPrefixSchedule
@@ -1670,6 +1672,7 @@ import BEDC.Derived.CauchyOscillationUp.SharedDyadicWindowScope
 import BEDC.Derived.CauchyOscillationUp.TailModulusComparisonObligation
 import BEDC.Derived.CauchyOscillationUp.TailTolerancePackage
 import BEDC.Derived.CauchyOscillationUp.TailWindowCofinality
+import BEDC.Derived.CauchyOscillationUp.UniformCauchyConsumerObligation
 import BEDC.Derived.CauchyOscillationUp.UniformCriterionConsumer
 import BEDC.Derived.CauchyOscillationUp.UniformCriterionHandoff
 import BEDC.Derived.CauchyPairingUp
@@ -2372,6 +2375,7 @@ import BEDC.Derived.CompactDiniModulusUp
 import BEDC.Derived.CompactIntervalFixedPointUp.TasteGate
 import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
+import BEDC.Derived.CompactMetricClosedBallUp.TasteGate
 import BEDC.Derived.CompactMetricCompletionUp.TasteGate
 import BEDC.Derived.CompactMetricContinuousImageUp.TasteGate
 import BEDC.Derived.CompactMetricLocatedNetSelectionUp
@@ -7075,6 +7079,7 @@ import BEDC.Derived.RegularCauchyDifferenceUp
 import BEDC.Derived.RegularCauchyDistanceUp.TasteGate
 import BEDC.Derived.RegularCauchyDivisionUp.TasteGate
 import BEDC.Derived.RegularCauchyEnclosureFilterUp.TasteGate
+import BEDC.Derived.RegularCauchyEqualityCriterionUp
 import BEDC.Derived.RegularCauchyEquivalenceUp.RefinementTransport
 import BEDC.Derived.RegularCauchyEquivalenceUp.TasteGate
 import BEDC.Derived.RegularCauchyExtensionalityUp.TasteGate
@@ -7165,6 +7170,7 @@ import BEDC.Derived.RegularCauchyNegationUp
 import BEDC.Derived.RegularCauchyNonexpansiveMapUp.TasteGate
 import BEDC.Derived.RegularCauchyOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
+import BEDC.Derived.RegularCauchyProductCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyProductProjectionUp
 import BEDC.Derived.RegularCauchyProductProjectionUp.TasteGate
 import BEDC.Derived.RegularCauchyProductUp
