@@ -67,6 +67,8 @@ _FLAT_BASIS_KEYS = (
     "quality_q_ci95_low",
     "paired_ci_status",
     "audit_improvement_tradeoff",
+    "failed_gate",
+    "hardgate_status",
     "blockers",
     "ledger_row_event",
     "scorecard_ready",

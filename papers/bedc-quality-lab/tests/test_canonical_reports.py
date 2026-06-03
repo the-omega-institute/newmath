@@ -71,9 +71,14 @@ def _payload_for_spec(spec):
                 "training_audit_improvement_tradeoff": spec.name == "certificate-guided-discovery",
             },
             "paired_seed_protocol": {"status": "fixture"},
+            "arm_protocol": {"status": "fixture"},
+            "arm_summaries": {"status": "fixture"},
             "main_claim_status": "fixture status",
             "final_main_claim_status": "fixture status",
             "hardgate": {"status": "pass"},
+            "failed_gate": None,
+            "verdict": "accepted",
+            "discovery_level": "D0",
             "readiness": {"status": "D4-at-threshold"},
             "threshold_curve": [
                 {
@@ -233,6 +238,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "certificate-guided-discovery",
         "spectral-ablation-hinge",
     ]
+    assert "certificate-guided-arms" not in names
     assert len(json_artifacts) == len(set(json_artifacts))
     assert len(markdown_artifacts) == len(set(markdown_artifacts))
     for spec in canonical.CANONICAL_REPORTS:
@@ -376,7 +382,13 @@ def test_canonical_reports_manifest_includes_certificate_guided_projection():
     assert {
         "paired_seed_protocol",
         "paired_delta_ci",
+        "arm_protocol",
+        "arm_summaries",
         "claim_gate",
+        "hardgate",
+        "failed_gate",
+        "verdict",
+        "discovery_level",
         "not_claimed",
     }.issubset(set(training.required_json_keys))
     assert training.bundle_role == "hg_p_core"
@@ -385,6 +397,10 @@ def test_canonical_reports_manifest_includes_certificate_guided_projection():
         "net_information",
         "matched_random_baseline",
         "claim_gate",
+        "hardgate",
+        "failed_gate",
+        "verdict",
+        "discovery_level",
         "revocation_decision",
         "revocation_ledger",
         "not_claimed",
@@ -416,7 +432,7 @@ def test_manifest_required_keys_cover_linked_control_evidence():
     assert {"claim_gate", "negative_result_ledger", "main_claim_status"}.issubset(
         set(canonical._specs_by_name()["nongaussian-distribution-sweep"].required_json_keys)
     )
-    assert {"positive_discovery", "net_information", "matched_random_baseline", "claim_gate", "revocation_decision", "revocation_ledger", "not_claimed", "main_claim_status"}.issubset(
+    assert {"positive_discovery", "net_information", "matched_random_baseline", "claim_gate", "hardgate", "failed_gate", "verdict", "discovery_level", "revocation_decision", "revocation_ledger", "not_claimed", "main_claim_status"}.issubset(
         set(canonical._specs_by_name()["certificate-guided-discovery"].required_json_keys)
     )
 
@@ -1168,9 +1184,13 @@ def test_run_reports_certificate_guided_discovery_uses_canonical_training_source
                 "verdicts": [{"verdict": "positive"}],
                 "positive_discovery": True,
                 "net_information": 1.25,
-                "matched_random_baseline": {"verdict": "negative"},
-                "claim_gate": {"positive_discovery_four_gate": True},
-                "revocation_decision": {"downgraded": False},
+                    "matched_random_baseline": {"verdict": "negative"},
+                    "claim_gate": {"positive_discovery_four_gate": True},
+                    "hardgate": {"status": "pass"},
+                    "failed_gate": None,
+                    "verdict": "positive-discovery",
+                    "discovery_level": "D4",
+                    "revocation_decision": {"downgraded": False},
                 "revocation_ledger": [],
                 "not_claimed": ["fixture boundary"],
                 "main_claim_status": "positive",

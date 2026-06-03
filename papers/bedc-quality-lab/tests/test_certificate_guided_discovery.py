@@ -4,6 +4,7 @@ import pytest
 from bedc_quality_lab.classifier_shift import classifier_surface_delta, shift_information, structural_discovery
 from bedc_quality_lab.claim_projection import METRIC_NAMES, _project_pair
 from bedc_quality_lab.discovery import net_information, positive_discovery
+from bedc_quality_lab.research_discovery import assign_discovery_level
 from scripts import run_certificate_guided_discovery as runner
 from scripts import run_certificate_guided_training as training_runner
 
@@ -117,7 +118,8 @@ def test_certificate_guided_result_is_negative_when_net_is_negative_and_baseline
     assert "training-positive-quality-gate-false" in report["claim_gate"]["blockers"]
     assert report["not_claimed"]
     _assert_row_matches_predicates(payload, row)
-    assert (baseline["before_role"], baseline["after_role"], baseline["after_candidate_id"]) == (runner.BEFORE_ROLE, runner.CONTROL_ROLE, "torch-request-control")
+    assert (baseline["before_role"], baseline["after_role"], baseline["after_candidate_id"]) == (runner.BEFORE_ROLE, runner.CONTROL_ROLE, "matched-random-debt-control")
+    assert baseline["positive_discovery"] is False
     _assert_row_matches_predicates(payload, baseline)
 
 def test_nonpositive_net_information_forces_non_positive_discovery_on_classifier_surface():
@@ -220,6 +222,25 @@ def test_tradeoff_training_payload_keeps_discovery_main_claim_non_positive():
     assert report["main_claim_status"] != "positive"
     assert report["claim_gate"]["positive_discovery_four_gate"] is False
     assert "training-positive-quality-gate-false" in report["claim_gate"]["blockers"]
+
+def test_five_arm_payload_projects_main_control_pair_and_demotes_tradeoff_to_dn():
+    payload = copy.deepcopy(_payload())
+    report = runner._verdict_payload(payload)
+    row = report["verdicts"][0]
+    control = report["matched_random_baseline"]
+
+    assert row["before_role"] == "before"
+    assert row["after_role"] == "after"
+    assert row["after_candidate_id"] == "certificate-guided-sample-support"
+    assert control["before_role"] == "before"
+    assert control["after_role"] == "control"
+    assert control["after_candidate_id"] == "matched-random-debt-control"
+    assert control["positive_discovery"] is False
+    assert report["hardgate"]["failed_gate"] == "audit-improvement-tradeoff"
+    assert report["failed_gate"] == "audit-improvement-tradeoff"
+    assert report["verdict"] == "demoted"
+    assert report["discovery_level"] == "DN"
+    assert assign_discovery_level(report).discovery_level == "DN"
 
 def test_positive_status_requires_classifier_predicate_net_and_training_gate():
     payload = copy.deepcopy(_payload())

@@ -20,6 +20,8 @@ from bedc_quality_lab.claim_projection import (
     require_certificate_guided_projection_source,
 )
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.rejection import reject_certified_claim
+from bedc_quality_lab.research_discovery import assign_discovery_level
 from bedc_quality_lab.revocation import reevaluate_certified_claim
 
 SOURCE_JSON_ARTIFACT = "reports/certificate_guided_training.json"
@@ -53,6 +55,35 @@ def _load_payload(path: Path | None = None) -> dict[str, Any]:
     require_certificate_guided_projection_source(payload)
     return payload
 
+def _failed_gate(payload: dict[str, Any]) -> str | None:
+    value = payload.get("failed_gate")
+    if isinstance(value, str):
+        return value
+    hardgate = payload.get("hardgate")
+    if isinstance(hardgate, dict) and isinstance(hardgate.get("failed_gate"), str):
+        return hardgate["failed_gate"]
+    return None
+
+def _terminal_verdict(
+    *,
+    failed_gate: str | None,
+    main_claim_status: str,
+    main: dict[str, Any],
+    rejection_decision: dict[str, Any],
+    revocation_decision: dict[str, Any],
+) -> str:
+    if failed_gate == "audit-improvement-tradeoff":
+        return "demoted"
+    if revocation_decision["downgraded"] or rejection_decision["rejected"]:
+        return "rejected"
+    if (
+        main_claim_status == "positive"
+        and main["positive_discovery"] is True
+        and float(main["net_information"]) > 0.0
+    ):
+        return "positive-discovery"
+    return "accepted"
+
 def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
     projection = project_certificate_guided_claim(payload)
     main = projection.main_verdict
@@ -73,8 +104,22 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
         payload,
         timestamp_iso=generated_at,
     )
+    rejection_decision = reject_certified_claim(
+        payload.get("certified_claim"),
+        payload,
+        timestamp_iso=generated_at,
+    )
     final_main_claim_status = (
         revocation_decision["new_status"] if revocation_decision["downgraded"] else main_claim_status
+    )
+    failed_gate = _failed_gate(payload)
+    hardgate = payload.get("hardgate", {})
+    terminal_verdict = _terminal_verdict(
+        failed_gate=failed_gate,
+        main_claim_status=final_main_claim_status,
+        main=main,
+        rejection_decision=rejection_decision,
+        revocation_decision=revocation_decision,
     )
     report = {
         "artifact": JSON_ARTIFACT,
@@ -94,8 +139,12 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
         "net_information": main["net_information"],
         "main_claim_status": final_main_claim_status,
         "claim_gate": fresh_projection["claim_gate"],
+        "hardgate": hardgate,
+        "failed_gate": failed_gate,
+        "verdict": terminal_verdict,
         "audit_decision": audit_decision,
         "audit_ledger": [audit_decision["audit_row"]],
+        "rejection_decision": rejection_decision,
         "revocation_decision": revocation_decision,
         "revocation_ledger": [revocation_decision["ledger_row"]] if revocation_decision["downgraded"] else [],
         "matched_random_baseline": control,
@@ -108,6 +157,7 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
             "not_claimed": ["formal-bedc-closure", "global optimizer behavior", "new predicate formula"],
         },
     }
+    report["discovery_level"] = assign_discovery_level(report).discovery_level
     overclaim_basis = _overclaim_basis(report)
     audit_decision["overclaim_basis"] = overclaim_basis
     audit_decision["overclaim_rate"] = (
@@ -133,6 +183,10 @@ def _write_payload(payload: dict[str, Any]) -> None:
         f"- Source JSON artifact: `{payload['source_artifacts']['source_json_artifact']}`",
         f"- Projection script: `{payload['projection_script']}`",
         f"- Main claim status: `{payload['main_claim_status']}`",
+        f"- Terminal verdict: `{payload['verdict']}`",
+        f"- Discovery level: `{payload['discovery_level']}`",
+        f"- Hardgate status: `{payload['hardgate'].get('status')}`",
+        f"- Failed gate: `{payload['failed_gate'] or 'none'}`",
         f"- Four-gate positive: `{str(bool(payload['claim_gate']['positive_discovery_four_gate'])).lower()}`",
         f"- Training quality gate: `{str(bool(payload['claim_gate']['training_positive_quality_improvement'])).lower()}`",
         f"- Gate blockers: `{', '.join(payload['claim_gate']['blockers']) or 'none'}`",
@@ -160,7 +214,7 @@ def main() -> None:
     _write_payload(payload)
     print(f"wrote {JSON_ARTIFACT}")
     print(f"wrote {REPORT_ARTIFACT}")
-    print(f"verdict {payload['verdicts'][0]['verdict']}")
+    print(f"verdict {payload['verdict']}")
 
 if __name__ == "__main__":
     main()

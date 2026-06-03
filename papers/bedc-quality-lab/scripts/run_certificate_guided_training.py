@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 import json
 import math
@@ -34,11 +34,78 @@ from scripts.run_gaussian_ou_lejepa import run_experiment
 
 JSON_ARTIFACT = "reports/certificate_guided_training.json"
 REPORT_ARTIFACT = "reports/certificate_guided_training.md"
-SEEDS = (18, 25, 36)
+SEEDS = (18, 25, 36, 44, 57, 63, 72, 89)
 RHO = 0.82
 SAMPLE_COUNT = 160
 GUIDED_SAMPLE_COUNT = 1792
 WEIGHTS = CertificateGuidedWeights(lambda_s=0.25, lambda_m=0.50, lambda_l=0.75, lambda_c=1.00)
+
+
+@dataclass(frozen=True)
+class CertificateGuidedArmSpec:
+    arm: str
+    compat_role: str
+    candidate_id: str
+    sample_count: int
+    use_torch: bool
+    gap_metric_arm: str
+    intervention: str
+    comparison_role: str
+
+
+ARM_SPECS = (
+    CertificateGuidedArmSpec(
+        arm="baseline",
+        compat_role="before",
+        candidate_id="deterministic-baseline",
+        sample_count=SAMPLE_COUNT,
+        use_torch=False,
+        gap_metric_arm="vanilla",
+        intervention="none",
+        comparison_role="reference",
+    ),
+    CertificateGuidedArmSpec(
+        arm="debt_only",
+        compat_role="debt_only",
+        candidate_id="certificate-guided-debt-support",
+        sample_count=GUIDED_SAMPLE_COUNT,
+        use_torch=False,
+        gap_metric_arm="gap_head",
+        intervention="debt rows only",
+        comparison_role="candidate",
+    ),
+    CertificateGuidedArmSpec(
+        arm="benefit_only",
+        compat_role="benefit_only",
+        candidate_id="certificate-guided-benefit-support",
+        sample_count=SAMPLE_COUNT,
+        use_torch=False,
+        gap_metric_arm="vanilla",
+        intervention="benefit surface only",
+        comparison_role="candidate",
+    ),
+    CertificateGuidedArmSpec(
+        arm="debt_plus_benefit",
+        compat_role="after",
+        candidate_id="certificate-guided-sample-support",
+        sample_count=GUIDED_SAMPLE_COUNT,
+        use_torch=False,
+        gap_metric_arm="gap_head",
+        intervention="debt rows plus benefit surface",
+        comparison_role="main",
+    ),
+    CertificateGuidedArmSpec(
+        arm="matched_random_debt",
+        compat_role="control",
+        candidate_id="matched-random-debt-control",
+        sample_count=SAMPLE_COUNT,
+        use_torch=True,
+        gap_metric_arm="vanilla",
+        intervention="matched random debt",
+        comparison_role="control",
+    ),
+)
+ARM_SPECS_BY_ROLE = {spec.compat_role: spec for spec in ARM_SPECS}
 
 
 def _format_float(value: float) -> str:
@@ -110,10 +177,6 @@ def _gap_metrics(seed: int) -> dict[str, Any]:
     }
 
 
-def _arm_gap_metrics(gap_metrics: dict[str, Any], *, use_gap_head: bool) -> dict[str, Any]:
-    return gap_metrics["gap_head" if use_gap_head else "vanilla"]
-
-
 def _execution_boundary(*, use_torch: bool, classifier_name: str) -> dict[str, Any]:
     torch_arm = bool(use_torch and classifier_name.startswith("tiny-mlp"))
     deterministic_fallback = not torch_arm
@@ -127,22 +190,18 @@ def _execution_boundary(*, use_torch: bool, classifier_name: str) -> dict[str, A
 
 def _record(
     *,
-    role: str,
-    candidate_id: str,
-    use_torch: bool,
-    sample_count: int,
+    spec: CertificateGuidedArmSpec,
     seed: int,
     protocol: CostProtocol,
     weights: CertificateGuidedWeights,
     gap_metrics: dict[str, Any],
-    use_gap_head_metrics: bool,
 ) -> dict[str, Any]:
     envelope = run_experiment(
-        use_torch=use_torch,
-        sample_count=sample_count,
+        use_torch=spec.use_torch,
+        sample_count=spec.sample_count,
         seed=seed,
         rho=RHO,
-        run_id=f"certificate-guided-{role}-{candidate_id}-seed-{seed}",
+        run_id=f"certificate-guided-{spec.arm}-{spec.candidate_id}-seed-{seed}",
         envelope_artifact=JSON_ARTIFACT,
         report_artifact=REPORT_ARTIFACT,
     )
@@ -154,7 +213,7 @@ def _record(
         protocol=protocol,
     )
     rows = _debt_rows(assessment, protocol)
-    arm_metrics = _arm_gap_metrics(gap_metrics, use_gap_head=use_gap_head_metrics)
+    arm_metrics = gap_metrics[spec.gap_metric_arm]
     task = _task_loss(envelope.metrics)
     stability = stability_loss(
         max(
@@ -169,7 +228,7 @@ def _record(
         float(arm_metrics["critical_unlogged_error_rate"]),
     )
     execution = _execution_boundary(
-        use_torch=use_torch,
+        use_torch=spec.use_torch,
         classifier_name=str(envelope.classifier_spec.get("name", "")),
     )
     breakdown = CertificateGuidedLossBreakdown(
@@ -183,12 +242,16 @@ def _record(
     loss = total_loss(task, breakdown, weights)
     metrics = {name: float(value) for name, value in envelope.metrics.items()}
     return {
-        "role": role,
-        "candidate_id": candidate_id,
+        "arm": spec.arm,
+        "role": spec.compat_role,
+        "compat_role": spec.compat_role,
+        "candidate_id": spec.candidate_id,
         "seed": int(seed),
         "run_id": envelope.run_id,
         "cost_protocol_name": protocol.name,
         "split_fingerprint": _split_fingerprint(envelope),
+        "intervention": spec.intervention,
+        "comparison_role": spec.comparison_role,
         "execution": execution,
         "performance": {
             "task_loss": task,
@@ -257,6 +320,12 @@ def _paired_delta_ci(records: list[dict[str, Any]]) -> dict[str, Any]:
         "control_minus_before": {
             "quality_q_delta": paired_delta_stats(records, "quality_q", "before", "control"),
         },
+        "debt_plus_benefit_minus_baseline": {
+            "quality_q_delta": paired_delta_stats(records, "quality_q", "before", "after"),
+        },
+        "matched_random_debt_minus_baseline": {
+            "quality_q_delta": paired_delta_stats(records, "quality_q", "before", "control"),
+        },
     }
 
 
@@ -275,6 +344,60 @@ def _has_before_after_control(records: list[dict[str, Any]]) -> bool:
     by_role = _records_by_role(records)
     seeds = {int(record["seed"]) for record in records}
     return all(len(by_role.get(role, [])) == len(seeds) for role in ("before", "after", "control"))
+
+
+def _arm_protocol() -> dict[str, Any]:
+    return {
+        "arms": [
+            {
+                "arm": spec.arm,
+                "compat_role": spec.compat_role,
+                "candidate_id": spec.candidate_id,
+                "sample_count": spec.sample_count,
+                "use_torch": spec.use_torch,
+                "gap_metric_arm": spec.gap_metric_arm,
+                "intervention": spec.intervention,
+                "comparison_role": spec.comparison_role,
+            }
+            for spec in ARM_SPECS
+        ],
+        "compat_roles": {
+            "before": "baseline",
+            "after": "debt_plus_benefit",
+            "control": "matched_random_debt",
+        },
+        "main_pair": ["baseline", "debt_plus_benefit"],
+        "control_pair": ["baseline", "matched_random_debt"],
+        "control_arm": "matched_random_debt",
+        "control_rationale": "matched random debt is a control arm and does not supply a real quality signal",
+    }
+
+
+def _arm_summaries(records: list[dict[str, Any]]) -> dict[str, Any]:
+    baseline_role = ARM_SPECS_BY_ROLE["before"].compat_role
+    summaries: dict[str, Any] = {}
+    for spec in ARM_SPECS:
+        role_records = [record for record in records if record.get("arm") == spec.arm]
+        summary = {
+            "arm": spec.arm,
+            "compat_role": spec.compat_role,
+            "candidate_id": spec.candidate_id,
+            "sample_count": spec.sample_count,
+            "use_torch": spec.use_torch,
+            "gap_metric_arm": spec.gap_metric_arm,
+            "comparison_role": spec.comparison_role,
+            "record_count": len(role_records),
+            "mean_quality_q": float(math.fsum(float(record["quality_q"]) for record in role_records) / len(role_records)),
+            "mean_quality_debt": float(math.fsum(float(record["quality_debt"]) for record in role_records) / len(role_records)),
+            "mean_quality_benefit": float(math.fsum(float(record["quality_benefit"]) for record in role_records) / len(role_records)),
+        }
+        if spec.compat_role != baseline_role:
+            summary["delta_vs_baseline"] = _mean_delta(records, spec.compat_role, baseline_role)
+            summary["paired_ci_vs_baseline"] = {
+                "quality_q_delta": paired_delta_stats(records, "quality_q", baseline_role, spec.compat_role)
+            }
+        summaries[spec.arm] = summary
+    return summaries
 
 
 def _not_claimed(records: list[dict[str, Any]], paired_ci: dict[str, Any]) -> list[str]:
@@ -329,6 +452,28 @@ def _claim_gate(records: list[dict[str, Any]], paired_ci: dict[str, Any]) -> dic
     }
 
 
+def _hardgate(records: list[dict[str, Any]], paired_ci: dict[str, Any], claim_gate: dict[str, Any]) -> dict[str, Any]:
+    guided = _mean_delta(records, "after", "before")
+    tradeoff = guided["debt_delta"] < 0.0 and guided["benefit_delta"] < 0.0
+    status = "positive" if claim_gate["positive_quality_improvement"] else "non-positive"
+    failed_gate = "audit-improvement-tradeoff" if tradeoff else None
+    return {
+        "status": status,
+        "positive": status == "positive",
+        "failed_gate": failed_gate,
+        "basis": {
+            "main_arm": "debt_plus_benefit",
+            "baseline_arm": "baseline",
+            "debt_delta": guided["debt_delta"],
+            "benefit_delta": guided["benefit_delta"],
+            "quality_q_ci95_low": claim_gate["quality_q_ci95_low"],
+            "paired_ci_status": claim_gate["paired_ci_status"],
+            "audit_improvement_tradeoff": tradeoff,
+        },
+        "blockers": list(claim_gate["blockers"]),
+    }
+
+
 def _result(records: list[dict[str, Any]]) -> dict[str, Any]:
     guided_delta = _mean_delta(records, "after", "before")
     negative = (
@@ -358,47 +503,22 @@ def _payload() -> dict[str, Any]:
     records: list[dict[str, Any]] = []
     for seed in SEEDS:
         gaps = _gap_metrics(seed)
-        records.append(
-            _record(
-                role="before",
-                candidate_id="deterministic-baseline",
-                use_torch=False,
-                sample_count=SAMPLE_COUNT,
-                seed=seed,
-                protocol=protocol,
-                weights=WEIGHTS,
-                gap_metrics=gaps,
-                use_gap_head_metrics=False,
+        for spec in ARM_SPECS:
+            records.append(
+                _record(
+                    spec=spec,
+                    seed=seed,
+                    protocol=protocol,
+                    weights=WEIGHTS,
+                    gap_metrics=gaps,
+                )
             )
-        )
-        records.append(
-            _record(
-                role="after",
-                candidate_id="certificate-guided-sample-support",
-                use_torch=False,
-                sample_count=GUIDED_SAMPLE_COUNT,
-                seed=seed,
-                protocol=protocol,
-                weights=WEIGHTS,
-                gap_metrics=gaps,
-                use_gap_head_metrics=True,
-            )
-        )
-        records.append(
-            _record(
-                role="control",
-                candidate_id="torch-request-control",
-                use_torch=True,
-                sample_count=SAMPLE_COUNT,
-                seed=seed,
-                protocol=protocol,
-                weights=WEIGHTS,
-                gap_metrics=gaps,
-                use_gap_head_metrics=False,
-            )
-        )
     paired_ci = _paired_delta_ci(records)
     claim_gate = _claim_gate(records, paired_ci)
+    hardgate = _hardgate(records, paired_ci, claim_gate)
+    failed_gate = hardgate["failed_gate"]
+    verdict = "demoted" if failed_gate == "audit-improvement-tradeoff" else "accepted" if hardgate["positive"] else "rejected"
+    discovery_level = "DN" if verdict == "demoted" else "D0"
     return {
         "artifact": JSON_ARTIFACT,
         "report": REPORT_ARTIFACT,
@@ -416,12 +536,17 @@ def _payload() -> dict[str, Any]:
         "paired_seed_protocol": {
             "seeds": [int(seed) for seed in SEEDS],
             "roles": ["before", "after", "control"],
+            "main_pair": ["before", "after"],
+            "control_pair": ["before", "control"],
+            "arm_main_pair": ["baseline", "debt_plus_benefit"],
+            "arm_control_pair": ["baseline", "matched_random_debt"],
             "metric_key": "quality_q",
             "paired_delta": "after minus before by seed",
             "ci95": "1.96 * sample_std(delta) / sqrt(n)",
             "split_fingerprint_key": "split_fingerprint",
             "cost_protocol_key": "cost_protocol_name",
         },
+        "arm_protocol": _arm_protocol(),
         "objective": {
             "formula": (
                 "task_loss + lambda_s*stability + lambda_m*margin + "
@@ -434,9 +559,16 @@ def _payload() -> dict[str, Any]:
         "deltas": {
             "after_minus_before": _mean_delta(records, "after", "before"),
             "control_minus_before": _mean_delta(records, "control", "before"),
+            "debt_plus_benefit_minus_baseline": _mean_delta(records, "after", "before"),
+            "matched_random_debt_minus_baseline": _mean_delta(records, "control", "before"),
         },
         "paired_delta_ci": paired_ci,
+        "arm_summaries": _arm_summaries(records),
         "claim_gate": claim_gate,
+        "hardgate": hardgate,
+        "failed_gate": failed_gate,
+        "verdict": verdict,
+        "discovery_level": discovery_level,
         "not_claimed": _not_claimed(records, paired_ci),
         "result": _result(records),
     }
