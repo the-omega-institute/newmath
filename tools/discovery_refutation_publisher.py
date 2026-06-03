@@ -569,10 +569,11 @@ def main() -> int:
     with pid_lock():
         if args.once:
             return 0 if run_once(no_push=args.no_push) else 1
-        append_log(f"[refutation] daemon start interval={interval_seconds()}s")
+        interval = interval_seconds()
+        append_log(f"[refutation] daemon start interval={interval}s")
         while True:
             run_once(no_push=False)
-            time.sleep(interval_seconds())
+            time.sleep(interval)
 
 
 if __name__ == "__main__":
