@@ -311,6 +311,27 @@ def test_discovery_payload_contains_audit_decision_and_audit_ledger():
     assert report["audit_ledger"] == [report["audit_decision"]["audit_row"]]
     assert report["audit_ledger"][0]["timestamp"] == report["generated_at"]
 
+def test_discovery_payload_records_zero_overclaim_rate_without_forbidden_terms():
+    report = runner._verdict_payload(_payload())
+    basis = report["audit_decision"]["overclaim_basis"]
+
+    assert basis["checked_claim_count"] > 0
+    assert basis["forbidden_claim_fail_count"] == 0
+    assert basis["forbidden_claim_term_hits"] == []
+    assert report["audit_decision"]["overclaim_rate"] == 0.0
+
+def test_discovery_payload_records_positive_overclaim_rate_for_forbidden_term():
+    payload = _payload()
+    payload["claim_gate"]["paired_ci_status"] = "full-lejepa"
+
+    report = runner._verdict_payload(payload)
+    basis = report["audit_decision"]["overclaim_basis"]
+
+    assert basis["checked_claim_count"] > 0
+    assert basis["forbidden_claim_fail_count"] == 1
+    assert basis["forbidden_claim_term_hits"] == ["full-lejepa"]
+    assert report["audit_decision"]["overclaim_rate"] > 0.0
+
 def test_discovery_markdown_prints_audit_status(tmp_path, monkeypatch):
     payload = runner._verdict_payload(_payload())
     monkeypatch.setattr(runner, "ROOT", tmp_path)

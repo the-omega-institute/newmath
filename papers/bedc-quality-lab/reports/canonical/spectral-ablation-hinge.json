@@ -1061,7 +1061,7 @@
     "seed": 851,
     "use_torch": false
   },
-  "generated_at": "2026-06-02T17:30:19.502086+00:00",
+  "generated_at": "2026-06-03T04:56:24.527389+00:00",
   "hinge_ledger": [
     {
       "deletion": {
@@ -1154,6 +1154,32 @@
   ],
   "ledger_summary": {
     "basis": {
+      "hardening_coverage": {
+        "items": [
+          {
+            "name": "sameClass equivalence",
+            "recorded": true,
+            "source": "$.arms[*].deletion_axes"
+          },
+          {
+            "name": "margin stability",
+            "recorded": true,
+            "source": "$.arms[*].metrics.bound_margin"
+          },
+          {
+            "name": "finite ledger coverage",
+            "recorded": true,
+            "source": "$.rank_correlation.n"
+          },
+          {
+            "name": "missing-row negative example",
+            "recorded": true,
+            "source": "$.negative_control_summary"
+          }
+        ],
+        "recorded": 4,
+        "required": 4
+      },
       "negative_control": {
         "comparison": "hinge-ranked-treatment vs matched-random-control",
         "control_count": 2,

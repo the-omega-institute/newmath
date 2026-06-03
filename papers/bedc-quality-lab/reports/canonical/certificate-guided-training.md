@@ -1,6 +1,6 @@
 # Certificate-Guided Training
 
-- Generated at: `2026-06-02T17:30:19.495331+00:00`
+- Generated at: `2026-06-03T04:56:24.520364+00:00`
 - Cost protocol: `bedc-quality-lab-default-cost-protocol`
 - Formula: `task_loss + lambda_s*stability + lambda_m*margin + lambda_l*ledger + lambda_c*coverage`
 - Result: `negative`

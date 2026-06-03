@@ -163,6 +163,33 @@ def test_negative_result_ledger_records_open_status():
     assert "Ledger status: `open-or-partial`" in report
 
 
+def test_payload_records_hardening_coverage_cell():
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(
+            hinge,
+            "run_experiment",
+            lambda **kwargs: make_envelope(
+                run_id=kwargs["run_id"],
+                rho_by_axis=tuple(kwargs["transition_kernel"].rho_by_axis),
+                mixing=kwargs["mixing"],
+                metrics=metrics(identifiability=0.9, error=0.1, margin=0.8, quality=0.7),
+            ),
+        )
+        payload = hinge._payload()
+
+    coverage = payload["ledger_summary"]["basis"]["hardening_coverage"]
+
+    assert set(coverage) == {"recorded", "required", "items"}
+    assert coverage["required"] == 4
+    assert 0 <= coverage["recorded"] <= coverage["required"]
+    assert [item["name"] for item in coverage["items"]] == [
+        "sameClass equivalence",
+        "margin stability",
+        "finite ledger coverage",
+        "missing-row negative example",
+    ]
+
+
 def test_payload_keeps_schema_id_unchanged():
     with pytest.MonkeyPatch.context() as mp:
         mp.setattr(
