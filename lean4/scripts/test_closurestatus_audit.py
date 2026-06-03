@@ -1230,6 +1230,34 @@ class DiscoveryAuditTests(unittest.TestCase):
         cleanup.assert_not_called()
         self.assertTrue(any("worktree prep failed" in item for item in calls))
 
+    def test_discovery_gate_evolver_worktree_prep_self_heals_stale_registration(self) -> None:
+        import subprocess
+        import discovery_gate_evolver  # type: ignore[import-not-found]
+
+        calls: list[tuple[str, ...]] = []
+
+        def fake_run_cmd(cmd: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
+            calls.append(tuple(cmd))
+            if cmd[:3] == ["git", "worktree", "remove"]:
+                return subprocess.CompletedProcess(cmd, 128, "", "missing but already registered worktree")
+            return subprocess.CompletedProcess(cmd, 0, "", "")
+
+        logs: list[str] = []
+        with TemporaryDirectory() as tmp, \
+                patch.object(discovery_gate_evolver, "run_cmd", side_effect=fake_run_cmd), \
+                patch.object(discovery_gate_evolver.shutil, "rmtree") as rmtree, \
+                patch.object(discovery_gate_evolver, "_clone_lake_cache"), \
+                patch.object(discovery_gate_evolver, "append_log", side_effect=logs.append):
+            worktree = Path(tmp) / "stale-wt"
+            discovery_gate_evolver.prepare_worktree(worktree, "HEAD")
+
+        self.assertEqual(calls[0], ("git", "worktree", "prune"))
+        self.assertEqual(calls[1][:4], ("git", "worktree", "remove", "--force"))
+        self.assertEqual(calls[2], ("git", "fetch", "origin", discovery_gate_evolver.BASE_BRANCH))
+        self.assertEqual(calls[3][:4], ("git", "worktree", "add", "--detach"))
+        rmtree.assert_called_once()
+        self.assertTrue(any("git worktree remove --force" in item for item in logs))
+
     def test_discovery_adversarial_generator_once_load_error_is_nonzero(self) -> None:
         import discovery_adversarial_generator  # type: ignore[import-not-found]
 
@@ -1331,6 +1359,58 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(ok_count, 0)
         self.assertEqual(fail_count, 1)
         commit_and_push.assert_not_called()
+
+    def test_discovery_gate_evolver_batches_multiple_witnesses_into_one_heavy_verify(self) -> None:
+        import argparse
+        import subprocess
+        import discovery_gate_evolver  # type: ignore[import-not-found]
+
+        witnesses = [
+            {
+                "id": "exact-one",
+                "kind": "reconstruction",
+                "pattern": {
+                    "target": "BEDC.Target.One",
+                    "prior": "BEDC.Prior.Old",
+                    "canonical_payload": "payload-one",
+                },
+                "soundness": "canonical_payload_equal",
+            },
+            {
+                "id": "exact-two",
+                "kind": "reconstruction",
+                "pattern": {
+                    "target": "BEDC.Target.Two",
+                    "prior": "BEDC.Prior.Old",
+                    "canonical_payload": "payload-two",
+                },
+                "soundness": "canonical_payload_equal",
+            },
+        ]
+        commands: list[tuple[str, ...]] = []
+
+        def fake_run_cmd(cmd: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
+            commands.append(tuple(cmd))
+            return subprocess.CompletedProcess(cmd, 0, "", "")
+
+        args = argparse.Namespace(worktree="/tmp/bedc-test-batch-verify", base_ref="HEAD", no_push=True)
+        with patch.object(discovery_gate_evolver, "witness_from_record", side_effect=[(witnesses[0], None), (witnesses[1], None)]), \
+                patch.object(discovery_gate_evolver, "prepare_worktree"), \
+                patch.object(discovery_gate_evolver, "audit_failures", return_value=(0, set(), {"discovery_assert_gate": {"asserted_count": 1, "failures": []}})), \
+                patch.object(discovery_gate_evolver, "registry_exact_keys_and_count", return_value=(set(), 0, 100)), \
+                patch.object(discovery_gate_evolver, "append_witness", return_value=True), \
+                patch.object(discovery_gate_evolver, "append_regression_test"), \
+                patch.object(discovery_gate_evolver, "run_cmd", side_effect=fake_run_cmd), \
+                patch.object(discovery_gate_evolver, "ensure_allowed_changes"), \
+                patch.object(discovery_gate_evolver, "commit_and_push") as commit_and_push, \
+                patch.object(discovery_gate_evolver, "append_log"):
+            ok_count, fail_count = discovery_gate_evolver.process_records([{"id": "one"}, {"id": "two"}], args)
+
+        self.assertEqual(ok_count, 2)
+        self.assertEqual(fail_count, 0)
+        self.assertEqual(commands.count(("lake", "build")), 1)
+        self.assertEqual(commands.count(("python3", "-m", "unittest", "lean4/scripts/test_closurestatus_audit.py")), 1)
+        commit_and_push.assert_called_once()
 
     # BEGIN DISCOVERY GATE EVOLVER REGRESSION TESTS
     # END DISCOVERY GATE EVOLVER REGRESSION TESTS

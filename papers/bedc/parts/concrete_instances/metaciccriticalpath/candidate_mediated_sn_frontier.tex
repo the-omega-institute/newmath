@@ -504,6 +504,25 @@ Use the candidate-normalization budget and socket-exhaustion theorems, \autoref{
 Finally invoke the subject-reduction boundary, \autoref{thm:metacic-critical-path-candidate-mediated-sn-subject-reduction-boundary}. It is exactly the alternative in the statement: either the replay keeps $D$ displayed, or a separate subject-reduction row outside the candidate-mediated frontier must be cited.
 \end{proof}
 
+\begin{theorem}[MetaCIC typed-reduction candidate SN handoff]
+\label{thm:metacic-typed-reduction-candidate-sn-handoff}
+An accepted $\MetaCICCriticalPathUp$ consumer may pass typed-reduction candidate strong-normalization evidence toward confluence or decidability only after displaying the candidate row $S$, the normal-form endpoint row $N$, the subject-reduction discharge socket $D$, the handoff row $U$, the bounded checker budget carried by the factorization route, and the four L10 faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp .
+$$
+The handoff remains conditional: it exports no closed subject reduction, global confluence, beta-conversion decision, quotient term equality, selected limit, host equality, or $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}. Any finite consumer replay through the candidate-mediated frontier either preserves the discharge socket $D$ or cites a separate subject-reduction row outside the frontier.
+
+Apply \autoref{thm:metacic-critical-path-bounded-checker-budget-factorization}. The bounded checker budget separates the candidate row, SN endpoint rows, open socket row, and four L10 face row before the checker budget can be read.
+
+Finally use \autoref{thm:metacic-critical-path-candidate-mediated-sn-conditional-budget} together with \autoref{thm:metacic-criticalpath-candidate-mediated-sn-discharge-budget}. These keep the checker-facing and discharge-facing budgets conditional on the open socket row, so the refused global MetaCIC, quotient, selected-limit, host-equality, and Real-completeness claims remain outside the handoff.
+\end{proof}
+
 \begin{definition}[MetaCIC frontier budget factorization]
 \label{def:metacic-critical-path-frontier-budget-factorization}
 For an accepted $\MetaCICCriticalPathUp$ packet
