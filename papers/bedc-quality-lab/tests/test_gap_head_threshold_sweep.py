@@ -28,13 +28,33 @@ def _config():
     )
 
 
-def _record(seed, *, positive_thresholds=(), undefined=False):
+def _record(
+    seed,
+    *,
+    positive_thresholds=(),
+    critical_unlogged_by_threshold=None,
+    control_critical_unlogged_by_threshold=None,
+    undefined=False,
+):
     metrics = {}
     control = {}
     positives = {round(float(value), 2) for value in positive_thresholds}
+    critical_overrides = {
+        round(float(threshold), 2): float(value)
+        for threshold, value in (critical_unlogged_by_threshold or {}).items()
+    }
+    control_overrides = {
+        round(float(threshold), 2): float(value)
+        for threshold, value in (control_critical_unlogged_by_threshold or {}).items()
+    }
     for threshold in sweep.THRESHOLDS:
+        threshold_key = round(float(threshold), 2)
         auroc = 0.82 if round(float(threshold), 2) in positives else 0.50
-        critical_unlogged = 0.20 if threshold <= 0.50 else 0.40
+        critical_unlogged = critical_overrides.get(
+            threshold_key,
+            0.20 if threshold <= 0.50 else 0.40,
+        )
+        control_critical_unlogged = control_overrides.get(threshold_key, 0.30)
         metrics[f"{threshold:.2f}"] = {
             "AUROC": auroc,
             "UnloggedErrorRate": 0.15 + threshold * 0.02,
@@ -47,7 +67,7 @@ def _record(seed, *, positive_thresholds=(), undefined=False):
             "AUROC": 0.50,
             "UnloggedErrorRate": 0.20,
             "LoggedFalseAlarmRate": 0.0,
-            "CriticalUnloggedErrorRate": 0.30,
+            "CriticalUnloggedErrorRate": control_critical_unlogged,
             "QualityQ": 0.25,
             "NetInformation": 1.0,
         }
@@ -63,9 +83,21 @@ def _record(seed, *, positive_thresholds=(), undefined=False):
     }
 
 
-def _records(*, positive_thresholds=(), undefined=False):
+def _records(
+    *,
+    positive_thresholds=(),
+    critical_unlogged_by_threshold=None,
+    control_critical_unlogged_by_threshold=None,
+    undefined=False,
+):
     return [
-        _record(seed, positive_thresholds=positive_thresholds, undefined=undefined)
+        _record(
+            seed,
+            positive_thresholds=positive_thresholds,
+            critical_unlogged_by_threshold=critical_unlogged_by_threshold,
+            control_critical_unlogged_by_threshold=control_critical_unlogged_by_threshold,
+            undefined=undefined,
+        )
         for seed in _config().seeds
     ]
 
@@ -139,6 +171,41 @@ def test_hardgate_allows_d5_ready_for_adjacent_positive_controlled_run():
     assert payload["hardgate"]["checks"]["HG-GH-T3"]["status"] == "pass"
     assert payload["hardgate"]["checks"]["HG-GH-T4"]["status"] == "pass"
     assert payload["readiness"]["status"] == "D5-ready"
+
+
+def test_hardgate_rejects_adjacent_positive_thresholds_without_critical_control():
+    uncontrolled = {0.20: 0.60, 0.25: 0.60, 0.30: 0.60}
+    payload = sweep._payload(
+        _records(
+            positive_thresholds=(0.20, 0.25, 0.30),
+            critical_unlogged_by_threshold=uncontrolled,
+        ),
+        _config(),
+        generated_at="fixture-time",
+    )
+
+    assert payload["hardgate"]["checks"]["HG-GH-T4"]["status"] == "fail"
+    assert payload["hardgate"]["status"] == "fail"
+    assert payload["readiness"]["status"] != "D5-ready"
+
+
+def test_hardgate_requires_adjacent_positive_thresholds_to_be_controlled():
+    interrupted = {0.25: 0.60, 0.35: 0.60}
+    payload = sweep._payload(
+        _records(
+            positive_thresholds=(0.20, 0.25, 0.30, 0.35, 0.40),
+            critical_unlogged_by_threshold=interrupted,
+        ),
+        _config(),
+        generated_at="fixture-time",
+    )
+    positive = set(payload["readiness"]["positive_thresholds"])
+    controlled = set(payload["readiness"]["controlled_thresholds"])
+
+    assert sorted(positive.intersection(controlled)) == [0.20, 0.30, 0.40]
+    assert payload["hardgate"]["checks"]["HG-GH-T4"]["status"] == "fail"
+    assert payload["hardgate"]["status"] == "fail"
+    assert payload["readiness"]["status"] == "D4-at-threshold"
 
 
 def test_single_positive_threshold_is_only_d4_at_threshold():
