@@ -1062,6 +1062,28 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(details["target_reduced_fp"], "same")
         self.assertEqual(details["evidence"], "canonical_payload_equal")
 
+    def test_discovery_gate_witness_kernel_grounding_cache_matches_recompute(self) -> None:
+        witness = self._exact_witness("BEDC.Target.Gate", "payload-same", "same")
+        fps = {
+            "BEDC.Target.Gate": ExprFingerprint(
+                "target", "type", "value", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
+            ),
+            "BEDC.Prior.Old": ExprFingerprint(
+                "prior", "type", "value", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
+            ),
+        }
+        with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps) as run_fps:
+            recomputed = discovery_gate_witness_kernel_grounding(witness)
+        run_fps.assert_called_once_with(["BEDC.Target.Gate", "BEDC.Prior.Old"])
+        with patch(
+            "bedc_ci._run_structural_dna_expr_fingerprints",
+            side_effect=AssertionError("cache path must not spawn structural_dna"),
+        ):
+            cached = discovery_gate_witness_kernel_grounding(witness, payload_cache=fps)
+        self.assertEqual(cached, recomputed)
+
     def test_discovery_gate_witness_registry_loader_rejects_wide_pattern(self) -> None:
         with TemporaryDirectory() as tmp:
             path = Path(tmp) / "witnesses.json"
@@ -1170,6 +1192,28 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(loaded[0]["soundness"], "canonical_payload_equal")
         self.assertEqual(loaded[0]["kernel_grounding"]["target_reduced_fp"], "same")
 
+    def test_discovery_gate_evolver_append_uses_cache_for_hygiene_loader(self) -> None:
+        import discovery_gate_evolver  # type: ignore[import-not-found]
+
+        witness = self._exact_witness("BEDC.Target.Gate", "payload-same", "same")
+        fps = {
+            "BEDC.Target.Gate": ExprFingerprint(
+                "target", "type", "value", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
+            ),
+            "BEDC.Prior.Old": ExprFingerprint(
+                "prior", "type", "value", reduced_fingerprint="same",
+                canonical_reduced_payload="payload-same",
+            ),
+        }
+        with TemporaryDirectory() as tmp:
+            path = Path(tmp) / "witnesses.json"
+            path.write_text("[]\n", encoding="utf-8")
+            with patch.object(discovery_gate_evolver, "_BEDC_CI", sys.modules["bedc_ci"]), \
+                    patch("bedc_ci._run_structural_dna_expr_fingerprints") as run_fps:
+                self.assertTrue(discovery_gate_evolver.append_witness(path, witness, payload_cache=fps))
+        run_fps.assert_not_called()
+
     def test_discovery_gate_evolver_vacuous_monotonic_only_escalates(self) -> None:
         import discovery_gate_evolver  # type: ignore[import-not-found]
 
@@ -1239,7 +1283,7 @@ class DiscoveryAuditTests(unittest.TestCase):
         def fake_run_cmd(cmd: list[str], **_kwargs: object) -> subprocess.CompletedProcess[str]:
             calls.append(tuple(cmd))
             if cmd[:3] == ["git", "worktree", "remove"]:
-                return subprocess.CompletedProcess(cmd, 128, "", "missing but already registered worktree")
+                return subprocess.CompletedProcess(cmd, 128, "", "fatal: stale-wt is not a working tree")
             return subprocess.CompletedProcess(cmd, 0, "", "")
 
         logs: list[str] = []
@@ -1256,7 +1300,7 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(calls[2], ("git", "fetch", "origin", discovery_gate_evolver.BASE_BRANCH))
         self.assertEqual(calls[3][:4], ("git", "worktree", "add", "--detach"))
         rmtree.assert_called_once()
-        self.assertTrue(any("git worktree remove --force" in item for item in logs))
+        self.assertFalse(any("git worktree remove --force" in item for item in logs))
 
     def test_discovery_adversarial_generator_once_load_error_is_nonzero(self) -> None:
         import discovery_adversarial_generator  # type: ignore[import-not-found]
@@ -1411,6 +1455,102 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(commands.count(("lake", "build")), 1)
         self.assertEqual(commands.count(("python3", "-m", "unittest", "lean4/scripts/test_closurestatus_audit.py")), 1)
         commit_and_push.assert_called_once()
+
+    def test_discovery_gate_evolver_batches_grounding_payloads_once(self) -> None:
+        import argparse
+        import discovery_gate_evolver  # type: ignore[import-not-found]
+
+        records = [
+            {
+                "id": "one",
+                "target": "BEDC.Target.One",
+                "prior": "BEDC.Prior.Old",
+                "canonical_payload": "payload-one",
+            },
+            {
+                "id": "two",
+                "target": "BEDC.Target.Two",
+                "prior": "BEDC.Prior.Old",
+                "canonical_payload": "payload-two",
+            },
+        ]
+        witnesses = [
+            {
+                "id": "exact-one",
+                "kind": "reconstruction",
+                "pattern": {
+                    "target": "BEDC.Target.One",
+                    "prior": "BEDC.Prior.Old",
+                    "canonical_payload": "payload-one",
+                },
+                "soundness": "canonical_payload_equal",
+            },
+            {
+                "id": "exact-two",
+                "kind": "reconstruction",
+                "pattern": {
+                    "target": "BEDC.Target.Two",
+                    "prior": "BEDC.Prior.Old",
+                    "canonical_payload": "payload-two",
+                },
+                "soundness": "canonical_payload_equal",
+            },
+        ]
+        fps = {
+            "BEDC.Target.One": ExprFingerprint(
+                "one", "type", "value", reduced_fingerprint="same-one",
+                canonical_reduced_payload="payload-one",
+            ),
+            "BEDC.Target.Two": ExprFingerprint(
+                "two", "type", "value", reduced_fingerprint="same-two",
+                canonical_reduced_payload="payload-two",
+            ),
+            "BEDC.Prior.Old": ExprFingerprint(
+                "prior", "type", "value", reduced_fingerprint="same-prior",
+                canonical_reduced_payload="payload-one",
+            ),
+        }
+        seen_witness_caches: list[dict[str, object] | None] = []
+        seen_append_caches: list[dict[str, object] | None] = []
+
+        def fake_witness_from_record(
+            record: dict[str, object],
+            payload_cache: dict[str, object] | None = None,
+        ) -> tuple[dict[str, object], None]:
+            seen_witness_caches.append(payload_cache)
+            return witnesses[len(seen_witness_caches) - 1], None
+
+        def fake_append_witness(
+            _path: Path,
+            _witness: dict[str, object],
+            payload_cache: dict[str, object] | None = None,
+        ) -> bool:
+            seen_append_caches.append(payload_cache)
+            return True
+
+        args = argparse.Namespace(worktree="/tmp/bedc-test-batch-grounding", base_ref="HEAD", no_push=True)
+        with patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fps) as run_fps, \
+                patch.object(discovery_gate_evolver, "_BEDC_CI", sys.modules["bedc_ci"]), \
+                patch.object(discovery_gate_evolver, "witness_from_record", side_effect=fake_witness_from_record), \
+                patch.object(discovery_gate_evolver, "prepare_worktree"), \
+                patch.object(discovery_gate_evolver, "audit_failures", return_value=(0, set(), {"discovery_assert_gate": {"asserted_count": 1, "failures": []}})), \
+                patch.object(discovery_gate_evolver, "registry_exact_keys_and_count", return_value=(set(), 0, 100)), \
+                patch.object(discovery_gate_evolver, "append_witness", side_effect=fake_append_witness), \
+                patch.object(discovery_gate_evolver, "append_regression_test"), \
+                patch.object(discovery_gate_evolver, "verify"), \
+                patch.object(discovery_gate_evolver, "commit_and_push"), \
+                patch.object(discovery_gate_evolver, "append_log"):
+            ok_count, fail_count = discovery_gate_evolver.process_records(records, args)
+
+        self.assertEqual(ok_count, 2)
+        self.assertEqual(fail_count, 0)
+        run_fps.assert_called_once()
+        self.assertEqual(
+            set(run_fps.call_args.args[0]),
+            {"BEDC.Target.One", "BEDC.Target.Two", "BEDC.Prior.Old"},
+        )
+        self.assertEqual(seen_witness_caches, [fps, fps])
+        self.assertEqual(seen_append_caches, [fps, fps])
 
     # BEGIN DISCOVERY GATE EVOLVER REGRESSION TESTS
     # END DISCOVERY GATE EVOLVER REGRESSION TESTS
