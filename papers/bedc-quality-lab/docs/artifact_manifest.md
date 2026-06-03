@@ -1,87 +1,57 @@
 # Artifact Manifest
 
-This manifest is a human navigation layer, not a second status cache. `reports/canonical/index.json` is the machine source for report status, canonical bundle role, scorecard linkage, and report artifact paths.
+This manifest is a human navigation layer, not a second machine source. Each row gives an artifact id, a path, a discovery-level pointer, and a pointer status. Report status, bundle role, scorecard linkage, and report artifact paths stay in `reports/canonical/index.json`.
 
-## Canonical Index
+## Quality Baseline Surfaces
 
-- Path: `reports/canonical/index.json`
-- Role: machine-readable canonical report index and status source.
-- Pointers: `$.reports`; `$.quality_scorecard`; `$.claims_nonclaims`; `$.honest_boundary`; `$.paper_outline`; `$.literature_ledger`; `$.schema_id`.
+| artifact id | path | discovery_level pointer | pointer status |
+| --- | --- | --- | --- |
+| `bedc-quality-lab:canonical-report-index` | `reports/canonical/index.json` | `$.discovery_map` | pointer-only |
+| `bedc-quality-lab:canonical-report-index-md` | `reports/canonical/index.md` | `## Quality baseline pointers` | pointer-only |
+| `bedc-quality-lab:quality-scorecard` | `reports/canonical/quality-scorecard.json` | `$.rows` | pointer-only |
+| `bedc-quality-lab:quality-scorecard-md` | `reports/canonical/quality-scorecard.md` | `## Quality baseline pointers` | pointer-only |
+| `bedc-quality-lab:alpha-milestone` | `docs/bedc_quality_lab_alpha_milestone.md` | `## Discovery Levels` | pointer-only |
+| `bedc-quality-lab:claims-and-nonclaims` | `docs/claims_and_nonclaims.md` | `## Positive Wording Boundary` | pointer-only |
+| `bedc-quality-lab:artifact-manifest` | `docs/artifact_manifest.md` | `## Quality Baseline Surfaces` | pointer-only |
 
-## Scorecard
+## Discovery Rows
 
-- Path: `reports/canonical/quality-scorecard.json`
-- Role: machine-readable scorecard artifact.
-- Pointers: `$.rows`; `$.artifact_id`.
+| artifact id | path | discovery_level pointer | pointer status |
+| --- | --- | --- | --- |
+| `bedc-quality-lab:discovery-map` | `reports/canonical/discovery_map.json` | `$.rows[report=gap-head-on-h].discovery_level` | pointer-only |
+| `bedc-quality-lab:discovery-map` | `reports/canonical/discovery_map.json` | `$.rows[report=certificate-guided-discovery].discovery_level` | pointer-only |
+| `bedc-quality-lab:discovery-map` | `reports/canonical/discovery_map.json` | `$.rows[report=nongaussian-distribution-sweep].discovery_level` | pointer-only |
+| `bedc-quality-lab:discovery-map` | `reports/canonical/discovery_map.json` | `$.rows[report=anisotropic-ou-sweep].discovery_level` | pointer-only |
 
-- Path: `reports/canonical/quality-scorecard.md`
-- Role: human-readable scorecard artifact.
-- Pointers: section headings in the markdown artifact.
+## Canonical Report Artifacts
 
-## Core Reports
-
-- Path: `reports/canonical/mixing-family-sweep.{json,md}`
-- Role: canonical core report; status and role live in `reports/canonical/index.json`.
-- Pointers: `$.coverage_item`; `$.negative_result_summary`.
-
-- Path: `reports/canonical/anisotropic-ou-sweep.{json,md}`
-- Role: canonical core report; status and role live in `reports/canonical/index.json`.
-- Pointers: `$.config`; `$.transition_debt_by_grid`; `$.negative_result_summary`.
-
-- Path: `reports/canonical/gap-head-on-h.{json,md}`
-- Role: `gap-head-on-h` canonical core report and only positive discovery prototype in this report frame.
-- Pointers: `$.main_claim_status`; `$.control_verdict`; `$.treatment_comparison`; `$.applicability_boundary`.
-
-- Path: `reports/canonical/gap-head-discovery.{json,md}`
-- Role: canonical core projection report under the non-positive boundary for this report frame.
-- Pointers: `$.final_main_claim_status`; `$.matched_random_control`; `$.source_artifacts.source_json_artifact`.
-
-- Path: `reports/canonical/certificate-guided-training.{json,md}`
-- Role: canonical core mixed/negative report.
-- Pointers: `$.result.status`; `$.claim_gate`; `$.paired_seed_protocol`.
-
-- Path: `reports/canonical/certificate-guided-discovery.{json,md}`
-- Role: canonical core negative projection report.
-- Pointers: `$.main_claim_status`; `$.claim_gate`; `$.matched_random_baseline`.
-
-## Auxiliary Reports
-
-- Path: `reports/canonical/nongaussian-distribution-sweep.{json,md}`
-- Role: auxiliary observed-debt report.
-- Pointers: `$.main_claim_status`; `$.claim_gate`; `$.negative_result_ledger`.
-
-- Path: `reports/canonical/spectral-ablation-hinge.{json,md}`
-- Role: auxiliary hardening and ablation report.
-- Pointers: `$.ledger_summary`; `$.negative_control_summary`.
+| artifact id | path | discovery_level pointer | pointer status |
+| --- | --- | --- | --- |
+| `bedc-quality-lab:mixing-family-sweep` | `reports/canonical/mixing-family-sweep.{json,md}` | `reports/canonical/discovery_map.json:$.rows[report=mixing-family-sweep].discovery_level` | pointer-only |
+| `bedc-quality-lab:anisotropic-ou-sweep` | `reports/canonical/anisotropic-ou-sweep.{json,md}` | `reports/canonical/discovery_map.json:$.rows[report=anisotropic-ou-sweep].discovery_level` | pointer-only |
+| `bedc-quality-lab:gap-head-on-h` | `reports/canonical/gap-head-on-h.{json,md}` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h].discovery_level` | pointer-only |
+| `bedc-quality-lab:gap-head-discovery` | `reports/canonical/gap-head-discovery.{json,md}` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-discovery].discovery_level` | pointer-only |
+| `bedc-quality-lab:gap-head-ablation` | `reports/canonical/gap-head-ablation.{json,md}` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-ablation].discovery_level` | pointer-only |
+| `bedc-quality-lab:gap-head-threshold-frontier` | `reports/canonical/gap-head-threshold-frontier.{json,md}` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-threshold-frontier].discovery_level` | pointer-only |
+| `bedc-quality-lab:nongaussian-distribution-sweep` | `reports/canonical/nongaussian-distribution-sweep.{json,md}` | `reports/canonical/discovery_map.json:$.rows[report=nongaussian-distribution-sweep].discovery_level` | pointer-only |
+| `bedc-quality-lab:certificate-guided-training` | `reports/canonical/certificate-guided-training.{json,md}` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-training].discovery_level` | pointer-only |
+| `bedc-quality-lab:certificate-guided-discovery` | `reports/canonical/certificate-guided-discovery.{json,md}` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery].discovery_level` | pointer-only |
+| `bedc-quality-lab:spectral-ablation-hinge` | `reports/canonical/spectral-ablation-hinge.{json,md}` | `reports/canonical/discovery_map.json:$.rows[report=spectral-ablation-hinge].discovery_level` | pointer-only |
 
 ## Schema and Protocol Sources
 
-- Path: `bedc_quality_lab/schema.py`
-- Role: local EvidenceEnvelope schema source.
-- Pointers: `QualityEvidenceEnvelope`; `bedc_refs`.
-
-- Path: `configs/default_cost_protocol.yaml`
-- Role: default local CostProtocol configuration.
-- Pointers: YAML keys consumed by `bedc_quality_lab/cost_protocol.py`.
-
-- Path: `bedc_quality_lab/cost_protocol.py`
-- Role: local cost and quality projection implementation.
-- Pointers: public names imported by tests and canonical producers.
+| artifact id | path | discovery_level pointer | pointer status |
+| --- | --- | --- | --- |
+| `bedc-quality-lab:evidence-envelope` | `bedc_quality_lab/schema.py` | `QualityEvidenceEnvelope` | pointer-only |
+| `bedc-quality-lab:cost-protocol-config` | `configs/default_cost_protocol.yaml` | YAML keys consumed by `bedc_quality_lab/cost_protocol.py` | pointer-only |
+| `bedc-quality-lab:cost-protocol-source` | `bedc_quality_lab/cost_protocol.py` | public names imported by tests and canonical producers | pointer-only |
+| `bedc-quality-lab:claim-terms-source` | `bedc_quality_lab/claim_terms.py` | `FORBIDDEN_POSITIVE_CLAIM_TERMS` | pointer-only |
 
 ## Report Producers
 
-- Path: `scripts/run_canonical_reports.py`
-- Role: canonical report producer and index writer.
-- Pointers: CLI help; generated `reports/canonical/index.json`.
-
-- Path: `scripts/run_gap_ledger_head_on_h.py`
-- Role: source producer for `gap-head-on-h`.
-- Pointers: `reports/canonical/gap-head-on-h.{json,md}`.
-
-- Path: `scripts/run_certificate_guided_training.py`
-- Role: source producer for certificate-guided training.
-- Pointers: `reports/canonical/certificate-guided-training.{json,md}`.
-
-- Path: `scripts/run_nongaussian_distribution_sweep.py`
-- Role: source producer for non-Gaussian observed-debt sweep.
-- Pointers: `reports/canonical/nongaussian-distribution-sweep.{json,md}`.
+| artifact id | path | discovery_level pointer | pointer status |
+| --- | --- | --- | --- |
+| `bedc-quality-lab:canonical-runner` | `scripts/run_canonical_reports.py` | generated `reports/canonical/index.json` | pointer-only |
+| `bedc-quality-lab:gap-head-on-h-producer` | `scripts/run_gap_ledger_head_on_h.py` | `reports/canonical/gap-head-on-h.{json,md}` | pointer-only |
+| `bedc-quality-lab:certificate-guided-training-producer` | `scripts/run_certificate_guided_training.py` | `reports/canonical/certificate-guided-training.{json,md}` | pointer-only |
+| `bedc-quality-lab:nongaussian-sweep-producer` | `scripts/run_nongaussian_distribution_sweep.py` | `reports/canonical/nongaussian-distribution-sweep.{json,md}` | pointer-only |

@@ -1,8 +1,18 @@
 # Quality Scorecard
 
-- Generated at: `2026-06-03T06:59:30.116815+00:00`
+- Generated at: `2026-06-03T11:47:36.569572+00:00`
 - Artifact: `bedc-quality-lab:quality-scorecard`
 - Producer: `scripts/run_canonical_reports.py`
+
+## Quality baseline pointers
+
+- Baseline source: `docs/bedc_quality_lab_alpha_milestone.md`
+- Discovery levels: `reports/canonical/discovery_map.json:$.rows[*].discovery_level`
+- Claims boundary: `docs/claims_and_nonclaims.md`
+- Manifest: `docs/artifact_manifest.md`
+- Surface: metric rows with source pointers only
+
+## Metric rows
 
 | metric | status | value | source | dependency |
 | --- | --- | --- | --- | --- |

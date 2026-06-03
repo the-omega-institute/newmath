@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-03T09:30:30.813286+00:00`
+- Generated at: `2026-06-03T11:47:36.569572+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -36,6 +36,17 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Rows: `10`
+
+## Quality baseline pointers
+
+- Baseline source: `docs/bedc_quality_lab_alpha_milestone.md`
+- Canonical artifacts: `papers/bedc-quality-lab/reports/canonical/`
+- Discovery map: `reports/canonical/discovery_map.json:$.rows[*].discovery_level`
+- Claim verdicts: `reports/canonical/claim_verdicts.jsonl`
+- Negative witnesses: `reports/canonical/discovery_negative_witnesses.json`
+- Scorecard: `reports/canonical/quality-scorecard.json:$.rows`
+- Claims boundary: `docs/claims_and_nonclaims.md`
+- Manifest: `docs/artifact_manifest.md`
 
 ## Negative witnesses
 
