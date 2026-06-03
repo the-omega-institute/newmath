@@ -435,4 +435,22 @@ theorem EquicontinuitySharedRadiusFamilyNonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, familyUnary, coverUnary⟩
 
+theorem EquicontinuitySharedRadiusStability [AskSetup] [PackageSetup]
+    {K F eps rho M T R P N radiusRead handoffRead transportedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityCarrier K F eps rho M T R P N radiusRead handoffRead bundle pkg ->
+      UnaryHistory T ->
+        Cont rho T transportedRead ->
+          PkgSig bundle transportedRead pkg ->
+            UnaryHistory rho ∧ UnaryHistory T ∧ UnaryHistory transportedRead ∧
+              Cont rho T transportedRead ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle transportedRead pkg := by
+  -- BEDC touchpoint anchor: EquicontinuityCarrier BHist ProbeBundle PkgSig Cont UnaryHistory
+  intro carrier unaryT transportRoute transportPkg
+  obtain ⟨_unaryK, _unaryF, unaryRho, _unaryR, _radiusRoute, _handoffRoute, pkgP,
+    _pkgN⟩ := carrier
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_cont_closed unaryRho unaryT transportRoute
+  exact ⟨unaryRho, unaryT, transportedUnary, transportRoute, pkgP, transportPkg⟩
+
 end BEDC.Derived.EquicontinuityUp
