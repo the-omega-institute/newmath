@@ -1,0 +1,22 @@
+{
+  "schema": "bedc.taste_obligation_registry",
+  "semantics": "Data-driven meta TasteGate obligations that supplement Lean ChapterTasteGate without replacing it.",
+  "monotonicity": "Obligations add machine-checkable rejection criteria; they are not relaxed in place.",
+  "obligations": [
+    {
+      "id": "structural_distinctness",
+      "kind": "carrier_structure",
+      "criterion": "carrier_faithfulness.cross_domain_canonical_payload_distinct",
+      "rejects_because": "A carrier whose canonical payload is identical to a different-domain carrier is under-encoded: the carrier does not encode the distinction its name claims.",
+      "provenance": {
+        "counterexample_class": "cross-domain canonical-payload collision",
+        "finder": "carrier_faithfulness",
+        "example_target": "BEDC.Derived.ContinuousUp.ContinuousModulusWitness",
+        "example_prior": "BEDC.Derived.CompactUp.CompactNetWitness",
+        "evidence": "canonical_payload_equal",
+        "boundary": "meta-level obligation; existing carriers are reported informationally"
+      },
+      "added_ts": "2026-06-03T00:00:00Z"
+    }
+  ]
+}
