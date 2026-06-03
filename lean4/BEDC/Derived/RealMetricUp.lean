@@ -23,7 +23,7 @@ def RealMetricCarrier [AskSetup] [PackageSetup]
               UnaryHistory H ∧
                 UnaryHistory C ∧
                   UnaryHistory P ∧
-                    UnaryHistory N ∧ PkgSig bundle P pkg
+                    UnaryHistory N ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
 
 theorem RealMetricCarrier_absolute_value_distance_handoff [AskSetup] [PackageSetup]
     {X Y A D S R H C P N windowRead regularRead distanceRead : BHist}
@@ -44,7 +44,7 @@ theorem RealMetricCarrier_absolute_value_distance_handoff [AskSetup] [PackageSet
   have rUnary : UnaryHistory R := carrier.right.right.right.right.right.left
   have aUnary : UnaryHistory A := carrier.right.right.left
   have pPkg : PkgSig bundle P pkg :=
-    carrier.right.right.right.right.right.right.right.right.right.right
+    carrier.right.right.right.right.right.right.right.right.right.right.left
   have windowUnary : UnaryHistory windowRead :=
     unary_cont_closed xUnary sUnary windowCont
   have regularUnary : UnaryHistory regularRead :=
