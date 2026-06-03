@@ -117,3 +117,21 @@ Next use \autoref{thm:cauchy-core-streamname-regseqrat-window}. Access to $R$ an
 
 Finally apply \autoref{thm:cauchy-core-regseqrat-real-seal}. The $\RealUp$ seal remains downstream of the transported $\RegSeqRatUp$ rows, and the structural rows $H,C,P,N$ and $H',C',P',N'$ only transport, replay, source, and name that path. Since neither carrier contains quotient streams, selected limits, host equality, choice, trichotomy, or ambient completeness, the two displays name the same BEDC route.
 \end{proof}
+
+\begin{theorem}[Cauchy uniform-modulus Real seal]
+\label{thm:cauchy-uniform-modulus-real-seal}
+For an accepted $\CauchyUp$ packet
+$$
+X=(S,D,R,M,Q,E,H,C,P,N),
+$$
+any uniform-modulus consumer of the explicit modulus row $M$ that reaches a $\RealUp$ seal must read $S,D,M,Q$ before $R$, and $R$ before $E$. The route contains no quotient stream equality, selected limit, countable choice, trichotomy, metric-completeness datum, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:cauchy-carrier}. The explicit modulus row $M$ is packaged with the finite stream window $S$, the dyadic tolerance row $D$, the compatibility row $Q$, the regular rational readback $R$, and the terminal seal-facing row $E$.
+
+Apply \autoref{thm:cauchy-modulus-readback-route}. It forces a precision request to read $S,D,M$ and then $Q$ before any regular-rational row can be inspected.
+
+Next apply \autoref{thm:cauchy-core-regseqrat-real-seal}. The $\RealUp$ seal row $E$ is downstream of $R$, so a uniform-modulus consumer cannot reach the seal before the regular rational readback has been displayed.
+
+Finally use \autoref{thm:cauchy-core-modulus-transport-stability}. Componentwise transport and the displayed $\Cont$ replay preserve the same route for every accepted consumer, and the carrier has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, metric-completeness data, or ambient $\RealUp$ completeness.
+\end{proof}
