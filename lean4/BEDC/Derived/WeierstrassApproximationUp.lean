@@ -44,4 +44,37 @@ theorem WeierstrassApproximationUniformLimitConsumer [AskSetup] [PackageSetup]
     ⟨intervalUnary, polynomialUnary, uniformErrorUnary, uniformLimitRoute, provenancePkg,
       uniformLimitPkg⟩
 
+theorem WeierstrassApproximationPolynomialModulusLedger [AskSetup] [PackageSetup]
+    {interval continuousMap error polynomial samples modulus uniformError transport replay provenance
+      localName sampleRead polynomialRead errorRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    WeierstrassApproximationCarrier interval continuousMap error polynomial samples modulus
+        uniformError transport replay provenance localName bundle pkg →
+      Cont samples modulus sampleRead →
+        Cont sampleRead polynomial polynomialRead →
+          Cont polynomialRead uniformError errorRead →
+            PkgSig bundle errorRead pkg →
+              UnaryHistory samples ∧ UnaryHistory modulus ∧ UnaryHistory sampleRead ∧
+                UnaryHistory polynomial ∧ UnaryHistory polynomialRead ∧
+                  UnaryHistory uniformError ∧ UnaryHistory errorRead ∧
+                    Cont samples modulus sampleRead ∧
+                      Cont sampleRead polynomial polynomialRead ∧
+                        Cont polynomialRead uniformError errorRead ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle errorRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier samplesModulusRead samplePolynomialRead polynomialErrorRead errorReadPkg
+  obtain ⟨_intervalUnary, _continuousMapUnary, _errorUnary, polynomialUnary, samplesUnary,
+    modulusUnary, uniformErrorUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, provenancePkg, _localNamePkg⟩ := carrier
+  have sampleReadUnary : UnaryHistory sampleRead :=
+    unary_cont_closed samplesUnary modulusUnary samplesModulusRead
+  have polynomialReadUnary : UnaryHistory polynomialRead :=
+    unary_cont_closed sampleReadUnary polynomialUnary samplePolynomialRead
+  have errorReadUnary : UnaryHistory errorRead :=
+    unary_cont_closed polynomialReadUnary uniformErrorUnary polynomialErrorRead
+  exact
+    ⟨samplesUnary, modulusUnary, sampleReadUnary, polynomialUnary, polynomialReadUnary,
+      uniformErrorUnary, errorReadUnary, samplesModulusRead, samplePolynomialRead,
+      polynomialErrorRead, provenancePkg, errorReadPkg⟩
+
 end BEDC.Derived.WeierstrassApproximationUp
