@@ -83,6 +83,18 @@ Package and naming data are also present. The rows $P$ and $N$ identify the kern
 The boundary condition remains negative. The row $B$ excludes a global synchronization object, and the carrier has no coordinate for a causal witness or maximum-rate function. Thus the packet supplies the causal interface inputs without pre-solving the later causal or rate obligations.
 \end{proof}
 
+\begin{theorem}[Finite MultiHist packet CrossHist forward route]
+\label{thm:finite-multihist-packet-crosshist-forward-route}
+Every $\CrossHistCausalUp$ consumer of an accepted $\FiniteMultiHistPacketUp$ carrier must enter through the finite family row $H$, component ledger $L$, pairwise $\hsame$ row $S$, visible $\Cont$ routes $C$, no-global-sync boundary $B$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before adding causal witness rows. The $\CrossHistCausalUp$ certificate of \autoref{ch:concrete-instances-crosshistcausal-namecert} adds causal dependence rows downstream of this carrier; it does not replace the finite multi-history packet or supply a hidden global synchronization coordinate.
+\end{theorem}
+\begin{proof}
+Start with the causal interface theorem, \autoref{thm:finite-multihist-packet-causal-interface}. It exposes exactly the finite family of observer histories, component ledgers, pairwise transport rows, visible routes, provenance, and no-global-sync boundary required before a later causal certificate can read any input.
+
+The forward route is therefore ordered by the carrier rows. A $\CrossHistCausalUp$ consumer first reads $H,L,S,C,B,P,N$ from the finite packet, and only then may append causal-witness rows in the downstream chapter named by \autoref{ch:concrete-instances-crosshistcausal-namecert}.
+
+Since the finite carrier has no coordinate for a causal witness, maximum-rate function, privileged shared now, global observer frame, or selected synchronization map, the downstream causal packet extends the visible carrier route rather than replacing it.
+\end{proof}
+
 \closureat{FiniteMultiHistPacketUp}{seedStr}
 
 \begin{closurestatus}{\FiniteMultiHistPacketUp}
