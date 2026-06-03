@@ -5853,6 +5853,7 @@ import BEDC.Derived.MonotoneSequenceConvergenceUp.TasteGate
 import BEDC.Derived.MonotoneSubsequenceTheoremUp.TasteGate
 import BEDC.Derived.MonotoneSubsequenceUp.TasteGate
 import BEDC.Derived.MontelTheoremUp.TasteGate
+import BEDC.Derived.MooreAronszajnKernelUp
 import BEDC.Derived.MooreOsgoodUp.TasteGate
 import BEDC.Derived.MooreSmithCauchyNetFilterBridgeUp.TasteGate
 import BEDC.Derived.MooreSmithCauchySubnetCriterionUp.TasteGate
@@ -8436,6 +8437,7 @@ import BEDC.Derived.UpperRealUp
 import BEDC.Derived.UpperRealUp.ObligationSurface
 import BEDC.Derived.UpperRealUp.TasteGate
 import BEDC.Derived.UpperSemicontinuousUp.FiniteWindowStability
+import BEDC.Derived.UpperSemicontinuousUp.LowerDualBoundary
 import BEDC.Derived.UpperSemicontinuousUp.TasteGate
 import BEDC.Derived.UrysohnLemmaUp.TasteGate
 import BEDC.Derived.UseProcessBoundaryUp.TasteGate
