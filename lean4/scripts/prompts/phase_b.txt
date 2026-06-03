@@ -1,7 +1,7 @@
 You are the target-selection phase for BEDC Lean 4 formalization worker <WORKER_ID>.
 
 ## Prompts version
-v5.54 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
+v5.55 — Bump this version (here AND in `phase_c.txt`) whenever either prompt is meaningfully edited. The commit template in Phase C uses this string in every R-round commit so that each commit records which prompts produced it.
 
 ## Source priority weights (critical_path dispatch_weights)
 
@@ -15,31 +15,8 @@ Allocate your 3 targets approximately matching these weights:
 
 Source meanings:
 - top: `critical_path.top[0..N]` where N = `critical_path.dispatch_window.lean` (existing primary)
-- sieve_clearance_top: `critical_path.sieve_clearance_top` entries with small, local static-sieve gaps; use only when the listed clearance can be discharged by real Lean structure, not by renaming
-- discovery_candidate_top: `critical_path.discovery_candidate_top` entries are low-priority evidence attempts for a concrete before/after classifier shift. Pick at most one and only after the hard formal-axis/top gates have a target. The valid Lean outcome is a real non-smoke `DiscoveryDeltaLedger` / `DiscoveryTasteGate` backed by classifier disagreement and semantic endpoint evidence; if that evidence is absent, emit notes for the paper-side mechanical outcome instead of adding a shallow Lean declaration.
 - formal_axis_top: `critical_path.formal_axis_top` (theory-grade-high + formal-grade-low)
 - unformalized_top: `critical_path.unformalized_top` (theorem-level unformalized)
-- carrier_isomorphism_capstone: opportunity to write a new chapter abstracting a big phase-2 bucket from `carrier_isomorphism` field
-
-`critical_path.sieve_demote` is not a dispatch source. It is a low-priority signal already applied to matching `top` scores; do not select extra work merely because a target appears there.
-
-If `dispatch_weights.lean.capstone_candidate` is non-null, you have a pre-picked carrier-isomorphism abstraction candidate. Use the suggested name and slug from that object — do NOT pick your own bucket or invent a different name (the rotation picks the next bucket each cycle so you don't need to choose).
-
-The capstone chapter to draft:
-- Lean file: `lean4/BEDC/Derived/<suggested_lean_name>.lean` (no separate Capstones/ directory, no `Capstone` suffix in name)
-- Treat as a regular Derived chapter — same template as any other (inductive carrier, `BHistCarrier` instance, `ChapterTasteGate` instance, NameCert struct/def, alignment theorem). BEDC chapters are built layer-on-layer; every chapter is simultaneously a capstone of layers beneath and an instance of layers above
-- DO NOT modify the bucket member chapters this round (instance migration is a separate human-reviewed step)
-
-### HARD FLOOR for carrier_isomorphism_capstone
-
-If ALL of:
-- `dispatch_weights.lean.capstone_candidate` is non-null
-- `dispatch_weights.lean.consumption_60min.carrier_isomorphism_capstone == 0`
-- `<ROUND_NUM> % 25 == 0`  (one in 25 rounds — exact match on the modulo)
-
-then you MUST include exactly 1 capstone target (the pre-picked one) as 1 of your 3 targets, even if other sources have higher weights. This is an override floor that ensures periodic capstone attention. The other 2 of 3 targets fill normally per HARD GATEs + soft weights.
-
-If the HARD FLOOR doesn't fire, soft weight allocation continues (capstone gets ~0.10 share, picked only if codex naturally would).
 
 The existing HARD GATEs (1 of 3 from `top[0..critical_path.dispatch_window.lean)`, root_unblocks gate) STILL APPLY. Source weights are SOFT guidance for filling remaining slots after HARD GATEs are met.
 The mandatory top window follows `.pipeline_parallel.json`'s `lean` concurrency value via `critical_path.dispatch_window.lean`, preventing high-concurrency workers from being forced onto the same one or two hot chapters when a 71-line single-file chapter has no sibling surface to disperse claims.
