@@ -30,6 +30,13 @@
 - Markdown: `reports/canonical/quality-scorecard.md`
 - Metrics: `CertCov, DebtQ, CriticalDebt, LedgerCompleteness, ClassifierShiftCount, PositiveDiscoveryCount, AuditImprovementCount, NegativeResultCount, ScopeCompleteness, CostProtocolCompleteness, HardeningCoverage, OverclaimRate`
 
+## Discovery map
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/discovery_map.json`
+- Markdown: `reports/canonical/discovery_map.md`
+- Rows: `10`
+
 ## Paper outline
 
 - Status: `pointer-only`

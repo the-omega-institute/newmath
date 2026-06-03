@@ -27,6 +27,9 @@ INDEX_ROOT = "papers/bedc-quality-lab"
 QUALITY_SCORECARD_JSON_ARTIFACT = "reports/canonical/quality-scorecard.json"
 QUALITY_SCORECARD_MARKDOWN_ARTIFACT = "reports/canonical/quality-scorecard.md"
 QUALITY_SCORECARD_ARTIFACT_ID = "bedc-quality-lab:quality-scorecard"
+DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
+DISCOVERY_MAP_MARKDOWN_ARTIFACT = "reports/canonical/discovery_map.md"
+DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -914,6 +917,20 @@ def _quality_scorecard_index_section() -> dict[str, Any]:
     }
 
 
+def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, Any]:
+    from scripts.run_discovery_map import build_discovery_map
+
+    payload = build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=CANONICAL_REPORTS)
+    return {
+        "status": "pointer-only",
+        "artifact_id": DISCOVERY_MAP_ARTIFACT_ID,
+        "json_artifact": DISCOVERY_MAP_JSON_ARTIFACT,
+        "markdown_artifact": DISCOVERY_MAP_MARKDOWN_ARTIFACT,
+        "row_count": payload["row_count"],
+        "level_counts": payload["level_counts"],
+    }
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -978,6 +995,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "root": INDEX_ROOT,
         "reports": reports,
         "quality_scorecard": _quality_scorecard_index_section(),
+        "discovery_map": _discovery_map_index_section(generated_at=timestamp),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
         "honest_boundary": _honest_boundary(),
@@ -1032,6 +1050,13 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- JSON: `{payload['quality_scorecard']['json_artifact']}`",
             f"- Markdown: `{payload['quality_scorecard']['markdown_artifact']}`",
             f"- Metrics: `{', '.join(payload['quality_scorecard']['metrics'])}`",
+            "",
+            "## Discovery map",
+            "",
+            f"- Status: `{payload['discovery_map']['status']}`",
+            f"- JSON: `{payload['discovery_map']['json_artifact']}`",
+            f"- Markdown: `{payload['discovery_map']['markdown_artifact']}`",
+            f"- Rows: `{payload['discovery_map']['row_count']}`",
             "",
             "## Paper outline",
             "",
@@ -1103,6 +1128,9 @@ def run_reports(
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     payload = _index(results, generated_at=timestamp)
     scorecard = _build_quality_scorecard(results, generated_at=timestamp)
+    from scripts.run_discovery_map import write_discovery_map
+
+    write_discovery_map(generated_at=timestamp, root=ROOT, canonical_reports=CANONICAL_REPORTS)
     _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
     _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
     _write_json_atomic(INDEX_ARTIFACT, payload)
