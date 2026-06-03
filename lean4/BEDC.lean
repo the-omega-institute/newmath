@@ -5830,6 +5830,7 @@ import BEDC.Derived.MonotoneInverseUp.TasteGate
 import BEDC.Derived.MonotoneSequenceConvergenceUp.TasteGate
 import BEDC.Derived.MonotoneSubsequenceTheoremUp.TasteGate
 import BEDC.Derived.MonotoneSubsequenceUp.TasteGate
+import BEDC.Derived.MontelTheoremUp.TasteGate
 import BEDC.Derived.MooreOsgoodUp.TasteGate
 import BEDC.Derived.MooreSmithCauchyNetFilterBridgeUp.TasteGate
 import BEDC.Derived.MooreSmithCauchySubnetCriterionUp.TasteGate
