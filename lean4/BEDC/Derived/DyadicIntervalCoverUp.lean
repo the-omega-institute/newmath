@@ -442,4 +442,38 @@ theorem DyadicIntervalCoverRegularSequenceWindow_exhaustion [AskSetup] [PackageS
   }
   exact ⟨cert, windowUnary, readbackUnary, coverUnary, sealUnary⟩
 
+theorem DyadicIntervalCoverSealNonescape [AskSetup] [PackageSetup]
+    {L U M R V W Q A H C P N windowRead readbackRead coverRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (UnaryHistory L ∧ UnaryHistory U ∧ UnaryHistory M ∧ UnaryHistory R ∧
+        UnaryHistory V ∧ UnaryHistory W ∧ UnaryHistory Q ∧ UnaryHistory A ∧
+          UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+            PkgSig bundle P pkg) ->
+      Cont W Q windowRead ->
+        Cont windowRead M readbackRead ->
+          Cont readbackRead V coverRead ->
+            Cont coverRead A sealRead ->
+              PkgSig bundle sealRead pkg ->
+                UnaryHistory W ∧ UnaryHistory Q ∧ UnaryHistory M ∧ UnaryHistory V ∧
+                  UnaryHistory A ∧ UnaryHistory windowRead ∧ UnaryHistory readbackRead ∧
+                    UnaryHistory coverRead ∧ UnaryHistory sealRead ∧
+                      Cont W Q windowRead ∧ Cont windowRead M readbackRead ∧
+                        Cont readbackRead V coverRead ∧ Cont coverRead A sealRead ∧
+                          PkgSig bundle P pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrierRows windowRoute readbackRoute coverRoute sealRoute sealPkg
+  obtain ⟨_unaryL, _unaryU, unaryM, _unaryR, unaryV, unaryW, unaryQ, unaryA,
+    _unaryH, _unaryC, _unaryP, _unaryN, provenancePkg⟩ := carrierRows
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed unaryW unaryQ windowRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary unaryM readbackRoute
+  have coverUnary : UnaryHistory coverRead :=
+    unary_cont_closed readbackUnary unaryV coverRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed coverUnary unaryA sealRoute
+  exact
+    ⟨unaryW, unaryQ, unaryM, unaryV, unaryA, windowUnary, readbackUnary, coverUnary,
+      sealUnary, windowRoute, readbackRoute, coverRoute, sealRoute, provenancePkg, sealPkg⟩
+
 end BEDC.Derived.DyadicIntervalCoverUp
