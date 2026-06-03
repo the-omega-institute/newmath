@@ -358,7 +358,6 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.CompletionBoundaryExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.CompletionBoundarySaturation
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ConsumerLedgerCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.ConsumerLedgerExhaustion
-import BEDC.Derived.AuthorizedGeneratorRecursorUp.ConsumerNameCertTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DescentOutputLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedNameCertRoute
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.DisplayedRoute
@@ -428,7 +427,6 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteAuditCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteDeterminacy
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteDownstreamCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteNamingExhaustion
-import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputRouteStrictLocalObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.OutputStability
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealCarrierReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.PhaseRealHandoffObligations
@@ -3591,6 +3589,7 @@ import BEDC.Derived.DyadicIntervalArithmeticUp.EnclosureSoundness
 import BEDC.Derived.DyadicIntervalArithmeticUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
 import BEDC.Derived.DyadicIntervalBasisUp.TasteGate
+import BEDC.Derived.DyadicIntervalCoverUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalCoverUp.RootCompactHandoff
 import BEDC.Derived.DyadicIntervalCoverUp.RootFiniteCoverBoundary
 import BEDC.Derived.DyadicIntervalCoverUp.RootRegularReadback
@@ -3725,6 +3724,7 @@ import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuityFiniteNetSelectorUp.TasteGate
 import BEDC.Derived.EquicontinuityUp
 import BEDC.Derived.EquicontinuityUp.FiniteNetReadiness
+import BEDC.Derived.EquicontinuityUp.RootCompactSourceAdmission
 import BEDC.Derived.EquicontinuityUp.SharedModulusHandoffPreservation
 import BEDC.Derived.EquicontinuityUp.TasteGate
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
@@ -4711,7 +4711,6 @@ import BEDC.Derived.InducedRepUp
 import BEDC.Derived.InductionClosureLedgerUp.TasteGate
 import BEDC.Derived.InfCatUp
 import BEDC.Derived.InnerProductUp
-import BEDC.Derived.InnerProductUp.CarrierRow
 import BEDC.Derived.InnerProductUp.PublicExportSurface
 import BEDC.Derived.InnerProductUp.TasteGate
 import BEDC.Derived.InscribedRouteSelectorUp.TasteGate
