@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:quality-scorecard",
-  "generated_at": "2026-06-03T05:12:47.442390+00:00",
+  "generated_at": "2026-06-03T06:17:47.832908+00:00",
   "input_reports": [
     {
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
@@ -20,6 +20,11 @@
     {
       "json_artifact": "reports/canonical/gap-head-discovery.json",
       "name": "gap-head-discovery",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/gap-head-ablation.json",
+      "name": "gap-head-ablation",
       "status": "pass"
     },
     {
@@ -154,9 +159,9 @@
       "value": 10
     },
     {
-      "denominator": 8,
+      "denominator": 9,
       "metric": "ScopeCompleteness",
-      "numerator": 8,
+      "numerator": 9,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -177,6 +182,11 @@
           "artifact": "reports/canonical/gap-head-discovery.json",
           "pointer": "$.boundary_checks",
           "report": "gap-head-discovery"
+        },
+        {
+          "artifact": "reports/canonical/gap-head-ablation.json",
+          "pointer": "$.applicability_boundary",
+          "report": "gap-head-ablation"
         },
         {
           "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
@@ -203,9 +213,9 @@
       "value": 1.0
     },
     {
-      "denominator": 8,
+      "denominator": 9,
       "metric": "CostProtocolCompleteness",
-      "numerator": 8,
+      "numerator": 9,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -226,6 +236,11 @@
           "artifact": "reports/canonical/gap-head-discovery.json",
           "pointer": "$.score_terms",
           "report": "gap-head-discovery"
+        },
+        {
+          "artifact": "reports/canonical/gap-head-ablation.json",
+          "pointer": "$.control_protocol",
+          "report": "gap-head-ablation"
         },
         {
           "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
