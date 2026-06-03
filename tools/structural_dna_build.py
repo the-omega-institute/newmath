@@ -4,9 +4,13 @@
 from __future__ import annotations
 
 import json
+import fcntl
+import os
 import subprocess
+import time
+from contextlib import contextmanager
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Iterator
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LEAN_ROOT = REPO_ROOT / "lean4"
@@ -14,6 +18,8 @@ STRUCTURAL_DNA_EXE = LEAN_ROOT / ".lake" / "build" / "bin" / "structural_dna"
 STRUCTURAL_DNA_MAIN = LEAN_ROOT / "scripts" / "structural_dna" / "Main.lean"
 STRUCTURAL_DNA_BUILD_TIMEOUT = 1200
 STRUCTURAL_DNA_PROBE_TIMEOUT = 1200
+STRUCTURAL_DNA_LOCK_TIMEOUT = 1800
+STRUCTURAL_DNA_BUILD_LOCK = Path("/tmp/.bedc_structural_dna_build.lock")
 PROBE_IMPORTS = ["scripts.structural_dna.TestTargets"]
 PROBE_DECLS = ["BEDC.StructuralDna.TestTargets.AlphaLamA"]
 
@@ -71,6 +77,43 @@ def probe_has_canonical_payload(process: subprocess.CompletedProcess[str]) -> bo
     return False
 
 
+@contextmanager
+def structural_dna_build_lock(
+    *,
+    append_log: Callable[[str], None] | None = None,
+    label: str = "structural_dna",
+    timeout: int = STRUCTURAL_DNA_LOCK_TIMEOUT,
+) -> Iterator[None]:
+    lock_fd = os.open(STRUCTURAL_DNA_BUILD_LOCK, os.O_RDWR | os.O_CREAT, 0o644)
+    deadline = time.monotonic() + max(1, int(timeout))
+    try:
+        while True:
+            try:
+                fcntl.flock(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except BlockingIOError:
+                if time.monotonic() >= deadline:
+                    raise TimeoutError(
+                        f"structural_dna build lock timed out after {timeout}s: {STRUCTURAL_DNA_BUILD_LOCK}"
+                    )
+                time.sleep(0.25)
+        os.ftruncate(lock_fd, 0)
+        os.write(lock_fd, f"{os.getpid()}\n".encode())
+        try:
+            os.fsync(lock_fd)
+        except OSError:
+            pass
+        if append_log is not None:
+            append_log(f"[{label}] structural_dna build lock acquired")
+        yield
+    finally:
+        try:
+            fcntl.flock(lock_fd, fcntl.LOCK_UN)
+        except Exception:
+            pass
+        os.close(lock_fd)
+
+
 def ensure_structural_dna_build(
     *,
     append_log: Callable[[str], None] | None = None,
@@ -98,45 +141,46 @@ def ensure_structural_dna_build(
         log(f"[{label}] structural_dna build ok ({reason})")
         return None
 
-    if structural_dna_source_newer_than_exe():
-        failure = build_once("source newer than executable")
-        if failure is not None:
-            return failure
+    def probe_once(*, after_rebuild: bool = False) -> tuple[bool, str | None, subprocess.CompletedProcess[str] | None]:
+        try:
+            probe = structural_dna_probe()
+        except subprocess.TimeoutExpired:
+            suffix = " after forced rebuild" if after_rebuild else ""
+            detail = f"structural_dna canonical-payload probe timed out{suffix} after {STRUCTURAL_DNA_PROBE_TIMEOUT}s"
+            log(f"[{label}] [WARNING] {detail}")
+            return False, detail, None
+        except Exception as exc:
+            suffix = " after forced rebuild" if after_rebuild else ""
+            detail = f"structural_dna canonical-payload probe could not start{suffix}: {type(exc).__name__}: {exc}"
+            log(f"[{label}] [WARNING] {detail}")
+            return False, detail, None
+        return probe_has_canonical_payload(probe), None, probe
 
     try:
-        probe = structural_dna_probe()
-    except subprocess.TimeoutExpired:
-        detail = f"structural_dna canonical-payload probe timed out after {STRUCTURAL_DNA_PROBE_TIMEOUT}s"
-        log(f"[{label}] [WARNING] {detail}")
-        return detail
-    except Exception as exc:
-        detail = f"structural_dna canonical-payload probe could not start: {type(exc).__name__}: {exc}"
-        log(f"[{label}] [WARNING] {detail}")
-        return detail
-    if probe_has_canonical_payload(probe):
-        return None
+        with structural_dna_build_lock(append_log=append_log, label=label):
+            if structural_dna_source_newer_than_exe():
+                failure = build_once("source newer than executable")
+                if failure is not None:
+                    return failure
 
-    failure = build_once("canonical payload probe empty")
-    if failure is not None:
-        return failure
-    try:
-        retry = structural_dna_probe()
-    except subprocess.TimeoutExpired:
-        detail = (
-            "structural_dna canonical-payload probe timed out after forced rebuild "
-            f"after {STRUCTURAL_DNA_PROBE_TIMEOUT}s"
-        )
+            ok, failure, probe = probe_once()
+            if ok:
+                return None
+            if failure is not None:
+                return failure
+
+            failure = build_once("canonical payload probe empty")
+            if failure is not None:
+                return failure
+            ok, failure, retry = probe_once(after_rebuild=True)
+            if ok:
+                return None
+            if failure is not None:
+                return failure
+            detail = "structural_dna canonical-payload probe returned empty after forced rebuild"
+            log(f"[{label}] [WARNING] {detail}: {short_process_output(retry) if retry else short_process_output(probe)}")
+            return detail
+    except TimeoutError as exc:
+        detail = str(exc)
         log(f"[{label}] [WARNING] {detail}")
         return detail
-    except Exception as exc:
-        detail = (
-            "structural_dna canonical-payload probe could not start after forced rebuild: "
-            f"{type(exc).__name__}: {exc}"
-        )
-        log(f"[{label}] [WARNING] {detail}")
-        return detail
-    if probe_has_canonical_payload(retry):
-        return None
-    detail = "structural_dna canonical-payload probe returned empty after forced rebuild"
-    log(f"[{label}] [WARNING] {detail}: {short_process_output(retry)}")
-    return detail
