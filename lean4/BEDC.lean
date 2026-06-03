@@ -4496,6 +4496,7 @@ import BEDC.Derived.HashUp
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.NameCertObligations
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.SeparatedMetricRoute
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.TasteGate
+import BEDC.Derived.HausdorffCompletionKernelUp.TasteGate
 import BEDC.Derived.HausdorffCompletionUniversalUp.TasteGate
 import BEDC.Derived.HausdorffCompletionUp
 import BEDC.Derived.HausdorffCompletionUp.CarrierNameCertObligations
@@ -6597,6 +6598,7 @@ import BEDC.Derived.RealCauchyRateUp
 import BEDC.Derived.RealCauchySumUp.TasteGate
 import BEDC.Derived.RealCauchyWitnessGridUp.TasteGate
 import BEDC.Derived.RealClassifierUp
+import BEDC.Derived.RealClosureUp.TasteGate
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
 import BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
 import BEDC.Derived.RealCompletenessUp
@@ -7468,6 +7470,7 @@ import BEDC.Derived.SelectionFreeCauchyRealUp.TasteGate
 import BEDC.Derived.SelectorLedgerUp
 import BEDC.Derived.SelfReferenceTruthBranchUp.TasteGate
 import BEDC.Derived.SelfTheoryReflectionLoopUp.TasteGate
+import BEDC.Derived.SemidecidableOpenUp
 import BEDC.Derived.SemidefiniteConeUp
 import BEDC.Derived.SemigroupUp
 import BEDC.Derived.SemiringUp
@@ -8387,6 +8390,7 @@ import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.WeylGroupUp.PublicBoundary
 import BEDC.Derived.WeylGroupUp.RootSystemMatureBridge
 import BEDC.Derived.WeylGroupUp.TasteGate
+import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
 import BEDC.Derived.WitnessedDescentLedgerUp.TasteGate
 import BEDC.Derived.WitnessedRefutationUp.TasteGate
