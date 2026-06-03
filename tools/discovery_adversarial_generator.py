@@ -22,7 +22,7 @@ BEDC_CI_PATH = REPO_ROOT / "lean4" / "scripts" / "bedc_ci.py"
 LOG_DIR = REPO_ROOT / "tools" / "logs"
 DEFAULT_OUTPUT = LOG_DIR / "proven_pseudos.jsonl"
 DEFAULT_LOG = LOG_DIR / "discovery_adversarial_generator.log"
-PID_LOCK_PATH = Path("/tmp/.bedc_adversarial_generator.pid")
+PID_LOCK_PATH = Path("/tmp/.bedc_discovery_adversarial_generator.pid")
 DEFAULT_INTERVAL = 21600
 DEFAULT_MAX_NEW_PER_BUCKET = 1
 DEFAULT_MAX_RECORDS_PER_CYCLE = 50
@@ -544,6 +544,7 @@ def main() -> int:
                 append_log(f"[error] cycle failed: {type(exc).__name__}: {exc}")
                 print_once_result({"status": "error", "error_type": type(exc).__name__, "error": str(exc)})
                 return 2
+        append_log(f"[adversarial-generator] daemon start interval={max(1, int(args.interval))}s")
         while True:
             try:
                 run_once(args)
