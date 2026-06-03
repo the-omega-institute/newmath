@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.HausdorffCompletionKernelUp.TasteGate
+namespace BEDC.Derived.HausdorffCompletionKernelUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -157,6 +157,28 @@ instance hausdorffCompletionKernelNontrivial : Nontrivial HausdorffCompletionKer
         intro h
         cases h⟩
 
+def taste_gate : ChapterTasteGate HausdorffCompletionKernelUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  hausdorffCompletionKernelChapterTasteGate
+
+theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate HausdorffCompletionKernelUp) ∧
+      Nonempty (FieldFaithful HausdorffCompletionKernelUp) ∧
+        Nonempty (Nontrivial HausdorffCompletionKernelUp) ∧
+          (∀ h : BHist,
+            hausdorffCompletionKernelDecodeBHist
+              (hausdorffCompletionKernelEncodeBHist h) = h) ∧
+            hausdorffCompletionKernelEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  exact
+    ⟨⟨hausdorffCompletionKernelChapterTasteGate⟩,
+      ⟨hausdorffCompletionKernelFieldFaithful⟩,
+      ⟨hausdorffCompletionKernelNontrivial⟩,
+      HausdorffCompletionKernelTasteGate_single_carrier_alignment_decode,
+      rfl⟩
+
+namespace TasteGate
+
 def hausdorffCompletionKernelTasteGate : ChapterTasteGate HausdorffCompletionKernelUp :=
   -- BEDC touchpoint anchor: BHist BMark
   hausdorffCompletionKernelChapterTasteGate
@@ -179,4 +201,6 @@ theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment :
         HausdorffCompletionKernelTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.HausdorffCompletionKernelUp.TasteGate
+end TasteGate
+
+end BEDC.Derived.HausdorffCompletionKernelUp
