@@ -2432,6 +2432,7 @@ import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.CompactNetModulusBudgetUp.NameCertObligations
 import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
 import BEDC.Derived.CompactNetModulusSelectorUp.ConsumerFactorization
+import BEDC.Derived.CompactNetModulusSelectorUp.FiniteNetExposure
 import BEDC.Derived.CompactNetModulusSelectorUp.FoldSoundness
 import BEDC.Derived.CompactNetModulusSelectorUp.IndependenceBoundary
 import BEDC.Derived.CompactNetModulusSelectorUp.KernelCarrier
@@ -5183,8 +5184,8 @@ import BEDC.Derived.LowerRealUp.DedekindCutAdmission
 import BEDC.Derived.LowerRealUp.LocatedCutLedger
 import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.TasteGate
-import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
+import BEDC.Derived.LowerSemicontinuousUp.RootRealSealBoundary
 import BEDC.Derived.LowerSemicontinuousUp.RootRegularReadbackHandoff
 import BEDC.Derived.LowerSemicontinuousUp.TasteGate
 import BEDC.Derived.LowerUpperRealCutUp
@@ -6484,7 +6485,6 @@ import BEDC.Derived.ProperMetricUp.TasteGate
 import BEDC.Derived.PropextTransportBoundaryUp
 import BEDC.Derived.PropextTransportBoundaryUp.NameCertObligations
 import BEDC.Derived.PropextTransportBoundaryUp.TasteGate
-import BEDC.Derived.ProximalMapUp.TasteGate
 import BEDC.Derived.ProximinalSetUp.TasteGate
 import BEDC.Derived.PseudometricUp
 import BEDC.Derived.PseudometricUp.ClassifierStability
