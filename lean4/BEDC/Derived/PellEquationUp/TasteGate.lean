@@ -3,6 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
@@ -14,6 +15,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
@@ -215,5 +217,65 @@ theorem PellEquation_norm_preservation [AskSetup] [PackageSetup]
     unary_cont_closed normUnary yUnary witnessRoute
   exact
     ⟨nUnary, normUnary, witnessUnary, normRoute, witnessRoute, provenancePkg, witnessPkg⟩
+
+theorem PellEquationCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {D X Y N Q V L H C K M endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PellEquationCarrier D X Y N Q V L H C K M bundle pkg ->
+      Cont N Q endpoint ->
+        PkgSig bundle endpoint pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row D ∨ hsame row X ∨ hsame row Y ∨ hsame row N ∨
+                  hsame row Q ∨ hsame row V ∨ hsame row L ∨ hsame row H ∨
+                    hsame row C ∨ hsame row K ∨ hsame row M ∨ hsame row endpoint)
+              (fun row : BHist =>
+                UnaryHistory row ∧ PkgSig bundle K pkg ∧
+                  PkgSig bundle M pkg ∧ PkgSig bundle endpoint pkg)
+              hsame ∧
+            UnaryHistory endpoint := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg SemanticNameCert
+  intro carrier endpointRoute endpointPkg
+  obtain ⟨_dUnary, _xUnary, _yUnary, nUnary, qUnary, _vUnary, _lUnary,
+    _hUnary, _cUnary, kUnary, mUnary, provenancePkg, localNamePkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed nUnary qUnary endpointRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row X ∨ hsame row Y ∨ hsame row N ∨
+              hsame row Q ∨ hsame row V ∨ hsame row L ∨ hsame row H ∨
+                hsame row C ∨ hsame row K ∨ hsame row M ∨ hsame row endpoint)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle K pkg ∧
+              PkgSig bundle M pkg ∧ PkgSig bundle endpoint pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := ⟨endpoint, hsame_refl endpoint, endpointUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro row other last sameRO sameOL
+        exact hsame_trans sameRO sameOL
+      carrier_respects_equiv := by
+        intro row other same source
+        exact ⟨hsame_trans (hsame_symm same) source.left,
+          unary_transport source.right same⟩
+    }
+    pattern_sound := by
+      intro row source
+      repeat apply Or.inr
+      exact source.left
+    ledger_sound := by
+      intro row source
+      exact ⟨source.right, provenancePkg, localNamePkg, endpointPkg⟩
+  }
+  exact ⟨cert, endpointUnary⟩
 
 end BEDC.Derived.PellEquationUp
