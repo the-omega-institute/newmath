@@ -227,6 +227,26 @@ def test_missing_cost_protocol_and_not_ready_scorecard_fail_closed(tmp_path, mon
     assert scorecard_verdict["reason"] == "scorecard-not-ready"
 
 
+def test_demoted_terminal_positive_discovery_fails_closed_with_ledger_pointer(tmp_path, monkeypatch):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+
+    def synthesize_demoted(certificate_payload, evidence_payload, *, timestamp_iso):
+        assert certificate_payload is None
+        assert timestamp_iso == "2030-01-01T00:00:00+00:00"
+        assert evidence_payload["quality_scorecard"] == _scorecard()
+        return {"verdict": "demoted", "reason": "audit-improvement-tradeoff"}
+
+    monkeypatch.setattr(demo, "synthesize_certification_verdict", synthesize_demoted)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "rejected_due_to_hidden_debt"
+    assert verdict["reason"] == "audit-improvement-tradeoff"
+    assert verdict["ledger_pointer"] == "reports/canonical/d4.json:$.cost"
+
+
 def test_scope_laundering_cell_rejects_with_real_pointer(tmp_path, monkeypatch):
     rows = [_discovery_row("gap-head-discovery", "reports/canonical/gap-head-discovery.json", "D4")]
     specs = (_spec("gap-head-discovery", "reports/canonical/gap-head-discovery.json"),)
