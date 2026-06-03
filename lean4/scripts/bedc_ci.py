@@ -14,7 +14,7 @@ import re
 import subprocess
 import sys
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
@@ -29,6 +29,7 @@ TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
 LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
 DISCOVERY_GATE_WITNESS_REGISTRY_PATH = SCRIPT_DIR / "discovery_gate_witnesses.json"
 TASTE_OBLIGATION_REGISTRY_PATH = SCRIPT_DIR / "taste_obligations.json"
+SCAN_LEAN_SOURCES_CACHE_PATH = Path("/tmp/.bedc_scan_lean_sources_cache.json")
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -745,6 +746,232 @@ def collect_declarations(path: Path) -> tuple[list[DeclarationRecord], list[Fiel
     return decls, fields
 
 
+@dataclass(frozen=True)
+class LeanSourceFileExtract:
+    declarations: list[DeclarationRecord]
+    fields: list[FieldRecord]
+    declaration_headers: dict[str, str]
+    declaration_bodies: dict[str, str]
+    discovery_delta_ledgers: list[DiscoveryDeltaLedgerRecord]
+
+
+def _scan_cache_enabled() -> bool:
+    return os.environ.get("BEDC_SCAN_CACHE") != "0"
+
+
+def _load_scan_lean_sources_cache() -> dict[str, object]:
+    try:
+        if not SCAN_LEAN_SOURCES_CACHE_PATH.exists():
+            return {}
+        data = json.loads(SCAN_LEAN_SOURCES_CACHE_PATH.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def _save_scan_lean_sources_cache(cache: dict[str, object]) -> None:
+    try:
+        tmp = SCAN_LEAN_SOURCES_CACHE_PATH.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+        tmp.replace(SCAN_LEAN_SOURCES_CACHE_PATH)
+    except Exception:
+        pass
+
+
+def _record_list_from_json(
+    raw: object,
+    record_type: type[DeclarationRecord] | type[FieldRecord] | type[DiscoveryDeltaLedgerRecord],
+) -> list[DeclarationRecord] | list[FieldRecord] | list[DiscoveryDeltaLedgerRecord] | None:
+    if not isinstance(raw, list):
+        return None
+    records: list[DeclarationRecord] | list[FieldRecord] | list[DiscoveryDeltaLedgerRecord] = []
+    try:
+        for item in raw:
+            if not isinstance(item, dict):
+                return None
+            records.append(record_type(**item))
+    except Exception:
+        return None
+    return records
+
+
+def _extract_from_cache(raw: object) -> LeanSourceFileExtract | None:
+    if not isinstance(raw, dict):
+        return None
+    extract = raw.get("extract")
+    if not isinstance(extract, dict):
+        return None
+
+    declarations = _record_list_from_json(extract.get("declarations"), DeclarationRecord)
+    fields = _record_list_from_json(extract.get("fields"), FieldRecord)
+    ledgers = _record_list_from_json(
+        extract.get("discovery_delta_ledgers"),
+        DiscoveryDeltaLedgerRecord,
+    )
+    headers = extract.get("declaration_headers")
+    bodies = extract.get("declaration_bodies")
+    if (
+        declarations is None
+        or fields is None
+        or ledgers is None
+        or not isinstance(headers, dict)
+        or not isinstance(bodies, dict)
+        or not all(isinstance(k, str) and isinstance(v, str) for k, v in headers.items())
+        or not all(isinstance(k, str) and isinstance(v, str) for k, v in bodies.items())
+    ):
+        return None
+
+    return LeanSourceFileExtract(
+        declarations=declarations,
+        fields=fields,
+        declaration_headers=dict(headers),
+        declaration_bodies=dict(bodies),
+        discovery_delta_ledgers=ledgers,
+    )
+
+
+def _extract_to_json(extract: LeanSourceFileExtract) -> dict[str, object]:
+    return {
+        "declarations": [asdict(record) for record in extract.declarations],
+        "fields": [asdict(record) for record in extract.fields],
+        "declaration_headers": extract.declaration_headers,
+        "declaration_bodies": extract.declaration_bodies,
+        "discovery_delta_ledgers": [
+            asdict(record) for record in extract.discovery_delta_ledgers
+        ],
+    }
+
+
+def _scan_lean_source_file(path: Path) -> LeanSourceFileExtract:
+    declarations: list[DeclarationRecord] = []
+    fields: list[FieldRecord] = []
+    declaration_headers: dict[str, str] = {}
+    declaration_bodies: dict[str, str] = {}
+    ledgers: list[DiscoveryDeltaLedgerRecord] = []
+
+    text = strip_comments_and_strings(read_text(path))
+    lines = text.splitlines()
+    module = module_name(path)
+    rel_file = str(path.relative_to(REPO_ROOT))
+    namespace_stack: list[str] = []
+    for idx, line in enumerate(lines, start=1):
+        update_namespace_stack(line, namespace_stack)
+        namespace = declaration_namespace(module, namespace_stack)
+        match = DECL_RE.match(line)
+        if not match:
+            continue
+        kind = match.group("kind")
+        name = (match.group("name") or f"<anonymous_{kind}_{idx}>").strip()
+        qualified = qualified_name(name, namespace)
+        is_private = re.match(
+            r"^\s*(?:@\[[^\]]+\]\s*)*private\b",
+            line,
+        ) is not None
+        declarations.append(
+            DeclarationRecord(
+                module=module,
+                file=rel_file,
+                line=idx,
+                kind=kind,
+                name=name,
+                qualified_name=qualified,
+                is_private=is_private,
+            )
+        )
+
+        header_lines = [line]
+        scan_idx = idx
+        while (
+            scan_idx < len(lines)
+            and len(header_lines) < 24
+            and ":=" not in "\n".join(header_lines)
+            and not re.search(r"\bwhere\b", "\n".join(header_lines))
+        ):
+            next_line = lines[scan_idx]
+            if next_line.strip() and not next_line.startswith((" ", "\t")):
+                break
+            header_lines.append(next_line)
+            scan_idx += 1
+        header_text = "\n".join(header_lines)
+        declaration_headers[qualified] = header_text
+        body_text = _declaration_body_from_lines(lines, idx - 1)
+        declaration_bodies[qualified] = body_text
+
+        if kind in ("structure", "class"):
+            parent = qualified
+            j = idx
+            while j < len(lines):
+                next_line = lines[j]
+                if next_line.strip() == "":
+                    j += 1
+                    continue
+                if not next_line.startswith((" ", "\t")):
+                    break
+                field_match = FIELD_RE.match(next_line)
+                if field_match:
+                    field_name = field_match.group("name")
+                    fields.append(
+                        FieldRecord(
+                            parent=parent,
+                            name=field_name,
+                            qualified_name=f"{parent}.{field_name}",
+                            file=rel_file,
+                            line=j + 1,
+                        )
+                    )
+                j += 1
+
+        if kind == "inductive":
+            parent = qualified
+            j = idx
+            while j < len(lines):
+                next_line = lines[j]
+                if next_line.strip() == "":
+                    j += 1
+                    continue
+                if not next_line.startswith((" ", "\t")):
+                    break
+                ctor_match = CTOR_RE.match(next_line)
+                if ctor_match:
+                    ctor_name = ctor_match.group("name")
+                    fields.append(
+                        FieldRecord(
+                            parent=parent,
+                            name=ctor_name,
+                            qualified_name=f"{namespace}.{ctor_name}",
+                            file=rel_file,
+                            line=j + 1,
+                        )
+                    )
+                j += 1
+
+        if kind in ("def", "abbrev") and _header_has_discovery_delta_ledger_result(
+            header_text,
+        ):
+            ledgers.append(
+                DiscoveryDeltaLedgerRecord(
+                    name=name,
+                    qualified_name=qualified,
+                    file=rel_file,
+                    line=idx,
+                    chapter_region=_ledger_name_stem(name),
+                    chapter_key=_region_key(_ledger_name_stem(name)),
+                    has_classifier_shift=re.search(
+                        r"\bclassifier_shift\s*:=\s*some\b",
+                        body_text,
+                    ) is not None,
+                )
+            )
+
+    return LeanSourceFileExtract(
+        declarations=declarations,
+        fields=fields,
+        declaration_headers=declaration_headers,
+        declaration_bodies=declaration_bodies,
+        discovery_delta_ledgers=ledgers,
+    )
+
+
 def scan_lean_sources() -> LeanSourceScan:
     declarations: list[DeclarationRecord] = []
     fields: list[FieldRecord] = []
@@ -752,120 +979,40 @@ def scan_lean_sources() -> LeanSourceScan:
     declaration_bodies: dict[str, str] = {}
     ledgers: list[DiscoveryDeltaLedgerRecord] = []
 
+    use_cache = _scan_cache_enabled()
+    cache = _load_scan_lean_sources_cache() if use_cache else {}
+    new_cache: dict[str, object] = {}
+
     for path in lean_files():
-        text = strip_comments_and_strings(read_text(path))
-        lines = text.splitlines()
-        module = module_name(path)
         rel_file = str(path.relative_to(REPO_ROOT))
-        namespace_stack: list[str] = []
-        for idx, line in enumerate(lines, start=1):
-            update_namespace_stack(line, namespace_stack)
-            namespace = declaration_namespace(module, namespace_stack)
-            match = DECL_RE.match(line)
-            if not match:
-                continue
-            kind = match.group("kind")
-            name = (match.group("name") or f"<anonymous_{kind}_{idx}>").strip()
-            qualified = qualified_name(name, namespace)
-            is_private = re.match(
-                r"^\s*(?:@\[[^\]]+\]\s*)*private\b",
-                line,
-            ) is not None
-            declarations.append(
-                DeclarationRecord(
-                    module=module,
-                    file=rel_file,
-                    line=idx,
-                    kind=kind,
-                    name=name,
-                    qualified_name=qualified,
-                    is_private=is_private,
-                )
-            )
+        try:
+            mtime = path.stat().st_mtime
+        except Exception:
+            continue
 
-            header_lines = [line]
-            scan_idx = idx
-            while (
-                scan_idx < len(lines)
-                and len(header_lines) < 24
-                and ":=" not in "\n".join(header_lines)
-                and not re.search(r"\bwhere\b", "\n".join(header_lines))
-            ):
-                next_line = lines[scan_idx]
-                if next_line.strip() and not next_line.startswith((" ", "\t")):
-                    break
-                header_lines.append(next_line)
-                scan_idx += 1
-            header_text = "\n".join(header_lines)
-            declaration_headers[qualified] = header_text
-            body_text = _declaration_body_from_lines(lines, idx - 1)
-            declaration_bodies[qualified] = body_text
+        cached_entry = cache.get(rel_file) if isinstance(cache, dict) else None
+        extract = None
+        if (
+            isinstance(cached_entry, dict)
+            and cached_entry.get("mtime") == mtime
+        ):
+            extract = _extract_from_cache(cached_entry)
+        if extract is None:
+            extract = _scan_lean_source_file(path)
 
-            if kind in ("structure", "class"):
-                parent = qualified
-                j = idx
-                while j < len(lines):
-                    next_line = lines[j]
-                    if next_line.strip() == "":
-                        j += 1
-                        continue
-                    if not next_line.startswith((" ", "\t")):
-                        break
-                    field_match = FIELD_RE.match(next_line)
-                    if field_match:
-                        field_name = field_match.group("name")
-                        fields.append(
-                            FieldRecord(
-                                parent=parent,
-                                name=field_name,
-                                qualified_name=f"{parent}.{field_name}",
-                                file=rel_file,
-                                line=j + 1,
-                            )
-                        )
-                    j += 1
+        declarations.extend(extract.declarations)
+        fields.extend(extract.fields)
+        declaration_headers.update(extract.declaration_headers)
+        declaration_bodies.update(extract.declaration_bodies)
+        ledgers.extend(extract.discovery_delta_ledgers)
+        if use_cache:
+            new_cache[rel_file] = {
+                "mtime": mtime,
+                "extract": _extract_to_json(extract),
+            }
 
-            if kind == "inductive":
-                parent = qualified
-                j = idx
-                while j < len(lines):
-                    next_line = lines[j]
-                    if next_line.strip() == "":
-                        j += 1
-                        continue
-                    if not next_line.startswith((" ", "\t")):
-                        break
-                    ctor_match = CTOR_RE.match(next_line)
-                    if ctor_match:
-                        ctor_name = ctor_match.group("name")
-                        fields.append(
-                            FieldRecord(
-                                parent=parent,
-                                name=ctor_name,
-                                qualified_name=f"{namespace}.{ctor_name}",
-                                file=rel_file,
-                                line=j + 1,
-                            )
-                        )
-                    j += 1
-
-            if kind in ("def", "abbrev") and _header_has_discovery_delta_ledger_result(
-                header_text,
-            ):
-                ledgers.append(
-                    DiscoveryDeltaLedgerRecord(
-                        name=name,
-                        qualified_name=qualified,
-                        file=rel_file,
-                        line=idx,
-                        chapter_region=_ledger_name_stem(name),
-                        chapter_key=_region_key(_ledger_name_stem(name)),
-                        has_classifier_shift=re.search(
-                            r"\bclassifier_shift\s*:=\s*some\b",
-                            body_text,
-                        ) is not None,
-                    )
-                )
+    if use_cache:
+        _save_scan_lean_sources_cache(new_cache)
 
     return LeanSourceScan(
         declarations=declarations,
