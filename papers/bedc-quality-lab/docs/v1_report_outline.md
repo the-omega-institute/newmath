@@ -38,9 +38,9 @@ Purpose: enumerate the canonical report bundle by role and artifact path while l
 
 Pointers: `reports/canonical/index.json` `$.reports[*].name`; `$.reports[*].bundle_role`; `$.reports[*].json_artifact`; `$.reports[*].markdown_artifact`; `$.reports[*].status`.
 
-## 7. Positive: gap-head-on-h
+## 7. Selected positive worked case: gap-head-on-h
 
-Purpose: mark `gap-head-on-h` as the only positive discovery prototype in this report frame.
+Purpose: `gap-head-on-h` is the selected positive worked case for this report frame; positive-discovery classification is read from `reports/canonical/discovery_map.json:$.rows[*]`, so this section does not claim uniqueness among positive rows.
 
 Pointers: `reports/canonical/gap-head-on-h.{json,md}`; `reports/canonical/index.json` `$.reports[?(@.name=="gap-head-on-h")]`; `reports/canonical/gap-head-on-h.json` `$.main_claim_status`; `$.control_verdict`; `$.treatment_comparison`; `$.applicability_boundary`.
 

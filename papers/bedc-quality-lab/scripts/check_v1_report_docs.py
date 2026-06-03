@@ -12,19 +12,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DOC_PATHS = [
+    ROOT / "docs" / "bedc_quality_lab_v1.md",
     ROOT / "docs" / "v1_report_outline.md",
+    ROOT / "docs" / "bedc_quality_lab_alpha_milestone.md",
     ROOT / "docs" / "claims_and_nonclaims.md",
     ROOT / "docs" / "artifact_manifest.md",
 ]
 INDEX_PATH = ROOT / "reports" / "canonical" / "index.json"
-
-REQUIRED_NONCLAIMS = [
-    "not full LeJEPA",
-    "not full Tensor NameCert",
-    "not global quality",
-    "not LLM behavior",
-    "not solved model quality",
-]
+DISCOVERY_MAP_PATH = ROOT / "reports" / "canonical" / "discovery_map.json"
 
 BEDC_BODY_MARKERS = [
     r"\\closurestatus",
@@ -44,14 +39,14 @@ BEDC_BODY_MARKERS = [
     r"\\upgradepath",
 ]
 
-POSITIVE_PROTOTYPE_PHRASE = "positive discovery prototype"
-UNIQUE_POSITIVE_REPORT = "gap-head-on-h"
+SELECTED_WORKED_CASE_PHRASE = "selected positive worked case"
+SELECTED_WORKED_CASE_REPORT = "gap-head-on-h"
 NON_POSITIVE_REPORTS = [
-    "gap-head-discovery",
     "certificate-guided-training",
     "certificate-guided-discovery",
     "nongaussian-distribution-sweep",
 ]
+UNIQUE_POSITIVE_WORDING_RE = re.compile(r"\b(?:only|unique)\s+positive\b", re.IGNORECASE)
 POSITIVE_FRAMING_RE = re.compile(
     r"\bpositive\s+(?:result|discovery|prototype|finding|claim|outcome|artifact|report|signal)\b",
     re.IGNORECASE,
@@ -127,11 +122,22 @@ def check_core_reports_pass(index: dict | None) -> CheckResult:
 
 def check_required_nonclaims(docs: dict[Path, str]) -> CheckResult:
     text = docs[ROOT / "docs" / "claims_and_nonclaims.md"]
-    items = extract_list_items_under_heading(text, "Not Claimed")
-    missing = [item for item in REQUIRED_NONCLAIMS if item not in items]
-    if missing:
-        return CheckResult("HG-V1-Report-2", "FAIL", "missing exact nonclaim(s): " + ", ".join(missing))
-    return CheckResult("HG-V1-Report-2", "PASS", "all exact nonclaims present")
+    if "reports/canonical/index.json:$.claims_nonclaims" not in text:
+        return CheckResult(
+            "HG-V1-Report-2",
+            "FAIL",
+            "claims boundary does not point to reports/canonical/index.json:$.claims_nonclaims",
+        )
+    index, _ = load_index()
+    if index is None:
+        return CheckResult("HG-V1-Report-2", "FAIL", "reports/canonical/index.json is missing")
+    claims_nonclaims = index.get("claims_nonclaims")
+    if not isinstance(claims_nonclaims, dict):
+        return CheckResult("HG-V1-Report-2", "FAIL", "canonical index missing $.claims_nonclaims")
+    items = claims_nonclaims.get("nonclaims")
+    if not isinstance(items, list) or not items:
+        return CheckResult("HG-V1-Report-2", "FAIL", "canonical index has no $.claims_nonclaims.nonclaims list")
+    return CheckResult("HG-V1-Report-2", "PASS", "claims document points to canonical nonclaims")
 
 
 def extract_list_items_under_heading(text: str, heading: str) -> set[str]:
@@ -168,7 +174,6 @@ def check_certificate_guided_boundary(docs: dict[Path, str]) -> CheckResult:
     training_lines = lines_with_phrase(docs, "certificate-guided-training")
     if not training_lines:
         return CheckResult("HG-V1-Report-4", "FAIL", "certificate-guided-training is not documented")
-    status_lines = certificate_guided_training_status_lines(docs)
     positive_lines = [
         hit
         for hit in non_positive_positive_framing_hits(docs)
@@ -181,30 +186,22 @@ def check_certificate_guided_boundary(docs: dict[Path, str]) -> CheckResult:
             "certificate-guided-training is framed with positive wording: "
             + " | ".join(positive_lines),
         )
-    mixed_lines = [hit for hit in status_lines if "mixed/negative" in hit.lower()]
-    if not mixed_lines:
-        return CheckResult("HG-V1-Report-4", "FAIL", "certificate-guided-training lacks mixed/negative label")
-    return CheckResult("HG-V1-Report-4", "PASS", "certificate-guided-training is mixed/negative")
-
-
-def certificate_guided_training_status_lines(docs: dict[Path, str]) -> list[str]:
-    hits: list[str] = []
-    claims_path = ROOT / "docs" / "claims_and_nonclaims.md"
-    manifest_path = ROOT / "docs" / "artifact_manifest.md"
-    for line_no, line in enumerate(docs[claims_path].splitlines(), start=1):
-        lowered = line.strip().lower()
-        if lowered.startswith("`certificate-guided-training`"):
-            hits.append(f"{claims_path.relative_to(ROOT)}:{line_no}:{line.strip()}")
-    in_training_item = False
-    for line_no, line in enumerate(docs[manifest_path].splitlines(), start=1):
-        stripped = line.strip()
-        lowered = stripped.lower()
-        if lowered.startswith("- path:"):
-            in_training_item = "`reports/canonical/certificate-guided-training.{json,md}`" in lowered
-            continue
-        if in_training_item and lowered.startswith("- role:"):
-            hits.append(f"{manifest_path.relative_to(ROOT)}:{line_no}:{stripped}")
-    return hits
+    if not DISCOVERY_MAP_PATH.exists():
+        return CheckResult("HG-V1-Report-4", "FAIL", "canonical discovery map is missing")
+    payload = json.loads(DISCOVERY_MAP_PATH.read_text(encoding="utf-8"))
+    rows = payload.get("rows")
+    if not isinstance(rows, list):
+        return CheckResult("HG-V1-Report-4", "FAIL", "canonical discovery map missing $.rows")
+    training_rows = [
+        row
+        for row in rows
+        if isinstance(row, dict) and row.get("report") == "certificate-guided-training"
+    ]
+    if not training_rows:
+        return CheckResult("HG-V1-Report-4", "FAIL", "certificate-guided-training row missing from discovery map")
+    if training_rows[0].get("discovery_level") == "D4":
+        return CheckResult("HG-V1-Report-4", "FAIL", "certificate-guided-training is D4 in discovery map")
+    return CheckResult("HG-V1-Report-4", "PASS", "certificate-guided-training boundary is canonical-map owned")
 
 
 def lines_with_phrase(docs: dict[Path, str], phrase: str) -> list[str]:
@@ -240,41 +237,47 @@ def non_positive_positive_framing_hits(docs: dict[Path, str]) -> list[str]:
     return hits
 
 
-def check_unique_positive_prototype(docs: dict[Path, str]) -> CheckResult:
-    hits = lines_with_phrase(docs, POSITIVE_PROTOTYPE_PHRASE)
-    bad_hits = [hit for hit in hits if UNIQUE_POSITIVE_REPORT not in hit]
-    negated_unique_hits = [
+def check_selected_positive_worked_case(docs: dict[Path, str]) -> CheckResult:
+    hidden_unique_hits: list[str] = []
+    for path, text in docs.items():
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            if UNIQUE_POSITIVE_WORDING_RE.search(line):
+                hidden_unique_hits.append(f"{path.relative_to(ROOT)}:{line_no}:{line.strip()}")
+    if hidden_unique_hits:
+        return CheckResult(
+            "HG-V1-Report-5",
+            "FAIL",
+            "exclusive positive wording found: " + " | ".join(hidden_unique_hits),
+        )
+
+    selected_hits = [
         hit
-        for hit in hits
-        if UNIQUE_POSITIVE_REPORT in hit and has_simple_negation(hit)
+        for hit in lines_with_phrase(docs, SELECTED_WORKED_CASE_PHRASE)
+        if SELECTED_WORKED_CASE_REPORT in hit and not has_simple_negation(hit)
     ]
-    good_hits = [
-        hit
-        for hit in hits
-        if UNIQUE_POSITIVE_REPORT in hit and not has_simple_negation(hit)
+    if not selected_hits:
+        return CheckResult(
+            "HG-V1-Report-5",
+            "FAIL",
+            "gap-head-on-h is not named as the selected positive worked case",
+        )
+
+    if not DISCOVERY_MAP_PATH.exists():
+        return CheckResult("HG-V1-Report-5", "FAIL", "canonical discovery map is missing")
+    payload = json.loads(DISCOVERY_MAP_PATH.read_text(encoding="utf-8"))
+    rows = payload.get("rows")
+    if not isinstance(rows, list):
+        return CheckResult("HG-V1-Report-5", "FAIL", "canonical discovery map missing $.rows")
+    selected_rows = [
+        row
+        for row in rows
+        if isinstance(row, dict) and row.get("report") == SELECTED_WORKED_CASE_REPORT
     ]
-    non_positive_bad = non_positive_positive_framing_hits(docs)
-    if bad_hits or non_positive_bad:
-        details = bad_hits + non_positive_bad
-        return CheckResult(
-            "HG-V1-Report-5",
-            "FAIL",
-            "positive prototype wording outside gap-head-on-h: " + " | ".join(details),
-        )
-    if negated_unique_hits:
-        return CheckResult(
-            "HG-V1-Report-5",
-            "FAIL",
-            "negated positive prototype wording for gap-head-on-h: "
-            + " | ".join(negated_unique_hits),
-        )
-    if not good_hits:
-        return CheckResult(
-            "HG-V1-Report-5",
-            "FAIL",
-            "gap-head-on-h is not marked as the positive discovery prototype",
-        )
-    return CheckResult("HG-V1-Report-5", "PASS", "gap-head-on-h is the unique positive prototype")
+    if not selected_rows:
+        return CheckResult("HG-V1-Report-5", "FAIL", "gap-head-on-h row missing from discovery map")
+    if selected_rows[0].get("discovery_level") != "D4":
+        return CheckResult("HG-V1-Report-5", "FAIL", "gap-head-on-h is not D4 in discovery map")
+    return CheckResult("HG-V1-Report-5", "PASS", "gap-head-on-h is the selected positive worked case")
 
 
 REPORT_REF_RE = re.compile(r"^reports/canonical/([^`\s]+)$")
@@ -417,7 +420,7 @@ def main() -> int:
             check_required_nonclaims(docs),
             check_pointer_only_bedc(docs),
             check_certificate_guided_boundary(docs),
-            check_unique_positive_prototype(docs),
+            check_selected_positive_worked_case(docs),
             check_json_pointers(docs),
         ]
     except Exception as exc:

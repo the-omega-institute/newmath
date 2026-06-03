@@ -10,6 +10,7 @@ This manifest is a human navigation layer, not a second machine source. Each row
 | `bedc-quality-lab:canonical-report-index-md` | `reports/canonical/index.md` | `## Quality baseline pointers` | pointer-only |
 | `bedc-quality-lab:quality-scorecard` | `reports/canonical/quality-scorecard.json` | `$.rows` | pointer-only |
 | `bedc-quality-lab:quality-scorecard-md` | `reports/canonical/quality-scorecard.md` | `## Quality baseline pointers` | pointer-only |
+| `bedc-quality-lab:v1-report` | `docs/bedc_quality_lab_v1.md` | `reports/canonical/index.json:$.paper_outline` | pointer-only |
 | `bedc-quality-lab:alpha-milestone` | `docs/bedc_quality_lab_alpha_milestone.md` | `## Discovery Levels` | pointer-only |
 | `bedc-quality-lab:claims-and-nonclaims` | `docs/claims_and_nonclaims.md` | `## Positive Wording Boundary` | pointer-only |
 | `bedc-quality-lab:artifact-manifest` | `docs/artifact_manifest.md` | `## Quality Baseline Surfaces` | pointer-only |

@@ -18,9 +18,7 @@ The forbidden exact-term source is `bedc_quality_lab/claim_terms.py:FORBIDDEN_PO
 
 ## Positive Wording Boundary
 
-`gap-head-on-h` is the only positive discovery prototype in this alpha-stage quality baseline, and only through `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h]` plus `reports/canonical/gap-head-on-h.json` pointers such as `$.main_claim_status`, `$.control_verdict`, `$.treatment_comparison`, and `$.applicability_boundary`.
-
-Mixed, negative, or audit-improvement reports are under the nonclaim boundary. This includes `gap-head-discovery`, `certificate-guided-training`, `certificate-guided-discovery`, `nongaussian-distribution-sweep`, and `anisotropic-ou-sweep`.
+Positive and non-positive report cells are read from `reports/canonical/discovery_map.json:$.rows[*]` and `reports/canonical/index.json:$.claims_nonclaims`; this document names `gap-head-on-h` only as the selected worked case for the report narrative.
 
 `certificate-guided-discovery` is negative and is governed by `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery]`, `reports/canonical/certificate-guided-discovery.json:$.main_claim_status`, and `reports/canonical/certificate-guided-discovery.json:$.claim_gate`.
 
