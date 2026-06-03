@@ -7,6 +7,7 @@ import argparse
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import json
+import math
 from pathlib import Path
 import sys
 from typing import Any, Mapping, Sequence
@@ -129,6 +130,53 @@ def pointer_value(payload: Mapping[str, Any], pointer: str | None) -> Any:
     return cursor
 
 
+def _finite_number_cell(payload: Mapping[str, Any], pointer: str) -> float:
+    cell = pointer_value(payload, pointer)
+    if isinstance(cell, bool) or not isinstance(cell, (int, float)):
+        raise ValueError(f"transfer artifact numeric cell is missing or non-numeric: {pointer}")
+    value = float(cell)
+    if not math.isfinite(value):
+        raise ValueError(f"transfer artifact numeric cell is non-finite: {pointer}")
+    return value
+
+
+def _non_stub_not_claimed(payload: Mapping[str, Any]) -> bool:
+    not_claimed = pointer_value(payload, "$.not_claimed")
+    if not isinstance(not_claimed, list) or not not_claimed:
+        return False
+    stub_terms = {"fixture", "stub", "todo", "tbd"}
+    normalized_items: list[str] = []
+    for item in not_claimed:
+        if not isinstance(item, str) or not item.strip():
+            return False
+        normalized_items.append(item.strip().lower())
+    return not set(normalized_items).issubset(stub_terms)
+
+
+def assert_transfer_artifact_integrity(
+    payload: Mapping[str, Any],
+    *,
+    status_pointer: str,
+    learned_auroc_pointer: str,
+    matched_random_auroc_pointer: str,
+    control_positive_pointer: str,
+) -> None:
+    if pointer_value(payload, status_pointer) != "pass":
+        raise ValueError("transfer artifact status is not pass")
+    if pointer_value(payload, control_positive_pointer) is not False:
+        raise ValueError("transfer artifact control arm is missing or positive")
+    _finite_number_cell(payload, f"{learned_auroc_pointer}.mean")
+    learned_ci95_low = _finite_number_cell(payload, f"{learned_auroc_pointer}.ci95_low")
+    _finite_number_cell(payload, f"{learned_auroc_pointer}.ci95_high")
+    _finite_number_cell(payload, f"{matched_random_auroc_pointer}.mean")
+    _finite_number_cell(payload, f"{matched_random_auroc_pointer}.ci95_low")
+    matched_random_ci95_high = _finite_number_cell(payload, f"{matched_random_auroc_pointer}.ci95_high")
+    if learned_ci95_low <= matched_random_ci95_high:
+        raise ValueError("transfer artifact lacks learned-over-matched-random AUROC evidence")
+    if not _non_stub_not_claimed(payload):
+        raise ValueError("transfer artifact not_claimed boundary is missing or stubbed")
+
+
 def _after_minus_before_debt_delta(payload: Mapping[str, Any]) -> float | None:
     cell = pointer_value(payload, "$.deltas.after_minus_before.debt_delta")
     return float(cell) if isinstance(cell, (int, float)) and not isinstance(cell, bool) else None
@@ -194,8 +242,17 @@ def _gap_head_d5_readiness(context: Mapping[str, Mapping[str, Any]]) -> GapHeadD
         and terminal_verdicts <= {"rejected", "demoted", "ledger-only"}
     )
 
-    observed_transfer_status = pointer_value(observed, GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER)
-    observed_transfer_pass = observed_transfer_status == "pass"
+    try:
+        assert_transfer_artifact_integrity(
+            observed,
+            status_pointer=GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER,
+            learned_auroc_pointer="$.surfaces.0.hardgates.HG-A1.learned_auroc",
+            matched_random_auroc_pointer="$.surfaces.0.hardgates.HG-A1.matched_random_auroc",
+            control_positive_pointer="$.surfaces.0.control_verdict.positive",
+        )
+        observed_transfer_pass = True
+    except ValueError:
+        observed_transfer_pass = False
 
     return GapHeadD5ReadinessLedger(
         criteria=(
@@ -242,7 +299,7 @@ def _gap_head_d5_readiness(context: Mapping[str, Mapping[str, Any]]) -> GapHeadD
                 GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER,
                 "Observed-debt transfer metric for gap-head-on-h passes."
                 if observed_transfer_pass
-                else "Observed-debt sweep covers observed-debt surfaces but has no gap-head-on-h observed-debt transfer metric.",
+                else "Observed-debt transfer artifact is missing, malformed, stubbed, or lacks learned-over-matched-random control evidence.",
             ),
         )
     )
@@ -380,6 +437,19 @@ def _debt_cell_projection(payload: Mapping[str, Any], pointer: str) -> tuple[dic
 def _dimension_mismatch_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
     status = pointer_value(payload, DIMENSION_MISMATCH_TRANSFER_POINTER)
     if status == "pass":
+        try:
+            assert_transfer_artifact_integrity(
+                payload,
+                status_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,
+                learned_auroc_pointer="$.hardgate_evidence.HG-B3.learned_auroc",
+                matched_random_auroc_pointer="$.hardgate_evidence.HG-B3.matched_random_auroc",
+                control_positive_pointer="$.hardgate_evidence.HG-B3.matched_random_positive",
+            )
+        except ValueError:
+            return {}, ProjectionEvidence(
+                projection_status="source-insufficient",
+                evidence_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,
+            )
         return {"positive_discovery": True}, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,

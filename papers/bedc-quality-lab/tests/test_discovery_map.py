@@ -111,6 +111,25 @@ def _negative_witnesses_context_payload(*, expected_kind_count=8):
     }
 
 
+def _auroc_cell(*, mean, ci95_low, ci95_high):
+    return {
+        "ci95_half_width": 0.01,
+        "ci95_high": ci95_high,
+        "ci95_low": ci95_low,
+        "mean": mean,
+        "n": 10,
+        "std": 0.01,
+    }
+
+
+def _learned_auroc_pass_cell():
+    return _auroc_cell(mean=0.82, ci95_low=0.81, ci95_high=0.83)
+
+
+def _matched_random_auroc_pass_cell():
+    return _auroc_cell(mean=0.46, ci95_low=0.42, ci95_high=0.49)
+
+
 def _observed_debt_transfer_context_payload(*, transfer_metric=False):
     payload = {
         "artifact_id": "bedc-quality-lab:gap-head-observed-debt-transfer",
@@ -121,8 +140,20 @@ def _observed_debt_transfer_context_payload(*, transfer_metric=False):
             "HG-A4": {"status": "pass"},
             "HG-A5": {"status": "pass" if transfer_metric else "fail"},
         },
-        "surfaces": [{"verdict": {"status": "pass" if transfer_metric else "failed"}}],
-        "not_claimed": ["fixture"],
+        "surfaces": [
+            {
+                "control_verdict": {"positive": False},
+                "hardgates": {
+                    "HG-A1": {
+                        "learned_auroc": _learned_auroc_pass_cell(),
+                        "matched_random_auroc": _matched_random_auroc_pass_cell(),
+                        "status": "pass" if transfer_metric else "fail",
+                    }
+                },
+                "verdict": {"status": "pass" if transfer_metric else "failed"},
+            }
+        ],
+        "not_claimed": ["no claim outside the listed observed-debt transfer surfaces"],
     }
     if transfer_metric:
         payload["gap_head_on_h_observed_debt_transfer"] = {"status": "pass"}
@@ -142,7 +173,15 @@ def _dimension_mismatch_payload(*, status="pass"):
             "discovery_level": "D4" if status == "pass" else "DN",
         },
         "boundary_ledger": {"d5_shortcut": False},
-        "not_claimed": ["fixture"],
+        "hardgate_evidence": {
+            "HG-B3": {
+                "learned_auroc": _learned_auroc_pass_cell(),
+                "matched_random_auroc": _matched_random_auroc_pass_cell(),
+                "matched_random_positive": False,
+                "status": "pass" if status == "pass" else "fail",
+            }
+        },
+        "not_claimed": ["no claim outside the listed encoder_dim-grid debt-transfer surface"],
     }
 
 
@@ -179,6 +218,16 @@ def _set_nested(path, value):
         for key in path[:-1]:
             target = target[key]
         target[path[-1]] = value
+
+    return mutate
+
+
+def _pop_nested(path):
+    def mutate(payload):
+        target = payload
+        for key in path[:-1]:
+            target = target[key]
+        target.pop(path[-1], None)
 
     return mutate
 
@@ -261,6 +310,32 @@ def test_gap_head_on_h_projects_to_d5_when_all_readiness_pointers_pass(tmp_path)
     assert row["discovery_level"] == "D5"
     assert row["audit_status"] == "valid"
     assert {criterion["status"] for criterion in row["d5_readiness"].values()} == {"pass"}
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda payload: payload.update({"surfaces": [], "not_claimed": ["no observed-debt overclaim"]}),
+        _set_nested(("not_claimed",), ["stub"]),
+        _pop_nested(("surfaces", 0, "control_verdict")),
+        _set_nested(("surfaces", 0, "control_verdict", "positive"), True),
+        _pop_nested(("surfaces", 0, "hardgates", "HG-A1", "learned_auroc")),
+        _set_nested(("surfaces", 0, "hardgates", "HG-A1", "learned_auroc", "mean"), "0.82"),
+        _pop_nested(("surfaces", 0, "hardgates", "HG-A1", "matched_random_auroc")),
+        _set_nested(("surfaces", 0, "hardgates", "HG-A1", "learned_auroc", "ci95_low"), 0.49),
+    ],
+)
+def test_gap_head_on_h_d5_readiness_rejects_malformed_transfer_artifact(tmp_path, mutate):
+    _write_all_payloads(tmp_path)
+    _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+    _rewrite_gap_head_d5_artifact(tmp_path, discovery_map.OBSERVED_DEBT_ARTIFACT, mutate)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["gap-head-on-h"]
+
+    assert row["discovery_level"] == "D4"
+    assert row["audit_status"] == "valid"
+    assert row["d5_readiness"]["observed_debt_transfer"]["status"] == "missing"
 
 
 @pytest.mark.parametrize(
@@ -603,6 +678,32 @@ def test_dimension_mismatch_pass_projects_only_scoped_d4_no_d5_shortcut(tmp_path
     assert row["audit_status"] == "valid"
     assert row["control_pointer"] == "$.control_protocol"
     assert "d5_readiness" not in row
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda payload: payload.update({"hardgate_evidence": {}, "not_claimed": ["no dimension-mismatch overclaim"]}),
+        _set_nested(("not_claimed",), ["stub"]),
+        _pop_nested(("hardgate_evidence", "HG-B3", "matched_random_auroc")),
+        _set_nested(("hardgate_evidence", "HG-B3", "matched_random_positive"), True),
+        _set_nested(("hardgate_evidence", "HG-B3", "learned_auroc", "ci95_low"), 0.49),
+    ],
+)
+def test_dimension_mismatch_pass_rejects_malformed_transfer_artifact(tmp_path, mutate):
+    _write_all_payloads(tmp_path)
+    payload = _dimension_mismatch_payload(status="pass")
+    mutate(payload)
+    _write_json_artifact(tmp_path, discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["dimension-mismatch-debt-transfer"]
+
+    assert row["projection_status"] == "source-insufficient"
+    assert row["evidence_pointer"] == discovery_map.DIMENSION_MISMATCH_TRANSFER_POINTER
+    assert "control_pointer" not in row
+    assert row["discovery_level"] != "D4"
+    assert row["audit_status"] == "valid"
 
 
 def test_dimension_mismatch_failed_projects_dn_with_failed_gate(tmp_path):
