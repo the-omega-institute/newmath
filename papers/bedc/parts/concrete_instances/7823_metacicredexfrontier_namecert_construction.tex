@@ -173,6 +173,20 @@ The target confluence packet is a downstream consumer named by \autoref{ch:concr
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierCarrier\_normalization\_window\_handoff}
 
+\begin{theorem}[MetaCICRedexFrontier candidate normalization]
+\label{thm:metacic-redex-frontier-candidate-normalization}
+A normalization-window candidate over an accepted $\MetaCICRedexFrontierUp$ carrier may be read only when all four discharge rows $B,A,L,P$, obstruction row $O$, beta-boundary route $E$, componentwise transport $H$, displayed replay $C$, provenance $G$, and local naming row $N$ are displayed. The candidate route hands a finite redex-frontier packet to the normalization-window consumer, but it does not close subject reduction, global confluence, normalization, substitution admissibility, or any hidden oracle claim.
+\end{theorem}
+\begin{proof}
+Begin with obstruction non-escape, \autoref{thm:metacic-redex-frontier-nonescape}. It forces every consumer to read the four discharge rows, the obstruction row, beta-boundary route, transport, replay, provenance, and local naming before the packet can be exposed.
+
+Apply the scoped package theorem, \autoref{thm:metacic-redex-frontier-scope-package}. The same rows form the primitive finite surface; a candidate missing one of $B,A,L,P$ or missing $O,E,H,C,G,N$ is not the scoped packet accepted by the carrier.
+
+Finally use the normalization-window handoff of \autoref{thm:metacic-redex-frontier-normalization-window-handoff}. It allows only the finite redex-frontier rows to pass to the downstream normalization-window consumer.
+
+The handoff is therefore candidate-mediated and finite. Since subject reduction, global confluence, normalization, substitution admissibility, and oracle access are not carrier rows, the candidate route cannot assert them.
+\end{proof}
+
 \closureat{MetaCICRedexFrontierUp}{scopedStr}[BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\MetaCICRedexFrontierUp}
