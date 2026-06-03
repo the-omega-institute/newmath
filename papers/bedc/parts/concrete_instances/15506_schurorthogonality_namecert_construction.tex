@@ -63,6 +63,42 @@ The request first enters the character-pairing ledger $\Phi$. Only after that pa
 The structural rows $C,P,N$ then expose that selected entry to the downstream consumer. Since every exported entry has this route as its displayed source, there is no direct read from a host character table, quotient class carrier, or ambient inner product.
 \end{proof}
 
+\begin{theorem}[SchurOrthogonality character inner-product ledger]
+\label{thm:schurorthogonality-character-inner-product}
+Let $S=(G,V,X,\Phi,\Omega,H,C,P,N)$ be an accepted $\SchurOrthogonalityUp$ carrier. Every character-inner-product read exposed by $S$ is a finite ledger read from $\Phi$ over the displayed $\GroupUp$, $\CharacterTheoryUp$, and $\VecSpaceUp$ rows before any orthogonality row of $\Omega$ is selected. No exported inner-product read may bypass $G,V,X,\Phi,H,C,P,N$ or import an ambient Hilbert-space structure.
+\end{theorem}
+\begin{proof}
+Project the carrier. The group endpoint is $G$, the character source is $X$, and the representation-space endpoint is $V$.
+
+The only row that pairs characters before orthogonality is $\Phi$. Thus a character-inner-product request first reads the displayed group, character-theory, and vector-space rows, and then selects the corresponding finite pairing entry of $\Phi$.
+
+The orthogonality ledger $\Omega$ is downstream from this pairing row. It can consume the selected finite entry, but it cannot create a separate ambient inner product or read from an undeclared character table. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route.
+\end{proof}
+
+\begin{theorem}[SchurOrthogonality representation-ring route]
+\label{thm:schurorthogonality-representation-ring-route}
+Let $S=(G,V,X,\Phi,\Omega,H,C,P,N)$ be an accepted $\SchurOrthogonalityUp$ carrier. A $\RepresentationRingUp$ or $\InducedRepUp$ consumer may read only the displayed Schur ledger exported through $\Phi,\Omega,C,P,N$. Such a consumer cannot import host character tables, quotient conjugacy-class carriers, ambient character inner products, or a complete representation category as hidden sources for the same read.
+\end{theorem}
+\begin{proof}
+Begin with a downstream $\RepresentationRingUp$ or $\InducedRepUp$ request. By \autoref{thm:schur-orthogonality-character-pairing-route}, every exported orthogonality read has already passed through $G,V,X$ into $\Phi$ and then into $\Omega$.
+
+The continuation and provenance rows expose only this displayed ledger. They do not contain an independent coordinate for host character tables, quotient conjugacy classes, ambient inner products, or a complete representation category.
+
+Therefore the downstream consumer receives the finite Schur ledger as named BEDC data. Any route requiring one of the excluded host objects is outside the accepted carrier.
+\end{proof}
+
+\begin{theorem}[SchurOrthogonality group-averaging ledger]
+\label{thm:schurorthogonality-group-averaging-ledger}
+Let $S=(G,V,X,\Phi,\Omega,H,C,P,N)$ be an accepted $\SchurOrthogonalityUp$ carrier. The finite group-averaging row displayed inside $\Omega$ is the only averaging source available to Schur row relations, Schur column relations, normalization reads, and zero-off-diagonal reads. This row is preserved by componentwise $\hsame$ transport in $H$, displayed $\Cont$ replay in $C$, $\Pkg$ provenance in $P$, and the local $\NameCert_{\SchurOrthogonalityUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Inspect the orthogonality ledger $\Omega$. Its displayed entries contain the finite averaging data used by the Schur row and column reads, together with normalization and zero-off-diagonal rows.
+
+Transport acts componentwise through $H$. The averaging entry is moved with the same group, vector-space, character-theory, pairing, and orthogonality rows, so the transported packet still names the same finite source.
+
+Replay and provenance then preserve this source. The continuation row $C$ can only replay the displayed route, $P$ can only cite its package provenance, and $N$ names the local certificate. Hence no second averaging source is introduced.
+\end{proof}
+
 \closureat{SchurOrthogonalityUp}{seedStr}
 
 \begin{closurestatus}{\SchurOrthogonalityUp}

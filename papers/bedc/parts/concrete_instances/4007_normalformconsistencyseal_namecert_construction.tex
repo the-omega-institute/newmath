@@ -274,6 +274,7 @@ constructor and critical-pair cases are boundary obligations, not internal
 confluence data. Therefore any joinability read factors through the displayed
 seal rows and cannot export arbitrary confluence.
 \end{proof}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealJoinabilityObligation}
 
 \begin{theorem}[Normal-form consistency seal finite-window determinacy]
 \label{thm:normal-form-consistency-seal-finite-window-determinacy}
@@ -573,6 +574,7 @@ subject-reduction discharge socket of
 The seal itself exposes only the rows $T,F,N,K,X,H,C,P,L$ and supplies no
 closed subject-reduction discharge.
 \end{theorem}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealMetacicDischargeFrontier}
 \begin{proof}
 Project the carrier of
 \autoref{def:normal-form-consistency-seal-carrier}. Its visible rows are the
@@ -612,6 +614,43 @@ Next use \autoref{thm:normal-form-consistency-seal-joinability-obligation} and \
 
 Finally apply \autoref{thm:normal-form-consistency-seal-metacic-discharge-frontier}. The MetaCIC frontier keeps closed consistency behind the subject-reduction socket, while $C$ and $P$ replay and source the same residual schedule for any strong-normalization or confluence consumer exposed by $K$.
 \end{proof}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealResidualScheduleDischarge}
+
+\begin{theorem}[Normal-form consistency seal candidate boundary]
+\label{thm:normal-form-consistency-seal-candidate-boundary}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted $\NormalFormConsistencySealUp$ packet. Any normal endpoint read that consumes the seal must first expose the Candidate or ClosedCandidate evidence named by the candidate route, the closed-normal frontier rows $T,F,N,K,X$, the residual schedule rows used for candidate-mediated strong-normalization and confluence checking, componentwise $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local naming $L$. The boundary contains no coordinate for arbitrary reduction to a normal endpoint, global closed consistency, hidden subject reduction, evaluator equality, or quotient syntax equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealCandidateBoundary}
+\begin{proof}
+Start with the candidate route
+\autoref{thm:normal-form-consistency-seal-candidate-route}. It forces every candidate-facing read of the closed-normal theorem row to pass through $T,F,N,K,X,H,C,P,L$ before the seal can be consumed.
+
+Use the candidate-mediated SN handoff
+\autoref{thm:normal-form-consistency-seal-candidate-mediated-sn-handoff}. This pins the Candidate or ClosedCandidate evidence to the same displayed frontier and prevents it from becoming arbitrary closed subject reduction or full closed consistency.
+
+Next apply the reduction determinacy and residual schedule theorems,
+\autoref{thm:normal-form-consistency-seal-reduction-determinacy} and
+\autoref{thm:normal-form-consistency-seal-residual-schedule-discharge}. They identify the finite classifier boundary and require every residual read for strong-normalization or confluence checking to reuse the same replay and provenance rows.
+
+Finally use the MetaCIC discharge frontier
+\autoref{thm:normal-form-consistency-seal-metacic-discharge-frontier}. The frontier leaves closed consistency behind the subject-reduction socket, so the exposed boundary is exactly the candidate, closed-normal, residual-schedule, transport, replay, provenance, and local-name surface stated above.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal MetaCIC critical-path handoff]
+\label{thm:normal-form-consistency-seal-metacic-critical-path-handoff}
+The boundary of \autoref{thm:normal-form-consistency-seal-candidate-boundary} is the handoff consumed by $\MetaCICCriticalPathUp$ and by confluence-facing packets that inspect $\NormalFormConsistencySealUp$. Such consumers may cite the candidate route, closed-normal frontier, residual schedule, transport, replay, provenance, and local naming rows, but they may not read subject reduction, global closed consistency, evaluator equality, or quotient syntax equality from the seal itself.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:normal-form-consistency-seal-candidate-boundary}. It packages the normal endpoint read as a finite boundary consisting of candidate evidence, closed-normal frontier rows, residual schedule rows, transport, replay, provenance, and local naming.
+
+Use \autoref{thm:normal-form-consistency-seal-metacic-discharge-frontier}. The $\MetaCICCriticalPathUp$ consumer receives the boundary as an open handoff to the subject-reduction discharge socket, not as a completed closed-consistency theorem.
+
+For confluence-facing packets, use \autoref{thm:normal-form-consistency-seal-residual-schedule-discharge}. The same schedule controls candidate-mediated strong-normalization and confluence checking before any consumer inspects the closed-normal theorem row.
+
+The non-escape, candidate-mediated handoff, and reduction determinacy theorems then rule out stronger readings. The seal supplies no row for evaluator equality, quotient syntax equality, arbitrary subject reduction, or global closed consistency, so every MetaCIC critical-path or confluence-facing read is confined to the stated boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealMetacicCriticalPathHandoff}
+\leanvariant{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealMetaCICCriticalPathHandoff}
 
 \closureat{NormalFormConsistencySealUp}{seedStr}
 

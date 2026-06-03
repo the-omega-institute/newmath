@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.VariationMeasureUp
@@ -25,7 +26,7 @@ def variationMeasureDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (variationMeasureDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (variationMeasureDecodeBHist tail)
 
-private theorem VariationMeasureTasteGate_single_carrier_alignment_decode :
+private theorem VariationMeasureTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, variationMeasureDecodeBHist (variationMeasureEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -39,49 +40,34 @@ def variationMeasureFields : VariationMeasureUp → List BHist
   | VariationMeasureUp.mk B J Pi E X D V A R H C P N =>
       [B, J, Pi, E, X, D, V, A, R, H, C, P, N]
 
-def variationMeasureToEventFlow : VariationMeasureUp → EventFlow :=
+def variationMeasureToEventFlow : VariationMeasureUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (variationMeasureFields x).map variationMeasureEncodeBHist
+  | x => (variationMeasureFields x).map variationMeasureEncodeBHist
 
-private def VariationMeasureTasteGate_single_carrier_alignment_eventAt :
-    Nat → EventFlow → RawEvent
+private def variationMeasureEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      VariationMeasureTasteGate_single_carrier_alignment_eventAt index rest
+  | Nat.succ index, _event :: rest => variationMeasureEventAt index rest
 
 def variationMeasureFromEventFlow (ef : EventFlow) : Option VariationMeasureUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (VariationMeasureUp.mk
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 0 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 1 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 2 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 3 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 4 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 5 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 6 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 7 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 8 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 9 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 10 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 11 ef))
-      (variationMeasureDecodeBHist
-        (VariationMeasureTasteGate_single_carrier_alignment_eventAt 12 ef)))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 0 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 1 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 2 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 3 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 4 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 5 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 6 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 7 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 8 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 9 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 10 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 11 ef))
+      (variationMeasureDecodeBHist (variationMeasureEventAt 12 ef)))
 
 private theorem VariationMeasureTasteGate_single_carrier_alignment_round_trip
     (x : VariationMeasureUp) :
@@ -106,19 +92,19 @@ private theorem VariationMeasureTasteGate_single_carrier_alignment_round_trip
             (variationMeasureDecodeBHist (variationMeasureEncodeBHist P))
             (variationMeasureDecodeBHist (variationMeasureEncodeBHist N))) =
           some (VariationMeasureUp.mk B J Pi E X D V A R H C P N)
-      rw [VariationMeasureTasteGate_single_carrier_alignment_decode B,
-        VariationMeasureTasteGate_single_carrier_alignment_decode J,
-        VariationMeasureTasteGate_single_carrier_alignment_decode Pi,
-        VariationMeasureTasteGate_single_carrier_alignment_decode E,
-        VariationMeasureTasteGate_single_carrier_alignment_decode X,
-        VariationMeasureTasteGate_single_carrier_alignment_decode D,
-        VariationMeasureTasteGate_single_carrier_alignment_decode V,
-        VariationMeasureTasteGate_single_carrier_alignment_decode A,
-        VariationMeasureTasteGate_single_carrier_alignment_decode R,
-        VariationMeasureTasteGate_single_carrier_alignment_decode H,
-        VariationMeasureTasteGate_single_carrier_alignment_decode C,
-        VariationMeasureTasteGate_single_carrier_alignment_decode P,
-        VariationMeasureTasteGate_single_carrier_alignment_decode N]
+      rw [VariationMeasureTasteGate_single_carrier_alignment_decode_encode B,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode J,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode Pi,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode E,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode X,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode D,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode V,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode A,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode R,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode H,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode C,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode P,
+        VariationMeasureTasteGate_single_carrier_alignment_decode_encode N]
 
 private theorem VariationMeasureTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : VariationMeasureUp} :
@@ -130,10 +116,19 @@ private theorem VariationMeasureTasteGate_single_carrier_alignment_toEventFlow_i
         variationMeasureFromEventFlow (variationMeasureToEventFlow y) :=
     congrArg variationMeasureFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (VariationMeasureTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (VariationMeasureTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (VariationMeasureTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (VariationMeasureTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem VariationMeasureTasteGate_single_carrier_alignment_fields :
+    ∀ x y : VariationMeasureUp, variationMeasureFields x = variationMeasureFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk B1 J1 Pi1 E1 X1 D1 V1 A1 R1 H1 C1 P1 N1 =>
+      cases y with
+      | mk B2 J2 Pi2 E2 X2 D2 V2 A2 R2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
 
 instance variationMeasureBHistCarrier : BHistCarrier VariationMeasureUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -154,16 +149,43 @@ def taste_gate : ChapterTasteGate VariationMeasureUp :=
   -- BEDC touchpoint anchor: BHist BMark
   variationMeasureChapterTasteGate
 
+instance variationMeasureFieldFaithful : FieldFaithful VariationMeasureUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := variationMeasureFields
+  field_faithful := VariationMeasureTasteGate_single_carrier_alignment_fields
+
+instance variationMeasureNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial VariationMeasureUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨VariationMeasureUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      VariationMeasureUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem VariationMeasureTasteGate_single_carrier_alignment :
-    (forall h : BHist, variationMeasureDecodeBHist (variationMeasureEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier VariationMeasureUp) ∧
-        Nonempty (ChapterTasteGate VariationMeasureUp) ∧
-          variationMeasureEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+    Nonempty (ChapterTasteGate VariationMeasureUp) ∧
+      Nonempty (FieldFaithful VariationMeasureUp) ∧
+      Nonempty (BEDC.Meta.TasteGate.Nontrivial VariationMeasureUp) ∧
+      (∀ h : BHist, variationMeasureDecodeBHist (variationMeasureEncodeBHist h) = h) ∧
+      (∀ x : VariationMeasureUp,
+        variationMeasureFromEventFlow (variationMeasureToEventFlow x) = some x) ∧
+      (∀ x y : VariationMeasureUp,
+        variationMeasureToEventFlow x = variationMeasureToEventFlow y → x = y) ∧
+      variationMeasureEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨VariationMeasureTasteGate_single_carrier_alignment_decode,
-      ⟨variationMeasureBHistCarrier⟩,
-      ⟨variationMeasureChapterTasteGate⟩,
+    ⟨⟨variationMeasureChapterTasteGate⟩,
+      ⟨variationMeasureFieldFaithful⟩,
+      ⟨variationMeasureNontrivial⟩,
+      VariationMeasureTasteGate_single_carrier_alignment_decode_encode,
+      VariationMeasureTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => VariationMeasureTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
 end BEDC.Derived.VariationMeasureUp

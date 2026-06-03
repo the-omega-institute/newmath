@@ -43,4 +43,25 @@ theorem StableManifoldCarrier_namecert_obligations [AskSetup] [PackageSetup]
     ⟨equilibriumUnary, flowUnary, odeUnary, chartUnary, contractionUnary, tangentUnary,
       endpointRoute, provenancePkg, endpointPkg⟩
 
+theorem StableManifoldFlowInvariance [AskSetup] [PackageSetup]
+    {equilibrium flow ode chart contraction tangent transport replay provenance localName
+      endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StableManifoldCarrier equilibrium flow ode chart contraction tangent transport replay provenance
+        localName bundle pkg →
+      Cont flow chart endpointRead →
+        Cont transport replay provenance →
+          PkgSig bundle endpointRead pkg →
+            UnaryHistory flow ∧ UnaryHistory chart ∧ UnaryHistory tangent ∧
+              Cont flow chart endpointRead ∧ Cont transport replay provenance ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle endpointRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier endpointRoute replayRoute endpointPkg
+  obtain ⟨_equilibriumUnary, flowUnary, _odeUnary, chartUnary, _contractionUnary, tangentUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, provenancePkg,
+    _localNamePkg⟩ := carrier
+  exact
+    ⟨flowUnary, chartUnary, tangentUnary, endpointRoute, replayRoute, provenancePkg,
+      endpointPkg⟩
+
 end BEDC.Derived.StableManifoldUp
