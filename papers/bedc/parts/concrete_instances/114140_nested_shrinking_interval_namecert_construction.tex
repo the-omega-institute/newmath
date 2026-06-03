@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\NestedShrinkingIntervalUp$}
+\label{ch:concrete-instances-nested-shrinking-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\NestedShrinkingIntervalUp$ packet records the finite BEDC surface for a real-completion route driven by nested shrinking interval rows. It sits over the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the nested interval real route of \autoref{ch:concrete-instances-nested-interval-real-namecert}, and the bisection real route of \autoref{ch:concrete-instances-bisection-real-namecert}. The packet is interval-shrink data for the L10 completion boundary; it does not assert ambient completeness of $\RealUp$, quotient equality of real names, a selected limit, trichotomy, or countable choice.
+
+\begin{definition}[Nested shrinking interval carrier]
+\label{def:nested-shrinking-interval-carrier}
+A $\NestedShrinkingIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(J_0,J_1,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $J_0$ is the parent interval row, carrying the currently admitted closed dyadic interval and its endpoint witnesses.
+\item $J_1$ is the child interval row, read only after $J_0$, carrying the next closed dyadic interval selected inside the parent row.
+\item $W$ is the finite $\StreamNameUp$ window listing the inspected interval requests, endpoint reads, and tail-budget positions.
+\item $D$ is the $\DyadicRatCoreUp$ diameter and tolerance ledger, recording the displayed shrink bound and the dyadic budget attached to each inspected window.
+\item $R$ is the $\RegSeqRatUp$ readback row that converts the finite interval-window data into regular rational approximants.
+\item $E$ is the $\RealUp$ seal row reached after the nested interval rows, window ledger, dyadic budget, and regular readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval rows, stream window, dyadic ledger, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion-facing request through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\NestedShrinkingIntervalUp$, $\NestedIntervalRealUp$, $\BisectionRealUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NestedShrinkingIntervalUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host-selected limit, quotient equality of real names, trichotomy, countable choice, or an ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Nested shrinking interval NameCert obligations]
+\label{thm:nested-shrinking-interval-namecert-obligations}
+For every accepted $\NestedShrinkingIntervalUp$ carrier $I=(J_0,J_1,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\NestedShrinkingIntervalUp}$ surface consists exactly of carrier admission for the parent and child interval rows, finite StreamName window, dyadic diameter and tolerance ledger, regular rational readback, real seal, transport, replay, provenance, and local naming; nested containment requiring $J_1$ to be read as a child of $J_0$; diameter decay requiring $D$ to certify the displayed shrink budget before $R$ is consumed; finite-window readback requiring every completion-facing request to pass through $W$ before the regular rational row; Real-seal nonescape requiring $E$ to be downstream of $J_0,J_1,W,D,R$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; $\Pkg$ provenance through $P$; and terminal naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:nested-shrinking-interval-carrier}. The accepted packet displays exactly $J_0,J_1,W,D,R,E,H,C,P,N$.
+
+The interval part begins with $J_0$ and $J_1$. The child row is available only as a nested row inside the parent row, so a consumer cannot read the shrink step without first reading the parent interval data.
+
+The finite computational part is $W,D,R$. The StreamName window lists the requests, the dyadic ledger records the diameter and tolerance budget attached to those requests, and the regular rational row reads back only after that finite budget has been displayed.
+
+Finally, $E,H,C,P,N$ seal, transport, replay, source, and name the same route. Since the carrier has no coordinate for a selected limit, quotient real equality, trichotomy, countable choice, or ambient real completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Nested shrinking interval real-completion handoff]
+\label{thm:nested-shrinking-interval-real-completion-handoff}
+Every L10 real-completion consumer of an accepted $\NestedShrinkingIntervalUp$ carrier reads the route through the nested interval rows $J_0,J_1$, finite $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\RegSeqRatUp$ readback row $R$, and terminal $\RealUp$ seal $E$ before any completion-facing conclusion is exposed through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $I=(J_0,J_1,W,D,R,E,H,C,P,N)$. The completion-facing seal is the row $E$, and that row is listed after the interval, window, dyadic, and regular rational rows.
+
+A consumer must first read the parent and child interval rows. It then reads the finite StreamName window and the dyadic diameter ledger, so every inspected tolerance request is tied to a displayed shrink step.
+
+Only after those rows are visible does the consumer obtain the regular rational readback $R$ and then the real seal $E$. Transport and replay through $H$ and $C$ preserve the same order, while $P$ and $N$ record provenance and local naming. Thus the route reaches a completion-facing conclusion without importing ambient real completeness, quotient equality, a selected limit, trichotomy, or countable choice.
+\end{proof}
+
+\closureat{NestedShrinkingIntervalUp}{seedStr}
+
+\begin{closurestatus}{\NestedShrinkingIntervalUp}
+  \constructivestory{A $\NestedShrinkingIntervalUp$ packet is generated from parent and child nested interval rows, a finite StreamName window, DyadicRatCore diameter and tolerance ledgers, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nested-shrinking-interval-carrier}, \autoref{thm:nested-shrinking-interval-namecert-obligations}, and \autoref{thm:nested-shrinking-interval-real-completion-handoff} seed the finite interval-shrink route for L10 real-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient equality of real names, selected limits, trichotomy, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires carrier admission, nested containment, diameter decay, finite-window readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.NestedShrinkingIntervalUp.}
+\end{closurestatus}
