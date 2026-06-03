@@ -183,45 +183,15 @@ Rule evolution path: the daemon handles at most one cluster per cycle (`MAX_AUTO
 
 Existing violations are not directly edited by the taste daemon. They are consumed organically when future P/R rounds touch the affected files: the new prompt rule or audit gate flags the pattern, then the orchestrator's post-rebase audit recovery invokes codex to repair the content as part of that round. Each successful rule evolution also **appends a Chinese section** to `docs/dossier/taste-evolutions.qmd` (Quarto page, rendered as part of the dossier site with navbar entry "Taste 演化") documenting 变更原因 / 意义 / 实施情况 / 元数据 — the visible self-improvement iteration log. Confirmed approvals in `papers/bedc/taste_approvals.json` use the same cluster rule-evolution path and are marked `done` or `failed` after the daemon attempt. No P/R orchestrator restart is needed because prompts are re-read each round and audit/lints run as subprocesses.
 
-Discovery radar daemon:
+Discovery pipeline daemon:
 
 ```bash
 mkdir -p $REPO/tools/logs && \
-nohup python3 $REPO/tools/discovery_radar_daemon.py >> $REPO/tools/logs/discovery_radar.log 2>&1 &
+nohup python3 $REPO/tools/discovery_pipeline_daemon.py >> $REPO/tools/logs/discovery_pipeline_daemon.stdout.log 2>&1 &
 disown
 ```
 
-`tools/discovery_radar_daemon.py` runs every 6h (`DISCOVERY_RADAR_INTERVAL_SECONDS` env override, default 21600s), runs full-mine `bedc_ci.py discovery-radar --json`, and writes the latest local ledger to `tools/logs/discovery_radar_ledger.json`. It is fault-isolated with a PID lock and per-cycle exception handling, surfaces only local log/ledger state, and never touches git.
-
-Discovery refutation publisher daemon:
-
-```bash
-mkdir -p $REPO/tools/logs && \
-nohup python3 $REPO/tools/discovery_refutation_publisher.py >> $REPO/tools/logs/discovery_refutation_publisher.log 2>&1 &
-disown
-```
-
-`tools/discovery_refutation_publisher.py` runs every 6h (`REFUTATION_PUBLISH_INTERVAL_SECONDS` env override, default 21600s), consumes only kernel-grounded sound refuted candidates from `bedc_ci.py discovery-radar --json`, writes the persistent dossier refutation ledger, commits from an isolated worktree, and only touches the ledger files.
-
-Discovery gate evolver daemon:
-
-```bash
-mkdir -p $REPO/tools/logs && \
-nohup python3 $REPO/tools/discovery_gate_evolver.py >> $REPO/tools/logs/discovery_gate_evolver.log 2>&1 &
-disown
-```
-
-`tools/discovery_gate_evolver.py` consumes `tools/logs/proven_pseudos.jsonl` and evolves only the negative witness registry for positive discovery assertions. It is PID-locked at `/tmp/.bedc_gate_evolver.pid`, works in `/tmp/bedc-gate-evolve-wt`, and is limited to `lean4/scripts/discovery_gate_witnesses.json` plus `lean4/scripts/test_closurestatus_audit.py`. It never edits G0-G6 logic, never adds pass rules, never touches paper content or `lean4/BEDC/`, and accepts only `kernel_grounded=true` negative witness data. Each accepted witness must pass py_compile, `lake build`, unit tests, audit monotonicity, `axiom-purity --strict`, and `make precheck`; otherwise it records the case in `tools/logs/gate_evolver_escalations.log`.
-
-Discovery adversarial generator daemon:
-
-```bash
-mkdir -p $REPO/tools/logs && \
-nohup python3 $REPO/tools/discovery_adversarial_generator.py >> $REPO/tools/logs/discovery_adversarial_generator.stdout.log 2>&1 &
-disown
-```
-
-`tools/discovery_adversarial_generator.py` is the red-team producer for the gate evolver. It constructs only in-memory synthetic `positiveDiscovery` closurestatus blocks over real BEDC Lean declarations, calls the real `discovery_assert_gate_payload` from `lean4/scripts/bedc_ci.py`, and writes `tools/logs/proven_pseudos.jsonl` only when the real gate passes and structural-DNA `canonical_payload_equal` independently proves reconstruction. It never writes paper/Lean corpus files, never edits the gate or registry, is PID-locked at `/tmp/.bedc_discovery_adversarial_generator.pid`, and logs empty cycles honestly when no sound pseudo is found.
+`tools/discovery_pipeline_daemon.py` runs every 6h (`DISCOVERY_PIPELINE_INTERVAL_SECONDS` env override, default 21600s) under one PID lock at `/tmp/.bedc_discovery_pipeline.pid`. Each cycle builds/probes `structural_dna` once, then runs radar → refutation publisher → adversarial generator → gate evolver in one process. The stage implementations are still the existing `run_once` functions in `tools/discovery_radar_daemon.py`, `tools/discovery_refutation_publisher.py`, `tools/discovery_adversarial_generator.py`, and `tools/discovery_gate_evolver.py`; those scripts keep `--once` for debugging only. The generator writes `tools/logs/proven_pseudos.jsonl`, and the evolver reads that same file later in the same cycle, so proven pseudos do not wait for another 6h activation. Stage failures are logged in `tools/logs/discovery_pipeline_daemon.log` and do not stop later stages.
 
 ### Verify restart success (two-step, never skip)
 
@@ -230,18 +200,18 @@ After launching, run **two sequential one-shot checks** before declaring the res
 **Step 1 — process check:**
 
 ```bash
-ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py|auto_tune_concurrency|auto_heal_base|taste_curator.py' | grep -v grep
+ps -axo pid,ppid,pgid,etime,command | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py|auto_tune_concurrency|auto_heal_base|taste_curator.py|discovery_pipeline_daemon.py' | grep -v grep
 ```
 
-All six launched processes (paper orchestrator, lean orchestrator, sync daemon, autotune daemon, auto-heal daemon, taste curator) must be detached. For the first five the python process should appear with `PPID=1`. The taste curator runs **under a supervisor wrapper** (`tools/run_taste_curator.sh`) so the bash supervisor has `PPID=1` and the python daemon is a child of the supervisor (look for both `run_taste_curator.sh` and `taste_curator.py` in `ps`). If `PPID` of any non-supervised process is your shell's PID, `disown` didn't take and a session exit will SIGHUP the orchestrator. If any one is missing entirely, the script crashed before it ever wrote a log line — go read the relevant log tail to see the import / argparse error.
+All seven launched processes (paper orchestrator, lean orchestrator, sync daemon, autotune daemon, auto-heal daemon, taste curator, discovery pipeline daemon) must be detached. For the non-supervised processes the python process should appear with `PPID=1`. The taste curator runs **under a supervisor wrapper** (`tools/run_taste_curator.sh`) so the bash supervisor has `PPID=1` and the python daemon is a child of the supervisor (look for both `run_taste_curator.sh` and `taste_curator.py` in `ps`). If `PPID` of any non-supervised process is your shell's PID, `disown` didn't take and a session exit will SIGHUP the orchestrator. If any one is missing entirely, the script crashed before it ever wrote a log line — go read the relevant log tail to see the import / argparse error.
 
 **Step 2 — progress check:**
 
 ```bash
-sleep 8 && tail -3 $REPO/lean4/scripts/logs/orchestrator.log; echo '---paper---'; tail -3 $REPO/papers/bedc/scripts/logs/orchestrator.log; echo '---sync---'; tail -3 $REPO/scripts/logs/sync_daemon.log; echo '---taste---'; tail -3 $REPO/scripts/logs/taste_curator.log
+sleep 8 && tail -3 $REPO/lean4/scripts/logs/orchestrator.log; echo '---paper---'; tail -3 $REPO/papers/bedc/scripts/logs/orchestrator.log; echo '---sync---'; tail -3 $REPO/scripts/logs/sync_daemon.log; echo '---taste---'; tail -3 $REPO/scripts/logs/taste_curator.log; echo '---discovery---'; tail -3 $REPO/tools/logs/discovery_pipeline_daemon.log
 ```
 
-Each log should show recent timestamps (within the last ~10s for orchestrators; within the last ~600s for sync) and substantive lines: `Phase B: Target selection...` / `Phase REVIEW: theory audit...` / `Calling codex exec ...` for the orchestrators; `[sync] [sync] done: ... synchronized` or `[sync] already on codex-auto-dev` for the daemon. **Use one-shot `tail -N`, not persistent `tail -F`.** A persistent `tail -F` blocks forever waiting for output, so if startup actually crashed silently between Step 1 and Step 2 (e.g. PID-lock not released, port in use, env var missing), the persistent monitor never fires a notification — you'd think you were watching it and it'd just be hanging. One-shot tails return immediately and let you verify by inspection.
+Each log should show recent timestamps (within the last ~10s for orchestrators; within the last ~600s for sync; within the current discovery cycle for discovery) and substantive lines: `Phase B: Target selection...` / `Phase REVIEW: theory audit...` / `Calling codex exec ...` for the orchestrators; `[sync] [sync] done: ... synchronized` or `[sync] already on codex-auto-dev` for the daemon; `[discovery-pipeline] stage=...` or `cycle summary` for discovery. **Use one-shot `tail -N`, not persistent `tail -F`.** A persistent `tail -F` blocks forever waiting for output, so if startup actually crashed silently between Step 1 and Step 2 (e.g. PID-lock not released, port in use, env var missing), the persistent monitor never fires a notification — you'd think you were watching it and it'd just be hanging. One-shot tails return immediately and let you verify by inspection.
 
 Only after BOTH steps pass — processes alive with PPID=1 AND logs advancing past startup — should you optionally arm a persistent `tail -F` for ongoing observation (see "Monitor" section below). The persistent monitor is for steady-state observation, never for verifying that startup succeeded.
 
@@ -295,8 +265,9 @@ tail -F $REPO/papers/bedc/scripts/logs/orchestrator.log \
        $REPO/scripts/logs/sync_daemon.log \
        $REPO/scripts/logs/auto_heal.log \
        $REPO/scripts/logs/taste_curator.log \
+       $REPO/tools/logs/discovery_pipeline_daemon.log \
   | grep -E --line-buffered \
-      'HEAL ALERT|TASTE ALERT|3 consecutive failures|\[recovery\]\s+(unrecoverable|codex crashed|stopped)|STALE MARKER|SHALLOW GROWTH|memory_guard.*PAUSE|axis-confusion|Session complete:|draining [0-9]+ in-flight workers|Pipeline PID token is not current|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)|builder.*FAIL.*(consecutive|persistent)|Codex did not complete.*(persistent|after [0-9]+ attempts)|\[heal\] .*push failed|\[taste\] rule evolution (failed|completed)|\[supervisor\] .* taste_curator.py exited rc=[^0]' \
+      'HEAL ALERT|TASTE ALERT|3 consecutive failures|\[recovery\]\s+(unrecoverable|codex crashed|stopped)|STALE MARKER|SHALLOW GROWTH|memory_guard.*PAUSE|axis-confusion|Session complete:|draining [0-9]+ in-flight workers|Pipeline PID token is not current|\[sync\] .*(codex could not resolve|push origin codex-auto-dev failed|merge failed without conflicts)|builder.*FAIL.*(consecutive|persistent)|Codex did not complete.*(persistent|after [0-9]+ attempts)|\[heal\] .*push failed|\[taste\] rule evolution (failed|completed)|\[supervisor\] .* taste_curator.py exited rc=[^0]|\[discovery-pipeline\] stage=.*ERROR|\[discovery-pipeline\] cycle summary .*"ok": false' \
   | grep -vE --line-buffered 'queued|picking|RECOVERED'
 ```
 
@@ -333,11 +304,11 @@ If you need verbose per-phase visibility for a debugging session, swap the filte
 
 ### Liveness health check (run at every status query)
 
-Whenever the user asks `状态如何` / `现在如何` / `进展` / `report`, **before** computing closure deltas, run a one-shot daemon liveness probe. Three daemons must each appear with `PPID=1`:
+Whenever the user asks `状态如何` / `现在如何` / `进展` / `report`, **before** computing closure deltas, run a one-shot daemon liveness probe. Four daemon entries must appear with `PPID=1`:
 
 ```bash
 ps -axo pid,ppid,etime,command \
-  | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py' \
+  | grep -E 'codex_revise.py|codex_formalize.py|sync_with_auto_dev.py|discovery_pipeline_daemon.py' \
   | grep -v grep
 ```
 
@@ -346,8 +317,9 @@ Expected:
 - one `codex_revise.py --continuous` (paper)
 - one `codex_formalize.py --continuous` (lean)
 - one `sync_with_auto_dev.py` loop wrapper (sync)
+- one `discovery_pipeline_daemon.py` (discovery)
 
-If any of the three is missing, **mention the absence in the same status report** and either restart it or escalate. Do not paper over a missing daemon by reporting only the closure totals — totals can keep climbing from one side alone (e.g. paper publishing closure_mark while lean has been dead for hours), and the user trusts your status replies to catch this.
+If any of the four is missing, **mention the absence in the same status report** and either restart it or escalate. Do not paper over a missing daemon by reporting only the closure totals — totals can keep climbing from one side alone (e.g. paper publishing closure_mark while lean has been dead for hours), and the user trusts your status replies to catch this.
 
 Symptom that should always trigger an immediate `ps` check:
 

@@ -9,14 +9,11 @@ or touches pipeline locks owned by other daemons.
 from __future__ import annotations
 
 import argparse
-import contextlib
-import fcntl
 import json
 import os
 import re
 import subprocess
 import sys
-import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -28,7 +25,6 @@ LEAN_ROOT = REPO_ROOT / "lean4"
 LOG_DIR = REPO_ROOT / "tools" / "logs"
 LEDGER_PATH = LOG_DIR / "discovery_radar_ledger.json"
 LOG_PATH = LOG_DIR / "discovery_radar.log"
-PID_LOCK_PATH = Path("/tmp/.bedc_discovery_radar.pid")
 DEFAULT_INTERVAL = 21600
 COMMAND_TIMEOUT = 1200
 STRUCTURAL_DNA_BUILD_TIMEOUT = 1200
@@ -43,27 +39,6 @@ def append_log(message: str) -> None:
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     with LOG_PATH.open("a", encoding="utf-8") as fh:
         fh.write(f"{now_iso()} {message}\n")
-
-
-@contextlib.contextmanager
-def pid_lock():
-    pid_fd = os.open(PID_LOCK_PATH, os.O_RDWR | os.O_CREAT, 0o644)
-    try:
-        try:
-            fcntl.flock(pid_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError:
-            sys.stderr.write(f"discovery radar daemon already running (lock held on {PID_LOCK_PATH})\n")
-            sys.exit(1)
-        os.ftruncate(pid_fd, 0)
-        os.write(pid_fd, f"{os.getpid()}\n".encode())
-        os.fsync(pid_fd)
-        yield
-    finally:
-        try:
-            fcntl.flock(pid_fd, fcntl.LOCK_UN)
-        except Exception:
-            pass
-        os.close(pid_fd)
 
 
 def run_bedc_ci(args: list[str]) -> subprocess.CompletedProcess[str]:
@@ -292,14 +267,11 @@ def main() -> int:
     parser.add_argument("--once", action="store_true", help="Run one full discovery-radar cycle and exit")
     args = parser.parse_args()
 
-    with pid_lock():
-        if args.once:
-            run_once()
-            return 0
-        append_log(f"[radar] daemon start interval={interval_seconds()}s")
-        while True:
-            run_once()
-            time.sleep(interval_seconds())
+    if args.once:
+        run_once()
+        return 0
+    sys.stderr.write("discovery radar daemon loop moved to tools/discovery_pipeline_daemon.py; use --once for debugging\n")
+    return 2
 
 
 if __name__ == "__main__":
