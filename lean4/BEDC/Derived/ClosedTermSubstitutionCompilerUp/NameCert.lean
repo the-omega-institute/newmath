@@ -213,6 +213,28 @@ theorem ClosedTermSubstitutionCompilerPacket_boundary_ledger_exactness [AskSetup
     And.intro cert
       (And.intro operationWitness (And.intro witnessLedger ledgerName))
 
+theorem ClosedTermSubstitutionCompilerPacket_carrier_admission [AskSetup] [PackageSetup]
+    {termGenerator closedBoundary operation fixedWitness transport continuation provenance nameCert
+      operationRead witnessRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (∃ packet : ClosedTermSubstitutionCompilerUp,
+        packet =
+          ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary operation fixedWitness
+            transport continuation provenance nameCert) →
+      Cont closedBoundary operation operationRead →
+        Cont operationRead fixedWitness witnessRead →
+          PkgSig bundle provenance pkg →
+            PkgSig bundle nameCert pkg →
+              hsame operationRead (append closedBoundary operation) ∧
+                hsame witnessRead (append operationRead fixedWitness) ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro packetWitness boundaryOperation operationWitness provenancePkg namePkg
+  cases packetWitness with
+  | intro _packet packetEq =>
+      cases packetEq
+      exact ⟨boundaryOperation, operationWitness, provenancePkg, namePkg⟩
+
 theorem ClosedTermSubstitutionCompilerPacket_obligation_closure_package [AskSetup]
     [PackageSetup]
     {termGenerator closedBoundary operation fixedWitness transport continuation provenance
