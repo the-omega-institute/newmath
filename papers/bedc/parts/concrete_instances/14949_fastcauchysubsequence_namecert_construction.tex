@@ -114,6 +114,39 @@ Use \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence} to bind the
 Then use \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}. It forces the selected windows through the fast-rate ledger, regular-subsequence handoff, and $\RegSeqRatUp$ readback before $E$ is consumed. The structural rows $H,C,P,N$ transport and name this route without adding another seal path.
 \end{proof}
 
+\begin{definition}[FastCauchySubsequence source surface]
+\label{def:fast-cauchy-subsequence-source-surface}
+The \emph{source surface} of an accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$ is the finite $\BHist$ route
+$$
+\Theta_A=(S,M,Q,F,R,W,E,H,C,P,N)
+$$
+read in the following order: source windows $S$, inspected $\CauchyModulusUp$ bounds $M$, $\CofinalSubsequenceUp$ selector rows $Q$, $\FastCauchyUp$ rate rows $F$, $\RegularCauchySubsequenceUp$ handoff rows $R$, $\RegSeqRatUp$ readback rows $W$, terminal $\RealUp$ seal rows $E$, and structural support $H,C,P,N$. Every Real-facing read of the source surface must pass through all six analytic rows $M,Q,F,R,W,E$ after the source row $S$ and before public data is named by $N$.
+\end{definition}
+
+\begin{theorem}[FastCauchySubsequence cofinal-window obligation]
+\label{thm:fast-cauchy-subsequence-cofinal-window-obligation}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, every cofinal window accepted by the source surface is a finite $\BHist$ row whose readback passes through the $\CauchyModulusUp$ row $M$, $\CofinalSubsequenceUp$ row $Q$, $\FastCauchyUp$ row $F$, $\RegularCauchySubsequenceUp$ row $R$, $\RegSeqRatUp$ row $W$, and terminal $\RealUp$ row $E$. The obligation rejects any route that reads a Real-facing comparison from $Q$ alone, from an independent subsequence function, or from a host-level choice selector.
+\end{theorem}
+\begin{proof}
+Project the source surface of \autoref{def:fast-cauchy-subsequence-source-surface}. The carrier displays $S,M,Q,F,R,W,E$ before the support rows, so a cofinal window entering through $Q$ is still tied to source access and inspected modulus data.
+
+Use \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence} for the front of the route. It binds selector admission to the inspected modulus row, preventing a consumer from replacing $M,Q$ by an external selector.
+
+Apply \autoref{thm:fast-cauchy-subsequence-regular-route} and \autoref{thm:fast-cauchy-subsequence-real-seal-selector-boundary} for the downstream route. They force the selected window through $F,R,W,E$ before any Real-facing public read is exposed, while $H,C,P,N$ only transport, replay, source, and name the same finite rows.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence Real seal nonescape]
+\label{thm:fast-cauchy-subsequence-real-seal-nonescape}
+Let $A=(S,M,Q,F,R,W,E,H,C,P,N)$ be an accepted $\FastCauchySubsequenceUp$ carrier. No Real-facing read can escape the source surface before consuming the Cauchy-modulus, cofinal-selector, fast-rate, regular-subsequence, regular-rational, and Real-seal rows $M,Q,F,R,W,E$. In particular, a consumer that reaches $E$ still receives only the finite route named by $S,M,Q,F,R,W,E,H,C,P,N$, not a selected limit, quotient Cauchy class, host real equality, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the Real-seal selector boundary. It places the seal row $E$ behind $M,Q,F,R,W$ and denies a direct path from the selector row to a Real-facing observation.
+
+Use the cofinal-window obligation above for every selected finite window. Each such window remains a $\BHist$ row in the source surface and is read through the displayed CauchyModulus, CofinalSubsequence, FastCauchy, RegularCauchySubsequence, RegSeqRat, and Real rows.
+
+Finally apply the NameCert obligations of \autoref{thm:fast-cauchy-subsequence-namecert-obligations}. The support rows $H,C,P,N$ preserve componentwise transport, replay, provenance, and local naming only for the displayed finite route, so the forbidden host-level data has no coordinate through which it could escape.
+\end{proof}
+
 \begin{definition}[FastCauchySubsequence selection surface]
 \label{def:fast-cauchy-subsequence-selection-surface}
 The \emph{selection surface} of an accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$ is the finite $\BHist$ subpacket
