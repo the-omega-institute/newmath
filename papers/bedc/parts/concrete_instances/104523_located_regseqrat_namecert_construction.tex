@@ -131,6 +131,32 @@ Apply \autoref{thm:located-regseqrat-tail-window-stability}. It already forces e
 The same route preserves the tolerance and schedule used by the original tail-window read. If a transported packet changed the dyadic tolerance source or finite StreamName schedule, it would leave the componentwise transport row and therefore would not be the accepted transported $\LocatedRegSeqRatUp$ packet.
 \end{proof}
 
+\begin{theorem}[LocatedRegSeqRat window-modulus fusion]
+\label{thm:located-regseqrat-window-modulus-fusion}
+For every accepted $\LocatedRegSeqRatUp$ carrier
+$L=(D,S,R,Q,W,H,K,P,N)$, finite location decisions and tail-modulus transport
+share one displayed route through the $\StreamNameUp$ schedule, the
+$\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ tolerance ledger, and the
+terminal $\RealUp$ seal before any Real-facing consumer reads locatedness. The
+fused route exports no detached location test and no detached modulus source.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:located-regseqrat-finite-location-decision}. A location
+decision reads the dyadic tolerance ledger $D$, finite StreamName schedule $S$,
+regular rational row $R$, tail-window row $W$, and comparison row $Q$ as one
+finite BEDC route.
+
+Apply \autoref{thm:located-regseqrat-tail-modulus-transport}. The transported
+tail-window read preserves the same tolerance ledger and finite schedule, so
+the modulus side cannot replace $D$ or $S$ by a source outside the carrier.
+
+Finally apply \autoref{thm:located-regseqrat-real-seal-nonescape}. The
+$\RealUp$ seal is terminal for the displayed route $D,S,R,Q,W,H,K,P,N$.
+Therefore the location decision and transported modulus read fuse before the
+Real seal is consumed, and neither can export a separate host order test,
+selected limit, quotient stream equality, or ambient completeness principle.
+\end{proof}
+
 \begin{theorem}[LocatedRegSeqRat Real seal nonescape]
 \label{thm:located-regseqrat-real-seal-nonescape}
 The $\RealUp$ seal read from an accepted $\LocatedRegSeqRatUp$ carrier is terminal for the displayed finite route. It cannot export quotient stream equality, selected limits, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness to a Real-facing or Completion-facing consumer.
