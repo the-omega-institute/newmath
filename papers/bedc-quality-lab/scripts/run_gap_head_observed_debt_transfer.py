@@ -445,7 +445,7 @@ def build_payload(*, generated_at: str | None = None) -> dict[str, Any]:
             "no full LeJEPA conclusion",
             "no claim outside the listed observed-debt transfer surfaces",
             "no inference-time use of z, z_pair, gap_label, prediction_error, or eval_gap_labels",
-            "failed status keeps gap-head-on-h at D4 with this boundary ledger",
+            "failed status blocks D5 promotion through this boundary ledger",
         ],
     }
 

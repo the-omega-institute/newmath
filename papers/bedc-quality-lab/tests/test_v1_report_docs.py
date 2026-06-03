@@ -6,6 +6,7 @@ from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from scripts.check_v1_report_docs import (
     D4_DISCOVERY_LEVEL,
     JSON_POINTER_RE,
+    SELECTED_WORKED_CASE_DISCOVERY_LEVEL,
     exclusive_positive_worked_case_hits,
     jsonpath_exists,
 )
@@ -41,7 +42,8 @@ SELECTED_WORKED_CASE_SENTENCE = (
     "`gap-head-on-h` is the selected positive worked case for this report frame; "
     "positive-discovery classification is read from "
     "`reports/canonical/discovery_map.json:$.rows[*]`, so this section does not "
-    "claim uniqueness among positive rows."
+    "claim uniqueness among positive rows. Its current D5-candidate status is "
+    "scoped to observed-debt transfer surfaces."
 )
 CANONICAL_JSON_RE = re.compile(r"^reports/canonical/[^`\s]+\.json$")
 CANONICAL_JSON_WITH_POINTER_RE = re.compile(r"^(reports/canonical/[^`\s]+\.json):(\$.*)$")
@@ -135,7 +137,7 @@ def test_v1_report_has_no_gate_or_unique_positive_contract():
 
     discovery_rows = json.loads((CANONICAL / "discovery_map.json").read_text(encoding="utf-8"))["rows"]
     rows_by_report = {row["report"]: row for row in discovery_rows}
-    assert rows_by_report["gap-head-on-h"]["discovery_level"] == D4_DISCOVERY_LEVEL
+    assert rows_by_report["gap-head-on-h"]["discovery_level"] == SELECTED_WORKED_CASE_DISCOVERY_LEVEL
     assert rows_by_report["gap-head-discovery"]["discovery_level"] == D4_DISCOVERY_LEVEL
 
     for path in V1_DOC_SURFACES:
@@ -153,10 +155,13 @@ def test_v1_report_pointer_resolver_matches_hardgate_shorthand():
 def test_v1_report_rejects_equivalent_unique_positive_wording():
     cases = [
         "gap-head-on-h is the only D4 row",
+        "gap-head-on-h is the only D5 row",
         "gap-head-on-h is the sole positive row",
         "gap-head-on-h alone is D4",
+        "gap-head-on-h alone is D5",
         "gap-head-on-h is the single discovery report",
         "gap-head-on-h is 唯一 D4",
+        "gap-head-on-h is 唯一 D5",
         "gap-head-on-h 是唯一正",
     ]
     for phrase in cases:
