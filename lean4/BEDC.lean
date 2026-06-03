@@ -1341,6 +1341,7 @@ import BEDC.Derived.CauchyContinuityCalibrationUp.TasteGate
 import BEDC.Derived.CauchyContinuityPrincipleUp.RealSealBoundary
 import BEDC.Derived.CauchyContinuityPrincipleUp.TasteGate
 import BEDC.Derived.CauchyContinuousExtensionUp.RegularSourceHandoff
+import BEDC.Derived.CauchyContinuousExtensionUp.RegularTailTransport
 import BEDC.Derived.CauchyContinuousExtensionUp.TasteGate
 import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
@@ -1859,6 +1860,7 @@ import BEDC.Derived.CauchyRealApartnessUp.TasteGate
 import BEDC.Derived.CauchyRealArchimedeanUp.TasteGate
 import BEDC.Derived.CauchyRealCompletionInterfaceUp.TasteGate
 import BEDC.Derived.CauchyRealEqualityUp.TasteGate
+import BEDC.Derived.CauchyRealFieldUp.OperationComposition
 import BEDC.Derived.CauchyRealFieldUp.TasteGate
 import BEDC.Derived.CauchyRealLocatedOrderTestUp.TasteGate
 import BEDC.Derived.CauchyRealOrderUp
